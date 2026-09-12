@@ -2,6 +2,7 @@
 LetrasLluviosas
 === start/en
 ¶Este programa tiene un conjunto de letras que caen como lluvia hacia el suelo, siguiendo las reglas de la física. Cuando tocan el suelo, pueden volver a caer de nuevo.Siempre cae el mismo número de letras, pero mostramos un número distinto de ellas según la amplitud del micrófono.¶
+↓ @wordplay/alphabets 1
 
 ¶El número máximo de letras¶
 cantidad2: 100
@@ -19,7 +20,7 @@ tic: Tiempo()
 ¶Iniciar como una lista de letras al azar en posiciones al azar¶
 letras•[letra]: cantidad2 → [#].traducir(
 		ƒ(_) letra(
-				'abcdefghijklmnopqrstuvwxyz' → [''].azar()
+				latin.azar()
 				Azar(-tamaño2 tamaño2)
 				Azar(0m tamaño2 + 2m)
 				Azar(360)

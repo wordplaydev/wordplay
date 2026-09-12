@@ -2,6 +2,7 @@
 RainingLetters
 === start/en
 ¶Dieses Programm zeigt regnende Buchstaben, die nach den Regeln der Physik auf den Boden fallen. Sobald sie aufkommen, können sie wieder fallen. Es fallen immer gleich viele Buchstaben, aber je nach Lautstärke des Mikrofons wird eine unterschiedliche Anzahl sichtbar gemacht.¶
+↓ @wordplay/alphabets 1
 
 ¶Die größte Anzahl an Buchstaben¶
 zähler: 100
@@ -19,7 +20,7 @@ takt2: Zeit()
 ¶Als Liste von zufälligen Buchstaben an zufälligen Positionen anlegen¶
 buchstaben•[buchstabe]: zähler → [#].übersetzen(
 		ƒ(_) buchstabe(
-				'abcdefghijklmnopqrstuvwxyz' → [''].zufällig()
+				latin.zufällig()
 				Zufällig(-größe2 größe2)
 				Zufällig(0m größe2 + 2m)
 				Zufällig(360)

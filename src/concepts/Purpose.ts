@@ -1,6 +1,9 @@
 const Purpose = {
     /** Project-level concepts  */
     Project: 'Project',
+    /** What the kits this project borrows make available (#8). Separate from Project so a
+     *  creator can tell their own definitions from someone else's. */
+    Kit: 'Kit',
     /** APIs related to program output */
     Outputs: 'Outputs',
     /** APIs related to program input */

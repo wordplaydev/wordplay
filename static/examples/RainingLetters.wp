@@ -5,6 +5,7 @@
 to the rules of physics, and once they hit, become eligible for dropping again.
 We always have the same number of letters dropping, but make visible a different number
 based on the amplitude of the microphone.¶
+↓ @wordplay/alphabets 1
 
 ¶The max number of letters ¶
 count: 100
@@ -22,7 +23,7 @@ tick: Time()
 ¶Initialize as a list of random letters in random positions¶
 letters•[Letter]: count → [#].translate(
         ƒ(_) Letter(
-           "abcdefghijklmnopqrstuvwxyz" → [''].random() 
+           latin.random() 
             Random(-size size)
             Random(0m size + 2m)
             Random(360)

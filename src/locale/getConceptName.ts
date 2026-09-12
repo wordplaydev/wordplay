@@ -166,6 +166,28 @@ export function getConceptNameById(
     return `${name}.${property}`;
 }
 
+/**
+ * A concept's name in the reader's own language, falling back to the id.
+ *
+ * The locale chain walked in one place, because two surfaces name the same concept: a
+ * `@Color` link in prose and the registry's kind filter. Without this the guide would
+ * show `Color` in the filter while the link two lines above it showed `रंग`.
+ *
+ * The first locale that wrote a name wins; the id is the last resort, and it is always
+ * something rather than nothing.
+ */
+export function localizedConceptName(
+    locales: LocaleText[],
+    id: string,
+    property?: string,
+): string {
+    for (const locale of locales) {
+        const localized = getConceptNameById(locale, id, property);
+        if (localized !== undefined) return localized;
+    }
+    return property ? `${id}.${property}` : id;
+}
+
 /** An entry's readable name, if this locale wrote one. An unwritten (`$?`) name
  *  is the English placeholder, which `Names` also filters at runtime, so it must
  *  not stop the locale chain here either. */

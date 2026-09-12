@@ -317,8 +317,64 @@ const ProjectSchemaV10 = ProjectSchemaV9.omit({ v: true }).extend(
     }).shape,
 );
 
+/**
+ * v11 adds `dependencies`: the kits this project borrows, as `kitId@version` keys plus a
+ * `kitId@version#export` key per export it actually names (#8).
+ *
+ * A denormalized index of the project's own code, not a second source of truth — the `↓`
+ * lines are the declaration, and this is recomputed from them in `serialize()`, so it
+ * cannot drift and needs no merge semantics or Lamport stamp. The same relationship
+ * `Gallery.characters` has to `Character.gallery`.
+ *
+ * It exists because it has to be *queryable*: a kit's author is shown how many projects
+ * use each version and which exports they reach, and that is a count query
+ * (`array-contains`) over public projects. Deriving it at read time would mean loading
+ * every project. A Firestore trigger maintaining it instead would fire on every project
+ * write, which is the app's hottest path.
+ *
+ * `.default([])` for the reason v8's `crdt`, v9's `remixOf`, and v10's pair have one:
+ * `upgradeProject` only backfills docs *below* the latest version, so a doc that reached
+ * storage already claiming v11 without it would fail validation on every read forever.
+ */
+const ProjectSchemaV11 = ProjectSchemaV10.omit({ v: true }).extend(
+    z.object({
+        v: z.literal(11),
+        /** `kitId@version` and `kitId@version#export` keys for every kit this borrows. */
+        dependencies: z.array(z.string()).default([]),
+    }).shape,
+);
+
+/**
+ * v12 records the kit a project publishes, and which of its sources is published (#8).
+ *
+ * A project publishes at most one kit. Measured over the shipped examples, 56 of 75 have a
+ * single source, so the chooser is a rare case; recording `kitSource` is what lets the
+ * publish panel, the conflicts on `↑` code, and the next publish all agree about which
+ * source is the kit without asking the creator again.
+ *
+ * `kit` is the kit's **id**, not its name, and that is the point of it. Publishing used to
+ * find a project's kit by looking its full `username/name` up in the registry, so renaming
+ * the creator — or the kit — would match nothing and silently publish a *second* kit rather
+ * than a second version of the first. An id cannot go stale.
+ *
+ * `.default(...)` on both for the reason v8's `crdt`, v9's `remixOf`, v10's pair, and v11's
+ * `dependencies` have one: `upgradeProject` only backfills docs *below* the latest version,
+ * so a doc that reached storage already claiming v12 without them would fail validation on
+ * every read forever, and would put `undefined` into memory for `serialize()` to hand to
+ * Firestore, which throws and fails the entire write batch.
+ */
+const ProjectSchemaV12 = ProjectSchemaV11.omit({ v: true }).extend(
+    z.object({
+        v: z.literal(12),
+        /** The id of the kit this project publishes, or null if it publishes none. */
+        kit: z.nullable(z.string()).default(null),
+        /** The index of the source published as the kit. */
+        kitSource: z.number().min(0).default(0),
+    }).shape,
+);
+
 /** The latest version of a project.  */
-export const ProjectSchemaLatestVersion = 10;
+export const ProjectSchemaLatestVersion = 12;
 
 /** How we store sources as JSON in databases */
 export type SerializedCaret = z.infer<typeof CaretSchema>;
@@ -332,10 +388,10 @@ export type SerializedProjectStamps = z.infer<typeof ProjectStampsSchema>;
 export type ProjectID = string;
 
 /** Alias for the latest version of the schema. */
-export const ProjectSchema = ProjectSchemaV10;
+export const ProjectSchema = ProjectSchemaV12;
 
 /** The type of the latest version of the project */
-export type SerializedProject = z.infer<typeof ProjectSchemaV10>;
+export type SerializedProject = z.infer<typeof ProjectSchemaV12>;
 
 export type SerializedProjectUnknownVersion =
     | z.infer<typeof ProjectSchemaV1>
@@ -347,6 +403,8 @@ export type SerializedProjectUnknownVersion =
     | z.infer<typeof ProjectSchemaV7>
     | z.infer<typeof ProjectSchemaV8>
     | z.infer<typeof ProjectSchemaV9>
+    | z.infer<typeof ProjectSchemaV10>
+    | z.infer<typeof ProjectSchemaV11>
     | SerializedProject;
 
 /** Project updgrader */
@@ -401,6 +459,19 @@ export function upgradeProject(
                 v: 10,
                 folder: null,
                 researchConsent: false,
+            });
+        case 10:
+            // v10→v11: a project that predates kits borrows none, so its index is
+            // empty. It fills in on the next save once its borrows resolve.
+            return upgradeProject({ ...project, v: 11, dependencies: [] });
+        case 11:
+            // v11→v12: a project that predates one-kit-per-project publishes no kit, and
+            // its first source is the one a publish would offer.
+            return upgradeProject({
+                ...project,
+                v: 12,
+                kit: null,
+                kitSource: 0,
             });
         case ProjectSchemaLatestVersion:
             return project;

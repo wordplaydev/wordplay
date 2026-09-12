@@ -955,6 +955,12 @@
         "e876dc2ed0b0f": "$~Un @Group ahora puede contener un @Shape, para que puedas apilar un círculo con tus palabras, o poner un @Scene dentro de un diseño. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e723fd65c8efc": "$~Un @Shape ahora se alinea con el @Stack, @Row o @Grid en el que está, en lugar de quedarse donde sea que estuvieran sus propias esquinas, y todo lo que esté dentro de un @Grid ahora puede estar más cerca o más lejos. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e8ad9864d7217": "$~Agregamos una guía práctica a la <Guía@https://wordplay.dev/guide> para repetir una ronda de un juego. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
-        "e0bce9fefa9f6": "$~Agregamos @Spotlight, que te dice qué parte de @Scene se está mostrando, cuántas partes hay, cuántas veces ha dado la vuelta y si está esperando a alguien. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
+        "e0bce9fefa9f6": "$~Agregamos @Spotlight, que te dice qué parte de @Scene se está mostrando, cuántas partes hay, cuántas veces ha dado la vuelta y si está esperando a alguien. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e615935a2e384": "$~Ahora puedes encontrar y buscar kits publicados en la <Guía@https://wordplay.dev/guide>, y agregar uno a tu programa tomándolo prestado con ↓. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ed328cd23ff5e": "$~Agregamos los kits, que te permiten publicar código que quieras compartir con otras personas. Agrega ↑ frente a valores o funciones, y luego publica. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ee176f1308f17": "$~Wordplay ahora viene con tres kits que puedes tomar prestados — alfabetos, instrumentos y canciones — para que no tengas que escribir tú misma las letras, las caras de los instrumentos ni las melodías. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ede02f98adf41": "$~Los tres kits que vienen con Wordplay están escritos en todos los idiomas que ofrecemos, así que sus nombres y su escritura se leen en el tuyo. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "e75fc15b8d057": "$~Ahora los números pueden hacer tres cosas que antes tenías que escribir a mano: \\limit\\ mantiene un número entre uno bajo y uno alto, \\toward\\ mueve un número parte del camino hacia otro, y \\rescale\\ convierte un número de un rango en el número correspondiente de otro rango.",
+        "e49e28ab01607": "$~Ahora una lista de números puede decirte su \\sum\\ y su \\average\\, para que no tengas que sumarlos tú misma."
     }
 }

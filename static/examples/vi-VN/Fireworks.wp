@@ -8,6 +8,7 @@ Pháo hoa
 Mỗi chùm nổ được đặt tên theo số nhịp, nên các chùm nổ của mỗi nhịp đều là các đầu ra mới: chúng thể hiện dáng xuất hiện khi bắt đầu và dáng biến mất khi nhịp kế tiếp thay thế chúng. Cú bật lên và cú rơi xuống chính là hai dáng đó.
 
 Bài hát là /The Star-Spangled Banner/ — giai điệu của John Stafford Smith từ khoảng năm 1773, đã thuộc phạm vi công cộng từ lâu — chơi trọn vẹn, kết thúc ở dòng cuối. Mỗi nốt mang theo độ dài riêng của nó dưới dạng giá trị nốt được viết trên số — \8𝅘𝅥𝅮\ là một nốt móc đơn, \13𝅗𝅥\ một nốt trắng, \13𝅗𝅥𝅭\ một nốt trắng có dấu chấm — vì vậy các nốt mở đầu, các hình có dấu chấm và các nốt giữ dài đều là những độ dài thật, không phải một lưới nhịp đều nhau. Một số đơn thuần là một nhịp. Các dấu lặng vẫn cần một @Note, vì \ø\ không phải là một số nên không thể mang giá trị. Nó dùng thang âm màu để có thể viết được cả nốt bậc bốn nâng lên: mỗi bước là một nửa cung.¶
+↓ @wordplay/instruments 1
 
 nhịp2: Nhịp()
 đếm2: nhịp2.đếm
@@ -17,13 +18,7 @@ nhịp2: Nhịp()
 
 ¶Mỗi nhạc cụ nổ lên như chính nó, đó chính là điều quan trọng: bạn có thể thấy nhạc cụ nào vừa vang lên.¶
 ƒ khuônMặt2(p2•Phần)•''
-	(p2.nhạcCụ.id = 'trumpet') ? '🎺'
-		(p2.nhạcCụ.id = 'flute') ? '🪈'
-			(p2.nhạcCụ.id = 'bell') ? '🔔'
-				(p2.nhạcCụ.id = 'piano') ? '🎹'
-					(p2.nhạcCụ.id = 'violin') ? '🎻'
-						(p2.nhạcCụ.id = 'drums') ? '🥁'
-							'🎵'
+	iconFor(p2.nhạcCụ)
 
 ¶Mỗi nhạc cụ giữ một hàng riêng của mình, trải khắp cả bầu trời. Dùng nhạc cụ thay vì vị trí của nó trong danh sách giúp hàng đó vẫn đứng yên khi một nhạc cụ khác im bặt.¶
 ƒ làn(p3•Phần)•#

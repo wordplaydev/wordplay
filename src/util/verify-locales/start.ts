@@ -41,6 +41,7 @@ import {
 } from '@util/verify-locales/syncTutorialStructure';
 import { buildHowToBundle } from '@util/verify-locales/buildHowTos';
 import { verifyChangelog } from '@util/verify-locales/verifyChangelog';
+import { verifyKits } from '@util/verify-locales/verifyKits';
 import { verifyExamples } from '@util/verify-locales/verifyExamples';
 import {
     checkGlossaryWordUsage,
@@ -469,6 +470,22 @@ async function handleLocale(
         linkedLocale,
         FixRequested || TranslationRequested,
         selection.isExplicitlyIncluded('example'),
+    );
+
+    // The kits Wordplay ships with (#8). Unlike an example, a kit is localized *in
+    // place* — every language lives in the one source, because a kit is referenced by
+    // name from other people's programs.
+    await verifyKits(
+        localeLog.scope('Kits'),
+        locale,
+        localeText.language,
+        localeText.regions,
+        TranslationRequested && selection.isIncluded('kit'),
+        selection.kitIds(),
+        translator,
+        linkedLocale,
+        FixRequested || TranslationRequested,
+        OverrideMachineTranslations,
     );
 
     // Verify and optionally translate the changelog entries the updates page

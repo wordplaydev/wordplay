@@ -5,6 +5,8 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { expect, test } from 'vitest';
 import { sweepSkipsLocale } from '@util/verify-locales/exampleFreshness';
+import { kitsNeededBy, resolveKits } from '@db/kits/resolveKits';
+import { builtinKitResolver } from '@db/kits/builtinKitResolver';
 import { parseSerializedProject } from './examples';
 import { serializeExample } from './serializeExample';
 
@@ -85,7 +87,7 @@ test('the localized example sweep found the opted-in locales', () => {
 
 test.each(localized)(
     '$locale/$file parses, round-trips, and analyzes cleanly',
-    ({ locale, file, path: filePath }) => {
+    async ({ locale, file, path: filePath }) => {
         // Under the pre-commit hook only; CI runs every locale. See sweepSkipsLocale.
         if (sweepSkipsLocale(locale)) return;
         const text = readFileSync(filePath, 'utf8');
@@ -108,13 +110,22 @@ test.each(localized)(
         const [main, ...supplements] = parsed.sources.map(
             (source) => new Source(source.names, source.code),
         );
-        const project = Project.make(
+        const built = Project.make(
             null,
             id,
             main,
             supplements,
             localeText(locale),
         );
+        // An example may borrow a kit (#8), and an unresolved borrow reads as an unknown
+        // name for every reference it binds — which would be reported here as the
+        // translation's fault.
+        const project =
+            kitsNeededBy(built).length === 0
+                ? built
+                : built.withDependencies(
+                      await resolveKits(built, builtinKitResolver),
+                  );
         const conflicts = Array.from(
             project.analyze().conflictedNodes.entries(),
         ).flatMap(([node, list]) =>

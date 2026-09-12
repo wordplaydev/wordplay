@@ -8,6 +8,7 @@ Aquí nada se dibuja con un reloj. @Beat entrega un @Downbeat cada vez que un ti
 Cada estallido lleva el número del tiempo como nombre, así que los estallidos de cada tiemposon nuevas salidas: muestran su postura de entrada al aparecer y su postura de salidacuando el siguiente tiempo los reemplaza. El destello y la caída son esas dos posturas.
 
 La melodía es /The Star-Spangled Banner/ — la melodía de John Stafford Smith de alrededorde 1773, hace mucho de dominio público — completa, terminando en laúltima línea. Cada nota lleva su propia duración escrita como valor de nota sobre elnúmero — \8𝅘𝅥𝅮\ es una corchea, \13𝅗𝅥\ una blanca, \13𝅗𝅥𝅭\ una blanca con puntillo — así que los anacruses,las figuras con puntillo y las notas largas sostenidas son duraciones reales y no unacuadrícula de tiempos iguales. Un número simple es un tiempo. Los silencios igual necesitan un @Note,ya que \ø\ no es un número y por eso no puede llevar un valor. Está en la escalacromática para que la cuarta aumentada se pueda escribir: cada paso es un semitono.¶
+↓ @wordplay/instruments 1
 
 tiempo2: Pulso()
 cantidad2: tiempo2.conteo
@@ -19,13 +20,7 @@ disparo•[Parte]: tiempo2.partes.filtro(
 
 ¶Cada instrumento estalla como sí mismo, y ese es el punto: puedes verquién acaba de tocar.¶
 ƒ cara2(p2•Parte)•''
-	(p2.instrumento.id = 'trumpet') ? '🎺'
-		(p2.instrumento.id = 'flute') ? '🪈'
-			(p2.instrumento.id = 'bell') ? '🔔'
-				(p2.instrumento.id = 'piano') ? '🎹'
-					(p2.instrumento.id = 'violin') ? '🎻'
-						(p2.instrumento.id = 'drums') ? '🥁'
-							'🎵'
+	iconFor(p2.instrumento)
 
 ¶Cada instrumento mantiene su propio carril, repartido por todo el cielo. Usar elinstrumento en lugar de su posición en la lista mantiene un carril quietocuando otro instrumento se queda en silencio.¶
 ƒ carril(p3•Parte)•#

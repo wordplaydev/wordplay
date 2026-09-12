@@ -22,8 +22,7 @@ notAv: ƒ(hz•#hz) hz > 0hz ? toner[(((((12 × (hz ÷ 440hz).log(
 							)) % 12) + 12) % 12) + 1] '·'
 jämn: ƒ(signal•…#hz) (
 			hörd: (←← 8 signal).utan(0hz)
-			(hörd.kombinerad(0hz ƒ(totalt•#hz v•#hz) totalt + v) ÷ hörd.längd(
-					)) ?? 0hz
+			hörd.average() ?? 0hz
 		)
 tonhöjd2: Tonhöjd()
 Etapp(

@@ -342,7 +342,11 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                                             : // A conversion function.
                                               nextAreOptionalDocsThen(tokens, [
                                                     Sym.Convert,
-                                                ])
+                                                ]) ||
+                                                nextAreOptionalDocsThen(
+                                                    tokens,
+                                                    [Sym.Share, Sym.Convert],
+                                                )
                                               ? parseConversion(tokens)
                                               : tokens.nextIs(Sym.Previous)
                                                 ? parsePrevious(tokens)
@@ -976,12 +980,20 @@ function parseInput(tokens: Tokens): Input {
 
 function parseConversion(tokens: Tokens): ConversionDefinition {
     const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
+    const share = tokens.readIf(Sym.Share);
     const convert = tokens.read(Sym.Convert);
     const input = parseType(tokens, true);
     const output = parseType(tokens, true);
     const expression = parseExpression(tokens);
 
-    return new ConversionDefinition(docs, convert, input, output, expression);
+    return new ConversionDefinition(
+        docs,
+        convert,
+        input,
+        output,
+        expression,
+        share,
+    );
 }
 
 function parseConvert(expression: Expression, tokens: Tokens): Convert {

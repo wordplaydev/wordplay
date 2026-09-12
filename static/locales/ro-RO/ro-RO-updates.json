@@ -955,6 +955,12 @@
         "e876dc2ed0b0f": "$~Un @Group poate acum să conțină un @Shape, ca să poți așeza un cerc peste cuvintele tale, sau să pui un @Scene într-un aranjament. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e723fd65c8efc": "$~Un @Shape se aliniază acum cu @Stack, @Row sau @Grid în care se află, în loc să stea oriunde s-ar afla colțurile lui, iar orice se află într-un @Grid poate acum fi mai aproape sau mai departe. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e8ad9864d7217": "$~Am adăugat instrucțiuni în <Ghid@https://wordplay.dev/guide> pentru repetarea unei runde dintr-un joc. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
-        "e0bce9fefa9f6": "$~Am adăugat @Spotlight, care îți spune ce parte dintr-o @Scene se arată, câte părți sunt, de câte ori a trecut deja și dacă așteaptă pe cineva. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
+        "e0bce9fefa9f6": "$~Am adăugat @Spotlight, care îți spune ce parte dintr-o @Scene se arată, câte părți sunt, de câte ori a trecut deja și dacă așteaptă pe cineva. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e615935a2e384": "$~Acum poți găsi și căuta kituri publicate în <Ghid@https://wordplay.dev/guide> și poți adăuga unul în programul tău împrumutându-l cu ↓. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ed328cd23ff5e": "$~Am adăugat truse, care îți permit să publici cod pe care vrei să-l distribui altor persoane. Adaugă ↑ înaintea valorilor sau funcțiilor, apoi publică. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ee176f1308f17": "$~Wordplay vine acum cu trei truse pe care le poți împrumuta — alfabete, instrumente și melodii — ca să nu trebuiască să scrii singur literele, fețele instrumentelor sau melodiile. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ede02f98adf41": "$~Cele trei truse care vin cu Wordplay sunt scrise în fiecare limbă pe care o susținem, așa că numele și textul lor apar în limba ta. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "e75fc15b8d057": "$~Numerele pot acum să facă trei lucruri pe care trebuia să le scrii de mână: \\limit\\ păstrează un număr între o valoare minimă și una maximă, \\toward\\ mută un număr o parte din drum către altul, iar \\rescale\\ transformă un număr dintr-un interval în numărul corespunzător din alt interval.",
+        "e49e28ab01607": "$~O listă de numere îți poate spune acum \\sum\\ și \\average\\, ca să nu trebuiască să le aduni singur."
     }
 }

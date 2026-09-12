@@ -1,8 +1,3 @@
-<script module lang="ts">
-    /** The available documentation browsing modes */
-    export const Modes = ['language', 'howto', 'glossary'] as const;
-</script>
-
 <script lang="ts">
     import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
     import Notice from '@components/app/Notice.svelte';
@@ -30,6 +25,9 @@
         reconcileSearch,
         sameHistory,
         currentConcept as topConcept,
+        DefaultMode,
+        ModeIcons,
+        Modes,
         type GuidePlace,
     } from '@components/concepts/GuideHistory';
     import HowConceptView from '@components/concepts/HowConceptView.svelte';
@@ -64,19 +62,19 @@
     import { Purpose, type PurposeType } from '@concepts/Purpose';
     import StreamConcept from '@concepts/StreamConcept';
     import StructureConcept from '@concepts/StructureConcept';
-    import { Galleries, HowTos, Locales, blocks, locales } from '@db/Database';
+    import KitPreview from '@components/app/KitPreview.svelte';
+    import KitKindFilter from '@components/concepts/KitKindFilter.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import { DB, Galleries, HowTos, Locales, locales } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
+    import type { SerializedKit } from '@db/kits/Kit';
+    import { appendKits, type KitCursor } from '@db/kits/kitPaging';
     import type Project from '@db/projects/Project';
     import { buildGlossarySearch } from '@locale/glossarySearch';
     import ConceptLink from '@nodes/ConceptLink';
     import type Node from '@nodes/Node';
-    import {
-        DOCUMENTATION_SYMBOL,
-        HOME_SYMBOL,
-        IDEA_SYMBOL,
-        SEARCH_SYMBOL,
-    } from '@parser/Symbols';
+    import { HOME_SYMBOL, SEARCH_SYMBOL } from '@parser/Symbols';
     import { withMonoEmoji } from '@unicode/emoji';
     import { debounced } from '@util/debounce.svelte';
     import { searchItems } from '@util/search';
@@ -111,7 +109,7 @@
         standalone,
         collapse = false,
         query = $bindable(''),
-        mode = $bindable($blocks ? 'language' : 'howto'),
+        mode = $bindable(DefaultMode),
         purpose = $bindable(Purpose.Outputs),
         galleryOnly = $bindable(false),
     }: Props = $props();
@@ -176,7 +174,8 @@
         resultLimit = RESULTS_PAGE;
     });
 
-    // Reveal more results as the sentinel approaches the viewport.
+    // Reveal more as the sentinel approaches the viewport: more concept results, which
+    // are already in hand, and the next page of kits, which is not.
     $effect(() => {
         const sentinel = resultsSentinel;
         // Guard on `instanceof HTMLElement`, not `=== undefined`: Svelte sets a
@@ -185,21 +184,30 @@
         // then throw "parameter 1 is not of type 'Element'".
         if (
             !(sentinel instanceof HTMLElement) ||
-            !(view instanceof HTMLElement) ||
-            results === undefined
+            !(view instanceof HTMLElement)
         )
             return;
+        // Nothing about the page is read here on purpose: the callback reads it live, and
+        // depending on it would rebuild the observer per landed page — which fires an
+        // immediate callback for an already-intersecting sentinel, asking for the next
+        // page, and so on until the whole registry is loaded without anyone scrolling.
         const observer = new IntersectionObserver(
             (entries) => {
-                if (
-                    entries.some((e) => e.isIntersecting) &&
-                    results !== undefined &&
-                    resultLimit < results.length
-                )
+                if (!entries.some((e) => e.isIntersecting)) return;
+                if (results !== undefined && resultLimit < results.length)
                     resultLimit = Math.min(
                         resultLimit + RESULTS_PAGE,
                         results.length,
                     );
+                // One crossing asks for one page: without the in-flight guard a slow
+                // answer means several requests for the same cursor.
+                if (
+                    kits !== undefined &&
+                    !kitsExhausted &&
+                    !kitsLoading &&
+                    kitCursor !== undefined
+                )
+                    void askKits(kitGeneration, kitCursor);
             },
             { root: getScrollParent(view) ?? null, rootMargin: '400px' },
         );
@@ -410,6 +418,165 @@
                 : undefined,
         );
 
+    /**
+     * Published kits: the whole listed registry while browsing the kits section, or
+     * the ones matching the search while searching (#8).
+     *
+     * A server query rather than a member of the concept index, which is what every
+     * other thing this page browses is. `getListed` is a Firestore query one
+     * `KITS_PAGE` long, so a client never holds them all — putting the fetched page into
+     * the index would make every kit past it unfindable by search, silently. Loaded through `DB.loadKits()`,
+     * never a static import: that dynamic boundary is what keeps `KitDatabase` off the
+     * budgeted page graphs (see `importGraph.test.ts`).
+     */
+    let kits = $state<SerializedKit[] | undefined>(undefined);
+    let kitCursor = $state<KitCursor | undefined>(undefined);
+    let kitsExhausted = $state(false);
+    let kitsLoading = $state(false);
+    /** Which kind is being browsed, if any. Never set while searching — see `askKits`. */
+    let kind = $state<string | undefined>(undefined);
+
+    /**
+     * The kits that ship with Wordplay (#8), which are files in the repo rather than
+     * registry documents — so they are held separately and filtered here rather than by
+     * `getListed`, whose cursor pagination has nothing to page through for them.
+     */
+    let builtinKits = $state<SerializedKit[]>([]);
+    $effect(() => {
+        DB.loadKits().then((db) => (builtinKits = db.getBuiltinKits()));
+    });
+    /** The built-ins that answer the question on screen, by the same terms and kind. */
+    let shownBuiltins = $derived.by(() => {
+        const terms = kitTerms();
+        return builtinKits.filter(
+            (kit) =>
+                (kind === undefined || kit.kinds.includes(kind)) &&
+                // Searched in full rather than through `words`, which is the server-side
+                // prefilter and is deliberately empty for a built-in.
+                terms.every((term) =>
+                    `${kit.name} ${kit.description} ${kit.exports.join(' ')}`
+                        .toLocaleLowerCase()
+                        .includes(term),
+                ),
+        );
+    });
+
+    /**
+     * The creator's own kits that the registry doesn't list, newest first.
+     *
+     * The answer to "why isn't mine here", given where the absence is noticed. It costs no
+     * query: the owner snapshot listener `loadKitsOnce` starts already keeps these in
+     * memory, and `getListed` can never return them — an unapproved kit fails its filter
+     * and an unshared one fails it twice.
+     *
+     * Unfiltered by the kind chooser and the search box on purpose. This is a small,
+     * personal list about work in progress, and hiding a creator's own pending kit behind
+     * a filter they set for browsing everyone else's would recreate the silence.
+     */
+    let ownUnlisted = $state<SerializedKit[]>([]);
+    $effect(() => {
+        if ($user === null || $user === undefined) {
+            ownUnlisted = [];
+            return;
+        }
+        DB.loadKits().then(
+            (db) =>
+                (ownUnlisted = db
+                    .getOwnedKits()
+                    .filter((kit) => !kit.listed)
+                    .toSorted((a, b) => b.updated - a.updated)),
+        );
+    });
+
+    /**
+     * The kinds the filter row offers, counted from the *unfiltered* registry — deriving
+     * them from what is on screen would leave the chosen kind as the only option and no
+     * way back to any other.
+     *
+     * A census of what has been fetched rather than of everything published, so a kind
+     * that first occurs on a later page isn't offered until you scroll there. Only the
+     * menu is partial: choosing a kind queries the server.
+     */
+    let offeredKinds = $state<{ kind: string; count: number }[]>([]);
+    $effect(() => {
+        if (kind !== undefined) return;
+        const counts = new Map<string, number>();
+        for (const kit of [...builtinKits, ...(kits ?? [])])
+            for (const k of kit.kinds) counts.set(k, (counts.get(k) ?? 0) + 1);
+        offeredKinds = [...counts.entries()]
+            .map(([k, count]) => ({ kind: k, count }))
+            // Most common first, then alphabetically, so the row doesn't reshuffle as
+            // later pages land.
+            .sort((a, b) => b.count - a.count || a.kind.localeCompare(b.kind));
+    });
+    /**
+     * Bumped whenever the *question* changes, so a page still in flight for the previous
+     * one is discarded when it lands. The effect's own `cancelled` flag can't do this:
+     * later pages are asked for by the scroll sentinel, not by the effect.
+     */
+    let kitGeneration = 0;
+
+    /** The terms a search asks the registry for, or none while browsing. */
+    function kitTerms(): string[] {
+        const query = debouncedQuery.current.trim();
+        return searchActive && query.length >= MIN_QUERY_LENGTH
+            ? query
+                  .toLocaleLowerCase()
+                  .split(/\s+/)
+                  .filter((term) => term.length > 0)
+            : [];
+    }
+
+    /** Ask for one page, and keep it only if the question hasn't changed since. */
+    async function askKits(generation: number, after: KitCursor | undefined) {
+        kitsLoading = true;
+        try {
+            const db = await DB.loadKits();
+            // Narrowed inside the guard so `exactOptionalPropertyTypes` sees a string
+            // rather than `string | undefined`: the option is absent or it is a kind.
+            const browsing = searchActive ? undefined : kind;
+            const page = await db.getListed({
+                terms: kitTerms(),
+                ...(browsing === undefined ? {} : { kind: browsing }),
+                ...(after === undefined ? {} : { after }),
+            });
+            if (generation !== kitGeneration) return;
+            kits =
+                after === undefined
+                    ? page.kits
+                    : appendKits(kits ?? [], page.kits);
+            kitCursor = page.cursor;
+            kitsExhausted = page.cursor === undefined;
+        } catch {
+            if (generation === kitGeneration) {
+                kits = kits ?? [];
+                kitsExhausted = true;
+            }
+        } finally {
+            if (generation === kitGeneration) kitsLoading = false;
+        }
+    }
+
+    // The first page, re-asked whenever the question changes.
+    $effect(() => {
+        const searching = searchActive;
+        const terms = kitTerms();
+        void kind;
+        if (!searching && mode !== 'kits') return;
+        const generation = ++kitGeneration;
+        kitCursor = undefined;
+        kitsExhausted = false;
+        // Too short to search is not the same as "no kits"; say nothing rather than
+        // asking the server for every kit there is.
+        if (searching && terms.length === 0) {
+            kits = [];
+            kitsExhausted = true;
+            return;
+        }
+        kits = undefined;
+        void askKits(generation, undefined);
+    });
+
     /** Searchable glossary records (term words and definition prose). Derived
      *  from the locale only — concretizing every definition is too expensive to
      *  redo per query. */
@@ -513,6 +680,12 @@
 <!-- Drop what's being dragged if the window loses focus. -->
 <svelte:window onblur={() => dragged?.set(undefined)} />
 
+{#snippet sentinel()}
+    <!-- Infinite-scroll sentinel: reveals another page of concept results, or asks the
+         registry for another page of kits, as it approaches the viewport. -->
+    <div bind:this={resultsSentinel} aria-hidden="true"></div>
+{/snippet}
+
 <div class="header">
     <span data-uiid="docsSearch" class="search-wrap">
         <TextField
@@ -531,7 +704,7 @@
             id="docs-browse"
             uiid="docsModeToggle"
             tabs={(l) => l.ui.docs.mode.browse}
-            icons={[DOCUMENTATION_SYMBOL, IDEA_SYMBOL, '📖']}
+            icons={ModeIcons}
             choice={Modes.indexOf(mode)}
             select={(choice) => chooseSection(Modes[choice], purpose)}
         />
@@ -627,6 +800,17 @@
                 {#each glossaryResults as term (term.id)}
                     <GlossaryEntry id={term.id} />
                 {/each}
+                <!-- Kits come from the server rather than the concept index, so they
+                     are their own group rather than mixed into the ranked results —
+                     there is no shared score to interleave them by. -->
+                {#if kits && kits.length > 0}
+                    <Subheader text={(l) => l.ui.docs.kits.header} />
+                    <div class="kits">
+                        {#each kits as kit (kit.id)}
+                            <KitPreview {kit} />
+                        {/each}
+                    </div>
+                {/if}
                 {#each results.slice(0, resultLimit) as [concept, text]}
                     {@const match = text[0]}
                     {@const start = text[1]}
@@ -647,11 +831,10 @@
                         </div>
                     </div>
                 {/each}
-                {#if results.length === 0 && glossaryResults.length === 0}
+                {#if results.length === 0 && glossaryResults.length === 0 && (kits?.length ?? 0) === 0}
                     <Notice text={(l) => l.ui.docs.note.noMatches} />
                 {/if}
-                <!-- Infinite-scroll sentinel: reveals another page when reached. -->
-                <div bind:this={resultsSentinel} aria-hidden="true"></div>
+                {@render sentinel()}
             {:else}
                 <!-- Query too short to search yet: prompt to keep typing. -->
                 <Note
@@ -792,6 +975,60 @@
                                 </div>
                             {/if}
                         {/each}
+                    {/if}
+                {:else if mode === 'kits'}
+                    <!-- The published-kit registry, which used to be a route of its
+                         own (#8). It belongs here: this is where a creator looks for
+                         things to put in a program, and a kit is one of them. -->
+                    <Subheader text={(l) => l.ui.docs.kits.header} />
+                    <MarkupHTMLView markup={(l) => l.ui.docs.kits.prompt} />
+                    <!-- What the kits in hand share, most common first. Only what has
+                         been loaded, so a kind that first appears on a later page isn't
+                         offered until you reach it — but choosing one asks the server,
+                         so the results themselves are never partial. -->
+                    {#if offeredKinds.length > 0}
+                        <KitKindFilter
+                            kinds={offeredKinds}
+                            chosen={kind}
+                            choose={(chosen: string | undefined) =>
+                                (kind = chosen)}
+                        />
+                    {/if}
+                    <!-- The creator's own kits that aren't listed, above everything and
+                         only for them. A creator who published one and can't find it here
+                         is looking at an absence, and this is where the absence is; the
+                         share dialog says the same thing, but nothing sends them back to
+                         it weeks later. -->
+                    {#if ownUnlisted.length > 0}
+                        <Subheader text={(l) => l.ui.docs.kits.yours} />
+                        <div class="kits">
+                            {#each ownUnlisted as kit (kit.id)}
+                                <KitPreview {kit} standing />
+                            {/each}
+                        </div>
+                    {/if}
+                    <!-- One list. The kits that ship with Wordplay lead it, because they
+                         are always there and cost no query, but they are not marked as
+                         such: whether a kit came with the app or from a creator is a fact
+                         about us, not about what it does for whoever is reading. -->
+                    {#if shownBuiltins.length > 0 || (kits !== undefined && kits.length > 0)}
+                        <div class="kits">
+                            {#each [...shownBuiltins, ...(kits ?? [])] as kit (kit.id)}
+                                <KitPreview {kit} />
+                            {/each}
+                        </div>
+                    {/if}
+                    {#if kits === undefined}
+                        <Spinning />
+                    {:else if kits.length === 0 && shownBuiltins.length === 0}
+                        <Notice
+                            text={(l) =>
+                                kind === undefined
+                                    ? l.ui.docs.kits.empty
+                                    : l.ui.docs.kits.none}
+                        />
+                    {:else}
+                        {@render sentinel()}
                     {/if}
                 {:else if purpose === Purpose.Project}
                     {@const projectConcepts =
@@ -968,6 +1205,15 @@
         color: var(--black-light);
         padding: 0 calc(var(--wordplay-spacing) / 4);
         border-radius: var(--wordplay-editor-radius);
+    }
+
+    /* One column per tile, like `.howtos` — a kit tile is a name, a description and
+       a preview glyph, which reads as a row rather than a card. */
+    .kits {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        margin-block-end: var(--wordplay-spacing);
     }
 
     .howtos {

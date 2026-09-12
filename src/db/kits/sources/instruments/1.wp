@@ -1,0 +1,996 @@
+🎹
+=== instruments/en
+¶Every instrument, with a face and a colour to match.
+
+A @Track picks its sound with an instrument, but nothing tells you what an instrument looks like. This gives each one a character to show on stage and a hue to colour it with, so a row of buttons or a burst of fireworks can say which instrument it belongs to.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶
+¶cada instrumento, con una cara y un color que combina.
+
+Un @Track elige su sonido con un instrumento, pero nada te dice cómo se ve un instrumento. Esto le da a cada uno un carácter para mostrar en el escenario y un matiz para colorearlo, así una fila de botones o una explosión de fuegos artificiales puede decir a qué instrumento pertenece.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/es
+¶كل آلة موسيقية، لها وجه ولون يناسبها.
+
+يختار @Track صوته من آلة موسيقية، لكن لا شيء يخبرك بشكل هذه الآلة. لهذا نعطي كل آلة رمزًا يظهر على المسرح ودرجة لون تلوّنها، حتى يستطيع صف من الأزرار أو انفجار من الألعاب النارية أن يبيّن لأي آلة ينتمي.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/ar
+¶প্ৰতিটো বাদ্যযন্ত্ৰ, মিলা এটা মুখ আৰু ৰঙৰ সৈতে।
+
+এটা @Track এ এটা বাদ্যযন্ত্ৰৰ সৈতে নিজৰ শব্দ বাছি লয়, কিন্তু কোনেও কোৱা নাই এটা বাদ্যযন্ত্ৰ চাবলৈ কেনেকুৱা লাগে। এইটোৱে প্ৰতিটোক মঞ্চত দেখুৱাবলৈ এটা চৰিত্ৰ আৰু ৰং দিবলৈ এটা হিউ দিয়ে, যাতে বুটামৰ এটা শাৰী বা পটকাৰ এটা বিস্ফোৰণে ক'ব পাৰে সি কোনটো বাদ্যযন্ত্ৰৰ।
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/as
+¶প্রতিটি বাদ্যযন্ত্রের একটি মুখ ও তার সাথে মেলে এমন একটি রং আছে।
+
+একটি @Track তার শব্দ একটি বাদ্যযন্ত্র দিয়ে বেছে নেয়, কিন্তু বাদ্যযন্ত্রটি দেখতে কেমন তা কিছুই বলে না। তাই এটি প্রতিটি যন্ত্রকে মঞ্চে দেখানোর জন্য একটি রূপ এবং তাকে রং করার জন্য একটি রং-ছটা দেয়, যাতে বোতামের একটি সারি বা আতশবাজির একটি ঝলক বলে দিতে পারে সেটি কোন যন্ত্রের।
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/bn
+¶Jedes Instrument mit einem Gesicht und einer passenden Farbe.
+
+Ein @Track wählt seinen Klang mit einem Instrument aus, aber nichts zeigt dir, wie ein Instrument aussieht. Das gibt jedem eine Figur, die auf der Bühne erscheint, und einen Farbton, der es einfärbt. So kann eine Reihe von Knöpfen oder ein Feuerwerk zeigen, zu welchem Instrument es gehört.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/de
+¶Κάθε όργανο, με ένα πρόσωπο και ένα χρώμα που ταιριάζει.
+
+Ένα @Track διαλέγει τον ήχο του με ένα όργανο, αλλά τίποτα δεν σου λέει πώς μοιάζει ένα όργανο. Αυτό δίνει σε κάθε ένα έναν χαρακτήρα για να δείξει στη σκηνή και μια απόχρωση για να το χρωματίσει, έτσι ώστε μια σειρά κουμπιών ή ένα ξέσπασμα πυροτεχνημάτων να μπορεί να δείξει σε ποιο όργανο ανήκει.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/el
+¶هر ساز، با یک چهره و یک رنگ همتای آن.
+
+یک @Track صدای خود را با یک ساز انتخاب می‌کند، اما چیزی به تو نمی‌گوید که آن ساز چه شکلی دارد. این یکی به هر ساز یک کاراکتر برای نمایش روی صحنه و یک طیف رنگ برای رنگ‌آمیزی‌اش می‌دهد، تا یک ردیف دکمه یا یک انفجار آتش‌بازی بتواند نشان دهد که به کدام ساز تعلق دارد.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/fa
+¶Chaque instrument, avec un visage et une couleur assortie.
+
+Un @Track choisit son son avec un instrument, mais rien ne montre à quoi ressemble un instrument. Ceci donne à chacun un caractère à montrer sur la scène et une teinte pour le colorer, afin qu'une rangée de boutons ou une explosion de feux d'artifice puisse dire à quel instrument elle appartient.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/fr
+¶દરેક વાદ્ય, એક ચહેરા અને તેને મળતા રંગ સાથે.
+
+@Track પોતાનો ધ્વનિ એક વાદ્યથી પસંદ કરે છે, પણ કંઈ પણ તમને એ કહેતું નથી કે વાદ્ય કેવું દેખાય છે. આ દરેકને મંચ પર બતાવવા માટે એક ચિહ્ન અને રંગ આપવા માટે એક રંગછટા આપે છે, જેથી બટનોની હાર કે ફટાકડાનો ધડાકો કહી શકે કે એ કયા વાદ્યનું છે.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/gu
+¶כל כלי נגינה, עם פרצוף וצבע שמתאימים לו.
+
+@Track בוחר את הצליל שלו עם כלי נגינה, אבל שום דבר לא מראה איך כלי הנגינה נראה. זה נותן לכל אחד דמות להציג על הבמה וגוון שצובע אותו, כך ששורת כפתורים או פיצוץ זיקוקים יכולים להראות לאיזה כלי נגינה הם שייכים.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/he
+¶हर वाद्य यंत्र का अपना चेहरा और उससे मेल खाता रंग होता है।
+
+एक @Track अपनी ध्वनि किसी वाद्य यंत्र से चुनता है, लेकिन कुछ भी नहीं बताता कि वह वाद्य यंत्र दिखने में कैसा है। यह हर वाद्य यंत्र को मंच पर दिखाने के लिए एक रूप और रंगने के लिए एक रंगत देता है, ताकि बटनों की एक पंक्ति या आतिशबाज़ी का एक झोंका बता सके कि वह किस वाद्य यंत्र से जुड़ा है।
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/hi
+¶Setiap alat musik, dengan wajah dan warna yang sesuai.
+
+Sebuah @Track memilih suaranya dengan sebuah alat musik, tapi tidak ada yang memberitahumu seperti apa rupa alat musik itu. Ini memberi setiap alat musik sebuah karakter untuk ditampilkan di panggung dan corak warna untuk mewarnainya, jadi sebaris tombol atau ledakan kembang api bisa menunjukkan alat musik mana yang dimilikinya.\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/id
+¶どの楽器にも、顔と、それに合う色があります。
+
+@Trackは楽器を使って音を選びますが、その楽器がどんな見た目かは何も教えてくれません。これは、それぞれの楽器にステージで見せるキャラクターと、色をつけるための色相を与えます。だから、並んだボタンや花火の広がりを見れば、どの楽器のものかがわかります。
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/ja
+¶ಪ್ರತಿ ವಾದ್ಯಕ್ಕೂ ಒಂದು ಮುಖ ಮತ್ತು ಹೊಂದಿಕೆಯಾಗುವ ಬಣ್ಣ.
+
+ಒಂದು @Track ತನ್ನ ಶಬ್ದವನ್ನು ಒಂದು ವಾದ್ಯದಿಂದ ಆಯ್ಕೆ ಮಾಡುತ್ತದೆ, ಆದರೆ ಆ ವಾದ್ಯ ಹೇಗೆ ಕಾಣುತ್ತದೆ ಎಂದು ಏನೂ ಹೇಳುವುದಿಲ್ಲ. ಇದು ಪ್ರತಿ ವಾದ್ಯಕ್ಕೂ ವೇದಿಕೆಯ ಮೇಲೆ ತೋರಿಸಲು ಒಂದು ಪಾತ್ರವನ್ನೂ, ಬಣ್ಣ ಹಚ್ಚಲು ಒಂದು ಬಣ್ಣದ ಛಾಯೆಯನ್ನೂ ಕೊಡುತ್ತದೆ. ಹೀಗಾಗಿ ಗುಂಡಿಗಳ ಸಾಲು ಅಥವಾ ಪಟಾಕಿಗಳ ಸ್ಫೋಟ ಯಾವ ವಾದ್ಯಕ್ಕೆ ಸೇರಿದ್ದು ಎಂದು ತೋರಿಸಬಹುದು.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/kn
+¶모든 악기에는 얼굴과 어울리는 색이 있습니다.
+
+@Track는 악기로 소리를 고르지만, 그 악기가 어떻게 생겼는지는 아무도 알려주지 않습니다. 이것은 각 악기에 무대에 보여줄 캐릭터와 색을 입힐 색조를 줍니다. 그래서 버튼이 늘어선 줄이나 불꽃놀이가 터지는 모습만 봐도 어떤 악기인지 알 수 있습니다.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/ko
+¶प्रत्येक वादय, त्याला जुळणारा चेहरा आणि रंग यांसह.
+
+@Track आपला आवाज एका वादयाने निवडतो, पण वादय कसे दिसते हे कोणी सांगत नाही. यामुळे प्रत्येक वादयाला रंगमंचावर दाखवण्यासाठी एक खास आकृती आणि रंगवण्यासाठी एक रंगछटा मिळते, त्यामुळे बटणांची ओळ किंवा फटाक्यांचा लोळ कोणत्या वादयाशी संबंधित आहे हे दाखवू शकतो.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/mr
+¶हरेक बाजा, अनुहार र मिल्दो रङसहित।
+
+@Track ले बाजाबाट आफ्नो आवाज छान्छ, तर कुनै कुराले बाजा कस्तो देखिन्छ भनेर देखाउँदैन। यसले हरेक बाजालाई मञ्चमा देखाउन एउटा रूप र रंगाउन एउटा रङ छाया दिन्छ, ताकि बटनहरूको लहर वा आतिशबाजीको फुट्नाले कुन बाजाको हो भनेर देखाओस्।
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/ne
+¶ਹਰ ਸਾਜ਼, ਆਪਣੇ ਚਿਹਰੇ ਅਤੇ ਮਿਲਦੇ-ਜੁਲਦੇ ਰੰਗ ਨਾਲ।
+
+ਇੱਕ @Track ਆਪਣੀ ਧੁਨੀ ਕਿਸੇ ਸਾਜ਼ ਨਾਲ ਚੁਣਦਾ ਹੈ, ਪਰ ਕੁਝ ਵੀ ਇਹ ਨਹੀਂ ਦੱਸਦਾ ਕਿ ਸਾਜ਼ ਕਿਵੇਂ ਦਿਸਦਾ ਹੈ। ਇਹ ਹਰ ਸਾਜ਼ ਨੂੰ ਮੰਚ ਉੱਤੇ ਦਿਖਾਉਣ ਲਈ ਇੱਕ ਚਿੰਨ੍ਹ ਅਤੇ ਰੰਗਣ ਲਈ ਇੱਕ ਰੰਗਤ ਦਿੰਦਾ ਹੈ, ਤਾਂ ਜੋ ਬਟਨਾਂ ਦੀ ਇੱਕ ਕਤਾਰ ਜਾਂ ਆਤਿਸ਼ਬਾਜ਼ੀ ਦਾ ਧਮਾਕਾ ਦੱਸ ਸਕੇ ਕਿ ਇਹ ਕਿਸ ਸਾਜ਼ ਨਾਲ ਸੰਬੰਧਿਤ ਹੈ।
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/pa
+¶Każdy instrument ma swoją twarz i pasujący do niej kolor.
+
+@Track wybiera swój dźwięk za pomocą instrumentu, ale nic nie mówi, jak ten instrument wygląda. To daje każdemu z nich znak do pokazania na scenie oraz odcień, którym można go pokolorować, dzięki czemu rząd przycisków albo wybuch fajerwerków może pokazać, do jakiego instrumentu należy.\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/pl
+¶Cada instrumento, com um rosto e uma cor a condizer.
+
+Um @Track escolhe o seu som com um instrumento, mas nada diz como esse instrumento se parece. Isto dá a cada um um carácter para mostrar no palco e um matiz para o colorir, para que uma fila de botões ou uma explosão de fogo de artifício possa mostrar a que instrumento pertence.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/pt
+¶Fiecare instrument, cu o față și o culoare pe potrivă.
+
+Un @Track alege sunetul cu un instrument, dar nimic nu-ți spune cum arată un instrument. Acesta oferă fiecăruia un personaj care apare pe scenă și o nuanță cu care să-l colorezi, astfel încât un rând de butoane sau o explozie de artificii poate arăta cărui instrument îi aparține.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/ro
+¶Сваки инструмент, са лицем и бојом која му одговара.
+
+@Track бира свој звук помоћу инструмента, али ништа не говори како тај инструмент изгледа. Ово даје сваком инструменту лик за приказ на позорници и нијансу боје којом се обојава, тако да низ дугмади или ватромет од искри може да покаже којем инструменту припада.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/sr
+¶ஒவ்வொரு இசைக்கருவிக்கும், ஒரு முகமும் அதற்கேற்ற ஒரு நிறமும்.
+
+ஒரு @Track தன் ஒலியை ஒரு இசைக்கருவியிலிருந்து தேர்ந்தெடுக்கிறது, ஆனால் அந்த இசைக்கருவி எப்படி இருக்கும் என்று எதுவும் சொல்லாது. இது ஒவ்வொன்றுக்கும் மேடையில் காட்ட ஒரு எழுத்துருவையும், அதைச் சாயமிட ஒரு நிறத்தூய்மையையும் தருகிறது, இதனால் பொத்தான்களின் வரிசையோ அல்லது வெடிமருந்து வெடிப்போ எந்த இசைக்கருவிக்குச் சொந்தமானது என்பதைக் காட்ட முடியும்.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/ta
+¶ప్రతి వాయిద్యానికి, ఒక ముఖం మరియు దానికి సరిపోయే రంగు ఉంటుంది.
+
+ఒక @Track తన ధ్వనిని ఒక వాయిద్యంతో ఎంచుకుంటుంది, కానీ ఆ వాయిద్యం ఎలా కనిపిస్తుందో ఏదీ చెప్పదు. ఇది ప్రతిదానికి వేదిక మీద చూపడానికి ఒక అక్షరాన్ని, మరియు దానిని రంగు వేయడానికి ఒక హ్యూని ఇస్తుంది, తద్వారా బటన్ల వరుస లేదా బాణసంచా పేలుడు అది ఏ వాయిద్యానికి చెందిందో చెప్పగలదు.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/te
+¶Bawat instrumento, may mukha at kulay na tugma.
+
+Pumipili ang isang @Track ng tunog nito gamit ang isang instrumento, pero walang nagsasabi kung ano ang hitsura ng instrumento. Ito ang nagbibigay sa bawat isa ng isang karakter na ipapakita sa entablado at isang kulay-tono para kulayan ito, para masabi ng isang hanay ng mga button o isang sabog ng paputok kung anong instrumento ang pinagmulan nito.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/tl
+¶Her çalgının bir yüzü ve ona uyan bir rengi vardır.
+
+Bir @Track, sesini bir çalgıyla seçer, ama hiçbir şey sana bir çalgının neye benzediğini söylemez. Bu, her birine sahnede gösterecek bir karakter ve onu renklendirecek bir renk tonu verir. Böylece bir düğme sırası ya da bir havai fişek patlaması, hangi çalgıya ait olduğunu gösterebilir.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/tr
+¶Mỗi nhạc cụ đều có một gương mặt và một màu sắc riêng phù hợp.
+
+Một @Track chọn âm thanh của nó bằng một nhạc cụ, nhưng không có gì cho biết nhạc cụ đó trông như thế nào. Điều này cho mỗi nhạc cụ một hình dáng để hiện trên sân khấu và một sắc độ để tô màu cho nó, để một hàng nút bấm hay một chùm pháo hoa có thể cho biết nó thuộc về nhạc cụ nào.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/vi
+¶每种乐器，都有一个与之相配的图标和颜色。
+
+@Track 会用乐器来选定声音，但没有东西能告诉你这个乐器长什么样。这个功能给每种乐器配上一个可以在舞台上显示的图标，还有一个用来上色的色相，这样一排按钮或一阵烟花，就能告诉你它属于哪种乐器。
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/zh
+¶Varje instrument, med ett ansikte och en färg som passar.
+
+En @Track väljer sitt ljud med ett instrument, men inget visar hur ett instrument ser ut. Detta ger varje instrument ett tecken att visa på scenen och en nyans att färga det med, så att en rad knappar eller ett fyrverkeri kan visa vilket instrument det tillhör.
+
+\Group(
+	Row()
+	voices.translate(
+		ƒ(v•Voice) Phrase(v.icon 2m color: Color(60% 80 v.hue))
+	)
+)\⭐¶/sv
+
+unknownIcon,íconoDesconocido/es,أيقونةغيرمعروفة/ar,অজ্ঞাতআইকন/as,অজানাআইকন/bn,unbekanntesSymbol/de,άγνωστοΕικονίδιο/el,نمادناشناخته/fa,icôneInconnue/fr,અજ્ઞાતઆઇકોન/gu,סמללאידוע/he,अज्ञातआइकन/hi,ikonTidakDikenal/id,不明なアイコン/ja,ಗೊತ್ತಿಲ್ಲದಚಿಹ್ನೆ/kn,알수없는아이콘/ko,अज्ञातचिन्ह/mr,अज्ञातआइकन2/ne,ਅਣਜਾਣਆਈਕਨ/pa,nieznanaIkona/pl,íconeDesconhecido/pt,pictogramăNecunoscută/ro,непознатаИконица/sr,தெரியாதசின்னம்/ta,తెలియనిఐకాన్/te,hindiKilalangIcon/tl,bilinmeyenSimge/tr,biểuTượngKhôngRõ/vi,未知图标/zh,okändIkon/sv: '🎵'
+
+¶An instrument, together with a character to show for it, a word for it, and a hue to colour it. One entry looks like \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶
+¶Un instrumento, junto con un carácter para representarlo, una palabra para nombrarlo y un tono para colorearlo. Una entrada se ve así \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/es
+¶一種樂器，搭配一個代表它的字元、一個代表它的詞，還有一種為它上色的色調。一筆項目看起來像\Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\。¶/zh
+¶Ein Instrument, zusammen mit einem Zeichen, das es zeigt, einem Wort dafür und einem Farbton, der es einfärbt. Ein Eintrag sieht so aus: \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/de
+¶أداة موسيقية، مع رمز يمثّلها، وكلمة لها، ولون يلوّنها. يبدو أحد المُدخلات هكذا \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/ar
+¶এটা বাদ্যযন্ত্ৰ, লগত তাক দেখুৱাবলৈ এটা আখৰ, তাৰ বাবে এটা শব্দ, আৰু তাক ৰং কৰিবলৈ এটা ৰং। এটা প্ৰৱিষ্টি এনেকুৱা দেখা যায় \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\।¶/as
+¶একটি যন্ত্র, তার সঙ্গে দেখানোর জন্য একটি অক্ষর, একটি শব্দ, এবং তাকে রং করার জন্য একটি হিউ। একটি এন্ট্রি দেখতে এরকম হয় \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\।¶/bn
+¶Ένα όργανο, μαζί με έναν χαρακτήρα που το δείχνει, μια λέξη γι' αυτό και μια απόχρωση για να το χρωματίσει. Μια εγγραφή μοιάζει έτσι \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/el
+¶یک ساز، همراه با یک نویسه برای نشان‌دادنش، یک واژه برایش، و یک رنگ برای رنگ‌آمیزی‌اش. یک مدخل این‌گونه به‌نظر می‌رسد \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/fa
+¶Un instrument, accompagné d’un caractère pour le représenter, d’un mot pour le nommer, et d’une teinte pour le colorer. Une entrée ressemble à \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/fr
+¶એક વાદ્ય, તેની સાથે બતાવવા માટે એક અક્ષર, તેના માટે એક શબ્દ, અને તેને રંગ આપવા માટે એક રંગછટા. એક નોંધ આવી દેખાય છે \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/gu
+¶כלי נגינה, יחד עם תו שמייצג אותו, מילה בשבילו, וגוון שצובע אותו. רשומה אחת נראית כך \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/he
+¶एक वाद्य, जिसके साथ उसे दिखाने के लिए एक अक्षर, उसके लिए एक शब्द, और उसे रंगने के लिए एक रंग होता है। एक प्रविष्टि ऐसी दिखती है \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\।¶/hi
+¶Sebuah instrumen, beserta sebuah karakter untuk menampilkannya, sebuah kata untuknya, dan sebuah corak warna untuk mewarnainya. Satu entri terlihat seperti \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/id
+¶楽器と、それを表す文字、それを表す言葉、そして色をつけるための色相をまとめたもの。1つの項目は次のようになります: \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\。¶/ja
+¶ಒಂದು ವಾದ್ಯ, ಅದನ್ನು ತೋರಿಸಲು ಒಂದು ಅಕ್ಷರ, ಅದಕ್ಕೆ ಒಂದು ಪದ, ಮತ್ತು ಅದಕ್ಕೆ ಬಣ್ಣ ಕೊಡಲು ಒಂದು ಬಣ್ಣಛಾಯೆ. ಒಂದು ನಮೂದು ಹೀಗೆ ಕಾಣುತ್ತದೆ \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/kn
+¶보여줄 문자와 이름, 색을 함께 가진 악기입니다. 항목 하나는 이렇게 생겼습니다: \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/ko
+¶एक वाद्य, त्यासोबत दाखवण्यासाठी एक अक्षर, त्यासाठी एक शब्द, आणि त्याला रंग देण्यासाठी एक रंगछटा. एक नोंद अशी दिसते \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/mr
+¶एउटा साधन, त्यसलाई देखाउने अक्षर, त्यसको लागि शब्द, र त्यसलाई रंग दिने रङ सहित। एउटा प्रविष्टि यस्तो देखिन्छ \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\।¶/ne
+¶ਇੱਕ ਸਾਜ਼, ਉਸ ਦੇ ਨਾਲ ਵਿਖਾਉਣ ਲਈ ਇੱਕ ਅੱਖਰ, ਇੱਕ ਸ਼ਬਦ, ਅਤੇ ਰੰਗ ਦੇਣ ਲਈ ਇੱਕ ਰੰਗਤ। ਇੱਕ ਐਂਟਰੀ ਇਸ ਤਰ੍ਹਾਂ ਦਿਸਦੀ ਹੈ \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\।¶/pa
+¶Instrument razem ze znakiem, który go pokazuje, słowem, które go nazywa, oraz barwą, która go koloruje. Jeden wpis wygląda tak: \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/pl
+¶Um instrumento, com um carácter para o representar, uma palavra para o nomear, e uma cor para o colorir. Uma entrada tem este aspeto \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/pt
+¶Un instrument, împreună cu un caracter pentru a-l reprezenta, un cuvânt pentru el și o nuanță pentru a-l colora. O intrare arată așa \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/ro
+¶Инструмент, заједно са знаком који га представља, речју за њега и бојом која га боји. Један унос изгледа овако \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/sr
+¶ஒரு இசைக்கருவி, அதற்கான ஒரு எழுத்து, ஒரு சொல், மற்றும் அதற்கு நிறமூட்ட ஒரு நிறம். ஒரு உள்ளீடு இப்படி இருக்கும் \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/ta
+¶ఒక వాద్యం, దాని కోసం చూపించడానికి ఒక అక్షరం, దాని కోసం ఒక పదం, మరియు దానికి రంగు వేయడానికి ఒక వర్ణంతో పాటు. ఒక ఎంట్రీ ఇలా కనిపిస్తుంది \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/te
+¶Isang instrumento, kasama ang isang karakter na ipapakita para dito, isang salita para dito, at isang kulay-anyo para kulayan ito. Ganito ang hitsura ng isang entry \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/tl
+¶Bir çalgı; onu göstermek için bir karakter, onu anlatmak için bir kelime ve onu renklendirmek için bir renk tonuyla birlikte. Bir girdi şöyle görünür: \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/tr
+¶Một nhạc cụ, đi kèm với một ký tự để hiển thị, một từ để gọi tên, và một sắc màu để tô nó. Một mục trông giống như \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/vi
+¶Ett instrument, tillsammans med ett tecken som visar det, ett ord för det, och en nyans som färgar det. En post ser ut så här \Voice(
+	🔈.🎺
+	'🎺'
+	'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+	50°
+)\.¶/sv
+↑ •Voice/en,voz2/es,صوت2/ar,কণ্ঠস্বৰ/as,কণ্ঠস্বর2/bn,stimme/de,φωνή2/el,صدا2/fa,voix2/fr,અવાજ2/gu,קול2/he,आवाज़2/hi,suara2/id,声2/ja,ಧ್ವನಿ2/kn,음성/ko,आवाज2/mr,स्वर2/ne,ਆਵਾਜ਼2/pa,głos2/pl,voz3/pt,voce2/ro,глас2/sr,குரல்2/ta,వాయిస్2/te,boses2/tl,ses2/tr,giọng/vi,语音2/zh,röst2/sv(sound,sonido/es,صوت3/ar,শব্দ3/as,শব্দ7/bn,klang/de,ήχος/el,صدا3/fa,son/fr,ધ્વનિ/gu,צליל/he,ध्वनि/hi,suara3/id,音/ja,ಶಬ್ದ/kn,소리/ko,आवाज3/mr,आवाज8/ne,ਧੁਨੀ/pa,dźwięk/pl,som/pt,sunet2/ro,звук/sr,ஒலி/ta,ధ్వని2/te,tunog/tl,ses3/tr,âmThanh/vi,声音2/zh,ljud/sv•🔈 icon,ícono/es,أيقونة/ar,আইকন/as,আইকন2/bn,symbol/de,εικονίδιο/el,نماد/fa,icône/fr,આઇકોન/gu,סמל/he,आइकन/hi,ikon/id,アイコン/ja,ಚಿಹ್ನೆ/kn,아이콘/ko,चिन्ह/mr,आइकन2/ne,ਆਈਕਨ/pa,ikona/pl,ícone/pt,pictogramă/ro,иконица/sr,சின்னம்/ta,ఐకాన్/te,icon/tl,simge/tr,biểuTượng/vi,图标/zh,ikon2/sv•'' label,etiqueta/es,تسمية/ar,লেবেল/as,লেবেল2/bn,beschriftung/de,ετικέτα/el,برچسب/fa,étiquette/fr,લેબલ/gu,תווית/he,लेबल/hi,label/id,ラベル/ja,ಲೇಬಲ್/kn,라벨/ko,नामपट्टी/mr,लेबल2/ne,ਲੇਬਲ/pa,etykieta/pl,etiqueta2/pt,etichetă/ro,натпис/sr,அடையாளம்2/ta,లేబుల్/te,label2/tl,etiket/tr,nhãn/vi,标签/zh,etikett/sv•'' hue,matiz/es,درجةاللون/ar,হিউ/as,farbton/de,απόχρωση2/el,طیفرنگ/fa,teinte2/fr,રંગછટા/gu,גוון/he,रंगत/hi,corakWarna/id,色相/ja,ಬಣ್ಣದಛಾಯೆ/kn,색조2/ko,रंगछटा2/mr,रङछाया/ne,ਰੰਗਤ/pa,odcień2/pl,matiz2/pt,nuanță/ro,нијанса2/sr,நிறத்தூய்மை/ta,హ్యూ/te,renkTonu/tr,sắcĐộ/vi,色相2/zh,হিউ2/bn,kulay2/tl,nyans2/sv•#°)
+
+¶All nineteen instruments, in the order the palette lists them.¶
+¶los diecinueve instrumentos, en el orden en que los lista la paleta.¶/es
+¶جميع الآلات الموسيقية التسع عشرة، بالترتيب الذي تسردها به اللوحة.¶/ar
+¶সকলো ঊনৈশটা বাদ্যযন্ত্ৰ, পেলেটে লিখা ক্ৰম অনুসৰি।¶/as
+¶প্যালেটে যেভাবে তালিকাভুক্ত করা হয়েছে সেই ক্রমে সবগুলো ঊনিশটি বাদ্যযন্ত্র।¶/bn
+¶Alle neunzehn Instrumente, in der Reihenfolge, in der die Palette sie auflistet.¶/de
+¶Και τα δεκαεννέα όργανα, με τη σειρά που τα παραθέτει η παλέτα.¶/el
+¶هر نوزده ساز، به همان ترتیبی که پالت فهرست می‌کند.¶/fa
+¶Les dix-neuf instruments, dans l'ordre où la palette les liste.¶/fr
+¶બધા ઓગણીસ વાદ્યો, જે ક્રમમાં પેલેટ તેમને યાદી આપે છે.¶/gu
+¶כל תשעה עשר כלי הנגינה, לפי הסדר שבו הפלטה מציגה אותם.¶/he
+¶सभी उन्नीस वाद्य यंत्र, उसी क्रम में जिस क्रम में पैलेट उन्हें सूचीबद्ध करता है।¶/hi
+¶Semua sembilan belas alat musik, sesuai urutan yang tercantum di palet.¶/id
+¶パレットが並べる順番どおりの、19種類すべての楽器です。¶/ja
+¶ಪ್ಯಾಲೆಟ್ ಪಟ್ಟಿ ಮಾಡುವ ಕ್ರಮದಲ್ಲಿ ಎಲ್ಲಾ ಹತ್ತೊಂಬತ್ತು ವಾದ್ಯಗಳು.¶/kn
+¶팔레트에 나열된 순서대로, 열아홉 가지 악기 모두입니다.¶/ko
+¶सगळी एकोणीस वादये, रंगपटलात दिलेल्या क्रमाने.¶/mr
+¶उन्नाइस वटै बाजा, प्यालेटले सूचीबद्ध गरेको क्रममा।¶/ne
+¶ਸਾਰੇ ਉਨੀ ਸਾਜ਼, ਉਸੇ ਕ੍ਰਮ ਵਿੱਚ ਜਿਸ ਤਰ੍ਹਾਂ ਪੈਲੇਟ ਉਹਨਾਂ ਨੂੰ ਸੂਚੀਬੱਧ ਕਰਦਾ ਹੈ।¶/pa
+¶Wszystkie dziewiętnaście instrumentów, w kolejności, w jakiej wymienia je paleta.¶/pl
+¶Os dezanove instrumentos, pela ordem em que a paleta os lista.¶/pt
+¶Toate cele nouăsprezece instrumente, în ordinea în care apar în paletă.¶/ro
+¶Свих деветнаест инструмената, редоследом којим их наводи палета.¶/sr
+¶பத்தொன்பது இசைக்கருவிகளும், தட்டு பட்டியலிடும் வரிசையில்.¶/ta
+¶పాలెట్ జాబితా చేసిన క్రమంలో, పంతొమ్మిది వాయిద్యాలన్నీ.¶/te
+¶Lahat ng labinsiyam na instrumento, ayon sa pagkakasunod-sunod ng listahan ng palette.¶/tl
+¶Paletin listelediği sırayla, on dokuz çalgının tamamı.¶/tr
+¶Cả mười chín nhạc cụ, theo đúng thứ tự mà bảng màu liệt kê.¶/vi
+¶全部十九种乐器，按调色板里列出的顺序排列。¶/zh
+¶Alla nitton instrument, i den ordning paletten listar dem.¶/sv
+↑ voices/en,voces/es,أصوات/ar,কণ্ঠস্বৰবোৰ/as,কণ্ঠস্বরসমূহ/bn,stimmen/de,φωνές/el,صداها/fa,voix3/fr,અવાજો/gu,קולות/he,आवाज़ें/hi,声一覧/ja,ಧ್ವನಿಗಳು/kn,음성들/ko,आवाज4/mr,स्वरहरू/ne,ਆਵਾਜ਼ਾਂ/pa,głosy/pl,vozes/pt,voci/ro,гласови/sr,குரல்கள்/ta,వాయిస్‌లు/te,mgaBoses/tl,sesler/tr,giọng2/vi,语音列表/zh,suara7/id,röster/sv•[Voice]: [
+		Voice(
+			🔈.🎹
+			'🎹'
+			'piano''piano'/es'بيانو'/ar'পিয়ানো'/as'পিয়ানো'/bn'Klavier'/de'πιάνο'/el'پیانو'/fa'piano'/fr'પિયાનો'/gu'פסנתר'/he'पियानो'/hi'piano'/id'ピアノ'/ja'ಪಿಯಾನೋ'/kn'피아노'/ko'पियानो'/mr'पियानो'/ne'ਪਿਆਨੋ'/pa'fortepian'/pl'piano'/pt'pian'/ro'клавир'/sr'பியானோ'/ta'పియానో'/te'piyano'/tl'piyano'/tr'đàn piano'/vi'钢琴'/zh'piano'/sv
+			260°
+		)
+		Voice(
+			🔈.🎸
+			'🎸'
+			'guitar''guitarra'/es'غيتار'/ar'গিটাৰ'/as'গিটার'/bn'Gitarre'/de'κιθάρα'/el'گیتار'/fa'guitare'/fr'ગિટાર'/gu'גיטרה'/he'गिटार'/hi'gitar'/id'ギター'/ja'ಗಿಟಾರ್'/kn'기타'/ko'गिटार'/mr'गितार'/ne'ਗਿਟਾਰ'/pa'gitara'/pl'guitarra'/pt'chitară'/ro'гитара'/sr'கிடார்'/ta'గిటార్'/te'gitara'/tl'gitar'/tr'đàn guitar'/vi'吉他'/zh'gitarr'/sv
+			20°
+		)
+		Voice(
+			🔈.⚡
+			'⚡'
+			'electric guitar''guitarra eléctrica'/es'غيتار كهربائي'/ar'বৈদ্যুতিক গিটাৰ'/as'ইলেকট্রিক গিটার'/bn'E-Gitarre'/de'ηλεκτρική κιθάρα'/el'گیتار برقی'/fa'guitare électrique'/fr'ઇલેક્ટ્રિક ગિટાર'/gu'גיטרה חשמלית'/he'इलेक्ट्रिक गिटार'/hi'gitar listrik'/id'エレキギター'/ja'ವಿದ್ಯುತ್ ಗಿಟಾರ್'/kn'일렉트릭 기타'/ko'इलेक्ट्रिक गिटार'/mr'बिजुली गितार'/ne'ਬਿਜਲਈ ਗਿਟਾਰ'/pa'gitara elektryczna'/pl'guitarra elétrica'/pt'chitară electrică'/ro'електрична гитара'/sr'மின் கிடார்'/ta'ఎలక్ట్రిక్ గిటార్'/te'elektrikong gitara'/tl'elektro gitar'/tr'đàn guitar điện'/vi'电吉他'/zh'elgitarr'/sv
+			5°
+		)
+		Voice(
+			🔈.🎻
+			'🎻'
+			'violin''violín'/es'كمان'/ar'বেহেলা'/as'ভায়োলিন'/bn'Geige'/de'βιολί'/el'ویولن'/fa'violon'/fr'વાયોલિન'/gu'כינור'/he'वायलिन'/hi'biola'/id'バイオリン'/ja'ಪಿಟೀಲು'/kn'바이올린'/ko'व्हायोलिन'/mr'बेला'/ne'ਵਾਇਲਿਨ'/pa'skrzypce'/pl'violino'/pt'vioară'/ro'виолина'/sr'வயலின்'/ta'వయొలిన్'/te'biyolin'/tl'keman'/tr'đàn violin'/vi'小提琴'/zh'fiol'/sv
+			40°
+		)
+		Voice(
+			🔈.🪈
+			'🪈'
+			'flute''flauta'/es'فلوت'/ar'বাঁহী'/as'বাঁশি'/bn'Flöte'/de'φλάουτο'/el'فلوت'/fa'flûte'/fr'વાંસળી'/gu'חליל'/he'बांसुरी'/hi'seruling'/id'フルート'/ja'ಕೊಳಲು'/kn'플루트'/ko'बांसुरी'/mr'बाँसुरी'/ne'ਬੰਸਰੀ'/pa'flet'/pl'flauta'/pt'flaut'/ro'флаута'/sr'புல்லாங்குழல்'/ta'ఫ్లూట్'/te'plauta'/tl'flüt'/tr'sáo'/vi'长笛'/zh'flöjt'/sv
+			180°
+		)
+		Voice(
+			🔈.🎺
+			'🎺'
+			'trumpet''trompeta'/es'بوق'/ar'তুৰী'/as'ট্রাম্পেট'/bn'Trompete'/de'τρομπέτα'/el'ترومپت'/fa'trompette'/fr'ટ્રમ્પેટ'/gu'חצוצרה'/he'तुरही'/hi'terompet'/id'トランペット'/ja'ಟ್ರಂಪೆಟ್'/kn'트럼펫'/ko'ट्रम्पेट'/mr'तुरही'/ne'ਤੁਰ੍ਹੀ'/pa'trąbka'/pl'trompete'/pt'trompetă'/ro'труба'/sr'டிரம்பெட்'/ta'ట్రంపెట్'/te'trumpeta'/tl'trompet'/tr'kèn trumpet'/vi'小号'/zh'trumpet'/sv
+			50°
+		)
+		Voice(
+			🔈.🎷
+			'🎷'
+			'saxophone''saxofón'/es'ساكسفون'/ar'শেক্সোফোন'/as'স্যাক্সোফোন'/bn'Saxophon'/de'σαξόφωνο'/el'ساکسوفون'/fa'saxophone'/fr'સેક્સોફોન'/gu'סקסופון'/he'सैक्सोफ़ोन'/hi'saksofon'/id'サックス'/ja'ಸ್ಯಾಕ್ಸೋಫೋನ್'/kn'색소폰'/ko'सॅक्सोफोन'/mr'स्याक्सोफोन'/ne'ਸੈਕਸੋਫ਼ੋਨ'/pa'saksofon'/pl'saxofone'/pt'saxofon'/ro'саксофон'/sr'சாக்சபோன்'/ta'సాక్సోఫోన్'/te'saxophone'/tl'saksafon'/tr'kèn saxophone'/vi'萨克斯风'/zh'saxofon'/sv
+			70°
+		)
+		Voice(
+			🔈.🌬
+			'🌬'
+			'harmonica''armónica'/es'هارمونيكا'/ar'হাৰ্মোনিকা'/as'হারমোনিকা'/bn'Mundharmonika'/de'φυσαρμόνικα'/el'هارمونیکا'/fa'harmonica'/fr'હાર્મોનિકા'/gu'מפוחית'/he'हारमोनिका'/hi'harmonika'/id'ハーモニカ'/ja'ಹಾರ್ಮೋನಿಕಾ'/kn'하모니카'/ko'हार्मोनिका'/mr'हार्मोनिका'/ne'ਹਾਰਮੋਨਿਕਾ'/pa'harmonijka ustna'/pl'harmónica'/pt'muzicuță'/ro'хармоника'/sr'ஹார்மோனிகா'/ta'హార్మోనికా'/te'harmonica'/tl'armonika'/tr'kèn harmonica'/vi'口琴'/zh'munspel'/sv
+			150°
+		)
+		Voice(
+			🔈.🔔
+			'🔔'
+			'bell''campana'/es'جرس'/ar'ঘণ্টা'/as'ঘণ্টা'/bn'Glocke'/de'κουδούνι'/el'زنگوله'/fa'cloche'/fr'ઘંટડી'/gu'פעמון'/he'घंटी'/hi'lonceng'/id'ベル'/ja'ಗಂಟೆ'/kn'종'/ko'घंटा'/mr'घण्टी'/ne'ਘੰਟੀ'/pa'dzwonek'/pl'sino'/pt'clopoțel'/ro'звоно'/sr'மணி'/ta'గంట'/te'kampanilya'/tl'çan'/tr'chuông'/vi'铃铛'/zh'klocka'/sv
+			55°
+		)
+		Voice(
+			🔈.🥁
+			'🥁'
+			'drums''tambores'/es'طبول'/ar'ডিম্ৰু'/as'ড্রাম'/bn'Trommeln'/de'τύμπανα'/el'طبل‌ها'/fa'tambours'/fr'ડ્રમ'/gu'תופים'/he'ढोल'/hi'drum'/id'ドラム'/ja'ಡ್ರಮ್‌ಗಳು'/kn'드럼'/ko'ढोल'/mr'ड्रम'/ne'ਢੋਲ'/pa'bębny'/pl'bateria'/pt'tobe'/ro'бубњеви'/sr'மேளங்கள்'/ta'డ్రమ్‌లు'/te'mga tambol'/tl'davullar'/tr'trống'/vi'鼓'/zh'trummor'/sv
+			0°
+		)
+		Voice(
+			🔈.didgeridoo
+			'🎶'
+			'didgeridoo''didgeridú'/es'ديجيريدو'/ar'ডিজেৰিডু'/as'ডিজেরিডু'/bn'Didgeridoo'/de'ντιτζεριντού'/el'دیجریدو'/fa'didgeridoo'/fr'ડિજરિડૂ'/gu"דידג'רידו"/he'डिजरीडू'/hi'didgeridoo'/id'ディジュリドゥ'/ja'ಡಿಜೆರಿಡೂ'/kn'디저리두'/ko'डिजेरिडू'/mr'डिजेरिडु'/ne'ਦੀਦਜਰੀਦੂ'/pa'didgeridoo'/pl'didgeridoo'/pt'didgeridoo'/ro'дидџериду'/sr'டிட்ஜரிடூ'/ta'డిజెరిడూ'/te'didgeridoo'/tl'didgeridoo'/tr'kèn didgeridoo'/vi'迪吉里杜管'/zh'didgeridoo'/sv
+			15°
+		)
+		Voice(
+			🔈.🐱
+			'🐱'
+			'cat''gato'/es'قطة'/ar'মেকুৰী'/as'বিড়াল'/bn'Katze'/de'γάτα'/el'گربه'/fa'chat'/fr'બિલાડી'/gu'חתול'/he'बिल्ली'/hi'kucing'/id'ねこ'/ja'ಬೆಕ್ಕು'/kn'고양이'/ko'मांजर'/mr'बिरालो'/ne'ਬਿੱਲੀ'/pa'kot'/pl'gato'/pt'pisică'/ro'мачка'/sr'பூனை'/ta'పిల్లి'/te'pusa'/tl'kedi'/tr'mèo'/vi'猫'/zh'katt'/sv
+			330°
+		)
+		Voice(
+			🔈.😺
+			'😺'
+			'tuned cat''gato afinado'/es'قطة مضبوطة'/ar'সুৰ মিলোৱা মেকুৰী'/as'টিউন করা বিড়াল'/bn'gestimmte Katze'/de'συντονισμένη γάτα'/el'گربهٔ کوک‌شده'/fa'chat accordé'/fr'ટ્યુન કરેલી બિલાડી'/gu'חתול מכוון'/he'सुर वाली बिल्ली'/hi'kucing bernada'/id'音程のついたねこ'/ja'ಶ್ರುತಿ ಮಾಡಿದ ಬೆಕ್ಕು'/kn'음정 고양이'/ko'सूर लावलेली मांजर'/mr'स्वर मिलाइएको बिरालो'/ne'ਸੁਰ ਵਾਲੀ ਬਿੱਲੀ'/pa'nastrojony kot'/pl'gato afinado'/pt'pisică acordată'/ro'уштимана мачка'/sr'சுரம் கூட்டப்பட்ட பூனை'/ta'శృతి చేసిన పిల్లి'/te'pusang naka-tono'/tl'akort edilmiş kedi'/tr'mèo lên dây'/vi'调音猫'/zh'stämd katt'/sv
+			350°
+		)
+		Voice(
+			🔈.🐶
+			'🐶'
+			'dog''perro'/es'كلب'/ar'কুকুৰ'/as'কুকুর'/bn'Hund'/de'σκύλος'/el'سگ'/fa'chien'/fr'કૂતરો'/gu'כלב'/he'कुत्ता'/hi'anjing'/id'いぬ'/ja'ನಾಯಿ'/kn'개'/ko'कुत्रा'/mr'कुकुर'/ne'ਕੁੱਤਾ'/pa'pies'/pl'cão'/pt'câine'/ro'пас'/sr'நாய்'/ta'కుక్క'/te'aso'/tl'köpek'/tr'chó'/vi'狗'/zh'hund'/sv
+			35°
+		)
+		Voice(
+			🔈.🐕
+			'🐕'
+			'tuned dog''perro afinado'/es'كلب مضبوط'/ar'সুৰ মিলোৱা কুকুৰ'/as'টিউন করা কুকুর'/bn'gestimmter Hund'/de'συντονισμένος σκύλος'/el'سگ کوک‌شده'/fa'chien accordé'/fr'ટ્યુન કરેલો કૂતરો'/gu'כלב מכוון'/he'सुर वाला कुत्ता'/hi'anjing bernada'/id'音程のついたいぬ'/ja'ಶ್ರುತಿ ಮಾಡಿದ ನಾಯಿ'/kn'음정 개'/ko'सूर लावलेला कुत्रा'/mr'स्वर मिलाइएको कुकुर'/ne'ਸੁਰ ਵਾਲਾ ਕੁੱਤਾ'/pa'nastrojony pies'/pl'cão afinado'/pt'câine acordat'/ro'уштиман пас'/sr'சுரம் கூட்டப்பட்ட நாய்'/ta'శృతి చేసిన కుక్క'/te'asong naka-tono'/tl'akort edilmiş köpek'/tr'chó lên dây'/vi'调音狗'/zh'stämd hund'/sv
+			125°
+		)
+		Voice(
+			🔈.🎛
+			'🎛'
+			'synthesizer''sintetizador'/es'آلة موسيقية إلكترونية'/ar'ছিণ্থছাইজাৰ'/as'সিন্থেসাইজার'/bn'Synthesizer'/de'συνθεσάιζερ'/el'سینتی‌سایزر'/fa'synthétiseur'/fr'સિન્થેસાઈઝર'/gu'סינתיסייזר'/he'सिंथेसाइज़र'/hi'synthesizer'/id'シンセサイザー'/ja'ಸಿಂಥಸೈಜರ್'/kn'신시사이저'/ko'सिंथेसायझर'/mr'सिन्थेसाइजर'/ne'ਸਿੰਥੇਸਾਈਜ਼ਰ'/pa'syntezator'/pl'sintetizador'/pt'sintetizator'/ro'синтисајзер'/sr'ஒலி உருவாக்கி'/ta'సింథసైజర్'/te'sintesisador'/tl'sentezleyici'/tr'máy tổng hợp âm thanh'/vi'合成器'/zh'synt'/sv
+			290°
+		)
+		Voice(
+			🔈.synthBass
+			'🎛'
+			'synth bass''bajo sintetizado'/es'جهير إلكتروني'/ar'ছিণ্থ বেছ'/as'সিন্থ বেস'/bn'Synth-Bass'/de'συνθετικό μπάσο'/el'بیس سینتی'/fa'basse synthétique'/fr'સિન્થ બેસ'/gu'בס סינתטי'/he'सिंथ बेस'/hi'synth bass'/id'シンセベース'/ja'ಸಿಂಥ್ ಬೇಸ್'/kn'신스 베이스'/ko'सिंथ बेस'/mr'सिन्थ बास'/ne'ਸਿੰਥ ਬੇਸ'/pa'syntetyczny bas'/pl'baixo sintetizado'/pt'bas sintetizat'/ro'синт бас'/sr'ஒலி உருவாக்கி பேஸ்'/ta'సింథ్ బాస్'/te'synth bass'/tl'sentezleyici bas'/tr'bass tổng hợp'/vi'合成贝斯'/zh'synt-bas'/sv
+			310°
+		)
+		Voice(
+			🔈.synthPad
+			'🎛'
+			'synth pad''pad sintetizado'/es'وسادة صوتية إلكترونية'/ar'ছিণ্থ পেড'/as'সিন্থ প্যাড'/bn'Synth-Pad'/de'συνθετικό χαλί ήχου'/el'پد سینتی'/fa'nappe synthétique'/fr'સિન્થ પેડ'/gu'רפידת סינתיסייזר'/he'सिंथ पैड'/hi'synth pad'/id'シンセパッド'/ja'ಸಿಂಥ್ ಪ್ಯಾಡ್'/kn'신스 패드'/ko'सिंथ पॅड'/mr'सिन्थ प्याड'/ne'ਸਿੰਥ ਪੈਡ'/pa'syntetyczna podkładka'/pl'almofada sintetizada'/pt'pernă de sintetizator'/ro'синт подлога'/sr'ஒலி உருவாக்கி பாட்'/ta'సింథ్ ప్యాడ్'/te'synth pad'/tl'sentezleyici pad'/tr'đệm âm tổng hợp'/vi'合成铺底音色'/zh'synt-matta'/sv
+			200°
+		)
+		Voice(
+			🔈.🤖
+			'🤖'
+			'voice''voz'/es'صوت'/ar'কণ্ঠ'/as'কণ্ঠস্বর'/bn'Stimme'/de'φωνή'/el'صدا'/fa'voix'/fr'અવાજ'/gu'קול'/he'आवाज़'/hi'suara'/id'声'/ja'ಧ್ವನಿ'/kn'목소리'/ko'आवाज'/mr'आवाज'/ne'ਆਵਾਜ਼'/pa'głos'/pl'voz'/pt'voce'/ro'глас'/sr'குரல்'/ta'స్వరం'/te'boses'/tl'ses'/tr'giọng nói'/vi'人声'/zh'röst'/sv
+			95°
+		)
+	]
+
+¶The entry for an instrument, or nothing if it somehow isn't one of the nineteen. Ask with \voiceFor(
+	🔈.🥁
+)\.¶
+¶La entrada para un instrumento, o nada si de alguna forma no es uno de los diecinueve. Pregunta con \voiceFor(
+	🔈.🥁
+)\.¶/es
+¶المدخل الخاص بآلة موسيقية، أو لا شيء إن لم تكن بطريقة ما واحدة من التسع عشرة آلة. اسأل باستخدام \voiceFor(
+	🔈.🥁
+)\.¶/ar
+¶এটা বাদ্যযন্ত্ৰৰ প্ৰবিষ্টি, বা যদি কোনোবাখিনিয়ে ঊনৈশটাৰ এটাও নহয় তেন্তে একো নাই। ইয়াক সোধক \voiceFor(
+	🔈.🥁
+)\।¶/as
+¶একটি বাদ্যযন্ত্রের জন্য এন্ট্রি, অথবা যদি এটি কোনোভাবে ঊনিশটির একটি না হয় তবে কিছুই না। জিজ্ঞাসা করো \voiceFor(
+	🔈.🥁
+)\।¶/bn
+¶Der Eintrag für ein Instrument, oder nichts, falls es irgendwie keins der neunzehn ist. Frag mit \voiceFor(
+	🔈.🥁
+)\.¶/de
+¶Η καταχώρηση για ένα όργανο, ή τίποτα αν με κάποιο τρόπο δεν είναι ένα από τα δεκαεννιά. Ρώτησε με \voiceFor(
+	🔈.🥁
+)\.¶/el
+¶ورودی مربوط به یک ساز، یا هیچ‌چیز اگر به‌نوعی جزء آن نوزده ساز نباشد. با این بپرس: \voiceFor(
+	🔈.🥁
+)\.¶/fa
+¶L'entrée d'un instrument, ou rien si ce n'est d'une manière ou d'une autre pas l'un des dix-neuf. Demande avec \voiceFor(
+	🔈.🥁
+)\.¶/fr
+¶કોઈ વાદ્ય માટેની નોંધ, અથવા જો તે કોઈક રીતે ઓગણીસમાંનું એક ન હોય તો કંઈ નહીં. પૂછો \voiceFor(
+	🔈.🥁
+)\.¶/gu
+¶הערך של כלי נגינה, או כלום אם הוא איכשהו לא אחד מתשעה עשר הכלים. שאל עם \voiceFor(
+	🔈.🥁
+)\.¶/he
+¶किसी बाजे की एंट्री, या अगर वह उन्नीस में से एक नहीं है तो कुछ नहीं। इससे पूछें \voiceFor(
+	🔈.🥁
+)\।¶/hi
+¶Entri untuk sebuah alat musik, atau tidak ada apa-apa jika ternyata bukan salah satu dari sembilan belas alat musik itu. Tanyakan dengan \voiceFor(
+	🔈.🥁
+)\.¶/id
+¶楽器の項目。もし19種類の楽器のどれにも当てはまらないときは、何も返しません。次で聞いてみましょう \voiceFor(
+	🔈.🥁
+)\。¶/ja
+¶ಒಂದು ವಾದ್ಯದ ನಮೂದು, ಅಥವಾ ಅದು ಆ ಹತ್ತೊಂಬತ್ತರಲ್ಲಿ ಒಂದಲ್ಲದಿದ್ದರೆ ಏನೂ ಇಲ್ಲ. ಇದನ್ನು ಕೇಳಿ \voiceFor(
+	🔈.🥁
+)\.¶/kn
+¶한 악기에 대한 항목입니다. 열아홉 가지 악기 중 하나가 아니라면 아무것도 나오지 않습니다. \voiceFor(
+	🔈.🥁
+)\.¶/ko
+¶एखाद्या वाद्याची नोंद, किंवा ते एकोणीस वाद्यांपैकी एक नसेल तर काहीही नाही. यासाठी विचारा \voiceFor(
+	🔈.🥁
+)\.¶/mr
+¶कुनै बाजाको प्रविष्टि, वा त्यो उन्नाइस बाजामध्ये कुनै पनि नभए केही पनि होइन। यसरी सोध्नुहोस् \voiceFor(
+	🔈.🥁
+)\।¶/ne
+¶ਕਿਸੇ ਸਾਜ਼ ਲਈ ਐਂਟਰੀ, ਜਾਂ ਕੁਝ ਵੀ ਨਹੀਂ ਜੇ ਇਹ ਕਿਸੇ ਤਰ੍ਹਾਂ ਉਨ੍ਹੀਆਂ ਵਿੱਚੋਂ ਇੱਕ ਨਹੀਂ ਹੈ। ਇਹਦੇ ਨਾਲ ਪੁੱਛੋ \voiceFor(
+	🔈.🥁
+)\।¶/pa
+¶Wpis dla instrumentu, albo nic, jeśli to jakoś nie jest jeden z dziewiętnastu. Zapytaj o to za pomocą \voiceFor(
+	🔈.🥁
+)\.¶/pl
+¶A entrada para um instrumento, ou nada se por alguma razão não for um dos dezanove. Pergunte com \voiceFor(
+	🔈.🥁
+)\.¶/pt
+¶Intrarea pentru un instrument, sau nimic dacă acesta nu este, cumva, unul dintre cele nouăsprezece. Întreabă cu \voiceFor(
+	🔈.🥁
+)\.¶/ro
+¶Унос за инструмент, или ништа ако некако није један од деветнаест. Питај помоћу \voiceFor(
+	🔈.🥁
+)\.¶/sr
+¶ஒரு இசைக்கருவிக்கான பதிவு, அல்லது அது பத்தொன்பதில் ஒன்றாக இல்லாவிட்டால் ஒன்றும் இல்லை. இதனுடன் கேளுங்கள் \voiceFor(
+	🔈.🥁
+)\.¶/ta
+¶ఒక వాయిద్యం కోసం ఉన్న ఎంట్రీ, లేదా అది పంతొమ్మిది వాయిద్యాల్లో ఒకటి కాకపోతే ఏమీ ఉండదు. దీన్ని ఇలా అడగండి \voiceFor(
+	🔈.🥁
+)\.¶/te
+¶Ang entri para sa isang instrumento, o wala kung sa anumang paraan ay hindi ito isa sa labinsiyam. Magtanong gamit ang \voiceFor(
+	🔈.🥁
+)\.¶/tl
+¶Bir çalgı için giriş, ya da o çalgı bir şekilde ondokuzdan biri değilse hiçbir şey. Şununla sor: \voiceFor(
+	🔈.🥁
+)\.¶/tr
+¶Mục ghi cho một nhạc cụ, hoặc không có gì nếu nó không phải là một trong mười chín nhạc cụ. Hỏi bằng \voiceFor(
+	🔈.🥁
+)\.¶/vi
+¶某种乐器的条目，如果它不属于这十九种乐器之一，就什么都没有。用 \voiceFor(🔈.🥁)\。¶/zh
+¶Posten för ett instrument, eller inget om det på något sätt inte är ett av de nitton. Fråga med \voiceFor(
+	🔈.🥁
+)\.¶/sv
+↑ ƒ voiceFor/en,vozPara/es,صوتلـ/ar,বাবেকণ্ঠস্বৰ/as,যারজন্যকণ্ঠস্বর/bn,stimmeFür/de,φωνήΓια/el,صدابرای/fa,voixPour/fr,માટેઅવાજ/gu,קולעבור/he,केलिएआवाज़/hi,suaraUntuk/id,のための声/ja,ಇದಕ್ಕಾಗಿಧ್ವನಿ/kn,음성대상/ko,साठीआवाज/mr,कोलागिस्वर/ne,ਇਸਲਈਆਵਾਜ਼/pa,głosDla/pl,vozPara2/pt,vocePentru/ro,гласЗа/sr,இதற்கானகுரல்/ta,దీనికివాయిస్/te,bosesParaSa/tl,şununIçinSes/tr,giọngCho/vi,对应的语音/zh,röstFör/sv(sound,sonido2/es,صوت4/ar,শব্দ4/as,শব্দ8/bn,klang2/de,ήχος2/el,صدا4/fa,son2/fr,ધ્વનિ2/gu,צליל2/he,ध्वनि2/hi,suara4/id,音2/ja,ಶಬ್ದ2/kn,소리2/ko,आवाज5/mr,आवाज9/ne,ਧੁਨੀ2/pa,dźwięk2/pl,som2/pt,sunet3/ro,звук2/sr,ஒலி2/ta,ధ్వని3/te,tunog2/tl,ses4/tr,âmThanh2/vi,声音3/zh,ljud2/sv•🔈)•Voice|ø voices.find(
+		ƒ(v,v/es,ص/ar,v2/as,v3/bn,v4/de,v5/el,v6/fa,v7/fr,v8/gu,v9/he,v10/hi,v11/id,v12/ja,v13/kn,v14/ko,v15/mr,v16/ne,v17/pa,g/pl,v18/pt,v19/ro,в/sr,v20/ta,v21/te,v22/tl,v23/tr,v24/vi,v25/zh,v26/sv•Voice) v.sound = sound
+	)
+
+¶The character to show for an instrument, so you can put it on a button or a phrase, like \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶
+¶El carácter que se muestra para un instrumento, para que puedas ponerlo en un botón o en una frase, como \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/es
+¶الرمز الذي يظهر لآلة موسيقية، حتى تتمكن من وضعه على زر أو عبارة، مثل \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/ar
+¶এটা বাদ্যযন্ত্ৰৰ বাবে দেখুৱাব লগা আখৰটো, যাতে আপুনি ইয়াক এটা বুটাম বা এটা বাক্যাংশত ৰাখিব পাৰে, যেনে \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\।¶/as
+¶একটি বাদ্যযন্ত্র দেখানোর জন্য অক্ষর, যাতে তুমি এটিকে একটি বোতামে বা একটি ফ্রেজে বসাতে পারো, যেমন \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\।¶/bn
+¶Das Zeichen, das für ein Instrument angezeigt wird, damit du es auf eine Schaltfläche oder einen Satz setzen kannst, wie \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/de
+¶Ο χαρακτήρας που εμφανίζεται για ένα όργανο, ώστε να μπορείς να τον βάλεις σε ένα κουμπί ή σε μια φράση, όπως \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/el
+¶نویسه‌ای که برای یک ساز نمایش داده می‌شود، تا بتوانی آن را روی یک دکمه یا یک عبارت بگذاری، مثل \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/fa
+¶Le caractère à montrer pour un instrument, pour que tu puisses le mettre sur un bouton ou une phrase, comme \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/fr
+¶કોઈ વાદ્ય માટે બતાવવાનું ચિહ્ન, જેથી તમે તેને કોઈ બટન અથવા વાક્ય પર મૂકી શકો, જેમ કે \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/gu
+¶התו להצגה עבור כלי נגינה, כדי שתוכל לשים אותו על כפתור או על ביטוי, כמו \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/he
+¶किसी बाजे के लिए दिखाया जाने वाला अक्षर, ताकि आप इसे किसी बटन या वाक्यांश पर लगा सकें, जैसे \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\।¶/hi
+¶Karakter yang ditampilkan untuk sebuah alat musik, supaya kamu bisa menaruhnya pada tombol atau frasa, seperti \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/id
+¶楽器を表すために表示する文字です。ボタンやフレーズに使うことができます。たとえば \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\。¶/ja
+¶ಒಂದು ವಾದ್ಯಕ್ಕೆ ತೋರಿಸಬೇಕಾದ ಅಕ್ಷರ, ಇದರಿಂದ ನೀವು ಅದನ್ನು ಒಂದು ಗುಂಡಿಯ ಮೇಲೆ ಅಥವಾ ಒಂದು ಪದಗುಚ್ಛದ ಮೇಲೆ ಇಡಬಹುದು, ಉದಾಹರಣೆಗೆ \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/kn
+¶악기를 나타낼 때 쓰는 글자입니다. 버튼이나 구절에 넣을 수 있습니다, 예를 들어 \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/ko
+¶एखाद्या वाद्यासाठी दाखवायचे चिन्ह, जेणेकरून तुम्ही ते एखाद्या बटणावर किंवा वाक्यांशावर ठेवू शकता, जसे \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/mr
+¶कुनै बाजालाई देखाउन प्रयोग हुने चिन्ह, ताकि तपाईं यसलाई बटन वा वाक्यांशमा राख्न सक्नुहुन्छ, जस्तै \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\।¶/ne
+¶ਕਿਸੇ ਸਾਜ਼ ਲਈ ਦਿਖਾਉਣ ਵਾਲਾ ਅੱਖਰ, ਤਾਂ ਜੋ ਤੁਸੀਂ ਇਸਨੂੰ ਕਿਸੇ ਬਟਨ ਜਾਂ ਵਾਕ ਉੱਤੇ ਪਾ ਸਕੋ, ਜਿਵੇਂ \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\।¶/pa
+¶Znak, który ma być pokazany dla instrumentu, żebyś mógł go umieścić na przycisku albo w wyrażeniu, na przykład \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/pl
+¶O carácter a mostrar para um instrumento, para o poder colocar num botão ou numa frase, como \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/pt
+¶Caracterul de afișat pentru un instrument, ca să-l poți pune pe un buton sau într-o frază, cum ar fi \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/ro
+¶Знак који се приказује за инструмент, да га можеш ставити на дугме или фразу, као \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/sr
+¶ஒரு இசைக்கருவிக்காக காட்ட வேண்டிய எழுத்து, இதனால் நீங்கள் அதை ஒரு பொத்தானிலோ அல்லது ஒரு சொற்றொடரிலோ வைக்கலாம், இதுபோல \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/ta
+¶ఒక వాయిద్యానికి చూపించాల్సిన అక్షరం, దీన్ని మీరు ఒక బటన్ మీద లేదా ఒక పదబంధం మీద పెట్టవచ్చు, ఇలా \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/te
+¶Ang karakter na ipapakita para sa isang instrumento, para maisama mo ito sa isang buton o isang parirala, tulad ng \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/tl
+¶Bir çalgı için gösterilecek karakter. Onu bir düğmeye ya da bir tümceye koyabilirsin, mesela \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/tr
+¶Ký tự để hiển thị cho một nhạc cụ, để bạn có thể đặt nó lên một nút bấm hoặc một cụm từ, như \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/vi
+¶用来代表某种乐器的字符，你可以把它放在按钮或短语上，比如 \Phrase(iconFor(🔈.🎻) 3m)\。¶/zh
+¶Tecknet som visas för ett instrument, så att du kan sätta det på en knapp eller en fras, till exempel \Phrase(
+	iconFor(🔈.🎻)
+	3m
+)\.¶/sv
+↑ ƒ iconFor/en,íconoPara/es,أيقونةلـ/ar,বাবেআইকন/as,যারজন্যআইকন/bn,symbolFür/de,εικονίδιοΓια/el,نمادبرای/fa,icônePour/fr,માટેઆઇકોન/gu,סמלעבור/he,केलिएआइकन/hi,ikonUntuk/id,のためのアイコン/ja,ಇದಕ್ಕಾಗಿಚಿಹ್ನೆ/kn,아이콘대상/ko,साठीचिन्ह/mr,कोलागिआइकन/ne,ਇਸਲਈਆਈਕਨ/pa,ikonaDla/pl,íconePara/pt,pictogramăPentru/ro,иконицаЗа/sr,இதற்கானசின்னம்/ta,దీనికిఐకాన్/te,iconParaSa/tl,şununIçinSimge/tr,biểuTượngCho/vi,对应的图标/zh,ikonFör/sv(sound,sonido3/es,صوت5/ar,শব্দ5/as,শব্দ9/bn,klang3/de,ήχος3/el,صدا5/fa,son3/fr,ધ્વનિ3/gu,צליל3/he,ध्वनि3/hi,suara5/id,音3/ja,ಶಬ್ದ3/kn,소리3/ko,आवाज6/mr,आवाज10/ne,ਧੁਨੀ3/pa,dźwięk3/pl,som3/pt,sunet4/ro,звук3/sr,ஒலி3/ta,ధ్వని4/te,tunog3/tl,ses5/tr,âmThanh3/vi,声音4/zh,ljud3/sv•🔈)•'' (
+		found,encontrado/es,وُجد/ar,পোৱাগʼল/as,পাওয়াগেছে/bn,gefunden/de,βρέθηκε/el,پیداشد/fa,trouvé/fr,મળ્યું/gu,נמצא/he,मिला/hi,ditemukan/id,見つかった/ja,ಸಿಕ್ಕಿತು/kn,찾음/ko,सापडले/mr,भेटियो/ne,ਮਿਲਿਆ/pa,znaleziono/pl,encontrado3/pt,găsit/ro,пронађено/sr,கிடைத்தது/ta,దొరికింది/te,nahanap/tl,bulundu/tr,đãTìmThấy/vi,已找到/zh,hittad/sv: voiceFor(
+				sound
+			)
+		found•Voice ? found.icon unknownIcon)
+
+¶The hue to colour an instrument with, so two instruments never look alike. Colour something with \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶
+¶El matiz con el que se colorea un instrumento, para que dos instrumentos nunca se vean igual. Colorea algo con \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/es
+¶درجة اللون التي تُلوَّن بها آلة موسيقية، حتى لا تتشابه آلتان أبدًا في المظهر. لوّن شيئًا باستخدام \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/ar
+¶এটা বাদ্যযন্ত্ৰক ৰং কৰিবলৈ ব্যৱহাৰ কৰা ৰঙাভা, যাতে দুটা বাদ্যযন্ত্ৰ কেতিয়াও একে দেখা নাযায়। কিবা এটা ৰং কৰক \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\।¶/as
+¶একটি বাদ্যযন্ত্রকে রং করার রঙ, যাতে দুটি বাদ্যযন্ত্র কখনো একরকম না দেখায়। কিছু রং করো এই দিয়ে \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\।¶/bn
+¶Der Farbton, mit dem ein Instrument eingefärbt wird, damit zwei Instrumente nie gleich aussehen. Färbe etwas mit \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/de
+¶Η απόχρωση με την οποία χρωματίζεται ένα όργανο, ώστε δύο όργανα να μη μοιάζουν ποτέ μεταξύ τους. Χρωμάτισε κάτι με \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/el
+¶رنگی که یک ساز با آن رنگ‌آمیزی می‌شود، تا هیچ دو سازی شبیه هم به‌نظر نرسند. چیزی را رنگ کن با \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/fa
+¶La teinte pour colorer un instrument, pour que deux instruments ne se ressemblent jamais. Colore quelque chose avec \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/fr
+¶કોઈ વાદ્યને રંગવા માટેનો રંગછટા, જેથી બે વાદ્યો ક્યારેય એકસરખા ન દેખાય. કંઈકને રંગો \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/gu
+¶הגוון לצביעת כלי נגינה, כדי שלעולם לא ייראו שני כלים אותו הדבר. צבע משהו עם \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/he
+¶किसी बाजे को रंगने के लिए रंगत, ताकि दो बाजे कभी एक जैसे न दिखें। किसी चीज़ को इससे रंगें \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\।¶/hi
+¶Warna untuk mewarnai sebuah alat musik, supaya dua alat musik tidak pernah terlihat sama. Warnai sesuatu dengan \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/id
+¶楽器を塗る色あいです。2つの楽器が同じ見た目にならないようにします。何かに色をつけるには \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\。¶/ja
+¶ಒಂದು ವಾದ್ಯಕ್ಕೆ ಬಣ್ಣ ಹಚ್ಚಲು ಬಳಸುವ ವರ್ಣಚ್ಛಾಯೆ, ಇದರಿಂದ ಎರಡು ವಾದ್ಯಗಳು ಎಂದಿಗೂ ಒಂದೇ ರೀತಿ ಕಾಣುವುದಿಲ್ಲ. ಇದನ್ನು ಬಳಸಿ ಬಣ್ಣ ಹಚ್ಚಿ \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/kn
+¶악기를 칠할 색조입니다. 이 색조 덕분에 두 악기가 똑같아 보이지 않습니다. 무언가를 색칠하려면 \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/ko
+¶एखाद्या वाद्याला रंगवण्यासाठीची छटा, जेणेकरून कोणतीही दोन वाद्ये कधीच सारखी दिसणार नाहीत. याने काहीतरी रंगवा \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/mr
+¶कुनै बाजालाई रङ दिन प्रयोग हुने रङच्छटा, ताकि दुई बाजा कहिल्यै उस्तै नदेखियून्। यसलाई यसरी रङ दिनुहोस् \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\।¶/ne
+¶ਕਿਸੇ ਸਾਜ਼ ਨੂੰ ਰੰਗਣ ਲਈ ਰੰਗਤ, ਤਾਂ ਜੋ ਦੋ ਸਾਜ਼ ਕਦੇ ਇੱਕੋ ਜਿਹੇ ਨਾ ਦਿਸਣ। ਕਿਸੇ ਚੀਜ਼ ਨੂੰ ਰੰਗੋ \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\।¶/pa
+¶Barwa, na którą pokolorowany jest instrument, żeby dwa instrumenty nigdy nie wyglądały tak samo. Pokoloruj coś za pomocą \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/pl
+¶O tom para colorir um instrumento, para que dois instrumentos nunca pareçam iguais. Colora algo com \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/pt
+¶Nuanța cu care se colorează un instrument, ca să nu semene niciodată două instrumente. Colorează ceva cu \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/ro
+¶Нијанса којом се обоји инструмент, тако да два инструмента никад не изгледају исто. Обоји нешто помоћу \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/sr
+¶ஒரு இசைக்கருவிக்கு நிறமூட்ட வேண்டிய நிறத்தொனி, இதனால் இரண்டு இசைக்கருவிகளும் ஒரே மாதிரி தோன்றாது. இதனுடன் ஒன்றை நிறமூட்டுங்கள் \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/ta
+¶ఒక వాయిద్యానికి రంగు వేయడానికి ఉండే వర్ణం, తద్వారా రెండు వాయిద్యాలు ఎప్పుడూ ఒకేలా కనిపించవు. దీంతో దేనికైనా రంగు వేయండి \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/te
+¶Ang kulay na gagamitin para sa isang instrumento, para hindi kailanman magkamukha ang dalawang instrumento. Kulayan ang isang bagay gamit ang \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/tl
+¶Bir çalgıyı renklendirmek için kullanılan renk tonu, böylece iki çalgı asla birbirine benzemez. Bir şeyi şununla renklendir: \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/tr
+¶Sắc màu để tô cho một nhạc cụ, để hai nhạc cụ không bao giờ trông giống nhau. Tô màu một thứ gì đó bằng \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/vi
+¶给某种乐器上色用的色相，这样两种乐器就不会看起来一样。用 \Color(60% 80 hueFor(🔈.🎺))\。¶/zh
+¶Färgtonen som ett instrument målas med, så att inga två instrument ser likadana ut. Färglägg något med \Color(
+	60%
+	80
+	hueFor(🔈.🎺)
+)\.¶/sv
+↑ ƒ hueFor/en,matizPara/es,درجةاللونلـ/ar,বাবেহিউ/as,farbtonFür/de,απόχρωσηΓια/el,طیفرنگبرای/fa,teintePour/fr,માટેરંગછટા/gu,גווןעבור/he,केलिएरंगत/hi,corakWarnaUntuk/id,のための色相/ja,ಇದಕ್ಕಾಗಿಬಣ್ಣದಛಾಯೆ/kn,색조대상/ko,साठीरंगछटा/mr,कोलागिरङछाया/ne,ਇਸਲਈਰੰਗਤ/pa,odcieńDla/pl,matizPara2/pt,nuanțăPentru/ro,нијансаЗа/sr,இதற்கானநிறத்தூய்மை/ta,దీనికిహ్యూ/te,şununIçinRenkTonu/tr,sắcĐộCho/vi,对应的色相/zh,হিউযারজন্য/bn,kulayParaKay/tl,nyansFör/sv(sound,sonido4/es,صوت6/ar,শব্দ6/as,শব্দ10/bn,klang4/de,ήχος4/el,صدا6/fa,son4/fr,ધ્વનિ4/gu,צליל4/he,ध्वनि4/hi,suara6/id,音4/ja,ಶಬ್ದ4/kn,소리4/ko,आवाज7/mr,आवाज11/ne,ਧੁਨੀ4/pa,dźwięk4/pl,som4/pt,sunet5/ro,звук4/sr,ஒலி4/ta,ధ్వని5/te,tunog4/tl,ses6/tr,âmThanh4/vi,声音5/zh,ljud4/sv•🔈)•#° (
+		found,encontrado2/es,وُجد2/ar,পোৱাগʼল2/as,পাওয়াগেছে2/bn,gefunden2/de,βρέθηκε2/el,پیداشد2/fa,trouvé2/fr,મળ્યું2/gu,נמצא2/he,मिला2/hi,ditemukan2/id,見つかった2/ja,ಸಿಕ್ಕಿತು2/kn,찾음2/ko,सापडले2/mr,भेटियो2/ne,ਮਿਲਿਆ2/pa,znaleziono2/pl,encontrado4/pt,găsit2/ro,пронађено2/sr,கிடைத்தது2/ta,దొరికింది2/te,nahanap2/tl,bulundu2/tr,đãTìmThấy2/vi,已找到2/zh,hittad2/sv: voiceFor(
+				sound
+			)
+		found•Voice ? found.hue 0°)

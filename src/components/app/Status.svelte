@@ -45,6 +45,7 @@
         characters: (l) => l.ui.save.sync.characters,
         howtos: (l) => l.ui.save.sync.howtos,
         chats: (l) => l.ui.save.sync.chats,
+        kits: (l) => l.ui.save.sync.kits,
     };
 
     /** Map each save-failure reason to the locale accessor for its explanation.
@@ -82,6 +83,13 @@
         characters: DB.Characters.saveCounts,
         howtos: DB.HowTos.saveCounts,
         chats: DB.Chats.saveCounts,
+        // Zeroes until the kit database loads, for the reason projects gives above:
+        // this renders in the footer on every page.
+        kits: DB.MaybeKits?.saveCounts ?? {
+            device: 0,
+            cloud: 0,
+            unsaved: 0,
+        },
     });
 
     /** Total items across all domains with edits not yet saved online. */

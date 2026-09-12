@@ -4,6 +4,7 @@
  * projects and evaluators — and document the reactivity contract — in one
  * place.
  */
+import type { ExampleScope } from '@components/project/Contexts';
 import type { Database } from '@db/Database';
 import Project from '@db/projects/Project';
 import type LocaleText from '@locale/LocaleText';
@@ -12,20 +13,45 @@ import Source from '@nodes/Source';
 import type Spaces from '@parser/Spaces';
 import Evaluator from '@runtime/Evaluator';
 
-/** Make a self-contained project for a markup example's program. */
+/**
+ * Make a project for a markup example's program — self-contained by default, which is
+ * what an ordinary doc or how-to example is.
+ *
+ * A `scope` makes it not: a kit's examples name the kit's own definitions, which an
+ * example built from itself alone resolves none of. See {@link ExampleScope}.
+ */
 export function makeExampleProject(
     name: string,
     program: Program,
     spaces: Spaces,
     locales: LocaleText[],
+    scope?: ExampleScope | undefined,
 ): Project {
-    return Project.make(
-        null,
-        name,
-        new Source(name, [program, spaces]),
-        [],
-        locales,
-    );
+    const project =
+        scope === undefined
+            ? Project.make(
+                  null,
+                  name,
+                  new Source(name, [program, spaces]),
+                  [],
+                  locales,
+              )
+            : Project.make(
+                  null,
+                  name,
+                  // Built from text rather than from the parsed program, because the
+                  // prelude has to be parsed as part of the same source for its borrow to
+                  // bind anything in it.
+                  new Source(
+                      name,
+                      `${scope.prelude}\n${program.toWordplay(spaces)}`,
+                  ),
+                  [],
+                  locales,
+              );
+    return scope === undefined
+        ? project
+        : project.withDependencies(scope.dependencies);
 }
 
 /**

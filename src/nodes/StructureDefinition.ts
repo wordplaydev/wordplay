@@ -55,6 +55,7 @@ import type TypeSet from '@nodes/TypeSet';
 import TypeToken from '@nodes/TypeToken';
 import TypeVariables from '@nodes/TypeVariables';
 import { getEvaluationInputConflicts } from '@nodes/util';
+import { getPublishedShareConflicts } from '@nodes/publishedShare';
 
 export default class StructureDefinition extends DefinitionExpression {
     readonly docs: Docs;
@@ -209,7 +210,13 @@ export default class StructureDefinition extends DefinitionExpression {
                 getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
                 label: undefined,
             },
-            { name: 'type', kind: node(Sym.Type), label: undefined },
+            {
+                name: 'type',
+                kind: node(Sym.Type),
+                // Separated from a preceding `↑`, as `FunctionDefinition`'s `ƒ` is.
+                space: true,
+                label: undefined,
+            },
             { name: 'names', kind: node(Names), label: undefined },
             {
                 name: 'interfaces',
@@ -423,6 +430,9 @@ export default class StructureDefinition extends DefinitionExpression {
         conflicts = conflicts.concat(
             getKeywordShadowConflicts(this, this.names),
         );
+
+        // What a `↑` owes its readers, once this source is published (#8).
+        conflicts = conflicts.concat(getPublishedShareConflicts(this, context));
 
         // Inputs must be valid.
         conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));

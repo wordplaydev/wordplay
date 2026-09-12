@@ -1,4 +1,8 @@
-<!-- The queue of reported messages, for whoever is responsible for them (#938).
+<!-- The queue of reported things, for whoever is responsible for them (#938).
+
+     Chat messages first, and since then how-tos, characters, and kits — so nothing
+     here may say "message": a curator deciding about a drawing shouldn't be asked
+     whether it violates the rules about what someone said.
 
      A real Firestore query, unlike the gallery dashboard this replaces: that
      one read an in-memory map exported from the notification bell, so it was
@@ -15,12 +19,11 @@
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import CreatorView from '@components/app/CreatorView.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
-    import Labeled from '@components/widgets/Labeled.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { CharactersDB, Creators, locales } from '@db/Database';
+    import { CharactersDB, Creators, DB, locales } from '@db/Database';
     import {
         bareCharacterName,
         characterToSVG,
@@ -30,6 +33,7 @@
     import { firestore } from '@db/firebase';
     import moderate from '@db/moderation/moderate';
     import {
+        allFlags,
         getFlagDescription,
         isFlagged,
         moderatedFlags,
@@ -46,6 +50,8 @@
         where,
     } from 'firebase/firestore';
     import type { SerializedReport } from 'shared-types';
+    import type { SerializedKit } from '@db/kits/Kit';
+    import KitCode from './KitCode.svelte';
 
     interface Props {
         /** Whoever is reviewing. */
@@ -117,7 +123,8 @@
                     (data) =>
                         data.kind === 'chat' ||
                         data.kind === 'howto' ||
-                        data.kind === 'character',
+                        data.kind === 'character' ||
+                        data.kind === 'kit',
                 );
         } catch {
             failed = true;
@@ -160,6 +167,32 @@
             })
             .catch(() => {
                 if (!cancelled) reportedCharacter = null;
+            });
+        return () => {
+            cancelled = true;
+        };
+    });
+
+    /** The reported kit's newest published code.
+     *
+     *  Fetched for the reason the character is: a report carries a name, and a decision
+     *  about code has to be made by reading the code. A kit's versions are what actually
+     *  run in other people's projects, so the newest is what is shown. */
+    let reportedKit = $state<SerializedKit | null>(null);
+    $effect(() => {
+        const report = current;
+        if (report === undefined || report.kind !== 'kit') {
+            reportedKit = null;
+            return;
+        }
+        let cancelled = false;
+        DB.loadKits()
+            .then((kits) => kits.getByID(report.subject))
+            .then((kit) => {
+                if (!cancelled) reportedKit = kit ?? null;
+            })
+            .catch(() => {
+                if (!cancelled) reportedKit = null;
             });
         return () => {
             cancelled = true;
@@ -210,7 +243,11 @@
         >
     {:else}
         <div class="report">
-            <Labeled label={(l) => l.ui.gallerymoderation.labels.message}>
+            <Subheader
+                compact
+                text={(l) => l.ui.gallerymoderation.labels.subject}
+            />
+            <div class="subject">
                 <CreatorView
                     anonymize={false}
                     creator={current.author
@@ -239,19 +276,45 @@
                     {:else}
                         <Spinning />
                     {/if}
+                {:else if current.kind === 'kit'}
+                    <!-- Code has to be read to be judged, so the queue shows the kit's
+                         newest published source, highlighted the way the editor shows
+                         it — a wall of monospace is not something anyone can judge.
+                         `RootView` and not `ConceptPreview`: it needs no project and no
+                         context, provides the ones its subtree reads, and brings none of
+                         the concept-link chrome, drag handling or output preview a
+                         moderator has no use for. The same shape `ClipboardNotice` uses.
+                         (This used to be a `<pre>`, on the grounds that rendering code
+                         would put the language runtime on this page. It was already
+                         here: `/moderate/+page.svelte` statically imports `ProjectView`.) -->
+                    {#if reportedKit}
+                        <em>{reportedKit.name}</em>
+                        <KitCode kit={reportedKit} height="20em" />
+                    {:else}
+                        <Spinning />
+                    {/if}
                 {:else}
                     <!-- The reported words, read from the report rather than the
                          chat: they were moved there so that hiding them was real. -->
                     <em>{current.text ?? ''}</em>
                 {/if}
-            </Labeled>
+            </div>
 
-            <Labeled label={(l) => l.ui.gallerymoderation.labels.reason}>
-                {#each Object.entries(flags) as [flag, state] (flag)}
+            <Subheader
+                compact
+                text={(l) => l.ui.gallerymoderation.labels.reason}
+            />
+            <!-- One rule per row, stacked: these are full sentences, and a row flex laid
+                 all four of them and the note field out on one line. `normal` rather than
+                 `baseline` so a wrapped description doesn't drag its checkbox down with
+                 it. Each checkbox is named by its own rule — one shared label left a
+                 screen reader unable to tell them apart. -->
+            <div class="flags">
+                {#each allFlags() as flag (flag)}
                     <div class="flag">
                         <Checkbox
-                            label={(l) => l.moderation.button.property}
-                            on={state === true}
+                            label={(l) => l.moderation.flags[flag]}
+                            on={flags[flag] === true}
                             id={flag}
                             changed={(value) =>
                                 (flags = withFlag(flags, flag, value === true))}
@@ -264,16 +327,28 @@
                         </label>
                     </div>
                 {/each}
-                <TextField
-                    id="report-note"
-                    text={note}
-                    description={(l) => l.ui.gallerymoderation.note.description}
-                    placeholder={(l) => l.ui.gallerymoderation.note.placeholder}
-                    changed={(value) => (note = value)}
-                />
-            </Labeled>
+            </div>
 
-            <Labeled label={(l) => l.ui.gallerymoderation.labels.action}>
+            <!-- Labelled, so it doesn't read as a fifth rule sitting under the four
+                 above it. -->
+            <Subheader
+                compact
+                text={(l) => l.ui.gallerymoderation.note.description}
+            />
+            <TextField
+                id="report-note"
+                text={note}
+                description={(l) => l.ui.gallerymoderation.note.description}
+                placeholder={(l) => l.ui.gallerymoderation.note.placeholder}
+                changed={(value) => (note = value)}
+                fill
+            />
+
+            <Subheader
+                compact
+                text={(l) => l.ui.gallerymoderation.labels.action}
+            />
+            <div class="controls">
                 <Button
                     background
                     tip={(l) => l.ui.gallerymoderation.view.tip}
@@ -282,9 +357,14 @@
                         localeGoto(
                             current.kind === 'character'
                                 ? `/character/${current.subject}`
-                                : current.gallery === null
-                                  ? `/project/${current.subject}`
-                                  : `/gallery/${current.gallery}/howto?id=${current.subject}`,
+                                : // A kit's own page, by id. Without this a kit report
+                                  // fell through to `/project/<kit id>`, which is not a
+                                  // project and shows nothing.
+                                  current.kind === 'kit'
+                                  ? `/guide?kit=${encodeURIComponent(current.subject)}`
+                                  : current.gallery === null
+                                    ? `/project/${current.subject}`
+                                    : `/gallery/${current.gallery}/howto?id=${current.subject}`,
                         )}
                 />
                 <Button
@@ -301,13 +381,14 @@
                     label={(l) => l.ui.gallerymoderation.keep.label}
                     action={() => decide(false)}
                 />
-            </Labeled>
+            </div>
             {#if showing.length > 1}
                 <p class="remaining">
-                    <LocalizedText
-                        path={(l) => l.ui.gallerymoderation.labels.message}
-                    />
-                    {showing.length}
+                    {$locales
+                        .concretize((l) => l.ui.gallerymoderation.remaining, {
+                            count: showing.length,
+                        })
+                        .toText()}
                 </p>
             {/if}
         </div>
@@ -323,13 +404,52 @@
         border: solid var(--wordplay-border-width) var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         padding: var(--wordplay-spacing);
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        align-items: stretch;
+    }
+
+    /* A compact Subheader carries no margin — twelve other call sites rely on that — so
+       the space that makes these read as headings over their content, rather than as one
+       more sibling in an evenly spaced column, is set here. */
+    .report :global(h2) {
+        margin-block-start: var(--wordplay-spacing);
+    }
+
+    .report > :global(h2:first-child) {
+        margin-block-start: 0;
+    }
+
+    .subject {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        align-items: flex-start;
+    }
+
+    .flags {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
     }
 
     .flag {
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        align-items: baseline;
+        /* `start`, not `normal` (= stretch): a stretched checkbox floats in the middle
+           of a rule that wraps. `Checkbox` sets its own `align-self` too, since it is
+           the one place that knows the box's size. */
+        align-items: start;
+        font-size: medium;
+    }
+
+    .controls {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--wordplay-spacing);
     }
 
     .character {

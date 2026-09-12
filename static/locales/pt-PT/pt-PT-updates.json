@@ -955,6 +955,12 @@
         "e876dc2ed0b0f": "$~Um @Group pode agora conter um @Shape, para que possa sobrepor um círculo com o seu texto, ou colocar um @Scene dentro de uma disposição. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e723fd65c8efc": "$~Um @Shape alinha-se agora com o @Stack, @Row, ou @Grid em que se encontra, em vez de ficar onde os seus próprios cantos calhavam estar, e qualquer coisa dentro de um @Grid pode agora estar mais perto ou mais longe. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e8ad9864d7217": "$~Adicionámos um como ao <Guia@https://wordplay.dev/guide> para repetir uma ronda de um jogo. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
-        "e0bce9fefa9f6": "$~Adicionámos @Spotlight, que indica qual a parte de @Scene que está a ser mostrada, quantas partes existem, quantas vezes já deu a volta e se está à espera de alguém. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
+        "e0bce9fefa9f6": "$~Adicionámos @Spotlight, que indica qual a parte de @Scene que está a ser mostrada, quantas partes existem, quantas vezes já deu a volta e se está à espera de alguém. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e615935a2e384": "$~Agora pode encontrar e procurar kits publicados no <Guia@https://wordplay.dev/guide>, e adicionar um ao seu programa ao pedi-lo emprestado com ↓. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ed328cd23ff5e": "$~Adicionámos os kits, que permitem publicar código que quer partilhar com outras pessoas. Acrescente ↑ à frente de valores ou funções e depois publique. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ee176f1308f17": "$~O Wordplay agora vem com três kits que pode utilizar — alfabetos, instrumentos e canções — para não ter de escrever letras, faces de instrumentos ou melodias você mesmo(a). (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ede02f98adf41": "$~Os três kits que vêm com o Wordplay estão escritos em todos os idiomas que suportamos, para que os seus nomes e a sua escrita apareçam no seu idioma. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "e75fc15b8d057": "$~Os números já podem fazer três coisas que antes tinha de escrever à mão: \\limit\\ mantém um número entre um valor baixo e um valor alto, \\toward\\ move um número parte do caminho até outro, e \\rescale\\ transforma um número de um intervalo no número correspondente noutro intervalo.",
+        "e49e28ab01607": "$~Uma lista de números já pode indicar o seu \\sum\\ e o seu \\average\\, para que não tenha de os somar você mesmo(a)."
     }
 }

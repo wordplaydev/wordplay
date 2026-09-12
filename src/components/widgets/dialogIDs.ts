@@ -15,3 +15,8 @@ export const LanguagesDialogID = 'languages';
  *  button opens that one rather than mounting its own: two dialogs sharing an id both
  *  match the URL param and both open, stacking one modal on another. */
 export const LocaleDialogID = 'locale';
+
+/** The project's share dialog, which the publishing conflicts point at: a `↑` definition
+ *  can be documented in the code, or the source can stop being published, and only the
+ *  second of those lives outside it. */
+export const ShareDialogID = 'share';

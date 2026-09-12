@@ -29,6 +29,9 @@ TokenCategories.set(Sym.Access, TokenCategoryRelation);
 TokenCategories.set(Sym.Function, TokenCategoryEvaluation);
 TokenCategories.set(Sym.Borrow, TokenCategoryShare);
 TokenCategories.set(Sym.Share, TokenCategoryShare);
+// A kit reference is part of the borrow it sits in, so it reads as sharing rather than
+// as a name — the `@amy/colors` and the `↓` in front of it are one gesture.
+TokenCategories.set(Sym.External, TokenCategoryShare);
 TokenCategories.set(Sym.Convert, TokenCategoryEvaluation);
 TokenCategories.set(Sym.Doc, TokenCategoryDocs);
 TokenCategories.set(Sym.Words, TokenCategoryLiteral);

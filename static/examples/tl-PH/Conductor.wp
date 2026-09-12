@@ -6,18 +6,15 @@ Konduktor
 Itaas ang iyong kamay at sasabay ang orkestra, isang bahagi sa isang pagkakataon, hanggang tumutugtog na ang lahat ng walo. Ibaba ito at unti-unting mawawala ang mga ito hanggang mag-isa na lang ang himig. Idausdos pakaliwa para bagalan ang martsa, pakanan para bilisan ito. Kung ilang daliri ang nakataas mo, iyon ang pumipili kung sino ang tutugtog ng himig.
 
 Nakalimbag sa entablado ang bawat panuto, kaya matututunan mo ito kahit hindi mo ito basahin.¶
+↓ @wordplay/instruments 1
 
 kamay: Kamay()
 
 ¶Ang taas ay kung gaano karami ang orkestra, at ang gilid-gilid na galaw ay kung gaano kabilis. Parehong direktang binabasa mula sa kamay, hindi tinatandaan, kaya sinusunod nila ito nang tuloy-tuloy. Naka-ikot ang bawat isa sa isang hakbang, kaya nagbabago lang ang musika kapag sapat na kalaki ang pagbabago para marinig, at hindi ito muling isusulat nang dalawampung beses kada segundo dahil lang sa nanginginig na kamay.¶
-itaas: ((kamay.lugar.taon + 3m) ÷ 6m).minuto(1).pinakamataas(
-		0
-	)
+itaas: kamay.lugar.taon.rescale(-3m 3m 0 1).limit(0 1)
 mgaLayer: 1 + ((itaas · 7).bilog())
 
-abot: ((kamay.lugar.x + 5m) ÷ 10m).minuto(1).pinakamataas(
-		0
-	)
+abot: kamay.lugar.x.rescale(-5m 5m 0 1).limit(0 1)
 bilis2: 72 + ((abot · 8).bilog() · 12)
 
 ¶Sino ang tumutugtog ng himig. Kapwa binibilang na walang daliri ang isang kamaong nakasara at ang kamay na wala sa larawan, kaya nananatili sa dating tumutugtog ang walang daliri — kung hindi, magbabago ang tono kapag tumingin ka sa ibang dako.¶
@@ -32,11 +29,7 @@ itinatampok: 5 … ∆ kamay …
 					Instrumento.trumpeta
 
 ƒ icon(bilang3•#)•''
-	(bilang3 = 1) ? '🎹'
-		(bilang3 = 2) ? '🎻'
-			(bilang3 = 3) ? '🪈'
-				(bilang3 = 4) ? '⚡'
-					'🎺'
+	iconFor(boses2(bilang3))
 
 ¶Kung gaano kalakas ang isang bahagi. Nananatili sa musika ang bawat bahagi sa lahat ng oras, kaya hindi nawawala ang lugar ng sinuman sa kanila — ang mga nasa itaas ng kamay ay pinababa lang nang husto.
 

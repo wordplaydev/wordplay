@@ -276,6 +276,29 @@ describe('upgradeProject — schema migration from pre-CRDT shapes', () => {
         expect(parsed.researchConsent).toBe(false);
     });
 
+    test('initializes the new v12 kit fields', () => {
+        // A project that predates one-kit-per-project publishes nothing, and its first
+        // source is what a publish would offer.
+        const upgraded = upgradeProject(v4Project());
+        expect(upgraded.kit).toBeNull();
+        expect(upgraded.kitSource).toBe(0);
+    });
+
+    test('a doc already claiming v12 but missing the kit fields still parses', () => {
+        // upgradeProject only backfills docs *below* the latest version, so a doc
+        // written by a client that claimed v12 without these keys would otherwise fail
+        // schema validation on every read forever — and would put `undefined` into
+        // memory for serialize() to hand to Firestore, which throws and fails the whole
+        // write batch. Same guard v8's crdt and v9's remixOf carry.
+        const complete = upgradeProject(v4Project());
+        const missing: Record<string, unknown> = { ...complete };
+        delete missing.kit;
+        delete missing.kitSource;
+        const parsed = ProjectSchema.parse(missing);
+        expect(parsed.kit).toBeNull();
+        expect(parsed.kitSource).toBe(0);
+    });
+
     test('preserves user data across migration', () => {
         const upgraded = upgradeProject(v4Project());
         expect(upgraded.id).toBe('old-project');

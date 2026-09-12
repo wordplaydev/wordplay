@@ -23,6 +23,9 @@ export type MenuOrganization = (Revision | RevisionSet)[];
 
 const PurposeRelevance: Record<PurposeType, number> = {
     Project: 0,
+    // Tied with Project deliberately: both are definitions this program can name right
+    // now, which is what relevance is ordering. Whose they are is the group's job to say.
+    Kit: 0,
     Outputs: 1,
     Inputs: 2,
     Decisions: 3,

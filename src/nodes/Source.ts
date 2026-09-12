@@ -24,6 +24,7 @@ import UnicodeString from '@unicode/UnicodeString';
 import Bind from '@nodes/Bind';
 import type Borrow from '@nodes/Borrow';
 import type { SharedDefinition } from '@nodes/Borrow';
+import ConversionDefinition from '@nodes/ConversionDefinition';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Expression from '@nodes/Expression';
@@ -94,6 +95,12 @@ export default class Source extends Expression {
 
     /** Lazily-computed nesting depth of each structural bracket token; see getDelimiterDepths(). */
     private delimiterDepths: Map<Token, number> | undefined = undefined;
+
+    /** Lazily-computed `↑` shares. A pure function of this immutable Source, and asked
+     *  several times per render of the publish dialog and once per kit conflict, each
+     *  time filtering every top-level statement. */
+    private shares: SharedDefinition[] | undefined = undefined;
+    private sharedConversions: ConversionDefinition[] | undefined = undefined;
 
     /** Cache of the navigable blocks-mode caret positions (Caret.getBlockPositions).
      * That list is a pure function of this immutable Source but is recomputed on
@@ -244,17 +251,32 @@ export default class Source extends Expression {
         return this.code;
     }
 
+    /**
+     * The conversions this source offers to anything that borrows it (#8).
+     *
+     * Separate from {@link Source.getShares} because a conversion has no name: it isn't a
+     * `SharedDefinition`, it can't be the target of `↓ kit.name`, and `Convert` finds it by
+     * matching types instead. So it travels beside the named shares rather than among them.
+     */
+    getSharedConversions(): ConversionDefinition[] {
+        return (this.sharedConversions ??=
+            this.expression.expression.statements.filter(
+                (n): n is ConversionDefinition =>
+                    n instanceof ConversionDefinition && n.isShared(),
+            ));
+    }
+
     getShare(name: string): SharedDefinition | undefined {
         return this.getShares().find((s) => s.hasName(name));
     }
 
     getShares(): SharedDefinition[] {
-        return this.expression.expression.statements.filter(
+        return (this.shares ??= this.expression.expression.statements.filter(
             (n): n is Bind | FunctionDefinition | StructureDefinition =>
                 (n instanceof Bind && n.isShared()) ||
                 (n instanceof FunctionDefinition && n.isShared()) ||
                 (n instanceof StructureDefinition && n.isShared()),
-        );
+        ));
     }
 
     getMatchedDelimiter(anchor: Token): Token | undefined {

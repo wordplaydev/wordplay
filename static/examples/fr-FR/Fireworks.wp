@@ -8,6 +8,7 @@ Rien ici n'est dessiné sur une horloge. @Beat transmet un @Downbeat à chaque f
 Chaque éclat porte le nom du numéro du temps, donc les éclats de chaque temps sont de nouvelles sorties : elles jouent leur pose d'entrée en apparaissant et leur pose de sortie quand le temps suivant les remplace. L'apparition et la chute sont ces deux poses.
 
 L'air est /The Star-Spangled Banner/ — la mélodie de John Stafford Smith datant d'environ 1773, depuis longtemps dans le domaine public — jouée en entier, jusqu'à la dernière ligne. Chaque note porte sa propre durée écrite sous forme de valeur de note sur le nombre — \8𝅘𝅥𝅮\ est une croche, \13𝅗𝅥\ une blanche, \13𝅗𝅥𝅭\ une blanche pointée — donc les levées, les figures pointées et les notes longues tenues sont de vraies durées, et non une grille de temps égaux. Un nombre simple vaut un temps. Les silences ont quand même besoin d'un @Note, car \ø\ n'est pas un nombre et ne peut donc pas porter de valeur. C'est sur la gamme chromatique afin que la quarte augmentée puisse être écrite : chaque pas vaut un demi-ton.¶
+↓ @wordplay/instruments 1
 
 temps: Rythme()
 compte2: temps.nombre
@@ -17,13 +18,7 @@ tir•[Partie]: temps.parties.filtre(ƒ(p•Partie) p.sonnant)
 
 ¶Chaque instrument éclate comme lui-même, ce qui est tout l'intérêt : on peut voir lequel vient de jouer.¶
 ƒ visage2(p2•Partie)•''
-	(p2.instrument.id = 'trumpet') ? '🎺'
-		(p2.instrument.id = 'flute') ? '🪈'
-			(p2.instrument.id = 'bell') ? '🔔'
-				(p2.instrument.id = 'piano') ? '🎹'
-					(p2.instrument.id = 'violin') ? '🎻'
-						(p2.instrument.id = 'drums') ? '🥁'
-							'🎵'
+	iconFor(p2.instrument)
 
 ¶Chaque instrument garde sa propre voie, répartie sur tout le ciel. Utiliser l'instrument plutôt que sa position dans la liste garde une voie fixe quand un autre instrument se tait.¶
 ƒ voie(p3•Partie)•#

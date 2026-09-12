@@ -37,6 +37,36 @@ type BatchCommand = (typeof BATCH_COMMANDS)[number];
 
 const DEFAULT_JOBS = 4;
 
+/**
+ * How a run splits into a parallel phase and a serial kit phase.
+ *
+ * Kits are the one content this runner cannot parallelize: every other pass writes files
+ * of its own locale, while a kit is a *single* shared source every locale appends into, so
+ * two children would read the same file and the later write would discard the earlier
+ * one's paid work. Taken out of the parallel phase rather than serializing the whole
+ * sweep, and expressed as flags so the children stay ordinary runs.
+ */
+export function splitKitPhase(flags: string[]): {
+    parallel: string[] | undefined;
+    serial: string[] | undefined;
+} {
+    const including = flags.some((flag) => flag.startsWith('+'));
+    const kitFlags = flags.filter((flag) => flag.startsWith('+kit'));
+    const others = flags.filter((flag) => !flag.startsWith('+kit'));
+
+    // An explicit include list decides by itself whether kits are in it.
+    if (including)
+        return {
+            parallel: others.length > 0 ? others : undefined,
+            serial: kitFlags.length > 0 ? kitFlags : undefined,
+        };
+
+    // No flags, or excludes only: kits ride along, so take them out of the parallel
+    // phase and give them their own.
+    if (flags.includes('-kit')) return { parallel: flags, serial: undefined };
+    return { parallel: [...flags, '-kit'], serial: ['+kit'] };
+}
+
 export type BatchArgs = {
     command: BatchCommand;
     jobs: number;
@@ -416,19 +446,31 @@ async function main(): Promise<void> {
     // Usage reported by each child, summed at the end so a batch reports one
     // total token/cost figure rather than 29 scattered ones.
     const usage: TranslatorUsage[] = [];
-    const results = await runPool(locales, parsed.jobs, (locale) => {
-        if (board !== undefined) board.queued--;
-        return runLocale(
-            parsed.command,
-            locale,
-            parsed.flags,
-            env,
-            symbols,
-            board,
-            emit,
-            (childUsage) => usage.push(...childUsage),
-        );
-    });
+    const phases = splitKitPhase(parsed.flags);
+    const run = (flags: string[], jobs: number) =>
+        runPool(locales, jobs, (locale) => {
+            if (board !== undefined) board.queued--;
+            return runLocale(
+                parsed.command,
+                locale,
+                flags,
+                env,
+                symbols,
+                board,
+                emit,
+                (childUsage) => usage.push(...childUsage),
+            );
+        });
+
+    const results =
+        phases.parallel === undefined
+            ? []
+            : await run(phases.parallel, parsed.jobs);
+    // One locale at a time, and only after the parallel phase: see `splitKitPhase`.
+    if (phases.serial !== undefined) {
+        if (board !== undefined) board.queued += locales.length;
+        results.push(...(await run(phases.serial, 1)));
+    }
     board?.stop();
 
     const failed = results.filter((r) => r.code !== 0);

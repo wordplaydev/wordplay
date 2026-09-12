@@ -955,6 +955,12 @@
         "e876dc2ed0b0f": "$~En @Group kan nu innehålla en @Shape, så du kan stapla en cirkel med dina ord, eller lägga en @Scene inuti en layout. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e723fd65c8efc": "$~En @Shape ställer sig nu i linje med @Stack, @Row eller @Grid som den ligger i, istället för att ligga där dess egna hörn råkade vara. Allt inuti en @Grid kan nu vara närmare eller längre bort. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e8ad9864d7217": "$~Vi la till en hur man-guide i <Handledningen@https://wordplay.dev/guide> för att upprepa en omgång i ett spel. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
-        "e0bce9fefa9f6": "$~Vi lade till @Spotlight, som visar vilken del av en @Scene som visas, hur många delar det finns, hur många gånger den har varit runt, och om den väntar på någon. (<547@https://github.com/wordplaydev/wordplay/issues/547>)"
+        "e0bce9fefa9f6": "$~Vi lade till @Spotlight, som visar vilken del av en @Scene som visas, hur många delar det finns, hur många gånger den har varit runt, och om den väntar på någon. (<547@https://github.com/wordplaydev/wordplay/issues/547>)",
+        "e615935a2e384": "$~Nu kan du hitta och söka efter publicerade kit i <Guiden@https://wordplay.dev/guide>, och lägga till ett i ditt program genom att låna det med ↓. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ed328cd23ff5e": "$~Vi har lagt till kit, som gör att du kan dela koda du vill visa för andra. Lägg till ↑ framför värden eller funktioner, och dela sedan. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ee176f1308f17": "$~Wordplay har nu tre färdiga kit du kan låna – alfabet, instrument och sånger – så du slipper skriva ut bokstäver, instrumentbilder eller melodier själv. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "ede02f98adf41": "$~De tre kiten som följer med Wordplay är skrivna på alla språk vi stödjer, så namnen och texten i dem visas på ditt eget språk. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
+        "e75fc15b8d057": "$~Nu kan tal göra tre saker du tidigare fick koda för hand: \\limit\\ håller ett tal mellan ett lägsta och ett högsta värde, \\toward\\ flyttar ett tal en bit på vägen mot ett annat, och \\rescale\\ gör om ett tal från ett intervall till motsvarande tal i ett annat intervall.",
+        "e49e28ab01607": "$~En lista med tal kan nu berätta sitt \\sum\\ och sitt \\average\\, så du slipper räkna ihop dem själv."
     }
 }

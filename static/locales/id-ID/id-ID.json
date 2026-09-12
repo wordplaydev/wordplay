@@ -296,7 +296,8 @@
         "Percent": "$~persen",
         "Defect": "$~contoh dengan cacat yang diharapkan",
         "NotANumber": "$~bukan angka",
-        "Range": "$~rentang"
+        "Range": "$~rentang",
+        "External": "$~kit"
     },
     "node": {
         "Dimension": {
@@ -800,6 +801,31 @@
                     "name": "$~pinjaman merujuk diri sendiri",
                     "explanation": "$~Ini bergantung pada $borrow , yang bergantung pada @Source , sehingga program tidak dapat dievaluasi.",
                     "resolution": "$~Hapus pinjaman ini untuk memutus siklusnya."
+                },
+                "MissingKitVersion": {
+                    "name": "$~versi tidak ditemukan",
+                    "explanation": "$~kit menyimpan setiap versi yang pernah dimilikinya, jadi saya perlu tahu versi $kit mana yang kamu mau",
+                    "resolution": "$~Hapus pinjaman ini"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~dua versi dari satu kit",
+                    "explanation": "$~saya hanya bisa memakai satu versi kit dalam satu waktu, dan @Source ini meminta dua versi dari $kit",
+                    "resolution": "$~Hapus pinjaman ini"
+                },
+                "UnknownKit": {
+                    "name": "$~kit tidak dikenal",
+                    "explanation": "$~saya tidak dapat menemukan $kit",
+                    "resolution": "$~Hapus pinjaman ini"
+                },
+                "UnavailableKit": {
+                    "name": "$~kit tidak tersedia",
+                    "explanation": "$~$kit ada, tetapi tidak dibagikan kepadamu",
+                    "resolution": "$~Hapus pinjaman ini"
+                },
+                "KitCannotBorrow": {
+                    "name": "$~kit tidak bisa meminjam",
+                    "explanation": "$~kode sumber ini diterbitkan sebagai satu kit, dan kit adalah satu-satunya berkas yang didapat pembacanya — salin apa yang kamu pinjam ke dalam kode sumber ini sebagai gantinya",
+                    "resolution": "$~Hapus pinjaman itu"
                 }
             },
             "exception": {
@@ -1367,6 +1393,23 @@
                 "PermissionException": {
                     "description": "$~izin ditolak",
                     "explanation": "$~Saya memerlukan $permission Anda untuk menjalankan program ini, tetapi saya tidak memiliki izin. Klik Coba Lagi untuk mencoba kembali. Jika itu tidak membantu, izinkan $permission ke situs ini di pengaturan browser Anda."
+                }
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~berbagi tanpa dokumentasi",
+                    "explanation": "$~ini diterbitkan, jadi seseorang yang tidak menulisnya akan membacanya — tulis /doc/ di atasnya yang menjelaskan gunanya",
+                    "resolution": "$~Dokumentasikan di atas, atau hentikan penerbitan sumber ini"
+                },
+                "UnexampledShare": {
+                    "name": "$~tidak ada contoh",
+                    "explanation": "$~ini menerima input, jadi deskripsi saja tidak cukup — tambahkan contoh di dokumentasinya yang menunjukkan satu cara menggunakannya",
+                    "resolution": "$~Tambahkan contoh ke dokumentasinya, atau hentikan penerbitan sumber ini"
+                },
+                "UnexampledKit": {
+                    "name": "$~tidak ada contoh",
+                    "explanation": "$~tidak ada apa pun dalam sumber ini yang memiliki contoh, jadi tidak ada yang bisa ditampilkan kepada orang yang mencari kit — tambahkan satu contoh ke dokumentasi sumber ini",
+                    "resolution": "$~Tambahkan contoh ke dokumentasi sumber ini, atau hentikan penerbitan sumber ini"
                 }
             }
         },
@@ -3160,6 +3203,65 @@
                             "names": "$~angka"
                         }
                     ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Jaga aku tetap di antara angka rendah dan angka tinggi: jika aku di bawah angka rendah, itulah yang kamu dapat, dan jika aku di atas angka tinggi, kamu dapat angka itu sebagai gantinya.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~batas",
+                    "inputs": [
+                        {
+                            "doc": "$~@value terendah yang boleh aku miliki.",
+                            "names": "$~rendah"
+                        },
+                        {
+                            "doc": "$~@value tertinggi yang boleh aku miliki.",
+                            "names": "$~tinggi"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Bergerak sebagian jalan dariku ke angka lain. Pada 0% kamu dapat aku, pada 100% kamu dapat angka lainnya, dan tepat di tengah memberi angka di antaranya.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~menuju",
+                    "inputs": [
+                        {
+                            "doc": "$~Angka tujuan untuk bergerak.",
+                            "names": "$~lain"
+                        },
+                        {
+                            "doc": "$~Seberapa jauh harus bergerak, di mana 100% berarti sampai.",
+                            "names": "$~jumlah"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Temukan posisiku di antara satu pasang angka, lalu berikan kembali angka yang berada pada posisi yang sama di antara pasangan angka lain. Berguna untuk mengubah sesuatu yang kamu ukur menjadi sesuatu yang bisa kamu tampilkan.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~ubahSkala",
+                    "inputs": [
+                        {
+                            "doc": "$~Ujung rendah dari rentang tempatku berada.",
+                            "names": "$~dariRendah"
+                        },
+                        {
+                            "doc": "$~Ujung tinggi dari rentang tempatku berada.",
+                            "names": "$~dariTinggi"
+                        },
+                        {
+                            "doc": "$~Ujung rendah dari rentang yang kamu inginkan.",
+                            "names": "$~keRendah"
+                        },
+                        {
+                            "doc": "$~Ujung tinggi dari rentang yang kamu inginkan.",
+                            "names": "$~keTinggi"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -3473,7 +3575,7 @@
                         "$~Saya membuat daftar tanpa item pertama saya.",
                         "\\['apel' 'pisang' 'mangga'].sansFirst()\\"
                     ],
-                    "names": ["$~tanpaPertama", "$~tanpaPertama"],
+                    "names": ["$~tanpaPertama"],
                     "inputs": []
                 },
                 "sansLast": {
@@ -3731,6 +3833,22 @@
                             "names": "$~nilai"
                         }
                     ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Jumlahkan semua angkaku. Jika aku kosong, hasilnya 0, dan jika angka-angkaku tidak semuanya diukur dengan satuan yang sama, aku akan mengatakannya daripada menebak.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~total",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Jumlahkan semua angkaku lalu bagi dengan banyaknya angka itu. Jika aku kosong, tidak ada yang bisa dirata-ratakan, jadi kamu dapat @None.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~rataRata",
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -4428,7 +4546,7 @@
                 "ArrowRight": ["$~Panah Kanan", "$~Benar"],
                 "Home": ["$~Rumah"],
                 "End": ["$~Akhir"],
-                "PageUp": ["$~Halaman Atas", "$~Halaman Atas"],
+                "PageUp": ["$~Halaman Atas"],
                 "PageDown": ["$~PageDown", "$~Halaman ke Bawah"],
                 "Backspace": ["$~Hapus"],
                 "Delete": ["$~Menghapus", "$~Del"],
@@ -4532,7 +4650,7 @@
                 "doc": "$~Ketika @value ini berubah, hapus ucapan yang terkumpul dan mulai dari awal lagi."
             },
             "language": {
-                "names": ["$~bahasa", "$~bahasa"],
+                "names": ["$~bahasa"],
                 "doc": "$~@code @language BCP 47 (misalnya, 'en-US'). Jika kode ini tidak didukung oleh pengenalan suara peramban kamu, kamu akan mendapatkan kesalahan. Kode ini menggunakan bahasa pilihanmu secara bawaan."
             },
             "limit": {
@@ -5032,7 +5150,7 @@
                     "$~manusia",
                     "$~seseorang"
                 ],
-                "bicycle": ["$~sepeda", "$~sepeda"],
+                "bicycle": ["$~sepeda"],
                 "car": ["$~mobil", "$~kendaraan bermotor"],
                 "motorcycle": ["$~sepeda motor", "$~motor"],
                 "airplane": [
@@ -5042,7 +5160,7 @@
                 ],
                 "bus": ["$~bus"],
                 "train": ["$~kereta"],
-                "truck": ["$~truk", "$~truk"],
+                "truck": ["$~truk"],
                 "boat": ["$~perahu", "$~kapal"],
                 "traffic light": ["$~lampu lalu lintas", "$~lampu merah"],
                 "fire hydrant": ["$~hidran kebakaran", "$~hidran"],
@@ -5062,10 +5180,10 @@
                 "backpack": ["$~ransel", "$~tas punggung"],
                 "umbrella": ["$~payung"],
                 "handbag": ["$~tas tangan", "$~dompet"],
-                "tie": ["$~dasi", "$~dasi"],
+                "tie": ["$~dasi"],
                 "suitcase": ["$~koper", "$~bagasi"],
                 "frisbee": ["$~frisbee"],
-                "skis": ["$~ski", "$~ski"],
+                "skis": ["$~ski"],
                 "snowboard": ["$~papan seluncur salju"],
                 "sports ball": ["$~bola", "$~bola olahraga"],
                 "kite": ["$~layang-layang"],
@@ -5073,7 +5191,7 @@
                 "baseball glove": ["$~sarung tangan bisbol", "$~sarung tangan"],
                 "skateboard": ["$~papan seluncur"],
                 "surfboard": ["$~papan selancar"],
-                "tennis racket": ["$~raket tenis", "$~raket", "$~raket"],
+                "tennis racket": ["$~raket tenis", "$~raket"],
                 "bottle": ["$~botol"],
                 "wine glass": ["$~gelas anggur"],
                 "cup": ["$~cangkir", "$~mug"],
@@ -5089,10 +5207,10 @@
                 "carrot": ["$~wortel"],
                 "hot dog": ["$~hot dog"],
                 "pizza": ["$~pizza"],
-                "donut": ["$~donat", "$~donat"],
+                "donut": ["$~donat"],
                 "cake": ["$~kue"],
                 "chair": ["$~kursi"],
-                "couch": ["$~sofa", "$~sofa"],
+                "couch": ["$~sofa"],
                 "potted plant": [
                     "$~tanaman pot",
                     "$~tanaman rumah",
@@ -5117,7 +5235,7 @@
                 "vase": ["$~vas"],
                 "scissors": ["$~gunting"],
                 "teddy bear": ["$~boneka beruang", "$~boneka hewan"],
-                "hair drier": ["$~pengering rambut", "$~pengering rambut"],
+                "hair drier": ["$~pengering rambut"],
                 "toothbrush": ["$~sikat gigi"]
             }
         },
@@ -7564,31 +7682,32 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Moderasi Galeri",
+            "header": "$~Laporan",
             "description": "$~Hal-hal yang orang minta kamu periksa, dari yang paling lama. Sebuah keputusan menyebutkan aturan mana yang dilanggar, dan orang yang membuatnya diberi tahu tentang keputusan itu.",
             "labels": {
-                "message": "$~pesan",
-                "action": "$~tindakan moderator",
-                "reason": "$~aturan mana yang dilanggar"
+                "action": "$~Apa yang harus dilakukan",
+                "reason": "$~Aturan mana yang dilanggar",
+                "subject": "$~Apa yang dilaporkan"
             },
             "view": {
-                "label": "$~lihat obrolan",
-                "tip": "$~lihat pesan di obrolan"
+                "label": "$~lihat",
+                "tip": "$~buka apa yang dilaporkan"
             },
             "remove": {
                 "label": "$~menghapus",
-                "tip": "$~Pesan ini melanggar pedoman."
+                "tip": "$~ini melanggar aturan"
             },
             "keep": {
                 "label": "$~menyimpan",
-                "tip": "$~Pesan ini tidak melanggar pedoman."
+                "tip": "$~ini tidak melanggar aturan"
             },
-            "empty": "$~Tidak ada pesan yang memerlukan moderasi.",
-            "error": "$~Anda harus masuk terlebih dahulu untuk memoderasi galeri.",
+            "empty": "$~Tidak ada yang menunggu keputusan.",
+            "error": "$~Kamu harus masuk untuk meninjau laporan.",
             "note": {
-                "description": "$~apa yang harus dikatakan kepada orang yang menulis pesan itu",
+                "description": "$~Apa yang harus dikatakan kepada pembuatnya",
                 "placeholder": "$~katakan sesuatu kepada mereka (boleh dikosongkan)"
-            }
+            },
+            "remaining": "$~$#count[$count laporan menunggu]"
         },
         "howto": {
             "galleryView": {
@@ -8020,7 +8139,7 @@
                 "highlightMajor": "$~tampilkan kode kesalahan ini di editor",
                 "highlightMinor": "$~tampilkan kode peringatan ini di editor",
                 "highlightStep": "$~tampilkan kode langkah evaluasi ini di editor",
-                "elsewhere": "$~Buka tempat yang bisa diperbaiki"
+                "elsewhere": "$~buka tempat ini bisa diperbaiki"
             },
             "severity": {
                 "major": "$~kesalahan",
@@ -8230,6 +8349,26 @@
             "overflowed": "$~Kontrol ini tersembunyi di dalam menu yang disorot; buka menu itu untuk menemukan kontrol tersebut."
         },
         "docs": {
+            "kits": {
+                "header": "$~Kit",
+                "prompt": "$~Kit adalah kode yang dipublikasikan seseorang agar orang lain bisa membangun sesuatu dengannya. Salin barisnya, tempelkan di bagian atas programmu, dan semua yang dibagikannya bisa kamu gunakan.",
+                "empty": "$~Belum ada yang mempublikasikan kit. Punyamu bisa jadi yang pertama — bagikan sesuatu dengan ↑, lalu publikasikan dari pengaturan berbagi proyekmu.",
+                "shares": "$~membagikan $names",
+                "missing": "$~Tidak ada kit dengan nama itu. Mungkin sudah diganti namanya, atau belum pernah dipublikasikan.",
+                "missingVersion": "$~Versi itu tidak ada di sini. Coba versi lain di bawah.",
+                "nothing": "$~kit ini tidak membagikan apa pun",
+                "versions": "$~Setiap versi kit ini",
+                "version": {
+                    "tip": "$~lihat versi kit ini"
+                },
+                "open": "$~baca dokumentasi kit ini",
+                "none": "$~Tidak ada yang cocok dengan itu di sini.",
+                "kinds": {
+                    "label": "$~apa yang dibagikan kit",
+                    "all": "$~apa saja"
+                },
+                "yours": "$~Perlengkapanmu yang tidak terdaftar"
+            },
             "label": "$~memandu",
             "link": "$~tampilkan \" $name \" dalam dokumentasi",
             "nodoc": "$~Siapakah aku? Apa aku ini? Apa tujuan hidupku?",
@@ -8294,9 +8433,10 @@
             "mode": {
                 "browse": {
                     "label": "$~bagian",
-                    "labels": ["$~kode", "$~cara", "$~glosarium"],
+                    "labels": ["$~kode", "$~kit", "$~cara", "$~glosarium"],
                     "tips": [
                         "$~konsep bahasa pemrograman",
+                        "$~kode yang dipublikasikan orang lain agar kamu bisa membangun sesuatu dengannya",
                         "$~pola yang bisa dipakai ulang untuk membuat proyek",
                         "$~definisi istilah penting"
                     ]
@@ -8305,6 +8445,7 @@
                     "label": "$~kode",
                     "labels": [
                         "$~proyek",
+                        "$~kit",
                         "$~keluaran",
                         "$~masukan",
                         "$~memutuskan",
@@ -8322,6 +8463,7 @@
                     ],
                     "tips": [
                         "$~konsep tingkat proyek",
+                        "$~apa yang disediakan oleh kit yang dipinjam proyek ini",
                         "$~frasa, kelompok, tahapan, tata letak, dan lainnya",
                         "$~waktu, tombol, kunci, adegan, dan banyak lagi",
                         "$~memilih nilai berdasarkan nilai lainnya",
@@ -8424,6 +8566,10 @@
                 "Patterns": {
                     "header": "$~Pola",
                     "explanation": "$~/Deskripsikan bentuk teks dengan pola, dibatasi oleh \\⣿\\ , lalu uji apakah teks sesuai dengan bentuk tersebut ( \\≈\\ ) atau temukan setiap tempat teks tersebut muncul ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Kit",
+                    "explanation": "$~Hal-hal yang dibagikan oleh kit yang dipinjam proyek ini."
                 }
             },
             "how": {
@@ -8496,6 +8642,9 @@
                     "research": {
                         "header": "$~Penelitian",
                         "explanation": "$~Kadang kami menulis dan berbicara tentang Wordplay — dalam makalah penelitian, dalam presentasi, dan dalam hal yang kami tunjukkan kepada guru dan keluarga. Jika kamu mengaktifkan ini, kami bisa menampilkan proyek ini sebagai contoh, tanpa namamu, nama penggunamu, atau apa pun yang menunjukkan bahwa akun ini milikmu.\n\nKamu bisa menonaktifkannya kapan saja. Menonaktifkannya berarti kami berhenti menggunakan proyekmu dalam hal-hal baru, tetapi tidak bisa menarik kembali sesuatu yang sudah kami terbitkan atau tampilkan sebelumnya."
+                    },
+                    "kit": {
+                        "explanation": "$~Kit adalah satu sumber yang kamu terbitkan agar orang lain bisa membangun sesuatu dengannya. Apa pun yang kamu tandai dengan ↑ akan menjadi bagian darinya."
                     }
                 },
                 "field": {
@@ -8549,7 +8698,8 @@
                     }
                 },
                 "options": {
-                    "gallery": "$~pemilih galeri"
+                    "gallery": "$~pemilih galeri",
+                    "source": "$~sumber untuk diterbitkan"
                 },
                 "remix": {
                     "source": "$~Proyek ini adalah remix dari:",
@@ -8564,18 +8714,71 @@
                         "$~Umum",
                         "$~Pratinjau",
                         "$~Privasi",
-                        "$~Campuran Ulang"
+                        "$~Campuran Ulang",
+                        "$~Kit"
                     ],
                     "tips": [
                         "$~pilih galeri untuk menampilkan proyek ini",
                         "$~pilih siapa yang bisa melihat proyek ini",
                         "$~pilih simbol yang mewakili proyek ini dalam daftar",
                         "$~periksa informasi pribadi yang ada di proyek ini",
-                        "$~lihat proyek ini dicampur ulang dari mana, dan apa yang mencampur ulangnya"
+                        "$~lihat proyek ini dicampur ulang dari mana, dan apa yang mencampur ulangnya",
+                        "$~terbitkan sebagian dari proyek ini agar bisa dipakai orang lain"
                     ]
                 },
                 "pii": {
                     "none": "$~Tidak ada informasi pribadi yang ditemukan."
+                },
+                "kit": {
+                    "nothing": "$~Belum ada yang dibagikan di sini. Tambahkan ↑ di depan nama, fungsi, atau struktur untuk membagikannya, seperti \\↑ sunset/en: 🔴\\, lalu proyek ini bisa menjadi kit.",
+                    "unpublished": "$~Kamu belum menerbitkan yang ini.",
+                    "name": {
+                        "placeholder": "$~nama",
+                        "description": "$~nama untuk kit ini"
+                    },
+                    "publish": {
+                        "label": "$~terbitkan",
+                        "tip": "$~terbitkan versi baru kit ini"
+                    },
+                    "version": "$~versi $version",
+                    "problem": {
+                        "exports": "$~belum ada yang dibagikan di sini",
+                        "invalid": "$~itu bukan nama yang bisa saya baca"
+                    },
+                    "undescribed": "$~sumber ini belum punya dokumentasi",
+                    "discovery": "$~Moderator bisa menyembunyikan versi yang sudah diterbitkan dari daftar. Apa pun yang sudah dipinjam orang lain tetap berfungsi, meskipun disembunyikan dari daftar.",
+                    "moderation": {
+                        "unrequested": "$~belum diminta untuk dicantumkan",
+                        "pending": "$~menunggu peninjauan oleh moderator",
+                        "approved": "$~sudah ditinjau dan dicantumkan",
+                        "denied": "$~moderator meminta perubahan"
+                    },
+                    "derived": "$~Deskripsi dan kata pencarian kit kamu diambil dari kalimat pertama dokumentasi sumber ini.",
+                    "heading": {
+                        "name": "$~Nama",
+                        "exports": "$~Apa yang dibagikan kit ini",
+                        "versions": "$~Versi",
+                        "listing": "$~Siapa yang bisa menemukannya"
+                    },
+                    "listing": {
+                        "label": "$~pendaftaran",
+                        "labels": ["$~tidak terdaftar", "$~terdaftar"],
+                        "tips": [
+                            "$~tidak ada yang bisa menemukan kit ini di panduan, dan apa pun yang sudah meminjamnya tetap bisa dipakai",
+                            "$~siapa saja bisa menemukan kit ini di panduan, setelah seorang moderator memeriksanya"
+                        ]
+                    },
+                    "remedy": "$~Ubah sumbernya lalu terbitkan versi baru, dan seorang moderator akan memeriksanya lagi.",
+                    "unreviewed": "$~Tidak ada yang memeriksa kit yang tidak terdaftar. Siapa saja yang kamu berikan tautan pinjamnya tetap bisa membacanya.",
+                    "permanent": "$~Menerbitkan sebuah versi bersifat permanen: program orang lain meminjamnya berdasarkan nomor, jadi menarik kembali satu versi akan merusak program mereka.",
+                    "confirm": "$~Terbitkan",
+                    "withdraw": {
+                        "label": "$~tarik kembali",
+                        "tip": "$~tarik kembali versi ini, yang hanya bisa dilakukan selama kit belum terdaftar"
+                    },
+                    "withdrawable": "$~Kit ini belum pernah terdaftar, jadi belum ada yang bisa menemukannya — kamu masih bisa menarik kembali versi terbarunya.",
+                    "unpublishable": "$~Kit ini belum bisa diterbitkan:",
+                    "failed": "$?"
                 }
             },
             "settings": {
@@ -9306,7 +9509,8 @@
                 "galleries": "$~Galeri",
                 "characters": "$~Karakter",
                 "howtos": "$~Cara-cara",
-                "chats": "$~Obrolan"
+                "chats": "$~Obrolan",
+                "kits": "$~Kit"
             },
             "status": {
                 "header": "$~Simpan status",
@@ -11059,11 +11263,13 @@
             "property": "$~Apakah proyek tersebut memiliki properti ini?"
         },
         "error": {
-            "notmod": "$~Tidak ada yang perlu kamu periksa di sini. Moderator Wordplay memeriksa konten publik, dan kurator galeri memeriksa apa yang ada di galeri mereka. Jika kamu baru saja diberi hak moderator, kamu mungkin perlu masuk lagi."
+            "notmod": "$~Tidak ada yang perlu kamu periksa di sini. Moderator Wordplay memeriksa konten publik, dan kurator galeri memeriksa apa yang ada di galeri mereka. Jika kamu baru saja diberi hak moderator, kamu mungkin perlu masuk lagi.",
+            "unreachable": "$?",
+            "unreadable": "$?"
         },
         "report": {
-            "button": "$~Beri tahu moderator",
-            "confirm": "$~Beri tahu moderator",
+            "button": "$~minta seorang moderator untuk memeriksa ini",
+            "confirm": "$~Laporkan",
             "sent": "$~seorang moderator telah diminta untuk memeriksa ini",
             "announce": "$~seorang moderator telah diminta untuk memeriksa $project",
             "flagged": "$~Seseorang melaporkan proyek ini, jadi ini menjadi yang pertama diperiksa."
@@ -11081,10 +11287,11 @@
         },
         "queue": {
             "label": "$~apa yang perlu diperiksa",
-            "labels": ["$~proyek", "$~galeri", "$~pesan"],
+            "labels": ["$~proyek", "$~galeri", "$~kit", "$~pesan"],
             "tips": [
-                "$~tinjau proyek yang telah dipublikasikan orang lain",
+                "$~periksa proyek yang telah dipublikasikan orang lain",
                 "$~periksa galeri yang meminta untuk dicantumkan secara publik",
+                "$~periksa kit yang meminta untuk didaftarkan di panduan",
                 "$~tinjau pesan yang dilaporkan orang di galeri yang kamu kelola"
             ]
         },
@@ -11116,6 +11323,30 @@
             "curators": "$~Kurator galeri ini memeriksa apa yang dibagikan di sini, termasuk obrolannya.",
             "both": "$~Kurator galeri ini memeriksa apa yang dibagikan di sini, begitu juga moderator Wordplay, karena semua orang bisa melihatnya.",
             "platform": "$~<moderators@://rights> Wordplay memeriksa ini, karena siapa saja bisa melihatnya."
+        },
+        "kit": {
+            "header": "$~Kit",
+            "explain": "$~Kit ini meminta untuk didaftarkan di panduan. Baca apa yang dibagikannya dan putuskan apakah orang lain sebaiknya bisa menemukannya.",
+            "done": "$~Tidak ada kit yang menunggu keputusan. Terima kasih!",
+            "approve": {
+                "label": "$~daftarkan",
+                "tip": "$~daftarkan kit ini di panduan"
+            },
+            "deny": {
+                "label": "$~jangan daftarkan",
+                "tip": "$~jangan masukkan kit ini ke panduan"
+            },
+            "skip": {
+                "label": "$~lewati",
+                "tip": "$~biarkan kit ini diputuskan oleh moderator lain"
+            },
+            "pending": "$~Seorang moderator sedang membaca perlengkapanmu untuk memutuskan apakah bisa didaftarkan di panduan. Perlengkapan ini ditandai terdaftar, tapi belum ada yang bisa menemukannya di sana sampai proses ini selesai.",
+            "approved": "$~Perlengkapanmu terdaftar di <panduan@://guide?section=kits>! Perlengkapan ini bisa dihapus dari daftar itu kapan saja, dengan alasan apa pun.",
+            "denied": "$~Seorang moderator memutuskan untuk tidak mendaftarkan perlengkapanmu di panduan. Kamu bisa menerbitkan versi baru dan mencoba lagi.",
+            "notification": {
+                "approved": "$~$name sekarang terdaftar di panduan.",
+                "denied": "$~$name tidak terdaftar di panduan."
+            }
         }
     },
     "gallery": {

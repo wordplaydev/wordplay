@@ -6,7 +6,13 @@ import concretize from '@locale/concretize';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
 import type Locale from '@locale/Locale';
 import { localeToString, stringToLocale } from '@locale/Locale';
-import type { SharedDefinition } from '@nodes/Borrow';
+import {
+    dependencyKey,
+    type Dependency,
+    type KitRef,
+    type SharedDefinition,
+} from '@nodes/Borrow';
+import type ConversionDefinition from '@nodes/ConversionDefinition';
 import Changed from '@nodes/Changed';
 import Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
@@ -124,6 +130,17 @@ export type ProjectData = Omit<SerializedProject, 'sources' | 'locales'> & {
     localeTexts: LocaleText[];
     /** Serialized caret positions for each source file */
     carets: SerializedSourceCaret[];
+    /**
+     * The kits this project's borrows name, resolved, keyed by {@link dependencyKey} (#8).
+     *
+     * Derived, never serialized — `SerializedProject.dependencies` is the *stored* index
+     * of the same fact, and is a plain array of keys. The `↓` lines in the code are the
+     * declaration; this is what resolving them produced. Resolution is asynchronous but every borrow in the
+     * language resolves synchronously through {@link Project.getShare}, so a kit is
+     * fetched and parsed into a `Source` *before* the Project that uses it is built, and
+     * arrives here. A kit version is immutable, so what lands here never goes stale.
+     */
+    resolvedKits: Map<string, Dependency>;
 };
 
 /** How a project's declared languages relate to what its code needs. See {@link Project.getLocaleUsage}. */
@@ -218,6 +235,8 @@ export const StampedMetadataFields: readonly (keyof ProjectData & string)[] = [
     'preview',
     'folder',
     'researchConsent',
+    'kit',
+    'kitSource',
 ];
 
 type SerializedSourceCaret = {
@@ -314,8 +333,12 @@ export default class Project {
         this.shares = this.basis.shares;
 
         // Initialize roots for all definitions that can be referenced.
+        // Dependency sources are in `roots` but deliberately NOT in `getSources()`:
+        // type checking and `getRoot` must reach a kit's definitions, while
+        // serialization, the editor's tiles, and `getUnusedSupplements` must not.
         this.roots = [
             ...this.getSources().map((source) => source.root),
+            ...this.getDependencySources().map((source) => source.root),
             ...this.basis.getRoots(),
         ];
 
@@ -418,6 +441,9 @@ export default class Project {
             supplements,
             locales: localeTexts.map((l) => localeToString(l)),
             localeTexts,
+            // Empty until something resolves the borrows; see ProjectData.resolvedKits.
+            resolvedKits: new Map(),
+            dependencies: [],
             owner,
             collaborators,
             public: pub,
@@ -443,6 +469,8 @@ export default class Project {
             remixOf: null,
             folder: null,
             researchConsent: false,
+            kit: null,
+            kitSource: 0,
         });
     }
 
@@ -479,8 +507,26 @@ export default class Project {
             this.getSources().length === project.getSources().length &&
             this.getSources().every((source1, index1) =>
                 source1.isEqualTo(project.getSources()[index1]),
-            )
+            ) &&
+            // Resolved kits count, even though the sources are identical: a borrow that
+            // has just found its kit means something different from one that hasn't, and
+            // whoever is asking this question is deciding whether to re-evaluate.
+            // Without this, a kit arriving left the stage showing the exception from
+            // before it did, forever.
+            this.sameResolvedKits(project)
         );
+    }
+
+    private sameResolvedKits(project: Project) {
+        const mine = this.data.resolvedKits;
+        const theirs = project.data.resolvedKits;
+        if (mine.size !== theirs.size) return false;
+        for (const [key, dependency] of mine) {
+            const other = theirs.get(key);
+            if (other === undefined || other.status !== dependency.status)
+                return false;
+        }
+        return true;
     }
 
     getID(): ProjectID {
@@ -578,7 +624,13 @@ export default class Project {
     }
 
     getSourceOf(node: Node) {
-        return this.getSources().find((source) => source.root.has(node));
+        return (
+            this.getSources().find((source) => source.root.has(node)) ??
+            // A kit's own definitions need a context too, or type checking a borrowed
+            // function and documenting it both fall back to main's context and resolve
+            // the kit's internal names against the wrong source.
+            this.getDependencySources().find((source) => source.root.has(node))
+        );
     }
 
     getSourcesExcept(source: Source) {
@@ -1035,6 +1087,92 @@ export default class Project {
             : [undefined, defaultMatch];
     }
 
+    /** How this project is resolving the given kit at the given version, if it borrows it. */
+    getDependency(ref: KitRef, version: number): Dependency | undefined {
+        return this.data.resolvedKits.get(dependencyKey(ref, version));
+    }
+
+    /** The sources of every kit this project has successfully resolved. */
+    getDependencySources(): Source[] {
+        const sources: Source[] = [];
+        for (const dependency of this.data.resolvedKits.values())
+            if (dependency.status === 'loaded') sources.push(dependency.source);
+        return sources;
+    }
+
+    /**
+     * True when no kit is still being fetched.
+     *
+     * Evaluation is gated on this: a borrow of a kit that hasn't arrived resolves to
+     * nothing, which would be a name exception for a program that is merely still loading.
+     */
+    dependenciesSettled(): boolean {
+        for (const dependency of this.data.resolvedKits.values())
+            if (dependency.status === 'loading') return false;
+        return true;
+    }
+
+    /**
+     * The stored index of the kits this project borrows — `kitId@version`, plus
+     * `kitId@version#export` for each export it names — which is what makes "how many
+     * projects use this version" a count query rather than a scan of every project.
+     *
+     * Recomputed only once every kit has resolved: a borrow still loading has no id to
+     * record, so recomputing mid-load would erase what a previous save built. A bind-all
+     * borrow records only the version, since which exports it reaches is a question about
+     * its references rather than its borrows.
+     */
+    getDependencyKeys(): string[] {
+        if (!this.dependenciesSettled()) return [...this.data.dependencies];
+        const keys = new Set<string>();
+        for (const source of this.getSources())
+            for (const borrow of source.expression.borrows) {
+                const ref = borrow.getKitRef();
+                const version = borrow.getVersion();
+                if (ref === undefined || version === undefined) continue;
+                const dependency = this.getDependency(ref, version);
+                if (dependency?.status !== 'loaded') continue;
+                const base = `${dependency.kit}@${version}`;
+                keys.add(base);
+                const name = borrow.name?.getName();
+                if (name !== undefined) keys.add(`${base}#${name}`);
+            }
+        return [...keys];
+    }
+
+    /** The keys of the kits this project has already tried to resolve, settled or not. */
+    getResolvedKitKeys(): string[] {
+        return [...this.data.resolvedKits.keys()];
+    }
+
+    /** A copy of this project resolving its kits as given. */
+    withDependencies(resolvedKits: Map<string, Dependency>): Project {
+        return this.revised({ resolvedKits });
+    }
+
+    /**
+     * The conversions a source gets from the kits it borrows.
+     *
+     * Conversions are the one shared thing that can't travel through a borrow's *name*:
+     * `Convert` finds a conversion by matching types, and a `ConversionDefinition` has no
+     * name at all — it isn't even in the `Definition` union. So rather than routing them
+     * through `getShare`, a kit's `↑` conversions become ambient in whatever source
+     * borrowed the kit. Gating on the borrow is what keeps them from leaking: a conversion
+     * arrives only where someone asked for the kit that defines it.
+     */
+    getConversions(source: Source): ConversionDefinition[] {
+        const conversions: ConversionDefinition[] = [];
+        for (const borrow of source.expression.borrows) {
+            const ref = borrow.getKitRef();
+            const version = borrow.getVersion();
+            if (ref === undefined || version === undefined) continue;
+            const dependency = this.getDependency(ref, version);
+            if (dependency?.status !== 'loaded') continue;
+            conversions.push(...dependency.source.getSharedConversions());
+        }
+        return conversions;
+    }
+
     // Get all bindings, functions, and structures shared in the project.
     getShares(): SharedDefinition[] {
         return this.getSources().reduce(
@@ -1100,7 +1238,15 @@ export default class Project {
 
     getReferences(bind: Definition): (Reference | PropertyReference)[] {
         const refs: (Reference | PropertyReference)[] = [];
-        for (const source of this.getSources())
+        // Dependency sources are included so a kit's own references count. This is what
+        // surfaces a kit's permissions to whoever borrows it (getRequiredPermissions):
+        // a kit that reaches the microphone must prompt the creator using it exactly as
+        // their own code would. Safe for the other callers, which ask about a definition
+        // in *this* project — a kit's nodes can only reference the basis or themselves.
+        for (const source of [
+            ...this.getSources(),
+            ...this.getDependencySources(),
+        ])
             refs.push(...(this.getReferencesInSource(source).get(bind) ?? []));
         return refs;
     }
@@ -1601,6 +1747,10 @@ export default class Project {
             supplements: sources.slice(1),
             locales,
             localeTexts,
+            resolvedKits: new Map(),
+            // Carried rather than recomputed: the borrows haven't resolved yet, so there
+            // is nothing to recompute from. See getDependencyKeys.
+            dependencies: project.dependencies ?? [],
             owner: project.owner,
             collaborators: project.collaborators,
             public: project.public,
@@ -1638,6 +1788,11 @@ export default class Project {
             remixOf: project.remixOf ?? null,
             folder: project.folder ?? null,
             researchConsent: project.researchConsent ?? false,
+            // Coalesced for the reason the three above are: a doc written without
+            // these can't be allowed to put `undefined` into memory, which
+            // serialize() would hand to Firestore. See ProjectSchemaV12.
+            kit: project.kit ?? null,
+            kitSource: project.kitSource ?? 0,
         });
     }
 
@@ -1804,6 +1959,52 @@ export default class Project {
         return this.revised({ researchConsent: consent });
     }
 
+    /**
+     * The id of the kit this project publishes, or null if it publishes none (#8).
+     *
+     * An id, never a name: publishing looks the kit up with this, so renaming the creator
+     * or the kit can't make the next publish create a second kit instead of a second
+     * version. See ProjectSchemaV12.
+     */
+    getKitID(): string | null {
+        return this.data.kit;
+    }
+
+    withKitID(kit: string | null) {
+        return this.revised({ kit });
+    }
+
+    /** The source this project publishes as its kit — the first one when nothing is set.
+     *  Indexed without `getSources()`, which allocates: `isPublishedKitSource` asks this
+     *  once per definition node on every analysis pass of a project that publishes. */
+    getKitSource(): Source {
+        const index = this.data.kitSource;
+        return (
+            (index === 0 ? this.getMain() : this.data.supplements[index - 1]) ??
+            this.getMain()
+        );
+    }
+
+    /** Which source, by index, so the publish dialog can offer the right one. */
+    getKitSourceIndex(): number {
+        return this.data.kitSource;
+    }
+
+    withKitSource(index: number) {
+        return this.revised({ kitSource: index });
+    }
+
+    /**
+     * Whether this source is published for other people to read.
+     *
+     * The test the publishing conflicts ask: `↑` also means "share with my own other
+     * sources", where demanding an explanation for strangers would be noise. The moment
+     * other people can read it, the rule applies.
+     */
+    isPublishedKitSource(source: Source): boolean {
+        return this.data.kit !== null && this.getKitSource() === source;
+    }
+
     getFlags() {
         return { ...this.data.flags };
     }
@@ -1956,6 +2157,7 @@ export default class Project {
             id: this.getID(),
             name: this.getName(),
             sources: this.getSerializedSources(),
+            dependencies: this.getDependencyKeys(),
             // The declared codes, verbatim. Not `getLocales().getLocales()`, which is the
             // *loaded* subset plus the appended en-US fallback — writing that back is what
             // made a project's language list grow every time anyone opened it (#1246).
@@ -1983,6 +2185,8 @@ export default class Project {
             remixOf: this.data.remixOf ?? null,
             folder: this.data.folder ?? null,
             researchConsent: this.data.researchConsent ?? false,
+            kit: this.data.kit ?? null,
+            kitSource: this.data.kitSource ?? 0,
         };
         // Firestore rejects literal `undefined` field values, and the schema
         // marks `preview` as optional — so omit the key entirely when unset.
@@ -2411,6 +2615,8 @@ export default class Project {
             commenters: pick('commenters'),
             folder: pick('folder'),
             researchConsent: pick('researchConsent'),
+            kit: pick('kit'),
+            kitSource: pick('kitSource'),
             // Source structure stays local. The Yjs CRDT
             // (ProjectCRDT.ts) is the authoritative merge for code and
             // source names; ProjectsDatabase.foldRemoteCRDT applies the

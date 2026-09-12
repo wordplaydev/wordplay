@@ -698,5 +698,145 @@ service cloud.firestore {
           );
       allow delete: if request.auth != null && (resource.data.creator == request.auth.uid || isRequestorCurator(request.auth.uid, resource.data.galleryId));
     }
+    // A kit: one source a creator has published for other people to build with (#8).
+    // This document is the small mutable registry entry; the code lives in
+    // /kitversions, below.
+    match /kits/{kit} {
+      // The same ban as on projects and galleries (#193): a creator who has lost
+      // public sharing can still keep kits, but can't list one. Checked against
+      // the custom claim, so it costs no document reads.
+      function kitMayBePublic() {
+        return (!("banned" in request.auth.token) || request.auth.token.banned != true)
+          || !('public' in request.resource.data)
+          || request.resource.data.public != true;
+      }
+      // Moderation state is the decision, not the request. A creator asks to be
+      // listed by setting `public`; whether they ARE listed is `moderation`, which
+      // only the moderate callable writes, and `words`, which the kitEdited trigger
+      // rebuilds. A creator who could approve their own kit is the whole thing this
+      // prevents.
+      //
+      // `aliases` is here for a different reason, and a sharper one: a borrow resolves
+      // `@name/kit` through aliases as well as through `name`, so a client that could
+      // write its own would make its kit answer to someone else's name — silently, and
+      // to everyone. Only `changeUsername` writes them, through the Admin SDK, which
+      // these rules don't apply to. (The same question about `name` itself is older and
+      // wider than kits: nothing stops a creator naming a *character* after someone
+      // else's handle either, and closing it needs a get() on the handle document. Worth
+      // doing, and not here.)
+      // `kinds` is the one index a client writes, because no server can derive it: a kit's
+      // types need the parser, and functions/ cannot reach it. What the rules owe is the
+      // bound, on both paths — `kitServerFieldsUnchanged` compares against what is stored,
+      // and on a create there is nothing stored. The vocabulary itself is left to
+      // `kitEdited`, which sends any change to `kinds` back to `pending`, so a kit cannot
+      // be approved as one thing and then claim to be everything.
+      function kitKindsBounded() {
+        return !("kinds" in request.resource.data)
+          || request.resource.data.kinds.size() <= 20;
+      }
+      function kitServerFieldsUnchanged() {
+        return (!("moderation" in request.resource.data) || request.resource.data.moderation == resource.data.moderation)
+          && (!("moderatedAt" in request.resource.data) || request.resource.data.moderatedAt == resource.data.moderatedAt)
+          && (!("flags" in request.resource.data) || request.resource.data.flags == resource.data.flags)
+          && (!("words" in request.resource.data) || request.resource.data.words == resource.data.words)
+          && (!("aliases" in request.resource.data) || request.resource.data.aliases == resource.data.aliases)
+          // `.get(…, default)` on the stored side, not a bare access: a kit written before
+          // these existed carries neither, and an unguarded read of a missing property is
+          // a hard CEL error that fails the whole update closed.
+          && (!("listed" in request.resource.data) || request.resource.data.listed == resource.data.get("listed", false))
+          && (!("listedVersion" in request.resource.data) || request.resource.data.listedVersion == resource.data.get("listedVersion", null));
+      }
+      // The same fields on the way in. The guard above compares against what is
+      // stored, which does not exist on a create — so every rule it states could be
+      // walked around by putting the value in the new document instead, and the
+      // registry listing is a plain `public == true && moderation == 'approved'`
+      // query, so an already-approved kit would go straight into it with no
+      // moderator ever seeing it. Exactly the hole galleries had (#1352).
+      function kitServerFieldsInitial() {
+        return request.resource.data.moderation == 'unrequested'
+          && request.resource.data.moderatedAt == null
+          && request.resource.data.flags.values().hasOnly([null])
+          && request.resource.data.words.size() == 0
+          && request.resource.data.aliases.size() == 0
+          && request.resource.data.listed == false
+          && request.resource.data.listedVersion == null;
+      }
+      allow create: if request.auth != null
+        && request.resource.data.owner == request.auth.uid
+        && kitMayBePublic()
+        && kitKindsBounded()
+        && kitServerFieldsInitial();
+      // Readable when listed, or by its owner, or by a moderator deciding about it —
+      // a reported kit has usually been unlisted by the time anyone reviews it.
+      // Every field access is `in`-guarded because reading a property a document
+      // doesn't have is a hard CEL error, not a null: it fails closed, so one
+      // unguarded access blocks every read of a kit that predates the field.
+      //
+      // No get() anywhere here, which is the point: kits carry no gallery, so a
+      // registry query never spends the rules' document-access budget.
+      allow read:
+        if resource == null
+          || ("public" in resource.data && resource.data.public)
+          || (request.auth != null && (
+              ("mod" in request.auth.token && request.auth.token.mod)
+              || ("owner" in resource.data && request.auth.uid == resource.data.owner)
+            ));
+      // Only the owner, and they may not hand it to someone else: a kit's versions
+      // are immutable and already name their owner, so a transfer would leave the
+      // two disagreeing about who is answerable for the code.
+      allow update: if request.auth != null
+        && "owner" in resource.data
+        && request.auth.uid == resource.data.owner
+        && request.resource.data.owner == resource.data.owner
+        && kitMayBePublic()
+        && kitKindsBounded()
+        && kitServerFieldsUnchanged();
+      // Never: other people's programs borrow this. Unlisting is `public: false`,
+      // which stops new people finding it without breaking what already uses it.
+      allow delete: if false;
+    }
+    // One published version of a kit: the code itself, and the only thing a borrow
+    // reads. Immutable — `update` is closed to everyone, and only the moderate callable
+    // (Admin SDK, which bypasses these rules) ever clears `public`. It can be deleted in
+    // exactly one case, which the `delete` rule below states.
+    match /kitversions/{id} {
+      // `public` and `owner` are denormalized onto the version rather than read
+      // through to the kit, and that is deliberate: it makes this rule a field test
+      // with NO document access, so a project resolving its borrows never spends the
+      // ~10-document budget a query is allowed, and 30 versions can be fetched at
+      // once. See src/db/firestoreLimits.ts for what that budget costs elsewhere.
+      allow read:
+        if resource == null
+          || ("public" in resource.data && resource.data.public)
+          || (request.auth != null && (
+              ("mod" in request.auth.token && request.auth.token.mod)
+              || ("owner" in resource.data && request.auth.uid == resource.data.owner)
+            ));
+      // A version arrives published and owned by its creator. It cannot arrive
+      // claiming someone else's name, and it cannot arrive private — a version
+      // exists to be borrowed; whether the kit is *discoverable* is the kit's own
+      // `public`, which is a different question.
+      allow create: if request.auth != null
+        && request.resource.data.owner == request.auth.uid
+        && request.resource.data.public == true;
+      // A version is immutable — that is what lets a client cache one forever — so it
+      // can never be updated, only deleted, and only in the one case where deleting it
+      // cannot break anyone: its kit has never been listed, so nobody could have found
+      // it to borrow. `moderation` is the signal because the `kitEdited` trigger moves
+      // it off `unrequested` the moment a kit is first listed, and no client can write
+      // it back. Only the newest version goes, so the surviving numbering stays
+      // contiguous; the kit's own `versionCount` is never decremented, so the number is
+      // never reissued to different code.
+      //
+      // This is the one rule here that spends a get(). It can afford to: the reason the
+      // read rule above is a field test with no document access is the borrow-resolution
+      // hot path, and a withdrawal is neither hot nor on it.
+      allow delete: if request.auth != null
+        && resource.data.owner == request.auth.uid
+        && exists(/databases/$(database)/documents/kits/$(resource.data.kit))
+        && get(/databases/$(database)/documents/kits/$(resource.data.kit)).data.moderation == 'unrequested'
+        && get(/databases/$(database)/documents/kits/$(resource.data.kit)).data.latest == resource.data.version;
+      allow update: if false;
+    }
   }
 }

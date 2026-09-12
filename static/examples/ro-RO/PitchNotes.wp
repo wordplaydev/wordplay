@@ -22,8 +22,7 @@ notaDin: ƒ(hz•#hz) hz > 0hz ? note2[(((((12 × (hz ÷ 440hz).log(
 							)) % 12) + 12) % 12) + 1] '·'
 lină: ƒ(semnal•…#hz) (
 			auzit: (←← 8 semnal).fără(0hz)
-			(auzit.combinate(0hz ƒ(total•#hz v•#hz) total + v) ÷ auzit.lungime(
-					)) ?? 0hz
+			auzit.average() ?? 0hz
 		)
 înălțimeSunet: Pas()
 Etapă(

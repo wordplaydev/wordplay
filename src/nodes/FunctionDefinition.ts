@@ -55,6 +55,7 @@ import TypeVariables from '@nodes/TypeVariables';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import Unit from '@nodes/Unit';
 import { getEvaluationInputConflicts } from '@nodes/util';
+import { getPublishedShareConflicts } from '@nodes/publishedShare';
 
 export default class FunctionDefinition extends DefinitionExpression {
     readonly docs: Docs;
@@ -288,7 +289,14 @@ export default class FunctionDefinition extends DefinitionExpression {
                 getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
                 label: undefined,
             },
-            { name: 'fun', kind: node(Sym.Function), label: undefined },
+            {
+                name: 'fun',
+                kind: node(Sym.Function),
+                // Separated from a preceding `↑`, which would otherwise run into it
+                // whenever this definition is re-spaced.
+                space: true,
+                label: undefined,
+            },
             { name: 'names', kind: node(Names), space: true, label: undefined },
             {
                 name: 'types',
@@ -440,6 +448,9 @@ export default class FunctionDefinition extends DefinitionExpression {
         conflicts = conflicts.concat(
             getKeywordShadowConflicts(this, this.names),
         );
+
+        // What a `↑` owes its readers, once this source is published (#8).
+        conflicts = conflicts.concat(getPublishedShareConflicts(this, context));
 
         // Make sure the inputs are valid.
         conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));

@@ -47,10 +47,18 @@
 >
 
 <style>
-    /* Anchors the localization tip badge to the checkbox's corner. */
+    /* Anchors the localization tip badge to the checkbox's corner.
+       `align-self: start` keeps the box on the *first* line of a label that wraps: as a
+       flex item this span stretches to the label's full height by default, and its own
+       `align-items: center` then floats the box in the middle of the paragraph. Baseline
+       alignment on the row can't fix that — `appearance: none` leaves the input with no
+       baseline, so one is synthesized from its bottom edge and the box rides high — so
+       the offset is set here, where the box's 1rem size is known. */
     .checkbox-group {
         display: inline-flex;
         align-items: center;
+        align-self: start;
+        margin-block-start: 0.15em;
         width: fit-content;
         position: relative;
     }

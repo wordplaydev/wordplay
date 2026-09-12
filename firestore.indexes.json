@@ -231,6 +231,138 @@
                     "order": "ASCENDING"
                 }
             ]
+        },
+        {
+            "collectionGroup": "kits",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "public",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "listed",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "updated",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "kits",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "name",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "public",
+                    "order": "ASCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "kits",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "name",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "owner",
+                    "order": "ASCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "kits",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "aliases",
+                    "arrayConfig": "CONTAINS"
+                },
+                {
+                    "fieldPath": "public",
+                    "order": "ASCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "kits",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "owner",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "updated",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "kits",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "public",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "listed",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "words",
+                    "arrayConfig": "CONTAINS"
+                },
+                {
+                    "fieldPath": "updated",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "kits",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "public",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "listed",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "kinds",
+                    "arrayConfig": "CONTAINS"
+                },
+                {
+                    "fieldPath": "updated",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "kits",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "moderation",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "updated",
+                    "order": "DESCENDING"
+                }
+            ]
         }
     ],
     "fieldOverrides": []

@@ -50,14 +50,10 @@ wysokośćDźwięku: Poziom()
 nucenie: (tryb = 'hum') & (wysokośćDźwięku > 50hz)
 
 ƒ wysokośćDźwiękuNaWysokość(hz•#hz)
-	(hz < 80hz) ? -4m
-		(hz > 400hz) ? 5m
-			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
 
 ¶Ptak zbliża się do nuconej wysokości stopniowo, krok po kroku, dzięki czemu szybuje, zamiast drgać przy każdym wahnięciu dźwięku.¶
-wysokośćDźwiękuY•#m: 1m … ∆ wysokośćDźwięku … nucenie ? (0.8 × wysokośćDźwiękuY) + (0.2 × wysokośćDźwiękuNaWysokość(
-							wysokośćDźwięku
-						)) wysokośćDźwiękuY
+wysokośćDźwiękuY•#m: 1m … ∆ wysokośćDźwięku … nucenie ? wysokośćDźwiękuY.toward(wysokośćDźwiękuNaWysokość(wysokośćDźwięku) 20%) wysokośćDźwiękuY
 
 ¶Podczas odliczania ptak zawisa w miejscu. W czasie gry macha skrzydłami w górę albo unosi się na nuconej wysokości, a po zderzeniu spada pod wpływem grawitacji.¶
 miejscePtaka: Ruch(

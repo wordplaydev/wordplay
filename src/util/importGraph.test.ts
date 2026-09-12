@@ -653,17 +653,35 @@ test('resolving a color needs no basis', () => {
  * is a 27-line wrapper over `parseMarkup` and `toTokens`, both of which every one
  * of these graphs already carried via `parseLocaleDoc` — so this is under a
  * kilobyte, and only `projects` had no room left in its hundredth.
+ *
+ * Cross-project code sharing (#8) is **+11 files** on every graph, all of them conflicts
+ * or the one module that raises them. A conflict is constructed synchronously during
+ * analysis, so the node that can raise it must import it statically: `Borrow` carries the
+ * five a `↓` can report, `Program` carries `UnexampledKit`, and `publishedShare.ts`
+ * carries the two a `↑` can report — plus the two bases those eight share,
+ * `KitBorrowConflict` and `PublishedShareConflict`, which is one module each against four
+ * and three copies of the same forty lines. That last one
+ * stays a leaf of its own deliberately — folding it into `Source.ts`, where `getShares`
+ * lives, would make `Bind` ↔ `Source` a module cycle, the trade
+ * `registerTypeResolutions.ts` already exists to refuse. What must never join these graphs
+ * is the kit *database*: a page that merely lists projects has no business being able to
+ * fetch anyone's code, so `Database.loadKits()` imports it dynamically the way
+ * `loadProjects` does. Wiring it as an eager field instead was +2 files on all five —
+ * exactly what this test exists to catch. The registry, the kit page, and the publish
+ * panel are all off these graphs too; they are reached through the guide and the share
+ * dialog, neither of which any of these entries touches.
  */
-// These are ceilings, not measurements: raise one only for code that genuinely belongs on the
-// page's graph, never to quiet a leak. The last raise was +2 files for the boolean input
-// shorthand (`nodes/inputShorthand.ts` and `runtime/Push.ts`), which sit beside `Evaluate` and
-// `Reference` — already on every one of these graphs — rather than opening a new door.
+// These are ceilings, not measurements: raise one only for code that genuinely belongs on
+// the page's graph, never to quiet a leak. Bytes creeping is usually `en-US.json` growing,
+// since every page resolves a locale — the kit conflicts' explanations and the five basis
+// math functions' documentation are both that, and neither moved a file count. Files
+// creeping is a door opening, and is the number to look at first.
 test.each([
-    ['src/routes/+layout.svelte', 510, 3.82],
-    ['src/components/app/Page.svelte', 533, 4.07],
-    ['src/routes/[[locale]]/+page.svelte', 548, 4.15],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 552, 4.17],
-    ['src/routes/[[locale]]/projects/+page.svelte', 559, 4.19],
+    ['src/routes/+layout.svelte', 521, 3.89],
+    ['src/components/app/Page.svelte', 544, 4.14],
+    ['src/routes/[[locale]]/+page.svelte', 559, 4.23],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 563, 4.24],
+    ['src/routes/[[locale]]/projects/+page.svelte', 570, 4.26],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

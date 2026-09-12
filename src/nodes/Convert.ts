@@ -38,6 +38,39 @@ import Token from '@nodes/Token';
 import Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
 
+/**
+ * Every conversion definition visible to a node: the ones in its enclosing blocks, and the
+ * `↑` conversions of any kit its source borrows (#8).
+ *
+ * Shared by `Convert`'s two gather sites and by `ConversionResolutions`, which must offer
+ * exactly what `Convert` will find — a repair suggesting a conversion the resolver can't
+ * locate is worse than no repair.
+ */
+export function getConversionsInScope(
+    from: Node,
+    context: Context,
+): ConversionDefinition[] {
+    const scoped =
+        context
+            .getRoot(from)
+            ?.getAncestors(from)
+            ?.filter((a): a is Block => a instanceof Block)
+            ?.reduce(
+                (list: ConversionDefinition[], block) => [
+                    ...list,
+                    ...block.statements.filter(
+                        (s): s is ConversionDefinition =>
+                            s instanceof ConversionDefinition,
+                    ),
+                ],
+                [],
+            ) ?? [];
+    const source = context.project.getSourceOf(from);
+    return source === undefined
+        ? scoped
+        : [...scoped, ...context.project.getConversions(source)];
+}
+
 export default class Convert extends Expression {
     readonly expression: Expression;
     readonly convert: Token;
@@ -68,21 +101,7 @@ export default class Convert extends Expression {
         from: Node,
         context: Context,
     ): Type[] {
-        const scopeConversions =
-            context
-                .getRoot(from)
-                ?.getAncestors(from)
-                ?.filter((a): a is Block => a instanceof Block)
-                ?.reduce(
-                    (list: ConversionDefinition[], block) => [
-                        ...list,
-                        ...block.statements.filter(
-                            (s): s is ConversionDefinition =>
-                                s instanceof ConversionDefinition,
-                        ),
-                    ],
-                    [],
-                ) ?? [];
+        const scopeConversions = getConversionsInScope(from, context);
         // getAllConversions returns every conversion the basis declares, not just this type's,
         // so filter by what each actually accepts — otherwise a list is offered `→ #km`.
         const inputType = expression.getType(context);
@@ -189,23 +208,8 @@ export default class Convert extends Expression {
         // Find all the type's conversions
         const typeConversions = inputType.getAllConversions(context);
 
-        // Find all the conversions in enclosing blocks.
-        const scopeConversions =
-            (
-                context
-                    .getRoot(this)
-                    ?.getAncestors(this)
-                    ?.filter((a): a is Block => a instanceof Block) ?? []
-            ).reduce(
-                (list: ConversionDefinition[], block) => [
-                    ...list,
-                    ...block.statements.filter(
-                        (s): s is ConversionDefinition =>
-                            s instanceof ConversionDefinition,
-                    ),
-                ],
-                [],
-            ) ?? [];
+        // Find all the conversions in enclosing blocks and in borrowed kits.
+        const scopeConversions = getConversionsInScope(this, context);
 
         // Find a path between the input type and the desired type
         return getConversionPath(

@@ -123,6 +123,13 @@ export default interface Translator {
      * `options.glossary` marks the strings as the glossary terms themselves, so a
      * backend can tell the model to translate each in the sense its definition
      * gives rather than the commonest sense of the bare English word.
+     * `options.examples === false` keeps an embedded `\code\` example verbatim. A
+     * backend localizes one by building a project from the example *alone*, which is
+     * right for a lesson and wrong for a published kit, whose examples name the kit's
+     * own definitions and so resolve to nothing on their own — localizing them produced
+     * code that would not parse. Names still read in the reader's language wherever the
+     * example is rendered, because `Token.localized` resolves a use site through its
+     * definition.
      */
     translate(
         log: Log,
@@ -130,7 +137,7 @@ export default interface Translator {
         sourceLocale: string,
         targetLocale: string,
         targetText?: LocaleText,
-        options?: { names?: boolean; glossary?: boolean },
+        options?: { names?: boolean; glossary?: boolean; examples?: boolean },
     ): Promise<(string | null)[] | undefined>;
 
     /** What this instance has consumed so far, per model, for end-of-run cost

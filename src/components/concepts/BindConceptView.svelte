@@ -13,6 +13,41 @@
     }
 
     let { concept }: Props = $props();
+
+    /**
+     * A published share's implementation is not its documentation.
+     *
+     * A kit's exports render through these same views, and a `↑` bind's value is the
+     * whole of it — the tunes kit's songs are seventy lines of note data each, which
+     * tells a reader nothing and buries the next export. So a shared bind shows its name
+     * and its type and stops there.
+     *
+     * `bind.share` is the test because only parsed `↑` source carries that token:
+     * `Bind.make` passes none, so every basis definition and everything else the guide
+     * documents is untouched, and a function's inputs — which are binds too — keep
+     * showing their defaults.
+     */
+    const shared = $derived(concept.bind.share !== undefined);
+
+    /**
+     * The type to show: the annotation as the author wrote it, or, for a share that has
+     * none, the type it infers to. Without that fallback, hiding the value would leave an
+     * unannotated export with nothing at all beside its name.
+     *
+     * The inferred one is generalized, because an inferred literal type *is* the value —
+     * `↑ dusk: 2` infers `2`, and showing that would put back the implementation this is
+     * meant to leave out. An author's own annotation is shown exactly as written.
+     */
+    const type = $derived.by(() => {
+        const declared = concept.bind.type;
+        if (declared !== undefined)
+            return declared instanceof AnyType ? undefined : declared;
+        if (!shared) return undefined;
+        const inferred = concept.bind
+            .getType(concept.context)
+            .generalize(concept.context);
+        return inferred instanceof AnyType ? undefined : inferred;
+    });
 </script>
 
 <Speech character={concept.getCharacter($locales)} below={true}>
@@ -32,11 +67,10 @@
              full binary UnionType tree recurses NodeView per member and
              overflows the call stack at that depth. -->
         <span class="signature"
-            >{#if concept.bind.type && !(concept.bind.type instanceof AnyType)}{@const elision =
-                    elideNode(
-                        concept.bind.type,
-                        $locales,
-                    )}•{#if elision}<RootView
+            >{#if type}{@const elision = elideNode(
+                    type,
+                    $locales,
+                )}•{#if elision}<RootView
                         node={elision.preview}
                         inline
                         locale="symbolic"
@@ -45,11 +79,11 @@
                         markup={elision.suffix}
                         inline
                     />{:else}<RootView
-                        node={concept.bind.type}
+                        node={type}
                         inline
                         locale="symbolic"
                         blocks={false}
-                    />{/if}{/if}{#if concept.bind.value}: <RootView
+                    />{/if}{/if}{#if concept.bind.value && !shared}: <RootView
                     node={concept.bind.value}
                     inline
                     locale="symbolic"

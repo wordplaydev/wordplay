@@ -1,4 +1,4 @@
-import type { GuidePlace } from '@components/concepts/GuideHistory';
+import { Modes, type GuidePlace } from '@components/concepts/GuideHistory';
 import {
     getLanguageQuoteClose,
     getLanguageQuoteOpen,
@@ -19,10 +19,13 @@ export default function placeLabel(
         const language = locales.getLocale().language;
         return `${SEARCH_SYMBOL} ${getLanguageQuoteOpen(language)}${place.query}${getLanguageQuoteClose(language)}`;
     }
-    if (place.mode === 'howto')
-        return locales.getPlainText((l) => l.ui.docs.mode.browse.labels[1]);
-    if (place.mode === 'glossary')
-        return locales.getPlainText((l) => l.ui.docs.mode.browse.labels[2]);
+    // Only the code section has a subsection to name; every other one names itself.
+    // Indexed rather than branched on, so a section added later can't fall through to a
+    // purpose header — which is exactly what `kits` did when it was added.
+    if (place.mode !== 'language') {
+        const which = Modes.indexOf(place.mode);
+        return locales.getPlainText((l) => l.ui.docs.mode.browse.labels[which]);
+    }
     return locales.getPlainText(
         (l) => l.ui.docs.purposes[place.purpose].header,
     );

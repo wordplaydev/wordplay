@@ -4,6 +4,7 @@ import type {
     SerializedNotices,
 } from 'shared-types';
 import { z } from 'zod';
+import type { ReportSubjectKind } from 'shared-types';
 
 /** Where a creator's inbox lives. Client-readable, server-written. */
 export const NoticesCollection = 'notices';
@@ -36,6 +37,8 @@ export const NoticeKinds = [
     'howto-published',
     'gallery-listed',
     'gallery-denied',
+    'kit-listed',
+    'kit-denied',
     'warning',
 ] as const;
 
@@ -48,8 +51,26 @@ export const WrittenNoticeKinds = [
     'outcome',
 ] as const;
 
+/**
+ * Every kind of thing a notice can be about.
+ *
+ * Held to `ReportSubjectKind` by the `satisfies` here and by `noticeSync.test.ts`,
+ * because a kind missing from this list is silent in the worst way: the server writes
+ * the notice, `toNotices` drops it on read, and the creator is never told anything.
+ * That is exactly what happened to kits (#8) — every decision, outcome, and review
+ * request about one was delivered and then discarded.
+ */
+export const NoticeSubjectKinds = [
+    'project',
+    'gallery',
+    'chat',
+    'howto',
+    'character',
+    'kit',
+] as const satisfies readonly ReportSubjectKind[];
+
 const NoticeSubjectSchema = z.object({
-    kind: z.enum(['project', 'gallery', 'chat', 'howto', 'character']),
+    kind: z.enum(NoticeSubjectKinds),
     id: z.string(),
     gallery: z.string().nullable(),
     message: z.string().exactOptional(),
@@ -92,6 +113,9 @@ export function toNotices(data: unknown): SerializedNotices | undefined {
     const notices: SerializedNotice[] = [];
     if (Array.isArray(record.notices))
         for (const notice of record.notices) {
+            // A notice that doesn't parse is dropped rather than reported, which is
+            // right for one stale field and catastrophic for a whole subject kind —
+            // see NoticeSubjectKinds.
             const parsed = NoticeSchema.safeParse(notice);
             if (parsed.success) notices.push(parsed.data);
         }

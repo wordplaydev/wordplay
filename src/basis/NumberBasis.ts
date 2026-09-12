@@ -92,6 +92,66 @@ export default function bootstrapNumber(locales: Locales) {
         );
     }
 
+    /**
+     * A number function of any arity: the receiver and every input must be numbers, and
+     * the inputs named in `sameUnit` must be measured in the receiver's own unit.
+     *
+     * `createBinaryOp` above does this for exactly one input; `limit`, `toward` and
+     * `rescale` take two to four, and were each writing their own copy of the same two
+     * guards. (`min`/`max` omit the unit guard entirely, so `(1m).min(2s)` is `1m`; that
+     * is a gap, not a pattern.)
+     */
+    function createNumberOp(
+        text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
+        inputTypes: Type[],
+        outputType: Type,
+        sameUnit: number[],
+        expression: (
+            requestor: Expression,
+            value: NumberValue,
+            inputs: NumberValue[],
+            evaluation: Evaluation,
+        ) => Value,
+    ) {
+        return createBasisFunction(
+            locales,
+            text,
+            undefined,
+            inputTypes,
+            outputType,
+            (requestor, evaluation) => {
+                const value: Value | Evaluation | undefined =
+                    evaluation.getClosure();
+                const inputs = inputTypes.map((_, index) =>
+                    evaluation.getInput(index),
+                );
+                if (!(value instanceof NumberValue))
+                    return evaluation.getValueOrTypeException(
+                        evaluation.getDefinition(),
+                        NumberType.make(),
+                        value,
+                    );
+                if (!inputs.every((one) => one instanceof NumberValue))
+                    return evaluation.getValueOrTypeException(
+                        evaluation.getDefinition(),
+                        NumberType.make(),
+                        inputs.find((one) => !(one instanceof NumberValue)),
+                    );
+                const mismatched = sameUnit
+                    .map((index) => inputs[index])
+                    .find((one) => !value.unit.accepts(one.unit));
+                if (mismatched !== undefined)
+                    return new TypeException(
+                        evaluation.getDefinition(),
+                        evaluation.getEvaluator(),
+                        value.getType(),
+                        mismatched,
+                    );
+                return expression(requestor, value, inputs, evaluation);
+            },
+        );
+    }
+
     function createUnaryOp(
         text: (locale: LocaleText) => FunctionText<readonly NameAndDoc[]>,
         outputType: Type,
@@ -524,6 +584,96 @@ export default function bootstrapNumber(locales: Locales) {
                     },
                 ),
 
+                // limit / toward / rescale, each an n-ary number function, which
+                // `createBinaryOp` cannot express — it takes exactly one input.
+                createNumberOp(
+                    (locale) => locale.basis.Number.function.limit,
+                    // The bounds share my unit, so the result does too.
+                    [
+                        NumberType.make((unit) => unit),
+                        NumberType.make((unit) => unit),
+                    ],
+                    NumberType.make((unit) => unit),
+                    [0, 1],
+                    (requestor, value, [low, high]) =>
+                        value.greaterThan(requestor, high).bool
+                            ? high
+                            : value.lessThan(requestor, low).bool
+                              ? low
+                              : value,
+                ),
+                createNumberOp(
+                    (locale) => locale.basis.Number.function.toward,
+                    // The other number shares my unit; the amount is a plain fraction, so
+                    // `Unit.Empty` rather than `NumberType.make()`, which would let `2m`
+                    // through as an amount.
+                    [
+                        NumberType.make((unit) => unit),
+                        NumberType.make(() => Unit.Empty),
+                    ],
+                    NumberType.make((unit) => unit),
+                    [0],
+                    // me + (other - me) × amount, which is me at 0% and other at 100%,
+                    // and keeps going past either end rather than stopping.
+                    (requestor, value, [other, amount]) =>
+                        value.add(
+                            requestor,
+                            other
+                                .subtract(requestor, value)
+                                .multiply(requestor, amount),
+                        ),
+                ),
+                createNumberOp(
+                    (locale) => locale.basis.Number.function.rescale,
+                    [
+                        NumberType.make((unit) => unit),
+                        NumberType.make((unit) => unit),
+                        NumberType.make(),
+                        NumberType.make(),
+                    ],
+                    // The one function whose result unit comes from an input rather than
+                    // from me: rescaling 300hz into metres gives metres. `inputs` is in
+                    // parameter order, so index 2 is `toLow` however the call was
+                    // written. Falls back to my own unit when the bounds can't be
+                    // resolved, which is the same leniency the rest of this file shows.
+                    NumberType.make((left, _right, _constant, inputs) => {
+                        const units = inputs?.();
+                        return units?.[2] ?? units?.[3] ?? left;
+                    }),
+                    // Only the `from` bounds are measured against me; the `to` bounds are
+                    // a different quantity, and are checked against each other below.
+                    [0, 1],
+                    (
+                        requestor,
+                        value,
+                        [fromLow, fromHigh, toLow, toHigh],
+                        evaluation,
+                    ) => {
+                        if (!toLow.unit.accepts(toHigh.unit))
+                            return new TypeException(
+                                evaluation.getDefinition(),
+                                evaluation.getEvaluator(),
+                                toLow.getType(),
+                                toHigh,
+                            );
+                        // Where I sit between the from bounds, as a plain fraction, then
+                        // that same fraction of the to bounds. A zero-width from range
+                        // has no answer, so it gives back the low end rather than
+                        // dividing by zero.
+                        const span = fromHigh.subtract(requestor, fromLow);
+                        if (span.toNumber() === 0) return toLow;
+                        const fraction = value
+                            .subtract(requestor, fromLow)
+                            .divide(requestor, span);
+                        if (!(fraction instanceof NumberValue)) return toLow;
+                        return toLow.add(
+                            requestor,
+                            toHigh
+                                .subtract(requestor, toLow)
+                                .multiply(requestor, fraction),
+                        );
+                    },
+                ),
                 createBasisConversion(
                     getDocLocales(
                         locales,

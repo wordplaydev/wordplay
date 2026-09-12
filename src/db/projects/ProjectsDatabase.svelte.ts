@@ -24,6 +24,8 @@ import { unknownFlags } from '@db/projects/Moderation';
 import { buildKeywordIndex } from '@parser/Keywords';
 import { PresenceTracker } from '@db/projects/PresenceTracker.svelte';
 import Project from '@db/projects/Project';
+import { kitsNeededBy, resolveKits } from '@db/kits/resolveKits';
+import { dependencyKey } from '@nodes/Borrow';
 import ProjectCRDT, {
     base64ToBytes as decodeCRDTSnapshot,
 } from '@db/projects/ProjectCRDT';
@@ -564,7 +566,28 @@ export default class ProjectsDatabase {
     async deserialize(
         project: SerializedProjectUnknownVersion,
     ): Promise<Project | undefined> {
-        return Project.deserialize(this.database.Locales, project);
+        const deserialized = await Project.deserialize(
+            this.database.Locales,
+            project,
+        );
+        return deserialized === undefined
+            ? undefined
+            : this.withKits(deserialized);
+    }
+
+    /**
+     * The same project with every kit it borrows fetched and parsed (#8).
+     *
+     * Awaited rather than filled in afterwards, because `Project.getShare` is synchronous:
+     * analysis and evaluation both resolve borrows without being able to wait for
+     * anything, so a kit has to be in hand before the Project is used. A project that
+     * borrows nothing does no work here and pays nothing — and a kit version is cached
+     * permanently, so even one that does pays only on its first load per device.
+     */
+    private async withKits(project: Project): Promise<Project> {
+        if (kitsNeededBy(project).length === 0) return project;
+        const kits = await this.database.loadKits();
+        return project.withDependencies(await resolveKits(project, kits));
     }
 
     /** When the user changes, update the realtime query for projects. */
@@ -1634,9 +1657,19 @@ export default class ProjectsDatabase {
                 id,
                 this.database.Locales.getLocales().map(localeToString),
             );
+            // Through `withKits`, like every other project: an example may borrow a
+            // kit (#8), and returning it unresolved left the borrow reporting
+            // `UnknownKit` forever. Costs nothing for the examples that borrow
+            // nothing, which is all but a few — `withKits` returns immediately when
+            // `kitsNeededBy` is empty.
             const project = await (serialized === undefined
                 ? undefined
-                : Project.deserialize(this.database.Locales, serialized));
+                : this.withKits(
+                      await Project.deserialize(
+                          this.database.Locales,
+                          serialized,
+                      ),
+                  ));
             this.readonlyProjects.set(id, project);
             return project;
         }
@@ -1805,6 +1838,10 @@ export default class ProjectsDatabase {
         this.listeners
             .get(project.getID())
             ?.forEach((listener) => listener(project));
+
+        // If the borrows changed, the kits they name have to be fetched — otherwise
+        // adding one to an open project does nothing until the next reload.
+        this.resolveKitsSoon(project);
 
         // Update or create a history for this project.
         const history = this.projectHistories.get(project.getID());
@@ -2438,6 +2475,60 @@ export default class ProjectsDatabase {
         dynamic = false,
     ): Promise<EditFailure | undefined> {
         return this.edit(revised, remember, true, dynamic);
+    }
+
+    /** Pending kit resolution per project, so typing a borrow doesn't fetch on every key. */
+    private kitResolutions = new Map<string, NodeJS.Timeout>();
+
+    /**
+     * Re-resolve a project's kits when its borrows change.
+     *
+     * Resolving on load alone is not enough: adding `↓ @amy/colors 3` to a project that is
+     * already open would otherwise do nothing until the next reload, which reads as the
+     * feature being broken. Debounced because the borrow set changes on every keystroke
+     * while it is being typed, and each distinct kit costs a fetch the first time.
+     */
+    private resolveKitsSoon(project: Project) {
+        const id = project.getID();
+        const needed = kitsNeededBy(project).map(({ ref, version }) =>
+            dependencyKey(ref, version),
+        );
+        // Nothing to do when the borrows name exactly what is already resolved. This is
+        // also what stops the re-emit below from looping: the second pass finds no change.
+        const resolved = project.getResolvedKitKeys();
+        if (
+            needed.length === resolved.length &&
+            needed.every((key) => resolved.includes(key))
+        )
+            return;
+
+        const pending = this.kitResolutions.get(id);
+        if (pending) clearTimeout(pending);
+        this.kitResolutions.set(
+            id,
+            setTimeout(() => {
+                this.kitResolutions.delete(id);
+                const current = this.projectHistories.get(id)?.getCurrent();
+                if (current === undefined) return;
+                void this.database
+                    .loadKits()
+                    .then((kits) => resolveKits(current, kits))
+                    .then((map) => {
+                        // Only if nothing else has replaced it meanwhile.
+                        if (
+                            this.projectHistories.get(id)?.getCurrent() !==
+                            current
+                        )
+                            return;
+                        void this.edit(
+                            current.withDependencies(map),
+                            false,
+                            false,
+                        );
+                    })
+                    .catch(() => undefined);
+            }, 600),
+        );
     }
 
     /** Gets the project history for the given project ID, if there is one. */

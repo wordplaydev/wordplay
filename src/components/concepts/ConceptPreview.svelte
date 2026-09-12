@@ -249,8 +249,12 @@
     {@render link()}
     {#if note && describe && concept && !inline && !isHowTo}
         <!-- The code's NodeView already exposes this same text via aria-label, so the
-             visible hint is aria-hidden to avoid a screen reader reading it twice. -->
-        <span class="note-wrap" aria-hidden="true">
+             visible hint is hidden from assistive tech to avoid reading it twice.
+             `inert` rather than `aria-hidden`: the hint is markup and can contain
+             concept links, which are focusable, and a focusable thing inside an
+             `aria-hidden` subtree is an axe violation (`aria-hidden-focus`). `inert`
+             hides it *and* takes it out of the tab order, which is what was meant. -->
+        <span class="note-wrap" inert>
             <Note inline
                 ><MarkupHTMLView
                     markup={{ perLocale: (l) => concept?.getDescription(l) }}

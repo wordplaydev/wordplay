@@ -2,6 +2,7 @@
 LetrasAChover
 === start/en
 ¶Este programa tem um conjunto de letras que caem para o solo segundo as regras da física e, depois de tocarem no chão, ficam disponíveis para cair de novo. Temos sempre o mesmo número de letras a cair, mas tornamos visível um número diferente com base na amplitude do microfone.¶
+↓ @wordplay/alphabets 1
 
 ¶O número máximo de letras¶
 contagem2: 100
@@ -19,7 +20,7 @@ tique: Tempo()
 ¶Iniciar como uma lista de letras aleatórias em posições aleatórias¶
 letras•[letra]: contagem2 → [#].traduzir(
 		ƒ(_) letra(
-				'abcdefghijklmnopqrstuvwxyz' → [''].aleatório()
+				latin.aleatório()
 				Aleatório(-tamanho2 tamanho2)
 				Aleatório(0m tamanho2 + 2m)
 				Aleatório(360)

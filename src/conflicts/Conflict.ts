@@ -4,6 +4,7 @@ import type { ConflictText } from '@locale/NodeTexts';
 import type Context from '@nodes/Context';
 import Node from '@nodes/Node';
 import type Locales from '@locale/Locales';
+import type { LocaleTextAccessor } from '@locale/Locales';
 import type Markup from '@nodes/Markup';
 
 /**
@@ -69,6 +70,9 @@ export type Explainer = {
     openDialog?: string;
     /** The glyph on the button that opens {@link Explainer.openDialog}, naming what's there. */
     openDialogIcon?: string;
+    /** What that button says. A glyph alone names no destination: `↗` with the tip "Open
+     *  where this can be fixed" left a reader no way to know it opens sharing. */
+    openDialogLabel?: LocaleTextAccessor;
 };
 
 /**

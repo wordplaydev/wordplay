@@ -132,11 +132,7 @@ thema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶Wie viel von deinem Taschengeld schon ausgegeben ist, von 0 mit allem noch offen bis 1 mit nichts mehr übrig. Das Geheimnis ist vor der ersten Runde leer, deshalb wird die Division geschützt, statt durch null zu teilen.¶
 maxVersuche: state.geheim.Länge() × 3
-druck: (maxVersuche = 0) ? 0 (((1 - (state.guessesRemaining ÷ maxVersuche)).max(
-					0
-				)).Mindest(
-				1
-			))
+druck: (maxVersuche = 0) ? 0 ((1 - (state.guessesRemaining ÷ maxVersuche)).limit(0 1))
 
 ¶Nachdenklich bei 54 Schlägen pro Minute, dringend bei 120, und jeder Versuch bewegt es ein Stück weiter. Eine Tempoänderung setzt beim nächsten Schlag ein, statt neu zu beginnen. So behält die Schleife ihren Platz und lehnt sich einfach nach vorn — die leise Trommel macht dieses Vorlehnen hörbar, denn eine Tempoänderung unter lang gehaltenen Tönen ist schwer zu spüren.¶
 puzzleMusic: Musik(

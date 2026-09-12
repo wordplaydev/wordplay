@@ -1,5 +1,6 @@
 import type { LocaleTextsAccessor } from '@locale/Locales';
 import type { TourID } from '@components/project/tours';
+import { Modes, type GuideMode } from '@components/concepts/GuideHistory';
 
 /**
  * What each tour actually says, step by step. Separate from `tours.ts` because
@@ -19,14 +20,16 @@ export type UIExplanation = {
     onEnter?: () => void;
 };
 
-/** Programmatically click the docs section tab for the given index
- * (0 = code/language, 1 = how-to). Tabbed listens to `pointerdown`, so a
- * synthesized event is what actually triggers selection. */
-function setDocsMode(index: number) {
+/** Programmatically click the docs section tab for the given section. Tabbed listens to
+ * `pointerdown`, so a synthesized event is what actually triggers selection.
+ *
+ * Named rather than indexed: the tabs are positional, and taking a number here meant that
+ * reordering them silently opened a different section than the one a tour narrates. */
+function setDocsMode(mode: GuideMode) {
     const buttons = document.querySelectorAll<HTMLButtonElement>(
         '[data-uiid="docsModeToggle"] button',
     );
-    const target = buttons[index];
+    const target = buttons[Modes.indexOf(mode)];
     if (target && target.getAttribute('aria-selected') !== 'true')
         target.dispatchEvent(
             new PointerEvent('pointerdown', {
@@ -102,12 +105,12 @@ export const TourSteps: Record<TourID, UIExplanation[]> = {
         {
             uiid: 'documentation',
             explanation: (l) => l.ui.docs.tour.code,
-            onEnter: () => setDocsMode(0),
+            onEnter: () => setDocsMode('language'),
         },
         {
             uiid: 'documentation',
             explanation: (l) => l.ui.docs.tour.howto,
-            onEnter: () => setDocsMode(1),
+            onEnter: () => setDocsMode('howto'),
         },
         { uiid: 'docsModeToggle', explanation: (l) => l.ui.docs.tour.mode },
         { uiid: 'docsSearch', explanation: (l) => l.ui.docs.tour.search },

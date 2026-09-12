@@ -955,6 +955,12 @@
         "e876dc2ed0b0f": "$~@Groupが@Shapeを持てるようになりました。これで、円と自分の言葉を重ねたり、@Sceneをレイアウトの中に入れたりできます。(<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e723fd65c8efc": "$~@Shapeは、自分の角がたまたまある場所に置かれるのではなく、入っている@Stack、@Row、または@Gridに合わせて並ぶようになりました。また、@Gridの中にあるものは、近づけたり遠ざけたりできるようになりました。(<547@https://github.com/wordplaydev/wordplay/issues/547>)",
         "e8ad9864d7217": "$~ゲームの1回分を繰り返すためのやり方ガイドを<ガイド@https://wordplay.dev/guide>に追加しました。(<547@https://github.com/wordplaydev/wordplay/issues/547>)",
-        "e0bce9fefa9f6": "$~@Spotlightを追加しました。これは、@Sceneのどの部分が表示されているか、部分がいくつあるか、何回繰り返したか、誰かを待っているかどうかを教えてくれます。（<547@https://github.com/wordplaydev/wordplay/issues/547>）"
+        "e0bce9fefa9f6": "$~@Spotlightを追加しました。これは、@Sceneのどの部分が表示されているか、部分がいくつあるか、何回繰り返したか、誰かを待っているかどうかを教えてくれます。（<547@https://github.com/wordplaydev/wordplay/issues/547>）",
+        "e615935a2e384": "$~公開されたキットを<Guide@https://wordplay.dev/guide>で見つけたり検索したりできるようになりました。↓で借りることで、自分のプログラムに追加できます。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
+        "ed328cd23ff5e": "$~キットを追加しました。キットを使うと、他の人と共有したいコードを公開できます。値や関数の前に↑を付けてから、公開しましょう。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
+        "ee176f1308f17": "$~Wordplayには今、借りて使える3つのキットが用意されています——アルファベット、楽器、曲です。これで、文字や楽器の見た目、メロディーを自分で入力しなくてすみます。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
+        "ede02f98adf41": "$~Wordplayに付属する3つのキットは、対応しているすべての言語で書かれています。だから、名前も文章も自分の言語で読めます。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
+        "e75fc15b8d057": "$~数は、これまで自分で書いていた3つのことを、今はできるようになりました：\\limit\\は、数を下限と上限の間に収めます。\\toward\\は、数を別の数へ途中まで近づけます。\\rescale\\は、ある範囲の数を、別の範囲の対応する数に変えます。",
+        "e49e28ab01607": "$~数のリストは、今では\\sum\\と\\average\\を教えてくれるので、自分で合計を計算する必要がありません。"
     }
 }

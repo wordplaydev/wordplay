@@ -41,7 +41,7 @@ drift•#: 0 … ∆ press | ∆ release …
 ¶The glove is not moved by physics, so it can be steered directly. It stops at
 the ends of its reach, so it can never wander off the goal.¶
 keeperY•#m: 0m … ∆ tick …
-	((keeperY + (drift × keeperSpeed)).max(keeperReach · -1)).min(keeperReach)
+	(keeperY + (drift × keeperSpeed)).limit((keeperReach · -1) keeperReach)
 
 ¶A save and a goal. Each @Collision reports a touch beginning and a touch
 ending, so both are paired with a check that this one is a beginning: without

@@ -28,11 +28,7 @@ deslizar•#: 0 … ∆ premir | ∆ soltar …
 
 ¶A luva não é movida pela física, por isso pode ser controlada diretamente. Ela para nos limites do seu alcance, por isso nunca pode sair da baliza.¶
 keeperY•#m: 0m … ∆ tique …
-		((keeperY + (deslizar × keeperSpeed)).máx(
-				keeperReach · -1
-			)).min(
-			keeperReach
-		)
+		(keeperY + (deslizar × keeperSpeed)).limit((keeperReach · -1) keeperReach)
 
 ¶Uma defesa e um golo. Cada @Collision regista o início e o fim de um toque, por isso ambos são combinados com uma verificação de que se trata de um início: sem essa verificação, cada defesa e cada golo contariam a dobrar.¶
 toqueNaLuva: Colisão('bola' 'guarda-redes')

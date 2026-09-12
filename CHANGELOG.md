@@ -4,6 +4,21 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.37.0 - 2026-09-12
+
+### Added
+
+- 🤝 We added kits, which let you publish code you want to share with other people. Add ↑ in front of values or functions, then publish. (#8)
+- 📖 You can now find and search published kits in the [Guide](https://wordplay.dev/guide), and add one to your program by borrowing it with ↓. (#8)
+- 🤝 Wordplay now comes with three kits you can borrow — alphabets, instruments, and songs — so you don't have to type out letters, instrument faces, or tunes yourself. (#8)
+- 🌐 The three kits that come with Wordplay are written in every language we support, so their names and their writing read in yours. (#8)
+- 🔢 Numbers can now do three things you used to write out by hand: `limit` keeps a number between a low and a high, `toward` moves a number part of the way to another one, and `rescale` turns a number in one range into the matching number in another.
+- 🔢 A list of numbers can now tell you its `sum` and its `average`, so you don't have to add them up yourself.
+
+### Fixed
+
+- 🎨 A heading inside a tabbed panel, like the ones in Settings, now sits closer to the part it names instead of drifting up toward the section above it.
+
 ## 0.36.0 - 2026-09-09
 
 ### Added

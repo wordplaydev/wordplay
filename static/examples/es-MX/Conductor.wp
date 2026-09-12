@@ -6,14 +6,15 @@ Conductora
 Levanta la mano y la orquesta se va sumando, una parte a la vez, hasta que las ocho tocan juntas. Bájala y desaparecen poco a poco hasta que solo queda la melodía sola. Desliza a la izquierda para hacer más lenta la marcha, a la derecha para acelerarla. La cantidad de dedos que levantes decide quién toca la melodía.
 
 Cada instrucción está escrita en el escenario, así que puedes aprenderla sin leer este texto.¶
+↓ @wordplay/instruments 1
 
 mano2: Mano()
 
 ¶La altura indica cuánta orquesta suena y el movimiento lateral indica qué tan rápido va, y ambos se leen directo de la mano en vez de recordarse, así que la siguen de forma continua. Cada uno se redondea a un paso, así que la música solo cambia cuando el cambio es lo bastante grande para escucharse, y una mano que tiembla no reescribe la partitura veinte veces por segundo.¶
-levantar: ((mano2.lugar.y + 3m) ÷ 6m).mínimo(1).máximo(0)
+levantar: mano2.lugar.y.rescale(-3m 3m 0 1).limit(0 1)
 capas: 1 + ((levantar · 7).rondear())
 
-alcance: ((mano2.lugar.x + 5m) ÷ 10m).mínimo(1).máximo(0)
+alcance: mano2.lugar.x.rescale(-5m 5m 0 1).limit(0 1)
 ritmo: 72 + ((alcance · 8).rondear() · 12)
 
 ¶Quién toca la melodía. Un puño y una mano fuera de cuadro cuentan como cero dedos, así que cero dedos deja a quien ya estaba tocando; de lo contrario, mirar hacia otro lado cambiaría la melodía.¶
@@ -28,11 +29,7 @@ destacado: 5 … ∆ mano2 …
 					Instrumento.trompeta
 
 ƒ ícono(cantidad3•#)•''
-	(cantidad3 = 1) ? '🎹'
-		(cantidad3 = 2) ? '🎻'
-			(cantidad3 = 3) ? '🪈'
-				(cantidad3 = 4) ? '⚡'
-					'🎺'
+	iconFor(voz2(cantidad3))
 
 ¶Qué tan fuerte suena una parte. Cada parte se mantiene en la música todo el tiempo, así que ninguna pierde su lugar; las que están por encima de la mano solo tienen el volumen bajado hasta el fondo.
 

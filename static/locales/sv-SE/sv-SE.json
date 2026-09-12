@@ -296,7 +296,8 @@
         "Percent": "$~procent",
         "Defect": "$~exempel med förväntat fel",
         "NotANumber": "$~inte ett tal",
-        "Range": "$~intervall"
+        "Range": "$~intervall",
+        "External": "$~kit"
     },
     "node": {
         "Dimension": {
@@ -795,6 +796,31 @@
                     "name": "$~självrefererande lån",
                     "explanation": "$~detta beror på $borrow, vilket beror på denna @Source, så programmet kan inte utvärderas",
                     "resolution": "$~Ta bort detta lån för att bryta cykeln"
+                },
+                "MissingKitVersion": {
+                    "name": "$~saknad version",
+                    "explanation": "$~ett kit sparar varje version det någonsin haft, så jag behöver veta vilken version av $kit du vill ha",
+                    "resolution": "$~Ta bort denna lån"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~två versioner av ett kit",
+                    "explanation": "$~jag kan bara använda en version av ett kit åt gången, och denna @Source vill ha två av $kit",
+                    "resolution": "$~Ta bort denna lån"
+                },
+                "UnknownKit": {
+                    "name": "$~okänt kit",
+                    "explanation": "$~jag kan inte hitta $kit",
+                    "resolution": "$~Ta bort denna lån"
+                },
+                "UnavailableKit": {
+                    "name": "$~otillgängligt kit",
+                    "explanation": "$~$kit finns, men det är inte delat med dig",
+                    "resolution": "$~Ta bort denna lån"
+                },
+                "KitCannotBorrow": {
+                    "name": "$~kit kan inte låna",
+                    "explanation": "$~denna källa är publicerad som ett kit, och ett kit är den enda fil dess läsare får — kopiera det du lånar in i denna källa istället",
+                    "resolution": "$~Ta bort lånet"
                 }
             },
             "exception": {
@@ -1368,6 +1394,23 @@
             "label": {
                 "borrows": "$~lånar",
                 "expression": "$~blockera"
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~odokumenterad delning",
+                    "explanation": "$~detta är publicerat, så någon som inte skrev det kommer att läsa det — skriv en /doc/ ovanför som säger vad det är till för",
+                    "resolution": "$~Dokumentera det ovanför, eller sluta publicera denna källa"
+                },
+                "UnexampledShare": {
+                    "name": "$~inget exempel",
+                    "explanation": "$~detta tar inmatningar, så en beskrivning räcker inte — lägg ett exempel i dess dokumentation som visar ett sätt att använda det",
+                    "resolution": "$~Lägg till ett exempel i dess dokumentation, eller sluta publicera denna källa"
+                },
+                "UnexampledKit": {
+                    "name": "$~inget exempel",
+                    "explanation": "$~inget i denna källa har ett exempel, så det finns inget att visa personer som letar efter kit — lägg till ett i denna källas dokumentation",
+                    "resolution": "$~Lägg till ett exempel i denna källas dokumentation, eller sluta publicera denna källa"
+                }
             }
         },
         "PropertyBind": {
@@ -3157,6 +3200,65 @@
                             "names": "$~tal"
                         }
                     ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Håll mig mellan ett lågt och ett högt tal: om jag är under det låga talet, får du det, och om jag är över det höga talet, får du det istället.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~gräns",
+                    "inputs": [
+                        {
+                            "doc": "$~Det lägsta jag får vara.",
+                            "names": "$~låg"
+                        },
+                        {
+                            "doc": "$~Det högsta jag får vara.",
+                            "names": "$~hög"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Flytta en bit av vägen från mig till ett annat tal. Vid 0 % får du mig, vid 100 % får du det andra talet, och halvvägs emellan får du talet mitt emellan.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~mot",
+                    "inputs": [
+                        {
+                            "doc": "$~Talet att flytta mot.",
+                            "names": "$~annan"
+                        },
+                        {
+                            "doc": "$~Hur långt att gå, där 100 % anländer.",
+                            "names": "$~mängd"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Hitta var jag befinner mig mellan ett par tal, och ge sedan tillbaka talet som ligger på samma sätt mellan ett annat par. Praktiskt för att göra om något du mätt till något du kan visa.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~skalaom",
+                    "inputs": [
+                        {
+                            "doc": "$~Den låga änden av intervallet jag är i.",
+                            "names": "$~frånLåg"
+                        },
+                        {
+                            "doc": "$~Den höga änden av intervallet jag är i.",
+                            "names": "$~frånHög"
+                        },
+                        {
+                            "doc": "$~Den låga änden av intervallet du vill ha.",
+                            "names": "$~tillLåg"
+                        },
+                        {
+                            "doc": "$~Den höga änden av intervallet du vill ha.",
+                            "names": "$~tillHög"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -3728,6 +3830,22 @@
                             "names": "$~värde"
                         }
                     ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Lägg ihop alla mina tal. Om jag är tom blir det 0, och om mina tal inte alla mäts i samma sak, säger jag till istället för att gissa.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~summa",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Lägg ihop alla mina tal och dela med hur många de är. Om jag är tom finns det inget att räkna medelvärde på, så du får @None.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~medelvärde",
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -5024,16 +5142,16 @@
             ],
             "categories": {
                 "person": ["$~person", "$~människor", "$~människa", "$~någon"],
-                "bicycle": ["$~cykel", "$~cykel"],
-                "car": ["$~bil", "$~bil"],
-                "motorcycle": ["$~motorcykel", "$~motorcykel"],
-                "airplane": ["$~flygplan", "$~plan", "$~flygplan"],
+                "bicycle": ["$~cykel"],
+                "car": ["$~bil"],
+                "motorcycle": ["$~motorcykel"],
+                "airplane": ["$~flygplan", "$~plan"],
                 "bus": ["$~buss"],
                 "train": ["$~tåg"],
-                "truck": ["$~lastbil", "$~lastbil"],
+                "truck": ["$~lastbil"],
                 "boat": ["$~båt", "$~fartyg"],
-                "traffic light": ["$~trafikljus", "$~trafikljus"],
-                "fire hydrant": ["$~brandpost", "$~brandpost"],
+                "traffic light": ["$~trafikljus"],
+                "fire hydrant": ["$~brandpost"],
                 "stop sign": ["$~stoppskylt"],
                 "parking meter": ["$~parkeringsautomat"],
                 "bench": ["$~bänk"],
@@ -5047,10 +5165,10 @@
                 "bear": ["$~björn"],
                 "zebra": ["$~zebra"],
                 "giraffe": ["$~giraff"],
-                "backpack": ["$~ryggsäck", "$~ryggsäck"],
+                "backpack": ["$~ryggsäck"],
                 "umbrella": ["$~paraply"],
                 "handbag": ["$~handväska", "$~portmonnä"],
-                "tie": ["$~slips", "$~slips"],
+                "tie": ["$~slips"],
                 "suitcase": ["$~resväska", "$~bagage"],
                 "frisbee": ["$~frisbee"],
                 "skis": ["$~skidor", "$~skida"],
@@ -5061,7 +5179,7 @@
                 "baseball glove": ["$~basebollhandske", "$~handske"],
                 "skateboard": ["$~skateboard"],
                 "surfboard": ["$~surfbräda"],
-                "tennis racket": ["$~tennisracket", "$~racket", "$~racket"],
+                "tennis racket": ["$~tennisracket", "$~racket"],
                 "bottle": ["$~flaska"],
                 "wine glass": ["$~vinglas"],
                 "cup": ["$~kopp", "$~mugg"],
@@ -5077,20 +5195,20 @@
                 "carrot": ["$~morot"],
                 "hot dog": ["$~varmkorv"],
                 "pizza": ["$~pizza"],
-                "donut": ["$~munk", "$~munk"],
+                "donut": ["$~munk"],
                 "cake": ["$~tårta"],
                 "chair": ["$~stol"],
-                "couch": ["$~soffa", "$~soffa"],
-                "potted plant": ["$~krukväxt", "$~krukväxt", "$~växt"],
+                "couch": ["$~soffa"],
+                "potted plant": ["$~krukväxt", "$~växt"],
                 "bed": ["$~säng"],
                 "dining table": ["$~bord", "$~matbord"],
                 "toilet": ["$~toalett"],
                 "tv": ["$~TV", "$~tv", "$~television"],
                 "laptop": ["$~bärbar dator", "$~dator"],
                 "mouse": ["$~mus"],
-                "remote": ["$~fjärrkontroll", "$~fjärrkontroll"],
+                "remote": ["$~fjärrkontroll"],
                 "keyboard": ["$~tangentbord"],
-                "cell phone": ["$~telefon", "$~mobiltelefon", "$~mobiltelefon"],
+                "cell phone": ["$~telefon", "$~mobiltelefon"],
                 "microwave": ["$~mikrovågsugn"],
                 "oven": ["$~ugn"],
                 "toaster": ["$~brödrost"],
@@ -5101,7 +5219,7 @@
                 "vase": ["$~vas"],
                 "scissors": ["$~sax"],
                 "teddy bear": ["$~nallebjörn", "$~gosedjur"],
-                "hair drier": ["$~hårtork", "$~hårtork"],
+                "hair drier": ["$~hårtork"],
                 "toothbrush": ["$~tandborste"]
             }
         },
@@ -7764,7 +7882,7 @@
                 "highlightMajor": "$~visa detta fels kod i editorn",
                 "highlightMinor": "$~visa denna varnings kod i editorn",
                 "highlightStep": "$~visa detta utvärderingssteg kod i editorn",
-                "elsewhere": "$~Öppna där detta kan åtgärdas"
+                "elsewhere": "$~öppna där detta kan fixas"
             },
             "nodeDescription": "$~De $description.",
             "severity": {
@@ -7967,6 +8085,26 @@
             }
         },
         "docs": {
+            "kits": {
+                "header": "$~Kit",
+                "prompt": "$~Ett kit är kod som någon publicerat för att andra ska kunna bygga med. Kopiera raden för ett, klistra in den överst i ditt program, så blir allt det delar ditt att använda.",
+                "empty": "$~Ingen har publicerat ett kit än. Ditt kan bli det första — dela något med ↑, publicera det sedan från ditt projekts delningsinställningar.",
+                "shares": "$~delar $names",
+                "missing": "$~Det finns inget verktygspaket med det namnet. Det kan ha bytt namn, eller aldrig blivit publicerat.",
+                "missingVersion": "$~Den versionen finns inte här. Prova en annan nedan.",
+                "nothing": "$~det här verktygspaketet delar inget",
+                "versions": "$~Varje version av det här verktygspaketet",
+                "version": {
+                    "tip": "$~se den här versionen av verktygspaketet"
+                },
+                "open": "$~läs det här verktygspaketets dokumentation",
+                "none": "$~Inget här matchar det.",
+                "kinds": {
+                    "label": "$~vad verktygspaket delar",
+                    "all": "$~något"
+                },
+                "yours": "$~Dina paket som inte är listade"
+            },
             "label": "$~guide",
             "link": "$~visa koncept $name i dokumentationen",
             "nodoc": "$~Vem är jag? Vad är jag? Vad är mitt syfte?",
@@ -8057,9 +8195,15 @@
             "mode": {
                 "browse": {
                     "label": "$~bläddra",
-                    "labels": ["$~koda", "$~hur man", "$~ordlista"],
+                    "labels": [
+                        "$~koda",
+                        "$~verktygspaket",
+                        "$~hur man",
+                        "$~ordlista"
+                    ],
                     "tips": [
                         "$~begrepp inom programmeringsspråk",
+                        "$~koda som andra har publicerat för att du ska kunna bygga med",
                         "$~återanvändbara mönster för att göra projekt",
                         "$~förklaringar av viktiga termer"
                     ]
@@ -8068,6 +8212,7 @@
                     "label": "$~ändamål",
                     "labels": [
                         "$~projekt",
+                        "$~kit",
                         "$~produktion",
                         "$~input",
                         "$~besluta",
@@ -8085,6 +8230,7 @@
                     ],
                     "tips": [
                         "$~koncept på projektnivå",
+                        "$~vad verktygspaketen det här projektet lånar gör tillgängligt",
                         "$~fraser, grupper, etapper, layouter och mer",
                         "$~tid, knappar, tangenter, scener och mer",
                         "$~välj värden baserat på andra värden",
@@ -8182,6 +8328,10 @@
                 "Patterns": {
                     "header": "$~Mönster",
                     "explanation": "$~/Beskriv textens form med ett mönster, avgränsat av \\⣿\\ , testa sedan om texten passar formen ( \\≈\\ ) eller hitta varje plats där den förekommer ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Kit",
+                    "explanation": "$~Saker som verktygspaketen det här projektet lånar har delat med det."
                 }
             },
             "note": {
@@ -8233,6 +8383,9 @@
                     "research": {
                         "header": "$~Forskning",
                         "explanation": "$~Ibland skriver och pratar vi om Wordplay — i forskningsartiklar, i föredrag, och i det vi visar lärare och familjer. Om du slår på detta kan vi visa detta projekt som ett exempel, utan ditt namn, ditt användarnamn eller något annat som visar att kontot är ditt.\n\nDu kan stänga av detta när som helst. Om du stänger av det slutar vi använda ditt projekt i nytt material, men det tar inte bort något vi redan har publicerat eller visat."
+                    },
+                    "kit": {
+                        "explanation": "$~Ett verktygspaket är en källa du har publicerat för att andra ska kunna bygga med. Allt du markerar med ↑ blir en del av det."
                     }
                 },
                 "field": {
@@ -8283,7 +8436,8 @@
                     }
                 },
                 "options": {
-                    "gallery": "$~galleriväljare"
+                    "gallery": "$~galleriväljare",
+                    "source": "$~källa att publicera"
                 },
                 "remix": {
                     "source": "$~Det här projektet är en remix av:",
@@ -8298,18 +8452,71 @@
                         "$~Offentlig",
                         "$~Förhandsvisning",
                         "$~Integritet",
-                        "$~Remixer"
+                        "$~Remixer",
+                        "$~Verktygspaket"
                     ],
                     "tips": [
                         "$~välj ett galleri där detta projekt ska visas",
                         "$~välj vem som kan se detta projekt",
                         "$~välj tecknet som representerar detta projekt i listor",
                         "$~granska personlig information som finns i detta projekt",
-                        "$~se vad detta projekt remixades från, och vad som har remixat det"
+                        "$~se vad detta projekt remixades från, och vad som har remixat det",
+                        "$~publicera en del av det här projektet så andra kan använda den"
                     ]
                 },
                 "pii": {
                     "none": "$~Ingen personlig information hittades."
+                },
+                "kit": {
+                    "nothing": "$~Inget här är delat än. Sätt ↑ framför ett namn, en funktion eller en struktur för att dela den, som \\↑ sunset/en: 🔴\\, så kan det bli ett verktygspaket.",
+                    "unpublished": "$~Du har inte publicerat den här än.",
+                    "name": {
+                        "placeholder": "$~namn",
+                        "description": "$~vad det här verktygspaketet ska kallas"
+                    },
+                    "publish": {
+                        "label": "$~publicera",
+                        "tip": "$~publicera en ny version av det här verktygspaketet"
+                    },
+                    "version": "$~version $version",
+                    "problem": {
+                        "exports": "$~inget delas här ännu",
+                        "invalid": "$~det där är inte ett namn jag kan läsa"
+                    },
+                    "undescribed": "$~denna källa har ingen dokumentation ännu",
+                    "discovery": "$~Moderatorer kan avlista en publicerad version. Allt som andra redan har lånat fungerar ändå, även om det är avlistat.",
+                    "moderation": {
+                        "unrequested": "$~inte begärt listning",
+                        "pending": "$~väntar på att en moderator ska granska den",
+                        "approved": "$~granskad och listad",
+                        "denied": "$~en moderator bad om ändringar"
+                    },
+                    "derived": "$~Ditt kits beskrivning och sökord hämtas från den första meningen i denna källas dokumentation.",
+                    "heading": {
+                        "name": "$~Namn",
+                        "exports": "$~Vad detta kit delar",
+                        "versions": "$~Versioner",
+                        "listing": "$~Vem kan hitta det"
+                    },
+                    "listing": {
+                        "label": "$~listning",
+                        "labels": ["$~avlistad", "$~listad"],
+                        "tips": [
+                            "$~ingen kan hitta detta kit i guiden, och allt som redan lånar det fortsätter att fungera",
+                            "$~vem som helst kan hitta detta kit i guiden, så snart en moderator har granskat det"
+                        ]
+                    },
+                    "remedy": "$~Ändra källan och publicera en ny version, så tittar en moderator på den igen.",
+                    "unreviewed": "$~Ingen granskar ett avlistat kit. Alla du ger lånraden till kan ändå läsa det.",
+                    "permanent": "$~Att publicera en version är permanent: andras program lånar den via nummer, så att ta tillbaka en skulle förstöra dem.",
+                    "confirm": "$~Publicera det",
+                    "withdraw": {
+                        "label": "$~dra tillbaka",
+                        "tip": "$~dra tillbaka denna version, vilket bara är möjligt medan kitet är avlistat"
+                    },
+                    "withdrawable": "$~Det här kittet har aldrig listats, så ingen kan ha hittat det ännu — du kan fortfarande dra tillbaka den senaste versionen.",
+                    "unpublishable": "$~Det här kittet kan inte publiceras än:",
+                    "failed": "$?"
                 }
             },
             "settings": {
@@ -9040,7 +9247,8 @@
                 "galleries": "$~Gallerier",
                 "characters": "$~Tecken",
                 "howtos": "$~Instruktioner",
-                "chats": "$~Chattar"
+                "chats": "$~Chattar",
+                "kits": "$~Kit"
             },
             "status": {
                 "header": "$~Spara status",
@@ -10550,31 +10758,32 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Gallerimoderering",
+            "header": "$~Rapporter",
             "description": "$~Det andra har bett dig granska, äldst först. Ett beslut visar vilka regler som bröts, och den som skapade det får veta vad du bestämde.",
             "labels": {
-                "message": "$~meddelande",
-                "action": "$~moderatoråtgärder",
-                "reason": "$~vilka regler den bröt mot"
+                "action": "$~Vad du ska göra",
+                "reason": "$~Vilka regler det bröt mot",
+                "subject": "$~Vad som rapporterades"
             },
             "view": {
-                "label": "$~visa chatten",
-                "tip": "$~visa meddelande i chatten"
+                "label": "$~visa det",
+                "tip": "$~öppna det som rapporterades"
             },
             "remove": {
                 "label": "$~ta bort",
-                "tip": "$~detta meddelande bryter mot riktlinjerna"
+                "tip": "$~det här bryter mot reglerna"
             },
             "keep": {
                 "label": "$~hålla",
-                "tip": "$~detta meddelande bryter inte mot riktlinjerna"
+                "tip": "$~det här bryter inte mot reglerna"
             },
-            "empty": "$~Inga meddelanden kräver moderering",
-            "error": "$~Du måste vara inloggad för att moderera gallerier",
+            "empty": "$~Inget väntar på ett beslut.",
+            "error": "$~Du måste vara inloggad för att granska rapporter.",
             "note": {
-                "description": "$~vad du vill säga till den som skrev meddelandet",
+                "description": "$~Vad du ska säga till den som gjorde det",
                 "placeholder": "$~säg något till dem (valfritt)"
-            }
+            },
+            "remaining": "$~$#count[$count rapport väntar|$count rapporter väntar]"
         },
         "emoji": {
             "noCharacters": "$~Skapa en anpassad karaktär",
@@ -11034,11 +11243,13 @@
         },
         "done": "$~Inget annat att moderera!",
         "error": {
-            "notmod": "$~Det finns inget här för dig att granska. Wordplays moderatorer granskar offentligt innehåll, och ett galleris kuratorer granskar det som finns i deras galleri. Om du nyligen fick moderatorrättigheter kan du behöva logga in igen."
+            "notmod": "$~Det finns inget här för dig att granska. Wordplays moderatorer granskar offentligt innehåll, och ett galleris kuratorer granskar det som finns i deras galleri. Om du nyligen fick moderatorrättigheter kan du behöva logga in igen.",
+            "unreachable": "$?",
+            "unreadable": "$?"
         },
         "report": {
-            "button": "$~Varna moderator",
-            "confirm": "$~Varna moderator",
+            "button": "$~be en moderator granska det här",
+            "confirm": "$~Rapportera det",
             "sent": "$~en moderator har blivit ombedd att titta på detta",
             "announce": "$~en moderator har blivit ombedd att titta på $project",
             "flagged": "$~Någon rapporterade detta projekt, så det ligger först i kön."
@@ -11056,10 +11267,16 @@
         },
         "queue": {
             "label": "$~vad ska granskas",
-            "labels": ["$~projekt", "$~galleri:er", "$~meddelanden"],
+            "labels": [
+                "$~projekt",
+                "$~galleri:er",
+                "$~verktygspaket",
+                "$~meddelanden"
+            ],
             "tips": [
                 "$~granska projekt som folk har gjort offentliga",
                 "$~granska galleri:er som vill listas publikt",
+                "$~granska kit som vill listas i guiden",
                 "$~granska meddelanden som folk har anmält i galleri du sköter"
             ]
         },
@@ -11091,6 +11308,30 @@
             "curators": "$~De som är ansvariga för detta galleri granskar det som delas här, inklusive chatten.",
             "both": "$~De som är ansvariga för detta galleri granskar det som delas här, och det gör även Wordplays moderatorer, eftersom vem som helst kan se det.",
             "platform": "$~Wordplays <moderators@://rights> granskar detta, eftersom vem som helst kan se det."
+        },
+        "kit": {
+            "header": "$~Kit",
+            "explain": "$~Det här kittet vill listas i guiden. Läs vad det delar och bestäm om andra ska kunna hitta det.",
+            "done": "$~Inga kit väntar på ett beslut. Tack!",
+            "approve": {
+                "label": "$~lista det",
+                "tip": "$~lista det här kittet i guiden"
+            },
+            "deny": {
+                "label": "$~lista det inte",
+                "tip": "$~håll det här kittet borta från guiden"
+            },
+            "skip": {
+                "label": "$~hoppa över",
+                "tip": "$~lämna detta kit till en annan moderator att avgöra"
+            },
+            "pending": "$~En moderator läser ditt paket för att avgöra om det kan listas i guiden. Det är märkt som listat, men ingen hittar det där förrän det verkligen är klart.",
+            "approved": "$~Ditt paket är listat i <guiden@://guide?section=kits>! Det kan tas bort från listan när som helst, av vilken anledning som helst.",
+            "denied": "$~En moderator bestämde att inte lista ditt paket i guiden. Du kan publicera en ny version och fråga igen.",
+            "notification": {
+                "approved": "$~$name är nu listad i guiden.",
+                "denied": "$~$name listades inte i guiden."
+            }
         }
     },
     "gallery": {

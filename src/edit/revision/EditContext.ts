@@ -15,6 +15,10 @@ export type EditContext = {
     concepts?: ConceptIndex | undefined;
     /** Available custom character names, when available, for recommending characters in markup and formatted text. */
     characters?: string[] | undefined;
+    /** Kits the creator could borrow, as `username/name` plus the newest version, when
+     *  available. Passed in as plain data for the reason `characters` is: the menu must
+     *  not reach the kit database, which no page's static graph may carry. */
+    kits?: { name: string; version: number }[] | undefined;
 };
 
 type BaseContext = EditContext & {

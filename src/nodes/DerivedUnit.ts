@@ -10,6 +10,14 @@ export type UnitDeriver = (
     left: Unit,
     right: Unit | undefined,
     constant: number | undefined,
+    /**
+     * Every input's unit, in the *function's* parameter order, for a deriver that needs
+     * one past the first — `rescale`'s result carries the unit of its `to` bounds, not
+     * its receiver's. A **thunk**, because resolving them costs an input mapping and a
+     * type per argument and exactly one deriver in the basis asks; the rest never call
+     * it. Undefined for the binary and unary forms, which have no inputs to speak of.
+     */
+    inputs?: () => (Unit | undefined)[],
 ) => Unit;
 
 /**
@@ -36,6 +44,7 @@ export default function resolveDerivedUnit(
 ): Unit {
     let leftType: Type | undefined;
     let rightType: Type | undefined;
+    let inputUnits: (() => (Unit | undefined)[]) | undefined;
     let unary = false;
     if ('left' in op && 'right' in op) {
         // BinaryEvaluate: the operands are the left and right expressions.
@@ -51,6 +60,18 @@ export default function resolveDerivedUnit(
         leftType = op.fun.getSubjectType(context);
         rightType =
             op.inputs.length > 0 ? op.inputs[0].getType(context) : undefined;
+        // Through the input mapping, never by index: `op.inputs` is in *source* order,
+        // so a creator naming inputs out of order (`x.rescale(toLow: 0m fromLow: 1s …)`)
+        // would otherwise hand the deriver the wrong units. One unresolved input among
+        // several is left `undefined` rather than collapsing the whole result, which is
+        // what the two-operand leniency below does for `right`.
+        inputUnits = () =>
+            op.getInputMapping(context)?.inputs.map(({ given }) => {
+                const expression = Array.isArray(given) ? given[0] : given;
+                return expression === undefined
+                    ? undefined
+                    : expression.getType(context).concreteUnit(context);
+            }) ?? [];
     }
 
     // Stay lenient when an operand carries no unit of its own, matching the prior
@@ -60,5 +81,5 @@ export default function resolveDerivedUnit(
     const right = rightType?.concreteUnit(context);
     if (!unary && right === undefined) return Unit.Any;
 
-    return deriver(left, right, constantOf(op));
+    return deriver(left, right, constantOf(op), inputUnits);
 }

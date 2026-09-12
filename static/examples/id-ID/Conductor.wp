@@ -6,16 +6,15 @@ Konduktor
 Angkat tanganmu, dan orkestra mulai mengisi, satu bagian demi satu bagian, sampai kedelapannya bermain. Turunkan tanganmu, dan mereka menghilang satu per satu sampai hanya melodi yang tersisa sendirian. Geser ke kiri untuk memperlambat lagu maret, ke kanan untuk mempercepatnya. Berapa banyak jari yang kamu angkat menentukan siapa yang memainkan melodi.
 
 Setiap petunjuk dicetak di panggung, jadi kamu bisa mempelajarinya tanpa membaca ini.¶
+↓ @wordplay/instruments 1
 
 tangan: Tangan()
 
 ¶Tinggi tangan menunjukkan seberapa banyak orkestra bermain, dan gerakan menyamping menunjukkan seberapa cepat, keduanya dibaca langsung dari posisi tangan, bukan diingat, sehingga keduanya mengikuti gerakan tangan secara terus-menerus. Masing-masing dibulatkan ke satu tingkat, jadi musik hanya berubah saat perubahannya cukup besar untuk terdengar, dan tangan yang gemetar tidak akan mengubah lagu dua puluh kali dalam satu detik.¶
-angkat: ((tangan.tempat.y + 3m) ÷ 6m).menit(1).maksimal(0)
+angkat: tangan.tempat.y.rescale(-3m 3m 0 1).limit(0 1)
 lapisan2: 1 + ((angkat · 7).bulat())
 
-jangkau: ((tangan.tempat.X + 5m) ÷ 10m).menit(1).maksimal(
-		0
-	)
+jangkau: tangan.tempat.X.rescale(-5m 5m 0 1).limit(0 1)
 kecepatan2: 72 + ((jangkau · 8).bulat() · 12)
 
 ¶Siapa yang memainkan melodi. Kepalan tangan dan tangan yang keluar dari bingkai kamera sama-sama dihitung sebagai tanpa jari, jadi tanpa jari berarti tetap mempertahankan siapa pun yang sedang bermain — jika tidak, melihat ke arah lain akan mengubah lagunya.¶
@@ -30,11 +29,7 @@ unggulan: 5 … ∆ tangan …
 					AlatMusik.terompet
 
 ƒ ikon(hitungan3•#)•''
-	(hitungan3 = 1) ? '🎹'
-		(hitungan3 = 2) ? '🎻'
-			(hitungan3 = 3) ? '🪈'
-				(hitungan3 = 4) ? '⚡'
-					'🎺'
+	iconFor(suara2(hitungan3))
 
 ¶Seberapa keras sebuah bagian bermain. Setiap bagian selalu tetap ada dalam musik, jadi tidak ada satu pun yang pernah kehilangan tempatnya — bagian-bagian di atas posisi tangan hanya diredam sepenuhnya.
 

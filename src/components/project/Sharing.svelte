@@ -13,6 +13,7 @@
     import Preview from '@components/project/Preview.svelte';
     import Public from '@components/project/Public.svelte';
     import Remix from '@components/project/Remix.svelte';
+    import KitPublisher from '@components/project/KitPublisher.svelte';
     import { projectVisibility } from '@db/moderation/visibility';
 
     interface Props {
@@ -126,8 +127,10 @@
                     unmark={(piiText) =>
                         Projects.reviseProject(project.withPII(piiText))}
                 />
-            {:else}
+            {:else if tab === 4}
                 <Remix {project} {editable} />
+            {:else}
+                <KitPublisher {project} {editable} />
             {/if}
         {/snippet}
     </Tabbed>

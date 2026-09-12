@@ -6,14 +6,15 @@ Dirigent
 Hebst du deine Hand, setzt das Orchester ein, ein Teil nach dem anderen, bis alle acht spielen. Senkst du sie, verstummen sie wieder, bis nur noch die Melodie übrig bleibt. Bewege die Hand nach links, um den Marsch zu verlangsamen, nach rechts, um ihn anzutreiben. Wie viele Finger du zeigst, bestimmt, wer die Melodie spielt.
 
 Jede Anweisung steht auf der Bühne, sodass du sie lernen kannst, ohne dies hier zu lesen.¶
+↓ @wordplay/instruments 1
 
 hand2: Hand()
 
 ¶Die Höhe zeigt, wie viel vom Orchester spielt, und die Seitwärtsbewegung zeigt, wie schnell. Beide werden direkt von der Hand abgelesen statt gespeichert, sodass sie ihr ständig folgen. Jeder Wert wird auf eine Stufe gerundet, damit sich die Musik nur ändert, wenn die Änderung groß genug ist, um sie zu hören. So schreibt eine zitternde Hand die Partitur nicht zwanzigmal pro Sekunde um.¶
-heben: ((hand2.Ort.j + 3m) ÷ 6m).Mindest(1).max(0)
+heben: hand2.Ort.j.rescale(-3m 3m 0 1).limit(0 1)
 ebenen: 1 + ((heben · 7).runden())
 
-reichweite: ((hand2.Ort.X + 5m) ÷ 10m).Mindest(1).max(0)
+reichweite: hand2.Ort.X.rescale(-5m 5m 0 1).limit(0 1)
 tempo2: 72 + ((reichweite · 8).runden() · 12)
 
 ¶Wer die Melodie spielt. Eine Faust und eine Hand außerhalb des Bildes zählen beide als keine Finger. Keine Finger bedeutet: Wer gerade spielt, spielt weiter – sonst würde ein Wegschauen die Melodie ändern.¶
@@ -28,11 +29,7 @@ vorgestellt: 5 … ∆ hand2 …
 					Instrument.Trompete
 
 ƒ symbol(zähler2•#)•''
-	(zähler2 = 1) ? '🎹'
-		(zähler2 = 2) ? '🎻'
-			(zähler2 = 3) ? '🪈'
-				(zähler2 = 4) ? '⚡'
-					'🎺'
+	iconFor(stimme(zähler2))
 
 ¶Wie laut ein Teil klingt. Jeder Teil bleibt jederzeit Teil der Musik, sodass keiner seinen Platz verliert – die über der Hand liegenden werden einfach ganz leise gestellt.
 

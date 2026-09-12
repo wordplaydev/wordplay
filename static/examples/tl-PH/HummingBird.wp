@@ -53,14 +53,10 @@ tono2: Tono()
 humming: (mode = 'hum') & (tono2 > 50hz)
 
 ƒ tonoHanggangTaas(hz•#hz)
-	(hz < 80hz) ? -4m
-		(hz > 400hz) ? 5m
-			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
 
 ¶Dahan-dahang lumalapit sa inugong na taas nang paunti-unti, para dumausdos ang ibon sa halip na yumugyog sa bawat pagbabago ng tono.¶
-tonoY•#m: 1m … ∆ tono2 … humming ? (0.8 × tonoY) + (0.2 × tonoHanggangTaas(
-							tono2
-						)) tonoY
+tonoY•#m: 1m … ∆ tono2 … humming ? tonoY.toward(tonoHanggangTaas(tono2) 20%) tonoY
 
 ¶Lumulutang ang ibon habang binibilang pababa, pumapaitaas o lumulutang ayon sa inugong na tono habang naglalaro, at gumugulong dahil sa gravity pagkatapos ng banggaan.¶
 lugarNgIbon: Paggalaw(

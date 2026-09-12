@@ -28,11 +28,7 @@ desviar•#: 0 … ∆ presionar | ∆ soltar …
 
 ¶El guante no se mueve por física, así que se controla directamente. Se detiene en los límites de su alcance, así que nunca puede salirse de la portería.¶
 porteraY•#m: 0m … ∆ tic …
-		((porteraY + (desviar × velocidadPortera)).máximo(
-				alcancePortera · -1
-			)).mínimo(
-			alcancePortera
-		)
+		(porteraY + (desviar × velocidadPortera)).limit((alcancePortera · -1) alcancePortera)
 
 ¶Una atajada y un gol. Cada @Collision reporta el inicio y el fin de un toque, así que ambos se combinan con una comprobación de que este toque es un inicio: sin eso, cada atajada y cada gol se contarían dos veces.¶
 golpeGuante: Colisión('pelota' 'portera')

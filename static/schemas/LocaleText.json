@@ -1152,6 +1152,30 @@
             "description": "[formatted] Represents a string that is in Wordplay markup formatted syntax. Tagging the alias makes any bare `FormattedText` field default to the formatted editor; fields with their own (untagged) comment are still flagged.",
             "type": "string"
         },
+        "FunctionText<[def-alias-1170802340-6100-6365-1170802340-0-11252,def-alias-1170802340-6100-6365-1170802340-0-11252,def-alias-1170802340-6100-6365-1170802340-0-11252,def-alias-1170802340-6100-6365-1170802340-0-11252]>": {
+            "additionalProperties": false,
+            "properties": {
+                "doc": {
+                    "$ref": "#/definitions/DocText",
+                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                },
+                "inputs": {
+                    "description": "Bind definitions for the inputs this function takes",
+                    "items": {
+                        "$ref": "#/definitions/NameAndDoc"
+                    },
+                    "maxItems": 4,
+                    "minItems": 4,
+                    "type": "array"
+                },
+                "names": {
+                    "$ref": "#/definitions/NameText",
+                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                }
+            },
+            "required": ["doc", "inputs", "names"],
+            "type": "object"
+        },
         "FunctionText<[def-alias-1170802340-6100-6365-1170802340-0-11252,def-alias-1170802340-6100-6365-1170802340-0-11252]>": {
             "additionalProperties": false,
             "properties": {
@@ -1200,7 +1224,7 @@
             "required": ["doc", "inputs", "names"],
             "type": "object"
         },
-        "FunctionText<alias-1184849637-145-178-1184849637-0-36779>": {
+        "FunctionText<alias-1184849637-145-178-1184849637-0-37498>": {
             "additionalProperties": false,
             "properties": {
                 "doc": {
@@ -1387,7 +1411,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "not": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequal": {
@@ -1470,11 +1494,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lowercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
@@ -1490,7 +1514,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "uppercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -1592,6 +1616,10 @@
                                         "append": {
                                             "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "average": {
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
+                                            "description": "[formatted] The mean of my numbers, or nothing if I'm empty. See `en-US.json`."
                                         },
                                         "combine": {
                                             "additionalProperties": false,
@@ -1712,7 +1740,7 @@
                                             "type": "object"
                                         },
                                         "first": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "has": {
@@ -1724,11 +1752,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "last": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "notequals": {
@@ -1736,7 +1764,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "random": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "replace": {
@@ -1744,7 +1772,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansAll": {
@@ -1752,15 +1780,15 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansFirst": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sansLast": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "shuffled": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sorted": {
@@ -1804,6 +1832,10 @@
                                         "subsequence": {
                                             "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%2Cdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "sum": {
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
+                                            "description": "[formatted] The total of my numbers. See `en-US.json`."
                                         },
                                         "translate": {
                                             "additionalProperties": false,
@@ -1887,6 +1919,8 @@
                                         "append",
                                         "replace",
                                         "length",
+                                        "sum",
+                                        "average",
                                         "random",
                                         "shuffled",
                                         "first",
@@ -2024,7 +2058,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -2285,19 +2319,19 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arccos": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arcsin": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "arctan": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "cos": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "divide": {
@@ -2309,7 +2343,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "exp": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "greaterOrEqual": {
@@ -2328,6 +2362,10 @@
                                             "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
+                                        "limit": {
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%2Cdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
+                                            "description": "Keep a number within a low and high bound."
+                                        },
                                         "log": {
                                             "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
@@ -2337,8 +2375,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "min": {
-                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
-                                            "description": "[formatted] See `en-US.json` for documentation"
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E"
                                         },
                                         "multiply": {
                                             "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
@@ -2349,7 +2386,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "positive": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "power": {
@@ -2364,24 +2401,28 @@
                                             "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
+                                        "rescale": {
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%2Cdef-alias-1170802340-6100-6365-1170802340-0-11252%2Cdef-alias-1170802340-6100-6365-1170802340-0-11252%2Cdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
+                                            "description": "The matching number in another range, which may carry another unit."
+                                        },
                                         "root": {
                                             "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "round": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "roundDown": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "roundUp": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "sin": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "subtract": {
@@ -2389,8 +2430,12 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "tan": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
+                                        },
+                                        "toward": {
+                                            "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-6100-6365-1170802340-0-11252%2Cdef-alias-1170802340-6100-6365-1170802340-0-11252%5D%3E",
+                                            "description": "Move a fraction of the way from a number to another."
                                         }
                                     },
                                     "required": [
@@ -2420,6 +2465,9 @@
                                         "arctan",
                                         "exp",
                                         "log",
+                                        "limit",
+                                        "toward",
+                                        "rescale",
                                         "min",
                                         "max"
                                     ],
@@ -3218,7 +3266,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "size": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "translate": {
@@ -3461,11 +3509,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "length": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "lowercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "matches": {
@@ -3485,7 +3533,7 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "reverse": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "search": {
@@ -3505,11 +3553,11 @@
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "trim": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         },
                                         "uppercase": {
-                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-36779%3E",
+                                            "$ref": "#/definitions/FunctionText%3Calias-1184849637-145-178-1184849637-0-37498%3E",
                                             "description": "[formatted] See `en-US.json` for documentation"
                                         }
                                     },
@@ -5436,7 +5484,7 @@
                                 },
                                 "name": {
                                     "$ref": "#/definitions/NameAndDoc",
-                                    "description": "The scene's name, which is what a cue stream filters on"
+                                    "description": "The scene's name, which is what a spotlight stream filters on"
                                 },
                                 "names": {
                                     "$ref": "#/definitions/NameText",
@@ -6910,6 +6958,102 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "ConflictingKitVersions": {
+                                            "additionalProperties": false,
+                                            "description": "When one kit is borrowed at two different versions in one source.",
+                                            "properties": {
+                                                "explanation": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22kit%22%5D%3E",
+                                                    "description": "[formatted] The text that describes this conflict on the node which generated it."
+                                                },
+                                                "name": {
+                                                    "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
+                                                    "type": "string"
+                                                },
+                                                "resolution": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] Action description for the repair this conflict offers"
+                                                }
+                                            },
+                                            "required": [
+                                                "explanation",
+                                                "name",
+                                                "resolution"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "KitCannotBorrow": {
+                                            "additionalProperties": false,
+                                            "description": "When a source published as a kit borrows a kit of its own, which v1 doesn't resolve.",
+                                            "properties": {
+                                                "explanation": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] The text that describes this conflict on the node which generated it."
+                                                },
+                                                "name": {
+                                                    "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
+                                                    "type": "string"
+                                                },
+                                                "resolution": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] Action description for the repair this conflict offers"
+                                                }
+                                            },
+                                            "required": [
+                                                "explanation",
+                                                "name",
+                                                "resolution"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "MissingKitVersion": {
+                                            "additionalProperties": false,
+                                            "description": "When a kit is borrowed without saying which version.",
+                                            "properties": {
+                                                "explanation": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22kit%22%5D%3E",
+                                                    "description": "[formatted] The text that describes this conflict on the node which generated it."
+                                                },
+                                                "name": {
+                                                    "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
+                                                    "type": "string"
+                                                },
+                                                "resolution": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] Action description for the repair this conflict offers"
+                                                }
+                                            },
+                                            "required": [
+                                                "explanation",
+                                                "name",
+                                                "resolution"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "UnavailableKit": {
+                                            "additionalProperties": false,
+                                            "description": "When a borrowed kit exists but this creator may not read it.",
+                                            "properties": {
+                                                "explanation": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22kit%22%5D%3E",
+                                                    "description": "[formatted] The text that describes this conflict on the node which generated it."
+                                                },
+                                                "name": {
+                                                    "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
+                                                    "type": "string"
+                                                },
+                                                "resolution": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] Action description for the repair this conflict offers"
+                                                }
+                                            },
+                                            "required": [
+                                                "explanation",
+                                                "name",
+                                                "resolution"
+                                            ],
+                                            "type": "object"
+                                        },
                                         "UnknownBorrow": {
                                             "additionalProperties": false,
                                             "description": "When the borrowed name could not be found",
@@ -6933,11 +7077,40 @@
                                                 "resolution"
                                             ],
                                             "type": "object"
+                                        },
+                                        "UnknownKit": {
+                                            "additionalProperties": false,
+                                            "description": "When a borrowed kit or version does not exist.",
+                                            "properties": {
+                                                "explanation": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22kit%22%5D%3E",
+                                                    "description": "[formatted] The text that describes this conflict on the node which generated it."
+                                                },
+                                                "name": {
+                                                    "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
+                                                    "type": "string"
+                                                },
+                                                "resolution": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] Action description for the repair this conflict offers"
+                                                }
+                                            },
+                                            "required": [
+                                                "explanation",
+                                                "name",
+                                                "resolution"
+                                            ],
+                                            "type": "object"
                                         }
                                     },
                                     "required": [
+                                        "KitCannotBorrow",
                                         "UnknownBorrow",
-                                        "BorrowCycle"
+                                        "BorrowCycle",
+                                        "MissingKitVersion",
+                                        "ConflictingKitVersions",
+                                        "UnknownKit",
+                                        "UnavailableKit"
                                     ],
                                     "type": "object"
                                 },
@@ -10598,6 +10771,90 @@
                             "additionalProperties": false,
                             "description": "A program, e.g., `1 + 1`, `hello()`, etc. Start inputs: $1 = the stream that caused the evaluation, or nothing Finish inputs: $1 = resulting value",
                             "properties": {
+                                "conflict": {
+                                    "additionalProperties": false,
+                                    "description": "Conflicts that this node can generate",
+                                    "properties": {
+                                        "UndocumentedShare": {
+                                            "additionalProperties": false,
+                                            "description": "When a `↑` definition in a published source has no documentation. Minor: the code runs, it just can't be read by whoever borrows it.",
+                                            "properties": {
+                                                "explanation": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] The text that describes this conflict on the node which generated it."
+                                                },
+                                                "name": {
+                                                    "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
+                                                    "type": "string"
+                                                },
+                                                "resolution": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] What to do about an undocumented export"
+                                                }
+                                            },
+                                            "required": [
+                                                "explanation",
+                                                "name",
+                                                "resolution"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "UnexampledKit": {
+                                            "additionalProperties": false,
+                                            "description": "When a published source has no example anywhere, so its kit has no preview.",
+                                            "properties": {
+                                                "explanation": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] The text that describes this conflict on the node which generated it."
+                                                },
+                                                "name": {
+                                                    "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
+                                                    "type": "string"
+                                                },
+                                                "resolution": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] What to do about a kit with no example"
+                                                }
+                                            },
+                                            "required": [
+                                                "explanation",
+                                                "name",
+                                                "resolution"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "UnexampledShare": {
+                                            "additionalProperties": false,
+                                            "description": "When a callable `↑` definition in a published source has no worked example.",
+                                            "properties": {
+                                                "explanation": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] The text that describes this conflict on the node which generated it."
+                                                },
+                                                "name": {
+                                                    "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
+                                                    "type": "string"
+                                                },
+                                                "resolution": {
+                                                    "$ref": "#/definitions/Template%3C%5B%5D%3E",
+                                                    "description": "[formatted] What to do about an export with no example"
+                                                }
+                                            },
+                                            "required": [
+                                                "explanation",
+                                                "name",
+                                                "resolution"
+                                            ],
+                                            "type": "object"
+                                        }
+                                    },
+                                    "required": [
+                                        "UndocumentedShare",
+                                        "UnexampledShare",
+                                        "UnexampledKit"
+                                    ],
+                                    "type": "object"
+                                },
                                 "description": {
                                     "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
                                     "description": "[formatted] A precise description of the node's contents for screen reading."
@@ -10711,6 +10968,7 @@
                                 }
                             },
                             "required": [
+                                "conflict",
                                 "description",
                                 "doc",
                                 "done",
@@ -16301,6 +16559,9 @@
                         "Exponent": {
                             "type": "string"
                         },
+                        "External": {
+                            "type": "string"
+                        },
                         "ExternalExample": {
                             "type": "string"
                         },
@@ -16577,6 +16838,7 @@
                         "Function",
                         "Borrow",
                         "Share",
+                        "External",
                         "Convert",
                         "Translate",
                         "Placeholder",
@@ -18316,6 +18578,180 @@
                                             "description": "[plain] The header to be shown at the top of the dialog",
                                             "type": "string"
                                         },
+                                        "kit": {
+                                            "additionalProperties": false,
+                                            "description": "Publishing a source as a kit, so other people can borrow it (#8).",
+                                            "properties": {
+                                                "confirm": {
+                                                    "description": "[plain] The label on the button that confirms a publish",
+                                                    "type": "string"
+                                                },
+                                                "derived": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Introduces the kit's description, and says where it comes from. Named `derived` rather than `description`, which was a FieldText here before the free-text field went away — a key whose *shape* changes is the one repair `locales-fix` can't make, so the key moves instead."
+                                                },
+                                                "discovery": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Says what listing a kit does, and what it doesn't"
+                                                },
+                                                "failed": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Shown when the publish itself didn't reach the server. A refused or dropped write is otherwise silent, and the panel would go on showing a version that only exists on this device."
+                                                },
+                                                "heading": {
+                                                    "additionalProperties": false,
+                                                    "description": "The panel's sections. Headings rather than sentences: the panel is a stack of groups, and a paragraph introducing a list reads as part of the list above it.",
+                                                    "properties": {
+                                                        "exports": {
+                                                            "description": "[plain] Heads the list of what the chosen source would export",
+                                                            "type": "string"
+                                                        },
+                                                        "listing": {
+                                                            "description": "[plain] Heads the controls that decide whether the kit is listed",
+                                                            "type": "string"
+                                                        },
+                                                        "name": {
+                                                            "description": "[plain] Heads the kit's name and description",
+                                                            "type": "string"
+                                                        },
+                                                        "versions": {
+                                                            "description": "[plain] Heads the list of versions already published",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "name",
+                                                        "exports",
+                                                        "versions",
+                                                        "listing"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "listing": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "The listed/unlisted control. Deliberately not private/public: a version stays readable to anyone holding the borrow line however this is set — that is what keeps existing borrowers working — so the only thing it governs is whether the kit can be *found*."
+                                                },
+                                                "moderation": {
+                                                    "additionalProperties": false,
+                                                    "description": "Where a kit stands with the moderators, in the same words galleries use",
+                                                    "properties": {
+                                                        "approved": {
+                                                            "description": "[plain] Reviewed and listed",
+                                                            "type": "string"
+                                                        },
+                                                        "denied": {
+                                                            "description": "[plain] Reviewed and refused",
+                                                            "type": "string"
+                                                        },
+                                                        "pending": {
+                                                            "description": "[plain] Asked to be listed, awaiting review",
+                                                            "type": "string"
+                                                        },
+                                                        "unrequested": {
+                                                            "description": "[plain] Not asked to be listed",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "unrequested",
+                                                        "pending",
+                                                        "approved",
+                                                        "denied"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "name": {
+                                                    "$ref": "#/definitions/FieldText",
+                                                    "description": "The name a kit is published under, after the creator's username"
+                                                },
+                                                "nothing": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Shown when no source in the project shares anything, explaining what ↑ does"
+                                                },
+                                                "permanent": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Says that a published version can never be taken back, and why. Shown before publishing and again beside the version list."
+                                                },
+                                                "problem": {
+                                                    "additionalProperties": false,
+                                                    "description": "Why a source cannot be published yet.\n\nOnly the two with nowhere in the code to say so. Everything else a publish requires is a conflict on the code it is about, and the dialog renders that conflict's own explanation — so a checklist and an annotation cannot drift apart.",
+                                                    "properties": {
+                                                        "exports": {
+                                                            "description": "[plain] Nothing in the source is marked ↑",
+                                                            "type": "string"
+                                                        },
+                                                        "invalid": {
+                                                            "description": "[plain] The name is not a name Wordplay can read",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "exports",
+                                                        "invalid"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "publish": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "The button that publishes a new version"
+                                                },
+                                                "remedy": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] What to do about a moderator's decision, shown when the kit carries a flag. The share dialog is where a creator finds out, so it is where the answer belongs."
+                                                },
+                                                "undescribed": {
+                                                    "description": "[plain] Shown in place of the description when the source has no doc",
+                                                    "type": "string"
+                                                },
+                                                "unpublishable": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Heads the reasons a kit can't be published yet"
+                                                },
+                                                "unpublished": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Shown in place of the version list before anything is published"
+                                                },
+                                                "unreviewed": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Who reviews an unlisted kit, in the kit's own words. `ResponsibilityNotice`'s shared sentence says \"only visible to you and the people you choose\", and a kit has neither property."
+                                                },
+                                                "version": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22version%22%5D%3E",
+                                                    "description": "[plain] Labels one published version, e.g. \"version 3\""
+                                                },
+                                                "withdraw": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "The button that withdraws the newest version, offered only while the kit has never been listed — see `withdrawable`."
+                                                },
+                                                "withdrawable": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Why withdrawing is offered at all: a kit that has never been listed has never appeared in the guide, so nobody could have found it."
+                                                }
+                                            },
+                                            "required": [
+                                                "nothing",
+                                                "heading",
+                                                "unpublished",
+                                                "name",
+                                                "derived",
+                                                "undescribed",
+                                                "discovery",
+                                                "unpublishable",
+                                                "failed",
+                                                "listing",
+                                                "unreviewed",
+                                                "remedy",
+                                                "permanent",
+                                                "confirm",
+                                                "withdraw",
+                                                "withdrawable",
+                                                "moderation",
+                                                "publish",
+                                                "version",
+                                                "problem"
+                                            ],
+                                            "type": "object"
+                                        },
                                         "mode": {
                                             "additionalProperties": false,
                                             "description": "Modes in the share dialog",
@@ -18346,9 +18782,13 @@
                                                 "gallery": {
                                                     "description": "[plain] The label for the gallery chooser",
                                                     "type": "string"
+                                                },
+                                                "source": {
+                                                    "description": "[plain] The label for the chooser that picks which source to publish",
+                                                    "type": "string"
                                                 }
                                             },
-                                            "required": ["gallery"],
+                                            "required": ["gallery", "source"],
                                             "type": "object"
                                         },
                                         "pii": {
@@ -18400,6 +18840,10 @@
                                                     "$ref": "#/definitions/ExplanationText",
                                                     "description": "The gallery section's explanation"
                                                 },
+                                                "kit": {
+                                                    "$ref": "#/definitions/ExplanationText",
+                                                    "description": "The kit publishing section's explanation"
+                                                },
                                                 "pii": {
                                                     "$ref": "#/definitions/ExplanationText",
                                                     "description": "The personal information section's explanation"
@@ -18427,12 +18871,13 @@
                                                 "pii",
                                                 "preview",
                                                 "remix",
+                                                "kit",
                                                 "research"
                                             ],
                                             "type": "object"
                                         },
                                         "tab": {
-                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
                                             "description": "The tabs that switch between the dialog's sharing settings"
                                         }
                                     },
@@ -18442,6 +18887,7 @@
                                         "explanation",
                                         "field",
                                         "header",
+                                        "kit",
                                         "mode",
                                         "options",
                                         "pii",
@@ -18682,6 +19128,100 @@
                                     ],
                                     "type": "object"
                                 },
+                                "kits": {
+                                    "additionalProperties": false,
+                                    "description": "Published kits, which are a section of the guide rather than a page of their own.",
+                                    "properties": {
+                                        "empty": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Shown before anyone has published a kit"
+                                        },
+                                        "header": {
+                                            "description": "[plain] Names the published-kit section of the guide",
+                                            "type": "string"
+                                        },
+                                        "kinds": {
+                                            "additionalProperties": false,
+                                            "description": "The filter over what kits share",
+                                            "properties": {
+                                                "all": {
+                                                    "description": "[plain] The option that filters nothing out",
+                                                    "type": "string"
+                                                },
+                                                "label": {
+                                                    "description": "[plain] Describes the filter for screen readers",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": ["label", "all"],
+                                            "type": "object"
+                                        },
+                                        "missing": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Shown on a kit's page when there is no such kit"
+                                        },
+                                        "missingVersion": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Shown on a kit's page when that version isn't there"
+                                        },
+                                        "none": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Shown when a search or a kind filter matches no kit"
+                                        },
+                                        "nothing": {
+                                            "description": "[plain] Shown on a kit's page when it shares nothing readable",
+                                            "type": "string"
+                                        },
+                                        "open": {
+                                            "description": "[plain] Tooltip for the link from a registry tile to a kit's page",
+                                            "type": "string"
+                                        },
+                                        "prompt": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Explanation of what a kit is and how to use one"
+                                        },
+                                        "shares": {
+                                            "$ref": "#/definitions/Template%3C%5B%22names%22%5D%3E",
+                                            "description": "[plain] Labels what a kit shares, e.g. \"shares sunset, fade\""
+                                        },
+                                        "version": {
+                                            "additionalProperties": false,
+                                            "description": "One published version, as a link to it",
+                                            "properties": {
+                                                "tip": {
+                                                    "description": "[plain] Tooltip for the link to another version of a kit",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": ["tip"],
+                                            "type": "object"
+                                        },
+                                        "versions": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Heads the list of a kit's published versions on its page"
+                                        },
+                                        "yours": {
+                                            "description": "[plain] Names the group of a creator's own kits that the registry doesn't list yet",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "header",
+                                        "yours",
+                                        "prompt",
+                                        "empty",
+                                        "none",
+                                        "kinds",
+                                        "shares",
+                                        "missing",
+                                        "missingVersion",
+                                        "nothing",
+                                        "versions",
+                                        "version",
+                                        "open"
+                                    ],
+                                    "type": "object"
+                                },
                                 "label": {
                                     "description": "[plain] The ARIA label for the palette section.",
                                     "type": "string"
@@ -18695,16 +19235,16 @@
                                     "description": "Modes in the guide",
                                     "properties": {
                                         "browse": {
-                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
-                                            "description": "Toggle between the code concepts, how-to guides, and glossary sections"
+                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                                            "description": "Toggle between the code concepts, how-to guides, glossary, and published kits"
                                         },
                                         "howToFilter": {
                                             "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                                             "description": "Toggle between seeing all user-created how-tos or only those in the project's gallery"
                                         },
                                         "purpose": {
-                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
-                                            "description": "Filter concepts by purpose category (aligned with the order of the Purpose enum's keys: project, output, input, decide, name, text, pattern, numbers, truth, lists, sets, tables, docs, types, etc.)"
+                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                                            "description": "Filter concepts by purpose category. **Aligned by position with the order of  {@link  Purpose } 's keys** — `Documentation` and `Wellspring` both index one by the other — so a purpose added in the middle must be added here at the same index, and in `getPurposeIcons`. `purposeFilters.test.ts` fails when the three disagree, which is how `Kit` came to be labelled \"output\" for a while.\n\nproject, kit, output, input, decide, name, text, pattern, numbers, truth, lists, sets, tables, docs, types, etc."
                                         }
                                     },
                                     "required": [
@@ -18770,6 +19310,9 @@
                                         "Inputs": {
                                             "$ref": "#/definitions/HeaderAndExplanationText"
                                         },
+                                        "Kit": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText"
+                                        },
                                         "Lists": {
                                             "$ref": "#/definitions/HeaderAndExplanationText"
                                         },
@@ -18803,6 +19346,7 @@
                                     },
                                     "required": [
                                         "Project",
+                                        "Kit",
                                         "Outputs",
                                         "Inputs",
                                         "Decisions",
@@ -18868,6 +19412,7 @@
                                 }
                             },
                             "required": [
+                                "kits",
                                 "label",
                                 "link",
                                 "tutorial",
@@ -19565,7 +20110,7 @@
                                     "description": "[formatted] Description for the moderation page"
                                 },
                                 "empty": {
-                                    "description": "[plain] No messages need moderation",
+                                    "description": "[plain] Nothing needs moderation",
                                     "type": "string"
                                 },
                                 "error": {
@@ -19578,7 +20123,7 @@
                                 },
                                 "keep": {
                                     "$ref": "#/definitions/ButtonText",
-                                    "description": "Button for keeping the message as a result of moderation action (i.e., no action)"
+                                    "description": "Button for keeping the reported thing as a result of moderation action (i.e., no action)"
                                 },
                                 "labels": {
                                     "additionalProperties": false,
@@ -19587,21 +20132,21 @@
                                             "description": "[plain] Labels for the buttons that allow taking moderation action",
                                             "type": "string"
                                         },
-                                        "message": {
-                                            "description": "[plain] Labels the message for display",
+                                        "reason": {
+                                            "description": "[plain] Labels the section where a curator says which rules it broke",
                                             "type": "string"
                                         },
-                                        "reason": {
-                                            "description": "[plain] Labels the section where a curator says which rules the message broke",
+                                        "subject": {
+                                            "description": "[plain] Labels the reported thing for display",
                                             "type": "string"
                                         }
                                     },
-                                    "required": ["message", "reason", "action"],
+                                    "required": ["subject", "reason", "action"],
                                     "type": "object"
                                 },
                                 "note": {
                                     "additionalProperties": false,
-                                    "description": "The optional note a curator writes to whoever sent the message",
+                                    "description": "The optional note a curator writes to whoever made the reported thing",
                                     "properties": {
                                         "description": {
                                             "description": "[plain] Describes the note field for screen readers",
@@ -19615,13 +20160,17 @@
                                     "required": ["description", "placeholder"],
                                     "type": "object"
                                 },
+                                "remaining": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                    "description": "[plain] How many reports are still waiting, including the one being decided"
+                                },
                                 "remove": {
                                     "$ref": "#/definitions/ButtonText",
-                                    "description": "Button for deleting the message as a result of moderation action"
+                                    "description": "Button for taking the reported thing down as a result of moderation action"
                                 },
                                 "view": {
                                     "$ref": "#/definitions/ButtonText",
-                                    "description": "Button for vieweing the chat the message originated from"
+                                    "description": "Button for opening the reported thing where it lives"
                                 }
                             },
                             "required": [
@@ -19632,6 +20181,7 @@
                                 "view",
                                 "remove",
                                 "keep",
+                                "remaining",
                                 "empty",
                                 "error"
                             ],
@@ -26475,6 +27025,10 @@
                                             "description": "[plain] Label for the how-tos sync row",
                                             "type": "string"
                                         },
+                                        "kits": {
+                                            "description": "[plain] Label for the kits sync row",
+                                            "type": "string"
+                                        },
                                         "projects": {
                                             "description": "[plain] Label for the projects sync row",
                                             "type": "string"
@@ -26485,7 +27039,8 @@
                                         "galleries",
                                         "characters",
                                         "howtos",
-                                        "chats"
+                                        "chats",
+                                        "kits"
                                     ],
                                     "type": "object"
                                 },
@@ -28117,7 +28672,7 @@
             "required": ["label", "labels", "tips"],
             "type": "object"
         },
-        "ModeText<[string,string,string,string,string,string,string,string,string,string,string,string,string,string,string]>": {
+        "ModeText<[string,string,string,string,string,string,string,string,string,string,string,string,string,string,string,string]>": {
             "additionalProperties": false,
             "properties": {
                 "label": {
@@ -28129,8 +28684,8 @@
                     "items": {
                         "type": "string"
                     },
-                    "maxItems": 15,
-                    "minItems": 15,
+                    "maxItems": 16,
+                    "minItems": 16,
                     "type": "array"
                 },
                 "tips": {
@@ -28138,8 +28693,8 @@
                     "items": {
                         "type": "string"
                     },
-                    "maxItems": 15,
-                    "minItems": 15,
+                    "maxItems": 16,
+                    "minItems": 16,
                     "type": "array"
                 }
             },
@@ -28441,9 +28996,17 @@
                         "notmod": {
                             "description": "[plain] Not a moderator",
                             "type": "string"
+                        },
+                        "unreachable": {
+                            "description": "[plain] The queue could not be read at all — the backend is unreachable, or the query is one no index covers. Said instead of an empty queue, which a moderator would otherwise read as \"nothing to do\".",
+                            "type": "string"
+                        },
+                        "unreadable": {
+                            "description": "[plain] The queue found things it could not read, which is not the same as finding nothing. Usually a stored document older than the code reading it.",
+                            "type": "string"
                         }
                     },
-                    "required": ["notmod"],
+                    "required": ["notmod", "unreachable", "unreadable"],
                     "type": "object"
                 },
                 "flags": {
@@ -28516,6 +29079,77 @@
                     ],
                     "type": "object"
                 },
+                "kit": {
+                    "additionalProperties": false,
+                    "description": "Deciding whether a kit is listed in the guide (#8). The same decision a gallery asks for, and so the same shape.",
+                    "properties": {
+                        "approve": {
+                            "$ref": "#/definitions/ButtonText",
+                            "description": "The moderator's button that lists a kit in the guide"
+                        },
+                        "approved": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a creator whose kit is listed in the guide"
+                        },
+                        "denied": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a creator whose kit was not accepted for the guide"
+                        },
+                        "deny": {
+                            "$ref": "#/definitions/ButtonText",
+                            "description": "The moderator's button that refuses to list a kit"
+                        },
+                        "done": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a moderator when no kit is waiting for a decision"
+                        },
+                        "explain": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a moderator above a kit awaiting a decision"
+                        },
+                        "header": {
+                            "description": "[plain] Names the kit listing queue",
+                            "type": "string"
+                        },
+                        "notification": {
+                            "additionalProperties": false,
+                            "description": "The notification headers a creator gets when a decision is made, carrying the kit's name so a decision about a second kit isn't read as a repeat.",
+                            "properties": {
+                                "approved": {
+                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                    "description": "[formatted] A kit is now listed in the guide"
+                                },
+                                "denied": {
+                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                    "description": "[formatted] A kit was not accepted for the guide"
+                                }
+                            },
+                            "required": ["approved", "denied"],
+                            "type": "object"
+                        },
+                        "pending": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a creator whose kit is waiting for a decision. Says the thing the creator is staring at: marked listed, and still not in the guide."
+                        },
+                        "skip": {
+                            "$ref": "#/definitions/ButtonText",
+                            "description": "The moderator's button that leaves a kit for someone else to decide"
+                        }
+                    },
+                    "required": [
+                        "pending",
+                        "approved",
+                        "denied",
+                        "header",
+                        "explain",
+                        "done",
+                        "approve",
+                        "deny",
+                        "skip",
+                        "notification"
+                    ],
+                    "type": "object"
+                },
                 "moderate": {
                     "$ref": "#/definitions/HeaderAndExplanationText",
                     "description": "Moderation view text"
@@ -28525,8 +29159,8 @@
                     "description": "[formatted] Progress message"
                 },
                 "queue": {
-                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
-                    "description": "Which queue the moderator is working through: projects, galleries, or reported messages. Appended to, never inserted into: locales-fix pads a positional array by appending, so a label added in the middle would shift every locale's existing labels onto the wrong tabs."
+                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                    "description": "Which queue the moderator is working through: projects, galleries, kits asking to be listed, or reports. Positional, and `locales-fix` pads by appending — so a label added in the middle has to be scripted into every locale by hand, as `kits` was. `ModerationQueues` in the moderate route is the list this labels."
                 },
                 "report": {
                     "additionalProperties": false,
@@ -28537,11 +29171,11 @@
                             "description": "[plain] Said to screen readers when a report is sent"
                         },
                         "button": {
-                            "description": "[plain] The tooltip on the report button shown on someone else's public project",
+                            "description": "[plain] The tooltip on the report button shown on someone else's public content. Says what pressing it asks for; the confirmation below is the word on the button, so these two must not be the same sentence.",
                             "type": "string"
                         },
                         "confirm": {
-                            "description": "[plain] What pressing report will do, shown before it happens",
+                            "description": "[plain] The label on the button that confirms the report",
                             "type": "string"
                         },
                         "flagged": {
@@ -28648,6 +29282,7 @@
                 "strike",
                 "responsibility",
                 "gallery",
+                "kit",
                 "error"
             ],
             "type": "object"
@@ -29240,6 +29875,9 @@
         "Template<[\"keyword\"]>": {
             "type": "string"
         },
+        "Template<[\"kit\"]>": {
+            "type": "string"
+        },
         "Template<[\"label\",\"text\"]>": {
             "type": "string"
         },
@@ -29544,6 +30182,9 @@
             "type": "string"
         },
         "Template<[\"value\"]>": {
+            "type": "string"
+        },
+        "Template<[\"version\"]>": {
             "type": "string"
         },
         "Template<[\"x\",\"y\"]>": {

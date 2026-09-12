@@ -28,11 +28,7 @@ trôi•#: 0 … ∆ nhấn | ∆ thả …
 
 ¶Chiếc găng tay không di chuyển theo vật lý, vậy nên nó có thể được điều khiển trực tiếp. Nó dừng lạiở hai đầu tầm với của nó, vậy nên nó không bao giờ có thể trôi ra khỏi khung thành.¶
 thủMônY•#m: 0m … ∆ nhịp2 …
-		((thủMônY + (trôi × thủMônTốcĐộ)).tốiđa(
-				thủMônTầmVới · -1
-			)).phút(
-			thủMônTầmVới
-		)
+		(thủMônY + (trôi × thủMônTốcĐộ)).limit((thủMônTầmVới · -1) thủMônTầmVới)
 
 ¶Một pha cứu bóng và một quả bàn thắng. Mỗi @Collision báo một lần chạm bắt đầu và một lần chạmkết thúc, vậy nên cả hai đều được ghép với một kiểm tra rằng đây là một lần bắt đầu: khôngcó nó, mỗi pha cứu bóng và mỗi quả bàn thắng sẽ được tính hai lần.¶
 găngTayVa: Vachạm('bóng' 'thủ môn')

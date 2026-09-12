@@ -55,11 +55,7 @@ personer: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 ¶Vandra ett steg mot spelaren: framåt i djup medan den slingrar sig i sidled för att vara svårare att träffa, byter riktning på slingringen vid kanterna av ett band runt din bana, och siktar mjukt in sig mot dig mellan svängarna så att en undanmanöver bara vinner ett ögonblick.¶
 ƒ anfallaMotSpelare(zombie3•zombie kameraX2•#m anfallsHastighet•#m) (
 		vävdX: zombie3.x2 + (zombie3.riktningx · vävhastighet)
-		styrdX: vävdX + ((kameraX2 - vävdX).max(
-						hemhastighet · -1
-					)).min(
-					hemhastighet
-				)
+		styrdX: vävdX + (kameraX2 - vävdX).limit((hemhastighet · -1) hemhastighet)
 		vidKant: (vävdX > (kameraX2 + vävbredd)) | (vävdX < (kameraX2 - vävbredd))
 		zombie(
 			styrdX
@@ -130,15 +126,7 @@ personer: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 
 ¶Knuffa ditt spårfält ett steg mot en plats, men aldrig förbi dina gränser. Pekaren visar vilken plats i världen den är över, så avståndet från ditt spårfält visar hur långt den sitter till vänster eller höger om dig — att flytta mot den låter pekaren sikta, och ett tryck på endera sidan flyttar dig åt det hållet.¶
 ƒ fokuseraMot(spel3•spel mål•#m)
-	spel3.kameraX:(spel3.kameraX + ((mål - spel3.kameraX).max(
-					sidosteg · -1
-				)).min(
-				sidosteg
-			)).max(
-		vänstergräns
-	).min(
-		högergräns
-	)
+	spel3.kameraX:(spel3.kameraX + (mål - spel3.kameraX).limit((sidosteg · -1) sidosteg)).limit(vänstergräns högergräns)
 
 ¶En knapptryckning medan du spelar: flytta i sidled åt vänster eller höger, eller kasta ett hjärta.¶
 ƒ tillämpaTangenttryckning(spel4•spel nyckel2•"")

@@ -56,14 +56,10 @@ tinggiNada: Melempar()
 dengungan: (mode = 'hum') & (tinggiNada > 50hz)
 
 ƒ tinggiNadaKeTinggi(hz•#hz)
-	(hz < 80hz) ? -4m
-		(hz > 400hz) ? 5m
-			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
 
 ¶Bergeraklah sedikit demi sedikit menuju ketinggian dengungan, agar burung meluncur dengan mulus, bukan bergetar setiap kali nada sedikit berubah.¶
-tinggiNadaY•#m: 1m … ∆ tinggiNada … dengungan ? (0.8 × tinggiNadaY) + (0.2 × tinggiNadaKeTinggi(
-							tinggiNada
-						)) tinggiNadaY
+tinggiNadaY•#m: 1m … ∆ tinggiNada … dengungan ? tinggiNadaY.toward(tinggiNadaKeTinggi(tinggiNada) 20%) tinggiNadaY
 
 ¶Burung melayang diam saat hitung mundur, mengepak ke atas atau melayang sesuai nada dengungan saat permainan berjalan, lalu jatuh karena gravitasi setelah menabrak.¶
 tempatBurung: Gerakan(

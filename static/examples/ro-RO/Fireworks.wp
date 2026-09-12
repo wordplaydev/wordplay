@@ -8,6 +8,7 @@ Aici nimic nu este desenat după un ceas. @Beat predă un @Downbeat de fiecare d
 Fiecare explozie primește numele numărului timpului, așa că exploziilefiecărui timp sunt ieșiri noi: ele își arată poziția de intrare cândapar și poziția de ieșire când următorul timp le înlocuiește. Apariția șidispariția sunt aceste două poziții.
 
 Melodia este /The Star-Spangled Banner/ — melodia lui John Stafford Smithdin jurul anului 1773, de mult în domeniul public — cântată în întregime,până la ultimul vers. Fiecare notă poartă propria durată scrisă ca valoarede notă pe numărul ei — \8𝅘𝅥𝅮\ este o optime, \13𝅗𝅥\ o doime, \13𝅗𝅥𝅭\ o doime cu punct — astfel încât notele de anacruză,figurile cu punct și notele lungi ținute sunt durate reale, nu o grilă detimpi egali. Un număr simplu este un timp. Pauzele au totuși nevoie de un@Note, deoarece \ø\ nu este un număr și deci nu poate purta o valoare. Este pe scaracromatică, astfel încât cvarta mărită poate fi scrisă deloc: fiecare treaptăeste un semiton.¶
+↓ @wordplay/instruments 1
 
 puls2: Bătaie()
 numărare2: puls2.număr
@@ -17,13 +18,7 @@ declanșare•[Parte]: puls2.părți.filtra(ƒ(p•Parte) p.sunet)
 
 ¶Fiecare instrument izbucnește ca el însuși, ceea ce este chiar ideea: poțivedea care instrument tocmai a cântat.¶
 ƒ față2(p2•Parte)•''
-	(p2.instrument.id = 'trumpet') ? '🎺'
-		(p2.instrument.id = 'flute') ? '🪈'
-			(p2.instrument.id = 'bell') ? '🔔'
-				(p2.instrument.id = 'piano') ? '🎹'
-					(p2.instrument.id = 'violin') ? '🎻'
-						(p2.instrument.id = 'drums') ? '🥁'
-							'🎵'
+	iconFor(p2.instrument)
 
 ¶Fiecare instrument își păstrează propria bandă, întinsă pe tot cerul.Folosirea instrumentului, în loc de poziția lui în listă, ține banda pe locchiar și atunci când alt instrument tace.¶
 ƒ culoar(p3•Parte)•#

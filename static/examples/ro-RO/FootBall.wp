@@ -28,11 +28,7 @@ derivă•#: 0 … ∆ apasă | ∆ eliberează …
 
 ¶Mănușa nu este mișcată de fizică, deci poate fi condusă direct. Se oprește lacapetele razei ei de acțiune, deci nu poate ieși niciodată din poartă.¶
 yPortar•#m: 0m … ∆ tic …
-		((yPortar + (derivă × vitezăPortar)).maxim(
-				întinderePortar · -1
-			)).min(
-			întinderePortar
-		)
+		(yPortar + (derivă × vitezăPortar)).limit((întinderePortar · -1) întinderePortar)
 
 ¶O apărare și un gol. Fiecare @Collision raportează un început și un sfârșitde atingere, deci ambele sunt însoțite de o verificare că aceasta este un început: fărăea, fiecare apărare și fiecare gol ar fi numărate de două ori.¶
 loviturăMănușă: Coliziune('minge' 'portar')

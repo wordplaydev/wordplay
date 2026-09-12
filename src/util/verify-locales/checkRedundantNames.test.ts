@@ -67,3 +67,50 @@ test('verifying reports without changing anything', () => {
     expect(PhraseNames.resolve(result)).toEqual(['💬', 'Frase']);
     expect(lines.join(' ')).toMatch(/repeat/);
 });
+
+/**
+ * The second pass: a name declared twice in one list binds nothing the first one did.
+ *
+ * Asserted on `input.Key.keys`, which is name-like without being `NameText` — the widest
+ * of the two scopes, and where most of the 328 occurrences were.
+ */
+const CapsLock = new LocalePath(['input', 'Key', 'keys'], 'CapsLock', []);
+
+test('a name declared twice in one list is removed', () => {
+    expect(fix(['$~Feststelltaste', '$~Feststelltaste'], CapsLock)).toEqual([
+        '$~Feststelltaste',
+    ]);
+});
+
+test('the distinct names around a repeat all survive', () => {
+    // vi-VN's shape: a first name, then an alias given twice.
+    expect(fix(['$~vợt quần vợt', '$~vợt', '$~vợt'], CapsLock)).toEqual([
+        '$~vợt quần vợt',
+        '$~vợt',
+    ]);
+});
+
+test('the survivor keeps the more urgent write status', () => {
+    // he-IL carried `["$~או", "או"]`. Dropping the `$~` would claim a review nobody did.
+    expect(fix(['$~או', 'או'], CapsLock)).toEqual(['$~או']);
+    expect(fix(['או', '$~או'], CapsLock)).toEqual(['$~או']);
+    // And `$?` outranks `$~`, so an unwritten twin keeps the string queued.
+    expect(fix(['$~x', '$?x'], CapsLock)).toEqual(['$?x']);
+});
+
+test('a list with nothing repeated is left exactly as it is', () => {
+    expect(fix(['$~Umschalt', '$~Shift'], CapsLock)).toEqual([
+        '$~Umschalt',
+        '$~Shift',
+    ]);
+});
+
+test('a repeat is reported without fix, and removed with it', () => {
+    const target = copyLocale();
+    CapsLock.repair(target, ['$~A', '$~A']);
+    const reporting = collectingLog();
+    checkRedundantNames(reporting.log, DefaultLocale, target, false);
+    expect(reporting.lines.join('\n')).toContain('declared twice');
+    // Reporting must not mutate: the caller passes the live locale when not fixing.
+    expect(CapsLock.resolve(target)).toEqual(['$~A', '$~A']);
+});

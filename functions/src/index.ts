@@ -48,6 +48,7 @@ import moderateHandler from './moderate.js';
 import moderateProjectHandler from './moderateProject.js';
 import reportHandler from './report.js';
 import galleryEditedHandler from './galleryEdited.js';
+import kitEditedHandler from './kitEdited.js';
 import getCreatorsHandler from './getCreators.js';
 import getLLMTranslationsHandler from './getLLMTranslations.js';
 import analyzeLocalizationHandler from './analyzeLocalization.js';
@@ -342,3 +343,7 @@ export const galleryEdited = onDocumentWritten(
     'galleries/{id}',
     galleryEditedHandler,
 );
+
+/** Maintains a kit's search index and its listing decision, neither of which any
+ *  client may write. See functions/src/kitEdited.ts. */
+export const kitEdited = onDocumentWritten('kits/{id}', kitEditedHandler);

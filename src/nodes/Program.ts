@@ -38,6 +38,11 @@ import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
 import Unit from '@nodes/Unit';
+import UnexampledKit from '@conflicts/UnexampledKit';
+import { kitExamples } from '@nodes/publishedShare';
+import StructureDefinition from '@nodes/StructureDefinition';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import Bind from '@nodes/Bind';
 
 export default class Program extends Expression {
     readonly docs: Docs;
@@ -116,12 +121,27 @@ export default class Program extends Expression {
         return true;
     }
     getScopeOfChild(child: Node, context: Context): Node | undefined {
-        return child === this.expression ? this : this.getParent(context);
+        // The docs scope to the program for the same reason the block does: what a
+        // source's own doc can name is what the source defines (#1374). Without this the
+        // chain skips straight from the docs to the `Source`, and an example in a
+        // program's doc can name nothing the program declares — see `getDefinitions`.
+        return child === this.expression || child === this.docs
+            ? this
+            : this.getParent(context);
     }
 
     computeConflicts(context: Context) {
         const [borrow, cycle] = context.source.getCycle(context) ?? [];
         if (borrow && cycle) return [new BorrowCycle(this, borrow, cycle)];
+
+        // A published source with no example anywhere has no preview, and the registry
+        // renders one (#8). The absence has no node more specific than the program.
+        if (
+            context.project.isPublishedKitSource(context.source) &&
+            kitExamples(context.source).length === 0
+        )
+            return [new UnexampledKit(this)];
+
         return [];
     }
 
@@ -134,20 +154,35 @@ export default class Program extends Expression {
         return current;
     }
 
-    getDefinitions(_: Node, context: Context): Definition[] {
+    getDefinitions(node: Node, context: Context): Definition[] {
         const definitions = [];
 
-        for (const borrow of this.borrows) {
-            const [source, definition] = borrow.getShare(context) ?? [];
-            if (source === undefined) {
-                if (definition !== undefined) definitions.push(definition);
-            } else {
-                definitions.push(
-                    definition === undefined ? source : definition,
-                );
-                definitions.push(source);
-            }
-        }
+        // What a borrow contributes is the borrow's own question: a kit named with
+        // nothing after it brings in every share, and scope has to match what evaluation
+        // binds or a name works at runtime and is unknown in the editor. See
+        // Borrow.getScopeDefinitions.
+        for (const borrow of this.borrows)
+            definitions.push(...borrow.getScopeDefinitions(context));
+
+        // A source's own doc can name what the source defines (#1374). Everything the
+        // program declares is inside its block, so a doc attached to the *program* sits
+        // outside that scope — which made the most natural thing a kit author can write,
+        // an example calling the thing the doc explains, report `UnknownName` with no
+        // workaround available. `parseProgram` hoists a leading doc onto the program, so
+        // this is also the only place such an example can live at all.
+        //
+        // Scoped to the docs: anything else under a program is under its block, and gets
+        // block scope in the ordinary way, including the "only what's above you" rule
+        // that a doc has no reason to obey.
+        if (this.docs.contains(node))
+            for (const statement of this.expression.statements)
+                if (
+                    statement instanceof Bind ||
+                    statement instanceof FunctionDefinition ||
+                    statement instanceof StructureDefinition
+                )
+                    definitions.push(statement);
+
         // Return all of the imported definitions and any sources that are part of a named import
         return definitions;
     }

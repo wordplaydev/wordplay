@@ -28,11 +28,7 @@ treiben2•#: 0 … ∆ drücken | ∆ loslassen …
 
 ¶Der Handschuh wird nicht von Physik bewegt, deshalb kann er direkt gesteuert werden. Er stoppt an den Enden seiner Reichweite, sodass er nie aus dem Tor wandern kann.¶
 torwartY•#m: 0m … ∆ takt2 …
-		((torwartY + (treiben2 × torwartGeschwindigkeit)).max(
-				torwartReichweite · -1
-			)).Mindest(
-			torwartReichweite
-		)
+		(torwartY + (treiben2 × torwartGeschwindigkeit)).limit((torwartReichweite · -1) torwartReichweite)
 
 ¶Eine Parade und ein Tor. Jedes @Collision meldet einen Beginn und ein Ende einer Berührung, deshalb ist beides mit einer Prüfung verbunden, ob es sich um einen Beginn handelt: Ohne diese Prüfung würde jede Parade und jedes Tor doppelt gezählt.¶
 handschuhTreffer: Kollision('Ball' 'Torwart')

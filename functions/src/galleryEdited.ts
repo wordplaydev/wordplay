@@ -1,3 +1,5 @@
+import { foldWords, sameWords } from './searchWords.js';
+import { nextModeration } from './moderationRequest.js';
 import type {
     DocumentReference,
     DocumentSnapshot,
@@ -9,40 +11,13 @@ import type { Change, FirestoreEvent } from 'firebase-functions/v2/firestore';
  *  gallery referenced by many others doesn't overflow a single commit. */
 const BATCH_LIMIT = 450;
 
-/** How many words a gallery's search index may hold. It's a prefilter, so a
- *  truncated one costs recall on a huge gallery rather than correctness, and
- *  Firestore caps what a document can hold. */
-const MAX_WORDS = 400;
-
 /** How many project names to read when indexing. A gallery far larger than
- *  this is indexed by its earliest projects; see MAX_WORDS. */
+ *  this is indexed by its earliest projects; see `MAX_WORDS` in `searchWords`. */
 const MAX_INDEXED_PROJECTS = 200;
 
 /** The same cap for the characters shared in a gallery (#822). Separate from
  *  the project cap so a gallery full of drawings still indexes its projects. */
 const MAX_INDEXED_CHARACTERS = 200;
-
-/**
- * Fold text into the word list `Gallery.words` holds. Deliberately simple —
- * lowercase, split on anything that isn't a letter or digit — because the
- * client matches against it through the app's own search engine, which does the
- * fuzzy and substring work. `functions/` compiles with rootDir "src" and so
- * can't import that engine; this only has to agree with it on word boundaries.
- */
-function foldWords(texts: string[]): string[] {
-    const words = new Set<string>();
-    for (const text of texts)
-        for (const word of text
-            .normalize('NFC')
-            .toLowerCase()
-            .split(/[^\p{L}\p{N}]+/u))
-            if (word.length > 0) words.add(word);
-    return [...words].slice(0, MAX_WORDS);
-}
-
-function sameWords(a: string[], b: string[]): boolean {
-    return a.length === b.length && a.every((word, index) => word === b[index]);
-}
 
 /** The membership of a gallery a viewer list can be drawn from. */
 export type HowToSource = { curators: string[]; creators: string[] };
@@ -161,29 +136,6 @@ export function galleryContentChanged(
         JSON.stringify([...((before.characters as string[]) ?? [])].sort()) !==
             JSON.stringify([...((after.characters as string[]) ?? [])].sort())
     );
-}
-
-/**
- * Where a gallery stands with the moderators after this edit (#1311).
- *
- * The transition lives here rather than in a client or a security rule because
- * it is the one thing a curator must not be able to write: `public` is their
- * request, and this is the answer to it. An approval is of what the gallery
- * *was*, so changing its name, description, or contents puts it back in the
- * queue.
- */
-export function nextModeration(
-    current: string,
-    isPublic: boolean,
-    contentChanged: boolean,
-): string {
-    // Not asking to be listed, so there's nothing pending.
-    if (!isPublic) return 'unrequested';
-    // Asking for the first time, or asking again after a denial.
-    if (current === 'unrequested' || current === 'denied') return 'pending';
-    // Approval was of what the gallery was, not of whatever it becomes.
-    if (current === 'approved' && contentChanged) return 'pending';
-    return current;
 }
 
 export default async function galleryEdited(

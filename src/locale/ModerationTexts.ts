@@ -16,11 +16,11 @@ export type ModerationTexts = {
     unmoderated: HeaderAndExplanationText;
     /** Moderation view text */
     moderate: HeaderAndExplanationText;
-    /** Which queue the moderator is working through: projects, galleries, or
-     *  reported messages. Appended to, never inserted into: locales-fix pads a
-     *  positional array by appending, so a label added in the middle would
-     *  shift every locale's existing labels onto the wrong tabs. */
-    queue: ModeText<[string, string, string]>;
+    /** Which queue the moderator is working through: projects, galleries, kits asking to
+     *  be listed, or reports. Positional, and `locales-fix` pads by appending — so a
+     *  label added in the middle has to be scripted into every locale by hand, as `kits`
+     *  was. `ModerationQueues` in the moderate route is the list this labels. */
+    queue: ModeText<[string, string, string, string]>;
     /** [formatted] Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
     flags: FlagDescriptions;
     /** [formatted] Progress message */
@@ -38,9 +38,9 @@ export type ModerationTexts = {
     };
     /** Reporting public content for a moderator to look at (#193) */
     report: {
-        /** [plain] The tooltip on the report button shown on someone else's public project */
+        /** [plain] The tooltip on the report button shown on someone else's public content. Says what pressing it asks for; the confirmation below is the word on the button, so these two must not be the same sentence. */
         button: string;
-        /** [plain] What pressing report will do, shown before it happens */
+        /** [plain] The label on the button that confirms the report */
         confirm: string;
         /** [plain] Shown in place of the tip once a report has been sent */
         sent: string;
@@ -109,9 +109,47 @@ export type ModerationTexts = {
             denied: Template<['name']>;
         };
     };
+    /** Deciding whether a kit is listed in the guide (#8). The same decision a gallery
+     *  asks for, and so the same shape. */
+    kit: {
+        /** [formatted] Shown to a creator whose kit is waiting for a decision. Says the
+         *  thing the creator is staring at: marked listed, and still not in the guide. */
+        pending: FormattedText;
+        /** [formatted] Shown to a creator whose kit is listed in the guide */
+        approved: FormattedText;
+        /** [formatted] Shown to a creator whose kit was not accepted for the guide */
+        denied: FormattedText;
+        /** [plain] Names the kit listing queue */
+        header: string;
+        /** [formatted] Shown to a moderator above a kit awaiting a decision */
+        explain: FormattedText;
+        /** [formatted] Shown to a moderator when no kit is waiting for a decision */
+        done: FormattedText;
+        /** The moderator's button that lists a kit in the guide */
+        approve: ButtonText;
+        /** The moderator's button that refuses to list a kit */
+        deny: ButtonText;
+        /** The moderator's button that leaves a kit for someone else to decide */
+        skip: ButtonText;
+        /** The notification headers a creator gets when a decision is made, carrying the
+         *  kit's name so a decision about a second kit isn't read as a repeat. */
+        notification: {
+            /** [formatted] A kit is now listed in the guide */
+            approved: Template<['name']>;
+            /** [formatted] A kit was not accepted for the guide */
+            denied: Template<['name']>;
+        };
+    };
     /** Moderation errors */
     error: {
         /** [plain] Not a moderator */
         notmod: string;
+        /** [plain] The queue could not be read at all — the backend is unreachable, or the
+         *  query is one no index covers. Said instead of an empty queue, which a moderator
+         *  would otherwise read as "nothing to do". */
+        unreachable: string;
+        /** [plain] The queue found things it could not read, which is not the same as
+         *  finding nothing. Usually a stored document older than the code reading it. */
+        unreadable: string;
     };
 };

@@ -55,11 +55,7 @@ menschen: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 ¶Einen Schritt auf den Spieler zuschlurfen: vorwärts in die Tiefe, während er seitlich hin- und herschwankt, um schwerer zu treffen zu sein, wobei das Schwanken an den Rändern eines Bereichs um deine Spur umgekehrt wird, und dabei zwischen den Schwüngen sanft auf dich zusteuert, sodass ein Ausweichen nur einen kurzen Moment bringt.¶
 ƒ stürmtAufSpielerZu(zombie3•zombie kameraX2•#m sturmgeschwindigkeit•#m) (
 		geschlängeltesX: zombie3.x2 + (zombie3.richtungX · weaveSpeed)
-		verfolgtesX: geschlängeltesX + ((kameraX2 - geschlängeltesX).max(
-						homeSpeed · -1
-					)).Mindest(
-					homeSpeed
-				)
+		verfolgtesX: geschlängeltesX + (kameraX2 - geschlängeltesX).limit((homeSpeed · -1) homeSpeed)
 		amRand: (geschlängeltesX > (kameraX2 + weaveWidth)) | (geschlängeltesX < (kameraX2 - weaveWidth))
 		zombie(
 			verfolgtesX
@@ -130,15 +126,7 @@ menschen: ['🧑‍🌾' '👩‍🎨' '🧑‍🚀' '👩‍🔬' '🧑‍🏫'
 
 ¶Bewege deine Spur einen Schritt in Richtung eines Punktes, aber nie über deine Grenzen hinaus. Der Zeiger meldet den Weltpunkt, über dem er sich befindet. Sein Abstand zu deiner Spur zeigt, wie weit er links oder rechts von dir liegt. Bewegst du dich darauf zu, kannst du mit dem Zeiger zielen, und ein Tippen auf einer Seite bewegt dich in diese Richtung.¶
 ƒ fokusRichtung(spiel3•spiel ziel•#m)
-	spiel3.kameraX:(spiel3.kameraX + ((ziel - spiel3.kameraX).max(
-					strafeStep · -1
-				)).Mindest(
-				strafeStep
-			)).max(
-		linkesLimit
-	).Mindest(
-		rechtesLimit
-	)
+	spiel3.kameraX:(spiel3.kameraX + (ziel - spiel3.kameraX).limit((strafeStep · -1) strafeStep)).limit(linkesLimit rechtesLimit)
 
 ¶Ein Tastendruck während des Spiels: nach links oder rechts ausweichen oder ein Herz werfen.¶
 ƒ tastendruckAnwenden(spiel4•spiel schlüssel2•"")

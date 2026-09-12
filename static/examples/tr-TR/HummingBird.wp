@@ -50,14 +50,10 @@ perde2: Saha()
 mırıltı: (mod = 'hum') & (perde2 > 50hz)
 
 ƒ perdeDenYüksekliğe(hz•#hz)
-	(hz < 80hz) ? -4m
-		(hz > 400hz) ? 5m
-			-4m + (((hz - 80hz) ÷ 320hz) × 9m)
+	hz.rescale(80hz 400hz -4m 5m).limit(-4m 5m)
 
 ¶Kuş, uğultuyla belirlenen yüksekliğe azar azar yaklaşır. Böylece perdedeki her titremede sarsılmak yerine yumuşakça süzülür.¶
-perdeY•#m: 1m … ∆ perde2 … mırıltı ? (0.8 × perdeY) + (0.2 × perdeDenYüksekliğe(
-							perde2
-						)) perdeY
+perdeY•#m: 1m … ∆ perde2 … mırıltı ? perdeY.toward(perdeDenYüksekliğe(perde2) 20%) perdeY
 
 ¶Kuş geri sayım sırasında havada asılı kalır, oyun sırasında yukarı çırpınır ya da uğultunun perdesinde süzülür, çarpışmadan sonra ise yerçekimiyle yuvarlanır.¶
 kuşYeri: Hareket(

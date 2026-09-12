@@ -28,11 +28,7 @@ drift2•#: 0 … ∆ tryck | ∆ släpp …
 
 ¶Handsken styrs inte av fysik, så den kan styras direkt. Den stoppar vidändarna av sin räckvidd, så den kan aldrig vandra iväg från målet.¶
 målvaktY•#m: 0m … ∆ tick …
-		((målvaktY + (drift2 × målvaktHastighet)).max(
-				målvaktRäckvidd · -1
-			)).min(
-			målvaktRäckvidd
-		)
+		(målvaktY + (drift2 × målvaktHastighet)).limit((målvaktRäckvidd · -1) målvaktRäckvidd)
 
 ¶En räddning och ett mål. Varje @Collision rapporterar en beröring som börjar och enberöring som slutar, så båda paras med en kontroll att det just är en start:utan den skulle varje räddning och varje mål räknas dubbelt.¶
 handskeTräff: Kollision('boll' 'målvakt')

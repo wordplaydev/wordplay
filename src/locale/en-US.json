@@ -237,6 +237,7 @@
         "Function": "function",
         "Borrow": "borrow",
         "Share": "share",
+        "External": "kit",
         "Convert": "convert",
         "Translate": "translate",
         "Doc": "explanation",
@@ -837,6 +838,11 @@
             "doc": "I borrow @Bind that are shared by other @Source in your performance — just use their name and I'll bring in their name and @value.",
             "start": "Borrowing $name from $source",
             "conflict": {
+                "KitCannotBorrow": {
+                    "name": "kit can't borrow",
+                    "explanation": "this source is published as a kit, and a kit is the only file its readers get — copy what you borrow into this source instead",
+                    "resolution": "Remove the borrow"
+                },
                 "UnknownBorrow": {
                     "name": "unknown borrow",
                     "explanation": "I don't know a source by this name",
@@ -846,6 +852,26 @@
                     "name": "self-referencing borrow",
                     "explanation": "this depends on $borrow, which depends on this @Source, so the program can't be evaluated",
                     "resolution": "Remove this borrow to break the cycle"
+                },
+                "MissingKitVersion": {
+                    "name": "missing version",
+                    "explanation": "a kit keeps every version it has ever had, so I need to know which version of $kit you want",
+                    "resolution": "Remove this borrow"
+                },
+                "ConflictingKitVersions": {
+                    "name": "two versions of one kit",
+                    "explanation": "I can only use one version of a kit at a time, and this @Source asks for two of $kit",
+                    "resolution": "Remove this borrow"
+                },
+                "UnknownKit": {
+                    "name": "unknown kit",
+                    "explanation": "I can't find $kit",
+                    "resolution": "Remove this borrow"
+                },
+                "UnavailableKit": {
+                    "name": "unavailable kit",
+                    "explanation": "$kit exists, but it isn't shared with you",
+                    "resolution": "Remove this borrow"
                 }
             },
             "exception": {
@@ -1746,6 +1772,23 @@
                 "PermissionException": {
                     "description": "permission denied",
                     "explanation": "I need your $permission to run, but I don't have permission. Click Retry to try again. If that doesn't help, allow $permission for this site in your browser's settings."
+                }
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "undocumented share",
+                    "explanation": "this is published, so someone who didn't write it will read it — write a /doc/ above it saying what it's for",
+                    "resolution": "Document it above, or stop publishing this source"
+                },
+                "UnexampledShare": {
+                    "name": "no example",
+                    "explanation": "this takes inputs, so a description isn't enough — put an example in its doc showing one way to use it",
+                    "resolution": "Add an example to its doc, or stop publishing this source"
+                },
+                "UnexampledKit": {
+                    "name": "no example",
+                    "explanation": "nothing in this source has an example, so there's nothing to show people browsing for kits — add one to this source's doc",
+                    "resolution": "Add an example to this source's doc, or stop publishing this source"
                 }
             }
         },
@@ -3305,6 +3348,65 @@
                             "names": "numbers"
                         }
                     ]
+                },
+                "limit": {
+                    "doc": [
+                        "Keep me between a low and a high number: if I'm below the low one, that's what you get, and if I'm above the high one, you get that instead.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "limit",
+                    "inputs": [
+                        {
+                            "doc": "The lowest I'm allowed to be.",
+                            "names": "low"
+                        },
+                        {
+                            "doc": "The highest I'm allowed to be.",
+                            "names": "high"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "Move part of the way from me to another number. At 0% you get me, at 100% you get the other one, and halfway between gives the number in the middle.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "toward",
+                    "inputs": [
+                        {
+                            "doc": "The number to move toward.",
+                            "names": "other"
+                        },
+                        {
+                            "doc": "How far to go, where 100% arrives.",
+                            "names": "amount"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "Find where I sit between one pair of numbers, then give back the number sitting the same way between another pair. Handy for turning something you measured into something you can show.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "rescale",
+                    "inputs": [
+                        {
+                            "doc": "The low end of the range I'm in.",
+                            "names": "fromLow"
+                        },
+                        {
+                            "doc": "The high end of the range I'm in.",
+                            "names": "fromHigh"
+                        },
+                        {
+                            "doc": "The low end of the range you want.",
+                            "names": "toLow"
+                        },
+                        {
+                            "doc": "The high end of the range you want.",
+                            "names": "toHigh"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -3940,6 +4042,22 @@
                             "names": "value"
                         }
                     ]
+                },
+                "sum": {
+                    "doc": [
+                        "Add all of my numbers together. If I'm empty, that's 0, and if my numbers aren't all measured in the same thing, I'll say so rather than guess.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "sum",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "Add all of my numbers together and divide by how many there are. If I'm empty there's nothing to average, so you get @None.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "average",
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -7589,31 +7707,32 @@
             }
         },
         "gallerymoderation": {
-            "header": "Gallery Moderation",
+            "header": "Reports",
             "description": "What people have asked you to review, oldest first. A decision says which rules it found were broken, and whoever made the thing is told what you decided.",
             "labels": {
-                "message": "message",
-                "action": "moderator actions",
-                "reason": "which rules it broke"
+                "subject": "What was reported",
+                "reason": "Which rules it broke",
+                "action": "What to do"
+            },
+            "note": {
+                "description": "What to say to whoever made it",
+                "placeholder": "say something to them (optional)"
             },
             "view": {
-                "label": "view chat",
-                "tip": "view message in chat"
+                "label": "view it",
+                "tip": "open what was reported"
             },
             "remove": {
                 "label": "remove",
-                "tip": "this message violates guidelines"
+                "tip": "this breaks the rules"
             },
             "keep": {
                 "label": "keep",
-                "tip": "this message does not violate guidelines"
+                "tip": "this does not break the rules"
             },
-            "empty": "No messages require moderation",
-            "error": "You must be logged in to moderate galleries",
-            "note": {
-                "description": "what to say to whoever wrote the message",
-                "placeholder": "say something to them (optional)"
-            }
+            "remaining": "$#count[$count report waiting|$count reports waiting]",
+            "empty": "Nothing is waiting for a decision.",
+            "error": "You must be signed in to review reports."
         },
         "howto": {
             "galleryView": {
@@ -8131,7 +8250,7 @@
             "conflictLabel": "$severity: $conflict",
             "button": {
                 "resolution": "Resolve this conflict",
-                "elsewhere": "Open where this can be fixed",
+                "elsewhere": "open where this can be fixed",
                 "toggle": "show and hide annotations",
                 "highlightMajor": "show this error's code in the editor",
                 "highlightMinor": "show this warning's code in the editor",
@@ -8352,6 +8471,26 @@
             "overflowed": "This control is tucked inside the highlighted menu; open it to find the control."
         },
         "docs": {
+            "kits": {
+                "header": "Kits",
+                "yours": "Your kits that aren't listed",
+                "prompt": "A kit is code someone published for other people to build with. Copy the line for one, paste it at the top of your program, and everything it shares becomes yours to use.",
+                "empty": "Nobody has published a kit yet. Yours could be the first — share something with ↑, then publish it from your project's sharing settings.",
+                "none": "Nothing here matches that.",
+                "kinds": {
+                    "label": "what kits share",
+                    "all": "anything"
+                },
+                "shares": "shares $names",
+                "missing": "There's no kit by that name. It may have been renamed, or never published.",
+                "missingVersion": "That version isn't here. Try another one below.",
+                "nothing": "this kit shares nothing",
+                "versions": "Every version of this kit",
+                "version": {
+                    "tip": "see this version of the kit"
+                },
+                "open": "read this kit's documentation"
+            },
             "label": "guide",
             "link": "show \"$name\" in documentation",
             "tutorial": "Tutorial",
@@ -8421,9 +8560,10 @@
             "mode": {
                 "browse": {
                     "label": "section",
-                    "labels": ["code", "how-to", "glossary"],
+                    "labels": ["code", "kits", "how-to", "glossary"],
                     "tips": [
                         "programming language concepts",
+                        "code other people published for you to build with",
                         "reusable patterns for making projects",
                         "definitions of key terms"
                     ]
@@ -8432,6 +8572,7 @@
                     "label": "code",
                     "labels": [
                         "project",
+                        "kit",
                         "output",
                         "input",
                         "decide",
@@ -8449,6 +8590,7 @@
                     ],
                     "tips": [
                         "project-level concepts",
+                        "what the kits this project borrows make available",
                         "phrases, groups, stages, layouts and more",
                         "time, buttons, keys, scenes, and more",
                         "choose values based on other values",
@@ -8483,6 +8625,10 @@
                 "Project": {
                     "header": "Project",
                     "explanation": "/Concepts defined in your project./"
+                },
+                "Kit": {
+                    "header": "Kits",
+                    "explanation": "Things the kits this project borrows have shared with it."
                 },
                 "Outputs": {
                     "header": "Outputs",
@@ -8618,6 +8764,9 @@
                     "research": {
                         "header": "Research",
                         "explanation": "Sometimes we write and talk about Wordplay — in research papers, in talks, and in what we show teachers and families. If you turn this on, we can show this project as an example, without your name, your username, or anything else that says the account is yours.\n\nYou can turn this off any time. Turning it off means we stop using your project in anything new, but it can't take back something we already published or presented."
+                    },
+                    "kit": {
+                        "explanation": "A kit is one source you've published for other people to build with. Anything you mark with ↑ becomes part of it."
                     }
                 },
                 "tab": {
@@ -8627,14 +8776,16 @@
                         "Public",
                         "Preview",
                         "Privacy",
-                        "Remixes"
+                        "Remixes",
+                        "Kit"
                     ],
                     "tips": [
                         "choose a gallery to show this project in",
                         "choose who can see this project",
                         "choose the glyph that represents this project in lists",
                         "review personal information found in this project",
-                        "see what this project was remixed from, and what has remixed it"
+                        "see what this project was remixed from, and what has remixed it",
+                        "publish part of this project for other people to use"
                     ]
                 },
                 "pii": {
@@ -8694,7 +8845,59 @@
                     }
                 },
                 "options": {
-                    "gallery": "gallery chooser"
+                    "gallery": "gallery chooser",
+                    "source": "source to publish"
+                },
+                "kit": {
+                    "nothing": "Nothing here is shared yet. Put ↑ in front of a name, function, or structure to share it, like \\↑ sunset/en: 🔴\\, and it can become a kit.",
+                    "heading": {
+                        "name": "Name",
+                        "exports": "What this kit shares",
+                        "versions": "Versions",
+                        "listing": "Who can find it"
+                    },
+                    "unpublished": "You haven't published this one yet.",
+                    "name": {
+                        "placeholder": "name",
+                        "description": "what to call this kit"
+                    },
+                    "derived": "Your kit's description and search terms are taken from the first sentence of this source's documentation.",
+                    "undescribed": "this source has no documentation yet",
+                    "discovery": "Moderators can unlist a published version. Anything borrowed by others still works, even if unlisted.",
+                    "listing": {
+                        "label": "listing",
+                        "labels": ["unlisted", "listed"],
+                        "tips": [
+                            "nobody can find this kit in the guide, and anything already borrowing it keeps working",
+                            "anyone can find this kit in the guide, once a moderator has reviewed it"
+                        ]
+                    },
+                    "remedy": "Change the source and publish a new version, and a moderator will look at it again.",
+                    "moderation": {
+                        "unrequested": "not asked to be listed",
+                        "pending": "waiting for a moderator to review it",
+                        "approved": "reviewed and listed",
+                        "denied": "a moderator asked for changes"
+                    },
+                    "publish": {
+                        "label": "publish",
+                        "tip": "publish a new version of this kit"
+                    },
+                    "version": "version $version",
+                    "problem": {
+                        "exports": "nothing here is shared yet",
+                        "invalid": "that isn’t a name I can read"
+                    },
+                    "unreviewed": "Nobody reviews an unlisted kit. Anyone you give the borrow line to can still read it.",
+                    "permanent": "Publishing a version is permanent: other people’s programs borrow it by number, so taking one back would break them.",
+                    "confirm": "Publish it",
+                    "withdraw": {
+                        "label": "withdraw",
+                        "tip": "withdraw this version, which is only possible while the kit is unlisted"
+                    },
+                    "withdrawable": "This kit has never been listed, so nobody could have found it yet — you can still withdraw the newest version.",
+                    "unpublishable": "This kit can't be published yet:",
+                    "failed": "I couldn't publish your kit. Check that you're online and try again."
                 }
             },
             "settings": {
@@ -9428,7 +9631,8 @@
                 "galleries": "Galleries",
                 "characters": "Characters",
                 "howtos": "How-tos",
-                "chats": "Chats"
+                "chats": "Chats",
+                "kits": "Kits"
             },
             "status": {
                 "header": "Save status",
@@ -11042,11 +11246,12 @@
         },
         "queue": {
             "label": "what to review",
-            "labels": ["projects", "galleries", "messages"],
+            "labels": ["projects", "galleries", "kits", "reports"],
             "tips": [
                 "review projects people have made public",
                 "review galleries asking to be listed publicly",
-                "review messages people reported in galleries you curate"
+                "review kits asking to be listed in the guide",
+                "review what people have asked you to look at"
             ]
         },
         "flags": {
@@ -11069,8 +11274,8 @@
             "property": "Whether the project has this property"
         },
         "report": {
-            "button": "Alert moderator",
-            "confirm": "Alert moderator",
+            "button": "ask a moderator to review this",
+            "confirm": "Report it",
             "sent": "a moderator has been asked to look at this",
             "announce": "a moderator has been asked to look at $project",
             "flagged": "Someone reported this project, so it is first in line."
@@ -11109,8 +11314,34 @@
                 "denied": "$name was not listed publicly."
             }
         },
+        "kit": {
+            "pending": "A moderator is reading your kit to decide whether it can be listed in the guide. It's marked listed, but nobody will find it there until they do.",
+            "approved": "Your kit is listed in the <guide@://guide?section=kits>! It can be taken off that list at any time, for any reason.",
+            "denied": "A moderator decided not to list your kit in the guide. You can publish a new version and ask a second time.",
+            "header": "Kits",
+            "explain": "This kit is asking to be listed in the guide. Read what it shares and decide whether other people should find it.",
+            "done": "No kits are waiting for a decision. Thank you!",
+            "approve": {
+                "label": "list it",
+                "tip": "list this kit in the guide"
+            },
+            "deny": {
+                "label": "don't list it",
+                "tip": "keep this kit out of the guide"
+            },
+            "skip": {
+                "label": "skip",
+                "tip": "leave this kit for another moderator to decide"
+            },
+            "notification": {
+                "approved": "$name is now listed in the guide.",
+                "denied": "$name was not listed in the guide."
+            }
+        },
         "error": {
-            "notmod": "There's nothing here for you to review. Wordplay's moderators review public content, and a gallery's curators review what's in their gallery. If you were recently given moderator privileges, you may need to log in again."
+            "notmod": "There's nothing here for you to review. Wordplay's moderators review public content, and a gallery's curators review what's in their gallery. If you were recently given moderator privileges, you may need to log in again.",
+            "unreachable": "I couldn't read this queue, so I don't know whether anything is waiting. Try again in a moment.",
+            "unreadable": "Some things here are waiting but I couldn't read them, so they aren't shown."
         },
         "responsibility": {
             "none": "Nobody reviews what you share here. It's only visible to you and the people you choose.",

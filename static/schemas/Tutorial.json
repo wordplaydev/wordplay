@@ -596,6 +596,14 @@
                     "type": "string"
                 },
                 {
+                    "const": "Spotlight",
+                    "type": "string"
+                },
+                {
+                    "const": "Slate",
+                    "type": "string"
+                },
+                {
                     "const": "Motion",
                     "type": "string"
                 },
@@ -887,6 +895,7 @@
                 "animated-scene",
                 "interactive-scene",
                 "move-between-content",
+                "repeat-a-round",
                 "layering-images",
                 "shake-phrase",
                 "video-grid",

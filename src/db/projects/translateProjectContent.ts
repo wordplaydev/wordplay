@@ -316,6 +316,15 @@ export default async function translateProjectContent(
          *  content (a French word in a French-teaching example) that must ship
          *  verbatim in every locale (#1310). */
         preserveTagged?: boolean;
+        /** Translate a name even when it carries a language tag, while
+         *  `preserveTagged` still protects tagged *text*. A published kit needs
+         *  exactly this split: `MissingShareLanguages` requires every top-level
+         *  `↑` name to declare its language, so tagged-ness cannot mean "this is
+         *  content" for a kit's names the way it does for a gallery example's —
+         *  but a kit's data literals (an alphabet, a syllabary) are tagged with
+         *  the language they *are* and must ship verbatim. Off by default, so
+         *  `preserveTagged` keeps meaning what it meant. */
+        translateTaggedNames?: boolean;
         /** Called with why this returned null, when it does. Three quite
          *  different failures shared one message at the call sites, so a
          *  refused file said nothing about which had happened (#1310). */
@@ -324,6 +333,9 @@ export default async function translateProjectContent(
 ): Promise<Project | null> {
     const targetLanguage = targetLocale.language;
     const preserveTagged = options?.preserveTagged === true;
+    /** Whether a tagged *name* is content. Text is governed by `preserveTagged` alone. */
+    const preserveTaggedNames =
+        preserveTagged && options?.translateTaggedNames !== true;
     // The languages the project declares, in its own priority order — how a
     // tagged option's source is resolved when nothing is written in the
     // caller's chosen language.
@@ -370,6 +382,23 @@ export default async function translateProjectContent(
                 });
         });
 
+        // Names written inside documentation — a `\…\` example's own local bindings.
+        // In ADD mode they are left alone: an alias per locale on a throwaway lambda
+        // parameter tells a reader nothing, and thirty of them wrap a one-line example
+        // into a dozen. A use site still *reads* in the viewer's language, because the
+        // editor localizes a name through the definition it resolves to. Rewrite mode
+        // still localizes them, which is what makes a translated example read natively.
+        const namesInDocs = new Set<Names>();
+        if (!replace)
+            for (const source of project.getSources())
+                for (const docs of source
+                    .nodes()
+                    .filter((node): node is Docs => node instanceof Docs))
+                    for (const inside of docs
+                        .nodes()
+                        .filter((node): node is Names => node instanceof Names))
+                        namesInDocs.add(inside);
+
         // Find all of the names binds in the project's sources. We're going to add translated names to them, and update references to those names, if necessary.
         // Convert the binds into a record of translations to perform.
         const bindsToTranslate = project
@@ -383,6 +412,7 @@ export default async function translateProjectContent(
                 ],
                 [],
             )
+            .filter((names) => !namesInDocs.has(names))
             .map((names) => {
                 // Which name carries the words to translate, and what language
                 // those words are in. A name tagged in some other language used
@@ -393,7 +423,7 @@ export default async function translateProjectContent(
                     names.names,
                     sourceLocale,
                     declared,
-                    preserveTagged,
+                    preserveTaggedNames,
                 );
 
                 if (source === undefined) return undefined;
@@ -527,7 +557,19 @@ export default async function translateProjectContent(
                                   : undefined
                               : docToTranslate.markup.paragraphs
                                     .map((p) =>
-                                        normalizeSoftBreaks(p.toWordplay()),
+                                        normalizeSoftBreaks(
+                                            // With the source's spaces, never without
+                                            // them: `toWordplay()` alone drops every
+                                            // space it isn't given, which inside an
+                                            // embedded `\…\` example ran the code
+                                            // together — `v.icon 2m color:` reached the
+                                            // translator as `v.icon2mcolor:`, and what
+                                            // came back no longer parsed.
+                                            p.toWordplay(
+                                                project.getSourceOf(markups)
+                                                    ?.spaces,
+                                            ),
+                                        ),
                                     )
                                     .join('\n\n'),
                     translation: existingTranslation?.toWordplay(),
@@ -1395,19 +1437,39 @@ export default async function translateProjectContent(
         // locale primary can change conflicts by itself and the translation
         // shouldn't be blamed for that.
         if (options?.validate === true) {
+            // Keyworded the same way the revised project is. `withPrimaryLocale`
+            // deliberately leaves that to the caller, while the revision reaches it
+            // through `withLocales` — so without this the baseline had the target
+            // locale's keywords inactive and the revision had them active, and every
+            // name in *any* language that happens to spell one of them counted as
+            // newly broken. That is how adding Swedish refused a whole kit over
+            // Portuguese `som` (sound), which spells Swedish's `som` (convert).
             const baseline = targetLocaleText
-                ? project.withPrimaryLocale(targetLocaleText)
+                ? project
+                      .withPrimaryLocale(targetLocaleText)
+                      .withKeywordedSources()
                 : project;
             const after = countConflicts(revised);
             if (after > countConflicts(baseline)) {
                 // Name what appeared, so a refusal is diagnosable from the log
                 // rather than only by reproducing it offline.
                 const kinds = new Set<string>();
-                for (const list of revised.analyze().conflictedNodes.values())
-                    for (const conflict of list)
+                const where: string[] = [];
+                for (const [node, list] of revised
+                    .analyze()
+                    .conflictedNodes.entries())
+                    for (const conflict of list) {
                         kinds.add(conflict.constructor.name);
+                        // The node's own text, because a conflict kind alone does not
+                        // say which of forty names caused it — and a name collision is
+                        // fixed by choosing a different word, which needs the word.
+                        if (where.length < 4)
+                            where.push(
+                                `${conflict.constructor.name} at "${node.toWordplay().trim().slice(0, 40)}"`,
+                            );
+                    }
                 options.report?.(
-                    `it would have introduced conflicts (${[...kinds].sort().join(', ')})`,
+                    `it would have introduced conflicts (${[...kinds].sort().join(', ')}): ${where.join('; ')}`,
                 );
                 return null;
             }

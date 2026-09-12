@@ -8,6 +8,7 @@ Nic tu nie jest rysowane według zegara. @Beat przekazuje @Downbeat, gdy tylkoka
 Każdy wybuch nosi nazwę numeru uderzenia, więc wybuchy każdego uderzenia sąnowymi elementami: pokazują swoją pozę wejścia w drodze do środka i pozęwyjścia, gdy zastępuje je kolejne uderzenie. Wystrzał i upadek to te dwiepozy.
 
 Melodia to /The Star-Spangled Banner/ — melodia Johna Stafforda Smitha zokoło 1773 roku, od dawna w domenie publicznej — cała, od początku do końca,kończąca się na ostatniej linijce. Każda nuta niesie własną długość zapisanąjako wartość rytmiczna przy numerze — \8𝅘𝅥𝅮\ to ósemka, \13𝅗𝅥\ to półnuta, \13𝅗𝅥𝅭\ to półnuta z kropką — więc przedtakty,figury z kropką i długo trzymane nuty to prawdziwe czasy trwania, a niesiatka równych uderzeń. Zwykła liczba to jedno uderzenie. Pauzy nadal potrzebują@Note, ponieważ \ø\ nie jest liczbą i dlatego nie może nieść wartości. To skala chromatyczna,dzięki czemu można zapisać podwyższony czwarty stopień: każdy krok to jedenpółton.¶
+↓ @wordplay/instruments 1
 
 takt: Rytm()
 liczba2: takt.liczba
@@ -17,13 +18,7 @@ wystrzał•[Część]: takt.części.filtr(ƒ(p•Część) p.brzmienie)
 
 ¶Każdy instrument wybucha jako on sam, i o to właśnie chodzi: widać,który instrument właśnie zagrał.¶
 ƒ twarz2(p2•Część)•''
-	(p2.instrument.id = 'trumpet') ? '🎺'
-		(p2.instrument.id = 'flute') ? '🪈'
-			(p2.instrument.id = 'bell') ? '🔔'
-				(p2.instrument.id = 'piano') ? '🎹'
-					(p2.instrument.id = 'violin') ? '🎻'
-						(p2.instrument.id = 'drums') ? '🥁'
-							'🎵'
+	iconFor(p2.instrument)
 
 ¶Każdy instrument ma własny pas, rozciągnięty na całe niebo. Użycieinstrumentu zamiast jego pozycji na liście sprawia, że pas pozostajena miejscu, nawet gdy inny instrument milknie.¶
 ƒ pas(p3•Część)•#

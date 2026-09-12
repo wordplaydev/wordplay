@@ -6,14 +6,15 @@ Người điều khiển
 Giơ tay lên và dàn nhạc dần đầy đủ, từng phần một, cho đến khi cả tám phầncùng chơi. Hạ tay xuống và chúng dần biến mất cho đến khi chỉ còn lại giaiđiệu. Trượt sang trái để làm chậm khúc quân hành, sang phải để đẩy nhanh nó.Số ngón tay bạn giơ lên chọn ai sẽ chơi giai điệu.
 
 Mọi hướng dẫn đều được in trên sân khấu, nên bạn có thể học mà không cần đọcphần này.¶
+↓ @wordplay/instruments 1
 
 bànTay: Tay()
 
 ¶Chiều cao là dàn nhạc chơi nhiều hay ít, và chiều ngang là tốc độ, cả hai đềuđược đọc trực tiếp từ tay bạn thay vì được ghi nhớ, nên chúng đi theo tay bạnliên tục. Mỗi giá trị được làm tròn theo từng bước, nên nhạc chỉ đổi khi sựthay đổi đủ lớn để nghe thấy, và một bàn tay run không làm bản nhạc thay đổihai mươi lần mỗi giây.¶
-nângLên: ((bànTay.vịTrí.y + 3m) ÷ 6m).phút(1).tốiđa(0)
+nângLên: bànTay.vịTrí.y.rescale(-3m 3m 0 1).limit(0 1)
 lớp: 1 + ((nângLên · 7).tròn())
 
-tầmVới: ((bànTay.vịTrí.x + 5m) ÷ 10m).phút(1).tốiđa(0)
+tầmVới: bànTay.vịTrí.x.rescale(-5m 5m 0 1).limit(0 1)
 nhịpĐộ2: 72 + ((tầmVới · 8).tròn() · 12)
 
 ¶Ai chơi giai điệu. Một nắm tay và một bàn tay ra ngoài khung hình đều được tínhlà không có ngón tay nào, nên khi không có ngón tay nào giơ lên, người đanhchơi vẫn tiếp tục chơi — nếu không, chỉ cần nhìn đi chỗ khác cũng làm đổi bảnnhạc.¶
@@ -28,11 +29,7 @@ nổiBật: 5 … ∆ bànTay …
 					NhạcCụ.kènTrumpet
 
 ƒ biểuTượng(đếm3•#)•''
-	(đếm3 = 1) ? '🎹'
-		(đếm3 = 2) ? '🎻'
-			(đếm3 = 3) ? '🪈'
-				(đếm3 = 4) ? '⚡'
-					'🎺'
+	iconFor(giọng(đếm3))
 
 ¶Một phần nhạc to hay nhỏ. Mọi phần luôn có mặt trong bản nhạc, nên không phầnnào từng mất vị trí của mình — những phần cao hơn vị trí tay chỉ đơn giản làđược vặn nhỏ hết cỡ.
 

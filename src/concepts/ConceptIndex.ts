@@ -1,5 +1,6 @@
 import BindConcept from '@concepts/BindConcept';
 import type Concept from '@concepts/Concept';
+import conceptFor from '@concepts/conceptFor';
 import {
     getBasisConcepts,
     getNodeConcepts,
@@ -34,6 +35,7 @@ import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import { toMarkup } from '@parser/toMarkup';
 import { makeSearchable, searchConcepts } from '@concepts/conceptSearch';
 import type { Searchable, SearchMatch } from '@util/search';
+import { kitShareConcepts } from '@concepts/kitConcepts';
 
 export default class ConceptIndex {
     readonly project: Project;
@@ -186,57 +188,62 @@ export default class ConceptIndex {
                         (n): n is StructureDefinition =>
                             n instanceof StructureDefinition,
                     )
-                    .map(
-                        (def) =>
-                            new StructureConcept(
-                                Purpose.Project,
-                                undefined,
-                                def,
-                                undefined,
-                                [],
-                                locales,
-                                project.getContext(source),
-                            ),
+                    .map((def) =>
+                        conceptFor(
+                            def,
+                            Purpose.Project,
+                            locales,
+                            project.getContext(source),
+                        ),
                     ),
             )
-            .flat();
+            .flat()
+            .filter((c): c is Concept => c !== undefined);
 
         const projectFunctions = sources
             .map((source) =>
-                source.expression.expression.statements
-                    .filter(
-                        (n): n is FunctionDefinition =>
-                            n instanceof FunctionDefinition,
-                    )
-                    .map(
-                        (def) =>
-                            new FunctionConcept(
-                                Purpose.Project,
-                                undefined,
-                                def,
-                                undefined,
-                                locales,
-                                project.getContext(source),
-                            ),
-                    ),
+                source.expression.expression.statements.map((def) =>
+                    def instanceof FunctionDefinition
+                        ? conceptFor(
+                              def,
+                              Purpose.Project,
+                              locales,
+                              project.getContext(source),
+                          )
+                        : undefined,
+                ),
             )
-            .flat();
+            .flat()
+            .filter((c): c is Concept => c !== undefined);
 
         const projectBinds = sources
             .map((source) =>
-                source.expression.expression.statements
-                    .filter((n): n is Bind => n instanceof Bind)
-                    .map(
-                        (def) =>
-                            new BindConcept(
-                                Purpose.Project,
-                                def,
-                                locales,
-                                project.getContext(source),
-                            ),
-                    ),
+                source.expression.expression.statements.map((def) =>
+                    def instanceof Bind
+                        ? conceptFor(
+                              def,
+                              Purpose.Project,
+                              locales,
+                              project.getContext(source),
+                          )
+                        : undefined,
+                ),
             )
-            .flat();
+            .flat()
+            .filter((c): c is Concept => c !== undefined);
+
+        /**
+         * What the kits this project borrows have shared with it (#8).
+         *
+         * The same concepts a kit's own page builds from the same source, through
+         * {@link kitShareConcepts} — so a kit's documentation cannot look different
+         * depending on where it was found.
+         */
+        const kitConcepts = project
+            .getDependencySources()
+            .flatMap((source) =>
+                kitShareConcepts(source, project.getContext(source), locales),
+            );
 
         function makeStreamConcept(stream: StreamDefinition) {
             return new StreamConcept(stream, locales, context);
@@ -277,6 +284,9 @@ export default class ConceptIndex {
                 ...projectStructures,
                 ...projectFunctions,
                 ...projectBinds,
+                // After the project's own, so a name a creator defined wins a first-match
+                // lookup over one a kit happens to share.
+                ...kitConcepts,
                 // Inputs have higher priority than language constructs so Previous appears last.
                 ...streams,
                 ...constructs,

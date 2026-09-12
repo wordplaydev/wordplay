@@ -23,6 +23,8 @@ const GalleriesCollection = 'galleries';
 const HowTosCollection = 'howtos';
 const ChatsCollection = 'chats';
 const CharactersCollection = 'characters';
+const KitsCollection = 'kits';
+const KitVersionsCollection = 'kitversions';
 const ReportsCollection = 'reports';
 const StrikesCollection = 'strikes';
 
@@ -256,6 +258,28 @@ export default async function moderate(
     return { count: updated.count, banned: updated.banned, responsibility };
 }
 
+/**
+ * What a decision writes on something that asks to be listed — a gallery, a kit.
+ *
+ * The listing decision is what lets anything ever reach `approved`; without it the
+ * registry query (`public && moderation == 'approved'`) matches nothing ever published,
+ * so the listing is unreachable rather than merely empty. Recorded even when the decision
+ * is to keep, since what was decided is part of a creator's standing either way.
+ */
+function listedDecision(
+    flags: Record<string, boolean | null>,
+    violation: boolean,
+    listing: 'approved' | 'denied' | undefined,
+): Record<string, unknown> {
+    return {
+        flags,
+        ...(listing === undefined
+            ? {}
+            : { moderation: listing, moderatedAt: Date.now() }),
+        ...(violation ? { public: false } : {}),
+    };
+}
+
 /** Do to the thing what the decision says. */
 async function applyRemedy(
     db: Firestore,
@@ -278,13 +302,7 @@ async function applyRemedy(
         await db
             .collection(GalleriesCollection)
             .doc(subject)
-            .update({
-                ...(listing === undefined
-                    ? {}
-                    : { moderation: listing, moderatedAt: Date.now() }),
-                flags,
-                ...(violation ? { public: false } : {}),
-            });
+            .update(listedDecision(flags, violation, listing));
     else if (kind === 'character' && violation) {
         // Un-publishing alone would be theatre here (#1236). A character is
         // most often reported inside a class gallery, where it was never
@@ -304,6 +322,48 @@ async function applyRemedy(
             batch.update(db.collection(GalleriesCollection).doc(gallery), {
                 characters: FieldValue.arrayRemove(subject),
             });
+        await batch.commit();
+    } else if (kind === 'kit') {
+        // Unlisting the kit is not enough, and for a sharper version of the reason a
+        // character is also pulled from its gallery (#1236): a kit's *versions* are what
+        // a borrow actually reads, and they carry their own denormalized `public` so that
+        // reading one costs no document access. Leaving them readable would mean a kit
+        // taken down from the registry still running in everyone's projects.
+        //
+        // Bounded by MAX_KIT_VERSIONS, which exists so this stays one batch.
+        //
+        // A decision to *keep* still records the flags, the way a project's and a
+        // gallery's do: what was decided is part of a creator's standing whether or not
+        // it cost them the listing.
+        const kitRef = db.collection(KitsCollection).doc(subject);
+        const [kit, versions] = await Promise.all([
+            // Approving lists the version that was approved, which is the newest one at
+            // the moment of the decision — a later publish re-enters the queue without
+            // disturbing it.
+            listing === 'approved' ? kitRef.get() : undefined,
+            violation
+                ? db
+                      .collection(KitVersionsCollection)
+                      .where('kit', '==', subject)
+                      .get()
+                : undefined,
+        ]);
+        const latest = kit?.get('latest');
+        const batch = db.batch();
+        batch.update(kitRef, {
+            ...listedDecision(flags, violation, listing),
+            // The registry reads `listed`, not `moderation`, so this is what actually puts
+            // a kit in front of people — and what takes it back out.
+            ...(listing === 'approved' &&
+            typeof latest === 'number' &&
+            latest >= 1
+                ? { listed: true, listedVersion: latest }
+                : listing === 'denied' || violation
+                  ? { listed: false, listedVersion: null }
+                  : {}),
+        });
+        for (const version of versions?.docs ?? [])
+            batch.update(version.ref, { public: false });
         await batch.commit();
     } else if (kind === 'howto' && violation)
         await db

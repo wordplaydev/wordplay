@@ -134,11 +134,7 @@ tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶Hur mycket av din veckopeng som är använd, från 0 där allt återstår till 1 där inget är kvar. Hemligheten är tom före den första omgången, så delningen skyddas i stället för att lämnas att dela med noll.¶
 maxGissningar: state.hemlighet.längd() × 3
-tryck: (maxGissningar = 0) ? 0 (((1 - (state.guessesRemaining ÷ maxGissningar)).max(
-					0
-				)).min(
-				1
-			))
+tryck: (maxGissningar = 0) ? 0 ((1 - (state.guessesRemaining ÷ maxGissningar)).limit(0 1))
 
 ¶Eftertänksam vid 54 slag i minuten, brådskande vid 120, och varje gissning flyttar den lite. Att ändra tempot klipps in vid nästa slag i stället för att börja om, så slingan behåller sin plats och lutar sig bara framåt — den tysta trumman finns där för att göra den lutningen hörbar, eftersom en temposändring under långa hållna toner är svår att känna.¶
 pusselmusik: Musik(

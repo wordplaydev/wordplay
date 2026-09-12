@@ -2,6 +2,7 @@
 RainingLetters
 === start/en
 ¶Ang programang ito ay may hanay ng mga titik na umuulan at bumabagsak sa lupa ayon sa mga batas ng pisika. Kapag tumama sila, maaari na silang bumagsak ulit.Palagi tayong may parehong bilang ng mga titik na bumabagsak, pero magkaiba ang bilang ng nakikitang mga tiitk depende sa amplitude ng mikropono.¶
+↓ @wordplay/alphabets 1
 
 ¶Ang pinakamataas na bilang ng mga titik¶
 bilang2: 100
@@ -19,7 +20,7 @@ tik: Oras()
 ¶Simulan bilang isang listahan ng mga random na titik sa mga random na posisyon¶
 mgaLetra•[titik2]: bilang2 → [#].isalin(
 		ƒ(_) titik2(
-				'abcdefghijklmnopqrstuvwxyz' → [''].random()
+				latin.random()
 				Random(-sukat2 sukat2)
 				Random(0m sukat2 + 2m)
 				Random(360)

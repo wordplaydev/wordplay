@@ -204,13 +204,17 @@
                     onclick={(event) => event.stopPropagation()}
                     onkeydown={(event) => event.stopPropagation()}
                 >
+                    <!-- Icon *and* label: a glyph alone names no destination, and
+                         pressing this leaves the annotation entirely. -->
                     <Button
                         background
                         tip={(l) => l.ui.annotations.button.elsewhere}
                         action={() =>
                             setDialogInURL(resolution.openDialog, true)}
                         >{resolution.openDialogIcon ??
-                            DOCUMENTATION_SYMBOL}</Button
+                            DOCUMENTATION_SYMBOL}{#if resolution.openDialogLabel}&nbsp;<LocalizedText
+                                path={resolution.openDialogLabel}
+                            />{/if}</Button
                     >
                     <div class="description"
                         ><MarkupHTMLView

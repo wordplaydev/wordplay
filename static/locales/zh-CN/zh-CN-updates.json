@@ -955,6 +955,12 @@
         "e876dc2ed0b0f": "$~@Group 现在可以容纳一个 @Shape，这样你就能把一个圆形叠在你的文字上，或者把一个 @Scene 放进布局里。（<547@https://github.com/wordplaydev/wordplay/issues/547>）",
         "e723fd65c8efc": "$~@Shape 现在会与它所在的 @Stack、@Row 或 @Grid 对齐，而不再是停在自己角落原来的位置。此外，@Grid 里面的内容现在可以设置得更近或更远。（<547@https://github.com/wordplaydev/wordplay/issues/547>）",
         "e8ad9864d7217": "$~我们在 <指南@https://wordplay.dev/guide> 里新增了一篇关于如何重复游戏一局的如何。（<547@https://github.com/wordplaydev/wordplay/issues/547>）",
-        "e0bce9fefa9f6": "$~我们添加了 @Spotlight，它会告诉你 @Scene 目前显示的是哪一部分、一共有多少部分、已经循环了多少次，以及是不是正在等待某个人。（<547@https://github.com/wordplaydev/wordplay/issues/547>）"
+        "e0bce9fefa9f6": "$~我们添加了 @Spotlight，它会告诉你 @Scene 目前显示的是哪一部分、一共有多少部分、已经循环了多少次，以及是不是正在等待某个人。（<547@https://github.com/wordplaydev/wordplay/issues/547>）",
+        "e615935a2e384": "$~现在你可以在 <指南@https://wordplay.dev/guide> 里查找和搜索已发布的工具包，并用 ↓ 借用它，把它加进你的程序。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
+        "ed328cd23ff5e": "$~我们新增了工具包（kits），让你可以发布想和别人分享的代码。在值或函数前面加上 ↑，然后发布即可。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
+        "ee176f1308f17": "$~Wordplay 现在自带三个可以借用的工具包——字母表、乐器和歌曲——这样你就不用自己一个个打出字母、乐器外观或曲子啦。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
+        "ede02f98adf41": "$~Wordplay 自带的这三个工具包，我们支持的每种语言都写好了，所以名字和文字读起来都是你熟悉的语言。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
+        "e75fc15b8d057": "$~数字现在能做三件以前要你手动写代码才能做的事：\\limit\\ 把一个数字限制在最低值和最高值之间，\\toward\\ 把一个数字往另一个数字移动一段距离，\\rescale\\ 把一个范围里的数字换算成另一个范围里对应的数字。",
+        "e49e28ab01607": "$~一列数字现在可以告诉你它的\\sum\\和它的\\average\\，这样你就不用自己去加总啦。"
     }
 }

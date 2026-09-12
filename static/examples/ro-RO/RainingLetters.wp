@@ -2,6 +2,7 @@
 LitereCareCad
 === start/en
 ¶Acest program are un set de litere care cad ca ploaia spre pământ, urmând regulile fizicii, iar când ating solul, pot cădea din nou.Numărul de litere care cad rămâne mereu același, dar facem vizibil un număr diferit dintre ele, în funcție de amplitudinea microfonului.¶
+↓ @wordplay/alphabets 1
 
 ¶Numărul maxim de litere¶
 numărare2: 100
@@ -19,7 +20,7 @@ tic: Timp()
 ¶Inițializează ca o listă de litere aleatorii în poziții aleatorii¶
 litere•[literă]: numărare2 → [#].traduce(
 		ƒ(_) literă(
-				'abcdefghijklmnopqrstuvwxyz' → [''].aleatoriu()
+				latin.aleatoriu()
 				Aleatoriu(-mărime2 mărime2)
 				Aleatoriu(0m mărime2 + 2m)
 				Aleatoriu(360)

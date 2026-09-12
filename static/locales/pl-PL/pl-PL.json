@@ -296,7 +296,8 @@
         "Percent": "$~procent",
         "Defect": "$~przykład z oczekiwaną usterką",
         "NotANumber": "$~to nie jest liczba",
-        "Range": "$~zakres"
+        "Range": "$~zakres",
+        "External": "$~zestaw"
     },
     "node": {
         "Dimension": {
@@ -795,6 +796,31 @@
                     "name": "$~import wskazujący na siebie",
                     "explanation": "$~to zależy od $borrow, które zależy od tego @Source, więc nie można ocenić programu",
                     "resolution": "$~Usuń tę pożyczkę, aby przerwać cykl"
+                },
+                "MissingKitVersion": {
+                    "name": "$~brak wersji",
+                    "explanation": "$~zestaw zachowuje każdą wersję, jaką kiedykolwiek miał, więc muszę wiedzieć, której wersji $kit chcesz",
+                    "resolution": "$~Usuń to pożyczenie"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~dwie wersje jednego zestawu",
+                    "explanation": "$~mogę używać tylko jednej wersji zestawu naraz, a ten @Source prosi o dwie wersje $kit",
+                    "resolution": "$~Usuń to pożyczenie"
+                },
+                "UnknownKit": {
+                    "name": "$~nieznany zestaw",
+                    "explanation": "$~nie mogę znaleźć $kit",
+                    "resolution": "$~Usuń to pożyczenie"
+                },
+                "UnavailableKit": {
+                    "name": "$~niedostępny zestaw",
+                    "explanation": "$~$kit istnieje, ale nie jest z tobą udostępniony",
+                    "resolution": "$~Usuń to pożyczenie"
+                },
+                "KitCannotBorrow": {
+                    "name": "$~zestaw nie może pożyczać",
+                    "explanation": "$~to źródło jest wydane jako zestaw, a zestaw to jedyny plik, jaki dostają jego czytelnicy — to, co pożyczysz, skopiuj do tego źródła",
+                    "resolution": "$~Usuń pożyczenie"
                 }
             },
             "exception": {
@@ -1368,6 +1394,23 @@
             "label": {
                 "borrows": "$~pożycza",
                 "expression": "$~blok"
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~udostępnienie bez dokumentacji",
+                    "explanation": "$~to jest opublikowane, więc przeczyta to ktoś, kto tego nie napisał — dodaj nad tym /doc/ z opisem, do czego to służy",
+                    "resolution": "$~Opisz to powyżej albo przestań publikować to źródło"
+                },
+                "UnexampledShare": {
+                    "name": "$~brak przykładu",
+                    "explanation": "$~to przyjmuje dane wejściowe, więc sam opis to za mało — dodaj do dokumentacji przykład pokazujący jeden ze sposobów użycia",
+                    "resolution": "$~Dodaj przykład do dokumentacji albo przestań publikować to źródło"
+                },
+                "UnexampledKit": {
+                    "name": "$~brak przykładu",
+                    "explanation": "$~nic w tym źródle nie ma przykładu, więc nie ma czego pokazać osobom przeglądającym zestawy — dodaj przykład do dokumentacji tego źródła",
+                    "resolution": "$~Dodaj przykład do dokumentacji tego źródła albo przestań publikować to źródło"
+                }
             }
         },
         "PropertyBind": {
@@ -3160,6 +3203,65 @@
                             "names": "$~liczba"
                         }
                     ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Trzymaj mnie między niską a wysoką liczbą: jeśli jestem poniżej niskiej, dostajesz właśnie ją, a jeśli jestem powyżej wysokiej, dostajesz zamiast tego ją.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~granica",
+                    "inputs": [
+                        {
+                            "doc": "$~Najniższa @value, jaką mogę mieć.",
+                            "names": "$~niski"
+                        },
+                        {
+                            "doc": "$~Najwyższa @value, jaką mogę mieć.",
+                            "names": "$~wysoki"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Przesuń się częściowo ode mnie do innej liczby. Przy 0% dostajesz mnie, przy 100% dostajesz tę drugą liczbę, a w połowie drogi dostajesz liczbę pośrodku.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~wKierunku",
+                    "inputs": [
+                        {
+                            "doc": "$~Liczba, w stronę której się przesuwasz.",
+                            "names": "$~inny"
+                        },
+                        {
+                            "doc": "$~@how daleko przejść, gdzie 100% oznacza dotarcie na miejsce.",
+                            "names": "$~ilość"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Znajdź, gdzie znajduję się między jedną parą liczb, a potem zwróć liczbę, która leży tak samo między inną parą liczb. Przydatne, gdy chcesz zamienić coś, co zmierzyłeś, na coś, co możesz pokazać.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~przeskaluj",
+                    "inputs": [
+                        {
+                            "doc": "$~Dolna granica zakresu, w którym jestem.",
+                            "names": "$~odNiskiego"
+                        },
+                        {
+                            "doc": "$~Górna granica zakresu, w którym jestem.",
+                            "names": "$~odWysokiego"
+                        },
+                        {
+                            "doc": "$~Dolna granica zakresu, który chcesz.",
+                            "names": "$~doNiskiego"
+                        },
+                        {
+                            "doc": "$~Górna granica zakresu, który chcesz.",
+                            "names": "$~doWysokiego"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -3731,6 +3833,22 @@
                             "names": "$~wartość"
                         }
                     ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Zsumuj wszystkie moje liczby. Jeśli jestem pusta, wynik to 0, a jeśli moje liczby nie są mierzone w tej samej jednostce, powiem ci o tym zamiast zgadywać.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~suma",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Zsumuj wszystkie moje liczby i podziel przez ich liczbę. Jeśli jestem pusta, nie ma czego uśredniać, więc dostajesz @None.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~średnia",
+                    "inputs": []
                 }
             },
             "conversion": {
@@ -4418,10 +4536,7 @@
                 "AltGraph": ["$~AltGraph"],
                 "CapsLock": ["$~CapsLock", "$~Caps Lock"],
                 "NumLock": ["$~NumLock", "$~Num Lock"],
-                "ScrollLock": [
-                    "$~Blokada przewijania",
-                    "$~Blokada przewijania"
-                ],
+                "ScrollLock": ["$~Blokada przewijania"],
                 "Enter": ["$~Wchodzić", "$~Powrót"],
                 "Tab": ["$~Patka"],
                 " ": ["$~Przestrzeń", "$~Spacja", "$~"],
@@ -4785,7 +4900,7 @@
                 "doc": "$~Gdy ten @value się zmieni, wyczyść zgromadzoną mowę i zacznij od nowa."
             },
             "language": {
-                "names": ["$~język", "$~język"],
+                "names": ["$~język"],
                 "doc": "$~@code @language w standardzie BCP 47 (np. 'en-US'). Jeśli rozpoznawanie mowy w twojej przeglądarce go nie obsługuje, dostaniesz błąd. Domyślnie używa twojego preferowanego języka."
             },
             "limit": {
@@ -5102,27 +5217,23 @@
                 "bed": ["$~łóżko"],
                 "dining table": ["$~stół", "$~stół jadalny"],
                 "toilet": ["$~toaleta"],
-                "tv": ["$~telewizor", "$~telewizor", "$~telewizja"],
+                "tv": ["$~telewizor", "$~telewizja"],
                 "laptop": ["$~laptop", "$~komputer"],
                 "mouse": ["$~myszka"],
                 "remote": ["$~pilot", "$~pilot zdalnego sterowania"],
                 "keyboard": ["$~klawiatura"],
-                "cell phone": [
-                    "$~telefon",
-                    "$~telefon komórkowy",
-                    "$~telefon komórkowy"
-                ],
+                "cell phone": ["$~telefon", "$~telefon komórkowy"],
                 "microwave": ["$~kuchenka mikrofalowa"],
                 "oven": ["$~piekarnik"],
                 "toaster": ["$~toster"],
                 "sink": ["$~zlew"],
-                "refrigerator": ["$~lodówka", "$~lodówka"],
+                "refrigerator": ["$~lodówka"],
                 "book": ["$~książka"],
                 "clock": ["$~zegar"],
                 "vase": ["$~wazon"],
                 "scissors": ["$~nożyczki"],
                 "teddy bear": ["$~miś", "$~pluszowe zwierzątko"],
-                "hair drier": ["$~suszarka do włosów", "$~suszarka do włosów"],
+                "hair drier": ["$~suszarka do włosów"],
                 "toothbrush": ["$~szczoteczka do zębów"]
             }
         },
@@ -7780,7 +7891,7 @@
                 "highlightMajor": "$~pokaż kod tego błędu w edytorze",
                 "highlightMinor": "$~pokaż kod tego ostrzeżenia w edytorze",
                 "highlightStep": "$~pokaż kod tego kroku wykonania w edytorze",
-                "elsewhere": "$~Otwórz tam, gdzie można to naprawić"
+                "elsewhere": "$~otwórz miejsce, w którym można to naprawić"
             },
             "nodeDescription": "$~$description .",
             "severity": {
@@ -7983,6 +8094,26 @@
             }
         },
         "docs": {
+            "kits": {
+                "header": "$~Zestawy",
+                "prompt": "$~Zestaw to kod, który ktoś opublikował, aby inni mogli na nim budować. Skopiuj linię dla niego, wklej ją na górze swojego programu, a wszystko, co udostępnia, stanie się twoje do użycia.",
+                "empty": "$~Nikt jeszcze nie opublikował zestawu. Twój może być pierwszy — udostępnij coś za pomocą ↑, a potem opublikuj to w ustawieniach udostępniania swojego projektu.",
+                "shares": "$~udostępnia $names",
+                "missing": "$~Nie ma zestawu o takiej nazwie. Mógł zostać przemianowany albo nigdy nie został opublikowany.",
+                "missingVersion": "$~Tej wersji tu nie ma. Wypróbuj inną poniżej.",
+                "nothing": "$~ten zestaw niczego nie udostępnia",
+                "versions": "$~Każda wersja tego zestawu",
+                "version": {
+                    "tip": "$~zobacz tę wersję zestawu"
+                },
+                "open": "$~przeczytaj dokumentację tego zestawu",
+                "none": "$~Nic tu nie pasuje do tego.",
+                "kinds": {
+                    "label": "$~co udostępniają zestawy",
+                    "all": "$~cokolwiek"
+                },
+                "yours": "$~Twoje zestawy, które nie są na liście"
+            },
             "label": "$~przewodnik",
             "link": "$~pokaż koncepcję $name w dokumentacji",
             "nodoc": "$~Kim jestem? Czym jestem? Jaki jest mój cel?",
@@ -8073,9 +8204,10 @@
             "mode": {
                 "browse": {
                     "label": "$~przeglądać",
-                    "labels": ["$~kod", "$~jak", "$~słowniczek"],
+                    "labels": ["$~kod", "$~zestawy", "$~jak", "$~słowniczek"],
                     "tips": [
                         "$~pojęcia języka programowania",
+                        "$~kod opublikowany przez inne osoby, z którego możesz budować",
                         "$~wzory wielokrotnego użytku do tworzenia projektów",
                         "$~definicje kluczowych pojęć"
                     ]
@@ -8084,6 +8216,7 @@
                     "label": "$~zamiar",
                     "labels": [
                         "$~projekt",
+                        "$~zestaw",
                         "$~wyjście",
                         "$~wejście",
                         "$~decydować",
@@ -8101,6 +8234,7 @@
                     ],
                     "tips": [
                         "$~koncepcje na poziomie projektu",
+                        "$~co udostępniają zestawy, z których korzysta ten projekt",
                         "$~frazy, grupy, etapy, układy i wiele więcej",
                         "$~czas, przyciski, klawisze, sceny i wiele więcej",
                         "$~wybierz wartości na podstawie innych wartości",
@@ -8198,6 +8332,10 @@
                 "Patterns": {
                     "header": "$~Wzory",
                     "explanation": "$~/Opisz kształt tekstu za pomocą wzoru ograniczonego znakiem \\⣿\\ , a następnie sprawdź, czy tekst pasuje do kształtu ( \\≈\\ ) lub znajdź wszystkie miejsca, w których się pojawia ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Zestawy",
+                    "explanation": "$~To, co zestawy, z których korzysta ten projekt, mu udostępniły."
                 }
             },
             "note": {
@@ -8249,6 +8387,9 @@
                     "research": {
                         "header": "$~Badania",
                         "explanation": "$~Czasem piszemy i mówimy o Wordplay — w pracach badawczych, na wykładach oraz gdy pokazujemy je nauczycielom i rodzinom. Jeśli to włączysz, będziemy mogli pokazać ten projekt jako przykład, bez twojego imienia, nazwy użytkownika ani niczego innego, co wskazuje, że to twoje konto.\n\nMożesz to wyłączyć w każdej chwili. Wyłączenie oznacza, że przestaniemy używać twojego projektu w czymkolwiek nowym, ale nie cofnie tego, co już opublikowaliśmy lub pokazaliśmy."
+                    },
+                    "kit": {
+                        "explanation": "$~Zestaw to jedno źródło, które opublikowałeś, aby inni mogli z niego budować. Wszystko, co oznaczysz strzałką ↑, staje się jego częścią."
                     }
                 },
                 "field": {
@@ -8302,7 +8443,8 @@
                     }
                 },
                 "options": {
-                    "gallery": "$~selektor galerii"
+                    "gallery": "$~selektor galerii",
+                    "source": "$~źródło do opublikowania"
                 },
                 "remix": {
                     "source": "$~Ten projekt jest remiksem:",
@@ -8317,18 +8459,71 @@
                         "$~Publiczny",
                         "$~Podgląd",
                         "$~Prywatność",
-                        "$~Remiksy"
+                        "$~Remiksy",
+                        "$~Zestaw"
                     ],
                     "tips": [
                         "$~wybierz galerię, w której pokazać ten projekt",
                         "$~wybierz, kto może zobaczyć ten projekt",
                         "$~wybierz znak, który przedstawia ten projekt na listach",
                         "$~przejrzyj dane osobowe znalezione w tym projekcie",
-                        "$~zobacz, z czego ten projekt został zremiksowany i co go zremiksowało"
+                        "$~zobacz, z czego ten projekt został zremiksowany i co go zremiksowało",
+                        "$~opublikuj część tego projektu, aby inni mogli z niej korzystać"
                     ]
                 },
                 "pii": {
                     "none": "$~Nie znaleziono danych osobowych."
+                },
+                "kit": {
+                    "nothing": "$~Nic tu jeszcze nie jest udostępnione. Postaw ↑ przed nazwą, funkcją albo strukturą, aby ją udostępnić, na przykład \\↑ sunset/en: 🔴\\, i może stać się zestawem.",
+                    "unpublished": "$~Ten jeszcze nie został opublikowany.",
+                    "name": {
+                        "placeholder": "$~nazwa",
+                        "description": "$~jak nazwać ten zestaw"
+                    },
+                    "publish": {
+                        "label": "$~opublikuj",
+                        "tip": "$~opublikuj nową wersję tego zestawu"
+                    },
+                    "version": "$~wersja $version",
+                    "problem": {
+                        "exports": "$~nic tu jeszcze nie jest udostępnione",
+                        "invalid": "$~to nie jest nazwa, którą potrafię odczytać"
+                    },
+                    "undescribed": "$~to źródło nie ma jeszcze dokumentacji",
+                    "discovery": "$~Moderatorzy mogą usunąć opublikowaną wersję z listy. Wszystko, co inni już pożyczyli, nadal działa, nawet jeśli wersja nie jest już na liście.",
+                    "moderation": {
+                        "unrequested": "$~nie poproszono o dodanie do listy",
+                        "pending": "$~czeka na sprawdzenie przez moderatora",
+                        "approved": "$~sprawdzone i dodane do listy",
+                        "denied": "$~moderator poprosił o zmiany"
+                    },
+                    "derived": "$~Opis i słowa wyszukiwania twojego zestawu pochodzą z pierwszego zdania dokumentacji tego źródła.",
+                    "heading": {
+                        "name": "$~Nazwa",
+                        "exports": "$~Co udostępnia ten zestaw",
+                        "versions": "$~Wersje",
+                        "listing": "$~Kto może go znaleźć"
+                    },
+                    "listing": {
+                        "label": "$~lista",
+                        "labels": ["$~nie na liście", "$~na liście"],
+                        "tips": [
+                            "$~nikt nie może znaleźć tego zestawu w przewodniku, a wszystko, co już go pożyczyło, nadal działa",
+                            "$~każdy może znaleźć ten zestaw w przewodniku, gdy tylko moderator go sprawdzi"
+                        ]
+                    },
+                    "remedy": "$~Zmień źródło i opublikuj nową wersję, a moderator sprawdzi ją ponownie.",
+                    "unreviewed": "$~Nikt nie sprawdza zestawu, który nie jest na liście. Każdy, komu podasz linię pożyczenia, nadal może go odczytać.",
+                    "permanent": "$~Opublikowanie wersji jest nieodwracalne: inne programy pożyczają ją po numerze, więc wycofanie jej zepsułoby te programy.",
+                    "confirm": "$~Opublikuj to",
+                    "withdraw": {
+                        "label": "$~wycofaj",
+                        "tip": "$~wycofaj tę wersję, co jest możliwe tylko wtedy, gdy zestaw nie jest na liście"
+                    },
+                    "withdrawable": "$~Ten zestaw nigdy nie był wypisany, więc nikt jeszcze nie mógł go znaleźć — nadal możesz wycofać najnowszą wersję.",
+                    "unpublishable": "$~Tego zestawu nie można jeszcze opublikować:",
+                    "failed": "$?"
                 }
             },
             "settings": {
@@ -9063,7 +9258,8 @@
                 "galleries": "$~Galerie",
                 "characters": "$~Pismo",
                 "howtos": "$~Instrukcje",
-                "chats": "$~Czat"
+                "chats": "$~Czat",
+                "kits": "$~Zestawy"
             },
             "status": {
                 "header": "$~Zapisz status",
@@ -10576,31 +10772,32 @@
             }
         },
         "gallerymoderation": {
-            "header": "$~Moderacja galerii",
+            "header": "$~Zgłoszenia",
             "description": "$~To, o co poproszono cię o sprawdzenie, od najstarszego. Decyzja pokazuje, które zasady zostały złamane, a autor dowiaduje się, co zdecydowałeś.",
             "labels": {
-                "message": "$~wiadomość",
-                "action": "$~działania moderatora",
-                "reason": "$~które zasady zostały złamane"
+                "action": "$~Co zrobić",
+                "reason": "$~Które zasady złamał",
+                "subject": "$~Co zostało zgłoszone"
             },
             "view": {
-                "label": "$~zobacz czat",
-                "tip": "$~zobacz wiadomość na czacie"
+                "label": "$~zobacz to",
+                "tip": "$~otwórz to, co zostało zgłoszone"
             },
             "remove": {
                 "label": "$~usunąć",
-                "tip": "$~ta wiadomość narusza wytyczne"
+                "tip": "$~to łamie zasady"
             },
             "keep": {
                 "label": "$~trzymać",
-                "tip": "$~ta wiadomość nie narusza wytycznych"
+                "tip": "$~to nie łamie zasad"
             },
-            "empty": "$~Żadna wiadomość nie wymaga moderacji",
-            "error": "$~Aby moderować galerie, musisz się zalogować",
+            "empty": "$~Nic nie czeka na decyzję.",
+            "error": "$~Musisz być zalogowany, aby sprawdzać zgłoszenia.",
             "note": {
-                "description": "$~co powiedzieć osobie, która napisała tę wiadomość",
+                "description": "$~Co powiedzieć osobie, która to stworzyła",
                 "placeholder": "$~powiedz im coś (opcjonalnie)"
-            }
+            },
+            "remaining": "$~$#count[$count zgłoszenie czeka|$count zgłoszenia czekają|$count zgłoszeń czeka|$count zgłoszenia czekają]"
         },
         "emoji": {
             "noCharacters": "$~Utwórz własną postać",
@@ -11063,11 +11260,13 @@
         },
         "done": "$~Nic więcej do moderowania!",
         "error": {
-            "notmod": "$~Nie masz tu nic do sprawdzenia. Moderatorzy Wordplay sprawdzają treści publiczne, a kuratorzy galerii sprawdzają to, co znajduje się w ich galerii. Jeśli niedawno otrzymałeś uprawnienia moderatora, może być konieczne ponowne zalogowanie się."
+            "notmod": "$~Nie masz tu nic do sprawdzenia. Moderatorzy Wordplay sprawdzają treści publiczne, a kuratorzy galerii sprawdzają to, co znajduje się w ich galerii. Jeśli niedawno otrzymałeś uprawnienia moderatora, może być konieczne ponowne zalogowanie się.",
+            "unreachable": "$?",
+            "unreadable": "$?"
         },
         "report": {
-            "button": "$~Powiadom moderatora",
-            "confirm": "$~Powiadom moderatora",
+            "button": "$~poproś moderatora o sprawdzenie tego",
+            "confirm": "$~Zgłoś to",
             "sent": "$~poproszono moderatora o sprawdzenie tego",
             "announce": "$~poproszono moderatora o sprawdzenie $project",
             "flagged": "$~Ktoś zgłosił ten projekt, więc jest pierwszy w kolejce."
@@ -11085,10 +11284,11 @@
         },
         "queue": {
             "label": "$~co sprawdzić",
-            "labels": ["$~projekty", "$~galerie", "$~wiadomości"],
+            "labels": ["$~projekty", "$~galerie", "$~zestawy", "$~wiadomości"],
             "tips": [
-                "$~przeglądaj projekty, które ludzie udostępnili publicznie",
+                "$~sprawdź projekty, które ludzie udostępnili publicznie",
                 "$~sprawdź galerie proszące o umieszczenie na publicznej liście",
+                "$~sprawdź zestawy proszące o wpisanie do przewodnika",
                 "$~przeglądaj wiadomości zgłoszone w galeriach, którymi się opiekujesz"
             ]
         },
@@ -11120,6 +11320,30 @@
             "curators": "$~Kuratorzy tej galerii sprawdzają wszystko, co się tu udostępnia, w tym rozmowy na czacie.",
             "both": "$~Kuratorzy tej galerii sprawdzają wszystko, co się tu udostępnia, a moderatorzy Wordplay też, ponieważ każdy może to zobaczyć.",
             "platform": "$~<Moderatorzy@://rights> Wordplay sprawdzają to, ponieważ każdy może to zobaczyć."
+        },
+        "kit": {
+            "header": "$~Zestawy",
+            "explain": "$~Ten zestaw prosi o wpisanie do przewodnika. Przeczytaj, co udostępnia, i zdecyduj, czy inni powinni to znaleźć.",
+            "done": "$~Żaden zestaw nie czeka na decyzję. Dziękujemy!",
+            "approve": {
+                "label": "$~wpisz go",
+                "tip": "$~wpisz ten zestaw do przewodnika"
+            },
+            "deny": {
+                "label": "$~nie wpisuj go",
+                "tip": "$~nie wpisuj tego zestawu do przewodnika"
+            },
+            "skip": {
+                "label": "$~pomiń",
+                "tip": "$~zostaw ten zestaw, aby zdecydował o nim inny moderator"
+            },
+            "pending": "$~Moderator czyta twój zestaw, żeby zdecydować, czy może trafić na listę w przewodniku. Jest oznaczony jako umieszczony na liście, ale nikt go tam nie znajdzie, dopóki to się nie stanie.",
+            "approved": "$~Twój zestaw jest na liście w <przewodniku@://guide?section=kits>! Może zostać z niej usunięty w każdej chwili, z dowolnego powodu.",
+            "denied": "$~Moderator zdecydował, żeby nie umieszczać twojego zestawu w przewodniku. Możesz opublikować nową wersję i zapytać ponownie.",
+            "notification": {
+                "approved": "$~$name jest teraz na liście w przewodniku.",
+                "denied": "$~$name nie został umieszczony na liście w przewodniku."
+            }
         }
     },
     "gallery": {

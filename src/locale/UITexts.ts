@@ -1881,13 +1881,15 @@ type UITexts = {
                 preview: ExplanationText;
                 /** The remix provenance section's explanation */
                 remix: ExplanationText;
+                /** The kit publishing section's explanation */
+                kit: ExplanationText;
                 /** The research consent subheader and explanation. Sits inside
                  *  the public/private section, since it is a second, narrower
                  *  permission about the same project. */
                 research: HeaderAndExplanationText;
             };
             /** The tabs that switch between the dialog's sharing settings */
-            tab: ModeText<[string, string, string, string, string]>;
+            tab: ModeText<[string, string, string, string, string, string]>;
             /** Personal information details in the share dialog */
             pii: {
                 /** [formatted] Shown in place of the list when no personal information was found in the project */
@@ -1941,6 +1943,99 @@ type UITexts = {
             options: {
                 /** [plain] The label for the gallery chooser */
                 gallery: string;
+                /** [plain] The label for the chooser that picks which source to publish */
+                source: string;
+            };
+            /** Publishing a source as a kit, so other people can borrow it (#8). */
+            kit: {
+                /** [formatted] Shown when no source in the project shares anything, explaining what ↑ does */
+                nothing: FormattedText;
+                /** The panel's sections. Headings rather than sentences: the panel is a
+                 *  stack of groups, and a paragraph introducing a list reads as part of
+                 *  the list above it. */
+                heading: {
+                    /** [plain] Heads the kit's name and description */
+                    name: string;
+                    /** [plain] Heads the list of what the chosen source would export */
+                    exports: string;
+                    /** [plain] Heads the list of versions already published */
+                    versions: string;
+                    /** [plain] Heads the controls that decide whether the kit is listed */
+                    listing: string;
+                };
+                /** [formatted] Shown in place of the version list before anything is published */
+                unpublished: FormattedText;
+                /** The name a kit is published under, after the creator's username */
+                name: FieldText;
+                /** [formatted] Introduces the kit's description, and says where it comes from.
+                 *  Named `derived` rather than `description`, which was a FieldText here before
+                 *  the free-text field went away — a key whose *shape* changes is the one repair
+                 *  `locales-fix` can't make, so the key moves instead. */
+                derived: FormattedText;
+                /** [plain] Shown in place of the description when the source has no doc */
+                undescribed: string;
+                /** [formatted] Says what listing a kit does, and what it doesn't */
+                discovery: FormattedText;
+                /** [formatted] Heads the reasons a kit can't be published yet */
+                unpublishable: FormattedText;
+                /** [formatted] Shown when the publish itself didn't reach the server. A
+                 *  refused or dropped write is otherwise silent, and the panel would go on
+                 *  showing a version that only exists on this device. */
+                failed: FormattedText;
+                /** The listed/unlisted control. Deliberately not private/public: a
+                 *  version stays readable to anyone holding the borrow line however this
+                 *  is set — that is what keeps existing borrowers working — so the only
+                 *  thing it governs is whether the kit can be *found*. */
+                listing: ModeText<[string, string]>;
+                /** [formatted] Who reviews an unlisted kit, in the kit's own words.
+                 *  `ResponsibilityNotice`'s shared sentence says "only visible to you and
+                 *  the people you choose", and a kit has neither property. */
+                unreviewed: FormattedText;
+                /** [formatted] What to do about a moderator's decision, shown when the kit
+                 *  carries a flag. The share dialog is where a creator finds out, so it is
+                 *  where the answer belongs. */
+                remedy: FormattedText;
+                /** [formatted] Says that a published version can never be taken back, and
+                 *  why. Shown before publishing and again beside the version list. */
+                permanent: FormattedText;
+                /** [plain] The label on the button that confirms a publish */
+                confirm: string;
+                /** The button that withdraws the newest version, offered only while the
+                 *  kit has never been listed — see `withdrawable`. */
+                withdraw: ButtonText;
+                /** [formatted] Why withdrawing is offered at all: a kit that has never
+                 *  been listed has never appeared in the guide, so nobody could have
+                 *  found it. */
+                withdrawable: FormattedText;
+                /** Where a kit stands with the moderators, in the same words galleries use */
+                moderation: {
+                    /** [plain] Not asked to be listed */
+                    unrequested: string;
+                    /** [plain] Asked to be listed, awaiting review */
+                    pending: string;
+                    /** [plain] Reviewed and listed */
+                    approved: string;
+                    /** [plain] Reviewed and refused */
+                    denied: string;
+                };
+                /** The button that publishes a new version */
+                publish: ButtonText;
+                /** [plain] Labels one published version, e.g. "version 3" */
+                version: Template<['version']>;
+                /**
+                 * Why a source cannot be published yet.
+                 *
+                 * Only the two with nowhere in the code to say so. Everything else a
+                 * publish requires is a conflict on the code it is about, and the dialog
+                 * renders that conflict's own explanation — so a checklist and an
+                 * annotation cannot drift apart.
+                 */
+                problem: {
+                    /** [plain] Nothing in the source is marked ↑ */
+                    exports: string;
+                    /** [plain] The name is not a name Wordplay can read */
+                    invalid: string;
+                };
             };
         };
         /** The settings dialog */
@@ -2228,6 +2323,8 @@ type UITexts = {
             howtos: string;
             /** [plain] Label for the chats sync row */
             chats: string;
+            /** [plain] Label for the kits sync row */
+            kits: string;
         };
         /** The save-status dialog that breaks down, per kind of thing, how much
          *  is saved on this device, in the cloud, and not yet saved online. */
@@ -2479,6 +2576,7 @@ type UITexts = {
         projects: ProjectsPageText;
         /** The character creation and browsing page */
         characters: CharactersPageText;
+        /** The published kits registry */
         /** The character editor page */
         character: CharacterPageText;
         /** Gallery browsing page text */

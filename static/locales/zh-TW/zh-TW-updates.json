@@ -955,6 +955,12 @@
         "e723fd65c8efc": "$~@Shape現在會對齊它所在的 @Stack、@Row 或 @Grid，而不是隨便待在自己角落原本的位置，而且 @Grid 裡面的東西現在也可以離得更近或更遠。（<547@https://github.com/wordplaydev/wordplay/issues/547>）",
         "e8ad9864d7217": "$~我們在<指南@https://wordplay.dev/guide>裡新增了一篇操作指南，教你怎麼重複玩一輪遊戲。（<547@https://github.com/wordplaydev/wordplay/issues/547>）",
         "ec96e627d2d35": "$~我們讓帶有自訂字元的「詞語」（Phrase）也能拖曳、旋轉和縮放了。",
-        "e0bce9fefa9f6": "$~我們新增了 @Spotlight，它會告訴你 @Scene 目前顯示到哪個部分、總共有幾個部分、已經繞了幾圈，還有是不是正在等待某個人。（<547@https://github.com/wordplaydev/wordplay/issues/547>）"
+        "e0bce9fefa9f6": "$~我們新增了 @Spotlight，它會告訴你 @Scene 目前顯示到哪個部分、總共有幾個部分、已經繞了幾圈，還有是不是正在等待某個人。（<547@https://github.com/wordplaydev/wordplay/issues/547>）",
+        "e615935a2e384": "$~你現在可以在 <指南@https://wordplay.dev/guide> 裡尋找並搜尋已發布的套件，並用 ↓ 借用它，把它加進你的程式。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
+        "ed328cd23ff5e": "$~我們加入了套件（Kit）功能，讓你能發布想和別人分享的程式碼。在值或函式前面加上 ↑，然後發布。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
+        "ee176f1308f17": "$~Wordplay 現在附有三個可以借用的套件——字母、樂器、歌曲——這樣你就不用自己打出字母、樂器面孔或旋律了。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
+        "ede02f98adf41": "$~Wordplay 內建的三個套件，都用我們支援的每種語言寫成，所以它們的名稱和內容會用你的語言呈現。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
+        "e75fc15b8d057": "$~數字現在能做三件你以前得自己手動寫出來的事：\\limit\\ 把一個數字限制在最低值和最高值之間，\\toward\\ 把一個數字移動到另一個數字的中間某處，\\rescale\\ 把某個範圍裡的數字，轉換成另一個範圍裡對應的數字。",
+        "e49e28ab01607": "$~一份數字清單現在可以告訴你它的\\sum\\和它的\\average\\，這樣你就不用自己加總了。"
     }
 }

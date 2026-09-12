@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import { MisplacedConversion } from '@conflicts/MisplacedConversion';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { CONVERT_SYMBOL } from '@parser/Symbols';
+import { CONVERT_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
 import type Evaluator from '@runtime/Evaluator';
 import StartFinish from '@runtime/StartFinish';
 import type Step from '@runtime/Step';
@@ -23,15 +23,25 @@ import Docs from '@nodes/Docs';
 import Expression, { type GuardContext } from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type Node from '@nodes/Node';
-import { any, node, none, type Grammar, type Replacement } from '@nodes/Node';
+import {
+    any,
+    node,
+    none,
+    optional,
+    type Grammar,
+    type Replacement,
+} from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import type TypeSet from '@nodes/TypeSet';
+import { getPublishedShareConflicts } from '@nodes/publishedShare';
 
 export default class ConversionDefinition extends DefinitionExpression {
     readonly docs: Docs;
+    /** `↑`, marking this conversion as part of a kit's public surface (#8). */
+    readonly share: Token | undefined;
     readonly arrow: Token;
     readonly input: Type;
     readonly output: Type;
@@ -43,10 +53,12 @@ export default class ConversionDefinition extends DefinitionExpression {
         input: Type,
         output: Type,
         expression: Expression,
+        share?: Token,
     ) {
         super();
 
         this.docs = docs ?? Docs.make();
+        this.share = share;
         this.arrow = arrow;
         this.input = input;
         this.output = output;
@@ -68,6 +80,11 @@ export default class ConversionDefinition extends DefinitionExpression {
             output instanceof Type ? output : parseType(toTokens(output)),
             expression,
         );
+    }
+
+    /** Whether this conversion is offered to projects that borrow the kit defining it. */
+    isShared() {
+        return this.share !== undefined;
     }
 
     static getPossibleReplacements() {
@@ -100,6 +117,12 @@ export default class ConversionDefinition extends DefinitionExpression {
                 name: 'docs',
                 kind: any(node(Docs), none()),
                 label: () => (l) => l.glossary.documentation.word,
+            },
+            {
+                name: 'share',
+                kind: optional(node(Sym.Share)),
+                getToken: () => new Token(SHARE_SYMBOL, Sym.Share),
+                label: undefined,
             },
             { name: 'arrow', kind: node(Sym.Convert), label: undefined },
             {
@@ -138,6 +161,7 @@ export default class ConversionDefinition extends DefinitionExpression {
             this.replaceChild('input', this.input, replace),
             this.replaceChild('output', this.output, replace),
             this.replaceChild('expression', this.expression, replace),
+            this.replaceChild('share', this.share, replace),
         ) as this;
     }
 
@@ -169,6 +193,9 @@ export default class ConversionDefinition extends DefinitionExpression {
         // Can only appear in a block or nowhere, but not anywhere else
         if (!(this.getParent(context) instanceof Block))
             conflicts.push(new MisplacedConversion(this));
+
+        // What a `↑` owes its readers, once this source is published (#8).
+        conflicts.push(...getPublishedShareConflicts(this, context));
 
         return conflicts;
     }

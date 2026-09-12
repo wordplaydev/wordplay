@@ -9,6 +9,8 @@ import { DB, Locales } from '@db/Database';
 import Project from '@db/projects/Project';
 import type { SerializedProject } from '@db/projects/ProjectSchemas';
 import DefaultLocales from '@locale/DefaultLocales';
+import { builtinKitResolver } from '@db/kits/builtinKitResolver';
+import { kitsNeededBy, resolveKits } from '@db/kits/resolveKits';
 import { getExampleGalleries } from './examples';
 import { readProjects } from './readProjects';
 
@@ -56,10 +58,28 @@ test.skip.each([...oversized])(
     () => undefined,
 );
 
+/**
+ * An example, with any kit it borrows resolved (#8).
+ *
+ * `Project.deserialize` leaves borrows unresolved; the app routes examples through
+ * `ProjectsDatabase.withKits` for exactly this reason. An example that borrows nothing
+ * pays nothing.
+ */
+async function deserializeExample(
+    example: SerializedProject,
+): Promise<Project> {
+    const project = await Project.deserialize(Locales, example);
+    return kitsNeededBy(project).length === 0
+        ? project
+        : project.withDependencies(
+              await resolveKits(project, builtinKitResolver),
+          );
+}
+
 test.each([...testable])(
     `Ensure $name has no conflicts`,
     async (example: SerializedProject) => {
-        const project = await Project.deserialize(Locales, example);
+        const project = await deserializeExample(example);
         project.analyze();
         const context = project.getContext(project.getMain());
         const conflicts = Array.from(
@@ -186,7 +206,7 @@ test.each([
 test.each([...testable])(
     `Ensure $name doesn't evaluate to exception`,
     async (example: SerializedProject) => {
-        const project = await Project.deserialize(Locales, example);
+        const project = await deserializeExample(example);
         const evaluator = new Evaluator(
             project,
             DB,
@@ -213,7 +233,7 @@ test.each([...testable])(
 test.each([...projects])(
     `$name has an opening doc for its gallery preview`,
     async (example: SerializedProject) => {
-        const project = await Project.deserialize(Locales, example);
+        const project = await deserializeExample(example);
         const sentence = project
             .getMain()
             .expression.docs.docs[0]?.markup.getFirstSentence(DefaultLocales);

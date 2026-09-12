@@ -12,6 +12,10 @@ const Sym = {
     Function: 'ƒ',
     Borrow: '↓',
     Share: '↑',
+    /** A reference to a kit published by a creator, e.g. `@amy/colors`. Its value is
+     *  distinct from Link (`@`) and Concept (`@concept`) because SymType is the union of
+     *  Sym's values and anything keyed by it must be able to tell the three apart. */
+    External: '@kit',
     Convert: '→',
     Translate: '↦',
     Placeholder: '_',
@@ -147,6 +151,7 @@ export const WildcardSymbols = new Set([
     Sym.Text,
     Sym.Words,
     Sym.Concept,
+    Sym.External,
     Sym.ExternalExample,
     Sym.End,
 ]);

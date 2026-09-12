@@ -16,6 +16,7 @@
     import Editor from '@components/editor/Editor.svelte';
     import {
         getConceptIndex,
+        getExampleScope,
         IdleKind,
         setAnimatingNodes,
         setSoundingNodes,
@@ -76,9 +77,20 @@
     const tinkerable = getTinkerable();
     const user = getUser();
 
-    /** The example's code, as a creator would type it. */
+    /**
+     * Extra scope for this example, when the documentation around it supplies some — a
+     * kit's page does, because its examples name the kit's own definitions. Unset
+     * everywhere else, leaving the example self-contained as before.
+     */
+    const scopeContext = getExampleScope();
+    let scope = $derived(scopeContext?.scope);
+
+    /** The example's code, as a creator would type it — including the scope's prelude,
+     *  which is the borrow line that makes the rest of it resolve, and so is part of what
+     *  a reader should copy rather than something to hide from them. */
     let code = $derived(
-        example.program.toWordplay(getPreferredSpaces(example.program)),
+        (scope === undefined ? '' : `${scope.prelude}\n`) +
+            example.program.toWordplay(getPreferredSpaces(example.program)),
     );
 
     /** Where the scratch project lives, known before the click so this can be a
@@ -129,6 +141,7 @@
             example.program,
             spaces,
             $locales.getLocales(),
+            scope,
         ),
     );
 

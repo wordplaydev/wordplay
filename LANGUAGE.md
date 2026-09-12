@@ -234,7 +234,10 @@ Some delimit a pattern, and the operations on text that use one (see the **Patte
 Some are associated with importing and exporting values from source:
 
 > borrow → `↓`  
-> share → `↑`
+> share → `↑`  
+> kit → `@` name `/` name
+
+A **kit** token is one token, not three: `@amy/colors` names a published [kit](#kits), and the `/` inside it is part of the name rather than a language tag. It is only meaningful directly after a `↓`; anywhere else it is a name the parser rejects.
 
 Every other possible sequence of Unicode characters is interpreted as a `name`, separated by space or one of the tokens above.
 
@@ -342,6 +345,14 @@ But this is a type error, because the units aren't compatible:
 ```
 
 The unit type system is not arbitrarily sophisticated: when mathematical operators go beyond the semantics of products, sums, and powers, units are dropped.
+
+Functions carry units by the same rules. `limit` keeps a number between two bounds and `toward` moves part of the way to another, so both take their bounds in the number's own unit and give back that unit. `rescale` is the exception worth knowing: it finds where a number sits between one pair of bounds and gives back the number sitting the same way between another pair, so its result is in the unit of the pair you asked for rather than the one you started from — which is how a pitch in `hz` becomes a height in `m`:
+
+```
+300hz.rescale(80hz 400hz -4m 5m)
+```
+
+A list of numbers carries the unit of what it holds, so `sum` totals in that unit and `average` divides by a plain count and keeps it. A list whose numbers aren't all measured in the same thing has no total, and says so rather than guessing.
 
 #### _built-in units_
 
@@ -1045,7 +1056,7 @@ Evaluates the matched value, then evaluates each key in reading order, comparing
 ### Convert
 
 > CONVERT → EXPRESSION `→` TYPE  
-> CONVERSION → DOCS `→` TYPE TYPE EXPRESSION
+> CONVERSION → DOCS `↑`？ `→` TYPE TYPE EXPRESSION
 
 A final kind of evaluate is conversions, already mentioned earlier in examples. Conversions take a type declaration (described later) and attempt to find a series of one or more conversions that would convert the value to a type.
 
@@ -1069,11 +1080,15 @@ The same works for numbers with units, as numerous conversion functions are defi
 1km → #m
 ```
 
-Conversions can be extended with conversion definitions. This defines a global conversion from kitty counts to cat counts, where `⬚` ([This](#this)) refers to the input value:
+Conversions can be extended with conversion definitions. This defines a conversion from kitty counts to cat counts, where `⬚` ([This](#this)) refers to the input value:
 
 ```
 → #kitty #cat ⬚ ÷ 2
 ```
+
+A conversion definition reaches every `→` in the **source** that declares it — not the whole project, and not other sources that borrow from it. A conversion declared inside a [structure](#structures) is the exception: it travels with the type, so any source holding a value of that type can use it.
+
+Marking a conversion `↑` shares it with any source that borrows the [kit](#kits) it belongs to. This is the only way a conversion crosses a source boundary by itself, and it exists because a conversion has no name: `→` finds one by matching types, so a conversion cannot be the target of a `↓ kit.name` the way a bind, function, or structure can.
 
 ### _conflicts_
 
@@ -1493,7 +1508,8 @@ Evaluates the stream value, and finds the stream that contains the value. If an 
 The combined set of all of the expressions above mean that most of Wordplay is expressions:
 
 > PROGRAM → BORROW＊ （BIND ｜ EXPRESSION）＊  
-> BORROW → `↓` name （`.` name）？ numeral？  
+> BORROW → `↓` （name ｜ kit） （`.` name）？ numeral？  
+> kit → `@` name `/` name  
 > EXPRESSION → REACTION ｜ CONDITIONAL ｜ MATCH ｜ OTHERWISE ｜ BINARYEVALUATE ｜ ATOMIC  
 > ATOMIC → LITERAL ｜ REF ｜ `_` ｜ EVAL ｜ DEFINITION ｜ PROPERTYBIND ｜ CONVERT ｜ CHECK ｜ QUERY ｜ DOCUMENTED ｜ PREVIOUS ｜ INITIAL ｜ ISLOCALE ｜ LOCALIZED  
 > LITERAL → NONE ｜ NUMBER ｜ BOOLEAN ｜ TEXT ｜ MARKUP ｜ LIST ｜ SET ｜ MAP ｜ TABLE  
@@ -1532,6 +1548,40 @@ Every following line beginning `===` followed by a space starts a new **source**
 
 There is no writer: `.wp` is a format the tooling reads, and a project's own persisted form is its database record.
 
+## Kits
+
+A **kit** is one source a creator has published for other people to build with, named `username/name`. A borrow reaches one by writing that name after `@`, with the version it wants:
+
+```
+↓ @amy/colors 3          every ↑ export of the kit
+↓ @amy/colors.sunset 3   one export
+```
+
+A bare kit borrow brings in **everything the kit shares**, because a kit _is_ its shares. This differs from a bare borrow of a local source (`↓ words`), which binds that source's own value — a source is a program that evaluates to something, and a kit is a collection of definitions. The `@` is what marks the difference.
+
+The `@` is also why a kit is not written `amy/colors`: `/` already introduces a [language tag](#text), so `↓ start/en` would be ambiguous with a borrow of a source named `start` written in English.
+
+A **version is required**, and one source may not name the same kit at two versions. A published version is immutable and is kept forever, so a program that names one keeps meaning what it meant; following the newest version automatically would let someone else's edit silently change what a program does.
+
+What a kit exports is exactly what its source shares: its top-level `↑` binds, functions, and structures, reachable by name, plus its `↑` conversions, which are not reachable by name and instead become available to every `→` in the borrowing source (see [Convert](#convert)).
+
+Borrowing a kit is subject to the same cycle rule as borrowing a source, and a kit may not itself borrow anything.
+
+A few kits ship with Wordplay and are borrowed exactly like any other — `↓ @wordplay/alphabets 1` — but resolve without a network, because their sources are part of the app rather than documents someone published.
+
+Once a source is published, what it shares is read by people who did not write it and cannot ask its author, so three further rules apply to that source and to no other. Each is reported where the code is rather than in the dialog that publishes it, and each is _minor_ — the code runs perfectly, so none of them makes a project count as broken:
+
+- every `↑` definition must be documented;
+- every **callable** `↑` definition — a function, a structure, a conversion — must show a worked `\…\` example, since a value shows what it is and a thing you call does not;
+- and the source must carry at least one example _somewhere_, so a kit of plain values still has something to show in the registry.
+
+#### _conflicts_
+
+- A source published as a kit borrows something (`KitCannotBorrow`).
+- A `↑` definition in a published source has no documentation (`UndocumentedShare`).
+- A callable `↑` definition in a published source has no example (`UnexampledShare`).
+- A published source has no example anywhere in it (`UnexampledKit`).
+
 ## Documentation
 
 > DOC → `¶` MARKUP `¶` LANGUAGE？  
@@ -1549,6 +1599,8 @@ There are three places that comments can appear in code: just before programs, j
 ```
 
 Documentation is part of the grammar, not just discarded text in parsing. This allows for unambiguous association between text and documentation.
+
+A doc's `\…\` examples are code, and they resolve in the scope of the thing they document: a doc on a definition sees whatever that definition sees, and a doc on a **program** sees what the program defines. The latter is what makes a source's own doc able to demonstrate the source — `¶Use one as a colour. \Phrase('a' color: sunset)\¶` names a `sunset` the program declares below it — and it is the only place such an example can live, since a leading doc is parsed as the program's rather than as the first definition's.
 
 #### _evaluation_
 

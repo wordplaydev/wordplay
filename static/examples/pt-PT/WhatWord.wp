@@ -130,11 +130,7 @@ tema: [1 ø 5 ø 8 ø 5 ø 4 ø 8 ø 6 ø 5 ø]
 
 ¶Quanto da sua semanada já foi gasto, de 0 com tudo por jogar a 1 com nada restante. O segredo está vazio antes da primeira ronda, por isso a divisão é protegida em vez de se deixar dividir por zero.¶
 maxGuesses: state.segredo.comprimento() × 3
-pressão: (maxGuesses = 0) ? 0 (((1 - (state.guessesRemaining ÷ maxGuesses)).máx(
-					0
-				)).min(
-				1
-			))
+pressão: (maxGuesses = 0) ? 0 ((1 - (state.guessesRemaining ÷ maxGuesses)).limit(0 1))
 
 ¶Pensativo a 54 batidas por minuto, urgente a 120, e cada tentativa move-o um pouco. Mudar o andamento entra na batida seguinte em vez de recomeçar, por isso o ciclo mantém o seu lugar e apenas se inclina para a frente — o tambor discreto está lá para tornar essa inclinação audível, já que uma mudança de andamento sob notas longas é difícil de sentir.¶
 músicaDoEnigma: Música(

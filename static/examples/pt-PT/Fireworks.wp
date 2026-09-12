@@ -8,6 +8,7 @@ Aqui nada é desenhado com base num relógio. @Beat entrega um @Downbeat sempre 
 Cada explosão tem o nome do número da batida, por isso as explosões de cadabatida são sempre novos elementos: mostram a sua pose de entrada ao apareceme a sua pose de saída quando a batida seguinte as substitui. O aparecimento ea queda são essas duas poses.
 
 A melodia é /The Star-Spangled Banner/ — a melodia de John Stafford Smith,de cerca de 1773, há muito em domínio público — do início ao fim, terminandona última linha. Cada nota tem a sua própria duração escrita como um valorde nota junto ao número — \8𝅘𝅥𝅮\ é uma colcheia, \13𝅗𝅥\ uma mínima, \13𝅗𝅥𝅭\ uma mínima com ponto — assim, as anacruses,as figuras com ponto e as notas longas são durações reais e não uma grelhade batidas iguais. Um número simples vale uma batida. As pausas continuam aprecisar de um @Note, porque \ø\ não é um número e por isso não pode ter um valor. Está na escalacromática, para que a quarta aumentada possa ser escrita: cada grau é umsemitom.¶
+↓ @wordplay/instruments 1
 
 batida2: Batida()
 contagem2: batida2.contar
@@ -19,13 +20,7 @@ aDisparar•[Parte]: batida2.partes.filtro(
 
 ¶Cada instrumento explode como ele próprio, e é esse o objetivo: dá para vernitidamente qual acabou de tocar.¶
 ƒ rosto2(p2•Parte)•''
-	(p2.instrumento.id = 'trumpet') ? '🎺'
-		(p2.instrumento.id = 'flute') ? '🪈'
-			(p2.instrumento.id = 'bell') ? '🔔'
-				(p2.instrumento.id = 'piano') ? '🎹'
-					(p2.instrumento.id = 'violin') ? '🎻'
-						(p2.instrumento.id = 'drums') ? '🥁'
-							'🎵'
+	iconFor(p2.instrumento)
 
 ¶Cada instrumento mantém a sua própria faixa, espalhada por todo o céu. Usaro instrumento em vez da sua posição na lista faz com que uma faixa se mantenhaparada quando outro instrumento fica em silêncio.¶
 ƒ faixa(p3•Parte)•#

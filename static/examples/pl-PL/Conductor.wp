@@ -6,14 +6,15 @@ Dyrygent
 Podnieś rękę, a orkiestra dołącza, część po części, aż zagra wszystkich osiem. Opuść ją, a odpadają, aż zostanie sama melodia. Przesuń rękę w lewo, by zwolnić marsz, w prawo, by go przyspieszyć. To, ile palców pokażesz, wybiera, kto gra melodię.
 
 Każda instrukcja jest wypisana na scenie, więc możesz się jej nauczyć bez czytania tego tekstu.¶
+↓ @wordplay/instruments 1
 
 ręka: Ręka()
 
 ¶Wysokość ręki mówi, ile orkiestry słychać, a ruch w bok mówi, jak szybko gra muzyka. Oba te ustawienia są odczytywane wprost z ręki, a nie zapamiętywane, więc podążają za nią bez przerwy. Każde z nich jest zaokrąglane do jednego kroku, więc muzyka zmienia się tylko wtedy, gdy zmiana jest na tyle duża, by ją usłyszeć. Dzięki temu drżąca ręka nie przepisuje nut dwadzieścia razy na sekundę.¶
-podnieś: ((ręka.miejsce.y + 3m) ÷ 6m).min(1).maks(0)
+podnieś: ręka.miejsce.y.rescale(-3m 3m 0 1).limit(0 1)
 warstwy: 1 + ((podnieś · 7).okrągły())
 
-zasięg: ((ręka.miejsce.X + 5m) ÷ 10m).min(1).maks(0)
+zasięg: ręka.miejsce.X.rescale(-5m 5m 0 1).limit(0 1)
 tempo2: 72 + ((zasięg · 8).okrągły() · 12)
 
 ¶Kto gra melodię. Zaciśnięta pięść i ręka poza kadrem liczą się tak samo, jako brak palców. Brak palców oznacza, że gra ten, kto grał wcześniej — inaczej odwrócenie wzroku zmieniałoby melodię.¶
@@ -28,11 +29,7 @@ polecane: 5 … ∆ ręka …
 					Instrument.trąbka
 
 ƒ ikona(liczba3•#)•''
-	(liczba3 = 1) ? '🎹'
-		(liczba3 = 2) ? '🎻'
-			(liczba3 = 3) ? '🪈'
-				(liczba3 = 4) ? '⚡'
-					'🎺'
+	iconFor(głos2(liczba3))
 
 ¶Jak głośna jest dana część. Każda część brzmi w muzyce przez cały czas, więc żadna z nich nigdy nie traci swojego miejsca — te, które są powyżej ręki, są po prostu ściszone do zera.
 

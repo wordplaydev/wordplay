@@ -28,6 +28,7 @@ import PatternType from '@nodes/PatternType';
 import Source from '@nodes/Source';
 import {
     BIND_SYMBOL,
+    BORROW_SYMBOL,
     FORMATTED_SYMBOL,
     LIST_CLOSE_SYMBOL,
     LIST_OPEN_SYMBOL,
@@ -83,6 +84,16 @@ export function getConceptGroups(
             {
                 header: (l) => l.ui.docs.purposes.Project,
                 concepts: index.getPrimaryConceptsWithPurpose(Purpose.Project),
+            },
+        ];
+
+    // A kit's exports get their own group rather than joining the project's, so a creator
+    // can tell what they wrote from what they borrowed.
+    if (purpose === Purpose.Kit)
+        return [
+            {
+                header: (l) => l.ui.docs.purposes.Kit,
+                concepts: index.getPrimaryConceptsWithPurpose(Purpose.Kit),
             },
         ];
 
@@ -238,14 +249,19 @@ export function getConceptGroups(
 }
 
 /**
- * Icons (emoji/symbol prefixes) for each purpose, aligned with the order of
- * {@link Purpose}'s keys. Shared by the guide's purpose chooser and the
- * Wellspring's vertical category chooser. Depends on the active language for
+ * Icons (emoji/symbol prefixes) for each purpose, aligned **by position** with
+ * the order of {@link Purpose}'s keys. Shared by the guide's purpose chooser and
+ * the Wellspring's vertical category chooser. Depends on the active language for
  * the text-quote glyphs.
+ *
+ * A purpose added in the middle has to be added here and in
+ * `ui.docs.mode.purpose` at the same index; `purposeFilters.test.ts` fails when
+ * the three lengths disagree.
  */
 export function getPurposeIcons(language: LanguageCode): string[] {
     return [
         '👤',
+        BORROW_SYMBOL,
         '🖥️',
         '🖱️',
         '?',
