@@ -526,3 +526,43 @@ test('rewriting a project written in several languages collapses all of it', asy
     expect(out).not.toContain('/fr');
     expect(conflicts(revised)).toBe(0);
 });
+
+// A bind whose declaration is renamed and whose references are not is a program
+// that no longer runs — `UnknownName` on every reference, plus `UnusedBind` on
+// the declaration — where before it was a program that ran (#1368). The two
+// passes could disagree because only one of them can miss: the declaration
+// rename re-finds its node and looks the translation up on the original `Names`,
+// so it always fires, while a reference can be refused. The shadow guard is the
+// refusal that is reachable from here.
+test('a reference that cannot be respelled keeps its declaration too', async () => {
+    if (en === undefined || es === undefined) throw new Error('bad locale');
+
+    // `cat` translates to a word another bind in scope already answers to, so
+    // respelling the reference would point it at `perro` rather than at `cat`.
+    const source = new Source('start', 'perro: 1\ncat: 2\ncat + perro');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    expect(conflicts(project)).toBe(0);
+
+    const result = await translateProjectContent(
+        project,
+        en,
+        es,
+        async (texts) =>
+            texts.map((t) =>
+                t === 'cat' ? 'perro' : t === 'perro' ? 'xperro' : t,
+            ),
+        undefined,
+        true,
+    );
+
+    expect(result).not.toBeNull();
+    const out = result?.getSources()[0].code.toString() ?? '';
+
+    // The bind that could be renamed was; the one that couldn't keeps both
+    // halves of its name, which is a translation that did less rather than a
+    // program that doesn't run.
+    expect(out).toContain('xperro: 1');
+    expect(out).toContain('cat: 2');
+    expect(out).toContain('cat + xperro');
+    expect(conflicts(result as Project)).toBe(0);
+});

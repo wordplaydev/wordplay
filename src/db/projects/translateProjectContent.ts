@@ -782,6 +782,27 @@ export default async function translateProjectContent(
         // references can be retargeted while the source name still resolves —
         // essential in replace mode, where the source name is then removed.
         const targetNameByNames = new Map<Names, string>();
+        /**
+         * Definitions the reference pass refused to respell, so the declaration
+         * pass must leave them alone too (#1368).
+         *
+         * The two passes could disagree because only one of them can miss: the
+         * declaration rename re-finds its node and looks the translation up on
+         * the original `Names`, so it always fires, while a reference can be
+         * refused. The result was a bind declared in the target language and
+         * read in the source one — `UnknownName` on every reference, in a
+         * program that ran before it was localized. A name that stays in the
+         * source language is a translation that did less; a half-renamed bind is
+         * a program that no longer runs, which is the trade this file already
+         * makes elsewhere.
+         *
+         * Read by the reference, `NameType` and declaration passes, which all
+         * run after it is filled. The input-name pass runs before, so an input
+         * of a refused definition can still be respelled; nothing has been seen
+         * to reach that, and catching it would mean deciding every refusal
+         * before any pass rewrites the tree.
+         */
+        const unrespelled = new Set<Names>();
         for (const bindToTranslate of bindsToTranslate) {
             const { names, original } = bindToTranslate;
             // If we already have a translation, use it.
@@ -1235,102 +1256,131 @@ export default async function translateProjectContent(
                 // before the name change is applied); standard-library references
                 // fall back to the definition's name in the target locale (present
                 // via the withPrimaryLocale above).
-                newProject = newProject.withRevisedNodes(
-                    newProject
-                        .getSources()
-                        .reduce(
-                            (
-                                references: {
-                                    reference: Reference;
-                                    source: Source;
-                                }[],
-                                source,
-                            ) => [
-                                ...references,
-                                ...source
-                                    .nodes()
-                                    .filter(
-                                        (node): node is Reference =>
-                                            node instanceof Reference,
-                                    )
-                                    .map((reference) => ({
-                                        reference,
-                                        source,
-                                    })),
-                            ],
-                            [],
-                        )
-                        .map(({ reference, source }) => {
-                            const definition = reference.resolve(
-                                newProject.getContext(source),
-                            );
-
-                            // Find the references to this bind so we can replace them with the new name
-                            if (definition === undefined)
-                                return [reference, reference];
-
-                            if (
-                                spellsPreservedName(
-                                    definition,
-                                    reference.getName(),
-                                    newProject.getSourceOf(definition) !==
-                                        undefined,
+                const referenceEdits = newProject
+                    .getSources()
+                    .reduce(
+                        (
+                            references: {
+                                reference: Reference;
+                                source: Source;
+                            }[],
+                            source,
+                        ) => [
+                            ...references,
+                            ...source
+                                .nodes()
+                                .filter(
+                                    (node): node is Reference =>
+                                        node instanceof Reference,
                                 )
-                            )
-                                return [reference, reference];
+                                .map((reference) => ({
+                                    reference,
+                                    source,
+                                })),
+                        ],
+                        [],
+                    )
+                    .map(({ reference, source }) => {
+                        const definition = reference.resolve(
+                            newProject.getContext(source),
+                        );
 
-                            // Get the name in the target language. An operator
-                            // position — binary or unary — wants the symbolic
-                            // name: a unary rewritten to a word glues onto its
-                            // operand with no space (`~cellHolds` became
-                            // `nocellHolds`, one name token that resolves
-                            // nothing), which refused every file that used `~`.
-                            const parent = newProject
-                                .getRoot(reference)
-                                ?.getParent(reference);
-                            const operator =
-                                (parent instanceof BinaryEvaluate ||
-                                    parent instanceof UnaryEvaluate) &&
-                                parent.fun === reference
-                                    ? true
-                                    : undefined;
-                            const translation = targetName(
+                        // Find the references to this bind so we can replace them with the new name
+                        if (definition === undefined)
+                            return { reference, keep: true };
+
+                        if (
+                            spellsPreservedName(
                                 definition,
-                                operator,
-                            );
-
-                            if (
-                                translation === undefined ||
-                                reference.getName() === translation
+                                reference.getName(),
+                                newProject.getSourceOf(definition) !==
+                                    undefined,
                             )
-                                return [reference, reference];
+                        )
+                            return { reference, keep: true };
 
-                            // Never respell a reference into something that
-                            // means something else here. The locale's word for
-                            // a basis definition can be the very word an
-                            // enclosing bind already uses — ja-JP calls `Time`
-                            // 時間, and `time/en,時間/zh: Time(…)` carries that
-                            // name itself — so the rewritten reference resolves
-                            // to the bind and the bind references itself. The
-                            // reverse direction is guarded by seeding
-                            // `existingNames` with the basis names; this is the
-                            // direction that wasn't.
-                            // Asked from the reference's own position, since
-                            // what a name means depends on where it sits, and
-                            // only a *different* definition in scope is a
-                            // reason to refuse: a member reference
-                            // (`list.join(…)`) resolves through its receiver's
-                            // type rather than lexically, so finding nothing
-                            // here means nothing shadows it.
-                            const shadow = reference.getDefinitionOfNameInScope(
-                                translation,
-                                newProject.getContext(source),
-                            );
-                            if (shadow !== undefined && shadow !== definition)
-                                return [reference, reference];
+                        // Get the name in the target language. An operator
+                        // position — binary or unary — wants the symbolic
+                        // name: a unary rewritten to a word glues onto its
+                        // operand with no space (`~cellHolds` became
+                        // `nocellHolds`, one name token that resolves
+                        // nothing), which refused every file that used `~`.
+                        const parent = newProject
+                            .getRoot(reference)
+                            ?.getParent(reference);
+                        const operator =
+                            (parent instanceof BinaryEvaluate ||
+                                parent instanceof UnaryEvaluate) &&
+                            parent.fun === reference
+                                ? true
+                                : undefined;
+                        const translation = targetName(definition, operator);
 
-                            return [reference, Reference.make(translation)];
-                        }),
+                        if (
+                            translation === undefined ||
+                            reference.getName() === translation
+                        )
+                            return { reference, keep: true };
+
+                        // Never respell a reference into something that
+                        // means something else here. The locale's word for
+                        // a basis definition can be the very word an
+                        // enclosing bind already uses — ja-JP calls `Time`
+                        // 時間, and `time/en,時間/zh: Time(…)` carries that
+                        // name itself — so the rewritten reference resolves
+                        // to the bind and the bind references itself. The
+                        // reverse direction is guarded by seeding
+                        // `existingNames` with the basis names; this is the
+                        // direction that wasn't.
+                        // Asked from the reference's own position, since
+                        // what a name means depends on where it sits, and
+                        // only a *different* definition in scope is a
+                        // reason to refuse: a member reference
+                        // (`list.join(…)`) resolves through its receiver's
+                        // type rather than lexically, so finding nothing
+                        // here means nothing shadows it.
+                        const shadow = reference.getDefinitionOfNameInScope(
+                            translation,
+                            newProject.getContext(source),
+                        );
+                        if (shadow !== undefined && shadow !== definition)
+                            return {
+                                reference,
+                                keep: true,
+                                shadowed: definition.names,
+                            };
+
+                        return {
+                            reference,
+                            keep: false,
+                            translation,
+                            definition,
+                        };
+                    });
+
+                // A definition is respelled everywhere or nowhere. The guard
+                // above asks from each reference's own position, so one
+                // reference can be shadowed while its siblings are not — and
+                // respelling only the siblings would point them at the very
+                // definition the guard exists to avoid. So one refusal takes the
+                // definition out of this pass, and out of the declaration pass
+                // with it.
+                for (const edit of referenceEdits)
+                    if (edit.shadowed !== undefined)
+                        unrespelled.add(edit.shadowed);
+
+                newProject = newProject.withRevisedNodes(
+                    referenceEdits.map((edit) =>
+                        edit.keep ||
+                        edit.translation === undefined ||
+                        (edit.definition !== undefined &&
+                            unrespelled.has(edit.definition.names))
+                            ? [edit.reference, edit.reference]
+                            : [
+                                  edit.reference,
+                                  Reference.make(edit.translation),
+                              ],
+                    ),
                 );
 
                 // Type annotations name their definition too — `zombie•Zombie` is
@@ -1376,7 +1426,11 @@ export default async function translateProjectContent(
                             const translation = targetName(definition, false);
                             if (
                                 translation === undefined ||
-                                name.getName() === translation
+                                name.getName() === translation ||
+                                // Respelled everywhere or nowhere: an annotation
+                                // of a definition the pass above declined to
+                                // rename would name something no longer there.
+                                unrespelled.has(definition.names)
                             )
                                 return [name, name];
                             return [name, NameType.make(translation)];
@@ -1391,7 +1445,8 @@ export default async function translateProjectContent(
                 bindsToTranslate.map(({ names }) => {
                     const target = current(names);
                     const translation = targetNameByNames.get(names);
-                    if (translation === undefined) return [target, target];
+                    if (translation === undefined || unrespelled.has(names))
+                        return [target, target];
                     return [
                         target,
                         replace
