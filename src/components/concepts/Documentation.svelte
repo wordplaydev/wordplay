@@ -254,13 +254,11 @@
     $effect(() => {
         if (gallery) {
             HowTos.getHowTos(gallery.getHowTos()).then(
-                (hts: GalleryHowTo[] | undefined | false) => {
-                    if (hts) {
-                        galleryHowTos = hts;
-                        galleryHowTos = galleryHowTos.filter((ht) =>
-                            ht.isPublished(),
-                        );
-                    }
+                ({ howTos: hts, unreachable }) => {
+                    // Keep the listing we have rather than emptying it over a
+                    // read that went unanswered.
+                    if (unreachable) return;
+                    galleryHowTos = hts.filter((ht) => ht.isPublished());
                 },
             );
         }

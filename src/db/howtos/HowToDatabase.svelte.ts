@@ -855,13 +855,17 @@ export class HowToDatabase {
         return this.getHowTo(newHowTo.id);
     }
 
+    /** The how-to, `undefined` for "there isn't one here for you", or `false`
+     *  for "we never got an answer" — only the second is worth asking again
+     *  about. A denied read is `undefined` for the reason `GalleryDatabase.find`
+     *  gives: whether it exists is not ours to reveal. */
     async getHowTo(howToId: string): Promise<HowTo | undefined | false> {
         // do we have the how-to cached? return it.
         const howTo = this.howtos.get(howToId);
         if (howTo) return howTo;
 
-        // if not, see if it's in the database
-        if (firestore === undefined) return undefined;
+        // No backend at all means we never got to look, not that it's absent.
+        if (firestore === undefined) return false;
         try {
             const howToDoc = await this.db.read(
                 getDoc(doc(firestore, HowTosCollection, howToId)),
@@ -880,17 +884,25 @@ export class HowToDatabase {
                 return newHowTo;
             } else return undefined;
         } catch (error) {
-            return false;
+            console.error(`Couldn't get how-to with ID ${howToId}:`, error);
+            return this.db.isConnectivityError(error) ? false : undefined;
         }
     }
 
-    async getHowTos(howToIds: string[]): Promise<HowTo[]> {
+    /** Every how-to the viewer can see, and whether any lookup went unanswered.
+     *  This used to filter both failures away, so a timed-out read was
+     *  indistinguishable from an empty space — and nothing re-runs a signed-out
+     *  visitor's lookups, so that emptiness was permanent. */
+    async getHowTos(
+        howToIds: string[],
+    ): Promise<{ howTos: HowTo[]; unreachable: boolean }> {
         const results = await Promise.all(
             howToIds.map((id) => this.getHowTo(id)),
         );
-        return results.filter(
-            (ht): ht is HowTo => ht !== undefined && ht !== false,
-        );
+        return {
+            howTos: results.filter((ht): ht is HowTo => ht instanceof HowTo),
+            unreachable: results.includes(false),
+        };
     }
 
     ignore() {

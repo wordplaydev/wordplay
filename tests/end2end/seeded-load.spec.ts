@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { enUS, text } from '../helpers/localize';
+import { cutFirestore, restoreFirestore } from '../helpers/firestoreOffline';
 import { loginNewContext } from '../helpers/loginNewContext';
 
 /**
@@ -167,4 +168,30 @@ test('a signed-out visitor reads a public space and cannot take part', async ({
             name: text(enUS.ui.howto.editor.newForm.header),
         }),
     ).toHaveCount(0);
+});
+
+test('a public space that could not be read at first fills in when the cloud comes back', async ({
+    page,
+}) => {
+    // The regression this exists for: a signed-out visitor has no realtime
+    // listeners at all, so nothing ever re-ran the page's lookups. One read that
+    // overran `Database.READ_TIMEOUT_MS` therefore left a public space blank for
+    // the life of the page — no error, no spinner that ever resolved, and no way
+    // back but a reload. It was also the WebKit nightly's most frequent failure,
+    // because a cold WebChannel connection on a loaded macOS runner is exactly
+    // how a read overruns.
+    //
+    // Cut before navigating, so the very first lookup is the one that fails.
+    await cutFirestore(page);
+    await page.goto('/en-US/gallery/seed-public-gallery-00/howto');
+
+    // It cannot be there yet — this is the state that used to be permanent.
+    await expect(page.getByText('A how-to anyone can read')).toHaveCount(0);
+
+    // Hand the cloud back and touch nothing else: the page has to notice on its
+    // own. No reload here is the whole assertion.
+    await restoreFirestore(page);
+    await expect(
+        page.getByText('A how-to anyone can read').first(),
+    ).toBeAttached({ timeout: NO_BANNER_TIMEOUT });
 });

@@ -209,13 +209,22 @@ test.describe('offline edits replay after reload + reconnect', () => {
         const projectId = await createTestProject(page);
         const cachedName = 'Cached For Offline';
         await page.locator('#project-name').fill(cachedName);
-        // Wait until it's mirrored to the cloud (and thus also the local cache).
+        // Wait until it's mirrored to the cloud.
         await waitForDocumentUpdate(
             page,
             'projects',
             projectId,
             (d) => d?.name === cachedName,
         );
+
+        // The name reaching the cloud does not mean it reached the *cache*, and
+        // the cache is what this test is about: persist() writes the project
+        // cache and the dirty row as separate async Dexie writes, so on slow
+        // IndexedDB the reload below can re-hydrate the pre-edit project. This
+        // is the precondition waitForCachedProjectName exists for — without it
+        // the reloaded page showed an empty name and this was the suite's most
+        // frequent WebKit flake.
+        await waitForCachedProjectName(page, projectId, cachedName);
 
         // Cut the cloud and reload: with the listeners unable to connect, the
         // project must come from the Dexie cache (read-while-offline). Allow for

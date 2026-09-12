@@ -42,6 +42,7 @@
     import HowToForm from './HowToForm.svelte';
     import HowToPreview from './HowToPreview.svelte';
     import resolveGallery from './resolveGallery';
+    import retryDelay from './retryDelay';
 
     // The current gallery being viewed. Starts at null, to represent loading state.
     let gallery = $state<Gallery | null | undefined>(null);
@@ -55,6 +56,54 @@
     // Which resolution is current: an earlier lookup that resolves after a later
     // one must not overwrite it. A plain let, so writing it can't re-run the effect.
     let resolution = 0;
+
+    /**
+     * Asking again after a lookup went unanswered.
+     *
+     * Both effects below read `retryTick`, so bumping it re-runs them; the count
+     * that picks the delay is a plain let, so resetting it can't. Without this a
+     * single overrun read left the space blank for the life of the page: for a
+     * signed-out visitor there are no listeners, so nothing else ever re-runs
+     * these. See retryDelay.ts.
+     *
+     * One of these per lookup rather than one shared, because the two fail
+     * independently: a gallery that resolved must not cancel the re-ask that the
+     * how-to read just scheduled, which is the latch all over again.
+     */
+    let retryTick = $state(0);
+
+    function asker() {
+        let unanswered = 0;
+        let timer: ReturnType<typeof setTimeout> | undefined = undefined;
+        return {
+            /** No answer: come back, waiting longer each time. */
+            later() {
+                if (timer !== undefined) return;
+                timer = setTimeout(() => {
+                    timer = undefined;
+                    retryTick += 1;
+                }, retryDelay(unanswered++));
+            },
+            /** An answer arrived, so the next failure waits briefly again. */
+            answered() {
+                unanswered = 0;
+                this.stop();
+            },
+            stop() {
+                if (timer !== undefined) clearTimeout(timer);
+                timer = undefined;
+            },
+        };
+    }
+
+    const askGallery = asker();
+    const askHowTos = asker();
+
+    // Destroy-only: never leave a timer running behind a closed page.
+    $effect(() => () => {
+        askGallery.stop();
+        askHowTos.stop();
+    });
 
     // When the page changes, get the gallery store corresponding to the requested ID.
     $effect(() => {
@@ -75,11 +124,20 @@
             Galleries.accessibleGalleries.has(galleryID) ||
             Galleries.expandedScopeGalleries.has(galleryID);
 
+        // Read the retry tick so a scheduled re-ask re-runs this.
+        void retryTick;
+
         const generation = ++resolution;
         resolveGallery(galleryID, cached, ready, (id) =>
             Galleries.find(id),
         ).then((resolved) => {
-            if (generation === resolution) gallery = resolved;
+            if (generation !== resolution) return;
+            gallery = resolved;
+            // `null` once we were ready to ask means the read went unanswered,
+            // not that the space is gone — so ask again rather than sitting on a
+            // spinner forever.
+            if (resolved === null && ready) askGallery.later();
+            else askGallery.answered();
         });
     });
 
@@ -97,18 +155,35 @@
     // get all of the how-tos for the gallery if the user has gallery access
     // otherwise, see if there was a specific how-to id in the url and if so just get that one
     $effect(() => {
+        // Read the retry tick so a scheduled re-ask re-runs this too.
+        void retryTick;
+
         if (gallery) {
-            HowTos.getHowTos(gallery.getHowTos()).then((data) => {
-                if (data) howTos = data;
-            });
+            HowTos.getHowTos(gallery.getHowTos()).then(
+                ({ howTos: found, unreachable }) => {
+                    // Keep what we have rather than blanking the canvas on a
+                    // read we never got an answer to.
+                    if (unreachable) askHowTos.later();
+                    else {
+                        howTos = found;
+                        askHowTos.answered();
+                    }
+                },
+            );
         } else if (urlID) {
             urlLoaded = null;
             HowTos.getHowTo(urlID).then((data) => {
-                if (data) {
+                // `false` is "we never got an answer", which is not the same as
+                // "there is no such how-to" — reporting it as absent is what
+                // made an overrun read look like a broken link.
+                if (data === false) askHowTos.later();
+                else if (data === undefined) {
+                    urlLoaded = false;
+                    askHowTos.answered();
+                } else {
                     howTos = [data];
                     urlLoaded = true;
-                } else {
-                    urlLoaded = false;
+                    askHowTos.answered();
                 }
             });
         }
