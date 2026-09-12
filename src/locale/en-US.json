@@ -10759,6 +10759,7 @@
                     "invalidUsername": "Usernames must be at least 5 letters with no spaces.",
                     "usernameTaken": "This username is already taken.",
                     "failure": "Unable to login :(",
+                    "unverified": "We couldn't check that this is a real browser, so we stopped here. This can happen on school or work networks. Trying again won't help, but a different network or browser might. If you're at school, tell a teacher.",
                     "offline": "We couldn't reach the cloud ☁️.",
                     "deletePartial": "We removed your account's data, but couldn't finish removing your account. Please try again, or contact us if it keeps happening.",
                     "invalidPassword": "Passwords must be at least 6 characters long.",

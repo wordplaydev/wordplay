@@ -9763,6 +9763,7 @@
                     "invalid": "$~Bu bağlantı geçerli değil.",
                     "email": "$~Geçerli bir e-posta değil.",
                     "failure": "$~Giriş yapılamıyor :(",
+                    "unverified": "$~Bunun gerçek bir tarayıcı olduğunu doğrulayamadık, bu yüzden burada durduk. Bu, okul veya iş ağlarında olabilir. Tekrar denemek işe yaramaz, ama farklı bir ağ veya tarayıcı işe yarayabilir. Okuldaysan, bir öğretmene söyle.",
                     "offline": "$~Buluta ulaşamadık ☁️.",
                     "wrongPassword": "$~Geçerli bir kullanıcı adı ve şifre değil. Ya şifreniz yanlış ya da başka biri bu kullanıcı adına sahip.",
                     "tooMany": "$~Çok fazla kez giriş yapmayı denediniz ve başarısız oldunuz. Tekrar denemek için beklemeniz gerekecek.",

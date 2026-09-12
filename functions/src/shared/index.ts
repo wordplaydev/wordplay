@@ -510,7 +510,11 @@ export type JoinAccountError =
     | 'birthdate-invalid'
     | 'not-eligible'
     | 'throttled'
-    | 'failed';
+    | 'failed'
+    /** The client's own reading of a refused App Check token (#1378); the
+     *  callable never returns this, since a request it rejects never reaches
+     *  the handler. */
+    | 'unverified';
 export type JoinAccountOutput = {
     /** The password path only: hand to signInWithCustomToken. */
     token?: string;

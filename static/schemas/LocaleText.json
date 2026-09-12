@@ -24485,6 +24485,10 @@
                                                     "description": "[plain] Warning shown before logging out when there are edits not yet saved online (e.g. made offline); logging out discards them from this device.",
                                                     "type": "string"
                                                 },
+                                                "unverified": {
+                                                    "description": "[plain] When we couldn't confirm this is a real browser, which happens on some school and work networks, and which trying again won't fix",
+                                                    "type": "string"
+                                                },
                                                 "usernameTaken": {
                                                     "description": "[plain] Username taken",
                                                     "type": "string"
@@ -24501,6 +24505,7 @@
                                                 "invalidUsername",
                                                 "usernameTaken",
                                                 "failure",
+                                                "unverified",
                                                 "offline",
                                                 "deletePartial",
                                                 "wrongPassword",

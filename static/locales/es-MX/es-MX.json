@@ -9509,6 +9509,7 @@
                     "invalid": "Este enlace no es válido.",
                     "email": "$~No es un correo electrónico válido.",
                     "failure": "No se puede iniciar sesión :(",
+                    "unverified": "$~No pudimos comprobar que esto sea un navegador real, así que nos detuvimos aquí. Esto puede pasar en las redes de la escuela o el trabajo. Intentar de nuevo no ayudará, pero una red o un navegador distintos sí podrían. Si estás en la escuela, avísale a una maestra.",
                     "offline": "Pareces estar desconectado.",
                     "wrongPassword": "Nombre de usuario y contraseña no son válidos. O tu contraseña es incorrecta o alguien más tiene este nombre de usuario.",
                     "tooMany": "$~Intentaste iniciar sesión y fallaste demasiadas veces. Tendrás que esperar para intentarlo de nuevo.",

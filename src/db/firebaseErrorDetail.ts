@@ -29,3 +29,29 @@ export function isPermanentSaveError(error: unknown): boolean {
             error.code === 'invalid-argument')
     );
 }
+
+/**
+ * Whether a callable failed because App Check refused to vouch for this browser.
+ *
+ * Retrying cannot help, which is what makes this worth telling apart (#1378):
+ * reCAPTCHA Enterprise scores the browser and the network, not the moment, so
+ * "try again in a moment" sends someone round a loop that cannot end. School
+ * networks — shared NAT, managed devices, filtering proxies — are exactly the
+ * traffic it scores low.
+ *
+ * Read off the code rather than by asking App Check for a token, which would
+ * bill another assessment: the SDK's own `getToken` never throws, it hands back
+ * a dummy token and lets the server reject it. That rejection comes from
+ * firebase-functions' enforcement layer as `functions/unauthenticated`, and on
+ * the callables the account pages use — `joinAccount`, `sendSigninLink`,
+ * `usernameAvailable` — no handler raises `unauthenticated` itself, so the code
+ * can only mean attestation. Note the prefix: a bare `unauthenticated` is
+ * Firestore's "signed out", which {@link isPermanentSaveError} deliberately
+ * treats as recoverable.
+ */
+export function isAttestationFailure(error: unknown): boolean {
+    return (
+        error instanceof FirebaseError &&
+        error.code === 'functions/unauthenticated'
+    );
+}

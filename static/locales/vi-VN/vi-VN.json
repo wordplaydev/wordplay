@@ -10377,6 +10377,7 @@
                     "invalidUsername": "$~Tên người dùng phải có ít nhất 5 chữ cái và không có khoảng trắng.",
                     "usernameTaken": "$~Tên người dùng này đã được sử dụng.",
                     "failure": "$~Không thể đăng nhập :(",
+                    "unverified": "$~Chúng tôi không thể xác nhận đây là một trình duyệt thật, nên đã dừng lại ở đây. Điều này có thể xảy ra khi bạn dùng mạng ở trường học hoặc nơi làm việc. Thử lại sẽ không giúp ích gì, nhưng đổi sang mạng khác hoặc trình duyệt khác có thể sẽ được. Nếu bạn đang ở trường, hãy báo cho thầy cô giáo biết.",
                     "offline": "$~Chúng tôi không thể với tới mây ☁️.",
                     "invalidPassword": "$~Mật khẩu phải có ít nhất 6 ký tự.",
                     "wrongPassword": "$~Tên người dùng và mật khẩu không hợp lệ. Có thể mật khẩu của bạn sai hoặc người khác đã sử dụng tên người dùng này.",

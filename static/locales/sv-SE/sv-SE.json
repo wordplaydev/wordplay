@@ -9758,6 +9758,7 @@
                     "invalid": "$~Den här länken är inte giltig.",
                     "email": "$~Inte en giltig e-postadress.",
                     "failure": "$~Kan inte logga in :(",
+                    "unverified": "$~Vi kunde inte kontrollera att detta är en riktig webbläsare, så vi stoppade här. Det kan hända på skol- eller arbetsnätverk. Att försöka igen hjälper inte, men ett annat nätverk eller en annan webbläsare kanske fungerar. Om du är i skolan, berätta för en lärare.",
                     "offline": "$~Vi kunde inte nå molnet ☁️.",
                     "wrongPassword": "$~Inte ett giltigt användarnamn och lösenord. Antingen är ditt lösenord fel eller så har någon annan det här användarnamnet.",
                     "tooMany": "$~Du har försökt och misslyckats med att logga in för många gånger. Du måste vänta med att försöka igen.",

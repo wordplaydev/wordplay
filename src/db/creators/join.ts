@@ -1,4 +1,5 @@
 import { getFunctionsInstance } from '@db/firebase';
+import { isAttestationFailure } from '@db/firebaseErrorDetail';
 import type { JoinAccountInputs, JoinAccountOutput } from 'shared-types';
 
 /**
@@ -27,6 +28,10 @@ export async function joinAccount(
         return data;
     } catch (error) {
         console.error(error);
-        return { error: 'failed' };
+        // Told apart because "try again" is the wrong advice for it: App Check
+        // judged the browser, not the moment, so the next attempt fails too.
+        return {
+            error: isAttestationFailure(error) ? 'unverified' : 'failed',
+        };
     }
 }
