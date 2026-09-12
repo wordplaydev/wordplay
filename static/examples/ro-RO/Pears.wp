@@ -2,6 +2,7 @@ M
 Pere
 === start/en
 ¶Aceasta este o poveste scurtă și interactivă. Ea are mai multe scene diferite și trece de la una la alta în funcție de acțiunile tale, cum ar fi clicurile, ciocnirile și alte acțiuni. O parte din distracția de a trăi povestea este să descoperi ce trebuie să faci ca să o duci mai departe.¶
+
 expoziție: [
 		Fraza(`Tatăl meu voia să plece.` loc: Loc(-9m 0m))
 	]

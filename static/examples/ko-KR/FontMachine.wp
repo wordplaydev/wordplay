@@ -2,6 +2,7 @@ t
 글꼴 기계
 === start
 ¶아무 키나 누르면 "typography"의 각 글자를 무작위 글꼴로 다시 배치합니다.¶
+
 글꼴: [
 		"Arvo"/en
 		"Modak"/en

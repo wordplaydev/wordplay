@@ -2,6 +2,7 @@
 Notas de tono
 ===
 ¶Canta o tararea, y observa la nota que haces — dos veces. La nota de la izquierda muestra @Pitch sin procesar y tiembla; la nota de la derecha promedia los últimos tonos y se mantiene estable. @Pitch dice 0hz cuando no escucha nada claro, así que ambas notas se saltan esos momentos y muestran · en su lugar.¶
+
 notas2: [
 		'La'
 		'La♯'

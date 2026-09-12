@@ -2,6 +2,7 @@ l
 Titluri
 === start/en
 ¶Titluri live de la New York Times, luate de pe internet și afișate pe scenă.¶
+
 titluri: Paginăweb(
 		'https://www.nytimes.com'
 		'.indicate-hover'

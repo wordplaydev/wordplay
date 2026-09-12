@@ -2,6 +2,7 @@ o
 Lager
 === start
 ¶Bollar som studsar på olika djup för att visa parallax-lager.¶
+
 antal2: 10 → []
 
 ƒ bollar(z2•#m) antal2.översätta(

@@ -258,6 +258,7 @@ Scena(
 )
 === guitar1
 ¶Gitara, głos 1 z 12. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 3.5beats)
@@ -1532,6 +1533,7 @@ Scena(
 )
 === guitar2
 ¶Gitara, głos 2 z 12. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 32beats)
@@ -1587,6 +1589,7 @@ Scena(
 )
 === guitar3
 ¶Gitara, głos 3 z 12. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 32.25beats)
@@ -1599,6 +1602,7 @@ Scena(
 )
 === guitar4
 ¶Gitara, głos 4 z 12. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 303.25beats)
@@ -1609,6 +1613,7 @@ Scena(
 )
 === violin1
 ¶Smyczki, głos 1 z 2. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 3.5beats)
@@ -1751,6 +1756,7 @@ Scena(
 )
 === guitar5
 ¶Gitara, głos 5 z 12. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 4beats)
@@ -1881,6 +1887,7 @@ Scena(
 )
 === guitar6
 ¶Gitara, głos 6 z 12. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 16beats)
@@ -3549,6 +3556,7 @@ Scena(
 )
 === guitar7
 ¶Gitara, głos 7 z 12. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 16.25beats)
@@ -3763,6 +3771,7 @@ Scena(
 )
 === guitar8
 ¶Gitara, głos 8 z 12. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 17.75beats)
@@ -3823,6 +3832,7 @@ Scena(
 )
 === guitar9
 ¶Gitara, głos 9 z 12. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 213.5beats)
@@ -3835,6 +3845,7 @@ Scena(
 )
 === guitar10
 ¶Gitara, głos 10 z 12. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 40beats)
@@ -4935,6 +4946,7 @@ Scena(
 )
 === guitar11
 ¶Gitara, głos 11 z 12. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 40beats)
@@ -5279,6 +5291,7 @@ Scena(
 )
 === guitar12
 ¶Gitara, głos 12 z 12. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 56beats)
@@ -5351,6 +5364,7 @@ Scena(
 )
 === flute1
 ¶Flauta, głos 1 z 1. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 64beats)
@@ -5377,6 +5391,7 @@ Scena(
 )
 === violin2
 ¶Smyczki, głos 2 z 2. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 112beats)
@@ -5505,6 +5520,7 @@ Scena(
 )
 === synth1
 ¶Syntezator, głos 1 z 2. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 292.375beats)
@@ -5631,6 +5647,7 @@ Scena(
 )
 === bass1
 ¶Bas, głos 1 z 2. Plik startowy pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 47.75beats)
@@ -6403,6 +6420,7 @@ Scena(
 )
 === bass2
 ¶Bas, głos 2 z 2. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 252beats)
@@ -6413,6 +6431,7 @@ Scena(
 )
 === drums1
 ¶Perkusja, głos 1 z 6. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 22.75beats)
@@ -7067,6 +7086,7 @@ Scena(
 )
 === drums2
 ¶Perkusja, głos 2 z 6. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 23beats)
@@ -7715,6 +7735,7 @@ Scena(
 )
 === drums3
 ¶Perkusja, głos 3 z 6. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 23.25beats)
@@ -8243,6 +8264,7 @@ Scena(
 )
 === drums4
 ¶Perkusja, głos 4 z 6. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 23.5beats)
@@ -8475,6 +8497,7 @@ Scena(
 )
 === drums5
 ¶Perkusja, głos 5 z 6. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 226.25beats)
@@ -8487,6 +8510,7 @@ Scena(
 )
 === drums6
 ¶Perkusja, głos 6 z 6. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 226.292beats)
@@ -8499,6 +8523,7 @@ Scena(
 )
 === synth2
 ¶Syntezator, głos 2 z 2. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 298.75beats)
@@ -8509,6 +8534,7 @@ Scena(
 )
 === bell1
 ¶Dzwonki, głos 1 z 10. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 299beats)
@@ -8521,6 +8547,7 @@ Scena(
 )
 === bell2
 ¶Dzwonki, głos 2 z 10. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 299.25beats)
@@ -8533,6 +8560,7 @@ Scena(
 )
 === bell3
 ¶Dzwonki, głos 3 z 10. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 299.25beats)
@@ -8545,6 +8573,7 @@ Scena(
 )
 === bell4
 ¶Dzwonki, głos 4 z 10. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 299.5beats)
@@ -8555,6 +8584,7 @@ Scena(
 )
 === bell5
 ¶Dzwonki, głos 5 z 10. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 299.75beats)
@@ -8565,6 +8595,7 @@ Scena(
 )
 === bell6
 ¶Dzwonki, głos 6 z 10. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 300beats)
@@ -8577,6 +8608,7 @@ Scena(
 )
 === bell7
 ¶Dzwonki, głos 7 z 10. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 300.25beats)
@@ -8587,6 +8619,7 @@ Scena(
 )
 === bell8
 ¶Dzwonki, głos 8 z 10. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 300.25beats)
@@ -8599,6 +8632,7 @@ Scena(
 )
 === bell9
 ¶Dzwonki, głos 9 z 10. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 301.5beats)
@@ -8609,6 +8643,7 @@ Scena(
 )
 === bell10
 ¶Dzwonki, głos 10 z 10. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 302.5beats)
@@ -8619,6 +8654,7 @@ Scena(
 )
 === pad1
 ¶Pad, głos 1 z 3. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 297.25beats)
@@ -8633,6 +8669,7 @@ Scena(
 )
 === pad2
 ¶Pad, głos 2 z 3. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 309.5beats)
@@ -8647,6 +8684,7 @@ Scena(
 )
 === pad3
 ¶Pad, głos 3 z 3. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 348beats)
@@ -8661,6 +8699,7 @@ Scena(
 )
 === sax1
 ¶Róg, głos 1 z 3. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 319beats)
@@ -8723,6 +8762,7 @@ Scena(
 )
 === sax2
 ¶Róg, głos 2 z 3. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 320beats)
@@ -8763,6 +8803,7 @@ Scena(
 )
 === sax3
 ¶Róg, głos 3 z 3. Źródło startowe pożycza go po nazwie.¶
+
 Ścieżka(
 	[
 		Nuta(ø 39beats)

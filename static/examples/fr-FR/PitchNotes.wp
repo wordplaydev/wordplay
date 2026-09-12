@@ -2,6 +2,7 @@
 Notes de hauteur
 ===
 ¶Chante ou fredonne, et regarde la note que tu fais — deux fois. La note de gauche lit @Pitch brut et tremble ; la note de droite fait la moyenne des dernières hauteurs et reste stable. @Pitch affiche 0hz quand il n'entend rien de clair, alors les deux notes sautent ces moments et montrent · à la place.¶
+
 notes2: [
 		'La'
 		'La♯'

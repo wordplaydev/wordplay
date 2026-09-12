@@ -2,6 +2,7 @@
 Bintang Bola Basket
 === start
 ¶Arahkan dengan penunjukmu dan klik untuk melempar bola ke keranjang.¶
+
 klik: ∆ Tombol()
 
 hitunganKlik: 0 … klik … 1 + ⬚

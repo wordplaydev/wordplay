@@ -2,6 +2,7 @@
 Gwiazda Koszykówki
 === start
 ¶Wyceluj wskaźnikiem i kliknij, aby rzucić do koszy.¶
+
 kliknięcie: ∆ Przycisk()
 
 licznikKliknięć: 0 … kliknięcie … 1 + ⬚

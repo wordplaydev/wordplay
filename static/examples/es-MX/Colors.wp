@@ -2,6 +2,7 @@ w
 Espectáculo de color
 ===
 ¶haz clic para agitar y volver a colorear la palabra "wowie" al azar.¶
+
 color2: Color(0% 0 0°) … ∆ Botón() … Color(
 			50%
 			Azar() × 200

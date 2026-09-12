@@ -276,6 +276,7 @@ Panggung(
 )
 === guitar1
 ¶Gitar, suara 1 dari 12. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 3.5beats)
@@ -1550,6 +1551,7 @@ Trek(
 )
 === guitar2
 ¶Gitar, suara 2 dari 12. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 32beats)
@@ -1605,6 +1607,7 @@ Trek(
 )
 === guitar3
 ¶Gitar, suara 3 dari 12. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 32.25beats)
@@ -1617,6 +1620,7 @@ Trek(
 )
 === guitar4
 ¶Gitar, suara 4 dari 12. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 303.25beats)
@@ -1627,6 +1631,7 @@ Trek(
 )
 === violin1
 ¶Alat gesek, suara 1 dari 2. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 3.5beats)
@@ -1769,6 +1774,7 @@ Trek(
 )
 === guitar5
 ¶Gitar, suara 5 dari 12. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 4beats)
@@ -1899,6 +1905,7 @@ Trek(
 )
 === guitar6
 ¶Gitar, suara 6 dari 12. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 16beats)
@@ -3567,6 +3574,7 @@ Trek(
 )
 === guitar7
 ¶Gitar, suara 7 dari 12. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 16.25beats)
@@ -3781,6 +3789,7 @@ Trek(
 )
 === guitar8
 ¶Gitar, suara 8 dari 12. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 17.75beats)
@@ -3841,6 +3850,7 @@ Trek(
 )
 === guitar9
 ¶Gitar, suara 9 dari 12. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 213.5beats)
@@ -3853,6 +3863,7 @@ Trek(
 )
 === guitar10
 ¶Gitar, suara 10 dari 12. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 40beats)
@@ -4953,6 +4964,7 @@ Trek(
 )
 === guitar11
 ¶Gitar, suara 11 dari 12. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 40beats)
@@ -5297,6 +5309,7 @@ Trek(
 )
 === guitar12
 ¶Gitar, suara 12 dari 12. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 56beats)
@@ -5369,6 +5382,7 @@ Trek(
 )
 === flute1
 ¶Seruling, suara 1 dari 1. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 64beats)
@@ -5395,6 +5409,7 @@ Trek(
 )
 === violin2
 ¶Alat gesek, suara 2 dari 2. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 112beats)
@@ -5523,6 +5538,7 @@ Trek(
 )
 === synth1
 ¶Synth, suara 1 dari 2. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 292.375beats)
@@ -5649,6 +5665,7 @@ Trek(
 )
 === bass1
 ¶Bass, suara 1 dari 2. Sumber awal meminjamnya berdasarkan nama.¶
+
 Trek(
 	[
 		Nada(ø 47.75beats)
@@ -6421,6 +6438,7 @@ Trek(
 )
 === bass2
 ¶Bass, suara 2 dari 2. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 252beats)
@@ -6431,6 +6449,7 @@ Trek(
 )
 === drums1
 ¶Drum, suara 1 dari 6. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 22.75beats)
@@ -7085,6 +7104,7 @@ Trek(
 )
 === drums2
 ¶Drum, suara 2 dari 6. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 23beats)
@@ -7733,6 +7753,7 @@ Trek(
 )
 === drums3
 ¶Drum, suara 3 dari 6. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 23.25beats)
@@ -8261,6 +8282,7 @@ Trek(
 )
 === drums4
 ¶Drum, suara 4 dari 6. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 23.5beats)
@@ -8493,6 +8515,7 @@ Trek(
 )
 === drums5
 ¶Drum, suara 5 dari 6. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 226.25beats)
@@ -8505,6 +8528,7 @@ Trek(
 )
 === drums6
 ¶Drum, suara 6 dari 6. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 226.292beats)
@@ -8517,6 +8541,7 @@ Trek(
 )
 === synth2
 ¶Synth, suara 2 dari 2. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 298.75beats)
@@ -8527,6 +8552,7 @@ Trek(
 )
 === bell1
 ¶Lonceng, suara 1 dari 10. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 299beats)
@@ -8539,6 +8565,7 @@ Trek(
 )
 === bell2
 ¶Lonceng, suara 2 dari 10. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 299.25beats)
@@ -8551,6 +8578,7 @@ Trek(
 )
 === bell3
 ¶Lonceng, suara 3 dari 10. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 299.25beats)
@@ -8563,6 +8591,7 @@ Trek(
 )
 === bell4
 ¶Lonceng, suara 4 dari 10. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 299.5beats)
@@ -8573,6 +8602,7 @@ Trek(
 )
 === bell5
 ¶Lonceng, suara 5 dari 10. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 299.75beats)
@@ -8583,6 +8613,7 @@ Trek(
 )
 === bell6
 ¶Lonceng, suara 6 dari 10. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 300beats)
@@ -8595,6 +8626,7 @@ Trek(
 )
 === bell7
 ¶Lonceng, suara 7 dari 10. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 300.25beats)
@@ -8605,6 +8637,7 @@ Trek(
 )
 === bell8
 ¶Lonceng, suara 8 dari 10. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 300.25beats)
@@ -8617,6 +8650,7 @@ Trek(
 )
 === bell9
 ¶Lonceng, suara 9 dari 10. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 301.5beats)
@@ -8627,6 +8661,7 @@ Trek(
 )
 === bell10
 ¶Lonceng, suara 10 dari 10. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 302.5beats)
@@ -8637,6 +8672,7 @@ Trek(
 )
 === pad1
 ¶Pad, suara 1 dari 3. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 297.25beats)
@@ -8651,6 +8687,7 @@ Trek(
 )
 === pad2
 ¶Pad, suara 2 dari 3. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 309.5beats)
@@ -8665,6 +8702,7 @@ Trek(
 )
 === pad3
 ¶Pad, suara 3 dari 3. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 348beats)
@@ -8679,6 +8717,7 @@ Trek(
 )
 === sax1
 ¶Terompet, suara 1 dari 3. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 319beats)
@@ -8741,6 +8780,7 @@ Trek(
 )
 === sax2
 ¶Terompet, suara 2 dari 3. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 320beats)
@@ -8781,6 +8821,7 @@ Trek(
 )
 === sax3
 ¶Terompet, suara 3 dari 3. Sumber awal meminjamnya dengan nama.¶
+
 Trek(
 	[
 		Nada(ø 39beats)

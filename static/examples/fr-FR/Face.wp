@@ -2,6 +2,7 @@
 Visage
 ===
 ¶Un émoji qui imite ton visage quand tu souris, fais la moue, ouvres grand la bouche ou clignes des yeux.¶
+
 visage2: Visage()
 
 Scène(

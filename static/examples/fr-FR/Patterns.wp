@@ -2,6 +2,7 @@
 Motifs
 === start
 ¶Tape une phrase avec des nombres dedans. Je vais trouver chaque nombre et les montrer en dessous, en les ajoutant au fur et à mesure que je les trouve. Un motif décrit la forme d'un texte — ici,\⣿ >0 #⣿\ veut dire « un ou plusieurs chiffres », et ⌕ trouve chaque endroit où il apparaît.¶
+
 entrée: Chat()
 texte2: "J'ai 3 chats, 12 poissons, et 144 fourmis" … ∆ entrée … entrée
 

@@ -2,6 +2,7 @@ T
 Gedicht
 === start
 ¶Ein Gedicht, dessen Zeilen hereinschweben, jede mit ihrem eigenen Auftritt.¶
+
 •zeile(text2•"" pose•Pose|Reihenfolge zurück: Farbe(
 			100
 			100

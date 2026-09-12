@@ -2,6 +2,7 @@ H
 Satzlänge
 ===
 ¶Gib etwas in die Chatleiste ein, und es zählt die Zeichen deines Satzes.¶
+
 satz2: Plaudern()
 länge: Plaudern().Länge()
 

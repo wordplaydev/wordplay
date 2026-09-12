@@ -155,6 +155,7 @@ choice: בחירה()
 )
 === years/en
 ¶אחוז תארי הבוגר במדעי המחשב והמידע בארצות הברית שהושגו על ידי נשים, לפי שנה, עם מספר הנשים ומספר התארים הכולל. מקור: המרכז הלאומי לסטטיסטיקה בחינוך, Digest ofEducation Statistics, Table 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡שנה2•'' נשים•# סכוםכולל•# אחוז•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -170,6 +171,7 @@ choice: בחירה()
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶אחוז תארי הבוגר בארצות הברית שהושגו על ידי נשים בכל תחום לימוד,בסביבות 2018, מסודרים מהחלק הגבוה ביותר לנמוך ביותר. מקור: הקרן הלאומיתלמדע, NCSES, Women, Minorities, and Persons with Disabilitiesin Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡שדה•'' אחוז2•#⎦
 ⎡'פסיכולוגיה' 72⎦
 ⎡'ביולוגיה' 60⎦

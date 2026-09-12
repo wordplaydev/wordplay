@@ -283,6 +283,7 @@ Entablado(
 )
 === guitar1
 ¶Gitara, tinig 1 ng 12. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 3.5beats)
@@ -1557,6 +1558,7 @@ Track(
 )
 === guitar2
 ¶Gitara, tinig 2 ng 12. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 32beats)
@@ -1612,6 +1614,7 @@ Track(
 )
 === guitar3
 ¶Gitara, tinig 3 ng 12. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 32.25beats)
@@ -1624,6 +1627,7 @@ Track(
 )
 === guitar4
 ¶Gitara, tinig 4 ng 12. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 303.25beats)
@@ -1634,6 +1638,7 @@ Track(
 )
 === violin1
 ¶Kwerdas, tinig 1 ng 2. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 3.5beats)
@@ -1776,6 +1781,7 @@ Track(
 )
 === guitar5
 ¶Gitara, tinig 5 ng 12. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 4beats)
@@ -1906,6 +1912,7 @@ Track(
 )
 === guitar6
 ¶Gitara, tinig 6 ng 12. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 16beats)
@@ -3574,6 +3581,7 @@ Track(
 )
 === guitar7
 ¶Gitara, tinig 7 ng 12. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 16.25beats)
@@ -3788,6 +3796,7 @@ Track(
 )
 === guitar8
 ¶Gitara, tinig 8 ng 12. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 17.75beats)
@@ -3848,6 +3857,7 @@ Track(
 )
 === guitar9
 ¶Gitara, tinig 9 ng 12. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 213.5beats)
@@ -3860,6 +3870,7 @@ Track(
 )
 === guitar10
 ¶Gitara, tinig 10 ng 12. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 40beats)
@@ -4960,6 +4971,7 @@ Track(
 )
 === guitar11
 ¶Gitara, tinig 11 ng 12. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 40beats)
@@ -5304,6 +5316,7 @@ Track(
 )
 === guitar12
 ¶Gitara, tinig 12 ng 12. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 56beats)
@@ -5376,6 +5389,7 @@ Track(
 )
 === flute1
 ¶Plauta, tinig 1 ng 1. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 64beats)
@@ -5402,6 +5416,7 @@ Track(
 )
 === violin2
 ¶Kwerdas, tinig 2 ng 2. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 112beats)
@@ -5530,6 +5545,7 @@ Track(
 )
 === synth1
 ¶Synth, tinig 1 ng 2. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 292.375beats)
@@ -5656,6 +5672,7 @@ Track(
 )
 === bass1
 ¶Bass, tinig 1 ng 2. Hiniram ito ng simulang pinagmulan ayon sa pangalan.¶
+
 Track(
 	[
 		Nota(ø 47.75beats)
@@ -6428,6 +6445,7 @@ Track(
 )
 === bass2
 ¶Bass, tinig 2 ng 2. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 252beats)
@@ -6438,6 +6456,7 @@ Track(
 )
 === drums1
 ¶Drums, tinig 1 ng 6. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 22.75beats)
@@ -7092,6 +7111,7 @@ Track(
 )
 === drums2
 ¶Drums, tinig 2 ng 6. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 23beats)
@@ -7740,6 +7760,7 @@ Track(
 )
 === drums3
 ¶Drums, tinig 3 ng 6. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 23.25beats)
@@ -8268,6 +8289,7 @@ Track(
 )
 === drums4
 ¶Drums, tinig 4 ng 6. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 23.5beats)
@@ -8500,6 +8522,7 @@ Track(
 )
 === drums5
 ¶Drums, tinig 5 ng 6. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 226.25beats)
@@ -8512,6 +8535,7 @@ Track(
 )
 === drums6
 ¶Drums, tinig 6 ng 6. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 226.292beats)
@@ -8524,6 +8548,7 @@ Track(
 )
 === synth2
 ¶Synth, tinig 2 ng 2. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 298.75beats)
@@ -8534,6 +8559,7 @@ Track(
 )
 === bell1
 ¶Bells, tinig 1 ng 10. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 299beats)
@@ -8546,6 +8572,7 @@ Track(
 )
 === bell2
 ¶Bells, tinig 2 ng 10. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 299.25beats)
@@ -8558,6 +8585,7 @@ Track(
 )
 === bell3
 ¶Bells, tinig 3 ng 10. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 299.25beats)
@@ -8570,6 +8598,7 @@ Track(
 )
 === bell4
 ¶Bells, tinig 4 ng 10. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 299.5beats)
@@ -8580,6 +8609,7 @@ Track(
 )
 === bell5
 ¶Bells, tinig 5 ng 10. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 299.75beats)
@@ -8590,6 +8620,7 @@ Track(
 )
 === bell6
 ¶Bells, tinig 6 ng 10. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 300beats)
@@ -8602,6 +8633,7 @@ Track(
 )
 === bell7
 ¶Bells, tinig 7 ng 10. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 300.25beats)
@@ -8612,6 +8644,7 @@ Track(
 )
 === bell8
 ¶Bells, tinig 8 ng 10. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 300.25beats)
@@ -8624,6 +8657,7 @@ Track(
 )
 === bell9
 ¶Bells, tinig 9 ng 10. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 301.5beats)
@@ -8634,6 +8668,7 @@ Track(
 )
 === bell10
 ¶Bells, tinig 10 ng 10. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 302.5beats)
@@ -8644,6 +8679,7 @@ Track(
 )
 === pad1
 ¶Pad, tinig 1 ng 3. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 297.25beats)
@@ -8658,6 +8694,7 @@ Track(
 )
 === pad2
 ¶Pad, tinig 2 ng 3. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 309.5beats)
@@ -8672,6 +8709,7 @@ Track(
 )
 === pad3
 ¶Pad, tinig 3 ng 3. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 348beats)
@@ -8686,6 +8724,7 @@ Track(
 )
 === sax1
 ¶Horn, tinig 1 ng 3. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 319beats)
@@ -8748,6 +8787,7 @@ Track(
 )
 === sax2
 ¶Horn, tinig 2 ng 3. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 320beats)
@@ -8788,6 +8828,7 @@ Track(
 )
 === sax3
 ¶Horn, tinig 3 ng 3. Hiniram ito ng simulan na pinagmulan gamit ang pangalan nito.¶
+
 Track(
 	[
 		Nota(ø 39beats)

@@ -2,6 +2,7 @@
 Basketstjärna
 === start
 ¶Sikta med pekaren och klicka för att skjuta i korgen.¶
+
 klick: ∆ Knapp()
 
 klickantal: 0 … klick … 1 + ⬚

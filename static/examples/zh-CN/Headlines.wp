@@ -2,6 +2,7 @@ l
 头条新闻
 === start/en
 ¶实时的《纽约时报》头条新闻，从网上抓取后叠放在舞台上。¶
+
 头条新闻: 网页('https://www.nytimes.com' '.indicate-hover')
 头条新闻•# ?
 	短语('加载中')

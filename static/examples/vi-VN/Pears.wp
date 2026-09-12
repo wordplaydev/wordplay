@@ -2,6 +2,7 @@ M
 Quả lê
 === start/en
 ¶Đây là một câu chuyện ngắn có thể tương tác. Nó có nhiều cảnh khác nhau và chuyển giữa các cảnh dựa trên những tương tác khác nhau, như bấm chuột, va chạm, và các hành động khác. Một phần thú vị khi trải nghiệm câu chuyện là tìm ra những tương tác cần thiết để câu chuyện tiếp tục.¶
+
 phầnMởĐầu: [
 		Cụmtừ(`Bố tôi muốn về.` vịTrí: VịTrí(-9m 0m))
 	]

@@ -2,6 +2,7 @@
 Pola
 === start
 ¶Ketik sebuah kalimat yang berisi beberapa angka. Aku akan mencari setiap angka dan menampilkannya di bawah, muncul satu per satu saat aku menemukannya. Sebuah pola menjelaskan bentuk teks — di sini,\⣿ >0 #⣿\ berarti "satu atau lebih digit", dan ⌕ mencari setiap tempat pola itu muncul.¶
+
 masukan: Mengobrol()
 teks2: 'Aku punya 3 kucing, 12 ikan, dan 144 semut' … ∆ masukan … masukan
 

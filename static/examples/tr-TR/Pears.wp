@@ -2,6 +2,7 @@ M
 Armutlar
 === start/en
 ¶Bu, etkileşimli bir kısa hikayedir. Birkaç farklı sahne içerir ve tıklama, çarpışma gibi farklı etkileşimlere göre bu sahneler arasında geçiş yapar. Bu hikayeyi yaşamanın eğlenceli yanlarından biri, hikayeyi ilerletmek için gereken etkileşimleri keşfetmektir.¶
+
 giriş2: [
 		İfadeetmek(`Babam gitmek istiyordu.` yer: Yer(-9m 0m))
 	]

@@ -2,6 +2,7 @@ o
 Katmanlar
 === start
 ¶Farklı derinliklerde zıplayan toplar, paralaks katmanlarını gösteriyor.¶
+
 sayaç: 10 → []
 
 ƒ toplar(z2•#m) sayaç.tercümeetmek(

@@ -2,6 +2,7 @@ o
 Mga Layer
 === start
 ¶Mga bolang tumatalbog sa magkakaibang lalim, para ipakita ang mga layer ng parallax.¶
+
 bilang2: 10 → []
 
 ƒ mgaBola(z2•#m) bilang2.isalin(

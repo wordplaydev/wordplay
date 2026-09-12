@@ -181,6 +181,7 @@ Scène(
 )
 === years/en
 ¶Pourcentage des diplômes de licence en informatique et en sciences de l'information obtenus par des femmes aux États-Unis, par année, avec le nombre de femmes et le nombre total de diplômes. Source : National Center for Education Statistics, Digest of Education Statistics, tableau 325.35. https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡année2•'' femmes•# total•# pourcentage•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -196,6 +197,7 @@ Scène(
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶Pourcentage des diplômes de licence obtenus par des femmes aux États-Unis dans chaque domaine d'études, vers 2018, classé de la part la plus élevée à la plus faible. Source : National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering. https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡champ•'' pourcentage2•#⎦
 ⎡'Psychologie' 72⎦
 ⎡'Biologie' 60⎦

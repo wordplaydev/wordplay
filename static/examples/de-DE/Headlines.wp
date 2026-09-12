@@ -2,6 +2,7 @@ l
 Überschriften
 === start/en
 ¶Aktuelle Schlagzeilen der New York Times, aus dem Internet geholt und auf der Bühne gestapelt.¶
+
 schlagzeilen: Website(
 		'https://www.nytimes.com'
 		'.indicate-hover'

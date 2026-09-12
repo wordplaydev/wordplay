@@ -175,6 +175,7 @@ Sânkhấu(
 )
 === years/en
 ¶Phần trăm bằng cử nhân khoa học máy tính và thông tin ở Hoa Kỳ do phụ nữ giành được, theo từng năm, cùng với số lượng phụ nữ và tổng số bằng cấp. Nguồn: National Center for Education Statistics, Digest of Education Statistics, Bảng 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡năm•'' phụNữ•# tổngSố•# phầnTrăm•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -190,6 +191,7 @@ Sânkhấu(
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶Phần trăm bằng cử nhân ở Hoa Kỳ do phụ nữ giành được trong từng ngành học, vào khoảng năm 2018, sắp xếp từ tỉ lệ cao nhất đến thấp nhất. Nguồn: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡lĩnhVực•'' phầnTrăm2•#⎦
 ⎡'Tâm lý học' 72⎦
 ⎡'Sinh học' 60⎦

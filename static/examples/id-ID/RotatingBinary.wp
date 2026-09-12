@@ -2,6 +2,7 @@
 RotatingBinary
 === start/en
 ¶Sekumpulan angka satu dan nol, berputar perlahan di tempat.¶
+
 spinLambat: Urutan.putaran(10s "straight")
 
 Panggung(

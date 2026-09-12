@@ -2,6 +2,7 @@
 "Pointer trail"/en
 ===
 ¶Move your pointer to draw a fading rainbow trail. @Previous (←←) remembers the last five @Pointer places, and @List.translate draws a dot for each, fading and shifting color from oldest to newest.¶
+
 history•[Place]: ←← 5 Pointer()
 Stage(history.translate(
 		ƒ(spot•Place index•#)

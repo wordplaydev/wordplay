@@ -93,11 +93,15 @@ export default class Block extends Expression {
     }
 
     static getPossibleReplacements({ node }: ReplaceContext) {
-        // Offer to parenthesize the node, or add docs if there aren't any.
+        // Offer to parenthesize the node, or add docs if there aren't any. Never on a
+        // root block: a leading doc is the program's or the first statement's (#1374),
+        // so the revision prints as a different program and is discarded unread.
         return node instanceof Expression
             ? [
                   Block.make([node]),
-                  ...(node instanceof Block && node.docs.isEmpty()
+                  ...(node instanceof Block &&
+                  !node.isRoot() &&
+                  node.docs.isEmpty()
                       ? [node.withDocs()]
                       : []),
               ]

@@ -2,6 +2,7 @@ H
 LungimeaPropoziției
 ===
 ¶Scrie în bara de chat și îți numără caracterele propoziției.¶
+
 propoziție: Chat()
 lungime2: Chat().lungime()
 

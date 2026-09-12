@@ -2,6 +2,7 @@
 RotatingBinary
 === start/en
 ¶Isang larangan ng mga isa at sero, dahan-dahang umiikot sa lugar.¶
+
 mabagalNaIkot: Pagkakasunodsunod.iikot(10s "straight")
 
 Entablado(

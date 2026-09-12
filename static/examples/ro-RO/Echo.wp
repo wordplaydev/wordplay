@@ -2,6 +2,7 @@
 Ecou
 === start
 ¶Orice scrie publicul în bara de chat devine această frază.¶
+
 mesaj: Chat()
 
 ¶Începe cu un mesaj de start, apoi repetă fiecare mesaj nou. Textul se transformă din cuvintele vechi în cele noi, litera cu litera.¶

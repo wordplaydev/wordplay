@@ -2,6 +2,7 @@
 Đoán Chữ Katakana
 === start
 ¶Đoán xem chữ katakana nào khớp với chữ hiragana để ghi điểm.¶
+
 ひらがな/ja,hiragana/en: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐを'/ja → []
 カタカナ/ja,katakana/en: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲ'/ja → []
 

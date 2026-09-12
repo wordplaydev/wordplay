@@ -2,6 +2,7 @@
 Wzory
 === start
 ¶Wpisz zdanie z kilkoma liczbami w środku. Znajdę każdą liczbę i pokażę ją poniżej, powiększając się w miarę odnajdywania. Wzorzec opisuje kształt tekstu — tutaj,\⣿ >0 #⣿\ oznacza „jedna lub więcej cyfr”, a ⌕ znajduje każde miejsce, gdzie się pojawia.¶
+
 wejście: Pogawędzić()
 tekst2: 'Mam 3 koty, 12 ryb i 144 mrówki' … ∆ wejście … wejście
 

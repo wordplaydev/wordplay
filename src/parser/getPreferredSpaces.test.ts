@@ -1,13 +1,16 @@
 import DefaultLocale from '@locale/DefaultLocale';
 import { parseLocaleDoc, toDocString } from '@locale/LocaleText';
 import Project from '@db/projects/Project';
+import Doc from '@nodes/Doc';
 import Docs from '@nodes/Docs';
 import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 import TextLiteral from '@nodes/TextLiteral';
 import Example from '@nodes/Example';
+import Program from '@nodes/Program';
 import Source from '@nodes/Source';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { toMarkup } from '@parser/toMarkup';
 import { describe, expect, test } from 'vitest';
 
 /** Format `code` the way the tidy command does. */
@@ -136,12 +139,41 @@ describe("a root block's first statement gets no leading space", () => {
         expect(format("Phrase('hi')")).toBe("Phrase('hi')");
     });
 
-    test('a program opening with docs keeps the newline after them', () => {
+    test("a statement's own doc keeps the newline after it", () => {
         // The first statement is only "at the document start" when nothing
         // precedes it. Pulling it up onto the doc's last line both mangles the
         // starter project and, since that line is already long, wraps the call.
+        // This doc touches the statement, so it documents it (#1374).
         const starter = "¶A comment.\nA second line of it.¶\nPhrase('hi')";
         expect(format(starter)).toBe(starter);
+    });
+
+    test("a program's own doc keeps the blank line that makes it the program's", () => {
+        // A blank line is the whole difference between a source's documentation and
+        // its first statement's (#1374), so closing it up would change the program.
+        const documented = "¶A comment.¶\n\nPhrase('hi')";
+        expect(format(documented)).toBe(documented);
+    });
+
+    test("a program's docs print so the program reparses with them", () => {
+        // `soundRevisions` discards a revision whose printed text reparses to a
+        // different program, so a doc printed with one newline — which documents the
+        // first statement instead — makes the "add documentation" affordance on a
+        // program silently do nothing.
+        const program = new Source('test', "Phrase('hi')").expression;
+        const [markup] = toMarkup('A greeting.');
+        const documented = new Program(
+            Docs.make([Doc.make(markup.paragraphs)]),
+            program.borrows,
+            program.expression,
+            program.end,
+        );
+        const printed = documented.toWordplay(getPreferredSpaces(documented));
+        expect(
+            new Source('test', printed).expression.isStructurallyEqualTo(
+                documented,
+            ),
+        ).toBe(true);
     });
 
     test('a program opening with a borrow keeps the newline after it', () => {

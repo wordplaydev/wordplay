@@ -181,6 +181,7 @@ Panggung(
 )
 === years/en
 ¶Persentase gelar sarjana ilmu komputer dan informasi di Amerika Serikat yang diraih perempuan, per tahun, beserta jumlah perempuan dan jumlah total gelar. Sumber: National Center for Education Statistics, Digest of Education Statistics, Tabel 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡tahun2•'' perempuan•# total•# persen•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -196,6 +197,7 @@ Panggung(
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶Persentase gelar sarjana di Amerika Serikat yang diraih perempuan pada setiap bidang studi, sekitar tahun 2018, diurutkan dari proporsi tertinggi ke terendah. Sumber: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡bidang•'' persen2•#⎦
 ⎡'Psikologi' 72⎦
 ⎡'Biologi' 60⎦

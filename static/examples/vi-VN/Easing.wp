@@ -2,6 +2,7 @@ s
 Đường Cong Chuyển Động Của Chuỗi
 ===
 ¶Cùng một hoạt cảnh xe hơi theo tám cách, mỗi cách một kiểu chuyển động.¶
+
 khungHìnhChính: {
 		0%: Tưthế(bùlại: VịTrí(-1m 0m))
 		25%: Tưthế(bùlại: VịTrí(1m 0m))

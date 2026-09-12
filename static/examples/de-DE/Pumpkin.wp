@@ -2,6 +2,7 @@
 Kürbis
 === start
 ¶Ein Kürbisgesicht, das flackert und jede Sekunde an einer neuen Stelle wieder auftaucht.¶
+
 zeit: Zeit(1000ms)
 platzieren: Ort(0m 0m) … ∆ zeit … Ort(
 			Zufällig(-4m 4m)

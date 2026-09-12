@@ -2,6 +2,7 @@
 Nota perdesi
 ===
 ¶Şarkı söyle ya da mırıldan, ve çıkardığın notayı iki kez gör. Soldaki nota ham @Pitch değerini okur ve titrer; sağdaki nota son birkaç perdenin ortalamasını alır ve sabit kalır. @Pitch net bir şey duymadığında 0hz der, bu yüzden her iki nota da bu anları atlar ve bunun yerine · gösterir.¶
+
 notalar2: [
 		'A'
 		'A♯'

@@ -2,6 +2,7 @@ H
 CümleUzunluğu
 ===
 ¶Sohbet çubuğuna yazın, cümlenizin karakterlerini sayacaktır.¶
+
 cümle: Sohbet()
 uzunluk2: Sohbet().uzunluk()
 

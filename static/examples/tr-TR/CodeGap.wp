@@ -177,6 +177,7 @@ Sahne(
 )
 === years/en
 ¶ABD'de bilgisayar ve bilgi bilimleri lisans diplomalarının kadınlar tarafından kazanılan yüzdesi, yıllara göre, kadın sayısı ve toplam diploma sayısıyla birlikte. Kaynak: National Center for Education Statistics, Digest of Education Statistics, Tablo 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡yıl2•'' kadınlar•# toplam2•# yüzde•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -192,6 +193,7 @@ Sahne(
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶2018 civarında, her çalışma alanında kadınlar tarafından kazanılan ABD lisans diplomalarının yüzdesi, en yüksek orandan en düşüğe doğru sıralanmıştır. Kaynak: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡alan•'' yüzde2•#⎦
 ⎡'Psikoloji' 72⎦
 ⎡'Biyoloji' 60⎦

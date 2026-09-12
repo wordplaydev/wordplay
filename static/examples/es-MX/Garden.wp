@@ -2,6 +2,7 @@
 Jardín
 === start/en
 ¶Un jardín zen dibujado con bloques de colores, con agua que se mece suavemente.¶
+
 pasto: Color(54% 84 117°)
 roca: Color(74% 0 200°)
 bambú: Color(77% 88 109°)

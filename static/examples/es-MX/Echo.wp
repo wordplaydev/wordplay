@@ -2,6 +2,7 @@
 Eco
 === start
 ¶Lo que el público escriba en la barra de chat se convierte en esta frase.¶
+
 mensaje: Charla()
 
 ¶Comienza con un mensaje inicial y luego repite cada mensaje nuevo. El texto se transforma de las palabras viejas a las nuevas, letra por letra.¶

@@ -2,6 +2,7 @@
 Dovleac
 === start
 ¶Un dovleac cu față sculptată care pâlpâie și reapare într-un loc nou în fiecare secundă.¶
+
 timp: Timp(1000ms)
 loc2: Loc(0m 0m) … ∆ timp … Loc(
 			Aleatoriu(-4m 4m)

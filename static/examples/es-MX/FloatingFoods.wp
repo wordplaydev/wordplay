@@ -2,6 +2,7 @@
 Comidas flotantes
 ===
 ¶Una cuadrícula de platillos deliciosos, donde uno cambia por otro cada segundo.¶
+
 comida: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
 
 másReciente•['']:

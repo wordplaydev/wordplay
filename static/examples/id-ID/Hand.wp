@@ -2,6 +2,7 @@
 Tangan
 ===
 ¶Angkat jari ke depan kamera, dan tangan emoji akan menghitung bersamamu.¶
+
 tangan: Tangan()
 
 Panggung(

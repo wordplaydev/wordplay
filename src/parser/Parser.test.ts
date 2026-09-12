@@ -274,8 +274,10 @@ test.each([
     ],
     ['a.b', PropertyReference, 'name', Reference, 'b'],
     ['a.b.c()[d]{f}', SetOrMapAccess, 'setOrMap', ListAccess],
+    // A blank line makes the first group the program's own; the second, adjacent to
+    // the statement, documents it (#1374).
     [
-        "¶Program¶\n\n¶let's see it¶\n\n¶Testing¶/en\na",
+        '¶Program¶\n\n¶Testing¶/en\na',
         DocumentedExpression,
         'expression',
         Reference,

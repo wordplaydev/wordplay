@@ -2,6 +2,7 @@ s
 Sıra Yumuşatması
 ===
 ¶Aynı araba animasyonu sekiz farklı şekilde, her yumuşatma tarzı için bir tane.¶
+
 anahtarKareler: {
 		0%: Poz(telafietmek: Yer(-1m 0m))
 		25%: Poz(telafietmek: Yer(1m 0m))

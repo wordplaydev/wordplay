@@ -2,6 +2,7 @@ M
 Birnen
 === start/en
 ¶Dies ist eine interaktive Kurzgeschichte. Sie besteht aus mehrerenverschiedenen Szenen und wechselt zwischen ihnen, je nachdem,was man tut, zum Beispiel klicken, zusammenstoßen und andereHandlungen. Ein Teil des Spaßes an der Geschichte ist es,herauszufinden, welche Handlungen man braucht, um weiterzukommen.¶
+
 einleitung: [
 		Satzglied(`Mein Papa wollte gehen.` Ort: Ort(-9m 0m))
 	]

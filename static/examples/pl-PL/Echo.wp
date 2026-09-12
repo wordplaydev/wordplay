@@ -2,6 +2,7 @@
 Echo
 === start
 ¶To, co widzowie wpiszą w pasku czatu, staje się tą frazą.¶
+
 wiadomość: Pogawędzić()
 
 ¶Zacznij od podpowiedzi, a potem powtarzaj każdą nową wiadomość. Tekst zmienia się ze starych słów w nowe, litera po literze.¶

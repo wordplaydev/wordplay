@@ -2,6 +2,7 @@
 Tebak Katakana
 === start
 ¶Tebak katakana mana yang cocok dengan hiragana untuk mendapatkan poin.¶
+
 ひらがな/ja,hiragana/en: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐを'/ja → []
 カタカナ/ja,katakana/en: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲ'/ja → []
 

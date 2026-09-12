@@ -2,6 +2,7 @@
 NhịPhânXoay
 === start/en
 ¶Một vùng gồm các số 1 và số 0, xoay chậm tại chỗ.¶
+
 xoayChậm: Sựliêntiếp.quay(10s "straight")
 
 Sânkhấu(

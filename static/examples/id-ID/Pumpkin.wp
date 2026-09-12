@@ -2,6 +2,7 @@
 Labu
 === start
 ¶Sebuah lentera labu yang berkedip dan muncul kembali di tempat baru setiap detik.¶
+
 waktu: Waktu(1000ms)
 tempat2: Tempat(0m 0m) … ∆ waktu … Tempat(
 			Acak(-4m 4m)

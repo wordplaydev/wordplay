@@ -225,9 +225,9 @@ test.each([...testable])(
 // Every example's main source must open with a doc whose first sentence
 // describes the project: ProjectPreview derives the gallery preview line from
 // `getMain().expression.docs.docs[0]`, so an example without one shows no
-// description on /projects and gallery pages. Note that the parser attaches
-// any leading doc to the Program, so a doc meant for the first bind must be
-// separated from the opening doc by a blank line to stay with its bind.
+// description on /projects and gallery pages. Note that a doc is only the
+// program's when a blank line separates it from the code below it; a doc
+// touching the first statement documents that statement instead (#1374).
 // Deliberately every example, not just the testable ones: parsing is cheap,
 // and a long example's preview needs a description just as much.
 test.each([...projects])(

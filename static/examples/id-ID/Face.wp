@@ -2,6 +2,7 @@
 Wajah
 ===
 ¶Sebuah emoji yang meniru wajahmu saat kamu tersenyum, cemberut, membuka mulut, dan berkedip.¶
+
 wajah2: Wajah()
 
 Panggung(

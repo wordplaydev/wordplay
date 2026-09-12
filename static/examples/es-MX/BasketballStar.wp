@@ -2,6 +2,7 @@
 Estrella del básquetbol
 === start
 ¶Apunta con tu puntero y haz clic para encestar.¶
+
 clic2: ∆ Botón()
 
 conteoDeClics: 0 … clic2 … 1 + ⬚

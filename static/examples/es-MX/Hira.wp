@@ -2,6 +2,7 @@
 Hiragana
 === start
 ¶Hiragana cayendo por la gravedad; haz clic para cambiar cuál dirección es abajo.¶
+
 cantidad2: 32
 
 gravedad2•#m/s^2: 15m/s^2 … ∆ Botón() … -gravedad2

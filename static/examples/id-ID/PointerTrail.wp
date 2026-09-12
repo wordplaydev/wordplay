@@ -2,6 +2,7 @@
 Jejak penunjuk
 ===
 ¶Gerakkan penunjukmu untuk menggambar jejak pelangi yang memudar. @Previous (←←) mengingat lima tempat @Pointer terakhir, dan @List.translate menggambar satu titik untuk masing-masing, memudar dan berubah warna dari yang paling lama ke yang paling baru.¶
+
 riwayat•[Tempat]: ←← 5 Penunjuk()
 Panggung(
 	riwayat.menerjemahkan(

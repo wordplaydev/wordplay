@@ -2,6 +2,7 @@ s
 Sekvensutjämning
 ===
 ¶Samma bilanimation på åtta sätt, ett för varje utjämningsstil.¶
+
 nyckelbilder: {
 		0%: Pose(offset: Plats(-1m 0m))
 		25%: Pose(offset: Plats(1m 0m))

@@ -19,8 +19,7 @@ export type PublishedShare =
 /**
  * What a source owes its readers, once other people can read it (#8) — one function
  * rather than four copies in `Bind`, `FunctionDefinition`, `StructureDefinition` and
- * `ConversionDefinition`, since the #1374 carve-out below must not be maintained in four
- * places.
+ * `ConversionDefinition`.
  *
  * Silent unless the project publishes this source: `↑` also means "share with my own
  * other sources", where demanding an explanation for strangers would be noise.
@@ -54,8 +53,8 @@ export function getShareConflicts(
     if (!source.expression.expression.statements.some((s) => s === definition))
         return [];
 
-    const docs = docsFor(definition, source);
-    if (docs === undefined) return [new UndocumentedShare(definition.share)];
+    const docs = definition.docs;
+    if (docs.isEmpty()) return [new UndocumentedShare(definition.share)];
 
     // A value speaks for itself; a thing you *call* does not, so anything with inputs has
     // to show one use. The registry renders one of these as the kit's preview.
@@ -63,30 +62,6 @@ export function getShareConflicts(
         return [new UnexampledShare(definition.share)];
 
     return [];
-}
-
-/**
- * A definition's documentation, or the source's own when the definition is its first
- * statement.
- *
- * Not generosity — #1374: `parseProgram` takes every leading doc as the *program's*, so
- * documentation written for the first definition in a source silently lands one level up
- * and that definition cannot be documented at all. The creator's words are there; only the
- * node they hang from is wrong. Reporting them as undocumented would blame an author for a
- * parser bug. Remove this once #1374 is decided.
- */
-export function docsFor(
-    definition: PublishedShare,
-    source: Source,
-): Docs | undefined {
-    if (!definition.docs.isEmpty()) return definition.docs;
-    const first = source.expression.expression.statements[0];
-    const programDocs = source.expression.docs;
-    return definition === first &&
-        programDocs !== undefined &&
-        !programDocs.isEmpty()
-        ? programDocs
-        : undefined;
 }
 
 function hasExample(docs: Docs): boolean {
@@ -130,11 +105,9 @@ export function kitExports(source: Source): PublishedShare[] {
  * fallback, which is what keeps a kit of plain values from having no preview at all.
  */
 export function kitExamples(source: Source): Example[] {
-    const programDocs = source.expression.docs;
-    const examples = [...examplesIn(programDocs)];
+    const examples = [...examplesIn(source.expression.docs)];
     for (const exported of kitExports(source))
-        if (exported.docs !== programDocs)
-            examples.push(...examplesIn(exported.docs));
+        examples.push(...examplesIn(exported.docs));
     return examples;
 }
 

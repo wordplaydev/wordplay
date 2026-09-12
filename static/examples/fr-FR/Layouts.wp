@@ -2,6 +2,7 @@ K
 Mises en page
 === start
 ¶Des rangées, des piles et des groupes de phrases, chacune prenant des poses animées.¶
+
 palpiter: Séquence(
 		{
 			0%: Pose(échelle: .9)

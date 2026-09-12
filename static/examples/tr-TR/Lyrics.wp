@@ -251,6 +251,7 @@ Sahne(
 )
 === guitar1
 ¶Gitar, 12 sesten 1'i. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 3.5beats)
@@ -1525,6 +1526,7 @@ Parça(
 )
 === guitar2
 ¶Gitar, 12 sesten 2'si. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 32beats)
@@ -1580,6 +1582,7 @@ Parça(
 )
 === guitar3
 ¶Gitar, 12 sesten 3'ü. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 32.25beats)
@@ -1592,6 +1595,7 @@ Parça(
 )
 === guitar4
 ¶Gitar, 12 sesten 4'ü. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 303.25beats)
@@ -1602,6 +1606,7 @@ Parça(
 )
 === violin1
 ¶Yaylılar, 2 sesten 1'i. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 3.5beats)
@@ -1744,6 +1749,7 @@ Parça(
 )
 === guitar5
 ¶Gitar, 12 sesten 5'i. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 4beats)
@@ -1874,6 +1880,7 @@ Parça(
 )
 === guitar6
 ¶Gitar, 12 sesten 6'sı. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 16beats)
@@ -3542,6 +3549,7 @@ Parça(
 )
 === guitar7
 ¶Gitar, 12 sesten 7'si. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 16.25beats)
@@ -3756,6 +3764,7 @@ Parça(
 )
 === guitar8
 ¶Gitar, 12 sesten 8'i. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 17.75beats)
@@ -3816,6 +3825,7 @@ Parça(
 )
 === guitar9
 ¶Gitar, 12 sesten 9'u. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 213.5beats)
@@ -3828,6 +3838,7 @@ Parça(
 )
 === guitar10
 ¶Gitar, 12 sesten 10'u. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 40beats)
@@ -4928,6 +4939,7 @@ Parça(
 )
 === guitar11
 ¶Gitar, 12 sesten 11'i. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 40beats)
@@ -5272,6 +5284,7 @@ Parça(
 )
 === guitar12
 ¶Gitar, 12 sesten 12'si. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 56beats)
@@ -5344,6 +5357,7 @@ Parça(
 )
 === flute1
 ¶Flüt, 1 sesten 1'i. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 64beats)
@@ -5370,6 +5384,7 @@ Parça(
 )
 === violin2
 ¶Yaylılar, 2 sesten 2'si. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 112beats)
@@ -5498,6 +5513,7 @@ Parça(
 )
 === synth1
 ¶Sentezleyici, 2 sesten 1'i. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 292.375beats)
@@ -5624,6 +5640,7 @@ Parça(
 )
 === bass1
 ¶Bas, 2 sesten 1'i. Başlangıç kaynağı onu adıyla ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 47.75beats)
@@ -6396,6 +6413,7 @@ Parça(
 )
 === bass2
 ¶Bas, 2. sesin 2'si. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 252beats)
@@ -6406,6 +6424,7 @@ Parça(
 )
 === drums1
 ¶Davul, 6 sesten 1'i. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 22.75beats)
@@ -7060,6 +7079,7 @@ Parça(
 )
 === drums2
 ¶Davul, 6 sesten 2'si. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 23beats)
@@ -7708,6 +7728,7 @@ Parça(
 )
 === drums3
 ¶Davul, 6 sesten 3'ü. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 23.25beats)
@@ -8236,6 +8257,7 @@ Parça(
 )
 === drums4
 ¶Davul, 6 sesten 4'ü. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 23.5beats)
@@ -8468,6 +8490,7 @@ Parça(
 )
 === drums5
 ¶Davul, 6 sesten 5'i. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 226.25beats)
@@ -8480,6 +8503,7 @@ Parça(
 )
 === drums6
 ¶Davul, 6 sesten 6'sı. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 226.292beats)
@@ -8492,6 +8516,7 @@ Parça(
 )
 === synth2
 ¶Sentezleyici, 2 sesten 2'si. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 298.75beats)
@@ -8502,6 +8527,7 @@ Parça(
 )
 === bell1
 ¶Çan, 10 sesten 1'i. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 299beats)
@@ -8514,6 +8540,7 @@ Parça(
 )
 === bell2
 ¶Çan, 10 sesten 2'si. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 299.25beats)
@@ -8526,6 +8553,7 @@ Parça(
 )
 === bell3
 ¶Çan, 10 sesten 3'ü. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 299.25beats)
@@ -8538,6 +8566,7 @@ Parça(
 )
 === bell4
 ¶Çan, 10 sesten 4'ü. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 299.5beats)
@@ -8548,6 +8577,7 @@ Parça(
 )
 === bell5
 ¶Çan, 10 sesten 5'i. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 299.75beats)
@@ -8558,6 +8588,7 @@ Parça(
 )
 === bell6
 ¶Çan, 10 sesten 6'sı. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 300beats)
@@ -8570,6 +8601,7 @@ Parça(
 )
 === bell7
 ¶Çan, 10 sesten 7'si. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 300.25beats)
@@ -8580,6 +8612,7 @@ Parça(
 )
 === bell8
 ¶Çan, 10 sesten 8'i. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 300.25beats)
@@ -8592,6 +8625,7 @@ Parça(
 )
 === bell9
 ¶Çan, 10 sesten 9'u. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 301.5beats)
@@ -8602,6 +8636,7 @@ Parça(
 )
 === bell10
 ¶Çan, 10 sesten 10'u. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 302.5beats)
@@ -8612,6 +8647,7 @@ Parça(
 )
 === pad1
 ¶Ped, 3 sesten 1'i. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 297.25beats)
@@ -8626,6 +8662,7 @@ Parça(
 )
 === pad2
 ¶Ped, 3 sesten 2'si. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 309.5beats)
@@ -8640,6 +8677,7 @@ Parça(
 )
 === pad3
 ¶Ped, 3 sesten 3'ü. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 348beats)
@@ -8654,6 +8692,7 @@ Parça(
 )
 === sax1
 ¶Boru, 3 sesten 1'i. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 319beats)
@@ -8716,6 +8755,7 @@ Parça(
 )
 === sax2
 ¶Boru, 3 sesten 2'si. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 320beats)
@@ -8756,6 +8796,7 @@ Parça(
 )
 === sax3
 ¶Boru, 3 sesten 3'ü. Başlangıç kaynağı onu ismiyle ödünç alır.¶
+
 Parça(
 	[
 		Nota(ø 39beats)

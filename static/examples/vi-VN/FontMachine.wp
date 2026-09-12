@@ -2,6 +2,7 @@ t
 Máy Phông Chữ
 === start
 ¶Nhấn phím bất kỳ để đổi kiểu chữ của mỗi chữ cái trong từ "typography" sang một phông chữ ngẫu nhiên.¶
+
 phôngChữ: [
 		"Arvo"/en
 		"Modak"/en

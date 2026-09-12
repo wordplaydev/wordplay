@@ -149,6 +149,7 @@
 )
 === years/en
 ¶미국 컴퓨터 및 정보 과학 학사 학위 중 여성이 받은 비율을 연도별로 나타내며, 여성의 수와 전체 학위 수도 함께 보여줍니다. 출처: National Center for Education Statistics, Digest of Education Statistics, Table 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡연도2•'' 여성•# 합계•# 퍼센트•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -164,6 +165,7 @@
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶2018년 무렵 미국 학사 학위 중 여성이 받은 비율을 학문 분야별로 나타내며, 비율이 높은 순서부터 낮은 순서로 정렬했습니다. 출처: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡필드•'' 퍼센트2•#⎦
 ⎡'심리학' 72⎦
 ⎡'생물학' 60⎦

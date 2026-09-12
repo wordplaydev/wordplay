@@ -2,6 +2,7 @@ t
 Mesin Font
 === start
 ¶Tekan tombol apa saja untuk mengatur ulang setiap huruf dari "typography" dengan font acak.¶
+
 font2: [
 		"Arvo"/en
 		"Modak"/en

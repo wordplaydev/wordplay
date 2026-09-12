@@ -2,6 +2,7 @@ H
 LongitudDeOración
 ===
 ¶Escribe en la barra de chat y cuenta los caracteres de tu oración.¶
+
 oración: Charla()
 longitud2: Charla().longitud()
 

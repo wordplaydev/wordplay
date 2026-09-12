@@ -2,6 +2,7 @@ K
 Tata Letak
 === start
 ¶Baris, tumpukan, dan kelompok frasa, masing-masing membentuk pose animasi.¶
+
 berdenyut: Urutan(
 		{
 			0%: Pose(skala: .9)

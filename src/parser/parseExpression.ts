@@ -115,8 +115,11 @@ export function parseBlock(
 ): Block {
     const root = kind === BlockKind.Root;
 
-    // Grab any documentation if this isn't a root.
-    const docs = !doc && tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
+    // Grab any documentation if this isn't a root. A root block never has its own
+    // docs: a source's leading doc is the program's or the first statement's (#1374),
+    // and taking it here is what used to strand a second leading doc group in between.
+    const docs =
+        !doc && !root && tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
 
     const open = root
         ? undefined
@@ -1123,8 +1126,13 @@ export function nextAreOptionalDocsThen(
     const rollbackToken = tokens.peek();
     if (rollbackToken === undefined) return false;
 
+    // A doc parse can split a token (`Tokens.injectNext`), which unreading cannot undo,
+    // so roll back with a snapshot — but take one only when there is a doc to parse,
+    // since this is asked of every statement and a snapshot copies the whole list.
+    const snapshot = tokens.nextIs(Sym.Doc) ? tokens.snapshot() : undefined;
+
     // We don't actually care what the docs are or if there are any.
-    if (tokens.nextIs(Sym.Doc)) parseDocs(tokens);
+    if (snapshot !== undefined) parseDocs(tokens);
 
     // Is the next the type?
     let matches = true;
@@ -1139,7 +1147,8 @@ export function nextAreOptionalDocsThen(
     );
 
     // Rollback
-    tokens.unreadTo(rollbackToken);
+    if (snapshot !== undefined) tokens.restore(snapshot);
+    else tokens.unreadTo(rollbackToken);
 
     // It's a bind if it has a name and a bind symbol.
     return matches;

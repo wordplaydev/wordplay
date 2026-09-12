@@ -2,6 +2,7 @@
 Écho
 === start
 ¶Ce que le public tape dans la barre de discussion devient cette phrase.¶
+
 message: Chat()
 
 ¶Commence avec un message, puis répète chaque nouveau message. Le texte se transforme des anciens mots vers les nouveaux, lettre par lettre.¶

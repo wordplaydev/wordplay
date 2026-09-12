@@ -2,6 +2,7 @@ m
 Mumble
 === start
 ¶Tiếp tục bấm để làm cho tiếng lẩm bẩm đậm hơn.¶
+
 lầnBấm•#: 0 … ∆ Cáinút() … lầnBấm + 1
 
 lầnBấm < 3 ?

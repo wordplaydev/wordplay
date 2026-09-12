@@ -2,6 +2,7 @@ t
 Makinang Font
 === start
 ¶Pindutin ang kahit anong susi para baguhin ang font ng bawat letra ng "typography" sa random na font.¶
+
 mgaFont: [
 		"Arvo"/en
 		"Modak"/en

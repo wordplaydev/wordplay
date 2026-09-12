@@ -2,6 +2,7 @@ m
 Murmurar
 === start
 ¶Sigue haciendo clic para que el murmullo se vuelva más intenso.¶
+
 clics•#: 0 … ∆ Botón() … clics + 1
 
 clics < 3 ?
