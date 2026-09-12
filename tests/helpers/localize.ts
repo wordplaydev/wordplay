@@ -51,6 +51,57 @@ export async function localizeOn(page: Page) {
     await settled(page);
 }
 
+/**
+ * Wait until a saved locale edit has actually reached IndexedDB.
+ *
+ * `saveLocaleEdit` updates the `localeEdits` store synchronously so the UI reacts at once, and
+ * does not await the Dexie write behind it. The workspace hydrates from IndexedDB on load, so a
+ * full navigation started before that write commits drops the edit — and asserting that the edit
+ * shows in place proves nothing, because the store has already updated while the row is still in
+ * flight. Poll for the durable row instead, before leaving the page that made the edit.
+ */
+export async function editPersisted(page: Page, editPath: string) {
+    await expect
+        .poll(
+            () =>
+                page.evaluate(
+                    (wanted) =>
+                        new Promise<boolean>((resolve) => {
+                            const request = indexedDB.open(
+                                'wordplay-localization',
+                            );
+                            request.onerror = () => resolve(false);
+                            request.onsuccess = () => {
+                                const db = request.result;
+                                if (!db.objectStoreNames.contains('edits'))
+                                    return resolve(false);
+                                const rows = db
+                                    .transaction('edits', 'readonly')
+                                    .objectStore('edits')
+                                    .getAll();
+                                rows.onerror = () => resolve(false);
+                                rows.onsuccess = () => {
+                                    const result: unknown = rows.result;
+                                    resolve(
+                                        Array.isArray(result) &&
+                                            result.some(
+                                                (row) =>
+                                                    typeof row === 'object' &&
+                                                    row !== null &&
+                                                    'path' in row &&
+                                                    row.path === wanted,
+                                            ),
+                                    );
+                                };
+                            };
+                        }),
+                    editPath,
+                ),
+            { timeout: 10000 },
+        )
+        .toBe(true);
+}
+
 /** Turn the mode off if it's on, so a following test starts from the plain UI. */
 export async function localizeOff(page: Page) {
     const leave = localizeButton(page, 'on');
