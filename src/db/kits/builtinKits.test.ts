@@ -323,4 +323,9 @@ test.each(BuiltinKits)(
         }
         expect(lists, 'no list export was actually called').toBeGreaterThan(0);
     },
+    // Parses a kit, resolves a real borrow, and evaluates a real call, which for
+    // instruments — nineteen of them, 996 lines — is ~2s unloaded. The default 5s left
+    // too little headroom for a CI runner sharing cores between four workers, where this
+    // timed out while passing every time locally.
+    30000,
 );
