@@ -5,6 +5,10 @@ import type {
     ReportOutput,
     ReportSubjectKind,
 } from 'shared-types';
+// The value comes from the relative path rather than from `shared-types`, whose
+// `main` names a file the source package doesn't have — the same split
+// `notices.ts` makes for `MAX_NOTICES`.
+import { ReportSubjectKinds } from './shared/index.js';
 import { forgetMessageTranslations } from './chatTranslations.js';
 import getResponsibility from './responsibility.js';
 import reportId from './reportId.js';
@@ -198,13 +202,7 @@ export default async function report(
 }
 
 function isKind(kind: unknown): kind is ReportSubjectKind {
-    return (
-        kind === 'project' ||
-        kind === 'gallery' ||
-        kind === 'howto' ||
-        kind === 'chat' ||
-        kind === 'kit'
-    );
+    return ReportSubjectKinds.some((k) => k === kind);
 }
 
 /**
