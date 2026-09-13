@@ -5,6 +5,12 @@
  * single-locale run (start.ts only loads/writes its own locale), so there's no
  * shared state and one locale failing can't take down the others.
  *
+ * The one exception is kits, which every locale appends into one shared source, so
+ * they run after the parallel phase in a single child covering all of the batch's
+ * locales (`planChildren`). That child processes locales in sequence, and start.ts
+ * reports and continues past a locale that throws, so a failure there still costs
+ * only the locale it happened in.
+ *
  * Gated to translating only — `override` / `translate`, never verify/fix/ci.
  *
  * Usage:
@@ -65,6 +71,42 @@ export function splitKitPhase(flags: string[]): {
     // phase and give them their own.
     if (flags.includes('-kit')) return { parallel: flags, serial: undefined };
     return { parallel: [...flags, '-kit'], serial: ['+kit'] };
+}
+
+/** One child `start.ts` process: the locales it covers, the flags it carries, and
+ *  the name the status board and its finished block go under. */
+export type Child = { label: string; locales: string[]; flags: string[] };
+
+/**
+ * Every child a batch will spawn: the parallel ones, one locale each, and the serial
+ * kit child covering **all** of the batch's locales in a single process.
+ *
+ * Kits must be serialized — a kit is one shared source every locale appends into — but
+ * that never needed a process per locale. One child instead of N saves N-1 tsx startups
+ * and N-1 loads of the locale set, which is nearly all of what the phase cost once a
+ * `+kit` run stopped re-verifying everything else (see `stepsFor`).
+ *
+ * `locales` is the batch's own list, never every locale directory: translating a kit
+ * into a locale nobody asked for costs money.
+ */
+export function planChildren(
+    locales: string[],
+    phases: ReturnType<typeof splitKitPhase>,
+): { parallel: Child[]; serial: Child | undefined } {
+    return {
+        parallel:
+            phases.parallel === undefined
+                ? []
+                : locales.map((locale) => ({
+                      label: locale,
+                      locales: [locale],
+                      flags: phases.parallel as string[],
+                  })),
+        serial:
+            phases.serial === undefined
+                ? undefined
+                : { label: 'kits', locales, flags: phases.serial },
+    };
 }
 
 export type BatchArgs = {
@@ -318,14 +360,13 @@ class StatusBoard {
     }
 }
 
-/** Run one locale as a child `start.ts` process, buffering its output so the
- *  whole run prints as one contiguous block, and resolving with its exit code
+/** Run one child `start.ts` process over `child.locales`, buffering its output so
+ *  the whole run prints as one contiguous block, and resolving with its exit code
  *  (never rejecting, so one failure doesn't abort the pool). Inherits env
  *  (WORDPLAY_TRANSLATOR, ANTHROPIC_API_KEY). */
-function runLocale(
+function runChild(
     command: BatchCommand,
-    locale: string,
-    flags: string[],
+    child: Child,
     env: NodeJS.ProcessEnv,
     symbols: Symbols,
     board: StatusBoard | undefined,
@@ -334,6 +375,7 @@ function runLocale(
      *  so the batch can sum tokens and cost across locales. */
     onUsage?: (usage: TranslatorUsage[]) => void,
 ): Promise<LocaleResult> {
+    const { label: locale, flags } = child;
     return new Promise((resolve) => {
         const startedAt = Date.now();
         const buffered: string[] = [];
@@ -369,23 +411,23 @@ function runLocale(
             resolve(result);
         };
 
-        const child = spawn(
+        const process_ = spawn(
             'npx',
             [
                 'tsx',
                 'src/util/verify-locales/start.ts',
                 command,
-                locale,
+                ...child.locales,
                 ...flags,
             ],
             // The board owns the terminal, so a child must never be able to
             // block reading stdin.
             { env, stdio: ['ignore', 'pipe', 'pipe'] },
         );
-        child.stdout.on('data', collector.write);
-        child.stderr.on('data', collector.write);
-        child.on('close', (code) => done(code ?? 1));
-        child.on('error', (error) => {
+        process_.stdout.on('data', collector.write);
+        process_.stderr.on('data', collector.write);
+        process_.on('close', (code) => done(code ?? 1));
+        process_.on('error', (error) => {
             buffered.push(`failed to start: ${error}`);
             done(1);
         });
@@ -424,9 +466,13 @@ async function main(): Promise<void> {
     );
 
     const startedAt = Date.now();
+    const phases = splitKitPhase(parsed.flags);
+    const plan = planChildren(locales, phases);
+    const childCount =
+        plan.parallel.length + (plan.serial === undefined ? 0 : 1);
     const board =
         process.stdout.isTTY === true
-            ? new StatusBoard(startedAt, locales.length)
+            ? new StatusBoard(startedAt, childCount)
             : undefined;
     // The board owns the terminal when it exists, so every write goes through
     // it; otherwise straight to stdout.
@@ -446,31 +492,25 @@ async function main(): Promise<void> {
     // Usage reported by each child, summed at the end so a batch reports one
     // total token/cost figure rather than 29 scattered ones.
     const usage: TranslatorUsage[] = [];
-    const phases = splitKitPhase(parsed.flags);
-    const run = (flags: string[], jobs: number) =>
-        runPool(locales, jobs, (locale) => {
-            if (board !== undefined) board.queued--;
-            return runLocale(
-                parsed.command,
-                locale,
-                flags,
-                env,
-                symbols,
-                board,
-                emit,
-                (childUsage) => usage.push(...childUsage),
-            );
-        });
+    const run = (child: Child) => {
+        if (board !== undefined) board.queued--;
+        return runChild(
+            parsed.command,
+            child,
+            env,
+            symbols,
+            board,
+            emit,
+            (childUsage) => usage.push(...childUsage),
+        );
+    };
 
-    const results =
-        phases.parallel === undefined
-            ? []
-            : await run(phases.parallel, parsed.jobs);
-    // One locale at a time, and only after the parallel phase: see `splitKitPhase`.
-    if (phases.serial !== undefined) {
-        if (board !== undefined) board.queued += locales.length;
-        results.push(...(await run(phases.serial, 1)));
-    }
+    const results = await runPool(plan.parallel, parsed.jobs, run);
+    // One child, alone, and only after the parallel phase: see `splitKitPhase` for why
+    // kit writes are serialized, and `planChildren` for why that is one process rather
+    // than one per locale. Every result is a distinct child, so the summary below counts
+    // each once — it used to push N locales twice and report `2N ok`.
+    if (plan.serial !== undefined) results.push(await run(plan.serial));
     board?.stop();
 
     const failed = results.filter((r) => r.code !== 0);

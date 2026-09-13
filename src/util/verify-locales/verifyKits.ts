@@ -120,6 +120,13 @@ export async function verifyKits(
     // Read from disk rather than from `builtins.ts`'s manifest: that module imports each
     // source with Vite's `?raw`, which this CLI's tsx runtime cannot resolve.
     // `builtinKits.test.ts` already asserts the two agree.
+    //
+    // Re-read per locale rather than caching the parse across a multi-locale run. The
+    // write below is what makes each locale's work durable, so disk is the authority,
+    // and re-reading makes read-after-write correct by construction instead of something
+    // to keep reasoning about. The re-parse also catches a write that produced
+    // unparsable `.wp` on the very next locale rather than at the end of the run, and it
+    // costs ~0.3s against a phase measured in seconds.
     for (const name of fs.existsSync(KitsRoot)
         ? fs
               .readdirSync(KitsRoot, { withFileTypes: true })
@@ -223,7 +230,12 @@ export async function verifyKits(
             if (apply) {
                 // The header names stay verbatim, the rule `translateExampleFile` follows:
                 // nothing resolves a kit by its source's name.
-                writeFormatted(
+                //
+                // Awaited, so the write is on disk before the next kit — and before the
+                // next locale, since a run covers several. Unawaited, a failing write
+                // became an unhandled rejection outside the Log/exit-code discipline and
+                // the line below claimed success regardless.
+                await writeFormatted(
                     file,
                     serializeBuiltinKitSource(glyph, names, translated.code),
                 );

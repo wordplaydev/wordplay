@@ -82,6 +82,8 @@ import writeFormatted from '@util/verify-locales/writeFormatted';
 import {
     localePrefixMatches,
     parseCategorySelection,
+    parsePositionals,
+    stepsFor,
     type Selection,
 } from '@util/verify-locales/contentCategories';
 
@@ -137,10 +139,17 @@ const selection: Selection =
         ? log.exit(selectionResult)
         : selectionResult;
 
-// The focal locale is the first positional that isn't a +/- category flag
-// (so `translate -quick zh-CN` and `translate zh-CN -quick` both work).
-const FocalLocale =
-    process.argv.slice(3).find((arg) => !selection.flags.includes(arg)) ?? null;
+// The locales this run names: every positional that isn't a +/- category flag (so
+// `translate -quick zh-CN` and `translate zh-CN -quick` both work). Empty means every
+// locale, and only such a run takes the cross-locale steps after the loop below —
+// batch.ts's children each name locales, and several of them rewriting one shared
+// artifact at once would race.
+//
+// Several are allowed because the batch's kit phase is a single child covering all of
+// its locales: kit writes must be serialized, but that never needed a process each.
+const positionals = parsePositionals(process.argv.slice(3));
+const FocalLocales: string[] =
+    typeof positionals === 'string' ? log.exit(positionals) : positionals;
 
 // A path predicate for the `+locale:<prefix>` scope (empty = all locale strings).
 const localePrefixes = selection.localePrefixes();
@@ -150,17 +159,32 @@ const localeFilter = (path: LocalePath): boolean =>
         localePrefixMatches(path.toString(), prefix),
     );
 
-const FocalLanguage = FocalLocale ? getLocaleLanguage(FocalLocale) : null;
-const FocalRegion = FocalLocale
-    ? (getLocaleRegions(FocalLocale).at(0) ?? null)
+// Which steps this run does at all. A `-` flag scopes only translation, so this is
+// all-true for a no-flag or `-`-only run; a `+` flag scopes the whole step, so a
+// kits-only child doesn't re-verify the locale file, both tutorials, and 75 examples
+// the run's other children already did. See `stepsFor` for the per-step reasoning.
+const steps = stepsFor(selection);
+
+// Creating a locale folder from scratch is inherently about one locale, so that branch
+// (and only it) reads these. A multi-locale run never bootstraps.
+const NewLocale = FocalLocales.length === 1 ? FocalLocales[0] : null;
+const NewLanguage = NewLocale ? getLocaleLanguage(NewLocale) : null;
+const NewRegion = NewLocale
+    ? (getLocaleRegions(NewLocale).at(0) ?? null)
     : null;
 
-if (FocalLanguage === undefined)
-    log.exit('Please provide a valid locale language code to translate');
+for (const named of FocalLocales)
+    if (getLocaleLanguage(named) === undefined)
+        log.exit(
+            `"${named}" isn't a valid locale language code. Please provide one to translate.`,
+        );
 
 log.say(
     TranslationRequested
-        ? 'Verifying and translating ' + (FocalLocale ?? 'all locales')
+        ? 'Verifying and translating ' +
+              (FocalLocales.length === 0
+                  ? 'all locales'
+                  : FocalLocales.join(', '))
         : 'Checking all locale files for problems',
 );
 
@@ -196,67 +220,77 @@ async function handleLocale(
 ): Promise<LocaleText> {
     const locale = toLocaleString(localeText);
 
-    // Validate, repair, and translate the locale file.
-    const localeFileLog = localeLog.scope('Locale file');
-    const [revisedLocale, localeChanged] = await verifyLocale(
-        localeFileLog,
-        locale,
-        localeText as LocaleText,
-        FixRequested,
-        // Verification always runs; translate only if `locale` is in scope.
-        TranslationRequested && selection.isIncluded('locale'),
-        OverrideMachineTranslations,
-        revisedStrings,
-        globals,
-        translatedPaths,
-        localeFilter,
-        translator,
-        // Persist progress partway through translation. A new locale is over an
-        // hour of paid work that used to reach disk only at the end, so a killed
-        // run lost all of it; a checkpointed string carries `$~` and is skipped
-        // on the next run, so what landed stays bought.
-        async (partial) => {
-            if (
-                await writeFormatted(
-                    getLocalePath(locale),
-                    JSON.stringify(partial, null, 4),
+    // The locale as this run leaves it: the repairs and glossary links below, when
+    // `locale` is in scope, and otherwise exactly what was loaded from disk. Every
+    // consumer downstream reads it as prompt and name context, not as "the result of
+    // this run", and each already tolerates a pre-repair locale — that is what a first
+    // run hands them.
+    let linkedLocale: LocaleText = localeText;
+
+    if (steps.locale) {
+        // Validate, repair, and translate the locale file.
+        const localeFileLog = localeLog.scope('Locale file');
+        const [revisedLocale, localeChanged] = await verifyLocale(
+            localeFileLog,
+            locale,
+            localeText as LocaleText,
+            FixRequested,
+            // Verification always runs; translate only if `locale` is in scope.
+            TranslationRequested && selection.isIncluded('locale'),
+            OverrideMachineTranslations,
+            revisedStrings,
+            globals,
+            translatedPaths,
+            localeFilter,
+            translator,
+            // Persist progress partway through translation. A new locale is over an
+            // hour of paid work that used to reach disk only at the end, so a killed
+            // run lost all of it; a checkpointed string carries `$~` and is skipped
+            // on the next run, so what landed stays bought.
+            async (partial) => {
+                if (
+                    await writeFormatted(
+                        getLocalePath(locale),
+                        JSON.stringify(partial, null, 4),
+                    )
                 )
-            )
-                localeFileLog.good('Saved progress');
-        },
-    );
-
-    // Introduce a glossary word the first time a doc uses it (#960), on the same
-    // terms as the tutorial below: deterministic, per locale, and free of
-    // re-translation. A concept's doc is what the annotations panel quotes when
-    // the caret is on a node, so this is what carries the definitions into the
-    // editor's inspector.
-    let linkedLocale = revisedLocale;
-    let localeLinked = false;
-    {
-        const { locale: linked, changes } = linkGlossaryInLocale(revisedLocale);
-        if (changes.length > 0) {
-            if (FixRequested || TranslationRequested) {
-                linkedLocale = linked;
-                localeLinked = true;
-                localeFileLog.good(
-                    `Linked ${changes.reduce((sum, change) => sum + change.ids.length, 0)} glossary term(s) at first use`,
-                );
-            } else
-                for (const change of changes)
-                    localeFileLog.warning(
-                        `${change.where} uses ${change.ids.map((id) => `"${id}"`).join(', ')} without linking it; run locales-fix to introduce it there`,
-                    );
-        }
-    }
-
-    // If the locale was revised, write the results (Prettier-formatted).
-    if (localeChanged || localeIsNew || localeLinked) {
-        localeFileLog.good('Saved repairs');
-        await writeFormatted(
-            getLocalePath(locale),
-            JSON.stringify(linkedLocale, null, 4),
+                    localeFileLog.good('Saved progress');
+            },
         );
+
+        // Introduce a glossary word the first time a doc uses it (#960), on the same
+        // terms as the tutorial below: deterministic, per locale, and free of
+        // re-translation. A concept's doc is what the annotations panel quotes when
+        // the caret is on a node, so this is what carries the definitions into the
+        // editor's inspector.
+        let localeLinked = false;
+        linkedLocale = revisedLocale;
+        {
+            const { locale: linked, changes } =
+                linkGlossaryInLocale(revisedLocale);
+            if (changes.length > 0) {
+                if (FixRequested || TranslationRequested) {
+                    linkedLocale = linked;
+                    localeLinked = true;
+                    localeFileLog.good(
+                        `Linked ${changes.reduce((sum, change) => sum + change.ids.length, 0)} glossary term(s) at first use`,
+                    );
+                } else
+                    for (const change of changes)
+                        localeFileLog.warning(
+                            `${change.where} uses ${change.ids.map((id) => `"${id}"`).join(', ')} without linking it; run locales-fix to introduce it there`,
+                        );
+            }
+        }
+
+        // If the locale was revised, write the results (Prettier-formatted).
+        if (localeChanged || localeIsNew || localeLinked) {
+            localeFileLog.good('Saved repairs');
+            await writeFormatted(
+                getLocalePath(locale),
+                JSON.stringify(linkedLocale, null, 4),
+            );
+        }
     }
 
     // Each mode's tutorial, kept so the glossary-usage check below can look for a
@@ -265,6 +299,10 @@ async function handleLocale(
 
     // Verify (and, for translate-enabled modes, optionally translate) each tutorial mode's file.
     for (const mode of TutorialModes) {
+        // The quick tutorial is its own category; every other mode is `tutorial`.
+        const category = mode === 'quick' ? 'quick' : 'tutorial';
+        if (!(category === 'quick' ? steps.quick : steps.tutorial)) continue;
+
         const modeLog = localeLog.scope(`${mode} tutorial`);
 
         // Modes not in the translation pipeline are still verified, but never created or translated
@@ -289,20 +327,27 @@ async function handleLocale(
                     modeLog.bad(`This locale doesn't have a tutorial file.`);
                 // If a translation was requested and it was a valid langauge and region,
                 // copy the default tutorial, mark all of its text unwritten, and then translate it.
-                else if (FocalLanguage && FocalRegion) {
+                // The locale file is the authority on its own language and regions;
+                // `FocalLocales.length > 0` is what preserves today's semantics — a
+                // run that named no locale has never created tutorial files, and
+                // dropping the term would start machine-translating one for every
+                // locale that lacks it.
+                else if (
+                    FocalLocales.length > 0 &&
+                    localeText.language &&
+                    localeText.regions.at(0)
+                ) {
                     modeLog.pending(
                         'Creating a new tutorial for this locale based on en-US',
                     );
                     currentTutorial = createUnwrittenTutorial(mode);
-                    currentTutorial.regions = [FocalRegion];
-                    currentTutorial.language = FocalLanguage;
+                    currentTutorial.regions = localeText.regions;
+                    currentTutorial.language = localeText.language;
                     tutorialIsNew = true;
                 }
             }
         }
 
-        // The quick tutorial is its own category; every other mode is `tutorial`.
-        const category = mode === 'quick' ? 'quick' : 'tutorial';
         const targets =
             mode === 'quick'
                 ? selection.quickTargets()
@@ -414,7 +459,7 @@ async function handleLocale(
     // can reach, since a `@term` only explains a word where the word is written.
     // Here rather than in `verifyLocale`, which has only the locale file: a term
     // is used in the lessons as much as in the documentation.
-    if (locale !== SourceLocale)
+    if (locale !== SourceLocale && steps.glossaryUsage)
         checkGlossaryWordUsage(
             localeLog.scope('Glossary'),
             DefaultLocale,
@@ -428,84 +473,89 @@ async function handleLocale(
 
     // Verify and optionally translate how-to content (translate only if `howto`
     // is in scope, narrowed to any +howto:<id> targets).
-    await verifyHowTo(
-        localeLog.scope('How-tos'),
-        locale,
-        localeText.language,
-        localeText.regions,
-        TranslationRequested && selection.isIncluded('howto'),
-        OverrideMachineTranslations,
-        selection.howtoIds(),
-        translator,
-        // The revised locale, not the one loaded at startup: how-tos retarget
-        // example references against names this run may have just translated.
-        linkedLocale,
-        FixRequested || TranslationRequested,
-    );
+    if (steps.howto)
+        await verifyHowTo(
+            localeLog.scope('How-tos'),
+            locale,
+            localeText.language,
+            localeText.regions,
+            TranslationRequested && selection.isIncluded('howto'),
+            OverrideMachineTranslations,
+            selection.howtoIds(),
+            translator,
+            // The revised locale, not the one loaded at startup: how-tos retarget
+            // example references against names this run may have just translated.
+            linkedLocale,
+            FixRequested || TranslationRequested,
+        );
 
     // Regenerate the per-locale how-to bundle the runtime loads. Only fix/translate
     // runs write it; verify reports a stale bundle instead of rewriting it.
-    await buildHowToBundle(
-        localeLog.scope('How-to bundle'),
-        locale,
-        FixRequested || TranslationRequested,
-        localeText,
-    );
+    if (steps.howto)
+        await buildHowToBundle(
+            localeLog.scope('How-to bundle'),
+            locale,
+            FixRequested || TranslationRequested,
+            localeText,
+        );
 
     // Verify and optionally translate the gallery examples (#1310). Opt-in per
     // locale — only locales with a static/examples/<locale>/ directory
     // participate, and an explicit `+example` flag opts one in — so a bare
     // translate run doesn't silently buy 75 files for every draft locale.
-    await verifyExamples(
-        localeLog.scope('Examples'),
-        locale,
-        localeText.language,
-        localeText.regions,
-        TranslationRequested && selection.isIncluded('example'),
-        OverrideMachineTranslations,
-        selection.exampleIds(),
-        translator,
-        // The revised locale: examples retarget names this run may have just
-        // translated, the same reason how-tos take it.
-        linkedLocale,
-        FixRequested || TranslationRequested,
-        selection.isExplicitlyIncluded('example'),
-    );
+    if (steps.example)
+        await verifyExamples(
+            localeLog.scope('Examples'),
+            locale,
+            localeText.language,
+            localeText.regions,
+            TranslationRequested && selection.isIncluded('example'),
+            OverrideMachineTranslations,
+            selection.exampleIds(),
+            translator,
+            // The revised locale: examples retarget names this run may have just
+            // translated, the same reason how-tos take it.
+            linkedLocale,
+            FixRequested || TranslationRequested,
+            selection.isExplicitlyIncluded('example'),
+        );
 
     // The kits Wordplay ships with (#8). Unlike an example, a kit is localized *in
     // place* — every language lives in the one source, because a kit is referenced by
     // name from other people's programs.
-    await verifyKits(
-        localeLog.scope('Kits'),
-        locale,
-        localeText.language,
-        localeText.regions,
-        TranslationRequested && selection.isIncluded('kit'),
-        selection.kitIds(),
-        translator,
-        linkedLocale,
-        FixRequested || TranslationRequested,
-        OverrideMachineTranslations,
-    );
+    if (steps.kit)
+        await verifyKits(
+            localeLog.scope('Kits'),
+            locale,
+            localeText.language,
+            localeText.regions,
+            TranslationRequested && selection.isIncluded('kit'),
+            selection.kitIds(),
+            translator,
+            linkedLocale,
+            FixRequested || TranslationRequested,
+            OverrideMachineTranslations,
+        );
 
     // Verify and optionally translate the changelog entries the updates page
     // renders (#1164). Translations are keyed by a hash of each entry's English,
     // so a run pays only for entries it has never seen — which is what makes a
     // page that grows by a few bullets a day affordable to keep in 29 languages.
-    await verifyChangelog(
-        localeLog.scope('Updates'),
-        locale,
-        localeText.language,
-        localeText.regions,
-        TranslationRequested && selection.isIncluded('changelog'),
-        OverrideMachineTranslations,
-        selection.changelogVersions(),
-        translator,
-        // The revised locale, for the same reason how-tos take it: the system
-        // prompt carries this locale's own conventions and glossary.
-        linkedLocale,
-        FixRequested || TranslationRequested,
-    );
+    if (steps.changelog)
+        await verifyChangelog(
+            localeLog.scope('Updates'),
+            locale,
+            localeText.language,
+            localeText.regions,
+            TranslationRequested && selection.isIncluded('changelog'),
+            OverrideMachineTranslations,
+            selection.changelogVersions(),
+            translator,
+            // The revised locale, for the same reason how-tos take it: the system
+            // prompt carries this locale's own conventions and glossary.
+            linkedLocale,
+            FixRequested || TranslationRequested,
+        );
 
     // Generate this locale's emoji translations as part of a translate/override
     // run, so a new/updated locale gets its `{locale}-emojis.json` without a
@@ -519,12 +569,13 @@ async function handleLocale(
     // catches missing, malformed, stale, or core-desynced data; fix runs and
     // translate/override runs (when `datetimes` is in scope) repair problems by
     // regenerating, which is deterministic and so always safe.
-    await verifyDateTimes(
-        localeLog.scope('Date/time'),
-        locale,
-        FixRequested ||
-            (TranslationRequested && selection.isIncluded('datetimes')),
-    );
+    if (steps.datetimes)
+        await verifyDateTimes(
+            localeLog.scope('Date/time'),
+            locale,
+            FixRequested ||
+                (TranslationRequested && selection.isIncluded('datetimes')),
+        );
 
     // Hand the revision back so the caller can keep its in-memory locale set
     // current: the artifact generators after the locale loop (names.json, choose
@@ -557,15 +608,15 @@ const textByLocale: Record<string, LocaleText> = {};
 for (const file of localeFolders) {
     if (
         file.isDirectory() &&
-        (FocalLocale === null || file.name === FocalLocale)
+        (FocalLocales.length === 0 || FocalLocales.includes(file.name))
     ) {
         const locale = file.name;
 
         // Get the currrent locale file in this directory.
         let localeText = getLocaleJSON(log, locale) as LocaleText;
         if (localeText === undefined) {
-            // Not verifying a specific locale? Warn.
-            if (FocalLocale === null) {
+            // Not verifying specific locales? Warn.
+            if (FocalLocales.length === 0) {
                 // Exit non-zero: this reported an error and then exited 0, so a
                 // missing locale passed CI silently.
                 log.bad(
@@ -646,18 +697,30 @@ if (sourceLocaleText !== undefined) {
 // these paths so a future run doesn't redundantly re-translate them.
 const translatedPaths = new Set<string>();
 
-// Go through each locale, or the specific one of interest, and verify, repair, and optionally translate it.
+// Go through each locale, or the specific ones of interest, and verify, repair, and optionally translate it.
 // Keep the revised text, so the artifact generators below build from what was just written.
+//
+// One locale's exception must not cost the rest: a run can be an hour and a half of paid
+// work, and the batch's kit phase is now a single child covering every locale, so
+// aborting here would take down what it hasn't reached yet. Reported and then continued;
+// the error count below still makes the run exit non-zero.
 for (let index = 0; index < allLocaleText.length; index++) {
     const localeText = allLocaleText[index];
-    allLocaleText[index] = await handleLocale(
-        log.scope(`Checking ${toLocaleString(localeText)}`),
-        localeText,
-        revisedStrings,
-        false,
-        globals,
-        translatedPaths,
-    );
+    const localeLog = log.scope(`Checking ${toLocaleString(localeText)}`);
+    try {
+        allLocaleText[index] = await handleLocale(
+            localeLog,
+            localeText,
+            revisedStrings,
+            false,
+            globals,
+            translatedPaths,
+        );
+    } catch (error) {
+        localeLog.bad(
+            `Failed: ${error instanceof Error ? (error.stack ?? error.message) : String(error)}`,
+        );
+    }
 }
 
 // If we translated successfully, drop the `$!` markers from the en-US source
@@ -672,7 +735,13 @@ for (let index = 0; index < allLocaleText.length; index++) {
 // its children, and they run concurrently — several of them rewriting this one
 // shared file at once would race. The markers stay put; clear them after the
 // batch by running the verifier and confirming every locale is clean.
-if (TranslationRequested && FocalLocale === null && translatedPaths.size > 0) {
+// No `steps` term needed: `translatedPaths` is only populated by `verifyLocale`, so a
+// run that narrowed `locale` out has an empty set and this branch can't fire.
+if (
+    TranslationRequested &&
+    FocalLocales.length === 0 &&
+    translatedPaths.size > 0
+) {
     const enUSLocale = 'en-US';
     const enUSPath = getLocalePath(enUSLocale);
     const enUSText = getLocaleJSON(log, enUSLocale) as LocaleText;
@@ -706,11 +775,11 @@ if (TranslationRequested && FocalLocale === null && translatedPaths.size > 0) {
     }
 } else if (
     TranslationRequested &&
-    FocalLocale !== null &&
+    FocalLocales.length > 0 &&
     revisedStrings.length > 0
 ) {
     log.say(
-        `Translated ${revisedStrings.length} revised en-US string(s) into ${FocalLocale}. Their "$!" markers stay in en-US until every locale is done; clear them once "npm run locales" is clean.`,
+        `Translated ${revisedStrings.length} revised en-US string(s) into ${FocalLocales.join(', ')}. Their "$!" markers stay in en-US until every locale is done; clear them once "npm run locales" is clean.`,
     );
 }
 
@@ -719,7 +788,7 @@ if (TranslationRequested && FocalLocale === null && translatedPaths.size > 0) {
 // point, about a second — so it can run on every verify, including the watch-mode
 // one, instead of waiting for CI. The full history census stays in
 // `npm run locales-drift`, which is far too slow to run on every save.
-if (FocalLocale === null) {
+if (FocalLocales.length === 0 && steps.drift) {
     const base = getDriftBase();
     if (base !== undefined && sourceLocaleText !== undefined) {
         const driftLog = log.scope('Drift from en-US');
@@ -799,7 +868,7 @@ if (FocalLocale === null) {
 // Build the word → locale index the languages dialog uses to find languages a project needs
 // but doesn't declare (#1246). It reads every locale's basis, so it can only be built on a
 // full run; a focal run leaves the committed artifact alone.
-if (FocalLocale === null) {
+if (FocalLocales.length === 0 && steps.artifacts) {
     await generateNameIndex(
         log.scope('Language name index'),
         allLocaleText,
@@ -809,7 +878,7 @@ if (FocalLocale === null) {
 
 // Lift each locale's "choose a language" phrase into a bundled table, so the first-run
 // prompt can greet a visitor in their own language without fetching every locale (#1256).
-if (FocalLocale === null) {
+if (FocalLocales.length === 0 && steps.artifacts) {
     await generateChoosePrompts(
         log.scope('Language prompts'),
         allLocaleText,
@@ -819,7 +888,7 @@ if (FocalLocale === null) {
 
 // Build one web app manifest per locale, so an installed Wordplay is named and
 // described in the language it was installed from (#564).
-if (FocalLocale === null) {
+if (FocalLocales.length === 0 && steps.artifacts) {
     await generateManifests(
         log.scope('App manifests'),
         allLocaleText,
@@ -831,7 +900,7 @@ if (FocalLocale === null) {
 // only candidates — see ALWAYS_USED_PREFIXES in findUnusedKeys.ts for sections
 // excluded because they're read via runtime-computed keys. Warning, not bad:
 // false positives here would delete real translations if treated as errors.
-if (FocalLocale === null) {
+if (FocalLocales.length === 0 && steps.artifacts) {
     const unused = findUnusedKeys(DefaultLocale, 'src');
     if (unused.length > 0) {
         log.warning(
@@ -845,7 +914,7 @@ if (FocalLocale === null) {
 // Every user-visible string field must declare a format tag ([plain]/[formatted]/
 // [name]/[emotion]) in its locale type, or it's invisible to the localization
 // editor and translators. This is a type-level (schema) property, so check once.
-if (FocalLocale === null) {
+if (FocalLocales.length === 0 && steps.artifacts) {
     const untagged = findUntaggedStrings(DefaultLocale);
     if (untagged.length > 0) {
         log.bad(
@@ -892,18 +961,25 @@ if (FocalLocale === null) {
 // behind — which made this branch skip, while the loop above quietly ignores a
 // folder whose JSON won't load when a focal locale is set. The same command that
 // started the work became a silent no-op that reported zero locales and exited 0.
-if (FocalLocale && FocalRegion && !fs.existsSync(getLocalePath(FocalLocale))) {
+if (
+    NewLocale &&
+    NewRegion &&
+    // A run that narrowed `locale` out writes no locale file, so creating the folder
+    // would leave exactly the empty-folder state that once made this branch skip.
+    steps.locale &&
+    !fs.existsSync(getLocalePath(NewLocale))
+) {
     const newLocaleLog = log.scope(
-        'Creating a new locale folder for ' + FocalLocale,
+        'Creating a new locale folder for ' + NewLocale,
     );
-    fs.mkdirSync(path.join('static', 'locales', FocalLocale), {
+    fs.mkdirSync(path.join('static', 'locales', NewLocale), {
         recursive: true,
     });
 
     newLocaleLog.good('No locale found, creating one based on English.');
     let localeText = createUnwrittenLocale();
-    localeText.language = FocalLanguage as LanguageCode;
-    localeText.regions = [FocalRegion];
+    localeText.language = NewLanguage as LanguageCode;
+    localeText.regions = [NewRegion];
     localeText['$schema'] = '../../schemas/LocaleText.json';
 
     await handleLocale(

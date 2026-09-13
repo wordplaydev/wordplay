@@ -8,6 +8,13 @@
 //   +<category> …     include only these categories
 //   +<category>:<spec> include only specific sub-content (repeat to add more)
 //
+// The two signs scope different amounts. A `-` flag scopes **translation** — the
+// category is still verified and repaired, it just isn't paid for. A `+` flag scopes
+// the **whole step**: a run that names categories does those and nothing else, so a
+// kits-only child doesn't re-verify the locale file, both tutorials, and 75 examples
+// that the run's other children already did. `isIncluded` answers the first question
+// and `isNarrowedOut` the second; `stepsFor` turns the second into the per-step policy.
+//
 // Specifiers (include only): locale:<path-prefix>, tutorial:<act>[/<scene>],
 // quick:<act>[/<scene>] (1-based), howto:<id>, example:<Name>,
 // changelog:<version>. Mixing +/-, a specifier on a - flag or on
@@ -50,6 +57,14 @@ export type Selection = {
      *  riding along with a no-flag or exclude run. Gallery examples are opt-in
      *  per locale, and an explicit `+example` is what opts a locale in. */
     isExplicitlyIncluded(category: ContentCategory): boolean;
+    /** Whether this run *named* categories and this isn't one of them — the gate
+     *  on whether a step runs at all, as opposed to `isIncluded`, which gates
+     *  only whether it pays for translation. False for every category under a
+     *  no-flag or `-`-only run, which is what keeps `npm run locales`,
+     *  `locales-fix`, and the batch's `-kit` children unchanged. Deliberately
+     *  not `!isIncluded`: under `-kit`, `isIncluded('kit')` is false but the run
+     *  must still verify kits. */
+    isNarrowedOut(category: ContentCategory): boolean;
     /** The raw `+`/`-` flag tokens, for forwarding to child processes. */
     flags: string[];
 };
@@ -148,6 +163,9 @@ export function parseCategorySelection(args: string[]): Selection | string {
         isExplicitlyIncluded(category) {
             return mode === 'include' && listed.has(category);
         },
+        isNarrowedOut(category) {
+            return mode === 'include' && !listed.has(category);
+        },
         localePrefixes: () => specifiersOf('locale'),
         tutorialTargets: () => targetsOf('tutorial'),
         quickTargets: () => targetsOf('quick'),
@@ -176,4 +194,91 @@ export function tutorialTargetMatches(
 ): boolean {
     if (target.act !== act) return false;
     return target.scene === undefined || target.scene === scene;
+}
+
+/**
+ * Which of a run's per-locale and post-loop steps run at all, under this selection.
+ *
+ * A step runs unless its own category is narrowed out **and** every category it derives
+ * content from is too: a localized example is derived from the locale's names, so a
+ * `+locale` run must still re-derive it even though `example` wasn't named. The whole
+ * policy lives here rather than in `start.ts`, which is module-level script code that
+ * executes on import and so can't be tested; this is the move `splitKitPhase` made.
+ *
+ * `emoji` is deliberately absent. Its gate is `TranslationRequested &&
+ * isIncluded('emoji')`, which is the right and *different* formula — generation is paid
+ * work with no verification half, so `-emoji` must turn it off, and a
+ * `!isNarrowedOut('emoji')` field here would turn it back on.
+ */
+export type RunSteps = {
+    /** verifyLocale + linkGlossaryInLocale + the locale file write. */
+    locale: boolean;
+    /** Every tutorial mode but `quick`. */
+    tutorial: boolean;
+    quick: boolean;
+    /** checkGlossaryWordUsage, which reads the locale *and* every tutorial. */
+    glossaryUsage: boolean;
+    /** verifyHowTo + buildHowToBundle. */
+    howto: boolean;
+    example: boolean;
+    kit: boolean;
+    changelog: boolean;
+    datetimes: boolean;
+    /** The post-loop drift marking, which spans locale and tutorial files. */
+    drift: boolean;
+    /** names.json, choose prompts, manifests, unused keys, untagged strings. */
+    artifacts: boolean;
+};
+
+export function stepsFor(selection: Selection): RunSteps {
+    const n = (category: ContentCategory) => selection.isNarrowedOut(category);
+    const locale = !n('locale');
+    const tutorial = !n('tutorial');
+    const quick = !n('quick');
+    return {
+        locale,
+        tutorial,
+        quick,
+        // A run that loaded no tutorials has no standing to call a glossary word
+        // unused: the check asks whether the locale's own text uses it, and the
+        // lessons are most of that text.
+        glossaryUsage: locale && tutorial && quick,
+        // How-tos and examples are derived content — they retarget example
+        // references against names a `+locale` run may have just changed — so
+        // `locale` being in scope pulls their deterministic re-derivation in even
+        // when they weren't named. Without this a `+locale` rename would strand
+        // them, which `exampleNamesSync` and `localizedExamplesSync` would catch
+        // only in the sweep.
+        howto: !n('howto') || locale,
+        example: !n('example') || locale,
+        // A kit translates from its own English with `examples: false`; nothing
+        // about it derives from locale names.
+        kit: !n('kit'),
+        // Keyed by a hash of each entry's English; nothing retargets.
+        changelog: !n('changelog'),
+        // Generated from a pinned CLDR release; deterministic.
+        datetimes: !n('datetimes'),
+        drift: locale && tutorial && quick,
+        // All five derive from locale strings.
+        artifacts: locale,
+    };
+}
+
+/**
+ * The non-flag positionals in `args` — the locales a run names, in the order given.
+ *
+ * `[]` means "every locale, and the cross-locale steps only a whole run may take".
+ * A `--`-prefixed token is an error rather than a locale: `isCategoryFlag` is
+ * `/^[+-][a-z]/`, which doesn't match `--jobs`, so `start.ts translate --jobs 2 zh-CN`
+ * used to take `--jobs` as the locale and translate nothing.
+ */
+export function parsePositionals(args: string[]): string[] | string {
+    const locales: string[] = [];
+    for (const arg of args) {
+        if (isCategoryFlag(arg)) continue;
+        if (arg.startsWith('--'))
+            return `"${arg}" isn't a locale or a category flag. Pass --jobs to the batch runner, not to start.ts.`;
+        locales.push(arg);
+    }
+    return locales;
 }

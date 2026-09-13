@@ -4,6 +4,7 @@ import {
     formatBlock,
     makeLineCollector,
     parseBatchArgs,
+    planChildren,
     resolveLocales,
     runPool,
     truncate,
@@ -310,5 +311,50 @@ describe('splitKitPhase', () => {
             parallel: ['+example'],
             serial: undefined,
         });
+    });
+});
+
+describe('planChildren', () => {
+    test('one child per locale in parallel, one kit child after', () => {
+        const plan = planChildren(['ja-JP', 'ko-KR'], splitKitPhase([]));
+        expect(plan.parallel).toEqual([
+            { label: 'ja-JP', locales: ['ja-JP'], flags: ['-kit'] },
+            { label: 'ko-KR', locales: ['ko-KR'], flags: ['-kit'] },
+        ]);
+        expect(plan.serial).toEqual({
+            label: 'kits',
+            locales: ['ja-JP', 'ko-KR'],
+            flags: ['+kit'],
+        });
+    });
+
+    // The kit child covers the batch's own list and never every locale directory:
+    // translating a kit into a locale nobody asked for costs money.
+    test('the kit child covers exactly the locales the batch was given', () => {
+        expect(
+            planChildren(['ja-JP'], splitKitPhase([])).serial?.locales,
+        ).toEqual(['ja-JP']);
+    });
+
+    // The serial phase used to be N more children, so `results` held 2N entries and
+    // the summary listed every locale twice and reported `2N ok`.
+    test('a run with kits is N + 1 children, not 2N', () => {
+        const locales = ['ja-JP', 'ko-KR', 'es-MX'];
+        const plan = planChildren(locales, splitKitPhase([]));
+        expect(plan.parallel.length + (plan.serial === undefined ? 0 : 1)).toBe(
+            locales.length + 1,
+        );
+    });
+
+    test('-kit means no kit child at all', () => {
+        const plan = planChildren(['ja-JP'], splitKitPhase(['-kit']));
+        expect(plan.serial).toBeUndefined();
+        expect(plan.parallel).toHaveLength(1);
+    });
+
+    test('+kit alone is the kit child and nothing else', () => {
+        const plan = planChildren(['ja-JP', 'ko-KR'], splitKitPhase(['+kit']));
+        expect(plan.parallel).toEqual([]);
+        expect(plan.serial?.locales).toEqual(['ja-JP', 'ko-KR']);
     });
 });

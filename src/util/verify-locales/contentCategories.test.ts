@@ -1,8 +1,12 @@
 import { describe, expect, test } from 'vitest';
 import {
+    CONTENT_CATEGORIES,
     localePrefixMatches,
     parseCategorySelection,
+    parsePositionals,
+    stepsFor,
     tutorialTargetMatches,
+    type RunSteps,
     type Selection,
 } from '@util/verify-locales/contentCategories';
 
@@ -132,6 +136,138 @@ describe('parseCategorySelection — usage errors', () => {
         expect(parseCategorySelection(['+tutorial:abc'])).toMatch(/target/i);
         expect(parseCategorySelection(['+tutorial:0'])).toMatch(/target/i);
         expect(parseCategorySelection(['+tutorial:1/2/3'])).toMatch(/target/i);
+    });
+});
+
+describe('isNarrowedOut', () => {
+    test('a no-flag run narrows nothing out', () => {
+        const s = sel(['zh-CN']);
+        for (const c of CONTENT_CATEGORIES)
+            expect(s.isNarrowedOut(c)).toBe(false);
+    });
+
+    // The regression test for `npm run locales`, `npm run locales-fix`, and the
+    // batch's own `-kit` children: a `-` flag scopes translation only, so every
+    // category's verification still runs. If this goes red, a parallel batch child
+    // has stopped verifying the locale it is translating.
+    test('an exclude run narrows nothing out', () => {
+        const s = sel(['zh-CN', '-kit', '-quick', '-emoji']);
+        for (const c of CONTENT_CATEGORIES)
+            expect(s.isNarrowedOut(c)).toBe(false);
+    });
+
+    test('+kit narrows out every other category', () => {
+        const s = sel(['+kit']);
+        for (const c of CONTENT_CATEGORIES)
+            expect(s.isNarrowedOut(c)).toBe(c !== 'kit');
+    });
+
+    // A specifier narrows *within* a category, never which categories are in scope.
+    test('+kit:tunes narrows out exactly what +kit does', () => {
+        const bare = sel(['+kit']);
+        const named = sel(['+kit:tunes']);
+        for (const c of CONTENT_CATEGORIES)
+            expect(named.isNarrowedOut(c)).toBe(bare.isNarrowedOut(c));
+    });
+});
+
+describe('stepsFor', () => {
+    const all: (keyof RunSteps)[] = [
+        'locale',
+        'tutorial',
+        'quick',
+        'glossaryUsage',
+        'howto',
+        'example',
+        'kit',
+        'changelog',
+        'datetimes',
+        'drift',
+        'artifacts',
+    ];
+
+    /** Assert exactly `expected` are true and every other step is false. */
+    function only(args: string[], expected: (keyof RunSteps)[]) {
+        const steps = stepsFor(sel(args));
+        for (const step of all)
+            expect([step, steps[step]]).toEqual([
+                step,
+                expected.includes(step),
+            ]);
+    }
+
+    test('a no-flag run does everything', () => {
+        only([], all);
+    });
+
+    // The byte-for-byte guarantee: excluding a category from translation must not
+    // stop any step from running.
+    test('an exclude run does everything', () => {
+        only(['-kit', '-quick'], all);
+    });
+
+    test('+kit does kits and nothing else', () => {
+        only(['+kit'], ['kit']);
+    });
+
+    // How-tos and localized examples are derived from the locale's names, so a
+    // `+locale` run re-derives them even though it didn't name them. Dropping
+    // these two would strand them and red `exampleNamesSync.test.ts` and
+    // `localizedExamplesSync.test.ts` in the sweep project.
+    test('+locale pulls in the content derived from locale names', () => {
+        only(['+locale'], ['locale', 'howto', 'example', 'artifacts']);
+    });
+
+    test('the two tutorial categories are separate', () => {
+        only(['+tutorial:2'], ['tutorial']);
+    });
+
+    test('+example and +changelog do their own only', () => {
+        only(['+example'], ['example']);
+        only(['+changelog:0.35.0'], ['changelog']);
+    });
+
+    // A glossary word is reported unused from the locale's own text, most of which
+    // is the lessons; a run that loaded neither tutorial can't make that claim.
+    test('glossary usage and drift need the locale and both tutorials', () => {
+        for (const flags of [['+locale'], ['+tutorial'], ['+quick']]) {
+            const steps = stepsFor(sel(flags));
+            expect(steps.glossaryUsage).toBe(false);
+            expect(steps.drift).toBe(false);
+        }
+    });
+
+    // `emoji` has no step: its own gate is `isIncluded`, because generation is paid
+    // work with no verification half.
+    test('emoji is not a step', () => {
+        expect(Object.keys(stepsFor(sel([])))).not.toContain('emoji');
+        expect(
+            (CONTENT_CATEGORIES as readonly string[]).includes('emoji'),
+        ).toBe(true);
+    });
+});
+
+describe('parsePositionals', () => {
+    test('locales are found whichever side of the flags they sit on', () => {
+        expect(parsePositionals(['zh-CN', '+kit'])).toEqual(['zh-CN']);
+        expect(parsePositionals(['+kit', 'zh-CN'])).toEqual(['zh-CN']);
+    });
+
+    test('no locale means every locale', () => {
+        expect(parsePositionals(['+kit'])).toEqual([]);
+        expect(parsePositionals([])).toEqual([]);
+    });
+
+    test('several locales are kept in order', () => {
+        expect(parsePositionals(['ja-JP', 'ko-KR', '-quick'])).toEqual([
+            'ja-JP',
+            'ko-KR',
+        ]);
+    });
+
+    // This used to make `--jobs` the focal locale and translate nothing.
+    test('a --option is an error, not a locale', () => {
+        expect(parsePositionals(['--jobs', '2', 'zh-CN'])).toMatch(/--jobs/);
     });
 });
 
