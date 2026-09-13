@@ -15,6 +15,7 @@
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import { strikes } from '@db/creators/strikes.svelte';
+    import countPending from '@db/moderation/countPending';
     import { getFlagDescription, isModerator } from '@db/projects/Moderation';
     import {
         Chats,
@@ -298,6 +299,18 @@
                 accessor = (l) =>
                     l.ui.dialog.notifications.notification.moderationHeader;
                 break;
+            case 'review-pending':
+                // Counted, so a second thing arriving doesn't read as a repeat
+                // of the first — the same reason a warning carries its number.
+                return (
+                    docToMarkup(
+                        $locales.getMultilingualText(
+                            (l) =>
+                                l.ui.dialog.notifications.notification
+                                    .reviewPending,
+                        ),
+                    ).concretize($locales, { count: notice.count ?? 1 }) ?? ''
+                );
             case 'howto-listed':
             case 'howto-denied':
                 // The how-to's title rides along, for the reason the kit's name does.
@@ -395,6 +408,49 @@
                 $user ? gallery.hasCurator($user.uid) : false,
             ),
     );
+
+    /**
+     * How much is waiting in this reviewer's queue.
+     *
+     * Derived rather than delivered, which is the rule the written/derived
+     * split states: a notice is derived exactly when its recipient can read
+     * the document it is about, and a reviewer can read their own queue. So
+     * nothing here puts a per-user write on an ordinary edit path — which is
+     * what emailing every curator and moderator per listing request would have
+     * meant.
+     *
+     * Until this, a platform moderator was told nothing, ever: `report`
+     * delivers `review-requested` only to a gallery's curators, and the three
+     * listing queues announce themselves to nobody at all.
+     *
+     * One notice carrying a count rather than one per item, so a backlog can't
+     * flood the bell, and keyed by the count so a new arrival reads as new.
+     * Counted with the same limited queries `/moderate` runs, refreshed when
+     * this dialog opens rather than continuously — a nudge, not a report.
+     */
+    let waiting = $state(0);
+    $effect(() => {
+        const who = $user;
+        const asModerator = moderator;
+        if (!showDialog || who === null || who === undefined) return;
+        untrack(() => {
+            countPending(who.uid, asModerator).then((found) => {
+                waiting = found;
+            });
+        });
+    });
+    $effect(() => {
+        if (waiting === 0) return;
+        const id = `review-pending-${waiting}`;
+        synthesized.set(id, {
+            id,
+            kind: 'review-pending',
+            subject: { kind: 'project', id: '', gallery: null },
+            title: '',
+            time: Date.now(),
+            count: waiting,
+        });
+    });
 
     function go(notice: SerializedNotice) {
         showDialog = false;

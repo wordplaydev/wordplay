@@ -16,7 +16,7 @@ import type {
 import { forgetMessageTranslations } from './chatTranslations.js';
 import getResponsibility from './responsibility.js';
 import { noStrikes, withFinding, withStrike } from './strikes.js';
-import deliver from './notices.js';
+import deliver, { emailNotice } from './notices.js';
 import describeSubject, { curatorsOf } from './subject.js';
 
 const ProjectsCollection = 'projects';
@@ -108,6 +108,11 @@ export default async function moderate(
               ).get('text')
             : undefined;
 
+    // Only a platform moderator's decision is a listing decision; a curator's
+    // is a takedown. Captured rather than recomputed, because it is also what
+    // decides whether anyone is told the answer.
+    const decided = decidedListing(listing, asPlatform);
+
     await applyRemedy(
         db,
         kind,
@@ -115,7 +120,7 @@ export default async function moderate(
         message,
         flags,
         violation,
-        decidedListing(listing, asPlatform),
+        decided,
         typeof held === 'string' ? held : undefined,
     );
 
@@ -181,8 +186,11 @@ export default async function moderate(
         deliveries.push({
             to: found.author,
             notice: {
-                // Keyed by the decision, so a retry tells them once.
-                id: `decision-${decision}`,
+                // Keyed by the decision *and when it was made*, so a retry
+                // tells them once but a second refusal after a fix is not
+                // mistaken for the first. `decision` alone is stable per
+                // subject and outcome, which silently swallowed the second.
+                id: `decision-${decision}-${now}`,
                 kind: 'decision',
                 subject: where,
                 title: found.title,
@@ -197,7 +205,7 @@ export default async function moderate(
         deliveries.push({
             to: who,
             notice: {
-                id: `outcome-${decision}`,
+                id: `outcome-${decision}-${now}`,
                 kind: 'outcome',
                 subject: where,
                 title: found.title,
@@ -207,6 +215,24 @@ export default async function moderate(
         });
     }
     await deliver(db, deliveries);
+
+    // The answer to a listing request. The bell derives these from the
+    // subject's own `moderation` field, so they never reach `deliver` — and
+    // hanging them off the `galleryEdited`/`kitEdited`/`howToEdited` triggers
+    // would not work either: those run on this function's write and only ever
+    // compute `pending` or `unrequested`. Here is where the decision is made,
+    // and where who to tell is already known.
+    if (decided !== undefined)
+        await mailListing(db, {
+            kind,
+            subject,
+            decided,
+            where,
+            title: found.title,
+            author: found.author,
+            curators,
+            now,
+        });
 
     // A curator's decision is recorded, never counted — and only when the
     // gallery was public, where the content was platform-visible anyway.
@@ -238,6 +264,11 @@ export default async function moderate(
         return { count: 0, banned: false, responsibility };
 
     const strikesRef = db.collection(StrikesCollection).doc(found.author);
+    // Whether this decision actually added a warning. `withStrike` returns the
+    // record untouched for a decision it has already seen, and `count` is the
+    // same either way — so without lifting this out, a retry would tell someone
+    // by email that they had been warned again.
+    let warned = false;
     const updated = await db.runTransaction(async (transaction) => {
         const existing = await transaction.get(strikesRef);
         const current: StrikesRecord = existing.exists
@@ -250,13 +281,81 @@ export default async function moderate(
             moderator: uid,
             time: now,
         });
+        warned = next.count !== current.count;
         transaction.set(strikesRef, next);
         return next;
     });
 
     if (updated.banned) await ban(db, found.author);
 
+    // The warning itself, which the bell derives from the strike record and so
+    // never reaches `deliver`. A curator's finding is not a strike and must not
+    // send one; the guard above has already returned for that case.
+    if (warned)
+        await emailNotice([found.author], {
+            id: `warning-${updated.count}`,
+            kind: 'warning',
+            subject: where,
+            title: found.title,
+            time: now,
+            count: updated.count,
+        });
+
     return { count: updated.count, banned: updated.banned, responsibility };
+}
+
+/** Who hears a listing decision, and as which notice kind. A gallery has no
+ *  author, so its curators hear; a kit's owner and a how-to's writer hear about
+ *  their own, and a collaborator does not — a decision is addressed to whoever
+ *  asked for it. */
+async function mailListing(
+    db: Firestore,
+    what: {
+        kind: ReportSubjectKind;
+        subject: string;
+        decided: 'approved' | 'denied';
+        where: SerializedNotice['subject'];
+        title: string;
+        author: string | null;
+        curators: string[];
+        now: number;
+    },
+): Promise<void> {
+    const listed = what.decided === 'approved';
+    const to =
+        what.kind === 'gallery'
+            ? what.curators
+            : what.author === null
+              ? []
+              : [what.author];
+    if (to.length === 0) return;
+
+    const kind =
+        what.kind === 'gallery'
+            ? listed
+                ? 'gallery-listed'
+                : 'gallery-denied'
+            : what.kind === 'kit'
+              ? listed
+                  ? 'kit-listed'
+                  : 'kit-denied'
+              : what.kind === 'howto'
+                ? listed
+                    ? 'howto-listed'
+                    : 'howto-denied'
+                : undefined;
+    // A project or a character is never listed, so there is no answer to send.
+    if (kind === undefined) return;
+
+    await emailNotice(to, {
+        // Keyed by when, so a second refusal after a fix is not mistaken for
+        // the first — the same reason a decision notice carries `now`.
+        id: `${what.kind}-${what.subject}-${what.decided}-${what.now}`,
+        kind,
+        subject: what.where,
+        title: what.title,
+        time: what.now,
+    });
 }
 
 /**

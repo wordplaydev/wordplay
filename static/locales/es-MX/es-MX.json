@@ -8933,12 +8933,13 @@
                     "decisionHeader": "$~Se tomó una decisión sobre algo que hiciste en \"$title\"",
                     "outcomeHeader": "$~Se tomó una decisión sobre lo que reportaste en \"$title\"",
                     "because": "$~Porque:",
-                    "note": "$~Dijeron:"
+                    "note": "$~Dijeron:",
+                    "reviewPending": "$~$#count[Algo está|$#count cosas están|$count cosas están] esperando a que las revises"
                 },
                 "delete": "$~eliminar esta notificación",
                 "popup": "$~$#count[1 notificación|$#count notificaciones|$count notificaciones]",
                 "moderate": {
-                    "label": "$~revisar contenido reportado",
+                    "label": "$~revisar lo que está esperando",
                     "tip": "$~ir a las cosas que esperan tu revisión"
                 }
             }
@@ -9615,7 +9616,46 @@
                         "label": "$~guardar",
                         "tip": "$~usar este nombre de usuario de ahora en adelante"
                     }
-                }
+                },
+                "notifications": {
+                    "header": "$~Envíame correos sobre…",
+                    "noAddress": "$~Agrega un correo electrónico arriba para elegir qué correos te envía Wordplay.",
+                    "decisions": {
+                        "label": "$~moderación de cosas que hice o reporté",
+                        "labels": ["$~apagado", "$~encendido"],
+                        "tips": [
+                            "$~No me envíes correos sobre moderación de cosas que hice o reporté",
+                            "$~Envíame correos sobre moderación de cosas que hice o reporté"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~moderación esperando mi revisión",
+                        "labels": ["$~apagado", "$~encendido"],
+                        "tips": [
+                            "$~No me envíes correos sobre moderación esperando mi revisión",
+                            "$~Envíame correos sobre moderación esperando mi revisión"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~nuevos chats y guías prácticas",
+                        "labels": ["$~apagado", "$~encendido"],
+                        "tips": [
+                            "$~No me envíes correos sobre nuevos chats y guías prácticas",
+                            "$~Envíame correos sobre nuevos chats y guías prácticas"
+                        ]
+                    },
+                    "notYet": "$~Cuando puedas usar un correo electrónico, podrás elegir qué correos te envía Wordplay."
+                },
+                "subheader": {
+                    "work": "$~Tu trabajo",
+                    "character": "$~Tu personaje",
+                    "username": "$~Tu nombre de usuaria",
+                    "password": "$~Tu contraseña",
+                    "email": "$~Correo electrónico",
+                    "logout": "$~Cerrar sesión",
+                    "delete": "$~Eliminar tu cuenta"
+                },
+                "profile": "$~Perfil"
             },
             "join": {
                 "header": "Unirse",
@@ -11194,6 +11234,49 @@
                 "body": "$~Selecciona el botón de abajo para entrar. El enlace funciona una sola vez, y solo por un rato.",
                 "button": "$~Entrar",
                 "disclaimer": "$~Si no pediste entrar, puedes ignorar este correo electrónico — nadie puede entrar a tu cuenta sin este enlace."
+            },
+            "notice": {
+                "open": "$~Echa un vistazo",
+                "manage": "$~Cambiar la configuración de notificaciones",
+                "heading": {
+                    "reported": "$~Reportado",
+                    "decision": "$~Decisión de moderación",
+                    "review": "$~Esperando revisión",
+                    "warning": "$~Una advertencia",
+                    "listing": "$~Decisión de publicación",
+                    "howto": "$~Nueva guía práctica",
+                    "chat": "$~Nuevos chats"
+                },
+                "subject": {
+                    "reported": "$~Tu $kind fue reportado",
+                    "received": "$~Recibimos tu reporte",
+                    "decision": "$~Una decisión sobre tu $kind",
+                    "review": "$~Algo está esperando tu revisión",
+                    "warning": "$~Una advertencia sobre lo que compartiste",
+                    "listing": "$~Una decisión sobre publicar tu $kind",
+                    "howto": "$~Una nueva guía práctica en tu galería"
+                },
+                "body": {
+                    "reported": "$~Alguien pidió una revisión de algo que hiciste en \"$title\". Quien sea responsable le echará un vistazo.",
+                    "received": "$~Tu reporte sobre \"$title\" llegó a quien sea responsable de revisarlo.",
+                    "decision": "$~Se tomó una decisión sobre algo que hiciste en \"$title\".",
+                    "review": "$~Alguien pidió una revisión de \"$title\".",
+                    "warning": "$~Esta es la advertencia $#count[número $count|número $count|número $count] sobre algo que compartiste públicamente.",
+                    "listing": "$~Se tomó una decisión sobre si \"$title\" se publica o no.",
+                    "howto": "$~\"$title\" se publicó en una galería de la que formas parte."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[Algo está|$#count cosas están|$count cosas están] esperando a que las revises",
+                "heading": "$~$#count[1 cosa por revisar|$#count cosas por revisar|$count cosas por revisar]",
+                "open": "$~Comenzar a revisar",
+                "body": "$~Los reportes y las solicitudes de publicación esperan en la cola de moderación hasta que alguien tome una decisión sobre ellos."
+            },
+            "chat": {
+                "subject": "$~tienes chats sin leer",
+                "heading": "$~Nuevos chats",
+                "open": "$~leerlos",
+                "body": "$~hay mensajes que no has leído en $#count[1 chat|$#count chats|$count chats]."
             }
         },
         "markup": {
@@ -11395,6 +11478,15 @@
                 "approved": "$~$name ya aparece en la guía.",
                 "denied": "$~$name no fue incluida en la guía."
             }
+        },
+        "noAddress": "$~Wordplay no tiene una dirección de correo electrónico tuya, así que nada aquí puede llegarte por correo electrónico. Puedes agregar una en tu <perfil@/profile>.",
+        "subject": {
+            "project": "$~proyecto",
+            "gallery": "$~galería",
+            "howto": "$~guía práctica",
+            "character": "$~personaje",
+            "kit": "$~kit",
+            "chat": "$~chat"
         }
     },
     "gallery": {

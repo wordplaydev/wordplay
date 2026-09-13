@@ -29,6 +29,7 @@ export const MaxNotices = 100;
  */
 export const NoticeKinds = [
     'review-requested',
+    'review-pending',
     'reported',
     'report-received',
     'decision',
@@ -93,12 +94,11 @@ export const NoticesSchema = z.object({
     v: z.literal(1),
     notices: z.array(NoticeSchema),
     dismissed: z.array(z.string()),
-    readAt: z.number(),
 });
 
 /** An empty inbox, for a creator who has never been sent anything. */
 export function noNotices(): SerializedNotices {
-    return { v: 1, notices: [], dismissed: [], readAt: 0 };
+    return { v: 1, notices: [], dismissed: [] };
 }
 
 /**
@@ -127,7 +127,6 @@ export function toNotices(data: unknown): SerializedNotices | undefined {
         dismissed: Array.isArray(record.dismissed)
             ? record.dismissed.filter((id) => typeof id === 'string')
             : [],
-        readAt: typeof record.readAt === 'number' ? record.readAt : 0,
     };
 }
 

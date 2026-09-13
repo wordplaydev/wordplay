@@ -452,6 +452,10 @@
                 published.moderation,
                 published.public,
                 false,
+                // A preview of a kit that is already in whatever state it is
+                // in, not a fresh ask — the button press that would re-request
+                // is what writes `public`, and the trigger answers that.
+                false,
             )}
         />
         <!-- Who reviews this, where the kit stands with them, and the control itself —

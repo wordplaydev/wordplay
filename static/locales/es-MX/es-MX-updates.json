@@ -970,6 +970,13 @@
         "e3083faa58e3f": "$~Ahora puedes pedir que una guía práctica que escribiste aparezca en la <Guía@https://wordplay.dev/guide>, y cualquier persona podrá leerla ahí una vez que una moderadora la apruebe. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
         "e84378f19e20d": "$~Ahora puedes pedir que revisen una guía práctica, igual que puedes pedirlo para un proyecto o un dibujo. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
         "e0634f7a90e52": "$~Las guías prácticas y los kits en la <Guía@https://wordplay.dev/guide> ahora muestran quién los hizo. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
-        "e089e7d53887b": "$~Una galería que cualquier persona puede ver ahora muestra el nombre completo de todas las personas que están en ella, en vez de solo las primeras letras. (<906@https://github.com/wordplaydev/wordplay/issues/906>)"
+        "e089e7d53887b": "$~Una galería que cualquier persona puede ver ahora muestra el nombre completo de todas las personas que están en ella, en vez de solo las primeras letras. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "ec0822aa79180": "$~Wordplay ahora puede enviarte un correo electrónico cuando pasa algo que te interesa saber, como una decisión sobre algo que creaste, y tú eliges qué tipos de aviso recibes desde tu página de perfil.",
+        "ea81ddc87b61c": "$~Las moderadoras y curadoras ahora ven cuánto trabajo espera su revisión, sin tener que ir a buscarlo.",
+        "e88f690999de4": "$~Los correos electrónicos que enviamos ahora se ven como Wordplay, y sus botones son más fáciles de leer.",
+        "efa3f7d56bf19": "$~Los correos electrónicos sobre tu trabajo ahora tienen líneas de asunto cortas que dicen qué pasó, y el de comentarios nuevos enlaza directo a ellos.",
+        "e8799c250d910": "$~Tu página de perfil ahora tiene un título sobre cada parte, y todo lo relacionado con tu correo electrónico está en un solo lugar.",
+        "ea85f668a42b7": "$~Una galería o kit que una moderadora rechaza ahora se queda así, en lugar de volver a la fila de espera de inmediato.",
+        "e3c78159889be": "$~Una curadora a quien se le avisa sobre un proyecto o galería reportado ahora sí puede encontrarlo en su lista de revisión."
     }
 }

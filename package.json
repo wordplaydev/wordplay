@@ -51,6 +51,7 @@
         "locales-override-parallel": "WORDPLAY_TRANSLATOR=claude npx tsx src/util/verify-locales/batch.ts override",
         "locales-emojis": "npx tsx src/util/verify-locales/generateEmojis.ts",
         "how": "npx tsx src/util/verify-locales/buildHowTos.ts",
+        "emails": "npx tsx scripts/emails/contactSheet.ts",
         "codes": "npx tsx src/unicode/compress.ts",
         "emoji-update": "npx tsx scripts/emoji/update.ts",
         "fonts": "npx tsx scripts/fonts/start.ts verify",

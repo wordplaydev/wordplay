@@ -23,6 +23,7 @@
     } from 'firebase/firestore';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
+    import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import { getUser, setConceptPath } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
@@ -51,6 +52,8 @@
     import KitQueue from './KitQueue.svelte';
     import ReportQueue from './ReportQueue.svelte';
     import { Galleries } from '@db/Database';
+    import { Creator } from '@db/creators/CreatorDatabase';
+    import { mayUseEmail } from '@db/creators/handle.svelte';
 
     /** Which queue is showing. Projects first: it's the older and busier one,
      *  and it's the one a platform moderator lands on. Someone who only curates
@@ -116,6 +119,16 @@
 
     /** Someone with nothing to review at all doesn't belong here. */
     const allowed = $derived(moderator === true || curator);
+
+    /** Whether this reviewer has no mailbox to write to. `mayUseEmail` gates the
+     *  invitation rather than the fact: someone below the age of consent cannot
+     *  act on it. */
+    const needsAddress = $derived(
+        $user !== null &&
+            $user !== undefined &&
+            Creator.isUsername($user.email ?? '') &&
+            mayUseEmail(),
+    );
 
     // A curator who isn't a moderator has only one queue, so start them on it
     // rather than on an empty projects queue they can't act on.
@@ -446,6 +459,17 @@
                 choice={ModerationQueues.indexOf(queue)}
                 select={(choice) => (queue = ModerationQueues[choice] ?? queue)}
             />
+        </div>
+    {/if}
+    <!-- Reviewing is work someone has to be told about, and an account that
+         signs in with a username has a synthesized address no mail can reach —
+         so without this, notification email is simply silent for them and
+         nothing says why. Only shown to someone old enough to hold an address:
+         inviting a creator to add one they are not allowed to have would be
+         worse than saying nothing, and SigninMethod already names the day. -->
+    {#if allowed && needsAddress}
+        <div class="noaddress">
+            <Notice markup text={(l) => l.moderation.noAddress} />
         </div>
     {/if}
     {#if allowed && queue === 'messages'}

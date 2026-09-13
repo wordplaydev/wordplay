@@ -9083,12 +9083,13 @@
                     "decisionHeader": "$~S-a luat o decizie despre ceva ce ai făcut în „$title”",
                     "outcomeHeader": "$~S-a luat o decizie despre ce ai raportat în „$title”",
                     "because": "$~Pentru că:",
-                    "note": "$~Ei au spus:"
+                    "note": "$~Ei au spus:",
+                    "reviewPending": "$~$#count[Ceva|Nimic|$count lucruri] te așteaptă să verifici"
                 },
                 "delete": "$~ștergeți această notificare",
                 "popup": "$~$#count[o notificare|$#count notificări|$count de notificări]",
                 "moderate": {
-                    "label": "$~verifică conținutul raportat",
+                    "label": "$~verifică ce așteaptă",
                     "tip": "$~mergi la lucrurile care așteaptă să fie verificate de tine"
                 }
             },
@@ -10696,7 +10697,46 @@
                         "label": "$~Salvează",
                         "tip": "$~Folosește acest nume de utilizator de acum înainte"
                     }
-                }
+                },
+                "notifications": {
+                    "header": "$~Trimite-mi e-mail despre…",
+                    "noAddress": "$~Adaugă o adresă de e-mail mai sus ca să alegi ce e-mailuri îți trimite Wordplay.",
+                    "decisions": {
+                        "label": "$~moderarea lucrurilor pe care le-am făcut sau raportat",
+                        "labels": ["$~oprit", "$~pornit"],
+                        "tips": [
+                            "$~Nu-mi trimite e-mail despre moderarea lucrurilor pe care le-am făcut sau raportat",
+                            "$~Trimite-mi e-mail despre moderarea lucrurilor pe care le-am făcut sau raportat"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~moderare care așteaptă verificarea mea",
+                        "labels": ["$~oprit", "$~pornit"],
+                        "tips": [
+                            "$~Nu-mi trimite e-mail despre moderarea care așteaptă verificarea mea",
+                            "$~Trimite-mi e-mail despre moderarea care așteaptă verificarea mea"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~discuții noi și instrucțiuni",
+                        "labels": ["$~oprit", "$~pornit"],
+                        "tips": [
+                            "$~Nu-mi trimite e-mail despre discuții noi și instrucțiuni",
+                            "$~Trimite-mi e-mail despre discuții noi și instrucțiuni"
+                        ]
+                    },
+                    "notYet": "$~Când vei putea folosi o adresă de e-mail, vei putea alege ce e-mailuri îți trimite Wordplay."
+                },
+                "subheader": {
+                    "work": "$~Munca ta",
+                    "character": "$~Personajul tău",
+                    "username": "$~Numele tău de utilizator",
+                    "password": "$~Parola ta",
+                    "email": "$~E-mail",
+                    "logout": "$~Deconectare",
+                    "delete": "$~Șterge-ți contul"
+                },
+                "profile": "$~Profil"
             },
             "join": {
                 "header": "$~Alătură-te",
@@ -11189,6 +11229,49 @@
                 "body": "$~Apasă butonul de mai jos ca să intri. Legătura funcționează o singură dată și doar pentru puțin timp.",
                 "button": "$~Intră",
                 "disclaimer": "$~Dacă nu ai cerut să intri, poți ignora acest email — nimeni nu poate intra în contul tău fără această legătură."
+            },
+            "notice": {
+                "open": "$~Aruncă o privire",
+                "manage": "$~Schimbă-ți setările de notificare",
+                "heading": {
+                    "reported": "$~Raportat",
+                    "decision": "$~Decizie de moderare",
+                    "review": "$~Așteaptă verificare",
+                    "warning": "$~Un avertisment",
+                    "listing": "$~Decizie de listare",
+                    "howto": "$~Instrucțiuni noi",
+                    "chat": "$~Discuții noi"
+                },
+                "subject": {
+                    "reported": "$~$kind al tău a fost raportat",
+                    "received": "$~Am primit raportul tău",
+                    "decision": "$~O decizie despre $kind al tău",
+                    "review": "$~Ceva așteaptă verificarea ta",
+                    "warning": "$~Un avertisment despre ceea ce ai distribuit",
+                    "listing": "$~O decizie despre listarea $kind al tău",
+                    "howto": "$~Instrucțiuni noi în galeria ta"
+                },
+                "body": {
+                    "reported": "$~Cineva a cerut o verificare pentru ceva ce ai făcut în „$title”. Persoana responsabilă se va uita la asta.",
+                    "received": "$~Raportul tău despre „$title” a ajuns la persoana responsabilă de verificarea lui.",
+                    "decision": "$~S-a luat o decizie despre ceva ce ai făcut în „$title”.",
+                    "review": "$~Cineva a cerut o verificare pentru „$title”.",
+                    "warning": "$~Acesta este avertismentul $#count[1|$#count|$count] despre ceva ce ai distribuit public.",
+                    "listing": "$~S-a luat o decizie despre listarea sau nu a „$title”.",
+                    "howto": "$~„$title” a fost publicat într-o galerie din care faci parte."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[Ceva|Nimic|$count lucruri] te așteaptă să verifici",
+                "heading": "$~$#count[1 lucru de verificat|$#count lucruri de verificat|$count de lucruri de verificat]",
+                "open": "$~Începe verificarea",
+                "body": "$~Rapoartele și cererile de listare așteaptă în coada de moderare până când cineva ia o decizie despre ele."
+            },
+            "chat": {
+                "subject": "$~Ai discuții necitite",
+                "heading": "$~Discuții noi",
+                "open": "$~Citește-le",
+                "body": "$~Ai mesaje necitite în $#count[o discuție|$#count discuții|$count de discuții]."
             }
         },
         "markup": {
@@ -11390,6 +11473,15 @@
                 "approved": "$~$name este acum listat în ghid.",
                 "denied": "$~$name nu a fost listat în ghid."
             }
+        },
+        "noAddress": "$~Wordplay nu are o adresă de e-mail pentru tine, așa că nimic de aici nu te poate contacta prin e-mail. Poți adăuga una pe <profilul tău@/profile>.",
+        "subject": {
+            "project": "$~proiect",
+            "gallery": "$~galerie",
+            "howto": "$~instrucțiuni",
+            "character": "$~personaj",
+            "kit": "$~trusă",
+            "chat": "$~discuție"
         }
     },
     "gallery": {

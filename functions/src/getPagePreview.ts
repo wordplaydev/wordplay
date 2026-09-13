@@ -15,6 +15,7 @@ import {
     type PreviewMeta,
     type PreviewTarget,
 } from './preview/shared.js';
+import { canonicalOrigin } from './origin.js';
 
 /**
  * Serves project and gallery URLs (via Firebase Hosting rewrites) as the SPA
@@ -28,20 +29,6 @@ import {
 const FETCH_TIMEOUT_MS = 5000;
 const SHELL_TTL_MS = 60_000;
 const LOCALE_TTL_MS = 60 * 60_000;
-
-/**
- * The canonical origin, derived from the project rather than request headers:
- * header-derived origins would be attacker-controlled text in the emitted
- * HTML, and a wrong guess could make the shell fetch below recurse into this
- * very function.
- */
-export function canonicalOrigin(): string {
-    if (process.env.FUNCTIONS_EMULATOR === 'true')
-        return process.env.WORDPLAY_HOSTING_ORIGIN ?? 'http://127.0.0.1:5002';
-    return process.env.GCLOUD_PROJECT === 'wordplay-prod'
-        ? 'https://wordplay.dev'
-        : 'https://test.wordplay.dev';
-}
 
 async function fetchText(url: string): Promise<string | undefined> {
     try {

@@ -18263,6 +18263,10 @@
                                                 "reportedHeader": {
                                                     "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
                                                     "description": "[plain] Title for a notice that something the reader made was reported and is being reviewed. Never says who reported it."
+                                                },
+                                                "reviewPending": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                                    "description": "[plain] Title for the notice saying work is waiting in a reviewer's queue, with $#count as how many things. Derived from the queues a reviewer can already read rather than delivered, since they can see the documents it is about."
                                                 }
                                             },
                                             "required": [
@@ -18276,7 +18280,8 @@
                                                 "outcomeHeader",
                                                 "because",
                                                 "note",
-                                                "link"
+                                                "link",
+                                                "reviewPending"
                                             ],
                                             "type": "object"
                                         },
@@ -19562,6 +19567,218 @@
                             "additionalProperties": false,
                             "description": "The sign-in link email (#628). Read by the sendSigninLink cloud function out of this locale's deployed JSON, so a creator gets the mail in their own language. Plain text only: it is assembled into HTML server-side, and markup would arrive as literal characters.",
                             "properties": {
+                                "chat": {
+                                    "additionalProperties": false,
+                                    "description": "The summary of unread conversations.",
+                                    "properties": {
+                                        "body": {
+                                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                            "description": "[plain] The sentence under the heading, with $#count as how many conversations have unread messages"
+                                        },
+                                        "heading": {
+                                            "description": "[plain] A few words at the top. Short: the sentence below explains it.",
+                                            "type": "string"
+                                        },
+                                        "open": {
+                                            "description": "[plain] The label on the button that opens the reader's projects",
+                                            "type": "string"
+                                        },
+                                        "subject": {
+                                            "description": "[plain] The subject line. Deliberately carries no count: the number of conversations belongs in the message, and a subject that changes with it reads as a different email each time.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "subject",
+                                        "heading",
+                                        "body",
+                                        "open"
+                                    ],
+                                    "type": "object"
+                                },
+                                "notice": {
+                                    "additionalProperties": false,
+                                    "description": "The notice emails a creator can choose to receive. Read by the cloud functions out of this locale's deployed JSON, the same way the sign-in mail is. Plain text only: it is assembled into HTML server-side, and markup would arrive as literal characters.",
+                                    "properties": {
+                                        "body": {
+                                            "additionalProperties": false,
+                                            "description": "The sentence inside a notice email, under the heading. A whole sentence with its own final punctuation, carrying $title — which is the name of the thing, captured when the notice was made.",
+                                            "properties": {
+                                                "decision": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] A moderator decided something about the reader's work"
+                                                },
+                                                "howto": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] A how-to was published in a gallery the reader is in"
+                                                },
+                                                "listing": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] A decision about whether the reader's work is listed"
+                                                },
+                                                "received": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] The reader's own report reached whoever reviews it"
+                                                },
+                                                "reported": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] Something the reader made was reported"
+                                                },
+                                                "review": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22title%22%5D%3E",
+                                                    "description": "[plain] Something is waiting for the reader to review"
+                                                },
+                                                "warning": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                                    "description": "[plain] The reader was warned, with $#count as which warning this is"
+                                                }
+                                            },
+                                            "required": [
+                                                "reported",
+                                                "received",
+                                                "decision",
+                                                "review",
+                                                "warning",
+                                                "listing",
+                                                "howto"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "heading": {
+                                            "additionalProperties": false,
+                                            "description": "A few words at the top of a notice email saying what kind of news it is. Short on purpose: the sentence explaining it follows underneath, and a heading that repeats it reads as shouting.",
+                                            "properties": {
+                                                "chat": {
+                                                    "description": "[plain] There are unread messages",
+                                                    "type": "string"
+                                                },
+                                                "decision": {
+                                                    "description": "[plain] A moderator decided something",
+                                                    "type": "string"
+                                                },
+                                                "howto": {
+                                                    "description": "[plain] A how-to was published in a gallery the reader is in",
+                                                    "type": "string"
+                                                },
+                                                "listing": {
+                                                    "description": "[plain] A gallery, kit, or how-to was or wasn't listed",
+                                                    "type": "string"
+                                                },
+                                                "reported": {
+                                                    "description": "[plain] Something the reader made was reported",
+                                                    "type": "string"
+                                                },
+                                                "review": {
+                                                    "description": "[plain] Something is waiting for the reader to review",
+                                                    "type": "string"
+                                                },
+                                                "warning": {
+                                                    "description": "[plain] The reader was warned about something they shared",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "reported",
+                                                "decision",
+                                                "review",
+                                                "warning",
+                                                "listing",
+                                                "howto",
+                                                "chat"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "manage": {
+                                            "description": "[plain] The link at the foot of a notice email, leading to where these can be turned off",
+                                            "type": "string"
+                                        },
+                                        "open": {
+                                            "description": "[plain] The label on the button in a notice email that opens what it is about",
+                                            "type": "string"
+                                        },
+                                        "subject": {
+                                            "additionalProperties": false,
+                                            "description": "The subject line of a notice email. Short — five or six words — because a mailbox list truncates, and it names the kind of thing ($kind: \"project\", \"how-to\") rather than its title, which the sentence inside carries. Deliberately not the in-app notification's wording: that is a list item, and this is an envelope.",
+                                            "properties": {
+                                                "decision": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22kind%22%5D%3E",
+                                                    "description": "[plain] A moderator decided something about the reader's work"
+                                                },
+                                                "howto": {
+                                                    "description": "[plain] A how-to was published in a gallery the reader is in",
+                                                    "type": "string"
+                                                },
+                                                "listing": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22kind%22%5D%3E",
+                                                    "description": "[plain] A decision about whether the reader's work is listed"
+                                                },
+                                                "received": {
+                                                    "description": "[plain] The reader's own report reached whoever reviews it",
+                                                    "type": "string"
+                                                },
+                                                "reported": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22kind%22%5D%3E",
+                                                    "description": "[plain] Something the reader made was reported"
+                                                },
+                                                "review": {
+                                                    "description": "[plain] Something is waiting for the reader to review",
+                                                    "type": "string"
+                                                },
+                                                "warning": {
+                                                    "description": "[plain] The reader was warned about something they shared",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "reported",
+                                                "received",
+                                                "decision",
+                                                "review",
+                                                "warning",
+                                                "listing",
+                                                "howto"
+                                            ],
+                                            "type": "object"
+                                        }
+                                    },
+                                    "required": [
+                                        "open",
+                                        "manage",
+                                        "subject",
+                                        "body",
+                                        "heading"
+                                    ],
+                                    "type": "object"
+                                },
+                                "review": {
+                                    "additionalProperties": false,
+                                    "description": "The daily summary of work waiting for a moderator or curator.",
+                                    "properties": {
+                                        "body": {
+                                            "description": "[plain] The sentence under the heading saying where the things are waiting",
+                                            "type": "string"
+                                        },
+                                        "heading": {
+                                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                            "description": "[plain] A few words at the top, with $#count as how many things are waiting. Short: the sentence below explains it."
+                                        },
+                                        "open": {
+                                            "description": "[plain] The label on the button that opens the review queue",
+                                            "type": "string"
+                                        },
+                                        "subject": {
+                                            "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                            "description": "[plain] The subject line, with $#count as how many things are waiting"
+                                        }
+                                    },
+                                    "required": [
+                                        "subject",
+                                        "heading",
+                                        "body",
+                                        "open"
+                                    ],
+                                    "type": "object"
+                                },
                                 "signin": {
                                     "additionalProperties": false,
                                     "properties": {
@@ -19596,7 +19813,7 @@
                                     "type": "object"
                                 }
                             },
-                            "required": ["signin"],
+                            "required": ["notice", "review", "chat", "signin"],
                             "type": "object"
                         },
                         "emoji": {
@@ -24635,6 +24852,49 @@
                                             "description": "[plain] Header for the login page when not logged in",
                                             "type": "string"
                                         },
+                                        "notifications": {
+                                            "additionalProperties": false,
+                                            "description": "Which emails Wordplay sends this creator",
+                                            "properties": {
+                                                "activity": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "On or off for messages and newly published how-tos"
+                                                },
+                                                "decisions": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "On or off for decisions about this creator's own work"
+                                                },
+                                                "header": {
+                                                    "description": "[plain] Heads the email notification choices inside the email block, and begins the sentence each choice below finishes",
+                                                    "type": "string"
+                                                },
+                                                "noAddress": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Shown instead of the choices when this account has no email address to write to, pointing at the way to add one just above"
+                                                },
+                                                "notYet": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Shown instead of noAddress when this creator isn't old enough for an email address yet, so they are not told to add one they cannot have. Names no date: the sign-in explanation just above already does, and saying it twice in one block reads as a mistake."
+                                                },
+                                                "reviews": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "On or off for work waiting for this creator to review"
+                                                }
+                                            },
+                                            "required": [
+                                                "header",
+                                                "noAddress",
+                                                "notYet",
+                                                "decisions",
+                                                "reviews",
+                                                "activity"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "profile": {
+                                            "description": "[plain] The browser tab's title for the profile page. Its heading on the page is the creator's own name, which is theirs rather than ours to translate — so the tab needs a word of its own.",
+                                            "type": "string"
+                                        },
                                         "prompt": {
                                             "additionalProperties": false,
                                             "properties": {
@@ -24762,6 +25022,50 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "subheader": {
+                                            "additionalProperties": false,
+                                            "description": "One header and explanation per block of the profile page.\n\nThe page is a row of cards, and a card with no heading is a card whose job you work out by reading it. Headers only: each block already carries its own prose, so an explanation here would say the same thing twice — once on screen, and once again in every translation.",
+                                            "properties": {
+                                                "character": {
+                                                    "description": "[plain] Names the block for choosing the character shown beside your name",
+                                                    "type": "string"
+                                                },
+                                                "delete": {
+                                                    "description": "[plain] Names the block for deleting your account",
+                                                    "type": "string"
+                                                },
+                                                "email": {
+                                                    "description": "[plain] Names the block holding your email address and what Wordplay sends to it",
+                                                    "type": "string"
+                                                },
+                                                "logout": {
+                                                    "description": "[plain] Names the block for signing out of this device",
+                                                    "type": "string"
+                                                },
+                                                "password": {
+                                                    "description": "[plain] Names the block for changing your password",
+                                                    "type": "string"
+                                                },
+                                                "username": {
+                                                    "description": "[plain] Names the block for choosing your username",
+                                                    "type": "string"
+                                                },
+                                                "work": {
+                                                    "description": "[plain] Names the block holding links to a creator's projects, characters, and classes",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "work",
+                                                "character",
+                                                "username",
+                                                "password",
+                                                "email",
+                                                "logout",
+                                                "delete"
+                                            ],
+                                            "type": "object"
+                                        },
                                         "subtitle": {
                                             "description": "[plain] Subtitle for the header link on the landing page",
                                             "type": "string"
@@ -24819,6 +25123,7 @@
                                     },
                                     "required": [
                                         "header",
+                                        "profile",
                                         "subtitle",
                                         "prompt",
                                         "anonymous",
@@ -24826,6 +25131,8 @@
                                         "feedback",
                                         "username",
                                         "signin",
+                                        "subheader",
+                                        "notifications",
                                         "error",
                                         "button",
                                         "toggle"
@@ -29284,6 +29591,10 @@
                     "$ref": "#/definitions/HeaderAndExplanationText",
                     "description": "Moderation view text"
                 },
+                "noAddress": {
+                    "$ref": "#/definitions/FormattedText",
+                    "description": "[formatted] Shown to a reviewer whose account has no email address, so they know why no notification mail arrives and where to add one."
+                },
                 "progress": {
                     "$ref": "#/definitions/Template%3C%5B%22moderated%22%2C%22remaining%22%5D%3E",
                     "description": "[formatted] Progress message"
@@ -29389,6 +29700,45 @@
                     ],
                     "type": "object"
                 },
+                "subject": {
+                    "additionalProperties": false,
+                    "description": "What each kind of reportable thing is called, as one word.\n\nWritten for the middle of a sentence — \"Your project was reported\" — so they are lower case wherever a language lower-cases its nouns. Nothing places one at the start of a sentence, which is what would need a second, capitalized set.",
+                    "properties": {
+                        "character": {
+                            "description": "[plain] A drawn character",
+                            "type": "string"
+                        },
+                        "chat": {
+                            "description": "[plain] A conversation about a project or how-to",
+                            "type": "string"
+                        },
+                        "gallery": {
+                            "description": "[plain] A gallery of projects",
+                            "type": "string"
+                        },
+                        "howto": {
+                            "description": "[plain] A how-to",
+                            "type": "string"
+                        },
+                        "kit": {
+                            "description": "[plain] A published kit of shared code",
+                            "type": "string"
+                        },
+                        "project": {
+                            "description": "[plain] A project",
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "project",
+                        "gallery",
+                        "howto",
+                        "character",
+                        "kit",
+                        "chat"
+                    ],
+                    "type": "object"
+                },
                 "unmoderated": {
                     "$ref": "#/definitions/HeaderAndExplanationText",
                     "description": "What to sa when content has not yet been moderated"
@@ -29404,6 +29754,8 @@
                 "unmoderated",
                 "moderate",
                 "queue",
+                "noAddress",
+                "subject",
                 "flags",
                 "progress",
                 "done",
@@ -30004,6 +30356,9 @@
             "type": "string"
         },
         "Template<[\"keyword\"]>": {
+            "type": "string"
+        },
+        "Template<[\"kind\"]>": {
             "type": "string"
         },
         "Template<[\"kit\"]>": {

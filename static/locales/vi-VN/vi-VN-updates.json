@@ -970,6 +970,13 @@
         "e023f9e6e610d": "$~Chúng tôi đã sửa lỗi khi xin kiểm duyệt một nhân vật trong phòng trưng bày, việc mà trước đây luôn thất bại. (<1372@https://github.com/wordplaydev/wordplay/issues/1372>)",
         "e31bb325a6f4a": "$~Dịch một chương trình giờ đây không còn đổi tên một tên ở một chỗ mà bỏ sót các chỗ khác nữa, điều từng làm hỏng chương trình. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
         "ec7e327ea8ea0": "$~Nếu chúng tôi không thể xác nhận trình duyệt của bạn là thật, điều có thể xảy ra trên mạng của trường học, giờ đây chúng tôi sẽ báo cho bạn biết thay vì yêu cầu bạn thử lại. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
-        "e003ca7973f98": "$~Trang đăng nhập giờ đây không còn báo rằng đã gửi cho bạn một đường liên kết đăng nhập khi thực ra chưa gửi được. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)"
+        "e003ca7973f98": "$~Trang đăng nhập giờ đây không còn báo rằng đã gửi cho bạn một đường liên kết đăng nhập khi thực ra chưa gửi được. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "ec0822aa79180": "$~Giờ đây Wordplay có thể gửi thư điện tử cho bạn khi có điều gì đó xảy ra mà bạn muốn biết, chẳng hạn như một quyết định về thứ bạn đã tạo ra. Bạn tự chọn muốn nhận loại thư nào trên trang hồ sơ của mình.",
+        "ea81ddc87b61c": "$~Giờ đây người kiểm duyệt và người phụ trách phòng trưng bày có thể thấy còn bao nhiêu việc đang chờ họ xem xét, thay vì phải tự đi tìm.",
+        "e88f690999de4": "$~Những thư điện tử chúng tôi gửi giờ đây trông giống Wordplay hơn, và các nút bấm trong đó cũng dễ đọc hơn.",
+        "efa3f7d56bf19": "$~Thư điện tử về công việc của bạn giờ đây có tiêu đề ngắn gọn cho biết điều gì đã xảy ra, và thư về phản hồi mới sẽ dẫn thẳng đến nội dung đó.",
+        "e8799c250d910": "$~Trang hồ sơ của bạn giờ đây có tiêu đề cho từng phần, và mọi thứ liên quan đến địa chỉ thư điện tử của bạn được gom vào một chỗ.",
+        "ea85f668a42b7": "$~Một phòng trưng bày hay bộ công cụ bị người kiểm duyệt từ chối giờ đây sẽ giữ nguyên trạng thái đó, thay vì quay lại hàng chờ ngay lập tức.",
+        "e3c78159889be": "$~Người phụ trách được báo về một dự án hay phòng trưng bày bị báo cáo giờ đây có thể thực sự tìm thấy nó trong danh sách xét duyệt của mình."
     }
 }

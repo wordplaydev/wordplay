@@ -8940,12 +8940,13 @@
                     "decisionHeader": "$~Une décision a été prise à propos de quelque chose que tu as créé dans « $title »",
                     "outcomeHeader": "$~Une décision a été prise à propos de ce que tu as signalé dans « $title »",
                     "because": "$~Parce que :",
-                    "note": "$~Ils ont dit :"
+                    "note": "$~Ils ont dit :",
+                    "reviewPending": "$~$#count[Quelque chose attend|$#count choses attendent|$count choses attendent] que tu les examines"
                 },
                 "delete": "$~supprimer cette notification",
                 "popup": "$~$#count[1 notification|$#count notifications|$count notifications]",
                 "moderate": {
-                    "label": "$~examiner le contenu signalé",
+                    "label": "$~examiner ce qui attend",
                     "tip": "$~aller voir les éléments qui attendent ton examen"
                 }
             }
@@ -9622,7 +9623,46 @@
                         "label": "$~Enregistrer",
                         "tip": "$~Utiliser ce nom d'utilisateur à partir de maintenant"
                     }
-                }
+                },
+                "notifications": {
+                    "header": "$~M'envoyer un courriel pour…",
+                    "noAddress": "$~Ajoute une adresse courriel ci-dessus pour choisir les courriels que Wordplay t'envoie.",
+                    "decisions": {
+                        "label": "$~la modération de choses que j'ai créées ou signalées",
+                        "labels": ["$~désactivé", "$~activé"],
+                        "tips": [
+                            "$~Ne pas m'envoyer de courriel pour la modération de choses que j'ai créées ou signalées",
+                            "$~M'envoyer un courriel pour la modération de choses que j'ai créées ou signalées"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~la modération qui attend mon examen",
+                        "labels": ["$~désactivé", "$~activé"],
+                        "tips": [
+                            "$~Ne pas m'envoyer de courriel pour la modération qui attend mon examen",
+                            "$~M'envoyer un courriel pour la modération qui attend mon examen"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~les nouvelles discussions et les nouveaux comment faire",
+                        "labels": ["$~désactivé", "$~activé"],
+                        "tips": [
+                            "$~Ne pas m'envoyer de courriel pour les nouvelles discussions et les nouveaux comment faire",
+                            "$~M'envoyer un courriel pour les nouvelles discussions et les nouveaux comment faire"
+                        ]
+                    },
+                    "notYet": "$~Quand tu pourras utiliser une adresse courriel, tu pourras choisir les courriels que Wordplay t'envoie."
+                },
+                "subheader": {
+                    "work": "$~Ton travail",
+                    "character": "$~Ton personnage",
+                    "username": "$~Ton nom d'utilisateur",
+                    "password": "$~Ton mot de passe",
+                    "email": "$~Courriel",
+                    "logout": "$~Se déconnecter",
+                    "delete": "$~Supprimer ton compte"
+                },
+                "profile": "$~Profil"
             },
             "join": {
                 "header": "$~Rejoindre",
@@ -11201,6 +11241,49 @@
                 "body": "$~Sélectionne le bouton ci-dessous pour te connecter. Le lien fonctionne une seule fois, et seulement pendant un court moment.",
                 "button": "$~Se connecter",
                 "disclaimer": "$~Si tu n'as pas demandé à te connecter, tu peux ignorer ce courriel — personne ne peut accéder à ton compte sans ce lien."
+            },
+            "notice": {
+                "open": "$~Jette un œil",
+                "manage": "$~Modifier les réglages de notification",
+                "heading": {
+                    "reported": "$~Signalé",
+                    "decision": "$~Décision de modération",
+                    "review": "$~En attente d'un avis",
+                    "warning": "$~Un avertissement",
+                    "listing": "$~Décision de mise en avant",
+                    "howto": "$~Nouveau comment faire",
+                    "chat": "$~Nouvelles discussions"
+                },
+                "subject": {
+                    "reported": "$~Ton $kind a été signalé",
+                    "received": "$~Nous avons reçu ton signalement",
+                    "decision": "$~Une décision à propos de ton $kind",
+                    "review": "$~Quelque chose attend ton avis",
+                    "warning": "$~Un avertissement à propos de ce que tu as partagé",
+                    "listing": "$~Une décision à propos de la mise en avant de ton $kind",
+                    "howto": "$~Un nouveau comment faire dans ta galerie"
+                },
+                "body": {
+                    "reported": "$~Quelqu'un a demandé un avis sur quelque chose que tu as créé dans \"$title\". La personne responsable va y jeter un œil.",
+                    "received": "$~Ton signalement à propos de \"$title\" est arrivé à la personne responsable de l'examiner.",
+                    "decision": "$~Une décision a été prise à propos de quelque chose que tu as créé dans \"$title\".",
+                    "review": "$~Quelqu'un a demandé un avis sur \"$title\".",
+                    "warning": "$~Ceci est l'avertissement $#count[1|$#count|$count] à propos de quelque chose que tu as partagé publiquement.",
+                    "listing": "$~Une décision a été prise pour savoir si \"$title\" est mis en avant.",
+                    "howto": "$~\"$title\" a été publié dans une galerie dont tu fais partie."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[Quelque chose attend|$#count choses attendent|$count choses attendent] que tu les examines",
+                "heading": "$~$#count[1 chose à revoir|$#count choses à revoir|$count choses à revoir]",
+                "open": "$~Commencer l'examen",
+                "body": "$~Les signalements et les demandes de mise en avant attendent dans la file de modération jusqu'à ce que quelqu'un prenne une décision à leur sujet."
+            },
+            "chat": {
+                "subject": "$~Vous avez des discussions non lues",
+                "heading": "$~Nouvelles discussions",
+                "open": "$~Les lire",
+                "body": "$~Il y a des messages que vous n'avez pas lus dans $#count[une discussion|$#count discussions|$count discussions]."
             }
         },
         "markup": {
@@ -11402,6 +11485,15 @@
                 "approved": "$~$name est maintenant inscrit dans le guide.",
                 "denied": "$~$name n'a pas été inscrit dans le guide."
             }
+        },
+        "noAddress": "$~Wordplay n'a pas d'adresse courriel pour vous, donc rien ici ne peut vous joindre par courriel. Vous pouvez en ajouter une sur votre <profil@/profile>.",
+        "subject": {
+            "project": "$~projet",
+            "gallery": "$~galerie",
+            "howto": "$~comment faire",
+            "character": "$~personnage",
+            "kit": "$~kit",
+            "chat": "$~discussion"
         }
     },
     "gallery": {

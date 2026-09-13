@@ -231,12 +231,12 @@ service cloud.firestore {
       // written them anything. Empty only: the notices are not theirs to write.
       allow create: if request.auth != null && request.auth.uid == uid
         && request.resource.data.notices.size() == 0;
-      // Marking read and dismissing are the reader's; the notices are not. A
-      // creator who could append one could forge a moderator's decision to
-      // themselves, or delete the warning they were just given.
+      // Dismissing is the reader's; the notices are not. A creator who could
+      // append one could forge a moderator's decision to themselves, or delete
+      // the warning they were just given.
       allow update: if request.auth != null && request.auth.uid == uid
         && request.resource.data.diff(resource.data).affectedKeys()
-             .hasOnly(['readAt', 'dismissed']);
+             .hasOnly(['dismissed']);
       allow delete: if false;
     }
     // A creator's username (#628). Server-written and self-readable, the same

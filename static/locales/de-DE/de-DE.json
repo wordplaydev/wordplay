@@ -8932,12 +8932,13 @@
                     "decisionHeader": "$~Es wurde eine Entscheidung über etwas getroffen, das du in „$title“ gemacht hast",
                     "outcomeHeader": "$~Es wurde eine Entscheidung über deine Meldung in „$title“ getroffen",
                     "because": "$~Weil es:",
-                    "note": "$~Sie haben gesagt:"
+                    "note": "$~Sie haben gesagt:",
+                    "reviewPending": "$~$#count[Etwas wartet|$count Dinge warten] darauf, dass du sie prüfst"
                 },
                 "delete": "$~Diese Benachrichtigung löschen",
                 "popup": "$~$#count[1 Benachrichtigung|$count Benachrichtigungen]",
                 "moderate": {
-                    "label": "$~gemeldete Inhalte prüfen",
+                    "label": "$~prüfen, was wartet",
                     "tip": "$~zu den Dingen gehen, die auf deine Prüfung warten"
                 }
             }
@@ -9610,7 +9611,46 @@
                         "label": "$~Speichern",
                         "tip": "$~Diesen Benutzernamen ab jetzt verwenden"
                     }
-                }
+                },
+                "notifications": {
+                    "header": "$~Schreib mir eine E-Mail über…",
+                    "noAddress": "$~Füge oben eine E-Mail-Adresse hinzu, um auszuwählen, welche E-Mails Wordplay dir schickt.",
+                    "decisions": {
+                        "label": "$~Moderation von Dingen, die ich erstellt oder gemeldet habe",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Schick mir keine E-Mail über Moderation von Dingen, die ich erstellt oder gemeldet habe",
+                            "$~Schick mir eine E-Mail über Moderation von Dingen, die ich erstellt oder gemeldet habe"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~Moderation, die auf meine Prüfung wartet",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Schick mir keine E-Mail über Moderation, die auf meine Prüfung wartet",
+                            "$~Schick mir eine E-Mail über Moderation, die auf meine Prüfung wartet"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~neue Chats und Wie-man-Leitfäden",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Schick mir keine E-Mail über neue Chats und Wie-man-Leitfäden",
+                            "$~Schick mir eine E-Mail über neue Chats und Wie-man-Leitfäden"
+                        ]
+                    },
+                    "notYet": "$~Sobald du eine E-Mail-Adresse nutzen kannst, kannst du auswählen, welche E-Mails Wordplay dir schickt."
+                },
+                "subheader": {
+                    "work": "$~Deine Arbeit",
+                    "character": "$~Deine Figur",
+                    "username": "$~Dein Benutzername",
+                    "password": "$~Dein Passwort",
+                    "email": "$~E-Mail",
+                    "logout": "$~Abmelden",
+                    "delete": "$~Konto löschen"
+                },
+                "profile": "$~Profil"
             },
             "join": {
                 "header": "$~Verbinden",
@@ -11197,6 +11237,49 @@
                 "body": "$~Wähle den Knopf unten, um dich anzumelden. Der Link funktioniert nur einmal und nur für kurze Zeit.",
                 "button": "$~Anmelden",
                 "disclaimer": "$~Wenn du dich nicht anmelden wolltest, kannst du diese E-Mail ignorieren – ohne diesen Link kann niemand in dein Konto gelangen."
+            },
+            "notice": {
+                "open": "$~Schau es dir an",
+                "manage": "$~Ändere deine Benachrichtigungseinstellungen",
+                "heading": {
+                    "reported": "$~Gemeldet",
+                    "decision": "$~Moderationsentscheidung",
+                    "review": "$~Wartet auf Prüfung",
+                    "warning": "$~Eine Warnung",
+                    "listing": "$~Entscheidung zur Auflistung",
+                    "howto": "$~Neue Wie-man-Anleitung",
+                    "chat": "$~Neue Chats"
+                },
+                "subject": {
+                    "reported": "$~Dein $kind wurde gemeldet",
+                    "received": "$~Wir haben deine Meldung erhalten",
+                    "decision": "$~Eine Entscheidung über dein $kind",
+                    "review": "$~Etwas wartet auf deine Prüfung",
+                    "warning": "$~Eine Warnung zu etwas, das du geteilt hast",
+                    "listing": "$~Eine Entscheidung darüber, ob dein $kind aufgelistet wird",
+                    "howto": "$~Eine neue Wie-man-Anleitung in deiner Galerie"
+                },
+                "body": {
+                    "reported": "$~Jemand hat um eine Prüfung von etwas gebeten, das du in \"$title\" erstellt hast. Die zuständige Person wird es sich ansehen.",
+                    "received": "$~Deine Meldung über \"$title\" hat die für die Prüfung zuständige Person erreicht.",
+                    "decision": "$~Es wurde eine Entscheidung über etwas getroffen, das du in \"$title\" erstellt hast.",
+                    "review": "$~Jemand hat um eine Prüfung von \"$title\" gebeten.",
+                    "warning": "$~Dies ist Warnung $#count[1|$count] zu etwas, das du öffentlich geteilt hast.",
+                    "listing": "$~Es wurde entschieden, ob \"$title\" aufgelistet wird.",
+                    "howto": "$~\"$title\" wurde in einer Galerie veröffentlicht, zu der du gehörst."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[Etwas wartet|$count Dinge warten] darauf, dass du sie prüfst",
+                "heading": "$~$#count[1 Sache|$count Sachen] zu prüfen",
+                "open": "$~Prüfung beginnen",
+                "body": "$~Meldungen und Auflistungsanfragen warten in der Moderationswarteschlange, bis jemand darüber entscheidet."
+            },
+            "chat": {
+                "subject": "$~Du hast ungelesene Chats",
+                "heading": "$~Neue Chats",
+                "open": "$~Lies sie",
+                "body": "$~Es gibt Nachrichten, die du noch nicht gelesen hast, in $#count[einem Chat|$count Chats]."
             }
         },
         "markup": {
@@ -11398,6 +11481,15 @@
                 "approved": "$~$name ist jetzt im Leitfaden gelistet.",
                 "denied": "$~$name wurde nicht im Leitfaden gelistet."
             }
+        },
+        "noAddress": "$~Wordplay hat keine E-Mail-Adresse für dich, also kann dich hier nichts per E-Mail erreichen. Du kannst eine auf deinem <Profil@/profile> hinzufügen.",
+        "subject": {
+            "project": "$~Projekt",
+            "gallery": "$~Galerie",
+            "howto": "$~Wie man",
+            "character": "$~Figur",
+            "kit": "$~Werkzeugkasten",
+            "chat": "$~Chat"
         }
     },
     "gallery": {

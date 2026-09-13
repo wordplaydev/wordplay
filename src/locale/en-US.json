@@ -7331,6 +7331,49 @@
     },
     "ui": {
         "email": {
+            "notice": {
+                "subject": {
+                    "reported": "Your $kind was reported",
+                    "received": "We got your report",
+                    "decision": "A decision about your $kind",
+                    "review": "Something is waiting for your review",
+                    "warning": "A warning about what you shared",
+                    "listing": "A decision about listing your $kind",
+                    "howto": "A new how-to in your gallery"
+                },
+                "body": {
+                    "reported": "Someone asked for a review of something you made in \"$title\". Whoever is responsible will take a look.",
+                    "received": "Your report about \"$title\" reached whoever is responsible for reviewing it.",
+                    "decision": "A decision was made about something you made in \"$title\".",
+                    "review": "Someone asked for a review of \"$title\".",
+                    "warning": "This is warning $#count[1|$count] about something you shared publicly.",
+                    "listing": "A decision was made about whether \"$title\" is listed.",
+                    "howto": "\"$title\" was published in a gallery you are part of."
+                },
+                "open": "Take a look",
+                "manage": "Change your notification settings",
+                "heading": {
+                    "reported": "Reported",
+                    "decision": "Moderation decision",
+                    "review": "Waiting for review",
+                    "warning": "A warning",
+                    "listing": "Listing decision",
+                    "howto": "New how-to",
+                    "chat": "New chats"
+                }
+            },
+            "review": {
+                "subject": "$#count[Something is|$count things are] waiting for you to review",
+                "heading": "$#count[1 thing|$count things] to review",
+                "body": "Reports and listing requests wait in the moderation queue until someone decides about them.",
+                "open": "Start reviewing"
+            },
+            "chat": {
+                "subject": "You have unread chats",
+                "heading": "New chats",
+                "body": "There are messages you have not read in $#count[a chat|$count chats].",
+                "open": "Read them"
+            },
             "signin": {
                 "subject": "Your Wordplay sign-in link",
                 "heading": "Sign in to Wordplay",
@@ -9203,12 +9246,13 @@
                     "decisionHeader": "A decision was made about something you made in \"$title\"",
                     "outcomeHeader": "A decision was made about what you reported in \"$title\"",
                     "because": "Because it:",
-                    "note": "They said:"
+                    "note": "They said:",
+                    "reviewPending": "$#count[Something is|$count things are] waiting for you to review"
                 },
                 "delete": "delete this notification",
                 "popup": "$#count[1 notification|$count notifications]",
                 "moderate": {
-                    "label": "review reported content",
+                    "label": "review what is waiting",
                     "tip": "go to the things waiting for you to review"
                 }
             },
@@ -10724,6 +10768,7 @@
             },
             "login": {
                 "header": "Login",
+                "profile": "Profile",
                 "subtitle": "Save, collaborate, and share",
                 "anonymous": "login",
                 "prompt": {
@@ -10744,6 +10789,15 @@
                     "delete": "Want us to forget everything you've made here? This can't be undone.",
                     "reallyDelete": "Are you sure? Your account and settings will be deleted immediately and your projects will be scheduled for deletion. Collaborators on your projects will immediately lose access to them. Type your email or username to confirm that this is what you want.",
                     "name": "Pick an emoji or custom character to represent yourself to others."
+                },
+                "subheader": {
+                    "work": "Your work",
+                    "character": "Your character",
+                    "username": "Your username",
+                    "password": "Your password",
+                    "email": "Email",
+                    "logout": "Sign out",
+                    "delete": "Delete your account"
                 },
                 "username": {
                     "change": "Your username is how other people see you, and it begins the name of every character you make. You can change it whenever you like. Your old name keeps working, so anything already pointing at your characters still finds them.",
@@ -10838,6 +10892,35 @@
                     "reveal": {
                         "on": "Show password",
                         "off": "Hide password"
+                    }
+                },
+                "notifications": {
+                    "header": "Email me about…",
+                    "noAddress": "Add an email address above to choose which emails Wordplay sends you.",
+                    "notYet": "When you can use an email address, you will be able to choose which emails Wordplay sends you.",
+                    "decisions": {
+                        "label": "moderation of things I made or reported",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Don't email me about moderation of things I made or reported",
+                            "Email me about moderation of things I made or reported"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "moderation waiting for my review",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Don't email me about moderation waiting for my review",
+                            "Email me about moderation waiting for my review"
+                        ]
+                    },
+                    "activity": {
+                        "label": "new chats and how-tos",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Don't email me about new chats and how-tos",
+                            "Email me about new chats and how-tos"
+                        ]
                     }
                 }
             },
@@ -11272,6 +11355,15 @@
                 "review how-tos asking to be listed in the guide",
                 "review what people have asked you to look at"
             ]
+        },
+        "noAddress": "Wordplay has no email address for you, so nothing here can reach you by email. You can add one on your <profile@/profile>.",
+        "subject": {
+            "project": "project",
+            "gallery": "gallery",
+            "howto": "how-to",
+            "character": "character",
+            "kit": "kit",
+            "chat": "chat"
         },
         "flags": {
             "violence": "Incite, encourage, or celebrate violence, harm, or self harm to anyone.",

@@ -21,7 +21,6 @@
         "@supercharge/promise-pool": "^3",
         "firebase-admin": "^14",
         "firebase-functions": "^7",
-        "nodemailer": "^10",
         "prettier": "^3",
         "resend": "^6.26.0",
         "shared-types": "file:./src/shared",

@@ -8949,12 +8949,13 @@
                     "decisionHeader": "$~Podjęto decyzję w sprawie czegoś, co stworzyłeś w „$title”",
                     "outcomeHeader": "$~Podjęto decyzję w sprawie tego, co zgłosiłeś w „$title”",
                     "because": "$~Ponieważ:",
-                    "note": "$~Napisali:"
+                    "note": "$~Napisali:",
+                    "reviewPending": "$~$#count[Coś czeka|$count rzeczy czekają|$count rzeczy czeka|$count rzeczy czeka] na twoją ocenę"
                 },
                 "delete": "$~usuń to powiadomienie",
                 "popup": "$~$#count[1 powiadomienie|$count powiadomienia|$count powiadomień|$count powiadomienia]",
                 "moderate": {
-                    "label": "$~sprawdź zgłoszoną zawartość",
+                    "label": "$~sprawdź, co czeka",
                     "tip": "$~przejdź do rzeczy czekających na twoje sprawdzenie"
                 }
             }
@@ -9874,7 +9875,46 @@
                         "label": "$~Zapisz",
                         "tip": "$~Używaj tej nazwy użytkownika od teraz"
                     }
-                }
+                },
+                "notifications": {
+                    "header": "$~Wyślij mi e-mail o…",
+                    "noAddress": "$~Dodaj adres e-mail powyżej, aby wybrać, jakie wiadomości Wordplay będzie ci wysyłać.",
+                    "decisions": {
+                        "label": "$~moderacja rzeczy, które stworzyłem lub zgłosiłem",
+                        "labels": ["$~wyłączone", "$~włączone"],
+                        "tips": [
+                            "$~Nie wysyłaj mi e-maili o moderacji rzeczy, które stworzyłem lub zgłosiłem",
+                            "$~Wysyłaj mi e-maile o moderacji rzeczy, które stworzyłem lub zgłosiłem"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~moderacja czekająca na moją ocenę",
+                        "labels": ["$~wyłączone", "$~włączone"],
+                        "tips": [
+                            "$~Nie wysyłaj mi e-maili o moderacji czekającej na moją ocenę",
+                            "$~Wysyłaj mi e-maile o moderacji czekającej na moją ocenę"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~nowe czaty i poradniki",
+                        "labels": ["$~wyłączone", "$~włączone"],
+                        "tips": [
+                            "$~Nie wysyłaj mi e-maili o nowych czatach i poradnikach",
+                            "$~Wysyłaj mi e-maile o nowych czatach i poradnikach"
+                        ]
+                    },
+                    "notYet": "$~Gdy będziesz mógł podać adres e-mail, będziesz mógł wybrać, jakie wiadomości Wordplay będzie ci wysyłać."
+                },
+                "subheader": {
+                    "work": "$~Twoja praca",
+                    "character": "$~Twoja postać",
+                    "username": "$~Twoja nazwa użytkownika",
+                    "password": "$~Twoje hasło",
+                    "email": "$~E-mail",
+                    "logout": "$~Wyloguj się",
+                    "delete": "$~Usuń swoje konto"
+                },
+                "profile": "$~Profil"
             },
             "join": {
                 "header": "$~Dołączyć",
@@ -11193,6 +11233,49 @@
                 "body": "$~Wybierz przycisk poniżej, aby się zalogować. Link działa tylko raz i tylko przez krótki czas.",
                 "button": "$~Zaloguj się",
                 "disclaimer": "$~Jeśli nie prosiłeś o zalogowanie, możesz zignorować tę wiadomość — nikt nie dostanie się na twoje konto bez tego linku."
+            },
+            "notice": {
+                "open": "$~Zobacz",
+                "manage": "$~Zmień ustawienia powiadomień",
+                "heading": {
+                    "reported": "$~Zgłoszone",
+                    "decision": "$~Decyzja moderacji",
+                    "review": "$~Czeka na sprawdzenie",
+                    "warning": "$~Ostrzeżenie",
+                    "listing": "$~Decyzja o publikacji",
+                    "howto": "$~Nowy jak",
+                    "chat": "$~Nowe czaty"
+                },
+                "subject": {
+                    "reported": "$~Twój $kind został zgłoszony",
+                    "received": "$~Otrzymaliśmy twoje zgłoszenie",
+                    "decision": "$~Decyzja dotycząca twojego $kind",
+                    "review": "$~Coś czeka na twoje sprawdzenie",
+                    "warning": "$~Ostrzeżenie dotyczące tego, co udostępniłeś",
+                    "listing": "$~Decyzja o publikacji twojego $kind",
+                    "howto": "$~Nowy jak w twojej galerii"
+                },
+                "body": {
+                    "reported": "$~Ktoś poprosił o sprawdzenie czegoś, co stworzyłeś w \"$title\". Osoba odpowiedzialna to sprawdzi.",
+                    "received": "$~Twoje zgłoszenie dotyczące \"$title\" dotarło do osoby odpowiedzialnej za jego sprawdzenie.",
+                    "decision": "$~Podjęto decyzję dotyczącą czegoś, co stworzyłeś w \"$title\".",
+                    "review": "$~Ktoś poprosił o sprawdzenie \"$title\".",
+                    "warning": "$~To jest ostrzeżenie numer $#count[1|$count|$count|$count] dotyczące czegoś, co udostępniłeś publicznie.",
+                    "listing": "$~Podjęto decyzję, czy \"$title\" zostanie opublikowane.",
+                    "howto": "$~\"$title\" zostało opublikowane w galerii, do której należysz."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[Coś czeka|$count rzeczy czekają|$count rzeczy czeka|$count rzeczy czeka] na twoją ocenę",
+                "heading": "$~$#count[1 rzecz do sprawdzenia|$count rzeczy do sprawdzenia|$count rzeczy do sprawdzenia|$count rzeczy do sprawdzenia]",
+                "open": "$~Zacznij sprawdzanie",
+                "body": "$~Zgłoszenia i prośby o publikację czekają w kolejce moderacji, aż ktoś podejmie o nich decyzję."
+            },
+            "chat": {
+                "subject": "$~Masz nieprzeczytane czaty",
+                "heading": "$~Nowe czaty",
+                "open": "$~Przeczytaj je",
+                "body": "$~Są wiadomości, których nie przeczytałeś w $#count[jednym czacie|$count czatach|$count czatach|$count czata]."
             }
         },
         "markup": {
@@ -11394,6 +11477,15 @@
                 "approved": "$~$name jest teraz wpisany w przewodniku.",
                 "denied": "$~$name nie został wpisany w przewodniku."
             }
+        },
+        "noAddress": "$~Wordplay nie ma dla ciebie adresu e-mail, więc nic tutaj nie może się z tobą skontaktować przez e-mail. Możesz go dodać na swoim <profilu@/profile>.",
+        "subject": {
+            "project": "$~projekt",
+            "gallery": "$~galeria",
+            "howto": "$~jak",
+            "character": "$~postać",
+            "kit": "$~zestaw",
+            "chat": "$~czat"
         }
     },
     "gallery": {

@@ -59,6 +59,7 @@ export function noticeAction(notice: SerializedNotice): string | undefined {
         case 'warning':
             return '/rights';
         case 'review-requested':
+        case 'review-pending':
             return '/moderate';
         default:
             return undefined;

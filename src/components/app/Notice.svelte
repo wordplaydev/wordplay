@@ -1,3 +1,7 @@
+<!-- An inline notice used to render its children and nothing else, so a caller
+     that passed `text` — as the sign-in switch and the username save both do —
+     got an empty orange box and no explanation at all. Both branches now say
+     the same thing, which is what the two props promised. -->
 <script lang="ts">
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { animationDuration } from '@db/Database';
@@ -23,7 +27,10 @@
 </script>
 
 {#if inline}<span class="feedback saturated-surface"
-        >{@render children?.()}</span
+        >{#if children}{@render children()}{:else if text}<LocalizedText
+                path={text}
+                {markup}
+            />{/if}</span
     >{:else}
     <div
         class="feedback saturated-surface"

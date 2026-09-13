@@ -117,11 +117,15 @@
             reports = found.docs
                 .map((doc) => doc.data())
                 .filter((data): data is SerializedReport => data.v === 2)
-                // Whole projects and galleries have their own queues; this
-                // one is for what someone said — and, since #822, for what
-                // someone drew, which is the same size of thing.
+                // A platform moderator has separate queues for whole projects
+                // and for listing requests, so those are filtered out of this
+                // one. A curator has no other queue at all: they are sent
+                // straight here by their `review-requested` notice, and a
+                // reported project or gallery was landing in a page that then
+                // refused to show it. Everything routed to them belongs here.
                 .filter(
                     (data) =>
+                        !moderator ||
                         data.kind === 'chat' ||
                         data.kind === 'howto' ||
                         data.kind === 'character' ||

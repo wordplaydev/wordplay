@@ -9087,12 +9087,13 @@
                     "decisionHeader": "$~Sebuah keputusan telah dibuat tentang sesuatu yang kamu buat di \"$title\"",
                     "outcomeHeader": "$~Sebuah keputusan telah dibuat tentang apa yang kamu laporkan di \"$title\"",
                     "because": "$~Karena hal itu:",
-                    "note": "$~Mereka berkata:"
+                    "note": "$~Mereka berkata:",
+                    "reviewPending": "$~$#count[$count hal sedang menunggu untuk kamu tinjau]"
                 },
                 "delete": "$~Hapus pemberitahuan ini",
                 "popup": "$~$#count[$count pemberitahuan]",
                 "moderate": {
-                    "label": "$~tinjau konten yang dilaporkan",
+                    "label": "$~ulas yang sedang menunggu",
                     "tip": "$~buka hal-hal yang menunggu untuk ditinjau"
                 }
             },
@@ -10703,7 +10704,46 @@
                         "label": "$~Simpan",
                         "tip": "$~Gunakan nama pengguna ini mulai sekarang"
                     }
-                }
+                },
+                "notifications": {
+                    "header": "$~Kirimi saya email tentang…",
+                    "noAddress": "$~Tambahkan alamat email di atas untuk memilih email apa saja yang dikirim Wordplay kepadamu.",
+                    "decisions": {
+                        "label": "$~moderasi hal yang saya buat atau laporkan",
+                        "labels": ["$~mati", "$~aktif"],
+                        "tips": [
+                            "$~Jangan kirimi saya email tentang moderasi hal yang saya buat atau laporkan",
+                            "$~Kirimi saya email tentang moderasi hal yang saya buat atau laporkan"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~moderasi yang menunggu ulasan saya",
+                        "labels": ["$~mati", "$~aktif"],
+                        "tips": [
+                            "$~Jangan kirimi saya email tentang moderasi yang menunggu ulasan saya",
+                            "$~Kirimi saya email tentang moderasi yang menunggu ulasan saya"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~obrolan dan cara baru",
+                        "labels": ["$~mati", "$~aktif"],
+                        "tips": [
+                            "$~Jangan kirimi saya email tentang obrolan dan cara baru",
+                            "$~Kirimi saya email tentang obrolan dan cara baru"
+                        ]
+                    },
+                    "notYet": "$~Saat kamu dapat menggunakan alamat email, kamu bisa memilih email apa saja yang dikirim Wordplay kepadamu."
+                },
+                "subheader": {
+                    "work": "$~Karyamu",
+                    "character": "$~Karaktermu",
+                    "username": "$~Nama penggunamu",
+                    "password": "$~Kata sandimu",
+                    "email": "$~Email",
+                    "logout": "$~Keluar",
+                    "delete": "$~Hapus akunmu"
+                },
+                "profile": "$~Profil"
             },
             "join": {
                 "header": "$~Bergabung",
@@ -11196,6 +11236,49 @@
                 "body": "$~Pilih tombol di bawah ini untuk masuk. Tautan ini hanya bisa dipakai sekali, dan hanya berlaku sebentar.",
                 "button": "$~Masuk",
                 "disclaimer": "$~Jika kamu tidak meminta untuk masuk, kamu boleh mengabaikan email ini — tidak ada yang bisa masuk ke akunmu tanpa tautan ini."
+            },
+            "notice": {
+                "open": "$~Lihat",
+                "manage": "$~Ubah pengaturan pemberitahuanmu",
+                "heading": {
+                    "reported": "$~Dilaporkan",
+                    "decision": "$~Keputusan moderasi",
+                    "review": "$~Menunggu tinjauan",
+                    "warning": "$~Sebuah peringatan",
+                    "listing": "$~Keputusan pencantuman",
+                    "howto": "$~Cara baru",
+                    "chat": "$~Obrolan baru"
+                },
+                "subject": {
+                    "reported": "$~$kind milikmu dilaporkan",
+                    "received": "$~Kami menerima laporanmu",
+                    "decision": "$~Sebuah keputusan tentang $kind milikmu",
+                    "review": "$~Ada sesuatu yang menunggu tinjauanmu",
+                    "warning": "$~Sebuah peringatan tentang apa yang kamu bagikan",
+                    "listing": "$~Sebuah keputusan tentang pencantuman $kind milikmu",
+                    "howto": "$~Sebuah cara baru di galerimu"
+                },
+                "body": {
+                    "reported": "$~Seseorang meminta tinjauan atas sesuatu yang kamu buat di \"$title\". Orang yang bertanggung jawab akan memeriksanya.",
+                    "received": "$~Laporanmu tentang \"$title\" telah sampai kepada orang yang bertanggung jawab untuk meninjaunya.",
+                    "decision": "$~Sebuah keputusan telah dibuat tentang sesuatu yang kamu buat di \"$title\".",
+                    "review": "$~Seseorang meminta tinjauan atas \"$title\".",
+                    "warning": "$~Ini adalah peringatan ke-$#count[$count] tentang sesuatu yang kamu bagikan secara publik.",
+                    "listing": "$~Sebuah keputusan telah dibuat tentang apakah \"$title\" dicantumkan.",
+                    "howto": "$~\"$title\" diterbitkan di galeri yang kamu ikuti."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[$count hal menunggu untuk kamu tinjau]",
+                "heading": "$~$#count[$count hal] untuk ditinjau",
+                "open": "$~Mulai meninjau",
+                "body": "$~Laporan dan permintaan pencantuman menunggu di antrean moderasi sampai seseorang memutuskan tentangnya."
+            },
+            "chat": {
+                "subject": "$~Kamu punya obrolan yang belum dibaca",
+                "heading": "$~Obrolan baru",
+                "open": "$~Baca sekarang",
+                "body": "$~Ada pesan yang belum kamu baca di $#count[$count obrolan]."
             }
         },
         "markup": {
@@ -11391,6 +11474,15 @@
                 "approved": "$~$name sekarang sudah ada di panduan.",
                 "denied": "$~$name tidak dimasukkan ke panduan."
             }
+        },
+        "noAddress": "$~Wordplay tidak punya alamat email untukmu, jadi tidak ada yang bisa menghubungimu lewat email. Kamu bisa menambahkannya di <profil@/profile>.",
+        "subject": {
+            "project": "$~proyek",
+            "gallery": "$~galeri",
+            "howto": "$~cara",
+            "character": "$~karakter",
+            "kit": "$~kit",
+            "chat": "$~obrolan"
         }
     },
     "gallery": {

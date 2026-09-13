@@ -190,4 +190,13 @@ test('a creator too young for an email address is not offered one on their profi
     await expect(
         page.getByText(new RegExp(String(eligibleYear))),
     ).toBeVisible();
+
+    // The email notification choices sit in the same block, and they must not
+    // tell this creator to go and add an address: they cannot, which
+    // the paragraph two lines above has just finished explaining. The same
+    // age gate as the switch itself, applied to the invitation.
+    await expect(
+        page.getByText(/when you can use an email address/i),
+    ).toBeVisible();
+    await expect(page.getByText(/add an email address above/i)).toHaveCount(0);
 });

@@ -23,29 +23,42 @@ import { nextModeration } from './moderationRequest.js';
  */
 describe('nextModeration', () => {
     it('asks for review when a gallery first goes public', () => {
-        expect(nextModeration('unrequested', true, false)).toBe('pending');
+        expect(nextModeration('unrequested', true, false, true)).toBe(
+            'pending',
+        );
     });
 
-    it('asks again after a denial, so a curator can fix and resubmit', () => {
-        expect(nextModeration('denied', true, false)).toBe('pending');
+    it('lets a curator resubmit by asking again, or by fixing what was refused', () => {
+        expect(nextModeration('denied', true, false, true)).toBe('pending');
+        expect(nextModeration('denied', true, true, false)).toBe('pending');
+    });
+
+    it('but a refusal stands while nothing happens', () => {
+        // `moderate` writes `denied` while the gallery is still public, and
+        // that write comes back through this trigger. Answering `pending` here
+        // erased the refusal a moment after it was made, put the gallery back
+        // in the queue forever, and made `gallery-denied` unreachable.
+        expect(nextModeration('denied', true, false, false)).toBe('denied');
     });
 
     it('leaves an approved gallery alone while nothing about it changes', () => {
-        expect(nextModeration('approved', true, false)).toBe('approved');
+        expect(nextModeration('approved', true, false, false)).toBe('approved');
     });
 
     it('re-reviews an approved gallery whose content changed', () => {
-        expect(nextModeration('approved', true, true)).toBe('pending');
+        expect(nextModeration('approved', true, true, false)).toBe('pending');
     });
 
     it('is idle on a pending gallery, however it was edited', () => {
-        expect(nextModeration('pending', true, false)).toBe('pending');
-        expect(nextModeration('pending', true, true)).toBe('pending');
+        expect(nextModeration('pending', true, false, false)).toBe('pending');
+        expect(nextModeration('pending', true, true, false)).toBe('pending');
     });
 
     it('clears the request when a gallery stops being public', () => {
         for (const state of ['pending', 'approved', 'denied', 'unrequested'])
-            expect(nextModeration(state, false, true)).toBe('unrequested');
+            expect(nextModeration(state, false, true, false)).toBe(
+                'unrequested',
+            );
     });
 
     it('is idempotent, so the trigger stops rather than looping', () => {
@@ -53,8 +66,8 @@ describe('nextModeration', () => {
         // put — this function's write comes back through the same trigger.
         for (const state of ['unrequested', 'pending', 'approved', 'denied'])
             for (const isPublic of [true, false]) {
-                const once = nextModeration(state, isPublic, false);
-                expect(nextModeration(once, isPublic, false)).toBe(once);
+                const once = nextModeration(state, isPublic, false, false);
+                expect(nextModeration(once, isPublic, false, false)).toBe(once);
             }
     });
 });

@@ -8943,12 +8943,13 @@
                     "decisionHeader": "$~\"$title\" içinde yaptığın bir şey hakkında bir karar verildi",
                     "outcomeHeader": "$~\"$title\" içinde bildirdiğin şey hakkında bir karar verildi",
                     "because": "$~Çünkü:",
-                    "note": "$~Şunu söylediler:"
+                    "note": "$~Şunu söylediler:",
+                    "reviewPending": "$~$#count[İncelemeni bekleyen bir şey var|İncelemeni bekleyen $count şey var]"
                 },
                 "delete": "$~Bu bildirimi sil",
                 "popup": "$~$#count[1 bildirim|$count bildirim]",
                 "moderate": {
-                    "label": "$~bildirilen içeriği incele",
+                    "label": "$~bekleyenleri incele",
                     "tip": "$~incelemeni bekleyen şeylere git"
                 }
             }
@@ -9868,7 +9869,46 @@
                         "label": "$~Kaydet",
                         "tip": "$~Bu kullanıcı adını bundan sonra kullan"
                     }
-                }
+                },
+                "notifications": {
+                    "header": "$~Bana e-posta gönder…",
+                    "noAddress": "$~Wordplay'in sana hangi e-postaları göndereceğini seçmek için yukarıya bir e-posta adresi ekle.",
+                    "decisions": {
+                        "label": "$~yaptığım veya bildirdiğim şeylerin denetlenmesi",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Yaptığım veya bildirdiğim şeylerin denetlenmesi hakkında bana e-posta gönderme",
+                            "$~Yaptığım veya bildirdiğim şeylerin denetlenmesi hakkında bana e-posta gönder"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~incelememi bekleyen denetimler",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~İncelememi bekleyen denetimler hakkında bana e-posta gönderme",
+                            "$~İncelememi bekleyen denetimler hakkında bana e-posta gönder"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~yeni sohbetler ve nasıl yapılır rehberleri",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Yeni sohbetler ve nasıl yapılır rehberleri hakkında bana e-posta gönderme",
+                            "$~Yeni sohbetler ve nasıl yapılır rehberleri hakkında bana e-posta gönder"
+                        ]
+                    },
+                    "notYet": "$~Bir e-posta adresi kullanabildiğinde, Wordplay'in sana hangi e-postaları göndereceğini seçebileceksin."
+                },
+                "subheader": {
+                    "work": "$~Çalışman",
+                    "character": "$~Karakterin",
+                    "username": "$~Kullanıcı adın",
+                    "password": "$~Şifren",
+                    "email": "$~E-posta",
+                    "logout": "$~Çıkış yap",
+                    "delete": "$~Hesabını sil"
+                },
+                "profile": "$~Profil"
             },
             "join": {
                 "header": "$~Katılmak",
@@ -11188,6 +11228,49 @@
                 "body": "$~Giriş yapmak için aşağıdaki düğmeyi seç. Bağlantı yalnızca bir kez ve kısa bir süre için çalışır.",
                 "button": "$~Giriş yap",
                 "disclaimer": "$~Eğer giriş yapmak istemediysen bu e-postayı görmezden gelebilirsin — bu bağlantı olmadan kimse hesabına giremez."
+            },
+            "notice": {
+                "open": "$~Bir göz at",
+                "manage": "$~Bildirim ayarlarını değiştir",
+                "heading": {
+                    "reported": "$~Şikayet edildi",
+                    "decision": "$~Denetim kararı",
+                    "review": "$~İnceleme bekliyor",
+                    "warning": "$~Bir uyarı",
+                    "listing": "$~Listeleme kararı",
+                    "howto": "$~Yeni bir nasıl rehberi",
+                    "chat": "$~Yeni sohbetler"
+                },
+                "subject": {
+                    "reported": "$~$kind öğen şikayet edildi",
+                    "received": "$~Şikayetin bize ulaştı",
+                    "decision": "$~$kind öğen hakkında bir karar",
+                    "review": "$~İncelemeni bekleyen bir şey var",
+                    "warning": "$~Paylaştığın şeyle ilgili bir uyarı",
+                    "listing": "$~$kind öğenin listelenmesi hakkında bir karar",
+                    "howto": "$~Galerinde yeni bir nasıl rehberi"
+                },
+                "body": {
+                    "reported": "$~Birisi, \"$title\" içinde yaptığın bir şeyin incelenmesini istedi. Sorumlu kişi buna bir göz atacak.",
+                    "received": "$~\"$title\" hakkındaki şikayetin, incelemekten sorumlu kişiye ulaştı.",
+                    "decision": "$~\"$title\" içinde yaptığın bir şey hakkında bir karar verildi.",
+                    "review": "$~Birisi \"$title\" için bir inceleme istedi.",
+                    "warning": "$~Bu, herkese açık paylaştığın bir şeyle ilgili $#count[1. uyarı|$count. uyarı].",
+                    "listing": "$~\"$title\"nin listelenip listelenmeyeceği hakkında bir karar verildi.",
+                    "howto": "$~\"$title\", parçası olduğun bir galeride yayımlandı."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[İncelemeni bekleyen bir şey var|İncelemeni bekleyen $count şey var]",
+                "heading": "$~İncelenecek $#count[1 şey|$count şey]",
+                "open": "$~İncelemeye başla",
+                "body": "$~Şikayetler ve listeleme istekleri, biri karar verene kadar denetim kuyruğunda bekler."
+            },
+            "chat": {
+                "subject": "$~Okunmamış sohbetlerin var",
+                "heading": "$~Yeni sohbetler",
+                "open": "$~Onları oku",
+                "body": "$~$#count[bir sohbette|$count sohbette] okumadığın mesajlar var."
             }
         },
         "markup": {
@@ -11389,6 +11472,15 @@
                 "approved": "$~$name artık rehberde listeleniyor.",
                 "denied": "$~$name rehberde listelenmedi."
             }
+        },
+        "noAddress": "$~Wordplay senin için kayıtlı bir e-posta adresi bulamadı, bu yüzden buradaki hiçbir şey sana e-posta ile ulaşamaz. <profil@/profile> sayfandan bir tane ekleyebilirsin.",
+        "subject": {
+            "project": "$~proje",
+            "gallery": "$~galeri",
+            "howto": "$~nasıl",
+            "character": "$~karakter",
+            "kit": "$~kit",
+            "chat": "$~sohbet"
         }
     },
     "gallery": {

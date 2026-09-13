@@ -11,6 +11,9 @@ import { SvelteSet } from 'svelte/reactivity';
 
 export const PARAM_DIALOG = 'dialog';
 
+/** Which feedback the `feedback` dialog should open on, when a link says so. */
+export const PARAM_FEEDBACK = 'feedback';
+
 /** Ids of persistable dialogs currently mounted. Reactive so the layout's
  *  cleanup re-runs as dialogs mount/unmount and can tell whether a `dialog`
  *  param has an owner on the current page. */
@@ -19,6 +22,19 @@ export const mountedDialogIds = new SvelteSet<string>();
 /** Whether the URL currently requests this dialog be open. */
 export function isDialogOpenInURL(id: string): boolean {
     return page.url.searchParams.get(PARAM_DIALOG) === id;
+}
+
+/**
+ * Which item inside a dialog the URL asks for, when the dialog holds a list.
+ *
+ * A second parameter rather than a composite `dialog=feedback:<id>`, which is
+ * how a how-to does it: a how-to has one dialog *per* document, and feedback
+ * has one dialog holding all of them. Composing the id would also mean the
+ * layout's sweep no longer recognizes it, since nothing mounts a dialog by
+ * that name, and it would strip the param after five seconds.
+ */
+export function itemInDialogURL(param: string): string | null {
+    return page.url.searchParams.get(param);
 }
 
 /** Navigate to the current path with `search` as the query, only when it

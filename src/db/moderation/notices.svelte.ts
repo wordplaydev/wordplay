@@ -79,9 +79,9 @@ export async function dismiss(uid: string, ids: string[]): Promise<void> {
     notices.record = { ...already, dismissed: merged };
     const ref = doc(firestore, NoticesCollection, uid);
     try {
-        // The rules let the reader change only `dismissed` and `readAt`, so
-        // this is an update rather than a set — a set would carry `notices` and
-        // be refused, which is the point: the notices are the server's.
+        // The rules let the reader change only `dismissed`, so this is an
+        // update rather than a set — a set would carry `notices` and be
+        // refused, which is the point: the notices are the server's.
         await updateDoc(ref, { dismissed: merged });
     } catch {
         // No inbox yet: a creator can dismiss a derived notice before the

@@ -970,6 +970,13 @@
         "e023f9e6e610d": "$~Bir galerideki bir karakterin incelenmesini isteme özelliğini düzelttik. Bu özellik daha önce hiç çalışmıyordu. (<1372@https://github.com/wordplaydev/wordplay/issues/1372>)",
         "e31bb325a6f4a": "$~Bir programı çevirmek artık bir ismi yalnızca bir yerde değiştirip diğer yerlerde bırakmıyor. Bu sorun eskiden programı bozuyordu. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
         "ec7e327ea8ea0": "$~Tarayıcının gerçek olduğunu anlayamadığımızda, ki bu okul ağlarında olabiliyor, artık tekrar denemeni istemek yerine bunu sana bildiriyoruz. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
-        "e003ca7973f98": "$~Giriş sayfası, gönderemediği bir giriş bağlantısını gönderdiğini artık söylemiyor. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)"
+        "e003ca7973f98": "$~Giriş sayfası, gönderemediği bir giriş bağlantısını gönderdiğini artık söylemiyor. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "ec0822aa79180": "$~Wordplay artık ilgini çekebilecek bir şey olduğunda sana e-posta gönderebilir. Örneğin yaptığın bir şey hakkında bir karar verildiğinde. Profil sayfandan hangi tür e-postaları almak istediğini seçebilirsin.",
+        "ea81ddc87b61c": "$~Denetleyiciler ve küratörler artık gidip bakmak zorunda kalmadan, incelemeyi bekleyen ne kadar şey olduğunu görebiliyor.",
+        "e88f690999de4": "$~Artık gönderdiğimiz e-postalar Wordplay gibi görünüyor ve düğmeleri daha kolay okunuyor.",
+        "efa3f7d56bf19": "$~Çalışman hakkındaki e-postaların artık ne olduğunu anlatan kısa konu satırları var. Yeni bir geri bildirim hakkındaki e-posta ise doğrudan ona bağlantı veriyor.",
+        "e8799c250d910": "$~Profil sayfanda artık her bölümün üstünde bir başlık var ve e-posta adresinle ilgili her şey tek bir yerde toplandı.",
+        "ea85f668a42b7": "$~Bir denetleyicinin reddettiği galeri veya kit artık hemen bekleme sırasına geri dönmüyor, reddedilmiş olarak kalıyor.",
+        "e3c78159889be": "$~Bildirilen bir proje veya galeri hakkında bilgilendirilen bir küratör, artık bunu inceleme listesinde gerçekten bulabiliyor."
     }
 }

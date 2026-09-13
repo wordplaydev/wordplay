@@ -9080,12 +9080,13 @@
                     "decisionHeader": "$~May desisyon na ginawa tungkol sa isang bagay na ginawa mo sa \"$title\"",
                     "outcomeHeader": "$~May desisyon na ginawa tungkol sa iniulat mo sa \"$title\"",
                     "because": "$~Dahil ito:",
-                    "note": "$~Sinabi nila:"
+                    "note": "$~Sinabi nila:",
+                    "reviewPending": "$~$#count[May isang bagay na|May $count na bagay na] naghihintay para suriin mo"
                 },
                 "delete": "$~burahin ang notipikasyong ito",
                 "popup": "$~$#count[1 abiso|$count na abiso]",
                 "moderate": {
-                    "label": "$~suriin ang naiulat na nilalaman",
+                    "label": "$~suriin ang naghihintay",
                     "tip": "$~pumunta sa mga bagay na naghihintay sa iyo para suriin"
                 }
             },
@@ -10589,7 +10590,46 @@
                         "label": "$~I-save",
                         "tip": "$~Gamitin ang username na ito mula ngayon"
                     }
-                }
+                },
+                "notifications": {
+                    "header": "$~I-email ako tungkol sa…",
+                    "noAddress": "$~Magdagdag ng email address sa itaas para piliin kung anong mga email ang ipapadala sa iyo ng Wordplay.",
+                    "decisions": {
+                        "label": "$~pagmomoderate ng mga bagay na ginawa ko o inireport ko",
+                        "labels": ["$~naka-off", "$~naka-on"],
+                        "tips": [
+                            "$~Huwag akong i-email tungkol sa pagmomoderate ng mga bagay na ginawa ko o inireport ko",
+                            "$~I-email ako tungkol sa pagmomoderate ng mga bagay na ginawa ko o inireport ko"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~pagmomoderate na naghihintay para suriin ko",
+                        "labels": ["$~naka-off", "$~naka-on"],
+                        "tips": [
+                            "$~Huwag akong i-email tungkol sa pagmomoderate na naghihintay para suriin ko",
+                            "$~I-email ako tungkol sa pagmomoderate na naghihintay para suriin ko"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~mga bagong chat at kung paano gawin",
+                        "labels": ["$~naka-off", "$~naka-on"],
+                        "tips": [
+                            "$~Huwag akong i-email tungkol sa mga bagong chat at kung paano gawin",
+                            "$~I-email ako tungkol sa mga bagong chat at kung paano gawin"
+                        ]
+                    },
+                    "notYet": "$~Kapag may email address ka na magagamit, makakapili ka kung anong mga email ang ipapadala sa iyo ng Wordplay."
+                },
+                "subheader": {
+                    "work": "$~Ang iyong gawa",
+                    "character": "$~Ang iyong karakter",
+                    "username": "$~Ang iyong username",
+                    "password": "$~Ang iyong password",
+                    "email": "$~Email",
+                    "logout": "$~Mag-sign out",
+                    "delete": "$~Burahin ang iyong account"
+                },
+                "profile": "$~Profile"
             },
             "join": {
                 "header": "$~Sumali",
@@ -11201,6 +11241,49 @@
                 "body": "$~Piliin ang buton sa ibaba para pumasok. Minsan lang gumagana ang link, at panandalian lang.",
                 "button": "$~Pumasok",
                 "disclaimer": "$~Kung hindi ikaw ang humiling na pumasok, huwag na lang pansinin ang email na ito — walang makakapasok sa account mo kung wala ang link na ito."
+            },
+            "notice": {
+                "open": "$~Tingnan ito",
+                "manage": "$~Baguhin ang iyong mga setting ng abiso",
+                "heading": {
+                    "reported": "$~Iniulat",
+                    "decision": "$~Desisyon ng pagmomonitor",
+                    "review": "$~Naghihintay ng pagsusuri",
+                    "warning": "$~Isang babala",
+                    "listing": "$~Desisyon sa pagtatala",
+                    "howto": "$~Bagong kung paano gawin",
+                    "chat": "$~Mga bagong chat"
+                },
+                "subject": {
+                    "reported": "$~Ang iyong $kind ay naiulat",
+                    "received": "$~Natanggap namin ang iyong ulat",
+                    "decision": "$~Isang desisyon tungkol sa iyong $kind",
+                    "review": "$~May isang bagay na naghihintay ng iyong pagsusuri",
+                    "warning": "$~Isang babala tungkol sa ibinahagi mo",
+                    "listing": "$~Isang desisyon tungkol sa pagtatala ng iyong $kind",
+                    "howto": "$~Isang bagong kung paano gawin sa iyong gallery"
+                },
+                "body": {
+                    "reported": "$~May humiling ng pagsusuri sa isang bagay na ginawa mo sa \"$title\". Titingnan ito ng taong responsable.",
+                    "received": "$~Naabot ng iyong ulat tungkol sa \"$title\" ang taong responsable sa pagsusuri nito.",
+                    "decision": "$~May ginawang desisyon tungkol sa isang bagay na ginawa mo sa \"$title\".",
+                    "review": "$~May humiling ng pagsusuri para sa \"$title\".",
+                    "warning": "$~Ito ang babala $#count[bilang 1|bilang $count] tungkol sa isang bagay na ibinahagi mo nang publiko.",
+                    "listing": "$~May ginawang desisyon kung ang \"$title\" ay itatala o hindi.",
+                    "howto": "$~Ang \"$title\" ay inilathala sa isang gallery na kinabibilangan mo."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[May isang bagay na|May $count na bagay na] naghihintay para suriin mo",
+                "heading": "$~$#count[1 bagay|$count na bagay] ang dapat suriin",
+                "open": "$~Simulan ang pagsusuri",
+                "body": "$~Ang mga ulat at kahilingan sa pagtatala ay naghihintay sa pila ng pagmomonitor hanggang may magpasya tungkol sa mga ito."
+            },
+            "chat": {
+                "subject": "$~May mga hindi mo pa nabasang chat",
+                "heading": "$~Mga bagong chat",
+                "open": "$~Basahin ang mga ito",
+                "body": "$~May mga mensaheng hindi mo pa nababasa sa $#count[isang chat|$count na chat]."
             }
         },
         "markup": {
@@ -11402,6 +11485,15 @@
                 "approved": "$~Nakalista na ngayon ang $name sa gabay.",
                 "denied": "$~Hindi nailista ang $name sa gabay."
             }
+        },
+        "noAddress": "$~Walang email address para sa iyo sa Wordplay, kaya walang makakarating sa iyo dito sa pamamagitan ng email. Maaari kang magdagdag ng isa sa iyong <profile@/profile>.",
+        "subject": {
+            "project": "$~proyekto",
+            "gallery": "$~gallery",
+            "howto": "$~kung paano gawin",
+            "character": "$~karakter",
+            "kit": "$~kit",
+            "chat": "$~chat"
         }
     },
     "gallery": {

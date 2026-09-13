@@ -8938,12 +8938,13 @@
                     "decisionHeader": "$~Ett beslut har tagits om något du gjorde i \"$title\"",
                     "outcomeHeader": "$~Ett beslut har tagits om det du anmälde i \"$title\"",
                     "because": "$~Eftersom det:",
-                    "note": "$~De sa:"
+                    "note": "$~De sa:",
+                    "reviewPending": "$~$#count[Något väntar|$count saker väntar] på att du granskar det"
                 },
                 "delete": "$~radera den här aviseringen",
                 "popup": "$~$#count[1 avisering|$count aviseringar]",
                 "moderate": {
-                    "label": "$~granska anmält innehåll",
+                    "label": "$~granska det som väntar",
                     "tip": "$~gå till det som väntar på att du ska granska det"
                 }
             }
@@ -9863,7 +9864,46 @@
                         "label": "$~Spara",
                         "tip": "$~Använd det här användarnamnet från och med nu"
                     }
-                }
+                },
+                "notifications": {
+                    "header": "$~Mejla mig om…",
+                    "noAddress": "$~Lägg till en e-postadress ovan för att välja vilka mejl Wordplay skickar till dig.",
+                    "decisions": {
+                        "label": "$~granskning av saker jag gjort eller anmält",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Mejla mig inte om granskning av saker jag gjort eller anmält",
+                            "$~Mejla mig om granskning av saker jag gjort eller anmält"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~granskning som väntar på mig",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Mejla mig inte om granskning som väntar på mig",
+                            "$~Mejla mig om granskning som väntar på mig"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~nya chattar och hur man-guider",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Mejla mig inte om nya chattar och hur man-guider",
+                            "$~Mejla mig om nya chattar och hur man-guider"
+                        ]
+                    },
+                    "notYet": "$~När du kan använda en e-postadress kommer du att kunna välja vilka mejl Wordplay skickar till dig."
+                },
+                "subheader": {
+                    "work": "$~Ditt arbete",
+                    "character": "$~Din karaktär",
+                    "username": "$~Ditt användarnamn",
+                    "password": "$~Ditt lösenord",
+                    "email": "$~E-post",
+                    "logout": "$~Logga ut",
+                    "delete": "$~Ta bort ditt konto"
+                },
+                "profile": "$~Profil"
             },
             "join": {
                 "header": "$~Ansluta sig till",
@@ -11176,6 +11216,49 @@
                 "body": "$~Välj knappen nedan för att logga in. Länken fungerar bara en gång, och bara en kort stund.",
                 "button": "$~Logga in",
                 "disclaimer": "$~Om du inte bad om att logga in kan du strunta i det här e-postmeddelandet — ingen kan komma in på ditt konto utan den här länken."
+            },
+            "notice": {
+                "open": "$~Ta en titt",
+                "manage": "$~Ändra dina aviseringsinställningar",
+                "heading": {
+                    "reported": "$~Anmäld",
+                    "decision": "$~Modereringsbeslut",
+                    "review": "$~Väntar på granskning",
+                    "warning": "$~En varning",
+                    "listing": "$~Listningsbeslut",
+                    "howto": "$~Ny hur man",
+                    "chat": "$~Nya chattar"
+                },
+                "subject": {
+                    "reported": "$~Din $kind anmäldes",
+                    "received": "$~Vi fick din anmälan",
+                    "decision": "$~Ett beslut om din $kind",
+                    "review": "$~Något väntar på din granskning",
+                    "warning": "$~En varning om det du delade",
+                    "listing": "$~Ett beslut om listning av din $kind",
+                    "howto": "$~En ny hur man i ditt galleri"
+                },
+                "body": {
+                    "reported": "$~Någon bad om en granskning av något du gjorde i \"$title\". Den som ansvarar tar en titt.",
+                    "received": "$~Din anmälan om \"$title\" nådde den som ansvarar för att granska den.",
+                    "decision": "$~Ett beslut togs om något du gjorde i \"$title\".",
+                    "review": "$~Någon bad om en granskning av \"$title\".",
+                    "warning": "$~Detta är varning $#count[1|$count] om något du delade offentligt.",
+                    "listing": "$~Ett beslut togs om huruvida \"$title\" ska listas.",
+                    "howto": "$~\"$title\" publicerades i ett galleri du är med i."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[Något väntar|$count saker väntar] på att du granskar det",
+                "heading": "$~$#count[1 sak|$count saker] att granska",
+                "open": "$~Börja granska",
+                "body": "$~Anmälningar och listningsförfrågningar väntar i modereringskön tills någon beslutar om dem."
+            },
+            "chat": {
+                "subject": "$~Du har olästa chattar",
+                "heading": "$~Nya chattar",
+                "open": "$~Läs dem",
+                "body": "$~Det finns meddelanden du inte har läst i $#count[en chatt|$count chattar]."
             }
         },
         "markup": {
@@ -11377,6 +11460,15 @@
                 "approved": "$~$name är nu listad i guiden.",
                 "denied": "$~$name listades inte i guiden."
             }
+        },
+        "noAddress": "$~Wordplay har ingen e-postadress för dig, så inget här kan nå dig via e-post. Du kan lägga till en på din <profil@/profile>.",
+        "subject": {
+            "project": "$~projekt",
+            "gallery": "$~galleri",
+            "howto": "$~hur man",
+            "character": "$~karaktär",
+            "kit": "$~kit",
+            "chat": "$~chatt"
         }
     },
     "gallery": {

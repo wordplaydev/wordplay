@@ -56,32 +56,46 @@ describe('what a kit is findable by', () => {
 
 describe('whether a kit is listed', () => {
     it('does not list a kit whose creator has not asked', () => {
-        expect(nextModeration('unrequested', false, true)).toBe('unrequested');
+        expect(nextModeration('unrequested', false, true, false)).toBe(
+            'unrequested',
+        );
     });
 
     it('queues a kit the moment its creator asks', () => {
         // The client only ever writes `public`; the rules refuse it `moderation`.
-        expect(nextModeration('unrequested', true, false)).toBe('pending');
+        expect(nextModeration('unrequested', true, false, true)).toBe(
+            'pending',
+        );
     });
 
     it('re-queues an approved kit whose content changed', () => {
         // Approval was of what the kit was — its name, what it says it is, and which
         // version is newest — not of whatever it becomes.
-        expect(nextModeration('approved', true, true)).toBe('pending');
+        expect(nextModeration('approved', true, true, false)).toBe('pending');
     });
 
     it('leaves an approved kit alone when nothing changed', () => {
         // This trigger's own write comes back through it, so a transition that fired
         // on no change would loop.
-        expect(nextModeration('approved', true, false)).toBe('approved');
+        expect(nextModeration('approved', true, false, false)).toBe('approved');
     });
 
-    it('lets a denied kit ask again', () => {
-        expect(nextModeration('denied', true, true)).toBe('pending');
+    it('lets a denied kit ask again by changing what was refused', () => {
+        expect(nextModeration('denied', true, true, false)).toBe('pending');
+    });
+
+    it('or by asking again, but not by merely staying public', () => {
+        expect(nextModeration('denied', true, false, true)).toBe('pending');
+        // `moderate` writes `denied` while the kit is still public, and that
+        // write re-enters this trigger. Answering `pending` here undid the
+        // refusal and parked the kit in the queue forever.
+        expect(nextModeration('denied', true, false, false)).toBe('denied');
     });
 
     it('unlists a kit whose creator withdraws it', () => {
-        expect(nextModeration('approved', false, false)).toBe('unrequested');
+        expect(nextModeration('approved', false, false, false)).toBe(
+            'unrequested',
+        );
     });
 });
 
@@ -114,6 +128,7 @@ describe('what costs a kit its listing', () => {
                 true,
                 claimChanged(listed, { ...listed, latest: 2 }) ||
                     versionAdded(listed, { ...listed, latest: 2 }),
+                false,
             ),
         ).toBe('pending');
     });
@@ -157,6 +172,7 @@ describe('what costs a kit its listing', () => {
                 true,
                 claimChanged(undefined, listed) ||
                     versionAdded(undefined, listed),
+                false,
             ),
         ).toBe('pending');
     });

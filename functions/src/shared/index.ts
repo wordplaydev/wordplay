@@ -372,8 +372,10 @@ export type DerivedNoticeKind =
     | 'gallery-denied'
     /** A moderator warned you about public content (#193). */
     | 'warning'
-    /** A message in a chat you curate is awaiting review. */
-    | 'review-needed';
+    /** Things are waiting in a queue you review. Derived, because a
+     *  reviewer can read their own queue — and counted rather than one per
+     *  item, so a backlog cannot flood the bell. */
+    | 'review-pending';
 
 export type NoticeKind = WrittenNoticeKind | DerivedNoticeKind;
 
@@ -422,14 +424,65 @@ export type SerializedNotices = {
     /** Ids the reader has dismissed — derived ones too, which is what makes
      *  "clear" mean one thing for every kind and survive a device change. */
     dismissed: string[];
-    /** When the bell was last opened; anything newer is unread. */
-    readAt: number;
 };
 
 /** How many notices an inbox keeps. Older ones fall off the front, the way a
  *  chat trims its oldest messages: an inbox is a recent-events list, not an
  *  archive, and the document has a size limit either way. */
 export const MAX_NOTICES = 100;
+
+/**
+ * Which kinds of email a creator wants.
+ *
+ * Three groups rather than a switch per notice kind, because the question a
+ * reader is answering is "why would you write to me" and there are three
+ * honest answers. Every group is optional: a settings document written before
+ * this shipped genuinely lacks them, and filling in defaults during the upgrade
+ * would let the first sync overwrite a choice made on another device.
+ *
+ * Moderation is on by default and social is off. A decision about your own work
+ * is something you would expect to hear about; a mail for every chat message is
+ * how a notification feature earns its reputation.
+ */
+export type EmailNotificationSettings = {
+    /** `reported`, `decision`, `warning`, `outcome`, `report-received`, and the
+     *  six listed/denied kinds — anything decided *about* this creator. */
+    decisions?: boolean;
+    /** `review-requested` and the daily digest of work waiting in a queue. */
+    reviews?: boolean;
+    /** `chat-message` and `howto-published`. Off unless asked for. */
+    activity?: boolean;
+};
+
+/** Which group a notice kind belongs to, so the preference and the send agree.
+ *  Total over NoticeKind: a new kind is a type error until it has a group. */
+export const NoticeEmailGroups: Record<
+    NoticeKind,
+    keyof EmailNotificationSettings
+> = {
+    'review-requested': 'reviews',
+    'review-pending': 'reviews',
+    reported: 'decisions',
+    'report-received': 'decisions',
+    decision: 'decisions',
+    outcome: 'decisions',
+    warning: 'decisions',
+    'gallery-listed': 'decisions',
+    'gallery-denied': 'decisions',
+    'kit-listed': 'decisions',
+    'kit-denied': 'decisions',
+    'howto-listed': 'decisions',
+    'howto-denied': 'decisions',
+    'howto-published': 'activity',
+    'chat-message': 'activity',
+};
+
+/** What each group does when a creator has never chosen. */
+export const EmailNotificationDefaults: Required<EmailNotificationSettings> = {
+    decisions: true,
+    reviews: true,
+    activity: false,
+};
 
 // FUNCTION moderate (#938)
 /**

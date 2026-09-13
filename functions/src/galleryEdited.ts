@@ -327,6 +327,8 @@ export default async function galleryEdited(
             moderation,
             after.public === true,
             contentChanged,
+            // Going public is the ask; staying public is not.
+            before?.public !== true && after.public === true,
         );
 
         if (next !== moderation) {
