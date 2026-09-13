@@ -194,7 +194,9 @@ test("a kit's page renders its exports", async ({ page }) => {
             name,
             public: true,
             sourceName: 'palette/en',
-            code: '¶Warm colours. \\1\\¶\n1\n¶The colour of dusk.¶\n↑ dusk/en: 2',
+            // The blank line is what makes the first doc the source's own rather than
+            // the statement's below it (#1374); the kit's page renders it as the kit's.
+            code: '¶Warm colours. \\1\\¶\n\n1\n¶The colour of dusk.¶\n↑ dusk/en: 2',
             locales: ['en-US'],
             exports: ['dusk'],
             created: Date.now(),
