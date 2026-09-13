@@ -5,6 +5,7 @@ import {
     type Firestore,
 } from 'firebase-admin/firestore';
 import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
+import { decidedListing } from './listingDecision.js';
 import type {
     ModerateInputs,
     ModerateOutput,
@@ -268,29 +269,6 @@ export default async function moderate(
  * so the listing is unreachable rather than merely empty. Recorded even when the decision
  * is to keep, since what was decided is part of a creator's standing either way.
  */
-/**
- * Whether a listing decision may be applied, given who is deciding.
- *
- * Listing is the platform's, for the reason a warning is: a curator who could
- * approve their own is what curation prevents. The authorization above admits
- * `asPlatform || asCurator`, and a curator is genuinely responsible for what their
- * gallery holds — but that responsibility is a takedown, never a listing.
- *
- * Galleries and kits escaped this only by accident. A kit has no gallery, so
- * `getResponsibility` can never answer `curators` for one and `asCurator` is
- * unreachable. A gallery's own visibility names itself, so a curator of a private
- * gallery with other members in it *is* `{kind:'curators'}` — and could approve
- * their own listing, then make it public, which `nextModeration` leaves approved
- * because nothing about it changed. A how-to is the first listable subject that
- * sits in someone else's gallery, so it would have inherited that directly.
- */
-export function decidedListing(
-    listing: 'approved' | 'denied' | undefined,
-    asPlatform: boolean,
-): 'approved' | 'denied' | undefined {
-    return asPlatform ? listing : undefined;
-}
-
 function listedDecision(
     flags: Record<string, boolean | null>,
     violation: boolean,
