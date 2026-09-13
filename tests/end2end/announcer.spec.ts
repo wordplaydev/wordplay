@@ -304,7 +304,10 @@ test('a value summarized the same way announces what changed inside it', async (
     // The Face() case: a structure whose summary is its type name would be
     // heard exactly once. Instead the property that changed is announced.
     const read = await playing(page, '•P(k•"")\nP(Key())');
-    expect(await read()).toBe('Output P');
+    // Poll, like every other reading here: how long the paced region takes to
+    // present its first message is the Announcer's business, not a number for
+    // this test to guess at.
+    await expect.poll(read).toBe('Output P');
     await page.keyboard.press('a');
     await expect.poll(read).toBe('k a');
     await page.keyboard.press('b');
@@ -317,8 +320,8 @@ test('a program whose output never changes falls silent after describing itself'
     // Silence means "nothing changed" — the deliberate trade for dropping the
     // machinery that tried and failed to force a re-read.
     const read = await playing(page, '1 + 1');
+    await expect.poll(read).toContain('2');
     const first = await read();
-    expect(first).toContain('2');
     await page.waitForTimeout(4000);
     expect(await read()).toBe(first);
 });

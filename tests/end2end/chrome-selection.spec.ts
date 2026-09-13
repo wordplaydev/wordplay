@@ -31,17 +31,38 @@ async function anonymousPage(browser: Browser): Promise<{
     return { page, close: () => context.close() };
 }
 
-/** The computed `user-select` of the first match, so a failure names the rule
- *  that broke. WebKit doesn't expose the unprefixed property on the computed
- *  style, so fall back to `-webkit-user-select` before reporting nothing. */
+/** The *used* `user-select` of the first match, so a failure names the rule that
+ *  broke. Resolution is not a nicety: css-ui-4 defines `user-select` as NOT
+ *  inherited, so an element that declares nothing computes `auto` and only its
+ *  used value is drawn from its ancestors (a parent resolving to `none` or
+ *  `all` gives that; anything else gives `text`). WebKit ships the unprefixed
+ *  property and says so; Chromium and older WebKit inherit it instead, which
+ *  the spec notes is non-conformant. Reading the computed value alone therefore
+ *  answers `auto` on one engine and `none` on the other for the very same
+ *  footer link — only the resolved value is the same claim in both. The
+ *  prefixed spelling is still consulted for engines that expose only that one. */
 function selectability(page: Page, selector: string) {
     return page.evaluate((s) => {
         const element = document.querySelector(s);
         if (element === null) return `no element matched ${s}`;
-        const style = getComputedStyle(element);
-        return (
-            style.userSelect || style.getPropertyValue('-webkit-user-select')
-        );
+        const declared = (e: Element) => {
+            const style = getComputedStyle(e);
+            return (
+                style.userSelect ||
+                style.getPropertyValue('-webkit-user-select')
+            );
+        };
+        const resolve = (e: Element): string => {
+            const own = declared(e);
+            if (own !== '' && own !== 'auto') return own;
+            const parent = e.parentElement;
+            if (parent === null) return 'text';
+            const inherited = resolve(parent);
+            return inherited === 'none' || inherited === 'all'
+                ? inherited
+                : 'text';
+        };
+        return resolve(element);
     }, selector);
 }
 
@@ -150,8 +171,9 @@ test('the editor keeps its own selection model even though ValueView opts in', a
                     (rule): rule is CSSStyleRule =>
                         rule instanceof CSSStyleRule &&
                         /^\.value\.svelte-[a-z0-9]+$/.test(rule.selectorText) &&
-                        // WebKit drops the unprefixed declaration it can't
-                        // parse, so the prefixed one is all that survives there.
+                        // Safari before 26.6 dropped the unprefixed
+                        // declaration it couldn't parse, leaving only the
+                        // prefixed one, so either spelling may be what survives.
                         (rule.style.getPropertyValue('user-select') ||
                             rule.style.getPropertyValue(
                                 '-webkit-user-select',
