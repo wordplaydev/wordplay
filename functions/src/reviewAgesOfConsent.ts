@@ -4,6 +4,7 @@ import {
     type Consent,
 } from './ageOfConsent.js';
 import { paginate, githubFetch, REPO_BASE } from './github.js';
+import { isNonProdDeployment } from './prodOnly.js';
 
 /**
  * Once a year, open an issue asking someone to re-check the age-of-consent
@@ -157,6 +158,10 @@ export async function reviewAgesOfConsent(
 
 /** Scheduled entry point, honoring DRY_RUN from the env like the tidy pass. */
 export default async function reviewAgesOfConsentScheduled(): Promise<void> {
+    // Opens an issue on the public repo, so a second deployment firing the same
+    // annual schedule would open a duplicate.
+    if (isNonProdDeployment()) return;
+
     const report = await reviewAgesOfConsent(
         process.env.GITHUB_TOKEN ?? '',
         { dryRun: process.env.DRY_RUN === 'true' },

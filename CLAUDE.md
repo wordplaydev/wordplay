@@ -620,6 +620,8 @@ After a change that affects a page, check it in the same session:
 
 Locally, Playwright runs four workers (`PLAYWRIGHT_WORKERS` overrides): the shared resource is the single-process Firestore emulator. If a run goes flaky, lower it before suspecting the change.
 
+**Some things can only be checked in production, and that is what the test project is for.** `gh workflow run deploy-dev.yml --ref <branch>` puts a branch on `test.wordplay.dev` (`wordplay-dev`), which has its own Firestore, Auth, functions, and App Check registration — the place to check what no emulator can answer: real App Check attestation, real mail delivery, Cloud Run rewrites, rules against real auth tokens. Verify there, never by shipping to production and watching. The deploy is manual on purpose (`main` goes straight to production, and no PR needs a dev deploy), so dev is whatever was last dispatched — redeploy before trusting what you see. Scheduled work that acts outside its own project is guarded by `isNonProdDeployment` ([functions/src/prodOnly.ts](functions/src/prodOnly.ts)) so a dev deploy can't double prod's GitHub writes or mail; anything new of that kind must consult it.
+
 ### Behavior
 
 1. Don't assume. Don't hide confusion. Surface tradeoffs.

@@ -1,0 +1,60 @@
+name: Deploy to Firebase dev
+
+# Manual only, and deliberately so: main goes to production, there is no dev
+# branch, and no PR needs a dev deploy. This exists for checking live behavior
+# that can't be checked locally — real App Check attestation, real mail, Cloud
+# Run rewrites, rules against real auth tokens — which is an on-demand thing, so
+# dispatch it against whatever branch you need to look at.
+#
+# Not gated on unit/playwright: dev is where you go to find out whether
+# something works, and waiting ~8 minutes on the gate for a release this isn't
+# part of would defeat the reason to deploy it. A broken build still fails at
+# the build:web predeploy hook.
+on:
+    workflow_dispatch:
+        inputs:
+            scope:
+                description: 'What to deploy'
+                type: choice
+                default: 'everything'
+                options:
+                    - everything
+                    - hosting
+                    - functions
+                    - 'hosting,firestore'
+
+jobs:
+    deploy-dev:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v5
+            - uses: actions/setup-node@v5
+              with:
+                  node-version-file: '.nvmrc'
+                  cache: 'npm'
+
+            # Authenticates the deploy and exports GCLOUD_PROJECT=wordplay-dev,
+            # which is what makes `npm run env` copy .env.wordplay-dev into .env
+            # and inline the dev Firebase config and reCAPTCHA site key.
+            - uses: 'google-github-actions/auth@v3'
+              with:
+                  credentials_json: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WORDPLAY_DEV }}'
+
+            - run: npm ci
+              name: Install dependencies
+
+            - run: echo "${{ secrets.FUNCTIONS_ENV_DEV }}" > functions/.env
+              name: Copy function environment variables
+            - run: echo "${{ secrets.ENV_DEV }}" > .env.wordplay-dev
+              name: Copy environment variables
+
+            # --force prunes functions that no longer exist in source, for the
+            # reason deploy.yml gives; on the first run it also clears out the
+            # June 2026 functions dev has been holding since it last deployed.
+            - name: Deploy
+              run: |
+                  if [ "${{ inputs.scope }}" = "everything" ]; then
+                    npx firebase deploy --project wordplay-dev --force
+                  else
+                    npx firebase deploy --project wordplay-dev --force --only "${{ inputs.scope }}"
+                  fi

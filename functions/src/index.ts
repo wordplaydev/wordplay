@@ -60,6 +60,7 @@ import { sendChatDigests, sendReviewDigests } from './emailDigests.js';
 import postFeedbackHandler from './postFeedback.js';
 import purgeArchivedProjectsHandler from './purgeArchivedProjects.js';
 import refreshContributorsHandler from './refreshContributors.js';
+import { isNonProdDeployment } from './prodOnly.js';
 import sweepReservationsHandler from './sweepReservations.js';
 import reviewAgesOfConsentHandler from './reviewAgesOfConsent.js';
 import tidyStaleAssignmentsHandler, {
@@ -339,6 +340,9 @@ export const emailReviewDigests = onSchedule(
         secrets: [resendKey],
     },
     async () => {
+        // Sends real mail to real addresses, so only prod may run it on a
+        // schedule; `emailDigestsManual` stays open for deliberate testing.
+        if (isNonProdDeployment()) return;
         await sendReviewDigests();
     },
 );
@@ -358,6 +362,9 @@ export const emailChatDigests = onSchedule(
         secrets: [resendKey],
     },
     async () => {
+        // Sends real mail to real addresses, so only prod may run it on a
+        // schedule; `emailDigestsManual` stays open for deliberate testing.
+        if (isNonProdDeployment()) return;
         await sendChatDigests();
     },
 );
