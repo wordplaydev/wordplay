@@ -962,6 +962,14 @@
         "ede02f98adf41": "$~Wordplay 內建的三個套件，都用我們支援的每種語言寫成，所以它們的名稱和內容會用你的語言呈現。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
         "e75fc15b8d057": "$~數字現在能做三件你以前得自己手動寫出來的事：\\limit\\ 把一個數字限制在最低值和最高值之間，\\toward\\ 把一個數字移動到另一個數字的中間某處，\\rescale\\ 把某個範圍裡的數字，轉換成另一個範圍裡對應的數字。",
         "e49e28ab01607": "$~一份數字清單現在可以告訴你它的\\sum\\和它的\\average\\，這樣你就不用自己加總了。",
-        "e7cae93034509": "$~分頁面板（例如設定裡的那些）中的標題，現在會靠近它所描述的部分，不會再往上飄向上面那一節。"
+        "e7cae93034509": "$~分頁面板（例如設定裡的那些）中的標題，現在會靠近它所描述的部分，不會再往上飄向上面那一節。",
+        "e3083faa58e3f": "$~你現在可以要求把你寫的操作指南列在 <指南（Guide）@https://wordplay.dev/guide> 裡，只要有審核者同意，任何人都可以在那裡讀到它。（<906@https://github.com/wordplaydev/wordplay/issues/906>）",
+        "e84378f19e20d": "$~你現在可以要求審核操作指南了，就像審核工程或圖畫一樣。（<906@https://github.com/wordplaydev/wordplay/issues/906>）",
+        "e0634f7a90e52": "$~<指南（Guide）@https://wordplay.dev/guide> 裡的操作指南和套件，現在會顯示是誰做的了。（<906@https://github.com/wordplaydev/wordplay/issues/906>）",
+        "e089e7d53887b": "$~任何人都能看到的作品集，現在會顯示裡面每個人的完整姓名，而不只是前面幾個字母。（<906@https://github.com/wordplaydev/wordplay/issues/906>）",
+        "e023f9e6e610d": "$~我們修好了要求審核作品集裡角色的功能，之前這個功能一直失敗。（<1372@https://github.com/wordplaydev/wordplay/issues/1372>）",
+        "e31bb325a6f4a": "$~翻譯程式時，現在不會只改掉一個地方的姓名，而讓其他地方沒改到了，這種情況以前會讓程式壞掉。（<1368@https://github.com/wordplaydev/wordplay/issues/1368>）",
+        "ec7e327ea8ea0": "$~如果我們無法確認你的瀏覽器是真的（這在學校網路上可能發生），我們現在會直接告訴你，而不是叫你再試一次。（<1378@https://github.com/wordplaydev/wordplay/issues/1378>）",
+        "e003ca7973f98": "$~登入頁面在沒能寄出登入連結時，現在不會再說已經寄出了。（<1378@https://github.com/wordplaydev/wordplay/issues/1378>）"
     }
 }

@@ -7833,13 +7833,14 @@
                 },
                 "submitToGuide": {
                     "submit": {
-                        "label": "$~📨 isumite sa Gabay sa Paglalaro ng Salita",
-                        "tip": "$~Isumite ang how-to na ito para maisaalang-alang na maisama sa Gabay sa Paglalaro ng mga Salita!"
+                        "label": "$~📨 ipasa sa Gabay",
+                        "tip": "$~ipasa ang kung paano gawin na ito para isaalang-alang na isama sa Gabay!"
                     },
                     "alreadySubmitted": {
                         "label": "$~✅ isinumite sa Gabay",
-                        "tip": "$~Naisumite na ang how-to na ito upang maisaalang-alang para maisama sa Gabay sa Paglalaro ng Salita."
-                    }
+                        "tip": "$~naipasa na ang kung paano gawin na ito para isaalang-alang na isama sa Gabay."
+                    },
+                    "header": "$~listahan ng Gabay"
                 },
                 "usedBy": {
                     "prompt": "$~Ginamit mo ba ang how-to na ito sa iyong proyekto o sa iba pang how-to? Ipaalam sa iba sa pamamagitan ng pagdaragdag ng iyong proyekto sa listahan!",
@@ -8602,7 +8603,10 @@
                     "explanation": "$~/Maikling halimbawa na nagpapakita kung paano gawin ang mga bagay sa @wordplay. Pindutin ang play sa anumang preview para makita itong tumakbo, pagkatapos ay buksan ito para mabasa kung paano ito gumagana./"
                 },
                 "conceptHowTos": "$~Paano-gawin",
-                "bookmarked": "$~Binookmark"
+                "bookmarked": "$~Binookmark",
+                "community": "$~Mula sa mga gumawa",
+                "galleries": "$~Mula sa iyong mga gallery",
+                "wordplay": "$~Mula sa Wordplay"
             },
             "tour": {
                 "launch": "$~maglibot sa gabay",
@@ -11310,12 +11314,14 @@
                 "$~mga proyekto",
                 "$~mga gallery",
                 "$~mga kit",
+                "$~mga kung paano gawin",
                 "$~mga mensahe"
             ],
             "tips": [
                 "$~suriin ang mga proyektong ginawang publiko ng mga tao",
                 "$~suriin ang mga gallery na humihiling na ilista nang pampubliko",
                 "$~suriin ang mga kit na humihiling na ilista sa gabay",
+                "$~suriin ang mga kung paano gawin na humihiling na ilista sa gabay",
                 "$~suriin ang mga mensaheng ini-report ng mga tao sa mga gallery na iyong pinangangasiwaan"
             ]
         },
@@ -11367,6 +11373,31 @@
             "pending": "$~May isang moderator na nagbabasa ng iyong kit para magpasya kung maaari itong ilista sa gabay. Nakamarka itong nakalista, pero walang makakahanap nito roon hangga't hindi pa ito naaprubahan.",
             "approved": "$~Nakalista ang iyong kit sa <gabay@://guide?section=kits>! Maaari itong alisin sa listahan anumang oras, sa anumang dahilan.",
             "denied": "$~Nagpasya ang isang moderator na huwag ilista ang iyong kit sa gabay. Maaari kang maglathala ng bagong bersyon at humiling muli.",
+            "notification": {
+                "approved": "$~Nakalista na ngayon ang $name sa gabay.",
+                "denied": "$~Hindi nailista ang $name sa gabay."
+            }
+        },
+        "howto": {
+            "pending": "$~May isang tagapamahala na nagbabasa ng iyong kung paano gawin para magpasya kung maaari itong ilista sa gabay. Hangga't hindi pa nagpapasya, ang mga taong may access na dati lang ang makakakita nito.",
+            "approved": "$~Nakalista na ang iyong kung paano gawin sa <gabay@://guide?section=howto>! Maaari itong tanggalin sa listahan anumang oras, para sa anumang dahilan.",
+            "denied": "$~Nagpasya ang isang tagapamahala na hindi ilista ang iyong kung paano gawin sa gabay. Maaari mo pa ring ipagpatuloy ang paggawa nito at humingi ulit ng pagsusuri.",
+            "unready": "$~I-post muna ang iyong kung paano gawin at gawin itong pampubliko. Isang bagay lang na kayang basahin ng lahat ang masasabihan ng oo ng isang tagapamahala.",
+            "header": "$~Mga Kung Paano Gawin",
+            "explain": "$~Humihiling ang kung paano gawin na ito na ilista sa gabay. Basahin ito at magpasya kung dapat itong makita roon ng iba pang natututo ng @wordplay.",
+            "done": "$~Walang kung paano gawin na naghihintay ng pagpapasya. Salamat!",
+            "approve": {
+                "label": "$~ilista ito",
+                "tip": "$~ilista ang kung paano gawin na ito sa gabay"
+            },
+            "deny": {
+                "label": "$~huwag ilista ito",
+                "tip": "$~huwag isama ang kung paano gawin na ito sa gabay"
+            },
+            "skip": {
+                "label": "$~laktawan",
+                "tip": "$~iwan ang kung paano gawin na ito para sa ibang tagapamahala na magpasya"
+            },
             "notification": {
                 "approved": "$~Nakalista na ngayon ang $name sa gabay.",
                 "denied": "$~Hindi nailista ang $name sa gabay."

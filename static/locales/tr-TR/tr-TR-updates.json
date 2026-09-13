@@ -962,6 +962,14 @@
         "ede02f98adf41": "$~Wordplay ile birlikte gelen üç kit, desteklediğimiz her dilde yazılmıştır. Böylece isimleri ve yazıları senin dilinde okunur. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Sayılar artık elle yazmak zorunda olduğun üç şeyi kendileri yapabiliyor: \\limit\\ bir sayıyı düşük ve yüksek bir değer arasında tutar, \\toward\\ bir sayıyı başka bir sayıya doğru bir miktar hareket ettirir, ve \\rescale\\ bir aralıktaki sayıyı başka bir aralıktaki eşleşen sayıya çevirir.",
         "e49e28ab01607": "$~Bir sayı listesi artık sana şunu söyleyebilir: \\sum\\ ve \\average\\, böylece onları kendin toplamak zorunda kalmazsın.",
-        "e7cae93034509": "$~Ayarlar gibi sekmeli bir panelin içindeki bir başlık, artık üstteki bölüme doğru kaymak yerine, ait olduğu kısmın hemen yanında duruyor."
+        "e7cae93034509": "$~Ayarlar gibi sekmeli bir panelin içindeki bir başlık, artık üstteki bölüme doğru kaymak yerine, ait olduğu kısmın hemen yanında duruyor.",
+        "e3083faa58e3f": "$~Artık yazdığın bir nasılın <Guide@https://wordplay.dev/guide> içinde listelenmesini isteyebilirsin. Bir denetmen onayladıktan sonra herkes onu orada okuyabilir. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e84378f19e20d": "$~Artık bir projeyi ya da çizimi incelemeye gönderdiğin gibi, bir nasılın da incelenmesini isteyebilirsin. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e0634f7a90e52": "$~<Guide@https://wordplay.dev/guide> içindeki nasıllar ve kitler artık kimin yaptığını gösteriyor. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e089e7d53887b": "$~Herkesin görebildiği bir galeri artık içindeki herkesin adının yalnızca ilk birkaç harfini değil, tamamını gösteriyor. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e023f9e6e610d": "$~Bir galerideki bir karakterin incelenmesini isteme özelliğini düzelttik. Bu özellik daha önce hiç çalışmıyordu. (<1372@https://github.com/wordplaydev/wordplay/issues/1372>)",
+        "e31bb325a6f4a": "$~Bir programı çevirmek artık bir ismi yalnızca bir yerde değiştirip diğer yerlerde bırakmıyor. Bu sorun eskiden programı bozuyordu. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
+        "ec7e327ea8ea0": "$~Tarayıcının gerçek olduğunu anlayamadığımızda, ki bu okul ağlarında olabiliyor, artık tekrar denemeni istemek yerine bunu sana bildiriyoruz. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e003ca7973f98": "$~Giriş sayfası, gönderemediği bir giriş bağlantısını gönderdiğini artık söylemiyor. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)"
     }
 }

@@ -7827,13 +7827,14 @@
                 },
                 "submitToGuide": {
                     "submit": {
-                        "label": "$~📨 Gửi bài viết lên Wordplay Guide",
-                        "tip": "$~Hãy gửi hướng dẫn này để được xem xét đưa vào Cẩm nang Chơi chữ!"
+                        "label": "$~📨 gửi vào Sổ tay hướng dẫn",
+                        "tip": "$~gửi bài làm cách nào để này để được xem xét đưa vào Sổ tay hướng dẫn!"
                     },
                     "alreadySubmitted": {
                         "label": "$~✅ Đã gửi lên Hướng dẫn",
-                        "tip": "$~Hướng dẫn này đã được gửi để xem xét đưa vào Cẩm nang Trò chơi chữ."
-                    }
+                        "tip": "$~bài làm cách nào để này đã được gửi để xem xét đưa vào Sổ tay hướng dẫn."
+                    },
+                    "header": "$~danh sách trong Sổ tay hướng dẫn"
                 },
                 "usedBy": {
                     "prompt": "$~Bạn đã sử dụng hướng dẫn này hay hướng dẫn khác trong dự án của mình? Hãy chia sẻ dự án của bạn với mọi người bằng cách thêm vào danh sách nhé!",
@@ -8596,7 +8597,10 @@
                     "explanation": "$~/Các ví dụ ngắn minh họa cách thực hiện các thao tác trong @wordplay. Bấm nút phát trên bất kỳ bản xem trước nào để xem nó hoạt động, sau đó mở nó ra để đọc hướng dẫn./"
                 },
                 "conceptHowTos": "$~Làm cách nào để",
-                "bookmarked": "$~Đã đánh dấu"
+                "bookmarked": "$~Đã đánh dấu",
+                "community": "$~Từ người tạo",
+                "galleries": "$~Từ các phòng trưng bày của bạn",
+                "wordplay": "$~Từ Wordplay"
             },
             "tour": {
                 "launch": "$~tham quan hướng dẫn viên.",
@@ -11301,12 +11305,14 @@
                 "$~dự án",
                 "$~phòng trưng bày",
                 "$~bộ công cụ",
+                "$~làm cách nào để",
                 "$~tin nhắn"
             ],
             "tips": [
                 "$~xem xét các dự án mà mọi người đã công khai",
                 "$~xem xét các phòng trưng bày xin được liệt kê công khai",
                 "$~xem xét các bộ công cụ đang xin được niêm yết trong sổ tay hướng dẫn",
+                "$~xem xét các bài làm cách nào để đang xin được đưa vào sổ tay hướng dẫn",
                 "$~xem lại các tin nhắn mà mọi người đã báo cáo trong các phòng trưng bày bạn quản lý"
             ]
         },
@@ -11361,6 +11367,31 @@
             "notification": {
                 "approved": "$~$name hiện đã được đăng trong sổ tay hướng dẫn.",
                 "denied": "$~$name đã không được đăng trong sổ tay hướng dẫn."
+            }
+        },
+        "howto": {
+            "pending": "$~Một người kiểm duyệt đang đọc bài làm cách nào để của bạn để quyết định xem có thể đưa vào sổ tay hướng dẫn hay không. Cho đến lúc đó, chỉ những người đã có thể xem nó mới xem được.",
+            "approved": "$~Bài làm cách nào để của bạn đã được liệt kê trong <sổ tay hướng dẫn@://guide?section=howto>! Nó có thể bị gỡ khỏi danh sách đó bất cứ lúc nào, vì bất kỳ lý do gì.",
+            "denied": "$~Một người kiểm duyệt đã quyết định không đưa bài làm cách nào để của bạn vào sổ tay hướng dẫn. Bạn có thể tiếp tục hoàn thiện và xin lại sau.",
+            "unready": "$~Hãy đăng bài làm cách nào để của bạn và công khai nó trước đã. Người kiểm duyệt chỉ có thể đồng ý với thứ mà ai cũng có thể đọc được.",
+            "header": "$~Làm cách nào để",
+            "explain": "$~Bài làm cách nào để này đang xin được đưa vào sổ tay hướng dẫn. Hãy đọc và quyết định xem những người khác đang học @wordplay có nên tìm thấy nó ở đó không.",
+            "done": "$~Không có bài làm cách nào để nào đang chờ quyết định. Cảm ơn bạn!",
+            "approve": {
+                "label": "$~đưa vào danh sách",
+                "tip": "$~đưa bài làm cách nào để này vào sổ tay hướng dẫn"
+            },
+            "deny": {
+                "label": "$~không đưa vào danh sách",
+                "tip": "$~giữ bài làm cách nào để này ngoài sổ tay hướng dẫn"
+            },
+            "skip": {
+                "label": "$~bỏ qua",
+                "tip": "$~để bài làm cách nào để này cho một người kiểm duyệt khác quyết định"
+            },
+            "notification": {
+                "approved": "$~$name giờ đã được liệt kê trong sổ tay hướng dẫn.",
+                "denied": "$~$name đã không được liệt kê trong sổ tay hướng dẫn."
             }
         }
     },

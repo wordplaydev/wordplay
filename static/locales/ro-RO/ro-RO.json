@@ -7828,13 +7828,14 @@
                 },
                 "submitToGuide": {
                     "submit": {
-                        "label": "$~📨 trimiteți la Ghidul de jocuri de cuvinte",
-                        "tip": "$~Trimiteți acest ghid practic pentru a fi luat în considerare pentru includerea în Ghidul de jocuri de cuvinte!"
+                        "label": "$~📨 trimite spre Ghid",
+                        "tip": "$~trimite aceste instrucțiuni pentru a fi luate în considerare pentru includerea în Ghid!"
                     },
                     "alreadySubmitted": {
                         "label": "$~✅ trimis către Ghid",
-                        "tip": "$~Acest ghid practic a fost deja trimis pentru a fi luat în considerare pentru includerea în Ghidul de jocuri de cuvinte."
-                    }
+                        "tip": "$~aceste instrucțiuni au fost deja trimise pentru a fi luate în considerare pentru includerea în Ghid."
+                    },
+                    "header": "$~listă din Ghid"
                 },
                 "usedBy": {
                     "prompt": "$~Ai folosit acest ghid practic în proiectul tău sau în altul? Spune-le și altora adăugând proiectul tău la listă!",
@@ -8605,7 +8606,10 @@
                     "explanation": "$~/Exemple scurte care arată cum se fac lucrurile în @wordplay. Apasă pe redare în orice previzualizare pentru a o vedea rulând, apoi deschide-o pentru a citi cum funcționează./"
                 },
                 "conceptHowTos": "$~Cum se face",
-                "bookmarked": "$~Salvat la favorite"
+                "bookmarked": "$~Salvat la favorite",
+                "community": "$~De la creatori",
+                "galleries": "$~Din galeriile tale",
+                "wordplay": "$~De la Wordplay"
             },
             "tour": {
                 "launch": "$~faceți un tur al ghidului",
@@ -11294,11 +11298,18 @@
         },
         "queue": {
             "label": "$~ce să verifici",
-            "labels": ["$~proiecte", "$~galerii", "$~kituri", "$~mesaje"],
+            "labels": [
+                "$~proiecte",
+                "$~galerii",
+                "$~kituri",
+                "$~instrucțiuni",
+                "$~mesaje"
+            ],
             "tips": [
                 "$~verifică proiecte pe care oamenii le-au făcut publice",
                 "$~verifică galeriile care cer să fie listate public",
                 "$~verifică kituri care cer să fie listate în ghid",
+                "$~verifică instrucțiunile care cer să fie listate în ghid",
                 "$~verifică mesajele pe care oamenii le-au semnalat în galeriile pe care le administrezi"
             ]
         },
@@ -11350,6 +11361,31 @@
             "pending": "$~Un moderator citește kitul tău pentru a decide dacă poate fi listat în ghid. Este marcat ca listat, dar nimeni nu îl va găsi acolo până nu se întâmplă asta.",
             "approved": "$~Kitul tău este listat în <ghid@://guide?section=kits>! Poate fi scos de pe listă oricând, din orice motiv.",
             "denied": "$~Un moderator a decis să nu listeze kitul tău în ghid. Poți publica o versiune nouă și poți cere din nou.",
+            "notification": {
+                "approved": "$~$name este acum listat în ghid.",
+                "denied": "$~$name nu a fost listat în ghid."
+            }
+        },
+        "howto": {
+            "pending": "$~Un moderator citește instrucțiunile tale pentru a decide dacă pot fi listate în ghid. Până atunci, doar cei care le pot vedea deja au acces la ele.",
+            "approved": "$~Instrucțiunile tale sunt listate în <ghid@://guide?section=howto>! Ele pot fi scoase de pe această listă oricând, din orice motiv.",
+            "denied": "$~Un moderator a decis să nu îți listeze instrucțiunile în ghid. Poți continua să lucrezi la ele și să ceri din nou.",
+            "unready": "$~Publică-ți mai întâi instrucțiunile și fă-le publice. Un moderator poate spune da doar unui lucru pe care toată lumea îl poate citi.",
+            "header": "$~Instrucțiuni",
+            "explain": "$~Aceste instrucțiuni cer să fie listate în ghid. Citește-le și decide dacă alți oameni care învață @wordplay ar trebui să le găsească acolo.",
+            "done": "$~Nu există instrucțiuni care așteaptă o decizie. Mulțumim!",
+            "approve": {
+                "label": "$~listează-le",
+                "tip": "$~listează aceste instrucțiuni în ghid"
+            },
+            "deny": {
+                "label": "$~nu le lista",
+                "tip": "$~ține aceste instrucțiuni în afara ghidului"
+            },
+            "skip": {
+                "label": "$~sari peste",
+                "tip": "$~lasă aceste instrucțiuni pentru ca alt moderator să decidă"
+            },
             "notification": {
                 "approved": "$~$name este acum listat în ghid.",
                 "denied": "$~$name nu a fost listat în ghid."

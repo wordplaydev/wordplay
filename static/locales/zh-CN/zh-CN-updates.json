@@ -962,6 +962,14 @@
         "ede02f98adf41": "$~Wordplay 自带的这三个工具包，我们支持的每种语言都写好了，所以名字和文字读起来都是你熟悉的语言。（<8@https://github.com/wordplaydev/wordplay/issues/8>）",
         "e75fc15b8d057": "$~数字现在能做三件以前要你手动写代码才能做的事：\\limit\\ 把一个数字限制在最低值和最高值之间，\\toward\\ 把一个数字往另一个数字移动一段距离，\\rescale\\ 把一个范围里的数字换算成另一个范围里对应的数字。",
         "e49e28ab01607": "$~一列数字现在可以告诉你它的\\sum\\和它的\\average\\，这样你就不用自己去加总啦。",
-        "e7cae93034509": "$~标签面板里的标题（例如“设置”里的那些），现在会更靠近它说明的那部分内容，而不是往上飘向上面那一节。"
+        "e7cae93034509": "$~标签面板里的标题（例如“设置”里的那些），现在会更靠近它说明的那部分内容，而不是往上飘向上面那一节。",
+        "e3083faa58e3f": "$~现在你可以申请把自己写的如何指南收录进 <Guide@https://wordplay.dev/guide> 啦，只要有审核员同意，任何人都能在那里读到它。（<906@https://github.com/wordplaydev/wordplay/issues/906>）",
+        "e84378f19e20d": "$~现在你可以像申请审核项目或画作一样，申请审核一篇如何指南了。（<906@https://github.com/wordplaydev/wordplay/issues/906>）",
+        "e0634f7a90e52": "$~<Guide@https://wordplay.dev/guide> 里的如何指南和工具包现在会显示是谁做的了。（<906@https://github.com/wordplaydev/wordplay/issues/906>）",
+        "e089e7d53887b": "$~任何人都能看到的作品库，现在会显示里面每个人的完整名字，而不只是前几个字母了。（<906@https://github.com/wordplaydev/wordplay/issues/906>）",
+        "e023f9e6e610d": "$~我们修复了申请审核作品库里角色的问题，以前这个操作一直会失败。（<1372@https://github.com/wordplaydev/wordplay/issues/1372>）",
+        "e31bb325a6f4a": "$~翻译一个程序时，不会再出现某处改了名字、别处没改的情况了，这以前会把程序弄坏。（<1368@https://github.com/wordplaydev/wordplay/issues/1368>）",
+        "ec7e327ea8ea0": "$~如果我们没法确认你的浏览器是不是真实的（这种情况在学校网络里可能发生），现在会直接告诉你，而不是让你重试。（<1378@https://github.com/wordplaydev/wordplay/issues/1378>）",
+        "e003ca7973f98": "$~登录页面不会再说已经给你发了登录链接，但其实没发成功的情况了。（<1378@https://github.com/wordplaydev/wordplay/issues/1378>）"
     }
 }

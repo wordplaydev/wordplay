@@ -8212,7 +8212,10 @@
                     "explanation": "$~/Krótkie przykłady pokazujące, jak to zrobić w @wordplay. Naciśnij przycisk „Odtwórz” w dowolnym podglądzie, aby zobaczyć, jak to działa, a następnie otwórz go, aby dowiedzieć się, jak to działa./"
                 },
                 "conceptHowTos": "$~Jak to zrobić",
-                "bookmarked": "$~Zapisane"
+                "bookmarked": "$~Zapisane",
+                "community": "$~Od twórców",
+                "galleries": "$~Z twoich galerii",
+                "wordplay": "$~Od Wordplay"
             },
             "mode": {
                 "browse": {
@@ -10688,13 +10691,14 @@
                 },
                 "submitToGuide": {
                     "submit": {
-                        "label": "$~📨 prześlij do Wordplay Guide",
-                        "tip": "$~Prześlij nam ten poradnik, abyśmy mogli rozważyć jego uwzględnienie w Przewodniku po grach słownych!"
+                        "label": "$~📨 zgłoś do Przewodnika",
+                        "tip": "$~zgłoś ten jak, aby rozważono dodanie go do Przewodnika!"
                     },
                     "alreadySubmitted": {
                         "label": "$~✅ przesłane do Przewodnika",
-                        "tip": "$~Ten poradnik został już przesłany do rozważenia pod kątem uwzględnienia w Przewodniku po grach słownych."
-                    }
+                        "tip": "$~ten jak został już zgłoszony do rozważenia dodania do Przewodnika."
+                    },
+                    "header": "$~Wpis w Przewodniku"
                 },
                 "usedBy": {
                     "prompt": "$~Czy korzystałeś z tego poradnika w swoim projekcie, czy z innego? Daj znać innym, dodając swój projekt do listy!",
@@ -11298,11 +11302,18 @@
         },
         "queue": {
             "label": "$~co sprawdzić",
-            "labels": ["$~projekty", "$~galerie", "$~zestawy", "$~wiadomości"],
+            "labels": [
+                "$~projekty",
+                "$~galerie",
+                "$~zestawy",
+                "$~jak",
+                "$~wiadomości"
+            ],
             "tips": [
                 "$~sprawdź projekty, które ludzie udostępnili publicznie",
                 "$~sprawdź galerie proszące o umieszczenie na publicznej liście",
                 "$~sprawdź zestawy proszące o wpisanie do przewodnika",
+                "$~sprawdź jak, które proszą o dodanie do przewodnika",
                 "$~przeglądaj wiadomości zgłoszone w galeriach, którymi się opiekujesz"
             ]
         },
@@ -11357,6 +11368,31 @@
             "notification": {
                 "approved": "$~$name jest teraz na liście w przewodniku.",
                 "denied": "$~$name nie został umieszczony na liście w przewodniku."
+            }
+        },
+        "howto": {
+            "pending": "$~Moderator czyta twój jak, aby zdecydować, czy można go dodać do przewodnika. Do tego czasu widzą go tylko osoby, które już mogą go zobaczyć.",
+            "approved": "$~Twój jak jest wpisany w <przewodniku@://guide?section=howto>! Może zostać z niego usunięty w każdej chwili, z dowolnego powodu.",
+            "denied": "$~Moderator zdecydował, aby nie dodawać twojego jak do przewodnika. Możesz dalej nad nim pracować i poprosić ponownie.",
+            "unready": "$~Najpierw opublikuj swój jak i udostępnij go publicznie. Moderator może zgodzić się tylko na coś, co każdy może przeczytać.",
+            "header": "$~Jak",
+            "explain": "$~Ten jak prosi o dodanie do przewodnika. Przeczytaj go i zdecyduj, czy inne osoby uczące się @wordplay powinny go tam znaleźć.",
+            "done": "$~Żaden jak nie czeka na decyzję. Dziękujemy!",
+            "approve": {
+                "label": "$~dodaj go",
+                "tip": "$~dodaj ten jak do przewodnika"
+            },
+            "deny": {
+                "label": "$~nie dodawaj go",
+                "tip": "$~nie umieszczaj tego jak w przewodniku"
+            },
+            "skip": {
+                "label": "$~pomiń",
+                "tip": "$~zostaw ten jak innemu moderatorowi do decyzji"
+            },
+            "notification": {
+                "approved": "$~$name jest teraz wpisany w przewodniku.",
+                "denied": "$~$name nie został wpisany w przewodniku."
             }
         }
     },

@@ -962,6 +962,14 @@
         "ede02f98adf41": "$~De tre kiten som följer med Wordplay är skrivna på alla språk vi stödjer, så namnen och texten i dem visas på ditt eget språk. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Nu kan tal göra tre saker du tidigare fick koda för hand: \\limit\\ håller ett tal mellan ett lägsta och ett högsta värde, \\toward\\ flyttar ett tal en bit på vägen mot ett annat, och \\rescale\\ gör om ett tal från ett intervall till motsvarande tal i ett annat intervall.",
         "e49e28ab01607": "$~En lista med tal kan nu berätta sitt \\sum\\ och sitt \\average\\, så du slipper räkna ihop dem själv.",
-        "e7cae93034509": "$~En rubrik i en flikpanel, som de i Inställningar, sitter nu närmare den del den beskriver, i stället för att sväva upp mot avsnittet ovanför."
+        "e7cae93034509": "$~En rubrik i en flikpanel, som de i Inställningar, sitter nu närmare den del den beskriver, i stället för att sväva upp mot avsnittet ovanför.",
+        "e3083faa58e3f": "$~Nu kan du be om att en hur man du skrev ska listas i <Guide@https://wordplay.dev/guide>, och vem som helst kan läsa den där så snart en moderator säger ja. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e84378f19e20d": "$~Nu kan du be om att en hur man ska granskas, precis som du kan för ett projekt eller en teckning. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e0634f7a90e52": "$~Hur man-guider och kit i <Guide@https://wordplay.dev/guide> visar nu vem som skapade dem. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e089e7d53887b": "$~Ett galleri som alla kan se visar nu hela namnet på alla i det, istället för bara de första bokstäverna. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e023f9e6e610d": "$~Vi fixade så att det går att be om granskning av en karaktär i ett galleri, vilket alltid misslyckades förut. (<1372@https://github.com/wordplaydev/wordplay/issues/1372>)",
+        "e31bb325a6f4a": "$~Att översätta ett program byter inte längre namn på en plats men inte på de andra, vilket tidigare kunde göra programmet trasigt. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
+        "ec7e327ea8ea0": "$~Om vi inte kan avgöra att din webbläsare är äkta, vilket kan hända på skolnätverk, säger vi nu det istället för att be dig försöka igen. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e003ca7973f98": "$~Inloggningssidan säger inte längre att den skickat dig en inloggningslänk när den inte kunde göra det. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)"
     }
 }

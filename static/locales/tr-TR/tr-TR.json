@@ -8210,7 +8210,10 @@
                     "explanation": "$~/@wordplay'de işlemlerin nasıl yapılacağını gösteren kısa örnekler. Çalıştırılmasını görmek için herhangi bir önizlemede oynat düğmesine basın, ardından nasıl çalıştığını okumak için dosyayı açın./"
                 },
                 "conceptHowTos": "$~Nasıl yapılır",
-                "bookmarked": "$~Yer İmlerine Eklendi"
+                "bookmarked": "$~Yer İmlerine Eklendi",
+                "community": "$~Oluşturanlardan",
+                "galleries": "$~Galerilerinden",
+                "wordplay": "$~Wordplay'den"
             },
             "mode": {
                 "browse": {
@@ -10686,13 +10689,14 @@
                 },
                 "submitToGuide": {
                     "submit": {
-                        "label": "$~📨 Kelime Oyunu Rehberine gönderin",
-                        "tip": "$~Bu kılavuzu Kelime Oyunları Rehberi'ne dahil edilmek üzere gönderin!"
+                        "label": "$~📨 Rehber'e gönder",
+                        "tip": "$~bu nasıl'ın Rehber'e eklenmesi için değerlendirilmek üzere gönder!"
                     },
                     "alreadySubmitted": {
                         "label": "$~✅ Rehbere gönderildi",
-                        "tip": "$~Bu kılavuz, Kelime Oyunları Rehberi'ne dahil edilmek üzere değerlendirilmek üzere zaten gönderilmiştir."
-                    }
+                        "tip": "$~bu nasıl, Rehber'e eklenmek üzere değerlendirilmesi için zaten gönderildi."
+                    },
+                    "header": "$~Rehber listesi"
                 },
                 "usedBy": {
                     "prompt": "$~Bu kılavuzu projenizde veya başka bir kılavuzda kullandınız mı? Projenizi listeye ekleyerek başkalarının da haberdar olmasını sağlayın!",
@@ -11293,11 +11297,18 @@
         },
         "queue": {
             "label": "$~neyi incelemeli",
-            "labels": ["$~projeler", "$~galeriler", "$~kitler", "$~mesajlar"],
+            "labels": [
+                "$~projeler",
+                "$~galeriler",
+                "$~kitler",
+                "$~nasıllar",
+                "$~mesajlar"
+            ],
             "tips": [
                 "$~insanların herkese açık yaptığı projeleri incele",
                 "$~herkese açık listelenmek isteyen galerileri incele",
                 "$~rehberde listelenmek isteyen kitleri incele",
+                "$~rehberde listelenmeyi isteyen nasılları incele",
                 "$~düzenlediğin galerilerde bildirilen mesajları incele"
             ]
         },
@@ -11351,6 +11362,31 @@
             "denied": "$~Bir denetmen, kitini rehberde listelememeye karar verdi. Yeni bir sürüm yayımlayıp tekrar isteyebilirsin.",
             "notification": {
                 "approved": "$~$name artık rehberde listelendi.",
+                "denied": "$~$name rehberde listelenmedi."
+            }
+        },
+        "howto": {
+            "pending": "$~Bir denetleyici, nasıl'ının rehberde listelenip listelenemeyeceğine karar vermek için onu okuyor. O zamana kadar, ona zaten erişebilenler dışında kimse göremez.",
+            "approved": "$~Nasıl'ın <rehber@://guide?section=howto>'de listelendi! Herhangi bir zamanda, herhangi bir nedenle bu listeden çıkarılabilir.",
+            "denied": "$~Bir denetleyici, nasıl'ını rehberde listelememeye karar verdi. Üzerinde çalışmaya devam edip tekrar isteyebilirsin.",
+            "unready": "$~Önce nasıl'ını yayınla ve herkese açık yap. Bir denetleyici yalnızca herkesin okuyabileceği bir şeye evet diyebilir.",
+            "header": "$~Nasıllar",
+            "explain": "$~Bu nasıl, rehberde listelenmeyi istiyor. Onu oku ve @wordplay'yi öğrenen diğer kişilerin onu orada bulup bulmaması gerektiğine karar ver.",
+            "done": "$~Karar bekleyen nasıl yok. Teşekkürler!",
+            "approve": {
+                "label": "$~listele",
+                "tip": "$~bu nasıl'ı rehberde listele"
+            },
+            "deny": {
+                "label": "$~listeleme",
+                "tip": "$~bu nasıl'ı rehberin dışında tut"
+            },
+            "skip": {
+                "label": "$~atla",
+                "tip": "$~bu nasıl'ın kararını başka bir denetleyiciye bırak"
+            },
+            "notification": {
+                "approved": "$~$name artık rehberde listeleniyor.",
                 "denied": "$~$name rehberde listelenmedi."
             }
         }

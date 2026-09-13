@@ -962,6 +962,14 @@
         "ede02f98adf41": "$~Les trois kits fournis avec Wordplay sont écrits dans toutes les langues que nous prenons en charge, pour que leurs noms et leur texte se lisent dans la tienne. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Les nombres peuvent maintenant faire trois choses que tu devais écrire toi-même à la main : \\limit\\ garde un nombre entre une valeur basse et une valeur haute, \\toward\\ déplace un nombre en partie vers un autre, et \\rescale\\ transforme un nombre d'un intervalle en le nombre correspondant dans un autre intervalle.",
         "e49e28ab01607": "$~Une liste de nombres peut maintenant te dire son \\sum\\ et son \\average\\, pour que tu n'aies pas à les additionner toi-même.",
-        "e7cae93034509": "$~Un titre dans un panneau à onglets, comme ceux des Réglages, se place maintenant plus près de la partie qu'il nomme, au lieu de remonter vers la section du dessus."
+        "e7cae93034509": "$~Un titre dans un panneau à onglets, comme ceux des Réglages, se place maintenant plus près de la partie qu'il nomme, au lieu de remonter vers la section du dessus.",
+        "e023f9e6e610d": "$~Nous avons corrigé un problème qui empêchait toujours de demander qu'un personnage soit examiné dans une galerie. (<1372@https://github.com/wordplaydev/wordplay/issues/1372>)",
+        "e31bb325a6f4a": "$~Traduire un programme ne renomme plus un nom à un seul endroit sans le faire aux autres, ce qui cassait le programme avant. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
+        "ec7e327ea8ea0": "$~Si nous ne pouvons pas confirmer que votre navigateur est un vrai navigateur, ce qui peut arriver sur les réseaux scolaires, nous vous le disons maintenant au lieu de vous demander de réessayer. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e003ca7973f98": "$~La page de connexion ne dit plus qu'elle vous a envoyé un lien de connexion quand elle n'a pas pu le faire. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e3083faa58e3f": "$~Tu peux maintenant demander qu'un comment faire que tu as écrit soit ajouté au <Guide@https://wordplay.dev/guide>, et tout le monde pourra le lire une fois qu'un modérateur dit oui. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e84378f19e20d": "$~Tu peux maintenant demander qu'un comment faire soit relu, comme tu peux le faire pour un projet ou un dessin. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e0634f7a90e52": "$~Les comment faire et les kits dans le <Guide@https://wordplay.dev/guide> montrent maintenant qui les a créés. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e089e7d53887b": "$~Une galerie que tout le monde peut voir montre maintenant le nom complet de chaque personne qui y participe, au lieu des seules premières lettres. (<906@https://github.com/wordplaydev/wordplay/issues/906>)"
     }
 }

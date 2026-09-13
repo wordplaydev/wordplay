@@ -962,6 +962,14 @@
         "ede02f98adf41": "$~Os três kits que vêm com o Wordplay estão escritos em todos os idiomas que suportamos, para que os seus nomes e a sua escrita apareçam no seu idioma. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Os números já podem fazer três coisas que antes tinha de escrever à mão: \\limit\\ mantém um número entre um valor baixo e um valor alto, \\toward\\ move um número parte do caminho até outro, e \\rescale\\ transforma um número de um intervalo no número correspondente noutro intervalo.",
         "e49e28ab01607": "$~Uma lista de números já pode indicar o seu \\sum\\ e o seu \\average\\, para que não tenha de os somar você mesmo(a).",
-        "e7cae93034509": "$~Um título dentro de um painel com separadores, como os que existem nas Definições, aparece agora mais perto da parte que descreve, em vez de se aproximar da secção acima."
+        "e7cae93034509": "$~Um título dentro de um painel com separadores, como os que existem nas Definições, aparece agora mais perto da parte que descreve, em vez de se aproximar da secção acima.",
+        "e023f9e6e610d": "$~Corrigimos o pedido de revisão de uma personagem numa galeria, que falhava sempre antes. (<1372@https://github.com/wordplaydev/wordplay/issues/1372>)",
+        "e31bb325a6f4a": "$~Ao traduzir um programa, já não acontece um nome ser mudado num sítio mas não nos outros, o que costumava estragar o programa. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
+        "ec7e327ea8ea0": "$~Se não conseguirmos confirmar que o seu navegador é verdadeiro, o que pode acontecer em redes escolares, agora dizemos isso mesmo, em vez de lhe pedir que tente outra vez. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e003ca7973f98": "$~A página de início de sessão já não diz que lhe enviou uma ligação de acesso quando não conseguiu enviá-la. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e3083faa58e3f": "$~Já pode pedir que um como que escreveu seja listado no <Guia@https://wordplay.dev/guide>, e qualquer pessoa pode lê-lo aí assim que um(a) moderador(a) disser que sim. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e84378f19e20d": "$~Já pode pedir que um como seja revisto, tal como pode fazer para um projeto ou um desenho. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e0634f7a90e52": "$~Os comos e os kits no <Guia@https://wordplay.dev/guide> agora mostram quem os criou. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e089e7d53887b": "$~Uma galeria que qualquer pessoa pode ver agora mostra o nome completo de todos os que estão nela, em vez de apenas as primeiras letras. (<906@https://github.com/wordplaydev/wordplay/issues/906>)"
     }
 }

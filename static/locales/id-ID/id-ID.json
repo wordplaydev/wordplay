@@ -7837,13 +7837,14 @@
                 },
                 "submitToGuide": {
                     "submit": {
-                        "label": "$~📨 Kirimkan ke Panduan Permainan Kata",
-                        "tip": "$~Kirimkan panduan ini agar dipertimbangkan untuk dimasukkan ke dalam Panduan Permainan Kata!"
+                        "label": "$~📨 kirim ke Panduan",
+                        "tip": "$~kirim cara ini agar dipertimbangkan untuk dimasukkan ke Panduan!"
                     },
                     "alreadySubmitted": {
                         "label": "$~✅ dikirim ke Panduan",
-                        "tip": "$~Panduan ini telah diajukan untuk dipertimbangkan dimasukkan ke dalam Panduan Permainan Kata."
-                    }
+                        "tip": "$~cara ini sudah dikirim untuk dipertimbangkan agar dimasukkan ke Panduan."
+                    },
+                    "header": "$~daftar Panduan"
                 },
                 "usedBy": {
                     "prompt": "$~Apakah Anda menggunakan panduan ini dalam proyek Anda atau panduan lain? Beri tahu orang lain dengan menambahkan proyek Anda ke daftar!",
@@ -8609,7 +8610,10 @@
                     "explanation": "$~Contoh singkat yang menunjukkan cara melakukan berbagai hal di @wordplay. Tekan putar pada pratinjau mana pun untuk melihatnya berjalan, lalu buka untuk membaca cara kerjanya."
                 },
                 "conceptHowTos": "$~Cara",
-                "bookmarked": "$~Ditandai"
+                "bookmarked": "$~Ditandai",
+                "community": "$~Dari pembuat",
+                "galleries": "$~Dari galerimu",
+                "wordplay": "$~Dari Wordplay"
             },
             "tour": {
                 "launch": "$~ikuti tur bersama pemandu",
@@ -11301,11 +11305,12 @@
         },
         "queue": {
             "label": "$~apa yang perlu diperiksa",
-            "labels": ["$~proyek", "$~galeri", "$~kit", "$~pesan"],
+            "labels": ["$~proyek", "$~galeri", "$~kit", "$~cara", "$~pesan"],
             "tips": [
                 "$~periksa proyek yang telah dipublikasikan orang lain",
                 "$~periksa galeri yang meminta untuk dicantumkan secara publik",
                 "$~periksa kit yang meminta untuk didaftarkan di panduan",
+                "$~tinjau cara yang meminta untuk dimasukkan ke panduan",
                 "$~tinjau pesan yang dilaporkan orang di galeri yang kamu kelola"
             ]
         },
@@ -11360,6 +11365,31 @@
             "notification": {
                 "approved": "$~$name sekarang terdaftar di panduan.",
                 "denied": "$~$name tidak terdaftar di panduan."
+            }
+        },
+        "howto": {
+            "pending": "$~Seorang moderator sedang membaca caramu untuk memutuskan apakah bisa dimasukkan ke panduan. Sampai saat itu, hanya orang yang sudah bisa melihatnya yang bisa melihatnya.",
+            "approved": "$~Caramu sekarang ada di <panduan@://guide?section=howto>! Ini bisa dihapus dari daftar itu kapan saja, karena alasan apa pun.",
+            "denied": "$~Seorang moderator memutuskan untuk tidak memasukkan caramu ke panduan. Kamu bisa terus mengerjakannya dan meminta lagi.",
+            "unready": "$~Kirim caramu dan buat menjadi publik terlebih dahulu. Seorang moderator hanya bisa menyetujui sesuatu yang bisa dibaca semua orang.",
+            "header": "$~Cara",
+            "explain": "$~Cara ini meminta untuk dimasukkan ke panduan. Bacalah dan putuskan apakah orang lain yang belajar @wordplay sebaiknya menemukannya di sana.",
+            "done": "$~Tidak ada cara yang menunggu keputusan. Terima kasih!",
+            "approve": {
+                "label": "$~masukkan",
+                "tip": "$~masukkan cara ini ke panduan"
+            },
+            "deny": {
+                "label": "$~jangan masukkan",
+                "tip": "$~jangan masukkan cara ini ke panduan"
+            },
+            "skip": {
+                "label": "$~lewati",
+                "tip": "$~biarkan cara ini diputuskan oleh moderator lain"
+            },
+            "notification": {
+                "approved": "$~$name sekarang sudah ada di panduan.",
+                "denied": "$~$name tidak dimasukkan ke panduan."
             }
         }
     },

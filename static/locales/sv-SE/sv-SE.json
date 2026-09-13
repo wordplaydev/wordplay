@@ -8203,7 +8203,10 @@
                     "explanation": "$~/Korta exempel som visar hur man gör saker i @wordplay. Tryck på play i valfri förhandsgranskning för att se den köras, öppna den sedan för att läsa hur den fungerar./"
                 },
                 "conceptHowTos": "$~Instruktioner",
-                "bookmarked": "$~Bokmärkt"
+                "bookmarked": "$~Bokmärkt",
+                "community": "$~Från skapare",
+                "galleries": "$~Från dina gallerier",
+                "wordplay": "$~Från Wordplay"
             },
             "mode": {
                 "browse": {
@@ -10674,13 +10677,14 @@
                 },
                 "submitToGuide": {
                     "submit": {
-                        "label": "$~📨 skicka in till Wordplay Guide",
-                        "tip": "$~Skicka in den här instruktionen för att bli övervägd för inkludering i Ordspelsguiden!"
+                        "label": "$~📨 skicka till guiden",
+                        "tip": "$~skicka in denna hur-man för att bli övervägd för att tas med i guiden!"
                     },
                     "alreadySubmitted": {
                         "label": "$~✅ skickad till Guide",
-                        "tip": "$~Denna instruktionsguide har redan skickats in för att beaktas för inkludering i Ordspelsguiden."
-                    }
+                        "tip": "$~denna hur-man har redan skickats in för att övervägas för att tas med i guiden."
+                    },
+                    "header": "$~Listning i guiden"
                 },
                 "usedBy": {
                     "prompt": "$~Använde du den här handledningen i ditt projekt eller i en annan handledning? Låt andra veta det genom att lägga till ditt projekt i listan!",
@@ -11285,12 +11289,14 @@
                 "$~projekt",
                 "$~galleri:er",
                 "$~verktygspaket",
+                "$~hur-man-guider",
                 "$~meddelanden"
             ],
             "tips": [
                 "$~granska projekt som folk har gjort offentliga",
                 "$~granska galleri:er som vill listas publikt",
                 "$~granska kit som vill listas i guiden",
+                "$~granska hur-man-guider som vill listas i guiden",
                 "$~granska meddelanden som folk har anmält i galleri du sköter"
             ]
         },
@@ -11342,6 +11348,31 @@
             "pending": "$~En moderator läser ditt paket för att avgöra om det kan listas i guiden. Det är märkt som listat, men ingen hittar det där förrän det verkligen är klart.",
             "approved": "$~Ditt paket är listat i <guiden@://guide?section=kits>! Det kan tas bort från listan när som helst, av vilken anledning som helst.",
             "denied": "$~En moderator bestämde att inte lista ditt paket i guiden. Du kan publicera en ny version och fråga igen.",
+            "notification": {
+                "approved": "$~$name är nu listad i guiden.",
+                "denied": "$~$name listades inte i guiden."
+            }
+        },
+        "howto": {
+            "pending": "$~En moderator läser din hur-man för att avgöra om den kan listas i guiden. Fram tills dess är det bara de som redan kan se den som kan göra det.",
+            "approved": "$~Din hur-man finns listad i <guiden@://guide?section=howto>! Den kan tas bort från listan när som helst, av vilken anledning som helst.",
+            "denied": "$~En moderator bestämde att inte lista din hur-man i guiden. Du kan fortsätta arbeta med den och fråga igen.",
+            "unready": "$~Publicera din hur-man och gör den offentlig först. En moderator kan bara säga ja till något som alla kan läsa.",
+            "header": "$~Hur-man-guider",
+            "explain": "$~Denna hur-man vill listas i guiden. Läs den och avgör om andra som lär sig @wordplay borde hitta den där.",
+            "done": "$~Inga hur-man-guider väntar på ett beslut. Tack!",
+            "approve": {
+                "label": "$~lista den",
+                "tip": "$~lista denna hur-man i guiden"
+            },
+            "deny": {
+                "label": "$~lista inte den",
+                "tip": "$~håll denna hur-man utanför guiden"
+            },
+            "skip": {
+                "label": "$~hoppa över",
+                "tip": "$~lämna denna hur-man till en annan moderator att bestämma"
+            },
             "notification": {
                 "approved": "$~$name är nu listad i guiden.",
                 "denied": "$~$name listades inte i guiden."

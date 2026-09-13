@@ -962,6 +962,14 @@
         "ede02f98adf41": "$~Die drei Kits, die mit Wordplay mitgeliefert werden, sind in jeder Sprache geschrieben, die wir unterstützen. So kannst du ihre Namen und Texte in deiner eigenen Sprache lesen. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Zahlen können jetzt drei Dinge, die du früher von Hand ausrechnen musstest: \\limit\\ hält eine Zahl zwischen einem niedrigen und einem hohen Wert, \\toward\\ bewegt eine Zahl ein Stück in Richtung einer anderen, und \\rescale\\ wandelt eine Zahl aus einem Bereich in die passende Zahl in einem anderen Bereich um.",
         "e49e28ab01607": "$~Eine Liste von Zahlen kann dir jetzt ihren \\sum\\ und ihren \\average\\ verraten, damit du sie nicht selbst zusammenrechnen musst.",
-        "e7cae93034509": "$~Eine Überschrift in einem Register-Bereich, wie zum Beispiel in den Einstellungen, steht jetzt näher bei dem Teil, den sie benennt. Vorher war sie zu nah am Abschnitt darüber."
+        "e7cae93034509": "$~Eine Überschrift in einem Register-Bereich, wie zum Beispiel in den Einstellungen, steht jetzt näher bei dem Teil, den sie benennt. Vorher war sie zu nah am Abschnitt darüber.",
+        "e023f9e6e610d": "$~Wir haben einen Fehler behoben: Man konnte eine Figur (Character) bitten, ein Projekt in einer Galerie zu prüfen, aber das hat vorher immer nicht funktioniert. (<1372@https://github.com/wordplaydev/wordplay/issues/1372>)",
+        "e31bb325a6f4a": "$~Wenn man ein Programm übersetzt, wird ein Name jetzt überall gleichzeitig geändert. Vorher wurde er nur an einer Stelle geändert, was das Programm kaputt gemacht hat. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
+        "ec7e327ea8ea0": "$~Wenn wir nicht erkennen können, ob dein Browser echt ist – das kann zum Beispiel in Schulnetzwerken passieren – sagen wir dir das jetzt direkt. Vorher haben wir dich einfach gebeten, es noch einmal zu versuchen. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e003ca7973f98": "$~Die Anmeldeseite sagt jetzt nicht mehr, dass sie dir einen Anmelde-Link geschickt hat, wenn das gar nicht geklappt hat. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e3083faa58e3f": "$~Du kannst jetzt darum bitten, dass ein von dir geschriebenes Wie-man im <Leitfaden@https://wordplay.dev/guide> aufgeführt wird. Jeder kann es dort lesen, sobald ein Moderator zustimmt. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e84378f19e20d": "$~Du kannst jetzt darum bitten, dass ein Wie-man überprüft wird, genau wie bei einem Projekt oder einer Zeichnung. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e0634f7a90e52": "$~Wie-man-Anleitungen und Kits im <Leitfaden@https://wordplay.dev/guide> zeigen jetzt, wer sie gemacht hat. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e089e7d53887b": "$~Eine Galerie, die jeder sehen kann, zeigt jetzt den vollständigen Namen aller Mitglieder, statt nur der ersten paar Buchstaben. (<906@https://github.com/wordplaydev/wordplay/issues/906>)"
     }
 }

@@ -962,6 +962,14 @@
         "ede02f98adf41": "$~Los tres kits que vienen con Wordplay están escritos en todos los idiomas que ofrecemos, así que sus nombres y su escritura se leen en el tuyo. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Ahora los números pueden hacer tres cosas que antes tenías que escribir a mano: \\limit\\ mantiene un número entre uno bajo y uno alto, \\toward\\ mueve un número parte del camino hacia otro, y \\rescale\\ convierte un número de un rango en el número correspondiente de otro rango.",
         "e49e28ab01607": "$~Ahora una lista de números puede decirte su \\sum\\ y su \\average\\, para que no tengas que sumarlos tú misma.",
-        "e7cae93034509": "$~Un encabezado dentro de un panel con pestañas, como los de Configuración, ahora queda más cerca de la parte que nombra, en lugar de subir hacia la sección de arriba."
+        "e7cae93034509": "$~Un encabezado dentro de un panel con pestañas, como los de Configuración, ahora queda más cerca de la parte que nombra, en lugar de subir hacia la sección de arriba.",
+        "e023f9e6e610d": "$~Corregimos el problema al pedir revisión de un carácter en una galería, que siempre fallaba antes. (<1372@https://github.com/wordplaydev/wordplay/issues/1372>)",
+        "e31bb325a6f4a": "$~Traducir un programa ya no cambia el nombre en un solo lugar sin cambiarlo en los demás, lo cual solía romper el programa. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
+        "ec7e327ea8ea0": "$~Si no podemos confirmar que tu navegador es real, algo que puede pasar en redes escolares, ahora te lo decimos en vez de pedirte que lo intentes de nuevo. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e003ca7973f98": "$~La página de inicio de sesión ya no dice que te envió un enlace para entrar cuando en realidad no pudo hacerlo. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e3083faa58e3f": "$~Ahora puedes pedir que una guía práctica que escribiste aparezca en la <Guía@https://wordplay.dev/guide>, y cualquier persona podrá leerla ahí una vez que una moderadora la apruebe. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e84378f19e20d": "$~Ahora puedes pedir que revisen una guía práctica, igual que puedes pedirlo para un proyecto o un dibujo. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e0634f7a90e52": "$~Las guías prácticas y los kits en la <Guía@https://wordplay.dev/guide> ahora muestran quién los hizo. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e089e7d53887b": "$~Una galería que cualquier persona puede ver ahora muestra el nombre completo de todas las personas que están en ella, en vez de solo las primeras letras. (<906@https://github.com/wordplaydev/wordplay/issues/906>)"
     }
 }
