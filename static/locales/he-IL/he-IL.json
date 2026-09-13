@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~שיתוף במקום לא נכון",
-                    "explanation": "$~אני יכול לשתף דברים רק ברמת @Program, לא בתוך שום דבר!",
+                    "explanation": "$!אני יכול לשתף דברים רק ברמת @Program, לא בתוך שום דבר!",
                     "resolution": "$~הסר את הסמן *↑*"
                 },
                 "MissingShareLanguages": {

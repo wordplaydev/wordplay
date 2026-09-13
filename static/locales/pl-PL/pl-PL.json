@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~źle umieszczone udostępnienie",
-                    "explanation": "$~Mogę udostępniać informacje tylko na poziomie @Program, a nie w obrębie czegokolwiek innego!",
+                    "explanation": "$!Mogę udostępniać informacje tylko na poziomie @Program, a nie w obrębie czegokolwiek innego!",
                     "resolution": "$~Usuń znacznik *↑*"
                 },
                 "MissingShareLanguages": {

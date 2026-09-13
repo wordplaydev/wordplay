@@ -54,7 +54,10 @@ import Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
 import TypeToken from '@nodes/TypeToken';
 import TypeVariables from '@nodes/TypeVariables';
-import { getEvaluationInputConflicts } from '@nodes/util';
+import {
+    getEvaluationInputConflicts,
+    getMisplacedShareConflicts,
+} from '@nodes/util';
 import { getPublishedShareConflicts } from '@nodes/publishedShare';
 
 export default class StructureDefinition extends DefinitionExpression {
@@ -433,6 +436,12 @@ export default class StructureDefinition extends DefinitionExpression {
 
         // What a `↑` owes its readers, once this source is published (#8).
         conflicts = conflicts.concat(getPublishedShareConflicts(this, context));
+
+        // ...and where a `↑` may be at all (#1373). Never static, so root is the only
+        // place it means anything.
+        conflicts = conflicts.concat(
+            getMisplacedShareConflicts(this, this.share, false, context),
+        );
 
         // Inputs must be valid.
         conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));

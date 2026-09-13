@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~गलत जगह साझा",
-                    "explanation": "$~मैं चीज़ें केवल @Program स्तर पर साझा कर सकता हूँ, किसी के अंदर नहीं!",
+                    "explanation": "$!मैं चीज़ें केवल @Program स्तर पर साझा कर सकता हूँ, किसी के अंदर नहीं!",
                     "resolution": "$~*↑* चिह्न हटाएँ"
                 },
                 "MissingShareLanguages": {

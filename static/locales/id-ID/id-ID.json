@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~berbagi salah tempat",
-                    "explanation": "$~Saya hanya bisa membagikan hal-hal di tingkat @Program, bukan di dalam apa pun!",
+                    "explanation": "$!Saya hanya bisa membagikan hal-hal di tingkat @Program, bukan di dalam apa pun!",
                     "resolution": "$~Hapus tanda *↑*"
                 },
                 "MissingShareLanguages": {

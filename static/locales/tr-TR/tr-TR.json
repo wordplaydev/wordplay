@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~yanlış yerleştirilmiş paylaşım",
-                    "explanation": "$~Sadece @Program düzeyinde bilgi paylaşabiliyorum, hiçbir şeyin içinde paylaşım yapamıyorum!",
+                    "explanation": "$!Sadece @Program düzeyinde bilgi paylaşabiliyorum, hiçbir şeyin içinde paylaşım yapamıyorum!",
                     "resolution": "$~*↑* işaretini kaldırın"
                 },
                 "MissingShareLanguages": {

@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~partage mal placé",
-                    "explanation": "$~Je ne peux partager que des choses au niveau du @Program, pas à l'intérieur des éléments !",
+                    "explanation": "$!Je ne peux partager que des choses au niveau du @Program, pas à l'intérieur des éléments !",
                     "resolution": "$~Supprimer le marqueur *↑*"
                 },
                 "MissingShareLanguages": {

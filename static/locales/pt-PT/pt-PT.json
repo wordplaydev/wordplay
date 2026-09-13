@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "partilha malposicionada",
-                    "explanation": "Só posso partilhar informação ao nível do @Program, não dentro de nada!",
+                    "explanation": "$!Só posso partilhar informação ao nível do @Program, não dentro de nada!",
                     "resolution": "Remova o marcador *↑*"
                 },
                 "MissingShareLanguages": {

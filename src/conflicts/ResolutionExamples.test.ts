@@ -642,6 +642,16 @@ describe('MisplacedShare', () => {
     test('share inside a block → repair (remove ↑)', () => {
         expectRepair('(↑a: 1)', MisplacedShare);
     });
+
+    // The same repair now reaches functions and structures, which raised nothing at all
+    // before (#1373) — a `↑` there bound nothing and said nothing.
+    test('shared function inside a function → repair (remove ↑)', () => {
+        expectRepair('ƒ() (↑ ƒ g() 1)', MisplacedShare);
+    });
+
+    test('shared structure inside a structure → repair (remove ↑)', () => {
+        expectRepair('•S() (↑ •Inner())', MisplacedShare);
+    });
 });
 
 describe('MisplacedConversion', () => {

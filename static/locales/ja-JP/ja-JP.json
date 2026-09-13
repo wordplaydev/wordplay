@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~置き場所のちがう共有",
-                    "explanation": "$~わたしは @Program のレベルでしか共有できません。何かの中ではだめです！",
+                    "explanation": "$!わたしは @Program のレベルでしか共有できません。何かの中ではだめです！",
                     "resolution": "$~*↑* の印を消す"
                 },
                 "MissingShareLanguages": {
