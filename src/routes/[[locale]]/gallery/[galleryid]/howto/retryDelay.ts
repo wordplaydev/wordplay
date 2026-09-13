@@ -2,21 +2,28 @@
  * How long to wait before asking the database again about a how-to space we
  * couldn't reach.
  *
- * `resolveGallery` answers "we couldn't go look" with `null` rather than
- * "it isn't there", and its docstring promises the caller re-runs it "whenever
- * the maps change, so a recovered connection resolves it". For a *signed-out*
- * visitor that promise was empty: `HowToDatabase.listen` tears every listener
- * down when there is no user and the galleries query is user-scoped, so the
- * maps never change again, `hydrated` and `authAttempted` each settle once, and
- * nothing re-runs the effect. One read that overran `Database.READ_TIMEOUT_MS`
- * left a public space blank for the rest of the page's life, with no error and
- * no way back but a reload.
+ * `resolveGallery` answers "we couldn't go look" with `null` rather than "it
+ * isn't there", and its docstring promises the caller re-runs it "whenever the
+ * maps change, so a recovered connection resolves it". For a *signed-out*
+ * visitor that promise was empty: every how-to listener was uid-scoped, so the
+ * maps never changed again, `hydrated` and `authAttempted` each settled once,
+ * and nothing re-ran the effect. One read that overran
+ * `Database.READ_TIMEOUT_MS` left a public space blank for the rest of the
+ * page's life, with no error and no way back but a reload.
  *
- * So the page asks again on a schedule of its own. Backing off matters because
- * the common cause is a slow first connection rather than a broken one — the
- * second ask usually lands on a warm one — and capping the backoff rather than
- * giving up matters because giving up is the bug: a page left open across a
- * tunnel or a sleeping laptop should come back on its own.
+ * A visitor now gets real subscriptions (`Galleries.watchPublic`, #1375), and a
+ * Firestore listener retries its own stream — so what is left here is the two
+ * lookups nothing subscribes to, and they are why this file stays. The gallery
+ * document is one: the public watch only starts once we know the gallery is
+ * public, and the only way we learn that is this first read landing. A `?id=`
+ * deep link is the other, since it can name a how-to in a gallery this viewer
+ * cannot list.
+ *
+ * Backing off matters because the common cause is a slow first connection
+ * rather than a broken one — the second ask usually lands on a warm one — and
+ * capping the backoff rather than giving up matters because giving up is the
+ * bug: a page left open across a tunnel or a sleeping laptop should come back
+ * on its own.
  */
 
 /** Long enough that an instant re-ask can't hammer a struggling backend, short

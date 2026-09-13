@@ -3,7 +3,7 @@
     import BigLink from '@components/app/BigLink.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
-    import { HowTos } from '@db/Database';
+    import { Galleries, HowTos } from '@db/Database';
     import type Gallery from '@db/galleries/Gallery';
     import type HowTo from '@db/howtos/HowToDatabase.svelte';
     import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
@@ -17,16 +17,12 @@
     let { gallery, projectsEditable }: Props = $props();
     const user = getUser();
 
-    let howTos: HowTo[] = $state([]);
-    $effect(() => {
-        HowTos.getHowTos(gallery.getHowTos()).then(
-            ({ howTos: found, unreachable }) => {
-                // Keep the count we have rather than reporting zero over a read
-                // that went unanswered.
-                if (!unreachable) howTos = found;
-            },
-        );
-    });
+    // Watching rather than fetching the gallery's list: one subscription shared
+    // with every other surface showing this gallery, and it keeps the count
+    // current for a signed-out visitor too.
+    $effect(() => Galleries.watchPublic(gallery.getID()));
+
+    let howTos: HowTo[] = $derived(HowTos.howTosInGallery(gallery.getID()));
 
     let totalHowTos: number = $derived(
         howTos.filter((ht) => ht.isPublished()).length,

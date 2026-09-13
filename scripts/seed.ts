@@ -629,7 +629,11 @@ async function seedPublicProjectsAndGalleries(): Promise<void> {
                     galleryId: gallery.id,
                     creator: creator.uid,
                     title: 'A how-to anyone can read',
-                    text: 'Seeded in a public gallery, so it needs no account.',
+                    // The @Phrase link is deliberate: a concept link only
+                    // renders as one if the page built an index that could
+                    // resolve it, and that index used to be empty for a
+                    // signed-out reader (#1375).
+                    text: 'Seeded in a public gallery, so it needs no account. Try a @Phrase.',
                 }),
             );
         }

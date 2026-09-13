@@ -4,6 +4,9 @@ import { Domain } from '@db/Domains';
 import exceedsDocLimit from '@db/exceedsDocLimit';
 import { firestore } from '@db/firebase';
 import { GALLERY_CHUNK_SIZE } from '@db/firestoreLimits';
+import Watchers from '@db/Watchers';
+import type { PublicWatchState } from '@db/galleries/GalleryDatabase.svelte';
+import { canCreateHowTo } from '@db/howtos/howToAccess';
 import type Gallery from '@db/galleries/Gallery';
 
 import isQuotaError from '@db/isQuotaError';
@@ -414,6 +417,26 @@ export default class HowTo {
 
 export const HowTosCollection = Domain.HowTos;
 
+/** Key prefix for the per-gallery public watch, distinguishing it from the three
+ *  uid-scoped listeners wherever a listener's identity decides something. */
+export const PublicListenerPrefix = 'public:';
+
+/**
+ * How one gallery's how-tos reach the cache, and therefore what it costs.
+ *
+ * Exactly one of these per watched gallery: a watch *and* a read-through would
+ * bill every document twice on a cold load, which is the whole reason this is a
+ * decision rather than a pair of things that both run.
+ */
+export type GalleryWatchMode =
+    /** The uid-scoped listeners already deliver everything here. Nothing to do. */
+    | 'covered'
+    /** A public gallery: one query delivers every how-to the rules admit. */
+    | 'public'
+    /** Neither — a moderator, or a member whose listeners are off. Read the
+     *  gallery's own list of how-tos, one document at a time. */
+    | 'readthrough';
+
 /** Gallery IDs split into `where('galleryId','in',...)`-sized batches. */
 function chunkGalleries(ids: string[]): string[][] {
     const chunks: string[][] = [];
@@ -442,6 +465,32 @@ export class HowToDatabase {
         ...Array.from(this.howtos.values()).filter((ht) => ht.isPublished()),
     ]);
 
+    /** Ref-counted per-gallery watches, acquired through
+     *  `GalleryDatabase.watchPublic`. */
+    private readonly galleryWatchers = new Watchers();
+
+    /** What each live gallery watch decided to do, so a re-evaluation restarts
+     *  only the watches whose answer actually moved. */
+    private readonly watchModes = new Map<string, GalleryWatchMode>();
+
+    /** What each public how-to watch is doing, so a refusal is distinguishable
+     *  from an empty space. */
+    readonly publicWatchState: SvelteMap<string, PublicWatchState> =
+        new SvelteMap();
+
+    /** Whether the three uid-scoped listeners are currently subscribed. Not the
+     *  same question as "is anyone signed in": the how-to notifications setting
+     *  tears them down too, and a member in that state still needs a way to read
+     *  a public gallery. */
+    private userListenersRunning = false;
+
+    /** One-shot reads still in flight, by how-to ID, so surfaces that ask for
+     *  the same document at the same moment share one request. */
+    private readonly reading = new Map<
+        string,
+        Promise<HowTo | undefined | false>
+    >();
+
     /** Maps how-to IDs to listeners that need to be notified when a change is made to the how-to */
     private listeners = new Map<string, Set<(howTo: HowTo) => void>>();
 
@@ -459,10 +508,23 @@ export class HowToDatabase {
      *  so a gallery edit that changes no membership re-subscribes nothing. */
     private watchedGalleryKey: string | undefined = undefined;
 
-    /** How many listeners must have reported before the cache GC may run. Without
+    /** Which listeners must have reported before the cache GC may run. Without
      *  it, a re-subscribe empties `listenerDocIds` while the cache is still full,
-     *  and whichever listener answers first evicts everything the others hold. */
-    private expectedHowToListeners = 0;
+     *  and whichever listener answers first evicts everything the others hold.
+     *
+     *  A set of keys rather than a count, because a listener can now start and
+     *  stop on navigation: counted, a public gallery watch would make GC eligible
+     *  for a visitor who has no other listener; uncounted, the sizes would never
+     *  agree again and GC would stop running for everyone. */
+    private readonly expectedListenerKeys = new Set<string>();
+
+    /** How-tos that entered the cache through a one-shot read rather than a
+     *  listener — a `?id=` deep link, or a gallery no listener covers.
+     *
+     *  The invariant this keeps: **garbage collection may only evict what a
+     *  listener put in the cache.** An id leaves this set as soon as a listener
+     *  reports it, so a how-to a listener owns is collectable normally. */
+    private readonly directReadIDs = new Set<string>();
 
     /** Dedup set so a how-to surfaced by multiple listeners only notifies once. */
 
@@ -554,7 +616,7 @@ export class HowToDatabase {
     }
 
     /** Populate `howtos` from the shared local cache, ONCE. Unlike the other
-     *  domains we do NOT keep a live subscription: the three cloud listeners
+     *  domains we do NOT keep a live subscription: the cloud listeners
      *  garbage-collect `howtos` (an entry survives only while some listener sees
      *  it), and a permanent cache subscription would fight that GC — re-adding
      *  entries the GC just pruned. After this one-shot read the cloud listeners
@@ -740,10 +802,15 @@ export class HowToDatabase {
         const user = this.db.getUser();
         if (!user) {
             this.ignore();
+            // `clearLocal` empties the cache on sign-out, and a live listener
+            // will not re-deliver on its own — nothing changed on the server.
+            // Re-subscribing is what forces the full snapshot back.
+            this.galleryWatchers.restart();
             return;
         }
 
         this.listen(firestore, user.uid);
+        this.galleryWatchers.restart();
     }
 
     async addHowTo(
@@ -866,6 +933,25 @@ export class HowToDatabase {
 
         // No backend at all means we never got to look, not that it's absent.
         if (firestore === undefined) return false;
+
+        // Several surfaces ask for one gallery's how-tos at the same moment on a
+        // cold cache — the canvas, the docs tile, the project's concept index,
+        // the gallery tile — and each miss would otherwise be its own billed
+        // read of the same document. Share whatever is already in flight.
+        const inFlight = this.reading.get(howToId);
+        if (inFlight) return inFlight;
+
+        const request = this.readHowTo(firestore, howToId).finally(() => {
+            this.reading.delete(howToId);
+        });
+        this.reading.set(howToId, request);
+        return request;
+    }
+
+    private async readHowTo(
+        firestore: Firestore,
+        howToId: string,
+    ): Promise<HowTo | undefined | false> {
         try {
             const howToDoc = await this.db.read(
                 getDoc(doc(firestore, HowTosCollection, howToId)),
@@ -880,6 +966,9 @@ export class HowToDatabase {
                 );
                 // Update the doc locally but do not persist, we already know it's in the database
                 this.updateHowTo(newHowTo, false);
+                // Nothing subscribes to this document, so exempt it from the
+                // cache GC until some listener does.
+                this.directReadIDs.add(howToId);
 
                 return newHowTo;
             } else return undefined;
@@ -905,6 +994,15 @@ export class HowToDatabase {
         };
     }
 
+    /**
+     * Stop the three uid-scoped listeners, leaving any public gallery watch
+     * running.
+     *
+     * The split matters because one caller is the how-to *notifications*
+     * setting: turning the bell off must not also stop a member reading a public
+     * space. A member in that state gains a public watch instead, which is what
+     * the re-evaluation at the end is for. See {@link stop} to end everything.
+     */
     ignore() {
         if (this.listenDefer) {
             this.listenDefer();
@@ -912,9 +1010,26 @@ export class HowToDatabase {
         }
         this.unsubscribes.forEach((u) => u());
         this.unsubscribes = [];
-        this.listenerDocIds.clear();
+        for (const key of Array.from(this.expectedListenerKeys))
+            if (!key.startsWith(PublicListenerPrefix)) {
+                this.expectedListenerKeys.delete(key);
+                this.listenerDocIds.delete(key);
+            }
         this.watchedGalleryKey = undefined;
-        this.expectedHowToListeners = 0;
+        this.userListenersRunning = false;
+        this.reevaluateWatches();
+    }
+
+    /** Stop everything, public watches included. For unmounting the app, as
+     *  opposed to signing out or silencing notifications. */
+    stop() {
+        // Watches first: `ignore` re-decides them, and re-deciding one only to
+        // tear it down a line later would subscribe and unsubscribe on the way
+        // out of the page.
+        this.galleryWatchers.stopAll();
+        this.watchModes.clear();
+        this.publicWatchState.clear();
+        this.ignore();
     }
 
     listen(firestore: Firestore, userId: string) {
@@ -1014,8 +1129,18 @@ export class HowToDatabase {
             );
         }
 
-        this.expectedHowToListeners =
-            1 + editorChunks.length + scopeChunks.length;
+        this.userListenersRunning = true;
+        this.expectedListenerKeys.add('own');
+        for (const [index] of editorChunks.entries())
+            this.expectedListenerKeys.add(`gallery:${index}`);
+        for (const [index] of scopeChunks.entries())
+            this.expectedListenerKeys.add(`scope:${index}`);
+
+        // These listeners are what makes a gallery "covered", and `listen` defers
+        // this whole method to idle — so without re-deciding here, a gallery the
+        // uid listeners now cover would keep the public query it started while
+        // they were down, and pay for the same documents twice.
+        this.reevaluateWatches();
     }
 
     /**
@@ -1030,6 +1155,170 @@ export class HowToDatabase {
      * first, which is why that gap shows up for a new account and not on a
      * machine that has run the app before.
      */
+    /**
+     * Watch one gallery's how-tos for whoever is looking at it, signed in or not.
+     *
+     * Acquired through `GalleryDatabase.watchPublic`, which is what a surface
+     * calls; this is the how-to half. What it actually does depends on how this
+     * viewer can reach these how-tos at all — see {@link GalleryWatchMode}.
+     */
+    watchGallery(galleryID: string): () => void {
+        return this.galleryWatchers.watch(galleryID, () =>
+            this.startGalleryWatch(galleryID),
+        );
+    }
+
+    /**
+     * How this viewer should reach this gallery's how-tos.
+     *
+     * The order matters. `expandedScopeGalleries` is checked *after* the public
+     * branch because Listener 3 carries `scopeOverwrite == false`: on a gallery
+     * that is also public it silently omits a how-to whose creator opted out of
+     * expanded scope, which the rule's public branch would have admitted. Asking
+     * "covered?" first would drop that how-to with no error anywhere.
+     */
+    private galleryWatchMode(galleryID: string): GalleryWatchMode {
+        const galleries = this.db.Galleries;
+        if (
+            this.userListenersRunning &&
+            galleries.accessibleGalleries.has(galleryID)
+        )
+            return 'covered';
+        if (galleries.isKnownPublic(galleryID)) return 'public';
+        if (
+            this.userListenersRunning &&
+            galleries.expandedScopeGalleries.has(galleryID)
+        )
+            return 'covered';
+        return 'readthrough';
+    }
+
+    private startGalleryWatch(galleryID: string): () => void {
+        const mode = this.galleryWatchMode(galleryID);
+        this.watchModes.set(galleryID, mode);
+        const forgetMode = () => this.watchModes.delete(galleryID);
+
+        if (mode === 'covered') return forgetMode;
+        if (mode === 'readthrough') {
+            void this.readGalleryHowTos(galleryID);
+            return forgetMode;
+        }
+
+        if (firestore === undefined) return forgetMode;
+
+        // `published == true` is required, not an optimization: the rules put
+        // every non-owner branch under it, and Firestore refuses a whole query
+        // if any document it matched would be denied.
+        //
+        // `isPublic` must NOT be a filter. A how-to in a public gallery is
+        // readable through the rule's `isGalleryPublic` branch whatever its own
+        // flag says, and most are `isPublic: false` — filtering on it would
+        // match nothing. `scopeOverwrite` must not be one either; that belongs
+        // to the expanded-access branch, not this one.
+        //
+        // One gallery means the rule does one `get()`, so the chunking that
+        // Listeners 2 and 3 need (GALLERY_CHUNK_SIZE) has nothing to do here.
+        const key = `${PublicListenerPrefix}${galleryID}`;
+        const publicQuery = query(
+            collection(firestore, HowTosCollection),
+            where('galleryId', '==', galleryID),
+            where('published', '==', true),
+        );
+
+        this.expectedListenerKeys.add(key);
+        this.publicWatchState.set(galleryID, 'watching');
+
+        // Not deferred to idle, unlike the background listeners on login: this
+        // one is the page's content, and waiting on an idle callback would hold
+        // the canvas empty for up to two seconds.
+        let first = true;
+        const unsubscribe = onSnapshot(
+            publicQuery,
+            (snapshot) => {
+                this.handleSnapshot(key, snapshot);
+                if (first && !snapshot.metadata.fromCache) {
+                    first = false;
+                    // A member of the gallery can also read drafts, which a
+                    // `published` query cannot return. Ask for whatever the
+                    // snapshot did not bring — and only then, or the two would
+                    // race and buy the same documents twice.
+                    if (this.canSeeGalleryDrafts(galleryID))
+                        void this.readGalleryHowTos(galleryID);
+                }
+            },
+            (error) => {
+                // Not `logFirebaseError`: a visitor refused someone else's
+                // gallery is not this creator's how-tos failing to sync.
+                console.error(
+                    `Couldn't watch how-tos in gallery ${galleryID}:`,
+                    error,
+                );
+                const connectivity = this.db.isConnectivityError(error);
+                this.publicWatchState.set(
+                    galleryID,
+                    connectivity ? 'unreachable' : 'denied',
+                );
+                if (connectivity) this.db.markFirebaseFailed();
+            },
+        );
+
+        return () => {
+            unsubscribe();
+            // Drop the key from both, so the GC stops waiting on a listener that
+            // is gone and may collect what only it held.
+            this.expectedListenerKeys.delete(key);
+            this.listenerDocIds.delete(key);
+            this.publicWatchState.delete(galleryID);
+            forgetMode();
+        };
+    }
+
+    /** Whether this viewer may read drafts here — the one thing a public query
+     *  cannot deliver. Membership of the gallery, which is what the rules ask. */
+    private canSeeGalleryDrafts(galleryID: string): boolean {
+        return canCreateHowTo(
+            this.db.Galleries.getKnown(galleryID),
+            this.db.getUser()?.uid,
+        );
+    }
+
+    /** Read the gallery's own list of how-tos, one document at a time. Cache
+     *  first, so ids a listener already delivered cost nothing. */
+    private async readGalleryHowTos(galleryID: string) {
+        const gallery = this.db.Galleries.getKnown(galleryID);
+        if (gallery === undefined) return;
+        await this.getHowTos(gallery.getHowTos());
+    }
+
+    /** The gallery document changed, so what its how-tos need may have too — it
+     *  may have become public, or gained a how-to. */
+    publicGalleryChanged(galleryID: string) {
+        this.reevaluateWatch(galleryID);
+    }
+
+    /** Re-decide every live gallery watch after a change in who is signed in or
+     *  what they can reach. */
+    reevaluateWatches() {
+        for (const galleryID of this.galleryWatchers.keys())
+            this.reevaluateWatch(galleryID);
+    }
+
+    /** Restart one watch if and only if its answer moved — a restart re-reads,
+     *  so doing it unconditionally would charge for every gallery change. */
+    private reevaluateWatch(galleryID: string) {
+        if (!this.galleryWatchers.has(galleryID)) return;
+        if (this.watchModes.get(galleryID) !== this.galleryWatchMode(galleryID))
+            this.galleryWatchers.restart(galleryID);
+    }
+
+    /** The how-tos cached for one gallery. What the four surfaces render, rather
+     *  than each fetching the gallery's list for itself. */
+    howTosInGallery(galleryID: string): HowTo[] {
+        return Array.from(this.howtos.values()).filter(
+            (howTo) => howTo.getHowToGalleryId() === galleryID,
+        );
+    }
+
     galleriesChanged() {
         if (firestore === undefined) return;
         const user = this.db.getUser();
@@ -1056,6 +1345,9 @@ export class HowToDatabase {
         snapshot.forEach((doc) => {
             const howto = doc.data();
             seen.add(doc.id);
+            // A listener owns it now, so it no longer needs the one-shot read's
+            // exemption from collection.
+            this.directReadIDs.delete(doc.id);
             // Keep it in `seen` (so GC doesn't prune our own how-to), but skip
             // applying/caching it while it has unsaved local edits not yet
             // pushed — our local copy is authoritative until flushUnsaved
@@ -1094,7 +1386,9 @@ export class HowToDatabase {
         //     blank and refill on every membership change.
         if (
             !snapshot.metadata.fromCache &&
-            this.listenerDocIds.size === this.expectedHowToListeners
+            Array.from(this.expectedListenerKeys).every((expected) =>
+                this.listenerDocIds.has(expected),
+            )
         ) {
             const union = new Set<string>();
             for (const ids of this.listenerDocIds.values())
@@ -1103,13 +1397,24 @@ export class HowToDatabase {
             for (const cachedId of this.howtos.keys()) {
                 // Keep how-tos with unsaved local edits even if no listener sees
                 // them (they aren't on the server yet) — pruning them would drop the
-                // only copy and leave nothing for flushUnsaved to replay.
-                if (!union.has(cachedId) && !this.unsavedIDs.has(cachedId))
+                // only copy and leave nothing for flushUnsaved to replay. Keep
+                // one-shot reads too: no listener ever claims them, so collecting
+                // them would empty a deep link the moment any listener reported.
+                if (
+                    !union.has(cachedId) &&
+                    !this.unsavedIDs.has(cachedId) &&
+                    !this.directReadIDs.has(cachedId)
+                )
                     this.howtos.delete(cachedId);
             }
         }
 
-        this.db.markSynced(Domain.HowTos, this.howtos.size);
+        // A public gallery watch is someone else's content being read, not this
+        // creator's data syncing. Reporting it would spin the save-status footer
+        // for a signed-in visitor until it landed, and settle `domainSettled`
+        // mid-`startSync` for everyone else.
+        if (!key.startsWith(PublicListenerPrefix))
+            this.db.markSynced(Domain.HowTos, this.howtos.size);
     }
 
     private logFirebaseError(error: unknown) {

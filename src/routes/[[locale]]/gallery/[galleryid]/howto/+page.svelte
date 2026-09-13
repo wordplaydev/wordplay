@@ -122,7 +122,11 @@
         const ready = Galleries.hydrated && $authAttempted;
         const cached =
             Galleries.accessibleGalleries.has(galleryID) ||
-            Galleries.expandedScopeGalleries.has(galleryID);
+            Galleries.expandedScopeGalleries.has(galleryID) ||
+            // Read explicitly, not just through `find`: this is the map the
+            // public watch keeps current, and it is what makes a visitor's
+            // gallery name and introduction live rather than a one-time read.
+            Galleries.publicGalleries.has(galleryID);
 
         // Read the retry tick so a scheduled re-ask re-runs this.
         void retryTick;
@@ -152,25 +156,27 @@
     // true if queried how-to exists and user has access, false if query failed, null if query in progress
     let urlLoaded = $state<null | boolean>(null);
 
-    // get all of the how-tos for the gallery if the user has gallery access
-    // otherwise, see if there was a specific how-to id in the url and if so just get that one
+    // Subscribe to the gallery and its how-tos, so this space stays current for
+    // whoever is reading it — signed in or not. See GalleryDatabase.watchPublic.
     $effect(() => {
-        // Read the retry tick so a scheduled re-ask re-runs this too.
+        if (gallery) return Galleries.watchPublic(gallery.getID());
+    });
+
+    // Render whatever that subscription has put in the cache. A `$state` filled
+    // by an effect rather than a `$derived`, because the canvas binds into it
+    // (`bind:howTo={howTos[i]}` below).
+    $effect(() => {
+        if (gallery) howTos = HowTos.howTosInGallery(gallery.getID());
+    });
+
+    // A `?id=` deep link names one how-to, which may sit in a gallery this
+    // viewer cannot list — so it stays a one-shot read, and keeps the re-ask
+    // that nothing else would do for it.
+    $effect(() => {
+        // Read the retry tick so a scheduled re-ask re-runs this.
         void retryTick;
 
-        if (gallery) {
-            HowTos.getHowTos(gallery.getHowTos()).then(
-                ({ howTos: found, unreachable }) => {
-                    // Keep what we have rather than blanking the canvas on a
-                    // read we never got an answer to.
-                    if (unreachable) askHowTos.later();
-                    else {
-                        howTos = found;
-                        askHowTos.answered();
-                    }
-                },
-            );
-        } else if (urlID) {
+        if (!gallery && urlID) {
             urlLoaded = null;
             HowTos.getHowTo(urlID).then((data) => {
                 // `false` is "we never got an answer", which is not the same as
@@ -465,7 +471,11 @@
             placeholderProject,
             $locales,
             localeHowTos instanceof Promise ? [] : localeHowTos,
-            $user ? HowTos.allAccessiblePublishedHowTos : [],
+            // Not gated on a user: the cache only ever holds what the rules
+            // let this viewer read. This argument is the *gallery* how-tos, so
+            // gating it meant a how-to linking to another how-to by title read
+            // as plain prose for a signed-out visitor.
+            HowTos.allAccessiblePublishedHowTos,
         ),
     );
 

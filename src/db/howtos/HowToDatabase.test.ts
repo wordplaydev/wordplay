@@ -9,6 +9,14 @@ let lastBatchOps: BatchOp[] = [];
 /** What `batch.commit()` returns; a test can hold it unresolved. */
 let commitResult: Promise<void> = Promise.resolve();
 
+type FakeSubscription = {
+    target: unknown;
+    onNext: (snapshot: unknown) => void;
+    onError: (error: unknown) => void;
+    unsubscribed: boolean;
+};
+const subscriptions: FakeSubscription[] = [];
+
 vi.mock('firebase/firestore', () => ({
     and: vi.fn(),
     or: vi.fn(),
@@ -42,10 +50,36 @@ vi.mock('firebase/firestore', () => ({
             commit: vi.fn(() => commitResult),
         };
     }),
-    onSnapshot: vi.fn(() => () => {}),
-    collection: vi.fn(),
-    query: vi.fn(),
-    where: vi.fn(),
+    // Inspectable rather than opaque, so a test can assert which constraints a
+    // listener subscribed with — the filters are load-bearing (a query Firestore
+    // would refuse, or one that silently matches nothing).
+    onSnapshot: vi.fn(
+        (
+            target: unknown,
+            onNext: (snapshot: unknown) => void,
+            onError: (error: unknown) => void,
+        ) => {
+            const subscription = {
+                target,
+                onNext,
+                onError,
+                unsubscribed: false,
+            };
+            subscriptions.push(subscription);
+            return () => {
+                subscription.unsubscribed = true;
+            };
+        },
+    ),
+    collection: vi.fn((_firestore: unknown, name: string) => ({
+        _collection: name,
+    })),
+    query: vi.fn((coll: unknown, ...constraints: unknown[]) => ({
+        _query: { coll, constraints },
+    })),
+    where: vi.fn((field: string, op: string, value: unknown) => ({
+        _where: { field, op, value },
+    })),
     getDoc: vi.fn(async () => ({ exists: () => false })),
 }));
 
@@ -67,7 +101,7 @@ import HowTo, {
 } from './HowToDatabase.svelte';
 import Gallery from '@db/galleries/Gallery';
 import { HowToFields } from '@db/rulesFields';
-import { updateDoc } from 'firebase/firestore';
+import { getDoc, updateDoc } from 'firebase/firestore';
 
 const baseSocial = {
     v: 1 as const,
@@ -523,5 +557,333 @@ describe('upgradeHowTo', () => {
         const upgraded = upgradeHowTo(v2);
         expect(upgraded.v).toBe(HowToSchemaLatestVersion);
         expect(upgraded).not.toHaveProperty('preview');
+    });
+});
+
+describe('one-shot reads are shared while in flight', () => {
+    let db: HowToDatabase;
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+        db = new HowToDatabase({
+            getUser: vi.fn(() => ({ uid: 'user-1' })),
+            read: vi.fn(<T>(p: Promise<T>) => p),
+            isConnectivityError: vi.fn(() => false),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any);
+    });
+
+    it('shares one read between concurrent askers', async () => {
+        // The cold-load cost this exists for: four surfaces show a gallery's
+        // how-tos, and on an empty cache each used to issue its own getDoc for
+        // every document — up to four billed reads per how-to per page.
+        let settle: (value: { exists: () => boolean }) => void = () => {};
+        vi.mocked(getDoc).mockReturnValueOnce(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            new Promise<any>((resolve) => {
+                settle = resolve;
+            }),
+        );
+
+        const asks = Array.from({ length: 10 }, () => db.getHowTo('ht-1'));
+        expect(vi.mocked(getDoc)).toHaveBeenCalledTimes(1);
+
+        settle({ exists: () => false });
+        const results = await Promise.all(asks);
+
+        expect(vi.mocked(getDoc)).toHaveBeenCalledTimes(1);
+        expect(results).toEqual(Array.from({ length: 10 }, () => undefined));
+    });
+
+    it('asks again once the answer has settled', async () => {
+        // The shared request is released when it settles: "we already asked" is
+        // only true while the answer is still coming.
+        vi.mocked(getDoc).mockResolvedValue(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            { exists: () => false } as any,
+        );
+
+        await db.getHowTo('ht-1');
+        await db.getHowTo('ht-1');
+
+        expect(vi.mocked(getDoc)).toHaveBeenCalledTimes(2);
+    });
+});
+
+describe('watching a gallery (#1375)', () => {
+    /** The constraint descriptors the fake `where` produced, for one query. */
+    function constraintsOf(subscription: FakeSubscription) {
+        const target = subscription.target as {
+            _query?: { constraints: { _where?: Record<string, unknown> }[] };
+        };
+        return (target._query?.constraints ?? []).map((c) => c._where);
+    }
+
+    function fields(subscription: FakeSubscription) {
+        return constraintsOf(subscription).map((w) => w?.field);
+    }
+
+    /** A gallery the database can find without going anywhere. */
+    function fakeGallery(id: string, howTos: string[], isPublic: boolean) {
+        return {
+            getID: () => id,
+            getHowTos: () => howTos,
+            isPublic: () => isPublic,
+            hasCurator: () => false,
+            hasCreator: () => false,
+            getHowToExpandedVisibility: () => false,
+            getHowToViewers: () => [],
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any;
+    }
+
+    let db: HowToDatabase;
+    let accessible: Map<string, unknown>;
+    let expandedScope: Map<string, unknown>;
+    let known: Map<string, ReturnType<typeof fakeGallery>>;
+    let marks: string[];
+
+    /** Mutable, so one database can watch a visitor sign in. */
+    let currentUid: string | null = null;
+
+    function makeDatabase(uid: string | null) {
+        currentUid = uid;
+        return {
+            getUser: vi.fn(() =>
+                currentUid === null ? null : { uid: currentUid },
+            ),
+            read: vi.fn(<T>(p: Promise<T>) => p),
+            isConnectivityError: vi.fn(() => false),
+            markSyncing: vi.fn((d: string) => marks.push(`syncing:${d}`)),
+            markSynced: vi.fn((d: string) => marks.push(`synced:${d}`)),
+            markSyncFailed: vi.fn((d: string) => marks.push(`failed:${d}`)),
+            markFirebaseFailed: vi.fn(),
+            Galleries: {
+                accessibleGalleries: accessible,
+                expandedScopeGalleries: expandedScope,
+                isKnownPublic: (id: string) =>
+                    known.get(id)?.isPublic() === true,
+                getKnown: (id: string) => known.get(id),
+            },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any;
+    }
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+        subscriptions.length = 0;
+        accessible = new Map();
+        expandedScope = new Map();
+        known = new Map();
+        marks = [];
+        known.set('g-1', fakeGallery('g-1', ['ht-1', 'ht-2'], true));
+        db = new HowToDatabase(makeDatabase(null));
+    });
+
+    it('subscribes on galleryId and published, and on nothing else', () => {
+        // The seed's public how-to is `isPublic: false`, readable only through
+        // the rule's `isGalleryPublic` branch — so filtering on `isPublic` would
+        // match nothing and read as a broken listener. `scopeOverwrite` belongs
+        // to the expanded-access branch, not this one.
+        db.watchGallery('g-1');
+
+        expect(subscriptions).toHaveLength(1);
+        expect(fields(subscriptions[0])).toEqual(['galleryId', 'published']);
+        expect(constraintsOf(subscriptions[0])).toEqual([
+            { field: 'galleryId', op: '==', value: 'g-1' },
+            { field: 'published', op: '==', value: true },
+        ]);
+    });
+
+    it('costs a signed-out visitor the query and nothing else', () => {
+        // The whole point of choosing one path: a watch plus a read-through of
+        // the gallery's list would bill every document twice on a cold load.
+        db.watchGallery('g-1');
+
+        expect(subscriptions).toHaveLength(1);
+        expect(vi.mocked(getDoc)).not.toHaveBeenCalled();
+    });
+
+    /** A database whose three uid listeners are actually running. */
+    function signedIn(uid: string) {
+        const running = new HowToDatabase(makeDatabase(uid));
+        // `deferToIdle` runs synchronously with no `window`, which is this
+        // suite's environment, so the listeners exist by the time this returns.
+        running.listen({} as never, uid);
+        subscriptions.length = 0;
+        vi.mocked(getDoc).mockClear();
+        marks.length = 0;
+        return running;
+    }
+
+    it('does nothing at all when the uid listeners already cover the gallery', () => {
+        accessible.set('g-1', known.get('g-1'));
+        db = signedIn('user-1');
+
+        db.watchGallery('g-1');
+
+        expect(subscriptions).toHaveLength(0);
+        expect(vi.mocked(getDoc)).not.toHaveBeenCalled();
+    });
+
+    it('prefers the public query to expanded scope, which omits opted-out how-tos', () => {
+        // Listener 3 carries `scopeOverwrite == false`, so on a gallery that is
+        // also public it would silently drop a how-to the public branch admits.
+        expandedScope.set('g-1', known.get('g-1'));
+        db = signedIn('user-1');
+
+        db.watchGallery('g-1');
+
+        expect(subscriptions).toHaveLength(1);
+        expect(fields(subscriptions[0])).toEqual(['galleryId', 'published']);
+    });
+
+    it('drops the public watch when signing in covers the gallery', () => {
+        // Otherwise the member pays for the same documents twice: once through
+        // Listener 2 and once through a public query started while signed out.
+        // `listen` defers to idle, which is why the re-decision has to happen
+        // where the listeners actually come up rather than at the call.
+        db.watchGallery('g-1');
+        expect(subscriptions).toHaveLength(1);
+
+        currentUid = 'user-1';
+        accessible.set('g-1', known.get('g-1'));
+        db.listen({} as never, 'user-1');
+
+        expect(subscriptions[0].unsubscribed).toBe(true);
+    });
+
+    it('shares one subscription between every surface showing the gallery', () => {
+        const releases = [
+            db.watchGallery('g-1'),
+            db.watchGallery('g-1'),
+            db.watchGallery('g-1'),
+            db.watchGallery('g-1'),
+        ];
+        expect(subscriptions).toHaveLength(1);
+
+        releases[0]();
+        releases[1]();
+        releases[2]();
+        expect(subscriptions[0].unsubscribed).toBe(false);
+
+        releases[3]();
+        expect(subscriptions[0].unsubscribed).toBe(true);
+    });
+
+    it('reads the gallery through when it is not public, and subscribes once it is', async () => {
+        known.set('g-2', fakeGallery('g-2', ['ht-3'], false));
+        vi.mocked(getDoc).mockResolvedValue(
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            { exists: () => false } as any,
+        );
+
+        db.watchGallery('g-2');
+        await Promise.resolve();
+        expect(subscriptions).toHaveLength(0);
+        expect(vi.mocked(getDoc)).toHaveBeenCalledTimes(1);
+
+        known.set('g-2', fakeGallery('g-2', ['ht-3'], true));
+        db.publicGalleryChanged('g-2');
+        expect(subscriptions).toHaveLength(1);
+    });
+
+    it('keeps a public watch through ignore, and ends it on stop', () => {
+        // `ignore` is what the how-to *notifications* setting calls, and
+        // silencing the bell must not stop someone reading a public space.
+        db.watchGallery('g-1');
+        db.ignore();
+        expect(subscriptions[0].unsubscribed).toBe(false);
+
+        db.stop();
+        expect(subscriptions[0].unsubscribed).toBe(true);
+    });
+
+    it('never reports a public watch as this creator syncing', () => {
+        db.watchGallery('g-1');
+        subscriptions[0].onNext({
+            metadata: { fromCache: false },
+            forEach: () => {},
+            docChanges: () => [],
+        });
+
+        // A signed-in visitor on someone else's public gallery would otherwise
+        // watch the save-status footer spin until it landed.
+        expect(marks).toEqual([]);
+    });
+
+    /** Deliver a server snapshot carrying these documents. */
+    function deliver(
+        subscription: FakeSubscription,
+        docs: Record<string, unknown>[],
+    ) {
+        subscription.onNext({
+            metadata: { fromCache: false },
+            forEach: (callback: (doc: unknown) => void) =>
+                docs.forEach((d) =>
+                    callback({ id: d.id as string, data: () => d }),
+                ),
+            docChanges: () => [],
+        });
+    }
+
+    function cachedIDs() {
+        return db.allAccessiblePublishedHowTos.map((h) => h.getHowToId());
+    }
+
+    it('does not collect a how-to no listener ever claimed', async () => {
+        // A `?id=` deep link is fetched one document at a time and belongs to no
+        // query, so a GC that ran the moment the public watch reported would
+        // empty the very page that asked for it.
+        vi.mocked(getDoc).mockResolvedValue({
+            exists: () => true,
+            data: () =>
+                makeHowToDoc({
+                    id: 'ht-deep',
+                    galleryId: 'g-other',
+                    published: true,
+                }),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any);
+        await db.getHowTo('ht-deep');
+        expect(cachedIDs()).toContain('ht-deep');
+
+        db.watchGallery('g-1');
+        deliver(subscriptions[0], []);
+
+        expect(cachedIDs()).toContain('ht-deep');
+    });
+
+    it('collects it once a listener has claimed it and then stopped seeing it', async () => {
+        // The exemption is not permanent: a how-to a listener owns is collected
+        // normally, or losing access to one would leave it cached forever.
+        vi.mocked(getDoc).mockResolvedValue({
+            exists: () => true,
+            data: () =>
+                makeHowToDoc({
+                    id: 'ht-deep',
+                    galleryId: 'g-1',
+                    published: true,
+                }),
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any);
+        await db.getHowTo('ht-deep');
+
+        db.watchGallery('g-1');
+        deliver(subscriptions[0], [
+            makeHowToDoc({ id: 'ht-deep', galleryId: 'g-1', published: true }),
+        ]);
+        expect(cachedIDs()).toContain('ht-deep');
+
+        deliver(subscriptions[0], []);
+        expect(cachedIDs()).not.toContain('ht-deep');
+    });
+
+    it('records a refusal rather than reporting an empty space', () => {
+        db.watchGallery('g-1');
+        subscriptions[0].onError({ code: 'permission-denied' });
+
+        expect(db.publicWatchState.get('g-1')).toBe('denied');
+        expect(marks).toEqual([]);
     });
 });

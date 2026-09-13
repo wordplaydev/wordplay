@@ -247,3 +247,35 @@ describe('expanded how-to access (#1352)', () => {
         expect(original.getHowToViewers()).toEqual(['someone']);
     });
 });
+
+describe('being public and being listed are different questions (#1375)', () => {
+    // Two readers of these: `isListed` decides whether the gallery appears in
+    // the public listing, and `isKnownPublic` decides whether a visitor may
+    // subscribe to its how-tos. The second must ask `isPublic`, because that is
+    // all `firestore.rules` asks — gating it on moderation as well would blank a
+    // legitimately public space that no moderator has looked at yet.
+    function gallery(overrides: Record<string, unknown>) {
+        return new Gallery({
+            ...Gallery.make('g1', {}, {}, [], []).getData(),
+            ...overrides,
+        });
+    }
+
+    it('a public gallery awaiting moderation is public but not listed', () => {
+        const pending = gallery({ public: true, moderation: 'pending' });
+        expect(pending.isPublic()).toBe(true);
+        expect(pending.isListed()).toBe(false);
+    });
+
+    it('an approved public gallery is both', () => {
+        const approved = gallery({ public: true, moderation: 'approved' });
+        expect(approved.isPublic()).toBe(true);
+        expect(approved.isListed()).toBe(true);
+    });
+
+    it('a private gallery is neither, however it was moderated', () => {
+        const private_ = gallery({ public: false, moderation: 'approved' });
+        expect(private_.isPublic()).toBe(false);
+        expect(private_.isListed()).toBe(false);
+    });
+});

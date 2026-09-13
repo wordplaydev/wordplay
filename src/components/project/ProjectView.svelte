@@ -1381,8 +1381,10 @@
     let latestGalleryHowTos: GalleryHowTo[] = [];
 
     // get the user generated how-tos that are in a gallery, if the gallery exists
-    let galleryHowTos = $state<GalleryHowTo[]>([]);
     let gallery: Gallery | undefined = $state(undefined);
+    let galleryHowTos: GalleryHowTo[] = $derived.by(() =>
+        gallery === undefined ? [] : HowTos.howTosInGallery(gallery.getID()),
+    );
     $effect(() => {
         const galleryID: string | null = project.getGallery();
 
@@ -1396,16 +1398,10 @@
         }
     });
 
+    // One shared subscription rather than a fetch per surface; see
+    // GalleryDatabase.watchPublic.
     $effect(() => {
-        if (gallery) {
-            HowTos.getHowTos(gallery.getHowTos()).then(
-                ({ howTos: hts, unreachable }) => {
-                    // Keep the listing we have rather than emptying it over a
-                    // read that went unanswered.
-                    if (!unreachable) galleryHowTos = hts;
-                },
-            );
-        }
+        if (gallery) return Galleries.watchPublic(gallery.getID());
     });
 
     // When dependencies change, create a new concept index.

@@ -29,6 +29,7 @@ import isQuotaError from '@db/isQuotaError';
 import SaveTracker, { type RePush } from '@db/SaveTracker.svelte';
 import { GalleryServerOwnedFields } from '@db/rulesFields';
 import supportsIndexedDB from '@db/supportsIndexedDB';
+import Watchers from '@db/Watchers';
 import type Project from '@db/projects/Project';
 import type { Character } from '@db/characters/Character';
 
@@ -51,6 +52,9 @@ export const GalleriesCollection = Domain.Galleries;
  *  there's nothing here for this viewer; 'unreachable' means we never got an
  *  answer. Only the second is worth asking someone to check their connection. */
 export type GalleryFailure = 'missing' | 'unreachable';
+
+/** What a public watch is doing: reading, refused, or unable to reach the cloud. */
+export type PublicWatchState = 'watching' | 'denied' | 'unreachable';
 
 /** The outcome of looking a gallery up. See {@link GalleryDatabase.find}. */
 export type GalleryResult =
@@ -168,6 +172,21 @@ export default class GalleryDatabase {
      *  snapshot needlessly tore down and rebuilt all project listeners. */
     private watchedGalleryKey: string | undefined = undefined;
 
+    /** Ref-counted public watches, keyed by gallery ID. Four surfaces can show
+     *  one gallery's how-tos at once, so they share one subscription. */
+    private readonly publicWatchers = new Watchers();
+
+    /** Whether each live public watch subscribed the gallery document, so a role
+     *  change that makes the answer different restarts just that watch rather
+     *  than every one of them on every galleries snapshot. */
+    private readonly publicGalleryListening = new Map<string, boolean>();
+
+    /** What each public watch is doing. Exists so that "we were refused" is
+     *  distinguishable from "there is nothing here" — a denied read otherwise
+     *  renders as a legitimately empty space. */
+    readonly publicWatchState: SvelteMap<string, PublicWatchState> =
+        new SvelteMap();
+
     /** A list of projects on which listeners for gallery updates to keep data in sync. */
     private listeners: Map<ProjectID, Set<(gallery: Gallery) => void>> =
         new Map();
@@ -263,6 +282,10 @@ export default class GalleryDatabase {
         // built from both of them. Gated inside, so a hydration that changes no
         // membership re-subscribes nothing.
         this.database.HowTos.galleriesChanged();
+        // A gallery that just moved into a role map is now covered by those
+        // listeners, so whatever public watch stood in for them can stand down.
+        this.reevaluatePublicWatches();
+        this.database.HowTos.reevaluateWatches();
     }
 
     /** Mirror authoritative galleries into the local cache for cold-start
@@ -310,6 +333,10 @@ export default class GalleryDatabase {
         const user = this.database.getUser();
         if (user === null) {
             this.status = 'loggedout';
+            // Signing out does not stop a visitor reading a public space, so the
+            // public watches stay — but which of them need a subscription of
+            // their own has just changed.
+            this.reevaluatePublicWatches();
             return;
         }
 
@@ -457,6 +484,8 @@ export default class GalleryDatabase {
                     // is open to. `galleriesChanged` keeps its own gate over both
                     // maps, so this is a no-op unless the set it watches moved.
                     this.database.HowTos.galleriesChanged();
+                    this.reevaluatePublicWatches();
+                    this.database.HowTos.reevaluateWatches();
 
                     // Mark the database loaded.
                     this.status = 'loaded';
@@ -608,6 +637,129 @@ export default class GalleryDatabase {
 
         // Read succeeded and the document isn't there.
         return { kind: 'missing' };
+    }
+
+    /** Whatever we already hold for this ID, from any of the three maps. No
+     *  network: callers that need to go look use {@link find}. */
+    getKnown(id: string): Gallery | undefined {
+        return (
+            this.accessibleGalleries.get(id) ??
+            this.expandedScopeGalleries.get(id) ??
+            this.publicGalleries.get(id)
+        );
+    }
+
+    /**
+     * Whether we know this gallery to be public, which is what decides whether a
+     * visitor may subscribe to its how-tos.
+     *
+     * `isPublic()` rather than `isListed()`: the security rules ask only whether
+     * `public` is set, so gating on moderation approval too would blank a
+     * legitimately public space that no moderator has looked at yet.
+     */
+    isKnownPublic(id: string): boolean {
+        return this.getKnown(id)?.isPublic() === true;
+    }
+
+    /**
+     * Watch a gallery and its how-tos on behalf of whoever is looking at it,
+     * signed in or not (#1375).
+     *
+     * The three realtime listeners above are uid-scoped and torn down when there
+     * is no user, so a signed-out visitor had no listener of any kind: nothing
+     * ever re-ran their lookups, and one unanswered read left a public space
+     * blank for the life of the page. This is the subscription that a visitor
+     * gets instead — the same live, self-correcting view a member has.
+     *
+     * Returns the release, so a Svelte surface can hand it straight back:
+     * `$effect(() => Galleries.watchPublic(id))`.
+     */
+    watchPublic(galleryID: string): () => void {
+        return this.publicWatchers.watch(galleryID, () =>
+            this.startPublicWatch(galleryID),
+        );
+    }
+
+    /** Whether this gallery's document needs a subscription of its own, or is
+     *  already delivered live by one of the uid-scoped listeners. */
+    private shouldWatchGalleryDoc(galleryID: string): boolean {
+        return !(
+            this.accessibleGalleries.has(galleryID) ||
+            this.expandedScopeGalleries.has(galleryID)
+        );
+    }
+
+    private startPublicWatch(galleryID: string): () => void {
+        // The how-to half runs whatever we decide about the gallery document:
+        // a member already gets the gallery live but may still need the public
+        // how-to query (see HowToDatabase.watchGallery).
+        const unwatchHowTos = this.database.HowTos.watchGallery(galleryID);
+
+        const release = () => {
+            this.publicGalleryListening.delete(galleryID);
+            unwatchHowTos();
+        };
+
+        if (firestore === undefined || !this.shouldWatchGalleryDoc(galleryID)) {
+            this.publicGalleryListening.set(galleryID, false);
+            return release;
+        }
+
+        this.publicGalleryListening.set(galleryID, true);
+        this.publicWatchState.set(galleryID, 'watching');
+        const unsubscribe = onSnapshot(
+            doc(firestore, GalleriesCollection, galleryID),
+            (snapshot) => {
+                const data = snapshot.data();
+                if (data === undefined) return;
+                // Deliberately not cached to Dexie, matching `find`: that cache
+                // is the creator's own galleries, and one being passed through
+                // is not one of them.
+                this.publicGalleries.set(galleryID, deserializeGallery(data));
+                // Its `public` flag and its how-to list can both have changed,
+                // and both decide what the how-to watch should be doing.
+                this.database.HowTos.publicGalleryChanged(galleryID);
+            },
+            (error) => {
+                // Not `reportListenerError`: a visitor being refused someone
+                // else's gallery is not this creator's galleries domain failing,
+                // and marking it failed would show them a broken sync.
+                console.error(`Couldn't watch gallery ${galleryID}:`, error);
+                const connectivity = this.database.isConnectivityError(error);
+                this.publicWatchState.set(
+                    galleryID,
+                    connectivity ? 'unreachable' : 'denied',
+                );
+                if (connectivity) this.database.markFirebaseFailed();
+            },
+        );
+
+        return () => {
+            unsubscribe();
+            this.publicWatchState.delete(galleryID);
+            release();
+        };
+    }
+
+    /**
+     * Re-decide every live public watch, because who is signed in or what role
+     * they have just changed. Only a watch whose answer actually moved is
+     * restarted — this runs on every galleries snapshot, and restarting them all
+     * would re-read every watched gallery whenever any gallery changed.
+     *
+     * Deliberately does not reach into `HowTos`: this runs from the constructor
+     * by way of `registerRealtimeUpdates`, before `Database` has assigned that
+     * field. The how-to half is re-decided beside every `galleriesChanged` call
+     * instead, and on sign-out by `HowToDatabase.syncUser`.
+     */
+    reevaluatePublicWatches() {
+        for (const galleryID of this.publicWatchers.keys())
+            if (
+                this.publicGalleryListening.get(galleryID) !==
+                (firestore !== undefined &&
+                    this.shouldWatchGalleryDoc(galleryID))
+            )
+                this.publicWatchers.restart(galleryID);
     }
 
     /** Get a gallery with this ID, for callers that treat "couldn't reach it"
@@ -1258,5 +1410,8 @@ export default class GalleryDatabase {
             unsubscribe();
         this.galleriesQueryUnsubscribes = [];
         this.galleryQueryIDs.clear();
+        // The page is going away, so the public watches go too — unlike a sign
+        // out, which leaves a visitor still reading.
+        this.publicWatchers.stopAll();
     }
 }

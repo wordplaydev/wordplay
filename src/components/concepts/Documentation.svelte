@@ -247,7 +247,12 @@
         }
     });
     let gallery: Gallery | undefined = $state(undefined);
-    let galleryHowTos: GalleryHowTo[] = $state([]);
+    let galleryHowTos: GalleryHowTo[] = $derived.by(() => {
+        if (gallery === undefined) return [];
+        return HowTos.howTosInGallery(gallery.getID()).filter((ht) =>
+            ht.isPublished(),
+        );
+    });
     $effect(() => {
         if (galleryID) {
             Galleries.get(galleryID).then((gal) => {
@@ -259,17 +264,10 @@
         }
     });
 
+    // One shared subscription rather than a fetch per surface: the docs tile,
+    // the project view and the gallery page all show the same how-tos.
     $effect(() => {
-        if (gallery) {
-            HowTos.getHowTos(gallery.getHowTos()).then(
-                ({ howTos: hts, unreachable }) => {
-                    // Keep the listing we have rather than emptying it over a
-                    // read that went unanswered.
-                    if (unreachable) return;
-                    galleryHowTos = hts.filter((ht) => ht.isPublished());
-                },
-            );
-        }
+        if (gallery) return Galleries.watchPublic(gallery.getID());
     });
 
     let allBookmarks: GalleryHowTo[] = $derived(
