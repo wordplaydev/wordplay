@@ -711,6 +711,11 @@ test('resolving a color needs no basis', () => {
  * lines, and it knows nothing about Firestore, which is also why it is a leaf rather than
  * something folded into either database.
  *
+ * The safety net under that watch — a listen stream can wedge after the transport is
+ * interrupted and then deliver nothing, with no error to catch — is another kilobyte in
+ * `HowToDatabase`, and `projects` is the one graph with no room left in its hundredth.
+ * Same as #1364 and #1373 before it.
+ *
  * Every byte budget moves a hundredth with it, and all of it is the two databases: the
  * public watch and its lifecycle in `GalleryDatabase`, and in `HowToDatabase` the query,
  * the mode that decides between watching and reading through, and the GC bookkeeping that
@@ -728,7 +733,7 @@ test.each([
     ['src/components/app/Page.svelte', 548, 4.19],
     ['src/routes/[[locale]]/+page.svelte', 563, 4.28],
     ['src/routes/[[locale]]/galleries/+page.svelte', 567, 4.29],
-    ['src/routes/[[locale]]/projects/+page.svelte', 574, 4.31],
+    ['src/routes/[[locale]]/projects/+page.svelte', 574, 4.32],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

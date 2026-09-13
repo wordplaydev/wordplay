@@ -94,6 +94,7 @@ vi.mock('@db/galleries/GalleryDatabase.svelte', () => ({
 vi.mock('@db/Database', () => ({}));
 
 import HowTo, {
+    FirstFallbackDelay,
     HowToDatabase,
     HowToSchemaLatestVersion,
     HowTosCollection,
@@ -645,6 +646,9 @@ describe('watching a gallery (#1375)', () => {
 
     /** Mutable, so one database can watch a visitor sign in. */
     let currentUid: string | null = null;
+    /** Whether a rejected read counts as "we never got an answer" rather than
+     *  "not for you" — only the first is worth asking about again. */
+    let connectivity = false;
 
     function makeDatabase(uid: string | null) {
         currentUid = uid;
@@ -653,7 +657,7 @@ describe('watching a gallery (#1375)', () => {
                 currentUid === null ? null : { uid: currentUid },
             ),
             read: vi.fn(<T>(p: Promise<T>) => p),
-            isConnectivityError: vi.fn(() => false),
+            isConnectivityError: vi.fn(() => connectivity),
             markSyncing: vi.fn((d: string) => marks.push(`syncing:${d}`)),
             markSynced: vi.fn((d: string) => marks.push(`synced:${d}`)),
             markSyncFailed: vi.fn((d: string) => marks.push(`failed:${d}`)),
@@ -676,6 +680,7 @@ describe('watching a gallery (#1375)', () => {
         expandedScope = new Map();
         known = new Map();
         marks = [];
+        connectivity = false;
         known.set('g-1', fakeGallery('g-1', ['ht-1', 'ht-2'], true));
         db = new HowToDatabase(makeDatabase(null));
     });
@@ -877,6 +882,67 @@ describe('watching a gallery (#1375)', () => {
 
         deliver(subscriptions[0], []);
         expect(cachedIDs()).not.toContain('ht-deep');
+    });
+
+    it('asks by document when the stream never delivers', async () => {
+        // The failure this exists for: a listen stream that wedges after the
+        // transport is interrupted delivers nothing and reports nothing, so the
+        // subscription cannot be its own way back.
+        vi.useFakeTimers();
+        try {
+            vi.mocked(getDoc).mockResolvedValue(
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                { exists: () => false } as any,
+            );
+            db.watchGallery('g-1');
+            expect(vi.mocked(getDoc)).not.toHaveBeenCalled();
+
+            await vi.advanceTimersByTimeAsync(FirstFallbackDelay + 1);
+
+            // 'g-1' holds two how-tos, and neither was on the page.
+            expect(vi.mocked(getDoc)).toHaveBeenCalledTimes(2);
+        } finally {
+            vi.useRealTimers();
+        }
+    });
+
+    it('asks for nothing once the stream has spoken', async () => {
+        // The fallback must not turn every ordinary page load into a second,
+        // per-document copy of what the query already delivered.
+        vi.useFakeTimers();
+        try {
+            db.watchGallery('g-1');
+            deliver(subscriptions[0], []);
+
+            await vi.advanceTimersByTimeAsync(FirstFallbackDelay * 4);
+
+            expect(vi.mocked(getDoc)).not.toHaveBeenCalled();
+        } finally {
+            vi.useRealTimers();
+        }
+    });
+
+    it('keeps asking while a read-through goes unanswered', async () => {
+        // A private gallery has no query to fall back on, so the one-shot reads
+        // are all there is — and a read that went unanswered is exactly the one
+        // worth making again.
+        known.set('g-2', fakeGallery('g-2', ['ht-3'], false));
+        connectivity = true;
+        vi.useFakeTimers();
+        try {
+            vi.mocked(getDoc).mockRejectedValue(new Error('read-timeout'));
+            db.watchGallery('g-2');
+            await vi.advanceTimersByTimeAsync(0);
+            const afterFirst = vi.mocked(getDoc).mock.calls.length;
+            expect(afterFirst).toBeGreaterThan(0);
+
+            await vi.advanceTimersByTimeAsync(FirstFallbackDelay + 1);
+            expect(vi.mocked(getDoc).mock.calls.length).toBeGreaterThan(
+                afterFirst,
+            );
+        } finally {
+            vi.useRealTimers();
+        }
     });
 
     it('records a refusal rather than reporting an empty space', () => {

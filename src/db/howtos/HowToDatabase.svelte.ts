@@ -422,6 +422,22 @@ export const HowTosCollection = Domain.HowTos;
 export const PublicListenerPrefix = 'public:';
 
 /**
+ * How long a public watch waits for its first snapshot before asking for the
+ * gallery's how-tos one document at a time instead.
+ *
+ * Long enough that a healthy cold connection has delivered first — otherwise
+ * every ordinary page load pays for the documents twice, which is the cost this
+ * watch exists to avoid. Short enough to be well inside the patience of someone
+ * who just opened the page.
+ */
+export const FirstFallbackDelay = 3_000;
+
+/** Where the doubling stops. A wedged stream never recovers on its own, so the
+ *  asking must not stop either — but it should settle into a slow heartbeat
+ *  rather than keep reading at the rate it started. */
+export const MaxFallbackDelay = 10_000;
+
+/**
  * How one gallery's how-tos reach the cache, and therefore what it costs.
  *
  * Exactly one of these per watched gallery: a watch *and* a read-through would
@@ -1200,8 +1216,13 @@ export class HowToDatabase {
 
         if (mode === 'covered') return forgetMode;
         if (mode === 'readthrough') {
-            void this.readGalleryHowTos(galleryID);
-            return forgetMode;
+            const stopAsking = this.keepAsking(true, () =>
+                this.readGalleryHowTos(galleryID),
+            );
+            return () => {
+                stopAsking();
+                forgetMode();
+            };
         }
 
         if (firestore === undefined) return forgetMode;
@@ -1228,16 +1249,37 @@ export class HowToDatabase {
         this.expectedListenerKeys.add(key);
         this.publicWatchState.set(galleryID, 'watching');
 
+        // A listen stream can wedge after the transport is interrupted and then
+        // simply never deliver — no error, no failed request, nothing to catch.
+        // #1380 found that on WebKit; cutting the connection reproduces it in
+        // Chromium. So the subscription is not by itself a way back, and this
+        // keeps asking by document until the first snapshot lands.
+        //
+        // It is free whenever the watch is working: `getHowTo` answers from the
+        // cache, so a tick that fires after a snapshot costs no reads. The first
+        // delay is long enough that a healthy cold connection has almost always
+        // delivered before it, which is what keeps the watch's one query the
+        // whole cost in the ordinary case.
+        let delivered = false;
+        const stopAsking = this.keepAsking(false, async () => {
+            if (delivered) return true;
+            await this.readGalleryHowTos(galleryID);
+            // Done only when the stream itself has spoken: the documents may be
+            // on the page by now, but a space that is still not listening would
+            // miss everything published from here on.
+            return delivered;
+        });
+
         // Not deferred to idle, unlike the background listeners on login: this
         // one is the page's content, and waiting on an idle callback would hold
         // the canvas empty for up to two seconds.
-        let first = true;
         const unsubscribe = onSnapshot(
             publicQuery,
             (snapshot) => {
                 this.handleSnapshot(key, snapshot);
-                if (first && !snapshot.metadata.fromCache) {
-                    first = false;
+                if (!delivered && !snapshot.metadata.fromCache) {
+                    delivered = true;
+                    stopAsking();
                     // A member of the gallery can also read drafts, which a
                     // `published` query cannot return. Ask for whatever the
                     // snapshot did not bring — and only then, or the two would
@@ -1264,6 +1306,7 @@ export class HowToDatabase {
 
         return () => {
             unsubscribe();
+            stopAsking();
             // Drop the key from both, so the GC stops waiting on a listener that
             // is gone and may collect what only it held.
             this.expectedListenerKeys.delete(key);
@@ -1283,11 +1326,56 @@ export class HowToDatabase {
     }
 
     /** Read the gallery's own list of how-tos, one document at a time. Cache
-     *  first, so ids a listener already delivered cost nothing. */
-    private async readGalleryHowTos(galleryID: string) {
+     *  first, so ids a listener already delivered cost nothing. Answers whether
+     *  every lookup was answered, since a read that went unanswered is the one
+     *  worth making again. */
+    private async readGalleryHowTos(galleryID: string): Promise<boolean> {
         const gallery = this.db.Galleries.getKnown(galleryID);
-        if (gallery === undefined) return;
-        await this.getHowTos(gallery.getHowTos());
+        if (gallery === undefined) return false;
+        const { unreachable } = await this.getHowTos(gallery.getHowTos());
+        return !unreachable;
+    }
+
+    /**
+     * Ask again, waiting longer each time, until `attempt` reports it is done.
+     *
+     * Both ways of reaching a gallery's how-tos can fail in a way that nothing
+     * else would notice. A one-shot read can go unanswered; and a listen stream
+     * can wedge after the transport is interrupted and then never deliver at
+     * all — no error, no failed request, nothing to catch (#1380 found that on
+     * WebKit, and cutting the connection reproduces it in Chromium). A visitor
+     * has no other listener whose snapshot might correct either, so without this
+     * one bad moment leaves a public space blank for the life of the page.
+     *
+     * Mirrors the shape of `retryDelay.ts`, which covers the lookups the page
+     * still makes for itself; the delays here are longer because this one is a
+     * safety net under a subscription rather than the primary path.
+     */
+    private keepAsking(
+        immediately: boolean,
+        attempt: () => Promise<boolean>,
+    ): () => void {
+        let tries = 0;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        let cancelled = false;
+
+        const ask = async () => {
+            if (cancelled) return;
+            if (await attempt()) return;
+            if (cancelled) return;
+            timer = setTimeout(
+                ask,
+                Math.min(FirstFallbackDelay * 2 ** tries++, MaxFallbackDelay),
+            );
+        };
+
+        if (immediately) void ask();
+        else timer = setTimeout(ask, FirstFallbackDelay);
+
+        return () => {
+            cancelled = true;
+            if (timer !== undefined) clearTimeout(timer);
+        };
     }
 
     /** The gallery document changed, so what its how-tos need may have too — it
