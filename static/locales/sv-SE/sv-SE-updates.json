@@ -976,6 +976,7 @@
         "efa3f7d56bf19": "$~E-post om ditt arbete har nu korta ämnesrader som säger vad som hänt, och e-posten om ny återkoppling länkar direkt dit.",
         "e8799c250d910": "$~Din profilsida har nu en rubrik ovanför varje del, och allt om din e-postadress finns på ett och samma ställe.",
         "ea85f668a42b7": "$~Ett galleri eller kit som en moderator säger nej till förblir nu så, i stället för att genast läggas tillbaka i könlistan.",
-        "e3c78159889be": "$~En kurator som får veta om ett rapporterat projekt eller galleri kan nu faktiskt hitta det i sin granskningslista."
+        "e3c78159889be": "$~En kurator som får veta om ett rapporterat projekt eller galleri kan nu faktiskt hitta det i sin granskningslista.",
+        "e5beb26ab9e99": "$~Om du anger en e-postadress kan Wordplay nu skicka e-post till dig när något händer som du vill veta om, som ett beslut om något du har gjort. Du väljer själv vilka typer av meddelanden du vill få på din profilsida."
     }
 }
