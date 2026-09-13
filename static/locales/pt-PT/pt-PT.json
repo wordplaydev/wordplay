@@ -7831,13 +7831,14 @@
                 },
                 "submitToGuide": {
                     "submit": {
-                        "label": "📨 enviar para o Guia de Jogos de Palavras",
-                        "tip": "submeta este tutorial para que seja considerado para inclusão no Guia de Jogos de Palavras!"
+                        "label": "$~📨 submeter ao Guia",
+                        "tip": "$~submeta este guia rápido para ser considerado para inclusão no Guia!"
                     },
                     "alreadySubmitted": {
                         "label": "✅ enviado para o Guia",
-                        "tip": "este guia já foi submetido para ser considerado para inclusão no Guia de Jogos de Palavras."
-                    }
+                        "tip": "$~este guia rápido já foi submetido para ser considerado para inclusão no Guia."
+                    },
+                    "header": "$~listagem do Guia"
                 },
                 "usedBy": {
                     "prompt": "Utilizou este guia ou outro tutorial no seu projeto? Partilhe a sua experiência adicionando o seu projeto à lista!",
@@ -8593,7 +8594,10 @@
                     "explanation": "Exemplos curtos que mostram como fazer coisas no @wordplay. Clique em reproduzir em qualquer pré-visualização para ver o exemplo em execução e, em seguida, abra-o para ler como funciona."
                 },
                 "conceptHowTos": "$~Como fazer",
-                "bookmarked": "$~Marcado como favorito"
+                "bookmarked": "$~Marcado como favorito",
+                "community": "$~De criadores",
+                "galleries": "$~Das suas galerias",
+                "wordplay": "$~Do Wordplay"
             },
             "tour": {
                 "launch": "Faça um tour pelo guia.",
@@ -11290,11 +11294,18 @@
         },
         "queue": {
             "label": "$~o que rever",
-            "labels": ["$~projetos", "$~galerias", "$~kits", "$~mensagens"],
+            "labels": [
+                "$~projetos",
+                "$~galerias",
+                "$~kits",
+                "$~guias rápidos",
+                "$~mensagens"
+            ],
             "tips": [
                 "$~rever projetos que as pessoas tornaram públicos",
                 "$~rever galerias que pedem para ser listadas publicamente",
                 "$~rever kits que pedem para ser listados no guia",
+                "$~rever guias rápidos que pedem para ser listados no guia",
                 "$~rever mensagens denunciadas nas galerias que cura"
             ]
         },
@@ -11346,6 +11357,31 @@
             "pending": "$~Um moderador (a) está a ler o seu kit para decidir se pode ser listado no guia. Está marcado como listado, mas ninguém o vai encontrar lá até que isso aconteça.",
             "approved": "$~O seu kit está listado no <guia@://guide?section=kits>! Pode ser retirado dessa lista a qualquer momento, por qualquer motivo.",
             "denied": "$~Um moderador (a) decidiu não listar o seu kit no guia. Pode publicar uma nova versão e pedir novamente.",
+            "notification": {
+                "approved": "$~$name está agora listado no guia.",
+                "denied": "$~$name não foi listado no guia."
+            }
+        },
+        "howto": {
+            "pending": "$~Um moderador(a) está a ler o seu guia rápido para decidir se pode ser listado no guia. Até lá, só quem já o pode ver continua a poder.",
+            "approved": "$~O seu guia rápido está listado no <guia@://guide?section=howto>! Pode ser retirado dessa lista a qualquer momento, por qualquer motivo.",
+            "denied": "$~Um moderador(a) decidiu não listar o seu guia rápido no guia. Pode continuar a trabalhar nele e pedir novamente.",
+            "unready": "$~Publique primeiro o seu guia rápido e torne-o público. Um moderador(a) só pode dizer que sim a algo que todos possam ler.",
+            "header": "$~Guias rápidos",
+            "explain": "$~Este guia rápido está a pedir para ser listado no guia. Leia-o e decida se outras pessoas a aprender @wordplay o deviam encontrar aí.",
+            "done": "$~Não há guias rápidos à espera de uma decisão. Obrigado(a)!",
+            "approve": {
+                "label": "$~listar",
+                "tip": "$~listar este guia rápido no guia"
+            },
+            "deny": {
+                "label": "$~não listar",
+                "tip": "$~manter este guia rápido fora do guia"
+            },
+            "skip": {
+                "label": "$~ignorar",
+                "tip": "$~deixar este guia rápido para outro moderador(a) decidir"
+            },
             "notification": {
                 "approved": "$~$name está agora listado no guia.",
                 "denied": "$~$name não foi listado no guia."

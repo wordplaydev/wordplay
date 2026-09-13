@@ -962,6 +962,14 @@
         "ede02f98adf41": "$~Ang tatlong kit na kasama ng Wordplay ay nakasulat sa bawat wikang suportado namin, kaya ang mga pangalan at sulat nila ay nababasa sa sarili mong wika. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Ngayon, may tatlong bagay na kaya nang gawin ng mga numero na dati'y kailangan mong isulat mismo: \\limit\\ pinapanatili ang isang numero sa pagitan ng mababa at mataas na halaga, \\toward\\ ginagalaw ang isang numero papunta sa ibang numero nang bahagya, at \\rescale\\ pinapalitan ang isang numero mula sa isang saklaw patungo sa katumbas na numero sa ibang saklaw.",
         "e49e28ab01607": "$~Ang isang listahan ng mga numero ay puwede na ngayong sabihin sa iyo ang kanyang \\sum\\ at ang kanyang \\average\\, kaya hindi mo na kailangang idagdag ang mga ito nang mano-mano.",
-        "e7cae93034509": "$~Ang isang pamagat sa loob ng isang tabbed na panel, tulad ng mga nasa Settings, ay mas malapit na ngayon sa bahaging tinutukoy nito, sa halip na lumapit sa seksyon sa itaas nito."
+        "e7cae93034509": "$~Ang isang pamagat sa loob ng isang tabbed na panel, tulad ng mga nasa Settings, ay mas malapit na ngayon sa bahaging tinutukoy nito, sa halip na lumapit sa seksyon sa itaas nito.",
+        "e3083faa58e3f": "$~Maaari mo na ngayong hilingin na ilista sa <Guide@https://wordplay.dev/guide> ang isang kung paano gawin na isinulat mo, at makikita ito ng kahit sino doon kapag pumayag na ang isang tagapamahala. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e84378f19e20d": "$~Maaari mo na ngayong hilingin na suriin ang isang kung paano gawin, katulad ng paghiling para sa isang proyekto o isang guhit. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e0634f7a90e52": "$~Ipinapakita na ngayon ng mga kung paano gawin at kit sa <Guide@https://wordplay.dev/guide> kung sino ang gumawa ng mga ito. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e089e7d53887b": "$~Ang isang gallery na nakikita ng kahit sino ay nagpapakita na ngayon ng buong pangalan ng bawat isa dito, sa halip na ilang unang titik lamang. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e023f9e6e610d": "$~Inayos namin ang paghiling na suriin ang isang karakter sa isang gallery, na dati ay laging nabibigo. (<1372@https://github.com/wordplaydev/wordplay/issues/1372>)",
+        "e31bb325a6f4a": "$~Kapag isinasalin ang isang programa, hindi na ito nagpapangalang muli sa isang pangalan sa isang lugar lamang habang hindi sa iba, dahil dati ay nakakasira ito sa programa. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
+        "ec7e327ea8ea0": "$~Kung hindi namin matiyak na tunay ang iyong browser, na maaaring mangyari sa mga network ng paaralan, sinasabi na namin ito sa halip na hilingin sa iyong subukang muli. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e003ca7973f98": "$~Hindi na sinasabi ng pahina ng pag-log in na nagpadala ito ng link sa pag-sign in kapag hindi naman ito nagawa. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)"
     }
 }

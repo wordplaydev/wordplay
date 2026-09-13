@@ -962,6 +962,14 @@
         "ede02f98adf41": "$~Trzy zestawy dołączone do Wordplay są napisane w każdym języku, który obsługujemy, więc ich nazwy i treść czytasz w swoim języku. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Liczby potrafią teraz zrobić trzy rzeczy, które kiedyś musiałeś napisać ręcznie: \\limit\\ utrzymuje liczbę między dolną a górną granicą, \\toward\\ przesuwa liczbę o kawałek drogi w stronę innej liczby, a \\rescale\\ zamienia liczbę z jednego zakresu na odpowiadającą jej liczbę w innym zakresie.",
         "e49e28ab01607": "$~Lista liczb może teraz powiedzieć ci swoją \\sum\\ oraz swoją \\average\\, więc nie musisz sam ich sumować.",
-        "e7cae93034509": "$~Nagłówek w panelu z zakładkami, taki jak te w Ustawieniach, teraz znajduje się bliżej części, którą nazywa, zamiast przesuwać się w górę, w stronę sekcji powyżej."
+        "e7cae93034509": "$~Nagłówek w panelu z zakładkami, taki jak te w Ustawieniach, teraz znajduje się bliżej części, którą nazywa, zamiast przesuwać się w górę, w stronę sekcji powyżej.",
+        "e023f9e6e610d": "$~Naprawiliśmy proszenie o postać w galerii do sprawdzenia, co wcześniej zawsze się nie udawało. (<1372@https://github.com/wordplaydev/wordplay/issues/1372>)",
+        "e31bb325a6f4a": "$~Tłumaczenie programu nie zmienia już nazwy tylko w jednym miejscu, zostawiając ją bez zmian w innych, co dawniej psuło program. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
+        "ec7e327ea8ea0": "$~Jeśli nie możemy sprawdzić, czy twoja przeglądarka jest prawdziwa, co może się zdarzyć w sieciach szkolnych, teraz mówimy o tym wprost, zamiast prosić o kolejną próbę. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e003ca7973f98": "$~Strona logowania nie mówi już, że wysłała ci link do logowania, gdy tak naprawdę się to nie udało. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e3083faa58e3f": "$~Możesz teraz poprosić, aby napisany przez ciebie jak został dodany do <Przewodnika@https://wordplay.dev/guide>. Każdy będzie mógł go tam przeczytać, gdy moderator to zatwierdzi. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e84378f19e20d": "$~Możesz teraz poprosić o sprawdzenie jak, tak samo jak w przypadku projektu lub rysunku. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e0634f7a90e52": "$~Jak i zestawy w <Przewodniku@https://wordplay.dev/guide> pokazują teraz, kto je stworzył. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e089e7d53887b": "$~Galeria, którą każdy może zobaczyć, pokazuje teraz pełne imię i nazwisko każdej osoby w niej, zamiast tylko kilku pierwszych liter. (<906@https://github.com/wordplaydev/wordplay/issues/906>)"
     }
 }

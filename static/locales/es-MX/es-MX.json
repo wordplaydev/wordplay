@@ -8192,7 +8192,10 @@
                     "explanation": "$~/Ejemplos cortos que muestran cómo hacer cosas en @wordplay. Presiona reproducir en cualquier vista previa para verlo funcionar, luego ábrelo para leer cómo funciona./"
                 },
                 "conceptHowTos": "$~Guía práctica",
-                "bookmarked": "$~Guardado"
+                "bookmarked": "$~Guardado",
+                "community": "$~De creadoras",
+                "galleries": "$~De tus galerías",
+                "wordplay": "$~De Wordplay"
             },
             "mode": {
                 "browse": {
@@ -10689,13 +10692,14 @@
                 },
                 "submitToGuide": {
                     "submit": {
-                        "label": "$~📨 enviar a la Guía de Wordplay",
-                        "tip": "$~¡envía esta guía práctica para que se considere incluirla en la Guía de Wordplay!"
+                        "label": "$~📨 enviar a la Guía",
+                        "tip": "$~¡envía esta guía práctica para que se considere su inclusión en la Guía!"
                     },
                     "alreadySubmitted": {
                         "label": "$~✅ enviada a la Guía",
-                        "tip": "$~esta guía práctica ya se envió para que se considere incluirla en la Guía de Wordplay."
-                    }
+                        "tip": "$~esta guía práctica ya se envió para que se considere su inclusión en la Guía."
+                    },
+                    "header": "$~listado en la Guía"
                 },
                 "usedBy": {
                     "prompt": "$~¿Usaste esta guía práctica en tu proyecto o en otra guía práctica? ¡Avisa a los demás agregando tu proyecto a la lista!",
@@ -11299,11 +11303,18 @@
         },
         "queue": {
             "label": "$~qué revisar",
-            "labels": ["$~proyectos", "$~galerías", "$~kits", "$~mensajes"],
+            "labels": [
+                "$~proyectos",
+                "$~galerías",
+                "$~kits",
+                "$~guías prácticas",
+                "$~mensajes"
+            ],
             "tips": [
                 "$~revisar proyectos que las personas han hecho públicos",
                 "$~revisar galerías que piden aparecer públicamente",
                 "$~revisar kits que piden ser publicados en la guía",
+                "$~revisar guías prácticas que piden aparecer en la guía",
                 "$~revisar mensajes que la gente reportó en galerías que curas"
             ]
         },
@@ -11358,6 +11369,31 @@
             "notification": {
                 "approved": "$~$name ahora aparece en la guía.",
                 "denied": "$~$name no fue incluido en la guía."
+            }
+        },
+        "howto": {
+            "pending": "$~una persona moderadora está leyendo tu guía práctica para decidir si puede aparecer en la guía. Hasta entonces, solo pueden verla quienes ya podían hacerlo.",
+            "approved": "$~¡tu guía práctica aparece en la <guía@://guide?section=howto>! Puede quitarse de esa lista en cualquier momento, por cualquier razón.",
+            "denied": "$~una persona moderadora decidió no incluir tu guía práctica en la guía. Puedes seguir trabajando en ella y pedirlo de nuevo.",
+            "unready": "$~publica tu guía práctica y hazla pública primero. Una persona moderadora solo puede aprobar algo que todos puedan leer.",
+            "header": "$~Guías prácticas",
+            "explain": "$~esta guía práctica pide aparecer en la guía. Léela y decide si otras personas que aprenden @wordplay deberían encontrarla ahí.",
+            "done": "$~no hay guías prácticas esperando una decisión. ¡Gracias!",
+            "approve": {
+                "label": "$~incluirla",
+                "tip": "$~incluir esta guía práctica en la guía"
+            },
+            "deny": {
+                "label": "$~no incluirla",
+                "tip": "$~mantener esta guía práctica fuera de la guía"
+            },
+            "skip": {
+                "label": "$~omitir",
+                "tip": "$~dejar esta guía práctica para que otra persona moderadora decida"
+            },
+            "notification": {
+                "approved": "$~$name ya aparece en la guía.",
+                "denied": "$~$name no fue incluida en la guía."
             }
         }
     },

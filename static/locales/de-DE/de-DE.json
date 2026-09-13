@@ -8199,7 +8199,10 @@
                     "explanation": "$~Kurze Beispiele, die zeigen, wie man Dinge in @wordplay macht. Klicken Sie auf eine beliebige Vorschau, um sie auszuführen, und öffnen Sie sie anschließend, um die Funktionsweise zu lesen."
                 },
                 "conceptHowTos": "$~Anleitung",
-                "bookmarked": "$~Gemerkt"
+                "bookmarked": "$~Gemerkt",
+                "community": "$~Von Erstellern",
+                "galleries": "$~Aus deinen Galerien",
+                "wordplay": "$~Von Wordplay"
             },
             "mode": {
                 "browse": {
@@ -10692,13 +10695,14 @@
                 },
                 "submitToGuide": {
                     "submit": {
-                        "label": "$~📨 Bei Wordplay Guide einreichen",
-                        "tip": "$~Reichen Sie diese Anleitung ein, um für die Aufnahme in den Wortspiel-Leitfaden berücksichtigt zu werden!"
+                        "label": "$~📨 zum Leitfaden einreichen",
+                        "tip": "$~reiche dieses Wie-man ein, damit es für den Leitfaden geprüft wird!"
                     },
                     "alreadySubmitted": {
                         "label": "$~✅ An Guide übermittelt",
-                        "tip": "$~Diese Anleitung wurde bereits zur Prüfung für die Aufnahme in den Wortspiel-Leitfaden eingereicht."
-                    }
+                        "tip": "$~dieses Wie-man wurde bereits eingereicht, damit es für den Leitfaden geprüft wird."
+                    },
+                    "header": "$~Eintrag im Leitfaden"
                 },
                 "usedBy": {
                     "prompt": "$~Hast du diese oder eine andere Anleitung in deinem Projekt verwendet? Teile es anderen mit, indem du dein Projekt zur Liste hinzufügst!",
@@ -11302,11 +11306,18 @@
         },
         "queue": {
             "label": "$~was überprüft werden soll",
-            "labels": ["$~Projekte", "$~Galerien", "$~Kits", "$~Nachrichten"],
+            "labels": [
+                "$~Projekte",
+                "$~Galerien",
+                "$~Kits",
+                "$~Wie-mans",
+                "$~Nachrichten"
+            ],
             "tips": [
                 "$~Projekte prüfen, die andere veröffentlicht haben",
                 "$~Galerien überprüfen, die öffentlich gelistet werden möchten",
                 "$~Kits prüfen, die im Leitfaden gelistet werden möchten",
+                "$~Wie-mans prüfen, die im Leitfaden gelistet werden möchten",
                 "$~Nachrichten prüfen, die in Galerien gemeldet wurden, die du betreust"
             ]
         },
@@ -11358,6 +11369,31 @@
             "pending": "$~Ein Moderator liest gerade dein Kit, um zu entscheiden, ob es im Leitfaden gelistet werden kann. Es ist als gelistet markiert, aber niemand wird es dort finden, bis das entschieden ist.",
             "approved": "$~Dein Kit ist im <Leitfaden@://guide?section=kits> gelistet! Es kann jederzeit und aus jedem Grund wieder von dieser Liste genommen werden.",
             "denied": "$~Ein Moderator hat entschieden, dein Kit nicht im Leitfaden zu listen. Du kannst eine neue Version veröffentlichen und noch einmal fragen.",
+            "notification": {
+                "approved": "$~$name ist jetzt im Leitfaden gelistet.",
+                "denied": "$~$name wurde nicht im Leitfaden gelistet."
+            }
+        },
+        "howto": {
+            "pending": "$~Ein Moderator liest gerade dein Wie-man, um zu entscheiden, ob es im Leitfaden gelistet werden kann. Bis dahin können es nur Personen sehen, die es schon jetzt sehen können.",
+            "approved": "$~Dein Wie-man ist im <Leitfaden@://guide?section=howto> gelistet! Es kann jederzeit und aus jedem Grund wieder von der Liste genommen werden.",
+            "denied": "$~Ein Moderator hat entschieden, dein Wie-man nicht im Leitfaden zu listen. Du kannst weiter daran arbeiten und später erneut fragen.",
+            "unready": "$~Veröffentliche dein Wie-man zuerst öffentlich. Ein Moderator kann nur zu etwas Ja sagen, das alle lesen können.",
+            "header": "$~Wie-mans",
+            "explain": "$~Dieses Wie-man möchte im Leitfaden gelistet werden. Lies es und entscheide, ob andere Leute, die @wordplay lernen, es dort finden sollten.",
+            "done": "$~Kein Wie-man wartet auf eine Entscheidung. Danke!",
+            "approve": {
+                "label": "$~listen",
+                "tip": "$~dieses Wie-man im Leitfaden listen"
+            },
+            "deny": {
+                "label": "$~nicht listen",
+                "tip": "$~dieses Wie-man aus dem Leitfaden heraushalten"
+            },
+            "skip": {
+                "label": "$~überspringen",
+                "tip": "$~dieses Wie-man einem anderen Moderator zur Entscheidung überlassen"
+            },
             "notification": {
                 "approved": "$~$name ist jetzt im Leitfaden gelistet.",
                 "denied": "$~$name wurde nicht im Leitfaden gelistet."

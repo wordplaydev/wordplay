@@ -962,6 +962,14 @@
         "ede02f98adf41": "$~Wordplay와 함께 제공되는 세 가지 키트는 저희가 지원하는 모든 언어로 쓰여 있어서, 이름과 글자가 여러분의 언어로 보입니다. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~이제 숫자는 예전에 직접 써야 했던 세 가지 일을 할 수 있습니다: \\limit\\ 는 숫자를 낮은 값과 높은 값 사이에 붙잡아 둡니다, \\toward\\ 는 숫자를 다른 숫자 쪽으로 일부 이동시킵니다, 그리고 \\rescale\\ 는 한 범위 안의 숫자를 다른 범위의 대응하는 숫자로 바꿉니다.",
         "e49e28ab01607": "$~이제 숫자 목록은 자신의 \\sum\\ 와 자신의 \\average\\ 를 알려줄 수 있어서, 직접 더할 필요가 없습니다.",
-        "e7cae93034509": "$~설정 화면 같은 탭 패널 안의 제목이, 이제 위 구역 쪽으로 떨어져 있지 않고 자기가 설명하는 부분에 더 가까이 붙습니다."
+        "e7cae93034509": "$~설정 화면 같은 탭 패널 안의 제목이, 이제 위 구역 쪽으로 떨어져 있지 않고 자기가 설명하는 부분에 더 가까이 붙습니다.",
+        "e023f9e6e610d": "$~갤러리에서 검토를 맡을 캐릭터를 요청하는 기능이 항상 실패하던 문제를 고쳤습니다. (<1372@https://github.com/wordplaydev/wordplay/issues/1372>)",
+        "e31bb325a6f4a": "$~프로그램을 번역할 때 한 곳의 이름만 바뀌고 다른 곳은 바뀌지 않아 프로그램이 망가지던 문제를 고쳤습니다. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
+        "ec7e327ea8ea0": "$~학교 네트워크 등에서 여러분의 브라우저가 실제 브라우저인지 확인할 수 없을 때, 이제는 다시 시도하라고 하지 않고 그 사실을 알려줍니다. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e003ca7973f98": "$~로그인 페이지가 로그인 링크를 보내지 못했는데도 보냈다고 말하던 문제를 고쳤습니다. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e3083faa58e3f": "$~이제 여러분이 쓴 어떻게를 <안내서@https://wordplay.dev/guide>에 올려달라고 요청할 수 있습니다. 진행자가 승인하면 누구나 그곳에서 읽을 수 있습니다. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e84378f19e20d": "$~이제 프로젝트나 그림처럼, 어떻게도 검토를 요청할 수 있습니다. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e0634f7a90e52": "$~<안내서@https://wordplay.dev/guide>의 어떻게와 키트에 이제 만든 사람이 표시됩니다. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e089e7d53887b": "$~누구나 볼 수 있는 갤러리에는 이제 처음 몇 글자만이 아니라, 그 안에 있는 모든 사람의 이름 전체가 표시됩니다. (<906@https://github.com/wordplaydev/wordplay/issues/906>)"
     }
 }

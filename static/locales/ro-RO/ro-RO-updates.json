@@ -962,6 +962,14 @@
         "ede02f98adf41": "$~Cele trei truse care vin cu Wordplay sunt scrise în fiecare limbă pe care o susținem, așa că numele și textul lor apar în limba ta. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Numerele pot acum să facă trei lucruri pe care trebuia să le scrii de mână: \\limit\\ păstrează un număr între o valoare minimă și una maximă, \\toward\\ mută un număr o parte din drum către altul, iar \\rescale\\ transformă un număr dintr-un interval în numărul corespunzător din alt interval.",
         "e49e28ab01607": "$~O listă de numere îți poate spune acum \\sum\\ și \\average\\, ca să nu trebuiască să le aduni singur.",
-        "e7cae93034509": "$~Un titlu dintr-un panou cu file, cum sunt cele din Setări, stă acum mai aproape de partea pe care o denumește, în loc să se apropie de secțiunea de deasupra."
+        "e7cae93034509": "$~Un titlu dintr-un panou cu file, cum sunt cele din Setări, stă acum mai aproape de partea pe care o denumește, în loc să se apropie de secțiunea de deasupra.",
+        "e023f9e6e610d": "$~Am reparat cererea de a alege un personaj într-o galerie pentru revizuire, care înainte eșua mereu. (<1372@https://github.com/wordplaydev/wordplay/issues/1372>)",
+        "e31bb325a6f4a": "$~Traducerea unui program nu mai redenumește un nume doar într-un loc și nu în celelalte, ceea ce înainte strica programul. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
+        "ec7e327ea8ea0": "$~Dacă nu putem confirma că browserul tău este unul real, ceea ce se poate întâmpla în rețelele școlare, acum îți spunem asta în loc să te punem să încerci din nou. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e003ca7973f98": "$~Pagina de autentificare nu mai spune că ți-a trimis un link de autentificare atunci când nu a reușit. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e3083faa58e3f": "$~Acum poți cere ca un ghid de instrucțiuni pe care l-ai scris să fie afișat în <Ghid@https://wordplay.dev/guide>, și oricine îl poate citi acolo după ce un moderator este de acord. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e84378f19e20d": "$~Acum poți cere ca un ghid de instrucțiuni să fie verificat, la fel cum poți face pentru un proiect sau un desen. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e0634f7a90e52": "$~Ghidurile de instrucțiuni și seturile din <Ghid@https://wordplay.dev/guide> arată acum cine le-a creat. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e089e7d53887b": "$~O galerie pe care oricine o poate vedea arată acum numele complet al fiecărei persoane din ea, nu doar primele câteva litere. (<906@https://github.com/wordplaydev/wordplay/issues/906>)"
     }
 }

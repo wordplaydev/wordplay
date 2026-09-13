@@ -8199,7 +8199,10 @@
                     "explanation": "$~/Courts exemples illustrant l'utilisation de @wordplay. Cliquez sur « Lecture » dans un aperçu pour le voir s'exécuter, puis ouvrez-le pour en découvrir le fonctionnement./"
                 },
                 "conceptHowTos": "$~Comment faire",
-                "bookmarked": "$~Ajouté aux favoris"
+                "bookmarked": "$~Ajouté aux favoris",
+                "community": "$~Des créateurs",
+                "galleries": "$~De vos galeries",
+                "wordplay": "$~De Wordplay"
             },
             "mode": {
                 "browse": {
@@ -10696,13 +10699,14 @@
                 },
                 "submitToGuide": {
                     "submit": {
-                        "label": "$~📨 Soumettre au Guide des jeux de mots",
-                        "tip": "$~Soumettez ce tutoriel pour qu'il soit pris en compte pour inclusion dans le Guide des jeux de mots !"
+                        "label": "$~📨 proposer au Guide",
+                        "tip": "$~proposer ce comment faire pour qu'il soit peut-être ajouté au Guide !"
                     },
                     "alreadySubmitted": {
                         "label": "$~✅ soumis au Guide",
-                        "tip": "$~Ce guide pratique a déjà été soumis pour être pris en considération en vue de son inclusion dans le Guide des jeux de mots."
-                    }
+                        "tip": "$~ce comment faire a déjà été proposé pour être ajouté au Guide."
+                    },
+                    "header": "$~Inscription au Guide"
                 },
                 "usedBy": {
                     "prompt": "$~Avez-vous utilisé ce tutoriel dans votre projet ou un autre tutoriel ? Faites-le savoir aux autres en ajoutant votre projet à la liste !",
@@ -11306,11 +11310,18 @@
         },
         "queue": {
             "label": "$~quoi examiner",
-            "labels": ["$~projets", "$~galeries", "$~kits", "$~messages"],
+            "labels": [
+                "$~projets",
+                "$~galeries",
+                "$~kits",
+                "$~comment faire",
+                "$~messages"
+            ],
             "tips": [
                 "$~examiner les projets que des gens ont rendus publics",
                 "$~examiner les galeries qui demandent à être listées publiquement",
                 "$~examiner les kits qui demandent à être listés dans le guide",
+                "$~examiner les comment faire qui demandent à être inscrits dans le guide",
                 "$~examiner les messages signalés dans les galeries que vous gérez"
             ]
         },
@@ -11365,6 +11376,31 @@
             "notification": {
                 "approved": "$~$name est maintenant répertorié dans le guide.",
                 "denied": "$~$name n'a pas été répertorié dans le guide."
+            }
+        },
+        "howto": {
+            "pending": "$~Un modérateur lit ton comment faire pour décider s'il peut être inscrit dans le guide. En attendant, seules les personnes qui peuvent déjà le voir le peuvent.",
+            "approved": "$~Ton comment faire est inscrit dans le <guide@://guide?section=howto> ! Il peut être retiré de cette liste à tout moment, pour n'importe quelle raison.",
+            "denied": "$~Un modérateur a décidé de ne pas inscrire ton comment faire dans le guide. Tu peux continuer à y travailler et redemander plus tard.",
+            "unready": "$~Publie d'abord ton comment faire et rends-le public. Un modérateur ne peut dire oui qu'à quelque chose que tout le monde peut lire.",
+            "header": "$~Comment faire",
+            "explain": "$~Ce comment faire demande à être inscrit dans le guide. Lis-le et décide si d'autres personnes qui apprennent @wordplay devraient le trouver là.",
+            "done": "$~Aucun comment faire n'attend de décision. Merci !",
+            "approve": {
+                "label": "$~l'inscrire",
+                "tip": "$~inscrire ce comment faire dans le guide"
+            },
+            "deny": {
+                "label": "$~ne pas l'inscrire",
+                "tip": "$~garder ce comment faire hors du guide"
+            },
+            "skip": {
+                "label": "$~passer",
+                "tip": "$~laisser un autre modérateur décider pour ce comment faire"
+            },
+            "notification": {
+                "approved": "$~$name est maintenant inscrit dans le guide.",
+                "denied": "$~$name n'a pas été inscrit dans le guide."
             }
         }
     },

@@ -962,6 +962,14 @@
         "ede02f98adf41": "$~Tiga kit yang disertakan dalam Wordplay ditulis dalam setiap bahasa yang kami dukung, jadi nama dan tulisannya terbaca dalam bahasamu. (<8@https://github.com/wordplaydev/wordplay/issues/8>)",
         "e75fc15b8d057": "$~Angka kini bisa melakukan tiga hal yang dulu harus kamu tulis sendiri: \\limit\\ menjaga sebuah angka tetap berada di antara batas bawah dan batas atas, \\toward\\ menggeser sebuah angka sebagian jalan menuju angka lain, dan \\rescale\\ mengubah angka dalam satu rentang menjadi angka yang setara dalam rentang lain.",
         "e49e28ab01607": "$~Sebuah daftar angka kini bisa memberitahumu \\sum\\ dan \\average\\nya, jadi kamu tidak perlu menjumlahkannya sendiri.",
-        "e7cae93034509": "$~Sebuah judul di dalam panel bertab, seperti yang ada di Pengaturan, sekarang letaknya lebih dekat dengan bagian yang dijelaskannya, bukan malah bergeser ke atas mendekati bagian sebelumnya."
+        "e7cae93034509": "$~Sebuah judul di dalam panel bertab, seperti yang ada di Pengaturan, sekarang letaknya lebih dekat dengan bagian yang dijelaskannya, bukan malah bergeser ke atas mendekati bagian sebelumnya.",
+        "e023f9e6e610d": "$~Kami memperbaiki permintaan untuk memeriksa sebuah karakter di galeri, yang dulu selalu gagal. (<1372@https://github.com/wordplaydev/wordplay/issues/1372>)",
+        "e31bb325a6f4a": "$~Menerjemahkan sebuah program kini tidak lagi mengubah nama di satu tempat tetapi tidak di tempat lain, yang dulu membuat program menjadi rusak. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
+        "ec7e327ea8ea0": "$~Jika kami tidak bisa memastikan bahwa peramban Anda asli, yang bisa terjadi di jaringan sekolah, kami sekarang memberi tahu hal ini, bukan meminta Anda mencoba lagi. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e003ca7973f98": "$~Halaman masuk kini tidak lagi mengatakan telah mengirimkan tautan masuk kepada Anda saat sebenarnya gagal. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
+        "e3083faa58e3f": "$~Sekarang kamu bisa meminta agar cara yang kamu tulis dimasukkan ke dalam <Panduan@https://wordplay.dev/guide>, dan siapa saja bisa membacanya di sana setelah seorang moderator menyetujuinya. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e84378f19e20d": "$~Sekarang kamu bisa meminta agar sebuah cara diperiksa, sama seperti yang bisa kamu lakukan untuk proyek atau gambar. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e0634f7a90e52": "$~Cara dan kit di <Panduan@https://wordplay.dev/guide> sekarang menampilkan siapa yang membuatnya. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "e089e7d53887b": "$~Galeri yang bisa dilihat siapa saja sekarang menampilkan nama lengkap setiap orang di dalamnya, bukan hanya beberapa huruf pertama. (<906@https://github.com/wordplaydev/wordplay/issues/906>)"
     }
 }
