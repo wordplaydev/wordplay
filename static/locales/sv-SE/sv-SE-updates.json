@@ -971,7 +971,6 @@
         "e31bb325a6f4a": "$~Att översätta ett program byter inte längre namn på en plats men inte på de andra, vilket tidigare kunde göra programmet trasigt. (<1368@https://github.com/wordplaydev/wordplay/issues/1368>)",
         "ec7e327ea8ea0": "$~Om vi inte kan avgöra att din webbläsare är äkta, vilket kan hända på skolnätverk, säger vi nu det istället för att be dig försöka igen. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
         "e003ca7973f98": "$~Inloggningssidan säger inte längre att den skickat dig en inloggningslänk när den inte kunde göra det. (<1378@https://github.com/wordplaydev/wordplay/issues/1378>)",
-        "ec0822aa79180": "$~Wordplay kan nu skicka e-post till dig när något händer som du vill veta om, som ett beslut om något du gjort. Du väljer själv vilka sorters e-post du får på din profilsida.",
         "ea81ddc87b61c": "$~Moderatorer och kuratorer ser nu hur mycket som väntar på att granskas, i stället för att behöva leta själva.",
         "e88f690999de4": "$~E-posten vi skickar ser nu ut som Wordplay, och knapparna är lättare att läsa.",
         "efa3f7d56bf19": "$~E-post om ditt arbete har nu korta ämnesrader som säger vad som hänt, och e-posten om ny återkoppling länkar direkt dit.",
