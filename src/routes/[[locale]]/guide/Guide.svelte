@@ -10,7 +10,6 @@
     import { DefaultMode, Modes } from '@components/concepts/GuideHistory';
     import placeLabel from '@components/concepts/placeLabel';
     import {
-        getUser,
         setConceptIndex,
         setConceptPath,
         setProject,
@@ -194,14 +193,15 @@
 
     let howTos = $derived($howToStore[$locales.getLocaleString()]);
 
-    const user = getUser();
-
     let index = $derived(
         ConceptIndex.make(
             project,
             $locales,
             howTos instanceof Promise ? [] : howTos,
-            user ? HowTos.allAccessiblePublishedHowTos : [],
+            // Never a sign-in gate despite how it read: `getUser()` returns
+            // the store, so this was always the truthy branch. The cache only
+            // holds what the rules let this viewer read, so pass it through.
+            HowTos.allAccessiblePublishedHowTos,
         ),
     );
 

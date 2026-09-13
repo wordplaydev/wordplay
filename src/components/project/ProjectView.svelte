@@ -1381,8 +1381,10 @@
     let latestGalleryHowTos: GalleryHowTo[] = [];
 
     // get the user generated how-tos that are in a gallery, if the gallery exists
-    let galleryHowTos = $state<GalleryHowTo[]>([]);
     let gallery: Gallery | undefined = $state(undefined);
+    let galleryHowTos: GalleryHowTo[] = $derived.by(() =>
+        gallery === undefined ? [] : HowTos.howTosInGallery(gallery.getID()),
+    );
     $effect(() => {
         const galleryID: string | null = project.getGallery();
 
@@ -1396,16 +1398,26 @@
         }
     });
 
+    // One shared subscription rather than a fetch per surface; see
+    // GalleryDatabase.watchPublic.
+    // Keyed on the id, never the gallery object: each snapshot the watch
+    // receives is written into `publicGalleries`, which re-resolves `gallery`
+    // to a new instance — so an effect that depended on the instance would tear
+    // its own subscription down and start another on every snapshot, and never
+    // live long enough to deliver one.
+    let watchedGalleryID = $derived.by(() =>
+        gallery === undefined ? undefined : gallery.getID(),
+    );
+    // `untrack`, because acquiring the watch reads the gallery maps to decide
+    // what to subscribe to — and the watch then writes each snapshot back into
+    // `publicGalleries`. Tracked, those reads make the effect depend on its own
+    // output: it tears its subscription down and starts another on every
+    // snapshot, thousands of times a second, and never lives long enough to
+    // deliver one.
     $effect(() => {
-        if (gallery) {
-            HowTos.getHowTos(gallery.getHowTos()).then(
-                ({ howTos: hts, unreachable }) => {
-                    // Keep the listing we have rather than emptying it over a
-                    // read that went unanswered.
-                    if (!unreachable) galleryHowTos = hts;
-                },
-            );
-        }
+        const id = watchedGalleryID;
+        if (id === undefined) return;
+        return untrack(() => Galleries.watchPublic(id));
     });
 
     // When dependencies change, create a new concept index.

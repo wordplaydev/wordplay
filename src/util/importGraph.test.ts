@@ -701,6 +701,27 @@ test('resolving a color needs no basis', () => {
  * exactly what this test exists to catch. The registry, the kit page, and the publish
  * panel are all off these graphs too; they are reached through the guide and the share
  * dialog, neither of which any of these entries touches.
+ *
+ * Letting a visitor watch a public gallery's how-tos (#1375) is **+1 file** on every
+ * graph: `db/Watchers.ts`, a ref-counted subscription registry with no imports at all.
+ * It is on these graphs because both `GalleryDatabase` and `HowToDatabase` hold one, and
+ * every page carries those. Sharing is the point of it — four surfaces show one gallery's
+ * how-tos, and without a registry they would each open their own listener — so it cannot
+ * be lazy: the decision to share has to be made at the moment a surface asks. Eighty
+ * lines, and it knows nothing about Firestore, which is also why it is a leaf rather than
+ * something folded into either database.
+ *
+ * The safety net under that watch — a listen stream can wedge after the transport is
+ * interrupted and then deliver nothing, with no error to catch — is another kilobyte in
+ * `HowToDatabase`, and `projects` is the one graph with no room left in its hundredth.
+ * Same as #1364 and #1373 before it.
+ *
+ * Every byte budget moves a hundredth with it, and all of it is the two databases: the
+ * public watch and its lifecycle in `GalleryDatabase`, and in `HowToDatabase` the query,
+ * the mode that decides between watching and reading through, and the GC bookkeeping that
+ * a listener which starts and stops on navigation needs. About twenty kilobytes of code
+ * and the comments explaining why each filter is load-bearing. Nothing new is reached:
+ * these are modules every page already carried.
  */
 // These are ceilings, not measurements: raise one only for code that genuinely belongs on
 // the page's graph, never to quiet a leak. Bytes creeping is usually `en-US.json` growing,
@@ -708,11 +729,11 @@ test('resolving a color needs no basis', () => {
 // math functions' documentation are both that, and neither moved a file count. Files
 // creeping is a door opening, and is the number to look at first.
 test.each([
-    ['src/routes/+layout.svelte', 524, 3.91],
-    ['src/components/app/Page.svelte', 547, 4.16],
-    ['src/routes/[[locale]]/+page.svelte', 562, 4.25],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 566, 4.27],
-    ['src/routes/[[locale]]/projects/+page.svelte', 573, 4.29],
+    ['src/routes/+layout.svelte', 525, 3.94],
+    ['src/components/app/Page.svelte', 548, 4.19],
+    ['src/routes/[[locale]]/+page.svelte', 563, 4.28],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 567, 4.29],
+    ['src/routes/[[locale]]/projects/+page.svelte', 574, 4.32],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

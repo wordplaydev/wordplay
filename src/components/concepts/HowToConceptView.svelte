@@ -2,7 +2,7 @@
     import { goto } from '$app/navigation';
     import Subheader from '@components/app/Subheader.svelte';
     import Speech from '@components/lore/Speech.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import { getUser, isAuthenticated } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import type GalleryHowConcept from '@concepts/GalleryHowConcept';
     import { HowTos, locales } from '@db/Database';
@@ -24,11 +24,16 @@
     const user = getUser();
 
     onMount(() => {
-        let seenByUsers = concept.howTo.getSeenByUsers();
+        // The update rule requires an authenticated caller, so a signed-out
+        // reader's view cannot be recorded at all — attempting it was a
+        // guaranteed permission-denied on every how-to rendered, counted as a
+        // failed save. Counting anonymous views would have to be a callable.
+        if (!isAuthenticated($user)) return;
 
-        if ($user && !seenByUsers.includes($user.uid)) {
-            seenByUsers.push($user.uid);
-        }
+        const seen = concept.howTo.getSeenByUsers();
+        const seenByUsers = seen.includes($user.uid)
+            ? seen
+            : [...seen, $user.uid];
 
         HowTos.updateHowTo(
             new HowTo({

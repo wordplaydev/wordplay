@@ -1252,7 +1252,9 @@ export class Database {
         this.Galleries.clean();
         this.Chats.ignore();
         this.Characters.ignore();
-        this.HowTos.ignore();
+        // `stop`, not `ignore`: the page is going away, so the public gallery
+        // watches a visitor may be holding go too.
+        this.HowTos.stop();
     }
 
     /** Delete account, including all projects, settings, and user.

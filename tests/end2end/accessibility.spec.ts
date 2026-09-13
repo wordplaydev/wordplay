@@ -64,6 +64,11 @@ const ContentMarkers: Record<string, string> = {
     // The updates page fetches static/updates.json rather than importing it,
     // so its section headings are the first sign the releases have rendered.
     '/updates': 'h3',
+    // A public how-to space arrives over a Firestore subscription, so the page
+    // heading is up well before anything it is scanning. Without this the scan
+    // passes against an empty canvas and means nothing. The tile rather than
+    // anything inside it: a how-to's body stays collapsed until it is opened.
+    '/gallery/seed-public-gallery-00/howto': '.howtotitle',
 };
 
 test.describe('public pages', () => {

@@ -342,3 +342,112 @@ describe('a how-to cannot be captured by renaming its gallery', () => {
         );
     });
 });
+
+/**
+ * Queries, as opposed to document reads.
+ *
+ * Every test above drives `doc.get()`, and until #1375 so did every rules test in
+ * the repository. That proves nothing about a listener: Firestore evaluates a
+ * query against each document it matched and rejects the *whole* query if any
+ * one of them is denied. So a `get()` that passes says only that one document is
+ * readable, while the client subscribes with a query and gets all or nothing.
+ *
+ * Declared last in the file on purpose — it adds a second how-to to the gallery
+ * that `reset` does not know about, and the blocks above must not see it.
+ */
+describe('a query, not a document get', () => {
+    /** A draft beside the published how-to, so "all or nothing" is real: a query
+     *  missing `published == true` matches this, and this is denied to anyone
+     *  but its owner. Without it, the unfiltered query would pass for the wrong
+     *  reason — nothing denied to match. */
+    const Draft = 'rulestest-howto-draft';
+
+    async function addDraft() {
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context
+                .firestore()
+                .doc(`howtos/${Draft}`)
+                .set({
+                    v: 3,
+                    id: Draft,
+                    galleryId: Gallery,
+                    published: false,
+                    publishedAt: null,
+                    xcoord: 0,
+                    ycoord: 0,
+                    title: '¶Draft¶/en-US',
+                    guidingQuestions: [],
+                    text: ['¶Body¶/en-US'],
+                    creator: Users.owner,
+                    collaborators: [],
+                    scopeOverwrite: false,
+                    locales: ['en-US'],
+                    isPublic: false,
+                    social: social(Users.owner),
+                });
+        });
+    }
+
+    afterAll(async () => {
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context.firestore().doc(`howtos/${Draft}`).delete();
+        });
+    });
+
+    /** The subscription `HowToDatabase.watchGallery` opens, exactly. */
+    const publicQuery = (actor: Actor) =>
+        as(actor)
+            .collection('howtos')
+            .where('galleryId', '==', Gallery)
+            .where('published', '==', true)
+            .get();
+
+    describe('in a public gallery', () => {
+        beforeEach(async () => {
+            await reset(Scenarios[2]);
+            await addDraft();
+        });
+
+        it('a signed-out visitor may read the published how-tos', async () => {
+            // Scenarios[2] is `published: true, isPublic: false` in a public
+            // gallery — the seed fixture's exact shape, admitted only by the
+            // rule's `isGalleryPublic` branch. A query filtered on `isPublic`
+            // would match nothing here.
+            const result = await assertSucceeds(publicQuery('anon'));
+            expect(result.docs.map((d) => d.id)).toEqual([HowTo]);
+        });
+
+        it('and so may a signed-in visitor with no role in the gallery', async () => {
+            const result = await assertSucceeds(publicQuery('stranger'));
+            expect(result.docs.map((d) => d.id)).toEqual([HowTo]);
+        });
+
+        it('but not without the published filter, because one draft denies the whole query', async () => {
+            await assertFails(
+                as('anon')
+                    .collection('howtos')
+                    .where('galleryId', '==', Gallery)
+                    .get(),
+            );
+        });
+
+        it('and may read the gallery document the query is admitted by', async () => {
+            await assertSucceeds(as('anon').doc(`galleries/${Gallery}`).get());
+        });
+    });
+
+    describe('in a private gallery', () => {
+        beforeEach(async () => {
+            await reset(Scenarios[0]);
+            await addDraft();
+        });
+
+        it('the same query is denied, so no listener may be started', async () => {
+            await assertFails(publicQuery('anon'));
+        });
+
+        it('and the gallery document is not readable either', async () => {
+            await assertFails(as('anon').doc(`galleries/${Gallery}`).get());
+        });
+    });
+});

@@ -17,6 +17,14 @@ let getDocResult: () => Promise<{
     data: () => unknown;
 }> = async () => ({ exists: () => false, data: () => ({}) });
 
+type FakeGallerySubscription = {
+    target: unknown;
+    onNext: (snapshot: unknown) => void;
+    onError: (error: unknown) => void;
+    unsubscribed: boolean;
+};
+const gallerySubscriptions: FakeGallerySubscription[] = [];
+
 vi.mock('firebase/firestore', () => ({
     and: vi.fn(),
     or: vi.fn(),
@@ -50,7 +58,24 @@ vi.mock('firebase/firestore', () => ({
             commit: vi.fn(async () => {}),
         };
     }),
-    onSnapshot: vi.fn(() => () => {}),
+    onSnapshot: vi.fn(
+        (
+            target: unknown,
+            onNext: (snapshot: unknown) => void,
+            onError: (error: unknown) => void,
+        ) => {
+            const subscription = {
+                target,
+                onNext,
+                onError,
+                unsubscribed: false,
+            };
+            gallerySubscriptions.push(subscription);
+            return () => {
+                subscription.unsubscribed = true;
+            };
+        },
+    ),
     collection: vi.fn(),
     query: vi.fn(),
     where: vi.fn(),
@@ -684,5 +709,122 @@ describe('find distinguishes a gallery we cannot reach from one that is not ther
 
         getDocResult = async () => ({ exists: () => false, data: () => ({}) });
         expect(await db.get('g1')).toBeUndefined();
+    });
+});
+
+describe('watching a public gallery (#1375)', () => {
+    let db: GalleryDatabase;
+    let watchedHowTos: string[];
+    let releasedHowTos: string[];
+    let notifiedHowTos: string[];
+    let syncMarks: string[];
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+        gallerySubscriptions.length = 0;
+        watchedHowTos = [];
+        releasedHowTos = [];
+        notifiedHowTos = [];
+        syncMarks = [];
+        db = new GalleryDatabase({
+            getUser: vi.fn(() => null),
+            read: vi.fn(<T>(p: Promise<T>) => p),
+            isConnectivityError: vi.fn(() => false),
+            markSyncFailed: vi.fn((d: string) => syncMarks.push(d)),
+            markFirebaseFailed: vi.fn(),
+            reportListenerError: vi.fn((d: string) => syncMarks.push(d)),
+            markSynced: vi.fn(),
+            markSyncing: vi.fn(),
+            Locales: {
+                getLocaleSet: () => ({ getMultilingualText: () => 'Test' }),
+                locales: { subscribe: () => () => {} },
+            },
+            loadProjects: vi.fn(async () => ({})),
+            get MaybeProjects() {
+                return {};
+            },
+            HowTos: {
+                watchGallery: vi.fn((id: string) => {
+                    watchedHowTos.push(id);
+                    return () => releasedHowTos.push(id);
+                }),
+                publicGalleryChanged: vi.fn((id: string) =>
+                    notifiedHowTos.push(id),
+                ),
+                reevaluateWatches: vi.fn(),
+                galleriesChanged: vi.fn(),
+            },
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any);
+        gallerySubscriptions.length = 0;
+        vi.spyOn(console, 'error').mockImplementation(() => {});
+    });
+
+    it('subscribes to the gallery document and to its how-tos', () => {
+        db.watchPublic('g1');
+
+        expect(gallerySubscriptions).toHaveLength(1);
+        expect(watchedHowTos).toEqual(['g1']);
+    });
+
+    it('skips the document when a uid listener already delivers it', () => {
+        // The three galleries listeners already carry this document live, so a
+        // second subscription would pay for the same reads twice. The how-to
+        // half still runs: being a member of a gallery is a different question
+        // from which of its how-tos a query can return.
+        db.accessibleGalleries.set('g1', makeGallery('g1'));
+        db.watchPublic('g1');
+
+        expect(gallerySubscriptions).toHaveLength(0);
+        expect(watchedHowTos).toEqual(['g1']);
+    });
+
+    it('puts each snapshot in the public map and tells the how-tos', () => {
+        // The gallery's `public` flag and its how-to list both decide what the
+        // how-to watch should be doing, so a change to either has to reach it.
+        db.watchPublic('g1');
+        gallerySubscriptions[0].onNext({
+            data: () => makeGallery('g1', { public: true }).getData(),
+        });
+
+        expect(db.publicGalleries.get('g1')?.getID()).toBe('g1');
+        expect(db.isKnownPublic('g1')).toBe(true);
+        expect(notifiedHowTos).toEqual(['g1']);
+    });
+
+    it('does not call a gallery public until it says so', () => {
+        // `isPublic`, not `isListed`: the rules ask only whether `public` is
+        // set, so gating on moderation approval would blank a legitimately
+        // public space no moderator has looked at yet.
+        db.watchPublic('g1');
+        gallerySubscriptions[0].onNext({
+            data: () => makeGallery('g1', { public: false }).getData(),
+        });
+
+        expect(db.isKnownPublic('g1')).toBe(false);
+    });
+
+    it('records a refusal without failing this creator’s galleries sync', () => {
+        // A visitor refused someone else's gallery is not the signed-in
+        // creator's galleries domain breaking, and reporting it as such would
+        // show them a sync error for a page they merely visited.
+        db.watchPublic('g1');
+        gallerySubscriptions[0].onError({ code: 'permission-denied' });
+
+        expect(db.publicWatchState.get('g1')).toBe('denied');
+        expect(syncMarks).toEqual([]);
+    });
+
+    it('releases both halves when the last holder lets go', () => {
+        const first = db.watchPublic('g1');
+        const second = db.watchPublic('g1');
+        expect(gallerySubscriptions).toHaveLength(1);
+
+        first();
+        expect(gallerySubscriptions[0].unsubscribed).toBe(false);
+
+        second();
+        expect(gallerySubscriptions[0].unsubscribed).toBe(true);
+        expect(releasedHowTos).toEqual(['g1']);
     });
 });

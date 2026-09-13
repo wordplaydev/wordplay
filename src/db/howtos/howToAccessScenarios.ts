@@ -46,9 +46,11 @@ export type Action = 'read' | 'edit' | 'delete' | 'move' | 'social';
 export const Actions: Action[] = ['read', 'edit', 'move', 'social', 'delete'];
 
 /**
- * `read` is server-only: the client has no `canReadHowTo`, because what a
- * creator may read is decided by the three listener queries rather than by a
- * predicate, and adding one with no call site would be a claim nothing tests.
+ * `read` is server-only: the client has no `canReadHowTo`, because what anyone
+ * may read is decided by the subscriptions rather than by a predicate — the
+ * three uid-scoped listeners, and since #1375 the per-gallery public watch that
+ * a signed-out visitor gets. Adding a predicate with no call site would be a
+ * claim nothing tests.
  */
 export const ServerOnlyActions: Action[] = ['read'];
 
