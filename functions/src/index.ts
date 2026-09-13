@@ -49,6 +49,7 @@ import moderateProjectHandler from './moderateProject.js';
 import reportHandler from './report.js';
 import galleryEditedHandler from './galleryEdited.js';
 import kitEditedHandler from './kitEdited.js';
+import howToEditedHandler from './howToEdited.js';
 import getCreatorsHandler from './getCreators.js';
 import getLLMTranslationsHandler from './getLLMTranslations.js';
 import analyzeLocalizationHandler from './analyzeLocalization.js';
@@ -347,3 +348,7 @@ export const galleryEdited = onDocumentWritten(
 /** Maintains a kit's search index and its listing decision, neither of which any
  *  client may write. See functions/src/kitEdited.ts. */
 export const kitEdited = onDocumentWritten('kits/{id}', kitEditedHandler);
+
+/** Maintains where a how-to's request to be listed in the guide stands, which no
+ *  client may write. See functions/src/howToEdited.ts. */
+export const howToEdited = onDocumentWritten('howtos/{id}', howToEditedHandler);

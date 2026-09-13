@@ -99,6 +99,11 @@ type PageText = {
         submitToGuide: {
             submit: ButtonText;
             alreadySubmitted: ButtonText;
+            /** [plain] Names the section below the controls that says where this
+             *  how-to stands with the guide. Its own string rather than the
+             *  moderator queue's header, which names a queue of other people's
+             *  how-tos rather than this creator's standing. */
+            header: string;
         };
         usedBy: {
             /** [plain] Text for asking if the user used this how-to in their project or another how-to */

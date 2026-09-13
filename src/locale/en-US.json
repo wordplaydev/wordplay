@@ -7862,13 +7862,14 @@
                 },
                 "submitToGuide": {
                     "submit": {
-                        "label": "📨 submit to Wordplay Guide",
-                        "tip": "submit this how-to to be considered for inclusion in the Wordplay Guide!"
+                        "label": "📨 submit to Guide",
+                        "tip": "submit this how-to to be considered for inclusion in the Guide!"
                     },
                     "alreadySubmitted": {
                         "label": "✅ submitted to Guide",
-                        "tip": "this how-to has already been submitted to be considered for inclusion in the Wordplay Guide."
-                    }
+                        "tip": "this how-to has already been submitted to be considered for inclusion in the Guide."
+                    },
+                    "header": "Guide listing"
                 },
                 "usedBy": {
                     "prompt": "Did you use this how-to in your project or another how-to? Let others know by adding your project to the list!",
@@ -8731,6 +8732,9 @@
                     "gallery": "created by your fellow Wordplay directors"
                 },
                 "bookmarked": "Bookmarked",
+                "community": "From creators",
+                "galleries": "From your galleries",
+                "wordplay": "From Wordplay",
                 "related": "Not what you're looking for?",
                 "conceptHowTos": "How-to",
                 "howToGalleryButton": {
@@ -11260,11 +11264,12 @@
         },
         "queue": {
             "label": "what to review",
-            "labels": ["projects", "galleries", "kits", "reports"],
+            "labels": ["projects", "galleries", "kits", "how-tos", "reports"],
             "tips": [
                 "review projects people have made public",
                 "review galleries asking to be listed publicly",
                 "review kits asking to be listed in the guide",
+                "review how-tos asking to be listed in the guide",
                 "review what people have asked you to look at"
             ]
         },
@@ -11346,6 +11351,31 @@
             "skip": {
                 "label": "skip",
                 "tip": "leave this kit for another moderator to decide"
+            },
+            "notification": {
+                "approved": "$name is now listed in the guide.",
+                "denied": "$name was not listed in the guide."
+            }
+        },
+        "howto": {
+            "pending": "A moderator is reading your how-to to decide whether it can be listed in the guide. Until then, only people who can already see it can.",
+            "approved": "Your how-to is listed in the <guide@://guide?section=howto>! It can be taken off that list at any time, for any reason.",
+            "denied": "A moderator decided not to list your how-to in the guide. You can keep working on it and ask again.",
+            "unready": "Post your how-to and make it public first. A moderator can only say yes to something everyone can read.",
+            "header": "How-tos",
+            "explain": "This how-to is asking to be listed in the guide. Read it and decide whether other people learning @wordplay should find it there.",
+            "done": "No how-tos are waiting for a decision. Thank you!",
+            "approve": {
+                "label": "list it",
+                "tip": "list this how-to in the guide"
+            },
+            "deny": {
+                "label": "don't list it",
+                "tip": "keep this how-to out of the guide"
+            },
+            "skip": {
+                "label": "skip",
+                "tip": "leave this how-to for another moderator to decide"
             },
             "notification": {
                 "approved": "$name is now listed in the guide.",

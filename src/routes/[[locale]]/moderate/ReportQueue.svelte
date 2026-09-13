@@ -23,7 +23,8 @@
     import Button from '@components/widgets/Button.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { CharactersDB, Creators, DB, locales } from '@db/Database';
+    import { CharactersDB, Creators, DB, HowTos, locales } from '@db/Database';
+    import HowTo from '@db/howtos/HowToDatabase.svelte';
     import {
         bareCharacterName,
         characterToSVG,
@@ -173,6 +174,36 @@
         };
     });
 
+    /**
+     * The reported how-to itself.
+     *
+     * Fetched for the reason the character and the kit are: a report carries a
+     * title, and a decision about prose has to be made by reading the prose. Until
+     * #906 there was no way to report a how-to at all, so this branch never ran and
+     * a how-to report would have rendered as an empty `<em>` — `SerializedReport.text`
+     * carries a chat message's words and nothing else's.
+     */
+    let reportedHowTo = $state<HowTo | null>(null);
+    $effect(() => {
+        const report = current;
+        if (report === undefined || report.kind !== 'howto') {
+            reportedHowTo = null;
+            return;
+        }
+        let cancelled = false;
+        HowTos.getHowTo(report.subject)
+            .then((howTo) => {
+                if (!cancelled)
+                    reportedHowTo = howTo instanceof HowTo ? howTo : null;
+            })
+            .catch(() => {
+                if (!cancelled) reportedHowTo = null;
+            });
+        return () => {
+            cancelled = true;
+        };
+    });
+
     /** The reported kit's newest published code.
      *
      *  Fetched for the reason the character is: a report carries a name, and a decision
@@ -290,6 +321,22 @@
                     {#if reportedKit}
                         <em>{reportedKit.name}</em>
                         <KitCode kit={reportedKit} height="20em" />
+                    {:else}
+                        <Spinning />
+                    {/if}
+                {:else if current.kind === 'howto'}
+                    <!-- Prose has to be read to be judged, and a report carries only
+                         the title. Every language it was written in, rather than the
+                         moderator's: the decision is about the whole document. -->
+                    {#if reportedHowTo}
+                        <em
+                            >{reportedHowTo.getTitleInLocale(
+                                $locales.getLocaleString(),
+                            )}</em
+                        >
+                        {#each reportedHowTo.getText() as markup, index (index)}
+                            <MarkupHTMLView {markup} />
+                        {/each}
                     {:else}
                         <Spinning />
                     {/if}

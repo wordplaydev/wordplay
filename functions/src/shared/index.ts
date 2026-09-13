@@ -358,6 +358,10 @@ export type DerivedNoticeKind =
     | 'chat-message'
     /** A how-to was published in a gallery you are in. */
     | 'howto-published'
+    /** A how-to you wrote was listed in the guide. */
+    | 'howto-listed'
+    /** A how-to you wrote was not listed. */
+    | 'howto-denied'
     /** A kit you published was listed in the guide. */
     | 'kit-listed'
     /** A kit you published was not listed. */
@@ -463,7 +467,14 @@ export type ModerateInputs = {
      *  author: a note written for them may quote the content, which whoever
      *  reported it must not be shown. */
     note?: string;
-    /** Galleries only: whether it may be listed publicly. */
+    /**
+     * Whether the thing may be listed: a gallery on the public galleries page, a
+     * kit or a how-to in the guide.
+     *
+     * Honoured only from a platform moderator. A curator is responsible for what
+     * their gallery holds, which is a takedown, never a listing — a curator who
+     * could approve their own is what curation prevents.
+     */
     listing?: 'approved' | 'denied';
     /** Whether this counts as a warning. Honoured only from a platform
      *  moderator deciding something the platform is responsible for. */

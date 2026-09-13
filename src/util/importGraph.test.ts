@@ -716,6 +716,30 @@ test('resolving a color needs no basis', () => {
  * `HowToDatabase`, and `projects` is the one graph with no room left in its hundredth.
  * Same as #1364 and #1373 before it.
  *
+ * Listing a how-to in the guide (#906) is **+1 file** on every graph and no new bytes to
+ * speak of: `db/howtos/howToDocument.ts` is the version constants and the two pure
+ * constructors, moved out of `HowToDatabase.svelte.ts` so that a test can reach them.
+ * That file value-imports `@db/Database`, so anything importing it pulls the whole
+ * database graph in — which is why `rulesFieldsSync.test.ts` could not hold `makeHowTo`
+ * against the create rule until the split. It imports only what `HowToDatabase` already
+ * imported, so it opens no door; the same extraction #1175, #836 and #1301 each made.
+ *
+ * Crediting the people who made things (#906) is **+1 file** on the two graphs that
+ * show project tiles: `app/Contributors.svelte`, which is `ProjectPreview`'s own byline
+ * lifted out so a community how-to and a kit in the guide can be credited the same way
+ * rather than each growing one. It reaches nothing `ProjectPreview` did not, and
+ * `ProjectPreview` loses the same markup. The rule deciding whole handles from
+ * truncated ones (`db/creators/attribution.ts`) is nine lines and no imports.
+ *
+ * The landing page's last hundredth is the second pass over that interface: two more
+ * group headings in the guide's how-to section and the section naming where a how-to
+ * stands with the guide, all of it en-US.json, which every page resolves.
+ *
+ * Four of the five byte budgets move a hundredth with it, and none of it is new reach:
+ * the schema's four listing fields and the paragraphs saying why each is server-owned,
+ * the accessors that read them, and the helper every whole-document write now goes
+ * through so a client cannot send a field the rules refuse. `projects` had room.
+ *
  * Every byte budget moves a hundredth with it, and all of it is the two databases: the
  * public watch and its lifecycle in `GalleryDatabase`, and in `HowToDatabase` the query,
  * the mode that decides between watching and reading through, and the GC bookkeeping that
@@ -729,11 +753,11 @@ test('resolving a color needs no basis', () => {
 // math functions' documentation are both that, and neither moved a file count. Files
 // creeping is a door opening, and is the number to look at first.
 test.each([
-    ['src/routes/+layout.svelte', 525, 3.94],
-    ['src/components/app/Page.svelte', 548, 4.19],
-    ['src/routes/[[locale]]/+page.svelte', 563, 4.28],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 567, 4.29],
-    ['src/routes/[[locale]]/projects/+page.svelte', 574, 4.32],
+    ['src/routes/+layout.svelte', 526, 3.95],
+    ['src/components/app/Page.svelte', 549, 4.21],
+    ['src/routes/[[locale]]/+page.svelte', 564, 4.3],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 569, 4.31],
+    ['src/routes/[[locale]]/projects/+page.svelte', 576, 4.33],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

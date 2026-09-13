@@ -123,6 +123,17 @@ type DocumentationText = {
         category: Record<keyof typeof HowToCategories, string>;
         /** [plain] The subheader for how-tos the creator bookmarked, shown above the per-gallery groups */
         bookmarked: string;
+        /** [plain] The subheader for how-tos a moderator has listed in the guide, which
+         *  everyone sees. Not a key in `category` below: that is a record over the
+         *  built-in how-to categories, and a key added there would render as an empty
+         *  one — and the same goes for the two beneath it. */
+        community: string;
+        /** [plain] The subheader over the how-tos from galleries this creator is in,
+         *  each of which is named beneath it */
+        galleries: string;
+        /** [plain] The subheader over the how-tos that ship with Wordplay, whose
+         *  categories are named beneath it */
+        wordplay: string;
         /** [plain] The subheader for related how to's */
         related: string;
         /** [plain] The heading for the list of how-tos relevant to a concept, shown in the concept sidebar */

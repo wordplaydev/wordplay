@@ -36,14 +36,28 @@ export const Actors: Actor[] = [
  * What they are asking to do. `edit` is a whole-document write; `move` is the
  * `xcoord`/`ycoord` opening and `social` the `social` one, which are the two
  * narrow branches the rules admit for people who may not edit.
+ *
+ * `submit` is asking for the how-to to be listed in the guide (#906) — a write of
+ * `submittedToGuide` alone. It goes exactly where `edit` goes, and the row exists
+ * to say so: the field used to sit inside `social`, so everyone holding that
+ * opening could submit someone else's work. Whether a submission is *ready*
+ * (published, and public) is a separate question the form gates on and the
+ * `howToEdited` trigger decides; it is not a permission, so it is not here.
  */
-export type Action = 'read' | 'edit' | 'delete' | 'move' | 'social';
+export type Action = 'read' | 'edit' | 'delete' | 'move' | 'social' | 'submit';
 
 /**
  * `delete` is last on purpose: a suite that probes every action against one
  * fixture must not remove the document before the probes that follow it.
  */
-export const Actions: Action[] = ['read', 'edit', 'move', 'social', 'delete'];
+export const Actions: Action[] = [
+    'read',
+    'edit',
+    'move',
+    'social',
+    'submit',
+    'delete',
+];
 
 /**
  * `read` is server-only: the client has no `canReadHowTo`, because what anyone
@@ -99,10 +113,17 @@ const Expanded = { public: false, expandedVisibility: true };
  * branch on delete, and taking a how-to down is `moderate.ts` setting
  * `published: false`, not a deletion.
  */
-const OwnerAll: Action[] = ['read', 'edit', 'delete', 'move', 'social'];
-const CollaboratorAll: Action[] = ['read', 'edit', 'move', 'social'];
+const OwnerAll: Action[] = [
+    'read',
+    'edit',
+    'delete',
+    'move',
+    'social',
+    'submit',
+];
+const CollaboratorAll: Action[] = ['read', 'edit', 'move', 'social', 'submit'];
 const GalleryCreatorPublished: Action[] = ['read', 'move', 'social'];
-const ModPublished: Action[] = ['read', 'edit', 'move', 'social'];
+const ModPublished: Action[] = ['read', 'edit', 'move', 'social', 'submit'];
 
 export const Scenarios: Scenario[] = [
     {
@@ -128,7 +149,7 @@ export const Scenarios: Scenario[] = [
             // A curator may write a draft they may not read. That asymmetry is
             // #907's, not an oversight: "can edit any how-to in the gallery"
             // and "cannot see another creator's drafts" are both on the list.
-            curator: ['edit', 'delete', 'move', 'social'],
+            curator: ['edit', 'delete', 'move', 'social', 'submit'],
             mod: ModPublished,
         },
     },
@@ -157,7 +178,7 @@ export const Scenarios: Scenario[] = [
         allowed: {
             owner: OwnerAll,
             collaborator: CollaboratorAll,
-            curator: ['edit', 'delete', 'move', 'social'],
+            curator: ['edit', 'delete', 'move', 'social', 'submit'],
             mod: ModPublished,
         },
     },
@@ -196,7 +217,7 @@ export const Scenarios: Scenario[] = [
         allowed: {
             owner: OwnerAll,
             collaborator: CollaboratorAll,
-            curator: ['edit', 'delete', 'move', 'social'],
+            curator: ['edit', 'delete', 'move', 'social', 'submit'],
             mod: ModPublished,
         },
     },
@@ -222,7 +243,7 @@ export const Scenarios: Scenario[] = [
         allowed: {
             owner: OwnerAll,
             collaborator: CollaboratorAll,
-            curator: ['edit', 'delete', 'move', 'social'],
+            curator: ['edit', 'delete', 'move', 'social', 'submit'],
             mod: ModPublished,
         },
     },

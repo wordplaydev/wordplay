@@ -35,6 +35,8 @@ export const NoticeKinds = [
     'outcome',
     'chat-message',
     'howto-published',
+    'howto-listed',
+    'howto-denied',
     'gallery-listed',
     'gallery-denied',
     'kit-listed',

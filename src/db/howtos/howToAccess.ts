@@ -126,3 +126,30 @@ export function canInteractSocially(
         belongs(gallery, uid) || expandedViewersOf(howTo, gallery).includes(uid)
     );
 }
+
+/**
+ * Who may ask for a how-to to be listed in the guide (#906).
+ *
+ * Exactly whoever may edit it, and deliberately not whoever may take part in it:
+ * `submittedToGuide` used to live inside `social`, which the rules open to every
+ * gallery member and expanded-access viewer, so anyone who could see a how-to
+ * could submit someone else's work under their name.
+ *
+ * Whether a submission is *ready* — published, and public, so that what a
+ * moderator approves is something the world can actually read — is a separate
+ * question. The form gates its button on it and `howToEdited` decides it
+ * server-side on every write, so it is not a permission and not here.
+ */
+export function canSubmitToGuide(
+    howTo: HowTo,
+    gallery: MaybeGallery,
+    uid: MaybeUser,
+): boolean {
+    return canEditHowTo(howTo, gallery, uid);
+}
+
+/** Whether asking would mean anything yet: a moderator can only approve what a
+ *  reader could then reach. */
+export function howToIsReadyForGuide(howTo: HowTo): boolean {
+    return howTo.isPublished() && howTo.isPublic();
+}

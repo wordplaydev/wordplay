@@ -3,6 +3,7 @@
     import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Link from '@components/app/Link.svelte';
+    import Nested from '@components/app/Nested.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import TutorialHighlight from '@components/app/TutorialHighlight.svelte';
     import {
@@ -102,6 +103,13 @@
         mode?: (typeof Modes)[number];
         purpose?: PurposeType;
         galleryOnly?: boolean;
+        /**
+         * The how-tos the guide lists for everyone (#906), which only the standalone
+         * guide fetches. Left empty elsewhere on purpose: an extra query on every
+         * project open, for a docs tile whose how-to section is already scoped to the
+         * project's gallery, is not worth it.
+         */
+        community?: GalleryHowTo[];
     }
 
     let {
@@ -112,6 +120,7 @@
         mode = $bindable(DefaultMode),
         purpose = $bindable(Purpose.Outputs),
         galleryOnly = $bindable(false),
+        community = [],
     }: Props = $props();
 
     let view: HTMLElement | undefined = $state();
@@ -327,11 +336,33 @@
      * accessible how-to belongs to a gallery in one of them — so naming a group
      * costs no fetch. The project's own gallery leads; the rest follow by name.
      */
+    /**
+     * The how-tos a moderator has listed in the guide, as concepts.
+     *
+     * Their own group rather than one per gallery: a reader who is in none of those
+     * galleries has no use for their names, and half of them are not even readable
+     * to say what they are called.
+     */
+    let communityConcepts: GalleryHowConcept[] = $derived(
+        index
+            ? community
+                  .map((ht) => index.getGalleryHowConcept(ht.getHowToId()))
+                  .filter((c): c is GalleryHowConcept => c !== undefined)
+            : [],
+    );
+
+    /** Ids the community group has already shown, so a member of the gallery it
+     *  came from doesn't meet the same how-to twice. */
+    let communityIDs = $derived(
+        new Set(community.map((ht) => ht.getHowToId())),
+    );
+
     let galleryHowGroups: HowToGroup[] = $derived.by(() => {
         if (index === undefined) return [];
         const groups = new Map<string, HowToGroup>();
         for (const howTo of scopedHowTos) {
             if (howTo.hasBookmarker($user?.uid ?? '')) continue;
+            if (communityIDs.has(howTo.getHowToId())) continue;
             const concept = index.getGalleryHowConcept(howTo.getHowToId());
             if (concept === undefined) continue;
             const id = howTo.getHowToGalleryId();
@@ -926,58 +957,19 @@
                              projects you can't see. The groups sit alongside the
                              built-in categories below, since a gallery is the
                              category here. -->
-                        {#if bookmarkedConcepts.length > 0}
-                            <Subheader text={(l) => l.ui.docs.how.bookmarked} />
-                            <div class="howtos">
-                                {#each bookmarkedConcepts as how (how.getHowToId())}
-                                    <ConceptPreview
-                                        concept={how}
-                                        node={how.getRepresentation()}
-                                        elide
-                                    />
-                                {/each}
-                            </div>
-                        {/if}
-                        {#each galleryHowGroups as group (group.id)}
-                            <Subheader wrap>
-                                {#if group.gallery}
-                                    <Link to={`/gallery/${group.id}/howto`}
-                                        >{group.gallery.getName($locales)}</Link
-                                    >
-                                {:else}
-                                    <LocalizedText
-                                        path={(l) =>
-                                            l.ui.docs.how.category.gallery}
-                                    />
-                                {/if}
-                            </Subheader>
-                            <div class="howtos">
-                                {#each group.concepts as how (how.getHowToId())}
-                                    <ConceptPreview
-                                        concept={how}
-                                        node={how.getRepresentation()}
-                                        elide
-                                    />
-                                {/each}
-                            </div>
-                        {/each}
-
-                        {@const builtInHowTo = index.concepts.filter(
-                            (c) => c instanceof HowConcept,
-                        )}
-                        {#each Object.keys(HowToCategories) as category}
-                            {@const categoryHowTos = builtInHowTo.filter(
-                                (howTo) => howTo.how.category === category,
-                            )}
-                            {#if categoryHowTos.length > 0}
+                        <!-- Three levels, because there are three: the section,
+                             where a how-to came from, and what it is about. They
+                             were one, so a gallery's name and "How-tos" itself
+                             read as peers. `Nested` deepens the outline for the
+                             names inside a source, so the document outline says
+                             the same thing the sizes do. -->
+                        <Nested>
+                            {#if bookmarkedConcepts.length > 0}
                                 <Subheader
-                                    text={(l) =>
-                                        l.ui.docs.how.category[
-                                            category as HowToCategory
-                                        ]}
+                                    text={(l) => l.ui.docs.how.bookmarked}
                                 />
                                 <div class="howtos">
-                                    {#each categoryHowTos as how (how.how.id)}
+                                    {#each bookmarkedConcepts as how (how.getHowToId())}
                                         <ConceptPreview
                                             concept={how}
                                             node={how.getRepresentation()}
@@ -986,7 +978,91 @@
                                     {/each}
                                 </div>
                             {/if}
-                        {/each}
+                            {#if communityConcepts.length > 0}
+                                <Subheader
+                                    text={(l) => l.ui.docs.how.community}
+                                />
+                                <div class="howtos">
+                                    {#each communityConcepts as how (how.getHowToId())}
+                                        <ConceptPreview
+                                            concept={how}
+                                            node={how.getRepresentation()}
+                                            elide
+                                        />
+                                    {/each}
+                                </div>
+                            {/if}
+                            {#if galleryHowGroups.length > 0}
+                                <Subheader
+                                    text={(l) => l.ui.docs.how.galleries}
+                                />
+                                <Nested>
+                                    {#each galleryHowGroups as group (group.id)}
+                                        <Subheader wrap>
+                                            {#if group.gallery}
+                                                <Link
+                                                    to={`/gallery/${group.id}/howto`}
+                                                    >{group.gallery.getName(
+                                                        $locales,
+                                                    )}</Link
+                                                >
+                                            {:else}
+                                                <LocalizedText
+                                                    path={(l) =>
+                                                        l.ui.docs.how.category
+                                                            .gallery}
+                                                />
+                                            {/if}
+                                        </Subheader>
+                                        <div class="howtos">
+                                            {#each group.concepts as how (how.getHowToId())}
+                                                <ConceptPreview
+                                                    concept={how}
+                                                    node={how.getRepresentation()}
+                                                    elide
+                                                />
+                                            {/each}
+                                        </div>
+                                    {/each}
+                                </Nested>
+                            {/if}
+
+                            {@const builtInHowTo = index.concepts.filter(
+                                (c) => c instanceof HowConcept,
+                            )}
+                            {#if builtInHowTo.length > 0}
+                                <Subheader
+                                    text={(l) => l.ui.docs.how.wordplay}
+                                />
+                                <Nested>
+                                    {#each Object.keys(HowToCategories) as category}
+                                        {@const categoryHowTos =
+                                            builtInHowTo.filter(
+                                                (howTo) =>
+                                                    howTo.how.category ===
+                                                    category,
+                                            )}
+                                        {#if categoryHowTos.length > 0}
+                                            <Subheader
+                                                text={(l) =>
+                                                    l.ui.docs.how.category[
+                                                        category as HowToCategory
+                                                    ]}
+                                            />
+                                            <div class="howtos">
+                                                {#each categoryHowTos as how (how.how.id)}
+                                                    <ConceptPreview
+                                                        concept={how}
+                                                        node={how.getRepresentation()}
+                                                        elide
+                                                    />
+                                                {/each}
+                                            </div>
+                                        {/if}
+                                    {/each}
+                                </Nested>
+                            {/if}
+                        </Nested>
                     {/if}
                 {:else if mode === 'kits'}
                     <!-- The published-kit registry, which used to be a route of its

@@ -47,6 +47,7 @@
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import GalleryQueue from './GalleryQueue.svelte';
+    import HowToQueue from './HowToQueue.svelte';
     import KitQueue from './KitQueue.svelte';
     import ReportQueue from './ReportQueue.svelte';
     import { Galleries } from '@db/Database';
@@ -60,6 +61,13 @@
         'projects',
         'galleries',
         'kits',
+        // Beside the other two listing queues, because that is what it is: three
+        // queues that answer "may this be listed" and then one that answers
+        // "has someone asked for a look". `moderation.queue` is a positional
+        // tuple and `locales-fix` only ever pads it by appending, so putting this
+        // here meant moving every locale's existing fourth string to fifth by
+        // hand — the same thing `kits` needed, and worth it for the same reason.
+        'how-tos',
         'messages',
     ] as const;
 
@@ -448,6 +456,8 @@
         <GalleryQueue />
     {:else if moderator === true && queue === 'kits'}
         <KitQueue />
+    {:else if moderator === true && queue === 'how-tos'}
+        <HowToQueue />
     {:else if moderator === true}
         <div class="moderate">
             <div class="flags">

@@ -22,6 +22,7 @@
     } from '@db/moderation/visibility';
     import getResponsibility from '@db/moderation/responsibility';
     import ReportButton from '@components/project/ReportButton.svelte';
+    import { anonymizeContributors } from '@db/creators/attribution';
     import GalleryModerationNotice from './GalleryModerationNotice.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -185,6 +186,22 @@
                   gallery.getCurators().includes($user.uid)
             : false,
     );
+    /**
+     * Whether to show the people here by their whole handle or by four characters
+     * of it (#906).
+     *
+     * One question, asked once: attribution follows visibility, the same rule
+     * `getResponsibility` applies to review. A public gallery grants a visitor read
+     * on everything it holds, so its curators, its creators, and the authors of the
+     * projects in it are all named — which is what the public galleries listing has
+     * always done and this page did not.
+     */
+    let credit = $derived(
+        gallery === undefined || gallery === null
+            ? true
+            : anonymizeContributors(galleryVisibility(gallery), editable),
+    );
+
     let projectsEditable = $derived(
         isAuthenticated($user) &&
             !!gallery &&
@@ -356,7 +373,7 @@
             {#if projects}
                 <ProjectPreviewSet
                     set={projects}
-                    anonymize={!projectsEditable}
+                    anonymize={credit}
                     showCollaborators={projectsEditable}
                     edit={projectsEditable
                         ? {
@@ -557,7 +574,7 @@
                                 />
                                 <CreatorList
                                     id="creator-to-add"
-                                    anonymize={!editable}
+                                    anonymize={credit}
                                     uids={settings.getCreators()}
                                     {editable}
                                     add={(userID) =>
@@ -584,7 +601,7 @@
                                 <CreatorList
                                     id="curator-to-add"
                                     uids={settings.getCurators()}
-                                    anonymize={!editable}
+                                    anonymize={credit}
                                     {editable}
                                     add={(userID) =>
                                         settings

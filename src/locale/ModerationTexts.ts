@@ -17,10 +17,12 @@ export type ModerationTexts = {
     /** Moderation view text */
     moderate: HeaderAndExplanationText;
     /** Which queue the moderator is working through: projects, galleries, kits asking to
-     *  be listed, or reports. Positional, and `locales-fix` pads by appending — so a
-     *  label added in the middle has to be scripted into every locale by hand, as `kits`
-     *  was. `ModerationQueues` in the moderate route is the list this labels. */
-    queue: ModeText<[string, string, string, string]>;
+     *  be listed, reports, or how-tos asking to be listed. Positional, and `locales-fix`
+     *  pads by appending — so a label added in the middle has to be scripted into every
+     *  locale by hand, as `kits` was, and how-tos were appended rather than grouped with
+     *  the other two listing queues for exactly that reason. `ModerationQueues` in the
+     *  moderate route is the list this labels. */
+    queue: ModeText<[string, string, string, string, string]>;
     /** [formatted] Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
     flags: FlagDescriptions;
     /** [formatted] Progress message */
@@ -137,6 +139,39 @@ export type ModerationTexts = {
             /** [formatted] A kit is now listed in the guide */
             approved: Template<['name']>;
             /** [formatted] A kit was not accepted for the guide */
+            denied: Template<['name']>;
+        };
+    };
+    /** Deciding whether a how-to is listed in the guide (#906). The same decision a
+     *  gallery and a kit ask for, and so the same shape. */
+    howto: {
+        /** [formatted] Shown to a creator whose how-to is waiting for a decision */
+        pending: FormattedText;
+        /** [formatted] Shown to a creator whose how-to is listed in the guide */
+        approved: FormattedText;
+        /** [formatted] Shown to a creator whose how-to was not accepted for the guide */
+        denied: FormattedText;
+        /** [formatted] Shown to a creator who could ask, but whose how-to is still a
+         *  draft or still private — the two things a moderator cannot approve around */
+        unready: FormattedText;
+        /** [plain] Names the how-to listing queue */
+        header: string;
+        /** [formatted] Shown to a moderator above a how-to awaiting a decision */
+        explain: FormattedText;
+        /** [formatted] Shown to a moderator when no how-to is waiting for a decision */
+        done: FormattedText;
+        /** The moderator's button that lists a how-to in the guide */
+        approve: ButtonText;
+        /** The moderator's button that refuses to list a how-to */
+        deny: ButtonText;
+        /** The moderator's button that leaves a how-to for someone else to decide */
+        skip: ButtonText;
+        /** The notification headers a creator gets when a decision is made, carrying the
+         *  how-to's title so a decision about a second one isn't read as a repeat. */
+        notification: {
+            /** [formatted] A how-to is now listed in the guide */
+            approved: Template<['name']>;
+            /** [formatted] A how-to was not accepted for the guide */
             denied: Template<['name']>;
         };
     };

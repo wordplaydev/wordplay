@@ -1,7 +1,7 @@
 <!-- @migration task: review uses of `navigating` -->
 <script lang="ts">
     import { navigating } from '$app/state';
-    import CreatorView from '@components/app/CreatorView.svelte';
+    import Contributors from '@components/app/Contributors.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import { UncomputablePreview } from '@components/app/previewTypes';
     import GlyphTile from '@components/app/GlyphTile.svelte';
@@ -10,7 +10,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
     import Note from '@components/widgets/Note.svelte';
-    import { Chats, Creators, DB, LoadedProjects, locales } from '@db/Database';
+    import { Chats, DB, LoadedProjects, locales } from '@db/Database';
     import { getLocalizedProjectName } from '@db/projects/getLocalizedProjectName';
     import { isFlagged } from '@db/projects/Moderation';
     import { isAudience } from '@db/projects/ModerationUtils';
@@ -322,28 +322,11 @@
             <!-- Show the owner when asked to attribute the project, or, on a
                  project the viewer can edit, alongside its collaborators. -->
             {#if owner !== null && (showOwner || (editable && showCollaborators && collaborators.length > 0))}
-                <div class="creators">
-                    {#await Creators.getCreator(owner)}
-                        <Spinning />
-                    {:then creator}
-                        <CreatorView {anonymize} {creator} />
-                    {/await}
-                    {#if showCollaborators}
-                        {#each collaborators.slice(0, 2) as collaborator}
-                            {#await Creators.getCreator(collaborator)}
-                                <Spinning />
-                            {:then collaboratorCreator}
-                                <CreatorView
-                                    {anonymize}
-                                    creator={collaboratorCreator}
-                                />
-                            {/await}
-                        {/each}
-                        {#if collaborators.length > 2}
-                            <span>...</span>
-                        {/if}
-                    {/if}
-                </div>
+                <Contributors
+                    creator={owner}
+                    collaborators={showCollaborators ? collaborators : []}
+                    {anonymize}
+                />
             {/if}
             {#if unread}
                 <!-- The logo's shapes face: an unread chat is the bubble
@@ -473,14 +456,6 @@
         animation-duration: calc(var(--animation-factor) * 1000ms);
         animation-delay: 0;
         animation-iteration-count: infinite;
-    }
-
-    .creators {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-        row-gap: var(--wordplay-spacing);
     }
 
     .match-text {

@@ -6,8 +6,14 @@
     import Notice from '@components/app/Notice.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import HowToModerationNotice from '@components/moderation/HowToModerationNotice.svelte';
+    import ReportButton from '@components/project/ReportButton.svelte';
+    import getResponsibility from '@db/moderation/responsibility';
+    import { howToVisibility } from '@db/moderation/visibility';
     import { getUser } from '@components/project/Contexts';
+    import Contributors from '@components/app/Contributors.svelte';
     import CreatorList from '@components/project/CreatorList.svelte';
+    import { anonymizeContributors } from '@db/creators/attribution';
     import Button from '@components/widgets/Button.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
@@ -33,6 +39,8 @@
         canDeleteHowTo,
         canEditHowTo,
         canInteractSocially,
+        canSubmitToGuide,
+        howToIsReadyForGuide,
     } from '@db/howtos/howToAccess';
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
     import { HowToFields } from '@db/rulesFields';
@@ -371,9 +379,41 @@
         howTo ? howTo.getReactions() : {},
     );
 
-    // let isSubmitted: boolean = $derived(
-    //     howTo ? howTo.getSubmittedToGuide() : false,
-    // );
+    let isSubmitted: boolean = $derived(
+        howTo ? howTo.getSubmittedToGuide() : false,
+    );
+
+    /** Whether asking would mean anything yet. A moderator can only say yes to
+     *  something a reader could then reach, so a draft and a private how-to are
+     *  both too early — and the guide's own query filters on both, which is what
+     *  keeps one withdrawn how-to from emptying the listing for everyone. */
+    let readyForGuide = $derived(howTo ? howToIsReadyForGuide(howTo) : false);
+
+    let canSubmit = $derived(
+        howTo ? canSubmitToGuide(howTo, gallery, $user?.uid) : false,
+    );
+
+    /** Whether the people who wrote this are named in full. Attribution follows
+     *  visibility, and anyone who may edit it is inside it either way. */
+    let creditAnonymized = $derived(
+        howTo === undefined
+            ? true
+            : anonymizeContributors(
+                  howToVisibility(howTo, gallery),
+                  canEditHowTo(howTo, gallery, $user?.uid),
+              ),
+    );
+
+    /** Whether there is anyone to ask about this how-to, and anyone to ask them.
+     *  Responsibility is derived server-side from what the how-to can reach; this
+     *  only offers to ask, and never of its own author. */
+    let reportable = $derived(
+        howTo !== undefined &&
+            $user !== null &&
+            $user !== undefined &&
+            howTo.getCreator() !== $user.uid &&
+            getResponsibility(howToVisibility(howTo, gallery)).kind !== 'none',
+    );
 
     let reactionButtons: ButtonText[] = $derived(
         Object.entries(
@@ -526,19 +566,15 @@
         }
     }
 
-    // function submitToGuide() {
-    //     if (!howTo) return;
-
-    //     howTo = new HowTo({
-    //         ...howTo.getData(),
-    //         social: {
-    //             ...howTo.getSocial(),
-    //             submittedToGuide: true,
-    //         },
-    //     });
-
-    //     HowTos.updateHowTo(howTo, true);
-    // }
+    async function submitToGuide() {
+        if (!howTo) return;
+        // One field. The version of this that shipped commented out rebuilt the
+        // whole document and sent all of it, which is the silent-refusal class of
+        // #1348-#1350: `withFields` bumps `v`, the rules refuse the write, and the
+        // how-to is left permanently unsaved on that device.
+        howTo = howTo.withFields({ submittedToGuide: true });
+        await HowTos.updateHowTo(howTo, true);
+    }
 
     async function addRemoveBookmark() {
         if (!$user || !howTo) return;
@@ -899,10 +935,11 @@
         <Header><MarkupHTMLView markup={titleInLocale} /></Header>
         <div class="howtometadata">
             <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
-                <CreatorList
-                    anonymize={false}
-                    editable={false}
-                    uids={allCollaborators}
+                <Contributors
+                    creator={howTo.getCreator()}
+                    collaborators={howTo.getCollaborators()}
+                    max={howTo.getCollaborators().length}
+                    anonymize={creditAnonymized}
                 />
             </Labeled>
             <Labeled label={(l) => l.ui.howto.viewer.reactionsPrompt} column>
@@ -956,24 +993,36 @@
                     }}
                     label={(l) => l.ui.howto.viewer.delete.prompt}
                 />
-                <!-- Removing this button since we do not have a corresponding design yet. 
-                 Filed as GitHub issue #906: https://github.com/wordplaydev/wordplay/issues/906 -->
-                <!-- <Button
-                    tip={(l) =>
-                        isSubmitted
-                            ? l.ui.howto.viewer.submitToGuide.alreadySubmitted
-                                  .tip
-                            : l.ui.howto.viewer.submitToGuide.submit.tip}
-                    label={(l) =>
-                        isSubmitted
-                            ? l.ui.howto.viewer.submitToGuide.alreadySubmitted
-                                  .label
-                            : l.ui.howto.viewer.submitToGuide.submit.label}
-                    active={!isSubmitted}
-                    action={() => {
-                        submitToGuide();
-                    }}
-                /> -->
+                <!-- Asking for this how-to to be listed in the guide (#906).
+                     Shown to whoever may edit it, and inactive until it is posted
+                     and public: those are the two things a moderator cannot
+                     approve around, and saying so here beats a refusal later. -->
+                {#if canSubmit}
+                    <Button
+                        tip={(l) =>
+                            isSubmitted
+                                ? l.ui.howto.viewer.submitToGuide
+                                      .alreadySubmitted.tip
+                                : readyForGuide
+                                  ? l.ui.howto.viewer.submitToGuide.submit.tip
+                                  : l.moderation.howto.unready}
+                        label={(l) =>
+                            isSubmitted
+                                ? l.ui.howto.viewer.submitToGuide
+                                      .alreadySubmitted.label
+                                : l.ui.howto.viewer.submitToGuide.submit.label}
+                        active={!isSubmitted && readyForGuide}
+                        action={() => submitToGuide()}
+                    />
+                {/if}
+            {/if}
+            {#if reportable}
+                <ReportButton
+                    kind="howto"
+                    subject={howToId}
+                    name={howTo?.getTitleInLocale($locales.getLocaleString()) ??
+                        ''}
+                />
             {/if}
             <Button
                 tip={(l) =>
@@ -1000,6 +1049,19 @@
                 }}
             />
         </div>
+        <!-- Where this how-to stands with the guide (#906), in a section of its
+             own. It was a banner in the toolbar, which pushed the controls apart
+             and moved the submit button every time the answer changed. Shown only
+             once there is an answer to give: before that the button says
+             everything, including why it is inactive. -->
+        {#if canSubmit && (isSubmitted || howTo.getModeration() !== 'unrequested')}
+            <div class="how-to-moderation">
+                <Subheader
+                    text={(l) => l.ui.howto.viewer.submitToGuide.header}
+                />
+                <HowToModerationNotice {howTo} />
+            </div>
+        {/if}
         <div class="how-to-text" id="howtoview">
             {#each howTo.getText() as markup, i (i)}
                 <HowToPrompt text={(l) => prompts[i]} />
@@ -1021,10 +1083,11 @@
         <Header><MarkupHTMLView markup={titleInLocale} /></Header>
         <div class="creatorlist">
             <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
-                <CreatorList
-                    anonymize={false}
-                    editable={false}
-                    uids={allCollaborators}
+                <Contributors
+                    creator={howTo.getCreator()}
+                    collaborators={howTo.getCollaborators()}
+                    max={howTo.getCollaborators().length}
+                    anonymize={creditAnonymized}
                 />
             </Labeled>
         </div>
@@ -1034,16 +1097,27 @@
             <HowToPrompt text={(l) => prompts[i]} />
             <MarkupHTMLView {markup} />
         {/each}
+        <!-- The one thing someone outside the space can do about what they just
+             read. A how-to has been a reportable subject since #938 and no
+             surface has ever offered it. -->
+        {#if reportable}
+            <ReportButton
+                kind="howto"
+                subject={howToId}
+                name={howTo.getTitleInLocale($locales.getLocaleString())}
+            />
+        {/if}
     {:else if howTo}
         <Header>
             <MarkupHTMLView markup={titleInLocale} />
         </Header>
         <div class="creatorlist">
             <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
-                <CreatorList
-                    anonymize={false}
-                    editable={false}
-                    uids={allCollaborators}
+                <Contributors
+                    creator={howTo.getCreator()}
+                    collaborators={howTo.getCollaborators()}
+                    max={howTo.getCollaborators().length}
+                    anonymize={creditAnonymized}
                 />
                 {#if !isPublished}
                     <MarkupHTMLView markup={(l) => l.ui.howto.drafts.note} />
@@ -1119,13 +1193,25 @@
     /* Metadata row below the header: written-by, reactions, and used-by,
        wrapping so the row stays compact and lets the content below use the
        full dialog width. */
+    .how-to-moderation {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        margin: var(--wordplay-spacing);
+        margin-block-start: calc(2 * var(--wordplay-spacing));
+    }
+
     .howtometadata {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
         column-gap: calc(2 * var(--wordplay-spacing));
-        align-items: start;
+        /* Baseline, not start: each of these is a `Labeled`, which baseline-aligns
+           its own label against its content — and a creator chip is a padded box
+           much taller than a line of text, so aligning the boxes at the top left
+           each label at a different height and the row climbed to the right. */
+        align-items: baseline;
         margin: var(--wordplay-spacing);
     }
 

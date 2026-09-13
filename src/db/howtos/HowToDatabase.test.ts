@@ -94,10 +94,13 @@ vi.mock('@db/galleries/GalleryDatabase.svelte', () => ({
 vi.mock('@db/Database', () => ({}));
 
 import HowTo, {
+    type HowToDocument,
+    type HowToUnknownVersion,
     FirstFallbackDelay,
     HowToDatabase,
     HowToSchemaLatestVersion,
     HowTosCollection,
+    howToListingInitial,
     upgradeHowTo,
 } from './HowToDatabase.svelte';
 import Gallery from '@db/galleries/Gallery';
@@ -112,14 +115,17 @@ const baseSocial = {
     usedByProjects: [],
     chat: null,
     bookmarkers: [],
-    submittedToGuide: false,
     seenByUsers: [],
     viewCount: 0,
 };
 
+/** Typed, so the literal below doesn't widen `v` to `number`. */
+const Latest: HowToDocument['v'] = HowToSchemaLatestVersion;
+
 function makeHowToDoc(overrides: Record<string, unknown> = {}) {
     return {
-        v: HowToSchemaLatestVersion as 3,
+        ...howToListingInitial(),
+        v: Latest,
         id: 'ht-1',
         galleryId: 'g-1',
         published: false,
@@ -558,6 +564,56 @@ describe('upgradeHowTo', () => {
         const upgraded = upgradeHowTo(v2);
         expect(upgraded.v).toBe(HowToSchemaLatestVersion);
         expect(upgraded).not.toHaveProperty('preview');
+    });
+
+    it('a v3 doc arrives unlisted and having asked for nothing', () => {
+        const { submittedToGuide, moderation, moderatedAt, flags, ...rest } =
+            makeHowToDoc();
+        const upgraded = upgradeHowTo({ ...rest, v: 3 as const });
+        expect(upgraded.submittedToGuide).toBe(false);
+        expect(upgraded.moderation).toBe('unrequested');
+        expect(upgraded.moderatedAt).toBe(null);
+        expect(Object.values(upgraded.flags)).toEqual([null, null, null, null]);
+    });
+
+    it('a doc already claiming the latest version still gets the fields', () => {
+        // `withFields` bumps `v` on every save without adding fields, so a
+        // how-to edited by v4 code before this shipped reaches storage claiming
+        // v4 and carrying none of them. Returning it as-is would skip the
+        // backfill forever — which is how a pending kit once became invisible
+        // to the moderator queue.
+        const { submittedToGuide, moderation, moderatedAt, flags, ...rest } =
+            makeHowToDoc();
+        const mislabelled: HowToUnknownVersion = {
+            ...rest,
+            v: HowToSchemaLatestVersion,
+        };
+        const upgraded = upgradeHowTo(mislabelled);
+        expect(upgraded.moderation).toBe('unrequested');
+        expect(upgraded.submittedToGuide).toBe(false);
+    });
+
+    it('keeps a decision a stored doc already carries', () => {
+        const upgraded = upgradeHowTo(
+            makeHowToDoc({ moderation: 'approved', moderatedAt: 7 }),
+        );
+        expect(upgraded.moderation).toBe('approved');
+        expect(upgraded.moderatedAt).toBe(7);
+    });
+});
+
+describe('isListed', () => {
+    // All three, because the guide's query filters on all three: Firestore
+    // denies a whole query when one matched document fails its read rule.
+    it.each([
+        [{ published: true, isPublic: true, moderation: 'approved' }, true],
+        [{ published: false, isPublic: true, moderation: 'approved' }, false],
+        [{ published: true, isPublic: false, moderation: 'approved' }, false],
+        [{ published: true, isPublic: true, moderation: 'pending' }, false],
+    ])('%o is %s', (fields, listed) => {
+        expect(new HowTo(upgradeHowTo(makeHowToDoc(fields))).isListed()).toBe(
+            listed,
+        );
     });
 });
 

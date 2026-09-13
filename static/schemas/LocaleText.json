@@ -19130,6 +19130,10 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "community": {
+                                            "description": "[plain] The subheader for how-tos a moderator has listed in the guide, which everyone sees. Not a key in `category` below: that is a record over the built-in how-to categories, and a key added there would render as an empty one — and the same goes for the two beneath it.",
+                                            "type": "string"
+                                        },
                                         "conceptHowTos": {
                                             "description": "[plain] The heading for the list of how-tos relevant to a concept, shown in the concept sidebar",
                                             "type": "string"
@@ -19138,6 +19142,10 @@
                                             "$ref": "#/definitions/HeaderAndExplanationText",
                                             "description": "Header and explanation of what how-tos are, shown atop the how-to section"
                                         },
+                                        "galleries": {
+                                            "description": "[plain] The subheader over the how-tos from galleries this creator is in, each of which is named beneath it",
+                                            "type": "string"
+                                        },
                                         "howToGalleryButton": {
                                             "$ref": "#/definitions/ButtonText",
                                             "description": "Button text to go to the how-to in the space"
@@ -19145,12 +19153,19 @@
                                         "related": {
                                             "description": "[plain] The subheader for related how to's",
                                             "type": "string"
+                                        },
+                                        "wordplay": {
+                                            "description": "[plain] The subheader over the how-tos that ship with Wordplay, whose categories are named beneath it",
+                                            "type": "string"
                                         }
                                     },
                                     "required": [
                                         "explain",
                                         "category",
                                         "bookmarked",
+                                        "community",
+                                        "galleries",
+                                        "wordplay",
                                         "related",
                                         "conceptHowTos",
                                         "howToGalleryButton"
@@ -20641,13 +20656,18 @@
                                                 "alreadySubmitted": {
                                                     "$ref": "#/definitions/ButtonText"
                                                 },
+                                                "header": {
+                                                    "description": "[plain] Names the section below the controls that says where this how-to stands with the guide. Its own string rather than the moderator queue's header, which names a queue of other people's how-tos rather than this creator's standing.",
+                                                    "type": "string"
+                                                },
                                                 "submit": {
                                                     "$ref": "#/definitions/ButtonText"
                                                 }
                                             },
                                             "required": [
                                                 "submit",
-                                                "alreadySubmitted"
+                                                "alreadySubmitted",
+                                                "header"
                                             ],
                                             "type": "object"
                                         },
@@ -29113,6 +29133,82 @@
                     ],
                     "type": "object"
                 },
+                "howto": {
+                    "additionalProperties": false,
+                    "description": "Deciding whether a how-to is listed in the guide (#906). The same decision a gallery and a kit ask for, and so the same shape.",
+                    "properties": {
+                        "approve": {
+                            "$ref": "#/definitions/ButtonText",
+                            "description": "The moderator's button that lists a how-to in the guide"
+                        },
+                        "approved": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a creator whose how-to is listed in the guide"
+                        },
+                        "denied": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a creator whose how-to was not accepted for the guide"
+                        },
+                        "deny": {
+                            "$ref": "#/definitions/ButtonText",
+                            "description": "The moderator's button that refuses to list a how-to"
+                        },
+                        "done": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a moderator when no how-to is waiting for a decision"
+                        },
+                        "explain": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a moderator above a how-to awaiting a decision"
+                        },
+                        "header": {
+                            "description": "[plain] Names the how-to listing queue",
+                            "type": "string"
+                        },
+                        "notification": {
+                            "additionalProperties": false,
+                            "description": "The notification headers a creator gets when a decision is made, carrying the how-to's title so a decision about a second one isn't read as a repeat.",
+                            "properties": {
+                                "approved": {
+                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                    "description": "[formatted] A how-to is now listed in the guide"
+                                },
+                                "denied": {
+                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                    "description": "[formatted] A how-to was not accepted for the guide"
+                                }
+                            },
+                            "required": ["approved", "denied"],
+                            "type": "object"
+                        },
+                        "pending": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a creator whose how-to is waiting for a decision"
+                        },
+                        "skip": {
+                            "$ref": "#/definitions/ButtonText",
+                            "description": "The moderator's button that leaves a how-to for someone else to decide"
+                        },
+                        "unready": {
+                            "$ref": "#/definitions/FormattedText",
+                            "description": "[formatted] Shown to a creator who could ask, but whose how-to is still a draft or still private — the two things a moderator cannot approve around"
+                        }
+                    },
+                    "required": [
+                        "pending",
+                        "approved",
+                        "denied",
+                        "unready",
+                        "header",
+                        "explain",
+                        "done",
+                        "approve",
+                        "deny",
+                        "skip",
+                        "notification"
+                    ],
+                    "type": "object"
+                },
                 "kit": {
                     "additionalProperties": false,
                     "description": "Deciding whether a kit is listed in the guide (#8). The same decision a gallery asks for, and so the same shape.",
@@ -29193,8 +29289,8 @@
                     "description": "[formatted] Progress message"
                 },
                 "queue": {
-                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
-                    "description": "Which queue the moderator is working through: projects, galleries, kits asking to be listed, or reports. Positional, and `locales-fix` pads by appending — so a label added in the middle has to be scripted into every locale by hand, as `kits` was. `ModerationQueues` in the moderate route is the list this labels."
+                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%2Cstring%5D%3E",
+                    "description": "Which queue the moderator is working through: projects, galleries, kits asking to be listed, reports, or how-tos asking to be listed. Positional, and `locales-fix` pads by appending — so a label added in the middle has to be scripted into every locale by hand, as `kits` was, and how-tos were appended rather than grouped with the other two listing queues for exactly that reason. `ModerationQueues` in the moderate route is the list this labels."
                 },
                 "report": {
                     "additionalProperties": false,
@@ -29317,6 +29413,7 @@
                 "responsibility",
                 "gallery",
                 "kit",
+                "howto",
                 "error"
             ],
             "type": "object"
