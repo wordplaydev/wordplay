@@ -971,7 +971,6 @@
         "e84378f19e20d": "$~Tu peux maintenant demander qu'un comment faire soit relu, comme tu peux le faire pour un projet ou un dessin. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
         "e0634f7a90e52": "$~Les comment faire et les kits dans le <Guide@https://wordplay.dev/guide> montrent maintenant qui les a créés. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
         "e089e7d53887b": "$~Une galerie que tout le monde peut voir montre maintenant le nom complet de chaque personne qui y participe, au lieu des seules premières lettres. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
-        "ec0822aa79180": "$~Wordplay peut maintenant t'envoyer un courriel quand quelque chose que tu veux savoir arrive, comme une décision sur quelque chose que tu as fait. Tu choisis les types de courriels que tu reçois sur ta page de profil.",
         "ea81ddc87b61c": "$~Les modérateurs et les conservateurs voient maintenant combien de choses attendent leur relecture, sans avoir besoin d'aller vérifier.",
         "e88f690999de4": "$~Les courriels que nous envoyons ressemblent maintenant à Wordplay, et leurs boutons sont plus faciles à lire.",
         "efa3f7d56bf19": "$~Les courriels sur ton travail ont maintenant des lignes d'objet courtes qui disent ce qui s'est passé. Celui qui parle d'un nouveau commentaire mène directement à celui-ci.",
