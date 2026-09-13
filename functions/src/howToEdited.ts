@@ -3,6 +3,8 @@ import type {
     DocumentSnapshot,
     FirestoreEvent,
 } from 'firebase-functions/v2/firestore';
+import { getFirestore, type Firestore } from 'firebase-admin/firestore';
+import { emailNotice } from './notices.js';
 import { nextModeration } from './moderationRequest.js';
 
 /**
@@ -114,6 +116,9 @@ export default async function howToEdited(
     // Deleted, or never there.
     if (after === undefined) return;
 
+    // Before the moderation branches below, any of which may return early.
+    await announcePublished(getFirestore(), event.params.id, before, after);
+
     const moderation =
         typeof after.moderation === 'string' ? after.moderation : 'unrequested';
 
@@ -130,6 +135,10 @@ export default async function howToEdited(
         moderation,
         requestedForGuide(after),
         howToContentChanged(before, after),
+        // Pressing the button again after a refusal, which for a how-to is a
+        // real transition: the decision cleared `submittedToGuide`.
+        (before === undefined || !requestedForGuide(before)) &&
+            requestedForGuide(after),
     );
 
     // This trigger's own write comes back through it, so writing nothing when
@@ -142,5 +151,66 @@ export default async function howToEdited(
     return event.data?.after.ref.update({
         moderation: next,
         moderatedAt: Date.now(),
+    });
+}
+
+/**
+ * Tell a gallery that one of its how-tos has been published.
+ *
+ * The one derived notice with a real transition to hang mail off: `published`
+ * going from not-true to true happens exactly once, and this trigger is the
+ * only place that can see it. The bell still derives its own copy from the
+ * how-to, within a thirty-day window — this only sends.
+ *
+ * Honors the two gates the bell honors: the writer's own choice not to
+ * announce it, and each reader's how-to notification preference, which
+ * `notifyByEmail` reads along with everything else.
+ */
+export async function announcePublished(
+    db: Firestore,
+    id: string,
+    before: Record<string, unknown> | undefined,
+    after: Record<string, unknown>,
+): Promise<void> {
+    if (before?.published === true || after.published !== true) return;
+    // The author's own choice, which the push this replaced also honored.
+    const social = after.social;
+    if (
+        typeof social !== 'object' ||
+        social === null ||
+        (social as Record<string, unknown>).notifySubscribers !== true
+    )
+        return;
+
+    const galleryId =
+        typeof after.galleryId === 'string' ? after.galleryId : '';
+    if (galleryId === '') return;
+    const gallery = (
+        await db.collection('galleries').doc(galleryId).get()
+    ).data();
+    if (gallery === undefined) return;
+
+    const creator = typeof after.creator === 'string' ? after.creator : '';
+    const members = [
+        ...listOf(gallery.curators),
+        ...listOf(gallery.creators),
+        // Expanded visibility widens who can read a how-to, and so who it is
+        // news to — unless this one opted out of it.
+        ...(gallery.howToExpandedVisibility === true &&
+        after.scopeOverwrite !== true
+            ? listOf(gallery.howToViewersFlat)
+            : []),
+    ].filter((who) => who !== creator);
+
+    const title = typeof after.title === 'string' ? after.title : '';
+    await emailNotice(members, {
+        id: `howto-${id}`,
+        kind: 'howto-published',
+        subject: { kind: 'howto', id, gallery: galleryId },
+        title,
+        time:
+            typeof after.publishedAt === 'number'
+                ? after.publishedAt
+                : Date.now(),
     });
 }

@@ -32,6 +32,8 @@ import type { Path } from '@nodes/Root';
 import type { SerializedCaret } from '@db/projects/ProjectSchemas';
 import { DarkSetting } from '@db/settings/DarkSetting';
 import { FaceSetting } from '@db/settings/FaceSetting';
+import { EmailNotificationsSetting } from '@db/settings/EmailNotificationsSetting';
+import type { EmailNotificationSettings } from 'shared-types';
 import { HowToNotificationsSetting } from '@db/settings/HowToNotificationsSetting';
 import { LayoutsSetting } from '@db/settings/LayoutsSetting';
 import {
@@ -189,8 +191,22 @@ export type SettingsSchemaV8 = Omit<SettingsSchemaV7, 'v'> & {
     chatThreads?: ChatThreadsSeen;
 };
 
-export type SettingsSchema = SettingsSchemaV8;
-const SettingsSchemaLatestVersion = 8;
+/**
+ * v9 adds which kinds of email a creator wants.
+ *
+ * Optional for the reason every field since v6 is: a document written before
+ * this genuinely lacks it, and filling in a default during the upgrade would
+ * let the first sync overwrite a choice made on another device. An absent
+ * value means "never chosen", which the defaults answer — not "wants nothing".
+ */
+export type SettingsSchemaV9 = Omit<SettingsSchemaV8, 'v'> & {
+    v: 9;
+    /** Which groups of notification email to send. */
+    emailNotifications?: EmailNotificationSettings;
+};
+
+export type SettingsSchema = SettingsSchemaV9;
+const SettingsSchemaLatestVersion = 9;
 
 type SettingsSchemaUnknown =
     | SettingsSchemaV1
@@ -200,6 +216,7 @@ type SettingsSchemaUnknown =
     | SettingsSchemaV5
     | SettingsSchemaV6
     | SettingsSchemaV7
+    | SettingsSchemaV8
     | SettingsSchema;
 
 function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
@@ -245,6 +262,10 @@ function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
             // v7→v8: nothing to fill in either — an absent `chatThreads` means
             // "unknown", not "has read nothing".
             return upgradeSettings({ ...settings, v: 8 });
+        case 8:
+            // v8→v9: nothing to fill in — an absent `emailNotifications` means
+            // "never chosen", which the defaults answer.
+            return upgradeSettings({ ...settings, v: 9 });
         case SettingsSchemaLatestVersion:
             return settings;
         default:
@@ -285,6 +306,7 @@ export default class SettingsDatabase {
         annotations: AnnotationsSetting,
         wellspring: WellspringSetting,
         howToNotifications: HowToNotificationsSetting,
+        emailNotifications: EmailNotificationsSetting,
         updates: UpdatesSetting,
         say: SaySetting,
         tab: TabSetting,
@@ -396,6 +418,11 @@ export default class SettingsDatabase {
                 this.settings.tours.set(this.database, data.tours);
             if (data.chatThreads !== undefined)
                 this.settings.chatThreads.set(this.database, data.chatThreads);
+            if (data.emailNotifications !== undefined)
+                this.settings.emailNotifications.set(
+                    this.database,
+                    data.emailNotifications,
+                );
         }
     }
 
@@ -885,6 +912,14 @@ export default class SettingsDatabase {
         this.settings.howToNotifications.set(this.database, on);
     }
 
+    getEmailNotifications(): EmailNotificationSettings {
+        return this.settings.emailNotifications.get();
+    }
+
+    setEmailNotifications(chosen: EmailNotificationSettings) {
+        this.settings.emailNotifications.set(this.database, chosen);
+    }
+
     getHowToNotifications() {
         return this.settings.howToNotifications.get();
     }
@@ -907,6 +942,7 @@ export default class SettingsDatabase {
             tutorial: this.settings.tutorial.get(),
             writingLayout: this.settings.writingLayout.get(),
             newHowToNotifications: this.settings.howToNotifications.get(),
+            emailNotifications: this.settings.emailNotifications.get(),
             projectFolders: this.settings.projectFolders.get(),
             projectSort: this.settings.projectSort.get(),
             tours: this.settings.tours.get(),

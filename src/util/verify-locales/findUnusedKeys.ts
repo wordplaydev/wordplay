@@ -38,6 +38,15 @@ const ALWAYS_USED_PREFIXES: readonly string[] = [
     // getOutputLocales at runtime against the live definition classes.
     'input',
     'output',
+    // The email copy is read by the cloud functions, which fetch this locale's
+    // deployed JSON over HTTP — `functions/` compiles with its own rootDir and
+    // cannot import an accessor. Nothing in `src/` reads these, and nothing
+    // should: a callable that took mail copy from a caller would be a phishing
+    // relay. `ui.email` escapes today only because some of its fields are
+    // Templates and so appear in templateInputs.generated.ts; these are plain
+    // strings, which is the only reason they look different.
+    'ui.email',
+    'moderation.subject',
 ];
 
 /** Identifier names that typically reference a locale object. Property chains

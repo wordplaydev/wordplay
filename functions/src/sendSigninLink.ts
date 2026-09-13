@@ -61,12 +61,7 @@ export default async function sendSigninLink(
                 email,
                 signinLinkSettings(),
             );
-            await sendSigninEmail(
-                email,
-                link,
-                locale,
-                process.env.RESEND_API_KEY ?? '',
-            );
+            await sendSigninEmail(email, link, locale);
         }
     } catch (error) {
         // Logged, not returned: a failure that only happens for real accounts

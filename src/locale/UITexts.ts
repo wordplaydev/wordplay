@@ -101,6 +101,98 @@ type UITexts = {
      *  own language. Plain text only: it is assembled into HTML server-side, and
      *  markup would arrive as literal characters. */
     email: {
+        /** The notice emails a creator can choose to receive. Read by
+         *  the cloud functions out of this locale's deployed JSON, the same way
+         *  the sign-in mail is. Plain text only: it is assembled into HTML
+         *  server-side, and markup would arrive as literal characters. */
+        notice: {
+            /** [plain] The label on the button in a notice email that opens what it is about */
+            open: string;
+            /** [plain] The link at the foot of a notice email, leading to where these can be turned off */
+            manage: string;
+            /** The subject line of a notice email. Short — five or six words —
+             *  because a mailbox list truncates, and it names the kind of thing
+             *  ($kind: "project", "how-to") rather than its title, which the
+             *  sentence inside carries. Deliberately not the in-app
+             *  notification's wording: that is a list item, and this is an
+             *  envelope. */
+            subject: {
+                /** [plain] Something the reader made was reported */
+                reported: Template<['kind']>;
+                /** [plain] The reader's own report reached whoever reviews it */
+                received: string;
+                /** [plain] A moderator decided something about the reader's work */
+                decision: Template<['kind']>;
+                /** [plain] Something is waiting for the reader to review */
+                review: string;
+                /** [plain] The reader was warned about something they shared */
+                warning: string;
+                /** [plain] A decision about whether the reader's work is listed */
+                listing: Template<['kind']>;
+                /** [plain] A how-to was published in a gallery the reader is in */
+                howto: string;
+            };
+            /** The sentence inside a notice email, under the heading. A whole
+             *  sentence with its own final punctuation, carrying $title — which
+             *  is the name of the thing, captured when the notice was made. */
+            body: {
+                /** [plain] Something the reader made was reported */
+                reported: Template<['title']>;
+                /** [plain] The reader's own report reached whoever reviews it */
+                received: Template<['title']>;
+                /** [plain] A moderator decided something about the reader's work */
+                decision: Template<['title']>;
+                /** [plain] Something is waiting for the reader to review */
+                review: Template<['title']>;
+                /** [plain] The reader was warned, with $#count as which warning this is */
+                warning: Template<['#count']>;
+                /** [plain] A decision about whether the reader's work is listed */
+                listing: Template<['title']>;
+                /** [plain] A how-to was published in a gallery the reader is in */
+                howto: Template<['title']>;
+            };
+            /** A few words at the top of a notice email saying what kind of news
+             *  it is. Short on purpose: the sentence explaining it follows
+             *  underneath, and a heading that repeats it reads as shouting. */
+            heading: {
+                /** [plain] Something the reader made was reported */
+                reported: string;
+                /** [plain] A moderator decided something */
+                decision: string;
+                /** [plain] Something is waiting for the reader to review */
+                review: string;
+                /** [plain] The reader was warned about something they shared */
+                warning: string;
+                /** [plain] A gallery, kit, or how-to was or wasn't listed */
+                listing: string;
+                /** [plain] A how-to was published in a gallery the reader is in */
+                howto: string;
+                /** [plain] There are unread messages */
+                chat: string;
+            };
+        };
+        /** The daily summary of work waiting for a moderator or curator. */
+        review: {
+            /** [plain] The subject line, with $#count as how many things are waiting */
+            subject: Template<['#count']>;
+            /** [plain] A few words at the top, with $#count as how many things are waiting. Short: the sentence below explains it. */
+            heading: Template<['#count']>;
+            /** [plain] The sentence under the heading saying where the things are waiting */
+            body: string;
+            /** [plain] The label on the button that opens the review queue */
+            open: string;
+        };
+        /** The summary of unread conversations. */
+        chat: {
+            /** [plain] The subject line. Deliberately carries no count: the number of conversations belongs in the message, and a subject that changes with it reads as a different email each time. */
+            subject: string;
+            /** [plain] A few words at the top. Short: the sentence below explains it. */
+            heading: string;
+            /** [plain] The sentence under the heading, with $#count as how many conversations have unread messages */
+            body: Template<['#count']>;
+            /** [plain] The label on the button that opens the reader's projects */
+            open: string;
+        };
         signin: {
             /** [plain] The subject line of the sign-in link email */
             subject: string;
@@ -2164,6 +2256,8 @@ type UITexts = {
                 note: string;
                 /** [plain] Link label to view notification details */
                 link: string;
+                /** [plain] Title for the notice saying work is waiting in a reviewer's queue, with $#count as how many things. Derived from the queues a reviewer can already read rather than delivered, since they can see the documents it is about. */
+                reviewPending: Template<['#count']>;
             };
             /** [plain] Tooltip for the button that deletes a notification */
             delete: string;

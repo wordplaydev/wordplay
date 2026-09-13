@@ -2,6 +2,7 @@
     import { browser } from '$app/environment';
     import Loading from '@components/app/Loading.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import Writing from '@components/app/Writing.svelte';
     import { getUser } from '@components/project/Contexts';
     import { authAttempted } from '@db/Database';
@@ -18,6 +19,11 @@
         if (browser && $authAttempted && $user === null) localeGoto('/login');
     });
 </script>
+
+<!-- The tab needs a name of its own: the page's own heading is the creator's
+     username, which is not ours to translate. Missing until the profile grew headings, because
+     /profile was in neither axe suite and nothing checked. -->
+<Title text={(l) => l.ui.page.login.profile} />
 
 <!-- Is the user logged in?  -->
 {#if $user === undefined}

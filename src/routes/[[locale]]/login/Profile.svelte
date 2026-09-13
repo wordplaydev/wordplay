@@ -4,11 +4,9 @@
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import EmojiChooser from '@components/widgets/GlyphChooser.svelte';
-    import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { getUsername } from '@db/creators/handle.svelte';
     import { DB } from '@db/Database';
@@ -16,6 +14,10 @@
     import { updateProfile, type User } from 'firebase/auth';
     import ChangeEmail from './ChangeEmail.svelte';
     import ChangePassword from './ChangePassword.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
+    import EmailNotifications from './EmailNotifications.svelte';
     import SigninMethod from './SigninMethod.svelte';
     import Username from './Username.svelte';
     import DeleteAccount from './DeleteAccount.svelte';
@@ -71,12 +73,14 @@
 
 <div class="actions" data-testid="profile">
     <Action>
+        <Subheader text={(l) => l.ui.page.login.subheader.work} />
         <LocalizedText path={(l) => l.ui.page.login.prompt.play} />
         <Link to="/projects" label={(l) => l.ui.page.projects.header} />
         <Link to="/characters" label={(l) => l.ui.page.characters.header} />
         <Link to="/teach" label={(l) => l.ui.page.teach.header} />
     </Action>
     <Action>
+        <Subheader text={(l) => l.ui.page.login.subheader.character} />
         <LocalizedText path={(l) => l.ui.page.login.prompt.name} />
         <EmojiChooser
             pick={(name) => rename(name)}
@@ -84,6 +88,36 @@
         />
     </Action>
     <Action>
+        <Subheader text={(l) => l.ui.page.login.subheader.username} />
+        <Username {user} />
+    </Action>
+    <!-- Password and email are exclusive: a username account has no address to
+         change, and an email account has no password. So they are two sections
+         rather than one, and only one of them is ever here. -->
+    {#if Creator.isUsername(user.email ?? '')}
+        <Action>
+            <Subheader text={(l) => l.ui.page.login.subheader.password} />
+            <ChangePassword {user} />
+        </Action>
+    {/if}
+    <!-- Everything about the address in one place: whether there is one, how to
+         get or drop one, and what we send to it. Split across blocks, the copy
+         had to point at a neighbour — and in a wrapping row, "below" depends on
+         how wide the window is. -->
+    <Action>
+        <Subheader text={(l) => l.ui.page.login.subheader.email} />
+        <!-- Three parts in one card, so each needs to read as a part. Without
+             the wrappers they are a flat run of paragraphs and forms, and a
+             form carries no bottom margin where a paragraph carries 1.5em — so
+             a field ended up flush against the next part's first sentence. -->
+        {#if !Creator.isUsername(user.email ?? '')}
+            <div class="part"><ChangeEmail {user} /></div>
+        {/if}
+        <div class="part"><SigninMethod {user} /></div>
+        <div class="part"><EmailNotifications {user} /></div>
+    </Action>
+    <Action>
+        <Subheader text={(l) => l.ui.page.login.subheader.logout} />
         <MarkupHTMLView markup={(l) => l.ui.page.login.prompt.logout} />
         {#if unsaved > 0}
             <Notice text={(l) => l.ui.page.login.error.unsaved} />
@@ -97,25 +131,10 @@
             testid="logout"
         />
     </Action>
-    <!-- What this account uses today, and how to change it. Both are shown,
-         because they are different questions: one changes a credential, the
-         other changes which credential you have. -->
-    {#if Creator.isUsername(user.email ?? '')}
-        <Action>
-            <ChangePassword {user} />
-        </Action>
-    {:else}
-        <Action>
-            <ChangeEmail {user} />
-        </Action>
-    {/if}
     <Action>
-        <Username {user} />
+        <Subheader text={(l) => l.ui.page.login.subheader.delete} />
+        <DeleteAccount {user} />
     </Action>
-    <Action>
-        <SigninMethod {user} />
-    </Action>
-    <Action><DeleteAccount {user} /></Action>
 </div>
 
 <style>
@@ -124,6 +143,22 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
+        /* Each card is as tall as what it holds. Stretching them to match the
+           tallest in the row made short ones — the three links, the logout
+           button — into mostly empty boxes beside the character picker, which
+           is several hundred pixels of emoji. */
+        align-items: start;
+    }
+
+    .part {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+    }
+
+    /* Separation between the parts, on top of the card's own gap. */
+    .part + .part {
+        margin-block-start: var(--wordplay-spacing);
     }
 
     .emoji {

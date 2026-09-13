@@ -970,6 +970,13 @@
         "e3083faa58e3f": "$~Du kannst jetzt darum bitten, dass ein von dir geschriebenes Wie-man im <Leitfaden@https://wordplay.dev/guide> aufgeführt wird. Jeder kann es dort lesen, sobald ein Moderator zustimmt. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
         "e84378f19e20d": "$~Du kannst jetzt darum bitten, dass ein Wie-man überprüft wird, genau wie bei einem Projekt oder einer Zeichnung. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
         "e0634f7a90e52": "$~Wie-man-Anleitungen und Kits im <Leitfaden@https://wordplay.dev/guide> zeigen jetzt, wer sie gemacht hat. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
-        "e089e7d53887b": "$~Eine Galerie, die jeder sehen kann, zeigt jetzt den vollständigen Namen aller Mitglieder, statt nur der ersten paar Buchstaben. (<906@https://github.com/wordplaydev/wordplay/issues/906>)"
+        "e089e7d53887b": "$~Eine Galerie, die jeder sehen kann, zeigt jetzt den vollständigen Namen aller Mitglieder, statt nur der ersten paar Buchstaben. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "ec0822aa79180": "$~Wordplay kann dir jetzt eine E-Mail schicken, wenn etwas passiert, das du wissen möchtest, zum Beispiel eine Entscheidung über etwas, das du gemacht hast. Auf deiner Profilseite wählst du aus, welche Arten von Nachrichten du bekommst.",
+        "ea81ddc87b61c": "$~Moderatoren und Kuratoren sehen jetzt, wie viel auf ihre Prüfung wartet, statt selbst nachschauen zu müssen.",
+        "e88f690999de4": "$~Die E-Mails, die wir jetzt schicken, sehen aus wie Wordplay, und ihre Schaltflächen sind leichter zu lesen.",
+        "efa3f7d56bf19": "$~E-Mails über deine Arbeit haben jetzt kurze Betreffzeilen, die sagen, was passiert ist. Die Nachricht über neues Feedback führt jetzt direkt dorthin.",
+        "e8799c250d910": "$~Deine Profilseite hat jetzt eine Überschrift über jedem Teil, und alles zu deiner E-Mail-Adresse ist an einem Ort.",
+        "ea85f668a42b7": "$~Eine Galerie oder ein Kit, das ein Moderator ablehnt, bleibt jetzt abgelehnt, statt sofort wieder in die Warteschlange zu kommen.",
+        "e3c78159889be": "$~Ein Kurator, der über ein gemeldetes Projekt oder eine gemeldete Galerie informiert wird, kann es jetzt auch wirklich in seiner Prüfliste finden."
     }
 }

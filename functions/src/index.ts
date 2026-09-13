@@ -56,6 +56,7 @@ import analyzeLocalizationHandler from './analyzeLocalization.js';
 import getPagePreviewHandler from './getPagePreview.js';
 import getSitemapHandler from './getSitemap.js';
 import getWebpageHandler from './getWebpage.js';
+import { sendChatDigests, sendReviewDigests } from './emailDigests.js';
 import postFeedbackHandler from './postFeedback.js';
 import purgeArchivedProjectsHandler from './purgeArchivedProjects.js';
 import refreshContributorsHandler from './refreshContributors.js';
@@ -235,21 +236,27 @@ export const compactProjectUpdates = onSchedule(
  * a name and description for a class, create a class and return it's ID
  */
 /** #938: asking whoever is responsible to review something. */
-export const report = onCall<ReportInputs>(cors, reportHandler);
+export const report = onCall<ReportInputs>(
+    { ...cors, secrets: [resendKey] },
+    reportHandler,
+);
 
 /** #938: a decision by whoever is responsible, and its consequences. Supersedes
  *  moderateProject and moderateGallery, which stay one release as shims. */
-export const moderate = onCall<ModerateInputs>(cors, moderateHandler);
+export const moderate = onCall<ModerateInputs>(
+    { ...cors, secrets: [resendKey] },
+    moderateHandler,
+);
 
 /** #193: a moderator's decision about a project, and its consequences. */
 export const moderateProject = onCall<ModerateProjectInputs>(
-    cors,
+    { ...cors, secrets: [resendKey] },
     moderateProjectHandler,
 );
 
 /** #1311: a moderator's decision about whether a gallery may be listed. */
 export const moderateGallery = onCall<ModerateGalleryInputs>(
-    cors,
+    { ...cors, secrets: [resendKey] },
     moderateGalleryHandler,
 );
 
@@ -317,6 +324,61 @@ export const reviewAgesOfConsent = onSchedule(
 );
 
 /**
+ * Once a day, tell reviewers what is waiting for them.
+ *
+ * Daily rather than per event: a moderation wave would otherwise be forty
+ * emails, and a platform moderator cannot be found per report at all — `mod` is
+ * a custom claim, which no query reaches, so the list comes from one
+ * `listUsers` sweep that only a daily job can afford.
+ */
+export const emailReviewDigests = onSchedule(
+    {
+        schedule: 'every day 16:00',
+        timeZone: 'UTC',
+        timeoutSeconds: 540,
+        secrets: [resendKey],
+    },
+    async () => {
+        await sendReviewDigests();
+    },
+);
+
+/**
+ * Every few hours, tell anyone who asked that conversations are waiting.
+ *
+ * There is deliberately no trigger on `chats/{id}`: the same document is
+ * written by readers clearing their unread flag and by participant sync from
+ * unrelated project edits, so a trigger would fire on far more than messages.
+ */
+export const emailChatDigests = onSchedule(
+    {
+        schedule: 'every 4 hours',
+        timeZone: 'UTC',
+        timeoutSeconds: 540,
+        secrets: [resendKey],
+    },
+    async () => {
+        await sendChatDigests();
+    },
+);
+
+/**
+ * Manual trigger for both digests, for testing. Pass `?dry=1` to count who
+ * would be written to without writing to them or spending their cooldown — the
+ * same affordance `tidyStaleAssignmentsManual` has, and the only way to
+ * exercise a sweep whose whole effect is outbound mail.
+ */
+export const emailDigestsManual = onRequest(
+    { ...cors, secrets: [resendKey] },
+    async (request, response) => {
+        const dry = request.query.dry === '1';
+        const reviews = await sendReviewDigests(dry);
+        const chats = await sendChatDigests(dry);
+        response.json({ dry, reviews, chats });
+    },
+);
+
+/**
  * Manual trigger for the stale-assignment tidy pass, for testing. Pass `?dry=1`
  * to force a dry run that logs and returns intended actions without writing.
  */
@@ -325,9 +387,12 @@ export const tidyStaleAssignmentsManual = onRequest(
     tidyStaleAssignmentsRequest,
 );
 
-/** When new feedback is created, post it to the GitHub repository. */
+/** When new feedback is created, mail it to whoever reads hi@. Declares the
+ *  Resend secret: without it `process.env.RESEND_API_KEY` is undefined at
+ *  runtime, the send is swallowed, and the deploy is green while no mail ever
+ *  arrives. `resendSecretDeclared.test.ts` holds every sender to this. */
 export const postFeedback = onDocumentCreated(
-    'feedback/{id}',
+    { document: 'feedback/{id}', secrets: [resendKey] },
     postFeedbackHandler,
 );
 
@@ -351,4 +416,7 @@ export const kitEdited = onDocumentWritten('kits/{id}', kitEditedHandler);
 
 /** Maintains where a how-to's request to be listed in the guide stands, which no
  *  client may write. See functions/src/howToEdited.ts. */
-export const howToEdited = onDocumentWritten('howtos/{id}', howToEditedHandler);
+export const howToEdited = onDocumentWritten(
+    { document: 'howtos/{id}', secrets: [resendKey] },
+    howToEditedHandler,
+);

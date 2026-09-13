@@ -970,6 +970,13 @@
         "e3083faa58e3f": "$~Já pode pedir que um como que escreveu seja listado no <Guia@https://wordplay.dev/guide>, e qualquer pessoa pode lê-lo aí assim que um(a) moderador(a) disser que sim. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
         "e84378f19e20d": "$~Já pode pedir que um como seja revisto, tal como pode fazer para um projeto ou um desenho. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
         "e0634f7a90e52": "$~Os comos e os kits no <Guia@https://wordplay.dev/guide> agora mostram quem os criou. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
-        "e089e7d53887b": "$~Uma galeria que qualquer pessoa pode ver agora mostra o nome completo de todos os que estão nela, em vez de apenas as primeiras letras. (<906@https://github.com/wordplaydev/wordplay/issues/906>)"
+        "e089e7d53887b": "$~Uma galeria que qualquer pessoa pode ver agora mostra o nome completo de todos os que estão nela, em vez de apenas as primeiras letras. (<906@https://github.com/wordplaydev/wordplay/issues/906>)",
+        "ec0822aa79180": "$~O Wordplay agora pode enviar-lhe um email quando acontece algo que gostaria de saber, como uma decisão sobre algo que fez. Pode escolher que tipos de emails recebe na sua página de perfil.",
+        "ea81ddc87b61c": "$~Os moderadores e os curadores agora veem quanto trabalho os espera para rever, sem terem de ir verificar.",
+        "e88f690999de4": "$~Os emails que enviamos agora têm o aspeto do Wordplay, e os seus botões são mais fáceis de ler.",
+        "efa3f7d56bf19": "$~Os emails sobre o seu trabalho agora têm linhas de assunto curtas que dizem o que aconteceu, e o email sobre novos comentários tem uma ligação direta para eles.",
+        "e8799c250d910": "$~A sua página de perfil agora tem um título sobre cada parte, e tudo o que diz respeito ao seu endereço de email está reunido num só lugar.",
+        "ea85f668a42b7": "$~Uma galeria ou kit a que um moderador diz não agora mantém-se assim, em vez de voltar logo para a lista de espera.",
+        "e3c78159889be": "$~Um curador(a) que é avisado(a) sobre um projeto ou galeria denunciado agora consegue encontrá-lo na sua lista de revisão."
     }
 }

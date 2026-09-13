@@ -32,6 +32,11 @@
     import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
+    import {
+        itemInDialogURL,
+        PARAM_FEEDBACK,
+    } from '@components/widgets/dialogURL';
+    import { untrack } from 'svelte';
 
     let mode: 'defect' | 'idea' = $state('defect');
     let title = $state('');
@@ -46,7 +51,10 @@
     let defects = $derived(feedback?.filter((f) => f.type === 'defect'));
     let ideas = $derived(feedback?.filter((f) => f.type === 'idea'));
     let currentFeedback = $derived(mode === 'defect' ? defects : ideas);
-    let expanded: boolean[] = $state([]);
+    /** Which entries are open, by id. Was an array indexed by position in the
+     *  *filtered* list but sized from the unfiltered one, so the first defect
+     *  and the first idea shared a slot and opened together. */
+    let expanded = $state<Record<string, boolean>>({});
     let votes = $state<Set<string>>(new Set());
     let newComments = $state<Record<string, string>>({});
     let githubURLs = $state<Record<string, string>>({});
@@ -65,6 +73,29 @@
         if (show) loadFeedback(true);
     });
 
+    /**
+     * The one entry a link asked for.
+     *
+     * The feedback email points here, so that whoever reads `hi@` lands on the
+     * report rather than on the list. Two things have to follow the link, not
+     * just the dialog: `mode` starts on defects, so a linked *idea* would not
+     * be in the rendered list at all, and the entry itself has to open.
+     *
+     * Runs once per linked id rather than on every load, so someone who then
+     * collapses it does not have it spring back open.
+     */
+    let opened: string | undefined = $state(undefined);
+    $effect(() => {
+        const wanted = itemInDialogURL(PARAM_FEEDBACK);
+        const found = feedback?.find((f) => f.id === wanted);
+        if (wanted === null || found === undefined || opened === wanted) return;
+        untrack(() => {
+            opened = wanted;
+            mode = found.type;
+            expanded[found.id] = true;
+        });
+    });
+
     function loadFeedback(reset: boolean = false) {
         getFeedback().then((f: Feedback[] | null) => {
             if (f === null) {
@@ -81,10 +112,7 @@
                     githubURLs[feed.id] = feed.github ?? '';
                 if (!(feed.id in newComments)) newComments[feed.id] = '';
             }
-            if (reset)
-                expanded = feedback
-                    ? new Array(feedback.length).fill(false)
-                    : [];
+            if (reset) expanded = {};
         });
     }
 
@@ -137,8 +165,8 @@
     }
 </script>
 
-{#snippet feedbackView(feed: Feedback, index: number)}
-    <div class="feedback" class:expanded={expanded[index]}>
+{#snippet feedbackView(feed: Feedback)}
+    <div class="feedback" class:expanded={expanded[feed.id]}>
         <Note
             >{new Date(feed.created).toLocaleString(
                 $locales.getLocaleString(),
@@ -150,9 +178,10 @@
             class="header"
             tabindex="0"
             onpointerup={(event) =>
-                event.button === 0 && (expanded[index] = !expanded[index])}
+                event.button === 0 && (expanded[feed.id] = !expanded[feed.id])}
             onkeydown={(event) =>
-                event.key === 'Enter' && (expanded[index] = !expanded[index])}
+                event.key === 'Enter' &&
+                (expanded[feed.id] = !expanded[feed.id])}
         >
             <Subheader>
                 {feed.type === 'defect' ? DEFECT_SYMBOL : IDEA_SYMBOL}
@@ -205,7 +234,7 @@
                 {/if}
             </div>
         </div>
-        {#if expanded[index]}
+        {#if expanded[feed.id]}
             {#if moderator}
                 <Note>
                     <table>
@@ -427,9 +456,8 @@
                         <Notice text={(l) => l.ui.dialog.feedback.error.empty}
                         ></Notice>
                     {:else}
-                        {#each currentFeedback as f, index}{@render feedbackView(
+                        {#each currentFeedback as f (f.id)}{@render feedbackView(
                                 f,
-                                index,
                             )}{/each}
                     {/if}
                 </div>

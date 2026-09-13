@@ -1,6 +1,6 @@
 import type express from 'express';
 import type { Request } from 'firebase-functions/v2/https';
-import { canonicalOrigin } from './getPagePreview.js';
+import { canonicalOrigin } from './origin.js';
 import {
     buildSitemapXml,
     documentIdFromName,

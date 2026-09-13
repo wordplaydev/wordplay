@@ -23,6 +23,31 @@ export type ModerationTexts = {
      *  the other two listing queues for exactly that reason. `ModerationQueues` in the
      *  moderate route is the list this labels. */
     queue: ModeText<[string, string, string, string, string]>;
+    /** [formatted] Shown to a reviewer whose account has no email address, so
+     *  they know why no notification mail arrives and where to add one. */
+    noAddress: FormattedText;
+    /**
+     * What each kind of reportable thing is called, as one word.
+     *
+     * Written for the middle of a sentence — "Your project was reported" — so
+     * they are lower case wherever a language lower-cases its nouns. Nothing
+     * places one at the start of a sentence, which is what would need a second,
+     * capitalized set.
+     */
+    subject: {
+        /** [plain] A project */
+        project: string;
+        /** [plain] A gallery of projects */
+        gallery: string;
+        /** [plain] A how-to */
+        howto: string;
+        /** [plain] A drawn character */
+        character: string;
+        /** [plain] A published kit of shared code */
+        kit: string;
+        /** [plain] A conversation about a project or how-to */
+        chat: string;
+    };
     /** [formatted] Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
     flags: FlagDescriptions;
     /** [formatted] Progress message */

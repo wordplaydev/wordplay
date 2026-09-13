@@ -26,6 +26,29 @@ import { uniqueCharacterName } from '../helpers/uniqueCharacterName';
 const LOAD_TIMEOUT = 30_000;
 
 test.describe('authed views', () => {
+    test(`the profile page has no WCAG 2.2 AA violations`, async ({
+        browser,
+    }) => {
+        // The profile is a row of cards, each of which grew its own heading —
+        // so `heading-order` is the rule this scan is really here for. It was
+        // in neither axe suite before, which is how seven cards came to have
+        // no headings at all.
+        const { context, page } = await loginNewContext(
+            browser,
+            'creator',
+            'password',
+        );
+        try {
+            await page.goto('/en-US/profile');
+            await expect(page.getByTestId('username')).toBeVisible({
+                timeout: LOAD_TIMEOUT,
+            });
+            await expectNoAxeViolationsInBothSchemes(page);
+        } finally {
+            await context.close();
+        }
+    });
+
     test(`projects list has no WCAG 2.2 AA violations`, async ({ browser }) => {
         const { context, page } = await loginNewContext(
             browser,

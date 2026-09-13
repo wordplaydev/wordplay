@@ -26,6 +26,7 @@ const Probes: Record<string, unknown> = {
     projectSort: 'edited',
     tours: ['palette'],
     chatThreads: { probe: { root: 3 } },
+    emailNotifications: { decisions: false, reviews: false, activity: true },
     face: 'Noto Sans Mono',
     lines: false,
     wrap: false,

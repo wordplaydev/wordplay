@@ -49,6 +49,7 @@ test('every kind is either written or derived, and never both', () => {
         'kit-listed',
         'kit-denied',
         'warning',
+        'review-pending',
     ];
     const all = [...WrittenNoticeKinds, ...derived];
     expect(all.toSorted()).toEqual([...NoticeKinds].toSorted());
@@ -91,7 +92,6 @@ test('a notice about each subject kind survives being read back', () => {
                 },
             ],
             dismissed: [],
-            readAt: 0,
         });
         expect(read?.notices.map((n) => n.id)).toEqual([`n-${kind}`]);
     }

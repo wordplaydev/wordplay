@@ -1,9 +1,16 @@
 import type { FormattedText, Template } from '@locale/LocaleText';
-import type { ButtonText, FieldText, ToggleText } from '@locale/UITexts';
+import type {
+    ButtonText,
+    FieldText,
+    ModeText,
+    ToggleText,
+} from '@locale/UITexts';
 
 type PageText = {
     /** [plain] Header for the login page when not logged in */
     header: string;
+    /** [plain] The browser tab's title for the profile page. Its heading on the page is the creator's own name, which is theirs rather than ours to translate — so the tab needs a word of its own. */
+    profile: string;
     /** [plain] Subtitle for the header link on the landing page */
     subtitle: string;
     prompt: {
@@ -95,6 +102,45 @@ type PageText = {
         switched: string;
         /** Switch to signing in with a username and password */
         toPassword: ButtonText;
+    };
+    /**
+     * One header and explanation per block of the profile page.
+     *
+     * The page is a row of cards, and a card with no heading is a card whose
+     * job you work out by reading it. Headers only: each block already carries
+     * its own prose, so an explanation here would say the same thing twice —
+     * once on screen, and once again in every translation.
+     */
+    subheader: {
+        /** [plain] Names the block holding links to a creator's projects, characters, and classes */
+        work: string;
+        /** [plain] Names the block for choosing the character shown beside your name */
+        character: string;
+        /** [plain] Names the block for choosing your username */
+        username: string;
+        /** [plain] Names the block for changing your password */
+        password: string;
+        /** [plain] Names the block holding your email address and what Wordplay sends to it */
+        email: string;
+        /** [plain] Names the block for signing out of this device */
+        logout: string;
+        /** [plain] Names the block for deleting your account */
+        delete: string;
+    };
+    /** Which emails Wordplay sends this creator */
+    notifications: {
+        /** [plain] Heads the email notification choices inside the email block, and begins the sentence each choice below finishes */
+        header: string;
+        /** [formatted] Shown instead of the choices when this account has no email address to write to, pointing at the way to add one just above */
+        noAddress: FormattedText;
+        /** [formatted] Shown instead of noAddress when this creator isn't old enough for an email address yet, so they are not told to add one they cannot have. Names no date: the sign-in explanation just above already does, and saying it twice in one block reads as a mistake. */
+        notYet: FormattedText;
+        /** On or off for decisions about this creator's own work */
+        decisions: ModeText<[string, string]>;
+        /** On or off for work waiting for this creator to review */
+        reviews: ModeText<[string, string]>;
+        /** On or off for messages and newly published how-tos */
+        activity: ModeText<[string, string]>;
     };
     error: {
         /** [plain] Shown when the login link expired */

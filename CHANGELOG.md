@@ -16,11 +16,16 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🔢 A list of numbers can now tell you its `sum` and its `average`, so you don't have to add them up yourself.
 - 📖 You can now ask for a how-to you wrote to be listed in the [Guide](https://wordplay.dev/guide), and anyone can read it there once a moderator says yes. (#906)
 - 🚩 You can now ask for a how-to to be reviewed, the same way you can for a project or a drawing. (#906)
+- ✉️ If you provide an email, Wordplay can now email you when something happens that you'd want to know about, like a decision about something you made, and you choose which kinds you get on your profile page.
+- 🚩 Moderators and curators now see how much is waiting for them to review, instead of having to go and look.
 
 ### Changed
 
 - 🤝 How-tos and kits in the [Guide](https://wordplay.dev/guide) now show who made them. (#906)
 - 🤝 A gallery that anyone can see now shows the whole name of everyone in it, instead of only the first few letters. (#906)
+- 🎨 The emails we send now look like Wordplay, and their buttons are easier to read.
+- ✉️ Emails about your work now have short subject lines that say what happened, and the one about new feedback links straight to it.
+- 👤 Your profile page now has a heading over each part, and everything about your email address is in one place.
 
 ### Fixed
 
@@ -29,6 +34,8 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🌐 Translating a program no longer renames a name in one place but not the others, which used to break the program. (#1368)
 - 🔑 If we can't tell that your browser is a real one, which can happen on school networks, we now say so instead of asking you to try again. (#1378)
 - 🐛 The login page no longer says it sent you a sign-in link when it couldn't. (#1378)
+- 🚩 A gallery or kit that a moderator says no to now stays that way, instead of going back into the waiting line straight away.
+- 🚩 A curator who is told about a reported project or gallery can now actually find it in their review list.
 
 ## 0.36.0 - 2026-09-09
 

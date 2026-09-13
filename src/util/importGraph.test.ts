@@ -752,12 +752,18 @@ test('resolving a color needs no basis', () => {
 // since every page resolves a locale — the kit conflicts' explanations and the five basis
 // math functions' documentation are both that, and neither moved a file count. Files
 // creeping is a door opening, and is the number to look at first.
+// Raised by two leaf files. `EmailNotificationsSetting` is registered
+// in `SettingsDatabase`, which every page reaches through `Database`, and a
+// setting has to be registered there to sync at all. `countPending` is reached
+// by the notification bell, which `Page` mounts — hence the layout budget
+// moving by one file and the rest by two. Every byte ceiling went up by a
+// hundredth of a megabyte with them and with the email copy in en-US.json.
 test.each([
-    ['src/routes/+layout.svelte', 526, 3.95],
-    ['src/components/app/Page.svelte', 549, 4.21],
-    ['src/routes/[[locale]]/+page.svelte', 564, 4.3],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 569, 4.31],
-    ['src/routes/[[locale]]/projects/+page.svelte', 576, 4.33],
+    ['src/routes/+layout.svelte', 527, 3.96],
+    ['src/components/app/Page.svelte', 551, 4.22],
+    ['src/routes/[[locale]]/+page.svelte', 566, 4.31],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 571, 4.33],
+    ['src/routes/[[locale]]/projects/+page.svelte', 578, 4.35],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

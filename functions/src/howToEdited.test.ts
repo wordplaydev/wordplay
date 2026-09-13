@@ -96,13 +96,20 @@ describe('what re-queues a listed how-to', () => {
 });
 
 describe('the transition the trigger applies', () => {
-    const next = (howToRecord: Record<string, unknown>, changed = false) =>
+    const next = (
+        howToRecord: Record<string, unknown>,
+        changed = false,
+        // A how-to's request flag is cleared by a denial, so pressing the
+        // button again is a real transition rather than a state to infer.
+        reRequested = true,
+    ) =>
         nextModeration(
             typeof howToRecord.moderation === 'string'
                 ? howToRecord.moderation
                 : 'unrequested',
             requestedForGuide(howToRecord),
             changed,
+            reRequested,
         );
 
     it('asking for the first time queues it', () => {
@@ -132,6 +139,14 @@ describe('the transition the trigger applies', () => {
     it('a denial can be answered by asking again', () => {
         // The request is on again, which is the creator pressing the button.
         expect(next(howTo({ moderation: 'denied' }))).toBe('pending');
+    });
+
+    it('but the refusal stands while the request just sits there', () => {
+        // Unlike a gallery, a how-to reaches this only if something re-set the
+        // request — so this is the write the trigger makes on its own output.
+        expect(next(howTo({ moderation: 'denied' }), false, false)).toBe(
+            'denied',
+        );
     });
 
     it('but a refusal that took the request with it stands', () => {

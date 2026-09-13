@@ -15,11 +15,18 @@ export function nextModeration(
     current: ModerationRequest,
     isPublic: boolean,
     contentChanged: boolean,
+    /** Whether this write is what asked. See the server copy for why asking has
+     *  to be a transition rather than a state. */
+    reRequested: boolean,
 ): ModerationRequest {
     // Not asking to be listed, so there's nothing pending.
     if (!isPublic) return 'unrequested';
-    // Asking for the first time, or asking again after a denial.
-    if (current === 'unrequested' || current === 'denied') return 'pending';
+    // Asking for the first time.
+    if (current === 'unrequested') return 'pending';
+    // A refusal stands until the creator asks again — by pressing the button
+    // again, or by changing the thing that was refused.
+    if (current === 'denied')
+        return reRequested || contentChanged ? 'pending' : 'denied';
     // Approval was of what it was, not of whatever it becomes.
     if (current === 'approved' && contentChanged) return 'pending';
     return current;

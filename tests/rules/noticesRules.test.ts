@@ -50,7 +50,7 @@ beforeEach(async () => {
         await context
             .firestore()
             .doc(`notices/${Users.Reader}`)
-            .set({ v: 1, notices: [notice], dismissed: [], readAt: 0 });
+            .set({ v: 1, notices: [notice], dismissed: [] });
     });
 });
 
@@ -72,8 +72,20 @@ describe('notices: delivered, not claimed', () => {
         );
     });
 
-    it('the reader can mark it read and dismiss things', async () => {
+    it('the reader can dismiss things', async () => {
         await assertSucceeds(
+            as(Users.Reader)
+                .doc(`notices/${Users.Reader}`)
+                .update({ dismissed: ['n1'] }),
+        );
+    });
+
+    it('but cannot write a field the rules do not name', async () => {
+        // `readAt` was declared, permitted, and never written by anything, so
+        // it went with the notification work that would otherwise have been
+        // expected to use it. The whitelist is the reason a creator
+        // cannot smuggle state into their own inbox.
+        await assertFails(
             as(Users.Reader)
                 .doc(`notices/${Users.Reader}`)
                 .update({ readAt: 5, dismissed: ['n1'] }),
@@ -119,7 +131,7 @@ describe('notices: delivered, not claimed', () => {
         await assertSucceeds(
             as(Users.Other)
                 .doc(`notices/${Users.Other}`)
-                .set({ v: 1, notices: [], dismissed: ['g1'], readAt: 0 }),
+                .set({ v: 1, notices: [], dismissed: ['g1'] }),
         );
     });
 
@@ -127,7 +139,7 @@ describe('notices: delivered, not claimed', () => {
         await assertFails(
             as(Users.Mod)
                 .doc(`notices/${Users.Mod}`)
-                .set({ v: 1, notices: [notice], dismissed: [], readAt: 0 }),
+                .set({ v: 1, notices: [notice], dismissed: [] }),
         );
     });
 

@@ -9071,12 +9071,13 @@
                     "decisionHeader": "$~Đã có quyết định về thứ bạn làm trong \"$title\"",
                     "outcomeHeader": "$~Đã có quyết định về điều bạn đã báo cáo trong \"$title\"",
                     "because": "$~Vì nó:",
-                    "note": "$~Họ nói:"
+                    "note": "$~Họ nói:",
+                    "reviewPending": "$~$#count[Có $count thứ đang chờ bạn xem lại]"
                 },
                 "delete": "$~xóa thông báo này",
                 "popup": "$~$#count[$count thông báo]",
                 "moderate": {
-                    "label": "$~xem xét nội dung bị báo cáo",
+                    "label": "$~xem những điều đang chờ",
                     "tip": "$~đi đến những thứ đang chờ bạn xem xét"
                 }
             },
@@ -10481,7 +10482,46 @@
                         "label": "$~Lưu",
                         "tip": "$~Dùng tên đăng nhập này từ bây giờ"
                     }
-                }
+                },
+                "notifications": {
+                    "header": "$~Gửi email cho tôi về…",
+                    "noAddress": "$~Thêm địa chỉ email ở trên để chọn những email mà Wordplay sẽ gửi cho bạn.",
+                    "decisions": {
+                        "label": "$~việc kiểm duyệt những gì tôi đã tạo hoặc đã báo cáo",
+                        "labels": ["$~tắt", "$~bật"],
+                        "tips": [
+                            "$~Không gửi email cho tôi về việc kiểm duyệt những gì tôi đã tạo hoặc đã báo cáo",
+                            "$~Gửi email cho tôi về việc kiểm duyệt những gì tôi đã tạo hoặc đã báo cáo"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~việc kiểm duyệt đang chờ tôi xem xét",
+                        "labels": ["$~tắt", "$~bật"],
+                        "tips": [
+                            "$~Không gửi email cho tôi về việc kiểm duyệt đang chờ tôi xem xét",
+                            "$~Gửi email cho tôi về việc kiểm duyệt đang chờ tôi xem xét"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~cuộc trò chuyện mới và các sổ tay hướng dẫn làm cách nào để",
+                        "labels": ["$~tắt", "$~bật"],
+                        "tips": [
+                            "$~Không gửi email cho tôi về cuộc trò chuyện mới và các sổ tay hướng dẫn làm cách nào để",
+                            "$~Gửi email cho tôi về cuộc trò chuyện mới và các sổ tay hướng dẫn làm cách nào để"
+                        ]
+                    },
+                    "notYet": "$~Khi bạn có thể dùng một địa chỉ email, bạn sẽ chọn được những email mà Wordplay gửi cho bạn."
+                },
+                "subheader": {
+                    "work": "$~Công việc của bạn",
+                    "character": "$~Nhân vật của bạn",
+                    "username": "$~Tên người dùng của bạn",
+                    "password": "$~Mật khẩu của bạn",
+                    "email": "$~Email",
+                    "logout": "$~Đăng xuất",
+                    "delete": "$~Xóa tài khoản của bạn"
+                },
+                "profile": "$~Hồ sơ"
             },
             "join": {
                 "header": "$~Tham gia",
@@ -11192,6 +11232,49 @@
                 "body": "$~Chọn nút bên dưới để đăng nhập. Liên kết này chỉ dùng được một lần, và chỉ trong một thời gian ngắn.",
                 "button": "$~Đăng nhập",
                 "disclaimer": "$~Nếu bạn không yêu cầu đăng nhập, bạn có thể bỏ qua email này — không ai có thể vào tài khoản của bạn nếu không có liên kết này."
+            },
+            "notice": {
+                "open": "$~Xem thử",
+                "manage": "$~Thay đổi cài đặt thông báo của bạn",
+                "heading": {
+                    "reported": "$~Đã bị báo cáo",
+                    "decision": "$~Quyết định kiểm duyệt",
+                    "review": "$~Đang chờ xem xét",
+                    "warning": "$~Một cảnh báo",
+                    "listing": "$~Quyết định niêm yết",
+                    "howto": "$~Làm cách nào để mới",
+                    "chat": "$~Cuộc trò chuyện mới"
+                },
+                "subject": {
+                    "reported": "$~$kind của bạn đã bị báo cáo",
+                    "received": "$~Chúng tôi đã nhận được báo cáo của bạn",
+                    "decision": "$~Một quyết định về $kind của bạn",
+                    "review": "$~Có thứ gì đó đang chờ bạn xem xét",
+                    "warning": "$~Một cảnh báo về thứ bạn đã chia sẻ",
+                    "listing": "$~Một quyết định về việc niêm yết $kind của bạn",
+                    "howto": "$~Một làm cách nào để mới trong phòng trưng bày của bạn"
+                },
+                "body": {
+                    "reported": "$~Ai đó đã yêu cầu xem xét một thứ bạn tạo ra trong \"$title\". Người phụ trách sẽ xem xét việc này.",
+                    "received": "$~Báo cáo của bạn về \"$title\" đã đến tay người phụ trách xem xét.",
+                    "decision": "$~Một quyết định đã được đưa ra về thứ bạn tạo ra trong \"$title\".",
+                    "review": "$~Ai đó đã yêu cầu xem xét \"$title\".",
+                    "warning": "$~Đây là cảnh báo thứ $#count[$count] về thứ bạn đã chia sẻ công khai.",
+                    "listing": "$~Một quyết định đã được đưa ra về việc \"$title\" có được niêm yết hay không.",
+                    "howto": "$~\"$title\" đã được công bố trong một phòng trưng bày mà bạn là thành viên."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[$count việc] đang chờ bạn xem xét",
+                "heading": "$~$#count[$count việc] cần xem xét",
+                "open": "$~Bắt đầu xem xét",
+                "body": "$~Báo cáo và yêu cầu niêm yết chờ trong hàng đợi kiểm duyệt cho đến khi có người đưa ra quyết định về chúng."
+            },
+            "chat": {
+                "subject": "$~Bạn có đoạn chat chưa đọc",
+                "heading": "$~Cuộc trò chuyện mới",
+                "open": "$~Đọc chúng",
+                "body": "$~Có những tin nhắn bạn chưa đọc trong $#count[$count đoạn chat]."
             }
         },
         "markup": {
@@ -11393,6 +11476,15 @@
                 "approved": "$~$name giờ đã được liệt kê trong sổ tay hướng dẫn.",
                 "denied": "$~$name đã không được liệt kê trong sổ tay hướng dẫn."
             }
+        },
+        "noAddress": "$~Wordplay không có địa chỉ email nào cho bạn, vì vậy không có gì ở đây có thể gửi đến email của bạn. Bạn có thể thêm địa chỉ email trên <trang hồ sơ của bạn@/profile>.",
+        "subject": {
+            "project": "$~dự án",
+            "gallery": "$~phòng trưng bày",
+            "howto": "$~làm cách nào để",
+            "character": "$~nhân vật",
+            "kit": "$~bộ công cụ",
+            "chat": "$~đoạn chat"
         }
     },
     "gallery": {

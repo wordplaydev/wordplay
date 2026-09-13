@@ -115,6 +115,8 @@ export default async function kitEdited(
         moderation,
         after.public === true,
         claimed || version,
+        // Going public is the ask; staying public is not.
+        before?.public !== true && after.public === true,
     );
 
     const update: Record<string, unknown> = {};

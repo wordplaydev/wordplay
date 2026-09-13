@@ -1437,6 +1437,7 @@ export const blocks = Settings.settings.blocks.value;
 export const words = Settings.settings.words.value;
 export const blockDensity = Settings.settings.blockDensity.value;
 export const howToNotifications = Settings.settings.howToNotifications.value;
+export const emailNotifications = Settings.settings.emailNotifications.value;
 export const musicVisualization = Settings.settings.musicVisualization.value;
 export const musicVolume = Settings.settings.musicVolume.value;
 export const musicDucking = Settings.settings.musicDucking.value;
