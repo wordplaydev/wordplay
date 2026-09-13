@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { decidedListing } from './moderate.js';
+import { decidedListing } from './listingDecision.js';
 
 /**
  * Who a listing decision may come from (#906).
@@ -12,6 +12,11 @@ import { decidedListing } from './moderate.js';
  * It has never mattered, because neither listable subject could reach a curator.
  * A how-to is the first one that sits in someone else's gallery, so this is where
  * that stops being luck.
+ *
+ * Imports the leaf rather than the callable, because the root vitest project runs
+ * these files and CI installs only the root's dependencies — reaching `moderate.ts`
+ * would ask for `firebase-functions`, which resolves locally off a stale
+ * `functions/node_modules` and not at all on CI.
  */
 describe("a listing decision is the platform's", () => {
     it('is applied when a platform moderator makes it', () => {
