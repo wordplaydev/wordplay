@@ -675,7 +675,10 @@ test('resolving a color needs no basis', () => {
  * Enforcing where a `↑` may sit (#1373) adds no file: `MisplacedShare` was already here
  * through `Bind`, and `FunctionDefinition` and `StructureDefinition` now raise it through
  * the same `nodes/util.ts` they already imported. It is ~2KB of rule and comment on files
- * already on the graph, and `projects` had no room left in its hundredth again.
+ * already on the graph. It lands alongside #1374's parser growth, and the two are each
+ * under their ceilings alone and over together — so `Page`, `galleries` and `projects`
+ * all move a hundredth. That interaction is invisible to either pull request on its own;
+ * merging main in before measuring is the only way to see it.
  *
  * What must never join these graphs
  * is the kit *database*: a page that merely lists projects has no business being able to
@@ -692,9 +695,9 @@ test('resolving a color needs no basis', () => {
 // creeping is a door opening, and is the number to look at first.
 test.each([
     ['src/routes/+layout.svelte', 521, 3.89],
-    ['src/components/app/Page.svelte', 544, 4.14],
+    ['src/components/app/Page.svelte', 544, 4.15],
     ['src/routes/[[locale]]/+page.svelte', 559, 4.23],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 563, 4.24],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 563, 4.25],
     ['src/routes/[[locale]]/projects/+page.svelte', 570, 4.27],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
