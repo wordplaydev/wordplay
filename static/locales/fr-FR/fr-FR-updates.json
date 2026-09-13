@@ -976,6 +976,7 @@
         "efa3f7d56bf19": "$~Les courriels sur ton travail ont maintenant des lignes d'objet courtes qui disent ce qui s'est passé. Celui qui parle d'un nouveau commentaire mène directement à celui-ci.",
         "e8799c250d910": "$~Ta page de profil a maintenant un titre au-dessus de chaque partie, et tout ce qui concerne ton adresse courriel se trouve au même endroit.",
         "ea85f668a42b7": "$~Une galerie ou un kit qu'un modérateur refuse reste maintenant refusé, au lieu de retourner tout de suite dans la file d'attente.",
-        "e3c78159889be": "$~Un conservateur informé d'un projet ou d'une galerie signalé peut maintenant vraiment le trouver dans sa liste de relecture."
+        "e3c78159889be": "$~Un conservateur informé d'un projet ou d'une galerie signalé peut maintenant vraiment le trouver dans sa liste de relecture.",
+        "e5beb26ab9e99": "$~Si tu donnes une adresse e-mail, Wordplay peut maintenant t'envoyer un message quand quelque chose d'important arrive, comme une décision au sujet de ce que tu as créé. Tu choisis quels messages tu reçois sur ta page de profil."
     }
 }
