@@ -10599,6 +10599,7 @@
                     "invalidUsername": "$~Nama pengguna harus terdiri minimal 5 huruf tanpa spasi.",
                     "usernameTaken": "$~Nama pengguna ini sudah digunakan.",
                     "failure": "$~Tidak bisa login :(",
+                    "unverified": "$~Kami tidak dapat memastikan bahwa ini peramban asli, jadi kami berhenti di sini. Ini bisa terjadi di jaringan sekolah atau kantor. Mencoba lagi tidak akan membantu, tetapi jaringan atau peramban lain mungkin bisa. Jika kamu sedang di sekolah, beri tahu gurumu.",
                     "offline": "$~Kami tidak bisa meraih awan itu ☁️.",
                     "invalidPassword": "$~Kata sandi harus memiliki panjang minimal 6 karakter.",
                     "wrongPassword": "$~Nama pengguna dan kata sandi tidak valid. Kata sandi Anda salah, atau orang lain sudah menggunakan nama pengguna ini.",

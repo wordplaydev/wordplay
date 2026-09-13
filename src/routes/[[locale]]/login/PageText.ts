@@ -109,6 +109,10 @@ type PageText = {
         usernameTaken: string;
         /** [plain] Unknown failure to login */
         failure: string;
+        /** [plain] When we couldn't confirm this is a real browser, which
+         *  happens on some school and work networks, and which trying again
+         *  won't fix */
+        unverified: string;
         /** [plain] When there's no connection to Firebase */
         offline: string;
         /** [plain] When account deletion removed the account's data but couldn't

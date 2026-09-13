@@ -117,6 +117,16 @@
                 emailFeedback = (l) => l.ui.page.login.error.tooMany;
                 return;
             }
+            // Anything other than 'sent' must say so: this used to fall through
+            // and promise a link that was never sent, which leaves someone
+            // watching an inbox instead of trying something that could work.
+            if (result !== 'sent') {
+                emailFeedback =
+                    result === 'unverified'
+                        ? (l) => l.ui.page.login.error.unverified
+                        : (l) => l.ui.page.login.error.failure;
+                return;
+            }
             // Remember the email so we don't have to ask for it again after
             // returning to the link above.
             window.localStorage.setItem('email', email);

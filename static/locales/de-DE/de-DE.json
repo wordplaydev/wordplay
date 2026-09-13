@@ -9505,6 +9505,7 @@
                     "email": "$~Keine gültige E-Mail.",
                     "offline": "$~Wir konnten die Cloud ☁️ nicht erreichen.",
                     "failure": "$~Anmeldung nicht möglich :(",
+                    "unverified": "$~Wir konnten nicht prüfen, ob du einen echten Browser benutzt. Deshalb haben wir hier gestoppt. Das kann in Schul- oder Arbeitsnetzwerken passieren. Es noch einmal zu versuchen hilft nicht. Ein anderes Netzwerk oder ein anderer Browser könnte aber helfen. Bist du in der Schule, sag es einer Lehrkraft.",
                     "wrongPassword": "$~Kein gültiger Benutzername und Passwort. Entweder ist Ihr Passwort falsch oder jemand anderes hat diesen Benutzernamen.",
                     "tooMany": "$~Sie haben zu oft erfolglos versucht, sich anzumelden. Sie müssen warten, bevor Sie es erneut versuchen können.",
                     "invalidUsername": "$~Benutzernamen müssen mindestens 5 Buchstaben haben und dürfen keine Leerzeichen enthalten.",

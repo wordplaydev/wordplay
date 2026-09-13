@@ -10485,6 +10485,7 @@
                     "invalidUsername": "$~Ang mga username ay dapat may kahit limang letra at walang espasyo.",
                     "usernameTaken": "$~Ginagamit na ang username na ito.",
                     "failure": "$~Hindi makapag-login :(",
+                    "unverified": "$~Hindi namin matiyak kung tunay na browser ito, kaya't huminto kami dito. Nangyayari ito minsan sa network ng paaralan o trabaho. Walang mangyayari kung susubukan mo ulit, pero maaaring gumana ang ibang network o browser. Kung nasa paaralan ka, sabihin mo sa isang guro.",
                     "offline": "$~Hindi namin maabot ang ulap ☁️.",
                     "invalidPassword": "$~Ang mga password ay dapat na hindi bababa sa 6 na karakter ang haba.",
                     "wrongPassword": "$~Hindi wastong username at password. Maaaring mali ang iyong password, o may ibang gumagamit nito.",

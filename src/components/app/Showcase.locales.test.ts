@@ -36,10 +36,18 @@ function translatedLocales(): { name: string; locale: LocaleText }[] {
 describe.each(translatedLocales())(
     '$name tour examples',
     ({ name, locale }) => {
-        test.each(TourKeys)('%s compiles', (key) => {
-            // Under the pre-commit hook only; CI runs every locale. See sweepSkipsLocaleText.
-            if (sweepSkipsLocaleText(name)) return;
-            expect(tourExampleProblems(locale, key)).toEqual([]);
-        });
+        test.each(TourKeys)(
+            '%s compiles',
+            (key) => {
+                // Under the pre-commit hook only; CI runs every locale. See sweepSkipsLocaleText.
+                if (sweepSkipsLocaleText(name)) return;
+                expect(tourExampleProblems(locale, key)).toEqual([]);
+            },
+            // The first key of each locale pays that locale's parse and analysis
+            // warm-up, which is most of the ~17s above and comfortably past
+            // vitest's 5s default on a busy machine — the same explicit budget
+            // the other corpus sweeps carry.
+            30_000,
+        );
     },
 );
