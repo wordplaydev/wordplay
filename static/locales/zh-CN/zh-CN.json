@@ -1656,6 +1656,12 @@
             "emotion": "kind",
             "doc": ["我指的是某种@StructureDefinition。人们通常不会直接提到我"]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "表面量",
             "description": "$~$#count[$count 行]的表格",

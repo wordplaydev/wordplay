@@ -1659,6 +1659,12 @@
                 "$~Мислим на неку врсту @StructureDefinition. Људи се обично не позивају директно на мене"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~табела елемената",
             "description": "$~табела од $#count[$#count реда|$count реда|$count редова]",

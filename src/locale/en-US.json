@@ -2038,6 +2038,14 @@
                 "I refer to some kind of @StructureDefinition. People don't usually refer to me directly"
             ]
         },
+        "KitType": {
+            "name": "kit",
+            "description": "$name",
+            "emotion": "curious",
+            "doc": [
+                "I am a kit someone published. Everything it shares is reached through my name, so `colors.sunset` says which `sunset` you mean."
+            ]
+        },
         "TableLiteral": {
             "name": "table literal",
             "description": "table of $#count[$count row|$count rows]",

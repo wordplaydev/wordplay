@@ -1659,6 +1659,12 @@
                 "$~আমি কোনো ধরনের @StructureDefinition-কে উল্লেখ করি। মানুষ সাধারণত আমাকে সরাসরি উল্লেখ করে না"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~টেবিল লিটারাল",
             "description": "$~$#count[$count সারির|$count সারির] টেবিল",

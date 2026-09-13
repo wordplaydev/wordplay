@@ -1659,6 +1659,12 @@
                 "$~நான் சில வகையான @StructureDefinition ஐக் குறிப்பிடுகிறேன். மக்கள் பொதுவாக என்னை நேரடியாகக் குறிப்பிடுவதில்லை"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~அட்டவணை மதிப்பு",
             "description": "$~$#count[$count வரிசை|$count வரிசைகள்] கொண்ட அட்டவணை",

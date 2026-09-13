@@ -1658,6 +1658,12 @@
                 "$~나는 일종의 @StructureDefinition 을 참조합니다. 사람들은 대개 나를 직접적으로 언급하지 않습니다."
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "특정 테이블",
             "description": "$~$#count[행 $count개] 표",

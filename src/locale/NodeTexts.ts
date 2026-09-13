@@ -1213,6 +1213,7 @@ type NodeTexts = {
             };
         };
     StructureDefinitionType: DescriptiveNodeText<['name']>;
+    KitType: DescriptiveNodeText<['name']>;
     /**
      * A table literal, e.g., `⎡a•# b•#⎦⎡1 2⎦`
      * Description inputs: $1 = the number of rows

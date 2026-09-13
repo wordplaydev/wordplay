@@ -1659,6 +1659,12 @@
                 "$~Tôi đang đề cập đến một dạng @StructureDefinition nào đó. Mọi người thường không trực tiếp nhắc đến tôi."
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~bảng viết trực tiếp",
             "description": "$~bảng gồm $#count[$count hàng]",

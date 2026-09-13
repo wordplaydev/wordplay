@@ -1659,6 +1659,12 @@
                 "$~Tinutukoy ko ang isang uri ng @StructureDefinition. Hindi ako karaniwang direktang tinutukoy ng mga tao."
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~literal ng talahanayan",
             "description": "$~talahanayan ng $#count[$count hilera|$count na hilera]",

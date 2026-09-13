@@ -1659,6 +1659,12 @@
                 "$~मी कोणत्यातरी प्रकारच्या @StructureDefinition कडे इशारा करतो. लोक सहसा माझ्याकडे थेट इशारा करत नाहीत"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~तक्ता लिटरल",
             "description": "$~$#count[$count ओळीचे|$count ओळींचे] कोष्टक",

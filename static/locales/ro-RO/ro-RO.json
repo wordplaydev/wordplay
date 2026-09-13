@@ -1659,6 +1659,12 @@
                 "$~Mă refer la un fel de @StructureDefinition. De obicei, oamenii nu se referă direct la mine."
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~literal de tabel",
             "description": "$~tabel cu $#count[$#count rând|$count rânduri|$count de rânduri]",

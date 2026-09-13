@@ -1659,6 +1659,12 @@
                 "$~Je fais référence à une sorte de @StructureDefinition. Les gens ne font généralement pas référence à moi directement"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~table littérale",
             "description": "$~table de $#count[$#count ligne|$count lignes|$count lignes]",

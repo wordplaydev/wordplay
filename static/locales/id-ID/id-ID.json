@@ -1659,6 +1659,12 @@
                 "$~Saya merujuk pada semacam @StructureDefinition. Orang biasanya tidak menyebut saya secara langsung."
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~nilai tabel",
             "description": "$~tabel dengan $#count[$count baris]",

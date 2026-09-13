@@ -31,6 +31,7 @@ import Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Markup from '@nodes/Markup';
 import Names from '@nodes/Names';
+import KitType from '@nodes/KitType';
 import Node, { node, type Grammar, type Replacement } from '@nodes/Node';
 import Program from '@nodes/Program';
 import Root from '@nodes/Root';
@@ -1100,6 +1101,12 @@ export default class Source extends Expression {
         // notes typed again on every keystroke. Cycles are still caught: each
         // source's context is stable within a project, so a borrow that comes
         // back around finds its own program already on that context's stack.
+        // A borrowed kit is a namespace rather than a value (#1373), and only a kit: a bare
+        // local borrow binds its source's evaluated value, which multi-source projects use
+        // directly, so giving one a namespace would change what an existing program means.
+        // A kit's source is never among `getSources()`, so the two can't be confused.
+        if (context.project.getDependencySources().includes(this))
+            return new KitType(this);
         return this.expression.getType(context.project.getContext(this));
     }
     getDependencies(): Expression[] {

@@ -1659,6 +1659,12 @@
                 "$~أشير إلى نوع ما من @StructureDefinition. لا يشير الناس إليّ مباشرة عادة"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~جدول صريح",
             "description": "$~جدول من $#count[لا صفوف|صف واحد|صفان|$#count صفوف|$count صف|$count صف]",

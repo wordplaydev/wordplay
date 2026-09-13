@@ -2034,6 +2034,12 @@
                 "$~من به نوعی از @StructureDefinition اشاره می‌کنم. معمولاً کسی مستقیم به من اشاره نمی‌کند"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~جدول لفظی",
             "description": "$~جدولی با $#count[$count ردیف|$count ردیف]",

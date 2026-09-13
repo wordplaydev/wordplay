@@ -1659,6 +1659,12 @@
                 "$~मैं किसी न किसी तरह के @StructureDefinition को संदर्भित करती हूँ। लोग आमतौर पर मुझे सीधे संदर्भित नहीं करते"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~टेबल शाब्दिक",
             "description": "$~$#count[$count पंक्ति|$count पंक्तियों] की तालिका",

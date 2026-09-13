@@ -1561,6 +1561,16 @@ A **kit** is one source a creator has published for other people to build with, 
 
 A bare kit borrow brings in **everything the kit shares**, because a kit _is_ its shares. This differs from a bare borrow of a local source (`↓ words`), which binds that source's own value — a source is a program that evaluates to something, and a kit is a collection of definitions. The `@` is what marks the difference.
 
+A bare kit borrow also binds the **kit itself**, under the name after the `/`, so everything it shares can be reached through that name as well as directly:
+
+```
+↓ @amy/colors 3
+sunset                   the export, by its own name
+colors.sunset            the same export, said through the kit
+```
+
+Both, rather than one or the other: the flat name is what a borrow has always given, and the dotted form is how two kits that share a name are told apart — the names in a borrowed kit come from someone who has never seen the borrowing program. A local source gets no such namespace, since its name is already bound to its own value.
+
 The `@` is also why a kit is not written `amy/colors`: `/` already introduces a [language tag](#text), so `↓ start/en` would be ambiguous with a borrow of a source named `start` written in English.
 
 A **version is required**, and one source may not name the same kit at two versions. A published version is immutable and is kept forever, so a program that names one keeps meaning what it meant; following the newest version automatically would let someone else's edit silently change what a program does.

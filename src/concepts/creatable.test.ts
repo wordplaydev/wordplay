@@ -37,6 +37,7 @@ const Excluded = new Map<string, string>([
     ['StreamDefinition', 'defined by the basis, not creators'],
     // Inference-only types, produced by type checking rather than written.
     ['StructureDefinitionType', 'inference-only type'],
+    ['KitType', 'inference-only type'],
     ['StreamDefinitionType', 'inference-only type'],
     ['StructureType', 'inference-only type'],
     ['ExceptionType', 'inference-only type'],

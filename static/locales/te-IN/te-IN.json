@@ -1659,6 +1659,12 @@
                 "$~నేను ఒక రకమైన @StructureDefinition ని సూచిస్తున్నాను. సాధారణంగా ప్రజలు నన్ను నేరుగా సూచించరు."
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~పట్టిక అక్షరార్థం",
             "description": "$~$#count[$count వరుస|$count వరుసలు] గల టేబుల్",

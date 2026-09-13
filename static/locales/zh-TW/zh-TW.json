@@ -1657,6 +1657,12 @@
             "emotion": "kind",
             "doc": ["$~我指向某種 @StructureDefinition。人們通常不會直接指向我"]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "表面量",
             "description": "$~表格有 $#count[$count 列]",

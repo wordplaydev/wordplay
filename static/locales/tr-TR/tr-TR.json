@@ -1659,6 +1659,12 @@
                 "$~Bir tür @StructureDefinition'a atıfta bulunuyorum. İnsanlar genellikle bana doğrudan atıfta bulunmazlar"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~tablo sabiti",
             "description": "$~$#count[$count satırlı|$count satırlı] tablo",

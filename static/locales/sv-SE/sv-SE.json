@@ -1659,6 +1659,12 @@
                 "$~Jag hänvisar till någon form av @StructureDefinition. Folk brukar inte hänvisa till mig direkt"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~tabellbokstav",
             "description": "$~tabell med $#count[$count rad|$count rader]",

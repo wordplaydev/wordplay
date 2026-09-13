@@ -1659,6 +1659,12 @@
                 "$~હું અમુક પ્રકારની @StructureDefinition નો ઉલ્લેખ કરું છું. લોકો સામાન્ય રીતે મારો સીધો ઉલ્લેખ કરતા નથી"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~કોષ્ટક અક્ષરાંક",
             "description": "$~$#count[$count હરોળ|$count હરોળો]નું ટેબલ",

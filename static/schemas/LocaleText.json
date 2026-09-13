@@ -9046,6 +9046,9 @@
                             "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22key%22%2C%22value%22%5D%3E",
                             "description": "A key value pair in a map, such as `a: 1` in `{ a: 1 b: 2}`"
                         },
+                        "KitType": {
+                            "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22name%22%5D%3E"
+                        },
                         "Language": {
                             "additionalProperties": false,
                             "description": "A language tag appearing in a doc or name, such as `/en` in `name/en: 1` or ` ¶My doc¶/en`",
@@ -13531,6 +13534,7 @@
                         "StreamDefinition",
                         "StructureDefinition",
                         "StructureDefinitionType",
+                        "KitType",
                         "TableLiteral",
                         "TextLiteral",
                         "Translation",

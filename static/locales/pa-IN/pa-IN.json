@@ -1659,6 +1659,12 @@
                 "$~ਮੈਂ ਕਿਸੇ ਕਿਸਮ ਦੀ @StructureDefinition ਦਾ ਹਵਾਲਾ ਦਿੰਦਾ ਹਾਂ। ਲੋਕ ਆਮ ਤੌਰ 'ਤੇ ਮੈਨੂੰ ਸਿੱਧੇ ਤੌਰ 'ਤੇ ਨਹੀਂ ਕਹਿੰਦੇ ਹਨ"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~ਸਾਰਣੀ ਸ਼ਬਦਿਕ",
             "description": "$~$#count[$count ਕਤਾਰ|$count ਕਤਾਰਾਂ] ਦਾ ਟੇਬਲ",

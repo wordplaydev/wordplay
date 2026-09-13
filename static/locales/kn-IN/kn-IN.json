@@ -1659,6 +1659,12 @@
                 "$~ನಾನು ಒಂದು ರೀತಿಯ @StructureDefinition ಅನ್ನು ಉಲ್ಲೇಖಿಸುತ್ತೇನೆ. ಜನರು ಸಾಮಾನ್ಯವಾಗಿ ನನ್ನನ್ನು ನೇರವಾಗಿ ಉಲ್ಲೇಖಿಸುವುದಿಲ್ಲ."
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~ಟೇಬಲ್ ಅಕ್ಷರಶಃ",
             "description": "$~$#count[$count ಸಾಲಿನ|$count ಸಾಲುಗಳ] ಕೋಷ್ಟಕ",

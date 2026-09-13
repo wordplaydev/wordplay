@@ -48,6 +48,7 @@ import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
 import Unit from '@nodes/Unit';
+import KitValue from '@values/KitValue';
 import UnknownNameType from '@nodes/UnknownNameType';
 import KitCannotBorrow from '@conflicts/KitCannotBorrow';
 
@@ -481,6 +482,14 @@ export default class Borrow extends SimpleExpression {
                             );
                         evaluator.bind(share.names, shared);
                     }
+                    // ...and the kit itself, so `colors.sunset` can say which kit it
+                    // means (#1373). Additional to the flat binds rather than instead of
+                    // them: shipped examples use a kit's exports by bare name.
+                    if (evaluation !== undefined)
+                        evaluator.bind(
+                            source.names,
+                            new KitValue(this, source, evaluation),
+                        );
                     return value;
                 }
                 evaluator.bind(source.names, value);

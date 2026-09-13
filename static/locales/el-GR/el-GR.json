@@ -1659,6 +1659,12 @@
                 "$~Αναφέρομαι σε κάποιο είδος @StructureDefinition. Συνήθως δεν αναφέρεται απευθείας σε εμένα."
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~σταθερά πίνακα",
             "description": "$~πίνακας με $#count[$count σειρά|$count σειρές]",

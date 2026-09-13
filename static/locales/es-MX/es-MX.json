@@ -1631,6 +1631,12 @@
                 "$~Me refiero a algún tipo de @StructureDefinition. La gente no suele referirse a mí directamente"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "tabla específica",
             "description": "$~tabla de $#count[$#count fila|$count filas|$count filas]",

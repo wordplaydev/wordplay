@@ -6,7 +6,7 @@ import Source from '@nodes/Source';
 import Evaluator from '@runtime/Evaluator';
 import evaluateCode from '@runtime/evaluate';
 import ExceptionValue from '@values/ExceptionValue';
-import { expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { dependencyKey, type Dependency } from '@nodes/Borrow';
 import DefaultLocales from '@locale/DefaultLocales';
 import Token from '@nodes/Token';
@@ -326,6 +326,113 @@ test('a named kit borrow puts only that share in scope', () => {
         `↑ sunset/en: 1\n↑ dawn/en: 2`,
     );
     expect(other.analyze().conflicts.length).toBeGreaterThan(0);
+});
+
+describe('a kit is reachable through its own name (#1373)', () => {
+    // Check time and run time are two different questions, and the pair above exists
+    // because they disagreed once. Every case here asserts both: no conflict, and the
+    // value the namespace actually produces.
+    test('an export resolves and evaluates through the kit name', () => {
+        const project = projectWithKit(
+            `↓ @amy/colors 1\ncolors.sunset`,
+            `↑ sunset/en: 1\n↑ dawn/en: 2`,
+        );
+        expect(conflictNames(project)).toEqual([]);
+        expect(valueOf(project)).toBe('1');
+    });
+
+    test('two kits sharing a name are told apart by it', () => {
+        // The case the feature exists for, and the only one that proves it: with a single
+        // kit, a bare borrow binds `sunset` flat, so `colors.sunset` resolves through the
+        // enclosing scope whether or not a namespace exists. Two kits make the flat name
+        // ambiguous, so each answer can only come from the kit it was asked of.
+        const amy = new Source('colors', `↑ sunset/en: 1`);
+        const bo = new Source('palette', `↑ sunset/en: 2`);
+        const project = Project.make(
+            null,
+            'test',
+            new Source(
+                'main',
+                `↓ @amy/colors 1\n↓ @bo/palette 1\ncolors.sunset · palette.sunset`,
+            ),
+            [],
+            DefaultLocale,
+        ).withDependencies(
+            new Map([
+                [
+                    dependencyKey({ username: 'amy', name: 'colors' }, 1),
+                    {
+                        status: 'loaded',
+                        source: amy,
+                        kit: 'amy-kit',
+                        version: 1,
+                    } satisfies Dependency,
+                ],
+                [
+                    dependencyKey({ username: 'bo', name: 'palette' }, 1),
+                    {
+                        status: 'loaded',
+                        source: bo,
+                        kit: 'bo-kit',
+                        version: 1,
+                    } satisfies Dependency,
+                ],
+            ]),
+        );
+        // 1 · 2 — each `sunset` came from the kit it was named on.
+        expect(valueOf(project)).toBe('2');
+    });
+
+    test('the flat names still work, so nothing that parses today changes', () => {
+        // Three shipped examples use a kit export by bare name after a bare borrow.
+        const project = projectWithKit(
+            `↓ @amy/colors 1\nsunset + colors.dawn`,
+            `↑ sunset/en: 1\n↑ dawn/en: 2`,
+        );
+        expect(conflictNames(project)).toEqual([]);
+        expect(valueOf(project)).toBe('3');
+    });
+
+    test('a shared function is callable through the kit name', () => {
+        const project = projectWithKit(
+            `↓ @amy/colors 1\ncolors.double(3)`,
+            `↑ ƒ double(n•#) n · 2`,
+        );
+        expect(conflictNames(project)).toEqual([]);
+        expect(valueOf(project)).toBe('6');
+    });
+
+    test("a kit's private helper is not reachable through its name", () => {
+        // The whole point of restricting `KitType.getDefinition` to `getShare` rather
+        // than letting it walk the kit's own scope: a helper the author didn't share is
+        // not the borrower's to reach, at check time or at run time.
+        const project = projectWithKit(
+            `↓ @amy/colors 1\ncolors.secret`,
+            `secret: 1\n↑ sunset/en: 2`,
+        );
+        expect(conflictNames(project).length).toBeGreaterThan(0);
+    });
+
+    test('a name the kit does not share at all is a conflict', () => {
+        const project = projectWithKit(
+            `↓ @amy/colors 1\ncolors.nope`,
+            `↑ sunset/en: 1`,
+        );
+        expect(conflictNames(project).length).toBeGreaterThan(0);
+    });
+
+    test('a local source keeps binding its own value, not a namespace', () => {
+        // `Lyrics.wp` has 41 bare local borrows used directly as values, so this is the
+        // invariant that makes the change additive rather than breaking.
+        const project = Project.make(
+            null,
+            'test',
+            new Source('main', `↓ notes\nnotes`),
+            [new Source('notes', `1 + 2`)],
+            DefaultLocale,
+        );
+        expect(valueOf(project)).toBe('3');
+    });
 });
 
 test('a published source raises KitCannotBorrow on every Borrow', () => {

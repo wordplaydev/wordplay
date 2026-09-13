@@ -2000,6 +2000,12 @@
                 "$~म कुनै प्रकारको @StructureDefinition लाई जनाउँछु। मानिसहरूले सामान्यतया मलाई सिधै जनाउँदैनन्"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~तालिका लिटरल",
             "description": "$~$#count[$count पंक्ति|$count पंक्तिहरू] को तालिका",

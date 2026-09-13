@@ -2113,6 +2113,12 @@
                 "$~Ich beziehe mich auf eine Art @StructureDefinition. Normalerweise beziehen sich die Leute nicht direkt auf mich"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "Translate": {
             "name": "$~übersetzen",
             "description": "$~jeden Wert von $expression übersetzen",

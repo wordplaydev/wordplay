@@ -1659,6 +1659,12 @@
                 "$~わたしはある種の@StructureDefinition。ふつう人はわたしを直接指すことはありません"
             ]
         },
+        "KitType": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "curious",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$~表リテラル",
             "description": "$~$#count[$count 行]のテーブル",
