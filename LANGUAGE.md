@@ -1571,6 +1571,8 @@ colors.sunset            the same export, said through the kit
 
 Both, rather than one or the other: the flat name is what a borrow has always given, and the dotted form is how two kits that share a name are told apart — the names in a borrowed kit come from someone who has never seen the borrowing program. A local source gets no such namespace, since its name is already bound to its own value.
 
+A **type annotation** may be reached through a kit the same way, so a structure two kits both share is still nameable: `s•colors.Sprite` annotates `s` with the `Sprite` that `colors` shares.
+
 The `@` is also why a kit is not written `amy/colors`: `/` already introduces a [language tag](#text), so `↓ start/en` would be ambiguous with a borrow of a source named `start` written in English.
 
 A **version is required**, and one source may not name the same kit at two versions. A published version is immutable and is kept forever, so a program that names one keeps meaning what it meant; following the newest version automatically would let someone else's edit silently change what a program does.
@@ -1642,7 +1644,7 @@ Documented expressions simply evaluate to their expression's value.
 > MAPTYPE → `{` TYPE `:` TYPE `}`  
 > STREAMTYPE → `…` TYPE  
 > CONVERSIONTYPE → TYPE `→` TYPE  
-> NAMETYPE → name  
+> NAMETYPE → （name `.`）？ name  
 > FUNCTIONTYPE → `ƒ` TYPEVARIABLES？ `(` BIND＊ `)` TYPE  
 > FORMATTEDTYPE → （`\…\` ｜ `\...\`） LANGUAGE？  
 > UNION → TYPE `|` TYPE

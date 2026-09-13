@@ -2,7 +2,8 @@ import { UnknownName } from '@conflicts/UnknownName';
 import { testConflict } from '@conflicts/TestUtilities';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import { UnknownTypeName } from '@conflicts/UnknownTypeName';
-import { test } from 'vitest';
+import Source from '@nodes/Source';
+import { expect, test } from 'vitest';
 import NameType from '@nodes/NameType';
 
 test.each([
@@ -30,3 +31,20 @@ test.each([['•T() ()\na•T: T()\na', 'a•Nope: 1\na', NameType, UnknownName,
         testConflict(good, bad, node, conflict, index);
     },
 );
+
+/** A name reached through a kit (#1373). Round-tripping matters as much as parsing: the
+ *  qualifier lives in its own field rather than inside the name token, which is what keeps
+ *  the rename passes — which splice `name` — from destroying it. */
+test.each([
+    ['a•colors.Sprite: 1\na', 'colors', 'Sprite'],
+    ['a•Sprite: 1\na', undefined, 'Sprite'],
+])('%s parses its kit and name', (code, kit, name) => {
+    const type = new Source('test', code)
+        .nodes()
+        .find((n): n is NameType => n instanceof NameType);
+    expect(type).toBeDefined();
+    expect(type?.kit?.getText()).toBe(kit);
+    expect(type?.getName()).toBe(name);
+    // The qualifier survives serialization, so a saved project keeps meaning what it meant.
+    expect(new Source('test', code).toWordplay()).toBe(code);
+});

@@ -421,6 +421,18 @@ describe('a kit is reachable through its own name (#1373)', () => {
         expect(conflictNames(project).length).toBeGreaterThan(0);
     });
 
+    test('a shared structure can be annotated through the kit name', () => {
+        // The half of #1373 that values and functions don't need: a structure is named in
+        // a *type* annotation, and `NameType` had no dotted form, so a structure two kits
+        // both share left one of them impossible to annotate.
+        const project = projectWithKit(
+            `↓ @amy/colors 1\ns•colors.Sprite: Sprite(1)\ns.x`,
+            `↑ •Sprite/en(x/en•#)`,
+        );
+        expect(conflictNames(project)).toEqual([]);
+        expect(valueOf(project)).toBe('1');
+    });
+
     test('a local source keeps binding its own value, not a namespace', () => {
         // `Lyrics.wp` has 41 bare local borrows used directly as values, so this is the
         // invariant that makes the change additive rather than breaking.

@@ -685,7 +685,9 @@ test('resolving a color needs no basis', () => {
  * resolves `colors.sunset` during analysis and `Borrow` binds the namespace during
  * evaluation, and both are synchronous, so neither can be imported lazily. They are the
  * smallest pair that does it — a type with no grammar and a value that delegates to the
- * evaluation `Borrow` already holds.
+ * evaluation `Borrow` already holds. The dotted type annotation that comes with it
+ * (`s•colors.Sprite`) adds no file at all, only a field to `NameType` and an arm to the
+ * type parser, which is why only `galleries` moves for it.
  *
  * What must never join these graphs
  * is the kit *database*: a page that merely lists projects has no business being able to
@@ -704,7 +706,7 @@ test.each([
     ['src/routes/+layout.svelte', 523, 3.9],
     ['src/components/app/Page.svelte', 546, 4.15],
     ['src/routes/[[locale]]/+page.svelte', 561, 4.24],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 565, 4.25],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 565, 4.26],
     ['src/routes/[[locale]]/projects/+page.svelte', 572, 4.28],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);

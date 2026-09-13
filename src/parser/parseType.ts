@@ -7,6 +7,7 @@ import FunctionType from '@nodes/FunctionType';
 import ListType from '@nodes/ListType';
 import MapType from '@nodes/MapType';
 import NameType from '@nodes/NameType';
+import type Token from '@nodes/Token';
 import NoneType from '@nodes/NoneType';
 import NumberType from '@nodes/NumberType';
 import RangeType from '@nodes/RangeType';
@@ -89,11 +90,27 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
 }
 
 function parseNameType(tokens: Tokens): NameType {
-    const name = tokens.read(Sym.Name);
+    let name = tokens.read(Sym.Name);
+    // A name reached through a kit (`colors.Sprite`), so a structure two kits both share
+    // is still annotatable (#1373). The first name turns out to be the kit only once the
+    // dot is seen, which is why it is read first and reassigned.
+    let kit: Token | undefined = undefined;
+    let dot: Token | undefined = undefined;
+    if (tokens.nextIs(Sym.Access)) {
+        dot = tokens.read(Sym.Access);
+        if (tokens.nextIs(Sym.Name)) {
+            kit = name;
+            name = tokens.read(Sym.Name);
+        } else {
+            // A dot with no name after it isn't a qualifier; leave it for whoever follows.
+            tokens.unreadTo(dot);
+            dot = undefined;
+        }
+    }
     const types = tokens.nextIs(Sym.TypeOpen)
         ? parseTypeInputs(tokens)
         : undefined;
-    return new NameType(name, types);
+    return new NameType(name, types, undefined, kit, dot);
 }
 
 /** TEXT_TYPE :: TEXT LANGUAGE? */
