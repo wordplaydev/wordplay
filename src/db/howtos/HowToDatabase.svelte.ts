@@ -1331,7 +1331,10 @@ export class HowToDatabase {
      *  worth making again. */
     private async readGalleryHowTos(galleryID: string): Promise<boolean> {
         const gallery = this.db.Galleries.getKnown(galleryID);
-        if (gallery === undefined) return false;
+        // Not knowing the gallery is not a failed read: there is no list of
+        // how-tos to ask for, so asking again would never find one. Whatever
+        // makes it known re-decides this watch.
+        if (gallery === undefined) return true;
         const { unreachable } = await this.getHowTos(gallery.getHowTos());
         return !unreachable;
     }

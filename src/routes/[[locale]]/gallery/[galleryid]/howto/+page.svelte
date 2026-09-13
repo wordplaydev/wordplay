@@ -158,8 +158,22 @@
 
     // Subscribe to the gallery and its how-tos, so this space stays current for
     // whoever is reading it — signed in or not. See GalleryDatabase.watchPublic.
+    // Keyed on the id, never the gallery object: each snapshot the watch
+    // receives is written into `publicGalleries`, which re-resolves `gallery`
+    // to a new instance — so an effect that depended on the instance would tear
+    // its own subscription down and start another on every snapshot, and never
+    // live long enough to deliver one.
+    let watchedGalleryID = $derived(gallery ? gallery.getID() : undefined);
+    // `untrack`, because acquiring the watch reads the gallery maps to decide
+    // what to subscribe to — and the watch then writes each snapshot back into
+    // `publicGalleries`. Tracked, those reads make the effect depend on its own
+    // output: it tears its subscription down and starts another on every
+    // snapshot, thousands of times a second, and never lives long enough to
+    // deliver one.
     $effect(() => {
-        if (gallery) return Galleries.watchPublic(gallery.getID());
+        const id = watchedGalleryID;
+        if (id === undefined) return;
+        return untrack(() => Galleries.watchPublic(id));
     });
 
     // Render whatever that subscription has put in the cache. A `$state` filled
