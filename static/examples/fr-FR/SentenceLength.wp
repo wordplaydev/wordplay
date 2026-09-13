@@ -2,6 +2,7 @@ H
 LongueurPhrase
 ===
 ¶Écris dans la barre de discussion et elle compte les caractères de ta phrase.¶
+
 phrase3: Chat()
 longueur2: Chat().longueur()
 

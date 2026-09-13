@@ -248,6 +248,7 @@ Scène(
 )
 === guitar1
 ¶Guitare, voix 1 sur 12. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 3.5beats)
@@ -1522,6 +1523,7 @@ Piste(
 )
 === guitar2
 ¶Guitare, voix 2 sur 12. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 32beats)
@@ -1577,6 +1579,7 @@ Piste(
 )
 === guitar3
 ¶Guitare, voix 3 sur 12. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 32.25beats)
@@ -1589,6 +1592,7 @@ Piste(
 )
 === guitar4
 ¶Guitare, voix 4 sur 12. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 303.25beats)
@@ -1599,6 +1603,7 @@ Piste(
 )
 === violin1
 ¶Cordes, voix 1 sur 2. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 3.5beats)
@@ -1741,6 +1746,7 @@ Piste(
 )
 === guitar5
 ¶Guitare, voix 5 sur 12. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 4beats)
@@ -1871,6 +1877,7 @@ Piste(
 )
 === guitar6
 ¶Guitare, voix 6 sur 12. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 16beats)
@@ -3539,6 +3546,7 @@ Piste(
 )
 === guitar7
 ¶Guitare, voix 7 sur 12. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 16.25beats)
@@ -3753,6 +3761,7 @@ Piste(
 )
 === guitar8
 ¶Guitare, voix 8 sur 12. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 17.75beats)
@@ -3813,6 +3822,7 @@ Piste(
 )
 === guitar9
 ¶Guitare, voix 9 sur 12. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 213.5beats)
@@ -3825,6 +3835,7 @@ Piste(
 )
 === guitar10
 ¶Guitare, voix 10 sur 12. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 40beats)
@@ -4925,6 +4936,7 @@ Piste(
 )
 === guitar11
 ¶Guitare, voix 11 sur 12. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 40beats)
@@ -5269,6 +5281,7 @@ Piste(
 )
 === guitar12
 ¶Guitare, voix 12 sur 12. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 56beats)
@@ -5341,6 +5354,7 @@ Piste(
 )
 === flute1
 ¶Flûte, voix 1 sur 1. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 64beats)
@@ -5367,6 +5381,7 @@ Piste(
 )
 === violin2
 ¶Cordes, voix 2 sur 2. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 112beats)
@@ -5495,6 +5510,7 @@ Piste(
 )
 === synth1
 ¶Synthétiseur, voix 1 sur 2. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 292.375beats)
@@ -5621,6 +5637,7 @@ Piste(
 )
 === bass1
 ¶Basse, voix 1 sur 2. Le fichier de départ l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 47.75beats)
@@ -6393,6 +6410,7 @@ Piste(
 )
 === bass2
 ¶Basse, voix 2 sur 2. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 252beats)
@@ -6403,6 +6421,7 @@ Piste(
 )
 === drums1
 ¶Batterie, voix 1 sur 6. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 22.75beats)
@@ -7057,6 +7076,7 @@ Piste(
 )
 === drums2
 ¶Batterie, voix 2 sur 6. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 23beats)
@@ -7705,6 +7725,7 @@ Piste(
 )
 === drums3
 ¶Batterie, voix 3 sur 6. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 23.25beats)
@@ -8233,6 +8254,7 @@ Piste(
 )
 === drums4
 ¶Batterie, voix 4 sur 6. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 23.5beats)
@@ -8465,6 +8487,7 @@ Piste(
 )
 === drums5
 ¶Batterie, voix 5 sur 6. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 226.25beats)
@@ -8477,6 +8500,7 @@ Piste(
 )
 === drums6
 ¶Batterie, voix 6 sur 6. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 226.292beats)
@@ -8489,6 +8513,7 @@ Piste(
 )
 === synth2
 ¶Synthétiseur, voix 2 sur 2. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 298.75beats)
@@ -8499,6 +8524,7 @@ Piste(
 )
 === bell1
 ¶Cloches, voix 1 sur 10. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 299beats)
@@ -8511,6 +8537,7 @@ Piste(
 )
 === bell2
 ¶Cloches, voix 2 sur 10. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 299.25beats)
@@ -8523,6 +8550,7 @@ Piste(
 )
 === bell3
 ¶Cloches, voix 3 sur 10. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 299.25beats)
@@ -8535,6 +8563,7 @@ Piste(
 )
 === bell4
 ¶Cloches, voix 4 sur 10. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 299.5beats)
@@ -8545,6 +8574,7 @@ Piste(
 )
 === bell5
 ¶Cloches, voix 5 sur 10. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 299.75beats)
@@ -8555,6 +8585,7 @@ Piste(
 )
 === bell6
 ¶Cloches, voix 6 sur 10. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 300beats)
@@ -8567,6 +8598,7 @@ Piste(
 )
 === bell7
 ¶Cloches, voix 7 sur 10. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 300.25beats)
@@ -8577,6 +8609,7 @@ Piste(
 )
 === bell8
 ¶Cloches, voix 8 sur 10. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 300.25beats)
@@ -8589,6 +8622,7 @@ Piste(
 )
 === bell9
 ¶Cloches, voix 9 sur 10. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 301.5beats)
@@ -8599,6 +8633,7 @@ Piste(
 )
 === bell10
 ¶Cloches, voix 10 sur 10. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 302.5beats)
@@ -8609,6 +8644,7 @@ Piste(
 )
 === pad1
 ¶Nappe, voix 1 sur 3. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 297.25beats)
@@ -8623,6 +8659,7 @@ Piste(
 )
 === pad2
 ¶Nappe, voix 2 sur 3. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 309.5beats)
@@ -8637,6 +8674,7 @@ Piste(
 )
 === pad3
 ¶Nappe, voix 3 sur 3. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 348beats)
@@ -8651,6 +8689,7 @@ Piste(
 )
 === sax1
 ¶Cor, voix 1 sur 3. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 319beats)
@@ -8713,6 +8752,7 @@ Piste(
 )
 === sax2
 ¶Cor, voix 2 sur 3. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 320beats)
@@ -8753,6 +8793,7 @@ Piste(
 )
 === sax3
 ¶Cor, voix 3 sur 3. Le fichier commencer l'emprunte par son nom.¶
+
 Piste(
 	[
 		Note(ø 39beats)

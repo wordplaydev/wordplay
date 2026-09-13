@@ -2,6 +2,7 @@ M
 Peras
 === start/en
 ¶Esta es una historia corta interactiva. Define varias escenas distintas y se mueve entre ellas según diferentes interacciones, como clics, choques y otras acciones. Parte de la diversión de vivir la historia es descubrir las interacciones necesarias para avanzar en ella.¶
+
 exposición: [
 		Frase(`Mi papá quería irse.` lugar: Lugar(-9m 0m))
 	]

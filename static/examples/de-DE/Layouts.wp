@@ -2,6 +2,7 @@ K
 Layouts
 === start
 ¶Reihen, Stapel und Gruppen von Phrasen, jede in einer animierten Pose.¶
+
 pochen: Reihenfolge(
 		{
 			0%: Pose(Skala: .9)

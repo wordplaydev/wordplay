@@ -2,6 +2,7 @@
 Genlik
 ===
 ¶Mikrofonunun ses düzeyine göre parlayıp sönen bir nokta sırası.¶
+
 genlikler•[#]: ←← 10 Hacim()
 gör: genlikler.tercümeetmek(
 		ƒ(genlik•#) İfadeetmek("⚫" opaklık: genlik boyut: 10m)

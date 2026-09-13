@@ -2,6 +2,7 @@ M
 Gruszki
 === start/en
 ¶To jest interaktywne opowiadanie. Zawiera kilka różnych scen i przechodzi między nimi na podstawie różnych działań, takich jak kliknięcia, zderzenia i inne czynności. Częścią zabawy jest odkrywanie, jakie działania trzeba wykonać, żeby opowiadanie mogło toczyć się dalej.¶
+
 wprowadzenie: [
 		Wyrażenie(
 			`Mój tata chciał wyjść.`

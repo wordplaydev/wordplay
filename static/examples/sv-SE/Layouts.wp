@@ -2,6 +2,7 @@ K
 Layouter
 === start
 ¶Rader, staplar och grupper av fraser, som alla intar animerade poser.¶
+
 pulsera: Sekvens(
 		{
 			0%: Pose(skala: .9)

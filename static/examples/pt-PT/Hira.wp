@@ -2,6 +2,7 @@
 Hiragana
 === start
 ¶Hiragana a cair sob a gravidade; clique para inverter o sentido para baixo.¶
+
 contagem2: 32
 
 gravidade2•#m/s^2: 15m/s^2 … ∆ Botão() … -gravidade2

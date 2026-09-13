@@ -2,6 +2,7 @@ M
 Peras
 === start/en
 ¶Esta é uma história curta interativa. Define várias cenas diferentes e passa de uma para outra consoante interações diferentes, como cliques, colisões e outras ações. Parte da diversão de viver a história está em descobrir as interações necessárias para a fazer avançar.¶
+
 exposição: [
 		Frase(
 			`O meu pai queria ir embora.`

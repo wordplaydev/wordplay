@@ -2,6 +2,7 @@
 RotatingBinary
 === start/en
 ¶Un câmp de unu și zero, care se rotește încet pe loc.¶
+
 rotireLentă: Secvenţă.rotire(10s "straight")
 
 Etapă(

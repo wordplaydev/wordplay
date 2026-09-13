@@ -2,6 +2,7 @@ t
 Maszyna Czcionek
 === start
 ¶Naciśnij dowolny klawisz, aby wyświetlić każdą literę słowa "typografia" losową czcionką.¶
+
 czcionki: [
 		"Arvo"/en
 		"Modak"/en

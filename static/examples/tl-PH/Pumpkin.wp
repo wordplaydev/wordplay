@@ -2,6 +2,7 @@
 Kalabasa
 === start
 ¶Isang jack-o'-lantern na kumikislap at muling lumalabas sa ibang lugar bawat segundo.¶
+
 oras2: Oras(1000ms)
 ilagay: Lugar(0m 0m) … ∆ oras2 … Lugar(
 			Random(-4m 4m)

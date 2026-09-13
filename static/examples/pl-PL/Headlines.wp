@@ -2,6 +2,7 @@ l
 Nagłówki
 === start/en
 ¶Nagłówki z New York Times na żywo, pobrane z internetu i ułożone na scenie.¶
+
 nagłówki: Stronainternetowa(
 		'https://www.nytimes.com'
 		'.indicate-hover'

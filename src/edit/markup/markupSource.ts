@@ -1,5 +1,6 @@
 import type Caret from '@edit/caret/Caret';
 import { isPosition, isRange } from '@edit/caret/Caret';
+import Doc from '@nodes/Doc';
 import Example from '@nodes/Example';
 import type Markup from '@nodes/Markup';
 import WebLink from '@nodes/WebLink';
@@ -57,9 +58,26 @@ export function unwrapMarkup(code: string): string {
         : code;
 }
 
+/**
+ * The wrapper doc {@link wrapMarkup} added, which is always the source's first node.
+ * Usually it is the program's own documentation, but a text whose wrapper escapes
+ * (`Hello ¶note¶ world`) closes it early and leaves the doc adjacent to code, where it
+ * documents the statement that follows instead (#1374). Either way it is the first `Doc`
+ * in reading order, and the caller still checks {@link isWholeMarkup} before rendering.
+ */
+function firstDoc(source: Source): Doc | undefined {
+    const program = source.expression;
+    return (
+        program.docs.docs[0] ??
+        program.expression.statements[0]
+            ?.nodes()
+            .find((node): node is Doc => node instanceof Doc)
+    );
+}
+
 /** The `Markup` node the editor renders: the first doc's markup. */
 export function getMarkup(source: Source): Markup | undefined {
-    return source.expression.docs.docs[0]?.markup;
+    return firstDoc(source)?.markup;
 }
 
 /**
@@ -135,7 +153,7 @@ export function clampToMarkup(caret: Caret): Caret {
 /** Whether a node is the `¶` wrapper rather than something the author wrote.
  *  The editor hides these, and no command may target one. */
 export function isWrapperToken(source: Source, node: Node): boolean {
-    const doc = source.expression.docs.docs[0];
+    const doc = firstDoc(source);
     return doc !== undefined && (node === doc.open || node === doc.close);
 }
 

@@ -2,6 +2,7 @@ l
 Titres
 === start/en
 ¶Les gros titres du New York Times, en direct, pris sur le web et empilés sur la scène.¶
+
 grosTitres: Pageweb(
 		'https://www.nytimes.com'
 		'.indicate-hover'

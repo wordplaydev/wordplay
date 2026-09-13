@@ -2,6 +2,7 @@ s
 Progression de l'accélération
 ===
 ¶La même animation de voiture en huit versions, une pour chaque style de transition.¶
+
 imagesClés: {
 		0%: Pose(compenser: Lieu(-1m 0m))
 		25%: Pose(compenser: Lieu(1m 0m))

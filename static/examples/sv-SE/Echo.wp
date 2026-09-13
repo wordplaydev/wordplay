@@ -2,6 +2,7 @@
 Eko
 === start
 ¶Vad publiken än skriver i chattfältet blir denna fras.¶
+
 meddelande: Chatta()
 
 ¶Börja med en fråga, och visa sedan varje nytt meddelande. Texten ändras från de gamla orden till de nya, en bokstav i taget.¶

@@ -2,6 +2,7 @@ o
 Camadas
 === start
 ¶Bolas a saltar a diferentes profundidades para mostrar as camadas de paralaxe.¶
+
 contagem2: 10 → []
 
 ƒ bolas(z2•#m) contagem2.traduzir(

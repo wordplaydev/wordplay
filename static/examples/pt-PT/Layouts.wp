@@ -2,6 +2,7 @@ K
 Disposições
 === start
 ¶Linhas, pilhas e grupos de frases, cada uma a fazer poses animadas.¶
+
 pulsar: Sequência(
 		{
 			0%: Pose(escala: .9)

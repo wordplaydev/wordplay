@@ -2,6 +2,7 @@
 Ansikte
 ===
 ¶En emoji som speglar ditt ansikte när du ler, rynkar pannan, gapar och blinkar.¶
+
 ansikte2: Ansikte()
 
 Etapp(

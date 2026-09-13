@@ -2,6 +2,7 @@
 Kamay
 ===
 ¶Itaas ang iyong mga daliri sa harap ng iyong camera, at may emoji ng kamay na bibilang kasabay nito.¶
+
 kamay: Kamay()
 
 Entablado(

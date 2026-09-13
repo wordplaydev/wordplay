@@ -2,6 +2,7 @@
 Patrones
 === start
 ¶Escribe una oración con algunos números en ella. Voy a encontrar cada número y a mostrarlos abajo, agregándolos a medida que los encuentro. Un patrón describe la forma de un texto — aquí,\⣿ >0 #⣿\ significa “uno o más dígitos”, y ⌕ encuentra cada lugar donde aparece.¶
+
 entrada: Charla()
 texto2: 'Tengo 3 gatos, 12 peces y 144 hormigas' … ∆ entrada … entrada
 

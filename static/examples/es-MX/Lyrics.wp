@@ -248,6 +248,7 @@ Escenario(
 )
 === guitar1
 ¶Guitarra, voz 1 de 12. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 3.5beats)
@@ -1522,6 +1523,7 @@ Pista(
 )
 === guitar2
 ¶Guitarra, voz 2 de 12. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 32beats)
@@ -1577,6 +1579,7 @@ Pista(
 )
 === guitar3
 ¶Guitarra, voz 3 de 12. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 32.25beats)
@@ -1589,6 +1592,7 @@ Pista(
 )
 === guitar4
 ¶Guitarra, voz 4 de 12. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 303.25beats)
@@ -1599,6 +1603,7 @@ Pista(
 )
 === violin1
 ¶Cuerdas, voz 1 de 2. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 3.5beats)
@@ -1741,6 +1746,7 @@ Pista(
 )
 === guitar5
 ¶Guitarra, voz 5 de 12. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 4beats)
@@ -1871,6 +1877,7 @@ Pista(
 )
 === guitar6
 ¶Guitarra, voz 6 de 12. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 16beats)
@@ -3539,6 +3546,7 @@ Pista(
 )
 === guitar7
 ¶Guitarra, voz 7 de 12. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 16.25beats)
@@ -3753,6 +3761,7 @@ Pista(
 )
 === guitar8
 ¶Guitarra, voz 8 de 12. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 17.75beats)
@@ -3813,6 +3822,7 @@ Pista(
 )
 === guitar9
 ¶Guitarra, voz 9 de 12. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 213.5beats)
@@ -3825,6 +3835,7 @@ Pista(
 )
 === guitar10
 ¶Guitarra, voz 10 de 12. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 40beats)
@@ -4925,6 +4936,7 @@ Pista(
 )
 === guitar11
 ¶Guitarra, voz 11 de 12. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 40beats)
@@ -5269,6 +5281,7 @@ Pista(
 )
 === guitar12
 ¶Guitarra, voz 12 de 12. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 56beats)
@@ -5341,6 +5354,7 @@ Pista(
 )
 === flute1
 ¶Flauta, voz 1 de 1. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 64beats)
@@ -5367,6 +5381,7 @@ Pista(
 )
 === violin2
 ¶Cuerdas, voz 2 de 2. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 112beats)
@@ -5495,6 +5510,7 @@ Pista(
 )
 === synth1
 ¶Sintetizador, voz 1 de 2. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 292.375beats)
@@ -5621,6 +5637,7 @@ Pista(
 )
 === bass1
 ¶Bajo, voz 1 de 2. El archivo comenzar la toma prestada por su nombre.¶
+
 Pista(
 	[
 		Nota(ø 47.75beats)
@@ -6393,6 +6410,7 @@ Pista(
 )
 === bass2
 ¶Bajo, voz 2 de 2. La fuente de comienzo lo toma prestado por nombre.¶
+
 Pista(
 	[
 		Nota(ø 252beats)
@@ -6403,6 +6421,7 @@ Pista(
 )
 === drums1
 ¶Tambores, voz 1 de 6. La fuente de comienzo los toma prestados por nombre.¶
+
 Pista(
 	[
 		Nota(ø 22.75beats)
@@ -7057,6 +7076,7 @@ Pista(
 )
 === drums2
 ¶Tambores, voz 2 de 6. La fuente de comienzo los toma prestados por nombre.¶
+
 Pista(
 	[
 		Nota(ø 23beats)
@@ -7705,6 +7725,7 @@ Pista(
 )
 === drums3
 ¶Tambores, voz 3 de 6. La fuente de comienzo los toma prestados por nombre.¶
+
 Pista(
 	[
 		Nota(ø 23.25beats)
@@ -8233,6 +8254,7 @@ Pista(
 )
 === drums4
 ¶Tambores, voz 4 de 6. La fuente de comienzo los toma prestados por nombre.¶
+
 Pista(
 	[
 		Nota(ø 23.5beats)
@@ -8465,6 +8487,7 @@ Pista(
 )
 === drums5
 ¶Tambores, voz 5 de 6. La fuente de comienzo los toma prestados por nombre.¶
+
 Pista(
 	[
 		Nota(ø 226.25beats)
@@ -8477,6 +8500,7 @@ Pista(
 )
 === drums6
 ¶Tambores, voz 6 de 6. La fuente de comienzo los toma prestados por nombre.¶
+
 Pista(
 	[
 		Nota(ø 226.292beats)
@@ -8489,6 +8513,7 @@ Pista(
 )
 === synth2
 ¶Sintetizador, voz 2 de 2. La fuente de comienzo lo toma prestado por nombre.¶
+
 Pista(
 	[
 		Nota(ø 298.75beats)
@@ -8499,6 +8524,7 @@ Pista(
 )
 === bell1
 ¶Campanas, voz 1 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+
 Pista(
 	[
 		Nota(ø 299beats)
@@ -8511,6 +8537,7 @@ Pista(
 )
 === bell2
 ¶Campanas, voz 2 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+
 Pista(
 	[
 		Nota(ø 299.25beats)
@@ -8523,6 +8550,7 @@ Pista(
 )
 === bell3
 ¶Campanas, voz 3 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+
 Pista(
 	[
 		Nota(ø 299.25beats)
@@ -8535,6 +8563,7 @@ Pista(
 )
 === bell4
 ¶Campanas, voz 4 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+
 Pista(
 	[
 		Nota(ø 299.5beats)
@@ -8545,6 +8574,7 @@ Pista(
 )
 === bell5
 ¶Campanas, voz 5 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+
 Pista(
 	[
 		Nota(ø 299.75beats)
@@ -8555,6 +8585,7 @@ Pista(
 )
 === bell6
 ¶Campanas, voz 6 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+
 Pista(
 	[
 		Nota(ø 300beats)
@@ -8567,6 +8598,7 @@ Pista(
 )
 === bell7
 ¶Campanas, voz 7 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+
 Pista(
 	[
 		Nota(ø 300.25beats)
@@ -8577,6 +8609,7 @@ Pista(
 )
 === bell8
 ¶Campanas, voz 8 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+
 Pista(
 	[
 		Nota(ø 300.25beats)
@@ -8589,6 +8622,7 @@ Pista(
 )
 === bell9
 ¶Campanas, voz 9 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+
 Pista(
 	[
 		Nota(ø 301.5beats)
@@ -8599,6 +8633,7 @@ Pista(
 )
 === bell10
 ¶Campanas, voz 10 de 10. La fuente de comienzo las toma prestadas por nombre.¶
+
 Pista(
 	[
 		Nota(ø 302.5beats)
@@ -8609,6 +8644,7 @@ Pista(
 )
 === pad1
 ¶Pad, voz 1 de 3. La fuente de comienzo lo toma prestado por nombre.¶
+
 Pista(
 	[
 		Nota(ø 297.25beats)
@@ -8623,6 +8659,7 @@ Pista(
 )
 === pad2
 ¶Pad, voz 2 de 3. La fuente de comienzo lo toma prestado por nombre.¶
+
 Pista(
 	[
 		Nota(ø 309.5beats)
@@ -8637,6 +8674,7 @@ Pista(
 )
 === pad3
 ¶Pad, voz 3 de 3. La fuente de comienzo lo toma prestado por nombre.¶
+
 Pista(
 	[
 		Nota(ø 348beats)
@@ -8651,6 +8689,7 @@ Pista(
 )
 === sax1
 ¶Trompa, voz 1 de 3. La fuente de comienzo la toma prestada por nombre.¶
+
 Pista(
 	[
 		Nota(ø 319beats)
@@ -8713,6 +8752,7 @@ Pista(
 )
 === sax2
 ¶Trompa, voz 2 de 3. La fuente de comienzo la toma prestada por nombre.¶
+
 Pista(
 	[
 		Nota(ø 320beats)
@@ -8753,6 +8793,7 @@ Pista(
 )
 === sax3
 ¶Trompa, voz 3 de 3. La fuente de comienzo la toma prestada por nombre.¶
+
 Pista(
 	[
 		Nota(ø 39beats)

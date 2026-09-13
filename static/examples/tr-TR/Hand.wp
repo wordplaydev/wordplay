@@ -2,6 +2,7 @@
 El
 ===
 ¶Kameraya parmaklarını göster, bir emoji el sayarak sana eşlik etsin.¶
+
 el: El()
 
 Sahne(

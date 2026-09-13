@@ -2,6 +2,7 @@
 Bàn tay
 ===
 ¶Giơ ngón tay trước máy ảnh và một bàn tay biểu tượng cảm xúc sẽ đếm theo.¶
+
 bànTay: Tay()
 
 Sânkhấu(

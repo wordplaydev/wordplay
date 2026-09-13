@@ -1509,7 +1509,7 @@ Evaluates the stream value, and finds the stream that contains the value. If an 
 
 The combined set of all of the expressions above mean that most of Wordplay is expressions:
 
-> PROGRAM → BORROW＊ （BIND ｜ EXPRESSION）＊  
+> PROGRAM → DOCS？ BORROW＊ （BIND ｜ EXPRESSION）＊  
 > BORROW → `↓` （name ｜ kit） （`.` name）？ numeral？  
 > kit → `@` name `/` name  
 > EXPRESSION → REACTION ｜ CONDITIONAL ｜ MATCH ｜ OTHERWISE ｜ BINARYEVALUATE ｜ ATOMIC  
@@ -1602,7 +1602,18 @@ There are three places that comments can appear in code: just before programs, j
 
 Documentation is part of the grammar, not just discarded text in parsing. This allows for unambiguous association between text and documentation.
 
-A doc's `\…\` examples are code, and they resolve in the scope of the thing they document: a doc on a definition sees whatever that definition sees, and a doc on a **program** sees what the program defines. The latter is what makes a source's own doc able to demonstrate the source — `¶Use one as a colour. \Phrase('a' color: sunset)\¶` names a `sunset` the program declares below it — and it is the only place such an example can live, since a leading doc is parsed as the program's rather than as the first definition's.
+Docs separated by at most one newline are one **group** — the locale variants of a single doc (`¶hello¶/en ¶hola¶/es`) — and a blank line ends a group. At the start of a program that grouping decides who a doc belongs to, which the grammar cannot say on its own: a leading group **touching** what follows it documents that, like every other doc, and it is the program's own documentation only when nothing adjacent can take it — a blank line follows, a `↓` borrow follows, or the source ends there. A program may open with several separated groups; all of them are its own, except a last one that touches the statement below it.
+
+```
+¶The colour of a sunset.¶        ¶Colours I like.¶
+↑ sunset/en: 1
+                                 ¶The colour of a sunset.¶
+one doc, on sunset               ↑ sunset/en: 1
+
+                                 one doc on the source, one on sunset
+```
+
+A doc's `\…\` examples are code, and they resolve in the scope of the thing they document: a doc on a definition sees whatever that definition sees, and a doc on a **program** sees what the program defines, wherever in the program it is defined. That is what makes a source's own doc able to demonstrate the source — `¶Use one as a colour. \Phrase('a' color: sunset)\¶` names a `sunset` the program declares below it — and it is why a kit's headline example belongs there, with a blank line under it to keep it the source's.
 
 #### _evaluation_
 

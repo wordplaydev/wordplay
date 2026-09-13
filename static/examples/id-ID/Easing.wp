@@ -2,6 +2,7 @@ s
 Pelunakan Urutan
 ===
 ¶Animasi mobil yang sama dengan delapan cara, satu untuk setiap gaya kelancaran gerakan.¶
+
 bingkaiKunci: {
 		0%: Pose(mengimbangi: Tempat(-1m 0m))
 		25%: Pose(mengimbangi: Tempat(1m 0m))

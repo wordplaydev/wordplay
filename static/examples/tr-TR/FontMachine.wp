@@ -2,6 +2,7 @@ t
 Yazı Tipi Makinesi
 === start
 ¶"typography" kelimesindeki her harfi rastgele bir yazı tipiyle yeniden dizmek için herhangi bir tuşa bas.¶
+
 yazıTipleri: [
 		"Arvo"/en
 		"Modak"/en

@@ -2,6 +2,7 @@ T
 Dikt
 === start
 ¶En dikt vars rader glider in, var och en med sitt eget intåg.¶
+
 •rad(text2•"" pose•Pose|Sekvens bak: Färg(100 100 100°) fram: Färg(
 			0
 			0

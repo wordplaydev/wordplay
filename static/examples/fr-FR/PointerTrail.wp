@@ -2,6 +2,7 @@
 Trace du pointeur
 ===
 ¶Déplace ton pointeur pour dessiner une traînée arc-en-ciel qui s'estompe. @Previous (←←) mémorise les cinq derniers @Pointer, et @List.translate dessine un point pour chacun, en s'estompant et en changeant de couleur du plus ancien au plus récent.¶
+
 historique•[Lieu]: ←← 5 Aiguille()
 Scène(
 	historique.traduire(

@@ -2,6 +2,7 @@
 Tonhöjdsnoter
 ===
 ¶Sjung eller nyn, och se tonen du gör — två gånger. Den vänstra tonen läser den råa @Pitch och hoppar; den högra tonen räknar ut medelvärdet av de senaste tonhöjderna och håller sig stadig. @Pitch säger 0hz när den inte hör något tydligt, så båda tonerna hoppar över de stunderna och visar · istället.¶
+
 toner: [
 		'A'
 		'A♯'

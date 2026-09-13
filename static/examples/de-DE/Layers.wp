@@ -2,6 +2,7 @@ o
 Ebenen
 === start
 ¶Bälle, die in verschiedenen Tiefen springen, um Parallax-Ebenen zu zeigen.¶
+
 zähler: 10 → []
 
 ƒ bälle(z2•#m) zähler.übersetzen(

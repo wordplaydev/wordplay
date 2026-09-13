@@ -2,6 +2,7 @@
 PalavrasFaladas
 === start
 ¶Fale, e as suas palavras aparecem em lugares e tamanhos aleatórios.¶
+
 clicar: Botão(ø)
 discurso: Fala(
 		reiniciar: clicar

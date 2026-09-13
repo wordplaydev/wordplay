@@ -2,6 +2,7 @@ t
 Máquina de fuentes
 === start
 ¶Presiona cualquier tecla para volver a componer cada letra de "tipografía" en una fuente al azar.¶
+
 fuentes: [
 		"Arvo"/en
 		"Modak"/en

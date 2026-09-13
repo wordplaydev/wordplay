@@ -149,6 +149,7 @@
 )
 === years/en
 ¶美國電腦與資訊科學學士學位中，女性所佔的百分比，依年份列出，並附上女性人數與學位總人數。資料來源：National Center for Education Statistics，Digest of Education Statistics，表 325.35。https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡年份•'' 女性•# 總計•# 百分比•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -164,6 +165,7 @@
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶美國各科系學士學位中，女性所佔的百分比，約在 2018 年，依比例從高到低排列。資料來源：National Science Foundation，NCSES，Women, Minorities, and Persons with Disabilities in Science and Engineering。https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡欄位•'' 百分比2•#⎦
 ⎡'心理學' 72⎦
 ⎡'生物學' 60⎦

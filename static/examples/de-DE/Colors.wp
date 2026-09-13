@@ -2,6 +2,7 @@ w
 Farbenshow
 ===
 ¶Klicke, damit das Wort „wowie“ wackelt und zufällig seine Farbe ändert.¶
+
 farbe2: Farbe(0% 0 0°) … ∆ Taste() … Farbe(
 			50%
 			Zufällig() × 200

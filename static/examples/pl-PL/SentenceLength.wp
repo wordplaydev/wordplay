@@ -2,6 +2,7 @@ H
 DługośćZdania
 ===
 ¶Wpisz coś w pasku czatu, a policzy znaki twojego zdania.¶
+
 zdanie2: Pogawędzić()
 długość2: Pogawędzić().długość()
 

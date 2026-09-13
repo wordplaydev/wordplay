@@ -181,6 +181,7 @@ Etapă(
 )
 === years/en
 ¶Procentul diplomelor de licență în informatică și științe ale informației din SUA obținute de femei, pe an, împreună cu numărul de femei și numărul total de diplome. Sursă: National Center for Education Statistics, Digest of Education Statistics, Tabelul 325.35. https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡an2•'' femei•# total•# procent•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -196,6 +197,7 @@ Etapă(
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶Procentul diplomelor de licență din SUA obținute de femei în fiecare domeniu de studiu, în jurul anului 2018, ordonate de la cel mai mare procent la cel mai mic. Sursă: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering. https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡câmp•'' procent2•#⎦
 ⎡'Psihologie' 72⎦
 ⎡'Biologie' 60⎦

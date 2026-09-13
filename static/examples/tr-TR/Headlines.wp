@@ -2,6 +2,7 @@ l
 Manşetler
 === start/en
 ¶İnternetten alınan ve sahnede üst üste dizilen canlı New York Times başlıkları.¶
+
 başlıklar: Websayfası(
 		'https://www.nytimes.com'
 		'.indicate-hover'

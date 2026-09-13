@@ -2,6 +2,7 @@ l
 Titulares
 === start/en
 ¶Titulares en vivo del New York Times, tomados de la web y apilados en el escenario.¶
+
 titulares: PáginaWeb(
 		'https://www.nytimes.com'
 		'.indicate-hover'

@@ -2,6 +2,7 @@ K
 Układy
 === start
 ¶Wiersze, stosy i grupy fraz, każda w innej animowanej pozie.¶
+
 pulsowanie: Sekwencja(
 		{
 			0%: Poza(skala: .9)

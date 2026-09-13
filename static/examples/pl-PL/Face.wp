@@ -2,6 +2,7 @@
 Twarz
 ===
 ¶Emoji, które odzwierciedla twoją twarz, gdy się uśmiechasz, marszczysz brwi, otwierasz usta i mrugasz.¶
+
 twarz2: Twarz()
 
 Scena(

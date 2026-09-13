@@ -2,6 +2,7 @@ w
 Spectacle de couleurs
 ===
 ¶Clique pour secouer et changer au hasard la couleur du mot « ouah ».¶
+
 couleur2: Couleur(0% 0 0°) … ∆ Bouton() … Couleur(
 			50%
 			Aléatoire() × 200

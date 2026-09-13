@@ -2,6 +2,7 @@
 Ręka
 ===
 ¶Pokaż palce swojej kamerze, a dłoń z emoji będzie liczyć razem z tobą.¶
+
 ręka: Ręka()
 
 Scena(

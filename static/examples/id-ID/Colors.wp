@@ -2,6 +2,7 @@ w
 Pertunjukan Warna
 ===
 ¶Klik untuk menggoyangkan dan mengubah warna kata "wowie" secara acak.¶
+
 warna2: Warna(0% 0 0°) … ∆ Tombol() … Warna(
 			50%
 			Acak() × 200

@@ -2,6 +2,7 @@
 Ngôi Sao Bóng Rổ
 === start
 ¶Ngắm bằng con trỏ của bạn và nhấp để ném bóng vào rổ.¶
+
 nhấp2: ∆ Cáinút()
 
 sốLầnNhấp: 0 … nhấp2 … 1 + ⬚

@@ -2,6 +2,7 @@
 Mão
 ===
 ¶Levante os dedos à frente da câmara e uma mão emoji conta consigo.¶
+
 mão: Mão()
 
 Fase(

@@ -2,6 +2,7 @@
 MotsParlés
 === start
 ¶Parle, et tes mots apparaissent à des endroits et des tailles au hasard.¶
+
 clic: Bouton(ø)
 parole: Discours(
 		réinitialiser: clic

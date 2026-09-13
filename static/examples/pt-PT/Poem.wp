@@ -2,6 +2,7 @@ T
 Poema
 === start
 ¶Um poema cujas linhas surgem lentamente, cada uma fazendo a sua própria entrada.¶
+
 •linha(texto2•"" pose•Pose|Sequência trás: Cor(
 			100
 			100

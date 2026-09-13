@@ -2,6 +2,7 @@
 Tiếng vọng
 === start
 ¶Bất cứ điều gì người xem gõ vào thanh trò chuyện sẽ trở thành cụm từ này.¶
+
 lờiNhắn: Tròchuyện()
 
 ¶Bắt đầu với một câu gợi ý, rồi lặp lại mỗi tin nhắn mới. Văn bản biến đổi từ chữ cũ sang chữ mới, từng chữ cái một.¶

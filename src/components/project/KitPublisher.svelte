@@ -31,7 +31,6 @@
     import { Projects } from '@db/projects/Projects';
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
     import { firstSentenceOf } from '@locale/firstSentence';
-    import { docsFor } from '@nodes/publishedShare';
     import type Source from '@nodes/Source';
     import toValidName from '@util/toValidName';
 
@@ -297,10 +296,7 @@
         <div class="box">
             <ul class="exports">
                 {#each exports as exported}
-                    {@const docs =
-                        source === undefined
-                            ? undefined
-                            : docsFor(exported, source)}
+                    {@const docs = exported.docs}
                     <li>
                         <code>{exportName(exported)}</code>
                         {#if docs && !docs.isEmpty()}

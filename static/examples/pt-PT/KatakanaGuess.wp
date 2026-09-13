@@ -2,6 +2,7 @@
 Adivinha o Katakana
 === start
 ¶Adivinhe qual é o katakana correspondente ao hiragana para ganhar pontos.¶
+
 ひらがな/ja,hiragana/en: 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわゐを'/ja → []
 カタカナ/ja,katakana/en: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲ'/ja → []
 

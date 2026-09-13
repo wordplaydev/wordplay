@@ -2,6 +2,7 @@
 Notas de tom
 ===
 ¶Cante ou cantarole, e veja a nota que está a fazer — duas vezes. A nota da esquerda lê o valor @Pitch em bruto e treme; a nota da direita faz a média dos últimos tons e mantém-se estável. @Pitch indica 0hz quando não ouve nada com clareza, por isso ambas as notas saltam esses momentos e mostram · em vez disso.¶
+
 notas2: [
 		'A'
 		'A♯'

@@ -149,6 +149,7 @@
 )
 === years/en
 ¶按年份统计的美国计算机与信息科学学士学位中女性所占的百分比，以及女性人数和学位总数。数据来源：美国国家教育统计中心（National Center for Education Statistics）《教育统计摘要》，表 325.35。https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡年份•'' 女性•# 总数•# 百分比•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -164,6 +165,7 @@
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶大约 2018 年，美国各学科领域中女性获得学士学位的百分比，按占比从高到低排序。数据来源：美国国家科学基金会（National Science Foundation）NCSES《科学与工程领域中的女性、少数族裔与残障人士》报告。https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡字段•'' 百分比2•#⎦
 ⎡'心理学' 72⎦
 ⎡'生物学' 60⎦

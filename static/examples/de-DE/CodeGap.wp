@@ -181,6 +181,7 @@ Bühne(
 )
 === years/en
 ¶Prozentsatz der US-amerikanischen Bachelorabschlüsse in Informatik, die von Frauen erworben wurden, nach Jahr, mit der Anzahl der Frauen und der Gesamtzahl der Abschlüsse. Quelle: National Center for Education Statistics, Digest of Education Statistics, Tabelle 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡jahr•'' frauen•# gesamt•# prozent•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -196,6 +197,7 @@ Bühne(
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶Prozentsatz der US-amerikanischen Bachelorabschlüsse, die Frauen in jedem Studienfach um das Jahr 2018 erworben haben, geordnet vom höchsten zum niedrigsten Anteil. Quelle: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡feld•'' prozent2•#⎦
 ⎡'Psychologie' 72⎦
 ⎡'Biologie' 60⎦

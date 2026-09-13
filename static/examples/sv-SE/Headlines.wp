@@ -2,6 +2,7 @@ l
 Rubriker
 === start/en
 ¶Aktuella rubriker från New York Times, hämtade från webben och staplade på scenen.¶
+
 rubriker: webbsida(
 		'https://www.nytimes.com'
 		'.indicate-hover'

@@ -2,6 +2,7 @@ o
 Lapisan
 === start
 ¶Bola-bola memantul di kedalaman berbeda untuk menunjukkan lapisan paralaks.¶
+
 hitungan2: 10 → []
 
 ƒ bola(z2•#m) hitungan2.menerjemahkan(

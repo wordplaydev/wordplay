@@ -2,6 +2,7 @@ m
 Murmúrio
 === start
 ¶Continue a clicar para tornar o murmúrio mais forte.¶
+
 cliques•#: 0 … ∆ Botão() … cliques + 1
 
 cliques < 3 ?

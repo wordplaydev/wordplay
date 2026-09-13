@@ -2,6 +2,7 @@
 Estrela do Basquetebol
 === start
 ¶Aponte com o seu ponteiro e clique para lançar à cesta.¶
+
 clicar: ∆ Botão()
 
 contagemDeCliques: 0 … clicar … 1 + ⬚

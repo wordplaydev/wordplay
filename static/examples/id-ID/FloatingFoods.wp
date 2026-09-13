@@ -2,6 +2,7 @@
 Makanan Melayang
 ===
 ¶Sebuah kotak berisi hidangan-hidangan lezat, satu diganti dengan yang lain setiap detik.¶
+
 makanan: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
 
 terbaru•['']:

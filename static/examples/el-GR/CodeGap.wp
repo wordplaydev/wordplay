@@ -178,6 +178,7 @@
 )
 === years/en
 ¶Ποσοστό των πτυχίων πληροφορικής και επιστήμης υπολογιστών των ΗΠΑ που παίρνουν γυναίκες, ανά έτος, με τον αριθμό γυναικών και τον συνολικό αριθμό πτυχίων. Πηγή: National Center for Education Statistics, Digest of Education Statistics, Πίνακας 325.35. https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡έτος2•'' γυναίκες•# σύνολο•# ποσοστό•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -193,6 +194,7 @@
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶Ποσοστό των πτυχίων των ΗΠΑ που παίρνουν γυναίκες σε κάθε τομέα σπουδών, γύρω στο 2018, ταξινομημένα από το υψηλότερο ποσοστό στο χαμηλότερο. Πηγή: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering. https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡πεδίο•'' ποσοστό2•#⎦
 ⎡'Ψυχολογία' 72⎦
 ⎡'Βιολογία' 60⎦

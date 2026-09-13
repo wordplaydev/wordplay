@@ -2,6 +2,7 @@
 Modele
 === start
 ¶Scrie o propoziție cu niște numere în ea. Voi găsi fiecare număr și le voi arăta mai jos, apărând pe măsură ce le găsesc. Un tipar descrie forma textului — aici,\⣿ >0 #⣿\ înseamnă „una sau mai multe cifre”, iar ⌕ găsește fiecare loc în care apare.¶
+
 intrare: Chat()
 text2: 'Am 3 pisici, 12 pești și 144 de furnici' … ∆ intrare … intrare
 

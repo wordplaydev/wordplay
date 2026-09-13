@@ -2,6 +2,7 @@
 Dynia
 === start
 ¶Lampion z dyni, który migocze i pojawia się w nowym miejscu co sekundę.¶
+
 czas: Czas(1000ms)
 miejsce2: Miejsce(0m 0m) … ∆ czas … Miejsce(
 			Losowy(-4m 4m)

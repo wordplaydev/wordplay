@@ -249,7 +249,9 @@ test('a structure type reads as its name', () => {
 describe('markup and documentation nodes name their contents', () => {
     // A caret lands on every one of these inside every doc, and each said the
     // same phrase for every instance before #1252.
-    const doc = `¶Hello there¶/en\n5`;
+    // A blank line keeps the doc on the program (#1374), so the first `Docs` in the
+    // tree is the one holding it rather than the program's empty slot.
+    const doc = `¶Hello there¶/en\n\n5`;
 
     test('a doc list names the languages it holds', () => {
         // In their own language: that's how a reader of that doc knows it.
@@ -306,8 +308,8 @@ describe('markup and documentation nodes name their contents', () => {
     test('two different docs describe differently', () => {
         // A description that doesn't vary is heard once and then sounds broken:
         // an unchanged live region is silent.
-        const one = `¶Hello there¶/en\n5`;
-        const two = `¶Adiós amigos mios¶/es\n5`;
+        const one = `¶Hello there¶/en\n\n5`;
+        const two = `¶Adiós amigos mios¶/es\n\n5`;
         for (const type of ['Docs', 'Doc', 'Paragraph'])
             expect(describeFirst(one, byType(type))).not.toBe(
                 describeFirst(two, byType(type)),

@@ -2,6 +2,7 @@
 Balkabağı
 === start
 ¶Titreyen ve her saniye yeni bir yerde beliren oyulmuş bir balkabağı feneri.¶
+
 zaman: Zaman(1000ms)
 yerleştir: Yer(0m 0m) … ∆ zaman … Yer(
 			Rastgele(-4m 4m)

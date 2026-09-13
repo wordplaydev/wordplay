@@ -2,6 +2,7 @@ l
 頭條新聞
 === start/en
 ¶從網路擷取的紐約時報即時頭條新聞，疊放在舞台上。¶
+
 頭條新聞: 網頁('https://www.nytimes.com' '.indicate-hover')
 頭條新聞•# ?
 	短語('載入中')

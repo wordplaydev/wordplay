@@ -2,6 +2,7 @@ s
 Netezirea Secvenței
 ===
 ¶Aceeași animație cu o maşină în opt variante, câte una pentru fiecare stil de mişcare.¶
+
 cadreCheie: {
 		0%: Poză(compensare: Loc(-1m 0m))
 		25%: Poză(compensare: Loc(1m 0m))
