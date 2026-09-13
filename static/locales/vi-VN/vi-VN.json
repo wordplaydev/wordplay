@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~chia sẻ đặt sai chỗ",
-                    "explanation": "$~Tôi chỉ có thể chia sẻ thông tin ở cấp độ @Program, chứ không thể chia sẻ bên trong bất kỳ trang nào khác!",
+                    "explanation": "$!Tôi chỉ có thể chia sẻ thông tin ở cấp độ @Program, chứ không thể chia sẻ bên trong bất kỳ trang nào khác!",
                     "resolution": "$~Xóa dấu *↑*"
                 },
                 "MissingShareLanguages": {

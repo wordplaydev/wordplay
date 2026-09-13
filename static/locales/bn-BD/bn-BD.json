@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~ভুল জায়গায় শেয়ার",
-                    "explanation": "$~আমি কেবল @Program স্তরে জিনিস শেয়ার করতে পারি, কোনো কিছুর ভেতরে নয়!",
+                    "explanation": "$!আমি কেবল @Program স্তরে জিনিস শেয়ার করতে পারি, কোনো কিছুর ভেতরে নয়!",
                     "resolution": "$~*↑* চিহ্নটি সরাও"
                 },
                 "MissingShareLanguages": {

@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~maling lagay na pagbabahagi",
-                    "explanation": "$~Maaari ko lang ibahagi ang mga bagay sa antas ng @Program, hindi sa loob ng kahit ano!",
+                    "explanation": "$!Maaari ko lang ibahagi ang mga bagay sa antas ng @Program, hindi sa loob ng kahit ano!",
                     "resolution": "$~Alisin ang panandang *↑*"
                 },
                 "MissingShareLanguages": {

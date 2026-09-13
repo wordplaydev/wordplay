@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~partajare plasată greșit",
-                    "explanation": "$~Pot partaja lucruri doar la nivel de @Program, nu în interiorul nimicului!",
+                    "explanation": "$!Pot partaja lucruri doar la nivel de @Program, nu în interiorul nimicului!",
                     "resolution": "$~Eliminați marcajul *↑*"
                 },
                 "MissingShareLanguages": {

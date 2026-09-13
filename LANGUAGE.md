@@ -1289,6 +1289,8 @@ This creates a new `Kitty` value with the new name and the old other properties 
 
 A function or bind inside a structure's block can be marked with `↑` to make it belong to the structure definition itself, instead of to its instances. Static members are evaluated once when the structure is defined and are reached through the structure's name. They are also visible on instances.
 
+A `↑` is meaningful in exactly two places: at the top of a source, where it shares the definition with whoever borrows that source, and directly inside a structure's block, where it makes a static member. A **structure** can only be shared at the top of a source, never as a static member. A `↑` anywhere else — inside a function, or on a nested structure — is a **misplaced share**, reported on the definition it marks, with a repair that removes the marker.
+
 ```
 •Math() (
   ↑ pi: 3.14159

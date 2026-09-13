@@ -755,7 +755,7 @@
                 },
                 "MisplacedShare": {
                     "name": "misplaced share",
-                    "explanation": "I can only share things at the @Program level, not inside anything!",
+                    "explanation": "I can only share this at the top of a source, or — if it's a value or a function — directly inside a @StructureDefinition.",
                     "resolution": "Remove the *↑* marker"
                 },
                 "MissingShareLanguages": {

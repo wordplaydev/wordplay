@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~分享位置錯誤",
-                    "explanation": "$~我只能在 @Program 這一層分享東西，不能放在任何東西裡面！",
+                    "explanation": "$!我只能在 @Program 這一層分享東西，不能放在任何東西裡面！",
                     "resolution": "$~移除 *↑* 標記"
                 },
                 "MissingShareLanguages": {

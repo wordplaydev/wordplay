@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~مشاركة في مكان خاطئ",
-                    "explanation": "$~يمكنني فقط مشاركة الأشياء على مستوى @Program وليس داخل أي شيء!",
+                    "explanation": "$!يمكنني فقط مشاركة الأشياء على مستوى @Program وليس داخل أي شيء!",
                     "resolution": "$~أزل علامة *↑*"
                 },
                 "MissingShareLanguages": {

@@ -54,7 +54,10 @@ import TypeToken from '@nodes/TypeToken';
 import TypeVariables from '@nodes/TypeVariables';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import Unit from '@nodes/Unit';
-import { getEvaluationInputConflicts } from '@nodes/util';
+import {
+    getEvaluationInputConflicts,
+    getMisplacedShareConflicts,
+} from '@nodes/util';
 import { getPublishedShareConflicts } from '@nodes/publishedShare';
 
 export default class FunctionDefinition extends DefinitionExpression {
@@ -451,6 +454,16 @@ export default class FunctionDefinition extends DefinitionExpression {
 
         // What a `↑` owes its readers, once this source is published (#8).
         conflicts = conflicts.concat(getPublishedShareConflicts(this, context));
+
+        // ...and where a `↑` is allowed to be at all (#1373).
+        conflicts = conflicts.concat(
+            getMisplacedShareConflicts(
+                this,
+                this.share,
+                this.isStatic(context),
+                context,
+            ),
+        );
 
         // Make sure the inputs are valid.
         conflicts = conflicts.concat(getEvaluationInputConflicts(this.inputs));

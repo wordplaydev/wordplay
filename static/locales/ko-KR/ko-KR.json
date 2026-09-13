@@ -703,7 +703,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~잘못 놓인 공유",
-                    "explanation": "$~저는 @Program 레벨에서만 공유할 수 있고, 그 안에는 공유할 수 없습니다!",
+                    "explanation": "$!저는 @Program 레벨에서만 공유할 수 있고, 그 안에는 공유할 수 없습니다!",
                     "resolution": "$~*↑* 표시를 제거하세요"
                 },
                 "MissingShareLanguages": {

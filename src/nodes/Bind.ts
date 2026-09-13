@@ -4,7 +4,6 @@ import DuplicateName from '@conflicts/DuplicateName';
 import { getKeywordShadowConflicts } from '@conflicts/ShadowsKeyword';
 import { DuplicateShare } from '@conflicts/DuplicateShare';
 import IncompatibleType from '@conflicts/IncompatibleType';
-import { MisplacedShare } from '@conflicts/MisplacedShare';
 import { MissingShareLanguages } from '@conflicts/MissingShareLanguages';
 import UnexpectedEtc from '@conflicts/UnexpectedEtc';
 import UnusedBind from '@conflicts/UnusedBind';
@@ -55,6 +54,7 @@ import TypePlaceholder from '@nodes/TypePlaceholder';
 import type TypeSet from '@nodes/TypeSet';
 import TypeToken from '@nodes/TypeToken';
 import { getPublishedShareConflicts } from '@nodes/publishedShare';
+import { getMisplacedShareConflicts } from '@nodes/util';
 
 export default class Bind extends Expression {
     readonly docs: Docs;
@@ -509,8 +509,14 @@ export default class Bind extends Expression {
                 .getChildren()
                 .includes(this);
             const isStatic = this.isStatic(context);
-            if (!atRoot && !isStatic)
-                conflicts.push(new MisplacedShare(this, this.share));
+            conflicts.push(
+                ...getMisplacedShareConflicts(
+                    this,
+                    this.share,
+                    isStatic,
+                    context,
+                ),
+            );
 
             // Bindings must have language tags on all names to clarify what
             // language they're written in — but only for top-level shares.

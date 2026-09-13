@@ -1,8 +1,12 @@
 import DuplicateName from '@conflicts/DuplicateName';
 import InputListMustBeLast from '@conflicts/InputListMustBeLast';
+import { MisplacedShare } from '@conflicts/MisplacedShare';
 import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
 import Bind from '@nodes/Bind';
+import type Context from '@nodes/Context';
+import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type Node from '@nodes/Node';
+import type StructureDefinition from '@nodes/StructureDefinition';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 
@@ -74,4 +78,25 @@ export function endsWithName(node: Node) {
 export function startsWithName(node: Node) {
     const tokens = node.nodes((t): t is Token => t instanceof Token);
     return tokens.length > 0 && tokens[0].isSymbol(Sym.Name);
+}
+
+/**
+ * Where a `↑` is allowed to be (#1373): the source's root block, or a structure's block as a
+ * static member. Anywhere else it binds nothing, and the failure is silent — it surfaces only
+ * as `UnknownName` at the use site, far from the cause.
+ *
+ * `isStatic` is an argument because a structure is never one, and because asking for it here
+ * would mean importing `StructureDefinition`, which imports this module.
+ */
+export function getMisplacedShareConflicts(
+    definition: Bind | FunctionDefinition | StructureDefinition,
+    share: Token | undefined,
+    isStatic: boolean,
+    context: Context,
+): MisplacedShare[] {
+    if (share === undefined) return [];
+    const atRoot = context.source.expression.expression
+        .getChildren()
+        .includes(definition);
+    return atRoot || isStatic ? [] : [new MisplacedShare(definition, share)];
 }

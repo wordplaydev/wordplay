@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~felplacerad delning",
-                    "explanation": "$~Jag kan bara dela saker på @Program-nivå, inte inuti någonting!",
+                    "explanation": "$!Jag kan bara dela saker på @Program-nivå, inte inuti någonting!",
                     "resolution": "$~Ta bort markören *↑*"
                 },
                 "MissingShareLanguages": {

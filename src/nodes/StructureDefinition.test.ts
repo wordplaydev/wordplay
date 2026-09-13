@@ -2,6 +2,7 @@ import { DisallowedInputs } from '@conflicts/DisallowedInputs';
 import DuplicateName from '@conflicts/DuplicateName';
 import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
 import { IncompleteImplementation } from '@conflicts/IncompleteImplementation';
+import { MisplacedShare } from '@conflicts/MisplacedShare';
 import NotAnInterface from '@conflicts/NotAnInterface';
 import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
 import { testConflict } from '@conflicts/TestUtilities';
@@ -145,6 +146,12 @@ test.each([
         NotAnInterface,
         1,
     ],
+    // A `↑` on a structure means something only at a source's root. Unlike a bind or a
+    // function it is never a static member — `getStaticDefinitions` type-filters to those
+    // two — so inside a structure it bound nothing and reported nothing (#1373).
+    ['↑ •Inner()', '•S() (↑ •Inner())', StructureDefinition, MisplacedShare],
+    // ...and the same inside a function.
+    ['↑ •Inner()', 'ƒ() (↑ •Inner())', StructureDefinition, MisplacedShare],
 ])(
     '%s => no conflict, %s => conflict',
     (good, bad, node, conflict, number?) => {

@@ -703,7 +703,7 @@
                 },
                 "MisplacedShare": {
                     "name": "放错位置的共享",
-                    "explanation": "我只能分享在 @Program 等级的事物，没办法分享一切！",
+                    "explanation": "$!我只能分享在 @Program 等级的事物，没办法分享一切！",
                     "resolution": "$~删除 *↑* 标记"
                 },
                 "MissingShareLanguages": {

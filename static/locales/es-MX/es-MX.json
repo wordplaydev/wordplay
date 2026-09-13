@@ -676,7 +676,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~compartir fuera de lugar",
-                    "explanation": "$~¡Solo puedo compartir cosas en el nivel @Program, no dentro de nada!",
+                    "explanation": "$!¡Solo puedo compartir cosas en el nivel @Program, no dentro de nada!",
                     "resolution": "$~Quita el marcador *↑*"
                 },
                 "MissingShareLanguages": {

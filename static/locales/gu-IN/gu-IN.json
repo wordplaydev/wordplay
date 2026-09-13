@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~ખોટી જગ્યાએ શેર",
-                    "explanation": "$~હું ફક્ત @Program સ્તરે જ વસ્તુઓ શેર કરી શકું છું, અંદર કંઈપણ નહીં!",
+                    "explanation": "$!હું ફક્ત @Program સ્તરે જ વસ્તુઓ શેર કરી શકું છું, અંદર કંઈપણ નહીં!",
                     "resolution": "$~*↑* માર્કર દૂર કરો"
                 },
                 "MissingShareLanguages": {

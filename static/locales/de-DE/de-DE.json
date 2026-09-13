@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~falsch platzierte Freigabe",
-                    "explanation": "$~Ich kann Inhalte nur auf der @Program teilen, nicht innerhalb von irgendetwas!",
+                    "explanation": "$!Ich kann Inhalte nur auf der @Program teilen, nicht innerhalb von irgendetwas!",
                     "resolution": "$~Entferne die *↑* Markierung"
                 },
                 "MissingShareLanguages": {

@@ -1,5 +1,6 @@
 import DuplicateName from '@conflicts/DuplicateName';
 import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
+import { MisplacedShare } from '@conflicts/MisplacedShare';
 import NoExpression from '@conflicts/NoExpression';
 import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
 import { testConflict, testTypes } from '@conflicts/TestUtilities';
@@ -20,6 +21,9 @@ test.each([
     ['ƒ(a b:1)', 'ƒ(a:1 b)', FunctionDefinition, RequiredAfterOptional],
     ['ƒ a() 1', 'ƒ a()', FunctionDefinition, NoExpression],
     ['ƒ a()•# 1', 'ƒ a()•? 1', FunctionDefinition, IncompatibleType],
+    // A `↑` on a function is legal at a source's root and as a structure's static member,
+    // and nowhere else. Inside a function it bound nothing and said nothing (#1373).
+    ['•S() (↑ ƒ g() 1)', 'ƒ() (↑ ƒ g() 1)', FunctionDefinition, MisplacedShare],
 ])(
     'Expect %s no conflicts, %s to have conflicts',
     (good, bad, node, conflict) => {
