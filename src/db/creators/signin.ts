@@ -1,4 +1,5 @@
 import { getFunctionsInstance } from '@db/firebase';
+import { isAttestationFailure } from '@db/firebaseErrorDetail';
 import type { SendSigninLinkInputs, SendSigninLinkOutput } from 'shared-types';
 
 /**
@@ -16,7 +17,7 @@ import type { SendSigninLinkInputs, SendSigninLinkOutput } from 'shared-types';
 export async function sendSigninLink(
     email: string,
     locale?: string,
-): Promise<'sent' | 'throttled' | 'failed'> {
+): Promise<'sent' | 'throttled' | 'failed' | 'unverified'> {
     const functions = await getFunctionsInstance();
     if (functions === undefined) return 'failed';
     const { httpsCallable } = await import('firebase/functions');
@@ -32,6 +33,6 @@ export async function sendSigninLink(
         return data.error === 'throttled' ? 'throttled' : 'sent';
     } catch (error) {
         console.error(error);
-        return 'failed';
+        return isAttestationFailure(error) ? 'unverified' : 'failed';
     }
 }

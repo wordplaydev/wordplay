@@ -198,9 +198,23 @@ export type ModerateGalleryOutput = {
 };
 
 // RESPONSIBILITY (#938)
-/** The kinds of thing a report can be about. */
-export type ReportSubjectKind =
-    'project' | 'gallery' | 'chat' | 'howto' | 'character' | 'kit';
+/**
+ * The kinds of thing a report can be about.
+ *
+ * A list rather than a bare union because the callable has to test an unknown
+ * at runtime, and a hand-written guard is a second copy to remember: `character`
+ * was added here and never added there, so every character report was refused
+ * for months (#1372).
+ */
+export const ReportSubjectKinds = [
+    'project',
+    'gallery',
+    'chat',
+    'howto',
+    'character',
+    'kit',
+] as const;
+export type ReportSubjectKind = (typeof ReportSubjectKinds)[number];
 
 /**
  * A moderatable thing's visibility, in the only terms responsibility depends
@@ -496,7 +510,11 @@ export type JoinAccountError =
     | 'birthdate-invalid'
     | 'not-eligible'
     | 'throttled'
-    | 'failed';
+    | 'failed'
+    /** The client's own reading of a refused App Check token (#1378); the
+     *  callable never returns this, since a request it rejects never reaches
+     *  the handler. */
+    | 'unverified';
 export type JoinAccountOutput = {
     /** The password path only: hand to signInWithCustomToken. */
     token?: string;

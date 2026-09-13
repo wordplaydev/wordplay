@@ -10472,6 +10472,7 @@
                     "invalidUsername": "Os nomes de utilizador devem ter um mínimo de 5 letras e não conter espaços.",
                     "usernameTaken": "Este nome de utilizador já está em utilização.",
                     "failure": "Não foi possível fazer login :(",
+                    "unverified": "$~Não conseguimos confirmar que este é um navegador real, por isso paramos aqui. Isto pode acontecer em redes de escolas ou de trabalho. Tentar de novo não vai ajudar, mas uma rede ou um navegador diferente pode resolver. Se estiver na escola, avise um professor (uma professora).",
                     "offline": "Não conseguimos alcançar a cloud ☁️.",
                     "invalidPassword": "As palavras-passe devem ter no mínimo 6 caracteres.",
                     "wrongPassword": "Nome de utilizador e palavra-passe inválidos. Ou a sua palavra-passe está incorreta, ou outra pessoa já está a utilizar este nome de utilizador.",

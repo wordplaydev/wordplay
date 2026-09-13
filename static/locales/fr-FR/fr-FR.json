@@ -9517,6 +9517,7 @@
                     "email": "$~Cet email n'était pas valide.",
                     "offline": "$~Nous n'avons pas pu atteindre le nuage ☁️.",
                     "failure": "$~Impossible de se connecter :(",
+                    "unverified": "$~Nous n'avons pas pu vérifier qu'il s'agit d'un vrai navigateur, alors nous nous sommes arrêtés ici. Cela peut arriver sur les réseaux d'une école ou d'un travail. Réessayer ne changera rien, mais un autre réseau ou navigateur pourrait aider. Si tu es à l'école, préviens un enseignant.",
                     "wrongPassword": "$~Nom d'utilisateur et mot de passe non valides. Soit votre mot de passe est erroné, soit quelqu'un d'autre possède ce nom d'utilisateur.",
                     "tooMany": "$~Vous avez essayé de vous connecter à plusieurs reprises sans succès. Vous devrez attendre avant de réessayer.",
                     "invalidUsername": "$~Les noms d'utilisateur doivent avoir au moins 5 lettres, sans espaces.",

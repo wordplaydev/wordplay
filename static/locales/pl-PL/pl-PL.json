@@ -9769,6 +9769,7 @@
                     "invalid": "$~Ten link jest nieprawidłowy.",
                     "email": "$~Nieprawidłowy e-mail.",
                     "failure": "$~Nie można się zalogować :(",
+                    "unverified": "$~Nie mogliśmy sprawdzić, czy to prawdziwa przeglądarka, więc zatrzymaliśmy się tutaj. Może się to zdarzyć w sieciach szkolnych lub firmowych. Ponowna próba nie pomoże, ale inna sieć lub przeglądarka może pomóc. Jeśli jesteś w szkole, powiedz o tym nauczycielowi.",
                     "offline": "$~Nie udało nam się dosięgnąć chmury ☁️.",
                     "wrongPassword": "$~Nieprawidłowa nazwa użytkownika i hasło. Albo twoje hasło jest nieprawidłowe, albo ktoś inny ma tę nazwę użytkownika.",
                     "tooMany": "$~Próbowałeś i nie udało Ci się zalogować zbyt wiele razy. Będziesz musiał poczekać, aby spróbować ponownie.",

@@ -2,6 +2,7 @@ import { FirebaseError } from 'firebase/app';
 import { describe, expect, it } from 'vitest';
 import firebaseErrorDetail, {
     isPermanentSaveError,
+    isAttestationFailure,
 } from './firebaseErrorDetail';
 
 /** The codes `Database.isConnectivityError` treats as transient. Repeated here
@@ -71,5 +72,46 @@ describe('isPermanentSaveError', () => {
         );
         expect(isPermanentSaveError('permission-denied')).toBe(false);
         expect(isPermanentSaveError(undefined)).toBe(false);
+    });
+});
+
+describe('isAttestationFailure', () => {
+    it('matches a callable refused by App Check', () => {
+        expect(
+            isAttestationFailure(
+                new FirebaseError(
+                    'functions/unauthenticated',
+                    'Unauthenticated',
+                ),
+            ),
+        ).toBe(true);
+    });
+
+    // The prefix is the whole distinction: Firestore's bare `unauthenticated`
+    // means signed out, which signing back in restores.
+    it("does not match Firestore's signed-out code", () => {
+        expect(
+            isAttestationFailure(
+                new FirebaseError('unauthenticated', 'Signed out'),
+            ),
+        ).toBe(false);
+    });
+
+    it('does not match another callable failure', () => {
+        expect(
+            isAttestationFailure(
+                new FirebaseError(
+                    'functions/resource-exhausted',
+                    'Out of budget',
+                ),
+            ),
+        ).toBe(false);
+    });
+
+    it('does not match something that is not a FirebaseError', () => {
+        expect(
+            isAttestationFailure(new Error('functions/unauthenticated')),
+        ).toBe(false);
+        expect(isAttestationFailure(undefined)).toBe(false);
     });
 });

@@ -1399,8 +1399,10 @@
     $effect(() => {
         if (gallery) {
             HowTos.getHowTos(gallery.getHowTos()).then(
-                (hts: GalleryHowTo[] | undefined | false) => {
-                    if (hts) galleryHowTos = hts;
+                ({ howTos: hts, unreachable }) => {
+                    // Keep the listing we have rather than emptying it over a
+                    // read that went unanswered.
+                    if (!unreachable) galleryHowTos = hts;
                 },
             );
         }

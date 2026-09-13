@@ -9,6 +9,7 @@
     import { ageOfConsent } from '@db/creators/ageOfConsent';
     import isValidEmail from '@db/creators/isValidEmail';
     import { joinAccount } from '@db/creators/join';
+    import { isAttestationFailure } from '@db/firebaseErrorDetail';
     import { isValidUsername } from '@db/creators/username';
     import { usernameAvailable } from '@db/creators/usernames';
     import { locales } from '@db/Database';
@@ -194,7 +195,12 @@
                           ? (l) => l.ui.page.join.error.throttled
                           : result.error === 'birthdate-invalid'
                             ? (l) => l.ui.page.join.error.birthday
-                            : (l) => l.ui.page.join.error.failed;
+                            : // Shared with the login page: the browser is what
+                              // wasn't verified, so the advice is the same
+                              // wherever it happened.
+                              result.error === 'unverified'
+                              ? (l) => l.ui.page.login.error.unverified
+                              : (l) => l.ui.page.join.error.failed;
                 available =
                     result.error === 'username-taken' ? false : available;
                 return;
@@ -211,7 +217,9 @@
             } else step = 'sent';
         } catch (error) {
             console.error(error);
-            feedback = (l) => l.ui.page.join.error.failed;
+            feedback = isAttestationFailure(error)
+                ? (l) => l.ui.page.login.error.unverified
+                : (l) => l.ui.page.join.error.failed;
         } finally {
             loading = false;
         }

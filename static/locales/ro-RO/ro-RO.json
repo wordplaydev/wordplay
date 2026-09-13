@@ -10592,6 +10592,7 @@
                     "invalidUsername": "$~Numele de utilizator trebuie să aibă cel puțin 5 litere, fără spații.",
                     "usernameTaken": "$~Acest nume de utilizator este deja utilizat.",
                     "failure": "$~Nu mă pot conecta :(",
+                    "unverified": "$~Nu am putut verifica dacă acesta este un browser real, așa că ne-am oprit aici. Acest lucru se poate întâmpla pe rețele de la școală sau de la muncă. Dacă încerci din nou, nu va ajuta, dar o rețea sau un browser diferit ar putea funcționa. Dacă ești la școală, spune unui profesor.",
                     "offline": "$~Nu am putut ajunge la nor ☁️.",
                     "invalidPassword": "$~Parolele trebuie să aibă cel puțin 6 caractere.",
                     "wrongPassword": "$~Nume de utilizator și parolă nevalide. Fie parola este greșită, fie altcineva are acest nume de utilizator.",
