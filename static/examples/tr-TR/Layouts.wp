@@ -2,6 +2,7 @@ K
 Yerleşimler
 === start
 ¶Satırlar, yığınlar ve öbek gruplarının her biri hareketli pozlar veriyor.¶
+
 nabız2: Sekans(
 		{
 			0%: Poz(ölçek: .9)

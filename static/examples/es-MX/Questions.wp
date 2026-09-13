@@ -2,6 +2,7 @@
 Preguntas
 === start/en
 ¶Presiona teclas para lanzar signos de pregunta rebotando sobre una familia confundida.¶
+
 •pregunta(id2•"" vx•#m/s vy•#m/s va•#°/s)
 
 presionada: ∆ Tecla()

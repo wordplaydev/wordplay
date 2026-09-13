@@ -2,6 +2,7 @@
 Vedeta de baschet
 === start
 ¶Țintește cu cursorul și dă clic pentru a arunca la coș.¶
+
 clic: ∆ Buton()
 
 numărulDeClicuri: 0 … clic … 1 + ⬚

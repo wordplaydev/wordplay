@@ -2,6 +2,7 @@ l
 Judul Berita
 === start/en
 ¶Berita utama New York Times secara langsung, diambil dari web dan disusun di panggung.¶
+
 beritaUtama: Halamanweb(
 		'https://www.nytimes.com'
 		'.indicate-hover'

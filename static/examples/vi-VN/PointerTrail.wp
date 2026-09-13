@@ -2,6 +2,7 @@
 Vệt con trỏ
 ===
 ¶Di chuyển con trỏ để vẽ một vệt cầu vồng mờ dần. @Previous (←←) ghi nhớ năm @Pointer gần nhất, và @List.translate vẽ một chấm cho mỗi vị trí, mờ dần và đổi màu từ cũ nhất đến mới nhất.¶
+
 lịchSử•[VịTrí]: ←← 5 Contrỏ()
 Sânkhấu(
 	lịchSử.dịch(

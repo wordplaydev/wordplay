@@ -183,6 +183,7 @@ Scena(
 )
 === years/en
 ¶Procent amerykańskich dyplomów licencjackich z informatyki i nauko informacji uzyskanych przez kobiety, według roku, wraz z liczbą kobieti łączną liczbą dyplomów. Źródło: National Center for Education Statistics,Digest of Education Statistics, Tabela 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡rok2•'' kobiety•# suma2•# procent•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -198,6 +199,7 @@ Scena(
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶Procent amerykańskich dyplomów licencjackich uzyskanych przez kobiety wkażdej dziedzinie studiów, około 2018 roku, uporządkowany od najwyższegodo najniższego udziału. Źródło: National Science Foundation, NCSES, Women,Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡pole•'' procent2•#⎦
 ⎡'Psychologia' 72⎦
 ⎡'Biologia' 60⎦

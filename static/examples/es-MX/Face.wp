@@ -2,6 +2,7 @@
 Rostro
 ===
 ¶Un emoji que refleja tu cara cuando sonríes, frunces el ceño, abres la boca o parpadeas.¶
+
 cara2: Cara()
 
 Escenario(

@@ -6,6 +6,7 @@ distinct scenes and moves between them based on different
 interactions, like clicks, collisions, and other actions.
 Part of the fun of experiencing the story is discovering the
 interactions necessary to advance the story.¶
+
 exposition: [
 		Phrase(`My Dad wanted to leave.` place: 📍(-9m 0m))
 	]

@@ -2,6 +2,7 @@
 Muster
 === start
 ¶Schreib einen Satz mit ein paar Zahlen darin. Ich finde jede Zahl und zeige sie unten, während ich sie finde und sie größer werden lasse. Ein Muster beschreibt die Form von Text — hier\⣿ >0 #⣿\ bedeutet „eine oder mehrere Ziffern“, und ⌕ findet jede Stelle, an der es vorkommt.¶
+
 eingabe: Plaudern()
 text2: 'Ich habe 3 Katzen, 12 Fische und 144 Ameisen' … ∆ eingabe … eingabe
 

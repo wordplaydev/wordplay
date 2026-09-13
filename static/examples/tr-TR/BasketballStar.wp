@@ -2,6 +2,7 @@
 Basketbol Yıldızı
 === start
 ¶İmleçle nişan al ve pota atışı yapmak için tıkla.¶
+
 tıkla: ∆ Düğme()
 
 tıklamaSayısı: 0 … tıkla … 1 + ⬚

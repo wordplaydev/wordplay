@@ -9,7 +9,7 @@ import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
 import Source from '@nodes/Source';
-import { docsFor, kitExports } from '@nodes/publishedShare';
+import { kitExports } from '@nodes/publishedShare';
 import evaluateCode from '@runtime/evaluate';
 import Evaluator from '@runtime/Evaluator';
 import ListValue from '@values/ListValue';
@@ -165,8 +165,7 @@ test('the manifest lists every file on disk, and no others', () => {
  */
 const claims = versions.flatMap((one) =>
     kitExports(one.source).flatMap((exported) => {
-        const text =
-            docsFor(exported, one.source)?.docs[0]?.markup.toText() ?? '';
+        const text = exported.docs.docs[0]?.markup.toText() ?? '';
         const claim = text.match(/\b(?:The|All) ([0-9]+) /);
         if (claim === null || !('names' in exported)) return [];
         const name = exported.names.getNames()[0];

@@ -28,6 +28,7 @@ export const SEED_PROJECTS: SeedProject[] = [
         id: 'seed-project-00',
         name: 'Bread Recipe',
         code: `¶A still list of steps. No streams, so it evaluates once and never changes.¶
+
 ƒ step(number•# instruction•'') Phrase("\\number\\. \\instruction\\" size: 0.4m)
 
 Stage([Group(Stack() [
@@ -41,6 +42,7 @@ Stage([Group(Stack() [
         id: 'seed-project-01',
         name: 'Stopwatch',
         code: `¶@Time gives a new value every second, so this counts up on its own.¶
+
 seconds: ((Time(1000ms) → #s) ÷ 1s).roundDown()
 
 Stage([Phrase("⏱️ \\seconds\\" size: 2m)])`,
@@ -49,6 +51,7 @@ Stage([Phrase("⏱️ \\seconds\\" size: 2m)])`,
         id: 'seed-project-02',
         name: 'Key Echo',
         code: `¶Every key press adds to the text, by rebinding whenever @Key changes.¶
+
 key: Key()
 typed: "Type! " … ∆ key … typed + key
 
@@ -58,6 +61,7 @@ Stage([Phrase(typed size: 0.6m)])`,
         id: 'seed-project-03',
         name: 'Bouncing Ball',
         code: `¶A resting @Sequence animates forever without any input.¶
+
 Stage([Phrase("⚽" size: 3m resting: Sequence.bounce(duration: 2s))])`,
     },
     {
@@ -66,6 +70,7 @@ Stage([Phrase("⚽" size: 3m resting: Sequence.bounce(duration: 2s))])`,
         code: `¶@Pointer is a stream of places, so the eyes track wherever you point.
 A @Place is a @Phrase's bottom left corner, so shifting back by half its size
 puts the eyes on the pointer instead of up and to the right of it.¶
+
 spot: Pointer()
 
 Stage([Phrase("👀" size: 2m place: Place(spot.x - 1m spot.y - 1m))])`,

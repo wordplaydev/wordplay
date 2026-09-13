@@ -2,6 +2,7 @@
 Kammer
 === start
 ¶Hundert Buchstaben aus vier Schriftsystemen hüpfen in einer geschlossenen Box. Dreh die Schwerkraft um oder schüttle sie durcheinander.¶
+
 zähler: 100
 
 ¶Die vier Alphabete, aus denen die Buchstaben stammen.¶

@@ -2,6 +2,7 @@
 Calabaza
 === start
 ¶Una calabaza de Halloween que parpadea y reaparece en un lugar nuevo cada segundo.¶
+
 tiempo2: Tiempo(1000ms)
 lugar2: Lugar(0m 0m) … ∆ tiempo2 … Lugar(
 			Azar(-4m 4m)

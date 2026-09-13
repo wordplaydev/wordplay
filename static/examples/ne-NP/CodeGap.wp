@@ -152,6 +152,7 @@ Stage(
 )
 === years/en
 ¶अमेरिकामा महिलाले कमाएको कम्प्युटर तथा सूचना विज्ञान स्नातक डिग्रीको प्रतिशत, वर्षअनुसार, महिलाको सङ्ख्या र डिग्रीको जम्मा सङ्ख्यासहित। स्रोत: National Center for Education Statistics, Digest of Education Statistics, तालिका ३२५.३५।https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡वर्ष2•'' महिला•# जम्मा•# प्रतिशत•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -167,6 +168,7 @@ Stage(
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶अध्ययनका हरेक क्षेत्रमा सन् २०१८ नजिक महिलाले कमाएको अमेरिकी स्नातक डिग्रीको प्रतिशत, सबैभन्दा उच्च हिस्सादेखि सबैभन्दा कम हिस्सासम्म क्रमबद्ध। स्रोत: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering।https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡क्षेत्र•'' प्रतिशत2•#⎦
 ⎡'मनोविज्ञान' 72⎦
 ⎡'जीवविज्ञान' 60⎦

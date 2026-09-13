@@ -2,6 +2,7 @@
 Nốt cao độ
 ===
 ¶Hát hoặc ngân nga, rồi xem nốt bạn đang tạo ra — hai lần. Nốt bên trái đọc dữ liệu thô @Pitch nên rung giật; nốt bên phải lấy trung bình vài cao độ gần nhất nên giữ ổn định. @Pitch báo 0hz khi không nghe rõ gì, nên cả hai nốt bỏ qua những lúc đó và hiện · thay vào.¶
+
 nốtNhạc2: [
 		'A'
 		'A♯'

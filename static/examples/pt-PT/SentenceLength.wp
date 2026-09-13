@@ -2,6 +2,7 @@ H
 ComprimentoDaFrase
 ===
 ¶Escreva na barra de conversa e ele conta os carateres da sua frase.¶
+
 frase2: Conversa()
 comprimento2: Conversa().comprimento()
 

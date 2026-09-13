@@ -2,6 +2,7 @@
 Mano
 ===
 ¶Levanta los dedos frente a tu cámara y una mano emoji cuenta junto contigo.¶
+
 mano2: Mano()
 
 Escenario(

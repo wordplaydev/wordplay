@@ -2,6 +2,7 @@ H
 HabaNgPangungusap
 ===
 ¶Magtype sa chat bar at bibilangin nito ang mga karakter ng iyong pangungusap.¶
+
 pangungusap: Makipagchat()
 haba2: Makipagchat().haba()
 

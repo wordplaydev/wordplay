@@ -172,6 +172,7 @@ Etapp(
 )
 === years/en
 ¶Andel amerikanska kandidatexamina inom data- och informationsvetenskap som tagits av kvinnor, per år, med antalet kvinnor och det totala antaletexamina. Källa: National Center for Education Statistics, Digest ofEducation Statistics, tabell 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡år2•'' kvinnor•# totalt•# procent•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -187,6 +188,7 @@ Etapp(
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶Andel amerikanska kandidatexamina som tagits av kvinnor inom varje studieämne,kring 2018, ordnat från högsta till lägsta andel. Källa: NationalScience Foundation, NCSES, Women, Minorities, and Persons with Disabilitiesin Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡fält•'' procent2•#⎦
 ⎡'Psykologi' 72⎦
 ⎡'Biologi' 60⎦

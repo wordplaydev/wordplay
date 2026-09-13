@@ -2,6 +2,7 @@
 Yankı
 === start
 ¶İzleyicinin sohbet çubuğuna yazdığı her şey bu ifade olur.¶
+
 mesaj: Sohbet()
 
 ¶Bir istemle başla, sonra her yeni mesajı yansıt. Metin, eski kelimelerden yenilerine harf harf dönüşür.¶

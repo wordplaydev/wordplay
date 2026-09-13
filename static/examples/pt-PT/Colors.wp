@@ -2,6 +2,7 @@ w
 Espetáculo de Cores
 ===
 ¶Clique para agitar e mudar a cor da palavra "wowie" ao acaso.¶
+
 cor2: Cor(0% 0 0°) … ∆ Botão() … Cor(
 			50%
 			Aleatório() × 200

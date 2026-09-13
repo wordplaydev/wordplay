@@ -226,6 +226,7 @@ Stage(
 )
 === guitar1
 ¶Guitar, voice 1 of 12. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 3.5beats) ♪(-19 0.479beats 68%) ♪(ø 0.021beats) ♪(-18 1.479beats 78%) ♪(ø 0.021beats) ♪(-11 1.479beats 79%) ♪(ø 0.021beats) ♪(-12 0.979beats 68%)
@@ -393,6 +394,7 @@ Track(
 )
 === guitar2
 ¶Guitar, voice 2 of 12. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 32beats) ♪(0 7.729beats 49%) ♪(ø 66.021beats) ♪({-2 5 10} 2.229beats 57%) ♪(ø 1.771beats) ♪({-2 5 10} 2.229beats 63%) ♪(ø 103.521beats) ♪(13 1.479beats 79%)
@@ -407,6 +409,7 @@ Track(
 )
 === guitar3
 ¶Guitar, voice 3 of 12. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 32.25beats) ♪(2 7.729beats 45%) ♪(ø 263.021beats) ♪(7 5.479beats 79%)
@@ -416,6 +419,7 @@ Track(
 )
 === guitar4
 ¶Guitar, voice 4 of 12. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 303.25beats) ♪(9 5.229beats 79%)
@@ -425,6 +429,7 @@ Track(
 )
 === violin1
 ¶Strings, voice 1 of 2. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 3.5beats) ♪(-19 0.479beats 63%) ♪(ø 0.021beats) ♪(-18 1.479beats 63%) ♪(ø 0.021beats) ♪(-11 1.479beats 72%) ♪(ø 0.021beats) ♪(-12 0.979beats 63%)
@@ -450,6 +455,7 @@ Track(
 )
 === guitar5
 ¶Guitar, voice 5 of 12. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 4beats) ♪(3 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(5 0.729beats 63%) ♪(ø 0.021beats) ♪(3 0.729beats 63%)
@@ -474,6 +480,7 @@ Track(
 )
 === guitar6
 ¶Guitar, voice 6 of 12. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 16beats) ♪(5 1.229beats 69%) ♪(ø 0.271beats) ♪(5 1.229beats 69%) ♪(ø 0.271beats) ♪(5 0.979beats 69%) ♪(ø 0.021beats) ♪(5 1.229beats 69%)
@@ -690,6 +697,7 @@ Track(
 )
 === guitar7
 ¶Guitar, voice 7 of 12. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 16.25beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.229beats 69%) ♪(ø 0.021beats) ♪(3 0.229beats 69%) ♪(ø 0.021beats) ♪(2 0.979beats 69%)
@@ -724,6 +732,7 @@ Track(
 )
 === guitar8
 ¶Guitar, voice 8 of 12. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 17.75beats) ♪(3 0.229beats 69%) ♪(ø 1.271beats) ♪(3 0.229beats 69%) ♪(ø 2.271beats) ♪(3 0.229beats 69%) ♪(ø 1.271beats) ♪(3 0.229beats 69%)
@@ -739,6 +748,7 @@ Track(
 )
 === guitar9
 ¶Guitar, voice 9 of 12. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 213.5beats) ♪(12 0.167beats 69%) ♪(ø 23.833beats) ♪(12 0.167beats 69%)
@@ -748,6 +758,7 @@ Track(
 )
 === guitar10
 ¶Guitar, voice 10 of 12. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 40beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%) ♪(ø 0.021beats) ♪(-14 0.979beats 71%)
@@ -893,6 +904,7 @@ Track(
 )
 === guitar11
 ¶Guitar, voice 11 of 12. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 40beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.229beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.729beats 71%) ♪(ø 0.021beats) ♪({-2 5} 0.479beats 71%)
@@ -943,6 +955,7 @@ Track(
 )
 === guitar12
 ¶Guitar, voice 12 of 12. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 56beats) ♪(5 0.229beats 71%) ♪(ø 0.021beats) ♪(3 0.229beats 71%) ♪(ø 0.021beats) ♪(2 0.229beats 71%) ♪(ø 0.271beats) ♪(2 2.979beats 71%)
@@ -959,6 +972,7 @@ Track(
 )
 === flute1
 ¶Flute, voice 1 of 1. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 64beats) ♪(17 3.979beats 74%) ♪(ø 0.021beats) ♪(16 3.979beats 74%) ♪(ø 0.021beats) ♪(19 7.979beats 74%) ♪(ø 0.021beats) ♪(17 7.979beats 74%)
@@ -970,6 +984,7 @@ Track(
 )
 === violin2
 ¶Strings, voice 2 of 2. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 112beats) ♪(10 19.979beats 58%) ♪(ø 0.021beats) ♪(10 1.979beats 58%) ♪(ø 0.021beats) ♪(9 1.979beats 58%) ♪(ø 0.021beats) ♪(7 1.979beats 58%)
@@ -993,6 +1008,7 @@ Track(
 )
 === synth1
 ¶Synth, voice 1 of 2. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 292.375beats) ♪({43 57} 0.104beats 51%) ♪(ø 0.146beats) ♪({48 50 57} 0.104beats 51%) ♪(ø 0.021beats) ♪(60 0.104beats 51%) ♪(ø 0.021beats) ♪(66 0.104beats 51%)
@@ -1016,6 +1032,7 @@ Track(
 )
 === bass1
 ¶Bass, voice 1 of 2. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 47.75beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%) ♪(ø 0.021beats) ♪(-31 0.229beats 76%) ♪(ø 0.021beats) ♪(-28 0.229beats 76%)
@@ -1120,6 +1137,7 @@ Track(
 )
 === bass2
 ¶Bass, voice 2 of 2. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 252beats) ♪(-28 0.229beats 76%)
@@ -1129,6 +1147,7 @@ Track(
 )
 === drums1
 ¶Drums, voice 1 of 6. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 22.75beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(1 0.979beats 80%)
@@ -1218,6 +1237,7 @@ Track(
 )
 === drums2
 ¶Drums, voice 2 of 6. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 23beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.021beats) ♪({1 1 2 3 4 4 5} 0.979beats 80%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
@@ -1306,6 +1326,7 @@ Track(
 )
 === drums3
 ¶Drums, voice 3 of 6. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 23.25beats) ♪({2 2} 0.979beats 82%) ♪(ø 0.271beats) ♪({2 3} 0.979beats 65%) ♪(ø 0.021beats) ♪({2 2 3} 0.979beats 82%) ♪(ø 0.021beats) ♪({2 3} 0.979beats 65%)
@@ -1379,6 +1400,7 @@ Track(
 )
 === drums4
 ¶Drums, voice 4 of 6. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 23.5beats) ♪({1 1 5} 0.979beats 80%) ♪(ø 1.771beats) ♪(1 0.979beats 80%) ♪(ø 3.021beats) ♪(1 0.979beats 80%) ♪(ø 0.021beats) ♪(2 0.979beats 82%)
@@ -1415,6 +1437,7 @@ Track(
 )
 === drums5
 ¶Drums, voice 5 of 6. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 226.25beats) ♪({1 5} 0.979beats 80%) ♪(ø 23.021beats) ♪({1 5} 0.979beats 80%)
@@ -1424,6 +1447,7 @@ Track(
 )
 === drums6
 ¶Drums, voice 6 of 6. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 226.292beats) ♪(5 0.979beats 76%) ♪(ø 23.021beats) ♪(5 0.979beats 76%)
@@ -1433,6 +1457,7 @@ Track(
 )
 === synth2
 ¶Synth, voice 2 of 2. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 298.75beats) ♪(-5 33.979beats 68%)
@@ -1442,6 +1467,7 @@ Track(
 )
 === bell1
 ¶Bells, voice 1 of 10. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 299beats) ♪(9 4.979beats 67%) ♪(ø 0.521beats) ♪(24 3.229beats 67%)
@@ -1451,6 +1477,7 @@ Track(
 )
 === bell2
 ¶Bells, voice 2 of 10. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 299.25beats) ♪(26 4.479beats 67%) ♪(ø 0.021beats) ♪(16 4.479beats 67%)
@@ -1460,6 +1487,7 @@ Track(
 )
 === bell3
 ¶Bells, voice 3 of 10. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 299.25beats) ♪(31 5.229beats 67%) ♪(ø 1.021beats) ♪(29 1.979beats 67%)
@@ -1469,6 +1497,7 @@ Track(
 )
 === bell4
 ¶Bells, voice 4 of 10. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 299.5beats) ♪(29 4.479beats 67%)
@@ -1478,6 +1507,7 @@ Track(
 )
 === bell5
 ¶Bells, voice 5 of 10. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 299.75beats) ♪(13 6.229beats 67%)
@@ -1487,6 +1517,7 @@ Track(
 )
 === bell6
 ¶Bells, voice 6 of 10. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 300beats) ♪(18 1.979beats 67%) ♪(ø 0.021beats) ♪(31 3.229beats 67%)
@@ -1496,6 +1527,7 @@ Track(
 )
 === bell7
 ¶Bells, voice 7 of 10. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 300.25beats) ♪(3 3.479beats 67%)
@@ -1505,6 +1537,7 @@ Track(
 )
 === bell8
 ¶Bells, voice 8 of 10. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 300.25beats) ♪(21 1.729beats 67%) ♪(ø 0.271beats) ♪(23 0.729beats 67%)
@@ -1514,6 +1547,7 @@ Track(
 )
 === bell9
 ¶Bells, voice 9 of 10. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 301.5beats) ♪(14 3.479beats 67%)
@@ -1523,6 +1557,7 @@ Track(
 )
 === bell10
 ¶Bells, voice 10 of 10. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 302.5beats) ♪(19 1.729beats 67%)
@@ -1532,6 +1567,7 @@ Track(
 )
 === pad1
 ¶Pad, voice 1 of 3. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 297.25beats) ♪(-20 21.729beats 50%) ♪(ø 29.021beats) ♪(-22 11.979beats 50%) ♪(ø 0.021beats) ♪(-22 24.01beats 50%)
@@ -1541,6 +1577,7 @@ Track(
 )
 === pad2
 ¶Pad, voice 2 of 3. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 309.5beats) ♪(-15 10.729beats 50%) ♪(ø 27.771beats) ♪(22 9.729beats 50%) ♪(ø 0.021beats) ♪(22 26.26beats 50%)
@@ -1550,6 +1587,7 @@ Track(
 )
 === pad3
 ¶Pad, voice 3 of 3. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 348beats) ♪(46 5.979beats 50%) ♪(ø 0.021beats) ♪(46 7.979beats 50%) ♪(ø 0.021beats) ♪(46 22.01beats 50%)
@@ -1559,6 +1597,7 @@ Track(
 )
 === sax1
 ¶Horn, voice 1 of 3. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 319beats) ♪({-19 5} 0.979beats 48%) ♪(ø 0.021beats) ♪(-21 1.479beats 48%) ♪(ø 0.021beats) ♪(-22 4.479beats 48%) ♪(ø 1.021beats) ♪({-19 5} 0.979beats 48%)
@@ -1574,6 +1613,7 @@ Track(
 )
 === sax2
 ¶Horn, voice 2 of 3. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 320beats) ♪(3 1.729beats 48%) ♪(ø 0.021beats) ♪(2 5.229beats 48%) ♪(ø 1.021beats) ♪(3 1.729beats 48%) ♪(ø 0.021beats) ♪(2 5.479beats 48%)
@@ -1586,6 +1626,7 @@ Track(
 )
 === sax3
 ¶Horn, voice 3 of 3. The start source borrows it by name.¶
+
 Track(
 	[
 		♪(ø 39beats) ♪(-7 0.229beats 90%) ♪(ø 0.021beats) ♪(-5 0.229beats 90%) ♪(ø 0.021beats) ♪(2 3.479beats 90%) ♪(ø 0.021beats) ♪(-7 0.229beats 90%)

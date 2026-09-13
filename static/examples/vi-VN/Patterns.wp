@@ -2,6 +2,7 @@
 Khuôn mẫu
 === start
 ¶Hãy gõ một câu có vài con số trong đó. Mình sẽ tìm mọi con số và hiện chúng bên dưới, lớn dần khi mình tìm thấy. Một mẫu mô tả hình dạng của văn bản — ở đây,\⣿ >0 #⣿\ nghĩa là “một hoặc nhiều chữ số,” và ⌕ tìm mọi chỗ nó xuất hiện.¶
+
 đầuVào: Tròchuyện()
 vănBản2: 'Tôi có 3 con mèo, 12 con cá, và 144 con kiến' … ∆ đầuVào … đầuVào
 

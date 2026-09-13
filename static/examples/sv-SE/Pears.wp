@@ -2,6 +2,7 @@ M
 Päron
 === start/en
 ¶Det här är en interaktiv kort berättelse. Den har flera olika scener och byter mellan dem beroende på olika handlingar, som klick, krockar och annat du gör. En del av det roliga är att upptäcka vad du måste göra för att berättelsen ska gå vidare.¶
+
 inledning: [
 		Fras(`Min pappa ville åka hem.` plats: Plats(-9m 0m))
 	]

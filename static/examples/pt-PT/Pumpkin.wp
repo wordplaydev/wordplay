@@ -2,6 +2,7 @@
 Abóbora
 === start
 ¶Uma abóbora de Halloween que tremula e reaparece num sítio novo a cada segundo.¶
+
 tempo2: Tempo(1000ms)
 colocar: Local(0m 0m) … ∆ tempo2 … Local(
 			Aleatório(-4m 4m)

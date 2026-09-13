@@ -2,6 +2,7 @@
 Bakas ng pointer
 ===
 ¶Igalaw ang iyong pointer para gumuhit ng kupas na bahaghari. Naaalala ng @Previous (←←) ang huling limang @Pointer na lugar, at gumuguhit ang @List.translate ng tuldok para sa bawat isa, na kumukupas at nagbabago ng kulay mula sa pinakaluma hanggang sa pinakabago.¶
+
 kasaysayan•[Lugar]: ←← 5 Panturo()
 Entablado(
 	kasaysayan.isalin(

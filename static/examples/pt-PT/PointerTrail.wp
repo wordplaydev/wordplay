@@ -2,6 +2,7 @@
 Rasto do ponteiro
 ===
 ¶Mova o seu ponteiro para desenhar um rasto de arco-íris que se vai apagando. @Previous (←←) guarda os últimos cinco @Pointer locais, e @List.translate desenha um ponto para cada um, desvanecendo e mudando de cor do mais antigo para o mais recente.¶
+
 histórico•[Local]: ←← 5 Ponteiro()
 Fase(
 	histórico.traduzir(

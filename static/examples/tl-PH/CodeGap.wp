@@ -181,6 +181,7 @@ Entablado(
 )
 === years/en
 ¶Porsyento ng mga digring bachelor sa computer at information science sa Estados Unidos na nakuha ng mga babae, ayon sa taon, kasama ang bilang ng mga babae at ang kabuuang bilang ng mga digri. Pinagmulan: National Center for Education Statistics, Digest of Education Statistics, Table 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡taon2•'' mgaBabae•# kabuuan2•# porsyento•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -196,6 +197,7 @@ Entablado(
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶Porsyento ng mga digring bachelor sa Estados Unidos na nakuha ng mga babae sa bawat larangan ng pag-aaral, noong mga 2018, ayon sa pagkaayos mula sa pinakamataas na bahagi hanggang sa pinakamababa. Pinagmulan: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡larangan•'' porsyento2•#⎦
 ⎡'Sikolohiya' 72⎦
 ⎡'Biyolohiya' 60⎦

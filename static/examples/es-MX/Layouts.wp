@@ -2,6 +2,7 @@ K
 Diseños
 === start
 ¶Filas, pilas y grupos de frases, cada una con poses animadas.¶
+
 latido2: Secuencia(
 		{
 			0%: Pose(escala: .9)

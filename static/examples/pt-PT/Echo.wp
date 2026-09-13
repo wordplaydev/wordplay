@@ -2,6 +2,7 @@
 Eco
 === start
 ¶Tudo o que o público escrever na barra de conversa torna-se nesta frase.¶
+
 mensagem: Conversa()
 
 ¶Comece com uma frase inicial e depois mostre cada nova mensagem. O texto transforma-se das palavras antigas para as novas, uma letra de cada vez.¶

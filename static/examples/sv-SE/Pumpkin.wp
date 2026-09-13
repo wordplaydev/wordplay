@@ -2,6 +2,7 @@
 Pumpa
 === start
 ¶En pumpalykta som flimrar och dyker upp på ett nytt ställe varje sekund.¶
+
 tid: Tid(1000ms)
 plats2: Plats(0m 0m) … ∆ tid … Plats(
 			Slumpmässig(-4m 4m)

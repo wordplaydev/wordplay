@@ -179,6 +179,7 @@ choice changes.
 )
 === years/en
 ¶النسبة المئوية لدرجات البكالوريوس في علوم الحاسوب والمعلومات في الولايات المتحدة التي حصلت عليها النساء، بحسب السنة، مع عدد النساء والعدد الإجمالي للدرجات. المصدر: National Center for Education Statistics، Digest of Education Statistics، الجدول 325.35. https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡سنة•'' نساء•# المجموع•# نسبةمئوية•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -194,6 +195,7 @@ choice changes.
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶النسبة المئوية لدرجات البكالوريوس في الولايات المتحدة التي حصلت عليها النساء في كل مجال دراسي، حوالي عام ٢٠١٨، مرتّبة من الحصة الأعلى إلى الأدنى. المصدر: National Science Foundation، NCSES، Women, Minorities, and Persons with Disabilities in Science and Engineering. https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡حقل•'' نسبةمئوية2•#⎦
 ⎡'علم النفس' 72⎦
 ⎡'الأحياء' 60⎦

@@ -2,6 +2,7 @@ l
 Tiêu đề
 === start/en
 ¶Tin tức trực tiếp từ New York Times, lấy từ mạng và xếp chồng trên sân khấu.¶
+
 tinTức: Trangweb(
 		'https://www.nytimes.com'
 		'.indicate-hover'

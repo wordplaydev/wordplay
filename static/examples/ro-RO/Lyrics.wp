@@ -248,6 +248,7 @@ Etapă(
 )
 === guitar1
 ¶Chitară, voce 1 din 12. Sursa de început o împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 3.5beats)
@@ -1522,6 +1523,7 @@ Pistă(
 )
 === guitar2
 ¶Chitară, voce 2 din 12. Sursa de început o împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 32beats)
@@ -1577,6 +1579,7 @@ Pistă(
 )
 === guitar3
 ¶Chitară, voce 3 din 12. Sursa de început o împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 32.25beats)
@@ -1589,6 +1592,7 @@ Pistă(
 )
 === guitar4
 ¶Chitară, voce 4 din 12. Sursa de început o împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 303.25beats)
@@ -1599,6 +1603,7 @@ Pistă(
 )
 === violin1
 ¶Instrumente cu coarde, voce 1 din 2. Sursa de început le împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 3.5beats)
@@ -1741,6 +1746,7 @@ Pistă(
 )
 === guitar5
 ¶Chitară, voce 5 din 12. Sursa de început o împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 4beats)
@@ -1871,6 +1877,7 @@ Pistă(
 )
 === guitar6
 ¶Chitară, voce 6 din 12. Sursa de început o împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 16beats)
@@ -3539,6 +3546,7 @@ Pistă(
 )
 === guitar7
 ¶Chitară, voce 7 din 12. Sursa de început o împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 16.25beats)
@@ -3753,6 +3761,7 @@ Pistă(
 )
 === guitar8
 ¶Chitară, voce 8 din 12. Sursa de început o împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 17.75beats)
@@ -3813,6 +3822,7 @@ Pistă(
 )
 === guitar9
 ¶Chitară, voce 9 din 12. Sursa de început o împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 213.5beats)
@@ -3825,6 +3835,7 @@ Pistă(
 )
 === guitar10
 ¶Chitară, voce 10 din 12. Sursa de început o împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 40beats)
@@ -4925,6 +4936,7 @@ Pistă(
 )
 === guitar11
 ¶Chitară, voce 11 din 12. Sursa de început o împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 40beats)
@@ -5269,6 +5281,7 @@ Pistă(
 )
 === guitar12
 ¶Chitară, voce 12 din 12. Sursa de început o împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 56beats)
@@ -5341,6 +5354,7 @@ Pistă(
 )
 === flute1
 ¶Flaut, voce 1 din 1. Sursa de început o împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 64beats)
@@ -5367,6 +5381,7 @@ Pistă(
 )
 === violin2
 ¶Instrumente cu coarde, voce 2 din 2. Sursa de început le împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 112beats)
@@ -5495,6 +5510,7 @@ Pistă(
 )
 === synth1
 ¶Sintetizator, voce 1 din 2. Sursa de început îl împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 292.375beats)
@@ -5621,6 +5637,7 @@ Pistă(
 )
 === bass1
 ¶Bas, voce 1 din 2. Sursa de început îl împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 47.75beats)
@@ -6393,6 +6410,7 @@ Pistă(
 )
 === bass2
 ¶Bas, vocea 2 din 2. Sursa de început îl împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 252beats)
@@ -6403,6 +6421,7 @@ Pistă(
 )
 === drums1
 ¶Tobe, vocea 1 din 6. Sursa de început le împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 22.75beats)
@@ -7057,6 +7076,7 @@ Pistă(
 )
 === drums2
 ¶Tobe, vocea 2 din 6. Sursa de început le împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 23beats)
@@ -7705,6 +7725,7 @@ Pistă(
 )
 === drums3
 ¶Tobe, vocea 3 din 6. Sursa de început le împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 23.25beats)
@@ -8233,6 +8254,7 @@ Pistă(
 )
 === drums4
 ¶Tobe, vocea 4 din 6. Sursa de început le împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 23.5beats)
@@ -8465,6 +8487,7 @@ Pistă(
 )
 === drums5
 ¶Tobe, vocea 5 din 6. Sursa de început le împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 226.25beats)
@@ -8477,6 +8500,7 @@ Pistă(
 )
 === drums6
 ¶Tobe, vocea 6 din 6. Sursa de început le împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 226.292beats)
@@ -8489,6 +8513,7 @@ Pistă(
 )
 === synth2
 ¶Sintetizator, vocea 2 din 2. Sursa de început îl împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 298.75beats)
@@ -8499,6 +8524,7 @@ Pistă(
 )
 === bell1
 ¶Clopoței, vocea 1 din 10. Sursa de început îi împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 299beats)
@@ -8511,6 +8537,7 @@ Pistă(
 )
 === bell2
 ¶Clopoței, vocea 2 din 10. Sursa de început îi împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 299.25beats)
@@ -8523,6 +8550,7 @@ Pistă(
 )
 === bell3
 ¶Clopoței, vocea 3 din 10. Sursa de început îi împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 299.25beats)
@@ -8535,6 +8563,7 @@ Pistă(
 )
 === bell4
 ¶Clopoței, vocea 4 din 10. Sursa de început îi împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 299.5beats)
@@ -8545,6 +8574,7 @@ Pistă(
 )
 === bell5
 ¶Clopoței, vocea 5 din 10. Sursa de început îi împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 299.75beats)
@@ -8555,6 +8585,7 @@ Pistă(
 )
 === bell6
 ¶Clopoței, vocea 6 din 10. Sursa de început îi împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 300beats)
@@ -8567,6 +8598,7 @@ Pistă(
 )
 === bell7
 ¶Clopoței, vocea 7 din 10. Sursa de început îi împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 300.25beats)
@@ -8577,6 +8609,7 @@ Pistă(
 )
 === bell8
 ¶Clopoței, vocea 8 din 10. Sursa de început îi împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 300.25beats)
@@ -8589,6 +8622,7 @@ Pistă(
 )
 === bell9
 ¶Clopoței, vocea 9 din 10. Sursa de început îi împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 301.5beats)
@@ -8599,6 +8633,7 @@ Pistă(
 )
 === bell10
 ¶Clopoței, vocea 10 din 10. Sursa de început îi împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 302.5beats)
@@ -8609,6 +8644,7 @@ Pistă(
 )
 === pad1
 ¶Pad, vocea 1 din 3. Sursa de început îl împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 297.25beats)
@@ -8623,6 +8659,7 @@ Pistă(
 )
 === pad2
 ¶Pad, vocea 2 din 3. Sursa de început îl împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 309.5beats)
@@ -8637,6 +8674,7 @@ Pistă(
 )
 === pad3
 ¶Pad, vocea 3 din 3. Sursa de început îl împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 348beats)
@@ -8651,6 +8689,7 @@ Pistă(
 )
 === sax1
 ¶Corn, vocea 1 din 3. Sursa de început îl împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 319beats)
@@ -8713,6 +8752,7 @@ Pistă(
 )
 === sax2
 ¶Corn, vocea 2 din 3. Sursa de început îl împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 320beats)
@@ -8753,6 +8793,7 @@ Pistă(
 )
 === sax3
 ¶Corn, vocea 3 din 3. Sursa de început îl împrumută după nume.¶
+
 Pistă(
 	[
 		Notă(ø 39beats)

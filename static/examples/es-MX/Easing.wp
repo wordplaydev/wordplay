@@ -2,6 +2,7 @@ s
 Suavizado de secuencia
 ===
 ¶La misma animación del auto, de ocho formas, una para cada estilo de suavizado.¶
+
 fotogramasClave: {
 		0%: Pose(desplazamiento: Lugar(-1m 0m))
 		25%: Pose(desplazamiento: Lugar(1m 0m))

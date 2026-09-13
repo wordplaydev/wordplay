@@ -248,6 +248,7 @@ Fase(
 )
 === guitar1
 ¶Guitarra, voz 1 de 12. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 3.5beats)
@@ -1522,6 +1523,7 @@ Faixa(
 )
 === guitar2
 ¶Guitarra, voz 2 de 12. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 32beats)
@@ -1577,6 +1579,7 @@ Faixa(
 )
 === guitar3
 ¶Guitarra, voz 3 de 12. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 32.25beats)
@@ -1589,6 +1592,7 @@ Faixa(
 )
 === guitar4
 ¶Guitarra, voz 4 de 12. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 303.25beats)
@@ -1599,6 +1603,7 @@ Faixa(
 )
 === violin1
 ¶Cordas, voz 1 de 2. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 3.5beats)
@@ -1741,6 +1746,7 @@ Faixa(
 )
 === guitar5
 ¶Guitarra, voz 5 de 12. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 4beats)
@@ -1871,6 +1877,7 @@ Faixa(
 )
 === guitar6
 ¶Guitarra, voz 6 de 12. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 16beats)
@@ -3539,6 +3546,7 @@ Faixa(
 )
 === guitar7
 ¶Guitarra, voz 7 de 12. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 16.25beats)
@@ -3753,6 +3761,7 @@ Faixa(
 )
 === guitar8
 ¶Guitarra, voz 8 de 12. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 17.75beats)
@@ -3813,6 +3822,7 @@ Faixa(
 )
 === guitar9
 ¶Guitarra, voz 9 de 12. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 213.5beats)
@@ -3825,6 +3835,7 @@ Faixa(
 )
 === guitar10
 ¶Guitarra, voz 10 de 12. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 40beats)
@@ -4925,6 +4936,7 @@ Faixa(
 )
 === guitar11
 ¶Guitarra, voz 11 de 12. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 40beats)
@@ -5269,6 +5281,7 @@ Faixa(
 )
 === guitar12
 ¶Guitarra, voz 12 de 12. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 56beats)
@@ -5341,6 +5354,7 @@ Faixa(
 )
 === flute1
 ¶Flauta, voz 1 de 1. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 64beats)
@@ -5367,6 +5381,7 @@ Faixa(
 )
 === violin2
 ¶Cordas, voz 2 de 2. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 112beats)
@@ -5495,6 +5510,7 @@ Faixa(
 )
 === synth1
 ¶Sintetizador, voz 1 de 2. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 292.375beats)
@@ -5621,6 +5637,7 @@ Faixa(
 )
 === bass1
 ¶Baixo, voz 1 de 2. A fonte inicial toma-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 47.75beats)
@@ -6393,6 +6410,7 @@ Faixa(
 )
 === bass2
 ¶Baixo, voz 2 de 2. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 252beats)
@@ -6403,6 +6421,7 @@ Faixa(
 )
 === drums1
 ¶Bateria, voz 1 de 6. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 22.75beats)
@@ -7057,6 +7076,7 @@ Faixa(
 )
 === drums2
 ¶Bateria, voz 2 de 6. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 23beats)
@@ -7705,6 +7725,7 @@ Faixa(
 )
 === drums3
 ¶Bateria, voz 3 de 6. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 23.25beats)
@@ -8233,6 +8254,7 @@ Faixa(
 )
 === drums4
 ¶Bateria, voz 4 de 6. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 23.5beats)
@@ -8465,6 +8487,7 @@ Faixa(
 )
 === drums5
 ¶Bateria, voz 5 de 6. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 226.25beats)
@@ -8477,6 +8500,7 @@ Faixa(
 )
 === drums6
 ¶Bateria, voz 6 de 6. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 226.292beats)
@@ -8489,6 +8513,7 @@ Faixa(
 )
 === synth2
 ¶Sintetizador, voz 2 de 2. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 298.75beats)
@@ -8499,6 +8524,7 @@ Faixa(
 )
 === bell1
 ¶Sinos, voz 1 de 10. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 299beats)
@@ -8511,6 +8537,7 @@ Faixa(
 )
 === bell2
 ¶Sinos, voz 2 de 10. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 299.25beats)
@@ -8523,6 +8550,7 @@ Faixa(
 )
 === bell3
 ¶Sinos, voz 3 de 10. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 299.25beats)
@@ -8535,6 +8563,7 @@ Faixa(
 )
 === bell4
 ¶Sinos, voz 4 de 10. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 299.5beats)
@@ -8545,6 +8574,7 @@ Faixa(
 )
 === bell5
 ¶Sinos, voz 5 de 10. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 299.75beats)
@@ -8555,6 +8585,7 @@ Faixa(
 )
 === bell6
 ¶Sinos, voz 6 de 10. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 300beats)
@@ -8567,6 +8598,7 @@ Faixa(
 )
 === bell7
 ¶Sinos, voz 7 de 10. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 300.25beats)
@@ -8577,6 +8609,7 @@ Faixa(
 )
 === bell8
 ¶Sinos, voz 8 de 10. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 300.25beats)
@@ -8589,6 +8622,7 @@ Faixa(
 )
 === bell9
 ¶Sinos, voz 9 de 10. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 301.5beats)
@@ -8599,6 +8633,7 @@ Faixa(
 )
 === bell10
 ¶Sinos, voz 10 de 10. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 302.5beats)
@@ -8609,6 +8644,7 @@ Faixa(
 )
 === pad1
 ¶Almofada sonora, voz 1 de 3. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 297.25beats)
@@ -8623,6 +8659,7 @@ Faixa(
 )
 === pad2
 ¶Almofada sonora, voz 2 de 3. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 309.5beats)
@@ -8637,6 +8674,7 @@ Faixa(
 )
 === pad3
 ¶Almofada sonora, voz 3 de 3. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 348beats)
@@ -8651,6 +8689,7 @@ Faixa(
 )
 === sax1
 ¶Trompa, voz 1 de 3. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 319beats)
@@ -8713,6 +8752,7 @@ Faixa(
 )
 === sax2
 ¶Trompa, voz 2 de 3. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 320beats)
@@ -8753,6 +8793,7 @@ Faixa(
 )
 === sax3
 ¶Trompa, voz 3 de 3. O ficheiro inicial pede-a emprestada pelo nome.¶
+
 Faixa(
 	[
 		Nota(ø 39beats)

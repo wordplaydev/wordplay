@@ -245,6 +245,7 @@ Etapp(
 )
 === guitar1
 ¶Gitarr, röst 1 av 12. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 3.5beats)
@@ -1519,6 +1520,7 @@ Spår(
 )
 === guitar2
 ¶Gitarr, röst 2 av 12. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 32beats)
@@ -1574,6 +1576,7 @@ Spår(
 )
 === guitar3
 ¶Gitarr, röst 3 av 12. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 32.25beats)
@@ -1586,6 +1589,7 @@ Spår(
 )
 === guitar4
 ¶Gitarr, röst 4 av 12. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 303.25beats)
@@ -1596,6 +1600,7 @@ Spår(
 )
 === violin1
 ¶Stråkar, röst 1 av 2. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 3.5beats)
@@ -1738,6 +1743,7 @@ Spår(
 )
 === guitar5
 ¶Gitarr, röst 5 av 12. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 4beats)
@@ -1868,6 +1874,7 @@ Spår(
 )
 === guitar6
 ¶Gitarr, röst 6 av 12. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 16beats)
@@ -3536,6 +3543,7 @@ Spår(
 )
 === guitar7
 ¶Gitarr, röst 7 av 12. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 16.25beats)
@@ -3750,6 +3758,7 @@ Spår(
 )
 === guitar8
 ¶Gitarr, röst 8 av 12. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 17.75beats)
@@ -3810,6 +3819,7 @@ Spår(
 )
 === guitar9
 ¶Gitarr, röst 9 av 12. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 213.5beats)
@@ -3822,6 +3832,7 @@ Spår(
 )
 === guitar10
 ¶Gitarr, röst 10 av 12. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 40beats)
@@ -4922,6 +4933,7 @@ Spår(
 )
 === guitar11
 ¶Gitarr, röst 11 av 12. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 40beats)
@@ -5266,6 +5278,7 @@ Spår(
 )
 === guitar12
 ¶Gitarr, röst 12 av 12. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 56beats)
@@ -5338,6 +5351,7 @@ Spår(
 )
 === flute1
 ¶Flöjt, röst 1 av 1. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 64beats)
@@ -5364,6 +5378,7 @@ Spår(
 )
 === violin2
 ¶Stråkar, röst 2 av 2. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 112beats)
@@ -5492,6 +5507,7 @@ Spår(
 )
 === synth1
 ¶Synt, röst 1 av 2. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 292.375beats)
@@ -5618,6 +5634,7 @@ Spår(
 )
 === bass1
 ¶Bas, röst 1 av 2. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 47.75beats)
@@ -6390,6 +6407,7 @@ Spår(
 )
 === bass2
 ¶Bas, röst 2 av 2. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 252beats)
@@ -6400,6 +6418,7 @@ Spår(
 )
 === drums1
 ¶Trummor, röst 1 av 6. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 22.75beats)
@@ -7054,6 +7073,7 @@ Spår(
 )
 === drums2
 ¶Trummor, röst 2 av 6. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 23beats)
@@ -7702,6 +7722,7 @@ Spår(
 )
 === drums3
 ¶Trummor, röst 3 av 6. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 23.25beats)
@@ -8230,6 +8251,7 @@ Spår(
 )
 === drums4
 ¶Trummor, röst 4 av 6. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 23.5beats)
@@ -8462,6 +8484,7 @@ Spår(
 )
 === drums5
 ¶Trummor, röst 5 av 6. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 226.25beats)
@@ -8474,6 +8497,7 @@ Spår(
 )
 === drums6
 ¶Trummor, röst 6 av 6. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 226.292beats)
@@ -8486,6 +8510,7 @@ Spår(
 )
 === synth2
 ¶Synt, röst 2 av 2. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 298.75beats)
@@ -8496,6 +8521,7 @@ Spår(
 )
 === bell1
 ¶Klockor, röst 1 av 10. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 299beats)
@@ -8508,6 +8534,7 @@ Spår(
 )
 === bell2
 ¶Klockor, röst 2 av 10. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 299.25beats)
@@ -8520,6 +8547,7 @@ Spår(
 )
 === bell3
 ¶Klockor, röst 3 av 10. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 299.25beats)
@@ -8532,6 +8560,7 @@ Spår(
 )
 === bell4
 ¶Klockor, röst 4 av 10. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 299.5beats)
@@ -8542,6 +8571,7 @@ Spår(
 )
 === bell5
 ¶Klockor, röst 5 av 10. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 299.75beats)
@@ -8552,6 +8582,7 @@ Spår(
 )
 === bell6
 ¶Klockor, röst 6 av 10. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 300beats)
@@ -8564,6 +8595,7 @@ Spår(
 )
 === bell7
 ¶Klockor, röst 7 av 10. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 300.25beats)
@@ -8574,6 +8606,7 @@ Spår(
 )
 === bell8
 ¶Klockor, röst 8 av 10. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 300.25beats)
@@ -8586,6 +8619,7 @@ Spår(
 )
 === bell9
 ¶Klockor, röst 9 av 10. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 301.5beats)
@@ -8596,6 +8630,7 @@ Spår(
 )
 === bell10
 ¶Klockor, röst 10 av 10. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 302.5beats)
@@ -8606,6 +8641,7 @@ Spår(
 )
 === pad1
 ¶Pad, röst 1 av 3. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 297.25beats)
@@ -8620,6 +8656,7 @@ Spår(
 )
 === pad2
 ¶Pad, röst 2 av 3. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 309.5beats)
@@ -8634,6 +8671,7 @@ Spår(
 )
 === pad3
 ¶Pad, röst 3 av 3. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 348beats)
@@ -8648,6 +8686,7 @@ Spår(
 )
 === sax1
 ¶Horn, röst 1 av 3. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 319beats)
@@ -8710,6 +8749,7 @@ Spår(
 )
 === sax2
 ¶Horn, röst 2 av 3. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 320beats)
@@ -8750,6 +8790,7 @@ Spår(
 )
 === sax3
 ¶Horn, röst 3 av 3. Startkällan lånar den med namn.¶
+
 Spår(
 	[
 		Not(ø 39beats)

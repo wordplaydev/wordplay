@@ -2,6 +2,7 @@ H
 ĐộDàiCâu
 ===
 ¶Gõ vào thanh trò chuyện và nó sẽ đếm số chữ trong câu của bạn.¶
+
 câu2: Tròchuyện()
 độDài: Tròchuyện().chiềudài()
 

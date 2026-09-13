@@ -2,6 +2,7 @@ s
 Taille
 === start/en
 ¶Clique ou appuie sur une touche pour passer de GRAND à petit sur des couleurs changeantes.¶
+
 word/en,字/zh: (Bouton(ø) | ∆ Clé()) ? Phrase(
 			"BIG"/en"大"/zh
 			taille: 5m

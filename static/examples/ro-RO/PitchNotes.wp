@@ -2,6 +2,7 @@
 Note muzicale
 ===
 ¶Cântă sau fredonează și vezi nota pe care o faci — de două ori. Nota din stânga citește @Pitch brut și tremură; nota din dreapta face media ultimelor mai multe înălțimi și rămâne stabilă. @Pitch arată 0hz când nu aude nimic clar, așa că ambele note sar peste acele momente și arată · în loc.¶
+
 note2: [
 		'La'
 		'La♯'

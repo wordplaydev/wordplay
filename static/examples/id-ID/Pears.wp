@@ -2,6 +2,7 @@ M
 Pir
 === start/en
 ¶Ini adalah cerita pendek yang interaktif. Cerita ini punya beberapa adegan berbeda dan berpindah dari satu ke yang lain karena berbagai interaksi, seperti klik, tabrakan, dan aksi lainnya. Bagian serunya adalah menemukan interaksi yang tepat untuk melanjutkan cerita.¶
+
 pengantar: [
 		Frasa(`Ayahku ingin pergi.` tempat: Tempat(-9m 0m))
 	]

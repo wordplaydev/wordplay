@@ -2,6 +2,7 @@
 BinárioRotativo
 === start/en
 ¶Um campo de uns e zeros, a rodar lentamente no mesmo sítio.¶
+
 rotaçãoLenta: Sequência.rodar(10s "straight")
 
 Fase(

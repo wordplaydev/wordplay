@@ -38,18 +38,18 @@ test('a kit may not borrow', () => {
 
 test('an export with no docs is refused', () => {
     // A kit is read by people who cannot ask its author.
-    expect(readiness(`¶A kit. \\1\\¶\n1\n↑ sunset/en: 1`)).toContain(
+    expect(readiness(`¶A kit. \\1\\¶\n\n↑ sunset/en: 1`)).toContain(
         'UndocumentedShare',
     );
 });
 
 test('a shared function must show a worked example', () => {
     expect(
-        readiness(`¶A kit. \\1\\¶\n1\n¶Doubles it.¶\n↑ ƒ double(n•#) n · 2`),
+        readiness(`¶A kit. \\1\\¶\n\n¶Doubles it.¶\n↑ ƒ double(n•#) n · 2`),
     ).toContain('UnexampledShare');
     expect(
         readiness(
-            `¶A kit. \\1\\¶\n1\n¶Doubles it. \\double(2)\\¶\n↑ ƒ double(n•#) n · 2`,
+            `¶A kit. \\1\\¶\n\n¶Doubles it. \\double(2)\\¶\n↑ ƒ double(n•#) n · 2`,
         ),
     ).toEqual([]);
 });
@@ -61,7 +61,7 @@ test('a shared bind needs no example, only docs', () => {
 test('a kit with no example anywhere has no preview', () => {
     // The colour palette this whole feature exists for: every export documented, none of
     // them callable, and nothing for the registry to draw.
-    expect(readiness(`¶A palette.¶\n1\n¶Warm.¶\n↑ sunset/en: 1`)).toEqual([
+    expect(readiness(`¶A palette.¶\n\n¶Warm.¶\n↑ sunset/en: 1`)).toEqual([
         'UnexampledKit',
     ]);
 });
@@ -74,17 +74,16 @@ test('a shared conversion is an export, and needs docs', () => {
     expect(readiness(`↑ → #kitty #cat ⬚ ÷ 2`)).toContain('UndocumentedShare');
 });
 
-test("a source's own doc documents its first export (#1374)", () => {
-    // `parseProgram` takes every leading doc as the program's, so documentation written
-    // for the first definition in a source lands one level up and that definition cannot
-    // be documented at all. The words are there; only the node they hang from is wrong.
+test('a doc touching the first export documents it (#1374)', () => {
+    // Documentation written for the first definition in a source used to land on the
+    // program instead, leaving that definition with no way to be documented at all.
     const source = new Source('colors', documented);
-    expect(kitExports(source)[0].docs.isEmpty()).toBe(true);
-    expect(source.expression.docs?.docs).toHaveLength(1);
+    expect(kitExports(source)[0].docs.isEmpty()).toBe(false);
+    expect(source.expression.docs.isEmpty()).toBe(true);
     expect(readiness(documented)).toEqual([]);
 });
 
-test('the fallback reaches only the first export', () => {
+test('each export carries its own doc', () => {
     // A second export has to carry its own doc, because it can.
     expect(
         readiness(`¶Only the first. \\1\\¶\n↑ a/en: 1\n↑ b/en: 2`),

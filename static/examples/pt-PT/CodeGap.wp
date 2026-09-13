@@ -185,6 +185,7 @@ Fase(
 )
 === years/en
 ¶Percentagem de licenciaturas dos Estados Unidos em ciências da computação e da informação obtidas por mulheres, por ano, com o número de mulheres e o número total de licenciaturas. Fonte: National Center for Education Statistics, Digest of Education Statistics, Tabela 325.35.https://nces.ed.gov/programs/digest/d23/tables/dt23_325.35.asp¶
+
 ⎡ano2•'' mulheres•# total•# percentagem•#⎦
 ⎡'1971' 324 2388 13.6⎦
 ⎡'1976' 1118 5652 19.8⎦
@@ -200,6 +201,7 @@ Fase(
 ⎡'2022' 24542 108503 22.6⎦
 === fields/en
 ¶Percentagem de licenciaturas dos Estados Unidos obtidas por mulheres em cada área de estudo, por volta de 2018, ordenadas da proporção mais alta para a mais baixa. Fonte: National Science Foundation, NCSES, Women, Minorities, and Persons with Disabilities in Science and Engineering.https://ncses.nsf.gov/pubs/nsf21321/report/field-of-degree-women¶
+
 ⎡campo•'' percentagem2•#⎦
 ⎡'Psicologia' 72⎦
 ⎡'Biologia' 60⎦

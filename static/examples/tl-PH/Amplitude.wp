@@ -2,6 +2,7 @@
 Amplitude
 ===
 ¶Isang hanay ng mga tuldok na nagniningning at nawawala ayon sa lakas ng tunog ng iyong mikropono.¶
+
 mgaAmplitude•[#]: ←← 10 Dami()
 vis: mgaAmplitude.isalin(
 		ƒ(amp•#) Parirala("⚫" kalabuan: amp laki: 10m)

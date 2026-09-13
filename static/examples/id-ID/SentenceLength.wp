@@ -2,6 +2,7 @@ H
 PanjangKalimat
 ===
 ¶Ketik di bilah obrolan dan alat ini akan menghitung jumlah huruf pada kalimatmu.¶
+
 kalimat: Mengobrol()
 panjang2: Mengobrol().panjang()
 

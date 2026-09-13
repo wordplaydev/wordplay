@@ -2,6 +2,7 @@ s
 Suavização da Sequência
 ===
 ¶A mesma animação do carro em oito estilos, um para cada tipo de suavização.¶
+
 keyframes: {
 		0%: Pose(desvio: Local(-1m 0m))
 		25%: Pose(desvio: Local(1m 0m))

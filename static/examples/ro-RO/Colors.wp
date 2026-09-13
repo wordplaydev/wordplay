@@ -2,6 +2,7 @@ w
 Spectacol de culori
 ===
 ¶Apasă pentru a mișca și a recolora cuvântul „wowie” la întâmplare.¶
+
 culoare2: Culoare(0% 0 0°) … ∆ Buton() … Culoare(
 			50%
 			Aleatoriu() × 200

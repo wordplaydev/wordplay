@@ -2,6 +2,7 @@ t
 Mașina de fonturi
 === start
 ¶Apasă orice tastă pentru a reașeza fiecare literă din „typography” cu un font ales la întâmplare.¶
+
 fonturi: [
 		"Arvo"/en
 		"Modak"/en

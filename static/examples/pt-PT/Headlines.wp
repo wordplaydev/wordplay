@@ -2,6 +2,7 @@ l
 Títulos
 === start/en
 ¶Manchetes em direto do New York Times, obtidas da web e empilhadas no palco.¶
+
 manchetes: PáginadaInternet(
 		'https://www.nytimes.com'
 		'.indicate-hover'

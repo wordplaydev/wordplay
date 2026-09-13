@@ -2,6 +2,7 @@
 Gema
 === start
 ¶Apa pun yang diketik penonton di kotak obrolan akan menjadi frasa ini.¶
+
 pesan: Mengobrol()
 
 ¶Mulailah dengan sebuah kalimat pembuka, lalu tampilkan setiap pesan baru. Teks berubah dari kata-kata lama ke kata-kata baru, satu huruf pada satu waktu.¶

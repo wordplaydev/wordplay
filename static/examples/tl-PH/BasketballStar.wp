@@ -2,6 +2,7 @@
 Bituin ng Basketbol
 === start
 ¶Itutok ang iyong pointer at mag-click para magshoot ng bola sa hoops.¶
+
 click: ∆ Butones()
 
 bilangNgClick: 0 … click … 1 + ⬚

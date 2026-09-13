@@ -2,6 +2,7 @@
 Nuty wysokości dźwięku
 ===
 ¶Zaśpiewaj lub zanuć i zobacz nutę, którą tworzysz — dwa razy. Lewa nuta czyta surowy sygnał @Pitch i drga. Prawa nuta liczy średnią z ostatnich kilku wysokości i pozostaje stabilna. @Pitch pokazuje 0 herców, gdy nie słyszy niczego wyraźnego, więc obie nuty pomijają te chwile i pokazują · zamiast nuty.¶
+
 nuty2: [
 		'A'
 		'A♯'

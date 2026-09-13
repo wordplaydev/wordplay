@@ -1,6 +1,7 @@
 /** Functions and helper functions for formatting the preceding space of tokens (aka "pretty printing"). */
 import Block from '@nodes/Block';
 import Node from '@nodes/Node';
+import Program from '@nodes/Program';
 import Root from '@nodes/Root';
 import Source from '@nodes/Source';
 import type Token from '@nodes/Token';
@@ -20,6 +21,9 @@ type TokenContext = {
      *  does, and undefined when the program is out of reach and so it cannot be
      *  known — see where it is computed. */
     firstInRootBlock: boolean | undefined;
+    /** True when a blank line is what keeps this token from swallowing the program's
+     *  own documentation — see where it is computed. */
+    separatesProgramDocs: boolean;
     /** Indentation depth, in tabs. */
     depth: number;
     /** The space this token gets with no line breaking at all: '' or ' '. */
@@ -121,6 +125,18 @@ export default function getPreferredSpaces(
             : program === undefined
               ? undefined
               : program.getFirstLeaf() === token;
+        // A source's doc is only the source's when a blank line separates it from the
+        // first statement; one newline would document that statement instead (#1374).
+        // The formatter otherwise prints a doc it was handed with a single newline,
+        // which reparses as a different program — so `soundRevisions` discards the
+        // edit and the "add documentation" affordance silently does nothing. A borrow
+        // can never take a doc, so a program that opens with one needs no blank line.
+        const separatesProgramDocs =
+            firstInRootBlock === false &&
+            program instanceof Program &&
+            !program.docs.isEmpty() &&
+            program.borrows.length === 0;
+
         const field =
             spaceRoot && !firstInRootBlock
                 ? parent?.getFieldOfChild(spaceRoot)
@@ -143,6 +159,7 @@ export default function getPreferredSpaces(
             parent,
             field,
             firstInRootBlock,
+            separatesProgramDocs,
             depth: root.getDepth(token),
             flatSpace,
         };
@@ -199,8 +216,15 @@ export default function getPreferredSpaces(
     let column = (contexts[0]?.depth ?? 0) * TAB_WIDTH;
 
     for (let i = 0; i < contexts.length; i++) {
-        const { token, parent, field, firstInRootBlock, depth, flatSpace } =
-            contexts[i];
+        const {
+            token,
+            parent,
+            field,
+            firstInRootBlock,
+            separatesProgramDocs,
+            depth,
+            flatSpace,
+        } = contexts[i];
 
         let revisedSpace = preferredSpaces.get(token) ?? '';
 
@@ -219,11 +243,12 @@ export default function getPreferredSpaces(
                 field.wrap === true &&
                 parent !== undefined &&
                 broken.has(parent);
-            const newlinesNeeded = field.double
-                ? 2
-                : field.newline || wraps
-                  ? 1
-                  : 0;
+            const newlinesNeeded =
+                field.double || separatesProgramDocs
+                    ? 2
+                    : field.newline || wraps
+                      ? 1
+                      : 0;
             const indentsNeeded =
                 newlinesNeeded === 0 && newlinesIncluded === 0 ? 0 : depth;
 

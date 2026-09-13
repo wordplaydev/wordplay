@@ -2,6 +2,7 @@ o
 Capas
 === start
 ¶Pelotas rebotando a diferentes profundidades para mostrar capas de paralaje.¶
+
 cantidad2: 10 → []
 
 ƒ pelotas(z2•#m) cantidad2.traducir(

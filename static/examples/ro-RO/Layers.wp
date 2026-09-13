@@ -2,6 +2,7 @@ o
 Straturi
 === start
 ¶Mingi care sar la adâncimi diferite, pentru a arăta straturi de paralaxă.¶
+
 numărare2: 10 → []
 
 ƒ mingi(z2•#m) numărare2.traduce(

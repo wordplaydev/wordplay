@@ -2,6 +2,7 @@
 Comidas Flutuantes
 ===
 ¶Uma grelha de pratos saborosos, com um a ser trocado por outro a cada segundo.¶
+
 comida: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
 
 maisRecente•['']:

@@ -2,6 +2,7 @@
 İşaretçi izi
 ===
 ¶Sönümlenen bir gökkuşağı izi çizmek için imlecini hareket ettir. @Previous (←←) son beş @Pointer konumu hatırlar ve @List.translate her biri için, en eskisinden en yenisine doğru sönümlenip renk değiştiren bir nokta çizer.¶
+
 geçmiş•[Yer]: ←← 5 İşaretçi()
 Sahne(
 	geçmiş.tercümeetmek(

@@ -2,6 +2,7 @@ M
 Poires
 === start/en
 ¶Ceci est une histoire courte interactive. Elle définit plusieurs scènes différentes et passe de l'une à l'autre selon différentes interactions, comme des clics, des collisions et d'autres actions. Une partie du plaisir de vivre cette histoire est de découvrir les interactions nécessaires pour la faire avancer.¶
+
 exposition: [
 		Phrase(`Mon papa voulait partir.` lieu: Lieu(-9m 0m))
 	]

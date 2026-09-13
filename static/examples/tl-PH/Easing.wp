@@ -2,6 +2,7 @@ s
 Pagpapadulas ng Sequence
 ===
 ¶Ang parehong animasyon ng kotse sa walong paraan, isa para sa bawat estilo ng pag-inog.¶
+
 mgaKeyframe: {
 		0%: Pose(offset: Lugar(-1m 0m))
 		25%: Pose(offset: Lugar(1m 0m))

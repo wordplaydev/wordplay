@@ -2,6 +2,7 @@ T
 Poema
 === start
 ¶Un poema cuyas líneas llegan flotando, cada una haciendo su propia entrada.¶
+
 •línea(texto2•"" pose•Pose|Secuencia atrás: Color(
 			100
 			100

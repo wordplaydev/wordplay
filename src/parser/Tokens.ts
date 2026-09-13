@@ -267,6 +267,25 @@ export default class Tokens {
         this.#unread.unshift(token);
     }
 
+    /**
+     * Everything a speculative parse can change, so it can be undone exactly.
+     *
+     * {@link unreadTo} can't do it on its own: parsing a doc can *split* a `Words`
+     * token (see {@link injectNext}, which is how an example's `⭐`/`🪲` suffix is
+     * separated from the words after it), leaving a token in the queue that was never
+     * in the original list. Unreading then restores the original beside the injected
+     * one and the text after an annotated example is parsed twice.
+     */
+    snapshot(): TokensSnapshot {
+        return { read: [...this.#read], unread: [...this.#unread] };
+    }
+
+    /** Undo everything read or injected since {@link snapshot}. */
+    restore(snapshot: TokensSnapshot) {
+        replaceTokens(this.#read, snapshot.read);
+        replaceTokens(this.#unread, snapshot.unread);
+    }
+
     /** Rollback to the given token. */
     unreadTo(token: Token) {
         while (this.#read.length > 0 && this.#unread[0] !== token) {
@@ -289,4 +308,13 @@ export default class Tokens {
     reactionsAllowed() {
         return this.reactive.at(-1);
     }
+}
+
+/** What {@link Tokens.snapshot} captures; opaque to callers. */
+export type TokensSnapshot = { read: Token[]; unread: Token[] };
+
+/** Refill a token list in place, since the reader's lists are readonly fields. */
+function replaceTokens(target: Token[], source: Token[]) {
+    target.length = 0;
+    for (const token of source) target.push(token);
 }

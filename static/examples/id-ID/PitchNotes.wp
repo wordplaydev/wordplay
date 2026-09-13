@@ -2,6 +2,7 @@
 Nada nada musik
 ===
 ¶Nyanyi atau bergumamlah, lalu lihat nada yang kamu buat — dua kali. Nada di kiri membaca @Pitch mentah dan bergetar naik turun; nada di kanan merata-ratakan beberapa nada terakhir dan tetap stabil. @Pitch menunjukkan 0hz saat tidak mendengar apa pun dengan jelas, jadi kedua nada melewati saat-saat itu dan menampilkan · sebagai gantinya.¶
+
 nada2: [
 		'A'
 		'A♯'

@@ -2,6 +2,7 @@ s
 Tamaño
 === start/en
 ¶Haz clic o presiona una tecla para pasar de GRANDE a pequeña sobre colores cambiantes.¶
+
 word/en,字/zh: (Botón(ø) | ∆ Tecla()) ? Frase(
 			"BIG"/en"大"/zh
 			tamaño: 5m

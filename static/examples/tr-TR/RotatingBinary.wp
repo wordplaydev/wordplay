@@ -2,6 +2,7 @@
 DönenİkiliSayı
 === start/en
 ¶Yerinde yavaşça dönen bir sıfır ve bir alanı.¶
+
 yavaşDönüş: Sekans.döndürmek(10s "straight")
 
 Sahne(

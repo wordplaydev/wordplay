@@ -2,6 +2,7 @@
 Star du basket-ball
 === start
 ¶Vise avec ton pointeur et clique pour tirer au panier.¶
+
 clic: ∆ Bouton()
 
 nombreDeClics: 0 … clic … 1 + ⬚

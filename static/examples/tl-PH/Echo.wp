@@ -2,6 +2,7 @@
 Alingawngaw
 === start
 ¶Anuman ang itype ng manonood sa chat bar ay magiging pariralang ito.¶
+
 mensahe: Makipagchat()
 
 ¶Magsimula sa isang prompt, pagkatapos ay ulitin ang bawat bagong mensahe. Ang teksto ay unti-unting nagbabago mula sa lumang mga salita patungo sa mga bago, isang letra sa isang pagkakataon.¶

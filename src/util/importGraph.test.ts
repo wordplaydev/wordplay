@@ -654,6 +654,13 @@ test('resolving a color needs no basis', () => {
  * of these graphs already carried via `parseLocaleDoc` — so this is under a
  * kilobyte, and only `projects` had no room left in its hundredth.
  *
+ * Attaching a leading doc to what it touches (#1374) is **+0 files** and about 3.5KB
+ * net: the rule itself in `parseProgram`, the snapshot rollback `Tokens` needed because
+ * parsing a doc can split a token, and the blank line `getPreferredSpaces` has to print
+ * so a program's own doc survives a reparse — parser modules every one of these graphs
+ * already carried, with `publishedShare.ts` a kilobyte smaller for losing the fallback
+ * that issue existed to remove. Only `projects` had no room left in its hundredth, again.
+ *
  * Cross-project code sharing (#8) is **+11 files** on every graph, all of them conflicts
  * or the one module that raises them. A conflict is constructed synchronously during
  * analysis, so the node that can raise it must import it statically: `Borrow` carries the
@@ -681,7 +688,7 @@ test.each([
     ['src/components/app/Page.svelte', 544, 4.14],
     ['src/routes/[[locale]]/+page.svelte', 559, 4.23],
     ['src/routes/[[locale]]/galleries/+page.svelte', 563, 4.24],
-    ['src/routes/[[locale]]/projects/+page.svelte', 570, 4.26],
+    ['src/routes/[[locale]]/projects/+page.svelte', 570, 4.27],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

@@ -80,6 +80,14 @@ Text input → **Parser** ([src/parser/](src/parser/)) → AST nodes ([src/nodes
 - Under `.member` access, callee's members are in scope so a bare name may resolve to the very input it fills; treated as implicit ⊤.
 - The implicit ⊤ is pushed by a [Push](src/runtime/Push.ts) step at compile time; `Reference.evaluate` has no `Context` and is the hottest node in the runtime.
 
+**A leading doc documents what it touches, and the blank line under a source's doc is load-bearing.** `parseProgram` took every leading doc as the *program's*, so the first definition in a source could not be documented at all (#1374) — the defect kits made unignorable, since a kit's first export is exactly what a reader needs explained. A leading doc group now documents the statement it is adjacent to (≤1 newline), and is the program's own only when nothing adjacent can take it: a blank line, a `↓` borrow, or the end of the source.
+
+- The unit is the **group**, not the doc: `parseDocs` already groups docs separated by ≤1 newline as locale variants of one doc, so "let the last doc attach" would take a translation off a source's own doc.
+- A source may open with several separated groups, all its own. The root block no longer takes docs (else it swallows what the program declined and #1374 reproduces one level down), and a group stranded between two others reaches `parseDocumentedExpression`, whose inner `parseExpression` cannot parse a `Bind` — one shipped example became four `UnknownName`s and an `UnparsableExpression`.
+- `unreadTo` cannot roll back the speculative parse the rule needs: `parseDoc` calls `injectNext` to split a `Words` token (an example's `⭐`/`🪲` suffix), so unreading restores the original beside the injected one and the text after it parses twice. Hence `Tokens.snapshot`/`restore`, which `nextAreOptionalDocsThen` had needed all along.
+- `getPreferredSpaces` must *print* the blank line (`separatesProgramDocs`): a doc printed with one newline reparses as the first statement's and `soundRevisions` discards the revision unread, so the blocks-mode "add documentation" affordance would silently do nothing with no test failing.
+- Creators' projects are stored as source text, so this reaches data no migration can: one whose opening doc touches its code loses its gallery description until its author adds a blank line. Chosen over a display-only fallback, which is `docsFor` reborn.
+
 ### Key architectural files
 
 | File                                                                                   | Purpose                                                          |
@@ -342,7 +350,7 @@ Two general bugs fell out: `p.toWordplay()` with no `Spaces` stripped every spac
 - A project publishes at most one kit, recording the kit's *id* (`Project.getKitID`, schema v12), not its name — a name lookup after rename made the first publish silently create a second kit. `changeUsername` rewrites kits like characters; `aliases` is server-owned.
 - A kit's description is derived (first sentence of source doc); preview is the `⭐` example rendered once at publish and cached on the version, evaluated in the kit's own scope — `kitPreviewSource` appends it to the kit's code.
 - Kit page is `/guide?kit=amy/colors`, its own URL param because `?concept=` splits on `/` (owner + name). Rendered via `kitShareConcepts` through the docs-tile views.
-- #1374 hoists a source's leading doc onto the *program*, so the first definition can't be documented — `docsFor` falls back to program docs (publish dialog and `UndocumentedShare` accept it; the kit page still reports it). Scoping half of #1374 is fixed: `Program.getScopeOfChild` scopes docs to itself.
+- #1374 is fixed on both halves: `Program.getScopeOfChild` scopes a source's doc to the source, and a leading doc *touching* what follows documents that rather than being hoisted onto the program. So the blank line under a source's doc is load-bearing, and `docsFor` — the fallback that handed the program's doc to the first export — is gone, along with the kit page's disagreement with the publish dialog.
 - `makeKit`'s output is held against `kitServerFieldsInitial()` by `rulesFieldsSync.test.ts` — the create-time guard galleries lacked (#1352). Client never writes `moderation`; the `kitEdited` trigger answers.
 
 ### Dependency overrides

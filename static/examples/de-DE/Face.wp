@@ -2,6 +2,7 @@
 Gesicht
 ===
 ¶Ein Emoji, das dein Gesicht spiegelt, wenn du lächelst, die Stirn runzelst, den Mund aufreißt oder blinzelst.¶
+
 gesicht2: Gesicht()
 
 Bühne(

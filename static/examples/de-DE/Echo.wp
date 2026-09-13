@@ -2,6 +2,7 @@
 Echo
 === start
 ¶Was das Publikum in die Chat-Leiste eintippt, wird zu dieser Phrase.¶
+
 nachricht: Plaudern()
 
 ¶Fang mit einem Text an und wiederhole dann jede neue Nachricht. Der Text verwandelt sich Buchstabe für Buchstabe von den alten Wörtern zu den neuen.¶

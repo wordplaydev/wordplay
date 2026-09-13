@@ -2,6 +2,7 @@
 Tonhöhen
 ===
 ¶Singe oder summe, und sieh dir die Note an, die du machst — zweimal. Die linke Note zeigt den rohen @Pitch-Wert und zittert; die rechte Note bildet den Durchschnitt der letzten Tonhöhen und bleibt ruhig. @Pitch zeigt 0hz an, wenn nichts Klares zu hören ist. Dann überspringen beide Noten diese Momente und zeigen stattdessen · an.¶
+
 noten: [
 		'A'
 		'A♯'

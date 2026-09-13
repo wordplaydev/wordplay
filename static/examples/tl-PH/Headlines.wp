@@ -2,6 +2,7 @@ l
 Mga Balita
 === start/en
 ¶Mga live na balita mula sa New York Times, kinuha mula sa web at nakatambak sa entablado.¶
+
 mgaBalita: Pahinangweb(
 		'https://www.nytimes.com'
 		'.indicate-hover'

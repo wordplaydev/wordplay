@@ -2,6 +2,7 @@
 Amplitudine
 ===
 ¶Un șir de puncte care se aprind și se sting după volumul microfonului tău.¶
+
 amplitudini•[#]: ←← 10 Volum()
 vizual: amplitudini.traduce(
 		ƒ(amplitudine•#) Fraza(
