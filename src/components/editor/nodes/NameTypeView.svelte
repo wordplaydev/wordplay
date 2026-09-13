@@ -12,7 +12,12 @@
     let { node, format }: Props = $props();
 </script>
 
-<NodeView node={[node, 'name']} {format} /><NodeView
+<!-- The kit and its dot render first when the name is reached through one
+     (`colors.Sprite`, #1373); both are absent on an ordinary name type. -->
+<NodeView node={[node, 'kit']} {format} /><NodeView
+    node={[node, 'dot']}
+    {format}
+/><NodeView node={[node, 'name']} {format} /><NodeView
     node={[node, 'types']}
     {format}
 />

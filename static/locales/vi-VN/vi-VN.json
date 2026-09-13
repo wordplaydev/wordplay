@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~chia sẻ đặt sai chỗ",
-                    "explanation": "$!Tôi chỉ có thể chia sẻ thông tin ở cấp độ @Program, chứ không thể chia sẻ bên trong bất kỳ trang nào khác!",
+                    "explanation": "$~Tôi chỉ có thể chia sẻ điều này ở đầu một nguồn, hoặc — nếu đó là một giá trị hay một hàm — trực tiếp bên trong một @StructureDefinition.",
                     "resolution": "$~Xóa dấu *↑*"
                 },
                 "MissingShareLanguages": {
@@ -816,6 +816,11 @@
                     "name": "$~bộ công cụ không xác định",
                     "explanation": "$~mình không tìm thấy $kit",
                     "resolution": "$~Gỡ bỏ lượt mượn này"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~mượn trùng lặp",
+                    "explanation": "$~Một thứ được mượn ở phía trên đã dùng một tên mà $name mang vào, nên tôi không thể biết bạn muốn nói đến cái nào",
+                    "resolution": "$~Hãy mượn nó dưới tên $name để tên của nó không gây cản trở"
                 },
                 "UnavailableKit": {
                     "name": "$~bộ công cụ không khả dụng",
@@ -1657,6 +1662,14 @@
             "emotion": "kind",
             "doc": [
                 "$~Tôi đang đề cập đến một dạng @StructureDefinition nào đó. Mọi người thường không trực tiếp nhắc đến tôi."
+            ]
+        },
+        "KitType": {
+            "name": "$~bộ công cụ",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~Tôi là một bộ công cụ do ai đó xuất bản. Mọi thứ nó chia sẻ đều được truy cập qua tên tôi, vì vậy `colors.sunset` cho biết bạn muốn nói đến `sunset` nào."
             ]
         },
         "TableLiteral": {

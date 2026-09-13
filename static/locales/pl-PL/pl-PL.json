@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~źle umieszczone udostępnienie",
-                    "explanation": "$!Mogę udostępniać informacje tylko na poziomie @Program, a nie w obrębie czegokolwiek innego!",
+                    "explanation": "$~Mogę udostępnić to tylko na początku źródła, albo — jeśli to wartość lub funkcja — bezpośrednio wewnątrz @StructureDefinition.",
                     "resolution": "$~Usuń znacznik *↑*"
                 },
                 "MissingShareLanguages": {
@@ -811,6 +811,11 @@
                     "name": "$~nieznany zestaw",
                     "explanation": "$~nie mogę znaleźć $kit",
                     "resolution": "$~Usuń to pożyczenie"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~powtórzone zapożyczenie",
+                    "explanation": "$~Coś zapożyczone wcześniej już używa nazwy, którą wprowadza $name, więc nie wiem, o którą chodzi",
+                    "resolution": "$~Zapożycz to jako $name, żeby jego nazwy nie przeszkadzały"
                 },
                 "UnavailableKit": {
                     "name": "$~niedostępny zestaw",
@@ -1657,6 +1662,14 @@
             "emotion": "kind",
             "doc": [
                 "$~Odnoszę się do pewnego rodzaju @StructureDefinition. Ludzie zazwyczaj nie odnoszą się do mnie bezpośrednio"
+            ]
+        },
+        "KitType": {
+            "name": "$~zestaw",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~Jestem zestawem, który ktoś opublikował. Do wszystkiego, co udostępnia, dochodzi się przez moją nazwę, więc `colors.sunset` mówi, o który `sunset` chodzi."
             ]
         },
         "TableLiteral": {

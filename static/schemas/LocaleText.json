@@ -6982,6 +6982,30 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "DuplicateBorrow": {
+                                            "additionalProperties": false,
+                                            "description": "When two borrows put the same name in a source's scope.",
+                                            "properties": {
+                                                "explanation": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                                    "description": "[formatted] The text that describes this conflict on the node which generated it."
+                                                },
+                                                "name": {
+                                                    "description": "[plain] The short header to describe the conflict; a label, not a Wordplay identifier, so spaces are fine",
+                                                    "type": "string"
+                                                },
+                                                "resolution": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                                    "description": "[formatted] Action description for the repair this conflict offers"
+                                                }
+                                            },
+                                            "required": [
+                                                "explanation",
+                                                "name",
+                                                "resolution"
+                                            ],
+                                            "type": "object"
+                                        },
                                         "KitCannotBorrow": {
                                             "additionalProperties": false,
                                             "description": "When a source published as a kit borrows a kit of its own, which v1 doesn't resolve.",
@@ -7110,6 +7134,7 @@
                                         "MissingKitVersion",
                                         "ConflictingKitVersions",
                                         "UnknownKit",
+                                        "DuplicateBorrow",
                                         "UnavailableKit"
                                     ],
                                     "type": "object"
@@ -9045,6 +9070,9 @@
                         "KeyValue": {
                             "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22key%22%2C%22value%22%5D%3E",
                             "description": "A key value pair in a map, such as `a: 1` in `{ a: 1 b: 2}`"
+                        },
+                        "KitType": {
+                            "$ref": "#/definitions/DescriptiveNodeText%3C%5B%22name%22%5D%3E"
                         },
                         "Language": {
                             "additionalProperties": false,
@@ -13531,6 +13559,7 @@
                         "StreamDefinition",
                         "StructureDefinition",
                         "StructureDefinitionType",
+                        "KitType",
                         "TableLiteral",
                         "TextLiteral",
                         "Translation",

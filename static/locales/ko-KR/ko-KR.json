@@ -703,7 +703,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~잘못 놓인 공유",
-                    "explanation": "$!저는 @Program 레벨에서만 공유할 수 있고, 그 안에는 공유할 수 없습니다!",
+                    "explanation": "$~저는 이걸 소스의 맨 위에서만 나눌 수 있어요. 값이나 함수라면, @StructureDefinition 안에서 바로 나눌 수도 있어요.",
                     "resolution": "$~*↑* 표시를 제거하세요"
                 },
                 "MissingShareLanguages": {
@@ -810,6 +810,11 @@
                     "name": "$~알 수 없는 키트",
                     "explanation": "$~$kit 을 찾을 수 없어",
                     "resolution": "$~이 빌림 지우기"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~중복된 빌림",
+                    "explanation": "$~위에서 빌린 것이 이미 $name 이(가) 가져오는 이름을 쓰고 있어서, 어느 것을 말하는지 알 수 없어요",
+                    "resolution": "$~대신 $name (으)로 빌려서, 그 이름들이 겹치지 않게 해 보자"
                 },
                 "UnavailableKit": {
                     "name": "$~쓸 수 없는 키트",
@@ -1656,6 +1661,14 @@
             "emotion": "kind",
             "doc": [
                 "$~나는 일종의 @StructureDefinition 을 참조합니다. 사람들은 대개 나를 직접적으로 언급하지 않습니다."
+            ]
+        },
+        "KitType": {
+            "name": "$~키트",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~나는 누군가 공개한 키트야. 내가 나누는 모든 것은 내 이름을 거쳐 닿을 수 있어. 그래서 `colors.sunset`이라고 적으면, 어떤 `sunset`을 말하는지 알 수 있지."
             ]
         },
         "TableLiteral": {

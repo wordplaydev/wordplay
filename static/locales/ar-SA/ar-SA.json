@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~مشاركة في مكان خاطئ",
-                    "explanation": "$!يمكنني فقط مشاركة الأشياء على مستوى @Program وليس داخل أي شيء!",
+                    "explanation": "$~لا يمكنني مشاركة هذا إلا في بداية مصدر، أو — إذا كان قيمة أو دالة — مباشرة داخل @StructureDefinition.",
                     "resolution": "$~أزل علامة *↑*"
                 },
                 "MissingShareLanguages": {
@@ -816,6 +816,11 @@
                     "name": "$~طقم غير معروف",
                     "explanation": "$~لا أستطيع إيجاد $kit",
                     "resolution": "$~أزل هذا الاستعارة"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~استعارة مكرّرة",
+                    "explanation": "$~شيء مُستعار سابقًا يستخدم اسمًا يجلبه $name، لذا لا أستطيع معرفة أيهما تقصد",
+                    "resolution": "$~استعرها باسم $name بدلًا من ذلك، لتبقى أسماؤها بعيدة عن الطريق"
                 },
                 "UnavailableKit": {
                     "name": "$~طقم غير متاح",
@@ -1657,6 +1662,14 @@
             "emotion": "kind",
             "doc": [
                 "$~أشير إلى نوع ما من @StructureDefinition. لا يشير الناس إليّ مباشرة عادة"
+            ]
+        },
+        "KitType": {
+            "name": "$~حزمة",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~أنا حزمة نشرها أحدهم. كل ما تشاركه يُصل إليه عبر اسمي، لذا فإن `colors.sunset` يوضح أي `sunset` تقصد."
             ]
         },
         "TableLiteral": {

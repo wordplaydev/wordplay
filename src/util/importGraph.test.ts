@@ -680,6 +680,20 @@ test('resolving a color needs no basis', () => {
  * all move a hundredth. That interaction is invisible to either pull request on its own;
  * merging main in before measuring is the only way to see it.
  *
+ * Reaching a kit's exports through its name (#1373) is **+2 files** on every graph,
+ * `KitType` and `KitValue`. Both are structural rather than optional: `PropertyReference`
+ * resolves `colors.sunset` during analysis and `Borrow` binds the namespace during
+ * evaluation, and both are synchronous, so neither can be imported lazily. They are the
+ * smallest pair that does it — a type with no grammar and a value that delegates to the
+ * evaluation `Borrow` already holds. The dotted type annotation that comes with it
+ * (`s•colors.Sprite`) adds no file at all, only a field to `NameType` and an arm to the
+ * type parser, which is why only `galleries` moves for it. The alias (`↓ warm: @bo/colors
+ * 3`) adds none either: its scope entry is a `Bind` annotated with the kit's type, which
+ * is the definition kind scope lookup already understands. Reporting a collision between
+ * two borrows is **+1**, `DuplicateBorrow` — a conflict is constructed synchronously
+ * during analysis, so the node that raises it imports it statically, the same rule the
+ * eleven above follow.
+ *
  * What must never join these graphs
  * is the kit *database*: a page that merely lists projects has no business being able to
  * fetch anyone's code, so `Database.loadKits()` imports it dynamically the way
@@ -694,11 +708,11 @@ test('resolving a color needs no basis', () => {
 // math functions' documentation are both that, and neither moved a file count. Files
 // creeping is a door opening, and is the number to look at first.
 test.each([
-    ['src/routes/+layout.svelte', 521, 3.89],
-    ['src/components/app/Page.svelte', 544, 4.15],
-    ['src/routes/[[locale]]/+page.svelte', 559, 4.23],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 563, 4.25],
-    ['src/routes/[[locale]]/projects/+page.svelte', 570, 4.27],
+    ['src/routes/+layout.svelte', 524, 3.91],
+    ['src/components/app/Page.svelte', 547, 4.16],
+    ['src/routes/[[locale]]/+page.svelte', 562, 4.25],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 566, 4.27],
+    ['src/routes/[[locale]]/projects/+page.svelte', 573, 4.29],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

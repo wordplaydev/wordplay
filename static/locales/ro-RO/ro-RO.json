@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~partajare plasată greșit",
-                    "explanation": "$!Pot partaja lucruri doar la nivel de @Program, nu în interiorul nimicului!",
+                    "explanation": "$~Pot împărtăși asta doar la începutul unei surse sau, dacă e o valoare sau o funcție, direct în interiorul unui @StructureDefinition.",
                     "resolution": "$~Eliminați marcajul *↑*"
                 },
                 "MissingShareLanguages": {
@@ -816,6 +816,11 @@
                     "name": "$~kit necunoscut",
                     "explanation": "$~nu găsesc $kit",
                     "resolution": "$~Elimină acest împrumut"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~împrumut duplicat",
+                    "explanation": "$~Ceva împrumutat mai sus folosește deja un nume pe care $name îl aduce, așa că nu pot spune la care te referi",
+                    "resolution": "$~Împrumută-l ca $name în schimb, ca numele lui să nu încurce"
                 },
                 "UnavailableKit": {
                     "name": "$~kit indisponibil",
@@ -1657,6 +1662,14 @@
             "emotion": "kind",
             "doc": [
                 "$~Mă refer la un fel de @StructureDefinition. De obicei, oamenii nu se referă direct la mine."
+            ]
+        },
+        "KitType": {
+            "name": "$~trusă",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~Sunt o trusă publicată de cineva. Tot ce împărtășește se ajunge prin numele meu, așa că `colors.sunset` arată la care `sunset` te referi."
             ]
         },
         "TableLiteral": {

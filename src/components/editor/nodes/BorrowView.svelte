@@ -15,9 +15,15 @@
 <!-- `external` is drawn beside `source` because the two are mutually exclusive: a borrow
      names either a kit (`↓ @amy/colors 3`) or a source in this project (`↓ colors`). This
      view names every field it draws, so a field it doesn't name is invisible — which is
-     exactly what happened to kit references until this was added. -->
+     exactly what happened to kit references until this was added. `alias` and `bind` are
+     drawn for the same reason: a borrow that names its kit (`↓ warm: @amy/colors 1`) would
+     otherwise render without the name it was given, though the model still carried it. -->
 {#if format.block}
     <NodeView node={[node, 'borrow']} {format} /><NodeView
+        node={[node, 'alias']}
+        {format}
+        empty="hide"
+    /><NodeView node={[node, 'bind']} {format} empty="hide" /><NodeView
         node={[node, 'external']}
         {format}
         empty="hide"
@@ -36,6 +42,10 @@
         /><NodeView node={[node, 'version']} {format} empty="hide" />{/if}
 {:else}
     <NodeView node={[node, 'borrow']} {format} /><NodeView
+        node={[node, 'alias']}
+        {format}
+        empty="hide"
+    /><NodeView node={[node, 'bind']} {format} empty="hide" /><NodeView
         node={[node, 'external']}
         {format}
         empty="hide"

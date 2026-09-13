@@ -39,6 +39,7 @@ const CONCEPT_NAME = {
     exception: (l: LocaleText) => l.node.ExceptionType.name,
     pattern: (l: LocaleText) => l.node.PatternLiteral.name,
     input: (l: LocaleText) => l.node.Input.name,
+    kit: (l: LocaleText) => l.node.KitType.name,
 } satisfies Record<string, (l: LocaleText) => NameText>;
 
 /** The set of valid concept-term ids; an invalid id is a compile error. */

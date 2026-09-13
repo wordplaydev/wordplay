@@ -30,6 +30,7 @@ import NameType from '@nodes/NameType';
 import type Node from '@nodes/Node';
 import { node, type Grammar, type Replacement } from '@nodes/Node';
 import Reference from '@nodes/Reference';
+import KitType from '@nodes/KitType';
 import StructureDefinitionType from '@nodes/StructureDefinitionType';
 import StructureType from '@nodes/StructureType';
 import { Sym } from '@nodes/Sym';
@@ -223,6 +224,12 @@ export default class PropertyReference extends Expression {
         // Definition access (`Foo.bar`) — restrict to statics only.
         if (subjectType instanceof StructureDefinitionType)
             return subjectType.getStaticDefinition(name, context);
+        // A borrowed kit (`colors.sunset`) — restrict to what it shares (#1373). Explicit
+        // rather than left to the fallback below, which walks a scope chain: a kit's own
+        // scope holds its private helpers too, and those are not the borrower's to reach.
+        // `getDefinitions` above needs no arm, since the fallback already asks the type.
+        if (subjectType instanceof KitType)
+            return subjectType.getDefinition(name);
         return subjectType.getDefinitionOfNameInScope(name, context);
     }
 

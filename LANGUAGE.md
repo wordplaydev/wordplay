@@ -1510,7 +1510,7 @@ Evaluates the stream value, and finds the stream that contains the value. If an 
 The combined set of all of the expressions above mean that most of Wordplay is expressions:
 
 > PROGRAM → DOCS？ BORROW＊ （BIND ｜ EXPRESSION）＊  
-> BORROW → `↓` （name ｜ kit） （`.` name）？ numeral？  
+> BORROW → `↓` （name `:`）？ （name ｜ kit） （`.` name）？ numeral？  
 > kit → `@` name `/` name  
 > EXPRESSION → REACTION ｜ CONDITIONAL ｜ MATCH ｜ OTHERWISE ｜ BINARYEVALUATE ｜ ATOMIC  
 > ATOMIC → LITERAL ｜ REF ｜ `_` ｜ EVAL ｜ DEFINITION ｜ PROPERTYBIND ｜ CONVERT ｜ CHECK ｜ QUERY ｜ DOCUMENTED ｜ PREVIOUS ｜ INITIAL ｜ ISLOCALE ｜ LOCALIZED  
@@ -1560,6 +1560,29 @@ A **kit** is one source a creator has published for other people to build with, 
 ```
 
 A bare kit borrow brings in **everything the kit shares**, because a kit _is_ its shares. This differs from a bare borrow of a local source (`↓ words`), which binds that source's own value — a source is a program that evaluates to something, and a kit is a collection of definitions. The `@` is what marks the difference.
+
+A bare kit borrow also binds the **kit itself**, under the name after the `/`, so everything it shares can be reached through that name as well as directly:
+
+```
+↓ @amy/colors 3
+sunset                   the export, by its own name
+colors.sunset            the same export, said through the kit
+```
+
+Both, rather than one or the other: the flat name is what a borrow has always given, and the dotted form is how two kits that share a name are told apart — the names in a borrowed kit come from someone who has never seen the borrowing program. A local source gets no such namespace, since its name is already bound to its own value.
+
+A **type annotation** may be reached through a kit the same way, so a structure two kits both share is still nameable: `s•colors.Sprite` annotates `s` with the `Sprite` that `colors` shares.
+
+A borrow may **name the kit itself**, for when two kits would namespace under the same word, or when a borrower wants none of a kit's names in their own scope:
+
+```
+↓ warm: @bo/colors 3
+warm.sunset
+```
+
+An aliased borrow binds **only** the namespace — neither the kit's shares nor its own name enter scope — which is what makes it the repair for a collision.
+
+Two borrows that put the **same name** in a source's scope is a conflict, since a name can only mean one thing: the later borrow is reported, with a repair that names it. Before that rule, lookup took whichever matched first and said nothing about the other.
 
 The `@` is also why a kit is not written `amy/colors`: `/` already introduces a [language tag](#text), so `↓ start/en` would be ambiguous with a borrow of a source named `start` written in English.
 
@@ -1632,7 +1655,7 @@ Documented expressions simply evaluate to their expression's value.
 > MAPTYPE → `{` TYPE `:` TYPE `}`  
 > STREAMTYPE → `…` TYPE  
 > CONVERSIONTYPE → TYPE `→` TYPE  
-> NAMETYPE → name  
+> NAMETYPE → （name `.`）？ name  
 > FUNCTIONTYPE → `ƒ` TYPEVARIABLES？ `(` BIND＊ `)` TYPE  
 > FORMATTEDTYPE → （`\…\` ｜ `\...\`） LANGUAGE？  
 > UNION → TYPE `|` TYPE

@@ -1433,7 +1433,19 @@ export default async function translateProjectContent(
                                 unrespelled.has(definition.names)
                             )
                                 return [name, name];
-                            return [name, NameType.make(translation)];
+                            // Rebuilt rather than edited, so a qualifier has to be
+                            // carried across: `NameType.make` keeps only the name, and a
+                            // `colors.Sprite` silently became `Sprite` — resolving to
+                            // whatever else was in scope, or to nothing (#1373).
+                            return [
+                                name,
+                                name.kit === undefined
+                                    ? NameType.make(translation)
+                                    : NameType.qualified(
+                                          name.kit.getText(),
+                                          translation,
+                                      ),
+                            ];
                         }),
                 );
             }

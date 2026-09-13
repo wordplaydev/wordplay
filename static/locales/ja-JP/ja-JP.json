@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~置き場所のちがう共有",
-                    "explanation": "$!わたしは @Program のレベルでしか共有できません。何かの中ではだめです！",
+                    "explanation": "$~これを共有できるのは、ソースの一番上か、値や関数の場合は@StructureDefinitionの中に直接置いたときだけです。",
                     "resolution": "$~*↑* の印を消す"
                 },
                 "MissingShareLanguages": {
@@ -811,6 +811,11 @@
                     "name": "$~不明なキット",
                     "explanation": "$~$kit が見つかりません",
                     "resolution": "$~この借用を削除する"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~重複した借用",
+                    "explanation": "$~上ですでに借用したものが、$name。そのため、どちらのことか分かりません",
+                    "resolution": "$~代わりに$name、その名前が邪魔になりません"
                 },
                 "UnavailableKit": {
                     "name": "$~使えないキット",
@@ -1657,6 +1662,14 @@
             "emotion": "kind",
             "doc": [
                 "$~わたしはある種の@StructureDefinition。ふつう人はわたしを直接指すことはありません"
+            ]
+        },
+        "KitType": {
+            "name": "$~キット",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~わたしは誰かが公開したキットです。わたしが共有するものはすべて、わたしの名前を通して使われます。だから`colors.sunset`と書けば、どの`sunset`のことか分かります。"
             ]
         },
         "TableLiteral": {

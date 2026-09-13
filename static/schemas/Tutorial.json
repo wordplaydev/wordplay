@@ -364,6 +364,10 @@
                     "type": "string"
                 },
                 {
+                    "const": "KitType",
+                    "type": "string"
+                },
+                {
                     "const": "TableLiteral",
                     "type": "string"
                 },

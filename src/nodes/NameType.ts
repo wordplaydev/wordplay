@@ -12,13 +12,15 @@ import { Emotion } from '../lore/Emotion';
 import type Context from '@nodes/Context';
 import type ConversionDefinition from '@nodes/ConversionDefinition';
 import type Definition from '@nodes/Definition';
+import KitType from '@nodes/KitType';
 import NameToken from '@nodes/NameToken';
 import type Node from '@nodes/Node';
 import { node, optional, type Grammar, type Replacement } from '@nodes/Node';
 import StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
 import { Sym } from '@nodes/Sym';
-import type Token from '@nodes/Token';
+import { PROPERTY_SYMBOL } from '@parser/Symbols';
+import Token from '@nodes/Token';
 import Type from '@nodes/Type';
 import TypeInputs from '@nodes/TypeInputs';
 import type TypeSet from '@nodes/TypeSet';
@@ -27,6 +29,11 @@ import UnknownNameType from '@nodes/UnknownNameType';
 import VariableType from '@nodes/VariableType';
 
 export default class NameType extends Type {
+    /** The kit this name is reached through, when it is (#1373): the `colors` of
+     *  `colors.Sprite`. A structure a kit shares is otherwise only nameable flat, so two
+     *  kits sharing a structure name leave one of them un-annotatable. */
+    readonly kit: Token | undefined;
+    readonly dot: Token | undefined;
     readonly name: Token;
     readonly types: TypeInputs | undefined;
     readonly definition: Definition | undefined;
@@ -35,9 +42,17 @@ export default class NameType extends Type {
         type: Token | string,
         types?: TypeInputs,
         definition?: Definition,
+        kit?: Token,
+        dot?: Token,
     ) {
         super();
 
+        this.kit = kit;
+        this.dot =
+            dot ??
+            (kit === undefined
+                ? undefined
+                : new Token(PROPERTY_SYMBOL, Sym.Access));
         this.name = typeof type === 'string' ? new NameToken(type) : type;
         this.types = types;
         this.definition = definition;
@@ -47,6 +62,16 @@ export default class NameType extends Type {
 
     static make(name: string, definition?: Definition) {
         return new NameType(new NameToken(name), undefined, definition);
+    }
+
+    /** A name reached through a kit, e.g. `colors.Sprite`. */
+    static qualified(kit: string, name: string, definition?: Definition) {
+        return new NameType(
+            new NameToken(name),
+            undefined,
+            definition,
+            new NameToken(kit),
+        );
     }
 
     static getStructuresInScope(node: Node, context: Context) {
@@ -77,6 +102,17 @@ export default class NameType extends Type {
     getGrammar(): Grammar {
         return [
             {
+                name: 'kit',
+                kind: optional(node(Sym.Name)),
+                uncompletable: true,
+                label: undefined,
+            },
+            {
+                name: 'dot',
+                kind: optional(node(Sym.Access)),
+                label: undefined,
+            },
+            {
                 name: 'name',
                 kind: node(Sym.Name),
                 uncompletable: true,
@@ -94,6 +130,9 @@ export default class NameType extends Type {
         return new NameType(
             this.replaceChild('name', this.name, replace),
             this.replaceChild('types', this.types, replace),
+            undefined,
+            this.replaceChild('kit', this.kit, replace),
+            this.replaceChild('dot', this.dot, replace),
         ) as this;
     }
 
@@ -170,13 +209,27 @@ export default class NameType extends Type {
     }
 
     resolve(context?: Context): Definition | undefined {
+        if (this.definition !== undefined) return this.definition;
+        if (context === undefined) return undefined;
+        // Reached through a kit (`colors.Sprite`) — resolve the kit, then ask it for the
+        // name, so it answers with what the kit *shares* rather than whatever else is in
+        // scope under that name (#1373).
+        if (this.kit !== undefined) {
+            const kit = this.getDefinitionOfNameInScope(
+                this.kit.getText(),
+                context,
+            );
+            // A type variable is the one `Definition` with no type of its own, and is
+            // never a kit anyway.
+            if (kit === undefined || kit instanceof TypeVariable)
+                return undefined;
+            const type = kit.getType(context);
+            return type instanceof KitType
+                ? type.getDefinition(this.getName())
+                : undefined;
+        }
         // Find the name in the binding scope.
-        return (
-            this.definition ??
-            (context === undefined
-                ? undefined
-                : this.getDefinitionOfNameInScope(this.getName(), context))
-        );
+        return this.getDefinitionOfNameInScope(this.getName(), context);
     }
 
     /**

@@ -703,7 +703,7 @@
                 },
                 "MisplacedShare": {
                     "name": "放错位置的共享",
-                    "explanation": "$!我只能分享在 @Program 等级的事物，没办法分享一切！",
+                    "explanation": "$~我只能在一个源文件的最顶部分享它，或者——如果它是一个值或一个函数——直接放在 @StructureDefinition 里面分享它。",
                     "resolution": "$~删除 *↑* 标记"
                 },
                 "MissingShareLanguages": {
@@ -810,6 +810,11 @@
                     "name": "$~未知工具包",
                     "explanation": "$~我找不到 $kit",
                     "resolution": "$~移除这个借用"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~重复借用",
+                    "explanation": "$~上面已经有一个借用用了名字 $name 引入的名字，所以我分不清你说的是哪一个",
+                    "resolution": "$~改用 $name 借用它吧，这样它的名字就不会挡道啦"
                 },
                 "UnavailableKit": {
                     "name": "$~无法使用的工具包",
@@ -1655,6 +1660,14 @@
             "description": "$name",
             "emotion": "kind",
             "doc": ["我指的是某种@StructureDefinition。人们通常不会直接提到我"]
+        },
+        "KitType": {
+            "name": "$~工具包",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~我是别人发布的一个工具包。它分享的一切都要通过我的名字来找到，所以 `colors.sunset` 说明你指的是哪一个 `sunset`。"
+            ]
         },
         "TableLiteral": {
             "name": "表面量",
