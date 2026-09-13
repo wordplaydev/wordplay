@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~yanlış yerleştirilmiş paylaşım",
-                    "explanation": "$!Sadece @Program düzeyinde bilgi paylaşabiliyorum, hiçbir şeyin içinde paylaşım yapamıyorum!",
+                    "explanation": "$~Bunu yalnızca bir kaynağın en üstünde paylaşabilirim, ya da — bir değer veya bir fonksiyonsa — doğrudan bir @StructureDefinition içinde.",
                     "resolution": "$~*↑* işaretini kaldırın"
                 },
                 "MissingShareLanguages": {
@@ -811,6 +811,11 @@
                     "name": "$~bilinmeyen kit",
                     "explanation": "$~$kit'i bulamıyorum",
                     "resolution": "$~Bu ödünç almayı kaldır"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~yinelenen ödünç alma",
+                    "explanation": "$~Yukarıda ödünç alınan bir şey, $name'in getirdiği bir ismi zaten kullanıyor, bu yüzden hangisini kastettiğini anlayamıyorum",
+                    "resolution": "$~Bunun yerine $name olarak ödünç al, böylece isimleri karışıklığa yol açmaz"
                 },
                 "UnavailableKit": {
                     "name": "$~kullanılamayan kit",
@@ -1660,10 +1665,12 @@
             ]
         },
         "KitType": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~kit",
+            "description": "$~$name",
             "emotion": "curious",
-            "doc": ["$?"]
+            "doc": [
+                "$~Ben birinin yayımladığı bir kitim. Paylaştığı her şeye ismim üzerinden ulaşılır, bu yüzden `colors.sunset` hangi `sunset`i kastettiğini belirtir."
+            ]
         },
         "TableLiteral": {
             "name": "$~tablo sabiti",

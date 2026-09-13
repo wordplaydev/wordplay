@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~falsch platzierte Freigabe",
-                    "explanation": "$!Ich kann Inhalte nur auf der @Program teilen, nicht innerhalb von irgendetwas!",
+                    "explanation": "$~Ich kann das nur ganz oben in einer Quelle teilen, oder – wenn es ein Wert oder eine Funktion ist – direkt in einem @StructureDefinition.",
                     "resolution": "$~Entferne die *↑* Markierung"
                 },
                 "MissingShareLanguages": {
@@ -811,6 +811,11 @@
                     "name": "$~unbekanntes Kit",
                     "explanation": "$~Ich kann $kit nicht finden",
                     "resolution": "$~Diese Ausleihe entfernen"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~doppelte Ausleihe",
+                    "explanation": "$~Etwas, das weiter oben ausgeliehen wurde, verwendet schon einen Namen, den $name mitbringt. Deshalb kann ich nicht sagen, welchen du meinst",
+                    "resolution": "$~Leih es stattdessen als $name aus, damit seine Namen nicht im Weg sind"
                 },
                 "UnavailableKit": {
                     "name": "$~nicht verfügbares Kit",
@@ -2114,10 +2119,12 @@
             ]
         },
         "KitType": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~Kit",
+            "description": "$~$name",
             "emotion": "curious",
-            "doc": ["$?"]
+            "doc": [
+                "$~Ich bin ein Kit, das jemand veröffentlicht hat. Alles, was es teilt, erreicht man über meinen Namen. So sagt `colors.sunset`, welches `sunset` du meinst."
+            ]
         },
         "Translate": {
             "name": "$~übersetzen",

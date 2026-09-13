@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~berbagi salah tempat",
-                    "explanation": "$!Saya hanya bisa membagikan hal-hal di tingkat @Program, bukan di dalam apa pun!",
+                    "explanation": "$~Saya hanya bisa membagikan ini di bagian atas sebuah sumber, atau — jika ini adalah nilai atau fungsi — langsung di dalam @StructureDefinition.",
                     "resolution": "$~Hapus tanda *↑*"
                 },
                 "MissingShareLanguages": {
@@ -816,6 +816,11 @@
                     "name": "$~kit tidak dikenal",
                     "explanation": "$~saya tidak dapat menemukan $kit",
                     "resolution": "$~Hapus pinjaman ini"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~pinjaman ganda",
+                    "explanation": "$~Sesuatu yang dipinjam di atas sudah memakai nama yang dibawa oleh $name, jadi saya tidak bisa tahu mana yang kamu maksud",
+                    "resolution": "$~Pinjam ini sebagai $name saja, supaya nama-namanya tidak mengganggu"
                 },
                 "UnavailableKit": {
                     "name": "$~kit tidak tersedia",
@@ -1660,10 +1665,12 @@
             ]
         },
         "KitType": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~kit",
+            "description": "$~$name",
             "emotion": "curious",
-            "doc": ["$?"]
+            "doc": [
+                "$~Saya adalah kit yang diterbitkan seseorang. Semua yang dibagikannya bisa dijangkau lewat nama saya, jadi `colors.sunset` menunjukkan `sunset` mana yang kamu maksud."
+            ]
         },
         "TableLiteral": {
             "name": "$~nilai tabel",

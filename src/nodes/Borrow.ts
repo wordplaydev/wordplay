@@ -31,6 +31,7 @@ import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import StreamDefinitionValue from '@values/StreamDefinitionValue';
 import Bind from '@nodes/Bind';
+import DuplicateBorrow from '@conflicts/DuplicateBorrow';
 import KitType from '@nodes/KitType';
 import Names from '@nodes/Names';
 import type Context from '@nodes/Context';
@@ -339,6 +340,26 @@ export default class Borrow extends SimpleExpression {
      * so every share has to be in scope; a local source binds its own value instead, for
      * the reason `evaluate` gives.
      */
+    /** This borrow, named. The repair `DuplicateBorrow` offers. */
+    withAlias(alias: Reference) {
+        return new Borrow(
+            this.borrow,
+            this.source,
+            this.dot,
+            this.name,
+            this.version,
+            this.external,
+            alias,
+        );
+    }
+
+    /** Every name this borrow puts in the borrowing source's scope. */
+    getBoundNames(context: Context): string[] {
+        return this.getScopeDefinitions(context).flatMap((definition) =>
+            definition.getNames(),
+        );
+    }
+
     getScopeDefinitions(context: Context): Definition[] {
         const [source, definition] = this.getShare(context) ?? [];
         if (source === undefined)
@@ -418,7 +439,39 @@ export default class Borrow extends SimpleExpression {
         if (definition === undefined && source === undefined)
             conflicts.push(new UnknownBorrow(this));
 
+        // A name an earlier borrow already put in scope. Silent before this: lookup takes
+        // the first definition that matches, so borrowing two kits that both share a
+        // `sunset` gave one of them and said nothing about the other (#1373). Reported on
+        // the later borrow, since the earlier one was there first and is not the one to
+        // change.
+        const earlier = this.precedingBoundNames(context);
+        if (earlier !== undefined) {
+            const duplicate = this.getBoundNames(context).find((name) =>
+                earlier.has(name),
+            );
+            if (duplicate !== undefined)
+                conflicts.push(
+                    new DuplicateBorrow(
+                        this,
+                        duplicate,
+                        freeName(this.getKitRef()?.name ?? duplicate, earlier),
+                    ),
+                );
+        }
+
         return conflicts;
+    }
+
+    /** What every borrow before this one in the same source binds, or `undefined` when
+     *  this is the first — nothing before it can collide. */
+    private precedingBoundNames(context: Context): Set<string> | undefined {
+        const borrows = context.source.expression.borrows;
+        const index = borrows.indexOf(this);
+        if (index <= 0) return undefined;
+        const names = new Set<string>();
+        for (const before of borrows.slice(0, index))
+            for (const name of before.getBoundNames(context)) names.add(name);
+        return names;
     }
 
     /** Whether another borrow in this source names the same kit at a different version. */
@@ -644,4 +697,13 @@ export default class Borrow extends SimpleExpression {
             name: this.name?.getName(),
         };
     }
+}
+
+/** A name nothing in `taken` uses, suffixed the way `translateProjectContent` suffixes a
+ *  translated name that collides (`key2`). */
+function freeName(preferred: string, taken: Set<string>): string {
+    if (!taken.has(preferred)) return preferred;
+    let count = 2;
+    while (taken.has(`${preferred}${count}`)) count++;
+    return `${preferred}${count}`;
 }

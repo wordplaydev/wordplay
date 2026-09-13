@@ -689,7 +689,10 @@ test('resolving a color needs no basis', () => {
  * (`s•colors.Sprite`) adds no file at all, only a field to `NameType` and an arm to the
  * type parser, which is why only `galleries` moves for it. The alias (`↓ warm: @bo/colors
  * 3`) adds none either: its scope entry is a `Bind` annotated with the kit's type, which
- * is the definition kind scope lookup already understands.
+ * is the definition kind scope lookup already understands. Reporting a collision between
+ * two borrows is **+1**, `DuplicateBorrow` — a conflict is constructed synchronously
+ * during analysis, so the node that raises it imports it statically, the same rule the
+ * eleven above follow.
  *
  * What must never join these graphs
  * is the kit *database*: a page that merely lists projects has no business being able to
@@ -705,11 +708,11 @@ test('resolving a color needs no basis', () => {
 // math functions' documentation are both that, and neither moved a file count. Files
 // creeping is a door opening, and is the number to look at first.
 test.each([
-    ['src/routes/+layout.svelte', 523, 3.91],
-    ['src/components/app/Page.svelte', 546, 4.16],
-    ['src/routes/[[locale]]/+page.svelte', 561, 4.25],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 565, 4.26],
-    ['src/routes/[[locale]]/projects/+page.svelte', 572, 4.28],
+    ['src/routes/+layout.svelte', 524, 3.91],
+    ['src/components/app/Page.svelte', 547, 4.16],
+    ['src/routes/[[locale]]/+page.svelte', 562, 4.25],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 566, 4.27],
+    ['src/routes/[[locale]]/projects/+page.svelte', 573, 4.29],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

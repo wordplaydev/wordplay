@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~שיתוף במקום לא נכון",
-                    "explanation": "$!אני יכול לשתף דברים רק ברמת @Program, לא בתוך שום דבר!",
+                    "explanation": "$~אני יכול לשתף את זה רק בראש של קובץ מקור, או — אם זה ערך או פונקציה — ישירות בתוך @StructureDefinition.",
                     "resolution": "$~הסר את הסמן *↑*"
                 },
                 "MissingShareLanguages": {
@@ -816,6 +816,11 @@
                     "name": "$~ערכה לא ידועה",
                     "explanation": "$~אני לא מוצא את $kit",
                     "resolution": "$~הסר שאילה זו"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~שאילה כפולה",
+                    "explanation": "$~משהו שהושאל למעלה כבר משתמש בשם ש-$name מביא, אז אני לא יכול לדעת למי אתה מתכוון",
+                    "resolution": "$~שאל אותו בתור $name במקום, כדי שהשמות שלו לא יפריעו"
                 },
                 "UnavailableKit": {
                     "name": "$~ערכה לא זמינה",
@@ -1660,10 +1665,12 @@
             ]
         },
         "KitType": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~ערכה",
+            "description": "$~$name",
             "emotion": "curious",
-            "doc": ["$?"]
+            "doc": [
+                "$~אני ערכה שמישהו פרסם. כל מה שהיא משתפת מגיע דרך השם שלי, כך ש-`colors.sunset` אומר לאיזה `sunset` אתה מתכוון."
+            ]
         },
         "TableLiteral": {
             "name": "$~טבלה קבועה",

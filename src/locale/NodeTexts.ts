@@ -437,6 +437,11 @@ type NodeTexts = {
                 /** [formatted] Action description for the repair this conflict offers */
                 resolution: Template<[]>;
             };
+            /** When two borrows put the same name in a source's scope. */
+            DuplicateBorrow: ConflictText<['name']> & {
+                /** [formatted] Action description for the repair this conflict offers */
+                resolution: Template<['name']>;
+            };
             /** When a borrowed kit exists but this creator may not read it. */
             UnavailableKit: ConflictText<['kit']> & {
                 /** [formatted] Action description for the repair this conflict offers */

@@ -1582,6 +1582,8 @@ warm.sunset
 
 An aliased borrow binds **only** the namespace — neither the kit's shares nor its own name enter scope — which is what makes it the repair for a collision.
 
+Two borrows that put the **same name** in a source's scope is a conflict, since a name can only mean one thing: the later borrow is reported, with a repair that names it. Before that rule, lookup took whichever matched first and said nothing about the other.
+
 The `@` is also why a kit is not written `amy/colors`: `/` already introduces a [language tag](#text), so `↓ start/en` would be ambiguous with a borrow of a source named `start` written in English.
 
 A **version is required**, and one source may not name the same kit at two versions. A published version is immutable and is kept forever, so a program that names one keeps meaning what it meant; following the newest version automatically would let someone else's edit silently change what a program does.

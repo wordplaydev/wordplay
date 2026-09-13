@@ -75,6 +75,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'node.Borrow.conflict.BorrowCycle.resolution': [],
     'node.Borrow.conflict.ConflictingKitVersions.explanation': ['kit'],
     'node.Borrow.conflict.ConflictingKitVersions.resolution': [],
+    'node.Borrow.conflict.DuplicateBorrow.explanation': ['name'],
+    'node.Borrow.conflict.DuplicateBorrow.resolution': ['name'],
     'node.Borrow.conflict.KitCannotBorrow.explanation': [],
     'node.Borrow.conflict.KitCannotBorrow.resolution': [],
     'node.Borrow.conflict.MissingKitVersion.explanation': ['kit'],

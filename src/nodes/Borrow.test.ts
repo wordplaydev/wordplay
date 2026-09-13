@@ -8,6 +8,7 @@ import evaluateCode from '@runtime/evaluate';
 import ExceptionValue from '@values/ExceptionValue';
 import { describe, expect, test } from 'vitest';
 import { dependencyKey, type Dependency } from '@nodes/Borrow';
+import DuplicateBorrow from '@conflicts/DuplicateBorrow';
 import DefaultLocales from '@locale/DefaultLocales';
 import Token from '@nodes/Token';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
@@ -457,6 +458,98 @@ describe('a kit is reachable through its own name (#1373)', () => {
         expect(conflictNames(projectWithKit(code, `↑ sunset/en: 1`))).toEqual([
             'UnknownName',
         ]);
+    });
+
+    function twoKits(code: string, amyCode: string, boCode: string) {
+        const amy = new Source('colors', amyCode);
+        const bo = new Source('palette', boCode);
+        return Project.make(
+            null,
+            'test',
+            new Source('main', code),
+            [],
+            DefaultLocale,
+        ).withDependencies(
+            new Map([
+                [
+                    dependencyKey({ username: 'amy', name: 'colors' }, 1),
+                    {
+                        status: 'loaded',
+                        source: amy,
+                        kit: 'amy-kit',
+                        version: 1,
+                    } satisfies Dependency,
+                ],
+                [
+                    dependencyKey({ username: 'bo', name: 'palette' }, 1),
+                    {
+                        status: 'loaded',
+                        source: bo,
+                        kit: 'bo-kit',
+                        version: 1,
+                    } satisfies Dependency,
+                ],
+            ]),
+        );
+    }
+
+    test('two kits sharing an export name is reported, not silent', () => {
+        // The defect the issue opens with: lookup takes the first definition that matches,
+        // so one `sunset` won and nothing said the other existed.
+        const project = twoKits(
+            `↓ @amy/colors 1\n↓ @bo/palette 1\nsunset`,
+            `↑ sunset/en: 1`,
+            `↑ sunset/en: 2`,
+        );
+        expect(conflictNames(project)).toContain('DuplicateBorrow');
+    });
+
+    test('aliasing one of them settles it', () => {
+        const project = twoKits(
+            `↓ @amy/colors 1\n↓ palette: @bo/palette 1\nsunset + palette.sunset`,
+            `↑ sunset/en: 1`,
+            `↑ sunset/en: 2`,
+        );
+        expect(conflictNames(project)).toEqual([]);
+        expect(valueOf(project)).toBe('3');
+    });
+
+    test('the repair aliases the later borrow, and settles it', () => {
+        // The repair has to produce a name free of every earlier borrow, or it swaps one
+        // collision for another. Applied here rather than through `expectRepair`, which
+        // builds a project from a bare string and so cannot resolve two kits.
+        const project = twoKits(
+            `↓ @amy/colors 1\n↓ @bo/palette 1\nsunset`,
+            `↑ sunset/en: 1`,
+            `↑ sunset/en: 2`,
+        );
+        const conflict = project
+            .analyze()
+            .conflicts.find((c) => c instanceof DuplicateBorrow);
+        expect(conflict).toBeDefined();
+        const context = project.getContext(project.getMain());
+        const repair = conflict
+            ?.getResolutions(context, [])
+            .find((r) => r.kind === 'repair');
+        expect(repair).toBeDefined();
+        const repaired = repair?.mediator(context, DefaultLocales).newProject;
+        expect(repaired).toBeDefined();
+        // Named after the kit, which was free, and the collision is gone.
+        expect(repaired?.getMain().toWordplay()).toContain(
+            '↓ palette: @bo/palette 1',
+        );
+        expect(
+            repaired?.analyze().conflicts.map((c) => c.constructor.name),
+        ).not.toContain('DuplicateBorrow');
+    });
+
+    test('two kits that share no name are left alone', () => {
+        const project = twoKits(
+            `↓ @amy/colors 1\n↓ @bo/palette 1\nsunset + dusk`,
+            `↑ sunset/en: 1`,
+            `↑ dusk/en: 2`,
+        );
+        expect(conflictNames(project)).toEqual([]);
     });
 
     test('a local source keeps binding its own value, not a namespace', () => {

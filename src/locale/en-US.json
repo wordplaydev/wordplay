@@ -868,6 +868,11 @@
                     "explanation": "I can't find $kit",
                     "resolution": "Remove this borrow"
                 },
+                "DuplicateBorrow": {
+                    "name": "duplicate borrow",
+                    "explanation": "Something borrowed above already uses a name $name brings in, so I can't tell which one you mean",
+                    "resolution": "Borrow it as $name instead, so its names stay out of the way"
+                },
                 "UnavailableKit": {
                     "name": "unavailable kit",
                     "explanation": "$kit exists, but it isn't shared with you",

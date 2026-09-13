@@ -704,7 +704,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~felplacerad delning",
-                    "explanation": "$!Jag kan bara dela saker på @Program-nivå, inte inuti någonting!",
+                    "explanation": "$~Jag kan bara dela detta högst upp i en källa, eller — om det är ett värde eller en funktion — direkt inuti en @StructureDefinition.",
                     "resolution": "$~Ta bort markören *↑*"
                 },
                 "MissingShareLanguages": {
@@ -811,6 +811,11 @@
                     "name": "$~okänt kit",
                     "explanation": "$~jag kan inte hitta $kit",
                     "resolution": "$~Ta bort denna lån"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~dubbel lån",
+                    "explanation": "$~Något som lånats ovan använder redan ett namn som $name tar in, så jag kan inte se vilket du menar",
+                    "resolution": "$~Låna det som $name istället, så håller sig dess namn ur vägen"
                 },
                 "UnavailableKit": {
                     "name": "$~otillgängligt kit",
@@ -1660,10 +1665,12 @@
             ]
         },
         "KitType": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~kit",
+            "description": "$~$name",
             "emotion": "curious",
-            "doc": ["$?"]
+            "doc": [
+                "$~Jag är ett kit som någon har publicerat. Allt det delar nås genom mitt namn, så `colors.sunset` säger vilken `sunset` du menar."
+            ]
         },
         "TableLiteral": {
             "name": "$~tabellbokstav",

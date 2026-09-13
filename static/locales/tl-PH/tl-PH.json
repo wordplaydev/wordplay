@@ -709,7 +709,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~maling lagay na pagbabahagi",
-                    "explanation": "$!Maaari ko lang ibahagi ang mga bagay sa antas ng @Program, hindi sa loob ng kahit ano!",
+                    "explanation": "$~Puwede ko lang ibahagi ito sa itaas ng pinagmulan, o — kung ito ay isang halaga o isang function — direkta sa loob ng @StructureDefinition.",
                     "resolution": "$~Alisin ang panandang *↑*"
                 },
                 "MissingShareLanguages": {
@@ -816,6 +816,11 @@
                     "name": "$~hindi kilalang kit",
                     "explanation": "$~hindi ko mahanap ang $kit",
                     "resolution": "$~Alisin ang paghiram na ito"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~duplicate na paghiram",
+                    "explanation": "$~May isang bagay na hiniram sa itaas na gumagamit na ng pangalang dinadala ng $name, kaya hindi ko masabi kung alin ang ibig mong sabihin",
+                    "resolution": "$~Hiramin ito bilang $name sa halip, para hindi masalaula ang mga pangalan nito"
                 },
                 "UnavailableKit": {
                     "name": "$~hindi magamit na kit",
@@ -1660,10 +1665,12 @@
             ]
         },
         "KitType": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~kit",
+            "description": "$~$name",
             "emotion": "curious",
-            "doc": ["$?"]
+            "doc": [
+                "$~Ako ay isang kit na inilathala ng isang tao. Lahat ng ibinabahagi nito ay naaabot sa pamamagitan ng pangalan ko, kaya sinasabi ng `colors.sunset` kung alin sa mga `sunset` ang ibig mong sabihin."
+            ]
         },
         "TableLiteral": {
             "name": "$~literal ng talahanayan",

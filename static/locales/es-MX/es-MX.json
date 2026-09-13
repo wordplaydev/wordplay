@@ -676,7 +676,7 @@
                 },
                 "MisplacedShare": {
                     "name": "$~compartir fuera de lugar",
-                    "explanation": "$!¡Solo puedo compartir cosas en el nivel @Program, no dentro de nada!",
+                    "explanation": "$~Solo puedo compartir esto al inicio de una fuente o, si es un valor o una función, directamente dentro de un @StructureDefinition.",
                     "resolution": "$~Quita el marcador *↑*"
                 },
                 "MissingShareLanguages": {
@@ -783,6 +783,11 @@
                     "name": "$~kit desconocido",
                     "explanation": "$~no puedo encontrar $kit",
                     "resolution": "$~quitar este préstamo"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~préstamo duplicado",
+                    "explanation": "$~Algo que se pidió prestado arriba ya usa un nombre que $name trae, así que no puedo saber cuál quieres decir",
+                    "resolution": "$~Pídelo prestado como $name en su lugar, para que sus nombres no estorben"
                 },
                 "UnavailableKit": {
                     "name": "$~kit no disponible",
@@ -1632,10 +1637,12 @@
             ]
         },
         "KitType": {
-            "name": "$?",
-            "description": "$?",
+            "name": "$~kit",
+            "description": "$~$name",
             "emotion": "curious",
-            "doc": ["$?"]
+            "doc": [
+                "$~Soy un kit que alguien publicó. Todo lo que comparto se alcanza a través de mi nombre, así que `colors.sunset` dice cuál `sunset` quieres decir."
+            ]
         },
         "TableLiteral": {
             "name": "tabla específica",
