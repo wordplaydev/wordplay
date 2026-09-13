@@ -8,6 +8,7 @@ vi.mock('@db/firebase', () => ({ firestore: undefined }));
 vi.mock('@db/Database', () => ({}));
 
 import Gallery from '@db/galleries/Gallery';
+import { unknownFlags } from '@db/projects/Moderation';
 import HowTo, { type HowToDocument } from './HowToDatabase.svelte';
 import {
     canConfigureHowToSpace,
@@ -15,6 +16,7 @@ import {
     canDeleteHowTo,
     canEditHowTo,
     canInteractSocially,
+    canSubmitToGuide,
     canMoveHowTo,
 } from './howToAccess';
 import {
@@ -66,7 +68,7 @@ function galleryFor(scenario: Scenario): Gallery {
 
 function howToFor(scenario: Scenario): HowTo {
     const data: HowToDocument = {
-        v: 3,
+        v: 4,
         id: 'howto',
         galleryId: 'gallery',
         published: scenario.howTo.published,
@@ -81,6 +83,10 @@ function howToFor(scenario: Scenario): HowTo {
         scopeOverwrite: scenario.howTo.scopeOverwrite,
         locales: ['en-US'],
         isPublic: scenario.howTo.isPublic,
+        submittedToGuide: false,
+        moderation: 'unrequested',
+        moderatedAt: null,
+        flags: unknownFlags(),
         social: {
             v: 1,
             notifySubscribers: true,
@@ -89,7 +95,6 @@ function howToFor(scenario: Scenario): HowTo {
             usedByProjects: [],
             chat: null,
             bookmarkers: [],
-            submittedToGuide: false,
             seenByUsers: [],
             viewCount: 0,
         },
@@ -113,6 +118,8 @@ function ask(
             return canMoveHowTo(howTo, gallery, uid);
         case 'social':
             return canInteractSocially(howTo, gallery, uid);
+        case 'submit':
+            return canSubmitToGuide(howTo, gallery, uid);
     }
 }
 

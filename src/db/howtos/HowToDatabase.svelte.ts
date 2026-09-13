@@ -10,10 +10,21 @@ import { canCreateHowTo } from '@db/howtos/howToAccess';
 import type Gallery from '@db/galleries/Gallery';
 
 import isQuotaError from '@db/isQuotaError';
+import {
+    ModerationStateSchema,
+    unknownFlags,
+    type ModerationState,
+} from '@db/projects/Moderation';
 import { PreviewContentSchema } from '@db/projects/ProjectSchemas';
 import SaveTracker, { type RePush } from '@db/SaveTracker.svelte';
-import { type HowToFieldSet } from '@db/rulesFields';
+import { HowToServerOwnedFields, type HowToFieldSet } from '@db/rulesFields';
 import supportsIndexedDB from '@db/supportsIndexedDB';
+import {
+    HowToSchemaLatestVersion,
+    HowToSocialSchemaLatestVersion,
+    howToListingInitial,
+    makeHowTo,
+} from './howToDocument';
 import { SupportedLocales } from '@locale/SupportedLocales';
 import deferToIdle from '@util/deferToIdle';
 import { FirebaseError } from 'firebase/app';
@@ -24,7 +35,10 @@ import {
     collection,
     doc,
     getDoc,
+    getDocs,
+    limit,
     onSnapshot,
+    orderBy,
     or,
     query,
     updateDoc,
@@ -36,7 +50,6 @@ import {
     type Unsubscribe,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
-import { v4 as uuidv4 } from 'uuid';
 import { z } from 'zod';
 
 ////////////////////////////////
@@ -59,15 +72,12 @@ const HowToSocialSchemaV1 = z.object({
     chat: z.string().nullable(),
     /** The list of users who bookmarked the how-to */
     bookmarkers: z.array(z.string()),
-    /** If the how-to was submitted for the team to review for inclusion in the global Guide */
-    submittedToGuide: z.boolean(),
     /** The list of users who have seen the how-to */
     seenByUsers: z.array(z.string()),
     /** The number of times that the how-to has been viewed (one user can view it multiple times, or a viewer may not be logged in) */
     viewCount: z.number(),
 });
 
-const HowToSocialSchemaLatestVersion = 1;
 const HowToSocialSchema = HowToSocialSchemaV1;
 
 export type HowToSocialDocument = z.infer<typeof HowToSocialSchema>;
@@ -140,13 +150,65 @@ const HowToSchemaV3 = HowToSchemaV2.extend({
     preview: HowToPreviewSchema.exactOptional(),
 });
 
-export const HowToSchemaLatestVersion = 3;
-const HowToSchema = HowToSchemaV3;
+/**
+ * Asking to be listed in the guide, and where that request stands (#906).
+ *
+ * `submittedToGuide` used to live inside `social`, which is one of the two
+ * `hasOnly` openings the rules grant to any gallery member or expanded-scope
+ * viewer — so anyone who could see a how-to could submit someone else's. It is
+ * top-level for that reason, and writable only by whoever may edit the how-to.
+ *
+ * The other three are server-owned, written by the `howToEdited` trigger and the
+ * `moderate` callable through the Admin SDK: a creator who could write their own
+ * `moderation` would approve themselves, which is the whole thing curation
+ * prevents. `HowToServerOwnedFields` in src/db/rulesFields.ts is the client's
+ * mirror of that list.
+ *
+ * There is deliberately no `listed` field beside `moderation`, unlike a kit's.
+ * A kit's approval is of a *version*, so `listedVersion` keeps the registry
+ * serving reviewed code while a new version waits; a how-to has one body, so the
+ * document the guide renders is the document that changed. `isListed()` is
+ * `Gallery.isListed()`'s shape instead.
+ */
+const HowToSchemaV4 = HowToSchemaV3.extend({
+    v: z.literal(4),
+    /** Whether the creator has asked for this to be listed in the guide. */
+    submittedToGuide: z.boolean().default(false),
+    /** Where that request stands. Server-written; see functions/src/howToEdited.ts. */
+    moderation: z
+        .enum(['unrequested', 'pending', 'approved', 'denied'])
+        .default('unrequested'),
+    /** When that last changed, so a second decision reads as new. */
+    moderatedAt: z.number().nullable().default(null),
+    /** Which rules a decision found broken. */
+    flags: ModerationStateSchema.default(unknownFlags()),
+});
+
+export const HowToSchema = HowToSchemaV4;
+export {
+    HowToSchemaLatestVersion,
+    HowToSocialSchemaLatestVersion,
+    howToListingInitial,
+    makeHowTo,
+};
 
 export type HowToDocument = z.infer<typeof HowToSchema>;
+/**
+ * A v3 body wearing a v4 label.
+ *
+ * Not hypothetical: `withFields` bumps `v` to the latest on every save without
+ * adding fields, so any how-to edited between this version shipping and its
+ * document being upgraded reaches storage in exactly this shape. It is in the
+ * union because `upgradeHowTo` has to accept and heal it — and naming it here is
+ * what stops a reader assuming a v4 document is complete.
+ */
+type HowToMislabelledV4 = Omit<z.infer<typeof HowToSchemaV3>, 'v'> & { v: 4 };
+
 export type HowToUnknownVersion =
     | z.infer<typeof HowToSchemaV1>
     | z.infer<typeof HowToSchemaV2>
+    | z.infer<typeof HowToSchemaV3>
+    | HowToMislabelledV4
     | HowToDocument;
 
 export function upgradeHowTo(howTo: HowToUnknownVersion): HowToDocument {
@@ -155,8 +217,16 @@ export function upgradeHowTo(howTo: HowToUnknownVersion): HowToDocument {
             return upgradeHowTo({ ...howTo, v: 2, isPublic: false });
         case 2:
             return upgradeHowTo({ ...howTo, v: 3 });
+        case 3:
+            return upgradeHowTo({ ...howTo, v: 4, ...howToListingInitial() });
         case HowToSchemaLatestVersion:
-            return howTo;
+            // Spread *under* what is stored rather than returning it: `withFields`
+            // bumps `v` to the latest on every save without adding new fields, so a
+            // v3 document edited by v4 code reaches storage claiming v4 and carrying
+            // none of them — after which this arm would skip the backfill forever.
+            // That is what once hid a pending kit from the moderator queue (see the
+            // `.default(...)` note in src/db/kits/Kit.ts).
+            return { ...howToListingInitial(), ...howTo };
         default:
             throw new Error('Unexpected how-to version', howTo);
     }
@@ -165,6 +235,21 @@ export function upgradeHowTo(howTo: HowToUnknownVersion): HowToDocument {
 ////////////////////////////////
 // APIs
 ////////////////////////////////
+
+/**
+ * A how-to document with the fields only the server may write taken out (#906).
+ *
+ * Every whole-document write goes through this. A client that sent them would be
+ * refused by `howToServerFieldsUnchanged()` the moment its copy went stale — and
+ * refused *silently*, leaving the how-to permanently unsaved on that device,
+ * which is #1348-#1350 three times over.
+ */
+function withoutServerOwned(
+    data: HowToDocument,
+): Omit<HowToDocument, (typeof HowToServerOwnedFields)[number]> {
+    const { moderation, moderatedAt, flags, ...rest } = data;
+    return rest;
+}
 
 /** An immutable wrapper class for accessing and manipulating how-to data */
 export default class HowTo {
@@ -195,6 +280,9 @@ export default class HowTo {
     ): HowTo {
         const { social, ...rest } = updates;
         return new HowTo({
+            // Under `this.data`, so a how-to loaded before v4 never claims the
+            // version without carrying the fields that define it. See upgradeHowTo.
+            ...howToListingInitial(),
             ...this.data,
             ...rest,
             v: HowToSchemaLatestVersion,
@@ -381,7 +469,35 @@ export default class HowTo {
     }
 
     getSubmittedToGuide() {
-        return this.data.social.submittedToGuide;
+        return this.data.submittedToGuide;
+    }
+
+    getModeration() {
+        return this.data.moderation;
+    }
+
+    getModeratedAt() {
+        return this.data.moderatedAt;
+    }
+
+    getFlags(): ModerationState {
+        return this.data.flags;
+    }
+
+    /**
+     * Whether the guide lists this how-to.
+     *
+     * All three, because the guide's query filters on all three: Firestore denies a
+     * whole query when any document it matches fails its read rule, so asking only
+     * about `moderation` would empty the community group for every visitor the
+     * moment one creator went private.
+     */
+    isListed(): boolean {
+        return (
+            this.data.published &&
+            this.data.isPublic &&
+            this.data.moderation === 'approved'
+        );
     }
 
     getSeenByUsers() {
@@ -624,7 +740,17 @@ export class HowToDatabase {
         const howTo = this.howtos.get(id);
         if (howTo === undefined) return undefined;
         const batch = writeBatch(db);
-        batch.set(doc(db, HowTosCollection, id), howTo.getData());
+        // Merged, and without the server's own fields. A plain `set` of a document
+        // that omits them would *clear* a moderator's decision — and the rules
+        // would permit it, since a field that isn't in the write is a field the
+        // `Unchanged` guard has nothing to object to. Merging leaves the stored
+        // values in place, which is also what makes the guard compare them against
+        // themselves.
+        batch.set(
+            doc(db, HowTosCollection, id),
+            withoutServerOwned(howTo.getData()),
+            { merge: true },
+        );
         batch.update(doc(db, Domain.Galleries, howTo.getHowToGalleryId()), {
             howTos: arrayUnion(id),
         });
@@ -737,7 +863,7 @@ export class HowToDatabase {
                 updateDoc(
                     doc(firestore, HowTosCollection, howToID),
                     fields === undefined
-                        ? data
+                        ? withoutServerOwned(data)
                         : Object.fromEntries(
                               fields.map((field) => [field, data[field]]),
                           ),
@@ -845,46 +971,27 @@ export class HowToDatabase {
         isPublic: boolean,
     ): Promise<HowTo | undefined | false> {
         if (firestore === undefined) return undefined;
+        // `?.uid` yields undefined, never null, so the old `=== null` guard never
+        // fired and the creator was carried through with an `as string` instead.
         const user = this.db.getUser()?.uid;
-        if (user === null) return undefined;
+        if (user === undefined) return undefined;
 
-        // create a new social interaction document
-        const newHowToSocial: HowToSocialDocument = {
-            v: HowToSocialSchemaLatestVersion,
-            notifySubscribers: notify,
-            reactionOptions: reactionTypes,
-            reactions: Object.fromEntries(
-                new Map<string, string[]>(
-                    Object.keys(reactionTypes).map((emoji) => [emoji, []]),
-                ),
-            ),
-            usedByProjects: [],
-            chat: null,
-            bookmarkers: [],
-            submittedToGuide: false,
-            seenByUsers: [user as string],
-            viewCount: 0,
-        };
-
-        // create a new how-to
-        const newHowTo: HowToDocument = {
-            v: HowToSchemaLatestVersion,
-            id: uuidv4(),
+        const newHowTo = makeHowTo({
+            creator: user,
             galleryId: gallery.getID(),
-            published: published, // defaults to false
-            publishedAt: published ? Date.now() : null,
-            xcoord: xcoord,
-            ycoord: ycoord,
-            title: title,
-            guidingQuestions: guidingQuestions,
-            text: text,
-            creator: user as string,
-            collaborators: collaborators,
-            scopeOverwrite: overwriteAccessScope,
-            locales: locales,
-            isPublic: isPublic,
-            social: newHowToSocial,
-        };
+            published,
+            xcoord,
+            ycoord,
+            collaborators,
+            title,
+            guidingQuestions,
+            text,
+            locales,
+            reactionTypes,
+            notify,
+            overwriteAccessScope,
+            isPublic,
+        });
 
         // Refuse a how-to that would exceed Firestore's 1 MiB document limit.
         if (exceedsDocLimit(newHowTo)) {
@@ -991,6 +1098,63 @@ export class HowToDatabase {
         } catch (error) {
             console.error(`Couldn't get how-to with ID ${howToId}:`, error);
             return this.db.isConnectivityError(error) ? false : undefined;
+        }
+    }
+
+    /**
+     * The how-tos the guide lists, for everyone, signed out included (#906).
+     *
+     * Filtered on all three of `published`, `isPublic` and `moderation` rather than
+     * on the decision alone, and that is not belt and braces: Firestore denies a
+     * *whole* query when any document it matches fails its read rule, so a query on
+     * `moderation` alone would empty the community group for every visitor on the
+     * planet the moment one creator made their how-to private, for however long the
+     * trigger took to catch up. Naming the fields the read rule tests makes every
+     * document it returns one the reader is allowed to have.
+     *
+     * A one-shot read, not a listener, and not for the reason the kit registry has
+     * one — a kit version is immutable and a how-to is not. It is cost: a listener
+     * here would be a permanent subscription on a public collection for every guide
+     * visitor. What that buys is staleness of one page load, and the case worth
+     * naming — a moderator taking something down — clears `published`, so following
+     * a stale tile fails anyway.
+     *
+     * The results deliberately never enter `this.howtos`. The cache GC drops any id
+     * no listener still sees, so they would vanish on the next snapshot; and
+     * `allAccessiblePublishedHowTos` is what the docs browser groups by gallery, so
+     * a listed how-to from a stranger's gallery would appear there as a group with
+     * no name.
+     */
+    async getListedHowTos(max = 100): Promise<HowTo[]> {
+        if (firestore === undefined) return [];
+        try {
+            const found = await this.db.read(
+                getDocs(
+                    query(
+                        collection(firestore, HowTosCollection),
+                        and(
+                            where('published', '==', true),
+                            where('isPublic', '==', true),
+                            where('moderation', '==', 'approved'),
+                        ),
+                        orderBy('moderatedAt', 'desc'),
+                        limit(max),
+                    ),
+                ),
+            );
+            const listed: HowTo[] = [];
+            for (const document of found.docs) {
+                const parsed = HowToSchema.safeParse(document.data());
+                if (parsed.success)
+                    listed.push(new HowTo(upgradeHowTo(parsed.data)));
+            }
+            return listed;
+        } catch (error) {
+            // Said out loud rather than swallowed: a missing composite index
+            // throws here, and an empty community group is indistinguishable from
+            // one nobody has published to.
+            console.error("Couldn't read the guide's how-tos:", error);
+            return [];
         }
     }
 

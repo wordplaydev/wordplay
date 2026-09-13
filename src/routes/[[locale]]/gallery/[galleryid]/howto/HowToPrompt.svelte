@@ -31,8 +31,10 @@
         margin-block-start: 0;
     }
 
+    /* Compact drops the big space a question opens with, not the one that
+       separates it from its answer — with `margin: 0` the two ran together. */
     .compact {
         font-size: min(4vw, 16pt);
-        margin: 0;
+        margin-block: 0 var(--wordplay-spacing);
     }
 </style>

@@ -69,6 +69,23 @@ export const KitServerOwnedFields = [
 ] as const;
 
 /**
+ * The how-to fields the server owns (#906), which a client write must never carry.
+ *
+ * `howToServerFieldsUnchanged()` requires each to be absent or identical to what is
+ * stored, and `howToServerFieldsInitial()` states the same list on a create, where
+ * there is nothing stored to compare against.
+ *
+ * `submittedToGuide` is deliberately NOT here: asking to be listed is the creator's,
+ * and answering is the moderator's. That split is the whole design — and it is why
+ * the field had to leave `social`, whose opening every gallery member holds.
+ */
+export const HowToServerOwnedFields = [
+    'moderation',
+    'moderatedAt',
+    'flags',
+] as const;
+
+/**
  * The field sets the how-to update rule admits on their own. Owners,
  * collaborators and curators may write anything; everyone else gets these two
  * openings, so a change of just those has to be *sent* as just those —

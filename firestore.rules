@@ -635,7 +635,50 @@ service cloud.firestore {
           uid in gallery.howToViewersFlat;
       }
 
-      allow create: if request.auth != null && "galleryId" in request.resource.data && isRequestorCuratorCollaborator(request.auth.uid, request.resource.data.galleryId);
+      // The same ban as on projects, galleries and kits (#193): a creator who has
+      // lost public sharing keeps their how-tos and can still post them in their
+      // gallery, but cannot make one public or ask for it to be listed in the
+      // guide. Scoped to `isPublic` and `submittedToGuide` rather than
+      // `published`, because a ban is about public sharing and posting in a class
+      // gallery is class work — which is what the warning itself promises.
+      // Checked against the claim, so it costs no document reads.
+      function howToMayBePublic() {
+        return (!("banned" in request.auth.token) || request.auth.token.banned != true)
+          || (
+            (!('isPublic' in request.resource.data) || request.resource.data.isPublic != true)
+            && (!('submittedToGuide' in request.resource.data) || request.resource.data.submittedToGuide != true)
+          );
+      }
+      // Moderation state is the decision, not the request (#906). A creator asks to
+      // be listed in the guide by setting `submittedToGuide`; whether they ARE listed
+      // is `moderation`, which only the moderate callable and the howToEdited trigger
+      // write, both through the Admin SDK. A creator who could approve their own
+      // how-to is the whole thing curation prevents.
+      //
+      // Every stored read goes through `.get(field, default)`: every how-to written
+      // before #906 has none of these fields, and reading a property a document
+      // doesn't have is a hard CEL error rather than a null — it fails closed, so one
+      // unguarded access would refuse every save of every existing how-to.
+      function howToServerFieldsUnchanged() {
+        return (!("moderation" in request.resource.data) || request.resource.data.moderation == resource.data.get("moderation", "unrequested"))
+          && (!("moderatedAt" in request.resource.data) || request.resource.data.moderatedAt == resource.data.get("moderatedAt", null))
+          && (!("flags" in request.resource.data) || request.resource.data.flags == resource.data.get("flags", null));
+      }
+      // The create half of the pair above. An update guard compares against what is
+      // stored, and on a create there is nothing stored — so without this, every rule
+      // it states is walkable around by putting the value in the new document (#1352,
+      // the same gap galleries had).
+      function howToServerFieldsInitial() {
+        return request.resource.data.get("moderation", "unrequested") == "unrequested"
+          && request.resource.data.get("moderatedAt", null) == null
+          && request.resource.data.get("flags", {}).values().hasOnly([null]);
+      }
+
+      allow create: if request.auth != null
+        && "galleryId" in request.resource.data
+        && isRequestorCuratorCollaborator(request.auth.uid, request.resource.data.galleryId)
+        && howToMayBePublic()
+        && howToServerFieldsInitial();
       // A draft belongs to its creator and collaborators, full stop. Everything
       // else — the how-to's own `isPublic`, a public gallery, gallery membership,
       // expanded access — sits under `published`, because each of those used to
@@ -673,6 +716,12 @@ service cloud.firestore {
           "galleryId" in resource.data &&
           "galleryId" in request.resource.data &&
           request.resource.data.galleryId == resource.data.galleryId &&
+          // Above the branches rather than inside one, so they bind every way in,
+          // the moderator's and the curator's included. The moderate callable and
+          // the howToEdited trigger write through the Admin SDK, which these rules
+          // do not apply to, so nothing legitimate is refused by this.
+          howToMayBePublic() &&
+          howToServerFieldsUnchanged() &&
           (
             ("mod" in request.auth.token && request.auth.token.mod) ||
             isRequestorOwnerCollaborator(request.auth.uid) ||

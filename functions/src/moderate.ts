@@ -114,7 +114,7 @@ export default async function moderate(
         message,
         flags,
         violation,
-        listing,
+        decidedListing(listing, asPlatform),
         typeof held === 'string' ? held : undefined,
     );
 
@@ -260,12 +260,37 @@ export default async function moderate(
 
 /**
  * What a decision writes on something that asks to be listed — a gallery, a kit.
+ * A how-to writes the same shape by hand, because the field its listing withdraws
+ * is `isPublic` rather than `public`.
  *
  * The listing decision is what lets anything ever reach `approved`; without it the
  * registry query (`public && moderation == 'approved'`) matches nothing ever published,
  * so the listing is unreachable rather than merely empty. Recorded even when the decision
  * is to keep, since what was decided is part of a creator's standing either way.
  */
+/**
+ * Whether a listing decision may be applied, given who is deciding.
+ *
+ * Listing is the platform's, for the reason a warning is: a curator who could
+ * approve their own is what curation prevents. The authorization above admits
+ * `asPlatform || asCurator`, and a curator is genuinely responsible for what their
+ * gallery holds — but that responsibility is a takedown, never a listing.
+ *
+ * Galleries and kits escaped this only by accident. A kit has no gallery, so
+ * `getResponsibility` can never answer `curators` for one and `asCurator` is
+ * unreachable. A gallery's own visibility names itself, so a curator of a private
+ * gallery with other members in it *is* `{kind:'curators'}` — and could approve
+ * their own listing, then make it public, which `nextModeration` leaves approved
+ * because nothing about it changed. A how-to is the first listable subject that
+ * sits in someone else's gallery, so it would have inherited that directly.
+ */
+export function decidedListing(
+    listing: 'approved' | 'denied' | undefined,
+    asPlatform: boolean,
+): 'approved' | 'denied' | undefined {
+    return asPlatform ? listing : undefined;
+}
+
 function listedDecision(
     flags: Record<string, boolean | null>,
     violation: boolean,
@@ -365,11 +390,31 @@ async function applyRemedy(
         for (const version of versions?.docs ?? [])
             batch.update(version.ref, { public: false });
         await batch.commit();
-    } else if (kind === 'howto' && violation)
+    } else if (kind === 'howto')
         await db
             .collection(HowTosCollection)
             .doc(subject)
-            .update({ published: false });
+            .update({
+                // Recorded on a keep as well as a violation, the way a project's
+                // and a gallery's are: what was decided is part of a creator's
+                // standing whether or not it cost them anything.
+                flags,
+                ...(listing === undefined
+                    ? {}
+                    : { moderation: listing, moderatedAt: Date.now() }),
+                // A refusal takes the request back with it. Otherwise the
+                // standing `submittedToGuide` sends the how-to straight back
+                // into the queue — `nextModeration` reads a denial with the
+                // request still on as "asking again" — and a moderator would
+                // answer the same how-to forever. Asking again is the
+                // creator's to do, which is what the refusal tells them.
+                ...(listing === 'denied' ? { submittedToGuide: false } : {}),
+                // A how-to that broke the rules stops being posted at all, not
+                // merely unlisted: the space it sits in is where it does harm.
+                // `isPublic` goes too, or re-posting it would put it back in
+                // front of the world with nobody having looked again.
+                ...(violation ? { published: false, isPublic: false } : {}),
+            });
     else if (kind === 'chat' && message !== undefined) {
         await db
             .collection(ChatsCollection)

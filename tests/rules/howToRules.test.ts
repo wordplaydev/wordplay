@@ -66,7 +66,6 @@ const social = (reactor: string) => ({
     usedByProjects: [],
     chat: null,
     bookmarkers: [reactor],
-    submittedToGuide: false,
     seenByUsers: [],
     viewCount: 1,
 });
@@ -97,7 +96,7 @@ async function reset(scenario: Scenario) {
             howToReactions: {},
         });
         await db.doc(`howtos/${HowTo}`).set({
-            v: 3,
+            v: 4,
             id: HowTo,
             galleryId: Gallery,
             published: scenario.howTo.published,
@@ -131,6 +130,12 @@ function attempt(actor: Actor, action: Action): Promise<unknown> {
             return doc.update({ xcoord: 5, ycoord: 5 });
         case 'social':
             return doc.update({ social: social(uidOf(actor)) });
+        // Asking to be listed in the guide (#906). Its own probe because the
+        // field used to live inside `social`, where the narrow opening admitted
+        // every viewer and gallery creator — so this is the assertion that
+        // moving it out actually took it away from them.
+        case 'submit':
+            return doc.update({ submittedToGuide: true });
         case 'delete':
             return doc.delete();
     }
@@ -220,6 +225,158 @@ describe('creating a how-to and configuring the space', () => {
                 .doc('howtos/rulestest-howto-elsewhere')
                 .set({ galleryId: Gallery, creator: Users.stranger }),
         );
+    });
+});
+
+/**
+ * Asking to be listed in the guide is the creator's; answering is the platform's
+ * (#906). The fields that carry the answer are server-owned, and a create is
+ * guarded separately from an update for the reason #1352 found: an update guard
+ * compares against what is stored, and on a create there is nothing stored.
+ */
+describe('a how-to asks to be listed, and the server answers', () => {
+    beforeEach(() => reset(Scenarios[0]));
+
+    it('the owner may ask', async () => {
+        await assertSucceeds(
+            as('owner')
+                .doc(`howtos/${HowTo}`)
+                .update({ submittedToGuide: true }),
+        );
+    });
+
+    it.each(['moderation', 'moderatedAt', 'flags'] as const)(
+        'but may not write %s',
+        async (field) => {
+            const value =
+                field === 'moderation'
+                    ? 'approved'
+                    : field === 'moderatedAt'
+                      ? 1
+                      : {
+                            dehumanization: null,
+                            violence: null,
+                            disclosure: null,
+                            misinformation: null,
+                        };
+            await assertFails(
+                as('owner')
+                    .doc(`howtos/${HowTo}`)
+                    .update({ [field]: value }),
+            );
+        },
+    );
+
+    it('nor approve their own by slipping it in alongside an edit', async () => {
+        await assertFails(
+            as('owner').doc(`howtos/${HowTo}`).update({
+                title: '¶Edited¶/en-US',
+                moderation: 'approved',
+            }),
+        );
+    });
+
+    it('nor a curator, who may edit everything else about it', async () => {
+        await assertFails(
+            as('curator')
+                .doc(`howtos/${HowTo}`)
+                .update({ moderation: 'approved' }),
+        );
+    });
+
+    it('a how-to may not be created already approved', async () => {
+        // The create half of the pair: an update guard compares against stored
+        // data, and on a create there is nothing stored — so without its own
+        // guard, everything the update rule refuses can be walked around by
+        // putting the value in the new document (#1352).
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context.firestore().doc(`howtos/${New}`).delete();
+        });
+        // The curator, because they are one of the two actors the gallery admits
+        // as creators at all — asserting this against someone who could not
+        // create a how-to anyway would pass whatever the guard said.
+        await assertFails(
+            as('curator')
+                .doc(`howtos/${New}`)
+                .set({
+                    v: 4,
+                    id: New,
+                    galleryId: Gallery,
+                    published: true,
+                    publishedAt: 1,
+                    xcoord: 0,
+                    ycoord: 0,
+                    title: '¶New¶/en-US',
+                    guidingQuestions: [],
+                    text: [],
+                    creator: Users.curator,
+                    collaborators: [],
+                    scopeOverwrite: false,
+                    locales: ['en-US'],
+                    isPublic: true,
+                    submittedToGuide: true,
+                    moderation: 'approved',
+                    moderatedAt: 1,
+                    flags: {
+                        dehumanization: null,
+                        violence: null,
+                        disclosure: null,
+                        misinformation: null,
+                    },
+                    social: social('nobody'),
+                }),
+        );
+    });
+
+    it('a how-to written before any of this still saves', async () => {
+        // The guards read the stored side through `.get(field, default)` because
+        // every how-to in production predates these fields, and a bare access to
+        // a property a document lacks is a hard CEL error — it fails closed, so
+        // one unguarded read would refuse every save of every existing how-to.
+        await env.withSecurityRulesDisabled(async (context) => {
+            const doc = context.firestore().doc(`howtos/${HowTo}`);
+            const before = (await doc.get()).data() ?? {};
+            const {
+                submittedToGuide,
+                moderation,
+                moderatedAt,
+                flags,
+                ...legacy
+            } = before;
+            await doc.set({ ...legacy, v: 3 });
+        });
+        await assertSucceeds(
+            as('owner')
+                .doc(`howtos/${HowTo}`)
+                .update({ title: '¶Edited¶/en-US' }),
+        );
+    });
+});
+
+/**
+ * The same ban as on projects, galleries and kits (#193). A creator who has lost
+ * public sharing keeps their how-tos and can still post them where their class
+ * can read them — a ban is about the public, and a class gallery is class work.
+ */
+describe('a banned creator keeps their how-tos but cannot share them publicly', () => {
+    beforeEach(() => reset(Scenarios[0]));
+
+    const banned = () =>
+        env
+            .authenticatedContext(Users.owner, { banned: true })
+            .firestore()
+            .doc(`howtos/${HowTo}`);
+
+    it('may still edit it', async () => {
+        await assertSucceeds(banned().update({ title: '¶Edited¶/en-US' }));
+    });
+
+    it('may not make it public', async () => {
+        await assertFails(banned().update({ isPublic: true }));
+    });
+
+    it('may not ask for it to be listed in the guide', async () => {
+        await assertFails(banned().update({ submittedToGuide: true }));
     });
 });
 

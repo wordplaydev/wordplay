@@ -42,6 +42,8 @@ test('every kind is either written or derived, and never both', () => {
     const derived: DerivedNoticeKind[] = [
         'chat-message',
         'howto-published',
+        'howto-listed',
+        'howto-denied',
         'gallery-listed',
         'gallery-denied',
         'kit-listed',

@@ -170,6 +170,39 @@
         }
     });
 
+    /** A decision about a how-to the creator wrote (#906). Derived rather than
+     *  written, for the reason the kit and gallery ones are: the creator can read
+     *  their own how-to, so writing a per-user document on every decision would put
+     *  a write on a path that already syncs. Pending is deliberately absent — it is
+     *  shown in the how-to's own panel, where its author is already looking. */
+    $effect(() => {
+        const uid = $user?.uid;
+        if (uid === undefined) return;
+        for (const howTo of HowTos.allEditableHowTos) {
+            // Their own work only: a collaborator may edit a how-to, but a
+            // decision about it is addressed to whoever wrote it.
+            if (howTo.getCreator() !== uid) continue;
+            const state = howTo.getModeration();
+            if (state !== 'approved' && state !== 'denied') continue;
+            const at = howTo.getModeratedAt() ?? 0;
+            // Keyed by state and time for the gallery block's reason: a second
+            // refusal after a fix has to read as new rather than deduplicate
+            // against the first.
+            const id = `howto-${howTo.getHowToId()}-${state}-${at}`;
+            synthesized.set(id, {
+                id,
+                kind: state === 'approved' ? 'howto-listed' : 'howto-denied',
+                subject: {
+                    kind: 'howto',
+                    id: howTo.getHowToId(),
+                    gallery: howTo.getHowToGalleryId(),
+                },
+                title: howTo.getTitleInLocale($locales.getLocaleString()),
+                time: at,
+            });
+        }
+    });
+
     /** Unread conversations, and chat messages awaiting review. */
     $effect(() => {
         // Capture the uid up front: the per-chat work below awaits, and on
@@ -265,6 +298,18 @@
                 accessor = (l) =>
                     l.ui.dialog.notifications.notification.moderationHeader;
                 break;
+            case 'howto-listed':
+            case 'howto-denied':
+                // The how-to's title rides along, for the reason the kit's name does.
+                return (
+                    docToMarkup(
+                        $locales.getMultilingualText((l) =>
+                            notice.kind === 'howto-listed'
+                                ? l.moderation.howto.notification.approved
+                                : l.moderation.howto.notification.denied,
+                        ),
+                    ).concretize($locales, { name: notice.title }) ?? ''
+                );
             case 'kit-listed':
             case 'kit-denied':
                 // The kit's name rides along, for the reason the gallery one does.

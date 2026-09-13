@@ -12,6 +12,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'basis.Number.conversion.unit': ['from', 'to'],
     'moderation.gallery.notification.approved': ['name'],
     'moderation.gallery.notification.denied': ['name'],
+    'moderation.howto.notification.approved': ['name'],
+    'moderation.howto.notification.denied': ['name'],
     'moderation.kit.notification.approved': ['name'],
     'moderation.kit.notification.denied': ['name'],
     'moderation.progress': ['moderated', 'remaining'],

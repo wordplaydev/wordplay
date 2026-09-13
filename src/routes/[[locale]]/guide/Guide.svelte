@@ -39,6 +39,7 @@
     import { Purpose } from '@concepts/Purpose';
     import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
     import { HowTos, Locales, locales } from '@db/Database';
+    import type GalleryHowTo from '@db/howtos/HowToDatabase.svelte';
     import Project from '@db/projects/Project';
     import Source from '@nodes/Source';
     import { onMount } from 'svelte';
@@ -148,6 +149,10 @@
             path.set(historyFromURL());
             mounted = true;
         });
+        // Deliberately not awaited with the bundle above: the guide is readable
+        // without them, and holding the whole page on a network round-trip to show
+        // one group at the bottom of one section would be the wrong trade.
+        HowTos.getListedHowTos().then((listed) => (community = listed));
     });
 
     // On browser back/forward, restore the location and filters from the URL. Our own
@@ -193,6 +198,30 @@
 
     let howTos = $derived($howToStore[$locales.getLocaleString()]);
 
+    /**
+     * The how-tos a moderator has listed in the guide (#906), read once on mount.
+     *
+     * Everyone gets these, signed out included — that is what being listed means —
+     * where `allAccessiblePublishedHowTos` is only what this reader could already
+     * reach.
+     */
+    let community: GalleryHowTo[] = $state([]);
+
+    /** Both sets, so a link to either resolves to a concept. Which group each
+     *  appears under is `Documentation`'s decision, not this one's. Deduped by id,
+     *  because someone in the gallery a listed how-to came from has it in both, and
+     *  two concepts for one how-to would leave `getGalleryHowConcept` answering
+     *  with whichever was built last. */
+    let everyGalleryHowTo = $derived([
+        ...HowTos.allAccessiblePublishedHowTos,
+        ...community.filter(
+            (listed) =>
+                !HowTos.allAccessiblePublishedHowTos.some(
+                    (mine) => mine.getHowToId() === listed.getHowToId(),
+                ),
+        ),
+    ]);
+
     let index = $derived(
         ConceptIndex.make(
             project,
@@ -201,7 +230,7 @@
             // Never a sign-in gate despite how it read: `getUser()` returns
             // the store, so this was always the truthy branch. The cache only
             // holds what the rules let this viewer read, so pass it through.
-            HowTos.allAccessiblePublishedHowTos,
+            everyGalleryHowTo,
         ),
     );
 
@@ -387,6 +416,7 @@
             bind:query={searchQuery}
             bind:mode={guideSection}
             bind:purpose={guidePurpose}
+            {community}
         ></Documentation>
     {/if}
 </section>

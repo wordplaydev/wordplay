@@ -183,6 +183,42 @@
             ]
         },
         {
+            "collectionGroup": "howtos",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "moderation",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "moderatedAt",
+                    "order": "ASCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "howtos",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "published",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "isPublic",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "moderation",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "moderatedAt",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
             "collectionGroup": "reports",
             "queryScope": "COLLECTION",
             "fields": [

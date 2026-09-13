@@ -14,6 +14,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🌐 The three kits that come with Wordplay are written in every language we support, so their names and their writing read in yours. (#8)
 - 🔢 Numbers can now do three things you used to write out by hand: `limit` keeps a number between a low and a high, `toward` moves a number part of the way to another one, and `rescale` turns a number in one range into the matching number in another.
 - 🔢 A list of numbers can now tell you its `sum` and its `average`, so you don't have to add them up yourself.
+- 📖 You can now ask for a how-to you wrote to be listed in the [Guide](https://wordplay.dev/guide), and anyone can read it there once a moderator says yes. (#906)
+- 🚩 You can now ask for a how-to to be reviewed, the same way you can for a project or a drawing. (#906)
+
+### Changed
+
+- 🤝 How-tos and kits in the [Guide](https://wordplay.dev/guide) now show who made them. (#906)
+- 🤝 A gallery that anyone can see now shows the whole name of everyone in it, instead of only the first few letters. (#906)
 
 ### Fixed
 

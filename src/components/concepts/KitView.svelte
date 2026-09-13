@@ -17,6 +17,9 @@
         type ExampleScope,
     } from '@components/project/Contexts';
     import KitModerationNotice from '@components/moderation/KitModerationNotice.svelte';
+    import Contributors from '@components/app/Contributors.svelte';
+    import { anonymizeContributors } from '@db/creators/attribution';
+    import { kitVisibility } from '@db/moderation/visibility';
     import ReportButton from '@components/project/ReportButton.svelte';
     import Button from '@components/widgets/Button.svelte';
     import { kitShareConcepts } from '@concepts/kitConcepts';
@@ -196,6 +199,17 @@
             <ReportButton kind="kit" subject={kit.id} name={kit.name} />
         {/if}
     </div>
+
+    <!-- Who published it, the same way a project tile and a community how-to say
+         so (#906). -->
+    <Contributors
+        creator={kit.owner}
+        collaborators={kit.collaborators}
+        anonymize={anonymizeContributors(
+            kitVisibility(kit),
+            $user !== null && $user !== undefined && $user.uid === kit.owner,
+        )}
+    />
 
     <!-- Only the owner, and only here: this page is the one place an unlisted kit can be
          read, so it is where its author will be when they wonder why nobody else can find

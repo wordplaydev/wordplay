@@ -18,6 +18,26 @@ import { expect, test } from 'vitest';
 const QueueIndexes: [string, string, 'ASCENDING' | 'DESCENDING'][] = [
     ['galleries', 'id', 'ASCENDING'],
     ['kits', 'updated', 'DESCENDING'],
+    // Oldest request first. `moderatedAt` rather than the how-to's `publishedAt`,
+    // which is client-written and unclamped — `9e15` would pin one creator to the
+    // top of a fairness queue forever — and rather than `id`, whose arbitrary but
+    // stable order means twenty skipped how-tos hide everything behind them. The
+    // trigger sets `moderatedAt` in the same write that reaches `pending`, so on a
+    // queued how-to it is always there and always means "when it asked".
+    ['howtos', 'moderatedAt', 'ASCENDING'],
+];
+
+/**
+ * The guide's own query, which has the same hazard and no queue behind it.
+ *
+ * It filters on all three of `published`, `isPublic` and `moderation` rather than
+ * on the decision alone, because Firestore denies a whole query when any document
+ * it matches fails its read rule — so naming the fields the rule tests is what
+ * keeps one withdrawn how-to from emptying the community group for every visitor.
+ */
+const RegistryIndex: [string, string[]] = [
+    'howtos',
+    ['published', 'isPublic', 'moderation', 'moderatedAt'],
 ];
 
 test.each(QueueIndexes)(
@@ -44,3 +64,21 @@ test.each(QueueIndexes)(
         ).toBe(true);
     },
 );
+
+test('the guide lists community how-tos from an index that exists', () => {
+    const [collection, fields] = RegistryIndex;
+    const indexes: {
+        collectionGroup: string;
+        fields: { fieldPath: string; order?: string }[];
+    }[] = JSON.parse(readFileSync('firestore.indexes.json', 'utf8')).indexes;
+
+    expect(
+        indexes.some(
+            (index) =>
+                index.collectionGroup === collection &&
+                index.fields.map((f) => f.fieldPath).join(',') ===
+                    fields.join(','),
+        ),
+        `firestore.indexes.json needs ${collection} (${fields.join(', ')})`,
+    ).toBe(true);
+});

@@ -40,7 +40,7 @@
 
     interface Props {
         /** What the moderate callable is told this decision is about. */
-        kind: 'gallery' | 'kit';
+        kind: 'gallery' | 'kit' | 'howto';
         /** The Firestore collection holding the pending subjects. */
         collectionName: string;
         /** How to order a look. Galleries go by id, kits by recency. */

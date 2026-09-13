@@ -6,13 +6,16 @@
      kit itself, so a page of tiles is one query and browsing the registry evaluates
      nothing. -->
 <script lang="ts">
+    import Contributors from '@components/app/Contributors.svelte';
     import GlyphTile from '@components/app/GlyphTile.svelte';
     import Link from '@components/app/Link.svelte';
     import ConceptPreview from '@components/concepts/ConceptPreview.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Note from '@components/widgets/Note.svelte';
     import { kitURL } from '@concepts/ConceptParams';
+    import { anonymizeContributors } from '@db/creators/attribution';
     import { locales } from '@db/Database';
+    import { kitVisibility } from '@db/moderation/visibility';
     import type { SerializedKit } from '@db/kits/Kit';
     import { localizedConceptName } from '@locale/getConceptName';
     import { toProgram } from '@parser/parseProgram';
@@ -68,6 +71,15 @@
         {#if kit.description.length > 0}
             <div class="description">{kit.description}</div>
         {/if}
+        <!-- Who published it. The owner's handle is already in the borrow line
+             above — it has to be, since a kit is reached by `@owner/name` — so
+             this discloses nothing new. What it adds is that the author is a
+             person rather than a path segment (#906). -->
+        <Contributors
+            creator={kit.owner}
+            collaborators={kit.collaborators}
+            anonymize={anonymizeContributors(kitVisibility(kit))}
+        />
         {#if kinds.length > 0}
             <Note
                 >{$locales
