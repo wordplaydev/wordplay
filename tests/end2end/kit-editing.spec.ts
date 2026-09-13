@@ -50,6 +50,20 @@ test('a kit reference is visible in the editor', async ({ page }) => {
     await expect
         .poll(async () => (await editor.innerText()).replace(/[\u200b]/g, ''))
         .toContain('↓ @amy/colors 3');
+
+    // A borrow that names its kit (#1373), in the same editor rather than a second page
+    // load. `BorrowView` names every field it draws, so a new one is invisible until it is
+    // listed there — which is what happened to kit references, and the reason this test
+    // exists at all. The model would round-trip either way, so only the browser can tell.
+    await page.keyboard.press(
+        process.platform === 'darwin' ? 'Meta+a' : 'Control+a',
+    );
+    await page.keyboard.press('Backspace');
+    await page.keyboard.type('↓ warm: @amy/colors 3', { delay: 40 });
+
+    await expect
+        .poll(async () => (await editor.innerText()).replace(/[\u200b]/g, ''))
+        .toContain('↓ warm: @amy/colors 3');
 });
 
 /**
