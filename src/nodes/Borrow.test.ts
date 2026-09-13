@@ -433,6 +433,32 @@ describe('a kit is reachable through its own name (#1373)', () => {
         expect(valueOf(project)).toBe('1');
     });
 
+    test('an alias names the kit, and binds nothing else', () => {
+        // Two kits both called `colors` namespace under the same word, which is what the
+        // alias is for. It also keeps the kit's names out of scope entirely — that is how
+        // a borrower says "I only want this under my own name".
+        const project = projectWithKit(
+            `↓ warm: @amy/colors 1\nwarm.sunset`,
+            `↑ sunset/en: 1`,
+        );
+        expect(conflictNames(project)).toEqual([]);
+        expect(valueOf(project)).toBe('1');
+    });
+
+    // `UnknownName` exactly, not merely "some conflict": without the alias parse these
+    // lines are `↓ warm` plus a stray `: @amy/colors 1`, which conflicts too — so a
+    // loose assertion here passes whether or not the feature works.
+    test.each([
+        // The shares are not bound flat...
+        [`↓ warm: @amy/colors 1\nsunset`],
+        // ...and the kit is no longer reachable under its own name either.
+        [`↓ warm: @amy/colors 1\ncolors.sunset`],
+    ])('an alias keeps the kit out of scope: %s', (code) => {
+        expect(conflictNames(projectWithKit(code, `↑ sunset/en: 1`))).toEqual([
+            'UnknownName',
+        ]);
+    });
+
     test('a local source keeps binding its own value, not a namespace', () => {
         // `Lyrics.wp` has 41 bare local borrows used directly as values, so this is the
         // invariant that makes the change additive rather than breaking.

@@ -3,6 +3,8 @@ import Borrow from '@nodes/Borrow';
 import type Doc from '@nodes/Doc';
 import Docs from '@nodes/Docs';
 import Program from '@nodes/Program';
+import type Reference from '@nodes/Reference';
+import type Token from '@nodes/Token';
 import { Sym } from '@nodes/Sym';
 import type Tokens from '@parser/Tokens';
 import { parseBlock, parseDocs, parseReference } from '@parser/parseExpression';
@@ -70,13 +72,24 @@ export function parseBorrow(tokens: Tokens): Borrow {
     // A kit reference (`@amy/colors`) is one token, so it takes the source slot's place
     // rather than being parsed as a name plus a language tag — which is what `amy/colors`
     // would lex as, and why kit references are `@`-prefixed at all.
-    const external = tokens.nextIs(Sym.External)
+    let external = tokens.nextIs(Sym.External)
         ? tokens.read(Sym.External)
         : undefined;
-    const source =
+    let source =
         external === undefined && tokens.nextIs(Sym.Name)
             ? parseReference(tokens)
             : undefined;
+    // A name followed by `:` names the kit that follows rather than being the source
+    // borrowed (#1373) — `↓ warm: @bo/colors 3`. Which it is can only be known once the
+    // `:` is seen, so the name is read into `source` first and moved here.
+    let alias: Reference | undefined = undefined;
+    let bind: Token | undefined = undefined;
+    if (source !== undefined && tokens.nextIs(Sym.Bind)) {
+        alias = source;
+        source = undefined;
+        bind = tokens.read(Sym.Bind);
+        if (tokens.nextIs(Sym.External)) external = tokens.read(Sym.External);
+    }
     const dot = tokens.readIf(Sym.Access);
     const name =
         dot && tokens.nextIs(Sym.Name) ? parseReference(tokens) : undefined;
@@ -85,5 +98,14 @@ export function parseBorrow(tokens: Tokens): Borrow {
             ? tokens.read(Sym.Number)
             : undefined;
 
-    return new Borrow(borrow, source, dot, name, version, external);
+    return new Borrow(
+        borrow,
+        source,
+        dot,
+        name,
+        version,
+        external,
+        alias,
+        bind,
+    );
 }

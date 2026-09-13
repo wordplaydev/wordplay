@@ -687,7 +687,9 @@ test('resolving a color needs no basis', () => {
  * smallest pair that does it — a type with no grammar and a value that delegates to the
  * evaluation `Borrow` already holds. The dotted type annotation that comes with it
  * (`s•colors.Sprite`) adds no file at all, only a field to `NameType` and an arm to the
- * type parser, which is why only `galleries` moves for it.
+ * type parser, which is why only `galleries` moves for it. The alias (`↓ warm: @bo/colors
+ * 3`) adds none either: its scope entry is a `Bind` annotated with the kit's type, which
+ * is the definition kind scope lookup already understands.
  *
  * What must never join these graphs
  * is the kit *database*: a page that merely lists projects has no business being able to
@@ -703,9 +705,9 @@ test('resolving a color needs no basis', () => {
 // math functions' documentation are both that, and neither moved a file count. Files
 // creeping is a door opening, and is the number to look at first.
 test.each([
-    ['src/routes/+layout.svelte', 523, 3.9],
-    ['src/components/app/Page.svelte', 546, 4.15],
-    ['src/routes/[[locale]]/+page.svelte', 561, 4.24],
+    ['src/routes/+layout.svelte', 523, 3.91],
+    ['src/components/app/Page.svelte', 546, 4.16],
+    ['src/routes/[[locale]]/+page.svelte', 561, 4.25],
     ['src/routes/[[locale]]/galleries/+page.svelte', 565, 4.26],
     ['src/routes/[[locale]]/projects/+page.svelte', 572, 4.28],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {

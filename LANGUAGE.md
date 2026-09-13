@@ -1510,7 +1510,7 @@ Evaluates the stream value, and finds the stream that contains the value. If an 
 The combined set of all of the expressions above mean that most of Wordplay is expressions:
 
 > PROGRAM → DOCS？ BORROW＊ （BIND ｜ EXPRESSION）＊  
-> BORROW → `↓` （name ｜ kit） （`.` name）？ numeral？  
+> BORROW → `↓` （name `:`）？ （name ｜ kit） （`.` name）？ numeral？  
 > kit → `@` name `/` name  
 > EXPRESSION → REACTION ｜ CONDITIONAL ｜ MATCH ｜ OTHERWISE ｜ BINARYEVALUATE ｜ ATOMIC  
 > ATOMIC → LITERAL ｜ REF ｜ `_` ｜ EVAL ｜ DEFINITION ｜ PROPERTYBIND ｜ CONVERT ｜ CHECK ｜ QUERY ｜ DOCUMENTED ｜ PREVIOUS ｜ INITIAL ｜ ISLOCALE ｜ LOCALIZED  
@@ -1572,6 +1572,15 @@ colors.sunset            the same export, said through the kit
 Both, rather than one or the other: the flat name is what a borrow has always given, and the dotted form is how two kits that share a name are told apart — the names in a borrowed kit come from someone who has never seen the borrowing program. A local source gets no such namespace, since its name is already bound to its own value.
 
 A **type annotation** may be reached through a kit the same way, so a structure two kits both share is still nameable: `s•colors.Sprite` annotates `s` with the `Sprite` that `colors` shares.
+
+A borrow may **name the kit itself**, for when two kits would namespace under the same word, or when a borrower wants none of a kit's names in their own scope:
+
+```
+↓ warm: @bo/colors 3
+warm.sunset
+```
+
+An aliased borrow binds **only** the namespace — neither the kit's shares nor its own name enter scope — which is what makes it the repair for a collision.
 
 The `@` is also why a kit is not written `amy/colors`: `/` already introduces a [language tag](#text), so `↓ start/en` would be ambiguous with a borrow of a source named `start` written in English.
 

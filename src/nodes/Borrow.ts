@@ -8,7 +8,12 @@ import type { EditContext, InsertContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type { NodeDescriptor } from '@locale/NodeTexts';
-import { BORROW_SYMBOL, LINK_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
+import {
+    BIND_SYMBOL,
+    BORROW_SYMBOL,
+    LINK_SYMBOL,
+    PROPERTY_SYMBOL,
+} from '@parser/Symbols';
 import Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import Finish from '@runtime/Finish';
@@ -26,6 +31,8 @@ import type Locales from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import StreamDefinitionValue from '@values/StreamDefinitionValue';
 import Bind from '@nodes/Bind';
+import KitType from '@nodes/KitType';
+import Names from '@nodes/Names';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Expression from '@nodes/Expression';
@@ -113,6 +120,12 @@ export default class Borrow extends SimpleExpression {
     /** A kit published by a creator, e.g. `@amy/colors` (#8). Mutually exclusive with
      *  `source`: a borrow names either something in this project or something outside it. */
     readonly external: Token | undefined;
+    /** A name for the kit, written before it (`↓ warm: @bo/colors 3`), for when two kits
+     *  would otherwise namespace under the same word (#1373). Naming one is also how a
+     *  borrower says "keep these names out of my scope": an aliased borrow binds only the
+     *  namespace, where a bare one also binds every share flat. */
+    readonly alias: Reference | undefined;
+    readonly bind: Token | undefined;
     readonly source: Reference | undefined;
     readonly dot: Token | undefined;
     readonly name: Reference | undefined;
@@ -125,10 +138,18 @@ export default class Borrow extends SimpleExpression {
         name?: Reference,
         version?: Token,
         external?: Token,
+        alias?: Reference,
+        bind?: Token,
     ) {
         super();
 
         this.borrow = borrow ?? new Token(BORROW_SYMBOL, Sym.Borrow);
+        this.alias = alias;
+        this.bind =
+            bind ??
+            (alias === undefined
+                ? undefined
+                : new Token(BIND_SYMBOL, Sym.Bind));
         this.external = external;
         this.source = source;
         this.dot = dot;
@@ -208,6 +229,13 @@ export default class Borrow extends SimpleExpression {
         return [
             { name: 'borrow', kind: node(Sym.Borrow), label: undefined },
             {
+                name: 'alias',
+                kind: any(node(Reference), none()),
+                space: true,
+                label: () => (l) => l.node.Borrow.label.source,
+            },
+            { name: 'bind', kind: optional(node(Sym.Bind)), label: undefined },
+            {
                 name: 'external',
                 kind: optional(node(Sym.External)),
                 space: true,
@@ -254,6 +282,8 @@ export default class Borrow extends SimpleExpression {
             this.replaceChild('name', this.name, replace),
             this.replaceChild('version', this.version, replace),
             this.replaceChild('external', this.external, replace),
+            this.replaceChild('alias', this.alias, replace),
+            this.replaceChild('bind', this.bind, replace),
         ) as this;
     }
 
@@ -313,9 +343,39 @@ export default class Borrow extends SimpleExpression {
         const [source, definition] = this.getShare(context) ?? [];
         if (source === undefined)
             return definition === undefined ? [] : [definition];
+        // An alias binds the namespace and nothing else, which is the whole point of
+        // writing one: the names that would have collided never enter scope (#1373).
+        if (this.alias !== undefined) {
+            const named = this.getAliasDefinition(source);
+            return named === undefined ? [] : [named];
+        }
         if (this.external !== undefined && this.name === undefined)
             return [...source.getShares(), source];
         return [definition === undefined ? source : definition, source];
+    }
+
+    /**
+     * The alias, as something scope lookup can find: a `Bind` of the alias name annotated
+     * with the kit's type.
+     *
+     * A `Bind` rather than the `Source` itself because lookup asks a definition whether it
+     * `hasName`, and a kit's source answers to the name its author gave it, not to the one
+     * the borrower chose. A `Bind` is the definition that already means "this name is this
+     * thing", and it already implements everything the `Definition` union's consumers call
+     * — which adding `Borrow` to that union would have meant writing from scratch.
+     *
+     * Memoized because it must be the *same* node every time: `Reference.resolve` is
+     * compared by identity for renaming and for highlighting related uses, and a fresh
+     * bind per call would make every one of those comparisons fail.
+     */
+    private aliasDefinition: Bind | undefined = undefined;
+    getAliasDefinition(source: Source): Bind | undefined {
+        if (this.alias === undefined) return undefined;
+        return (this.aliasDefinition ??= Bind.make(
+            undefined,
+            Names.make([this.alias.getName()]),
+            new KitType(source),
+        ));
     }
 
     computeConflicts(context: Context): Conflict[] {
@@ -468,6 +528,16 @@ export default class Borrow extends SimpleExpression {
                 // evaluates to something — the asymmetry is what `@` marks.
                 if (this.external !== undefined) {
                     const evaluation = evaluator.getLastEvaluation();
+                    // An alias binds the namespace alone, so the names it was written to
+                    // keep out of scope stay out of it at run time too (#1373).
+                    if (this.alias !== undefined) {
+                        if (evaluation !== undefined)
+                            evaluator.bind(
+                                Names.make([this.alias.getName()]),
+                                new KitValue(this, source, evaluation),
+                            );
+                        return value;
+                    }
                     for (const share of source.getShares()) {
                         if (share instanceof Source) continue;
                         const shared = evaluation?.resolve(
