@@ -22,6 +22,7 @@ import {
     toggleHighlight,
 } from '@edit/markup/formatOperations';
 import { clampToMarkup, markupBounds } from '@edit/markup/markupSource';
+import type { LocaleTextAccessor } from '@locale/Locales';
 import type { Format } from '@nodes/Words';
 import {
     ATTENTION_SYMBOL,
@@ -133,14 +134,15 @@ const FormatCommands: Command[] = Formats.map(
     }),
 );
 
-/** Whether a caret is inside a `\…\` example. Exported on its own, rather than
- *  only as the `active` predicate below, so the toolbar can ask the question of a
- *  settled caret without assembling a whole `CommandContext`. */
-export const caretIsInExample = (caret: Caret | undefined) =>
-    caret !== undefined && enclosingExample(caret) !== undefined;
-
-/** Commands that only mean something with the caret inside a `\…\` example. */
-const inExample = (context: CommandContext) => caretIsInExample(context.caret);
+/** Commands that only mean something with the caret inside a `\…\` example.
+ *  Outside one they are inactive for a reason: the toolbar greys the button and
+ *  the shortcut is consumed and heard declining, rather than doing nothing. */
+const notInExample: LocaleTextAccessor = (l) =>
+    l.ui.markup.feedback.notInExample;
+const inExample = (context: CommandContext) =>
+    context.caret !== undefined && enclosingExample(context.caret) !== undefined
+        ? true
+        : notInExample;
 
 const ContinueBullet: Command = {
     // Enter on a bulleted line continues the list. It shares the bullet
@@ -215,12 +217,14 @@ const ToggleHighlight: Command = {
     control: true,
     alt: false,
     shift: true,
-    key: '8',
-    // Still `active` outside an example, so the keystroke is consumed and the
-    // editor says why rather than doing nothing. The toolbar additionally
-    // *hides* these four (see `MarkupToolbarGroups` and `MarkupToolbar`) — an
-    // annotation is a statement about an example, and four permanently grey
-    // buttons in prose read as broken rather than as unavailable.
+    // Keyed by code, not key: with Shift held the key is `*` on a US layout,
+    // so a command keyed `'8'` never matched a real keystroke. Same for the
+    // three below.
+    key: 'Digit8',
+    keySymbol: '8',
+    // Greyed outside an example rather than hidden, so the annotations can be
+    // discovered from the toolbar at all (#1062); the same predicate makes the
+    // shortcut decline audibly there.
     active: inExample,
     feedback: 'delegated',
     execute: (context) => edit(context, toggleHighlight),
@@ -234,7 +238,8 @@ const ToggleDefect: Command = {
     control: true,
     alt: false,
     shift: true,
-    key: '7',
+    key: 'Digit7',
+    keySymbol: '7',
     active: inExample,
     feedback: 'delegated',
     execute: (context) => edit(context, toggleDefect),
@@ -248,7 +253,10 @@ const InsertDocs: Command = {
     control: false,
     alt: true,
     shift: false,
-    key: '7',
+    // Option+7 is `¶` on a Mac, which used to fall through and insert the
+    // symbol by accident rather than by this command.
+    key: 'Digit7',
+    keySymbol: '7',
     // An explanation belongs inside an example, next to the code it explains.
     active: inExample,
     feedback: { path: (l) => l.ui.markup.feedback.docs },
@@ -263,7 +271,8 @@ const InsertAttention: Command = {
     control: true,
     alt: false,
     shift: true,
-    key: '.',
+    key: 'Period',
+    keySymbol: '.',
     active: inExample,
     feedback: { path: (l) => l.ui.markup.feedback.attention },
     execute: (context) => edit(context, insertAttention),
@@ -336,13 +345,6 @@ const ToggleMode: Command = {
 /** The prose/source switch, which the toolbar renders as a stateful toggle
  *  rather than a button: it has two modes and a button shows neither. */
 export { ToggleMode as MarkupModeCommand };
-
-export const ExampleOnlyCommands: Command[] = [
-    ToggleHighlight,
-    ToggleDefect,
-    InsertDocs,
-    InsertAttention,
-];
 
 export const MarkupToolbarGroups: Command[][] = [
     [UndoMarkup, RedoMarkup],

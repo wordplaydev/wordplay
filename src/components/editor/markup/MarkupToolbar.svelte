@@ -1,16 +1,12 @@
 <script lang="ts">
     import {
-        caretIsInExample,
-        ExampleOnlyCommands,
         MarkupModeCommand,
         MarkupToolbarGroups,
     } from '@components/editor/markup/MarkupCommands';
-    import { getEditors } from '@components/project/Contexts';
     import Separator from '@components/project/Separator.svelte';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
-    import { debounced } from '@util/debounce.svelte';
 
     interface Props {
         /** The id of the editor these commands act on. */
@@ -26,43 +22,19 @@
 
     let { sourceID, prose, toggleMode = undefined }: Props = $props();
 
-    let editors = getEditors();
-
-    /**
-     * Whether the caret has settled inside a `\…\` example, which decides whether
-     * the annotation buttons are offered at all.
-     *
-     * Debounced for the reason `Command.where` documents: the caret publishes on
-     * every keystroke, and a toolbar whose item count changes that often makes
-     * `OverflowToolbar` re-measure every item and can reshuffle the hamburger out
-     * from under the pointer.
-     */
-    const settled = debounced(
-        () => $editors?.get(sourceID)?.displayedCaret,
-        400,
-    );
-    let annotating = $derived(caretIsInExample(settled.current));
-
     /**
      * The groups, flattened, with the index each group starts at so a rule can be
-     * drawn before it. An annotation group empties outside an example and is then
-     * skipped whole, rather than leaving a rule with nothing after it.
+     * drawn before it. Every command is always offered: the annotation buttons
+     * grey outside an example through their own `active` predicate rather than
+     * disappearing, so a creator can find out they exist (#1062) — and a constant
+     * item count means `OverflowToolbar` never re-measures as the caret moves.
      */
-    let shown = $derived.by(() => {
-        const items: {
-            command: (typeof MarkupToolbarGroups)[0][0];
-            first: boolean;
-        }[] = [];
-        for (const group of MarkupToolbarGroups) {
-            const visible = group.filter(
-                (command) =>
-                    annotating || !ExampleOnlyCommands.includes(command),
-            );
-            for (const [index, command] of visible.entries())
-                items.push({ command, first: index === 0 && items.length > 0 });
-        }
-        return items;
-    });
+    const shown = MarkupToolbarGroups.flatMap((group) =>
+        group.map((command, index) => ({
+            command,
+            first: index === 0 && group !== MarkupToolbarGroups[0],
+        })),
+    );
 </script>
 
 <!-- The buttons are the same Commands the keyboard dispatches, so a shortcut and

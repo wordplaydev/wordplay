@@ -581,6 +581,23 @@
         // would double it. Same rule as Editor.svelte's.
         if (command?.typing !== true) skipNextInput = false;
 
+        // A command that declined with a reason is heard declining, as on every
+        // other dispatch path; dropped here, an annotation shortcut pressed in
+        // prose was silent, which reads as broken.
+        if (typeof result === 'function') {
+            if (announce && $announce)
+                $announce(
+                    'ignored',
+                    $locales.getLanguages()[0],
+                    $locales.getPrimaryPlainText(result),
+                );
+            // Nothing was edited, so there is no echo to let through.
+            skipNextInput = false;
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        }
+
         // A command that matched consumes the keystroke, whatever it answered:
         // the project view listens for the same chords above this editor, and a
         // `mode` toggle that bubbled would be applied twice and appear inert.

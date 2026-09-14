@@ -1,5 +1,18 @@
 import { expect, test } from 'vitest';
-import Commands, { Category, InsertSymbol } from './Commands';
+import Commands, {
+    Category,
+    handleKeyCommand,
+    InsertSymbol,
+    Visibility,
+    type Command,
+    type CommandContext,
+} from './Commands';
+import { DB } from '@db/Database';
+import Project from '@db/projects/Project';
+import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocales from '@locale/DefaultLocales';
+import Source from '@nodes/Source';
+import Evaluator from '@runtime/Evaluator';
 import {
     PATTERN_AHEAD_SYMBOL,
     PATTERN_ANY_SYMBOL,
@@ -186,4 +199,85 @@ test('pattern atoms are offered only inside a pattern', () => {
     // And no note values, since ordinary code is not a note list.
     for (const duration of NoteDurations)
         expect(code).not.toContain(duration.unit);
+});
+
+/** A context with nothing in it a synthetic command would read. */
+function emptyContext(): CommandContext {
+    const project = Project.make(
+        null,
+        'test',
+        new Source('test', '1'),
+        [],
+        DefaultLocale,
+    );
+    return {
+        caret: undefined,
+        editor: true,
+        project,
+        locales: DefaultLocales,
+        evaluator: new Evaluator(project, DB, [DefaultLocale], false),
+        database: DB,
+        dragging: false,
+        blocks: false,
+        view: undefined,
+        zoom: undefined,
+    };
+}
+
+test('an inactive command consumes its shortcut, and a reason is returned to be said', () => {
+    // `null` has always meant "greyed, but keep the keystroke from the browser".
+    // A reason means the same, and travels out as a declined result so every
+    // dispatch path can announce it — otherwise a greyed button's shortcut is
+    // silent, which reads as broken.
+    const reason = (l: typeof DefaultLocale) =>
+        l.ui.markup.feedback.notInExample;
+    let executed = 0;
+    const make = (active: NonNullable<Command['active']>): Command => ({
+        symbol: '?',
+        description: (l) => l.ui.markup.command.highlight,
+        visible: Visibility.Invisible,
+        category: Category.Modify,
+        control: true,
+        alt: false,
+        shift: true,
+        key: '8',
+        feedback: 'caret',
+        active,
+        execute: () => {
+            executed++;
+            return true;
+        },
+    });
+    const keystroke = {
+        key: '8',
+        code: 'Digit8',
+        metaKey: false,
+        ctrlKey: true,
+        shiftKey: true,
+        altKey: false,
+    };
+    const context = emptyContext();
+
+    const declined = make(() => reason);
+    expect(handleKeyCommand(keystroke, context, [declined])).toEqual([
+        declined,
+        reason,
+        true,
+    ]);
+    const greyed = make(() => null);
+    expect(handleKeyCommand(keystroke, context, [greyed])).toEqual([
+        greyed,
+        true,
+        true,
+    ]);
+    expect(executed).toBe(0);
+
+    // `false` still leaves the keystroke alone, and `true` still runs.
+    expect(handleKeyCommand(keystroke, context, [make(() => false)])[0]).toBe(
+        undefined,
+    );
+    expect(handleKeyCommand(keystroke, context, [make(() => true)])[1]).toBe(
+        true,
+    );
+    expect(executed).toBe(1);
 });

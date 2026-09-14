@@ -79,18 +79,21 @@
               ),
     );
 
+    // Only `true` is active: `null` and a declined-reason accessor both grey the
+    // button (see Command.active). An inactive Button never fires its action, so
+    // the reason is heard through the shortcut, not the press.
     let active = $derived(
         command.active === undefined
             ? true
             : context
-              ? (command.active(
+              ? command.active(
                     {
                         ...context.context,
                         editor: editor !== undefined,
                         ...editor,
                     },
                     '',
-                ) ?? false)
+                ) === true
               : false,
     );
 </script>

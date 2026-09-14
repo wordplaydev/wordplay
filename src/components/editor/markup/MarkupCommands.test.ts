@@ -1,11 +1,21 @@
-import { Category, Visibility } from '@components/editor/commands/Commands';
+import {
+    Category,
+    Visibility,
+    type CommandContext,
+} from '@components/editor/commands/Commands';
 import { REDO_SYMBOL, UNDO_SYMBOL } from '@parser/Symbols';
 import AllMarkupCommands, {
-    ExampleOnlyCommands,
     MarkupOnlyCommands as MarkupCommands,
     MarkupToolbarGroups,
     VisibleMarkupCommands,
 } from '@components/editor/markup/MarkupCommands';
+import { DB } from '@db/Database';
+import Project from '@db/projects/Project';
+import Caret from '@edit/caret/Caret';
+import { markupToSource } from '@edit/markup/markupSource';
+import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocales from '@locale/DefaultLocales';
+import Evaluator from '@runtime/Evaluator';
 import { must } from '@util/nullable';
 import { expect, test } from 'vitest';
 
@@ -212,37 +222,55 @@ test('the toolbar leads with undo and redo and ends with the mode toggle', () =>
     expect(last.map((c) => c.symbol)).toEqual(['👁']);
 });
 
-test('the commands the toolbar hides outside an example are enumerated', () => {
-    // Enumerated rather than derived, like the 'delegated' feedback list above:
-    // hiding a button is a judgement about what a command means, so adding one
-    // here should put that judgement in front of a reviewer.
-    expect(ExampleOnlyCommands.map((c) => c.symbol).sort()).toEqual(
-        [
-            '⭐', // highlight an example
-            '🪲', // mark an example as expected to have errors
-            '¶', // explain an expression inside an example
-            '👀', // draw attention to a line of an example
-        ].sort(),
+/** A command context whose caret sits at `position` in `markup`. */
+function contextAt(markup: string, position: number): CommandContext {
+    const source = markupToSource(markup);
+    const project = Project.make(null, 'markup', source, [], DefaultLocale);
+    return {
+        caret: new Caret(source, position, undefined, undefined),
+        editor: true,
+        project,
+        locales: DefaultLocales,
+        evaluator: new Evaluator(project, DB, [DefaultLocale], false),
+        database: DB,
+        dragging: false,
+        blocks: false,
+        view: undefined,
+        zoom: undefined,
+    };
+}
+
+test('the annotation commands are greyed and explained outside an example', () => {
+    // Always on the toolbar rather than hidden, so a creator can find out the
+    // annotations exist (#1062); outside an example each declines with the
+    // same reason, which greys its button and is heard when its shortcut is
+    // pressed anyway.
+    const annotations = MarkupToolbarGroups.flat().filter((c) =>
+        ['⭐', '🪲', '¶', '👀'].includes(c.symbol),
     );
-    for (const command of ExampleOnlyCommands) {
-        // In a group, or hiding it would remove nothing from the toolbar.
-        expect(MarkupToolbarGroups.flat()).toContain(command);
-        // And still `active`-gated, so the SHORTCUT is consumed and explained
-        // outside an example rather than silently doing nothing.
+    expect(annotations).toHaveLength(4);
+    // Position 5 is inside the example's program; 1 is in the prose before it.
+    const inside = contextAt('a \\1 + 1\\ b', 5);
+    const outside = contextAt('a \\1 + 1\\ b', 1);
+    for (const command of annotations) {
+        const active = must(command.active, `${command.symbol} has no gate`);
+        expect(active(inside, '')).toBe(true);
+        const reason = active(outside, '');
         expect(
-            command.active,
-            `${command.symbol} must stay active-gated`,
-        ).toBeDefined();
+            typeof reason,
+            `${command.symbol} must decline with a reason`,
+        ).toBe('function');
+        if (typeof reason === 'function')
+            expect(reason(DefaultLocale)).toBe(
+                DefaultLocale.ui.markup.feedback.notInExample,
+            );
     }
 });
 
-test('the example insert stays visible when its annotations hide', () => {
-    // It is grouped with them so the group reads as "examples", but inserting one
-    // is exactly what you do when you are NOT in an example yet.
-    const group = MarkupToolbarGroups.find((g) =>
-        g.some((c) => ExampleOnlyCommands.includes(c)),
-    );
-    expect(group).toBeDefined();
-    const insert = group?.find((c) => !ExampleOnlyCommands.includes(c));
-    expect(insert?.key).toBe('\\');
+test('the example insert is never gated', () => {
+    // Grouped with the annotations so the group reads as "examples", but
+    // inserting one is exactly what you do when you are NOT in an example yet.
+    const insert = MarkupToolbarGroups.flat().find((c) => c.key === '\\');
+    expect(insert).toBeDefined();
+    expect(insert?.active).toBeUndefined();
 });

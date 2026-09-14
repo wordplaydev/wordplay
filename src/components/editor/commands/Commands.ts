@@ -146,11 +146,14 @@ export type Command = {
     /** A function that should indicate whether the command is active. Returning
      * true executes it; false/undefined leaves the keystroke for the browser;
      * null shows the command inactive but still consumes the keystroke (so a
-     * matched shortcut like Ctrl/Cmd+← doesn't trigger a browser default). */
+     * matched shortcut like Ctrl/Cmd+← doesn't trigger a browser default); a
+     * locale accessor does what null does and is announced as the reason, so a
+     * greyed button's shortcut is heard declining rather than doing nothing.
+     * The reason lives here, beside the decision, so the two can't disagree. */
     active?: (
         context: CommandContext,
         key: string,
-    ) => boolean | null | undefined;
+    ) => boolean | null | undefined | LocaleTextAccessor;
     /** Where in the source this command's character is worth offering, for the
      * glyph inserter's row. Omit to offer it everywhere. This is deliberately
      * not `active`: `active` disables a button rather than removing it (an
@@ -320,8 +323,16 @@ export const Category = {
 } as const;
 export type Category = (typeof Category)[keyof typeof Category];
 
+/** What the dispatcher reads of a keydown: the six fields that decide a match.
+ *  Narrower than `KeyboardEvent` so a unit test can hand it a plain object —
+ *  the suite runs in Node, which has no `KeyboardEvent` to construct. */
+export type Keystroke = Pick<
+    KeyboardEvent,
+    'key' | 'code' | 'metaKey' | 'ctrlKey' | 'shiftKey' | 'altKey'
+>;
+
 export function handleKeyCommand(
-    event: KeyboardEvent,
+    event: Keystroke,
     context: CommandContext,
     /** The commands to match against. Defaults to the code editor's set; the
      *  markup editor passes its own, so prose gets formatting shortcuts and none
@@ -387,12 +398,16 @@ export function handleKeyCommand(
                 command.active === undefined ||
                 command.active(context, event.key);
 
-            if (isActive) {
+            if (isActive === true) {
                 // If so, execute it.
                 const result = command.execute(context, event.key);
                 if (result !== false) return [command, result, true];
             } else if (matchedShortcut && isActive === null)
                 return [command, true, true];
+            // Inactive for a reason: consumed like null, and the reason travels
+            // as a declined result so every dispatch path announces it.
+            else if (matchedShortcut && typeof isActive === 'function')
+                return [command, isActive, true];
         }
     }
     // Didn't execute? Return false if we didn't match anything and let the shortcut travel to the browser.
