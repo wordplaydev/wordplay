@@ -1,3 +1,4 @@
+import { isProxySession } from '@db/proxySession';
 import { Domain } from '@db/Domains';
 import { FirebaseError } from 'firebase/app';
 import {
@@ -107,6 +108,14 @@ export class PresenceTracker {
         clientID: string,
         getUserID: () => string | null,
     ) {
+        // A read-only session looking at somebody else's Wordplay (#1313) must
+        // not appear in it. A presence document is readable by everyone who can
+        // read the project, so publishing one would show the proxy to that
+        // creator's collaborators as a live editor — and would consume one of
+        // the concurrent-editor slots, which can pause a real collaborator's
+        // own editing. The subscription still runs, so the proxy sees the
+        // people who are genuinely there; only publishing stops.
+        this.writeForbidden = isProxySession();
         this.db = db;
         this.projectID = projectID;
         this.clientID = clientID;

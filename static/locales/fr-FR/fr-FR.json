@@ -10480,6 +10480,14 @@
                     "offline": "$~Nous n'avons pas pu charger la liste des personnes ayant des privilèges. Êtes-vous en ligne ?",
                     "save": "$~Nous n'avons pas pu enregistrer ce changement. Voulez-vous réessayer ?",
                     "none": "$~Choisissez au moins un privilège avant d'ajouter quelqu'un."
+                },
+                "proxy": {
+                    "header": "$~Regarder en tant que quelqu'un d'autre",
+                    "prompt": "$~Ouvre Wordplay en tant qu'un autre créateur, pour voir ce qu'il voit quand quelque chose ne marche pas pour lui. C'est en lecture seule : rien de ce que tu fais n'est enregistré, et il ne verra pas que tu étais là. Cela s'ouvre dans un nouvel onglet, et fermer cet onglet met fin à la session.\n\nChaque fois que quelqu'un fait cela, c'est enregistré.",
+                    "start": {
+                        "label": "$~Regarder",
+                        "tip": "$~Ouvrir une session en lecture seule en tant que ce créateur dans un nouvel onglet"
+                    }
                 }
             }
         },
@@ -11362,6 +11370,19 @@
                 "undid": "$~a annulé cela",
                 "redid": "$~a rétabli cela"
             }
+        },
+        "proxy": {
+            "banner": "$~Tu regardes Wordplay en tant que quelqu'un d'autre. Rien ici n'est enregistré, et cette personne ne peut pas voir que tu es là.",
+            "as": "$~en tant que $name",
+            "remaining": "$~$#minutes[il reste $#minutes minute|il reste $minutes minutes|il reste $minutes minutes]",
+            "stop": {
+                "label": "$~Arrêter",
+                "tip": "$~Fermer cet onglet et arrêter de regarder en tant qu'eux"
+            },
+            "starting": "$~Démarrage…",
+            "failed": "$~Nous n'avons pas pu démarrer cette session. Es-tu toujours connecté en tant qu'administrateur ?",
+            "expired": "$~Ce lien a déjà été utilisé, ou il a expiré. Recommence depuis la <page des privilèges@://admin>.",
+            "ended": "$~Cette session est terminée, et tu en es déconnecté. Ferme cet onglet. Pour regarder à nouveau, recommence depuis la page des privilèges."
         }
     },
     "moderation": {

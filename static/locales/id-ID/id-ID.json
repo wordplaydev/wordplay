@@ -10973,6 +10973,14 @@
                     "offline": "$~Kami tidak bisa memuat siapa yang punya hak istimewa. Apakah kamu sedang daring?",
                     "save": "$~Kami tidak bisa menyimpan perubahan itu. Coba lagi?",
                     "none": "$~Pilih setidaknya satu hak istimewa sebelum menambahkan seseorang."
+                },
+                "proxy": {
+                    "header": "$~Lihat sebagai seseorang",
+                    "prompt": "$~Buka Wordplay sebagai pencipta lain, untuk melihat apa yang mereka lihat ketika sesuatu tidak berfungsi bagi mereka. Ini hanya bisa dibaca: tidak ada yang kamu lakukan akan disimpan, dan mereka tidak akan tahu bahwa kamu ada di sana. Ini terbuka di tab baru, dan menutup tab itu akan mengakhirinya.\n\nSetiap kali seseorang melakukan ini, hal itu dicatat.",
+                    "start": {
+                        "label": "$~Lihat",
+                        "tip": "$~Buka sesi hanya-baca sebagai pencipta ini di tab baru"
+                    }
                 }
             }
         },
@@ -11357,6 +11365,19 @@
                 "undid": "$~membatalkan itu",
                 "redid": "$~mengulangi itu"
             }
+        },
+        "proxy": {
+            "banner": "$~Kamu sedang melihat Wordplay sebagai orang lain. Tidak ada yang disimpan di sini, dan mereka tidak bisa melihat bahwa kamu ada di sana.",
+            "as": "$~sebagai $name",
+            "remaining": "$~$#minutes[$minutes menit tersisa]",
+            "stop": {
+                "label": "$~Berhenti",
+                "tip": "$~Tutup tab ini dan berhenti melihat sebagai mereka"
+            },
+            "starting": "$~Memulai…",
+            "failed": "$~Kami tidak bisa memulai sesi itu. Apakah kamu masih masuk sebagai administrator?",
+            "expired": "$~Tautan itu sudah digunakan, atau sudah kedaluwarsa. Mulai lagi dari <halaman hak akses@://admin>.",
+            "ended": "$~Sesi ini telah berakhir, dan kamu telah keluar darinya. Tutup tab ini. Untuk melihat lagi, mulai dari halaman hak akses."
         }
     },
     "moderation": {

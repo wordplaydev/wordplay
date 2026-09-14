@@ -1,4 +1,5 @@
 import retryableLoad from '@util/retryableLoad';
+import { proxyPrefix } from '@db/proxySession';
 
 /**
  * Local-storage key recording that this device has been offered the chooser, whether
@@ -12,7 +13,10 @@ import retryableLoad from '@util/retryableLoad';
  * by definition, yet has to stick, or one stray click on the dialog's backdrop means
  * being interrupted on every future visit.
  */
-const AskedKey = 'localeAsked';
+/** Per tab in a proxy session (#1313): whether the administrator has been
+ *  offered the chooser is not a fact about the creator being looked at, and
+ *  answering it for them would be a write to the administrator's own device. */
+const AskedKey = `${proxyPrefix()}localeAsked`;
 
 function storage(): Storage | undefined {
     return typeof window !== 'undefined' &&

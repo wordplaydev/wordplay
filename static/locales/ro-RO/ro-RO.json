@@ -10966,6 +10966,14 @@
                     "offline": "$~Nu am putut încărca cine are privilegii. Ești conectat la internet?",
                     "save": "$~Nu am putut salva acea schimbare. Încerci din nou?",
                     "none": "$~Alege cel puțin un privilegiu înainte de a adăuga pe cineva."
+                },
+                "proxy": {
+                    "header": "$~Privește ca cineva",
+                    "prompt": "$~Deschide Wordplay ca alt creator, ca să vezi ce vede el atunci când ceva nu îi merge bine. Poți doar să privești: nimic din ce faci nu se salvează, iar el nu va ști că ai fost acolo. Se deschide într-o filă nouă, iar închiderea acelei file oprește sesiunea.\n\nDe fiecare dată când cineva face asta, se înregistrează.",
+                    "start": {
+                        "label": "$~Privește",
+                        "tip": "$~Deschide o sesiune doar pentru privire ca acest creator, într-o filă nouă"
+                    }
                 }
             }
         },
@@ -11350,6 +11358,19 @@
                 "undid": "$~a anulat acțiunea",
                 "redid": "$~a refăcut acțiunea"
             }
+        },
+        "proxy": {
+            "banner": "$~Privești Wordplay ca altcineva. Nimic de aici nu se salvează, iar el nu poate vedea că ești aici.",
+            "as": "$~ca $name",
+            "remaining": "$~$#minutes[a mai rămas $#minutes minut|au mai rămas $minutes minute|au mai rămas $minutes de minute]",
+            "stop": {
+                "label": "$~Oprește",
+                "tip": "$~Închide această filă și oprește-te din a privi ca ei"
+            },
+            "starting": "$~Se pornește…",
+            "failed": "$~Nu am putut porni acea sesiune. Ești încă autentificat ca administrator?",
+            "expired": "$~Acel link a fost deja folosit sau a expirat. Începe din nou din <pagina privilegiilor@://admin>.",
+            "ended": "$~Această sesiune s-a încheiat și ai fost deconectat din ea. Închide această filă. Ca să privești din nou, începe din pagina privilegiilor."
         }
     },
     "moderation": {

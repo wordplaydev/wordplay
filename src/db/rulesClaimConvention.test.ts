@@ -2,7 +2,7 @@ import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
 
 /**
- * Every privilege test in `firestore.rules` goes through one of four functions.
+ * Every privilege test in `firestore.rules` goes through one of five functions.
  *
  * `mod` used to be written out inline at thirteen sites with no shared helper,
  * which is exactly the shape that makes a superuser claim rot: the fourteenth
@@ -11,13 +11,23 @@ import { expect, test } from 'vitest';
  * no test anywhere failing. Enumerating the sites would not catch that — only
  * refusing the shape does.
  *
- * So: no rule may read `request.auth.token` except the four functions that
+ * So: no rule may read `request.auth.token` except the five functions that
  * define what a privilege means. If you need a new claim, give it a function.
  */
 const Rules = readFileSync('firestore.rules', 'utf8');
 
-/** The four, in the order they're declared at the top of `documents`. */
-const ClaimFunctions = ['isAdmin', 'isMod', 'isTeacher', 'isBanned'];
+/** The five, in the order they're declared at the top of `documents`.
+ *  `notProxying` is the odd one: it is about the *session*, not the account —
+ *  a claim minted onto one token by `startProxy` and never written to anybody
+ *  (#1313). It lives here because it is still a thing rules learn from the
+ *  token, and the whole point of this test is that nothing else reads one. */
+const ClaimFunctions = [
+    'isAdmin',
+    'isMod',
+    'isTeacher',
+    'isBanned',
+    'notProxying',
+];
 
 /** A line with its comments and string contents removed, so that a sentence
  *  *about* the token doesn't read as a rule testing it. */
@@ -25,7 +35,7 @@ function code(line: string): string {
     return line.replace(/\/\/.*$/, '').replace(/"[^"]*"/g, '""');
 }
 
-test('every claim test goes through one of the four claim functions', () => {
+test('every claim test goes through one of the five claim functions', () => {
     const lines = Rules.split('\n');
     // The span each function occupies, so a token read inside one is expected.
     const inside = new Set<number>();
@@ -53,11 +63,11 @@ test('every claim test goes through one of the four claim functions', () => {
 
     expect(
         offenders,
-        'read the claim through isAdmin/isMod/isTeacher/isBanned instead, so `admin` keeps implying the others',
+        'read the claim through isAdmin/isMod/isTeacher/isBanned/notProxying instead, so `admin` keeps implying the others and a proxy keeps writing nothing',
     ).toEqual([]);
 });
 
-test('the four claim functions are declared once, at the top level', () => {
+test('the five claim functions are declared once, at the top level', () => {
     for (const fn of ClaimFunctions) {
         const declarations = Rules.split('\n').filter((line) =>
             line.includes(`function ${fn}(`),

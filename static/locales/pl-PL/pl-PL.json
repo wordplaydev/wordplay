@@ -10622,6 +10622,14 @@
                     "offline": "$~Nie udało nam się wczytać, kto ma uprawnienia. Czy jesteś online?",
                     "save": "$~Nie udało nam się zapisać tej zmiany. Spróbować ponownie?",
                     "none": "$~Wybierz co najmniej jedno uprawnienie, zanim dodasz kogoś."
+                },
+                "proxy": {
+                    "header": "$~Zobacz jak ktoś",
+                    "prompt": "$~Otwórz Wordplay jako inny twórca, by zobaczyć to, co on widzi, gdy coś mu nie działa. To tylko podgląd: nic, co zrobisz, nie zostanie zapisane, a on nie zobaczy, że tam byłeś. Otwiera się to w nowej karcie, a zamknięcie tej karty to kończy.\n\nKażde takie działanie jest zapisywane.",
+                    "start": {
+                        "label": "$~Zobacz",
+                        "tip": "$~Otwórz sesję tylko do podglądu jako ten twórca w nowej karcie"
+                    }
                 }
             }
         },
@@ -11354,6 +11362,19 @@
                 "undid": "$~cofnięto to",
                 "redid": "$~ponowiono to"
             }
+        },
+        "proxy": {
+            "banner": "$~Patrzysz na Wordplay jako ktoś inny. Nic tu nie jest zapisywane, a on nie widzi, że tu jesteś.",
+            "as": "$~jako $name",
+            "remaining": "$~$#minutes[Została $minutes minuta|Zostały $minutes minuty|Zostało $minutes minut|Zostało $minutes minuty]",
+            "stop": {
+                "label": "$~Zatrzymaj",
+                "tip": "$~Zamknij tę kartę i przestań patrzeć jako on"
+            },
+            "starting": "$~Uruchamianie…",
+            "failed": "$~Nie udało się uruchomić tej sesji. Czy nadal jesteś zalogowany jako administrator?",
+            "expired": "$~Ten link został już użyty albo stracił ważność. Zacznij od nowa ze <strony uprawnień@://admin>.",
+            "ended": "$~Ta sesja się skończyła i zostałeś z niej wylogowany. Zamknij tę kartę. Aby znowu patrzeć, zacznij od strony uprawnień."
         }
     },
     "moderation": {

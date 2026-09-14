@@ -11,6 +11,7 @@ import {
 } from '@db/Database';
 import { Domain } from '@db/Domains';
 import { ensureAuth, firestore } from '@db/firebase';
+import { isProxySession } from '@db/proxySession';
 import firebaseErrorDetail from '@db/firebaseErrorDetail';
 import { GALLERY_CHUNK_SIZE } from '@db/firestoreLimits';
 import type Gallery from '@db/galleries/Gallery';
@@ -1831,6 +1832,14 @@ export default class ProjectsDatabase {
         dynamic: boolean = false,
         when: 'immediate' | 'soon' = 'soon',
     ): Promise<EditFailure | undefined> {
+        // A read-only session looking at somebody else's Wordplay (#1313)
+        // changes nothing of theirs. Refused here rather than through
+        // isEditable(): the ReadOnly branch at the bottom is the `else` of
+        // `if (history)`, and any project a proxy has opened *has* a history,
+        // so that branch is unreachable for exactly the case that matters.
+        // Callers already render this failure, so nothing new is invented.
+        if (isProxySession()) return EditFailure.ReadOnly;
+
         if (project.getSourceByteSize() > MAX_PROJECT_BYTE_SIZE)
             return EditFailure.TooLarge;
 
@@ -1977,6 +1986,12 @@ export default class ProjectsDatabase {
      * the share dialog visibility rules.
      */
     isEditable(project: Project): boolean {
+        // A proxy session may look at anything that creator can and change
+        // none of it (#1313). Answering false here is what stops the editor
+        // offering edits, stops a project tile writing back the preview it just
+        // computed, and passes `writable: false` to the CRDT provider so it
+        // never attaches its local-to-remote handler.
+        if (isProxySession()) return false;
         const user = this.database.getUser();
         if (user === null) return false;
         return project.hasContributor(user.uid);
@@ -2110,6 +2125,11 @@ export default class ProjectsDatabase {
 
     /** Persist in storage */
     async persist() {
+        // Nothing a proxy session holds is theirs to save (#1313). Returned
+        // before the owner backfill below, which would otherwise stamp an
+        // ownerless project with the uid of the creator being looked at.
+        if (isProxySession()) return;
+
         // Note that we're saving.
         this.database.setStatus(SaveStatus.Saving, undefined);
 

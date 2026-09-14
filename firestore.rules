@@ -35,6 +35,23 @@ service cloud.firestore {
     function isBanned() {
       return request.auth != null && "banned" in request.auth.token && request.auth.token.banned == true;
     }
+    // A session looking at Wordplay as somebody else (#1313). Reads everything
+    // that creator can and writes nothing, so that debugging what they see
+    // cannot change what they have.
+    //
+    // The claim rides the minted token and is never written to an account, so
+    // it cannot outlive the session — `setClaims` refuses to write it, and
+    // `proxy` is deliberately not a ClaimName.
+    //
+    // Deliberately carries no expiry test. The obvious `|| past the expiry`
+    // would let an *expired* proxy token satisfy `notProxying()` and regain the
+    // right to write, which is backwards: a proxy must never write, at any
+    // time. How long it may keep reading is the client's business.
+    function notProxying() {
+      return request.auth == null
+        || !("proxy" in request.auth.token)
+        || request.auth.token.proxy != true;
+    }
 
     match /projects/{project} {
       // Whether the given project data's gallery grants `uid` read access:
@@ -83,7 +100,8 @@ service cloud.firestore {
           );
       }
 
-      allow create: if request.auth != null && mayCreatePublic();
+      allow create: if request.auth != null && mayCreatePublic()
+        && notProxying();
       allow read: if canReadProject(resource.data);
       // Research consent is the owner's to give: it permits Wordplay to show
       // *their* work anonymously, so a collaborator, curator, or moderator —
@@ -163,8 +181,10 @@ service cloud.firestore {
             request.auth.uid in resource.data.collaborators ||
             isMod() ||
             (resource.data.gallery != null && isCuratorOf(request.auth.uid, resource.data.gallery))
-          );
-      allow delete: if request.auth != null && resource.data.owner == request.auth.uid;
+          )
+          && notProxying();
+      allow delete: if request.auth != null && resource.data.owner == request.auth.uid
+        && notProxying();
 
       // Realtime CRDT updates for collaborative editing (#135). Each doc is
       // a small Yjs binary update (base64) emitted by one collaborator's
@@ -190,7 +210,8 @@ service cloud.firestore {
           request.auth != null && (
             ('owner' in parent() && parent().owner == request.auth.uid) ||
             ('collaborators' in parent() && request.auth.uid in parent().collaborators)
-          );
+          )
+        && notProxying();
         // Updates are immutable once written — compaction (Stage 5
         // follow-up: Cloud Function) replaces them by writing a new
         // snapshot to the parent doc and deleting consumed updates.
@@ -198,7 +219,8 @@ service cloud.firestore {
         allow delete: if request.auth != null && (
           ('owner' in parent() && parent().owner == request.auth.uid) ||
           isMod()
-        );
+        )
+        && notProxying();
       }
 
       // Presence: one doc per collaborator's clientID, with their caret
@@ -218,16 +240,22 @@ service cloud.firestore {
             ('collaborators' in parent() && request.auth.uid in parent().collaborators) ||
             ('gallery' in parent() && parent().gallery != null && isCuratorOf(request.auth.uid, parent().gallery))
           ) && 'userID' in request.resource.data
-            && request.resource.data.userID == request.auth.uid;
+            && request.resource.data.userID == request.auth.uid
+        && notProxying();
         allow delete: if
           request.auth != null && (
             ('userID' in resource.data && resource.data.userID == request.auth.uid) ||
             ('owner' in parent() && parent().owner == request.auth.uid)
-          );
+          )
+        && notProxying();
       }
     }
     match /creators/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+      // Split so a proxy session can still *read* it: this is the settings
+      // document the app fetches on sign-in, and a proxy that could not read it
+      // would render in the administrator's settings rather than theirs.
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if request.auth != null && request.auth.uid == uid && notProxying();
     }
     // Server-authoritative usage counters, currently the daily translation
     // budget (#1073). Readable by its owner so the meter is live without a
@@ -246,6 +274,15 @@ service cloud.firestore {
     // sharing is unavailable, and by moderators, so they can see the
     // consequence of the decision they're about to make. Written only by the
     // moderateProject callable, through the Admin SDK.
+    // Who looked at Wordplay as whom, and when (#1313). Server-written by the
+    // `startProxy` callable before it mints anything, so the trail exists even
+    // if what follows fails. Readable only by administrators — it is the record
+    // of their own power, and the creators named in it cannot read it, which is
+    // the one uncomfortable part of this feature stated plainly.
+    match /proxies/{id} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
     match /strikes/{uid} {
       allow read: if request.auth != null &&
         (request.auth.uid == uid || isMod());
@@ -265,13 +302,15 @@ service cloud.firestore {
       // *derived* notice has somewhere to land before the server has ever
       // written them anything. Empty only: the notices are not theirs to write.
       allow create: if request.auth != null && request.auth.uid == uid
-        && request.resource.data.notices.size() == 0;
+        && request.resource.data.notices.size() == 0
+        && notProxying();
       // Dismissing is the reader's; the notices are not. A creator who could
       // append one could forge a moderator's decision to themselves, or delete
       // the warning they were just given.
       allow update: if request.auth != null && request.auth.uid == uid
         && request.resource.data.diff(resource.data).affectedKeys()
-             .hasOnly(['dismissed']);
+             .hasOnly(['dismissed'])
+        && notProxying();
       allow delete: if false;
     }
     // A creator's username (#628). Server-written and self-readable, the same
@@ -391,7 +430,8 @@ service cloud.firestore {
           && request.resource.data.howToViewers.size() == 0
           && request.resource.data.howToViewersFlat.size() == 0;
       }
-      allow create: if request.auth != null && galleryMayBePublic() && galleryServerFieldsInitial();
+      allow create: if request.auth != null && galleryMayBePublic() && galleryServerFieldsInitial()
+        && notProxying();
       // Public galleries can be read, as can private ones if the creator is a curator, creator, or a how to viewer.
       // Moderators can read any of them, since a gallery awaiting a decision is
       // by definition not yet public — the same access the mod claim already
@@ -424,8 +464,10 @@ service cloud.firestore {
               request.resource.data.curators == resource.data.curators && 
               request.resource.data.creators == resource.data.creators
             )
-          );
-      allow delete: if request.auth != null && request.auth.uid in resource.data.curators;
+          )
+          && notProxying();
+      allow delete: if request.auth != null && request.auth.uid in resource.data.curators
+        && notProxying();
     }
     match /chats/{chat} {
       // A chat's document id is its project's id, so the project's ownership is
@@ -466,7 +508,8 @@ service cloud.firestore {
           && request.auth.uid in gallery.curators;
       }
       // Anyone logged in can create chats
-      allow create: if request.auth != null;
+      allow create: if request.auth != null
+        && notProxying();
       allow read: if request.auth != null && (resource == null || (resource.data != null && request.auth.uid in resource.data.participants));
       // Participants send messages, mark themselves read, and keep the
       // participant list in step with the project's own permissions. What was
@@ -492,7 +535,8 @@ service cloud.firestore {
         && request.auth.uid in resource.data.participants
         && request.resource.data.diff(resource.data).affectedKeys()
              .hasOnly(['messages', 'unread', 'participants'])
-        && request.resource.data.messages.size() >= resource.data.messages.size();
+        && request.resource.data.messages.size() >= resource.data.messages.size()
+        && notProxying();
       // Which subject to ask about is the chat's own `type`. A pre-v2 document
       // has none and is a project's, and a document that is already gone has no
       // type to read — deleting a project whose chat never existed goes through
@@ -506,7 +550,8 @@ service cloud.firestore {
           resource != null && "type" in resource.data && resource.data.type == 'howto'
           && mayDeleteHowTosChat()
         )
-      );
+      )
+        && notProxying();
 
       // Cached machine translations of this conversation, one document per
       // target language holding {messageID: translated text} (#1214).
@@ -539,13 +584,16 @@ service cloud.firestore {
             && "participants" in parent.data
             && request.auth.uid in parent.data.participants;
         }
-        allow read, write: if request.auth != null && participatesInChat();
+        // Split for the same reason: a proxy reads the cache, never fills it.
+        allow read: if request.auth != null && participatesInChat();
+        allow write: if request.auth != null && participatesInChat() && notProxying();
       }
     }
     match /classes/{class} {
       // Only teachers can create classes (isTeacher is declared at the top of
       // `documents`, so a superuser satisfies it too).
-      allow create: if request.auth != null && isTeacher();
+      allow create: if request.auth != null && isTeacher()
+        && notProxying();
       // Students and teachers can read classes
       allow get: if request.auth != null && resource.data != null && (
         ("learners" in resource.data && request.auth.uid in resource.data.learners) || 
@@ -553,7 +601,8 @@ service cloud.firestore {
       );
       allow list: if request.auth != null;
       // Only teachers of a class can update and delete classes
-      allow update, delete: if request.auth != null && isTeacher() && (resource.data != null && request.auth.uid in resource.data.teachers);
+      allow update, delete: if request.auth != null && isTeacher() && (resource.data != null && request.auth.uid in resource.data.teachers)
+        && notProxying();
     }
     match /characters/{character} {
       // Whether the gallery a character is shared in grants read access
@@ -585,7 +634,8 @@ service cloud.firestore {
         );
       }
       // Anyone logged in can create characters
-      allow create: if request.auth != null;
+      allow create: if request.auth != null
+        && notProxying();
       // Readable if it doesn't exist, if it's public, or if the requestor is a
       // moderator, the owner, a collaborator, or a member of the gallery it's
       // shared in. Every field access is `in`-guarded because reading a
@@ -616,17 +666,21 @@ service cloud.firestore {
       // a write to the gallery document rather than to this one.
       allow update: if request.auth != null &&
         (("owner" in resource.data && request.auth.uid == resource.data.owner) ||
-         ("collaborators" in resource.data && request.auth.uid in resource.data.collaborators));
+         ("collaborators" in resource.data && request.auth.uid in resource.data.collaborators))
+        && notProxying();
       allow delete: if request.auth != null &&
-        ("owner" in resource.data && request.auth.uid == resource.data.owner);
+        ("owner" in resource.data && request.auth.uid == resource.data.owner)
+        && notProxying();
     }
     match /feedback/{id} {
       // Anyone can see feedback
       allow read: if true;
       // Anyone logged in can create feedback
-      allow create: if request.auth != null;
+      allow create: if request.auth != null
+        && notProxying();
       // Only the creator can read, update, or delete their feedback; anyone can vote on the feedback though
-      allow update, delete: if request.auth != null && (request.auth.uid == resource.data.creator || isMod() || request.resource.data.diff(resource.data).affectedKeys().hasOnly(["votes"]));
+      allow update, delete: if request.auth != null && (request.auth.uid == resource.data.creator || isMod() || request.resource.data.diff(resource.data).affectedKeys().hasOnly(["votes"]))
+        && notProxying();
     }
     match /howtos/{id} {
       function isGalleryPublic(galleryID) {
@@ -709,7 +763,8 @@ service cloud.firestore {
         && "galleryId" in request.resource.data
         && isRequestorCuratorCollaborator(request.auth.uid, request.resource.data.galleryId)
         && howToMayBePublic()
-        && howToServerFieldsInitial();
+        && howToServerFieldsInitial()
+        && notProxying();
       // A draft belongs to its creator and collaborators, full stop. Everything
       // else — the how-to's own `isPublic`, a public gallery, gallery membership,
       // expanded access — sits under `published`, because each of those used to
@@ -775,8 +830,10 @@ service cloud.firestore {
                 )
               )
             )
-          );
-      allow delete: if request.auth != null && (resource.data.creator == request.auth.uid || isRequestorCurator(request.auth.uid, resource.data.galleryId));
+          )
+          && notProxying();
+      allow delete: if request.auth != null && (resource.data.creator == request.auth.uid || isRequestorCurator(request.auth.uid, resource.data.galleryId))
+        && notProxying();
     }
     // A kit: one source a creator has published for other people to build with (#8).
     // This document is the small mutable registry entry; the code lives in
@@ -845,7 +902,8 @@ service cloud.firestore {
         && request.resource.data.owner == request.auth.uid
         && kitMayBePublic()
         && kitKindsBounded()
-        && kitServerFieldsInitial();
+        && kitServerFieldsInitial()
+        && notProxying();
       // Readable when listed, or by its owner, or by a moderator deciding about it —
       // a reported kit has usually been unlisted by the time anyone reviews it.
       // Every field access is `in`-guarded because reading a property a document
@@ -870,7 +928,8 @@ service cloud.firestore {
         && request.resource.data.owner == resource.data.owner
         && kitMayBePublic()
         && kitKindsBounded()
-        && kitServerFieldsUnchanged();
+        && kitServerFieldsUnchanged()
+        && notProxying();
       // Never: other people's programs borrow this. Unlisting is `public: false`,
       // which stops new people finding it without breaking what already uses it.
       allow delete: if false;
@@ -898,7 +957,8 @@ service cloud.firestore {
       // `public`, which is a different question.
       allow create: if request.auth != null
         && request.resource.data.owner == request.auth.uid
-        && request.resource.data.public == true;
+        && request.resource.data.public == true
+        && notProxying();
       // A version is immutable — that is what lets a client cache one forever — so it
       // can never be updated, only deleted, and only in the one case where deleting it
       // cannot break anyone: its kit has never been listed, so nobody could have found
@@ -915,7 +975,8 @@ service cloud.firestore {
         && resource.data.owner == request.auth.uid
         && exists(/databases/$(database)/documents/kits/$(resource.data.kit))
         && get(/databases/$(database)/documents/kits/$(resource.data.kit)).data.moderation == 'unrequested'
-        && get(/databases/$(database)/documents/kits/$(resource.data.kit)).data.latest == resource.data.version;
+        && get(/databases/$(database)/documents/kits/$(resource.data.kit)).data.latest == resource.data.version
+        && notProxying();
       allow update: if false;
     }
   }

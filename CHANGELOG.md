@@ -18,6 +18,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 - 🚩 You can now ask for a how-to to be reviewed, the same way you can for a project or a drawing. (#906)
 - ✉️ If you provide an email, Wordplay can now email you when something happens that you'd want to know about, like a decision about something you made, and you choose which kinds you get on your profile page.
 - 🚩 Moderators and curators now see how much is waiting for them to review, instead of having to go and look.
+- 🚩 If you review things — because you moderate, or because you curate a gallery — there's now a link to your review list on the home page, instead of only in your notifications.
 
 ### Changed
 

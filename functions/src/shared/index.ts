@@ -690,3 +690,25 @@ export type SetClaimsInputs = {
 };
 
 export type SetClaimsOutput = { claims: ClaimSet };
+
+// FUNCTION startProxy
+/**
+ * Begin looking at Wordplay as another creator (#1313).
+ *
+ * Takes a uid rather than a name: `/admin` has already resolved what was typed
+ * through `findCreator`, which is the one place an address may be looked up, and
+ * duplicating that resolution here would make a second one.
+ */
+export type StartProxyInputs = { uid: string };
+
+export type StartProxyOutput = {
+    /** A custom token for that creator, carrying `proxy: true`. Exchanged with
+     *  `signInWithCustomToken` in the proxy tab, and good for one sign-in within
+     *  the hour Firebase allows a custom token. */
+    token: string;
+    /** What they are called, so the banner can say whose account this is
+     *  without a second lookup. */
+    username: string | null;
+    /** When the session should stop, in epoch milliseconds. */
+    until: number;
+};

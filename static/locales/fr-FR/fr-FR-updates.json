@@ -977,6 +977,7 @@
         "e8799c250d910": "$~Ta page de profil a maintenant un titre au-dessus de chaque partie, et tout ce qui concerne ton adresse courriel se trouve au même endroit.",
         "ea85f668a42b7": "$~Une galerie ou un kit qu'un modérateur refuse reste maintenant refusé, au lieu de retourner tout de suite dans la file d'attente.",
         "e3c78159889be": "$~Un conservateur informé d'un projet ou d'une galerie signalé peut maintenant vraiment le trouver dans sa liste de relecture.",
-        "e5beb26ab9e99": "$~Si tu donnes une adresse e-mail, Wordplay peut maintenant t'envoyer un message quand quelque chose d'important arrive, comme une décision au sujet de ce que tu as créé. Tu choisis quels messages tu reçois sur ta page de profil."
+        "e5beb26ab9e99": "$~Si tu donnes une adresse e-mail, Wordplay peut maintenant t'envoyer un message quand quelque chose d'important arrive, comme une décision au sujet de ce que tu as créé. Tu choisis quels messages tu reçois sur ta page de profil.",
+        "e83581303f404": "$~Si tu examines des projets — parce que tu es modérateur ou modératrice, ou parce que tu gères une galerie — il y a maintenant un lien vers ta liste d'examens sur la page d'accueil, et pas seulement dans tes notifications."
     }
 }

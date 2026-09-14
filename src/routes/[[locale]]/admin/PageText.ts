@@ -43,6 +43,15 @@ type PageText = {
     ownAdmin: string;
     /** [formatted] Shown when nobody holds any privilege at all */
     nobody: FormattedText;
+    /** Looking at Wordplay as another creator, to debug what they see (#1313) */
+    proxy: {
+        /** [plain] Heading for the section that starts a read-only session as someone else */
+        header: string;
+        /** [formatted] What it does, and what it deliberately cannot do */
+        prompt: FormattedText;
+        /** The button that opens the session in a new tab */
+        start: ButtonText;
+    };
     error: {
         /** [formatted] When signed in, but not a superuser */
         notadmin: FormattedText;

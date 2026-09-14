@@ -22294,6 +22294,30 @@
                                         "prompt": {
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] What this page is for, and how soon a change takes effect"
+                                        },
+                                        "proxy": {
+                                            "additionalProperties": false,
+                                            "description": "Looking at Wordplay as another creator, to debug what they see (#1313)",
+                                            "properties": {
+                                                "header": {
+                                                    "description": "[plain] Heading for the section that starts a read-only session as someone else",
+                                                    "type": "string"
+                                                },
+                                                "prompt": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] What it does, and what it deliberately cannot do"
+                                                },
+                                                "start": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "The button that opens the session in a new tab"
+                                                }
+                                            },
+                                            "required": [
+                                                "header",
+                                                "prompt",
+                                                "start"
+                                            ],
+                                            "type": "object"
                                         }
                                     },
                                     "required": [
@@ -22307,6 +22331,7 @@
                                         "confirm",
                                         "ownAdmin",
                                         "nobody",
+                                        "proxy",
                                         "error"
                                     ],
                                     "type": "object"
@@ -27396,6 +27421,55 @@
                             ],
                             "type": "object"
                         },
+                        "proxy": {
+                            "additionalProperties": false,
+                            "description": "Looking at Wordplay as another creator, to debug what they see (#1313). A read-only session: it changes nothing of theirs.",
+                            "properties": {
+                                "as": {
+                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                    "description": "[plain] Names whose account is being looked at, e.g. \"as $name\""
+                                },
+                                "banner": {
+                                    "description": "[plain] The banner shown throughout a read-only session as someone else",
+                                    "type": "string"
+                                },
+                                "ended": {
+                                    "$ref": "#/definitions/FormattedText",
+                                    "description": "[formatted] Shown once the session has run out and been signed out"
+                                },
+                                "expired": {
+                                    "$ref": "#/definitions/FormattedText",
+                                    "description": "[formatted] When the link has already been used or has expired"
+                                },
+                                "failed": {
+                                    "$ref": "#/definitions/FormattedText",
+                                    "description": "[formatted] When the session could not be started"
+                                },
+                                "remaining": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23minutes%22%5D%3E",
+                                    "description": "[plain] How much of the session is left, in whole minutes"
+                                },
+                                "starting": {
+                                    "description": "[plain] Shown while the session is being established",
+                                    "type": "string"
+                                },
+                                "stop": {
+                                    "$ref": "#/definitions/ButtonText",
+                                    "description": "The control that ends the session by closing the tab"
+                                }
+                            },
+                            "required": [
+                                "banner",
+                                "as",
+                                "remaining",
+                                "stop",
+                                "starting",
+                                "ended",
+                                "failed",
+                                "expired"
+                            ],
+                            "type": "object"
+                        },
                         "save": {
                             "additionalProperties": false,
                             "description": "Saving related text",
@@ -29112,6 +29186,7 @@
                         "connection",
                         "banner",
                         "update",
+                        "proxy",
                         "localize",
                         "page",
                         "edit",

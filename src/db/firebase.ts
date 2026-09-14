@@ -15,6 +15,7 @@ import {
 // display (ProjectsDatabase.get falls through to a getDoc).
 import type { Analytics } from 'firebase/analytics';
 import { getApp, getApps, initializeApp, type FirebaseApp } from 'firebase/app';
+import { isProxySession } from '@db/proxySession';
 import deferToIdle from '@util/deferToIdle';
 import lazyWithRetry from '@util/lazyWithRetry';
 import type { Auth } from 'firebase/auth';
@@ -152,8 +153,28 @@ export function ensureAuth(): Promise<Auth | undefined> {
 }
 
 async function loadAuth(app: FirebaseApp): Promise<Auth | undefined> {
-    const { getAuth, connectAuthEmulator } = await import('firebase/auth');
-    const instance = getAuth(app);
+    const {
+        getAuth,
+        initializeAuth,
+        browserSessionPersistence,
+        connectAuthEmulator,
+    } = await import('firebase/auth');
+
+    /**
+     * A proxy tab (#1313) keeps its session in `sessionStorage` instead of the
+     * IndexedDB store `getAuth` defaults to.
+     *
+     * That default is shared by every tab on this origin, so signing a proxy in
+     * through it would sign the admin *out of their own account in every other
+     * tab* — the session is one per origin, not one per tab. Session
+     * persistence is per tab, survives a reload of that tab, and is gone when
+     * it closes, which is exactly the lifetime a proxy should have. It also
+     * matches how the tab remembers it is a proxy tab at all, so the two can
+     * never disagree about when the session ends.
+     */
+    const instance = isProxySession()
+        ? initializeAuth(app, { persistence: browserSessionPersistence })
+        : getAuth(app);
 
     if (emulating) {
         connectAuthEmulator(instance, 'http://localhost:9099', {
@@ -165,7 +186,9 @@ async function loadAuth(app: FirebaseApp): Promise<Auth | undefined> {
         // under `vite dev`, not the production/preview build the e2e suite
         // serves — `emulating` alone is also true in e2e, where this would race
         // every loginNewContext() call and break the multi-user specs.
-        if (import.meta.hot) {
+        // Never in a proxy tab, whose whole point is to be signed in as
+        // somebody in particular.
+        if (import.meta.hot && !isProxySession()) {
             const { onAuthStateChanged, signInWithEmailAndPassword } =
                 await import('firebase/auth');
             const stopAutoLogin = onAuthStateChanged(instance, (user) => {

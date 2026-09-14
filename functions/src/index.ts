@@ -34,6 +34,8 @@ import type {
     GetClaimHoldersOutput,
     SetClaimsInputs,
     SetClaimsOutput,
+    StartProxyInputs,
+    StartProxyOutput,
 } from 'shared-types';
 
 import changeUsernameHandler from './changeUsername.js';
@@ -56,6 +58,8 @@ import howToEditedHandler from './howToEdited.js';
 import getCreatorsHandler from './getCreators.js';
 import getClaimHoldersHandler from './getClaimHolders.js';
 import setClaimsHandler from './setClaims.js';
+import startProxyHandler from './startProxy.js';
+import { noProxy } from './proxyGuard.js';
 import getLLMTranslationsHandler from './getLLMTranslations.js';
 import analyzeLocalizationHandler from './analyzeLocalization.js';
 import getPagePreviewHandler from './getPagePreview.js';
@@ -115,7 +119,7 @@ export const joinAccount = onCall<
     Promise<JoinAccountOutput>
 >(
     { ...cors, ...appcheck, secrets: [resendKey, throttlePepper] },
-    joinAccountHandler,
+    noProxy(joinAccountHandler),
 );
 
 /** Email a sign-in link (#628). Enforced and rate limited: it sends mail to an
@@ -125,7 +129,7 @@ export const sendSigninLink = onCall<
     Promise<SendSigninLinkOutput>
 >(
     { ...cors, ...appcheck, secrets: [resendKey, throttlePepper] },
-    sendSigninLinkHandler,
+    noProxy(sendSigninLinkHandler),
 );
 
 /** Whether usernames could be claimed (#628). Unauthenticated by necessity —
@@ -142,7 +146,7 @@ export const usernameAvailable = onCall<
 export const claimUsername = onCall<
     ClaimUsernameInputs,
     Promise<ClaimUsernameOutput>
->({ ...cors, ...appcheck }, claimUsernameHandler);
+>({ ...cors, ...appcheck }, noProxy(claimUsernameHandler));
 
 /** Move an account from an emailed link to a username and password (#628). The
  *  opposite direction stays on the client, where verifyBeforeUpdateEmail proves
@@ -150,7 +154,7 @@ export const claimUsername = onCall<
 export const switchToPassword = onCall<
     SwitchToPasswordInputs,
     Promise<SwitchToPasswordOutput>
->({ ...cors, ...appcheck }, switchToPasswordHandler);
+>({ ...cors, ...appcheck }, noProxy(switchToPasswordHandler));
 
 /** Change the signed-in creator's username. The old name stays reserved to them
  *  as an alias — it keeps resolving, their old login keeps working, and nobody
@@ -159,7 +163,7 @@ export const switchToPassword = onCall<
 export const changeUsername = onCall<
     ChangeUsernameInputs,
     Promise<ChangeUsernameOutput>
->({ ...cors, ...appcheck }, changeUsernameHandler);
+>({ ...cors, ...appcheck }, noProxy(changeUsernameHandler));
 
 /** Resolve an address or username to a uid (#628). The only place an address
  *  may be looked up, which is what lets getCreators stop returning them. */
@@ -178,14 +182,23 @@ export const findCreator = onCall<
  */
 export const getClaimHolders = onCall<void, Promise<GetClaimHoldersOutput>>(
     { ...cors, ...appcheck, timeoutSeconds: 120, memory: '512MiB' },
-    getClaimHoldersHandler,
+    noProxy(getClaimHoldersHandler),
 );
 
 /** Give someone a privilege, or take one away. App Check enforced: this is the
  *  most consequential call the app can make. */
 export const setClaims = onCall<SetClaimsInputs, Promise<SetClaimsOutput>>(
     { ...cors, ...appcheck },
-    setClaimsHandler,
+    noProxy(setClaimsHandler),
+);
+
+/** Mint a read-only session as another creator, for debugging what they see
+ *  (#1313). The single most dangerous call in the app — it is the one that can
+ *  open anybody's account — so it is App Check enforced, administrator-only, and
+ *  writes an audit record before it mints anything. */
+export const startProxy = onCall<StartProxyInputs, Promise<StartProxyOutput>>(
+    { ...cors, ...appcheck },
+    noProxy(startProxyHandler),
 );
 
 /** The Anthropic API key, for the Claude-backed project translation. Set with
@@ -217,7 +230,7 @@ export const getLLMTranslations = onCall<GetLLMTranslationsInputs>(
         timeoutSeconds: 300,
         maxInstances: 10,
     },
-    getLLMTranslationsHandler,
+    noProxy(getLLMTranslationsHandler),
 );
 
 /**
@@ -227,7 +240,7 @@ export const getLLMTranslations = onCall<GetLLMTranslationsInputs>(
  */
 export const analyzeLocalization = onCall<AnalyzeLocalizationInputs>(
     { ...cors, ...appcheck, secrets: [anthropicKey] },
-    analyzeLocalizationHandler,
+    noProxy(analyzeLocalizationHandler),
 );
 
 /** Given a URL that should refer to an HTML document, sends a GET request to the URL to try to get the document's text. */
@@ -264,32 +277,32 @@ export const compactProjectUpdates = onSchedule(
 /** #938: asking whoever is responsible to review something. */
 export const report = onCall<ReportInputs>(
     { ...cors, secrets: [resendKey] },
-    reportHandler,
+    noProxy(reportHandler),
 );
 
 /** #938: a decision by whoever is responsible, and its consequences. Supersedes
  *  moderateProject and moderateGallery, which stay one release as shims. */
 export const moderate = onCall<ModerateInputs>(
     { ...cors, secrets: [resendKey] },
-    moderateHandler,
+    noProxy(moderateHandler),
 );
 
 /** #193: a moderator's decision about a project, and its consequences. */
 export const moderateProject = onCall<ModerateProjectInputs>(
     { ...cors, secrets: [resendKey] },
-    moderateProjectHandler,
+    noProxy(moderateProjectHandler),
 );
 
 /** #1311: a moderator's decision about whether a gallery may be listed. */
 export const moderateGallery = onCall<ModerateGalleryInputs>(
     { ...cors, secrets: [resendKey] },
-    moderateGalleryHandler,
+    noProxy(moderateGalleryHandler),
 );
 
 export const createClass = onCall<
     CreateClassInputs,
     Promise<CreateClassOutput>
->(cors, createClassHandler);
+>(cors, noProxy(createClassHandler));
 
 /** Fetches all GitHub contributors and opens a PR with the updated JSON every Friday at 2 am PT. */
 export const refreshContributors = onSchedule(

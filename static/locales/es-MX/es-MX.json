@@ -10473,6 +10473,14 @@
                     "offline": "$~No pudimos cargar quién tiene privilegios. ¿Estás conectada?",
                     "save": "$~No pudimos guardar ese cambio. ¿Quieres intentarlo de nuevo?",
                     "none": "$~Elige al menos un privilegio antes de agregar a alguien."
+                },
+                "proxy": {
+                    "header": "$~Ver como alguien",
+                    "prompt": "$~Abre Wordplay como otra creadora, para ver lo que ella ve cuando algo no le funciona. Es de solo lectura: nada de lo que hagas se guarda, y ella no verá que estuviste ahí. Se abre en una pestaña nueva, y cerrar esa pestaña termina la sesión.\n\nCada vez que alguien hace esto, queda registrado.",
+                    "start": {
+                        "label": "$~Ver",
+                        "tip": "$~Abrir una sesión de solo lectura como esta creadora en una pestaña nueva"
+                    }
                 }
             }
         },
@@ -11355,6 +11363,19 @@
                 "undid": "$~deshizo eso",
                 "redid": "$~rehizo eso"
             }
+        },
+        "proxy": {
+            "banner": "$~Estás viendo Wordplay como otra persona. Nada aquí se guarda, y ella no puede ver que estás aquí.",
+            "as": "$~como $name",
+            "remaining": "$~$#minutes[queda $#minutes minuto|quedan $minutes minutos|quedan $minutes minutos]",
+            "stop": {
+                "label": "$~Detener",
+                "tip": "$~Cerrar esta pestaña y dejar de ver como ella"
+            },
+            "starting": "$~Comenzando…",
+            "failed": "$~No pudimos iniciar esa sesión. ¿Sigues conectada como administradora?",
+            "expired": "$~Ese enlace ya se usó, o ya expiró. Comienza de nuevo desde la <página de privilegios@://admin>.",
+            "ended": "$~Esta sesión terminó, y se cerró tu acceso a ella. Cierra esta pestaña. Para ver de nuevo, comienza desde la página de privilegios."
         }
     },
     "moderation": {

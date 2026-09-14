@@ -10862,6 +10862,14 @@
                     "offline": "$~Chúng tôi không thể tải danh sách ai có đặc quyền. Bạn có đang kết nối mạng không?",
                     "save": "$~Chúng tôi không thể lưu thay đổi đó. Bạn thử lại nhé?",
                     "none": "$~Hãy chọn ít nhất một đặc quyền trước khi thêm ai đó."
+                },
+                "proxy": {
+                    "header": "$~Nhìn như một người khác",
+                    "prompt": "$~Mở Wordplay như một người tạo khác, để xem họ thấy gì khi có gì đó không hoạt động với họ. Đây chỉ để xem: mọi thứ bạn làm sẽ không được lưu, và họ sẽ không biết là bạn đã ở đó. Nó mở trong một thẻ mới, và đóng thẻ đó sẽ kết thúc việc này.\n\nMỗi lần ai đó làm điều này, việc đó sẽ được ghi lại.",
+                    "start": {
+                        "label": "$~Nhìn",
+                        "tip": "$~Mở một phiên chỉ để xem như người tạo này trong một thẻ mới"
+                    }
                 }
             }
         },
@@ -11353,6 +11361,19 @@
                 "undid": "$~đã hoàn tác điều đó",
                 "redid": "$~đã làm lại điều đó"
             }
+        },
+        "proxy": {
+            "banner": "$~Bạn đang xem Wordplay như một người khác. Không có gì ở đây được lưu, và họ không thể biết là bạn đang ở đây.",
+            "as": "$~như $name",
+            "remaining": "$~$#minutes[còn $minutes phút]",
+            "stop": {
+                "label": "$~Dừng lại",
+                "tip": "$~Đóng thẻ này và ngừng xem như họ"
+            },
+            "starting": "$~Đang bắt đầu…",
+            "failed": "$~Chúng tôi không thể bắt đầu phiên đó. Bạn có còn đăng nhập với vai trò quản trị viên không?",
+            "expired": "$~Liên kết đó đã được dùng rồi, hoặc đã hết hạn. Hãy bắt đầu lại từ <trang đặc quyền@://admin>.",
+            "ended": "$~Phiên này đã kết thúc, và bạn đã đăng xuất khỏi nó. Hãy đóng thẻ này. Để xem lại, hãy bắt đầu từ trang đặc quyền."
         }
     },
     "moderation": {

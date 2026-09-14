@@ -57,8 +57,13 @@ export class WordplayDexie extends Dexie {
     kitversions!: Table<SerializedKitVersion>;
     dirty!: Table<DirtyRow>;
 
-    constructor() {
-        super('wordplay');
+    /** The database name is a parameter so a proxy tab can keep its own
+     *  ([proxySession.ts](src/db/proxySession.ts)). Nothing else in the app
+     *  names a database, and nothing enumerates them, so a second one is inert
+     *  to everything but the tab that opened it. Defaulted rather than required
+     *  so every existing caller and every test is unchanged. */
+    constructor(name = 'wordplay') {
+        super(name);
         // v8 (historical): the projects-only schema that shipped previously.
         // Kept verbatim — including the legacy `collabators` index spelling —
         // so existing users' IndexedDB upgrades cleanly to v9.
