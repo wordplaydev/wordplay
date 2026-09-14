@@ -77,7 +77,8 @@ function blocksIn(
     text: string,
 ): { code: string; line: number }[] {
     if (!path.endsWith('.svelte')) return [{ code: text, line: 0 }];
-    return Array.from(text.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g)).map(
+    // Case-insensitive so an upper-case tag cannot hide a block from the scan.
+    return Array.from(text.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/gi)).map(
         (match) => ({
             code: match[1] ?? '',
             // Lines before the block's content begins.
