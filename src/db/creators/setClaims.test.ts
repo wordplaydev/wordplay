@@ -1,8 +1,12 @@
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
-// The callable's own decision logic, imported the way responsibilitySync does:
-// `functions/` can't import this side, but this side can import it.
-import { WritableClaims, nextClaims } from '../../../functions/src/setClaims';
+// The callable's own decision logic. Imported from claimChanges rather than
+// setClaims because the root tsconfig installs no functions/node_modules, so
+// reaching a module that imports firebase-functions fails CI while passing here.
+import {
+    WritableClaims,
+    nextClaims,
+} from '../../../functions/src/claimChanges';
 
 const Admin = 'admin-uid';
 const Other = 'other-uid';

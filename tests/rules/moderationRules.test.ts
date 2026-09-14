@@ -649,15 +649,13 @@ describe('an administrator', () => {
         // Server-authoritative, and a superuser is still a client. Lifting a
         // ban goes through the setClaims callable, which uses the Admin SDK.
         await assertFails(
-            as(Users.Admin, { admin: true })
-                .doc(`strikes/${Users.Owner}`)
-                .set({
-                    v: 1,
-                    count: 0,
-                    strikes: [],
-                    banned: false,
-                    bannedAt: null,
-                }),
+            as(Users.Admin, { admin: true }).doc(`strikes/${Users.Owner}`).set({
+                v: 1,
+                count: 0,
+                strikes: [],
+                banned: false,
+                bannedAt: null,
+            }),
         );
     });
 
