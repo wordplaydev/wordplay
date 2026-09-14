@@ -9510,7 +9510,8 @@
                     "class": "$~Din klass",
                     "students": "$~Dina elever",
                     "credentials": "$~Användarnamn och lösenord",
-                    "submit": "$~Överlämna"
+                    "submit": "$~Överlämna",
+                    "usernames": "$~Användarnamn"
                 },
                 "prompt": {
                     "start": "$~Med det här formuläret kan du 1) skapa konton för alla elever i din klass och 2) skapa ett galleri som alla dina elever kan lägga till projekt i. Om elever redan har konton kan du lägga till dem i galleriet senare.",
@@ -9519,7 +9520,10 @@
                     "pending": "$~Genererar användarnamn och lösenord...",
                     "submit": "$~Redo att skicka in? Så snart det är framgångsrikt får du en nedladdning av denna information. Lösenord är *inte återställbara*, så förvara dem någonstans säkert.",
                     "submitting": "$~Begär nya konton med användarnamnen och lösenorden ovan...",
-                    "download": "$~Din klass är redo! Du bör se en nedladdning av din studentdata i din nedladdningsmapp. *Lösenord kan inte återställas*, så förvara den här filen någonstans säkert!"
+                    "download": "$~Din klass är klar! Du bör se en nedladdning av elevdata i din nedladdningsmapp. *Lösenord går inte att återfå*, så förvara filen på ett säkert ställe! Elever som loggar in via e-post har inget lösenord, så deras lösenordskolumn är tom.",
+                    "reviewEmail": "$~Granska användarnamnen vi skapade. Vill du *ändra* dem innan du går vidare? Om du gör det kan du inte längre ändra elevinformationen ovan. Eleverna väljer inget här — de loggar in med adressen bredvid sitt namn.",
+                    "downloadEmail": "$~Din klass är klar! Du bör se en nedladdning av dina elevuppgifter i din nedladdningsmapp. Det finns inga lösenord att hålla säkra: varje elev går till inloggningssidan, skriver sin adress och begär en länk.",
+                    "submitEmail": "$~Redo att skicka in? Så snart det lyckas får du en fil att ladda ner med den här informationen. Det finns inga lösenord att hålla säkra — varje elev loggar in med adressen bredvid sitt namn."
                 },
                 "field": {
                     "name": {
@@ -9537,7 +9541,7 @@
                     "metadata": {
                         "description": "$~studentinformation",
                         "placeholder": "$~t.ex. student-id, efternamn, förnamn",
-                        "prompt": "$~Vill du skapa nya konton för studenter? Ange *all information* om elever, en per rad, avgränsade med kommatecken. Detta kan vara efternamn, förnamn, studentnummer eller andra utmärkande detaljer. Vi kommer att använda den för att skapa användarnamn som du kan redigera nedan, vilket hjälper dig att associera användarnamn till elever."
+                        "prompt": "$~Vill du skapa nya konton för elever? Ange *vilken information som helst* om eleverna, en rad per elev, åtskilda med kommatecken. Det kan vara efternamn, förnamn, elevnummer eller andra uppgifter som skiljer dem åt. Vi använder det för att skapa användarnamn som du kan ändra nedan, så att du lättare kan koppla användarnamn till elever. Om en av kolumnerna är elevernas e-postadresser loggar de eleverna in med en länk vi skickar till dem istället för ett lösenord. Lämna den cellen tom om du vill att eleven ska få ett användarnamn och lösenord som alla andra."
                     },
                     "words": {
                         "description": "$~ord att använda i lösenord",
@@ -9555,6 +9559,29 @@
                     "submit": {
                         "label": "$~skapa klass",
                         "tip": "$~skapa en ny klass med denna information."
+                    },
+                    "affirm": {
+                        "prompt": "$~En av dina kolumner ser ut att innehålla e-postadresser, så de eleverna loggar in med en länk istället för ett lösenord. Gör bara detta om de är gamla nog för att ha ett eget e-postkonto där de bor. *Vi skickar inget e-postmeddelande när du skapar klassen*: varje elev går till inloggningssidan, skriver in sin adress och begär en länk.",
+                        "label": "$~Dessa elever är gamla nog för att ha ett eget e-postkonto där de bor."
+                    },
+                    "signin": {
+                        "prompt": "$~Vill du skapa nya konton för elever? Bestäm först hur de ska logga in. En klass väljer *antingen det ena eller det andra*, så välj det som passar dina elever.",
+                        "mode": {
+                            "label": "$~hur dina elever loggar in",
+                            "labels": [
+                                "$~ett användarnamn och lösenord",
+                                "$~en länk via e-post"
+                            ],
+                            "tips": [
+                                "$~vi skapar ett användarnamn och ett lösenord för varje elev, och du delar ut dem",
+                                "$~varje elev loggar in med sin egen e-postadress, så det finns inget lösenord att tappa bort"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~elevers e-postadresser",
+                        "placeholder": "$~t.ex. mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Lista dina elever en per rad, *börja med deras e-postadress*. Du kan lägga till annat om dem efter ett kommatecken — ett elevnummer, ett efternamn — och vi använder det för att skapa användarnamn du kan ändra nedan."
                     }
                 },
                 "error": {
@@ -9562,10 +9589,13 @@
                     "columns": "$~Se till att varje elev har samma antal kolumner.",
                     "generate": "$~Det går inte att skapa unika användarnamn.",
                     "taken": "$~Ett eller flera användarnamn ovan tas",
-                    "limit": "$~Du kan inte skapa en klass med fler än 35 elever åt gången.",
+                    "limit": "$~Du kan inte skapa en klass med fler än 50 elever åt gången.",
                     "words": "$~Ange minst 25 ord.",
                     "account": "$~Det gick inte att skapa några av kontona.",
-                    "generic": "$~Vi kunde inte skapa klassen. Här är lite information som hjälper utvecklare att ta reda på vad som gick fel."
+                    "generic": "$~Vi kunde inte skapa klassen. Här är lite information som hjälper utvecklare att ta reda på vad som gick fel.",
+                    "affirmation": "$~Bekräfta att dessa elever är gamla nog för att ha ett eget e-postkonto innan vi skapar deras konton.",
+                    "inflight": "$~Den här klassen kan redan ha skapats. Kontrollera dina klasser innan du försöker igen.",
+                    "addresses": "$~Varje rad måste börja med en e-postadress."
                 }
             },
             "class": {
@@ -10603,7 +10633,7 @@
                 "ownAdmin": "$~Du kan inte ta bort dina egna rättigheter. Fråga en annan administratör.",
                 "nobody": "$~Ingen har några rättigheter än.",
                 "error": {
-                    "notadmin": "$!Det här är ett administratörsutrymme. Det finns inget här för dig att ändra.",
+                    "notadmin": "$~Det här är ett utrymme för superanvändare. Det finns inget här för dig att ändra.",
                     "login": "$~Du måste vara <inloggad@://login> för att se den här sidan.",
                     "offline": "$~Vi kunde inte hämta vem som har rättigheter. Är du uppkopplad?",
                     "save": "$~Vi kunde inte spara den ändringen. Vill du försöka igen?",

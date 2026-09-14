@@ -9515,7 +9515,8 @@
                     "class": "$~Senin sınıfın",
                     "students": "$~Öğrencileriniz",
                     "credentials": "$~Kullanıcı adları ve şifreler",
-                    "submit": "$~Göndermek"
+                    "submit": "$~Göndermek",
+                    "usernames": "$~Kullanıcı Adları"
                 },
                 "prompt": {
                     "start": "$~Bu form sana şunu sağlar: 1) sınıfındaki tüm öğrenciler için hesaplar oluştur ve 2) tüm öğrencilerinin proje ekleyebileceği bir galeri oluştur. Öğrencilerin var olan hesapları varsa, onları galeriye daha sonra ekleyebilirsin.",
@@ -9524,7 +9525,10 @@
                     "pending": "$~Kullanıcı adı ve şifreler oluşturuluyor...",
                     "submit": "$~Göndermeye hazır mısınız? Başarılı olur olmaz, bu bilgilerin indirilmesini alacaksınız. Parolalar *kurtarılamaz*, bu yüzden onları güvenli bir yerde saklayın.",
                     "submitting": "$~Yukarıdaki kullanıcı adı ve şifrelerle yeni hesap talep ediyorum...",
-                    "download": "$~Sınıfınız hazır! İndirme klasörünüzde öğrenci verilerinizin bir indirmesini görmelisiniz. *Şifreler kurtarılamaz*, bu nedenle bu dosyayı güvenli bir yerde saklayın!"
+                    "download": "$~Sınıfın hazır! İndirilenler klasöründe öğrenci bilgilerinin indirildiğini görmelisin. *Şifreler geri getirilemez*, bu yüzden bu dosyayı güvenli bir yerde sakla! E-posta ile giriş yapan öğrencilerin şifresi olmaz, bu yüzden onların şifre kolonu boş kalır.",
+                    "reviewEmail": "$~Oluşturduğumuz kullanıcı adlarını gözden geçir. Devam etmeden önce bunları *düzenlemek* ister misin? Düzenlersen, yukarıdaki öğrenci bilgilerini artık değiştiremezsin. Öğrenciler burada bir şey seçmez — isimlerinin yanındaki adresle giriş yaparlar.",
+                    "downloadEmail": "$~Sınıfın hazır! İndirilenler klasöründe öğrenci bilgilerinin bir kopyasını görmelisin. Saklanacak bir şifre yok: her öğrenci giriş sayfasına gider, adresini yazar ve bir bağlantı ister.",
+                    "submitEmail": "$~Göndermeye hazır mısın? Başarılı olur olmaz, bu bilgilerin bir indirme dosyasını alacaksın. Saklanacak bir şifre yok — her öğrenci, adının yanındaki adresle giriş yapar."
                 },
                 "field": {
                     "name": {
@@ -9542,7 +9546,7 @@
                     "metadata": {
                         "description": "$~öğrenci bilgileri",
                         "placeholder": "$~örneğin, öğrenci kimliği, soyadı, verilen ad",
-                        "prompt": "$~Öğrenciler için yeni hesaplar mı oluşturmak istiyorsunuz? Öğrenciler hakkında *herhangi bir bilgi* sağlayın, satır başına bir tane, virgülle ayrılmış. Bu, aile adları, verilen adlar, öğrenci numaraları veya diğer ayırt edici ayrıntılar olabilir. Bunu, aşağıda düzenleyebileceğiniz kullanıcı adları oluşturmak için kullanacağız ve kullanıcı adlarını öğrencilerle ilişkilendirmenize yardımcı olacağız."
+                        "prompt": "$~Öğrenciler için yeni hesaplar mı oluşturmak istiyorsun? Öğrenciler hakkında *herhangi bir bilgi* ver, her satıra bir tane, virgülle ayrılmış. Bunlar aile isimleri, verilen isimler, öğrenci numaraları ya da başka ayırt edici bilgiler olabilir. Bunları kullanarak, aşağıda düzenleyebileceğin kullanıcı isimleri oluşturacağız; böylece kullanıcı isimlerini öğrencilerle eşleştirebilirsin. Eğer kolonlardan biri öğrenci e-posta adresleriyse, o öğrenciler şifre yerine kendilerine e-posta ile gönderdiğimiz bir bağlantıyla giriş yapar. O hücreyi boş bırakırsan, öğrenci diğer herkes gibi bir kullanıcı ismi ve şifre alır."
                     },
                     "words": {
                         "description": "$~şifrelerde kullanılacak kelimeler",
@@ -9560,6 +9564,29 @@
                     "submit": {
                         "label": "$~sınıf oluştur",
                         "tip": "$~bu bilgilerle yeni bir sınıf oluştur."
+                    },
+                    "affirm": {
+                        "prompt": "$~Kolonlarından biri e-posta adresine benziyor, bu yüzden o öğrenciler şifre yerine bir bağlantıyla giriş yapacak. Bunu sadece öğrenciler yaşadıkları yerde e-posta hesabına sahip olacak yaşta iseler yap. *Bu sınıfı oluşturduğunda kimseye e-posta göndermeyeceğiz*: her öğrenci giriş sayfasına gider, adresini yazar ve bir bağlantı ister.",
+                        "label": "$~Bu öğrenciler, yaşadıkları yerde e-posta hesabına sahip olacak yaştadır."
+                    },
+                    "signin": {
+                        "prompt": "$~Öğrenciler için yeni hesaplar mı oluşturmak istiyorsun? Önce nasıl giriş yapacaklarına karar ver. Bir sınıf *ya hep bir yolla ya da diğeriyle* çalışır, bu yüzden öğrencilerine uygun olanı seç.",
+                        "mode": {
+                            "label": "$~öğrencilerinin nasıl giriş yapacağı",
+                            "labels": [
+                                "$~bir kullanıcı adı ve şifre",
+                                "$~e-postayla gönderilen bir bağlantı"
+                            ],
+                            "tips": [
+                                "$~her öğrenci için bir kullanıcı adı ve şifre oluşturuyoruz, sen de bunları dağıtıyorsun",
+                                "$~her öğrenci kendi e-posta adresiyle giriş yapar, böylece kaybedilecek bir şifre olmaz"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~öğrenci e-posta adresleri",
+                        "placeholder": "$~örneğin, mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Öğrencilerini her satıra bir tane olacak şekilde, *e-posta adresleriyle başlayarak* listele. Virgülden sonra onlar hakkında başka bilgiler ekleyebilirsin — bir öğrenci numarası, bir soyadı gibi — bunları kullanarak aşağıda düzenleyebileceğin kullanıcı adları oluşturacağız."
                     }
                 },
                 "error": {
@@ -9567,10 +9594,13 @@
                     "columns": "$~Her öğrencinin aynı sayıda sütuna sahip olduğundan emin olun.",
                     "generate": "$~Benzersiz kullanıcı adları oluşturulamıyor.",
                     "taken": "$~Yukarıdaki kullanıcı adlarından bir veya daha fazlası alınmış",
-                    "limit": "$~Bir seferde 35 öğrenciden fazla olan bir sınıf oluşturamazsın.",
+                    "limit": "$~Bir seferde 50'den fazla öğrencili bir sınıf oluşturamazsın.",
                     "words": "$~En az 25 kelime yazın.",
                     "account": "$~Hesapların bir kısmı oluşturulamadı.",
-                    "generic": "$~Sınıfı oluşturamadık. Geliştiricilerin neyin yanlış gittiğini anlamalarına yardımcı olacak bazı bilgiler şunlardır."
+                    "generic": "$~Sınıfı oluşturamadık. Geliştiricilerin neyin yanlış gittiğini anlamalarına yardımcı olacak bazı bilgiler şunlardır.",
+                    "affirmation": "$~Hesaplarını oluşturmadan önce, bu öğrencilerin e-posta hesabına sahip olacak yaşta olduğunu belirt.",
+                    "inflight": "$~Bu sınıf zaten oluşturulmuş olabilir. Tekrar denemeden önce sınıflarını kontrol et.",
+                    "addresses": "$~Her satır bir e-posta adresiyle başlamalıdır."
                 }
             },
             "class": {
@@ -10615,7 +10645,7 @@
                 "ownAdmin": "$~Kendi yetkilerini geri alamazsın. Başka bir yöneticiye sor.",
                 "nobody": "$~Henüz kimsenin bir yetkisi yok.",
                 "error": {
-                    "notadmin": "$!Burası bir yönetici alanı. Burada değiştirebileceğin bir şey yok.",
+                    "notadmin": "$~Burası bir süper kullanıcı alanı. Burada değiştirebileceğin bir şey yok.",
                     "login": "$~Bu sayfayı görmek için <giriş yapmış@://login> olman gerekiyor.",
                     "offline": "$~Kimlerin yetkisi olduğunu yükleyemedik. İnternete bağlı mısın?",
                     "save": "$~Bu değişikliği kaydedemedik. Tekrar dener misin?",

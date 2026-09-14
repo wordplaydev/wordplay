@@ -9811,7 +9811,8 @@
                     "class": "$~Tu clase",
                     "students": "$~Tus estudiantes",
                     "credentials": "$~Nombres de usuaria y contraseñas",
-                    "submit": "$~Enviar"
+                    "submit": "$~Enviar",
+                    "usernames": "$~Nombres de usuario"
                 },
                 "prompt": {
                     "start": "$~Este formulario te permite 1) crear cuentas para todas las estudiantes de tu clase y 2) crear una galería a la que todas tus estudiantes pueden agregar proyectos. Si las estudiantes ya tienen cuentas, puedes agregarlas a la galería más tarde.",
@@ -9820,7 +9821,10 @@
                     "pending": "$~Generando nombres de usuaria y contraseñas...",
                     "submit": "$~¿Lista para enviar? En cuanto tenga éxito, recibirás una descarga de esta información. Las contraseñas *no se pueden recuperar*, así que guárdalas en un lugar seguro.",
                     "submitting": "$~Solicitando cuentas nuevas con los nombres de usuaria y las contraseñas de arriba...",
-                    "download": "$~¡Tu clase está lista! Deberías ver una descarga de los datos de tus estudiantes en tu carpeta de descargas. *Las contraseñas no se pueden recuperar*, ¡así que guarda este archivo en un lugar seguro!"
+                    "download": "$~¡Tu clase está lista! Deberías ver una descarga de los datos de tus estudiantes en tu carpeta de descargas. *Las contraseñas no se pueden recuperar*, así que guarda este archivo en un lugar seguro. Los estudiantes que inician sesión por correo electrónico no tienen contraseña, así que su columna de contraseña está vacía.",
+                    "reviewEmail": "$~Revisa los nombres de usuario que creamos. ¿Quieres *editarlos* antes de continuar? Si lo haces, ya no podrás editar la información de estudiantes de arriba. Aquí las estudiantes no eligen nada — inician sesión con la dirección junto a su nombre.",
+                    "downloadEmail": "$~¡Tu clase está lista! Deberías ver una descarga de los datos de tus estudiantes en tu carpeta de descargas. No hay contraseñas que cuidar: cada estudiante va a la página de inicio de sesión, escribe su dirección y pide un enlace.",
+                    "submitEmail": "$~¿Lista para enviar? En cuanto se complete con éxito, recibirás una descarga de esta información. No hay contraseñas que cuidar — cada estudiante inicia sesión con la dirección junto a su nombre."
                 },
                 "field": {
                     "name": {
@@ -9838,7 +9842,7 @@
                     "metadata": {
                         "description": "$~información de las estudiantes",
                         "placeholder": "$~por ejemplo, número de estudiante, apellido, nombre",
-                        "prompt": "$~¿Quieres crear cuentas nuevas para tus estudiantes? Escribe *cualquier información* sobre las estudiantes, una por línea, separada por comas. Puede ser apellidos, nombres, números de estudiante u otros datos que las distingan. La usaremos para generar nombres de usuaria que puedes editar abajo, para ayudarte a relacionar los nombres de usuaria con quienes aprenden."
+                        "prompt": "$~¿Quieres crear cuentas nuevas para tus estudiantes? Escribe *cualquier información* sobre ellos, una por línea, separada por comas. Puede ser apellidos, nombres, números de estudiante u otros datos que los distingan. Usaremos esa información para generar nombres de usuario que podrás editar abajo, lo que te ayudará a relacionar cada nombre de usuario con quien aprende. Si una de tus columnas son direcciones de correo electrónico de los estudiantes, esos estudiantes iniciarán sesión con un enlace que les enviaremos por correo, en lugar de una contraseña. Deja esa celda vacía y el estudiante recibirá un nombre de usuario y una contraseña como los demás."
                     },
                     "words": {
                         "description": "$~palabras para usar en las contraseñas",
@@ -9856,6 +9860,29 @@
                     "submit": {
                         "label": "$~crear clase",
                         "tip": "$~crear una clase nueva con esta información."
+                    },
+                    "affirm": {
+                        "prompt": "$~Una de tus columnas parece contener direcciones de correo electrónico, así que esos estudiantes iniciarán sesión con un enlace en lugar de una contraseña. Hazlo solo si tienen edad suficiente para tener una cuenta de correo electrónico donde viven. *No le enviaremos correo a nadie cuando crees esta clase*: cada estudiante entra a la página de inicio de sesión, escribe su dirección y pide un enlace.",
+                        "label": "$~Estos estudiantes tienen edad suficiente para tener una cuenta de correo electrónico donde viven."
+                    },
+                    "signin": {
+                        "prompt": "$~¿Quieres crear cuentas nuevas para tus estudiantes? Primero, decide cómo van a iniciar sesión. Una clase es *toda de una forma o de la otra*, así que elige la que le quede mejor a tus estudiantes.",
+                        "mode": {
+                            "label": "$~cómo inician sesión tus estudiantes",
+                            "labels": [
+                                "$~un nombre de usuario y una contraseña",
+                                "$~un enlace enviado por correo electrónico"
+                            ],
+                            "tips": [
+                                "$~nosotros creamos un nombre de usuario y una contraseña para cada estudiante, y tú se los entregas",
+                                "$~cada estudiante inicia sesión con su propia dirección de correo electrónico, así que no hay contraseña que perder"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~direcciones de correo electrónico de las estudiantes",
+                        "placeholder": "$~por ejemplo, mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Enlista a tus estudiantes uno por línea, *comenzando con su dirección de correo electrónico*. Puedes agregar cualquier otra cosa sobre ellos después de una coma — un número de estudiante, un apellido — y lo usaremos para generar nombres de usuario que puedes editar abajo."
                     }
                 },
                 "error": {
@@ -9863,10 +9890,13 @@
                     "columns": "$~Asegúrate de que cada estudiante tenga el mismo número de columnas.",
                     "generate": "$~No se pudieron crear nombres de usuario únicos.",
                     "taken": "$~Uno o más nombres de usuario de arriba ya están ocupados",
-                    "limit": "$~No puedes crear una clase de más de 35 estudiantes a la vez.",
+                    "limit": "$~No puedes crear una clase de más de 50 estudiantes a la vez.",
                     "words": "$~Escribe al menos 25 palabras.",
                     "account": "$~No se pudieron crear algunas de las cuentas.",
-                    "generic": "$~No pudimos crear la clase. Aquí tienes información para ayudar a las desarrolladoras a descubrir qué salió mal."
+                    "generic": "$~No pudimos crear la clase. Aquí tienes información para ayudar a las desarrolladoras a descubrir qué salió mal.",
+                    "affirmation": "$~Confirma que estos estudiantes tengan edad suficiente para tener una cuenta de correo electrónico antes de crear sus cuentas.",
+                    "inflight": "$~Es posible que esta clase ya se haya creado. Revisa tus clases antes de volver a intentarlo.",
+                    "addresses": "$~Cada línea debe comenzar con una dirección de correo electrónico."
                 }
             },
             "class": {
@@ -10468,7 +10498,7 @@
                 "ownAdmin": "$~No puedes quitarte tus propios privilegios. Pídele ayuda a otra administradora.",
                 "nobody": "$~Todavía nadie tiene privilegios.",
                 "error": {
-                    "notadmin": "$!Este es un espacio de administración. Aquí no hay nada que puedas cambiar.",
+                    "notadmin": "$~Este es un espacio de superusuaria. Aquí no hay nada que puedas cambiar.",
                     "login": "$~Necesitas <haber iniciado sesión@://login> para ver esta página.",
                     "offline": "$~No pudimos cargar quién tiene privilegios. ¿Estás conectada?",
                     "save": "$~No pudimos guardar ese cambio. ¿Quieres intentarlo de nuevo?",

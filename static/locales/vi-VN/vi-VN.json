@@ -9757,7 +9757,8 @@
                     "class": "$~Lớp học của bạn",
                     "students": "$~Học sinh của bạn",
                     "credentials": "$~Tên người dùng và mật khẩu",
-                    "submit": "$~Nộp"
+                    "submit": "$~Nộp",
+                    "usernames": "$~Tên đăng nhập"
                 },
                 "prompt": {
                     "start": "$~Biểu mẫu này cho phép bạn 1) tạo tài khoản cho tất cả học sinh trong lớp và 2) tạo một thư viện mà tất cả học sinh có thể thêm dự án vào. Nếu học sinh đã có tài khoản, bạn có thể thêm họ vào thư viện sau.",
@@ -9766,7 +9767,10 @@
                     "pending": "$~Tạo tên người dùng và mật khẩu...",
                     "submit": "$~Sẵn sàng gửi? Ngay sau khi thành công, bạn sẽ nhận được bản tải xuống thông tin này. Mật khẩu *không thể khôi phục*, vì vậy hãy lưu giữ chúng ở nơi an toàn.",
                     "submitting": "$~Đang yêu cầu tạo tài khoản mới với tên người dùng và mật khẩu ở trên...",
-                    "download": "$~Lớp học của bạn đã sẵn sàng! Bạn sẽ thấy tệp dữ liệu học sinh của mình trong thư mục tải xuống. *Mật khẩu không thể khôi phục*, vì vậy hãy lưu giữ tệp này ở nơi an toàn!"
+                    "download": "$~Lớp học của bạn đã sẵn sàng! Bạn sẽ thấy một bản tải xuống dữ liệu học sinh trong thư mục tải xuống của mình. *Mật khẩu không thể khôi phục được*, vì vậy hãy giữ tệp này ở nơi an toàn! Học sinh đăng nhập bằng email sẽ không có mật khẩu, nên cột mật khẩu của các em sẽ trống.",
+                    "reviewEmail": "$~Xem lại các tên đăng nhập chúng tôi đã tạo. Bạn có muốn *chỉnh sửa* chúng trước khi tiếp tục không? Nếu có, bạn sẽ không thể chỉnh sửa thông tin học sinh ở trên nữa. Học sinh không cần chọn gì ở đây — các em đăng nhập bằng địa chỉ ghi bên cạnh tên của mình.",
+                    "downloadEmail": "$~Lớp học của bạn đã sẵn sàng! Bạn sẽ thấy một tệp tải xuống chứa dữ liệu học sinh trong thư mục tải xuống của mình. Không có mật khẩu nào cần giữ an toàn: mỗi học sinh chỉ cần vào trang đăng nhập, nhập địa chỉ của mình, và yêu cầu một đường liên kết.",
+                    "submitEmail": "$~Sẵn sàng gửi chưa? Ngay khi thành công, bạn sẽ nhận được một bản tải về của thông tin này. Không cần giữ mật khẩu nào cả — mỗi học sinh đăng nhập bằng địa chỉ bên cạnh tên của mình."
                 },
                 "field": {
                     "name": {
@@ -9784,7 +9788,7 @@
                     "metadata": {
                         "description": "$~thông tin sinh viên",
                         "placeholder": "$~Ví dụ: mã số sinh viên, họ, tên",
-                        "prompt": "$~Bạn muốn tạo tài khoản mới cho học sinh? Hãy cung cấp *bất kỳ thông tin nào* về học sinh, mỗi thông tin trên một dòng, cách nhau bằng dấu phẩy. Đó có thể là họ, tên, mã số học sinh hoặc các chi tiết phân biệt khác. Chúng tôi sẽ sử dụng thông tin này để tạo tên người dùng mà bạn có thể chỉnh sửa bên dưới, giúp bạn liên kết tên người dùng với học sinh."
+                        "prompt": "$~Bạn muốn tạo tài khoản mới cho học sinh? Hãy cung cấp *bất kỳ thông tin nào* về học sinh, mỗi em một dòng, cách nhau bằng dấu phẩy. Đó có thể là họ, tên, số học sinh, hoặc các thông tin khác giúp phân biệt từng em. Chúng tôi sẽ dùng thông tin đó để tạo tên đăng nhập mà bạn có thể chỉnh sửa bên dưới, giúp bạn gắn tên đăng nhập với từng học sinh. Nếu một trong các cột là địa chỉ email học sinh, thì những học sinh đó sẽ đăng nhập bằng một liên kết chúng tôi gửi qua email thay vì dùng mật khẩu. Hãy để ô đó trống nếu muốn học sinh có tên đăng nhập và mật khẩu như những em khác."
                     },
                     "words": {
                         "description": "$~những từ dùng trong mật khẩu",
@@ -9802,6 +9806,29 @@
                     "submit": {
                         "label": "$~tạo lớp",
                         "tip": "$~Tạo một lớp mới với thông tin này."
+                    },
+                    "affirm": {
+                        "prompt": "$~Một trong các cột của bạn trông giống địa chỉ email, vì vậy những học sinh đó sẽ đăng nhập bằng một liên kết thay vì mật khẩu. Chỉ làm điều này nếu các em đủ tuổi để có tài khoản email theo quy định nơi các em sinh sống. *Chúng tôi sẽ không gửi email cho ai khi bạn tạo lớp học này*: mỗi học sinh sẽ vào trang đăng nhập, nhập địa chỉ email của mình, và yêu cầu một liên kết.",
+                        "label": "$~Những học sinh này đã đủ tuổi để có tài khoản email theo quy định nơi các em sinh sống."
+                    },
+                    "signin": {
+                        "prompt": "$~Bạn muốn tạo tài khoản mới cho học sinh? Trước tiên, hãy quyết định cách các em sẽ đăng nhập. Cả lớp phải chọn *chỉ một cách duy nhất*, vì vậy hãy chọn cách phù hợp với học sinh của bạn.",
+                        "mode": {
+                            "label": "$~cách học sinh của bạn đăng nhập",
+                            "labels": [
+                                "$~tên đăng nhập và mật khẩu",
+                                "$~một đường liên kết gửi qua email"
+                            ],
+                            "tips": [
+                                "$~chúng tôi tạo một tên đăng nhập và một mật khẩu cho mỗi học sinh, và bạn phát chúng cho các em",
+                                "$~mỗi học sinh đăng nhập bằng địa chỉ email riêng của mình, nên không có mật khẩu nào có thể bị mất"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~địa chỉ email của học sinh",
+                        "placeholder": "$~ví dụ: mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Liệt kê học sinh của bạn, mỗi em một dòng, *bắt đầu bằng địa chỉ email của các em*. Bạn có thể thêm bất kỳ thông tin nào khác về các em sau dấu phẩy — số học sinh, họ — và chúng tôi sẽ dùng thông tin đó để tạo tên đăng nhập mà bạn có thể chỉnh sửa bên dưới."
                     }
                 },
                 "error": {
@@ -9809,10 +9836,13 @@
                     "columns": "$~Hãy đảm bảo mỗi học sinh có số cột bằng nhau.",
                     "generate": "$~Không thể tạo tên người dùng duy nhất.",
                     "taken": "$~Một hoặc nhiều tên người dùng ở trên đã được sử dụng.",
-                    "limit": "$~Bạn không thể tạo một lớp có hơn 35 học sinh cùng một lúc.",
+                    "limit": "$~Bạn không thể tạo một lớp học có hơn 50 học sinh cùng một lúc.",
                     "words": "$~Hãy cung cấp ít nhất 25 từ.",
                     "account": "$~Không thể tạo một số tài khoản.",
-                    "generic": "$~Chúng tôi không thể tạo lớp. Dưới đây là một số thông tin giúp các nhà phát triển tìm ra lỗi."
+                    "generic": "$~Chúng tôi không thể tạo lớp. Dưới đây là một số thông tin giúp các nhà phát triển tìm ra lỗi.",
+                    "affirmation": "$~Hãy xác nhận rằng những học sinh này đã đủ tuổi để có tài khoản email trước khi chúng tôi tạo tài khoản cho các em.",
+                    "inflight": "$~Lớp học này có thể đã được tạo trước đó. Hãy kiểm tra lại các lớp học của bạn trước khi thử lại.",
+                    "addresses": "$~Mỗi dòng phải bắt đầu bằng một địa chỉ email."
                 }
             },
             "class": {
@@ -10857,7 +10887,7 @@
                 "ownAdmin": "$~Bạn không thể lấy lại đặc quyền của chính mình. Hãy nhờ một quản trị viên khác.",
                 "nobody": "$~Chưa có ai có đặc quyền nào cả.",
                 "error": {
-                    "notadmin": "$!Đây là không gian dành cho quản trị viên. Không có gì ở đây để bạn thay đổi.",
+                    "notadmin": "$~Đây là không gian dành cho quản trị viên cấp cao. Không có gì ở đây để bạn thay đổi.",
                     "login": "$~Bạn cần phải <đăng nhập@://login> để xem trang này.",
                     "offline": "$~Chúng tôi không thể tải danh sách ai có đặc quyền. Bạn có đang kết nối mạng không?",
                     "save": "$~Chúng tôi không thể lưu thay đổi đó. Bạn thử lại nhé?",

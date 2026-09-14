@@ -9521,7 +9521,8 @@
                     "class": "$~Twoja klasa",
                     "students": "$~Twoi uczniowie",
                     "credentials": "$~Nazwy użytkowników i hasła",
-                    "submit": "$~Składać"
+                    "submit": "$~Składać",
+                    "usernames": "$~Nazwy użytkowników"
                 },
                 "prompt": {
                     "start": "$~Ten formularz pozwala ci 1) utworzyć konta dla wszystkich uczniów w twojej klasie i 2) utworzyć galerię, do której wszyscy twoi uczniowie mogą dodawać projekty. Jeśli uczniowie mają już konta, możesz dodać ich do galerii później.",
@@ -9530,7 +9531,10 @@
                     "pending": "$~Generowanie nazw użytkowników i haseł...",
                     "submit": "$~Gotowy do wysłania? Gdy tylko się powiedzie, otrzymasz plik do pobrania z tymi informacjami. Hasła *nie są odzyskiwalne*, więc przechowuj je w bezpiecznym miejscu.",
                     "submitting": "$~Proszę o założenie nowych kont z użyciem powyższych nazw użytkowników i haseł...",
-                    "download": "$~Twoja klasa jest gotowa! Powinieneś zobaczyć pobranie danych swojego ucznia w folderze pobierania. *Hasła nie są odzyskiwalne*, więc przechowuj ten plik w bezpiecznym miejscu!"
+                    "download": "$~Twoja klasa jest gotowa! W folderze pobierania powinien być plik z danymi uczniów. *Haseł nie da się odzyskać*, więc przechowuj ten plik w bezpiecznym miejscu! Uczniowie, którzy logują się przez e-mail, nie mają hasła, więc ich kolumna z hasłem jest pusta.",
+                    "reviewEmail": "$~Sprawdź nazwy użytkowników, które utworzyliśmy. Chcesz je *edytować* przed kontynuowaniem? Jeśli tak, nie będziesz mógł już edytować danych uczniów powyżej. Uczniowie nic tu nie wybierają — logują się za pomocą adresu podanego obok ich imienia.",
+                    "downloadEmail": "$~Twoja klasa jest gotowa! W folderze pobierania powinieneś zobaczyć pobrane dane uczniów. Nie ma haseł do pilnowania: każdy uczeń wchodzi na stronę logowania, wpisuje swój adres i prosi o link.",
+                    "submitEmail": "$~Gotowe do wysłania? Gdy tylko wszystko się uda, otrzymasz plik do pobrania z tymi informacjami. Nie trzeba pamiętać żadnych haseł — każdy uczeń loguje się za pomocą adresu podanego obok jego imienia."
                 },
                 "field": {
                     "name": {
@@ -9548,7 +9552,7 @@
                     "metadata": {
                         "description": "$~informacje dla studentów",
                         "placeholder": "$~np. numer identyfikacyjny studenta, nazwisko, imię",
-                        "prompt": "$~Chcesz utworzyć nowe konta dla uczniów? Podaj *dowolne informacje* o uczniach, po jednej w wierszu, rozdzielone przecinkami. Mogą to być nazwiska, imiona, numery uczniów lub inne wyróżniające szczegóły. Wykorzystamy je do wygenerowania nazw użytkowników, które możesz edytować poniżej, co pomoże Ci powiązać nazwy użytkowników z uczniami."
+                        "prompt": "$~Chcesz utworzyć nowe konta dla uczniów? Podaj *dowolne informacje* o uczniach, po jednej w linii, oddzielone przecinkami. Mogą to być nazwiska, imiona, numery uczniów lub inne dane, które ich rozróżniają. Użyjemy ich, by utworzyć nazwy użytkownika, które będziesz mógł potem zmienić poniżej — dzięki temu łatwiej połączysz nazwy użytkownika z uczniami. Jeśli jedna z kolumn zawiera adresy e-mail uczniów, ci uczniowie zalogują się przez link wysłany e-mailem zamiast przez hasło. Zostaw tę komórkę pustą, a uczeń dostanie nazwę użytkownika i hasło tak jak inni."
                     },
                     "words": {
                         "description": "$~słowa do użycia w hasłach",
@@ -9566,6 +9570,29 @@
                     "submit": {
                         "label": "$~utwórz klasę",
                         "tip": "$~utwórz nową klasę z tymi informacjami."
+                    },
+                    "affirm": {
+                        "prompt": "$~Jedna z twoich kolumn wygląda jak adresy e-mail, więc ci uczniowie będą logować się przez link zamiast przez hasło. Rób to tylko wtedy, gdy są wystarczająco dorośli, by mieć konto e-mail tam, gdzie mieszkają. *Nie wyślemy nikomu e-maila w momencie tworzenia tej klasy*: każdy uczeń sam wchodzi na stronę logowania, wpisuje swój adres i prosi o link.",
+                        "label": "$~Ci uczniowie są wystarczająco dorośli, by mieć konto e-mail tam, gdzie mieszkają."
+                    },
+                    "signin": {
+                        "prompt": "$~Chcesz utworzyć nowe konta dla uczniów? Najpierw zdecyduj, w jaki sposób będą się logować. Cała klasa musi wybrać *jeden sposób*, więc wybierz ten, który pasuje do twoich uczniów.",
+                        "mode": {
+                            "label": "$~jak logują się twoi uczniowie",
+                            "labels": [
+                                "$~nazwa użytkownika i hasło",
+                                "$~link wysłany e-mailem"
+                            ],
+                            "tips": [
+                                "$~tworzymy nazwę użytkownika i hasło dla każdego ucznia, a ty je rozdajesz",
+                                "$~każdy uczeń loguje się za pomocą własnego adresu e-mail, więc nie ma hasła, które można zgubić"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~adresy e-mail uczniów",
+                        "placeholder": "$~np. mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Wypisz swoich uczniów, po jednym w każdej linii, *zaczynając od ich adresu e-mail*. Po przecinku możesz dodać cokolwiek innego o nich — numer ucznia, nazwisko — a my użyjemy tego do utworzenia nazw użytkowników, które będziesz mógł edytować poniżej."
                     }
                 },
                 "error": {
@@ -9573,10 +9600,13 @@
                     "columns": "$~Upewnij się, że każdy uczeń ma taką samą liczbę kolumn.",
                     "generate": "$~Nie można utworzyć unikalnych nazw użytkowników.",
                     "taken": "$~Jedna lub więcej powyższych nazw użytkownika jest zajęta",
-                    "limit": "$~Nie możesz utworzyć klasy z więcej niż 35 uczniami naraz.",
+                    "limit": "$~Nie możesz utworzyć klasy liczącej więcej niż 50 uczniów naraz.",
                     "words": "$~Podaj co najmniej 25 słów.",
                     "account": "$~Niektórych kont nie można utworzyć.",
-                    "generic": "$~Nie mogliśmy utworzyć klasy. Oto kilka informacji, które pomogą programistom ustalić, co poszło nie tak."
+                    "generic": "$~Nie mogliśmy utworzyć klasy. Oto kilka informacji, które pomogą programistom ustalić, co poszło nie tak.",
+                    "affirmation": "$~Potwierdź, że ci uczniowie są wystarczająco dorośli, by mieć konto e-mail, zanim utworzymy ich konta.",
+                    "inflight": "$~Ta klasa być może już istnieje. Sprawdź swoje klasy, zanim spróbujesz ponownie.",
+                    "addresses": "$~Każda linia musi zaczynać się od adresu e-mail."
                 }
             },
             "class": {
@@ -10617,7 +10647,7 @@
                 "ownAdmin": "$~Nie możesz odebrać uprawnień samemu sobie. Poproś innego administratora.",
                 "nobody": "$~Nikt jeszcze nie ma żadnych uprawnień.",
                 "error": {
-                    "notadmin": "$!To jest przestrzeń administratora. Nie ma tu nic, co mógłbyś zmienić.",
+                    "notadmin": "$~To jest przestrzeń superużytkownika. Nie ma tu niczego, co mógłbyś zmienić.",
                     "login": "$~Musisz być <zalogowany@://login>, żeby zobaczyć tę stronę.",
                     "offline": "$~Nie udało nam się wczytać, kto ma uprawnienia. Czy jesteś online?",
                     "save": "$~Nie udało nam się zapisać tej zmiany. Spróbować ponownie?",
