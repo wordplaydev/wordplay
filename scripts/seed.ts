@@ -84,6 +84,16 @@ const SEEDED_USERS: SeededUser[] = [
         claims: { mod: true },
     },
     {
+        uid: 'seeded-admin-uid-0000000000001',
+        // 'admin' is five characters, so unlike 'mod' it can actually be typed
+        // into the login field — see the note on `moderator` above. Holds only
+        // `admin`: the point of a superuser is that the one claim is enough,
+        // and seeding it beside `mod` would hide a broken implication.
+        username: 'admin',
+        displayName: '🦅',
+        claims: { admin: true },
+    },
+    {
         uid: 'seeded-student-uid-00000000001',
         username: 'student1',
         displayName: '🐣',

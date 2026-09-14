@@ -26,6 +26,76 @@ import { uniqueCharacterName } from '../helpers/uniqueCharacterName';
 const LOAD_TIMEOUT = 30_000;
 
 test.describe('authed views', () => {
+    test(`the privileges page has no WCAG 2.2 AA violations`, async ({
+        browser,
+    }) => {
+        // Two surfaces in one page load, because a Playwright test costs
+        // seconds and an assertion costs nothing. The home page first: the two
+        // privileged links are the only thing in the superuser change that a
+        // browser can actually prove, since they are conditionals driven by a
+        // token read and have to survive hydration on a prerendered page. Then
+        // the table itself, whose row of checkboxes per person is the shape
+        // `rowHeader` exists for — without a row header a screen reader reads
+        // four boxes named only "Superuser", "Moderator", "Teacher".
+        const { context, page } = await loginNewContext(
+            browser,
+            'admin',
+            'password',
+        );
+        try {
+            await page.goto('/en-US');
+            await expect(
+                page.getByRole('link', { name: /Privileges/i }),
+            ).toBeVisible({ timeout: LOAD_TIMEOUT });
+            await expect(
+                page.getByRole('link', { name: /Moderate/i }),
+            ).toBeVisible({ timeout: LOAD_TIMEOUT });
+
+            await page.goto('/en-US/admin');
+            // The roster arrives from a callable that pages all of Auth, so
+            // wait for a person rather than for the heading the shell renders.
+            await expect(page.locator('th[scope="row"]').first()).toBeVisible({
+                timeout: LOAD_TIMEOUT,
+            });
+            await expectNoAxeViolationsInBothSchemes(page);
+        } finally {
+            await context.close();
+        }
+    });
+
+    test(`someone without the claim is told so, and not linked to it`, async ({
+        browser,
+    }) => {
+        // The gate, from the other side. `teacher` holds a claim but not this
+        // one, which is the case that would break if `admin` were ever treated
+        // as merely another privilege rather than the one that implies others.
+        const { context, page } = await loginNewContext(
+            browser,
+            'teacher',
+            'password',
+        );
+        try {
+            await page.goto('/en-US');
+            await expect(page.getByRole('heading').first()).toBeVisible({
+                timeout: LOAD_TIMEOUT,
+            });
+            await expect(
+                page.getByRole('link', { name: /Privileges/i }),
+            ).toHaveCount(0);
+
+            await page.goto('/en-US/admin');
+            await expect(page.getByText(/superuser space/i)).toBeVisible({
+                timeout: LOAD_TIMEOUT,
+            });
+            // No roster, and nothing to press: the client gate is cosmetic —
+            // the callable refuses them too — but it must not show a table it
+            // cannot fill.
+            await expect(page.locator('.people-table')).toHaveCount(0);
+        } finally {
+            await context.close();
+        }
+    });
+
     test(`the profile page has no WCAG 2.2 AA violations`, async ({
         browser,
     }) => {

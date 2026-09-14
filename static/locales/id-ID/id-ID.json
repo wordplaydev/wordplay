@@ -9680,7 +9680,9 @@
                         "subtitle": "$~Bantu kami membuat Wordplay"
                     },
                     "design": "$~Referensi sistem desain untuk kontributor",
-                    "localize": "$~Bantu terjemahkan Wordplay ke bahasamu"
+                    "localize": "$~Bantu terjemahkan Wordplay ke bahasamu",
+                    "moderate": "$~lihat kembali apa yang diminta orang untuk kami periksa",
+                    "admin": "$~lihat siapa yang bisa melakukan apa, dan ubah itu"
                 },
                 "tagline": "$~pengodean kreatif yang mudah diakses dan berbahasa banyak",
                 "tour": {
@@ -10942,6 +10944,36 @@
             "breadcrumb": {
                 "label": "$~Tepung roti",
                 "home": "$~Rumah"
+            },
+            "admin": {
+                "header": "$~Hak Istimewa",
+                "prompt": "$~Semua orang di bawah ini bisa melakukan sesuatu yang tidak bisa dilakukan kebanyakan orang. Perubahan di sini langsung berlaku, meski halaman yang sudah terbuka bisa butuh waktu sampai satu jam untuk menyadarinya. Superuser sudah mencakup moderasi dan mengajar, jadi orang yang punya hak ini tidak perlu dua hak lainnya.",
+                "claim": {
+                    "admin": "$~Superuser",
+                    "mod": "$~Moderator",
+                    "teacher": "$~Guru",
+                    "banned": "$~Tidak bisa berbagi secara publik"
+                },
+                "creator": "$~Pembuat",
+                "email": "$~Surel",
+                "privileges": "$~Hak Istimewa",
+                "button": {
+                    "revoke": "$~Hilangkan semua hak istimewa",
+                    "lift": {
+                        "label": "$~Kembalikan hak berbagi",
+                        "tip": "$~Izinkan pembuat ini berbagi secara publik lagi, dan atur ulang jumlah peringatan mereka ke nol"
+                    }
+                },
+                "confirm": "$~Jumlah peringatan mereka kembali ke nol dan mereka bisa berbagi secara publik lagi. Catatan tentang apa yang terjadi tetap ada, jadi moderator yang memeriksa mereka nanti masih bisa melihatnya.",
+                "ownAdmin": "$~Kamu tidak bisa menghilangkan hak istimewamu sendiri. Minta bantuan admin lain.",
+                "nobody": "$~Belum ada yang memiliki hak istimewa apa pun.",
+                "error": {
+                    "notadmin": "$~Ini adalah ruang admin. Tidak ada yang bisa kamu ubah di sini.",
+                    "login": "$~Kamu perlu <masuk@://login> untuk melihat halaman ini.",
+                    "offline": "$~Kami tidak bisa memuat siapa yang punya hak istimewa. Apakah kamu sedang daring?",
+                    "save": "$~Kami tidak bisa menyimpan perubahan itu. Coba lagi?",
+                    "none": "$~Pilih setidaknya satu hak istimewa sebelum menambahkan seseorang."
+                }
             }
         },
         "edit": {

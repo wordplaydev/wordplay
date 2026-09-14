@@ -608,3 +608,29 @@ describe('a query, not a document get', () => {
         });
     });
 });
+
+/** `admin` implies `mod`, so a superuser reads an unpublished how-to the same
+ *  way a moderator does — with no `mod` claim of their own. */
+describe('an administrator', () => {
+    it('may read a how-to that is not published', async () => {
+        const Draft = 'rulestest-howto-admin-draft';
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context.firestore().doc(`howtos/${Draft}`).set({
+                id: Draft,
+                creator: Users.owner,
+                collaborators: [],
+                galleryId: Gallery,
+                published: false,
+                isPublic: false,
+                submittedToGuide: false,
+            });
+        });
+        await assertSucceeds(
+            env
+                .authenticatedContext('rulestest-howto-admin', { admin: true })
+                .firestore()
+                .doc(`howtos/${Draft}`)
+                .get(),
+        );
+    });
+});

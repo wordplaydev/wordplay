@@ -2,7 +2,7 @@ import type { User } from 'firebase/auth';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { FormattedText } from '@locale/LocaleText';
-import getClaim from '@db/creators/getClaim';
+import { holdsClaim } from '@db/creators/getClaim';
 import z from 'zod';
 
 /** Ways the platform can respond to a content moderation flag */
@@ -154,6 +154,24 @@ export function getFlagDescription(
     return locales.getTextStructure((l) => l.moderation.flags)[flag as Flag];
 }
 
+/**
+ * Whether this creator may moderate: the `mod` claim, or the `admin` claim that
+ * implies it.
+ *
+ * The one place the app asks, which is what lets a superuser reach the queue,
+ * the notification bell's review button, and the feedback controls without
+ * three separate sites having to remember the implication.
+ */
 export async function isModerator(user: User) {
-    return (await getClaim(user, 'mod')) === true;
+    return (await holdsClaim(user, 'mod')) === true;
+}
+
+/** Whether this creator may manage classes: the `teacher` claim, or `admin`. */
+export async function isTeacher(user: User) {
+    return (await holdsClaim(user, 'teacher')) === true;
+}
+
+/** Whether this creator is a superuser. Nothing implies this one. */
+export async function isAdmin(user: User) {
+    return (await holdsClaim(user, 'admin')) === true;
 }

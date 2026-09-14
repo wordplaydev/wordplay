@@ -17,6 +17,7 @@
     import { strikes } from '@db/creators/strikes.svelte';
     import countPending from '@db/moderation/countPending';
     import { getFlagDescription, isModerator } from '@db/projects/Moderation';
+    import { isReviewer } from '@db/moderation/reviewer';
     import {
         Chats,
         DB,
@@ -402,12 +403,7 @@
         }
         isModerator(who).then((is) => (moderator = is));
     });
-    const responsible: boolean = $derived(
-        moderator ||
-            [...Galleries.accessibleGalleries.values()].some((gallery) =>
-                $user ? gallery.hasCurator($user.uid) : false,
-            ),
-    );
+    const responsible: boolean = $derived(isReviewer(moderator, $user?.uid));
 
     /**
      * How much is waiting in this reviewer's queue.

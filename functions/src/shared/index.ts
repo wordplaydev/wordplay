@@ -647,3 +647,46 @@ export type ChangeUsernameOutput = {
     changed?: true;
     error?: 'unauthenticated' | 'invalid' | 'taken' | 'failed';
 };
+
+// FUNCTION getClaimHolders, setClaims
+/**
+ * A privilege carried as a Firebase Auth custom claim.
+ *
+ * `admin` is the superuser: it implies `mod` and `teacher` everywhere — in
+ * firestore.rules, in every callable, and in every client check. `banned` is
+ * not a privilege at all but the loss of public sharing (#193), so nothing
+ * implies it: authority over other people is not immunity from a decision about
+ * your own content.
+ */
+export type ClaimName = 'admin' | 'mod' | 'teacher' | 'banned';
+
+/** What someone holds, as stored on their token — never as implied. */
+export type ClaimSet = Record<ClaimName, boolean>;
+
+/**
+ * One person who holds at least one privilege.
+ *
+ * Carries an address, unlike `getCreators`. That callable is unauthenticated —
+ * a gallery page names a project's owner to a signed-out visitor — so anything
+ * it returns is public. This one answers only an administrator, and an address
+ * is both what tells two similar usernames apart and what `scripts/claims.js`
+ * takes as its argument, so a page without it would be strictly less usable
+ * than the script it replaces.
+ */
+export type ClaimHolder = {
+    uid: string;
+    username: string | null;
+    email: string | null;
+    claims: ClaimSet;
+};
+
+export type GetClaimHoldersOutput = { holders: ClaimHolder[] };
+
+export type SetClaimsInputs = {
+    uid: string;
+    /** Only what changed. Anything absent is left alone: setCustomUserClaims
+     *  replaces the whole object, so the handler spreads what is already there. */
+    claims: Partial<ClaimSet>;
+};
+
+export type SetClaimsOutput = { claims: ClaimSet };

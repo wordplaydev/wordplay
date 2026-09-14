@@ -14,6 +14,7 @@ import type {
     Strikes as StrikesRecord,
 } from 'shared-types';
 import { forgetMessageTranslations } from './chatTranslations.js';
+import { hasClaim } from './claims.js';
 import getResponsibility from './responsibility.js';
 import { noStrikes, withFinding, withStrike } from './strikes.js';
 import deliver, { emailNotice } from './notices.js';
@@ -80,7 +81,7 @@ export default async function moderate(
             ? responsibility.gallery
             : undefined;
     const curators = gallery === undefined ? [] : await curatorsOf(db, gallery);
-    const isMod = request.auth?.token.mod === true;
+    const isMod = hasClaim(request.auth?.token, 'mod');
     const asPlatform =
         isMod &&
         (responsibility.kind === 'platform' || responsibility.kind === 'both');

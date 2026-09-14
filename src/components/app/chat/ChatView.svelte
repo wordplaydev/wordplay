@@ -798,10 +798,13 @@
         Chats.deleteMessage(chat, message);
     }
 
-    // user is a moderator of a chat if the chat is in a gallery and the user is a curator of that gallery
-    let isModerator: boolean = $state(false);
+    // Curates the gallery this chat is in, which is what lets them decide about
+    // a message in it. Deliberately not named `isModerator`: that is the `mod`
+    // claim (and now the `admin` claim that implies it), and the two answering
+    // to one name is how a grep for every claim check misses a site.
+    let curator: boolean = $state(false);
     $effect(() => {
-        isModerator =
+        curator =
             gallery !== undefined &&
             $user !== null &&
             $user !== undefined &&
@@ -1134,7 +1137,7 @@
         </div>
         <div
             class="what"
-            style:border={isModerator && state === 'pending'
+            style:border={curator && state === 'pending'
                 ? 'solid var(--wordplay-border-width) var(--wordplay-warning)'
                 : ''}
         >
@@ -1144,7 +1147,7 @@
                     /></em
                 >
             {:else if state === 'pending'}
-                {#if isModerator}
+                {#if curator}
                     <MarkupHTMLView
                         markup={msg.text.replaceAll('\n', '\n\n')}
                     />
@@ -1217,7 +1220,7 @@
                 report={() => reportMessage(chat, msg)}
                 {visibility}
             />
-        {:else if isModerator && state === 'pending'}
+        {:else if curator && state === 'pending'}
             <Button
                 tip={(l) => l.ui.collaborate.moderation.moderate.tip}
                 label={(l) => l.ui.collaborate.moderation.moderate.label}

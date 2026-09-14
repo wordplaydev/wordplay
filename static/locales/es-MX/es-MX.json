@@ -9180,7 +9180,9 @@
                     "updates": "Ve las novedades de Wordplay",
                     "design": "$~Referencia del sistema de diseño para colaboradoras",
                     "thanks": "$~¿Quién ayudó a hacer esto?",
-                    "localize": "$~Ayuda a traducir Wordplay a tu idioma"
+                    "localize": "$~Ayuda a traducir Wordplay a tu idioma",
+                    "moderate": "$~revisar lo que nos han pedido que veamos",
+                    "admin": "$~ver quién puede hacer qué, y cambiarlo"
                 },
                 "tagline": "$~programación creativa accesible y multilingüe",
                 "tour": {
@@ -10442,6 +10444,36 @@
             "breadcrumb": {
                 "label": "$~Migas de pan",
                 "home": "$~Inicio"
+            },
+            "admin": {
+                "header": "$~Privilegios",
+                "prompt": "$~Todos los que aparecen abajo pueden hacer algo que la mayoría de las personas no puede. Un cambio aquí les llega de inmediato, aunque una página que ya tengan abierta puede tardar hasta una hora en notarlo. Superusuaria incluye moderar y enseñar, así que quien lo tenga no necesita los otros dos.",
+                "claim": {
+                    "admin": "$~Superusuaria",
+                    "mod": "$~Moderadora",
+                    "teacher": "$~Maestra",
+                    "banned": "$~No puede compartir públicamente"
+                },
+                "creator": "$~Creadora",
+                "email": "$~Correo electrónico",
+                "privileges": "$~Privilegios",
+                "button": {
+                    "revoke": "$~quitar todos los privilegios",
+                    "lift": {
+                        "label": "$~devolver el privilegio de compartir",
+                        "tip": "$~dejar que esta creadora comparta públicamente otra vez, y poner su conteo de advertencias en cero"
+                    }
+                },
+                "confirm": "$~Su conteo de advertencias vuelve a cero y puede compartir públicamente otra vez. El registro de lo que pasó se guarda, así que una moderadora que la revise después todavía puede verlo.",
+                "ownAdmin": "$~No puedes quitarte tus propios privilegios. Pídele ayuda a otra administradora.",
+                "nobody": "$~Todavía nadie tiene privilegios.",
+                "error": {
+                    "notadmin": "$~Este es un espacio de administración. Aquí no hay nada que puedas cambiar.",
+                    "login": "$~Necesitas <haber iniciado sesión@://login> para ver esta página.",
+                    "offline": "$~No pudimos cargar quién tiene privilegios. ¿Estás conectada?",
+                    "save": "$~No pudimos guardar ese cambio. ¿Quieres intentarlo de nuevo?",
+                    "none": "$~Elige al menos un privilegio antes de agregar a alguien."
+                }
             }
         },
         "edit": {

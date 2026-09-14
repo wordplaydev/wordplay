@@ -9187,7 +9187,9 @@
                     "updates": "$~Découvrez les nouveautés de Wordplay",
                     "design": "$~Référence du système de conception pour les contributeurs",
                     "thanks": "$~Qui a contribué à sa réalisation ?",
-                    "localize": "$~Aide à traduire Wordplay dans ta langue"
+                    "localize": "$~Aide à traduire Wordplay dans ta langue",
+                    "moderate": "$~revoir ce que les gens nous ont demandé de regarder",
+                    "admin": "$~voir qui peut faire quoi, et le changer"
                 },
                 "tagline": "$~un codage créatif, accessible et multilingue",
                 "tour": {
@@ -10449,6 +10451,36 @@
             "breadcrumb": {
                 "label": "$~chapelure",
                 "home": "$~Maison"
+            },
+            "admin": {
+                "header": "$~Privilèges",
+                "prompt": "$~Toutes les personnes ci-dessous peuvent faire quelque chose que la plupart des gens ne peuvent pas faire. Un changement ici les touche tout de suite, même si une page déjà ouverte peut mettre jusqu'à une heure à s'en apercevoir. Super-utilisateur inclut la modération et l'enseignement, donc une personne qui l'a n'a pas besoin des deux autres.",
+                "claim": {
+                    "admin": "$~Super-utilisateur",
+                    "mod": "$~Modérateur",
+                    "teacher": "$~Enseignant",
+                    "banned": "$~Ne peut pas partager publiquement"
+                },
+                "creator": "$~Créateur",
+                "email": "$~Courriel",
+                "privileges": "$~Privilèges",
+                "button": {
+                    "revoke": "$~Retirer tous les privilèges",
+                    "lift": {
+                        "label": "$~Redonner le droit de partager",
+                        "tip": "$~Laisser ce créateur partager publiquement de nouveau, et remettre son compteur d'avertissements à zéro"
+                    }
+                },
+                "confirm": "$~Leur compteur d'avertissements revient à zéro et ils peuvent de nouveau partager publiquement. La trace de ce qui s'est passé reste, pour qu'un modérateur qui les regarde plus tard puisse encore la voir.",
+                "ownAdmin": "$~Vous ne pouvez pas retirer vos propres privilèges. Demandez à un autre administrateur.",
+                "nobody": "$~Personne n'a de privilège pour l'instant.",
+                "error": {
+                    "notadmin": "$~C'est un espace réservé aux administrateurs. Il n'y a rien ici que vous puissiez changer.",
+                    "login": "$~Vous devez être <connecté@://login> pour voir cette page.",
+                    "offline": "$~Nous n'avons pas pu charger la liste des personnes ayant des privilèges. Êtes-vous en ligne ?",
+                    "save": "$~Nous n'avons pas pu enregistrer ce changement. Voulez-vous réessayer ?",
+                    "none": "$~Choisissez au moins un privilège avant d'ajouter quelqu'un."
+                }
             }
         },
         "edit": {

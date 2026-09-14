@@ -7,6 +7,8 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import { getUser } from '@components/project/Contexts';
+    import { isAdmin, isModerator } from '@db/projects/Moderation';
+    import { isReviewer } from '@db/moderation/reviewer';
     import Button from '@components/widgets/Button.svelte';
     import { LocaleDialogID } from '@components/widgets/dialogIDs';
     import { setDialogInURL } from '@components/widgets/dialogURL';
@@ -32,6 +34,29 @@
     import date from './updates/date.json';
 
     const user = getUser();
+
+    /**
+     * Whether this reader may moderate or administer, for the two links below.
+     *
+     * The cached token deliberately, not a forced refresh: this is the most
+     * visited page in the app, and a round trip per visit to answer a question
+     * about a handful of people is not worth it. Someone newly given a
+     * privilege sees the link on their next session — and /admin, whose whole
+     * subject is privileges, refreshes for itself.
+     */
+    let moderator = $state(false);
+    let admin = $state(false);
+    $effect(() => {
+        const who = $user;
+        if (who === null || who === undefined) {
+            moderator = false;
+            admin = false;
+            return;
+        }
+        isModerator(who).then((is) => (moderator = is));
+        isAdmin(who).then((is) => (admin = is));
+    });
+    const responsible = $derived(isReviewer(moderator, $user?.uid));
 
     // The language chooser's rotating label and the logo's glyph advance in
     // lockstep — the language drives the script. The cycle is the union of
@@ -356,6 +381,39 @@
                         /></BigLink
                     >
                 </Action>
+                <!-- The two ways in that most people never have. The moderation
+                     queue had no link at all outside the notification bell,
+                     which only ever named it to someone who was already being
+                     told there was work; a curator with an empty queue could
+                     not find it. Both resolve after hydration, like the login
+                     link above: this page is prerendered into every locale, so
+                     nothing about the reader is known when it is built. -->
+                {#if responsible}
+                    <Action>
+                        <BigLink
+                            smaller
+                            to="/moderate"
+                            subtitle={(l) => l.ui.page.landing.link.moderate}
+                            ><Iconified
+                                icon="🛡️"
+                                text={(l) => l.moderation.moderate.header}
+                            /></BigLink
+                        >
+                    </Action>
+                {/if}
+                {#if admin}
+                    <Action>
+                        <BigLink
+                            smaller
+                            to="/admin"
+                            subtitle={(l) => l.ui.page.landing.link.admin}
+                            ><Iconified
+                                icon="🔑"
+                                text={(l) => l.ui.page.admin.header}
+                            /></BigLink
+                        >
+                    </Action>
+                {/if}
             </div>
         </div>
 

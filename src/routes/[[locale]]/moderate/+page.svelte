@@ -41,6 +41,7 @@
     import type Project from '@db/projects/Project';
     import { ProjectsCollection } from '@db/projects/ProjectsDatabase.svelte';
     import moderate from '@db/moderation/moderate';
+    import { curatesAnyGallery, isReviewer } from '@db/moderation/reviewer';
     import {
         StrikesCollection,
         StrikesUntilBanned,
@@ -51,7 +52,6 @@
     import HowToQueue from './HowToQueue.svelte';
     import KitQueue from './KitQueue.svelte';
     import ReportQueue from './ReportQueue.svelte';
-    import { Galleries } from '@db/Database';
     import { Creator } from '@db/creators/CreatorDatabase';
     import { mayUseEmail } from '@db/creators/handle.svelte';
 
@@ -109,16 +109,10 @@
      *  reviewing what's reported in it. Distinct from the `mod` claim: a
      *  curator moderates their own gallery and nothing else, which is why
      *  they see one queue and a moderator sees three. */
-    const curator = $derived(
-        $user
-            ? [...Galleries.accessibleGalleries.values()].some((gallery) =>
-                  gallery.hasCurator($user.uid),
-              )
-            : false,
-    );
+    const curator = $derived(curatesAnyGallery($user?.uid));
 
     /** Someone with nothing to review at all doesn't belong here. */
-    const allowed = $derived(moderator === true || curator);
+    const allowed = $derived(isReviewer(moderator === true, $user?.uid));
 
     /** Whether this reviewer has no mailbox to write to. `mayUseEmail` gates the
      *  invitation rather than the fact: someone below the age of consent cannot

@@ -9323,7 +9323,9 @@
                     "updates": "$~Wordplay'deki yeniliklere göz atın.",
                     "design": "$~Katkıda bulunanlar için tasarım sistemi referansı",
                     "thanks": "$~Bunu yapmaya kimler yardımcı oldu?",
-                    "localize": "$~Wordplay'i kendi dilinize çevirmeye yardım edin"
+                    "localize": "$~Wordplay'i kendi dilinize çevirmeye yardım edin",
+                    "moderate": "$~insanların incelenmesini istediği şeyleri gözden geçir",
+                    "admin": "$~kimin ne yapabildiğini gör ve bunu değiştir"
                 },
                 "tagline": "$~herkesin kullanabileceği, çok dilli, yaratıcı kodlama",
                 "tour": {
@@ -10589,6 +10591,36 @@
             "breadcrumb": {
                 "label": "$~Ekmek kırıntıları",
                 "home": "$~Ev"
+            },
+            "admin": {
+                "header": "$~Yetkiler",
+                "prompt": "$~Aşağıdaki herkes çoğu insanın yapamadığı bir şeyi yapabilir. Buradaki bir değişiklik onlara hemen ulaşır, ama zaten açık olan bir sayfanın bunu fark etmesi bir saate kadar sürebilir. Süper kullanıcı yetkisi, denetleme ve öğretmeyi de kapsar. Bu yüzden bu yetkiye sahip birinin diğer ikisine ihtiyacı yoktur.",
+                "claim": {
+                    "admin": "$~Süper kullanıcı",
+                    "mod": "$~Denetçi",
+                    "teacher": "$~Öğretmen",
+                    "banned": "$~Herkese açık paylaşamaz"
+                },
+                "creator": "$~Oluşturan",
+                "email": "$~E-posta",
+                "privileges": "$~Yetkiler",
+                "button": {
+                    "revoke": "$~Tüm yetkileri geri al",
+                    "lift": {
+                        "label": "$~Paylaşım hakkını geri ver",
+                        "tip": "$~Bu oluşturan kişinin yeniden herkese açık paylaşım yapmasına izin ver ve uyarı sayısını sıfıra ayarla"
+                    }
+                },
+                "confirm": "$~Uyarı sayıları sıfıra döner ve yeniden herkese açık paylaşım yapabilirler. Neler olduğunun kaydı saklanır, böylece daha sonra bir denetçi onlara baktığında hâlâ görebilir.",
+                "ownAdmin": "$~Kendi yetkilerini geri alamazsın. Başka bir yöneticiye sor.",
+                "nobody": "$~Henüz kimsenin bir yetkisi yok.",
+                "error": {
+                    "notadmin": "$~Burası bir yönetici alanı. Burada değiştirebileceğin bir şey yok.",
+                    "login": "$~Bu sayfayı görmek için <giriş yapmış@://login> olman gerekiyor.",
+                    "offline": "$~Kimlerin yetkisi olduğunu yükleyemedik. İnternete bağlı mısın?",
+                    "save": "$~Bu değişikliği kaydedemedik. Tekrar dener misin?",
+                    "none": "$~Birini eklemeden önce en az bir yetki seç."
+                }
             }
         },
         "edit": {

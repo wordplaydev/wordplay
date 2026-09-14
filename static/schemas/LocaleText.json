@@ -22182,6 +22182,135 @@
                                     ],
                                     "type": "object"
                                 },
+                                "admin": {
+                                    "additionalProperties": false,
+                                    "description": "The page that says who may do what, and changes it",
+                                    "properties": {
+                                        "button": {
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "lift": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "The button that gives public sharing back to a creator who lost it"
+                                                },
+                                                "revoke": {
+                                                    "description": "[plain] Tooltip for the button that takes away every privilege someone holds, leaving any loss of public sharing alone",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": ["revoke", "lift"],
+                                            "type": "object"
+                                        },
+                                        "claim": {
+                                            "additionalProperties": false,
+                                            "description": "The privileges, one per column heading and per checkbox",
+                                            "properties": {
+                                                "admin": {
+                                                    "description": "[plain] The superuser privilege, which includes moderating and teaching",
+                                                    "type": "string"
+                                                },
+                                                "banned": {
+                                                    "description": "[plain] Whether this creator has lost the ability to share publicly",
+                                                    "type": "string"
+                                                },
+                                                "mod": {
+                                                    "description": "[plain] The privilege to review content reported across Wordplay",
+                                                    "type": "string"
+                                                },
+                                                "teacher": {
+                                                    "description": "[plain] The privilege to create and manage classes",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "admin",
+                                                "mod",
+                                                "teacher",
+                                                "banned"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "confirm": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Shown before a loss of public sharing is given back: their warning count goes back to zero, and the record of what happened stays"
+                                        },
+                                        "creator": {
+                                            "description": "[plain] Column heading for who someone is",
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "description": "[plain] Column heading for a creator's email address",
+                                            "type": "string"
+                                        },
+                                        "error": {
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "login": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] When not signed in at all"
+                                                },
+                                                "none": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] When someone is added without any privilege chosen"
+                                                },
+                                                "notadmin": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] When signed in, but not a superuser"
+                                                },
+                                                "offline": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] When the list of privilege holders couldn't be loaded"
+                                                },
+                                                "save": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] When a change to someone's privileges couldn't be saved"
+                                                }
+                                            },
+                                            "required": [
+                                                "notadmin",
+                                                "login",
+                                                "offline",
+                                                "save",
+                                                "none"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "header": {
+                                            "description": "[plain] The header for the privileges page, and the label of the link to it",
+                                            "type": "string"
+                                        },
+                                        "nobody": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Shown when nobody holds any privilege at all"
+                                        },
+                                        "ownAdmin": {
+                                            "description": "[plain] Tooltip on a superuser's own superuser checkbox, which they may not untick",
+                                            "type": "string"
+                                        },
+                                        "privileges": {
+                                            "description": "[plain] Column heading for the privileges someone holds",
+                                            "type": "string"
+                                        },
+                                        "prompt": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] What this page is for, and how soon a change takes effect"
+                                        }
+                                    },
+                                    "required": [
+                                        "header",
+                                        "prompt",
+                                        "claim",
+                                        "creator",
+                                        "email",
+                                        "privileges",
+                                        "button",
+                                        "confirm",
+                                        "ownAdmin",
+                                        "nobody",
+                                        "error"
+                                    ],
+                                    "type": "object"
+                                },
                                 "breadcrumb": {
                                     "additionalProperties": false,
                                     "description": "Breadcrumb navigation trail shown above page headers",
@@ -24037,6 +24166,10 @@
                                                     "description": "[plain] What content is on the about page",
                                                     "type": "string"
                                                 },
+                                                "admin": {
+                                                    "description": "[plain] What content is on the privileges page",
+                                                    "type": "string"
+                                                },
                                                 "characters": {
                                                     "description": "[plain] What content is on on the characters page",
                                                     "type": "string"
@@ -24095,6 +24228,10 @@
                                                     "description": "[plain] What content is on the localize page",
                                                     "type": "string"
                                                 },
+                                                "moderate": {
+                                                    "description": "[plain] What content is on the moderation page",
+                                                    "type": "string"
+                                                },
                                                 "projects": {
                                                     "description": "[plain] What content is on the projects page",
                                                     "type": "string"
@@ -24130,7 +24267,9 @@
                                                 "community",
                                                 "contribute",
                                                 "design",
-                                                "localize"
+                                                "localize",
+                                                "moderate",
+                                                "admin"
                                             ],
                                             "type": "object"
                                         },
@@ -25935,7 +26074,8 @@
                                 "rights",
                                 "donate",
                                 "design",
-                                "thanks"
+                                "thanks",
+                                "admin"
                             ],
                             "type": "object"
                         },

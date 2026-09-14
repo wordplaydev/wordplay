@@ -21,6 +21,8 @@ const Users = {
     Banned: 'rulestest-banned',
     Stranger: 'rulestest-mod-stranger',
     Mod: 'rulestest-mod-mod',
+    /** A superuser, holding no `mod` claim of their own. */
+    Admin: 'rulestest-mod-admin',
 };
 
 const Galleries = {
@@ -593,6 +595,77 @@ describe('galleries: a decision cannot be smuggled in at creation', () => {
                         howToExpandedGalleries: ['elsewhere'],
                     }),
                 ),
+        );
+    });
+});
+
+/**
+ * The superuser claim reaches the moderation record and the platform queue.
+ *
+ * `admin` implies `mod`, so these mirror the moderator cases with a caller
+ * holding no `mod` claim. What it must not do is widen a rule `mod` never had:
+ * nothing may write `reports` or `strikes` from a client, superuser included.
+ */
+describe('an administrator', () => {
+    // Its own report rather than the one above: that fixture is scoped to the
+    // reports describe, and a superuser case should not depend on it.
+    const Report = `report-admin-${Date.now().toString(36)}`;
+
+    beforeAll(async () => {
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context
+                .firestore()
+                .doc(`reports/${Report}`)
+                .set({
+                    v: 2,
+                    kind: 'project',
+                    subject: 'some-project',
+                    gallery: null,
+                    moderators: [],
+                    platform: true,
+                    author: Users.Owner,
+                    reporters: [Users.Stranger],
+                    time: 1,
+                    resolved: false,
+                });
+        });
+    });
+
+    it('may read a report the platform is responsible for', async () => {
+        await assertSucceeds(
+            as(Users.Admin, { admin: true }).doc(`reports/${Report}`).get(),
+        );
+    });
+
+    it("may read a creator's moderation record", async () => {
+        await assertSucceeds(
+            as(Users.Admin, { admin: true })
+                .doc(`strikes/${Users.Owner}`)
+                .get(),
+        );
+    });
+
+    it('still may not write a moderation record', async () => {
+        // Server-authoritative, and a superuser is still a client. Lifting a
+        // ban goes through the setClaims callable, which uses the Admin SDK.
+        await assertFails(
+            as(Users.Admin, { admin: true })
+                .doc(`strikes/${Users.Owner}`)
+                .set({
+                    v: 1,
+                    count: 0,
+                    strikes: [],
+                    banned: false,
+                    bannedAt: null,
+                }),
+        );
+    });
+
+    it('still may not write a report', async () => {
+        await assertFails(
+            as(Users.Admin, { admin: true })
+                .doc(`reports/${Report}`)
+                .update({ resolved: true }),
         );
     });
 });

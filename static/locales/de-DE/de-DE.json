@@ -9179,7 +9179,9 @@
                     "updates": "$~Entdecken Sie die Neuigkeiten in Wordplay.",
                     "design": "$~Designsystem-Referenz für Mitwirkende",
                     "thanks": "$~Wer hat bei der Erstellung dieses Projekts mitgewirkt?",
-                    "localize": "$~Hilf mit, Wordplay in deine Sprache zu übersetzen"
+                    "localize": "$~Hilf mit, Wordplay in deine Sprache zu übersetzen",
+                    "moderate": "$~prüfen, worum die Leute uns gebeten haben, es uns anzuschauen",
+                    "admin": "$~sehen, wer was tun darf, und das ändern"
                 },
                 "tagline": "$~barrierefreies, mehrsprachiges, kreatives Programmieren",
                 "tour": {
@@ -10445,6 +10447,36 @@
             "breadcrumb": {
                 "label": "$~Paniermehl",
                 "home": "$~Heim"
+            },
+            "admin": {
+                "header": "$~Rechte",
+                "prompt": "$~Alle unten können etwas tun, das die meisten Leute nicht können. Eine Änderung hier wirkt sofort, auch wenn eine bereits geöffnete Seite bis zu einer Stunde braucht, um es zu bemerken. Superuser umfasst Moderieren und Unterrichten, also braucht jemand mit diesem Recht die anderen beiden nicht mehr.",
+                "claim": {
+                    "admin": "$~Superuser",
+                    "mod": "$~Moderator oder Moderatorin",
+                    "teacher": "$~Lehrer oder Lehrerin",
+                    "banned": "$~Darf nicht öffentlich teilen"
+                },
+                "creator": "$~Ersteller oder Erstellerin",
+                "email": "$~E-Mail",
+                "privileges": "$~Rechte",
+                "button": {
+                    "revoke": "$~Alle Rechte entziehen",
+                    "lift": {
+                        "label": "$~Teilen wieder erlauben",
+                        "tip": "$~Diesem Ersteller oder dieser Erstellerin erlauben, wieder öffentlich zu teilen, und die Anzahl der Warnungen auf null zurücksetzen"
+                    }
+                },
+                "confirm": "$~Die Anzahl der Warnungen geht auf null zurück, und sie können wieder öffentlich teilen. Der Eintrag darüber, was geschehen ist, bleibt bestehen, sodass ein Moderator oder eine Moderatorin ihn später noch einsehen kann.",
+                "ownAdmin": "$~Du kannst dir nicht selbst Rechte entziehen. Bitte einen anderen Administrator oder eine andere Administratorin.",
+                "nobody": "$~Noch niemand hat irgendwelche Rechte.",
+                "error": {
+                    "notadmin": "$~Dies ist ein Administratorbereich. Hier gibt es nichts für dich zu ändern.",
+                    "login": "$~Du musst <angemeldet sein@://login>, um diese Seite zu sehen.",
+                    "offline": "$~Wir konnten nicht laden, wer welche Rechte hat. Bist du online?",
+                    "save": "$~Wir konnten diese Änderung nicht speichern. Nochmal versuchen?",
+                    "none": "$~Wähle mindestens ein Recht aus, bevor du jemanden hinzufügst."
+                }
             }
         },
         "edit": {

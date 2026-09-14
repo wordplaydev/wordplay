@@ -204,3 +204,17 @@ describe('signinThrottle', () => {
         );
     });
 });
+
+/** A handle is the one thing `mod` never opened, so `admin` must not open it
+ *  either: implying a privilege can only ever grant what that privilege grants. */
+describe('an administrator', () => {
+    it("cannot read someone else's handle", async () => {
+        await assertFails(
+            env
+                .authenticatedContext('handletest-admin', { admin: true })
+                .firestore()
+                .doc(`handles/${Users.Creator}`)
+                .get(),
+        );
+    });
+});

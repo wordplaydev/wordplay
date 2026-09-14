@@ -9992,7 +9992,9 @@
                         "subtitle": "Help us make Wordplay"
                     },
                     "design": "Design system reference for contributors",
-                    "localize": "Help translate Wordplay into your language"
+                    "localize": "Help translate Wordplay into your language",
+                    "moderate": "review what people have asked us to look at",
+                    "admin": "see who can do what, and change it"
                 }
             },
             "learn": {
@@ -11117,6 +11119,36 @@
                 "intro": "Thank you to our *$#count[$count contributor|$count contributors]* for contributing to @wordplay's design, development, localization, and content! And thank you to the many teachers and youth who've guided our design in focus groups, design sessions, and classrooms, who we don't list here to maintain their privacy.\n\nThis project has been supported by the National Science Foundation under awards 2318257, 2031265, 2100296, and 2122950, the University of Washington, and generous <gifts@://donate> from people like you.",
                 "teachers": "Teachers",
                 "contributors": "Contributors"
+            },
+            "admin": {
+                "header": "Privileges",
+                "prompt": "Everyone below can do something most people can't. A change here reaches them right away, though a page they already have open can take up to an hour to notice. Superuser includes moderating and teaching, so someone who has it doesn't need the other two.",
+                "claim": {
+                    "admin": "Superuser",
+                    "mod": "Moderator",
+                    "teacher": "Teacher",
+                    "banned": "Can't share publicly"
+                },
+                "creator": "Creator",
+                "email": "Email",
+                "privileges": "Privileges",
+                "button": {
+                    "revoke": "Take away every privilege",
+                    "lift": {
+                        "label": "Give back sharing",
+                        "tip": "Let this creator share publicly again, and set their warning count back to zero"
+                    }
+                },
+                "confirm": "Their warning count goes back to zero and they can share publicly again. The record of what happened stays, so a moderator looking at them later can still see it.",
+                "ownAdmin": "You can't take away your own privileges. Ask another admin.",
+                "nobody": "Nobody has any privileges yet.",
+                "error": {
+                    "notadmin": "This is a admin space. There is nothing here for you to change.",
+                    "login": "You need to be <logged in@://login> to see this page.",
+                    "offline": "We weren't able to load who has privileges. Are you online?",
+                    "save": "We weren't able to save that change. Try again?",
+                    "none": "Choose at least one privilege before adding someone."
+                }
             }
         },
         "edit": {

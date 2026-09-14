@@ -9318,7 +9318,9 @@
                     "updates": "$~Se vad som är nytt i Wordplay",
                     "design": "$~Referens för designsystem för bidragsgivare",
                     "thanks": "$~Vem hjälpte till att göra detta?",
-                    "localize": "$~Hjälp till att översätta Wordplay till ditt språk"
+                    "localize": "$~Hjälp till att översätta Wordplay till ditt språk",
+                    "moderate": "$~granska vad andra har bett oss titta på",
+                    "admin": "$~se vem som kan göra vad, och ändra det"
                 },
                 "tagline": "$~tillgänglig, flerspråkig, kreativ kodning",
                 "tour": {
@@ -10577,6 +10579,36 @@
             "breadcrumb": {
                 "label": "$~Ströbröd",
                 "home": "$~Hem"
+            },
+            "admin": {
+                "header": "$~Rättigheter",
+                "prompt": "$~Alla nedan kan göra något som de flesta inte kan. En ändring här når dem direkt, men en sida de redan har öppen kan ta upp till en timme att märka det. Superanvändare omfattar både att moderera och att undervisa, så den som har det behöver inte de andra två.",
+                "claim": {
+                    "admin": "$~Superanvändare",
+                    "mod": "$~Moderator",
+                    "teacher": "$~Lärare",
+                    "banned": "$~Kan inte dela offentligt"
+                },
+                "creator": "$~Skapare",
+                "email": "$~E-post",
+                "privileges": "$~Rättigheter",
+                "button": {
+                    "revoke": "$~Ta bort alla rättigheter",
+                    "lift": {
+                        "label": "$~Ge tillbaka delning",
+                        "tip": "$~Låt den här skaparen dela offentligt igen, och nollställ deras antal varningar"
+                    }
+                },
+                "confirm": "$~Deras antal varningar nollställs och de kan dela offentligt igen. Det som hände finns kvar i historiken, så en moderator som tittar på dem senare kan ändå se det.",
+                "ownAdmin": "$~Du kan inte ta bort dina egna rättigheter. Fråga en annan administratör.",
+                "nobody": "$~Ingen har några rättigheter än.",
+                "error": {
+                    "notadmin": "$~Det här är ett administratörsutrymme. Det finns inget här för dig att ändra.",
+                    "login": "$~Du måste vara <inloggad@://login> för att se den här sidan.",
+                    "offline": "$~Vi kunde inte hämta vem som har rättigheter. Är du uppkopplad?",
+                    "save": "$~Vi kunde inte spara den ändringen. Vill du försöka igen?",
+                    "none": "$~Välj minst en rättighet innan du lägger till någon."
+                }
             }
         },
         "edit": {

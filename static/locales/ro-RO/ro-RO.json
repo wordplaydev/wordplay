@@ -9676,7 +9676,9 @@
                         "subtitle": "$~Ajută-ne să creăm Wordplay"
                     },
                     "design": "$~Referință de sistem de proiectare pentru contribuitori",
-                    "localize": "$~Ajută la traducerea Wordplay în limba ta"
+                    "localize": "$~Ajută la traducerea Wordplay în limba ta",
+                    "moderate": "$~vezi ce au cerut oamenii să verificăm",
+                    "admin": "$~vezi cine poate face ce, și schimbă asta"
                 },
                 "tagline": "$~programare creativă, accesibilă și multilingvă",
                 "tour": {
@@ -10935,6 +10937,36 @@
             "breadcrumb": {
                 "label": "$~Pesmet",
                 "home": "$~Acasă"
+            },
+            "admin": {
+                "header": "$~Privilegii",
+                "prompt": "$~Toți cei de mai jos pot face ceva ce majoritatea oamenilor nu pot. O schimbare aici ajunge la ei imediat, deși o pagină pe care o au deja deschisă poate dura până la o oră ca să observe. Superutilizator include moderarea și predarea, așa că cineva care are acest privilegiu nu are nevoie de celelalte două.",
+                "claim": {
+                    "admin": "$~Superutilizator",
+                    "mod": "$~Moderator",
+                    "teacher": "$~Profesor",
+                    "banned": "$~Nu poate distribui public"
+                },
+                "creator": "$~Creator",
+                "email": "$~E-mail",
+                "privileges": "$~Privilegii",
+                "button": {
+                    "revoke": "$~Retrage toate privilegiile",
+                    "lift": {
+                        "label": "$~Redă dreptul de distribuire",
+                        "tip": "$~Permite acestui creator să distribuie public din nou și readu numărul lui de avertismente la zero"
+                    }
+                },
+                "confirm": "$~Numărul lor de avertismente revine la zero și pot distribui public din nou. Înregistrarea a ceea ce s-a întâmplat rămâne, așa că un moderator care se uită la ei mai târziu tot o poate vedea.",
+                "ownAdmin": "$~Nu îți poți retrage propriile privilegii. Cere altui administrator.",
+                "nobody": "$~Nimeni nu are încă privilegii.",
+                "error": {
+                    "notadmin": "$~Acesta este un spațiu pentru administratori. Nu ai nimic de schimbat aici.",
+                    "login": "$~Trebuie să fii <autentificat@://login> ca să vezi această pagină.",
+                    "offline": "$~Nu am putut încărca cine are privilegii. Ești conectat la internet?",
+                    "save": "$~Nu am putut salva acea schimbare. Încerci din nou?",
+                    "none": "$~Alege cel puțin un privilegiu înainte de a adăuga pe cineva."
+                }
             }
         },
         "edit": {

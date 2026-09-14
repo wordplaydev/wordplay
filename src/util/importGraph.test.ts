@@ -758,12 +758,25 @@ test('resolving a color needs no basis', () => {
 // by the notification bell, which `Page` mounts — hence the layout budget
 // moving by one file and the rest by two. Every byte ceiling went up by a
 // hundredth of a megabyte with them and with the email copy in en-US.json.
+// The superuser claim adds one leaf file to four of the five: `reviewer.ts`,
+// which answers "may this creator review anything" for the notification bell,
+// the home page's new link, and /moderate's own gate. It was three copies of one
+// derivation before, and Page reaches it through the bell — hence four budgets
+// moving by a file and the layout's not moving at all. The /admin page, its
+// callables, and its table props reach none of these entries.
+//
+// Every byte ceiling moves by a hundredth with it: `en-US.json` carries the new
+// page's copy and the two link subtitles, and every page resolves a locale. The
+// rest is comments — the claim table in `getClaim.ts` and the three privilege
+// helpers in `Moderation.ts`, both of which every page already reached, which is
+// why the client half of this change was put in those two files rather than in a
+// module of its own.
 test.each([
-    ['src/routes/+layout.svelte', 527, 3.96],
-    ['src/components/app/Page.svelte', 551, 4.22],
-    ['src/routes/[[locale]]/+page.svelte', 566, 4.31],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 571, 4.33],
-    ['src/routes/[[locale]]/projects/+page.svelte', 578, 4.35],
+    ['src/routes/+layout.svelte', 527, 3.97],
+    ['src/components/app/Page.svelte', 552, 4.23],
+    ['src/routes/[[locale]]/+page.svelte', 567, 4.32],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 572, 4.34],
+    ['src/routes/[[locale]]/projects/+page.svelte', 579, 4.36],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

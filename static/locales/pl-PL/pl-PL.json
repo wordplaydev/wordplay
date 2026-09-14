@@ -9329,7 +9329,9 @@
                     "updates": "$~Zobacz, co nowego w Wordplay",
                     "design": "$~Odniesienie do systemu projektowania dla współpracowników",
                     "thanks": "$~Kto pomógł to stworzyć?",
-                    "localize": "$~Pomóż przetłumaczyć Wordplay na swój język"
+                    "localize": "$~Pomóż przetłumaczyć Wordplay na swój język",
+                    "moderate": "$~przejrzyj, co ludzie poprosili nas sprawdzić",
+                    "admin": "$~zobacz, kto co może robić, i zmień to"
                 },
                 "tagline": "$~dostępne, wielojęzyczne, kreatywne programowanie",
                 "tour": {
@@ -10591,6 +10593,36 @@
             "breadcrumb": {
                 "label": "$~Bułka tarta",
                 "home": "$~Dom"
+            },
+            "admin": {
+                "header": "$~Uprawnienia",
+                "prompt": "$~Każda osoba poniżej może zrobić coś, czego większość osób nie może. Zmiana tutaj dociera do nich od razu, choć strona, którą mają już otwartą, może zauważyć zmianę dopiero po godzinie. Superużytkownik obejmuje moderowanie i nauczanie, więc osoba, która to ma, nie potrzebuje pozostałych dwóch.",
+                "claim": {
+                    "admin": "$~Superużytkownik",
+                    "mod": "$~Moderator",
+                    "teacher": "$~Nauczyciel",
+                    "banned": "$~Nie może udostępniać publicznie"
+                },
+                "creator": "$~Twórca",
+                "email": "$~E-mail",
+                "privileges": "$~Uprawnienia",
+                "button": {
+                    "revoke": "$~Odbierz wszystkie uprawnienia",
+                    "lift": {
+                        "label": "$~Przywróć udostępnianie",
+                        "tip": "$~Pozwól temu twórcy znów udostępniać publicznie i wyzeruj jego licznik ostrzeżeń"
+                    }
+                },
+                "confirm": "$~Ich licznik ostrzeżeń wraca do zera i mogą znów udostępniać publicznie. Zapis tego, co się stało, zostaje, więc moderator, który spojrzy na nich później, nadal to zobaczy.",
+                "ownAdmin": "$~Nie możesz odebrać uprawnień samemu sobie. Poproś innego administratora.",
+                "nobody": "$~Nikt jeszcze nie ma żadnych uprawnień.",
+                "error": {
+                    "notadmin": "$~To jest przestrzeń administratora. Nie ma tu nic, co mógłbyś zmienić.",
+                    "login": "$~Musisz być <zalogowany@://login>, żeby zobaczyć tę stronę.",
+                    "offline": "$~Nie udało nam się wczytać, kto ma uprawnienia. Czy jesteś online?",
+                    "save": "$~Nie udało nam się zapisać tej zmiany. Spróbować ponownie?",
+                    "none": "$~Wybierz co najmniej jedno uprawnienie, zanim dodasz kogoś."
+                }
             }
         },
         "edit": {

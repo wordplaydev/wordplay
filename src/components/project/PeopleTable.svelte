@@ -14,6 +14,7 @@
     import Button from '@components/widgets/Button.svelte';
     import { Creators } from '@db/Database';
     import type { Creator } from '@db/creators/CreatorDatabase';
+    import type { LocaleTextAccessor } from '@locale/Locales';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { tick, type Snippet } from 'svelte';
 
@@ -57,6 +58,19 @@
          *  showing an empty field under every list. Off by default, since a
          *  list whose whole purpose is to be added to should say so. */
         addDisclosure?: boolean;
+        /** Whether the signed-in creator may add themselves. See AddCreator. */
+        allowSelf?: boolean;
+        /** What the remove button says, for a table where taking someone off
+         *  isn't removing a collaborator. */
+        removeTip?: LocaleTextAccessor | undefined;
+        /** Render each person's name as a row header rather than a plain cell,
+         *  for a table whose attribute cells are controls. Without it a
+         *  checkbox in a row has nothing naming the person it is about, since a
+         *  Checkbox's label is a fixed string with no way to carry their name.
+         *  Off by default: a table of names and a remove button has no controls
+         *  to associate, and a header cell would only make its first column
+         *  bold. */
+        rowHeader?: boolean;
     }
 
     let {
@@ -77,6 +91,9 @@
         pair = true,
         personWidth = 200,
         addDisclosure = false,
+        allowSelf = false,
+        removeTip = undefined,
+        rowHeader = false,
     }: Props = $props();
 
     /** Whether the add row is showing. Always, unless the caller asked for the
@@ -128,21 +145,28 @@
     );
 </script>
 
+{#snippet person(uid: string)}
+    <CreatorView
+        {anonymize}
+        chrome={false}
+        creator={creators[uid] ?? null}
+        loading={!(uid in creators)}
+        reserve
+    />
+{/snippet}
+
 {#snippet personCells(uid: string)}
-    <td
-        ><CreatorView
-            {anonymize}
-            chrome={false}
-            creator={creators[uid] ?? null}
-            loading={!(uid in creators)}
-            reserve
-        /></td
-    >
+    {#if rowHeader}
+        <th scope="row">{@render person(uid)}</th>
+    {:else}
+        <td>{@render person(uid)}</td>
+    {/if}
     {@render cells?.(uid)}
     {#if editable && remove}
         <td class="actions"
             >{#if removable === undefined || removable(uid)}<Button
-                    tip={(l) => l.ui.project.button.removeCollaborator}
+                    tip={removeTip ??
+                        ((l) => l.ui.project.button.removeCollaborator)}
                     action={() => remove(uid, nameOf(uid))}
                     icon={CANCEL_SYMBOL}
                 ></Button>{/if}</td
@@ -186,6 +210,7 @@
                         cells
                         id={addFieldID}
                         {add}
+                        {allowSelf}
                         extraCells={addCells}
                     />
                     {#each { length: perRow - 1 } as _, slot (slot)}
@@ -278,6 +303,14 @@
 
     table :global(tr:nth-child(odd)) {
         background: none;
+    }
+
+    /* A name is a row header for the controls beside it, not a heading: the
+       cell is a `th` so a screen reader names the person each checkbox is
+       about, and looks exactly like the `td` it replaces. */
+    th[scope='row'] {
+        font-weight: normal;
+        text-align: start;
     }
 
     /* The table and the control that adds to it, side by side. */

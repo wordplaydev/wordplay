@@ -6,7 +6,7 @@
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import getClaim from '@db/creators/getClaim';
+    import { isTeacher } from '@db/projects/Moderation';
 
     let { children } = $props();
 
@@ -19,7 +19,7 @@
     <Header text={(l) => l.ui.page.teach.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.teach.error.login} />
 {:else}
-    {#await getClaim($user, 'teacher')}
+    {#await isTeacher($user)}
         <Spinning />
     {:then claim}
         {#if !claim}

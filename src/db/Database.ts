@@ -42,6 +42,7 @@ import { ProjectSchema } from '@db/projects/ProjectSchemas';
 import { WordplayDexie } from '@db/WordplayDexie';
 import SettingsDatabase from '@db/settings/SettingsDatabase';
 import retryableLoad from '@util/retryableLoad';
+import { forgetTokenRefresh } from '@db/creators/getClaim';
 import { getUsername, syncHandle } from '@db/creators/handle.svelte';
 import { syncStrikes } from '@db/creators/strikes.svelte';
 import { syncNotices } from '@db/moderation/notices.svelte';
@@ -1015,6 +1016,9 @@ export class Database {
         const notify = (newUser: User | null) => {
             if (!authIdentityChanged(lastNotifiedUid, newUser)) return;
             lastNotifiedUid = newUser === null ? null : newUser.uid;
+            // A different account's privileges are not this one's, so the
+            // once-per-load token refresh has to happen again for them.
+            forgetTokenRefresh();
             callback(newUser);
         };
         // Keep the user store in sync.

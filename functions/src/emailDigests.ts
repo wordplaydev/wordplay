@@ -3,6 +3,7 @@ import { getAuth } from 'firebase-admin/auth';
 import { getFirestore, type Firestore } from 'firebase-admin/firestore';
 import { chatDigest, reviewDigest } from './email/messages/digest.js';
 import { notifyByEmail } from './email/notify.js';
+import { hasClaim } from './claims.js';
 
 /**
  * The two summaries that nothing else could send.
@@ -94,8 +95,9 @@ async function reviewCount(
     return count;
 }
 
-/** Every platform moderator, by uid. Paginated, and only ever once a day —
- *  `mod` is a custom claim, which no query can reach. */
+/** Everyone who reviews for the platform, by uid — moderators, and the
+ *  superusers whose `admin` claim implies `mod`. Paginated, and only ever once
+ *  a day: a custom claim is not a field any query can reach. */
 async function platformModerators(): Promise<string[]> {
     const auth = getAuth();
     const uids: string[] = [];
@@ -103,7 +105,7 @@ async function platformModerators(): Promise<string[]> {
     do {
         const result = await auth.listUsers(1000, page);
         for (const user of result.users)
-            if (user.customClaims?.mod === true) uids.push(user.uid);
+            if (hasClaim(user.customClaims, 'mod')) uids.push(user.uid);
         page = result.pageToken;
     } while (page !== undefined);
     return uids;

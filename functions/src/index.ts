@@ -31,6 +31,9 @@ import type {
     ModerateInputs,
     ModerateProjectInputs,
     ReportInputs,
+    GetClaimHoldersOutput,
+    SetClaimsInputs,
+    SetClaimsOutput,
 } from 'shared-types';
 
 import changeUsernameHandler from './changeUsername.js';
@@ -51,6 +54,8 @@ import galleryEditedHandler from './galleryEdited.js';
 import kitEditedHandler from './kitEdited.js';
 import howToEditedHandler from './howToEdited.js';
 import getCreatorsHandler from './getCreators.js';
+import getClaimHoldersHandler from './getClaimHolders.js';
+import setClaimsHandler from './setClaims.js';
 import getLLMTranslationsHandler from './getLLMTranslations.js';
 import analyzeLocalizationHandler from './analyzeLocalization.js';
 import getPagePreviewHandler from './getPagePreview.js';
@@ -162,6 +167,26 @@ export const findCreator = onCall<
     FindCreatorInputs,
     Promise<FindCreatorOutput>
 >({ ...cors, ...appcheck }, findCreatorHandler);
+
+/**
+ * Everyone who holds a privilege, for the /admin page.
+ *
+ * A custom claim is not a field any query reaches, so this pages all of Auth —
+ * the same sweep emailDigests runs daily, affordable per page load only because
+ * an administrator is the only caller and there are very few of them. The
+ * raised timeout is that sweep; see the handler for the ceiling on it.
+ */
+export const getClaimHolders = onCall<void, Promise<GetClaimHoldersOutput>>(
+    { ...cors, ...appcheck, timeoutSeconds: 120, memory: '512MiB' },
+    getClaimHoldersHandler,
+);
+
+/** Give someone a privilege, or take one away. App Check enforced: this is the
+ *  most consequential call the app can make. */
+export const setClaims = onCall<SetClaimsInputs, Promise<SetClaimsOutput>>(
+    { ...cors, ...appcheck },
+    setClaimsHandler,
+);
 
 /** The Anthropic API key, for the Claude-backed project translation. Set with
  *  `firebase functions:secrets:set ANTHROPIC_API_KEY` (and, for the emulator,

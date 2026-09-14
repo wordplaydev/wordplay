@@ -1,6 +1,15 @@
 /**
  * This script enables viewing and updating a user's claims.
  * so it's what we've got. Run it with `node claims.cjs`
+ *
+ * The ordinary way to grant a privilege is now the /admin page, which needs no
+ * service key and leaves the same trail. This stays as the recovery path: a
+ * project where nobody holds `admin` yet has no way in through the app, and
+ * this is how the first superuser is made.
+ *
+ * The flag list below and `WritableClaims` in functions/src/setClaims.ts name
+ * the same four privileges; setClaims.test.ts fails if they drift, since a
+ * script that can set something the page cannot take back is a trap.
  */
 import { cert, initializeApp } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';

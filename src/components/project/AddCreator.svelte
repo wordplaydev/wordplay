@@ -33,9 +33,21 @@
          *  still submits, since implicit submission clicks the first submit
          *  button whichever cell it is in. */
         cells?: boolean;
+        /** Whether the signed-in creator may look themselves up. Off by
+         *  default: on a roster of collaborators, adding yourself is a mistake.
+         *  On for the privileges table, where giving yourself something to try
+         *  it out is an ordinary thing to want. */
+        allowSelf?: boolean;
     }
 
-    let { id, add, extra, extraCells, cells = false }: Props = $props();
+    let {
+        id,
+        add,
+        extra,
+        extraCells,
+        cells = false,
+        allowSelf = false,
+    }: Props = $props();
 
     let adding = $state(false);
     let emailOrUsername = $state('');
@@ -53,10 +65,11 @@
         ) {
             return (l: LocaleText) => l.ui.page.login.error.invalidUsername;
         }
-        // Don't add self
+        // Don't add self, unless the caller says that means something here.
         if (
-            emailOrUsername === DB.getUsername() ||
-            emailOrUsername === DB.getUserEmail()
+            !allowSelf &&
+            (emailOrUsername === DB.getUsername() ||
+                emailOrUsername === DB.getUserEmail())
         )
             return (l: LocaleText) => l.ui.dialog.share.error.self;
         // "We don't know this creator" is a reason what you typed can't be

@@ -9565,7 +9565,9 @@
                     },
                     "design": "$~Tài liệu tham khảo về hệ thống thiết kế dành cho người đóng góp.",
                     "thanks": "$~Ai đã giúp tạo ra cái này?",
-                    "localize": "$~Giúp dịch Wordplay sang ngôn ngữ của bạn"
+                    "localize": "$~Giúp dịch Wordplay sang ngôn ngữ của bạn",
+                    "moderate": "$~xem lại những gì mọi người đã nhờ chúng ta xem xét",
+                    "admin": "$~xem ai có thể làm gì, và thay đổi điều đó"
                 },
                 "tagline": "$~lập trình sáng tạo, dễ tiếp cận, đa ngôn ngữ",
                 "tour": {
@@ -10831,6 +10833,36 @@
             "breadcrumb": {
                 "label": "$~Vụn bánh mì",
                 "home": "$~Trang chủ"
+            },
+            "admin": {
+                "header": "$~Đặc quyền",
+                "prompt": "$~Mỗi người dưới đây có thể làm một việc mà hầu hết mọi người không làm được. Thay đổi ở đây có hiệu lực ngay lập tức, dù một trang đang mở sẵn có thể mất đến một giờ mới nhận ra điều đó. Siêu người dùng bao gồm cả kiểm duyệt và giảng dạy, nên ai có quyền này thì không cần hai quyền kia nữa.",
+                "claim": {
+                    "admin": "$~Siêu người dùng",
+                    "mod": "$~Người kiểm duyệt",
+                    "teacher": "$~Giáo viên",
+                    "banned": "$~Không thể chia sẻ công khai"
+                },
+                "creator": "$~Người tạo",
+                "email": "$~Email",
+                "privileges": "$~Đặc quyền",
+                "button": {
+                    "revoke": "$~Lấy lại tất cả đặc quyền",
+                    "lift": {
+                        "label": "$~Trả lại quyền chia sẻ",
+                        "tip": "$~Cho phép người tạo này chia sẻ công khai trở lại, và đặt lại số lần cảnh báo của họ về không"
+                    }
+                },
+                "confirm": "$~Số lần cảnh báo của họ trở về không, và họ có thể chia sẻ công khai trở lại. Bản ghi về những gì đã xảy ra vẫn được giữ lại, để một người kiểm duyệt xem xét sau này vẫn có thể thấy được.",
+                "ownAdmin": "$~Bạn không thể lấy lại đặc quyền của chính mình. Hãy nhờ một quản trị viên khác.",
+                "nobody": "$~Chưa có ai có đặc quyền nào cả.",
+                "error": {
+                    "notadmin": "$~Đây là không gian dành cho quản trị viên. Không có gì ở đây để bạn thay đổi.",
+                    "login": "$~Bạn cần phải <đăng nhập@://login> để xem trang này.",
+                    "offline": "$~Chúng tôi không thể tải danh sách ai có đặc quyền. Bạn có đang kết nối mạng không?",
+                    "save": "$~Chúng tôi không thể lưu thay đổi đó. Bạn thử lại nhé?",
+                    "none": "$~Hãy chọn ít nhất một đặc quyền trước khi thêm ai đó."
+                }
             }
         },
         "edit": {

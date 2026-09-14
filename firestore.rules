@@ -1,6 +1,41 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // A superuser. `admin` implies `mod` and `teacher` everywhere — here, in
+    // every callable, and in every client check — so one claim is enough to run
+    // the place and nobody has to hold three.
+    //
+    // Declared here rather than inside a collection because a rules function is
+    // in scope for its own block and every block nested in it, and `mod` is
+    // asked about in eight collections.
+    //
+    // Self-guarding on `request.auth`, unlike the inline copies these replace.
+    // Reading `request.auth.token` with no auth is a hard CEL error, and the
+    // call sites are not all the same shape: most sit behind a
+    // `request.auth != null &&`, but the how-tos read rule carries its own guard
+    // inline — so a helper that assumed a guard would be right at twelve sites
+    // and a landmine at the thirteenth.
+    function isAdmin() {
+      return request.auth != null && "admin" in request.auth.token && request.auth.token.admin == true;
+    }
+    function isMod() {
+      return isAdmin() ||
+        (request.auth != null && "mod" in request.auth.token && request.auth.token.mod == true);
+    }
+    function isTeacher() {
+      return isAdmin() ||
+        (request.auth != null && "teacher" in request.auth.token && request.auth.token.teacher == true);
+    }
+    // Not a privilege — the loss of public sharing (#193) — so nothing implies
+    // it, `admin` included: authority over other people is not immunity from a
+    // decision about your own content. A banned administrator can still lift
+    // their own ban from /admin, so nothing here is unrecoverable. Hoisted only
+    // so that rulesClaimConvention.test.ts can say "no rule outside these four
+    // functions reads request.auth.token".
+    function isBanned() {
+      return request.auth != null && "banned" in request.auth.token && request.auth.token.banned == true;
+    }
+
     match /projects/{project} {
       // Whether the given project data's gallery grants `uid` read access:
       // restricted projects admit only that gallery's curators; unrestricted
@@ -38,7 +73,7 @@ service cloud.firestore {
           (data != null && 'public' in data && data.public) ||
           (data != null && request.auth != null &&
             (
-              ("mod" in request.auth.token && request.auth.token.mod) ||
+              isMod() ||
               ('owner' in data && data.owner == request.auth.uid) ||
               ('collaborators' in data && request.auth.uid in data.collaborators) ||
               ('commenters' in data && request.auth.uid in data.commenters) ||
@@ -83,7 +118,7 @@ service cloud.firestore {
       // read above. A banned creator can still write, edit, and collaborate —
       // they simply can't write `public == true`.
       function notBanned() {
-        return !("banned" in request.auth.token) || request.auth.token.banned != true;
+        return !isBanned();
       }
       // A write that doesn't leave the document public is never a publish.
       function notPublic() {
@@ -113,7 +148,7 @@ service cloud.firestore {
       function ownerUnchangedOrOwner() {
         return !('owner' in resource.data) ||
           resource.data.owner == request.auth.uid ||
-          ("mod" in request.auth.token && request.auth.token.mod) ||
+          isMod() ||
           (('owner' in request.resource.data) &&
             request.resource.data.owner == resource.data.owner);
       }
@@ -126,7 +161,7 @@ service cloud.firestore {
           (
             resource.data.owner == request.auth.uid ||
             request.auth.uid in resource.data.collaborators ||
-            ("mod" in request.auth.token && request.auth.token.mod) ||
+            isMod() ||
             (resource.data.gallery != null && isCuratorOf(request.auth.uid, resource.data.gallery))
           );
       allow delete: if request.auth != null && resource.data.owner == request.auth.uid;
@@ -162,7 +197,7 @@ service cloud.firestore {
         allow update: if false;
         allow delete: if request.auth != null && (
           ('owner' in parent() && parent().owner == request.auth.uid) ||
-          ("mod" in request.auth.token && request.auth.token.mod)
+          isMod()
         );
       }
 
@@ -213,7 +248,7 @@ service cloud.firestore {
     // moderateProject callable, through the Admin SDK.
     match /strikes/{uid} {
       allow read: if request.auth != null &&
-        (request.auth.uid == uid || ("mod" in request.auth.token && request.auth.token.mod));
+        (request.auth.uid == uid || isMod());
       allow write: if false;
     }
     // A creator's inbox (#938). Server-written, self-readable — the same shape
@@ -310,8 +345,7 @@ service cloud.firestore {
       // and a curator's queue spanning more galleries than that budget would be
       // denied whole rather than partially.
       allow read: if request.auth != null && (
-        (("mod" in request.auth.token) && request.auth.token.mod
-          && ("platform" in resource.data) && resource.data.platform) ||
+        (isMod() && ("platform" in resource.data) && resource.data.platform) ||
         (("moderators" in resource.data) && request.auth.uid in resource.data.moderators)
       );
     }
@@ -320,7 +354,7 @@ service cloud.firestore {
       // sharing can still curate a gallery, but can't publish one. Checked
       // against the custom claim, so it costs no document reads.
       function galleryMayBePublic() {
-        return (!("banned" in request.auth.token) || request.auth.token.banned != true)
+        return (!isBanned())
           || !('public' in request.resource.data)
           || request.resource.data.public != true;
       }
@@ -364,7 +398,7 @@ service cloud.firestore {
       // grants on projects and how-tos.
       allow read: if (resource.data != null && "public" in resource.data && resource.data.public) || (
         request.auth != null && (
-          ("mod" in request.auth.token && request.auth.token.mod) ||
+          isMod() ||
           ("curators" in resource.data && request.auth.uid in resource.data.curators) || 
           ("creators" in resource.data && request.auth.uid in resource.data.creators) || 
           (
@@ -509,11 +543,8 @@ service cloud.firestore {
       }
     }
     match /classes/{class} {
-      function isTeacher() { 
-        return "teacher" in request.auth.token && request.auth.token.teacher; 
-      }
-
-      // Only teachers can create classes
+      // Only teachers can create classes (isTeacher is declared at the top of
+      // `documents`, so a superuser satisfies it too).
       allow create: if request.auth != null && isTeacher();
       // Students and teachers can read classes
       allow get: if request.auth != null && resource.data != null && (
@@ -569,7 +600,7 @@ service cloud.firestore {
               // A reported character has usually been un-published by the time
               // anyone reviews it, so without this a moderator could not read
               // what they were asked to decide about.
-              ("mod" in request.auth.token && request.auth.token.mod) ||
+              isMod() ||
               ("owner" in resource.data && request.auth.uid == resource.data.owner) ||
               ("collaborators" in resource.data && request.auth.uid in resource.data.collaborators)
             )
@@ -595,7 +626,7 @@ service cloud.firestore {
       // Anyone logged in can create feedback
       allow create: if request.auth != null;
       // Only the creator can read, update, or delete their feedback; anyone can vote on the feedback though
-      allow update, delete: if request.auth != null && (request.auth.uid == resource.data.creator || ("mod" in request.auth.token && request.auth.token.mod) || request.resource.data.diff(resource.data).affectedKeys().hasOnly(["votes"]));
+      allow update, delete: if request.auth != null && (request.auth.uid == resource.data.creator || isMod() || request.resource.data.diff(resource.data).affectedKeys().hasOnly(["votes"]));
     }
     match /howtos/{id} {
       function isGalleryPublic(galleryID) {
@@ -643,7 +674,7 @@ service cloud.firestore {
       // gallery is class work — which is what the warning itself promises.
       // Checked against the claim, so it costs no document reads.
       function howToMayBePublic() {
-        return (!("banned" in request.auth.token) || request.auth.token.banned != true)
+        return (!isBanned())
           || (
             (!('isPublic' in request.resource.data) || request.resource.data.isPublic != true)
             && (!('submittedToGuide' in request.resource.data) || request.resource.data.submittedToGuide != true)
@@ -686,7 +717,7 @@ service cloud.firestore {
       // anyone at all (#907).
       allow read: 
         if resource.data != null && (
-          (request.auth != null && "mod" in request.auth.token && request.auth.token.mod) ||
+          isMod() ||
           (request.auth != null && isRequestorOwnerCollaborator(request.auth.uid)) ||
           ("published" in resource.data && resource.data.published && (
             ('isPublic' in resource.data && resource.data.isPublic) ||
@@ -723,7 +754,7 @@ service cloud.firestore {
           howToMayBePublic() &&
           howToServerFieldsUnchanged() &&
           (
-            ("mod" in request.auth.token && request.auth.token.mod) ||
+            isMod() ||
             isRequestorOwnerCollaborator(request.auth.uid) ||
             isRequestorCurator(request.auth.uid, resource.data.galleryId) ||
             // Both openings require the how-to to be published, for the reason
@@ -755,7 +786,7 @@ service cloud.firestore {
       // public sharing can still keep kits, but can't list one. Checked against
       // the custom claim, so it costs no document reads.
       function kitMayBePublic() {
-        return (!("banned" in request.auth.token) || request.auth.token.banned != true)
+        return (!isBanned())
           || !('public' in request.resource.data)
           || request.resource.data.public != true;
       }
@@ -827,7 +858,7 @@ service cloud.firestore {
         if resource == null
           || ("public" in resource.data && resource.data.public)
           || (request.auth != null && (
-              ("mod" in request.auth.token && request.auth.token.mod)
+              isMod()
               || ("owner" in resource.data && request.auth.uid == resource.data.owner)
             ));
       // Only the owner, and they may not hand it to someone else: a kit's versions
@@ -858,7 +889,7 @@ service cloud.firestore {
         if resource == null
           || ("public" in resource.data && resource.data.public)
           || (request.auth != null && (
-              ("mod" in request.auth.token && request.auth.token.mod)
+              isMod()
               || ("owner" in resource.data && request.auth.uid == resource.data.owner)
             ));
       // A version arrives published and owned by its creator. It cannot arrive

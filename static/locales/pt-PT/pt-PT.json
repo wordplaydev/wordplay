@@ -9664,7 +9664,9 @@
                     },
                     "design": "Sistema de referência de design para colaboradores",
                     "thanks": "Quem ajudou a fazê-lo?",
-                    "localize": "$~Ajuda a traduzir o Wordplay para o teu idioma"
+                    "localize": "$~Ajuda a traduzir o Wordplay para o teu idioma",
+                    "moderate": "$~rever o que as pessoas pediram para ser analisado",
+                    "admin": "$~ver quem pode fazer o quê, e alterar isso"
                 },
                 "tagline": "$~programação acessível, multilingue e criativa",
                 "tour": {
@@ -10923,6 +10925,36 @@
                 "intro": "$~Obrigado aos nossos *$#count[$#count colaborador|$count colaboradores|$count colaboradores]* por contribuírem para o design, o desenvolvimento, a localização e o conteúdo do @wordplay! E obrigado aos muitos professores e jovens que orientaram o nosso design em grupos de foco, sessões de design e salas de aula, e que não listamos aqui para proteger a sua privacidade.\n\nEste projeto foi apoiado pela National Science Foundation ao abrigo dos prémios 2318257, 2031265, 2100296 e 2122950, pela University of Washington e por <donativos//donate> generosos de pessoas como tu.",
                 "teachers": "$~Professores",
                 "contributors": "$~Colaboradores"
+            },
+            "admin": {
+                "header": "$~Privilégios",
+                "prompt": "$~Todos os que estão abaixo podem fazer algo que a maioria das pessoas não pode. Uma alteração aqui chega até eles de imediato, embora uma página que já tenham aberta possa demorar até uma hora a atualizar-se. Superutilizador inclui moderar e ensinar, por isso quem tem esse privilégio não precisa dos outros dois.",
+                "claim": {
+                    "admin": "$~Superutilizador",
+                    "mod": "$~Moderador(a)",
+                    "teacher": "$~Professor(a)",
+                    "banned": "$~Não pode partilhar publicamente"
+                },
+                "creator": "$~Criador(a)",
+                "email": "$~Correio eletrónico",
+                "privileges": "$~Privilégios",
+                "button": {
+                    "revoke": "$~retirar todos os privilégios",
+                    "lift": {
+                        "label": "$~devolver a partilha",
+                        "tip": "$~Permitir que este(a) criador(a) volte a partilhar publicamente, e repor o seu número de avisos a zero"
+                    }
+                },
+                "confirm": "$~O seu número de avisos volta a zero e podem voltar a partilhar publicamente. O registo do que aconteceu mantém-se, para que um(a) moderador(a) possa vê-lo mais tarde.",
+                "ownAdmin": "$~Não pode retirar os seus próprios privilégios. Peça a outro administrador.",
+                "nobody": "$~Ainda ninguém tem privilégios.",
+                "error": {
+                    "notadmin": "$~Este é um espaço de administração. Não há aqui nada para o(a) utilizador(a) alterar.",
+                    "login": "$~É preciso estar <com sessão iniciada@://login> para ver esta página.",
+                    "offline": "$~Não foi possível carregar quem tem privilégios. Está ligado(a) à internet?",
+                    "save": "$~Não foi possível guardar essa alteração. Tentar novamente?",
+                    "none": "$~Escolha pelo menos um privilégio antes de adicionar alguém."
+                }
             }
         },
         "edit": {

@@ -20,6 +20,8 @@ const Users = {
     Stranger: 'rulestest-kit-stranger',
     Banned: 'rulestest-kit-banned',
     Mod: 'rulestest-kit-mod',
+    /** A superuser, holding no `mod` claim of their own. */
+    Admin: 'rulestest-kit-admin',
 };
 
 const Kits = {
@@ -488,6 +490,24 @@ describe('a published version', () => {
                     id: `${Kits.Listed}_2`,
                     version: 2,
                 }),
+        );
+    });
+});
+
+/** `admin` implies `mod`, so a superuser reads an unlisted kit and its
+ *  versions the same way a moderator does — with no `mod` claim of their own. */
+describe('an administrator', () => {
+    it('may read a kit that is not public', async () => {
+        await assertSucceeds(
+            as(Users.Admin, { admin: true }).doc(`kits/${Kits.Private}`).get(),
+        );
+    });
+
+    it('may read a version that is not public', async () => {
+        await assertSucceeds(
+            as(Users.Admin, { admin: true })
+                .doc(`kitversions/${Kits.Private}_1`)
+                .get(),
         );
     });
 });

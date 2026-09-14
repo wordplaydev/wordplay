@@ -23,6 +23,7 @@ import type LocalizePageText from '../routes/[[locale]]/localize/PageText';
 import type LoginPageText from '../routes/[[locale]]/login/PageText';
 import type ProjectsPageText from '../routes/[[locale]]/projects/PageText';
 import type RightsPageText from '../routes/[[locale]]/rights/PageText';
+import type AdminPageText from '../routes/[[locale]]/admin/PageText';
 import type TeachPageText from '../routes/[[locale]]/teach/PageText';
 import type ClassPageText from '../routes/[[locale]]/teach/class/[classid]/PageText';
 import type NewClassPageText from '../routes/[[locale]]/teach/class/new/PageText';
@@ -2691,6 +2692,8 @@ type UITexts = {
         design: DesignPageText;
         /** Thanks/contributors page text */
         thanks: ThanksPageText;
+        /** The page that says who may do what, and changes it */
+        admin: AdminPageText;
     };
     /** Descriptions of cursor positions and code transformations */
     edit: EditTexts;

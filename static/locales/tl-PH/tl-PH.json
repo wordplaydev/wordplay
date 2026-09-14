@@ -9673,7 +9673,9 @@
                         "subtitle": "$~Tulungan kaming gumawa ng Wordplay"
                     },
                     "design": "$~Sanggunian sa sistema ng disenyo para sa mga kontribyutor",
-                    "localize": "$~Tulungan mong isalin ang Wordplay sa iyong wika"
+                    "localize": "$~Tulungan mong isalin ang Wordplay sa iyong wika",
+                    "moderate": "$~suriin ang mga hiniling ng iba na tingnan",
+                    "admin": "$~tingnan kung sino ang may kakayahang gumawa ng ano, at baguhin ito"
                 },
                 "tagline": "$~naa-access, multilingguwal, malikhaing pag-kodigo",
                 "tour": {
@@ -10939,6 +10941,36 @@
             "breadcrumb": {
                 "label": "$~Mga breadcrumb",
                 "home": "$~Tahanan"
+            },
+            "admin": {
+                "header": "$~Mga Pribilehiyo",
+                "prompt": "$~Ang bawat isa sa ibaba ay may kakayahang gawin ang hindi kaya ng karamihan. Agad na naaabot ng pagbabago dito ang mga ito, bagama't maaaring umabot ng isang oras bago ito makita ng isang pahinang bukas na nila. Kasama na sa Superuser ang pagmomoderate at pagtuturo, kaya ang sinumang may ito ay hindi na kailangan ang dalawa pang iba.",
+                "claim": {
+                    "admin": "$~Superuser",
+                    "mod": "$~Moderator",
+                    "teacher": "$~Guro",
+                    "banned": "$~Hindi maaaring ibahagi nang publiko"
+                },
+                "creator": "$~Tagalikha",
+                "email": "$~Email",
+                "privileges": "$~Mga Pribilehiyo",
+                "button": {
+                    "revoke": "$~Alisin ang lahat ng pribilehiyo",
+                    "lift": {
+                        "label": "$~Ibalik ang karapatang magbahagi",
+                        "tip": "$~Payagan muli ang tagalikhang ito na magbahagi nang publiko, at ibalik sa zero ang kanilang bilang ng babala"
+                    }
+                },
+                "confirm": "$~Babalik sa zero ang kanilang bilang ng babala at makakapagbahagi na muli sila nang publiko. Mananatili ang talaan ng nangyari, kaya makikita pa rin ito ng isang moderator na titingin sa kanila sa hinaharap.",
+                "ownAdmin": "$~Hindi mo maaaring alisin ang sarili mong mga pribilehiyo. Humingi ng tulong sa ibang admin.",
+                "nobody": "$~Wala pang sinumang may anumang pribilehiyo.",
+                "error": {
+                    "notadmin": "$~Ito ay espasyo para sa mga admin. Walang dapat baguhin dito para sa iyo.",
+                    "login": "$~Kailangan mong <naka-log in@://login> upang makita ang pahinang ito.",
+                    "offline": "$~Hindi namin ma-load kung sino ang may mga pribilehiyo. Naka-online ka ba?",
+                    "save": "$~Hindi namin nai-save ang pagbabagong iyon. Subukan muli?",
+                    "none": "$~Pumili ng kahit isang pribilehiyo bago magdagdag ng isang tao."
+                }
             }
         },
         "edit": {

@@ -63,6 +63,12 @@ const Users = {
     Stranger: 'rulestest-stranger',
     Mod: 'rulestest-mod',
     OtherCurator: 'rulestest-other-curator',
+    /** A superuser: `admin` implies `mod`, so they reach everything Mod does
+     *  while holding no `mod` claim of their own. */
+    Admin: 'rulestest-admin',
+    /** A superuser who has also lost public sharing. `admin` deliberately does
+     *  not imply the absence of `banned`. */
+    BannedAdmin: 'rulestest-banned-admin',
 };
 
 let env: RulesTestEnvironment;
@@ -72,6 +78,12 @@ function as(uid: string | null) {
     if (uid === null) return env.unauthenticatedContext().firestore();
     if (uid === Users.Mod)
         return env.authenticatedContext(uid, { mod: true }).firestore();
+    if (uid === Users.Admin)
+        return env.authenticatedContext(uid, { admin: true }).firestore();
+    if (uid === Users.BannedAdmin)
+        return env
+            .authenticatedContext(uid, { admin: true, banned: true })
+            .firestore();
     return env.authenticatedContext(uid).firestore();
 }
 
@@ -730,5 +742,51 @@ describe('character write', () => {
     it('only the owner may delete', async () => {
         for (const uid of [Users.Collaborator, Users.Curator, Users.Stranger])
             await assertFails(characterDoc(uid, Characters.Private).delete());
+    });
+});
+
+/**
+ * The superuser claim (#TBD).
+ *
+ * `admin` implies `mod`, so these mirror the moderator cases above with a
+ * caller who holds no `mod` claim at all. The last case is the one that is not
+ * a mirror: `banned` is not a privilege but the loss of public sharing, so
+ * nothing implies it away.
+ */
+describe('an administrator', () => {
+    it('may read a private project they have nothing to do with', async () => {
+        await assertSucceeds(
+            projectDoc(Users.Admin, Projects.OtherGallery).get(),
+        );
+    });
+
+    it('may read a private character they have nothing to do with', async () => {
+        await assertSucceeds(
+            characterDoc(Users.Admin, Characters.Private).get(),
+        );
+    });
+
+    it('may update a project they have nothing to do with', async () => {
+        await assertSucceeds(
+            projectDoc(Users.Admin, Projects.OtherGallery).update({
+                updated: 1,
+            }),
+        );
+    });
+
+    it('still may not publish while banned', async () => {
+        // The whole reason `admin` stops short of `banned`: authority over
+        // other people is not immunity from a decision about your own content.
+        await assertFails(
+            as(Users.BannedAdmin).collection('projects').add({
+                id: 'rulestest-banned-admin-project',
+                owner: Users.BannedAdmin,
+                collaborators: [],
+                commenters: [],
+                viewers: [],
+                gallery: null,
+                public: true,
+            }),
+        );
     });
 });

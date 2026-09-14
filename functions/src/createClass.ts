@@ -8,6 +8,7 @@ import {
     reserveUsername,
 } from './handles.js';
 import { usernameFromEmail } from './username.js';
+import { hasClaim } from './claims.js';
 
 export default async function createClass(
     request: CallableRequest<CreateClassInputs>,
@@ -24,7 +25,13 @@ export default async function createClass(
     // nothing about who was calling it: any signed-in caller could pass any
     // existing teacher's uid. That is account minting with a bulk discount,
     // which is exactly what #1299 is about.
-    if (request.auth?.uid !== teacher || request.auth.token['teacher'] !== true)
+    // The claim half admits a superuser too (`admin` implies `teacher`); the
+    // "and only their own" half deliberately does not, since that is what keeps
+    // this from minting fifty accounts on someone else's behalf.
+    if (
+        request.auth?.uid !== teacher ||
+        !hasClaim(request.auth.token, 'teacher')
+    )
         return {
             classid: undefined,
             error: {

@@ -124,6 +124,10 @@ type PageText = {
         design: string;
         /** [plain] What content is on the localize page */
         localize: string;
+        /** [plain] What content is on the moderation page */
+        moderate: string;
+        /** [plain] What content is on the privileges page */
+        admin: string;
     };
 };
 
