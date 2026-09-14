@@ -10615,7 +10615,7 @@
                 "ownAdmin": "$~Kendi yetkilerini geri alamazsın. Başka bir yöneticiye sor.",
                 "nobody": "$~Henüz kimsenin bir yetkisi yok.",
                 "error": {
-                    "notadmin": "$~Burası bir yönetici alanı. Burada değiştirebileceğin bir şey yok.",
+                    "notadmin": "$!Burası bir yönetici alanı. Burada değiştirebileceğin bir şey yok.",
                     "login": "$~Bu sayfayı görmek için <giriş yapmış@://login> olman gerekiyor.",
                     "offline": "$~Kimlerin yetkisi olduğunu yükleyemedik. İnternete bağlı mısın?",
                     "save": "$~Bu değişikliği kaydedemedik. Tekrar dener misin?",

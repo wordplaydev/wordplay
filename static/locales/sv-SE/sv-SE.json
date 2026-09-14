@@ -10603,7 +10603,7 @@
                 "ownAdmin": "$~Du kan inte ta bort dina egna rättigheter. Fråga en annan administratör.",
                 "nobody": "$~Ingen har några rättigheter än.",
                 "error": {
-                    "notadmin": "$~Det här är ett administratörsutrymme. Det finns inget här för dig att ändra.",
+                    "notadmin": "$!Det här är ett administratörsutrymme. Det finns inget här för dig att ändra.",
                     "login": "$~Du måste vara <inloggad@://login> för att se den här sidan.",
                     "offline": "$~Vi kunde inte hämta vem som har rättigheter. Är du uppkopplad?",
                     "save": "$~Vi kunde inte spara den ändringen. Vill du försöka igen?",

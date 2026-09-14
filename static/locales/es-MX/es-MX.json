@@ -10468,7 +10468,7 @@
                 "ownAdmin": "$~No puedes quitarte tus propios privilegios. Pídele ayuda a otra administradora.",
                 "nobody": "$~Todavía nadie tiene privilegios.",
                 "error": {
-                    "notadmin": "$~Este es un espacio de administración. Aquí no hay nada que puedas cambiar.",
+                    "notadmin": "$!Este es un espacio de administración. Aquí no hay nada que puedas cambiar.",
                     "login": "$~Necesitas <haber iniciado sesión@://login> para ver esta página.",
                     "offline": "$~No pudimos cargar quién tiene privilegios. ¿Estás conectada?",
                     "save": "$~No pudimos guardar ese cambio. ¿Quieres intentarlo de nuevo?",

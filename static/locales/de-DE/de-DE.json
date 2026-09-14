@@ -10471,7 +10471,7 @@
                 "ownAdmin": "$~Du kannst dir nicht selbst Rechte entziehen. Bitte einen anderen Administrator oder eine andere Administratorin.",
                 "nobody": "$~Noch niemand hat irgendwelche Rechte.",
                 "error": {
-                    "notadmin": "$~Dies ist ein Administratorbereich. Hier gibt es nichts für dich zu ändern.",
+                    "notadmin": "$!Dies ist ein Administratorbereich. Hier gibt es nichts für dich zu ändern.",
                     "login": "$~Du musst <angemeldet sein@://login>, um diese Seite zu sehen.",
                     "offline": "$~Wir konnten nicht laden, wer welche Rechte hat. Bist du online?",
                     "save": "$~Wir konnten diese Änderung nicht speichern. Nochmal versuchen?",

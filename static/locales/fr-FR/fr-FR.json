@@ -10475,7 +10475,7 @@
                 "ownAdmin": "$~Vous ne pouvez pas retirer vos propres privilèges. Demandez à un autre administrateur.",
                 "nobody": "$~Personne n'a de privilège pour l'instant.",
                 "error": {
-                    "notadmin": "$~C'est un espace réservé aux administrateurs. Il n'y a rien ici que vous puissiez changer.",
+                    "notadmin": "$!C'est un espace réservé aux administrateurs. Il n'y a rien ici que vous puissiez changer.",
                     "login": "$~Vous devez être <connecté@://login> pour voir cette page.",
                     "offline": "$~Nous n'avons pas pu charger la liste des personnes ayant des privilèges. Êtes-vous en ligne ?",
                     "save": "$~Nous n'avons pas pu enregistrer ce changement. Voulez-vous réessayer ?",

@@ -10965,7 +10965,7 @@
                 "ownAdmin": "$~Hindi mo maaaring alisin ang sarili mong mga pribilehiyo. Humingi ng tulong sa ibang admin.",
                 "nobody": "$~Wala pang sinumang may anumang pribilehiyo.",
                 "error": {
-                    "notadmin": "$~Ito ay espasyo para sa mga admin. Walang dapat baguhin dito para sa iyo.",
+                    "notadmin": "$!Ito ay espasyo para sa mga admin. Walang dapat baguhin dito para sa iyo.",
                     "login": "$~Kailangan mong <naka-log in@://login> upang makita ang pahinang ito.",
                     "offline": "$~Hindi namin ma-load kung sino ang may mga pribilehiyo. Naka-online ka ba?",
                     "save": "$~Hindi namin nai-save ang pagbabagong iyon. Subukan muli?",
