@@ -3,6 +3,7 @@ import path from 'path';
 import { expect, test } from 'vitest';
 import * as server from '../../../functions/src/username';
 import * as client from './username';
+import * as address from './mailableAddress';
 import { Creator } from './CreatorDatabase';
 
 /**
@@ -94,7 +95,33 @@ test('both copies synthesize the same address for a username', () => {
     // joinAccount would create an account the login page could never find.
     for (const name of ['alice', 'amyjko', 'мария'])
         expect(server.usernameEmail(name)).toBe(Creator.usernameEmail(name));
+    // Three spellings on this side of the wire, so all three are compared:
+    // the server's, Creator's, and the leaf the roster's address test reads.
     expect(server.UsernameEmailDomain).toBe(Creator.CreatorUsernameEmailDomain);
+    expect(server.UsernameEmailDomain).toBe(address.UsernameEmailDomain);
+});
+
+test('both copies agree about what is a mailable address', () => {
+    // A drift here is silent in the worst direction. The class roster detects
+    // its email column with the client copy and the server mints against the
+    // server copy, so a disagreement would read a column of real addresses as
+    // ordinary metadata and hand those students passwords instead.
+    for (const candidate of [
+        'alice@example.com',
+        // isValidEmail, the older sign-in rule, refuses both of these.
+        'a+b@x.org',
+        'head@district.education',
+        // A login name, not a mailbox.
+        'alice@u.wordplay.dev',
+        'noatsign',
+        'no@domain',
+        'two@@ats.com',
+        'spaces in@x.com',
+        '',
+    ])
+        expect(server.isMailableAddress(candidate), candidate).toBe(
+            address.isMailableAddress(candidate),
+        );
 });
 
 test('the server reads a username back out of a synthesized address', () => {

@@ -590,19 +590,46 @@ service cloud.firestore {
       }
     }
     match /classes/{class} {
+      // The affirmation that a class's email students were old enough to have
+      // an address is written only by createClass through the Admin SDK (#1347).
+      // `.get(field, default)` on both sides because a class written before
+      // this carries none, and a bare read of a missing property is a hard CEL
+      // error that fails the whole write closed.
+      function classServerFieldsUnchanged() {
+        return request.resource.data.get("affirmation", null) == resource.data.get("affirmation", null);
+      }
+      function classServerFieldsInitial() {
+        return request.resource.data.get("affirmation", null) == null;
+      }
       // Only teachers can create classes (isTeacher is declared at the top of
       // `documents`, so a superuser satisfies it too).
       allow create: if request.auth != null && isTeacher()
+        && classServerFieldsInitial()
         && notProxying();
-      // Students and teachers can read classes
-      allow get: if request.auth != null && resource.data != null && (
+      // Students and teachers can read classes. `read` rather than `get` plus a
+      // blanket `list`: a query is evaluated against each document it would
+      // return, so stating the membership test once is what makes a bare
+      // `collection("classes")` query fail and a member-scoped one succeed.
+      // As two rules, the careful test below had never applied to a query at
+      // all, and every signed-in creator could read every class — its name, its
+      // description, and its whole roster.
+      allow read: if request.auth != null && resource.data != null && (
         ("learners" in resource.data && request.auth.uid in resource.data.learners) || 
         ("teachers" in resource.data && request.auth.uid in resource.data.teachers)
       );
-      allow list: if request.auth != null;
       // Only teachers of a class can update and delete classes
-      allow update, delete: if request.auth != null && isTeacher() && (resource.data != null && request.auth.uid in resource.data.teachers)
+      allow update: if request.auth != null && isTeacher() && (resource.data != null && request.auth.uid in resource.data.teachers)
+        && classServerFieldsUnchanged()
         && notProxying();
+      allow delete: if request.auth != null && isTeacher() && (resource.data != null && request.auth.uid in resource.data.teachers)
+        && notProxying();
+    }
+    // The record of one attempt to create a class, which exists so a retry
+    // after a dropped response is answered rather than re-run (#1347). Written
+    // and read only by createClass through the Admin SDK, exactly as
+    // signinThrottle is: a readable one would enumerate every class made.
+    match /classCreations/{key} {
+      allow read, write: if false;
     }
     match /characters/{character} {
       // Whether the gallery a character is shared in grants read access

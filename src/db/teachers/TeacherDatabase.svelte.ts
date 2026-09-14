@@ -51,30 +51,50 @@ export const ClassSchema = z.object({
     info: z.array(LearnerSchema),
     /** The galleries associated with the class, so that we can show the association on a gallery page */
     galleries: z.array(z.string()), // The set of galleries associated with the group
+    /** Who affirmed that this class's email students were old enough to have an
+     *  address, and when (#1347). Server-written; the rules refuse it from a
+     *  client, since an audit record its subject can rewrite is worth nothing.
+     *  Declared here only so zod, which strips undeclared keys, doesn't let the
+     *  teacher's first ordinary edit write it back out of existence. */
+    affirmation: z.object({ teacher: z.string(), on: z.number() }).optional(),
 });
 
 export type Class = z.infer<typeof ClassSchema>;
 
 export const ClassesCollection = 'classes';
 
-/** Find all classes associated with this gallery. */
+/**
+ * Find the classes this creator is in that are associated with this gallery.
+ *
+ * Two membership queries rather than one `galleries array-contains`, because
+ * the rules evaluate a query against every document it would return and refuse
+ * it whole if any fails — and a class you are not in is not yours to read
+ * (#1347). Only one `array-contains` per query, so the gallery filter is here.
+ */
 export async function getClasses(galleryID: string) {
     if (db === undefined) return [];
 
     // Listing classes requires auth (firestore.rules), so asking while signed
     // out is a guaranteed permission-denied. Not reactive — callers still wait
     // for auth; this only stops a read that can never succeed.
-    if (DB.getUser() === null) return [];
+    const user = DB.getUser();
+    if (user === null) return [];
+    // Bound so the two queries below keep the narrowing the check above gave.
+    const firestore = db;
 
     // Wrap in read() so an unreachable backend fails fast (and feeds the
     // connection state, which reports only if the outage persists) instead of hanging; on failure return no classes.
-    let querySnapshot;
+    let snapshots;
     try {
-        querySnapshot = await DB.read(
-            getDocs(
-                query(
-                    collection(db, ClassesCollection),
-                    where('galleries', 'array-contains', galleryID),
+        snapshots = await Promise.all(
+            (['teachers', 'learners'] as const).map((role) =>
+                DB.read(
+                    getDocs(
+                        query(
+                            collection(firestore, ClassesCollection),
+                            where(role, 'array-contains', user.uid),
+                        ),
+                    ),
                 ),
             ),
         );
@@ -83,7 +103,11 @@ export async function getClasses(galleryID: string) {
         return [];
     }
 
-    return querySnapshot.docs
+    // Unioned by id: a teacher who is also listed as a learner appears in both.
+    const seen = new Set<string>();
+    return snapshots
+        .flatMap((snapshot) => snapshot.docs)
+        .filter((doc) => (seen.has(doc.id) ? false : (seen.add(doc.id), true)))
         .map((doc) => {
             try {
                 return ClassSchema.parse(doc.data());
@@ -92,7 +116,8 @@ export async function getClasses(galleryID: string) {
                 return undefined;
             }
         })
-        .filter((c) => c !== undefined);
+        .filter((c) => c !== undefined)
+        .filter((c) => c.galleries.includes(galleryID));
 }
 
 /** Get the class by the given ID */

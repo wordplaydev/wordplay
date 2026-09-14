@@ -2,6 +2,7 @@ import { readFileSync } from 'fs';
 import { describe, expect, test } from 'vitest';
 import {
     ChatWritableFields,
+    ClassServerOwnedFields,
     GalleryServerOwnedFields,
     HowToFields,
     HowToServerOwnedFields,
@@ -157,6 +158,44 @@ describe('the client writes exactly what firestore.rules admits', () => {
                 [...HowToServerOwnedFields].toSorted(),
             );
         }
+    });
+
+    test('the class rules and ClassServerOwnedFields name the same fields', () => {
+        // Both guards, for the reason the kit's pair is checked: a field owned
+        // on update and free on create is exactly the state #1352 found.
+        for (const guard of [
+            'classServerFieldsUnchanged',
+            'classServerFieldsInitial',
+        ]) {
+            const b = block('classes');
+            const start = b.indexOf(`function ${guard}`);
+            expect(start, guard).toBeGreaterThan(-1);
+            const body = b.slice(start, b.indexOf('}', start));
+            // Read through `.get(field, default)`, since every class written
+            // before #1347 lacks the field and a bare access to a missing
+            // property is a hard CEL error rather than a null.
+            const fields = new Set(
+                Array.from(
+                    body.matchAll(
+                        /request\.resource\.data\.(?:get\("(\w+)"|(\w+))/g,
+                    ),
+                )
+                    .map((match) => match[1] ?? match[2])
+                    .filter((field) => field !== 'get'),
+            );
+            expect(Array.from(fields).toSorted(), guard).toEqual(
+                [...ClassServerOwnedFields].toSorted(),
+            );
+        }
+    });
+
+    test('a class may not be listed by someone who is not in it', () => {
+        // `list` used to be a separate, unconditional rule, so the membership
+        // test right beneath it had never applied to a query at all — every
+        // signed-in creator could read every class and its whole roster.
+        const b = block('classes');
+        expect(b).not.toMatch(/allow list:/);
+        expect(b).toMatch(/allow read: if request\.auth != null/);
     });
 
     test('a new how-to arrives at the values its create rule requires', () => {

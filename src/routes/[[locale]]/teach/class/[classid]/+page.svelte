@@ -3,7 +3,6 @@
     import Centered from '@components/app/Centered.svelte';
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
     import Header from '@components/app/Header.svelte';
-    import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
     import PreviewPlaceholder from '@components/app/PreviewPlaceholder.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -15,6 +14,7 @@
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import { disconnected, Galleries, locales } from '@db/Database';
     import {
         addStudent,
@@ -25,7 +25,7 @@
         setClass,
         type Class,
     } from '@db/teachers/TeacherDatabase.svelte';
-    import { CANCEL_SYMBOL, PREVIOUS_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { getTeachData } from '@db/teachers/TeachData.svelte';
     import { localeGoto } from '@util/localeGoto';
 
@@ -68,11 +68,8 @@
     }
 </script>
 
-<Link to="/teach"
-    >{PREVIOUS_SYMBOL}
-    <LocalizedText path={(l) => l.ui.page.teach.header} /></Link
->
 {#if classData === null}
+    <Title text={(l) => l.ui.page.class.header} />
     <Header text={(l) => l.ui.page.class.header} />
     <Notice text={(l) => l.ui.page.class.error.notfound} />
 {:else if classData === undefined}

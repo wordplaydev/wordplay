@@ -154,6 +154,48 @@ export async function releaseReservation(username: string): Promise<void> {
 }
 
 /**
+ * Undo an `assignUsername` when the account it named cannot be kept — a class
+ * whose fifth student failed to be created, whose first four must not be left
+ * behind (#1347).
+ *
+ * A third verb because neither existing one fits. `releaseReservation` refuses
+ * any reservation that already points at a uid, so it cannot undo an
+ * assignment; `retireUsername` can, but it tombstones, which would burn the
+ * name forever for the very student it was chosen for and make the teacher's
+ * retry impossible.
+ *
+ * Deletes rather than tombstones because the account is being deleted in the
+ * same breath that created it: nothing was ever published under the name, so no
+ * `@username/Character` reference can point at it.
+ */
+export async function unassignUsername(
+    uid: string,
+    username: string,
+): Promise<void> {
+    const db = getFirestore();
+    const reservation = db
+        .collection(UsernameCollection)
+        .doc(foldUsername(username));
+    await db
+        .runTransaction(async (transaction) => {
+            const stored = (await transaction.get(reservation)).data() as
+                Reservation | undefined;
+            // Only our own hold, and never a tombstone: between the failure and
+            // this cleanup the name may have become somebody else's.
+            if (
+                stored !== undefined &&
+                stored.retiredAt === undefined &&
+                (stored.uid === null || stored.uid === uid)
+            )
+                transaction.delete(reservation);
+            transaction.delete(db.collection(HandleCollection).doc(uid));
+        })
+        .catch((error) => {
+            console.error('Could not undo a username assignment', error);
+        });
+}
+
+/**
  * Reserve `username` for an account that already exists, and write its handle,
  * in one transaction. Used when the uid is known up front — an existing creator
  * recording their name before changing how they sign in.

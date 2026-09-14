@@ -74,7 +74,11 @@ vi.mock('firebase/firestore', () => ({
     ),
     collection: vi.fn(),
     query: vi.fn(),
-    where: vi.fn(),
+    // Recorded rather than ignored, so getClasses' two membership queries can
+    // be told apart — which is what firestore.rules now requires of them.
+    where: vi.fn((field: string) => {
+        lastQueriedFields.push(field);
+    }),
     getDoc: vi.fn(async () => ({ exists: () => false })),
     getDocs: vi.fn(async () => ({ docs: [] })),
 }));
@@ -85,6 +89,9 @@ vi.mock('@db/firebase', () => ({
 
 /** Who the mocked DB reports as signed in; getClasses gates its read on this. */
 let currentUser: { uid: string } | null = null;
+
+/** The fields each `where` clause named, in the order they were built. */
+let lastQueriedFields: string[] = [];
 
 // Galleries facade is exercised by removeTeacher/removeStudent for the
 // curator-side cleanup, which we don't need to assert on here.
@@ -110,11 +117,31 @@ vi.mock('@db/galleries/GalleryDatabase.svelte', () => ({
 import {
     addStudent,
     addTeacher,
+    ClassSchema,
     getClasses,
     removeStudent,
     removeTeacher,
 } from './TeacherDatabase.svelte';
 import { getDocs } from 'firebase/firestore';
+
+/** What the mocked `getDocs` resolves to: only `docs` is ever read. */
+type Snapshot = Awaited<ReturnType<typeof getDocs>>;
+function snapshot(classes: Class[]): Snapshot {
+    const docs = classes.map((c) => ({ id: c.id, data: () => c }));
+    return Object.assign(Object.create(null), { docs });
+}
+function noDocs(): Snapshot {
+    return snapshot([]);
+}
+
+/** Make `getDocs` answer the `teachers` query with these classes and the
+ *  `learners` query with none. */
+function answerWith(classes: Class[]) {
+    let call = 0;
+    vi.mocked(getDocs).mockImplementation(async () =>
+        call++ === 0 ? snapshot(classes) : noDocs(),
+    );
+}
 
 function makeClass(overrides: Partial<Class> = {}): Class {
     return {
@@ -132,6 +159,10 @@ function makeClass(overrides: Partial<Class> = {}): Class {
 describe('getClasses', () => {
     beforeEach(() => {
         vi.clearAllMocks();
+        // clearAllMocks keeps implementations, so a test that answers with
+        // documents would otherwise answer for every test after it.
+        vi.mocked(getDocs).mockImplementation(async () => noDocs());
+        lastQueriedFields = [];
         currentUser = null;
     });
 
@@ -143,10 +174,31 @@ describe('getClasses', () => {
         expect(getDocs).not.toHaveBeenCalled();
     });
 
-    it('reads once someone is signed in', async () => {
+    it('asks only for classes this creator is in', async () => {
+        // A `galleries array-contains` query would return classes the caller
+        // isn't in, and firestore.rules refuses a query whole if any document
+        // it would return fails — so membership has to be in the query.
         currentUser = { uid: 't1' };
         expect(await getClasses('g1')).toEqual([]);
-        expect(getDocs).toHaveBeenCalledTimes(1);
+        expect(getDocs).toHaveBeenCalledTimes(2);
+        expect(lastQueriedFields).toEqual(['teachers', 'learners']);
+    });
+
+    it('keeps only the classes associated with the gallery', async () => {
+        currentUser = { uid: 't1' };
+        answerWith([
+            makeClass({ id: 'in', galleries: ['g1'] }),
+            makeClass({ id: 'out', galleries: ['g2'] }),
+        ]);
+        expect((await getClasses('g1')).map((c) => c.id)).toEqual(['in']);
+    });
+
+    it('lists a class once when both queries return it', async () => {
+        // A teacher listed among their own learners matches both.
+        currentUser = { uid: 't1' };
+        const only = makeClass({ id: 'both', galleries: ['g1'] });
+        vi.mocked(getDocs).mockImplementation(async () => snapshot([only]));
+        expect((await getClasses('g1')).map((c) => c.id)).toEqual(['both']);
     });
 });
 
@@ -291,5 +343,28 @@ describe('TeacherDatabase atomic class & gallery updates', () => {
                 },
             });
         });
+    });
+});
+
+describe('the class schema', () => {
+    it('keeps an affirmation the server wrote', () => {
+        // setClass writes the parsed object back, and zod strips keys it does
+        // not declare — so an undeclared affirmation would be erased by the
+        // teacher's first ordinary edit.
+        const affirmed = {
+            ...makeClass(),
+            affirmation: { teacher: 't1', on: 1757000000000 },
+        };
+        expect(ClassSchema.parse(affirmed).affirmation).toEqual({
+            teacher: 't1',
+            on: 1757000000000,
+        });
+    });
+
+    it('parses a class made before there were affirmations', () => {
+        const parsed = ClassSchema.parse(makeClass());
+        expect(parsed.affirmation).toBeUndefined();
+        // Absent rather than present-and-undefined: setDoc refuses undefined.
+        expect('affirmation' in parsed).toBe(false);
     });
 });

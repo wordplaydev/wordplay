@@ -98,3 +98,12 @@ export const HowToFields = {
 } as const;
 
 export type HowToFieldSet = (typeof HowToFields)[keyof typeof HowToFields];
+
+/**
+ * The class fields the server owns (#1347), which a client write must never
+ * carry. `affirmation` records that a teacher said their students were old
+ * enough to hold the addresses their accounts were bound to — written only by
+ * `createClass`, since an audit record its subject can rewrite is worth
+ * nothing. Both guards state it, for the reason the kit's pair does (#1352).
+ */
+export const ClassServerOwnedFields = ['affirmation'] as const;

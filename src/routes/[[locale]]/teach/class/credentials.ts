@@ -1,13 +1,29 @@
-import { usernameAvailable, usernamesAvailable } from '@db/creators/usernames';
 import { UsernameLength } from '@db/creators/username';
+import { usernameAvailable, usernamesAvailable } from '@db/creators/usernames';
 import NumberGenerator from '@util/random/NumberGenerator';
+import type { ClassSigninMethod } from 'shared-types';
+import { addressOf, baseUsername, describingCells } from './roster';
 
-export type Credentials = { username: string; password: string };
+export type Credentials = {
+    username: string;
+    /** Empty for a student who signs in by emailed link: they have no password
+     *  at all, so there is nothing to print in that column. */
+    password: string;
+    /** The address they sign in with, in an email class. */
+    email?: string | undefined;
+};
 export type StudentWithCredentials = Credentials & { meta: string[] };
+
+/** How many numeric suffixes to try before giving up on a name. Bounded because
+ *  the availability check answers `undefined` when it can't ask, and the loop
+ *  used to read that as "keep going" — one request per turn, forever, against
+ *  an unreachable server. */
+const MaxSuffixes = 20;
 
 export async function createCredentials(
     students: string[][],
     secrets: string[],
+    method: ClassSigninMethod = 'password',
 ): Promise<Credentials[] | undefined> {
     const credentials: Credentials[] = [];
 
@@ -15,19 +31,18 @@ export async function createCredentials(
     const random = new NumberGenerator(Math.random());
 
     // Need enough secrets to generate distinct passwords, otherwise this hangs.
-    if (secrets.length < 25) return credentials;
+    // An email class needs no words at all, and asking for twenty-five of them
+    // would block a form that has nothing to use them for.
+    if (method === 'password' && secrets.length < 25) return undefined;
 
     // Go through each student and try to generate a unique username and password.
     for (const student of students) {
-        // Put any numbers last
-        let originalUsername = student
-            .sort(
-                (a, b) =>
-                    (/[0-9]+/.test(a) ? 1 : 0) - (/[0-9]+/.test(b) ? 1 : 0),
-            )
-            .map((i) => i.trim().substring(0, 3))
-            .join('')
-            .toLowerCase();
+        const email = addressOf(student, method);
+
+        let originalUsername = baseUsername(
+            describingCells(student, method),
+            email,
+        );
         let username = originalUsername;
         let usernameCount = 0;
 
@@ -38,6 +53,12 @@ export async function createCredentials(
         ) {
             usernameCount++;
             username = originalUsername + usernameCount;
+        }
+
+        // A student who signs in by emailed link has no password to generate.
+        if (email !== undefined) {
+            credentials.push({ username, password: '', email });
+            continue;
         }
 
         function randomWord(current: string) {
@@ -83,15 +104,21 @@ export async function createCredentials(
     if (availability === undefined) return undefined;
     for (const [username, available] of Object.entries(availability)) {
         if (available) continue;
-        let revisedUsername = username;
         // Keep adding a number to the end until we find a free username.
         // Check the revised candidate, not the original — the original is
-        // known to be taken, so testing it would loop forever.
+        // known to be taken, so testing it would loop forever. Only a definite
+        // "yes" ends the search: `undefined` means we couldn't ask, and
+        // treating that as "no" is what made this spin.
+        let revisedUsername = username;
         let usernameCount = 0;
-        while ((await usernameAvailable(revisedUsername)) !== true) {
+        let free: boolean | undefined = false;
+        while (free !== true && usernameCount < MaxSuffixes) {
             usernameCount++;
             revisedUsername = username + usernameCount;
+            free = await usernameAvailable(revisedUsername);
+            if (free === undefined) return undefined;
         }
+        if (free !== true) return undefined;
         const index = credentials.findIndex((c) => c.username === username);
         if (index >= 0) credentials[index].username = revisedUsername;
     }
