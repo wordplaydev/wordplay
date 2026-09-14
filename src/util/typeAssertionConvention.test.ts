@@ -71,23 +71,43 @@ function sourceFilesUnder(directory: string): string[] {
  * The TypeScript in a file, with the line each block starts on. A `.svelte`
  * file's blocks are parsed separately so an offset can put a finding on the
  * line it is actually written on.
+ *
+ * Found by scanning rather than by matching the tags with one regular
+ * expression: a tag has more spellings than such a pattern gets right
+ * (`<SCRIPT>`, `<script lang="ts">`, `</script >`), and a spelling the scan
+ * missed would be a block whose assertions nobody ever looked at.
  */
 function blocksIn(
     path: string,
     text: string,
 ): { code: string; line: number }[] {
     if (!path.endsWith('.svelte')) return [{ code: text, line: 0 }];
-    // Case-insensitive so an upper-case tag cannot hide a block from the scan.
-    return Array.from(text.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/gi)).map(
-        (match) => ({
-            code: match[1] ?? '',
+    const blocks: { code: string; line: number }[] = [];
+    const lower = text.toLowerCase();
+    let at = 0;
+    for (;;) {
+        const open = lower.indexOf('<script', at);
+        if (open === -1) break;
+        // `<scripty` is not a script tag; a name ends at a space, `/` or `>`.
+        const after = lower.charAt(open + '<script'.length);
+        const openEnd = text.indexOf('>', open);
+        if (openEnd === -1) break;
+        if (after !== '' && !/[\s/>]/.test(after)) {
+            at = open + '<script'.length;
+            continue;
+        }
+        const close = lower.indexOf('</script', openEnd + 1);
+        if (close === -1) break;
+        const closeEnd = text.indexOf('>', close);
+        if (closeEnd === -1) break;
+        blocks.push({
+            code: text.slice(openEnd + 1, close),
             // Lines before the block's content begins.
-            line:
-                text
-                    .slice(0, (match.index ?? 0) + match[0].indexOf('>') + 1)
-                    .split('\n').length - 1,
-        }),
-    );
+            line: text.slice(0, openEnd + 1).split('\n').length - 1,
+        });
+        at = closeEnd + 1;
+    }
+    return blocks;
 }
 
 /** A `// sound: <reason>` marker with a reason long enough to be one. */
