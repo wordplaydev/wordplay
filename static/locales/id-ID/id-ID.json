@@ -9983,7 +9983,8 @@
                     "class": "$~Kelasmu",
                     "students": "$~Siswa Anda",
                     "credentials": "$~Nama pengguna dan kata sandi",
-                    "submit": "$~Kirim"
+                    "submit": "$~Kirim",
+                    "usernames": "$~Nama Pengguna"
                 },
                 "prompt": {
                     "start": "$~Formulir ini memungkinkan Anda untuk 1) membuat akun untuk semua siswa di kelas Anda dan 2) membuat galeri tempat semua siswa dapat menambahkan proyek. Jika siswa sudah memiliki akun, Anda dapat menambahkannya ke galeri nanti.",
@@ -9992,7 +9993,10 @@
                     "pending": "$~Membuat nama pengguna dan kata sandi...",
                     "submit": "$~Siap untuk mengirimkan? Segera setelah berhasil, Anda akan menerima tautan unduhan informasi ini. Kata sandi *tidak dapat dipulihkan*, jadi simpanlah di tempat yang aman.",
                     "submitting": "$~Meminta pembuatan akun baru dengan nama pengguna dan kata sandi di atas...",
-                    "download": "$~Kelas Anda sudah siap! Anda akan melihat unduhan data siswa Anda di folder unduhan Anda. *Kata sandi tidak dapat dipulihkan*, jadi simpan file ini di tempat yang aman!"
+                    "download": "$~Kelasmu sudah siap! Kamu akan melihat unduhan data siswa di folder unduhanmu. *Kata sandi tidak bisa dipulihkan*, jadi simpan file ini di tempat yang aman! Siswa yang masuk lewat email tidak punya kata sandi, jadi kolom kata sandinya kosong.",
+                    "reviewEmail": "$~Periksa nama pengguna yang sudah kami buat. Apakah kamu mau *mengubahnya* sebelum lanjut? Jika ya, kamu tidak bisa lagi mengubah data siswa di atas. Siswa tidak perlu memilih apa pun di sini — mereka masuk dengan alamat di sebelah nama mereka.",
+                    "downloadEmail": "$~Kelasmu sudah siap! Kamu akan melihat unduhan data siswa di folder unduhanmu. Tidak ada kata sandi yang perlu dijaga: setiap siswa membuka halaman masuk, mengetik alamat mereka, dan meminta tautan.",
+                    "submitEmail": "$~Siap mengirim? Begitu berhasil, kamu akan menerima unduhan informasi ini. Tidak ada kata sandi yang perlu dijaga — setiap murid masuk dengan alamat di samping namanya."
                 },
                 "field": {
                     "name": {
@@ -10010,7 +10014,7 @@
                     "metadata": {
                         "description": "$~informasi siswa",
                         "placeholder": "$~contoh: nomor identitas siswa, nama keluarga, nama depan",
-                        "prompt": "$~Ingin membuat akun baru untuk siswa? Berikan *informasi apa pun* tentang siswa, satu per baris, dipisahkan oleh koma. Ini bisa berupa nama keluarga, nama depan, nomor siswa, atau detail pembeda lainnya. Kami akan menggunakannya untuk membuat nama pengguna yang dapat Anda edit di bawah ini, membantu Anda mengaitkan nama pengguna dengan siswa."
+                        "prompt": "$~Ingin membuat akun baru untuk siswa? Berikan *informasi apa saja* tentang siswa, satu per baris, dipisahkan dengan koma. Ini bisa berupa nama keluarga, nama depan, nomor siswa, atau detail lain yang membedakan mereka. Kami akan memakainya untuk membuat nama pengguna yang bisa kamu ubah di bawah, agar kamu bisa menghubungkan nama pengguna dengan siswa. Jika salah satu kolommu berisi alamat email siswa, siswa itu akan masuk memakai tautan yang kami kirim lewat email, bukan kata sandi. Biarkan sel itu kosong, dan siswa akan mendapat nama pengguna dan kata sandi seperti yang lain."
                     },
                     "words": {
                         "description": "$~kata-kata yang digunakan dalam kata sandi",
@@ -10028,6 +10032,29 @@
                     "submit": {
                         "label": "$~buat kelas",
                         "tip": "$~Buat kelas baru dengan informasi ini."
+                    },
+                    "affirm": {
+                        "prompt": "$~Salah satu kolommu tampak seperti alamat email, jadi siswa itu akan masuk memakai tautan, bukan kata sandi. Lakukan ini hanya jika mereka cukup umur untuk memiliki akun email di tempat tinggal mereka. *Kami tidak akan mengirim email ke siapa pun saat kamu membuat kelas ini*: setiap siswa membuka halaman masuk, mengetik alamat mereka, dan meminta tautan.",
+                        "label": "$~Siswa-siswa ini sudah cukup umur untuk memiliki akun email di tempat tinggal mereka."
+                    },
+                    "signin": {
+                        "prompt": "$~Ingin membuat akun baru untuk siswa? Pertama, tentukan cara mereka masuk. Satu kelas *harus memakai satu cara saja*, jadi pilih yang paling sesuai untuk siswamu.",
+                        "mode": {
+                            "label": "$~cara siswamu masuk",
+                            "labels": [
+                                "$~nama pengguna dan kata sandi",
+                                "$~tautan lewat surel"
+                            ],
+                            "tips": [
+                                "$~kami membuat nama pengguna dan kata sandi untuk setiap siswa, lalu kamu membagikannya",
+                                "$~setiap siswa masuk dengan alamat surel mereka sendiri, jadi tidak ada kata sandi yang bisa hilang"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~alamat surel siswa",
+                        "placeholder": "$~misalnya, mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Tuliskan nama siswamu satu per baris, *dimulai dengan alamat surel mereka*. Kamu bisa menambahkan hal lain tentang mereka setelah tanda koma — nomor siswa, nama keluarga — dan kami akan memakainya untuk membuat nama pengguna yang bisa kamu ubah di bawah ini."
                     }
                 },
                 "error": {
@@ -10035,10 +10062,13 @@
                     "columns": "$~Pastikan setiap siswa memiliki jumlah kolom yang sama.",
                     "generate": "$~Tidak dapat membuat nama pengguna yang unik.",
                     "taken": "$~Satu atau lebih nama pengguna di atas sudah digunakan.",
-                    "limit": "$~Anda tidak dapat membuat kelas dengan lebih dari 35 siswa sekaligus.",
+                    "limit": "$~Kamu tidak bisa membuat kelas dengan lebih dari 50 siswa sekaligus.",
                     "words": "$~Berikan minimal 25 kata.",
                     "account": "$~Beberapa akun tidak dapat dibuat.",
-                    "generic": "$~Kami tidak dapat membuat kelas tersebut. Berikut beberapa informasi untuk membantu pengembang mencari tahu apa yang salah."
+                    "generic": "$~Kami tidak dapat membuat kelas tersebut. Berikut beberapa informasi untuk membantu pengembang mencari tahu apa yang salah.",
+                    "affirmation": "$~Nyatakan bahwa siswa-siswa ini sudah cukup umur untuk memiliki akun email sebelum kami membuat akun mereka.",
+                    "inflight": "$~Kelas ini mungkin sudah pernah dibuat. Periksa daftar kelasmu sebelum mencoba lagi.",
+                    "addresses": "$~Setiap baris harus dimulai dengan alamat surel."
                 }
             },
             "class": {
@@ -10968,7 +10998,7 @@
                 "ownAdmin": "$~Kamu tidak bisa menghilangkan hak istimewamu sendiri. Minta bantuan admin lain.",
                 "nobody": "$~Belum ada yang memiliki hak istimewa apa pun.",
                 "error": {
-                    "notadmin": "$!Ini adalah ruang admin. Tidak ada yang bisa kamu ubah di sini.",
+                    "notadmin": "$~Ini adalah ruang superuser. Tidak ada yang perlu kamu ubah di sini.",
                     "login": "$~Kamu perlu <masuk@://login> untuk melihat halaman ini.",
                     "offline": "$~Kami tidak bisa memuat siapa yang punya hak istimewa. Apakah kamu sedang daring?",
                     "save": "$~Kami tidak bisa menyimpan perubahan itu. Coba lagi?",

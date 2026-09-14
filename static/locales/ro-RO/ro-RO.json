@@ -9976,7 +9976,8 @@
                     "class": "$~Clasa ta",
                     "students": "$~Studenții dumneavoastră",
                     "credentials": "$~Nume de utilizator și parole",
-                    "submit": "$~Trimite"
+                    "submit": "$~Trimite",
+                    "usernames": "$~Nume de utilizator"
                 },
                 "prompt": {
                     "start": "$~Acest formular vă permite 1) să generați conturi pentru toți elevii din clasa dvs. și 2) să creați o galerie la care toți elevii dvs. pot adăuga proiecte. Dacă elevii au deja conturi, îi puteți adăuga ulterior în galerie.",
@@ -9985,7 +9986,10 @@
                     "pending": "$~Se generează nume de utilizator și parole...",
                     "submit": "$~Gata să trimiteți? De îndată ce procesul are succes, veți primi o versiune descărcabilă a acestor informații. Parolele *nu pot fi recuperate*, așa că păstrați-le într-un loc sigur.",
                     "submitting": "$~Se solicită conturi noi cu numele de utilizator și parolele de mai sus...",
-                    "download": "$~Clasa ta este gata! Ar trebui să vezi o descărcare a datelor despre elevi în folderul de descărcări. *Parolele nu pot fi recuperate*, așa că păstrează acest fișier într-un loc sigur!"
+                    "download": "$~Clasa ta este gata! Ar trebui să vezi o descărcare cu datele elevilor tăi în folderul de descărcări. *Parolele nu pot fi recuperate*, așa că păstrează acest fișier undeva sigur! Elevii care se conectează prin email nu au parolă, deci coloana lor de parolă este goală.",
+                    "reviewEmail": "$~Verifică numele de utilizator create de noi. Vrei să le *editezi* înainte de a continua? Dacă alegi să faci asta, nu vei mai putea edita informațiile despre elevi de mai sus. Elevii nu aleg nimic aici — ei se autentifică folosind adresa de lângă numele lor.",
+                    "downloadEmail": "$~Clasa ta este gata! Ar trebui să vezi o descărcare cu datele elevilor tăi în folderul de descărcări. Nu există parole de păstrat în siguranță: fiecare elev merge pe pagina de autentificare, își scrie adresa și cere un link.",
+                    "submitEmail": "$~Ești gata să trimiți? Imediat ce reușești, vei primi un fișier cu aceste informații. Nu există parole de păstrat — fiecare elev se conectează cu adresa scrisă lângă numele lui."
                 },
                 "field": {
                     "name": {
@@ -10003,7 +10007,7 @@
                     "metadata": {
                         "description": "$~informații despre studenți",
                         "placeholder": "$~de exemplu, legitimație de student, nume de familie, prenume",
-                        "prompt": "$~Doriți să creați conturi noi pentru studenți? Furnizați *orice informații* despre studenți, câte una pe rând, separate prin virgule. Acestea pot fi nume de familie, prenume, numere matricole sau alte detalii distinctive. Le vom folosi pentru a genera nume de utilizator pe care le puteți edita mai jos, ajutându-vă să asociați nume de utilizator cursanților."
+                        "prompt": "$~Vrei să creezi conturi noi pentru elevi? Adaugă *orice informație* despre elevi, câte una pe linie, separate prin virgule. Poate fi numele de familie, prenumele, numerele elevilor sau alte detalii care îi deosebesc. Vom folosi aceste informații pentru a genera nume de utilizator pe care le poți edita mai jos, ca să poți lega ușor numele de utilizator de fiecare elev. Dacă una dintre coloane conține adrese de email ale elevilor, aceștia se vor conecta printr-un link trimis pe email, în loc de o parolă. Lasă acea celulă goală și elevul va primi un nume de utilizator și o parolă, la fel ca ceilalți."
                     },
                     "words": {
                         "description": "$~cuvinte de folosit în parole",
@@ -10021,6 +10025,29 @@
                     "submit": {
                         "label": "$~creați o clasă",
                         "tip": "$~creați o clasă nouă cu aceste informații."
+                    },
+                    "affirm": {
+                        "prompt": "$~Una dintre coloanele tale seamănă cu adrese de email, așa că acei elevi se vor conecta printr-un link în loc de o parolă. Fă asta doar dacă au vârsta potrivită pentru a avea un cont de email acolo unde locuiesc. *Nu vom trimite niciun email nimănui când creezi această clasă*: fiecare elev intră pe pagina de conectare, își scrie adresa și cere un link.",
+                        "label": "$~Acești elevi au vârsta potrivită pentru a avea un cont de email acolo unde locuiesc."
+                    },
+                    "signin": {
+                        "prompt": "$~Vrei să creezi conturi noi pentru elevi? Mai întâi, decide cum se vor autentifica. O clasă folosește *un singur fel de autentificare pentru toți*, așa că alege varianta potrivită pentru elevii tăi.",
+                        "mode": {
+                            "label": "$~cum se autentifică elevii tăi",
+                            "labels": [
+                                "$~un nume de utilizator și o parolă",
+                                "$~un link trimis prin e-mail"
+                            ],
+                            "tips": [
+                                "$~noi facem un nume de utilizator și o parolă pentru fiecare elev, iar tu le distribui",
+                                "$~fiecare elev se autentifică cu propria adresă de e-mail, astfel încât nu există nicio parolă de pierdut"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~adresele de e-mail ale elevilor",
+                        "placeholder": "$~de exemplu, mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Scrie-ți elevii câte unul pe linie, *începând cu adresa lor de e-mail*. Poți adăuga orice altceva despre ei după o virgulă — un număr de elev, un nume de familie — și vom folosi acea informație pentru a genera nume de utilizator pe care le poți edita mai jos."
                     }
                 },
                 "error": {
@@ -10028,10 +10055,13 @@
                     "columns": "$~Asigurați-vă că fiecare elev are același număr de coloane.",
                     "generate": "$~Nu se pot crea nume de utilizator unice.",
                     "taken": "$~Unul sau mai multe nume de utilizator de mai sus sunt luate.",
-                    "limit": "$~Nu poți crea o clasă cu mai mult de 35 de elevi simultan.",
+                    "limit": "$~Nu poți crea o clasă cu mai mult de 50 de elevi deodată.",
                     "words": "$~Furnizați cel puțin 25 de cuvinte.",
                     "account": "$~Nu se pot crea unele dintre conturi.",
-                    "generic": "$~Nu am putut crea clasa. Iată câteva informații care să ajute dezvoltatorii să înțeleagă ce a mers prost."
+                    "generic": "$~Nu am putut crea clasa. Iată câteva informații care să ajute dezvoltatorii să înțeleagă ce a mers prost.",
+                    "affirmation": "$~Confirmă că acești elevi au vârsta potrivită pentru a avea un cont de email înainte să le creăm conturile.",
+                    "inflight": "$~Este posibil ca această clasă să fi fost deja creată. Verifică-ți clasele înainte să încerci din nou.",
+                    "addresses": "$~Fiecare linie trebuie să înceapă cu o adresă de e-mail."
                 }
             },
             "class": {
@@ -10961,7 +10991,7 @@
                 "ownAdmin": "$~Nu îți poți retrage propriile privilegii. Cere altui administrator.",
                 "nobody": "$~Nimeni nu are încă privilegii.",
                 "error": {
-                    "notadmin": "$!Acesta este un spațiu pentru administratori. Nu ai nimic de schimbat aici.",
+                    "notadmin": "$~Acesta este un spațiu pentru superutilizatori. Nu este nimic aici pentru tine de schimbat.",
                     "login": "$~Trebuie să fii <autentificat@://login> ca să vezi această pagină.",
                     "offline": "$~Nu am putut încărca cine are privilegii. Ești conectat la internet?",
                     "save": "$~Nu am putut salva acea schimbare. Încerci din nou?",

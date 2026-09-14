@@ -9856,7 +9856,8 @@
                     "class": "A sua turma",
                     "students": "Os seus alunos",
                     "credentials": "Nomes de utilizador e senhas",
-                    "submit": "Submeter"
+                    "submit": "Submeter",
+                    "usernames": "$~Nomes de utilizador"
                 },
                 "prompt": {
                     "start": "Este formulário permite-lhe 1) criar contas para todos os alunos da sua turma e 2) criar uma galeria onde todos os seus alunos podem adicionar projetos. Se os alunos já tiverem contas, poderá adicioná-las à galeria mais tarde.",
@@ -9865,7 +9866,10 @@
                     "pending": "Gerando nomes de utilizador e palavras-passe...",
                     "submit": "Pronto para enviar? Assim que o envio for bem-sucedido, receberá um link para descarregar essas informações. As palavras-passe *não são recuperáveis*, por isso guarde-as num local seguro.",
                     "submitting": "Solicitando novas contas com os nomes de utilizador e palavras-passe acima...",
-                    "download": "A sua turma está pronta! Deverá encontrar um ficheiro para download com os dados dos seus alunos na sua pasta de downloads. *As palavras-passe não são recuperáveis*, por isso guarde este ficheiro em local seguro!"
+                    "download": "$~A sua turma está pronta! Deve encontrar um ficheiro para transferir com os dados dos seus alunos na sua pasta de transferências. *As palavras-passe não podem ser recuperadas*, por isso guarde este ficheiro num local seguro! Os alunos que iniciam sessão por email não têm palavra-passe, por isso a coluna da palavra-passe fica vazia para eles.",
+                    "reviewEmail": "$~Reveja os nomes de utilizador que criámos. Quer *editá-los* antes de continuar? Se o fizer, não vai poder editar a informação dos estudantes acima. Os estudantes não escolhem nada aqui — iniciam sessão com o endereço ao lado do seu nome.",
+                    "downloadEmail": "$~A sua turma está pronta! Deve ver uma descarga dos dados dos estudantes na sua pasta de descarregamentos. Não há palavras-passe para guardar: cada estudante vai à página de início de sessão, escreve o seu endereço e pede uma ligação.",
+                    "submitEmail": "$~Pronto(a) para submeter? Assim que for bem-sucedido, vai receber uma transferência com esta informação. Não há palavras-passe para guardar — cada estudante inicia sessão com o endereço ao lado do seu nome."
                 },
                 "field": {
                     "name": {
@@ -9883,7 +9887,7 @@
                     "metadata": {
                         "description": "informações do aluno",
                         "placeholder": "Por exemplo, número de matrícula, apelido, nome próprio",
-                        "prompt": "Pretende criar novas contas para os alunos? Forneça *qualquer informação* sobre os alunos, uma por linha, separada por vírgulas. Podem ser apelidos, nomes, números de matrícula ou outros pormenores que os identifiquem. Utilizaremos esta informação para gerar nomes de utilizador que poderá editar abaixo, ajudando a associar os nomes de utilizador aos alunos."
+                        "prompt": "$~Quer criar novas contas para os alunos? Indique *qualquer informação* sobre os alunos, uma por linha, separadas por vírgulas. Pode ser o apelido, o nome próprio, o número de aluno ou outros detalhes que os distingam. Vamos usar essa informação para gerar nomes de utilizador, que pode editar a seguir, para o ajudar a associar os nomes de utilizador aos alunos. Se uma das colunas tiver os endereços de email dos alunos, esses alunos vão iniciar sessão através de uma ligação que lhes enviamos por email, em vez de uma palavra-passe. Deixe essa célula vazia e o aluno recebe um nome de utilizador e uma palavra-passe como todos os outros."
                     },
                     "words": {
                         "description": "palavras para usar nas passwords",
@@ -9901,6 +9905,29 @@
                     "submit": {
                         "label": "criar classe",
                         "tip": "Crie uma nova classe com esta informação."
+                    },
+                    "affirm": {
+                        "prompt": "$~Uma das suas colunas parece conter endereços de email, por isso esses alunos vão iniciar sessão com uma ligação em vez de uma palavra-passe. Só deve fazer isto se eles tiverem idade suficiente para ter uma conta de email onde vivem. *Não vamos enviar nenhum email a ninguém quando criar esta turma*: cada aluno acede à página de início de sessão, escreve o seu endereço e pede uma ligação.",
+                        "label": "$~Estes alunos têm idade suficiente para ter uma conta de email onde vivem."
+                    },
+                    "signin": {
+                        "prompt": "$~Quer criar novas contas para os estudantes? Primeiro, decida como vão iniciar sessão. Uma turma é *toda de uma forma ou de outra*, por isso escolha a que melhor se adequa aos seus estudantes.",
+                        "mode": {
+                            "label": "$~como os seus estudantes iniciam sessão",
+                            "labels": [
+                                "$~um nome de utilizador e uma palavra-passe",
+                                "$~uma ligação enviada por email"
+                            ],
+                            "tips": [
+                                "$~criamos um nome de utilizador e uma palavra-passe para cada estudante, e o(a) professor(a) entrega-os",
+                                "$~cada estudante inicia sessão com o seu próprio endereço de email, por isso não há palavra-passe para perder"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~endereços de email dos estudantes",
+                        "placeholder": "$~por exemplo, mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Liste os seus estudantes um por linha, *começando pelo endereço de email*. Pode acrescentar mais informação sobre cada um depois de uma vírgula — um número de estudante, um apelido — e vamos usá-la para gerar nomes de utilizador que pode editar abaixo."
                     }
                 },
                 "error": {
@@ -9908,10 +9935,13 @@
                     "columns": "Certifique-se de que cada aluno tem o mesmo número de colunas.",
                     "generate": "Não foi possível criar nomes de utilizador únicos.",
                     "taken": "Um ou mais dos nomes de utilizador acima já estão em utilização.",
-                    "limit": "Não é possível criar uma turma com mais de 35 alunos de cada vez.",
+                    "limit": "$~Não pode criar uma turma com mais de 50 estudantes de cada vez.",
                     "words": "Forneça pelo menos 25 palavras.",
                     "account": "Não foi possível criar algumas das contas.",
-                    "generic": "Não foi possível criar a classe. Aqui estão algumas informações para ajudar os programadores a descobrir o que correu mal."
+                    "generic": "Não foi possível criar a classe. Aqui estão algumas informações para ajudar os programadores a descobrir o que correu mal.",
+                    "affirmation": "$~Confirme que estes alunos têm idade suficiente para ter uma conta de email antes de criarmos as suas contas.",
+                    "inflight": "$~Esta turma já pode ter sido criada. Verifique as suas turmas antes de tentar novamente.",
+                    "addresses": "$~Cada linha tem de começar com um endereço de email."
                 }
             },
             "class": {
@@ -10949,7 +10979,7 @@
                 "ownAdmin": "$~Não pode retirar os seus próprios privilégios. Peça a outro administrador.",
                 "nobody": "$~Ainda ninguém tem privilégios.",
                 "error": {
-                    "notadmin": "$!Este é um espaço de administração. Não há aqui nada para o(a) utilizador(a) alterar.",
+                    "notadmin": "$~Este é um espaço de superutilizador. Não há aqui nada para alterar.",
                     "login": "$~É preciso estar <com sessão iniciada@://login> para ver esta página.",
                     "offline": "$~Não foi possível carregar quem tem privilégios. Está ligado(a) à internet?",
                     "save": "$~Não foi possível guardar essa alteração. Tentar novamente?",

@@ -9818,7 +9818,8 @@
                     "class": "$~Votre classe",
                     "students": "$~Vos étudiants",
                     "credentials": "$~Noms d'utilisateur et mots de passe",
-                    "submit": "$~Soumettre"
+                    "submit": "$~Soumettre",
+                    "usernames": "$~Noms d'utilisateur"
                 },
                 "prompt": {
                     "start": "$~Créer une classe avec des comptes générés pour tous les élèves de votre classe et vous permettre de créer des galeries auxquelles tous vos élèves peuvent ajouter des projets. Si les élèves ont déjà des comptes, vous pouvez les ajouter ultérieurement.",
@@ -9827,7 +9828,10 @@
                     "pending": "$~Génération de noms d'utilisateur et de mots de passe...",
                     "submit": "$~Prêt à soumettre votre demande ? Dès que votre demande sera acceptée, vous recevrez un téléchargement de ces informations. Les mots de passe ne sont pas récupérables, alors conservez-les dans un endroit sûr.",
                     "submitting": "$~Demande de nouveaux comptes avec les noms d'utilisateur et mots de passe ci-dessus...",
-                    "download": "$~Votre cours est prêt! Vous devriez voir un téléchargement des données de vos élèves dans votre dossier de téléchargement. *Les mots de passe ne sont pas récupérables*, alors conservez ce fichier dans un endroit sûr!"
+                    "download": "$~Votre classe est prête ! Vous devriez voir un téléchargement des données de vos élèves dans votre dossier de téléchargement. *Les mots de passe ne peuvent pas être récupérés*, alors gardez ce fichier en lieu sûr ! Les élèves qui se connectent par courriel n'ont pas de mot de passe, donc leur colonne de mot de passe est vide.",
+                    "reviewEmail": "$~Vérifie les noms d'utilisateur que nous avons créés. Veux-tu les *modifier* avant de continuer ? Si tu le fais, tu ne pourras plus modifier les informations des élèves ci-dessus. Les élèves ne choisissent rien ici — ils se connectent avec l'adresse à côté de leur nom.",
+                    "downloadEmail": "$~Ta classe est prête ! Tu devrais voir un fichier téléchargé avec les données des élèves dans ton dossier de téléchargements. Il n'y a pas de mot de passe à garder en sécurité : chaque élève va sur la page de connexion, tape son adresse, et demande un lien.",
+                    "submitEmail": "$~Prêt à valider ? Dès que ce sera réussi, tu recevras un fichier à télécharger avec ces informations. Il n'y a pas de mot de passe à garder en sécurité — chaque élève se connecte avec l'adresse à côté de son nom."
                 },
                 "field": {
                     "name": {
@@ -9845,7 +9849,7 @@
                     "metadata": {
                         "description": "$~informations pour les étudiants",
                         "placeholder": "$~par exemple, carte d'étudiant, nom de famille, prénom",
-                        "prompt": "$~Vous souhaitez créer de nouveaux comptes pour les élèves ? Fournissez *toutes les informations* sur les élèves, une par ligne, séparées par des virgules. Il peut s'agir de noms de famille, de prénoms, de numéros d'élèves ou d'autres détails distinctifs. Nous les utiliserons pour générer des noms d'utilisateur que vous pourrez modifier ci-dessous, ce qui vous aidera à associer les noms d'utilisateur aux apprenants."
+                        "prompt": "$~Vous voulez créer de nouveaux comptes pour vos élèves ? Donnez *n'importe quelle information* sur les élèves, une par ligne, séparées par des virgules. Cela peut être des noms de famille, des prénoms, des numéros d'élèves, ou d'autres détails qui les distinguent. Nous les utiliserons pour créer des noms d'utilisateur que vous pourrez modifier ci-dessous, afin de vous aider à associer les noms d'utilisateur aux élèves. Si l'une de vos colonnes contient des adresses courriel d'élèves, ces élèves se connecteront avec un lien que nous leur enverrons par courriel, au lieu d'un mot de passe. Laissez cette cellule vide et l'élève obtiendra un nom d'utilisateur et un mot de passe comme tout le monde."
                     },
                     "words": {
                         "description": "$~mots à utiliser dans les mots de passe",
@@ -9863,6 +9867,29 @@
                     "submit": {
                         "label": "$~créer une classe",
                         "tip": "$~crée une nouvelle classe avec ces informations."
+                    },
+                    "affirm": {
+                        "prompt": "$~Une de vos colonnes ressemble à des adresses courriel, donc ces élèves se connecteront avec un lien au lieu d'un mot de passe. Ne faites cela que s'ils ont l'âge requis pour avoir un compte courriel là où ils vivent. *Nous n'enverrons de courriel à personne quand vous créerez cette classe* : chaque élève se rend sur la page de connexion, tape son adresse, et demande un lien.",
+                        "label": "$~Ces élèves ont l'âge requis pour avoir un compte courriel là où ils vivent."
+                    },
+                    "signin": {
+                        "prompt": "$~Tu veux créer de nouveaux comptes pour tes élèves ? D'abord, décide comment ils vont se connecter. Une classe fonctionne *d'une seule façon à la fois*, alors choisis celle qui convient le mieux à tes élèves.",
+                        "mode": {
+                            "label": "$~comment tes élèves se connectent",
+                            "labels": [
+                                "$~un nom d'utilisateur et un mot de passe",
+                                "$~un lien envoyé par courriel"
+                            ],
+                            "tips": [
+                                "$~nous créons un nom d'utilisateur et un mot de passe pour chaque élève, et tu les distribues",
+                                "$~chaque élève se connecte avec sa propre adresse courriel, donc il n'y a pas de mot de passe à perdre"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~adresses courriel des élèves",
+                        "placeholder": "$~par ex., mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Liste tes élèves un par ligne, *en commençant par leur adresse courriel*. Tu peux ajouter autre chose à leur sujet après une virgule — un numéro d'élève, un nom de famille — et nous nous en servirons pour créer des noms d'utilisateur que tu pourras modifier ci-dessous."
                     }
                 },
                 "error": {
@@ -9870,10 +9897,13 @@
                     "columns": "$~Assurez-vous que chaque élève dispose du même nombre de colonnes.",
                     "generate": "$~Impossible de créer des noms d'utilisateur uniques.",
                     "taken": "$~Un ou plusieurs noms d'utilisateur ci-dessus sont déjà pris",
-                    "limit": "$~Tu ne peux pas créer une classe de plus de 35 élèves à la fois.",
+                    "limit": "$~Tu ne peux pas créer une classe de plus de 50 élèves à la fois.",
                     "words": "$~Fournissez au moins 25 mots.",
                     "account": "$~Impossible de créer certains comptes.",
-                    "generic": "$~Nous n'avons pas pu créer la classe. Voici quelques informations pour aider les développeurs à comprendre ce qui s'est passé."
+                    "generic": "$~Nous n'avons pas pu créer la classe. Voici quelques informations pour aider les développeurs à comprendre ce qui s'est passé.",
+                    "affirmation": "$~Confirmez que ces élèves ont l'âge requis pour avoir un compte courriel, avant que nous créions leurs comptes.",
+                    "inflight": "$~Cette classe a peut-être déjà été créée. Vérifiez vos classes avant de réessayer.",
+                    "addresses": "$~Chaque ligne doit commencer par une adresse courriel."
                 }
             },
             "class": {
@@ -10475,7 +10505,7 @@
                 "ownAdmin": "$~Vous ne pouvez pas retirer vos propres privilèges. Demandez à un autre administrateur.",
                 "nobody": "$~Personne n'a de privilège pour l'instant.",
                 "error": {
-                    "notadmin": "$!C'est un espace réservé aux administrateurs. Il n'y a rien ici que vous puissiez changer.",
+                    "notadmin": "$~Ceci est un espace de superutilisateur. Il n'y a rien ici que vous puissiez changer.",
                     "login": "$~Vous devez être <connecté@://login> pour voir cette page.",
                     "offline": "$~Nous n'avons pas pu charger la liste des personnes ayant des privilèges. Êtes-vous en ligne ?",
                     "save": "$~Nous n'avons pas pu enregistrer ce changement. Voulez-vous réessayer ?",

@@ -9865,7 +9865,8 @@
                     "class": "$~Ang klase mo",
                     "students": "$~Ang iyong mga estudyante",
                     "credentials": "$~Mga username at password",
-                    "submit": "$~Isumite"
+                    "submit": "$~Isumite",
+                    "usernames": "$~Mga Username"
                 },
                 "prompt": {
                     "start": "$~Ang form na ito ay nagbibigay-daan sa iyo na 1) bumuo ng mga account para sa lahat ng mga mag-aaral sa iyong klase at 2) lumikha ng isang gallery kung saan maaaring magdagdag ng mga proyekto ang lahat ng iyong mga mag-aaral. Kung ang mga mag-aaral ay may mga dati nang account, maaari mo silang idagdag sa gallery sa ibang pagkakataon.",
@@ -9874,7 +9875,10 @@
                     "pending": "$~Gumagawa ng mga username at password...",
                     "submit": "$~Handa ka na bang magsumite? Sa sandaling maging matagumpay ito, makakatanggap ka ng download ng impormasyong ito. Ang mga password ay *hindi mababawi*, kaya itago ang mga ito sa isang ligtas na lugar.",
                     "submitting": "$~Humihiling ng mga bagong account gamit ang mga username at password sa itaas...",
-                    "download": "$~Handa na ang klase mo! Dapat mong makita ang na-download na datos ng iyong estudyante sa iyong download folder. *Hindi na mababawi ang mga password*, kaya itago ang file na ito sa isang ligtas na lugar!"
+                    "download": "$~Handa na ang iyong klase! Dapat mong makita ang isang download ng data ng iyong mga mag-aaral sa iyong download folder. *Hindi na mababawi ang mga password*, kaya itago ang file na ito sa isang ligtas na lugar! Ang mga mag-aaral na nag-sign in gamit ang email ay walang password, kaya walang laman ang kanilang haligi ng password.",
+                    "reviewEmail": "$~Suriin ang mga username na ginawa namin. Gusto mo bang *baguhin* ang mga ito bago magpatuloy? Kung oo, hindi mo na mababago ang impormasyon ng mag-aaral sa itaas. Wala nang pipiliin ang mga mag-aaral dito — mag-sign in sila gamit ang address na nasa tabi ng kanilang pangalan.",
+                    "downloadEmail": "$~Handa na ang iyong klase! Makikita mo ang isang download ng datos ng iyong mga mag-aaral sa iyong download folder. Walang password na kailangang ingatan: pupunta ang bawat mag-aaral sa pahina ng pag-login, ita-type ang kanilang address, at hihiling ng link.",
+                    "submitEmail": "$~Handa ka na bang magpadala? Kapag matagumpay ito, makakakuha ka agad ng isang na-download na kopya ng impormasyong ito. Walang password na kailangang ingatan — bawat estudyante ay mag-sign in gamit ang address na nasa tabi ng kanilang pangalan."
                 },
                 "field": {
                     "name": {
@@ -9892,7 +9896,7 @@
                     "metadata": {
                         "description": "$~impormasyon ng mag-aaral",
                         "placeholder": "$~hal., ID ng estudyante, apelyido, ibinigay na pangalan",
-                        "prompt": "$~Gusto mo bang gumawa ng mga bagong account para sa mga estudyante? Magbigay ng *anumang impormasyon* tungkol sa mga estudyante, isa bawat linya, na pinaghihiwalay ng mga kuwit. Maaari itong mga apelyido, ibinigay na pangalan, numero ng estudyante, o iba pang detalyeng nagpapakilala sa iyo. Gagamitin namin ito upang bumuo ng mga username na maaari mong i-edit sa ibaba, na tutulong sa iyo na iugnay ang mga username sa mga estudyante."
+                        "prompt": "$~Gusto mo bang gumawa ng mga bagong account para sa mga mag-aaral? Magbigay ng *anumang impormasyon* tungkol sa mga mag-aaral, isa bawat linya, na pinaghihiwalay ng kuwit. Puwede itong mga apelyido, mga pangalan, mga numero ng mag-aaral, o iba pang bagay na makapagpapakilala sa kanila. Gagamitin namin ito para gumawa ng mga username na puwede mong baguhin sa ibaba, para matulungan kang itugma ang mga username sa mga mag-aaral. Kung ang isa sa iyong mga haligi ay mga email address ng mag-aaral, ang mga mag-aaral na iyon ay mag-si-sign in gamit ang isang link na ipapadala namin sa email nila sa halip na password. Iwanang walang laman ang selulang iyon at bibigyan ang mag-aaral ng username at password tulad ng iba."
                     },
                     "words": {
                         "description": "$~mga salitang gagamitin sa mga password",
@@ -9910,6 +9914,29 @@
                     "submit": {
                         "label": "$~lumikha ng klase",
                         "tip": "$~lumikha ng bagong klase gamit ang impormasyong ito."
+                    },
+                    "affirm": {
+                        "prompt": "$~Ang isa sa iyong mga haligi ay mukhang mga email address, kaya ang mga mag-aaral na iyon ay mag-si-sign in gamit ang isang link sa halip na password. Gawin lamang ito kung sapat na ang edad nila para magkaroon ng email account sa lugar na kanilang tinitirhan. *Hindi kami magpapadala ng email sa kahit sino kapag ginawa mo ang klaseng ito*: pupunta ang bawat mag-aaral sa login page, ita-type ang kanilang address, at hihiling ng link.",
+                        "label": "$~Sapat na ang edad ng mga mag-aaral na ito para magkaroon ng email account sa lugar na kanilang tinitirhan."
+                    },
+                    "signin": {
+                        "prompt": "$~Gusto mo bang gumawa ng mga bagong account para sa mga mag-aaral? Una, magpasya kung paano sila mag-sign in. Ang isang klase ay *isang paraan lamang, hindi pareho*, kaya piliin ang angkop para sa iyong mga mag-aaral.",
+                        "mode": {
+                            "label": "$~paano mag-sign in ang iyong mga mag-aaral",
+                            "labels": [
+                                "$~isang username at password",
+                                "$~isang link na ipapadala sa email"
+                            ],
+                            "tips": [
+                                "$~gagawa kami ng username at password para sa bawat mag-aaral, at ikaw ang magbibigay nito sa kanila",
+                                "$~mag-sign in ang bawat mag-aaral gamit ang kanilang sariling email address, kaya walang password na maaaring mawala"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~mga email address ng mag-aaral",
+                        "placeholder": "$~hal., mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Ilista ang iyong mga mag-aaral, isa bawat linya, *simula sa kanilang email address*. Maaari kang magdagdag ng iba pang impormasyon tungkol sa kanila pagkatapos ng kuwit — isang numero ng mag-aaral, apelyido — at gagamitin namin ito para bumuo ng mga username na maaari mong baguhin sa ibaba."
                     }
                 },
                 "error": {
@@ -9917,10 +9944,13 @@
                     "columns": "$~Tiyaking ang bawat mag-aaral ay may parehong bilang ng mga kolum.",
                     "generate": "$~Hindi makagawa ng mga natatanging username.",
                     "taken": "$~Isa o higit pang mga username sa itaas ang ginamit",
-                    "limit": "$~Hindi ka maaaring lumikha ng klase na may higit sa 35 estudyante nang sabay-sabay.",
+                    "limit": "$~Hindi ka makakagawa ng klase na may higit sa 50 mag-aaral nang sabay-sabay.",
                     "words": "$~Magbigay ng kahit man lang 25 salita.",
                     "account": "$~Hindi magawa ang ilan sa mga account.",
-                    "generic": "$~Hindi namin magawa ang klase. Narito ang ilang impormasyon para matulungan ang mga developer na malaman kung ano ang naging problema."
+                    "generic": "$~Hindi namin magawa ang klase. Narito ang ilang impormasyon para matulungan ang mga developer na malaman kung ano ang naging problema.",
+                    "affirmation": "$~Sabihin na sapat na ang edad ng mga mag-aaral na ito para magkaroon ng email account bago namin gawin ang kanilang mga account.",
+                    "inflight": "$~Maaaring nagawa na ang klaseng ito. Suriin muna ang iyong mga klase bago subukan ulit.",
+                    "addresses": "$~Dapat magsimula sa email address ang bawat linya."
                 }
             },
             "class": {
@@ -10965,7 +10995,7 @@
                 "ownAdmin": "$~Hindi mo maaaring alisin ang sarili mong mga pribilehiyo. Humingi ng tulong sa ibang admin.",
                 "nobody": "$~Wala pang sinumang may anumang pribilehiyo.",
                 "error": {
-                    "notadmin": "$!Ito ay espasyo para sa mga admin. Walang dapat baguhin dito para sa iyo.",
+                    "notadmin": "$~Ito ay isang espasyo para sa superuser. Walang dapat baguhin dito para sa iyo.",
                     "login": "$~Kailangan mong <naka-log in@://login> upang makita ang pahinang ito.",
                     "offline": "$~Hindi namin ma-load kung sino ang may mga pribilehiyo. Naka-online ka ba?",
                     "save": "$~Hindi namin nai-save ang pagbabagong iyon. Subukan muli?",

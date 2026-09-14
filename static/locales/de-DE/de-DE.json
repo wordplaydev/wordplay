@@ -9810,7 +9810,8 @@
                     "class": "$~Deine Klasse",
                     "students": "$~Ihre Schüler",
                     "credentials": "$~Benutzernamen und Passwörter",
-                    "submit": "$~Einreichen"
+                    "submit": "$~Einreichen",
+                    "usernames": "$~Benutzernamen"
                 },
                 "prompt": {
                     "start": "$~Mit diesem Formular kannst du 1) Konten für alle Schülerinnen und Schüler in deiner Klasse erstellen und 2) eine Galerie erstellen, zu der alle deine Schülerinnen und Schüler Projekte hinzufügen können. Wenn Schülerinnen und Schüler schon Konten haben, kannst du sie später zur Galerie hinzufügen.",
@@ -9819,7 +9820,10 @@
                     "pending": "$~Benutzernamen und Passwörter werden generiert ...",
                     "submit": "$~Bereit zum Absenden? Sobald es erfolgreich war, erhalten Sie einen Download dieser Informationen. Passwörter sind *nicht wiederherstellbar*, bewahren Sie sie also an einem sicheren Ort auf.",
                     "submitting": "$~Neue Konten mit den oben genannten Benutzernamen und Passwörtern anfordern …",
-                    "download": "$~Ihr Kurs ist bereit! Sie sollten einen Download Ihrer Schülerdaten in Ihrem Download-Ordner sehen. *Passwörter sind nicht wiederherstellbar*, bewahren Sie diese Datei also an einem sicheren Ort auf!"
+                    "download": "$~Deine Klasse ist bereit! In deinem Download-Ordner solltest du einen Download der Schülerdaten sehen. *Passwörter können nicht wiederhergestellt werden*, also bewahre diese Datei an einem sicheren Ort auf! Schülerinnen und Schüler, die sich per E-Mail anmelden, haben kein Passwort. Deshalb ist ihre Passwort-Spalte leer.",
+                    "reviewEmail": "$~Überprüfe die Benutzernamen, die wir erstellt haben. Möchtest du sie *bearbeiten*, bevor du fortfährst? Wenn du das tust, kannst du die Schülerdaten oben nicht mehr bearbeiten. Schüler wählen hier nichts aus – sie melden sich mit der Adresse neben ihrem Namen an.",
+                    "downloadEmail": "$~Deine Klasse ist bereit! Du solltest einen Download deiner Schülerdaten in deinem Download-Ordner sehen. Es gibt keine Passwörter, die man sicher aufbewahren muss: Jeder Schüler geht zur Anmeldeseite, gibt seine Adresse ein und fordert einen Link an.",
+                    "submitEmail": "$~Bereit zum Absenden? Sobald es klappt, erhältst du einen Download dieser Informationen. Es gibt keine Passwörter, die du sicher aufbewahren musst – jede Schülerin und jeder Schüler meldet sich mit der Adresse neben ihrem oder seinem Namen an."
                 },
                 "field": {
                     "name": {
@@ -9837,7 +9841,7 @@
                     "metadata": {
                         "description": "$~Informationen für Studierende",
                         "placeholder": "$~z.B. Matrikelnummer, Nachname, Vorname",
-                        "prompt": "$~Möchten Sie neue Konten für Studenten erstellen? Geben Sie *alle Informationen* über Studenten ein, eine pro Zeile, getrennt durch Kommas. Dies können Familiennamen, Vornamen, Matrikelnummern oder andere Unterscheidungsmerkmale sein. Wir werden diese Informationen verwenden, um Benutzernamen zu generieren, die Sie unten bearbeiten können, um Benutzernamen den Lernenden zuzuordnen."
+                        "prompt": "$~Möchtest du neue Konten für Schülerinnen und Schüler anlegen? Gib *beliebige Angaben* zu den Schülerinnen und Schülern an, eine pro Zeile, getrennt durch Kommas. Das können Nachnamen, Vornamen, Schülernummern oder andere unterscheidende Angaben sein. Wir nutzen diese Angaben, um Benutzernamen zu erzeugen, die du unten bearbeiten kannst. So kannst du Benutzernamen den Lernenden zuordnen. Wenn eine deiner Spalten E-Mail-Adressen der Schülerinnen und Schüler enthält, melden sich diese Schülerinnen und Schüler mit einem Link an, den wir ihnen per E-Mail schicken, statt mit einem Passwort. Lässt du diese Zelle leer, bekommt die Schülerin oder der Schüler wie alle anderen einen Benutzernamen und ein Passwort."
                     },
                     "words": {
                         "description": "$~Wörter zur Verwendung in Passwörtern",
@@ -9855,6 +9859,29 @@
                     "submit": {
                         "label": "$~Klasse erstellen",
                         "tip": "$~erstelle eine neue Klasse mit diesen Angaben."
+                    },
+                    "affirm": {
+                        "prompt": "$~Eine deiner Spalten sieht wie E-Mail-Adressen aus. Deshalb melden sich diese Schülerinnen und Schüler mit einem Link statt mit einem Passwort an. Mach das nur, wenn sie alt genug sind, um dort, wo sie leben, ein eigenes E-Mail-Konto zu haben. *Wir schicken beim Erstellen dieser Klasse niemandem eine E-Mail*: Jede Schülerin und jeder Schüler geht zur Anmeldeseite, gibt die eigene Adresse ein und fordert dort einen Link an.",
+                        "label": "$~Diese Schülerinnen und Schüler sind alt genug, um dort, wo sie leben, ein E-Mail-Konto zu haben."
+                    },
+                    "signin": {
+                        "prompt": "$~Möchtest du neue Konten für Schüler erstellen? Entscheide zuerst, wie sie sich anmelden sollen. Eine Klasse macht es *entweder auf die eine oder auf die andere Art*, also wähle die, die zu deinen Schülern passt.",
+                        "mode": {
+                            "label": "$~wie sich deine Schüler anmelden",
+                            "labels": [
+                                "$~ein Benutzername und ein Passwort",
+                                "$~ein Link per E-Mail"
+                            ],
+                            "tips": [
+                                "$~wir erstellen für jeden Schüler einen Benutzernamen und ein Passwort, und du gibst sie weiter",
+                                "$~jeder Schüler meldet sich mit seiner eigenen E-Mail-Adresse an, sodass kein Passwort verloren gehen kann"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~E-Mail-Adressen der Schüler",
+                        "placeholder": "$~z. B. mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Liste deine Schüler auf, eine Zeile pro Schüler, *beginnend mit ihrer E-Mail-Adresse*. Du kannst nach einem Komma alles Weitere über sie hinzufügen – eine Schülernummer, einen Nachnamen – und wir nutzen das, um Benutzernamen zu erstellen, die du weiter unten bearbeiten kannst."
                     }
                 },
                 "error": {
@@ -9862,10 +9889,13 @@
                     "columns": "$~Stellen Sie sicher, dass jeder Schüler die gleiche Anzahl Spalten hat.",
                     "generate": "$~Es können keine eindeutigen Benutzernamen erstellt werden.",
                     "taken": "$~Einer oder mehrere der oben genannten Benutzernamen sind bereits vergeben",
-                    "limit": "$~Du kannst nicht mehr als 35 Schülerinnen und Schüler auf einmal in einer Klasse erstellen.",
+                    "limit": "$~Du kannst nicht mehr als 50 Schüler auf einmal in einer Klasse anlegen.",
                     "words": "$~Geben Sie mindestens 25 Wörter an.",
                     "account": "$~Einige der Konten können nicht erstellt werden.",
-                    "generic": "$~Wir konnten die Klasse nicht erstellen. Hier sind einige Informationen, die Entwicklern helfen, herauszufinden, was schiefgelaufen ist."
+                    "generic": "$~Wir konnten die Klasse nicht erstellen. Hier sind einige Informationen, die Entwicklern helfen, herauszufinden, was schiefgelaufen ist.",
+                    "affirmation": "$~Bestätige, dass diese Schülerinnen und Schüler alt genug sind, um ein E-Mail-Konto zu haben, bevor wir ihre Konten anlegen.",
+                    "inflight": "$~Diese Klasse wurde vielleicht schon erstellt. Prüfe deine Klassen, bevor du es erneut versuchst.",
+                    "addresses": "$~Jede Zeile muss mit einer E-Mail-Adresse beginnen."
                 }
             },
             "class": {
@@ -10471,7 +10501,7 @@
                 "ownAdmin": "$~Du kannst dir nicht selbst Rechte entziehen. Bitte einen anderen Administrator oder eine andere Administratorin.",
                 "nobody": "$~Noch niemand hat irgendwelche Rechte.",
                 "error": {
-                    "notadmin": "$!Dies ist ein Administratorbereich. Hier gibt es nichts für dich zu ändern.",
+                    "notadmin": "$~Dies ist ein Bereich für Administratoren. Hier gibt es nichts für dich zu ändern.",
                     "login": "$~Du musst <angemeldet sein@://login>, um diese Seite zu sehen.",
                     "offline": "$~Wir konnten nicht laden, wer welche Rechte hat. Bist du online?",
                     "save": "$~Wir konnten diese Änderung nicht speichern. Nochmal versuchen?",
