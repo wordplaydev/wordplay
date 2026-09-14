@@ -10617,7 +10617,7 @@
                 "ownAdmin": "$~Nie możesz odebrać uprawnień samemu sobie. Poproś innego administratora.",
                 "nobody": "$~Nikt jeszcze nie ma żadnych uprawnień.",
                 "error": {
-                    "notadmin": "$~To jest przestrzeń administratora. Nie ma tu nic, co mógłbyś zmienić.",
+                    "notadmin": "$!To jest przestrzeń administratora. Nie ma tu nic, co mógłbyś zmienić.",
                     "login": "$~Musisz być <zalogowany@://login>, żeby zobaczyć tę stronę.",
                     "offline": "$~Nie udało nam się wczytać, kto ma uprawnienia. Czy jesteś online?",
                     "save": "$~Nie udało nam się zapisać tej zmiany. Spróbować ponownie?",

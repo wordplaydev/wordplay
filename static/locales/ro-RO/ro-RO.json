@@ -10961,7 +10961,7 @@
                 "ownAdmin": "$~Nu îți poți retrage propriile privilegii. Cere altui administrator.",
                 "nobody": "$~Nimeni nu are încă privilegii.",
                 "error": {
-                    "notadmin": "$~Acesta este un spațiu pentru administratori. Nu ai nimic de schimbat aici.",
+                    "notadmin": "$!Acesta este un spațiu pentru administratori. Nu ai nimic de schimbat aici.",
                     "login": "$~Trebuie să fii <autentificat@://login> ca să vezi această pagină.",
                     "offline": "$~Nu am putut încărca cine are privilegii. Ești conectat la internet?",
                     "save": "$~Nu am putut salva acea schimbare. Încerci din nou?",

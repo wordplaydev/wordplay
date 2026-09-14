@@ -11164,7 +11164,7 @@
                     }
                 },
                 "error": {
-                    "notadmin": "This is a admin space. There is nothing here for you to change.",
+                    "notadmin": "This is a superuser space. There is nothing here for you to change.",
                     "login": "You need to be <logged in@://login> to see this page.",
                     "offline": "We weren't able to load who has privileges. Are you online?",
                     "save": "We weren't able to save that change. Try again?",

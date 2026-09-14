@@ -10857,7 +10857,7 @@
                 "ownAdmin": "$~Bạn không thể lấy lại đặc quyền của chính mình. Hãy nhờ một quản trị viên khác.",
                 "nobody": "$~Chưa có ai có đặc quyền nào cả.",
                 "error": {
-                    "notadmin": "$~Đây là không gian dành cho quản trị viên. Không có gì ở đây để bạn thay đổi.",
+                    "notadmin": "$!Đây là không gian dành cho quản trị viên. Không có gì ở đây để bạn thay đổi.",
                     "login": "$~Bạn cần phải <đăng nhập@://login> để xem trang này.",
                     "offline": "$~Chúng tôi không thể tải danh sách ai có đặc quyền. Bạn có đang kết nối mạng không?",
                     "save": "$~Chúng tôi không thể lưu thay đổi đó. Bạn thử lại nhé?",

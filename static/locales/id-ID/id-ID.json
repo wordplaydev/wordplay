@@ -10968,7 +10968,7 @@
                 "ownAdmin": "$~Kamu tidak bisa menghilangkan hak istimewamu sendiri. Minta bantuan admin lain.",
                 "nobody": "$~Belum ada yang memiliki hak istimewa apa pun.",
                 "error": {
-                    "notadmin": "$~Ini adalah ruang admin. Tidak ada yang bisa kamu ubah di sini.",
+                    "notadmin": "$!Ini adalah ruang admin. Tidak ada yang bisa kamu ubah di sini.",
                     "login": "$~Kamu perlu <masuk@://login> untuk melihat halaman ini.",
                     "offline": "$~Kami tidak bisa memuat siapa yang punya hak istimewa. Apakah kamu sedang daring?",
                     "save": "$~Kami tidak bisa menyimpan perubahan itu. Coba lagi?",

@@ -10949,7 +10949,7 @@
                 "ownAdmin": "$~Não pode retirar os seus próprios privilégios. Peça a outro administrador.",
                 "nobody": "$~Ainda ninguém tem privilégios.",
                 "error": {
-                    "notadmin": "$~Este é um espaço de administração. Não há aqui nada para o(a) utilizador(a) alterar.",
+                    "notadmin": "$!Este é um espaço de administração. Não há aqui nada para o(a) utilizador(a) alterar.",
                     "login": "$~É preciso estar <com sessão iniciada@://login> para ver esta página.",
                     "offline": "$~Não foi possível carregar quem tem privilégios. Está ligado(a) à internet?",
                     "save": "$~Não foi possível guardar essa alteração. Tentar novamente?",
