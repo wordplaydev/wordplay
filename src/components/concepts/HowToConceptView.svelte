@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { isProxySession } from '@db/proxySession';
     import { goto } from '$app/navigation';
     import Subheader from '@components/app/Subheader.svelte';
     import Speech from '@components/lore/Speech.svelte';
@@ -44,6 +45,9 @@
         // guaranteed permission-denied on every how-to rendered, counted as a
         // failed save. Counting anonymous views would have to be a callable.
         if (!isAuthenticated($user)) return;
+        // A proxy session reading a how-to is not that creator reading it
+        // (#1313), and this both counts a view and records who saw it.
+        if (isProxySession()) return;
         // Nor a signed-in stranger's. Since #906 this view renders how-tos listed
         // in the guide, whose readers are mostly in neither the gallery nor its
         // expanded-access list — and the `social` opening admits only those two,

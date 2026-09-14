@@ -10954,6 +10954,14 @@
                     "offline": "$~Não foi possível carregar quem tem privilégios. Está ligado(a) à internet?",
                     "save": "$~Não foi possível guardar essa alteração. Tentar novamente?",
                     "none": "$~Escolha pelo menos um privilégio antes de adicionar alguém."
+                },
+                "proxy": {
+                    "header": "$~Ver como alguém",
+                    "prompt": "$~Abra o Wordplay como outro criador, para ver o que ele vê quando algo não está a funcionar para si. É apenas de leitura: nada do que fizer é guardado, e essa pessoa não verá que esteve lá. Abre-se num novo separador, e fechar esse separador termina a sessão.\n\nSempre que alguém faz isto, fica registado.",
+                    "start": {
+                        "label": "$~Ver",
+                        "tip": "$~abrir uma sessão apenas de leitura como este criador num novo separador"
+                    }
                 }
             }
         },
@@ -11346,6 +11354,19 @@
                 "undid": "$~desfez isso",
                 "redid": "$~refez isso"
             }
+        },
+        "proxy": {
+            "banner": "$~Está a ver o Wordplay como outra pessoa. Nada aqui é guardado, e essa pessoa não pode ver que está aqui.",
+            "as": "$~como $name",
+            "remaining": "$~$#minutes[falta $#minutes minuto|faltam $minutes minutos|faltam $minutes minutos]",
+            "stop": {
+                "label": "$~Parar",
+                "tip": "$~fechar este separador e parar de ver como essa pessoa"
+            },
+            "starting": "$~A iniciar…",
+            "failed": "$~Não foi possível iniciar essa sessão. Ainda tem sessão iniciada como administrador(a)?",
+            "expired": "$~Essa ligação já foi utilizada, ou já expirou. Comece de novo a partir da <página de privilégios@://admin>.",
+            "ended": "$~Esta sessão terminou, e a sua sessão foi encerrada. Feche este separador. Para ver de novo, comece a partir da página de privilégios."
         }
     },
     "moderation": {

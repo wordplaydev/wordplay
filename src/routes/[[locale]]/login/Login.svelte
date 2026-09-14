@@ -1,5 +1,6 @@
 <script lang="ts">
     import Spinning from '@components/app/Spinning.svelte';
+    import { proxyPrefix } from '@db/proxySession';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Note from '@components/widgets/Note.svelte';
@@ -129,7 +130,7 @@
             }
             // Remember the email so we don't have to ask for it again after
             // returning to the link above.
-            window.localStorage.setItem('email', email);
+            window.localStorage.setItem(`${proxyPrefix()}email`, email);
             emailFeedback = (l) => l.ui.page.login.prompt.sent;
             linkSent = true;
         } catch (err) {
@@ -151,7 +152,9 @@
         if (auth) {
             try {
                 // If this is on the same device and browser, then the email should be in local storage.
-                const storedEmail = window.localStorage.getItem('email');
+                const storedEmail = window.localStorage.getItem(
+                    `${proxyPrefix()}email`,
+                );
 
                 // If there's no email, prompt for one.
                 if (storedEmail === null && email === '') {
@@ -162,7 +165,9 @@
                     signInWithEmailLink(auth, storedEmail ?? email, url)
                         .then(() => {
                             // Remove the email we might have stored.
-                            window.localStorage.removeItem('email');
+                            window.localStorage.removeItem(
+                                `${proxyPrefix()}email`,
+                            );
 
                             // Provide success feedback (which likely won't be visible, since we're navigating immediately)
                             emailFeedback = (l) =>

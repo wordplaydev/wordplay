@@ -1,5 +1,6 @@
 import { browser } from '$app/environment';
 import { redirect } from '@sveltejs/kit';
+import { proxyPrefix } from '@db/proxySession';
 import {
     SupportedLocales,
     type SupportedLocale,
@@ -38,8 +39,11 @@ export const load = ({
     // serve a 404-y URL. Prefer localStorage, then en-US.
     let fallback = 'en-US';
     try {
+        // `proxyPrefix()` because this reads a Setting's key without going
+        // through Setting (#1313): in a proxy tab the administrator's own
+        // locales must not decide what that creator's session renders in.
         const stored: unknown = JSON.parse(
-            localStorage.getItem('locales') ?? '[]',
+            localStorage.getItem(`${proxyPrefix()}locales`) ?? '[]',
         );
         if (Array.isArray(stored) && stored.length > 0) {
             const valid = (stored as string[]).filter((l) =>

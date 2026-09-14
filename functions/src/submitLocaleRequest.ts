@@ -15,6 +15,7 @@
  */
 
 import { HttpsError, onCall } from 'firebase-functions/v2/https';
+import { noProxy } from './proxyGuard.js';
 
 const REPO_OWNER = 'wordplaydev';
 const REPO_NAME = 'wordplay';
@@ -157,92 +158,104 @@ function composeIssueBody(args: {
 export const submitLocaleRequest = onCall<
     SubmitLocaleRequestInputs,
     Promise<SubmitLocaleRequestOutput>
->(cors, async (request) => {
-    if (!request.auth)
-        throw new HttpsError(
-            'unauthenticated',
-            'Sign in before requesting a language.',
+>(
+    cors,
+    noProxy(async (request) => {
+        if (!request.auth)
+            throw new HttpsError(
+                'unauthenticated',
+                'Sign in before requesting a language.',
+            );
+
+        const { language, region } = request.data;
+
+        if (typeof language !== 'string' || !LANGUAGE_PATTERN.test(language))
+            throw new HttpsError(
+                'invalid-argument',
+                `Invalid language: ${language}`,
+            );
+        if (typeof region !== 'string' || !REGION_PATTERN.test(region))
+            throw new HttpsError(
+                'invalid-argument',
+                `Invalid region: ${region}`,
+            );
+
+        const locale = `${language}-${region}`;
+        const languageName = nameOf('language', language);
+        const regionName = nameOf('region', region);
+
+        const token = process.env.GITHUB_TOKEN;
+        if (!token)
+            throw new HttpsError(
+                'failed-precondition',
+                'GITHUB_TOKEN is not configured on the server.',
+            );
+
+        const userRecord = await (
+            await import('firebase-admin/auth')
+        )
+            .getAuth()
+            .getUser(request.auth.uid)
+            .catch(() => undefined);
+        const contributor = {
+            uid: request.auth.uid,
+            name: userRecord?.displayName ?? request.auth.token.name ?? null,
+            email: userRecord?.email ?? request.auth.token.email ?? null,
+        };
+
+        const title = `Add support for ${languageName} (${locale})`;
+        const body = composeIssueBody({
+            contributor,
+            locale,
+            languageName,
+            regionName,
+        });
+
+        // In the emulator we don't actually open an issue — just log it and hand
+        // back a fake URL so the client UI exercises the same code path.
+        if (process.env.FUNCTIONS_EMULATOR === 'true') {
+            console.log(
+                [
+                    '',
+                    '═══════════════════════════════════════════════════════════',
+                    ' Locale request — emulator dry run (no issue created)',
+                    '═══════════════════════════════════════════════════════════',
+                    `Title:  ${title}`,
+                    '',
+                    '--- Issue body ---',
+                    body,
+                    '--- end issue body ---',
+                    '═══════════════════════════════════════════════════════════',
+                    '',
+                ].join('\n'),
+            );
+            return {
+                issueUrl: `emulator://dry-run/${locale}`,
+                existing: false,
+            };
+        }
+
+        // Don't open a second issue for a locale someone already asked for; point the
+        // requester at the existing discussion instead. A failed search falls through to
+        // creating one, since losing the request is worse than a duplicate.
+        const existing = await findExistingRequest(token, locale).catch(
+            (error) => {
+                console.error('Locale request duplicate check failed', error);
+                return undefined;
+            },
         );
+        if (existing !== undefined)
+            return { issueUrl: existing, existing: true };
 
-    const { language, region } = request.data;
-
-    if (typeof language !== 'string' || !LANGUAGE_PATTERN.test(language))
-        throw new HttpsError(
-            'invalid-argument',
-            `Invalid language: ${language}`,
-        );
-    if (typeof region !== 'string' || !REGION_PATTERN.test(region))
-        throw new HttpsError('invalid-argument', `Invalid region: ${region}`);
-
-    const locale = `${language}-${region}`;
-    const languageName = nameOf('language', language);
-    const regionName = nameOf('region', region);
-
-    const token = process.env.GITHUB_TOKEN;
-    if (!token)
-        throw new HttpsError(
-            'failed-precondition',
-            'GITHUB_TOKEN is not configured on the server.',
-        );
-
-    const userRecord = await (
-        await import('firebase-admin/auth')
-    )
-        .getAuth()
-        .getUser(request.auth.uid)
-        .catch(() => undefined);
-    const contributor = {
-        uid: request.auth.uid,
-        name: userRecord?.displayName ?? request.auth.token.name ?? null,
-        email: userRecord?.email ?? request.auth.token.email ?? null,
-    };
-
-    const title = `Add support for ${languageName} (${locale})`;
-    const body = composeIssueBody({
-        contributor,
-        locale,
-        languageName,
-        regionName,
-    });
-
-    // In the emulator we don't actually open an issue — just log it and hand
-    // back a fake URL so the client UI exercises the same code path.
-    if (process.env.FUNCTIONS_EMULATOR === 'true') {
-        console.log(
-            [
-                '',
-                '═══════════════════════════════════════════════════════════',
-                ' Locale request — emulator dry run (no issue created)',
-                '═══════════════════════════════════════════════════════════',
-                `Title:  ${title}`,
-                '',
-                '--- Issue body ---',
+        const issue = (await githubFetch(token, `${GITHUB_BASE}/issues`, {
+            method: 'POST',
+            body: JSON.stringify({
+                title,
                 body,
-                '--- end issue body ---',
-                '═══════════════════════════════════════════════════════════',
-                '',
-            ].join('\n'),
-        );
-        return { issueUrl: `emulator://dry-run/${locale}`, existing: false };
-    }
+                labels: ['localization', 'request'],
+            }),
+        })) as { html_url: string };
 
-    // Don't open a second issue for a locale someone already asked for; point the
-    // requester at the existing discussion instead. A failed search falls through to
-    // creating one, since losing the request is worse than a duplicate.
-    const existing = await findExistingRequest(token, locale).catch((error) => {
-        console.error('Locale request duplicate check failed', error);
-        return undefined;
-    });
-    if (existing !== undefined) return { issueUrl: existing, existing: true };
-
-    const issue = (await githubFetch(token, `${GITHUB_BASE}/issues`, {
-        method: 'POST',
-        body: JSON.stringify({
-            title,
-            body,
-            labels: ['localization', 'request'],
-        }),
-    })) as { html_url: string };
-
-    return { issueUrl: issue.html_url };
-});
+        return { issueUrl: issue.html_url };
+    }),
+);

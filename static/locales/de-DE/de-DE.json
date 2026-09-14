@@ -10476,6 +10476,14 @@
                     "offline": "$~Wir konnten nicht laden, wer welche Rechte hat. Bist du online?",
                     "save": "$~Wir konnten diese Änderung nicht speichern. Nochmal versuchen?",
                     "none": "$~Wähle mindestens ein Recht aus, bevor du jemanden hinzufügst."
+                },
+                "proxy": {
+                    "header": "$~Ansehen als jemand anderes",
+                    "prompt": "$~Öffne Wordplay als eine andere Person, um zu sehen, was sie sieht, wenn etwas bei ihr nicht funktioniert. Das ist nur zum Ansehen: Nichts, was du tust, wird gespeichert, und sie sieht nicht, dass du da warst. Es öffnet sich in einem neuen Tab, und das Schließen dieses Tabs beendet es.\n\nJedes Mal, wenn das jemand macht, wird es aufgezeichnet.",
+                    "start": {
+                        "label": "$~Ansehen",
+                        "tip": "$~Öffne eine schreibgeschützte Sitzung als diese Person in einem neuen Tab"
+                    }
                 }
             }
         },
@@ -11358,6 +11366,19 @@
                 "undid": "$~hat das rückgängig gemacht",
                 "redid": "$~hat das wiederhergestellt"
             }
+        },
+        "proxy": {
+            "banner": "$~Du siehst dir Wordplay gerade als jemand anderes an. Nichts hier wird gespeichert, und die Person kann nicht sehen, dass du da bist.",
+            "as": "$~als $name",
+            "remaining": "$~$#minutes[noch $minutes Minute übrig|noch $minutes Minuten übrig]",
+            "stop": {
+                "label": "$~Stopp",
+                "tip": "$~Schließe diesen Tab und höre auf, als diese Person anzusehen"
+            },
+            "starting": "$~Wird gestartet…",
+            "failed": "$~Wir konnten diese Sitzung nicht starten. Bist du noch als Administrator angemeldet?",
+            "expired": "$~Dieser Link wurde bereits benutzt oder ist abgelaufen. Starte erneut über die <Seite mit den Berechtigungen@://admin>.",
+            "ended": "$~Diese Sitzung ist beendet, und du bist davon abgemeldet. Schließe diesen Tab. Um erneut anzusehen, starte über die Seite mit den Berechtigungen."
         }
     },
     "moderation": {

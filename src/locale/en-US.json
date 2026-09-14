@@ -9734,6 +9734,19 @@
             "updates": "see the updates",
             "dismiss": "Dismiss"
         },
+        "proxy": {
+            "banner": "You're looking at Wordplay as someone else. Nothing here is saved, and they can't see that you're here.",
+            "as": "as $name",
+            "remaining": "$#minutes[$minutes minute left|$minutes minutes left]",
+            "stop": {
+                "label": "Stop",
+                "tip": "Close this tab and stop looking as them"
+            },
+            "starting": "Starting…",
+            "ended": "This session is over, and you're signed out of it. Close this tab. To look again, start from the privileges page.",
+            "failed": "We couldn't start that session. Are you still signed in as an administrator?",
+            "expired": "That link has already been used, or it has expired. Start again from the <privileges page@://admin>."
+        },
         "localize": {
             "header": "Localize",
             "reference": "English reference",
@@ -11142,6 +11155,14 @@
                 "confirm": "Their warning count goes back to zero and they can share publicly again. The record of what happened stays, so a moderator looking at them later can still see it.",
                 "ownAdmin": "You can't take away your own privileges. Ask another admin.",
                 "nobody": "Nobody has any privileges yet.",
+                "proxy": {
+                    "header": "Look as someone",
+                    "prompt": "Open Wordplay as another creator, to see what they see when something isn't working for them. It's read only: nothing you do is saved, and they won't see that you were there. It opens in a new tab, and closing that tab ends it.\n\nEvery time anyone does this, it's recorded.",
+                    "start": {
+                        "label": "Look",
+                        "tip": "Open a read-only session as this creator in a new tab"
+                    }
+                },
                 "error": {
                     "notadmin": "This is a admin space. There is nothing here for you to change.",
                     "login": "You need to be <logged in@://login> to see this page.",

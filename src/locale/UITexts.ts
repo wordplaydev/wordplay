@@ -2501,6 +2501,26 @@ type UITexts = {
         /** [plain] Tooltip for the button that dismisses the notification */
         dismiss: string;
     };
+    /** Looking at Wordplay as another creator, to debug what they see (#1313).
+     *  A read-only session: it changes nothing of theirs. */
+    proxy: {
+        /** [plain] The banner shown throughout a read-only session as someone else */
+        banner: string;
+        /** [plain] Names whose account is being looked at, e.g. "as $name" */
+        as: Template<['name']>;
+        /** [plain] How much of the session is left, in whole minutes */
+        remaining: Template<['#minutes']>;
+        /** The control that ends the session by closing the tab */
+        stop: ButtonText;
+        /** [plain] Shown while the session is being established */
+        starting: string;
+        /** [formatted] Shown once the session has run out and been signed out */
+        ended: FormattedText;
+        /** [formatted] When the session could not be started */
+        failed: FormattedText;
+        /** [formatted] When the link has already been used or has expired */
+        expired: FormattedText;
+    };
     /** Text for the localization editor */
     localize: {
         /** [plain] The header for the localization editor */

@@ -771,12 +771,28 @@ test('resolving a color needs no basis', () => {
 // helpers in `Moderation.ts`, both of which every page already reached, which is
 // why the client half of this change was put in those two files rather than in a
 // module of its own.
+// Proxying as a creator (#1313) adds exactly one leaf file to all five:
+// `proxySession.ts`, which answers whether this *tab* is a read-only session
+// looking at somebody else's Wordplay. It has to be on every graph because it
+// The layout carries one more than the rest: `ProxyNotification`, the standing
+// banner that says whose Wordplay this tab is looking at. It is deliberately
+// thin — a username string rather than a CreatorView, and its one shared key
+// comes from `proxySession.ts` rather than from `@db/admin` — because the root
+// layout is the most constrained graph in the app; the first draft cost four
+// files instead of one.
+//
+// is asked at module init by both `firebase.ts` (which persistence to use) and
+// `Database.ts` (which local database to open) — before anything else exists,
+// and synchronously, since Dexie and Auth are constructed right there. That is
+// also why it imports nothing at all: anything it reached would join five
+// graphs with it. It is the file-budget-moves-by-one case this file's rule
+// above describes, and three byte ceilings move a hundredth with it.
 test.each([
-    ['src/routes/+layout.svelte', 527, 3.97],
-    ['src/components/app/Page.svelte', 552, 4.23],
-    ['src/routes/[[locale]]/+page.svelte', 567, 4.32],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 572, 4.34],
-    ['src/routes/[[locale]]/projects/+page.svelte', 579, 4.36],
+    ['src/routes/+layout.svelte', 529, 3.99],
+    ['src/components/app/Page.svelte', 553, 4.24],
+    ['src/routes/[[locale]]/+page.svelte', 568, 4.33],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 573, 4.34],
+    ['src/routes/[[locale]]/projects/+page.svelte', 580, 4.37],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

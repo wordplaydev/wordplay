@@ -1,4 +1,5 @@
 import type { SupportedLocale } from '@locale/SupportedLocales';
+import { proxyPrefix } from '@db/proxySession';
 import { doc, getDoc } from 'firebase/firestore';
 import type { SerializedLayout } from '@components/project/Layout';
 import Layout from '@components/project/Layout';
@@ -347,7 +348,11 @@ export default class SettingsDatabase {
         setting: Setting<SidebarState>,
     ) {
         if (typeof window === 'undefined' || !window.localStorage) return;
-        const raw = window.localStorage.getItem(legacyKey);
+        // Namespaced like every other key in a proxy tab (#1313): this one
+        // *removes* what it reads, so an unprefixed migration would consume the
+        // administrator's own legacy width on their own device.
+        const key = `${proxyPrefix()}${legacyKey}`;
+        const raw = window.localStorage.getItem(key);
         if (raw === null) return;
         try {
             const width = JSON.parse(raw);
@@ -356,7 +361,7 @@ export default class SettingsDatabase {
         } catch {
             // Ignore an unparseable legacy value.
         }
-        window.localStorage.removeItem(legacyKey);
+        window.localStorage.removeItem(key);
     }
 
     async syncUser() {

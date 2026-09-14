@@ -27,6 +27,7 @@
  */
 
 import { HttpsError, onCall } from 'firebase-functions/v2/https';
+import { noProxy } from './proxyGuard.js';
 import prettier from 'prettier';
 import type { StringAnalysis } from 'shared-types';
 import { analyze } from './analyzeLocalization.js';
@@ -348,304 +349,322 @@ function composePrBody(args: {
 export const submitLocalizationBundle = onCall<
     SubmitLocalizationInputs,
     Promise<SubmitLocalizationOutput>
->(cors, async (request) => {
-    if (!request.auth)
-        throw new HttpsError(
-            'unauthenticated',
-            'Sign in before submitting localization edits.',
-        );
+>(
+    cors,
+    noProxy(async (request) => {
+        if (!request.auth)
+            throw new HttpsError(
+                'unauthenticated',
+                'Sign in before submitting localization edits.',
+            );
 
-    const { locale, description, edits } = request.data;
+        const { locale, description, edits } = request.data;
 
-    if (
-        typeof locale !== 'string' ||
-        !/^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/.test(locale)
-    )
-        throw new HttpsError('invalid-argument', `Invalid locale: ${locale}`);
-    if (typeof description !== 'string')
-        throw new HttpsError(
-            'invalid-argument',
-            'description must be a string.',
-        );
-    if (description.length > LIMITS.maxDescriptionLength)
-        throw new HttpsError('invalid-argument', 'description is too long.');
-    if (typeof edits !== 'object' || edits === null || Array.isArray(edits))
-        throw new HttpsError('invalid-argument', 'edits must be an object.');
-    const entries = Object.entries(edits);
-    if (entries.length === 0)
-        throw new HttpsError('invalid-argument', 'No edits to submit.');
-    if (entries.length > LIMITS.maxEdits)
-        throw new HttpsError(
-            'invalid-argument',
-            'Too many edits in one bundle.',
-        );
-    for (const [key, value] of entries) {
-        // A list replaces a whole leaf; `setAtPath` decides which paths may
-        // take one, and rejects every other.
-        const items = Array.isArray(value) ? value : [value];
-        if (items.some((item) => typeof item !== 'string'))
+        if (
+            typeof locale !== 'string' ||
+            !/^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$/.test(locale)
+        )
             throw new HttpsError(
                 'invalid-argument',
-                `Edit for "${key}" is not a string or a list of strings.`,
+                `Invalid locale: ${locale}`,
             );
-        if (items.some((item) => item.length > LIMITS.maxValueLength))
+        if (typeof description !== 'string')
             throw new HttpsError(
                 'invalid-argument',
-                `Edit for "${key}" exceeds maximum length.`,
+                'description must be a string.',
             );
-    }
-
-    const token = process.env.GITHUB_TOKEN;
-    if (!token)
-        throw new HttpsError(
-            'failed-precondition',
-            'GITHUB_TOKEN is not configured on the server.',
-        );
-
-    // Split edits into locale, tutorial, and updates groups by key prefix.
-    const localeEdits: { key: string; value: string | string[] }[] = [];
-    const tutorialEdits: { key: string; value: string | string[] }[] = [];
-    const updatesEdits: { key: string; value: string | string[] }[] = [];
-    for (const [key, value] of entries) {
-        if (key.startsWith(`${TUTORIAL_KEY_PREFIX}.`))
-            tutorialEdits.push({ key, value });
-        else if (key.startsWith(`${UPDATES_KEY_PREFIX}.`))
-            updatesEdits.push({ key, value });
-        else localeEdits.push({ key, value });
-    }
-
-    // Pull both target-locale files (we may not touch both) and the en-US
-    // sources used for the "Original English" column.
-    const [
-        targetLocaleFile,
-        targetTutorialFile,
-        targetUpdatesFile,
-        sourceLocaleFile,
-        sourceTutorialFile,
-    ] = await Promise.all([
-        localeEdits.length > 0
-            ? fetchJsonFile(token, localeFilePath(locale))
-            : Promise.resolve(undefined),
-        tutorialEdits.length > 0
-            ? fetchJsonFile(token, tutorialFilePath(locale))
-            : Promise.resolve(undefined),
-        updatesEdits.length > 0
-            ? fetchJsonFile(token, updatesFilePath(locale))
-            : Promise.resolve(undefined),
-        fetchJsonFile(token, localeFilePath('en-US')),
-        tutorialEdits.length > 0
-            ? fetchJsonFile(token, tutorialFilePath('en-US'))
-            : Promise.resolve(undefined),
-    ]);
-
-    if (localeEdits.length > 0 && !targetLocaleFile)
-        throw new HttpsError(
-            'not-found',
-            `Locale file not found for ${locale}.`,
-        );
-    if (tutorialEdits.length > 0 && !targetTutorialFile)
-        throw new HttpsError(
-            'not-found',
-            `Tutorial file not found for ${locale}.`,
-        );
-    // A locale with no changelog translations yet has no file to edit, and
-    // creating one here would put a single hand-written entry in a bundle the
-    // translator otherwise owns.
-    if (updatesEdits.length > 0 && !targetUpdatesFile)
-        throw new HttpsError(
-            'not-found',
-            `No changelog translations for ${locale} to revise yet.`,
-        );
-    if (!sourceLocaleFile)
-        throw new HttpsError('internal', 'en-US source locale file not found.');
-
-    // Apply edits to in-memory copies of the JSON. Throws on invalid paths.
-    const summaryRows: {
-        key: string;
-        sourceEnglish: string;
-        edited: string;
-        /** True for a list a locale writes for itself. Such a row is left out
-         *  of the analysis pass: back-translating and reading-level-scoring a
-         *  word list says nothing, and en-US's list isn't its source. */
-        ownList: boolean;
-    }[] = [];
-
-    try {
-        for (const { key, value } of localeEdits) {
-            const { path, index } = parseOverrideKey(key);
-            const ownList = Array.isArray(value) && isListEditPath(path);
-            // Read what the locale had before the write, since a list's "before"
-            // is its own previous list rather than anything in en-US.
-            const before = ownList
-                ? listDisplay(resolveAtPath(targetLocaleFile!.json, path))
-                : englishDisplay(
-                      resolveAtPath(sourceLocaleFile.json, path),
-                      index,
-                  );
-            setAtPath(targetLocaleFile!.json, path, index, value);
-            summaryRows.push({
-                key,
-                sourceEnglish: before,
-                edited: Array.isArray(value) ? listDisplay(value) : value,
-                ownList,
-            });
+        if (description.length > LIMITS.maxDescriptionLength)
+            throw new HttpsError(
+                'invalid-argument',
+                'description is too long.',
+            );
+        if (typeof edits !== 'object' || edits === null || Array.isArray(edits))
+            throw new HttpsError(
+                'invalid-argument',
+                'edits must be an object.',
+            );
+        const entries = Object.entries(edits);
+        if (entries.length === 0)
+            throw new HttpsError('invalid-argument', 'No edits to submit.');
+        if (entries.length > LIMITS.maxEdits)
+            throw new HttpsError(
+                'invalid-argument',
+                'Too many edits in one bundle.',
+            );
+        for (const [key, value] of entries) {
+            // A list replaces a whole leaf; `setAtPath` decides which paths may
+            // take one, and rejects every other.
+            const items = Array.isArray(value) ? value : [value];
+            if (items.some((item) => typeof item !== 'string'))
+                throw new HttpsError(
+                    'invalid-argument',
+                    `Edit for "${key}" is not a string or a list of strings.`,
+                );
+            if (items.some((item) => item.length > LIMITS.maxValueLength))
+                throw new HttpsError(
+                    'invalid-argument',
+                    `Edit for "${key}" exceeds maximum length.`,
+                );
         }
-        for (const { key, value } of updatesEdits) {
-            const updatesPath = key.slice(UPDATES_KEY_PREFIX.length + 1);
-            const { path, index } = parseOverrideKey(updatesPath);
-            setAtPath(targetUpdatesFile!.json, path, index, value);
-            summaryRows.push({
-                key,
-                // No English to show: see `updatesFilePath`. The back-translation
-                // below is what a reviewer reads this row against.
-                sourceEnglish: '',
-                edited: Array.isArray(value) ? listDisplay(value) : value,
-                ownList: false,
-            });
+
+        const token = process.env.GITHUB_TOKEN;
+        if (!token)
+            throw new HttpsError(
+                'failed-precondition',
+                'GITHUB_TOKEN is not configured on the server.',
+            );
+
+        // Split edits into locale, tutorial, and updates groups by key prefix.
+        const localeEdits: { key: string; value: string | string[] }[] = [];
+        const tutorialEdits: { key: string; value: string | string[] }[] = [];
+        const updatesEdits: { key: string; value: string | string[] }[] = [];
+        for (const [key, value] of entries) {
+            if (key.startsWith(`${TUTORIAL_KEY_PREFIX}.`))
+                tutorialEdits.push({ key, value });
+            else if (key.startsWith(`${UPDATES_KEY_PREFIX}.`))
+                updatesEdits.push({ key, value });
+            else localeEdits.push({ key, value });
         }
-        for (const { key, value } of tutorialEdits) {
-            const tutorialPath = key.slice(TUTORIAL_KEY_PREFIX.length + 1);
-            const { path, index } = parseOverrideKey(tutorialPath);
-            setAtPath(targetTutorialFile!.json, path, index, value);
-            const english = sourceTutorialFile
-                ? resolveAtPath(sourceTutorialFile.json, path)
-                : undefined;
-            summaryRows.push({
-                key,
-                sourceEnglish: englishDisplay(english, index),
-                edited: Array.isArray(value) ? listDisplay(value) : value,
-                ownList: false,
-            });
+
+        // Pull both target-locale files (we may not touch both) and the en-US
+        // sources used for the "Original English" column.
+        const [
+            targetLocaleFile,
+            targetTutorialFile,
+            targetUpdatesFile,
+            sourceLocaleFile,
+            sourceTutorialFile,
+        ] = await Promise.all([
+            localeEdits.length > 0
+                ? fetchJsonFile(token, localeFilePath(locale))
+                : Promise.resolve(undefined),
+            tutorialEdits.length > 0
+                ? fetchJsonFile(token, tutorialFilePath(locale))
+                : Promise.resolve(undefined),
+            updatesEdits.length > 0
+                ? fetchJsonFile(token, updatesFilePath(locale))
+                : Promise.resolve(undefined),
+            fetchJsonFile(token, localeFilePath('en-US')),
+            tutorialEdits.length > 0
+                ? fetchJsonFile(token, tutorialFilePath('en-US'))
+                : Promise.resolve(undefined),
+        ]);
+
+        if (localeEdits.length > 0 && !targetLocaleFile)
+            throw new HttpsError(
+                'not-found',
+                `Locale file not found for ${locale}.`,
+            );
+        if (tutorialEdits.length > 0 && !targetTutorialFile)
+            throw new HttpsError(
+                'not-found',
+                `Tutorial file not found for ${locale}.`,
+            );
+        // A locale with no changelog translations yet has no file to edit, and
+        // creating one here would put a single hand-written entry in a bundle the
+        // translator otherwise owns.
+        if (updatesEdits.length > 0 && !targetUpdatesFile)
+            throw new HttpsError(
+                'not-found',
+                `No changelog translations for ${locale} to revise yet.`,
+            );
+        if (!sourceLocaleFile)
+            throw new HttpsError(
+                'internal',
+                'en-US source locale file not found.',
+            );
+
+        // Apply edits to in-memory copies of the JSON. Throws on invalid paths.
+        const summaryRows: {
+            key: string;
+            sourceEnglish: string;
+            edited: string;
+            /** True for a list a locale writes for itself. Such a row is left out
+             *  of the analysis pass: back-translating and reading-level-scoring a
+             *  word list says nothing, and en-US's list isn't its source. */
+            ownList: boolean;
+        }[] = [];
+
+        try {
+            for (const { key, value } of localeEdits) {
+                const { path, index } = parseOverrideKey(key);
+                const ownList = Array.isArray(value) && isListEditPath(path);
+                // Read what the locale had before the write, since a list's "before"
+                // is its own previous list rather than anything in en-US.
+                const before = ownList
+                    ? listDisplay(resolveAtPath(targetLocaleFile!.json, path))
+                    : englishDisplay(
+                          resolveAtPath(sourceLocaleFile.json, path),
+                          index,
+                      );
+                setAtPath(targetLocaleFile!.json, path, index, value);
+                summaryRows.push({
+                    key,
+                    sourceEnglish: before,
+                    edited: Array.isArray(value) ? listDisplay(value) : value,
+                    ownList,
+                });
+            }
+            for (const { key, value } of updatesEdits) {
+                const updatesPath = key.slice(UPDATES_KEY_PREFIX.length + 1);
+                const { path, index } = parseOverrideKey(updatesPath);
+                setAtPath(targetUpdatesFile!.json, path, index, value);
+                summaryRows.push({
+                    key,
+                    // No English to show: see `updatesFilePath`. The back-translation
+                    // below is what a reviewer reads this row against.
+                    sourceEnglish: '',
+                    edited: Array.isArray(value) ? listDisplay(value) : value,
+                    ownList: false,
+                });
+            }
+            for (const { key, value } of tutorialEdits) {
+                const tutorialPath = key.slice(TUTORIAL_KEY_PREFIX.length + 1);
+                const { path, index } = parseOverrideKey(tutorialPath);
+                setAtPath(targetTutorialFile!.json, path, index, value);
+                const english = sourceTutorialFile
+                    ? resolveAtPath(sourceTutorialFile.json, path)
+                    : undefined;
+                summaryRows.push({
+                    key,
+                    sourceEnglish: englishDisplay(english, index),
+                    edited: Array.isArray(value) ? listDisplay(value) : value,
+                    ownList: false,
+                });
+            }
+        } catch (e) {
+            throw new HttpsError(
+                'failed-precondition',
+                `Could not apply edits: ${
+                    e instanceof Error ? e.message : 'unknown error'
+                }`,
+            );
         }
-    } catch (e) {
-        throw new HttpsError(
-            'failed-precondition',
-            `Could not apply edits: ${
-                e instanceof Error ? e.message : 'unknown error'
-            }`,
+
+        // One Claude pass over the edited strings: back-translation (for non-English
+        // locales) plus reading-level + glossary-symbolization analysis for review.
+        // Null on any failure — the PR still opens, just without these aids.
+        const analysis = await analyze({
+            locale,
+            sourceLocale: 'en-US',
+            strings: summaryRows
+                .filter((r) => !r.ownList)
+                .map((r) => ({ key: r.key, text: r.edited })),
+            glossary: extractGlossaryWords(targetLocaleFile?.json),
+            backTranslate: locale !== 'en-US',
+        });
+        const analysisByKey = new Map(
+            (analysis ?? []).map((a): [string, StringAnalysis] => [a.key, a]),
         );
-    }
 
-    // One Claude pass over the edited strings: back-translation (for non-English
-    // locales) plus reading-level + glossary-symbolization analysis for review.
-    // Null on any failure — the PR still opens, just without these aids.
-    const analysis = await analyze({
-        locale,
-        sourceLocale: 'en-US',
-        strings: summaryRows
-            .filter((r) => !r.ownList)
-            .map((r) => ({ key: r.key, text: r.edited })),
-        glossary: extractGlossaryWords(targetLocaleFile?.json),
-        backTranslate: locale !== 'en-US',
-    });
-    const analysisByKey = new Map(
-        (analysis ?? []).map((a): [string, StringAnalysis] => [a.key, a]),
-    );
+        const rows = summaryRows.map((r) => {
+            const a = analysisByKey.get(r.key);
+            return {
+                ...r,
+                // A row left out of the analysis has no back-translation, which is
+                // the honest thing to show for a word list nobody translated.
+                backtranslation:
+                    locale === 'en-US' ? r.edited : (a?.backTranslation ?? ''),
+                analysis: a,
+            };
+        });
 
-    const rows = summaryRows.map((r) => {
-        const a = analysisByKey.get(r.key);
-        return {
-            ...r,
-            // A row left out of the analysis has no back-translation, which is
-            // the honest thing to show for a word list nobody translated.
-            backtranslation:
-                locale === 'en-US' ? r.edited : (a?.backTranslation ?? ''),
-            analysis: a,
+        // Compose PR body using the contributor's auth context.
+        const userRecord = await (
+            await import('firebase-admin/auth')
+        )
+            .getAuth()
+            .getUser(request.auth.uid)
+            .catch(() => undefined);
+        const contributor = {
+            uid: request.auth.uid,
+            name: userRecord?.displayName ?? request.auth.token.name ?? null,
+            email: userRecord?.email ?? request.auth.token.email ?? null,
         };
-    });
 
-    // Compose PR body using the contributor's auth context.
-    const userRecord = await (
-        await import('firebase-admin/auth')
-    )
-        .getAuth()
-        .getUser(request.auth.uid)
-        .catch(() => undefined);
-    const contributor = {
-        uid: request.auth.uid,
-        name: userRecord?.displayName ?? request.auth.token.name ?? null,
-        email: userRecord?.email ?? request.auth.token.email ?? null,
-    };
+        const branch = `localize/${locale}-${Date.now()}`;
+        const title = `Localization edits for ${locale} (${rows.length} string${
+            rows.length === 1 ? '' : 's'
+        })`;
+        const body = composePrBody({ contributor, locale, description, rows });
 
-    const branch = `localize/${locale}-${Date.now()}`;
-    const title = `Localization edits for ${locale} (${rows.length} string${
-        rows.length === 1 ? '' : 's'
-    })`;
-    const body = composePrBody({ contributor, locale, description, rows });
+        // Format JSON with Prettier so the PR diff only shows the contributor's
+        // text changes, not whitespace churn from re-serializing the file.
+        //
+        // Subtle: prettier's JSON formatter inspects the input layout to decide
+        // whether short objects/arrays stay on one line. Feeding it a minified
+        // `JSON.stringify(json)` makes it collapse everything that fits in 80
+        // columns, producing a layout that differs from `npx prettier --write`
+        // on the repo file (which sees the existing expanded layout and
+        // preserves it). That diff manifests as massive line-break churn in
+        // every PR. Pre-indenting the input with `JSON.stringify(json, null, 4)`
+        // matches the reference layout — verified to round-trip the on-disk
+        // files byte-for-byte.
+        const formatJson = (json: Record<string, unknown>) =>
+            prettier.format(JSON.stringify(json, null, 4), {
+                parser: 'json',
+                tabWidth: 4,
+            });
 
-    // Format JSON with Prettier so the PR diff only shows the contributor's
-    // text changes, not whitespace churn from re-serializing the file.
-    //
-    // Subtle: prettier's JSON formatter inspects the input layout to decide
-    // whether short objects/arrays stay on one line. Feeding it a minified
-    // `JSON.stringify(json)` makes it collapse everything that fits in 80
-    // columns, producing a layout that differs from `npx prettier --write`
-    // on the repo file (which sees the existing expanded layout and
-    // preserves it). That diff manifests as massive line-break churn in
-    // every PR. Pre-indenting the input with `JSON.stringify(json, null, 4)`
-    // matches the reference layout — verified to round-trip the on-disk
-    // files byte-for-byte.
-    const formatJson = (json: Record<string, unknown>) =>
-        prettier.format(JSON.stringify(json, null, 4), {
-            parser: 'json',
-            tabWidth: 4,
-        });
+        const files: { path: string; content: string; existingSha?: string }[] =
+            [];
+        if (targetLocaleFile)
+            files.push({
+                path: localeFilePath(locale),
+                content: await formatJson(targetLocaleFile.json),
+                existingSha: targetLocaleFile.sha,
+            });
+        if (targetTutorialFile)
+            files.push({
+                path: tutorialFilePath(locale),
+                content: await formatJson(targetTutorialFile.json),
+                existingSha: targetTutorialFile.sha,
+            });
+        if (targetUpdatesFile)
+            files.push({
+                path: updatesFilePath(locale),
+                content: await formatJson(targetUpdatesFile.json),
+                existingSha: targetUpdatesFile.sha,
+            });
 
-    const files: { path: string; content: string; existingSha?: string }[] = [];
-    if (targetLocaleFile)
-        files.push({
-            path: localeFilePath(locale),
-            content: await formatJson(targetLocaleFile.json),
-            existingSha: targetLocaleFile.sha,
-        });
-    if (targetTutorialFile)
-        files.push({
-            path: tutorialFilePath(locale),
-            content: await formatJson(targetTutorialFile.json),
-            existingSha: targetTutorialFile.sha,
-        });
-    if (targetUpdatesFile)
-        files.push({
-            path: updatesFilePath(locale),
-            content: await formatJson(targetUpdatesFile.json),
-            existingSha: targetUpdatesFile.sha,
-        });
+        // When running in the Functions emulator, do everything up to (but not
+        // including) the PR creation: validate, fetch source files, apply edits,
+        // backtranslate, compose the body. Then log the would-be PR summary and
+        // return a fake URL so the client still sees a "success" round-trip. This
+        // lets local development exercise the full pipeline without producing real
+        // GitHub branches and PRs.
+        if (process.env.FUNCTIONS_EMULATOR === 'true') {
+            const summary = [
+                '',
+                '═══════════════════════════════════════════════════════════',
+                ' Localization submission — emulator dry run (no PR created)',
+                '═══════════════════════════════════════════════════════════',
+                `Branch:  ${branch}`,
+                `Title:   ${title}`,
+                `Files:   ${files.length}`,
+                ...files.map(
+                    (f) => `  • ${f.path} (${f.content.length} bytes)`,
+                ),
+                '',
+                '--- PR body ---',
+                body,
+                '--- end PR body ---',
+                '═══════════════════════════════════════════════════════════',
+                '',
+            ].join('\n');
+            console.log(summary);
+            return { prUrl: `emulator://dry-run/${branch}` };
+        }
 
-    // When running in the Functions emulator, do everything up to (but not
-    // including) the PR creation: validate, fetch source files, apply edits,
-    // backtranslate, compose the body. Then log the would-be PR summary and
-    // return a fake URL so the client still sees a "success" round-trip. This
-    // lets local development exercise the full pipeline without producing real
-    // GitHub branches and PRs.
-    if (process.env.FUNCTIONS_EMULATOR === 'true') {
-        const summary = [
-            '',
-            '═══════════════════════════════════════════════════════════',
-            ' Localization submission — emulator dry run (no PR created)',
-            '═══════════════════════════════════════════════════════════',
-            `Branch:  ${branch}`,
-            `Title:   ${title}`,
-            `Files:   ${files.length}`,
-            ...files.map((f) => `  • ${f.path} (${f.content.length} bytes)`),
-            '',
-            '--- PR body ---',
+        const prUrl = await createPullRequest(
+            token,
+            branch,
+            title,
             body,
-            '--- end PR body ---',
-            '═══════════════════════════════════════════════════════════',
-            '',
-        ].join('\n');
-        console.log(summary);
-        return { prUrl: `emulator://dry-run/${branch}` };
-    }
+            files,
+            `Localization edits for ${locale}`,
+        );
 
-    const prUrl = await createPullRequest(
-        token,
-        branch,
-        title,
-        body,
-        files,
-        `Localization edits for ${locale}`,
-    );
-
-    return { prUrl };
-});
+        return { prUrl };
+    }),
+);

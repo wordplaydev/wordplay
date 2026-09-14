@@ -15,6 +15,7 @@
         PARAM_DIALOG,
     } from '@components/widgets/dialogURL';
     import Loading from '@components/app/Loading.svelte';
+    import ProxyNotification from '@components/app/ProxyNotification.svelte';
     import UpdateNotification from '@components/app/UpdateNotification.svelte';
     import Banner from '@components/app/Banner.svelte';
     import Announcer from '@components/project/Announcer.svelte';
@@ -383,6 +384,11 @@
     {/if}
     <!-- Top banner when a newer app version has been deployed. In the top flow
          alongside the failure banner, using the same standard Banner facility. -->
+    <!-- Whose Wordplay this tab is looking at, when it is looking at somebody
+         else's (#1313). Beside the update notice because it is the same kind of
+         thing — a standing statement about this tab — and above the content for
+         the same reason. -->
+    <ProxyNotification />
     <UpdateNotification />
     <div class="content">
         <!-- Always render children, even before the user's preferred locale

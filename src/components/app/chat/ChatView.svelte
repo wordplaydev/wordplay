@@ -5,6 +5,7 @@
 </script>
 
 <script lang="ts">
+    import { isProxySession } from '@db/proxySession';
     import CreatorView from '@components/app/CreatorView.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -695,7 +696,10 @@
 
     // When the project changes, mark read if it was unread and scroll.
     $effect(() => {
-        if (chat && $user && chat.hasUnread($user.uid)) {
+        // Never in a proxy session (#1313): reading somebody's conversation to
+        // work out what went wrong for them should not clear the unread badge
+        // they were going to come back to.
+        if (chat && $user && !isProxySession() && chat.hasUnread($user.uid)) {
             untrack(() => {
                 Chats.markChatRead(chat, $user.uid);
             });

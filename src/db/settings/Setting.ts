@@ -1,5 +1,6 @@
 import { get, writable, type Writable } from 'svelte/store';
 import type { Database } from '@db/Database';
+import { proxyPrefix } from '@db/proxySession';
 
 /** Represents a specific key value pair persisted in local storage, backed by a store, with facilities for reading and reading with error checking. */
 export default class Setting<Type> {
@@ -20,7 +21,14 @@ export default class Setting<Type> {
         validator: (value: unknown) => Type | undefined,
         equal: (current: Type, value: Type) => boolean,
     ) {
-        this.key = key;
+        // Namespaced in a proxy tab (#1313). localStorage is per *origin*, not
+        // per tab, so without this a read-only session looking at somebody
+        // else's Wordplay would overwrite the administrator's own locale,
+        // layout, tutorial progress and tours on their own device — and drag
+        // that creator's state into their other tabs. Applied here because the
+        // key is used for nothing but localStorage, so one prefix covers all
+        // forty-two settings.
+        this.key = proxyPrefix() + key;
         this.device = device;
         this.defaultValue = defaultValue;
         this.equal = equal;

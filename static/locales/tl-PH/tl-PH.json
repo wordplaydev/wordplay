@@ -10970,6 +10970,14 @@
                     "offline": "$~Hindi namin ma-load kung sino ang may mga pribilehiyo. Naka-online ka ba?",
                     "save": "$~Hindi namin nai-save ang pagbabagong iyon. Subukan muli?",
                     "none": "$~Pumili ng kahit isang pribilehiyo bago magdagdag ng isang tao."
+                },
+                "proxy": {
+                    "header": "$~Tumingin bilang isang tao",
+                    "prompt": "$~Buksan ang Wordplay bilang ibang creator, para makita mo kung ano ang nakikita nila kapag may hindi gumagana para sa kanila. Basahin lang ito: walang naisasave sa ginagawa mo, at hindi nila makikita na naroon ka. Bubukas ito sa bagong tab, at kapag isinara mo ang tab na iyon, matatapos ito.\n\nItinatala ang bawat pagkakataong ginagawa ito ninuman.",
+                    "start": {
+                        "label": "$~Tumingin",
+                        "tip": "$~Magbukas ng read-only na session bilang creator na ito sa bagong tab"
+                    }
                 }
             }
         },
@@ -11362,6 +11370,19 @@
                 "undid": "$~binawi iyon",
                 "redid": "$~inulit iyon"
             }
+        },
+        "proxy": {
+            "banner": "$~Tinitingnan mo ang Wordplay bilang ibang tao. Walang naisasave dito, at hindi nila makikita na naroon ka.",
+            "as": "$~bilang $name",
+            "remaining": "$~$#minutes[$minutes minuto na lang ang natitira|$minutes minuto na lang ang natitira]",
+            "stop": {
+                "label": "$~Ihinto",
+                "tip": "$~Isara ang tab na ito at ihinto ang pagtingin bilang sila"
+            },
+            "starting": "$~Sinisimulan…",
+            "failed": "$~Hindi namin masimulan ang session na iyon. Naka-sign in ka pa ba bilang administrator?",
+            "expired": "$~Nagamit na ang link na iyon, o nag-expire na ito. Magsimula ulit mula sa <privileges page@://admin>.",
+            "ended": "$~Tapos na ang session na ito, at naka-sign out ka na dito. Isara ang tab na ito. Para tumingin ulit, magsimula mula sa privileges page."
         }
     },
     "moderation": {

@@ -43,6 +43,7 @@ import { WordplayDexie } from '@db/WordplayDexie';
 import SettingsDatabase from '@db/settings/SettingsDatabase';
 import retryableLoad from '@util/retryableLoad';
 import { forgetTokenRefresh } from '@db/creators/getClaim';
+import { isProxySession, proxyPrefix } from '@db/proxySession';
 import { getUsername, syncHandle } from '@db/creators/handle.svelte';
 import { syncStrikes } from '@db/creators/strikes.svelte';
 import { syncNotices } from '@db/moderation/notices.svelte';
@@ -167,7 +168,9 @@ export class Database {
      *  per domain. A single instance is owned here and shared with every domain
      *  database; never construct a second (Dexie instances declaring different
      *  schemas for the same DB name conflict). */
-    readonly localDB = new WordplayDexie();
+    readonly localDB = new WordplayDexie(
+        isProxySession() ? 'wordplay-proxy' : 'wordplay',
+    );
 
     /** The projects database, once the language runtime it needs has loaded.
      *  Undefined until then; see loadProjects(). */
@@ -375,7 +378,11 @@ export class Database {
      */
     getWriterID(): string {
         if (typeof window === 'undefined') return '';
-        const key = 'wordplay.writerID';
+        // Namespaced in a proxy tab (#1313). A proxy writes nothing, so this
+        // should never reach a stamp — but two tabs sharing one writer id is
+        // exactly the convergence bug #135 fixed, and a device identifier is
+        // not a thing to lend out on the strength of "should never".
+        const key = `${proxyPrefix()}wordplay.writerID`;
         let id = window.localStorage.getItem(key);
         if (id === null) {
             id =
@@ -952,6 +959,20 @@ export class Database {
 
     /** Saves settings to user's firestore record, if available. */
     uploadSettings() {
+        // The single most destructive thing a proxy session could do (#1313).
+        // This is a *wholesale* overwrite of creators/{uid}, and
+        // SettingsDatabase.syncUser re-applies fourteen synced settings on
+        // every sign-in — so without this, opening a proxy tab would replace
+        // that creator's locale, layout, tutorial progress, tours and chat
+        // read markers with the administrator's, within a second of
+        // connecting and before anybody clicked anything. The rules refuse it
+        // too; this is what keeps the session from looking broken while they
+        // do.
+        if (isProxySession()) {
+            this.setStatus(SaveStatus.Saved, undefined);
+            return;
+        }
+
         this.setStatus(SaveStatus.Saving, undefined);
 
         // No cloud target (logged out / no Firestore): settings live in local

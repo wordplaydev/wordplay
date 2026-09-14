@@ -10620,6 +10620,14 @@
                     "offline": "$~Kimlerin yetkisi olduğunu yükleyemedik. İnternete bağlı mısın?",
                     "save": "$~Bu değişikliği kaydedemedik. Tekrar dener misin?",
                     "none": "$~Birini eklemeden önce en az bir yetki seç."
+                },
+                "proxy": {
+                    "header": "$~Başka biri gibi bak",
+                    "prompt": "$~Wordplay'i başka bir yaratıcı gibi aç, bir şey onlar için çalışmadığında ne gördüklerini görmek için. Sadece okunabilir: yaptığın hiçbir şey kaydedilmez ve orada olduğunu görmezler. Yeni bir sekmede açılır ve o sekmeyi kapatmak bu oturumu bitirir.\n\nHerkes bunu her yaptığında, kaydedilir.",
+                    "start": {
+                        "label": "$~Bak",
+                        "tip": "$~Bu yaratıcı gibi yeni bir sekmede salt okunur bir oturum aç"
+                    }
                 }
             }
         },
@@ -11349,6 +11357,19 @@
                 "undid": "$~bunu geri aldı",
                 "redid": "$~bunu yeniden yaptı"
             }
+        },
+        "proxy": {
+            "banner": "$~Wordplay'e başka biri gibi bakıyorsun. Burada hiçbir şey kaydedilmiyor ve orada olduğunu göremezler.",
+            "as": "$~$name olarak",
+            "remaining": "$~$#minutes[$minutes dakika kaldı|$minutes dakika kaldı]",
+            "stop": {
+                "label": "$~Durdur",
+                "tip": "$~Bu sekmeyi kapat ve onlar gibi bakmayı durdur"
+            },
+            "starting": "$~Başlatılıyor…",
+            "failed": "$~Bu oturumu başlatamadık. Hâlâ bir yönetici olarak oturum açık mı?",
+            "expired": "$~Bu bağlantı zaten kullanılmış veya süresi dolmuş. <ayrıcalıklar sayfasından@://admin> tekrar başla.",
+            "ended": "$~Bu oturum sona erdi ve oturumun kapatıldı. Bu sekmeyi kapat. Tekrar bakmak için, ayrıcalıklar sayfasından başla."
         }
     },
     "moderation": {

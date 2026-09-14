@@ -10608,6 +10608,14 @@
                     "offline": "$~Vi kunde inte hämta vem som har rättigheter. Är du uppkopplad?",
                     "save": "$~Vi kunde inte spara den ändringen. Vill du försöka igen?",
                     "none": "$~Välj minst en rättighet innan du lägger till någon."
+                },
+                "proxy": {
+                    "header": "$~Se som någon annan",
+                    "prompt": "$~Öppna Wordplay som en annan skapare, för att se vad de ser när något inte fungerar för dem. Det är skrivskyddat: inget du gör sparas, och de märker inte att du var där. Det öppnas i en ny flik, och stänger du fliken avslutas det.\n\nVarje gång någon gör detta, sparas det i en logg.",
+                    "start": {
+                        "label": "$~Se",
+                        "tip": "$~Öppna en skrivskyddad session som denna skapare i en ny flik"
+                    }
                 }
             }
         },
@@ -11337,6 +11345,19 @@
                 "undid": "$~ångrade det",
                 "redid": "$~gjorde om det"
             }
+        },
+        "proxy": {
+            "banner": "$~Du tittar på Wordplay som någon annan. Inget här sparas, och de kan inte se att du är här.",
+            "as": "$~som $name",
+            "remaining": "$~$#minutes[$minutes minut kvar|$minutes minuter kvar]",
+            "stop": {
+                "label": "$~Stoppa",
+                "tip": "$~Stäng den här fliken och sluta se som dem"
+            },
+            "starting": "$~Startar…",
+            "failed": "$~Vi kunde inte starta den sessionen. Är du fortfarande inloggad som administratör?",
+            "expired": "$~Den länken har redan använts, eller så har den gått ut. Börja om från <sidan för behörigheter@://admin>.",
+            "ended": "$~Den här sessionen är slut, och du är utloggad från den. Stäng den här fliken. För att se igen, börja från sidan för behörigheter."
         }
     },
     "moderation": {

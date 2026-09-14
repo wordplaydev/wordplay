@@ -12,6 +12,9 @@
     import { getUser } from '@components/project/Contexts';
     import { locales } from '@db/Database';
     import { getClaimHolders, setClaims } from '@db/admin/claims';
+    import { startProxy } from '@db/admin/proxy';
+    import AddCreator from '@components/project/AddCreator.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
     import { isAdmin } from '@db/projects/Moderation';
     import { noClaims } from '@db/creators/getClaim';
     import type { ClaimHolder, ClaimName, ClaimSet } from 'shared-types';
@@ -125,6 +128,35 @@
             holders = listed.filter((holder) => holder.uid !== uid);
     }
 
+    /** Whether the last attempt to start a session failed. */
+    let proxyFailed = $state(false);
+
+    /**
+     * Open a read-only session as this creator, in a new tab.
+     *
+     * `noopener` is not politeness: a tab opened with an opener starts with a
+     * *copy* of this one's session storage, and the proxy tab uses that storage
+     * for both its own auth session and the per-tab id presence is keyed on. It
+     * clears the id itself as well, since browsers have disagreed about this.
+     *
+     * The token rides the fragment, which is never sent to a server, and the
+     * tab strips it from the address bar before it awaits anything.
+     */
+    async function look(uid: string) {
+        proxyFailed = false;
+        try {
+            const { token, until } = await startProxy({ uid });
+            window.open(
+                `/${$locales.getLocale().language}-${$locales.getLocale().regions[0]}/proxy#${encodeURIComponent(token)},${until}`,
+                '_blank',
+                'noopener',
+            );
+        } catch (error) {
+            console.error(error);
+            proxyFailed = true;
+        }
+    }
+
     async function add(uid: string) {
         if (!Privileges.some((claim) => pending[claim])) {
             nothingChosen = true;
@@ -198,6 +230,19 @@
                     {extraRow}
                 />
             </div>
+            <!-- Below the roster, and a lookup rather than a row action: the
+                 table lists only people who hold a privilege, and the creator
+                 whose Wordplay is misbehaving almost certainly holds none. -->
+            <Subheader text={(l) => l.ui.page.admin.proxy.header} />
+            <MarkupHTMLView markup={(l) => l.ui.page.admin.proxy.prompt} />
+            {#if proxyFailed}
+                <Notice>
+                    <MarkupHTMLView
+                        markup={(l) => l.ui.page.admin.error.save}
+                    />
+                </Notice>
+            {/if}
+            <AddCreator id="creator-to-look-as" add={(uid) => void look(uid)} />
         {/if}
     </AdminsOnly>
 </Writing>

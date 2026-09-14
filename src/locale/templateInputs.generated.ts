@@ -841,6 +841,8 @@ export const DECLARED_INPUTS: Readonly<Record<string, readonly string[]>> = {
     'ui.project.dialog.languages.count': ['#count'],
     'ui.project.link.backTo': ['place'],
     'ui.project.options.layout.auto': ['layout'],
+    'ui.proxy.as': ['name'],
+    'ui.proxy.remaining': ['#minutes'],
     'ui.source.cursor.selected': ['#count', 'text'],
     'ui.source.cursor.selectedNodes': ['#count', 'first', 'last'],
     'ui.source.cursor.tab': ['control', 'alt'],
