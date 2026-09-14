@@ -175,9 +175,16 @@ export function scaleValence(scale: readonly number[]): number {
 function isSymmetric(scale: readonly number[]): boolean {
     if (scale.length < 3) return false;
     const sorted = [...scale].sort((a, b) => a - b);
-    const first = sorted[1] - sorted[0];
-    for (let i = 2; i < sorted.length; i++)
-        if (Math.abs(sorted[i] - sorted[i - 1] - first) > 0.001) return false;
+    let previous: number | undefined;
+    let first: number | undefined;
+    for (const step of sorted) {
+        if (previous !== undefined) {
+            const gap = step - previous;
+            if (first === undefined) first = gap;
+            else if (Math.abs(gap - first) > 0.001) return false;
+        }
+        previous = step;
+    }
     return true;
 }
 
@@ -492,9 +499,9 @@ export function summarize(
 export function bandCentroid(bands: readonly number[]): number {
     let weighted = 0;
     let total = 0;
-    for (let i = 0; i < bands.length; i++) {
-        weighted += i * bands[i];
-        total += bands[i];
+    for (const [i, band] of bands.entries()) {
+        weighted += i * band;
+        total += band;
     }
     return total <= 0 || bands.length < 2
         ? 0.5
@@ -673,8 +680,8 @@ export function lobeRadius(
 ): number {
     let sum = 0;
     let weight = 0;
-    for (let k = 0; k < harmonics.length; k++) {
-        const amplitude = Math.max(0, harmonics[k]);
+    for (const [k, harmonic] of harmonics.entries()) {
+        const amplitude = Math.max(0, harmonic);
         sum += amplitude * Math.cos((k + 1) * theta + (phases[k] ?? 0));
         weight += amplitude;
     }

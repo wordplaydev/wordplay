@@ -99,9 +99,10 @@ function layerSource(layer: ThemeLayer): string {
 export function themeSource(spec: ThemeSpec): string {
     // Music's first input takes one track or a list of them; passing a lone
     // track directly keeps a one-layer theme to a single readable line.
+    const [onlyLayer, ...restLayers] = spec.layers;
     const tracks =
-        spec.layers.length === 1
-            ? layerSource(spec.layers[0])
+        onlyLayer !== undefined && restLayers.length === 0
+            ? layerSource(onlyLayer)
             : `[${spec.layers.map(layerSource).join(' ')}]`;
     return `Music(${tracks} tempo: ${spec.tempo}beats/min volume: ${spec.volume}% scale: Music.${spec.scale})`;
 }

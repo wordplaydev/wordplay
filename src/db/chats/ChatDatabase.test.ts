@@ -1,10 +1,51 @@
+import { isRecord } from '@util/guards';
+import { must } from '@util/nullable';
 import { FirebaseError } from 'firebase/app';
+import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type {
     SerializedChat,
     SerializedChatUnknownVersion,
     SerializedMessage,
 } from './ChatDatabase.svelte';
+
+/** A recorded write's fields, checked rather than asserted. */
+function fieldsOf(data: unknown): Record<string, unknown> {
+    if (!isRecord(data)) throw new Error('a write with no fields');
+    return data;
+}
+
+/** The elements an arrayUnion/arrayRemove field operation carries. */
+function opElements(operation: unknown): unknown[] {
+    if (!isRecord(operation) || !Array.isArray(operation.elements))
+        throw new Error('not an array field operation');
+    return operation.elements;
+}
+
+/** Whether a value a write carried is one of the chat's messages. Shallow, but
+ *  enough to tell a message from whatever else a broken write would queue. */
+function isMessage(value: unknown): value is SerializedMessage {
+    return (
+        isRecord(value) &&
+        typeof value.id === 'string' &&
+        typeof value.creator === 'string'
+    );
+}
+
+/** The messages a write carried, checked rather than asserted. */
+function messagesOf(value: unknown): SerializedMessage[] {
+    if (!Array.isArray(value) || !value.every(isMessage))
+        throw new Error('not a list of messages');
+    return value;
+}
+
+/** A query snapshot with only the part the chat database reads. */
+function fakeQuerySnapshot(snapshot: {
+    docs: { ref: unknown }[];
+}): QuerySnapshot<DocumentData> {
+    // @ts-expect-error Only the part the database reads.
+    return snapshot;
+}
 
 type Op = {
     kind: 'set' | 'update' | 'delete';
@@ -143,9 +184,26 @@ function makeChat(
     });
 }
 
+/** The parts of `Database` the chat database reaches for. A class with private
+ *  state has no structural stand-in, so the one suppression is in the factory. */
+type DatabaseFake = {
+    getUser: () => { uid: string } | null;
+    track: unknown;
+    write: unknown;
+    reportBanner: unknown;
+    Projects: { listen: ReturnType<typeof vi.fn> };
+    Galleries: { listen: ReturnType<typeof vi.fn> };
+    HowTos: { addListener: ReturnType<typeof vi.fn> };
+};
+
+function fakeChatDatabase(fake: DatabaseFake): ChatDatabase {
+    // @ts-expect-error The fake implements only what this database calls.
+    return new ChatDatabase(fake);
+}
+
 describe('ChatDatabase granular message operations', () => {
     let db: ChatDatabase;
-    let mockDatabase: any;
+    let mockDatabase: DatabaseFake;
 
     beforeEach(() => {
         vi.clearAllMocks();
@@ -169,11 +227,9 @@ describe('ChatDatabase granular message operations', () => {
             },
         };
 
-        (getDocs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
-            docs: [],
-        });
+        vi.mocked(getDocs).mockResolvedValue(fakeQuerySnapshot({ docs: [] }));
 
-        db = new ChatDatabase(mockDatabase);
+        db = fakeChatDatabase(mockDatabase);
     });
 
     describe('addMessage', () => {
@@ -183,24 +239,28 @@ describe('ChatDatabase granular message operations', () => {
             await db.addMessage(chat, 'hello world', undefined);
 
             expect(updateDoc).toHaveBeenCalledTimes(1);
-            const [ref, data] = (
-                updateDoc as unknown as ReturnType<typeof vi.fn>
-            ).mock.calls[0];
+            const [ref, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call asserted above',
+            );
             expect(ref).toMatchObject({
                 _ref: { collection: 'chats', id: 'project-1' },
             });
-            const d = data as { messages: unknown; unread: string[] };
+            const d = fieldsOf(data);
             expect(d.messages).toMatchObject({ _op: 'arrayUnion' });
-            const { elements } = d.messages as {
-                elements: SerializedMessage[];
-            };
+            const elements = messagesOf(opElements(d.messages));
             expect(elements).toHaveLength(1);
             expect(elements[0]).toMatchObject({
                 creator: 'user-1',
                 text: 'hello world',
             });
             // Everyone except the sender is marked unread.
-            expect([...d.unread].sort()).toEqual(['user-2', 'user-3']);
+            expect(
+                must(
+                    Array.isArray(d.unread) ? d.unread : undefined,
+                    'the unread list',
+                ).toSorted(),
+            ).toEqual(['user-2', 'user-3']);
         });
 
         it('tags the message with the chosen language when provided', async () => {
@@ -208,11 +268,11 @@ describe('ChatDatabase granular message operations', () => {
 
             await db.addMessage(chat, 'hola', 'es');
 
-            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
-                .mock.calls[0];
-            const { elements } = (data as { messages: unknown }).messages as {
-                elements: SerializedMessage[];
-            };
+            const [, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call the operation made',
+            );
+            const elements = messagesOf(opElements(fieldsOf(data).messages));
             expect(elements[0]).toMatchObject({
                 text: 'hola',
                 language: 'es',
@@ -224,12 +284,12 @@ describe('ChatDatabase granular message operations', () => {
 
             await db.addMessage(chat, 'hello world', undefined);
 
-            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
-                .mock.calls[0];
-            const { elements } = (data as { messages: unknown }).messages as {
-                elements: SerializedMessage[];
-            };
-            expect(elements[0].language).toBeUndefined();
+            const [, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call the operation made',
+            );
+            const elements = messagesOf(opElements(fieldsOf(data).messages));
+            expect(elements[0]?.language).toBeUndefined();
         });
 
         it('carries a reply parent and a code reference when given', async () => {
@@ -241,11 +301,11 @@ describe('ChatDatabase granular message operations', () => {
                 code: '1 + 1',
             });
 
-            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
-                .mock.calls[0];
-            const { elements } = (data as { messages: unknown }).messages as {
-                elements: SerializedMessage[];
-            };
+            const [, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call the operation made',
+            );
+            const elements = messagesOf(opElements(fieldsOf(data).messages));
             expect(elements[0]).toMatchObject({
                 replyTo: 'root-1',
                 reference: {
@@ -261,13 +321,13 @@ describe('ChatDatabase granular message operations', () => {
 
             await db.addMessage(chat, 'hello world', undefined);
 
-            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
-                .mock.calls[0];
-            const { elements } = (data as { messages: unknown }).messages as {
-                elements: SerializedMessage[];
-            };
-            expect(elements[0].replyTo).toBeUndefined();
-            expect(elements[0].reference).toBeUndefined();
+            const [, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call the operation made',
+            );
+            const elements = messagesOf(opElements(fieldsOf(data).messages));
+            expect(elements[0]?.replyTo).toBeUndefined();
+            expect(elements[0]?.reference).toBeUndefined();
         });
     });
 
@@ -278,9 +338,10 @@ describe('ChatDatabase granular message operations', () => {
             await db.markChatRead(chat, 'user-1');
 
             expect(updateDoc).toHaveBeenCalledTimes(1);
-            const [ref, data] = (
-                updateDoc as unknown as ReturnType<typeof vi.fn>
-            ).mock.calls[0];
+            const [ref, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call asserted above',
+            );
             expect(ref).toMatchObject({
                 _ref: { collection: 'chats', id: 'project-1' },
             });
@@ -297,8 +358,10 @@ describe('ChatDatabase granular message operations', () => {
             await db.setChatParticipants(chat, ['user-1', 'user-4']);
 
             expect(updateDoc).toHaveBeenCalledTimes(1);
-            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
-                .mock.calls[0];
+            const [, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call the operation made',
+            );
             expect(data).toEqual({ participants: ['user-1', 'user-4'] });
         });
     });
@@ -396,9 +459,10 @@ describe('ChatDatabase granular message operations', () => {
             // Nothing touches the chat document itself.
             expect(lastTransactionOps).toHaveLength(0);
             expect(setDoc).toHaveBeenCalledTimes(1);
-            const [ref, data, options] = (
-                setDoc as unknown as ReturnType<typeof vi.fn>
-            ).mock.calls[0];
+            const [ref, data, options] = must(
+                vi.mocked(setDoc).mock.calls[0],
+                'the setDoc call asserted above',
+            );
             expect(ref).toMatchObject({
                 _ref: { collection: 'chats/project-1/translations', id: 'es' },
             });
@@ -441,8 +505,10 @@ describe('ChatDatabase granular message operations', () => {
                 new Map([['m1', 'hola']]),
                 { gone: 'adiós' },
             );
-            const [, data] = (setDoc as unknown as ReturnType<typeof vi.fn>)
-                .mock.calls[0];
+            const [, data] = must(
+                vi.mocked(setDoc).mock.calls[0],
+                'the setDoc call the operation made',
+            );
             expect(data).toEqual({
                 m1: 'hola',
                 gone: { _op: 'deleteField' },
@@ -462,8 +528,10 @@ describe('ChatDatabase granular message operations', () => {
                 ]),
                 {},
             );
-            const [, data] = (setDoc as unknown as ReturnType<typeof vi.fn>)
-                .mock.calls[0];
+            const [, data] = must(
+                vi.mocked(setDoc).mock.calls[0],
+                'the setDoc call the operation made',
+            );
             expect(Object.keys(data)).toEqual(['m2']);
         });
     });
@@ -473,8 +541,10 @@ describe('ChatDatabase granular message operations', () => {
             const cb = vi.fn();
             db.subscribeChatTranslations('project-1', 'es', cb);
             expect(onSnapshot).toHaveBeenCalledTimes(1);
-            const [ref] = (onSnapshot as unknown as ReturnType<typeof vi.fn>)
-                .mock.calls[0];
+            const [ref] = must(
+                vi.mocked(onSnapshot).mock.calls[0],
+                'the onSnapshot call asserted above',
+            );
             expect(ref).toMatchObject({
                 _ref: { collection: 'chats/project-1/translations', id: 'es' },
             });
@@ -532,10 +602,14 @@ describe('ChatDatabase granular message operations', () => {
             await settled();
 
             expect(added).toBe(true);
-            const data = lastTransactionOps[0].data as {
-                messages: SerializedMessage[];
+            const data = {
+                messages: messagesOf(
+                    fieldsOf(
+                        must(lastTransactionOps[0], 'the transaction').data,
+                    ).messages,
+                ),
             };
-            expect(data.messages[0].reactions).toEqual({ '👍': ['user-1'] });
+            expect(data.messages[0]?.reactions).toEqual({ '👍': ['user-1'] });
         });
 
         it('drops an emoji nobody is left choosing', async () => {
@@ -548,10 +622,14 @@ describe('ChatDatabase granular message operations', () => {
             // The emoji goes rather than being left as an empty list, and with
             // the last emoji gone the field goes too, so an abandoned reaction
             // doesn't sit in the document forever.
-            const data = lastTransactionOps[0].data as {
-                messages: SerializedMessage[];
+            const data = {
+                messages: messagesOf(
+                    fieldsOf(
+                        must(lastTransactionOps[0], 'the transaction').data,
+                    ).messages,
+                ),
             };
-            expect(data.messages[0].reactions).toBeUndefined();
+            expect(data.messages[0]?.reactions).toBeUndefined();
         });
 
         it('keeps other creators reacting when one takes theirs back', async () => {
@@ -564,10 +642,14 @@ describe('ChatDatabase granular message operations', () => {
             db.toggleReaction(makeChat({}, [reacted]), reacted, '👍', false);
             await settled();
 
-            const data = lastTransactionOps[0].data as {
-                messages: SerializedMessage[];
+            const data = {
+                messages: messagesOf(
+                    fieldsOf(
+                        must(lastTransactionOps[0], 'the transaction').data,
+                    ).messages,
+                ),
             };
-            expect(data.messages[0].reactions).toEqual({ '👍': ['user-2'] });
+            expect(data.messages[0]?.reactions).toEqual({ '👍': ['user-2'] });
         });
 
         it('stores a reaction under its bare codepoints', async () => {
@@ -580,10 +662,14 @@ describe('ChatDatabase granular message operations', () => {
             db.toggleReaction(makeChat({}, [message]), message, '❤️', true);
             await settled();
 
-            const data = lastTransactionOps[0].data as {
-                messages: SerializedMessage[];
+            const data = {
+                messages: messagesOf(
+                    fieldsOf(
+                        must(lastTransactionOps[0], 'the transaction').data,
+                    ).messages,
+                ),
             };
-            expect(Object.keys(data.messages[0].reactions ?? {})).toEqual([
+            expect(Object.keys(data.messages[0]?.reactions ?? {})).toEqual([
                 '❤',
             ]);
         });
@@ -661,8 +747,12 @@ describe('ChatDatabase granular message operations', () => {
                 existingMessage,
             );
 
-            const data = lastTransactionOps[0].data as {
-                messages: SerializedMessage[];
+            const data = {
+                messages: messagesOf(
+                    fieldsOf(
+                        must(lastTransactionOps[0], 'the transaction').data,
+                    ).messages,
+                ),
             };
             expect(data.messages[0]).toMatchObject({
                 id: 'm1',
@@ -688,18 +778,20 @@ describe('ChatDatabase granular message operations', () => {
                     type: 'project',
                 }),
             };
-            (getDocs as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
-                docs: [
-                    {
-                        ref: {
-                            _ref: {
-                                collection: 'chats/project-1/translations',
-                                id: 'es',
+            vi.mocked(getDocs).mockResolvedValue(
+                fakeQuerySnapshot({
+                    docs: [
+                        {
+                            ref: {
+                                _ref: {
+                                    collection: 'chats/project-1/translations',
+                                    id: 'es',
+                                },
                             },
                         },
-                    },
-                ],
-            });
+                    ],
+                }),
+            );
 
             await db.deleteMessage(
                 makeChat({}, [existingMessage]),
@@ -707,9 +799,10 @@ describe('ChatDatabase granular message operations', () => {
             );
 
             expect(updateDoc).toHaveBeenCalledTimes(1);
-            const [ref, data] = (
-                updateDoc as unknown as ReturnType<typeof vi.fn>
-            ).mock.calls[0];
+            const [ref, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call asserted above',
+            );
             expect(ref).toMatchObject({
                 _ref: { collection: 'chats/project-1/translations', id: 'es' },
             });
@@ -737,7 +830,10 @@ describe('ChatDatabase granular message operations', () => {
             await db.updateChat(makeChat({ language: 'en-US' }), true);
 
             expect(vi.mocked(updateDoc)).toHaveBeenCalledTimes(1);
-            const [, data] = vi.mocked(updateDoc).mock.calls[0];
+            const [, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call asserted above',
+            );
             expect(Object.keys(data).toSorted()).toEqual([
                 'messages',
                 'participants',
@@ -751,7 +847,10 @@ describe('ChatDatabase granular message operations', () => {
             await db.flushUnsaved();
 
             expect(vi.mocked(updateDoc)).toHaveBeenCalledTimes(1);
-            const [, data] = vi.mocked(updateDoc).mock.calls[0];
+            const [, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call asserted above',
+            );
             for (const field of ['moderation', 'v', 'type', 'language'])
                 expect(
                     data,
@@ -777,7 +876,10 @@ describe('ChatDatabase granular message operations', () => {
             await db.flushUnsaved();
 
             expect(vi.mocked(setDoc)).toHaveBeenCalledTimes(1);
-            const [, data, options] = vi.mocked(setDoc).mock.calls[0];
+            const [, data, options] = must(
+                vi.mocked(setDoc).mock.calls[0],
+                'the setDoc call asserted above',
+            );
             // Born complete, or the next reader can't parse it: the listener
             // uses the raw document rather than what ChatSchema.parse returns,
             // so zod's `moderation` default never lands.

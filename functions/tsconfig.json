@@ -7,6 +7,10 @@
         "outDir": "lib",
         "sourceMap": true,
         "strict": true,
+        // Matches the root config: an index read answers `T | undefined`.
+        // `functions/` cannot import `src/util/nullable.ts`, so its own
+        // equivalents live in `src/shared/guards.ts`.
+        "noUncheckedIndexedAccess": true,
         // Resend ships type declarations that reference React, for its
         // react-email integration we don't use. The root tsconfig already skips
         // lib checking for the same class of reason; our own code is still

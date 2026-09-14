@@ -1,3 +1,4 @@
+import { fieldOf, isStringArray } from './shared/guards.js';
 import { PromisePool } from '@supercharge/promise-pool';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore, type Firestore } from 'firebase-admin/firestore';
@@ -63,17 +64,14 @@ async function reviewCount(
     uid: string,
     platform: boolean,
 ): Promise<number> {
-    const reports = await db
-        .collection('reports')
-        .where(
-            ...((platform
-                ? ['platform', '==', true]
-                : ['moderators', 'array-contains', uid]) as [
-                string,
-                FirebaseFirestore.WhereFilterOp,
-                unknown,
-            ]),
-        )
+    // A platform moderator is told about listing decisions, everyone else
+    // about the reports they were named on, so the two differ in one clause.
+    const scope = db.collection('reports');
+    const reports = await (
+        platform
+            ? scope.where('platform', '==', true)
+            : scope.where('moderators', 'array-contains', uid)
+    )
         .where('resolved', '==', false)
         .limit(CountLimit)
         .get();
@@ -115,8 +113,12 @@ async function platformModerators(): Promise<string[]> {
 async function curators(db: Firestore): Promise<string[]> {
     const galleries = await db.collection('galleries').get();
     const uids = new Set<string>();
-    for (const gallery of galleries.docs)
-        for (const uid of gallery.get('curators') ?? []) uids.add(uid);
+    for (const gallery of galleries.docs) {
+        // A gallery whose curators field is missing or malformed contributes
+        // nobody, rather than throwing on a value that is not iterable.
+        const curating = fieldOf(gallery, 'curators');
+        if (isStringArray(curating)) for (const uid of curating) uids.add(uid);
+    }
     return [...uids];
 }
 

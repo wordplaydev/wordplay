@@ -17,6 +17,7 @@ import readMusic, {
 } from '@edit/output/editableMusic';
 import { Scales } from '@output/Music/scales';
 import { inserted } from '@edit/output/editNotes';
+import { first, must } from '@util/nullable';
 
 function projectFrom(code: string) {
     return Project.make(
@@ -28,10 +29,15 @@ function projectFrom(code: string) {
     );
 }
 
+/** The first music in a program, which each program below has. */
+function firstMusic(project: Project) {
+    return must(first(musicsIn(project)), 'a music in the program');
+}
+
 /** The editor's reading of the first music in a program. */
 function read(code: string) {
     const project = projectFrom(code);
-    const [music] = musicsIn(project);
+    const music = firstMusic(project);
     expect(music).toBeInstanceOf(Evaluate);
     return readMusic(project, music);
 }
@@ -74,7 +80,7 @@ test('reading from source agrees with what the runtime plays', () => {
 
 test('every note carries the source node it came from', () => {
     const music = read(`Music(Track([1 ø {1 3 5} 8]))`);
-    const [track] = music?.tracks ?? [];
+    const track = must(music?.tracks[0], 'the first track');
     expect(track.entries).toHaveLength(4);
     expect(track.data.notes).toHaveLength(4);
     // The third entry is the chord, and its node is the set that wrote it.
@@ -82,7 +88,9 @@ test('every note carries the source node it came from', () => {
     // detached subtree without its spacing — that lives in Source's Spaces
     // map, keyed by token, so `{1 3 5}` comes back as `{135}`.
     expect(track.entries[2]).toBeInstanceOf(SetLiteral);
-    expect(track.data.notes[2].degrees).toEqual([1, 3, 5]);
+    expect(must(track.data.notes[2], 'the third note').degrees).toEqual([
+        1, 3, 5,
+    ]);
     // The first is a plain number, editable by replacing that one literal.
     expect(track.entries[0]).toBeInstanceOf(NumberLiteral);
 });
@@ -93,7 +101,7 @@ test('a computed note list draws but cannot be edited', () => {
     const music = read(
         `cell: [1 3 5 3]\nMusic(Track(cell.append(cell.reverse())))`,
     );
-    const [track] = music?.tracks ?? [];
+    const track = must(music?.tracks[0], 'the first track');
     expect(track).toBeDefined();
     expect(isEditable(track)).toBe(false);
     expect(track.entries).toHaveLength(0);
@@ -105,12 +113,15 @@ test('a spread makes its whole list read-only', () => {
     const music = read(
         `tune: [1 2 3]\nrest: [ø ø]\nMusic(Track([:tune :rest]))`,
     );
-    const [track] = music?.tracks ?? [];
+    const track = must(music?.tracks[0], 'the first track');
     expect(isEditable(track)).toBe(false);
 });
 
 test('a literal list is editable', () => {
-    const [track] = read(`Music(Track([1 2 3]))`)?.tracks ?? [];
+    const track = must(
+        read(`Music(Track([1 2 3]))`)?.tracks[0],
+        'the first track',
+    );
     expect(isEditable(track)).toBe(true);
 });
 
@@ -118,7 +129,8 @@ test('a track defers to the music for scale and key unless it overrides', () => 
     const music = read(
         `Music([Track([1]) Track([1] scale: Music.pentatonic key: 5semitones)] scale: Music.minor key: 2semitones)`,
     );
-    const [inherits, overrides] = music?.tracks ?? [];
+    const inherits = must(music?.tracks[0], 'the inheriting track');
+    const overrides = must(music?.tracks[1], 'the overriding track');
     expect(inherits.data.scale).toEqual(Scales.minor);
     expect(inherits.data.key).toBe(2);
     expect(overrides.data.scale).toEqual(Scales.pentatonic);
@@ -133,10 +145,15 @@ test('a lone track needn’t be wrapped in a list', () => {
 
 test('reading a non-music expression yields nothing', () => {
     const project = projectFrom(`Phrase('hi')`);
-    const [evaluate] = project
-        .getMain()
-        .nodes()
-        .filter((node): node is Evaluate => node instanceof Evaluate);
+    const evaluate = must(
+        first(
+            project
+                .getMain()
+                .nodes()
+                .filter((node): node is Evaluate => node instanceof Evaluate),
+        ),
+        'an Evaluate in the program',
+    );
     expect(readMusic(project, evaluate)).toBeUndefined();
 });
 
@@ -157,23 +174,19 @@ test('a revise keeps the identity of the notes it did not touch', () => {
     // shifted are the same nodes they were, so the view can key on them and
     // slide them rather than replacing every note after the new one.
     const project = projectFrom(`Music(Track([1 2 3]))`);
-    const music = readMusic(project, musicsIn(project)[0]);
-    const before = music?.tracks[0].entries.map((entry) => entry.id) ?? [];
-    const list = music?.tracks[0].notes;
+    const music = readMusic(project, firstMusic(project));
+    const track = must(music?.tracks[0], 'the first track');
+    const before = track.entries.map((entry) => entry.id);
+    const list = track.notes;
     if (list === undefined) throw new Error('expected a literal note list');
 
     const revised = project.withRevisedNodes([
-        [
-            list,
-            ListLiteral.make(
-                inserted(music?.tracks[0].entries ?? [], 0, 9, undefined),
-            ),
-        ],
+        [list, ListLiteral.make(inserted(track.entries, 0, 9, undefined))],
     ]);
-    const after =
-        readMusic(revised, musicsIn(revised)[0])?.tracks[0].entries.map(
-            (entry) => entry.id,
-        ) ?? [];
+    const after = must(
+        readMusic(revised, firstMusic(revised))?.tracks[0],
+        'the revised track',
+    ).entries.map((entry) => entry.id);
 
     expect(after).toHaveLength(before.length + 1);
     // Each original note kept its id, one place later.
@@ -191,14 +204,14 @@ test('a track named elsewhere is still found and editable', () => {
         `melody: Track([1 2 3])\nbass: Track([1 5] instrument: Instrument.synthBass)\nMusic([melody bass])`,
     );
     expect(music?.tracks).toHaveLength(2);
-    expect(music?.tracks[0].data.notes.map((n) => n.degrees)).toEqual([
+    expect(music?.tracks[0]?.data.notes.map((n) => n.degrees)).toEqual([
         [1],
         [2],
         [3],
     ]);
-    expect(music?.tracks[1].data.instrument).toBe('synthBass');
+    expect(music?.tracks[1]?.data.instrument).toBe('synthBass');
     // And editable, because the reference resolves to the literal upstream.
-    expect(isEditable(music?.tracks[0] as never)).toBe(true);
+    expect(isEditable(must(music?.tracks[0], 'the first track'))).toBe(true);
 });
 
 test('a lone named track needs no list', () => {
@@ -211,45 +224,46 @@ test('a music’s signature survives an edit somewhere else', () => {
     // what it didn't touch, so a keystroke elsewhere must not look like a
     // change to this music — otherwise every keystroke re-walks every note.
     const project = projectFrom(`Phrase('hi')\nMusic(Track([1 2 3]))`);
-    const music = musicsIn(project)[0];
+    const music = firstMusic(project);
     const before = musicSignature(project, music);
 
-    const phrase = project
-        .getMain()
-        .nodes()
-        .find(
-            (node): node is TextLiteral => node instanceof TextLiteral,
-        ) as TextLiteral;
+    const phrase = must(
+        project
+            .getMain()
+            .nodes()
+            .find((node): node is TextLiteral => node instanceof TextLiteral),
+        'a text literal in the program',
+    );
     const revised = project.withRevisedNodes([
         [phrase, TextLiteral.make('there')],
     ]);
-    expect(musicSignature(revised, musicsIn(revised)[0])).toBe(before);
+    expect(musicSignature(revised, firstMusic(revised))).toBe(before);
 });
 
 test('a music’s signature changes when one of its notes does', () => {
     const project = projectFrom(`Music(Track([1 2 3]))`);
-    const music = musicsIn(project)[0];
+    const music = firstMusic(project);
     const before = musicSignature(project, music);
-    const list = readMusic(project, music)?.tracks[0].notes;
+    const list = readMusic(project, music)?.tracks[0]?.notes;
     if (list === undefined) throw new Error('expected a literal note list');
     const revised = project.withRevisedNodes([
         [list, ListLiteral.make([NumberLiteral.make(9)])],
     ]);
-    expect(musicSignature(revised, musicsIn(revised)[0])).not.toBe(before);
+    expect(musicSignature(revised, firstMusic(revised))).not.toBe(before);
 });
 
 test('a music’s signature changes when a track bound elsewhere does', () => {
     // The case the music's own node identity would miss: the music is
     // untouched, but the track it names was rewritten.
     const project = projectFrom(`melody: Track([1 2])\nMusic([melody])`);
-    const music = musicsIn(project)[0];
+    const music = firstMusic(project);
     const before = musicSignature(project, music);
-    const list = readMusic(project, music)?.tracks[0].notes;
+    const list = readMusic(project, music)?.tracks[0]?.notes;
     if (list === undefined) throw new Error('expected a literal note list');
     const revised = project.withRevisedNodes([
         [list, ListLiteral.make([NumberLiteral.make(5)])],
     ]);
-    expect(musicSignature(revised, musicsIn(revised)[0])).not.toBe(before);
+    expect(musicSignature(revised, firstMusic(revised))).not.toBe(before);
 });
 
 /** A project with supplements, for the ways a track reaches a music by name. */
@@ -272,12 +286,12 @@ test('tracks borrowed as a shared list are found and editable', () => {
             `↑ tracks: [\n\tTrack([1 2 3])\n\tTrack([4 5] instrument: Instrument.flute)\n]`,
         ],
     ]);
-    const music = readMusic(project, musicsIn(project)[0]);
+    const music = readMusic(project, firstMusic(project));
     expect(music?.tracks).toHaveLength(2);
-    expect(music?.tracks[1].data.instrument).toBe('flute');
+    expect(music?.tracks[1]?.data.instrument).toBe('flute');
     // Editable, because the reference resolves to the literal in the other
     // source and edits land there.
-    expect(isEditable(music!.tracks[0])).toBe(true);
+    expect(isEditable(must(music?.tracks[0], 'the first track'))).toBe(true);
 });
 
 test('tracks borrowed as whole sources are found', () => {
@@ -288,12 +302,12 @@ test('tracks borrowed as whole sources are found', () => {
         ['guitar1', `Track([1 2 3])`],
         ['guitar2', `Track([4 5] instrument: Instrument.violin)`],
     ]);
-    const music = readMusic(project, musicsIn(project)[0]);
+    const music = readMusic(project, firstMusic(project));
     expect(music?.tracks).toHaveLength(2);
-    expect(music?.tracks[1].data.instrument).toBe('violin');
+    expect(music?.tracks[1]?.data.instrument).toBe('violin');
 });
 
 test('an unresolvable name is no track rather than a crash', () => {
     const project = multi(`Music([nothing])`, []);
-    expect(readMusic(project, musicsIn(project)[0])?.tracks).toHaveLength(0);
+    expect(readMusic(project, firstMusic(project))?.tracks).toHaveLength(0);
 });

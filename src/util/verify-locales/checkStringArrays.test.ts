@@ -7,7 +7,7 @@ import { expect, test } from 'vitest';
 import checkStringArrays from './checkStringArrays';
 
 function copyLocale(): LocaleText {
-    return JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    return structuredClone(DefaultLocale);
 }
 
 const LabelsPath = new LocalePath(

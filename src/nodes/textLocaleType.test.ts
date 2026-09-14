@@ -4,6 +4,7 @@ import DefaultLocale from '@locale/DefaultLocale';
 import Source from '@nodes/Source';
 import Evaluate from '@nodes/Evaluate';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import { last, must } from '@util/nullable';
 
 function analyze(code: string) {
     const source = new Source('test', code);
@@ -19,7 +20,9 @@ function lastCombineType(code: string): string {
         (n): n is BinaryEvaluate | Evaluate =>
             n instanceof BinaryEvaluate || n instanceof Evaluate,
     );
-    return ops[ops.length - 1].getType(context).toWordplay();
+    return must(last(ops), 'a combining operation')
+        .getType(context)
+        .toWordplay();
 }
 
 // The combine function derives its result locale by unioning operand locales,

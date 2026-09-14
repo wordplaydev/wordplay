@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import type { Reservation } from './handles.js';
+import { isReservation, type Reservation } from './handles.js';
 import { reservationAction } from './sweepReservations.js';
 
 const Hour = 60 * 60 * 1000;
@@ -71,5 +71,52 @@ describe('deciding what to do with a reservation', () => {
                 NOW,
             ),
         ).toBe('keep');
+    });
+});
+
+/**
+ * The sweep deletes and tombstones, so what it cannot read it must not act on.
+ * `isReservation` is the whole gate: a document of an unknown shape falls
+ * through to 'keep' rather than being measured against a policy written for a
+ * shape it does not have. The same guard is what `changeUsername` asks before
+ * renaming onto an existing name.
+ */
+describe('refusing a reservation the sweep cannot read', () => {
+    test('a document of the right shape is read', () => {
+        expect(isReservation(reservation())).toBe(true);
+        expect(isReservation(reservation({ uid: null, retiredAt: NOW }))).toBe(
+            true,
+        );
+    });
+
+    test('a document missing any required field is refused', () => {
+        expect(isReservation({ v: 1, uid: 'u1', username: 'alice' })).toBe(
+            false,
+        );
+        expect(isReservation({ v: 1, uid: 'u1', claimed: NOW })).toBe(false);
+        expect(isReservation({ v: 1, username: 'alice', claimed: NOW })).toBe(
+            false,
+        );
+    });
+
+    test('a document of a future version is refused rather than guessed at', () => {
+        expect(isReservation({ ...reservation(), v: 2 })).toBe(false);
+    });
+
+    test('a field of the wrong type is refused', () => {
+        expect(isReservation({ ...reservation(), claimed: '2026' })).toBe(
+            false,
+        );
+        expect(isReservation({ ...reservation(), uid: 42 })).toBe(false);
+        expect(
+            isReservation({ ...reservation(), retiredAt: 'yesterday' }),
+        ).toBe(false);
+    });
+
+    test('nothing at all is refused', () => {
+        expect(isReservation(undefined)).toBe(false);
+        expect(isReservation(null)).toBe(false);
+        expect(isReservation([])).toBe(false);
+        expect(isReservation('alice')).toBe(false);
     });
 });

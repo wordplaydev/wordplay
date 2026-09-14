@@ -1,6 +1,7 @@
 import concretize from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
+import { isLocaleText } from '@locale/isLocaleText';
 import Locales from '@locale/Locales';
 import { readFileSync } from 'fs';
 import { describe, expect, test } from 'vitest';
@@ -16,9 +17,15 @@ import {
 } from './getLocalizedProjectName';
 
 const en = DefaultLocale;
-const es = JSON.parse(
-    readFileSync('static/locales/es-MX/es-MX.json', 'utf8'),
-) as LocaleText;
+/** Read through the app's own shape guard, so an unrelated or truncated file
+ *  fails here rather than as an undefined deep inside `l.ui.…`. */
+function readLocale(path: string): LocaleText {
+    const data: unknown = JSON.parse(readFileSync(path, 'utf8'));
+    if (!isLocaleText(data)) throw new Error(`${path} is not a locale file`);
+    return data;
+}
+
+const es = readLocale('static/locales/es-MX/es-MX.json');
 
 function makeLocales(order: LocaleText[]): Locales {
     return new Locales(concretize, order, DefaultLocale);

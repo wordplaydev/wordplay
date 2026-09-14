@@ -1,3 +1,4 @@
+import { must } from '@util/nullable';
 import { expect, test } from 'vitest';
 import overflowFit, {
     OverflowHysteresis,
@@ -45,7 +46,7 @@ test('a toolbar parked on the boundary keeps the answer it had', () => {
         }
     }
     expect(boundary).toBeDefined();
-    const just = boundary as number;
+    const just = must(boundary, 'a hysteresis boundary');
     // Approaching from below, the extra item is only taken once there is slack for it.
     const fromBelow = overflowFit(
         toolbar(just, overflowFit(toolbar(just - 1, 0))),

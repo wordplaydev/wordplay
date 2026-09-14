@@ -136,10 +136,12 @@ export default class StreamType extends Type {
     }
 
     clone(replace?: Replacement) {
-        return new StreamType(
-            this.replaceChild('stream', this.stream, replace),
-            this.replaceChild('type', this.type, replace),
-        ) as this;
+        return this.cloned(
+            new StreamType(
+                this.replaceChild('stream', this.stream, replace),
+                this.replaceChild('type', this.type, replace),
+            ),
+        );
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.StreamType;

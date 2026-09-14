@@ -1,4 +1,11 @@
 import { Unwritten } from '@locale/Annotations';
+import { last, must } from '@util/nullable';
+
+/** Whether a value is something a locale path can descend into: an object or
+ *  an array, since a path addresses both. */
+function isContainer(value: unknown): value is object {
+    return typeof value === 'object' && value !== null;
+}
 
 export default class LocalePath {
     // The key or number indexing into the object literal.
@@ -16,32 +23,37 @@ export default class LocalePath {
         this.value = value;
     }
 
-    private retrieve(
-        locale: Record<string, unknown>,
-    ): Record<string, unknown> | undefined {
-        let record: Record<string, unknown> = locale;
+    /**
+     * The object this path's key sits in, or undefined when the path names
+     * nothing. Arrays count: a locale path descends into one wherever a
+     * document is a list of paragraphs or a tuple of labels.
+     */
+    private retrieve(locale: object): object | undefined {
+        let container: unknown = locale;
         for (const key of this.path) {
-            if (!(key in record)) return undefined;
-            const value = record[key];
-            if (typeof value !== 'object' || value === null) return undefined;
-            record = value as Record<string, unknown>;
+            if (!isContainer(container) || !(key in container))
+                return undefined;
+            container = Reflect.get(container, key);
         }
 
-        return record;
+        return isContainer(container) ? container : undefined;
     }
 
     isGlobalName() {
-        const grandparent = this.parent().parent();
+        // A definition's own names sit two levels under `input` or `output`.
+        // Read from the path rather than walking up with `parent()`, which a
+        // top-level path has no answer for.
+        const grandparent = this.path[this.path.length - 2];
         return (
-            (grandparent.key === 'input' || grandparent.key === 'output') &&
+            (grandparent === 'input' || grandparent === 'output') &&
             this.key === 'names'
         );
     }
 
-    resolve(locale: Record<string, unknown>): string | string[] | undefined {
+    resolve(locale: object): string | string[] | undefined {
         const record = this.retrieve(locale);
         if (record === undefined) return undefined;
-        const text = record[this.key];
+        const text: unknown = Reflect.get(record, this.key);
         if (
             text === undefined ||
             (typeof text !== 'string' &&
@@ -55,12 +67,9 @@ export default class LocalePath {
     }
 
     /** Given an object and a new value, set the key in the object to the value, if the path exists. */
-    repair(
-        object: Record<string, unknown>,
-        value: string | string[] = Unwritten,
-    ) {
+    repair(object: object, value: string | string[] = Unwritten) {
         const record = this.retrieve(object);
-        if (record) record[this.key] = value;
+        if (record) Reflect.set(record, this.key, value);
     }
 
     top() {
@@ -79,7 +88,8 @@ export default class LocalePath {
     parent() {
         return new LocalePath(
             this.path.slice(0, this.path.length - 1),
-            this.path[this.path.length - 1],
+            // Only a path with a parent has one to name.
+            must(last(this.path), 'a parent key'),
             this.value,
         );
     }
@@ -96,17 +106,20 @@ export default class LocalePath {
 /** This converts the locale into a list of key/value pairs for verification.
  */
 export function getKeyTemplatePairs(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    record: Record<any, any>,
+    /** Any object: a typed locale or tutorial, or a record read from JSON.
+     *  What is walked is its own keys, whatever its declared type. */
+    source: object,
     pairs: LocalePath[] = [],
     path: (string | number)[] = [],
 ): LocalePath[] {
-    for (const unparsedKey of Object.keys(record)) {
+    for (const unparsedKey of Object.keys(source)) {
         // See if the key is a number, and convert it to one if so.
         const parsedKey = parseInt(unparsedKey);
         const key = !isNaN(parsedKey) ? parsedKey : unparsedKey;
 
-        const value = record[key];
+        // Read reflectively rather than copying: this walks every string in
+        // every locale file, so a spread per node would be a copy of the file.
+        const value: unknown = Reflect.get(source, key);
         if (
             typeof value === 'string' ||
             (Array.isArray(value) && value.every((s) => typeof s === 'string'))

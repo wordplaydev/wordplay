@@ -47,7 +47,7 @@ export default class Dimension extends Node {
     static make(subsequent: boolean, unit: string, exponent: number) {
         return new Dimension(
             subsequent ? new Token(DOT_SYMBOL, Sym.Operator) : undefined,
-            new NameToken(unit),
+            NameToken(unit),
             exponent > 1 ? new Token(EXPONENT_SYMBOL, Sym.Operator) : undefined,
             exponent > 1 ? new Token('' + exponent, Sym.Number) : undefined,
         );
@@ -101,7 +101,7 @@ export default class Dimension extends Node {
                 (dim) =>
                     new Dimension(
                         this.product,
-                        new NameToken(dim),
+                        NameToken(dim),
                         this.caret,
                         this.exponent,
                     ),
@@ -148,12 +148,14 @@ export default class Dimension extends Node {
     }
 
     clone(replace?: Replacement) {
-        return new Dimension(
-            this.replaceChild('product', this.product, replace),
-            this.replaceChild('name', this.name, replace),
-            this.replaceChild('caret', this.caret, replace),
-            this.replaceChild('exponent', this.exponent, replace),
-        ) as this;
+        return this.cloned(
+            new Dimension(
+                this.replaceChild('product', this.product, replace),
+                this.replaceChild('name', this.name, replace),
+                this.replaceChild('caret', this.caret, replace),
+                this.replaceChild('exponent', this.exponent, replace),
+            ),
+        );
     }
 
     asProduct() {

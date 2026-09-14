@@ -1,6 +1,5 @@
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import { testConflict } from '@conflicts/TestUtilities';
-import Block from '@nodes/Block';
 import PatternClass from '@nodes/PatternClass';
 import PatternLiteral from '@nodes/PatternLiteral';
 import Source from '@nodes/Source';
@@ -34,19 +33,25 @@ test.each([
     expect(new Source('test', code).code.toString()).toBe(code);
 });
 
+/** The pattern literal a source's first statement is, failing the test if the
+ *  parse produced something else. */
+function literalOf(code: string): PatternLiteral {
+    const statement = new Source('test', code).expression.expression
+        .statements[0];
+    expect(statement).toBeInstanceOf(PatternLiteral);
+    if (!(statement instanceof PatternLiteral))
+        throw new Error('Expected a pattern literal');
+    return statement;
+}
+
 test('parses a character-class sequence', () => {
-    const block = new Source('test', '⣿◌ _ # ␣⣿').expression
-        .expression as Block;
-    const lit = block.statements[0] as PatternLiteral;
-    expect(lit).toBeInstanceOf(PatternLiteral);
+    const lit = literalOf('⣿◌ _ # ␣⣿');
     expect(lit.body?.items).toHaveLength(4);
     expect(lit.body?.items.every((i) => i instanceof PatternClass)).toBe(true);
 });
 
 test('an unclosed pattern leaves close undefined (conflict)', () => {
-    const block = new Source('test', '⣿◌').expression.expression as Block;
-    const lit = block.statements[0] as PatternLiteral;
-    expect(lit).toBeInstanceOf(PatternLiteral);
+    const lit = literalOf('⣿◌');
     expect(lit.close).toBeUndefined();
 });
 

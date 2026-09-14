@@ -7,6 +7,7 @@
     import BoolValue from '@values/BoolValue';
     import ExceptionValue from '@values/ExceptionValue';
     import StructureValue from '@values/StructureValue';
+    import { must } from '@util/nullable';
     import { tick, untrack } from 'svelte';
     import { slide } from 'svelte/transition';
 
@@ -290,16 +291,18 @@
             {#each $evaluation.streams as reaction, index}
                 <!-- Compute the number of steps that occurred between this and the next input, or if there isn't one, the latest step. -->
                 {@const stepCount =
-                    (index < $evaluation.streams.length - 1
-                        ? $evaluation.streams[index + 1].stepIndex
-                        : evaluator.getStepCount()) - reaction.stepIndex}
+                    ($evaluation.streams[index + 1]?.stepIndex ??
+                        evaluator.getStepCount()) - reaction.stepIndex}
                 <!-- Show up to three of the streams that changed -->
                 {#each reaction.changes.slice(0, 3) as change}
                     {@const down =
                         change.stream instanceof Key &&
                         change.value instanceof StructureValue
                             ? change.value.resolve(
-                                  change.value.type.inputs[1].names,
+                                  must(
+                                      change.value.type.inputs[1],
+                                      "Key's down input",
+                                  ).names,
                               )
                             : change.stream instanceof Button
                               ? change.value

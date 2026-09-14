@@ -17,6 +17,7 @@
         getProjectCommandContext,
     } from '@components/project/Contexts';
     import { locales } from '@db/Database';
+    import { must } from '@util/nullable';
     import Button from '@components/widgets/Button.svelte';
 
     interface Props {
@@ -96,7 +97,10 @@
 
 {#snippet symbol()}{#if icon}{@const Icon = icon}<Icon
         />{:else if token}<TokenView
-            node={tokenize(command.symbol).getTokens()[0]}
+            node={must(
+                tokenize(command.symbol).getTokens()[0],
+                "the command symbol's token",
+            )}
             format={{
                 block: false,
                 root: undefined,

@@ -11,7 +11,7 @@ import checkRedundantNames from './checkRedundantNames';
  */
 
 function copyLocale(): LocaleText {
-    return JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    return structuredClone(DefaultLocale);
 }
 
 /** `output.Phrase.names` is `["💬","Phrase"]` in en-US. */

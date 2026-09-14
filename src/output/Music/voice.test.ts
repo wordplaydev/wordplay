@@ -9,6 +9,7 @@ import {
 } from '@output/Music/voice';
 import { Phonemes } from '@output/Music/phonemes';
 import { semitonesToFrequency } from '@output/Music/degrees';
+import { must } from '@util/nullable';
 
 describe('the glottal source', () => {
     test('carries no DC and falls off with harmonic number', () => {
@@ -18,8 +19,12 @@ describe('the glottal source', () => {
         // A DC offset would cost headroom and be inaudible.
         expect(imag[0]).toBe(0);
         expect(real.every((value) => value === 0)).toBe(true);
+        // The length was asserted above, so every harmonic up to the last is
+        // in range.
         for (let harmonic = 2; harmonic <= SourceHarmonics; harmonic++)
-            expect(imag[harmonic]).toBeLessThan(imag[harmonic - 1]);
+            expect(must(imag[harmonic], `harmonic ${harmonic}`)).toBeLessThan(
+                must(imag[harmonic - 1], `harmonic ${harmonic - 1}`),
+            );
         expect(imag[1]).toBe(1);
     });
 
@@ -70,7 +75,7 @@ describe('formant neutrality', () => {
             const vowel = Phonemes.get(symbol);
             expect(vowel, symbol).toBeDefined();
             if (vowel === undefined) continue;
-            for (const index of [0, 1]) {
+            for (const index of [0, 1] as const) {
                 const ours = vowel.formants[index].hz;
                 expect(ours, `${symbol} F${index + 1}`).toBeGreaterThan(
                     men[index],

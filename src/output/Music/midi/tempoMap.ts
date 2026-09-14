@@ -20,6 +20,8 @@
  * long the piece.
  */
 
+import { must } from '@util/nullable';
+
 /** A tempo in force from a tick onward. */
 export type TempoChange = { ticks: number; bpm: number };
 
@@ -44,8 +46,9 @@ export function tempoRegions(tempos: readonly TempoChange[]): TempoChange[] {
         else regions.push(tempo);
     }
 
-    if (regions.length === 0) return [{ ticks: 0, bpm: DefaultBPM }];
-    if (regions[0].ticks > 0) regions.unshift({ ticks: 0, bpm: DefaultBPM });
+    const opening = regions[0];
+    if (opening === undefined) return [{ ticks: 0, bpm: DefaultBPM }];
+    if (opening.ticks > 0) regions.unshift({ ticks: 0, bpm: DefaultBPM });
     return regions;
 }
 
@@ -61,11 +64,11 @@ export function dominantTempo(
     endTicks: number,
 ): number {
     const held = new Map<number, number>();
-    for (let i = 0; i < regions.length; i++) {
-        const from = regions[i].ticks;
-        const to = i + 1 < regions.length ? regions[i + 1].ticks : endTicks;
-        const span = Math.max(0, to - from);
-        held.set(regions[i].bpm, (held.get(regions[i].bpm) ?? 0) + span);
+    for (const [i, region] of regions.entries()) {
+        const next = regions[i + 1];
+        const to = next === undefined ? endTicks : next.ticks;
+        const span = Math.max(0, to - region.ticks);
+        held.set(region.bpm, (held.get(region.bpm) ?? 0) + span);
     }
 
     let best = regions[0]?.bpm ?? DefaultBPM;
@@ -93,12 +96,12 @@ export function tempoScale(
     // search plus one multiply rather than a walk from the top per note.
     const before: number[] = [];
     let total = 0;
-    for (let i = 0; i < regions.length; i++) {
+    for (const [i, region] of regions.entries()) {
         before.push(total);
-        const to = i + 1 < regions.length ? regions[i + 1].ticks : Infinity;
+        const next = regions[i + 1];
+        const to = next === undefined ? Infinity : next.ticks;
         if (Number.isFinite(to))
-            total +=
-                ((to - regions[i].ticks) / division) * (fixed / regions[i].bpm);
+            total += ((to - region.ticks) / division) * (fixed / region.bpm);
     }
 
     return (ticks: number) => {
@@ -108,13 +111,18 @@ export function tempoScale(
         let high = regions.length - 1;
         while (low < high) {
             const middle = Math.ceil((low + high) / 2);
-            if (regions[middle].ticks <= ticks) low = middle;
+            // `low <= middle <= high < regions.length`, so this is in range.
+            if (must(regions[middle], 'a tempo region').ticks <= ticks)
+                low = middle;
             else high = middle - 1;
         }
+        // `before` holds one entry per region, and the search leaves `low`
+        // inside them; an empty `regions` has always been a crash here, and
+        // `tempoRegions` never produces one.
+        const region = must(regions[low], 'a tempo region');
         return (
-            before[low] +
-            ((ticks - regions[low].ticks) / division) *
-                (fixed / regions[low].bpm)
+            must(before[low], 'the beats before a tempo region') +
+            ((ticks - region.ticks) / division) * (fixed / region.bpm)
         );
     };
 }

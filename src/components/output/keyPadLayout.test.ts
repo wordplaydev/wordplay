@@ -1,8 +1,15 @@
+import { must } from '@util/nullable';
 import { expect, test } from 'vitest';
 import layoutKeyPad, { type KeyPadSection } from './keyPadLayout';
 
 function layout(...keys: string[]): KeyPadSection[] {
     return layoutKeyPad(new Set(keys));
+}
+
+/** The section a test's own key set produces at this index, named so a missing
+ *  one fails with what was expected rather than with a property of undefined. */
+function section(sections: KeyPadSection[], index: number): KeyPadSection {
+    return must(sections[index], `section ${index}`);
 }
 
 /** The keys of a section, in order, for compact assertions. */
@@ -21,7 +28,7 @@ function keysOf(section: KeyPadSection): string[] {
 test('Four arrows become one cluster', () => {
     const sections = layout('ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight');
     expect(sections).toHaveLength(1);
-    expect(sections[0]).toEqual({
+    expect(section(sections, 0)).toEqual({
         kind: 'arrows',
         up: true,
         down: true,
@@ -34,15 +41,15 @@ test('Four arrows become one cluster', () => {
 test('Left and right alone go to opposite edges', () => {
     const sections = layout('ArrowLeft', 'ArrowRight');
     expect(sections).toHaveLength(1);
-    expect(sections[0].kind).toBe('spread');
-    expect(keysOf(sections[0])).toEqual(['ArrowLeft', 'ArrowRight']);
+    expect(section(sections, 0).kind).toBe('spread');
+    expect(keysOf(section(sections, 0))).toEqual(['ArrowLeft', 'ArrowRight']);
 });
 
 test('A spread carries other keys between its edges', () => {
     // The Heart Attack shape: steer with two thumbs, act in the middle.
     const sections = layout('ArrowLeft', 'ArrowRight', ' ', 'Enter');
     expect(sections).toHaveLength(1);
-    expect(keysOf(sections[0])).toEqual([
+    expect(keysOf(section(sections, 0))).toEqual([
         'ArrowLeft',
         'Enter',
         ' ',
@@ -52,7 +59,7 @@ test('A spread carries other keys between its edges', () => {
 
 test('A vertical arrow keeps the cluster rather than spreading', () => {
     const sections = layout('ArrowLeft', 'ArrowUp');
-    expect(sections[0]).toEqual({
+    expect(section(sections, 0)).toEqual({
         kind: 'arrows',
         up: true,
         down: false,
@@ -66,24 +73,24 @@ test('Letters sit in keyboard order, not alphabetical', () => {
     // The Chimes shape: one row, ordered as the fingers find them.
     const sections = layout('s', 'a', 'g', 'd', 'f');
     expect(sections).toHaveLength(1);
-    expect(keysOf(sections[0])).toEqual(['a', 's', 'd', 'f', 'g']);
+    expect(keysOf(section(sections, 0))).toEqual(['a', 's', 'd', 'f', 'g']);
 });
 
 test('Keys off the keyboard map sort after those on it', () => {
-    expect(keysOf(layout('é', 'a')[0])).toEqual(['a', 'é']);
+    expect(keysOf(section(layout('é', 'a'), 0))).toEqual(['a', 'é']);
 });
 
 test('A long row wraps', () => {
     const sections = layout(...'qwertyuiop'.split(''));
     expect(sections).toHaveLength(2);
-    expect(keysOf(sections[0])).toHaveLength(8);
-    expect(keysOf(sections[1])).toEqual(['o', 'p']);
+    expect(keysOf(section(sections, 0))).toHaveLength(8);
+    expect(keysOf(section(sections, 1))).toEqual(['o', 'p']);
 });
 
 test('Space is last and wide', () => {
     const sections = layout('a', ' ');
     expect(sections).toHaveLength(2);
-    const last = sections[1];
+    const last = section(sections, 1);
     expect(last.kind).toBe('row');
     if (last.kind !== 'row') return;
     expect(last.keys).toEqual([{ key: ' ', wide: true }]);
@@ -91,8 +98,8 @@ test('Space is last and wide', () => {
 
 test('Named keys come before characters', () => {
     const sections = layout('a', 'Enter');
-    expect(keysOf(sections[0])).toEqual(['Enter']);
-    expect(keysOf(sections[1])).toEqual(['a']);
+    expect(keysOf(section(sections, 0))).toEqual(['Enter']);
+    expect(keysOf(section(sections, 1))).toEqual(['a']);
 });
 
 test('Other keys sit beside the cluster rather than under it', () => {
@@ -109,16 +116,17 @@ test('Other keys sit beside the cluster rather than under it', () => {
         ' ',
     );
     expect(sections).toHaveLength(1);
-    expect(sections[0].kind).toBe('arrows');
-    expect(keysOf(sections[0])).toEqual(['Enter', 'Shift', 'j', ' ']);
+    expect(section(sections, 0).kind).toBe('arrows');
+    expect(keysOf(section(sections, 0))).toEqual(['Enter', 'Shift', 'j', ' ']);
 });
 
 test('Nothing beside the cluster is stretched', () => {
     // Width beside a cluster is scarce, so a space bar there is a plain key.
     const sections = layout('ArrowUp', 'ArrowDown', ' ');
-    expect(sections[0].kind).toBe('arrows');
-    if (sections[0].kind !== 'arrows') return;
-    expect(sections[0].beside).toEqual([{ key: ' ', wide: false }]);
+    const first = section(sections, 0);
+    expect(first.kind).toBe('arrows');
+    if (first.kind !== 'arrows') return;
+    expect(first.beside).toEqual([{ key: ' ', wide: false }]);
 });
 
 test('No keys is no sections', () => {

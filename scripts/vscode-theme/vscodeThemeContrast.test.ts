@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { contrast } from '../../src/util/colorContrast';
 import { buildTheme, Modes, type Mode } from './theme';
+import { must } from '@util/nullable.ts';
 
 /**
  * Guards the WCAG 2.2 contrast invariants of the generated VS Code theme, the
@@ -38,7 +39,10 @@ function blend(from: string, to: string, amount: number): string {
         '#' +
         a
             .map((channel, index) =>
-                Math.round(channel + (b[index] - channel) * amount)
+                // Both colors give three channels, so the index always hits.
+                Math.round(
+                    channel + (must(b[index], 'a channel') - channel) * amount,
+                )
                     .toString(16)
                     .padStart(2, '0'),
             )
@@ -93,8 +97,10 @@ const ON_CHROME =
 describe.each(Modes)('%s theme', (mode: Mode) => {
     const theme = buildTheme(mode);
     const colors: Record<string, string> = theme.colors;
-    const pane = colors['editor.background'];
-    const chrome = colors['editorWidget.background'];
+    /** A theme color the generator declares; a missing key is a generator bug. */
+    const color = (key: string) => must(colors[key], `the theme color ${key}`);
+    const pane = color('editor.background');
+    const chrome = color('editorWidget.background');
 
     /** The opaque surface a given color key is painted on. */
     function surfaceFor(key: string): string {
@@ -104,7 +110,7 @@ describe.each(Modes)('%s theme', (mode: Mode) => {
                 other.toLowerCase() === (base + 'background').toLowerCase(),
         );
         const under = ON_CHROME.test(key) ? chrome : pane;
-        return own === undefined ? under : over(colors[own], under);
+        return own === undefined ? under : over(color(own), under);
     }
 
     const foregrounds = Object.keys(colors).filter(
@@ -121,8 +127,8 @@ describe.each(Modes)('%s theme', (mode: Mode) => {
                   ? NON_TEXT
                   : AA_TEXT;
             expect(
-                contrast(over(colors[key], surface), surface),
-                `${key} ${colors[key]} on ${surface}`,
+                contrast(over(color(key), surface), surface),
+                `${key} ${color(key)} on ${surface}`,
             ).toBeGreaterThanOrEqual(minimum);
         },
     );
@@ -163,16 +169,16 @@ describe.each(Modes)('%s theme', (mode: Mode) => {
                 ? []
                 : [token.settings.foreground],
         ),
-        colors['foreground'],
-        colors['descriptionForeground'],
-        colors['textLink.foreground'],
-        colors['errorForeground'],
-        colors['list.warningForeground'],
+        color('foreground'),
+        color('descriptionForeground'),
+        color('textLink.foreground'),
+        color('errorForeground'),
+        color('list.warningForeground'),
     ];
 
     test.each(tints)('text stays legible on %s', (key, surfaces) => {
         for (const surface of surfaces) {
-            const highlighted = over(colors[key], surface);
+            const highlighted = over(color(key), surface);
             for (const text of new Set(textColors))
                 expect(
                     contrast(text, highlighted),
@@ -184,12 +190,13 @@ describe.each(Modes)('%s theme', (mode: Mode) => {
     test('a filled control keeps its label on hover', () => {
         // The hover swaps the fill while the label stays put, so the label has
         // to be checked against both. Dark mode shipped a 1.84:1 hover.
-        for (const [fill, label] of [
+        const controls: [string, string][] = [
             ['button.hoverBackground', 'button.foreground'],
             ['list.hoverBackground', 'foreground'],
-        ])
+        ];
+        for (const [fill, label] of controls)
             expect(
-                contrast(colors[label], over(colors[fill], pane)),
+                contrast(color(label), over(color(fill), pane)),
                 `${label} on ${fill}`,
             ).toBeGreaterThanOrEqual(AA_TEXT);
     });
@@ -197,7 +204,7 @@ describe.each(Modes)('%s theme', (mode: Mode) => {
     test('syntax colors are legible on panes, widgets, and selections', () => {
         const surfaces = [pane, chrome].flatMap((surface) => [
             surface,
-            over(colors['selection.background'], surface),
+            over(color('selection.background'), surface),
         ]);
         for (const text of new Set(textColors))
             for (const surface of surfaces)
@@ -210,7 +217,7 @@ describe.each(Modes)('%s theme', (mode: Mode) => {
     test('the focus indicator is discernible on every surface it rings', () => {
         for (const surface of [pane, chrome])
             expect(
-                contrast(colors['focusBorder'], surface),
+                contrast(color('focusBorder'), surface),
                 `focusBorder on ${surface}`,
             ).toBeGreaterThanOrEqual(NON_TEXT);
     });

@@ -4,6 +4,7 @@ import {
     VerticalRightLeftLayout,
     layoutToCSS,
     type WritingLayout,
+    isWritingLayoutSymbol,
     type WritingLayoutSymbol,
 } from '@locale/Scripts';
 import { getBind } from '@locale/getBind';
@@ -225,9 +226,9 @@ export default class Phrase extends Output {
     }
 
     getText() {
-        return (this.value as StructureValue).resolve(
-            (this.value as StructureValue).type.inputs[0].names,
-        );
+        if (!(this.value instanceof StructureValue)) return undefined;
+        const names = this.value.type.inputs[0]?.names;
+        return names === undefined ? undefined : this.value.resolve(names);
     }
 
     resetMetrics() {
@@ -616,8 +617,11 @@ export function toPhrase(
               changing,
               wrap,
               alignment?.text,
-              // ø (None) → undefined, meaning "inherit the context's layout".
-              direction ? (direction.text as WritingLayoutSymbol) : undefined,
+              // ø (None), or text naming no layout → undefined, meaning
+              // "inherit the context's layout".
+              direction && isWritingLayoutSymbol(direction.text)
+                  ? direction.text
+                  : undefined,
               matter,
               shadow,
               bubble,

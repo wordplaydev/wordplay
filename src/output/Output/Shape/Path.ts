@@ -7,6 +7,7 @@ import { Form } from '@output/Output/Shape/Form';
 import { PX_PER_METER } from '@output/Output/outputToCSS';
 import { toBoolean, toNumber } from '@output/Output/Stage';
 import { getOutputInputs } from '@output/Output/Valued';
+import { must } from '@util/nullable';
 import ListValue from '@values/ListValue';
 import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
@@ -72,9 +73,13 @@ export function pathSegments(
     // A closed path has one more span than an open one: the wrap back to the start.
     const spans = closed ? count : count - 1;
     const at = (index: number) =>
-        closed
-            ? points[((index % count) + count) % count]
-            : points[Math.max(0, Math.min(count - 1, index))];
+        // Both branches land in [0, count - 1], and count is at least 2 here.
+        must(
+            closed
+                ? points[((index % count) + count) % count]
+                : points[Math.max(0, Math.min(count - 1, index))],
+            'a path point',
+        );
 
     const segments: PathSegment[] = [];
     for (let i = 0; i < spans; i++) {
@@ -122,12 +127,13 @@ export function flattenPath(
     closed: boolean,
     smooth: boolean,
 ): PathPoint[] {
-    if (points.length === 0) return [];
+    const start = points[0];
+    if (start === undefined) return [];
     const segments = pathSegments(points, closed, smooth);
-    if (segments.length === 0) return [points[0]];
+    if (segments.length === 0) return [start];
 
-    const flat: PathPoint[] = [points[0]];
-    let from = points[0];
+    const flat: PathPoint[] = [start];
+    let from = start;
     for (const segment of segments) {
         if (segment.c1 === undefined || segment.c2 === undefined)
             flat.push(segment.to);
@@ -175,11 +181,12 @@ export function pathLength(
 ): number {
     const flat = flattenPath(points, closed, smooth);
     let total = 0;
-    for (let i = 1; i < flat.length; i++)
-        total += Math.hypot(
-            flat[i].x - flat[i - 1].x,
-            flat[i].y - flat[i - 1].y,
-        );
+    let previous: PathPoint | undefined = undefined;
+    for (const point of flat) {
+        if (previous !== undefined)
+            total += Math.hypot(point.x - previous.x, point.y - previous.y);
+        previous = point;
+    }
     return total;
 }
 
@@ -309,8 +316,9 @@ export class Path extends Form {
     }
 
     toSVGPath(x: number, y: number) {
-        if (this.points.length === 0) return '';
-        const start = this.toPixels(this.points[0]);
+        const first = this.points[0];
+        if (first === undefined) return '';
+        const start = this.toPixels(first);
         const segments = pathSegments(this.points, this.closed, this.smooth);
         const commands = segments.map((segment) => {
             const to = this.toPixels(segment.to);

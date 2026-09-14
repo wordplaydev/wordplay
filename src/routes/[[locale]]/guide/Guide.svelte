@@ -44,6 +44,7 @@
     import Source from '@nodes/Source';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
+    import { must } from '@util/nullable';
     import { localeGoto } from '@util/localeGoto';
     import { debounced } from '@util/debounce.svelte';
 
@@ -269,6 +270,7 @@
                 remapped.length !== history.length ||
                 remapped.some((place, index) => {
                     const before = history[index];
+                    if (before === undefined) return true;
                     return (
                         place.kind !== before.kind ||
                         (place.kind === 'concept' &&
@@ -310,13 +312,14 @@
         const section = $path[0];
         const header = $locales.getPlainText((l) => l.ui.page.guide.header);
         let label = header;
-        if (section.kind === 'section') {
+        if (section !== undefined && section.kind === 'section') {
             // Indexed by the section's own position rather than branched on, so a
             // section added to `Modes` names itself instead of falling through to
             // "code" — which is what glossary used to do.
             const which = Modes.indexOf(section.mode);
-            const mode = $locales.getPlainText(
-                (l) => l.ui.docs.mode.browse.labels[which],
+            // The labels are a positional tuple with one entry per mode.
+            const mode = $locales.getPlainText((l) =>
+                must(l.ui.docs.mode.browse.labels[which], 'a mode label'),
             );
             label =
                 section.mode === 'language'

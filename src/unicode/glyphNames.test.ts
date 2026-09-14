@@ -38,7 +38,7 @@ describe('glyph-names.txt', () => {
     test('Han has a Unihan definition and toned + toneless pinyin', () => {
         const shui = names.get('6C34'); // 水
         expect(shui).toBeDefined();
-        expect(shui?.[0].toLowerCase()).toContain('water');
+        expect(shui?.[0]?.toLowerCase()).toContain('water');
         expect(shui).toContain('shuǐ');
         expect(shui).toContain('shui');
     });

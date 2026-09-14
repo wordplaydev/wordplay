@@ -1,3 +1,5 @@
+import { isRecord } from './shared/guards.js';
+
 /**
  * How an override key from `LocalizationDexie` becomes a write into a locale
  * JSON file. Extracted from `submitLocalization` so it can be tested: the whole
@@ -60,8 +62,8 @@ export function resolveAtPath(
 ): unknown {
     let node: unknown = root;
     for (const seg of path.split('.').filter((s) => s.length > 0)) {
-        if (typeof node !== 'object' || node === null) return undefined;
-        node = (node as Record<string, unknown>)[seg];
+        if (!isRecord(node)) return undefined;
+        node = node[seg];
     }
     return node;
 }
@@ -143,17 +145,18 @@ export function setAtPath(
     const segments = path.split('.').filter((s) => s.length > 0);
     if (segments.length === 0) throw new Error(`Empty path: ${path}`);
     let node: unknown = root;
-    for (let i = 0; i < segments.length - 1; i++) {
-        if (typeof node !== 'object' || node === null)
+    for (const [i, segment] of segments.slice(0, -1).entries()) {
+        if (!isRecord(node))
             throw new Error(
                 `Cannot descend into ${segments.slice(0, i).join('.')}`,
             );
-        node = (node as Record<string, unknown>)[segments[i]];
+        node = node[segment];
     }
-    if (typeof node !== 'object' || node === null)
-        throw new Error(`Parent of ${path} is not an object`);
+    if (!isRecord(node)) throw new Error(`Parent of ${path} is not an object`);
+    // The path has at least one segment, checked above.
     const leafKey = segments[segments.length - 1];
-    const parent = node as Record<string, unknown>;
+    if (leafKey === undefined) throw new Error(`Empty path: ${path}`);
+    const parent = node;
 
     if (Array.isArray(value)) {
         if (index !== undefined)

@@ -49,18 +49,18 @@ export function buildGlyphSearch(
         const names: string[] = [];
         const keywords: string[] = [];
         for (const localeCode of localeCodes) {
-            const entry = maps[localeCode]?.[key];
-            if (entry === undefined || entry.length === 0) continue;
-            names.push(entry[0]);
-            for (const keyword of entry.slice(1)) keywords.push(keyword);
+            const [name, ...rest] = maps[localeCode]?.[key] ?? [];
+            if (name === undefined) continue;
+            names.push(name);
+            for (const keyword of rest) keywords.push(keyword);
         }
         // Non-emoji glyphs have no localized entry; fall back to the English
         // Unicode/Unihan names so they're searchable at all.
         if (names.length === 0) {
-            const entry = glyphNames?.get(key);
-            if (entry !== undefined && entry.length > 0) {
-                names.push(entry[0]);
-                for (const keyword of entry.slice(1)) keywords.push(keyword);
+            const [name, ...rest] = glyphNames?.get(key) ?? [];
+            if (name !== undefined) {
+                names.push(name);
+                for (const keyword of rest) keywords.push(keyword);
             }
         }
 

@@ -13,6 +13,7 @@
         getSelectedOutput,
     } from '@components/project/Contexts';
     import Slider from '@components/widgets/Slider.svelte';
+    import { must } from '@util/nullable';
 
     interface Props {
         property: OutputProperty;
@@ -53,7 +54,11 @@
     max={range.max}
     unit={range.unit}
     increment={range.step}
-    tip={() => getFirstText($locales.getTextStructure(property.name))}
+    tip={() =>
+        must(
+            getFirstText($locales.getTextStructure(property.name)),
+            "the property's name",
+        )}
     start={() => selection?.setAdjusting(true)}
     change={handleChange}
     release={() => selection?.setAdjusting(false)}

@@ -15,9 +15,9 @@ import { expect, test } from 'vitest';
  * `@Volume` on the landing page read "Volume" in all 29 translated locales.
  */
 
-const Marathi = JSON.parse(
+const Marathi: LocaleText = JSON.parse(
     fs.readFileSync('static/locales/mr-IN/mr-IN.json', 'utf8'),
-) as LocaleText;
+);
 
 test('a concept resolves in each of the four sections', () => {
     // One per section, so a section dropped from the walk fails here.
@@ -67,7 +67,7 @@ test('a basis name is a list, and its symbol is not the name', () => {
 test('an unwritten name does not stop the locale chain', () => {
     // `$?` is the English placeholder; a caller walking locales must fall
     // through it, the same way `getNameLocales` filters it out at runtime.
-    const unwritten = JSON.parse(JSON.stringify(Marathi)) as LocaleText;
+    const unwritten: LocaleText = structuredClone(Marathi);
     unwritten.input.Volume.names = ['$?Volume'];
     expect(getConceptNameById(unwritten, 'Volume')).toBeUndefined();
 });

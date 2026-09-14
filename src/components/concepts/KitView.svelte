@@ -120,7 +120,7 @@
     const doc = $derived(
         source === undefined || source.expression.docs.isEmpty()
             ? undefined
-            : source.expression.docs.getPreferredLocale($locales).markup,
+            : source.expression.docs.getPreferredLocale($locales)?.markup,
     );
 
     /** The line a creator would write to use this, as a parsed borrow: the guide shows

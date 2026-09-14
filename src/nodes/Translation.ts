@@ -119,13 +119,15 @@ export default class Translation extends LanguageTagged {
     }
 
     clone(replace?: Replacement): this {
-        return new Translation(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('segments', this.segments, replace),
-            this.replaceChild('close', this.close, replace),
-            this.replaceChild('language', this.language, replace),
-            this.replaceChild('separator', this.separator, replace),
-        ) as this;
+        return this.cloned(
+            new Translation(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('segments', this.segments, replace),
+                this.replaceChild('close', this.close, replace),
+                this.replaceChild('language', this.language, replace),
+                this.replaceChild('separator', this.separator, replace),
+            ),
+        );
     }
 
     getPurpose() {
@@ -203,11 +205,13 @@ export default class Translation extends LanguageTagged {
         const text = this.getText();
         const last = text.codePointAt(text.length - 1);
         if (last !== undefined) {
-            return Translation.make(
-                text.substring(0, text.length - 1) +
-                    String.fromCodePoint(last + direction),
-                this.language,
-            ) as this;
+            return this.cloned(
+                Translation.make(
+                    text.substring(0, text.length - 1) +
+                        String.fromCodePoint(last + direction),
+                    this.language,
+                ),
+            );
         }
         return undefined;
     }

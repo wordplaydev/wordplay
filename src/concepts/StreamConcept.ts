@@ -1,4 +1,5 @@
 import type Context from '@nodes/Context';
+import { entriesOf } from '@util/nullable';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
 import { COMMA_SYMBOL } from '@parser/Symbols';
@@ -118,7 +119,7 @@ export default class StreamConcept extends Concept {
         for (const locale of locales.getLocales()) {
             const name = this.definition.names.getNonSymbolicName();
             if (name === undefined) return undefined;
-            for (const [key, text] of Object.entries(locale.input))
+            for (const [key, text] of entriesOf(locale.input))
                 if (
                     'names' in text &&
                     ((typeof text.names === 'string' &&
@@ -128,7 +129,7 @@ export default class StreamConcept extends Concept {
                                 (n) => withoutAnnotations(n) === name,
                             )))
                 )
-                    return key as CharacterName;
+                    return key;
         }
         return undefined;
     }

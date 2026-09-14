@@ -7,6 +7,13 @@ const Arrangement = {
     Free: 'free',
 } as const;
 
+const ArrangementValues: readonly string[] = Object.values(Arrangement);
+
+/** Whether a stored value names an arrangement. */
+export function isArrangement(value: string): value is ArrangementType {
+    return ArrangementValues.includes(value);
+}
+
 export type ArrangementType = (typeof Arrangement)[keyof typeof Arrangement];
 
 /** The arrangements in the order their labels and tips appear in

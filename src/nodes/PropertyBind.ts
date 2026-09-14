@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import { allDefined } from '@util/nullable';
 import InvalidProperty from '@conflicts/InvalidProperty';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -50,7 +51,7 @@ export default class PropertyBind extends Expression {
     }
 
     static make(reference: PropertyReference, value: Expression) {
-        return new PropertyBind(reference, new BindToken(), value);
+        return new PropertyBind(reference, BindToken(), value);
     }
 
     /** Offer to turn a property reference into a property bind, and offer a template wherever
@@ -94,11 +95,13 @@ export default class PropertyBind extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new PropertyBind(
-            this.replaceChild('reference', this.reference, replace),
-            this.replaceChild('bind', this.bind, replace),
-            this.replaceChild('value', this.value, replace),
-        ) as this;
+        return this.cloned(
+            new PropertyBind(
+                this.replaceChild('reference', this.reference, replace),
+                this.replaceChild('bind', this.bind, replace),
+                this.replaceChild('value', this.value, replace),
+            ),
+        );
     }
 
     getPurpose() {
@@ -189,13 +192,12 @@ export default class PropertyBind extends Expression {
                 : subject.resolve(input.names),
         );
 
-        if (values.includes(undefined))
-            return new ValueException(evaluator, this);
+        if (!allDefined(values)) return new ValueException(evaluator, this);
 
         const bindings = buildBindings(
             evaluator,
             definition.inputs,
-            values as Value[],
+            values,
             this,
         );
         if (bindings instanceof ExceptionValue) return bindings;

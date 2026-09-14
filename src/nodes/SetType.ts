@@ -34,7 +34,7 @@ export default class SetType extends BasisType {
     }
 
     static make(key?: Type) {
-        return new SetType(new SetOpenToken(), key, new SetCloseToken());
+        return new SetType(SetOpenToken(), key, SetCloseToken());
     }
 
     static getPossibleReplacements({ node }: ReplaceContext) {
@@ -65,18 +65,18 @@ export default class SetType extends BasisType {
     }
 
     clone(replace?: Replacement) {
-        return new SetType(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('key', this.key, replace),
-            this.replaceChild('close', this.close, replace),
-        ) as this;
+        return this.cloned(
+            new SetType(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('key', this.key, replace),
+                this.replaceChild('close', this.close, replace),
+            ),
+        );
     }
 
     computeConflicts(): Conflict[] {
         if (this.close === undefined)
-            return [
-                new UnclosedDelimiter(this, this.open, new SetCloseToken()),
-            ];
+            return [new UnclosedDelimiter(this, this.open, SetCloseToken())];
         return [];
     }
 

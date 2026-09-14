@@ -11,6 +11,15 @@
  * getBoundingClientRect measurements as statements render.
  */
 
+import { must } from '@util/nullable';
+
+/** An entry of one of this module's own index arrays. Every index passed here is
+ *  derived from that array's own length — a binary-search bound, or a slot index
+ *  already clamped to the slot count — so an absent entry is impossible. */
+function at(values: number[], index: number): number {
+    return must(values[index], `entry ${index}`);
+}
+
 /** Master switch for the text-mode windowing, currently ON while it stabilizes;
  *  if it proves contentious it can become a setting. */
 export const WINDOWING_ENABLED = true;
@@ -42,7 +51,7 @@ export function lineAt(starts: number[], offset: number): number {
     let hi = starts.length - 1;
     while (lo < hi) {
         const mid = (lo + hi + 1) >> 1;
-        if (starts[mid] <= offset) lo = mid;
+        if (at(starts, mid) <= offset) lo = mid;
         else hi = mid - 1;
     }
     return lo;
@@ -68,8 +77,7 @@ export function estimateSlotHeights(
 ): number[] {
     const firstLines = statementFirstOffsets.map((o) => lineAt(starts, o));
     return firstLines.map((line, i) => {
-        const nextLine =
-            i + 1 < firstLines.length ? firstLines[i + 1] : lastContentLine;
+        const nextLine = firstLines[i + 1] ?? lastContentLine;
         return Math.max(1, nextLine - line) * lineHeight;
     });
 }
@@ -128,10 +136,12 @@ export type WindowRange = {
  * search over it rather than an O(n) scan and allocation.
  */
 export function prefixSums(heights: number[]): number[] {
-    const prefix = new Array<number>(heights.length + 1);
-    prefix[0] = 0;
-    for (let i = 0; i < heights.length; i++)
-        prefix[i + 1] = prefix[i] + heights[i];
+    const prefix = [0];
+    let sum = 0;
+    for (const height of heights) {
+        sum += height;
+        prefix.push(sum);
+    }
     return prefix;
 }
 
@@ -144,7 +154,7 @@ function slotAt(prefix: number[], x: number): number {
     let hi = prefix.length - 1;
     while (lo < hi) {
         const mid = (lo + hi + 1) >> 1;
-        if (prefix[mid] <= x) lo = mid;
+        if (at(prefix, mid) <= x) lo = mid;
         else hi = mid - 1;
     }
     return lo;
@@ -156,7 +166,7 @@ function slotBefore(prefix: number[], x: number): number {
     let hi = prefix.length - 1;
     while (lo < hi) {
         const mid = (lo + hi + 1) >> 1;
-        if (prefix[mid] < x) lo = mid;
+        if (at(prefix, mid) < x) lo = mid;
         else hi = mid - 1;
     }
     return lo;
@@ -184,7 +194,7 @@ export function computeWindow(
 
     const top = scrollTop - bufferAbove;
     const bottom = scrollTop + viewportHeight + bufferBelow;
-    const total = prefix[n];
+    const total = at(prefix, n);
 
     // Scrolled past all content (or degenerate): render one anchor statement so
     // the window is never empty (keeps the caret/measurement path alive).
@@ -193,8 +203,8 @@ export function computeWindow(
         return {
             first: i,
             last: i,
-            topHeight: prefix[i],
-            bottomHeight: total - prefix[i + 1],
+            topHeight: at(prefix, i),
+            bottomHeight: total - at(prefix, i + 1),
         };
     }
 
@@ -211,16 +221,16 @@ export function computeWindow(
         return {
             first: i,
             last: i,
-            topHeight: prefix[i],
-            bottomHeight: total - prefix[i + 1],
+            topHeight: at(prefix, i),
+            bottomHeight: total - at(prefix, i + 1),
         };
     }
 
     return {
         first,
         last,
-        topHeight: prefix[first],
-        bottomHeight: total - prefix[last + 1],
+        topHeight: at(prefix, first),
+        bottomHeight: total - at(prefix, last + 1),
     };
 }
 
@@ -245,7 +255,7 @@ export function unionWindow(
     return {
         first: f,
         last: l,
-        topHeight: prefix[f],
-        bottomHeight: prefix[n] - prefix[l + 1],
+        topHeight: at(prefix, f),
+        bottomHeight: at(prefix, n) - at(prefix, l + 1),
     };
 }

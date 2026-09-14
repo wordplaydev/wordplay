@@ -1,4 +1,5 @@
 import { getFirestore } from 'firebase-admin/firestore';
+import { isRecord, must } from './shared/guards.js';
 import { foldUsername, isValidUsername } from './username.js';
 
 /**
@@ -36,6 +37,20 @@ export type Handle = {
     emailEligibleOn?: number;
 };
 
+/** Whether a stored document is a handle. A field the type lists as optional
+ *  may be absent, never wrong-typed. */
+export function isHandle(value: unknown): value is Handle {
+    return (
+        isRecord(value) &&
+        value.v === 1 &&
+        typeof value.username === 'string' &&
+        typeof value.folded === 'string' &&
+        typeof value.claimed === 'number' &&
+        (value.emailEligibleOn === undefined ||
+            typeof value.emailEligibleOn === 'number')
+    );
+}
+
 export type Reservation = {
     v: 1;
     /** The holder, or null while an account is being created for it, or once
@@ -57,6 +72,21 @@ export type Reservation = {
      */
     supersededBy?: string;
 };
+
+/** Whether a stored document is a username reservation. */
+export function isReservation(value: unknown): value is Reservation {
+    return (
+        isRecord(value) &&
+        value.v === 1 &&
+        (typeof value.uid === 'string' || value.uid === null) &&
+        typeof value.username === 'string' &&
+        typeof value.claimed === 'number' &&
+        (value.retiredAt === undefined ||
+            typeof value.retiredAt === 'number') &&
+        (value.supersededBy === undefined ||
+            typeof value.supersededBy === 'string')
+    );
+}
 
 export type ClaimResult =
     | 'claimed'
@@ -142,9 +172,8 @@ export async function releaseReservation(username: string): Promise<void> {
         .doc(foldUsername(username));
     await db
         .runTransaction(async (transaction) => {
-            const stored = (await transaction.get(reservation)).data() as
-                Reservation | undefined;
-            if (stored === undefined) return;
+            const stored = (await transaction.get(reservation)).data();
+            if (!isReservation(stored)) return;
             if (stored.uid !== null || stored.retiredAt !== undefined) return;
             transaction.delete(reservation);
         })
@@ -178,12 +207,11 @@ export async function unassignUsername(
         .doc(foldUsername(username));
     await db
         .runTransaction(async (transaction) => {
-            const stored = (await transaction.get(reservation)).data() as
-                Reservation | undefined;
+            const stored = (await transaction.get(reservation)).data();
             // Only our own hold, and never a tombstone: between the failure and
             // this cleanup the name may have become somebody else's.
             if (
-                stored !== undefined &&
+                isReservation(stored) &&
                 stored.retiredAt === undefined &&
                 (stored.uid === null || stored.uid === uid)
             )
@@ -215,15 +243,15 @@ export async function claimUsername(
     const handle = db.collection(HandleCollection).doc(uid);
 
     return db.runTransaction(async (transaction) => {
-        const [existingName, existingHandle] = await transaction.getAll(
-            reservation,
-            handle,
-        );
-        const held = existingHandle.data() as Handle | undefined;
-        if (held !== undefined && held.folded !== folded) return 'held';
+        const snapshots = await transaction.getAll(reservation, handle);
+        // getAll answers one snapshot per reference, in the order asked.
+        const existingName = must(snapshots[0], 'the reservation snapshot');
+        const existingHandle = must(snapshots[1], 'the handle snapshot');
+        const held = existingHandle.data();
+        if (isHandle(held) && held.folded !== folded) return 'held';
 
-        const taken = existingName.data() as Reservation | undefined;
-        if (taken !== undefined && taken.uid !== uid) return 'taken';
+        const taken = existingName.data();
+        if (isReservation(taken) && taken.uid !== uid) return 'taken';
 
         const now = Date.now();
         transaction.set(reservation, {
@@ -294,7 +322,8 @@ export async function getHandle(uid: string): Promise<Handle | undefined> {
         .collection(HandleCollection)
         .doc(uid)
         .get();
-    return snapshot.exists ? (snapshot.data() as Handle) : undefined;
+    const data = snapshot.data();
+    return isHandle(data) ? data : undefined;
 }
 
 /** Handles for several uids at once, in one read. */
@@ -307,8 +336,8 @@ export async function getHandles(uids: string[]): Promise<Map<string, Handle>> {
     );
     for (const [index, snapshot] of snapshots.entries()) {
         const uid = uids[index];
-        if (snapshot.exists && uid !== undefined)
-            found.set(uid, snapshot.data() as Handle);
+        const data = snapshot.data();
+        if (uid !== undefined && isHandle(data)) found.set(uid, data);
     }
     return found;
 }

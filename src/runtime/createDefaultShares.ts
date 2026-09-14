@@ -65,6 +65,7 @@ import { createStageType } from '@output/Output/Stage';
 import { createThingType } from '@output/Thing/Thing';
 import { createVelocityType } from '@output/physics/Velocity';
 import { createReactionDefinition } from '@values/ReactionStream';
+import { must } from '@util/nullable';
 
 export default function createDefaultShares(locales: Locales) {
     const OutputType = createOutputType(locales);
@@ -91,13 +92,21 @@ export default function createDefaultShares(locales: Locales) {
     // Warn (with city-matched suggestions) when a literal time zone isn't a
     // known IANA zone, via the same per-definition analyzer registry Phrase
     // uses for font checks above.
+    // Both indices name an input this file's own definitions declare.
     registerEvaluateAnalyzer(
         MomentType,
-        createTimeZoneAnalyzer(MomentType.inputs[MomentTimezoneIndex]),
+        createTimeZoneAnalyzer(
+            must(
+                MomentType.inputs[MomentTimezoneIndex],
+                "Moment's time zone input",
+            ),
+        ),
     );
     registerEvaluateAnalyzer(
         NowType,
-        createTimeZoneAnalyzer(NowType.inputs[NowTimezoneIndex]),
+        createTimeZoneAnalyzer(
+            must(NowType.inputs[NowTimezoneIndex], "Now's time zone input"),
+        ),
     );
 
     const OutputTypes = {

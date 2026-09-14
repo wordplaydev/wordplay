@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import { toResolutions } from '@conflicts/Conflict';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import Expression from '@nodes/Expression';
@@ -13,7 +14,6 @@ import type Locales from '@locale/Locales';
 import Conflict, {
     ConflictSeverity,
     type Repair,
-    type Resolution,
     type Resolutions,
 } from '@conflicts/Conflict';
 import Bind from '@nodes/Bind';
@@ -65,9 +65,10 @@ export class UnparsableConflict extends Conflict {
         const repairs = this.getLikelyIntentions(nodes);
         // Fall back to the synthesised explainer when inference produces zero
         // candidates — preserves the non-empty Resolutions invariant.
-        return repairs.length === 0
-            ? Conflict.fallbackExplainer(this, _context, nodes)
-            : (repairs as readonly Resolution[] as Resolutions);
+        return (
+            toResolutions(repairs) ??
+            Conflict.fallbackExplainer(this, _context, nodes)
+        );
     }
 
     getLocalePath() {
@@ -171,6 +172,7 @@ export class UnparsableConflict extends Conflict {
         const grammar = template.getGrammar();
         for (let index = 0; index < grammar.length; index++) {
             const field = grammar[index];
+            if (field === undefined) continue;
             const isSpecificToken =
                 (field.kind instanceof IsA &&
                     typeof field.kind.kind !== 'function') ||

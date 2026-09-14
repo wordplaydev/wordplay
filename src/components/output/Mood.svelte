@@ -149,6 +149,9 @@
         const deform = deformOf(mood, pulse);
 
         for (let lobe = 0; lobe < Lobes; lobe++) {
+            // A lobe with no share of the ink has nothing to draw.
+            const radius = radii[lobe];
+            if (radius === undefined) continue;
             const centre = lobeCentre(mood, pulse, lobe);
             const colour = lobeColor(mood, pulse, lobe);
             const cx = centre.x * BackingWidth;
@@ -161,7 +164,7 @@
                 const theta = (v / Vertices) * Math.PI * 2;
                 const r =
                     lobeRadius(
-                        radii[lobe],
+                        radius,
                         deform,
                         pulse.harmonics,
                         pulse.phases,
@@ -174,7 +177,7 @@
             }
             context.closePath();
 
-            const reach = radii[lobe] * scale * 1.25;
+            const reach = radius * scale * 1.25;
             const gradient = context.createRadialGradient(
                 cx,
                 cy,

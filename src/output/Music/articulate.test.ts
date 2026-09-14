@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { articulate, assignWords } from '@output/Music/articulate';
+import { last, must } from '@util/nullable';
 
 /** Notes, written as the degrees they sound; an empty list is a rest. */
 function notes(...degrees: number[][]) {
@@ -91,15 +92,16 @@ describe('laying a syllable across a note', () => {
     function tiles(words: string | undefined, seconds: number) {
         const segments = articulate(words, seconds);
         expect(segments.length).toBeGreaterThan(0);
-        expect(segments[0].at).toBe(0);
+        expect(segments[0]?.at).toBe(0);
         segments.forEach((segment, index) => {
             expect(segment.seconds).toBeGreaterThan(0);
             const next = segments[index + 1];
             if (next !== undefined)
                 expect(next.at).toBeCloseTo(segment.at + segment.seconds, 6);
         });
-        const last = segments[segments.length - 1];
-        expect(last.at + last.seconds).toBeCloseTo(seconds, 6);
+        // The length was asserted above, so there is a final segment.
+        const final = must(last(segments), 'a final segment');
+        expect(final.at + final.seconds).toBeCloseTo(seconds, 6);
         return segments;
     }
 
@@ -108,7 +110,7 @@ describe('laying a syllable across a note', () => {
         // from a broken instrument.
         const segments = tiles(undefined, 0.5);
         expect(segments).toHaveLength(1);
-        expect(segments[0].voiced).toBe(true);
+        expect(segments[0]?.voiced).toBe(true);
     });
 
     test('an unrecognizable lyric still sings', () => {
@@ -118,20 +120,32 @@ describe('laying a syllable across a note', () => {
     test('a long note is a long vowel, not a slow word', () => {
         const short = tiles('la', 0.4);
         const long = tiles('la', 2);
-        // The l takes the same time in both; only the vowel grows.
-        expect(long[0].seconds).toBeCloseTo(short[0].seconds, 6);
-        expect(long[1].seconds).toBeGreaterThan(short[1].seconds * 3);
+        // The l takes the same time in both; only the vowel grows. Both
+        // layouts are an l then a vowel, so both have two segments.
+        expect(must(long[0], 'the long l').seconds).toBeCloseTo(
+            must(short[0], 'the short l').seconds,
+            6,
+        );
+        expect(must(long[1], 'the long vowel').seconds).toBeGreaterThan(
+            must(short[1], 'the short vowel').seconds * 3,
+        );
     });
 
     test('the vowels share whatever the consonants leave', () => {
         const segments = tiles('lala', 1);
         const vowels = segments.filter((segment) => segment.seconds > 0.2);
         expect(vowels).toHaveLength(2);
-        expect(vowels[0].seconds).toBeCloseTo(vowels[1].seconds, 6);
+        expect(must(vowels[0], 'the first vowel').seconds).toBeCloseTo(
+            must(vowels[1], 'the second vowel').seconds,
+            6,
+        );
     });
 
     test('a stop is silence and then a burst', () => {
-        const [closure, burst] = tiles('ta', 0.6);
+        const [opening, released] = tiles('ta', 0.6);
+        // A `t` lays out as a closure and then a burst.
+        const closure = must(opening, 'the closure');
+        const burst = must(released, 'the burst');
         expect(closure.gain).toBe(0);
         expect(burst.gain).toBeGreaterThan(0);
         expect(burst.noise).toBe(1);
@@ -155,7 +169,7 @@ describe('laying a syllable across a note', () => {
         // Humming an m is ordinary; it must not click and stop.
         const segments = tiles('m', 1);
         expect(segments).toHaveLength(1);
-        expect(segments[0].seconds).toBeCloseTo(1, 6);
+        expect(segments[0]?.seconds).toBeCloseTo(1, 6);
     });
 
     test('a note too short for its consonants compresses rather than truncates', () => {
@@ -168,9 +182,10 @@ describe('laying a syllable across a note', () => {
         const plain = articulate('la', 0.5);
         const stressed = articulate('ˈla', 0.5);
         expect(stressed).toHaveLength(plain.length);
-        expect(Math.abs(stressed[1].gain)).toBeGreaterThan(
-            Math.abs(plain[1].gain),
-        );
+        // Both lay out as an l then a vowel, and the vowel carries the stress.
+        expect(
+            Math.abs(must(stressed[1], 'the stressed vowel').gain),
+        ).toBeGreaterThan(Math.abs(must(plain[1], 'the plain vowel').gain));
     });
 
     test('a trill beats and a vowel does not', () => {
@@ -184,8 +199,8 @@ describe('laying a syllable across a note', () => {
 
     test('a nasal carries its zero and the vowel after it does not', () => {
         const [nasal, vowel] = articulate('ma', 0.5);
-        expect(nasal.antiformant).toBeDefined();
-        expect(vowel.antiformant).toBeUndefined();
+        expect(nasal?.antiformant).toBeDefined();
+        expect(vowel?.antiformant).toBeUndefined();
     });
 
     test('the shortest possible note still produces a segment', () => {

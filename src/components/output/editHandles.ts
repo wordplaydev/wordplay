@@ -4,6 +4,7 @@ import Evaluate from '@nodes/Evaluate';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Unit from '@nodes/Unit';
 import { scaleForm } from '@edit/output/editShape';
+import { must } from '@util/nullable';
 
 /**
  * Type-dispatched revisions for on-stage rotate/resize handles, shared by the continuous drag
@@ -57,11 +58,13 @@ export function resizedOutput(
 ): Evaluate | undefined {
     const Shape = project.shares.output.Shape;
     if (output.is(Shape, context)) {
-        const form = output.getInput(Shape.inputs[0], context);
+        // The basis declares Shape's form input.
+        const formInput = must(Shape.inputs[0], "Shape's form input");
+        const form = output.getInput(formInput, context);
         if (!(form instanceof Evaluate)) return undefined;
         const newForm = scaleForm(project, form, context, ratio);
         return newForm
-            ? output.withBindAs(Shape.inputs[0], newForm, context)
+            ? output.withBindAs(formInput, newForm, context)
             : undefined;
     }
     const bind = output.is(project.shares.output.Phrase, context)

@@ -27,6 +27,7 @@ import {
 } from './howToDocument';
 import { SupportedLocales } from '@locale/SupportedLocales';
 import deferToIdle from '@util/deferToIdle';
+import { matchGroups, must } from '@util/nullable';
 import { FirebaseError } from 'firebase/app';
 import {
     and,
@@ -211,6 +212,23 @@ export type HowToUnknownVersion =
     | HowToMislabelledV4
     | HowToDocument;
 
+/** Every version a stored how-to document may have. A mislabelled v4 parses
+ *  as v4, since every field v4 added has a default. */
+const HowToUnknownVersionSchema = z.union([
+    HowToSchemaV4,
+    HowToSchemaV3,
+    HowToSchemaV2,
+    HowToSchemaV1,
+]);
+
+/** A stored how-to of any known version, or undefined if the data is not one. */
+export function parseUnknownHowTo(
+    data: unknown,
+): HowToUnknownVersion | undefined {
+    const result = HowToUnknownVersionSchema.safeParse(data);
+    return result.success ? result.data : undefined;
+}
+
 export function upgradeHowTo(howTo: HowToUnknownVersion): HowToDocument {
     switch (howTo.v) {
         case 1:
@@ -343,13 +361,15 @@ export default class HowTo {
     static titleInLocale(
         title: string,
         locale: string,
-        backupLocale: string,
+        /** Absent when the how-to declares no locales, which finds nothing, as before. */
+        backupLocale: string | undefined,
     ): string {
         const titleMap = HowTo.markupToMapHelper(title);
         let nameInLocale: string | undefined = titleMap.get(locale);
         if (nameInLocale) return nameInLocale;
 
-        let nameInBackupLocale: string | undefined = titleMap.get(backupLocale);
+        let nameInBackupLocale: string | undefined =
+            backupLocale === undefined ? undefined : titleMap.get(backupLocale);
         if (nameInBackupLocale) return nameInBackupLocale;
         else return ''; // fall back to an empty title
     }
@@ -364,13 +384,16 @@ export default class HowTo {
 
     /** Get text in the specified locale. If no text is available for that locale, fall back to the first locale */
     getTextInLocale(locale: string): string[] {
-        if (!this.getLocales().includes(locale)) {
-            locale = this.getLocales()[0]; // fall back to the first locale if the requested one isn't available
-        }
+        // Fall back to the first locale if the requested one isn't available; a
+        // how-to with no locales has no fallback, which then finds nothing, as before.
+        const chosen: string | undefined = this.getLocales().includes(locale)
+            ? locale
+            : this.getLocales()[0];
 
         return this.data.text.map((text: string) => {
             let map = HowTo.markupToMapHelper(text);
-            let textInLocale: string | undefined = map.get(locale);
+            let textInLocale: string | undefined =
+                chosen === undefined ? undefined : map.get(chosen);
             if (textInLocale) return textInLocale;
             else return '';
         });
@@ -395,10 +418,12 @@ export default class HowTo {
             map.set('en-US', markup);
         } else {
             stringAndLocale.forEach((match) => {
-                let locale: string = match[2];
-                let text: string = match[1];
-
-                map.set(locale, text);
+                // Both groups are mandatory in the pattern above, so a match has them.
+                const [, text, locale] = matchGroups(match);
+                map.set(
+                    must(locale, 'a locale in a how-to markup match'),
+                    must(text, 'text in a how-to markup match'),
+                );
             });
         }
 
@@ -1081,12 +1106,10 @@ export class HowToDatabase {
             );
 
             if (howToDoc.exists()) {
-                const remoteHowTo = howToDoc.data();
+                const remoteHowTo = parseUnknownHowTo(howToDoc.data());
                 if (remoteHowTo === undefined) return undefined;
 
-                const newHowTo = new HowTo(
-                    upgradeHowTo(remoteHowTo as HowToUnknownVersion),
-                );
+                const newHowTo = new HowTo(upgradeHowTo(remoteHowTo));
                 // Update the doc locally but do not persist, we already know it's in the database
                 this.updateHowTo(newHowTo, false);
                 // Nothing subscribes to this document, so exempt it from the
@@ -1610,10 +1633,13 @@ export class HowToDatabase {
             // though — there is then nothing to replay, and holding authority
             // would blind the how-to to every later snapshot.
             if (this.isLocallyAuthoritative(doc.id)) return;
+            const stored = parseUnknownHowTo(howto);
+            if (stored === undefined) {
+                console.error(`How-to ${doc.id} matched no known version`);
+                return;
+            }
             try {
-                const upgraded: HowToDocument = upgradeHowTo(
-                    howto as HowToUnknownVersion,
-                );
+                const upgraded: HowToDocument = upgradeHowTo(stored);
                 HowToSchema.parse(upgraded);
                 const howTo = new HowTo(upgraded);
                 this.updateHowTo(howTo, false);

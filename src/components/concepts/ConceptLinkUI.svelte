@@ -192,10 +192,6 @@
             : undefined,
     );
 
-    let isConceptGalleryHow: boolean = $derived(
-        concept instanceof GalleryHowConcept,
-    );
-
     let user = getUser();
 
     let longName: string = $derived(concept?.getName($locales, false) ?? '');
@@ -279,7 +275,7 @@
     newline here is a text node, and it renders as a space in front of every
     link, bookmarked or not. In prose HTML collapses it, but the editor renders
     code with `white-space: pre`, where it shows as `for a  @Phrase`. The space
-    the bookmark needs lives inside its own branch. -->{#if isConceptGalleryHow && (concept as GalleryHowConcept).howTo.hasBookmarker($user?.uid ?? '')}<MarkupHTMLView
+    the bookmark needs lives inside its own branch. -->{#if concept instanceof GalleryHowConcept && concept.howTo.hasBookmarker($user?.uid ?? '')}<MarkupHTMLView
             inline
             markup={'🔖'}
         />{' '}{/if}<button

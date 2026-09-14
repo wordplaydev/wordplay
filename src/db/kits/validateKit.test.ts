@@ -1,4 +1,5 @@
 import Source from '@nodes/Source';
+import { must } from '@util/nullable';
 import { expect, test } from 'vitest';
 import { kitExports } from '@nodes/publishedShare';
 import { canPublishKit, checkKit, exportName } from './validateKit';
@@ -70,7 +71,9 @@ test('a shared conversion is an export, and needs docs', () => {
     const source = new Source('units', `↑ → #kitty #cat ⬚ ÷ 2`);
     expect(kitExports(source)).toHaveLength(1);
     // A conversion has no name at all, so it reports as its own arrow.
-    expect(exportName(kitExports(source)[0])).toContain('→');
+    expect(exportName(must(kitExports(source)[0], 'the one export'))).toContain(
+        '→',
+    );
     expect(readiness(`↑ → #kitty #cat ⬚ ÷ 2`)).toContain('UndocumentedShare');
 });
 
@@ -78,7 +81,7 @@ test('a doc touching the first export documents it (#1374)', () => {
     // Documentation written for the first definition in a source used to land on the
     // program instead, leaving that definition with no way to be documented at all.
     const source = new Source('colors', documented);
-    expect(kitExports(source)[0].docs.isEmpty()).toBe(false);
+    expect(kitExports(source)[0]?.docs.isEmpty()).toBe(false);
     expect(source.expression.docs.isEmpty()).toBe(true);
     expect(readiness(documented)).toEqual([]);
 });

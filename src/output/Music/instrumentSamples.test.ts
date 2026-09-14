@@ -1,6 +1,7 @@
 import { expect, test } from 'vitest';
 import samples from '@output/Music/InstrumentSamples';
 import { Zones } from '@output/Music/samples.generated';
+import { must } from '@util/nullable';
 
 /** Wait for the loader to say something, or give up. */
 function settled(done: () => boolean): Promise<void> {
@@ -21,12 +22,13 @@ function settled(done: () => boolean): Promise<void> {
 
 test('an instrument that has finished downloading is no longer loading', async () => {
     // Any sampled instrument; the state machine is the same for all of them.
-    const instrument = Object.keys(Zones)[0];
-    expect(instrument, 'no sampled instruments to test with').toBeDefined();
+    const sampled = Object.keys(Zones)[0];
+    expect(sampled, 'no sampled instruments to test with').toBeDefined();
+    const instrument = must(sampled, 'a sampled instrument');
 
     const original = globalThis.fetch;
-    globalThis.fetch = (async () =>
-        new Response(new ArrayBuffer(8), { status: 200 })) as typeof fetch;
+    globalThis.fetch = async () =>
+        new Response(new ArrayBuffer(8), { status: 200 });
     try {
         samples.request(instrument);
         // In flight, which is worth telling a creator about.
@@ -49,10 +51,12 @@ test('an instrument that has finished downloading is no longer loading', async (
 });
 
 test('an instrument whose files are all missing falls back to synthesis', async () => {
-    const instrument = Object.keys(Zones)[1] ?? Object.keys(Zones)[0];
+    const instrument = must(
+        Object.keys(Zones)[1] ?? Object.keys(Zones)[0],
+        'a sampled instrument',
+    );
     const original = globalThis.fetch;
-    globalThis.fetch = (async () =>
-        new Response(null, { status: 404 })) as typeof fetch;
+    globalThis.fetch = async () => new Response(null, { status: 404 });
     try {
         samples.request(instrument);
         await settled(() => samples.failedInstruments().includes(instrument));

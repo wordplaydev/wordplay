@@ -34,6 +34,7 @@ import type Sequence from '@output/animation/Sequence';
 import Shape from '@output/Output/Shape/Shape';
 import { getTypeStyle, toOutput, toOutputList } from '@output/Output/toOutput';
 import { getOutputInput } from '@output/Output/Valued';
+import { must } from '@util/nullable';
 
 export const DefaultGravity = 9.8;
 
@@ -61,7 +62,7 @@ export function createStageType(locales: Locales) {
     ${getBind(
         locales,
         (locale) => locale.output.Stage.face,
-    )}•${SupportedFontsFamiliesType}: "${locales.getLocales()[0].ui.font.app}"
+    )}•${SupportedFontsFamiliesType}: "${locales.getLocale().ui.font.app}"
     ${getBind(locales, (locale) => locale.output.Stage.place)}•📍|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.name)}•""|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.description)}•""|ø: ø
@@ -491,7 +492,8 @@ function toStageBuilder(
             background,
             frame,
             size ?? DefaultSize,
-            font ?? evaluator.getLocales()[0].ui.font.app,
+            // `getLocales` always ends with the default locale, so there is one.
+            font ?? must(evaluator.getLocales()[0], 'a locale').ui.font.app,
             place,
             stageName,
             description,
@@ -616,11 +618,12 @@ function wrapInStage(
         new Color(value, new Decimal(1), new Decimal(0), new Decimal(0)),
         undefined,
         DefaultSize,
-        evaluator.getLocales()[0].ui.font.app,
+        must(evaluator.getLocales()[0], 'a locale').ui.font.app,
         undefined,
         namer.getName(undefined, value),
         undefined,
-        (visible ?? children[0]).selectable,
+        // `toStage` returns before wrapping nothing, so there is a child.
+        (visible ?? must(children[0], 'a child')).selectable,
         new DefinitePose(
             value,
             new Color(value, new Decimal(0), new Decimal(0), new Decimal(0)),

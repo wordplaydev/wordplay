@@ -1,4 +1,5 @@
 import { getAuth } from 'firebase-admin/auth';
+import { fieldOf, isStringArray } from './shared/guards.js';
 import {
     FieldValue,
     getFirestore,
@@ -99,15 +100,15 @@ export default async function moderate(
     const now = Date.now();
 
     // What the report is holding, so keeping the message can put it back.
-    const held =
+    const heldReport =
         kind === 'chat' && message !== undefined
-            ? (
-                  await db
-                      .collection(ReportsCollection)
-                      .doc(`chat:${subject}:${message}`)
-                      .get()
-              ).get('text')
+            ? await db
+                  .collection(ReportsCollection)
+                  .doc(`chat:${subject}:${message}`)
+                  .get()
             : undefined;
+    const held =
+        heldReport === undefined ? undefined : fieldOf(heldReport, 'text');
 
     // Only a platform moderator's decision is a listing decision; a curator's
     // is a takedown. Captured rather than recomputed, because it is also what
@@ -155,11 +156,12 @@ export default async function moderate(
     };
     const reporters = new Set<string>();
     for (const report of open.docs) {
-        if (message !== undefined && report.get('message') !== message)
+        if (message !== undefined && fieldOf(report, 'message') !== message)
             continue;
         // v1 named a single `reporter`; v2 keeps a list.
-        for (const who of report.get('reporters') ?? []) reporters.add(who);
-        const lone = report.get('reporter');
+        const listed = fieldOf(report, 'reporters');
+        if (isStringArray(listed)) for (const who of listed) reporters.add(who);
+        const lone = fieldOf(report, 'reporter');
         if (typeof lone === 'string') reporters.add(lone);
         await report.ref.update({
             resolved: true,

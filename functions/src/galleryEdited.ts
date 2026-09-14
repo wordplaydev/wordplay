@@ -1,4 +1,5 @@
 import { foldWords, sameWords } from './searchWords.js';
+import { fieldOf, isRecord, isStringArray } from './shared/guards.js';
 import { nextModeration } from './moderationRequest.js';
 import type {
     DocumentReference,
@@ -86,17 +87,19 @@ export function howToViewersChanged(
     stored: Record<string, unknown>,
     derived: HowToViewers,
 ): boolean {
-    const canonical = (viewers: Record<string, string[]>) =>
+    const canonical = (viewers: Record<string, unknown>) =>
         JSON.stringify(
             Object.keys(viewers)
                 .sort()
                 .map((key) => [key, viewers[key]]),
         );
     return (
-        canonical((stored.howToViewers as Record<string, string[]>) ?? {}) !==
+        canonical(isRecord(stored.howToViewers) ? stored.howToViewers : {}) !==
             canonical(derived.howToViewers) ||
         !sameWords(
-            (stored.howToViewersFlat as string[]) ?? [],
+            isStringArray(stored.howToViewersFlat)
+                ? stored.howToViewersFlat
+                : [],
             derived.howToViewersFlat,
         )
     );
@@ -133,9 +136,7 @@ export function curatorsChanged(
 ): boolean {
     // A new gallery has no reports to fix up, so only a real change counts.
     if (before === undefined) return false;
-    const was = [...((before.curators as string[]) ?? [])].sort();
-    const now = [...((after.curators as string[]) ?? [])].sort();
-    return JSON.stringify(was) !== JSON.stringify(now);
+    return !sameIdList(before.curators, after.curators);
 }
 
 export function galleryContentChanged(
@@ -147,13 +148,11 @@ export function galleryContentChanged(
         JSON.stringify(before.name) !== JSON.stringify(after.name) ||
         JSON.stringify(before.description) !==
             JSON.stringify(after.description) ||
-        JSON.stringify([...((before.projects as string[]) ?? [])].sort()) !==
-            JSON.stringify([...((after.projects as string[]) ?? [])].sort()) ||
+        !sameIdList(before.projects, after.projects) ||
         // Characters are gallery content too (#822), so adding one to an
         // approved public gallery puts it back in the queue — approval was of
         // what the gallery was.
-        JSON.stringify([...((before.characters as string[]) ?? [])].sort()) !==
-            JSON.stringify([...((after.characters as string[]) ?? [])].sort())
+        !sameIdList(before.characters, after.characters)
     );
 }
 
@@ -354,7 +353,7 @@ export default async function galleryEdited(
                               ),
                           )
                       )
-                          .map((doc) => doc.get('name'))
+                          .map((doc) => fieldOf(doc, 'name'))
                           .filter(
                               (name): name is string =>
                                   typeof name === 'string',
@@ -376,7 +375,7 @@ export default async function galleryEdited(
                               ),
                           )
                       )
-                          .map((doc) => doc.get('name'))
+                          .map((doc) => fieldOf(doc, 'name'))
                           .filter(
                               (name): name is string =>
                                   typeof name === 'string',

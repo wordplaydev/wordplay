@@ -45,10 +45,12 @@ export default class PatternQuantified extends PatternNode {
     }
 
     clone(replace?: Replacement) {
-        return new PatternQuantified(
-            this.replaceChild('quantifier', this.quantifier, replace),
-            this.replaceChild('atom', this.atom, replace),
-        ) as this;
+        return this.cloned(
+            new PatternQuantified(
+                this.replaceChild('quantifier', this.quantifier, replace),
+                this.replaceChild('atom', this.atom, replace),
+            ),
+        );
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.PatternQuantified;

@@ -86,12 +86,14 @@ export default class Branch extends Content {
     }
 
     clone(replace?: Replacement | undefined): this {
-        return new Branch(
-            this.replaceChild('mention', this.mention, replace),
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('segments', this.segments, replace),
-            this.replaceChild('close', this.close, replace),
-        ) as this;
+        return this.cloned(
+            new Branch(
+                this.replaceChild('mention', this.mention, replace),
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('segments', this.segments, replace),
+                this.replaceChild('close', this.close, replace),
+            ),
+        );
     }
 
     getPurpose() {
@@ -152,6 +154,7 @@ export default class Branch extends Content {
         // Clamp: a locale string with fewer arms than its plural rules call for
         // degrades to its last form rather than rendering nothing.
         const arm = this.arms[Math.min(index, this.arms.length - 1)];
+        if (arm === undefined) return undefined;
         const replacement = arm.concretize(locales, inputs, replacements);
 
         if (replacement) replacements.push([this, replacement]);

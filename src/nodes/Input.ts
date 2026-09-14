@@ -58,7 +58,7 @@ export default class Input extends Node {
     static make(name: Token | string, value: Expression) {
         return new Input(
             typeof name === 'string' ? new Token(name, Sym.Name) : name,
-            new BindToken(),
+            BindToken(),
             value,
             undefined,
         );
@@ -111,21 +111,28 @@ export default class Input extends Node {
         const valueType = this.value.getType(context);
         const currentName = this.name.getText();
 
-        return fun.inputs
-            .filter((bind) => {
-                if (bind.getNames().includes(currentName)) return false;
-                const expected = bind.getType(context);
-                return expected.accepts(valueType, context);
-            })
-            .map(
-                (bind) =>
-                    new Input(
-                        new Token(bind.getNames()[0], Sym.Name),
-                        this.bind,
-                        this.value,
-                        this.separator,
-                    ),
-            );
+        return (
+            fun.inputs
+                .filter((bind) => {
+                    if (bind.getNames().includes(currentName)) return false;
+                    const expected = bind.getType(context);
+                    return expected.accepts(valueType, context);
+                })
+                // A bind with no name of its own can't be suggested by name.
+                .flatMap((bind) => {
+                    const name = bind.getNames()[0];
+                    return name === undefined
+                        ? []
+                        : [
+                              new Input(
+                                  new Token(name, Sym.Name),
+                                  this.bind,
+                                  this.value,
+                                  this.separator,
+                              ),
+                          ];
+                })
+        );
     }
 
     static getPossibleInsertions({ parent, context }: InsertContext) {
@@ -222,12 +229,14 @@ export default class Input extends Node {
     }
 
     clone(replace?: Replacement) {
-        return new Input(
-            this.replaceChild('name', this.name, replace),
-            this.replaceChild('bind', this.bind, replace),
-            this.replaceChild('value', this.value, replace),
-            this.replaceChild('separator', this.separator, replace),
-        ) as this;
+        return this.cloned(
+            new Input(
+                this.replaceChild('name', this.name, replace),
+                this.replaceChild('bind', this.bind, replace),
+                this.replaceChild('value', this.value, replace),
+                this.replaceChild('separator', this.separator, replace),
+            ),
+        );
     }
 
     getPurpose() {

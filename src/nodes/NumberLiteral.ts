@@ -279,10 +279,12 @@ export default class NumberLiteral extends Literal {
     }
 
     clone(replace?: Replacement) {
-        return new NumberLiteral(
-            this.replaceChild('number', this.number, replace),
-            this.replaceChild('unit', this.unit, replace),
-        ) as this;
+        return this.cloned(
+            new NumberLiteral(
+                this.replaceChild('number', this.number, replace),
+                this.replaceChild('unit', this.unit, replace),
+            ),
+        );
     }
 
     getAffiliatedType(): BasisTypeName | undefined {
@@ -381,13 +383,15 @@ export default class NumberLiteral extends Literal {
         const amount = this.isPercent() ? 0.01 : 1;
 
         return value
-            ? (NumberLiteral.make(
-                  value
-                      .plus(direction * amount)
-                      .times(isPercent ? 100 : 1)
-                      .toString() + (isPercent ? '%' : ''),
-                  this.unit,
-              ) as this)
+            ? this.cloned(
+                  NumberLiteral.make(
+                      value
+                          .plus(direction * amount)
+                          .times(isPercent ? 100 : 1)
+                          .toString() + (isPercent ? '%' : ''),
+                      this.unit,
+                  ),
+              )
             : undefined;
     }
 }

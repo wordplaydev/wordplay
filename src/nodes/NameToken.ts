@@ -2,10 +2,10 @@ import { withoutVariationSelectors } from '@unicode/emoji';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 
-export default class NameToken extends Token {
-    constructor(name: string) {
-        // Make sure the name being constructed doesn't have any variation selectors, as that
-        // would prevent it from being matched on emojis that don't have variation selectors.
-        super(withoutVariationSelectors(name), Sym.Name);
-    }
+/** A token of this kind. A function rather than a subclass: every token is
+ *  a plain Token, so a clone stays what it was constructed as. */
+export default function NameToken(name: string): Token {
+    // Make sure the name being constructed doesn't have any variation selectors, as that
+    // would prevent it from being matched on emojis that don't have variation selectors.
+    return new Token(withoutVariationSelectors(name), Sym.Name);
 }

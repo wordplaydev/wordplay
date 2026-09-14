@@ -29,7 +29,8 @@ import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 import { toDecimal } from '@output/Output/Stage';
 import Valued, { getOutputInputs } from '@output/Output/Valued';
-import { BCTKeys, Focals, type BCTKey } from '@output/Color/BasicColors';
+import { BCTKeys, Focals, isBCTKey } from '@output/Color/BasicColors';
+import { must } from '@util/nullable';
 
 export function createColorType(locales: Locales) {
     // For each Basic Color Term, emit a `↑ <multilingual names>: 🌈(L% C
@@ -71,7 +72,8 @@ export function createColorType(locales: Locales) {
     // against it) match these input/output types. StructureType comparison is
     // by definition identity, so a bound reference to the stale instance would
     // raise a TypeException.
-    const colorName = colorDef.getNames()[0];
+    // A parsed structure definition always declares at least one name.
+    const colorName = must(colorDef.getNames()[0], "Color's name");
     const optionalColor = () =>
         UnionType.make(NameType.make(colorName), NoneType.make());
     const randomFun = createBasisFunction(
@@ -96,8 +98,11 @@ export function createColorType(locales: Locales) {
             let h: number;
             if (a === undefined) {
                 // No inputs: pick one of the basic colors at random.
-                const key =
-                    BCTKeys[Math.floor(evaluator.getRandom() * BCTKeys.length)];
+                // The index comes from the list's own length, so it is in range.
+                const key = must(
+                    BCTKeys[Math.floor(evaluator.getRandom() * BCTKeys.length)],
+                    'a basic color term',
+                );
                 const focal = Focals[key];
                 l = focal.l;
                 c = focal.c;
@@ -240,7 +245,10 @@ export function createColorType(locales: Locales) {
             // The bind's first name is the English BCT key by construction
             // (see `BCTKeys` order in `createColorType` above).
             const firstName = bind.names.getNames()[0];
-            const focal = Focals[firstName as BCTKey];
+            const focal =
+                firstName !== undefined && isBCTKey(firstName)
+                    ? Focals[firstName]
+                    : undefined;
             if (focal === undefined) continue;
             const l = new NumberValue(bind, new Decimal(focal.l));
             const c = new NumberValue(bind, new Decimal(focal.c));

@@ -86,14 +86,16 @@ export default class RangeType extends BasisType {
     }
 
     clone(replace?: Replacement) {
-        return new RangeType(
-            this.replaceChild('range', this.range, replace),
-            this.unit === undefined || this.unit instanceof Function
-                ? this.unit
-                : this.replaceChild('unit', this.unit, replace),
-            undefined,
-            this.replaceChild('none', this.none, replace),
-        ) as this;
+        return this.cloned(
+            new RangeType(
+                this.replaceChild('range', this.range, replace),
+                this.unit === undefined || this.unit instanceof Function
+                    ? this.unit
+                    : this.replaceChild('unit', this.unit, replace),
+                undefined,
+                this.replaceChild('none', this.none, replace),
+            ),
+        );
     }
 
     hasDerivedUnit() {

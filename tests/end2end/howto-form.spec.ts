@@ -21,6 +21,15 @@ import {
 /** Open the how-to space's "+" form, type a title, and save it — as a draft by
  *  default, or posted to the canvas. A fresh gallery has no guiding questions,
  *  so a title alone is a valid how-to either way. */
+/** The id of the one how-to a gallery document lists, which each of these
+ *  tests has just waited for. */
+function firstHowTo(gallery: { howTos?: unknown } | null | undefined): string {
+    const howTos = gallery?.howTos;
+    const id = Array.isArray(howTos) ? howTos[0] : undefined;
+    if (typeof id !== 'string') throw new Error('Expected one how-to');
+    return id;
+}
+
 async function createViaForm(
     page: Page,
     galleryId: string,
@@ -68,7 +77,7 @@ test.describe('how-to editor form', () => {
             galleryId,
             (d) => Array.isArray(d?.howTos) && d.howTos.length === 1,
         );
-        const howToId = (gallery?.howTos as string[])[0];
+        const howToId = firstHowTo(gallery);
         const howTo = await getTestDocument('howtos', howToId);
         expect(howTo).not.toBeNull();
         expect(howTo?.galleryId).toBe(galleryId);
@@ -151,7 +160,7 @@ test.describe('how-to editor form', () => {
             galleryId,
             (d) => Array.isArray(d?.howTos) && d.howTos.length === 1,
         );
-        const howToId = (gallery?.howTos as string[])[0];
+        const howToId = firstHowTo(gallery);
         await waitForDocumentUpdate(page, 'howtos', howToId, (d) =>
             JSON.stringify(d?.title).includes('Before Edit'),
         );
@@ -224,7 +233,7 @@ test.describe('how-to editor form', () => {
             (d) => Array.isArray(d?.howTos) && d.howTos.length === 1,
             30000,
         );
-        const howToId = (gallery?.howTos as string[])[0];
+        const howToId = firstHowTo(gallery);
         const howTo = await getTestDocument('howtos', howToId);
         expect(howTo).not.toBeNull();
         expect(JSON.stringify(howTo?.title)).toContain('Offline Draft');

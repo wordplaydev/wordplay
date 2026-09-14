@@ -11,6 +11,8 @@
  * (which hands over a dropped `File`'s bytes). No `Buffer`, no `fs`.
  */
 
+import { must } from '@util/nullable';
+
 /** One sounding note, with times still in the file's own tick units. */
 export type MIDINote = {
     startTicks: number;
@@ -53,11 +55,13 @@ function readVarLength(
     let i = at;
     // Five bytes would already overflow the 28 bits SMF allows.
     for (let read = 0; read < 5; read++) {
-        if (i >= bytes.length)
+        const byte = bytes[i++];
+        // No byte means the file ended here, the same condition the bounds
+        // check asked about before.
+        if (byte === undefined)
             throw new MIDIFormatError(
                 'File ended inside a variable-length value.',
             );
-        const byte = bytes[i++];
         value = (value << 7) | (byte & 0x7f);
         if ((byte & 0x80) === 0) return { value, next: i };
     }
@@ -70,14 +74,19 @@ function readUInt32(view: DataView, at: number): number {
 
 function ascii(bytes: Uint8Array, at: number, length: number): string {
     let out = '';
-    for (let i = 0; i < length; i++) out += String.fromCharCode(bytes[at + i]);
+    // A byte past the end of a truncated file contributes NUL, which is what
+    // `String.fromCharCode` of the out-of-range read already produced.
+    for (let i = 0; i < length; i++)
+        out += String.fromCharCode(bytes[at + i] ?? 0);
     return out;
 }
 
 /** Decode a meta event's bytes as text, which SMF leaves as unspecified 8-bit. */
 function text(bytes: Uint8Array, at: number, length: number): string {
     let out = '';
-    for (let i = 0; i < length; i++) out += String.fromCharCode(bytes[at + i]);
+    // As in `ascii`, a byte past the end contributes the NUL it already did.
+    for (let i = 0; i < length; i++)
+        out += String.fromCharCode(bytes[at + i] ?? 0);
     return out.trim();
 }
 
@@ -139,7 +148,12 @@ export default function parseMIDI(bytes: Uint8Array): ParsedMIDI {
             if (i >= end) break;
 
             // Running status: a byte under 0x80 reuses the previous status.
-            if (bytes[i] & 0x80) status = bytes[i++];
+            // `i < end <= bytes.length`, so there is a byte to read here.
+            const head = must(bytes[i], 'an event status byte');
+            if (head & 0x80) {
+                status = head;
+                i++;
+            }
             const kindNibble = status & 0xf0;
 
             if (status === 0xff) {
@@ -150,30 +164,42 @@ export default function parseMIDI(bytes: Uint8Array): ParsedMIDI {
                 if (type === 0x03 && name === undefined)
                     name = text(bytes, dataAt, dataLength) || undefined;
                 else if (type === 0x51 && dataLength === 3) {
+                    // A byte past the end contributes zero, exactly as the
+                    // out-of-range read's coercion already did.
                     const microseconds =
-                        (bytes[dataAt] << 16) |
-                        (bytes[dataAt + 1] << 8) |
-                        bytes[dataAt + 2];
+                        ((bytes[dataAt] ?? 0) << 16) |
+                        ((bytes[dataAt + 1] ?? 0) << 8) |
+                        (bytes[dataAt + 2] ?? 0);
                     if (microseconds > 0)
                         tempos.push({ ticks, bpm: 60_000_000 / microseconds });
-                } else if (type === 0x58 && dataLength >= 2)
-                    timeSignatures.push({
-                        ticks,
-                        beats: bytes[dataAt],
-                        unit: 2 ** bytes[dataAt + 1],
-                    });
+                } else if (type === 0x58 && dataLength >= 2) {
+                    const beats = bytes[dataAt];
+                    const unit = bytes[dataAt + 1];
+                    // A time signature the file ended inside of has no beats
+                    // to report, so leave it out rather than record one.
+                    if (beats !== undefined && unit !== undefined)
+                        timeSignatures.push({ ticks, beats, unit: 2 ** unit });
+                }
                 i = dataAt + dataLength;
             } else if (status === 0xf0 || status === 0xf7) {
                 const sysex = readVarLength(bytes, i);
                 i = sysex.next + sysex.value;
             } else if (kindNibble === 0x90 || kindNibble === 0x80) {
+                // A file that ended between an event's status byte and its
+                // pitch has no note to record, so the track stops here rather
+                // than reporting one built from a missing byte.
                 const pitch = bytes[i];
+                if (pitch === undefined) break;
                 const velocity = bytes[i + 1];
                 i += 2;
                 if (channel === undefined) channel = status & 0x0f;
                 // A note-on with zero velocity is a note-off, which most
                 // files use so they can lean on running status.
-                if (kindNibble === 0x90 && velocity > 0) {
+                if (
+                    kindNibble === 0x90 &&
+                    velocity !== undefined &&
+                    velocity > 0
+                ) {
                     const queue = sounding.get(pitch) ?? [];
                     queue.push({ ticks, velocity });
                     sounding.set(pitch, queue);

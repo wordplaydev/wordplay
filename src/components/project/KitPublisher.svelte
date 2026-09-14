@@ -296,17 +296,18 @@
         <div class="box">
             <ul class="exports">
                 {#each exports as exported}
-                    {@const docs = exported.docs}
+                    {@const preferredDoc =
+                        exported.docs?.getPreferredLocale($locales)}
                     <li>
                         <code>{exportName(exported)}</code>
-                        {#if docs && !docs.isEmpty()}
+                        {#if preferredDoc !== undefined}
                             <!-- The first sentence of what the kit's page will show in
                                  full, which is what a preview should be: the same words,
                                  less of them. A bare list of names says only that
                                  something exists. -->
                             <MarkupHTMLView
                                 markup={firstSentenceOf(
-                                    docs.getPreferredLocale($locales).markup,
+                                    preferredDoc.markup,
                                     $locales.getLocaleString(),
                                 )}
                             />

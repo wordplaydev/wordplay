@@ -22,5 +22,12 @@ const Emotion = {
 
 export type Emotion = (typeof Emotion)[keyof typeof Emotion];
 
+const Emotions: readonly Emotion[] = Object.values(Emotion);
+
+/** Whether text (from a locale or tutorial file) names an emotion. */
+export function isEmotion(text: string): text is Emotion {
+    return Emotions.some((emotion) => emotion === text);
+}
+
 export { Emotion };
 export default Emotion;

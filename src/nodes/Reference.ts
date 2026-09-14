@@ -85,7 +85,7 @@ export default class Reference extends SimpleExpression {
     }
 
     static make(name: string, definition?: Definition) {
-        return new Reference(new NameToken(name), definition);
+        return new Reference(NameToken(name), definition);
     }
 
     static getPossibleReferences(
@@ -343,9 +343,9 @@ export default class Reference extends SimpleExpression {
     }
 
     clone(replace?: Replacement) {
-        return new Reference(
-            this.replaceChild('name', this.name, replace),
-        ) as this;
+        return this.cloned(
+            new Reference(this.replaceChild('name', this.name, replace)),
+        );
     }
 
     isPlaceholder() {
@@ -357,7 +357,7 @@ export default class Reference extends SimpleExpression {
     }
 
     withName(name: string) {
-        return new Reference(new NameToken(name), this.definition);
+        return new Reference(NameToken(name), this.definition);
     }
 
     getCorrespondingDefinition(context: Context): Definition | undefined {

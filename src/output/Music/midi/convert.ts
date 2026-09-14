@@ -147,8 +147,8 @@ export function degreeForPitch(
 
     let bestIndex = 0;
     let bestError = Infinity;
-    for (let i = 0; i < scale.length; i++) {
-        const error = Math.abs(scale[i] - pitchClass);
+    for (const [i, step] of scale.entries()) {
+        const error = Math.abs(step - pitchClass);
         if (error < bestError) {
             bestError = error;
             bestIndex = i;

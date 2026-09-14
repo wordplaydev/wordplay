@@ -7,7 +7,7 @@ import {
 } from '@db/settings/StagePlacement';
 import type Bounds from '@components/project/Bounds';
 import Tile, { TileMode } from '@components/project/Tile';
-import { TileKind } from '@components/project/TileKind';
+import { isTileKind, TileKind } from '@components/project/TileKind';
 import TileKinds from '@components/project/TileKinds';
 
 export const LAYOUT_ICON_RESPONSIVE = '📐';
@@ -70,6 +70,12 @@ export type SerializedTile = {
     position: Bounds;
     kind: TileKind;
 };
+
+/** Where a tile sorts among the non-source tiles; one whose id names no
+ *  kind sorts last rather than throwing inside the sort. */
+function tileOrder(id: string): number {
+    return isTileKind(id) ? TileKinds[id].order : Number.POSITIVE_INFINITY;
+}
 
 export type SerializedLayout = {
     fullscreen: string | null;
@@ -209,8 +215,8 @@ export function mirrorAxes(
         const count = axis.positions.length;
         return {
             direction: axis.direction,
-            positions: axis.positions.map((_, index) => ({
-                ...axis.positions[count - 1 - index],
+            positions: [...axis.positions].reverse().map((position, index) => ({
+                ...position,
                 // The group after this one in the original order ended where
                 // this one now starts; the last of them ends at 1.
                 position: complement(
@@ -390,7 +396,8 @@ export default class Layout {
      */
     static getSourceIndexFromID(id: string): number | undefined {
         const match = /^source(\d+)(?:\.\d+)?$/.exec(id);
-        return match === null ? undefined : Number.parseInt(match[1], 10);
+        const digits = match === null ? undefined : match[1];
+        return digits === undefined ? undefined : Number.parseInt(digits, 10);
     }
 
     getSource(index: number) {
@@ -420,11 +427,7 @@ export default class Layout {
     getNonSources() {
         return this.tiles
             .filter((tile) => !tile.id.startsWith('source'))
-            .sort(
-                (a, b) =>
-                    TileKinds[a.id as TileKind].order -
-                    TileKinds[b.id as TileKind].order,
-            );
+            .sort((a, b) => tileOrder(a.id) - tileOrder(b.id));
     }
 
     replace(tile: Tile, newTile: Tile) {
@@ -630,8 +633,7 @@ export default class Layout {
                 // For each of the splits on this axis, determine if the referenced tiles are visible, and
                 // if so, set their position based on the requested position and their size based on the position of the
                 // position of the next visible tile, or the remainder of the axis if there are no visible tiles after it.
-                for (let index = 0; index < axis.positions.length; index++) {
-                    const group = axis.positions[index];
+                for (const [index, group] of axis.positions.entries()) {
                     // Get the tiles referenced in this split and see if they are expanded.
                     const visibleTiles = layout.tiles.filter(
                         (t) => group.id.includes(t.kind) && t.isExpanded(),
@@ -901,7 +903,10 @@ export default class Layout {
         return (
             layout.fullscreenID === this.fullscreenID &&
             this.tiles.length === layout.tiles.length &&
-            this.tiles.every((t, index) => t.isEqualTo(layout.tiles[index])) &&
+            this.tiles.every((t, index) => {
+                const other = layout.tiles[index];
+                return other !== undefined && t.isEqualTo(other);
+            }) &&
             JSON.stringify(this.splits) === JSON.stringify(layout.splits)
         );
     }

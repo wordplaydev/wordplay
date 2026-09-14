@@ -63,10 +63,10 @@ export default class MapLiteral extends CompositeLiteral {
 
     static make(values?: KeyValue[]) {
         return new MapLiteral(
-            new SetOpenToken(),
+            SetOpenToken(),
             values ?? [],
-            (values ?? []).length === 0 ? new BindToken() : undefined,
-            new SetCloseToken(),
+            (values ?? []).length === 0 ? BindToken() : undefined,
+            SetCloseToken(),
         );
     }
 
@@ -107,13 +107,15 @@ export default class MapLiteral extends CompositeLiteral {
     }
 
     clone(replace?: Replacement) {
-        return new MapLiteral(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('values', this.values, replace),
-            this.replaceChild('bind', this.bind, replace),
-            this.replaceChild('close', this.close, replace),
-            this.replaceChild('literal', this.literal, replace),
-        ) as this;
+        return this.cloned(
+            new MapLiteral(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('values', this.values, replace),
+                this.replaceChild('bind', this.bind, replace),
+                this.replaceChild('close', this.close, replace),
+                this.replaceChild('literal', this.literal, replace),
+            ),
+        );
     }
 
     getPurpose() {
@@ -138,9 +140,7 @@ export default class MapLiteral extends CompositeLiteral {
             conflicts.push(new NotAKeyValue(this, expression));
 
         if (this.close === undefined)
-            return [
-                new UnclosedDelimiter(this, this.open, new SetCloseToken()),
-            ];
+            return [new UnclosedDelimiter(this, this.open, SetCloseToken())];
 
         return conflicts;
     }

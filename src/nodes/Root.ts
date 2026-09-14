@@ -94,9 +94,9 @@ export default class Root {
     /** Returns the nearest evaluation root, which is the closest ancestor for which isEvaluating() is true. */
     getEvaluationRoot(node: Node) {
         return this.getAncestors(node).find(
-            (ancestor) =>
+            (ancestor): ancestor is Expression =>
                 ancestor instanceof Expression && ancestor.isEvaluationRoot(),
-        ) as Expression | undefined;
+        );
     }
 
     getContainingParentList(node: Node, after?: boolean): string | undefined {
@@ -200,7 +200,10 @@ export default class Root {
         node = node ?? this.root;
         if (path.length === 0) return node;
 
-        const { type, index } = path[0];
+        const step = path[0];
+        // The empty path was handled above.
+        if (step === undefined) return undefined;
+        const { type, index } = step;
         const child =
             node && index !== undefined ? node.getChildren()[index] : undefined;
 

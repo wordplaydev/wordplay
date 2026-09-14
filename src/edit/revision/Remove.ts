@@ -1,4 +1,5 @@
 import Caret from '@edit/caret/Caret';
+import { must } from '@util/nullable';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -38,10 +39,11 @@ export default class Remove extends Revision {
     getEdit(): Edit | undefined {
         // Generalize the nodes given to a list.
         const nodes = this.getNodes();
-        if (nodes.length === 0) return;
+        const firstNode = nodes[0];
+        if (firstNode === undefined) return;
 
         // Get the position of the first node we're removing.
-        const position = this.context.source.getNodeFirstPosition(nodes[0]);
+        const position = this.context.source.getNodeFirstPosition(firstNode);
         if (position === undefined) return;
 
         // Get the new parent without the nodes.
@@ -59,10 +61,7 @@ export default class Remove extends Revision {
         let newSource = this.context.source.withProgram(
             newProgram,
             // Preserve the space before the removed node.
-            this.context.source.spaces.withReplacement(
-                this.nodes[0],
-                undefined,
-            ),
+            this.context.source.spaces.withReplacement(firstNode, undefined),
         );
 
         // Ensure new parent has preferred space
@@ -82,7 +81,8 @@ export default class Remove extends Revision {
     }
 
     getEditedNode(): [Node, Node] {
-        return [this.nodes[0], this.getNewNode()];
+        // A removal names at least one node.
+        return [must(this.nodes[0], 'a removed node'), this.getNewNode()];
     }
 
     getNewNode() {
@@ -106,11 +106,13 @@ export default class Remove extends Revision {
             );
 
         // Remove each child.
-        while (indicies.length > 0) {
+        for (;;) {
+            const next = indicies[0];
+            if (next === undefined) break;
             // Get the correponding child.
-            const node = parent.getChildren()[indicies[0]];
-            // Remove the child
-            parent = parent.replace(node, undefined);
+            const node = parent.getChildren()[next];
+            // Remove the child, if the index still names one.
+            if (node !== undefined) parent = parent.replace(node, undefined);
             // Drop the index we just removed.
             indicies.shift();
         }

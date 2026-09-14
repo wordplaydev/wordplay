@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { isRecord } from '@util/guards';
     import Breadcrumbs from '@components/app/Breadcrumbs.svelte';
     import PageHeaderRow from '@components/app/PageHeaderRow.svelte';
     import PlayView from '@components/app/PlayView.svelte';
@@ -56,6 +57,7 @@
     import { onMount, tick, untrack } from 'svelte';
     import { get, writable } from 'svelte/store';
     import audio, { musicSuspended } from '@output/Music/MusicAudio';
+    import type BasisCharacter from '../../lore/BasisCharacter';
     import BasisCharacters from '../../lore/BasisCharacters';
     import { Emotion } from '../../lore/Emotion';
     import { ContrastLanguages } from '../../tutorial/ContrastLanguage';
@@ -664,15 +666,22 @@
         ),
     );
 
+    /** The character a tutorial speaker names, when it names one. Dialog is
+     *  locale data, so a speaker that names no character speaks as itself. */
+    function basisCharacter(name: string) {
+        const characters: Readonly<
+            Record<string, Readonly<BasisCharacter> | undefined>
+        > = BasisCharacters;
+        return characters[name];
+    }
+
     function handleSelect(lesson: string | undefined) {
         if (lesson === undefined) return;
-        const lessonJSON = JSON.parse(lesson);
+        const lessonJSON: unknown = JSON.parse(lesson);
         if (
-            'act' in lessonJSON &&
+            isRecord(lessonJSON) &&
             typeof lessonJSON.act === 'number' &&
-            'scene' in lessonJSON &&
             typeof lessonJSON.scene === 'number' &&
-            'line' in lessonJSON &&
             typeof lessonJSON.line === 'number'
         ) {
             const newProgress = new Progress(
@@ -1042,9 +1051,7 @@
                                         <Speech
                                             eyes
                                             character={concept ??
-                                                BasisCharacters[
-                                                    character as keyof typeof BasisCharacters
-                                                ] ?? {
+                                                basisCharacter(character) ?? {
                                                     symbols: character,
                                                 }}
                                             flip={turn.dialog[0] !==

@@ -1,4 +1,5 @@
 import type Caret from '@edit/caret/Caret';
+import { entriesOf } from '@util/nullable';
 import { enclosingExample, spanOf } from '@edit/markup/formatOperations';
 import type Locales from '@locale/Locales';
 import type { LocaleTextAccessor } from '@locale/Locales';
@@ -55,10 +56,10 @@ function nascentFormatAt(caret: Caret): Format | undefined {
     const before = code.at(span[0] - 1);
     const after = code.at(span[0]);
     if (before === undefined || before !== after) return undefined;
-    const entry = Object.entries(FormatSymbols).find(
+    const entry = entriesOf(FormatSymbols).find(
         ([, symbol]) => before === symbol,
     );
-    return entry === undefined ? undefined : (entry[0] as Format);
+    return entry?.[0];
 }
 
 /** Whether the caret's paragraph is a bulleted one. */

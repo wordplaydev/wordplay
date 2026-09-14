@@ -62,13 +62,11 @@
             toggle(false);
         }}
         onpointerenter={(event) =>
-            canHoverTips()
-                ? showTip(event.target as HTMLSpanElement, offTip)
-                : undefined}
+            canHoverTips() ? showTip(event.currentTarget, offTip) : undefined}
         onpointerleave={hideTip}
         onfocus={(event) =>
             canFocusTips(event.currentTarget)
-                ? showTip(event.target as HTMLSpanElement, offTip)
+                ? showTip(event.currentTarget, offTip)
                 : undefined}
         onblur={hideTip}
         onkeydown={(event) =>
@@ -83,13 +81,11 @@
         tabindex="0"
         onpointerdown={(event) => event.preventDefault()}
         onpointerenter={(event) =>
-            canHoverTips()
-                ? showTip(event.target as HTMLSpanElement, onTip)
-                : undefined}
+            canHoverTips() ? showTip(event.currentTarget, onTip) : undefined}
         onpointerleave={hideTip}
         onfocus={(event) =>
             canFocusTips(event.currentTarget)
-                ? showTip(event.target as HTMLSpanElement, onTip)
+                ? showTip(event.currentTarget, onTip)
                 : undefined}
         onblur={hideTip}
         onclick={(event) => {

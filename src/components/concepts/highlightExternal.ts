@@ -1,3 +1,4 @@
+import { matchGroups } from '@util/nullable';
 import retryableLoad from '@util/retryableLoad';
 
 // Load highlight.js lazily and once, using the CORE build plus only the three languages the
@@ -53,15 +54,16 @@ function colorUntaggedNames(html: string): string {
     const tokenRe = /(<span\b[^>]*>)|(<\/span>)|([^<]+)/g;
     let match: RegExpExecArray | null;
     while ((match = tokenRe.exec(html)) !== null) {
-        if (match[1]) {
+        const [, open, close, text] = matchGroups(match);
+        if (open !== undefined) {
             depth++;
-            out += match[1];
-        } else if (match[2]) {
+            out += open;
+        } else if (close !== undefined) {
             depth--;
-            out += match[2];
-        } else {
+            out += close;
+        } else if (text !== undefined) {
             // Enhance only top-level (unclassified) text.
-            out += depth === 0 ? colorNames(match[3]) : match[3];
+            out += depth === 0 ? colorNames(text) : text;
         }
     }
     return out;

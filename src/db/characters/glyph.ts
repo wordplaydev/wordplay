@@ -13,7 +13,7 @@ import {
     type FontWeight,
     Faces,
 } from '@basis/faces/Fonts';
-import type { PathCommand } from 'fontkit';
+import { asPathOp, type PathOp } from '@input/pathCommands';
 import { hasEmoji } from '@unicode/emoji';
 import UnicodeString from '@unicode/UnicodeString';
 
@@ -48,6 +48,34 @@ function round(value: number): string {
     return Number(value.toFixed(Precision)).toString();
 }
 
+/** The same command moved by a shaping offset. Every other arg is an x, so the
+ *  offsets alternate; spelling out each arity keeps the tuples intact. */
+function translate(op: PathOp, dx: number, dy: number): PathOp {
+    switch (op.command) {
+        case 'closePath':
+            return op;
+        case 'moveTo':
+        case 'lineTo': {
+            const [x, y] = op.args;
+            return { command: op.command, args: [x + dx, y + dy] };
+        }
+        case 'quadraticCurveTo': {
+            const [cx, cy, x, y] = op.args;
+            return {
+                command: op.command,
+                args: [cx + dx, cy + dy, x + dx, y + dy],
+            };
+        }
+        case 'bezierCurveTo': {
+            const [c1x, c1y, c2x, c2y, x, y] = op.args;
+            return {
+                command: op.command,
+                args: [c1x + dx, c1y + dy, c2x + dx, c2y + dy, x + dx, y + dy],
+            };
+        }
+    }
+}
+
 /**
  * Convert fontkit path commands into an SVG `d`, normalized into the unit box.
  *
@@ -60,7 +88,7 @@ function round(value: number): string {
  * Exported for testing, the way Contour.ts exports its own conversion.
  */
 export function commandsToUnitPath(
-    commands: PathCommand[],
+    commands: PathOp[],
     box: { minX: number; minY: number; maxX: number; maxY: number },
 ): string {
     const width = box.maxX - box.minX;
@@ -71,24 +99,30 @@ export function commandsToUnitPath(
     const y = (value: number) => round(1 - (value - box.minY) / height);
 
     const parts: string[] = [];
-    for (const { command, args } of commands) {
-        switch (command) {
-            case 'moveTo':
-                parts.push(`M ${x(args[0])} ${y(args[1])}`);
+    for (const op of commands) {
+        switch (op.command) {
+            case 'moveTo': {
+                const [ax, ay] = op.args;
+                parts.push(`M ${x(ax)} ${y(ay)}`);
                 break;
-            case 'lineTo':
-                parts.push(`L ${x(args[0])} ${y(args[1])}`);
+            }
+            case 'lineTo': {
+                const [ax, ay] = op.args;
+                parts.push(`L ${x(ax)} ${y(ay)}`);
                 break;
-            case 'quadraticCurveTo':
+            }
+            case 'quadraticCurveTo': {
+                const [cx, cy, ax, ay] = op.args;
+                parts.push(`Q ${x(cx)} ${y(cy)} ${x(ax)} ${y(ay)}`);
+                break;
+            }
+            case 'bezierCurveTo': {
+                const [c1x, c1y, c2x, c2y, ax, ay] = op.args;
                 parts.push(
-                    `Q ${x(args[0])} ${y(args[1])} ${x(args[2])} ${y(args[3])}`,
+                    `C ${x(c1x)} ${y(c1y)} ${x(c2x)} ${y(c2y)} ${x(ax)} ${y(ay)}`,
                 );
                 break;
-            case 'bezierCurveTo':
-                parts.push(
-                    `C ${x(args[0])} ${y(args[1])} ${x(args[2])} ${y(args[3])} ${x(args[4])} ${y(args[5])}`,
-                );
-                break;
+            }
             case 'closePath':
                 parts.push('Z');
                 break;
@@ -175,26 +209,27 @@ export async function traceGlyph(
 
     try {
         const run = font.layout(source.character);
-        const commands: PathCommand[] = [];
+        const commands: PathOp[] = [];
         let minX = Infinity;
         let minY = Infinity;
         let maxX = -Infinity;
         let maxY = -Infinity;
         let pen = 0;
-        for (let i = 0; i < run.glyphs.length; i++) {
-            const glyph = run.glyphs[i];
+        for (const [i, glyph] of run.glyphs.entries()) {
             const position = run.positions[i];
+            // fontkit gives one position per glyph; without one there is
+            // nowhere to put this glyph, so it contributes nothing.
+            if (position === undefined) continue;
             const dx = pen + position.xOffset;
             const dy = position.yOffset;
             // Offset each glyph's commands by where shaping put it, so a
             // character that shapes into a cluster still traces as one outline.
-            for (const { command, args } of glyph.path.commands)
-                commands.push({
-                    command,
-                    args: args.map((value, index) =>
-                        index % 2 === 0 ? value + dx : value + dy,
-                    ),
-                });
+            for (const step of glyph.path.commands) {
+                // A command whose args don't match its arity isn't something
+                // fontkit produces; skip it rather than reading past its args.
+                const op = asPathOp(step);
+                if (op !== undefined) commands.push(translate(op, dx, dy));
+            }
             const box = glyph.bbox;
             minX = Math.min(minX, box.minX + dx);
             minY = Math.min(minY, box.minY + dy);

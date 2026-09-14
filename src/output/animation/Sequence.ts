@@ -26,6 +26,7 @@ import { toPose } from '@output/animation/Pose';
 import { toDecimal } from '@output/Output/Stage';
 import Transition from '@output/animation/Transition';
 import Valued, { getOutputInputs } from '@output/Output/Valued';
+import { must } from '@util/nullable';
 
 const MaxCount = 5;
 
@@ -54,7 +55,7 @@ function passThroughInputs(locales: Locales): string {
     return `${getBind(locales, (locale) => locale.output.Sequence.duration)}•#s: 0.25s
         ${getBind(locales, (locale) => locale.output.Sequence.style)}•${styleType(
             locales,
-        )}: "${Object.values(locales.getLocales()[0].output.Easing)[0]}"
+        )}: "${Object.values(locales.getLocale().output.Easing)[0]}"
         ${getBind(locales, (locale) => locale.output.Sequence.count)}•${[
             ...Array(MaxCount + 1).keys(),
         ]
@@ -197,19 +198,14 @@ export default class Sequence extends Valued {
         if (this.poses.length === 0) return undefined;
         else if (this.poses.length === 1) {
             // Only one pose? Just animate the duration with the same pose.
+            // The length check above is what guarantees there is one.
+            const only = must(this.poses[0], 'the only pose');
             return [
+                new Transition(place, size, only.pose, 0, this.style, true),
                 new Transition(
                     place,
                     size,
-                    this.poses[0].pose,
-                    0,
-                    this.style,
-                    true,
-                ),
-                new Transition(
-                    place,
-                    size,
-                    this.poses[0].pose,
+                    only.pose,
                     this.duration,
                     this.style,
                     true,
@@ -222,8 +218,7 @@ export default class Sequence extends Valued {
             // We need to know here to divide up time accordingly.
             const count = Math.max(1, Math.min(Math.round(this.count), 10));
             const transitions: Transition[] = [];
-            for (let index = 0; index < this.poses.length; index++) {
-                const current = this.poses[index];
+            for (const [index, current] of this.poses.entries()) {
                 const previous = this.poses[index - 1];
                 transitions.push(
                     new Transition(
@@ -249,7 +244,12 @@ export default class Sequence extends Valued {
             for (let i = 0; i < count; i++)
                 repetitions = repetitions.concat(transitions);
 
-            return repetitions as TransitionSequence;
+            // Two or more poses repeated at least once is at least two
+            // transitions; the check only says so where the compiler can't.
+            const [first, second, ...rest] = repetitions;
+            return first !== undefined && second !== undefined
+                ? [first, second, ...rest]
+                : undefined;
         }
     }
 

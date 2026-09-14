@@ -17,15 +17,13 @@
  * Run: npx tsx src/util/verify-locales/linkGlossaryDefinitions.ts
  */
 import fs from 'fs';
+import { isRecord } from '@util/guards';
 import path from 'path';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import Log from '@util/verify-locales/Log';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
-import {
-    isRecord,
-    protectedRanges,
-    escapeRegExp,
-} from '@util/verify-locales/markupText';
+import { protectedRanges, escapeRegExp } from '@util/verify-locales/markupText';
+import { must } from '@util/nullable';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);
@@ -63,7 +61,13 @@ function isPlainName(name: string): boolean {
 /** Split a leading run of write-status markers ($?/$!/$~) from the body. */
 function splitAnnotations(text: string): { prefix: string; body: string } {
     const m = /^((?:\$[?!~])+)([\s\S]*)$/.exec(text);
-    return m ? { prefix: m[1], body: m[2] } : { prefix: '', body: text };
+    // Neither of the pattern's groups is optional.
+    return m
+        ? {
+              prefix: must(m[1], 'a marker run'),
+              body: must(m[2], 'a definition body'),
+          }
+        : { prefix: '', body: text };
 }
 
 /** First whole-word, unprotected, non-member occurrence of `surface`
@@ -100,7 +104,7 @@ function linkBody(body: string, candidates: Candidate[]): string {
     // first mention (keeps re-runs idempotent and one link per term).
     const linked = new Set<string>();
     for (const m of body.matchAll(/@([\p{L}][\p{L}\p{N}]*)/gu))
-        linked.add(m[1]);
+        linked.add(must(m[1], 'a reference name'));
     for (const { surface, token } of candidates) {
         if (linked.has(token)) continue;
         const match = findMatch(out, surface, protectedRanges(out));

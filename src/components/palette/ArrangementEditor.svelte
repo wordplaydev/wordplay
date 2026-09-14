@@ -64,10 +64,13 @@
 
 <div class="arrangement" {id}>
     <Options
-        label={() =>
-            values.isEmpty()
+        label={() => {
+            // Not empty means there is a first value to name.
+            const first = values.values[0];
+            return first === undefined
                 ? ''
-                : $locales.getName(values.values[0].bind.names)}
+                : $locales.getName(first.bind.names);
+        }}
         value={selected}
         width="10em"
         options={types.map((type) => ({

@@ -196,7 +196,10 @@
             />
         </span>
     {:else}
-        <CommandButton command={commands[i - commandsStart]} {sourceID} />
+        {@const command = commands[i - commandsStart]}
+        {#if command !== undefined}
+            <CommandButton {command} {sourceID} />
+        {/if}
     {/if}
 {/snippet}
 

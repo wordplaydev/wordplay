@@ -1,4 +1,5 @@
 import type { LocaleTextAccessor } from '@locale/Locales';
+import { includesString } from '@util/nullable';
 
 /**
  * What each tour of the project view's interface is called. Naming them here
@@ -26,7 +27,7 @@ export type TourID = (typeof TourIDs)[number];
 
 /** Whether a string names a tour. */
 export function isTourID(id: string): id is TourID {
-    return (TourIDs as readonly string[]).includes(id);
+    return includesString(TourIDs, id);
 }
 
 export type TourName = {

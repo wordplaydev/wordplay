@@ -7,7 +7,7 @@ import Evaluation from '@runtime/Evaluation';
 import BoolValue from '@values/BoolValue';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
-import type Value from '@values/Value';
+import Value from '@values/Value';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { FunctionText, NameAndDoc } from '@locale/LocaleText';
@@ -109,6 +109,7 @@ export default function bootstrapBool(locales: Locales) {
                     ),
                     '?',
                     "''",
+                    Value,
                     (requestor, val: Value) =>
                         new TextValue(requestor, val.toString()),
                 ),
@@ -119,6 +120,7 @@ export default function bootstrapBool(locales: Locales) {
                     ),
                     '?',
                     '#',
+                    BoolValue,
                     // There is deliberately no conversion back: which number counts
                     // as true is the creator's decision, not ours.
                     (requestor, val: BoolValue) =>

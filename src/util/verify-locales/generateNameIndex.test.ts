@@ -1,5 +1,4 @@
 import DefaultLocale from '@locale/DefaultLocale';
-import type LocaleText from '@locale/LocaleText';
 import {
     findLocalesNaming,
     findLocalesWithKeyword,
@@ -8,21 +7,52 @@ import {
     type LocaleNameIndex,
 } from '@locale/localeNameIndex';
 import { buildNameIndex } from '@util/verify-locales/generateNameIndex';
+import { readLocaleText } from '@util/verify-locales/LocaleSchema';
+import { collectingLog } from '@util/verify-locales/Log';
 import { readFileSync } from 'fs';
 import path from 'path';
 import { afterEach, expect, test } from 'vitest';
+import { must } from '@util/nullable';
 
-const es = JSON.parse(
-    readFileSync('static/locales/es-MX/es-MX.json', 'utf8'),
-) as LocaleText;
+const es = must(
+    readLocaleText(collectingLog().log, 'es-MX'),
+    'the es-MX locale file',
+);
+
+/** The committed artifact read as the index it declares rather than trusted as
+ *  one, since a malformed file is exactly what this test would otherwise pass. */
+function readNameIndex(): LocaleNameIndex {
+    const artifact: unknown = JSON.parse(
+        readFileSync(
+            path.join(process.cwd(), 'static', 'locales', 'names.json'),
+            'utf-8',
+        ),
+    );
+    if (artifact === null || typeof artifact !== 'object')
+        throw new Error('Malformed names.json');
+    const table = (key: string): Record<string, string> => {
+        const value: unknown = Reflect.get(artifact, key);
+        if (value === null || typeof value !== 'object')
+            throw new Error(`Malformed names.json: no ${key}`);
+        const words: Record<string, string> = {};
+        for (const locale of Object.keys(value)) {
+            const list: unknown = Reflect.get(value, locale);
+            if (typeof list !== 'string')
+                throw new Error(`Malformed names.json: ${key}.${locale}`);
+            words[locale] = list;
+        }
+        return words;
+    };
+    return { names: table('names'), keywords: table('keywords') };
+}
 
 afterEach(() => setLocaleNameIndex(undefined));
 
 test('the index records each locale’s own basis names, not the fallback’s', () => {
     const index = buildNameIndex([DefaultLocale, es]);
 
-    const english = index.names['en-US'].split(' ');
-    const spanish = index.names['es-MX'].split(' ');
+    const english = must(index.names['en-US'], 'the en-US names').split(' ');
+    const spanish = must(index.names['es-MX'], 'the es-MX names').split(' ');
 
     expect(english).toContain('Phrase');
     expect(spanish).toContain('Frase');
@@ -37,8 +67,12 @@ test('the index records each locale’s own basis names, not the fallback’s', 
 
     // Keyword words come from the locale's `keyword` block, and are never reduced — the
     // keyword index is built from the declared locales with no fallback appended.
-    expect(index.keywords['es-MX'].split(' ')).toContain('función');
-    expect(index.keywords['en-US'].split(' ')).toContain('function');
+    expect(
+        must(index.keywords['es-MX'], 'the es-MX keywords').split(' '),
+    ).toContain('función');
+    expect(
+        must(index.keywords['en-US'], 'the en-US keywords').split(' '),
+    ).toContain('function');
 
     // Documentation is skipped: a name used in a Spanish doc example is not a name Spanish
     // binds, and suggesting a language on that basis would be wrong.
@@ -72,21 +106,7 @@ test('lookups invert the artifact, and say "not loaded" apart from "nothing name
 });
 
 test('the committed artifact covers every supported locale and maps known words', () => {
-    const artifact: unknown = JSON.parse(
-        readFileSync(
-            path.join(process.cwd(), 'static', 'locales', 'names.json'),
-            'utf-8',
-        ),
-    );
-    if (
-        artifact === null ||
-        typeof artifact !== 'object' ||
-        !('names' in artifact) ||
-        !('keywords' in artifact)
-    )
-        throw new Error('Malformed names.json');
-
-    setLocaleNameIndex(artifact as LocaleNameIndex);
+    setLocaleNameIndex(readNameIndex());
 
     // If this drifts, `npm run locales` has more to say; regenerate with `npm run locales-fix`.
     expect(findLocalesNaming('Frase')).toContain('es-MX');
@@ -95,13 +115,7 @@ test('the committed artifact covers every supported locale and maps known words'
 });
 
 test('a word en-US spells the same but binds elsewhere survives the reduction', () => {
-    const artifact: unknown = JSON.parse(
-        readFileSync(
-            path.join(process.cwd(), 'static', 'locales', 'names.json'),
-            'utf-8',
-        ),
-    );
-    setLocaleNameIndex(artifact as LocaleNameIndex);
+    setLocaleNameIndex(readNameIndex());
 
     // These are the homographs a name-by-name subtraction against en-US would delete, and
     // each one is a real answer: `[1 2 3].sin(…)` doesn't resolve until Spanish is declared,

@@ -70,16 +70,20 @@ function rowOf(alignment: string) {
     return row;
 }
 
-/** Where each child's baseline lands in the row's own frame. */
+/** Where each child's baseline lands in the row's own frame. Every fixture
+ *  here lays out exactly two phrases, so the pair is what callers read. */
 function baselines(
     alignment: string,
     code = `Stage([Phrase('a') Phrase('b')])`,
-) {
+): [number, number] {
     const children = phrasesFrom(code);
     const { places } = rowOf(alignment).getLayout(children, context);
-    return places.map(
+    const [a, b] = places.map(
         ([output, place]) => place.y + (output.getBaselineOffset(context) ?? 0),
     );
+    if (a === undefined || b === undefined)
+        throw new Error('expected two baselines');
+    return [a, b];
 }
 
 /** Two letters of different ink height *and* different size. */

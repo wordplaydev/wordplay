@@ -149,18 +149,16 @@ function checkBasisNodes(node: Node, context: Context) {
 
 test.each([
     // Test all of the structure definitions
-    ...Object.values(basis.structureDefinitionsByName).map(
-        (structure) => [structure.getNames()[0], structure] as const,
-    ),
+    ...basis
+        .getAllStructureDefinitions()
+        .map((structure) => [structure.getNames()[0], structure] as const),
     // Test all of the functions
-    ...Object.values(basis.functionsByType)
-        .map((funs) => Object.values(funs))
-        .flat()
+    ...basis
+        .getAllFunctionDefinitions()
         .map((fun) => [fun.getNames()[0], fun] as const),
     // Test all of the conversions
-    ...Object.values(basis.conversionsByType)
-        .map((funs) => Object.values(funs))
-        .flat()
+    ...basis
+        .getAllConversions()
         .map(
             (fun) =>
                 [

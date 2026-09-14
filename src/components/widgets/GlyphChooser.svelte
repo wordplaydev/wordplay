@@ -1,4 +1,6 @@
 <script lang="ts" module>
+    import { must } from '@util/nullable';
+
     /** The Unicode categories we make visible, in the order they should appear/
      * The emoji subcategories aren't part of the standard; they are shorthand for the
      * categories with the corresponding emoji group. See src/unicode/emoji.ts for more details.
@@ -31,7 +33,7 @@
     export const SearchCategoryIndex = VisibleCategories.indexOf('Search');
 
     /** The Unicode ranges for the "Shape" category */
-    const Shapes = [
+    const Shapes: [start: number, end: number][] = [
         [0x2500, 0x257f],
         [0x2580, 0x259f],
         [0x25a0, 0x25ff],
@@ -39,7 +41,7 @@
     ];
 
     /** The Unicode ranges for the "Arrows" category*/
-    const Arrows = [
+    const Arrows: [start: number, end: number][] = [
         [0x2190, 0x21ff],
         [0x27f0, 0x27ff],
         [0x2900, 0x297f],
@@ -67,6 +69,7 @@
 </script>
 
 <script lang="ts">
+    import { isStringArray } from '@util/guards';
     import {
         isCodepointRenderable,
         loadRenderableRanges,
@@ -88,7 +91,7 @@
     } from '@locale/LanguageCode';
     import { toLocaleString } from '@locale/LocaleText';
     import { Scripts, type Script } from '@locale/Scripts';
-    import type { SupportedLocale } from '@locale/SupportedLocales';
+    import { isSupportedLocale } from '@locale/SupportedLocales';
     import { SEARCH_SYMBOL } from '@parser/Symbols';
     import { withColorEmoji, withMonoEmoji } from '@unicode/emoji';
     import { localizedGlyphName } from '@unicode/glyphName';
@@ -262,7 +265,9 @@
                               (c) =>
                                   c.script !== undefined &&
                                   c.hex.length === 1 &&
-                                  isCodepointRenderable(c.hex[0]),
+                                  isCodepointRenderable(
+                                      must(c.hex[0], 'a codepoint'),
+                                  ),
                           )
                           .map((c) => c.script)
                           .filter((s): s is string => s !== undefined),
@@ -278,7 +283,10 @@
     /** The supported-locale codes for the currently selected locales, used
      * to look up emoji translations in the emojiMaps store. */
     let selectedLocaleCodes = $derived(
-        $locales.getLocales().map((l) => toLocaleString(l) as SupportedLocale),
+        $locales
+            .getLocales()
+            .map((l) => toLocaleString(l))
+            .filter(isSupportedLocale),
     );
 
     /** When the user switches locales, fetch any newly-needed emoji maps. */
@@ -391,17 +399,20 @@
                     (code) =>
                         code.script === script &&
                         code.hex.length === 1 &&
-                        isCodepointRenderable(code.hex[0]),
+                        isCodepointRenderable(must(code.hex[0], 'a codepoint')),
                 );
             else if (category === 'Shapes' || category === 'Arrows') {
                 const ranges = category === 'Shapes' ? Shapes : Arrows;
                 all = codepoints.filter(
                     (code) =>
                         code.hex.length === 1 &&
-                        isCodepointRenderable(code.hex[0]) &&
+                        isCodepointRenderable(
+                            must(code.hex[0], 'a codepoint'),
+                        ) &&
                         ranges.some(
                             ([start, end]) =>
-                                code.hex[0] >= start && code.hex[0] <= end,
+                                must(code.hex[0], 'a codepoint') >= start &&
+                                must(code.hex[0], 'a codepoint') <= end,
                         ),
                 );
             } else if (category !== undefined && category.length === 2)
@@ -483,15 +494,17 @@
                 }}
             >
                 {#snippet item(option, localized)}
+                    {@const languages = isStringArray(option.languages)
+                        ? option.languages
+                        : []}
                     <span class="script-option">
                         {@render localized(option.label)}
-                        {#if option.languages && option.languages.length > 0}
-                            {@const top = option.languages.slice(
+                        {#if languages.length > 0}
+                            {@const top = languages.slice(
                                 0,
                                 MaxScriptLanguages,
                             )}
-                            {@const remainder =
-                                option.languages.length - top.length}
+                            {@const remainder = languages.length - top.length}
                             <span class="languages"
                                 >{top.join(', ')}{#if remainder > 0}
                                     — {$locales

@@ -170,20 +170,20 @@ export default function getPreferredSpaces(
     // subtraction, and the ancestor walk is bounded by tree depth. Nothing calls
     // toWordplay(): the heuristic this replaces did, once per value, which made
     // measuring a long literal quadratic in its own size.
-    const prefix = new Array<number>(contexts.length + 1);
-    prefix[0] = 0;
-    for (let i = 0; i < contexts.length; i++)
-        prefix[i + 1] =
-            prefix[i] +
-            contexts[i].flatSpace.length +
-            contexts[i].token.getTextLength();
+    const prefix: number[] = [0];
+    for (const context of contexts)
+        prefix.push(
+            (prefix.at(-1) ?? 0) +
+                context.flatSpace.length +
+                context.token.getTextLength(),
+        );
 
     type Span = { first: number; last: number; open: boolean };
     const spans = new Map<Node, Span>();
     /** The wrappable nodes whose first leaf is index i, outermost first. */
     const startingAt: Node[][] = contexts.map(() => []);
-    for (let i = 0; i < contexts.length; i++) {
-        const token = contexts[i].token;
+    for (const [i, context] of contexts.entries()) {
+        const token = context.token;
         // A newline the creator typed, or a token that spans lines itself (a
         // multi-line text literal or doc), can't be undone by a width argument.
         const carriesBreak =
@@ -195,7 +195,7 @@ export default function getPreferredSpaces(
                 const span = spans.get(ancestor);
                 if (span === undefined) {
                     spans.set(ancestor, { first: i, last: i, open: false });
-                    startingAt[i].push(ancestor);
+                    startingAt[i]?.push(ancestor);
                 } else {
                     span.last = i;
                     // The container's own leading space belongs to whatever
@@ -215,7 +215,7 @@ export default function getPreferredSpaces(
     // A subtree reformatted on its own starts wherever it sits in its parent.
     let column = (contexts[0]?.depth ?? 0) * TAB_WIDTH;
 
-    for (let i = 0; i < contexts.length; i++) {
+    for (const [i, context] of contexts.entries()) {
         const {
             token,
             parent,
@@ -224,7 +224,7 @@ export default function getPreferredSpaces(
             separatesProgramDocs,
             depth,
             flatSpace,
-        } = contexts[i];
+        } = context;
 
         let revisedSpace = preferredSpaces.get(token) ?? '';
 
@@ -269,10 +269,12 @@ export default function getPreferredSpaces(
         // breaks does not move THIS token (its leading space is its own parent's
         // business), so every container starting here is judged at this same
         // column, and an inner one that still doesn't fit breaks too.
-        for (const container of startingAt[i]) {
+        for (const container of startingAt[i] ?? []) {
             const span = spans.get(container);
             if (span === undefined) continue;
-            const width = prefix[span.last + 1] - prefix[span.first];
+            // Both ends index the prefix sums built over these same contexts.
+            const width =
+                (prefix[span.last + 1] ?? 0) - (prefix[span.first] ?? 0);
             if (span.open || column + width > MAX_LINE_LENGTH)
                 broken.add(container);
         }
@@ -283,7 +285,7 @@ export default function getPreferredSpaces(
     // Return a spaces object with the preferred spaces
     return spaces
         ? new Spaces(spaces.root, preferredSpaces)
-        : new TokenList(root.root.nodes(), preferredSpaces).getSpaces();
+        : new TokenList(root.root.leaves(), preferredSpaces).getSpaces();
 }
 
 export function getFormattedWordplay(node: Node) {

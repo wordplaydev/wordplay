@@ -159,6 +159,7 @@
     import StructureValue from '@values/StructureValue';
     import TextValue from '@values/TextValue';
     import type Value from '@values/Value';
+    import { must } from '@util/nullable';
     import { onDestroy, untrack } from 'svelte';
     import { writable } from 'svelte/store';
     import type { OutputInfoSet } from '@output/animation/Animator';
@@ -171,7 +172,7 @@
          * recover evaluations that happened and were overwritten inside a single
          * frame, so a @Music.replay raised by one of them is never delivered.
          * Hosts must pass the same source they read `value` from. */
-        source?: Source;
+        source?: Source | undefined;
         editable: boolean;
         /** Whether output can be selected (for inspection or palette editing). Defaults to
          * editable; ProjectView passes it separately so debug mode can select without editing. */
@@ -354,7 +355,11 @@
                 // follows the pointer rather than sliding off at an angle.
                 const context2 = project.getNodeContext(output);
                 const form = output.getInput(
-                    project.shares.output.Shape.inputs[0],
+                    // The basis declares Shape's form input.
+                    must(
+                        project.shares.output.Shape.inputs[0],
+                        "Shape's form input",
+                    ),
                     context2,
                 );
                 const element = valueView?.querySelector(
@@ -389,7 +394,10 @@
                         next === undefined
                             ? undefined
                             : output.withBindAs(
-                                  project.shares.output.Shape.inputs[0],
+                                  must(
+                                      project.shares.output.Shape.inputs[0],
+                                      "Shape's form input",
+                                  ),
                                   next,
                                   context2,
                               );
@@ -1402,14 +1410,16 @@
             document.activeElement?.classList.contains('output')
         ) {
             // Which way are we moving?
-            const direction = {
+            const directions: Record<string, [x: number, y: number]> = {
                 ArrowRight: [1, 0],
                 ArrowLeft: [-1, 0],
                 ArrowUp: [0, -1],
                 ArrowDown: [0, 1],
-            }[event.key];
+            };
+            const direction = directions[event.key];
 
             if (direction) {
+                const [dx, dy] = direction;
                 const focusRect =
                     document.activeElement.getBoundingClientRect();
 
@@ -1420,13 +1430,12 @@
                     .filter(
                         (focusable) =>
                             (focusable.view !== document.activeElement &&
-                                direction[0] > 0 &&
+                                dx > 0 &&
                                 focusRect.left < focusable.rect.left) ||
-                            (direction[0] < 0 &&
+                            (dx < 0 &&
                                 focusRect.right > focusable.rect.right) ||
-                            (direction[1] > 0 &&
-                                focusRect.top < focusable.rect.top) ||
-                            (direction[1] < 0 &&
+                            (dy > 0 && focusRect.top < focusable.rect.top) ||
+                            (dy < 0 &&
                                 focusRect.bottom > focusable.rect.bottom),
                     )
                     // Sort by distance to center
@@ -1936,19 +1945,20 @@
         // streams receive input, so panning with it would fight the program, and it is
         // gated on `editable` so an audience never gets it. This block runs before that
         // gate, so a two-finger gesture works for an audience too.
-        if (pointersByIndex.length === 2) {
+        const [firstPointer, secondPointer] = pointersByIndex;
+        if (
+            pointersByIndex.length === 2 &&
+            firstPointer !== undefined &&
+            secondPointer !== undefined
+        ) {
             // Find the Euclidean distance between the two pointers
             const currentPointerDifference = Math.hypot(
-                pointersByIndex[0].clientX - pointersByIndex[1].clientX,
-                pointersByIndex[0].clientY - pointersByIndex[1].clientY,
+                firstPointer.clientX - secondPointer.clientX,
+                firstPointer.clientY - secondPointer.clientY,
             );
             const currentMidpoint = {
-                x:
-                    (pointersByIndex[0].clientX + pointersByIndex[1].clientX) /
-                    2,
-                y:
-                    (pointersByIndex[0].clientY + pointersByIndex[1].clientY) /
-                    2,
+                x: (firstPointer.clientX + secondPointer.clientX) / 2,
+                y: (firstPointer.clientY + secondPointer.clientY) / 2,
             };
             // No anchor yet? Anchor the gesture on the current distance, midpoint, and the
             // audience's offset, so the whole gesture is measured from where it started.
@@ -2271,7 +2281,11 @@
     function recordSelection(event: Event) {
         if (stageValue === undefined) return;
 
-        const target = event?.target as HTMLElement;
+        // A keyboard or pointer event's target may be the document itself, or
+        // a glyph's SVG element, which carries data attributes as an HTML one does.
+        const target = event.target;
+        if (!(target instanceof HTMLElement) && !(target instanceof SVGElement))
+            return;
         // Was the target clicked on output with a name? Add it to choice streams.
         const name = target.dataset.name;
         const selectable = target.dataset.selectable === 'true';
@@ -2374,7 +2388,7 @@
             if (focusable.length > 0) {
                 const candidate = focusable.sort(
                     (a, b) => a.distance - b.distance,
-                )[0].view;
+                )[0]?.view;
                 if (candidate instanceof HTMLElement) output = candidate;
             }
             // A program that reads keys needs the sink focused, not the stage:

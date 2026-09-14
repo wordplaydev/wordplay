@@ -215,16 +215,18 @@ function getListInsertionPoint(
     if (inline) {
         // First, organize the children into rows.
         const rows: { child: HTMLElement; rect: DOMRect }[][] = [];
+        let currentRow: { child: HTMLElement; rect: DOMRect }[] | undefined =
+            undefined;
         for (const child of children) {
             const rect = child.getBoundingClientRect();
             // Is this child's top greater than the lowest bottom of the current row.
             if (
-                rows.length === 0 ||
-                rect.top >
-                    Math.max(...rows[rows.length - 1].map((c) => c.rect.bottom))
+                currentRow === undefined ||
+                rect.top > Math.max(...currentRow.map((c) => c.rect.bottom))
             ) {
-                rows.push([{ child, rect }]);
-            } else rows[rows.length - 1].push({ child, rect });
+                currentRow = [{ child, rect }];
+                rows.push(currentRow);
+            } else currentRow.push({ child, rect });
         }
         // Find the closest vertical row.
         const closestRow = rows
@@ -582,7 +584,7 @@ function geometricCaretIndexAt(
     // The point is in a gap, or before/after all content on this row. Clamp to
     // the nearest element's edge and resolve there, so we land at this row's
     // start/end rather than the source line's, staying on the target row.
-    let nearest = onRow[0];
+    let nearest: (typeof onRow)[number] | undefined = onRow[0];
     let nearestDistance = Number.POSITIVE_INFINITY;
     for (const item of onRow) {
         const distance =
@@ -596,6 +598,8 @@ function geometricCaretIndexAt(
             nearest = item;
         }
     }
+    // Unreachable: the row was just checked non-empty, so some element is nearest.
+    if (nearest === undefined) return undefined;
     return resolve(
         nearest,
         Math.min(
@@ -826,7 +830,7 @@ export function getTokenPosition(
     // Use closest() so that child elements inside a placeholder's .token-view are also handled.
     const tokenViewEl = elementAtCursor.classList.contains('token-view')
         ? elementAtCursor
-        : (elementAtCursor.closest('.token-view') as HTMLElement | null);
+        : elementAtCursor.closest('.token-view');
     if (!(tokenViewEl instanceof HTMLElement)) return undefined;
 
     // Find the token this corresponds to.
@@ -862,7 +866,7 @@ export function getTokenPosition(
     const rects = elementRowRects(tokenViewEl).map((rect) => axes.rect(rect));
     const extentOf = (rect: LogicalRect) => rect.inlineEnd - rect.inlineStart;
     const totalExtent = rects.reduce((sum, rect) => sum + extentOf(rect), 0);
-    let chosen = rects[0];
+    let chosen: LogicalRect | undefined = rects[0];
     let precedingExtent = 0;
     let bestDistance = Number.POSITIVE_INFINITY;
     let extentBefore = 0;
@@ -878,6 +882,8 @@ export function getTokenPosition(
         }
         extentBefore += extentOf(rect);
     }
+    // Nothing to interpolate within: the element measured as no rectangles at all.
+    if (chosen === undefined) return undefined;
 
     const offset = Math.max(
         0,

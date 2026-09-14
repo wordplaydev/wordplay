@@ -74,11 +74,13 @@ export default class ConversionType extends Type {
     }
 
     clone(replace?: Replacement) {
-        return new ConversionType(
-            this.replaceChild('input', this.input, replace),
-            this.replaceChild('convert', this.convert, replace),
-            this.replaceChild('output', this.output, replace),
-        ) as this;
+        return this.cloned(
+            new ConversionType(
+                this.replaceChild('input', this.input, replace),
+                this.replaceChild('convert', this.convert, replace),
+                this.replaceChild('output', this.output, replace),
+            ),
+        );
     }
 
     computeConflicts() {

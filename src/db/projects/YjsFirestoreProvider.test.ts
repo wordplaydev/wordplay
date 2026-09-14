@@ -5,7 +5,11 @@ import { describe, expect, test, vi, beforeEach } from 'vitest';
 // us assert that the provider flushed queued updates before resolving
 // stop() — the data-loss path the test is here to guard.
 vi.mock('firebase/firestore', () => ({
+    // Handed back through the real declaration, so the stand-in below is a
+    // `Firestore` without a cast; nothing ever dereferences it.
+    getFirestore: vi.fn(() => ({ type: 'firestore' })),
     collection: vi.fn(() => ({ id: 'mock-collection' })),
+    doc: vi.fn(() => ({ id: 'mock-doc' })),
     addDoc: vi.fn(async () => ({ id: `doc-${Math.random()}` })),
     onSnapshot: vi.fn(() => () => undefined),
 }));
@@ -18,11 +22,11 @@ vi.mock('@db/projects/ProjectsDatabase.svelte', () => ({
 }));
 
 import { FirebaseError } from 'firebase/app';
-import { addDoc } from 'firebase/firestore';
+import { addDoc, doc, getFirestore } from 'firebase/firestore';
 import ProjectCRDT from './ProjectCRDT';
 import YjsFirestoreProvider from './YjsFirestoreProvider';
 
-const fakeDb = {} as never;
+const fakeDb = getFirestore();
 
 beforeEach(() => {
     vi.clearAllMocks();
@@ -139,14 +143,15 @@ describe('YjsFirestoreProvider — data-loss prevention on stop', () => {
         // than a real permission change. Force one refresh and retry
         // before giving up.
         let attempt = 0;
-        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(async () => {
+        vi.mocked(addDoc).mockImplementation(async () => {
             attempt++;
             if (attempt === 1)
                 throw new FirebaseError(
                     'permission-denied',
                     'Missing or insufficient permissions.',
                 );
-            return { id: 'doc-after-refresh' };
+            // The provider ignores the reference; `doc` is stubbed above.
+            return doc(fakeDb, 'projects', 'doc-after-refresh');
         });
         const refreshAuth = vi.fn(async () => undefined);
         const consoleWarn = vi
@@ -182,7 +187,7 @@ describe('YjsFirestoreProvider — data-loss prevention on stop', () => {
         // actually removed, account state changed, etc.) and we should
         // fall back to the existing terminal behavior. One refresh per
         // session — no infinite refresh loop.
-        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(async () => {
+        vi.mocked(addDoc).mockImplementation(async () => {
             throw new FirebaseError(
                 'permission-denied',
                 'Missing or insufficient permissions.',
@@ -221,7 +226,7 @@ describe('YjsFirestoreProvider — data-loss prevention on stop', () => {
         // gate and emitted an update should fail closed without
         // burning a token refresh. Refresh wouldn't change the rule's
         // verdict and would unnecessarily round-trip auth.
-        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(async () => {
+        vi.mocked(addDoc).mockImplementation(async () => {
             throw new FirebaseError(
                 'permission-denied',
                 'Missing or insufficient permissions.',
@@ -261,7 +266,7 @@ describe('YjsFirestoreProvider — data-loss prevention on stop', () => {
         // Pre-fix, the catch re-queued the bytes and re-scheduled,
         // producing one error per keystroke for the rest of the
         // session.
-        (addDoc as ReturnType<typeof vi.fn>).mockImplementation(async () => {
+        vi.mocked(addDoc).mockImplementation(async () => {
             throw new FirebaseError(
                 'permission-denied',
                 'Missing or insufficient permissions.',

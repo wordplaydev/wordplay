@@ -11,6 +11,7 @@ import NoneValue from '@values/NoneValue';
 import StructureValue from '@values/StructureValue';
 import { toNumber } from '@output/Output/Stage';
 import Valued, { getOutputInputs } from '@output/Output/Valued';
+import { must } from '@util/nullable';
 
 export function createPlaceType(locales: Locales) {
     return toStructure(`
@@ -126,20 +127,14 @@ export function createPlaceStructure(
 
     const place = new Map<Names, Value>();
     const PlaceType = evaluator.project.shares.output.Place;
+    // The basis declares Place's four inputs: x, y, z, and rotation.
+    const input = (index: number) =>
+        must(PlaceType.inputs[index], "one of Place's inputs").names;
+    place.set(input(0), new NumberValue(creator, x, Unit.reuse(['m'])));
+    place.set(input(1), new NumberValue(creator, y, Unit.reuse(['m'])));
+    place.set(input(2), new NumberValue(creator, z, Unit.reuse(['m'])));
     place.set(
-        PlaceType.inputs[0].names,
-        new NumberValue(creator, x, Unit.reuse(['m'])),
-    );
-    place.set(
-        PlaceType.inputs[1].names,
-        new NumberValue(creator, y, Unit.reuse(['m'])),
-    );
-    place.set(
-        PlaceType.inputs[2].names,
-        new NumberValue(creator, z, Unit.reuse(['m'])),
-    );
-    place.set(
-        PlaceType.inputs[3].names,
+        input(3),
         rotation !== undefined
             ? new NumberValue(creator, rotation, Unit.reuse(['°']))
             : new NoneValue(creator),

@@ -204,15 +204,15 @@ function escapeForRegex(ch: string): string {
  * giving merge regexes for `? ??`, `?? ?`, and `? ? ?` respectively.
  */
 function splitSources(value: string): string[] {
-    const chars = Array.from(value).map(escapeForRegex);
-    if (chars.length < 2) return [];
-    const gaps = chars.length - 1;
+    const [firstChar, ...restChars] = Array.from(value).map(escapeForRegex);
+    if (firstChar === undefined || restChars.length === 0) return [];
+    const gaps = restChars.length;
     const sources: string[] = [];
     for (let mask = 1; mask < 1 << gaps; mask++) {
-        let pattern = chars[0];
-        for (let i = 0; i < gaps; i++) {
+        let pattern = firstChar;
+        for (const [i, char] of restChars.entries()) {
             pattern += mask & (1 << i) ? '\\s+' : '';
-            pattern += chars[i + 1];
+            pattern += char;
         }
         sources.push(pattern);
     }
@@ -367,8 +367,7 @@ function fitsTargetSlot(c: RepairCandidate, rc: RepairContext): boolean {
         // replace it. If we reach this for any other node, accept.
         return true;
     }
-    if (field.kind.allowsKind(c.expression.constructor as Function))
-        return true;
+    if (field.kind.allowsKind(c.expression.constructor)) return true;
     // Bind isn't always allowed where Expression is — special-case the
     // common Block-statement slot that accepts both.
     if (c.expression instanceof Bind && field.kind.allowsKind(Bind))

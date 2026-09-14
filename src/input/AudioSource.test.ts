@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
+import { first, must } from '@util/nullable';
 import { acquireAudioSource } from './AudioSource';
 
 /**
@@ -14,6 +15,12 @@ type FakeTrack = { stop: ReturnType<typeof vi.fn> };
 let created: FakeTrack[] = [];
 let deny = false;
 let getUserMedia: ReturnType<typeof vi.fn>;
+
+/** The first track the fake handed out. Every test that asks has already
+ *  awaited an acquisition, so one exists. */
+function firstTrack(): FakeTrack {
+    return must(first(created), 'a created track');
+}
 
 /** Matches AudioSource's grace constant; long enough to pass it in tests. */
 const PastGrace = 6000;
@@ -78,7 +85,7 @@ test('Reacquiring within the grace period reuses the live stream', async () => {
     vi.advanceTimersByTime(1000);
     const second = acquireAudioSource(settings('reuse'));
     expect(getUserMedia).toHaveBeenCalledTimes(1);
-    expect(created[0].stop).not.toHaveBeenCalled();
+    expect(firstTrack().stop).not.toHaveBeenCalled();
     second.release();
 });
 
@@ -86,9 +93,9 @@ test('An idle source tears down after the grace period', async () => {
     const handle = acquireAudioSource(settings('teardown'));
     await flush();
     handle.release();
-    expect(created[0].stop).not.toHaveBeenCalled();
+    expect(firstTrack().stop).not.toHaveBeenCalled();
     await vi.advanceTimersByTimeAsync(PastGrace);
-    expect(created[0].stop).toHaveBeenCalled();
+    expect(firstTrack().stop).toHaveBeenCalled();
     const again = acquireAudioSource(settings('teardown'));
     expect(getUserMedia).toHaveBeenCalledTimes(2);
     again.release();
@@ -102,7 +109,7 @@ test('Consumers sharing a device share one acquisition', async () => {
     first.release();
     // One consumer remains, so no teardown is even scheduled.
     await vi.advanceTimersByTimeAsync(PastGrace);
-    expect(created[0].stop).not.toHaveBeenCalled();
+    expect(firstTrack().stop).not.toHaveBeenCalled();
     second.release();
 });
 
@@ -124,7 +131,7 @@ test('Switching devices retires the idle old device immediately', async () => {
     await flush();
     old.release();
     const fresh = acquireAudioSource(settings('new-device'));
-    expect(created[0].stop).toHaveBeenCalled();
+    expect(firstTrack().stop).toHaveBeenCalled();
     await flush();
     expect(getUserMedia).toHaveBeenCalledTimes(2);
     fresh.release();

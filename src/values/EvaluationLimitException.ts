@@ -33,7 +33,8 @@ export default class EvaluationLimitException extends ExceptionValue {
             counts.set(fun, (counts.get(fun) ?? 0) + 1);
 
         const sorted = [...counts].sort((a, b) => b[1] - a[1]);
-        const mostFrequent = sorted[0][0];
+        // With no functions on the stack, the program itself is what ran away.
+        const mostFrequent = sorted[0]?.[0] ?? this.program;
 
         return locales.concretize(
             (l) =>

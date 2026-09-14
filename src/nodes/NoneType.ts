@@ -48,9 +48,9 @@ export default class NoneType extends BasisType {
     }
 
     clone(replace?: Replacement) {
-        return new NoneType(
-            this.replaceChild('none', this.none, replace),
-        ) as this;
+        return this.cloned(
+            new NoneType(this.replaceChild('none', this.none, replace)),
+        );
     }
 
     acceptsAll(types: TypeSet): boolean {

@@ -26,7 +26,7 @@ export function getDocLocales(
                 toDocString(selectTranslation(locale, select)),
             ).withLanguage(localeToLanguage(locale));
             return doc.withMarkup(doc.markup.withSource(source));
-        }) as [Doc, ...Doc[]],
+        }),
     );
 }
 
@@ -62,6 +62,6 @@ export function getTemplatedDocLocales(
                 new Token(DOCS_SYMBOL, Sym.Doc),
                 localeToLanguage(locale),
             );
-        }) as [Doc, ...Doc[]],
+        }),
     );
 }

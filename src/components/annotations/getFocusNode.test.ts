@@ -1,7 +1,6 @@
 import getFocusNode from '@components/annotations/getFocusNode';
 import type { Resolution } from '@conflicts/Conflict';
-import type Locales from '@locale/Locales';
-import type Markup from '@nodes/Markup';
+import Markup from '@nodes/Markup';
 import Source from '@nodes/Source';
 import { expect, test } from 'vitest';
 
@@ -9,8 +8,9 @@ const source = new Source('test', '1 + 2');
 const fallback = source.expression;
 const other = source.nodes().find((node) => node.toWordplay() === '2');
 
-/** A description stub — getFocusNode never renders one. */
-const description = (_l: Locales) => undefined as unknown as Markup;
+/** A description stub — getFocusNode never renders one, so empty markup says
+ *  as much as anything else. */
+const description = () => Markup.words('');
 
 test('an explain resolution naming a focus node wins', () => {
     expect(other).toBeDefined();

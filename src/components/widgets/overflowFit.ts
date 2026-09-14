@@ -35,8 +35,7 @@ export const OverflowHysteresis = 1;
 function widthOf(itemWidths: number[], count: number, gap: number): number {
     let total = 0;
     let shown = 0;
-    for (let i = 0; i < count; i++) {
-        const width = itemWidths[i];
+    for (const width of itemWidths.slice(0, count)) {
         if (width <= 0) continue;
         total += width + (shown > 0 ? gap : 0);
         shown++;

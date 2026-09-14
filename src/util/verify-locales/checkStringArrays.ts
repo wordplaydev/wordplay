@@ -28,9 +28,7 @@ export default function checkStringArrays(
     target: LocaleText,
     fix: boolean,
 ): LocaleText {
-    const revised = fix
-        ? (JSON.parse(JSON.stringify(target)) as LocaleText)
-        : target;
+    const revised = fix ? structuredClone(target) : target;
     for (const pair of getKeyTemplatePairs(revised)) {
         const value = pair.value;
         if (!Array.isArray(value)) continue;
@@ -111,8 +109,8 @@ export function docStatus(annotations: string[]): string {
 function normalizeMarkupArray(value: string[]): string[] {
     const annotations = value.map(leadingAnnotations);
     const status = docStatus(annotations);
-    const paragraphs = value.flatMap((element, index) =>
-        splitDocParagraphs(element.slice(annotations[index].length)),
+    const paragraphs = value.flatMap((element) =>
+        splitDocParagraphs(element.slice(leadingAnnotations(element).length)),
     );
     // Nothing but markers (a bare placeholder doc)? Keep the status alone.
     if (paragraphs.length === 0) return status === '' ? value : [status];

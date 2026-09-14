@@ -19,6 +19,7 @@ import { toInstrument } from '@output/Music/Instrument';
 import { degreeToSemitones } from '@output/Music/degrees';
 import { Scales } from '@output/Music/scales';
 import { InstrumentKeys } from '@output/Music/instruments';
+import { must } from '@util/nullable';
 
 /** Build a Music from a music-producing program (the Phrase.test.ts pattern:
  * projects with the same locale share a cached Basis, so type identity holds
@@ -77,9 +78,13 @@ test('degrees resolve against the scale, wrapping octaves both directions', () =
 test('every scale is ascending, deduplicated, and rooted at 0', () => {
     for (const offsets of Object.values(Scales)) {
         expect(offsets[0]).toBe(0);
-        for (let index = 1; index < offsets.length; index++) {
-            expect(offsets[index]).toBeGreaterThan(offsets[index - 1]);
-            expect(offsets[index]).toBeLessThan(12);
+        let previous: number | undefined;
+        for (const offset of offsets) {
+            if (previous !== undefined) {
+                expect(offset).toBeGreaterThan(previous);
+                expect(offset).toBeLessThan(12);
+            }
+            previous = offset;
         }
     }
 });
@@ -344,10 +349,11 @@ test('the Chimes example plays music through its keyboard', async () => {
     // The example is the demonstration of the gap this feature closes: an
     // instrument that used to make no sound. Its music is no longer elided,
     // so the stage must actually carry a Music.
-    const [example] = readProjects('examples').filter((project) =>
+    const [found] = readProjects('examples').filter((project) =>
         project.name.includes('Chimes'),
     );
-    expect(example).toBeDefined();
+    expect(found).toBeDefined();
+    const example = must(found, 'the Chimes example');
     const project = await Project.deserialize(Locales, example);
     const evaluator = new Evaluator(project, DB, [DefaultLocale], false);
     const value = evaluator.getInitialValue();
@@ -355,7 +361,7 @@ test('the Chimes example plays music through its keyboard', async () => {
     const music = toStage(evaluator, value!)?.getMusic() ?? [];
     expect(music).toHaveLength(1);
     // A bell on a pentatonic scale, one-shot rather than looping.
-    const data = music[0].toData();
+    const data = must(music[0], 'the example music').toData();
     expect(data.tracks[0]?.instrument).toBe('bell');
     expect(data.tracks[0]?.loop).toBe(false);
     expect(data.tracks[0]?.scale).toEqual([0, 2, 4, 7, 9]);
@@ -493,7 +499,10 @@ test('the guitar split keeps older projects playing', () => {
  */
 
 test('a note written as a number remembers the number that wrote it', () => {
-    const notes = musicIn(`Music([Track([1 2 3])])`).tracks[0].notes;
+    const notes = must(
+        musicIn(`Music([Track([1 2 3])])`).tracks[0],
+        'the only track',
+    ).notes;
     expect(notes).toHaveLength(3);
     expect(notes.map((note) => note.creator?.toWordplay().trim())).toEqual([
         '1',
@@ -509,8 +518,10 @@ test('a computed note falls back to the notes expression', () => {
     // no Source, so per-note precision isn't available here. The whole melody
     // expression is the nearest thing the creator wrote — highlighting it beats
     // highlighting nothing, which is what a bare creator would have done.
-    const notes = musicIn(`Music([Track([1 2 3].translate(ƒ(n•#) n + 1))])`)
-        .tracks[0].notes;
+    const notes = must(
+        musicIn(`Music([Track([1 2 3].translate(ƒ(n•#) n + 1))])`).tracks[0],
+        'the only track',
+    ).notes;
     expect(notes).toHaveLength(3);
     for (const note of notes)
         expect(note.creator?.toWordplay().trim()).toBe(
@@ -519,7 +530,10 @@ test('a computed note falls back to the notes expression', () => {
 });
 
 test('a note written as a Note structure remembers that structure', () => {
-    const notes = musicIn(`Music([Track([♪(1) ♪(2)])])`).tracks[0].notes;
+    const notes = must(
+        musicIn(`Music([Track([♪(1) ♪(2)])])`).tracks[0],
+        'the only track',
+    ).notes;
     expect(notes.map((note) => note.creator?.toWordplay().trim())).toEqual([
         '♪(1)',
         '♪(2)',

@@ -1,4 +1,5 @@
 import type express from 'express';
+import { isRecord } from './shared/guards.js';
 import type { Request } from 'firebase-functions/v2/https';
 import {
     ExampleGalleries,
@@ -14,6 +15,7 @@ import {
     type FirestoreRestDocument,
     type PreviewMeta,
     type PreviewTarget,
+    isFirestoreRestDocument,
 } from './preview/shared.js';
 import { canonicalOrigin } from './origin.js';
 
@@ -83,11 +85,25 @@ async function getLocaleGalleryText(
 function asGalleryText(
     json: unknown,
 ): Record<string, { name?: string; description?: string }> | undefined {
-    if (json === undefined || json === null || typeof json !== 'object')
-        return undefined;
-    const gallery = (json as Record<string, unknown>)['gallery'];
-    if (gallery === null || typeof gallery !== 'object') return undefined;
-    return gallery as Record<string, { name?: string; description?: string }>;
+    if (!isRecord(json) || !isRecord(json.gallery)) return undefined;
+    // Each entry is kept only for the text fields it actually carries.
+    return Object.fromEntries(
+        Object.entries(json.gallery)
+            .filter((entry): entry is [string, Record<string, unknown>] =>
+                isRecord(entry[1]),
+            )
+            .map(([id, text]) => [
+                id,
+                {
+                    ...(typeof text.name === 'string'
+                        ? { name: text.name }
+                        : {}),
+                    ...(typeof text.description === 'string'
+                        ? { description: text.description }
+                        : {}),
+                },
+            ]),
+    );
 }
 
 async function fetchFirestoreDoc(
@@ -104,7 +120,8 @@ async function fetchFirestoreDoc(
     );
     if (text === undefined) return undefined;
     try {
-        return JSON.parse(text) as FirestoreRestDocument;
+        const parsed: unknown = JSON.parse(text);
+        return isFirestoreRestDocument(parsed) ? parsed : undefined;
     } catch {
         return undefined;
     }
@@ -115,7 +132,9 @@ async function resolveMeta(
     target: PreviewTarget,
     origin: string,
 ): Promise<PreviewMeta | undefined> {
-    const languages = target.locales.map((locale) => locale.split('-')[0]);
+    const languages = target.locales.flatMap(
+        (locale) => locale.split('-')[0] ?? [],
+    );
     const localePrefix =
         target.locales.length > 0 ? `/${target.locales.join('+')}` : '';
     const url = `${origin}${localePrefix}/${target.kind}/${encodeURIComponent(target.id)}`;

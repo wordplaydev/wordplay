@@ -75,9 +75,9 @@ export default class BooleanLiteral extends Literal {
     }
 
     clone(replace?: Replacement) {
-        return new BooleanLiteral(
-            this.replaceChild('value', this.value, replace),
-        ) as this;
+        return this.cloned(
+            new BooleanLiteral(this.replaceChild('value', this.value, replace)),
+        );
     }
 
     getAffiliatedType(): BasisTypeName | undefined {
@@ -139,6 +139,6 @@ export default class BooleanLiteral extends Literal {
     }
 
     adjust(): this | undefined {
-        return BooleanLiteral.make(!this.bool()) as this;
+        return this.cloned(BooleanLiteral.make(!this.bool()));
     }
 }

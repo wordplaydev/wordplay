@@ -1,4 +1,7 @@
 import { BCTKeys, type BCTKey } from '@output/Color/BasicColors';
+import { PathSchema } from '@db/projects/ProjectSchemas';
+import { must } from '@util/nullable';
+import { z } from 'zod';
 import type { RemoteCaret } from './caretEncoding';
 
 /**
@@ -37,6 +40,31 @@ import type { RemoteCaret } from './caretEncoding';
  * own browser on a throttle; read by every other collaborator's browser
  * via Firestore's onSnapshot listener.
  */
+const RemoteCaretSchema = z.union([
+    z.object({ kind: z.literal('point'), pos: z.string() }),
+    z.object({
+        kind: z.literal('range'),
+        anchor: z.string(),
+        head: z.string(),
+    }),
+    z.object({
+        kind: z.literal('node'),
+        path: PathSchema,
+        anchor: PathSchema.exactOptional(),
+    }),
+    z.null(),
+]);
+
+/** The shape of a presence record, for checking one read from Firestore. */
+export const PresencePayloadSchema = z.object({
+    clientID: z.string(),
+    userID: z.string().nullable(),
+    sourceIndex: z.number(),
+    caret: RemoteCaretSchema,
+    color: z.enum(BCTKeys),
+    lastSeen: z.number(),
+}) satisfies z.ZodType<PresencePayload>;
+
 export type PresencePayload = {
     /** Unique per-device writer (same value the stamp layer uses as
      *  `writer` in VectorClock.ts). Used to match a presence record to
@@ -116,7 +144,11 @@ export function pickColorForClient(clientID: string): BCTKey {
     let hash = 0;
     for (let i = 0; i < clientID.length; i++)
         hash = (hash * 31 + clientID.charCodeAt(i)) >>> 0;
-    return PRESENCE_PALETTE[hash % PRESENCE_PALETTE.length];
+    // The palette is BCTKeys less three, so it is non-empty and the modulus is in range.
+    return must(
+        PRESENCE_PALETTE[hash % PRESENCE_PALETTE.length],
+        'a presence color',
+    );
 }
 
 /**

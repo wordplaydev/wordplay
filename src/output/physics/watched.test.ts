@@ -91,5 +91,5 @@ Stage([Shape(Rectangle(-5m 1m 5m -1m) name: 'net')])
     expect(physics.getOutputBody('net')).toBeUndefined();
     const worlds = Array.from(physics.worldsByZ.values());
     expect(worlds).toHaveLength(1);
-    expect(worlds[0].colliders.len()).toBe(1);
+    expect(worlds[0]?.colliders.len()).toBe(1);
 });

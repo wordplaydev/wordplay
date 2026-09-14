@@ -1,4 +1,7 @@
 import { describe, expect, test } from 'vitest';
+import Project from '@db/projects/Project';
+import type Context from '@nodes/Context';
+import Source from '@nodes/Source';
 import concretize from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
@@ -74,6 +77,14 @@ function localeWithParameter(word: string, forms?: string[]): LocaleText {
     };
 }
 
+/** A real context, which `getDescription` requires but a reference never reads. */
+function emptyContext(): Context {
+    const source = new Source('test', '');
+    return Project.make(null, 'test', source, [], DefaultLocale).getContext(
+        source,
+    );
+}
+
 function toLocales(locale: LocaleText) {
     return new Locales(concretize, [locale], DefaultLocale);
 }
@@ -82,7 +93,7 @@ describe('ConceptLink.parse tours', () => {
     test('a tour reference parses as a tour', () => {
         const parsed = ConceptLink.parse('Tour/source');
         expect(parsed).toBeInstanceOf(TourName);
-        expect((parsed as TourName).id).toBe('source');
+        expect(parsed).toMatchObject({ id: 'source' });
     });
 
     test('an unknown tour still parses as a tour, so isValid can report it', () => {
@@ -113,10 +124,9 @@ describe('ConceptLink.parse tours', () => {
             link('@Tour/source')
                 .getDescription(
                     new Locales(concretize, [DefaultLocale], DefaultLocale),
-                    // getDescription doesn't consult the context for a reference.
-                    undefined as unknown as Parameters<
-                        ConceptLink['getDescription']
-                    >[1],
+                    // getDescription doesn't consult the context for a reference,
+                    // but the signature takes one, so hand it a real one.
+                    emptyContext(),
                 )
                 .toText(),
         ).toContain('source');

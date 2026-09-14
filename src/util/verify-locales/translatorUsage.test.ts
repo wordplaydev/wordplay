@@ -5,6 +5,7 @@ import {
     sumUsage,
     type TranslatorUsage,
 } from './Translator';
+import { must } from '@util/nullable';
 
 const usage = (over: Partial<TranslatorUsage>): TranslatorUsage => ({
     model: 'claude-sonnet-5',
@@ -62,9 +63,9 @@ describe('sumUsage', () => {
             usage({ cost: undefined }),
             usage({ cost: undefined }),
         ]);
-        expect(combined[0].cost).toBeUndefined();
+        expect(must(combined[0], 'a usage entry').cost).toBeUndefined();
         const mixed = sumUsage([usage({ cost: undefined }), usage({})]);
-        expect(mixed[0].cost).toBeCloseTo(1.23);
+        expect(must(mixed[0], 'a usage entry').cost).toBeCloseTo(1.23);
     });
 });
 

@@ -264,7 +264,7 @@ async function playing(
         .poll(async () => stripped((await editor.textContent()) ?? ''), {
             message: 'source did not load into the editor',
         })
-        .toContain(stripped(code.split('\n')[0]));
+        .toContain(stripped(code.split('\n')[0] ?? ''));
     // The reload below re-reads the project from the database, so give the
     // debounced save time to land before navigating.
     await page.waitForTimeout(2000);

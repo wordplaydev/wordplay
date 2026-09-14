@@ -18,6 +18,7 @@
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import { withDefaultMonoEmoji } from '@unicode/emoji';
     import type { Component } from 'svelte';
+    import { must } from '@util/nullable';
 
     interface Props {
         /** Localized text for the labels and tooltips */
@@ -119,11 +120,16 @@
     let tipEditing = $state<Record<number, boolean>>({});
     // One tooltip line per chosen locale for the mode at `index`.
     function tipEntriesFor(index: number) {
-        return $locales.getMultilingualFrom(modes, (text) => text.tips[index]);
+        // One tip per mode, and `index` names one of the modes shown.
+        return $locales.getMultilingualFrom(modes, (text) =>
+            must(text.tips[index], `the tip for mode ${index}`),
+        );
     }
     /** A mode button's aria description text — primary locale only. */
     function tipTitleFor(index: number) {
-        return $locales.getPrimaryPlainText((l) => modes(l).tips[index]);
+        return $locales.getPrimaryPlainText((l) =>
+            must(modes(l).tips[index], `the tip for mode ${index}`),
+        );
     }
     function showTip(view: HTMLButtonElement, entries: MultilingualEntry[]) {
         if (entries.length > 0) hint.showMultilingual(entries, view);
@@ -194,18 +200,12 @@
                     }}
                     onpointerenter={(event) =>
                         canHoverTips()
-                            ? showTip(
-                                  event.target as HTMLButtonElement,
-                                  tipEntriesFor(index),
-                              )
+                            ? showTip(event.currentTarget, tipEntriesFor(index))
                             : undefined}
                     onpointerleave={hideTip}
                     onfocus={(event) =>
                         canFocusTips(event.currentTarget)
-                            ? showTip(
-                                  event.target as HTMLButtonElement,
-                                  tipEntriesFor(index),
-                              )
+                            ? showTip(event.currentTarget, tipEntriesFor(index))
                             : undefined}
                     onblur={hideTip}
                     onkeydown={(event) => handleKey(event, index)}

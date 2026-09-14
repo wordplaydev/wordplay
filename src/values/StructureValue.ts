@@ -2,7 +2,7 @@ import type LocaleText from '@locale/LocaleText';
 import getConceptName from '@locale/getConceptName';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type Names from '@nodes/Names';
-import type StructureDefinition from '@nodes/StructureDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
 import type Type from '@nodes/Type';
 import {
@@ -30,7 +30,14 @@ export default class StructureValue extends Value {
     constructor(creator: Expression, context: Evaluation) {
         super(creator);
 
-        this.type = context.getDefinition() as StructureDefinition;
+        const definition = context.getDefinition();
+        // Only an evaluation of a structure definition makes a structure;
+        // anything else is a defect in the caller, not a program's error.
+        if (!(definition instanceof StructureDefinition))
+            throw new Error(
+                `A structure value needs a structure definition, not ${definition.getDescriptor()}`,
+            );
+        this.type = definition;
         this.context = context;
     }
 
@@ -42,16 +49,15 @@ export default class StructureValue extends Value {
         ...inputs: Value[]
     ) {
         const map = new Map<Names, Value>();
-        for (let index = 0; index < type.inputs.length; index++) {
-            const bind = type.inputs[index];
+        for (const [index, bind] of type.inputs.entries()) {
             const input = inputs[index];
             if (input === undefined)
                 throw new Error(
-                    `Inputs are missing input # ${index}, ${type.inputs[index]
+                    `Inputs are missing input # ${index}, ${bind
                         .getNames()
                         .join(', ')}`,
                 );
-            map.set(bind.names, inputs[index]);
+            map.set(bind.names, input);
         }
 
         const evaluation = new Evaluation(
@@ -110,7 +116,7 @@ export default class StructureValue extends Value {
     }
 
     getInput(number: number): Value | undefined {
-        const names = this.type.inputs[number].names;
+        const names = this.type.inputs[number]?.names;
         return names ? this.resolve(names) : undefined;
     }
 
@@ -191,14 +197,13 @@ export default class StructureValue extends Value {
     }
 
     toWordplay(locales?: Locales): string {
-        const bindings = this.type.inputs.map(
-            (bind) =>
-                `${
-                    locales
-                        ? locales.getName(bind.names)
-                        : bind.names.getNames()[0]
-                }${BIND_SYMBOL} ${this.resolve(bind.getNames()[0])}`,
-        );
+        const bindings = this.type.inputs.map((bind) => {
+            const name = bind.getNames()[0];
+            const value = name === undefined ? undefined : this.resolve(name);
+            return `${
+                locales ? locales.getName(bind.names) : bind.names.getNames()[0]
+            }${BIND_SYMBOL} ${value}`;
+        });
         return `${
             locales
                 ? locales.getName(this.type.names)

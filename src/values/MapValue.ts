@@ -67,12 +67,14 @@ export default class MapValue extends SimpleValue {
 
     set(requestor: Expression, key: Value, value: Value) {
         let hasKey = false;
-        const values: [Value, Value][] = this.values.map((kv) => {
-            if (kv[0].isEqualTo(key)) {
-                hasKey = true;
-                return [key, value];
-            } else return kv.slice();
-        }) as [Value, Value][];
+        const values: [Value, Value][] = this.values.map(
+            (kv): [Value, Value] => {
+                if (kv[0].isEqualTo(key)) {
+                    hasKey = true;
+                    return [key, value];
+                } else return [kv[0], kv[1]];
+            },
+        );
         if (!hasKey) values.push([key, value]);
         return new MapValue(requestor, values);
     }
@@ -154,9 +156,12 @@ export default class MapValue extends SimpleValue {
     }
 
     createTranslation(creator: Expression, results: Value[]): Value {
-        return new MapValue(
-            creator,
-            this.values.map(([key], index) => [key, results[index]]),
-        );
+        const pairs: [Value, Value][] = [];
+        for (const [index, [key]] of this.values.entries()) {
+            // One result per entry, since a translate maps over them all.
+            const value = results[index];
+            if (value !== undefined) pairs.push([key, value]);
+        }
+        return new MapValue(creator, pairs);
     }
 }

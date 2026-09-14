@@ -36,7 +36,7 @@ const svSE = localeText('sv-SE');
 /** The accessible name of the workspace's nth tab (About, Text, Terms,
  *  Glossary, Submit). */
 function tabLabel(index: number) {
-    return text(enUS.ui.page.localize.tabs.labels[index]);
+    return text(enUS.ui.page.localize.tabs.labels[index] ?? '');
 }
 
 test('workspace shows this locale s guidance, not the English one', async ({

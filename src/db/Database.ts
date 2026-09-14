@@ -42,6 +42,7 @@ import { ProjectSchema } from '@db/projects/ProjectSchemas';
 import { WordplayDexie } from '@db/WordplayDexie';
 import SettingsDatabase from '@db/settings/SettingsDatabase';
 import retryableLoad from '@util/retryableLoad';
+import { isDefined } from '@util/nullable';
 import { forgetTokenRefresh } from '@db/creators/getClaim';
 import { isProxySession, proxyPrefix } from '@db/proxySession';
 import { getUsername, syncHandle } from '@db/creators/handle.svelte';
@@ -1361,7 +1362,9 @@ const BrowserLanguages =
     typeof navigator !== 'undefined' ? navigator.languages : [];
 
 export const DB = new Database(
-    getBestSupportedLocales(BrowserLanguages.slice()),
+    // The fallback arm of getBestSupportedLocales indexes SupportedLocales, which
+    // the type system can't see is non-empty; nothing undefined ever arrives here.
+    getBestSupportedLocales(BrowserLanguages.slice()).filter(isDefined),
     DefaultLocale,
 );
 

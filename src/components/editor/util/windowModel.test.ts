@@ -1,3 +1,4 @@
+import { must } from '@util/nullable';
 import { test, expect, describe } from 'vitest';
 import {
     lineStarts,
@@ -30,7 +31,9 @@ describe('estimateSlotHeights', () => {
         const code = Array(7).fill('x').join('\n'); // 7 lines
         const starts = lineStarts(code);
         // statement first-offsets at line 0, line 2, line 5
-        const offs = [starts[0], starts[2], starts[5]];
+        const offs = [0, 2, 5].map((line) =>
+            must(starts[line], `line ${line}`),
+        );
         const heights = estimateSlotHeights(offs, starts, 10);
         expect(heights).toEqual([20, 30, 20]); // (2-0), (5-2), (7-5) × 10
         expect(heights.reduce((a, b) => a + b, 0)).toBe(70); // = totalLines × lineHeight
@@ -41,7 +44,9 @@ describe('estimateSlotHeights', () => {
         // one line), with lines 6–7 belonging to the End token's trailing space.
         const code = Array(7).fill('x').join('\n');
         const starts = lineStarts(code);
-        const offs = [starts[0], starts[2], starts[5]];
+        const offs = [0, 2, 5].map((line) =>
+            must(starts[line], `line ${line}`),
+        );
         // lastContentLine = 6 → last slot spans lines 5..6 = 1 line, not 2.
         const heights = estimateSlotHeights(offs, starts, 10, 6);
         expect(heights).toEqual([20, 30, 10]); // last is (6-5)×10, trailing line dropped
@@ -130,8 +135,9 @@ describe('computeWindow', () => {
 
     test('spacers + rendered heights always sum to total', () => {
         const w = computeWindow(prefix, 55, 25, 15);
-        let rendered = 0;
-        for (let i = w.first; i <= w.last; i++) rendered += heights[i];
+        const rendered = heights
+            .slice(w.first, w.last + 1)
+            .reduce((sum, height) => sum + height, 0);
         expect(w.topHeight + rendered + w.bottomHeight).toBe(100);
     });
 
@@ -173,8 +179,9 @@ describe('computeWindow', () => {
         expect(up.first).toBe(2);
         expect(up.last).toBe(6);
         // Spacer-sum invariant holds under asymmetry.
-        let rendered = 0;
-        for (let i = down.first; i <= down.last; i++) rendered += heights[i];
+        const rendered = heights
+            .slice(down.first, down.last + 1)
+            .reduce((sum, height) => sum + height, 0);
         expect(down.topHeight + rendered + down.bottomHeight).toBe(100);
     });
 
@@ -190,8 +197,9 @@ describe('computeWindow', () => {
         // [0,15) touches 0 (0-10) and 2 (10-20); the zero-height 1 never intersects.
         expect(w.first).toBe(0);
         expect(w.last).toBe(2);
-        let rendered = 0;
-        for (let i = w.first; i <= w.last; i++) rendered += h[i];
+        const rendered = h
+            .slice(w.first, w.last + 1)
+            .reduce((sum, height) => sum + height, 0);
         expect(w.topHeight + rendered + w.bottomHeight).toBe(30);
     });
 });
@@ -207,8 +215,9 @@ describe('unionWindow', () => {
         expect(u.last).toBe(8);
         expect(u.topHeight).toBe(20);
         expect(u.bottomHeight).toBe(10);
-        let rendered = 0;
-        for (let i = u.first; i <= u.last; i++) rendered += heights[i];
+        const rendered = heights
+            .slice(u.first, u.last + 1)
+            .reduce((sum, height) => sum + height, 0);
         expect(u.topHeight + rendered + u.bottomHeight).toBe(100);
     });
 

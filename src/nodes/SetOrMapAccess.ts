@@ -70,9 +70,9 @@ export default class SetOrMapAccess extends Expression {
     static make(setOrMap: Expression, key: Expression) {
         return new SetOrMapAccess(
             setOrMap,
-            new SetOpenToken(),
+            SetOpenToken(),
             key,
-            new SetCloseToken(),
+            SetCloseToken(),
         );
     }
 
@@ -125,12 +125,14 @@ export default class SetOrMapAccess extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new SetOrMapAccess(
-            this.replaceChild('setOrMap', this.setOrMap, replace),
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('key', this.key, replace),
-            this.replaceChild('close', this.close, replace),
-        ) as this;
+        return this.cloned(
+            new SetOrMapAccess(
+                this.replaceChild('setOrMap', this.setOrMap, replace),
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('key', this.key, replace),
+                this.replaceChild('close', this.close, replace),
+            ),
+        );
     }
 
     getPurpose() {
@@ -168,9 +170,7 @@ export default class SetOrMapAccess extends Expression {
             conflicts.push(new IncompatibleKey(this, setMapType.key, keyType));
 
         if (this.close === undefined)
-            return [
-                new UnclosedDelimiter(this, this.open, new SetCloseToken()),
-            ];
+            return [new UnclosedDelimiter(this, this.open, SetCloseToken())];
 
         return conflicts;
     }

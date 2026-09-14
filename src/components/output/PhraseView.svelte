@@ -38,6 +38,7 @@
     import { Projects } from '@db/projects/Projects';
     import TextValue from '@values/TextValue';
     import { getLanguageDirection } from '@locale/LanguageCode';
+    import { must } from '@util/nullable';
     import AnimatedText from '@components/output/AnimatedText.svelte';
     import moveOutputWithKey, {
         arrowMove,
@@ -127,7 +128,9 @@
     // The language and region whose characters the random text effect cycles:
     // the text's own tag when it has one, otherwise the program's primary locale.
     let effectLanguage = $derived(
-        textLanguage?.getLanguageCode() ?? $locales.getLanguages()[0],
+        textLanguage?.getLanguageCode() ??
+            // There is always a primary language.
+            must($locales.getLanguages()[0], 'the primary language'),
     );
     let effectRegion = $derived(
         textLanguage?.getLanguageCode() !== undefined
@@ -317,7 +320,8 @@
 
         // Place must be a Place to move it, so creator don't accidently delete a compelx expression.
         const mapping = phrase.value.creator.getInput(
-            $project.shares.output.Phrase.inputs[3],
+            // The basis declares Phrase's place input.
+            must($project.shares.output.Phrase.inputs[3], "Phrase's place"),
             $project.getNodeContext(phrase.value.creator),
         );
         if (!(

@@ -1,4 +1,6 @@
 import type Evaluation from '@runtime/Evaluation';
+import { first, includesString, keysOf, must } from '@util/nullable';
+import { isRecord } from '@util/guards';
 import StreamValue from '@values/StreamValue';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
@@ -57,6 +59,13 @@ const FetchErrors = {
 };
 
 export type FetchError = keyof typeof FetchErrors;
+
+const FetchErrorNames = keysOf(FetchErrors);
+
+/** Whether an error name stored with a response is one this table explains. */
+function isFetchError(name: string): name is FetchError {
+    return includesString(FetchErrorNames, name);
+}
 
 /** Raw inputs are either an HTML string or a HTTP response code number */
 export default class Webpage extends StreamValue<
@@ -143,8 +152,16 @@ export default class Webpage extends StreamValue<
                     new MessageException(
                         this.creator,
                         this.evaluator,
-                        FetchErrors['unparsable' as FetchError](
-                            this.evaluator.getLocales()[0],
+                        // A body that couldn't be read as a page is
+                        // explained as not being HTML; there is no closer
+                        // message, and the key this named before did not
+                        // exist, so this used to throw instead of explaining.
+                        // `getLocales` always ends with the default locale.
+                        FetchErrors['not-html'](
+                            must(
+                                first(this.evaluator.getLocales()),
+                                'a locale',
+                            ),
                         ),
                     ),
                     event,
@@ -153,13 +170,21 @@ export default class Webpage extends StreamValue<
         }
         // It's an error, produce an exception.
         else {
-            const error = FetchErrors[event.response.error as FetchError];
+            const error = isFetchError(event.response.error)
+                ? FetchErrors[event.response.error]
+                : undefined;
             if (error)
                 return this.add(
                     new MessageException(
                         this.evaluator.project.shares.input.Webpage,
                         this.evaluator,
-                        error(this.evaluator.getLocales()[0]),
+                        // `getLocales` always ends with the default locale.
+                        error(
+                            must(
+                                first(this.evaluator.getLocales()),
+                                'a locale',
+                            ),
+                        ),
                     ),
                     event,
                 );
@@ -302,10 +327,16 @@ export default class Webpage extends StreamValue<
                         position += chunk.length;
                     }
 
-                    // Decode into a UTF-8 string, then parse it as a JSON string, then set it as the response.
-                    response = JSON.parse(
+                    // Decode into a UTF-8 string, then parse it as a JSON
+                    // string, then set it as the response. The proxy answers
+                    // with a JSON-encoded string; anything else is not a page.
+                    const parsed: unknown = JSON.parse(
                         new TextDecoder('utf-8').decode(chunksAll),
                     );
+                    response =
+                        typeof parsed === 'string'
+                            ? parsed
+                            : { error: 'not-html' };
                 }
             }
         }
@@ -397,12 +428,34 @@ type DomainData = {
 /**
  * Data by domain to help with rate limiting.
  * */
-const DomainCounts: Record<string, DomainData> =
-    typeof window !== 'undefined' &&
-    typeof window.localStorage !== 'undefined' &&
-    typeof window.localStorage.getItem === 'function'
-        ? JSON.parse(window.localStorage.getItem('domainRequests') ?? '{}')
-        : {};
+const DomainCounts: Record<string, DomainData> = readDomainCounts();
+
+/** The stored request counts, keeping only entries shaped as counts: the
+ *  value is this file's own, but what is in storage is data until read. */
+function readDomainCounts(): Record<string, DomainData> {
+    if (
+        typeof window === 'undefined' ||
+        typeof window.localStorage === 'undefined' ||
+        typeof window.localStorage.getItem !== 'function'
+    )
+        return {};
+    try {
+        const parsed: unknown = JSON.parse(
+            window.localStorage.getItem('domainRequests') ?? '{}',
+        );
+        if (!isRecord(parsed)) return {};
+        return Object.fromEntries(
+            Object.entries(parsed).filter(
+                (entry): entry is [string, DomainData] =>
+                    isRecord(entry[1]) &&
+                    typeof entry[1].time === 'number' &&
+                    typeof entry[1].count === 'number',
+            ),
+        );
+    } catch {
+        return {};
+    }
+}
 
 /** A function that gets a node's text nodes, except for style and script tags */
 function getTextInNode(node: HTMLElement) {

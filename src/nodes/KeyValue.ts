@@ -24,14 +24,14 @@ export default class KeyValue extends Node {
         super();
 
         this.key = key;
-        this.bind = bind ?? new BindToken();
+        this.bind = bind ?? BindToken();
         this.value = value;
 
         this.computeChildren();
     }
 
     static make(key: Expression, value: Expression) {
-        return new KeyValue(key, value, new BindToken());
+        return new KeyValue(key, value, BindToken());
     }
 
     static getPossibleReplacements() {
@@ -70,11 +70,13 @@ export default class KeyValue extends Node {
     }
 
     clone(replace?: Replacement) {
-        return new KeyValue(
-            this.replaceChild('key', this.key, replace),
-            this.replaceChild('value', this.value, replace),
-            this.replaceChild('bind', this.bind, replace),
-        ) as this;
+        return this.cloned(
+            new KeyValue(
+                this.replaceChild('key', this.key, replace),
+                this.replaceChild('value', this.value, replace),
+                this.replaceChild('bind', this.bind, replace),
+            ),
+        );
     }
 
     getPurpose() {

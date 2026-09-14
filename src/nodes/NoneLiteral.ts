@@ -62,9 +62,9 @@ export default class NoneLiteral extends Literal {
     }
 
     clone(replace?: Replacement) {
-        return new NoneLiteral(
-            this.replaceChild('none', this.none, replace),
-        ) as this;
+        return this.cloned(
+            new NoneLiteral(this.replaceChild('none', this.none, replace)),
+        );
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

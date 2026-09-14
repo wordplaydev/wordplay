@@ -1,4 +1,6 @@
 import { DB, Settings } from '@db/Database';
+import type Setting from '@db/settings/Setting';
+import type { ToursTaken } from '@db/settings/ToursSetting';
 import { expect, test } from 'vitest';
 
 /**
@@ -11,27 +13,63 @@ import { expect, test } from 'vitest';
  * is true, keep it true.
  */
 
-/** A value distinguishable from each synced setting's default, so we can prove
- *  `toObject()` actually carries that setting rather than happening to match.
- *  Keyed by the settings-record key, not the Firestore field name: two of those
+/**
+ * A setting paired with a value distinguishable from its default, so we can
+ * prove `toObject()` actually carries that setting rather than happening to
+ * match. The pairing is built at the setting's own type, so a probe that isn't
+ * a value the setting could hold is a compile error; the type is then erased so
+ * the list can be walked without every entry having to agree on one value type.
+ */
+type Probe = {
+    key: string;
+    value: unknown;
+    /** The setting's value right now. */
+    current(): unknown;
+    /** Writes the probe, returning a function that puts the old value back. */
+    apply(): () => void;
+};
+
+function probe<Type>(key: string, setting: Setting<Type>, value: Type): Probe {
+    return {
+        key,
+        value,
+        current: () => setting.get(),
+        apply() {
+            const original = setting.get();
+            setting.set(DB, value);
+            return () => setting.set(DB, original);
+        },
+    };
+}
+
+/** Keyed by the settings-record key, not the Firestore field name: two of those
  *  differ (`howToNotifications` → `newHowToNotifications`), so a name-based
  *  check would need a mapping to keep in step with the schema. */
-const Probes: Record<string, unknown> = {
-    animationFactor: 0.25,
-    locales: ['es-MX'],
-    tutorial: { mode: 'quick', progress: {} },
-    writingLayout: 'vertical-rl',
-    howToNotifications: false,
-    projectFolders: { probe: { name: 'probe', collapsed: true } },
-    projectSort: 'edited',
-    tours: ['palette'],
-    chatThreads: { probe: { root: 3 } },
-    emailNotifications: { decisions: false, reviews: false, activity: true },
-    face: 'Noto Sans Mono',
-    lines: false,
-    wrap: false,
-    space: true,
-};
+const Probes: Probe[] = [
+    probe('animationFactor', Settings.settings.animationFactor, 0.25),
+    probe('locales', Settings.settings.locales, ['es-MX']),
+    probe('tutorial', Settings.settings.tutorial, {
+        mode: 'quick',
+        progress: {},
+    }),
+    probe('writingLayout', Settings.settings.writingLayout, 'vertical-rl'),
+    probe('howToNotifications', Settings.settings.howToNotifications, false),
+    probe('projectFolders', Settings.settings.projectFolders, {
+        probe: { name: 'probe', collapsed: true },
+    }),
+    probe('projectSort', Settings.settings.projectSort, 'edited'),
+    probe<ToursTaken>('tours', Settings.settings.tours, ['palette']),
+    probe('chatThreads', Settings.settings.chatThreads, { probe: { root: 3 } }),
+    probe('emailNotifications', Settings.settings.emailNotifications, {
+        decisions: false,
+        reviews: false,
+        activity: true,
+    }),
+    probe('face', Settings.settings.face, 'Noto Sans Mono'),
+    probe('lines', Settings.settings.lines, false),
+    probe('wrap', Settings.settings.wrap, false),
+    probe('space', Settings.settings.space, true),
+];
 
 /** The settings that claim to follow the creator's account. */
 function syncedEntries() {
@@ -48,27 +86,25 @@ test('every setting flagged as synced has a probe value here', () => {
         syncedEntries()
             .map(([key]) => key)
             .sort(),
-    ).toEqual(Object.keys(Probes).sort());
+    ).toEqual(Probes.map(({ key }) => key).sort());
 });
 
 test('every setting flagged as synced is actually serialized', () => {
-    for (const [key, setting] of syncedEntries()) {
-        const probe = Probes[key];
-        const original = setting.get();
+    for (const { key, value, current, apply } of Probes) {
         expect(
-            probe,
+            value,
             `${key}'s probe must differ from its current value`,
-        ).not.toEqual(original);
+        ).not.toEqual(current());
+        // The store is a module-level singleton, so restore it below however
+        // the assertion goes; a leaked probe would change other suites.
+        const restore = apply();
         try {
-            // The store is a module-level singleton, so restore it below however
-            // the assertion goes; a leaked probe would change other suites.
-            setting.set(DB, probe as never);
             expect(
                 Object.values(Settings.toObject()),
                 `${key} is device: false but toObject() never writes it`,
-            ).toContainEqual(probe);
+            ).toContainEqual(value);
         } finally {
-            setting.set(DB, original as never);
+            restore();
         }
     }
 });

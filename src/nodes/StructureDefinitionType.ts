@@ -60,7 +60,7 @@ export default class StructureDefinitionType extends Type {
     }
 
     clone() {
-        return new StructureDefinitionType(this.type) as this;
+        return this.cloned(new StructureDefinitionType(this.type));
     }
 
     toWordplay(_: Spaces | undefined, locale: LocaleText | undefined) {

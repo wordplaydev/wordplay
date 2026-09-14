@@ -27,6 +27,8 @@
  */
 
 import { HttpsError, onCall } from 'firebase-functions/v2/https';
+import { githubHeaders, hasHtmlUrl, isGitRef } from './github.js';
+import { isRecord, must } from './shared/guards.js';
 import { noProxy } from './proxyGuard.js';
 import prettier from 'prettier';
 import type { StringAnalysis } from 'shared-types';
@@ -108,13 +110,7 @@ async function githubFetch(
 ): Promise<unknown> {
     const response = await fetch(url, {
         ...options,
-        headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/vnd.github+json',
-            'X-GitHub-Api-Version': '2022-11-28',
-            'Content-Type': 'application/json',
-            ...(options?.headers as Record<string, string> | undefined),
-        },
+        headers: githubHeaders(token, options?.headers),
     });
     if (!response.ok) {
         const text = await response.text();
@@ -125,6 +121,18 @@ async function githubFetch(
 
 type GitHubFile = { content: string; sha: string; encoding: string };
 
+/** Whether a contents-API value is one file with content. A directory comes
+ *  back as a list, and a file over a megabyte with `content: null`; neither
+ *  is a file this callable can read. */
+function isGitHubFile(value: unknown): value is GitHubFile {
+    return (
+        isRecord(value) &&
+        typeof value.content === 'string' &&
+        typeof value.sha === 'string' &&
+        typeof value.encoding === 'string'
+    );
+}
+
 /** Fetch a file's JSON contents and its blob SHA from the repository's main
  *  branch. Returns undefined if the file doesn't exist (e.g., no tutorial yet
  *  for a new locale). */
@@ -133,13 +141,15 @@ async function fetchJsonFile(
     filePath: string,
 ): Promise<{ json: Record<string, unknown>; sha: string } | undefined> {
     try {
-        const file = (await githubFetch(
+        const file = await githubFetch(
             token,
             `${GITHUB_BASE}/contents/${encodeURIComponent(filePath).replace(
                 /%2F/g,
                 '/',
             )}?ref=main`,
-        )) as GitHubFile;
+        );
+        if (!isGitHubFile(file))
+            throw new Error(`${filePath} is not a readable file`);
         const decoded = Buffer.from(file.content, 'base64').toString('utf-8');
         return { json: JSON.parse(decoded), sha: file.sha };
     } catch (e) {
@@ -161,10 +171,11 @@ async function createPullRequest(
     files: { path: string; content: string; existingSha?: string }[],
     commitMessage: string,
 ): Promise<string> {
-    const mainRef = (await githubFetch(
+    const mainRef = await githubFetch(
         token,
         `${GITHUB_BASE}/git/ref/heads/main`,
-    )) as { object: { sha: string } };
+    );
+    if (!isGitRef(mainRef)) throw new Error('Could not read the main branch');
 
     await githubFetch(token, `${GITHUB_BASE}/git/refs`, {
         method: 'POST',
@@ -191,10 +202,11 @@ async function createPullRequest(
         });
     }
 
-    const pr = (await githubFetch(token, `${GITHUB_BASE}/pulls`, {
+    const pr = await githubFetch(token, `${GITHUB_BASE}/pulls`, {
         method: 'POST',
         body: JSON.stringify({ title, head: branch, base: 'main', body }),
-    })) as { html_url: string };
+    });
+    if (!hasHtmlUrl(pr)) throw new Error('The pull request has no URL');
 
     return pr.html_url;
 }
@@ -202,10 +214,6 @@ async function createPullRequest(
 // ---------------------------------------------------------------------------
 // Backtranslation
 // ---------------------------------------------------------------------------
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-    return typeof value === 'object' && value !== null;
-}
 
 /** Read a locale JSON's glossary words and their other written forms
  *  ({ id: { word, forms?, definition } }) for the literal-term check, tolerating
@@ -486,51 +494,80 @@ export const submitLocalizationBundle = onCall<
         }[] = [];
 
         try {
-            for (const { key, value } of localeEdits) {
-                const { path, index } = parseOverrideKey(key);
-                const ownList = Array.isArray(value) && isListEditPath(path);
-                // Read what the locale had before the write, since a list's "before"
-                // is its own previous list rather than anything in en-US.
-                const before = ownList
-                    ? listDisplay(resolveAtPath(targetLocaleFile!.json, path))
-                    : englishDisplay(
-                          resolveAtPath(sourceLocaleFile.json, path),
-                          index,
-                      );
-                setAtPath(targetLocaleFile!.json, path, index, value);
-                summaryRows.push({
-                    key,
-                    sourceEnglish: before,
-                    edited: Array.isArray(value) ? listDisplay(value) : value,
-                    ownList,
-                });
+            if (localeEdits.length > 0) {
+                const localeFile = must(
+                    targetLocaleFile,
+                    `the ${locale} locale file`,
+                );
+                for (const { key, value } of localeEdits) {
+                    const { path, index } = parseOverrideKey(key);
+                    const ownList =
+                        Array.isArray(value) && isListEditPath(path);
+                    // Read what the locale had before the write, since a list's "before"
+                    // is its own previous list rather than anything in en-US.
+                    const before = ownList
+                        ? listDisplay(resolveAtPath(localeFile.json, path))
+                        : englishDisplay(
+                              resolveAtPath(sourceLocaleFile.json, path),
+                              index,
+                          );
+                    setAtPath(localeFile.json, path, index, value);
+                    summaryRows.push({
+                        key,
+                        sourceEnglish: before,
+                        edited: Array.isArray(value)
+                            ? listDisplay(value)
+                            : value,
+                        ownList,
+                    });
+                }
             }
-            for (const { key, value } of updatesEdits) {
-                const updatesPath = key.slice(UPDATES_KEY_PREFIX.length + 1);
-                const { path, index } = parseOverrideKey(updatesPath);
-                setAtPath(targetUpdatesFile!.json, path, index, value);
-                summaryRows.push({
-                    key,
-                    // No English to show: see `updatesFilePath`. The back-translation
-                    // below is what a reviewer reads this row against.
-                    sourceEnglish: '',
-                    edited: Array.isArray(value) ? listDisplay(value) : value,
-                    ownList: false,
-                });
+            if (updatesEdits.length > 0) {
+                const updatesFile = must(
+                    targetUpdatesFile,
+                    `the ${locale} changelog translations`,
+                );
+                for (const { key, value } of updatesEdits) {
+                    const updatesPath = key.slice(
+                        UPDATES_KEY_PREFIX.length + 1,
+                    );
+                    const { path, index } = parseOverrideKey(updatesPath);
+                    setAtPath(updatesFile.json, path, index, value);
+                    summaryRows.push({
+                        key,
+                        // No English to show: see `updatesFilePath`. The back-translation
+                        // below is what a reviewer reads this row against.
+                        sourceEnglish: '',
+                        edited: Array.isArray(value)
+                            ? listDisplay(value)
+                            : value,
+                        ownList: false,
+                    });
+                }
             }
-            for (const { key, value } of tutorialEdits) {
-                const tutorialPath = key.slice(TUTORIAL_KEY_PREFIX.length + 1);
-                const { path, index } = parseOverrideKey(tutorialPath);
-                setAtPath(targetTutorialFile!.json, path, index, value);
-                const english = sourceTutorialFile
-                    ? resolveAtPath(sourceTutorialFile.json, path)
-                    : undefined;
-                summaryRows.push({
-                    key,
-                    sourceEnglish: englishDisplay(english, index),
-                    edited: Array.isArray(value) ? listDisplay(value) : value,
-                    ownList: false,
-                });
+            if (tutorialEdits.length > 0) {
+                const tutorialFile = must(
+                    targetTutorialFile,
+                    `the ${locale} tutorial file`,
+                );
+                for (const { key, value } of tutorialEdits) {
+                    const tutorialPath = key.slice(
+                        TUTORIAL_KEY_PREFIX.length + 1,
+                    );
+                    const { path, index } = parseOverrideKey(tutorialPath);
+                    setAtPath(tutorialFile.json, path, index, value);
+                    const english = sourceTutorialFile
+                        ? resolveAtPath(sourceTutorialFile.json, path)
+                        : undefined;
+                    summaryRows.push({
+                        key,
+                        sourceEnglish: englishDisplay(english, index),
+                        edited: Array.isArray(value)
+                            ? listDisplay(value)
+                            : value,
+                        ownList: false,
+                    });
+                }
             }
         } catch (e) {
             throw new HttpsError(

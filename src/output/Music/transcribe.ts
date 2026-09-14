@@ -19,6 +19,7 @@
 import { degreeToSemitones } from '@output/Music/degrees';
 import { ScaleKeys, Scales, type ScaleKey } from '@output/Music/scales';
 import type { NoteData } from '@output/Music/musicData';
+import { must } from '@util/nullable';
 
 /** One frame of pitch detection. */
 export type Frame = {
@@ -218,7 +219,9 @@ export function segment(frames: readonly Frame[]): Sung[] {
                     Math.min(...settled.map((d) => d.pitch)) <=
                     SettleSpread
             ) {
-                const [first] = settled;
+                // `MoveFrames` is positive and the length was just checked
+                // against it, so the run has a first frame.
+                const first = must(settled[0], 'a settled frame');
                 // The slide belongs to the note being left, so the old note
                 // runs until the new one settles.
                 finish(first.at);
@@ -379,7 +382,8 @@ export default function transcribe(
     frames: readonly Frame[],
 ): Transcription | undefined {
     const sung = segment(frames);
-    if (sung.length === 0) return undefined;
+    const opening = sung[0];
+    if (opening === undefined) return undefined;
 
     const tempo = tempoOf(sung);
     const { scale, key } = fit(sung);
@@ -390,7 +394,7 @@ export default function transcribe(
     const tonic = Math.min(...sung.map((note) => note.pitch));
 
     const notes: NoteData[] = [];
-    let previousEnd = sung[0].at;
+    let previousEnd = opening.at;
     for (const note of sung) {
         const gap = note.at - previousEnd;
         // A silence worth writing down, rounded like any other length.

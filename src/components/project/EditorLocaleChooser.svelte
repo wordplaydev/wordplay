@@ -15,7 +15,8 @@
         /** Unique per chooser: a project can show several editors at once, and
          *  duplicate ids on focusable elements are an accessibility violation. */
         id: string;
-        locale: Locale | null;
+        /** The source's chosen locale; undefined when it has no entry yet. */
+        locale: Locale | null | undefined;
         options: Locale[];
         change: (locale: Locale | null) => void;
     } = $props();

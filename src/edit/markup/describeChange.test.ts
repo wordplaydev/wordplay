@@ -40,13 +40,13 @@ function describe_(
 }
 
 describe('formatting announcements name the format and the direction', () => {
-    test.each([
+    test.each<[Format, string]>([
         ['bold', 'bold on'],
         ['italic', 'italic on'],
         ['underline', 'underline on'],
         ['light', 'light on'],
         ['extra', 'extra on'],
-    ] as [Format, string][])('adding %s says %j', (format, expected) => {
+    ])('adding %s says %j', (format, expected) => {
         expect(
             describe_('hello world', 6, (c) => toggleFormat(c, format)),
         ).toBe(expected);

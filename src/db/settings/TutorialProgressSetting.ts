@@ -1,5 +1,9 @@
-import type LanguageCode from '@locale/LanguageCode';
-import type { RegionCode } from '@locale/Regions';
+import {
+    isLanguageCode,
+    type default as LanguageCode,
+} from '@locale/LanguageCode';
+import { isRecord } from '@util/guards';
+import { isRegionCode, type RegionCode } from '@locale/Regions';
 import Setting from '@db/settings/Setting';
 import {
     parseTutorialMode,
@@ -35,22 +39,29 @@ export const DefaultProgress: TutorialProgress = {
 
 const DefaultState: TutorialState = { mode: null, progress: {} };
 
+/** A progress record from stored data, rebuilt field by field: the position
+ *  indexes the tutorial, so a wrong-typed field would be an out-of-range
+ *  read rather than a wrong-looking screen. An older record's single region
+ *  becomes a list. */
 function validateProgress(value: unknown): TutorialProgress | undefined {
+    if (!isRecord(value)) return undefined;
+    const { language, region, act, scene, line } = value;
+    if (typeof language !== 'string' || !isLanguageCode(language))
+        return undefined;
+    const regions =
+        region === null ? null : Array.isArray(region) ? region : [region];
+    if (regions !== null && !regions.every(isRegion)) return undefined;
     if (
-        value != null &&
-        typeof value === 'object' &&
-        'language' in value &&
-        'act' in value &&
-        'scene' in value &&
-        'region' in value &&
-        'line' in value
-    ) {
-        if (Array.isArray(value.region)) return value as TutorialProgress;
-        else {
-            value.region = [value.region];
-            return value as TutorialProgress;
-        }
-    } else return undefined;
+        typeof act !== 'number' ||
+        typeof scene !== 'number' ||
+        typeof line !== 'number'
+    )
+        return undefined;
+    return { language, region: regions, act, scene, line };
+}
+
+function isRegion(value: unknown): value is RegionCode {
+    return typeof value === 'string' && isRegionCode(value);
 }
 
 function validateState(value: unknown): TutorialState | undefined {
@@ -62,8 +73,7 @@ function validateState(value: unknown): TutorialState | undefined {
         value.progress != null &&
         typeof value.progress === 'object'
     ) {
-        const modeRaw =
-            'mode' in value ? (value as { mode: unknown }).mode : null;
+        const modeRaw = 'mode' in value ? value.mode : null;
         const mode =
             modeRaw == null ? null : (parseTutorialMode(modeRaw) ?? null);
         const progress: Partial<Record<TutorialMode, TutorialProgress>> = {};

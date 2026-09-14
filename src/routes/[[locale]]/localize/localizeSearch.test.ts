@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { localizeFields } from './localizeSearch';
 import { searchItems, type Searchable } from '@util/search';
+import { must } from '@util/nullable';
 
 const L = 'en';
 
@@ -30,18 +31,27 @@ const search = (q: string) => searchItems(corpus, q, L).map((r) => r[0]);
 
 describe('localizeFields', () => {
     test('matches the path key (priority 1) and ranks it first', () => {
-        const [ref, match] = searchItems(corpus, 'filter', L)[0];
+        const [ref, match] = must(
+            searchItems(corpus, 'filter', L)[0],
+            'a result',
+        );
         expect(ref).toBe('ui.field.filter.placeholder');
         expect(match[3]).toBe(1);
     });
 
     test('matches the TSDoc description (priority 2)', () => {
-        const [, match] = searchItems(corpus, 'placeholder for', L)[0];
+        const [, match] = must(
+            searchItems(corpus, 'placeholder for', L)[0],
+            'a result',
+        );
         expect(match[3]).toBe(2);
     });
 
     test('matches the translated value (priority 3)', () => {
-        const [ref, match] = searchItems(corpus, 'explorer', L)[0];
+        const [ref, match] = must(
+            searchItems(corpus, 'explorer', L)[0],
+            'a result',
+        );
         expect(ref).toBe('ui.page.learn.header');
         expect(match[3]).toBe(3);
     });

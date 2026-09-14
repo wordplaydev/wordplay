@@ -1,5 +1,6 @@
 import { isMailableAddress } from '@db/creators/mailableAddress';
 import { repairUsername, UsernameLength } from '@db/creators/username';
+import { must } from '@util/nullable';
 import type { ClassSigninMethod } from 'shared-types';
 
 /**
@@ -94,7 +95,10 @@ export function baseUsername(
                   )
                   .map((cell) => [...cell].slice(0, 3).join(''))
                   .join('')
-            : repairUsername((email ?? '').split('@')[0]);
+            : // `split` always yields at least one part, even for an empty string.
+              repairUsername(
+                  must((email ?? '').split('@')[0], 'an address local part'),
+              );
     return pad(source.toLowerCase());
 }
 

@@ -273,12 +273,20 @@ function scheduleRegion(
         if (track === undefined) return cursor;
         // Prefix sums once per track, so advancing is linear in notes decided.
         const prefixes: number[] = [0];
-        for (const note of track.notes)
-            prefixes.push(prefixes[prefixes.length - 1] + note.beats);
-        const length = prefixes[prefixes.length - 1];
+        let length = 0;
+        for (const note of track.notes) {
+            length = length + note.beats;
+            prefixes.push(length);
+        }
         let { index, iteration, done } = cursor;
         while (!done) {
-            const onset = iteration * length + prefixes[index];
+            const prefix = prefixes[index];
+            // A cursor can outlive an edit that shortened its track, leaving
+            // no prefix at its index. NaN is what that read produced before:
+            // the onset test fails, nothing is scheduled, and the index walks
+            // on until it wraps or finishes.
+            const onset =
+                prefix === undefined ? NaN : iteration * length + prefix;
             if (onset >= untilBeat) break;
             const note = track.notes[index];
             if (note !== undefined && note.degrees.length > 0)

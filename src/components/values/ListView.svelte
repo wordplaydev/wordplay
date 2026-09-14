@@ -1,6 +1,7 @@
 <script lang="ts">
     import Expandable from '@components/values/Expandable.svelte';
     import { fitCount } from '@components/values/fit';
+    import { must } from '@util/nullable';
     import SymbolView from '@components/values/SymbolView.svelte';
     import ValueView from '@components/values/ValueView.svelte';
     import { Sym } from '@nodes/Sym';
@@ -16,7 +17,8 @@
 
     let start = $derived(
         fitCount(
-            (i) => value.values[i].toWordplay().length,
+            // fitCount only asks about indices below the length it is given.
+            (i) => must(value.values[i], `value ${i}`).toWordplay().length,
             value.values.length,
         ),
     );

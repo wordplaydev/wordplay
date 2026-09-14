@@ -16,7 +16,7 @@ import checkDegenerateNames, { degeneracy } from './checkDegenerateNames';
 const ShapeNames = new LocalePath(['output', 'Shape'], 'names', []);
 
 function copyLocale(): LocaleText {
-    return JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    return structuredClone(DefaultLocale);
 }
 
 function fix(names: string[], path = ShapeNames): unknown {

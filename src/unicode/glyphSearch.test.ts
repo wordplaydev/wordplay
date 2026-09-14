@@ -4,6 +4,7 @@ import type { Codepoint } from './Unicode';
 import type { EmojiMap } from '@db/locales/LocalesDatabase';
 import type { SupportedLocale } from '@locale/SupportedLocales';
 import { searchItems } from '@util/search';
+import { must } from '@util/nullable';
 
 const L = 'en';
 
@@ -77,13 +78,19 @@ describe('buildGlyphSearch', () => {
         searchItems(records, q, L).map(([code]) => code);
 
     test('matches an emoji by its name (priority 1)', () => {
-        const [code, match] = searchItems(records, 'hot beverage', L)[0];
+        const [code, match] = must(
+            searchItems(records, 'hot beverage', L)[0],
+            'a top match for "hot beverage"',
+        );
         expect(code).toBe(coffee);
         expect(match[3]).toBe(1);
     });
 
     test('matches an emoji by a keyword (priority 2)', () => {
-        const [code, match] = searchItems(records, 'caffeine', L)[0];
+        const [code, match] = must(
+            searchItems(records, 'caffeine', L)[0],
+            'a top match for "caffeine"',
+        );
         expect(code).toBe(coffee);
         expect(match[3]).toBe(2);
     });
@@ -97,7 +104,10 @@ describe('buildGlyphSearch', () => {
     });
 
     test('matches an emoji by its group label (priority 3)', () => {
-        const [code, match] = searchItems(records, 'animals', L)[0];
+        const [code, match] = must(
+            searchItems(records, 'animals', L)[0],
+            'a top match for "animals"',
+        );
         expect(code).toBe(cat);
         expect(match[3]).toBe(3);
     });

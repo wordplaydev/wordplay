@@ -225,6 +225,23 @@ export default class Evaluation {
         return !this.#hostRoot;
     }
 
+    /**
+     * The closure narrowed to the given value class, or the exception a basis
+     * function returns when it isn't one: a basis function is only ever
+     * evaluated on a value of its own type, so anything else is a defect that
+     * should surface as a TypeException rather than a crash.
+     */
+    getClosureOf<Kind extends Value>(
+        kind: abstract new (...args: never[]) => Kind,
+        expected: Type,
+        requestor: Expression,
+    ): Kind | ExceptionValue {
+        const closure = this.#closure;
+        return closure instanceof kind
+            ? closure
+            : this.getValueOrTypeException(requestor, expected, closure);
+    }
+
     /** Utility function for generating a missing value exception */
     getValueOrTypeException(
         expression: Expression,
@@ -248,10 +265,12 @@ export default class Evaluation {
      *  Undefined means that this will continue evaluating. A Value means it's done.
      **/
     step(evaluator: Evaluator): Value | undefined {
-        if (this.#stepIndex >= this.#steps.length) return this.end();
+        // No step at this index means this evaluation is done.
+        const step = this.#steps[this.#stepIndex];
+        if (step === undefined) return this.end();
 
         // Evaluate the next step.
-        const result = this.#steps[this.#stepIndex].evaluate(evaluator);
+        const result = step.evaluate(evaluator);
 
         // If it's an exception, return it to the evaluator to halt the program.
         if (result instanceof ExceptionValue) return result;
@@ -327,15 +346,17 @@ export default class Evaluation {
     /** Tell the current evaluation to jump past the given expression */
     jumpPast(expression: Expression) {
         // Stop when we get to the Expression's Finish step
+        let step = this.#steps[this.#stepIndex];
         while (
-            this.#stepIndex < this.#steps.length &&
+            step !== undefined &&
             !(
-                this.#steps[this.#stepIndex].node === expression &&
-                (this.#steps[this.#stepIndex] instanceof Finish ||
-                    this.#steps[this.#stepIndex] instanceof StartFinish)
+                step.node === expression &&
+                (step instanceof Finish || step instanceof StartFinish)
             )
-        )
+        ) {
             this.#stepIndex++;
+            step = this.#steps[this.#stepIndex];
+        }
         // Step to just before the Finish, so the next step is the Finish.
         // We don't do this for StartFinish since it is the same step.
         if (this.#steps[this.#stepIndex] instanceof Finish) this.#stepIndex--;
@@ -405,6 +426,9 @@ export default class Evaluation {
     /** Binds a value to a name in this evaluation. */
     bind(names: Names | string, value: Value) {
         const bindings = this.#bindings[0];
+        // Only an unbalanced unscope leaves no scope to bind in, and it reports
+        // itself; there is nowhere to put the value.
+        if (bindings === undefined) return;
 
         this.#size += value.getSize();
 
@@ -513,7 +537,7 @@ export default class Evaluation {
     ): Evaluation | undefined {
         const bindings = this.#bindings[0];
 
-        if (!bindings.has(property)) return undefined;
+        if (bindings === undefined || !bindings.has(property)) return undefined;
 
         const newEvaluation = new Evaluation(
             this.#evaluator,
@@ -524,9 +548,13 @@ export default class Evaluation {
         );
 
         // Find the corresponding name.
-        const names = Array.from(newEvaluation.#bindings[0].keys()).find(
-            (name) => name instanceof Names && name.hasName(property),
-        );
+        const newBindings = newEvaluation.#bindings[0];
+        const names =
+            newBindings === undefined
+                ? undefined
+                : Array.from(newBindings.keys()).find(
+                      (name) => name instanceof Names && name.hasName(property),
+                  );
 
         // Otherwise, set the bindings.
         newEvaluation.bind(names ?? property, value);

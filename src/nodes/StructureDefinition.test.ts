@@ -29,6 +29,15 @@ function makeProject(code: string): Project {
     return Project.make(null, 'test', source, [], DefaultLocale);
 }
 
+/** The number a static evaluation produced, so a test that expects one says so
+ *  once rather than asserting the kind and then reading past the assertion. */
+function numberOf(value: unknown): number {
+    expect(value).toBeInstanceOf(NumberValue);
+    if (!(value instanceof NumberValue))
+        throw new Error('Expected a number value');
+    return value.toNumber();
+}
+
 function evaluateStatic(code: string) {
     const project = makeProject(code);
     const evaluator = new Evaluator(
@@ -236,24 +245,21 @@ test('static function referencing an instance input fails as UnknownName', () =>
 
 test('static bind evaluates and is reachable through the definition', () => {
     const value = evaluateStatic('•Math() (\n\t↑ pi: 3.14\n)\nMath.pi');
-    expect(value).toBeInstanceOf(NumberValue);
-    expect((value as NumberValue).toNumber()).toBeCloseTo(3.14);
+    expect(numberOf(value)).toBeCloseTo(3.14);
 });
 
 test('static function evaluates through the definition', () => {
     const value = evaluateStatic(
         '•Math() (\n\t↑ ƒ square(n•#) n · n\n)\nMath.square(5)',
     );
-    expect(value).toBeInstanceOf(NumberValue);
-    expect((value as NumberValue).toNumber()).toBe(25);
+    expect(numberOf(value)).toBe(25);
 });
 
 test('static function is also reachable through an instance', () => {
     const value = evaluateStatic(
         '•Math() (\n\t↑ ƒ square(n•#) n · n\n)\nm: Math()\nm.square(5)',
     );
-    expect(value).toBeInstanceOf(NumberValue);
-    expect((value as NumberValue).toNumber()).toBe(25);
+    expect(numberOf(value)).toBe(25);
 });
 
 // A static member's closure is the structure definition value, whose `resolve` only
@@ -262,8 +268,7 @@ test('static function is also reachable through an instance', () => {
 // NameException at runtime while type-checking clean.
 test('static function body can see a name bound outside the structure', () => {
     const value = evaluateStatic('n: 7\n•W() (\n\t↑ ƒ f() n\n)\nW.f()');
-    expect(value).toBeInstanceOf(NumberValue);
-    expect((value as NumberValue).toNumber()).toBe(7);
+    expect(numberOf(value)).toBe(7);
 });
 
 test('static function body can see a global', () => {
@@ -277,8 +282,7 @@ test('static function body can construct its own structure', () => {
     const value = evaluateStatic(
         '•W(size•#: 1m) (\n\t↑ ƒ f() W(3m)\n)\nW.f().size',
     );
-    expect(value).toBeInstanceOf(NumberValue);
-    expect((value as NumberValue).toNumber()).toBe(3);
+    expect(numberOf(value)).toBe(3);
 });
 
 test('autocomplete on Definition.| suggests static members only', () => {

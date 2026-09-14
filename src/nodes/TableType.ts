@@ -75,11 +75,13 @@ export default class TableType extends BasisType {
     }
 
     clone(replace?: Replacement) {
-        return new TableType(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('columns', this.columns, replace),
-            this.replaceChild('close', this.close, replace),
-        ) as this;
+        return this.cloned(
+            new TableType(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('columns', this.columns, replace),
+                this.replaceChild('close', this.close, replace),
+            ),
+        );
     }
 
     computeConflicts(context: Context) {

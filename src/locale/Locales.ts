@@ -53,6 +53,13 @@ export type TemplateInputs =
 export type LocaleTextAccessor = (locale: LocaleText) => string;
 export type LocaleTextsAccessor = (locale: LocaleText) => string | string[];
 
+/** An accessor whose text a locale may simply not have — a per-locale record
+ *  of names or descriptions, where a missing entry means that locale is
+ *  skipped rather than rendered empty. */
+export type OptionalLocaleTextAccessor = (
+    locale: LocaleText,
+) => string | undefined;
+
 /** A single locale's rendering of some UI text, used to echo each chosen locale.
  *  Carries the language/direction so callers can tag spans for bidi/script/font. */
 export type MultilingualEntry = {
@@ -212,10 +219,7 @@ export default class Locales {
 
         // If the thing we got is a nested object, clean all the objects.
         if (typeof match === 'object' && match !== null) {
-            const cleaned = JSON.parse(JSON.stringify(match)) as Record<
-                any,
-                any
-            >;
+            const cleaned = structuredClone(match);
             const pairs = getKeyTemplatePairs(cleaned);
             for (const pair of pairs)
                 if (typeof pair.value === 'string')
@@ -226,18 +230,17 @@ export default class Locales {
             match = cleaned;
         }
 
+        // sound: annotating replaces each string with a longer string, so the
+        // value keeps the shape the accessor asked for; `Kind` is the caller's
+        // own type parameter, which no runtime check can recover.
         return (
-            // Is the match a string? Clean it.
-            (
-                typeof match === 'string'
-                    ? this.annotateAsUnwritten(match, fallback)
-                    : // Is it an array? Clean each one.
-                      Array.isArray(match) &&
-                        match.every((s) => typeof s === 'string')
-                      ? match.map((s) => this.annotateAsUnwritten(s, fallback))
-                      : match
-            ) as Kind
-        );
+            typeof match === 'string'
+                ? this.annotateAsUnwritten(match, fallback)
+                : Array.isArray(match) &&
+                    match.every((s) => typeof s === 'string')
+                  ? match.map((s) => this.annotateAsUnwritten(s, fallback))
+                  : match
+        ) as Kind;
     }
 
     /** Annotates the text as unwritten or machine translated while also replacing any terminology */
@@ -258,7 +261,7 @@ export default class Locales {
      * With one chosen locale this returns a single entry.
      */
     private getMultilingualRaw(
-        accessor: LocaleTextAccessor,
+        accessor: OptionalLocaleTextAccessor,
     ): MultilingualEntry[] {
         const result: MultilingualEntry[] = [];
         const seen = new Set<string>();
@@ -294,7 +297,9 @@ export default class Locales {
      * form feeds NON-VISUAL plain-string attributes (aria-label/title); visible text uses
      * the styled components instead.
      */
-    getMultilingualEntries(accessor: LocaleTextAccessor): MultilingualEntry[] {
+    getMultilingualEntries(
+        accessor: OptionalLocaleTextAccessor,
+    ): MultilingualEntry[] {
         return this.getMultilingualRaw(accessor).map((entry) => ({
             ...entry,
             text: withoutAnnotations(entry.text),
@@ -415,7 +420,7 @@ export default class Locales {
      * code, an identifier, a name, a key, a font, or a comparison target must use
      * {@link getUnannotatedPrimaryText}, since "📍 · Posición" is not a name (see #1228).
      */
-    getMultilingualText(path: LocaleTextAccessor): string {
+    getMultilingualText(path: OptionalLocaleTextAccessor): string {
         // Terms are already expanded per-locale in getMultilingualRaw.
         return this.getMultilingualEntries(path)
             .map((entry) => entry.text)

@@ -1,4 +1,5 @@
 import Caret from '@edit/caret/Caret';
+import { must } from '@util/nullable';
 import type Context from '@nodes/Context';
 import type Definition from '@nodes/Definition';
 import Node from '@nodes/Node';
@@ -85,14 +86,15 @@ export default class Assign extends Revision {
     getEdit(locale: Locales): Edit | undefined {
         const [newNode, newParent] = this.getEditedNode(locale);
 
-        const existingChild = this.parent.getField(this.additions[0].field);
-        const originalPosition = existingChild
-            ? this.context.source.getNodeFirstPosition(
-                  Array.isArray(existingChild)
-                      ? existingChild[0]
-                      : existingChild,
-              )
-            : undefined;
+        const firstAddition = must(this.additions[0], 'an addition');
+        const existingChild = this.parent.getField(firstAddition.field);
+        const existingNode = Array.isArray(existingChild)
+            ? existingChild[0]
+            : existingChild;
+        const originalPosition =
+            existingNode === undefined
+                ? undefined
+                : this.context.source.getNodeFirstPosition(existingNode);
 
         // Split the space using the position, defaulting to the original space.
         const newSpaces =
@@ -147,9 +149,11 @@ export default class Assign extends Revision {
             this.parent === transform.parent &&
             this.additions.length === transform.additions.length &&
             this.additions.every(({ field, node }, index) => {
-                const otherNode = transform.additions[index].node;
+                const other = transform.additions[index];
+                if (other === undefined) return false;
+                const otherNode = other.node;
                 return (
-                    field === transform.additions[index].field &&
+                    field === other.field &&
                     (node instanceof Node
                         ? otherNode instanceof Node && node.isEqualTo(otherNode)
                         : otherNode instanceof Refer && node.equals(otherNode))

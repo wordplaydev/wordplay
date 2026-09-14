@@ -227,8 +227,7 @@ export function figureFor(event: AnimationEvent, repeat = false): PoseCue[] {
             ),
         );
     let atMs = 0;
-    for (let index = 0; index < event.transitions.length; index++) {
-        const transition = event.transitions[index];
+    for (const [index, transition] of event.transitions.entries()) {
         atMs += transition.duration * factor;
         // The first transition is where the animation starts, not somewhere it
         // arrives: `compile` gives it no duration, and `rest` prepends the pose

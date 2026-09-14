@@ -354,7 +354,7 @@
     /** The beat an entry starts on, for describing it. */
     function beatOf(index: number): number {
         let beat = 0;
-        for (let at = 0; at < index; at++) beat += track.data.notes[at].beats;
+        for (const note of track.data.notes.slice(0, index)) beat += note.beats;
         return beat;
     }
 

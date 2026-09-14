@@ -4,6 +4,7 @@ import {
     previewWords,
     PreviewSeconds,
 } from '@output/Music/previewPhoneme';
+import { must } from '@util/nullable';
 import { Phonemes } from '@output/Music/phonemes';
 import { articulate } from '@output/Music/articulate';
 import DefaultLocale from '@locale/DefaultLocale';
@@ -45,8 +46,9 @@ test('holding a consonant actually lengthens it', () => {
     // the whole reason the previews changed.
     const held = articulate(previewWords('j'), 1);
     const bare = articulate('aja', 1);
+    // Both syllables lay out as three segments around a held middle one.
     const middle = (segments: { at: number; seconds: number }[]) =>
-        segments[1].seconds;
+        must(segments[1], 'the middle segment').seconds;
     expect(middle(held)).toBeGreaterThan(middle(bare) * 3);
 });
 

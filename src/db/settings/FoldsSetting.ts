@@ -14,6 +14,13 @@ const PathListSchema = z.array(PathSchema);
  *  the current AST on load and after edits (unresolved paths are dropped). */
 export type ProjectFolds = Record<string, Record<string, Path[]>>;
 
+/** Every project's folds as stored, checked in one pass rather than leaf by
+ *  leaf and then asserted. */
+const ProjectFoldsSchema = z.record(
+    z.string(),
+    z.record(z.string(), PathListSchema),
+);
+
 /**
  * Folded nodes per project source, persisted locally so a refresh restores which
  * code was collapsed. Device-specific (never synced), mirroring
@@ -24,18 +31,9 @@ export const FoldsSetting = new Setting<ProjectFolds>(
     'folds',
     true,
     {},
-    (value) =>
-        value != null &&
-        value.constructor.name === 'Object' &&
-        Object.values(value).every(
-            (sources) =>
-                sources != null &&
-                sources.constructor.name === 'Object' &&
-                Object.values(sources).every(
-                    (paths) => PathListSchema.safeParse(paths).success,
-                ),
-        )
-            ? (value as ProjectFolds)
-            : undefined,
+    (value) => {
+        const parsed = ProjectFoldsSchema.safeParse(value);
+        return parsed.success ? parsed.data : undefined;
+    },
     (current, value) => current === value,
 );

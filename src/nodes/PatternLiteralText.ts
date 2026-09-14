@@ -13,8 +13,8 @@ import { TextCloseByTextOpen } from '@parser/Tokenizer';
  */
 export function patternLiteralCharacters(token: Token): string {
     const raw = token.getText();
-    if (raw.length === 0) return raw;
     const open = raw[0];
+    if (open === undefined) return raw;
     const close = TextCloseByTextOpen[open];
     const inner = raw.slice(1);
     return close !== undefined && inner.endsWith(close)
@@ -48,9 +48,11 @@ export default class PatternLiteralText extends PatternAtom {
     }
 
     clone(replace?: Replacement) {
-        return new PatternLiteralText(
-            this.replaceChild('text', this.text, replace),
-        ) as this;
+        return this.cloned(
+            new PatternLiteralText(
+                this.replaceChild('text', this.text, replace),
+            ),
+        );
     }
 
     /** The literal characters this atom matches (delimiters stripped). */

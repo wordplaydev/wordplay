@@ -97,7 +97,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         this.inputs = inputs;
         this.close = close;
         this.dot =
-            output !== undefined && dot === undefined ? new TypeToken() : dot;
+            output !== undefined && dot === undefined ? TypeToken() : dot;
         this.output = output;
         this.expression = expression;
 
@@ -118,10 +118,10 @@ export default class FunctionDefinition extends DefinitionExpression {
             new Token(FUNCTION_SYMBOL, Sym.Function),
             names instanceof Names ? names : Names.make(names),
             types,
-            new EvalOpenToken(),
+            EvalOpenToken(),
             inputs,
-            new EvalCloseToken(),
-            output === undefined ? undefined : new TypeToken(),
+            EvalCloseToken(),
+            output === undefined ? undefined : TypeToken(),
             output,
             expression,
         );
@@ -206,7 +206,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         const unitDeriver =
             this.inputs.length > 0
                 ? this.inputs[0]
-                      .getType(context)
+                      ?.getType(context)
                       .getPossibleTypes(context)
                       .find(
                           (t): t is NumberType =>
@@ -256,7 +256,7 @@ export default class FunctionDefinition extends DefinitionExpression {
                                           undefined,
                                       ),
                                   )
-                                : this.inputs[0].getType(context)?.clone(),
+                                : this.inputs[0]?.getType(context)?.clone(),
                         ),
                     )
               : Evaluate.make(
@@ -325,7 +325,7 @@ export default class FunctionDefinition extends DefinitionExpression {
             },
             {
                 name: 'output',
-                kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                kind: any(node(Type), none(['dot', () => TypeToken()])),
                 label: () => (l) => l.node.FunctionDefinition.label.output,
             },
             {
@@ -350,19 +350,21 @@ export default class FunctionDefinition extends DefinitionExpression {
     }
 
     clone(replace?: Replacement) {
-        return new FunctionDefinition(
-            this.replaceChild('docs', this.docs, replace),
-            this.replaceChild('share', this.share, replace),
-            this.replaceChild('fun', this.fun, replace),
-            this.replaceChild('names', this.names, replace),
-            this.replaceChild('types', this.types, replace),
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('inputs', this.inputs, replace),
-            this.replaceChild('close', this.close, replace),
-            this.replaceChild('dot', this.dot, replace),
-            this.replaceChild('output', this.output, replace),
-            this.replaceChild('expression', this.expression, replace),
-        ) as this;
+        return this.cloned(
+            new FunctionDefinition(
+                this.replaceChild('docs', this.docs, replace),
+                this.replaceChild('share', this.share, replace),
+                this.replaceChild('fun', this.fun, replace),
+                this.replaceChild('names', this.names, replace),
+                this.replaceChild('types', this.types, replace),
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('inputs', this.inputs, replace),
+                this.replaceChild('close', this.close, replace),
+                this.replaceChild('dot', this.dot, replace),
+                this.replaceChild('output', this.output, replace),
+                this.replaceChild('expression', this.expression, replace),
+            ),
+        );
     }
 
     sharesName(fun: FunctionDefinition) {
@@ -411,11 +413,15 @@ export default class FunctionDefinition extends DefinitionExpression {
     accepts(fun: FunctionDefinition, context: Context) {
         if (!this.sharesName(fun)) return false;
         for (let i = 0; i < this.inputs.length; i++) {
-            if (i >= fun.inputs.length) return false;
+            const thisInput = this.inputs[i];
+            const thatInput = fun.inputs[i];
+            // A missing counterpart is a mismatch, as the length check was.
+            if (thisInput === undefined || thatInput === undefined)
+                return false;
             if (
-                !this.inputs[i]
+                !thisInput
                     .getType(context)
-                    .accepts(fun.inputs[i].getType(context), context)
+                    .accepts(thatInput.getType(context), context)
             )
                 return false;
         }
@@ -439,7 +445,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         // All other children's scope are the function's parent.
         return child === this.expression ||
             child === this.output ||
-            this.inputs.includes(child as Bind)
+            this.inputs.some((input) => input === child)
             ? this
             : this.getParent(context);
     }
@@ -498,9 +504,9 @@ export default class FunctionDefinition extends DefinitionExpression {
     getDefinitions(node: Node): Definition[] {
         // Does an input declare the name that isn't the one asking?
         return [
-            ...(this.inputs.filter(
-                (i) => i instanceof Bind && i !== node,
-            ) as Bind[]),
+            ...this.inputs.filter(
+                (i): i is Bind => i instanceof Bind && i !== node,
+            ),
             ...(this.types ? this.types.variables : []),
         ];
     }
@@ -595,9 +601,11 @@ export default class FunctionDefinition extends DefinitionExpression {
                 this.names.sharesName(definition.names) &&
                 this.output.isEqualTo(definition.output) &&
                 this.inputs.length === definition.inputs.length &&
-                this.inputs.every((input, index) =>
-                    input.isEqualTo(definition.inputs[index]),
-                ))
+                this.inputs.every((input, index) => {
+                    const other = definition.inputs[index];
+                    // The lengths match, checked above.
+                    return other !== undefined && input.isEqualTo(other);
+                }))
         );
     }
 

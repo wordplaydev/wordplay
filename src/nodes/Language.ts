@@ -34,17 +34,22 @@ import type { Grammar, Replacement } from '@nodes/Node';
 import Node, { list, node, optional } from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
+import { isDefined } from '@util/nullable';
 
 /** The distinct language and region codes Wordplay ships content for, derived
  *  once from SupportedLocales and reused by tag-extension autocomplete. */
 const SupportedLanguageCodes = Array.from(
-    new Set(SupportedLocales.map((locale) => locale.split('-')[0])),
+    new Set(
+        SupportedLocales.map((locale) => locale.split('-')[0]).filter(
+            isDefined,
+        ),
+    ),
 );
 const SupportedRegionCodes: RegionCode[] = Array.from(
     new Set(
-        SupportedLocales.map((locale) => locale.split('-')[1]).filter(
-            isRegionCode,
-        ),
+        SupportedLocales.map((locale) => locale.split('-')[1])
+            .filter(isDefined)
+            .filter(isRegionCode),
     ),
 );
 
@@ -141,19 +146,19 @@ export default class Language extends Node {
         const extraTokens: Token[] = [];
         for (const extra of extras ?? []) {
             extraTokens.push(new Token('_', Sym.LanguageJoin));
-            extraTokens.push(new NameToken(extra));
+            extraTokens.push(NameToken(extra));
         }
         const regionExtraTokens: Token[] = [];
         for (const extra of regionExtras ?? []) {
             regionExtraTokens.push(new Token('_', Sym.LanguageJoin));
-            regionExtraTokens.push(new NameToken(extra));
+            regionExtraTokens.push(NameToken(extra));
         }
         return new Language(
-            new LanguageToken(),
-            lang ? new NameToken(lang) : undefined,
+            LanguageToken(),
+            lang ? NameToken(lang) : undefined,
             extraTokens,
             region ? new Token('-', Sym.Region) : undefined,
-            region ? new NameToken(region) : undefined,
+            region ? NameToken(region) : undefined,
             regionExtraTokens,
         );
     }
@@ -482,18 +487,16 @@ export default class Language extends Node {
     }
 
     clone(replace?: Replacement) {
-        return new Language(
-            this.replaceChild('slash', this.slash, replace),
-            this.replaceChild('language', this.language, replace),
-            this.replaceChild<Token[]>('extras', this.extras, replace),
-            this.replaceChild('dash', this.dash, replace),
-            this.replaceChild('region', this.region, replace),
-            this.replaceChild<Token[]>(
-                'regionExtras',
-                this.regionExtras,
-                replace,
+        return this.cloned(
+            new Language(
+                this.replaceChild('slash', this.slash, replace),
+                this.replaceChild('language', this.language, replace),
+                this.replaceChild('extras', this.extras, replace),
+                this.replaceChild('dash', this.dash, replace),
+                this.replaceChild('region', this.region, replace),
+                this.replaceChild('regionExtras', this.regionExtras, replace),
             ),
-        ) as this;
+        );
     }
 
     getPurpose() {
@@ -711,14 +714,15 @@ export default class Language extends Node {
     getPickerLocaleIDs(): Locale[] {
         const regions = this.getRegionCodes();
         const languages = this.getLanguageCodes();
-        if (languages.length === 0) return [];
+        const [firstLanguage] = languages;
+        if (firstLanguage === undefined) return [];
         const result: Locale[] = languages.map((language) => ({
             language,
             regions,
         }));
         if (languages.length > 1)
             result.push({
-                language: languages[0],
+                language: firstLanguage,
                 regions,
                 multilingual: languages,
             });
@@ -737,11 +741,12 @@ export default class Language extends Node {
      *  primary would drop the English half (#653). */
     getTagLocale(): Locale | undefined {
         const languages = this.getLanguageCodes();
-        if (languages.length === 0) return undefined;
+        const [firstLanguage] = languages;
+        if (firstLanguage === undefined) return undefined;
         const regions = this.getRegionCodes();
         return languages.length > 1
-            ? { language: languages[0], regions, multilingual: languages }
-            : { language: languages[0], regions };
+            ? { language: firstLanguage, regions, multilingual: languages }
+            : { language: firstLanguage, regions };
     }
 
     /** Two tags are equal when they mean the same thing, so `/es` equals

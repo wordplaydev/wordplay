@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { includesString } from '@util/nullable';
+    import { isRecord } from '@util/guards';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
     import PageHeader from '@components/app/PageHeader.svelte';
@@ -59,6 +61,7 @@
     import { Emotion } from '../../../lore/Emotion';
     import { isUpdatesKey } from '@locale/UpdatesBundle';
     import { isTutorialKey } from '../../../tutorial/TutorialPath';
+    import { isDefined } from '@util/nullable';
     import { localizeFields } from './localizeSearch';
     import parseOverrideKey from './overrideKey';
 
@@ -110,11 +113,7 @@
      *  isn't an object. Lets us walk the lazily-fetched JSON Schema without sprinkling
      *  `as Record<string, unknown>` everywhere. */
     function asRecord(value: unknown): Record<string, unknown> | undefined {
-        return typeof value === 'object' &&
-            value !== null &&
-            !Array.isArray(value)
-            ? (value as Record<string, unknown>)
-            : undefined;
+        return isRecord(value) ? value : undefined;
     }
 
     /** Lazily fetched JSON Schema for the LocaleText type. Used to look up the
@@ -209,12 +208,7 @@
     /** Every leaf path/value pair in the currently active locale, produced by the
      *  shared `getKeyTemplatePairs` walker from `@util/verify-locales/LocalePath`. */
     const allPaths = $derived.by(() => {
-        const locale = $locales.getLocale();
-        // The walker accepts a generic record; LocaleText satisfies that shape but
-        // the type system can't see through `Record<keyof typeof Sym, string>`, etc.
-        return getKeyTemplatePairs(
-            locale as unknown as Record<string, unknown>,
-        );
+        return getKeyTemplatePairs($locales.getLocale());
     });
 
     /** True if any string in this pair carries the machine-translation annotation. */
@@ -259,9 +253,7 @@
 
     /** Type guard for the SectionKey union; lets `sectionOf` narrow without an `as`. */
     function isSectionKey(s: string | undefined): s is SectionKey {
-        return (
-            s !== undefined && (sectionOrder as readonly string[]).includes(s)
-        );
+        return s !== undefined && includesString(sectionOrder, s);
     }
 
     /** Map a leaf locale path to its section. Top-level string fields (e.g. `guidance`)
@@ -455,11 +447,13 @@
             else buckets.set(s, [opt]);
         }
         return sectionOrder
-            .filter((s) => buckets.has(s))
-            .map((s) => ({
-                label: sectionLabelAccessor(s),
-                options: buckets.get(s)!,
-            }));
+            .map((s) => {
+                const options = buckets.get(s);
+                return options === undefined
+                    ? undefined
+                    : { label: sectionLabelAccessor(s), options };
+            })
+            .filter(isDefined);
     });
 
     const editorTypePrefix: Record<EditorType, string> = {
@@ -1048,11 +1042,15 @@
                                     width="100%"
                                 >
                                     {#snippet item(option, localized)}
+                                        {@const description =
+                                            typeof option.description ===
+                                            'string'
+                                                ? option.description
+                                                : undefined}
                                         {@const typePrefix =
                                             editorTypePrefix[
-                                                getEditorType(
-                                                    option.description,
-                                                ) ?? 'plain'
+                                                getEditorType(description) ??
+                                                    'plain'
                                             ] ?? ''}
                                         {@const pair = allPaths.find(
                                             (p) =>
@@ -1069,9 +1067,8 @@
                                                     option.label,
                                                 )}</span
                                             >
-                                            {#if option.description}
-                                                <Note>{option.description}</Note
-                                                >
+                                            {#if description}
+                                                <Note>{description}</Note>
                                             {/if}
                                         </span>
                                     {/snippet}

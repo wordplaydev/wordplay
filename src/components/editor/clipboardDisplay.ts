@@ -32,10 +32,12 @@ export function parseClipboardCode(text: string): {
     // spacing and ensures the preview renderer only walks the shown statements.
     if (isCode) {
         const statements = source.expression.expression.statements;
-        if (statements.length > MAX_CLIPBOARD_PREVIEW_STATEMENTS) {
-            const offset = source.getNodeFirstPosition(
-                statements[MAX_CLIPBOARD_PREVIEW_STATEMENTS],
-            );
+        const firstHidden = statements[MAX_CLIPBOARD_PREVIEW_STATEMENTS];
+        if (
+            statements.length > MAX_CLIPBOARD_PREVIEW_STATEMENTS &&
+            firstHidden !== undefined
+        ) {
+            const offset = source.getNodeFirstPosition(firstHidden);
             if (offset !== undefined)
                 return {
                     source: new Source(

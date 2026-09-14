@@ -1,4 +1,5 @@
 import type { WritingDirection, WritingLayout } from '@locale/Scripts';
+import { must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 import createAxes, { ArrowKeys, type ArrowKey, type CaretMotion } from './axes';
 
@@ -21,11 +22,12 @@ describe('projection', () => {
         'place inverts point in $layout/$direction',
         ({ layout, direction }) => {
             const axes = createAxes(layout, direction, Container);
-            for (const [x, y] of [
+            const points: [x: number, y: number][] = [
                 [100, 40],
                 [220, 130],
                 [500, 340],
-            ]) {
+            ];
+            for (const [x, y] of points) {
                 const back = axes.place(axes.point(x, y));
                 // place returns container-relative offsets, which is what an
                 // absolutely positioned child needs.
@@ -39,10 +41,11 @@ describe('projection', () => {
         'client round-trips a viewport point in $layout/$direction',
         ({ layout, direction }) => {
             const axes = createAxes(layout, direction, Container);
-            for (const [x, y] of [
+            const points: [x: number, y: number][] = [
                 [120, 60],
                 [340, 210],
-            ]) {
+            ];
+            for (const [x, y] of points) {
                 const back = axes.client(axes.point(x, y));
                 expect(back.clientX).toBeCloseTo(x);
                 expect(back.clientY).toBeCloseTo(y);
@@ -69,8 +72,12 @@ describe('projection', () => {
 });
 
 describe('monotonicity', () => {
+    /** Two points to compare; a pair rather than a list, since both tests below
+     *  read exactly two. */
+    type PointPair = [[x: number, y: number], [x: number, y: number]];
+
     // Two points, the second later in the line, per mode.
-    const laterInLine: Record<string, [number, number][]> = {
+    const laterInLine: Record<string, PointPair> = {
         'horizontal-tb/ltr': [
             [150, 100],
             [300, 100],
@@ -89,7 +96,7 @@ describe('monotonicity', () => {
         ],
     };
     // Two points, the second on a later line.
-    const laterLine: Record<string, [number, number][]> = {
+    const laterLine: Record<string, PointPair> = {
         'horizontal-tb/ltr': [
             [200, 100],
             [200, 200],
@@ -111,7 +118,10 @@ describe('monotonicity', () => {
 
     test.each(Modes)('later in the line is a larger inline', (mode) => {
         const axes = createAxes(mode.layout, mode.direction, Container);
-        const [first, second] = laterInLine[name(mode)];
+        const [first, second] = must(
+            laterInLine[name(mode)],
+            `points for ${name(mode)}`,
+        );
         expect(axes.point(...second).inline).toBeGreaterThan(
             axes.point(...first).inline,
         );
@@ -119,7 +129,10 @@ describe('monotonicity', () => {
 
     test.each(Modes)('a later line is a larger block', (mode) => {
         const axes = createAxes(mode.layout, mode.direction, Container);
-        const [first, second] = laterLine[name(mode)];
+        const [first, second] = must(
+            laterLine[name(mode)],
+            `points for ${name(mode)}`,
+        );
         expect(axes.point(...second).block).toBeGreaterThan(
             axes.point(...first).block,
         );
@@ -193,7 +206,9 @@ describe('key mapping', () => {
     test.each(Modes)('$layout/$direction maps every arrow', (mode) => {
         const axes = createAxes(mode.layout, mode.direction, Container);
         for (const key of ArrowKeys)
-            expect(axes.motionForKey(key)).toEqual(Expected[name(mode)][key]);
+            expect(axes.motionForKey(key)).toEqual(
+                must(Expected[name(mode)], `motions for ${name(mode)}`)[key],
+            );
     });
 
     test.each(Modes)('keyForMotion inverts motionForKey', (mode) => {

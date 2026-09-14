@@ -116,12 +116,14 @@ export default class Previous extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Previous(
-            this.replaceChild('previous', this.previous, replace),
-            this.replaceChild('range', this.range, replace),
-            this.replaceChild('number', this.number, replace),
-            this.replaceChild('stream', this.stream, replace),
-        ) as this;
+        return this.cloned(
+            new Previous(
+                this.replaceChild('previous', this.previous, replace),
+                this.replaceChild('range', this.range, replace),
+                this.replaceChild('number', this.number, replace),
+                this.replaceChild('stream', this.stream, replace),
+            ),
+        );
     }
 
     computeConflicts(context: Context): Conflict[] {

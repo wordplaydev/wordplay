@@ -35,9 +35,14 @@ function coordAt(
     index: number,
     context = project.getContext(project.getMain()),
 ) {
-    const fun = def.getFunction(context);
-    const input = fun ? def.getInput(fun.inputs[index], context) : undefined;
-    return input instanceof Evaluate ? undefined : getNumber(input as never);
+    const bind = def.getFunction(context)?.inputs[index];
+    const input = bind ? def.getInput(bind, context) : undefined;
+    // A list-valued or evaluated input has no single number to read.
+    return input === undefined ||
+        Array.isArray(input) ||
+        input instanceof Evaluate
+        ? undefined
+        : getNumber(input);
 }
 
 test('getFormAnchor: rectangle uses min-left / max-top regardless of coord order', () => {

@@ -18,6 +18,7 @@ import { createPlace } from '@output/Place/Place';
 import Transition from '@output/animation/Transition';
 import Evaluator from '@runtime/Evaluator';
 import ListValue from '@values/ListValue';
+import { must } from '@util/nullable';
 import { expect, test } from 'vitest';
 
 /**
@@ -67,7 +68,8 @@ function placedTween(given: Pose[], xs: number[]): Transition[] {
     const transitions = given.map(
         (pose, index) =>
             new Transition(
-                createPlace(evaluator, xs[index], 0, 0),
+                // Every caller gives one x position per pose.
+                createPlace(evaluator, must(xs[index], 'an x position'), 0, 0),
                 1,
                 pose,
                 0.125,
@@ -82,7 +84,8 @@ test('a sequence of one pose holds still, so it animates nothing', () => {
     // What Sequence.compile() builds for `Sequence({0%: Pose()})`: the same
     // Pose object at both ends of the tween. The browser animates it and
     // nothing moves, which is exactly what must not be reported as animating.
-    const [only] = poses('[Pose()]');
+    // The literal above is what guarantees exactly one pose.
+    const only = must(poses('[Pose()]')[0], 'the only pose');
     expect(changesOverTime(tween([only, only]))).toBe(false);
 });
 
@@ -111,7 +114,9 @@ test('a move to the place the output already occupies holds still', () => {
 
 test('a tween that only resizes changes over time', () => {
     const same = poses('[Pose() Pose()]');
-    const [first, second] = tween(same);
+    const transitions = tween(same);
+    const first = must(transitions[0], 'the first transition');
+    const second = must(transitions[1], 'the second transition');
     expect(
         changesOverTime([
             first,
@@ -172,7 +177,9 @@ test('poses written at different places in the source animate different nodes', 
     const after = all.slice(2, 4);
     // Equal by value, but written at different places in the source, so the
     // editor highlights different nodes and the change must be published.
-    expect(before[0].equals(after[0])).toBe(true);
+    expect(
+        must(before[0], 'a pose before').equals(must(after[0], 'a pose after')),
+    ).toBe(true);
     expect(sameAnimatingNodes(tween(before), tween(after))).toBe(false);
 });
 

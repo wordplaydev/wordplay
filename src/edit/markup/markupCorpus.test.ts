@@ -15,6 +15,7 @@ import { readdirSync, readFileSync } from 'fs';
 import { resolve } from 'path';
 import { describe, expect, test } from 'vitest';
 import { RepoRoot } from '@util/testFiles';
+import { messageOf } from '@util/guards';
 
 /**
  * @sweep static/locales The markup editor's model must hold for every string the app
@@ -222,7 +223,7 @@ describe('typing a shipped string produces exactly that string', () => {
             try {
                 typed = typeMarkup(text);
             } catch (error) {
-                broken.push(`${origin}: ${(error as Error).message}`);
+                broken.push(`${origin}: ${messageOf(error)}`);
                 continue;
             }
             if (typed !== text)

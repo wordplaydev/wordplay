@@ -1,4 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
+import TermRef from '@locale/TermRef';
+import ConceptRef from '@locale/ConceptRef';
+import { allDefined } from '@util/nullable';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
@@ -34,7 +37,10 @@ export type NodeSegment =
     | Mention
     | Branch;
 
-export type Segment = NodeSegment | ValueRef | NodeRef;
+/** A paragraph's parts: nodes as parsed, plus the references that
+ *  concretizing a template puts in their place (a value, a node, a concept,
+ *  a glossary term), which the markup views render alongside them. */
+export type Segment = NodeSegment | ValueRef | NodeRef | ConceptRef | TermRef;
 
 export default class Paragraph extends Content {
     readonly segments: Segment[];
@@ -91,13 +97,15 @@ export default class Paragraph extends Content {
     }
 
     clone(replace?: Replacement | undefined): this {
-        return new Paragraph(
-            this.replaceChild('segments', this.getNodeSegments(), replace),
-        ) as this;
+        return this.cloned(
+            new Paragraph(
+                this.replaceChild('segments', this.getNodeSegments(), replace),
+            ),
+        );
     }
 
     getNodeSegments() {
-        return this.segments.filter((s) => s instanceof Node) as NodeSegment[];
+        return this.segments.filter((s): s is NodeSegment => s instanceof Node);
     }
 
     withSegments(segments: Segment[]) {
@@ -138,7 +146,12 @@ export default class Paragraph extends Content {
         replacements: [Node, Node][],
     ): Paragraph | undefined {
         const concreteSegments = this.segments.map((content) => {
-            if (content instanceof ValueRef || content instanceof NodeRef)
+            if (
+                content instanceof ValueRef ||
+                content instanceof NodeRef ||
+                content instanceof ConceptRef ||
+                content instanceof TermRef
+            )
                 return content;
             // Replace all repeated special characters with single special characters.
             // URLs are left verbatim; unescaping would collapse the // in https://.
@@ -153,9 +166,9 @@ export default class Paragraph extends Content {
                 } else return content;
             } else return content.concretize(locales, inputs, replacements);
         });
-        return concreteSegments.some((s) => s === undefined)
-            ? undefined
-            : new Paragraph(concreteSegments as Segment[]);
+        return allDefined(concreteSegments)
+            ? new Paragraph(concreteSegments)
+            : undefined;
     }
 
     isBulleted() {

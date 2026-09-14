@@ -203,10 +203,23 @@ const ChatSchema = ChatSchemaV3;
 const ChatSchemaLatestVersion = 3;
 
 export type SerializedChat = z.infer<typeof ChatSchemaV3>;
-export type SerializedChatUnknownVersion =
-    | z.infer<typeof ChatSchemaV1>
-    | z.infer<typeof ChatSchemaV2>
-    | SerializedChat;
+/** Every version a stored chat document may have. */
+const SerializedChatUnknownVersionSchema = z.union([
+    ChatSchemaV3,
+    ChatSchemaV2,
+    ChatSchemaV1,
+]);
+export type SerializedChatUnknownVersion = z.infer<
+    typeof SerializedChatUnknownVersionSchema
+>;
+
+/** A stored chat of any known version, or undefined if the data is not one. */
+export function parseUnknownChat(
+    data: unknown,
+): SerializedChatUnknownVersion | undefined {
+    const result = SerializedChatUnknownVersionSchema.safeParse(data);
+    return result.success ? result.data : undefined;
+}
 
 /** A pre-v3 chat's `moderation` map, if a callable has already written one.
  *  Each value is checked rather than trusted: this is reading a shape the
@@ -897,9 +910,9 @@ export class ChatDatabase {
             runTransaction(firestore, async (tx) => {
                 const snap = await tx.get(chatRef);
                 if (!snap.exists()) return;
-                const current = upgradeChat(
-                    snap.data() as SerializedChatUnknownVersion,
-                );
+                const stored = parseUnknownChat(snap.data());
+                if (stored === undefined) return;
+                const current = upgradeChat(stored);
                 const messages = current.messages.map((m) =>
                     m.id === messageID ? transform(m) : m,
                 );
@@ -1456,15 +1469,11 @@ export class ChatDatabase {
                 getDoc(doc(firestore, ChatsCollection, chatID)),
             );
             if (chatDoc.exists()) {
-                const remoteChat = chatDoc.data();
+                const remoteChat = parseUnknownChat(chatDoc.data());
                 if (remoteChat === undefined) return undefined;
 
-                // assume that the chat is of an unknown version and upgrade it
-                const newChat = new Chat(
-                    upgradeChat(
-                        remoteChat as SerializedChatUnknownVersion,
-                    ) as SerializedChat,
-                );
+                // The chat may be of any version, so upgrade it.
+                const newChat = new Chat(upgradeChat(remoteChat));
                 // Update the chat locally, but do not persist, we already know it's in the database..
                 this.updateChat(newChat, false);
                 return newChat;
@@ -1562,13 +1571,17 @@ export class ChatDatabase {
                 // so we can delete ones that are gone from the server.
                 const synced: string[] = [];
                 snapshot.forEach((doc) => {
-                    const chat = doc.data();
+                    const chat = parseUnknownChat(doc.data());
+                    if (chat === undefined) {
+                        console.error(
+                            `Chat ${doc.id} matched no known version`,
+                        );
+                        return;
+                    }
 
                     // Try to parse the chat and save on success.
                     try {
-                        const upgraded = upgradeChat(
-                            chat as SerializedChatUnknownVersion,
-                        );
+                        const upgraded = upgradeChat(chat);
                         ChatSchema.parse(upgraded);
                         // Update the chat in the local cache, but do not persist; we just got it from the DB.
                         // assume it's a chat of unknown version and upgrade it
@@ -1594,18 +1607,13 @@ export class ChatDatabase {
                         // eviction (the explicit delete leaves it to us).
                         if (this.IndexedDBSupported)
                             void this.db.localDB.deleteChat(projectID);
-                        if (
-                            change.doc.data().type === 'project' &&
-                            this.projectsListener
-                        )
+                        const removedKind: unknown = change.doc.data().type;
+                        if (removedKind === 'project' && this.projectsListener)
                             this.db.MaybeProjects?.ignore(
                                 projectID,
                                 this.projectsListener,
                             );
-                        else if (
-                            change.doc.data().type === 'howto' &&
-                            this.howToListener
-                        )
+                        else if (removedKind === 'howto' && this.howToListener)
                             this.db.HowTos.ignoreListener(
                                 projectID,
                                 this.howToListener,

@@ -44,6 +44,7 @@ import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import type { GlossaryWord } from 'shared-types';
 import type Tutorial from '../../tutorial/Tutorial';
+import { must } from '@util/nullable';
 
 /**
  * Terms whose word is ordinary English far more often than it is jargon, so a
@@ -120,7 +121,8 @@ export function getLinkedTermIds(
     }
     const linked = new Set<string>();
     for (const match of text.matchAll(ReferencePattern)) {
-        const id = byForm.get(match[1].toLowerCase());
+        // The pattern's only group is not optional.
+        const id = byForm.get(must(match[1], 'a reference').toLowerCase());
         if (id !== undefined) linked.add(id);
     }
     return linked;
@@ -175,7 +177,7 @@ export function linkGlossaryInTutorial(
     const words = getGlossaryWords(locale);
     const changes: GlossaryLinkChange[] = [];
     // Structured clone so a report-only run can compare against the original.
-    const revised: Tutorial = JSON.parse(JSON.stringify(tutorial));
+    const revised: Tutorial = structuredClone(tutorial);
 
     for (const act of revised.acts) {
         for (const scene of act.scenes) {
@@ -234,13 +236,11 @@ export function linkGlossaryInLocale(locale: LocaleText): {
 } {
     const words = getGlossaryWords(locale);
     const changes: GlossaryLinkChange[] = [];
-    const revised: LocaleText = JSON.parse(JSON.stringify(locale));
+    const revised: LocaleText = structuredClone(locale);
 
     for (const path of getKeyTemplatePairs(revised)) {
         if (path.key !== 'doc') continue;
-        const value = path.resolve(
-            revised as unknown as Record<string, unknown>,
-        );
+        const value = path.resolve(revised);
         if (value === undefined) continue;
 
         const parts = Array.isArray(value) ? [...value] : [value];
@@ -251,9 +251,9 @@ export function linkGlossaryInLocale(locale: LocaleText): {
 
         const added: string[] = [];
         let touched = false;
-        for (let index = 0; index < parts.length; index++) {
+        for (const [index, part] of parts.entries()) {
             const before = new Set(introduced);
-            const linked = linkFirstUse(parts[index], words, introduced);
+            const linked = linkFirstUse(part, words, introduced);
             if (linked === undefined) continue;
             parts[index] = linked;
             touched = true;
@@ -261,10 +261,7 @@ export function linkGlossaryInLocale(locale: LocaleText): {
         }
 
         if (touched) {
-            path.repair(
-                revised as unknown as Record<string, unknown>,
-                Array.isArray(value) ? parts : parts[0],
-            );
+            path.repair(revised, Array.isArray(value) ? parts : parts[0]);
             changes.push({ where: path.toString(), ids: added });
         }
     }

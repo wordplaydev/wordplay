@@ -28,9 +28,7 @@ export default function checkOperatorKeywords(
     target: LocaleText,
     fix: boolean,
 ): LocaleText {
-    const revised = fix
-        ? (JSON.parse(JSON.stringify(target)) as LocaleText)
-        : target;
+    const revised = fix ? structuredClone(target) : target;
 
     const unresolvable: string[] = [];
     for (const op of OperatorKeywordIds) {

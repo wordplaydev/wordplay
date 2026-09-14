@@ -1,11 +1,8 @@
 import type { Handle } from '@sveltejs/kit';
+import { isRecord } from '@util/guards';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import {
-    getManifestPath,
-    SupportedLocales,
-    type SupportedLocale,
-} from '@locale/SupportedLocales';
+import { getManifestPath, isSupportedLocale } from '@locale/SupportedLocales';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 
 type FallbackStrings = {
@@ -30,21 +27,31 @@ function loadFallback(locale: string): FallbackStrings {
 
     const filePath = getLocaleFilePath(locale);
     const raw = readFileSync(filePath, 'utf8');
-    const parsed = JSON.parse(raw) as {
-        glossary?: { wordplay?: { word?: string } };
-        system?: Partial<Omit<FallbackStrings, 'wordplay'>>;
-    };
+    const parsed: unknown = JSON.parse(raw);
+    // Read as data: this runs before the app, against a file on disk, and an
+    // absent field falls back to English below rather than failing the render.
+    const glossary = isRecord(parsed) ? parsed.glossary : undefined;
+    const wordplay = isRecord(glossary) ? glossary.wordplay : undefined;
+    const system = isRecord(parsed) ? parsed.system : undefined;
+    const text = (value: unknown) =>
+        typeof value === 'string' ? value : undefined;
     const strings: FallbackStrings = {
-        wordplay: withoutAnnotations(parsed.glossary?.wordplay?.word ?? ''),
-        imageDescription: withoutAnnotations(
-            parsed.system?.imageDescription ?? '',
+        wordplay: withoutAnnotations(
+            (isRecord(wordplay) ? text(wordplay.word) : undefined) ?? '',
         ),
-        noscript: withoutAnnotations(parsed.system?.noscript ?? ''),
+        imageDescription: withoutAnnotations(
+            (isRecord(system) ? text(system.imageDescription) : undefined) ??
+                '',
+        ),
+        noscript: withoutAnnotations(
+            (isRecord(system) ? text(system.noscript) : undefined) ?? '',
+        ),
         unsupportedHeading: withoutAnnotations(
-            parsed.system?.unsupportedHeading ?? '',
+            (isRecord(system) ? text(system.unsupportedHeading) : undefined) ??
+                '',
         ),
         unsupportedBody: withoutAnnotations(
-            parsed.system?.unsupportedBody ?? '',
+            (isRecord(system) ? text(system.unsupportedBody) : undefined) ?? '',
         ),
     };
 
@@ -76,9 +83,7 @@ function loadFallback(locale: string): FallbackStrings {
 function pickLocale(param: string | undefined): string {
     if (!param) return 'en-US';
     const first = param.split('+')[0];
-    return SupportedLocales.includes(first as SupportedLocale)
-        ? first
-        : 'en-US';
+    return first !== undefined && isSupportedLocale(first) ? first : 'en-US';
 }
 
 function escapeHtml(value: string): string {

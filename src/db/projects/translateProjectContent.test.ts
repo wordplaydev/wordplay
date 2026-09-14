@@ -1,6 +1,7 @@
 import DefaultLocale from '@locale/DefaultLocale';
 import { localeToString, stringToLocale } from '@locale/Locale';
 import Source from '@nodes/Source';
+import { first } from '@util/nullable';
 import { expect, test } from 'vitest';
 import Project from '@db/projects/Project';
 import translateProjectContent, {
@@ -35,7 +36,7 @@ test('replace mode rewrites names, their references, and text into the target la
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].toWordplay() ?? '';
+    const out = result?.getSources()[0]?.toWordplay() ?? '';
 
     // The name and its reference are replaced (not added alongside the source).
     expect(out).toContain('gato');
@@ -74,7 +75,7 @@ test('a translation that would put an apostrophe in a name keeps the identifier 
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].toWordplay() ?? '';
+    const out = result?.getSources()[0]?.toWordplay() ?? '';
     // The broken ASCII apostrophe must never reach the program text.
     expect(out).not.toContain("o'brien");
     // It's localized to the valid modifier-letter form, and still parses cleanly.
@@ -99,7 +100,7 @@ test('add mode keeps the source name and adds the target as another option', asy
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].toWordplay() ?? '';
+    const out = result?.getSources()[0]?.toWordplay() ?? '';
 
     // Both the source and target names are present (multilingual).
     expect(out).toContain('cat');
@@ -162,8 +163,8 @@ test('a gather pass then a lookup pass equals one direct pass', async () => {
     );
 
     expect(applied).not.toBeNull();
-    expect(applied?.getSources()[0].toWordplay()).toBe(
-        direct?.getSources()[0].toWordplay(),
+    expect(applied?.getSources()[0]?.toWordplay()).toBe(
+        direct?.getSources()[0]?.toWordplay(),
     );
 });
 
@@ -189,7 +190,7 @@ test('a name with no letters is never sent for translation', async () => {
     );
 
     expect(requested).not.toContain('🔈');
-    const out = result?.getSources()[0].toWordplay() ?? '';
+    const out = result?.getSources()[0]?.toWordplay() ?? '';
     expect(out).toContain('🔈');
 });
 
@@ -210,7 +211,7 @@ test('validation leaves a clean translation alone', async () => {
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].toWordplay() ?? '';
+    const out = result?.getSources()[0]?.toWordplay() ?? '';
     expect(out).toContain('gato');
     expect(out).toContain('miau');
 });
@@ -254,7 +255,7 @@ test('strings the translator leaves undefined keep their source', async () => {
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].toWordplay() ?? '';
+    const out = result?.getSources()[0]?.toWordplay() ?? '';
     expect(out).toContain('gato');
     // The text kept its source rather than becoming empty.
     expect(out).toContain('meow');
@@ -285,7 +286,7 @@ test('preserveTagged: a tagged text option survives rewrite and the untagged one
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].toWordplay() ?? '';
+    const out = result?.getSources()[0]?.toWordplay() ?? '';
     expect(out).toContain(`'hola'`);
     expect(out).toContain(`'bonjour'/fr`);
     expect(out).not.toContain('hello');
@@ -309,7 +310,7 @@ test('preserveTagged: a fully-tagged literal is content and is left whole', asyn
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].toWordplay() ?? '';
+    const out = result?.getSources()[0]?.toWordplay() ?? '';
     expect(out).toContain(`'un'/fr`);
     expect(out).not.toContain('WRONG');
     // The untagged name still translates and its reference follows.
@@ -334,7 +335,7 @@ test('preserveTagged: tagged names survive a rename and separators stay valid', 
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].code.toString() ?? '';
+    const out = result?.getSources()[0]?.code.toString() ?? '';
     expect(out).toContain('palabra');
     expect(out).toContain('mot/fr');
     expect(out).not.toContain('word');
@@ -369,7 +370,7 @@ test('preserveTagged: a reference spelled with a tagged name keeps its spelling'
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].code.toString() ?? '';
+    const out = result?.getSources()[0]?.code.toString() ?? '';
     // The bind is renamed, but the deliberate tagged spelling stays.
     expect(out).toContain('palabra');
     expect(out).toMatch(/\nmot$/);
@@ -392,7 +393,7 @@ test('preserveTagged: a tagged doc option survives and the untagged one translat
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].toWordplay() ?? '';
+    const out = result?.getSources()[0]?.toWordplay() ?? '';
     expect(out).toContain('¶hola¶');
     expect(out).toContain('¶bonjour¶/fr');
     expect(out).not.toContain('hello');
@@ -415,7 +416,7 @@ test('preserveTagged: a tagged target-language option is the translation and not
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].toWordplay() ?? '';
+    const out = result?.getSources()[0]?.toWordplay() ?? '';
     // Both options remain: the tagged one already serves target readers, and
     // collapsing is exactly what preserveTagged exists to prevent.
     expect(out).toContain(`'hello'`);
@@ -440,7 +441,7 @@ test('preserveTagged: a bind already named in the target language is not renamed
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].code.toString() ?? '';
+    const out = result?.getSources()[0]?.code.toString() ?? '';
     // The untagged name stays; inventing a second Spanish word would either
     // duplicate the tagged one or add a spurious synonym.
     expect(out).toContain('word');
@@ -469,7 +470,7 @@ test('a unary operator keeps its symbol rather than a word that glues onto its o
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].code.toString() ?? '';
+    const out = result?.getSources()[0]?.code.toString() ?? '';
     expect(out).toContain('~celdaOcupada');
 });
 
@@ -514,8 +515,8 @@ test('a name tagged in another language is translated, from that language', asyn
     );
 
     expect(backend.asks).toHaveLength(1);
-    expect(backend.asks[0]).toEqual({ texts: ['mot'], from: 'fr' });
-    expect(result?.getSources()[0].code.toString()).toContain('palabra');
+    expect(first(backend.asks)).toEqual({ texts: ['mot'], from: 'fr' });
+    expect(result?.getSources()[0]?.code.toString()).toContain('palabra');
 });
 
 test('rewriting collapses a name tagged in another language too', async () => {
@@ -534,7 +535,7 @@ test('rewriting collapses a name tagged in another language too', async () => {
         true,
     );
 
-    const out = result?.getSources()[0].code.toString() ?? '';
+    const out = result?.getSources()[0]?.code.toString() ?? '';
     expect(out).toContain('palabra');
     expect(out).not.toContain('mot');
 });
@@ -557,7 +558,7 @@ test('a literal with no option in the chosen language is sent as its own languag
     );
 
     expect(backend.asks).toHaveLength(1);
-    expect(backend.asks[0].from).toBe('fr');
+    expect(first(backend.asks)?.from).toBe('fr');
 });
 
 test('a project written in two languages makes one call per language', async () => {
@@ -619,7 +620,7 @@ test('the same words in two languages get two translations, not one', async () =
         true,
     );
 
-    const out = result?.getSources()[0].code.toString() ?? '';
+    const out = result?.getSources()[0]?.code.toString() ?? '';
     expect(asked.sort()).toEqual(['en-US', 'fr']);
     expect(out).toContain('noingles');
     expect(out).toContain('nofrances');
@@ -644,7 +645,7 @@ test('tagged content still translates when the target is the untagged language',
     );
 
     expect(backend.asks).toHaveLength(1);
-    expect(backend.asks[0].from).toBe('fr');
+    expect(first(backend.asks)?.from).toBe('fr');
 });
 
 test('plan fires once with the total across every language', async () => {
@@ -692,7 +693,7 @@ test('one failed language keeps the other language’s translations', async () =
         true,
     );
 
-    const out = result?.getSources()[0].code.toString() ?? '';
+    const out = result?.getSources()[0]?.code.toString() ?? '';
     expect(result).not.toBeNull();
     expect(out).toContain('gato');
     // The French batch failed, so its words stand rather than being lost.
@@ -750,9 +751,9 @@ test('preserveTagged still makes exactly one call, in the chosen language', asyn
     );
 
     expect(backend.asks).toHaveLength(1);
-    expect(backend.asks[0].from).toBe('en-US');
+    expect(first(backend.asks)?.from).toBe('en-US');
     // The tagged options are untouched.
-    const out = result?.getSources()[0].code.toString() ?? '';
+    const out = result?.getSources()[0]?.code.toString() ?? '';
     expect(out).toContain('bonjour');
     expect(out).toContain('hola');
 });
@@ -809,7 +810,7 @@ test('add mode leaves a name inside documentation alone', async () => {
         false,
     );
 
-    const out = result?.getSources()[0].code.toString() ?? '';
+    const out = result?.getSources()[0]?.code.toString() ?? '';
     // The bind outside the doc still gains its translation.
     expect(out).toContain('gato');
     // The lambda parameter inside the doc does not.

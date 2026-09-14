@@ -17,13 +17,13 @@ export default class TypePlaceholder extends Type {
     constructor(placeholder?: Token) {
         super();
 
-        this.placeholder = placeholder ?? new PlaceholderToken();
+        this.placeholder = placeholder ?? PlaceholderToken();
 
         this.computeChildren();
     }
 
     static make() {
-        return new TypePlaceholder(new PlaceholderToken());
+        return new TypePlaceholder(PlaceholderToken());
     }
 
     static getPossibleReplacements() {
@@ -53,9 +53,11 @@ export default class TypePlaceholder extends Type {
     }
 
     clone(replace?: Replacement) {
-        return new TypePlaceholder(
-            this.replaceChild('placeholder', this.placeholder, replace),
-        ) as this;
+        return this.cloned(
+            new TypePlaceholder(
+                this.replaceChild('placeholder', this.placeholder, replace),
+            ),
+        );
     }
 
     computeConflicts(): Conflict[] {

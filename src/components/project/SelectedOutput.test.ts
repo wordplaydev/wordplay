@@ -4,6 +4,7 @@ import Source from '@nodes/Source';
 import DefaultLocale from '@locale/DefaultLocale';
 import Evaluate from '@nodes/Evaluate';
 import SelectedOutput from '@components/project/SelectedOutput.svelte';
+import { must } from '@util/nullable';
 
 /** A project with two top-level Phrase outputs, plus those two Evaluates. */
 function setup() {
@@ -17,7 +18,12 @@ function setup() {
                 n instanceof Evaluate &&
                 n.is(project.shares.output.Phrase, context),
         );
-    return { project, a: phrases[0], b: phrases[1] };
+    // The fixture source declares exactly two phrases.
+    return {
+        project,
+        a: must(phrases[0], 'the first phrase'),
+        b: must(phrases[1], 'the second phrase'),
+    };
 }
 
 test('toggle adds an output, then removes it', () => {

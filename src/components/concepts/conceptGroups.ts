@@ -66,7 +66,7 @@ const contentPurposes = [
 type ContentPurpose = (typeof contentPurposes)[number];
 
 export function isContentPurpose(p: PurposeType): p is ContentPurpose {
-    return (contentPurposes as readonly PurposeType[]).includes(p);
+    return contentPurposes.some((purpose) => purpose === p);
 }
 
 /**
@@ -300,12 +300,9 @@ function getRecycledSource(
     // Several nodes? They're a contiguous run of siblings in one list, so they
     // come out together — with the run's own space handling, since removing them
     // one at a time would leave a blank line behind each.
-    if (nodes.length > 1) {
-        const range = getSiblingRange(
-            source.root,
-            node,
-            nodes[nodes.length - 1],
-        );
+    const last = nodes[nodes.length - 1];
+    if (nodes.length > 1 && last !== undefined) {
+        const range = getSiblingRange(source.root, node, last);
         if (range === undefined || !rangeIsRemovable(range)) return undefined;
         const removal = withoutRun(source, range);
         return removal === undefined ? undefined : [source, removal.source];
@@ -357,13 +354,14 @@ export function canRecycleDraggedNode(
  */
 export function recycleDraggedNode(project: Project, nodes: Node[]): void {
     const result = getRecycledSource(project, nodes);
-    if (result === undefined) return;
+    const first = nodes[0];
+    if (result === undefined || first === undefined) return;
     const [source, newSource] = result;
 
     // Update the project with the new source files.
     Projects.reviseProject(
         project
             .withSource(source, newSource)
-            .withCaret(newSource, source.getNodeFirstPosition(nodes[0]) ?? 0),
+            .withCaret(newSource, source.getNodeFirstPosition(first) ?? 0),
     );
 }

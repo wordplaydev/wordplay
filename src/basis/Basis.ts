@@ -45,19 +45,25 @@ import bootstrapStructure from '@basis/StructureBasis';
 import bootstrapTable from '@basis/TableBasis';
 import bootstrapText from '@basis/TextBasis';
 import bootstrapFormatted from '@basis/FormattedBasis';
+import { must } from '@util/nullable';
 
 export class Basis {
     readonly locales: Locales;
     readonly languages: LanguageCode[];
     readonly shares: ReturnType<typeof createDefaultShares>;
 
-    readonly functionsByType: Record<
-        string,
-        Record<string, FunctionDefinition>
-    > = {};
-    readonly conversionsByType: Record<string, ConversionDefinition[]> = {};
-    readonly structureDefinitionsByName: Record<string, StructureDefinition> =
-        {};
+    readonly functionsByType = new Map<
+        BasisTypeName,
+        Map<string, FunctionDefinition>
+    >();
+    readonly conversionsByType = new Map<
+        BasisTypeName,
+        ConversionDefinition[]
+    >();
+    readonly structureDefinitionsByName = new Map<
+        BasisTypeName,
+        StructureDefinition
+    >();
 
     private readonly roots: Root[] = [];
 
@@ -189,35 +195,36 @@ export class Basis {
     }
 
     addFunction(kind: BasisTypeName, fun: FunctionDefinition) {
-        if (!(kind in this.functionsByType)) this.functionsByType[kind] = {};
-
-        fun.names.names.forEach((a) => {
+        let byName = this.functionsByType.get(kind);
+        if (byName === undefined) {
+            byName = new Map();
+            this.functionsByType.set(kind, byName);
+        }
+        for (const a of fun.names.names) {
             const name = a.getName();
-            if (name !== undefined) this.functionsByType[kind][name] = fun;
-        });
+            if (name !== undefined) byName.set(name, fun);
+        }
     }
 
-    getAllFunctionDefinitions() {
-        return Object.values(this.functionsByType).reduce(
-            (
-                all: FunctionDefinition[],
-                next: Record<string, FunctionDefinition>,
-            ) => [...all, ...Object.values(next)],
-            [],
-        );
+    getAllFunctionDefinitions(): FunctionDefinition[] {
+        return [...this.functionsByType.values()].flatMap((byName) => [
+            ...byName.values(),
+        ]);
     }
 
     addConversion(kind: BasisTypeName, conversion: ConversionDefinition) {
-        if (!(kind in this.conversionsByType))
-            this.conversionsByType[kind] = [];
-
-        this.conversionsByType[kind].push(conversion);
+        let conversions = this.conversionsByType.get(kind);
+        if (conversions === undefined) {
+            conversions = [];
+            this.conversionsByType.set(kind, conversions);
+        }
+        conversions.push(conversion);
     }
 
     addStructure(kind: BasisTypeName, structure: StructureDefinition) {
         // Cache the parents of the nodes, "crystalizing" it.
         // This means there should be no future changes to the basis structure definition.
-        this.structureDefinitionsByName[kind] = structure;
+        this.structureDefinitionsByName.set(kind, structure);
 
         if (structure.expression instanceof Block) {
             for (const statement of structure.expression.statements) {
@@ -230,48 +237,46 @@ export class Basis {
     }
 
     getConversion(
-        kind: string,
+        kind: BasisTypeName,
         context: Context,
         input: Type,
         output: Type,
     ): ConversionDefinition | undefined {
-        if (!(kind in this.conversionsByType)) return undefined;
-        return this.conversionsByType[kind].find((c) =>
-            c.convertsTypeTo(input, output, context),
-        );
+        return this.conversionsByType
+            .get(kind)
+            ?.find((c) => c.convertsTypeTo(input, output, context));
     }
 
-    getAllConversions() {
+    getAllConversions(): ConversionDefinition[] {
         // Copy it so that callers can't modify it.
-        return Object.values(this.conversionsByType).reduce(
-            (all: ConversionDefinition[], next: ConversionDefinition[]) => [
-                ...all,
-                ...next,
-            ],
-            [],
-        );
+        return [...this.conversionsByType.values()].flat();
     }
 
     getFunction(
         kind: BasisTypeName,
         name: string,
     ): FunctionDefinition | undefined {
-        if (!(kind in this.functionsByType)) return undefined;
-        return this.functionsByType[kind][name];
+        return this.functionsByType.get(kind)?.get(name);
     }
 
     getStructureDefinition(
         kind: BasisTypeName,
     ): StructureDefinition | undefined {
-        return this.structureDefinitionsByName[kind];
+        return this.structureDefinitionsByName.get(kind);
     }
 
-    getAllStructureDefinitions() {
-        return Object.values(this.structureDefinitionsByName);
+    getAllStructureDefinitions(): StructureDefinition[] {
+        return [...this.structureDefinitionsByName.values()];
     }
 
-    getSimpleDefinition(name: BasisTypeName) {
-        return this.structureDefinitionsByName[name];
+    /** The definition of one of the simple types, which every basis
+     *  bootstraps; asking for one that was never registered is a defect in
+     *  the bootstrap, so it fails loudly rather than returning undefined. */
+    getSimpleDefinition(name: BasisTypeName): StructureDefinition {
+        return must(
+            this.structureDefinitionsByName.get(name),
+            `a basis definition of ${name}`,
+        );
     }
 }
 
@@ -322,6 +327,9 @@ export function createBasisConversion<ValueType extends Value>(
     docs: Docs,
     input: Type | string,
     output: Type | string,
+    /** The value class the converted value is an instance of; `inputType`
+     *  checks the Wordplay type, this checks the TypeScript one. */
+    kind: abstract new (...args: never[]) => ValueType,
     convert: (
         requestor: Expression,
         value: ValueType,
@@ -341,13 +349,13 @@ export function createBasisConversion<ValueType extends Value>(
         new InternalExpression(outputType, [], (requestor, evaluation) => {
             const val = evaluation.getClosure();
             if (
-                val instanceof Value &&
+                val instanceof kind &&
                 inputType.accepts(
                     val.getType(evaluation.getContext()),
                     evaluation.getContext(),
                 )
             )
-                return convert(requestor, val as ValueType, evaluation);
+                return convert(requestor, val, evaluation);
             else
                 return evaluation.getValueOrTypeException(
                     requestor,

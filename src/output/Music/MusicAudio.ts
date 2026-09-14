@@ -33,6 +33,7 @@ import {
 } from '@output/Music/voice';
 import { semitonesToFrequency } from '@output/Music/degrees';
 import samples, { setDecodeContext } from '@output/Music/InstrumentSamples';
+import { must } from '@util/nullable';
 
 /** A note that has been handed to the audio graph. */
 export type PlayingVoice = {
@@ -570,7 +571,9 @@ class MusicAudio implements MusicAudioLike {
         for (const segment of segments) {
             const at = start + segment.at;
             segment.formants.forEach((formant, index) => {
-                const shaped = bank[index];
+                // `formants` is a four-tuple and the bank holds one filter
+                // per formant, so there is always one here.
+                const shaped = must(bank[index], 'a formant filter');
                 // Only F1 is tuned to the note, and only upward; see
                 // `tuneFirstFormant` for why that is a singing technique
                 // rather than a compromise.

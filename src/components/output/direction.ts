@@ -1,6 +1,7 @@
 import type Locales from '@locale/Locales';
 import { formatNumberForLocale } from '@locale/numberFormats';
 import type { Orientation } from '@output/animation/Animator';
+import { must } from '@util/nullable';
 
 /**
  * How far something must move, in metres, before the movement is worth
@@ -45,8 +46,10 @@ export default function describeDirection(
         const sector =
             (Math.round((angle / (2 * Math.PI)) * Directions) + Directions) %
             Directions;
-        return locales.getPrimaryPlainText(
-            (l) => l.ui.output.directions[sector],
+        // The sector is taken modulo the list's own length, and the list is a
+        // positional array held to en-US's eight entries by the verifier.
+        return locales.getPrimaryPlainText((l) =>
+            must(l.ui.output.directions[sector], 'a direction word'),
         );
     }
 

@@ -126,42 +126,34 @@
         ),
     );
 
+    /** The excerpt of each search match, keyed by project. A match with no
+     *  excerpt (a name hit needs none) simply isn't in the map. */
+    function matchTexts(matches: ProjectMatch[]): Map<string, string> {
+        const texts = new Map<string, string>();
+        for (const match of matches)
+            if (match.matchText !== undefined)
+                texts.set(match.project.getID(), match.matchText);
+        return texts;
+    }
+
     let ownedMatches: ProjectMatch[] = $derived(
         searchProjects(allOwnedProjects, debouncedTerm.current, $locales),
     );
     let owned: Project[] = $derived(ownedMatches.map((m) => m.project));
-    let ownedMatchTexts = $derived(
-        new Map(
-            ownedMatches
-                .filter((m) => m.matchText !== undefined)
-                .map((m) => [m.project.getID(), m.matchText!]),
-        ),
-    );
+    let ownedMatchTexts = $derived(matchTexts(ownedMatches));
 
     let sharedMatches: ProjectMatch[] = $derived(
         searchProjects(allSharedProjects, debouncedTerm.current, $locales),
     );
     let shared: Project[] = $derived(sharedMatches.map((m) => m.project));
-    let sharedMatchTexts = $derived(
-        new Map(
-            sharedMatches
-                .filter((m) => m.matchText !== undefined)
-                .map((m) => [m.project.getID(), m.matchText!]),
-        ),
-    );
+    let sharedMatchTexts = $derived(matchTexts(sharedMatches));
 
     // Include archived projects in search results
     let archivedMatches: ProjectMatch[] = $derived(
         searchProjects(allArchivedProjects, debouncedTerm.current, $locales),
     );
     let archived: Project[] = $derived(archivedMatches.map((m) => m.project));
-    let archivedMatchTexts = $derived(
-        new Map(
-            archivedMatches
-                .filter((m) => m.matchText !== undefined)
-                .map((m) => [m.project.getID(), m.matchText!]),
-        ),
-    );
+    let archivedMatchTexts = $derived(matchTexts(archivedMatches));
 
     // The owned section's tile controls, shared by the flat search view, every
     // folder, and the top level — three renderings of one list.

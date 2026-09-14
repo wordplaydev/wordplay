@@ -3,6 +3,7 @@ import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
 import Source from '@nodes/Source';
 import evaluateCode from '@runtime/evaluate';
+import { keysOf } from '@util/nullable';
 import Decimal from 'decimal.js';
 import { describe, expect, test } from 'vitest';
 import {
@@ -17,10 +18,10 @@ import {
 
 /** The Wordplay source text for a unit, e.g. `m/s`. */
 function symbol(key: UnitKey): string {
-    const { numerator, denominator } = {
-        denominator: [] as readonly string[],
-        ...Units[key],
-    };
+    const unit = Units[key];
+    const numerator: readonly string[] = unit.numerator;
+    const denominator: readonly string[] =
+        'denominator' in unit ? unit.denominator : [];
     const group = (dims: readonly string[]) =>
         Array.from(new Set(dims))
             .map((d) =>
@@ -35,9 +36,7 @@ function symbol(key: UnitKey): string {
 }
 
 const pairs = Dimensions.flatMap((dimension) =>
-    Object.keys(dimension.spokes).map(
-        (spoke) => [dimension.hub, spoke as UnitKey] as const,
-    ),
+    keysOf(dimension.spokes).map((spoke) => [dimension.hub, spoke] as const),
 ).concat(AffineConversions.map(({ from, to }) => [from, to] as const));
 
 // Generated from the table so a newly added unit can't skip its own test. A round
@@ -205,14 +204,13 @@ describe('unit categories', () => {
     // listed in two, fails here rather than quietly landing in the menu's "other" pile.
     test('every unit belongs to exactly one category', () => {
         const homes = new Map<UnitKey, UnitCategory[]>();
-        for (const key of Object.keys(Units) as UnitKey[])
+        for (const key of keysOf(Units))
             homes.set(
                 key,
-                (Object.keys(UnitCategories) as UnitCategory[]).filter(
-                    (category) =>
-                        (
-                            UnitCategories[category] as readonly UnitKey[]
-                        ).includes(key),
+                keysOf(UnitCategories).filter((category) =>
+                    UnitCategories[category].some(
+                        (unit: UnitKey) => unit === key,
+                    ),
                 ),
             );
         expect(
@@ -230,7 +228,7 @@ describe('unit categories', () => {
     });
 
     test('getUnitCategory answers for every unit', () => {
-        for (const key of Object.keys(Units) as UnitKey[])
+        for (const key of keysOf(Units))
             expect(getUnitCategory(key), key).toBeDefined();
         expect(getUnitCategory('km')).toBe('length');
         expect(getUnitCategory('ohm')).toBe('electricity');

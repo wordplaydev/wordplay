@@ -1,4 +1,6 @@
 import type LocaleText from '@locale/LocaleText';
+import { isLocaleText } from '@locale/isLocaleText';
+import { must } from '@util/nullable';
 import fs from 'fs';
 import path from 'path';
 import { getObjectFromJSONFile } from '@util/verify-locales/getObjectFromJSONFile';
@@ -11,8 +13,8 @@ const LocaleSchema = JSON.parse(
 );
 export default LocaleSchema;
 
-// Create a validator function.
-export const LocaleValidator = Validator.compile(LocaleSchema);
+// Create a validator function. Typed, so that a value it accepts is a LocaleText.
+export const LocaleValidator = Validator.compile<LocaleText>(LocaleSchema);
 
 /** Get a locale file path from a locale name. */
 export function getLocalePath(locale: string) {
@@ -26,8 +28,22 @@ export function getLocaleJSON(log: Log, locale: string): unknown | undefined {
     return getObjectFromJSONFile(log, getLocalePath(locale));
 }
 
+/**
+ * The locale file as a LocaleText, or undefined when it is missing or is not
+ * shaped like one at the top level. Only the top level is checked here, since
+ * the verifier repairs what the schema finds missing below it; a file that
+ * isn't a locale at all is what this refuses.
+ */
+export function readLocaleText(
+    log: Log,
+    locale: string,
+): LocaleText | undefined {
+    const json = getLocaleJSON(log, locale);
+    return isLocaleText(json) ? json : undefined;
+}
+
 /** We use this for repair. Make sure it's valid before we do any repairs. */
-export const DefaultLocale = getLocaleJSON(
-    new Log(false),
-    'en-US',
-) as LocaleText;
+export const DefaultLocale: LocaleText = must(
+    readLocaleText(new Log(false), 'en-US'),
+    'the en-US locale file',
+);

@@ -18,6 +18,7 @@
  */
 
 import { Zones, type Zone } from '@output/Music/samples.generated';
+import { must } from '@util/nullable';
 
 /** Where the build writes the mp3s; served straight out of `static`. */
 const Base = '/instruments/';
@@ -123,11 +124,12 @@ class InstrumentSamples {
         // Nearest root: resampling more than a few semitones makes a sample
         // audibly shorter and thinner rather than simply higher.
         const midi = 60 + semitones;
-        let best = zones[0];
+        let best: Loaded | undefined;
         for (const candidate of zones)
             if (
+                best === undefined ||
                 Math.abs(candidate.zone.root - midi) <
-                Math.abs(best.zone.root - midi)
+                    Math.abs(best.zone.root - midi)
             )
                 best = candidate;
         return best;
@@ -147,7 +149,11 @@ class InstrumentSamples {
         const all = Zones[instrument];
         if (zones === undefined || all === undefined || all.length === 0)
             return undefined;
-        const wanted = all[((index % all.length) + all.length) % all.length];
+        // The length was just checked, so the floored modulo is in range.
+        const wanted = must(
+            all[((index % all.length) + all.length) % all.length],
+            'a kit zone',
+        );
         return zones.find((loaded) => loaded.zone.file === wanted.file);
     }
 

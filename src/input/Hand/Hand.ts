@@ -58,6 +58,31 @@ const LM = {
     PINKY_TIP: 20,
 } as const;
 
+/** A list carrying at least `N` elements, so any index below `N` is in bounds. */
+type AtLeast<
+    T,
+    N extends number,
+    Fixed extends T[] = [],
+> = Fixed['length'] extends N
+    ? [...Fixed, ...T[]]
+    : AtLeast<T, N, [T, ...Fixed]>;
+
+/** The landmarks of one hand, known to carry all 21 MediaPipe reports. The
+ *  geometry below reads them by index, and this is what makes those reads
+ *  checked rather than assumed. */
+type Landmarks21 = AtLeast<NormalizedLandmark, 21>;
+
+/** An index into the landmarks, which is what keeps a tuple read in bounds. */
+type LandmarkIndex = (typeof LM)[keyof typeof LM];
+
+/** Whether MediaPipe reported a full hand, which is the condition the geometry
+ *  below depends on. */
+function hasAllLandmarks(
+    landmarks: NormalizedLandmark[] | undefined,
+): landmarks is Landmarks21 {
+    return landmarks !== undefined && landmarks.length >= 21;
+}
+
 /**
  * A hand tracker backed by MediaPipe Tasks Vision. The MediaPipe runtime
  * (~3–4MB gzipped) is lazy-loaded on first construction; until it's ready the
@@ -117,10 +142,11 @@ export default class Hand extends CameraLandmarkStream<HandLandmarkerResult> {
     /** Turn a MediaPipe result into a HandState and emit it. */
     react(result: HandLandmarkerResult) {
         const landmarks = result.landmarks?.[0];
-        const handedness = result.handedness?.[0]?.[0]?.categoryName as
-            'Left' | 'Right' | undefined;
+        const category = result.handedness?.[0]?.[0]?.categoryName;
+        const handedness =
+            category === 'Left' || category === 'Right' ? category : undefined;
 
-        if (!landmarks || landmarks.length < 21) {
+        if (!hasAllLandmarks(landmarks)) {
             // Miss — hold last emitted state for a few frames so brief detection
             // gaps don't visibly reset the place.
             this.consecutiveMisses++;
@@ -190,10 +216,8 @@ export default class Hand extends CameraLandmarkStream<HandLandmarkerResult> {
         // Centroid in normalized image coords (0..1). Use the palm center
         // (landmark 9, MIDDLE_MCP) — it's stable across finger movements unlike
         // the geometric centroid of all landmarks.
-        const { x: sx, y: sy } = this.smoothPlace(
-            landmarks[LM.MIDDLE_MCP].x,
-            landmarks[LM.MIDDLE_MCP].y,
-        );
+        const palmCenter = landmarks[LM.MIDDLE_MCP];
+        const { x: sx, y: sy } = this.smoothPlace(palmCenter.x, palmCenter.y);
 
         this.state = {
             place: createPlaceStructure(
@@ -256,10 +280,10 @@ function packFlags(
  * small dead-zone avoids flipping on partially-curled fingers.
  */
 function isFingerExtended(
-    landmarks: NormalizedLandmark[],
-    mcp: number,
-    pip: number,
-    tip: number,
+    landmarks: Landmarks21,
+    mcp: LandmarkIndex,
+    pip: LandmarkIndex,
+    tip: LandmarkIndex,
 ): boolean {
     const mcpP = landmarks[mcp];
     const pipP = landmarks[pip];
@@ -292,7 +316,7 @@ function isFingerExtended(
  * folded at the IP joint (passes #2 but fails #1). Requiring both rules out the
  * common false positives.
  */
-function isThumbExtended(landmarks: NormalizedLandmark[]): boolean {
+function isThumbExtended(landmarks: Landmarks21): boolean {
     const mcp = landmarks[LM.THUMB_MCP];
     const ip = landmarks[LM.THUMB_IP];
     const tip = landmarks[LM.THUMB_TIP];
@@ -322,7 +346,7 @@ function isThumbExtended(landmarks: NormalizedLandmark[]): boolean {
  * which matches the creator's perception).
  */
 function isPalmFacingCamera(
-    landmarks: NormalizedLandmark[],
+    landmarks: Landmarks21,
     handedness: 'Left' | 'Right' | undefined,
 ): boolean {
     const wrist = landmarks[LM.WRIST];

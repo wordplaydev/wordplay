@@ -5,6 +5,7 @@ import {
     neutralVowel,
     toSyllable,
 } from '@output/Music/phonemes';
+import { must } from '@util/nullable';
 
 /** Every IPA symbol the table claims, so a bad edit to one entry fails here
  * rather than being noticed as a phoneme that stopped making a sound. */
@@ -170,8 +171,9 @@ describe('reading IPA', () => {
     });
 
     test('length doubles the sound before it', () => {
-        const [held] = toSyllable('sː').phonemes;
-        const [plain] = toSyllable('s').phonemes;
+        // Each syllable is one phoneme, asserted just below.
+        const held = must(toSyllable('sː').phonemes[0], 'the held s');
+        const plain = must(toSyllable('s').phonemes[0], 'the plain s');
         // The mark modifies rather than adds, so this is still one phoneme.
         expect(toSyllable('sː').phonemes).toHaveLength(1);
         expect(plain.seconds).not.toBe('sustain');
@@ -181,19 +183,20 @@ describe('reading IPA', () => {
     });
 
     test('lengthening a vowel leaves it sustaining, since it already fills', () => {
-        expect(toSyllable('aː').phonemes[0].seconds).toBe('sustain');
+        expect(toSyllable('aː').phonemes[0]?.seconds).toBe('sustain');
     });
 
     test('nasalizing adds a zero, and devoicing turns the source to noise', () => {
-        expect(toSyllable('ã').phonemes[0].antiformant).toBeDefined();
+        expect(toSyllable('ã').phonemes[0]?.antiformant).toBeDefined();
         const devoiced = toSyllable('ḁ').phonemes[0];
-        expect(devoiced.voiced).toBe(false);
-        expect(devoiced.noise).toBe(1);
+        expect(devoiced?.voiced).toBe(false);
+        expect(devoiced?.noise).toBe(1);
     });
 
     test('labializing lowers the upper formants and leaves F1 alone', () => {
-        const plain = toSyllable('k').phonemes[0];
-        const rounded = toSyllable('kʷ').phonemes[0];
+        // A `k` is one phoneme, rounded or not.
+        const plain = must(toSyllable('k').phonemes[0], 'the plain k');
+        const rounded = must(toSyllable('kʷ').phonemes[0], 'the rounded k');
         expect(rounded.formants[0].hz).toBe(plain.formants[0].hz);
         expect(rounded.formants[1].hz).toBeLessThan(plain.formants[1].hz);
     });

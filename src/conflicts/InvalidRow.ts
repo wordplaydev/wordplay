@@ -3,7 +3,6 @@ import Row from '@nodes/Row';
 import type Locales from '@locale/Locales';
 import Conflict, {
     ConflictSeverity,
-    type Repair,
     type Resolutions,
 } from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
@@ -43,7 +42,7 @@ export default class InvalidRow extends Conflict {
             this.row.cells.map((c) => (c instanceof Input ? c.value : c)),
             this.row.close,
         );
-        const repairs: Repair[] = [
+        const repairs: Resolutions = [
             {
                 kind: 'repair',
                 description: (locales: Locales) =>
@@ -72,7 +71,7 @@ export default class InvalidRow extends Conflict {
                 }),
             },
         ];
-        return repairs as readonly Repair[] as Resolutions;
+        return repairs;
     }
 
     getLocalePath() {

@@ -60,9 +60,11 @@
             // Swallow a failed runtime load or project read: rotate() awaits
             // this, so an escaping rejection would stop this tile rotating for
             // good. Keep showing the last project and try again next tick.
+            const id = projects[i];
+            if (id === undefined) return;
             let next;
             try {
-                next = await (await DB.loadProjects()).get(projects[i]);
+                next = await (await DB.loadProjects()).get(id);
             } catch (error) {
                 console.error(error);
                 return;

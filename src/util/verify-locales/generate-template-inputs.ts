@@ -18,6 +18,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import Log from '@util/verify-locales/Log';
+import { must } from '@util/nullable';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);
@@ -45,13 +46,14 @@ const schema: Schema = JSON.parse(fs.readFileSync(SCHEMA_PATH, 'utf8'));
 function parseTemplateRef(ref: string): string[] | undefined {
     const match = ref.match(/^Template<\[(.*)\]>$/);
     if (!match) return undefined;
-    const body = match[1].trim();
+    // The pattern's only group is not optional.
+    const body = must(match[1], 'a template input list').trim();
     if (body === '') return [];
     const names: string[] = [];
     for (const part of body.split(',')) {
         const m = part.trim().match(/^"(.*)"$/);
         if (!m) return undefined;
-        names.push(m[1]);
+        names.push(must(m[1], 'a template input name'));
     }
     return names;
 }

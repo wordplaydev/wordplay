@@ -54,14 +54,14 @@ describe('other written forms', () => {
 
     test('a sentence-initial form keeps its capital', () => {
         expect(
-            scanLiteralGlossaryTerms('Values matter', inflected)[0].suggestion,
+            scanLiteralGlossaryTerms('Values matter', inflected)[0]?.suggestion,
         ).toBe('@Values matter');
     });
 
     test('the longest form wins, so a plural beats the singular inside it', () => {
         // Matching "value" first would leave a stray "s" behind.
         expect(
-            scanLiteralGlossaryTerms('the values here', inflected)[0].term,
+            scanLiteralGlossaryTerms('the values here', inflected)[0]?.term,
         ).toBe('values');
     });
 
@@ -77,7 +77,7 @@ describe('other written forms', () => {
 test('matches case-insensitively at a sentence start', () => {
     const found = scanLiteralGlossaryTerms('Value matters', glossary);
     expect(found).toHaveLength(1);
-    expect(found[0].suggestion).toBe('@value matters');
+    expect(found[0]?.suggestion).toBe('@value matters');
 });
 
 test('a subconcept reference is protected, separator and all', () => {
@@ -95,7 +95,7 @@ test('a subconcept reference is protected, separator and all', () => {
     // A bare occurrence beside one is still found.
     expect(
         scanLiteralGlossaryTerms('@Phrase.name gives it a name', names)[0]
-            .suggestion,
+            ?.suggestion,
     ).toBe('@Phrase.name gives it a @name');
 });
 
@@ -113,7 +113,7 @@ test('a web link is protected, label and url alike', () => {
     // Ordinary angle-bracketed prose is not a link and stays scannable.
     expect(
         scanLiteralGlossaryTerms('compare <a> and code here', codes)[0]
-            .suggestion,
+            ?.suggestion,
     ).toBe('compare <a> and @code here');
 });
 
@@ -125,6 +125,6 @@ test('a word carrying a combining mark is not a match', () => {
     expect(scanLiteralGlossaryTerms('اسم منطقةٔ زمنية', regions)).toEqual([]);
     // The bare word still matches.
     expect(
-        scanLiteralGlossaryTerms('اسم منطقة زمنية', regions)[0].suggestion,
+        scanLiteralGlossaryTerms('اسم منطقة زمنية', regions)[0]?.suggestion,
     ).toBe('اسم @region زمنية');
 });

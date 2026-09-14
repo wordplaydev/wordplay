@@ -58,7 +58,9 @@ const SpokenDecimalPlaces = 1;
 
 /** A change found in a value: what to say, and the top-level property it came
  *  from, so the next search can resume after it. */
-export type ValueChange = { name: string; description: string };
+/** `name` is what the search resumes after; a bind with no name at all (only a
+ *  malformed parse has one) simply restarts the round-robin. */
+export type ValueChange = { name: string | undefined; description: string };
 
 /**
  * The next perceptible difference between two values, or undefined if there
@@ -242,6 +244,7 @@ function structureChange(
 
     for (let offset = 0; offset < inputs.length; offset++) {
         const input = inputs[(start + offset) % inputs.length];
+        if (input === undefined) continue;
         const before = previous.resolve(input.names);
         const now = current.resolve(input.names);
         if (before === undefined || now === undefined) continue;
@@ -285,11 +288,14 @@ function indexedChange(
     const start = Number.isInteger(resume) && resume > 0 ? resume % shared : 0;
     for (let offset = 0; offset < shared; offset++) {
         const index = (start + offset) % shared;
+        const wasValue = previous[index];
+        const isValue = current[index];
+        if (wasValue === undefined || isValue === undefined) continue;
         const change = changeIn(
             locales,
             terms,
-            previous[index],
-            current[index],
+            wasValue,
+            isValue,
             undefined,
             depth + 1,
             budget,
@@ -303,14 +309,12 @@ function indexedChange(
     // Grew: the first added item is the news. A collection that only shrank
     // has nothing new to report, so it stays silent rather than announcing a
     // count no one asked for.
-    if (current.length > previous.length) {
+    const added = current[previous.length];
+    if (added !== undefined) {
         const name = `${previous.length + 1}`;
         return {
             name,
-            description: within(
-                name,
-                render(locales, terms, current[previous.length]),
-            ),
+            description: within(name, render(locales, terms, added)),
         };
     }
     return undefined;
@@ -336,7 +340,9 @@ function mapChange(
                   1) %
               entries.length;
     for (let offset = 0; offset < entries.length; offset++) {
-        const [key, value] = entries[(start + offset) % entries.length];
+        const entry = entries[(start + offset) % entries.length];
+        if (entry === undefined) continue;
+        const [key, value] = entry;
         const name = render(locales, terms, key);
         const before = previous.values.find(([other]) =>
             other.isEqualTo(key),

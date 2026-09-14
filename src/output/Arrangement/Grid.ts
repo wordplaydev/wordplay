@@ -11,6 +11,7 @@ import type Output from '@output/Output/Output';
 import Place, { reflectX } from '@output/Place/Place';
 import type RenderContext from '@output/RenderContext';
 import { getOutputInputs } from '@output/Output/Valued';
+import { must } from '@util/nullable';
 
 export function createGridType(locales: Locales) {
     return toStructure(`
@@ -98,35 +99,30 @@ export class Grid extends Arrangement {
 
         // First, compute the max height of each row and max width of each column.
         // This prepares us to position each output within the grid.
-        const rowHeights: number[] = [];
-        for (let row = 0; row < rows; row++) {
-            // The row height is the explicit cell height or the max height in the row.
-            rowHeights[row] =
-                this.cellHeight !== undefined
-                    ? this.cellHeight
-                    : grid[row].reduce(
-                          (max, cell) =>
-                              cell.output && cell.output.height > max
-                                  ? cell.output.height
-                                  : max,
-                          0,
-                      );
-        }
+        // The row height is the explicit cell height or the max height in the row.
+        const rowHeights: number[] = grid.map((row) =>
+            this.cellHeight !== undefined
+                ? this.cellHeight
+                : row.reduce(
+                      (max, cell) =>
+                          cell.output && cell.output.height > max
+                              ? cell.output.height
+                              : max,
+                      0,
+                  ),
+        );
 
         const columnWidths: number[] = [];
         for (let column = 0; column < columns; column++) {
             columnWidths[column] =
                 this.cellWidth !== undefined
                     ? this.cellWidth
-                    : grid
-                          .map((row) => row[column])
-                          .reduce(
-                              (max, cell) =>
-                                  cell.output && cell.output.width > max
-                                      ? cell.output.width
-                                      : max,
-                              0,
-                          );
+                    : grid.reduce((max, row) => {
+                          const cell = row[column];
+                          return cell?.output && cell.output.width > max
+                              ? cell.output.width
+                              : max;
+                      }, 0);
         }
 
         const width =
@@ -146,24 +142,26 @@ export class Grid extends Arrangement {
         // Infinity, not 0: an arrangement has no z of its own — the parent that placed
         // this group does — so with no children there is nothing to report.
         let nearest = Infinity;
-        for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < columns; col++) {
-                // Get the output in this cell.
-                const cell = grid[row][col];
+        for (const [row, cells] of grid.entries()) {
+            for (const [col, cell] of cells.entries()) {
                 if (cell.output) {
                     const cellLeft =
                         columnWidths
                             .slice(0, col)
                             .reduce((sum, width) => sum + width, 0) +
                         col * this.padding;
-                    const columnWidth = columnWidths[col];
+                    // One width per column of the grid, one height per row.
+                    const columnWidth = must(
+                        columnWidths[col],
+                        'a column width',
+                    );
                     const cellTop =
                         height -
                         (rowHeights
                             .slice(0, row + 1)
                             .reduce((sum, height) => sum + height, 0) +
                             row * this.padding);
-                    const rowHeight = rowHeights[row];
+                    const rowHeight = must(rowHeights[row], 'a row height');
                     const cellX =
                         cellLeft + (columnWidth - cell.output.width) / 2;
                     const place = new Place(

@@ -1,4 +1,5 @@
 import Setting from '@db/settings/Setting';
+import { z } from 'zod';
 import type { Path } from '@nodes/Root';
 import {
     CaretSchema,
@@ -10,6 +11,13 @@ import {
  *  index. Each value is a {@link SerializedCaret}: a text offset, a [start, end]
  *  selection range, or a node-selection path. */
 export type ProjectCarets = Record<string, Record<string, SerializedCaret>>;
+
+/** Every project's carets as stored, so a value read from local storage is
+ *  checked in one pass rather than leaf by leaf and then asserted. */
+const ProjectCaretsSchema = z.record(
+    z.string(),
+    z.record(z.string(), CaretSchema),
+);
 
 /**
  * Caret positions per project source, persisted locally so a refresh restores
@@ -23,21 +31,10 @@ export const CaretsSetting = new Setting<ProjectCarets>(
     'carets',
     true,
     {},
-    (value) =>
-        value != null &&
-        value.constructor.name === 'Object' &&
-        Object.values(value).every(
-            (sources) =>
-                sources != null &&
-                sources.constructor.name === 'Object' &&
-                // Reuse the project's caret schema to validate each entry, so a
-                // malformed value never reaches a Caret.
-                Object.values(sources).every(
-                    (caret) => CaretSchema.safeParse(caret).success,
-                ),
-        )
-            ? (value as ProjectCarets)
-            : undefined,
+    (value) => {
+        const parsed = ProjectCaretsSchema.safeParse(value);
+        return parsed.success ? parsed.data : undefined;
+    },
     (current, value) => current === value,
 );
 
@@ -45,6 +42,11 @@ export const CaretsSetting = new Setting<ProjectCarets>(
  *  index. Each value is the node path of the far end of a multiple node
  *  selection; the near end is the caret itself, in {@link CaretsSetting}. */
 export type ProjectCaretAnchors = Record<string, Record<string, Path>>;
+
+const ProjectCaretAnchorsSchema = z.record(
+    z.string(),
+    z.record(z.string(), PathSchema),
+);
 
 /**
  * The other end of a multiple node selection per project source, persisted
@@ -59,18 +61,9 @@ export const CaretAnchorsSetting = new Setting<ProjectCaretAnchors>(
     'caretAnchors',
     true,
     {},
-    (value) =>
-        value != null &&
-        value.constructor.name === 'Object' &&
-        Object.values(value).every(
-            (sources) =>
-                sources != null &&
-                sources.constructor.name === 'Object' &&
-                Object.values(sources).every(
-                    (path) => PathSchema.safeParse(path).success,
-                ),
-        )
-            ? (value as ProjectCaretAnchors)
-            : undefined,
+    (value) => {
+        const parsed = ProjectCaretAnchorsSchema.safeParse(value);
+        return parsed.success ? parsed.data : undefined;
+    },
     (current, value) => current === value,
 );

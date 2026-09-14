@@ -156,13 +156,15 @@ class SharedSource {
         attempts: MediaTrackConstraints[],
         index: number,
     ): void {
-        if (index >= attempts.length) {
+        // Running out of attempts is exactly running off the end of the list.
+        const constraints = attempts[index];
+        if (constraints === undefined) {
             this.stream = null;
             if (!this.stopped) for (const c of this.consumers) c.onDenied?.();
             return;
         }
         navigator.mediaDevices
-            .getUserMedia({ audio: false, video: attempts[index] })
+            .getUserMedia({ audio: false, video: constraints })
             .then((stream) => this.attachStream(stream))
             .catch(() => this.requestStream(attempts, index + 1));
     }

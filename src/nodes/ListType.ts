@@ -98,12 +98,14 @@ export default class ListType extends BasisType {
     }
 
     clone(replace?: Replacement) {
-        return new ListType(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('types', this.types, replace),
-            this.replaceChild('close', this.close, replace),
-            this.length,
-        ) as this;
+        return this.cloned(
+            new ListType(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('types', this.types, replace),
+                this.replaceChild('close', this.close, replace),
+                this.length,
+            ),
+        );
     }
 
     computeConflicts() {
@@ -253,7 +255,7 @@ export default class ListType extends BasisType {
         return {
             // Several positions can't be a single node reference, so name them all.
             type:
-                this.types.length === 0
+                this.types[0] === undefined
                     ? undefined
                     : this.types.length === 1
                       ? new NodeRef(this.types[0], locales, context)

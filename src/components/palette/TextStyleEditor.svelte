@@ -33,6 +33,7 @@
         type FontWeight,
     } from '@basis/faces/Fonts';
     import type { LocaleTextAccessor } from '@locale/Locales';
+    import { must } from '@util/nullable';
 
     interface Props {
         project: Project;
@@ -160,7 +161,7 @@
             project,
             project.getBindReplacements(
                 outputs.getExpressions(),
-                outputs.property.getName($locales),
+                must(outputs.property.getName($locales), "the property's name"),
                 new FormattedLiteral([
                     parseFormattedTranslation(
                         toTokens(
@@ -189,7 +190,7 @@
             project,
             project.getBindReplacements(
                 outputs.getExpressions(),
-                outputs.property.getName($locales),
+                must(outputs.property.getName($locales), "the property's name"),
                 new FormattedLiteral([
                     parseFormattedTranslation(
                         toTokens(FORMATTED_SYMBOL + markup + FORMATTED_SYMBOL),
@@ -286,7 +287,7 @@
             project,
             project.getBindReplacements(
                 outputs.getExpressions(),
-                outputs.property.getName($locales),
+                must(outputs.property.getName($locales), "the property's name"),
                 newExpression,
             ),
         );

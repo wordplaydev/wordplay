@@ -1,12 +1,8 @@
 import { expect, test } from 'vitest';
 import { Zones } from '@output/Music/samples.generated';
-import {
-    InstrumentKeys,
-    Instruments,
-    sung,
-    type InstrumentKey,
-} from '@output/Music/instruments';
+import { InstrumentKeys, Instruments, sung } from '@output/Music/instruments';
 import { Recipes, kitIndex } from '@output/Music/synthesis';
+import { includesString, must } from '@util/nullable';
 import {
     checkHashes,
     checkProvenance,
@@ -50,10 +46,10 @@ test('the generated zone map agrees with the lockfile', () => {
             generated,
             `${id} missing from samples.generated.ts`,
         ).toBeDefined();
-        expect(generated.map((zone) => zone.file)).toEqual(
+        expect(generated?.map((zone) => zone.file)).toEqual(
             zones.map((zone) => zone.file),
         );
-        expect(generated.map((zone) => zone.root)).toEqual(
+        expect(generated?.map((zone) => zone.root)).toEqual(
             zones.map((zone) => zone.root),
         );
     }
@@ -70,7 +66,8 @@ test('pitched zones are ordered by root, with one zone per root', () => {
     // because they are never transposed — the degree picks which recording
     // plays, not how far to shift one.
     for (const [id, zones] of Object.entries(Zones)) {
-        if (Instruments[id as InstrumentKey]?.pitched === false) continue;
+        if (includesString(InstrumentKeys, id) && !Instruments[id].pitched)
+            continue;
         const roots = zones.map((zone) => zone.root);
         expect(
             [...roots].sort((a, b) => a - b),
@@ -93,8 +90,13 @@ test('kit zones keep the manifest order, which is the degree order', () => {
         if (zones === undefined || zones.length < 2) continue;
         // Each piece's file is named after it, so the two lists must agree
         // position by position.
+        // A zone file is `<instrument>/<piece>.mp3`, which the lockfile check
+        // above holds it to.
         const files = zones.map((zone) =>
-            zone.file.split('/')[1].replace('.mp3', ''),
+            must(
+                zone.file.split('/')[1],
+                `a piece name in ${zone.file}`,
+            ).replace('.mp3', ''),
         );
         expect(files, `${id} zone order`).toEqual(
             spec.kit.map((piece) =>

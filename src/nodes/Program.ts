@@ -105,12 +105,14 @@ export default class Program extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Program(
-            this.replaceChild('docs', this.docs, replace),
-            this.replaceChild('borrows', this.borrows, replace),
-            this.replaceChild('expression', this.expression, replace),
-            this.replaceChild('end', this.end, replace),
-        ) as this;
+        return this.cloned(
+            new Program(
+                this.replaceChild('docs', this.docs, replace),
+                this.replaceChild('borrows', this.borrows, replace),
+                this.replaceChild('expression', this.expression, replace),
+                this.replaceChild('end', this.end, replace),
+            ),
+        );
     }
 
     isEmpty() {
@@ -273,14 +275,14 @@ export default class Program extends Expression {
         evaluator: Evaluator,
     ) {
         const reaction = evaluator.getReactionPriorTo(evaluator.getStepIndex());
-        const change = reaction && reaction.changes.length > 0;
+        const change = reaction?.changes[0];
 
         return locales.concretize((l) => l.node.Program.start, {
             stream: change
-                ? new ValueRef(reaction.changes[0].stream, locales, context)
+                ? new ValueRef(change.stream, locales, context)
                 : undefined,
             value: change
-                ? new ValueRef(reaction.changes[0].value, locales, context)
+                ? new ValueRef(change.value, locales, context)
                 : undefined,
         });
     }

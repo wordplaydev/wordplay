@@ -1,4 +1,5 @@
 import Setting from '@db/settings/Setting';
+import { isRecord } from '@util/guards';
 
 /**
  * The persisted state of a collapsible, resizable editor sidebar (e.g. the
@@ -42,8 +43,8 @@ function validate(
     // the default width. The companion width setting is migrated separately.
     if (typeof value === 'boolean')
         return { shown: value, width: defaults.width };
-    if (typeof value !== 'object' || value === null) return undefined;
-    const state = value as Record<string, unknown>;
+    if (!isRecord(value)) return undefined;
+    const state = value;
     if (typeof state.shown !== 'boolean') return undefined;
     if (typeof state.width !== 'number' || !Number.isFinite(state.width))
         return undefined;

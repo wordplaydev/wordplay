@@ -97,11 +97,13 @@ export default class PatternLiteral extends Literal {
     }
 
     clone(replace?: Replacement) {
-        return new PatternLiteral(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('body', this.body, replace),
-            this.replaceChild('close', this.close, replace),
-        ) as this;
+        return this.cloned(
+            new PatternLiteral(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('body', this.body, replace),
+                this.replaceChild('close', this.close, replace),
+            ),
+        );
     }
 
     computeConflicts(): Conflict[] {

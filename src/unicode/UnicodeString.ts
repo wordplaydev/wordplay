@@ -116,8 +116,7 @@ export default class UnicodeString {
         const segments = this.getGraphemes();
         const end = Math.max(0, Math.min(position, segments.length));
         let offset = 0;
-        for (let index = 0; index < end; index++)
-            offset += segments[index].length;
+        for (const segment of segments.slice(0, end)) offset += segment.length;
         return offset;
     }
 
@@ -127,9 +126,9 @@ export default class UnicodeString {
     getGraphemePosition(codeUnit: number) {
         const segments = this.getGraphemes();
         let offset = 0;
-        for (let index = 0; index < segments.length; index++) {
+        for (const [index, segment] of segments.entries()) {
             if (offset >= codeUnit) return index;
-            offset += segments[index].length;
+            offset += segment.length;
         }
         return segments.length;
     }

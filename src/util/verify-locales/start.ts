@@ -1,7 +1,8 @@
 // Load .env.local (secrets) + .env (config) before anything reads process.env.
 // Side-effect import kept first so it runs ahead of the others. See loadEnv.ts.
 import '@util/verify-locales/loadEnv';
-import type LanguageCode from '@locale/LanguageCode';
+import { must } from '@util/nullable';
+import { isLanguageCode } from '@locale/LanguageCode';
 import type LocaleText from '@locale/LocaleText';
 import {
     getLocaleLanguage,
@@ -15,7 +16,7 @@ import ReservedSymbols from '@parser/ReservedSymbols';
 import type LocalePath from '@util/verify-locales/LocalePath';
 import {
     DefaultLocale,
-    getLocaleJSON,
+    readLocaleText,
     getLocalePath,
     LocaleValidator,
 } from '@util/verify-locales/LocaleSchema';
@@ -26,7 +27,7 @@ import {
     getTutorialSources,
     markStale,
     readJSON,
-    type Stale,
+    type StaleEntry,
 } from '@util/verify-locales/drift';
 import Log from '@util/verify-locales/Log';
 import {
@@ -106,9 +107,10 @@ const TranslatedTutorialModes: TutorialMode[] = [...TutorialModes];
 const log = new Log(false);
 
 // Now that we've defined all of the functionality, let's process requests.
+const requestedCommand = process.argv[2];
 if (
-    process.argv.length < 3 ||
-    !['fix', 'verify', 'translate', 'override'].includes(process.argv[2])
+    requestedCommand === undefined ||
+    !['fix', 'verify', 'translate', 'override'].includes(requestedCommand)
 ) {
     log.exit(
         'Please provide either "verify" (check structure, fail on invalid), "fix" (repair structure), "translate" (translate untranslated strings), "override" command (replace existing machine translations)',
@@ -233,7 +235,7 @@ async function handleLocale(
         const [revisedLocale, localeChanged] = await verifyLocale(
             localeFileLog,
             locale,
-            localeText as LocaleText,
+            localeText,
             FixRequested,
             // Verification always runs; translate only if `locale` is in scope.
             TranslationRequested && selection.isIncluded('locale'),
@@ -613,7 +615,7 @@ for (const file of localeFolders) {
         const locale = file.name;
 
         // Get the currrent locale file in this directory.
-        let localeText = getLocaleJSON(log, locale) as LocaleText;
+        let localeText = readLocaleText(log, locale);
         if (localeText === undefined) {
             // Not verifying specific locales? Warn.
             if (FocalLocales.length === 0) {
@@ -649,10 +651,9 @@ for (const localeText of allLocaleText) {
                 (name) => withoutAnnotations(name),
             );
             for (const name of names) {
-                if (!globals.has(name)) globals.set(name, []);
-                globals
-                    .get(name)!
-                    .push({ locale: toLocaleString(localeText), path });
+                const claims = globals.get(name) ?? [];
+                globals.set(name, claims);
+                claims.push({ locale: toLocaleString(localeText), path });
             }
         }
     }
@@ -666,8 +667,7 @@ for (const localeText of allLocaleText) {
 // Load the source directly instead of relying on it being in this run's set.
 const SourceLocale = toLocaleString(DefaultLocale);
 const sourceLocaleText: LocaleText | undefined =
-    textByLocale[SourceLocale] ??
-    (getLocaleJSON(log, SourceLocale) as LocaleText | undefined);
+    textByLocale[SourceLocale] ?? readLocaleText(log, SourceLocale);
 
 // Only en-US `$!` Revised markers propagate across all locales (a source revision should
 // re-translate every sibling). A `$!` on a *translated* locale string is locale-specific —
@@ -704,8 +704,7 @@ const translatedPaths = new Set<string>();
 // work, and the batch's kit phase is now a single child covering every locale, so
 // aborting here would take down what it hasn't reached yet. Reported and then continued;
 // the error count below still makes the run exit non-zero.
-for (let index = 0; index < allLocaleText.length; index++) {
-    const localeText = allLocaleText[index];
+for (const [index, localeText] of allLocaleText.entries()) {
     const localeLog = log.scope(`Checking ${toLocaleString(localeText)}`);
     try {
         allLocaleText[index] = await handleLocale(
@@ -744,7 +743,7 @@ if (
 ) {
     const enUSLocale = 'en-US';
     const enUSPath = getLocalePath(enUSLocale);
-    const enUSText = getLocaleJSON(log, enUSLocale) as LocaleText;
+    const enUSText = must(readLocaleText(log, enUSLocale), 'the en-US locale');
     let stripped = 0;
     for (const revisedString of revisedStrings) {
         if (revisedString.locale !== enUSLocale) continue;
@@ -761,7 +760,7 @@ if (
                     ? entry.slice('$!'.length)
                     : entry,
             );
-            if (updated.some((entry, i) => entry !== (value as unknown[])[i])) {
+            if (updated.some((entry, i) => entry !== value[i])) {
                 revisedString.path.repair(enUSText, updated);
                 stripped++;
             }
@@ -815,16 +814,12 @@ if (FocalLocales.length === 0 && steps.drift) {
             ),
         ];
 
-        const behind: Stale[] = [];
+        const behind: StaleEntry[] = [];
         for (const localeText of allLocaleText) {
             const locale = toLocaleString(localeText);
             if (locale === SourceLocale) continue;
             for (const [source, target, kinds] of filesFor(locale))
-                behind.push(
-                    ...driftSince(base, source, target, locale, kinds).map(
-                        (entry) => ({ ...entry }) as Stale,
-                    ),
-                );
+                behind.push(...driftSince(base, source, target, locale, kinds));
         }
         const queueable = behind.filter((entry) => entry.kind !== 'name');
         if (queueable.length > 0) {
@@ -977,8 +972,14 @@ if (
     });
 
     newLocaleLog.good('No locale found, creating one based on English.');
+    const language =
+        typeof NewLanguage === 'string' && isLanguageCode(NewLanguage)
+            ? NewLanguage
+            : undefined;
+    if (language === undefined)
+        log.exit(`${NewLanguage} is not a language code`);
     let localeText = createUnwrittenLocale();
-    localeText.language = NewLanguage as LanguageCode;
+    localeText.language = must(language, 'a language code');
     localeText.regions = [NewRegion];
     localeText['$schema'] = '../../schemas/LocaleText.json';
 

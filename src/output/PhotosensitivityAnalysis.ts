@@ -132,6 +132,7 @@ function analyzeSequence(
     for (let index = 1; index < poses.length; index++) {
         const before = poses[index - 1];
         const after = poses[index];
+        if (before === undefined || after === undefined) continue;
         const luminanceFlip =
             before.color !== undefined &&
             after.color !== undefined &&

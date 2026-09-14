@@ -18,6 +18,7 @@
     import type { Path } from '@output/Output/Shape/Path';
     import { PX_PER_METER } from '@output/Output/outputToCSS';
     import { tick } from 'svelte';
+    import { must } from '@util/nullable';
 
     interface Props {
         /** The Shape's creator, whose `form` input holds the path being edited. */
@@ -37,7 +38,8 @@
         if ($project === undefined) return undefined;
         const context = $project.getNodeContext(creator);
         const given = creator.getInput(
-            $project.shares.output.Shape.inputs[0],
+            // The basis declares Shape's form input.
+            must($project.shares.output.Shape.inputs[0], "Shape's form input"),
             context,
         );
         return given instanceof Evaluate ? given : undefined;
@@ -89,7 +91,10 @@
             [
                 creator,
                 creator.withBindAs(
-                    $project.shares.output.Shape.inputs[0],
+                    must(
+                        $project.shares.output.Shape.inputs[0],
+                        "Shape's form input",
+                    ),
                     revised,
                     context,
                 ),

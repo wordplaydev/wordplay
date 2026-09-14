@@ -32,6 +32,7 @@ import {
     SvgPath,
     outputFiles,
 } from './manifest';
+import { must } from '@util/nullable.ts';
 
 /** Rasterize an SVG document at the given pixel width. The card font is
  *  always registered; only the card's text uses it. */
@@ -127,7 +128,10 @@ function castLayer(exclude: {
 function cardSVG(): string {
     const opened = fontkit.openSync(CardFontPath);
     // openSync can return a collection; our vendored file is a single font.
-    const font = 'fonts' in opened ? opened.fonts[0] : opened;
+    const font =
+        'fonts' in opened
+            ? must(opened.fonts[0], 'the first font of the collection')
+            : opened;
     const fontSize = 150;
     const capHeight = (font.capHeight / font.unitsPerEm) * fontSize;
     const textWidth =

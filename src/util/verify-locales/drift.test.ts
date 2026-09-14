@@ -4,11 +4,11 @@ import os from 'node:os';
 import path from 'node:path';
 import { afterAll, beforeEach, describe, expect, test } from 'vitest';
 import { Revised } from '@locale/Annotations';
-import type LocaleText from '@locale/LocaleText';
+import DefaultLocale from '@locale/DefaultLocale';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import checkStringArrays from '@util/verify-locales/checkStringArrays';
 import { collectingLog } from '@util/verify-locales/Log';
-import { getLocalePath } from '@util/verify-locales/LocaleSchema';
+import { readLocaleText } from '@util/verify-locales/LocaleSchema';
 import type Tutorial from '../../tutorial/Tutorial';
 import { TutorialModes } from '../../tutorial/TutorialMode';
 import { getTutorialPath } from '@util/verify-locales/TutorialSchema';
@@ -26,6 +26,7 @@ import {
     withoutLeadingAnnotation,
     type Stale,
 } from '@util/verify-locales/drift';
+import { must } from '@util/nullable';
 
 /** A throwaway git repo, so the history walk is tested against known history
  *  rather than this repo's, which grows every day. */
@@ -108,17 +109,18 @@ afterAll(() => fixtures.forEach((fixture) => fixture.cleanup()));
 
 /** Build the path → kind map the comparison takes, through the same filter
  *  production uses, so fixtures exercise the real exclusions. */
-function kindsOf(text: Record<string, unknown>) {
-    return getCheckablePathKinds(text as unknown as LocaleText);
+function kindsOf(text: object) {
+    return getCheckablePathKinds(text);
 }
 
 describe('collectValues', () => {
     test('produces exactly the ids getKeyTemplatePairs produces', () => {
         // The walker exists to avoid allocating a LocalePath per pair per
         // version; this is what keeps it honest about path semantics.
-        const source = JSON.parse(
-            fs.readFileSync(getLocalePath('en-US'), 'utf8'),
-        ) as LocaleText;
+        const source = must(
+            readLocaleText(collectingLog().log, 'en-US'),
+            'the en-US locale file',
+        );
         const walked = [...collectValues(source).keys()].sort();
         const pairs = getKeyTemplatePairs(source)
             .map((pair) => pair.toString())
@@ -227,8 +229,9 @@ describe('compareFile', () => {
         fixture.commit({ 'en.json': { a: 'ONE', b: 'two' } });
         const stale = census(fixture, 'en.json', 'xx.json');
         expect(stale.map((entry) => entry.id)).toEqual(['.a']);
-        expect(stale[0].english).toBe('ONE');
-        expect(stale[0].translation).toBe('uno');
+        const first = must(stale[0], 'a stale entry');
+        expect(first.english).toBe('ONE');
+        expect(first.translation).toBe('uno');
     });
 
     test('does not flag a translation updated in the same commit', () => {
@@ -350,14 +353,19 @@ describe('getTranslatableTutorialPathKinds', () => {
     test("covers a dialog line's text but never its concept or emotion", () => {
         // A Dialog is [concept, emotion, …text]; marking index 0 or 1 writes a
         // "$!" into a value the tutorial schema constrains to an enum.
-        const tutorial = {
+        const tutorial: Tutorial = {
+            $schema: '',
+            language: 'en',
+            regions: ['US'],
             acts: [
                 {
                     title: 'Act',
+                    performance: { fit: 'Phrase()' },
                     scenes: [
                         {
                             title: 'Scene',
                             subtitle: 'Sub',
+                            performance: { fit: 'Phrase()' },
                             lines: [
                                 ['Group', 'excited', 'Together now!', 'More.'],
                             ],
@@ -365,7 +373,7 @@ describe('getTranslatableTutorialPathKinds', () => {
                     ],
                 },
             ],
-        } as unknown as Tutorial;
+        };
         const ids = [...getTranslatableTutorialPathKinds(tutorial).keys()];
         expect(ids).toContain('acts.0.scenes.0.lines.0.2');
         expect(ids).toContain('acts.0.scenes.0.lines.0.3');
@@ -389,8 +397,9 @@ describe('changedBetween', () => {
         );
         // `c` is new, so every locale gets it as `$?` — that is not drift.
         expect(changes.map((change) => change.id)).toEqual(['.a']);
-        expect(changes[0].previous).toBe(JSON.stringify('one'));
-        expect(changes[0].current).toBe(JSON.stringify('ONE'));
+        const change = must(changes[0], 'a change');
+        expect(change.previous).toBe(JSON.stringify('one'));
+        expect(change.current).toBe(JSON.stringify('ONE'));
     });
 
     test('ignores a change that only adds a marker', () => {
@@ -571,9 +580,8 @@ describe('marking', () => {
         // Marking a `$~` doc by prepending would leave `$!$~…`, which reads as
         // two write-statuses and fails checkStringArrays. A real locale path is
         // used so classifyPair resolves it as markup through the schema.
-        const text = {
-            output: { Say: { doc: ['$~uno', 'dos', 'tres'] } },
-        } as unknown as LocaleText;
+        const text = structuredClone(DefaultLocale);
+        text.output.Say.doc = ['$~uno', 'dos', 'tres'];
         markStale([staleEntry({ id: 'output.Say.doc' })], kindsOf(text), text);
         const { log } = collectingLog();
         checkStringArrays(log, text, text, false);
@@ -611,26 +619,25 @@ describe('tutorial modes', () => {
         // `acts.0.scenes.0.lines.0.2` exists in both tutorials and means
         // different text, so one merged map would resolve a path against the
         // wrong file.
-        const line = (text: string) =>
-            ({
-                $schema: '',
-                language: 'en',
-                regions: ['US'],
-                acts: [
-                    {
-                        title: 'Act',
-                        performance: { fit: 'Phrase()' },
-                        scenes: [
-                            {
-                                title: 'Scene',
-                                subtitle: null,
-                                performance: { fit: 'Phrase()' },
-                                lines: [['Program', 'kind', text]],
-                            },
-                        ],
-                    },
-                ],
-            }) as unknown as Tutorial;
+        const line = (text: string): Tutorial => ({
+            $schema: '',
+            language: 'en',
+            regions: ['US'],
+            acts: [
+                {
+                    title: 'Act',
+                    performance: { fit: 'Phrase()' },
+                    scenes: [
+                        {
+                            title: 'Scene',
+                            subtitle: null,
+                            performance: { fit: 'Phrase()' },
+                            lines: [['Program', 'kind', text]],
+                        },
+                    ],
+                },
+            ],
+        });
         const id = 'acts.0.scenes.0.lines.0.2';
         const complete = getTranslatableTutorialPathKinds(line('complete'));
         const quick = getTranslatableTutorialPathKinds(line('quick'));

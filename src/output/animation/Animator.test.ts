@@ -3,6 +3,7 @@ import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
 import type Node from '@nodes/Node';
+import { must } from '@util/nullable';
 import Source from '@nodes/Source';
 import Animator from '@output/animation/Animator';
 import Evaluator from '@runtime/Evaluator';
@@ -45,7 +46,8 @@ function animatorOver(code: string) {
 
 test('a node stays animating until the last output animating it stops', () => {
     const { animator, nodes, done } = animatorOver(`Phrase('hi')`);
-    const shared: Node = nodes[0];
+    // A parsed program always has nodes, so these fixtures do too.
+    const shared: Node = must(nodes[0], 'a node of the source');
     // Three outputs built by one expression, all reporting it.
     animator.startingSequence([shared]);
     animator.startingSequence([shared]);
@@ -62,7 +64,8 @@ test('a node stays animating until the last output animating it stops', () => {
 
 test('the animating nodes are published only when they change', () => {
     const { animator, ticks, nodes, done } = animatorOver(`Phrase('hi')`);
-    const [first, second] = nodes;
+    const first = must(nodes[0], 'a node of the source');
+    const second = must(nodes[1], 'a second node of the source');
     animator.startingSequence([first]);
     // Same node again: the set is unchanged, so nothing is republished. Each
     // publish re-runs the editor's whole highlight pass.
@@ -79,7 +82,7 @@ test('ending a sequence never reported is not counted', () => {
     // A tween that holds still is never announced, so its end must not take a
     // node away from something else that is genuinely animating.
     const { animator, nodes, done } = animatorOver(`Phrase('hi')`);
-    const [node] = nodes;
+    const node = must(nodes[0], 'a node of the source');
     animator.startingSequence([node]);
     animator.endingSequence([node]);
     animator.endingSequence([node]);

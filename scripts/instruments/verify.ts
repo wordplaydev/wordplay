@@ -9,6 +9,7 @@
  */
 
 import { existsSync, readFileSync } from 'node:fs';
+import { entriesOf } from '@util/nullable';
 import path from 'node:path';
 import { hashOf } from './fetch';
 import { LockPath, OutputDir, type Lockfile } from './build';
@@ -83,10 +84,10 @@ export function checkSettings(lock: Lockfile): string[] {
         releaseFade: ReleaseFade,
     };
     const problems: string[] = [];
-    for (const [key, value] of Object.entries(expected))
-        if (lock.settings[key as keyof typeof expected] !== value)
+    for (const [key, value] of entriesOf(expected))
+        if (lock.settings[key] !== value)
             problems.push(
-                `lockfile was built with ${key} ${lock.settings[key as keyof typeof expected]}, manifest now says ${value}`,
+                `lockfile was built with ${key} ${lock.settings[key]}, manifest now says ${value}`,
             );
     return problems;
 }

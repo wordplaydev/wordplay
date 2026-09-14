@@ -43,6 +43,7 @@ import {
     readCharacterSet,
     toRangeString,
 } from '../fonts/deriveRange';
+import { must } from '@util/nullable.ts';
 
 const CSS_PATH = 'src/basis/faces/emoji-faces.css';
 const FONT_DIR = 'static/fonts/NotoColorEmoji';
@@ -194,7 +195,8 @@ function parseFaces(
 ): { family: string; fileIndex: number; range: string }[] {
     const faces: { family: string; fileIndex: number; range: string }[] = [];
     for (const m of fragment.matchAll(/@font-face\s*\{([\s\S]*?)\}/g)) {
-        const body = m[1];
+        // The pattern's only group is not optional.
+        const body = must(m[1], 'a @font-face body');
         const family = body.match(/font-family:\s*'([^']+)'/)?.[1];
         const file = body.match(/NotoColorEmoji-400-(\d+)\.woff2/)?.[1];
         const range = body.match(/unicode-range:\s*([^;]+);/)?.[1];
@@ -312,7 +314,9 @@ function regenerate(
  * the one whose family is exactly `'Noto Emoji'` (not `'Noto Color Emoji'` /
  * `'Noto Emoji Keycap'`), so match that with the closing quote+semicolon. */
 async function regenerateMonoRange(css: string): Promise<string> {
-    const range = await deriveEmojiRange(EMOJI_WHOLE_FILE['Noto Emoji']);
+    const range = await deriveEmojiRange(
+        must(EMOJI_WHOLE_FILE['Noto Emoji'], 'the mono emoji file'),
+    );
     const re =
         /(@font-face\s*\{[^}]*font-family:\s*'Noto Emoji';[^}]*unicode-range:\s*)[^;]+(;)/;
     if (!re.test(css))
@@ -330,7 +334,9 @@ async function computeSafariGaps(css: string): Promise<Set<number>> {
         EMOJI_BLOCKS.some(([a, b]) => cp >= a && cp <= b);
     const isFormat = (cp: number) =>
         EMOJI_FORMAT.some(([a, b]) => cp >= a && cp <= b);
-    const cmap = await readCharacterSet(EMOJI_WHOLE_FILE['Noto Color Emoji']);
+    const cmap = await readCharacterSet(
+        must(EMOJI_WHOLE_FILE['Noto Color Emoji'], 'the color emoji file'),
+    );
     const { start, end } = blockRegion(css, CHROMIUM_SUPPORTS);
     const union = new Set<number>();
     for (const f of parseFaces(css.slice(start, end)))
@@ -442,7 +448,7 @@ async function download(): Promise<void> {
     const rawSlices: Slice[] = [];
     let i = 0;
     for (const m of blocks) {
-        const body = m[1];
+        const body = must(m[1], 'a @font-face body');
         const srcUrl = body.match(/src:\s*url\(([^)]+)\)/)?.[1];
         const range = body.match(/unicode-range:\s*([^;]+);/)?.[1];
         if (!srcUrl || !range) continue;

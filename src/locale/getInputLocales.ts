@@ -9,6 +9,7 @@ import { toDocString, type NameAndDoc } from '@locale/LocaleText';
 import { localeToLanguage } from '@locale/localeToLanguage';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import selectTranslation from '@locale/selectTranslation';
+import { must } from '@util/nullable';
 
 export function getInputLocales(
     locales: Locales,
@@ -42,8 +43,10 @@ export function getInputLocales(
 
     // Convert each inputs doc and mame list into Docs and Names, removing duplicate names.
     return binds.map((bind) => {
+        const [firstDoc, ...restDocs] = bind.docs;
         return {
-            docs: new Docs([bind.docs[0], ...bind.docs.slice(1)]),
+            // A bind entry is created only by pushing its first doc, so it has one.
+            docs: new Docs([must(firstDoc, 'an input doc'), ...restDocs]),
             names: new Names(
                 bind.names.filter(
                     (name) =>

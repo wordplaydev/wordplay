@@ -16,6 +16,11 @@ import type { ClaimName, ClaimSet } from 'shared-types';
 /** The only names that may be written. An unbounded claim map would be a way to
  *  put arbitrary keys into somebody's token. Kept in step with the flag list in
  *  scripts/claims.js by claimFlagsSync.test.ts. */
+/** Whether a string names a claim this callable may write. */
+export function isWritableClaim(name: string): name is ClaimName {
+    return WritableClaims.some((claim) => claim === name);
+}
+
 export const WritableClaims: ClaimName[] = [
     'admin',
     'mod',
@@ -42,8 +47,8 @@ export function nextClaims(
     changes: Partial<ClaimSet>,
     who: { caller: string; subject: string },
 ): { claims: Record<string, unknown>; refusal?: Refusal } {
-    const names = Object.keys(changes) as ClaimName[];
-    if (names.some((name) => !WritableClaims.includes(name)))
+    const names = Object.keys(changes);
+    if (!names.every(isWritableClaim))
         return { claims: {}, refusal: 'unknown-claim' };
 
     // Refused rather than confirmed: a confirmation is a thing to click

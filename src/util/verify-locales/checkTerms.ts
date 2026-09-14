@@ -29,7 +29,7 @@ export default function checkTerms(log: Log, target: LocaleText): void {
     const keys = Object.keys(terms);
     const keySet = new Set(keys);
 
-    for (const key of keys) {
+    for (const [key, term] of Object.entries(terms)) {
         if (!VALID_TERM_KEY.test(key))
             log.bad(
                 `Term key "${key}" is not a valid identifier; term keys must start with a letter and use only letters and numbers (any language) so they can be referenced as $${key}.`,
@@ -42,11 +42,13 @@ export default function checkTerms(log: Log, target: LocaleText): void {
 
         // A phrase that references any term key would make substitution depend
         // on how many passes run over it; forbid it so a single pass suffices.
-        const phrase = withoutAnnotations(terms[key]);
-        for (const match of phrase.matchAll(/(?<!\$)\$([\p{L}\p{N}]+)/gu))
-            if (keySet.has(match[1]))
+        const phrase = withoutAnnotations(term);
+        for (const [, reference] of phrase.matchAll(
+            /(?<!\$)\$([\p{L}\p{N}]+)/gu,
+        ))
+            if (reference !== undefined && keySet.has(reference))
                 log.bad(
-                    `Term "${key}" references another term $${match[1]} in its phrase; terms can't be defined in terms of other terms. Inline the phrase, or write $$ for a literal $.`,
+                    `Term "${key}" references another term $${reference} in its phrase; terms can't be defined in terms of other terms. Inline the phrase, or write $$ for a literal $.`,
                 );
     }
 }

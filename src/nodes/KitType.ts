@@ -77,7 +77,7 @@ export default class KitType extends Type {
     }
 
     clone() {
-        return new KitType(this.source) as this;
+        return this.cloned(new KitType(this.source));
     }
 
     toWordplay(_: Spaces | undefined, locale: LocaleText | undefined) {

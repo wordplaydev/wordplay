@@ -76,6 +76,7 @@
     import { PlainDurations, Quarter } from '@output/Music/durations';
     import Mode from '@components/widgets/Mode.svelte';
     import { get } from 'svelte/store';
+    import { must } from '@util/nullable';
 
     interface Props {
         project: Project;
@@ -444,7 +445,8 @@
             ListLiteral.make([NumberLiteral.make(1)]),
         ]);
         const given = music.getInput(
-            project.shares.output.Music.inputs[0],
+            // The basis declares Music's tracks input.
+            must(project.shares.output.Music.inputs[0], "Music's tracks"),
             project.getNodeContext(music),
         );
         // `tracks` is `[🎶]|🎶`, so a lone track isn't in a list yet; wrapping
@@ -459,7 +461,10 @@
             [
                 music,
                 music.withBindAs(
-                    project.shares.output.Music.inputs[0],
+                    must(
+                        project.shares.output.Music.inputs[0],
+                        "Music's tracks",
+                    ),
                     list,
                     project.getNodeContext(music),
                 ),
@@ -471,7 +476,8 @@
     function removeTrack() {
         if (read === undefined || track === undefined) return;
         const given = music.getInput(
-            project.shares.output.Music.inputs[0],
+            // The basis declares Music's tracks input.
+            must(project.shares.output.Music.inputs[0], "Music's tracks"),
             project.getNodeContext(music),
         );
         if (!(given instanceof ListLiteral)) return;

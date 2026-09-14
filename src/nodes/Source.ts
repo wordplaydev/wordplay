@@ -40,6 +40,7 @@ import { Sym, type SymType } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
+import { last, must } from '@util/nullable';
 
 /** The structural bracket pairs whose nesting depth we visualize, each mapped to
  * its pair group so depth is counted independently per delimiter type. Excludes
@@ -456,19 +457,21 @@ export default class Source extends Expression {
 
         // Scan through the new tokens, reusing as many tokens as possible.
         // let reused = 0;
-        for (let i = 0; i < newTokens.length; i++) {
-            const newToken = newTokens[i];
+        for (const [i, newToken] of newTokens.entries()) {
             // Search the existing tokens for a match, and if we find one, discard everything prior
             const index = oldTokens.findIndex((old) => old.isEqualTo(newToken));
-            if (index >= 0) {
+            const oldToken = index >= 0 ? oldTokens[index] : undefined;
+            if (oldToken !== undefined) {
                 // reused++;
-                const oldToken = oldTokens[index];
                 // Replace the new token with the old token
                 newTokens[i] = oldToken;
                 // Point the new spaces to the old token
                 newSpaces.replace(newToken, oldToken);
                 // Remember what we're about to remove
-                for (let j = 0; j < index; j++) removed.push(oldTokens[j]);
+                for (let j = 0; j < index; j++) {
+                    const obsolete = oldTokens[j];
+                    if (obsolete !== undefined) removed.push(obsolete);
+                }
                 // Rid of all the tokens prior to the reused one, since they're obsolete.
                 oldTokens.splice(0, index + 1);
             } else {
@@ -535,13 +538,12 @@ export default class Source extends Expression {
             let match: Node | undefined;
             if (bucket !== undefined) {
                 while (bucket.length > 0) {
-                    const candidate = bucket[0];
+                    const candidate = bucket.shift();
+                    if (candidate === undefined) break;
                     if (unmatchedOldNodes.has(candidate)) {
                         match = candidate;
-                        bucket.shift();
                         break;
                     }
-                    bucket.shift();
                 }
             }
             if (match) {
@@ -606,13 +608,15 @@ export default class Source extends Expression {
         // Walk pairwise looking for at most one text-only difference.
         // Reject any difference in Sym types — those would change the parse.
         let differingIndex = -1;
-        for (let i = 0; i < newTokens.length; i++) {
-            const newT = newTokens[i];
+        for (const [i, newT] of newTokens.entries()) {
             const oldT = this.tokens[i];
+            // The lists are the same length, checked above; falling back to the
+            // full reparse is correct for any edit this path can't account for.
+            if (oldT === undefined) return undefined;
             // Sym type lists must match exactly.
             if (newT.types.length !== oldT.types.length) return undefined;
-            for (let j = 0; j < newT.types.length; j++)
-                if (newT.types[j] !== oldT.types[j]) return undefined;
+            for (const [j, newType] of newT.types.entries())
+                if (newType !== oldT.types[j]) return undefined;
             if (newT.getText() === oldT.getText()) continue;
             if (differingIndex !== -1) return undefined;
             differingIndex = i;
@@ -620,9 +624,11 @@ export default class Source extends Expression {
 
         // Re-key the new spaces map so unchanged token slots use the OLD
         // token instances. The differing slot keeps its new instance.
-        for (let i = 0; i < newTokens.length; i++)
-            if (i !== differingIndex)
-                newSpaces.replace(newTokens[i], this.tokens[i]);
+        for (const [i, newToken] of newTokens.entries()) {
+            const oldToken = this.tokens[i];
+            if (i !== differingIndex && oldToken !== undefined)
+                newSpaces.replace(newToken, oldToken);
+        }
 
         // Whitespace-only change: keep the existing AST, swap in the new spaces.
         if (differingIndex === -1)
@@ -635,9 +641,15 @@ export default class Source extends Expression {
         // Single-token text change: clone the path from root to the affected
         // token, replacing the old token with the new one. Everything else in
         // the tree is reused by reference.
+        const oldDifferingToken = this.tokens[differingIndex];
+        const newDifferingToken = newTokens[differingIndex];
+        // Both lists have a token at this index, since it came from walking them
+        // pairwise; the full reparse is the correct fallback regardless.
+        if (oldDifferingToken === undefined || newDifferingToken === undefined)
+            return undefined;
         const newProgram = this.expression.replace(
-            this.tokens[differingIndex],
-            newTokens[differingIndex],
+            oldDifferingToken,
+            newDifferingToken,
         );
         const fast = new Source(
             this.names,
@@ -664,7 +676,7 @@ export default class Source extends Expression {
         // fast path got wrong.
         if (
             fast.tokens[differingIndex]?.getText() !==
-            newTokens[differingIndex].getText()
+            newDifferingToken.getText()
         )
             return undefined;
 
@@ -716,17 +728,17 @@ export default class Source extends Expression {
                     ? replaced
                     : getPreferredSpaces(replace.replacement, replaced);
 
-            return new Source(
-                this.names,
-                [program, spaces],
-                this.keywords,
-            ) as this;
+            return this.cloned(
+                new Source(this.names, [program, spaces], this.keywords),
+            );
         } else
-            return new Source(
-                this.names,
-                [this.expression, this.spaces],
-                this.keywords,
-            ) as this;
+            return this.cloned(
+                new Source(
+                    this.names,
+                    [this.expression, this.spaces],
+                    this.keywords,
+                ),
+            );
     }
 
     getTokenTextPosition(token: Token): number | undefined {
@@ -824,8 +836,8 @@ export default class Source extends Expression {
                 ? this.getTokenTextPosition(firstToken)
                 : this.getNodeFirstPosition(parent);
         } else {
-            for (let i = targetFieldIndex + 1; i < grammar.length; i++) {
-                const siblingOrList = parent.getField(grammar[i].name);
+            for (const laterField of grammar.slice(targetFieldIndex + 1)) {
+                const siblingOrList = parent.getField(laterField.name);
                 const sibling = Array.isArray(siblingOrList)
                     ? siblingOrList[0]
                     : siblingOrList;
@@ -862,19 +874,23 @@ export default class Source extends Expression {
         let physical = 0;
 
         // Iterate through the tokens in the program.
-        for (let index = 0; index < tokens.length; index++) {
-            const token = tokens[index];
+        for (const [index, token] of tokens.entries()) {
             const tokenLength = token.getTextLength();
 
             // Get the physical space prior to the token.
             const actualSpace = this.spaces.getSpace(token);
+            const nextToken = tokens[index + 1];
 
             // Get the space before each line break.
             const lineSpaces = actualSpace.split('\n');
             // Compute the number of lines in the preceding rendered space.
             const lineCount = lineSpaces.length - 1;
             // Compute the space on the final line prior to the token text.
-            const lastLineSpace = lineSpaces[lineSpaces.length - 1];
+            // Splitting a string always yields at least one part.
+            const lastLineSpace = must(
+                last(lineSpaces),
+                'a final line of space',
+            );
 
             // Evaluate this token and return its result if not undefined.
             const result = checker(
@@ -886,9 +902,9 @@ export default class Source extends Expression {
                 token.getText(),
                 tokenLength,
                 // Last on line if the last token
-                index + 1 === tokens.length ||
+                nextToken === undefined ||
                     // Or the next token has a line break before it.
-                    this.spaces.getSpace(tokens[index + 1]).includes('\n'),
+                    this.spaces.getSpace(nextToken).includes('\n'),
             );
             if (result !== undefined) return result;
 
@@ -965,8 +981,8 @@ export default class Source extends Expression {
     private getTokenIndex(token: Token): number {
         if (this.tokenIndex === undefined) {
             this.tokenIndex = new Map();
-            for (let i = 0; i < this.tokens.length; i++)
-                this.tokenIndex.set(this.tokens[i], i);
+            for (const [i, token] of this.tokens.entries())
+                this.tokenIndex.set(token, i);
         }
         return this.tokenIndex.get(token) ?? -1;
     }
@@ -1021,10 +1037,14 @@ export default class Source extends Expression {
 
     getRange(node: Node): [number, number] | undefined {
         const tokens = node.nodes((t): t is Token => t instanceof Token);
-        const first = tokens[0];
-        const last = tokens[tokens.length - 1];
-        const firstIndex = this.getTokenTextPosition(first);
-        const lastIndex = this.getTokenLastPosition(last);
+        const firstToken = tokens[0];
+        const lastToken = tokens[tokens.length - 1];
+        // With no tokens there is no range, which is what the position lookups
+        // returned before.
+        if (firstToken === undefined || lastToken === undefined)
+            return undefined;
+        const firstIndex = this.getTokenTextPosition(firstToken);
+        const lastIndex = this.getTokenLastPosition(lastToken);
         return firstIndex === undefined || lastIndex === undefined
             ? undefined
             : [firstIndex, lastIndex];

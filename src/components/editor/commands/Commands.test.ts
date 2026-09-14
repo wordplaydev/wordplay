@@ -52,11 +52,12 @@ function matchesUnmodified(
 }
 
 test('an unmodified keystroke matches only the typing catch-all, not palette inserts', () => {
-    for (const [key, code] of [
+    const keystrokes: [key: string, code: string][] = [
         ['a', 'KeyA'],
         ['x', 'KeyX'],
         ['3', 'Digit3'],
-    ]) {
+    ];
+    for (const [key, code] of keystrokes) {
         const matched = Commands.filter((c) => matchesUnmodified(c, key, code));
         // Every matching command must be a typing catch-all or have an explicit
         // matching key — never a no-key palette command.

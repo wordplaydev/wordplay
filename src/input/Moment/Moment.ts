@@ -34,6 +34,7 @@ import StructureValue, { createStructure } from '@values/StructureValue';
 import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
 import type Expression from '@nodes/Expression';
+import { first, must } from '@util/nullable';
 
 /** The positional order of Moment's inputs: construction-friendly (date, time,
  *  configuration, then the informational fields Now fills in). */
@@ -89,9 +90,11 @@ export function createMomentStructure(
         number(moment.dayOfWeek),
     ];
     const bindings = new Map<Names, Value>();
-    definition.inputs.forEach((input, index) =>
-        bindings.set(input.names, values[index]),
-    );
+    // `values` is built in the order `createMomentType` declares its inputs.
+    definition.inputs.forEach((input, index) => {
+        const value = values[index];
+        if (value !== undefined) bindings.set(input.names, value);
+    });
     return createStructure(evaluator, definition, bindings);
 }
 
@@ -131,8 +134,10 @@ export function createMomentType(locales: Locales): StructureDefinition {
 
     const conversion = createBasisConversion(
         getDocLocales(locales, (locale) => locale.input.Moment.conversion.text),
-        NameType.make(names.getNames()[0]),
+        // A Moment's names come from locale text, which always declares one.
+        NameType.make(must(first(names.getNames()), "the Moment type's name")),
         TextType.make(),
+        StructureValue,
         (
             requestor: Expression,
             moment: StructureValue,
@@ -196,7 +201,8 @@ function momentToText(
         new MessageException(
             requestor,
             evaluator,
-            select(evaluator.getLocales()[0]),
+            // `getLocales` always ends with the default locale.
+            select(must(first(evaluator.getLocales()), 'a locale')),
         );
 
     // An unset calendar means the target locale's; an invalid one (reachable

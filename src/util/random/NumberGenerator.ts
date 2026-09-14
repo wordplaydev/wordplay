@@ -50,6 +50,49 @@ THE SOFTWARE.
 
 */
 
+import { matchGroups } from '@util/nullable';
+
+/**
+ * The MD5 state and block are fixed-length word arrays, and this file indexes
+ * them by literal (`k[7]`) all through the unrolled rounds. A plain
+ * `Int32Array` says every read may be undefined, which is true of an arbitrary
+ * index and false of these; branding the length says which, so the algorithm's
+ * lines below are the upstream ones unchanged.
+ *
+ * Declared as a union rather than an intersection with one array class: a
+ * `Uint32Array` narrowed to `Int32Array & …` is `never`, because the two carry
+ * different `Symbol.toStringTag` literals.
+ */
+type Words = Int32Array | Uint32Array;
+type Index4 = 0 | 1 | 2 | 3;
+type Index16 = Index4 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
+type Words4 = Words & Record<Index4, number>;
+type Words16 = Words & Record<Index16, number>;
+
+type Words17 = Words & Record<Index16 | 16, number>;
+
+function isWords4(values: Words): values is Words4 {
+    return values.length >= 4;
+}
+
+function isWords17(values: Words): values is Words17 {
+    return values.length >= 17;
+}
+
+/** A word array of at least four words, or a thrown error: every caller
+ *  allocates its own, so a shorter one is a defect here, not a data problem. */
+function words4<Kind extends Words>(values: Kind): Kind & Words4 {
+    if (isWords4(values)) return values;
+    throw new Error(`Expected at least four words, not ${values.length}`);
+}
+
+/** A word array of at least seventeen words: the block is sixteen words plus
+ *  the carry word the appenders copy back down. Same reasoning as `words4`. */
+function words17<Kind extends Words>(values: Kind): Kind & Words17 {
+    if (isWords17(values)) return values;
+    throw new Error(`Expected at least seventeen words, not ${values.length}`);
+}
+
 interface HasherState {
     buffer: string;
     buflen: number;
@@ -92,15 +135,15 @@ export class Md5 {
     // Permanent instance is to use for one-call hashing
     private static onePassHasher = new Md5();
 
-    private static _hex(x: Int32Array): string {
+    private static _hex(x: Words4): string {
         const hc = Md5.hexChars;
         const ho = Md5.hexOut;
         let n;
         let offset;
         let j;
-        let i;
+        const indices: Index4[] = [0, 1, 2, 3];
 
-        for (i = 0; i < 4; i += 1) {
+        for (const i of indices) {
             offset = i * 8;
             n = x[i];
             for (j = 0; j < 8; j += 2) {
@@ -113,10 +156,7 @@ export class Md5 {
         return ho.join('');
     }
 
-    private static _md5cycle(
-        x: Int32Array | Uint32Array,
-        k: Int32Array | Uint32Array,
-    ) {
+    private static _md5cycle(x: Words4, k: Words16) {
         let a = x[0];
         let b = x[1];
         let c = x[2];
@@ -263,14 +303,14 @@ export class Md5 {
     private _dataLength = 0;
     private _bufferLength = 0;
 
-    private _state: Int32Array = new Int32Array(4);
+    private _state = words4(new Int32Array(4));
     private _buffer: ArrayBuffer = new ArrayBuffer(68);
     private _buffer8: Uint8Array;
-    private _buffer32: Uint32Array;
+    private _buffer32: Uint32Array & Words17;
 
     constructor() {
         this._buffer8 = new Uint8Array(this._buffer, 0, 68);
-        this._buffer32 = new Uint32Array(this._buffer, 0, 17);
+        this._buffer32 = words17(new Uint32Array(this._buffer, 0, 17));
         this.start();
     }
 
@@ -377,7 +417,9 @@ export class Md5 {
         for (;;) {
             i = Math.min(input.length - j, 64 - bufLen);
             while (i--) {
-                buf8[bufLen++] = input[j++];
+                // In range by the `min` above, which never exceeds what
+                // remains of the input.
+                buf8[bufLen++] = input[j++] ?? 0;
             }
             if (bufLen < 64) {
                 break;
@@ -416,10 +458,20 @@ export class Md5 {
 
         this._dataLength = state.length;
         this._bufferLength = state.buflen;
-        s[0] = x[0];
-        s[1] = x[1];
-        s[2] = x[2];
-        s[3] = x[3];
+        // A state carries the four words `getState` wrote; a shorter one is
+        // not a state this hasher produced.
+        const [a, b, c, d] = x;
+        if (
+            a === undefined ||
+            b === undefined ||
+            c === undefined ||
+            d === undefined
+        )
+            throw new Error(`Expected four state words, not ${x.length}`);
+        s[0] = a;
+        s[1] = b;
+        s[2] = c;
+        s[3] = d;
 
         for (i = 0; i < buf.length; i += 1) {
             this._buffer8[i] = buf.charCodeAt(i);
@@ -430,7 +482,10 @@ export class Md5 {
      * Hash the current state of the hash buffer and return the result
      * @param raw Whether to return the value as an `Int32Array`
      */
-    public end(raw: boolean = false) {
+    public end(raw: true): Int32Array | undefined;
+    public end(raw?: false): string | undefined;
+    public end(raw?: boolean): Int32Array | string | undefined;
+    public end(raw: boolean = false): Int32Array | string | undefined {
         const bufLen = this._bufferLength;
         const buf8 = this._buffer8;
         const buf32 = this._buffer32;
@@ -458,8 +513,11 @@ export class Md5 {
                 return;
             }
 
-            const lo = parseInt(matches[2], 16);
-            const hi = parseInt(matches[1], 16) || 0;
+            // Both groups are present whenever the pattern matches, since
+            // each can match empty.
+            const [, high = '', low = ''] = matchGroups(matches);
+            const lo = parseInt(low, 16);
+            const hi = parseInt(high, 16) || 0;
 
             buf32[14] = lo;
             buf32[15] = hi;
@@ -481,12 +539,15 @@ function generateShortNumericHash(data: string): string {
     }
 
     // Generate MD5 hash
-    const md5Hash: Int32Array = Md5.hashStr(data, true);
+    // Branded here rather than in `hashStr`: the digest is always four words,
+    // and this is the one caller that indexes it.
+    const md5Hash = words4(Md5.hashStr(data, true));
 
     // XOR the first half of the digest with the second half
     const xorResult: Buffer = Buffer.alloc(md5Hash.length / 2);
-    for (let i = 0; i < xorResult.length; i++) {
-        xorResult[i] = md5Hash[i] ^ md5Hash[i + xorResult.length];
+    for (const [i] of xorResult.entries()) {
+        // Both reads are inside the digest: `i` runs over its first half.
+        xorResult[i] = (md5Hash[i] ?? 0) ^ (md5Hash[i + xorResult.length] ?? 0);
     }
 
     // Get the length of the original data
@@ -498,8 +559,8 @@ function generateShortNumericHash(data: string): string {
 
     // Convert the combined buffer to a string of numeric characters
     let numericString: string = '';
-    for (let i = 0; i < combinedBuffer.length; i++) {
-        numericString += combinedBuffer[i].toString().padStart(3, '0');
+    for (const byte of combinedBuffer) {
+        numericString += byte.toString().padStart(3, '0');
     }
 
     return numericString;

@@ -20,7 +20,6 @@
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
-import type LocaleText from '@locale/LocaleText';
 import {
     classifyPair,
     type LocaleStringKind,
@@ -36,6 +35,7 @@ import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { ReservedConceptIDs } from '@nodes/ConceptLink';
 import { getTranslatableTutorialPairs } from '@util/verify-locales/verifyTutorial';
 import type Tutorial from '../../tutorial/Tutorial';
+import { matchGroups, must } from '@util/nullable';
 
 /** When a path's value last changed, and what it changed from. */
 export type Change = {
@@ -53,12 +53,18 @@ export type Change = {
 };
 
 /** A translation whose en-US source moved after the translation last did. */
-export type Stale = {
+/** Which translation drifted — all `markStale` needs in order to queue it.
+ *  A census reports more (see `Stale`); a since-the-branch-point check knows
+ *  only this much, and saying so is what keeps the two apart. */
+export type StaleEntry = {
     locale: string;
     file: string;
     /** `LocalePath.toString()` of the drifted pair. */
     id: string;
     kind: LocaleStringKind;
+};
+
+export type Stale = StaleEntry & {
     /** Whether the current translation is machine output (`$~`). */
     machine: boolean;
     source: Change;
@@ -131,8 +137,7 @@ function canonicalize(value: string | string[]): string {
  * the two can't drift apart.
  */
 export function collectValues(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    record: Record<any, any>,
+    record: object,
     into: Map<string, string> = new Map(),
     /** `path.join('.')` of the ancestors — '' at the top, matching `LocalePath`. */
     prefix = '',
@@ -140,7 +145,7 @@ export function collectValues(
     for (const unparsedKey of Object.keys(record)) {
         const parsedKey = parseInt(unparsedKey);
         const key = !isNaN(parsedKey) ? parsedKey : unparsedKey;
-        const value = record[key];
+        const value: unknown = Reflect.get(record, key);
         const id = `${prefix}.${key}`;
         const childPrefix = prefix === '' ? `${key}` : id;
         if (
@@ -156,11 +161,11 @@ export function collectValues(
         )
             collectValues(value, into, childPrefix);
         else if (Array.isArray(value))
-            for (let index = 0; index < value.length; index++) {
-                const element = value[index];
-                if (element)
+            // Only a container holds more values; a loose string in a mixed
+            // array would otherwise be walked character by character.
+            for (const [index, element] of value.entries())
+                if (typeof element === 'object' && element !== null)
                     collectValues(element, into, `${childPrefix}.${index}`);
-            }
     }
     return into;
 }
@@ -232,7 +237,7 @@ export function fileCommits(file: string, cwd?: string): FileCommit[] {
     let pending: { sha: string; time: number; order: number } | undefined;
     for (const line of log.split('\n')) {
         if (line.startsWith('C ')) {
-            const [, sha, time] = line.split(' ');
+            const [, sha = '', time = ''] = line.split(' ');
             pending = {
                 sha,
                 time: parseInt(time),
@@ -244,10 +249,13 @@ export function fileCommits(file: string, cwd?: string): FileCommit[] {
             // ":<oldmode> <newmode> <oldsha> <newsha> <status>\t<paths>"
             const match = line.match(/^:\S+ \S+ (\S+) (\S+) /);
             if (match) {
+                const [, before, after] = matchGroups(match);
+                // Neither group is optional, so a match carries both.
+                const beforeSha = must(before, 'a before-blob sha');
                 commits.push({
                     ...pending,
-                    before: EmptyBlob.test(match[1]) ? undefined : match[1],
-                    after: match[2],
+                    before: EmptyBlob.test(beforeSha) ? undefined : beforeSha,
+                    after: must(after, 'an after-blob sha'),
                 });
                 pending = undefined;
             }
@@ -277,11 +285,12 @@ function readBlobs(shas: string[], cwd?: string): Map<string, string> {
             index++;
             continue;
         }
-        const size = parseInt(header[2]);
+        const size = parseInt(must(header[2], 'a blob size'));
         // Keyed by the sha we asked for, not the one echoed back: `--raw`
         // abbreviates blob shas while `--batch` answers with the full one.
         texts.set(
-            shas[index],
+            // The loop condition keeps `index` inside `shas`.
+            must(shas[index], 'a requested sha'),
             batch.toString('utf8', newline + 1, newline + 1 + size),
         );
         offset = newline + 1 + size + 1;
@@ -445,7 +454,8 @@ export function getTranslatedLocales(): string[] {
  *  fields a locale writes for itself (`guidance`, `terms`, glossary `forms`,
  *  `emotion`) and, because it reads *current* en-US, paths that no longer exist. */
 export function getCheckablePathKinds(
-    source: LocaleText,
+    /** Any object, like `getCheckableLocalePairs`: only its own keys are read. */
+    source: object,
 ): Map<string, { kind: LocaleStringKind; pair: LocalePath }> {
     const kinds = new Map<
         string,
@@ -514,8 +524,8 @@ export function compareFile(
     sourceFile: string,
     targetFile: string,
     kinds: Map<string, { kind: LocaleStringKind; pair: LocalePath }>,
-    sourceText: Record<string, unknown>,
-    targetText: Record<string, unknown>,
+    sourceText: object,
+    targetText: object,
     /** Repo root, for tests that build history in a throwaway repo. */
     cwd?: string,
 ): Stale[] {
@@ -570,7 +580,7 @@ export function readJSON<T = Record<string, unknown>>(
  */
 export type TutorialSource = {
     mode: TutorialMode;
-    source: Record<string, unknown>;
+    source: object;
     kinds: Map<string, { kind: LocaleStringKind; pair: LocalePath }>;
 };
 
@@ -583,7 +593,7 @@ export function getTutorialSources(): TutorialSource[] {
         if (source === undefined) continue;
         sources.push({
             mode,
-            source: source as unknown as Record<string, unknown>,
+            source,
             kinds: getTranslatableTutorialPathKinds(source),
         });
     }
@@ -595,7 +605,7 @@ export function censusLocale(
     locale: string,
     localeKinds: Map<string, { kind: LocaleStringKind; pair: LocalePath }>,
     tutorials: TutorialSource[],
-    sourceLocale: Record<string, unknown>,
+    sourceLocale: object,
 ): Stale[] {
     const stale: Stale[] = [];
     const localeText = readJSON(getLocalePath(locale));
@@ -651,7 +661,7 @@ export function isMarkable(entry: Stale, onlyMachine: boolean): boolean {
  * `$~<translation>`, so nothing has to clean it up afterwards.
  */
 export function markStale(
-    entries: Stale[],
+    entries: readonly StaleEntry[],
     kinds: Map<string, { kind: LocaleStringKind; pair: LocalePath }>,
     text: Record<string, unknown>,
 ): number {
@@ -746,8 +756,8 @@ export function findLostConceptLinks(
     locale: string,
     file: string,
     kinds: Map<string, { kind: LocaleStringKind; pair: LocalePath }>,
-    sourceText: Record<string, unknown>,
-    targetText: Record<string, unknown>,
+    sourceText: object,
+    targetText: object,
 ): Stale[] {
     const join = (value: string | string[] | undefined) =>
         value === undefined
@@ -805,7 +815,7 @@ export function driftSince(
     locale: string,
     kinds: Map<string, { kind: LocaleStringKind; pair: LocalePath }>,
     cwd?: string,
-): { locale: string; file: string; id: string; kind: LocaleStringKind }[] {
+): StaleEntry[] {
     const sourceBefore = valuesAt(base, sourceFile, cwd);
     const sourceAfter = valuesAt(WorkingTree, sourceFile, cwd);
     if (sourceBefore === undefined || sourceAfter === undefined) return [];

@@ -83,10 +83,12 @@ export default class DocumentedExpression extends SimpleExpression {
     }
 
     clone(replace?: Replacement) {
-        return new DocumentedExpression(
-            this.replaceChild('docs', this.docs, replace),
-            this.replaceChild('expression', this.expression, replace),
-        ) as this;
+        return this.cloned(
+            new DocumentedExpression(
+                this.replaceChild('docs', this.docs, replace),
+                this.replaceChild('expression', this.expression, replace),
+            ),
+        );
     }
 
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {

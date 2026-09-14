@@ -29,18 +29,22 @@ export class BorrowCycle extends Conflict {
     getMessage() {
         return {
             node: this.borrow,
-            explanation: (locales: Locales, context: Context) =>
-                locales.concretize(
+            explanation: (locales: Locales, context: Context) => {
+                // A cycle always names at least one source; without one the
+                // reference falls back to the node's own description.
+                const source = this.cycle[0];
+                return locales.concretize(
                     (l) => BorrowCycle.LocalePath(l).explanation,
                     {
                         borrow: new NodeRef(
                             this.borrow,
                             locales,
                             context,
-                            locales.getName(this.cycle[0].names),
+                            source && locales.getName(source.names),
                         ),
                     },
-                ),
+                );
+            },
         };
     }
 

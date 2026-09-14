@@ -1,4 +1,5 @@
 import { getFirestore, type Firestore } from 'firebase-admin/firestore';
+import { isRecord } from './shared/guards.js';
 
 /**
  * A record of one attempt to create a class, so a retry is answered rather than
@@ -38,6 +39,25 @@ export type ClassCreation = {
     classid?: string;
     students?: ClassCreationStudent[];
 };
+
+/** Whether a stored document is a class-creation attempt. */
+export function isClassCreation(value: unknown): value is ClassCreation {
+    return (
+        isRecord(value) &&
+        value.v === 1 &&
+        typeof value.teacher === 'string' &&
+        typeof value.started === 'number' &&
+        (value.classid === undefined || typeof value.classid === 'string') &&
+        (value.students === undefined ||
+            (Array.isArray(value.students) &&
+                value.students.every(
+                    (student) =>
+                        isRecord(student) &&
+                        typeof student.username === 'string' &&
+                        typeof student.existed === 'boolean',
+                )))
+    );
+}
 
 export type ClaimResult =
     /** This call owns the attempt and should go ahead. */
@@ -101,8 +121,10 @@ export async function claimCreation(
     const db = getFirestore();
     const ref = creationRef(db, key);
     return db.runTransaction<ClaimResult>(async (transaction) => {
-        const stored = (await transaction.get(ref)).data() as
-            ClassCreation | undefined;
+        // An attempt that can't be read is treated as none: a record this
+        // code didn't write is not one it can resume.
+        const raw = (await transaction.get(ref)).data();
+        const stored = isClassCreation(raw) ? raw : undefined;
         const action = claimAction(stored, teacher, now);
         // `set` rather than `create`, since a claim also takes over the record
         // of an attempt that died.

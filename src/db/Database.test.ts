@@ -2,6 +2,7 @@ import { readFileSync } from 'fs';
 import { globSync } from 'glob';
 import { FirebaseError } from 'firebase/app';
 import { get } from 'svelte/store';
+import { includesString, keysOf } from '@util/nullable';
 import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import DefaultLocale from '../locale/DefaultLocale';
 import {
@@ -459,10 +460,13 @@ test('every sync domain is reported synced by something', () => {
     // Both spellings: most facades pass `Domain.X`, but the gallery one passes the
     // string. Which they use is not a fact worth pinning; that they report is.
     const reported = new Set<string>();
+    const domainNames = keysOf(Domain);
     for (const [, name] of sources.matchAll(/markSynced\( ?Domain\.(\w+)/g))
-        reported.add(Domain[name as keyof typeof Domain]);
+        if (name !== undefined && includesString(domainNames, name))
+            reported.add(Domain[name]);
     for (const [, value] of sources.matchAll(/markSynced\( ?'([a-z]+)'/g))
-        reported.add(value);
+        // The group is mandatory, so a match always carries it.
+        if (value !== undefined) reported.add(value);
 
     expect(SyncDomains.filter((domain) => !reported.has(domain))).toEqual([]);
 });

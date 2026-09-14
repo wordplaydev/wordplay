@@ -14,6 +14,7 @@
 import { isUnwritten } from '@locale/LocaleText';
 import { DECLARED_INPUTS } from '@locale/templateInputs.generated';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
+import { matchGroups, must } from '@util/nullable';
 
 /** Field path -> ordered list of declared input names. */
 type InputsByField = Map<string, string[]>;
@@ -98,9 +99,10 @@ export function resolveTerms(
 
     return text.replace(TERM_RE, (whole, name: string) => {
         if (name === '?' || name === '!') return whole;
-        return Object.prototype.hasOwnProperty.call(terms, name)
+        const value = Object.prototype.hasOwnProperty.call(terms, name)
             ? terms[name]
-            : whole;
+            : undefined;
+        return value ?? whole;
     });
 }
 
@@ -133,7 +135,9 @@ export function getTemplateReferences(
         [...declared].map((name) => withoutCountMarker(name)),
     );
     for (const m of template.matchAll(MENTION_RE)) {
-        const name = withoutCountMarker(m[1]);
+        const [, mention] = matchGroups(m);
+        // The pattern's only group is not optional, so a match always has one.
+        const name = withoutCountMarker(must(mention, 'a template mention'));
         if (name === '?' || name === '!') continue;
         if (/^[0-9]+$/.test(name)) {
             numeric.add(parseInt(name, 10));
@@ -159,9 +163,10 @@ export function getPluralBranches(template: string): PluralBranch[] {
     const branches: PluralBranch[] = [];
     const start = /(?<!\$)\$#([a-zA-Z0-9]+)\[/g;
     for (const match of template.matchAll(start)) {
+        const [whole, name] = matchGroups(match);
         let depth = 1;
         let arms = 1;
-        for (let i = match.index + match[0].length; i < template.length; i++) {
+        for (let i = match.index + whole.length; i < template.length; i++) {
             const c = template[i];
             // A doubled delimiter is an escaped literal, not structure.
             if (
@@ -177,7 +182,8 @@ export function getPluralBranches(template: string): PluralBranch[] {
                 if (depth === 0) break;
             } else if (c === '|' && depth === 1) arms++;
         }
-        branches.push({ name: match[1], arms });
+        // The pattern's only group is not optional, so a match always has one.
+        branches.push({ name: must(name, 'a plural branch name'), arms });
     }
     return branches;
 }

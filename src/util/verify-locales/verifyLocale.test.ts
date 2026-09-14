@@ -16,6 +16,7 @@ import {
     translateLocale,
     verifyLocale,
 } from './verifyLocale';
+import { must } from '@util/nullable';
 
 // Fixtures mirror real locale paths so the tag-based classifier resolves them:
 // node.Paragraph.doc is [formatted], basis.*.function.*.names is [name], and
@@ -120,10 +121,10 @@ test('getCheckableLocalePairs skips glossary forms', () => {
 test('translateLocale translates construct names before example-bearing docs', async () => {
     // Clone the real default locale so the fixture is a valid LocaleText, then
     // seed a construct name and a doc containing a `\code\` example that uses it.
-    const source = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const source = structuredClone(DefaultLocale);
     source.output.Phrase.names = 'Phrase';
     source.output.Phrase.doc = 'Make one with \\Phrase("hi")\\.';
-    const target = JSON.parse(JSON.stringify(source)) as LocaleText;
+    const target = structuredClone(source);
 
     const namePath = new LocalePath(['output', 'Phrase'], 'names', 'Phrase');
     const docPath = new LocalePath(
@@ -145,7 +146,7 @@ test('translateLocale translates construct names before example-bearing docs', a
             Promise.resolve(
                 regions.length > 0 ? `${language}-${regions[0]}` : language,
             ),
-        getSupportedLocales: () => Promise.resolve([] as Locale[]),
+        getSupportedLocales: () => Promise.resolve<Locale[]>([]),
     };
 
     await translateLocale(
@@ -177,7 +178,7 @@ test('translateLocale translates construct names before example-bearing docs', a
 // accept every $name, or a translator's typo becomes literal text in the UI.
 // Verifying a whole locale is slow enough to need more than the default timeout.
 test('a $term reference resolves against this locale, but an unknown $name still fails', async () => {
-    const locale = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const locale = structuredClone(DefaultLocale);
     locale.terms = { errorTerm: 'त्रुटि', inputTerm: 'इनपुट' };
     // A [formatted] field and a [plain] field, the two shapes the issue reports.
     locale.glossary.value.definition = 'A $errorTerm is a thing.';
@@ -213,9 +214,9 @@ test('a $term reference resolves against this locale, but an unknown $name still
 // replaces them with fresh machine output for nothing. The predicate narrows a
 // non-markup array to just the elements that need work; the rest stay verbatim.
 test('translateLocale sends only the array elements that need translation', async () => {
-    const source = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const source = structuredClone(DefaultLocale);
     source.ui.howto.editor.notification.labels = ['alpha', 'beta'];
-    const target = JSON.parse(JSON.stringify(source)) as LocaleText;
+    const target = structuredClone(source);
     // Element 0 already has a reviewed translation; element 1 is unwritten.
     target.ui.howto.editor.notification.labels = ['uno', '$?beta'];
 
@@ -233,7 +234,7 @@ test('translateLocale sends only the array elements that need translation', asyn
             return text.map((t) => `X${t}`);
         },
         getTargetLocale: (language) => Promise.resolve(language),
-        getSupportedLocales: () => Promise.resolve([] as Locale[]),
+        getSupportedLocales: () => Promise.resolve<Locale[]>([]),
     };
 
     const revised = await translateLocale(
@@ -260,11 +261,11 @@ test('translateLocale sends only the array elements that need translation', asyn
 // stronger model — names are a sliver of a run's tokens, and a bad one is a
 // cross-locale collision rather than an awkward sentence.
 test('translateLocale marks glossary and construct-name phases as names', async () => {
-    const source = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const source = structuredClone(DefaultLocale);
     source.output.Phrase.names = 'Phrase';
     source.glossary.value.word = 'value';
     source.ui.howto.editor.notification.labels = ['alpha', 'beta'];
-    const target = JSON.parse(JSON.stringify(source)) as LocaleText;
+    const target = structuredClone(source);
 
     const calls: { texts: string[]; names: boolean }[] = [];
     const stub: Translator = {
@@ -274,7 +275,7 @@ test('translateLocale marks glossary and construct-name phases as names', async 
             return [...text];
         },
         getTargetLocale: (language) => Promise.resolve(language),
-        getSupportedLocales: () => Promise.resolve([] as Locale[]),
+        getSupportedLocales: () => Promise.resolve<Locale[]>([]),
     };
 
     await translateLocale(
@@ -339,13 +340,13 @@ function echoingTranslator(sent: string[]): Translator {
             Promise.resolve(
                 regions.length > 0 ? `${language}-${regions[0]}` : language,
             ),
-        getSupportedLocales: () => Promise.resolve([] as Locale[]),
+        getSupportedLocales: () => Promise.resolve<Locale[]>([]),
     };
 }
 
 test('translateLocale checkpoints once per slice of the bulk phase', async () => {
-    const source = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
-    const target = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const source = structuredClone(DefaultLocale);
+    const target = structuredClone(DefaultLocale);
     const paths = bulkPaths(CHECKPOINT_PATHS * 2 + 1);
 
     const saved: LocaleText[] = [];
@@ -360,7 +361,7 @@ test('translateLocale checkpoints once per slice of the bulk phase', async () =>
         async (partial) => {
             // Copy: `revised` keeps being mutated after the checkpoint returns,
             // so holding the reference would assert against the final state.
-            saved.push(JSON.parse(JSON.stringify(partial)) as LocaleText);
+            saved.push(structuredClone(partial));
         },
     );
 
@@ -382,9 +383,12 @@ test('translateLocale checkpoints once per slice of the bulk phase', async () =>
                 );
             }).length,
     );
-    expect(done[0]).toBeGreaterThan(0);
-    expect(done[1]).toBeGreaterThan(done[0]);
-    expect(done[2]).toBeGreaterThan(done[1]);
+    const [first, second, third] = done.map((count) =>
+        must(count, 'a save count'),
+    );
+    expect(first).toBeGreaterThan(0);
+    expect(second).toBeGreaterThan(must(first, 'the first save count'));
+    expect(third).toBeGreaterThan(must(second, 'the second save count'));
 });
 
 // The write-back drains the translation array with shift(), in lockstep with the
@@ -393,8 +397,8 @@ test('translateLocale checkpoints once per slice of the bulk phase', async () =>
 // than fail loudly.
 test('slicing the bulk phase keeps every path aligned with its translation', async () => {
     const count = CHECKPOINT_PATHS * 2 + 37;
-    const source = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
-    const target = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const source = structuredClone(DefaultLocale);
+    const target = structuredClone(DefaultLocale);
     const paths = bulkPaths(count);
     const sent: string[] = [];
 
@@ -408,15 +412,15 @@ test('slicing the bulk phase keeps every path aligned with its translation', asy
     );
 
     expect(sent.length).toBe(count);
-    for (let index = 0; index < count; index++)
-        expect(paths[index].resolve(revised)).toBe(
+    for (const [index, path] of paths.entries())
+        expect(path.resolve(revised)).toBe(
             `${MachineTranslated}X${sent[index]}`,
         );
 });
 
 test('a phase with no paths does not checkpoint', async () => {
-    const source = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
-    const target = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const source = structuredClone(DefaultLocale);
+    const target = structuredClone(DefaultLocale);
     let saves = 0;
     await translateLocale(
         collectingLog().log,

@@ -91,7 +91,9 @@
         const step = (now: number) => {
             const progress = Math.min(1, (now - start) / totalMs);
             const index = getTransitionIndex(steps.length, easing(progress));
-            displayed = index < 0 ? target : steps[index];
+            // A step out of range is the end of the transition, which is the
+            // target — the same thing a negative index means.
+            displayed = index < 0 ? target : (steps[index] ?? target);
             if (progress < 1) rafHandle = requestAnimationFrame(step);
             else {
                 displayed = target;

@@ -39,11 +39,12 @@ test('the focus is always in front of the output, even with nothing to frame', (
     // An empty phrase measures exactly 0x0. Fitting it used to solve to z = 0, which put
     // the camera in the output's own plane: `place.z > focus.z` is false at z = 0, so the
     // stage rendered completely blank.
-    for (const [width, height] of [
+    const extents: [width: number, height: number][] = [
         [0, 0],
         [0, 1],
         [1, 0],
-    ])
+    ];
+    for (const [width, height] of extents)
         expect(fitZ(width, height, 360, 280)).toBeLessThan(0);
 });
 
@@ -188,8 +189,10 @@ test('a dragged phrase settles the frame; forgetting the frame makes it swing', 
     });
 
     // Kept: the camera only ever pulls back, and holds once the frame covers the trip.
-    for (let i = 1; i < kept.length; i++)
-        expect(kept[i]).toBeLessThanOrEqual(kept[i - 1] as number);
+    for (const [i, z] of kept.entries()) {
+        const previous = kept[i - 1];
+        if (previous !== undefined) expect(z).toBeLessThanOrEqual(previous);
+    }
     expect(kept.at(-1)).toBe(kept[3]);
 
     // Discarded: the same drag swings the camera back in on the way home.
@@ -197,9 +200,11 @@ test('a dragged phrase settles the frame; forgetting the frame makes it swing', 
         fitOf(growEnvelope(undefined, bounds)),
     );
     expect(
-        forgotten.some(
-            (z, i) => i > 0 && (z as number) > (forgotten[i - 1] as number),
-        ),
+        forgotten.some((z, i) => {
+            const previous = forgotten[i - 1];
+            // An unmeasurable fit says nothing about the camera's direction.
+            return z !== undefined && previous !== undefined && z > previous;
+        }),
     ).toBe(true);
 });
 
@@ -548,11 +553,12 @@ test('a wheel flick undoes itself, however the wheel reports its delta', () => {
     // deltaMode matters: a mouse reporting lines rather than pixels sends about 3 per
     // notch, which read as pixels was no zoom at all.
     // A comparable flick in each unit, since 120 pages would saturate the bound.
-    for (const [mode, delta] of [
+    const flicks: [mode: number, delta: number][] = [
         [0, 120],
         [1, 8],
         [2, 0.15],
-    ]) {
+    ];
+    for (const [mode, delta] of flicks) {
         const out = zoomByWheel(at(-12), 1, delta, mode);
         expect(out).toBeLessThan(1);
         expect(out).toBeGreaterThan(1 / MaxZoomOut);

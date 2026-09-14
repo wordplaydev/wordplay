@@ -36,10 +36,12 @@ export default class PatternWord extends PatternAtom {
     }
 
     clone(replace?: Replacement) {
-        return new PatternWord(
-            this.replaceChild('box', this.box, replace),
-            this.replaceChild('language', this.language, replace),
-        ) as this;
+        return this.cloned(
+            new PatternWord(
+                this.replaceChild('box', this.box, replace),
+                this.replaceChild('language', this.language, replace),
+            ),
+        );
     }
 
     computeConflicts(): Conflict[] {

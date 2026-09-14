@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { mismatchedDelimiter } from '@util/verify-locales/protect';
 import { translateProtectedMarkup } from './ClaudeTranslator';
+import { must } from '@util/nullable';
 
 /** A model doing what models do to markup they don't recognize: rewrite the
  *  words, including inside `\…\`, and drop the delimiters on the way out. */
@@ -20,7 +21,9 @@ describe('translateProtectedMarkup', () => {
         const source = 'Adds \\count\\ things';
         const [out] = await translateProtectedMarkup([source], sloppy);
         expect(out).toBe('Añade \\count\\ things');
-        expect(mismatchedDelimiter(source, out)).toBeUndefined();
+        expect(
+            mismatchedDelimiter(source, must(out, 'a translation')),
+        ).toBeUndefined();
     });
 
     test('still translates the prose around the code', async () => {
@@ -85,7 +88,9 @@ test('a unit the model gave a stray delimiter is dropped, not shipped', async ()
     const source = 'Adds \\count\\ things';
     const [out] = await translateProtectedMarkup([source], inventive);
     expect(out).toBe(source);
-    expect(mismatchedDelimiter(source, out)).toBeUndefined();
+    expect(
+        mismatchedDelimiter(source, must(out, 'a translation')),
+    ).toBeUndefined();
 });
 
 test('one bad unit does not cost the good ones', async () => {
@@ -96,5 +101,7 @@ test('one bad unit does not cost the good ones', async () => {
     const [out] = await translateProtectedMarkup(['one \\a\\ two'], mixed);
     // The whole text is one markup run here, so it reverts wholesale; what
     // matters is that the delimiters survive.
-    expect(mismatchedDelimiter('one \\a\\ two', out)).toBeUndefined();
+    expect(
+        mismatchedDelimiter('one \\a\\ two', must(out, 'a translation')),
+    ).toBeUndefined();
 });

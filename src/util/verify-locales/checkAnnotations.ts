@@ -22,9 +22,7 @@ export default function checkAnnotations(
     target: LocaleText,
     fix: boolean,
 ): LocaleText {
-    const revised = fix
-        ? (JSON.parse(JSON.stringify(target)) as LocaleText)
-        : target;
+    const revised = fix ? structuredClone(target) : target;
     for (const pair of getCheckableLocalePairs(revised)) {
         const value = pair.value;
         if (typeof value !== 'string') continue;

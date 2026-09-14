@@ -1,4 +1,5 @@
 import { TAB_WIDTH } from '@parser/Spaces';
+import { must } from '@util/nullable';
 import type { WritingLayout } from '@locale/Scripts';
 import {
     measureTokenSegment,
@@ -213,9 +214,9 @@ function getNodeTokenRects(nodeView: HTMLElement, blocks: boolean): Rect[] {
     // element itself in that case (fixes both getRowsOf and createRectangleOutlineOf).
     const tokenViews = nodeView.matches('.token-view, .symbol')
         ? [nodeView]
-        : (Array.from(
-              nodeView.querySelectorAll('.token-view, .symbol'),
-          ) as HTMLElement[]);
+        : Array.from(
+              nodeView.querySelectorAll<HTMLElement>('.token-view, .symbol'),
+          );
 
     return getTokenRects(tokenViews, blocks, undefined, true);
 }
@@ -237,8 +238,9 @@ export function getTokenRects(
      *  to the selection (see getRangeOutline). */
     interiorSpace = false,
 ): Rect[] {
-    if (tokenViews.length === 0) return [];
-    const offset = getEditorOffset(tokenViews[0]);
+    const firstView = tokenViews[0];
+    if (firstView === undefined) return [];
+    const offset = getEditorOffset(firstView);
 
     const rects: Rect[] = [];
     for (const [index, view] of tokenViews.entries()) {
@@ -506,13 +508,10 @@ export function rectsToRows(
               : a.l - b.l || a.t - b.t,
     );
 
-    const rows: Rect[][] = [[]];
+    let currentRow: Rect[] = [];
+    const rows: Rect[][] = [currentRow];
     for (const rect of ordered) {
-        const currentRow = rows[rows.length - 1];
-        const lastRect =
-            currentRow.length === 0
-                ? undefined
-                : currentRow[currentRow.length - 1];
+        const lastRect = currentRow[currentRow.length - 1];
         // If this row is empty or this rect's vertical center is below the last rect's bottom, add to the current row.
         if (
             lastRect === undefined ||
@@ -523,7 +522,10 @@ export function rectsToRows(
                   : rect.l + rect.w / 2 <= lastRect.r)
         )
             currentRow.push(rect);
-        else rows.push([rect]);
+        else {
+            currentRow = [rect];
+            rows.push(currentRow);
+        }
     }
 
     // Create a single rectangle for each row.
@@ -672,42 +674,56 @@ export function getOutlineOfRows(
         return (all[i] = { ...rect, l, r, w: r - l });
     });
 
+    // `rows` is as long as `lines`, which was just checked non-empty.
+    const top = must(rows[0], 'a first row').t - padding;
+    const bottom = must(rows[rows.length - 1], 'a last row').b + padding;
+
     // One boundary per adjacent pair, shared by both chains. Clamped
     // non-decreasing so even badly overlapping rows can't invert the staircase.
-    const boundaries: number[] = [];
-    for (let i = 0; i < rows.length - 1; i++) {
-        const middle = (rows[i].b + rows[i + 1].t) / 2;
-        boundaries.push(i === 0 ? middle : Math.max(boundaries[i - 1], middle));
+    // Carried alongside each row so the two chains below read the same edges.
+    const edges: { row: Rect; top: number; bottom: number }[] = [];
+    let previousBoundary: number | undefined = undefined;
+    for (const [index, row] of rows.entries()) {
+        const next = rows[index + 1];
+        const middle = next === undefined ? undefined : (row.b + next.t) / 2;
+        const boundary: number | undefined =
+            middle === undefined
+                ? undefined
+                : previousBoundary === undefined
+                  ? middle
+                  : Math.max(previousBoundary, middle);
+        edges.push({
+            row,
+            top: previousBoundary ?? top,
+            bottom: boundary ?? bottom,
+        });
+        previousBoundary = boundary;
     }
-
-    const top = rows[0].t - padding;
-    const bottom = rows[rows.length - 1].b + padding;
-    const edgeTop = (i: number) => (i === 0 ? top : boundaries[i - 1]);
-    const edgeBottom = (i: number) =>
-        i === rows.length - 1 ? bottom : boundaries[i];
 
     const points: Pos[] = [];
     // Down the right edges…
-    for (let i = 0; i < rows.length; i++) {
-        points.push({ x: rows[i].r + padding, y: edgeTop(i) });
-        points.push({ x: rows[i].r + padding, y: edgeBottom(i) });
+    for (const edge of edges) {
+        points.push({ x: edge.row.r + padding, y: edge.top });
+        points.push({ x: edge.row.r + padding, y: edge.bottom });
     }
     // …and back up the left ones. The top and bottom edges are the segments that
     // join the two chains, so no vertex is restated and the close adds no retrace.
-    for (let i = rows.length - 1; i >= 0; i--) {
-        points.push({ x: rows[i].l - padding, y: edgeBottom(i) });
-        points.push({ x: rows[i].l - padding, y: edgeTop(i) });
+    for (const edge of [...edges].reverse()) {
+        points.push({ x: edge.row.l - padding, y: edge.bottom });
+        points.push({ x: edge.row.l - padding, y: edge.top });
     }
 
     // Rows that share an extent would otherwise emit zero-length segments, which
     // a round-joined stroke wider than the padding paints as a visible bump.
     const path = points
-        .filter(
-            (pos, i) =>
-                i === 0 ||
-                pos.x !== points[i - 1].x ||
-                pos.y !== points[i - 1].y,
-        )
+        .filter((pos, i) => {
+            const previous = points[i - 1];
+            return (
+                previous === undefined ||
+                pos.x !== previous.x ||
+                pos.y !== previous.y
+            );
+        })
         // Back to physical coordinates, since the path is drawn on the page.
         .map(frame.point);
 

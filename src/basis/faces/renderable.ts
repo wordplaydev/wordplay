@@ -1,3 +1,5 @@
+import { must } from '@util/nullable';
+
 /**
  * Whether some default-chain font can actually draw a codepoint — a binary
  * search over the generated cmap-union intervals (renderable.generated.ts,
@@ -40,7 +42,8 @@ export function isCodepointRenderable(codepoint: number): boolean {
     let found = false;
     while (low <= high) {
         const mid = (low + high) >> 1;
-        const [lo, hi] = RenderableRanges[mid];
+        // `mid` is between the two bounds, which start inside the table.
+        const [lo, hi] = must(RenderableRanges[mid], 'a renderable range');
         if (codepoint < lo) high = mid - 1;
         else if (codepoint > hi) low = mid + 1;
         else {

@@ -17,6 +17,7 @@ import { pickupNotes, scheduleWindow } from '@output/Music/schedule';
 import { reconcile } from '@output/Music/reconcile';
 import { chooseSteal, type Voice } from '@output/Music/voices';
 import { assignWords } from '@output/Music/articulate';
+import { must } from '@util/nullable';
 
 /** A track of bare quarter notes on a piano, one beat each. */
 function track(
@@ -163,9 +164,9 @@ test('beat ticks carry counts, audible times, and sounding instruments', () => {
     ]);
     const { beats } = scheduleWindow(createTransport(data, 5), 9);
     expect(beats.map((tick) => tick.count)).toEqual([0, 1, 2, 3]);
-    expect(beats[0].time).toBe(5);
-    expect(beats[0].instruments).toEqual(['piano']);
-    expect(beats[1].instruments).toEqual(['drums']);
+    expect(beats[0]?.time).toBe(5);
+    expect(beats[0]?.instruments).toEqual(['piano']);
+    expect(beats[1]?.instruments).toEqual(['drums']);
 });
 
 test('beat ticks carry every track as a part, sounding or not', () => {
@@ -174,27 +175,30 @@ test('beat ticks carry every track as a part, sounding or not', () => {
         track([null, 1], { loop: true, instrument: 'drums' }),
     ]);
     const { beats } = scheduleWindow(createTransport(data, 0), 2);
+    // The window covers beats 0 and 1, so both ticks are there.
+    const zero = must(beats[0], 'the tick for beat 0');
+    const one = must(beats[1], 'the tick for beat 1');
 
     // One part per track, in track order, whether or not it is sounding.
-    expect(beats[0].parts.length).toBe(2);
-    expect(beats[0].parts.map((part) => part.instrument)).toEqual([
+    expect(zero.parts.length).toBe(2);
+    expect(zero.parts.map((part) => part.instrument)).toEqual([
         'piano',
         'drums',
     ]);
     // Beat 0: the piano sounds, the drums rest.
-    expect(beats[0].parts.map((part) => part.sounding)).toEqual([true, false]);
-    expect(beats[0].parts[0].degrees).toEqual([1]);
-    expect(beats[0].parts[1].degrees).toEqual([]);
+    expect(zero.parts.map((part) => part.sounding)).toEqual([true, false]);
+    expect(zero.parts[0]?.degrees).toEqual([1]);
+    expect(zero.parts[1]?.degrees).toEqual([]);
     // A resting part reports no loudness, so sizing by volume goes to zero.
-    expect(beats[0].parts[1].volume).toBe(0);
+    expect(zero.parts[1]?.volume).toBe(0);
     // Beat 1: they swap.
-    expect(beats[1].parts.map((part) => part.sounding)).toEqual([false, true]);
+    expect(one.parts.map((part) => part.sounding)).toEqual([false, true]);
 
     // Music-level state rides along on every beat.
-    expect(beats[0].tempo).toBe(60);
-    expect(beats[0].volume).toBe(1);
-    expect(beats[0].key).toBe(0);
-    expect(beats[0].scale).toEqual([0, 2, 4, 5, 7, 9, 11]);
+    expect(zero.tempo).toBe(60);
+    expect(zero.volume).toBe(1);
+    expect(zero.key).toBe(0);
+    expect(zero.scale).toEqual([0, 2, 4, 5, 7, 9, 11]);
 });
 
 test('a part reports a held note through the beats it sustains', () => {
@@ -203,18 +207,19 @@ test('a part reports a held note through the beats it sustains', () => {
     const held = track([1]);
     held.notes.forEach((note) => (note.beats = 4));
     const { beats } = scheduleWindow(createTransport(music([held]), 0), 4);
-    expect(beats.map((tick) => tick.parts[0].sounding)).toEqual([
+    expect(beats.map((tick) => tick.parts[0]?.sounding)).toEqual([
         true,
         true,
         true,
         true,
     ]);
-    expect(beats[3].parts[0].degrees).toEqual([1]);
+    expect(beats[3]?.parts[0]?.degrees).toEqual([1]);
 });
 
 test('a part resolves chords and honors a track key and scale override', () => {
     const chord = track([1]);
-    chord.notes[0].degrees = [1, 3, 5];
+    // `track([1])` builds exactly one note.
+    must(chord.notes[0], 'the fixture note').degrees = [1, 3, 5];
     // A track shifted an octave down, on the minor scale.
     const shifted = track([1], {
         key: -12,
@@ -225,16 +230,17 @@ test('a part resolves chords and honors a track key and scale override', () => {
         createTransport(music([chord, shifted]), 0),
         1,
     );
-    const [first, second] = beats[0].parts;
+    const beat = must(beats[0], 'the tick for beat 0');
+    const [first, second] = beat.parts;
     // A chord yields every degree, and a pitch for each.
-    expect(first.degrees).toEqual([1, 3, 5]);
-    expect(first.pitch).toEqual([0, 4, 7]);
+    expect(first?.degrees).toEqual([1, 3, 5]);
+    expect(first?.pitch).toEqual([0, 4, 7]);
     // The override is what the part reports, not the music's own values.
-    expect(second.key).toBe(-12);
-    expect(second.scale).toEqual([0, 2, 3, 5, 7, 8, 10]);
-    expect(second.pitch).toEqual([-12]);
+    expect(second?.key).toBe(-12);
+    expect(second?.scale).toEqual([0, 2, 3, 5, 7, 8, 10]);
+    expect(second?.pitch).toEqual([-12]);
     // The music's own key and scale are still readable alongside.
-    expect(beats[0].key).toBe(0);
+    expect(beat.key).toBe(0);
 });
 
 test('reconcile: keep on identical, splice on change, restart on replay each evaluation', () => {
@@ -407,10 +413,10 @@ test('a pickup plays out what was left of the note that was cut', () => {
     ]);
     const notes = pickupNotes(held, 1, 100);
     expect(notes.length).toBe(3);
-    expect(notes[0].startBeat).toBe(1);
-    expect(notes[0].startTime).toBe(100);
+    expect(notes[0]?.startBeat).toBe(1);
+    expect(notes[0]?.startTime).toBe(100);
     // Four beats long, one beat heard, three left.
-    expect(notes[0].durationBeats).toBeCloseTo(3);
+    expect(notes[0]?.durationBeats).toBeCloseTo(3);
     expect(notes.map((note) => note.degree)).toEqual([1, 3, 5]);
 });
 
@@ -435,8 +441,12 @@ test('a pickup resolves pitch and velocity the way the scheduler does', () => {
     const data = music([track([3], { key: 5, volume: 0.5, pan: -1 })], {
         volume: 0.5,
     });
-    const scheduled = scheduleWindow(createTransport(data, 0), 10).notes[0];
-    const picked = pickupNotes(data, 0.5, 0)[0];
+    // One note in the track, so each list has exactly one to compare.
+    const scheduled = must(
+        scheduleWindow(createTransport(data, 0), 10).notes[0],
+        'the scheduled note',
+    );
+    const picked = must(pickupNotes(data, 0.5, 0)[0], 'the picked-up note');
     expect(picked.semitones).toBe(scheduled.semitones);
     expect(picked.velocity).toBe(scheduled.velocity);
     expect(picked.pan).toBe(scheduled.pan);
@@ -460,7 +470,9 @@ test('a mashed fraction schedules both neighbors at one beat', () => {
     expect(
         notes.reduce((total, note) => total + note.velocity ** 2, 0),
     ).toBeCloseTo(1, 10);
-    expect(notes[0].velocity).toBeGreaterThan(notes[1].velocity);
+    expect(must(notes[0], 'the first note').velocity).toBeGreaterThan(
+        must(notes[1], 'the second note').velocity,
+    );
 });
 
 test('an unmashed fraction schedules one note bent off pitch', () => {
@@ -469,8 +481,9 @@ test('an unmashed fraction schedules one note bent off pitch', () => {
         10,
     ).notes;
     expect(notes).toHaveLength(1);
-    expect(notes[0].semitones).toBeCloseTo(0.4, 10);
-    expect(notes[0].velocity).toBe(1);
+    const bent = must(notes[0], 'the only note');
+    expect(bent.semitones).toBeCloseTo(0.4, 10);
+    expect(bent.velocity).toBe(1);
 });
 
 test('mashing scales velocity by the track and music volumes too', () => {
@@ -537,9 +550,11 @@ test('a long note is one gap wide, not one beat', () => {
     // them belong to the gap after it, or a click anywhere near it would land
     // before it.
     const held = track([1, 2]);
+    // `track([1, 2])` builds two notes, so the second is there.
+    const after = must(held.notes[1], 'the second fixture note');
     const long = {
         ...held,
-        notes: [{ degrees: [1], beats: 4, volume: 1 }, held.notes[1]],
+        notes: [{ degrees: [1], beats: 4, volume: 1 }, after],
     };
     expect(insertionAtBeat(long, 0)).toBe(0);
     expect(insertionAtBeat(long, 1.9)).toBe(0);
@@ -564,7 +579,10 @@ test('a track that enters late reports where it actually starts', () => {
 test('a late entry is measured in beats, not entries', () => {
     // The rest the importer writes is one entry however long it is.
     const t = track([null, 5]);
-    const long = { ...t, notes: [{ ...t.notes[0], beats: 40 }, t.notes[1]] };
+    // `track([null, 5])` builds two notes.
+    const rest = must(t.notes[0], 'the opening rest');
+    const sounded = must(t.notes[1], 'the second fixture note');
+    const long = { ...t, notes: [{ ...rest, beats: 40 }, sounded] };
     expect(firstSoundingBeat(long)).toBe(40);
 });
 
@@ -573,11 +591,12 @@ test('a syllable rides the note it was assigned to', () => {
     // scheduler carries them without knowing anything about lyrics, so what
     // this checks is that the syllable survives the trip to the audio layer.
     const singing = track([1, null, 2], { instrument: 'voice' });
+    const syllables = assignWords('la mi', singing.notes);
     const worded = {
         ...singing,
-        notes: assignWords('la mi', singing.notes).map((words, index) => ({
-            ...singing.notes[index],
-            words,
+        notes: singing.notes.map((note, index) => ({
+            ...note,
+            words: syllables[index],
         })),
     };
     const { notes } = scheduleWindow(createTransport(music([worded]), 0), 10);
@@ -609,11 +628,12 @@ test('a beat reports the syllables being sung on it', () => {
     // The shortcut a karaoke display is made of; reaching it through `parts`
     // means filtering out every silent and non-singing track on every beat.
     const singing = track([1, null, 2], { instrument: 'voice' });
+    const syllables = assignWords('la mi', singing.notes);
     const worded = {
         ...singing,
-        notes: assignWords('la mi', singing.notes).map((words, index) => ({
-            ...singing.notes[index],
-            words,
+        notes: singing.notes.map((note, index) => ({
+            ...note,
+            words: syllables[index],
         })),
     };
     const { beats } = scheduleWindow(createTransport(music([worded]), 0), 10);
@@ -648,5 +668,5 @@ test('two voices on one syllable are two syllables, not one', () => {
         createTransport(music([singing(-1), singing(1)]), 0),
         4,
     );
-    expect(beats[0].words).toEqual(['la', 'la']);
+    expect(beats[0]?.words).toEqual(['la', 'la']);
 });

@@ -14,16 +14,17 @@ test('a custom-character reference splits into text and character chunks', () =>
         '@amy/cat',
         ' b',
     ]);
-    expect(chunks[1]).toMatchObject({ kind: 'character', ref: '@amy/cat' });
-    if (chunks[1].kind === 'character') {
-        expect(chunks[1].name.username).toBe('amy');
-        expect(chunks[1].name.name).toBe('cat');
+    const chunk = chunks[1];
+    expect(chunk).toMatchObject({ kind: 'character', ref: '@amy/cat' });
+    if (chunk?.kind === 'character') {
+        expect(chunk.name.username).toBe('amy');
+        expect(chunk.name.name).toBe('cat');
     }
 });
 
 test('a leading reference produces no empty text chunk', () => {
     const chunks = splitCharacterRefs('@amy/cat!');
-    expect(chunks[0].kind).toBe('character');
+    expect(chunks[0]?.kind).toBe('character');
     expect(chunks.map((c) => (c.kind === 'text' ? c.text : c.ref))).toEqual([
         '@amy/cat',
         '!',

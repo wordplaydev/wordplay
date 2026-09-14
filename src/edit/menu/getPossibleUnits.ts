@@ -39,17 +39,18 @@ export function getPossibleUnits(context: Context) {
 
 function getUnitsInConversions(project: Project) {
     // Get all dimensions referred to in conversions.
-    const unitsInConversions = project
-        .getBasis()
-        .getStructureDefinition('measurement')
-        ?.getAllConversions()
-        .map((conversion) =>
-            conversion.output instanceof NumberType &&
-            conversion.output.unit instanceof Unit
-                ? conversion.output.unit
-                : undefined,
-        )
-        .filter((unit): unit is Unit => unit !== undefined) as Unit[];
+    const unitsInConversions =
+        project
+            .getBasis()
+            .getStructureDefinition('measurement')
+            ?.getAllConversions()
+            .map((conversion) =>
+                conversion.output instanceof NumberType &&
+                conversion.output.unit instanceof Unit
+                    ? conversion.output.unit
+                    : undefined,
+            )
+            .filter((unit): unit is Unit => unit !== undefined) ?? [];
 
     // Remove duplicates
     return unitsInConversions.filter(

@@ -1,6 +1,7 @@
 /** Functionality related to automatically completing a text insertion */
 
 import type Project from '@db/projects/Project';
+import { must } from '@util/nullable';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Bind from '@nodes/Bind';
 import Block from '@nodes/Block';
@@ -128,7 +129,7 @@ const AutocompleteTriggers: Trigger[] = [
         substitution: true,
     },
     {
-        symbol: (text) => tokens(text)[0]?.isSymbol(Sym.Operator),
+        symbol: (text) => tokens(text)[0]?.isSymbol(Sym.Operator) === true,
         revise: completeOperatorEvaluate,
         blocksOnly: true,
     },
@@ -264,6 +265,7 @@ function completeEvaluate({
         (node): node is PropertyReference => node instanceof PropertyReference,
     );
     const precedingExpression = propertyReference ?? precedingExpressions[0];
+    if (precedingExpression === undefined) return undefined;
 
     const context = project.getNodeContext(precedingExpression);
     const fun = precedingExpression.getType(context);
@@ -651,7 +653,7 @@ function completeBinaryEvaluate({
                 precedingExpression instanceof This
                 ? precedingExpression
                 : Block.make([precedingExpression]),
-            new Reference(tokens(text)[0]),
+            new Reference(must(tokens(text)[0], 'a name token')),
             ExpressionPlaceholder.make(),
         );
 
@@ -755,8 +757,8 @@ function completeMarkup(
     { source, position }: InsertInfo,
     segment: Segment,
 ): Revision | undefined {
-    const precedingMarkup = getPrecedingMarkup(source, position);
-    const content = precedingMarkup[0];
+    const content = getPrecedingMarkup(source, position)[0];
+    if (content === undefined) return undefined;
     const parent = source.root.getParent(content);
 
     if (!(parent instanceof Words || parent instanceof Paragraph))

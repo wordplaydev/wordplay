@@ -1,9 +1,11 @@
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
+import { isLocaleText } from '@locale/isLocaleText';
 import Project from '@db/projects/Project';
 import Reference from '@nodes/Reference';
 import Source from '@nodes/Source';
 import Sym from '@nodes/Sym';
+import { first, must } from '@util/nullable';
 import { buildKeywordIndex } from '@parser/Keywords';
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
@@ -14,13 +16,17 @@ import { expect, test } from 'vitest';
  * the project alone, never on who opened it (#1246).
  */
 
-const es = JSON.parse(
-    readFileSync('static/locales/es-MX/es-MX.json', 'utf8'),
-) as LocaleText;
+/** A locale file read through the shape guard the app itself reads locales with,
+ *  so a truncated or unrelated file fails here rather than deep in `l.ui.…`. */
+function readLocale(path: string): LocaleText {
+    const data: unknown = JSON.parse(readFileSync(path, 'utf8'));
+    if (!isLocaleText(data)) throw new Error(`${path} is not a locale file`);
+    return data;
+}
 
-const zh = JSON.parse(
-    readFileSync('static/locales/zh-CN/zh-CN.json', 'utf8'),
-) as LocaleText;
+const es = readLocale('static/locales/es-MX/es-MX.json');
+
+const zh = readLocale('static/locales/zh-CN/zh-CN.json');
 
 /** A stand-in for LocalesDatabase that only ever serves the locales it was given, so a
  *  deserialize can't quietly pick up anything the project didn't declare. */
@@ -46,10 +52,7 @@ function deserialize(
     selected: LocaleText[],
 ) {
     return Project.deserialize(
-        // The fake only implements what deserialize uses.
-        fakeLocalesDB(available, selected) as unknown as Parameters<
-            typeof Project.deserialize
-        >[0],
+        fakeLocalesDB(available, selected),
         project.serialize(),
     );
 }
@@ -160,8 +163,10 @@ test('English names bind in a project that declares only another language', () =
     const spanishOnly = Project.make('p', 'p', source, [], [es]);
     const context = spanishOnly.getContext(source);
 
-    const [phrase] = source.nodes(
-        (n): n is Reference => n instanceof Reference,
+    // The fixture source holds exactly one reference.
+    const phrase = must(
+        first(source.nodes((n): n is Reference => n instanceof Reference)),
+        'the reference in the fixture',
     );
     expect(phrase.getName()).toBe('Phrase');
     expect(phrase.resolve(context)).toBeDefined();
@@ -169,7 +174,10 @@ test('English names bind in a project that declares only another language', () =
     // A *third* locale's name is not carried along, which is what makes declaring it matter.
     const other = new Source('other', 'Fase("olá")');
     const withPortuguese = Project.make('p', 'p', other, [], [es]);
-    const [fase] = other.nodes((n): n is Reference => n instanceof Reference);
+    const fase = must(
+        first(other.nodes((n): n is Reference => n instanceof Reference)),
+        'the reference in the fixture',
+    );
     expect(fase.resolve(withPortuguese.getContext(other))).toBeUndefined();
 });
 
@@ -179,8 +187,9 @@ test('a symbolic name only en-US declares still binds everywhere', () => {
     // standing between that cleanup and every emoji name breaking outside English.
     const source = new Source('start', '💬("hola")');
     const spanishOnly = Project.make('p', 'p', source, [], [es]);
-    const [phrase] = source.nodes(
-        (n): n is Reference => n instanceof Reference,
+    const phrase = must(
+        first(source.nodes((n): n is Reference => n instanceof Reference)),
+        'the reference in the fixture',
     );
     const definition = phrase.resolve(spanishOnly.getContext(source));
     expect(definition).toBeDefined();

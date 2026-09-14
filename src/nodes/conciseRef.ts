@@ -86,12 +86,14 @@ export function contentRef(
 ): TemplateInput {
     // Parentheses parse as a single-statement block, so `(n > 3) ? …` would
     // describe its condition as "block of 1 statements". Speak what's inside.
-    if (
+    const onlyStatement =
         node instanceof Block &&
         node.kind === BlockKind.Block &&
         node.statements.length === 1
-    )
-        return contentRef(node.statements[0], locales, context);
+            ? node.statements[0]
+            : undefined;
+    if (onlyStatement !== undefined)
+        return contentRef(onlyStatement, locales, context);
     return node instanceof Expression &&
         !(
             node instanceof Literal ||

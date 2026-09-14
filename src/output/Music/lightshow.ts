@@ -137,8 +137,11 @@ export function spectrumBands(spectrum: Uint8Array, count: number): number[] {
         );
         let sum = 0;
         let seen = 0;
-        for (let bin = low; bin < Math.min(high, spectrum.length); bin++) {
-            sum += spectrum[bin];
+        for (const value of spectrum.subarray(
+            low,
+            Math.min(high, spectrum.length),
+        )) {
+            sum += value;
             seen++;
         }
         bands.push(seen === 0 ? 0 : sum / seen / 255);

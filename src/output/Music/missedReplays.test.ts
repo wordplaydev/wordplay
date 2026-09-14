@@ -1,6 +1,7 @@
 import { expect, test } from 'vitest';
 import { missedReplays, type Snapshot } from './missedReplays';
 import type { MusicData } from './musicData';
+import { must } from '@util/nullable';
 
 function music(name: string, replay: boolean): MusicData {
     return {
@@ -61,7 +62,11 @@ test('past the limit, the newest survive, still oldest first', () => {
             carrying.map((m, index) => snapshot(index, m)),
             2,
         ),
-    ).toEqual([snapshot(3, carrying[3]), snapshot(4, carrying[4])]);
+    ).toEqual([
+        // Five were built just above, so the last two are there.
+        snapshot(3, must(carrying[3], 'the fourth music')),
+        snapshot(4, must(carrying[4], 'the fifth music')),
+    ]);
 });
 
 test('the limit counts replays, not evaluations', () => {

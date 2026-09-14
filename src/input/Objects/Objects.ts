@@ -35,6 +35,7 @@ import ListValue from '@values/ListValue';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import type { StreamKind } from '@values/StreamValue';
+import { must } from '@util/nullable';
 
 /**
  * EfficientDet-Lite0 takes a 320×320 input, so sampling the camera at that size
@@ -294,20 +295,26 @@ export function createObjectsDefinition(
 
     const valueType = ListType.make(new StructureType(ThingType));
 
+    // `createInputs` returns one bind per type, and five types are given above.
+    const frequency = must(inputs[0], "Objects' frequency input");
+    const resolution = must(inputs[1], "Objects' resolution input");
+    const category = must(inputs[2], "Objects' category input");
+    const confidence = must(inputs[3], "Objects' confidence input");
+    const count = must(inputs[4], "Objects' count input");
+
     const frequencyOf = (evaluation: Evaluation) =>
-        evaluation.get(inputs[0].names, NumberValue)?.toNumber() ??
+        evaluation.get(frequency.names, NumberValue)?.toNumber() ??
         DEFAULT_FREQUENCY;
     const resolutionOf = (evaluation: Evaluation) =>
-        evaluation.get(inputs[1].names, NumberValue)?.toNumber() ??
+        evaluation.get(resolution.names, NumberValue)?.toNumber() ??
         DEFAULT_RESOLUTION;
     const categoryOf = (evaluation: Evaluation) =>
-        evaluation.get(inputs[2].names, TextValue)?.text;
+        evaluation.get(category.names, TextValue)?.text;
     const confidenceOf = (evaluation: Evaluation) =>
-        evaluation.get(inputs[3].names, NumberValue)?.toNumber() ??
+        evaluation.get(confidence.names, NumberValue)?.toNumber() ??
         DEFAULT_CONFIDENCE;
     const countOf = (evaluation: Evaluation) =>
-        evaluation.get(inputs[4].names, NumberValue)?.toNumber() ??
-        DEFAULT_COUNT;
+        evaluation.get(count.names, NumberValue)?.toNumber() ?? DEFAULT_COUNT;
 
     return StreamDefinition.make(
         getDocLocales(locales, (locale) => locale.input.Objects.doc),

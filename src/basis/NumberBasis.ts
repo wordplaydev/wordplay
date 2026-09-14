@@ -1,4 +1,5 @@
 import { getDocLocales } from '@locale/getDocLocales';
+import { must } from '@util/nullable';
 import { getNameLocales } from '@locale/getNameLocales';
 import Bind from '@nodes/Bind';
 import Block, { BlockKind } from '@nodes/Block';
@@ -35,6 +36,13 @@ import {
 } from '@basis/Basis';
 import InternalExpression from '@basis/InternalExpression';
 import createUnitConversions from '@basis/UnitConversions';
+
+/** The first input a basis function's locale text declares. Every function
+ *  built here has one, so a text without it is a locale that failed
+ *  verification rather than something a program can cause. */
+function firstInput(text: FunctionText<readonly NameAndDoc[]>): NameAndDoc {
+    return must(text.inputs[0], `an input for ${text.names}`);
+}
 
 export default function bootstrapNumber(locales: Locales) {
     function createBinaryOp(
@@ -138,7 +146,10 @@ export default function bootstrapNumber(locales: Locales) {
                         inputs.find((one) => !(one instanceof NumberValue)),
                     );
                 const mismatched = sameUnit
-                    .map((index) => inputs[index])
+                    .flatMap((index) => {
+                        const one = inputs[index];
+                        return one === undefined ? [] : [one];
+                    })
                     .find((one) => !value.unit.accepts(one.unit));
                 if (mismatched !== undefined)
                     return new TypeException(
@@ -198,7 +209,7 @@ export default function bootstrapNumber(locales: Locales) {
     ) {
         const names = getNameLocales(
             locales,
-            (locale) => text(locale).inputs[0].names,
+            (locale) => firstInput(text(locale)).names,
         );
 
         return FunctionDefinition.make(
@@ -208,7 +219,7 @@ export default function bootstrapNumber(locales: Locales) {
             [
                 // Optional operand, since add can have a single operand.
                 Bind.make(
-                    getDocLocales(locales, (l) => text(l).inputs[0].doc),
+                    getDocLocales(locales, (l) => firstInput(text(l)).doc),
                     names,
                     UnionType.make(
                         NoneType.None,
@@ -255,14 +266,14 @@ export default function bootstrapNumber(locales: Locales) {
     // can't reuse createBinaryOrUnaryOp (which requires the operand's unit to match).
     function createLogFunction() {
         const text = (l: LocaleText) => l.basis.Number.function.log;
-        const names = getNameLocales(locales, (l) => text(l).inputs[0].names);
+        const names = getNameLocales(locales, (l) => firstInput(text(l)).names);
         return FunctionDefinition.make(
             getDocLocales(locales, (l) => text(l).doc),
             getNameLocales(locales, (l) => text(l).names),
             undefined,
             [
                 Bind.make(
-                    getDocLocales(locales, (l) => text(l).inputs[0].doc),
+                    getDocLocales(locales, (l) => firstInput(text(l)).doc),
                     names,
                     UnionType.make(NoneType.None, NumberType.make()),
                     NoneLiteral.make(),
@@ -595,12 +606,17 @@ export default function bootstrapNumber(locales: Locales) {
                     ],
                     NumberType.make((unit) => unit),
                     [0, 1],
-                    (requestor, value, [low, high]) =>
-                        value.greaterThan(requestor, high).bool
+                    (requestor, value, inputs) => {
+                        // The evaluator binds exactly the inputs declared
+                        // above, so both bounds are here.
+                        const low = must(inputs[0], 'a low bound');
+                        const high = must(inputs[1], 'a high bound');
+                        return value.greaterThan(requestor, high).bool
                             ? high
                             : value.lessThan(requestor, low).bool
                               ? low
-                              : value,
+                              : value;
+                    },
                 ),
                 createNumberOp(
                     (locale) => locale.basis.Number.function.toward,
@@ -615,13 +631,16 @@ export default function bootstrapNumber(locales: Locales) {
                     [0],
                     // me + (other - me) × amount, which is me at 0% and other at 100%,
                     // and keeps going past either end rather than stopping.
-                    (requestor, value, [other, amount]) =>
-                        value.add(
+                    (requestor, value, inputs) => {
+                        const other = must(inputs[0], 'a target number');
+                        const amount = must(inputs[1], 'an amount');
+                        return value.add(
                             requestor,
                             other
                                 .subtract(requestor, value)
                                 .multiply(requestor, amount),
-                        ),
+                        );
+                    },
                 ),
                 createNumberOp(
                     (locale) => locale.basis.Number.function.rescale,
@@ -643,12 +662,11 @@ export default function bootstrapNumber(locales: Locales) {
                     // Only the `from` bounds are measured against me; the `to` bounds are
                     // a different quantity, and are checked against each other below.
                     [0, 1],
-                    (
-                        requestor,
-                        value,
-                        [fromLow, fromHigh, toLow, toHigh],
-                        evaluation,
-                    ) => {
+                    (requestor, value, inputs, evaluation) => {
+                        const fromLow = must(inputs[0], 'a from low bound');
+                        const fromHigh = must(inputs[1], 'a from high bound');
+                        const toLow = must(inputs[2], 'a to low bound');
+                        const toHigh = must(inputs[3], 'a to high bound');
                         if (!toLow.unit.accepts(toHigh.unit))
                             return new TypeException(
                                 evaluation.getDefinition(),
@@ -681,6 +699,7 @@ export default function bootstrapNumber(locales: Locales) {
                     ),
                     '#',
                     "''",
+                    NumberValue,
                     (
                         requestor: Expression,
                         val: NumberValue,
@@ -716,6 +735,7 @@ export default function bootstrapNumber(locales: Locales) {
                     ),
                     '#',
                     '[#]',
+                    NumberValue,
                     (requestor: Expression, val: NumberValue) => {
                         const list = [];
                         const max = val.toNumber();

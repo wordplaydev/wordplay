@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import type { PurposeType } from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import type { DocText, LocaleText } from '@locale/LocaleText';
@@ -111,7 +108,7 @@ export default abstract class Node {
     computeChildren(): Node[] {
         const children: Node[] = [];
         for (const name of this.getChildNames()) {
-            const field = (this as any)[name] as Node | Node[] | undefined;
+            const field = this.fieldValue(name);
             if (Array.isArray(field)) {
                 for (const item of field) {
                     if (item instanceof Node) children.push(item);
@@ -201,7 +198,10 @@ export default abstract class Node {
     //filter<S extends T>(predicate: (value: T, index: number, array: T[]) => value is S, thisArg?: any): S[];
 
     /** Returns all this and all descendants in depth first order. Optionally uses the given function to decide whether to include a node. */
-    nodes<Kind extends Node>(include?: (node: Node) => node is Kind): Kind[] {
+    nodes(): Node[];
+    nodes<Kind extends Node>(include: (node: Node) => node is Kind): Kind[];
+    nodes(include: (node: Node) => boolean): Node[];
+    nodes(include?: (node: Node) => boolean): Node[] {
         // Cache the full depth-first list (immutable), then filter from it when
         // an include predicate is given. traverse() visits children before the
         // node itself, so we preserve that order by building the cache the same
@@ -214,23 +214,26 @@ export default abstract class Node {
             });
             this._nodes = nodes;
         }
-        return (
-            include === undefined ? this._nodes : this._nodes.filter(include)
-        ) as Kind[];
+        return include === undefined
+            ? this._nodes
+            : this._nodes.filter(include);
     }
 
-    find<NodeType extends Node>(type: new (...params: any[]) => Node, nth = 0) {
+    /** The nth descendant (or this) of the given class, if there is one. */
+    find<NodeType extends Node>(
+        type: abstract new (...params: never[]) => NodeType,
+        nth = 0,
+    ): NodeType | undefined {
         return this.nodes((node): node is NodeType => node instanceof type)[
             nth
-        ] as NodeType;
+        ];
     }
 
     /** Finds the descendant of this node (or this node) that has the given ID. */
     getNodeByID(id: number): Node | undefined {
         if (this.id === id) return this;
-        const children = this.getChildren();
-        for (let i = 0; i < children.length; i++) {
-            const match = children[i].getNodeByID(id);
+        for (const child of this.getChildren()) {
+            const match = child.getNodeByID(id);
             if (match) return match;
         }
         return undefined;
@@ -253,8 +256,25 @@ export default abstract class Node {
     getChildrenAsGrammar(): Record<string, Node | Node[] | undefined> {
         const children: Record<string, Node | Node[] | undefined> = {};
         for (const name of this.getChildNames())
-            children[name] = (this as any)[name] as Node | Node[] | undefined;
+            children[name] = this.fieldValue(name);
         return children;
+    }
+
+    /** The value of one of this node's grammar fields, read reflectively:
+     *  the grammar names the fields, and each subclass declares them. Anything
+     *  that isn't a node or a list of nodes reads as absent. */
+    private fieldValue(name: string): Node | Node[] | undefined {
+        const value: unknown = Reflect.get(this, name);
+        if (value instanceof Node) return value;
+        if (Array.isArray(value)) {
+            // The list itself when it holds only nodes, since replacing a
+            // whole list is decided by identity; a markup list that also holds
+            // value and node references yields the nodes alone.
+            const isNode = (item: unknown): item is Node =>
+                item instanceof Node;
+            return value.every(isNode) ? value : value.filter(isNode);
+        }
+        return undefined;
     }
 
     getFieldOfChild(child: Node): Field | undefined {
@@ -263,9 +283,7 @@ export default abstract class Node {
         if (this._fieldOfChild === undefined) {
             const fields = new Map<Node, Field | undefined>();
             for (const field of this.getGrammar()) {
-                const value = (this as unknown as Record<string, unknown>)[
-                    field.name
-                ];
+                const value = this.fieldValue(field.name);
                 if (Array.isArray(value)) {
                     for (const each of value)
                         if (each instanceof Node && !fields.has(each))
@@ -284,7 +302,7 @@ export default abstract class Node {
 
     getField(field: string): Node | Node[] | undefined {
         if (!this.hasField(field)) return undefined;
-        return (this as any)[field] as Node | Node[] | undefined;
+        return this.fieldValue(field);
     }
 
     getNodeAfterField(name: string): Node | undefined {
@@ -325,8 +343,7 @@ export default abstract class Node {
             ? this.getGrammar()
             : this.getGrammar().reverse();
         const values: Node[] = [];
-        for (let index = 0; index < grammar.length; index++) {
-            const field = grammar[index];
+        for (const field of grammar) {
             // Found the node? Get the most recent node we read.
             if (field.name === fieldName) return values.at(-1);
             // Otherwise, add the nodes.
@@ -426,9 +443,8 @@ export default abstract class Node {
         let cycled = false;
         const isUnknownTypeScope = (n: Node | undefined) =>
             n !== undefined &&
-            'getBasisTypeName' in n &&
-            typeof (n as Type).getBasisTypeName === 'function' &&
-            (n as Type).getBasisTypeName() === 'unknown';
+            isTypeLike(n) &&
+            n.getBasisTypeName() === 'unknown';
         while (scope !== undefined || additional) {
             if (isUnknownTypeScope(scope)) cycled = true;
             if (scope)
@@ -491,20 +507,53 @@ export default abstract class Node {
      **/
     abstract clone(replace?: Replacement): this;
 
-    replaceChild<Child extends FieldValue>(
+    /**
+     * The node tree's one type assertion. Every `clone()` builds a node of its
+     * own class, which TypeScript cannot prove through `new`, so the claim is
+     * checked at runtime instead: a clone that built some other class throws.
+     */
+    protected cloned(copy: Node): this {
+        if (Object.getPrototypeOf(copy) !== Object.getPrototypeOf(this))
+            throw new Error(
+                `${this.getDescriptor()}.clone() built a ${copy.getDescriptor()}`,
+            );
+        // sound: the prototype check above proves copy is this node's own class.
+        return copy as this;
+    }
+
+    /**
+     * The child a clone should carry for one of this node's fields: the child
+     * itself deep-cloned when there is no replacement, or the tree with the
+     * replacement applied. The grammar (`kind.allows`) is what checks that a
+     * replacement fits the field, so what comes back has the field's own type.
+     */
+    replaceChild<Child extends Node>(
+        field: keyof this,
+        child: Child[],
+        replace?: Replacement,
+    ): Child[];
+    replaceChild<Child extends Node>(
         field: keyof this,
         child: Child,
         replace?: Replacement,
-    ): Child {
+    ): Child;
+    replaceChild<Child extends Node>(
+        field: keyof this,
+        child: Child | undefined,
+        replace?: Replacement,
+    ): Child | undefined;
+    replaceChild(
+        field: keyof this,
+        child: FieldValue,
+        replace?: Replacement,
+    ): FieldValue {
         // If there is no replacement, deep clone the child.
         if (replace === undefined)
-            return (
-                child === undefined
-                    ? undefined
-                    : Array.isArray(child)
-                      ? child.map((c) => c.clone())
-                      : child.clone()
-            ) as Child;
+            return child === undefined
+                ? undefined
+                : Array.isArray(child)
+                  ? child.map((c) => c.clone())
+                  : child.clone();
 
         // Otherwise, begin the search for the replacement by first destructuring the requested change.
         const { original, replacement } = replace;
@@ -539,7 +588,7 @@ export default abstract class Node {
                         replacement,
                         replace.report,
                     );
-                    return child as Child;
+                    return child;
                 }
             }
             // Otherwise, delegate the search to the child below.
@@ -557,7 +606,7 @@ export default abstract class Node {
                         replacement,
                         replace.report,
                     );
-                    return child as Child;
+                    return child;
                 }
             }
             // Otherwise, delegate the search to the child below.
@@ -580,7 +629,7 @@ export default abstract class Node {
                         replacement,
                         replace.report,
                     );
-                    return child as Child;
+                    return child;
                 }
             }
             // Is this child the node provided?
@@ -594,7 +643,7 @@ export default abstract class Node {
                         replacement,
                         replace.report,
                     );
-                    return child as Child;
+                    return child;
                 }
             }
             // Otherwise, delegate the search to the child below.
@@ -611,27 +660,24 @@ export default abstract class Node {
                     // Create a new list without the item
                     return child
                         .map((c) => (c === original ? undefined : c))
-                        .filter((c): c is Node => c !== undefined) as Child;
+                        .filter((c): c is Node => c !== undefined);
                 // Is the replacement a list? Return the new list.
-                else if (Array.isArray(replacement))
-                    return replacement as Child;
+                else if (Array.isArray(replacement)) return replacement;
                 // Otherwise, create a new list with the replacement inside it.
-                return child.map((c) =>
-                    c === original ? replacement : c,
-                ) as Child;
+                return child.map((c) => (c === original ? replacement : c));
             }
             // Otherwise, just return the replacement, whatever it is.
-            else return replacement as Child;
+            else return replacement;
         }
         // If the child is undefined, no need to search, just return undefined.
-        else if (child === undefined) return undefined as Child;
+        else if (child === undefined) return undefined;
         // If the child is a node and it contains the original node or list
         else if (child instanceof Node) {
             if (
                 (original instanceof Node && child.contains(original)) ||
                 (Array.isArray(original) && child.hasList(original))
             )
-                return child.clone(replace) as Child;
+                return child.clone(replace);
             else return child;
         }
         // If the child is a list and it contains the original node or list
@@ -642,9 +688,7 @@ export default abstract class Node {
                     (Array.isArray(original) && c.hasList(original)),
             );
             if (match)
-                return child.map((c) =>
-                    c === match ? c.clone(replace) : c,
-                ) as Child;
+                return child.map((c) => (c === match ? c.clone(replace) : c));
             else return child;
         }
     }
@@ -718,8 +762,11 @@ export default abstract class Node {
         const thisChildren = this.getChildren();
         const thatChildren = node.getChildren();
         if (thisChildren.length !== thatChildren.length) return false;
-        for (const [index, child] of thisChildren.entries())
-            if (!child.isEqualTo(thatChildren[index])) return false;
+        for (const [index, child] of thisChildren.entries()) {
+            const that = thatChildren[index];
+            // The lists are the same length, checked above.
+            if (that === undefined || !child.isEqualTo(that)) return false;
+        }
         return true;
     }
 
@@ -733,9 +780,11 @@ export default abstract class Node {
         const thisChildren = this.getChildren();
         const thatChildren = node.getChildren();
         if (thisChildren.length !== thatChildren.length) return false;
-        return thisChildren.every((child, index) =>
-            child.isStructurallyEqualTo(thatChildren[index]),
-        );
+        return thisChildren.every((child, index) => {
+            const that = thatChildren[index];
+            // The lists are the same length, checked above.
+            return that !== undefined && child.isStructurallyEqualTo(that);
+        });
     }
 
     // DESCRIPTIONS
@@ -813,9 +862,10 @@ export default abstract class Node {
         if (field === undefined) return undefined;
         const label = field?.label;
         if (label === undefined) return undefined;
+        const value = this.fieldValue(field.name);
         const index =
-            field.kind instanceof ListOf
-                ? (this as any)[field.name].indexOf(child)
+            field.kind instanceof ListOf && Array.isArray(value)
+                ? value.indexOf(child)
                 : undefined;
         return label(locales, context, index, root);
     }
@@ -892,6 +942,15 @@ export type Field = ListField | OtherField;
  * This helps with edits, autocomplete, spacing rules, and more.
  */
 export type FieldValue = Node | Node[] | undefined;
+
+/** Whether a node is a Type, decided structurally: importing Type here would
+ *  make an import cycle (Type imports Token, which extends Node). */
+function isTypeLike(node: Node): node is Type {
+    return (
+        'getBasisTypeName' in node &&
+        typeof node.getBasisTypeName === 'function'
+    );
+}
 
 export type NodeKind = Function | SymType | undefined;
 
@@ -990,10 +1049,7 @@ export class ListOf extends FieldKind {
     }
 
     enumerate(): NodeKind[] {
-        return this.kinds.reduce(
-            (list, kind) => [...list, ...kind.enumerate()],
-            [] as NodeKind[],
-        );
+        return this.kinds.flatMap((kind) => kind.enumerate());
     }
 
     enumerateFieldKinds(): FieldKind[] {
@@ -1082,10 +1138,7 @@ export class Any extends FieldKind {
     }
 
     enumerate(): NodeKind[] {
-        return this.kinds.reduce(
-            (list, kind) => [...list, ...kind.enumerate()],
-            [] as NodeKind[],
-        );
+        return this.kinds.flatMap((kind) => kind.enumerate());
     }
 
     enumerateFieldKinds(): FieldKind[] {
@@ -1140,9 +1193,10 @@ export type FieldPosition = {
     index: number | undefined;
 };
 
-export function isFieldPosition(value: any): value is FieldPosition {
+export function isFieldPosition(value: unknown): value is FieldPosition {
     return (
         value !== undefined &&
+        value !== null &&
         typeof value === 'object' &&
         'parent' in value &&
         value.parent instanceof Node &&

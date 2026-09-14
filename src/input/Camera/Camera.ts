@@ -25,6 +25,7 @@ import StructureValue, { createStructure } from '@values/StructureValue';
 import TemporalStreamValue from '@values/TemporalStreamValue';
 import type Value from '@values/Value';
 import type { StreamKind } from '@values/StreamValue';
+import { must } from '@util/nullable';
 
 /** A single pixel in LCH color space. */
 type LCHPixel = { l: number; c: number; h: number };
@@ -36,16 +37,19 @@ type LCHFrame = LCHPixel[][];
 function imageDataToLCH(image: ImageData): LCHFrame {
     const frame: LCHFrame = [];
     for (let i = 0; i < image.data.length; i += 4) {
+        // ImageData is always RGBA, so a pixel's three channels are in range.
+        const red = image.data[i];
+        const green = image.data[i + 1];
+        const blue = image.data[i + 2];
+        if (red === undefined || green === undefined || blue === undefined)
+            break;
+
         const index = i / 4;
         const row = Math.floor(index / image.width);
         const column = index % image.width;
         if (frame[row] === undefined) frame[row] = [];
 
-        const lch = RGBtoLCH(
-            image.data[i] / 255,
-            image.data[i + 1] / 255,
-            image.data[i + 2] / 255,
-        );
+        const lch = RGBtoLCH(red / 255, green / 255, blue / 255);
         // PERF: round to integers to keep Decimal parsing fast downstream.
         frame[row][column] = {
             l: Math.round(lch.coords[0] ?? 0) / 100,
@@ -119,24 +123,28 @@ export default class Camera extends TemporalStreamValue<ListValue, LCHFrame> {
     /** Take a raw frame and add a frame to the stream */
     react(raw: LCHFrame) {
         const ColorType = this.evaluator.project.shares.output.Color;
+        // The basis declares Color with exactly these three inputs.
+        const lightness = must(ColorType.inputs[0], "Color's lightness input");
+        const chroma = must(ColorType.inputs[1], "Color's chroma input");
+        const hue = must(ColorType.inputs[2], "Color's hue input");
 
         // Convert the raw frame into a value.
         const rows: StructureValue[][] = raw.map((row) =>
             row.map((color) => {
                 const bindings = new Map<Names, Value>();
                 bindings.set(
-                    ColorType.inputs[0].names,
+                    lightness.names,
                     new NumberValue(this.creator, color.l),
                 );
                 bindings.set(
-                    ColorType.inputs[1].names,
+                    chroma.names,
                     new NumberValue(this.creator, color.c),
                 );
                 // Hue is declared •#°, so it has to carry the unit: a program doing any
                 // arithmetic with a unitless hue gets an incompatible values exception,
                 // even though the same expression type checks against the declaration.
                 bindings.set(
-                    ColorType.inputs[2].names,
+                    hue.names,
                     new NumberValue(this.creator, color.h, Unit.reuse(['°'])),
                 );
                 return createStructure(this.evaluator, ColorType, bindings);

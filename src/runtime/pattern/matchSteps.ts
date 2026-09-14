@@ -15,7 +15,6 @@ import {
     searchGenerator,
     testGenerator,
     type MatchSnapshot,
-    type PatternMatch,
 } from '@runtime/pattern/match';
 import type Step from '@runtime/Step';
 import MatchValue, { type MatchLoop } from '@values/MatchValue';
@@ -217,12 +216,14 @@ export function matchStepBuilder(isSearch: boolean) {
         new MatchCheck(expr, (evaluator: Evaluator) => {
             const state = getMatchLoop(evaluator);
             if (state === undefined) return undefined;
-            const { value, done } = state.gen.next();
-            if (done) {
-                state.result = value as boolean | PatternMatch[];
+            // The generator's yield and return types differ, and `done` is
+            // what tells them apart.
+            const next = state.gen.next();
+            if (next.done) {
+                state.result = next.value;
                 state.done = true;
                 evaluator.jump(1); // skip Next, fall through to Finish
-            } else state.snapshot = value as MatchSnapshot;
+            } else state.snapshot = next.value;
             return undefined;
         }),
         new MatchNext(expr, (evaluator: Evaluator) => {

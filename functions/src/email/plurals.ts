@@ -24,8 +24,14 @@ export const PluralCategories = [
 
 export type PluralCategory = (typeof PluralCategories)[number];
 
+/** Whether Intl named a category this table knows; the lib types the list
+ *  of categories as plain strings. */
+function isPluralCategory(category: string): category is PluralCategory {
+    return PluralCategories.some((known) => known === category);
+}
+
 function categoryOrder(category: string): number {
-    const index = PluralCategories.indexOf(category as PluralCategory);
+    const index = PluralCategories.findIndex((known) => known === category);
     return index === -1 ? PluralCategories.length - 1.5 : index;
 }
 
@@ -51,11 +57,13 @@ export function getPluralCategories(language: string): PluralCategory[] {
     const cached = categoriesByLanguage.get(language);
     if (cached) return cached;
     const rules = getRules(language);
-    const categories = (
+    const named: PluralCategory[] =
         rules === undefined
             ? ['other']
-            : [...rules.resolvedOptions().pluralCategories]
-    ).sort((a, b) => categoryOrder(a) - categoryOrder(b)) as PluralCategory[];
+            : rules.resolvedOptions().pluralCategories.filter(isPluralCategory);
+    const categories = named.sort(
+        (a, b) => categoryOrder(a) - categoryOrder(b),
+    );
     categoriesByLanguage.set(language, categories);
     return categories;
 }
@@ -67,6 +75,6 @@ export function selectPluralIndex(language: string, value: number): number {
     if (rules === undefined) return 0;
     const category = rules.select(value);
     const categories = getPluralCategories(language);
-    const index = categories.indexOf(category as PluralCategory);
+    const index = categories.findIndex((known) => known === category);
     return index === -1 ? categories.length - 1 : index;
 }

@@ -11,6 +11,7 @@
  */
 
 import type { BubbleSide } from '@output/Bubble/Bubble';
+import type { ReadonlyNonEmpty } from '@util/nullable';
 
 /** A box in the container's frame. Structurally the same as `fit.ts`'s Box,
  *  declared here so the model layer needn't import from the view layer. */
@@ -38,7 +39,12 @@ export type BubbleCandidate = {
  * because it is where a reader looks for speech; down is last because it is
  * where a stage usually has other output.
  */
-export const SidePreference: readonly BubbleSide[] = ['↑', '→', '←', '↓'];
+export const SidePreference: ReadonlyNonEmpty<BubbleSide> = [
+    '↑',
+    '→',
+    '←',
+    '↓',
+];
 
 /**
  * How much better another side has to score before the bubble leaves the one it

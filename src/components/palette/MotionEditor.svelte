@@ -3,6 +3,7 @@
     import Evaluate from '@nodes/Evaluate';
     import PlaceEditor from '@components/palette/PlaceEditor.svelte';
     import VelocityEditor from '@components/palette/VelocityEditor.svelte';
+    import { must } from '@util/nullable';
 
     interface Props {
         project: Project;
@@ -15,13 +16,14 @@
 
     let place = $derived(
         motion.getInput(
-            project.shares.input.Motion.inputs[0],
+            // The basis declares Motion's place and velocity inputs.
+            must(project.shares.input.Motion.inputs[0], "Motion's place"),
             project.getNodeContext(motion),
         ),
     );
     let velocity = $derived(
         motion.getInput(
-            project.shares.input.Motion.inputs[1],
+            must(project.shares.input.Motion.inputs[1], "Motion's velocity"),
             project.getNodeContext(motion),
         ),
     );

@@ -1,5 +1,6 @@
 import { compile } from 'svelte/compiler';
 import fs from 'fs';
+import { must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 
 /**
@@ -22,7 +23,7 @@ function templates(path: string): string[] {
         ...js.code.matchAll(
             /from_html\(\s*(`(?:[^`\\]|\\.)*`|'(?:[^'\\]|\\.)*')/g,
         ),
-    ].map((match) => match[1].slice(1, -1));
+    ].map((match) => must(match[1], 'a template literal').slice(1, -1));
 }
 
 describe('a concept link renders without stray whitespace', () => {

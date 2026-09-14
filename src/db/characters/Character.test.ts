@@ -23,6 +23,7 @@ import {
     transformPathPoints,
 } from '@db/characters/paths';
 import type { CharacterShape } from '@db/characters/Character';
+import { must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 
 function path(points: PathPoints, closed = false): CharacterPath {
@@ -115,27 +116,30 @@ describe('transforms preserve curves', () => {
     test('translating moves a control point with its segment', () => {
         const shape = curvedSquare();
         moveShape(shape, 2, 3, 'translate');
-        expect(shape.points[2].curve).toEqual({ x: 22, y: 8 });
+        expect(shape.points[2]?.curve).toEqual({ x: 22, y: 8 });
     });
 
     test('repositioning moves a control point with its segment', () => {
         const shape = curvedSquare();
-        const control = shape.points[2].curve;
+        // The fixture's third point is the curved one.
+        const point = must(shape.points[2], 'the curved fixture point');
+        const control = point.curve;
         expect(control).toBeDefined();
         if (control === undefined) return;
         // Snapshot the offset, since moveShape edits the control point in place.
         const offset = {
-            x: control.x - shape.points[2].x,
-            y: control.y - shape.points[2].y,
+            x: control.x - point.x,
+            y: control.y - point.y,
         };
         moveShape(shape, 20, 20, 'move');
-        const after = shape.points[2].curve;
+        const moved = must(shape.points[2], 'the curved fixture point');
+        const after = moved.curve;
         expect(after).toBeDefined();
         // The control point kept its offset from the point it bends toward.
         if (after)
             expect({
-                x: after.x - shape.points[2].x,
-                y: after.y - shape.points[2].y,
+                x: after.x - moved.x,
+                y: after.y - moved.y,
             }).toEqual(offset);
     });
 
@@ -146,7 +150,7 @@ describe('transforms preserve curves', () => {
             y,
         }));
         // Mirrored with the rest of the path, so the bulge flips too.
-        expect(flipped[2].curve).toEqual({ x: -10, y: 5 });
+        expect(flipped[2]?.curve).toEqual({ x: -10, y: 5 });
     });
 
     test('a transform on a path with no curves adds no curve keys', () => {
@@ -215,7 +219,7 @@ describe('insertPathPoint', () => {
         // De Casteljau at t=0.5: the new point sits on the curve, not on the
         // chord, and both halves get their own control points.
         expect(result.points[1]).toEqual({ x: 4, y: 4, curve: { x: 2, y: 4 } });
-        expect(result.points[2].curve).toEqual({ x: 6, y: 4 });
+        expect(result.points[2]?.curve).toEqual({ x: 6, y: 4 });
     });
 });
 
@@ -250,7 +254,10 @@ describe('deletePathPoint', () => {
             0,
         );
         expect(result).toBeDefined();
-        if (result) expect('curve' in result[0]).toBe(false);
+        if (result)
+            expect(
+                'curve' in must(result[0], 'the first remaining point'),
+            ).toBe(false);
     });
 
     test('a curve elsewhere in the path is left alone', () => {
@@ -262,7 +269,7 @@ describe('deletePathPoint', () => {
             ],
             1,
         );
-        expect(result?.[1].curve).toEqual({ x: 9, y: 4 });
+        expect(result?.[1]?.curve).toEqual({ x: 9, y: 4 });
     });
 
     test('refuses rather than leaving a path too short to draw', () => {
@@ -286,7 +293,7 @@ describe('curving and straightening', () => {
 
     test('a new curve sits at the midpoint, so nothing moves until it is dragged', () => {
         const curved = curvePathPoint(points, 1, false);
-        expect(curved?.[1].curve).toEqual({ x: 4, y: 0 });
+        expect(curved?.[1]?.curve).toEqual({ x: 4, y: 0 });
     });
 
     test('a segment that does not exist cannot be curved', () => {
@@ -302,7 +309,9 @@ describe('curving and straightening', () => {
         expect(curved).toBeDefined();
         if (curved === undefined) return;
         const straight = straightenPathPoint(curved, 1);
-        expect('curve' in straight[1]).toBe(false);
+        expect('curve' in must(straight[1], 'the straightened point')).toBe(
+            false,
+        );
     });
 
     test('straightening an already straight segment leaves it alone', () => {
@@ -372,7 +381,7 @@ describe('flipShape', () => {
         const bounds = getPathBounds(shape);
         flipShape(shape, bounds, 'horizontal');
         expect(getPathBounds(shape)).toEqual(bounds);
-        expect(shape.points[2].curve).toBeDefined();
+        expect(shape.points[2]?.curve).toBeDefined();
     });
 
     test('flipping twice returns a shape to where it started', () => {
@@ -497,15 +506,16 @@ describe('getLineCells', () => {
         const start = { x: 1, y: 2 };
         const end = { x: 12, y: 9 };
         const stroke = [start, ...getLineCells(start, end), end];
-        for (let i = 1; i < stroke.length; i++) {
-            const previous = stroke[i - 1];
-            const cell = stroke[i];
+        // `start` is the list's own first element, so this walks the same pairs.
+        let previous = start;
+        for (const cell of stroke.slice(1)) {
             expect(
                 Math.max(
                     Math.abs(cell.x - previous.x),
                     Math.abs(cell.y - previous.y),
                 ),
             ).toBeLessThanOrEqual(1);
+            previous = cell;
         }
     });
 });
@@ -568,23 +578,24 @@ describe('getShapeAnchor', () => {
                 { x: 2, y: 2 },
             ]),
         ];
-        const before = selection.map((shape) => getShapeAnchor(shape));
+        const before = selection.map((shape) => ({
+            shape,
+            anchor: getShapeAnchor(shape),
+        }));
 
         // Press at (10, 10), then drag to (14, 17), exactly as the editor does.
         const offsets = selection.map((shape) => {
             const anchor = getShapeAnchor(shape);
-            return { x: 10 - anchor.x, y: 10 - anchor.y };
+            return { shape, offset: { x: 10 - anchor.x, y: 10 - anchor.y } };
         });
         expect(offsets).toHaveLength(selection.length);
-        for (const [index, shape] of selection.entries()) {
-            const offset = offsets[index];
+        for (const { shape, offset } of offsets)
             moveShape(shape, 14 - offset.x, 17 - offset.y, 'move');
-        }
 
-        for (const [index, shape] of selection.entries())
+        for (const { shape, anchor } of before)
             expect(getShapeAnchor(shape)).toEqual({
-                x: before[index].x + 4,
-                y: before[index].y + 7,
+                x: anchor.x + 4,
+                y: anchor.y + 7,
             });
     });
 });

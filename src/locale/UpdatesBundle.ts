@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 /**
  * The shapes behind the updates page, shared by the build script that writes
  * them (`scripts/updates.ts`), the locale tooling that translates them
@@ -40,6 +42,34 @@ export type UpdateRelease = {
 
 export type UpdatesBundle = { format: number; updates: UpdateRelease[] };
 
+const UpdateTextSchema = z.object({ id: z.string(), markup: z.string() });
+const UpdateEntrySchema = UpdateTextSchema.extend({
+    emoji: z.string().nullable(),
+});
+const PerSection = <Schema extends z.ZodType>(schema: Schema) =>
+    z.object({
+        added: schema,
+        changed: schema,
+        fixed: schema,
+        removed: schema,
+    });
+
+/** The structural bundle's shape, for checking one that was fetched or read
+ *  from disk: a stale or partial file would otherwise render as an error deep
+ *  inside the page. */
+export const UpdatesBundleSchema = z.object({
+    format: z.number(),
+    updates: z.array(
+        z.object({
+            version: z.string(),
+            date: z.string().nullable(),
+            summary: UpdateTextSchema.nullable(),
+            changes: PerSection(z.array(UpdateEntrySchema)),
+            summaries: PerSection(UpdateTextSchema.nullable()),
+        }),
+    ),
+}) satisfies z.ZodType<UpdatesBundle>;
+
 /** One locale's translations, keyed by the structural bundle's ids. Values
  *  carry their write status (`$~`), which is what lets `override` find a
  *  machine translation and what gives the page its quality badge. */
@@ -47,6 +77,12 @@ export type UpdateTranslations = {
     format: number;
     entries: Record<string, string>;
 };
+
+/** A locale's translation map, as written by the locale tooling. */
+export const UpdateTranslationsSchema = z.object({
+    format: z.number(),
+    entries: z.record(z.string(), z.string()),
+}) satisfies z.ZodType<UpdateTranslations>;
 
 /** Where a locale's translations live, beside its other generated bundles. */
 export function updatesBundlePath(locale: string): string {

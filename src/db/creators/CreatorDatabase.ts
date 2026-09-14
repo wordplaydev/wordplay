@@ -1,4 +1,5 @@
 import type { UserIdentifier } from 'firebase-admin/auth';
+import { z } from 'zod';
 import type { User } from 'firebase/auth';
 import type { Database } from '@db/Database';
 import { getFunctionsInstance } from '@db/firebase';
@@ -16,11 +17,12 @@ export const CreatorCollection = 'creators';
  * ships functions and hosting together with no ordering guarantee; nothing
  * here reads it.
  */
-type CreatorSchema = {
-    uid: string;
-    name: string | null;
-    username: string | null;
-};
+const CreatorSchema = z.object({
+    uid: z.string(),
+    name: z.string().nullable(),
+    username: z.string().nullable(),
+});
+type CreatorSchema = z.infer<typeof CreatorSchema>;
 
 /** Tracks metadata about creators, which is primarily stored in Firebase Auth, but also Firestore, where non-auth data about users lives. */
 export class Creator {
@@ -137,7 +139,10 @@ export default class CreatorDatabase {
             >(functions, 'getCreators');
             const request = getCreatorsFn(missing.map((uid) => ({ uid })))
                 .then((res) => {
-                    const schemas = res.data as CreatorSchema[];
+                    // The callable's result is data from the network until
+                    // it is checked; anything else counts as nobody found.
+                    const parsed = z.array(CreatorSchema).safeParse(res.data);
+                    const schemas = parsed.success ? parsed.data : [];
                     const found = new Set<string>();
                     for (const schema of schemas) {
                         this.creatorsByUID.set(

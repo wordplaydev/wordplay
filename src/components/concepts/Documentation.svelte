@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { keysOf } from '@util/nullable';
     import HeaderAndExplanation from '@components/app/HeaderAndExplanation.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -58,7 +59,7 @@
     import GalleryHowConcept from '@concepts/GalleryHowConcept';
     import HowConcept from '@concepts/HowConcept';
     import type HowTo from '@concepts/HowTo';
-    import { HowToCategories, type HowToCategory } from '@concepts/HowTo';
+    import { HowToCategories } from '@concepts/HowTo';
     import NodeConcept from '@concepts/NodeConcept';
     import { Purpose, type PurposeType } from '@concepts/Purpose';
     import StreamConcept from '@concepts/StreamConcept';
@@ -749,7 +750,10 @@
             tabs={(l) => l.ui.docs.mode.browse}
             icons={ModeIcons}
             choice={Modes.indexOf(mode)}
-            select={(choice) => chooseSection(Modes[choice], purpose)}
+            select={(choice) => {
+                const chosen = Modes[choice];
+                if (chosen !== undefined) chooseSection(chosen, purpose);
+            }}
         />
         <!-- The subsection switcher is a filter grid: its label is right-aligned in
              one column and its option group left-aligned in the next. The Mode uses
@@ -760,8 +764,10 @@
                     grid
                     modes={(l) => l.ui.docs.mode.purpose}
                     choice={Object.keys(Purpose).indexOf(purpose)}
-                    select={(choice) =>
-                        chooseSection(mode, Object.values(Purpose)[choice])}
+                    select={(choice) => {
+                        const chosen = Object.values(Purpose)[choice];
+                        if (chosen !== undefined) chooseSection(mode, chosen);
+                    }}
                     icons={getPurposeIcons($locales.getLocale().language)}
                     wrap
                     omit={standalone ? [0] : []}
@@ -1035,7 +1041,7 @@
                                     text={(l) => l.ui.docs.how.wordplay}
                                 />
                                 <Nested>
-                                    {#each Object.keys(HowToCategories) as category}
+                                    {#each keysOf(HowToCategories) as category}
                                         {@const categoryHowTos =
                                             builtInHowTo.filter(
                                                 (howTo) =>
@@ -1046,7 +1052,7 @@
                                             <Subheader
                                                 text={(l) =>
                                                     l.ui.docs.how.category[
-                                                        category as HowToCategory
+                                                        category
                                                     ]}
                                             />
                                             <div class="howtos">

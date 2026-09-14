@@ -7,6 +7,7 @@ import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Reaction from '@nodes/Reaction';
 import Templates from '@concepts/Templates';
 import evaluateCode from '@runtime/evaluate';
+import { last, must } from '@util/nullable';
 
 function analyze(code: string) {
     const source = new Source('test', code);
@@ -20,7 +21,7 @@ function lastBinaryType(code: string): string {
     const bins = [...source.nodes()].filter(
         (n): n is BinaryEvaluate => n instanceof BinaryEvaluate,
     );
-    return bins[bins.length - 1].getType(context).toWordplay();
+    return must(last(bins), 'a binary operation').getType(context).toWordplay();
 }
 
 /** All conflict explanations across the program that mention divide-by-zero, with their suggested fixes. */

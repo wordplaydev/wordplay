@@ -33,6 +33,7 @@ import type TypeSet from '@nodes/TypeSet';
 import UnionType from '@nodes/UnionType';
 import { unescaped } from '@nodes/Translation';
 import Words from '@nodes/Words';
+import { first, last, must } from '@util/nullable';
 
 export default class FormattedLiteral extends Literal {
     readonly texts: FormattedTranslation[];
@@ -136,13 +137,11 @@ export default class FormattedLiteral extends Literal {
     }
 
     clone(replace?: Replacement) {
-        return new FormattedLiteral(
-            this.replaceChild<FormattedTranslation[]>(
-                'texts',
-                this.texts,
-                replace,
+        return this.cloned(
+            new FormattedLiteral(
+                this.replaceChild('texts', this.texts, replace),
             ),
-        ) as this;
+        );
     }
 
     getPurpose() {
@@ -212,6 +211,9 @@ export default class FormattedLiteral extends Literal {
                       ? value
                       : // Otherwise, convert the value to a string for display.
                         (value.toString() ?? '');
+            // The examples are the ones the values were compiled from, so this
+            // index always names one; the pop above must happen regardless.
+            if (example === undefined) continue;
             // Replace the markup's example with the computed markup paragraphs
             // Need to get the parent paragraph of the example so we can create a new list of segments.
             const container: Paragraph | Words | undefined = concrete
@@ -251,7 +253,11 @@ export default class FormattedLiteral extends Literal {
         // Build the list of preferred languages
         const locales = Array.isArray(preferred) ? preferred : [preferred];
 
-        return getPreferred(locales, this.texts);
+        // A formatted literal always has at least one translation.
+        return must(
+            getPreferred(locales, this.texts),
+            'a formatted translation',
+        );
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.FormattedLiteral;
@@ -282,11 +288,14 @@ export default class FormattedLiteral extends Literal {
     }
 
     getStart(): Node {
-        return this.texts[0];
+        // A formatted literal always has at least one translation: the parser
+        // reads one before checking for more, and every other construction
+        // passes one.
+        return must(first(this.texts), 'a formatted translation');
     }
 
     getFinish(): Node {
-        return this.texts[this.texts.length - 1];
+        return must(last(this.texts), 'a formatted translation');
     }
 
     getStartExplanations(locales: Locales) {

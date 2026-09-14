@@ -32,13 +32,13 @@ const esMX = localeText('es-MX');
 
 /** The accessible name of the workspace's nth tab. */
 function tabLabel(locale: LocaleText, index: number) {
-    return text(locale.ui.page.localize.tabs.labels[index]);
+    return text(locale.ui.page.localize.tabs.labels[index] ?? '');
 }
 
 /** The literal run of a templated message, up to its first input. Lets a test
  *  match on the locale's own words rather than a hard-coded English phrase. */
 function beforeInput(template: string) {
-    return text(template).split('$')[0].trim();
+    return (text(template).split('$')[0] ?? '').trim();
 }
 
 test('a term’s forms are absent from the list of strings to translate', async ({

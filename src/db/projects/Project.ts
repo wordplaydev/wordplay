@@ -29,6 +29,7 @@ import Source from '@nodes/Source';
 import StructureDefinition from '@nodes/StructureDefinition';
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import type createDefaultShares from '@runtime/createDefaultShares';
+import { isDefined, must } from '@util/nullable';
 import { v4 as uuidv4 } from 'uuid';
 import { Basis } from '@basis/Basis';
 import DefaultLocale from '@locale/DefaultLocale';
@@ -48,7 +49,6 @@ import {
 import Sym, { type SymType } from '@nodes/Sym';
 import { toTokens } from '@parser/toTokens';
 import { PROJECT_PARAM_MODE } from '../../routes/[[locale]]/project/constants';
-import type LocalesDatabase from '@db/locales/LocalesDatabase';
 import { type ModerationState, unknownFlags } from '@db/projects/Moderation';
 import { ScratchPrefix } from '@db/projects/ScratchPrefix';
 import {
@@ -153,6 +153,15 @@ export type LocaleUsage = {
     unused: SupportedLocale[];
     /** Declared codes whose text isn't loaded, so their names don't currently bind. */
     unloaded: SupportedLocale[];
+};
+
+/**
+ * What `Project.deserialize` needs of a locales database: the ability to load
+ * the locales a project declares. Structural rather than `LocalesDatabase` so
+ * the one method it calls is what a caller has to provide.
+ */
+export type LocaleLoader = {
+    loadLocales(preferred: SupportedLocale[]): Promise<LocaleText[]>;
 };
 
 /**
@@ -501,13 +510,16 @@ export default class Project {
     }
 
     equals(project: Project) {
+        const theseSources = this.getSources();
+        const thoseSources = project.getSources();
         return (
             this.getID() === project.getID() &&
             this.getName() === project.getName() &&
-            this.getSources().length === project.getSources().length &&
-            this.getSources().every((source1, index1) =>
-                source1.isEqualTo(project.getSources()[index1]),
-            ) &&
+            theseSources.length === thoseSources.length &&
+            theseSources.every((source1, index1) => {
+                const source2 = thoseSources[index1];
+                return source2 !== undefined && source1.isEqualTo(source2);
+            }) &&
             // Resolved kits count, even though the sources are identical: a borrow that
             // has just found its kit means something different from one that hasn't, and
             // whoever is asking this question is deciding whether to re-evaluate.
@@ -911,7 +923,11 @@ export default class Project {
 
     getNewConflicts(oldSource: Source, newSource: Source): Conflict[] {
         const newConflicts = this.getNewConflictsBatch(oldSource, [newSource]);
-        return Array.from(newConflicts.values())[0];
+        // The batch sets exactly one entry per source it was given.
+        return must(
+            newConflicts.get(newSource),
+            'the conflicts of the revised source',
+        );
     }
 
     getMajorConflictsNow() {
@@ -1017,8 +1033,10 @@ export default class Project {
             const changes = analysis.dependencies
                 .entries()
                 .filter((s) => s[0] instanceof Changed);
-            while (changes.length > 0) {
-                const [, dependents] = changes.pop()!;
+            for (;;) {
+                const next = changes.pop();
+                if (next === undefined) break;
+                const [, dependents] = next;
                 for (const dependent of dependents) {
                     if (!this.#changeDependentExpressions.has(dependent)) {
                         this.#changeDependentExpressions.add(dependent);
@@ -1716,7 +1734,7 @@ export default class Project {
      * @returns A deserialized Project.
      */
     static async deserialize(
-        localesDB: LocalesDatabase,
+        localesDB: LocaleLoader,
         project: SerializedProjectUnknownVersion,
     ): Promise<Project> {
         // Upgrade the project just in case.
@@ -1726,7 +1744,11 @@ export default class Project {
         // mapping, so a locale whose text can't be fetched right now still stays declared —
         // only the creator removes a language (#1246). The viewer's UI locales are
         // deliberately *not* mixed in: a project's basis must not depend on who opens it.
-        const locales = getBestSupportedLocales(project.locales);
+        // The fallback arm of getBestSupportedLocales indexes SupportedLocales, which
+        // the type system can't see is non-empty; nothing undefined ever arrives here.
+        const locales = getBestSupportedLocales(project.locales).filter(
+            isDefined,
+        );
 
         // Load what we can of them; a failed fetch just means fewer names bind this session.
         const localeTexts = await localesDB.loadLocales(locales);
@@ -1735,15 +1757,21 @@ export default class Project {
         // §3) mean a name that collides with a keyword (e.g. "número") still parses as a name — it
         // shadows the keyword rather than breaking — so this is safe to activate for declared locales.
         const keywords = buildKeywordIndex(localeTexts.map((l) => l.keyword));
-        const sources = project.sources.map((source) =>
-            Project.deserializeSource(source, keywords),
-        );
+        // Kept paired with what they came from, so the carets below can be built
+        // without indexing the two lists in step.
+        const deserialized = project.sources.map((serialized) => ({
+            serialized,
+            source: Project.deserializeSource(serialized, keywords),
+        }));
+        const sources = deserialized.map(({ source }) => source);
 
         return new Project({
             v: ProjectSchemaLatestVersion,
             id: project.id,
             name: project.name,
-            main: sources[0],
+            // A project with no sources threw from the constructor below, which
+            // builds a root for every source; ProjectData requires a main.
+            main: must(sources[0], 'a project to have a main source'),
             supplements: sources.slice(1),
             locales,
             localeTexts,
@@ -1754,9 +1782,9 @@ export default class Project {
             owner: project.owner,
             collaborators: project.collaborators,
             public: project.public,
-            carets: project.sources.map((s, index) => {
+            carets: deserialized.map(({ serialized: s, source }) => {
                 return {
-                    source: sources[index],
+                    source,
                     caret: s.caret,
                     ...(s.anchor !== undefined ? { anchor: s.anchor } : {}),
                 };
@@ -2292,9 +2320,14 @@ export default class Project {
         if (latest === undefined) return true;
 
         const { sources } = latest;
-        if (sources.length !== project.getSources().length) return true;
-        for (let i = 0; i < sources.length; i++) {
-            if (sources[i].code !== project.getSources()[i].code.toString())
+        const projectSources = project.getSources();
+        if (sources.length !== projectSources.length) return true;
+        for (const [index, source] of sources.entries()) {
+            const projectSource = projectSources[index];
+            if (
+                projectSource === undefined ||
+                source.code !== projectSource.code.toString()
+            )
                 return true;
         }
         return false;
@@ -2509,12 +2542,7 @@ export default class Project {
     bumpStampsFrom(previous: Project, writer: string): Project {
         let stamps = this.data.stamps;
         for (const field of StampedMetadataFields) {
-            if (
-                !sameSerialized(
-                    previous.data[field as keyof ProjectData],
-                    this.data[field as keyof ProjectData],
-                )
-            ) {
+            if (!sameSerialized(previous.data[field], this.data[field])) {
                 stamps = bumpField(stamps, field, writer);
             }
         }

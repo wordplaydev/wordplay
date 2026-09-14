@@ -6,7 +6,7 @@ import { expect, test } from 'vitest';
 import checkNames from './checkNames';
 
 function copyLocale(): LocaleText {
-    return JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    return structuredClone(DefaultLocale);
 }
 
 const OutOfBoundsPath = new LocalePath(['basis', 'List'], 'outofbounds', []);

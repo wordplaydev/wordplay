@@ -52,7 +52,7 @@ describe('resolving an anchor', () => {
     test('duplicate times resolve deterministically to the first match', () => {
         const collided = [checkpoint(100, 'a'), checkpoint(100, 'b')];
         // Newest first reverses, so the first match is the later element.
-        expect(getCheckpoint(collided, 100)?.sources[0].code).toBe('b');
+        expect(getCheckpoint(collided, 100)?.sources[0]?.code).toBe('b');
     });
 });
 

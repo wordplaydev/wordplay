@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { projectSearchFields } from './search';
 import { searchItems, type Searchable } from '@util/search';
+import { must } from '@util/nullable';
 
 const L = 'en';
 
@@ -105,7 +106,7 @@ describe('project search', () => {
 
     describe('source code search (priority 3, with snippet)', () => {
         it('finds a project by text-literal content', () => {
-            const [ref, match] = search('Birthday')[0];
+            const [ref, match] = must(search('Birthday')[0], 'a result');
             expect(ref).toBe('Greeting Card');
             expect(match[3]).toBe(3); // code-tier match → searchProjects adds a snippet
         });

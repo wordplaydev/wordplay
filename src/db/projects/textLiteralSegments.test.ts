@@ -1,5 +1,6 @@
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
+import { isLocaleText } from '@locale/isLocaleText';
 import { stringToLocale } from '@locale/Locale';
 import Source from '@nodes/Source';
 import fs from 'fs';
@@ -7,9 +8,15 @@ import { expect, test } from 'vitest';
 import Project from './Project';
 import translateProjectContent from './translateProjectContent';
 
-const target = JSON.parse(
-    fs.readFileSync('static/locales/de-DE/de-DE.json', 'utf8'),
-) as LocaleText;
+/** Read through the app's own shape guard, so an unrelated or truncated file
+ *  fails here rather than as an undefined deep inside `l.ui.…`. */
+function readLocale(path: string): LocaleText {
+    const data: unknown = JSON.parse(fs.readFileSync(path, 'utf8'));
+    if (!isLocaleText(data)) throw new Error(`${path} is not a locale file`);
+    return data;
+}
+
+const target = readLocale('static/locales/de-DE/de-DE.json');
 
 /** Stand in for the model: prefix whatever it is given. */
 const prefix = async (texts: string[]) => texts.map((t) => `DE ${t}`);

@@ -14,6 +14,7 @@
  */
 
 import type { MIDINote } from '@output/Music/midi/parseMIDI';
+import { must } from '@util/nullable';
 
 /** Notes that sound together for the same span: one entry in a track. */
 export type Simultaneity = {
@@ -24,6 +25,12 @@ export type Simultaneity = {
     /** The loudest of the group, since one entry carries one volume. */
     velocity: number;
 };
+
+/** The lowest pitch of a group, which is always present because every group
+ *  is created with the pitch that opened it. */
+function lowest(group: Simultaneity): number {
+    return must(group.pitches[0], 'a pitch in a simultaneity');
+}
 
 /** Group notes that share an onset and a length into single entries. */
 export function toSimultaneities(notes: readonly MIDINote[]): Simultaneity[] {
@@ -45,9 +52,7 @@ export function toSimultaneities(notes: readonly MIDINote[]): Simultaneity[] {
     }
     const out = [...groups.values()];
     for (const group of out) group.pitches.sort((a, b) => a - b);
-    out.sort(
-        (a, b) => a.startTicks - b.startTicks || a.pitches[0] - b.pitches[0],
-    );
+    out.sort((a, b) => a.startTicks - b.startTicks || lowest(a) - lowest(b));
     return out;
 }
 
@@ -70,9 +75,10 @@ export default function splitVoices(
 
     for (const entry of entries) {
         let placed = false;
-        for (let v = 0; v < voices.length; v++) {
-            if (free[v] <= entry.startTicks) {
-                voices[v].push(entry);
+        for (const [v, voice] of voices.entries()) {
+            const freeAt = free[v];
+            if (freeAt !== undefined && freeAt <= entry.startTicks) {
+                voice.push(entry);
                 free[v] = entry.startTicks + entry.durationTicks;
                 placed = true;
                 break;

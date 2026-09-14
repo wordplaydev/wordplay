@@ -40,6 +40,7 @@
         looksLikeMIDI,
     } from '@output/Music/midi/importMIDI';
     import type { Finding } from '@output/Music/midi/convert';
+    import { must } from '@util/nullable';
 
     interface Props {
         project: Project;
@@ -198,8 +199,11 @@
         // what just arrived rather than leaving the creator to find it. The
         // imported music is the last one, since it was appended.
         const musics = musicsIn(revised);
-        const track = readMusic(revised, musics[musics.length - 1])?.tracks[0]
-            ?.evaluate;
+        // The imported music was just appended, so there is a last one.
+        const track = readMusic(
+            revised,
+            must(musics[musics.length - 1], 'the imported music'),
+        )?.tracks[0]?.evaluate;
         Projects.reviseProject(
             track === undefined
                 ? revised
@@ -396,8 +400,12 @@
                     (l) => l.ui.palette.music.importing,
                     {
                         percent: `${StepPercents[step] ?? 0}`,
-                        step: $locales.getPrimaryPlainText(
-                            (l) => l.ui.palette.music.steps.labels[step ?? 0],
+                        // One label per import step.
+                        step: $locales.getPrimaryPlainText((l) =>
+                            must(
+                                l.ui.palette.music.steps.labels[step ?? 0],
+                                'an import step label',
+                            ),
                         ),
                     },
                 ]}

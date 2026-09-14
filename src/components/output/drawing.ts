@@ -67,21 +67,23 @@ export function simplifyPath(
 ): PathPoint[] {
     if (points.length <= 2) return [...points];
 
+    const first = points[0];
+    const last = points[points.length - 1];
+    // Unreachable: the length was just checked to be more than two.
+    if (first === undefined || last === undefined) return [...points];
+
     let furthest = 0;
     let distance = 0;
-    for (let i = 1; i < points.length - 1; i++) {
-        const measured = distanceToSegment(
-            points[i],
-            points[0],
-            points[points.length - 1],
-        );
+    for (const [i, point] of points.entries()) {
+        if (i === 0 || i === points.length - 1) continue;
+        const measured = distanceToSegment(point, first, last);
         if (measured > distance) {
             distance = measured;
             furthest = i;
         }
     }
 
-    if (distance <= tolerance) return [points[0], points[points.length - 1]];
+    if (distance <= tolerance) return [first, last];
 
     // Keep the furthest point and simplify each side of it, so a corner is never the point
     // that gets dropped.
@@ -106,11 +108,13 @@ export function finishStroke(
     }));
     // Rounding can collapse two neighbours onto each other, which would draw a zero-length
     // segment the creator can't see but can select.
-    const distinct = simplified.filter(
-        (point, index) =>
-            index === 0 ||
-            point.x !== simplified[index - 1].x ||
-            point.y !== simplified[index - 1].y,
-    );
+    const distinct = simplified.filter((point, index) => {
+        const previous = simplified[index - 1];
+        return (
+            previous === undefined ||
+            point.x !== previous.x ||
+            point.y !== previous.y
+        );
+    });
     return distinct.length < 2 ? undefined : distinct;
 }

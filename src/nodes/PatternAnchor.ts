@@ -33,9 +33,11 @@ export default class PatternAnchor extends PatternAtom {
     }
 
     clone(replace?: Replacement) {
-        return new PatternAnchor(
-            this.replaceChild('anchor', this.anchor, replace),
-        ) as this;
+        return this.cloned(
+            new PatternAnchor(
+                this.replaceChild('anchor', this.anchor, replace),
+            ),
+        );
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.PatternAnchor;

@@ -28,6 +28,7 @@
     import { localeToString, stringToLocale } from '@locale/Locale';
     import { getLocaleLanguageName, isLocaleDraft } from '@locale/LocaleText';
     import {
+        isSupportedLocale,
         SupportedLocales,
         type SupportedLocale,
     } from '@locale/SupportedLocales';
@@ -61,7 +62,7 @@
     $effect(() => {
         selectedLocales = $locales
             .getPreferredLocales()
-            .map((locale) => localeToString(locale)) as SupportedLocale[];
+            .map((locale) => localeToString(locale));
     });
 
     /** A query that filters the available locales by native name, Latin name, or region. */
@@ -135,8 +136,7 @@
             : undefined,
     );
     let requestedAlreadySupported = $derived(
-        requestedLocale !== undefined &&
-            SupportedLocales.includes(requestedLocale as SupportedLocale),
+        requestedLocale !== undefined && isSupportedLocale(requestedLocale),
     );
     let requestSubmitDisabled = $derived(
         requestStatus === 'submitting' ||

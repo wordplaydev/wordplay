@@ -1,4 +1,5 @@
 import Project from '@db/projects/Project';
+import { must } from '@util/nullable';
 import DefaultLocale from '@locale/DefaultLocale';
 import Bind from '@nodes/Bind';
 import Evaluate from '@nodes/Evaluate';
@@ -29,28 +30,40 @@ test.each([
         ['1 + _'],
         () => parseExpression(toTokens('1')),
         (sources: Source[]) =>
-            sources[0].nodes(
+            sources[0]!.nodes(
                 (node): node is ExpressionPlaceholder =>
                     node instanceof ExpressionPlaceholder,
-            )[0],
+            )[0]!,
         '1 + 1',
     ],
     // Replace placeholder with expression from same source
     [
         ['1 + _\n2'],
-        (sources: Source[]) => sources[0].find(NumberLiteral, 1),
-        (sources: Source[]) => sources[0].find(ExpressionPlaceholder),
+        (sources: Source[]) =>
+            must(
+                must(sources[0]!.find(NumberLiteral, 1), 'NumberLiteral'),
+                'NumberLiteral',
+            ),
+        (sources: Source[]) =>
+            must(
+                must(
+                    sources[0]!.find(ExpressionPlaceholder),
+                    'ExpressionPlaceholder',
+                ),
+                'ExpressionPlaceholder',
+            ),
         '1 + 2\n',
     ],
     // Replace placeholder with expression from other source
     [
         ['1 + _', '2'],
-        (sources: Source[]) => sources[1].find<Node>(NumberLiteral),
         (sources: Source[]) =>
-            sources[0].nodes(
+            must(sources[1]!.find(NumberLiteral), 'NumberLiteral'),
+        (sources: Source[]) =>
+            sources[0]!.nodes(
                 (node): node is ExpressionPlaceholder =>
                     node instanceof ExpressionPlaceholder,
-            )[0],
+            )[0]!,
         '1 + 2',
         '',
     ],
@@ -59,12 +72,12 @@ test.each([
         ['[1 3 4 5]'],
         () => parseExpression(toTokens('2')),
         (sources: Source[]) => {
-            const node = sources[0].find<ListLiteral>(ListLiteral);
+            const node = must(sources[0]!.find(ListLiteral), 'ListLiteral');
             return new InsertionPoint(
                 node,
                 'values',
                 node.values,
-                node.find<Token>(Token, 2),
+                must(node.find(Token, 2), 'Token'),
                 0,
                 1,
             );
@@ -74,14 +87,18 @@ test.each([
     // Insertion expression from source in expression
     [
         ['[1 3 4 5]\n2'],
-        (sources) => sources[0].find(NumberLiteral, 4),
+        (sources) =>
+            must(
+                must(sources[0]!.find(NumberLiteral, 4), 'NumberLiteral'),
+                'NumberLiteral',
+            ),
         (sources) => {
-            const node = sources[0].find<ListLiteral>(ListLiteral);
+            const node = must(sources[0]!.find(ListLiteral), 'ListLiteral');
             return new InsertionPoint(
                 node,
                 'values',
                 node.values,
-                node.find<Token>(Token, 2),
+                must(node.find(Token, 2), 'Token'),
                 0,
                 1,
             );
@@ -91,14 +108,18 @@ test.each([
     // Insert expression from other source in expression
     [
         ['[1 3 4 5]', '2'],
-        (sources) => sources[1].find(NumberLiteral),
+        (sources) =>
+            must(
+                must(sources[1]!.find(NumberLiteral), 'NumberLiteral'),
+                'NumberLiteral',
+            ),
         (sources) => {
-            const node = sources[0].find<ListLiteral>(ListLiteral);
+            const node = must(sources[0]!.find(ListLiteral), 'ListLiteral');
             return new InsertionPoint(
                 node,
                 'values',
                 node.values,
-                node.find<Token>(Token, 2),
+                must(node.find(Token, 2), 'Token'),
                 0,
                 1,
             );
@@ -113,14 +134,28 @@ test.each([
     [
         ['a•#: _'],
         () => parseExpression(toTokens('_ … _•? … _')),
-        (sources) => sources[0].find(ExpressionPlaceholder),
+        (sources) =>
+            must(
+                must(
+                    sources[0]!.find(ExpressionPlaceholder),
+                    'ExpressionPlaceholder',
+                ),
+                'ExpressionPlaceholder',
+            ),
         'a•#: _ … ⊤ … _',
     ],
     // Drop list onto typed list
     [
         ['a•[#]: _'],
         () => parseExpression(toTokens('[]')),
-        (sources) => sources[0].find(ExpressionPlaceholder),
+        (sources) =>
+            must(
+                must(
+                    sources[0]!.find(ExpressionPlaceholder),
+                    'ExpressionPlaceholder',
+                ),
+                'ExpressionPlaceholder',
+            ),
         'a•[#]: []',
     ],
     // Insert number into unit-typed number list, despite type error.
@@ -128,12 +163,12 @@ test.each([
         ['Place()'],
         () => parseExpression(toTokens('1')),
         (sources) => {
-            const node = sources[0].find<Evaluate>(Evaluate);
+            const node = must(sources[0]!.find(Evaluate), 'Evaluate');
             return new InsertionPoint(
                 node,
                 'inputs',
                 node.inputs,
-                node.find<Token>(Token, 2),
+                must(node.find(Token, 2), 'Token'),
                 0,
                 0,
             );
@@ -153,7 +188,7 @@ test.each([
         const project = Project.make(
             null,
             'test',
-            sources[0],
+            sources[0]!,
             sources.slice(1),
             DefaultLocale,
         );
@@ -170,7 +205,7 @@ test.each([
 
         const [newProject] = dropNodeOnSource(
             project,
-            sources[0],
+            sources[0]!,
             [draggedNode],
             targetNode,
         ) ?? [undefined, undefined];
@@ -179,7 +214,7 @@ test.each([
         expect(newProject).toBeDefined();
         expect(newProject?.getMain().toWordplay()).toBe(mainExpected);
         if (supplementExpected)
-            expect(newProject?.getSupplements()[0].toWordplay()).toBe(
+            expect(newProject?.getSupplements()[0]!.toWordplay()).toBe(
                 supplementExpected,
             );
     },
@@ -189,7 +224,10 @@ test('getDropConflicts returns [] for a clean placeholder replacement', () => {
     const source = new Source('test', '1 + _');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('1'));
-    const target = source.find(ExpressionPlaceholder);
+    const target = must(
+        must(source.find(ExpressionPlaceholder), 'ExpressionPlaceholder'),
+        'ExpressionPlaceholder',
+    );
     expect(
         getDropConflicts(project, source, [dragged], target).conflicts,
     ).toHaveLength(0);
@@ -207,8 +245,11 @@ test('getDropConflicts returns [] when a drop only leaves a placeholder behind (
     );
     // Drag the 2 from the other source onto the placeholder; the donor source is left with a
     // placeholder (a minor conflict), which must not count as a new conflict.
-    const dragged = supplement.find<Node>(NumberLiteral);
-    const target = main.find(ExpressionPlaceholder);
+    const dragged = must(supplement.find(NumberLiteral), 'NumberLiteral');
+    const target = must(
+        must(main.find(ExpressionPlaceholder), 'ExpressionPlaceholder'),
+        'ExpressionPlaceholder',
+    );
     expect(
         getDropConflicts(project, main, [dragged], target).conflicts,
     ).toHaveLength(0);
@@ -221,14 +262,14 @@ test('getDropConflicts no-ops for a stale target anchored outside the project (#
     // walking the mismatched tree and throwing.
     const source = new Source('test', '1');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const dragged = source.find<Node>(NumberLiteral);
+    const dragged = must(source.find(NumberLiteral), 'NumberLiteral');
     const detached = new Source('stale', '[1 3 4 5]');
-    const staleList = detached.find<ListLiteral>(ListLiteral);
+    const staleList = must(detached.find(ListLiteral), 'ListLiteral');
     const target = new InsertionPoint(
         staleList,
         'values',
         staleList.values,
-        staleList.find<Token>(Token, 2),
+        must(staleList.find(Token, 2), 'Token'),
         0,
         1,
     );
@@ -244,12 +285,12 @@ test('getDropConflicts reports the conflict a type-erroring drop would introduce
     const source = new Source('test', 'Place()');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('1'));
-    const node = source.find<Evaluate>(Evaluate);
+    const node = must(source.find(Evaluate), 'Evaluate');
     const target = new InsertionPoint(
         node,
         'inputs',
         node.inputs,
-        node.find<Token>(Token, 2),
+        must(node.find(Token, 2), 'Token'),
         0,
         0,
     );
@@ -265,7 +306,10 @@ test('a drop that creates an unknown name is permitted with a warning', () => {
     // Dragging a reference to an undefined name onto the placeholder → `1 + saddf` → unknown name,
     // a semantic mistake the creator can repair in place, so the drop lands with a warning.
     const dragged = parseExpression(toTokens('saddf'));
-    const target = source.find(ExpressionPlaceholder);
+    const target = must(
+        must(source.find(ExpressionPlaceholder), 'ExpressionPlaceholder'),
+        'ExpressionPlaceholder',
+    );
     expect(
         getBlockingDropConflicts(project, source, [dragged], target),
     ).toHaveLength(0);
@@ -285,7 +329,10 @@ test('a type-mismatch drop onto a placeholder lands there, warned', () => {
     // because the target is an explicit placeholder slot, the release keeps it there rather than
     // elevating to a cleaner enclosing replacement.
     const dragged = parseExpression(toTokens('"hi"'));
-    const target = source.find(ExpressionPlaceholder);
+    const target = must(
+        must(source.find(ExpressionPlaceholder), 'ExpressionPlaceholder'),
+        'ExpressionPlaceholder',
+    );
     expect(isDropPermitted(project, source, [dragged], target)).toBe(true);
     expect(
         getDropConflicts(project, source, [dragged], target).conflicts.map(
@@ -302,7 +349,7 @@ test('a structurally invalid drop is still blocked', () => {
     const source = new Source('test', 'a: 1');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('2'));
-    const target = source.find<Bind>(Bind).names.names[0];
+    const target = must(source.find(Bind), 'Bind').names.names[0]!;
     expect(isDropPermitted(project, source, [dragged], target)).toBe(false);
     expect(
         resolvePermittedDropTarget(project, source, [dragged], target),
@@ -314,7 +361,10 @@ test('a palette drop fills typed placeholders with their defaults', () => {
     const source = new Source('test', '_');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('Phrase(_)'));
-    const target = source.find(ExpressionPlaceholder);
+    const target = must(
+        must(source.find(ExpressionPlaceholder), 'ExpressionPlaceholder'),
+        'ExpressionPlaceholder',
+    );
     const [newProject] = dropNodeOnSource(project, source, [dragged], target);
     // Phrase's text input default is an empty text literal, so no placeholder remains.
     expect(
@@ -333,7 +383,10 @@ test('a palette drop resolves an ambiguous slot to the first autocomplete pick',
     const source = new Source('test', '_');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('Group(_ _)'));
-    const target = source.find(ExpressionPlaceholder);
+    const target = must(
+        must(source.find(ExpressionPlaceholder), 'ExpressionPlaceholder'),
+        'ExpressionPlaceholder',
+    );
     const [newProject] = dropNodeOnSource(project, source, [dragged], target);
     // ⬇ is Stack (the first concrete arrangement in basis order); content is an empty list.
     expect(newProject.getMain().toWordplay()).toBe('Group(⬇() [])');
@@ -359,8 +412,11 @@ test('an editor-internal move does not fill placeholders', () => {
         [supplement],
         DefaultLocale,
     );
-    const dragged = supplement.find<Evaluate>(Evaluate);
-    const target = main.find(ExpressionPlaceholder);
+    const dragged = must(supplement.find(Evaluate), 'Evaluate');
+    const target = must(
+        must(main.find(ExpressionPlaceholder), 'ExpressionPlaceholder'),
+        'ExpressionPlaceholder',
+    );
     const [newProject] = dropNodeOnSource(project, main, [dragged], target);
     expect(newProject.getMain().toWordplay()).toBe('Phrase(_)');
 });
@@ -371,7 +427,10 @@ test('a palette drop leaves placeholders with no default alone', () => {
     const source = new Source('test', '_');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('_'));
-    const target = source.find(ExpressionPlaceholder);
+    const target = must(
+        must(source.find(ExpressionPlaceholder), 'ExpressionPlaceholder'),
+        'ExpressionPlaceholder',
+    );
     const [newProject] = dropNodeOnSource(project, source, [dragged], target);
     expect(newProject.getMain().toWordplay()).toBe('_');
 });
@@ -396,8 +455,9 @@ test.each([
         const source = new Source('test', code);
         const project = Project.make(null, 'test', source, [], DefaultLocale);
         const context = project.getContext(source);
-        const placeholder = source.find<ExpressionPlaceholder>(
-            ExpressionPlaceholder,
+        const placeholder = must(
+            source.find(ExpressionPlaceholder),
+            'ExpressionPlaceholder',
         );
         const type = placeholder.computeType(context);
         const def = ExpressionPlaceholder.getDefaultExpressions(
@@ -409,7 +469,7 @@ test.each([
         // like a Group's layout fill on drop).
         expect(def).toBeDefined();
         if (strict)
-            expect(type.accepts(def.getType(context), context)).toBe(true);
+            expect(type.accepts(def!.getType(context), context)).toBe(true);
     },
 );
 
@@ -420,7 +480,10 @@ test('dropping a structure into a wrong-typed function input elevates to a clean
     const source = new Source('test', "Phrase('a')");
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('Group(_ _)'));
-    const target = source.find(TextLiteral);
+    const target = must(
+        must(source.find(TextLiteral), 'TextLiteral'),
+        'TextLiteral',
+    );
     expect(isDropPermitted(project, source, [dragged], target)).toBe(true);
     expect(
         getDropConflicts(project, source, [dragged], target).conflicts.map(
@@ -428,7 +491,7 @@ test('dropping a structure into a wrong-typed function input elevates to a clean
         ),
     ).toContain('IncompatibleInput');
     expect(resolvePermittedDropTarget(project, source, [dragged], target)).toBe(
-        source.find(Evaluate),
+        must(must(source.find(Evaluate), 'Evaluate'), 'Evaluate'),
     );
 });
 
@@ -442,7 +505,7 @@ test('resolvePermittedDropTarget elevates a conflicted release on a function nam
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('Row()'));
     // nodes() is post-order, so the inner ⬇() call is the first Evaluate; Group is the second.
-    const stack = source.find<Evaluate>(Evaluate, 0); // the ⬇() call
+    const stack = must(source.find(Evaluate, 0), 'Evaluate'); // the ⬇() call
 
     const fun = stack.fun; // the ⬇ Reference
     const resolved = resolvePermittedDropTarget(
@@ -464,7 +527,7 @@ test('resolvePermittedDropTarget lands warned when nothing near is conflict-free
     const source = new Source('test', 'Group(⬇() [])');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('saddf'));
-    const fun = source.find<Evaluate>(Evaluate, 0).fun;
+    const fun = must(source.find(Evaluate, 0), 'Evaluate').fun;
     expect(resolvePermittedDropTarget(project, source, [dragged], fun)).toBe(
         fun,
     );
@@ -474,7 +537,10 @@ test('resolveStructuralReplacementTarget keeps a permitted direct target', () =>
     const source = new Source('test', '1 + _');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('2'));
-    const target = source.find(ExpressionPlaceholder);
+    const target = must(
+        must(source.find(ExpressionPlaceholder), 'ExpressionPlaceholder'),
+        'ExpressionPlaceholder',
+    );
     expect(resolveStructuralReplacementTarget(project, [dragged], target)).toBe(
         target,
     );
@@ -486,7 +552,7 @@ test('resolveStructuralReplacementTarget does not elevate a permitted function-n
     const source = new Source('test', 'Group(⬇() [])');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const dragged = parseExpression(toTokens('Row')); // a bare function name
-    const stack = source.find<Evaluate>(Evaluate, 0); // the ⬇() call
+    const stack = must(source.find(Evaluate, 0), 'Evaluate'); // the ⬇() call
     const fun = stack.fun;
     expect(isDropPermitted(project, source, [dragged], fun)).toBe(true);
     expect(resolveStructuralReplacementTarget(project, [dragged], fun)).toBe(
@@ -502,19 +568,19 @@ test('resolveStructuralReplacementTarget does not elevate a permitted function-n
 
 /** The values of the source's first list literal. */
 function valuesOf(source: Source): Node[] {
-    return source.find<ListLiteral>(ListLiteral).values;
+    return must(source.find(ListLiteral), 'ListLiteral').values;
 }
 
 test('a run moves within its own list', () => {
     const source = new Source('test', '[1 2 3 4]');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const list = source.find<ListLiteral>(ListLiteral);
+    const list = must(source.find(ListLiteral), 'ListLiteral');
     const values = valuesOf(source);
     // Take 1 and 2 and drop them after 4.
     const [newProject] = dropNodeOnSource(
         project,
         source,
-        [values[0], values[1]],
+        [values[0]!, values[1]!],
         new InsertionPoint(
             list,
             'values',
@@ -534,8 +600,8 @@ test('a run replaces a single item of a list, one becoming several', () => {
     const [newProject] = dropNodeOnSource(
         project,
         source,
-        [values[0], values[1]],
-        values[2],
+        [values[0]!, values[1]!],
+        values[2]!,
     );
     expect(newProject.getMain().toWordplay()).toBe('[1 2]');
 });
@@ -550,12 +616,12 @@ test('a run moves to another source, closing the gap it left', () => {
         [supplement],
         DefaultLocale,
     );
-    const donor = supplement.find<ListLiteral>(ListLiteral);
-    const target = main.find<ListLiteral>(ListLiteral);
+    const donor = must(supplement.find(ListLiteral), 'ListLiteral');
+    const target = must(main.find(ListLiteral), 'ListLiteral');
     const [newProject] = dropNodeOnSource(
         project,
         main,
-        [donor.values[0], donor.values[1]],
+        [donor.values[0]!, donor.values[1]!],
         new InsertionPoint(
             target,
             'values',
@@ -567,7 +633,7 @@ test('a run moves to another source, closing the gap it left', () => {
     );
     expect(newProject.getMain().toWordplay()).toBe('[1 2 9]');
     // The donor keeps only what wasn't dragged, with no gap where the run was.
-    expect(newProject.getSupplements()[0].toWordplay()).toBe('[3]');
+    expect(newProject.getSupplements()[0]!.toWordplay()).toBe('[3]');
 });
 
 test('a run is not a valid drop target for a single slot', () => {
@@ -576,33 +642,36 @@ test('a run is not a valid drop target for a single slot', () => {
     const source = new Source('test', '[1 2] + _');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const values = valuesOf(source);
-    const target = source.find(ExpressionPlaceholder);
-    expect(isValidDropTarget(project, [values[0], values[1]], target)).toBe(
+    const target = must(
+        must(source.find(ExpressionPlaceholder), 'ExpressionPlaceholder'),
+        'ExpressionPlaceholder',
+    );
+    expect(isValidDropTarget(project, [values[0]!, values[1]!], target)).toBe(
         false,
     );
     // One node of the same run is fine there, which is what makes this a rule
     // about the run rather than about those nodes.
-    expect(isValidDropTarget(project, [values[0]], target)).toBe(true);
+    expect(isValidDropTarget(project, [values[0]!], target)).toBe(true);
 });
 
 test('a run cannot be dropped onto itself', () => {
     const source = new Source('test', '[1 2 3]');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const values = valuesOf(source);
-    expect(isValidDropTarget(project, [values[0], values[1]], values[1])).toBe(
-        false,
-    );
+    expect(
+        isValidDropTarget(project, [values[0]!, values[1]!], values[1]!),
+    ).toBe(false);
 });
 
 test('a run of statements keeps its own line breaks when it moves', () => {
     const source = new Source('test', '1\n2\n3\n[]');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const block = source.expression.expression;
-    const list = source.find<ListLiteral>(ListLiteral);
+    const list = must(source.find(ListLiteral), 'ListLiteral');
     const [newProject] = dropNodeOnSource(
         project,
         source,
-        [block.statements[0], block.statements[1]],
+        [block.statements[0]!, block.statements[1]!],
         new InsertionPoint(
             list,
             'values',

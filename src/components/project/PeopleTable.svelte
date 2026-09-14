@@ -133,15 +133,12 @@
     const columns = $derived(1 + attributes + (editable && remove ? 1 : 0));
 
     const groups = $derived(
-        uids.reduce<string[][]>(
-            (all, uid, index) => (
-                index % perRow === 0
-                    ? all.push([uid])
-                    : all[all.length - 1].push(uid),
-                all
-            ),
-            [],
-        ),
+        uids.reduce<string[][]>((all, uid, index) => {
+            const row = index % perRow === 0 ? undefined : all[all.length - 1];
+            if (row === undefined) all.push([uid]);
+            else row.push(uid);
+            return all;
+        }, []),
     );
 </script>
 

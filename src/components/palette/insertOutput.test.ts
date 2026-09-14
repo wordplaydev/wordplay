@@ -13,6 +13,7 @@ import RenderContext from '@output/RenderContext';
 import { toStage } from '@output/Output/Stage';
 import type { OutputInfoSet } from '@output/animation/Animator';
 import Evaluator from '@runtime/Evaluator';
+import { must } from '@util/nullable';
 import { expect, test } from 'vitest';
 import {
     InsertGap,
@@ -33,6 +34,12 @@ function make(code: string) {
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     project.analyze();
     return project;
+}
+
+/** The element a fixture declares at this index, named so a missing one fails
+ *  with what was expected rather than with a property of undefined. */
+function at<T>(items: T[], index: number): T {
+    return must(items[index], `item ${index}`);
 }
 
 /** The Evaluates in a project's main source, in source order. */
@@ -93,7 +100,7 @@ test('with nothing selected and a stage, content joins the stage', () => {
 test('with a selection, content goes into its container just after it', () => {
     const project = make(`Group(Row() [Phrase('a') Phrase('b')])`);
     const phrases = ofType(project, 'Phrase');
-    const point = insertionPoint(project, [phrases[0]], 'phrase');
+    const point = insertionPoint(project, [at(phrases, 0)], 'phrase');
     expect(point.kind).toBe('list');
     if (point.kind !== 'list') return;
     // Just after the first phrase, not at the end.
@@ -111,8 +118,12 @@ test('a Shape lands in a Group beside the selection, like anything else', () => 
     // through to the block to find a home.
     const project = make(`Group(Row() [Phrase('a')])`);
     const phrases = ofType(project, 'Phrase');
-    expect(insertionPoint(project, [phrases[0]], 'circle').kind).toBe('list');
-    expect(insertionPoint(project, [phrases[0]], 'phrase').kind).toBe('list');
+    expect(insertionPoint(project, [at(phrases, 0)], 'circle').kind).toBe(
+        'list',
+    );
+    expect(insertionPoint(project, [at(phrases, 0)], 'phrase').kind).toBe(
+        'list',
+    );
 });
 
 // --- what gets added --------------------------------------------------------
@@ -135,7 +146,7 @@ test.each([
     const context = project.getContext(project.getMain());
     const shapes = ofType(project, 'Shape');
     expect(shapes).toHaveLength(1);
-    const inner = shapes[0].inputs[0];
+    const inner = at(shapes, 0).inputs[0];
     expect(
         inner instanceof Evaluate &&
             inner.is(project.shares.output[form], context),
@@ -153,7 +164,7 @@ test('added content joins a stage rather than sitting beside it', () => {
     const project = add(make(`Stage([Phrase('a')])`), 'phrase').project;
     const stages = ofType(project, 'Stage');
     expect(stages).toHaveLength(1);
-    const content = stages[0].inputs[0];
+    const content = at(stages, 0).inputs[0];
     expect(content instanceof ListLiteral ? content.values.length : 0).toBe(2);
 });
 
@@ -294,7 +305,7 @@ test('a new child of an arrangement gets no place, so it stays aligned', () => {
         project,
         DefaultLocales,
         'phrase',
-        [shapes[0]],
+        [at(shapes, 0)],
         sceneOf(project),
     );
     if (inside === undefined) throw new Error('expected an insertion');
@@ -308,7 +319,7 @@ test('a new child of a Free group still gets a place, since a place is how it si
         project,
         DefaultLocales,
         'phrase',
-        [shapes[0]],
+        [at(shapes, 0)],
         sceneOf(project),
     );
     if (inside === undefined) throw new Error('expected an insertion');
@@ -386,11 +397,11 @@ test('a run inside a list stays where it was in the list', () => {
     );
     const phrases = ofType(project, 'Phrase');
     const result = groupSelection(project, DefaultLocales, [
-        phrases[1],
-        phrases[2],
+        at(phrases, 1),
+        at(phrases, 2),
     ]);
     if (result === undefined) throw new Error('expected a group');
-    const stage = ofType(result.project, 'Stage')[0];
+    const stage = at(ofType(result.project, 'Stage'), 0);
     const content = stage.inputs[0];
     expect(content).toBeInstanceOf(ListLiteral);
     if (!(content instanceof ListLiteral)) return;
@@ -403,16 +414,16 @@ test('grouping follows source order, not the order things were clicked', () => {
     const project = make(`Stage([Phrase('a') Phrase('b')])`);
     const phrases = ofType(project, 'Phrase');
     const result = groupSelection(project, DefaultLocales, [
-        phrases[1],
-        phrases[0],
+        at(phrases, 1),
+        at(phrases, 0),
     ]);
     if (result === undefined) throw new Error('expected a group');
     const content = result.node.inputs[1];
     expect(content).toBeInstanceOf(ListLiteral);
     if (!(content instanceof ListLiteral)) return;
     expect(content.values.map((v) => v.toWordplay())).toEqual([
-        phrases[0].toWordplay(),
-        phrases[1].toWordplay(),
+        at(phrases, 0).toWordplay(),
+        at(phrases, 1).toWordplay(),
     ]);
 });
 
@@ -452,9 +463,9 @@ test('added music is seeded with notes to hear and to edit', () => {
     const project = add(make(''), 'music').project;
     const musics = musicsIn(project);
     expect(musics).toHaveLength(1);
-    const read = readMusic(project, musics[0]);
+    const read = readMusic(project, at(musics, 0));
     expect(read?.tracks).toHaveLength(1);
-    expect(read?.tracks[0].data.notes.map((n) => n.degrees)).toEqual([
+    expect(read?.tracks[0]?.data.notes.map((n) => n.degrees)).toEqual([
         [1],
         [2],
         [3],
@@ -563,7 +574,7 @@ test('grouping lays the new Group out and leaves its neighbours alone', () => {
 
 test('removing one output takes it out of its list', () => {
     const project = make(`Stage([Phrase('a') Phrase('b')])`);
-    const result = removeOutput(project, [ofType(project, 'Phrase')[0]]);
+    const result = removeOutput(project, [at(ofType(project, 'Phrase'), 0)]);
     expect(result?.project.getMain().toWordplay()).toBe(`Stage([Phrase('b')])`);
 });
 
@@ -572,7 +583,7 @@ test('removing several at once takes all of them', () => {
     // has to still be findable in the rebuilt one.
     const project = make(`Stage([Phrase('a') Phrase('b') Phrase('c')])`);
     const phrases = ofType(project, 'Phrase');
-    const result = removeOutput(project, [phrases[0], phrases[2]]);
+    const result = removeOutput(project, [at(phrases, 0), at(phrases, 2)]);
     expect(result?.project.getMain().toWordplay()).toBe(`Stage([Phrase('b')])`);
 });
 
@@ -617,11 +628,12 @@ test('an empty program gets a stage to draw on', () => {
     // what addStage does, and why this isn't addStage.
     const context = revised!.getNodeContext(stage!);
     const content = stage!.getInput(
-        revised!.shares.output.Stage.inputs[0],
+        must(revised!.shares.output.Stage.inputs[0], "Stage's content input"),
         context,
     );
     expect(content).toBeInstanceOf(ListLiteral);
-    expect((content as ListLiteral).values).toHaveLength(0);
+    if (!(content instanceof ListLiteral)) return;
+    expect(content.values).toHaveLength(0);
 });
 
 test('a program that already renders something is left alone', () => {

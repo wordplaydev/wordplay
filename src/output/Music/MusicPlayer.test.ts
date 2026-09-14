@@ -264,8 +264,8 @@ test('resuming inside a held note plays out the rest of it', () => {
     h.advance(0);
     const pickup = h.played.slice(beforeResume);
     expect(pickup.length).toBeGreaterThanOrEqual(2);
-    expect(pickup[0].startBeat).toBeCloseTo(1);
-    expect(pickup[0].durationBeats).toBeCloseTo(3);
+    expect(pickup[0]?.startBeat).toBeCloseTo(1);
+    expect(pickup[0]?.durationBeats).toBeCloseTo(3);
 });
 
 test('a creator can hold one music while another plays on', () => {
@@ -410,7 +410,7 @@ test('a sound effect whose notes empty a frame later still rings out', () => {
     soundEffect(h, 0.04);
     expect(h.played.map((note) => note.degree)).toEqual([5]);
     expect(h.cancelled, 'the note was cut off').toHaveLength(0);
-    expect(h.played[0].durationSeconds).toBe(1);
+    expect(h.played[0]?.durationSeconds).toBe(1);
 });
 
 // Catch-up delivers the missed evaluation and the current one back to back,
@@ -438,7 +438,7 @@ test('a replay and the frame that empties it, delivered with no gap, still rings
 
     expect(h.played.map((note) => note.degree)).toEqual([5]);
     expect(h.cancelled, 'the note was cut off').toHaveLength(0);
-    expect(h.played[0].durationSeconds).toBe(1);
+    expect(h.played[0]?.durationSeconds).toBe(1);
 });
 
 // Why the catch-up limit is free: a burst of restarts cancels its own voices
@@ -568,9 +568,9 @@ test('position reports the version that is sounding, not the one just written', 
     // An edit splices at the next beat, so until then the sounding version is
     // still the old one — which is what a score should draw.
     h.player.update([music([track([1, 2, 3, 4])], { name: 'song' })], true);
-    expect(h.player.positions().get('song')?.data.tracks[0].notes).toHaveLength(
-        2,
-    );
+    expect(
+        h.player.positions().get('song')?.data.tracks[0]?.notes,
+    ).toHaveLength(2);
 });
 
 test('a music that never started has no position', () => {
@@ -591,7 +591,7 @@ test('positionsAt walks back to where a music was at an earlier mark', () => {
         [20, 1],
         [30, 2],
         [40, 3],
-    ]) {
+    ] as const) {
         h.advance(at - (h.player.positions().get('song')?.beat ?? 0));
         h.player.update([data], true, mark);
     }
@@ -634,7 +634,7 @@ test('it starts from the beginning once they arrive, not partway through', () =>
     // The distinction that matters: delaying, not dropping. Anchoring the
     // transport at the original clock would have started this two seconds in,
     // skipping the opening notes.
-    expect(h.played[0].startBeat).toBe(0);
+    expect(h.played[0]?.startBeat).toBe(0);
 });
 
 test('a failed instrument does not hold the piece up forever', () => {
@@ -675,7 +675,7 @@ test('a held piece starts itself when its instruments arrive', () => {
     h.advance(0.1);
 
     expect(h.played.length).toBeGreaterThan(0);
-    expect(h.played[0].startBeat).toBe(0);
+    expect(h.played[0]?.startBeat).toBe(0);
 });
 
 /**

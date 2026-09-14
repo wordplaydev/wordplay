@@ -6,6 +6,7 @@
     import OutputExpression from '@edit/output/OutputExpression';
     import getStructureProperties from '@edit/output/getStructureProperties';
     import Evaluate from '@nodes/Evaluate';
+    import { must } from '@util/nullable';
 
     interface Props {
         project: Project;
@@ -20,7 +21,8 @@
     // (distance, horizontal, vertical, depth) are edited as ordinary properties.
     let place = $derived(
         placement.getInput(
-            project.shares.input.Placement.inputs[0],
+            // The basis declares Placement's place input.
+            must(project.shares.input.Placement.inputs[0], "Placement's place"),
             project.getNodeContext(placement),
         ),
     );

@@ -136,14 +136,26 @@
             ) !== null,
     );
 
+    /**
+     * Focus the field at a caret position once the text update has rendered.
+     * The field is captured first: the component can unmount between the edit
+     * and the next tick (a dialog closing on the same keystroke), and a focus
+     * inside a timer has nothing to catch a throw.
+     */
+    function focusAndSelect(position: number, scroll = false) {
+        setTimeout(() => {
+            if (view === undefined) return;
+            view.focus();
+            view.setSelectionRange(position, position);
+            if (scroll) view.scrollIntoView({ block: 'nearest' });
+        }, 0);
+    }
+
     function insertAtCursor(str: string, pos: number) {
         text = text.slice(0, pos) + str + text.slice(pos);
         const newCursor = pos + str.length;
         cursorPosition = newCursor;
-        setTimeout(() => {
-            view!.focus();
-            view!.setSelectionRange(newCursor, newCursor);
-        }, 0);
+        focusAndSelect(newCursor);
     }
 
     function formatHighlight() {
@@ -220,10 +232,7 @@
         cursorPosition = cursorPos;
 
         // Update the cursor position.
-        setTimeout(() => {
-            view!.focus();
-            view!.setSelectionRange(cursorPos, cursorPos);
-        }, 0);
+        focusAndSelect(cursorPos);
     }
 
     function handleKey(event: KeyboardEvent) {
@@ -251,11 +260,7 @@
                     text = text.slice(0, lineStart) + '\n' + text.slice(cursor);
                     const newCursor = lineStart + 1;
                     cursorPosition = newCursor;
-                    setTimeout(() => {
-                        view!.focus();
-                        view!.setSelectionRange(newCursor, newCursor);
-                        view!.scrollIntoView({ block: 'nearest' });
-                    }, 0);
+                    focusAndSelect(newCursor, true);
                 } else {
                     // Non-empty bullet line: continue with a new bullet
                     const insertion = `\n${BULLET_SYMBOL} `;
@@ -263,11 +268,7 @@
                         text.slice(0, cursor) + insertion + text.slice(cursor);
                     const newCursor = cursor + insertion.length;
                     cursorPosition = newCursor;
-                    setTimeout(() => {
-                        view!.focus();
-                        view!.setSelectionRange(newCursor, newCursor);
-                        view!.scrollIntoView({ block: 'nearest' });
-                    }, 0);
+                    focusAndSelect(newCursor, true);
                 }
             }
         }

@@ -81,11 +81,13 @@ export default class Is extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Is(
-            this.replaceChild('expression', this.expression, replace),
-            this.replaceChild('operator', this.operator, replace),
-            this.replaceChild('type', this.type, replace),
-        ) as this;
+        return this.cloned(
+            new Is(
+                this.replaceChild('expression', this.expression, replace),
+                this.replaceChild('operator', this.operator, replace),
+                this.replaceChild('type', this.type, replace),
+            ),
+        );
     }
 
     getPurpose() {

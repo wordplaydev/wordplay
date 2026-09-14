@@ -6,10 +6,10 @@ import { describe, expect, test } from 'vitest';
  * the skip rule can be exercised without constructing a real Evaluator. */
 type FakeContext = { playing: boolean; evaluator: unknown; stepIndex: number };
 
-function harness(initial: FakeContext) {
-    const source = writable(initial);
+function harness(initial: FakeContext | undefined) {
+    const source = writable<FakeContext | undefined>(initial);
     const stepped = deriveSteppedEvaluation(source);
-    const seen: FakeContext[] = [];
+    const seen: (FakeContext | undefined)[] = [];
     const unsubscribe = stepped.subscribe((context) => seen.push(context));
     return { source, stepped, seen, unsubscribe };
 }
@@ -19,7 +19,22 @@ describe('deriveSteppedEvaluation', () => {
         const evaluator = {};
         const { seen } = harness({ playing: false, evaluator, stepIndex: 0 });
         expect(seen.length).toBe(1);
-        expect(seen[0].stepIndex).toBe(0);
+        expect(seen[0]?.stepIndex).toBe(0);
+    });
+
+    test('forwards an absent context, before and after an evaluator', () => {
+        // PlayView publishes the store before it has an evaluator, so the
+        // first value a consumer sees is undefined, and it must arrive.
+        const { source, seen } = harness(undefined);
+        const evaluator = {};
+        source.set({ playing: true, evaluator, stepIndex: 0 });
+        source.set({ playing: true, evaluator, stepIndex: 1 });
+        source.set(undefined);
+        expect(seen.map((context) => context?.stepIndex)).toEqual([
+            undefined,
+            0,
+            undefined,
+        ]);
     });
 
     test('skips consecutive while-playing broadcasts from one evaluator', () => {
@@ -47,10 +62,10 @@ describe('deriveSteppedEvaluation', () => {
         source.set({ playing: false, evaluator, stepIndex: 10 });
         source.set({ playing: false, evaluator, stepIndex: 11 });
         source.set({ playing: true, evaluator, stepIndex: 12 });
-        expect(seen.map((context) => context.stepIndex)).toEqual([
+        expect(seen.map((context) => context?.stepIndex)).toEqual([
             0, 10, 11, 12,
         ]);
-        expect(get(stepped).stepIndex).toBe(12);
+        expect(get(stepped)?.stepIndex).toBe(12);
     });
 
     test('forwards an evaluator replacement even mid-play', () => {
@@ -65,6 +80,6 @@ describe('deriveSteppedEvaluation', () => {
         });
         source.set({ playing: true, evaluator: second, stepIndex: 0 });
         expect(seen.length).toBe(2);
-        expect(seen[1].evaluator).toBe(second);
+        expect(seen[1]?.evaluator).toBe(second);
     });
 });

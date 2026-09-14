@@ -1,4 +1,5 @@
 import type { WritingLayout } from '@locale/Scripts';
+import type LocaleText from '@locale/LocaleText';
 import type { TourID } from '@components/project/tours';
 import type { ActiveHint } from '@components/widgets/Hint.svelte';
 import type { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
@@ -13,7 +14,7 @@ import type { CaretPosition } from '@edit/caret/Caret';
 import type { AssignmentPoint, InsertionPoint } from '@edit/drag/Drag';
 import type Locale from '@locale/Locale';
 import type Locales from '@locale/Locales';
-import type { LocaleTextAccessor, LocaleTextsAccessor } from '@locale/Locales';
+import type { LocaleTextAccessor } from '@locale/Locales';
 import type Node from '@nodes/Node';
 import type { FieldPosition } from '@nodes/Node';
 import type Root from '@nodes/Root';
@@ -67,7 +68,9 @@ export function isAuthenticated(user: PossibleUser): user is User {
 
 export const [getLocalizing, setLocalizing] = createContext<{
     on: boolean;
-    focused: LocaleTextsAccessor | undefined;
+    /** The path whose editor has focus, typed as `LocalizedText`'s own `path`
+     *  prop is. */
+    focused: LocalizablePath | undefined;
 }>();
 
 /** Communication channel from a `<Link>` to a `<LocalizedText>` rendered inside
@@ -75,8 +78,16 @@ export const [getLocalizing, setLocalizing] = createContext<{
  *  render an edit affordance *beside* the anchor instead of inside it. Putting
  *  a button inside an anchor is invalid HTML and blocks navigation — this lets
  *  the link stay a plain hyperlink while still being editable in localize mode. */
+/** An accessor naming a place in the locale tree, which may or may not be a
+ *  string: `accessorToLocalePath` is what decides whether it names one to
+ *  edit, and `LocalizedText` renders no affordance when it doesn't. */
+export type LocalizablePath = (locale: LocaleText) => unknown;
+
 export type LinkLocalizeContext = {
-    register: (path: LocaleTextAccessor | undefined) => void;
+    /** The child's locale path. Typed as `LocalizedText`'s own `path` prop is:
+     *  an accessor that may resolve to any subtree, since what it names is
+     *  checked when the edit affordance resolves it. */
+    register: (path: LocalizablePath | undefined) => void;
 };
 export const [getLinkLocalize, setLinkLocalize] =
     createOptionalContext<LinkLocalizeContext>();
@@ -178,8 +189,10 @@ export type EvaluationContext = {
      */
     performance?: number;
 };
+/** Holds undefined until the host has an evaluator to describe: PlayView
+ *  instantiates its evaluator after consent, so a reader must expect none. */
 export const [getEvaluation, setEvaluation] =
-    createOptionalContext<Writable<EvaluationContext>>();
+    createOptionalContext<Writable<EvaluationContext | undefined>>();
 
 /** Whether the stage's measurement grid is on, and so whether moving output
  *  snaps to it (#117). The toggle lives in ProjectView and the grid is drawn by
@@ -221,7 +234,7 @@ export const [getDrawing, setDrawing] = createOptionalContext<Drawing>();
  * derived (which shows nothing while playing anyway) isn't re-run per node per
  * frame during play. */
 export const [getSteppedEvaluation, setSteppedEvaluation] =
-    createOptionalContext<Readable<EvaluationContext>>();
+    createOptionalContext<Readable<EvaluationContext | undefined>>();
 
 /** Derive a play-rate-decoupled copy of an evaluation store: it forwards every
  * update except consecutive while-playing broadcasts from the same evaluator,
@@ -231,10 +244,12 @@ export const [getSteppedEvaluation, setSteppedEvaluation] =
  * exercise the skip rule with plain objects. */
 export function deriveSteppedEvaluation<
     T extends { playing: boolean; evaluator: unknown },
->(evaluation: Readable<T>): Readable<T> {
+>(evaluation: Readable<T | undefined>): Readable<T | undefined> {
     let previous: T | undefined = undefined;
     return derived(evaluation, (next, set) => {
+        // No context yet (or none any more) is always worth forwarding.
         if (
+            next === undefined ||
             previous === undefined ||
             !(next.playing && previous.playing) ||
             next.evaluator !== previous.evaluator

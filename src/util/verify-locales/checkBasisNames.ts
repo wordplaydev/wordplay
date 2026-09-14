@@ -1,4 +1,5 @@
 import concretize from '@locale/concretize';
+import { isRecord } from '@util/guards';
 import DefaultLocale from '@locale/DefaultLocale';
 import Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
@@ -45,13 +46,10 @@ export default function checkBasisNames(log: Log, locale: LocaleText): void {
 
 /** Every `names` value under a basis type, as `[memberPath, names[]]`. */
 function membersOf(locale: LocaleText, type: string): [string, string[]][] {
-    const basis = locale.basis as unknown as Record<string, unknown>;
-    const typeValue = basis[type];
-    if (typeValue === null || typeof typeValue !== 'object') return [];
+    const typeValue: unknown = Reflect.get(locale.basis, type);
+    if (!isRecord(typeValue)) return [];
     const members: [string, string[]][] = [];
-    for (const [group, groupValue] of Object.entries(
-        typeValue as Record<string, unknown>,
-    )) {
+    for (const [group, groupValue] of Object.entries(typeValue)) {
         // Only the member groups hold definitions with their own names;
         // `name`/`doc` describe the type itself.
         if (
@@ -60,12 +58,10 @@ function membersOf(locale: LocaleText, type: string): [string, string[]][] {
             (group !== 'function' && group !== 'conversion')
         )
             continue;
-        for (const [member, memberValue] of Object.entries(
-            groupValue as Record<string, unknown>,
-        )) {
-            if (memberValue === null || typeof memberValue !== 'object')
-                continue;
-            const names = (memberValue as Record<string, unknown>).names;
+        if (!isRecord(groupValue)) continue;
+        for (const [member, memberValue] of Object.entries(groupValue)) {
+            if (!isRecord(memberValue)) continue;
+            const names = memberValue.names;
             const list =
                 typeof names === 'string'
                     ? [names]
@@ -90,7 +86,7 @@ function namesIn(values: string[]): string[] {
 }
 
 function basisTypes(locale: LocaleText): string[] {
-    return Object.keys(locale.basis as unknown as Record<string, unknown>);
+    return Object.keys(locale.basis);
 }
 
 /** Two different members of one basis type must not share a name. */
@@ -163,9 +159,8 @@ function checkSymbolicNames(log: Log, locale: LocaleText): void {
  */
 function checkKeywordShadowing(log: Log, locale: LocaleText): void {
     const keywords = new Set<string>();
-    const block = locale.keyword as unknown as Record<string, unknown>;
     for (const id of Object.keys(Keywords)) {
-        const word = block[id];
+        const word: unknown = Reflect.get(locale.keyword, id);
         if (typeof word !== 'string') continue;
         const plain = withoutAnnotations(word).trim();
         if (plain.length > 0) keywords.add(plain);
@@ -189,11 +184,11 @@ function checkKeywordShadowing(log: Log, locale: LocaleText): void {
     for (const definition of shares) {
         const inputs = definition.inputs;
         if (inputs === undefined) continue;
-        for (let position = 0; position < inputs.length; position++) {
+        for (const [position, input] of inputs.entries()) {
             // Nothing can precede a first input, so no infix reading is
             // available to beat it.
             if (position === 0) continue;
-            for (const name of inputs[position].names.getNames()) {
+            for (const name of input.names.getNames()) {
                 if (!keywords.has(name) || reported.has(name)) continue;
                 // The shape this input is actually written in: one argument
                 // before it, so an infix reading is available to win.

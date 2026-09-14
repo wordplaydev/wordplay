@@ -1,4 +1,5 @@
 import type { User } from 'firebase/auth';
+import { entriesOf, includesString, keysOf } from '@util/nullable';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { FormattedText } from '@locale/LocaleText';
@@ -31,6 +32,13 @@ export const Flags = {
 /** A type used to ensure that locales have descriptions for all flags */
 export type Flag = keyof typeof Flags;
 
+const FlagNames = keysOf(Flags);
+
+/** Whether a string (from a stored document or a URL) names a flag. */
+export function isFlag(flag: string): flag is Flag {
+    return includesString(FlagNames, flag);
+}
+
 /** An object literal type that contains a template for each of the moderation flags */
 export type FlagDescriptions = { [key in Flag]: FormattedText };
 
@@ -55,51 +63,55 @@ export function withFlag(
     flag: string,
     state: FlagState,
 ): ModerationState {
-    if (!(flag in Flags)) return flags;
-    const newFlags = { ...flags };
-    newFlags[flag as Flag] = state;
-    return newFlags;
+    if (!isFlag(flag)) return flags;
+    return { ...flags, [flag]: state };
+}
+
+/** A moderation state with every flag in the given state. Spelled out so
+ *  that adding a flag to `Flags` fails to compile here rather than shipping a
+ *  state that lacks it. */
+function everyFlag(state: FlagState): ModerationState {
+    return {
+        dehumanization: state,
+        violence: state,
+        disclosure: state,
+        misinformation: state,
+    };
 }
 
 /** Return a moderation state with all flags false */
 export function moderatedFlags(): ModerationState {
-    const newFlags: Record<string, FlagState> = {};
-    for (const flag of Object.keys(Flags)) newFlags[flag] = false;
-    return newFlags as ModerationState;
+    return everyFlag(false);
 }
 
 /** Return a moderation state with all flags null */
 export function unknownFlags(): ModerationState {
-    const newFlags: Record<string, FlagState> = {};
-    for (const flag of Object.keys(Flags)) newFlags[flag] = null;
-    return newFlags as ModerationState;
+    return everyFlag(null);
 }
 
 /** Get descriptions of all true warning flags */
 export function getWarnings(flags: ModerationState, locale: LocaleText) {
-    return Object.entries(flags)
+    return entriesOf(flags)
         .filter(
-            ([flag, state]) =>
-                state === true && Flags[flag as Flag] === Remedy.Warn,
+            ([flag, state]) => state === true && Flags[flag] === Remedy.Warn,
         )
-        .map(([flag]) => locale.moderation.flags[flag as Flag]);
+        .map(([flag]) => locale.moderation.flags[flag]);
 }
 
 /** Get descriptions of all true block flags */
 export function getBlocks(flags: ModerationState, locale: LocaleText) {
-    return Object.entries(flags)
+    return entriesOf(flags)
         .filter(
-            ([flag, state]) =>
-                state === true && Flags[flag as Flag] === Remedy.Block,
+            ([flag, state]) => state === true && Flags[flag] === Remedy.Block,
         )
-        .map(([flag]) => locale.moderation.flags[flag as Flag]);
+        .map(([flag]) => locale.moderation.flags[flag]);
 }
 
 /** True if one of the flags is true and is a flagged that's warned  */
 export function getUnmoderated(flags: ModerationState, locale: LocaleText) {
-    return Object.entries(flags)
+    return entriesOf(flags)
         .filter(([, state]) => state === null)
-        .map(([flag]) => locale.moderation.flags[flag as Flag]);
+        .map(([flag]) => locale.moderation.flags[flag]);
 }
 
 /** The flag names that are true and warned about (for the start gate). */
@@ -127,20 +139,13 @@ function flagsMatching(
     flags: ModerationState,
     matches: (flag: Flag, state: FlagState) => boolean,
 ): Flag[] {
-    return Object.keys(Flags)
-        .filter(isFlag)
-        .filter((flag) => matches(flag, flags[flag]));
-}
-
-/** True if a string is one of the moderation flag names. */
-function isFlag(flag: string): flag is Flag {
-    return flag in Flags;
+    return FlagNames.filter((flag) => matches(flag, flags[flag]));
 }
 
 /** Every flag name, typed. Lets a view name each checkbox by its own rule rather than
  *  giving all four the one shared label a screen reader would otherwise read. */
 export function allFlags(): Flag[] {
-    return Object.keys(Flags).filter(isFlag);
+    return [...FlagNames];
 }
 
 export function isFlagged(flags: ModerationState) {
@@ -151,7 +156,9 @@ export function getFlagDescription(
     flag: string,
     locales: Locales,
 ): string | undefined {
-    return locales.getTextStructure((l) => l.moderation.flags)[flag as Flag];
+    return isFlag(flag)
+        ? locales.getTextStructure((l) => l.moderation.flags)[flag]
+        : undefined;
 }
 
 /**

@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase-admin/app';
+import { isRecord } from '@util/guards';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import type { Character } from '../src/db/characters/Character';
@@ -7,6 +8,7 @@ import Project from '../src/db/projects/Project';
 import DefaultLocale from '../src/locale/DefaultLocale';
 import Source from '../src/nodes/Source';
 import { SEED_PROJECTS, type SeedProject } from './seedProjects';
+import { must } from '@util/nullable.ts';
 
 process.env.FIREBASE_AUTH_EMULATOR_HOST = '127.0.0.1:9099';
 process.env.FIRESTORE_EMULATOR_HOST = '127.0.0.1:8080';
@@ -147,7 +149,7 @@ const PUBLIC_GALLERY_THEMES = [
 ];
 
 const isAlreadyExists = (err: unknown): boolean => {
-    const code = (err as { code?: string } | null)?.code;
+    const code = isRecord(err) ? err.code : undefined;
     return (
         code === 'auth/uid-already-exists' ||
         code === 'auth/email-already-exists'
@@ -158,9 +160,11 @@ const isAlreadyExists = (err: unknown): boolean => {
  *  is the expected case while the emulator boots, so we log it quietly rather
  *  than dumping the whole firebase-admin request object. */
 const isConnectionRefused = (err: unknown): boolean => {
-    const top = err as { code?: string; cause?: { code?: string } } | null;
+    if (!isRecord(err)) return false;
+    const cause = err.cause;
     return (
-        top?.code === 'app/network-error' || top?.cause?.code === 'ECONNREFUSED'
+        err.code === 'app/network-error' ||
+        (isRecord(cause) && cause.code === 'ECONNREFUSED')
     );
 };
 
@@ -177,7 +181,7 @@ async function seedUsers(): Promise<void> {
         try {
             // Probe the emulator with the first user; if it succeeds (or that
             // user already exists) the emulator is up and we can seed the rest.
-            const first = SEEDED_USERS[0];
+            const first = must(SEEDED_USERS[0], 'the first seeded user');
             try {
                 await getAuth().createUser({
                     uid: first.uid,
@@ -557,9 +561,9 @@ async function seedCreatorHowTos(): Promise<void> {
     const now = Date.now();
 
     const batch = firestore.batch();
-    for (let i = 0; i < HOWTO_TITLES.length; i++) {
-        const id = howToIds[i];
-        const title = HOWTO_TITLES[i];
+    for (const [i, title] of HOWTO_TITLES.entries()) {
+        // `howToIds` is a map of `HOWTO_TITLES`, so the index always hits.
+        const id = must(howToIds[i], 'a how-to id');
         // Every 3rd how-to is a draft so the drafts list has something to
         // show alongside the canvas-rendered published ones.
         const published = i % 3 !== 0;
@@ -888,6 +892,8 @@ async function seedOtherUserHowTos(): Promise<void> {
 
     const batch = firestore.batch();
     ids.forEach((id, i) => {
+        // `ids` is a map of `authors`, so the index always hits.
+        const author = must(authors[i], 'an author');
         batch.set(firestore.collection('howtos').doc(id), {
             v: 2,
             id,
@@ -896,12 +902,12 @@ async function seedOtherUserHowTos(): Promise<void> {
             publishedAt: now - i * 60_000,
             xcoord: i * 250,
             ycoord: 0,
-            title: `¶How-to by ${authors[i].username} #${i + 1}¶/en-US`,
+            title: `¶How-to by ${author.username} #${i + 1}¶/en-US`,
             guidingQuestions: HOWTO_GUIDING_QUESTIONS,
             text: [
-                `¶Seeded how-to authored by ${authors[i].username}.\n\n\\Phrase("hi")\\¶/en-US`,
+                `¶Seeded how-to authored by ${author.username}.\n\n\\Phrase("hi")\\¶/en-US`,
             ],
-            creator: authors[i].uid,
+            creator: author.uid,
             collaborators: [],
             scopeOverwrite: false,
             locales: ['en-US'],
@@ -916,7 +922,7 @@ async function seedOtherUserHowTos(): Promise<void> {
                 usedByProjects: [],
                 chat: null,
                 bookmarkers: [],
-                seenByUsers: [authors[i].uid],
+                seenByUsers: [author.uid],
                 viewCount: 0,
             },
         });

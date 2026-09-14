@@ -18,6 +18,13 @@ import { NameGenerator, DefaultSize, toStage } from '@output/Output/Stage';
 import RenderContext from '@output/RenderContext';
 import { reflectX } from '@output/Place/Place';
 import type { WritingDirection } from '@locale/Scripts';
+import { must } from '@util/nullable';
+
+/** The nth item of a list a fixture below just built, whose length each test
+ *  either asserts or fixes by the children it lays out. */
+function nth<T>(list: readonly T[], index: number): T {
+    return must(list[index], `item ${index}`);
+}
 
 /** Evaluate an output expression to its value within its own default project. */
 function evalValue(code: string) {
@@ -107,8 +114,8 @@ test('a Row lays children left-to-right under LTR', () => {
     const row = arrangementFrom('Row()', toRow);
     const { places } = row.getLayout([narrow(), wide()], contextFor('ltr'));
     expect(places).toHaveLength(2);
-    expect(places[0][1].x).toBe(0);
-    expect(places[0][1].x).toBeLessThan(places[1][1].x);
+    expect(nth(places, 0)[1].x).toBe(0);
+    expect(nth(places, 0)[1].x).toBeLessThan(nth(places, 1)[1].x);
 });
 
 test('a Row mirrors children right-to-left under RTL', () => {
@@ -116,9 +123,9 @@ test('a Row mirrors children right-to-left under RTL', () => {
     const { places } = row.getLayout([narrow(), wide()], contextFor('rtl'));
     expect(places).toHaveLength(2);
     // The first (logical) child now sits toward the inline-end (right).
-    expect(places[0][1].x).toBeGreaterThan(places[1][1].x);
+    expect(nth(places, 0)[1].x).toBeGreaterThan(nth(places, 1)[1].x);
     // The last (logical) child anchors at the inline-start (x=0).
-    expect(places[1][1].x).toBe(0);
+    expect(nth(places, 1)[1].x).toBe(0);
 });
 
 test('a Stack keeps every child at its own y, even with small padding', () => {
@@ -138,8 +145,8 @@ test('a Stack keeps every child at its own y, even with small padding', () => {
     const ys = places.map(([, place]) => place.y);
     expect(new Set(ys).size).toBe(ys.length);
     // Children descend, spaced by their height plus the padding.
-    expect(ys[0] - ys[1]).toBeCloseTo(0.4, 5);
-    expect(ys[1] - ys[2]).toBeCloseTo(0.4, 5);
+    expect(nth(ys, 0) - nth(ys, 1)).toBeCloseTo(0.4, 5);
+    expect(nth(ys, 1) - nth(ys, 2)).toBeCloseTo(0.4, 5);
 });
 
 test('a Stack gives a footprintless child no padding of its own', () => {
@@ -154,7 +161,10 @@ test('a Stack gives a footprintless child no padding of its own', () => {
     );
     expect(withMusic.height).toBeCloseTo(alone.height, 5);
     // The rectangle still sits on the stack's baseline, not a meter above it.
-    expect(withMusic.places[1][1].y).toBeCloseTo(alone.places[0][1].y, 5);
+    expect(nth(withMusic.places, 1)[1].y).toBeCloseTo(
+        nth(alone.places, 0)[1].y,
+        5,
+    );
     // A trailing Music doesn't push the stack's bounds past its content either.
     const trailing = stack.getLayout(
         [rect('0m 2m 2m 0m'), music()],
@@ -174,7 +184,7 @@ test('a Stack still pads its visible children apart', () => {
     );
     // Two 2m rectangles with one meter between them.
     expect(height).toBeCloseTo(5, 5);
-    expect(places[0][1].y - places[2][1].y).toBeCloseTo(3, 5);
+    expect(nth(places, 0)[1].y - nth(places, 2)[1].y).toBeCloseTo(3, 5);
 });
 
 test('a Row gives a footprintless child no padding of its own', () => {
@@ -182,7 +192,10 @@ test('a Row gives a footprintless child no padding of its own', () => {
     const alone = row.getLayout([narrow()], contextFor('ltr'));
     const withMusic = row.getLayout([music(), narrow()], contextFor('ltr'));
     expect(withMusic.width).toBeCloseTo(alone.width, 5);
-    expect(withMusic.places[1][1].x).toBeCloseTo(alone.places[0][1].x, 5);
+    expect(nth(withMusic.places, 1)[1].x).toBeCloseTo(
+        nth(alone.places, 0)[1].x,
+        5,
+    );
     const trailing = row.getLayout([narrow(), music()], contextFor('ltr'));
     expect(trailing.width).toBeCloseTo(alone.width, 5);
     expect(trailing.right).toBeCloseTo(alone.right, 5);
@@ -198,8 +211,8 @@ test('a Grid mirrors its columns under RTL', () => {
         contextFor('rtl'),
     );
     // First cell precedes the second under LTR, and follows it under RTL.
-    expect(ltr.places[0][1].x).toBeLessThan(ltr.places[1][1].x);
-    expect(rtl.places[0][1].x).toBeGreaterThan(rtl.places[1][1].x);
+    expect(nth(ltr.places, 0)[1].x).toBeLessThan(nth(ltr.places, 1)[1].x);
+    expect(nth(rtl.places, 0)[1].x).toBeGreaterThan(nth(rtl.places, 1)[1].x);
 });
 
 /**
@@ -222,8 +235,8 @@ test('a Stack centres a shape rather than reading its form as a position', () =>
         contextFor('ltr'),
     );
     // Centred in the 4m stack, not pinned to the form's left edge at 1m.
-    expect(places[0][1].x).toBeCloseTo(1, 5);
-    expect(places[1][1].x).toBeCloseTo(0, 5);
+    expect(nth(places, 0)[1].x).toBeCloseTo(1, 5);
+    expect(nth(places, 1)[1].x).toBeCloseTo(0, 5);
 });
 
 test('a Stack still yields the cross axis to a place the creator wrote', () => {
@@ -239,8 +252,8 @@ test('a Stack still yields the cross axis to a place the creator wrote', () => {
     const group = stage.content[0];
     if (!(group instanceof Group)) throw new Error('expected a Group');
     const { places } = group.layout.getLayout(group.content, contextFor('ltr'));
-    expect(places[0][1].x).toBe(2);
-    expect(places[1][1].x).toBe(0);
+    expect(nth(places, 0)[1].x).toBe(2);
+    expect(nth(places, 1)[1].x).toBe(0);
 });
 
 test('a Row aligns a shape rather than reading its form as a position', () => {
@@ -251,7 +264,7 @@ test('a Row aligns a shape rather than reading its form as a position', () => {
         contextFor('ltr'),
     );
     // Centred down the 3m row, not left at the form's own y of 2.
-    expect(places[0][1].y).toBeCloseTo(1, 5);
+    expect(nth(places, 0)[1].y).toBeCloseTo(1, 5);
 });
 
 test('a Free group places every kind where it says, not just a phrase', () => {
@@ -263,7 +276,7 @@ test('a Free group places every kind where it says, not just a phrase', () => {
     const outer = stage.content[0];
     if (!(outer instanceof Group)) throw new Error('expected a Group');
     const { places } = outer.layout.getLayout(outer.content, contextFor('ltr'));
-    expect([places[0][1].x, places[0][1].y]).toEqual([3, 4]);
+    expect([nth(places, 0)[1].x, nth(places, 0)[1].y]).toEqual([3, 4]);
 });
 
 /**

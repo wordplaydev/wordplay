@@ -35,10 +35,12 @@ export default class PatternWordEdge extends PatternAtom {
     }
 
     clone(replace?: Replacement) {
-        return new PatternWordEdge(
-            this.replaceChild('edge', this.edge, replace),
-            this.replaceChild('language', this.language, replace),
-        ) as this;
+        return this.cloned(
+            new PatternWordEdge(
+                this.replaceChild('edge', this.edge, replace),
+                this.replaceChild('language', this.language, replace),
+            ),
+        );
     }
 
     computeConflicts(): Conflict[] {

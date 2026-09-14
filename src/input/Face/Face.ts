@@ -26,6 +26,7 @@ import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import NumberValue from '@values/NumberValue';
 import type { StreamKind } from '@values/StreamValue';
+import { must } from '@util/nullable';
 
 /** Frames a face may be missing before we revert to the default Expression. */
 const MISSES_TO_LOSE_LOCK = 10;
@@ -167,7 +168,8 @@ export default class Face extends CameraLandmarkStream<FaceLandmarkerResult> {
         );
 
         // Nose tip in normalized image coords (0..1), EMA-smoothed like Hand.
-        const anchor = landmarks[NOSE_TIP];
+        // A detected face carries MediaPipe's whole 478-point mesh.
+        const anchor = must(landmarks[NOSE_TIP], 'the nose tip landmark');
         const { x: sx, y: sy } = this.smoothPlace(anchor.x, anchor.y);
 
         this.state = {
@@ -236,11 +238,19 @@ function headAngles(data: number[] | undefined): {
 } {
     if (!data || data.length < 11) return { turn: 0, tilt: 0 };
     // Column-major 4×4 → row-major 3×3 rotation entries.
-    const r00 = data[0];
-    const r10 = data[1];
-    const r20 = data[2];
+    const [r00, r10, r20] = data;
     const r21 = data[6];
     const r22 = data[10];
+    // All five are within the length just checked; answering as if no matrix
+    // were available is what the guard above already does.
+    if (
+        r00 === undefined ||
+        r10 === undefined ||
+        r20 === undefined ||
+        r21 === undefined ||
+        r22 === undefined
+    )
+        return { turn: 0, tilt: 0 };
 
     const sy = Math.hypot(r00, r10);
     const pitch = Math.atan2(r21, r22);

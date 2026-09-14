@@ -48,11 +48,11 @@ export default class MapType extends BasisType {
 
     static make(key?: Type, value?: Type) {
         return new MapType(
-            new SetOpenToken(),
+            SetOpenToken(),
             key,
-            new BindToken(),
+            BindToken(),
             value,
-            new SetCloseToken(),
+            SetCloseToken(),
         );
     }
 
@@ -98,20 +98,20 @@ export default class MapType extends BasisType {
     }
 
     clone(replace?: Replacement) {
-        return new MapType(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('key', this.key, replace),
-            this.replaceChild('bind', this.bind, replace),
-            this.replaceChild('value', this.value, replace),
-            this.replaceChild('close', this.close, replace),
-        ) as this;
+        return this.cloned(
+            new MapType(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('key', this.key, replace),
+                this.replaceChild('bind', this.bind, replace),
+                this.replaceChild('value', this.value, replace),
+                this.replaceChild('close', this.close, replace),
+            ),
+        );
     }
 
     computeConflicts(): Conflict[] {
         if (this.close === undefined)
-            return [
-                new UnclosedDelimiter(this, this.open, new SetCloseToken()),
-            ];
+            return [new UnclosedDelimiter(this, this.open, SetCloseToken())];
         return [];
     }
 
@@ -154,11 +154,11 @@ export default class MapType extends BasisType {
     resolveTypeVariable(name: string, context: Context): Type | undefined {
         const mapDef = context.getBasis().getSimpleDefinition('map');
         return mapDef.types !== undefined &&
-            mapDef.types.variables[0].hasName(name) &&
+            mapDef.types.variables[0]?.hasName(name) &&
             this.key instanceof Type
             ? this.key
             : mapDef.types !== undefined &&
-                mapDef.types.variables[1].hasName(name) &&
+                mapDef.types.variables[1]?.hasName(name) &&
                 this.value instanceof Type
               ? this.value
               : undefined;

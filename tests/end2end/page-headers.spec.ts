@@ -38,6 +38,6 @@ test('every nav link loads a page with the matching heading', async ({
         await page.goBack();
         // Back is a history pop in a SPA, so wait for the nav to be usable
         // again rather than for a load event that never fires.
-        await expect(page.getByText(NavLinks[0]).nth(0)).toBeVisible();
+        await expect(page.getByText(NavLinks[0] ?? '').nth(0)).toBeVisible();
     }
 });

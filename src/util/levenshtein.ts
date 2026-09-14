@@ -1,3 +1,5 @@
+import { must } from '@util/nullable';
+
 /**
  * Case-insensitive Levenshtein edit distance between two strings.
  *
@@ -22,30 +24,36 @@ export default function levenshtein(
     // If lengths differ by more than max, no alignment can be within max edits.
     if (max !== undefined && Math.abs(an - bn) > max) return max + 1;
 
-    const matrix: number[][] = new Array<number[]>(bn + 1);
-    for (let i = 0; i <= bn; ++i) {
-        const row = (matrix[i] = new Array<number>(an + 1));
-        row[0] = i;
-    }
-    const firstRow = matrix[0];
-    for (let j = 1; j <= an; ++j) firstRow[j] = j;
+    // Two rows rather than the whole matrix: each cell needs only the row
+    // above and the cell to its left, and iterating the previous row hands
+    // each neighbour over directly rather than indexing for it.
+    let previous: number[] = [];
+    for (let j = 0; j <= an; ++j) previous.push(j);
+
     for (let i = 1; i <= bn; ++i) {
-        let rowMin = matrix[i][0];
-        for (let j = 1; j <= an; ++j) {
-            if (b.charAt(i - 1) === a.charAt(j - 1)) {
-                matrix[i][j] = matrix[i - 1][j - 1];
-            } else {
-                matrix[i][j] =
-                    Math.min(
-                        matrix[i - 1][j - 1],
-                        matrix[i][j - 1],
-                        matrix[i - 1][j],
-                    ) + 1;
+        const current: number[] = [];
+        let rowMin = i;
+        // The cell to the left, and the one diagonally above it.
+        let left = i;
+        let diagonal = i - 1;
+        for (const [j, above] of previous.entries()) {
+            if (j === 0) {
+                current.push(left);
+                continue;
             }
-            if (matrix[i][j] < rowMin) rowMin = matrix[i][j];
+            const cost =
+                b.charAt(i - 1) === a.charAt(j - 1)
+                    ? diagonal
+                    : Math.min(diagonal, left, above) + 1;
+            current.push(cost);
+            if (cost < rowMin) rowMin = cost;
+            diagonal = above;
+            left = cost;
         }
         // Every remaining row only grows the minimum, so we can stop early.
         if (max !== undefined && rowMin > max) return max + 1;
+        previous = current;
     }
-    return matrix[bn][an];
+    // The last row's last cell is the distance; the loops above fill both.
+    return must(previous[an], 'an edit distance');
 }

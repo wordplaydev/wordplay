@@ -16,9 +16,7 @@ function enCodes(): Map<string, Set<string>> {
         if (p.key !== 'doc') continue;
         m.set(
             p.toString(),
-            new Set(
-                getDocExamples(toDocString(p.value as any)).map((e) => e.code),
-            ),
+            new Set(getDocExamples(toDocString(p.value)).map((e) => e.code)),
         );
     }
     return m;
@@ -49,7 +47,7 @@ test('localizeFile only targets English (en-matching), non-🪲 examples and sub
         let defectMarkers = 0;
         for (const p of getKeyTemplatePairs(after)) {
             if (p.key !== 'doc') continue;
-            for (const ex of getDocExamples(toDocString(p.value as any)))
+            for (const ex of getDocExamples(toDocString(p.value)))
                 if (ex.expectsDefect) defectMarkers++;
         }
         // 🪲 examples survive untouched (same count as the source).
@@ -57,7 +55,7 @@ test('localizeFile only targets English (en-matching), non-🪲 examples and sub
         let defectBefore = 0;
         for (const p of getKeyTemplatePairs(before)) {
             if (p.key !== 'doc') continue;
-            for (const ex of getDocExamples(toDocString(p.value as any)))
+            for (const ex of getDocExamples(toDocString(p.value)))
                 if (ex.expectsDefect) defectBefore++;
         }
         expect(defectMarkers).toBe(defectBefore);

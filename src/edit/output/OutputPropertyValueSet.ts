@@ -1,4 +1,5 @@
 import { Projects } from '@db/projects/Projects';
+import { must } from '@util/nullable';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import type Node from '@nodes/Node';
@@ -39,7 +40,9 @@ export default class OutputPropertyValueSet {
         this.outputs = outputs;
         this.values = [];
         for (const out of outputs) {
-            const value = out.getPropertyValue(property.getName(locales));
+            const name = property.getName(locales);
+            const value =
+                name === undefined ? undefined : out.getPropertyValue(name);
             if (value) this.values.push(value);
         }
     }
@@ -97,18 +100,11 @@ export default class OutputPropertyValueSet {
         project: Project,
         locales: Locales,
     ): OutputExpression[] {
-        return this.values
-            .filter(
-                (value) => value.given && value.expression instanceof Evaluate,
-            )
-            .map(
-                (value) =>
-                    new OutputExpression(
-                        project,
-                        value.expression as Evaluate,
-                        locales,
-                    ),
-            );
+        return this.values.flatMap((value) =>
+            value.given && value.expression instanceof Evaluate
+                ? [new OutputExpression(project, value.expression, locales)]
+                : [],
+        );
     }
 
     getNumber() {
@@ -207,7 +203,7 @@ export default class OutputPropertyValueSet {
                 this.values
                     .filter((value) => value.given)
                     .map((value) => value.evaluate),
-                this.property.getName(locales),
+                must(this.property.getName(locales), 'a property name'),
                 this.property.required
                     ? this.property.create(locales)
                     : undefined,
@@ -223,7 +219,7 @@ export default class OutputPropertyValueSet {
                 this.values
                     .filter((value) => !value.given)
                     .map((value) => value.evaluate),
-                this.property.getName(locales),
+                must(this.property.getName(locales), 'a property name'),
                 this.property.create(locales),
             ),
         );

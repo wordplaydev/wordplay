@@ -3,6 +3,7 @@ import type Markup from '@nodes/Markup';
 import type Node from '@nodes/Node';
 import type Type from '@nodes/Type';
 import UnionType from '@nodes/UnionType';
+import { must } from '@util/nullable';
 
 /**
  * A truncated form of a Node plus a localized phrase to render after it
@@ -77,10 +78,11 @@ function flattenUnionMembers(union: UnionType): Type[] {
 
 /** Right-fold members into a binary UnionType: A, B, C → A | (B | C). */
 function buildUnion(members: Type[]): UnionType {
-    let result: Type = members[members.length - 1];
-    for (let i = members.length - 2; i >= 0; i--) {
-        result = UnionType.make(members[i], result);
-    }
+    // The caller passes the preview slice of a union with more members than the
+    // elision threshold, so there is always a member to fold from.
+    let result: Type = must(members[members.length - 1], 'a union member');
+    for (const member of members.slice(0, -1).reverse())
+        result = UnionType.make(member, result);
     return result instanceof UnionType
         ? result
         : UnionType.make(result, result);

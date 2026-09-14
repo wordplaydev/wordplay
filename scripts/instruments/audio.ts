@@ -8,6 +8,8 @@
  * mp3s and the zone map.
  */
 
+import { matchGroups } from '../../src/util/nullable';
+
 /** Mono audio at a known rate. */
 export type Mono = {
     samples: Float32Array;
@@ -74,11 +76,10 @@ export function decodeWav(buffer: Buffer): Mono {
 }
 
 function readSample(data: Buffer, offset: number, bytes: number): number {
-    if (bytes === 1) return (data[offset] - 128) / 128;
+    if (bytes === 1) return (data.readUInt8(offset) - 128) / 128;
     if (bytes === 2) return data.readInt16LE(offset) / 32768;
     if (bytes === 3) {
-        const raw =
-            data[offset] | (data[offset + 1] << 8) | (data[offset + 2] << 16);
+        const raw = data.readUIntLE(offset, 3);
         return (raw & 0x800000 ? raw - 0x1000000 : raw) / 8388608;
     }
     if (bytes === 4) return data.readInt32LE(offset) / 2147483648;
@@ -141,11 +142,10 @@ export function slice(
 export function trimAttack(audio: Mono, floorDb = DefaultSilenceFloor): Mono {
     const floor = amplitude(floorDb);
     let start = 0;
-    while (
-        start < audio.samples.length &&
-        Math.abs(audio.samples[start]) < floor
-    )
+    for (const sample of audio.samples) {
+        if (Math.abs(sample) >= floor) break;
         start++;
+    }
     if (start >= audio.samples.length) return audio;
     const back = Math.max(0, start - Math.round(PreAttackSeconds * audio.rate));
     return { samples: audio.samples.subarray(back), rate: audio.rate };
@@ -167,7 +167,12 @@ export function trimTail(
 ): Mono {
     const floor = amplitude(floorDb);
     let end = audio.samples.length - 1;
-    while (end > 0 && Math.abs(audio.samples[end]) < floor) end--;
+    while (end > 0) {
+        // In range while `end > 0`, so this only ever reads a real sample.
+        const sample = audio.samples[end];
+        if (sample === undefined || Math.abs(sample) >= floor) break;
+        end--;
+    }
     if (end <= 0) return audio;
     const keep = Math.min(
         audio.samples.length,
@@ -201,8 +206,8 @@ export function alignAttack(
     let peakAt = 0;
     for (let i = 0; i + window < audio.samples.length; i += window) {
         let sum = 0;
-        for (let j = i; j < i + window; j++)
-            sum += audio.samples[j] * audio.samples[j];
+        for (const sample of audio.samples.subarray(i, i + window))
+            sum += sample * sample;
         const value = Math.sqrt(sum / window);
         if (value > peak) {
             peak = value;
@@ -221,7 +226,8 @@ export function alignAttack(
     // milliseconds rather than stepping from nothing to a moving signal.
     const out = new Float32Array(audio.samples.subarray(peakAt - target));
     const fade = Math.min(Math.round(fadeSeconds * audio.rate), out.length);
-    for (let i = 0; i < fade; i++) out[i] *= i / fade;
+    for (const [index, sample] of out.subarray(0, fade).entries())
+        out[index] = sample * (index / fade);
     return { samples: out, rate: audio.rate };
 }
 
@@ -239,11 +245,13 @@ export function limitLength(
     const length = Math.min(audio.samples.length, maxFrames);
     const out = new Float32Array(audio.samples.subarray(0, length));
     const fade = Math.min(Math.round(fadeSeconds * audio.rate), length);
-    for (let index = 0; index < fade; index++) {
+    // A view of the faded tail, so the ramp is written without indexing `out`.
+    const tail = out.subarray(length - fade, length);
+    for (const [offset, sample] of tail.entries()) {
         // Equal-power-ish: a linear ramp on amplitude is enough at these
         // lengths and avoids a discontinuity in the derivative.
-        const gain = index / fade;
-        out[length - 1 - index] *= gain;
+        const gain = (fade - 1 - offset) / fade;
+        tail[offset] = sample * gain;
     }
     return { samples: out, rate: audio.rate };
 }
@@ -261,9 +269,11 @@ export function resample(audio: Mono, rate: number): Mono {
         const low = Math.floor(source);
         const high = Math.min(low + 1, audio.samples.length - 1);
         const fraction = source - low;
-        out[index] =
-            audio.samples[low] * (1 - fraction) +
-            audio.samples[high] * fraction;
+        const lower = audio.samples[low];
+        const upper = audio.samples[high];
+        // Both indices are in range for every `index < length`.
+        if (lower === undefined || upper === undefined) break;
+        out[index] = lower * (1 - fraction) + upper * fraction;
     }
     return { samples: out, rate };
 }
@@ -318,15 +328,15 @@ function biquad(samples: Float32Array, filter: Biquad): Float32Array {
         x2 = 0,
         y1 = 0,
         y2 = 0;
-    for (let index = 0; index < samples.length; index++) {
-        const x0 = samples[index];
+    let index = 0;
+    for (const x0 of samples) {
         const y0 =
             filter.b0 * x0 +
             filter.b1 * x1 +
             filter.b2 * x2 -
             filter.a1 * y1 -
             filter.a2 * y2;
-        out[index] = y0;
+        out[index++] = y0;
         x2 = x1;
         x1 = x0;
         y2 = y1;
@@ -371,8 +381,8 @@ function blockLoudness(
     length: number,
 ): number {
     let sum = 0;
-    for (let index = start; index < start + length; index++)
-        sum += weighted[index] * weighted[index];
+    for (const sample of weighted.subarray(start, start + length))
+        sum += sample * sample;
     const mean = sum / length;
     return mean <= 0 ? -Infinity : -0.691 + 10 * Math.log10(mean);
 }
@@ -430,8 +440,8 @@ export function normalize(
     if (peak * gain > peakCeiling && peak > 0) gain = peakCeiling / peak;
 
     const out = new Float32Array(audio.samples.length);
-    for (let index = 0; index < audio.samples.length; index++)
-        out[index] = audio.samples[index] * gain;
+    let index = 0;
+    for (const sample of audio.samples) out[index++] = sample * gain;
     return { audio: { samples: out, rate: audio.rate }, gain, loudness };
 }
 
@@ -483,9 +493,9 @@ export function refineTuning(
 
     // Hann window, so leakage doesn't smear neighbouring cents together.
     const windowed = new Float64Array(window);
-    for (let index = 0; index < window; index++)
+    for (const [index, sample] of segment.entries())
         windowed[index] =
-            segment[index] *
+            sample *
             (0.5 - 0.5 * Math.cos((2 * Math.PI * index) / (window - 1)));
 
     let bestCents: number | undefined = undefined;
@@ -519,9 +529,12 @@ function magnitudeAt(
     // Every 4th sample: we're comparing magnitudes across a narrow band, not
     // reconstructing a spectrum, and this keeps a full build to seconds.
     for (let index = 0; index < windowed.length; index += 4) {
+        // In range by the loop bound, so the read is always a real sample.
+        const sample = windowed[index];
+        if (sample === undefined) break;
         const angle = omega * index;
-        real += windowed[index] * Math.cos(angle);
-        imaginary -= windowed[index] * Math.sin(angle);
+        real += sample * Math.cos(angle);
+        imaginary -= sample * Math.sin(angle);
     }
     return Math.hypot(real, imaginary);
 }
@@ -539,9 +552,19 @@ export function noteToMidi(note: string): number {
         a: 9,
         b: 11,
     };
+    const [, letter, accidental, octave] = matchGroups(match);
+    const natural =
+        letter === undefined ? undefined : naturals[letter.toLowerCase()];
+    // Every group of the pattern is required and its letter is one of the
+    // seven, so an unparsable name has already thrown above.
+    if (
+        natural === undefined ||
+        accidental === undefined ||
+        octave === undefined
+    )
+        throw new Error(`unparsable note name "${note}"`);
     const semitone =
-        naturals[match[1].toLowerCase()] +
-        (match[2] === '#' ? 1 : match[2] === 'b' ? -1 : 0);
+        natural + (accidental === '#' ? 1 : accidental === 'b' ? -1 : 0);
     // MIDI 60 is C4, so octave n starts at 12 * (n + 1).
-    return semitone + 12 * (Number(match[3]) + 1);
+    return semitone + 12 * (Number(octave) + 1);
 }

@@ -47,6 +47,7 @@
     import Evaluator from '@runtime/Evaluator';
     import UnicodeString from '@unicode/UnicodeString';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { must } from '@util/nullable';
     import { onDestroy, tick, untrack } from 'svelte';
     import { writable } from 'svelte/store';
 
@@ -152,8 +153,8 @@
             tokenViews = {
                 source,
                 views: Array.from(
-                    editor.getElementsByClassName('token-view'),
-                ) as HTMLElement[],
+                    editor.querySelectorAll<HTMLElement>('.token-view'),
+                ),
             };
         return tokenViews.views;
     }
@@ -203,18 +204,30 @@
     /** The singular editor context, which `CaretView` reads to know whether the
      *  editor has focus. Without it the caret renders permanently dimmed, which
      *  is how it looked: a faint mark rather than a caret. */
-    const editorState = writable<EditorState>(undefined as never);
+    const editorState = writable<EditorState>(currentEditorState());
     setEditor(editorState);
 
-    const commandContextState = $state({ context: undefined as never });
+    // Seeded with the current context and kept current by the effect below;
+    // untracked because it is the effect, not this literal, that follows it.
+    const commandContextState = $state({
+        context: untrack(() => commandContext),
+    });
     setProjectCommandContext(commandContextState);
 
     $effect(() => {
-        commandContextState.context = commandContext as never;
+        commandContextState.context = commandContext;
     });
 
     $effect(() => {
-        const state: EditorState = {
+        const state = currentEditorState();
+        editors.set(new Map([[id, state]]));
+        editorState.set(state);
+    });
+
+    /** The editor's state as of now, built the same way at mount and on
+     *  every change so the context never holds an undefined it lies about. */
+    function currentEditorState(): EditorState {
+        return {
             caret,
             displayedCaret: caret,
             sourceID: id,
@@ -244,9 +257,7 @@
             setZoom: () => {},
             writingLayout: 'horizontal-tb',
         };
-        editors.set(new Map([[id, state]]));
-        editorState.set(state);
-    });
+    }
 
     /** Commit a revision, announce what changed, and publish the new markup. */
     function apply(revised: Caret, typing = false, edited?: Source) {
@@ -280,16 +291,17 @@
 
         const message = describeMarkupChange(before, next, $locales);
         if (message !== undefined && announce && $announce)
-            $announce('command', $locales.getLocales()[0].language, message);
+            $announce(
+                'command',
+                // There is always a primary locale.
+                must($locales.getLocales()[0], 'the primary locale').language,
+                message,
+            );
     }
 
     /** The rendered element for a node, which the outline tracer measures. */
     function getNodeView(node: Node): HTMLElement | undefined {
-        return (
-            (document.getElementById(
-                `node-${node.id}`,
-            ) as HTMLElement | null) ?? undefined
-        );
+        return document.getElementById(`node-${node.id}`) ?? undefined;
     }
 
     /**
@@ -398,9 +410,10 @@
     /** Step through the history, restoring both the markup and where the caret was. */
     export function undoRedo(direction: -1 | 1): boolean {
         const next = historyIndex + direction;
-        if (next < 0 || next >= history.length) return false;
-        historyIndex = next;
         const step = history[next];
+        if (next < 0 || next >= history.length || step === undefined)
+            return false;
+        historyIndex = next;
         source = markupToSource(step.text);
         caret = clampToMarkup(
             new Caret(source, step.position, undefined, undefined),
@@ -568,19 +581,29 @@
         // would double it. Same rule as Editor.svelte's.
         if (command?.typing !== true) skipNextInput = false;
 
+        // A command that matched consumes the keystroke, whatever it answered:
+        // the project view listens for the same chords above this editor, and a
+        // `mode` toggle that bubbled would be applied twice and appear inert.
         if (command !== undefined) {
-            const adjusted = resetVisualColumnAfter(command, result as never);
-            // A `typing` command is the catch-all that inserts the character
-            // typed, so its edits fold into one undo step. Without this every
-            // character was its own step and undo gave back one letter at a time.
-            const typing = command.typing === true;
-            if (adjusted instanceof Caret) apply(adjusted, typing);
-            else if (Array.isArray(adjusted) && adjusted[1] instanceof Caret)
-                apply(
-                    adjusted[1],
-                    typing,
-                    adjusted[0] instanceof Source ? adjusted[0] : undefined,
-                );
+            // A boolean result had no edit, and an eventual one is applied by
+            // the command itself; only an edit in hand is applied here.
+            if (typeof result !== 'boolean' && !(result instanceof Promise)) {
+                const adjusted = resetVisualColumnAfter(command, result);
+                // A `typing` command is the catch-all that inserts the character
+                // typed, so its edits fold into one undo step. Without this every
+                // character was its own step and undo gave back one letter at a time.
+                const typing = command.typing === true;
+                if (adjusted instanceof Caret) apply(adjusted, typing);
+                else if (
+                    Array.isArray(adjusted) &&
+                    adjusted[1] instanceof Caret
+                )
+                    apply(
+                        adjusted[1],
+                        typing,
+                        adjusted[0] instanceof Source ? adjusted[0] : undefined,
+                    );
+            }
             // Let the browser make its own edit for a typing command, so the
             // screen reader echoes the character natively (#1248).
             if (!skipNextInput) event.preventDefault();
@@ -616,7 +639,10 @@
         }
         if (composing || view === undefined) return;
 
-        const input = event as InputEvent;
+        // Only an InputEvent says what was done to the field; any other
+        // event is not an edit the model can mirror.
+        if (!(event instanceof InputEvent)) return;
+        const input = event;
         const data =
             input.inputType === 'insertLineBreak' ? '\n' : (input.data ?? '');
 

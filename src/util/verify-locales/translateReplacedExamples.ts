@@ -32,11 +32,7 @@ function enExampleCodes(): Map<string, Set<string>> {
         if (path.key !== 'doc') continue;
         map.set(
             path.toString(),
-            new Set(
-                getDocExamples(toDocString(path.value as any)).map(
-                    (e) => e.code,
-                ),
-            ),
+            new Set(getDocExamples(toDocString(path.value)).map((e) => e.code)),
         );
     }
     return map;
@@ -70,12 +66,8 @@ export async function localizeFile(
                 : Array.isArray(value)
                   ? value
                   : [];
-        const next: (string | unknown)[] = [];
+        const next: string[] = [];
         for (const el of els) {
-            if (typeof el !== 'string') {
-                next.push(el);
-                continue;
-            }
             // Right-to-left edits so earlier offsets stay valid.
             const edits: { start: number; end: number; text: string }[] = [];
             let cursor = 0;
@@ -96,12 +88,7 @@ export async function localizeFile(
                 out = out.slice(0, e.start) + e.text + out.slice(e.end);
             next.push(out);
         }
-        path.repair(
-            json,
-            typeof value === 'string'
-                ? (next[0] as string)
-                : (next as string[]),
-        );
+        path.repair(json, typeof value === 'string' ? (next[0] ?? '') : next);
     }
 
     if (!dry)

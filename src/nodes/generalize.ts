@@ -12,7 +12,9 @@ export default function generalize(types: Type, context: Context) {
     if (types instanceof UnionType) {
         const possible = types.getPossibleTypes(context);
         // All text of the same language? Generalize to text.
+        const firstPossible = possible[0];
         if (
+            firstPossible instanceof TextType &&
             possible.every(
                 (type) =>
                     type instanceof TextType &&
@@ -31,10 +33,7 @@ export default function generalize(types: Type, context: Context) {
                     ),
             )
         )
-            types = TextType.make(
-                undefined,
-                (possible[0] as TextType).language,
-            );
+            types = TextType.make(undefined, firstPossible.language);
         // All numbers with equivalent units? Generalize to a number with the unit.
         else if (possible.every((type) => type instanceof NumberType)) {
             const first = possible[0];
@@ -50,11 +49,13 @@ export default function generalize(types: Type, context: Context) {
                 )
                     types = NumberType.make(first.unit);
             }
-        } else if (possible.every((type) => type instanceof ListType)) {
+        } else if (
+            possible.every((type): type is ListType => type instanceof ListType)
+        ) {
             types = ListType.make(
                 UnionType.getPossibleUnion(
                     context,
-                    (possible as ListType[]).reduce((all: Type[], type) => {
+                    possible.reduce((all: Type[], type) => {
                         const itemType = type.getItemType(context);
                         return itemType ? [...all, itemType] : all;
                     }, []),

@@ -4,6 +4,7 @@ import { createBind } from '@locale/createBind';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
 import type { NameAndDoc } from '@locale/LocaleText';
+import { must } from '@util/nullable';
 
 export function createInputs(
     locales: Locales,
@@ -13,7 +14,10 @@ export function createInputs(
     return types.map((type, index) =>
         createBind(
             locales,
-            (l) => fun(l)[index],
+            // Each locale declares a name and doc per type; a locale missing
+            // one is a malformed locale, which this reports rather than
+            // silently binding nothing.
+            (l) => must(fun(l)[index], `an input at index ${index}`),
             Array.isArray(type) ? type[0] : type,
             Array.isArray(type) ? type[1] : undefined,
         ),

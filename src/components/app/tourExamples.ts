@@ -51,12 +51,13 @@ export function tourExampleProblems(
     const examples = markup
         .nodes()
         .filter((node): node is Example => node instanceof Example);
-    if (examples.length !== 1)
+    const example = examples[0];
+    if (examples.length !== 1 || example === undefined)
         return [
             `${key} should hold exactly one \\…\\ example, but holds ${examples.length}`,
         ];
 
-    const program = examples[0].program;
+    const program = example.program;
     const problems: string[] = [];
     if (!program.nodes().some((node) => node instanceof Doc))
         problems.push(`${key} should explain itself in a ¶doc¶`);

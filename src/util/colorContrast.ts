@@ -5,18 +5,19 @@
  */
 
 export function luminance(hex: string): number {
-    const channels = [1, 3, 5].map((offset) => {
-        const channel = parseInt(hex.slice(offset, offset + 2), 16) / 255;
-        return channel <= 0.03928
-            ? channel / 12.92
-            : Math.pow((channel + 0.055) / 1.055, 2.4);
-    });
-    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+    const channel = (offset: number) => {
+        const value = parseInt(hex.slice(offset, offset + 2), 16) / 255;
+        return value <= 0.03928
+            ? value / 12.92
+            : Math.pow((value + 0.055) / 1.055, 2.4);
+    };
+    return 0.2126 * channel(1) + 0.7152 * channel(3) + 0.0722 * channel(5);
 }
 
 export function contrast(a: string, b: string): number {
-    const [lighter, darker] = [luminance(a), luminance(b)].sort(
-        (x, y) => y - x,
-    );
+    const one = luminance(a);
+    const other = luminance(b);
+    const lighter = Math.max(one, other);
+    const darker = Math.min(one, other);
     return (lighter + 0.05) / (darker + 0.05);
 }

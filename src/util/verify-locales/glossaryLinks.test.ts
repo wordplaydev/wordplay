@@ -8,7 +8,8 @@ import {
     linkGlossaryInTutorial,
 } from '@util/verify-locales/glossaryLinks';
 import { expect, test } from 'vitest';
-import type Tutorial from '../../tutorial/Tutorial';
+import { isDialog, type Dialog, type Tutorial } from '../../tutorial/Tutorial';
+import { must } from '@util/nullable';
 
 const words = getGlossaryWords(DefaultLocale);
 
@@ -82,11 +83,15 @@ function tutorialSaying(...scenes: string[][]): Tutorial {
                     title: `Scene ${index}`,
                     subtitle: null,
                     performance: { fit: '#Symbol 🕦' },
-                    lines: lines.map((line) => ['Time', 'neutral', line]),
+                    lines: lines.map((line): Dialog => [
+                        'Time',
+                        'neutral',
+                        line,
+                    ]),
                 })),
             },
         ],
-    } as Tutorial;
+    };
 }
 
 test('the scene is the unit, so a later scene introduces the word again', () => {
@@ -99,8 +104,15 @@ test('the scene is the unit, so a later scene introduces the word again', () => 
         ),
         DefaultLocale,
     );
-    const said = (scene: number, line: number) =>
-        (tutorial.acts[0].scenes[scene].lines[line] as string[])[2];
+    const said = (scene: number, line: number) => {
+        const spoken = must(
+            must(must(tutorial.acts[0], 'an act').scenes[scene], 'a scene')
+                .lines[line],
+            'a line',
+        );
+        if (!isDialog(spoken)) throw new Error('Expected a dialog line');
+        return spoken[2];
+    };
     expect(said(0, 0)).toBe('A @stream ticks.');
     expect(said(0, 1)).toBe('The stream ticks again.');
     expect(said(1, 0)).toBe('Another @stream.');

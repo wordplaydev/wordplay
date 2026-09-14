@@ -142,7 +142,7 @@ const Sym = {
 export type SymType = (typeof Sym)[keyof typeof Sym];
 
 /** Tokens that can be many different possible sequences of characters. We use this list to know when a token is static and can only be one symbol. */
-export const WildcardSymbols = new Set([
+export const WildcardSymbols: ReadonlySet<SymType> = new Set<SymType>([
     Sym.Number,
     Sym.Number,
     Sym.Decimal,
@@ -157,7 +157,7 @@ export const WildcardSymbols = new Set([
 ]);
 
 export function isTokenType(text: string): text is SymType {
-    return (Object.values(Sym) as string[]).includes(text);
+    return Object.values<string>(Sym).includes(text);
 }
 
 export { Sym };

@@ -72,9 +72,9 @@ export default class Reaction extends Expression {
     static make(initial: Expression, condition: Expression, next: Expression) {
         return new Reaction(
             initial,
-            new StreamToken(),
+            StreamToken(),
             condition,
-            new StreamToken(),
+            StreamToken(),
             next,
         );
     }
@@ -147,17 +147,15 @@ export default class Reaction extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Reaction(
-            this.replaceChild('initial', this.initial, replace),
-            this.replaceChild('dots', this.dots, replace),
-            this.replaceChild('condition', this.condition, replace),
-            this.replaceChild<Token | undefined>(
-                'nextdots',
-                this.nextdots,
-                replace,
+        return this.cloned(
+            new Reaction(
+                this.replaceChild('initial', this.initial, replace),
+                this.replaceChild('dots', this.dots, replace),
+                this.replaceChild('condition', this.condition, replace),
+                this.replaceChild('nextdots', this.nextdots, replace),
+                this.replaceChild('next', this.next, replace),
             ),
-            this.replaceChild<Expression>('next', this.next, replace),
-        ) as this;
+        );
     }
 
     getPurpose() {

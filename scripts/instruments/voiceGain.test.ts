@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+import { must } from '../../src/util/nullable';
 import { sing } from './voiceGain';
 import { Phonemes } from '../../src/output/Music/phonemes';
 import { articulate } from '../../src/output/Music/articulate';
@@ -41,9 +42,11 @@ function magnitudeAt(
     ) {
         let s1 = 0;
         let s2 = 0;
-        for (let index = 0; index < block; index++) {
+        for (const [index, sample] of samples
+            .subarray(start, start + block)
+            .entries()) {
             const hann = 0.5 - 0.5 * Math.cos((2 * Math.PI * index) / block);
-            const s = samples[start + index] * hann + coefficient * s1 - s2;
+            const s = sample * hann + coefficient * s1 - s2;
             s2 = s1;
             s1 = s;
         }
@@ -171,7 +174,11 @@ describe('the four things that sounded wrong', () => {
         for (let hz = low; hz <= high; hz += 50)
             magnitudes.push(magnitudeAt(audio.samples, audio.rate, hz));
         const sorted = [...magnitudes].sort((a, b) => a - b);
-        const median = sorted[Math.floor(sorted.length / 2)];
+        // Every call spans at least one 50 Hz probe, so there is a median.
+        const median = must(
+            sorted[Math.floor(sorted.length / 2)],
+            'a median magnitude',
+        );
         return Math.max(...magnitudes) / Math.max(median, 1e-12);
     }
 
@@ -222,6 +229,8 @@ describe('the four things that sounded wrong', () => {
         expect(burst.ramp).toBeLessThan(burst.seconds / 4);
         // And the closure before it really is silent, so the burst has an edge.
         const closureAt = Math.round((burst.at - 0.01) * rate);
-        expect(Math.abs(samples[closureAt])).toBeLessThan(1e-6);
+        // The closure sits inside the 0.9s the fixture renders.
+        const closure = must(samples[closureAt], 'a sample at the closure');
+        expect(Math.abs(closure)).toBeLessThan(1e-6);
     });
 });

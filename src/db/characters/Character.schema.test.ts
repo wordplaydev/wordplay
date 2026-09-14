@@ -1,4 +1,5 @@
 import { CharacterSchema } from '@db/characters/Character';
+import { must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 
 /**
@@ -36,7 +37,8 @@ describe('CharacterSchema optionality is exact', () => {
 
     test('a parsed shape omits absent optional keys rather than setting them undefined', () => {
         const parsed = CharacterSchema.parse(character(rect));
-        const shape = parsed.shapes[0];
+        // Every fixture here builds a character with exactly one shape.
+        const shape = must(parsed.shapes[0], 'the fixture shape');
         // `in`, not `=== undefined`: Firestore rejects the key being present
         // with an undefined value, which a truthiness check wouldn't catch.
         expect('angle' in shape).toBe(false);
@@ -69,18 +71,20 @@ describe('CharacterSchema optionality is exact', () => {
         const parsed = CharacterSchema.parse(
             character({ ...curvedPath, points: [{ x: 0, y: 0 }] }),
         );
-        const shape = parsed.shapes[0];
+        const shape = must(parsed.shapes[0], 'the fixture shape');
         expect(shape.type).toBe('path');
         if (shape.type === 'path')
-            expect('curve' in shape.points[0]).toBe(false);
+            expect('curve' in must(shape.points[0], 'the fixture point')).toBe(
+                false,
+            );
     });
 
     test('a curved path point round-trips', () => {
         const parsed = CharacterSchema.parse(character(curvedPath));
-        const shape = parsed.shapes[0];
+        const shape = must(parsed.shapes[0], 'the fixture shape');
         expect(shape.type).toBe('path');
         if (shape.type === 'path')
-            expect(shape.points[1].curve).toEqual({ x: 4, y: 4 });
+            expect(shape.points[1]?.curve).toEqual({ x: 4, y: 4 });
     });
 
     test('a path point with an explicit undefined curve is rejected', () => {
@@ -98,7 +102,7 @@ describe('CharacterSchema optionality is exact', () => {
         const parsed = CharacterSchema.parse(
             character({ ...rect, fill: null }),
         );
-        const shape = parsed.shapes[0];
+        const shape = must(parsed.shapes[0], 'the fixture shape');
         expect(shape.type).toBe('rect');
         if (shape.type === 'rect') expect(shape.fill).toBeNull();
     });

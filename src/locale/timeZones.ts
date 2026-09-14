@@ -2,6 +2,7 @@ import { getDateTimeDataForLocale } from '@locale/dateTimeData';
 import type Locale from '@locale/Locale';
 import timezones from '@locale/timezones.json';
 import levenshtein from '@util/levenshtein';
+import { last, must } from '@util/nullable';
 
 /**
  * The canonical IANA time zone identifiers Moment and Now accept, committed
@@ -34,7 +35,8 @@ export function isSupportedTimeZone(text: string): boolean {
  *  almost all exactly this, so it doubles as the English fallback. */
 export function cityFromID(zone: string): string {
     const segments = zone.split('/');
-    return segments[segments.length - 1].replaceAll('_', ' ');
+    // Splitting a non-empty string always leaves a last segment.
+    return must(last(segments), 'a zone id segment').replaceAll('_', ' ');
 }
 
 /** The zone's city name in the given locale, when its data is loaded (full
@@ -102,14 +104,17 @@ export function suggestTimeZones(
         (a, b) => a.score - b.score || a.zone.localeCompare(b.zone, 'en'),
     );
     const best = scored[0]?.score;
+    const primary = locales[0];
     return scored
-        .filter(({ score }) => (best <= 1 ? score <= 1 : true))
+        .filter(({ score }) =>
+            best !== undefined && best <= 1 ? score <= 1 : true,
+        )
         .slice(0, MaximumSuggestions)
         .map(({ zone }) => ({
             zone,
             city:
-                locales.length > 0
-                    ? cityOf(zone, locales[0])
+                primary !== undefined
+                    ? cityOf(zone, primary)
                     : cityFromID(zone),
         }));
 }

@@ -6,6 +6,7 @@ import Source from '@nodes/Source';
 import Evaluator from '@runtime/Evaluator';
 import Reaction from '@nodes/Reaction';
 import { expect, test } from 'vitest';
+import { must } from '@util/nullable';
 
 /**
  * Issue #679: Stream creators inside branches that aren't chosen on first
@@ -72,7 +73,7 @@ test('stream in a skipped case key is wired up as a real dependency', () => {
 
     const values = evaluator.streamsByCreator.get(stream!);
     expect(values).not.toBeUndefined();
-    values![0].add(Time.make(source, 1), null);
+    must(values?.[0], 'a stream value').add(Time.make(source, 1), null);
     evaluator.flush();
 
     // Match value is constant 1ms, so case 0 still matches and the result is

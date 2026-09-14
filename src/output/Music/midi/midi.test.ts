@@ -27,6 +27,7 @@ import {
     tempoRegions,
 } from '@output/Music/midi/tempoMap';
 import { drumPieceForNote, instrumentForProgram } from '@output/Music/midi/gm';
+import { last, must } from '@util/nullable';
 
 /* ---------------------------------------------------------------- fixtures */
 
@@ -144,7 +145,7 @@ test('the parser reads notes, tempo, and division', () => {
     expect(looksLikeMIDI(bytes)).toBe(true);
     const midi = parseMIDI(bytes);
     expect(midi.division).toBe(480);
-    expect(Math.round(midi.tempos[0].bpm)).toBe(96);
+    expect(Math.round(must(midi.tempos[0], 'the tempo').bpm)).toBe(96);
     const notes = midi.tracks.flatMap((t) => t.notes);
     expect(notes.map((n) => [n.pitch, n.durationTicks / 480])).toEqual([
         [60, 1],
@@ -167,7 +168,7 @@ test('notes starting and ending together are one chord, not three voices', () =>
         velocity: 100,
     }));
     expect(toSimultaneities(notes)).toHaveLength(1);
-    expect(toSimultaneities(notes)[0].pitches).toEqual([60, 64, 67]);
+    expect(toSimultaneities(notes)[0]?.pitches).toEqual([60, 64, 67]);
     expect(splitVoices(notes)).toHaveLength(1);
 });
 
@@ -348,7 +349,9 @@ test('onsets and durations survive the round trip', () => {
     const stage = toStage(evaluator, evaluator.getInitialValue()!);
     const music = stage?.getMusic()[0];
     expect(music).toBeDefined();
-    const track = music!.toData().tracks[0];
+    // Present by the assertion above.
+    const data = must(music, 'the converted music').toData();
+    const track = must(data.tracks[0], 'the converted track');
 
     // Walk the emitted entries, accumulating onsets; rests carry the gaps.
     let at = 0;
@@ -359,8 +362,8 @@ test('onsets and durations survive the round trip', () => {
     }
     expect(sounded).toHaveLength(events.length);
     events.forEach((event, i) => {
-        expect(sounded[i].at).toBeCloseTo(event.at, 2);
-        expect(sounded[i].beats).toBeCloseTo(event.duration, 2);
+        expect(sounded[i]?.at).toBeCloseTo(event.at, 2);
+        expect(sounded[i]?.beats).toBeCloseTo(event.duration, 2);
     });
 });
 
@@ -372,11 +375,12 @@ function secondsAt(
     tempos: { at: number; bpm: number }[],
 ): number {
     let seconds = 0;
-    for (let i = 0; i < tempos.length; i++) {
-        const from = tempos[i].at;
+    for (const [i, tempo] of tempos.entries()) {
+        const from = tempo.at;
         if (quarters <= from) break;
-        const to = i + 1 < tempos.length ? tempos[i + 1].at : Infinity;
-        seconds += ((Math.min(quarters, to) - from) * 60) / tempos[i].bpm;
+        const next = tempos[i + 1];
+        const to = next === undefined ? Infinity : next.at;
+        seconds += ((Math.min(quarters, to) - from) * 60) / tempo.bpm;
     }
     return seconds;
 }
@@ -389,7 +393,7 @@ function heard(result: Conversion) {
     const data = stage!.getMusic()[0]!.toData();
     let beat = 0;
     const notes: { at: number; seconds: number }[] = [];
-    for (const note of data.tracks[0].notes) {
+    for (const note of must(data.tracks[0], 'the converted track').notes) {
         if (note.degrees.length > 0)
             notes.push({
                 at: (beat * 60) / data.tempo,
@@ -447,18 +451,21 @@ test('a tempo change is folded into the note lengths, not dropped', () => {
 
     expect(notes).toHaveLength(events.length);
     events.forEach((event, i) => {
-        expect(notes[i].at, `onset of note ${i}`).toBeCloseTo(
+        expect(notes[i]?.at, `onset of note ${i}`).toBeCloseTo(
             secondsAt(event.at, tempos),
             2,
         );
-        expect(notes[i].seconds, `length of note ${i}`).toBeCloseTo(
+        expect(notes[i]?.seconds, `length of note ${i}`).toBeCloseTo(
             secondsAt(event.at + event.duration, tempos) -
                 secondsAt(event.at, tempos),
             2,
         );
     });
     // And the second half really is written shorter, not merely played so.
-    expect(notes[7].seconds).toBeCloseTo(notes[0].seconds / 2, 2);
+    expect(notes[7]?.seconds).toBeCloseTo(
+        must(notes[0], 'the first note').seconds / 2,
+        2,
+    );
 });
 
 test('one tempo leaves the score its own beats', () => {
@@ -504,8 +511,7 @@ test('rounding does not pile up over a long track', () => {
     // 400 beats at 1, then 300 at a third.
     expect(beats).toBeCloseTo(400 + 300 / 3, 3);
     // And the last note is heard when the file says, not a beat late.
-    const last = notes[notes.length - 1];
-    expect(last.at).toBeCloseTo(secondsAt(699, tempos), 2);
+    expect(last(notes)?.at).toBeCloseTo(secondsAt(699, tempos), 2);
 });
 
 test('the tempo finding says the changes were kept, not lost', () => {
@@ -637,8 +643,69 @@ test('the borrowed tracks are readable by the music editor', () => {
         [new Source(result.sourceName, result.tracks)],
         DefaultLocale,
     );
-    const music = readMusic(project, musicsIn(project)[0]);
+    // The imported project declares a music, so the project has one.
+    const music = readMusic(
+        project,
+        must(musicsIn(project)[0], 'the imported music'),
+    );
     expect(music?.tracks).toHaveLength(result.trackCount);
     // And editable, so a note can be moved from the palette.
-    expect(music?.tracks[0].notes).toBeDefined();
+    expect(music?.tracks[0]?.notes).toBeDefined();
+});
+
+/**
+ * A MIDI file is an upload, so every byte walk in the parser is over data
+ * nobody here wrote. The reads used to be unchecked, so a file that ended
+ * mid-event produced `undefined` where a byte was expected and carried it into
+ * arithmetic as `NaN`. Truncating a good file at every length is the cheapest
+ * way to say the parser either reads a file or refuses it, and never does
+ * something in between.
+ */
+test('a file truncated anywhere is parsed or refused, never half-read', () => {
+    const whole = midiFile([
+        [
+            { at: 0, pitch: 60, duration: 1 },
+            { at: 1, pitch: 64, duration: 1 },
+            { at: 2, pitch: 67, duration: 2 },
+        ],
+    ]);
+    for (let length = 0; length < whole.length; length++) {
+        const truncated = whole.slice(0, length);
+        let parsed;
+        try {
+            parsed = parseMIDI(truncated);
+        } catch (error) {
+            // Refusing is the right answer for a file that is not whole.
+            expect(error).toBeInstanceOf(MIDIFormatError);
+            continue;
+        }
+        // If it did parse, everything it reports must be a real number: the
+        // point of the bounds checks is that a missing byte drops the event
+        // rather than becoming NaN.
+        expect(Number.isFinite(parsed.division)).toBe(true);
+        for (const tempo of parsed.tempos) {
+            expect(Number.isFinite(tempo.ticks)).toBe(true);
+            expect(Number.isFinite(tempo.bpm)).toBe(true);
+        }
+        for (const signature of parsed.timeSignatures) {
+            expect(Number.isFinite(signature.beats)).toBe(true);
+            expect(Number.isFinite(signature.unit)).toBe(true);
+        }
+        for (const track of parsed.tracks)
+            for (const note of track.notes) {
+                expect(Number.isFinite(note.pitch)).toBe(true);
+                expect(Number.isFinite(note.velocity)).toBe(true);
+                expect(Number.isFinite(note.startTicks)).toBe(true);
+                expect(Number.isFinite(note.durationTicks)).toBe(true);
+            }
+    }
+});
+
+test('a header that promises more than the file holds is refused', () => {
+    const whole = midiFile([[{ at: 0, pitch: 60, duration: 1 }]]);
+    // Claim a track chunk far longer than the bytes that follow.
+    const lying = whole.slice();
+    lying[18] = 0xff;
+    lying[19] = 0xff;
+    expect(() => parseMIDI(lying)).not.toThrow(TypeError);
 });

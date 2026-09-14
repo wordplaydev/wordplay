@@ -1,4 +1,5 @@
 import DefaultLocale from '@locale/DefaultLocale';
+import { isRecord } from '@util/guards';
 import type LocaleText from '@locale/LocaleText';
 import { isUnwritten } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
@@ -12,6 +13,7 @@ import UnionType from '@nodes/UnionType';
 import LocalePath from '@util/verify-locales/LocalePath';
 import type Log from '@util/verify-locales/Log';
 import { leadingAnnotations } from '@util/verify-locales/protect';
+import { must } from '@util/nullable';
 
 /**
  * A type and the input that holds one should be the same word, as they are in English.
@@ -75,12 +77,12 @@ function members(type: Type | undefined): Type[] {
  */
 function findNames(
     names: string[],
-    within: Record<string, unknown>,
+    within: object,
     path: (string | number)[],
 ): { key: string; path: LocalePath } | undefined {
     for (const [key, value] of Object.entries(within)) {
-        if (value === null || typeof value !== 'object') continue;
-        const declared = (value as Record<string, unknown>).names;
+        if (!isRecord(value)) continue;
+        const declared = value.names;
         if (declared === undefined) continue;
         if (words(declared).some((name) => names.includes(name)))
             return { key, path: new LocalePath(path, key, []) };
@@ -105,7 +107,10 @@ export function getTypedInputs(): TypedInput[] {
         [],
         DefaultLocale,
     );
-    const context = project.getContext(project.getSources()[0]);
+    // The project was just made from one source.
+    const context = project.getContext(
+        must(project.getSources()[0], 'the probe source'),
+    );
     const definitions = [
         ...project.basis.shares.all,
         ...project.basis.getAllStructureDefinitions(),
@@ -126,20 +131,20 @@ export function getTypedInputs(): TypedInput[] {
         let structurePath: { key: string; section: string } | undefined;
         for (const [section, tree] of Object.entries(sections)) {
             if (tree === null || typeof tree !== 'object') continue;
-            const found = findNames(
-                structureNames,
-                tree as Record<string, unknown>,
-                [section],
-            );
+            const found = findNames(structureNames, tree, [section]);
             if (found) {
                 structurePath = { key: found.key, section };
                 break;
             }
         }
         if (structurePath === undefined) continue;
-        const structureTree = ((
-            sections[structurePath.section] as Record<string, unknown>
-        )[structurePath.key] ?? {}) as Record<string, unknown>;
+        const section: unknown = sections[structurePath.section];
+        const structureTreeValue = isRecord(section)
+            ? section[structurePath.key]
+            : undefined;
+        const structureTree = isRecord(structureTreeValue)
+            ? structureTreeValue
+            : {};
 
         for (const bind of definition.inputs) {
             const bindNames = words(bind.names.getNames());
@@ -170,11 +175,7 @@ export function getTypedInputs(): TypedInput[] {
                 let typeKey: string | undefined;
                 for (const [section, tree] of Object.entries(sections)) {
                     if (tree === null || typeof tree !== 'object') continue;
-                    const found = findNames(
-                        targetNames,
-                        tree as Record<string, unknown>,
-                        [section],
-                    );
+                    const found = findNames(targetNames, tree, [section]);
                     if (found) {
                         typePath = new LocalePath(
                             [section, found.key],
@@ -212,9 +213,7 @@ export default function checkTypedInputNames(
     target: LocaleText,
     fix: boolean,
 ): LocaleText {
-    const revised = fix
-        ? (JSON.parse(JSON.stringify(target)) as LocaleText)
-        : target;
+    const revised = fix ? structuredClone(target) : target;
 
     const divergent: string[] = [];
     let filled = 0;
@@ -255,7 +254,8 @@ export default function checkTypedInputNames(
         if (bindOwn.length === 0) {
             // The input has no word of its own, so take the type's. This is the one repair
             // here: adopting a word the locale already chose, not translating a new one.
-            const word = typeOwn[0];
+            // The list was just checked to be non-empty.
+            const word = must(typeOwn[0], 'a type word');
             const derivedName =
                 word.charAt(0).toLocaleLowerCase(target.language) +
                 word.slice(1);

@@ -193,11 +193,15 @@ export function parsePreviewPath(path: string): PreviewTarget | undefined {
     } catch {
         return undefined;
     }
+    // Only a three-segment path carries a locale prefix; in a two-segment one
+    // the first segment is the kind.
     const locales =
-        segments.length === 3 ? segments[0].split('+').filter(Boolean) : [];
+        segments.length === 3
+            ? (segments[0]?.split('+').filter(Boolean) ?? [])
+            : [];
     const rest = segments.length === 3 ? segments.slice(1) : segments;
-    if (rest.length !== 2) return undefined;
     const [kind, id] = rest;
+    if (rest.length !== 2 || id === undefined) return undefined;
     if (kind !== 'project' && kind !== 'gallery') return undefined;
     if (id.length === 0) return undefined;
     return { kind, id, locales };
@@ -228,15 +232,17 @@ export function resolveMultilingualName(
     raw: string,
     languages: string[],
 ): string {
-    if (raw.length === 0) return raw;
-    const close = TextCloseByTextOpen[raw[0]];
+    const first = raw[0];
+    if (first === undefined) return raw;
+    const close = TextCloseByTextOpen[first];
     if (close === undefined) return raw;
 
     const translations: { text: string; language: string }[] = [];
     let position = 0;
     while (position < raw.length) {
         const open = raw[position];
-        const closer = TextCloseByTextOpen[open];
+        const closer =
+            open === undefined ? undefined : TextCloseByTextOpen[open];
         if (closer === undefined) return raw;
         const end = raw.indexOf(closer, position + 1);
         if (end < 0) return raw;
@@ -253,7 +259,7 @@ export function resolveMultilingualName(
     const preferred = translations.find((translation) =>
         languages.includes(translation.language),
     );
-    return (preferred ?? translations[0]).text;
+    return (preferred ?? translations[0])?.text ?? raw;
 }
 
 /** Grapheme count, matching UnicodeString semantics for the preview-glyph check. */
@@ -291,13 +297,16 @@ export function pickLocalizedText(
 ): string | undefined {
     if (record === undefined) return undefined;
     const candidates: string[] = [];
+    const push = (text: string | undefined) => {
+        if (text !== undefined) candidates.push(text);
+    };
     for (const locale of locales) {
-        if (record[locale] !== undefined) candidates.push(record[locale]);
+        push(record[locale]);
         const language = locale.split('-')[0];
-        for (const key of Object.keys(record))
-            if (key.split('-')[0] === language) candidates.push(record[key]);
+        for (const [key, text] of Object.entries(record))
+            if (key.split('-')[0] === language) push(text);
     }
-    if (record['en-US'] !== undefined) candidates.push(record['en-US']);
+    push(record['en-US']);
     candidates.push(...Object.values(record));
     for (const candidate of candidates) {
         const cleaned = withoutAnnotations(candidate);
@@ -358,6 +367,24 @@ export type FirestoreRestDocument = {
     fields?: Record<string, FirestoreRestValue>;
 };
 
+/** Whether a REST response is a document with a name. The field values are
+ *  read through the accessors below, which answer undefined for any shape
+ *  they don't recognize. */
+export function isFirestoreRestDocument(
+    value: unknown,
+): value is FirestoreRestDocument & { name: string } {
+    return (
+        typeof value === 'object' &&
+        value !== null &&
+        !Array.isArray(value) &&
+        'name' in value &&
+        typeof value.name === 'string' &&
+        (!('fields' in value) ||
+            value.fields === undefined ||
+            (typeof value.fields === 'object' && value.fields !== null))
+    );
+}
+
 export function getStringField(
     doc: FirestoreRestDocument,
     field: string,
@@ -379,8 +406,8 @@ export function getStringMapField(
     const fields = doc.fields?.[field]?.mapValue?.fields;
     if (fields === undefined) return undefined;
     const record: Record<string, string> = {};
-    for (const key of Object.keys(fields)) {
-        const value = fields[key].stringValue;
+    for (const [key, field] of Object.entries(fields)) {
+        const value = field.stringValue;
         if (value !== undefined) record[key] = value;
     }
     return record;
@@ -388,8 +415,8 @@ export function getStringMapField(
 
 /** The document id from a REST document resource name, e.g. ".../documents/projects/abc" → "abc". */
 export function documentIdFromName(name: string): string {
-    const segments = name.split('/');
-    return segments[segments.length - 1];
+    // A split always yields a last part, even for an empty name.
+    return name.split('/').at(-1) ?? '';
 }
 
 /**

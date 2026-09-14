@@ -67,6 +67,7 @@
     import TextField from '@components/widgets/TextField.svelte';
     import { locales } from '@db/Database';
     import { getFirstText } from '@locale/LocaleText';
+    import { matchGroups, must } from '@util/nullable';
     import { describeColorLocalized } from '@output/Color/BasicColors';
     import {
         LCHtoCSS,
@@ -208,13 +209,16 @@
         const match = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
             result.sRGBHex,
         );
-        const rgb = match
-            ? {
-                  r: parseInt(match[1], 16), // Convert the hex pair to a decimal number
-                  g: parseInt(match[2], 16),
-                  b: parseInt(match[3], 16),
-              }
-            : null;
+        const [, red, green, blue] = match === null ? [] : matchGroups(match);
+        const rgb =
+            red !== undefined && green !== undefined && blue !== undefined
+                ? {
+                      // Convert each hex pair to a decimal number
+                      r: parseInt(red, 16),
+                      g: parseInt(green, 16),
+                      b: parseInt(blue, 16),
+                  }
+                : null;
         if (rgb === null) return;
 
         const lch = RGBtoLCH(rgb.r / 255, rgb.g / 255, rgb.b / 255);
@@ -387,12 +391,17 @@
     </div>
 
     <Slider
-        label={(l) => getFirstText(l.output.Color.lightness.names)}
+        label={(l) =>
+            must(
+                getFirstText(l.output.Color.lightness.names),
+                'the lightness name',
+            )}
         value={lightness}
         min={0}
         max={1}
         increment={0.01}
-        tip={(l) => l.output.Color.lightness.names[0]}
+        tip={(l) =>
+            must(l.output.Color.lightness.names[0], 'the lightness name')}
         unit={'%'}
         precision={0}
         {...start ? { start } : {}}
@@ -404,13 +413,14 @@
         {editable}
     />
     <Slider
-        label={(l) => getFirstText(l.output.Color.chroma.names)}
+        label={(l) =>
+            must(getFirstText(l.output.Color.chroma.names), 'the chroma name')}
         value={chroma}
         min={0}
         max={150}
         increment={1}
         unit=""
-        tip={(l) => l.output.Color.chroma.names[0]}
+        tip={(l) => must(l.output.Color.chroma.names[0], 'the chroma name')}
         {...start ? { start } : {}}
         {...release ? { release: () => release() } : {}}
         change={(value) => {
@@ -420,13 +430,14 @@
         {editable}
     />
     <Slider
-        label={(l) => getFirstText(l.output.Color.hue.names)}
+        label={(l) =>
+            must(getFirstText(l.output.Color.hue.names), 'the hue name')}
         value={hue}
         min={0}
         max={360}
         increment={1}
         unit={'°'}
-        tip={(l) => l.output.Color.hue.names[0]}
+        tip={(l) => must(l.output.Color.hue.names[0], 'the hue name')}
         {...start ? { start } : {}}
         {...release ? { release: () => release() } : {}}
         change={(value) => {

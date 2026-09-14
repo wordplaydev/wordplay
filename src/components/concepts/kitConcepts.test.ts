@@ -10,6 +10,7 @@ import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
 import { dependencyKey } from '@nodes/Borrow';
 import Source from '@nodes/Source';
+import { must } from '@util/nullable';
 import { expect, test } from 'vitest';
 
 const locales = DefaultLocales;
@@ -95,7 +96,9 @@ test('the kit group is what the guide and docs tile render', () => {
     const index = ConceptIndex.make(project, locales, undefined, undefined);
     const groups = getConceptGroups(Purpose.Kit, index, project);
     expect(groups).toHaveLength(1);
-    expect(groups[0].concepts.map((c) => c.getName(locales, false))).toEqual([
-        'sunset',
-    ]);
+    expect(
+        must(groups[0], 'a group').concepts.map((c) =>
+            c.getName(locales, false),
+        ),
+    ).toEqual(['sunset']);
 });

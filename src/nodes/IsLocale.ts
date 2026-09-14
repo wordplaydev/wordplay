@@ -67,10 +67,12 @@ export default class IsLocale extends SimpleExpression {
     }
 
     clone(replace?: Replacement) {
-        return new IsLocale(
-            this.replaceChild('globe', this.globe, replace),
-            this.replaceChild('locale', this.locale, replace),
-        ) as this;
+        return this.cloned(
+            new IsLocale(
+                this.replaceChild('globe', this.globe, replace),
+                this.replaceChild('locale', this.locale, replace),
+            ),
+        );
     }
 
     getPurpose() {

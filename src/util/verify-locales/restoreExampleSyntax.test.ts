@@ -6,12 +6,13 @@ const example = (code: string) => `We changed \\${code}\\ today.`;
 
 test('a renamed definition is kept — that is the localization working', () => {
     // A German reader's basis says Rede(), so the example should say it too.
-    for (const [before, after] of [
+    const renames: [string, string][] = [
         ['Speech()', 'Rede()'],
         ['Sequence.sway()', 'Reihenfolge.wiegen()'],
         ['Color.random()', 'Farbe.zufällig()'],
         ['Phrase("hi" size: 2)', 'Phrase("hi" größe: 2)'],
-    ])
+    ];
+    for (const [before, after] of renames)
         expect(
             restoreExampleSyntax(example(before), example(after)),
             `${before} → ${after} only renames`,

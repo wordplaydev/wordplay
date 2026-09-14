@@ -38,6 +38,7 @@ import { fileURLToPath } from 'url';
 
 import { EmojiGroups, EmojiSubgroups } from '@unicode/emoji.ts';
 import { Scripts } from '@locale/Scripts.ts';
+import { must } from '@util/nullable.ts';
 // Only enumerate codepoints some bundled font can actually draw — the glyph
 // chooser filters to these anyway, so shipping the ~65k CJK-extension (and
 // other) codepoints no font covers is pure weight. This couples codes.txt to
@@ -147,7 +148,8 @@ interface EmojiInfo {
 function parseScriptAliases(text: string): Map<string, string> {
     const longToIso = new Map<string, string>();
     for (const rawLine of text.split('\n')) {
-        const line = rawLine.split('#')[0].trim();
+        const [beforeComment = ''] = rawLine.split('#');
+        const line = beforeComment.trim();
         if (!line) continue;
         const parts = line.split(';').map((p) => p.trim());
         if (parts[0] !== 'sc') continue;
@@ -180,12 +182,13 @@ function parseScripts(
 ): ScriptRange[] {
     const ranges: ScriptRange[] = [];
     for (const rawLine of text.split('\n')) {
-        const line = rawLine.split('#')[0].trim();
+        const [beforeComment = ''] = rawLine.split('#');
+        const line = beforeComment.trim();
         if (!line) continue;
         const [rangePart, longName] = line.split(';').map((p) => p.trim());
         if (!rangePart || !longName) continue;
         const iso = longToIso.get(longName) ?? longName;
-        const [startHex, endHex] = rangePart.split('..');
+        const [startHex = '', endHex] = rangePart.split('..');
         const start = parseInt(startHex, 16);
         const end = endHex !== undefined ? parseInt(endHex, 16) : start;
         if (Number.isNaN(start) || Number.isNaN(end)) continue;
@@ -203,7 +206,8 @@ function lookupScript(ranges: ScriptRange[], cp: number): string {
     let hi = ranges.length - 1;
     while (lo <= hi) {
         const mid = (lo + hi) >> 1;
-        const r = ranges[mid];
+        // `mid` lies between `lo` and `hi`, both inside the array.
+        const r = must(ranges[mid], 'a script range at the search midpoint');
         if (cp < r.start) hi = mid - 1;
         else if (cp > r.end) lo = mid + 1;
         else return EXCLUDED_SCRIPTS.has(r.script) ? '' : r.script;
@@ -234,11 +238,13 @@ function parseEmojis(text: string): Map<string, EmojiInfo> {
         const [codepointString, meta] = line.split(';');
         if (!codepointString || !meta) continue;
         const codepoints = codepointString.trim().split(' ');
-        const status = meta.split('#')[0].trim();
+        const [beforeComment = ''] = meta.split('#');
+        const status = beforeComment.trim();
         if (status !== 'fully-qualified') continue;
         if (codepoints.at(-1) === 'FE0F') continue;
 
-        const base = codepoints[0];
+        // A split of a non-empty string always yields a first part.
+        const base = must(codepoints[0], 'a base codepoint');
         const existing = emojis.get(base);
         if (existing) {
             existing.variations.push({ codepoints });
@@ -368,8 +374,14 @@ async function main() {
 
     const lines = unicodeData.split('\n');
     for (let i = 0; i < lines.length; i++) {
-        const [hex, name, category] = lines[i].split(';');
-        if (!hex || !category) continue;
+        // The loop bound guarantees a line at `i`.
+        const [hex, name, category] = must(
+            lines[i],
+            'a UnicodeData line',
+        ).split(';');
+        // A missing name implies a missing category, so this rejects nothing
+        // the category test wasn't already rejecting.
+        if (!hex || name === undefined || !category) continue;
 
         // Skip control, separator, and mark codepoints. The picker never
         // surfaces these and they aren't usable as text content.
@@ -387,7 +399,12 @@ async function main() {
         // block endpoints.
         if (name.endsWith(', First>')) {
             const start = parseInt(hex, 16);
-            const end = parseInt(lines[++i].split(';')[0], 16);
+            // UnicodeData always pairs a `, First>` line with a `, Last>` line.
+            const [lastHex = ''] = must(
+                lines[++i],
+                'the line ending a UnicodeData range',
+            ).split(';');
+            const end = parseInt(lastHex, 16);
             for (let cp = start; cp <= end; cp++) emit(cp, category, name);
             continue;
         }

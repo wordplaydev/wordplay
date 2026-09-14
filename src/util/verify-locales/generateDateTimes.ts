@@ -27,6 +27,7 @@
 //
 // Run all supported locales (`npm run datetimes`) or one (`… <locale>`).
 import { existsSync, mkdirSync, readFileSync } from 'fs';
+import { isRecord } from '@util/guards';
 import path from 'path';
 import { Temporal } from 'temporal-polyfill/full';
 import {
@@ -44,11 +45,11 @@ import {
     cldrDirectoriesFor,
     CLDR_VERSION,
     fetchCLDR,
-    isRecord,
     patternText,
 } from '@util/verify-locales/cldr';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import Log from '@util/verify-locales/Log';
+import { must } from '@util/nullable';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);
@@ -205,7 +206,8 @@ function parseLDMLPattern(
 
     let i = 0;
     while (i < pattern.length) {
-        const c = pattern[i];
+        // The loop condition keeps `i` inside the pattern.
+        const c = must(pattern[i], 'a pattern character');
         // Quoted literals; '' is a literal apostrophe.
         if (c === "'") {
             if (pattern[i + 1] === "'") {
@@ -302,12 +304,12 @@ function parseLDMLPattern(
         }
         // Bare literal run.
         let text = '';
-        while (
-            i < pattern.length &&
-            pattern[i] !== "'" &&
-            !/[a-zA-Z]/.test(pattern[i])
+        for (
+            let next = pattern[i];
+            next !== undefined && next !== "'" && !/[a-zA-Z]/.test(next);
+            next = pattern[++i]
         )
-            text += pattern[i++];
+            text += next;
         literal(text);
     }
     return { parts, monthWidth, usesEra, usesDayPeriod, hourCycle };
@@ -456,7 +458,7 @@ async function canonicalTimeZones(): Promise<string[]> {
         if (!isRecord(value) || value['_deprecated'] === 'true') continue;
         const alias = value['_alias'];
         if (typeof alias !== 'string') continue;
-        const canonical = alias.split(' ')[0];
+        const [canonical = ''] = alias.split(' ');
         if (canonical !== 'Etc/Unknown') zones.push(canonical);
     }
     return zones.sort();
@@ -548,7 +550,7 @@ export async function generateDateTimesForLocale(
     }
     // iso8601 has no CLDR data of its own; render it like gregorian.
     const gregory = calendars.gregory;
-    if (gregory) calendars.iso8601 = JSON.parse(JSON.stringify(gregory));
+    if (gregory) calendars.iso8601 = structuredClone(gregory);
 
     const data: DateTimeData = {
         cldr: CLDR_VERSION,

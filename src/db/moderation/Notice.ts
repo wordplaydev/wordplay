@@ -4,6 +4,7 @@ import type {
     SerializedNotices,
 } from 'shared-types';
 import { z } from 'zod';
+import { includesString } from '@util/nullable';
 import type { ReportSubjectKind } from 'shared-types';
 
 /** Where a creator's inbox lives. Client-readable, server-written. */
@@ -132,5 +133,5 @@ export function toNotices(data: unknown): SerializedNotices | undefined {
 
 /** Whether the server wrote this kind, or the client derived it. */
 export function isWritten(kind: NoticeKind): boolean {
-    return (WrittenNoticeKinds as readonly string[]).includes(kind);
+    return includesString(WrittenNoticeKinds, kind);
 }

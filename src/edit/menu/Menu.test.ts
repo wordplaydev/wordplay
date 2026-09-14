@@ -95,7 +95,7 @@ test('number suggestions come before the unit groups', () => {
         ),
     );
     expect(numbers, 'expected a set holding the number suggestions').toBe(0);
-    expect(sets[0].purpose).toBe(Purpose.Numbers);
+    expect(sets[0]!.purpose).toBe(Purpose.Numbers);
 });
 
 test('a set named by its purpose still reads its purpose header', () => {

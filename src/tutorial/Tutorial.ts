@@ -1,4 +1,5 @@
 import type { HowToID } from '@concepts/HowTo';
+import { isRecord } from '@util/guards';
 import type InputTexts from '@locale/InputTexts';
 import type NodeTexts from '@locale/NodeTexts';
 import type OutputTexts from '@locale/OutputTexts';
@@ -6,7 +7,19 @@ import type BasisTexts from '@locale/BasisTexts';
 import type LanguageCode from '@locale/LanguageCode';
 import type { RegionCode } from '@locale/Regions';
 import type { ThemeName } from './ThemeNames';
-import type { Emotion } from '../lore/Emotion';
+import { isEmotion, type Emotion } from '../lore/Emotion';
+import { matchGroups, must } from '@util/nullable';
+
+/** Whether JSON has a tutorial file's top-level shape. Shallow, like
+ *  `isLocaleText`: the verifier repairs what the schema finds within. */
+export function isTutorial(data: unknown): data is Tutorial {
+    return (
+        isRecord(data) &&
+        typeof data.language === 'string' &&
+        Array.isArray(data.regions) &&
+        Array.isArray(data.acts)
+    );
+}
 
 export type Tutorial = {
     /** This is here so that when we generate a JSON schema for a tutorial, the VS Code schema property is allowed **/
@@ -100,11 +113,14 @@ function parseCode(value: Code): string | TemplateReference {
     // An array is always literal code, one element per line.
     if (Array.isArray(value)) return value.join('\n');
     const match = value.match(/^#(\w+)(?:\s+([\s\S]+))?$/);
-    if (value.startsWith(TemplatePrefix) && match !== null)
+    if (value.startsWith(TemplatePrefix) && match !== null) {
+        const [, name, inputs] = matchGroups(match);
         return {
-            name: match[1],
-            inputs: match[2] === undefined ? [] : match[2].split(/\s+/),
+            // The name group is not optional, so a match always carries one.
+            name: must(name, 'a template name'),
+            inputs: inputs === undefined ? [] : inputs.split(/\s+/),
         };
+    }
     return value;
 }
 
@@ -148,5 +164,20 @@ export type CharacterName =
     | '⊥';
 
 export type Dialog = [CharacterName, `${Emotion}`, ...string[]];
+
+/**
+ * Whether a tutorial line is dialog: a speaker, an emotion, then text. The
+ * speaker is any string, since which names are characters depends on the
+ * locale's own text; the emotion and the shape are what this checks.
+ */
+export function isDialog(line: unknown): line is Dialog {
+    return (
+        Array.isArray(line) &&
+        line.length >= 2 &&
+        line.every((part) => typeof part === 'string') &&
+        typeof line[1] === 'string' &&
+        isEmotion(line[1])
+    );
+}
 
 export { type Tutorial as default };

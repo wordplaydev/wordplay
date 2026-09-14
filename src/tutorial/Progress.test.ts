@@ -1,6 +1,7 @@
 import { expect, test } from 'vitest';
 import { getDefaultTutorial } from '@util/verify-locales/TutorialSchema';
 import Progress, { hashPerformance } from './Progress';
+import { must } from '@util/nullable';
 
 const tutorial = getDefaultTutorial('complete');
 const at = (act: number, scene: number, pause: number) =>
@@ -20,9 +21,9 @@ test('two different lessons never share a project ID', () => {
     const ids = new Set<string>();
     const collisions: string[] = [];
     for (let act = 1; act <= tutorial.acts.length; act++) {
-        const scenes = tutorial.acts[act - 1].scenes;
+        const scenes = must(tutorial.acts[act - 1], 'an act').scenes;
         for (let scene = 1; scene <= scenes.length; scene++) {
-            const pauses = scenes[scene - 1].lines.filter(
+            const pauses = must(scenes[scene - 1], 'a scene').lines.filter(
                 (line) => line === null,
             ).length;
             for (let pause = 0; pause <= pauses; pause++) {

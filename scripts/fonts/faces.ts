@@ -45,9 +45,9 @@ export function facesRanges(
         }
     }
     if (sliced) {
-        return [...bySlice.keys()]
-            .sort((a, b) => a - b)
-            .map((i) => bySlice.get(i) as string);
+        return [...bySlice.entries()]
+            .sort(([a], [b]) => a - b)
+            .map(([, range]) => range);
     }
     return wholeRange ?? undefined;
 }
@@ -70,6 +70,8 @@ export function buildFaces(
             entry.rangeSource === 'emoji'
                 ? emojiRanges[entry.name]
                 : facesRanges(entry, lock);
+        const ratio = metrics[entry.name]?.ratio;
+        const mono = metrics[entry.name]?.mono;
         faces[entry.name] = {
             weights: weights(entry),
             italic: entry.italic,
@@ -81,10 +83,8 @@ export function buildFaces(
             ...(entry.impression !== undefined
                 ? { impression: [...entry.impression] }
                 : {}),
-            ...(metrics[entry.name]?.ratio !== undefined
-                ? { ratio: metrics[entry.name].ratio }
-                : {}),
-            ...(metrics[entry.name]?.mono ? { mono: true } : {}),
+            ...(ratio !== undefined ? { ratio } : {}),
+            ...(mono ? { mono: true } : {}),
         };
     }
     return faces;

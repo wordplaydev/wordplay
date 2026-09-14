@@ -5,24 +5,27 @@ import { expect, test } from 'vitest';
 import checkUntranslated from './checkUntranslated';
 
 function copyLocale(): LocaleText {
-    return JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    return structuredClone(DefaultLocale);
 }
 
 /** A locale in which nothing is the English, so each test can introduce exactly
  *  one thing that is. Every string is prefixed rather than replaced, since the
  *  check only ever compares a value to its en-US source. */
 function translatedLocale(): LocaleText {
-    return translate(copyLocale()) as LocaleText;
+    const locale = copyLocale();
+    prefixStrings(locale);
+    return locale;
 }
 
-function translate(value: unknown): unknown {
-    if (typeof value === 'string') return `ø${value}`;
-    if (Array.isArray(value)) return value.map(translate);
-    if (value !== null && typeof value === 'object')
-        return Object.fromEntries(
-            Object.entries(value).map(([key, v]) => [key, translate(v)]),
-        );
-    return value;
+/** Prefixes every string in the tree in place, so the locale keeps its type
+ *  rather than being rebuilt as an untyped object. */
+function prefixStrings(value: object): void {
+    for (const key of Object.keys(value)) {
+        const child: unknown = Reflect.get(value, key);
+        if (typeof child === 'string') Reflect.set(value, key, `ø${child}`);
+        else if (child !== null && typeof child === 'object')
+            prefixStrings(child);
+    }
 }
 
 test('a prose string identical to en-US with no status is reported and queued', () => {

@@ -88,15 +88,17 @@ export default class TextType extends BasisType {
     }
 
     clone(replace?: Replacement) {
-        return new TextType(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('text', this.text, replace),
-            this.replaceChild('close', this.close, replace),
-            // A deriver isn't a child node, so pass it through untouched.
-            this.language instanceof Function
-                ? this.language
-                : this.replaceChild('language', this.language, replace),
-        ) as this;
+        return this.cloned(
+            new TextType(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('text', this.text, replace),
+                this.replaceChild('close', this.close, replace),
+                // A deriver isn't a child node, so pass it through untouched.
+                this.language instanceof Function
+                    ? this.language
+                    : this.replaceChild('language', this.language, replace),
+            ),
+        );
     }
 
     /** True if the locale is derived from an operation's operands. */

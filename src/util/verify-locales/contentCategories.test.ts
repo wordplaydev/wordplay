@@ -241,9 +241,7 @@ describe('stepsFor', () => {
     // work with no verification half.
     test('emoji is not a step', () => {
         expect(Object.keys(stepsFor(sel([])))).not.toContain('emoji');
-        expect(
-            (CONTENT_CATEGORIES as readonly string[]).includes('emoji'),
-        ).toBe(true);
+        expect(CONTENT_CATEGORIES.includes('emoji')).toBe(true);
     });
 });
 

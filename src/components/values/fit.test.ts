@@ -1,3 +1,4 @@
+import { must } from '@util/nullable';
 import { expect, test } from 'vitest';
 import { DEFAULT_BUDGET, fitCount } from './fit';
 
@@ -23,9 +24,9 @@ test('many tiny units grow toward, but never exceed, the length', () => {
 
 test('boundary: sum exactly at budget still fits; just over does not', () => {
     // sizes [5,5] with budget 10: after index 1 total is 10 (not > 10), so both fit.
-    expect(fitCount((i) => [5, 5][i], 2, 10)).toBe(2);
+    expect(fitCount((i) => must([5, 5][i], `size ${i}`), 2, 10)).toBe(2);
     // sizes [5,6] with budget 10: index 1 pushes total to 11 (> 10), so 1 fits.
-    expect(fitCount((i) => [5, 6][i], 2, 10)).toBe(1);
+    expect(fitCount((i) => must([5, 6][i], `size ${i}`), 2, 10)).toBe(1);
 });
 
 test('lazy: only measures leading units until the budget is exceeded', () => {

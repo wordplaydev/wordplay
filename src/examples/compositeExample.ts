@@ -40,6 +40,7 @@ import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
 import TextLiteral from '@nodes/TextLiteral';
 import type Translation from '@nodes/Translation';
+import { must } from '@util/nullable';
 
 /** One input to a composite: a locale code and the example parsed from its
  *  `.wp` file (the en-US master counts as the `en-US` input). */
@@ -79,8 +80,7 @@ export function compositeExample(
     const namesOn = new Map<Node, Set<string>>();
     const kept: CompositeInput[] = [];
 
-    for (let index = 0; index < secondaries.length; index++) {
-        const secondary = secondaries[index];
+    for (const [index, secondary] of secondaries.entries()) {
         if (secondary.project.sources.length !== baseSources.length) continue;
         const secSources = secondary.project.sources.map(
             (source) => new Source(source.names, source.code),
@@ -89,10 +89,10 @@ export function compositeExample(
 
         // A secondary merges whole or not at all: verify every source pair
         // aligns before committing any of its edits.
-        const aligned = baseSources.every((_, sourceIndex) => {
-            const b = baseNodes[sourceIndex];
+        const aligned = baseNodes.every((b, sourceIndex) => {
             const s = secNodes[sourceIndex];
             return (
+                s !== undefined &&
                 b.length === s.length &&
                 b.every(
                     (node, nodeIndex) =>
@@ -102,21 +102,19 @@ export function compositeExample(
         });
         if (!aligned) continue;
 
-        for (
-            let sourceIndex = 0;
-            sourceIndex < baseSources.length;
-            sourceIndex++
-        )
+        // Every list here is a map of one source list or the other, and the
+        // secondary's source count was checked equal above, so each index hits.
+        for (const [sourceIndex, baseSource] of baseSources.entries())
             collectPairEdits(
-                baseSources[sourceIndex],
-                baseNodes[sourceIndex],
-                baseGraphemes[sourceIndex],
-                secSources[sourceIndex],
-                secNodes[sourceIndex],
+                baseSource,
+                must(baseNodes[sourceIndex], 'base nodes'),
+                must(baseGraphemes[sourceIndex], 'base graphemes'),
+                must(secSources[sourceIndex], 'a secondary source'),
+                must(secNodes[sourceIndex], 'secondary nodes'),
                 base.locale,
                 secondary.locale,
                 index + 1,
-                editsBySource[sourceIndex],
+                must(editsBySource[sourceIndex], 'an edit list'),
                 (at) => {
                     const key = `${sourceIndex}:${at}`;
                     if (tagged.has(key)) return false;
@@ -132,9 +130,10 @@ export function compositeExample(
     // (order 0) leftmost and secondaries in chosen order after it, because a
     // later splice at the same position lands before earlier-spliced text.
     const sources = base.project.sources.map((source, sourceIndex) => {
-        const edits = editsBySource[sourceIndex];
+        // Both lists are maps of `base.project.sources`, so each index hits.
+        const edits = must(editsBySource[sourceIndex], 'an edit list');
         if (edits.length === 0) return source;
-        const graphemes = [...baseGraphemes[sourceIndex]];
+        const graphemes = [...must(baseGraphemes[sourceIndex], 'graphemes')];
         for (const edit of [...edits].sort(
             (a, b) => b.at - a.at || b.order - a.order,
         ))

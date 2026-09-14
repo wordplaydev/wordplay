@@ -116,12 +116,13 @@ describe('resilience to a roughened-up placeholder', () => {
         // Kannada, Telugu, Devanagari, Arabic-Indic. `\d` under /u matches only
         // ASCII, so each of these used to leave the placeholder unmatched — the
         // link was dropped, or the raw `⟦೦⟧` shipped to a reader.
-        for (const [zero, one] of [
+        const digits: [string, string][] = [
             ['೦', '೧'],
             ['౦', '౧'],
             ['०', '१'],
             ['٠', '١'],
-        ]) {
+        ];
+        for (const [zero, one] of digits) {
             const restored = roundTrip((m) =>
                 m.replace('0', zero).replace('1', one),
             );
@@ -138,10 +139,11 @@ describe('resilience to a roughened-up placeholder', () => {
     });
 
     test('a look-alike bracket still restores', () => {
-        for (const [open, close] of [
+        const brackets: [string, string][] = [
             ['〚', '〛'],
             ['【', '】'],
-        ]) {
+        ];
+        for (const [open, close] of brackets) {
             const restored = roundTrip((m) =>
                 m.replaceAll('⟦', open).replaceAll('⟧', close),
             );

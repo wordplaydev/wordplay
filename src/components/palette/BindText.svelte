@@ -69,6 +69,12 @@
                 'Restoring bind text editor focus after edit.',
             );
     }
+    /** The bound property's name, shown as the field's placeholder. An empty
+     *  set of values has no property to name. */
+    function placeholderName(): string {
+        const first = values.values[0];
+        return first === undefined ? '' : $locales.getName(first.bind.names);
+    }
 </script>
 
 <div class="text" data-uiid={uiid}>
@@ -78,9 +84,7 @@
     <TextField
         text={values.getText() ?? ''}
         description={(l) => l.ui.palette.field.text}
-        placeholder={values.isEmpty()
-            ? ''
-            : $locales.getName(values.values[0].bind.names)}
+        placeholder={placeholderName()}
         {validator}
         changed={handleChange}
         focus={() => selection?.setAdjusting(true)}

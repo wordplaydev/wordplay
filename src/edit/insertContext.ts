@@ -106,7 +106,11 @@ export function caretIsInNotes(project: Project, caret: Caret): boolean {
         // inside one counts.
         if (node.is(Note, context)) return true;
         if (!node.is(Track, context)) continue;
-        const notes = node.getInput(Track.inputs[0], context);
+        const notesBind = Track.inputs[0];
+        const notes =
+            notesBind === undefined
+                ? undefined
+                : node.getInput(notesBind, context);
         const given = Array.isArray(notes) ? notes : notes ? [notes] : [];
         if (
             given.some(

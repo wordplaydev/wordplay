@@ -8,6 +8,7 @@ import StagePlacement, {
 import Project from '@db/projects/Project';
 import Source from '@nodes/Source';
 import DefaultLocale from '@locale/DefaultLocale';
+import { entriesOf, must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 
 const Position = { left: 0, top: 0, width: 100, height: 100 };
@@ -132,8 +133,12 @@ describe('switching which tile is showing', () => {
             800,
         );
         const [first, second] = laid.getVisibleTiles(Arrangement.Split);
-        expect(laid.getTileWithID(first.id)?.bounds?.top).toBe(0);
-        expect(laid.getTileWithID(second.id)?.bounds?.top).toBe(400);
+        expect(
+            laid.getTileWithID(must(first, 'a first tile').id)?.bounds?.top,
+        ).toBe(0);
+        expect(
+            laid.getTileWithID(must(second, 'a second tile').id)?.bounds?.top,
+        ).toBe(400);
     });
 
     test('a hidden tile becomes the only one shown in single', () => {
@@ -227,10 +232,10 @@ describe('stage placement', () => {
 
                 // Every other tile keeps its relationship to the stage, since
                 // they are all mirrored together.
-                for (const [kind, shares] of Object.entries(
+                for (const [kind, shares] of entriesOf(
                     Neighbors[arrangement],
                 )) {
-                    expect(corner(laid, kind as TileKind)).toEqual({
+                    expect(corner(laid, kind)).toEqual({
                         top: shares.top === stage.top,
                         left: shares.left === stage.left,
                     });
@@ -330,9 +335,11 @@ describe('stage placement', () => {
             },
         ]);
         // A y axis is untouched by a horizontal mirror.
-        expect(
-            mirrorAxes([{ ...axes[0], direction: 'y' }], true, false),
-        ).toEqual([{ ...axes[0], direction: 'y' }]);
+        const vertical: Axis = {
+            ...must(axes[0], 'the axis'),
+            direction: 'y',
+        };
+        expect(mirrorAxes([vertical], true, false)).toEqual([vertical]);
     });
 
     test('a split dragged under a mirrored placement lands where it was dragged', () => {
@@ -357,12 +364,12 @@ describe('stage placement', () => {
                 StagePlacement.TopLeft,
                 Width,
                 Height,
-            )?.[axisIndex].positions[groupIndex].position,
+            )?.[axisIndex]?.positions[groupIndex]?.position,
         ).toBe(split);
         // ...while what's stored is its mirror, at the reflected index, so the
         // same project read at the default placement is unmirrored.
         expect(
-            adjusted.splits?.horizontal?.[axisIndex].positions[2].position,
+            adjusted.splits?.horizontal?.[axisIndex]?.positions[2]?.position,
         ).toBeCloseTo(1 - split);
     });
 

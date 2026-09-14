@@ -44,6 +44,7 @@
     } from '@parser/Symbols';
     import { toMarkup } from '@parser/toMarkup';
     import { toTokens } from '@parser/toTokens';
+    import { must } from '@util/nullable';
     import { tick } from 'svelte';
 
     interface Props {
@@ -156,8 +157,8 @@
             const docs = parseDocs(toTokens(rt(markup)));
             return (
                 docs.getLanguage($locales.getLocale().language)?.markup ??
-                docs.docs[0].markup ??
-                undefined
+                // A parsed docs string always holds at least one doc.
+                must(docs.docs[0], 'a doc').markup
             );
         }
         // Does it start with a formatted symbol? Pull out the relevant markup matching
@@ -166,8 +167,8 @@
             const formatted = parseFormattedLiteral(toTokens(rt(markup)));
             return (
                 formatted.getLanguage($locales.getLocale().language)?.markup ??
-                formatted.texts[0].markup ??
-                undefined
+                // A parsed formatted literal always holds at least one text.
+                must(formatted.texts[0], 'a formatted text').markup
             );
         }
         // Otherwise, just render the string as a single paragraph of markup.
@@ -327,10 +328,7 @@
                   ? markup[0]
                   : undefined;
         if (accessor === undefined) return result;
-        const inputs =
-            Array.isArray(markup) && markup[0] instanceof Function
-                ? (markup[1] as Record<string, TemplateInput>)
-                : undefined;
+        const inputs = isTemplate(markup) ? markup[1] : undefined;
         const joinWords = (text: string | string[]) =>
             Array.isArray(text) ? text.join('\n\n') : text;
 
@@ -542,7 +540,7 @@
                         .toText()
                         .trim().length === 0}<LocalizedText
                         path={placeholder}
-                    />{:else if displaySpaces}{#if inline}{#each displayParsed.asLine().paragraphs[0].segments as segment}<SegmentHTMLView
+                    />{:else if displaySpaces}{#if inline}{#each displayParsed.asLine().paragraphs[0]?.segments ?? [] as segment}<SegmentHTMLView
                                 {segment}
                                 spaces={displaySpaces}
                                 alone={false}
@@ -566,14 +564,14 @@
     </span>
 {:else if spaces}
     {#if inline}
-        {#each parsed.asLine().paragraphs[0].segments as segment}
+        {#each parsed.asLine().paragraphs[0]?.segments ?? [] as segment}
             <SegmentHTMLView {segment} {spaces} alone={false} />
         {/each}{#each secondaryMarkups as entry, i}{#if entry.markup.spaces}<span
                     class="secondary-inline"
                     lang={entry.language}
                     dir={entry.direction}
                     style="font-size: {0.8 ** (i + 1)}em"
-                    >{#each entry.markup.asLine().paragraphs[0].segments as segment}<SegmentHTMLView
+                    >{#each entry.markup.asLine().paragraphs[0]?.segments ?? [] as segment}<SegmentHTMLView
                             {segment}
                             spaces={entry.markup.spaces}
                             alone={false}

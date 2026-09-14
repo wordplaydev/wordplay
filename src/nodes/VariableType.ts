@@ -33,7 +33,7 @@ export default class VariableType extends Type {
     }
 
     clone() {
-        return new VariableType(this.definition) as this;
+        return this.cloned(new VariableType(this.definition));
     }
 
     /** All types are concrete unless noted otherwise. */

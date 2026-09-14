@@ -90,13 +90,15 @@ export default class WebLink extends Content {
     }
 
     clone(replace?: Replacement | undefined): this {
-        return new WebLink(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('description', this.description, replace),
-            this.replaceChild('at', this.at, replace),
-            this.replaceChild('url', this.url, replace),
-            this.replaceChild('close', this.close, replace),
-        ) as this;
+        return this.cloned(
+            new WebLink(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('description', this.description, replace),
+                this.replaceChild('at', this.at, replace),
+                this.replaceChild('url', this.url, replace),
+                this.replaceChild('close', this.close, replace),
+            ),
+        );
     }
 
     getPurpose() {

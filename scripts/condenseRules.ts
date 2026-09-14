@@ -9,6 +9,7 @@
 
 import { coveredLength } from '@util/verify-locales/verifyChangelog';
 import { parseEntry, toMarkup } from './updates';
+import { must } from '@util/nullable.ts';
 
 /** Why a rewrite was refused. The original is kept in every case. */
 export type Rejection =
@@ -54,17 +55,24 @@ export function isCandidate(text: string): boolean {
 
 /** The contents of every code span, in order. */
 export function codeSpans(text: string): string[] {
-    return [...text.matchAll(/`([^`]*)`/g)].map((m) => m[1]);
+    // The pattern's only group is not optional.
+    return [...text.matchAll(/`([^`]*)`/g)].map((m) =>
+        must(m[1], 'a code span'),
+    );
 }
 
 /** Every Markdown link target, in order. */
 export function linkTargets(text: string): string[] {
-    return [...text.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)].map((m) => m[1]);
+    return [...text.matchAll(/\[[^\]]+\]\(([^)]+)\)/g)].map((m) =>
+        must(m[1], 'a link target'),
+    );
 }
 
 /** Every issue citation number, in order. */
 export function citations(text: string): string[] {
-    return [...text.matchAll(/#(\d+)/g)].map((m) => m[1]);
+    return [...text.matchAll(/#(\d+)/g)].map((m) =>
+        must(m[1], 'a citation number'),
+    );
 }
 
 /** Whether two lists hold the same items, ignoring order. */

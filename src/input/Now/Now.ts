@@ -32,6 +32,7 @@ import TemporalStreamValue from '@values/TemporalStreamValue';
 import TextValue from '@values/TextValue';
 import { createCalendarType } from '@input/Moment/Moment';
 import type { StreamKind } from '@values/StreamValue';
+import { first, must } from '@util/nullable';
 
 const DEFAULT_FREQUENCY_MS = 1000;
 
@@ -63,7 +64,8 @@ function currentMoment(
         new MessageException(
             creator,
             evaluator,
-            select(evaluator.getLocales()[0]),
+            // `getLocales` always ends with the default locale.
+            select(must(first(evaluator.getLocales()), 'a locale')),
         );
     // An unset calendar means the active locale's default. An invalid one is
     // reachable despite the literal-union input type, since conflicted
@@ -73,7 +75,9 @@ function currentMoment(
     const chosen: SupportedCalendar =
         calendar !== undefined && isSupportedCalendar(calendar)
             ? calendar
-            : getDateTimeDataForLocale(evaluator.getLocales()[0]).calendar;
+            : getDateTimeDataForLocale(
+                  must(first(evaluator.getLocales()), 'a locale'),
+              ).calendar;
     try {
         return createMomentStructure(
             evaluator,

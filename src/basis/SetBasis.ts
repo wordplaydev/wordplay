@@ -1,4 +1,6 @@
 import { createBind } from '@locale/createBind';
+import { must } from '@util/nullable';
+import ExceptionValue from '@values/ExceptionValue';
 import { createFunction } from '@locale/createFunction';
 import { createInputs } from '@locale/createInputs';
 import { getDocLocales } from '@locale/getDocLocales';
@@ -28,6 +30,17 @@ import {
     createEqualsFunction,
 } from '@basis/Basis';
 import { Iteration } from '@basis/Iteration';
+
+/** The value an iteration is on, or undefined past the end. */
+function valueAt(info: { index: number; set: SetValue }): Value | undefined {
+    return info.set.values[info.index];
+}
+
+/** The value an iteration is on, for handing to a function. The iteration's
+ *  check stops before the end, so there is always one here. */
+function valuesOf(info: { index: number; set: SetValue }): [Value] {
+    return [must(valueAt(info), 'a set value')];
+}
 
 export default function bootstrapSet(locales: Locales) {
     const SetTypeVariableNames = getNameLocales(
@@ -222,19 +235,25 @@ export default function bootstrapSet(locales: Locales) {
                     }>(
                         SetType.make(SetTypeVariable.getReference()),
                         // Start with an index of one, the list we're translating, and an empty translated list.
-                        (evaluator) => {
+                        (evaluator, expression) => {
+                            const set = evaluator.getClosureOf(
+                                SetValue,
+                                SetType.make(),
+                                expression,
+                            );
+                            if (set instanceof ExceptionValue) return set;
                             return {
                                 index: 0,
-                                set: evaluator.getCurrentClosure() as SetValue,
+                                set,
                                 filtered: [],
                             };
                         },
                         // If we're past the end, stop. Otherwise, evaluate the filter function on the next value.
                         (evaluator, info, expr) =>
-                            info.index >= info.set.values.length
+                            valueAt(info) === undefined
                                 ? false
                                 : expr.evaluateFunctionInput(evaluator, 0, [
-                                      info.set.values[info.index],
+                                      ...valuesOf(info),
                                       info.set,
                                   ]),
                         // See if we're keeping it.
@@ -246,8 +265,9 @@ export default function bootstrapSet(locales: Locales) {
                                     BooleanType.make(),
                                     include,
                                 );
-                            if (include.bool)
-                                info.filtered.push(info.set.values[info.index]);
+                            const value = valueAt(info);
+                            if (include.bool && value !== undefined)
+                                info.filtered.push(value);
                             info.index = info.index + 1;
                             return undefined;
                         },
@@ -292,22 +312,27 @@ export default function bootstrapSet(locales: Locales) {
                     }>(
                         SetType.make(SetTranslateTypeVariable.getReference()),
                         // Start with an index of one, the list we're translating, and an empty translated list.
-                        (evaluator) => {
+                        (evaluator, expression) => {
+                            const set = evaluator.getClosureOf(
+                                SetValue,
+                                SetType.make(),
+                                expression,
+                            );
+                            if (set instanceof ExceptionValue) return set;
                             return {
                                 index: 0,
-                                set: evaluator.getCurrentClosure() as SetValue,
-                                values: (
-                                    evaluator.getCurrentClosure() as SetValue
-                                ).values,
+                                set,
+                                values: set.values,
                                 translated: [],
                             };
                         },
                         // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
                         (evaluator, info, expr) =>
-                            info.index >= info.values.length
+                            info.values[info.index] === undefined
                                 ? false
                                 : expr.evaluateFunctionInput(evaluator, 0, [
-                                      info.values[info.index],
+                                      // The check above stops before the end.
+                                      must(info.values[info.index], 'a value'),
                                       info.set,
                                   ]),
                         // Save the translated value and increment the index.
@@ -331,6 +356,7 @@ export default function bootstrapSet(locales: Locales) {
                     ),
                     SetType.make(SetTypeVariable.getReference()),
                     TextType.make(),
+                    SetValue,
                     (requestor: Expression, val: SetValue) =>
                         new TextValue(requestor, val.toString()),
                 ),
@@ -341,6 +367,7 @@ export default function bootstrapSet(locales: Locales) {
                     ),
                     SetType.make(SetTypeVariable.getReference()),
                     ListType.make(SetTypeVariable.getReference()),
+                    SetValue,
                     (requestor: Expression, val: SetValue) =>
                         new ListValue(requestor, val.values),
                 ),

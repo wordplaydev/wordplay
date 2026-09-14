@@ -1,5 +1,6 @@
 import { expect, test } from 'vitest';
 import type { PathCommand } from 'fontkit';
+import { must } from '@util/nullable';
 import { glyphPathToPlaces } from '@input/Contour/Contour';
 import { Faces, getFontFileURL } from '@basis/faces/Fonts';
 import evaluateCode from '@runtime/evaluate';
@@ -20,8 +21,12 @@ test('glyphPathToPlaces samples a line at the requested spacing', () => {
     // scale 1 (font unit = meter), spacing 1m, length 100 → 100 samples.
     const points = glyphPathToPlaces(commands, 1, 1, 0, 0);
     expect(points).toHaveLength(101); // 1 move + 100
-    for (let i = 1; i < points.length; i++)
-        expect(points[i].y - points[i - 1].y).toBeCloseTo(1);
+    for (let i = 1; i < points.length; i++) {
+        // Both indices are inside the list, by the loop's own bounds.
+        const previous = must(points[i - 1], 'the previous point');
+        const point = must(points[i], 'a point');
+        expect(point.y - previous.y).toBeCloseTo(1);
+    }
 });
 
 test('glyphPathToPlaces keeps spacing consistent across segments and operations', () => {
@@ -34,8 +39,12 @@ test('glyphPathToPlaces keeps spacing consistent across segments and operations'
         { command: 'quadraticCurveTo', args: [0, 300, 0, 350] }, // straight, length 100
     ];
     const points = glyphPathToPlaces(commands, 1, 1, 0, 0);
-    for (let i = 1; i < points.length; i++)
-        expect(points[i].y - points[i - 1].y).toBeCloseTo(1, 5);
+    for (let i = 1; i < points.length; i++) {
+        // Both indices are inside the list, by the loop's own bounds.
+        const previous = must(points[i - 1], 'the previous point');
+        const point = must(points[i], 'a point');
+        expect(point.y - previous.y).toBeCloseTo(1, 5);
+    }
 });
 
 test('glyphPathToPlaces scales font units to meters and adds the origin offset', () => {
@@ -112,7 +121,7 @@ test('getFontFileURL builds fixed-weight, italic, and range file paths', () => {
     ).toBe('/fonts/Pacifico/Pacifico-400-italic.woff2');
 
     // A range-subset face appends the range's index.
-    const ranges = Faces['Noto Sans'].ranges;
+    const ranges = must(Faces['Noto Sans'], 'the Noto Sans face').ranges;
     const range = Array.isArray(ranges) ? ranges[7] : undefined;
     expect(
         getFontFileURL({

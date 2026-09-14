@@ -25,6 +25,7 @@ import TextType from '@nodes/TextType';
 import UnaryEvaluate from '@nodes/UnaryEvaluate';
 import { getPlaceExpression } from '@output/Place/getOrCreatePlace';
 import { getFormAnchor, translateFormTo } from '@edit/output/editShape';
+import { must } from '@util/nullable';
 
 export function getNumber(given: Expression): number | undefined {
     const measurement =
@@ -67,7 +68,9 @@ export function movedOutput(
     // Rectangle edges or Circle/Polygon center) to the target stage position.
     const ShapeType = project.shares.output.Shape;
     if (evaluate.is(ShapeType, ctx)) {
-        const form = evaluate.getInput(ShapeType.inputs[0], ctx);
+        // The basis declares Shape's form input, so it is always there.
+        const formInput = must(ShapeType.inputs[0], "Shape's form input");
+        const form = evaluate.getInput(formInput, ctx);
         const anchor =
             form instanceof Evaluate
                 ? getFormAnchor(project, form, ctx)
@@ -83,7 +86,7 @@ export function movedOutput(
                   )
                 : undefined;
         return newForm
-            ? evaluate.withBindAs(ShapeType.inputs[0], newForm, ctx)
+            ? evaluate.withBindAs(formInput, newForm, ctx)
             : evaluate;
     }
 
@@ -93,9 +96,11 @@ export function movedOutput(
             ? given
             : undefined;
 
-    const x = place?.getInput(project.shares.output.Place.inputs[0], ctx);
-    const y = place?.getInput(project.shares.output.Place.inputs[1], ctx);
-    const z = place?.getInput(project.shares.output.Place.inputs[2], ctx);
+    // The basis declares Place's three coordinate inputs.
+    const coordinates = project.shares.output.Place.inputs;
+    const x = place?.getInput(must(coordinates[0], "Place's x input"), ctx);
+    const y = place?.getInput(must(coordinates[1], "Place's y input"), ctx);
+    const z = place?.getInput(must(coordinates[2], "Place's z input"), ctx);
 
     const xValue = x instanceof Expression ? getNumber(x) : undefined;
     const yValue = y instanceof Expression ? getNumber(y) : undefined;
@@ -173,20 +178,17 @@ export default function moveOutput(
     relative: boolean,
 ) {
     const revisions = evaluates
-        .map(
-            (evaluate) =>
-                [
-                    evaluate,
-                    movedOutput(
-                        project,
-                        evaluate,
-                        locales,
-                        horizontal,
-                        vertical,
-                        relative,
-                    ),
-                ] as [Evaluate, Evaluate],
-        )
+        .map((evaluate): [Evaluate, Evaluate] => [
+            evaluate,
+            movedOutput(
+                project,
+                evaluate,
+                locales,
+                horizontal,
+                vertical,
+                relative,
+            ),
+        ])
         .filter(([evaluate, moved]) => !moved.isEqualTo(evaluate));
 
     if (revisions.length === 0) return;
@@ -277,15 +279,12 @@ export function moveContent(
     const content = list.values[index];
     if (content === undefined) return;
     const newValues = list.values.slice();
-    if (direction < 0) {
-        const previous = newValues[index - 1];
-        newValues[index - 1] = content;
-        newValues[index] = previous;
-    } else {
-        const next = newValues[index + 1];
-        newValues[index + 1] = content;
-        newValues[index] = next;
-    }
+    // Nothing to swap with at either end; the palette's up/down buttons are
+    // inactive there, so this is unreachable from the interface.
+    const other = newValues[index + direction];
+    if (other === undefined) return;
+    newValues[index + direction] = content;
+    newValues[index] = other;
     reviseContent(database, project, list, newValues);
 }
 
@@ -302,7 +301,10 @@ export function addStageContent(
     if (stage) {
         // Append the new content to the stage's content list.
         const context = project.getNodeContext(stage);
-        const list = stage.getInput(StageType.inputs[0], context);
+        const list = stage.getInput(
+            must(StageType.inputs[0], "Stage's content input"),
+            context,
+        );
         if (list instanceof ListLiteral)
             reviseContent(database, project, list, [
                 ...list.values,
@@ -493,6 +495,9 @@ export function classifyOutput(project: Project): {
     }
 
     const last = results[0];
+    // Unreachable: a single result is what remains after the two cases above.
+    if (last === undefined)
+        return { kind: 'none', expression: undefined, isList: false };
     if (last instanceof TextLiteral || last instanceof FormattedLiteral)
         return { kind: 'text', expression: last, isList: false };
 
@@ -547,8 +552,8 @@ function wrapTarget(project: Project):
     const { block, results } = getOutputExpression(project);
     if (results.length === 0) return undefined;
 
-    if (results.length === 1) {
-        const expr = results[0];
+    const expr = results[0];
+    if (results.length === 1 && expr !== undefined) {
         const { isList } = classifyOutput(project);
         return {
             content: isList ? expr : ListLiteral.make([expr]),

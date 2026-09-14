@@ -1,3 +1,5 @@
+import { must } from '@util/nullable';
+
 export type Point = { readonly x: number; readonly y: number };
 export type Velocity = { readonly vx: number; readonly vy: number };
 /** Assumes consecutive points form edges and that edges form a convex polygon */
@@ -111,13 +113,20 @@ export function getPolygonIntersect(
     }[] = [];
 
     // Iterate through all points
-    for (let n = 0; n < poly1.length; n++) {
-        // Construct a segment from this point to the next point in the polygon
-        const segment1 = [poly1[n], poly1[(n + 1) % poly1.length]] as const;
+    for (const [n, point1] of poly1.entries()) {
+        // Construct a segment from this point to the next point in the polygon;
+        // the wrapped index is in range because the polygon has this point.
+        const segment1 = [
+            point1,
+            must(poly1[(n + 1) % poly1.length], 'a polygon point'),
+        ] as const;
 
         // Iterate through the edges of the other polygon
-        for (let k = 0; k < poly2.length; k++) {
-            const segment2 = [poly2[k], poly2[(k + 1) % poly2.length]] as const;
+        for (const [k, point2] of poly2.entries()) {
+            const segment2 = [
+                point2,
+                must(poly2[(k + 1) % poly2.length], 'a polygon point'),
+            ] as const;
 
             const intersection = getSegmentIntersect(segment1, segment2);
 

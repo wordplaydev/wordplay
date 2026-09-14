@@ -25,16 +25,15 @@ function evaluatorFor(code: string): Evaluator {
 function refsOf(markup: Markup): { nodes: NodeRef[]; values: ValueRef[] } {
     const nodes: NodeRef[] = [];
     const values: ValueRef[] = [];
+    const hasSegments = (value: unknown): value is { segments: unknown[] } =>
+        typeof value === 'object' &&
+        value !== null &&
+        'segments' in value &&
+        Array.isArray(value.segments);
     const visit = (segment: unknown) => {
         if (segment instanceof NodeRef) nodes.push(segment);
         else if (segment instanceof ValueRef) values.push(segment);
-        else if (
-            segment &&
-            typeof segment === 'object' &&
-            'segments' in segment &&
-            Array.isArray((segment as { segments: unknown[] }).segments)
-        )
-            (segment as { segments: unknown[] }).segments.forEach(visit);
+        else if (hasSegments(segment)) segment.segments.forEach(visit);
     };
     markup.paragraphs.forEach((p) => p.segments.forEach(visit));
     return { nodes, values };

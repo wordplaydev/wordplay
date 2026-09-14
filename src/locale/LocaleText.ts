@@ -177,7 +177,7 @@ function splitLocaleString(locale: string): {
  *  valid one. For a multilingual string like `es_en-MX`, returns `es`. */
 export function getLocaleLanguage(locale: string): LanguageCode | undefined {
     const { languages } = splitLocaleString(locale);
-    const [code] = languages.split('_');
+    const [code = ''] = languages.split('_');
     return isLanguageCode(code) ? code : undefined;
 }
 
@@ -207,9 +207,10 @@ export function getLocaleLanguageName(
  *  is safe to use as a drop-in for `getLocaleLanguageName`. */
 export function getMultilingualLanguageLabel(locale: string | Locale): string {
     const codes = getLocaleLanguages(locale);
-    if (codes.length === 0) return '';
     const names = codes.map((code) => Languages[code]?.name ?? code);
-    return names.length === 1 ? names[0] : names.join(' + ');
+    const [firstName, ...restNames] = names;
+    if (firstName === undefined) return '';
+    return restNames.length === 0 ? firstName : names.join(' + ');
 }
 
 export function getLanguageLocalDescription(locale: Locale) {

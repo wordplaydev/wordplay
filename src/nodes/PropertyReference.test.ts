@@ -69,7 +69,7 @@ test('Definition.staticName resolves the static bind', () => {
 
     const def = prop.name.getDefinitionOfNameInScope('a', context);
     expect(def).toBeInstanceOf(Bind);
-    expect((def as Bind).hasName('a')).toBe(true);
+    expect(def instanceof Bind && def.hasName('a')).toBe(true);
 
     // And there should be no conflict on the inner Reference.
     project.analyze();

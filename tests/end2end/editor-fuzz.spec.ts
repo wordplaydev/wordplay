@@ -104,7 +104,8 @@ test('rapid editing never crashes the editor', async ({ page }) => {
         const roll = random();
         if (roll < 0.5) {
             // Insert a burst with no delay to maximize mid-flush overlap.
-            const fragment = FRAGMENTS[Math.floor(random() * FRAGMENTS.length)];
+            const fragment =
+                FRAGMENTS[Math.floor(random() * FRAGMENTS.length)] ?? '';
             await page.keyboard.type(fragment, { delay: 0 });
         } else if (roll < 0.65) {
             // Select all, copy, move, then paste — exercises the paste path

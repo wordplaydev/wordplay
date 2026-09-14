@@ -37,6 +37,7 @@ import {
 } from '@parser/Symbols';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { must } from '@util/nullable.ts';
 
 const Root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -445,7 +446,8 @@ class Builder {
             kind !== undefined &&
             SymScopes.get(kind)?.startsWith('constant.numeric')
                 ? kind
-                : rule.syms[0];
+                : // A tokenizer rule always names at least one Sym.
+                  must(rule.syms[0], 'a rule’s Sym');
         return { name: this.scope(sym, context), match: patternOf(rule) };
     }
 

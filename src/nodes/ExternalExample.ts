@@ -65,9 +65,11 @@ export default class ExternalExample extends Content {
     }
 
     clone(replace?: Replacement | undefined): this {
-        return new ExternalExample(
-            this.replaceChild('example', this.example, replace),
-        ) as this;
+        return this.cloned(
+            new ExternalExample(
+                this.replaceChild('example', this.example, replace),
+            ),
+        );
     }
 
     /** The variant matching the given tag, falling back to Python, then the first variant. */

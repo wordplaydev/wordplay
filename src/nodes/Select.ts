@@ -1,4 +1,6 @@
 import conciseRef from '@nodes/conciseRef';
+import { allDefined } from '@util/nullable';
+import ValueException from '@values/ValueException';
 import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import getConceptName from '@locale/getConceptName';
@@ -121,11 +123,13 @@ export default class Select extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Select(
-            this.replaceChild('table', this.table, replace),
-            this.replaceChild('row', this.row, replace),
-            this.replaceChild('query', this.query, replace),
-        ) as this;
+        return this.cloned(
+            new Select(
+                this.replaceChild('table', this.table, replace),
+                this.replaceChild('row', this.row, replace),
+                this.replaceChild('query', this.query, replace),
+            ),
+        );
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {
@@ -206,19 +210,19 @@ export default class Select extends Expression {
                               : undefined;
                       return column === undefined ? undefined : column;
                   });
-        if (columnTypes.find((t) => t === undefined))
+        if (!allDefined(columnTypes))
             return new UnknownNameType(this, undefined, undefined);
 
-        return TableType.make(columnTypes as Bind[]);
+        return TableType.make(columnTypes);
     }
 
     getDefinitions(node: Node, context: Context): Definition[] {
         node;
         const type = this.table.getType(context);
         if (type instanceof TableType)
-            return type.columns
-                .filter((col) => col instanceof Bind)
-                .map((col) => col) as Bind[];
+            return type.columns.filter(
+                (col): col is Bind => col instanceof Bind,
+            );
         else return [];
     }
 
@@ -275,8 +279,9 @@ export default class Select extends Expression {
                     const select = evaluator.popValue(this, BooleanType.make());
                     if (!(select instanceof BoolValue)) return select;
                     // Query was false? Keep instead of deleting.
-                    if (select.bool)
-                        info.selected.push(info.table.rows[info.index]);
+                    const row = info.table.rows[info.index];
+                    if (select.bool && row !== undefined)
+                        info.selected.push(row);
                     // Increment the counter to the next row.
                     info.index = info.index + 1;
                 },
@@ -286,7 +291,9 @@ export default class Select extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        const { table, selected } = getIterationResult<SelectState>(evaluator);
+        const state = getIterationResult<SelectState>(evaluator);
+        if (state === undefined) return new ValueException(evaluator, this);
+        const { table, selected } = state;
 
         // Pop the table.
         evaluator.popValue(this);

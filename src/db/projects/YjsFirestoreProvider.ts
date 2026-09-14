@@ -1,4 +1,5 @@
 import { Domain } from '@db/Domains';
+import { z } from 'zod';
 import { FirebaseError } from 'firebase/app';
 import {
     addDoc,
@@ -19,18 +20,19 @@ import ProjectCRDT, {
 const UPDATE_DEBOUNCE_MS = 200;
 
 /** Schema for one update doc inside `projects/{id}/updates/{updateId}`. */
-type UpdateDoc = {
+const UpdateDocSchema = z.object({
     /** Base64 of the binary Yjs update bytes. */
-    bytes: string;
+    bytes: z.string(),
     /** Writer ID — used to filter own writes when re-reading the
      *  subcollection (the local Y.Doc has already applied them). */
-    writer: string;
+    writer: z.string(),
     /** Monotonic counter from the writer's session, useful for ordering
      *  ties on identical server timestamps. */
-    seq: number;
+    seq: z.number(),
     /** ms-since-epoch from the writer at publish time. */
-    sentAt: number;
-};
+    sentAt: z.number(),
+});
+type UpdateDoc = z.infer<typeof UpdateDocSchema>;
 
 /**
  * Realtime synchronization between a local ProjectCRDT and a Firestore
@@ -159,7 +161,12 @@ export default class YjsFirestoreProvider {
                         this.ownDocIDs.delete(id);
                         continue;
                     }
-                    const data = change.doc.data() as UpdateDoc;
+                    const update = UpdateDocSchema.safeParse(change.doc.data());
+                    if (!update.success) {
+                        console.error('Malformed remote Yjs update', id);
+                        continue;
+                    }
+                    const data = update.data;
                     if (data.writer === this.writer) continue;
                     try {
                         this.crdt.applyRemoteUpdate(base64ToBytes(data.bytes));

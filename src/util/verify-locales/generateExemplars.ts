@@ -28,9 +28,11 @@ import {
     PossibleLanguages,
     type LanguageMetadata,
 } from '@locale/LanguageCode';
-import { CLDR_VERSION, fetchCLDR, isRecord } from '@util/verify-locales/cldr';
+import { CLDR_VERSION, fetchCLDR } from '@util/verify-locales/cldr';
+import { isRecord } from '@util/guards';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import Log from '@util/verify-locales/Log';
+import { must } from '@util/nullable';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);
@@ -78,7 +80,8 @@ export function parseUnicodeSet(set: string): string[] {
     };
 
     while (index < body.length) {
-        const character = body[index];
+        // The loop condition keeps `index` inside the body.
+        const character = must(body[index], 'a set character');
         if (/\s/.test(character)) {
             index++;
             continue;
@@ -92,11 +95,8 @@ export function parseUnicodeSet(set: string): string[] {
         }
         const first = readOne();
         // A range like a-e, but not a trailing hyphen member or separator.
-        if (
-            body[index] === '-' &&
-            body[index + 1] !== undefined &&
-            !/\s/.test(body[index + 1])
-        ) {
+        const after = body[index + 1];
+        if (body[index] === '-' && after !== undefined && !/\s/.test(after)) {
             index++;
             const last = readOne();
             const from = first.codePointAt(0);

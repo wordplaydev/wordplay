@@ -6,6 +6,7 @@ import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import type Value from '@values/Value';
 import Source from '@nodes/Source';
+import { must } from '@util/nullable';
 
 test.each([
     // A single source with 1 should evaluate to 1
@@ -18,7 +19,7 @@ test.each([
         const project = Project.make(
             null,
             'test',
-            new Source('test', code[0]),
+            new Source('test', must(code[0], 'the main source')),
             code
                 .slice(1)
                 .map((code, index) => new Source(`sup${index + 1}`, code)),
@@ -28,6 +29,6 @@ test.each([
             DefaultLocale,
         ]).getInitialValue();
         expect(value).toBeDefined();
-        expect((value as Value).constructor).toBe(valueType);
+        expect(value!.constructor).toBe(valueType);
     },
 );

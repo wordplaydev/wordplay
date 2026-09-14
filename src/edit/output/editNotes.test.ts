@@ -28,6 +28,7 @@ import {
     withDegreeAt,
     withDuration,
 } from '@edit/output/editNotes';
+import { first, must } from '@util/nullable';
 
 /** The note entries of the first track of a program. */
 function entriesOf(code: string) {
@@ -38,9 +39,16 @@ function entriesOf(code: string) {
         [],
         DefaultLocale,
     );
-    const [evaluate] = musicsIn(project);
+    const evaluate = must(first(musicsIn(project)), 'a music in the program');
     const music = readMusic(project, evaluate);
-    return { project, music, entries: music?.tracks[0].entries ?? [] };
+    const entries = music?.tracks[0]?.entries ?? [];
+    return {
+        project,
+        music,
+        entries,
+        /** The entry at an index each program below is written to have. */
+        note: (index: number) => must(entries[index], `note ${index}`),
+    };
 }
 
 test('a degree is written without floating-point noise', () => {
@@ -53,8 +61,11 @@ test('a degree is written without floating-point noise', () => {
 });
 
 test('transposing keeps the written form of what it moves', () => {
-    const { entries } = entriesOf(`Music(Track([1 ø {1 3 5} 8𝅗𝅥]))`);
-    const [bare, rest, chord, timed] = entries;
+    const { note } = entriesOf(`Music(Track([1 ø {1 3 5} 8𝅗𝅥]))`);
+    const bare = note(0);
+    const rest = note(1);
+    const chord = note(2);
+    const timed = note(3);
 
     // A bare number stays bare.
     const up = transposed(bare, 1);
@@ -79,8 +90,8 @@ test('transposing keeps the written form of what it moves', () => {
 });
 
 test('a chord moves one voice at a time when asked', () => {
-    const { entries } = entriesOf(`Music(Track([{1 3 5}]))`);
-    const chord = withDegreeAt(entries[0], 1, (degree) => degree + 1);
+    const { note } = entriesOf(`Music(Track([{1 3 5}]))`);
+    const chord = withDegreeAt(note(0), 1, (degree) => degree + 1);
     expect(
         chord instanceof SetLiteral
             ? chord.values.map((v) => v.toWordplay())
@@ -89,10 +100,10 @@ test('a chord moves one voice at a time when asked', () => {
 });
 
 test('bending writes a fraction of a degree', () => {
-    const { entries } = entriesOf(`Music(Track([1 {1 3}]))`);
-    expect(bent(entries[0], 0, 0.2).toWordplay()).toBe('1.2');
+    const { note } = entriesOf(`Music(Track([1 {1 3}]))`);
+    expect(bent(note(0), 0, 0.2).toWordplay()).toBe('1.2');
     // Inside a chord, only the bent voice moves.
-    const chord = bent(entries[1], 1, -0.5);
+    const chord = bent(note(1), 1, -0.5);
     expect(
         chord instanceof SetLiteral
             ? chord.values.map((v) => v.toWordplay())
@@ -101,8 +112,10 @@ test('bending writes a fraction of a degree', () => {
 });
 
 test('the duration picker rewrites a note value in place', () => {
-    const { entries } = entriesOf(`Music(Track([1 {1 3 5} ø]))`);
-    const [bare, chord, rest] = entries;
+    const { note } = entriesOf(`Music(Track([1 {1 3 5} ø]))`);
+    const bare = note(0);
+    const chord = note(1);
+    const rest = note(2);
 
     expect(withDuration(bare, Unit.create([Half])).toWordplay()).toBe(
         `1${Half}`,
@@ -119,7 +132,7 @@ test('the duration picker rewrites a note value in place', () => {
     expect(withDuration(rest, Unit.create([Half]))).toBe(rest);
 
     // And clearing the unit goes back to a bare number.
-    expect(withDuration(entries[0], undefined).toWordplay()).toBe('1');
+    expect(withDuration(note(0), undefined).toWordplay()).toBe('1');
 });
 
 test('inserting places a note and appends past the end', () => {
@@ -177,14 +190,14 @@ test('an edited list survives being written back into the source', () => {
     // Serializing the detached list instead would prove nothing — spacing
     // lives in Source's Spaces map, so a bare toWordplay() writes `[1ø{135}]`
     // and `135` re-tokenizes as one number.
-    const { project, music, entries } = entriesOf(
+    const { project, music, entries, note } = entriesOf(
         `Music(Track([1 ø {1 3 5}]))`,
     );
-    const list = music?.tracks[0].notes;
+    const list = music?.tracks[0]?.notes;
     if (list === undefined) throw new Error('expected a literal note list');
 
     const edited = inserted(
-        replaced(entries, 0, transposed(entries[0], 2)),
+        replaced(entries, 0, transposed(note(0), 2)),
         3,
         7,
         Unit.create([Half]),
@@ -194,7 +207,10 @@ test('an edited list survives being written back into the source', () => {
     ]);
 
     const notes =
-        readMusic(revised, musicsIn(revised)[0])?.tracks[0].data.notes ?? [];
+        readMusic(
+            revised,
+            must(first(musicsIn(revised)), 'a music in the revision'),
+        )?.tracks[0]?.data.notes ?? [];
     expect(notes.map((note) => note.degrees)).toEqual([
         [3],
         [],
@@ -202,29 +218,29 @@ test('an edited list survives being written back into the source', () => {
         [7],
     ]);
     // The inserted half note kept the length the picker gave it.
-    expect(notes[3].beats).toBe(2);
+    expect(must(notes[3], 'the inserted note').beats).toBe(2);
 });
 
 test('a chord moves as a whole or one voice at a time', () => {
     // The two meanings the editor gives a chord: shift moves all of it,
     // plain moves the note you grabbed.
-    const { entries } = entriesOf(`Music(Track([{1 3 5}]))`);
-    const whole = transposed(entries[0], 2);
+    const { note } = entriesOf(`Music(Track([{1 3 5}]))`);
+    const whole = transposed(note(0), 2);
     expect(
         whole instanceof SetLiteral
             ? whole.values.map((v) => v.toWordplay())
             : [],
     ).toEqual(['3', '5', '7']);
 
-    const one = withDegreeAt(entries[0], 2, (degree) => degree - 1);
+    const one = withDegreeAt(note(0), 2, (degree) => degree - 1);
     expect(
         one instanceof SetLiteral ? one.values.map((v) => v.toWordplay()) : [],
     ).toEqual(['1', '3', '4']);
 });
 
 test('a bend inside a chord leaves its siblings whole', () => {
-    const { entries } = entriesOf(`Music(Track([{1 3 5}]))`);
-    const bentOne = bent(entries[0], 1, 0.1);
+    const { note } = entriesOf(`Music(Track([{1 3 5}]))`);
+    const bentOne = bent(note(0), 1, 0.1);
     expect(
         bentOne instanceof SetLiteral
             ? bentOne.values.map((v) => v.toWordplay())
@@ -235,8 +251,8 @@ test('a bend inside a chord leaves its siblings whole', () => {
 test('a chord keeps its length when one voice moves', () => {
     // The length lives on the first member, so moving it must not drop the
     // value and silently change the rhythm.
-    const { entries } = entriesOf(`Music(Track([{1𝅗𝅥 3 5}]))`);
-    const moved = withDegreeAt(entries[0], 0, (degree) => degree + 1);
+    const { note } = entriesOf(`Music(Track([{1𝅗𝅥 3 5}]))`);
+    const moved = withDegreeAt(note(0), 0, (degree) => degree + 1);
     expect(
         moved instanceof SetLiteral
             ? moved.values.map((v) => v.toWordplay())
@@ -247,9 +263,9 @@ test('a chord keeps its length when one voice moves', () => {
 test('the picker writes a quarter note as a bare number', () => {
     // A quarter is one beat and a bare number already means one beat, so
     // spelling it out would be noise in every note a creator places.
-    const { entries } = entriesOf(`Music(Track([1𝅗𝅥]))`);
-    expect(withDuration(entries[0], undefined).toWordplay()).toBe('1');
-    expect(withDuration(entries[0], Unit.create([Quarter])).toWordplay()).toBe(
+    const { note } = entriesOf(`Music(Track([1𝅗𝅥]))`);
+    expect(withDuration(note(0), undefined).toWordplay()).toBe('1');
+    expect(withDuration(note(0), Unit.create([Quarter])).toWordplay()).toBe(
         `1${Quarter}`,
     );
 });
@@ -257,10 +273,11 @@ test('the picker writes a quarter note as a bare number', () => {
 test('a note becomes a chord a third above itself', () => {
     // A third rather than a second: the point of the button is to get a chord,
     // and adjacent degrees are the one interval that doesn't sound like one.
-    const { entries } = entriesOf(`Music(Track([1 ø 3𝅗𝅥]))`);
-    const [note, rest, timed] = entries;
+    const { note } = entriesOf(`Music(Track([1 ø 3𝅗𝅥]))`);
+    const rest = note(1);
+    const timed = note(2);
 
-    const chord = chorded(note);
+    const chord = chorded(note(0));
     expect(isChord(chord)).toBe(true);
     expect(
         chord instanceof SetLiteral
@@ -281,8 +298,8 @@ test('a note becomes a chord a third above itself', () => {
 });
 
 test('a chord grows from its top note', () => {
-    const { entries } = entriesOf(`Music(Track([{1 3}]))`);
-    const bigger = chorded(entries[0]);
+    const { note } = entriesOf(`Music(Track([{1 3}]))`);
+    const bigger = chorded(note(0));
     expect(
         bigger instanceof SetLiteral
             ? bigger.values.map((v) => v.toWordplay())
@@ -291,11 +308,11 @@ test('a chord grows from its top note', () => {
 });
 
 test('a chord reduces to its lowest note, keeping its length', () => {
-    const { entries } = entriesOf(`Music(Track([{5𝅗𝅥 1 3} {1 3}]))`);
+    const { note } = entriesOf(`Music(Track([{5𝅗𝅥 1 3} {1 3}]))`);
     // Lowest, not first: the note a creator hears as the chord's root.
-    expect(unchorded(entries[0]).toWordplay()).toBe(`1${Half}`);
-    expect(unchorded(entries[1]).toWordplay()).toBe('1');
-    expect(isChord(unchorded(entries[0]))).toBe(false);
+    expect(unchorded(note(0)).toWordplay()).toBe(`1${Half}`);
+    expect(unchorded(note(1)).toWordplay()).toBe('1');
+    expect(isChord(unchorded(note(0)))).toBe(false);
 });
 
 test('a single note is not a chord', () => {
@@ -326,8 +343,8 @@ function conflictsFor(notes: NoteData[]) {
         [],
         DefaultLocale,
     );
-    const [evaluate] = musicsIn(project);
-    const list = readMusic(project, evaluate)?.tracks[0].notes;
+    const evaluate = must(first(musicsIn(project)), 'a music in the program');
+    const list = readMusic(project, evaluate)?.tracks[0]?.notes;
     if (list === undefined) throw new Error('no track to revise');
 
     const Note = project.shares.output.Note.getReference(
@@ -379,8 +396,10 @@ test('a rest keeps its length instead of collapsing to one beat', () => {
         { degrees: [], beats: 3, volume: 1 },
     ]);
     expect(conflicts).toEqual([]);
-    expect(entries[0]).toBeInstanceOf(Evaluate);
-    expect(entries[0].toWordplay()).toContain('3beats');
+    expect(first(entries)).toBeInstanceOf(Evaluate);
+    expect(must(first(entries), 'the rest entry').toWordplay()).toContain(
+        '3beats',
+    );
 });
 
 test('a length with a note value is written with its glyph, not as a Note', () => {
@@ -390,8 +409,9 @@ test('a length with a note value is written with its glyph, not as a Note', () =
             { degrees: [3], beats: duration.beats, volume: 1 },
         ]);
         if (duration.beats === 1) continue;
-        expect(entries[0].toWordplay(), `${duration.beats} beats`).toBe(
-            `3${duration.unit}`,
-        );
+        expect(
+            must(first(entries), 'the entry').toWordplay(),
+            `${duration.beats} beats`,
+        ).toBe(`3${duration.unit}`);
     }
 });

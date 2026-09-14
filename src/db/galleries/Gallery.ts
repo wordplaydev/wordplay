@@ -105,11 +105,25 @@ export type SerializedGallery = z.infer<typeof SerializedGalleryV4>;
 /** How a gallery stands with the moderators. */
 export type GalleryModeration = SerializedGallery['moderation'];
 
-type SerializedGalleryUnknownVersion =
-    | z.infer<typeof SerializedGalleryV1>
-    | z.infer<typeof SerializedGalleryV2>
-    | z.infer<typeof SerializedGalleryV3>
-    | SerializedGallery;
+/** Every version a stored gallery document may have. */
+const SerializedGalleryUnknownVersionSchema = z.union([
+    SerializedGalleryV4,
+    SerializedGalleryV3,
+    SerializedGalleryV2,
+    SerializedGalleryV1,
+]);
+type SerializedGalleryUnknownVersion = z.infer<
+    typeof SerializedGalleryUnknownVersionSchema
+>;
+
+/** A stored gallery document of any known version, or undefined if the data
+ *  matches none: a document is data, not a type, until it is checked. */
+export function parseUnknownGallery(
+    data: unknown,
+): SerializedGalleryUnknownVersion | undefined {
+    const result = SerializedGalleryUnknownVersionSchema.safeParse(data);
+    return result.success ? result.data : undefined;
+}
 
 export function upgradeGallery(
     gallery: SerializedGalleryUnknownVersion,
@@ -148,10 +162,21 @@ export function upgradeGallery(
     }
 }
 
+/** A gallery from stored data, or undefined when the data is not one. */
+export function parseGallery(data: unknown): Gallery | undefined {
+    const serialized = parseUnknownGallery(data);
+    return serialized === undefined
+        ? undefined
+        : new Gallery(upgradeGallery(serialized));
+}
+
+/** A gallery from stored data, throwing when the data is not one; for
+ *  callers that already catch and report. */
 export function deserializeGallery(gallery: unknown): Gallery {
-    return new Gallery(
-        upgradeGallery(gallery as SerializedGalleryUnknownVersion),
-    );
+    const parsed = parseGallery(gallery);
+    if (parsed === undefined)
+        throw new Error('A gallery document matched no known version');
+    return parsed;
 }
 
 /**

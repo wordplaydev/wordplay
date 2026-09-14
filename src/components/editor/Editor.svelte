@@ -183,6 +183,7 @@
     import UnicodeString from '@unicode/UnicodeString';
     import { debounced } from '@util/debounce.svelte';
     import ExceptionValue from '@values/ExceptionValue';
+    import { must } from '@util/nullable';
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { type Writable, get, writable } from 'svelte/store';
 
@@ -810,8 +811,8 @@
         else if (tokenViews !== undefined) return tokenViews;
         else
             tokenViews = Array.from(
-                editor.getElementsByClassName('token-view'),
-            ) as HTMLElement[];
+                editor.querySelectorAll<HTMLElement>('.token-view'),
+            );
         return tokenViews;
     }
 
@@ -1436,6 +1437,7 @@
         // Set the caret to the first placeholder or the dragged node, or the node itself if there isn't one.
         const first = droppedNode[0];
         const last = droppedNode[droppedNode.length - 1];
+        if (first === undefined || last === undefined) return;
         const newCaretPosition = first.getFirstPlaceholder() ?? first;
         // A run stays selected where it lands, so a follow-up drag or delete acts
         // on what was just moved. No addition is recorded for one: it's announced
@@ -2003,10 +2005,11 @@
         under: Node,
         dragged: Node[],
     ): Node {
+        const firstDragged = dragged[0];
         if (
             lastResolvedTarget !== undefined &&
             lastResolvedTarget.underId === under.id &&
-            lastResolvedTarget.draggedId === dragged[0].id
+            lastResolvedTarget.draggedId === firstDragged?.id
         )
             return lastResolvedTarget.resolved;
         const resolved = resolveStructuralReplacementTarget(
@@ -2014,11 +2017,12 @@
             dragged,
             under,
         );
-        lastResolvedTarget = {
-            underId: under.id,
-            draggedId: dragged[0].id,
-            resolved,
-        };
+        if (firstDragged !== undefined)
+            lastResolvedTarget = {
+                underId: under.id,
+                draggedId: firstDragged.id,
+                resolved,
+            };
         return resolved;
     }
 
@@ -2296,6 +2300,7 @@
             (position !== undefined
                 ? matches.find((match) => match.start > position)
                 : undefined) ?? matches[0];
+        if (next === undefined) return true;
         caret.set($caret.withPosition(next.start));
         return true;
     }
@@ -2319,9 +2324,11 @@
         newCode += code.substring(cursor).toString();
 
         const newSource = source.reparse(newCode);
-        // Place the caret just after the first replacement.
+        // Place the caret just after the first replacement. `matches` was just
+        // checked non-empty.
         const newPosition =
-            matches[0].start + new UnicodeString(replacement).getLength();
+            must(matches[0], 'a first match').start +
+            new UnicodeString(replacement).getLength();
         handleEdit(
             [newSource, $caret.withSource(newSource).withPosition(newPosition)],
             IdleKind.Typed,
@@ -4046,8 +4053,9 @@
         const query = searchQuery.trim();
         if (!active || query.length === 0) return;
         untrack(() => {
-            if (searchMatches.length > 0)
-                caret.set($caret.withPosition(searchMatches[0].start));
+            const first = searchMatches[0];
+            if (first !== undefined)
+                caret.set($caret.withPosition(first.start));
         });
     });
 

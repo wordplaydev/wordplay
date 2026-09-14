@@ -16,9 +16,9 @@ import TextLiteral from '@nodes/TextLiteral';
 /** Parse a Language node from a flat tag, e.g. `langFromTag('es_en-MX_US')`. */
 function langFromTag(tag: string): Language {
     const program = parseProgram(toTokens(`a/${tag}: 5`));
-    const language = program.nodes().find((n) => n instanceof Language);
+    const language = program.find(Language);
     expect(language).toBeDefined();
-    return language as Language;
+    return language!;
 }
 
 test.each([
@@ -147,8 +147,7 @@ describe('tags written as names', () => {
 describe('parsing multilingual language tags', () => {
     function getLanguage(source: string): Language {
         const program = parseProgram(toTokens(source));
-        const language = program.nodes().find((n) => n instanceof Language) as
-            Language | undefined;
+        const language = program.find(Language);
         expect(language).toBeDefined();
         return language!;
     }

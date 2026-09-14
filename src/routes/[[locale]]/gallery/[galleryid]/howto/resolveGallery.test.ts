@@ -1,10 +1,10 @@
-import type Gallery from '@db/galleries/Gallery';
+import Gallery from '@db/galleries/Gallery';
 import type { GalleryResult } from '@db/galleries/GalleryDatabase.svelte';
 import { expect, test, vi } from 'vitest';
 import resolveGallery from './resolveGallery';
 
-/** Only identity matters here, so a stand-in beats building a real Gallery. */
-const gallery = { id: 'g1' } as unknown as Gallery;
+/** Only identity matters here; the factory fills in everything a gallery needs. */
+const gallery = Gallery.make('g1', {}, {}, [], []);
 
 function lookup(result: GalleryResult) {
     return vi.fn(() => Promise.resolve(result));

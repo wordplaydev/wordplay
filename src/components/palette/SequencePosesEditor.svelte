@@ -49,43 +49,50 @@
     }
 
     function addPose(index: number) {
-        if (map === undefined) return;
-        const kv = map.values[index];
+        const entries = poseEntries();
+        if (entries === undefined) return;
+        const kv = entries[index];
         revise([
-            ...map.values.slice(0, index + 1),
+            ...entries.slice(0, index + 1),
             KeyValue.make(
                 NumberLiteral.make(
-                    kv instanceof KeyValue && kv.key instanceof NumberLiteral
+                    kv?.key instanceof NumberLiteral
                         ? kv.key.number.getText().replace('%', '')
                         : 0,
                 ),
                 createPoseLiteral(project, $locales),
             ),
-            ...map.values.slice(index + 1),
-        ] as KeyValue[]);
+            ...entries.slice(index + 1),
+        ]);
+    }
+
+    /** The map's entries, when every value is a key/value pair. A map holding
+     *  a bare expression (a spread, a reference) isn't one this editor can
+     *  rewrite entry by entry, so it edits nothing rather than corrupting it. */
+    function poseEntries(): KeyValue[] | undefined {
+        if (map === undefined) return undefined;
+        const entries = map.values.filter(
+            (value): value is KeyValue => value instanceof KeyValue,
+        );
+        return entries.length === map.values.length ? entries : undefined;
     }
 
     function removePose(index: number) {
-        if (map === undefined) return;
-        revise([
-            ...map.values.slice(0, index),
-            ...map.values.slice(index + 1),
-        ] as KeyValue[]);
+        const entries = poseEntries();
+        if (entries === undefined) return;
+        revise([...entries.slice(0, index), ...entries.slice(index + 1)]);
     }
     function movePose(index: number, direction: 1 | -1) {
-        if (map === undefined) return;
-        const kv = map.values[index] as KeyValue;
+        const entries = poseEntries();
+        if (entries === undefined) return;
+        const kv = entries[index];
         if (kv === undefined) return;
-        const newValues = map.values.slice() as KeyValue[];
-        if (direction < 0) {
-            const previous = newValues[index - 1];
-            newValues[index - 1] = kv;
-            newValues[index] = previous;
-        } else {
-            const next = newValues[index + 1];
-            newValues[index + 1] = kv;
-            newValues[index] = next;
-        }
+        const newValues = entries.slice();
+        // Nothing to swap with at either end; the move buttons are inactive there.
+        const other = newValues[index + direction];
+        if (other === undefined) return;
+        newValues[index + direction] = kv;
+        newValues[index] = other;
         revise(newValues);
     }
 

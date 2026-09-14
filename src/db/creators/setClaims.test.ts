@@ -82,10 +82,10 @@ test('a ban can be lifted here', () => {
 test('an unknown claim is refused', () => {
     // The whitelist is what keeps this from writing arbitrary keys into
     // somebody's token.
-    expect(
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        change({}, { superuser: true } as never).refusal,
-    ).toBe('unknown-claim');
+    // A record with an index signature is assignable to `Partial<ClaimSet>`, so
+    // the name nobody declared reaches the function as one really would.
+    const unknown: Record<string, boolean> = { superuser: true };
+    expect(change({}, unknown).refusal).toBe('unknown-claim');
 });
 
 test('the writable claims are exactly what scripts/claims.js knows', () => {

@@ -1,4 +1,5 @@
 import type Context from '@nodes/Context';
+import { entriesOf, isNonEmpty, type NonEmpty } from '@util/nullable';
 import NameType from '@nodes/NameType';
 import type Node from '@nodes/Node';
 import type StructureDefinition from '@nodes/StructureDefinition';
@@ -22,8 +23,8 @@ export default class StructureConcept extends Concept {
     /** The type of the structure definition, enabling the creation of examples with typed placeholders */
     readonly type: Type;
 
-    /** A list of examples for creating the structure. For basis types, likely literals, but for custom types, other useful examples. */
-    readonly examples: Node[];
+    /** A list of examples for creating the structure. For basis types, likely literals, but for custom types, other useful examples. Never empty: a synthesized template stands in when none is given. */
+    readonly examples: NonEmpty<Node>;
 
     /** Whether {@link examples} was synthesized (vs. creator-provided). */
     private readonly autoExample: boolean;
@@ -72,17 +73,18 @@ export default class StructureConcept extends Concept {
             );
         // True when we synthesized the example (vs. creator-provided ones) — only
         // then is there a baked symbolic name to swap for a textual variant.
-        this.autoExample = examples === undefined || examples.length === 0;
-        this.examples = this.autoExample
-            ? [
-                  this.definition.getEvaluateTemplate(
-                      locales,
-                      context,
-                      false,
-                      true,
-                  ),
-              ]
-            : (examples ?? []);
+        this.autoExample = examples === undefined || !isNonEmpty(examples);
+        this.examples =
+            examples !== undefined && isNonEmpty(examples)
+                ? examples
+                : [
+                      this.definition.getEvaluateTemplate(
+                          locales,
+                          context,
+                          false,
+                          true,
+                      ),
+                  ];
 
         const allFunctions = this.definition.getFunctions();
         this.functions = allFunctions
@@ -159,7 +161,10 @@ export default class StructureConcept extends Concept {
             symbols:
                 // Show the symbolic name, if there is one, and otherwise the first name.
                 this.definition.names.getSymbolicName() ??
-                this.definition.names.getLocaleNames(locales)[0],
+                // A definition named only in other languages has no locale name;
+                // the empty label is what the other concepts' `join` already gives.
+                this.definition.names.getLocaleNames(locales)[0] ??
+                '',
         };
     }
 
@@ -233,7 +238,7 @@ export default class StructureConcept extends Concept {
         for (const locale of locales.getLocales()) {
             const name = this.definition.names.getNonSymbolicName();
             if (name === undefined) return undefined;
-            for (const [key, text] of Object.entries(locale.output))
+            for (const [key, text] of entriesOf(locale.output))
                 if (
                     'names' in text &&
                     ((typeof text.names === 'string' &&
@@ -243,14 +248,14 @@ export default class StructureConcept extends Concept {
                                 (n) => withoutAnnotations(n) === name,
                             )))
                 )
-                    return key as CharacterName;
-            for (const [key, text] of Object.entries(locale.basis))
+                    return key;
+            for (const [key, text] of entriesOf(locale.basis))
                 if (
                     'name' in text &&
                     ((typeof text.name === 'string' && text.name === name) ||
                         text.name.includes(name))
                 )
-                    return key as CharacterName;
+                    return key;
         }
         return undefined;
     }

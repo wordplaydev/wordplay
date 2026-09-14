@@ -21,6 +21,7 @@
  */
 
 import type { LogicalRect } from '@components/editor/util/axes';
+import { must } from '@util/nullable';
 
 /** A rendered thing that can host a caret position, plus where it is. */
 export type RowMember<T> = {
@@ -89,8 +90,7 @@ export function buildRows<T>(members: RowMember<T>[]): Row<T>[] {
 export function findRowAt<T>(rows: Row<T>[], block: number): number {
     let nearest = -1;
     let nearestDistance = Number.POSITIVE_INFINITY;
-    for (let index = 0; index < rows.length; index++) {
-        const row = rows[index];
+    for (const [index, row] of rows.entries()) {
         if (block >= row.blockStart && block <= row.blockEnd) return index;
         const distance = Math.abs((row.blockStart + row.blockEnd) / 2 - block);
         if (distance < nearestDistance) {
@@ -111,7 +111,7 @@ export function nearestInRow<T>(
     row: Row<T>,
     inline: number,
 ): { member: RowMember<T>; inline: number } {
-    let best = row.members[0];
+    let best: RowMember<T> | undefined = undefined;
     let bestGap = Number.POSITIVE_INFINITY;
     let bestCenterDistance = Number.POSITIVE_INFINITY;
     for (const member of row.members) {
@@ -132,11 +132,13 @@ export function nearestInRow<T>(
             bestCenterDistance = centerDistance;
         }
     }
+    // A row is only ever created around a member, so it always has one.
+    const nearest = must(best, 'a member of the row');
     return {
-        member: best,
+        member: nearest,
         inline: Math.min(
-            Math.max(inline, best.rect.inlineStart),
-            best.rect.inlineEnd,
+            Math.max(inline, nearest.rect.inlineStart),
+            nearest.rect.inlineEnd,
         ),
     };
 }
@@ -158,9 +160,8 @@ export function targetRowPosition<T>(
 ): { member: RowMember<T>; inline: number } | undefined {
     const current = findRowAt(rows, originCenterBlock);
     if (current < 0) return undefined;
-    const target = current + direction;
-    if (target < 0 || target >= rows.length) return undefined;
-    return nearestInRow(rows[target], goalInline);
+    const target = rows[current + direction];
+    return target === undefined ? undefined : nearestInRow(target, goalInline);
 }
 
 /**
@@ -179,11 +180,8 @@ export function targetRowPositionFromSpan<T>(
 ): { member: RowMember<T>; inline: number } | undefined {
     let first = -1;
     let last = -1;
-    for (let index = 0; index < rows.length; index++) {
-        if (
-            rows[index].blockStart <= blockEnd &&
-            rows[index].blockEnd >= blockStart
-        ) {
+    for (const [index, row] of rows.entries()) {
+        if (row.blockStart <= blockEnd && row.blockEnd >= blockStart) {
             if (first < 0) first = index;
             last = index;
         }
@@ -195,7 +193,6 @@ export function targetRowPositionFromSpan<T>(
             direction,
             goalInline,
         );
-    const target = (direction > 0 ? last : first) + direction;
-    if (target < 0 || target >= rows.length) return undefined;
-    return nearestInRow(rows[target], goalInline);
+    const target = rows[(direction > 0 ? last : first) + direction];
+    return target === undefined ? undefined : nearestInRow(target, goalInline);
 }

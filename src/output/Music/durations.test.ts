@@ -79,10 +79,12 @@ describe('durations', () => {
     });
 
     test('halves at every step down', () => {
-        for (let index = 1; index < PlainDurations.length; index++)
-            expect(PlainDurations[index].beats * 2).toBe(
-                PlainDurations[index - 1].beats,
-            );
+        let previous: number | undefined;
+        for (const duration of PlainDurations) {
+            if (previous !== undefined)
+                expect(duration.beats * 2).toBe(previous);
+            previous = duration.beats;
+        }
     });
 });
 

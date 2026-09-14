@@ -37,11 +37,13 @@ export default class PatternRange extends PatternNode {
     }
 
     clone(replace?: Replacement) {
-        return new PatternRange(
-            this.replaceChild('low', this.low, replace),
-            this.replaceChild('dash', this.dash, replace),
-            this.replaceChild('high', this.high, replace),
-        ) as this;
+        return this.cloned(
+            new PatternRange(
+                this.replaceChild('low', this.low, replace),
+                this.replaceChild('dash', this.dash, replace),
+                this.replaceChild('high', this.high, replace),
+            ),
+        );
     }
 
     /** The low endpoint's literal characters. */

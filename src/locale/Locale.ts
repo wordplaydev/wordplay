@@ -1,6 +1,7 @@
 import type LanguageCode from '@locale/LanguageCode';
 import { getLocaleLanguages, getLocaleRegions } from '@locale/LocaleText';
 import type { RegionCode } from '@locale/Regions';
+import { isNonEmpty } from '@util/nullable';
 
 export type Locale = {
     /** An ISO 639-1 language code. For multilingual locales this is the
@@ -22,7 +23,7 @@ export function localeToString(locale: Locale) {
 
 export function stringToLocale(localeString: string): Locale | undefined {
     const languages = getLocaleLanguages(localeString);
-    if (languages.length === 0) return undefined;
+    if (!isNonEmpty(languages)) return undefined;
     const regions = getLocaleRegions(localeString);
     const language = languages[0];
     return languages.length > 1

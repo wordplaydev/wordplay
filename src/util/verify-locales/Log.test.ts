@@ -5,10 +5,11 @@ import Log, {
     resolveSymbols,
     stripAnsi,
 } from '@util/verify-locales/Log';
+import { must } from '@util/nullable';
 
 /** A logger whose `exit` is a spy instead of ending the process. */
 function exitingLog(failOnBad: boolean) {
-    const exit = vi.fn(() => undefined as never);
+    const exit = vi.fn<(code: number) => never>();
     const lines: string[] = [];
     return {
         exit,
@@ -165,8 +166,9 @@ describe('color', () => {
         log.bad('nope');
         // The escape opens before the symbol, so the whole line reads as one
         // thing rather than an uncolored mark next to colored text.
-        expect(lines[0].indexOf('\u001B[')).toBe(0);
-        expect(stripAnsi(lines[0])).toBe('✗ nope');
+        const first = must(lines[0], 'the first line');
+        expect(first.indexOf('\u001B[')).toBe(0);
+        expect(stripAnsi(first)).toBe('✗ nope');
     });
 
     test('emits no escapes when color is off', () => {

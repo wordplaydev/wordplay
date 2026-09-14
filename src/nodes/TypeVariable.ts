@@ -83,18 +83,20 @@ export default class TypeVariable extends Node {
             },
             {
                 name: 'type',
-                kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                kind: any(node(Type), none(['dot', () => TypeToken()])),
                 label: () => (l) => l.node.TypeVariable.label.type,
             },
         ];
     }
 
     clone(replace?: Replacement) {
-        return new TypeVariable(
-            this.replaceChild('names', this.names, replace),
-            this.replaceChild('dot', this.dot, replace),
-            this.replaceChild('type', this.type, replace),
-        ) as this;
+        return this.cloned(
+            new TypeVariable(
+                this.replaceChild('names', this.names, replace),
+                this.replaceChild('dot', this.dot, replace),
+                this.replaceChild('type', this.type, replace),
+            ),
+        );
     }
 
     getPurpose() {

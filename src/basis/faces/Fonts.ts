@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import { matchGroups, must } from '@util/nullable';
 import type Locales from '@locale/Locales';
 import { Scripts, type Script } from '@locale/Scripts';
 import {
@@ -79,7 +80,8 @@ export function resolveWeight(face: Face, requested: number): FontWeight {
         candidates = FontWeights.filter((w) => w >= min && w <= max);
     }
     const choices = candidates.length > 0 ? candidates : FontWeights;
-    let best = choices[0];
+    // FontWeights is never empty, so there is always a choice to start from.
+    let best = must(choices[0], 'a font weight');
     for (const weight of choices)
         if (Math.abs(weight - requested) < Math.abs(best - requested))
             best = weight;
@@ -158,6 +160,7 @@ export class FontManager {
     /** Returns true if the given font spec appears in SupportedFonts */
     getSupportedFace(font: Font) {
         const candidate = Faces[font.name];
+        if (candidate === undefined) return undefined;
         return faceSupportsWeight(candidate, font.weight) &&
             (font.italic === false || candidate.italic)
             ? candidate
@@ -386,7 +389,8 @@ export class FontManager {
         const weight: FontWeight = Array.isArray(face.weights)
             ? face.weights.includes(400)
                 ? 400
-                : face.weights[0]
+                : // A face declares at least one weight.
+                  must(face.weights[0], `a weight for ${name}`)
             : face.weights.min <= 400 && 400 <= face.weights.max
               ? 400
               : face.weights.min;
@@ -471,8 +475,10 @@ export function rangeContains(rangeString: string, codepoint: number): boolean {
             .trim()
             .match(/^U\+([0-9A-Fa-f]+)(?:-([0-9A-Fa-f]+))?$/);
         if (match) {
-            const start = parseInt(match[1], 16);
-            const end = match[2] !== undefined ? parseInt(match[2], 16) : start;
+            const [, low, high] = matchGroups(match);
+            // The first group is required by the pattern that just matched.
+            const start = parseInt(must(low, 'a range start'), 16);
+            const end = high !== undefined ? parseInt(high, 16) : start;
             if (codepoint >= start && codepoint <= end) return true;
         }
     }

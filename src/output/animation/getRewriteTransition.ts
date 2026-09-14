@@ -4,7 +4,12 @@ import { graphemes } from '@output/animation/getTextTransition';
 function shuffle<Kind>(list: Kind[], random: () => number): Kind[] {
     for (let i = list.length - 1; i > 0; i--) {
         const j = Math.floor(random() * (i + 1));
-        [list[i], list[j]] = [list[j], list[i]];
+        const at = list[i];
+        const other = list[j];
+        // Both indices are in range of a dense list, so this never skips.
+        if (at === undefined || other === undefined) continue;
+        list[i] = other;
+        list[j] = at;
     }
     return list;
 }
@@ -28,7 +33,7 @@ export function getRewriteEntrySteps(
     // One slot per position of the longer text; '' means cleared.
     const slots: string[] = [];
     for (let position = 0; position < length; position++)
-        slots.push(position < from.length ? from[position] : ' ');
+        slots.push(from[position] ?? ' ');
 
     const order = shuffle(
         Array.from({ length }, (_, position) => position),
@@ -37,7 +42,7 @@ export function getRewriteEntrySteps(
 
     const steps: string[][] = [[...slots]];
     for (const position of order) {
-        slots[position] = position < to.length ? to[position] : '';
+        slots[position] = to[position] ?? '';
         steps.push([...slots]);
     }
     return steps;

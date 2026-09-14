@@ -13,9 +13,12 @@ test('the shared moderation union matches the gallery schema', () => {
     // Assigning each schema state to the shared type is the compile-time half:
     // a state missing from shared-types fails to build.
     const shared: SharedModeration[] = [...states];
-    expect(shared.toSorted()).toEqual(
-        (
-            ['unrequested', 'pending', 'approved', 'denied'] as const
-        ).toSorted() as string[],
-    );
+    // Annotated rather than cast, so a name the shared type doesn't know fails to build.
+    const expected: SharedModeration[] = [
+        'unrequested',
+        'pending',
+        'approved',
+        'denied',
+    ];
+    expect(shared.toSorted()).toEqual(expected.toSorted());
 });

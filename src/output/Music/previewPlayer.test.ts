@@ -44,8 +44,8 @@ test('starting at zero changes nothing', () => {
 test('a cursor drops what falls before it', () => {
     const data = music([track([1, 1, 1, 1])]);
     const rest = from(data, 2);
-    expect(rest.tracks[0].notes.map((n) => n.degrees)).toEqual([[3], [4]]);
-    expect(rest.tracks[0].notes.map((n) => n.beats)).toEqual([1, 1]);
+    expect(rest.tracks[0]?.notes.map((n) => n.degrees)).toEqual([[3], [4]]);
+    expect(rest.tracks[0]?.notes.map((n) => n.beats)).toEqual([1, 1]);
 });
 
 test('a note the cursor lands inside plays only what was left of it', () => {
@@ -53,21 +53,21 @@ test('a note the cursor lands inside plays only what was left of it', () => {
     // resumes, so starting mid-note continues rather than re-striking.
     const data = music([track([4, 1])]);
     const rest = from(data, 3);
-    expect(rest.tracks[0].notes).toHaveLength(2);
-    expect(rest.tracks[0].notes[0].beats).toBe(1);
-    expect(rest.tracks[0].notes[0].degrees).toEqual([1]);
+    expect(rest.tracks[0]?.notes).toHaveLength(2);
+    expect(rest.tracks[0]?.notes[0]?.beats).toBe(1);
+    expect(rest.tracks[0]?.notes[0]?.degrees).toEqual([1]);
 });
 
 test('every track is cut at the same beat, so they stay in step', () => {
     const data = music([track([2, 2]), track([1, 1, 1, 1])]);
     const rest = from(data, 2);
-    expect(rest.tracks[0].notes.map((n) => n.degrees)).toEqual([[2]]);
-    expect(rest.tracks[1].notes.map((n) => n.degrees)).toEqual([[3], [4]]);
+    expect(rest.tracks[0]?.notes.map((n) => n.degrees)).toEqual([[2]]);
+    expect(rest.tracks[1]?.notes.map((n) => n.degrees)).toEqual([[3], [4]]);
 });
 
 test('a cursor past the end leaves nothing to play', () => {
     const rest = from(music([track([1, 1])]), 99);
-    expect(rest.tracks[0].notes).toHaveLength(0);
+    expect(rest.tracks[0]?.notes).toHaveLength(0);
 });
 
 test('everything but the notes survives the cut', () => {
@@ -77,8 +77,8 @@ test('everything but the notes survives the cut', () => {
     const rest = from(data, 1);
     expect(rest.tempo).toBe(data.tempo);
     expect(rest.scale).toEqual(data.scale);
-    expect(rest.tracks[0].instrument).toBe('piano');
-    expect(rest.tracks[0].mash).toBe(true);
+    expect(rest.tracks[0]?.instrument).toBe('piano');
+    expect(rest.tracks[0]?.mash).toBe(true);
 });
 
 test('a looping playhead comes back to the start', () => {

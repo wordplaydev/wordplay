@@ -124,12 +124,12 @@ describe('regions are searched and shown by their own names (#1220)', () => {
     });
 
     test('matching a region accepts its own name, accents or not', () => {
-        expect(matchRegions('méxico', ['en'])[0].value).toBe('MX');
-        expect(matchRegions('mexico', ['en'])[0].value).toBe('MX');
+        expect(matchRegions('méxico', ['en'])[0]?.value).toBe('MX');
+        expect(matchRegions('mexico', ['en'])[0]?.value).toBe('MX');
     });
 
     test('matching a language accepts its own name without its accents', () => {
         // The keyboard someone has is not always the one a name was written on.
-        expect(matchLanguages('espanol', ['en'])[0].value).toBe('es');
+        expect(matchLanguages('espanol', ['en'])[0]?.value).toBe('es');
     });
 });

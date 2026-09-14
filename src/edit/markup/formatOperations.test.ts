@@ -101,7 +101,7 @@ function apply(spec: string, format: Format): string {
 }
 
 describe('adding a format', () => {
-    test.each([
+    test.each<[string, Format, string]>([
         // A collapsed caret inserts the pair and lands inside it, so typing continues in the run.
         ['hello |world', 'bold', 'hello *|*world'],
         ['|', 'bold', '*|*'],
@@ -113,16 +113,13 @@ describe('adding a format', () => {
         ['hello [world]', 'extra', 'hello ^[world]^'],
         // Wrapping part of a word is legal; markup has no word boundaries.
         ['he[ll]o', 'bold', 'he*[ll]*o'],
-    ] as [string, Format, string][])(
-        '%s + %s = %s',
-        (spec, format, expected) => {
-            expect(apply(spec, format)).toBe(expected);
-        },
-    );
+    ])('%s + %s = %s', (spec, format, expected) => {
+        expect(apply(spec, format)).toBe(expected);
+    });
 });
 
 describe('removing a format', () => {
-    test.each([
+    test.each<[string, Format, string]>([
         // The caret merely inside the run is enough: the command finds the enclosing
         // Words and strips its delimiters, wherever they are.
         ['*bo|ld*', 'bold', 'bo|ld'],
@@ -134,12 +131,9 @@ describe('removing a format', () => {
         ['*[bold]*', 'bold', '[bold]'],
         // Surrounding prose is untouched.
         ['a *bo|ld* b', 'bold', 'a bo|ld b'],
-    ] as [string, Format, string][])(
-        '%s − %s = %s',
-        (spec, format, expected) => {
-            expect(apply(spec, format)).toBe(expected);
-        },
-    );
+    ])('%s − %s = %s', (spec, format, expected) => {
+        expect(apply(spec, format)).toBe(expected);
+    });
 });
 
 describe('toggling is not blind', () => {
@@ -161,7 +155,7 @@ describe('toggling is not blind', () => {
 });
 
 describe('round-tripping', () => {
-    test.each(['bold', 'italic', 'underline', 'light', 'extra'] as Format[])(
+    test.each<Format>(['bold', 'italic', 'underline', 'light', 'extra'])(
         'adding then removing %s returns the original',
         (format) => {
             const added = apply('hello [world]', format);
@@ -185,7 +179,7 @@ describe('the result parses to the format that was asked for', () => {
             .filter((f): f is Format => f !== undefined);
     }
 
-    test.each(['bold', 'italic', 'underline', 'light', 'extra'] as Format[])(
+    test.each<Format>(['bold', 'italic', 'underline', 'light', 'extra'])(
         'wrapping a selection in %s produces a Words run of that format',
         (format) => {
             const result = apply('hello [world]', format).replace(

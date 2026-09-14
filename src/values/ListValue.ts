@@ -56,7 +56,11 @@ export default class ListValue extends SimpleValue {
         return (
             value instanceof ListValue &&
             this.values.length === value.values.length &&
-            this.values.every((v, index) => value.values[index].isEqualTo(v))
+            this.values.every((v, index) => {
+                const other = value.values[index];
+                // The lengths match, checked above.
+                return other !== undefined && other.isEqualTo(v);
+            })
         );
     }
 

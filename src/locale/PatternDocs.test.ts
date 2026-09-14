@@ -2,6 +2,7 @@ import DefaultLocale from '@locale/DefaultLocale';
 import Example from '@nodes/Example';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 import { toMarkup } from '@parser/toMarkup';
+import { entriesOf } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 
 /**
@@ -17,16 +18,14 @@ function examplesOf(doc: string): Example[] {
 }
 
 describe('pattern node docs', () => {
-    const node = DefaultLocale.node as unknown as Record<
-        string,
-        { doc?: string | string[] }
-    >;
-    const keys = Object.keys(node).filter((k) => k.startsWith('Pattern'));
+    const patterns = entriesOf(DefaultLocale.node).filter(([key]) =>
+        key.startsWith('Pattern'),
+    );
 
     test('every pattern node has a doc with at least one example', () => {
-        expect(keys.length).toBeGreaterThan(15);
-        for (const key of keys) {
-            const doc = node[key].doc;
+        expect(patterns.length).toBeGreaterThan(15);
+        for (const [, text] of patterns) {
+            const doc = text.doc;
             const paragraphs = Array.isArray(doc) ? doc : doc ? [doc] : [];
             const examples = paragraphs.flatMap(examplesOf);
             expect(examples.length).toBeGreaterThan(0);
@@ -34,8 +33,8 @@ describe('pattern node docs', () => {
     });
 
     test('no example is unparsable or merges into following prose', () => {
-        for (const key of keys) {
-            const doc = node[key].doc;
+        for (const [, text] of patterns) {
+            const doc = text.doc;
             const paragraphs = Array.isArray(doc) ? doc : doc ? [doc] : [];
             for (const paragraph of paragraphs)
                 for (const example of examplesOf(paragraph)) {

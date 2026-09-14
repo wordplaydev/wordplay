@@ -67,8 +67,9 @@ import {
     TargetLoudness,
     type InstrumentSpec,
 } from './manifest';
-import { Sources } from './sources';
+import { Sources, type SourceId } from './sources';
 import { instrumentSpec } from '../../src/output/Music/instruments';
+import { last, must } from '../../src/util/nullable';
 
 /** Where the shipped mp3s live; served straight from `static`. */
 export const OutputDir = path.join('static', 'instruments');
@@ -150,7 +151,9 @@ function detectPitch(audio: Mono): number | undefined {
     if (readings.length === 0) return undefined;
     // Median, so one octave-confused frame can't move the answer.
     readings.sort((a, b) => a.frequency - b.frequency);
-    return readings[Math.floor(readings.length / 2)].frequency;
+    // The list is non-empty, so the middle element is there.
+    return must(readings[Math.floor(readings.length / 2)], 'a median reading')
+        .frequency;
 }
 
 /** Which decoder a path needs. Libraries ship whatever format they ship. */
@@ -166,7 +169,7 @@ type Resolved = {
     name: string;
     root: number | 'detect';
     bytes: Buffer;
-    sourceId: string;
+    sourceId: SourceId;
     sourcePath: string;
     sourceUrl: string;
     kind: 'wav' | 'flac' | 'ogg';
@@ -296,17 +299,20 @@ async function resolveZones(
         // the requested spacing.
         const byRoot = new Map<number, string>();
         files.forEach((file, index) => {
+            // `baseNotes.length >= files.length` was just checked above.
             const root = baseNotes[index];
-            if (!byRoot.has(root)) byRoot.set(root, file);
+            if (root !== undefined && !byRoot.has(root)) byRoot.set(root, file);
         });
         const roots = [...byRoot.keys()].sort((a, b) => a - b);
         const chosen: number[] = [];
-        for (const root of roots)
+        for (const root of roots) {
+            const previous = last(chosen);
             if (
-                chosen.length === 0 ||
-                root - chosen[chosen.length - 1] >= instrument.pack.spacing
+                previous === undefined ||
+                root - previous >= instrument.pack.spacing
             )
                 chosen.push(root);
+        }
 
         for (const root of chosen) {
             const file = byRoot.get(root);

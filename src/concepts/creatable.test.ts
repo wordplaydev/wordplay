@@ -91,13 +91,10 @@ const ReachedElsewhere = new Map<string, string>([
             'PatternRest',
             'PatternCaseFold',
         ] as const
-    ).map(
-        (descriptor) =>
-            [descriptor, 'offered by getPatternSuggestions'] as [
-                string,
-                string,
-            ],
-    ),
+    ).map((descriptor): [string, string] => [
+        descriptor,
+        'offered by getPatternSuggestions',
+    ]),
 ]);
 
 /**

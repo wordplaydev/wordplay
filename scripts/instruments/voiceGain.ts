@@ -69,8 +69,8 @@ function run(input: Float32Array, section: Section): Float32Array {
     let x2 = 0;
     let y1 = 0;
     let y2 = 0;
-    for (let index = 0; index < input.length; index++) {
-        const x = input[index];
+    let index = 0;
+    for (const x of input) {
         const y =
             section.b[0] * x +
             section.b[1] * x1 +
@@ -81,7 +81,7 @@ function run(input: Float32Array, section: Section): Float32Array {
         x1 = x;
         y2 = y1;
         y1 = y;
-        out[index] = y;
+        out[index++] = y;
     }
     return out;
 }
@@ -100,21 +100,24 @@ function source(
         partials.push(1 / Math.pow(harmonic, SourceTilt));
     for (const cents of [ChorusCents, -ChorusCents]) {
         const hz = fundamental * Math.pow(2, cents / 1200);
-        for (let index = 0; index < length; index++) {
+        for (const [index, sofar] of samples.entries()) {
             let value = 0;
-            for (let n = 0; n < partials.length; n++) {
+            for (const [n, partial] of partials.entries()) {
                 const frequency = hz * (n + 1);
                 if (frequency > rate / 2) break;
                 value +=
-                    partials[n] *
+                    partial *
                     Math.sin((2 * Math.PI * frequency * index) / rate);
             }
-            samples[index] += value / 2;
+            samples[index] = sofar + value / 2;
         }
     }
     let peak = 0;
     for (const value of samples) peak = Math.max(peak, Math.abs(value));
-    if (peak > 0) for (let i = 0; i < samples.length; i++) samples[i] /= peak;
+    if (peak > 0) {
+        let i = 0;
+        for (const value of samples) samples[i++] = value / peak;
+    }
     return samples;
 }
 
@@ -157,9 +160,13 @@ export function sing(
             segment.voiced ? Breath : 0,
         );
         const mixed = new Float32Array(to - from);
-        for (let index = from; index < to; index++)
-            mixed[index - from] =
-                glottal[index] * voicing + breath[index] * breathiness;
+        const breathWindow = breath.subarray(from, to);
+        for (const [offset, voice] of glottal.subarray(from, to).entries()) {
+            // `breath` is rendered `glottal.length` long, so the windows match.
+            const air = breathWindow[offset];
+            if (air === undefined) break;
+            mixed[offset] = voice * voicing + air * breathiness;
+        }
         // Then the parallel bank, summed with its alternating amplitudes.
         const summed = new Float32Array(to - from);
         segment.formants.forEach((formant, which) => {
@@ -171,8 +178,12 @@ export function sing(
             );
             const filtered = run(mixed, bandpass(hz, hz / formant.bw, rate));
             const amplitude = segment.gain * formant.gain;
-            for (let index = 0; index < filtered.length; index++)
-                summed[index] += filtered[index] * amplitude;
+            for (const [index, value] of filtered.entries()) {
+                // `filtered` and `summed` are both `to - from` long.
+                const sofar = summed[index];
+                if (sofar === undefined) break;
+                summed[index] = sofar + value * amplitude;
+            }
         });
         // And the antiformant over the sum, exactly where `MusicAudio` puts it.
         // Leaving it out made the twin blind to the one thing that tells a
@@ -188,8 +199,12 @@ export function sing(
                           rate,
                       ),
                   );
-        for (let index = 0; index < shaped.length; index++)
-            out[from + index] += shaped[index];
+        for (const [index, value] of shaped.entries()) {
+            // `to <= glottal.length`, so this window is inside `out`.
+            const sofar = out[from + index];
+            if (sofar === undefined) break;
+            out[from + index] = sofar + value;
+        }
     }
     return { samples: out, rate };
 }

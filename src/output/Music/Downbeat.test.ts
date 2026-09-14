@@ -11,6 +11,7 @@ import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import BoolValue from '@values/BoolValue';
 import type Value from '@values/Value';
+import { must } from '@util/nullable';
 
 function beatStream(code: string) {
     const project = Project.make(
@@ -24,7 +25,8 @@ function beatStream(code: string) {
     const evaluator = new Evaluator(project, DB, [DefaultLocale], true);
     evaluator.start();
     const streams = evaluator.getBasisStreamsOfType(Beat);
-    return { evaluator, stream: streams[0] };
+    // The program evaluates a `Beat()`, so the evaluator has one of its streams.
+    return { evaluator, stream: must(streams[0], 'a Beat stream') };
 }
 
 const event = {
@@ -62,47 +64,64 @@ const event = {
     ],
 };
 
+/** A value the program is expected to have produced, narrowed to its class so
+ *  a missing field fails the test rather than being cast away. */
+function valueOf<T extends Value>(
+    value: Value | undefined,
+    type: abstract new (...args: never[]) => T,
+): T {
+    expect(value).toBeInstanceOf(type);
+    if (!(value instanceof type))
+        throw new Error(
+            `Expected a ${type.name}, got ${value?.constructor.name ?? 'nothing'}`,
+        );
+    return value;
+}
+
+/** A named field of a structure, narrowed to the class it must hold. */
+function fieldOf<T extends Value>(
+    structure: StructureValue,
+    name: string,
+    type: abstract new (...args: never[]) => T,
+): T {
+    return valueOf(structure.resolve(name), type);
+}
+
 test('a Downbeat carries the music state and one Part per track', () => {
     const { stream } = beatStream('Beat()');
     expect(stream).toBeDefined();
     stream.react(event);
-    const value = stream.latest();
-    expect(value).toBeInstanceOf(StructureValue);
-    const down = value as StructureValue;
+    const down = valueOf(stream.latest(), StructureValue);
 
-    const num = (n: string) => (down.resolve(n) as NumberValue).toNumber();
-    expect((down.resolve('name') as TextValue).text).toBe('song');
+    const num = (n: string) => fieldOf(down, n, NumberValue).toNumber();
+    expect(fieldOf(down, 'name', TextValue).text).toBe('song');
     expect(num('count')).toBe(7);
     expect(num('tempo')).toBe(96);
     // A gain is unitless 0-1, matching how `50%` evaluates.
     expect(num('volume')).toBe(0.5);
     expect(num('key')).toBe(2);
-    expect((down.resolve('scale') as ListValue).values.length).toBe(7);
-    expect((down.resolve('instruments') as ListValue).values.length).toBe(2);
+    expect(fieldOf(down, 'scale', ListValue).values.length).toBe(7);
+    expect(fieldOf(down, 'instruments', ListValue).values.length).toBe(2);
 
-    const parts = down.resolve('parts') as ListValue;
+    const parts = fieldOf(down, 'parts', ListValue);
     expect(parts.values.length).toBe(2);
-    const first = parts.values[0] as StructureValue;
-    expect(first).toBeInstanceOf(StructureValue);
+    const first = valueOf(parts.values[0], StructureValue);
     expect(
-        (
-            (first.resolve('instrument') as StructureValue).resolve(
-                'id',
-            ) as TextValue
-        ).text,
+        fieldOf(fieldOf(first, 'instrument', StructureValue), 'id', TextValue)
+            .text,
     ).toBe('piano');
-    expect((first.resolve('sounding') as BoolValue).bool).toBe(true);
-    expect((first.resolve('degrees') as ListValue).values.length).toBe(2);
-    expect((first.resolve('pitch') as ListValue).values.length).toBe(2);
-    expect((first.resolve('volume') as NumberValue).toNumber()).toBe(0.75);
-    expect((first.resolve('pan') as NumberValue).toNumber()).toBe(-0.5);
-    expect((first.resolve('key') as NumberValue).toNumber()).toBe(2);
-    expect((first.resolve('loop') as BoolValue).bool).toBe(true);
+    expect(fieldOf(first, 'sounding', BoolValue).bool).toBe(true);
+    expect(fieldOf(first, 'degrees', ListValue).values.length).toBe(2);
+    expect(fieldOf(first, 'pitch', ListValue).values.length).toBe(2);
+    expect(fieldOf(first, 'volume', NumberValue).toNumber()).toBe(0.75);
+    expect(fieldOf(first, 'pan', NumberValue).toNumber()).toBe(-0.5);
+    expect(fieldOf(first, 'key', NumberValue).toNumber()).toBe(2);
+    expect(fieldOf(first, 'loop', BoolValue).bool).toBe(true);
 
     // A resting track is still present, just silent.
-    const second = parts.values[1] as StructureValue;
-    expect((second.resolve('sounding') as BoolValue).bool).toBe(false);
-    expect((second.resolve('degrees') as ListValue).values.length).toBe(0);
+    const second = valueOf(parts.values[1], StructureValue);
+    expect(fieldOf(second, 'sounding', BoolValue).bool).toBe(false);
+    expect(fieldOf(second, 'degrees', ListValue).values.length).toBe(0);
 });
 
 test('a named Beat ignores every other music', () => {
@@ -111,7 +130,7 @@ test('a named Beat ignores every other music', () => {
     // The silent placeholder names no music and carries no parts; a real beat
     // names its music, so the name is what says whether anything got through.
     const nameOf = (value: Value | undefined) =>
-        ((value as StructureValue).resolve('name') as TextValue).text;
+        fieldOf(valueOf(value, StructureValue), 'name', TextValue).text;
 
     expect(nameOf(stream.latest())).toBe('');
     stream.react({ ...event, name: 'chime' });
@@ -125,9 +144,8 @@ test('a Beat carries a silent Downbeat before any music plays', () => {
     // Downbeat from the start. tempo is the tell, since a playing Music is
     // clamped to at least 1 beat per minute.
     const { stream } = beatStream('Beat()');
-    const initial = stream.latest() as StructureValue;
-    expect(initial).toBeInstanceOf(StructureValue);
-    expect((initial.resolve('count') as NumberValue).num.toNumber()).toBe(0);
-    expect((initial.resolve('tempo') as NumberValue).num.toNumber()).toBe(0);
-    expect((initial.resolve('parts') as ListValue).values.length).toBe(0);
+    const initial = valueOf(stream.latest(), StructureValue);
+    expect(fieldOf(initial, 'count', NumberValue).num.toNumber()).toBe(0);
+    expect(fieldOf(initial, 'tempo', NumberValue).num.toNumber()).toBe(0);
+    expect(fieldOf(initial, 'parts', ListValue).values.length).toBe(0);
 });

@@ -6,7 +6,10 @@ import Decimal from 'decimal.js';
 import toStructure from '@basis/toStructure';
 import type Locales from '@locale/Locales';
 import StructureValue from '@values/StructureValue';
-import type Alignment from '@output/Output/Alignment';
+import {
+    isAlignment,
+    type default as Alignment,
+} from '@output/Output/Alignment';
 import Arrangement from '@output/Arrangement/Arrangement';
 import type Color from '@output/Color/Color';
 import type Output from '@output/Output/Output';
@@ -33,7 +36,7 @@ export class Stack extends Arrangement {
     constructor(value: Value, alignment: TextValue, padding: NumberValue) {
         super(value);
         this.padding = padding.toNumber();
-        this.alignment = alignment.text as Alignment;
+        this.alignment = isAlignment(alignment.text) ? alignment.text : '|';
     }
 
     getLayout(children: (Output | null)[], context: RenderContext) {

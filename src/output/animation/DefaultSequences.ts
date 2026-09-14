@@ -1,6 +1,7 @@
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
 import { type NameAndDoc } from '@locale/LocaleText';
+import { must } from '@util/nullable';
 
 /** The animations available as `↑` static functions on the `Sequence` structure. */
 export type AnimationKey = keyof LocaleText['output']['Sequence']['animations'];
@@ -34,7 +35,8 @@ export type Animation = {
  */
 export function reference(select: (locale: LocaleText) => NameAndDoc): string {
     const names = select(DefaultLocale).names;
-    return Array.isArray(names) ? names[0] : names;
+    // Every definition these sequences refer to is named in the default locale.
+    return Array.isArray(names) ? must(names[0], 'a default name') : names;
 }
 
 /** Definitions the animation bodies below refer to. */

@@ -4,6 +4,7 @@ import { stringToLocale } from '@locale/Locale';
 import Source from '@nodes/Source';
 import DefaultLocale from '@locale/DefaultLocale';
 import { parseSerializedProject } from '../../examples/examples';
+import { must } from '@util/nullable';
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
 import translateProjectContent, {
@@ -403,7 +404,7 @@ test('rewriting maps compared key names to the target locale, deterministically'
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].code.toString() ?? '';
+    const out = result?.getSources()[0]?.code.toString() ?? '';
     // The compared key follows the locale's key table...
     expect(out).toContain(`'Espacio'`);
     expect(out).not.toContain('"Space"');
@@ -442,7 +443,7 @@ test('a translated name never lands on a keyword word', async () => {
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].code.toString() ?? '';
+    const out = result?.getSources()[0]?.code.toString() ?? '';
     // Disambiguated rather than refused, and the conditional still reads the
     // bind rather than a boolean literal. Which suffix it lands on is not the
     // claim and is not stable: `existingNames` reserves every name in the
@@ -450,7 +451,7 @@ test('a translated name never lands on a keyword word', async () => {
     // pushes this to `doğru3`. What must hold is that it isn't the bare word.
     expect(out).toMatch(/\bdoğru\d+\b/);
     expect(out).not.toMatch(/\bdoğru\s*:/);
-    expect(conflicts(result as Project)).toBe(0);
+    expect(conflicts(must(result, 'the translated project'))).toBe(0);
 });
 
 // Retargeting a reference must not respell it into something that means
@@ -485,7 +486,9 @@ test('retargeting never captures a reference with an enclosing name', async () =
     expect(result).not.toBeNull();
     // The reference keeps its source spelling rather than becoming 時間,
     // which would have resolved to the bind itself.
-    expect(conflicts(result as Project)).toBeLessThanOrEqual(before);
+    expect(
+        conflicts(must(result, 'the translated project')),
+    ).toBeLessThanOrEqual(before);
 });
 
 test('rewriting a project written in several languages collapses all of it', async () => {
@@ -556,7 +559,7 @@ test('a reference that cannot be respelled keeps its declaration too', async () 
     );
 
     expect(result).not.toBeNull();
-    const out = result?.getSources()[0].code.toString() ?? '';
+    const out = result?.getSources()[0]?.code.toString() ?? '';
 
     // The bind that could be renamed was; the one that couldn't keeps both
     // halves of its name, which is a translation that did less rather than a
@@ -564,5 +567,5 @@ test('a reference that cannot be respelled keeps its declaration too', async () 
     expect(out).toContain('xperro: 1');
     expect(out).toContain('cat: 2');
     expect(out).toContain('cat + xperro');
-    expect(conflicts(result as Project)).toBe(0);
+    expect(conflicts(must(result, 'the translated project'))).toBe(0);
 });

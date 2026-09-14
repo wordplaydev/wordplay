@@ -133,12 +133,14 @@ export default class Match extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Match(
-            this.replaceChild('value', this.value, replace),
-            this.replaceChild<Token>('question', this.question, replace),
-            this.replaceChild<KeyValue[]>('cases', this.cases, replace),
-            this.replaceChild<Expression>('other', this.other, replace),
-        ) as this;
+        return this.cloned(
+            new Match(
+                this.replaceChild('value', this.value, replace),
+                this.replaceChild('question', this.question, replace),
+                this.replaceChild('cases', this.cases, replace),
+                this.replaceChild('other', this.other, replace),
+            ),
+        );
     }
 
     hasBranch(expr: Expression) {
@@ -228,12 +230,23 @@ export default class Match extends Expression {
             .map((condition, index) => {
                 const corresponding = conditions[index];
                 const result = results[index];
+                // The three lists are parallel maps over `this.cases`.
+                if (corresponding === undefined || result === undefined)
+                    return [];
 
                 // Calculate the number of steps after this result, so we can jump past them.
                 // Its the length of the condition, results, and the two conditionals.
                 let count = 0;
-                for (let i = index + 1; i < conditions.length; i++)
-                    count += conditions[i].length + results[i].length + 2;
+                for (let i = index + 1; i < conditions.length; i++) {
+                    const laterCondition = conditions[i];
+                    const laterResult = results[i];
+                    if (
+                        laterCondition === undefined ||
+                        laterResult === undefined
+                    )
+                        continue;
+                    count += laterCondition.length + laterResult.length + 2;
+                }
                 // Land on the Finish, not past it: jump(n) adds n and the step
                 // loop then advances one more, so the count must exclude the
                 // Finish itself. Overshooting it skipped Match.evaluate on every

@@ -72,9 +72,9 @@ export default class FunctionType extends Type {
         return new FunctionType(
             new Token(FUNCTION_SYMBOL, Sym.Function),
             typeVars,
-            new EvalOpenToken(),
+            EvalOpenToken(),
             inputs,
-            new EvalCloseToken(),
+            EvalCloseToken(),
             output,
             definition,
         );
@@ -136,14 +136,16 @@ export default class FunctionType extends Type {
     }
 
     clone(replace?: Replacement) {
-        return new FunctionType(
-            this.replaceChild('fun', this.fun, replace),
-            this.replaceChild('types', this.types, replace),
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('inputs', this.inputs, replace),
-            this.replaceChild('close', this.close, replace),
-            this.replaceChild('output', this.output, replace),
-        ) as this;
+        return this.cloned(
+            new FunctionType(
+                this.replaceChild('fun', this.fun, replace),
+                this.replaceChild('types', this.types, replace),
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('inputs', this.inputs, replace),
+                this.replaceChild('close', this.close, replace),
+                this.replaceChild('output', this.output, replace),
+            ),
+        );
     }
 
     acceptsAll(types: TypeSet, context: Context): boolean {
@@ -171,6 +173,7 @@ export default class FunctionType extends Type {
             ) {
                 const thisBind = this.inputs[i];
                 const thatBind = inputsToCheck[i];
+                if (thisBind === undefined || thatBind === undefined) continue;
                 // Ensure the this input accepts the other input
                 if (
                     thisBind.type instanceof Type &&

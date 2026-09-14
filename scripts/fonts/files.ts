@@ -1,5 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { must } from '@util/nullable.ts';
 
 /**
  * Shared model for the font generator: how face names map to on-disk files and
@@ -25,12 +26,13 @@ export function parseFontUrl(url: string): {
     const file = url.split('/').pop() ?? '';
     const m = file.match(/^(.+?)-(all|\d+)(-italic)?(?:-(\d+))?\.(\w+)$/);
     if (m === null) throw new Error(`Unparseable font url: ${url}`);
+    // Only groups 3 and 4 are optional in the pattern above.
     return {
-        dir: m[1],
-        weight: m[2],
+        dir: must(m[1], 'a font directory'),
+        weight: must(m[2], 'a font weight'),
         italic: m[3] !== undefined,
         slice: m[4] !== undefined ? Number(m[4]) : undefined,
-        ext: m[5],
+        ext: must(m[5], 'a font extension'),
     };
 }
 

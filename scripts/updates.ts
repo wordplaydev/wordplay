@@ -7,8 +7,6 @@
 // so structure is stored once and a missing translation falls back per entry.
 
 import {
-    UpdateSectionKinds,
-    type UpdateEntry,
     type UpdateSectionKind,
     type UpdateText,
     type UpdatesBundle,
@@ -16,6 +14,7 @@ import {
 import { createHash } from 'crypto';
 import fs from 'fs';
 import path from 'path';
+import { must } from '@util/nullable.ts';
 
 const changelogPath = path.join(process.cwd(), 'CHANGELOG.md');
 
@@ -128,10 +127,16 @@ export function parseChangelog(changelog: string): Update[] {
         );
         if (typeofChangeMatch) {
             flushProse();
-            currentType = SectionHeadings[typeofChangeMatch[1]];
+            // The pattern's only group is not optional, and it matches only
+            // the four words `SectionHeadings` declares.
+            const heading = must(typeofChangeMatch[1], 'a section name');
+            currentType = must(
+                SectionHeadings[heading],
+                `a section kind for "${heading}"`,
+            );
         } else if (versionMatch) {
             flushProse();
-            const version = versionMatch[1];
+            const version = must(versionMatch[1], 'a version');
             const date = versionMatch[2] ?? null;
 
             // Save the previous update before starting a new one
@@ -228,13 +233,13 @@ export function toMarkup(text: string): string {
         );
 
     return body
-        .replaceAll(
-            new RegExp(`${URL}(\\d+)${URL}`, 'g'),
-            (_, index) => urls[Number(index)],
+        .replaceAll(new RegExp(`${URL}(\\d+)${URL}`, 'g'), (_, index) =>
+            must(urls[Number(index)], 'a masked url'),
         )
         .replaceAll(
             new RegExp(`${CODE}(\\d+)${CODE}`, 'g'),
-            (_, index) => `\\${code[Number(index)]}\\`,
+            (_, index) =>
+                `\\${must(code[Number(index)], 'a masked code span')}\\`,
         );
 }
 
@@ -267,6 +272,19 @@ function toText(markdown: string): UpdateText | null {
 }
 
 /** Turn parsed CHANGELOG updates into the bundle the app fetches. */
+/** One value per section, named rather than assembled from entries: the
+ *  result is a total record, and writing each key is what says so. */
+function perSection<Value>(
+    of: (kind: UpdateSectionKind) => Value,
+): Record<UpdateSectionKind, Value> {
+    return {
+        added: of('added'),
+        changed: of('changed'),
+        fixed: of('fixed'),
+        removed: of('removed'),
+    };
+}
+
 export function toBundle(updates: Update[]): UpdatesBundle {
     return {
         format: BundleFormat,
@@ -274,24 +292,16 @@ export function toBundle(updates: Update[]): UpdatesBundle {
             version: update.version,
             date: update.date,
             summary: toText(update.summary),
-            changes: Object.fromEntries(
-                UpdateSectionKinds.map((kind) => [
-                    kind,
-                    update.changes[kind].map((entry) => ({
-                        ...(toText(entry.text) ?? {
-                            id: textId(entry.text),
-                            markup: '',
-                        }),
-                        emoji: entry.emoji,
-                    })),
-                ]),
-            ) as Record<UpdateSectionKind, UpdateEntry[]>,
-            summaries: Object.fromEntries(
-                UpdateSectionKinds.map((kind) => [
-                    kind,
-                    toText(update.summaries[kind]),
-                ]),
-            ) as Record<UpdateSectionKind, UpdateText | null>,
+            changes: perSection((kind) =>
+                update.changes[kind].map((entry) => ({
+                    ...(toText(entry.text) ?? {
+                        id: textId(entry.text),
+                        markup: '',
+                    }),
+                    emoji: entry.emoji,
+                })),
+            ),
+            summaries: perSection((kind) => toText(update.summaries[kind])),
         })),
     };
 }

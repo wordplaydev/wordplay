@@ -52,9 +52,7 @@ export default function checkPointedNames(
     target: LocaleText,
     fix: boolean,
 ): LocaleText {
-    const revised = fix
-        ? (JSON.parse(JSON.stringify(target)) as LocaleText)
-        : target;
+    const revised = fix ? structuredClone(target) : target;
 
     // What each name would become, grouped by the scope it must stay unique in.
     const scopes = new Map<string, Map<string, Set<string>>>();

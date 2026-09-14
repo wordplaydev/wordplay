@@ -48,6 +48,7 @@ import fs from 'fs';
 import path from 'path';
 import { parseSerializedProject } from '../../examples/examples';
 import { serializeExample } from '../../examples/serializeExample';
+import { must } from '@util/nullable';
 
 /** Where the en-US master examples live; a locale's translations live in a
  *  subdirectory named by its locale code. */
@@ -434,17 +435,18 @@ async function translateExampleFile(
         log.warning(`Kept ${filename} untranslated: source count changed.`);
         return false;
     }
+    // The source counts were just checked equal, so each index hits.
     const sources = master.sources.map((source, index) => ({
         names: source.names,
-        code: revisedSources[index].code,
+        code: must(revisedSources[index], 'a revised source').code,
     }));
 
     // The same delimiter guards the example localizer makes, per source: a
     // translation that unbalances a delimiter or leaves a literal open breaks
     // everything after it.
-    for (let index = 0; index < sources.length; index++) {
-        const before = master.sources[index].code;
-        const after = sources[index].code;
+    for (const [index, source] of sources.entries()) {
+        const before = must(master.sources[index], 'a master source').code;
+        const after = source.code;
         if (
             mismatchedDelimiter(before, after) !== undefined ||
             (!hasUnclosedText(before) && hasUnclosedText(after))

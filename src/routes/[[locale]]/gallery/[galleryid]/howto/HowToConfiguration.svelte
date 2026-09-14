@@ -197,16 +197,16 @@
     <MarkupHTMLView
         markup={(l) => l.ui.howto.configuration.reactions.subheader.explanation}
     />
-    {#each reactions as _, index}
+    {#each reactions as reaction, index}
         <div class="reactionConfiguration">
             <Button
                 tip={(l) =>
                     l.ui.howto.configuration.reactions.reactionPickerTip}
                 action={() => {
-                    reactions[index][2] = !reactions[index][2];
+                    reaction[2] = !reaction[2];
                 }}
-                icon={reactions[index][0]}
-                background={reactions[index][2]}
+                icon={reaction[0]}
+                background={reaction[2]}
             />
 
             <TextField
@@ -215,7 +215,7 @@
                     l.ui.howto.configuration.reactions.reactionDescriptionTip}
                 placeholder={(l) =>
                     l.ui.howto.configuration.reactions.reactionDescriptionTip}
-                bind:text={reactions[index][1]}
+                bind:text={reaction[1]}
             />
 
             <Button
@@ -227,10 +227,10 @@
                 }}
             />
         </div>
-        {#if reactions[index][2]}
+        {#if reaction[2]}
             <EmojiChooser
-                pick={(emoji) => (reactions[index][0] = emoji)}
-                glyph={reactions[index][0]}
+                pick={(emoji) => (reaction[0] = emoji)}
+                glyph={reaction[0]}
             />
         {/if}
     {/each}

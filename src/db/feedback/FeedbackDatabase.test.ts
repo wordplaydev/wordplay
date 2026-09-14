@@ -1,3 +1,4 @@
+import { must } from '@util/nullable';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Stub the Firestore SDK so we can intercept the field-level operations the
@@ -57,9 +58,10 @@ describe('FeedbackDatabase atomic operations', () => {
             expect(increment).toHaveBeenCalledWith(1);
             expect(updateDoc).toHaveBeenCalledTimes(1);
 
-            const [ref, data] = (
-                updateDoc as unknown as ReturnType<typeof vi.fn>
-            ).mock.calls[0];
+            const [ref, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call asserted above',
+            );
             expect(ref).toMatchObject({
                 _ref: { collection: 'feedback', id: 'feedback-1' },
             });
@@ -83,8 +85,10 @@ describe('FeedbackDatabase atomic operations', () => {
             expect(arrayUnion).toHaveBeenCalledWith(comment);
             expect(updateDoc).toHaveBeenCalledTimes(1);
 
-            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
-                .mock.calls[0];
+            const [, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call asserted above',
+            );
             expect(data).toEqual({
                 comments: { _op: 'arrayUnion', elements: [comment] },
             });
@@ -105,8 +109,10 @@ describe('FeedbackDatabase atomic operations', () => {
             expect(arrayRemove).toHaveBeenCalledWith(comment);
             expect(updateDoc).toHaveBeenCalledTimes(1);
 
-            const [, data] = (updateDoc as unknown as ReturnType<typeof vi.fn>)
-                .mock.calls[0];
+            const [, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call asserted above',
+            );
             expect(data).toEqual({
                 comments: { _op: 'arrayRemove', elements: [comment] },
             });

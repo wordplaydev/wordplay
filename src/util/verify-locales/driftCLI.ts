@@ -71,12 +71,15 @@ async function run(): Promise<void> {
             : available;
     if (locales.length === 0) log.exit('No locales to check.');
 
-    const sourceLocale = readJSON<LocaleText>(getLocalePath('en-US'));
+    const readSource = readJSON<LocaleText>(getLocalePath('en-US'));
+    if (readSource === undefined) log.exit('Could not read the en-US locale.');
+    // Bound separately: the narrowing above doesn't reach the hoisted
+    // `filesFor` below, which closes over it.
+    const sourceLocale: LocaleText = readSource;
     // One entry per tutorial mode: the two tutorials are different documents
     // whose path ids collide, so their kinds maps must never be merged.
     const tutorials = getTutorialSources();
-    if (sourceLocale === undefined || tutorials.length === 0)
-        log.exit('Could not read the en-US locale or tutorial.');
+    if (tutorials.length === 0) log.exit('Could not read the en-US tutorial.');
 
     const localeKinds = getCheckablePathKinds(sourceLocale);
 
@@ -88,7 +91,7 @@ async function run(): Promise<void> {
                 getLocalePath('en-US'),
                 getLocalePath(locale),
                 localeKinds,
-                sourceLocale as unknown as Record<string, unknown>,
+                sourceLocale,
             ] as const,
             ...tutorials.map(
                 ({ mode, source, kinds }) =>
@@ -234,7 +237,7 @@ async function run(): Promise<void> {
             locale,
             localeKinds,
             tutorials,
-            sourceLocale as unknown as Record<string, unknown>,
+            sourceLocale,
         );
         all.push(...stale);
         const counts = summarize(stale);

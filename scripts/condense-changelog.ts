@@ -21,6 +21,7 @@
  *   npx tsx scripts/condense-changelog.ts apply
  */
 import '@util/verify-locales/loadEnv';
+import { z } from 'zod';
 
 import Anthropic from '@anthropic-ai/sdk';
 import { PLAIN_LANGUAGE_GUIDANCE } from '@locale/readingLevel';
@@ -107,17 +108,53 @@ const SCHEMA = {
     additionalProperties: false,
 };
 
-type Reply = {
-    index: number;
-    text: string;
-    second: 'code' | 'caveat' | 'none';
+const ReplySchema = z.object({
+    index: z.number(),
+    text: z.string(),
+    second: z.enum(['code', 'caveat', 'none']),
     /** What the model says it removed, in its own words. */
-    dropped: string;
-};
+    dropped: z.string(),
+});
+type Reply = z.infer<typeof ReplySchema>;
 
+const ProposalSchema = z.object({
+    line: z.number(),
+    original: z.string(),
+    version: z.string(),
+    emoji: z.string().nullable(),
+    body: z.string(),
+    text: z.string().exactOptional(),
+    second: z.enum(['code', 'caveat']).nullable().exactOptional(),
+    rejected: z
+        .enum([
+            'review',
+            'empty',
+            'longer',
+            'sentences',
+            'code',
+            'link',
+            'citation',
+            'markup',
+        ])
+        .optional(),
+    dropped: z.string().exactOptional(),
+}) satisfies z.ZodType<Proposal>;
+
+/** The saved proposals, or none when the file is missing or was edited into
+ *  a shape this script doesn't write: a proposal is a promise to rewrite one
+ *  line, so a malformed one is refused rather than applied. */
 function readProposals(): Proposal[] {
     if (!fs.existsSync(ProposalsPath)) return [];
-    return JSON.parse(fs.readFileSync(ProposalsPath, 'utf-8')) as Proposal[];
+    const parsed = z
+        .array(ProposalSchema)
+        .safeParse(JSON.parse(fs.readFileSync(ProposalsPath, 'utf-8')));
+    if (!parsed.success) {
+        log.warning(
+            `${ProposalsPath} is not a list of proposals; ignoring it.`,
+        );
+        return [];
+    }
+    return parsed.data;
 }
 
 function saveProposals(proposals: Proposal[]): void {
@@ -172,8 +209,18 @@ async function condenseChunk(bodies: string[]): Promise<Reply[] | undefined> {
         if (response.stop_reason === 'max_tokens') return undefined;
         const block = response.content.find((b) => b.type === 'text');
         if (block === undefined) return undefined;
-        const parsed = JSON.parse(block.text) as { results?: Reply[] };
-        return parsed.results;
+        // The model's answer is text until it is checked: a refusal or an
+        // aside is not a list of replies.
+        const parsed = z
+            .object({ results: z.array(ReplySchema).optional() })
+            .safeParse(JSON.parse(block.text));
+        if (!parsed.success) {
+            log.warning(
+                `The reply was not a list of rewrites: ${parsed.error}`,
+            );
+            return undefined;
+        }
+        return parsed.data.results;
     } catch (error) {
         log.warning(`Request failed: ${describeClaudeError(error)}`);
         return undefined;

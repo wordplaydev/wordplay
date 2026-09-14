@@ -90,6 +90,14 @@ export type Resolution = Repair | Explainer;
  */
 export type Resolutions = readonly [Resolution, ...Resolution[]];
 
+/** The list as a non-empty tuple, or undefined when it is empty. */
+export function toResolutions(
+    list: readonly Resolution[],
+): Resolutions | undefined {
+    const [first, ...rest] = list;
+    return first === undefined ? undefined : [first, ...rest];
+}
+
 export type ConflictLocaleAccessor = (
     locale: LocaleText,
 ) => ConflictText<readonly string[]>;
@@ -117,24 +125,31 @@ export type Resolver<C extends Conflict> = (
  * Resolvers live in a separate module that's only loaded after all node
  * classes have initialized.
  */
-const resolvers = new Map<Function, Resolver<Conflict>>();
+/** A registered resolver, held as a method so that a resolver for one
+ *  conflict class fits the slot without a cast: method parameters compare
+ *  bivariantly, and the lookup by exact constructor is what makes calling it
+ *  with an instance of that class sound. */
+type RegisteredResolver = {
+    resolve(
+        conflict: Conflict,
+        context: Context,
+        concepts: Node[],
+    ): Resolution[];
+};
+
+const resolvers = new Map<Function, RegisteredResolver>();
 
 /**
  * Register a resolver for a conflict class. Call once per class at app /
  * test startup. Subsequent calls overwrite (the last registration wins, which
  * makes overriding in tests easy).
  *
- * The single `as unknown as` widening here is the only cast in the registry —
- * it's safe because `registerResolver` enforces the narrow `Resolver<C>` type
- * at the call site, and {@link Conflict.fromRegistry} looks up by exact
- * constructor identity, so the stored function is only ever invoked with an
- * instance of the registered class.
  */
 export function registerResolver<C extends Conflict>(
     cls: new (...args: never[]) => C,
     fn: Resolver<C>,
 ): void {
-    resolvers.set(cls, fn as unknown as Resolver<Conflict>);
+    resolvers.set(cls, { resolve: fn });
 }
 
 export default abstract class Conflict {
@@ -217,7 +232,7 @@ export default abstract class Conflict {
         concepts: Node[],
     ): Resolution[] {
         const resolver = resolvers.get(conflict.constructor);
-        return resolver ? resolver(conflict, context, concepts) : [];
+        return resolver ? resolver.resolve(conflict, context, concepts) : [];
     }
 
     static fromRegistry(
@@ -230,8 +245,8 @@ export default abstract class Conflict {
             context,
             concepts,
         );
-        if (found.length > 0)
-            return found as readonly Resolution[] as Resolutions;
+        const resolutions = toResolutions(found);
+        if (resolutions !== undefined) return resolutions;
         // No registered resolver, or the resolver produced nothing usable.
         // Fall back to an explainer that simply re-states the conflict's
         // primary message, focusing the conflicting node.
@@ -269,9 +284,11 @@ export default abstract class Conflict {
             (f) => f instanceof Node,
         );
         if (theseNodes.length !== thoseNodes.length) return false;
-        return theseNodes.every((these, index) =>
-            these.isEqualTo(thoseNodes[index]),
-        );
+        return theseNodes.every((these, index) => {
+            const those = thoseNodes[index];
+            // The lists are the same length, checked above.
+            return those !== undefined && these.isEqualTo(those);
+        });
     }
 
     abstract getLocalePath(): ConflictLocaleAccessor;

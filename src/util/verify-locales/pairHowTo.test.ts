@@ -6,6 +6,7 @@ import {
     proseRunsIn,
 } from '@util/verify-locales/pairHowTo';
 import { describe, expect, it } from 'vitest';
+import { must } from '@util/nullable';
 
 function markup(text: string) {
     return toMarkup(text)[0];
@@ -25,16 +26,20 @@ const English = [
     'The @Reaction is the heart of it.\nIt starts at one, and counts up.',
 ].join('\n');
 
+/** The one paragraph a single-paragraph markup has. */
+const paragraph = (text: string) =>
+    must(markup(text).paragraphs[0], 'a paragraph');
+
 describe('paragraphSignature', () => {
     it('ignores prose but keeps the untranslated marks around it', () => {
-        const a = markup('Sometimes you want a @Phrase here.').paragraphs[0];
-        const b = markup('Manchmal willst du ein @Phrase hier.').paragraphs[0];
+        const a = paragraph('Sometimes you want a @Phrase here.');
+        const b = paragraph('Manchmal willst du ein @Phrase hier.');
         expect(paragraphSignature(a)).toBe(paragraphSignature(b));
     });
 
     it('separates paragraphs that reference different concepts', () => {
-        const a = markup('A @Phrase here.').paragraphs[0];
-        const b = markup('A @Group here.').paragraphs[0];
+        const a = paragraph('A @Phrase here.');
+        const b = paragraph('A @Group here.');
         expect(paragraphSignature(a)).not.toBe(paragraphSignature(b));
     });
 
@@ -44,9 +49,8 @@ describe('paragraphSignature', () => {
      * its examples along with its prose.
      */
     it('treats a run of prose as one, however many lines it was written on', () => {
-        const wrapped = markup('It starts at one.\nIt counts up.')
-            .paragraphs[0];
-        const flowed = markup('It starts at one. It counts up.').paragraphs[0];
+        const wrapped = paragraph('It starts at one.\nIt counts up.');
+        const flowed = paragraph('It starts at one. It counts up.');
         expect(paragraphSignature(wrapped)).toBe(paragraphSignature(flowed));
     });
 });
@@ -67,11 +71,15 @@ describe('nested examples', () => {
 
     it('keeps the outer example first, so its paragraph space is the one carried', () => {
         const [outer] = examplesIn(markup(nested));
-        expect(outer.toWordplay()).toContain('Phrase');
+        expect(must(outer, 'the outer example').toWordplay()).toContain(
+            'Phrase',
+        );
     });
 
     it('does not count a nested example twice in a signature', () => {
-        const signature = paragraphSignature(markup(nested).paragraphs[1]);
+        const signature = paragraphSignature(
+            must(markup(nested).paragraphs[1], 'the second paragraph'),
+        );
         expect(signature.split('X')).toHaveLength(2);
     });
 });

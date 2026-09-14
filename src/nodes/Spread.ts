@@ -79,10 +79,12 @@ export default class Spread extends Node {
     }
 
     clone(replace?: Replacement) {
-        return new Spread(
-            this.replaceChild('dots', this.dots, replace),
-            this.replaceChild('list', this.list, replace),
-        ) as this;
+        return this.cloned(
+            new Spread(
+                this.replaceChild('dots', this.dots, replace),
+                this.replaceChild('list', this.list, replace),
+            ),
+        );
     }
 
     getPurpose() {

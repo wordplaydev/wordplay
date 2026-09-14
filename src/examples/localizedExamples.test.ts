@@ -9,6 +9,7 @@ import { kitsNeededBy, resolveKits } from '@db/kits/resolveKits';
 import { builtinKitResolver } from '@db/kits/builtinKitResolver';
 import { parseSerializedProject } from './examples';
 import { serializeExample } from './serializeExample';
+import { must } from '@util/nullable';
 
 /**
  * @sweep static/examples All 2,250 localized `.wp` files — 30 locale directories
@@ -68,12 +69,13 @@ const localeTexts = new Map<string, LocaleText>();
 function localeText(code: string): LocaleText {
     let text = localeTexts.get(code);
     if (text === undefined) {
-        text = JSON.parse(
+        const parsed: LocaleText = JSON.parse(
             readFileSync(
                 path.join('static', 'locales', code, `${code}.json`),
                 'utf8',
             ),
-        ) as LocaleText;
+        );
+        text = parsed;
         localeTexts.set(code, text);
     }
     return text;
@@ -113,7 +115,7 @@ test.each(localized)(
         const built = Project.make(
             null,
             id,
-            main,
+            must(main, 'the main source'),
             supplements,
             localeText(locale),
         );
@@ -157,7 +159,13 @@ test.each(localized)(
             (source) => new Source(source.names, source.code),
         );
         const baseline = Array.from(
-            Project.make(null, id, masterMain, masterRest, localeText(locale))
+            Project.make(
+                null,
+                id,
+                must(masterMain, 'the master main source'),
+                masterRest,
+                localeText(locale),
+            )
                 .analyze()
                 .conflictedNodes.values(),
         ).flat().length;

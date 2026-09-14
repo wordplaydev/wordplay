@@ -186,8 +186,10 @@
                             modeLabels={false}
                             modes={(l) => l.ui.docs.mode.purpose}
                             choice={Object.keys(Purpose).indexOf(purpose)}
-                            select={(choice) =>
-                                (purpose = Object.values(Purpose)[choice])}
+                            select={(choice) => {
+                                const chosen = Object.values(Purpose)[choice];
+                                if (chosen !== undefined) purpose = chosen;
+                            }}
                             icons={getPurposeIcons(
                                 $locales.getLocale().language,
                             )}

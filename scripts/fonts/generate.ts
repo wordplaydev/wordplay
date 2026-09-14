@@ -13,6 +13,7 @@ import type { FaceRecord } from './faces';
 import { emitFontsCss, emitFontsFallbackCss } from './stylesheets';
 import { writeRenderableGenerated } from './renderableSet';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
+import { must } from '@util/nullable.ts';
 
 /** Scripts present in the glyph data with no released Noto font. Captured from
  * the manifest's coverage; the coverage-partition test keeps it honest. */
@@ -74,7 +75,7 @@ export async function emojiRanges(): Promise<Record<string, string>> {
     for (const entry of FontManifest)
         if (entry.rangeSource === 'emoji')
             out[entry.name] = await deriveEmojiRange(
-                EMOJI_WHOLE_FILE[entry.name],
+                must(EMOJI_WHOLE_FILE[entry.name], 'an emoji font file'),
             );
     return out;
 }

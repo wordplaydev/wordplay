@@ -14,7 +14,7 @@
     let { node, format }: Props = $props();
 
     // Choose what name to render based on the preferred languages.
-    let name = $derived(new NameToken($locales.getName(node.definition.names)));
+    let name = $derived(NameToken($locales.getName(node.definition.names)));
 </script>
 
 <NodeView node={name} {format} />

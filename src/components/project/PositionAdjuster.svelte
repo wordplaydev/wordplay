@@ -84,7 +84,8 @@
         if (index === 0) return [];
 
         // Get the kinds specified on the axis.
-        const kinds = axis.positions[index].id;
+        const kinds = axis.positions[index]?.id;
+        if (kinds === undefined) return [];
 
         // Get the bounds of the expanded tiles of the specified kinds in the layout.
         return layout.tiles
@@ -93,8 +94,8 @@
             .filter((b) => b !== undefined);
     }
 
-    function getSplit(): number {
-        return axis.positions[index].position;
+    function getSplit(): number | undefined {
+        return axis.positions[index]?.position;
     }
 
     let captureEl: Element | undefined;
@@ -118,6 +119,8 @@
         const projectBounds = document
             .getElementsByClassName('project')[0]
             ?.getBoundingClientRect();
+
+        if (projectBounds === undefined) return;
 
         if (axis.direction === 'x') {
             const newPosition = (event.clientX - projectBounds.left) / width;
@@ -158,7 +161,9 @@
         if (delta === 0) return;
         const span = axis.direction === 'x' ? width : height;
         if (span === 0) return;
-        const next = getSplit() + delta / span;
+        const split = getSplit();
+        if (split === undefined) return;
+        const next = split + delta / span;
         adjuster(Math.max(previousPosition, Math.min(nextPosition, next)));
     }
 

@@ -276,16 +276,18 @@ export default class Borrow extends SimpleExpression {
     }
 
     clone(replace?: Replacement) {
-        return new Borrow(
-            this.replaceChild('borrow', this.borrow, replace),
-            this.replaceChild('source', this.source, replace),
-            this.replaceChild('dot', this.dot, replace),
-            this.replaceChild('name', this.name, replace),
-            this.replaceChild('version', this.version, replace),
-            this.replaceChild('external', this.external, replace),
-            this.replaceChild('alias', this.alias, replace),
-            this.replaceChild('bind', this.bind, replace),
-        ) as this;
+        return this.cloned(
+            new Borrow(
+                this.replaceChild('borrow', this.borrow, replace),
+                this.replaceChild('source', this.source, replace),
+                this.replaceChild('dot', this.dot, replace),
+                this.replaceChild('name', this.name, replace),
+                this.replaceChild('version', this.version, replace),
+                this.replaceChild('external', this.external, replace),
+                this.replaceChild('alias', this.alias, replace),
+                this.replaceChild('bind', this.bind, replace),
+            ),
+        );
     }
 
     isEvaluationInvolved() {
@@ -593,9 +595,11 @@ export default class Borrow extends SimpleExpression {
                     }
                     for (const share of source.getShares()) {
                         if (share instanceof Source) continue;
-                        const shared = evaluation?.resolve(
-                            share.names.getNames()[0],
-                        );
+                        const shareName = share.names.getNames()[0];
+                        const shared =
+                            shareName === undefined
+                                ? undefined
+                                : evaluation?.resolve(shareName);
                         if (shared === undefined)
                             return new NameException(
                                 this,

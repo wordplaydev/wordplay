@@ -32,6 +32,7 @@
     import { parseNumber } from '@parser/parseExpression';
     import { toTokens } from '@parser/toTokens';
     import type Decimal from 'decimal.js';
+    import { must } from '@util/nullable';
 
     interface Props {
         project: Project;
@@ -80,7 +81,10 @@
         ]);
 
     // The poses bind is the first input of the Sequence structure.
-    let posesBind = $derived(project.shares.output.Sequence.inputs[0]);
+    // The basis declares Sequence's poses input.
+    let posesBind = $derived(
+        must(project.shares.output.Sequence.inputs[0], "Sequence's poses"),
+    );
 
     // The Sequence Evaluates being edited: either `Sequence({…})` or `Sequence.sway(…)`.
     let sequenceEvaluates = $derived(outputs.map((output) => output.node));
@@ -207,10 +211,10 @@
         if ($projectStore === undefined) return;
         Projects.revise(
             $projectStore,
-            sequenceEvaluates.map(
-                (sequence) =>
-                    [sequence, make(sequence)] as [Evaluate, Evaluate],
-            ),
+            sequenceEvaluates.map((sequence): [Evaluate, Evaluate] => [
+                sequence,
+                make(sequence),
+            ]),
         );
     }
 

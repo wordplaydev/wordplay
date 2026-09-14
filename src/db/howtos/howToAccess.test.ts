@@ -1,4 +1,5 @@
 import { describe, expect, test, vi } from 'vitest';
+import { must } from '@util/nullable';
 
 // `HowToDatabase.svelte.ts` reaches `@db/Database` for the singleton, which
 // constructs every domain database at import — the same circular import
@@ -146,7 +147,7 @@ describe.each(Scenarios)('$name', (scenario) => {
 });
 
 describe('creating a how-to and configuring the space', () => {
-    const gallery = galleryFor(Scenarios[0]);
+    const gallery = galleryFor(must(Scenarios[0], 'the first scenario'));
 
     test.each(clientActors)('%s', (actor) => {
         const uid = actor === 'anon' ? undefined : Uid[actor];

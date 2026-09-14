@@ -9,6 +9,7 @@ import CueScheduler, {
     MinimumCueMs,
     type CueEvent,
 } from './cues';
+import { keysOf } from '@util/nullable';
 
 /** A stand-in for an evaluator, which the scheduler only uses as an identity. */
 function evaluator(): object {
@@ -95,8 +96,12 @@ describe('the scheduler', () => {
             'choice',
         ]);
         // Strictly increasing, so each is heard as its own event.
-        expect(scheduled[0].offsetMs).toBeLessThan(scheduled[1].offsetMs);
-        expect(scheduled[1].offsetMs).toBeLessThan(scheduled[2].offsetMs);
+        let previous: number | undefined = undefined;
+        for (const cue of scheduled) {
+            if (previous !== undefined)
+                expect(cue.offsetMs).toBeGreaterThan(previous);
+            previous = cue.offsetMs;
+        }
     });
 
     test('cues at most three streams of one reaction', () => {
@@ -168,7 +173,7 @@ describe('physics contacts', () => {
             burst(0.1, 0.2, 0.3, 0.4, 0.5, 0.95),
         );
         expect(scheduled).toHaveLength(ContactPolyphony);
-        expect(scheduled[0].strength).toBe(0.95);
+        expect(scheduled[0]?.strength).toBe(0.95);
         // Every kept contact is louder than every dropped one.
         expect(Math.min(...scheduled.map((cue) => cue.strength ?? 0))).toBe(
             0.3,
@@ -206,7 +211,7 @@ describe('physics contacts', () => {
         // A key pressed in the same instant is heard after the burst, not on
         // top of it — the stagger's job between different kinds is unchanged.
         const [cue] = scheduler.reaction({}, 0, ['key']);
-        expect(cue.offsetMs).toBe(CueSpacingMs);
+        expect(cue?.offsetMs).toBe(CueSpacingMs);
     });
 
     test('polyphony belongs only where simultaneous events are distinct things', () => {
@@ -225,9 +230,9 @@ describe('which switch governs a cue', () => {
     test('every cue is governed by exactly one of the three', () => {
         // Total over CueEvent, so a new cue kind can't quietly default into the
         // evaluation switch without someone deciding it belongs there.
-        for (const event of Object.keys(Cues))
+        for (const event of keysOf(Cues))
             expect(['evaluation', 'contact', 'animation']).toContain(
-                gateOf(event as CueEvent),
+                gateOf(event),
             );
     });
 
@@ -236,12 +241,20 @@ describe('which switch governs a cue', () => {
         // and both are far denser than a keypress, which is why each has a
         // switch rather than riding the evaluation one.
         expect(gateOf('collision')).toBe('contact');
-        for (const event of ['pose', 'loop', 'entering', 'moving', 'exiting'])
-            expect(gateOf(event as CueEvent), event).toBe('animation');
+        const animated: CueEvent[] = [
+            'pose',
+            'loop',
+            'entering',
+            'moving',
+            'exiting',
+        ];
+        for (const event of animated)
+            expect(gateOf(event), event).toBe('animation');
     });
 
     test('streams and the start of an evaluation are evaluation cues', () => {
-        for (const event of ['key', 'pointer', 'time', 'start'])
-            expect(gateOf(event as CueEvent), event).toBe('evaluation');
+        const evaluated: CueEvent[] = ['key', 'pointer', 'time', 'start'];
+        for (const event of evaluated)
+            expect(gateOf(event), event).toBe('evaluation');
     });
 });

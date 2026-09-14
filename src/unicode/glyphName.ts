@@ -23,11 +23,11 @@ export function localizedGlyphName(
 ): string {
     const key = codepointKey(hex);
     for (const locale of locales) {
-        const entry = maps[locale]?.[key];
-        if (entry && entry.length > 0) return entry[0];
+        const name = maps[locale]?.[key]?.[0];
+        if (name !== undefined) return name;
     }
-    const named = glyphNames?.get(key);
-    if (named && named.length > 0) return named[0];
+    const named = glyphNames?.get(key)?.[0];
+    if (named !== undefined) return named;
     return '';
 }
 

@@ -118,12 +118,14 @@ export default class Conditional extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Conditional(
-            this.replaceChild('condition', this.condition, replace),
-            this.replaceChild<Token>('question', this.question, replace),
-            this.replaceChild<Expression>('yes', this.yes, replace),
-            this.replaceChild<Expression>('no', this.no, replace),
-        ) as this;
+        return this.cloned(
+            new Conditional(
+                this.replaceChild('condition', this.condition, replace),
+                this.replaceChild('question', this.question, replace),
+                this.replaceChild('yes', this.yes, replace),
+                this.replaceChild('no', this.no, replace),
+            ),
+        );
     }
 
     hasBranch(expr: Expression) {

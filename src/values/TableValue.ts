@@ -40,9 +40,11 @@ export default class TableValue extends SimpleValue {
         return (
             table instanceof TableValue &&
             this.rows.length === table.rows.length &&
-            this.rows.every((row, rowIndex) =>
-                row.isEqualTo(table.rows[rowIndex]),
-            )
+            this.rows.every((row, rowIndex) => {
+                const other = table.rows[rowIndex];
+                // The lengths match, so there is always a row to compare with.
+                return other !== undefined && row.isEqualTo(other);
+            })
         );
     }
 
@@ -86,8 +88,11 @@ export default class TableValue extends SimpleValue {
         const rows = results.filter(
             (row): row is StructureValue => row instanceof StructureValue,
         );
+        const firstRow = rows[0];
         const type =
-            rows.length > 0 ? TableType.make(rows[0].type.inputs) : this.type;
+            firstRow === undefined
+                ? this.type
+                : TableType.make(firstRow.type.inputs);
         return new TableValue(creator, type, rows);
     }
 }

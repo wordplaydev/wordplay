@@ -40,7 +40,7 @@ export default class Names extends Node {
             count++;
             list.push(
                 new Name(
-                    new NameToken(name),
+                    NameToken(name),
                     undefined,
                     count === names.length
                         ? undefined
@@ -66,9 +66,9 @@ export default class Names extends Node {
     }
 
     clone(replace?: Replacement) {
-        return new Names(
-            this.replaceChild<Name[]>('names', this.names, replace),
-        ) as this;
+        return this.cloned(
+            new Names(this.replaceChild('names', this.names, replace)),
+        );
     }
 
     isEmpty() {

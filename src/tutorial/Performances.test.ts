@@ -11,6 +11,7 @@ import ExceptionValue from '@values/ExceptionValue';
 import { getDefaultTutorial } from '@util/verify-locales/TutorialSchema';
 import { Performances, performanceSource } from './Performances';
 import { isPerformance, parsePerformance } from './Tutorial';
+import { must } from '@util/nullable';
 
 function stageFrom(code: string) {
     const source = new Source('finale', code);
@@ -29,7 +30,7 @@ function finaleMusic() {
     const { stage } = stageFrom(Performances.EvaluateDance15());
     const music = stage?.getMusic() ?? [];
     expect(music).toHaveLength(1);
-    return music[0].toData();
+    return must(music[0], 'the finale music').toData();
 }
 
 test('the finale dances to a band', () => {
@@ -74,9 +75,10 @@ test('the finale carries no music risk', () => {
  * failure is a conflict, so nothing else here would notice.
  */
 test('every Music lesson evaluates and makes music', () => {
-    const scene = getDefaultTutorial('complete').acts[5].scenes.find(
-        (s) => s.concept === 'Music',
-    );
+    const scene = must(
+        getDefaultTutorial('complete').acts[5],
+        'the sixth act',
+    ).scenes.find((s) => s.concept === 'Music');
     expect(scene, 'the Music scene').toBeDefined();
 
     const programs = (scene?.lines ?? [])

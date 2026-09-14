@@ -12,6 +12,7 @@ import type Locales from '@locale/Locales';
 import type Expression from '@nodes/Expression';
 import type StreamDefinition from '@nodes/StreamDefinition';
 import SimpleValue from '@values/SimpleValue';
+import { must } from '@util/nullable';
 
 /**
  * A stable identifier for what kind of stream a `StreamValue` is.
@@ -56,8 +57,7 @@ export const MAX_STREAM_LENGTH = 256;
 
 export default abstract class StreamValue<
     ValueType extends Value = Value,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Raw = any,
+    Raw = unknown,
 > extends SimpleValue {
     /** The evaluator that processes this stream */
     readonly evaluator: Evaluator;
@@ -73,9 +73,13 @@ export default abstract class StreamValue<
     values: { value: ValueType; stepIndex: StepNumber }[] = [];
 
     /** Listeners watching this stream */
+    /** A reactor takes the raw event as `unknown` rather than this stream's own
+     *  `Raw`, so the list's type is the same for every stream. Naming `Raw` here
+     *  would make one stream type unassignable to another under
+     *  `strictFunctionTypes`, which is what the old `any` was hiding. */
     reactors: ((
-        stream: StreamValue<Value, any>,
-        raw: Raw,
+        stream: StreamValue<Value, unknown>,
+        raw: unknown,
         silent: boolean,
     ) => void)[] = [];
 
@@ -134,7 +138,8 @@ export default abstract class StreamValue<
     }
 
     getFirstStepIndex() {
-        return this.values[0].stepIndex;
+        // The constructor adds an initial value, and trimming keeps one.
+        return must(this.values[0], 'a first stream value').stepIndex;
     }
 
     /** The stream's first recorded value, a fallback when stepping has rewound before its history. */
@@ -168,8 +173,9 @@ export default abstract class StreamValue<
         position -= index;
 
         // Return the value at the position.
-        return position >= 0 && position < this.values.length
-            ? this.values[position].value
+        const at = this.values[position];
+        return position >= 0 && at !== undefined
+            ? at.value
             : new NoneValue(requestor);
     }
 
@@ -185,7 +191,7 @@ export default abstract class StreamValue<
     listen(
         listener: (
             stream: StreamValue<Value, unknown>,
-            raw: Raw,
+            raw: unknown,
             silent: boolean,
         ) => void,
     ) {
@@ -195,7 +201,7 @@ export default abstract class StreamValue<
     ignore(
         listener: (
             stream: StreamValue<Value, unknown>,
-            raw: Raw,
+            raw: unknown,
             silent: boolean,
         ) => void,
     ) {
@@ -211,7 +217,11 @@ export default abstract class StreamValue<
     toWordplay(locales?: Locales): string {
         return locales
             ? this.getPreferredName(locales)
-            : this.definition.names.getNames()[0];
+            : // Every stream definition comes from the basis, which names each.
+              must(
+                  this.definition.names.getNames()[0],
+                  "a stream definition's name",
+              );
     }
 
     getPreferredName(locales: Locales) {

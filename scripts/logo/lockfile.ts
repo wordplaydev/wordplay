@@ -1,5 +1,6 @@
 import * as crypto from 'node:crypto';
 import * as fs from 'node:fs';
+import { must } from '@util/nullable.ts';
 
 /**
  * The logo lockfile records the content hash of every generated asset, of
@@ -34,7 +35,8 @@ export function writeLock(lock: Lockfile): void {
     // Stable key order for clean diffs.
     const sort = (record: Record<string, string>) => {
         const sorted: Record<string, string> = {};
-        for (const key of Object.keys(record).sort()) sorted[key] = record[key];
+        for (const key of Object.keys(record).sort())
+            sorted[key] = must(record[key], 'a lockfile entry');
         return sorted;
     };
     const stable: Lockfile = {

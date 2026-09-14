@@ -1,4 +1,6 @@
 import { createFunction } from '@locale/createFunction';
+import { must } from '@util/nullable';
+import ExceptionValue from '@values/ExceptionValue';
 import { createInputs } from '@locale/createInputs';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
@@ -29,6 +31,20 @@ import {
     createEqualsFunction,
 } from '@basis/Basis';
 import { Iteration } from '@basis/Iteration';
+
+/** The key/value pair an iteration is on, or undefined past the end. */
+function pairAt(info: {
+    index: number;
+    map: MapValue;
+}): [Value, Value] | undefined {
+    return info.map.values[info.index];
+}
+
+/** The pair an iteration is on, for handing to a function. The iteration's
+ *  check stops before the end, so there is always one here. */
+function pairOf(info: { index: number; map: MapValue }): [Value, Value] {
+    return must(pairAt(info), 'a map entry');
+}
 
 export default function bootstrapMap(locales: Locales) {
     const KeyTypeVariableNames = getNameLocales(
@@ -196,20 +212,25 @@ export default function bootstrapMap(locales: Locales) {
                             ValueTypeVariable.getReference(),
                         ),
                         // Start with an index of one, the list we're translating, and an empty translated list.
-                        (evaluator) => {
+                        (evaluator, expression) => {
+                            const map = evaluator.getClosureOf(
+                                MapValue,
+                                MapType.make(),
+                                expression,
+                            );
+                            if (map instanceof ExceptionValue) return map;
                             return {
                                 index: 0,
-                                map: evaluator.getCurrentClosure() as MapValue,
+                                map,
                                 filtered: [],
                             };
                         },
                         // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
                         (evaluator, info, expr) =>
-                            info.index >= info.map.values.length
+                            pairAt(info) === undefined
                                 ? false
                                 : expr.evaluateFunctionInput(evaluator, 0, [
-                                      info.map.values[info.index][0],
-                                      info.map.values[info.index][1],
+                                      ...pairOf(info),
                                       info.map,
                                   ]),
                         // Save the translated value and increment the index.
@@ -221,8 +242,9 @@ export default function bootstrapMap(locales: Locales) {
                                     BooleanType.make(),
                                     include,
                                 );
-                            if (include.bool)
-                                info.filtered.push(info.map.values[info.index]);
+                            const pair = pairAt(info);
+                            if (include.bool && pair !== undefined)
+                                info.filtered.push(pair);
                             info.index = info.index + 1;
                             return undefined;
                         },
@@ -274,29 +296,33 @@ export default function bootstrapMap(locales: Locales) {
                             TranslateTypeVariable.getReference(),
                         ),
                         // Start with an index of one, the list we're translating, and an empty translated list.
-                        (evaluator) => {
+                        (evaluator, expression) => {
+                            const map = evaluator.getClosureOf(
+                                MapValue,
+                                MapType.make(),
+                                expression,
+                            );
+                            if (map instanceof ExceptionValue) return map;
                             return {
                                 index: 0,
-                                map: evaluator.getCurrentClosure() as MapValue,
+                                map,
                                 translated: [],
                             };
                         },
                         // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
                         (evaluator, info, expr) =>
-                            info.index >= info.map.values.length
+                            pairAt(info) === undefined
                                 ? false
                                 : expr.evaluateFunctionInput(evaluator, 0, [
-                                      info.map.values[info.index][0],
-                                      info.map.values[info.index][1],
+                                      ...pairOf(info),
                                       info.map,
                                   ]),
                         // Save the translated value and increment the index.
                         (evaluator, info, expression) => {
                             const newValue = evaluator.popValue(expression);
-                            info.translated.push([
-                                info.map.values[info.index][0],
-                                newValue,
-                            ]);
+                            const pair = pairAt(info);
+                            if (pair !== undefined)
+                                info.translated.push([pair[0], newValue]);
                             info.index = info.index + 1;
                             return undefined;
                         },
@@ -315,6 +341,7 @@ export default function bootstrapMap(locales: Locales) {
                         ValueTypeVariable.getReference(),
                     ),
                     TextType.make(),
+                    MapValue,
                     (requestor: Expression, val: MapValue) =>
                         new TextValue(requestor, val.toString()),
                 ),
@@ -328,6 +355,7 @@ export default function bootstrapMap(locales: Locales) {
                         ValueTypeVariable.getReference(),
                     ),
                     SetType.make(KeyTypeVariable.getReference()),
+                    MapValue,
                     (requestor: Expression, val: MapValue) =>
                         new SetValue(requestor, val.getKeys()),
                 ),
@@ -341,6 +369,7 @@ export default function bootstrapMap(locales: Locales) {
                         ValueTypeVariable.getReference(),
                     ),
                     ListType.make(ValueTypeVariable.getReference()),
+                    MapValue,
                     (requestor: Expression, val: MapValue) =>
                         new ListValue(requestor, val.getValues()),
                 ),

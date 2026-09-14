@@ -10,9 +10,7 @@ import { expect, test } from 'vitest';
 
 /** Every en-US string with its dotted locale path. */
 function enUSStrings(): { path: string; value: string }[] {
-    return getKeyTemplatePairs(
-        DefaultLocale as unknown as Record<string, unknown>,
-    )
+    return getKeyTemplatePairs(DefaultLocale)
         .map((pair) => ({
             path: pair.toString(),
             value: pair.value,

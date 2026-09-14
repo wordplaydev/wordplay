@@ -12,18 +12,17 @@
     import { getDragTarget, getEditor } from '@components/project/Contexts';
     import { spaceIndicator } from '@db/Database';
     import { InsertionPoint } from '@edit/drag/Drag';
-    import type NodeRef from '@locale/NodeRef';
-    import type ValueRef from '@locale/ValueRef';
     import Block from '@nodes/Block';
     import Node from '@nodes/Node';
     import { EXPLICIT_NEWLINE_TEXT } from '@parser/Spaces';
+    import type { Segment } from '@nodes/Paragraph';
     import type KeysOfType from '@util/KeysOfType';
 
     interface Props {
         /** The node containing a list of nodes to render */
         node: NodeType;
         /** A named field of the node type that is a list of Nodes. We permit value and node refs because markup can use them, but filter them. */
-        field: KeysOfType<NodeType, (Node | ValueRef | NodeRef)[]>;
+        field: KeysOfType<NodeType, (Node | Segment)[]>;
         /** An optional override if the node list is custom */
         filtered?: Node[];
         /** How to handle an empty list: hide (don't render anything), label (show a localized placeholder label), menu (show a compact trigger menu) */
@@ -67,9 +66,15 @@
     // `node` chains up to NodeView's latched renderNode and so shouldn't be
     // undefined in practice, but guard the one read that would throw in case a
     // future mount path lacks that guarantee.
-    let nodes = $derived(
-        filtered ?? (node === undefined ? [] : (node[field] as Node[])),
-    );
+    let nodes = $derived.by(() => {
+        if (filtered !== undefined) return filtered;
+        // The field holds nodes and, in markup, value and node references;
+        // only the nodes are rendered.
+        const value: unknown = node === undefined ? undefined : node[field];
+        return Array.isArray(value)
+            ? value.filter((item): item is Node => item instanceof Node)
+            : [];
+    });
 
     // Virtualize only an editor's root block's (long) statement list in text mode;
     // every other list and blocks mode renders normally. Gated OFF by

@@ -258,7 +258,7 @@ test('moved names output that moved', () => {
 describe('movement direction (#149)', () => {
     // Stage space: +y is up, +x is right. The eight names come from
     // ui.output.directions, read clockwise from up.
-    test.each([
+    const moves: [to: [number, number, number], expected: string][] = [
         [[0, 1, 0], 'up'],
         [[1, 1, 0], 'up and right'],
         [[1, 0, 0], 'right'],
@@ -267,8 +267,9 @@ describe('movement direction (#149)', () => {
         [[-1, -1, 0], 'down and left'],
         [[-1, 0, 0], 'left'],
         [[-1, 1, 0], 'up and left'],
-    ])('moving to %s says %s', (to, expected) => {
-        expect(movedPhrase(to as [number, number, number])).toContain(expected);
+    ];
+    test.each(moves)('moving to %s says %s', (to, expected) => {
+        expect(movedPhrase(to)).toContain(expected);
     });
 
     test('a move too small to see names no direction', () => {

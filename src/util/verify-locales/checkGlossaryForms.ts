@@ -29,9 +29,7 @@ export default function checkGlossaryForms(
     target: LocaleText,
     fix: boolean,
 ): LocaleText {
-    const revised = fix
-        ? (JSON.parse(JSON.stringify(target)) as LocaleText)
-        : target;
+    const revised = fix ? structuredClone(target) : target;
 
     // Folded canonical words and ids, for the collision checks.
     const words = getGlossaryWordIndex(target.glossary);

@@ -54,13 +54,15 @@ export default class PatternCaseFold extends PatternAtom {
     }
 
     clone(replace?: Replacement) {
-        return new PatternCaseFold(
-            this.replaceChild('fold', this.fold, replace),
-            this.replaceChild('language', this.language, replace),
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('body', this.body, replace),
-            this.replaceChild('close', this.close, replace),
-        ) as this;
+        return this.cloned(
+            new PatternCaseFold(
+                this.replaceChild('fold', this.fold, replace),
+                this.replaceChild('language', this.language, replace),
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('body', this.body, replace),
+                this.replaceChild('close', this.close, replace),
+            ),
+        );
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.PatternCaseFold;

@@ -151,6 +151,28 @@
     function drawingModeName(m: DrawingMode): string {
         return DrawingModeNames[m];
     }
+    /** The modes in the order the toolbar offers them, so a chosen index
+     *  names one rather than being assumed to be one. */
+    const DrawingModesByChoice: readonly DrawingMode[] = [
+        DrawingMode.Select,
+        DrawingMode.Eraser,
+        DrawingMode.Pixel,
+        DrawingMode.Rect,
+        DrawingMode.Ellipse,
+        DrawingMode.Path,
+        DrawingMode.Symbol,
+        DrawingMode.Image,
+    ];
+
+    /**
+     * A `$state.snapshot` that keeps the value's own type: the runtime returns
+     * the same data with its state proxies removed, which `Snapshot<T>`
+     * describes structurally and so loses the named type callers have.
+     */
+    function snapshotOf<T>(value: T): T {
+        // sound: a snapshot is the same data with its state proxies removed.
+        return $state.snapshot(value) as T;
+    }
 
     type ColorSetting = 'none' | 'inherit' | 'set';
     type LCH = { l: number; c: number; h: number };
@@ -846,8 +868,12 @@
 
         saving = Date.now();
 
+        // Nothing to save until the edits resolve to a character (signed in,
+        // with a username and a loaded drawing).
+        if (editedCharacter === null) return;
+
         // Get the raw, non-proxied value.
-        const raw = $state.snapshot(editedCharacter) as Character;
+        const raw = snapshotOf(editedCharacter);
 
         // Save the character.
         const result = await CharactersDB.updateCharacter(
@@ -1019,10 +1045,7 @@
         // in place and callers that build a new array have to agree on what one
         // undo means.
         if (remember)
-            history = record(
-                history,
-                structuredClone($state.snapshot(shapes)) as CharacterShape[],
-            );
+            history = record(history, structuredClone(snapshotOf(shapes)));
     }
 
     /** Say where an undo or redo landed in the history. */
@@ -1101,7 +1124,7 @@
             focused instanceof Element &&
             focused.closest('[data-handle]') !== null;
         const previous = shapes;
-        shapes = structuredClone(restoring) as CharacterShape[];
+        shapes = structuredClone(restoring);
         reanchor(previous);
         if (wasOnHandle && editedHandle)
             focusHandle(editedHandle.index, editedHandle.curve);
@@ -1586,7 +1609,7 @@
 
     function selectAllOfColor() {
         // Get the color of the current selection.
-        const fill = selection[0].fill;
+        const fill = selection[0]?.fill;
 
         if (fill === undefined || fill === null) return;
 
@@ -1638,9 +1661,7 @@
     }
 
     function copyShapes() {
-        copy = selection.map(
-            (s) => structuredClone($state.snapshot(s)) as CharacterShape,
-        );
+        copy = selection.map((s) => structuredClone(snapshotOf(s)));
         announceEdit(
             'character-edit',
             $locales
@@ -1654,9 +1675,7 @@
 
     function pasteShapes() {
         if (copy) {
-            const copies = copy.map(
-                (s) => structuredClone($state.snapshot(s)) as CharacterShape,
-            );
+            const copies = copy.map((s) => structuredClone(snapshotOf(s)));
             // Translate the copies down a bit to make them visible.
             for (const shape of copies) {
                 moveShape(shape, 1, 1, 'translate');
@@ -3100,7 +3119,7 @@
             ]}
             choice={mode}
             select={(choice: number) => {
-                mode = choice as DrawingMode;
+                mode = DrawingModesByChoice[choice] ?? mode;
                 // Drop the selection: the palette heading names the selection
                 // before the mode, so a leftover one hid which tool was
                 // chosen — and every property of a selected shape is editable
@@ -3186,9 +3205,9 @@
             <!-- All shapes have fills -->
             {@render colorChooser(
                 $locales,
-                selectedFillStates.length === 1
+                (selectedFillStates.length === 1
                     ? selectedFillStates[0]
-                    : currentFillSetting,
+                    : currentFillSetting) ?? currentFillSetting,
                 // If there's a selection that all has the same color, show the color, otherwise show the current fill color.
                 getSharedColor(selection.map((s) => s.fill)) ?? currentFill,
                 // Don't allow none if the stroke is none and not a pixel.
@@ -3234,9 +3253,9 @@
                 {@render colorChooser(
                     $locales,
                     // The current color setting for the stroke should be be based on the selection, if all items have the same setting
-                    selectedStrokeColors.length === 1
+                    (selectedStrokeColors.length === 1
                         ? selectedStrokeColors[0]
-                        : currentStrokeSetting,
+                        : currentStrokeSetting) ?? currentStrokeSetting,
                     // If there's a selection that all has the same color, show the color, otherwise show the current fill color.
                     getSharedColor(
                         selection
@@ -3767,9 +3786,7 @@
                         ]}
                         change={(galleryID) => {
                             if (editedCharacter === null) return;
-                            const character = $state.snapshot(
-                                editedCharacter,
-                            ) as Character;
+                            const character = $state.snapshot(editedCharacter);
                             if (galleryID) {
                                 gallery = galleryID;
                                 Galleries.addCharacter(character, galleryID);

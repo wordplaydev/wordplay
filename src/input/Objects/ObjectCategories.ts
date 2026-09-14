@@ -3,6 +3,7 @@ import type LocaleText from '@locale/LocaleText';
 import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';
 import UnionType from '@nodes/UnionType';
+import { first } from '@util/nullable';
 
 /** The object categories MediaPipe's EfficientDet-Lite0 detector can recognize.
  *
@@ -130,7 +131,7 @@ export function localizeCategory(
     locales: Locales,
 ): string {
     const entry = getCategoryMap(locales)[canonicalEnglish];
-    return entry && entry.length > 0 ? entry[0] : canonicalEnglish;
+    return (entry === undefined ? undefined : first(entry)) ?? canonicalEnglish;
 }
 
 /** Resolve a creator-supplied `category` filter (typed in any locale) back to

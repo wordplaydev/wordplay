@@ -17,6 +17,7 @@ import Reference from '@nodes/Reference';
 import Source from '@nodes/Source';
 import evaluateCode from '@runtime/evaluate';
 import { expect, test } from 'vitest';
+import { must } from '@util/nullable';
 
 test.each([
     ['a•#: 1\na', 'a•"": 1\na', Bind, IncompatibleType],
@@ -129,7 +130,7 @@ test('Anonymous fn input in a HOF call infers its type without a cycle (#680)', 
                 n instanceof FunctionDefinition && n.expression !== undefined,
         );
     if (userFn === undefined) throw new Error('expected to find anon fn');
-    const aBind = userFn.inputs[0];
+    const aBind = must(userFn.inputs[0], "the function's first input");
     expect(aBind).toBeInstanceOf(Bind);
     expect(aBind.getType(context)).toBeInstanceOf(NumberType);
 

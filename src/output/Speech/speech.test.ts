@@ -70,8 +70,8 @@ describe('the shell actually reaches the platform', () => {
 
     test('the utterance carries its language and rate', () => {
         speech.speak(SaySource, [{ ...utterance('hi'), rate: 1.5 }]);
-        expect(synth.spoken[0].lang).toBe('en');
-        expect(synth.spoken[0].rate).toBe(1.5);
+        expect(synth.spoken[0]?.lang).toBe('en');
+        expect(synth.spoken[0]?.rate).toBe(1.5);
     });
 
     test('speakingNow reports the source and the words', () => {
@@ -87,7 +87,7 @@ describe('the shell actually reaches the platform', () => {
         // The caption renders this, so it has to track the voice line by line
         // rather than reporting the batch it was handed.
         speech.speak(SaySource, [utterance('one'), utterance('two')]);
-        synth.spoken[0].onend?.();
+        synth.spoken[0]?.onend?.();
         expect(get(speakingNow)).toEqual({
             source: SaySource,
             text: 'two',
@@ -97,13 +97,13 @@ describe('the shell actually reaches the platform', () => {
 
     test('finishing one speaks the next', () => {
         speech.speak(SaySource, [utterance('one'), utterance('two')]);
-        synth.spoken[0].onend?.();
+        synth.spoken[0]?.onend?.();
         expect(synth.spoken.map((u) => u.text)).toEqual(['one', 'two']);
     });
 
     test('an error releases the queue rather than holding the one slot', () => {
         speech.speak(SaySource, [utterance('one'), utterance('two')]);
-        synth.spoken[0].onerror?.();
+        synth.spoken[0]?.onerror?.();
         expect(synth.spoken.map((u) => u.text)).toEqual(['one', 'two']);
     });
 
@@ -116,7 +116,7 @@ describe('the shell actually reaches the platform', () => {
 
     test('speaking again after everything finished still reaches the platform', () => {
         speech.speak(SaySource, [utterance('one')]);
-        synth.spoken[0].onend?.();
+        synth.spoken[0]?.onend?.();
         speech.speak(SaySource, [utterance('two')]);
         expect(synth.spoken.map((u) => u.text)).toEqual(['one', 'two']);
     });

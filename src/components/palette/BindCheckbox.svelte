@@ -6,6 +6,7 @@
     import { Projects } from '@db/projects/Projects';
     import { getProject } from '@components/project/Contexts';
     import Checkbox from '@components/widgets/Checkbox.svelte';
+    import { must } from '@util/nullable';
 
     interface Props {
         property: OutputProperty;
@@ -34,7 +35,12 @@
 </script>
 
 <Checkbox
-    label={() => $locales.getTextStructure(property.name)[0]}
+    label={() =>
+        // A property's name list always has a first name.
+        must(
+            $locales.getTextStructure(property.name)[0],
+            "the property's name",
+        )}
     on={values.getBool()}
     changed={handleChange}
     {editable}

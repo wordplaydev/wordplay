@@ -3,7 +3,6 @@ import Docs from '@nodes/Docs';
 import Names from '@nodes/Names';
 import { getFormattedWordplay } from '@parser/getPreferredSpaces';
 import { EMOJI_SYMBOL } from '@parser/Symbols';
-import type Doc from '@nodes/Doc';
 import Language from '@nodes/Language';
 import Name from '@nodes/Name';
 import DefaultLocale from '@locale/DefaultLocale';
@@ -45,7 +44,7 @@ export function getBind(
                     parseLocaleDoc(toDocString(input.doc)).withLanguage(
                         localeToLanguage(locale),
                     ),
-                ) as [Doc, ...Doc[]],
+                ),
             ),
         ) +
         separator +

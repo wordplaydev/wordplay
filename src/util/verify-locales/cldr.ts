@@ -9,6 +9,7 @@
 // CLDR XML annotations.)
 import { getCLDRCandidates } from '@locale/LanguageCode';
 import { getLocaleLanguage, getLocaleRegions } from '@locale/LocaleText';
+import { isRecord } from '@util/guards';
 
 /** The pinned CLDR release all generated data is extracted from. Bumping this
  *  is the only way generated output changes; expect a large, reviewable diff.
@@ -52,10 +53,6 @@ export function cldrDirectoriesFor(locale: string): string[] {
     return getCLDRCandidates(language, region).map((candidate) =>
         candidate.replaceAll('_', '-'),
     );
-}
-
-export function isRecord(value: unknown): value is Record<string, unknown> {
-    return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
 /** Walk nested keys of untyped CLDR JSON. */

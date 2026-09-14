@@ -1,3 +1,5 @@
+import { includesString } from '@util/nullable';
+
 /**
  * Plural-form selection for localized templates, shared by the runtime (a
  * marked `$#count[…]` branch), the locale verifier, the machine translator, and
@@ -28,11 +30,17 @@ export const PluralCategories = [
 
 export type PluralCategory = (typeof PluralCategories)[number];
 
+/** Whether Intl named a category this table knows. `Intl.PluralRules` types
+ *  its categories as plain strings, so what it reports is checked. */
+export function isPluralCategory(category: string): category is PluralCategory {
+    return includesString(PluralCategories, category);
+}
+
 /** Sort key for a category, with anything unrecognized placed just before
  *  `other` rather than dropped — if ICU ever grows a seventh category, its arm
  *  still has a defined position instead of silently shifting the rest. */
 function categoryOrder(category: string): number {
-    const index = PluralCategories.indexOf(category as PluralCategory);
+    const index = PluralCategories.findIndex((known) => known === category);
     return index === -1 ? PluralCategories.length - 1.5 : index;
 }
 
@@ -65,11 +73,13 @@ export function getPluralCategories(language: string): PluralCategory[] {
     const cached = categoriesByLanguage.get(language);
     if (cached) return cached;
     const rules = getRules(language);
-    const categories = (
+    const named: PluralCategory[] =
         rules === undefined
             ? ['other']
-            : [...rules.resolvedOptions().pluralCategories]
-    ).sort((a, b) => categoryOrder(a) - categoryOrder(b)) as PluralCategory[];
+            : rules.resolvedOptions().pluralCategories.filter(isPluralCategory);
+    const categories = named.sort(
+        (a, b) => categoryOrder(a) - categoryOrder(b),
+    );
     categoriesByLanguage.set(language, categories);
     return categories;
 }
@@ -88,8 +98,8 @@ export function selectPluralIndex(language: string, value: number): number {
     const rules = getRules(language);
     if (rules === undefined) return 0;
     const category = rules.select(value);
-    const index = getPluralCategories(language).indexOf(
-        category as PluralCategory,
+    const index = getPluralCategories(language).findIndex(
+        (known) => known === category,
     );
     // `select` returned something not in this locale's own category list:
     // fall back to the last arm, which is always `other`.

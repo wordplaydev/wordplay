@@ -133,12 +133,16 @@ export default class MarkupValue extends SimpleValue {
     }
 
     getRepresentativeText() {
-        return this.markup
-            .nodes()
-            .filter(
-                (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words),
-            )[0]
-            ?.getText();
+        // Markup that is only a link or an example has no words to represent it.
+        return (
+            this.markup
+                .nodes()
+                .filter(
+                    (n): n is Token =>
+                        n instanceof Token && n.isSymbol(Sym.Words),
+                )[0]
+                ?.getText() ?? ''
+        );
     }
 
     getSize(): number {

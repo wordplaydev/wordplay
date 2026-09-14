@@ -20,6 +20,7 @@
  *   npx tsx src/util/verify-locales/linkGlossary.ts
  */
 import '@util/verify-locales/loadEnv';
+import { isRecord } from '@util/guards';
 import Anthropic from '@anthropic-ai/sdk';
 import fs from 'fs';
 import writeFormatted from '@util/verify-locales/writeFormatted';
@@ -27,10 +28,10 @@ import Log from '@util/verify-locales/Log';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import {
-    isRecord,
     protectedRanges,
     findWholeWord,
 } from '@util/verify-locales/markupText';
+import { must } from '@util/nullable';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);
@@ -82,7 +83,8 @@ function hasCandidate(text: string): boolean {
 function glossaryIdFor(replace: string, find: string): string | undefined {
     const m = /^@([a-zA-Z0-9]+)$/.exec(replace);
     if (m === null) return undefined;
-    const id = m[1];
+    // The pattern's only group is not optional.
+    const id = must(m[1], 'a glossary id');
     const word = glossary.get(id);
     return word !== undefined && find.toLowerCase() === word.toLowerCase()
         ? id
@@ -239,10 +241,12 @@ async function linkTexts(
         }
         if (edits === null) continue;
         chunk.forEach((c, j) => {
+            // One edit list comes back per chunk item, and `c.index` is an
+            // index into `items`.
             result[c.index] = applyEdits(
                 c.text,
-                edits[j],
-                items[c.index].linked,
+                must(edits[j], 'an edit list'),
+                must(items[c.index], 'an item').linked,
             );
         });
     }
@@ -290,9 +294,11 @@ async function processLocale(): Promise<void> {
     const arrays = new Map<(typeof pairs)[number], string[]>();
     let added = 0;
     slots.forEach((slot, i) => {
-        added += linked[i].added;
+        // `linkTexts` answers one result per item, one item per slot.
+        const result = must(linked[i], 'a linked text');
+        added += result.added;
         if (slot.index === null) {
-            if (linked[i].added > 0) slot.pair.repair(json, linked[i].text);
+            if (result.added > 0) slot.pair.repair(json, result.text);
         } else {
             let arr = arrays.get(slot.pair);
             if (arr === undefined) {
@@ -301,7 +307,7 @@ async function processLocale(): Promise<void> {
                     : [];
                 arrays.set(slot.pair, arr);
             }
-            arr[slot.index] = linked[i].text;
+            arr[slot.index] = result.text;
         }
     });
     for (const [pair, arr] of arrays) pair.repair(json, arr);
@@ -342,8 +348,10 @@ async function processTutorial(path: string): Promise<void> {
     const linked = await linkTexts(items);
     let added = 0;
     slots.forEach((slot, i) => {
-        added += linked[i].added;
-        if (linked[i].added > 0) slot.line[slot.index] = linked[i].text;
+        // `linkTexts` answers one result per item, one item per slot.
+        const result = must(linked[i], 'a linked text');
+        added += result.added;
+        if (result.added > 0) slot.line[slot.index] = result.text;
     });
     if (added > 0)
         await writeFormatted(path, JSON.stringify(tutorial, null, 4));

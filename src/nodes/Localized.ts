@@ -85,10 +85,12 @@ export default class Localized extends SimpleExpression {
     }
 
     clone(replace?: Replacement) {
-        return new Localized(
-            this.replaceChild('expression', this.expression, replace),
-            this.replaceChild('language', this.language, replace),
-        ) as this;
+        return this.cloned(
+            new Localized(
+                this.replaceChild('expression', this.expression, replace),
+                this.replaceChild('language', this.language, replace),
+            ),
+        );
     }
 
     getPurpose() {

@@ -69,14 +69,16 @@ describe('Color BCT static binds', () => {
     test('Color.red evaluates to a Color value whose LCH matches the red focal', () => {
         const value = evaluateCode('Color.red.hue');
         expect(value).toBeInstanceOf(NumberValue);
-        expect((value as NumberValue).toNumber()).toBeCloseTo(Focals.red.h);
+        if (!(value instanceof NumberValue)) throw new Error('not a number');
+        expect(value.toNumber()).toBeCloseTo(Focals.red.h);
     });
 
     test('Color.blue.lightness matches the blue focal', () => {
         const value = evaluateCode('Color.blue.lightness');
         expect(value).toBeInstanceOf(NumberValue);
+        if (!(value instanceof NumberValue)) throw new Error('not a number');
         // lightness is stored as 0–1 in the Color value
-        expect((value as NumberValue).toNumber()).toBeCloseTo(Focals.blue.l);
+        expect(value.toNumber()).toBeCloseTo(Focals.blue.l);
     });
 
     test("Phrase('hi' color: Color.red) evaluates without exception", () => {

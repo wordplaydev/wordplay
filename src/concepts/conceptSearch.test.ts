@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import { makeSearchable, searchConcepts } from './conceptSearch';
+import { must } from '@util/nullable';
 
 const L = 'en';
 
@@ -18,7 +19,10 @@ function corpus() {
 
 describe('concept search adapter', () => {
     test('matches a concept by name (priority 1)', () => {
-        const [ref, match] = searchConcepts(corpus(), 'zonk', L)[0];
+        const [ref, match] = must(
+            searchConcepts(corpus(), 'zonk', L)[0],
+            'a top match for "zonk"',
+        );
         expect(ref).toBe('Zonk');
         expect(match[3]).toBe(1);
     });

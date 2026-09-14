@@ -164,11 +164,13 @@ export default class Convert extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Convert(
-            this.replaceChild('expression', this.expression, replace),
-            this.replaceChild('convert', this.convert, replace),
-            this.replaceChild('type', this.type, replace),
-        ) as this;
+        return this.cloned(
+            new Convert(
+                this.replaceChild('expression', this.expression, replace),
+                this.replaceChild('convert', this.convert, replace),
+                this.replaceChild('type', this.type, replace),
+            ),
+        );
     }
 
     /** When the convert (→) token is the menu anchor, surface alternative
@@ -255,6 +257,8 @@ export default class Convert extends Expression {
             return this.type;
 
         const lastConversion = conversions[conversions.length - 1];
+        // The sequence was just checked to be non-empty.
+        if (lastConversion === undefined) return new NeverType();
 
         // Now that we have an output type, concretize it, in case it has generic types.
         let output = lastConversion.output;
@@ -408,8 +412,9 @@ export function getConversionPath(
     queue.push(input);
     visited.add(input);
 
-    while (queue.length > 0) {
-        const currentInput = queue.shift() as Type;
+    for (;;) {
+        const currentInput = queue.shift();
+        if (currentInput === undefined) break;
         // Is the type a match for the desired output? Return the path!
         if (output.accepts(currentInput, context)) {
             const path: ConversionDefinition[] = [];
@@ -446,7 +451,7 @@ export function getConversionPath(
         for (const out of conversions
             .filter((c) => c.convertsType(currentInput, context))
             .map((c) => c.output)
-            .filter((c) => c instanceof Type) as Type[]) {
+            .filter((c): c is Type => c instanceof Type)) {
             // If we haven't already visited this one, visit it.
             if (
                 Array.from(visited).find((type) =>

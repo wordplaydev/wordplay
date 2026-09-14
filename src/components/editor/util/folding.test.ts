@@ -1,3 +1,4 @@
+import { must } from '@util/nullable';
 import { expect, test } from 'vitest';
 import Project from '@db/projects/Project';
 import Source from '@nodes/Source';
@@ -141,7 +142,9 @@ test('a doc folds independently of the thing it documents', () => {
         `x: 1\n¶Explains what this\ndoes across lines.¶\nƒ greet() 'hi'\ngreet()`,
     );
     const fun = find(source, FunctionDefinition);
-    expect(isFoldableNode(fun.docs.docs[0], source.spaces)).toBe(true);
+    expect(
+        isFoldableNode(must(fun.docs.docs[0], 'the doc'), source.spaces),
+    ).toBe(true);
     expect(isFoldableNode(fun, source.spaces)).toBe(false);
 });
 

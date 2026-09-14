@@ -18,6 +18,7 @@ import {
     pickColorForClient,
     PRESENCE_HEARTBEAT_MS,
     type PresencePayload,
+    PresencePayloadSchema,
 } from '@db/projects/ProjectPresence';
 import type { RemoteCaret } from '@db/projects/caretEncoding';
 
@@ -134,10 +135,11 @@ export class PresenceTracker {
                     if (change.type === 'removed') {
                         this.peers.delete(id);
                     } else {
-                        this.peers.set(
-                            id,
-                            change.doc.data() as PresencePayload,
+                        const peer = PresencePayloadSchema.safeParse(
+                            change.doc.data(),
                         );
+                        if (peer.success) this.peers.set(id, peer.data);
+                        else this.peers.delete(id);
                     }
                 }
                 // Snapshot changes can open or close a slot for us.

@@ -10,6 +10,7 @@ import {
     pixelsFromRGBA,
     withPixelLayer,
 } from '@db/characters/raster';
+import { must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 
 /** Build an RGBA buffer from a width and a per-pixel color function. */
@@ -100,13 +101,14 @@ describe('pixelsFromRGBA', () => {
         );
         const pixels = pixelsFromRGBA(source, 2);
         expect(pixels).toHaveLength(1);
-        expect(pixels[0].point).toEqual({ x: 1, y: 0 });
+        expect(pixels[0]?.point).toEqual({ x: 1, y: 0 });
     });
 
     test('an achromatic color gets a real hue, not NaN', () => {
         // Grey has no hue; storing NaN would fail the schema and break the SVG.
         const grey = image(1, 1, () => [128, 128, 128, 255]);
-        const fill = pixelsFromRGBA(grey, 1)[0].fill;
+        // One opaque cell in, one pixel out.
+        const fill = must(pixelsFromRGBA(grey, 1)[0], 'the one pixel').fill;
         expect(fill).not.toBeNull();
         expect(Number.isNaN(fill?.h)).toBe(false);
     });

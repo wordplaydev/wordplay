@@ -11,6 +11,7 @@ import { toStage } from '@output/Output/Stage';
 import { PX_PER_METER } from '@output/Output/outputToCSS';
 import Physics, { FIXED_STEP_MS } from '@output/physics/Physics';
 import Evaluator from '@runtime/Evaluator';
+import { must } from '@util/nullable';
 import { beforeAll, expect, test } from 'vitest';
 import { getRapier, loadRapier, onRapierLoaded } from './rapierLoader';
 
@@ -77,8 +78,10 @@ function shapeScene(stage: Stage): OutputInfoSet {
 function onlyCollider(physics: Physics): RAPIER.Collider {
     const worlds = Array.from(physics.worldsByZ.values());
     expect(worlds).toHaveLength(1);
-    expect(worlds[0].colliders.len()).toBe(1);
-    return worlds[0].colliders.getAll()[0];
+    // The assertions above are what guarantee the one world and its collider.
+    const world = must(worlds[0], 'the only world');
+    expect(world.colliders.len()).toBe(1);
+    return must(world.colliders.getAll()[0], 'the only collider');
 }
 
 test('a Path barrier is a polyline, where the other forms are not', () => {
@@ -110,7 +113,11 @@ test('a ball dropped into a V comes to rest inside it, not on its rim', () => {
         `Stage([Shape(Path([Place(-4m 2m) Place(0m -2m) Place(4m 2m)]))])`,
     );
     physics.sync(stage, shapeScene(stage), new Map());
-    const world = Array.from(physics.worldsByZ.values())[0];
+    // A synced stage with a shape always has a world at its z.
+    const world = must(
+        Array.from(physics.worldsByZ.values())[0],
+        'the synced world',
+    );
 
     const radius = 0.25 * PX_PER_METER;
     const ball = world.createRigidBody(

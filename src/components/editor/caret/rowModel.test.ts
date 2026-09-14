@@ -8,6 +8,7 @@ import {
     type RowMember,
 } from './rowModel';
 import type { LogicalRect } from '@components/editor/util/axes';
+import { must } from '@util/nullable';
 
 /** Build a member whose `data` is a string id, for terse assertions. The
  *  arguments are in the logical basis: a span across lines, then a span along
@@ -103,10 +104,11 @@ describe('findRowAt', () => {
 });
 
 describe('nearestInRow', () => {
-    const row = buildRows([
-        m('left', 0, 10, 0, 10),
-        m('right', 0, 10, 20, 30),
-    ])[0];
+    // Both members share a band, so they cluster into exactly one row.
+    const row = must(
+        buildRows([m('left', 0, 10, 0, 10), m('right', 0, 10, 20, 30)])[0],
+        'a row',
+    );
 
     test('picks the member containing x and clamps x into it', () => {
         expect(nearestInRow(row, 5)).toEqual({

@@ -58,8 +58,8 @@ export default class ExpressionPlaceholder extends SimpleExpression {
     static make(type?: Type) {
         // Clone the type; we don't want it making it's way to a program.
         return new ExpressionPlaceholder(
-            new PlaceholderToken(),
-            type !== undefined ? new TypeToken() : undefined,
+            PlaceholderToken(),
+            type !== undefined ? TypeToken() : undefined,
             type,
         );
     }
@@ -133,7 +133,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
             },
             {
                 name: 'type',
-                kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                kind: any(node(Type), none(['dot', () => TypeToken()])),
                 label: undefined,
             },
         ];
@@ -144,11 +144,13 @@ export default class ExpressionPlaceholder extends SimpleExpression {
     }
 
     clone(replace?: Replacement) {
-        return new ExpressionPlaceholder(
-            this.replaceChild('placeholder', this.placeholder, replace),
-            this.replaceChild('dot', this.dot, replace),
-            this.replaceChild('type', this.type, replace),
-        ) as this;
+        return this.cloned(
+            new ExpressionPlaceholder(
+                this.replaceChild('placeholder', this.placeholder, replace),
+                this.replaceChild('dot', this.dot, replace),
+                this.replaceChild('type', this.type, replace),
+            ),
+        );
     }
 
     computeConflicts(): Conflict[] {
