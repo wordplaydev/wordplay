@@ -3,7 +3,7 @@ import type { CallableRequest } from 'firebase-functions/v2/https';
 import type { SendSigninLinkInputs, SendSigninLinkOutput } from 'shared-types';
 import { sendSigninEmail, signinLinkSettings } from './signinEmail.js';
 import { allowSigninLink } from './signinThrottle.js';
-import { UsernameEmailDomain } from './username.js';
+import { isMailableAddress } from './username.js';
 
 /**
  * Email a sign-in link to an existing account (#628).
@@ -39,13 +39,10 @@ export default async function sendSigninLink(
         return answer;
     };
 
-    if (
-        typeof email !== 'string' ||
-        !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ||
-        // A synthesized address is not a mailbox; asking to mail one is either
-        // a mistake or someone probing for username accounts.
-        email.endsWith(UsernameEmailDomain)
-    )
+    // A synthesized address is not a mailbox; asking to mail one is either a
+    // mistake or someone probing for username accounts, which is why
+    // isMailableAddress refuses it rather than only checking the shape.
+    if (typeof email !== 'string' || !isMailableAddress(email))
         return settle({ sent: true });
 
     const pepper = process.env.THROTTLE_PEPPER ?? '';

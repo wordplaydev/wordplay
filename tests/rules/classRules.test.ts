@@ -42,9 +42,12 @@ function newClass(over: Record<string, unknown> = {}) {
         description: 'For testing',
         teachers: [Users.Teacher],
         learners: [Users.Learner],
+        galleries: ['rulestest-class-gallery'],
         ...over,
     };
 }
+
+const Affirmation = { teacher: Users.Teacher, on: 1757000000000 };
 
 beforeAll(async () => {
     env = await initializeTestEnvironment({
@@ -168,6 +171,128 @@ describe('reading a class', () => {
     it('is refused to a stranger', async () => {
         await assertFails(
             as(Users.Stranger).doc(`classes/${Classes.Existing}`).get(),
+        );
+    });
+});
+
+describe('the affirmation', () => {
+    // The record that a teacher said their students were old enough to have the
+    // addresses their accounts were bound to (#1347). An audit record its
+    // subject can write is worth nothing.
+    it('may not be put on a class at creation', async () => {
+        await assertFails(
+            as(Users.Teacher, { teacher: true })
+                .collection('classes')
+                .add(newClass({ affirmation: Affirmation })),
+        );
+    });
+
+    it('may not be added by a teacher of the class', async () => {
+        await assertFails(
+            as(Users.Teacher, { teacher: true })
+                .doc(`classes/${Classes.Existing}`)
+                .update({ affirmation: Affirmation }),
+        );
+    });
+
+    it('may not be changed or dropped once the server wrote it', async () => {
+        await env.withSecurityRulesDisabled(async (context) => {
+            await context
+                .firestore()
+                .doc(`classes/${Classes.Existing}`)
+                .set(
+                    newClass({
+                        id: Classes.Existing,
+                        affirmation: Affirmation,
+                    }),
+                );
+        });
+        const mine = as(Users.Teacher, { teacher: true }).doc(
+            `classes/${Classes.Existing}`,
+        );
+        await assertFails(
+            mine.update({
+                affirmation: { ...Affirmation, teacher: Users.Other },
+            }),
+        );
+        // A whole-document write that simply omits it is a drop, which is what
+        // an ordinary client edit would be if it did not carry the field.
+        await assertFails(mine.set(newClass({ id: Classes.Existing })));
+        // Carrying it unchanged is the ordinary edit, and must still work.
+        await assertSucceeds(
+            mine.set(
+                newClass({
+                    id: Classes.Existing,
+                    name: 'Renamed',
+                    affirmation: Affirmation,
+                }),
+            ),
+        );
+    });
+});
+
+describe('listing classes', () => {
+    // `list` used to be its own unconditional rule, so the membership test the
+    // `get` rule stated had never applied to a query — every signed-in creator
+    // could read every class, its description, and its whole roster.
+    it('is refused when the query asks for all of them', async () => {
+        await assertFails(
+            as(Users.Teacher, { teacher: true }).collection('classes').get(),
+        );
+    });
+
+    it('is refused when scoped only by gallery', async () => {
+        // The query getClasses used to make. It would return classes the caller
+        // is not in, so the rules refuse it whole.
+        await assertFails(
+            as(Users.Learner)
+                .collection('classes')
+                .where('galleries', 'array-contains', 'rulestest-class-gallery')
+                .get(),
+        );
+    });
+
+    it('is allowed when scoped to your own teaching', async () => {
+        await assertSucceeds(
+            as(Users.Teacher, { teacher: true })
+                .collection('classes')
+                .where('teachers', 'array-contains', Users.Teacher)
+                .get(),
+        );
+    });
+
+    it('is allowed when scoped to your own learning', async () => {
+        await assertSucceeds(
+            as(Users.Learner)
+                .collection('classes')
+                .where('learners', 'array-contains', Users.Learner)
+                .get(),
+        );
+    });
+
+    it('is refused when scoped to someone else', async () => {
+        await assertFails(
+            as(Users.Stranger)
+                .collection('classes')
+                .where('learners', 'array-contains', Users.Learner)
+                .get(),
+        );
+    });
+});
+
+describe('the record of a creation attempt', () => {
+    // Server-only, like signinThrottle: a readable one enumerates every class.
+    it('is readable and writable by nobody', async () => {
+        const key = '7f1c0f3e-9f1a-4c53-8a2b-2f6c1d5e4a90';
+        await assertFails(
+            as(Users.Teacher, { teacher: true })
+                .doc(`classCreations/${key}`)
+                .get(),
+        );
+        await assertFails(
+            as(Users.Admin, { admin: true })
+                .doc(`classCreations/${key}`)
+                .set({ v: 1, teacher: Users.Admin, started: 0 }),
         );
     });
 });

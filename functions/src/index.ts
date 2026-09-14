@@ -299,10 +299,12 @@ export const moderateGallery = onCall<ModerateGalleryInputs>(
     noProxy(moderateGalleryHandler),
 );
 
+/** #1347: App Check, like every other account-minting callable. This one mints
+ *  up to fifty at a time and was the only one registered without it. */
 export const createClass = onCall<
     CreateClassInputs,
     Promise<CreateClassOutput>
->(cors, noProxy(createClassHandler));
+>({ ...cors, ...appcheck }, noProxy(createClassHandler));
 
 /** Fetches all GitHub contributors and opens a PR with the updated JSON every Friday at 2 am PT. */
 export const refreshContributors = onSchedule(

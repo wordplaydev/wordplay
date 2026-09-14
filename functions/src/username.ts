@@ -83,3 +83,21 @@ export function usernameFromEmail(email: string): string | undefined {
         ? email.slice(0, -UsernameEmailDomain.length)
         : undefined;
 }
+
+/**
+ * Whether an address is one we could actually write to: well-formed, and not a
+ * synthesized `@u.wordplay.dev` address, which is a login name rather than a
+ * mailbox.
+ *
+ * The one test `joinAccount`, `sendSigninLink`, and `createClass` share, so the
+ * column a class roster detects as addresses is exactly the set the sign-in
+ * link will later act on. Mirrored at src/db/creators/mailableAddress.ts; a drift
+ * there is silent in the worst direction — a school on a long TLD would get a
+ * roster of password accounts instead of the email ones it asked for.
+ */
+export function isMailableAddress(text: string): boolean {
+    return (
+        /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(text) &&
+        !text.endsWith(UsernameEmailDomain)
+    );
+}

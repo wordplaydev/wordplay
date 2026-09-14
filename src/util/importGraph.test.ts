@@ -787,11 +787,21 @@ test('resolving a color needs no basis', () => {
 // also why it imports nothing at all: anything it reached would join five
 // graphs with it. It is the file-budget-moves-by-one case this file's rule
 // above describes, and three byte ceilings move a hundredth with it.
+//
+// Email accounts for class students (#1347) are **+0 files** on all five: the
+// roster reader and the address test live in the teach route and in a leaf only
+// it reaches, and `Creator` deliberately keeps its own spelling of the
+// synthesized domain rather than importing that leaf — doing otherwise put
+// `username.ts` and `isValidEmail.ts` on all five graphs at once. What moves is
+// a few hundred bytes into two modules every page already carried:
+// `TeacherDatabase`, whose gallery lookup became two membership queries because
+// the rules no longer let anyone list every class, and `rulesFields`. Only the
+// byte ceiling with no slack left moves.
 test.each([
     ['src/routes/+layout.svelte', 529, 3.99],
     ['src/components/app/Page.svelte', 553, 4.24],
     ['src/routes/[[locale]]/+page.svelte', 568, 4.33],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 573, 4.34],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 573, 4.35],
     ['src/routes/[[locale]]/projects/+page.svelte', 580, 4.37],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);

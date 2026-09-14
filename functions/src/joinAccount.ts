@@ -14,7 +14,7 @@ import {
 } from './handles.js';
 import { sendSigninEmail } from './signinEmail.js';
 import { allowSigninLink } from './signinThrottle.js';
-import { UsernameEmailDomain, usernameEmail } from './username.js';
+import { isMailableAddress, usernameEmail } from './username.js';
 import { signinLinkSettings } from './signinEmail.js';
 
 /**
@@ -85,11 +85,7 @@ export default async function joinAccount(
 
     // ——— A username and an email address ———
     if (typeof email === 'string') {
-        if (
-            !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ||
-            email.endsWith(UsernameEmailDomain)
-        )
-            return fail('email-invalid');
+        if (!isMailableAddress(email)) return fail('email-invalid');
         // Defence in depth: the form already knows this from the mirrored table,
         // but a form is only a suggestion to anyone willing to skip it.
         if (eligible > Date.now()) return fail('not-eligible');

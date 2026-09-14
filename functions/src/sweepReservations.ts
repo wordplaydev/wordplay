@@ -1,6 +1,11 @@
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import {
+    ClassCreationCollection,
+    RecordKeptMs,
+    type ClassCreation,
+} from './classCreation.js';
+import {
     HandleCollection,
     UsernameCollection,
     type Reservation,
@@ -41,7 +46,26 @@ const PendingGraceMs = 60 * 60 * 1000;
  *  successive ticks drain the rest, exactly as purgeArchivedProjects does. */
 const SweepPerRun = 300;
 
-export type SweepReport = { released: number; retired: number; kept: number };
+export type SweepReport = {
+    released: number;
+    retired: number;
+    kept: number;
+    /** Finished class-creation attempts tidied away (#1347). */
+    attempts: number;
+};
+
+/**
+ * Whether a class-creation record has outlived its purpose.
+ *
+ * It exists so a retry after a dropped response is answered rather than re-run,
+ * which is a question nobody asks a week later — and keeping every one forever
+ * would turn the collection into a permanent log of every class ever made.
+ * An unfinished one is swept on the same schedule: `claimCreation` already
+ * hands a stale attempt to the next caller, so this is only tidying.
+ */
+export function attemptIsSpent(attempt: ClassCreation, now: number): boolean {
+    return now - attempt.started > RecordKeptMs;
+}
 
 /**
  * What to do with one reservation, before anything is looked up.
@@ -69,7 +93,12 @@ export default async function sweepReservations(): Promise<SweepReport> {
         .limit(SweepPerRun)
         .get();
 
-    const report: SweepReport = { released: 0, retired: 0, kept: 0 };
+    const report: SweepReport = {
+        released: 0,
+        retired: 0,
+        kept: 0,
+        attempts: 0,
+    };
     const now = Date.now();
 
     // Imported here so the policy above can be tested without it: the root
@@ -110,6 +139,19 @@ export default async function sweepReservations(): Promise<SweepReport> {
                 .delete()
                 .catch(() => undefined);
             report.retired++;
+        });
+
+    // Class-creation records, in the same pass and under the same per-run cap.
+    const attempts = await db
+        .collection(ClassCreationCollection)
+        .limit(SweepPerRun)
+        .get();
+    await PromisePool.for(attempts.docs)
+        .withConcurrency(3)
+        .process(async (doc) => {
+            if (!attemptIsSpent(doc.data() as ClassCreation, now)) return;
+            await doc.ref.delete().catch(() => undefined);
+            report.attempts++;
         });
 
     console.log('Username reservation sweep:', JSON.stringify(report));

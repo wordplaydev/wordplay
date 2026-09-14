@@ -75,6 +75,37 @@ export type AnalyzeLocalizationInputs = {
 };
 export type AnalyzeLocalizationOutput = StringAnalysis[] | null;
 
+/**
+ * How every student in a class signs in (#1347).
+ *
+ * A class is one or the other, and the choice is the teacher's to make rather
+ * than ours to infer: their students either have school email or they don't,
+ * and nobody picks mixed authentication because some of them sit on an age
+ * boundary. Stating it per class is also what makes a mixed roster
+ * unrepresentable rather than merely unexpected.
+ */
+export type ClassSigninMethod = 'password' | 'email';
+
+/**
+ * One student on a new class's roster (#1347).
+ *
+ * Carries an address or a password, never both; which one it must be is said
+ * once for the whole class by `CreateClassInputs.method`.
+ */
+export type CreateClassStudent = {
+    /** The username to claim, bare. A client from before #1347 sends the
+     *  synthesized address instead, which the server unwraps. */
+    username: string;
+    /** The teacher's columns for this row, shown on the class roster. */
+    meta: string[];
+    /** The address this student signs in with, in an email class. Never a
+     *  synthesized `@u.wordplay.dev` address — that is a login name, not a
+     *  mailbox. */
+    email?: string;
+    /** The password, in a password class. */
+    password?: string;
+};
+
 export type CreateClassInputs = {
     /** The uid of the teacher that should be the curator of the gallery created. */
     teacher: string;
@@ -85,16 +116,26 @@ export type CreateClassInputs = {
     /** Existing student uids to add */
     existing: string[];
     /** Information for the student accounts */
-    students: {
-        username: string;
-        password: string;
-        meta: string[];
-    }[];
+    students: CreateClassStudent[];
+    /** How every student in this class signs in. Optional, and read as
+     *  `'password'` when absent, so a tab left open across the deploy that
+     *  added this still works — the same back-compat the synthesized-username
+     *  unwrap gives. */
+    method?: ClassSigninMethod;
+    /** The teacher's affirmation that they may bind these students' email
+     *  addresses to accounts. Required in an email class, and recorded on the
+     *  class document — the form is only a suggestion to anyone willing to skip
+     *  it. */
+    affirmed?: boolean;
+    /** Names this attempt, so a retry after a dropped response is answered with
+     *  the class the first attempt made rather than failing on the usernames it
+     *  took. A v4 UUID; anything else is refused, since this names a document. */
+    key?: string;
 };
 
 // FUNCTION createClass
 export type CreateClassError = {
-    kind: 'account' | 'limit' | 'generic';
+    kind: 'account' | 'limit' | 'affirmation' | 'inflight' | 'generic';
     info: string;
 };
 export type CreateClassOutput = {
@@ -102,6 +143,11 @@ export type CreateClassOutput = {
     classid: string | undefined;
     /** Any errors returned by the function */
     error: undefined | CreateClassError;
+    /** What each student ended up with, in `students` order. An address that
+     *  already had an account keeps the username that account already had, so
+     *  the teacher's download names the account that exists rather than the one
+     *  the form proposed. Absent on failure. */
+    students?: { username: string; existed: boolean }[];
 };
 
 // FUNCTION moderateProject

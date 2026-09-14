@@ -25314,6 +25314,14 @@
                                                     "description": "[plain] Couldn't create one or more accounts",
                                                     "type": "string"
                                                 },
+                                                "addresses": {
+                                                    "description": "[plain] A line doesn't start with an email address",
+                                                    "type": "string"
+                                                },
+                                                "affirmation": {
+                                                    "description": "[plain] The teacher has to affirm they may use the email addresses",
+                                                    "type": "string"
+                                                },
                                                 "columns": {
                                                     "description": "[plain] Inconsistent columns",
                                                     "type": "string"
@@ -25328,6 +25336,10 @@
                                                 },
                                                 "generic": {
                                                     "description": "[plain] Generic error for developers to inspect",
+                                                    "type": "string"
+                                                },
+                                                "inflight": {
+                                                    "description": "[plain] This class may already have been created by an earlier attempt",
                                                     "type": "string"
                                                 },
                                                 "limit": {
@@ -25350,6 +25362,9 @@
                                                 "taken",
                                                 "limit",
                                                 "words",
+                                                "addresses",
+                                                "affirmation",
+                                                "inflight",
                                                 "account",
                                                 "generic"
                                             ],
@@ -25358,6 +25373,48 @@
                                         "field": {
                                             "additionalProperties": false,
                                             "properties": {
+                                                "addresses": {
+                                                    "additionalProperties": false,
+                                                    "description": "[formatted] The student data field, in a class that signs in by email",
+                                                    "properties": {
+                                                        "description": {
+                                                            "description": "[plain] The tooltip and ARIA-label for the text field",
+                                                            "type": "string"
+                                                        },
+                                                        "placeholder": {
+                                                            "description": "[plain] The placeholder text fo the text field.",
+                                                            "type": "string"
+                                                        },
+                                                        "prompt": {
+                                                            "$ref": "#/definitions/FormattedText"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "description",
+                                                        "placeholder",
+                                                        "prompt"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "affirm": {
+                                                    "additionalProperties": false,
+                                                    "description": "What the teacher affirms before student email addresses are used",
+                                                    "properties": {
+                                                        "label": {
+                                                            "description": "[plain] Label for the checkbox affirming permission to use the addresses",
+                                                            "type": "string"
+                                                        },
+                                                        "prompt": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] Explain what an email column means and what the teacher is affirming"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "prompt",
+                                                        "label"
+                                                    ],
+                                                    "type": "object"
+                                                },
                                                 "description": {
                                                     "$ref": "#/definitions/FieldText",
                                                     "description": "The class description"
@@ -25390,7 +25447,7 @@
                                                 },
                                                 "metadata": {
                                                     "additionalProperties": false,
-                                                    "description": "[formatted] The student data field",
+                                                    "description": "[formatted] The student data field, in a class with passwords",
                                                     "properties": {
                                                         "description": {
                                                             "description": "[plain] The tooltip and ARIA-label for the text field",
@@ -25414,6 +25471,25 @@
                                                 "name": {
                                                     "$ref": "#/definitions/FieldText",
                                                     "description": "[name] The class name"
+                                                },
+                                                "signin": {
+                                                    "additionalProperties": false,
+                                                    "description": "How the class's students will sign in, which the rest of the form follows from",
+                                                    "properties": {
+                                                        "mode": {
+                                                            "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                            "description": "The two ways a class can sign in"
+                                                        },
+                                                        "prompt": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] Explain that a class is one kind of student throughout"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "prompt",
+                                                        "mode"
+                                                    ],
+                                                    "type": "object"
                                                 },
                                                 "submit": {
                                                     "$ref": "#/definitions/ButtonText",
@@ -25447,8 +25523,11 @@
                                                 "name",
                                                 "description",
                                                 "existing",
+                                                "signin",
                                                 "metadata",
+                                                "addresses",
                                                 "words",
+                                                "affirm",
                                                 "generate",
                                                 "submit",
                                                 "edit"
@@ -25466,6 +25545,10 @@
                                                     "$ref": "#/definitions/FormattedText",
                                                     "description": "[formatted] Download instructions"
                                                 },
+                                                "downloadEmail": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Download instructions for a class that signs in by email"
+                                                },
                                                 "pending": {
                                                     "description": "[plain] When generating usernames and passwords",
                                                     "type": "string"
@@ -25478,6 +25561,10 @@
                                                     "$ref": "#/definitions/FormattedText",
                                                     "description": "[formatted] Prompt review of the genrated students."
                                                 },
+                                                "reviewEmail": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Prompt review of the generated students, who have no passwords"
+                                                },
                                                 "start": {
                                                     "$ref": "#/definitions/FormattedText",
                                                     "description": "[formatted] Explain the purpose of the form"
@@ -25485,6 +25572,10 @@
                                                 "submit": {
                                                     "$ref": "#/definitions/FormattedText",
                                                     "description": "[formatted] Ready to submit instructions"
+                                                },
+                                                "submitEmail": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Ready to submit instructions for a class that signs in by email"
                                                 },
                                                 "submitting": {
                                                     "description": "[plain] Submitting instructions",
@@ -25494,11 +25585,14 @@
                                             "required": [
                                                 "start",
                                                 "review",
+                                                "reviewEmail",
                                                 "ready",
                                                 "pending",
                                                 "submit",
+                                                "submitEmail",
                                                 "submitting",
-                                                "download"
+                                                "download",
+                                                "downloadEmail"
                                             ],
                                             "type": "object"
                                         },
@@ -25510,7 +25604,7 @@
                                                     "type": "string"
                                                 },
                                                 "credentials": {
-                                                    "description": "[plain] The subheader for the preview",
+                                                    "description": "[plain] The subheader for the preview, in a class with passwords",
                                                     "type": "string"
                                                 },
                                                 "students": {
@@ -25520,12 +25614,17 @@
                                                 "submit": {
                                                     "description": "[plain] The subheader for submitting",
                                                     "type": "string"
+                                                },
+                                                "usernames": {
+                                                    "description": "[plain] The subheader for the preview, in a class that signs in by email",
+                                                    "type": "string"
                                                 }
                                             },
                                             "required": [
                                                 "class",
                                                 "students",
                                                 "credentials",
+                                                "usernames",
                                                 "submit"
                                             ],
                                             "type": "object"

@@ -10175,16 +10175,20 @@
                     "class": "Your class",
                     "students": "Your students",
                     "credentials": "Usernames and passwords",
+                    "usernames": "Usernames",
                     "submit": "Submit"
                 },
                 "prompt": {
                     "start": "This form allows you to 1) generate accounts for all of the students in your class and 2) create a gallery that all of your students can add projects to. If students have existing accounts, you can add them to the gallery later.",
                     "review": "Review the usernames and passwords we made. Do you want to *edit* them before proceeding? If you do, you won't be able to edit the student information above.",
+                    "reviewEmail": "Review the usernames we made. Do you want to *edit* them before proceeding? If you do, you won't be able to edit the student information above. Students choose nothing here — they sign in with the address beside their name.",
                     "ready": "Let us know when you're ready to generate credentials above. You can edit them after you do.",
                     "pending": "Generating usernames and passwords...",
                     "submit": "Ready to submit? As soon as it's successful, you'll receive a download of this information. Passwords are *not recoverable*, so keep them somewhere safe.",
+                    "submitEmail": "Ready to submit? As soon as it's successful, you'll receive a download of this information. There are no passwords to keep safe — each student signs in with the address beside their name.",
                     "submitting": "Requesting new accounts with the usernames and passwords above...",
-                    "download": "Your class is ready! You should see a download of your student data in your download folder. *Passwords are not recoverable*, so keep this file somewhere safe!"
+                    "download": "Your class is ready! You should see a download of your student data in your download folder. *Passwords are not recoverable*, so keep this file somewhere safe!",
+                    "downloadEmail": "Your class is ready! You should see a download of your student data in your download folder. There are no passwords to keep safe: each student goes to the login page, types their address, and asks for a link."
                 },
                 "field": {
                     "name": {
@@ -10199,15 +10203,38 @@
                         "label": "students with accounts",
                         "prompt": "Do some of your students already have @wordplay accounts? Include them here."
                     },
+                    "signin": {
+                        "prompt": "Want to create new accounts for students? First, decide how they will sign in. A class is *all one way or the other*, so pick the one that fits your students.",
+                        "mode": {
+                            "label": "how your students sign in",
+                            "labels": [
+                                "a username and password",
+                                "an emailed link"
+                            ],
+                            "tips": [
+                                "we make a username and a password for each student, and you hand them out",
+                                "each student signs in with their own email address, so there is no password to lose"
+                            ]
+                        }
+                    },
                     "metadata": {
                         "description": "student information",
                         "placeholder": "e.g., student id, family name, given name",
-                        "prompt": "Want to create new accounts for students? Provide *any information* about students, one per line, separated by commas. This can be family names, given names, student numbers, or other distinguishing details. We will use it to generate usernames that you can edit below, helping you associate usernames to learners."
+                        "prompt": "Provide *any information* about students, one per line, separated by commas. This can be family names, given names, student numbers, or other distinguishing details. We will use it to generate usernames that you can edit below, helping you associate usernames to learners."
+                    },
+                    "addresses": {
+                        "description": "student email addresses",
+                        "placeholder": "e.g., mia.chen@school.edu, 204, Chen",
+                        "prompt": "List your students one per line, *starting with their email address*. You can add anything else about them after a comma — a student number, a family name — and we will use it to generate usernames you can edit below."
                     },
                     "words": {
                         "description": "words to use in passwords",
                         "placeholder": "e.g., cat dot rat...",
                         "prompt": "Provide at least *25 words* to randomly generate 2-3 word memorable passwords. Choose words your students know or ask them to brainstorm words. The more random the more secure!"
+                    },
+                    "affirm": {
+                        "prompt": "You chose emailed links, so we will make each student an account with the address you give us. Only do this if they are old enough to have an email account where they live. *We will not email anyone when you create this class*: each student goes to the login page, types their address, and asks for a link.",
+                        "label": "These students are old enough to have an email account where they live."
                     },
                     "generate": {
                         "label": "generate",
@@ -10225,10 +10252,13 @@
                 "error": {
                     "duplicates": "There are duplicate entries in the student information.",
                     "columns": "Ensure each student has the same number of columns.",
+                    "addresses": "Every line must start with an email address.",
                     "generate": "Unable to create unique usernames.",
                     "taken": "One or more usernames above is taken",
-                    "limit": "You can't create a class of more than 35 students at a time.",
+                    "limit": "You can't create a class of more than 50 students at a time.",
                     "words": "Provide at least 25 words.",
+                    "affirmation": "Say that these students are old enough to have an email account before we make their accounts.",
+                    "inflight": "This class may already have been created. Check your classes before trying again.",
                     "account": "Unable to create some of the accounts.",
                     "generic": "We couldn't create the class. Here's some information to help developers figure out what went wrong."
                 }

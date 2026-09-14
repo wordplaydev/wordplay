@@ -14,7 +14,12 @@ import testFilesUnder, { RepoRoot, repoRelative } from './testFiles';
 const Self = 'src/util/testIsolationConvention.test.ts';
 
 test('the isolated project is exactly the test files that mock modules', () => {
-    const mocking = testFilesUnder(resolve(RepoRoot, 'src'))
+    // `functions/src` as well as `src`: the fast project excludes only
+    // `functions/lib`, so a functions test runs unisolated alongside everything
+    // else and its mock leaks exactly the same way. Nothing caught that until
+    // #1347 nearly added the first one.
+    const mocking = ['src', 'functions/src']
+        .flatMap((directory) => testFilesUnder(resolve(RepoRoot, directory)))
         .filter((path) => readFileSync(path, 'utf-8').includes('vi.mock('))
         .map(repoRelative)
         .filter((path) => path !== Self)

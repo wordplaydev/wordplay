@@ -63,6 +63,38 @@ test.describe('authed views', () => {
         }
     });
 
+    test(`the new class form has no WCAG 2.2 AA violations`, async ({
+        browser,
+    }) => {
+        // A form full of controls that had never been scanned, and #1347 puts a
+        // radiogroup and a checkbox on it. Both branches in one page load: the
+        // question with nothing answered, then the email branch, which is where
+        // the new controls and the revealed affirmation are.
+        const { context, page } = await loginNewContext(
+            browser,
+            'teacher',
+            'password',
+        );
+        try {
+            await page.goto('/en-US/teach/class/new');
+            await expect(page.locator('#class-name')).toBeVisible({
+                timeout: LOAD_TIMEOUT,
+            });
+            await expectNoAxeViolationsInBothSchemes(page);
+
+            // Choosing email reveals the affirmation, whose visible label is a
+            // sibling `<label for>` — Checkbox renders its own only as a
+            // tooltip, so the association is the thing worth scanning.
+            await page
+                .getByRole('radio', { name: /emailed link/i })
+                .click({ timeout: LOAD_TIMEOUT });
+            await expect(page.locator('#email-affirmation')).toBeVisible();
+            await expectNoAxeViolationsInBothSchemes(page);
+        } finally {
+            await context.close();
+        }
+    });
+
     test(`someone without the claim is told so, and not linked to it`, async ({
         browser,
     }) => {
