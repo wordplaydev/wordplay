@@ -2,6 +2,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import type { RegionCode } from '@locale/Regions';
 import { getLanguageExemplars } from '@unicode/Exemplars';
 import { getCodepoints } from '@unicode/Unicode';
+import { must } from '@util/nullable';
 
 export type ScriptData = {
     /** Single-codepoint letters and digits per ISO 15924 script. */
@@ -25,7 +26,8 @@ function getScriptData(): Promise<ScriptData> {
             for (const point of codepoints) {
                 if (point.hex.length !== 1 || point.script === undefined)
                     continue;
-                const codepoint = point.hex[0];
+                // The length check above is what guarantees this codepoint.
+                const codepoint = must(point.hex[0], 'a codepoint');
                 scripts.set(codepoint, point.script);
                 if (PoolCategories.has(point.category)) {
                     const pool = pools.get(point.script);

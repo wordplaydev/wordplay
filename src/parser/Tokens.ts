@@ -31,14 +31,13 @@ export default class Tokens {
 
     /** Returns the text of the next token */
     peekText(): string | undefined {
-        return this.hasNext() ? this.#unread[0].text.toString() : undefined;
+        return this.peek()?.text.toString();
     }
 
     /** Get the space of the next token */
     peekSpace(): string | undefined {
-        return this.hasNext()
-            ? this.#spaces.getSpace(this.#unread[0])
-            : undefined;
+        const next = this.peek();
+        return next === undefined ? undefined : this.#spaces.getSpace(next);
     }
 
     getSpaces() {
@@ -55,11 +54,11 @@ export default class Tokens {
 
     /** Returns true if the token list isn't empty. */
     hasNext(): boolean {
-        return this.#unread.length > 0 && !this.#unread[0].isSymbol(Sym.End);
+        return this.#unread[0]?.isSymbol(Sym.End) === false;
     }
 
     nextIsEnd(): boolean {
-        return this.#unread.length > 0 && this.#unread[0].isSymbol(Sym.End);
+        return this.#unread[0]?.isSymbol(Sym.End) === true;
     }
 
     /** Returns true if and only if the next token is the specified type. */
@@ -79,34 +78,25 @@ export default class Tokens {
     /** Returns true if and only if the next series of tokens matches the series of given token types. */
     nextAre(...types: SymType[]) {
         return types.every(
-            (type, index) =>
-                index < this.#unread.length &&
-                this.#unread[index].isSymbol(type),
+            (type, index) => this.#unread[index]?.isSymbol(type) === true,
         );
     }
 
     /** Returns true if and only there was a previous token and it was of the given type. */
     previousWas(type: SymType): boolean {
-        return (
-            this.#read.length > 0 &&
-            this.#read[this.#read.length - 1].isSymbol(type)
-        );
+        return this.#read.at(-1)?.isSymbol(type) === true;
     }
 
     beforeNextLineIs(type: SymType) {
         // To detect this, we'll just peek ahead and see if there's a bind before the next line.
         let index = 0;
-        while (index < this.#unread.length) {
-            const token = this.#unread[index];
-            if (index > 0 && this.#spaces.hasLineBreak(this.#unread[index]))
-                break;
+        for (const token of this.#unread) {
+            if (index > 0 && this.#spaces.hasLineBreak(token)) break;
             if (token.isSymbol(type)) break;
             index++;
         }
         // If we found a bind, it's a bind.
-        return (
-            index < this.#unread.length && this.#unread[index].isSymbol(type)
-        );
+        return this.#unread[index]?.isSymbol(type) === true;
     }
 
     nextIsOneOf(...types: SymType[]): boolean {
@@ -115,13 +105,17 @@ export default class Tokens {
 
     /** Returns true if and only if the next token has no preceding space. */
     nextLacksPrecedingSpace(): boolean {
-        return this.hasNext() && !this.#spaces.hasSpace(this.#unread[0]);
+        const next = this.peek();
+        return next !== undefined && !this.#spaces.hasSpace(next);
     }
 
     /** Returns true if and only if the next token has no preceding space. */
     afterNextLacksPrecedingSpace(): boolean {
+        const after = this.#unread[1];
         return (
-            this.#unread.length > 2 && !this.#spaces.hasSpace(this.#unread[1])
+            this.#unread.length > 2 &&
+            after !== undefined &&
+            !this.#spaces.hasSpace(after)
         );
     }
 
@@ -177,9 +171,8 @@ export default class Tokens {
 
     /** Returns true if and only if the next token has a preceding line break. */
     nextHasPrecedingLineBreak(): boolean | undefined {
-        return !this.hasNext()
-            ? undefined
-            : this.#spaces.hasLineBreak(this.#unread[0]);
+        const next = this.peek();
+        return next === undefined ? undefined : this.#spaces.hasLineBreak(next);
     }
 
     /** Returns true if there's a space ahead with more than one line break */

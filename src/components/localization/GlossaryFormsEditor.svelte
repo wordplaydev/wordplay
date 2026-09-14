@@ -53,7 +53,9 @@
         if (inner)
             for (const [path, value] of inner) {
                 const match = path.match(/^glossary\.(.+)\.forms$/);
-                if (match && Array.isArray(value)) map.set(match[1], value);
+                const id = match === null ? undefined : match[1];
+                if (id !== undefined && Array.isArray(value))
+                    map.set(id, value);
             }
         return map;
     });

@@ -28,9 +28,9 @@ export default class PatternBackref extends PatternAtom {
     }
 
     clone(replace?: Replacement) {
-        return new PatternBackref(
-            this.replaceChild('name', this.name, replace),
-        ) as this;
+        return this.cloned(
+            new PatternBackref(this.replaceChild('name', this.name, replace)),
+        );
     }
 
     /** An empty name is the parser's placeholder for a missing atom (see

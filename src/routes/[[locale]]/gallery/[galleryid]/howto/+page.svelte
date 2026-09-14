@@ -246,6 +246,12 @@
         cameraY = -y + 10;
     }
 
+    /** Center the canvas on a how-to, which always records both coordinates. */
+    function panToHowTo(howTo: HowTo) {
+        const [x, y] = howTo.getCoordinates();
+        if (x !== undefined && y !== undefined) panTo(x, y);
+    }
+
     // tracks which item is moving
     // if undefined, nothing is moving. if "canvas," then canvas is moving.
     // if how-to id, then that how-to is moving
@@ -425,13 +431,10 @@
     let urlID: string | null = $derived(page.url.searchParams.get('id'));
     $effect(() => {
         if (urlID) {
-            let queried: HowTo = howTos.filter(
+            const queried: HowTo | undefined = howTos.filter(
                 (ht) => ht.getHowToId() === urlID && ht.isPublished(),
             )[0];
-            if (queried) {
-                let coords = queried.getCoordinates();
-                panTo(coords[0], coords[1]);
-            }
+            if (queried) panToHowTo(queried);
         }
     });
 
@@ -551,8 +554,7 @@
 
                             if (!navigateTo) return;
 
-                            let coords = navigateTo.getCoordinates();
-                            panTo(coords[0], coords[1]);
+                            panToHowTo(navigateTo);
 
                             navigationSelection = undefined;
                         }}
@@ -612,8 +614,7 @@
                                         )}
                                     action={() => {
                                         // Center the bookmarked how to
-                                        let coords = bookmark.getCoordinates();
-                                        panTo(coords[0], coords[1]);
+                                        panToHowTo(bookmark);
 
                                         // Find the corresponding view and show it's preview.
                                         let index = howTos.findIndex(
@@ -624,7 +625,7 @@
                                         if (index !== -1)
                                             howToComponents[
                                                 index
-                                            ].showPreview();
+                                            ]?.showPreview();
                                     }}
                                 />
                             {:else}

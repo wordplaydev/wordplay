@@ -1,9 +1,13 @@
+import { isRecord } from './shared/guards.js';
+
 import {
     githubFetch,
     isBot,
     paginate,
     REPO_BASE,
     type GitHubUser,
+    isGitHubUserOrNull,
+    isGitRef,
 } from './github.js';
 
 type GitHubCommit = {
@@ -11,6 +15,19 @@ type GitHubCommit = {
     author: GitHubUser | null;
     commit: { author: { name: string; date: string }; message: string };
 };
+
+function isGitHubCommit(value: unknown): value is GitHubCommit {
+    return (
+        isRecord(value) &&
+        typeof value.html_url === 'string' &&
+        isGitHubUserOrNull(value.author) &&
+        isRecord(value.commit) &&
+        isRecord(value.commit.author) &&
+        typeof value.commit.author.name === 'string' &&
+        typeof value.commit.author.date === 'string' &&
+        typeof value.commit.message === 'string'
+    );
+}
 
 type GitHubIssue = {
     number: number;
@@ -21,6 +38,17 @@ type GitHubIssue = {
     pull_request?: unknown;
 };
 
+function isGitHubIssue(value: unknown): value is GitHubIssue {
+    return (
+        isRecord(value) &&
+        typeof value.number === 'number' &&
+        typeof value.html_url === 'string' &&
+        typeof value.title === 'string' &&
+        typeof value.created_at === 'string' &&
+        isGitHubUserOrNull(value.user)
+    );
+}
+
 type GitHubComment = {
     html_url: string;
     body: string;
@@ -28,18 +56,43 @@ type GitHubComment = {
     user: GitHubUser | null;
 };
 
+function isGitHubComment(value: unknown): value is GitHubComment {
+    return (
+        isRecord(value) &&
+        typeof value.html_url === 'string' &&
+        typeof value.body === 'string' &&
+        typeof value.created_at === 'string' &&
+        isGitHubUserOrNull(value.user)
+    );
+}
+
+const ReviewStates = [
+    'APPROVED',
+    'CHANGES_REQUESTED',
+    'COMMENTED',
+    'DISMISSED',
+    'PENDING',
+] as const;
+
 type GitHubReview = {
     html_url: string;
     body: string;
-    state:
-        | 'APPROVED'
-        | 'CHANGES_REQUESTED'
-        | 'COMMENTED'
-        | 'DISMISSED'
-        | 'PENDING';
+    state: (typeof ReviewStates)[number];
     submitted_at: string | null;
     user: GitHubUser | null;
 };
+
+function isGitHubReview(value: unknown): value is GitHubReview {
+    return (
+        isRecord(value) &&
+        typeof value.html_url === 'string' &&
+        typeof value.body === 'string' &&
+        ReviewStates.some((state) => state === value.state) &&
+        (value.submitted_at === null ||
+            typeof value.submitted_at === 'string') &&
+        isGitHubUserOrNull(value.user)
+    );
+}
 
 export type ContributionType =
     | 'commit'
@@ -68,24 +121,25 @@ function getOrAdd(
     user: GitHubUser,
     fallbackName: string | null,
 ): Contributor {
-    if (!map.has(user.login)) {
-        map.set(user.login, {
-            login: user.login,
-            name: fallbackName,
-            avatar_url: user.avatar_url,
-            html_url: user.html_url,
-            counts: {
-                commit: 0,
-                issue: 0,
-                pull_request: 0,
-                issue_comment: 0,
-                pr_review: 0,
-                pr_review_comment: 0,
-            },
-            latest: '',
-        });
-    }
-    return map.get(user.login)!;
+    const existing = map.get(user.login);
+    if (existing !== undefined) return existing;
+    const added: Contributor = {
+        login: user.login,
+        name: fallbackName,
+        avatar_url: user.avatar_url,
+        html_url: user.html_url,
+        counts: {
+            commit: 0,
+            issue: 0,
+            pull_request: 0,
+            issue_comment: 0,
+            pr_review: 0,
+            pr_review_comment: 0,
+        },
+        latest: '',
+    };
+    map.set(user.login, added);
+    return added;
 }
 
 function record(
@@ -106,7 +160,7 @@ export async function fetchContributorsData(
     const byLogin = new Map<string, Contributor>();
 
     log('Fetching commits...');
-    const commits = await paginate<GitHubCommit>(token, `${base}/commits`);
+    const commits = await paginate(token, `${base}/commits`, isGitHubCommit);
     log(`  ${commits.length} commits fetched.`);
     for (const c of commits) {
         if (!c.author || isBot(c.author)) continue;
@@ -118,9 +172,10 @@ export async function fetchContributorsData(
     }
 
     log('Fetching issues...');
-    const issues = await paginate<GitHubIssue>(
+    const issues = await paginate(
         token,
         `${base}/issues?state=all`,
+        isGitHubIssue,
     );
     log(`  ${issues.length} issues fetched.`);
     for (const issue of issues) {
@@ -129,7 +184,7 @@ export async function fetchContributorsData(
     }
 
     log('Fetching pull requests...');
-    const prs = await paginate<GitHubIssue>(token, `${base}/pulls?state=all`);
+    const prs = await paginate(token, `${base}/pulls?state=all`, isGitHubIssue);
     log(`  ${prs.length} pull requests fetched.`);
     for (const pr of prs) {
         if (!pr.user || isBot(pr.user)) continue;
@@ -137,9 +192,10 @@ export async function fetchContributorsData(
     }
 
     log('Fetching issue comments...');
-    const comments = await paginate<GitHubComment>(
+    const comments = await paginate(
         token,
         `${base}/issues/comments`,
+        isGitHubComment,
     );
     log(`  ${comments.length} comments fetched.`);
     for (const comment of comments) {
@@ -152,9 +208,10 @@ export async function fetchContributorsData(
     }
 
     log('Fetching PR review comments...');
-    const reviewComments = await paginate<GitHubComment>(
+    const reviewComments = await paginate(
         token,
         `${base}/pulls/comments`,
+        isGitHubComment,
     );
     log(`  ${reviewComments.length} PR review comments fetched.`);
     for (const comment of reviewComments) {
@@ -169,9 +226,10 @@ export async function fetchContributorsData(
     log(`Fetching PR reviews for ${prs.length} PRs...`);
     let reviewCount = 0;
     for (const pr of prs) {
-        const reviews = await paginate<GitHubReview>(
+        const reviews = await paginate(
             token,
             `${base}/pulls/${pr.number}/reviews`,
+            isGitHubReview,
         );
         for (const review of reviews) {
             if (
@@ -234,15 +292,18 @@ export async function createContributorsPR(
     // separate invocation whose branch is named differently — e.g. a stale
     // function deployment still minting timestamped branches — which a
     // head-only check would miss.
-    const open = (await githubFetch(
+    const open = await githubFetch(
         token,
         `${base}/pulls?base=main&state=open&per_page=100`,
-    )) as Array<{ title: string }> | undefined;
-    if (Array.isArray(open) && open.some((pr) => pr.title === PR_TITLE)) return;
+    );
+    if (
+        Array.isArray(open) &&
+        open.some((pr) => isRecord(pr) && pr.title === PR_TITLE)
+    )
+        return;
 
-    const ref = (await githubFetch(token, `${base}/git/ref/heads/main`)) as {
-        object: { sha: string };
-    };
+    const ref = await githubFetch(token, `${base}/git/ref/heads/main`);
+    if (!isGitRef(ref)) throw new Error('Could not read the main branch');
 
     // Create the branch, tolerating a concurrent invocation that already made it.
     try {
@@ -261,11 +322,14 @@ export async function createContributorsPR(
     // have already committed there, and PUT needs the current SHA to avoid 409.
     let existingSha: string | undefined;
     try {
-        const existing = (await githubFetch(
+        const existing = await githubFetch(
             token,
             `${base}/contents/${filePath}?ref=${branch}`,
-        )) as { sha: string };
-        existingSha = existing.sha;
+        );
+        // A shape with no sha is treated like an absent file; the PUT below
+        // then reports the conflict rather than this guessing.
+        if (isRecord(existing) && typeof existing.sha === 'string')
+            existingSha = existing.sha;
     } catch {
         // File doesn't exist on the branch yet
     }

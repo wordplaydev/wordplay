@@ -1,10 +1,16 @@
 import { graphemes } from '@output/animation/getTextTransition';
+import { must } from '@util/nullable';
 
 /** Fisher-Yates shuffle with an injectable random source so tests can seed it. */
 function shuffle(list: number[], random: () => number): number[] {
     for (let i = list.length - 1; i > 0; i--) {
         const j = Math.floor(random() * (i + 1));
-        [list[i], list[j]] = [list[j], list[i]];
+        const at = list[i];
+        const other = list[j];
+        // Both indices are in range of a dense list, so this never skips.
+        if (at === undefined || other === undefined) continue;
+        list[i] = other;
+        list[j] = at;
     }
     return list;
 }
@@ -33,7 +39,9 @@ export function getRandomEntrySteps(
 
     // An empty pool locks entries immediately rather than cycling.
     const randomEntry = (fallback: string) =>
-        pool.length > 0 ? pool[Math.floor(random() * pool.length)] : fallback;
+        pool.length > 0
+            ? (pool[Math.floor(random() * pool.length)] ?? fallback)
+            : fallback;
 
     const extras = Math.max(0, to.length - from.length);
     const surplus = Math.max(0, from.length - to.length);
@@ -53,10 +61,8 @@ export function getRandomEntrySteps(
 
     // Each position locks onto its final entry at a random step between
     // appearing and the end; the final step shows the full end regardless.
-    const lock = to.map(
-        (_, position) =>
-            appear[position] +
-            Math.floor(random() * Math.max(1, last - appear[position])),
+    const lock = appear.map(
+        (start) => start + Math.floor(random() * Math.max(1, last - start)),
     );
 
     // When the new text is shorter, the surplus positions disappear one at a
@@ -76,9 +82,7 @@ export function getRandomEntrySteps(
         if (step === 0) {
             // The start, in the new text's coordinates plus the surplus tail.
             steps.push([
-                ...to.map((_, position) =>
-                    position < from.length ? from[position] : '',
-                ),
+                ...to.map((_, position) => from[position] ?? ''),
                 ...from.slice(to.length),
             ]);
             continue;
@@ -88,21 +92,19 @@ export function getRandomEntrySteps(
             continue;
         }
         const entries: string[] = [];
-        for (let position = 0; position < to.length; position++) {
-            if (step < appear[position]) entries.push('');
-            else
-                entries.push(
-                    step >= lock[position]
-                        ? to[position]
-                        : randomEntry(to[position]),
-                );
+        for (const [position, entry] of to.entries()) {
+            // `appear` and `lock` are maps of `to`, so every position has both.
+            const appearance = must(appear[position], 'an appearance step');
+            const locked = must(lock[position], 'a lock step');
+            if (step < appearance) entries.push('');
+            else entries.push(step >= locked ? entry : randomEntry(entry));
         }
         for (let position = 0; position < surplus; position++) {
-            entries.push(
-                step < disappear[position]
-                    ? randomEntry(from[to.length + position])
-                    : '',
-            );
+            // `disappear` has one step per surplus position, and the surplus
+            // positions are exactly `from`'s tail past `to`'s length.
+            const gone = must(disappear[position], 'a disappearance step');
+            const extra = must(from[to.length + position], 'a surplus entry');
+            entries.push(step < gone ? randomEntry(extra) : '');
         }
         steps.push(entries);
     }

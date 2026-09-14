@@ -11,7 +11,8 @@ import {
     isTraceable,
 } from '@db/characters/glyph';
 import { flipShape, getShapeBounds } from '@db/characters/paths';
-import type { PathCommand } from 'fontkit';
+import type { PathOp } from '@input/pathCommands';
+import { must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 
 /** A character document wrapping one shape, for schema tests. */
@@ -43,7 +44,7 @@ function glyph(overrides: Partial<CharacterGlyph> = {}): CharacterGlyph {
 
 describe('commandsToUnitPath', () => {
     /** A triangle in font units: 1000 wide, 500 tall, sitting on the baseline. */
-    const triangle: PathCommand[] = [
+    const triangle: PathOp[] = [
         { command: 'moveTo', args: [0, 0] },
         { command: 'lineTo', args: [1000, 0] },
         { command: 'lineTo', args: [500, 500] },
@@ -69,7 +70,7 @@ describe('commandsToUnitPath', () => {
         // The generator and the guard must not disagree: `d` is interpolated
         // into an SVG attribute rendered with {@html} from other creators'
         // documents, and the schema is what makes that safe.
-        const commands: PathCommand[] = [
+        const commands: PathOp[] = [
             ...triangle,
             { command: 'quadraticCurveTo', args: [100, 200, 300, 400] },
             { command: 'bezierCurveTo', args: [1, 2, 3, 4, 5, 6] },
@@ -82,9 +83,7 @@ describe('commandsToUnitPath', () => {
     test('rounds without exponent notation, which the pattern would reject', () => {
         // A tiny coordinate formatted as 1e-7 would fail the schema and the
         // whole character would stop parsing.
-        const tiny: PathCommand[] = [
-            { command: 'moveTo', args: [0.0000001, 0] },
-        ];
+        const tiny: PathOp[] = [{ command: 'moveTo', args: [0.0000001, 0] }];
         const d = commandsToUnitPath(tiny, { ...box, maxX: 1e9 });
         expect(d).not.toMatch(/e/i);
         expect(GlyphPathPattern.test(d)).toBe(true);
@@ -120,7 +119,8 @@ describe('isTraceable', () => {
 describe('the glyph schema', () => {
     test('a glyph with absent optional keys parses and stays absent', () => {
         const parsed = CharacterSchema.parse(character(glyph()));
-        const shape = parsed.shapes[0];
+        // The fixture wraps exactly one shape.
+        const shape = must(parsed.shapes[0], 'the parsed shape');
         // Firestore rejects a key present with an undefined value.
         expect('angle' in shape).toBe(false);
         expect('mirrored' in shape).toBe(false);

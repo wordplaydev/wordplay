@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import { isRecord } from '@util/guards';
 import LocaleSchema from '@util/verify-locales/LocaleSchema';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 
@@ -15,10 +16,6 @@ import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 /** Top-level metadata paths that are strings/arrays-of-strings but NOT
  *  user-visible translatable text, so they legitimately carry no format tag. */
 const EXCLUDED_PREFIXES: readonly string[] = ['$schema', 'language', 'regions'];
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-    return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
 
 /** Resolve a local `#/a/b` JSON-schema ref against the loaded schema. Ref
  *  segments are percent-encoded (generic type names like `FunctionText<[…]>`

@@ -1,3 +1,4 @@
+import { first } from '@util/nullable';
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
 
@@ -44,10 +45,11 @@ test('every claim test goes through one of the five claim functions', () => {
             continue;
         // Every one is a short function; walk to its closing brace.
         let depth = 0;
-        for (let at = index; at < lines.length; at++) {
+        for (const [offset, current] of lines.slice(index).entries()) {
+            const at = index + offset;
             inside.add(at);
-            depth += (lines[at].match(/\{/g) ?? []).length;
-            depth -= (lines[at].match(/\}/g) ?? []).length;
+            depth += (current.match(/\{/g) ?? []).length;
+            depth -= (current.match(/\}/g) ?? []).length;
             if (depth === 0 && at > index) break;
         }
     }
@@ -83,7 +85,7 @@ test('the five claim functions are declared once, at the top level', () => {
         ).toHaveLength(1);
         // Four spaces of indent is the `documents` block; more is a collection.
         expect(
-            declarations[0].match(/^ */)?.[0].length,
+            first(declarations)?.match(/^ */)?.[0]?.length,
             `${fn} must be declared at the top of match /databases/{database}/documents`,
         ).toBe(4);
     }

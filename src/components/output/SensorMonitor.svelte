@@ -57,9 +57,9 @@
         label: string;
     }[] = [];
     let volumeAnalyzer: AnalyserNode | undefined;
-    let volumeDataArray: Uint8Array | undefined;
+    let volumeDataArray: Uint8Array<ArrayBuffer> | undefined;
     let pitchAnalyzer: AnalyserNode | undefined;
-    let pitchDataArray: Float32Array | undefined;
+    let pitchDataArray: Float32Array<ArrayBuffer> | undefined;
     let pitchDetector: PitchDetector<Float32Array> | undefined;
 
     const stack = getSensorPanelStack();
@@ -115,8 +115,8 @@
             }
             // Draw hand points (larger, opaque)
             ctx.fillStyle = fgColor;
-            for (let i = 0; i < handPoints.length; i++) {
-                const { x, y } = toPreviewPoint(handPoints[i], width, height);
+            for (const point of handPoints) {
+                const { x, y } = toPreviewPoint(point, width, height);
                 ctx.beginPath();
                 ctx.arc(x, y, 5, 0, Math.PI * 2);
                 ctx.fill();
@@ -174,7 +174,7 @@
         if (context) context.resume().catch(() => {});
 
         let analyzer: AnalyserNode | undefined;
-        let dataArray: Uint8Array | undefined;
+        let dataArray: Uint8Array<ArrayBuffer> | undefined;
 
         function draw() {
             if (!expanded || !canvasElement || !audioHandle) {
@@ -194,21 +194,25 @@
                     analyzer = ctx.createAnalyser();
                     analyzer.fftSize = 256;
                     sourceNode.connect(analyzer);
-                    dataArray = new Uint8Array(analyzer.frequencyBinCount);
+                    dataArray = new Uint8Array(
+                        new ArrayBuffer(analyzer.frequencyBinCount),
+                    );
 
                     // Volume analyzer (fftSize 32)
                     volumeAnalyzer = ctx.createAnalyser();
                     volumeAnalyzer.fftSize = VOLUME_FFT_SIZE;
                     sourceNode.connect(volumeAnalyzer);
                     volumeDataArray = new Uint8Array(
-                        volumeAnalyzer.frequencyBinCount,
+                        new ArrayBuffer(volumeAnalyzer.frequencyBinCount),
                     );
 
                     // Pitch analyzer (fftSize 1024)
                     pitchAnalyzer = ctx.createAnalyser();
                     pitchAnalyzer.fftSize = PITCH_FFT_SIZE;
                     sourceNode.connect(pitchAnalyzer);
-                    pitchDataArray = new Float32Array(pitchAnalyzer.fftSize);
+                    pitchDataArray = new Float32Array(
+                        new ArrayBuffer(pitchAnalyzer.fftSize * 4),
+                    );
                     pitchDetector = createPitchDetector();
                 }
             }
@@ -218,7 +222,7 @@
                 dataArray !== undefined &&
                 canvasElement
             ) {
-                analyzer.getByteTimeDomainData(dataArray as any);
+                analyzer.getByteTimeDomainData(dataArray);
 
                 const canvasContext = canvasElement.getContext('2d');
                 if (canvasContext === null) return;
@@ -242,11 +246,8 @@
                 // Compute volume
                 let volume = 0;
                 if (volumeAnalyzer && volumeDataArray && context) {
-                    volumeAnalyzer.getByteFrequencyData(volumeDataArray as any);
-                    volume = computeVolume(
-                        context.sampleRate,
-                        volumeDataArray as any,
-                    );
+                    volumeAnalyzer.getByteFrequencyData(volumeDataArray);
+                    volume = computeVolume(context.sampleRate, volumeDataArray);
                 }
 
                 // Compute pitch
@@ -257,11 +258,11 @@
                     pitchDetector &&
                     context
                 ) {
-                    pitchAnalyzer.getFloatTimeDomainData(pitchDataArray as any);
+                    pitchAnalyzer.getFloatTimeDomainData(pitchDataArray);
                     pitch = computePitch(
                         pitchDetector,
                         context.sampleRate,
-                        pitchDataArray as any,
+                        pitchDataArray,
                     );
                 }
 
@@ -273,11 +274,10 @@
                 canvasContext.globalAlpha = 0.4 + volume * 0.6;
                 canvasContext.beginPath();
 
-                for (let i = 0; i < dataArray.length; i++) {
+                for (const [i, sample] of dataArray.entries()) {
                     const x = (i / dataArray.length) * width;
                     const y =
-                        ((dataArray[i] - 128) / 128) * (height / 2) +
-                        height / 2;
+                        ((sample - 128) / 128) * (height / 2) + height / 2;
 
                     if (i === 0) canvasContext.moveTo(x, y);
                     else canvasContext.lineTo(x, y);
@@ -376,7 +376,7 @@
             const objectStreams = evaluator.getBasisStreamsOfType(Objects);
 
             for (const stream of handStreams) {
-                const unsubscribe = stream.observeLandmarks((result: any) => {
+                const unsubscribe = stream.observeLandmarks((result) => {
                     try {
                         handPoints = [];
                         const landmarks = result.landmarks?.[0];
@@ -429,7 +429,7 @@
             }
 
             for (const stream of faceStreams) {
-                const unsubscribe = stream.observeLandmarks((result: any) => {
+                const unsubscribe = stream.observeLandmarks((result) => {
                     try {
                         facePoints = [];
                         const landmarks = result.faceLandmarks?.[0];

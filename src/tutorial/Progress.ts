@@ -12,6 +12,7 @@ import {
     type Performance,
     type Scene,
 } from './Tutorial';
+import { last, must } from '@util/nullable';
 
 /**
  * A short, stable fingerprint of a step's program, for {@link Progress.getProjectID}.
@@ -53,12 +54,16 @@ export default class Progress {
 
         // Account for invalid acts, scenes, and pauses.
         act = act < 0 ? 0 : act >= acts.length ? acts.length : act;
-        const scenes = act === 0 ? 0 : acts[act - 1].scenes.length;
+        // `act` and `scene` are clamped to their containers' lengths just
+        // above, so a nonzero index here is always in range.
+        const currentAct =
+            act === 0 ? undefined : must(acts[act - 1], 'an act');
+        const scenes = currentAct === undefined ? 0 : currentAct.scenes.length;
         scene = scene < 0 ? 0 : scene > scenes ? scenes : scene;
         const pauses =
-            act === 0 || scene === 0
+            currentAct === undefined || scene === 0
                 ? 0
-                : acts[act - 1].scenes[scene - 1].lines.filter(
+                : must(currentAct.scenes[scene - 1], 'a scene').lines.filter(
                       (line) => line === null,
                   ).length + 1;
         pause = pause < 0 ? 0 : pause > pauses ? pauses : pause;
@@ -88,8 +93,8 @@ export default class Progress {
 
         let code: number | undefined = undefined;
         let pause = 0;
-        for (let i = 0; i < scene.lines.length && pause < this.pause; i++) {
-            const line = scene.lines[i];
+        for (const [i, line] of scene.lines.entries()) {
+            if (pause >= this.pause) break;
             if (line === null) pause++;
             else if (isPerformance(line)) code = i;
         }
@@ -201,7 +206,8 @@ export default class Progress {
         if (act === undefined) return;
         const sceneIndex = this.scene - 1 + direction;
         if (sceneIndex >= 0 && sceneIndex < act.scenes.length) {
-            const newScene = act.scenes[sceneIndex];
+            // The index was just bounds-checked against this act's scenes.
+            const newScene = must(act.scenes[sceneIndex], 'a scene');
             return new Progress(
                 this.tutorial,
                 this.act,
@@ -228,9 +234,10 @@ export default class Progress {
                 actIndex + 1,
                 direction < 0 ? nextAct.scenes.length : 0,
                 direction < 0
-                    ? nextAct.scenes[nextAct.scenes.length - 1].lines.filter(
-                          (line) => line === null,
-                      ).length + 1
+                    ? must(
+                          last(nextAct.scenes),
+                          'the last scene of an act',
+                      ).lines.filter((line) => line === null).length + 1
                     : 0,
                 this.mode,
             );

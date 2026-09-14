@@ -8,6 +8,7 @@ import {
     readCharacterSet,
 } from './deriveRange';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
+import { must } from '@util/nullable.ts';
 // NB: the generator must NOT import Fonts.ts — it imports the generated
 // faces.generated.ts, which doesn't exist yet on a fresh clone, so importing it
 // here would make `fonts-build` fail to bootstrap those very files.
@@ -35,7 +36,8 @@ export function readLock(): Lockfile {
 export function writeLock(lock: Lockfile): void {
     // Stable key order for clean diffs.
     const sorted: Lockfile = {};
-    for (const key of Object.keys(lock).sort()) sorted[key] = lock[key];
+    for (const key of Object.keys(lock).sort())
+        sorted[key] = must(lock[key], 'a lockfile entry');
     fs.writeFileSync(LOCK_PATH, JSON.stringify(sorted, null, 2) + '\n');
 }
 
@@ -51,7 +53,8 @@ export function parseCssRanges(): Map<string, string> {
         if (!fs.existsSync(file)) continue;
         const css = fs.readFileSync(file, 'utf8');
         for (const block of css.matchAll(/@font-face\s*\{([^}]*)\}/g)) {
-            const body = block[1];
+            // The pattern's only group is not optional.
+            const body = must(block[1], 'a @font-face body');
             const url = body.match(/src:\s*url\(([^)]+)\)/)?.[1];
             const range = body
                 .match(/unicode-range:\s*([^;]+);/)?.[1]
@@ -100,7 +103,8 @@ function emojiIslandCoverage(): Set<number> {
             'utf8',
         );
         for (const m of css.matchAll(/unicode-range:\s*([^;]+);/g))
-            for (const cp of parseRangeString(m[1])) cov.add(cp);
+            for (const cp of parseRangeString(must(m[1], 'a unicode range')))
+                cov.add(cp);
     }
     return cov;
 }

@@ -26,6 +26,7 @@ import {
     getMusicProperties,
     getTrackProperties,
 } from '@edit/output/MusicProperties';
+import { first, must } from '@util/nullable';
 
 /** Parse code and find the first Evaluate of the given definition. */
 function find(
@@ -80,7 +81,7 @@ test('Matter inputs are editable and read back', () => {
         project,
         NumberLiteral.make(5, Unit.reuse(['kg'])),
     );
-    expect(replacements[0][0]).toBe(evaluate);
+    expect(must(first(replacements), 'a replacement')[0]).toBe(evaluate);
 
     const bounciness = valuesFor(
         project,
@@ -188,7 +189,7 @@ test('Velocity components use compound units and an unset ø component is not ed
         project,
         NumberLiteral.make(5, Unit.create(['m'], ['s'])),
     );
-    expect(replacements[0][0]).toBe(evaluate);
+    expect(must(first(replacements), 'a replacement')[0]).toBe(evaluate);
 
     // angle is unset (ø); ø is not editable for Velocity, so it shows as computed.
     const angle = valuesFor(
@@ -290,7 +291,7 @@ test('an unregistered structure is supported automatically by reflecting its inp
 
     const outputs = [new OutputExpression(project, evaluate, DefaultLocales)];
     const number = new OutputPropertyValueSet(
-        properties[0],
+        must(properties[0], 'the number property'),
         outputs,
         DefaultLocales,
     );
@@ -298,7 +299,7 @@ test('an unregistered structure is supported automatically by reflecting its inp
     expect(number.getNumber()).toBe(5);
 
     const bool = new OutputPropertyValueSet(
-        properties[1],
+        must(properties[1], 'the boolean property'),
         outputs,
         DefaultLocales,
     );
@@ -306,7 +307,7 @@ test('an unregistered structure is supported automatically by reflecting its inp
     expect(bool.getBool()).toBe(true);
 
     const text = new OutputPropertyValueSet(
-        properties[2],
+        must(properties[2], 'the text property'),
         outputs,
         DefaultLocales,
     );

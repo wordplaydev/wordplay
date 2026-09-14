@@ -1,5 +1,6 @@
 import Decimal from 'decimal.js';
 import { Sym, type SymType } from '@nodes/Sym';
+import { isDefined } from '@util/nullable';
 
 /**
  * The numeral tables Wordplay lexes, and the encoder that writes a value back out in each
@@ -206,9 +207,12 @@ function reverseDigits(sym: SymType): Record<string, string> | undefined {
  *  Ⅳ and Ⅸ are single codepoints worth 4 and 9, which is why they can appear here at all:
  *  `convertRoman` sums characters, so a two-character subtractive pair like XL would read as 60.
  *  Larger tens and hundreds are therefore additive (40 is ⅩⅩⅩⅩ), as on a clock face. */
-const romanComposing: [string, number][] = (
-    ['Ⅿ', 'Ⅾ', 'Ⅽ', 'Ⅼ', 'Ⅹ', 'Ⅸ', 'Ⅴ', 'Ⅳ', 'Ⅰ'] as const
-).map((numeral) => [numeral, romanNumerals[numeral]]);
+const romanComposing: [string, number][] = [];
+for (const numeral of ['Ⅿ', 'Ⅾ', 'Ⅽ', 'Ⅼ', 'Ⅹ', 'Ⅸ', 'Ⅴ', 'Ⅳ', 'Ⅰ'] as const) {
+    // Every composing form is one `romanNumerals` decodes.
+    const value = romanNumerals[numeral];
+    if (value !== undefined) romanComposing.push([numeral, value]);
+}
 
 function renderRoman(value: Decimal): string | undefined {
     // Positive integers only, and bounded: Ⅿ is the largest numeral, so anything past a few
@@ -272,7 +276,10 @@ export function numeralDigits(sym: SymType): string[] {
     const digits = reverseDigits(sym);
     return digits === undefined
         ? []
-        : Array.from({ length: 10 }, (_, digit) => digits[String(digit)]);
+        : Array.from(
+              { length: 10 },
+              (_, digit) => digits[String(digit)],
+          ).filter(isDefined);
 }
 
 /**

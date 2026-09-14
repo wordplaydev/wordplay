@@ -1,4 +1,5 @@
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
+import { allDefined } from '@util/nullable';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import { BULLET_SYMBOL, MACHINE_TRANSLATED_SYMBOL } from '@parser/Symbols';
@@ -115,10 +116,12 @@ export default class Markup extends Content {
     }
 
     clone(replace?: Replacement) {
-        return new Markup(
-            this.replaceChild('paragraphs', this.paragraphs, replace),
-            this.spaces,
-        ) as this;
+        return this.cloned(
+            new Markup(
+                this.replaceChild('paragraphs', this.paragraphs, replace),
+                this.spaces,
+            ),
+        );
     }
 
     getPurpose() {
@@ -180,10 +183,10 @@ export default class Markup extends Content {
                 newSpaces = newSpaces?.withSpaces(input.spaces);
 
         // Remap the first token of all replaced nodes with the first token of the replacement.
-        return concrete.some((p) => p === undefined)
+        return !allDefined(concrete)
             ? undefined
             : new Markup(
-                  concrete as Paragraph[],
+                  concrete,
                   newSpaces,
                   undefined,
                   // Keep the source we already had, which is what carries a doc's origin
@@ -418,13 +421,16 @@ export default class Markup extends Content {
                 ? this.spaces.withSpaces(other.spaces)
                 : this.spaces
             : other.spaces;
-        if (this.paragraphs.length === 0)
+        const lastParagraph = this.paragraphs[this.paragraphs.length - 1];
+        const firstParagraph = other.paragraphs[0];
+        if (lastParagraph === undefined)
             return new Markup(other.paragraphs, spaces);
-        if (other.paragraphs.length === 0)
+        if (firstParagraph === undefined)
             return new Markup(this.paragraphs, spaces);
-        const last = this.paragraphs[this.paragraphs.length - 1];
-        const first = other.paragraphs[0];
-        const merged = new Paragraph([...last.segments, ...first.segments]);
+        const merged = new Paragraph([
+            ...lastParagraph.segments,
+            ...firstParagraph.segments,
+        ]);
         return new Markup(
             [
                 ...this.paragraphs.slice(0, -1),

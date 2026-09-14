@@ -54,18 +54,11 @@ export function start(evaluator: Evaluator, expr: Expression) {
 
 export function hasStoredValue(evaluator: Evaluator, expr: Expression) {
     const list = evaluator.values.get(expr);
-    return (
-        list !== undefined &&
-        list.length > 0 &&
-        list[list.length - 1].value !== undefined
-    );
+    return list !== undefined && list.at(-1)?.value !== undefined;
 }
 
 export function getStoredValue(evaluator: Evaluator, expr: Expression) {
-    const list = evaluator.values.get(expr);
-    return list !== undefined && list.length > 0
-        ? list[list.length - 1].value
-        : undefined;
+    return evaluator.values.get(expr)?.at(-1)?.value;
 }
 
 export function shouldSkip(evaluator: Evaluator, expr: Expression) {

@@ -94,11 +94,13 @@ export default class Otherwise extends SimpleExpression {
     }
 
     clone(replace?: Replacement) {
-        return new Otherwise(
-            this.replaceChild('left', this.left, replace),
-            this.replaceChild('question', this.question, replace),
-            this.replaceChild('right', this.right, replace),
-        ) as this;
+        return this.cloned(
+            new Otherwise(
+                this.replaceChild('left', this.left, replace),
+                this.replaceChild('question', this.question, replace),
+                this.replaceChild('right', this.right, replace),
+            ),
+        );
     }
 
     getPurpose() {

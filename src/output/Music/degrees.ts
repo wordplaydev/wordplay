@@ -11,6 +11,8 @@
  * or one note bent off pitch, depending on the track's `mash`.
  */
 
+import { must } from '@util/nullable';
+
 /**
  * How close to a whole degree still counts as whole.
  *
@@ -30,7 +32,8 @@ function wholeDegreeToSemitones(
     const length = scale.length;
     const index = ((zeroBased % length) + length) % length;
     const octave = Math.floor(zeroBased / length);
-    return scale[index] + 12 * octave + key;
+    // The only caller guards an empty scale, so the floored modulo is in range.
+    return must(scale[index], 'a scale step') + 12 * octave + key;
 }
 
 /** The whole degrees a possibly-fractional degree sits between, and how far

@@ -160,6 +160,9 @@ test.describe('vertical writing', () => {
         // Consecutive tokens on one line stack down the screen rather than
         // running across it, which is what "vertical" actually means here.
         const [first, second] = laidOut?.tokens ?? [];
+        expect(first).toBeDefined();
+        expect(second).toBeDefined();
+        if (first === undefined || second === undefined) return;
         expect(second.y).toBeGreaterThan(first.y);
         expect(Math.abs(second.x - first.x)).toBeLessThan(4);
     });

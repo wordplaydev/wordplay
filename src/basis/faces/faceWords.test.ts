@@ -10,11 +10,11 @@ import {
     renderFaceDescription,
     ShortLowercase,
     TallLowercase,
-    type FaceForm,
 } from '@basis/faces/faceWords';
 import type { Face } from '@basis/faces/Fonts';
 import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
+import { must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 
 /** A minimal face to hang measurements on. */
@@ -144,7 +144,7 @@ describe('rendering', () => {
         for (const form of FaceForms)
             expect(
                 renderFaceDescription(DefaultLocales, {
-                    form: form as FaceForm,
+                    form,
                     impressions: [],
                     mechanics: [],
                 }).length,
@@ -153,7 +153,12 @@ describe('rendering', () => {
     });
 
     test('describes a real face', () => {
-        expect(describeFaceLocalized(DefaultLocales, Faces['Creepster'])).toBe(
+        expect(
+            describeFaceLocalized(
+                DefaultLocales,
+                must(Faces['Creepster'], 'the Creepster face'),
+            ),
+        ).toBe(
             'a textured face, strong and old-fashioned, small letters as tall as the capitals',
         );
     });

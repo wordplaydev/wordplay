@@ -9,6 +9,7 @@ import transcribe, {
     MinNoteMs,
 } from '@output/Music/transcribe';
 import { Scales } from '@output/Music/scales';
+import { must } from '@util/nullable';
 
 /** Hz for a MIDI note, the inverse of what the detector reports. */
 function hz(midi: number): number {
@@ -35,7 +36,8 @@ function sing(
     const wobble = [0.08, -0.11, 0.05, -0.06, 0.12, -0.09];
     for (const part of parts)
         for (let elapsed = 0; elapsed < part.ms; elapsed += rate) {
-            const off = wobble[index++ % wobble.length];
+            // The wobble table is a non-empty literal and the index wraps.
+            const off = must(wobble[index++ % wobble.length], 'a wobble');
             frames.push({
                 hz: part.midi === null ? 0 : hz(part.midi + off),
                 at,
@@ -57,8 +59,8 @@ test('a steady hum is one note', () => {
     const notes = segment(sing([{ midi: 60, ms: 600 }]));
     expect(notes).toHaveLength(1);
     // Loose, because `sing` detunes: a voice does not hold a pitch exactly.
-    expect(notes[0].pitch).toBeCloseTo(60, 0);
-    expect(notes[0].ms).toBeGreaterThanOrEqual(500);
+    expect(notes[0]?.pitch).toBeCloseTo(60, 0);
+    expect(notes[0]?.ms).toBeGreaterThanOrEqual(500);
 });
 
 test('silence between notes separates them', () => {
@@ -180,9 +182,10 @@ test('a hummed melody comes out as notes in order', () => {
     const sounding = result?.notes.filter((n) => n.degrees.length > 0) ?? [];
     expect(sounding).toHaveLength(3);
     // Rising in pitch means rising in degree, whatever scale was chosen.
-    const degrees = sounding.map((n) => n.degrees[0]);
-    expect(degrees[0]).toBeLessThan(degrees[1]);
-    expect(degrees[1]).toBeLessThan(degrees[2]);
+    // Three sounding notes, asserted just above, each with a degree.
+    const degrees = sounding.map((n) => must(n.degrees[0], 'a degree'));
+    expect(degrees[0]).toBeLessThan(must(degrees[1], 'the second degree'));
+    expect(degrees[1]).toBeLessThan(must(degrees[2], 'the third degree'));
     // The lowest note sung is degree 1, so it lands where it was sung.
     expect(degrees[0]).toBe(1);
 });
@@ -262,7 +265,7 @@ test('a take never opens with a rest, however long the silence before it', () =>
             )?.notes ?? [];
         expect(notes.length, `${before}ms of silence first`).toBeGreaterThan(0);
         expect(
-            notes[0].degrees.length,
+            notes[0]?.degrees.length,
             `${before}ms of silence first`,
         ).toBeGreaterThan(0);
     }
@@ -291,9 +294,13 @@ test('a hummed tune comes back as that tune', () => {
     const notes = segment(sing(parts));
 
     expect(notes).toHaveLength(HappyBirthday.length);
+    // Each interval is measured against the note before it, which the slice
+    // guarantees exists.
     const intervals = notes
         .slice(1)
-        .map((note, i) => Math.round(note.pitch - notes[i].pitch));
+        .map((note, i) =>
+            Math.round(note.pitch - must(notes[i], 'the note before').pitch),
+        );
     expect(intervals).toEqual(HappyBirthdayIntervals);
 });
 

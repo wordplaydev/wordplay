@@ -63,6 +63,7 @@
     import { findHowToPlacement } from './HowToMovement';
     import HowToPrompt from './HowToPrompt.svelte';
     import HowToTranslationEditor from './HowToTranslationEditor.svelte';
+    import { must } from '@util/nullable';
     import HowToUsedBy from './HowToUsedBy.svelte';
 
     // defining props
@@ -524,7 +525,10 @@
             usedLocales,
             titles,
         );
-        let [writeX, writeY] = howTo.getCoordinates();
+        // A how-to always records both coordinates.
+        const coordinates = howTo.getCoordinates();
+        let writeX = must(coordinates[0], 'an x coordinate');
+        let writeY = must(coordinates[1], 'a y coordinate');
         // Only reposition (and pan to) the how-to when it's transitioning
         // from draft to published. Drafts don't render on the canvas, so
         // repositioning them on every "Save as draft" was disorienting
@@ -607,21 +611,20 @@
         if (!$user || !howTo) return;
         let newReactions;
 
-        if (reactions[reactionLabel]?.includes($user.uid)) {
+        const reacted = reactions[reactionLabel] ?? [];
+        if (reacted.includes($user.uid)) {
             // remove reaction
 
             newReactions = {
                 ...reactions,
-                [reactionLabel]: reactions[reactionLabel].filter(
-                    (uid) => uid !== $user.uid,
-                ),
+                [reactionLabel]: reacted.filter((uid) => uid !== $user.uid),
             };
         } else {
             // add reaction
 
             newReactions = {
                 ...reactions,
-                [reactionLabel]: [...reactions[reactionLabel], $user.uid],
+                [reactionLabel]: [...reacted, $user.uid],
             };
         }
 
@@ -1064,7 +1067,7 @@
         {/if}
         <div class="how-to-text" id="howtoview">
             {#each howTo.getText() as markup, i (i)}
-                <HowToPrompt text={(l) => prompts[i]} />
+                <HowToPrompt text={() => must(prompts[i], `prompt ${i}`)} />
                 <MarkupHTMLView {markup} />
             {/each}
         </div>
@@ -1094,7 +1097,7 @@
         <hr />
 
         {#each howTo.getText() as markup, i (i)}
-            <HowToPrompt text={(l) => prompts[i]} />
+            <HowToPrompt text={() => must(prompts[i], `prompt ${i}`)} />
             <MarkupHTMLView {markup} />
         {/each}
         <!-- The one thing someone outside the space can do about what they just
@@ -1151,7 +1154,7 @@
         </div>
 
         {#each howTo.getText() as markup, i (i)}
-            <HowToPrompt text={(l) => prompts[i]} />
+            <HowToPrompt text={() => must(prompts[i], `prompt ${i}`)} />
             <MarkupHTMLView {markup} />
         {/each}
     {/if}

@@ -13,6 +13,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { contrast } from '../../src/util/colorContrast';
+import { must } from '@util/nullable.ts';
 
 const Root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 
@@ -49,7 +50,8 @@ function hex(name: string): string {
         throw new Error(
             `No hex declaration for --${name} in app.html; the palette moved or was renamed.`,
         );
-    return match[1].toLowerCase();
+    // The pattern's only group is not optional.
+    return must(match[1], 'a hex value').toLowerCase();
 }
 
 /** WCAG 2.2 AA minimum contrast for normal-size text. */
@@ -269,7 +271,10 @@ function blend(from: string, to: string, amount: number): string {
         '#' +
         a
             .map((channel, index) =>
-                Math.round(channel + (b[index] - channel) * amount)
+                // Both colors give three channels, so the index always hits.
+                Math.round(
+                    channel + (must(b[index], 'a channel') - channel) * amount,
+                )
                     .toString(16)
                     .padStart(2, '0'),
             )

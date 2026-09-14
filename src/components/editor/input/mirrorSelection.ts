@@ -60,7 +60,11 @@ export function caretFieldSelection(caret: Caret): {
  * would and its feedback is already paced.
  */
 export function shouldEchoNatively(
-    event: KeyboardEvent,
+    /** The parts of the keystroke this rule reads; a `KeyboardEvent` is one. */
+    event: Pick<
+        KeyboardEvent,
+        'key' | 'ctrlKey' | 'metaKey' | 'altKey' | 'shiftKey'
+    >,
     /** Whether the caret is a plain text position rather than a node or range. */
     caretIsTextPosition: boolean,
 ): boolean {

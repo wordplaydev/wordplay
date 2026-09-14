@@ -102,14 +102,14 @@ test('shadow detection flags winning keywords only, not safe collisions', () => 
     const idxNone = buildKeywordIndex([{ none: 'nada' }]);
     const nadaBind = parseProgram(toTokens('nada: 1', idxNone)).nodes(
         (n): n is Bind => n instanceof Bind,
-    )[0];
-    expect(nadaBind.names.names[0].getShadowedKeyword()).toBeDefined();
+    )[0]!;
+    expect(nadaBind.names.names[0]!.getShadowedKeyword()).toBeDefined();
     // `número` collides with the number type, which never wins over a name → not flagged.
     const idxNum = buildKeywordIndex([{ number: 'número' }]);
     const numBind = parseProgram(toTokens('número: 1', idxNum)).nodes(
         (n): n is Bind => n instanceof Bind,
-    )[0];
-    expect(numBind.names.names[0].getShadowedKeyword()).toBeUndefined();
+    )[0]!;
+    expect(numBind.names.names[0]!.getShadowedKeyword()).toBeUndefined();
 });
 
 test('canonicalize-on-copy: constructs become symbols, shadow-names stay', () => {

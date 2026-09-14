@@ -1,4 +1,5 @@
 import { MachineTranslated, Revised, Unwritten } from '@locale/Annotations';
+import { isRecord } from '@util/guards';
 import { concretizeOrUndefined } from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
@@ -65,11 +66,12 @@ import getTranslator from '@util/verify-locales/getTranslator';
 import { TranslationFailedAdvice } from '@util/verify-locales/getTranslator';
 import type Translator from '@util/verify-locales/Translator';
 import toValidName from '@util/toValidName';
+import { must } from '@util/nullable';
 
 /** Create a copy of the default tutorial with all dialog marked unwritten */
 export function createUnwrittenLocale(): LocaleText {
     // Deep copy default tutorial
-    let locale = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    let locale = structuredClone(DefaultLocale);
 
     // Find the translatable pairs
     const pairs = getCheckableLocalePairs(locale);
@@ -92,8 +94,10 @@ export function createUnwrittenLocale(): LocaleText {
     return locale;
 }
 
-/** Get translatable keys for locale text */
-export function getCheckableLocalePairs(locale: LocaleText): LocalePath[] {
+/** Get translatable keys for locale text. Takes any object, like
+ *  `getKeyTemplatePairs`: what is walked is the value's own keys, so a record
+ *  read from JSON is as good an argument as a typed locale. */
+export function getCheckableLocalePairs(locale: object): LocalePath[] {
     // Find the translatable pairs
     return getKeyTemplatePairs(locale).filter((pair) => {
         // An emotion identifier is from a closed set, not prose. Keyed off the
@@ -327,7 +331,7 @@ async function checkLocale(
     checkpoint?: (partial: LocaleText) => Promise<void>,
 ): Promise<LocaleText> {
     // Make a copy of the original to modify.
-    let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
+    let revised = structuredClone(original);
 
     // This locale's word list, and its keys, so a `$term` reference both resolves
     // to its phrase and isn't flagged as an unknown input while checking below.
@@ -752,7 +756,7 @@ function repairLocale(
     source: LocaleText,
     target: LocaleText,
 ): LocaleText {
-    const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
+    const revised = structuredClone(target);
 
     // A drifted locale emits one line per key, so group them — the whole repair
     // reads as one block rather than dozens of loose siblings.
@@ -805,7 +809,7 @@ export async function translateLocale(
      *  so a caller can write progress to disk; see `CHECKPOINT_PATHS`. */
     checkpoint?: (partial: LocaleText) => Promise<void>,
 ) {
-    const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
+    const revised = structuredClone(target);
 
     // Which element indices of each non-markup array to send, memoized so the
     // request builder and the write-back below consume the translation stream
@@ -865,8 +869,9 @@ export async function translateLocale(
             if (Array.isArray(match))
                 return classifyPair(path) === 'markup'
                     ? [match.map(stripMarkers).join('\n\n')]
-                    : indicesFor(path, match).map((index) =>
-                          stripMarkers(match[index]),
+                    : // `indicesFor` answers indices into `match`.
+                      indicesFor(path, match).map((index) =>
+                          stripMarkers(must(match[index], 'an element')),
                       );
             return [stripMarkers(match)];
         });
@@ -937,14 +942,14 @@ export async function translateLocale(
                     const translated = new Set(indicesFor(path, match));
                     const value: string[] = [];
                     let wroteAny = false;
-                    for (let count = 0; count < match.length; count++) {
+                    for (const [count, element] of match.entries()) {
                         // An element that wasn't sent keeps its existing
                         // translation verbatim, markers and all.
                         if (!translated.has(count)) {
                             const kept = existingItems?.[count];
                             value.push(
                                 kept === undefined
-                                    ? keepOrPlacehold(undefined, match[count])
+                                    ? keepOrPlacehold(undefined, element)
                                     : kept,
                             );
                             continue;
@@ -958,7 +963,7 @@ export async function translateLocale(
                             value.push(
                                 keepOrPlacehold(
                                     existingItems?.[count],
-                                    match[count],
+                                    element,
                                 ),
                             );
                         }
@@ -1097,19 +1102,14 @@ export function removeExtraKeys(
         else {
             const sourceValue = source[key];
             if (
-                typeof targetValue === 'object' &&
-                targetValue !== null &&
-                !Array.isArray(targetValue) &&
-                typeof sourceValue === 'object' &&
-                sourceValue !== null &&
+                isRecord(targetValue) &&
+                isRecord(sourceValue) &&
                 !Array.isArray(sourceValue)
             )
-                removeExtraKeys(
-                    log,
-                    sourceValue as Record<string, unknown>,
-                    targetValue as Record<string, unknown>,
-                    [...segments, key],
-                );
+                removeExtraKeys(log, sourceValue, targetValue, [
+                    ...segments,
+                    key,
+                ]);
             // If they are arrays, go through them and remove any extra keys.
             else if (
                 Array.isArray(targetValue) &&
@@ -1170,29 +1170,23 @@ export function addMissingKeys(
                 sourceValue !== null &&
                 !Array.isArray(sourceValue)
             ) {
-                if (
-                    typeof targetValue === 'object' &&
-                    targetValue !== null &&
-                    !Array.isArray(targetValue)
-                )
-                    addMissingKeys(
-                        log,
-                        sourceValue as Record<string, unknown>,
-                        targetValue as Record<string, unknown>,
-                        [...segments, key],
-                    );
+                if (isRecord(targetValue) && isRecord(sourceValue))
+                    addMissingKeys(log, sourceValue, targetValue, [
+                        ...segments,
+                        key,
+                    ]);
                 else if (
                     typeof targetValue === 'string' &&
                     (targetValue.startsWith(MachineTranslated) ||
                         targetValue === Unwritten)
                 ) {
-                    target[key] = {} as Record<string, unknown>;
-                    addMissingKeys(
-                        log,
-                        sourceValue as Record<string, unknown>,
-                        target[key] as Record<string, unknown>,
-                        [...segments, key],
-                    );
+                    const replacement: Record<string, unknown> = {};
+                    target[key] = replacement;
+                    if (isRecord(sourceValue))
+                        addMissingKeys(log, sourceValue, replacement, [
+                            ...segments,
+                            key,
+                        ]);
                 } else
                     log.bad(
                         `Target has the key ${key}, but it's not an object. Repair manually: ${targetValue}`,
@@ -1278,8 +1272,8 @@ function placehold(
         return value.map((item, index) =>
             placehold(item, [...segments, index]),
         );
-    else if (typeof value === 'object' && value !== null) {
-        const copy = { ...value } as Record<string, unknown>;
+    else if (isRecord(value)) {
+        const copy: Record<string, unknown> = { ...value };
         for (const key of Object.keys(copy))
             copy[key] = placehold(copy[key], [...segments, key]);
         return copy;

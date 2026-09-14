@@ -1,4 +1,7 @@
 import type Project from '@db/projects/Project';
+import type Bind from '@nodes/Bind';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import { must } from '@util/nullable';
 import { getNumber } from '@components/palette/editOutput';
 import type Context from '@nodes/Context';
 import Evaluate from '@nodes/Evaluate';
@@ -40,7 +43,10 @@ function pathPoints(
     form: Evaluate,
     context: Context,
 ): { list: ListLiteral; points: { x: number; y: number }[] } | undefined {
-    const given = form.getInput(project.shares.output.Path.inputs[0], context);
+    const given = form.getInput(
+        inputOf(project.shares.output.Path, 0),
+        context,
+    );
     if (!(given instanceof ListLiteral)) return undefined;
     const points: { x: number; y: number }[] = [];
     for (const item of given.values) {
@@ -70,18 +76,19 @@ function withMovedPoints(
     if (read === undefined) return undefined;
     const moved = ListLiteral.make(
         read.list.values.map((item, index) => {
-            if (!(item instanceof Evaluate)) return item;
-            const to = move(read.points[index]);
+            const point = read.points[index];
+            if (!(item instanceof Evaluate) || point === undefined) return item;
+            const to = move(point);
             const place = project.shares.output.Place;
             // withBindAs rather than rebuilding positionally, so a place written with named
             // inputs, or carrying a z, keeps what it had.
             return item
-                .withBindAs(place.inputs[0], m(to.x), context)
-                .withBindAs(place.inputs[1], m(to.y), context);
+                .withBindAs(inputOf(place, 0), m(to.x), context)
+                .withBindAs(inputOf(place, 1), m(to.y), context);
         }),
     );
     return form.withBindAs(
-        project.shares.output.Path.inputs[0],
+        inputOf(project.shares.output.Path, 0),
         moved,
         context,
     );
@@ -120,7 +127,7 @@ function withPoints(
     values: (Expression | Spread)[],
 ): Evaluate {
     return form.withBindAs(
-        project.shares.output.Path.inputs[0],
+        inputOf(project.shares.output.Path, 0),
         ListLiteral.make(values),
         context,
     );
@@ -139,8 +146,8 @@ export function withMovedPathPoint(
     if (read === undefined || !(item instanceof Evaluate)) return undefined;
     const placeType = project.shares.output.Place;
     const moved = item
-        .withBindAs(placeType.inputs[0], m(to.x), context)
-        .withBindAs(placeType.inputs[1], m(to.y), context);
+        .withBindAs(inputOf(placeType, 0), m(to.x), context)
+        .withBindAs(inputOf(placeType, 1), m(to.y), context);
     return withPoints(
         project,
         form,
@@ -208,6 +215,15 @@ export function withoutPathPoint(
     );
 }
 
+/**
+ * One of a definition's positional inputs. The output types these edits work
+ * on are basis definitions with fixed inputs, so an index that names none is a
+ * defect in the basis rather than something a program can cause.
+ */
+function inputOf(def: StructureDefinition, index: number): Bind {
+    return must(def.inputs[index], `input ${index} of ${def.getDescriptor()}`);
+}
+
 /** Read the numeric value of one of the form's inputs, or undefined if computed/missing. Falls back
  *  to the input's DEFAULT when it isn't explicitly given — e.g. Circle/Polygon `x`/`y` default to
  *  `0m`, so a `Polygon(4m 5)` with no explicit center still resolves to (0, 0) and can be moved
@@ -228,6 +244,7 @@ function coord(
               ? project.shares.output.Circle
               : project.shares.output.Polygon;
     const bind = def.inputs[index];
+    if (bind === undefined) return undefined;
     const given = form.getInput(bind, context);
     // Explicit value if provided, otherwise the bind's default expression (e.g. `0m`).
     const expression = given instanceof Expression ? given : bind.value;
@@ -284,7 +301,9 @@ export function getFormAnchor(
             return undefined;
         return { x: Math.min(left, right), y: Math.max(top, bottom) };
     } else {
-        const [xi, yi] = positions(kind).center!;
+        const center = positions(kind).center;
+        if (center === undefined) return undefined;
+        const [xi, yi] = center;
         const radius = coord(form, 0, project, kind, context);
         const x = coord(form, xi, project, kind, context);
         const y = coord(form, yi, project, kind, context);
@@ -317,26 +336,38 @@ export function translateFormTo(
 
     if (kind === 'rectangle') {
         const R = project.shares.output.Rectangle;
-        const left = coord(form, 0, project, kind, context)!;
-        const top = coord(form, 1, project, kind, context)!;
-        const right = coord(form, 2, project, kind, context)!;
-        const bottom = coord(form, 3, project, kind, context)!;
+        const left = coord(form, 0, project, kind, context);
+        const top = coord(form, 1, project, kind, context);
+        const right = coord(form, 2, project, kind, context);
+        const bottom = coord(form, 3, project, kind, context);
+        // The anchor above was computed from these same literals, so each is
+        // present; the check says so where the compiler can't follow.
+        if (
+            left === undefined ||
+            top === undefined ||
+            right === undefined ||
+            bottom === undefined
+        )
+            return undefined;
         return form
-            .withBindAs(R.inputs[0], m(left + dx), context)
-            .withBindAs(R.inputs[1], m(top + dy), context)
-            .withBindAs(R.inputs[2], m(right + dx), context)
-            .withBindAs(R.inputs[3], m(bottom + dy), context);
+            .withBindAs(inputOf(R, 0), m(left + dx), context)
+            .withBindAs(inputOf(R, 1), m(top + dy), context)
+            .withBindAs(inputOf(R, 2), m(right + dx), context)
+            .withBindAs(inputOf(R, 3), m(bottom + dy), context);
     } else {
         const def =
             kind === 'circle'
                 ? project.shares.output.Circle
                 : project.shares.output.Polygon;
-        const [xi, yi] = positions(kind).center!;
-        const x = coord(form, xi, project, kind, context)!;
-        const y = coord(form, yi, project, kind, context)!;
+        const center = positions(kind).center;
+        if (center === undefined) return undefined;
+        const [xi, yi] = center;
+        const x = coord(form, xi, project, kind, context);
+        const y = coord(form, yi, project, kind, context);
+        if (x === undefined || y === undefined) return undefined;
         return form
-            .withBindAs(def.inputs[xi], m(x + dx), context)
-            .withBindAs(def.inputs[yi], m(y + dy), context);
+            .withBindAs(inputOf(def, xi), m(x + dx), context)
+            .withBindAs(inputOf(def, yi), m(y + dy), context);
     }
 }
 
@@ -379,10 +410,10 @@ export function scaleForm(
         const cx = (left + right) / 2;
         const cy = (top + bottom) / 2;
         return form
-            .withBindAs(R.inputs[0], m(cx + (left - cx) * ratio), context)
-            .withBindAs(R.inputs[1], m(cy + (top - cy) * ratio), context)
-            .withBindAs(R.inputs[2], m(cx + (right - cx) * ratio), context)
-            .withBindAs(R.inputs[3], m(cy + (bottom - cy) * ratio), context);
+            .withBindAs(inputOf(R, 0), m(cx + (left - cx) * ratio), context)
+            .withBindAs(inputOf(R, 1), m(cy + (top - cy) * ratio), context)
+            .withBindAs(inputOf(R, 2), m(cx + (right - cx) * ratio), context)
+            .withBindAs(inputOf(R, 3), m(cy + (bottom - cy) * ratio), context);
     } else {
         const def =
             kind === 'circle'
@@ -391,7 +422,7 @@ export function scaleForm(
         const radius = coord(form, 0, project, kind, context);
         if (radius === undefined) return undefined;
         return form.withBindAs(
-            def.inputs[0],
+            inputOf(def, 0),
             m(Math.max(0.1, radius * ratio)),
             context,
         );

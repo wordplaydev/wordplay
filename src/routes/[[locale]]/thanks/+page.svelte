@@ -11,15 +11,13 @@
     const total = (c: Contributor) =>
         Object.values(c.counts).reduce((sum, n) => sum + n, 0);
 
-    const contributors = (contributorsData.contributors as Contributor[])
-        .slice()
-        .sort((a, b) => {
-            const dayCompare = b.latest
-                .slice(0, 10)
-                .localeCompare(a.latest.slice(0, 10));
-            return dayCompare !== 0 ? dayCompare : total(b) - total(a);
-        });
-    const teachers = teachersData.teachers as Teacher[];
+    const contributors = contributorsData.contributors.slice().sort((a, b) => {
+        const dayCompare = b.latest
+            .slice(0, 10)
+            .localeCompare(a.latest.slice(0, 10));
+        return dayCompare !== 0 ? dayCompare : total(b) - total(a);
+    });
+    const teachers: Teacher[] = teachersData.teachers;
 </script>
 
 <Page>

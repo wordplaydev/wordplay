@@ -39,7 +39,7 @@ export type SourceLibrary = {
         | { kind: 'local'; base: string };
 };
 
-export const Sources: Record<string, SourceLibrary> = {
+export const Sources = {
     vcsl: {
         id: 'vcsl',
         name: 'Versilian Community Sample Library',
@@ -103,4 +103,7 @@ export const Sources: Record<string, SourceLibrary> = {
             note: 'Renoise XRNI archive; entries are zips containing FLAC samples and an Instrument.xml.',
         },
     },
-};
+} satisfies Record<string, SourceLibrary>;
+
+/** The id of a library the pipeline knows how to fetch from. */
+export type SourceId = keyof typeof Sources;

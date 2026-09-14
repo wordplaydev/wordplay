@@ -8,7 +8,8 @@ import {
     bundleTexts,
     releaseTexts,
     type UpdatesBundle,
-    type UpdateTranslations,
+    UpdatesBundleSchema,
+    UpdateTranslationsSchema,
 } from '@locale/UpdatesBundle';
 import { toMarkup } from '@parser/toMarkup';
 import { restoreExampleSyntax } from '@util/verify-locales/restoreExampleSyntax';
@@ -49,9 +50,10 @@ export function updatesFilePath(locale: string): string {
 export function readStructuralBundle(): UpdatesBundle | undefined {
     if (!fs.existsSync(StructuralPath)) return undefined;
     try {
-        return JSON.parse(
-            fs.readFileSync(StructuralPath, 'utf-8'),
-        ) as UpdatesBundle;
+        const parsed = UpdatesBundleSchema.safeParse(
+            JSON.parse(fs.readFileSync(StructuralPath, 'utf-8')),
+        );
+        return parsed.success ? parsed.data : undefined;
     } catch (_) {
         return undefined;
     }
@@ -63,11 +65,11 @@ export function readTranslations(locale: string): Record<string, string> {
     const filePath = updatesFilePath(locale);
     if (!fs.existsSync(filePath)) return {};
     try {
-        const bundle = JSON.parse(
-            fs.readFileSync(filePath, 'utf-8'),
-        ) as UpdateTranslations;
-        if (bundle.format !== BundleFormat) return {};
-        return bundle.entries ?? {};
+        const parsed = UpdateTranslationsSchema.safeParse(
+            JSON.parse(fs.readFileSync(filePath, 'utf-8')),
+        );
+        if (!parsed.success || parsed.data.format !== BundleFormat) return {};
+        return parsed.data.entries;
     } catch (_) {
         return {};
     }

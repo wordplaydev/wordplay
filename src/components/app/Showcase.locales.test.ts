@@ -1,3 +1,4 @@
+import { isLocaleText } from '@locale/isLocaleText';
 import type LocaleText from '@locale/LocaleText';
 import { sweepSkipsLocaleText } from '@util/verify-locales/exampleFreshness';
 import fs from 'fs';
@@ -25,10 +26,12 @@ function translatedLocales(): { name: string; locale: LocaleText }[] {
         if (name === 'en-US') continue;
         const file = path.join(dir, name, `${name}.json`);
         if (!fs.existsSync(file)) continue;
-        locales.push({
-            name,
-            locale: JSON.parse(fs.readFileSync(file, 'utf8')) as LocaleText,
-        });
+        // Read through the app's own shape guard, so a truncated or unrelated
+        // file fails here rather than as an undefined deep inside `l.ui.…`.
+        const data: unknown = JSON.parse(fs.readFileSync(file, 'utf8'));
+        if (!isLocaleText(data))
+            throw new Error(`${file} is not a locale file`);
+        locales.push({ name, locale: data });
     }
     return locales;
 }

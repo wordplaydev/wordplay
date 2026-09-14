@@ -61,10 +61,12 @@ export default class PatternType extends BasisType {
     }
 
     clone(replace?: Replacement) {
-        return new PatternType(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('close', this.close, replace),
-        ) as this;
+        return this.cloned(
+            new PatternType(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('close', this.close, replace),
+            ),
+        );
     }
 
     computeConflicts() {

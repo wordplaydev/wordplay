@@ -6,8 +6,7 @@
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { locales } from '@db/Database';
-    import type { SerializedGallery } from '@db/galleries/Gallery';
-    import Gallery, { upgradeGallery } from '@db/galleries/Gallery';
+    import { parseGallery } from '@db/galleries/Gallery';
     import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
     import GalleryProjects from './GalleryProjects.svelte';
     import ModerationQueue from './ModerationQueue.svelte';
@@ -17,7 +16,7 @@
     kind="gallery"
     collectionName={GalleriesCollection}
     order={{ field: 'id' }}
-    parse={(data) => new Gallery(upgradeGallery(data as SerializedGallery))}
+    parse={(data) => parseGallery(data)}
     idOf={(gallery) => gallery.getID()}
     text={{
         header: (l) => l.moderation.moderate.header,

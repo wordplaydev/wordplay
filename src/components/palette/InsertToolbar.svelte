@@ -146,8 +146,12 @@
     ]);
 
     /** What is heard rather than seen, after the things that are seen. */
+    // A pair rather than a list, since the two are rendered at their own items.
     let sounds = $derived<
-        { kind: InsertKind; glyph: string; tip: LocaleTextAccessor }[]
+        [
+            music: { kind: InsertKind; glyph: string; tip: LocaleTextAccessor },
+            say: { kind: InsertKind; glyph: string; tip: LocaleTextAccessor },
+        ]
     >([
         {
             kind: 'music',
@@ -184,12 +188,14 @@
 {#snippet renderItem(i: number)}
     {#if i < adds.length}
         {@const add = adds[i]}
-        <Button
-            tip={add.tip}
-            active={editable}
-            action={() => insert(add.kind)}
-            icon={add.glyph}
-        ></Button>
+        {#if add !== undefined}
+            <Button
+                tip={add.tip}
+                active={editable}
+                action={() => insert(add.kind)}
+                icon={add.glyph}
+            ></Button>
+        {/if}
     {:else if i === GroupItem}
         <!-- Grouping acts on the selection rather than adding, so unlike every
              other button it is legitimately inactive: with nothing selected

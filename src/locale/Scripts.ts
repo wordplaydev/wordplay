@@ -11,6 +11,17 @@ export type WritingLayoutSymbol =
     | typeof VerticalLeftRightLayout
     | typeof VerticalRightLeftLayout;
 
+/** Whether creator text names a writing layout, narrowing it when it does. */
+export function isWritingLayoutSymbol(
+    text: string,
+): text is WritingLayoutSymbol {
+    return (
+        text === HorizontalLayout ||
+        text === VerticalLeftRightLayout ||
+        text === VerticalRightLeftLayout
+    );
+}
+
 export const CSSByLayout: Record<WritingLayoutSymbol, WritingLayout> = {
     '↔↓': 'horizontal-tb',
     '↕←': 'vertical-rl',

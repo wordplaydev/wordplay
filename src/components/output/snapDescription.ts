@@ -10,6 +10,7 @@
  */
 
 import type Locales from '@locale/Locales';
+import { must } from '@util/nullable';
 import { describePlace } from './direction';
 import type { Anchor, Axis, Guide } from './snap';
 
@@ -32,8 +33,10 @@ const AnchorIndex: Record<Anchor, number> = {
 const DirectionIndex = { x: { '-1': 6, '1': 2 }, y: { '-1': 4, '1': 0 } };
 
 function anchorWord(locales: Locales, anchor: Anchor) {
-    return locales.getPrimaryPlainText(
-        (l) => l.ui.output.snap.anchors[AnchorIndex[anchor]],
+    // Each locale's anchors list is a positional array with one entry per
+    // anchor, held to en-US's length by the locale verifier.
+    return locales.getPrimaryPlainText((l) =>
+        must(l.ui.output.snap.anchors[AnchorIndex[anchor]], 'an anchor word'),
     );
 }
 
@@ -85,8 +88,11 @@ export function describeNoAlignment(
 ) {
     return locales
         .concretize((l) => l.ui.output.snap.none, {
-            direction: locales.getPrimaryPlainText(
-                (l) => l.ui.output.directions[DirectionIndex[axis][direction]],
+            direction: locales.getPrimaryPlainText((l) =>
+                must(
+                    l.ui.output.directions[DirectionIndex[axis][direction]],
+                    'a direction word',
+                ),
             ),
         })
         .toText();

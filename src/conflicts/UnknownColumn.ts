@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import { toResolutions } from '@conflicts/Conflict';
 import type Expression from '@nodes/Expression';
 import Input from '@nodes/Input';
 import type TableType from '@nodes/TableType';
@@ -65,9 +66,10 @@ export default class UnknownColumn extends Conflict {
                 break;
             }
         }
-        if (candidates.length === 0)
-            return Conflict.fallbackExplainer(this, context, concepts);
-        return candidates as readonly Repair[] as Resolutions;
+        return (
+            toResolutions(candidates) ??
+            Conflict.fallbackExplainer(this, context, concepts)
+        );
     }
 
     getLocalePath() {

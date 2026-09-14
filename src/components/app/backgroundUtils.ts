@@ -1,9 +1,14 @@
 import UnicodeString from '@unicode/UnicodeString';
+import { must } from '@util/nullable';
 import BasisCharacters from '../../lore/BasisCharacters';
 
-/** A random element of a non-empty array. */
+/** A random element of a non-empty array. Callers check for emptiness first
+ *  (or pass a literal list), so an absent element is a broken caller. */
 export function pickRandom<Type>(items: Type[]): Type {
-    return items[Math.floor(Math.random() * items.length)];
+    return must(
+        items[Math.floor(Math.random() * items.length)],
+        'a random item',
+    );
 }
 
 /** The tutorial's character cast: distinct single-glyph symbols from {@link BasisCharacters},

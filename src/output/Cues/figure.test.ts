@@ -11,6 +11,7 @@ import { toPose } from '@output/animation/Pose';
 import Transition from '@output/animation/Transition';
 import Evaluator from '@runtime/Evaluator';
 import ListValue from '@values/ListValue';
+import { must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 
 /**
@@ -69,8 +70,8 @@ describe('what a pose sounds like', () => {
         );
         expect(figure).toHaveLength(2);
         const base = baseHzOf('tree');
-        expect(figure[0].hz).toBeGreaterThan(base);
-        expect(figure[1].hz).toBeLessThan(base);
+        expect(figure[0]?.hz).toBeGreaterThan(base);
+        expect(figure[1]?.hz).toBeLessThan(base);
     });
 
     test('moving side to side pans side to side', () => {
@@ -84,8 +85,8 @@ describe('what a pose sounds like', () => {
         );
         expect(figure).toHaveLength(2);
         // Where it is, not which way it went, so a shimmy is heard moving.
-        expect(figure[0].pan).toBeGreaterThan(0);
-        expect(figure[1].pan).toBeLessThan(0);
+        expect(figure[0]?.pan).toBeGreaterThan(0);
+        expect(figure[1]?.pan).toBeLessThan(0);
     });
 
     test('a fading output fades out', () => {
@@ -95,12 +96,19 @@ describe('what a pose sounds like', () => {
         expect(figure).toHaveLength(1);
         // Gain follows opacity, so a fadeout ends in near-silence rather than
         // announcing its own disappearance at full volume.
-        expect(figure[0].gain).toBeLessThan(Cues.pose.gain * 0.5);
+        expect(figure[0]?.gain).toBeLessThan(Cues.pose.gain * 0.5);
     });
 
     test('growing sounds bigger: lower and longer', () => {
-        const [small] = figureFor(animation(`[🤪(scale: 1) 🤪(scale: 2)]`));
-        const [large] = figureFor(animation(`[🤪(scale: 1) 🤪(scale: 1.1)]`));
+        // Each of these two-pose animations sounds exactly one cue.
+        const small = must(
+            figureFor(animation(`[🤪(scale: 1) 🤪(scale: 2)]`))[0],
+            'a cue for the bigger growth',
+        );
+        const large = must(
+            figureFor(animation(`[🤪(scale: 1) 🤪(scale: 1.1)]`))[0],
+            'a cue for the smaller growth',
+        );
         expect(small.hz).toBeLessThan(large.hz);
         expect(small.ms).toBeGreaterThan(large.ms);
     });
@@ -207,13 +215,15 @@ describe('keeping a figure hearable', () => {
     });
 
     test('where two collide the smaller change loses', () => {
-        const [first, second] = at(0, FigureSpacingMs / 2);
+        const colliding = at(0, FigureSpacingMs / 2);
+        const first = must(colliding[0], 'the first cue');
+        const second = must(colliding[1], 'the second cue');
         const kept = thin([
             { ...first, magnitude: 0.2 },
             { ...second, magnitude: 0.9 },
         ]);
         expect(kept).toHaveLength(1);
-        expect(kept[0].magnitude).toBe(0.9);
+        expect(kept[0]?.magnitude).toBe(0.9);
     });
 
     test('what survives stays in time order', () => {

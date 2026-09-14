@@ -11,6 +11,7 @@ import {
     unwrapProtected,
     wrapProtected,
 } from './protect';
+import { must } from '@util/nullable';
 
 // Re-export the backend-agnostic protection/repair helpers from their new home
 // so existing importers (and translate.test.ts) keep working unchanged.
@@ -192,9 +193,10 @@ export default async function translate(
                 .map(unwrapProtected)
                 .map(decodeHtmlEntities)
                 // Restore concept links (`@Foo`) using order-based matching.
+                // Each list below is a map of `batch`, so the index always hits.
                 .map((translation, index) =>
                     restoreReferences(
-                        batch[index],
+                        must(batch[index], 'a source string'),
                         translation,
                         ConceptPattern,
                     ),
@@ -203,7 +205,10 @@ export default async function translate(
                 // reason and a `$name` got mangled anyway, fall back to a
                 // positional repair against the source's mention list.
                 .map((translation, index) =>
-                    repairMentionsPositional(batch[index], translation),
+                    repairMentionsPositional(
+                        must(batch[index], 'a source string'),
+                        translation,
+                    ),
                 )
                 // Final safety net: Google can REORDER protected `\…\` spans
                 // (especially in RTL locales like he/ar), orphaning a `\` and
@@ -214,7 +219,7 @@ export default async function translate(
                 .map((translation, index) =>
                     preserveBalancedDelimiters(
                         log,
-                        batch[index],
+                        must(batch[index], 'a source string'),
                         translation,
                         targetLocale,
                     ),

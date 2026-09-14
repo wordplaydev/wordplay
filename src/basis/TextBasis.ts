@@ -1,4 +1,6 @@
 import { getDocLocales } from '@locale/getDocLocales';
+import type Bind from '@nodes/Bind';
+import { must } from '@util/nullable';
 import { getNameLocales } from '@locale/getNameLocales';
 import { textToFormatted } from '@basis/FormattedBasis';
 import Block, { BlockKind } from '@nodes/Block';
@@ -25,7 +27,6 @@ import TextValue from '@values/TextValue';
 import type Value from '@values/Value';
 import type Names from '@nodes/Names';
 import PatternType from '@nodes/PatternType';
-import type { PatternMatch } from '@runtime/pattern/match';
 import { getMatchLoop, matchStepBuilder } from '@runtime/pattern/matchSteps';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
@@ -38,6 +39,12 @@ import {
 } from '@basis/Basis';
 
 const MAX_TEXT_LENGTH = 65536;
+
+/** One of the shared `Result` structure's inputs. It is a basis definition
+ *  with fixed inputs, so an index naming none is a defect in the basis. */
+function resultInput(def: StructureDefinition, index: number): Bind {
+    return must(def.inputs[index], `input ${index} of Result`);
+}
 
 export default function bootstrapText(locales: Locales) {
     function createBinaryTextFunction<OutputType extends Value>(
@@ -56,7 +63,13 @@ export default function bootstrapText(locales: Locales) {
             [TextType.make()],
             outputType,
             (requestor, evaluation) => {
-                const text = evaluation.getClosure() as TextValue;
+                const text = evaluation.getClosure();
+                if (!(text instanceof TextValue))
+                    return evaluation.getValueOrTypeException(
+                        requestor,
+                        TextType.make(),
+                        text,
+                    );
                 const input = evaluation.getInput(0);
                 if (input === undefined || !(input instanceof TextValue))
                     return evaluation.getValueOrTypeException(
@@ -83,8 +96,16 @@ export default function bootstrapText(locales: Locales) {
                     undefined,
                     [],
                     NumberType.make(),
-                    (requestor, evaluator) =>
-                        (evaluator.getClosure() as TextValue).length(requestor),
+                    (requestor, evaluator) => {
+                        const text = evaluator.getClosure();
+                        if (!(text instanceof TextValue))
+                            return evaluator.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                text,
+                            );
+                        return text.length(requestor);
+                    },
                 ),
                 // Case conversion takes its locale from the receiver's own tag,
                 // since only the tag says what language the letters are in; an
@@ -96,10 +117,16 @@ export default function bootstrapText(locales: Locales) {
                     undefined,
                     [],
                     TextType.make(undefined, (left) => left),
-                    (requestor, evaluation) =>
-                        (evaluation.getClosure() as TextValue).uppercase(
-                            requestor,
-                        ),
+                    (requestor, evaluation) => {
+                        const text = evaluation.getClosure();
+                        if (!(text instanceof TextValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                text,
+                            );
+                        return text.uppercase(requestor);
+                    },
                 ),
                 createBasisFunction(
                     locales,
@@ -107,10 +134,16 @@ export default function bootstrapText(locales: Locales) {
                     undefined,
                     [],
                     TextType.make(undefined, (left) => left),
-                    (requestor, evaluation) =>
-                        (evaluation.getClosure() as TextValue).lowercase(
-                            requestor,
-                        ),
+                    (requestor, evaluation) => {
+                        const text = evaluation.getClosure();
+                        if (!(text instanceof TextValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                text,
+                            );
+                        return text.lowercase(requestor);
+                    },
                 ),
                 // Position-based operations count in graphemes, matching
                 // `length` and `→ ['']`, so an emoji is never cut in half.
@@ -170,7 +203,13 @@ export default function bootstrapText(locales: Locales) {
                     [TextType.make()],
                     UnionType.make(NumberType.make(), NoneType.make()),
                     (requestor, evaluation) => {
-                        const text = evaluation.getClosure() as TextValue;
+                        const text = evaluation.getClosure();
+                        if (!(text instanceof TextValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                text,
+                            );
                         const input = evaluation.getInput(0);
                         if (!(input instanceof TextValue))
                             return evaluation.getValueOrTypeException(
@@ -195,7 +234,13 @@ export default function bootstrapText(locales: Locales) {
                         Language.union(left, right),
                     ),
                     (requestor, evaluation) => {
-                        const text = evaluation.getClosure() as TextValue;
+                        const text = evaluation.getClosure();
+                        if (!(text instanceof TextValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                text,
+                            );
                         const of = evaluation.getInput(0);
                         const replacement = evaluation.getInput(1);
                         if (!(of instanceof TextValue))
@@ -219,8 +264,16 @@ export default function bootstrapText(locales: Locales) {
                     undefined,
                     [],
                     TextType.make(undefined, (left) => left),
-                    (requestor, evaluation) =>
-                        (evaluation.getClosure() as TextValue).trim(requestor),
+                    (requestor, evaluation) => {
+                        const text = evaluation.getClosure();
+                        if (!(text instanceof TextValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                text,
+                            );
+                        return text.trim(requestor);
+                    },
                 ),
                 createBasisFunction(
                     locales,
@@ -228,10 +281,16 @@ export default function bootstrapText(locales: Locales) {
                     undefined,
                     [],
                     TextType.make(undefined, (left) => left),
-                    (requestor, evaluation) =>
-                        (evaluation.getClosure() as TextValue).reverse(
-                            requestor,
-                        ),
+                    (requestor, evaluation) => {
+                        const text = evaluation.getClosure();
+                        if (!(text instanceof TextValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                text,
+                            );
+                        return text.reverse(requestor);
+                    },
                 ),
                 createBasisFunction(
                     locales,
@@ -312,7 +371,13 @@ export default function bootstrapText(locales: Locales) {
                         Language.union(left, right),
                     ),
                     (requestor, evaluation) => {
-                        const text = evaluation.getClosure() as TextValue;
+                        const text = evaluation.getClosure();
+                        if (!(text instanceof TextValue))
+                            return evaluation.getValueOrTypeException(
+                                requestor,
+                                TextType.make(),
+                                text,
+                            );
                         const other = evaluation.getInput(0);
                         if (
                             other === undefined ||
@@ -340,7 +405,9 @@ export default function bootstrapText(locales: Locales) {
                         evaluation.unscope();
                         return new BoolValue(
                             requestor,
-                            (state?.result as boolean) ?? false,
+                            typeof state?.result === 'boolean'
+                                ? state.result
+                                : false,
                         );
                     },
                     matchStepBuilder(false),
@@ -356,33 +423,38 @@ export default function bootstrapText(locales: Locales) {
                     [PatternType.make()],
                     ListType.make(
                         NameType.make(
-                            getResultTypeNames(locales).getNames()[0],
+                            must(
+                                getResultTypeNames(locales).getNames()[0],
+                                'a name for Result',
+                            ),
                         ),
                     ),
                     (requestor, evaluation) => {
                         const evaluator = evaluation.getEvaluator();
                         const state = getMatchLoop(evaluator);
                         evaluation.unscope();
-                        const matches = (state?.result as PatternMatch[]) ?? [];
+                        const matches = Array.isArray(state?.result)
+                            ? state.result
+                            : [];
                         const ResultType =
                             evaluator.project.shares.output.Result;
                         const results = matches.map((m) => {
                             const bindings = new Map<Names, Value>();
                             bindings.set(
-                                ResultType.inputs[0].names,
+                                resultInput(ResultType, 0).names,
                                 new TextValue(requestor, m.text),
                             );
                             bindings.set(
-                                ResultType.inputs[1].names,
+                                resultInput(ResultType, 1).names,
                                 new NumberValue(requestor, m.start + 1),
                             );
                             bindings.set(
-                                ResultType.inputs[2].names,
+                                resultInput(ResultType, 2).names,
                                 new NumberValue(requestor, m.end),
                             );
                             const caps = [...m.caps];
                             bindings.set(
-                                ResultType.inputs[3].names,
+                                resultInput(ResultType, 3).names,
                                 new MapValue(
                                     requestor,
                                     caps.map(([name, c]) => [
@@ -392,7 +464,7 @@ export default function bootstrapText(locales: Locales) {
                                 ),
                             );
                             bindings.set(
-                                ResultType.inputs[4].names,
+                                resultInput(ResultType, 4).names,
                                 new MapValue(
                                     requestor,
                                     caps.map(([name, c]) => [
@@ -402,7 +474,7 @@ export default function bootstrapText(locales: Locales) {
                                 ),
                             );
                             bindings.set(
-                                ResultType.inputs[5].names,
+                                resultInput(ResultType, 5).names,
                                 new MapValue(
                                     requestor,
                                     caps.map(([name, c]) => [
@@ -428,6 +500,7 @@ export default function bootstrapText(locales: Locales) {
                     ),
                     '""',
                     '[""]',
+                    TextValue,
                     (requestor: Expression, val: TextValue) =>
                         val.segment(requestor, ''),
                 ),
@@ -438,6 +511,7 @@ export default function bootstrapText(locales: Locales) {
                     ),
                     '""',
                     '#',
+                    TextValue,
                     (requestor: Expression, val: TextValue) =>
                         new NumberValue(requestor, val.text),
                 ),
@@ -448,6 +522,7 @@ export default function bootstrapText(locales: Locales) {
                     ),
                     TextType.make(),
                     FormattedType.make(),
+                    TextValue,
                     (requestor: Expression, val: TextValue) =>
                         textToFormatted(requestor, val),
                 ),

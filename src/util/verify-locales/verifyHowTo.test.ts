@@ -26,6 +26,7 @@ import { withoutColorSelector } from '@unicode/emoji';
 import fs from 'fs';
 import path from 'path';
 import { describe, expect, it } from 'vitest';
+import { must } from '@util/nullable';
 
 // Test the helper functions and logic that can be unit tested
 describe('verifyHowTo helpers', () => {
@@ -152,7 +153,8 @@ describe('how-to example checking', () => {
     });
 
     it('finds a conflict in a block example', () => {
-        const [example] = getDocExamples('\n\\\nPhrase(nosuchname)\n\\\n');
+        const [first] = getDocExamples('\n\\\nPhrase(nosuchname)\n\\\n');
+        const example = must(first, 'an example');
         expect(example.block).toBe(true);
         expect(analyzeCode(example.code, DefaultLocale).conflicts).not.toEqual(
             [],

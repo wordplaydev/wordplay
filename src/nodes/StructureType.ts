@@ -41,9 +41,13 @@ export default class StructureType extends BasisType {
         this.types = types;
         this.refinements = new Map<string, Bind>();
         if (refinements)
-            for (let index = 0; index < refinements.length; index++)
-                for (const name of this.definition.inputs[index].getNames())
-                    this.refinements.set(name, refinements[index]);
+            for (const [index, refinement] of refinements.entries()) {
+                // A refinement past the definition's inputs refines nothing.
+                const input = this.definition.inputs[index];
+                if (input === undefined) continue;
+                for (const name of input.getNames())
+                    this.refinements.set(name, refinement);
+            }
     }
 
     getDescriptor(): NodeDescriptor {

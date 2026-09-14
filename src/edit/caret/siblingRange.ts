@@ -86,7 +86,11 @@ export function siblingOf(
  * before enumerating to find a list inside a union of kinds.
  */
 export function listKindOf(range: SiblingRange): ListOf | undefined {
-    const kind = range.parent.getFieldOfChild(range.list[range.start])?.kind;
+    const first = range.list[range.start];
+    const kind =
+        first === undefined
+            ? undefined
+            : range.parent.getFieldOfChild(first)?.kind;
     if (kind === undefined) return undefined;
     if (kind instanceof ListOf) return kind;
     return kind
@@ -138,7 +142,7 @@ export function withoutRunIn(
     return {
         expression: newExpression,
         spaces:
-            following === undefined
+            following === undefined || list[start] === undefined
                 ? spaces
                 : spaces.withSpace(following, spaces.getSpace(list[start])),
         parent: newParent,

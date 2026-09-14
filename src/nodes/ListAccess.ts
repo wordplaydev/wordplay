@@ -68,12 +68,7 @@ export default class ListAccess extends Expression {
     }
 
     static make(list: Expression, index: Expression) {
-        return new ListAccess(
-            list,
-            new ListOpenToken(),
-            index,
-            new ListCloseToken(),
-        );
+        return new ListAccess(list, ListOpenToken(), index, ListCloseToken());
     }
 
     /** Offer `list[1]` on any list-valued expression. */
@@ -114,12 +109,14 @@ export default class ListAccess extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new ListAccess(
-            this.replaceChild('list', this.list, replace),
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('index', this.index, replace),
-            this.replaceChild('close', this.close, replace),
-        ) as this;
+        return this.cloned(
+            new ListAccess(
+                this.replaceChild('list', this.list, replace),
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('index', this.index, replace),
+                this.replaceChild('close', this.close, replace),
+            ),
+        );
     }
 
     getPurpose() {
@@ -135,7 +132,7 @@ export default class ListAccess extends Expression {
 
         if (this.close === undefined)
             conflicts.push(
-                new UnclosedDelimiter(this, this.open, new ListCloseToken()),
+                new UnclosedDelimiter(this, this.open, ListCloseToken()),
             );
 
         const listType = this.list.getType(context);

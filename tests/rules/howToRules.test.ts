@@ -177,12 +177,19 @@ describe.each(Scenarios)('$name', (scenario) => {
     });
 });
 
+/** One of the fixtures declared below, by index. */
+function scenario(index: number) {
+    const found = Scenarios[index];
+    if (found === undefined) throw new Error(`No scenario ${index}`);
+    return found;
+}
+
 describe('creating a how-to and configuring the space', () => {
     // The new how-to has to go as well as be rebuilt: left behind by whichever
     // actor was allowed to make it, the next actor's `set` is an *update*, and
     // the update rule answers a different question than the create rule.
     beforeEach(async () => {
-        await reset(Scenarios[0]);
+        await reset(scenario(0));
         await env.withSecurityRulesDisabled(async (context) => {
             await context.firestore().doc(`howtos/${New}`).delete();
         });
@@ -235,7 +242,7 @@ describe('creating a how-to and configuring the space', () => {
  * compares against what is stored, and on a create there is nothing stored.
  */
 describe('a how-to asks to be listed, and the server answers', () => {
-    beforeEach(() => reset(Scenarios[0]));
+    beforeEach(() => reset(scenario(0)));
 
     it('the owner may ask', async () => {
         await assertSucceeds(
@@ -359,7 +366,7 @@ describe('a how-to asks to be listed, and the server answers', () => {
  * can read them — a ban is about the public, and a class gallery is class work.
  */
 describe('a banned creator keeps their how-tos but cannot share them publicly', () => {
-    beforeEach(() => reset(Scenarios[0]));
+    beforeEach(() => reset(scenario(0)));
 
     const banned = () =>
         env
@@ -382,17 +389,17 @@ describe('a banned creator keeps their how-tos but cannot share them publicly', 
 
 describe('expanded access is a grant on the gallery, and it can be withdrawn', () => {
     it('a viewer may read the gallery while expanded visibility is on', async () => {
-        await reset(Scenarios[4]);
+        await reset(scenario(4));
         await assertSucceeds(as('viewer').doc(`galleries/${Gallery}`).get());
     });
 
     it('and may not once the curator switches it off', async () => {
-        await reset(Scenarios[0]);
+        await reset(scenario(0));
         await assertFails(as('viewer').doc(`galleries/${Gallery}`).get());
     });
 
     it('someone not on the list never may', async () => {
-        await reset(Scenarios[4]);
+        await reset(scenario(4));
         await assertFails(as('stranger').doc(`galleries/${Gallery}`).get());
     });
 });
@@ -406,7 +413,7 @@ describe('expanded access is a grant on the gallery, and it can be withdrawn', (
  * named (#1352).
  */
 describe('expanded access is asked for by the curator and answered by the server', () => {
-    beforeEach(() => reset(Scenarios[4]));
+    beforeEach(() => reset(scenario(4)));
 
     it('a curator may ask, by naming a gallery and turning the switch on', async () => {
         await assertSucceeds(
@@ -452,7 +459,7 @@ describe('a how-to cannot be captured by renaming its gallery', () => {
     // update from `request.resource.data.galleryId` let any signed-in account
     // edit any how-to in the database by naming a gallery they had just made.
     beforeEach(async () => {
-        await reset(Scenarios[0]);
+        await reset(scenario(0));
         await env.withSecurityRulesDisabled(async (context) => {
             await context
                 .firestore()
@@ -561,7 +568,7 @@ describe('a query, not a document get', () => {
 
     describe('in a public gallery', () => {
         beforeEach(async () => {
-            await reset(Scenarios[2]);
+            await reset(scenario(2));
             await addDraft();
         });
 
@@ -595,7 +602,7 @@ describe('a query, not a document get', () => {
 
     describe('in a private gallery', () => {
         beforeEach(async () => {
-            await reset(Scenarios[0]);
+            await reset(scenario(0));
             await addDraft();
         });
 

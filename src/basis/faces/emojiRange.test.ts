@@ -40,57 +40,84 @@ const FORMAT: [number, number][] = [
 ];
 const inBlocks = (cp: number) => BLOCKS.some(([a, b]) => cp >= a && cp <= b);
 
-/** The set of codepoints an emoji font file should declare. Loads the font
- * with fontkit the same way Fonts.ts does (dynamic import + collection check). */
-async function preciseCodepoints(fontPath: string): Promise<Set<number>> {
-    const mod = await import('fontkit');
-    const fontkit: { create(data: Uint8Array): unknown } =
-        'create' in mod
-            ? (mod as { create(data: Uint8Array): unknown })
-            : (mod as { default: { create(data: Uint8Array): unknown } })
-                  .default;
-    const created = fontkit.create(new Uint8Array(fs.readFileSync(fontPath)));
-    const font =
-        created !== null && typeof created === 'object' && 'fonts' in created
-            ? (created as { fonts: unknown[] }).fonts[0]
-            : created;
-    const characterSet: number[] = (font as { characterSet: number[] })
-        .characterSet;
-    const cps = new Set<number>();
-    for (const cp of characterSet) if (inBlocks(cp)) cps.add(cp);
-    for (const [a, b] of FORMAT) for (let cp = a; cp <= b; cp++) cps.add(cp);
-    return cps;
+type Fontkit = { create(data: Uint8Array): unknown };
+
+function isFontkit(value: unknown): value is Fontkit {
+    return (
+        typeof value === 'object' &&
+        value !== null &&
+        'create' in value &&
+        typeof value.create === 'function'
+    );
+}
+
+/** fontkit ships both a namespace and a default export, depending on how it is
+ * resolved; Fonts.ts checks for both and so does this. */
+function fontkitOf(mod: unknown): Fontkit {
+    if (isFontkit(mod)) return mod;
+    if (
+        typeof mod === 'object' &&
+        mod !== null &&
+        'default' in mod &&
+        isFontkit(mod.default)
+    )
+        return mod.default;
+    throw new Error('fontkit exposes no create()');
+}
+
+function isCollection(value: unknown): value is { fonts: unknown[] } {
+    return (
+        typeof value === 'object' &&
+        value !== null &&
+        'fonts' in value &&
+        Array.isArray(value.fonts)
+    );
+}
+
+function isFont(value: unknown): value is { characterSet: number[] } {
+    return (
+        typeof value === 'object' &&
+        value !== null &&
+        'characterSet' in value &&
+        Array.isArray(value.characterSet)
+    );
 }
 
 /** Every codepoint the font has a cmap glyph for (no emoji-block filtering) —
- * for keycap bases (#, *, 0-9), which live below the emoji blocks. */
+ * for keycap bases (#, *, 0-9), which live below the emoji blocks. Loads the
+ * font with fontkit the same way Fonts.ts does (dynamic import + collection
+ * check). */
 async function rawCodepoints(fontPath: string): Promise<Set<number>> {
-    const mod = await import('fontkit');
-    const fontkit: { create(data: Uint8Array): unknown } =
-        'create' in mod
-            ? (mod as { create(data: Uint8Array): unknown })
-            : (mod as { default: { create(data: Uint8Array): unknown } })
-                  .default;
-    const created = fontkit.create(new Uint8Array(fs.readFileSync(fontPath)));
-    const font =
-        created !== null && typeof created === 'object' && 'fonts' in created
-            ? (created as { fonts: unknown[] }).fonts[0]
-            : created;
-    return new Set((font as { characterSet: number[] }).characterSet);
+    const mod: unknown = await import('fontkit');
+    const created: unknown = fontkitOf(mod).create(
+        new Uint8Array(fs.readFileSync(fontPath)),
+    );
+    const font = isCollection(created) ? created.fonts[0] : created;
+    if (!isFont(font)) throw new Error(`No character set in ${fontPath}`);
+    return new Set(font.characterSet);
+}
+
+/** The set of codepoints an emoji font file should declare. */
+async function preciseCodepoints(fontPath: string): Promise<Set<number>> {
+    const cps = new Set<number>();
+    for (const cp of await rawCodepoints(fontPath))
+        if (inBlocks(cp)) cps.add(cp);
+    for (const [a, b] of FORMAT) for (let cp = a; cp <= b; cp++) cps.add(cp);
+    return cps;
 }
 
 /** Parse the unicode-range of the first @font-face block whose src matches. */
 function declaredCodepoints(css: string, srcNeedle: string): Set<number> {
     const cps = new Set<number>();
     for (const block of css.matchAll(/@font-face\s*\{([^}]*)\}/g)) {
-        const body = block[1];
+        const body = block[1]!;
         if (!body.includes(srcNeedle)) continue;
         const ur = body.match(/unicode-range:\s*([^;]+);/);
         if (!ur) continue;
-        for (const part of ur[1].split(',')) {
+        for (const part of ur[1]!.split(',')) {
             const t = part.trim().replace(/^U\+/i, '');
             const m = t.split('-');
-            const lo = parseInt(m[0], 16);
+            const lo = parseInt(m[0]!, 16);
             const hi = m[1] !== undefined ? parseInt(m[1], 16) : lo;
             for (let cp = lo; cp <= hi; cp++) cps.add(cp);
         }
@@ -157,7 +184,7 @@ describe('emoji @font-face ranges match the fonts glyph coverage', () => {
     // back to the system emoji.
     test('the keycap file ships the keycap-base glyphs it declares', async () => {
         const face = [...css.matchAll(/@font-face\s*\{([^}]*)\}/g)]
-            .map((m) => m[1])
+            .map((m) => m[1]!)
             .find((b) => b.includes("'Noto Emoji Keycap'"));
         expect(face).toBeDefined();
         const file = face!.match(/NotoColorEmoji\.(svg-[\w-]+)\.ttf/);

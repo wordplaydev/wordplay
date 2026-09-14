@@ -36,6 +36,7 @@ import Token from '@nodes/Token';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import type Evaluator from '@runtime/Evaluator';
 import UnicodeString from '@unicode/UnicodeString';
+import { isNonEmpty, type NonEmpty } from '@util/nullable';
 import type { SearchLanguages } from '@util/search';
 import ExceptionValue from '@values/ExceptionValue';
 
@@ -348,7 +349,7 @@ const dropTargetCache = new WeakMap<Source, WeakMap<Node, Highlights>>();
 function getDropTargetHighlights(
     source: Source,
     project: Project,
-    dragged: Node[],
+    dragged: NonEmpty<Node>,
 ): Highlights {
     let perDragged = dropTargetCache.get(source);
     if (perDragged === undefined) {
@@ -408,7 +409,7 @@ export function getDragHighlights(
 ): Highlights {
     const highlights = new Highlights();
 
-    if (dragged !== undefined && dragged.length > 0) {
+    if (dragged !== undefined && isNonEmpty(dragged)) {
         // Highlight what's being dragged — every node of it, when a run is in the
         // air. (A rootless dragged node — a palette drop — isn't in the source,
         // so this is a no-op for it; that's fine.)
@@ -727,15 +728,13 @@ export function updateOutlines(
     const MaxOffset = 12;
 
     // 2) Iterate through outlines, searching for any previous outlines in the list and offseting the y position accordingly.
-    for (let index = 0; index < outlines.length; index++) {
-        const outline = outlines[index];
+    for (const [index, outline] of outlines.entries()) {
         let offset = 0;
         if (
             outline.types.includes('major') ||
             outline.types.includes('minor')
         ) {
-            for (let check = 0; check < index; check++) {
-                const other = outlines[check];
+            for (const other of outlines.slice(0, index)) {
                 // Do they intersect vertically and horizontally?
                 if (
                     (other.types.includes('major') ||
@@ -852,20 +851,20 @@ export function getRangeOutline(
                 const lines = spaceStr.split('\n');
                 const lineClips = new Map<number, SpaceLineClip>();
                 let lineStart = spaceStart;
-                for (let k = 0; k < lines.length; k++) {
+                for (const [k, lineContent] of lines.entries()) {
                     const isLastLine = k === lines.length - 1;
                     const nextLineStart =
-                        lineStart + lines[k].length + (isLastLine ? 0 : 1);
+                        lineStart + lineContent.length + (isLastLine ? 0 : 1);
                     if (lineStart < end && nextLineStart > start) {
                         const overlapStart = Math.max(start, lineStart);
                         const overlapEnd = Math.min(
                             end,
-                            lineStart + lines[k].length,
+                            lineStart + lineContent.length,
                         );
                         lineClips.set(k, {
                             charStart: overlapStart - lineStart,
                             charEnd: overlapEnd - lineStart,
-                            lineContent: lines[k],
+                            lineContent,
                             // Line 0 is the tail of the line the previous token
                             // sits on, and the last line is the indent before
                             // this one; only what lies between them is a blank
@@ -887,10 +886,8 @@ export function getRangeOutline(
         }
 
         // If this token's text is also in the selection, clip and add its rect.
-        if (
-            textIdx < textTokens.length &&
-            textTokens[textIdx].token === token
-        ) {
+        const textToken = textTokens[textIdx];
+        if (textToken !== undefined && textToken.token === token) {
             const view = nodeViews[textIdx];
             if (view !== undefined) {
                 const isFirst = textIdx === 0;
@@ -903,10 +900,10 @@ export function getRangeOutline(
                 //   middle token → no clip         (start=0, end=full length)
                 //   single token → both clips
                 const clip = {
-                    start: isFirst ? start - textTokens[0].start : 0,
+                    start: isFirst ? start - textToken.start : 0,
                     end: isLast
-                        ? end - textTokens[textIdx].start
-                        : textTokens[textIdx].end - textTokens[textIdx].start,
+                        ? end - textToken.start
+                        : textToken.end - textToken.start,
                 };
                 allRects.push(...getTokenRects([view], blocks, clip));
             }

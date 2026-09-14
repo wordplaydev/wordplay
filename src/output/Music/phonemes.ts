@@ -70,12 +70,18 @@ export type Phoneme = {
     gain: number;
 };
 
+/** Four of a thing, one per formant, so a position is always a real one. */
+type PerFormant<T> = readonly [T, T, T, T];
+
+/** The four formant positions, for iterating without an unchecked index. */
+const FormantIndices = [0, 1, 2, 3] as const;
+
 /** Relative amplitudes of the four formants, alternating in sign. */
-const Amplitudes = [1, -0.6, 0.34, -0.2];
+const Amplitudes: PerFormant<number> = [1, -0.6, 0.34, -0.2];
 
 /** Bandwidths widen with frequency, and each formant is damped more than the
  * one below it — a real tract's losses rise with frequency. */
-const Bandwidths = [
+const Bandwidths: PerFormant<(hz: number) => number> = [
     (hz: number) => 55 + hz / 25,
     (hz: number) => 85 + hz / 40,
     (hz: number) => 130 + hz / 40,
@@ -97,20 +103,23 @@ const Bandwidths = [
 const ShapePower = 150;
 
 function bank(
-    hz: readonly [number, number, number, number],
+    hz: PerFormant<number>,
     damping = 1,
-    amplitudes: readonly number[] = Amplitudes,
-): readonly [Formant, Formant, Formant, Formant] {
-    const widths = hz.map(
-        (frequency, index) => Bandwidths[index](frequency) * damping,
-    );
+    amplitudes: PerFormant<number> = Amplitudes,
+): PerFormant<Formant> {
+    const widths: PerFormant<number> = [
+        Bandwidths[0](hz[0]) * damping,
+        Bandwidths[1](hz[1]) * damping,
+        Bandwidths[2](hz[2]) * damping,
+        Bandwidths[3](hz[3]) * damping,
+    ];
     // A bandpass passes power in proportion to its width, so the shape's power
     // is the widths weighted by the squared amplitudes.
     let power = 0;
-    for (let index = 0; index < 4; index++)
+    for (const index of FormantIndices)
         power = power + amplitudes[index] * amplitudes[index] * widths[index];
     const scale = Math.sqrt(ShapePower / power);
-    const at = (index: number): Formant => ({
+    const at = (index: (typeof FormantIndices)[number]): Formant => ({
         hz: hz[index],
         bw: widths[index],
         gain: amplitudes[index] * scale,

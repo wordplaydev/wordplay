@@ -156,15 +156,19 @@
         if (position !== undefined) editor?.setCaretPosition(position);
         Projects.reviseProject(newProject);
     }
+
+    /** The conflict's own name for the row's label, absent for a step
+     *  annotation, which names no conflict. */
+    const conflictName = $derived.by(() => {
+        const conflict = annotation.conflict;
+        return conflict === undefined
+            ? undefined
+            : $locales.getPrimaryPlainText((l) => conflict(l).name);
+    });
 </script>
 
-{#snippet nameLabel()}
-    <span class="name"
-        ><LocalizedText
-            path={(l) =>
-                (annotation.conflict as ConflictLocaleAccessor)(l).name}
-        /></span
-    >
+{#snippet nameLabel(conflict: ConflictLocaleAccessor)}
+    <span class="name"><LocalizedText path={(l) => conflict(l).name} /></span>
     <!-- The severity in words, so it doesn't ride on the bar's color alone. -->
     <span class="severity"
         ><LocalizedText
@@ -284,10 +288,7 @@
         aria-label={$locales
             .concretize((l) => l.ui.annotations.conflictLabel, {
                 severity: severityWord,
-                conflict: $locales.getPrimaryPlainText(
-                    (l) =>
-                        (annotation.conflict as ConflictLocaleAccessor)(l).name,
-                ),
+                conflict: conflictName ?? '',
             })
             .toText()}
         data-conflict-node-id={annotation.node.id}
@@ -317,7 +318,9 @@
             eyes
             bubble={expanded}
         >
-            {#snippet aside()}{@render nameLabel()}{/snippet}
+            {#snippet aside()}{#if annotation.conflict !== undefined}{@render nameLabel(
+                        annotation.conflict,
+                    )}{/if}{/snippet}
             {#snippet content()}{@render messageBody()}{/snippet}
         </Speech>
     </div>

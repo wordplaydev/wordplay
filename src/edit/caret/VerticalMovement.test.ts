@@ -102,7 +102,8 @@ test('the end of a program can move up — the reported failure', () => {
     const where = landed(result);
     // It moved, and it moved to the line above rather than to the start.
     expect(typeof where).toBe('number');
-    expect(source.getLine(where as number)).toBe(1);
+    if (typeof where !== 'number') throw new Error('Expected a position');
+    expect(source.getLine(where)).toBe(1);
 });
 
 test('expanding a line keeps the anchor and moves the other end', () => {

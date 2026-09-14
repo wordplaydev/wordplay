@@ -10,7 +10,7 @@ import checkOperatorKeywords from './checkOperatorKeywords';
  */
 
 function copyLocale(): LocaleText {
-    return JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    return structuredClone(DefaultLocale);
 }
 
 function check(

@@ -26,6 +26,7 @@
     import { Scripts, type ScriptMetadata } from '@locale/Scripts';
     import { CONFIRM_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
     import { contrast } from '@util/colorContrast';
+    import { matchGroups, must } from '@util/nullable';
 
     // Demo state for interactive component examples
     // Every script with an exemplar glyph, for the logo's writing-system row.
@@ -68,10 +69,13 @@
             /rgba?\(\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)\s*,\s*(\d+(?:\.\d+)?)(?:\s*,\s*(\d+(?:\.\d+)?))?\s*\)/,
         );
         if (!match) return rgb;
-        const r = Math.round(parseFloat(match[1]));
-        const g = Math.round(parseFloat(match[2]));
-        const b = Math.round(parseFloat(match[3]));
-        const a = match[4] !== undefined ? parseFloat(match[4]) : 1;
+        const [, red, green, blue, alpha] = matchGroups(match);
+        if (red === undefined || green === undefined || blue === undefined)
+            return rgb;
+        const r = Math.round(parseFloat(red));
+        const g = Math.round(parseFloat(green));
+        const b = Math.round(parseFloat(blue));
+        const a = alpha !== undefined ? parseFloat(alpha) : 1;
         const hex = [r, g, b]
             .map((n) => n.toString(16).padStart(2, '0'))
             .join('');
@@ -138,7 +142,10 @@
     }
 
     function primaryFont(stack: string): string {
-        return stack.split(',')[0].trim().replace(/['"]/g, '');
+        // `split` always yields at least one part, even for an empty stack.
+        return must(stack.split(',')[0], 'a font family')
+            .trim()
+            .replace(/['"]/g, '');
     }
 
     /** Custom properties resolve their `var()`s at computed-value time, so a

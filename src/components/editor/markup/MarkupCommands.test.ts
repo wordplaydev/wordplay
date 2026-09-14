@@ -6,6 +6,7 @@ import AllMarkupCommands, {
     MarkupToolbarGroups,
     VisibleMarkupCommands,
 } from '@components/editor/markup/MarkupCommands';
+import { must } from '@util/nullable';
 import { expect, test } from 'vitest';
 
 /**
@@ -80,7 +81,7 @@ test('the dispatched list puts markup commands before the borrowed ones', () => 
     const first = AllMarkupCommands.slice(0, MarkupCommands.length);
     expect(first).toEqual(MarkupCommands);
     // And the typing catch-all must be last, or it would shadow everything.
-    expect(AllMarkupCommands[AllMarkupCommands.length - 1].typing).toBe(true);
+    expect(AllMarkupCommands[AllMarkupCommands.length - 1]?.typing).toBe(true);
 });
 
 test('the dispatched list can do everything a text field must', () => {
@@ -111,13 +112,14 @@ test('the dispatched list can do everything a text field must', () => {
 test('no markup command swallows an unmodified keystroke', () => {
     // Every one of these is a character someone types into prose constantly. A
     // command matching one would make it impossible to type.
-    for (const [key, code] of [
+    const keystrokes: [key: string, code: string][] = [
         ['a', 'KeyA'],
         ['b', 'KeyB'],
         ['i', 'KeyI'],
         ['8', 'Digit8'],
         ['\\', 'Backslash'],
-    ]) {
+    ];
+    for (const [key, code] of keystrokes) {
         const matched = MarkupCommands.filter((c) =>
             matchesUnmodified(c, key, code),
         );
@@ -151,12 +153,13 @@ test("prose motion shadows the code editor's, rather than sitting behind it", ()
     // `handleKeyCommand` takes the first match, so a prose arrow only wins if it
     // comes first. Behind the borrowed one it would never run, and left from the
     // end of a paragraph would go back to selecting the whole `Words` node.
-    for (const [key, shift] of [
+    const chords: [key: string, shift: boolean][] = [
         ['ArrowLeft', false],
         ['ArrowLeft', true],
         ['ArrowRight', false],
         ['ArrowRight', true],
-    ] as [string, boolean][]) {
+    ];
+    for (const [key, shift] of chords) {
         const matches = AllMarkupCommands.filter(
             (c) =>
                 c.key === key &&
@@ -200,9 +203,12 @@ test('the toolbar groups every visible command exactly once', () => {
 });
 
 test('the toolbar leads with undo and redo and ends with the mode toggle', () => {
-    const first = MarkupToolbarGroups[0].map((c) => c.symbol);
-    expect(first).toEqual([UNDO_SYMBOL, REDO_SYMBOL]);
-    const last = MarkupToolbarGroups[MarkupToolbarGroups.length - 1];
+    const first = must(MarkupToolbarGroups[0], 'the first group');
+    expect(first.map((c) => c.symbol)).toEqual([UNDO_SYMBOL, REDO_SYMBOL]);
+    const last = must(
+        MarkupToolbarGroups[MarkupToolbarGroups.length - 1],
+        'the last group',
+    );
     expect(last.map((c) => c.symbol)).toEqual(['👁']);
 });
 

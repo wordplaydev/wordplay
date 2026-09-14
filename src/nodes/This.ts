@@ -89,20 +89,13 @@ export default class This extends SimpleExpression {
     }
 
     clone(replace?: Replacement) {
-        return new This(this.replaceChild('dis', this.dis, replace)) as this;
+        return this.cloned(
+            new This(this.replaceChild('dis', this.dis, replace)),
+        );
     }
 
     getEnclosingStructure(context: Context): ThisStructure | undefined {
-        return context
-            .getRoot(this)
-            ?.getAncestors(this)
-            ?.find(
-                (a) =>
-                    a instanceof StructureDefinition ||
-                    a instanceof ConversionDefinition ||
-                    a instanceof Reaction ||
-                    a instanceof Translate,
-            ) as ThisStructure | undefined;
+        return context.getRoot(this)?.getAncestors(this)?.find(isThisStructure);
     }
 
     computeConflicts(context: Context): Conflict[] {
@@ -166,7 +159,7 @@ export default class This extends SimpleExpression {
             .getCurrentContext()
             .getRoot(this)
             ?.getAncestors(this)
-            .find((n) => n instanceof Reaction) as Reaction | undefined;
+            .find((n): n is Reaction => n instanceof Reaction);
         if (reaction) {
             const latestValue = evaluator.getStreamFor(reaction)?.latest();
             return latestValue ?? new ValueException(evaluator, reaction);

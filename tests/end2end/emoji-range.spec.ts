@@ -25,9 +25,9 @@ test('emoji faces still load and claim real emoji, not over-claimed codepoints',
             if (!/Noto (Color )?Emoji/.test(face.family)) continue;
             for (const part of face.unicodeRange.split(',')) {
                 const t = part.trim().replace(/^U\+/i, '');
-                const m = t.split('-');
-                const lo = parseInt(m[0], 16);
-                const hi = m[1] !== undefined ? parseInt(m[1], 16) : lo;
+                const [low = '', high] = t.split('-');
+                const lo = parseInt(low, 16);
+                const hi = high !== undefined ? parseInt(high, 16) : lo;
                 intervals.push([lo, hi]);
             }
         }

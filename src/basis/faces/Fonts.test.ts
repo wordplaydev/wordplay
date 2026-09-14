@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { describe, expect, test } from 'vitest';
+import { must } from '@util/nullable';
 import Fonts, { Faces, getFontFileURL } from './Fonts';
 
 describe('FontManager outside a browser', () => {
@@ -25,7 +26,7 @@ describe('CJK creator faces', () => {
             'Noto Sans Korean',
             'Noto Sans Simplified Chinese',
         ]) {
-            const face = Faces[name];
+            const face = must(Faces[name], name);
             expect(face.format).toBe('woff2');
             expect(
                 typeof face.ranges === 'string' ? [] : (face.ranges ?? []),

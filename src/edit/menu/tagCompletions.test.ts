@@ -90,12 +90,13 @@ describe('a caret beside a tag offers tags', () => {
         // A suggestion has to survive retokenizing, or picking it produces
         // something else. `ø` and `ƒ` are letters that are also reserved
         // symbols, which is the way this can go wrong.
-        for (const [code, position] of [
+        const cases: [string, number][] = [
             ["'hi'/esp", 8],
             ["'hi'/e", 6],
             ["'hi'/en-U", 9],
             ["'hi'/cote", 9],
-        ] as [string, number][])
+        ];
+        for (const [code, position] of cases)
             for (const tag of tagsAt(code, position)) {
                 const written = new Source('test', `'hi'${tag}`);
                 const language = written

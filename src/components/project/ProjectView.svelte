@@ -248,6 +248,7 @@
         AnimationIcon,
     } from '@db/settings/AnimationFactorSetting';
     import type MenuInfo from '@edit/menu/Menu';
+    import { must } from '@util/nullable';
 
     interface Props {
         project: Project;
@@ -1298,8 +1299,9 @@
                         project.getNodeContext(node),
                     ),
             );
-            if (phrases.length > 0) {
-                selectedOutput.setPaths(project, [phrases[0]], 'palette');
+            const phrase = phrases[0];
+            if (phrase !== undefined) {
+                selectedOutput.setPaths(project, [phrase], 'palette');
                 break;
             }
         }
@@ -1810,8 +1812,9 @@
         const index = project
             .getSources()
             .findIndex((source) => source.has(node));
-        if (index < 0) return undefined;
-        const lines = linesOfNode(project.getSources()[index], node);
+        const nodeSource = project.getSources()[index];
+        if (index < 0 || nodeSource === undefined) return undefined;
+        const lines = linesOfNode(nodeSource, node);
         return lines === undefined
             ? undefined
             : {
@@ -2255,7 +2258,7 @@
             }
         }
         // Source? Cycle through source, expanding as necessary.
-        else if (currentTileIndex) {
+        else if (currentTileIndex && currentTile !== undefined) {
             const sources = layout.getSources();
             const index = sources.findIndex(
                 (source) => source.id === currentTile.id,
@@ -2798,7 +2801,11 @@
         Projects.reviseProject(
             project.withSource(
                 source,
-                source.withName(name, $locales.getLocales()[0]),
+                // There is always a primary locale.
+                source.withName(
+                    name,
+                    must($locales.getLocales()[0], 'the primary locale'),
+                ),
             ),
         );
     }
@@ -2808,11 +2815,15 @@
      * shown. */
     function getModeLabel(mode: ProjectMode): string {
         return withoutAnnotations(
-            $locales.getTextStructure((l) =>
-                editableAndCurrent
-                    ? l.ui.output.mode.evaluation
-                    : l.ui.output.mode.evaluationView,
-            ).labels[ProjectModes.indexOf(mode)],
+            // The labels are a positional tuple in ProjectModes order.
+            must(
+                $locales.getTextStructure((l) =>
+                    editableAndCurrent
+                        ? l.ui.output.mode.evaluation
+                        : l.ui.output.mode.evaluationView,
+                ).labels[ProjectModes.indexOf(mode)],
+                'a mode label',
+            ),
         );
     }
 
@@ -3095,7 +3106,10 @@
                         ? ProjectModeIcons
                         : ProjectModeViewIcons}
                     choice={ProjectModes.indexOf(uiMode)}
-                    select={(index) => setUIMode(ProjectModes[index])}
+                    select={(index) => {
+                        const chosen = ProjectModes[index];
+                        if (chosen !== undefined) setUIMode(chosen);
+                    }}
                     labeled={false}
                     modeLabels={false}
                     uiid="modeSwitcher"
@@ -3489,9 +3503,13 @@
                                                                 : String(
                                                                       factor,
                                                                   ),
-                                                        label: AnimationFactorIcons[
-                                                            i
-                                                        ],
+                                                        // One icon per factor.
+                                                        label: must(
+                                                            AnimationFactorIcons[
+                                                                i
+                                                            ],
+                                                            'an animation icon',
+                                                        ),
                                                     }),
                                                 )}
                                                 change={(v) =>
@@ -3523,9 +3541,13 @@
                                                     options={MusicVisualizations.map(
                                                         (visualization, i) => ({
                                                             value: visualization,
-                                                            label: MusicVisualizationIcons[
-                                                                i
-                                                            ],
+                                                            // One icon per visualization.
+                                                            label: must(
+                                                                MusicVisualizationIcons[
+                                                                    i
+                                                                ],
+                                                                'a music icon',
+                                                            ),
                                                         }),
                                                     )}
                                                     change={(v) =>
@@ -3566,7 +3588,8 @@
                                         sourceID={tile.id}
                                         {project}
                                         source={getSourceByTileID(tile.id) ??
-                                            sources[0]}
+                                            sources[0] ??
+                                            project.getMain()}
                                         navigateCommands={VisibleNavigateCommands}
                                         modifyCommands={VisibleModifyCommands}
                                         {editable}

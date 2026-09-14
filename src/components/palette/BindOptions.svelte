@@ -8,11 +8,17 @@
     import { Projects } from '@db/projects/Projects';
     import { getProject } from '@components/project/Contexts';
     import Options from '@components/widgets/Options.svelte';
+    import { must } from '@util/nullable';
+
+    /** The one property whose options carry more than a label: a typeface
+     *  option previews the face itself. */
+    type FaceOption = { face: { name: string; face: Face } };
+    type EmptyOption = Record<string, never>;
 
     interface Props {
         property: OutputProperty;
         values: OutputPropertyValues;
-        options: OutputPropertyOptions;
+        options: OutputPropertyOptions<FaceOption | EmptyOption>;
         editable: boolean;
         id?: string | undefined;
     }
@@ -42,7 +48,7 @@
 
 <Options
     {id}
-    label={() => property.getName($locales)}
+    label={() => must(property.getName($locales), "the property's name")}
     value={options.toText(values.getExpression())}
     width="7em"
     options={[
@@ -53,11 +59,9 @@
     {editable}
 >
     {#snippet item(option, localized)}
-        {#if 'face' in option}
-            <FaceName
-                name={(option.face as { name: string; face: Face }).name}
-                face={(option.face as { name: string; face: Face }).face}
-            />
+        {@const face = 'face' in option ? option.face : undefined}
+        {#if face !== undefined}
+            <FaceName name={face.name} face={face.face} />
         {:else}
             {@render localized(option.label)}
         {/if}

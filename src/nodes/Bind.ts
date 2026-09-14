@@ -1,4 +1,5 @@
 import conciseRef from '@nodes/conciseRef';
+import type Node from '@nodes/Node';
 import type Conflict from '@conflicts/Conflict';
 import DuplicateName from '@conflicts/DuplicateName';
 import { getKeywordShadowConflicts } from '@conflicts/ShadowsKeyword';
@@ -56,6 +57,13 @@ import TypeToken from '@nodes/TypeToken';
 import { getPublishedShareConflicts } from '@nodes/publishedShare';
 import { getMisplacedShareConflicts } from '@nodes/util';
 
+/** Whether a node makes a stream, decided by descriptor: importing Evaluate
+ *  or Reaction here would make an import cycle. */
+function isStreamCreator(node: Node): node is StreamCreator {
+    const descriptor = node.getDescriptor();
+    return descriptor === 'Evaluate' || descriptor === 'Reaction';
+}
+
 export default class Bind extends Expression {
     readonly docs: Docs;
     readonly share: Token | undefined;
@@ -82,13 +90,10 @@ export default class Bind extends Expression {
         this.share = share;
         this.names = names;
         this.etc = etc;
-        this.dot =
-            type !== undefined && dot === undefined ? new TypeToken() : dot;
+        this.dot = type !== undefined && dot === undefined ? TypeToken() : dot;
         this.type = type;
         this.colon =
-            value !== undefined && colon === undefined
-                ? new BindToken()
-                : colon;
+            value !== undefined && colon === undefined ? BindToken() : colon;
         this.value = value;
 
         this.computeChildren();
@@ -110,9 +115,9 @@ export default class Bind extends Expression {
             undefined,
             names instanceof Names ? names : Names.make(names),
             variable ? new Token(ETC_SYMBOL, Sym.Etc) : undefined,
-            type === undefined ? undefined : new TypeToken(),
+            type === undefined ? undefined : TypeToken(),
             type,
-            value === undefined ? undefined : new BindToken(),
+            value === undefined ? undefined : BindToken(),
             value,
         );
     }
@@ -239,7 +244,7 @@ export default class Bind extends Expression {
             },
             {
                 name: 'type',
-                kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                kind: any(node(Type), none(['dot', () => TypeToken()])),
                 label: () => (l) => l.node.Bind.label.type,
             },
             {
@@ -255,7 +260,7 @@ export default class Bind extends Expression {
                 kind: any(
                     none(),
                     node(Expression),
-                    none(['colon', () => new BindToken()]),
+                    none(['colon', () => BindToken()]),
                 ),
                 space: true,
                 indent: true,
@@ -276,20 +281,18 @@ export default class Bind extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Bind(
-            this.replaceChild('docs', this.docs, replace),
-            this.replaceChild('share', this.share, replace),
-            this.replaceChild('names', this.names, replace),
-            this.replaceChild('etc', this.etc, replace),
-            this.replaceChild('dot', this.dot, replace),
-            this.replaceChild('type', this.type, replace),
-            this.replaceChild('colon', this.colon, replace),
-            this.replaceChild<Expression | undefined>(
-                'value',
-                this.value,
-                replace,
+        return this.cloned(
+            new Bind(
+                this.replaceChild('docs', this.docs, replace),
+                this.replaceChild('share', this.share, replace),
+                this.replaceChild('names', this.names, replace),
+                this.replaceChild('etc', this.etc, replace),
+                this.replaceChild('dot', this.dot, replace),
+                this.replaceChild('type', this.type, replace),
+                this.replaceChild('colon', this.colon, replace),
+                this.replaceChild('value', this.value, replace),
             ),
-        ) as this;
+        );
     }
 
     /** Copy this bind, but with the given type */
@@ -474,10 +477,9 @@ export default class Bind extends Expression {
                             alias.getParent(context) !== this.names,
                     );
 
-                    if (defsWithName.length > 0)
-                        conflicts.push(
-                            new DuplicateName(this, defsWithName[0]),
-                        );
+                    const [duplicate] = defsWithName;
+                    if (duplicate !== undefined)
+                        conflicts.push(new DuplicateName(this, duplicate));
                 }
             }
         }
@@ -536,8 +538,8 @@ export default class Bind extends Expression {
                 for (const source of sources) {
                     if (source.expression.expression instanceof Block) {
                         for (const share of source.expression.expression.statements.filter(
-                            (s) => s instanceof Bind && s.isShared(),
-                        ) as Bind[]) {
+                            (s): s is Bind => s instanceof Bind && s.isShared(),
+                        )) {
                             if (this.sharesName(share))
                                 conflicts.push(new DuplicateShare(this, share));
                         }
@@ -646,7 +648,7 @@ export default class Bind extends Expression {
                 ) {
                     const bind = evalFunc.inputs[funcIndex];
                     const functionType = bind
-                        .getType(context)
+                        ?.getType(context)
                         .getPossibleTypes(context)
                         .find(
                             (type): type is FunctionType =>
@@ -732,15 +734,8 @@ export default class Bind extends Expression {
                       // This allows for stream-based recurrence relations, where a stream or reaction's future values can be
                       // affected by their past values.
                       // Note, we can't use instanceof here to type guard because of circular dependencies.
-                      if (
-                          value !== undefined &&
-                          (value.getDescriptor() === 'Evaluate' ||
-                              value.getDescriptor() === 'Reaction')
-                      ) {
-                          const stream = evaluator.getStreamFor(
-                              value as StreamCreator,
-                              true,
-                          );
+                      if (value !== undefined && isStreamCreator(value)) {
+                          const stream = evaluator.getStreamFor(value, true);
                           const latest = stream?.latest();
                           if (latest) evaluator.bind(this.names, latest);
                       }

@@ -17,6 +17,7 @@ import EvaluationLimitException from '@values/EvaluationLimitException';
 import ExceptionValue from '@values/ExceptionValue';
 import NumberValue from '@values/NumberValue';
 import StepLimitException from '@values/StepLimitException';
+import { last, must } from '@util/nullable';
 
 test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {
     const fib = `
@@ -565,7 +566,7 @@ test('getSourceValuesAfter returns every evaluation since a step, oldest first',
     );
     expect(new Set(missed.map((indexed) => indexed.stepNumber)).size).toBe(3);
     // The last of them is what the ordinary path would have shown.
-    expect(missed[missed.length - 1].value).toBe(
+    expect(must(last(missed), 'the newest missed value').value).toBe(
         evaluator.getLatestSourceValue(source),
     );
     // Asking again from the latest step yields nothing left to catch up on.
@@ -596,7 +597,7 @@ test('a reaction step index names the value BEFORE that reaction, not its result
 
     const reactions = evaluator.reactions;
     expect(reactions.length).toBeGreaterThanOrEqual(2);
-    const second = reactions[reactions.length - 1];
+    const second = must(last(reactions), 'the most recent reaction');
     // Querying with the reaction's own step index gives the PREVIOUS value.
     expect(evaluator.getSourceValueBefore(source, second.stepIndex)).toBe(
         values[0],

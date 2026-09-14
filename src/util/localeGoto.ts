@@ -7,7 +7,7 @@ type GotoOptions = Parameters<typeof goto>[1];
  *  does. For the rare case that needs the URL rather than the navigation —
  *  opening a new window, say. */
 export function localePath(path: string): string {
-    const locale = (page.params as Record<string, string>).locale;
+    const locale = page.params.locale;
     return locale ? `/${locale}${path === '/' ? '' : path}` : path;
 }
 
@@ -16,7 +16,7 @@ export function localePath(path: string): string {
  *  reader is in by then. Prefixing an already-prefixed path is how a link back
  *  to the guide became `/en-US/en-US/guide`. */
 export function unlocalePath(path: string): string {
-    const locale = (page.params as Record<string, string>).locale;
+    const locale = page.params.locale;
     if (!locale) return path;
     const prefix = `/${locale}`;
     // Whole segment only: with locale `en`, a prefix match alone turns
@@ -30,7 +30,7 @@ export function localeGoto(
     path: string,
     options?: GotoOptions,
 ): ReturnType<typeof goto> {
-    const locale = (page.params as Record<string, string>).locale;
+    const locale = page.params.locale;
     const prefixed = locale ? `/${locale}${path === '/' ? '' : path}` : path;
     return goto(prefixed, options);
 }

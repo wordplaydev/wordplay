@@ -16,7 +16,7 @@ import {
 export function exportName(exported: PublishedShare): string {
     return 'names' in exported
         ? (exported.names.getNames()[0] ?? '—')
-        : exported.toWordplay().split('\n')[0].trim();
+        : (exported.toWordplay().split('\n')[0] ?? '').trim();
 }
 
 type KitReadiness = {

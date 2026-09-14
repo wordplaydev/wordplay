@@ -74,11 +74,9 @@ export function currentSearch(history: GuideHistory): string | undefined {
 export function activeSection(
     history: GuideHistory,
 ): { mode: GuideMode; purpose: PurposeType } | undefined {
-    for (let i = history.length - 1; i >= 0; i--) {
-        const place = history[i];
+    for (const place of [...history].reverse())
         if (place.kind === 'section')
             return { mode: place.mode, purpose: place.purpose };
-    }
     return undefined;
 }
 
@@ -169,6 +167,10 @@ export function samePlace(a: GuidePlace, b: GuidePlace): boolean {
 /** True if two histories have the same locations in the same order. */
 export function sameHistory(a: GuideHistory, b: GuideHistory): boolean {
     return (
-        a.length === b.length && a.every((place, i) => samePlace(place, b[i]))
+        a.length === b.length &&
+        a.every((place, i) => {
+            const other = b[i];
+            return other !== undefined && samePlace(place, other);
+        })
     );
 }

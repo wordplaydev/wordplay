@@ -34,12 +34,12 @@ test('filled, stroked and glyphs sit where the code expects them', () => {
     const source = new Source('test', 'Shape(Circle(1m))');
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const inputs = project.shares.output.Shape.inputs;
-    expect(inputs[FilledIndex].names.getNames()).toContain('filled');
-    expect(inputs[StrokedIndex].names.getNames()).toContain('stroked');
-    expect(inputs[GlyphsIndex].names.getNames()).toContain('glyphs');
+    expect(inputs[FilledIndex]?.names.getNames()).toContain('filled');
+    expect(inputs[StrokedIndex]?.names.getNames()).toContain('stroked');
+    expect(inputs[GlyphsIndex]?.names.getNames()).toContain('glyphs');
     // The bind editHandles rotates by, which appending must not have moved.
-    expect(inputs[8].names.getNames()).toContain('rotation');
-    expect(inputs[0].names.getNames()).toContain('form');
+    expect(inputs[8]?.names.getNames()).toContain('rotation');
+    expect(inputs[0]?.names.getNames()).toContain('form');
 });
 
 test('a shape is filled and stroked unless it says otherwise', () => {

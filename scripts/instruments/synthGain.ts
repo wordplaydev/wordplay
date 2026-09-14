@@ -86,12 +86,15 @@ function oscillate(
         const w = (2 * Math.PI * index * hz) / rate;
         // Alternating sign for the triangle, whose odd harmonics invert.
         const sign = source === 'triangle' && (index - 1) % 4 === 2 ? -1 : 1;
-        for (let i = 0; i < frames; i++)
-            out[i] += sign * amplitude * Math.sin(w * i);
+        for (const [i, value] of out.entries())
+            out[i] = value + sign * amplitude * Math.sin(w * i);
     }
     let peak = 0;
     for (const value of out) peak = Math.max(peak, Math.abs(value));
-    if (peak > 0) for (let i = 0; i < frames; i++) out[i] /= peak;
+    if (peak > 0) {
+        let i = 0;
+        for (const value of out) out[i++] = value / peak;
+    }
     return out;
 }
 
@@ -133,17 +136,21 @@ function lowpass(
     const alpha = Math.sin(w) / (2 * 10 ** (1 / 20));
     const cos = Math.cos(w);
     const a0 = 1 + alpha;
-    const b = [(1 - cos) / 2 / a0, (1 - cos) / a0, (1 - cos) / 2 / a0];
-    const a = [(-2 * cos) / a0, (1 - alpha) / a0];
+    const b: [number, number, number] = [
+        (1 - cos) / 2 / a0,
+        (1 - cos) / a0,
+        (1 - cos) / 2 / a0,
+    ];
+    const a: [number, number] = [(-2 * cos) / a0, (1 - alpha) / a0];
     const out = new Float32Array(samples.length);
     let x1 = 0,
         x2 = 0,
         y1 = 0,
         y2 = 0;
-    for (let i = 0; i < samples.length; i++) {
-        const x = samples[i];
+    let i = 0;
+    for (const x of samples) {
         const y = b[0] * x + b[1] * x1 + b[2] * x2 - a[0] * y1 - a[1] * y2;
-        out[i] = y;
+        out[i++] = y;
         x2 = x1;
         x1 = x;
         y2 = y1;
@@ -157,7 +164,12 @@ export function render(recipe: SynthRecipe, seconds = ReferenceSeconds): Mono {
     const shape = envelope(recipe, seconds, SampleRate);
     const source = oscillate(recipe.source, TonicHz, shape.length, SampleRate);
     const samples = new Float32Array(shape.length);
-    for (let i = 0; i < shape.length; i++) samples[i] = source[i] * shape[i];
+    for (const [i, gain] of shape.entries()) {
+        // `oscillate` renders exactly `shape.length` frames.
+        const value = source[i];
+        if (value === undefined) break;
+        samples[i] = value * gain;
+    }
     return {
         samples:
             recipe.cutoff === undefined

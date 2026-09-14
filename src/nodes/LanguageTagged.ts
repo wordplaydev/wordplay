@@ -29,7 +29,7 @@ export abstract class LanguageTagged extends Node {
 export function getPreferred<Kind extends LanguageTagged>(
     locales: (Locale | Locale)[],
     texts: Kind[],
-): Kind {
+): Kind | undefined {
     // Selection precedence (most-specific match wins):
     // 1. Monolingual exact-locale match: a tag with exactly one language code,
     //    equal to the locale's language, and (if region-tagged) matching region.

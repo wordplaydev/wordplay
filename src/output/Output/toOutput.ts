@@ -118,7 +118,7 @@ export function getTypeStyle(
     const [sizeVal, faceVal, placeVal] = getOutputInputs(value, index);
 
     const size = toNumber(sizeVal);
-    const face = toFace(faceVal) as SupportedFace;
+    const face = toFace(faceVal);
     const place = toPlace(placeVal);
 
     const style = getStyle(project, value, index + 3, place, includeChanging);

@@ -22,6 +22,7 @@ import TypePlaceholder from '@nodes/TypePlaceholder';
 import type TypeSet from '@nodes/TypeSet';
 import { OR_SYMBOL } from '@parser/Symbols';
 import Characters from '../lore/BasisCharacters';
+import { last, must } from '@util/nullable';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -85,11 +86,13 @@ export default class UnionType extends Type {
     }
 
     clone(replace?: Replacement) {
-        return new UnionType(
-            this.replaceChild('left', this.left, replace),
-            this.replaceChild('or', this.or, replace),
-            this.replaceChild('right', this.right, replace),
-        ) as this;
+        return this.cloned(
+            new UnionType(
+                this.replaceChild('left', this.left, replace),
+                this.replaceChild('or', this.or, replace),
+                this.replaceChild('right', this.right, replace),
+            ),
+        );
     }
 
     enumerate(): Type[] {
@@ -211,8 +214,9 @@ export default class UnionType extends Type {
         // Find the definitions that intersect across each type's definition list.
         // Do this by filtering the first set by all definitions for which all other sets have an equivalent definition.
         // This is what allows for polymorphism.
-        const first = definitionSets[0];
-        const rest = definitionSets.slice(1);
+        const [first, ...rest] = definitionSets;
+        // No possible types means no definitions to intersect.
+        if (first === undefined) return [];
         return rest.length == 0
             ? first
             : first.filter((def1) =>
@@ -249,17 +253,16 @@ export default class UnionType extends Type {
                 uniqueTypes.push(type);
         });
 
-        // If there's just one, return it.
-        if (uniqueTypes.length === 1) return uniqueTypes[0];
+        // Every type offers at least itself, so there is always a unique type
+        // here; an empty set is a never type, as above.
+        const [firstUnique, ...restUnique] = uniqueTypes;
+        if (firstUnique === undefined) return new NeverType();
 
-        // Otherwise construct a union type of all of them.
-        let union = uniqueTypes[0];
-        do {
-            uniqueTypes.shift();
-            if (uniqueTypes.length > 0)
-                union = UnionType.make(union, uniqueTypes[0]);
-        } while (uniqueTypes.length > 0);
-        return union;
+        // One type is itself; otherwise a left-nested union of all of them.
+        return restUnique.reduce<Type>(
+            (union, next) => UnionType.make(union, next),
+            firstUnique,
+        );
     }
 
     getCharacter() {
@@ -300,15 +303,17 @@ export default class UnionType extends Type {
      */
     getDescription(locales: Locales, context: Context): Markup {
         const filtered = this.getLocalizedTypes(locales, context);
+        // Every type offers at least itself as a possible type, and
+        // getLocalizedTypes falls back to all of them, so a union always has arms.
+        const lastArm = must(last(filtered), 'a union arm to describe');
         if (filtered.length === 1)
-            return filtered[0].getDescription(locales, context);
+            return lastArm.getDescription(locales, context);
         const headArms = filtered.slice(0, -1);
-        const last = filtered[filtered.length - 1];
         const headText = headArms
             .map((arm) => arm.getDescription(locales, context).toText())
             .join(', ');
         const head = filtered.length >= 3 ? `${headText},` : headText;
-        const tail = last.getDescription(locales, context).toText();
+        const tail = lastArm.getDescription(locales, context).toText();
         return locales.concretize((l) => l.node.UnionType.description, {
             first: head,
             second: tail,
@@ -338,8 +343,10 @@ export default class UnionType extends Type {
             }
         }
 
-        if (remaining.size === 0) return Array.from(remaining)[0];
-        else return UnionType.getPossibleUnion(context, Array.from(remaining));
+        // The loop above never removes the type it is comparing from, so at
+        // least one remains; an empty set would be a never type, which is what
+        // getPossibleUnion returns for one.
+        return UnionType.getPossibleUnion(context, Array.from(remaining));
     }
 
     getDefaultExpression(context: Context) {

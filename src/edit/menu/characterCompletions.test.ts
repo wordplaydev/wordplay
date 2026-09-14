@@ -89,7 +89,7 @@ describe('custom characters in the autocomplete menu', () => {
             expect(
                 positions[i],
                 `${Characters[i]} is offered before ${Characters[i - 1]}`,
-            ).toBeGreaterThan(positions[i - 1]);
+            ).toBeGreaterThan(positions[i - 1]!);
     });
 
     test('no characters means no character suggestions', () => {

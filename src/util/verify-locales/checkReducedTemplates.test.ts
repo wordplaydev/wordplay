@@ -9,7 +9,7 @@ import checkReducedTemplates from './checkReducedTemplates';
  * source and nothing else can fire.
  */
 function copyLocale(): LocaleText {
-    return JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    return structuredClone(DefaultLocale);
 }
 
 test('a template reduced to only its input is reported', () => {

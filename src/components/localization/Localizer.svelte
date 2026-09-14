@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { isStringArray } from '@util/guards';
     import Link from '@components/app/Link.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import TemplateInputsPanel from '@components/localization/TemplateInputsPanel.svelte';
@@ -19,12 +20,22 @@
      *  be several paragraphs long. */
     let guidanceExpanded = $state(false);
 
+    /** The text a focused path resolves to, when it resolves to text: a path
+     *  may name any place in the tree, and only a string (or a document's list
+     *  of paragraphs) is something to show or edit. */
+    function textAt(result: unknown): string | undefined {
+        return typeof result === 'string'
+            ? result
+            : isStringArray(result)
+              ? result.join('\n\n')
+              : undefined;
+    }
+
     /** The English reference text for whichever LocalizedText is currently being edited. */
     let focusedEnglishText = $derived.by(() => {
         const accessor = localizing.focused;
         if (!accessor) return undefined;
-        const result = accessor(DefaultLocale);
-        return Array.isArray(result) ? result.join('\n\n') : result;
+        return textAt(accessor(DefaultLocale));
     });
 
     /** Dotted path of the focused field, for the TemplateInputsPanel. */
@@ -40,8 +51,7 @@
     const focusedDraft = $derived.by(() => {
         const accessor = localizing.focused;
         if (!accessor) return '';
-        const result = accessor($locales.getLocale());
-        return Array.isArray(result) ? result.join('\n\n') : (result ?? '');
+        return textAt(accessor($locales.getLocale())) ?? '';
     });
 
     /** Number of pending edits for the currently-active locale. Edits made

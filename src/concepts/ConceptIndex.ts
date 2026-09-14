@@ -122,7 +122,7 @@ export default class ConceptIndex {
         // Text @links (e.g. @Phrase, @Color.random).
         for (const node of markup.nodes())
             if (node instanceof ConceptLink) {
-                const [base, property] = node.getName().split(/[./]/);
+                const [base = '', property] = node.getName().split(/[./]/);
                 const owner = this.getConceptByName(base);
                 bump(
                     property && owner

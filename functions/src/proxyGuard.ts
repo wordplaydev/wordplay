@@ -1,4 +1,5 @@
 import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
+import { isRecord } from './shared/guards.js';
 
 /**
  * Refuse a callable to a proxy session (#1313).
@@ -38,9 +39,5 @@ export function noProxy<Inputs, Output>(
  *  outlive the session it was minted for. */
 export function isProxy(request: { auth?: { token?: unknown } }): boolean {
     const token = request.auth?.token;
-    return (
-        typeof token === 'object' &&
-        token !== null &&
-        (token as { proxy?: unknown }).proxy === true
-    );
+    return isRecord(token) && token.proxy === true;
 }

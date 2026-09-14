@@ -72,12 +72,14 @@ export default class PatternQuantifier extends PatternNode {
     }
 
     clone(replace?: Replacement) {
-        return new PatternQuantifier(
-            this.replaceChild('relation', this.relation, replace),
-            this.replaceChild('low', this.low, replace),
-            this.replaceChild('dash', this.dash, replace),
-            this.replaceChild('high', this.high, replace),
-        ) as this;
+        return this.cloned(
+            new PatternQuantifier(
+                this.replaceChild('relation', this.relation, replace),
+                this.replaceChild('low', this.low, replace),
+                this.replaceChild('dash', this.dash, replace),
+                this.replaceChild('high', this.high, replace),
+            ),
+        );
     }
 
     computeConflicts(): Conflict[] {

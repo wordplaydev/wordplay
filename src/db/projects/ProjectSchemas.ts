@@ -11,6 +11,7 @@
  */
 
 import { z } from 'zod';
+import { isRecord } from '@util/guards';
 import { ModerationStateSchema } from './Moderation';
 
 /** Schema for the cursor position path. Exported because a chat message's code
@@ -393,19 +394,25 @@ export const ProjectSchema = ProjectSchemaV12;
 /** The type of the latest version of the project */
 export type SerializedProject = z.infer<typeof ProjectSchemaV12>;
 
-export type SerializedProjectUnknownVersion =
-    | z.infer<typeof ProjectSchemaV1>
-    | z.infer<typeof ProjectSchemaV2>
-    | z.infer<typeof ProjectSchemaV3>
-    | z.infer<typeof ProjectSchemaV4>
-    | z.infer<typeof ProjectSchemaV5>
-    | z.infer<typeof ProjectSchemaV6>
-    | z.infer<typeof ProjectSchemaV7>
-    | z.infer<typeof ProjectSchemaV8>
-    | z.infer<typeof ProjectSchemaV9>
-    | z.infer<typeof ProjectSchemaV10>
-    | z.infer<typeof ProjectSchemaV11>
-    | SerializedProject;
+/** Every version a stored project may have, newest first. */
+export const SerializedProjectUnknownVersionSchema = z.union([
+    ProjectSchemaV12,
+    ProjectSchemaV11,
+    ProjectSchemaV10,
+    ProjectSchemaV9,
+    ProjectSchemaV8,
+    ProjectSchemaV7,
+    ProjectSchemaV6,
+    ProjectSchemaV5,
+    ProjectSchemaV4,
+    ProjectSchemaV3,
+    ProjectSchemaV2,
+    ProjectSchemaV1,
+]);
+
+export type SerializedProjectUnknownVersion = z.infer<
+    typeof SerializedProjectUnknownVersionSchema
+>;
 
 /** Project updgrader */
 export function upgradeProject(
@@ -494,7 +501,7 @@ export function upgradeProject(
  * something we can't confidently identify as old.
  */
 export function needsSchemaUpgrade(raw: unknown): boolean {
-    if (typeof raw !== 'object' || raw === null) return false;
-    const v = (raw as { v?: unknown }).v;
+    if (!isRecord(raw)) return false;
+    const v = raw.v;
     return typeof v === 'number' && v < ProjectSchemaLatestVersion;
 }

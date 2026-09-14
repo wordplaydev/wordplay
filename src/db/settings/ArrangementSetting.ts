@@ -1,4 +1,5 @@
 import { Arrangement, type ArrangementType } from '@db/settings/Arrangement';
+import { isArrangement } from '@db/settings/Arrangement';
 import Setting from '@db/settings/Setting';
 
 export const ArrangementSetting = new Setting<ArrangementType>(
@@ -6,9 +7,6 @@ export const ArrangementSetting = new Setting<ArrangementType>(
     true,
     Arrangement.Responsive,
     (value) =>
-        typeof value === 'string' &&
-        Object.values<string>(Arrangement).includes(value)
-            ? (value as ArrangementType)
-            : undefined,
+        typeof value === 'string' && isArrangement(value) ? value : undefined,
     (current, value) => current == value,
 );

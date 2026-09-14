@@ -1,5 +1,6 @@
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
+import { keysOf } from '@util/nullable';
 import { collectingLog } from '@util/verify-locales/Log';
 import { expect, test } from 'vitest';
 import checkExampleDocs from './checkExampleDocs';
@@ -16,12 +17,9 @@ import checkExampleDocs from './checkExampleDocs';
  *  which is the state that hid — a string that differs from en-US everywhere
  *  except the sentence a reader sees. */
 function locale(phrase: string): LocaleText {
-    const copy = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
-    const captions = copy.ui.page.landing.tour.example as Record<
-        string,
-        string
-    >;
-    for (const key of Object.keys(captions))
+    const copy = structuredClone(DefaultLocale);
+    const captions = copy.ui.page.landing.tour.example;
+    for (const key of keysOf(captions))
         captions[key] = captions[key].replace(
             /¶([^¶]+)¶/,
             (_, doc: string) => `¶ø${doc}¶`,

@@ -2,6 +2,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { Scripts, type Script } from '@locale/Scripts';
+import { must } from '@util/nullable';
 import {
     FallbackFaces,
     UncoveredScripts,
@@ -137,7 +138,7 @@ describe('fallback face ranges and files', () => {
                 const first = range.trim().match(/^U\+([0-9A-Fa-f]+)/);
                 expect(first).not.toBeNull();
                 if (first)
-                    expect(rangeContains(range, parseInt(first[1], 16))).toBe(
+                    expect(rangeContains(range, parseInt(first[1]!, 16))).toBe(
                         true,
                     );
             }
@@ -163,7 +164,7 @@ describe('fallback face ranges and files', () => {
 
     test('the shared CJK creator faces use the fallback registry ranges', () => {
         for (const name of SharedCJKFaces) {
-            const creator = Faces[name];
+            const creator = must(Faces[name], name);
             const fallback = FallbackFaces.find((face) => face.name === name);
             expect(
                 fallback,
@@ -196,7 +197,7 @@ describe('CSS and TS artifacts stay in sync', () => {
         // Collect (family, weight, url, range) tuples from the CSS.
         const declared = new Set<string>();
         for (const block of css.matchAll(/@font-face\s*\{([^}]*)\}/g)) {
-            const body = block[1];
+            const body = block[1]!;
             const family = body.match(/font-family:\s*'([^']+)';/)?.[1];
             const weight = body.match(/font-weight:\s*([^;]+);/)?.[1]?.trim();
             const url = body.match(/src:\s*url\(([^)]+)\)/)?.[1];
@@ -238,7 +239,7 @@ describe('CSS and TS artifacts stay in sync', () => {
                         (u) => u.includes(`-${key}-`),
                     );
                     // deduped is keyed by the served path without a leading '/'.
-                    const narrowed = deduped.get(url.replace(/^\//, '')) ?? '';
+                    const narrowed = deduped.get(url!.replace(/^\//, '')) ?? '';
                     if (narrowed === '') continue;
                     expected.add(
                         `${face.name}|${cssWeight}|${url}|${narrowed}`,

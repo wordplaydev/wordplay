@@ -1,4 +1,5 @@
 import { getPlacingMotion } from '@input/Motion/Motion';
+import { includesString, keysOf } from '@util/nullable';
 import {
     cancelPoseMusic,
     listeningForPoseMusic,
@@ -16,7 +17,7 @@ import {
 } from '@output/Cues/animations';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
-import { Easings, type EasingName } from '@output/animation/easing';
+import { EasingNames, Easings } from '@output/animation/easing';
 import type Animator from '@output/animation/Animator';
 import { getAnimatingNodes } from '@output/animation/animatingNodes';
 import type {
@@ -50,6 +51,16 @@ export type AnimationState =
     (typeof AnimationState)[keyof typeof AnimationState];
 
 export type TransitionSequence = [Transition, Transition, ...Transition[]];
+
+/** A sequence with each transition replaced, keeping its length: `map` on a
+ *  tuple returns a plain array, and a sequence is two or more by definition. */
+function mapSequence(
+    sequence: TransitionSequence,
+    change: (transition: Transition) => Transition,
+): TransitionSequence {
+    const [first, second, ...rest] = sequence;
+    return [change(first), change(second), ...rest.map(change)];
+}
 
 const Log = false;
 
@@ -397,7 +408,7 @@ export default class OutputAnimation {
                 0,
             );
             let currentDuration = 0;
-            const placed = transitions.map((transition) => {
+            const placed = mapSequence(transitions, (transition) => {
                 currentDuration += transition.duration;
                 const percent = currentDuration / totalDuration;
                 const interpolatedPlace = new Place(
@@ -411,7 +422,7 @@ export default class OutputAnimation {
                 //     (prior.rotation ?? 0) +
                 //         (present.rotation ?? 0) * percent
                 // );
-            }) as TransitionSequence;
+            });
 
             // Start the sequence
             this.start(AnimationState.Moving, placed);
@@ -828,7 +839,9 @@ export default class OutputAnimation {
         totalDuration: number,
         info: OutputInfo,
     ): Keyframe[] | undefined {
-        if (this.animator.evaluator === undefined) return undefined;
+        const evaluator = this.animator.evaluator;
+        if (evaluator === undefined) return undefined;
+        const locales = evaluator.project.getLocales();
 
         // Compute the focus place in this phrase's parent coordinate system.
         const parents = info.parents;
@@ -925,12 +938,7 @@ export default class OutputAnimation {
                 totalDuration;
 
             keyframe.offset = Math.max(0, Math.min(1, currentOffset));
-            // Safe: buildKeyframes returned early above when animator.evaluator
-            // was undefined, so it can't be undefined here.
-            keyframe.easing = styleToCSSEasing(
-                this.animator.evaluator!.project.getLocales(),
-                transition.style,
-            );
+            keyframe.easing = styleToCSSEasing(locales, transition.style);
 
             return keyframe;
         });
@@ -1058,7 +1066,8 @@ const StyleToCSSMapping = {
     pokey: 'ease-in',
     cautious: 'ease-in-out',
     zippy: 'ease-out',
-};
+} as const;
+const StyleKeys = keysOf(StyleToCSSMapping);
 
 // A cache of values to keys for each locale.
 const styleValueToKeyByLocale: Map<LocaleText, Map<string, string>> = new Map();
@@ -1069,9 +1078,11 @@ export function styleToCSSEasing(locales: Locales, name: string | undefined) {
 
     // Get the Easing dictionary from each locale, flatten into a list of key value pairs, and find the name with the matching value.
     for (const locale of locales.getLocales()) {
+        // A locale's Easing table is data, so a key it names is checked
+        // against the mapping rather than trusted.
         const key = getStyleValueToKey(locale).get(name);
-        if (key)
-            return StyleToCSSMapping[key as keyof typeof StyleToCSSMapping];
+        if (key !== undefined && includesString(StyleKeys, key))
+            return StyleToCSSMapping[key];
     }
 
     return 'ease-out';
@@ -1087,7 +1098,9 @@ export function styleToEasingFunction(
     name: string | undefined,
 ): (x: number) => number {
     const css = styleToCSSEasing(locales, name);
-    return Easings[css as EasingName] ?? Easings['ease-out'];
+    return includesString(EasingNames, css)
+        ? Easings[css]
+        : Easings['ease-out'];
 }
 
 function getStyleValueToKey(locale: LocaleText) {
@@ -1154,8 +1167,11 @@ function getChangingValueToKey(locale: LocaleText) {
  *  this compares poses within one tween, never across frames: a spinning body's
  *  rotation changes every frame but is identical on all of its keyframes. */
 export function isPlaceOnlyTween(transitions: Transition[]): boolean {
+    const first = transitions[0];
+    // An empty tween holds no differing poses, as `every` reported before.
+    if (first === undefined) return true;
     return transitions.every((transition) =>
-        transition.pose.equals(transitions[0].pose),
+        transition.pose.equals(first.pose),
     );
 }
 
@@ -1168,11 +1184,13 @@ export function sameAnimatingNodes(
 ): boolean {
     return (
         before.length === after.length &&
-        before.every(
-            (transition, index) =>
-                transition.pose.value.creator ===
-                after[index].pose.value.creator,
-        )
+        before.every((transition, index) => {
+            const other = after[index];
+            return (
+                other !== undefined &&
+                transition.pose.value.creator === other.pose.value.creator
+            );
+        })
     );
 }
 

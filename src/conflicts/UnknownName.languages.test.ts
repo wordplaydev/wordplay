@@ -6,13 +6,15 @@ import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
 import type LocaleText from '@locale/LocaleText';
 import { setLocaleNameIndex } from '@locale/localeNameIndex';
+import type Context from '@nodes/Context';
 import Source from '@nodes/Source';
 import { readFileSync } from 'fs';
 import { afterEach, expect, test } from 'vitest';
+import { must } from '@util/nullable';
 
-const es = JSON.parse(
+const es: LocaleText = JSON.parse(
     readFileSync('static/locales/es-MX/es-MX.json', 'utf8'),
-) as LocaleText;
+);
 
 /**
  * A name can fail to resolve just because the project isn't written in the language that
@@ -26,6 +28,14 @@ const index = {
 };
 
 afterEach(() => setLocaleNameIndex(undefined));
+
+/** A real context, which a resolution's description takes but never reads. */
+function someContext(): Context {
+    const source = new Source('empty', '');
+    return Project.make('p', 'p', source, [], [DefaultLocale]).getContext(
+        source,
+    );
+}
 
 function resolutionsFor(
     code: string,
@@ -51,10 +61,11 @@ test('an unresolved name that another language spells that way names the languag
 
     const pointers = resolutionsFor('Frase("hola")');
     expect(pointers).toHaveLength(1);
-    expect(pointers[0].openDialog).toBe(LanguagesDialogID);
+    const pointer = must(pointers[0], 'a resolution');
+    expect(pointer.openDialog).toBe(LanguagesDialogID);
 
     // The message has to say *which* language, or there's nothing to act on.
-    const text = pointers[0].description(DefaultLocales, {} as never).toText();
+    const text = pointer.description(DefaultLocales, someContext()).toText();
     expect(text).toContain('Frase');
     // The language in its own name, as every other language label in the app reads.
     expect(text).toContain('español');
@@ -83,7 +94,9 @@ test('English is never a missing name, but can be a missing keyword', () => {
     const english = resolutionsFor('mientras(x) x', [es]);
     expect(english).toHaveLength(1);
     expect(
-        english[0].description(DefaultLocales, {} as never).toText(),
+        must(english[0], 'a resolution')
+            .description(DefaultLocales, someContext())
+            .toText(),
     ).toContain('English');
 });
 

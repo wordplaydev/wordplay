@@ -222,6 +222,7 @@ export default function bootstrapFormatted(locales: Locales) {
                     ),
                     FormattedType.make(),
                     TextType.make(),
+                    MarkupValue,
                     // Strips all markup (bold, italic, links, …) via toText(),
                     // keeping only the plain text and the locale.
                     (requestor: Expression, val: MarkupValue) =>
@@ -238,6 +239,7 @@ export default function bootstrapFormatted(locales: Locales) {
                     ),
                     FormattedType.make(),
                     ListType.make(TextType.make()),
+                    MarkupValue,
                     // The plain text split by grapheme, mirroring Text → [''].
                     // Formatting can't survive being cut into single symbols.
                     (requestor: Expression, val: MarkupValue) =>
@@ -262,6 +264,7 @@ export default function bootstrapFormatted(locales: Locales) {
                     ),
                     FormattedType.make(),
                     NumberType.make(),
+                    MarkupValue,
                     (requestor: Expression, val: MarkupValue) =>
                         new NumberValue(requestor, val.markup.getPlainText()),
                 ),

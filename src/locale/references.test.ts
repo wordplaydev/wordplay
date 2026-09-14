@@ -10,9 +10,7 @@ test('every reference in en-US resolves', () => {
     // verifier checks all 30 locales at CI time; this catches en-US in the
     // ordinary test run, where the mistake is introduced.
     const broken: string[] = [];
-    for (const pair of getKeyTemplatePairs(
-        DefaultLocale as unknown as Record<string, unknown>,
-    )) {
+    for (const pair of getKeyTemplatePairs(DefaultLocale)) {
         const values = Array.isArray(pair.value) ? pair.value : [pair.value];
         for (const value of values) {
             if (typeof value !== 'string' || !value.includes('@')) continue;

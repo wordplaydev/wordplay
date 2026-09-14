@@ -1,4 +1,5 @@
 import type { ClassSigninMethod } from 'shared-types';
+import { isRecord, isStringArray } from './shared/guards.js';
 import {
     foldUsername,
     isMailableAddress,
@@ -86,17 +87,12 @@ export function readRoster(
 
     const read: RosterStudent[] = [];
     for (const entry of students) {
-        if (typeof entry !== 'object' || entry === null)
+        if (!isRecord(entry))
             return generic('expected each student to be a record');
-        const {
-            username: typed,
-            meta,
-            email,
-            password,
-        } = entry as Record<string, unknown>;
+        const { username: typed, meta, email, password } = entry;
         if (typeof typed !== 'string')
             return generic('expected each student to have a username');
-        if (!Array.isArray(meta) || meta.some((m) => typeof m !== 'string'))
+        if (!isStringArray(meta))
             return generic('expected each student to have a list of text');
 
         // A client from before #1347 sends the synthesized address as the
@@ -129,7 +125,7 @@ export function readRoster(
                 username,
                 address,
                 password: undefined,
-                meta: meta as string[],
+                meta,
             });
         } else {
             if (typeof email === 'string' && email.trim() !== '')
@@ -145,7 +141,7 @@ export function readRoster(
                 username,
                 address: usernameEmail(username),
                 password,
-                meta: meta as string[],
+                meta,
             });
         }
     }

@@ -1,5 +1,6 @@
 import Gallery from '@db/galleries/Gallery';
 import DefaultLocales from '@locale/DefaultLocales';
+import { must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 import { galleriesWorthSearching, searchGalleries } from './search';
 
@@ -46,9 +47,10 @@ describe('searchGalleries', () => {
             DefaultLocales,
         );
         expect(rest).toHaveLength(0);
-        expect(match.gallery.getID()).toBe('games');
+        const found = must(match, 'a match');
+        expect(found.gallery.getID()).toBe('games');
         // A description hit carries a snippet; a name hit doesn't need one.
-        expect(match.matchText).toContain('symbols');
+        expect(found.matchText).toContain('symbols');
     });
 
     test('ranks a name match above a description match', () => {
@@ -60,11 +62,10 @@ describe('searchGalleries', () => {
             { 'en-US': 'Leftovers from making games.' },
         );
         expect(
-            searchGalleries(
-                [prose, games],
-                'games',
-                DefaultLocales,
-            )[0].gallery.getID(),
+            must(
+                searchGalleries([prose, games], 'games', DefaultLocales)[0],
+                'a match',
+            ).gallery.getID(),
         ).toBe('games');
     });
 

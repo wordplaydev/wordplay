@@ -4,9 +4,11 @@ import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
 import Locales, { MULTILINGUAL_SEPARATOR } from '@locale/Locales';
 import { describe, expect, test } from 'vitest';
+import { must } from '@util/nullable';
+import type LanguageCode from '@locale/LanguageCode';
 
 /** Build a locale that's like en-US but with a different language and `glossary.start.word`. */
-function localeWith(language: string, start: string): LocaleText {
+function localeWith(language: LanguageCode, start: string): LocaleText {
     return {
         ...DefaultLocale,
         language,
@@ -14,7 +16,7 @@ function localeWith(language: string, start: string): LocaleText {
             ...DefaultLocale.glossary,
             start: { ...DefaultLocale.glossary.start, word: start },
         },
-    } as unknown as LocaleText;
+    };
 }
 
 const en = DefaultLocale; // glossary.start.word === 'start'
@@ -35,13 +37,17 @@ describe('getSecondaryLocaleViews', () => {
     test('returns one single-locale view per non-primary locale, in order', () => {
         const views = locales(en, es).getSecondaryLocaleViews();
         expect(views).toHaveLength(1);
-        expect(views[0].getLocale().language).toBe('es');
+        expect(views[0]?.getLocale().language).toBe('es');
     });
 
     test('an unwritten secondary string stays detectable (no English fallback)', () => {
         const [view] = locales(en, esUnwritten).getSecondaryLocaleViews();
         // Falls back to its own locale (annotated unwritten), not to English.
-        expect(view.getWithAnnotations(start).startsWith(Unwritten)).toBe(true);
+        expect(
+            must(view, 'a secondary view')
+                .getWithAnnotations(start)
+                .startsWith(Unwritten),
+        ).toBe(true);
     });
 });
 
@@ -49,7 +55,7 @@ describe('getMultilingualEntries', () => {
     test('single locale collapses to one entry equal to the resolved text', () => {
         const entries = locales(en).getMultilingualEntries(start);
         expect(entries).toHaveLength(1);
-        expect(entries[0].text).toBe('start');
+        expect(entries[0]?.text).toBe('start');
     });
 
     test('multiple locales return ordered, primary-first entries with languages', () => {
@@ -144,7 +150,7 @@ describe('getMultilingualMarkupFrom', () => {
         expect(entries).toHaveLength(1);
         // This flattened text becomes an aria-label, so it must read as a plain
         // sentence — no leftover template syntax or markup delimiters.
-        expect(entries[0].markup.toText()).toBe('show source main');
+        expect(entries[0]?.markup.toText()).toBe('show source main');
     });
 
     test('a function input names the value in each locale', () => {
@@ -159,7 +165,7 @@ describe('getMultilingualMarkupFrom', () => {
             }),
         );
         expect(entries).toHaveLength(1);
-        expect(entries[0].markup.toText()).toBe('show stage');
+        expect(entries[0]?.markup.toText()).toBe('show stage');
     });
 
     test('gives one entry per chosen locale', () => {
@@ -169,6 +175,6 @@ describe('getMultilingualMarkupFrom', () => {
             { name: 'song' },
         );
         expect(entries).toHaveLength(1);
-        expect(entries[0].language).toBe('en');
+        expect(entries[0]?.language).toBe('en');
     });
 });

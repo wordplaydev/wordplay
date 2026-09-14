@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';
+import { matchGroups } from '@util/nullable';
 
 /**
  * Every conflict a node can raise needs a test that raises it *from that node*.
@@ -105,8 +106,10 @@ for (const file of tests) {
             if (!new RegExp(`\\b${conflict}\\b`).test(line)) continue;
             const near = testedWith.get(conflict) ?? new Set<string>();
             // The node type a `testConflict` row names sits on the same row.
-            for (const [, id] of line.matchAll(/\b([A-Z][A-Za-z]+)\b/g))
-                near.add(id);
+            for (const match of line.matchAll(/\b([A-Z][A-Za-z]+)\b/g)) {
+                const [, id] = matchGroups(match);
+                if (id !== undefined) near.add(id);
+            }
             // The file itself counts: `Delete.test.ts` naming IncompatibleInput
             // is a test of that conflict from that node.
             near.add(path.basename(file, '.test.ts'));

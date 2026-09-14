@@ -92,9 +92,12 @@ export default function getLocalTranslator(options?: {
         async function worker(): Promise<void> {
             for (;;) {
                 const index = next++;
-                if (index >= texts.length) return;
+                const text = texts[index];
+                // The list is dense, so an index below its length always has a
+                // text; either way there is no more work to take.
+                if (index >= texts.length || text === undefined) return;
                 try {
-                    results[index] = await translator.translate(texts[index]);
+                    results[index] = await translator.translate(text);
                     succeeded = true;
                 } catch (_) {
                     // One string the model wouldn't take costs that string —

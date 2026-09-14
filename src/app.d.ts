@@ -9,9 +9,3 @@ declare namespace App {
     // interface Session {}
     // interface Stuff {}
 }
-
-declare namespace svelteHTML {
-    interface HTMLAttributes {
-        'on:outclick'?: (event: unknown) => unknown;
-    }
-}

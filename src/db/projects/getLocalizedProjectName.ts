@@ -39,8 +39,10 @@ const TextOpenDelimiters = new Set(Object.keys(TextCloseByTextOpen));
  * and produces partial trees on bad input).
  */
 export function parseAsMultilingualName(raw: string): TextLiteral | undefined {
-    if (raw.length === 0) return undefined;
-    if (!TextOpenDelimiters.has(raw[0])) return undefined;
+    // An absent first character is an empty string, which is not a name.
+    const open = raw[0];
+    if (open === undefined) return undefined;
+    if (!TextOpenDelimiters.has(open)) return undefined;
     let expr;
     try {
         expr = toExpression(raw);
@@ -124,8 +126,9 @@ export function getProjectNameCount(raw: string): number {
  * TextLiteral but doesn't parse cleanly.
  */
 export function validateProjectName(name: string): true | LocaleTextAccessor {
-    if (name.length === 0) return true;
-    if (!TextOpenDelimiters.has(name[0])) return true;
+    const open = name[0];
+    if (open === undefined) return true;
+    if (!TextOpenDelimiters.has(open)) return true;
     if (parseAsMultilingualName(name) !== undefined) return true;
     return (l: LocaleText) => l.ui.project.field.name.invalid;
 }

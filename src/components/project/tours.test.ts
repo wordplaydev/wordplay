@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync, statSync } from 'fs';
 import { join } from 'path';
+import { matchGroups } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 import type Tutorial from '../../tutorial/Tutorial';
 import { TourIDs, Tours, isTourID, type TourID } from './tours';
@@ -26,9 +27,14 @@ function readTargets(dir: string, found: Set<string>) {
         if (statSync(path).isDirectory()) readTargets(path, found);
         else if (/\.svelte$|\.ts$/.test(entry) && !NotTargets.includes(entry)) {
             const source = readFileSync(path, 'utf8');
-            for (const assignment of source.matchAll(Assignment))
-                for (const literal of assignment[1].matchAll(Literal))
-                    found.add(literal[1]);
+            for (const assignment of source.matchAll(Assignment)) {
+                const [, list] = matchGroups(assignment);
+                if (list === undefined) continue;
+                for (const literal of list.matchAll(Literal)) {
+                    const [, target] = matchGroups(literal);
+                    if (target !== undefined) found.add(target);
+                }
+            }
         }
     }
 }
@@ -70,8 +76,11 @@ test('every @Tour reference in every locale names a real tour', () => {
             const path = join(dir, file);
             for (const match of readFileSync(path, 'utf8').matchAll(
                 /@[Tt]our\/([A-Za-z0-9_-]*)/g,
-            ))
-                if (!isTourID(match[1])) bad.push(`${path}: ${match[0]}`);
+            )) {
+                const [whole, id] = matchGroups(match);
+                if (id === undefined || !isTourID(id))
+                    bad.push(`${path}: ${whole}`);
+            }
         }
     }
     expect(bad).toEqual([]);

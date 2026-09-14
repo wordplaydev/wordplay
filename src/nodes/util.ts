@@ -13,10 +13,9 @@ import Token from '@nodes/Token';
 export function requiredBindAfterOptional(
     inputs: Bind[],
 ): RequiredAfterOptional | undefined {
-    const binds = inputs.filter((i) => i instanceof Bind) as Bind[];
     let foundOptional = false;
     let requiredAfterOptional: Bind | undefined = undefined;
-    binds.forEach((bind) => {
+    inputs.forEach((bind) => {
         if (bind.value !== undefined) foundOptional = true;
         else if (
             bind.value === undefined &&
@@ -26,15 +25,14 @@ export function requiredBindAfterOptional(
             requiredAfterOptional = bind;
     });
 
-    return inputs.length === binds.length && requiredAfterOptional !== undefined
+    return inputs.length === inputs.length &&
+        requiredAfterOptional !== undefined
         ? new RequiredAfterOptional(requiredAfterOptional)
         : undefined;
 }
 
 export function restIsNotLast(inputs: Bind[]) {
-    const rest = inputs.find(
-        (i) => i instanceof Bind && i.isVariableLength(),
-    ) as Bind | undefined;
+    const rest = inputs.find((i) => i.isVariableLength());
     return rest !== undefined && inputs.indexOf(rest) !== inputs.length - 1
         ? new InputListMustBeLast(rest)
         : undefined;
@@ -72,12 +70,12 @@ export function getEvaluationInputConflicts(inputs: Bind[]) {
 
 export function endsWithName(node: Node) {
     const tokens = node.nodes((t): t is Token => t instanceof Token);
-    return tokens.length > 0 && tokens[tokens.length - 1].isSymbol(Sym.Name);
+    return tokens[tokens.length - 1]?.isSymbol(Sym.Name) ?? false;
 }
 
 export function startsWithName(node: Node) {
     const tokens = node.nodes((t): t is Token => t instanceof Token);
-    return tokens.length > 0 && tokens[0].isSymbol(Sym.Name);
+    return tokens[0]?.isSymbol(Sym.Name) ?? false;
 }
 
 /**

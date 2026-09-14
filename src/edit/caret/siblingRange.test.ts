@@ -30,7 +30,7 @@ function values(source: Source) {
 test('two statements of one block are a range, in document order', () => {
     const source = new Source('test', '1\n2\n3');
     const [one, two, three] = statements(source);
-    const range = getSiblingRange(source.root, three, one);
+    const range = getSiblingRange(source.root, three!, one!);
     expect(range).toBeDefined();
     // Given out of order, the range still runs first to last.
     expect(nodesInRange(range!)).toEqual([one, two, three]);
@@ -39,11 +39,13 @@ test('two statements of one block are a range, in document order', () => {
 
 test('nodes in different parents are not a range', () => {
     const source = new Source('test', '[1 2]\n[3 4]');
-    const lists = source.nodes().filter((n) => n instanceof ListLiteral);
+    const lists = source
+        .nodes()
+        .filter((n): n is ListLiteral => n instanceof ListLiteral);
     const range = getSiblingRange(
         source.root,
-        (lists[0] as ListLiteral).values[0],
-        (lists[1] as ListLiteral).values[0],
+        lists[0]!.values[0]!,
+        lists[1]!.values[0]!,
     );
     expect(range).toBeUndefined();
 });
@@ -54,22 +56,24 @@ test('a node not in a list field is not a range', () => {
     const nodes = source.nodes();
     const numbers = nodes.filter((n) => n.toWordplay().trim() === '1');
     const others = nodes.filter((n) => n.toWordplay().trim() === '2');
-    expect(getSiblingRange(source.root, numbers[0], others[0])).toBeUndefined();
+    expect(
+        getSiblingRange(source.root, numbers[0]!, others[0]!),
+    ).toBeUndefined();
 });
 
 test('siblingOf walks the list and stops at its ends', () => {
     const source = new Source('test', '1\n2\n3');
     const [one, two, three] = statements(source);
-    expect(siblingOf(source.root, one, 1)).toBe(two);
-    expect(siblingOf(source.root, two, 1)).toBe(three);
-    expect(siblingOf(source.root, three, 1)).toBeUndefined();
-    expect(siblingOf(source.root, one, -1)).toBeUndefined();
+    expect(siblingOf(source.root, one!, 1)).toBe(two);
+    expect(siblingOf(source.root, two!, 1)).toBe(three);
+    expect(siblingOf(source.root, three!, 1)).toBeUndefined();
+    expect(siblingOf(source.root, one!, -1)).toBeUndefined();
 });
 
 test('removing a run of statements closes the gap to one line break', () => {
     const source = new Source('test', '1\n2\n3\n4');
     const [, two, three] = statements(source);
-    const range = getSiblingRange(source.root, two, three)!;
+    const range = getSiblingRange(source.root, two!, three!)!;
     const revised = withoutRun(source, range);
     // Removing each node separately would concatenate their leading spaces onto
     // the survivor, leaving blank lines that formatting never takes back.
@@ -82,7 +86,7 @@ test('removing a run of statements closes the gap to one line break', () => {
 test('removing a run of inline values keeps the list on one line', () => {
     const source = new Source('test', '[1 2 3 4]');
     const [, two, three] = values(source);
-    const range = getSiblingRange(source.root, two, three)!;
+    const range = getSiblingRange(source.root, two!, three!)!;
     expect(withoutRun(source, range)?.source.getCode().toString()).toBe(
         '[1 4]',
     );
@@ -91,21 +95,21 @@ test('removing a run of inline values keeps the list on one line', () => {
 test('removing a run at the start of a list leaves no leading space', () => {
     const source = new Source('test', '[1 2 3]');
     const [one, two] = values(source);
-    const range = getSiblingRange(source.root, one, two)!;
+    const range = getSiblingRange(source.root, one!, two!)!;
     expect(withoutRun(source, range)?.source.getCode().toString()).toBe('[3]');
 });
 
 test('removing a run at the end of a list leaves the survivors alone', () => {
     const source = new Source('test', '[1 2 3]');
     const [, two, three] = values(source);
-    const range = getSiblingRange(source.root, two, three)!;
+    const range = getSiblingRange(source.root, two!, three!)!;
     expect(withoutRun(source, range)?.source.getCode().toString()).toBe('[1]');
 });
 
 test('a list that may be empty permits removing all of it', () => {
     const source = new Source('test', '[1 2]');
     const [one, two] = values(source);
-    const range = getSiblingRange(source.root, one, two)!;
+    const range = getSiblingRange(source.root, one!, two!)!;
     expect(rangeIsRemovable(range)).toBe(true);
     expect(withoutRun(source, range)?.source.getCode().toString()).toBe('[]');
 });

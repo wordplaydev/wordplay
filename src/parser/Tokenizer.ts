@@ -1,4 +1,5 @@
 import { Sym, type SymType } from '@nodes/Sym';
+import { matchGroups, must } from '@util/nullable';
 import Token from '@nodes/Token';
 import type { KeywordIndex } from '@parser/Keywords';
 import { withoutColorSelector } from '@unicode/emoji';
@@ -753,14 +754,12 @@ const PatternTokenPatterns: TokenPattern[] = [
  * character classes, not a single insertable glyph). See PossibleEdits.
  */
 export const PatternSymbolGlyphs: ReadonlyMap<SymType, string> = new Map(
-    PatternTokenPatterns.flatMap((p) =>
-        typeof p.pattern === 'string'
-            ? p.types.map((sym): [SymType, string] => [
-                  sym,
-                  p.pattern as string,
-              ])
-            : [],
-    ),
+    PatternTokenPatterns.flatMap((p) => {
+        const pattern = p.pattern;
+        return typeof pattern === 'string'
+            ? p.types.map((sym): [SymType, string] => [sym, pattern])
+            : [];
+    }),
 );
 
 /**
@@ -779,11 +778,14 @@ export const PatternSymbolGlyphs: ReadonlyMap<SymType, string> = new Map(
 export const LiteralMultiCharTokens: ReadonlyArray<{
     text: string;
     sym: SymType;
-}> = CodeTokenPatterns.flatMap((p) =>
-    typeof p.pattern === 'string' && Array.from(p.pattern).length >= 2
-        ? [{ text: p.pattern, sym: p.types[0] }]
-        : [],
-);
+}> = CodeTokenPatterns.flatMap((p) => {
+    const sym = p.types[0];
+    return typeof p.pattern === 'string' &&
+        Array.from(p.pattern).length >= 2 &&
+        sym !== undefined
+        ? [{ text: p.pattern, sym }]
+        : [];
+});
 
 /**
  * A concept reference starts with a @ then is followed by one or two names
@@ -1105,12 +1107,12 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
             // leaving it for the parser to flag (so docs can SHOW a malformed
             // pattern). If no Code is reachable, this `\` opens one instead.
             let codeAt = -1;
-            for (let i = 0; i < context.length; i++) {
-                if (context[i].isSymbol(Sym.Code)) {
+            for (const [i, open] of context.entries()) {
+                if (open.isSymbol(Sym.Code)) {
                     codeAt = i;
                     break;
                 }
-                if (!context[i].isSymbol(Sym.PatternDelimiter)) break;
+                if (!open.isSymbol(Sym.PatternDelimiter)) break;
             }
             if (codeAt >= 0) context.splice(0, codeAt + 1);
             else context.unshift(nextToken);
@@ -1132,9 +1134,9 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
             // arbitrary doc-inside-code-inside-doc nesting, since each Doc
             // is independent and only the topmost Code blocks the close.
             let closeUntil = -1;
-            for (let i = 0; i < context.length; i++) {
-                if (context[i].isSymbol(Sym.Code)) break;
-                if (context[i].isSymbol(Sym.Doc)) {
+            for (const [i, open] of context.entries()) {
+                if (open.isSymbol(Sym.Code)) break;
+                if (open.isSymbol(Sym.Doc)) {
                     closeUntil = i;
                     break;
                 }
@@ -1148,8 +1150,7 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
         // If the token we encountered a formatted...
         else if (nextToken.isSymbol(Sym.Formatted)) {
             /// And there's a formatted context open, close it
-            if (context.length > 0 && context[0].isSymbol(Sym.Formatted))
-                context.shift();
+            if (context[0]?.isSymbol(Sym.Formatted)) context.shift();
             // Otherwise open one
             else context.unshift(nextToken);
             // Branches and tags never span markup boundaries.
@@ -1159,11 +1160,10 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
         // If the token was a text delimiter...
         else if (nextToken.isSymbol(Sym.Text)) {
             // And this closes an open text context, close it
+            const openText = context[0];
             if (
-                context.length > 0 &&
-                context[0].isSymbol(Sym.Text) &&
-                nextToken.getText() ===
-                    TextCloseByTextOpen[context[0].getText()]
+                openText?.isSymbol(Sym.Text) === true &&
+                nextToken.getText() === TextCloseByTextOpen[openText.getText()]
             )
                 context.shift();
             // Otherwise open one
@@ -1173,14 +1173,13 @@ export function tokenize(source: string, keywords?: KeywordIndex): TokenList {
         // a text/code context: if a pattern context is open, this ⣿ closes it;
         // otherwise it opens one (so the body tokenizes with PatternTokenPatterns).
         else if (nextToken.isSymbol(Sym.PatternDelimiter)) {
-            if (context.length > 0 && context[0].isSymbol(Sym.PatternDelimiter))
-                context.shift();
+            if (context[0]?.isSymbol(Sym.PatternDelimiter)) context.shift();
             else context.unshift(nextToken);
         }
     }
 
     // If there's nothing left -- or nothing but space -- and the last token isn't a already end token, add one, and remember the space before it.
-    if (tokens.length === 0 || !tokens[tokens.length - 1].isSymbol(Sym.End)) {
+    if (tokens.at(-1)?.isSymbol(Sym.End) !== true) {
         const end = new Token('', Sym.End);
         tokens.push(end);
         if (source.length > 0) spaces.set(end, source);
@@ -1203,17 +1202,18 @@ function getNextToken(
 
     let inMarkup = false;
 
-    if (context.length > 0) {
-        const container = context[0];
+    const container = context[0];
+    if (container !== undefined) {
         // If we're in text, keep reading until the next code open, text close, end of line, or end of source,
         // then make a words token.
         if (container.isSymbol(Sym.Text)) {
             // Find the closest code, text close, end of line, or character reference.
             // For code, we want a standalone code open not preceded or followed by another.
             const codeIndex = source.match(/(?<!\\)\\(?!\\)/)?.index ?? -1;
-            const closeIndex = source.indexOf(
-                TextCloseByTextOpen[container.getText()],
-            );
+            // A delimiter that opens nothing — a right curly quote used as an
+            // opener, say — has no close to look for, so nothing closes it.
+            const close = TextCloseByTextOpen[container.getText()];
+            const closeIndex = close === undefined ? -1 : source.indexOf(close);
             const lineIndex = source.indexOf('\n');
             // Custom-character references (e.g. @amy/cat or @U/1F600) are tokenized as
             // concept tokens inside plain text too (#773), so the parser can build a
@@ -1263,7 +1263,8 @@ function getNextToken(
 
             // Check URLs first, since the word regex will match URLs.
             const urlMatch = source.match(PermissiveURLRegEx);
-            if (urlMatch !== null) return new Token(urlMatch[0], Sym.URL);
+            if (urlMatch !== null)
+                return new Token(matchGroups(urlMatch)[0], Sym.URL);
 
             // Then emails, for the same reason and with one difference: `@` is
             // a markup symbol, so words always stop *before* the `@` and the
@@ -1271,12 +1272,17 @@ function getNextToken(
             // instead, and cut the words at the address's local part so the next
             // token starts there.
             const emailMatch = source.match(EmailRegEx);
-            if (emailMatch !== null) return new Token(emailMatch[0], Sym.URL);
+            if (emailMatch !== null)
+                return new Token(matchGroups(emailMatch)[0], Sym.URL);
 
             const wordsMatch = source.match(WordsRegEx);
             if (wordsMatch !== null) {
                 // Take everything up until two newlines separated only by space.
-                let match = wordsMatch[0].split(/\n[ \t]*\n/)[0];
+                // A split always yields a first part, even for empty words.
+                let match = must(
+                    wordsMatch[0].split(/\n[ \t]*\n/)[0],
+                    'a words run',
+                );
                 // If the words contain a URL, stop the words before it so it lexes as a URL
                 // token. The includes check keeps the regex off this hot path for URL-less words.
                 if (match.includes('://')) {
@@ -1314,8 +1320,7 @@ function getNextToken(
 
     // Choose a set of patterns to tokenize. Inside a pattern literal ⣿ … ⣿
     // (and not inside a nested text literal), the body uses pattern rules.
-    const inPattern =
-        context.length > 0 && context[0].isSymbol(Sym.PatternDelimiter);
+    const inPattern = context[0]?.isSymbol(Sym.PatternDelimiter);
     const patterns = inMarkup
         ? MarkupTokenPatterns
         : inPattern
@@ -1323,8 +1328,7 @@ function getNextToken(
           : CodeTokenPatterns;
 
     // See if one of the global token patterns matches.
-    for (let i = 0; i < patterns.length; i++) {
-        const pattern = patterns[i];
+    for (const pattern of patterns) {
         // Skip contextual markup patterns outside their context; their characters
         // lex as ordinary words via the fallback below.
         if (pattern.when !== undefined && !pattern.when(markup)) continue;

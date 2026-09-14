@@ -5,6 +5,7 @@ import Source from '@nodes/Source';
 import { expect, test } from 'vitest';
 import { compositeExample } from './compositeExample';
 import { parseSerializedProject } from './examples';
+import { must } from '@util/nullable';
 
 /**
  * Compositing merges per-locale rewrites of one master into one multilingual
@@ -41,7 +42,7 @@ test('two locales composite into one tagged multilingual program', () => {
     // The base's untagged content is tagged with its locale — getPreferred
     // never matches an untagged option, so an untagged base would lose to the
     // secondary — and the secondary's options ride behind it.
-    expect(composite.sources[0].code).toBe(
+    expect(must(composite.sources[0], 'the composite source').code).toBe(
         `¶historia¶/es-MX\n¶ものがたり¶/ja-JP\npalabra/es-MX,ことば/ja-JP: 'hola'/es-MX'こんにちは'/ja-JP\nPhrase(palabra)`,
     );
 
@@ -49,7 +50,10 @@ test('two locales composite into one tagged multilingual program', () => {
     const project = Project.make(
         null,
         'test',
-        new Source(composite.sources[0].names, composite.sources[0].code),
+        new Source(
+            must(composite.sources[0], 'the composite source').names,
+            must(composite.sources[0], 'the composite source').code,
+        ),
         [],
         DefaultLocale,
     );
@@ -72,7 +76,7 @@ test('the en-US master composites as a secondary, its tagged content untouched',
     expect(composite.name).toBe(`"Aventura"/es-MX"Adventure"/en-US`);
     // The preserved `/fr` option is byte-identical on both sides, so it is
     // neither tagged nor duplicated; the English rides after the literal.
-    expect(composite.sources[0].code).toBe(
+    expect(must(composite.sources[0], 'the composite source').code).toBe(
         `palabra/es-MX,word/en-US: 'hola'/es-MX'bonjour'/fr'hello'/en-US\nPhrase(palabra)`,
     );
 });
@@ -85,7 +89,9 @@ test('an identical option is neither tagged nor appended', () => {
     const composite = compositeExample('example-Test', input('es-MX', a), [
         input('ja-JP', b),
     ]);
-    expect(composite.sources[0].code).toBe(`🐈: 'abc'\nPhrase(🐈)`);
+    expect(must(composite.sources[0], 'the composite source').code).toBe(
+        `🐈: 'abc'\nPhrase(🐈)`,
+    );
     expect(composite.locales).toEqual(['es-MX', 'ja-JP']);
 });
 
@@ -97,7 +103,7 @@ test('a misaligned secondary is dropped whole, never partially merged', () => {
         input('es-MX', Spanish),
         [input('ja-JP', stale)],
     );
-    expect(composite.sources[0].code).toBe(
+    expect(must(composite.sources[0], 'the composite source').code).toBe(
         `¶historia¶\npalabra: 'hola'\nPhrase(palabra)`,
     );
     expect(composite.locales).toEqual(['es-MX']);
@@ -151,7 +157,13 @@ test('the composited WhatWord starts on a space press', async () => {
         const [main, ...rest] = serialized.sources.map(
             (source) => new Source(source.names, source.code),
         );
-        const project = Project.make(null, label, main, rest, esText);
+        const project = Project.make(
+            null,
+            label,
+            must(main, 'the main source'),
+            rest,
+            esText,
+        );
         const evaluator = new Evaluator(
             project,
             DB,

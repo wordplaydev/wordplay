@@ -9,6 +9,7 @@ import { toExpression } from '@parser/parseExpression';
 import evaluateCode from '@runtime/evaluate';
 import { getCodepointFromString } from '@unicode/getCodepoint';
 import { expect, test } from 'vitest';
+import { must } from '@util/nullable';
 
 const loc = new Locales(concretize, [DefaultLocale], DefaultLocale);
 
@@ -34,7 +35,7 @@ function conceptLinks(code: string): ConceptLink[] {
 test('a custom-character reference in plain text parses to a ConceptLink', () => {
     const links = conceptLinks('"hi @amy/cat"');
     expect(links).toHaveLength(1);
-    expect(links[0].getName()).toBe('amy/cat');
+    expect(must(links[0], 'a link').getName()).toBe('amy/cat');
 });
 
 test('an email is not split into a reference (email-prefix rule)', () => {
@@ -49,7 +50,7 @@ test('a username/character reference works mid-word in Latin text', () => {
     // unambiguously a reference (an email domain never contains a `/`).
     const links = conceptLinks('"hi@amy/cat"');
     expect(links).toHaveLength(1);
-    expect(links[0].getName()).toBe('amy/cat');
+    expect(must(links[0], 'a link').getName()).toBe('amy/cat');
 });
 
 test('a reference can directly follow non-ASCII text (any script)', () => {
@@ -58,7 +59,7 @@ test('a reference can directly follow non-ASCII text (any script)', () => {
     // what makes the rule work for scripts that do not use inter-word spaces.
     const links = conceptLinks('"こんにちは@amy/cat"');
     expect(links).toHaveLength(1);
-    expect(links[0].getName()).toBe('amy/cat');
+    expect(must(links[0], 'a link').getName()).toBe('amy/cat');
 });
 
 test('a custom-character reference survives in the evaluated text', () => {
@@ -79,7 +80,7 @@ test.each([
 ])(
     'ConceptLink.getDescription describes %s by its kind',
     (code: string, expected: string[]) => {
-        const link = conceptLinks(code)[0];
+        const link = must(conceptLinks(code)[0], 'a link');
         const description = link.getDescription(loc, context).toText();
         // Never the concretize failure fallback.
         expect(description).not.toContain('Unparsable');

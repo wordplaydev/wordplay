@@ -9,7 +9,7 @@ import AnyType from '@nodes/AnyType';
 import BooleanType from '@nodes/BooleanType';
 import type Expression from '@nodes/Expression';
 import TextType from '@nodes/TextType';
-import type StructureValue from '@values/StructureValue';
+import StructureValue from '@values/StructureValue';
 import TextValue from '@values/TextValue';
 import Value from '@values/Value';
 import { createBasisConversion, createBasisFunction } from '@basis/Basis';
@@ -78,6 +78,7 @@ export default function bootstrapStructure(locales: Locales) {
                     ),
                     new AnyType(),
                     TextType.make(),
+                    StructureValue,
                     (requestor: Expression, value: StructureValue) =>
                         new TextValue(requestor, value.toWordplay(locales)),
                 ),

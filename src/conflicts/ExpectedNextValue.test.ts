@@ -1,11 +1,13 @@
 import ExpectedNextValue from '@conflicts/ExpectedNextValue';
 import Project from '@db/projects/Project';
+import concretize from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
 import Locales from '@locale/Locales';
 import Source from '@nodes/Source';
 import { describe, expect, test } from 'vitest';
+import { must } from '@util/nullable';
 
-const locales = new Locales(undefined as never, [DefaultLocale], DefaultLocale);
+const locales = new Locales(concretize, [DefaultLocale], DefaultLocale);
 
 /** The code each of this conflict's repairs produces, in the order offered. */
 function repairs(code: string): string[] {
@@ -21,9 +23,10 @@ function repairs(code: string): string[] {
         .getResolutions(context, [])
         .filter((r) => r.kind === 'repair')
         .map((r) =>
-            r
-                .mediator(context, locales)
-                .newProject.getSources()[0]
+            must(
+                r.mediator(context, locales).newProject.getSources()[0],
+                'a source in the repaired project',
+            )
                 .getCode()
                 .toString(),
         );

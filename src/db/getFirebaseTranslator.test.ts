@@ -1,5 +1,6 @@
 import { stringToLocale } from '@locale/Locale';
-import type { Functions } from 'firebase/functions';
+import { last, must } from '@util/nullable';
+import { getFunctions } from 'firebase/functions';
 import { beforeEach, expect, test, vi } from 'vitest';
 
 /** Each call's `texts`, so a test can see how the work was split up. */
@@ -8,6 +9,9 @@ const requests: string[][] = [];
 let responses: ('ok' | 'null' | 'exhausted')[] = [];
 
 vi.mock('firebase/functions', () => ({
+    // Returned through the real declaration, so the stand-in below is a
+    // `Functions` without a cast; the callable is what the tests exercise.
+    getFunctions: () => ({ type: 'functions' }),
     httpsCallable: () => async (data: { texts: string[] }) => {
         requests.push(data.texts);
         const response = responses.shift() ?? 'ok';
@@ -31,7 +35,7 @@ const en = stringToLocale('en-US');
 const es = stringToLocale('es-ES');
 
 /** A stand-in for the Functions instance; the callable is mocked above. */
-const functions = {} as unknown as Functions;
+const functions = getFunctions();
 
 beforeEach(() => {
     requests.length = 0;
@@ -138,8 +142,11 @@ test('progress accumulates across a run, so two languages never restart the coun
     expect(updates.length).toBe(2);
     // Both calls are issued before either reports, so the total is the run's.
     expect(updates.every((update) => update.total === 5)).toBe(true);
-    expect(updates[0].done).toBeLessThan(updates[1].done);
-    expect(updates[updates.length - 1].done).toBe(5);
+    const [firstUpdate, secondUpdate] = updates;
+    expect(must(firstUpdate, 'the first progress update').done).toBeLessThan(
+        must(secondUpdate, 'the second progress update').done,
+    );
+    expect(last(updates)?.done).toBe(5);
 });
 
 test('kept counts every string that came back without a translation', async () => {

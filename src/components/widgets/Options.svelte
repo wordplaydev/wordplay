@@ -7,13 +7,25 @@
          *  screen reader — "what Amy can do" — a tooltip repeating it says
          *  something the row it sits in already shows. */
         tip?: string | LocaleTextAccessor | null | undefined;
-        [key: string]: any;
+        /** Anything else a caller's `item` snippet renders — a typeface, a
+         *  script's languages, a path's description. Unknown rather than any:
+         *  what an option carries beyond these three is the caller's own, so
+         *  the snippet that reads it is the one that says what it is. */
+        [key: string]: unknown;
     };
     export type Group<Type extends Option> = {
         label: string | LocaleTextAccessor;
         options: Type[];
-        [key: string]: any;
     };
+
+    /** Whether an entry is a group of options rather than one option. An
+     *  option may carry any extra field, so this asks for the list itself
+     *  rather than for the key. */
+    export function isGroup<Type extends Option>(
+        entry: Type | Group<Type>,
+    ): entry is Group<Type> {
+        return 'options' in entry && Array.isArray(entry.options);
+    }
 
     let baseSelect: boolean | undefined = undefined;
 
@@ -216,7 +228,7 @@
         disabled={!editable}
         class:code
         class:placeholder={value === undefined}
-        onchange={(e) => commitChange((e.target as HTMLSelectElement).value)}
+        onchange={(e) => commitChange(e.currentTarget.value)}
         onpointerdown={hideTip}
         ontoggle={(e: ToggleEvent) => {
             open = e.newState === 'open';
@@ -239,7 +251,7 @@
             >
         {/if}
         {#each options as option}
-            {#if 'options' in option}
+            {#if isGroup(option)}
                 <optgroup label={$locales.getPlainText(option.label)}>
                     {#each option.options as groupoption}
                         <option

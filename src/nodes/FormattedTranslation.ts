@@ -122,13 +122,15 @@ export default class FormattedTranslation extends LanguageTagged {
     }
 
     clone(replace?: Replacement) {
-        return new FormattedTranslation(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('markup', this.markup, replace),
-            this.replaceChild('close', this.close, replace),
-            this.replaceChild('language', this.language, replace),
-            this.replaceChild('separator', this.separator, replace),
-        ) as this;
+        return this.cloned(
+            new FormattedTranslation(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('markup', this.markup, replace),
+                this.replaceChild('close', this.close, replace),
+                this.replaceChild('language', this.language, replace),
+                this.replaceChild('separator', this.separator, replace),
+            ),
+        );
     }
 
     getPurpose() {

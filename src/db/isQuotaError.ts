@@ -1,3 +1,5 @@
+import { isRecord } from '@util/guards';
+
 /**
  * Whether an error from a local (IndexedDB/Dexie) write is a storage-quota
  * failure — i.e. this device is out of room, not a transient or logic error.
@@ -20,10 +22,10 @@ export default function isQuotaError(error: unknown): boolean {
 
     // Dexie wraps the underlying IndexedDB error; check both the wrapper's name
     // and its `inner` original error.
-    if (typeof error === 'object' && error !== null) {
-        const e = error as { name?: unknown; inner?: { name?: unknown } };
-        if (isQuotaName(e.name)) return true;
-        if (e.inner !== undefined && isQuotaName(e.inner.name)) return true;
+    if (isRecord(error)) {
+        if (isQuotaName(error.name)) return true;
+        const inner = error.inner;
+        if (isRecord(inner) && isQuotaName(inner.name)) return true;
     }
 
     return false;

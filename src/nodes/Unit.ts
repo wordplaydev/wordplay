@@ -66,7 +66,7 @@ export default class Unit extends Node {
                 slash === undefined &&
                 denominator !== undefined &&
                 denominator.length > 0
-                    ? new LanguageToken()
+                    ? LanguageToken()
                     : slash;
             this.denominator = denominator ?? [];
 
@@ -246,12 +246,14 @@ export default class Unit extends Node {
     }
 
     clone(replace?: Replacement) {
-        return new Unit(
-            undefined,
-            this.replaceChild('numerator', this.numerator, replace),
-            this.replaceChild('slash', this.slash, replace),
-            this.replaceChild('denominator', this.denominator, replace),
-        ) as this;
+        return this.cloned(
+            new Unit(
+                undefined,
+                this.replaceChild('numerator', this.numerator, replace),
+                this.replaceChild('slash', this.slash, replace),
+                this.replaceChild('denominator', this.denominator, replace),
+            ),
+        );
     }
 
     static map(numerator: string[], denominator: string[]) {
@@ -359,7 +361,7 @@ export default class Unit extends Node {
     }
 
     withDenominator(dimension: string) {
-        return new Unit(undefined, this.numerator, new LanguageToken(), [
+        return new Unit(undefined, this.numerator, LanguageToken(), [
             ...this.denominator,
             Dimension.make(this.denominator.length > 0, dimension, 1),
         ]);

@@ -47,7 +47,10 @@ export function locateGraphemeOffset(
 
     // Past the end of everything: clamp to the end of the last node.
     const last = texts.length - 1;
-    return { index: last, codeUnit: texts[last].length };
+    const text = texts[last];
+    return text === undefined
+        ? undefined
+        : { index: last, codeUnit: text.length };
 }
 
 /**
@@ -83,7 +86,7 @@ export function measureTokenSegment(
     tokenView: Element,
     tokenOffset: number,
     blocks: boolean,
-) {
+): [width: number, height: number] | undefined {
     tokenOffset = atomicOffset(tokenView, tokenOffset);
     const nodes = getTextNodes(tokenView);
     if (nodes.length === 0) {
@@ -99,9 +102,12 @@ export function measureTokenSegment(
 
     // The range spans from the first text node to an offset inside whichever
     // node holds the target grapheme, so it can't be a single-node range.
+    const first = nodes[0];
+    const end = nodes[found.index];
+    if (first === undefined || end === undefined) return undefined;
     const range = document.createRange();
-    range.setStart(nodes[0], 0);
-    range.setEnd(nodes[found.index], found.codeUnit);
+    range.setStart(first, 0);
+    range.setEnd(end, found.codeUnit);
 
     const rect = range.getBoundingClientRect();
     return [rect.width, rect.height];
@@ -139,10 +145,13 @@ function trailingEdgeRect(
     axes: Axes,
     range: Range,
 ): LogicalRect | undefined {
+    const first = nodes[0];
+    const end = nodes[to.index];
+    if (first === undefined || end === undefined) return undefined;
     // Start before end: the range is reused, and setting an end that precedes
     // the current start would silently collapse it.
-    range.setStart(nodes[0], 0);
-    range.setEnd(nodes[to.index], to.codeUnit);
+    range.setStart(first, 0);
+    range.setEnd(end, to.codeUnit);
     // A line fragment with no extent along the text — a trailing empty text
     // node, or an offset of zero — says nothing about where the caret is.
     const boxes = Array.from(range.getClientRects())
@@ -199,8 +208,10 @@ export function locateCaretRect(
     );
     if (found === undefined) return undefined;
 
+    const node = nodes[found.index];
+    if (node === undefined) return undefined;
     const range = document.createRange();
-    range.setStart(nodes[found.index], found.codeUnit);
+    range.setStart(node, found.codeUnit);
     range.collapse(true);
 
     // At a soft-wrap boundary a collapsed range reports two rects — the end of
@@ -211,10 +222,7 @@ export function locateCaretRect(
     // boundary there is exactly one rect and the choice is moot. Fall back to the
     // bounding box for an engine that reports none.
     const rects = range.getClientRects();
-    const rect =
-        rects.length > 0
-            ? rects[rects.length - 1]
-            : range.getBoundingClientRect();
+    const rect = rects[rects.length - 1] ?? range.getBoundingClientRect();
     if (!isUnmeasurable(rect)) return rect;
 
     // Either the token's last position, which a collapsed range can't measure,
@@ -255,9 +263,12 @@ export function segmentLineRects(
     const end = locateGraphemeOffset(texts, Math.max(from, to));
     if (start === undefined || end === undefined) return [];
 
+    const fromNode = nodes[start.index];
+    const untilNode = nodes[end.index];
+    if (fromNode === undefined || untilNode === undefined) return [];
     const range = document.createRange();
-    range.setStart(nodes[start.index], start.codeUnit);
-    range.setEnd(nodes[end.index], end.codeUnit);
+    range.setStart(fromNode, start.codeUnit);
+    range.setEnd(untilNode, end.codeUnit);
 
     // A zero-area rect is a detached or `display: none` view reporting the page
     // origin; drawing there would put the highlight in the corner of the window.
@@ -310,14 +321,12 @@ export function graphemeOffsetAt(
     // so an unmeasurable position can never win the comparison below.
     const locate = (offset: number) => {
         const found = table[Math.min(Math.max(0, offset), table.length - 1)];
-        if (found === undefined) return undefined;
-        range.setStart(nodes[found.index], found.codeUnit);
+        const node = found === undefined ? undefined : nodes[found.index];
+        if (found === undefined || node === undefined) return undefined;
+        range.setStart(node, found.codeUnit);
         range.collapse(true);
         const rects = range.getClientRects();
-        const rect =
-            rects.length > 0
-                ? rects[rects.length - 1]
-                : range.getBoundingClientRect();
+        const rect = rects[rects.length - 1] ?? range.getBoundingClientRect();
         // A token's last position measures as nothing in Chromium, and without
         // the fallback the search below can never reach it: it settles one
         // grapheme short, so a click past the end of a line lands one character
@@ -388,7 +397,8 @@ function graphemeTable(texts: string[]): { index: number; codeUnit: number }[] {
         for (const { index: at } of Segmenter.segment(text))
             table.push({ index, codeUnit: at });
     const last = texts.length - 1;
-    if (last >= 0) table.push({ index: last, codeUnit: texts[last].length });
+    const text = texts[last];
+    if (text !== undefined) table.push({ index: last, codeUnit: text.length });
     return table;
 }
 

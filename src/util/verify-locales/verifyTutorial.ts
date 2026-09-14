@@ -98,13 +98,7 @@ export async function verifyTutorial(
         );
 
     // Verify and (when repairing) fix the tutorial.
-    tutorial = await checkTutorial(
-        log,
-        locale,
-        tutorial as Tutorial,
-        mode,
-        repair,
-    );
+    tutorial = await checkTutorial(log, locale, tutorial, mode, repair);
 
     // Translate if requested.
     if (translate)
@@ -136,9 +130,10 @@ function pathInTutorialTargets(
     const act = actAt > -1 ? path.path[actAt + 1] : undefined;
     if (typeof act !== 'number') return false;
     const sceneAt = path.path.indexOf('scenes');
+    const sceneIndex = path.path[sceneAt + 1];
     const scene =
-        sceneAt > -1 && typeof path.path[sceneAt + 1] === 'number'
-            ? (path.path[sceneAt + 1] as number) + 1
+        sceneAt > -1 && typeof sceneIndex === 'number'
+            ? sceneIndex + 1
             : undefined;
     return targets.some((t) => tutorialTargetMatches(act + 1, scene, t));
 }
@@ -349,7 +344,7 @@ async function checkTutorial(
     /** Apply repairs (fix/translate) vs. only report them (verify). */
     repair: boolean,
 ): Promise<Tutorial> {
-    let revised = JSON.parse(JSON.stringify(original)) as Tutorial;
+    let revised = structuredClone(original);
 
     // Every performance in the tutorial: act/scene defaults plus any performance lines.
     const performances: Performance[] = revised.acts.flatMap((act) => [
@@ -623,9 +618,7 @@ export function createUnwrittenTutorial(
     mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
 ): Tutorial {
     // Deep copy default tutorial for this mode
-    let tutorial = JSON.parse(
-        JSON.stringify(getDefaultTutorial(mode)),
-    ) as Tutorial;
+    let tutorial = structuredClone(getDefaultTutorial(mode));
 
     // Find the translatable pairs
     const pairs = getTranslatableTutorialPairs(tutorial);
@@ -678,7 +671,7 @@ export async function translateTutorial(
     if (unwritten.length === 0) return tutorial;
 
     // Copy the target tutorial so we can revise it.
-    const revised = JSON.parse(JSON.stringify(tutorial)) as Tutorial;
+    const revised = structuredClone(tutorial);
 
     // Extract the strings to translate, preferring en-US's text over the target's. Strip ALL
     // annotation markers (not just $?) from whichever we use, because the target already carries

@@ -1,4 +1,5 @@
 import { foldWords, sameWords } from './searchWords.js';
+import { isStringArray } from './shared/guards.js';
 import type {
     Change,
     DocumentSnapshot,
@@ -102,9 +103,7 @@ export default async function kitEdited(
     if (after === undefined) return;
 
     const words = foldWords(kitIndexText(after));
-    const storedWords = Array.isArray(after.words)
-        ? (after.words as string[])
-        : [];
+    const storedWords = isStringArray(after.words) ? after.words : [];
 
     const claimed = claimChanged(before, after);
     const version = versionAdded(before, after);

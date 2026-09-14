@@ -2,6 +2,7 @@ import { describe, expect, test } from 'vitest';
 import * as Y from 'yjs';
 import type { Path } from '@nodes/Root';
 import Source from '@nodes/Source';
+import { must } from '@util/nullable';
 import {
     decodeRemoteCaret,
     decodeRemoteCaretAnchor,
@@ -232,7 +233,7 @@ test('a removal repair leaves the caret where the removed node started', async (
     if (bind === undefined) return;
     const start = source.getNodeFirstPosition(bind);
     const newProject = project.withRevisedNodes([[bind, undefined]]);
-    const newSource = newProject.getSources()[0];
+    const newSource = newProject.getMain();
     expect(newProject.getCaretPosition(newSource)).toBe(start);
 });
 
@@ -242,11 +243,12 @@ describe('multiple node selections', () => {
         const yText = ytextFor(source.code.toString());
         const statements = source.expression.expression.statements;
 
+        // The fixture source above is three statements long.
         const payload = encodeRemoteCaret(
             yText,
             source,
-            statements[2],
-            statements[0],
+            must(statements[2], 'the third statement'),
+            must(statements[0], 'the first statement'),
         );
         expect(payload?.kind).toBe('node');
 
@@ -267,7 +269,11 @@ describe('multiple node selections', () => {
         const source = makeSource('1\n2');
         const yText = ytextFor(source.code.toString());
         const statements = source.expression.expression.statements;
-        const payload = encodeRemoteCaret(yText, source, statements[0]);
+        const payload = encodeRemoteCaret(
+            yText,
+            source,
+            must(statements[0], 'the first statement'),
+        );
         expect(decodeRemoteCaretAnchor(payload, source)).toBeNull();
     });
 
@@ -281,8 +287,8 @@ describe('multiple node selections', () => {
         const payload = encodeRemoteCaret(
             yText,
             source,
-            statements[0],
-            statements[1],
+            must(statements[0], 'the first statement'),
+            must(statements[1], 'the second statement'),
         );
         const decoded = decodeRemoteCaret(payload, yText, source);
         expect(

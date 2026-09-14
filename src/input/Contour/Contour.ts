@@ -1,4 +1,6 @@
 import type { PathCommand } from 'fontkit';
+import { asPathOp } from '@input/pathCommands';
+import { first, must } from '@util/nullable';
 import {
     Faces,
     getContourFont,
@@ -148,11 +150,17 @@ export function glyphPathToPlaces(
         }
     };
 
-    for (const { command, args } of commands) {
+    for (const step of commands) {
+        // A command whose args don't match its arity isn't something fontkit
+        // produces; skip it rather than reading past the end of its args.
+        const op = asPathOp(step);
+        if (op === undefined) continue;
+        const { command, args } = op;
         if (command === 'moveTo') {
-            sx = args[0];
-            sy = args[1];
-            push(args[0], args[1]);
+            const [x, y] = args;
+            sx = x;
+            sy = y;
+            push(x, y);
         } else if (command === 'lineTo') {
             const x0 = cx;
             const y0 = cy;
@@ -282,9 +290,11 @@ async function computeContour(
             // fontkit's layout and glyph path extraction can throw on unusual
             // input; report it so the creator knows the trace failed.
             const shaped = font.layout(run.text);
-            for (let i = 0; i < shaped.glyphs.length; i++) {
-                const glyph = shaped.glyphs[i];
+            for (const [i, glyph] of shaped.glyphs.entries()) {
                 const position = shaped.positions[i];
+                // fontkit gives one position per glyph; without one there is
+                // nowhere to put this glyph, so skip it as before.
+                if (position === undefined) continue;
                 points.push(
                     ...glyphPathToPlaces(
                         glyph.path.commands,
@@ -369,7 +379,14 @@ export default class Contour extends StreamValue<
                 new MessageException(
                     this.creator,
                     this.evaluator,
-                    ContourErrors[event.error](this.evaluator.getLocales()[0]),
+                    ContourErrors[event.error](
+                        // The evaluator's locale list always ends with the
+                        // default locale, so there is always a first one.
+                        must(
+                            first(this.evaluator.getLocales()),
+                            "the evaluator's first locale",
+                        ),
+                    ),
                 ),
                 event,
             );
@@ -498,6 +515,19 @@ export function createContourDefinition(
 
     const valueType = ListType.make(new StructureType(PlaceType));
 
+    // createInputs returns one bind per type declared above, in that order, so
+    // each of these eight is present.
+    const names = (index: number) =>
+        must(inputs[index], `the Contour input at ${index}`).names;
+    const glyphsIn = names(0);
+    const faceIn = names(1);
+    const sizeIn = names(2);
+    const placeIn = names(3);
+    const weightIn = names(4);
+    const italicsIn = names(5);
+    const spacingIn = names(6);
+    const directionIn = names(7);
+
     return StreamDefinition.make(
         getDocLocales(locales, (locale) => locale.input.Contour.doc),
         getNameLocales(locales, (locale) => locale.input.Contour.names),
@@ -508,32 +538,26 @@ export function createContourDefinition(
             (evaluation) =>
                 new Contour(
                     evaluation,
-                    evaluation.get(inputs[0].names, TextValue)?.text ?? '',
-                    evaluation.get(inputs[1].names, TextValue)?.text ?? '',
-                    evaluation.get(inputs[2].names, NumberValue)?.toNumber() ??
-                        1,
-                    toPlace(evaluation.get(inputs[3].names, StructureValue)),
-                    evaluation.get(inputs[4].names, NumberValue)?.toNumber() ??
-                        400,
-                    evaluation.get(inputs[5].names, BoolValue)?.bool ?? false,
-                    evaluation.get(inputs[6].names, NumberValue)?.toNumber() ??
-                        0.05,
-                    (evaluation.get(inputs[7].names, TextValue)?.text ??
+                    evaluation.get(glyphsIn, TextValue)?.text ?? '',
+                    evaluation.get(faceIn, TextValue)?.text ?? '',
+                    evaluation.get(sizeIn, NumberValue)?.toNumber() ?? 1,
+                    toPlace(evaluation.get(placeIn, StructureValue)),
+                    evaluation.get(weightIn, NumberValue)?.toNumber() ?? 400,
+                    evaluation.get(italicsIn, BoolValue)?.bool ?? false,
+                    evaluation.get(spacingIn, NumberValue)?.toNumber() ?? 0.05,
+                    (evaluation.get(directionIn, TextValue)?.text ??
                         FORWARD) === BACKWARD,
                 ),
             (stream, evaluation) =>
                 stream.configure(
-                    evaluation.get(inputs[0].names, TextValue)?.text ?? '',
-                    evaluation.get(inputs[1].names, TextValue)?.text ?? '',
-                    evaluation.get(inputs[2].names, NumberValue)?.toNumber() ??
-                        1,
-                    toPlace(evaluation.get(inputs[3].names, StructureValue)),
-                    evaluation.get(inputs[4].names, NumberValue)?.toNumber() ??
-                        400,
-                    evaluation.get(inputs[5].names, BoolValue)?.bool ?? false,
-                    evaluation.get(inputs[6].names, NumberValue)?.toNumber() ??
-                        0.05,
-                    (evaluation.get(inputs[7].names, TextValue)?.text ??
+                    evaluation.get(glyphsIn, TextValue)?.text ?? '',
+                    evaluation.get(faceIn, TextValue)?.text ?? '',
+                    evaluation.get(sizeIn, NumberValue)?.toNumber() ?? 1,
+                    toPlace(evaluation.get(placeIn, StructureValue)),
+                    evaluation.get(weightIn, NumberValue)?.toNumber() ?? 400,
+                    evaluation.get(italicsIn, BoolValue)?.bool ?? false,
+                    evaluation.get(spacingIn, NumberValue)?.toNumber() ?? 0.05,
+                    (evaluation.get(directionIn, TextValue)?.text ??
                         FORWARD) === BACKWARD,
                 ),
         ),

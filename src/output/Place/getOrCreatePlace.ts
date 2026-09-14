@@ -5,15 +5,26 @@ import Evaluate from '@nodes/Evaluate';
 import evaluateCode from '@runtime/evaluate';
 import { toPlace } from '@output/Place/Place';
 import { getFormAnchor } from '@edit/output/editShape';
+import { must } from '@util/nullable';
 
 export function getPlaceExpression(
     project: Project,
     evaluate: Evaluate,
     context: Context,
 ) {
+    // The basis declares `place` at these positions of Phrase and Group.
     return (
-        evaluate.getInput(project.shares.output.Phrase.inputs[3], context) ??
-        evaluate.getInput(project.shares.output.Group.inputs[4], context)
+        evaluate.getInput(
+            must(
+                project.shares.output.Phrase.inputs[3],
+                "Phrase's place input",
+            ),
+            context,
+        ) ??
+        evaluate.getInput(
+            must(project.shares.output.Group.inputs[4], "Group's place input"),
+            context,
+        )
     );
 }
 
@@ -27,7 +38,11 @@ export function getOrCreatePlace(
     // drag's starting place so dragging translates the form from where it currently is.
     const ShapeType = project.shares.output.Shape;
     if (evaluate.is(ShapeType, context)) {
-        const form = evaluate.getInput(ShapeType.inputs[0], context);
+        const form = evaluate.getInput(
+            // The basis declares `form` as Shape's first input.
+            must(ShapeType.inputs[0], "Shape's form input"),
+            context,
+        );
         const anchor =
             form instanceof Evaluate
                 ? getFormAnchor(project, form, context)

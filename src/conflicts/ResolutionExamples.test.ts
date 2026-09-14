@@ -89,6 +89,7 @@ import DuplicateCaptureName from '@conflicts/DuplicateCaptureName';
 import UndefinedBackreference from '@conflicts/UndefinedBackreference';
 import UnrecognizedPatternProperty from '@conflicts/UnrecognizedPatternProperty';
 import Templates from '@concepts/Templates';
+import { must } from '@util/nullable';
 
 function locate<C extends Conflict>(
     code: string,
@@ -160,17 +161,19 @@ function expectRepair(
         extraSources,
     );
     expect(resolutions.length).toBeGreaterThanOrEqual(minCount);
-    expect(resolutions[0].kind).toBe('repair');
+    const first = must(resolutions[0], 'a resolution');
+    expect(first.kind).toBe('repair');
 
     // Applying a repair has to leave the caret somewhere real: on the code the repair produced, or
     // where a removed node used to be. Otherwise the caret keeps selecting the node the repair just
     // took out of the tree, which is what it did for every conflict until this was checked.
-    const repair = resolutions[0];
+    const repair = first;
     if (repair.kind !== 'repair') return;
     const { newProject, newNode } = repair.mediator(context, DefaultLocales);
-    const newSource =
-        newProject.getSources()[project.getSources().indexOf(source)];
-    expect(newSource).toBeDefined();
+    const newSource = must(
+        newProject.getSources()[project.getSources().indexOf(source)],
+        'the revised source',
+    );
     const position = newNode ?? newProject.getCaretPosition(newSource);
     expect(position).toBeDefined();
     // A node target must be in the revised tree; a numeric one within the revised code.
@@ -204,10 +207,12 @@ describe('UnknownName', () => {
         const repaired = resolutions
             .filter((r) => r.kind === 'repair')
             .map((r) =>
-                r
-                    .mediator(project.getContext(source), DefaultLocales)
-                    .newProject.getSources()[0]
-                    .code.toString(),
+                must(
+                    r
+                        .mediator(project.getContext(source), DefaultLocales)
+                        .newProject.getSources()[0],
+                    'a source in the repaired project',
+                ).code.toString(),
             );
         expect(repaired.some((c) => c.includes(expected))).toBe(true);
     });
@@ -235,7 +240,10 @@ describe('UnknownName', () => {
             project.getContext(source),
             DefaultLocales,
         );
-        const repaired = newProject.getSources()[0].code.toString();
+        const repaired = must(
+            newProject.getSources()[0],
+            'a source in the repaired project',
+        ).code.toString();
         expect(repaired).toBe(expected);
         // And the repair actually resolves the problem, rather than moving it.
         newProject.analyze();
@@ -524,7 +532,7 @@ describe('OrderOfOperations', () => {
         // produce the same tree, so only one repair is offered.
         const { resolutions } = locate('1 · 2 + 3', OrderOfOperations);
         expect(resolutions.length).toBe(1);
-        expect(resolutions[0].kind).toBe('repair');
+        expect(must(resolutions[0], 'a resolution').kind).toBe('repair');
     });
 
     test('one conflict per chain, not per adjacent pair', () => {
@@ -698,13 +706,15 @@ describe('DuplicateLanguage', () => {
             "'hi'/en-US_CA_US",
             DuplicateLanguage,
         );
-        const repair = resolutions[0];
+        const repair = must(resolutions[0], 'a resolution');
         expect(repair.kind).toBe('repair');
         if (repair.kind !== 'repair') return;
         const { newProject } = repair.mediator(context, DefaultLocales);
-        expect(newProject.getSources()[0].getCode().toString()).toBe(
-            "'hi'/en-US_CA",
-        );
+        expect(
+            must(newProject.getSources()[0], 'the revised source')
+                .getCode()
+                .toString(),
+        ).toBe("'hi'/en-US_CA");
     });
 });
 

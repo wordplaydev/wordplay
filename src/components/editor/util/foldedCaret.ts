@@ -43,9 +43,10 @@ function hiddenRun(
 ): { lo: number; hi: number } | undefined {
     const tokens = source.tokens;
     let index = -1;
+    let found: Token | undefined = undefined;
     let prevEnd = 0;
-    for (let i = 0; i < tokens.length; i++) {
-        const end = source.getTokenLastPosition(tokens[i]);
+    for (const [i, token] of tokens.entries()) {
+        const end = source.getTokenLastPosition(token);
         if (end === undefined) continue;
         const within =
             direction > 0
@@ -53,15 +54,24 @@ function hiddenRun(
                 : pos > prevEnd && pos <= end;
         if (within) {
             index = i;
+            found = token;
             break;
         }
         prevEnd = end;
     }
-    if (index === -1 || rendered.has(tokens[index].id)) return undefined;
+    if (found === undefined || rendered.has(found.id)) return undefined;
     let lo = index;
     let hi = index;
-    while (lo - 1 >= 0 && !rendered.has(tokens[lo - 1].id)) lo--;
-    while (hi + 1 < tokens.length && !rendered.has(tokens[hi + 1].id)) hi++;
+    let previous = tokens[lo - 1];
+    while (previous !== undefined && !rendered.has(previous.id)) {
+        lo--;
+        previous = tokens[lo - 1];
+    }
+    let next = tokens[hi + 1];
+    while (next !== undefined && !rendered.has(next.id)) {
+        hi++;
+        next = tokens[hi + 1];
+    }
     return { lo, hi };
 }
 
@@ -79,11 +89,17 @@ export function skipHiddenIndex(
     const run = hiddenRun(source, pos, direction, rendered);
     if (run === undefined) return pos;
     const tokens = source.tokens;
-    if (direction > 0)
-        return source.getTokenLastPosition(tokens[run.hi]) ?? pos;
-    return run.lo > 0
-        ? (source.getTokenLastPosition(tokens[run.lo - 1]) ?? pos)
-        : 0;
+    if (direction > 0) {
+        const last = tokens[run.hi];
+        return last === undefined
+            ? pos
+            : (source.getTokenLastPosition(last) ?? pos);
+    }
+    if (run.lo === 0) return 0;
+    const before = tokens[run.lo - 1];
+    return before === undefined
+        ? pos
+        : (source.getTokenLastPosition(before) ?? pos);
 }
 
 /** Whether `pos` is strictly interior to a hidden run — i.e. hidden in BOTH

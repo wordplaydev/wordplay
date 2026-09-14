@@ -191,8 +191,10 @@ function styleSource(source: string): string | null {
     for (const block of blocks) {
         const start = block.index ?? 0;
         const end = start + block[0].length;
-        for (let i = 0; i < lines.length; i++)
-            if (lineStart[i] >= start && lineStart[i] < end) inStyle[i] = true;
+        // One offset was pushed per line, so this covers exactly `lines`.
+        lineStart.forEach((offset, i) => {
+            if (offset >= start && offset < end) inStyle[i] = true;
+        });
     }
     const kept = lines.map((line, i) => (inStyle[i] ? line : ''));
     // Blank out /* ... */ comments while preserving newlines.
@@ -233,8 +235,8 @@ export function checkStyleSource(rel: string, source: string): PhysicalCSS[] {
     // A `physical:` comment exempts the declarations it introduces, through to
     // the end of its rule or the next blank line — the run it is plainly about.
     const exempted = new Set<number>();
-    for (let i = 0; i < raw.length; i++) {
-        if (!PHYSICAL_MARKER.test(raw[i])) continue;
+    for (const [i, line] of raw.entries()) {
+        if (!PHYSICAL_MARKER.test(line)) continue;
         for (let j = i; j < raw.length; j++) {
             exempted.add(j);
             const after = raw[j + 1];

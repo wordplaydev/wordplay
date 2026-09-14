@@ -1,4 +1,6 @@
 import type { Firestore } from 'firebase-admin/firestore';
+import { isSerializedNotice } from './shared/index.js';
+import { fieldOf, isStringArray } from './shared/guards.js';
 import type { SerializedNotice } from 'shared-types';
 import { noticeCopy, noticeMessage } from './email/messages/notice.js';
 import { notifyByEmail } from './email/notify.js';
@@ -35,9 +37,13 @@ export default async function deliver(
         const ref = db.collection(NoticesCollection).doc(to);
         await db.runTransaction(async (transaction) => {
             const existing = await transaction.get(ref);
-            const already: SerializedNotice[] = existing.exists
-                ? (existing.get('notices') ?? [])
+            // Only notices this code can read are kept; the inbox is a list
+            // of recent events, so an unreadable one is dropped, not a crash.
+            const stored = fieldOf(existing, 'notices');
+            const already = Array.isArray(stored)
+                ? stored.filter(isSerializedNotice)
                 : [];
+            const dismissed = fieldOf(existing, 'dismissed');
             // Idempotent on the notice's own id, so a retried decision doesn't
             // tell someone the same thing twice.
             const fresh = added.filter(
@@ -52,9 +58,7 @@ export default async function deliver(
                     // Oldest fall off the front: an inbox is a list of recent
                     // events, not an archive, and a document has a size limit.
                     notices: [...already, ...fresh].slice(-MAX_NOTICES),
-                    dismissed: existing.exists
-                        ? (existing.get('dismissed') ?? [])
-                        : [],
+                    dismissed: isStringArray(dismissed) ? dismissed : [],
                 },
                 { merge: true },
             );

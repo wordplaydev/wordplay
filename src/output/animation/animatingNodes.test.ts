@@ -9,6 +9,7 @@ import { toStage } from '@output/Output/Stage';
 import Sequence from '@output/animation/Sequence';
 import { getAnimatingNodes } from '@output/animation/animatingNodes';
 import Evaluator from '@runtime/Evaluator';
+import { must } from '@util/nullable';
 import { expect, test } from 'vitest';
 
 /**
@@ -55,9 +56,11 @@ test('a predefined animation highlights its call site', () => {
     // One node — the sway() call — rather than the several generated Pose
     // evaluates inside the basis body, none of which the creator can see.
     expect(nodes).toHaveLength(1);
-    expect(source.has(nodes[0])).toBe(true);
-    expect(nodes[0]).toBeInstanceOf(Evaluate);
-    expect(nodes[0].toWordplay().trim()).toBe('Sequence.sway(10°)');
+    // The length assertion above is what guarantees this node.
+    const node = must(nodes[0], 'the animating node');
+    expect(source.has(node)).toBe(true);
+    expect(node).toBeInstanceOf(Evaluate);
+    expect(node.toWordplay().trim()).toBe('Sequence.sway(10°)');
 });
 
 test('a sequence written in the source still highlights its own poses', () => {
@@ -79,8 +82,9 @@ test('an animation bound through a name highlights the name that carried it', ()
         `swaying: Sequence.sway(10°)\nPhrase('hi' resting: swaying)`,
     );
     expect(nodes).toHaveLength(1);
-    expect(source.has(nodes[0])).toBe(true);
-    expect(nodes[0].toWordplay().trim()).toBe('swaying');
+    const node = must(nodes[0], 'the animating node');
+    expect(source.has(node)).toBe(true);
+    expect(node.toWordplay().trim()).toBe('swaying');
 });
 
 test('a phrase built inside a function highlights the call in that function', () => {
@@ -90,6 +94,7 @@ test('a phrase built inside a function highlights the call in that function', ()
         `ƒ make() Phrase('hi' resting: Sequence.sway(10°))\nmake()`,
     );
     expect(nodes).toHaveLength(1);
-    expect(source.has(nodes[0])).toBe(true);
-    expect(nodes[0].toWordplay().trim()).toBe('Sequence.sway(10°)');
+    const node = must(nodes[0], 'the animating node');
+    expect(source.has(node)).toBe(true);
+    expect(node.toWordplay().trim()).toBe('Sequence.sway(10°)');
 });

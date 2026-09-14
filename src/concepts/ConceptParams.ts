@@ -101,7 +101,7 @@ export function getConceptFromURL(
     if (id === null) return undefined;
 
     if (id && index) {
-        const [ownerName, name] = id.split('/');
+        const [ownerName = '', name] = id.split('/');
         return ownerName && name
             ? index.getSubConcept(ownerName, name)
             : index.getConceptByToken(ownerName);

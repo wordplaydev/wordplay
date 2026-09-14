@@ -84,6 +84,7 @@ import Push from '@runtime/Push';
 import BoolValue from '@values/BoolValue';
 import { getEvaluationInputConflicts } from '@nodes/util';
 import { isTailCall } from '@nodes/tailCall';
+import { must } from '@util/nullable';
 
 type Mapping = {
     expected: Bind;
@@ -152,9 +153,9 @@ export default class Evaluate extends Expression {
         return new Evaluate(
             func,
             undefined,
-            new EvalOpenToken(),
+            EvalOpenToken(),
             inputs,
-            new EvalCloseToken(),
+            EvalCloseToken(),
         );
     }
 
@@ -232,7 +233,12 @@ export default class Evaluate extends Expression {
                                     // number types.
                                     def.isBinary()
                                         ? def.getEvaluateTemplate(
-                                              def.names.getNames()[0],
+                                              // isBinary() requires a symbolic
+                                              // name, so there is at least one.
+                                              must(
+                                                  def.names.getNames()[0],
+                                                  'a binary function name',
+                                              ),
                                               context,
                                               true,
                                               true,
@@ -402,12 +408,10 @@ export default class Evaluate extends Expression {
                         Math.max(0, index ?? 0),
                         fun.inputs.length - 1,
                     );
-                    if (
-                        insertionIndex < 0 ||
-                        insertionIndex >= fun.inputs.length
-                    )
-                        return new NeverType();
-                    return fun.inputs[insertionIndex].getType(context);
+                    const insertionInput = fun.inputs[insertionIndex];
+                    // Out of range, including a function with no inputs at all.
+                    if (insertionInput === undefined) return new NeverType();
+                    return insertionInput.getType(context);
                 },
             },
             {
@@ -424,13 +428,15 @@ export default class Evaluate extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Evaluate(
-            this.replaceChild('fun', this.fun, replace),
-            this.replaceChild('types', this.types, replace),
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('inputs', this.inputs, replace),
-            this.replaceChild('close', this.close, replace),
-        ) as this;
+        return this.cloned(
+            new Evaluate(
+                this.replaceChild('fun', this.fun, replace),
+                this.replaceChild('types', this.types, replace),
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('inputs', this.inputs, replace),
+                this.replaceChild('close', this.close, replace),
+            ),
+        );
     }
 
     /**
@@ -552,6 +558,10 @@ export default class Evaluate extends Expression {
         const mapping = this.getMappingFor(bind, context);
         if (mapping === undefined) return this;
 
+        // The name to bind by. A bind with no name at all (only a malformed
+        // parse produces one) can only be bound positionally.
+        const bindName = bind.getNames()[0];
+
         // A bare boolean name fills its bind by NAME, not by position, so replacing it in
         // place with a value would hand that value to whatever input its position reaches
         // instead — `Phrase('hi' selectable)` would become `Phrase('hi' ⊥)`, i.e. a size.
@@ -563,9 +573,9 @@ export default class Evaluate extends Expression {
         )
             return this.replace(
                 mapping.given,
-                expression === undefined
+                expression === undefined || bindName === undefined
                     ? undefined
-                    : Input.make(bind.getNames()[0], expression),
+                    : Input.make(bindName, expression),
             );
 
         // If it's already bound, replace the binding.
@@ -581,7 +591,9 @@ export default class Evaluate extends Expression {
         else if (mapping.given === undefined && expression !== undefined) {
             return this.replace(this.inputs, [
                 ...this.inputs,
-                named ? Input.make(bind.getNames()[0], expression) : expression,
+                named && bindName !== undefined
+                    ? Input.make(bindName, expression)
+                    : expression,
             ]);
         }
 
@@ -618,7 +630,7 @@ export default class Evaluate extends Expression {
 
         if (this.close === undefined)
             conflicts.push(
-                new UnclosedDelimiter(this, this.open, new EvalCloseToken()),
+                new UnclosedDelimiter(this, this.open, EvalCloseToken()),
             );
 
         // Get the function this evaluate is trying to... evaluate.
@@ -738,8 +750,9 @@ export default class Evaluate extends Expression {
                 if (expected.isVariableLength() && Array.isArray(given)) {
                     let isVariableListInput = false;
                     // It's okay to provide a compatible list as the input, instead of a sequence of inputs to the evaluate.
-                    if (given.length === 1) {
-                        const lastType = given[0].getType(context);
+                    const onlyGiven = given.length === 1 ? given[0] : undefined;
+                    if (onlyGiven !== undefined) {
+                        const lastType = onlyGiven.getType(context);
                         if (
                             lastType instanceof ListType &&
                             expectedType instanceof ListType &&
@@ -794,18 +807,13 @@ export default class Evaluate extends Expression {
                 const expected = fun.types;
                 // If there are type inputs provided, verify that they exist on the function.
                 if (this.types && this.types.types.length > 0) {
-                    for (
-                        let index = 0;
-                        index < this.types.types.length;
-                        index++
-                    ) {
+                    for (const [
+                        index,
+                        typeInput,
+                    ] of this.types.types.entries()) {
                         if (index >= (expected?.variables.length ?? 0)) {
                             conflicts.push(
-                                new UnexpectedTypeInput(
-                                    this,
-                                    this.types.types[index],
-                                    fun,
-                                ),
+                                new UnexpectedTypeInput(this, typeInput, fun),
                             );
                             break;
                         }
@@ -836,7 +844,7 @@ export default class Evaluate extends Expression {
                 const ref = conflict.givenNode
                     .nodes()
                     .findLast((n): n is Reference => n instanceof Reference);
-                if (ref instanceof Reference)
+                if (ref !== undefined)
                     possibleEvaluates.push([
                         ref,
                         conflict.givenType instanceof StructureDefinitionType,
@@ -895,7 +903,7 @@ export default class Evaluate extends Expression {
 
     isOneOf(context: Context, ...types: StructureDefinition[]) {
         const fun = this.getFunction(context);
-        return types.includes(fun as StructureDefinition);
+        return types.some((type) => type === fun);
     }
 
     isProvablyNonZero(context: Context): boolean {
@@ -1286,25 +1294,24 @@ export function buildBindings(
 ): Map<Names, Value> | ExceptionValue {
     // Build the bindings, backwards because they are in reverse on the stack.
     const bindings = new Map<Names, Value>();
-    for (let i = 0; i < inputs.length; i++) {
-        const bind = inputs[i];
-
+    for (const [i, bind] of inputs.entries()) {
         // Are we missing an input? Throw an excpected value exception.
-        if (i >= values.length) return new ValueException(evaluator, creator);
+        const value = values[i];
+        if (value === undefined) return new ValueException(evaluator, creator);
 
         // If it's variable length, take the rest of the values and stop.
         if (bind.isVariableLength()) {
             // If there's only one more value and it's already a list, just set it to the list.
             bindings.set(
                 bind.names,
-                values[i] instanceof ListValue
-                    ? values[i]
+                value instanceof ListValue
+                    ? value
                     : new ListValue(creator, values.slice(i)),
             );
             break;
         }
         // Otherwise, just set this value.
-        bindings.set(bind.names, values[i]);
+        bindings.set(bind.names, value);
     }
     return bindings;
 }

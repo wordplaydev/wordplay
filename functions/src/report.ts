@@ -1,4 +1,5 @@
 import { getFirestore } from 'firebase-admin/firestore';
+import { fieldOf, isRecord, isStringArray } from './shared/guards.js';
 import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
 import type {
     ReportInputs,
@@ -102,7 +103,7 @@ export default async function report(
     // review with the text still visible.
     let hidden: string | undefined;
     if (kind === 'chat' && message !== undefined) {
-        const spent = (await ref.get()).get('kept') === true;
+        const spent = fieldOf(await ref.get(), 'kept') === true;
         if (!spent) {
             hidden = await hideMessage(db, subject, message);
             // The cached translations are copies of the words just taken out
@@ -116,10 +117,10 @@ export default async function report(
     // and the second must join the first's request rather than replace it.
     const reporters = await db.runTransaction(async (transaction) => {
         const existing = await transaction.get(ref);
-        const already: string[] = existing.exists
-            ? (existing.get('reporters') ?? [])
-            : [];
+        const reporters = fieldOf(existing, 'reporters');
+        const already = isStringArray(reporters) ? reporters : [];
         const joined = already.includes(uid) ? already : [...already, uid];
+        const storedTime = fieldOf(existing, 'time');
         transaction.set(
             ref,
             {
@@ -140,7 +141,7 @@ export default async function report(
                 // like the v1 reports this generalizes — the queue orders by it,
                 // and a Timestamp would sort against numbers. Written once: this
                 // is when the review was first asked for, not most recently.
-                time: existing.exists ? existing.get('time') : now,
+                time: typeof storedTime === 'number' ? storedTime : now,
                 // A new report on something already decided reopens it.
                 resolved: false,
             },
@@ -222,11 +223,12 @@ async function hideMessage(
         const ref = db.collection(Chats).doc(chatID);
         const chat = await transaction.get(ref);
         if (!chat.exists) return undefined;
-        const messages = chat.get('messages') ?? [];
-        const found = messages.find((m: { id?: string }) => m.id === messageID);
-        const text: string | null | undefined = found?.text;
+        const stored = fieldOf(chat, 'messages');
+        const messages = Array.isArray(stored) ? stored.filter(isRecord) : [];
+        const found = messages.find((m) => m.id === messageID);
+        const text = found?.text;
         transaction.update(ref, {
-            messages: messages.map((m: { id?: string; text?: unknown }) =>
+            messages: messages.map((m) =>
                 m.id === messageID ? { ...m, text: null } : m,
             ),
             [`moderation.${messageID}`]: 'pending',

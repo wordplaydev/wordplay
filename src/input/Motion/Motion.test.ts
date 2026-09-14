@@ -50,6 +50,7 @@ test('a start velocity reaches a body created on the first sync', () => {
     );
     const motion = evaluator.getBasisStreamsOfType(Motion)[0];
     expect(motion).toBeDefined();
+    if (motion === undefined) return;
 
     const body = makeBody();
     motion.updateBody(body);
@@ -64,6 +65,7 @@ test('a start velocity survives a re-evaluation that lands before any body exist
     );
     const motion = evaluator.getBasisStreamsOfType(Motion)[0];
     expect(motion).toBeDefined();
+    if (motion === undefined) return;
 
     // Physics.sync() bails out of the whole frame until Rapier's WASM loads, then
     // forces a fresh evaluation to break the deadlock — all before any body exists.

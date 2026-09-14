@@ -1,3 +1,5 @@
+import { includesString } from '@util/nullable';
+
 // Content-category targeting for translate/override runs. A run does eight
 // kinds of work per locale (locale strings, complete tutorial, quick tutorial,
 // how-tos, gallery examples, changelog entries, emoji, date/time data); these
@@ -76,7 +78,7 @@ type ParsedFlag = {
 };
 
 function isContentCategory(value: string): value is ContentCategory {
-    return (CONTENT_CATEGORIES as readonly string[]).includes(value);
+    return includesString(CONTENT_CATEGORIES, value);
 }
 
 /** A token is a category flag if it starts with a single `+`/`-` and a letter
@@ -91,9 +93,9 @@ function parseTutorialTarget(spec: string): TutorialTarget | undefined {
     if (parts.length > 2) return undefined;
     const nums = parts.map((p) => Number(p));
     if (!nums.every((n) => Number.isInteger(n) && n >= 1)) return undefined;
-    return parts.length === 2
-        ? { act: nums[0], scene: nums[1] }
-        : { act: nums[0] };
+    const [act, scene] = nums;
+    if (act === undefined) return undefined;
+    return scene !== undefined ? { act, scene } : { act };
 }
 
 /** Parse one `[+-]category[:specifier]` token into a flag, or an error string. */
@@ -144,9 +146,11 @@ export function parseCategorySelection(args: string[]): Selection | string {
         !hasInclude && !hasExclude ? 'all' : hasInclude ? 'include' : 'exclude';
     const listed = new Set(parsed.map((f) => f.category));
     const specifiersOf = (category: ContentCategory): string[] =>
-        parsed
-            .filter((f) => f.category === category && f.specifier !== undefined)
-            .map((f) => f.specifier as string);
+        parsed.flatMap((f) =>
+            f.category === category && f.specifier !== undefined
+                ? [f.specifier]
+                : [],
+        );
     const targetsOf = (category: ContentCategory): TutorialTarget[] =>
         specifiersOf(category)
             .map(parseTutorialTarget)

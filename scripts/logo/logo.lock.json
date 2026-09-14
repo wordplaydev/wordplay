@@ -3,7 +3,7 @@
     "inputs": {
         "scripts/logo/fonts/NotoEmoji-400.ttf": "3c4aea565060fa91575a851e2718a5b14b9fe8856ead696b374c5a7e672179cb",
         "scripts/logo/fonts/NotoSans-700.ttf": "9f0ce911354e554bbac00c399dcea71c785962cebfd86e965656f0bd011dfca9",
-        "scripts/logo/generate.ts": "f859fde6b19a070a69727fbe4b366921583fe0b8118115c276b9377fda824b42",
+        "scripts/logo/generate.ts": "1e63ae5562f3d33f8eaf14d10850158f4f9d69a49b0cd3c42a5d4a5b27d15992",
         "scripts/logo/ico.ts": "d5768fa06717badf4b2366c03b56b9045cca4f06994fd7714e4df487d8bebbe6",
         "scripts/logo/manifest.ts": "2d14042068e348cf1f30dc3aa4919e63ead2a3930267efec232832cf8d55b34e",
         "src/components/app/cast.ts": "24a886794b3e51a22c6b58e540c45df7ae1b5719938a87f3a1ae92f602176adb",

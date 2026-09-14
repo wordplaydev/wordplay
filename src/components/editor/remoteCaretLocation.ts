@@ -1,4 +1,3 @@
-import Token from '@nodes/Token';
 import type Source from '@nodes/Source';
 import { measureTokenSegment } from './highlights/measureTokenSegment';
 
@@ -39,7 +38,7 @@ export function computeRemoteCaretLocation(
     const tokenOffset = Math.max(0, position - tokenStart);
 
     const tokenView = viewport.querySelector<HTMLElement>(
-        `.token-view[data-id="${(token as Token).id}"]`,
+        `.token-view[data-id="${token.id}"]`,
     );
     if (tokenView === null) return undefined;
 

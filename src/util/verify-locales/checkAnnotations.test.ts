@@ -7,7 +7,7 @@ import { expect, test } from 'vitest';
 import checkAnnotations from './checkAnnotations';
 
 function copyLocale(): LocaleText {
-    return JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    return structuredClone(DefaultLocale);
 }
 
 test('a single annotation is left alone', () => {

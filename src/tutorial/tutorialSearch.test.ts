@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import { buildTutorialSearch, type SearchableTutorial } from './tutorialSearch';
 import { searchItems } from '@util/search';
+import { must } from '@util/nullable';
 
 const L = 'en';
 
@@ -31,19 +32,25 @@ const search = (q: string) => searchItems(records, q, L);
 
 describe('buildTutorialSearch', () => {
     test('matches a scene by its subtitle (priority 1, points to scene start)', () => {
-        const [target, match] = search('greeting')[0];
+        const [target, match] = must(
+            search('greeting')[0],
+            'a match for "greeting"',
+        );
         expect(match[3]).toBe(1);
         expect(target).toMatchObject({ act: 1, scene: 1, pause: 1 });
     });
 
     test('matches dialog text (priority 2)', () => {
-        const [target, match] = search('gesture')[0];
+        const [target, match] = must(
+            search('gesture')[0],
+            'a match for "gesture"',
+        );
         expect(match[3]).toBe(2);
         expect(target).toMatchObject({ act: 1, scene: 1, pause: 1 });
     });
 
     test('counts pauses so a later line points to the right place', () => {
-        const [target] = search('animated')[0];
+        const [target] = must(search('animated')[0], 'a match for "animated"');
         // The "animated" line comes after one pause, so pause index is 2.
         expect(target.pause).toBe(2);
     });
@@ -57,7 +64,7 @@ describe('buildTutorialSearch', () => {
     });
 
     test('builds a readable label', () => {
-        expect(search('gesture')[0][0].label).toBe(
+        expect(must(search('gesture')[0], 'a match')[0].label).toBe(
             'First Act — a friendly greeting',
         );
     });
@@ -90,7 +97,7 @@ describe('multilingual tutorial search', () => {
     test('finds content in either language, pointing to the same scene', () => {
         const en = searchItems(records, 'greeting', L);
         const es = searchItems(records, 'saludo', L);
-        expect(en[0][0]).toMatchObject({ act: 1, scene: 1 });
-        expect(es[0][0]).toMatchObject({ act: 1, scene: 1 });
+        expect(en[0]?.[0]).toMatchObject({ act: 1, scene: 1 });
+        expect(es[0]?.[0]).toMatchObject({ act: 1, scene: 1 });
     });
 });

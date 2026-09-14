@@ -24,6 +24,15 @@ function path(code: string): Path {
     return form;
 }
 
+/** `toRectangle` takes a structure rather than any value, so narrow before
+ * handing it one. */
+function rectangle(code: string) {
+    const value = evaluateCode(code);
+    if (!(value instanceof StructureValue))
+        throw new Error(`not a rectangle: ${code}`);
+    return toRectangle(value);
+}
+
 const square: PathPoint[] = [
     { x: 0, y: 0 },
     { x: 2, y: 0 },
@@ -51,7 +60,7 @@ test('the other three forms are unchanged by isClosed and getThickness', () => {
     // Both are non-abstract with defaults precisely so a rectangle, circle and polygon keep
     // filling and keep the theme's border width without knowing these exist.
     for (const form of [
-        toRectangle(evaluateCode('Rectangle(-1m 1m 1m -1m)') as StructureValue),
+        rectangle('Rectangle(-1m 1m 1m -1m)'),
         toCircle(evaluateCode('Circle(2m)')),
         toPolygon(evaluateCode('Polygon(2m 6)')),
     ]) {
@@ -189,7 +198,7 @@ test('an open path is framed by its closed reading', () => {
 test('a form that encloses an area frames itself the way it draws itself', () => {
     // The default is the whole point: only an open form needs the two to differ.
     for (const form of [
-        toRectangle(evaluateCode('Rectangle(-1m 1m 1m -1m)') as StructureValue),
+        rectangle('Rectangle(-1m 1m 1m -1m)'),
         toCircle(evaluateCode('Circle(2m)')),
         toPolygon(evaluateCode('Polygon(2m 6)')),
         path('Path([Place(0m 0m) Place(2m 0m) Place(1m 2m)] closed: ⊤)'),

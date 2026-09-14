@@ -5,6 +5,7 @@ import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
 import Evaluate from '@nodes/Evaluate';
 import Source from '@nodes/Source';
+import { must } from '@util/nullable';
 import { expect, test } from 'vitest';
 
 function make(code: string) {
@@ -91,12 +92,14 @@ test('a stale id resolves to its own phrase, not a matching sibling', () => {
         );
     expect(phrases).toHaveLength(2);
 
-    const second = phrases[1];
+    // Two phrases, just asserted.
+    const first = must(phrases[0], 'the first phrase');
+    const second = must(phrases[1], 'the second phrase');
     const after = before.withRevisedNodes([
         [second, movedOutput(before, second, DefaultLocales, 5, 6, false)],
     ]);
 
-    const resolvedFirst = resolveAcrossProjects(before, after, phrases[0].id);
+    const resolvedFirst = resolveAcrossProjects(before, after, first.id);
     const resolvedSecond = resolveAcrossProjects(before, after, second.id);
     expect(resolvedFirst).toBeDefined();
     expect(resolvedSecond).toBeDefined();

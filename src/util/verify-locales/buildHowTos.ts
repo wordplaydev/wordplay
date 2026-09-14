@@ -83,9 +83,9 @@ function checkHowToBody(
     const examples = getDocExamples(body);
     const sameShape = authoredBlocks?.length === examples.length;
     const flattened = (example: DocExample, index: number) =>
-        !example.block && sameShape && authoredBlocks[index];
+        !example.block && sameShape && authoredBlocks?.[index] === true;
     const isBlock = (example: DocExample, index: number) =>
-        sameShape ? authoredBlocks[index] : example.block;
+        (sameShape ? authoredBlocks?.[index] : undefined) ?? example.block;
 
     for (const problem of checkDocContent(body, localeText, isBlock)) {
         const where = `in how-to '${id}' for ${locale}`;

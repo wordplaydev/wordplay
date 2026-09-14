@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import { toResolutions } from '@conflicts/Conflict';
 import Context from '@nodes/Context';
 import type Evaluate from '@nodes/Evaluate';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
@@ -77,9 +78,10 @@ export default class UnknownInput extends Conflict {
                 break;
             }
         }
-        if (candidates.length === 0)
-            return Conflict.fallbackExplainer(this, context, concepts);
-        return candidates as readonly Repair[] as Resolutions;
+        return (
+            toResolutions(candidates) ??
+            Conflict.fallbackExplainer(this, context, concepts)
+        );
     }
 
     getLocalePath() {

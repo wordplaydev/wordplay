@@ -3,6 +3,7 @@ import { normalizeBox, selectDetections } from '@input/Objects/Objects';
 import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import Source from '@nodes/Source';
+import { first } from '@util/nullable';
 import { expect, test } from 'vitest';
 
 /** A detection with one category, at a box in pixels of the detection frame. */
@@ -63,7 +64,9 @@ test('Thing.name is typed as the union of localized category literals', () => {
         [],
         DefaultLocale,
     );
-    const nameType = project.shares.output.Thing.inputs[0].type?.toWordplay();
+    const nameType = first(
+        project.shares.output.Thing.inputs,
+    )?.type?.toWordplay();
     // Every category name is a literal member, plus the '' default; a non-member
     // like 'notacategory' is absent, so hover/autocomplete show the exact set.
     expect(nameType).toContain("'cat'");

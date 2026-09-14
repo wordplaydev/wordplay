@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import { toResolutions } from '@conflicts/Conflict';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type PropertyBind from '@nodes/PropertyBind';
@@ -75,9 +76,10 @@ export default class InvalidProperty extends Conflict {
                 break;
             }
         }
-        if (candidates.length === 0)
-            return Conflict.fallbackExplainer(this, context, concepts);
-        return candidates as readonly Repair[] as Resolutions;
+        return (
+            toResolutions(candidates) ??
+            Conflict.fallbackExplainer(this, context, concepts)
+        );
     }
 
     getLocalePath() {

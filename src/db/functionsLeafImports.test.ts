@@ -1,3 +1,4 @@
+import { matchGroups, must } from '@util/nullable';
 import { readFileSync, readdirSync } from 'fs';
 import path from 'path';
 import { expect, test } from 'vitest';
@@ -36,11 +37,14 @@ function reaches(): { from: string; module: string }[] {
                 const source = readFileSync(full, 'utf8');
                 for (const match of source.matchAll(
                     /from '([^']*functions\/src\/[^']+)'/g,
-                ))
+                )) {
+                    // The one group is mandatory, so a match always carries it.
+                    const [, module] = matchGroups(match);
                     found.push({
                         from: path.relative(process.cwd(), full),
-                        module: match[1],
+                        module: must(module, 'a matched module path'),
                     });
+                }
             }
         }
     };

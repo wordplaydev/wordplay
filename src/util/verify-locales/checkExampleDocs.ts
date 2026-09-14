@@ -2,6 +2,7 @@ import type LocaleText from '@locale/LocaleText';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import type Log from '@util/verify-locales/Log';
 import { splitMarkupAndCode } from '@util/verify-locales/protect';
+import { must } from '@util/nullable';
 
 /**
  * Find an example whose own documentation is still the English.
@@ -27,10 +28,13 @@ import { splitMarkupAndCode } from '@util/verify-locales/protect';
 
 /** The docs written inside a value's examples, in order. */
 function exampleDocs(value: string): string[] {
-    return splitMarkupAndCode(value)
-        .filter((segment) => segment.kind === 'code')
-        .flatMap((segment) => [...segment.text.matchAll(/¶([^¶]*)¶/g)])
-        .map((match) => match[1].trim());
+    return (
+        splitMarkupAndCode(value)
+            .filter((segment) => segment.kind === 'code')
+            .flatMap((segment) => [...segment.text.matchAll(/¶([^¶]*)¶/g)])
+            // The pattern's only group is not optional, so a match always has one.
+            .map(([, doc]) => must(doc, 'an example doc').trim())
+    );
 }
 
 /** Prose, rather than a name, a symbol, or a scrap of code. */

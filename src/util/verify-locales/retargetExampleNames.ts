@@ -16,6 +16,7 @@
  */
 
 import type LanguageCode from '@locale/LanguageCode';
+import { isDialog } from '../../tutorial/Tutorial';
 import type LocaleText from '@locale/LocaleText';
 import { isUnwritten } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
@@ -50,13 +51,13 @@ import Source from '@nodes/Source';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import type Tutorial from '../../tutorial/Tutorial';
-import { type Dialog } from '../../tutorial/Tutorial';
 import { alignTutorialLines } from '@util/verify-locales/syncTutorialStructure';
 import getDocExamples from '@util/verify-locales/docExamples';
 import {
     hasUnclosedText,
     mismatchedDelimiter,
 } from '@util/verify-locales/protect';
+import { must } from '@util/nullable';
 
 /** How an example's names were left, for a caller deciding what to report. */
 export type RetargetResult =
@@ -171,9 +172,9 @@ function restoreLanguageTags(
     // restored after it.
     const edits: { at: number; length: number; order: number; text: string }[] =
         [];
-    for (let index = 0; index < enNodes.length; index++) {
-        const enNode = enNodes[index];
-        const loNode = loNodes[index];
+    for (const [index, enNode] of enNodes.entries()) {
+        // The two node lists were just checked to be the same length.
+        const loNode = must(loNodes[index], 'a paired node');
 
         if (
             enNode instanceof LanguageTagged &&
@@ -222,7 +223,10 @@ function restoreLanguageTags(
                 : enNode instanceof Names && loNode instanceof Names
                   ? enNode.names.length > loNode.names.length
                       ? (() => {
-                            const name = enNode.names[loNode.names.length - 1];
+                            const name = must(
+                                enNode.names[loNode.names.length - 1],
+                                'the last kept name',
+                            );
                             return name.language ?? name.name;
                         })()
                       : undefined
@@ -609,7 +613,8 @@ export function retargetExamplesInDocument(
         divergent: 0,
         refused: 0,
     };
-    if (items.length === 0 || isUnwritten(items[0])) return result;
+    const [firstItem] = items;
+    if (firstItem === undefined || isUnwritten(firstItem)) return result;
 
     const enExamples = enItems.flatMap((item) =>
         getDocExamples(withoutAnnotations(item), true),
@@ -629,8 +634,9 @@ export function retargetExamplesInDocument(
     result.texts = items.map((item, itemIndex) => {
         const edits: { start: number; end: number; text: string }[] = [];
         let cursor = 0;
-        for (const example of found[itemIndex]) {
-            const en = enExamples[position++];
+        // `found` is a map of `items`, and the example counts were checked equal.
+        for (const example of must(found[itemIndex], 'an example list')) {
+            const en = must(enExamples[position++], 'an en-US example');
             // An example whose serialization the tokenizer normalized (an emoji that carried
             // a presentation selector) isn't findable in the raw string. Skipping it is what
             // keeps the repair from writing the normalized copy back over the original.
@@ -691,10 +697,6 @@ export function retargetExamplesIn(
  *
  * Mutates `tutorial` when `apply`; otherwise only tallies, so a verify run stays read-only.
  */
-function isDialog(line: unknown): line is Dialog {
-    return Array.isArray(line);
-}
-
 export function retargetTutorialExamples(
     tutorial: Tutorial,
     defaultTutorial: Tutorial,
@@ -975,14 +977,16 @@ function retargetSerialized(
             language,
         );
         if (!aligned) return { kind: 'divergent' };
+        // `index` walks `loSources` itself, so this always hits.
+        const localizedSource = must(loSources[index], 'a localized source');
         if (renames.length === 0) {
-            rewritten.push(loSources[index]);
+            rewritten.push(localizedSource);
             continue;
         }
-        const spliced = spliceRenames(renames, loSource, loSources[index].code);
+        const spliced = spliceRenames(renames, loSource, localizedSource.code);
         if (spliced === undefined) return { kind: 'refused' };
         renamed += spliced.renamed;
-        rewritten.push({ ...loSources[index], code: spliced.code });
+        rewritten.push({ ...localizedSource, code: spliced.code });
     }
     if (renamed === 0) return { kind: 'unchanged' };
 

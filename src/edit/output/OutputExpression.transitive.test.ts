@@ -9,6 +9,7 @@ import NumberLiteral from '@nodes/NumberLiteral';
 import Unit from '@nodes/Unit';
 import OutputExpression from '@edit/output/OutputExpression';
 import OutputPropertyValueSet from '@edit/output/OutputPropertyValueSet';
+import { first, must } from '@util/nullable';
 
 /** Build a value set for the Phrase's `size` property from the given source. */
 function sizeValues(code: string) {
@@ -52,7 +53,7 @@ test('a property referencing a literal bind is editable and edits the upstream l
         NumberLiteral.make(7, Unit.reuse(['m'])),
     );
     expect(replacements.length).toBe(1);
-    expect(replacements[0][0]).toBe(sizeBind?.value);
+    expect(must(first(replacements), 'a replacement')[0]).toBe(sizeBind?.value);
 });
 
 test('a two-hop reference chain resolves to the literal', () => {
@@ -75,5 +76,7 @@ test('a direct literal is still editable via the output Evaluate', () => {
         project,
         NumberLiteral.make(7, Unit.reuse(['m'])),
     );
-    expect(replacements[0][0]).toBeInstanceOf(Evaluate);
+    expect(must(first(replacements), 'a replacement')[0]).toBeInstanceOf(
+        Evaluate,
+    );
 });

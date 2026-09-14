@@ -19,6 +19,7 @@ import type Expression from '@nodes/Expression';
 import Reaction from '@nodes/Reaction';
 import Source from '@nodes/Source';
 import ExceptionValue from '@values/ExceptionValue';
+import { must } from '@util/nullable';
 
 const makeOne = (creator: Expression) => Time.make(creator, 1);
 
@@ -96,7 +97,7 @@ test.each([
             if (streams) {
                 const values = evaluator.streamsByCreator.get(streams);
                 if (values) {
-                    const stream = values[0];
+                    const stream = must(values[0], 'a stream');
                     stream.add(value(source), null);
                 }
                 expect(values).not.toBeUndefined();
@@ -160,9 +161,10 @@ mode`,
     /** Simulate animation-frame time passing, as in a real project. */
     function tickTime(times: number) {
         for (let i = 0; i < times; i++) {
-            evaluator
-                .getBasisStreamsOfType(Time)[0]
-                .add(Time.make(source, i + 1), i + 1);
+            must(evaluator.getBasisStreamsOfType(Time)[0], 'a time stream').add(
+                Time.make(source, i + 1),
+                i + 1,
+            );
             evaluator.flush();
         }
     }
@@ -396,7 +398,7 @@ test('repairing a missing condition selects the placeholder it inserted', () => 
     if (repair === undefined || repair.kind !== 'repair') return;
 
     const { newProject, newNode } = repair.mediator(context, DefaultLocales);
-    const newSource = newProject.getSources()[0];
+    const newSource = must(newProject.getSources()[0], 'the revised source');
     expect(newSource.getCode().toString()).toBe('1 … _•?');
     expect(newNode).toBeInstanceOf(ExpressionPlaceholder);
     expect(newSource.nodes()).toContain(newNode);

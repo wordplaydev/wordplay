@@ -128,8 +128,8 @@
         rows: Row<BlockMember>[],
         position: number,
     ): { index: number; inline: number } {
-        for (let index = 0; index < rows.length; index++) {
-            for (const member of rows[index].members) {
+        for (const [index, row] of rows.entries()) {
+            for (const member of row.members) {
                 const data = member.data;
                 const { inlineStart, inlineEnd } = member.rect;
                 if (data.kind === 'break') {
@@ -259,11 +259,11 @@
             const current = findCurrentBlockRow(rows, position);
             if (current.index < 0) return undefined;
             goalInline = caret.visualColumn ?? current.inline;
-            const next = current.index + direction;
+            const next = rows[current.index + direction];
             target =
-                next < 0 || next >= rows.length
+                next === undefined
                     ? undefined
-                    : nearestInRow(landableRow(rows[next]), goalInline);
+                    : nearestInRow(landableRow(next), goalInline);
         }
         if (target === undefined) return undefined;
         const result = resolveBlockMember(
@@ -361,6 +361,7 @@
     import Token from '@nodes/Token';
     import { TAB_TEXT } from '@parser/Spaces';
     import UnicodeString from '@unicode/UnicodeString';
+    import { must } from '@util/nullable';
     import { tick, untrack } from 'svelte';
     import { get } from 'svelte/store';
 
@@ -1208,7 +1209,8 @@
 
                 // If the node covers more than two lines, place the spot before
                 // it; otherwise after it.
-                const tokenExtent = across(logical[0]);
+                // `tokenAndValueViews` was just checked non-empty.
+                const tokenExtent = across(must(logical[0], 'a measured view'));
                 const before = Math.max(0, first - tokenExtent - editorPadding);
                 const after = last + editorPadding;
                 const block =
@@ -1606,8 +1608,12 @@
                             // Walk backwards from the .space to collect consecutive .break siblings.
                             const breaksBefore: Element[] = [];
                             for (let i = spaceIdx - 1; i >= 0; i--) {
-                                if (siblings[i].classList.contains('break'))
-                                    breaksBefore.unshift(siblings[i]);
+                                const sibling = siblings[i];
+                                if (
+                                    sibling !== undefined &&
+                                    sibling.classList.contains('break')
+                                )
+                                    breaksBefore.unshift(sibling);
                                 else break;
                             }
                             const breakBefore = project(
@@ -1625,11 +1631,10 @@
                             const firstBreakIdx =
                                 spaceIdx - breaksBefore.length;
                             for (let i = firstBreakIdx - 1; i >= 0; i--) {
-                                if (
-                                    siblings[i].classList.contains('node-view')
-                                ) {
+                                const sibling = siblings[i];
+                                if (sibling?.classList.contains('node-view')) {
                                     inlineStart = axes.rect(
-                                        siblings[i].getBoundingClientRect(),
+                                        sibling.getBoundingClientRect(),
                                     ).inlineStart;
                                     break;
                                 }
@@ -1660,7 +1665,11 @@
             else {
                 // Get the last line of spaces.
                 const spaceLines = explicitSpace.split('\n');
-                let spaceOnLastLine = spaceLines[spaceLines.length - 1];
+                // `split` always yields at least one line, even for ''.
+                let spaceOnLastLine = must(
+                    spaceLines[spaceLines.length - 1],
+                    'the last line of space',
+                );
                 // Truncate everything on the last line of spaces after the current position of the caret.
                 spaceOnLastLine = spaceOnLastLine.substring(
                     0,

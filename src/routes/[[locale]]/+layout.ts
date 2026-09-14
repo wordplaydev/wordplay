@@ -2,7 +2,7 @@ import { browser } from '$app/environment';
 import { redirect } from '@sveltejs/kit';
 import { proxyPrefix } from '@db/proxySession';
 import {
-    SupportedLocales,
+    isSupportedLocale,
     type SupportedLocale,
 } from '@locale/SupportedLocales';
 
@@ -10,19 +10,19 @@ export const load = ({
     params,
     url,
 }: {
-    params: Record<string, string>;
+    params: { locale?: string };
     url: URL;
 }) => {
     // Don't redirect during SSR / prerender — only the browser can read localStorage.
     if (!browser) return {};
 
-    const localeParam = params.locale as string | undefined;
+    const localeParam = params.locale;
 
     // The locale segment may contain multiple locales joined by '+' (e.g. "en-US+es-MX").
     const parsed = localeParam ? localeParam.split('+') : [];
     const allValid =
         parsed.length > 0 &&
-        parsed.every((l) => SupportedLocales.includes(l as SupportedLocale));
+        parsed.every((l) => typeof l === 'string' && isSupportedLocale(l));
 
     if (allValid) {
         return { locale: localeParam };
@@ -46,8 +46,9 @@ export const load = ({
             localStorage.getItem(`${proxyPrefix()}locales`) ?? '[]',
         );
         if (Array.isArray(stored) && stored.length > 0) {
-            const valid = (stored as string[]).filter((l) =>
-                SupportedLocales.includes(l as SupportedLocale),
+            const valid = stored.filter(
+                (l): l is SupportedLocale =>
+                    typeof l === 'string' && isSupportedLocale(l),
             );
             if (valid.length > 0) fallback = valid.join('+');
         }

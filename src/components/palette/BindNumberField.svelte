@@ -53,6 +53,12 @@
         if (view)
             setKeyboardFocus(view, 'Restoring number field focus after edit.');
     }
+    /** The bound property's name, shown as the field's placeholder. An empty
+     *  set of values has no property to name. */
+    function placeholderName(): string {
+        const first = values.values[0];
+        return first === undefined ? '' : $locales.getName(first.bind.names);
+    }
 </script>
 
 <span class="number">
@@ -61,9 +67,7 @@
         text={`${values.getNumber() ?? 0}`}
         validator={valid}
         {editable}
-        placeholder={values.isEmpty()
-            ? ''
-            : $locales.getName(values.values[0].bind.names)}
+        placeholder={placeholderName()}
         description={(l) => l.ui.palette.field.coordinate}
         changed={handleChange}
         focus={() => selection?.setAdjusting(true)}

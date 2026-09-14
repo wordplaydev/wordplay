@@ -118,9 +118,11 @@ export function withDuration(
         return NumberLiteral.make(entry.number.getText(), unit?.clone());
     // A chord's length is written on its first member, matching the rule the
     // docs give creators ("put the value on the first number").
-    if (entry instanceof SetLiteral && entry.values.length > 0) {
+    const chordFirst =
+        entry instanceof SetLiteral ? entry.values[0] : undefined;
+    if (entry instanceof SetLiteral && chordFirst !== undefined) {
         const values = entry.values.slice();
-        values[0] = withDuration(values[0], unit);
+        values[0] = withDuration(chordFirst, unit);
         return SetLiteral.make(values);
     }
     // A rest can't carry a value, and a `♪` says its length through its own
@@ -255,9 +257,12 @@ export function moved(
     const to = index + direction;
     if (index < 0 || index >= entries.length || to < 0 || to >= entries.length)
         return [...entries];
+    const from = entries[index];
+    const onto = entries[to];
+    if (from === undefined || onto === undefined) return [...entries];
     const next = entries.slice();
-    next[index] = entries[to];
-    next[to] = entries[index];
+    next[index] = onto;
+    next[to] = from;
     return next;
 }
 
@@ -288,10 +293,11 @@ export function replaced(
  * importer already writes, so the two ways music arrives agree.
  */
 export function entryFor(note: NoteData, noteReference: Reference): Expression {
+    const firstDegree = note.degrees[0];
     const degree =
-        note.degrees.length === 0
+        firstDegree === undefined
             ? NoneLiteral.make()
-            : NumberLiteral.make(degreeText(note.degrees[0]));
+            : NumberLiteral.make(degreeText(firstDegree));
 
     // A bare entry is one beat, so a one-beat entry needs no length at all.
     if (note.beats === 1) return degree;
@@ -300,9 +306,9 @@ export function entryFor(note: NoteData, noteReference: Reference): Expression {
         (duration) => duration.beats === note.beats,
     );
     // A rest carries no unit, so only a degree can take one.
-    if (value !== undefined && note.degrees.length > 0)
+    if (value !== undefined && firstDegree !== undefined)
         return NumberLiteral.make(
-            degreeText(note.degrees[0]),
+            degreeText(firstDegree),
             Unit.create([value.unit]),
         );
 

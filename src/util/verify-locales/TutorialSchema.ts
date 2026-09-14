@@ -1,5 +1,6 @@
 import fs from 'fs';
-import type Tutorial from '../../tutorial/Tutorial';
+import { isTutorial, type default as Tutorial } from '../../tutorial/Tutorial';
+import { must } from '@util/nullable';
 import {
     DEFAULT_TUTORIAL_MODE,
     type TutorialMode,
@@ -40,15 +41,16 @@ export function getTutorialJSON(
     locale: string,
     mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
 ): Tutorial | undefined {
-    return getObjectFromJSONFile(
-        log,
-        getTutorialPath(locale, mode),
-    ) as Tutorial;
+    const json = getObjectFromJSONFile(log, getTutorialPath(locale, mode));
+    return isTutorial(json) ? json : undefined;
 }
 
 /** Get the default (en-US) tutorial for a mode. We use this as the source for translation. */
 export function getDefaultTutorial(
     mode: TutorialMode = DEFAULT_TUTORIAL_MODE,
 ): Tutorial {
-    return getTutorialJSON(new Log(false), 'en-US', mode) as Tutorial;
+    return must(
+        getTutorialJSON(new Log(false), 'en-US', mode),
+        `the en-US ${mode} tutorial`,
+    );
 }

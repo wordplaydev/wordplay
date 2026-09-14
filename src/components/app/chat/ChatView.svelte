@@ -5,6 +5,7 @@
 </script>
 
 <script lang="ts">
+    import type LocaleText from '@locale/LocaleText';
     import { isProxySession } from '@db/proxySession';
     import CreatorView from '@components/app/CreatorView.svelte';
     import Notice from '@components/app/Notice.svelte';
@@ -1132,8 +1133,9 @@
             {#if $user?.uid === msg.creator && msg.text !== null && (state === undefined || state === 'approved')}
                 <ConfirmButton
                     background={false}
-                    tip={(l: any) => l.ui.collaborate.button.delete}
-                    prompt={(l: any) => l.ui.collaborate.button.confirmDelete}
+                    tip={(l: LocaleText) => l.ui.collaborate.button.delete}
+                    prompt={(l: LocaleText) =>
+                        l.ui.collaborate.button.confirmDelete}
                     action={() => deleteMessage(chat, msg)}
                     icon={CANCEL_SYMBOL}
                 ></ConfirmButton>
@@ -1147,7 +1149,7 @@
         >
             {#if msg.text === null}<em
                     ><LocalizedText
-                        path={(l: any) => l.ui.collaborate.error.deleted}
+                        path={(l: LocaleText) => l.ui.collaborate.error.deleted}
                     /></em
                 >
             {:else if state === 'pending'}
@@ -1172,49 +1174,49 @@
                 <MarkupHTMLView markup={msg.text.replaceAll('\n', '\n\n')} />
             {/if}
         </div>
-        {#if translations[msg.id] && msg.text !== null && (state === undefined || state === 'approved')}
-            {@const into = stringToLocale(translations[msg.id].language)}
-            {@const from = msg.language
-                ? stringToLocale(msg.language)
-                : undefined}
-            <div
-                class="translation"
-                lang={into?.language}
-                dir={into ? getLanguageDirection(into.language) : undefined}
-            >
-                <div class="lang-tag">
-                    {#if from}
+        {#if msg.text !== null && (state === undefined || state === 'approved')}
+            {@const translation = translations[msg.id]}
+            {#if translation !== undefined}
+                {@const into = stringToLocale(translation.language)}
+                {@const from = msg.language
+                    ? stringToLocale(msg.language)
+                    : undefined}
+                <div
+                    class="translation"
+                    lang={into?.language}
+                    dir={into ? getLanguageDirection(into.language) : undefined}
+                >
+                    <div class="lang-tag">
+                        {#if from}
+                            <MarkupHTMLView
+                                inline
+                                markup={[
+                                    (l) => l.ui.collaborate.translate.direction,
+                                    {
+                                        from: getMultilingualLanguageLabel(
+                                            from,
+                                        ),
+                                        to: getMultilingualLanguageLabel(
+                                            translation.language,
+                                        ),
+                                    },
+                                ]}
+                            />
+                        {:else}
+                            {getMultilingualLanguageLabel(translation.language)}
+                        {/if}
+                    </div>
+                    <div class="what">
                         <MarkupHTMLView
-                            inline
-                            markup={[
-                                (l) => l.ui.collaborate.translate.direction,
-                                {
-                                    from: getMultilingualLanguageLabel(from),
-                                    to: getMultilingualLanguageLabel(
-                                        translations[msg.id].language,
-                                    ),
-                                },
-                            ]}
+                            markup={translation.text.replaceAll('\n', '\n\n')}
+                            lang={into?.language}
+                            dir={into
+                                ? getLanguageDirection(into.language)
+                                : undefined}
                         />
-                    {:else}
-                        {getMultilingualLanguageLabel(
-                            translations[msg.id].language,
-                        )}
-                    {/if}
+                    </div>
                 </div>
-                <div class="what">
-                    <MarkupHTMLView
-                        markup={translations[msg.id].text.replaceAll(
-                            '\n',
-                            '\n\n',
-                        )}
-                        lang={into?.language}
-                        dir={into
-                            ? getLanguageDirection(into.language)
-                            : undefined}
-                    />
-                </div>
-            </div>
+            {/if}
         {/if}
         {#if messageErrors[msg.id]}
             <Notice text={(l) => l.ui.collaborate.translate.messageError} />

@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import ts from 'typescript';
+import { must } from '@util/nullable';
 import { removeJsonKey, removeProperty } from '@util/verify-locales/prune';
 
 /** Parse an inline TypeScript source and return the members of the first
@@ -17,8 +18,9 @@ function membersOfFirstType(source: string): {
         true,
     );
     const decl = sf.statements.find(
-        (s) => ts.isTypeAliasDeclaration(s) || ts.isInterfaceDeclaration(s),
-    ) as ts.TypeAliasDeclaration | ts.InterfaceDeclaration | undefined;
+        (s): s is ts.TypeAliasDeclaration | ts.InterfaceDeclaration =>
+            ts.isTypeAliasDeclaration(s) || ts.isInterfaceDeclaration(s),
+    );
     if (!decl) throw new Error('No declared type in fixture.');
     const members = ts.isInterfaceDeclaration(decl)
         ? decl.members
@@ -116,14 +118,18 @@ describe('removeProperty', () => {
             ts.ScriptTarget.Latest,
             true,
         );
-        const decl = reparsed.statements.find((s) =>
-            ts.isTypeAliasDeclaration(s),
-        ) as ts.TypeAliasDeclaration;
-        const newMembers = (decl.type as ts.TypeLiteralNode).members;
+        const decl = must(
+            reparsed.statements.find(ts.isTypeAliasDeclaration),
+            'a type alias in the pruned fixture',
+        );
+        if (!ts.isTypeLiteralNode(decl.type))
+            throw new Error('Pruned type alias is not an object literal.');
+        const newMembers = decl.type.members;
         expect(newMembers.length).toBe(1);
-        expect(
-            (newMembers[0] as ts.PropertySignature).name.getText(reparsed),
-        ).toBe('a');
+        const first = must(newMembers[0], 'the remaining property');
+        if (!ts.isPropertySignature(first))
+            throw new Error('The remaining member is not a property.');
+        expect(first.name.getText(reparsed)).toBe('a');
     });
 });
 

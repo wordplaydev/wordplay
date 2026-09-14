@@ -425,6 +425,31 @@ export type DerivedNoticeKind =
 
 export type NoticeKind = WrittenNoticeKind | DerivedNoticeKind;
 
+/** Every notice kind, as a record so that adding a kind to the type without
+ *  listing it here is a compile error. */
+const NoticeKindSet: Record<NoticeKind, true> = {
+    'review-requested': true,
+    reported: true,
+    'report-received': true,
+    decision: true,
+    outcome: true,
+    'chat-message': true,
+    'howto-published': true,
+    'howto-listed': true,
+    'howto-denied': true,
+    'kit-listed': true,
+    'kit-denied': true,
+    'gallery-listed': true,
+    'gallery-denied': true,
+    warning: true,
+    'review-pending': true,
+};
+
+/** Whether a string names a notice kind. */
+export function isNoticeKind(kind: string): kind is NoticeKind {
+    return Object.hasOwn(NoticeKindSet, kind);
+}
+
 /** What a notice points at, so its link is data rather than a chain of ifs. */
 export type NoticeSubject = {
     kind: ReportSubjectKind;
@@ -463,6 +488,39 @@ export type SerializedNotice = {
  * this mirrors `strikes/{uid}` and `usage/{uid}`, which are the same shape of
  * server-written, self-readable record.
  */
+/** Whether a stored value is a notice. Optional fields may be absent, never
+ *  wrong-typed. */
+export function isSerializedNotice(value: unknown): value is SerializedNotice {
+    if (typeof value !== 'object' || value === null || Array.isArray(value))
+        return false;
+    const notice: Record<string, unknown> = { ...value };
+    const subject = notice.subject;
+    return (
+        typeof notice.id === 'string' &&
+        typeof notice.kind === 'string' &&
+        isNoticeKind(notice.kind) &&
+        typeof subject === 'object' &&
+        subject !== null &&
+        'kind' in subject &&
+        typeof subject.kind === 'string' &&
+        ReportSubjectKinds.some((known) => known === subject.kind) &&
+        'id' in subject &&
+        typeof subject.id === 'string' &&
+        'gallery' in subject &&
+        (typeof subject.gallery === 'string' || subject.gallery === null) &&
+        (!('message' in subject) ||
+            subject.message === undefined ||
+            typeof subject.message === 'string') &&
+        typeof notice.title === 'string' &&
+        typeof notice.time === 'number' &&
+        (notice.flags === undefined ||
+            (Array.isArray(notice.flags) &&
+                notice.flags.every((flag) => typeof flag === 'string'))) &&
+        (notice.note === undefined || typeof notice.note === 'string') &&
+        (notice.count === undefined || typeof notice.count === 'number')
+    );
+}
+
 export type SerializedNotices = {
     v: 1;
     /** Server-appended, newest last, capped at MAX_NOTICES. */

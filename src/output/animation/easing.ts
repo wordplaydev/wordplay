@@ -1,3 +1,5 @@
+import { keysOf } from '@util/nullable';
+
 /**
  * A cubic Bézier easing evaluator matching the CSS `cubic-bezier()` timing function.
  * Given the two control points (x1, y1) and (x2, y2) of a curve anchored at (0,0)
@@ -66,3 +68,6 @@ export const Easings = {
 } as const;
 
 export type EasingName = keyof typeof Easings;
+
+/** The easing names, for checking a name that came from data. */
+export const EasingNames = keysOf(Easings);

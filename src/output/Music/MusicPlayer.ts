@@ -566,8 +566,9 @@ export default class MusicPlayer {
             const index = entry.voices.findIndex(
                 (held) => held.voice.id === victim.id,
             );
-            if (index >= 0) {
-                entry.voices[index].handle.cancel();
+            const held = entry.voices[index];
+            if (held !== undefined) {
+                held.handle.cancel();
                 entry.voices.splice(index, 1);
                 return;
             }
@@ -689,8 +690,9 @@ export default class MusicPlayer {
     positionsAt(mark: number): Map<string, number> {
         const positions = new Map<string, number>();
         for (const [name, samples] of this.marks) {
-            if (samples.length === 0) continue;
-            let found = samples[0].beat;
+            const opening = samples[0];
+            if (opening === undefined) continue;
+            let found = opening.beat;
             for (const sample of samples) {
                 if (sample.mark > mark) break;
                 found = sample.beat;

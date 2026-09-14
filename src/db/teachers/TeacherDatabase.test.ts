@@ -1,5 +1,14 @@
+import { isRecord } from '@util/guards';
+import { must } from '@util/nullable';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Class } from './TeacherDatabase.svelte';
+
+/** The fields a recorded write queued, checked rather than asserted, so a write
+ *  that queued something other than a field map fails here. */
+function fieldsOf(data: unknown): Record<string, unknown> {
+    if (!isRecord(data)) throw new Error('a write with no fields');
+    return data;
+}
 
 // Helpers shared by writeBatch and runTransaction mocks: each one records its
 // queued operations so tests can assert on them.
@@ -256,7 +265,7 @@ describe('TeacherDatabase atomic class & gallery updates', () => {
                 kind: 'update',
                 ref: { _ref: { collection: 'classes', id: 'class-1' } },
             });
-            const classData = classOp.data as Record<string, unknown>;
+            const classData = fieldsOf(must(classOp, 'the class write').data);
             expect(classData.learners).toEqual({
                 _op: 'arrayUnion',
                 elements: ['s2'],
@@ -284,7 +293,9 @@ describe('TeacherDatabase atomic class & gallery updates', () => {
                 addStudent(makeClass({ info: [] }), 's2', 's2'),
             ).resolves.not.toThrow();
 
-            const classData = lastBatchOps[0].data as Record<string, unknown>;
+            const classData = fieldsOf(
+                must(lastBatchOps[0], 'the class write').data,
+            );
             expect(classData.info).toEqual({
                 _op: 'arrayUnion',
                 elements: [{ uid: 's2', username: 's2', meta: [] }],
@@ -299,9 +310,10 @@ describe('TeacherDatabase atomic class & gallery updates', () => {
             // updateDoc is the field-only write; assert call args.
             const { updateDoc } = await import('firebase/firestore');
             expect(updateDoc).toHaveBeenCalledTimes(1);
-            const [ref, data] = (
-                updateDoc as unknown as ReturnType<typeof vi.fn>
-            ).mock.calls[0];
+            const [ref, data] = must(
+                vi.mocked(updateDoc).mock.calls[0],
+                'the updateDoc call asserted above',
+            );
             expect(ref).toMatchObject({
                 _ref: { collection: 'classes', id: 'class-1' },
             });

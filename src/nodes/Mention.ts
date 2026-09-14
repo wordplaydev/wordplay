@@ -57,9 +57,9 @@ export default class Mention extends Content {
     }
 
     clone(replace?: Replacement | undefined): this {
-        return new Mention(
-            this.replaceChild('name', this.name, replace),
-        ) as this;
+        return this.cloned(
+            new Mention(this.replaceChild('name', this.name, replace)),
+        );
     }
 
     getPurpose() {

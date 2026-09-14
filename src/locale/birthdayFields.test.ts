@@ -8,13 +8,18 @@ import {
     toISODate,
 } from '@locale/birthdayFields';
 import type Locale from '@locale/Locale';
+import type LanguageCode from '@locale/LanguageCode';
+import type { RegionCode } from '@locale/Regions';
+import type { BirthdayField } from '@locale/birthdayFields';
 
 /** The shape getDateTimeDataForLocale matches on: language + region. */
-const locale = (language: string, region: string) =>
-    ({ language, regions: [region] }) as unknown as Locale;
+const locale = (language: LanguageCode, region: RegionCode): Locale => ({
+    language,
+    regions: [region],
+});
 
 describe('field order', () => {
-    test.each([
+    test.each<[LanguageCode, RegionCode, BirthdayField[]]>([
         ['en', 'US', ['month', 'day', 'year']],
         ['de', 'DE', ['day', 'month', 'year']],
         ['ja', 'JP', ['year', 'month', 'day']],
@@ -27,22 +32,24 @@ describe('field order', () => {
 
     test('an unknown locale follows the default locale, as everything else does', () => {
         // getDateTimeDataForLocale falls back exact match → language → en-US,
-        // so an unrecognized locale gets the same order the rest of the app
-        // would show it. The ISO fallback inside birthdayFieldOrder is for a
-        // pattern that names fewer than three fields, which is a different
-        // failure and is covered by the shape of the data rather than here.
-        expect(birthdayFieldOrder(locale('xx', 'ZZ'))).toEqual(
+        // so a locale the pinned CLDR data has no patterns for (Avaric, here)
+        // gets the same order the rest of the app would show it. The ISO
+        // fallback inside birthdayFieldOrder is for a pattern that names fewer
+        // than three fields, which is a different failure and is covered by the
+        // shape of the data rather than here.
+        expect(birthdayFieldOrder(locale('av', 'RU'))).toEqual(
             birthdayFieldOrder(locale('en', 'US')),
         );
     });
 
     test('every order names each field exactly once', () => {
-        for (const [language, region] of [
+        const pairs: [LanguageCode, RegionCode][] = [
             ['en', 'US'],
             ['de', 'DE'],
             ['ja', 'JP'],
             ['ar', 'SA'],
-        ]) {
+        ];
+        for (const [language, region] of pairs) {
             const order = birthdayFieldOrder(locale(language, region));
             expect(order.toSorted()).toEqual(['day', 'month', 'year']);
         }

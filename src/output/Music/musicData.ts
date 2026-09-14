@@ -146,8 +146,7 @@ export function trackLength(track: TrackData): number {
 /** The beat at which the note at `index` starts, within one pass. */
 export function noteOnset(track: TrackData, index: number): number {
     let onset = 0;
-    for (let position = 0; position < index; position++)
-        onset += track.notes[position].beats;
+    for (const note of track.notes.slice(0, index)) onset += note.beats;
     return onset;
 }
 
@@ -191,8 +190,8 @@ export function insertionAtBeat(track: TrackData, beat: number): number {
     let best = 0;
     let closest = Math.abs(beat);
     let onset = 0;
-    for (let index = 0; index < track.notes.length; index++) {
-        onset += track.notes[index].beats;
+    for (const [index, note] of track.notes.entries()) {
+        onset += note.beats;
         const distance = Math.abs(beat - onset);
         // Strictly nearer, so a beat exactly between two boundaries takes the
         // earlier one rather than sliding right as the list is walked.

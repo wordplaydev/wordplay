@@ -135,7 +135,9 @@ export default class Collision extends StreamValue<
  * These names are runtime values rather than source text, so a name computed
  * from a variable, or localized like PersonalMap's, works the same way.
  */
-export function getWatchedNames(collisions: Collision[]): Set<string> {
+export function getWatchedNames(
+    collisions: readonly Pick<Collision, 'subject' | 'object'>[],
+): Set<string> {
     const names = new Set<string>();
     for (const collision of collisions) {
         if (collision.subject !== undefined) names.add(collision.subject);

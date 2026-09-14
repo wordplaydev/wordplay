@@ -2,6 +2,7 @@
     import { browser } from '$app/environment';
     import { page } from '$app/state';
     import {
+        type LocalizablePath,
         getLocalizing,
         setLinkLocalize,
     } from '@components/project/Contexts';
@@ -64,7 +65,7 @@
 
     // A LocalizedText child registers its path here so the edit affordance can
     // render outside the anchor. See `LinkLocalizeContext` for the rationale.
-    let registeredPath = $state<LocaleTextAccessor | undefined>(undefined);
+    let registeredPath = $state<LocalizablePath | undefined>(undefined);
     setLinkLocalize({
         register: (path) => (registeredPath = path),
     });

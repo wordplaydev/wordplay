@@ -1,13 +1,15 @@
 import { docToMarkup } from '@locale/LocaleText';
+import { entriesOf } from '@util/nullable';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import type Context from '@nodes/Context';
 import NameToken from '@nodes/NameToken';
+import { Sym } from '@nodes/Sym';
+import Token from '@nodes/Token';
 import NameType from '@nodes/NameType';
 import type Node from '@nodes/Node';
 import StructureDefinition from '@nodes/StructureDefinition';
 import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 import type Locales from '@locale/Locales';
-import type { Emotion } from '../lore/Emotion';
 import type Markup from '@nodes/Markup';
 import type { MarkupSource } from '@nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
@@ -34,8 +36,7 @@ export default class NodeConcept extends Concept {
 
     /** Returns the emotions for the characters */
     getEmotion(locales: Locales) {
-        return locales.getTextStructure(this.template.getLocalePath())
-            .emotion as Emotion;
+        return locales.getTextStructure(this.template.getLocalePath()).emotion;
     }
 
     /** Nodes can be matched by two names: the locale-specific one or the key in the locale
@@ -47,7 +48,7 @@ export default class NodeConcept extends Concept {
         const match = locales
             .getLocales()
             .map((locale) =>
-                Object.entries(locale.node).find(
+                entriesOf(locale.node).find(
                     ([key]) => key === this.template.getDescriptor(),
                 ),
             )
@@ -90,8 +91,10 @@ export default class NodeConcept extends Concept {
     getRepresentation(locales: Locales): Node {
         // Find any names that use _ as a placeholder and replace them with a localized name for name.
         const name = this.template.nodes(
-            (n): n is NameToken =>
-                n instanceof NameToken && n.getText() === PLACEHOLDER_SYMBOL,
+            (n): n is Token =>
+                n instanceof Token &&
+                n.isSymbol(Sym.Name) &&
+                n.getText() === PLACEHOLDER_SYMBOL,
         )[0];
         const nameTranslation = String(
             locales.getWithAnnotations((l) => l.node.Name.name),
@@ -99,7 +102,7 @@ export default class NodeConcept extends Concept {
         const template = name
             ? this.template.replace(
                   name,
-                  new NameToken(
+                  NameToken(
                       this.template instanceof StructureDefinition ||
                           this.template instanceof NameType
                           ? nameTranslation
@@ -132,14 +135,14 @@ export default class NodeConcept extends Concept {
         const match = locales
             .getLocales()
             .map((l) =>
-                Object.entries(l.node).find(
+                entriesOf(l.node).find(
                     ([, t]) =>
                         withoutAnnotations(t.name) ===
                         withoutAnnotations(text.name),
                 ),
             )
             .find((n) => n !== undefined);
-        return match ? (match[0] as CharacterName) : undefined;
+        return match ? match[0] : undefined;
     }
 
     isEqualTo(concept: Concept) {

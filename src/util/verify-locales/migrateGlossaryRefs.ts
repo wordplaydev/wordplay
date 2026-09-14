@@ -20,6 +20,7 @@
  *   (no arg = en-US.json + all static/locales/*; "en" = en-US.json only)
  */
 import fs from 'fs';
+import { isRecord } from '@util/guards';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import Log from '@util/verify-locales/Log';
 import {
@@ -72,8 +73,8 @@ function walk(node: unknown, path: Array<string | number>): number {
                 count += n;
             } else count += walk(v, [...path, i]);
         });
-    } else if (node !== null && typeof node === 'object') {
-        const record = node as Record<string, unknown>;
+    } else if (isRecord(node)) {
+        const record = node;
         for (const k of Object.keys(record)) {
             const v = record[k];
             if (typeof v === 'string') {

@@ -65,8 +65,10 @@ export default abstract class Revision {
         // Not a removal? Return the parent and no removals.
         if (removedNodes.length === 0) return [parentCopy, []];
         // Just one removed node? Just return the node itself, no need to account for multiple nodes being removed.
-        if (removedNodes.length === 1) {
-            const removal = removedNodes[0].clone();
+        const onlyRemoved =
+            removedNodes.length === 1 ? removedNodes[0] : undefined;
+        if (onlyRemoved !== undefined) {
+            const removal = onlyRemoved.clone();
             return [removal, [removal]];
         }
         // Can't find the root for the parent? We need it to calculate paths, so fail by returning the parent.

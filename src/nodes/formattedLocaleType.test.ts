@@ -7,6 +7,7 @@ import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import FormattedType from '@nodes/FormattedType';
 import parseProgram from '@parser/parseProgram';
 import { toTokens } from '@parser/toTokens';
+import { last, must } from '@util/nullable';
 
 function analyze(code: string) {
     const source = new Source('test', code);
@@ -21,7 +22,9 @@ function lastCombineType(code: string): string {
         (n): n is BinaryEvaluate | Evaluate =>
             n instanceof BinaryEvaluate || n instanceof Evaluate,
     );
-    return ops[ops.length - 1].getType(context).toWordplay();
+    return must(last(ops), 'a combining operation')
+        .getType(context)
+        .toWordplay();
 }
 
 // Formatted combine derives its result locale by unioning operand locales, for
@@ -56,9 +59,7 @@ test('a `…` annotation accepts a union of formatted types', () => {
 
 test('`…`/en parses to a FormattedType carrying a language', () => {
     const program = parseProgram(toTokens('x•`…`/en: `a`\nx'));
-    const formatted = program
-        .nodes()
-        .find((n) => n instanceof FormattedType) as FormattedType | undefined;
+    const formatted = program.find(FormattedType);
     expect(formatted).toBeDefined();
     expect(formatted?.language).toBeDefined();
 });

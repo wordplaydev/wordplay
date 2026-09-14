@@ -87,8 +87,8 @@ export default class Block extends Expression {
         return new Block(
             statements ?? [],
             BlockKind.Block,
-            new EvalOpenToken(),
-            new EvalCloseToken(),
+            EvalOpenToken(),
+            EvalCloseToken(),
         );
     }
 
@@ -231,7 +231,10 @@ export default class Block extends Expression {
     }
 
     isBlockFor(child: Node) {
-        return !this.isRoot() && this.statements.includes(child as Expression);
+        return (
+            !this.isRoot() &&
+            this.statements.some((statement) => statement === child)
+        );
     }
 
     asFunctionBlock() {
@@ -245,13 +248,15 @@ export default class Block extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Block(
-            this.replaceChild('statements', this.statements, replace),
-            this.kind,
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('close', this.close, replace),
-            this.replaceChild('docs', this.docs, replace),
-        ) as this;
+        return this.cloned(
+            new Block(
+                this.replaceChild('statements', this.statements, replace),
+                this.kind,
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('close', this.close, replace),
+                this.replaceChild('docs', this.docs, replace),
+            ),
+        );
     }
 
     withDocs(docs?: Docs) {
@@ -320,7 +325,7 @@ export default class Block extends Expression {
 
         if (this.open && this.close === undefined)
             conflicts.push(
-                new UnclosedDelimiter(this, this.open, new EvalCloseToken()),
+                new UnclosedDelimiter(this, this.open, EvalCloseToken()),
             );
 
         return conflicts;
@@ -373,8 +378,9 @@ export default class Block extends Expression {
         //   1 result  → that expression's type.
         //   2+ results → a list whose elements are the union of their types.
         const results = this.getResultStatements();
-        if (results.length === 0) return new NoExpressionType(this);
-        if (results.length === 1) return results[0].getType(context);
+        const [onlyResult] = results;
+        if (onlyResult === undefined) return new NoExpressionType(this);
+        if (results.length === 1) return onlyResult.getType(context);
         return ListType.make(
             UnionType.getPossibleUnion(
                 context,
@@ -422,12 +428,15 @@ export default class Block extends Expression {
     collect(evaluator: Evaluator): Value {
         const results: Value[] = [];
         for (let i = this.statements.length - 1; i >= 0; i--) {
+            const statement = this.statements[i];
             const value = evaluator.popValue(this);
-            if (!Block.isSideEffect(this.statements[i])) results.unshift(value);
+            if (statement === undefined || !Block.isSideEffect(statement))
+                results.unshift(value);
         }
         if (this.isStructure()) return new NoneValue(this);
-        if (results.length === 0) return new NoneValue(this);
-        if (results.length === 1) return results[0];
+        const [onlyValue] = results;
+        if (onlyValue === undefined) return new NoneValue(this);
+        if (results.length === 1) return onlyValue;
         return new ListValue(this, results);
     }
 

@@ -58,8 +58,7 @@ export default function resolveDerivedUnit(
         // Evaluate: the closure is the function's subject (the receiver of a method
         // call, e.g. `x` in `x.f(y)`), and the first input is the other operand.
         leftType = op.fun.getSubjectType(context);
-        rightType =
-            op.inputs.length > 0 ? op.inputs[0].getType(context) : undefined;
+        rightType = op.inputs[0]?.getType(context);
         // Through the input mapping, never by index: `op.inputs` is in *source* order,
         // so a creator naming inputs out of order (`x.rescale(toLow: 0m fromLow: 1s …)`)
         // would otherwise hand the deriver the wrong units. One unresolved input among

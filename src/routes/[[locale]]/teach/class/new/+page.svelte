@@ -229,8 +229,13 @@
                 // No password column in an email class: there is no password,
                 // and an empty column invites the teacher to look for one.
                 const passwords = method === 'password';
+                // One "info" column per metadata column, taken from the first
+                // row; with no rows there is nothing to describe.
+                const first = finalStudents[0];
+                const info =
+                    first === undefined ? [] : first.meta.map(() => 'info');
                 const csv =
-                    `${finalStudents[0].meta.map(() => 'info').join(',')},username${passwords ? ',password' : ''}\n` +
+                    `${info.join(',')},username${passwords ? ',password' : ''}\n` +
                     finalStudents
                         .map(
                             (s, index) =>
@@ -487,127 +492,127 @@
                         </thead>
                         <tbody>
                             {#each generatedStudents as student, studentIndex}
-                                <tr>
-                                    {#each student.meta as cell, columnIndex}
+                                <!-- The three lists are parallel: edited is a
+                                     copy of generated, and final is whichever
+                                     of them is in effect. -->
+                                {@const edited = editedStudents?.[studentIndex]}
+                                {@const final = finalStudents[studentIndex]}
+                                {#if final !== undefined}
+                                    <tr>
+                                        {#each student.meta as cell, columnIndex}
+                                            <td
+                                                >{#if editing}
+                                                    <TextField
+                                                        id="new-student-{studentIndex}-data-{columnIndex}"
+                                                        description={(l) =>
+                                                            l.ui.page.newclass
+                                                                .field.metadata
+                                                                .description}
+                                                        placeholder={(l) =>
+                                                            l.ui.page.newclass
+                                                                .field.metadata
+                                                                .placeholder}
+                                                        text={edited?.meta[
+                                                            columnIndex
+                                                        ] ?? cell}
+                                                        editable={!submitting &&
+                                                            !download}
+                                                        changed={(text) =>
+                                                            edited
+                                                                ? (edited.meta[
+                                                                      columnIndex
+                                                                  ] = text)
+                                                                : undefined}
+                                                    ></TextField>
+                                                {:else}{cell}
+                                                {/if}</td
+                                            >
+                                        {/each}
                                         <td
                                             >{#if editing}
                                                 <TextField
-                                                    id="new-student-{studentIndex}-data-{columnIndex}"
+                                                    id="new-student-{studentIndex}"
                                                     description={(l) =>
-                                                        l.ui.page.newclass.field
-                                                            .metadata
+                                                        l.ui.page.login.field
+                                                            .username
                                                             .description}
                                                     placeholder={(l) =>
-                                                        l.ui.page.newclass.field
-                                                            .metadata
+                                                        l.ui.page.login.field
+                                                            .username
                                                             .placeholder}
-                                                    text={editedStudents !==
-                                                    undefined
-                                                        ? editedStudents[
-                                                              studentIndex
-                                                          ].meta[columnIndex]
-                                                        : cell}
+                                                    text={final.username}
+                                                    validator={(text) =>
+                                                        usernamesTaken.includes(
+                                                            text,
+                                                        )
+                                                            ? (l) =>
+                                                                  l.ui.page
+                                                                      .newclass
+                                                                      .error
+                                                                      .taken
+                                                            : true}
+                                                    changed={(text) => {
+                                                        // Update the username after it's changed.
+                                                        edited
+                                                            ? (edited.username =
+                                                                  text)
+                                                            : undefined;
+                                                    }}
                                                     editable={!submitting &&
                                                         !download}
-                                                    changed={(text) =>
-                                                        editedStudents
-                                                            ? (editedStudents[
-                                                                  studentIndex
-                                                              ].meta[
-                                                                  columnIndex
-                                                              ] = text)
-                                                            : undefined}
+                                                    dwelled={async (
+                                                        username,
+                                                    ) => {
+                                                        // After done editing, check whether the name can still
+                                                        // be claimed. Only a definite "no" marks it taken: an
+                                                        // undefined answer means we couldn't ask, and blocking
+                                                        // submission on an unreachable server would strand a
+                                                        // teacher mid-roster.
+                                                        if (
+                                                            (await usernameAvailable(
+                                                                username,
+                                                            )) === false
+                                                        )
+                                                            usernamesTaken.push(
+                                                                username,
+                                                            );
+                                                    }}
                                                 ></TextField>
-                                            {:else}{cell}
+                                            {:else}{final.username}
                                             {/if}</td
                                         >
-                                    {/each}
-                                    <td
-                                        >{#if editing}
-                                            <TextField
-                                                id="new-student-{studentIndex}"
-                                                description={(l) =>
-                                                    l.ui.page.login.field
-                                                        .username.description}
-                                                placeholder={(l) =>
-                                                    l.ui.page.login.field
-                                                        .username.placeholder}
-                                                text={finalStudents[
-                                                    studentIndex
-                                                ].username}
-                                                validator={(text) =>
-                                                    usernamesTaken.includes(
-                                                        text,
-                                                    )
-                                                        ? (l) =>
-                                                              l.ui.page.newclass
-                                                                  .error.taken
-                                                        : true}
-                                                changed={(text) => {
-                                                    // Update the username after it's changed.
-                                                    editedStudents
-                                                        ? (editedStudents[
-                                                              studentIndex
-                                                          ].username = text)
-                                                        : undefined;
-                                                }}
-                                                editable={!submitting &&
-                                                    !download}
-                                                dwelled={async (username) => {
-                                                    // After done editing, check whether the name can still
-                                                    // be claimed. Only a definite "no" marks it taken: an
-                                                    // undefined answer means we couldn't ask, and blocking
-                                                    // submission on an unreachable server would strand a
-                                                    // teacher mid-roster.
-                                                    if (
-                                                        (await usernameAvailable(
-                                                            username,
-                                                        )) === false
-                                                    )
-                                                        usernamesTaken.push(
-                                                            username,
-                                                        );
-                                                }}
-                                            ></TextField>
-                                        {:else}{finalStudents[studentIndex]
-                                                .username}
-                                        {/if}</td
-                                    >
-                                    <!-- Only a password class has this column:
+                                        <!-- Only a password class has this column:
                                          an email student has no password at
                                          all, and the address they do sign in
                                          with is already the first cell. -->
-                                    {#if method === 'password'}
-                                        <td
-                                            >{#if editing}
-                                                <TextField
-                                                    id="new-student-{studentIndex}-final"
-                                                    description={(l) =>
-                                                        l.ui.page.login.field
-                                                            .password
-                                                            .description}
-                                                    placeholder={(l) =>
-                                                        l.ui.page.login.field
-                                                            .password
-                                                            .placeholder}
-                                                    text={finalStudents[
-                                                        studentIndex
-                                                    ].password}
-                                                    editable={!submitting &&
-                                                        !download}
-                                                    changed={(text) =>
-                                                        editedStudents
-                                                            ? (editedStudents[
-                                                                  studentIndex
-                                                              ].password = text)
-                                                            : undefined}
-                                                ></TextField>
-                                            {:else}{finalStudents[studentIndex]
-                                                    .password}
-                                            {/if}</td
-                                        >
-                                    {/if}
-                                </tr>
+                                        {#if method === 'password'}
+                                            <td
+                                                >{#if editing}
+                                                    <TextField
+                                                        id="new-student-{studentIndex}-final"
+                                                        description={(l) =>
+                                                            l.ui.page.login
+                                                                .field.password
+                                                                .description}
+                                                        placeholder={(l) =>
+                                                            l.ui.page.login
+                                                                .field.password
+                                                                .placeholder}
+                                                        text={final.password}
+                                                        editable={!submitting &&
+                                                            !download}
+                                                        changed={(text) =>
+                                                            edited
+                                                                ? (edited.password =
+                                                                      text)
+                                                                : undefined}
+                                                    ></TextField>
+                                                {:else}{final.password}
+                                                {/if}</td
+                                            >
+                                        {/if}
+                                    </tr>
+                                {/if}
                             {/each}
                         </tbody>
                     </table>

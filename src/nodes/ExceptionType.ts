@@ -56,7 +56,7 @@ export default class ExceptionType extends Type {
     }
 
     clone() {
-        return new ExceptionType(this.exception) as this;
+        return this.cloned(new ExceptionType(this.exception));
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.ExceptionType;

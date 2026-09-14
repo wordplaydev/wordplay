@@ -130,8 +130,7 @@
         // heard, since several can land between two broadcasts.
         if (state.mode === 'play' && state.playing) {
             const fresh = [];
-            for (let index = state.streams.length - 1; index >= 0; index--) {
-                const reaction = state.streams[index];
+            for (const reaction of [...state.streams].reverse()) {
                 if (reaction.stepIndex <= played) break;
                 fresh.unshift(reaction);
             }

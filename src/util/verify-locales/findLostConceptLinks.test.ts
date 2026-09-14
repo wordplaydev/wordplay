@@ -1,12 +1,10 @@
 import { MachineTranslated, Revised } from '@locale/Annotations';
-import type LocaleText from '@locale/LocaleText';
 import { getCheckablePathKinds, findLostConceptLinks } from './drift';
 import { expect, test } from 'vitest';
 
 /** A minimal locale-shaped pair of objects sharing one real doc path. */
 function pair(english: string | string[], translated: string | string[]) {
-    const make = (doc: string | string[]) =>
-        ({ output: { Say: { doc } } }) as unknown as LocaleText;
+    const make = (doc: string | string[]) => ({ output: { Say: { doc } } });
     const source = make(english);
     const target = make(translated);
     return {
@@ -16,8 +14,8 @@ function pair(english: string | string[], translated: string | string[]) {
             'xx-XX',
             'xx.json',
             getCheckablePathKinds(source),
-            source as unknown as Record<string, unknown>,
-            target as unknown as Record<string, unknown>,
+            source,
+            target,
         ),
     };
 }
@@ -31,7 +29,7 @@ test('a link translated into a plain word is reported', () => {
         [`${MachineTranslated}Ich zeige einen Wert auf der @Stage.`],
     );
     expect(lost).toHaveLength(1);
-    expect(lost[0].id).toBe('output.Say.doc');
+    expect(lost[0]?.id).toBe('output.Say.doc');
 });
 
 test('a translation that kept every link is not reported', () => {

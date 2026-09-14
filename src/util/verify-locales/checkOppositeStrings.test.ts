@@ -7,7 +7,7 @@ import checkOppositeStrings, {
 } from './checkOppositeStrings';
 
 function copyLocale(): LocaleText {
-    return JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    return structuredClone(DefaultLocale);
 }
 
 test('the conventions find the pairs en-US actually spells', () => {

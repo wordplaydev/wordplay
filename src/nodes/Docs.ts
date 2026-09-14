@@ -54,9 +54,9 @@ export default class Docs extends Node {
     }
 
     clone(replace?: Replacement) {
-        return new Docs(
-            this.replaceChild<Doc[]>('docs', this.docs, replace),
-        ) as this;
+        return this.cloned(
+            new Docs(this.replaceChild('docs', this.docs, replace)),
+        );
     }
 
     isEmpty() {
@@ -91,11 +91,10 @@ export default class Docs extends Node {
         return this.docs.find((doc) => doc.isLanguage(lang));
     }
 
-    getPreferredLocale(preferred: Locales): Doc {
-        // Build the list of preferred languages
-        const locales = preferred.getLocales();
-
-        return getPreferred(locales, this.docs);
+    getPreferredLocale(preferred: Locales): Doc | undefined {
+        // An empty docs group has nothing to prefer; a source without
+        // documentation is ordinary, so callers ask with `?.`.
+        return getPreferred(preferred.getLocales(), this.docs);
     }
 
     getMarkup(locales: Locales) {
@@ -104,7 +103,10 @@ export default class Docs extends Node {
         // the (primary, or single-view) locale rather than whichever was authored first.
         // This is what makes concept docs multilingual when resolved per chosen locale.
         const preferred = this.getPreferredLocale(locales);
-        return [preferred, ...this.docs.filter((doc) => doc !== preferred)]
+        return [
+            ...(preferred === undefined ? [] : [preferred]),
+            ...this.docs.filter((doc) => doc !== preferred),
+        ]
             .map((doc) => doc.markup.concretize(locales, {}))
             .filter((m) => m !== undefined);
     }

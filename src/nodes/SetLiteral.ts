@@ -95,12 +95,14 @@ export default class SetLiteral extends CompositeLiteral {
     }
 
     clone(replace?: Replacement) {
-        return new SetLiteral(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild<Expression[]>('values', this.values, replace),
-            this.replaceChild('close', this.close, replace),
-            this.replaceChild('literal', this.literal, replace),
-        ) as this;
+        return this.cloned(
+            new SetLiteral(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('values', this.values, replace),
+                this.replaceChild('close', this.close, replace),
+                this.replaceChild('literal', this.literal, replace),
+            ),
+        );
     }
 
     getPurpose() {
@@ -113,7 +115,7 @@ export default class SetLiteral extends CompositeLiteral {
 
     computeConflicts(): Conflict[] {
         return this.close === undefined
-            ? [new UnclosedDelimiter(this, this.open, new SetCloseToken())]
+            ? [new UnclosedDelimiter(this, this.open, SetCloseToken())]
             : [];
     }
 
@@ -122,7 +124,7 @@ export default class SetLiteral extends CompositeLiteral {
             ? undefined
             : UnionType.getPossibleUnion(
                   context,
-                  this.values.map((v) => (v as Expression).getType(context)),
+                  this.values.map((v) => v.getType(context)),
               );
     }
 
@@ -148,7 +150,7 @@ export default class SetLiteral extends CompositeLiteral {
             ...this.values.reduce(
                 (steps: Step[], item) => [
                     ...steps,
-                    ...(item as Expression).compile(evaluator, context),
+                    ...item.compile(evaluator, context),
                 ],
                 [],
             ),

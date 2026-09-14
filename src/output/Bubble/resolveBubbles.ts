@@ -17,6 +17,7 @@ import type Output from '@output/Output/Output';
 import type Place from '@output/Place/Place';
 import type RenderContext from '@output/RenderContext';
 import type { BubbleSide } from '@output/Bubble/Bubble';
+import { must } from '@util/nullable';
 import {
     bubbleRect,
     resolveSides,
@@ -89,7 +90,8 @@ export default function resolveBubbles(
         const box = child.output.getBubbleBox(context);
         if (box === undefined) return;
         candidates.push({
-            anchor: boxes[index],
+            // `boxes` is a map of `children`, so every child has one.
+            anchor: must(boxes[index], "a child's box"),
             width: box.width,
             height: box.height,
             tail: box.tail,
@@ -102,8 +104,12 @@ export default function resolveBubbles(
 
     const chosen = resolveSides(candidates, boxes, content);
     chosen.forEach((side, index) => {
-        sides.set(owners[index], side);
-        overflow = union(overflow, bubbleRect(candidates[index], side));
+        // One side per candidate, and `owners` parallels `candidates`.
+        sides.set(must(owners[index], 'a bubble owner'), side);
+        overflow = union(
+            overflow,
+            bubbleRect(must(candidates[index], 'a bubble candidate'), side),
+        );
     });
 
     return { sides, overflow };

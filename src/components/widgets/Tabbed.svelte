@@ -23,6 +23,7 @@
     import type { ModeText } from '@locale/UITexts';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import { withMonoEmoji } from '@unicode/emoji';
+    import { must } from '@util/nullable';
     import type { Snippet } from 'svelte';
 
     interface Props {
@@ -160,11 +161,16 @@
 
     // One tooltip line per chosen locale for the tab at `index`.
     function tipEntriesFor(index: number) {
-        return $locales.getMultilingualFrom(tabs, (text) => text.tips[index]);
+        // One tip per tab, and `index` names one of the tabs shown.
+        return $locales.getMultilingualFrom(tabs, (text) =>
+            must(text.tips[index], `the tip for tab ${index}`),
+        );
     }
     /** A tab's aria description text — primary locale only. */
     function tipTitleFor(index: number) {
-        return $locales.getPrimaryPlainText((l) => tabs(l).tips[index]);
+        return $locales.getPrimaryPlainText((l) =>
+            must(tabs(l).tips[index], `the tip for tab ${index}`),
+        );
     }
     function showTip(view: HTMLButtonElement, entries: MultilingualEntry[]) {
         if (entries.length > 0) hint.showMultilingual(entries, view);
@@ -252,7 +258,7 @@
                 >
                     {#if icons}<span class="icon" aria-hidden="true"
                             >{#if index < icons.length}{withMonoEmoji(
-                                    icons[index],
+                                    must(icons[index], `icon ${index}`),
                                 )}{:else}?{/if}</span
                         >{/if}{#if !tipEditing[index]}<span
                             class="text"

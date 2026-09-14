@@ -5,6 +5,7 @@ import DefaultLocale from '@locale/DefaultLocale';
 import Source from '@nodes/Source';
 import Evaluator, { Mode } from '@runtime/Evaluator';
 import { expect, test } from 'vitest';
+import { must } from '@util/nullable';
 
 /**
  * A recorded input is replayed into whatever stream its path resolves to in the
@@ -31,8 +32,7 @@ test('an input is not replayed into a different kind of stream', () => {
     // getInitialValue pauses, and a paused stream ignores values; play so the
     // input is recorded the way a creator's keypress would be.
     first.setMode(Mode.Play);
-    const key = first.getBasisStreamsOfType(Key)[0];
-    expect(key).toBeDefined();
+    const key = must(first.getBasisStreamsOfType(Key)[0], 'a key stream');
     key.react({ key: 'a', down: true });
     expect(first.hasInputHistory()).toBe(true);
 

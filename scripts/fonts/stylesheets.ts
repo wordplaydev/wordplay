@@ -136,16 +136,11 @@ export function emitFontsCss(lock: Lockfile): string {
         .filter((s) => s.length > 0);
 
     // The emoji island(s): inline each override partial targeting fonts.css.
-    const partials = FontManifest.filter(
-        (e) => e.override?.target === 'fonts.css',
+    const partials = FontManifest.flatMap((e) =>
+        e.override?.target === 'fonts.css' ? [e.override.cssPartial] : [],
     )
-        .map((e) =>
-            fs
-                .readFileSync(
-                    `${PARTIAL_DIR}/${e.override!.cssPartial}`,
-                    'utf8',
-                )
-                .trimEnd(),
+        .map((partial) =>
+            fs.readFileSync(`${PARTIAL_DIR}/${partial}`, 'utf8').trimEnd(),
         )
         .join('\n\n');
 

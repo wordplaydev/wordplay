@@ -68,6 +68,8 @@ export async function queryPermission(
     )
         return 'unsupported';
     try {
+        // sound: the DOM lib's PermissionName omits camera and microphone,
+        // though the Permissions API lists both and every engine answers them.
         const status = await navigator.permissions.query({
             name,
         } as PermissionDescriptor);

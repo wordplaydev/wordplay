@@ -204,7 +204,10 @@
     {/snippet}
 
     {#snippet defaultButton(i: number)}
-        <CommandButton command={offered[i]} {sourceID} token focusAfter />
+        {@const command = offered[i]}
+        {#if command !== undefined}
+            <CommandButton {command} {sourceID} token focusAfter />
+        {/if}
     {/snippet}
 
     <!-- ONE toolbar across both states, never two in an {#if}/{:else}: the search

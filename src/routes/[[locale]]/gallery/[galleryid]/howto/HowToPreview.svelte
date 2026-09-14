@@ -32,7 +32,9 @@
     } from './HowToMovement';
 
     interface Props {
-        howTo: HowTo;
+        /** The how-to shown; the canvas binds it by index, so it can be absent
+         *  for a frame while the list changes. */
+        howTo: HowTo | undefined;
         cameraX: number;
         cameraY: number;
         canvasWidth: number;
@@ -132,7 +134,7 @@
             [],
             $locales.getLocales(),
         );
-        enqueuePreviewCompute(project, $locales, DB, howTo.getHowToId())
+        enqueuePreviewCompute(project, $locales, DB, howToId)
             .then((extracted) => {
                 if (cancelled) return;
                 displayed = extracted;
@@ -155,11 +157,12 @@
     // draft, which nobody outside it can see to arrange.
     let user = getUser();
     let canEdit: boolean = $derived(
-        canMoveHowTo(
-            howTo,
-            gallery,
-            isAuthenticated($user) ? $user.uid : undefined,
-        ),
+        howTo !== undefined &&
+            canMoveHowTo(
+                howTo,
+                gallery,
+                isAuthenticated($user) ? $user.uid : undefined,
+            ),
     );
 
     /** Anchor recorded at drag start: the viewport-space cursor position
@@ -242,12 +245,16 @@
 
         e.stopPropagation();
 
+        // The element the handler is on, which is what captures the pointer.
+        const target = e.currentTarget;
+        if (!(target instanceof Element)) return;
+
         // Capture the pointer so the matching pointerup is delivered to
         // this element no matter where the cursor ends up — releasing
         // outside the canvas (or even outside the browser viewport)
         // would otherwise leave whichMoving === howToId and the tile
         // would keep following the cursor until the next click.
-        (e.currentTarget as Element).setPointerCapture(e.pointerId);
+        target.setPointerCapture(e.pointerId);
 
         dragOrigin = {
             clientX: e.clientX,

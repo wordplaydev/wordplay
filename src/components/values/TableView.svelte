@@ -5,6 +5,7 @@
     import { locales } from '@db/Database';
     import Expandable from '@components/values/Expandable.svelte';
     import { fitCount } from '@components/values/fit';
+    import { must } from '@util/nullable';
     import RowView from '@components/values/RowView.svelte';
     import SymbolView from '@components/values/SymbolView.svelte';
     import ValueView from '@components/values/ValueView.svelte';
@@ -13,7 +14,8 @@
     export let inline = true;
 
     $: start = fitCount(
-        (i) => value.rows[i].toWordplay().length,
+        // fitCount only asks about indices below the length it is given.
+        (i) => must(value.rows[i], `row ${i}`).toWordplay().length,
         value.rows.length,
     );
 </script>

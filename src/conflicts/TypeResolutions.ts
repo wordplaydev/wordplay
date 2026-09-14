@@ -291,13 +291,14 @@ function generateGuardResolution(
     const members = givenType.getPossibleTypes(context);
     if (members.length < 2) return undefined;
     const accepted = members.filter((m) => expectedType.accepts(m, context));
-    if (accepted.length !== 1) return undefined;
+    const [acceptedType] = accepted;
+    if (accepted.length !== 1 || acceptedType === undefined) return undefined;
 
     // A fresh copy for the yes branch, so the same node isn't shared across two AST
     // positions.
     const yes = givenNode.clone();
     const revised = Conditional.make(
-        Is.make(givenNode, accepted[0]),
+        Is.make(givenNode, acceptedType),
         yes,
         ExpressionPlaceholder.make(),
     );
@@ -429,8 +430,8 @@ function generateStructureResolution(
 ): Resolution | undefined {
     if (!(expectedType instanceof StructureType)) return undefined;
     const inputs = expectedType.definition.inputs;
-    if (inputs.length === 0) return undefined;
     const first = inputs[0];
+    if (first === undefined) return undefined;
     const firstType = first.type;
     if (firstType === undefined) return undefined;
     if (!firstType.accepts(givenType, context)) return undefined;
@@ -551,19 +552,30 @@ function generateReorderResolution(
 
     for (let i = 0; i < positional.length; i++) {
         for (let j = i + 1; j < positional.length; j++) {
-            if (i >= fnInputs.length || j >= fnInputs.length) continue;
-            const slotI = fnInputs[i].getType(context);
-            const slotJ = fnInputs[j].getType(context);
-            const typeI = positional[i].getType(context);
-            const typeJ = positional[j].getType(context);
+            const inputI = fnInputs[i];
+            const inputJ = fnInputs[j];
+            const givenI = positional[i];
+            const givenJ = positional[j];
+            // No slot for this position, as the length check did before.
+            if (
+                inputI === undefined ||
+                inputJ === undefined ||
+                givenI === undefined ||
+                givenJ === undefined
+            )
+                continue;
+            const slotI = inputI.getType(context);
+            const slotJ = inputJ.getType(context);
+            const typeI = givenI.getType(context);
+            const typeJ = givenJ.getType(context);
             if (
                 slotI.accepts(typeJ, context) &&
                 slotJ.accepts(typeI, context) &&
                 !slotI.accepts(typeI, context) // current order is broken
             ) {
                 const swapped = positional.slice();
-                swapped[i] = positional[j];
-                swapped[j] = positional[i];
+                swapped[i] = givenJ;
+                swapped[j] = givenI;
                 // Build a fresh Evaluate with the swapped positional args.
                 const newEvaluate = Evaluate.make(parent.fun, swapped);
                 return makeResolution(
@@ -675,8 +687,9 @@ function walkTreePath(
     for (const step of path) {
         const value = current.getField(step.field);
         if (Array.isArray(value)) {
-            if (step.index < 0 || step.index >= value.length) return undefined;
-            current = value[step.index];
+            const next = value[step.index];
+            if (next === undefined) return undefined;
+            current = next;
         } else if (value instanceof Node) {
             current = value;
         } else {

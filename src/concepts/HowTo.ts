@@ -2,6 +2,8 @@
 // (e.g., making a phrase spin, moving a phrase with a pointer or keyboard, creating an animated multi-step scene).
 // This is the data structure that defines a how to's content and metadata.
 import { parseLocaleDoc } from '@locale/LocaleText';
+import { isRecord, isStringArray } from '@util/guards';
+import { includesString, keysOf } from '@util/nullable';
 import type Markup from '@nodes/Markup';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import type Spaces from '@parser/Spaces';
@@ -70,7 +72,7 @@ export const HowToMetadata = {
     'sing-words': { category: 'music' },
 } satisfies Record<string, { category: HowToCategory }>;
 
-export const HowToIDs = Object.keys(HowToMetadata);
+export const HowToIDs = keysOf(HowToMetadata);
 
 export type HowToID = keyof typeof HowToMetadata;
 
@@ -111,6 +113,38 @@ export type HowToBundleEntry = {
 
 export type HowToBundle = HowToBundleEntry[];
 
+const HowToCategoryNames = keysOf(HowToCategories);
+
+/** Whether a string names a how-to category. */
+export function isHowToCategory(text: string): text is HowToCategory {
+    return includesString(HowToCategoryNames, text);
+}
+
+/** Whether a string names a how-to. */
+export function isHowToID(text: string): text is HowToID {
+    return includesString(HowToIDs, text);
+}
+
+/** Whether fetched JSON is a how-to bundle: a list of entries with the
+ *  fields the bundle writer emits. */
+export function isHowToBundle(data: unknown): data is HowToBundle {
+    return (
+        Array.isArray(data) &&
+        data.every(
+            (entry) =>
+                isRecord(entry) &&
+                typeof entry.id === 'string' &&
+                isHowToID(entry.id) &&
+                typeof entry.title === 'string' &&
+                typeof entry.category === 'string' &&
+                isHowToCategory(entry.category) &&
+                typeof entry.body === 'string' &&
+                isStringArray(entry.related) &&
+                entry.related.every(isHowToID),
+        )
+    );
+}
+
 /** Reconstruct a runtime HowTo from a bundle entry, re-parsing the raw body. */
 export function bundleEntryToHowTo(entry: HowToBundleEntry): HowTo {
     return {
@@ -144,7 +178,7 @@ export function parseHowTo(
      */
     spaces: Spaces | null;
 } {
-    if (!HowToIDs.includes(id as HowToID)) {
+    if (!isHowToID(id)) {
         return {
             how: null,
             body: null,
@@ -153,7 +187,7 @@ export function parseHowTo(
         };
     }
 
-    const howToID = id as HowToID;
+    const howToID = id;
 
     const lines = text.trim().split('\n');
     if (lines.length < 3)
@@ -185,7 +219,7 @@ export function parseHowTo(
             .map((id) => id.trim()) ?? [];
 
     for (const rel of related) {
-        if (!HowToIDs.includes(rel as HowToID)) {
+        if (!isHowToID(rel)) {
             return {
                 how: null,
                 body: null,
@@ -212,7 +246,7 @@ export function parseHowTo(
             title,
             category: HowToMetadata[howToID].category,
             content: content,
-            related: related as HowToID[],
+            related: related.filter(isHowToID),
         },
         error: null,
     };

@@ -2,8 +2,8 @@ import { SET_OPEN_SYMBOL } from '@parser/Symbols';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 
-export default class SetOpenToken extends Token {
-    constructor() {
-        super(SET_OPEN_SYMBOL, Sym.SetOpen);
-    }
+/** A token of this kind. A function rather than a subclass: every token is
+ *  a plain Token, so a clone stays what it was constructed as. */
+export default function SetOpenToken(): Token {
+    return new Token(SET_OPEN_SYMBOL, Sym.SetOpen);
 }

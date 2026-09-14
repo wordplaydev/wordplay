@@ -3,6 +3,7 @@ import path from 'node:path';
 import { expect, test } from 'vitest';
 import { parseSerializedProject } from './examples';
 import { serializeExample } from './serializeExample';
+import { must } from '@util/nullable';
 
 const dir = path.join('static', 'examples');
 const files = readdirSync(dir, { withFileTypes: true })
@@ -14,7 +15,10 @@ const files = readdirSync(dir, { withFileTypes: true })
 // for anything the parser accepts, including the pipeline's translated files.
 test.each(files)('%s round-trips through serializeExample', (name) => {
     const text = readFileSync(path.join(dir, name), 'utf8');
-    const parsed = parseSerializedProject(text, name.split('.')[0]);
+    const parsed = parseSerializedProject(
+        text,
+        must(name.split('.')[0], 'a file name stem'),
+    );
     const serialized = serializeExample(
         parsed.preview?.text,
         parsed.name,

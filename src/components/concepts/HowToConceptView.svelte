@@ -16,6 +16,7 @@
     import HowTo from '@db/howtos/HowToDatabase.svelte';
     import { HowToFields } from '@db/rulesFields';
     import { onMount } from 'svelte';
+    import { must } from '@util/nullable';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import HowToPrompt from '../../routes/[[locale]]/gallery/[galleryid]/howto/HowToPrompt.svelte';
 
@@ -101,7 +102,10 @@
         {#if answers.some((a) => a.trim().length > 0)}
             {#each answers as answer, i (i)}
                 {#if answer.trim().length > 0}
-                    <HowToPrompt text={(l) => questions[i]} compact />
+                    <HowToPrompt
+                        text={() => must(questions[i], `question ${i}`)}
+                        compact
+                    />
                     <MarkupHTMLView markup={answer} />
                 {/if}
             {/each}

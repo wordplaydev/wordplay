@@ -73,18 +73,25 @@ export const EMOJI_WHOLE_FILE: Record<string, string> = {
 /** Load a font file's cmap codepoints with fontkit, the same way Fonts.ts and
  * Contour.ts do (dynamic import + collection check). */
 export async function readCharacterSet(fontPath: string): Promise<number[]> {
+    const created = (await loadFontkit()).create(
+        new Uint8Array(fs.readFileSync(fontPath)),
+    );
+    const font = 'fonts' in created ? created.fonts[0] : created;
+    if (font === undefined)
+        throw new Error(`${fontPath} is a collection with no faces`);
+    return font.characterSet;
+}
+
+/**
+ * fontkit is a CommonJS package. Under tsx its namespace may carry `create`
+ * itself or only on `default`, so both are tried; the types come from
+ * @types/fontkit plus the Uint8Array overload in src/input/fontkit.d.ts.
+ */
+export async function loadFontkit(): Promise<
+    Pick<typeof import('fontkit'), 'create'>
+> {
     const mod = await import('fontkit');
-    const fontkit: { create(data: Uint8Array): unknown } =
-        'create' in mod
-            ? (mod as { create(data: Uint8Array): unknown })
-            : (mod as { default: { create(data: Uint8Array): unknown } })
-                  .default;
-    const created = fontkit.create(new Uint8Array(fs.readFileSync(fontPath)));
-    const font =
-        created !== null && typeof created === 'object' && 'fonts' in created
-            ? (created as { fonts: unknown[] }).fonts[0]
-            : created;
-    return (font as { characterSet: number[] }).characterSet;
+    return typeof mod.create === 'function' ? mod : mod.default;
 }
 
 /** Parse a CSS unicode-range string (as produced by toRangeString or captured
@@ -96,7 +103,7 @@ export function parseRangeString(range: string): number[] {
     for (const token of range.split(',')) {
         const t = token.trim();
         if (t === '') continue;
-        const [lo, hi] = t.replace(/^U\+/i, '').split('-');
+        const [lo = '', hi] = t.replace(/^U\+/i, '').split('-');
         const a = parseInt(lo, 16);
         const b = hi === undefined ? a : parseInt(hi, 16);
         for (let cp = a; cp <= b; cp++) cps.push(cp);

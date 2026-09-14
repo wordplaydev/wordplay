@@ -108,14 +108,15 @@ export default class BinaryEvaluate extends Expression {
                  */
                 getType: (context) => {
                     const type = this.getFunction(context)?.getType(context);
-                    if (
-                        type instanceof FunctionType &&
-                        type.inputs.length === 1
-                    ) {
+                    const onlyInput =
+                        type instanceof FunctionType && type.inputs.length === 1
+                            ? type.inputs[0]
+                            : undefined;
+                    if (type instanceof FunctionType && onlyInput) {
                         const newType = FunctionType.make(
                             type.types,
                             [
-                                type.inputs[0].withType(
+                                onlyInput.withType(
                                     this.right
                                         .getType(context)
                                         .generalize(context),
@@ -154,10 +155,9 @@ export default class BinaryEvaluate extends Expression {
                     const op = this.getOperator();
                     if (op === EQUALS_SYMBOL || op === NOT_EQUALS_SYMBOL)
                         return this.left.getType(context);
-                    const fun = this.getFunction(context);
-                    if (fun === undefined || fun.inputs.length === 0)
-                        return new NeverType();
-                    const type = fun.inputs[0].getType(context);
+                    const firstInput = this.getFunction(context)?.inputs[0];
+                    if (firstInput === undefined) return new NeverType();
+                    const type = firstInput.getType(context);
                     // If this is a measurement type, pass along this binary op so that we can infer units.
                     return type instanceof NumberType
                         ? type.withOp(this)
@@ -176,11 +176,13 @@ export default class BinaryEvaluate extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new BinaryEvaluate(
-            this.replaceChild('left', this.left, replace),
-            this.replaceChild('fun', this.fun, replace),
-            this.replaceChild('right', this.right, replace),
-        ) as this;
+        return this.cloned(
+            new BinaryEvaluate(
+                this.replaceChild('left', this.left, replace),
+                this.replaceChild('fun', this.fun, replace),
+                this.replaceChild('right', this.right, replace),
+            ),
+        );
     }
 
     getOperator() {

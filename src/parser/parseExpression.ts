@@ -1,4 +1,5 @@
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import { must } from '@util/nullable';
 import type Bind from '@nodes/Bind';
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanLiteral from '@nodes/BooleanLiteral';
@@ -85,7 +86,9 @@ export function parseDocs(tokens: Tokens): Docs {
             tokens.nextIs(Sym.Doc) &&
             (tokens.peekSpace()?.split('\n').length ?? 0) - 1 <= 1,
     );
-    return new Docs([docs[0], ...docs.slice(1)]);
+    // The loop body runs before its condition, so a group always holds one.
+    const [first, ...rest] = docs;
+    return new Docs([must(first, 'a doc'), ...rest]);
 }
 
 export default function parseExpression(tokens: Tokens): Expression {
@@ -214,7 +217,14 @@ export function parseMatch(value: Expression, tokens: Tokens): Match {
         () => result !== undefined,
     );
 
-    return new Match(value, mark, pairs, condition as unknown as Expression);
+    // The loop body runs at least once, so a condition was always read; the
+    // placeholder only says so where the compiler can't follow the closure.
+    return new Match(
+        value,
+        mark,
+        pairs,
+        condition ?? ExpressionPlaceholder.make(),
+    );
 }
 
 export function parseBinaryEvaluate(tokens: Tokens): Expression {
@@ -638,10 +648,10 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
 
     const literal = tokens.readIf(Sym.Literal);
 
-    // Make a map
-    return values.some((v): v is KeyValue => v instanceof KeyValue)
-        ? new MapLiteral(open, values, undefined, close, literal)
-        : new SetLiteral(open, values as Expression[], close, literal);
+    // A set when every value is a bare expression, otherwise a map.
+    return values.every((v): v is Expression => !(v instanceof KeyValue))
+        ? new SetLiteral(open, values, close, literal)
+        : new MapLiteral(open, values, undefined, close, literal);
 }
 
 function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
@@ -853,11 +863,11 @@ export function parseStructure(
     const names = parseNames(tokens);
 
     // So we can rewind to the start.
-    const firstToken = [
-        ...(docs ? docs.leaves() : []),
-        ...(share ? [share] : []),
-        type,
-    ][0];
+    // `type` is the last entry and was just read, so there is always a first.
+    const firstToken = must(
+        [...(docs ? docs.leaves() : []), ...(share ? [share] : []), type][0],
+        'a first token',
+    );
 
     if (names.isEmpty()) {
         tokens.unreadTo(firstToken);

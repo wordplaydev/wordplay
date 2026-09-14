@@ -322,10 +322,11 @@
                         synced
                         modes={(l) => l.ui.dialog.settings.mode.animate}
                         choice={AnimationFactors.indexOf($animationFactor)}
-                        select={(choice) =>
-                            Settings.setAnimationFactor(
-                                AnimationFactors[choice],
-                            )}
+                        select={(choice) => {
+                            const factor = AnimationFactors[choice];
+                            if (factor !== undefined)
+                                Settings.setAnimationFactor(factor);
+                        }}
                         icons={AnimationFactorIcons}
                         modeLabels={false}
                     />

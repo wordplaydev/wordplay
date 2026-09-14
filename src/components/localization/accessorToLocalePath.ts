@@ -25,6 +25,7 @@ export function accessorToLocalePath(
     if (segments.length === 0) return undefined;
 
     const key = segments[segments.length - 1];
+    if (key === undefined) return undefined;
     const path = segments.slice(0, segments.length - 1);
     const derived = new LocalePath(path, key, '');
 
@@ -111,5 +112,6 @@ function matchSegments(accessor: Function): (string | number)[] | undefined {
     const match = accessor
         .toString()
         .match(/\(?\s*(\w+)\s*\)?\s*=>\s*\1\.([a-zA-Z0-9.]+)/);
-    return match ? match[2].split('.') : undefined;
+    const groups = match === null ? undefined : match[2];
+    return groups === undefined ? undefined : groups.split('.');
 }

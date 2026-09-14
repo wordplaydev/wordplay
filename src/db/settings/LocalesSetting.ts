@@ -1,5 +1,5 @@
 import {
-    SupportedLocales,
+    isSupportedLocale,
     type SupportedLocale,
 } from '@locale/SupportedLocales';
 import Setting from '@db/settings/Setting';
@@ -11,11 +11,10 @@ export const LocalesSetting = new Setting<SupportedLocale[]>(
     (value) =>
         Array.isArray(value) &&
         value.every(
-            (locale) =>
-                typeof locale === 'string' &&
-                SupportedLocales.includes(locale as SupportedLocale),
+            (locale): locale is SupportedLocale =>
+                typeof locale === 'string' && isSupportedLocale(locale),
         )
-            ? (value as SupportedLocale[])
+            ? value
             : undefined,
     (current, value) =>
         current.length === value.length &&

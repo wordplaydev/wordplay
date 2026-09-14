@@ -17,7 +17,7 @@ import translateProjectContent, {
 } from '@db/projects/translateProjectContent';
 import Source from '@nodes/Source';
 import type Log from '@util/verify-locales/Log';
-import { getLocaleJSON } from './LocaleSchema';
+import { getLocaleJSON, LocaleValidator } from './LocaleSchema';
 import {
     ConceptPattern,
     hasUnclosedText,
@@ -34,6 +34,7 @@ import {
 } from './protect';
 import type Translator from './Translator';
 import type { TranslatorUsage } from './Translator';
+import { must } from '@util/nullable';
 
 /**
  * The model that carries the bulk of a run — prose, docs, examples — chosen for
@@ -308,7 +309,8 @@ export async function translateProtectedMarkup(
                 return restored;
             })
             .join('');
-        return failed ? texts[index] : rebuilt;
+        // `segmented` is a map of `texts`, so the index always hits.
+        return failed ? must(texts[index], 'a source text') : rebuilt;
     });
 }
 
@@ -507,7 +509,8 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
         );
         const filled = await this.translateChunk(
             log,
-            missing.map((i) => chunk[i]),
+            // `missing` holds indices into `chunk`.
+            missing.map((i) => must(chunk[i], 'a chunk item')),
             system,
             sourceLocale,
             targetLocale,
@@ -515,7 +518,10 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             true,
         );
         missing.forEach((originalIndex, k) => {
-            reconciled[originalIndex] = filled[k];
+            // A retry answers one item per request, so this always hits; a
+            // missing one leaves the null the item already had.
+            const value = filled[k];
+            if (value !== undefined) reconciled[originalIndex] = value;
         });
         return reconciled;
     }
@@ -684,15 +690,14 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
      */
     private readonly exampleCache = new Map<string, string>();
 
-    /** Load a locale's text for example localization. The verifier loads locale
-     *  JSON as LocaleText throughout (see DefaultLocale / LocaleSchema); we
-     *  follow that pattern since LocaleText is too large for a runtime guard. */
+    /** Load a locale's text for example localization, checked against the
+     *  locale schema: a file that doesn't match it localizes no examples. */
     private loadLocaleText(log: Log, locale: string): LocaleText | undefined {
         const cached = this.localeTextCache.get(locale);
         if (cached !== undefined || this.localeTextCache.has(locale))
             return cached;
         const json = getLocaleJSON(log, locale);
-        const text = json === undefined ? undefined : (json as LocaleText);
+        const text = LocaleValidator(json) ? json : undefined;
         this.localeTextCache.set(locale, text);
         return text;
     }
@@ -1084,9 +1089,13 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                             )
                         ).results,
                 );
-                allTexts.forEach((original, index) =>
-                    translatedByText.set(original, translated[index]),
-                );
+                allTexts.forEach((original, index) => {
+                    // An absent result is the same as an unrecorded one: the
+                    // apply pass falls back to the source either way.
+                    const value = translated[index];
+                    if (value !== undefined)
+                        translatedByText.set(original, value);
+                });
             }
             // Apply pass: localize each example against the pooled results. A
             // text the pool couldn't translate resolves to itself, which is
@@ -1265,7 +1274,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                 unitRange.push({ start, count });
                 return reassemble(
                     segments,
-                    text[stringIndex],
+                    must(text[stringIndex], 'a source string'),
                     translatedUnits.slice(start, start + count),
                     unitLinks.slice(start, start + count),
                     // Stay quiet on the first attempt: a retry may well fix it,
@@ -1287,7 +1296,9 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             .map((value, index) => ({ value, index }))
             .filter(
                 ({ value, index }) =>
-                    value === null && unitRange[index].count > 0,
+                    value === null &&
+                    // One range is pushed per string, in the same pass.
+                    must(unitRange[index], 'a unit range').count > 0,
             );
 
         // A string whose every segment is code — a lone `\…\` example, which is
@@ -1301,17 +1312,24 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
             .map((value, index) => ({ value, index }))
             .filter(
                 ({ value, index }) =>
-                    value === null && unitRange[index].count === 0,
+                    value === null &&
+                    must(unitRange[index], 'a unit range').count === 0,
             ))
-            reassemble(allSegments[index], text[index], [], [], false);
+            reassemble(
+                must(allSegments[index], 'segments'),
+                must(text[index], 'a source string'),
+                [],
+                [],
+                false,
+            );
         if (retryable.length > 0) {
             const retryLog = log.pending(
                 `Retrying ${retryable.length} string(s) the model garbled, one at a time`,
             );
             let recovered = 0;
             for (const { index } of retryable) {
-                const { start, count } = unitRange[index];
-                const segments = allSegments[index];
+                const { start, count } = must(unitRange[index], 'a unit range');
+                const segments = must(allSegments[index], 'segments');
                 const links = unitLinks.slice(start, start + count);
                 let units: (string | null)[];
                 try {
@@ -1340,7 +1358,7 @@ ${PLAIN_LANGUAGE_GUIDANCE}${conventions.length > 0 ? `\n\n${conventions}` : ''}`
                 }
                 const second = reassemble(
                     segments,
-                    text[index],
+                    must(text[index], 'a source string'),
                     units,
                     links,
                     false,

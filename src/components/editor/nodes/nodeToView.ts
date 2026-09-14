@@ -226,13 +226,30 @@ import type { Format } from '@components/editor/nodes/NodeView.svelte';
 import NoneOrView from '@components/editor/nodes/OtherwiseView.svelte';
 import VariableTypeView from '@components/editor/nodes/VariableTypeView.svelte';
 
-type NodeViewComponent = Component<{
-    node: any;
+/** A view of a particular kind of node, as that view declares itself. */
+type NodeViewOf<Kind extends Node> = Component<{
+    node: Kind;
     format: Format;
     /** Whether this node is folded; views that support code folding render a
      *  collapsed header when true. Ignored by views that don't. */
     folded?: boolean;
 }>;
+
+/** A view as `NodeView` renders it, which knows only that it has a node. */
+type NodeViewComponent = NodeViewOf<Node>;
+
+/**
+ * A registered view as the component NodeView renders. Each view declares the
+ * node class it draws, and Svelte compares a component's props strictly, so a
+ * registry of views for different node classes cannot be typed without this.
+ * What makes the lookup right is that the map is keyed by the very class each
+ * view declares, which `map` below checks.
+ */
+function asNodeView(view: NodeViewOf<never>): NodeViewComponent {
+    // sound: the registry is keyed by the node class each view declares, so the
+    // node handed back is always of the class that view asked for.
+    return view as NodeViewComponent;
+}
 
 // Block styling for each view
 type BlockKind =
@@ -261,10 +278,10 @@ const nodeToView = new Map<Function & { prototype: Node }, BlockConfig>();
 
 function map<Kind extends Node>(
     nodeType: Function & { prototype: Kind },
-    component: NodeViewComponent,
+    component: NodeViewOf<Kind>,
     style: BlockStyle,
 ) {
-    nodeToView.set(nodeType, { component, style });
+    nodeToView.set(nodeType, { component: asNodeView(component), style });
 }
 
 map(Token, TokenView, { kind: 'none', direction: 'inline', size: 'normal' });

@@ -65,8 +65,8 @@ test('getMarkupTransition starts at full start and ends at full end', () => {
     const b = Markup.words('_world_');
     const steps = getMarkupTransition(a, b);
 
-    expect(steps[0].toText()).toBe(a.toText()); // 'hello'
-    expect(steps[steps.length - 1].toText()).toBe(b.toText()); // 'world'
+    expect(steps[0]?.toText()).toBe(a.toText()); // 'hello'
+    expect(steps.at(-1)?.toText()).toBe(b.toText()); // 'world'
 
     // Every step's plain text is a prefix of the start or the end.
     const at = a.toText();

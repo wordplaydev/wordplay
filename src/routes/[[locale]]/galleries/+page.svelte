@@ -29,8 +29,9 @@
     import { GALLERY_CHUNK_SIZE } from '@db/firestoreLimits';
     import { Domain } from '@db/Domains';
     import { firestore } from '@db/firebase';
-    import type { SerializedGallery } from '@db/galleries/Gallery';
-    import Gallery, { upgradeGallery } from '@db/galleries/Gallery';
+    import type Gallery from '@db/galleries/Gallery';
+    import { parseGallery } from '@db/galleries/Gallery';
+    import { isDefined } from '@util/nullable';
     import { GalleriesCollection } from '@db/galleries/GalleryDatabase.svelte';
     import type Project from '@db/projects/Project';
     import { debounced } from '@util/debounce.svelte';
@@ -188,10 +189,9 @@
             return;
         }
 
-        loadedGalleries = documentSnapshots.docs.map(
-            (snap) =>
-                new Gallery(upgradeGallery(snap.data() as SerializedGallery)),
-        );
+        loadedGalleries = documentSnapshots.docs
+            .map((snap) => parseGallery(snap.data()))
+            .filter(isDefined);
     }
 
     /**
@@ -210,7 +210,13 @@
         for (let i = shuffled.length - 1; i > 0; i--) {
             random = (random * 9301 + 49297) % 233280;
             const j = Math.floor((random / 233280) * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            const a = shuffled[i];
+            const b = shuffled[j];
+            // Both indices are inside the list, so this always swaps.
+            if (a !== undefined && b !== undefined) {
+                shuffled[i] = b;
+                shuffled[j] = a;
+            }
         }
         return shuffled;
     });

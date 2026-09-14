@@ -11,9 +11,7 @@ import { getWatchedNames } from './Collision';
 /** A stand-in carrying only the two fields getWatchedNames reads, so the
  *  policy can be tested without evaluating a program. */
 function watching(subject?: string, object?: string) {
-    return { subject, object } as unknown as Parameters<
-        typeof getWatchedNames
-    >[0][number];
+    return { subject, object };
 }
 
 test('a Collision naming two outputs watches both', () => {

@@ -1,4 +1,6 @@
 import { execSync } from 'child_process';
+import { isRecord } from '@util/guards';
+import { messageOf } from '@util/guards';
 import fs from 'fs';
 import path from 'path';
 import ts from 'typescript';
@@ -6,6 +8,7 @@ import { findUnusedKeys } from '@util/verify-locales/findUnusedKeys';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import { DefaultLocale } from '@util/verify-locales/LocaleSchema';
 import Log from '@util/verify-locales/Log';
+import { must } from '@util/nullable';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);
@@ -178,7 +181,9 @@ function locateTypeDefinition(
         if (!ts.isImportDeclaration(stmt)) continue;
         const clause = stmt.importClause;
         if (!clause) continue;
-        const moduleText = (stmt.moduleSpecifier as ts.StringLiteral).text;
+        // A module specifier is always a string literal in a parsed import.
+        if (!ts.isStringLiteral(stmt.moduleSpecifier)) continue;
+        const moduleText = stmt.moduleSpecifier.text;
         // Default import: `import type X from 'mod'`
         if (clause.name && clause.name.text === typeName) {
             return resolveInTargetFile(
@@ -224,8 +229,7 @@ export function resolvePath(segments: string[]): Resolution {
     // never shared, so the safety check skips them).
     let owningTypeName: string | undefined = ROOT_TYPE;
 
-    for (let i = 0; i < segments.length; i++) {
-        const seg = segments[i];
+    for (const [i, seg] of segments.entries()) {
         const prop = findProperty(members, seg);
         if (!prop)
             throw new Error(
@@ -282,7 +286,7 @@ export function removeProperty(
     const index = members.indexOf(prop);
     const end =
         index >= 0 && index < members.length - 1
-            ? members[index + 1].getFullStart()
+            ? must(members[index + 1], 'the next member').getFullStart()
             : prop.getEnd();
     return sourceText.slice(0, start) + sourceText.slice(end);
 }
@@ -294,13 +298,13 @@ export function removeJsonKey(
     segments: string[],
 ): boolean {
     let cur: Record<string, unknown> = obj;
-    for (let i = 0; i < segments.length - 1; i++) {
-        const next = cur[segments[i]];
-        if (typeof next !== 'object' || next === null) return false;
-        cur = next as Record<string, unknown>;
+    for (const segment of segments.slice(0, -1)) {
+        const next = cur[segment];
+        if (!isRecord(next)) return false;
+        cur = next;
     }
     const last = segments[segments.length - 1];
-    if (!(last in cur)) return false;
+    if (last === undefined || !(last in cur)) return false;
     delete cur[last];
     return true;
 }
@@ -413,7 +417,7 @@ export async function prune(dotted: string): Promise<void> {
     try {
         await editOnePath(dotted);
     } catch (err) {
-        log.exit(`Refusing to prune "${dotted}": ${(err as Error).message}`);
+        log.exit(`Refusing to prune "${dotted}": ${messageOf(err)}`);
     }
     log.good(`Removed ${dotted} from TS type + en-US.json.`);
 
@@ -445,8 +449,8 @@ export async function pruneAll(): Promise<void> {
             pruned++;
             pruning.good(d);
         } catch (err) {
-            skipped.push({ path: d, reason: (err as Error).message });
-            pruning.warning(`${d} — ${(err as Error).message}`);
+            skipped.push({ path: d, reason: messageOf(err) });
+            pruning.warning(`${d} — ${messageOf(err)}`);
         }
     }
 

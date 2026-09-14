@@ -29,7 +29,7 @@ export function retargetExamplePaths<T extends Record<string, unknown>>(
     locale: LocaleText,
     fix: boolean,
 ): T {
-    const revised = fix ? (JSON.parse(JSON.stringify(target)) as T) : target;
+    const revised = fix ? structuredClone(target) : target;
 
     let renamed = 0;
     let divergent = 0;

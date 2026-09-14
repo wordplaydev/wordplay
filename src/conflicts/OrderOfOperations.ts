@@ -107,14 +107,18 @@ export default class OrderOfOperations extends Conflict {
         }
         operands.unshift(cur);
 
-        const operatorNames = ops.map((o) => o.getName());
-
         // Two repairs to consider. Both rebuild the chain in a way that
         // eliminates every OrderOfOperations conflict in the chain (because
         // BinaryEvaluate children get wrapped in Blocks, so the conflict's
         // `this.left instanceof BinaryEvaluate` check no longer matches).
         const pemdasTree = rebuildPEMDAS(operands, ops);
         const readingTree = rebuildReadingOrder(operands, ops);
+
+        // The flatten above always leaves one more operand than operator, so
+        // both rebuilds succeed; a chain they can't rebuild gets the default
+        // explanation rather than a reordering.
+        if (pemdasTree === undefined || readingTree === undefined)
+            return Conflict.fallbackExplainer(this, context, _concepts);
 
         // If math order and reading order produce the same tree (e.g., the
         // chain is all same precedence, or already monotonically decreasing
@@ -145,22 +149,23 @@ export default class OrderOfOperations extends Conflict {
         // lowest-precedence operators in the chain for the description text;
         // these are what the learner is most likely to see "move" in the
         // PEMDAS rebuild.
-        const highestIdx = operatorNames.reduce(
-            (best, _, i) =>
-                precedence(operatorNames[i]) > precedence(operatorNames[best])
-                    ? i
-                    : best,
-            0,
-        );
-        const lowestIdx = operatorNames.reduce(
-            (best, _, i) =>
-                precedence(operatorNames[i]) < precedence(operatorNames[best])
-                    ? i
-                    : best,
-            0,
-        );
-        const higherRef = ops[highestIdx];
-        const lowerRef = ops[lowestIdx];
+        const operators = ops.map((op) => ({
+            ref: op,
+            precedence: precedence(op.getName()),
+        }));
+        let highest = operators[0];
+        let lowest = operators[0];
+        // The chain came from at least one BinaryEvaluate, so it has an
+        // operator; without one there is no reordering to describe.
+        if (highest === undefined || lowest === undefined)
+            return Conflict.fallbackExplainer(this, context, _concepts);
+        // Strictly greater and strictly less, so ties keep the leftmost.
+        for (const op of operators) {
+            if (op.precedence > highest.precedence) highest = op;
+            if (op.precedence < lowest.precedence) lowest = op;
+        }
+        const higherRef = highest.ref;
+        const lowerRef = lowest.ref;
 
         return [
             {
@@ -236,18 +241,26 @@ function wrapIfBinary(e: Expression): Expression {
 /** Precedence-climbing rebuild. `^` is treated as right-associative; all
  *  others as left-associative. Every BinaryEvaluate child gets wrapped, so
  *  the resulting tree fires no OrderOfOperations conflicts. */
-function rebuildPEMDAS(operands: Expression[], ops: Reference[]): Expression {
+function rebuildPEMDAS(
+    operands: Expression[],
+    ops: Reference[],
+): Expression | undefined {
     let i = 0;
-    function climb(minPrec: number): Expression {
+    // Undefined only if the chain has fewer operands than operators, which the
+    // flatten that produces them cannot do.
+    function climb(minPrec: number): Expression | undefined {
         let lhs = operands[i];
         i++;
+        if (lhs === undefined) return undefined;
         while (i - 1 < ops.length) {
             const op = ops[i - 1];
+            if (op === undefined) break;
             const opName = op.getName();
             const opPrec = precedence(opName);
             if (opPrec < minPrec) break;
             const nextMin = isRightAssociative(opName) ? opPrec : opPrec + 1;
             const rhs = climb(nextMin);
+            if (rhs === undefined) return undefined;
             lhs = new BinaryEvaluate(wrapIfBinary(lhs), op, wrapIfBinary(rhs));
         }
         return lhs;
@@ -261,14 +274,14 @@ function rebuildPEMDAS(operands: Expression[], ops: Reference[]): Expression {
 function rebuildReadingOrder(
     operands: Expression[],
     ops: Reference[],
-): Expression {
-    let lhs: Expression = operands[0];
-    for (let i = 0; i < ops.length; i++) {
-        lhs = new BinaryEvaluate(
-            wrapIfBinary(lhs),
-            ops[i],
-            wrapIfBinary(operands[i + 1]),
-        );
+): Expression | undefined {
+    let lhs = operands[0];
+    if (lhs === undefined) return undefined;
+    for (const [i, op] of ops.entries()) {
+        const right = operands[i + 1];
+        // Same invariant as the PEMDAS rebuild: one more operand than operator.
+        if (right === undefined) return undefined;
+        lhs = new BinaryEvaluate(wrapIfBinary(lhs), op, wrapIfBinary(right));
     }
     return lhs;
 }

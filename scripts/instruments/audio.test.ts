@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+import { must } from '../../src/util/nullable';
 import { alignAttack, type Mono } from './audio';
 
 const Rate = 44100;
@@ -24,8 +25,8 @@ function peakAt(audio: Mono): number {
     let at = 0;
     for (let i = 0; i + Window < audio.samples.length; i += Window) {
         let sum = 0;
-        for (let j = i; j < i + Window; j++)
-            sum += audio.samples[j] * audio.samples[j];
+        for (const sample of audio.samples.subarray(i, i + Window))
+            sum += sample * sample;
         const value = Math.sqrt(sum / Window);
         if (value > best) {
             best = value;
@@ -70,13 +71,14 @@ describe('alignAttack', () => {
         // Cutting into a rising signal starts partway up a cycle, which is a
         // click unless the first few milliseconds ramp.
         const aligned = alignAttack(pluck(0.06), 0.015);
-        expect(Math.abs(aligned.samples[0])).toBeLessThan(1e-6);
+        // The fixture is a second of audio, so the first 200 samples are there.
+        let previous = must(aligned.samples[0], 'the first aligned sample');
+        expect(Math.abs(previous)).toBeLessThan(1e-6);
         let step = 0;
-        for (let i = 1; i < 200; i++)
-            step = Math.max(
-                step,
-                Math.abs(aligned.samples[i] - aligned.samples[i - 1]),
-            );
+        for (const sample of aligned.samples.subarray(1, 200)) {
+            step = Math.max(step, Math.abs(sample - previous));
+            previous = sample;
+        }
         expect(step).toBeLessThan(0.05);
     });
 

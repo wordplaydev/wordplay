@@ -350,7 +350,7 @@
         </Speech>
 
         <!-- Which music, before the properties that describe it. -->
-        {#if outputs.length === 1 && definition === project.shares.output.Music}
+        {#if outputs.length === 1 && definition === project.shares.output.Music && outputs[0] !== undefined}
             <MusicChooser {project} music={outputs[0].node} {editable} />
         {/if}
 
@@ -377,7 +377,7 @@
              edits the tracks those properties apply to. Only for a single
              selection: a carousel over two musics' tracks would have no
              coherent "this track". -->
-        {#if outputs.length === 1 && definition === project.shares.output.Music}
+        {#if outputs.length === 1 && definition === project.shares.output.Music && outputs[0] !== undefined}
             <MusicEditor {project} music={outputs[0].node} {editable} />
         {/if}
     {:else if mode !== 'edit' && enterEditMode !== undefined}

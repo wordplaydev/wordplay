@@ -52,6 +52,7 @@
  */
 
 import { Revised, Unwritten } from '@locale/Annotations';
+import { isDialog } from '../../tutorial/Tutorial';
 import { isRevised, isUnwritten } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import type Tutorial from '../../tutorial/Tutorial';
@@ -64,6 +65,7 @@ import {
     type Performance,
     type Scene,
 } from '../../tutorial/Tutorial';
+import { must } from '@util/nullable';
 
 export type SyncChange = {
     /** Where it happened, 1-based, the way the tutorial's own URLs count. */
@@ -183,41 +185,62 @@ export function align<T>(
     target: readonly T[],
     signature: (item: T) => string,
 ): Alignment<T>[] {
-    const a = source.map(signature);
-    const b = target.map(signature);
+    // Signature and item travel together: `T` may itself be `null` (a tutorial
+    // pause), so an item is never asked whether it is present — only its slot is.
+    const a = source.map((item) => ({ signature: signature(item), item }));
+    const b = target.map((item) => ({ signature: signature(item), item }));
 
+    // One row per source item plus a sentinel, one column per target item plus
+    // a sentinel, so every index the walk below reads is inside the table.
     const table: number[][] = Array.from({ length: a.length + 1 }, () =>
         new Array<number>(b.length + 1).fill(0),
     );
-    for (let i = a.length - 1; i >= 0; i--)
+    const at = (row: number, column: number) =>
+        must(must(table[row], 'a table row')[column], 'a table cell');
+    for (let i = a.length - 1; i >= 0; i--) {
+        const row = must(table[i], 'a table row');
+        const sourceSignature = must(a[i], 'a source entry').signature;
         for (let j = b.length - 1; j >= 0; j--)
-            table[i][j] =
-                a[i] === b[j]
-                    ? table[i + 1][j + 1] + 1
-                    : Math.max(table[i + 1][j], table[i][j + 1]);
+            row[j] =
+                sourceSignature === must(b[j], 'a target entry').signature
+                    ? at(i + 1, j + 1) + 1
+                    : Math.max(at(i + 1, j), at(i, j + 1));
+    }
 
     const result: Alignment<T>[] = [];
     let i = 0;
     let j = 0;
     while (i < a.length && j < b.length) {
-        if (a[i] === b[j]) {
-            result.push({ kind: 'keep', source: source[i], target: target[j] });
+        const sourceEntry = must(a[i], 'a source entry');
+        const targetEntry = must(b[j], 'a target entry');
+        if (sourceEntry.signature === targetEntry.signature) {
+            result.push({
+                kind: 'keep',
+                source: sourceEntry.item,
+                target: targetEntry.item,
+            });
             i++;
             j++;
-        } else if (table[i + 1][j] >= table[i][j + 1]) {
+        } else if (at(i + 1, j) >= at(i, j + 1)) {
             // Present in en-US and not here: insert it.
-            result.push({ kind: 'insert', source: source[i] });
+            result.push({ kind: 'insert', source: sourceEntry.item });
             i++;
         } else {
             // Present here and not in en-US: keep it and say so.
-            result.push({ kind: 'remove', target: target[j] });
+            result.push({ kind: 'remove', target: targetEntry.item });
             j++;
         }
     }
     for (; i < a.length; i++)
-        result.push({ kind: 'insert', source: source[i] });
+        result.push({
+            kind: 'insert',
+            source: must(a[i], 'a source entry').item,
+        });
     for (; j < b.length; j++)
-        result.push({ kind: 'remove', target: target[j] });
+        result.push({
+            kind: 'remove',
+            target: must(b[j], 'a target entry').item,
+        });
     return result;
 }
 
@@ -259,14 +282,12 @@ export function alignTutorialLines(
 // ── Marking ──────────────────────────────────────────────────────────────────
 
 function copy<T>(value: T): T {
-    return JSON.parse(JSON.stringify(value)) as T;
+    return structuredClone(value);
 }
 
 /** The paragraphs of a dialog line — the only translated part of a line. */
 function dialogText(line: Line): string[] | undefined {
-    return line !== null && Array.isArray(line)
-        ? (line as Dialog).slice(2)
-        : undefined;
+    return line !== null && Array.isArray(line) ? line.slice(2) : undefined;
 }
 
 /**
@@ -331,8 +352,8 @@ function markScene(scene: Scene): number {
         count++;
     }
     scene.lines = scene.lines.map((line) => {
-        if (line === null || !Array.isArray(line)) return line;
-        const dialog = line as Dialog;
+        if (!isDialog(line)) return line;
+        const dialog = line;
         const marked: Dialog = [
             dialog[0],
             dialog[1],
@@ -354,7 +375,7 @@ function markAct(act: Act): number {
 function markLine(line: Line): number {
     const text = dialogText(line);
     if (text === undefined || line === null || !Array.isArray(line)) return 0;
-    const dialog = line as Dialog;
+    const dialog = line;
     for (let index = 2; index < dialog.length; index++)
         dialog[index] = markUnwritten();
     return text.length;
@@ -500,11 +521,13 @@ export function syncTutorialStructure(
                 const sourceText = dialogText(step.source);
                 const targetLine = step.target;
                 if (sourceText !== undefined && Array.isArray(targetLine)) {
-                    const dialog = targetLine as Dialog;
+                    const dialog = targetLine;
                     for (let index = 2; index < dialog.length; index++) {
                         const from = sourceText[index - 2];
                         if (from === undefined) continue;
-                        dialog[index] = syncString(from, dialog[index], {
+                        // The loop bound keeps `index` inside the dialog.
+                        const to = must(dialog[index], 'a dialog line');
+                        dialog[index] = syncString(from, to, {
                             act,
                             scene,
                             line,

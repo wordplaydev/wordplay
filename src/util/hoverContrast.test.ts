@@ -28,7 +28,7 @@ function getPaletteHex(name: string): string {
     );
     if (match === null)
         throw new Error(`No hex declaration for --${name} in app.html`);
-    return match[1];
+    return match[1]!;
 }
 
 /** Resolve a `var(--name)` chain declared in app.html down to a hex, so this
@@ -41,14 +41,14 @@ function resolvePaletteVar(name: string, mode: 'light' | 'dark'): string {
         const hex = appHtml.match(
             new RegExp(`--${candidate}:\\s*(#[0-9a-fA-F]{6})\\s*;`),
         );
-        if (hex !== null) return hex[1];
+        if (hex !== null) return hex[1]!;
     }
     const alias = appHtml.match(
         new RegExp(`--${name}:\\s*var\\(--([a-z0-9-]+)\\)\\s*;`),
     );
     if (alias === null)
         throw new Error(`Can't resolve --${name} to a hex in app.html`);
-    return resolvePaletteVar(alias[1], mode);
+    return resolvePaletteVar(alias[1]!, mode);
 }
 
 /** WCAG 2.2 AA minimum contrast for normal-size text. */
@@ -76,7 +76,7 @@ function goldRules(): { file: string; rule: string }[] {
         for (const match of source.matchAll(
             /background(?:-color)?:\s*var\(--wordplay-hover\)\s*;([^}]*)/g,
         ))
-            found.push({ file, rule: match[1] });
+            found.push({ file, rule: match[1]! });
     }
     return found;
 }

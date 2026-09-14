@@ -7,6 +7,7 @@ import DefaultLocale from '@locale/DefaultLocale';
 import Source from '@nodes/Source';
 import { expect, test } from 'vitest';
 import { kitExamples, kitExports } from './publishedShare';
+import { must } from '@util/nullable';
 
 /** A project that publishes its only source, which is when these conflicts apply. */
 function published(code: string, supplement?: string) {
@@ -61,7 +62,7 @@ test('a doc touching the first export documents it (#1374)', () => {
     // leading doc was taken as the program's. A doc adjacent to what it explains now
     // documents it, like every other doc.
     const source = new Source('colors', documented);
-    expect(kitExports(source)[0].docs.isEmpty()).toBe(false);
+    expect(must(kitExports(source)[0], 'an export').docs.isEmpty()).toBe(false);
     expect(source.expression.docs.isEmpty()).toBe(true);
     expect(conflictsIn(documented)).toEqual([]);
 });
@@ -146,8 +147,8 @@ test("kitExamples prefers the source's own doc, then each export's", () => {
     );
     const found = kitExamples(source);
     expect(found).toHaveLength(2);
-    expect(found[0].toWordplay()).toContain('1');
-    expect(found[1].toWordplay()).toContain('2');
+    expect(must(found[0], 'the first example').toWordplay()).toContain('1');
+    expect(must(found[1], 'the second example').toWordplay()).toContain('2');
 });
 
 test("an export's example counts when the source has no doc of its own", () => {

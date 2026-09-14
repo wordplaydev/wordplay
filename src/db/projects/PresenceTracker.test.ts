@@ -6,6 +6,9 @@ const { setDocMock } = vi.hoisted(() => ({
     setDocMock: vi.fn<() => Promise<void>>(async () => undefined),
 }));
 vi.mock('firebase/firestore', () => ({
+    // Handed back through the real declaration, so the stand-in below is a
+    // `Firestore` without a cast; nothing ever dereferences it.
+    getFirestore: vi.fn(() => ({ type: 'firestore' })),
     collection: vi.fn(() => ({ id: 'mock-collection' })),
     doc: vi.fn(() => ({ id: 'mock-doc' })),
     onSnapshot: vi.fn(() => () => undefined),
@@ -19,9 +22,10 @@ vi.mock('@db/projects/Project', () => ({ MAX_CONCURRENT_EDITORS: 4 }));
 
 import { PRESENCE_HEARTBEAT_MS } from '@db/projects/ProjectPresence';
 import { FirebaseError } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 import { PresenceTracker } from './PresenceTracker.svelte';
 
-const fakeDb = {} as never;
+const fakeDb = getFirestore();
 
 afterEach(() => {
     vi.useRealTimers();

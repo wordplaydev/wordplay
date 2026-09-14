@@ -39,12 +39,7 @@ export function computeCaretDescriptionPosition(args: {
     const scrollContainer = getScrollContainer(editor);
     const containerRect = scrollContainer
         ? scrollContainer.getBoundingClientRect()
-        : ({
-              left: 0,
-              top: 0,
-              width: window.innerWidth,
-              height: window.innerHeight,
-          } as DOMRect);
+        : new DOMRect(0, 0, window.innerWidth, window.innerHeight);
 
     // Run placeNearTarget in container-relative coords, then convert the
     // result back through the container and the editor.

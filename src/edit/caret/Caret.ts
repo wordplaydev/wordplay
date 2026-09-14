@@ -72,7 +72,7 @@ export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node | [number, number];
 export type Entry = 'previous' | 'next' | undefined;
 
-export function isCaretPosition(position: any): position is CaretPosition {
+export function isCaretPosition(position: unknown): position is CaretPosition {
     return (
         typeof position === 'number' ||
         position instanceof Node ||
@@ -95,7 +95,9 @@ export function isNode(position: CaretPosition): position is Node {
 
 /** A serialized selection range is a 2-element array of numbers; any other
  *  array form of a {@link SerializedCaret} is a node {@link Path}. */
-function isSerializedRange(position: Path | number[]): position is number[] {
+function isSerializedRange(
+    position: Path | number[],
+): position is [number, number] {
     return (
         position.length === 2 && position.every((n) => typeof n === 'number')
     );
@@ -117,11 +119,13 @@ export function resolveCaretPosition(
     source: Source,
     position: SerializedCaret,
 ): CaretPosition | undefined {
-    return typeof position === 'number'
-        ? position
-        : isSerializedRange(position)
-          ? [position[0], position[1]]
-          : source.root.resolvePath(position);
+    if (typeof position === 'number') return position;
+    if (isSerializedRange(position)) return [position[0], position[1]];
+    // Neither a number nor a pair of them, so it is a node path; a list of
+    // numbers that isn't a pair resolves to nothing.
+    return position.every((step) => typeof step === 'object')
+        ? source.root.resolvePath(position)
+        : undefined;
 }
 
 /** How much of a selection to speak before eliding. Long enough to identify
@@ -486,8 +490,8 @@ export default class Caret {
     }
 
     /** If the position is an index, return it, undefined otherwise. */
-    getIndex() {
-        return this.isIndex() ? (this.position as number) : undefined;
+    getIndex(): number | undefined {
+        return typeof this.position === 'number' ? this.position : undefined;
     }
 
     isSpace(c: string) {
@@ -542,7 +546,8 @@ export default class Caret {
         const lines = this.source.getCode().getLines();
         if (row < 0 || row >= lines.length) return undefined;
         let rowPosition = 0;
-        for (let i = 0; i < row; i++) rowPosition += lines[i].getLength() + 1;
+        for (const line of lines.slice(0, row))
+            rowPosition += line.getLength() + 1;
         return rowPosition;
     }
 
@@ -584,8 +589,14 @@ export default class Caret {
 
         const from = this.rowPosition(target);
         const lineStart = this.rowPosition(line);
-        if (from === undefined || lineStart === undefined) return noMove;
-        const to = from + lines[target].getLength();
+        const targetLine = lines[target];
+        if (
+            from === undefined ||
+            lineStart === undefined ||
+            targetLine === undefined
+        )
+            return noMove;
+        const to = from + targetLine.getLength();
         // Keep the column, clamped to what the target line actually has.
         return { index: Math.min(from + (origin - lineStart), to), from, to };
     }
@@ -901,8 +912,7 @@ export default class Caret {
 
                 // Inspect the grammar of the node for a list of insertion points.
                 const grammar = node.getGrammar();
-                for (let index = 0; index < grammar.length; index++) {
-                    const field = grammar[index];
+                for (const [index, field] of grammar.entries()) {
                     // If it's optionally empty field and it's empty, add a point to insert to it.
                     if (
                         field.kind.isOptional() &&
@@ -966,8 +976,9 @@ export default class Caret {
                             }
 
                             // No tokens before the list? See if there's a token in the list.
-                            if (values.length > 0) {
-                                const firstToken = values[0].leaves().at(0);
+                            const firstValue = values[0];
+                            if (firstValue !== undefined) {
+                                const firstToken = firstValue.leaves().at(0);
                                 if (firstToken) {
                                     const firstPosition =
                                         this.source.getTokenTextPosition(
@@ -1386,11 +1397,11 @@ export default class Caret {
      */
     getSelectionSpan(): [number, number] | undefined {
         const selected = this.getSelectedNodes();
-        if (selected.length === 0) return undefined;
-        const start = this.source.getNodeFirstPosition(selected[0]);
-        const end = this.source.getNodeLastPosition(
-            selected[selected.length - 1],
-        );
+        const firstNode = selected[0];
+        const lastNode = selected.at(-1);
+        if (firstNode === undefined || lastNode === undefined) return undefined;
+        const start = this.source.getNodeFirstPosition(firstNode);
+        const end = this.source.getNodeLastPosition(lastNode);
         return start === undefined || end === undefined
             ? undefined
             : [start, end];
@@ -1539,7 +1550,7 @@ export default class Caret {
         if (this.position instanceof Node) {
             // Is this a placeholder being replaced with numbers? Replace it, preserving units.
             if (
-                tokens(text)[0].isSymbol(Sym.Number) &&
+                tokens(text)[0]?.isSymbol(Sym.Number) === true &&
                 this.position instanceof ExpressionPlaceholder &&
                 this.position.type instanceof NumberType &&
                 this.position.type.unit instanceof Unit
@@ -2077,14 +2088,18 @@ export default class Caret {
             const revisedName = name.withName(newName);
 
             // Rename the name and all the references
-            const revisions = [
+            const revisions: [Node, Node][] = [
                 [name, revisedName],
-                ...references.map((ref) => [ref, ref.withName(newName)]),
-            ] as [Node, Node][];
+                ...references.map((ref): [Node, Node] => [
+                    ref,
+                    ref.withName(newName),
+                ]),
+            ];
 
             // Revise the project and get the corresponding revised source.
             const revisedProject = project.withRevisedNodes(revisions);
             const revisedSource = revisedProject.getSources()[sourceIndex];
+            if (revisedSource === undefined) return undefined;
 
             // Find the new source position of the edited name so we can find the new position of the caret.
             const editedRevision = revisions.find(
@@ -2313,11 +2328,13 @@ export default class Caret {
                 parent instanceof Block &&
                 (node === parent.open || node === parent.close) &&
                 !parent.isRoot() &&
-                parent.statements.length === 1
+                parent.statements.length === 1 &&
+                parent.statements[0] !== undefined
             ) {
+                const only = parent.statements[0];
                 return [
-                    this.source.replace(parent, parent.statements[0]),
-                    this.withPosition(parent.statements[0]),
+                    this.source.replace(parent, only),
+                    this.withPosition(only),
                 ];
             }
             // Is the parent a list or set with a single element amd the deletion is one of it's delimiters? Unwrap the list or set.
@@ -2325,12 +2342,14 @@ export default class Caret {
                 (parent instanceof ListLiteral ||
                     parent instanceof SetLiteral) &&
                 parent.values.length === 1 &&
+                parent.values[0] !== undefined &&
                 (this.position === parent.open ||
                     this.position === parent.close)
             ) {
+                const only = parent.values[0];
                 return [
-                    this.source.replace(parent, parent.values[0]),
-                    this.withPosition(parent.values[0]),
+                    this.source.replace(parent, only),
+                    this.withPosition(only),
                 ];
             }
             // Other grammar-dependent cases.
@@ -2547,11 +2566,7 @@ export default class Caret {
         // Tokenize the insertion
         const keyTokens = tokens(key);
         // We expect exactly two tokens, the key token and the end token. Otherwise, we don't wrap.
-        if (
-            keyTokens.length < 2 ||
-            keyTokens.length > 2 ||
-            !keyTokens[1].isSymbol(Sym.End)
-        )
+        if (keyTokens.length !== 2 || keyTokens[1]?.isSymbol(Sym.End) !== true)
             return;
 
         const token = tokens(key)[0];
@@ -2623,8 +2638,10 @@ export default class Caret {
             return undefined;
 
         const keyTokens = tokens(key);
-        if (keyTokens.length !== 2 || !keyTokens[1].isSymbol(Sym.End)) return;
+        if (keyTokens.length !== 2 || keyTokens[1]?.isSymbol(Sym.End) !== true)
+            return;
         const token = keyTokens[0];
+        if (token === undefined) return;
 
         const wrapper: Expression | undefined = token.isSymbol(Sym.EvalOpen)
             ? Block.make(nodes)
@@ -2654,9 +2671,12 @@ export default class Caret {
 
         // The container takes the run's place, so it inherits the run's leading
         // space and the run's first node starts fresh inside it.
+        const firstNode = nodes[0];
+        const lastNode = nodes.at(-1);
+        if (firstNode === undefined || lastNode === undefined) return undefined;
         const spaces = this.source.spaces
-            .withSpace(wrapper, this.source.spaces.getSpace(nodes[0]))
-            .withSpace(nodes[0], '');
+            .withSpace(wrapper, this.source.spaces.getSpace(firstNode))
+            .withSpace(firstNode, '');
 
         let newSource = this.source.withProgram(newProgram, spaces);
         newSource = newSource.withSpaces(
@@ -2665,8 +2685,7 @@ export default class Caret {
 
         // Land just before the closing delimiter, ready for the next entry —
         // the same place a single-node wrap leaves the caret.
-        const caretTarget =
-            newSource.getNodeLastPosition(nodes[nodes.length - 1]) ?? wrapper;
+        const caretTarget = newSource.getNodeLastPosition(lastNode) ?? wrapper;
 
         return [
             newSource,
@@ -2799,16 +2818,18 @@ export default class Caret {
          * size, so it would be heard once and then sound broken; the ends are
          * what actually differ from one selection to the next. */
         const selected = this.getSelectedNodes();
-        if (selected.length > 1) {
+        const firstSelected = selected[0];
+        const lastSelected = selected.at(-1);
+        if (
+            selected.length > 1 &&
+            firstSelected !== undefined &&
+            lastSelected !== undefined
+        ) {
             return locales
                 .concretize((l) => l.ui.source.cursor.selectedNodes, {
                     count: selected.length,
-                    first: new NodeRef(selected[0], locales, context),
-                    last: new NodeRef(
-                        selected[selected.length - 1],
-                        locales,
-                        context,
-                    ),
+                    first: new NodeRef(firstSelected, locales, context),
+                    last: new NodeRef(lastSelected, locales, context),
                 })
                 .toText();
         }

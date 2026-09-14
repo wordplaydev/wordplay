@@ -59,8 +59,14 @@ const FeedbackSchemaV2 = FeedbackSchemaV1.extend(
     }).shape,
 );
 
-export type UnknownFeedbackVersion =
-    z.infer<typeof FeedbackSchemaV1> | z.infer<typeof FeedbackSchemaV2>;
+/** Every version a stored feedback document may have. */
+const UnknownFeedbackVersionSchema = z.union([
+    FeedbackSchemaV2,
+    FeedbackSchemaV1,
+]);
+export type UnknownFeedbackVersion = z.infer<
+    typeof UnknownFeedbackVersionSchema
+>;
 
 const CurrentFeedbackSchema = FeedbackSchemaV2;
 
@@ -248,9 +254,11 @@ export async function getFeedback(): Promise<Feedback[] | null> {
     return querySnapshot.docs
         .map((doc) => {
             try {
-                const upgraded = upgradeFeedback(
-                    doc.data() as UnknownFeedbackVersion,
+                const stored = UnknownFeedbackVersionSchema.safeParse(
+                    doc.data(),
                 );
+                if (!stored.success) throw stored.error;
+                const upgraded = upgradeFeedback(stored.data);
                 return CurrentFeedbackSchema.parse(upgraded);
             } catch (err) {
                 console.error('Class had an invalid schema', err);

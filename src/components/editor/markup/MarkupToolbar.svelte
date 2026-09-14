@@ -71,24 +71,24 @@
      rule rides inside its first item, and hides in the overflow panel, where a
      stretched vertical rule in a column of buttons would read as a stray mark. -->
 {#snippet renderItem(index: number)}
+    {@const item = shown[index]}
     <span class="item"
-        >{#if shown[index].first}<Separator
-            />{/if}{#if shown[index].command === MarkupModeCommand}<Toggle
-                tips={(l) => ({
-                    // The tip names what pressing it will DO, so it reads as the
-                    // action from whichever mode you are in.
-                    on: l.ui.markup.mode.source,
-                    off: l.ui.markup.mode.prose,
-                })}
-                on={prose}
-                command={MarkupModeCommand}
-                active={toggleMode !== undefined}
-                toggle={() => toggleMode?.()}
-                >{shown[index].command.symbol}</Toggle
-            >{:else}<CommandButton
-                command={shown[index].command}
-                {sourceID}
-            />{/if}</span
+        >{#if item !== undefined}{#if item.first}<Separator
+                />{/if}{#if item.command === MarkupModeCommand}<Toggle
+                    tips={(l) => ({
+                        // The tip names what pressing it will DO, so it reads as the
+                        // action from whichever mode you are in.
+                        on: l.ui.markup.mode.source,
+                        off: l.ui.markup.mode.prose,
+                    })}
+                    on={prose}
+                    command={MarkupModeCommand}
+                    active={toggleMode !== undefined}
+                    toggle={() => toggleMode?.()}>{item.command.symbol}</Toggle
+                >{:else}<CommandButton
+                    command={item.command}
+                    {sourceID}
+                />{/if}{/if}</span
     >
 {/snippet}
 

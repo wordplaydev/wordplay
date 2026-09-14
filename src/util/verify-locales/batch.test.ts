@@ -11,6 +11,7 @@ import {
     splitKitPhase,
 } from './batch';
 import { resolveSymbols, stripAnsi } from '@util/verify-locales/Log';
+import { must } from '@util/nullable';
 
 const Unicode = resolveSymbols('darwin', {});
 const Ascii = resolveSymbols('win32', {});
@@ -194,7 +195,9 @@ describe('formatBlock', () => {
             [],
             Ascii,
         );
-        expect(block[0].startsWith('-- ja-JP ')).toBe(true);
+        expect(must(block[0], 'the first line').startsWith('-- ja-JP ')).toBe(
+            true,
+        );
         expect(block.at(-2)).toBe('v ja-JP finished in 0s');
     });
 });
@@ -239,7 +242,9 @@ describe('boardLines', () => {
             0,
             40,
         );
-        expect(stripAnsi(lines[0]).length).toBeLessThanOrEqual(39);
+        expect(
+            stripAnsi(must(lines[0], 'the first line')).length,
+        ).toBeLessThanOrEqual(39);
     });
 });
 

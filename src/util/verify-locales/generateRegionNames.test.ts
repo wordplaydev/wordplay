@@ -3,6 +3,7 @@ import { Regions, type RegionCode } from '@locale/Regions';
 import { CLDR_VERSION } from '@util/verify-locales/cldr';
 import { rankRegionLanguages } from '@util/verify-locales/generateRegionNames';
 import { describe, expect, test } from 'vitest';
+import { must } from '@util/nullable';
 
 /** Guards the committed artifact `npm run regions` writes. It reads what is on
  *  disk rather than regenerating — generation fetches CLDR, and the `unit /
@@ -63,43 +64,58 @@ describe('the committed region names', () => {
 describe('choosing the language that names a region', () => {
     test('an official language beats a more widely spoken one', () => {
         expect(
-            rankRegionLanguages({
-                nl: { _populationPercent: '55', _officialStatus: 'official' },
-                en: { _populationPercent: '90' },
-            })[0].id,
+            must(
+                rankRegionLanguages({
+                    nl: {
+                        _populationPercent: '55',
+                        _officialStatus: 'official',
+                    },
+                    en: { _populationPercent: '90' },
+                })[0],
+                'a ranked language',
+            ).id,
         ).toBe('nl');
     });
 
     test('de facto official counts as official', () => {
         expect(
-            rankRegionLanguages({
-                es: {
-                    _populationPercent: '90',
-                    _officialStatus: 'de_facto_official',
-                },
-                en: { _populationPercent: '95' },
-            })[0].id,
+            must(
+                rankRegionLanguages({
+                    es: {
+                        _populationPercent: '90',
+                        _officialStatus: 'de_facto_official',
+                    },
+                    en: { _populationPercent: '95' },
+                })[0],
+                'a ranked language',
+            ).id,
         ).toBe('es');
     });
 
     test('a language official in one region only does not name the country', () => {
         expect(
-            rankRegionLanguages({
-                en: { _populationPercent: '90' },
-                haw: {
-                    _populationPercent: '0.01',
-                    _officialStatus: 'official_regional',
-                },
-            })[0].id,
+            must(
+                rankRegionLanguages({
+                    en: { _populationPercent: '90' },
+                    haw: {
+                        _populationPercent: '0.01',
+                        _officialStatus: 'official_regional',
+                    },
+                })[0],
+                'a ranked language',
+            ).id,
         ).toBe('en');
     });
 
     test('with nothing official, the most spoken language names it', () => {
         expect(
-            rankRegionLanguages({
-                a: { _populationPercent: '10' },
-                b: { _populationPercent: '80' },
-            })[0].id,
+            must(
+                rankRegionLanguages({
+                    a: { _populationPercent: '10' },
+                    b: { _populationPercent: '80' },
+                })[0],
+                'a ranked language',
+            ).id,
         ).toBe('b');
     });
 

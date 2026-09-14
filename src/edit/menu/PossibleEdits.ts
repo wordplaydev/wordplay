@@ -356,7 +356,8 @@ export function getEditsAt(
 
             const programField =
                 source.expression.expression.getFieldNamed('statements');
-            if (programField) {
+            const index = caret.getIndex();
+            if (programField && index !== undefined) {
                 edits = [
                     ...edits,
                     ...programField.kind
@@ -377,7 +378,7 @@ export function getEditsAt(
                                     (insertion) =>
                                         new Append(
                                             context,
-                                            caret.position as number,
+                                            index,
                                             source.expression.expression,
                                             source.expression.expression
                                                 .statements,
@@ -448,9 +449,7 @@ function getFieldAssignments(fieldPosition: FieldPosition, edit: EditContext) {
             fieldValue.length === 0 ||
             (index ?? 1) === 0
                 ? (context.source.getFieldPosition(parent, field) ?? 0)
-                : (context.source.getNodeLastPosition(
-                      fieldValue[(index ?? 1) - 1],
-                  ) ?? 0);
+                : (lastPositionOf(context, fieldValue[(index ?? 1) - 1]) ?? 0);
 
         for (const kind of fieldInfo.kind.enumerate()) {
             if (kind !== undefined)
@@ -1208,5 +1207,15 @@ type WildcardSym =
     | 'end';
 
 function isWildcardSymbol(sym: SymType): sym is WildcardSym {
-    return (WildcardSymbols as ReadonlySet<SymType>).has(sym);
+    return WildcardSymbols.has(sym);
+}
+
+/** A node's last position in its source, or undefined when there is no node. */
+function lastPositionOf(
+    context: Context,
+    node: Node | undefined,
+): number | undefined {
+    return node === undefined
+        ? undefined
+        : context.source.getNodeLastPosition(node);
 }

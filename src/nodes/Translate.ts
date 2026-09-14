@@ -153,11 +153,13 @@ export default class Translate extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Translate(
-            this.replaceChild('expression', this.expression, replace),
-            this.replaceChild('translate', this.translate, replace),
-            this.replaceChild('translation', this.translation, replace),
-        ) as this;
+        return this.cloned(
+            new Translate(
+                this.replaceChild('expression', this.expression, replace),
+                this.replaceChild('translate', this.translate, replace),
+                this.replaceChild('translation', this.translation, replace),
+            ),
+        );
     }
 
     /** The type of `.` (This) inside the translation body: the element/value/row type of the left collection. */
@@ -247,12 +249,13 @@ export default class Translate extends Expression {
                 if (!(stored instanceof TranslateInternal))
                     return new ValueException(evaluator, this);
                 const state = stored.value;
-                if (state.index >= state.items.length) {
+                const item = state.items[state.index];
+                if (item === undefined) {
                     // Skip the body and the accumulate step, landing on Finish.
                     evaluator.jump(length + 1);
                     return undefined;
                 }
-                evaluator.bind(PROPERTY_SYMBOL, state.items[state.index]);
+                evaluator.bind(PROPERTY_SYMBOL, item);
                 return undefined;
             }),
             // The body, evaluated with `.` bound to the current item.

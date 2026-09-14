@@ -1,6 +1,6 @@
 import type ConceptIndex from '@concepts/ConceptIndex';
 import { isTourID } from '@components/project/tours';
-import { HowToIDs, type HowToID } from '@concepts/HowTo';
+import { isHowToID } from '@concepts/HowTo';
 import type Conflict from '@conflicts/Conflict';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import DefaultLocale from '@locale/DefaultLocale';
@@ -210,9 +210,11 @@ export class GlossaryName {
 
 export class CharacterName {
     readonly username: string;
-    readonly name: string;
+    /** Undefined for a bare `@username` reference, which `isBroken` reports:
+     *  a character is looked up as `username/charactername`. */
+    readonly name: string | undefined;
 
-    constructor(username: string, name: string) {
+    constructor(username: string, name: string | undefined) {
         this.username = username;
         this.name = name;
     }
@@ -294,7 +296,12 @@ export default class ConceptLink extends Content {
         // Classification below is by the first segment, not the separator, so
         // either separator resolves; authored content uses `.` for concepts.
         const [concept, property] = name.split(/[./]/);
-        if (concept.toLowerCase() === 'ui') return new UIName(property);
+        // Splitting a string always yields a first part; nothing to classify
+        // without one.
+        if (concept === undefined) return undefined;
+        // Only with an id, for the same reason as `tour` and `how` below.
+        if (concept.toLowerCase() === 'ui' && property !== undefined)
+            return new UIName(property);
         // Only with an id, for the same reason as `how` below: a bare `@tour`
         // should stay available as an ordinary word.
         if (concept.toLowerCase() === 'tour' && property !== undefined)
@@ -387,10 +394,7 @@ export default class ConceptLink extends Content {
         // glossary term (`how` → "how-to"). Accept a valid how-to id OR, falling
         // back to the link's literal name, a glossary term.
         if (concept instanceof HowToName)
-            return (
-                HowToIDs.includes(concept.name as HowToID) ||
-                this.getName() in locale.glossary
-            );
+            return isHowToID(concept.name) || this.getName() in locale.glossary;
         if (concept instanceof GlossaryName)
             return concept.id in locale.glossary;
 
@@ -420,9 +424,11 @@ export default class ConceptLink extends Content {
     }
 
     clone(replace?: Replacement | undefined): this {
-        return new ConceptLink(
-            this.replaceChild('concept', this.concept, replace),
-        ) as this;
+        return this.cloned(
+            new ConceptLink(
+                this.replaceChild('concept', this.concept, replace),
+            ),
+        );
     }
 
     getPurpose() {

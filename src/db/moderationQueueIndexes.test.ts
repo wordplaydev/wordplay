@@ -51,15 +51,17 @@ test.each(QueueIndexes)(
         ).indexes;
 
         expect(
-            indexes.some(
-                (index) =>
+            indexes.some((index) => {
+                const [first, second] = index.fields;
+                return (
                     index.collectionGroup === collection &&
                     index.fields.length === 2 &&
-                    index.fields[0].fieldPath === 'moderation' &&
-                    index.fields[0].order === 'ASCENDING' &&
-                    index.fields[1].fieldPath === field &&
-                    index.fields[1].order === order,
-            ),
+                    first?.fieldPath === 'moderation' &&
+                    first?.order === 'ASCENDING' &&
+                    second?.fieldPath === field &&
+                    second?.order === order
+                );
+            }),
             `firestore.indexes.json needs ${collection} (moderation ASC, ${field} ${order === 'ASCENDING' ? 'ASC' : 'DESC'})`,
         ).toBe(true);
     },

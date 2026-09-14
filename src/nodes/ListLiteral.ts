@@ -55,11 +55,7 @@ export default class ListLiteral extends CompositeLiteral {
     }
 
     static make(values?: (Expression | Spread)[]) {
-        return new ListLiteral(
-            new ListOpenToken(),
-            values ?? [],
-            new ListCloseToken(),
-        );
+        return new ListLiteral(ListOpenToken(), values ?? [], ListCloseToken());
     }
 
     static getPossibleReplacements({ node }: ReplaceContext) {
@@ -133,12 +129,14 @@ export default class ListLiteral extends CompositeLiteral {
     }
 
     clone(replace?: Replacement) {
-        return new ListLiteral(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('values', this.values, replace),
-            this.replaceChild('close', this.close, replace),
-            this.replaceChild('literal', this.literal, replace),
-        ) as this;
+        return this.cloned(
+            new ListLiteral(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('values', this.values, replace),
+                this.replaceChild('close', this.close, replace),
+                this.replaceChild('literal', this.literal, replace),
+            ),
+        );
     }
 
     getPurpose() {
@@ -207,9 +205,7 @@ export default class ListLiteral extends CompositeLiteral {
 
     computeConflicts(): Conflict[] {
         if (this.close === undefined)
-            return [
-                new UnclosedDelimiter(this, this.open, new ListCloseToken()),
-            ];
+            return [new UnclosedDelimiter(this, this.open, ListCloseToken())];
 
         return [];
     }
@@ -259,12 +255,16 @@ export default class ListLiteral extends CompositeLiteral {
                 if (value instanceof RangeValue) {
                     const list = value.toList(this, evaluator);
                     if (!(list instanceof ListValue)) return list;
-                    for (let j = list.values.length - 1; j >= 0; j--)
-                        values.unshift(list.values[j]);
+                    for (let j = list.values.length - 1; j >= 0; j--) {
+                        const item = list.values[j];
+                        if (item !== undefined) values.unshift(item);
+                    }
                 } else if (value instanceof ListValue) {
                     // Add them in reverse order so they end up in the correct order.
-                    for (let j = value.values.length - 1; j >= 0; j--)
-                        values.unshift(value.values[j]);
+                    for (let j = value.values.length - 1; j >= 0; j--) {
+                        const item = value.values[j];
+                        if (item !== undefined) values.unshift(item);
+                    }
                 } else
                     return new TypeException(
                         this,

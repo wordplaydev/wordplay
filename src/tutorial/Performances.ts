@@ -1,4 +1,5 @@
 import type { TemplateReference } from './Tutorial';
+import { includesString, keysOf } from '@util/nullable';
 
 /**
  * The named programs a tutorial performance can reference as `#Name args`.
@@ -526,6 +527,13 @@ background:Color(0% 0 0°))
 
 export type PerformanceName = keyof typeof Performances;
 
+const PerformanceNames = keysOf(Performances);
+
+/** Whether tutorial text names a performance template. */
+export function isPerformanceName(name: string): name is PerformanceName {
+    return includesString(PerformanceNames, name);
+}
+
 /**
  * The templates that build their own `Stage` and so take the theme source as a
  * final argument. Everything else gets the theme appended from outside; see
@@ -561,18 +569,15 @@ export function performanceSource(
     if (typeof code === 'string')
         return theme === undefined ? code : `${code}\n\n${theme}`;
 
-    const template = Performances[code.name as PerformanceName];
-    if (template === undefined) return '';
+    if (!isPerformanceName(code.name)) return '';
+    // Every template takes some prefix of its inputs as text; a tutorial
+    // line supplies them as a list, so the template is called as one.
+    const template: (...inputs: string[]) => string = Performances[code.name];
 
     // A Stage-building template places the theme itself, as its last argument.
     if (StageTemplates.has(code.name))
-        return (template as (...inputs: string[]) => string)(
-            ...code.inputs,
-            theme ?? '',
-        );
+        return template(...code.inputs, theme ?? '');
 
-    const source = (template as (...inputs: string[]) => string)(
-        ...code.inputs,
-    );
+    const source = template(...code.inputs);
     return theme === undefined ? source : `${source}\n\n${theme}`;
 }

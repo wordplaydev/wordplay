@@ -20,12 +20,14 @@
 // `generateEmojisForLocale` is also called in-process by the translation pipeline
 // (start.ts) so a translate/override run produces a locale's emojis too.
 import { existsSync, mkdirSync, readFileSync } from 'fs';
+import { isRecord, isStringArray } from '@util/guards';
 import path from 'path';
 import { getCLDRCandidates } from '@locale/LanguageCode';
 import { getLocaleLanguage, getLocaleRegions } from '@locale/LocaleText';
 import { SupportedLocales } from '@locale/SupportedLocales';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import Log from '@util/verify-locales/Log';
+import { must } from '@util/nullable';
 
 /** This script's feedback, shaped like the rest of the locale tooling. */
 const log: Log = new Log(false);
@@ -57,9 +59,9 @@ function readEmojiCodes(): EmojiCode[] {
         // cols: [hex sequence, general category, script, group?, subgroup?].
         // There is no character name here; `category` is only a last-resort
         // label (real names come from CLDR or en-US-emojis.json).
-        const cols = line.split(';');
-        if (cols.length < 4 || !cols[3]) continue;
-        entries.push({ key: cols[0].trim(), name: cols[1].trim() });
+        const [key, name, , group] = line.split(';');
+        if (key === undefined || name === undefined || !group) continue;
+        entries.push({ key: key.trim(), name: name.trim() });
     }
     emojiCodesCache = entries;
     return entries;
@@ -111,11 +113,17 @@ function parseAnnotations(xml: string | null): CLDRMap {
     const typeRe = /\btype="([^"]+)"/;
     let m: RegExpExecArray | null;
     while ((m = re.exec(xml)) !== null) {
-        const cpMatch = cpRe.exec(m[1]);
+        // None of these patterns' groups are optional.
+        const attributes = must(m[1], 'annotation attributes');
+        const cpMatch = cpRe.exec(attributes);
         if (!cpMatch) continue;
-        const cp = stripVariationSelectors(decodeXMLEntities(cpMatch[1]));
-        const isTTS = typeRe.exec(m[1])?.[1] === 'tts';
-        const value = decodeXMLEntities(m[2]).trim();
+        const cp = stripVariationSelectors(
+            decodeXMLEntities(must(cpMatch[1], 'a codepoint attribute')),
+        );
+        const isTTS = typeRe.exec(attributes)?.[1] === 'tts';
+        const value = decodeXMLEntities(
+            must(m[2], 'annotation content'),
+        ).trim();
         const entry = map.get(cp) ?? {};
         if (isTTS) entry.tts = value;
         else
@@ -235,8 +243,18 @@ async function loadEnglish(): Promise<CLDRMap> {
 function loadEnglishNames(): Record<string, string[]> {
     if (englishNamesCache) return englishNamesCache;
     const file = path.join('static', 'locales', 'en-US', 'en-US-emojis.json');
-    englishNamesCache = existsSync(file)
-        ? (JSON.parse(readFileSync(file, 'utf8')) as Record<string, string[]>)
+    const parsed: unknown = existsSync(file)
+        ? JSON.parse(readFileSync(file, 'utf8'))
+        : {};
+    // Only entries shaped as name lists count; the file is generated, so
+    // anything else is a defect worth surfacing as a missing name.
+    englishNamesCache = isRecord(parsed)
+        ? Object.fromEntries(
+              Object.entries(parsed).filter(
+                  (entry): entry is [string, string[]] =>
+                      isStringArray(entry[1]),
+              ),
+          )
         : {};
     return englishNamesCache;
 }

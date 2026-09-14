@@ -59,8 +59,7 @@ export default function resolveDerivedLanguage(
         // method call, e.g. `x` in `x.f(y)`), and the first input is the other
         // operand. getSubjectType is undefined unless fun is a PropertyReference.
         leftType = op.fun.getSubjectType(context);
-        rightType =
-            op.inputs.length > 0 ? op.inputs[0].getType(context) : undefined;
+        rightType = op.inputs[0]?.getType(context);
     }
     return deriver(
         languageOf(leftType, context),

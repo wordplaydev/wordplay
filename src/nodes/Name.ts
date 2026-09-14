@@ -46,7 +46,7 @@ export default class Name extends LanguageTagged {
     }
 
     static make(name?: string, lang?: Language) {
-        return new Name(new NameToken(name ?? '_'), lang, undefined);
+        return new Name(NameToken(name ?? '_'), lang, undefined);
     }
 
     getDescriptor(): NodeDescriptor {
@@ -70,11 +70,13 @@ export default class Name extends LanguageTagged {
     }
 
     clone(replace?: Replacement) {
-        return new Name(
-            this.replaceChild('name', this.name, replace),
-            this.replaceChild('language', this.language, replace),
-            this.replaceChild('separator', this.separator, replace),
-        ) as this;
+        return this.cloned(
+            new Name(
+                this.replaceChild('name', this.name, replace),
+                this.replaceChild('language', this.language, replace),
+                this.replaceChild('separator', this.separator, replace),
+            ),
+        );
     }
 
     /** Doesn't ever make sense to replace a Name with an empty name. */
@@ -178,7 +180,7 @@ export default class Name extends LanguageTagged {
     }
 
     withName(name: string) {
-        return new Name(new NameToken(name), this.language, this.separator);
+        return new Name(NameToken(name), this.language, this.separator);
     }
 
     startsWith(prefix: string) {

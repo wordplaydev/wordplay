@@ -50,9 +50,11 @@ export default class PatternSequence extends PatternNode {
     }
 
     clone(replace?: Replacement) {
-        return new PatternSequence(
-            this.replaceChild('parts', this.parts, replace),
-        ) as this;
+        return this.cloned(
+            new PatternSequence(
+                this.replaceChild('parts', this.parts, replace),
+            ),
+        );
     }
 
     computeConflicts(): Conflict[] {

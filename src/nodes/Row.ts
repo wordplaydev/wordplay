@@ -88,11 +88,13 @@ export default class Row extends Node {
     }
 
     clone(replace?: Replacement) {
-        return new Row(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('cells', this.cells, replace),
-            this.replaceChild('close', this.close, replace),
-        ) as this;
+        return this.cloned(
+            new Row(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('cells', this.cells, replace),
+                this.replaceChild('close', this.close, replace),
+            ),
+        );
     }
 
     getPurpose() {
@@ -158,8 +160,7 @@ export function getRowFromValues(
         evaluator.getCurrentEvaluation(),
     );
 
-    for (let c = 0; c < table.columns.length; c++) {
-        const column = table.columns[c];
+    for (const column of table.columns) {
         const cell = values.shift();
         if (cell instanceof ExceptionValue) return cell;
         if (cell === undefined) return new ValueException(evaluator, creator);

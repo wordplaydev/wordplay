@@ -15,12 +15,13 @@
  */
 
 import chalk from 'chalk';
+import { includesString } from '@util/nullable';
 import { readFileSync, writeFileSync } from 'fs';
 import importMIDI, {
     isFormatError,
 } from '../../src/output/Music/midi/importMIDI';
 import type { Finding } from '../../src/output/Music/midi/convert';
-import { ScaleKeys, type ScaleKey } from '../../src/output/Music/scales';
+import { ScaleKeys } from '../../src/output/Music/scales';
 
 /** Turn a finding into a sentence. English lives here, not in the core. */
 function describe(finding: Finding): { text: string; bad: boolean } {
@@ -96,8 +97,12 @@ function option(name: string): string | undefined {
 }
 
 const scaleName = option('scale');
-if (scaleName !== undefined && !ScaleKeys.includes(scaleName as ScaleKey))
+if (scaleName !== undefined && !includesString(ScaleKeys, scaleName))
     fail(`I don't know the scale "${scaleName}". Try: ${ScaleKeys.join(', ')}`);
+const scale =
+    scaleName !== undefined && includesString(ScaleKeys, scaleName)
+        ? scaleName
+        : undefined;
 
 const keyText = option('key');
 const key = keyText === undefined ? undefined : Number(keyText);
@@ -113,7 +118,7 @@ try {
 
 try {
     const result = importMIDI(bytes, {
-        scale: scaleName as ScaleKey | undefined,
+        scale,
         key,
         name: option('name'),
     });

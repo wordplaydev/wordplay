@@ -587,9 +587,13 @@ export default class Physics {
             // If the shapes changed update them in the world.
             if (
                 this.previousShapes.length !== shapes.length ||
-                !this.previousShapes.every((shape, index) =>
-                    shape.value.isEqualTo(shapes[index].value),
-                )
+                !this.previousShapes.every((shape, index) => {
+                    const other = shapes[index];
+                    return (
+                        other !== undefined &&
+                        shape.value.isEqualTo(other.value)
+                    );
+                })
             ) {
                 // Barriers need Rapier too; load on demand and skip this
                 // frame until it's ready (same gate as moving output above).
@@ -791,9 +795,15 @@ export default class Physics {
 
             let direction = { x: 0, y: 0 };
             if (started) {
-                const collider1 = world.getCollider(handle1);
-                const collider2 = world.getCollider(handle2);
-                if (collider1 && collider2) {
+                // Typed as always present, but Rapier answers undefined for a
+                // handle whose collider was removed since the step began.
+                const collider1:
+                    ReturnType<typeof world.getCollider> | undefined =
+                    world.getCollider(handle1);
+                const collider2:
+                    ReturnType<typeof world.getCollider> | undefined =
+                    world.getCollider(handle2);
+                if (collider1 !== undefined && collider2 !== undefined) {
                     // Prefer the contact manifold normal (solid contacts).
                     let normal: { x: number; y: number } | undefined;
                     world.contactPair(

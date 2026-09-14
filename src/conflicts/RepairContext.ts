@@ -13,6 +13,16 @@ import type Definition from '@nodes/Definition';
  * UnparsableConflict.getResolutions so the layered repair algorithm can consult it
  * without re-walking ancestors per candidate.
  */
+/** The tokens a node could not parse, for the two node types that carry them.
+ *  Structural rather than an import: both of those import this module's
+ *  conflicts, so naming them here would make a cycle. */
+function unparsablesOf(node: Node): Token[] {
+    const unparsables: unknown = Reflect.get(node, 'unparsables');
+    return Array.isArray(unparsables)
+        ? unparsables.filter((token): token is Token => token instanceof Token)
+        : [];
+}
+
 export default class RepairContext {
     /** The unparsable node itself. */
     readonly unparsable: UnparsableExpression | UnparsableType;
@@ -97,9 +107,9 @@ export default class RepairContext {
         return new RepairContext(
             unparsable,
             context,
-            // UnparsableExpression and UnparsableType both expose `unparsables`
-            // (this field is duck-typed to avoid an import cycle).
-            (unparsable as unknown as { unparsables: Token[] }).unparsables,
+            // UnparsableExpression and UnparsableType both expose
+            // `unparsables`; read structurally to avoid an import cycle.
+            unparsablesOf(unparsable),
             parentField,
             parentKind,
             expectedType,

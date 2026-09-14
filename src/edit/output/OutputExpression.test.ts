@@ -5,6 +5,7 @@ import Evaluate from '@nodes/Evaluate';
 import Source from '@nodes/Source';
 import OutputExpression from '@edit/output/OutputExpression';
 import { makesSequence } from '@output/animation/Sequence';
+import { first, last, must } from '@util/nullable';
 import { expect, test } from 'vitest';
 
 /** The last Evaluate in the source — the animation expression in each case below. */
@@ -13,7 +14,11 @@ function lastEvaluate(code: string) {
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     project.analyze();
     const evaluates = source.nodes((n): n is Evaluate => n instanceof Evaluate);
-    return { project, evaluate: evaluates[evaluates.length - 1], source };
+    return {
+        project,
+        evaluate: must(last(evaluates), 'an Evaluate in the source'),
+        source,
+    };
 }
 
 // The palette decides what editor to show by asking what an Evaluate is. A predefined
@@ -64,6 +69,9 @@ test('a Say is editable output with its text to edit', () => {
             .getEditableProperties()
             .map((property) => property.getName(DefaultLocales)),
     ).toEqual([
-        DefaultLocales.getName(project.shares.output.Say.inputs[0].names),
+        DefaultLocales.getName(
+            must(first(project.shares.output.Say.inputs), "Say's text input")
+                .names,
+        ),
     ]);
 });

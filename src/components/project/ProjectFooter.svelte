@@ -300,7 +300,7 @@
         {@const sourceIndex = i - addSourceOffset}
         {@const source = sources[sourceIndex]}
         {@const tile = layout.getTileWithID(Layout.getSourceID(sourceIndex))}
-        {#if tile}
+        {#if tile && source !== undefined}
             {#if sourceIndex === 0}
                 <span data-uiid="sourceToggle">
                     <SourceTileToggle
@@ -474,7 +474,10 @@
                     ? ProjectModeIcons
                     : ProjectModeViewIcons}
                 choice={ProjectModes.indexOf(mode)}
-                select={(index) => setMode(ProjectModes[index])}
+                select={(index) => {
+                    const chosen = ProjectModes[index];
+                    if (chosen !== undefined) setMode(chosen);
+                }}
                 labeled={false}
                 modeLabels={false}
             />

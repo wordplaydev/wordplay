@@ -1,4 +1,5 @@
 import type Refer from '@edit/revision/Refer';
+import { toResolutions } from '@conflicts/Conflict';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
@@ -12,7 +13,6 @@ import Conflict, {
     ConflictSeverity,
     type Explainer,
     type Repair,
-    type Resolution,
     type Resolutions,
 } from '@conflicts/Conflict';
 import { LanguagesDialogID } from '@components/widgets/dialogIDs';
@@ -72,10 +72,14 @@ export class UnknownName extends Conflict {
             names.splice(maxNames);
 
             for (let i = names.length - 1; i >= 0; i--) {
-                const currName: string =
-                    names[i].definition.names.names[0].name.text.text;
+                // A suggestion with no name of its own can't be compared.
+                const currName =
+                    names[i]?.definition.names.names[0]?.name.text.text;
 
-                if (levenshtein(userInput, currName) > 1) {
+                if (
+                    currName === undefined ||
+                    levenshtein(userInput, currName) > 1
+                ) {
                     names.splice(i, 1);
                 }
             }
@@ -116,9 +120,10 @@ export class UnknownName extends Conflict {
 
         // No similar name in scope? Fall back to the synthesised explainer
         // (re-states the primary message and focuses the offending name).
-        return all.length === 0
-            ? Conflict.fallbackExplainer(this, context, concepts)
-            : (all as readonly Resolution[] as Resolutions);
+        return (
+            toResolutions(all) ??
+            Conflict.fallbackExplainer(this, context, concepts)
+        );
     }
 
     /**

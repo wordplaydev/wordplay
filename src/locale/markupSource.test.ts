@@ -9,6 +9,7 @@ import Markup from '@nodes/Markup';
 import { parseFormattedLiteral } from '@parser/parseExpression';
 import { toTokens } from '@parser/toTokens';
 import { describe, expect, test } from 'vitest';
+import { must } from '@util/nullable';
 
 const pathOf = (markup: Markup | undefined) =>
     markup?.source === undefined
@@ -80,7 +81,9 @@ describe('everything else reports nothing, so it can never be edited as locale t
 
     test("creator content: a program's own formatted literal", () => {
         const literal = parseFormattedLiteral(toTokens('`hello *there*`'));
-        expect(literal.texts[0].markup.source).toBeUndefined();
+        expect(
+            must(literal.texts[0], 'a literal text').markup.source,
+        ).toBeUndefined();
     });
 });
 
@@ -115,7 +118,9 @@ describe('callers that resolve their own template hand the accessor over', () =>
 
     test("a built-in's docs name theirs, and keep it through Docs.getMarkup", () => {
         const docs = getDocLocales(DefaultLocales, (l) => l.basis.Number.doc);
-        expect(pathOf(docs.docs[0].markup)).toBe('basis.Number.doc');
+        expect(pathOf(must(docs.docs[0], 'a doc').markup)).toBe(
+            'basis.Number.doc',
+        );
         // getMarkup re-concretizes each doc with no inputs on the way out, which is the step
         // that would drop the origin if concretize didn't carry it.
         expect(pathOf(docs.getMarkup(DefaultLocales)[0])).toBe(

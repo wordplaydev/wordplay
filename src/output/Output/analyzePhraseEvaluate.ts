@@ -1,8 +1,4 @@
-import {
-    Faces,
-    faceSupportsWeight,
-    type SupportedFace,
-} from '@basis/faces/Fonts';
+import { Faces, faceSupportsWeight } from '@basis/faces/Fonts';
 import UnsupportedFontFormat from '@conflicts/UnsupportedFontFormat';
 import type Conflict from '@conflicts/Conflict';
 import type Context from '@nodes/Context';
@@ -10,6 +6,7 @@ import type Evaluate from '@nodes/Evaluate';
 import TextLiteral from '@nodes/TextLiteral';
 import Words from '@nodes/Words';
 import FormattedLiteral from '@nodes/FormattedLiteral';
+import { must } from '@util/nullable';
 
 /**
  * Static analysis: warn when a @Phrase's markup requests a weight or italic
@@ -23,9 +20,16 @@ export default function analyzePhraseEvaluate(
     const project = context.project;
     const Phrase = project.shares.output.Phrase;
 
-    // Phrase.inputs = [text, size, face, ...] — see createPhraseType.
-    const textInput = evaluate.getInput(Phrase.inputs[0], context);
-    const faceInput = evaluate.getInput(Phrase.inputs[2], context);
+    // Phrase.inputs = [text, size, face, ...] — see createPhraseType, which is
+    // what guarantees the basis structure declares these three.
+    const textInput = evaluate.getInput(
+        must(Phrase.inputs[0], "Phrase's text input"),
+        context,
+    );
+    const faceInput = evaluate.getInput(
+        must(Phrase.inputs[2], "Phrase's face input"),
+        context,
+    );
 
     // We can only diagnose when text is a FormattedLiteral and face is a TextLiteral.
     if (!(textInput instanceof FormattedLiteral)) return [];
@@ -36,9 +40,7 @@ export default function analyzePhraseEvaluate(
         .text.trim();
     if (faceName === '') return [];
 
-    const face = (Faces as Record<string, (typeof Faces)[SupportedFace]>)[
-        faceName
-    ];
+    const face = Faces[faceName];
     if (face === undefined) return [];
 
     const locales = project.basis.locales;

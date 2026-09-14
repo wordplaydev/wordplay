@@ -14,6 +14,7 @@
  */
 
 import type { Database } from '@db/Database';
+import { includesString } from '@util/nullable';
 import type Project from '@db/projects/Project';
 import { Projects } from '@db/projects/Projects';
 import { getFormAnchor, translateFormTo } from '@edit/output/editShape';
@@ -41,6 +42,7 @@ import {
     createPlaceholderPhrase,
     getStage,
 } from '@components/palette/editOutput';
+import { must } from '@util/nullable';
 
 /** The kinds of content the toolbar can add. */
 export type InsertKind =
@@ -53,7 +55,7 @@ export const FormKinds = ['rectangle', 'circle', 'polygon', 'path'] as const;
 export type FormKind = (typeof FormKinds)[number];
 
 export function isFormKind(kind: InsertKind): kind is FormKind {
-    return (FormKinds as readonly string[]).includes(kind);
+    return includesString(FormKinds, kind);
 }
 
 /** How far below existing content a newly added output lands, in metres. */
@@ -96,8 +98,8 @@ export function insertionPoint(
     selected: Evaluate[],
     kind: InsertKind,
 ): InsertionPoint {
-    const list =
-        selected.length > 0 ? listHolding(project, selected[0]) : undefined;
+    const first = selected[0];
+    const list = first === undefined ? undefined : listHolding(project, first);
     if (list !== undefined && listAccepts(project, list.container, kind))
         return list;
 
@@ -105,7 +107,8 @@ export function insertionPoint(
     const stage = getStage(project);
     if (stage !== undefined) {
         const content = stage.getInput(
-            project.shares.output.Stage.inputs[0],
+            // The basis declares Stage's content input.
+            must(project.shares.output.Stage.inputs[0], "Stage's content"),
             project.getNodeContext(stage),
         );
         if (content instanceof ListLiteral)
@@ -145,7 +148,8 @@ function arranges(project: Project, container: Evaluate | undefined): boolean {
     const context = project.getNodeContext(container);
     if (!container.is(project.shares.output.Group, context)) return false;
     const layout = container.getInput(
-        project.shares.output.Group.inputs[0],
+        // The basis declares Group's layout input.
+        must(project.shares.output.Group.inputs[0], "Group's layout"),
         context,
     );
     return !(
@@ -235,7 +239,8 @@ export function contentBoxes(
 /** A @Phrase's `place` input — the one `movedOutput` writes when a drag moves
  *  a phrase, so an added place and a dragged one are the same input. */
 function PlaceInput(project: Project) {
-    return project.shares.output.Phrase.inputs[3];
+    // The basis declares Phrase's place input.
+    return must(project.shares.output.Phrase.inputs[3], "Phrase's place input");
 }
 
 /** A `Place(x y 0m)` expression. */
@@ -257,6 +262,16 @@ function round(n: number) {
     return Math.round(n * 100) / 100;
 }
 
+/** A zig-zag rather than a straight line, so the shape a path makes is legible
+ *  the moment it appears and every point is somewhere different to drag. */
+const PathPoints: [x: number, y: number][] = [
+    [-2, 0],
+    [-1, 1],
+    [0, 0],
+    [1, 1],
+    [2, 0],
+];
+
 /** The Form evaluate a given form button makes, at the origin. */
 function formFor(project: Project, locales: Locales, kind: FormKind): Evaluate {
     const output = project.shares.output;
@@ -271,17 +286,9 @@ function formFor(project: Project, locales: Locales, kind: FormKind): Evaluate {
         : kind === 'circle'
           ? Evaluate.make(output.Circle.getReference(locales), [m(1)])
           : kind === 'path'
-            ? // A zig-zag rather than a straight line, so the shape a path makes is legible
-              // the moment it appears and every point is somewhere different to drag.
-              Evaluate.make(output.Path.getReference(locales), [
+            ? Evaluate.make(output.Path.getReference(locales), [
                   ListLiteral.make(
-                      [
-                          [-2, 0],
-                          [-1, 1],
-                          [0, 0],
-                          [1, 1],
-                          [2, 0],
-                      ].map(([x, y]) =>
+                      PathPoints.map(([x, y]) =>
                           Evaluate.make(output.Place.getReference(locales), [
                               m(x),
                               m(y),
@@ -665,7 +672,9 @@ export function removeOutput(
 
     // What each removed output was standing in front of, and the space it stood
     // in. Gathered before the revision, while those tokens are still reachable.
-    const source = project.getSourceOf(removable[0]);
+    const source = project.getSourceOf(
+        must(removable[0], 'a removable output'),
+    );
     const vacated: { next: Token; space: string }[] = [];
     if (source !== undefined) {
         const spaces = source.getSpaces();
@@ -817,7 +826,9 @@ export function groupSelection(
 ): Insertion | undefined {
     if (groupProblem(project, selected) !== undefined) return undefined;
 
-    const container = containerOf(project, selected[0]);
+    const first = selected[0];
+    const container =
+        first === undefined ? undefined : containerOf(project, first);
     if (container === undefined) return undefined;
 
     const chosen = new Set<Node>(selected);

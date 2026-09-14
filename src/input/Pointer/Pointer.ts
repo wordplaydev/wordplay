@@ -16,20 +16,27 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import type Type from '@nodes/Type';
 import createStreamEvaluator from '@input/createStreamEvaluator';
 import type { StreamKind } from '@values/StreamValue';
+import { must } from '@util/nullable';
 
 function position(evaluator: Evaluator, x: number, y: number) {
     const PlaceType = evaluator.project.shares.output.Place;
+    // The basis declares Place with exactly these three inputs.
+    const [xInput, yInput, zInput] = [
+        must(PlaceType.inputs[0], "Place's x input"),
+        must(PlaceType.inputs[1], "Place's y input"),
+        must(PlaceType.inputs[2], "Place's z input"),
+    ];
     const bindings = new Map<Names, Value>();
     bindings.set(
-        PlaceType.inputs[0].names,
+        xInput.names,
         new NumberValue(evaluator.getMain(), x, Unit.reuse(['m'])),
     );
     bindings.set(
-        PlaceType.inputs[1].names,
+        yInput.names,
         new NumberValue(evaluator.getMain(), y, Unit.reuse(['m'])),
     );
     bindings.set(
-        PlaceType.inputs[2].names,
+        zInput.names,
         new NumberValue(evaluator.getMain(), 0, Unit.reuse(['m'])),
     );
     return createStructure(evaluator, PlaceType, bindings);

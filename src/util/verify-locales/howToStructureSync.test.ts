@@ -65,7 +65,7 @@ test.skipIf(!HowToCoverageIsFatal).each(Locales)(
  */
 test('no exemption outlives the defect it was written for', () => {
     const stale = CoverageExemptions.filter((entry) => {
-        const [locale, id] = entry.split('/');
+        const [locale = '', id = ''] = entry.split('/');
         return (
             howTosBehindEnglish(
                 EnglishDir,

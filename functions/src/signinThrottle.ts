@@ -1,4 +1,5 @@
 import { createHash } from 'crypto';
+import { isRecord } from './shared/guards.js';
 import { getFirestore } from 'firebase-admin/firestore';
 
 /**
@@ -30,6 +31,16 @@ const Hour = 60 * 60 * 1000;
 const Day = 24 * Hour;
 
 export type ThrottleRecord = { v: 1; sent: number[] };
+
+/** Whether a stored document is a throttle record. */
+export function isThrottleRecord(value: unknown): value is ThrottleRecord {
+    return (
+        isRecord(value) &&
+        value.v === 1 &&
+        Array.isArray(value.sent) &&
+        value.sent.every((at) => typeof at === 'number')
+    );
+}
 
 function key(kind: 'e' | 'i', value: string, pepper: string): string {
     return `${kind}:${createHash('sha256')
@@ -74,10 +85,13 @@ async function bump(
     const document = getFirestore().collection(ThrottleCollection).doc(id);
     return getFirestore().runTransaction(async (transaction) => {
         const snapshot = await transaction.get(document);
-        const stored = snapshot.data() as ThrottleRecord | undefined;
+        const stored = snapshot.data();
         // Trimmed to a day on every write, so the array can't grow without
-        // bound for an address someone keeps hammering.
-        const sent = (stored?.sent ?? []).filter((at) => now - at < Day);
+        // bound for an address someone keeps hammering. A record that can't
+        // be read starts over, which only ever loosens the throttle by a day.
+        const sent = (isThrottleRecord(stored) ? stored.sent : []).filter(
+            (at) => now - at < Day,
+        );
         for (const [window, limit] of caps)
             if (within(sent, now, window) >= limit) return false;
         transaction.set(document, {

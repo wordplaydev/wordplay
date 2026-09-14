@@ -57,14 +57,18 @@ const SeparateWords = /[A-Z-_](?=[a-z0-9]+)|[A-Z-_]+(?![a-z0-9])/g;
  * FormattedTranslation render the same way the original source-parsed one
  * does. Same pattern as the source-level `getPreferredSpaces` call below.
  */
-function withFormattedMarkupSpaces<T extends Doc | FormattedTranslation>(
-    node: T,
-): T {
+function withFormattedMarkupSpaces(node: Doc): Doc;
+function withFormattedMarkupSpaces(
+    node: FormattedTranslation,
+): FormattedTranslation;
+function withFormattedMarkupSpaces(
+    node: Doc | FormattedTranslation,
+): Doc | FormattedTranslation {
     const inner = node.markup;
     return node.replace(
         inner,
         new Markup(inner.paragraphs, getPreferredSpaces(inner)),
-    ) as T;
+    );
 }
 
 /**
@@ -729,8 +733,10 @@ export default async function translateProjectContent(
 
             translationsBySource = new Map();
             groupList.forEach((group, index) => {
+                // Promise.all preserves groupList's order and length, so this is
+                // only ever null — the bucket the backend declined.
                 const translations = results[index];
-                if (translations === null) return;
+                if (translations === null || translations === undefined) return;
                 const byOriginal = new Map<string, string>();
                 group.originals.forEach((original, at) => {
                     const translated = translations[at];

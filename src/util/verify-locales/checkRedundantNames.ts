@@ -9,6 +9,7 @@ import { docStatus } from '@util/verify-locales/checkStringArrays';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import type Log from '@util/verify-locales/Log';
 import { leadingAnnotations } from '@util/verify-locales/protect';
+import { must } from '@util/nullable';
 
 /**
  * Drop the names a locale only repeats from en-US.
@@ -41,17 +42,15 @@ export default function checkRedundantNames(
     target: LocaleText,
     fix: boolean,
 ): LocaleText {
-    const revised = fix
-        ? (JSON.parse(JSON.stringify(target)) as LocaleText)
-        : target;
+    const revised = fix ? structuredClone(target) : target;
 
     let redundant = 0;
     for (const pair of getKeyTemplatePairs(revised)) {
         const segments = [...pair.path, pair.key];
         if (!isNameTextPath(segments)) continue;
         // Only lists of aliases: a lone name has nothing to fall back on in this file.
-        if (!Array.isArray(pair.value)) continue;
-        const values = pair.value as string[];
+        const values = pair.value;
+        if (!Array.isArray(values)) continue;
 
         const sourceValue = pair.resolve(source);
         const sourceNames = new Set(
@@ -118,7 +117,8 @@ function removeRepeatedNames(target: LocaleText, fix: boolean): number {
         )
             continue;
 
-        const values = pair.value as string[];
+        const values = pair.value;
+        if (!Array.isArray(values)) continue;
         const kept: string[] = [];
         const at = new Map<string, number>();
         for (const value of values) {
@@ -131,11 +131,13 @@ function removeRepeatedNames(target: LocaleText, fix: boolean): number {
             }
             // The survivor keeps the more urgent of the two statuses, since a string has
             // exactly one and dropping a `$?` would claim work nobody has done.
+            // `at` holds indices into `kept`, so this name is already there.
+            const survivor = must(kept[first], 'a kept name');
             const status = docStatus([
-                leadingAnnotations(kept[first]),
+                leadingAnnotations(survivor),
                 leadingAnnotations(value),
             ]);
-            kept[first] = status + withoutAnnotations(kept[first]);
+            kept[first] = status + withoutAnnotations(survivor);
             repeated++;
         }
         if (fix && kept.length !== values.length) pair.repair(target, kept);

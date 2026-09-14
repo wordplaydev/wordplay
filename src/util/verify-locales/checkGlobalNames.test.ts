@@ -16,7 +16,7 @@ test('en-US has no global-name collisions', () => {
 });
 
 test('two distinct globals collapsed into one name fail', () => {
-    const broken = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const broken = structuredClone(DefaultLocale);
     // Give Group the same names as Phrase — distinct concepts, same name.
     broken.output.Group.names = broken.output.Phrase.names;
     const bads = runCheck(broken);
@@ -24,7 +24,7 @@ test('two distinct globals collapsed into one name fail', () => {
 });
 
 test('two distinct animations collapsed into one name fail', () => {
-    const broken = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const broken = structuredClone(DefaultLocale);
     // Give rotateout the same names as rotatein — distinct concepts, same name. They're
     // statics on Sequence now, so only the static check catches this.
     broken.output.Sequence.animations.rotateout.names =

@@ -118,11 +118,13 @@ export default class Update extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Update(
-            this.replaceChild('table', this.table, replace),
-            this.replaceChild('row', this.row, replace),
-            this.replaceChild('query', this.query, replace),
-        ) as this;
+        return this.cloned(
+            new Update(
+                this.replaceChild('table', this.table, replace),
+                this.replaceChild('row', this.row, replace),
+                this.replaceChild('query', this.query, replace),
+            ),
+        );
     }
 
     getPurpose() {
@@ -355,7 +357,9 @@ export default class Update extends Expression {
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
-        const { table, rows } = getIterationResult<UpdateState>(evaluator);
+        const state = getIterationResult<UpdateState>(evaluator);
+        if (state === undefined) return new ValueException(evaluator, this);
+        const { table, rows } = state;
         return new TableValue(this, table.type, rows);
     }
 

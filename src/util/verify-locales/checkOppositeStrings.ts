@@ -132,10 +132,11 @@ function oppositeKey(
     positive: string,
     negative: string,
 ): string | undefined {
-    for (const [from, to] of [
+    const conventions: [string, string][] = [
         [positive, negative],
         [positive.toLowerCase(), negative.toLowerCase()],
-    ]) {
+    ];
+    for (const [from, to] of conventions) {
         if (key === from) return to;
         if (key.length > from.length && key.endsWith(from))
             return key.slice(0, -from.length) + to;
@@ -148,9 +149,7 @@ export default function checkOppositeStrings(
     target: LocaleText,
     fix: boolean,
 ): LocaleText {
-    const revised = fix
-        ? (JSON.parse(JSON.stringify(target)) as LocaleText)
-        : target;
+    const revised = fix ? structuredClone(target) : target;
 
     const collisions: string[] = [];
     for (const { first, second, convention } of getOppositeStrings()) {

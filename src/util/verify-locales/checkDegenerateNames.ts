@@ -4,6 +4,7 @@ import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { isNameTextPath } from '@util/verify-locales/classifyLocalePath';
 import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import type Log from '@util/verify-locales/Log';
+import { must } from '@util/nullable';
 
 /**
  * Drop the names a translator garbled rather than translated.
@@ -44,12 +45,15 @@ function isSymbolic(name: string): boolean {
 
 function repeatsASymbol(name: string): string | undefined {
     const characters = [...name];
-    for (let i = 0; i < characters.length - 1; i++)
+    for (const [i, character] of characters.entries()) {
+        const next = characters[i + 1];
         if (
-            characters[i] === characters[i + 1] &&
-            SymbolCategories.test(characters[i])
+            next !== undefined &&
+            character === next &&
+            SymbolCategories.test(character)
         )
-            return characters[i];
+            return character;
+    }
     return undefined;
 }
 
@@ -74,9 +78,7 @@ export default function checkDegenerateNames(
     target: LocaleText,
     fix: boolean,
 ): LocaleText {
-    const revised = fix
-        ? (JSON.parse(JSON.stringify(target)) as LocaleText)
-        : target;
+    const revised = fix ? structuredClone(target) : target;
 
     let garbled = 0;
     for (const pair of getKeyTemplatePairs(revised)) {
@@ -106,7 +108,7 @@ export default function checkDegenerateNames(
 
         for (const [index, why] of bad)
             log.bad(
-                `"${withoutAnnotations(values[index])}" at ${pair.toString()} doesn't look translated: ${why}. It was probably garbled while being translated from the en-US name.`,
+                `"${withoutAnnotations(must(values[index], 'a name value'))}" at ${pair.toString()} doesn't look translated: ${why}. It was probably garbled while being translated from the en-US name.`,
             );
         garbled += bad.size;
 

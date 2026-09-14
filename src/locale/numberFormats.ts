@@ -157,7 +157,7 @@ export function substituteDigitsForLocale(
 export function formatNumberForLocale(numeric: string, locale: Locale): string {
     const negative = numeric.startsWith('-');
     const magnitude = negative ? numeric.slice(1) : numeric;
-    const [integer, fraction] = magnitude.split('.');
+    const [integer = '', fraction] = magnitude.split('.');
 
     const format = formatFor(locale);
     const groupedInteger = group(integer, format.group, format.style);

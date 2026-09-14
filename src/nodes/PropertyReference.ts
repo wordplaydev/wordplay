@@ -41,6 +41,19 @@ import TypeVariable from '@nodes/TypeVariable';
 import UnionType from '@nodes/UnionType';
 import UnknownNameType from '@nodes/UnknownNameType';
 
+/** The definition a property reference's subject type names, if the subject
+ *  is a structure. Read once, so the narrowing survives the second use. */
+function subjectDefinition(
+    reference: PropertyReference,
+    context: Context,
+    name: string,
+) {
+    const subject = reference.getSubjectType(context);
+    return subject instanceof StructureType
+        ? subject.getDefinition(name)
+        : undefined;
+}
+
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
     readonly dot: Token;
@@ -172,11 +185,13 @@ export default class PropertyReference extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new PropertyReference(
-            this.replaceChild('structure', this.structure, replace),
-            this.replaceChild('dot', this.dot, replace),
-            this.replaceChild('name', this.name, replace),
-        ) as this;
+        return this.cloned(
+            new PropertyReference(
+                this.replaceChild('structure', this.structure, replace),
+                this.replaceChild('dot', this.dot, replace),
+                this.replaceChild('name', this.name, replace),
+            ),
+        );
     }
 
     getPurpose() {
@@ -263,9 +278,11 @@ export default class PropertyReference extends Expression {
                     bindType instanceof TypeVariable &&
                     subjectType instanceof StructureType
                 ) {
-                    const typeInput = subjectType.resolveTypeVariable(
-                        bindType.getNames()[0],
-                    );
+                    const bindTypeName = bindType.getNames()[0];
+                    const typeInput =
+                        bindTypeName === undefined
+                            ? undefined
+                            : subjectType.resolveTypeVariable(bindTypeName);
                     if (typeInput) type = typeInput;
                 }
             }
@@ -287,11 +304,8 @@ export default class PropertyReference extends Expression {
                         // The candidate node is also a PropertyReference
                         n instanceof PropertyReference &&
                         // It refers to the same definition as this reference's name.
-                        n.getSubjectType(context) instanceof StructureType &&
                         def ===
-                            (
-                                n.getSubjectType(context) as StructureType
-                            ).getDefinition(this.name.getName())
+                            subjectDefinition(n, context, this.name.getName())
                     ) {
                         return guardsTypesAround(n, context);
                     } else return false;

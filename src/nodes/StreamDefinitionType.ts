@@ -53,7 +53,7 @@ export default class StreamDefinitionType extends Type {
     }
 
     clone() {
-        return new StreamDefinitionType(this.definition) as this;
+        return this.cloned(new StreamDefinitionType(this.definition));
     }
 
     /** Mirror StreamType */

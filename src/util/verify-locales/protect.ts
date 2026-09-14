@@ -27,6 +27,7 @@ import {
 import { DOCS_SYMBOL } from '@parser/Symbols';
 import { ExternalExamplePattern } from '@parser/Tokenizer';
 import type Log from '@util/verify-locales/Log';
+import { last, matchGroups, must } from '@util/nullable';
 
 /** Wrap each `$name` mention in a `<span translate="no">` so Google Translate
  *  preserves it verbatim. Returns the wrapped string. The negative lookbehind
@@ -84,7 +85,8 @@ export function splitMarkupAndCode(
     // external example. Only BMP delimiters are compared, so iterating UTF-16
     // units rather than code points changes nothing.
     for (let index = 0; index < text.length; index++) {
-        const c = text[index];
+        // The loop condition keeps `index` inside the text.
+        const c = must(text[index], 'a character');
         if (stack.length === 0) {
             if (c === '\\') {
                 // An external example (`\py| a = 5\js| let a = 5;\`) is tag-first
@@ -109,7 +111,8 @@ export function splitMarkupAndCode(
             continue;
         }
         buffer += c;
-        const top = stack[stack.length - 1];
+        // An empty stack is handled above, so there is always a frame here.
+        const top = must(last(stack), 'a context frame');
         if (top.kind === 'code') {
             if (c === '\\') {
                 stack.pop();
@@ -120,8 +123,10 @@ export function splitMarkupAndCode(
                     buffer = '';
                 }
             } else if (c === DOCS_SYMBOL) stack.push({ kind: 'doc' });
-            else if (TextCloseByTextOpen[c] !== undefined)
-                stack.push({ kind: 'text', close: TextCloseByTextOpen[c] });
+            else {
+                const close = TextCloseByTextOpen[c];
+                if (close !== undefined) stack.push({ kind: 'text', close });
+            }
         } else if (top.kind === 'doc') {
             // A `¶…¶` doc is prose, so an apostrophe in it is an apostrophe, not a
             // delimiter — the rule `hasUnclosedText` already applies. A doc can still
@@ -244,12 +249,17 @@ export function repairMentionsPositional(
     // classes cover script-specific punctuation like Arabic comma `،`,
     // Chinese 。, etc.
     const looseRe = /(?<!\$)\$[^\s\p{P}\p{S}]+/gu;
-    const afterMentions = Array.from(after.matchAll(looseRe)).map((m) => m[0]);
+    const afterMentions = Array.from(after.matchAll(looseRe)).map(
+        (m) => matchGroups(m)[0],
+    );
     if (afterMentions.length !== sourceMentions.length) return after;
     // If every mention already matches the source order, nothing to do.
     if (afterMentions.every((m, i) => m === sourceMentions[i])) return after;
     let i = 0;
-    return after.replace(looseRe, () => sourceMentions[i++]);
+    // One replacement per match, and the two mention lists are the same length.
+    return after.replace(looseRe, () =>
+        must(sourceMentions[i++], 'a source mention'),
+    );
 }
 
 /**
@@ -615,8 +625,11 @@ export function mismatchedWebLinks(
 ): string | undefined {
     const tally = (text: string) => {
         const counts = new Map<string, number>();
-        for (const [, , url] of text.matchAll(WebLinkPattern))
-            counts.set(url, (counts.get(url) ?? 0) + 1);
+        // Neither of the pattern's groups is optional.
+        for (const [, , url] of text.matchAll(WebLinkPattern)) {
+            const target = must(url, 'a web link target');
+            counts.set(target, (counts.get(target) ?? 0) + 1);
+        }
         return counts;
     };
     const before = tally(source);
@@ -667,9 +680,9 @@ export function restoreReferences(
 
     // Restore all concepts in the after string.
     const mapping = new Map<string, string>();
-    for (let index = 0; index < afterConceptLinks.length; index++) {
+    for (const link of afterConceptLinks) {
         // Get the matching text and index.
-        const afterText = afterConceptLinks[index][0];
+        const afterText = must(link[0], 'a concept link');
 
         // Is the text in the list of before concepts? Assume it was preserved and keep it.
         if (beforeSet.has(afterText)) continue;

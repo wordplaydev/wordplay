@@ -87,10 +87,12 @@ export default class UnaryEvaluate extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new UnaryEvaluate(
-            this.replaceChild('fun', this.fun, replace),
-            this.replaceChild('input', this.input, replace),
-        ) as this;
+        return this.cloned(
+            new UnaryEvaluate(
+                this.replaceChild('fun', this.fun, replace),
+                this.replaceChild('input', this.input, replace),
+            ),
+        );
     }
 
     getOperator() {
@@ -162,9 +164,11 @@ export default class UnaryEvaluate extends Expression {
                     ),
                 );
         } else if (fun.getRequiredInputs().length > 0) {
-            conflicts.push(
-                new MissingInput(fun, this, this.input, fun.inputs[0]),
-            );
+            const missing = fun.inputs[0];
+            if (missing !== undefined)
+                conflicts.push(
+                    new MissingInput(fun, this, this.input, missing),
+                );
         }
         return conflicts;
     }

@@ -88,8 +88,8 @@ export default function readMusic(
     const context = project.getNodeContext(evaluate);
     if (evaluate.getFunction(context) !== shares.Music) return undefined;
 
-    const given = (bind: Bind) => oneInput(evaluate, bind, context);
-    const inputs = shares.Music.inputs;
+    const given = (bind: Bind | undefined) =>
+        bind === undefined ? undefined : oneInput(evaluate, bind, context);
     const [
         tracksBind,
         tempoBind,
@@ -100,7 +100,7 @@ export default function readMusic(
         pauseBind,
         nameBind,
         descriptionBind,
-    ] = inputs;
+    ] = shares.Music.inputs;
 
     const scale = readScale(project, given(scaleBind)) ?? Scales.major;
     const key = getNumber(given(keyBind) ?? NumberLiteral.make(0)) ?? 0;
@@ -237,7 +237,8 @@ function readTrack(
     musicKey: number,
 ): EditableTrack {
     const context = project.getNodeContext(evaluate);
-    const given = (bind: Bind) => oneInput(evaluate, bind, context);
+    const given = (bind: Bind | undefined) =>
+        bind === undefined ? undefined : oneInput(evaluate, bind, context);
     const [
         notesBind,
         instrumentBind,

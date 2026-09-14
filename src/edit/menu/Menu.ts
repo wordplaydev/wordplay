@@ -1,4 +1,5 @@
 import type ConceptIndex from '@concepts/ConceptIndex';
+import { keysOf } from '@util/nullable';
 import { Purpose, type PurposeType } from '@concepts/Purpose';
 import { UnitCategories } from '@basis/UnitConversions';
 import getUnitGroup, { type UnitGroup } from '@edit/menu/unitCategory';
@@ -157,7 +158,7 @@ export default class Menu {
             // Make a sorted array of the revision sets. A set with no group comes first within
             // its purpose, so the number suggestions lead and the unit categories follow in the
             // order the conversion table declares them.
-            const groupOrder = Object.keys(UnitCategories) as UnitGroup[];
+            const groupOrder: readonly string[] = keysOf(UnitCategories);
             const rank = (group: UnitGroup | undefined) =>
                 group === undefined
                     ? -1
@@ -234,7 +235,9 @@ export default class Menu {
     getRevisionList(): (Revision | RevisionSet)[] {
         const [index, subindex] = this.selection;
         const submenu = this.organization[index];
-        return submenu instanceof Revision || subindex === undefined
+        return submenu === undefined ||
+            submenu instanceof Revision ||
+            subindex === undefined
             ? this.organization
             : submenu.revisions;
     }
@@ -260,7 +263,7 @@ export default class Menu {
         return submenu instanceof Revision ||
             (submenu instanceof RevisionSet && subindex === undefined)
             ? submenu
-            : subindex !== undefined
+            : submenu !== undefined && subindex !== undefined
               ? submenu.revisions[subindex]
               : undefined;
     }

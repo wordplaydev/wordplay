@@ -4,9 +4,10 @@ import { getAllDeclaredInputNames } from '@locale/templateInputs';
 import checkTerms from '@util/verify-locales/checkTerms';
 import { collectingLog } from '@util/verify-locales/Log';
 import { expect, test } from 'vitest';
+import { must } from '@util/nullable';
 
 function localeWithTerms(terms: Record<string, string>): LocaleText {
-    const copy = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const copy = structuredClone(DefaultLocale);
     copy.terms = terms;
     return copy;
 }
@@ -40,7 +41,10 @@ test('a key that is not a valid identifier fails', () => {
 
 test('a key that collides with a template input name fails', () => {
     // Pick a real declared input name; a $name reference to it would be ambiguous.
-    const anInputName = [...getAllDeclaredInputNames()][0];
+    const anInputName = must(
+        [...getAllDeclaredInputNames()][0],
+        'a declared input name',
+    );
     expect(anInputName).toBeDefined();
     expect(errorsFor({ [anInputName]: 'whatever' })).toBeGreaterThan(0);
 });

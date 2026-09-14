@@ -61,19 +61,19 @@ test('only a glossary term’s forms may be replaced as a whole list', () => {
 test('a list creates the forms key a locale has never had', () => {
     const json = locale();
     setAtPath(json, 'glossary.parameter.forms', undefined, ['paramètres']);
-    expect(json.glossary.parameter.forms).toEqual(['paramètres']);
+    expect(json.glossary.parameter!.forms).toEqual(['paramètres']);
 });
 
 test('an empty list removes the key, as the verifier’s own repair would', () => {
     const json = locale();
     setAtPath(json, 'glossary.value.forms', undefined, []);
-    expect('forms' in json.glossary.value).toBe(false);
+    expect('forms' in json.glossary.value!).toBe(false);
 });
 
 test('entries are trimmed on the way in', () => {
     const json = locale();
     setAtPath(json, 'glossary.parameter.forms', undefined, [' paramètres ']);
-    expect(json.glossary.parameter.forms).toEqual(['paramètres']);
+    expect(json.glossary.parameter!.forms).toEqual(['paramètres']);
 });
 
 test('a list is refused anywhere a locale does not own the list', () => {
@@ -120,7 +120,7 @@ test('a term the locale does not have is refused rather than created', () => {
 test('a string edit still behaves exactly as before', () => {
     const json = locale();
     setAtPath(json, 'glossary.parameter.word', undefined, 'paramètre!');
-    expect(json.glossary.parameter.word).toBe('paramètre!');
+    expect(json.glossary.parameter!.word).toBe('paramètre!');
     setAtPath(json, 'ui.page.localize.tabs.labels', 1, 'Texte');
     expect(json.ui.page.localize.tabs.labels[1]).toBe('Texte');
     // Out of bounds still fails the whole bundle, so an appended element can't

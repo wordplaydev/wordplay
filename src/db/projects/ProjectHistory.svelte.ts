@@ -1,6 +1,7 @@
 import type LocalesDatabase from '@db/locales/LocalesDatabase';
 import type { SerializedProject } from '@db/projects/ProjectSchemas';
 import Project from '@db/projects/Project';
+import { must } from '@util/nullable';
 
 // Remember this many project edits.
 const PROJECT_HISTORY_LIMIT = 1000;
@@ -41,8 +42,8 @@ export class ProjectHistory {
     /** The id of the project being tracked */
     readonly id: string;
 
-    /** A Svelte state of the current version of the project. The little ! indicates that it can't be undefined. */
-    private current: Project = $state.raw()!;
+    /** A Svelte state of the current version of the project, assigned in the constructor. */
+    private current: Project;
     /**
      * Previous versions of the project.
      * It always contains the current version of the project and is therefore never empty.
@@ -83,7 +84,7 @@ export class ProjectHistory {
         locales: LocalesDatabase,
     ) {
         this.id = project.getID();
-        this.current = project;
+        this.current = $state.raw(project);
         this.history.push(project.serialize());
         this.index = 0;
         this.persist = persist;
@@ -175,7 +176,8 @@ export class ProjectHistory {
 
         const newProject: Project = await Project.deserialize(
             this.locales,
-            this.history[this.index],
+            // The two guards above keep the index inside the history.
+            must(this.history[this.index], 'a project in the history'),
         );
 
         // Change the current project to the historical project. Bump

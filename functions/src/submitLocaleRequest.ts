@@ -15,6 +15,8 @@
  */
 
 import { HttpsError, onCall } from 'firebase-functions/v2/https';
+import { isRecord } from './shared/guards.js';
+import { githubHeaders, hasHtmlUrl } from './github.js';
 import { noProxy } from './proxyGuard.js';
 
 const REPO_OWNER = 'wordplaydev';
@@ -55,13 +57,7 @@ async function githubFetch(
 ): Promise<unknown> {
     const response = await fetch(url, {
         ...options,
-        headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/vnd.github+json',
-            'X-GitHub-Api-Version': '2022-11-28',
-            'Content-Type': 'application/json',
-            ...(options?.headers as Record<string, string> | undefined),
-        },
+        headers: githubHeaders(token, options?.headers),
     });
     if (!response.ok) {
         const text = await response.text();
@@ -82,12 +78,6 @@ function nameOf(type: 'language' | 'region', code: string): string {
 
 /** An issue this repo's own request form created, as the issues endpoint returns it.
  *  `pull_request` is present only on pull requests, which that endpoint also lists. */
-type IssueSummary = {
-    title?: unknown;
-    html_url?: unknown;
-    pull_request?: unknown;
-};
-
 /**
  * The URL of an existing request for this locale, if there is one. We match on the
  * parenthesized locale code the title already carries rather than the language name,
@@ -111,8 +101,8 @@ async function findExistingRequest(
             `${GITHUB_BASE}/issues?state=all&labels=localization,request&per_page=100&page=${page}`,
         );
         if (!Array.isArray(issues) || issues.length === 0) return undefined;
-        for (const issue of issues as IssueSummary[]) {
-            if (issue.pull_request !== undefined) continue;
+        for (const issue of issues) {
+            if (!isRecord(issue) || issue.pull_request !== undefined) continue;
             if (
                 typeof issue.title === 'string' &&
                 issue.title.includes(`(${locale})`) &&
@@ -247,14 +237,16 @@ export const submitLocaleRequest = onCall<
         if (existing !== undefined)
             return { issueUrl: existing, existing: true };
 
-        const issue = (await githubFetch(token, `${GITHUB_BASE}/issues`, {
+        const issue = await githubFetch(token, `${GITHUB_BASE}/issues`, {
             method: 'POST',
             body: JSON.stringify({
                 title,
                 body,
                 labels: ['localization', 'request'],
             }),
-        })) as { html_url: string };
+        });
+        if (!hasHtmlUrl(issue))
+            throw new HttpsError('internal', 'The issue has no URL');
 
         return { issueUrl: issue.html_url };
     }),

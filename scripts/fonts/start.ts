@@ -11,6 +11,7 @@ import {
 } from './verify';
 import { spaceless } from './files';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
+import { must } from '@util/nullable.ts';
 
 /**
  * Font tooling dispatcher, mirroring the locales verify/fix pattern:
@@ -87,7 +88,7 @@ async function download(): Promise<void> {
         fs.mkdirSync(dir, { recursive: true });
         let i = 0;
         for (const m of css.matchAll(/src:\s*url\(([^)]+)\)/g)) {
-            const font = await fetch(m[1], {
+            const font = await fetch(must(m[1], 'a font url'), {
                 headers: { 'User-Agent': CHROME_UA },
             });
             const bytes = Buffer.from(await font.arrayBuffer());

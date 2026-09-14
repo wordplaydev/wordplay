@@ -22,6 +22,7 @@ import createStreamEvaluator from '@input/createStreamEvaluator';
 import PermissionException from '@values/PermissionException';
 import { denyConsent, Permission } from '@input/permissions';
 import type { StreamKind } from '@values/StreamValue';
+import { first, must } from '@util/nullable';
 
 // Types for Web Speech API (browser compatibility handling)
 // The Web Speech API is *NOT* fully typed in TypeScript's lib.dom.d.ts
@@ -205,7 +206,8 @@ export default class Speech extends StreamValue<TextValue, string> {
     // This makes errors visible on stage in the user's language
     // Modeled after Webpage
     private reactError(errorKey: SpeechError) {
-        const localeText = this.evaluator.getLocales()[0];
+        // `getLocales` always ends with the default locale.
+        const localeText = must(first(this.evaluator.getLocales()), 'a locale');
         const message = SpeechErrors[errorKey](localeText);
         this.react(message);
     }
@@ -245,9 +247,11 @@ export default class Speech extends StreamValue<TextValue, string> {
                 const resultIndex = event.resultIndex;
 
                 // Get the transcript from the most recent result
-                if (results[resultIndex] && results[resultIndex].isFinal) {
-                    const transcript =
-                        results[resultIndex][0].transcript.trim();
+                const result = results[resultIndex];
+                // A final result always carries at least one alternative.
+                const best = result === undefined ? undefined : result[0];
+                if (result && result.isFinal && best !== undefined) {
+                    const transcript = best.transcript.trim();
                     if (transcript) {
                         // Only reset retry count after a successful result,
                         // not on start — prevents infinite retry loops on flaky connections

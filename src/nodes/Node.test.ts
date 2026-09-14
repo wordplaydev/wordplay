@@ -3,11 +3,14 @@ import parseExpression from '@parser/parseExpression';
 import { toTokens } from '@parser/toTokens';
 import Bind from '@nodes/Bind';
 import Doc from '@nodes/Doc';
+import NameToken from '@nodes/NameToken';
 import Language from '@nodes/Language';
 import type Node from '@nodes/Node';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Reference from '@nodes/Reference';
+import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
+import { must } from '@util/nullable';
 
 test.each([
     '1',
@@ -63,8 +66,32 @@ test.each([
         const oldNode =
             typeof type === 'string'
                 ? type
-                : expr.nodes((s): s is Node => s instanceof type)[number];
+                : must(
+                      expr.nodes((s): s is Node => s instanceof type)[number],
+                      `a node of the given type at ${number}`,
+                  );
         const newExpr = expr.replace(oldNode, newNode);
         expect(newExpr.isEqualTo(expected)).toBeTruthy();
     },
 );
+
+test('a name token survives a deep clone as a name token', () => {
+    // Tokens are constructed by factories rather than subclasses, so a clone
+    // is the same kind of thing it was made as; a subclass would have been
+    // cloned into a plain Token and lost its identity (see NameToken).
+    const cloned = NameToken('_').clone();
+    expect(cloned.isSymbol(Sym.Name) && cloned.getText() === '_').toBe(true);
+});
+
+test('a clone that builds the wrong class is refused', () => {
+    class Miscloned extends NumberLiteral {
+        override clone(): this {
+            return this.cloned(NumberLiteral.make('1'));
+        }
+    }
+    const node = new Miscloned(
+        NumberLiteral.make('2').number,
+        NumberLiteral.make('2').unit,
+    );
+    expect(() => node.clone()).toThrow(/clone\(\) built/);
+});

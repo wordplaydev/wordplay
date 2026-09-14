@@ -61,7 +61,7 @@ test.each([
 
 /** A Locales reading in the given language, for plural selection. */
 function localesFor(language: LanguageCode): Locales {
-    const locale = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const locale: LocaleText = structuredClone(DefaultLocale);
     locale.language = language;
     return new Locales(concretize, [locale], DefaultLocale);
 }
@@ -155,7 +155,7 @@ test('an unwritten marker with content renders the content, not TBD', () => {
 });
 
 test('a $term word-list reference is expanded to its per-locale phrase', () => {
-    const locale = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const locale: LocaleText = structuredClone(DefaultLocale);
     locale.terms = { program: 'project' };
     const locales = new Locales(concretize, [locale], locale);
     // The term expands, and a real input still substitutes alongside it.
@@ -167,7 +167,7 @@ test('a $term word-list reference is expanded to its per-locale phrase', () => {
 });
 
 test('a Unicode-key $term is expanded end-to-end', () => {
-    const locale = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const locale: LocaleText = structuredClone(DefaultLocale);
     locale.terms = { café: 'Kaffee' };
     const locales = new Locales(concretize, [locale], locale);
     expect(locales.concretize('Ein $café, bitte').toText()).toBe(

@@ -1,4 +1,5 @@
 import Setting from '@db/settings/Setting';
+import { includesString } from '@util/nullable';
 
 export type BlockDensity = 'compact' | 'normal' | 'spacious';
 
@@ -9,8 +10,8 @@ export const BlockDensitySetting = new Setting<BlockDensity>(
     true,
     'normal',
     (value) =>
-        typeof value === 'string' && (Densities as string[]).includes(value)
-            ? (value as BlockDensity)
+        typeof value === 'string' && includesString(Densities, value)
+            ? value
             : 'normal',
     (current, value) => current === value,
 );

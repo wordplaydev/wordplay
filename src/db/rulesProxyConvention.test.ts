@@ -1,3 +1,4 @@
+import { matchGroups, must } from '@util/nullable';
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
 
@@ -23,18 +24,21 @@ const Writes = ['create', 'update', 'delete', 'write'];
 function allows(): { verbs: string[]; body: string; line: number }[] {
     const lines = Rules.split('\n');
     const found: { verbs: string[]; body: string; line: number }[] = [];
-    for (let at = 0; at < lines.length; at++) {
+    for (const [at, line] of lines.entries()) {
         // The `if` may sit on the next line — `allow update:` in `projects`
         // does, which is how the first draft of this test missed the single
         // most important write rule in the file while reporting success. Match
         // the verbs alone and let the statement run to its semicolon.
-        const match = /^\s*allow ([a-z, ]+):(\s*if\s|\s*$)/.exec(lines[at]);
+        const match = /^\s*allow ([a-z, ]+):(\s*if\s|\s*$)/.exec(line);
         if (match === null) continue;
         // A statement runs to its terminating semicolon, and plenty span lines.
         let end = at;
-        while (end < lines.length && !lines[end].includes(';')) end++;
+        while (end < lines.length && lines[end]?.includes(';') === false) end++;
         found.push({
-            verbs: match[1].split(',').map((verb) => verb.trim()),
+            // The verb group is mandatory, so a match always carries it.
+            verbs: must(matchGroups(match)[1], 'the verbs of an allow')
+                .split(',')
+                .map((verb) => verb.trim()),
             body: lines.slice(at, end + 1).join('\n'),
             line: at + 1,
         });

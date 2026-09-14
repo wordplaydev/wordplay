@@ -2,7 +2,7 @@ import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import type { CallableRequest } from 'firebase-functions/v2/https';
 import type { FindCreatorInputs, FindCreatorOutput } from 'shared-types';
-import { UsernameCollection, type Reservation } from './handles.js';
+import { UsernameCollection, isReservation } from './handles.js';
 import { foldUsername, usernameEmail } from './username.js';
 
 /**
@@ -30,8 +30,9 @@ export default async function findCreator(
             .collection(UsernameCollection)
             .doc(foldUsername(text))
             .get()
-    ).data() as Reservation | undefined;
-    if (reservation?.uid != null) return { uid: reservation.uid };
+    ).data();
+    if (isReservation(reservation) && reservation.uid !== null)
+        return { uid: reservation.uid };
 
     // Then the synthesized address, for accounts that predate handles, and
     // finally a real one.

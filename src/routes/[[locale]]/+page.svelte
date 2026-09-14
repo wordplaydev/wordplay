@@ -30,6 +30,7 @@
     import { Emotion } from '../../lore/Emotion';
     import Beta from './Beta.svelte';
     import FeatureSection from './FeatureSection.svelte';
+    import { must } from '@util/nullable';
     import Iconified from './Iconified.svelte';
     import date from './updates/date.json';
 
@@ -66,16 +67,19 @@
     let index = $state(0);
     let isHovering = $state(false);
 
-    const cycleGlyph = $derived(cycle[index % cycle.length].glyph);
+    // The index is taken modulo the cycle's own length, so it always names an entry.
+    const cycleGlyph = $derived(
+        must(cycle[index % cycle.length], 'a cycle entry').glyph,
+    );
     const rotatingLocale = $derived.by(() => {
         // The current entry's locale, or — during glyph-only entries — the
         // most recent one before it, so the chooser always names a language.
         for (let back = 0; back < cycle.length; back++) {
             const entry =
                 cycle[(index - back + cycle.length * 2) % cycle.length];
-            if (entry.locale !== undefined) return entry.locale;
+            if (entry?.locale !== undefined) return entry.locale;
         }
-        return SupportedLocales[0];
+        return must(SupportedLocales[0], 'a supported locale');
     });
     const rotatingLabel = $derived(getLocaleLanguageName(rotatingLocale));
 
@@ -202,7 +206,9 @@
         const overlap =
             HandoverOverlapEm * parseFloat(getComputedStyle(element).fontSize);
         const observer = new IntersectionObserver(
-            ([entry]) => (linksAway = !entry.isIntersecting),
+            ([entry]) =>
+                (linksAway =
+                    entry === undefined ? linksAway : !entry.isIntersecting),
             {
                 // The scroller, not the window: in localization mode the
                 // Localizer sits above `main`, so the window's top edge is not

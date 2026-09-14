@@ -9,6 +9,7 @@ import {
     rejectRewrite,
     scanCandidates,
 } from './condenseRules';
+import { must } from '@util/nullable.ts';
 
 describe('countSentences', () => {
     test('counts ordinary sentences', () => {
@@ -187,13 +188,14 @@ describe('scanCandidates', () => {
     test('takes only multi-sentence entries in dated releases', () => {
         const found = scanCandidates(file);
         expect(found).toHaveLength(1);
-        expect(found[0].version).toBe('0.35.0');
-        expect(found[0].emoji).toBe('🏫');
-        expect(found[0].body).toBe('Two sentences here. This is the second.');
+        const candidate = must(found[0], 'a candidate');
+        expect(candidate.version).toBe('0.35.0');
+        expect(candidate.emoji).toBe('🏫');
+        expect(candidate.body).toBe('Two sentences here. This is the second.');
     });
 
     test('records the line and the whole original, for the splice guard', () => {
-        const [found] = scanCandidates(file);
+        const found = must(scanCandidates(file)[0], 'a candidate');
         expect(found.line).toBe(7);
         expect(file[found.line]).toBe(found.original);
     });

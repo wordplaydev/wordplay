@@ -2,6 +2,7 @@ import DefaultLocales from '@locale/DefaultLocales';
 import evaluateCode from '@runtime/evaluate';
 import ListValue from '@values/ListValue';
 import type Value from '@values/Value';
+import { must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 import describeValueChange, {
     renderValueForSpeech,
@@ -16,7 +17,11 @@ function pair(code: string): [Value, Value] {
     const value = evaluateCode(code);
     if (!(value instanceof ListValue) || value.values.length !== 2)
         throw new Error(`Expected a two-element list from ${code}`);
-    return [value.values[0], value.values[1]];
+    // The length was just checked, so both are present.
+    return [
+        must(value.values[0], 'the first of the pair'),
+        must(value.values[1], 'the second of the pair'),
+    ];
 }
 
 /** What a screen reader would be told changed between the two. */

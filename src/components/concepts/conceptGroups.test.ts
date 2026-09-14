@@ -3,6 +3,7 @@ import {
     getConceptGroups,
 } from '@components/concepts/conceptGroups';
 import ConceptIndex from '@concepts/ConceptIndex';
+import { must } from '@util/nullable';
 import NodeConcept from '@concepts/NodeConcept';
 import { Purpose } from '@concepts/Purpose';
 import Project from '@db/projects/Project';
@@ -25,14 +26,14 @@ function project(code: string) {
 
 test('a list item can be recycled (removed outright)', () => {
     const { source, project: p } = project('[1 2 3]');
-    const item = source.find<NumberLiteral>(NumberLiteral);
+    const item = must(source.find(NumberLiteral), 'NumberLiteral');
     expect(canRecycleDraggedNode(p, [item])).toBe(true);
 });
 
 test('a required expression can be recycled (blanks to a placeholder)', () => {
     // Dragging the `1` out of `1 + 2` leaves `_ + 2` — a Minor placeholder conflict, not a rejection.
     const { source, project: p } = project('1 + 2');
-    const one = source.find<NumberLiteral>(NumberLiteral);
+    const one = must(source.find(NumberLiteral), 'NumberLiteral');
     expect(canRecycleDraggedNode(p, [one])).toBe(true);
 });
 
@@ -40,7 +41,7 @@ test('a removal that leaves an unknown name is still recyclable (semantic confli
     // Removing the binding `a: 1` leaves `a + 2` referencing an undefined name. That's a semantic
     // mistake the creator can repair in place — the removal is permitted and warned, not blocked.
     const { source, project: p } = project('a: 1\na + 2');
-    const bind = source.find<Bind>(Bind);
+    const bind = must(source.find(Bind), 'Bind');
     expect(canRecycleDraggedNode(p, [bind])).toBe(true);
 });
 

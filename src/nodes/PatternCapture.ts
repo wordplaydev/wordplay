@@ -42,11 +42,13 @@ export default class PatternCapture extends PatternNode {
     }
 
     clone(replace?: Replacement) {
-        return new PatternCapture(
-            this.replaceChild('name', this.name, replace),
-            this.replaceChild('bind', this.bind, replace),
-            this.replaceChild('atom', this.atom, replace),
-        ) as this;
+        return this.cloned(
+            new PatternCapture(
+                this.replaceChild('name', this.name, replace),
+                this.replaceChild('bind', this.bind, replace),
+                this.replaceChild('atom', this.atom, replace),
+            ),
+        );
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.PatternCapture;

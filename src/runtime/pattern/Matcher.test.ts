@@ -187,3 +187,33 @@ describe('case folding (locale-aware)', () => {
         expect(ev(code)).toBe(expected);
     });
 });
+
+/**
+ * A creator writes a pattern one character at a time, so the matcher meets a
+ * half-written alternation on almost every keystroke. `matchSeq` used to assert
+ * that the token beside a `|` was a pattern node; with nothing there it read
+ * `undefined` and the whole evaluation threw rather than reporting no match.
+ */
+describe('a half-written alternation matches nothing rather than crashing', () => {
+    test.each([
+        // A trailing `|` parses, with an empty operand on the right.
+        ['\'a\' ≈ ⣿"a" |⣿', '⊤'],
+        ['\'b\' ≈ ⣿"a" |⣿', '⊥'],
+        ['\'\' ≈ ⣿"a" |⣿', '⊥'],
+        ['\'a\' ≈ ⣿"a" | |⣿', '⊤'],
+    ])('%s is %s', (code, expected) => {
+        expect(() => evaluateCode(code)).not.toThrow();
+        expect(ev(code)).toBe(expected);
+    });
+
+    test.each([
+        // A leading `|` is refused by the parser, which is also fine: what must
+        // not happen is the matcher reading past the end of its own parts.
+        '\'a\' ≈ ⣿| "a"⣿',
+        '\'b\' ≈ ⣿| "a"⣿',
+        "'a' ≈ ⣿|⣿",
+    ])('%s is refused rather than crashing', (code) => {
+        expect(() => evaluateCode(code)).not.toThrow();
+        expect(ev(code)).toBe('!UnparsableException');
+    });
+});

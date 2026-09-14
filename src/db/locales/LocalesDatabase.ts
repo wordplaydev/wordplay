@@ -1,10 +1,13 @@
 import Fonts from '@basis/faces/Fonts';
+import { isSupportedLocale } from '@locale/SupportedLocales';
+import { isNonEmpty } from '@util/nullable';
+import { isRecord, isStringArray } from '@util/guards';
 import type HowTo from '@concepts/HowTo';
 import {
     bundleEntryToHowTo,
     HowToIDs,
     parseHowTo,
-    type HowToBundle,
+    isHowToBundle,
 } from '@concepts/HowTo';
 import type { Database } from '@db/Database';
 import { type Concretizer } from '@locale/concretize';
@@ -36,6 +39,16 @@ import versioned from '@db/locales/versioned';
 export type EmojiEntry = readonly [name: string, ...keywords: string[]];
 export type EmojiMap = Record<string, EmojiEntry>;
 
+/** Whether fetched JSON is an emoji map: every value a non-empty list of strings. */
+function isEmojiMap(data: unknown): data is EmojiMap {
+    return (
+        isRecord(data) &&
+        Object.values(data).every(
+            (entry) => isStringArray(entry) && isNonEmpty(entry),
+        )
+    );
+}
+
 /** A singleton cache of loaded locales */
 export default class LocalesDatabase {
     /** The concretizer */
@@ -60,13 +73,9 @@ export default class LocalesDatabase {
     readonly localesReady: Writable<boolean>;
 
     /** The locales loaded, loading, or failed to load. */
-    private localesLoaded: Record<
-        SupportedLocale,
-        LocaleText | Promise<LocaleText | undefined> | undefined
-    > = {} as Record<
-        SupportedLocale,
-        LocaleText | Promise<LocaleText | undefined> | undefined
-    >;
+    private localesLoaded: Partial<
+        Record<SupportedLocale, LocaleText | Promise<LocaleText | undefined>>
+    > = {};
 
     /** The setting for the locales */
     readonly setting: Setting<SupportedLocale[]>;
@@ -103,8 +112,9 @@ export default class LocalesDatabase {
         this.defaultLocale = defaultLocale;
 
         // Store the default locale
-        this.localesLoaded[localeToString(defaultLocale) as SupportedLocale] =
-            defaultLocale;
+        const defaultName = localeToString(defaultLocale);
+        if (isSupportedLocale(defaultName))
+            this.localesLoaded[defaultName] = defaultLocale;
 
         this.setting = setting;
 
@@ -182,7 +192,8 @@ export default class LocalesDatabase {
                     versioned(this.getHowToURL(locale)),
                 );
                 if (!response.ok) return undefined;
-                const bundle = (await response.json()) as HowToBundle;
+                const bundle: unknown = await response.json();
+                if (!isHowToBundle(bundle)) return undefined;
                 return bundle.map((entry) => bundleEntryToHowTo(entry));
             } catch (_) {
                 return undefined;
@@ -334,7 +345,9 @@ export default class LocalesDatabase {
     }
 
     getLocale(): LocaleText {
-        return this.getLocales()[0];
+        // Identical to getLocales()[0]: Locales.getLocales() always ends with the
+        // fallback, so its first element is exactly Locales.getLocale().
+        return this.getLocaleSet().getLocale();
     }
 
     private computeLocales(): LocaleText[] {
@@ -431,7 +444,8 @@ export default class LocalesDatabase {
                 const path = `/locales/${locale}/${locale}-emojis.json`;
                 const response = await fetch(path);
                 if (!response.ok) return undefined;
-                const data = (await response.json()) as EmojiMap;
+                const data: unknown = await response.json();
+                if (!isEmojiMap(data)) return undefined;
                 this.emojis.update((current) => ({
                     ...current,
                     [locale]: data,

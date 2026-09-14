@@ -1,4 +1,5 @@
 import type Locales from '@locale/Locales';
+import { includesString, must } from '@util/nullable';
 import { getFirstText } from '@locale/LocaleText';
 
 /** Cross-language color names anchored in LCH perceptual color space.
@@ -25,6 +26,12 @@ export const BCTKeys = [
     'pink',
 ] as const;
 export type BCTKey = (typeof BCTKeys)[number];
+
+/** Whether a name (from a bind, or a stored presence record) is a basic
+ *  color term. */
+export function isBCTKey(name: string): name is BCTKey {
+    return includesString(BCTKeys, name);
+}
 
 /** Focal LCH points (lightness 0–1, chroma 0–~150, hue 0–360°). Starting
  *  values calibrated against CSS named colors; tune by ear & eye over time. */
@@ -136,8 +143,9 @@ export function describeColor(
         (key) => [key, distance(l, c, hue, Focals[key])] as const,
     ).sort((a, b) => a[1] - b[1]);
 
-    const [closestKey, closestDist] = ranked[0];
-    const [secondKey, secondDist] = ranked[1];
+    // CHROMATIC has more than two entries, so both ranks exist.
+    const [closestKey, closestDist] = must(ranked[0], 'a closest focal');
+    const [secondKey, secondDist] = must(ranked[1], 'a second focal');
 
     const bcts: ColorDescription['bcts'] =
         secondDist <= closestDist * MIX_RATIO
@@ -169,9 +177,11 @@ export function renderColorDescription(
     const names = description.bcts.map((bct) =>
         getFirstText(colorEntries[bct].names),
     );
+    // A lone name is used as is; two or more are joined by the `mix` template.
+    const single = names.length === 1 ? names[0] : undefined;
     const joined =
-        names.length === 1
-            ? names[0]
+        single !== undefined
+            ? single
             : locales
                   .concretize((l) => l.output.Color.description.mix, {
                       first: names[0],

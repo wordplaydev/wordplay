@@ -53,7 +53,7 @@ export default class NameType extends Type {
             (kit === undefined
                 ? undefined
                 : new Token(PROPERTY_SYMBOL, Sym.Access));
-        this.name = typeof type === 'string' ? new NameToken(type) : type;
+        this.name = typeof type === 'string' ? NameToken(type) : type;
         this.types = types;
         this.definition = definition;
 
@@ -61,16 +61,16 @@ export default class NameType extends Type {
     }
 
     static make(name: string, definition?: Definition) {
-        return new NameType(new NameToken(name), undefined, definition);
+        return new NameType(NameToken(name), undefined, definition);
     }
 
     /** A name reached through a kit, e.g. `colors.Sprite`. */
     static qualified(kit: string, name: string, definition?: Definition) {
         return new NameType(
-            new NameToken(name),
+            NameToken(name),
             undefined,
             definition,
-            new NameToken(kit),
+            NameToken(kit),
         );
     }
 
@@ -127,13 +127,15 @@ export default class NameType extends Type {
     }
 
     clone(replace?: Replacement) {
-        return new NameType(
-            this.replaceChild('name', this.name, replace),
-            this.replaceChild('types', this.types, replace),
-            undefined,
-            this.replaceChild('kit', this.kit, replace),
-            this.replaceChild('dot', this.dot, replace),
-        ) as this;
+        return this.cloned(
+            new NameType(
+                this.replaceChild('name', this.name, replace),
+                this.replaceChild('types', this.types, replace),
+                undefined,
+                this.replaceChild('kit', this.kit, replace),
+                this.replaceChild('dot', this.dot, replace),
+            ),
+        );
     }
 
     getName() {
@@ -141,7 +143,7 @@ export default class NameType extends Type {
     }
 
     withName(name: string) {
-        return new NameType(new NameToken(name), this.types, this.definition);
+        return new NameType(NameToken(name), this.types, this.definition);
     }
 
     getDefinitions(node: Node, context: Context) {
@@ -174,14 +176,10 @@ export default class NameType extends Type {
             // If there are type inputs provided, verify that they exist on the function.
             if (this.types && this.types.types.length > 0) {
                 const expected = def.types;
-                for (let index = 0; index < this.types.types.length; index++) {
+                for (const [index, typeInput] of this.types.types.entries()) {
                     if (index >= (expected?.variables.length ?? 0)) {
                         conflicts.push(
-                            new UnexpectedTypeInput(
-                                this,
-                                this.types.types[index],
-                                def,
-                            ),
+                            new UnexpectedTypeInput(this, typeInput, def),
                         );
                         break;
                     }

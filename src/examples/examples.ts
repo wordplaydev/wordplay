@@ -11,6 +11,7 @@ import type Locales from '@locale/Locales';
 import { parseNames } from '@parser/parseBind';
 import { toTokens } from '@parser/toTokens';
 import UnicodeString from '@unicode/UnicodeString';
+import { must } from '@util/nullable';
 
 /** This mirrors the static path to examples, but also helps distinguish project IDs from example project names. */
 export const ExamplePrefix = 'example-';
@@ -53,7 +54,7 @@ export function parseSerializedProject(
     const rest = body.substring(lines.slice(0, 1).join().length + 1);
 
     // The first line of the (possibly peeled) body is the project name.
-    const name = lines[0].trim();
+    const name = must(lines[0], 'a project name line').trim();
 
     // Split the file by "===" lines
     const files = rest.split(/(?==== .*\n)/g);
@@ -182,19 +183,22 @@ export async function getExample(
 
         // A viewer whose primary locale has no translation reads the en-US
         // fallback, so the master becomes the base with the rest appended.
+        const primaryInput = inputs[0];
         if (
-            inputs[0].locale !== chosen[0] &&
+            primaryInput !== undefined &&
+            primaryInput.locale !== chosen[0] &&
             !inputs.some((input) => input.locale === 'en-US')
         )
             inputs.unshift({ locale: 'en-US', text: master });
 
         // One available locale: serve its file directly, declaring the locale
         // it was fetched for (its headers can't always self-declare).
-        if (inputs.length === 1)
+        const [onlyInput, ...moreInputs] = inputs;
+        if (onlyInput !== undefined && moreInputs.length === 0)
             return parseSerializedProject(
-                inputs[0].text,
+                onlyInput.text,
                 id,
-                inputs[0].locale === 'en-US' ? undefined : [inputs[0].locale],
+                onlyInput.locale === 'en-US' ? undefined : [onlyInput.locale],
             );
 
         // Several: composite them. Dynamically imported because compositing
@@ -210,6 +214,7 @@ export async function getExample(
                 input.locale === 'en-US' ? undefined : [input.locale],
             ),
         }));
+        if (base === undefined) return undefined;
         return compositeExample(id, base, secondaries);
     } catch (error) {
         console.error(error);

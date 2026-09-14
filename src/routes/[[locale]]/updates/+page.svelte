@@ -19,6 +19,7 @@
         updateTextPath,
         UpdateSectionKinds,
         type UpdateSectionKind,
+        UpdatesBundleSchema,
         type UpdatesBundle,
         type UpdateText,
     } from '@locale/UpdatesBundle';
@@ -54,11 +55,13 @@
 
     $effect(() => {
         fetch(versioned('/updates.json'))
-            .then(async (response) =>
-                response.ok
-                    ? ((await response.json()) as UpdatesBundle)
-                    : undefined,
-            )
+            .then(async (response) => {
+                if (!response.ok) return undefined;
+                const parsed = UpdatesBundleSchema.safeParse(
+                    await response.json(),
+                );
+                return parsed.success ? parsed.data : undefined;
+            })
             .then((loaded) => {
                 if (loaded !== undefined) bundle = loaded;
             })

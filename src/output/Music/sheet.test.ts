@@ -3,6 +3,7 @@ import type { MusicData, TrackData } from '@output/Music/musicData';
 import { Scales } from '@output/Music/scales';
 import { InstrumentKeys } from '@output/Music/instruments';
 import { degreeToSemitones } from '@output/Music/degrees';
+import { must } from '@util/nullable';
 
 /** A stage wide enough for the old fixed thresholds, so tests about layout
  * say what they mean rather than depending on a default. */
@@ -80,16 +81,16 @@ function music(
  * ---------------------------------------------------------------- */
 
 test('a duration draws as the note value it is closest to from below', () => {
-    expect(glyphFor(4)).toBe(Noteheads[0].glyph);
-    expect(glyphFor(2)).toBe(Noteheads[1].glyph);
-    expect(glyphFor(1)).toBe(Noteheads[2].glyph);
-    expect(glyphFor(0.5)).toBe(Noteheads[3].glyph);
-    expect(glyphFor(0.25)).toBe(Noteheads[4].glyph);
+    expect(glyphFor(4)).toBe(Noteheads[0]?.glyph);
+    expect(glyphFor(2)).toBe(Noteheads[1]?.glyph);
+    expect(glyphFor(1)).toBe(Noteheads[2]?.glyph);
+    expect(glyphFor(0.5)).toBe(Noteheads[3]?.glyph);
+    expect(glyphFor(0.25)).toBe(Noteheads[4]?.glyph);
     // A dotted quarter is a quarter, not a half: rounding up would draw a
     // value the music never plays.
-    expect(glyphFor(1.5)).toBe(Noteheads[2].glyph);
+    expect(glyphFor(1.5)).toBe(Noteheads[2]?.glyph);
     // Longer than a whole is still a whole.
-    expect(glyphFor(16)).toBe(Noteheads[0].glyph);
+    expect(glyphFor(16)).toBe(Noteheads[0]?.glyph);
 });
 
 test('anything that sounds is visible, however short', () => {
@@ -178,8 +179,8 @@ test('a chord is several noteheads at one beat, as notation draws it', () => {
 test('a rest is drawn, and carries no pitch', () => {
     const marks = marksOf([music([track([{ degrees: [], beats: 2 }])])], 0, 4);
     expect(marks).toHaveLength(1);
-    expect(marks[0].rest).toBe(true);
-    expect(marks[0].step).toBeUndefined();
+    expect(marks[0]?.rest).toBe(true);
+    expect(marks[0]?.step).toBeUndefined();
 });
 
 test('a looping track repeats through the window; a one-shot does not', () => {
@@ -214,7 +215,7 @@ test('a note still sounding at the window start is included', () => {
     // A whole note beginning at beat 0 is still ringing at beat 2.
     const marks = marksOf([music([track([{ degrees: [1], beats: 4 }])])], 2, 6);
     expect(marks).toHaveLength(1);
-    expect(marks[0].beat).toBe(0);
+    expect(marks[0]?.beat).toBe(0);
 });
 
 test('every track of every music lands on the one staff', () => {
@@ -249,7 +250,10 @@ test('a track key and scale move the pitch, not just the degree', () => {
         0,
         2,
     );
-    expect(shifted[0].step! - plain[0].step!).toBe(7);
+    // Both fixtures draw one notehead, and a notehead always has a step.
+    const shiftedStep = must(shifted[0]?.step, 'the shifted mark step');
+    const plainStep = must(plain[0]?.step, 'the plain mark step');
+    expect(shiftedStep - plainStep).toBe(7);
 });
 
 /* ---------------------------------------------------------------- *
@@ -417,7 +421,7 @@ test('every mark has a distinct id, even within one chord', () => {
         4,
     );
     expect(marks).toHaveLength(2);
-    expect(marks[0].step).toBe(marks[1].step);
+    expect(marks[0]?.step).toBe(marks[1]?.step);
     expect(new Set(marks.map((mark) => mark.id)).size).toBe(2);
 });
 
@@ -441,7 +445,7 @@ test('a notehead is tagged with its instrument emoji, not its name', () => {
         0,
         2,
     );
-    expect(marks[0].label).toBe('🎹');
+    expect(marks[0]?.label).toBe('🎹');
     expect(labelFor('drums')).toBe('🥁');
     // Every instrument has one now, so nothing falls back to a word.
     for (const id of InstrumentKeys) expect(labelFor(id)).not.toBe(id);
@@ -456,8 +460,12 @@ test('a restarting sound effect lays its strikes out one after another', () => {
         cursor = advanceCursor(cursor, beat);
         places.push(absoluteBeat(cursor));
     }
-    for (let i = 1; i < places.length; i++)
-        expect(places[i]).toBeGreaterThanOrEqual(places[i - 1]);
+    let previousPlace: number | undefined;
+    for (const place of places) {
+        if (previousPlace !== undefined)
+            expect(place).toBeGreaterThanOrEqual(previousPlace);
+        previousPlace = place;
+    }
     expect(places[places.length - 1]).toBeGreaterThan(1);
 });
 
@@ -476,7 +484,10 @@ test('a fresh run starts a fresh history', () => {
     const other = startHistory();
     history.seen.set(
         'x',
-        marksOf([music([track([{ degrees: [1], beats: 1 }])])], 0, 2)[0],
+        must(
+            marksOf([music([track([{ degrees: [1], beats: 1 }])])], 0, 2)[0],
+            'the fixture mark',
+        ),
     );
     history.cursors.set('m', startCursor());
     expect(other.seen.size).toBe(0);
@@ -511,8 +522,10 @@ test('a restarted program replays the same beats in the same places', () => {
 test('notes are fitted vertically rather than clipped off the top', () => {
     const high = marksOf([music([track([{ degrees: [22], beats: 1 }])])], 0, 2);
     const range = stepRangeOf(high);
-    expect(range.low).toBeLessThanOrEqual(high[0].step!);
-    expect(range.high).toBeGreaterThanOrEqual(high[0].step!);
+    // One notehead in the fixture, and a notehead always has a step.
+    const step = must(high[0]?.step, 'the mark step');
+    expect(range.low).toBeLessThanOrEqual(step);
+    expect(range.high).toBeGreaterThanOrEqual(step);
     // A lone note still gets a staff's worth of room rather than filling the
     // whole band.
     expect(range.high - range.low).toBeGreaterThanOrEqual(8);
@@ -762,10 +775,14 @@ test('tracks that drift against each other still never crowd', () => {
             ),
         ),
     ].sort((a, b) => a - b);
-    for (let i = 1; i < onsets.length; i++)
-        expect((onsets[i] - onsets[i - 1]) * perBeat).toBeGreaterThanOrEqual(
-            MinBeatWidth - 1,
-        );
+    let previousOnset: number | undefined;
+    for (const onset of onsets) {
+        if (previousOnset !== undefined)
+            expect((onset - previousOnset) * perBeat).toBeGreaterThanOrEqual(
+                MinBeatWidth - 1,
+            );
+        previousOnset = onset;
+    }
 });
 
 /* ---------------------------------------------------------------- *
@@ -784,13 +801,21 @@ test('a step on a line is drawn on that line', () => {
     expect(placeStep(center, center)).toBeCloseTo(0.5);
     // And the lines are evenly spaced, as staff lines are.
     const places = staffLines(center).map((line) => placeStep(line, center));
-    const gaps = places.slice(1).map((place, i) => places[i] - place);
-    for (const gap of gaps) expect(gap).toBeCloseTo(gaps[0]);
+    // Every gap is measured against the line before it, which the slice
+    // guarantees exists.
+    const gaps = places
+        .slice(1)
+        .map((place, i) => must(places[i], 'the line before a gap') - place);
+    const firstGap = must(gaps[0], 'a gap between staff lines');
+    for (const gap of gaps) expect(gap).toBeCloseTo(firstGap);
 });
 
 test('a note between two lines sits in the space between them', () => {
     const center = 4;
-    const [, second, middle] = staffLines(center);
+    const lines = staffLines(center);
+    // A staff has five lines, so the second and the middle are there.
+    const second = must(lines[1], 'the second staff line');
+    const middle = must(lines[2], 'the middle staff line');
     const between = placeStep(second + 1, center);
     expect(between).toBeLessThan(placeStep(second, center));
     expect(between).toBeGreaterThan(placeStep(middle, center));
@@ -863,8 +888,11 @@ test('a mashed fraction draws both noteheads, the quieter one faded', () => {
     expect(marks).toHaveLength(2);
     // Degree 1 is C and degree 2 is D: adjacent steps, both on the grid.
     expect(marks.map((mark) => mark.step)).toEqual([0, 1]);
-    expect(marks[0].level).toBeGreaterThan(marks[1].level);
-    expect(marks[1].level).toBeLessThan(1);
+    // Two marks, asserted just above.
+    const lower = must(marks[0], 'the lower mark');
+    const upper = must(marks[1], 'the upper mark');
+    expect(lower.level).toBeGreaterThan(upper.level);
+    expect(upper.level).toBeLessThan(1);
     // Two marks from one degree still need distinct keys.
     expect(new Set(marks.map((mark) => mark.id)).size).toBe(2);
 });
@@ -876,9 +904,9 @@ test('an unmashed fraction draws one notehead nudged off its line', () => {
         4,
     );
     expect(marks).toHaveLength(1);
-    expect(marks[0].level).toBe(1);
+    expect(marks[0]?.level).toBe(1);
     // A fifth of the way from step 0 to step 1, not snapped to either.
-    expect(marks[0].step).toBeCloseTo(0.2, 10);
+    expect(marks[0]?.step).toBeCloseTo(0.2, 10);
 });
 
 test('a whole degree draws one solid notehead, mashed or not', () => {
@@ -889,8 +917,8 @@ test('a whole degree draws one solid notehead, mashed or not', () => {
             4,
         );
         expect(marks).toHaveLength(1);
-        expect(marks[0].step).toBe(0);
-        expect(marks[0].level).toBe(1);
+        expect(marks[0]?.step).toBe(0);
+        expect(marks[0]?.level).toBe(1);
     }
 });
 
@@ -916,7 +944,7 @@ test('a bent note takes the accidental of the note it is nearer', () => {
         0,
         4,
     );
-    expect(mark.accidental).toBeUndefined();
+    expect(mark?.accidental).toBeUndefined();
 });
 
 /* ---------------------------------------------------------------- *
@@ -1157,7 +1185,7 @@ test('a mark changes when its instrument does, not only when its id does', () =>
     // stands between a track changing instrument and the staff still showing
     // the old one. Every id here is identical on purpose: a mark's id is its
     // music, note and pass, none of which a change of instrument touches.
-    const [base] = marksOf(
+    const [only] = marksOf(
         [
             music([
                 {
@@ -1169,6 +1197,8 @@ test('a mark changes when its instrument does, not only when its id does', () =>
         0,
         4,
     );
+    // One note in the fixture, so it draws one mark.
+    const base = must(only, 'the fixture mark');
     expect(sameMark(base, { ...base })).toBe(true);
     // The notehead's superscript — the thing that says which instrument.
     expect(sameMark(base, { ...base, label: '🤖' })).toBe(false);

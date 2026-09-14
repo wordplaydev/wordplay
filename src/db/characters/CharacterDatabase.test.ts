@@ -1,4 +1,5 @@
 import ConceptLink from '@nodes/ConceptLink';
+import { must } from '@util/nullable';
 import { FirebaseError } from 'firebase/app';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Character } from '@db/characters/Character';
@@ -22,9 +23,57 @@ vi.mock('../Database', () => ({
     },
 }));
 
+/**
+ * The parts of `Database` the characters database actually reaches for, written
+ * out rather than reached through `any` so a change in what it calls breaks
+ * here instead of passing vacuously. `Database` is a class with private state,
+ * so a structural stand-in can never be assignable to it — hence the one
+ * `@ts-expect-error` at each construction, which is the only place the shapes
+ * have to meet.
+ */
+type DatabaseFake = {
+    getUser: () => { uid: string } | null;
+    setStatus: (...args: unknown[]) => void;
+    reportBanner: (...args: unknown[]) => void;
+    track: (write: Promise<unknown>) => Promise<unknown>;
+    markSynced?: (...args: unknown[]) => void;
+    localDB?: unknown;
+    Galleries?: unknown;
+    projectsFake?: {
+        allEditableProjects: unknown[];
+        reviseProject: (...args: unknown[]) => void;
+    };
+    loadProjects: () => Promise<unknown>;
+};
+
+/** A stand-in database. The one suppression lives here rather than at each
+ *  construction, and the literal each caller passes is checked against
+ *  `DatabaseFake`. */
+function fakeCharactersDatabase(fake: DatabaseFake): CharactersDatabase {
+    // @ts-expect-error The fake implements only what this database calls.
+    return new CharactersDatabase(fake);
+}
+
+/** A snapshot with just the parts `handleSnapshot` reads. */
+type SnapshotFake = {
+    metadata: { fromCache: boolean };
+    forEach: (visit: (doc: { data: () => unknown }) => void) => void;
+};
+
+/** Drive the private snapshot handler with a stand-in snapshot and user. */
+function deliverSnapshot(
+    db: CharactersDatabase,
+    key: string,
+    user: { uid: string },
+    snapshot: SnapshotFake,
+) {
+    // @ts-expect-error The user and snapshot carry only the parts it reads.
+    db['handleSnapshot'](key, user, snapshot);
+}
+
 describe('CharactersDatabase', () => {
-    let charactersDb: any;
-    let mockDatabase: any;
+    let charactersDb: CharactersDatabase;
+    let mockDatabase: DatabaseFake;
     let mockUser: { uid: string };
 
     beforeEach(() => {
@@ -36,17 +85,17 @@ describe('CharactersDatabase', () => {
             getUser: vi.fn(() => mockUser),
             setStatus: vi.fn(),
             reportBanner: vi.fn(),
-            track: vi.fn((write) => write),
+            track: vi.fn((write: Promise<unknown>) => write),
             // The projects database is loaded on demand now, so the fake
             // exposes it the same way Database does.
             projectsFake: {
-                allEditableProjects: [] as unknown[],
+                allEditableProjects: [],
                 reviseProject: vi.fn(),
             },
             loadProjects: vi.fn(async () => mockDatabase.projectsFake),
         };
 
-        charactersDb = new CharactersDatabase(mockDatabase);
+        charactersDb = fakeCharactersDatabase(mockDatabase);
     });
 
     describe('updateCharacter', () => {
@@ -85,7 +134,10 @@ describe('CharactersDatabase', () => {
             };
 
             // Mock the Projects.allEditableProjects to return our mock project
-            mockDatabase.projectsFake.allEditableProjects = [mockProject];
+            must(
+                mockDatabase.projectsFake,
+                'the projects fake',
+            ).allEditableProjects = [mockProject];
 
             // Set up existing character
             charactersDb.byID.set('char1', oldCharacter);
@@ -138,7 +190,7 @@ describe('CharactersDatabase', () => {
         });
 
         it('clears unsaved and records no error when a write succeeds', async () => {
-            const ok = await charactersDb.trackSave(
+            const ok = await charactersDb['trackSave'](
                 'c1',
                 'user/A',
                 Promise.resolve(),
@@ -149,7 +201,7 @@ describe('CharactersDatabase', () => {
         });
 
         it('stays unsaved and records an error when a write fails', async () => {
-            const ok = await charactersDb.trackSave(
+            const ok = await charactersDb['trackSave'](
                 'c1',
                 'user/A',
                 Promise.reject(new Error('nope')),
@@ -164,13 +216,13 @@ describe('CharactersDatabase', () => {
         });
 
         it('clears a prior error when a later write succeeds', async () => {
-            await charactersDb.trackSave(
+            await charactersDb['trackSave'](
                 'c1',
                 'user/A',
                 Promise.reject(new Error('nope')),
             );
             expect(charactersDb.saveErrors).toHaveLength(1);
-            await charactersDb.trackSave('c1', 'user/A', Promise.resolve());
+            await charactersDb['trackSave']('c1', 'user/A', Promise.resolve());
             expect(charactersDb.saveErrors).toHaveLength(0);
             expect(charactersDb.unsavedIDs.has('c1')).toBe(false);
         });
@@ -189,10 +241,9 @@ describe('CharactersDatabase', () => {
              *  mechanism and needs every listener to have reported. */
             function deliver(character: Character) {
                 mockDatabase.markSynced = vi.fn();
-                charactersDb.handleSnapshot('base', mockUser, {
+                deliverSnapshot(charactersDb, 'base', mockUser, {
                     metadata: { fromCache: true },
-                    forEach: (visit: (doc: { data: () => unknown }) => void) =>
-                        visit({ data: () => character }),
+                    forEach: (visit) => visit({ data: () => character }),
                 });
             }
 
@@ -207,7 +258,7 @@ describe('CharactersDatabase', () => {
             });
 
             it('keeps the local copy while the write may still succeed', async () => {
-                await charactersDb.trackSave(
+                await charactersDb['trackSave'](
                     ID,
                     'user/A',
                     Promise.reject(new Error('offline')),
@@ -219,11 +270,14 @@ describe('CharactersDatabase', () => {
                     description: 'from cloud',
                 });
 
-                expect(charactersDb.byID.get(ID).description).toBe('');
+                expect(
+                    must(charactersDb.byID.get(ID), 'the stored character')
+                        .description,
+                ).toBe('');
             });
 
             it('takes the cloud copy once the write has been refused', async () => {
-                await charactersDb.trackSave(
+                await charactersDb['trackSave'](
                     ID,
                     'user/A',
                     Promise.reject(
@@ -242,9 +296,10 @@ describe('CharactersDatabase', () => {
                     description: 'from cloud',
                 });
 
-                expect(charactersDb.byID.get(ID).description).toBe(
-                    'from cloud',
-                );
+                expect(
+                    must(charactersDb.byID.get(ID), 'the stored character')
+                        .description,
+                ).toBe('from cloud');
             });
         });
 
@@ -266,11 +321,12 @@ describe('CharactersDatabase', () => {
 
     describe('durable dirty tracking (survives reload)', () => {
         it('persists the dirty flag on write start and clears it on success', async () => {
+            // @ts-expect-error Readonly in production; a test device has it.
             charactersDb.IndexedDBSupported = true;
             const localDB = { markDirty: vi.fn(), markClean: vi.fn() };
             mockDatabase.localDB = localDB;
 
-            const ok = await charactersDb.trackSave(
+            const ok = await charactersDb['trackSave'](
                 'c1',
                 'user/A',
                 Promise.resolve(),
@@ -281,11 +337,12 @@ describe('CharactersDatabase', () => {
         });
 
         it('leaves the dirty flag set (no markClean) when the write fails', async () => {
+            // @ts-expect-error Readonly in production; a test device has it.
             charactersDb.IndexedDBSupported = true;
             const localDB = { markDirty: vi.fn(), markClean: vi.fn() };
             mockDatabase.localDB = localDB;
 
-            const ok = await charactersDb.trackSave(
+            const ok = await charactersDb['trackSave'](
                 'c1',
                 'user/A',
                 Promise.reject(new Error('nope')),
@@ -298,6 +355,7 @@ describe('CharactersDatabase', () => {
         });
 
         it('warns about full storage when the dirty-row write hits the quota', async () => {
+            // @ts-expect-error Readonly in production; a test device has it.
             charactersDb.IndexedDBSupported = true;
             const localDB = {
                 // The durable dirty row can't be written because the device is
@@ -313,7 +371,7 @@ describe('CharactersDatabase', () => {
             mockDatabase.localDB = localDB;
 
             // The cloud write itself still succeeds; only the local dirty row failed.
-            const ok = await charactersDb.trackSave(
+            const ok = await charactersDb['trackSave'](
                 'c1',
                 'user/A',
                 Promise.resolve(),
@@ -324,6 +382,7 @@ describe('CharactersDatabase', () => {
         });
 
         it('clears the durable dirty row when a dirty item is deleted (phantom-unsaved regression)', () => {
+            // @ts-expect-error Readonly in production; a test device has it.
             charactersDb.IndexedDBSupported = true;
             const localDB = {
                 markDirty: vi.fn(),
@@ -370,7 +429,7 @@ describe('CharactersDatabase', () => {
 
         it('inserts a cached character into both indexes', () => {
             const character = make(1000, 'user/Cached');
-            charactersDb.loadCharacterIntoMemory(character);
+            charactersDb['loadCharacterIntoMemory'](character);
             expect(charactersDb.byID.get('char1')).toEqual(character);
             expect(charactersDb.byName.get('user/Cached')).toEqual(character);
         });
@@ -381,7 +440,7 @@ describe('CharactersDatabase', () => {
             charactersDb.byName.set('user/Fresh', fresh);
 
             // A stale row from the local cache should be ignored.
-            charactersDb.loadCharacterIntoMemory(make(1000, 'user/Stale'));
+            charactersDb['loadCharacterIntoMemory'](make(1000, 'user/Stale'));
 
             expect(charactersDb.byID.get('char1')).toEqual(fresh);
             expect(charactersDb.byName.get('user/Stale')).toBeUndefined();
@@ -393,7 +452,7 @@ describe('CharactersDatabase', () => {
             charactersDb.byName.set('user/Old', older);
 
             const newer = make(2000, 'user/New');
-            charactersDb.loadCharacterIntoMemory(newer);
+            charactersDb['loadCharacterIntoMemory'](newer);
 
             expect(charactersDb.byID.get('char1')).toEqual(newer);
             expect(charactersDb.byName.get('user/New')).toEqual(newer);
@@ -411,7 +470,7 @@ describe('CharactersDatabase', () => {
  * could *edit*, which includes ones they merely collaborate on.
  */
 describe('getOwnedCharacterWithName', () => {
-    let db: any;
+    let db: CharactersDatabase;
     let user: { uid: string };
 
     function character(overrides: Partial<Character>): Character {
@@ -425,21 +484,21 @@ describe('getOwnedCharacterWithName', () => {
             description: '',
             shapes: [],
             ...overrides,
-        } as Character;
+        };
     }
 
     beforeEach(() => {
         user = { uid: 'user' };
-        db = new CharactersDatabase({
+        db = fakeCharactersDatabase({
             getUser: vi.fn(() => user),
             setStatus: vi.fn(),
             reportBanner: vi.fn(),
-            track: vi.fn((write: unknown) => write),
+            track: vi.fn((write: Promise<unknown>) => write),
             loadProjects: vi.fn(async () => ({
                 allEditableProjects: [],
                 reviseProject: vi.fn(),
             })),
-        } as never);
+        });
     });
 
     it('finds another character of the creator’s own with the same full name', () => {
@@ -477,22 +536,26 @@ describe('getOwnedCharacterWithName', () => {
 
     it('finds nothing when signed out', () => {
         db.byID.set('c1', character({ id: 'c1' }));
-        db = new CharactersDatabase({
+        db = fakeCharactersDatabase({
             getUser: vi.fn(() => null),
             setStatus: vi.fn(),
             reportBanner: vi.fn(),
-            track: vi.fn((write: unknown) => write),
+            track: vi.fn((write: Promise<unknown>) => write),
             loadProjects: vi.fn(async () => ({ allEditableProjects: [] })),
-        } as never);
+        });
         expect(db.getOwnedCharacterWithName('me/Dog')).toBeUndefined();
     });
 });
 
 /** Gallery membership (#822). */
 describe('getGalleryCharacters', () => {
-    let db: any;
+    let db: CharactersDatabase;
 
-    function character(id: string, name: string, gallery: string | null) {
+    function character(
+        id: string,
+        name: string,
+        gallery: string | null,
+    ): Character {
         return {
             id,
             owner: 'user',
@@ -507,13 +570,13 @@ describe('getGalleryCharacters', () => {
     }
 
     beforeEach(() => {
-        db = new CharactersDatabase({
+        db = fakeCharactersDatabase({
             getUser: vi.fn(() => ({ uid: 'user' })),
             setStatus: vi.fn(),
             reportBanner: vi.fn(),
-            track: vi.fn((write: unknown) => write),
+            track: vi.fn((write: Promise<unknown>) => write),
             loadProjects: vi.fn(async () => ({ allEditableProjects: [] })),
-        } as never);
+        });
     });
 
     it('returns only the characters in that gallery, sorted by bare name', () => {
@@ -556,7 +619,7 @@ describe('getGalleryCharacters', () => {
  * character was renamed; every project pointing at it was left behind.
  */
 describe('the sweep only deletes what the cloud has actually shown us', () => {
-    let db: any;
+    let db: CharactersDatabase;
     const user = { uid: 'user' };
 
     // Real uuids: CharacterSchema requires one, and a snapshot whose doc
@@ -564,12 +627,13 @@ describe('the sweep only deletes what the cloud has actually shown us', () => {
     // wrong reason.
     const ID = '3f7a1c9e-2b4d-4e8a-9c1f-6d5b0a2e7c31';
 
-    function character(id: string, name: string) {
+    function character(id: string, name: string): Character {
+        const collaborators: string[] = [];
         return {
             id,
             owner: 'user',
             public: false,
-            collaborators: [] as string[],
+            collaborators,
             updated: 1,
             name,
             description: '',
@@ -578,7 +642,7 @@ describe('the sweep only deletes what the cloud has actually shown us', () => {
     }
 
     /** A QuerySnapshot with just the parts handleSnapshot reads. */
-    function snapshot(characters: unknown[], fromCache = false) {
+    function snapshot(characters: unknown[], fromCache = false): SnapshotFake {
         return {
             metadata: { fromCache },
             forEach(visit: (doc: { data: () => unknown }) => void) {
@@ -588,35 +652,35 @@ describe('the sweep only deletes what the cloud has actually shown us', () => {
     }
 
     beforeEach(() => {
-        db = new CharactersDatabase({
+        db = fakeCharactersDatabase({
             getUser: vi.fn(() => user),
             setStatus: vi.fn(),
             reportBanner: vi.fn(),
-            track: vi.fn((write: unknown) => write),
+            track: vi.fn((write: Promise<unknown>) => write),
             markSynced: vi.fn(),
-            Galleries: { accessibleGalleries: new Map() },
+            Galleries: { accessibleGalleries: new Map<string, unknown>() },
             loadProjects: vi.fn(async () => ({
                 allEditableProjects: [],
                 reviseProject: vi.fn(),
             })),
-        } as never);
+        });
         // One listener (no galleries), so a single snapshot completes the set.
-        db.expectedCharacterListeners = 1;
+        db['expectedCharacterListeners'] = 1;
     });
 
     it('keeps a character the cloud has never carried', () => {
         // Exactly the just-created case: in memory, write acknowledged, but no
         // snapshot has included it yet.
         db.byID.set(ID, character(ID, 'me/New'));
-        db.handleSnapshot('base', user, snapshot([]));
+        deliverSnapshot(db, 'base', user, snapshot([]));
         expect(db.byID.has(ID)).toBe(true);
     });
 
     it('sweeps a character the cloud carried and then stopped carrying', () => {
         const c = character(ID, 'me/Gone');
-        db.handleSnapshot('base', user, snapshot([c]));
+        deliverSnapshot(db, 'base', user, snapshot([c]));
         expect(db.byID.has(ID)).toBe(true);
-        db.handleSnapshot('base', user, snapshot([]));
+        deliverSnapshot(db, 'base', user, snapshot([]));
         expect(db.byID.has(ID)).toBe(false);
     });
 
@@ -624,21 +688,21 @@ describe('the sweep only deletes what the cloud has actually shown us', () => {
         // A cached snapshot can predate a write that already landed, so its
         // absences are not evidence of anything.
         const c = character(ID, 'me/Cached');
-        db.handleSnapshot('base', user, snapshot([c]));
-        db.handleSnapshot('base', user, snapshot([], true));
+        deliverSnapshot(db, 'base', user, snapshot([c]));
+        deliverSnapshot(db, 'base', user, snapshot([], true));
         expect(db.byID.has(ID)).toBe(true);
     });
 
     it('waits for every listener before concluding anything', () => {
         const c = character(ID, 'me/Two');
-        db.handleSnapshot('base', user, snapshot([c]));
+        deliverSnapshot(db, 'base', user, snapshot([c]));
         // Two listeners now, and only one has reported since.
-        db.expectedCharacterListeners = 2;
-        db.listenerCharacterIDs.clear();
-        db.handleSnapshot('base', user, snapshot([]));
+        db['expectedCharacterListeners'] = 2;
+        db['listenerCharacterIDs'].clear();
+        deliverSnapshot(db, 'base', user, snapshot([]));
         expect(db.byID.has(ID)).toBe(true);
         // The second reports, also without it: now it's gone from all of them.
-        db.handleSnapshot('gallery:0', user, snapshot([]));
+        deliverSnapshot(db, 'gallery:0', user, snapshot([]));
         expect(db.byID.has(ID)).toBe(false);
     });
 });

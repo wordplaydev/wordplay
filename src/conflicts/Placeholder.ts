@@ -4,6 +4,7 @@ import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type TypePlaceholder from '@nodes/TypePlaceholder';
 import type Locales from '@locale/Locales';
 import Conflict, {
+    toResolutions,
     ConflictSeverity,
     type Repair,
     type Resolutions,
@@ -58,7 +59,10 @@ export default class Placeholder extends Conflict {
                 newNode: def,
             }),
         }));
-        return candidates as readonly Repair[] as Resolutions;
+        return (
+            toResolutions(candidates) ??
+            Conflict.fallbackExplainer(this, context, concepts)
+        );
     }
 
     getLocalePath() {

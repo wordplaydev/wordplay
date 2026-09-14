@@ -155,14 +155,16 @@ export default class ConversionDefinition extends DefinitionExpression {
     }
 
     clone(replace?: Replacement) {
-        return new ConversionDefinition(
-            this.replaceChild('docs', this.docs, replace),
-            this.replaceChild('arrow', this.arrow, replace),
-            this.replaceChild('input', this.input, replace),
-            this.replaceChild('output', this.output, replace),
-            this.replaceChild('expression', this.expression, replace),
-            this.replaceChild('share', this.share, replace),
-        ) as this;
+        return this.cloned(
+            new ConversionDefinition(
+                this.replaceChild('docs', this.docs, replace),
+                this.replaceChild('arrow', this.arrow, replace),
+                this.replaceChild('input', this.input, replace),
+                this.replaceChild('output', this.output, replace),
+                this.replaceChild('expression', this.expression, replace),
+                this.replaceChild('share', this.share, replace),
+            ),
+        );
     }
 
     isEvaluationInvolved() {

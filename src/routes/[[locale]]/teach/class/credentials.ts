@@ -1,5 +1,6 @@
 import { UsernameLength } from '@db/creators/username';
 import { usernameAvailable, usernamesAvailable } from '@db/creators/usernames';
+import { must } from '@util/nullable';
 import NumberGenerator from '@util/random/NumberGenerator';
 import type { ClassSigninMethod } from 'shared-types';
 import { addressOf, baseUsername, describingCells } from './roster';
@@ -64,7 +65,9 @@ export async function createCredentials(
         function randomWord(current: string) {
             let pick = '';
             do {
-                pick =
+                // The index is clamped to the list, and a password class is
+                // refused above unless it has twenty-five words to draw on.
+                pick = must(
                     secrets[
                         Math.min(
                             secrets.length - 1,
@@ -75,7 +78,9 @@ export async function createCredentials(
                                 ),
                             ),
                         )
-                    ];
+                    ],
+                    'a secret word',
+                );
             } while (current.includes(pick));
             return pick;
         }
@@ -119,8 +124,8 @@ export async function createCredentials(
             if (free === undefined) return undefined;
         }
         if (free !== true) return undefined;
-        const index = credentials.findIndex((c) => c.username === username);
-        if (index >= 0) credentials[index].username = revisedUsername;
+        const existing = credentials.find((c) => c.username === username);
+        if (existing !== undefined) existing.username = revisedUsername;
     }
 
     return credentials;

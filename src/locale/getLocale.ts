@@ -1,5 +1,6 @@
 import type LanguageCode from '@locale/LanguageCode';
 import type LocaleText from '@locale/LocaleText';
+import { isLocaleText } from '@locale/isLocaleText';
 
 export async function getLocale(
     language: LanguageCode,
@@ -11,5 +12,6 @@ export async function getLocale(
         }/locales/${language}/${language}.json`,
     );
     if (response.status !== 200) return undefined;
-    return (await response.json()) as LocaleText;
+    const data: unknown = await response.json();
+    return isLocaleText(data) ? data : undefined;
 }

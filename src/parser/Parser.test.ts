@@ -78,6 +78,25 @@ import { Sym } from '@nodes/Sym';
 import { NONE_SYMBOL, PLACEHOLDER_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import { tokens } from '@parser/Tokenizer';
 import { toTokens } from '@parser/toTokens';
+import Node from '@nodes/Node';
+import { must } from '@util/nullable';
+
+/** Narrow a parsed node to the kind a test expects, failing the test when it
+ *  isn't one — the same check `toBeInstanceOf` makes, but usable as a value. */
+function mustBe<Kind>(
+    value: unknown,
+    kind: abstract new (...params: never[]) => Kind,
+): Kind {
+    if (!(value instanceof kind))
+        throw new Error(`Expected a ${kind.name}, but found ${value}`);
+    return value;
+}
+
+/** The same, for a field the table says is a list. */
+function mustArray(value: unknown): unknown[] {
+    if (!Array.isArray(value)) throw new Error(`Expected a list`);
+    return value;
+}
 
 export const everything = `
 ¶Testing *the /way/*¶
@@ -104,19 +123,19 @@ test('Parse borrows', () => {
     const good = toProgram('↓ mouse');
     expect(good.borrows).toHaveLength(1);
     expect(good.borrows[0]).toBeInstanceOf(Borrow);
-    expect((good.borrows[0] as Borrow).source).toBeInstanceOf(Reference);
+    expect(good.borrows[0]!.source).toBeInstanceOf(Reference);
 
     const prop = toProgram('↓ time.clock');
     expect(prop.borrows).toHaveLength(1);
     expect(prop.borrows[0]).toBeInstanceOf(Borrow);
-    expect((prop.borrows[0] as Borrow).name).toBeInstanceOf(Reference);
+    expect(prop.borrows[0]!.name).toBeInstanceOf(Reference);
 });
 
 test('Parse shares', () => {
     const good = toProgram('↑ fancy: 1');
     expect(good.expression).toBeInstanceOf(Block);
-    expect((good.expression as Block).statements).toHaveLength(1);
-    expect((good.expression as Block).statements[0]).toBeInstanceOf(Bind);
+    expect(good.expression.statements).toHaveLength(1);
+    expect(good.expression.statements[0]).toBeInstanceOf(Bind);
 });
 
 test('parseStructure produces an unparsable instead of throwing when `•` is missing', () => {
@@ -326,23 +345,26 @@ test.each([
     ) => {
         const block = toProgram(code).expression;
         expect(block.statements.length).toBe(1);
-        const statement = block.statements[0];
+        const statement = must(block.statements[0], 'a statement');
         expect(statement instanceof kind);
         if (property !== undefined && propertyKind !== undefined) {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const field = (statement as any)[property];
+            // The table names a field by string, so the read is dynamic; keeping
+            // it `unknown` means every use below still has to prove its shape.
+            const field: unknown = Reflect.get(statement, property);
             expect(field).toBeInstanceOf(propertyKind);
             if (propertyKind === Array) {
+                const list = mustArray(field);
                 if (propertyValue instanceof Function)
-                    expect(field[0]).toBeInstanceOf(propertyValue);
+                    expect(list[0]).toBeInstanceOf(propertyValue);
                 else if (typeof propertyValue === 'number')
-                    expect(field.length).toBe(propertyValue);
+                    expect(list.length).toBe(propertyValue);
             } else {
-                if (typeof propertyValue === 'string')
-                    expect(field?.toWordplay(getPreferredSpaces(field))).toBe(
+                if (typeof propertyValue === 'string') {
+                    const node = mustBe(field, Node);
+                    expect(node.toWordplay(getPreferredSpaces(node))).toBe(
                         propertyValue,
                     );
-                else if (propertyValue !== undefined)
+                } else if (propertyValue !== undefined)
                     expect(field).toBe(propertyValue);
             }
         }
@@ -352,43 +374,40 @@ test.each([
 test('Blocks and binds', () => {
     const map = parseBlock(toTokens('{1:1 2:2 3:3}'));
     expect(map).toBeInstanceOf(Block);
-    expect((map as Block).statements[0]).toBeInstanceOf(MapLiteral);
+    expect(map.statements[0]).toBeInstanceOf(MapLiteral);
 
     const bindMap = parseBlock(toTokens('map: {1:1 2:2 3:3}'));
     expect(bindMap).toBeInstanceOf(Block);
-    expect((bindMap as Block).statements[0]).toBeInstanceOf(Bind);
-    expect(((bindMap as Block).statements[0] as Bind).value).toBeInstanceOf(
+    expect(bindMap.statements[0]).toBeInstanceOf(Bind);
+    expect(mustBe(bindMap.statements[0], Bind).value).toBeInstanceOf(
         MapLiteral,
     );
 
     const table = parseBlock(toTokens('⎡a•# b•#⎦\n⎡1 2⎦'));
     expect(table).toBeInstanceOf(Block);
-    expect((table as Block).statements[0]).toBeInstanceOf(TableLiteral);
+    expect(table.statements[0]).toBeInstanceOf(TableLiteral);
 
     const bindTable = parseBlock(toTokens('table: ⎡a•# b•#⎦\n⎡1 2⎦'));
     expect(bindTable).toBeInstanceOf(Block);
-    expect((bindTable as Block).statements[0]).toBeInstanceOf(Bind);
-    expect(((bindTable as Block).statements[0] as Bind).value).toBeInstanceOf(
+    expect(bindTable.statements[0]).toBeInstanceOf(Bind);
+    expect(mustBe(bindTable.statements[0], Bind).value).toBeInstanceOf(
         TableLiteral,
     );
 
     const bindTypedTable = parseBlock(toTokens('table•⎡a•# b•#⎦: ⎡a•# b•#⎦'));
     expect(bindTypedTable).toBeInstanceOf(Block);
-    expect((bindTypedTable as Block).statements[0]).toBeInstanceOf(Bind);
-    expect(
-        ((bindTypedTable as Block).statements[0] as Bind).type,
-    ).toBeInstanceOf(TableType);
-    expect(
-        ((bindTypedTable as Block).statements[0] as Bind).value,
-    ).toBeInstanceOf(TableLiteral);
+    expect(bindTypedTable.statements[0]).toBeInstanceOf(Bind);
+    const typedTableBind = mustBe(bindTypedTable.statements[0], Bind);
+    expect(typedTableBind.type).toBeInstanceOf(TableType);
+    expect(typedTableBind.value).toBeInstanceOf(TableLiteral);
 });
 
 test('plain docs', () => {
     const doc = parseDoc(toTokens('¶this is what I am.¶'));
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
-    expect(doc.markup.paragraphs[0].segments[0]).toBeInstanceOf(Words);
-    expect(doc.markup.paragraphs[0].segments.length).toBe(1);
+    expect(doc.markup.paragraphs[0]!.segments[0]).toBeInstanceOf(Words);
+    expect(doc.markup.paragraphs[0]!.segments.length).toBe(1);
 });
 
 test('multi-paragraph docs', () => {
@@ -407,10 +426,9 @@ test('linked docs', () => {
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
-    const words = doc.markup.paragraphs[0].segments[0];
-    expect(words).toBeInstanceOf(Words);
-    expect((words as Words).segments[1]).toBeInstanceOf(WebLink);
-    expect(((words as Words).segments[1] as WebLink).url?.getText()).toBe(
+    const words = mustBe(doc.markup.paragraphs[0]!.segments[0], Words);
+    expect(words.segments[1]).toBeInstanceOf(WebLink);
+    expect(mustBe(words.segments[1], WebLink).url?.getText()).toBe(
         'https://wikipedia.org',
     );
 });
@@ -481,11 +499,10 @@ test('docs in docs', () => {
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
-    const words = doc.markup.paragraphs[0].segments[0];
-    expect(words).toBeInstanceOf(Words);
-    expect((words as Words).segments[1]).toBeInstanceOf(Example);
-    expect((words as Words).segments[2]).toBeInstanceOf(Token);
-    expect((words as Words).segments.length).toBe(3);
+    const words = mustBe(doc.markup.paragraphs[0]!.segments[0], Words);
+    expect(words.segments[1]).toBeInstanceOf(Example);
+    expect(words.segments[2]).toBeInstanceOf(Token);
+    expect(words.segments.length).toBe(3);
 });
 
 test('an example with an unclosed bracket stops at its boundary, not a later one', () => {
@@ -513,11 +530,10 @@ test('unparsables in docs', () => {
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
-    const words = doc.markup.paragraphs[0].segments[0];
-    expect(words).toBeInstanceOf(Words);
-    expect((words as Words).segments[1]).toBeInstanceOf(Example);
-    expect((words as Words).segments[2]).toBeInstanceOf(Token);
-    expect((words as Words).segments.length).toBe(3);
+    const words = mustBe(doc.markup.paragraphs[0]!.segments[0], Words);
+    expect(words.segments[1]).toBeInstanceOf(Example);
+    expect(words.segments[2]).toBeInstanceOf(Token);
+    expect(words.segments.length).toBe(3);
 });
 
 test('unparsables in blocks', () => {
@@ -556,7 +572,7 @@ test("commas in complex programs don't crash", { timeout: 120000 }, () => {
     expect(projects.length).toBeGreaterThan(0);
 
     for (const project of projects) {
-        const code = project.sources[0].code;
+        const code = project.sources[0]!.code;
 
         // Collect every token boundary, then sample evenly so that one huge
         // example can't dominate the whole test.
@@ -577,7 +593,7 @@ test("commas in complex programs don't crash", { timeout: 120000 }, () => {
 
         // Insert a comma at each sampled gap and see if the parser crashes.
         for (let b = 0; b < boundaries.length; b += stride) {
-            const at = boundaries[b];
+            const at = boundaries[b]!;
             let error: Error | undefined = undefined;
             const from = Math.max(0, at - COMMA_CONTEXT);
             const to = Math.min(code.length, at + COMMA_CONTEXT);
@@ -598,62 +614,58 @@ test("commas in complex programs don't crash", { timeout: 120000 }, () => {
 
 test('highlighted example with ⭐', () => {
     const doc = parseDoc(toTokens('¶\\1 + 1\\⭐¶'));
-    const example = doc.markup.paragraphs[0].segments[0];
-    expect(example).toBeInstanceOf(Example);
-    expect((example as Example).highlight).toBeDefined();
-    expect((example as Example).highlight?.getText()).toBe('⭐');
+    const example = mustBe(doc.markup.paragraphs[0]!.segments[0], Example);
+    expect(example.highlight).toBeDefined();
+    expect(example.highlight?.getText()).toBe('⭐');
 });
 
 test('highlighted example with highlight keyword', () => {
     const doc = parseDoc(toTokens('¶\\1 + 1\\highlight¶'));
-    const example = doc.markup.paragraphs[0].segments[0];
-    expect(example).toBeInstanceOf(Example);
-    expect((example as Example).highlight).toBeDefined();
-    expect((example as Example).highlight?.getText()).toBe('⭐');
+    const example = mustBe(doc.markup.paragraphs[0]!.segments[0], Example);
+    expect(example.highlight).toBeDefined();
+    expect(example.highlight?.getText()).toBe('⭐');
 });
 
 test('highlighted example with highlight prefix leaves remainder in stream', () => {
     const doc = parseDoc(toTokens('¶\\1 + 1\\highlight more text¶'));
-    const paragraph = doc.markup.paragraphs[0];
-    const example = paragraph.segments[0];
-    expect(example).toBeInstanceOf(Example);
-    expect((example as Example).highlight).toBeDefined();
+    const paragraph = doc.markup.paragraphs[0]!;
+    const example = mustBe(paragraph.segments[0], Example);
+    expect(example.highlight).toBeDefined();
     expect(paragraph.segments.length).toBeGreaterThan(1);
 });
 
 test('non-highlighted example has no highlight', () => {
     const doc = parseDoc(toTokens('¶\\1 + 1\\¶'));
-    const example = doc.markup.paragraphs[0].segments[0];
-    expect(example).toBeInstanceOf(Example);
-    expect((example as Example).highlight).toBeUndefined();
+    const example = mustBe(doc.markup.paragraphs[0]!.segments[0], Example);
+    expect(example.highlight).toBeUndefined();
 });
 
 test('highlighted example roundtrips to ⭐ form', () => {
     const doc = parseDoc(toTokens('¶\\1 + 1\\highlight¶'));
-    const example = doc.markup.paragraphs[0].segments[0] as Example;
+    const example = mustBe(doc.markup.paragraphs[0]!.segments[0], Example);
     expect(example.toWordplay()).toBe('\\1+1\\⭐');
 });
 
 test('defect-annotated example with 🪲', () => {
     const doc = parseDoc(toTokens('¶\\/\\🪲¶'));
-    const example = doc.markup.paragraphs[0].segments[0];
-    expect(example).toBeInstanceOf(Example);
-    expect((example as Example).defect).toBeDefined();
-    expect((example as Example).defect?.getText()).toBe('🪲');
-    expect((example as Example).highlight).toBeUndefined();
+    const example = mustBe(doc.markup.paragraphs[0]!.segments[0], Example);
+    expect(example.defect).toBeDefined();
+    expect(example.defect?.getText()).toBe('🪲');
+    expect(example.highlight).toBeUndefined();
 });
 
 test('non-defect example has no defect', () => {
     const doc = parseDoc(toTokens('¶\\1 + 1\\¶'));
-    const example = doc.markup.paragraphs[0].segments[0];
-    expect(example).toBeInstanceOf(Example);
-    expect((example as Example).defect).toBeUndefined();
+    const example = mustBe(doc.markup.paragraphs[0]!.segments[0], Example);
+    expect(example.defect).toBeUndefined();
 });
 
 test('example can be both highlighted and defect-annotated in either order', () => {
     for (const source of ['¶\\1 + 1\\⭐🪲¶', '¶\\1 + 1\\🪲⭐¶']) {
-        const example = parseDoc(toTokens(source)).markup.paragraphs[0]
-            .segments[0] as Example;
+        const example = mustBe(
+            parseDoc(toTokens(source)).markup.paragraphs[0]!.segments[0],
+            Example,
+        );
         expect(example.highlight).toBeDefined();
         expect(example.defect).toBeDefined();
     }
@@ -661,7 +673,7 @@ test('example can be both highlighted and defect-annotated in either order', () 
 
 test('defect-annotated example roundtrips to 🪲 form', () => {
     const doc = parseDoc(toTokens('¶\\1 + 1\\🪲¶'));
-    const example = doc.markup.paragraphs[0].segments[0] as Example;
+    const example = mustBe(doc.markup.paragraphs[0]!.segments[0], Example);
     expect(example.toWordplay()).toBe('\\1+1\\🪲');
 });
 

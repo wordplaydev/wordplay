@@ -53,6 +53,7 @@
     import { spaceIndicator, wrap } from '@db/Database';
     import Node from '@nodes/Node';
     import Source from '@nodes/Source';
+    import { must } from '@util/nullable';
     import { tick, untrack } from 'svelte';
     import NodeView, { type Format } from './NodeView.svelte';
 
@@ -135,11 +136,13 @@
     );
     // The `?? 0` is a soft spot: a position-less statement would map to line 0 and
     // corrupt neighboring spans — but real Source statements always have positions.
-    let firstOffsets = $derived(
-        source
-            ? statements.map((s) => source!.getNodeFirstPosition(s) ?? 0)
-            : statements.map(() => 0),
-    );
+    let firstOffsets = $derived.by(() => {
+        // Held in a local so the closure below narrows it.
+        const from = source;
+        return from === undefined
+            ? statements.map(() => 0)
+            : statements.map((s) => from.getNodeFirstPosition(s) ?? 0);
+    });
     // Each statement's first source line, for line-span arithmetic in measureRendered.
     let firstLines = $derived(firstOffsets.map((o) => lineAt(starts, o)));
 
@@ -148,9 +151,10 @@
     // the last statement's height estimate must stop here rather than at the end of
     // the source — otherwise the bottom spacer double-counts them.
     let lastContentLine = $derived.by(() => {
+        const lastStatement = statements[statements.length - 1];
         const last =
-            source && statements.length > 0
-                ? source.getNodeLastPosition(statements[statements.length - 1])
+            source && lastStatement !== undefined
+                ? source.getNodeLastPosition(lastStatement)
                 : undefined;
         return last === undefined ? starts.length : lineAt(starts, last) + 1;
     });
@@ -202,7 +206,12 @@
             lineHeight,
             lastContentLine,
         );
-        return statements.map((s, i) => measured.get(s.id) ?? est[i]);
+        return statements.map(
+            (s, i) =>
+                measured.get(s.id) ??
+                // One estimate per statement: `est` is built from the same list.
+                must(est[i], `an estimated height for statement ${i}`),
+        );
     });
     // Cumulative offsets, recomputed only when heights change (measurement,
     // edits, epoch), not per scroll frame. The window derivation binary-searches
@@ -312,15 +321,17 @@
         const next = new Map(measured);
         let changed = false;
         const gaps: { px: number; lines: number }[] = [];
-        for (let i = 0; i + 1 < tops.length; i++) {
-            const px = tops[i + 1].top - tops[i].top;
+        for (const [i, top] of tops.entries()) {
+            const following = tops[i + 1];
+            if (following === undefined) break;
+            const px = following.top - top.top;
             gaps.push({
                 px,
                 lines:
-                    (firstLines[tops[i + 1].index] ?? 0) -
-                    (firstLines[tops[i].index] ?? 0),
+                    (firstLines[following.index] ?? 0) -
+                    (firstLines[top.index] ?? 0),
             });
-            if (next.has(tops[i].id)) continue;
+            if (next.has(top.id)) continue;
             const h = Math.round(px);
             // Reject negative or absurd values (a transient bad layout). Zero is
             // legitimate: two statements sharing a line have a zero-height slot.
@@ -328,7 +339,7 @@
             // which a single long unfolded statement legitimately exceeds — and
             // being rejected, it would sit on its estimate forever.
             if (h >= 0 && h <= maxSlotHeight) {
-                next.set(tops[i].id, h);
+                next.set(top.id, h);
                 changed = true;
             }
         }
@@ -643,7 +654,9 @@
             const index = statements.findIndex((s) => s.id === statementId);
             if (index < 0) break;
             const offset = prefix[index];
-            const height = prefix[index + 1] - prefix[index];
+            const end = prefix[index + 1];
+            if (offset === undefined || end === undefined) break;
+            const height = end - offset;
             const target = Math.max(
                 0,
                 offset - Math.max(0, (viewportHeight - height) / 2),

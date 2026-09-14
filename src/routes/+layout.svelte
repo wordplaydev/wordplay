@@ -24,10 +24,7 @@
     import { FaceSetting } from '@db/settings/FaceSetting';
     import { type LocaleTextsAccessor } from '@locale/Locales';
     import { getManifestPath } from '@locale/SupportedLocales';
-    import {
-        SupportedLocales,
-        type SupportedLocale,
-    } from '@locale/SupportedLocales';
+    import { isSupportedLocale } from '@locale/SupportedLocales';
     import type { User } from 'firebase/auth';
     import { onMount, type Snippet } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
@@ -269,13 +266,9 @@
     // components see the correct locale(s) without requiring a page reload.
     // The param may contain multiple locales joined by '+' (e.g. "en-US+es-MX").
     $effect(() => {
-        const urlLocale = page.params.locale as string | undefined;
+        const urlLocale = page.params.locale;
         if (browser && urlLocale) {
-            const valid = urlLocale
-                .split('+')
-                .filter((l) =>
-                    SupportedLocales.includes(l as SupportedLocale),
-                ) as SupportedLocale[];
+            const valid = urlLocale.split('+').filter(isSupportedLocale);
             if (valid.length > 0) {
                 DB.Locales.setLocalesFromURL(valid);
                 // Arriving by a URL that names a language is a choice too, and it has to

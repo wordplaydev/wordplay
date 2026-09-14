@@ -1,4 +1,5 @@
 import { Purpose } from '@concepts/Purpose';
+import { isNonEmpty, type NonEmpty } from '@util/nullable';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
@@ -35,8 +36,9 @@ import type TypeSet from '@nodes/TypeSet';
 import UnionType from '@nodes/UnionType';
 
 export default class TextLiteral extends Literal {
-    /** The list of translations for the text literal */
-    readonly texts: Translation[];
+    /** The translations for the text literal. Never empty: a text with no
+     *  translations is not a text, so one with none is given an empty one. */
+    readonly texts: NonEmpty<Translation>;
 
     /** A cache of unescaped tokens by id, as they are static, and we should only compute them once. */
     readonly unescapedTokenCache: Record<string, string> = {};
@@ -44,7 +46,7 @@ export default class TextLiteral extends Literal {
     constructor(text: Translation[]) {
         super();
 
-        this.texts = text;
+        this.texts = isNonEmpty(text) ? text : [Translation.make('')];
 
         this.computeChildren();
     }
@@ -159,9 +161,9 @@ export default class TextLiteral extends Literal {
     }
 
     clone(replace?: Replacement): this {
-        return new TextLiteral(
-            this.replaceChild('texts', this.texts, replace),
-        ) as this;
+        return this.cloned(
+            new TextLiteral(this.replaceChild('texts', this.texts, replace)),
+        );
     }
 
     getAffiliatedType(): BasisTypeName {
@@ -285,10 +287,10 @@ export default class TextLiteral extends Literal {
         return unescaped(this.texts[0].getText());
     }
 
-    getLocaleText(locales: Locale[]) {
+    getLocaleText(locales: Locale[]): Translation {
         return this.texts.length === 1
             ? this.texts[0]
-            : getPreferred(locales, this.texts);
+            : (getPreferred(locales, this.texts) ?? this.texts[0]);
     }
 
     getValue(locales: Locale[]): TextValue {

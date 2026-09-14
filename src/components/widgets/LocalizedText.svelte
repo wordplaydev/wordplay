@@ -10,6 +10,7 @@
     import { accessorToLocalePath } from '@components/localization/accessorToLocalePath';
     import {
         getLinkLocalize,
+        type LocalizablePath,
         getLocalizing,
     } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
@@ -20,7 +21,6 @@
         localeEdits,
         saveLocaleEdit,
     } from '@db/locales/LocalizationDexie';
-    import type { LocaleTextAccessor } from '@locale/Locales';
     import type LocaleText from '@locale/LocaleText';
     import {
         isMachineTranslated,
@@ -46,7 +46,7 @@
          *
          *  Optional only because tutorial-text usage may supply `overrideKey` +
          *  `sourceText` instead, which bypasses locale-tree path resolution. */
-        path?: ((locale: LocaleText) => unknown) | LocaleTextAccessor;
+        path?: LocalizablePath;
         markup?: boolean;
         /** Trailing path segments applied after `path` resolves. Used to address a sub-field
          *  (string) or an element of a fixed-length tuple (e.g., ['labels', 0]). */
@@ -95,9 +95,8 @@
     function walk(root: unknown, segments: (string | number)[]): unknown {
         let node: unknown = root;
         for (const seg of segments) {
-            if (node === null || node === undefined) return undefined;
-            if (typeof node !== 'object') return undefined;
-            node = (node as Record<string | number, unknown>)[seg];
+            if (typeof node !== 'object' || node === null) return undefined;
+            node = Reflect.get(node, seg);
         }
         return node;
     }
@@ -168,7 +167,7 @@
     const linkLocalize = getLinkLocalize();
     $effect(() => {
         if (editOnly || linkLocalize === undefined) return;
-        linkLocalize.register(path as LocaleTextAccessor | undefined);
+        linkLocalize.register(path);
         return () => linkLocalize.register(undefined);
     });
 
@@ -231,9 +230,7 @@
         noTipBadge
         bind:text={editedText}
         bind:view={fieldView}
-        focus={() =>
-            (localizing.focused =
-                path !== undefined ? (path as LocaleTextAccessor) : undefined)}
+        focus={() => (localizing.focused = path)}
         blur={() => (localizing.focused = undefined)}
         done={() => {
             if (cancelled) {

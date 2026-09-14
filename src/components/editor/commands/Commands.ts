@@ -95,10 +95,7 @@ import {
     FOLD_GLYPH,
     FOLD_GLYPH_ROTATION,
 } from '@components/editor/util/folding';
-import {
-    ProjectModes,
-    type ProjectMode,
-} from '@components/project/ProjectMode';
+import { type ProjectMode } from '@components/project/ProjectMode';
 import { TileKind } from '@components/project/TileKind';
 import { TouchSupported } from '@components/util/TouchSupported';
 import { Settings, type Database } from '@db/Database';
@@ -857,11 +854,12 @@ export const ModeToggle: Command = {
     },
 };
 
+/** The evaluation tips are a positional tuple in ProjectModes order — edit,
+ *  debug, play — so each command below names its own index. */
 export const ModeEdit: Command = {
     uiid: 'modeEdit',
     symbol: '✏️',
-    description: (l) =>
-        l.ui.output.mode.evaluation.tips[ProjectModes.indexOf('edit')],
+    description: (l) => l.ui.output.mode.evaluation.tips[0],
     feedback: 'delegated',
     visible: Visibility.Invisible,
     category: Category.Evaluate,
@@ -883,8 +881,7 @@ export const ModeEdit: Command = {
 export const ModeDebug: Command = {
     uiid: 'modeDebug',
     symbol: DEBUG_SYMBOL,
-    description: (l) =>
-        l.ui.output.mode.evaluation.tips[ProjectModes.indexOf('debug')],
+    description: (l) => l.ui.output.mode.evaluation.tips[1],
     feedback: 'delegated',
     visible: Visibility.Invisible,
     category: Category.Evaluate,
@@ -907,8 +904,7 @@ export const ModeDebug: Command = {
 export const ModePlay: Command = {
     uiid: 'modePlay',
     symbol: PLAY_SYMBOL,
-    description: (l) =>
-        l.ui.output.mode.evaluation.tips[ProjectModes.indexOf('play')],
+    description: (l) => l.ui.output.mode.evaluation.tips[2],
     feedback: 'delegated',
     visible: Visibility.Invisible,
     category: Category.Evaluate,
@@ -2066,9 +2062,9 @@ const Commands: Command[] = [
             // see if there's an unclosed table open prior to the cursor, and if so, insert a close symbol.
             const tokensPrior = caret?.getTokensPrior();
             if (tokensPrior)
-                for (let i = tokensPrior.length - 1; i >= 0; i--) {
-                    if (tokensPrior[i].isSymbol(Sym.TableClose)) break;
-                    else if (tokensPrior[i].isSymbol(Sym.TableOpen))
+                for (const prior of [...tokensPrior].reverse()) {
+                    if (prior.isSymbol(Sym.TableClose)) break;
+                    else if (prior.isSymbol(Sym.TableOpen))
                         return (
                             caret.insert(TABLE_CLOSE_SYMBOL, blocks, project) ??
                             true

@@ -68,6 +68,7 @@ export default function bootstrapNone(locales: Locales) {
                     ),
                     NoneType.make(),
                     TextType.make(),
+                    NoneValue,
                     (requestor, val: NoneValue) =>
                         new TextValue(requestor, val.toString()),
                 ),

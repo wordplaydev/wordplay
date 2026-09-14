@@ -247,8 +247,7 @@ describe('galleryContentChanged with characters', () => {
     it('treats a gallery stored before #822 as having no characters', () => {
         // The field is absent on every gallery until its first upgrade write,
         // and reading it as a change would re-queue every approved gallery.
-        const legacy = { ...base };
-        delete (legacy as { characters?: string[] }).characters;
+        const { characters: _omitted, ...legacy } = base;
         expect(galleryContentChanged(legacy, { ...legacy })).toBe(false);
         expect(
             galleryContentChanged(legacy, { ...legacy, characters: [] }),

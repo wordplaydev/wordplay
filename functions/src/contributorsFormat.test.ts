@@ -15,9 +15,10 @@ const FILE = 'src/routes/[[locale]]/thanks/contributors.json';
 describe('contributors.json', () => {
     it('the bot writes it already prettier-formatted', async () => {
         const committed = readFileSync(FILE, 'utf8');
-        const written = serializeContributors(
-            JSON.parse(committed) as ContributorsData,
-        );
+        // Annotating the parse is what states the shape; a mismatch is a
+        // failing test rather than a cast that agrees with itself.
+        const parsed: ContributorsData = JSON.parse(committed);
+        const written = serializeContributors(parsed);
 
         // What the bot would commit is byte-identical to what's in the repo...
         expect(written).toBe(committed);

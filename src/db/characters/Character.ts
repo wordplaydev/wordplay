@@ -13,6 +13,7 @@
 // database, and Color pulls the whole basis.
 import { adaptLightness } from '@output/Color/adapt';
 import { LCHtoRGB } from '@output/Color/lch';
+import { must } from '@util/nullable';
 import z from 'zod';
 
 const PointSchema = z.object({ x: z.number(), y: z.number() });
@@ -360,13 +361,16 @@ function pathToSVG(
     selected: boolean = false,
     adapting = false,
 ): string {
+    // The schema requires a path to have at least one point, which is what makes
+    // the opening `M` command below expressible.
     const [first, ...rest] = path.points;
+    const start = must(first, 'a path to have a first point');
     const points = [
-        `${first.x} ${first.y}`,
+        `${start.x} ${start.y}`,
         ...rest.map(segmentToSVG),
         // A closed path's final segment arrives back at the first point, so it's
         // the first point's control point that bends it.
-        ...(path.closed ? [first.curve ? segmentToSVG(first) : ''] : []),
+        ...(path.closed ? [start.curve ? segmentToSVG(start) : ''] : []),
     ]
         .filter((segment) => segment !== '')
         .join(' ');

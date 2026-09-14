@@ -88,8 +88,7 @@ export function analyzeMusic(music: MusicData): Set<MusicRisk> {
         // opening note has nothing to jump from, so neither is a startle.
         let lastSounding: number | undefined = undefined;
         let loudRun = 0;
-        for (let index = 0; index < track.notes.length; index++) {
-            const note = track.notes[index];
+        for (const [index, note] of track.notes.entries()) {
             const level = levelOf(track, index) * music.volume;
 
             if (note.degrees.length > 0) {

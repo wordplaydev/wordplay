@@ -4,11 +4,13 @@ import {
     ClassCreationCollection,
     RecordKeptMs,
     type ClassCreation,
+    isClassCreation,
 } from './classCreation.js';
 import {
     HandleCollection,
     UsernameCollection,
     type Reservation,
+    isReservation,
 } from './handles.js';
 
 /**
@@ -108,8 +110,12 @@ export default async function sweepReservations(): Promise<SweepReport> {
     await PromisePool.for(reservations.docs)
         .withConcurrency(3)
         .process(async (doc) => {
-            const held = doc.data() as Reservation;
-            const action = reservationAction(held, now);
+            // A reservation this sweep can't read is kept: deleting is
+            // irreversible, and a shape it doesn't know is not a stale one.
+            const held = doc.data();
+            const action = isReservation(held)
+                ? reservationAction(held, now)
+                : 'keep';
             if (action === 'keep') {
                 report.kept++;
                 return;
@@ -149,7 +155,9 @@ export default async function sweepReservations(): Promise<SweepReport> {
     await PromisePool.for(attempts.docs)
         .withConcurrency(3)
         .process(async (doc) => {
-            if (!attemptIsSpent(doc.data() as ClassCreation, now)) return;
+            const attempt = doc.data();
+            if (!isClassCreation(attempt) || !attemptIsSpent(attempt, now))
+                return;
             await doc.ref.delete().catch(() => undefined);
             report.attempts++;
         });

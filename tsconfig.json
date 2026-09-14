@@ -37,6 +37,12 @@
         "sourceMap": true,
         "noEmit": true,
         "strict": true,
+        // An index read answers `T | undefined`, because an array or record
+        // lookup can miss. `src/util/nullable.ts` holds the helpers that say so
+        // (`first`, `last`, `isDefined`, `allDefined`, `must`); the convention
+        // test in `src/util/typeAssertionConvention.test.ts` is what stops the
+        // flag from being paid for in `!` and `as`.
+        "noUncheckedIndexedAccess": true,
         "noErrorTruncation": true,
         "exactOptionalPropertyTypes": true,
         "allowImportingTsExtensions": true

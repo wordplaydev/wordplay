@@ -8,6 +8,7 @@ import {
     type WritingLayout,
 } from '@locale/Scripts';
 import { TextCloseByTextOpen } from '@parser/Tokenizer';
+import { entriesOf, type NonEmpty } from '@util/nullable';
 
 export type LanguageMetadata = {
     /** The language name, in its basis script */
@@ -19,8 +20,9 @@ export type LanguageMetadata = {
     /** Optionally deviate from the default of " for secondary internal quotes */
     secondary?: string;
     /** Specify scripts that the language uses. The first entry is treated
-     *  as the dominant script and drives writing direction and layout. */
-    scripts: Script[];
+     *  as the dominant script and drives writing direction and layout, so a
+     *  language always declares at least one. */
+    scripts: NonEmpty<Script>;
     /** Specify regions that the language is typically used in (and to which it can be translated) */
     regions: RegionCode[];
     /** Approximate total number of speakers (first-language plus
@@ -2277,9 +2279,7 @@ export function getCLDRCandidates(
 export const PossibleLanguages: LanguageCode[] =
     Object.keys(Languages).filter(isLanguageCode);
 
-export const TranslatableLocales: Locale[] = (
-    Object.entries(Languages) as [LanguageCode, LanguageMetadata][]
-)
+export const TranslatableLocales: Locale[] = entriesOf(Languages)
     .filter(([language]) => Translatable.includes(language))
     .map(([language, info]) =>
         info.regions.length === 0
@@ -2292,8 +2292,15 @@ export function getLanguageName(code: LanguageCode): string | undefined {
     return Languages[code]?.name;
 }
 
+/** One language's metadata, read through its declared shape: the table is a
+ *  literal, so a member that happens to omit an optional field would
+ *  otherwise not admit the read at all. */
+function metadata(code: LanguageCode): LanguageMetadata {
+    return Languages[code];
+}
+
 export function getLanguageQuoteOpen(code: LanguageCode): string {
-    return (Languages[code] as LanguageMetadata)?.quote ?? "'";
+    return metadata(code).quote ?? "'";
 }
 
 export function getLanguageQuoteClose(code: LanguageCode): string {
@@ -2304,7 +2311,7 @@ export function getLanguageQuoteClose(code: LanguageCode): string {
 }
 
 export function getLanguageSecondaryQuote(code: LanguageCode): string {
-    return (Languages[code] as LanguageMetadata)?.secondary ?? '"';
+    return metadata(code).secondary ?? '"';
 }
 
 export function getLanguageDirection(code: LanguageCode): WritingDirection {

@@ -13,6 +13,7 @@
  * Assumes cwd = repo root (npm run guarantees this).
  */
 import { execFileSync } from 'node:child_process';
+import { isRecord } from '@util/guards';
 import * as fs from 'node:fs';
 
 const VERSIONS = 'scripts/emoji/versions.json';
@@ -66,13 +67,15 @@ async function upstreamVersions(): Promise<Upstream> {
             },
         })
     ).json();
-    const notoColorEmoji = (release as { tag_name?: string }).tag_name ?? '?';
+    const tag = isRecord(release) ? release.tag_name : undefined;
+    const notoColorEmoji = typeof tag === 'string' ? tag : '?';
     const monoMeta = (await (await fetch(MONO_METADATA_URL)).text()).replace(
         /^\)\]\}'/,
         '',
     );
-    const notoEmojiMono =
-        (JSON.parse(monoMeta) as { lastModified?: string }).lastModified ?? '?';
+    const meta: unknown = JSON.parse(monoMeta);
+    const modified = isRecord(meta) ? meta.lastModified : undefined;
+    const notoEmojiMono = typeof modified === 'string' ? modified : '?';
     return { unicodeEmoji, notoColorEmoji, notoEmojiMono };
 }
 

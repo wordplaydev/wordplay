@@ -38,7 +38,7 @@ export default class NeverType extends Type {
     }
 
     clone() {
-        return new NeverType() as this;
+        return this.cloned(new NeverType());
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.NeverType;

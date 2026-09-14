@@ -36,11 +36,13 @@ export default class PatternGroup extends PatternAtom {
     }
 
     clone(replace?: Replacement) {
-        return new PatternGroup(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('body', this.body, replace),
-            this.replaceChild('close', this.close, replace),
-        ) as this;
+        return this.cloned(
+            new PatternGroup(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('body', this.body, replace),
+                this.replaceChild('close', this.close, replace),
+            ),
+        );
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.PatternGroup;

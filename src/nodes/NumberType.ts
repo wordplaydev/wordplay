@@ -88,14 +88,16 @@ export default class NumberType extends BasisType {
     }
 
     clone(replace?: Replacement) {
-        return new NumberType(
-            this.replaceChild('number', this.number, replace),
-            this.unit === undefined || this.unit instanceof Function
-                ? this.unit
-                : this.replaceChild('unit', this.unit, replace),
-            undefined,
-            this.replaceChild('none', this.none, replace),
-        ) as this;
+        return this.cloned(
+            new NumberType(
+                this.replaceChild('number', this.number, replace),
+                this.unit === undefined || this.unit instanceof Function
+                    ? this.unit
+                    : this.replaceChild('unit', this.unit, replace),
+                undefined,
+                this.replaceChild('none', this.none, replace),
+            ),
+        );
     }
 
     hasDerivedUnit() {

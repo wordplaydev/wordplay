@@ -8,6 +8,7 @@ import {
     toMarkup,
     textId,
 } from './updates';
+import { must } from '@util/nullable.ts';
 
 describe('parseEntry', () => {
     test('extracts simple emoji prefix', () => {
@@ -77,7 +78,7 @@ describe('parseChangelog', () => {
             '',
             '- 🔠 A thing.',
         ].join('\n');
-        const [update] = parseChangelog(md);
+        const update = must(parseChangelog(md)[0], 'an update');
         expect(update.summary).toBe('This week we focused on the editor.');
         expect(update.changes.added).toHaveLength(1);
     });
@@ -96,7 +97,7 @@ describe('parseChangelog', () => {
             '',
             '- 🐛 A bug.',
         ].join('\n');
-        const [update] = parseChangelog(md);
+        const update = must(parseChangelog(md)[0], 'an update');
         expect(update.summaries.added).toBe('Editor things got better.');
         expect(update.changes.fixed).toHaveLength(1);
     });
@@ -113,7 +114,7 @@ describe('parseChangelog', () => {
             '',
             '- 🔠 A thing.',
         ].join('\n');
-        const [update] = parseChangelog(md);
+        const update = must(parseChangelog(md)[0], 'an update');
         expect(update.summary).toBe('First paragraph.\n\nSecond paragraph.');
     });
 
@@ -125,7 +126,7 @@ describe('parseChangelog', () => {
             '',
             '- 🔠 A thing.',
         ].join('\n');
-        const [update] = parseChangelog(md);
+        const update = must(parseChangelog(md)[0], 'an update');
         expect(update.summary).toBe('');
         expect(update.summaries.added).toBe('');
     });
@@ -144,11 +145,11 @@ describe('parseChangelog', () => {
             '',
             '- 요 Korean text entry.',
         ].join('\n');
-        const [update] = parseChangelog(md);
+        const update = must(parseChangelog(md)[0], 'an update');
         expect(update.summary).toBe('Intro.');
         expect(update.changes.added).toHaveLength(1);
         expect(update.changes.fixed).toHaveLength(1);
-        expect(update.changes.fixed[0].emoji).toBe('요');
+        expect(must(update.changes.fixed[0], 'a change').emoji).toBe('요');
     });
 
     test('attributes prose between two sections to the preceding section', () => {
@@ -165,7 +166,7 @@ describe('parseChangelog', () => {
             '',
             '- 🐛 B.',
         ].join('\n');
-        const [update] = parseChangelog(md);
+        const update = must(parseChangelog(md)[0], 'an update');
         expect(update.summaries.added).toBe('Belongs to Added.');
         expect(update.summaries.fixed).toBe('');
     });
@@ -235,23 +236,31 @@ describe('toBundle', () => {
     test('carries the format version and one id per text', () => {
         const bundle = toBundle(parseChangelog(md));
         expect(bundle.format).toBe(BundleFormat);
-        const [update] = bundle.updates;
+        const update = must(bundle.updates[0], 'an update');
         expect(update.summary?.id).toBe(
             textId('This week we focused on the editor.'),
         );
-        expect(update.changes.added[0].id).toBe(
+        expect(must(update.changes.added[0], 'a change').id).toBe(
             textId('We added a `Phrase`. (#12)'),
         );
     });
 
     test('keeps the emoji structural and converts the text to markup', () => {
-        const [update] = toBundle(parseChangelog(md)).updates;
-        expect(update.changes.added[0].emoji).toBe('🔠');
-        expect(update.changes.added[0].markup).toContain('\\Phrase\\');
+        const update = must(
+            toBundle(parseChangelog(md)).updates[0],
+            'an update',
+        );
+        expect(must(update.changes.added[0], 'a change').emoji).toBe('🔠');
+        expect(must(update.changes.added[0], 'a change').markup).toContain(
+            '\\Phrase\\',
+        );
     });
 
     test('represents an absent summary as null', () => {
-        const [update] = toBundle(parseChangelog(md)).updates;
+        const update = must(
+            toBundle(parseChangelog(md)).updates[0],
+            'an update',
+        );
         expect(update.summaries.added).toBe(null);
         expect(update.summaries.fixed).toBe(null);
     });

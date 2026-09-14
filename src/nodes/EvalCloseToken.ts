@@ -2,8 +2,8 @@ import { EVAL_CLOSE_SYMBOL } from '@parser/Symbols';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 
-export default class EvalCloseToken extends Token {
-    constructor() {
-        super(EVAL_CLOSE_SYMBOL, Sym.EvalClose);
-    }
+/** A token of this kind. A function rather than a subclass: every token is
+ *  a plain Token, so a clone stays what it was constructed as. */
+export default function EvalCloseToken(): Token {
+    return new Token(EVAL_CLOSE_SYMBOL, Sym.EvalClose);
 }

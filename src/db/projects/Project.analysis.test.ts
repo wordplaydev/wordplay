@@ -3,6 +3,7 @@ import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Source from '@nodes/Source';
+import { must } from '@util/nullable';
 import fs from 'fs';
 import path from 'path';
 import { describe, expect, test } from 'vitest';
@@ -104,12 +105,16 @@ describe('the call graph spans sources', () => {
             if (fun === undefined) return;
             const call = p.getEvaluationsOf(fun)[0];
             expect(call).toBeDefined();
+            if (call === undefined) return;
             // A bind in a function has no value until someone calls it, so the
             // call is one of its dependencies. Without this edge a reaction
             // inside the function stops reevaluating.
-            expect(p.getExpressionsAffectedBy(call).has(fun.inputs[0])).toBe(
-                true,
-            );
+            expect(
+                p
+                    .getExpressionsAffectedBy(call)
+                    // The fixture function declares one input.
+                    .has(must(fun.inputs[0], 'the function input')),
+            ).toBe(true);
         },
     );
 
@@ -139,9 +144,12 @@ describe('the call graph spans sources', () => {
         if (fun === undefined) return;
         const call = after.getEvaluationsOf(fun)[0];
         expect(call).toBeDefined();
-        expect(after.getExpressionsAffectedBy(call).has(fun.inputs[0])).toBe(
-            true,
-        );
+        if (call === undefined) return;
+        expect(
+            after
+                .getExpressionsAffectedBy(call)
+                .has(must(fun.inputs[0], 'the function input')),
+        ).toBe(true);
     });
 });
 

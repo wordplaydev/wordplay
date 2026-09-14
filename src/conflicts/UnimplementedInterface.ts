@@ -90,8 +90,8 @@ export class UnimplementedInterface extends Conflict {
             : new Block(
                   [stub],
                   BlockKind.Structure,
-                  new EvalOpenToken(),
-                  new EvalCloseToken(),
+                  EvalOpenToken(),
+                  EvalCloseToken(),
               );
         const newStructure = this.structure.replace('expression', newBlock);
         return [

@@ -15,9 +15,9 @@ import Reaction from '@nodes/Reaction';
 import Changed from '@nodes/Changed';
 import Previous from '@nodes/Previous';
 import Match from '@nodes/Match';
-import type Expression from '@nodes/Expression';
+import type Node from '@nodes/Node';
 
-function getRepairs(code: string): Expression[] {
+function getRepairs(code: string): Node[] {
     const source = new Source('test', code);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const context = project.getContext(source);
@@ -39,7 +39,7 @@ function getRepairs(code: string): Expression[] {
             const { newNode } = r.mediator(context, project.getLocales());
             if (newNode === undefined)
                 throw new Error('Resolution mediator returned no newNode');
-            return newNode as Expression;
+            return newNode;
         });
 }
 

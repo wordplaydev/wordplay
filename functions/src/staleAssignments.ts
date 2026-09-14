@@ -1,3 +1,5 @@
+import { isRecord } from './shared/guards.js';
+
 /**
  * "Amy's GitHub bot": keeps issue assignments tidy.
  *
@@ -17,6 +19,8 @@ import {
     paginate,
     REPO_BASE,
     type GitHubUser,
+    isGitHubUser,
+    isGitHubUserOrNull,
 } from './github.js';
 
 /** Days of assignee inactivity before the bot posts a warning. */
@@ -57,11 +61,37 @@ type IssueSummary = {
     created_at: string;
 };
 
+function isIssueSummary(value: unknown): value is IssueSummary {
+    return (
+        isRecord(value) &&
+        typeof value.number === 'number' &&
+        typeof value.html_url === 'string' &&
+        typeof value.title === 'string' &&
+        (value.assignees === null ||
+            (Array.isArray(value.assignees) &&
+                value.assignees.every(isGitHubUser))) &&
+        Array.isArray(value.labels) &&
+        value.labels.every(
+            (label) => isRecord(label) && typeof label.name === 'string',
+        ) &&
+        typeof value.created_at === 'string'
+    );
+}
+
 type IssueComment = {
     body: string | null;
     created_at: string;
     user: GitHubUser | null;
 };
+
+function isIssueComment(value: unknown): value is IssueComment {
+    return (
+        isRecord(value) &&
+        (value.body === null || typeof value.body === 'string') &&
+        typeof value.created_at === 'string' &&
+        isGitHubUserOrNull(value.user)
+    );
+}
 
 type TimelineEvent = {
     event: string;
@@ -69,6 +99,18 @@ type TimelineEvent = {
     actor?: GitHubUser | null;
     assignee?: GitHubUser | null;
 };
+
+function isTimelineEvent(value: unknown): value is TimelineEvent {
+    return (
+        isRecord(value) &&
+        typeof value.event === 'string' &&
+        (value.created_at === undefined ||
+            value.created_at === null ||
+            typeof value.created_at === 'string') &&
+        (value.actor === undefined || isGitHubUserOrNull(value.actor)) &&
+        (value.assignee === undefined || isGitHubUserOrNull(value.assignee))
+    );
+}
 
 export type TidyReport = {
     dryRun: boolean;
@@ -93,7 +135,7 @@ function latestWarningFor(
     let found: IssueComment | null = null;
     for (const comment of comments) {
         const match = comment.body?.match(MARKER_RE);
-        if (!match) continue;
+        if (!match || match[1] === undefined) continue;
         const logins = match[1].split(',');
         if (!logins.includes(login)) continue;
         if (found === null || comment.created_at > found.created_at)
@@ -200,9 +242,10 @@ export async function tidyStaleAssignments(
     };
 
     log('Fetching open assigned issues...');
-    const issues = await paginate<IssueSummary>(
+    const issues = await paginate(
         token,
         `${REPO_BASE}/issues?state=open&assignee=*`,
+        isIssueSummary,
     );
 
     for (const issue of issues) {
@@ -219,13 +262,15 @@ export async function tidyStaleAssignments(
 
         report.checkedIssues++;
 
-        const comments = await paginate<IssueComment>(
+        const comments = await paginate(
             token,
             `${REPO_BASE}/issues/${issue.number}/comments`,
+            isIssueComment,
         );
-        const timeline = await paginate<TimelineEvent>(
+        const timeline = await paginate(
             token,
             `${REPO_BASE}/issues/${issue.number}/timeline`,
+            isTimelineEvent,
         );
 
         const toWarn: string[] = [];

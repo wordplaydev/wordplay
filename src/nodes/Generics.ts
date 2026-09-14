@@ -306,12 +306,12 @@ function getConcreteTypeVariable(
             ) {
                 // Is this input specified by name in the evaluation?
                 const namedInput = evaluation.inputs.find(
-                    (i) =>
+                    (i): i is Bind =>
                         i instanceof Bind &&
                         inputWithVariableType
                             .getNames()
                             .find((n) => i.hasName(n)) !== undefined,
-                ) as Bind | undefined;
+                );
                 if (namedInput !== undefined) {
                     // Infer the type of the type variable from the input's value expression.
                     if (namedInput.value !== undefined)

@@ -51,14 +51,26 @@ test('the pre-commit hook runs the sweep for every corpus it verifies', () => {
     ).toEqual([]);
 });
 
+/** The `scripts` block of a package.json, read without trusting its shape. */
+function scriptsIn(json: string): Record<string, string> {
+    const parsed: unknown = JSON.parse(json);
+    if (typeof parsed !== 'object' || parsed === null || !('scripts' in parsed))
+        throw new Error('package.json declares no scripts');
+    const block: unknown = parsed.scripts;
+    if (typeof block !== 'object' || block === null)
+        throw new Error('package.json scripts is not an object');
+    const scripts: Record<string, string> = {};
+    for (const name of Object.keys(block)) {
+        const value: unknown = Reflect.get(block, name);
+        if (typeof value === 'string') scripts[name] = value;
+    }
+    return scripts;
+}
+
 test('the default test scripts do not run the sweep', () => {
-    const scripts = (
-        JSON.parse(
-            readFileSync(resolve(RepoRoot, 'package.json'), 'utf-8'),
-        ) as {
-            scripts: Record<string, string>;
-        }
-    ).scripts;
+    const scripts = scriptsIn(
+        readFileSync(resolve(RepoRoot, 'package.json'), 'utf-8'),
+    );
     // Named projects rather than `--project='!sweep'`: vitest supports the
     // negation, but a leading `!` in a package.json script quotes differently on
     // sh and cmd.exe, and this repo already reaches for run-script-os when a

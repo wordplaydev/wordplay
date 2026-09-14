@@ -28,6 +28,7 @@ test('the functions example manifest matches examples.ts', () => {
     for (const gallery of galleries) {
         const info = ExampleGalleries[gallery.getID()];
         expect(info, `manifest entry for ${gallery.getID()}`).toBeDefined();
+        if (info === undefined) continue;
         expect(
             gallery
                 .getProjects()
@@ -39,13 +40,15 @@ test('the functions example manifest matches examples.ts', () => {
 });
 
 test('the functions example manifest locale keys match en-US.json', () => {
-    const enUS = JSON.parse(
+    const enUS: {
+        gallery: Record<string, { name: string; description: string }>;
+    } = JSON.parse(
         readFileSync(path.join('src', 'locale', 'en-US.json'), 'utf8'),
-    ) as { gallery: Record<string, { name: string; description: string }> };
-    for (const id of Object.keys(ExampleGalleries)) {
-        const info = ExampleGalleries[id];
+    );
+    for (const info of Object.values(ExampleGalleries)) {
         const text = enUS.gallery[info.localeKey];
         expect(text, `en-US gallery text for ${info.localeKey}`).toBeDefined();
+        if (text === undefined) continue;
         expect(info.name).toBe(text.name);
         expect(info.description).toBe(text.description);
     }

@@ -4,6 +4,7 @@ import {
     type Consent,
 } from './ageOfConsent.js';
 import { paginate, githubFetch, REPO_BASE } from './github.js';
+import { isRecord } from './shared/guards.js';
 import { isNonProdDeployment } from './prodOnly.js';
 
 /**
@@ -34,8 +35,10 @@ export type StaleRow = Consent & {
 function addMonths(iso: string, months: number): number | undefined {
     const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
     if (match === null) return undefined;
-    const [year, month, day] = match.slice(1).map(Number);
-    return Date.UTC(year, month - 1 + months, day);
+    const [, year, month, day] = match;
+    if (year === undefined || month === undefined || day === undefined)
+        return undefined;
+    return Date.UTC(Number(year), Number(month) - 1 + months, Number(day));
 }
 
 /** The rows worth re-reading, oldest first. A row can be listed for either
@@ -129,9 +132,11 @@ export async function reviewAgesOfConsent(
     // than a label so a maintainer relabelling the issue doesn't cause a
     // duplicate next run.
     const open = (
-        await paginate<{ title: string }>(
+        await paginate(
             token,
             `${REPO_BASE}/issues?state=open`,
+            (issue): issue is { title: string } =>
+                isRecord(issue) && typeof issue.title === 'string',
         )
     ).filter((issue) => issue.title === title);
     if (open.length > 0) {

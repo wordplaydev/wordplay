@@ -13,6 +13,7 @@ import { buildFaces, buildFallback, facesRanges } from './faces';
 import { buildMetrics, readMetrics } from './metrics';
 import { computeFallbackRanges } from './stylesheets';
 import { FontManifest } from '../../src/basis/faces/fonts.manifest';
+import { must } from '@util/nullable.ts';
 
 /**
  * Drift detection, shared by `npm run fonts` (CLI) and the vitest drift test.
@@ -78,7 +79,7 @@ function overrideFiles(): Set<string> {
             'utf8',
         );
         for (const m of css.matchAll(/src:\s*url\(\/([^)]+)\)/g))
-            files.add(m[1]);
+            files.add(must(m[1], 'a font file path'));
     }
     return files;
 }
@@ -177,7 +178,7 @@ export async function checkNoOverClaim(lock: Lockfile): Promise<Problem[]> {
                     .trim()
                     .match(/^U\+([0-9A-Fa-f]+)(?:-([0-9A-Fa-f]+))?$/);
                 if (!m) continue;
-                const lo = parseInt(m[1], 16);
+                const lo = parseInt(must(m[1], 'a range start'), 16);
                 const hi = m[2] !== undefined ? parseInt(m[2], 16) : lo;
                 for (let cp = lo; cp <= hi; cp++)
                     if (!cmap.has(cp)) {

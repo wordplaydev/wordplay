@@ -29,9 +29,9 @@ export default class PatternRest extends PatternAtom {
     }
 
     clone(replace?: Replacement) {
-        return new PatternRest(
-            this.replaceChild('rest', this.rest, replace),
-        ) as this;
+        return this.cloned(
+            new PatternRest(this.replaceChild('rest', this.rest, replace)),
+        );
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.PatternRest;

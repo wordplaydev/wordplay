@@ -223,10 +223,7 @@ test('clicking the empty staff after a track adds a note to the end of it', asyn
     // every token, and a line number before them.
     const source = ((await editor.textContent()) ?? '').replace(/​/g, '');
     const list =
-        source
-            .match(/\[([^\]]*)\]/)?.[1]
-            .trim()
-            .split(/\s+/) ?? [];
+        (source.match(/\[([^\]]*)\]/)?.[1] ?? '').trim().split(/\s+/) ?? [];
     expect(list, `the track reads ${list.join(' ')}`).toHaveLength(5);
     expect(
         list[list.length - 1],

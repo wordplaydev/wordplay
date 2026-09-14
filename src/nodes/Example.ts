@@ -81,13 +81,15 @@ export default class Example extends Content {
     }
 
     clone(replace?: Replacement | undefined): this {
-        return new Example(
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('program', this.program, replace),
-            this.replaceChild('close', this.close, replace),
-            this.replaceChild('highlight', this.highlight, replace),
-            this.replaceChild('defect', this.defect, replace),
-        ) as this;
+        return this.cloned(
+            new Example(
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('program', this.program, replace),
+                this.replaceChild('close', this.close, replace),
+                this.replaceChild('highlight', this.highlight, replace),
+                this.replaceChild('defect', this.defect, replace),
+            ),
+        );
     }
 
     getPurpose() {

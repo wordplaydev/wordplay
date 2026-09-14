@@ -120,9 +120,11 @@
     /** Get the value of the node, possibly undefined. The parent in the tuple is
      * itself a lazy derived up the tree, so it too can transiently resolve to
      * undefined mid-flush; guard the field read so it can't throw. */
-    let node = $derived(
-        path instanceof Node ? path : (path[0]?.[path[1]] as Node | undefined),
-    );
+    let node = $derived.by(() => {
+        if (path instanceof Node) return path;
+        const value = path[0]?.[path[1]];
+        return value instanceof Node ? value : undefined;
+    });
 
     // Latch the last real node: `node` re-resolves through lazy deriveds on every
     // read with no same-flush consistency, so a re-read after the {#if} below has

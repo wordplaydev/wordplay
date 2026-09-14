@@ -118,12 +118,17 @@ export function describedChangedOutput(
     // screen reader will not re-read a live region whose text is unchanged, so
     // a constant summary is heard once and then sounds like silence. The
     // example changes as the outputs do, which is what keeps it audible.
-    if (total > MaxIndividualChanges && container !== undefined)
+    const example = ranked[0];
+    if (
+        total > MaxIndividualChanges &&
+        container !== undefined &&
+        example !== undefined
+    )
         return locales
             .concretize((l) => l.ui.output.manyChanged, {
                 count: total,
                 container: nameOf(container, locales),
-                example: ranked[0][0],
+                example: example[0],
             })
             .toText();
 

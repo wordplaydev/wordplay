@@ -40,9 +40,9 @@ function highlight([, [display, start, end]]: [string, SearchMatch]): string {
 describe('searchItems', () => {
     test('an exact higher-priority match wins and highlights the match', () => {
         const results = search('zonk');
-        expect(results[0][0]).toBe('Zonk');
-        expect(results[0][1][3]).toBe(1); // priority
-        expect(highlight(results[0])).toBe('Zonk');
+        expect(results[0]![0]).toBe('Zonk');
+        expect(results[0]![1][3]).toBe(1); // priority
+        expect(highlight(results[0]!)).toBe('Zonk');
     });
 
     test('a lower-priority (doc) match highlights the query within it', () => {
@@ -62,13 +62,13 @@ describe('searchItems', () => {
     });
 
     test('matching is case-insensitive', () => {
-        expect(search('ZONK')[0][0]).toBe('Zonk');
+        expect(search('ZONK')[0]![0]).toBe('Zonk');
     });
 
     test('an alternate entry in the same field matches', () => {
         const results = search('quazzle');
-        expect(results[0][0]).toBe('Quux');
-        expect(highlight(results[0])).toBe('Quazzle');
+        expect(results[0]![0]).toBe('Quux');
+        expect(highlight(results[0]!)).toBe('Quazzle');
     });
 
     test('an empty query returns nothing', () => {
@@ -146,7 +146,7 @@ describe('exact matches beat fuzzy ones across field priorities', () => {
                 field(2, 'placeholder for the filter field'),
             ),
         ];
-        const [, match] = searchItems(c, 'placeholder for', L)[0];
+        const [, match] = searchItems(c, 'placeholder for', L)[0]!;
         expect(match[3]).toBe(2); // the exact description match, not the fuzzy name
     });
 });

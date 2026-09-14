@@ -126,13 +126,15 @@ export default class FormattedType extends BasisType {
     }
 
     clone(replace?: Replacement | undefined): this {
-        return new FormattedType(
-            this.replaceChild('tick', this.tick, replace),
-            // A deriver isn't a child node, so pass it through untouched.
-            this.language instanceof Function
-                ? this.language
-                : this.replaceChild('language', this.language, replace),
-        ) as this;
+        return this.cloned(
+            new FormattedType(
+                this.replaceChild('tick', this.tick, replace),
+                // A deriver isn't a child node, so pass it through untouched.
+                this.language instanceof Function
+                    ? this.language
+                    : this.replaceChild('language', this.language, replace),
+            ),
+        );
     }
 
     getDefaultExpression() {

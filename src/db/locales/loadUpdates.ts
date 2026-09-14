@@ -1,4 +1,5 @@
 import type { SupportedLocale } from '@locale/SupportedLocales';
+import { isRecord } from '@util/guards';
 import versioned from '@db/locales/versioned';
 
 /**
@@ -26,14 +27,19 @@ export default function loadUpdates(
     const promise = fetch(
         versioned(`/locales/${locale}/${locale}-updates.json`),
     )
-        .then(async (response) => {
+        .then(async (response): Promise<Record<string, string>> => {
             if (!response.ok) return {};
-            const bundle = (await response.json()) as {
-                entries?: Record<string, string>;
-            };
-            return bundle.entries ?? {};
+            const bundle: unknown = await response.json();
+            // Only string entries count; anything else in a bundle is ignored.
+            if (!isRecord(bundle) || !isRecord(bundle.entries)) return {};
+            return Object.fromEntries(
+                Object.entries(bundle.entries).filter(
+                    (entry): entry is [string, string] =>
+                        typeof entry[1] === 'string',
+                ),
+            );
         })
-        .catch(() => ({}) as Record<string, string>);
+        .catch(() => ({}));
     loading[locale] = promise;
     return promise;
 }

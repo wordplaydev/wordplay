@@ -16,8 +16,9 @@ import { Themes, themeSource, type ThemeSpec } from './Themes';
 import { ThemeNames, type ThemeName } from './ThemeNames';
 import { getDefaultTutorial } from '@util/verify-locales/TutorialSchema';
 import { TutorialModes } from './TutorialMode';
+import { entriesOf, must } from '@util/nullable';
 
-const entries = Object.entries(Themes) as [ThemeName, ThemeSpec][];
+const entries: [ThemeName, ThemeSpec][] = entriesOf(Themes);
 
 /** Evaluate a theme's source into a Music, the way a title card will. */
 function musicOf(spec: ThemeSpec) {
@@ -179,7 +180,7 @@ test('every title card carries its theme onto the stage, risk-free', () => {
             expect([parsed.theme, music.length]).toEqual([parsed.theme, 1]);
             expect([
                 parsed.theme,
-                [...analyzeMusic(music[0].toData())],
+                [...analyzeMusic(must(music[0], 'a theme music').toData())],
             ]).toEqual([parsed.theme, []]);
         }
     }

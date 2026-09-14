@@ -65,7 +65,7 @@ describe('forgetMessageTranslations', () => {
         // otherwise start addressing something nested.
         const { db, updates } = fakeFirestore(['es-MX']);
         await forgetMessageTranslations(db, 'chat-1', 'a.b.c');
-        expect(String(updates[0].field)).toContain('a.b.c');
+        expect(String(updates[0]!.field)).toContain('a.b.c');
     });
 
     it('writes nothing when the chat has no translations', async () => {

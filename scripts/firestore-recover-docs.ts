@@ -246,9 +246,13 @@ async function main() {
             console.warn(`  skip (missing in source): ${path}`);
             continue;
         }
-        const data = src.data() as DocumentData;
+        const data = src.data();
+        if (data === undefined) {
+            console.warn(`  skip (unreadable in source): ${path}`);
+            continue;
+        }
         const cur = await target.doc(path).get();
-        const before = cur.exists ? (cur.data() as DocumentData) : undefined;
+        const before = cur.data();
         const changed = changedKeys(before, data);
         const action: Plan['action'] =
             before === undefined
@@ -258,7 +262,7 @@ async function main() {
                   : 'OVERWRITE';
         plan.push({ path, data, action, changed });
 
-        const [col, id] = path.split('/');
+        const [col = '', id = ''] = path.split('/');
         if (a.reconcileRefs) {
             const g =
                 col === Domain.Projects && typeof data.gallery === 'string'

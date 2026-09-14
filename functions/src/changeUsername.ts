@@ -1,4 +1,5 @@
 import { getFirestore } from 'firebase-admin/firestore';
+import { fieldOf } from './shared/guards.js';
 import type { CallableRequest } from 'firebase-functions/v2/https';
 import type { ChangeUsernameInputs, ChangeUsernameOutput } from 'shared-types';
 import {
@@ -7,6 +8,7 @@ import {
     UsernameCollection,
     type Handle,
     type Reservation,
+    isReservation,
 } from './handles.js';
 import { foldUsername, isValidUsername } from './username.js';
 
@@ -112,8 +114,13 @@ export default async function changeUsername(
 
     try {
         const taken = await db.collection(UsernameCollection).doc(folded).get();
-        if (taken.exists && (taken.data() as Reservation).uid !== uid)
-            return { error: 'taken' };
+        if (taken.exists) {
+            // A reservation that can't be read is refused rather than
+            // overwritten: renaming onto it would silently take a name.
+            const stored = taken.data();
+            if (!isReservation(stored)) return { error: 'failed' };
+            if (stored.uid !== uid) return { error: 'taken' };
+        }
 
         const now = Date.now();
         const batch = db.batch();
@@ -168,9 +175,9 @@ export default async function changeUsername(
         for (const docs of owned)
             for (const doc of docs.docs) {
                 const renamed = renameOwned(
-                    doc.get('name'),
+                    fieldOf(doc, 'name'),
                     username,
-                    doc.get('aliases'),
+                    fieldOf(doc, 'aliases'),
                 );
                 if (renamed !== undefined) batch.update(doc.ref, renamed);
             }

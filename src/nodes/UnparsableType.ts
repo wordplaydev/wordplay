@@ -71,9 +71,11 @@ export default class UnparsableType extends Type {
     }
 
     clone(replace?: Replacement): this {
-        return new UnparsableType(
-            this.replaceChild('unparsables', this.unparsables, replace),
-        ) as this;
+        return this.cloned(
+            new UnparsableType(
+                this.replaceChild('unparsables', this.unparsables, replace),
+            ),
+        );
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.UnparsableType;

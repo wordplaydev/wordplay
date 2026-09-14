@@ -77,9 +77,11 @@ export default class UnparsableExpression extends SimpleExpression {
     }
 
     clone(replace?: Replacement): this {
-        return new UnparsableExpression(
-            this.replaceChild('unparsables', this.unparsables, replace),
-        ) as this;
+        return this.cloned(
+            new UnparsableExpression(
+                this.replaceChild('unparsables', this.unparsables, replace),
+            ),
+        );
     }
 
     computeType() {

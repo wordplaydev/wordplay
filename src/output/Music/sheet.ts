@@ -23,6 +23,7 @@ import {
     degreeVoices,
 } from '@output/Music/degrees';
 import { PlainDurations } from '@output/Music/durations';
+import { last, must } from '@util/nullable';
 import { instrumentSpec, sung } from '@output/Music/instruments';
 import {
     trackLength,
@@ -67,7 +68,8 @@ export const Sharp = '♯'; // ♯
 export function glyphFor(beats: number, rest = false): string {
     const table = rest ? Rests : Noteheads;
     for (const entry of table) if (beats >= entry.beats) return entry.glyph;
-    return table[table.length - 1].glyph;
+    // Both tables are non-empty literals declared just above.
+    return must(last(table), 'a duration glyph').glyph;
 }
 
 /* ------------------------------------------------------------------ *
@@ -97,7 +99,9 @@ export function staffStep(semitones: number): number {
     const whole = Math.round(semitones);
     const octave = Math.floor(whole / 12);
     const pitchClass = ((whole % 12) + 12) % 12;
-    return WhiteKeySteps[pitchClass] + octave * 7;
+    // The table has one step per pitch class, and the floored modulo lands in
+    // it whatever the semitones were.
+    return must(WhiteKeySteps[pitchClass], 'a staff step') + octave * 7;
 }
 
 /** The accidental a pitch needs, or undefined when it sits on a natural. */
@@ -211,15 +215,8 @@ export function marksOf(
 ): Mark[] {
     const marks: Mark[] = [];
     for (const music of musics)
-        for (let index = 0; index < music.tracks.length; index++)
-            collectTrack(
-                marks,
-                music,
-                music.tracks[index],
-                index,
-                fromBeat,
-                toBeat,
-            );
+        for (const [index, track] of music.tracks.entries())
+            collectTrack(marks, music, track, index, fromBeat, toBeat);
     marks.sort((a, b) => a.beat - b.beat || a.track - b.track);
     // A rest only reads as a rest when there is one line to read. Superimpose
     // several tracks and a rest in one of them lands at whatever fine offset
@@ -282,13 +279,19 @@ function withoutCoveredRests(marks: readonly Mark[]): Mark[] {
         }
         const end = mark.beat + mark.beats;
         // Marks are in beat order, so the scan only ever moves forward.
-        while (at < sounding.length && sounding[at][1] <= mark.beat) at++;
+        while (at < sounding.length) {
+            const span = sounding[at];
+            if (span === undefined || span[1] > mark.beat) break;
+            at++;
+        }
         let covered = false;
-        for (let i = at; i < sounding.length && sounding[i][0] < end; i++)
-            if (sounding[i][1] > mark.beat) {
+        for (const span of sounding.slice(at)) {
+            if (span[0] >= end) break;
+            if (span[1] > mark.beat) {
                 covered = true;
                 break;
             }
+        }
         if (!covered) kept.push(mark);
     }
     return kept;
@@ -370,8 +373,7 @@ function collectTrack(
         // track, so asking it per note made drawing a staff quadratic in the
         // notes — fine for a written tune, not for an imported one.
         let onset = 0;
-        for (let note = 0; note < track.notes.length; note++) {
-            const entry = track.notes[note];
+        for (const [note, entry] of track.notes.entries()) {
             const beat = offset + onset;
             onset += entry.beats;
             // Onsets only grow, so once the window is behind us there is
@@ -405,10 +407,9 @@ function collectTrack(
             // A chord is several noteheads at one beat, which is exactly how
             // notation draws it — and so is a mashed fractional degree, whose
             // two neighbors really are both sounding.
-            for (let voice = 0; voice < entry.degrees.length; voice++) {
-                const places = markPitch(entry.degrees[voice], track);
-                for (let sub = 0; sub < places.length; sub++) {
-                    const place = places[sub];
+            for (const [voice, degree] of entry.degrees.entries()) {
+                const places = markPitch(degree, track);
+                for (const [sub, place] of places.entries()) {
                     marks.push({
                         // A degree can yield two marks now, so its index alone
                         // is no longer unique within an entry.
@@ -493,8 +494,12 @@ export function densityOf(musics: readonly MusicData[]): number {
     ].sort((a, b) => a - b);
 
     let tightest = Infinity;
-    for (let i = 1; i < onsets.length; i++)
-        tightest = Math.min(tightest, onsets[i] - onsets[i - 1]);
+    let previous: number | undefined;
+    for (const onset of onsets) {
+        if (previous !== undefined)
+            tightest = Math.min(tightest, onset - previous);
+        previous = onset;
+    }
     return Number.isFinite(tightest) ? Math.max(MinSpacing, tightest) : 1;
 }
 
@@ -614,11 +619,10 @@ export const LineSpacing = 2;
  */
 export function staffCenterOf(marks: readonly Mark[]): number {
     const steps = marks
-        .filter((mark) => mark.step !== undefined)
-        .map((mark) => mark.step as number)
+        .flatMap((mark) => (mark.step === undefined ? [] : [mark.step]))
         .sort((a, b) => a - b);
-    if (steps.length === 0) return 4;
     const median = steps[Math.floor(steps.length / 2)];
+    if (median === undefined) return 4;
     return Math.round(median / LineSpacing) * LineSpacing;
 }
 

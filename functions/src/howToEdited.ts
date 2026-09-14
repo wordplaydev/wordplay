@@ -4,6 +4,7 @@ import type {
     FirestoreEvent,
 } from 'firebase-functions/v2/firestore';
 import { getFirestore, type Firestore } from 'firebase-admin/firestore';
+import { isRecord } from './shared/guards.js';
 import { emailNotice } from './notices.js';
 import { nextModeration } from './moderationRequest.js';
 
@@ -175,12 +176,7 @@ export async function announcePublished(
     if (before?.published === true || after.published !== true) return;
     // The author's own choice, which the push this replaced also honored.
     const social = after.social;
-    if (
-        typeof social !== 'object' ||
-        social === null ||
-        (social as Record<string, unknown>).notifySubscribers !== true
-    )
-        return;
+    if (!isRecord(social) || social.notifySubscribers !== true) return;
 
     const galleryId =
         typeof after.galleryId === 'string' ? after.galleryId : '';

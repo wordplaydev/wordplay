@@ -80,6 +80,7 @@ export default function bootstrapRange(locales: Locales) {
                     ),
                     '‥',
                     '[#]',
+                    RangeValue,
                     (
                         requestor: Expression,
                         val: RangeValue,

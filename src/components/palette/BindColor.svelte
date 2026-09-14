@@ -13,6 +13,7 @@
         getSelectedOutput,
     } from '@components/project/Contexts';
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
+    import { must } from '@util/nullable';
 
     interface Props {
         property: OutputProperty;
@@ -38,7 +39,10 @@
         // Make a Color evaluation corresponding to the new value
         const replacement = Evaluate.make(
             Reference.make(
-                $project.shares.output.Color.names.getNames()[0],
+                must(
+                    $project.shares.output.Color.names.getNames()[0],
+                    "Color's name",
+                ),
                 $project.shares.output.Color,
             ),
             [
@@ -82,20 +86,33 @@
     }
     let lightness = $derived(
         $project
-            ? (getColorValue($project.shares.output.Color.inputs[0], values) ??
-                  0)
+            ? (getColorValue(
+                  // The basis declares Color's three inputs.
+                  must(
+                      $project.shares.output.Color.inputs[0],
+                      "Color's lightness",
+                  ),
+                  values,
+              ) ?? 0)
             : 0,
     );
     let chroma = $derived(
         $project
-            ? (getColorValue($project.shares.output.Color.inputs[1], values) ??
-                  0)
+            ? (getColorValue(
+                  must(
+                      $project.shares.output.Color.inputs[1],
+                      "Color's chroma",
+                  ),
+                  values,
+              ) ?? 0)
             : 0,
     );
     let hue = $derived(
         $project
-            ? (getColorValue($project.shares.output.Color.inputs[2], values) ??
-                  0)
+            ? (getColorValue(
+                  must($project.shares.output.Color.inputs[2], "Color's hue"),
+                  values,
+              ) ?? 0)
             : 0,
     );
 </script>

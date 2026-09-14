@@ -20,13 +20,9 @@
 //
 // Run with `npm run regions`. The artifact is src/locale/regionNames.generated.ts.
 import path from 'path';
+import { isRecord } from '@util/guards';
 import { RegionCodes, Regions } from '@locale/Regions';
-import {
-    CLDR_VERSION,
-    at,
-    fetchCLDR,
-    isRecord,
-} from '@util/verify-locales/cldr';
+import { CLDR_VERSION, at, fetchCLDR } from '@util/verify-locales/cldr';
 import Log from '@util/verify-locales/Log';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 

@@ -330,12 +330,9 @@
                     }
                     // If there's only one visible, hide its language, as its
                     // redundant — but keep multilingual tags visible.
-                    if (
-                        visible.length === 1 &&
-                        visible[0].language &&
-                        !visible[0].language.isMultilingual()
-                    )
-                        newHidden.add(visible[0].language);
+                    const only = visible.length === 1 ? visible[0] : undefined;
+                    if (only?.language && !only.language.isMultilingual())
+                        newHidden.add(only.language);
                 }
             }
         }

@@ -53,9 +53,9 @@ export default class Initial extends SimpleExpression {
     }
 
     clone(replace?: Replacement) {
-        return new Initial(
-            this.replaceChild('diamond', this.diamond, replace),
-        ) as this;
+        return this.cloned(
+            new Initial(this.replaceChild('diamond', this.diamond, replace)),
+        );
     }
 
     getPurpose() {

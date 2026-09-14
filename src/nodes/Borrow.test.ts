@@ -12,6 +12,7 @@ import DuplicateBorrow from '@conflicts/DuplicateBorrow';
 import DefaultLocales from '@locale/DefaultLocales';
 import Token from '@nodes/Token';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { must } from '@util/nullable';
 
 test.each([
     [
@@ -249,7 +250,7 @@ test("a kit's permissions reach the creator who borrows it", () => {
 function completionsFor(code: string, anchorIndex: number) {
     const source = new Source('main', code);
     const project = Project.make(null, 't', source, [], DefaultLocale);
-    const borrow = source.expression.borrows[0];
+    const borrow = must(source.expression.borrows[0], 'a borrow');
     const anchor = borrow.nodes().filter((n) => n instanceof Token)[
         anchorIndex
     ];
@@ -285,7 +286,10 @@ test('a borrow completion round-trips through the tokenizer', () => {
     // The menu drops any suggestion that reprints as a different program, so a
     // completion that does not reparse would silently never be offered.
     for (const printed of completionsFor(`↓ `, 0)) {
-        const reparsed = new Source('t', printed).expression.borrows[0];
+        const reparsed = must(
+            new Source('t', printed).expression.borrows[0],
+            'a reparsed borrow',
+        );
         expect(reparsed.getKitRef()).not.toBeUndefined();
         expect(reparsed.getVersion()).not.toBeUndefined();
     }
@@ -294,11 +298,12 @@ test('a borrow completion round-trips through the tokenizer', () => {
 test('no kits means no offers', () => {
     const source = new Source('main', `↓ `);
     const project = Project.make(null, 't', source, [], DefaultLocale);
+    const borrow = must(source.expression.borrows[0], 'a borrow');
     expect(
-        source.expression.borrows[0].getPossibleCompletions(
-            source.expression.borrows[0].borrow,
-            { context: project.getContext(source), locales: DefaultLocales },
-        ),
+        borrow.getPossibleCompletions(borrow.borrow, {
+            context: project.getContext(source),
+            locales: DefaultLocales,
+        }),
     ).toEqual([]);
 });
 

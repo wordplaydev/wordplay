@@ -77,9 +77,7 @@ export default function checkReducedTemplates(
     target: LocaleText,
     fix: boolean,
 ): LocaleText {
-    const revised = fix
-        ? (JSON.parse(JSON.stringify(target)) as LocaleText)
-        : target;
+    const revised = fix ? structuredClone(target) : target;
 
     const declared = getDeclaredInputs();
     const reduced: string[] = [];

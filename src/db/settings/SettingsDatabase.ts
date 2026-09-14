@@ -1,4 +1,5 @@
 import type { SupportedLocale } from '@locale/SupportedLocales';
+import { isRecord } from '@util/guards';
 import { proxyPrefix } from '@db/proxySession';
 import { doc, getDoc } from 'firebase/firestore';
 import type { SerializedLayout } from '@components/project/Layout';
@@ -220,6 +221,22 @@ type SettingsSchemaUnknown =
     | SettingsSchemaV8
     | SettingsSchema;
 
+/**
+ * Whether a creator document carries a settings version this code knows. Only
+ * the version is checked here: each field is checked by its own setting's
+ * validator when applied (see `setValidated`), which is what makes the
+ * document safe to upgrade before it is trusted.
+ */
+function isSettingsDocument(data: unknown): data is SettingsSchemaUnknown {
+    return (
+        isRecord(data) &&
+        typeof data.v === 'number' &&
+        Number.isInteger(data.v) &&
+        data.v >= 1 &&
+        data.v <= SettingsSchemaLatestVersion
+    );
+}
+
 function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
     switch (settings.v) {
         case 1:
@@ -355,7 +372,7 @@ export default class SettingsDatabase {
         const raw = window.localStorage.getItem(key);
         if (raw === null) return;
         try {
-            const width = JSON.parse(raw);
+            const width: unknown = JSON.parse(raw);
             if (typeof width === 'number' && Number.isFinite(width))
                 setting.set(this.database, { ...setting.get(), width });
         } catch {
@@ -382,53 +399,60 @@ export default class SettingsDatabase {
             this.database.reportLoadFailure(err);
             return;
         }
-        if (config.exists()) {
-            const data = upgradeSettings(
-                config.data() as SettingsSchemaUnknown,
-            );
+        const stored = config.data();
+        if (isSettingsDocument(stored)) {
+            const data = upgradeSettings(stored);
             // Copy each key/value pair from the database to memory and the local store.
-            this.settings.animationFactor.set(
-                this.database,
+            this.setValidated(
+                this.settings.animationFactor,
                 data.animationFactor,
             );
             // Except when this page load's URL named the locale, which is a
             // more recent choice than whatever the document happens to hold.
             // See LocalesDatabase.localesCameFromURL.
             if (!this.database.Locales.localesCameFromURL())
-                this.settings.locales.set(this.database, data.locales);
-            this.settings.tutorial.set(this.database, data.tutorial);
-            this.settings.writingLayout.set(this.database, data.writingLayout);
-            this.settings.howToNotifications.set(
-                this.database,
+                this.setValidated(this.settings.locales, data.locales);
+            this.setValidated(this.settings.tutorial, data.tutorial);
+            this.setValidated(this.settings.writingLayout, data.writingLayout);
+            this.setValidated(
+                this.settings.howToNotifications,
                 data.newHowToNotifications,
             );
-            this.settings.projectFolders.set(
-                this.database,
+            this.setValidated(
+                this.settings.projectFolders,
                 data.projectFolders,
             );
-            this.settings.projectSort.set(this.database, data.projectSort);
+            this.setValidated(this.settings.projectSort, data.projectSort);
             // Absent in a document written before v6. Each is applied only when
             // present so an older document leaves this device's choice alone
             // rather than resetting it to the default. `face` is checked against
             // undefined specifically, since null is one of its real values.
             if (data.face !== undefined)
-                this.settings.face.set(this.database, data.face);
+                this.setValidated(this.settings.face, data.face);
             if (data.lines !== undefined)
-                this.settings.lines.set(this.database, data.lines);
+                this.setValidated(this.settings.lines, data.lines);
             if (data.wrap !== undefined)
-                this.settings.wrap.set(this.database, data.wrap);
+                this.setValidated(this.settings.wrap, data.wrap);
             if (data.space !== undefined)
-                this.settings.space.set(this.database, data.space);
+                this.setValidated(this.settings.space, data.space);
             if (data.tours !== undefined)
-                this.settings.tours.set(this.database, data.tours);
+                this.setValidated(this.settings.tours, data.tours);
             if (data.chatThreads !== undefined)
-                this.settings.chatThreads.set(this.database, data.chatThreads);
+                this.setValidated(this.settings.chatThreads, data.chatThreads);
             if (data.emailNotifications !== undefined)
-                this.settings.emailNotifications.set(
-                    this.database,
+                this.setValidated(
+                    this.settings.emailNotifications,
                     data.emailNotifications,
                 );
         }
+    }
+
+    /** Apply a value from the creator document only when the setting's own
+     *  validator accepts it, exactly as a value read from local storage is;
+     *  the document names its version, and its fields are checked here. */
+    private setValidated<Type>(setting: Setting<Type>, value: unknown) {
+        const valid = setting.validator(value);
+        if (valid !== undefined) setting.set(this.database, valid);
     }
 
     getProjectLayout(id: string) {

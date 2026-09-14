@@ -21,9 +21,10 @@ import type { Mono } from './audio';
 export function encodeMp3(audio: Mono, bitrate: number): Buffer {
     const encoder = new lamejs.Mp3Encoder(1, audio.rate, bitrate);
     const pcm = new Int16Array(audio.samples.length);
-    for (let index = 0; index < audio.samples.length; index++) {
-        const clamped = Math.max(-1, Math.min(1, audio.samples[index]));
-        pcm[index] = Math.round(clamped * 32767);
+    let position = 0;
+    for (const sample of audio.samples) {
+        const clamped = Math.max(-1, Math.min(1, sample));
+        pcm[position++] = Math.round(clamped * 32767);
     }
 
     const chunks: Buffer[] = [];
@@ -40,13 +41,17 @@ export function encodeMp3(audio: Mono, bitrate: number): Buffer {
 
 /** Fold decoded channels down to one. */
 function toMono(channels: Float32Array[], rate: number): Mono {
-    if (channels.length === 0 || channels[0].length === 0)
+    const [firstChannel] = channels;
+    if (firstChannel === undefined || firstChannel.length === 0)
         throw new Error('decoded to no audio');
-    const frames = channels[0].length;
+    const frames = firstChannel.length;
     const samples = new Float32Array(frames);
     for (let frame = 0; frame < frames; frame++) {
         let sum = 0;
-        for (const channel of channels) sum += channel[frame];
+        // A decoder gives every channel the same number of frames, so this
+        // reads a real sample; NaN is what a short channel would have made the
+        // sum anyway, and not a level we would silently ship.
+        for (const channel of channels) sum += channel[frame] ?? Number.NaN;
         samples[frame] = sum / channels.length;
     }
     return { samples, rate };

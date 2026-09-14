@@ -35,6 +35,7 @@ import {
     UsageLineMarker,
     type TranslatorUsage,
 } from '@util/verify-locales/Translator';
+import { must } from '@util/nullable';
 
 /** Commands safe to batch — only ones that translate (per-locale, independent).
  *  verify/fix/ci do cross-locale work and stay on the serial `start.ts`. */
@@ -93,14 +94,15 @@ export function planChildren(
     locales: string[],
     phases: ReturnType<typeof splitKitPhase>,
 ): { parallel: Child[]; serial: Child | undefined } {
+    const parallel = phases.parallel;
     return {
         parallel:
-            phases.parallel === undefined
+            parallel === undefined
                 ? []
                 : locales.map((locale) => ({
                       label: locale,
                       locales: [locale],
-                      flags: phases.parallel as string[],
+                      flags: parallel,
                   })),
         serial:
             phases.serial === undefined
@@ -137,7 +139,8 @@ export function parseBatchArgs(
     const locales: string[] = [];
     const flags: string[] = [];
     for (let i = 1; i < argv.length; i++) {
-        const arg = argv[i];
+        // The loop bound guarantees an argument at `i`.
+        const arg = must(argv[i], 'a command-line argument');
         if (arg === '--jobs' || arg.startsWith('--jobs=')) {
             const raw =
                 arg === '--jobs' ? argv[++i] : arg.slice('--jobs='.length);
@@ -185,7 +188,11 @@ export async function runPool<T, R>(
     const runner = async (): Promise<void> => {
         while (next < items.length) {
             const index = next++;
-            results[index] = await worker(items[index], index);
+            // `index` is below `items.length`, so there is always an item.
+            results[index] = await worker(
+                must(items[index], 'a work item'),
+                index,
+            );
         }
     };
     await Promise.all(

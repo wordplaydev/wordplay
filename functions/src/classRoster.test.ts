@@ -31,7 +31,7 @@ describe('a class is one kind of student throughout', () => {
     test('a password class signs in with synthesized addresses', () => {
         const read = reading([password('alice')], 'password');
         expect('problem' in read ? undefined : read.method).toBe('password');
-        const [student] = students(read);
+        const student = students(read)[0]!;
         expect(student.address).toBe('alice@u.wordplay.dev');
         expect(student.password).toBe('correcthorse');
     });
@@ -39,7 +39,7 @@ describe('a class is one kind of student throughout', () => {
     test('an email class has addresses and no passwords at all', () => {
         const read = reading([email('alice', 'a@school.edu')], 'email', true);
         expect('problem' in read ? undefined : read.method).toBe('email');
-        const [student] = students(read);
+        const student = students(read)[0]!;
         expect(student.address).toBe('a@school.edu');
         expect(student.password).toBeUndefined();
     });
@@ -68,7 +68,7 @@ describe('a class is one kind of student throughout', () => {
         const read = reading([password('alice')], 'password');
         expect('problem' in read ? [] : read.students).toHaveLength(1);
         // Nothing on a student says which kind it is; only the reading does.
-        expect(Object.keys(students(read)[0])).not.toContain('email');
+        expect(Object.keys(students(read)[0]!)).not.toContain('email');
     });
 
     test('a client from before #1347 sends no method and means passwords', () => {
@@ -76,8 +76,8 @@ describe('a class is one kind of student throughout', () => {
         // synthesized-username unwrap below does.
         const read = reading([password('alice@u.wordplay.dev')], undefined);
         expect('problem' in read ? undefined : read.method).toBe('password');
-        expect(students(read)[0].username).toBe('alice');
-        expect(students(read)[0].address).toBe('alice@u.wordplay.dev');
+        expect(students(read)[0]!.username).toBe('alice');
+        expect(students(read)[0]!.address).toBe('alice@u.wordplay.dev');
     });
 
     test('a method we do not understand is refused', () => {

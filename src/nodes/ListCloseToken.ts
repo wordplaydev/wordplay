@@ -2,8 +2,8 @@ import { LIST_CLOSE_SYMBOL } from '@parser/Symbols';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 
-export default class ListCloseToken extends Token {
-    constructor() {
-        super(LIST_CLOSE_SYMBOL, Sym.ListClose);
-    }
+/** A token of this kind. A function rather than a subclass: every token is
+ *  a plain Token, so a clone stays what it was constructed as. */
+export default function ListCloseToken(): Token {
+    return new Token(LIST_CLOSE_SYMBOL, Sym.ListClose);
 }

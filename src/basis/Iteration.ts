@@ -1,4 +1,5 @@
 import type LocaleText from '@locale/LocaleText';
+import ValueException from '@values/ValueException';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import Check from '@runtime/Check';
 import Evaluation from '@runtime/Evaluation';
@@ -44,34 +45,53 @@ type FinishHandler<Kind, ExpressionKind extends Expression> = (
     expression: ExpressionKind,
 ) => Value;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export class Iteration<State = any> extends Expression {
-    readonly output: Type;
-    readonly initialize: (
+/**
+ * What an iteration does at each step. Declared as methods on purpose: method
+ * parameters compare bivariantly, so an `Iteration<State>` is assignable to
+ * the `Iteration<unknown>` that the evaluator's node unions name, without the
+ * state type having to be `any`.
+ */
+export type IterationHandlers<State> = {
+    /** The initial tracking state, or an exception value to halt with. */
+    initialize(
         evaluator: Evaluator,
         expression: Iteration<State>,
-    ) => State | Value;
-    readonly check: CheckHandler<State, Iteration<State>>;
-    readonly next: NextHandler<State, Iteration<State>>;
-    readonly finish: FinishHandler<State, Iteration<State>>;
+    ): State | Value;
+    check(
+        evaluator: Evaluator,
+        tracking: State,
+        expression: Iteration<State>,
+    ): Value | boolean;
+    next(
+        evaluator: Evaluator,
+        tracking: State,
+        expression: Iteration<State>,
+    ): Value | boolean | undefined;
+    finish(
+        evaluator: Evaluator,
+        tracking: State,
+        expression: Iteration<State>,
+    ): Value;
+};
+
+export class Iteration<State = unknown> extends Expression {
+    readonly output: Type;
+    readonly handlers: IterationHandlers<State>;
 
     constructor(
         output: Type,
-        initial: (
+        initialize: (
             evaluator: Evaluator,
             expression: Iteration<State>,
         ) => State | Value,
-        next: CheckHandler<State, Iteration<State>>,
-        check: NextHandler<State, Iteration<State>>,
+        check: CheckHandler<State, Iteration<State>>,
+        next: NextHandler<State, Iteration<State>>,
         finish: FinishHandler<State, Iteration<State>>,
     ) {
         super();
 
         this.output = output;
-        this.initialize = initial;
-        this.check = next;
-        this.next = check;
-        this.finish = finish;
+        this.handlers = { initialize, check, next, finish };
     }
 
     isInternal() {
@@ -97,7 +117,12 @@ export class Iteration<State = any> extends Expression {
     compile(): Step[] {
         return [
             new Start(this),
-            ...getIteration(this, this.initialize, this.check, this.next),
+            ...getIteration(
+                this,
+                this.handlers.initialize,
+                this.handlers.check,
+                this.handlers.next,
+            ),
             new Finish(this),
         ];
     }
@@ -106,8 +131,9 @@ export class Iteration<State = any> extends Expression {
         if (prior) return prior;
         // Get the resulting state and pass it.
         const state = getIterationResult<State>(evaluator);
+        if (state === undefined) return new ValueException(evaluator, this);
         // Do whatever we were requested to do with the resulting state.
-        const value = this.finish(evaluator, state, this);
+        const value = this.handlers.finish(evaluator, state, this);
         // Return the value returned by the finisher.
         return value;
     }
@@ -129,9 +155,7 @@ export class Iteration<State = any> extends Expression {
 
     /** Get the value of an input by index */
     getInput(index: number, evaluator: Evaluator) {
-        const inputs = this.getInputBinds(evaluator);
-        if (inputs === undefined) return undefined;
-        const names = inputs[index].names;
+        const names = this.getInputBinds(evaluator)?.[index]?.names;
         if (names === undefined) return undefined;
         return evaluator.resolve(names);
     }
@@ -164,7 +188,7 @@ export class Iteration<State = any> extends Expression {
             return evaluator.getValueOrTypeException(
                 this,
                 (currentFunction instanceof FunctionDefinition
-                    ? currentFunction.inputs[input].type
+                    ? currentFunction.inputs[input]?.type
                     : undefined) ??
                     FunctionType.make(undefined, [], new AnyType()),
                 funVal,
@@ -266,11 +290,13 @@ export function getIteration<Kind, ExpressionKind extends Expression>(
         // See if we should handle a next value or skip to the end.
         new Check(expression, (evaluator) => {
             // Get the tracking value.
-            const tracking = evaluator.resolve(
-                IterationState,
-            ) as Internal<Kind>;
+            const tracking = evaluator.resolve(IterationState);
+            if (!(tracking instanceof Internal))
+                return new ValueException(evaluator, expression);
+            // sound: the binding was made by this iteration's own Initialize.
+            const state = tracking.value as Kind;
             // Handle the next
-            const result = check(evaluator, tracking.value, expression);
+            const result = check(evaluator, state, expression);
             // If the result is a value (likely an exception), return it
             if (result instanceof Value) return result;
             // Jump to finish if the check was false.
@@ -281,11 +307,13 @@ export function getIteration<Kind, ExpressionKind extends Expression>(
         // Process the next value, then loop back to the check.
         new Next(expression, (evaluator) => {
             // Get the tracking value.
-            const tracking = evaluator.resolve(
-                IterationState,
-            ) as Internal<Kind>;
+            const tracking = evaluator.resolve(IterationState);
+            if (!(tracking instanceof Internal))
+                return new ValueException(evaluator, expression);
+            // sound: the binding was made by this iteration's own Initialize.
+            const state = tracking.value as Kind;
             // Handle the check
-            const value = next(evaluator, tracking.value, expression);
+            const value = next(evaluator, state, expression);
             if (value instanceof Value) return value;
             // Return to next if we're not done.
             if (value === undefined) evaluator.jump(-2);
@@ -295,8 +323,13 @@ export function getIteration<Kind, ExpressionKind extends Expression>(
     ];
 }
 
-export function getIterationResult<Kind>(evaluator: Evaluator) {
-    const state = evaluator.resolve(IterationState) as Internal<Kind>;
+/** The iteration's tracked state, or undefined if none was bound. */
+export function getIterationResult<Kind>(
+    evaluator: Evaluator,
+): Kind | undefined {
+    const tracking = evaluator.resolve(IterationState);
     evaluator.getCurrentEvaluation()?.unscope();
-    return state.value;
+    if (!(tracking instanceof Internal)) return undefined;
+    // sound: the binding was made by this iteration's own Initialize.
+    return tracking.value as Kind;
 }

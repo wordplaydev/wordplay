@@ -75,6 +75,11 @@ function round2(n: number) {
 
 const Epsilon = 1e-9;
 
+/** A box's baseline anchor, or nothing when it has no text to sit on one. */
+function baselineAnchor(box: Box): [Anchor, number][] {
+    return box.baseline === undefined ? [] : [['baseline', box.baseline]];
+}
+
 /** Where each of a box's anchors sits on an axis, in tie-breaking order. A box
  *  with no baseline (a group or a shape, which have no text) contributes none. */
 export function anchorsOf(box: Box, axis: Axis): [Anchor, number][] {
@@ -88,9 +93,7 @@ export function anchorsOf(box: Box, axis: Axis): [Anchor, number][] {
               ['centerY', box.y + box.height / 2],
               ['bottom', box.y],
               ['top', box.y + box.height],
-              ...(box.baseline === undefined
-                  ? []
-                  : ([['baseline', box.baseline]] as [Anchor, number][])),
+              ...baselineAnchor(box),
           ];
 }
 
@@ -261,7 +264,11 @@ export function snapPlace(
         freeY: boolean;
     },
 ): { x: number; y: number; guides: Guide[] } {
-    const result = { x: moved.x, y: moved.y, guides: [] as Guide[] };
+    const result: { x: number; y: number; guides: Guide[] } = {
+        x: moved.x,
+        y: moved.y,
+        guides: [],
+    };
 
     for (const axis of ['x', 'y'] as const) {
         if (axis === 'x' ? !options.freeX : !options.freeY) continue;
@@ -360,6 +367,7 @@ export function sameGuides(a: Guide[], b: Guide[]) {
     if (a.length !== b.length) return false;
     return a.every((guide, index) => {
         const other = b[index];
+        if (other === undefined) return false;
         return (
             guide.axis === other.axis &&
             guide.anchor === other.anchor &&

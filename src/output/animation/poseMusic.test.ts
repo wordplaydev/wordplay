@@ -62,7 +62,7 @@ test('a state slot pose sounds at the start of its state', () => {
     const { project, pose } = poseOf(`Pose(opacity: 0% music: ${Ding})`);
     const strikes = strikesFor(project, pose, [], 1000, 0, true);
     expect(strikes.map((strike) => strike.atMs)).toEqual([0]);
-    expect(strikes[0].music.getName()).toBe('ding');
+    expect(strikes[0]?.music.getName()).toBe('ding');
 });
 
 test('a pose with no music sounds nothing', () => {
@@ -265,7 +265,8 @@ test('poseMusicOf reads all four states', () => {
     const stage = toStage(evaluator, value);
     if (stage === undefined) throw new Error('expected a stage');
     const phrase = stage.content[0];
-    if (phrase === null) throw new Error('expected a phrase');
+    if (phrase === null || phrase === undefined)
+        throw new Error('expected a phrase');
     expect(poseMusicOf(project, phrase).map((m) => m.getName())).toEqual([
         'in',
         'still',
@@ -282,7 +283,8 @@ test('an output with only pose music still counts as animated', () => {
     const stage = toStage(evaluator, value);
     if (stage === undefined) throw new Error('expected a stage');
     const only = stage.content[0];
-    if (only === null) throw new Error('expected a phrase');
+    if (only === null || only === undefined)
+        throw new Error('expected a phrase');
     expect(only.isAnimated()).toBe(true);
     expect(project.analyze().conflicts.map((c) => `${c}`)).toEqual([]);
 });

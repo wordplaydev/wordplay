@@ -1,5 +1,6 @@
 import DefaultLocale from '@locale/DefaultLocale';
 import Source from '@nodes/Source';
+import { must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 import { z } from 'zod';
 
@@ -519,9 +520,14 @@ describe('multiple node selections', () => {
         const source = project.getMain();
         const statements = source.expression.expression.statements;
 
-        const revised = project.withCaret(source, statements[2], statements[0]);
+        // makeSelectable's source is three statements long.
+        const revised = project.withCaret(
+            source,
+            must(statements[2], 'the third statement'),
+            must(statements[0], 'the first statement'),
+        );
         const parsed = ProjectSchema.parse(revised.serialize());
-        expect(parsed.sources[0].anchor).toBeDefined();
+        expect(parsed.sources[0]?.anchor).toBeDefined();
 
         // And it resolves back to the node it named.
         expect(revised.getCaretAnchor(source)).toBe(statements[0]);
@@ -533,9 +539,17 @@ describe('multiple node selections', () => {
         const project = makeSelectable();
         const source = project.getMain();
         const serialized = project
-            .withCaret(source, source.expression.expression.statements[0])
+            .withCaret(
+                source,
+                must(
+                    source.expression.expression.statements[0],
+                    'the first statement',
+                ),
+            )
             .serialize();
-        expect('anchor' in serialized.sources[0]).toBe(false);
+        expect(
+            'anchor' in must(serialized.sources[0], 'the serialized source'),
+        ).toBe(false);
     });
 
     test('a document carrying an anchor still parses where anchors are unknown', () => {
@@ -547,8 +561,14 @@ describe('multiple node selections', () => {
         const serialized = project
             .withCaret(
                 source,
-                source.expression.expression.statements[2],
-                source.expression.expression.statements[0],
+                must(
+                    source.expression.expression.statements[2],
+                    'the third statement',
+                ),
+                must(
+                    source.expression.expression.statements[0],
+                    'the first statement',
+                ),
             )
             .serialize();
 

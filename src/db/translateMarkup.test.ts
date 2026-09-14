@@ -70,7 +70,7 @@ test('translateMarkupTexts groups by source locale — single batch per language
     const { translated, failed } = await translateMarkupTexts(inputs, es, spy);
     // Both en-US strings go in one call, not two.
     expect(calls).toHaveLength(1);
-    expect(calls[0].texts).toHaveLength(2);
+    expect(calls[0]?.texts).toHaveLength(2);
     expect(translated.size).toBe(2);
     expect(failed.size).toBe(0);
 });
@@ -199,7 +199,7 @@ test('a translator never sees embedded code, so it cannot rewrite it', async () 
     );
 
     // The code never left.
-    expect(seen[0].join('|')).not.toContain('1 + 2');
+    expect(seen[0]?.join('|')).not.toContain('1 + 2');
     // And came back byte-identical, while the prose around it was translated.
     expect(translated.get('a')).toContain('\\1 + 2\\');
     expect(translated.get('a')).toContain('TRY');

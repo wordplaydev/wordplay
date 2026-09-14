@@ -11,6 +11,7 @@
   a slot" notice replaces the chips.
 -->
 <script lang="ts">
+    import { isBCTKey } from '@output/Color/BasicColors';
     import CreatorView from '@components/app/CreatorView.svelte';
     import EditorNotice from '@components/editor/EditorNotice.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -119,7 +120,7 @@
     }
 
     function cssColor(bct: string): string {
-        const f = Focals[bct as keyof typeof Focals];
+        const f = isBCTKey(bct) ? Focals[bct] : undefined;
         if (f === undefined) return 'currentColor';
         return `oklch(${f.l} ${f.c / 100} ${f.h})`;
     }

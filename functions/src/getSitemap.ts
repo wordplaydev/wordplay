@@ -1,4 +1,5 @@
 import type express from 'express';
+import { isRecord } from './shared/guards.js';
 import type { Request } from 'firebase-functions/v2/https';
 import { canonicalOrigin } from './origin.js';
 import {
@@ -9,6 +10,7 @@ import {
     getBooleanField,
     StaticSitemapPaths,
     type FirestoreRestDocument,
+    isFirestoreRestDocument,
 } from './preview/shared.js';
 
 /**
@@ -64,15 +66,13 @@ async function queryPublicDocs(
             );
             return undefined;
         }
-        const results = (await response.json()) as {
-            document?: FirestoreRestDocument;
-        }[];
+        const results: unknown = await response.json();
+        if (!Array.isArray(results)) return undefined;
         return results
-            .map((result) => result.document)
-            .filter(
-                (doc): doc is FirestoreRestDocument =>
-                    doc !== undefined && doc.name !== undefined,
-            );
+            .map((result: unknown) =>
+                isRecord(result) ? result.document : undefined,
+            )
+            .filter(isFirestoreRestDocument);
     } catch (error) {
         console.error(`${collection} query failed`, error);
         return undefined;
@@ -88,9 +88,9 @@ export default async function getSitemap(
         path === '/' ? origin : `${origin}${path}`,
     );
 
-    for (const id of Object.keys(ExampleGalleries)) {
+    for (const [id, gallery] of Object.entries(ExampleGalleries)) {
         urls.push(`${origin}/gallery/${id}`);
-        for (const name of ExampleGalleries[id].projects)
+        for (const name of gallery.projects)
             urls.push(`${origin}/project/${ExamplePrefix}${name}`);
     }
 

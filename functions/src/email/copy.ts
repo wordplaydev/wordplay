@@ -1,4 +1,5 @@
 import { canonicalOrigin } from '../origin.js';
+import { isRecord } from '../shared/guards.js';
 import { selectPluralIndex } from './plurals.js';
 
 /**
@@ -15,12 +16,6 @@ const CacheTtlMs = 10 * 60 * 1000;
 
 /** A section of a locale file, whose fields we know nothing about until read. */
 export type CopySection = Record<string, unknown>;
-
-/** A predicate rather than a cast: `as` is forbidden here, and the old
- *  `as Record<string, any>` needed an eslint-disable to survive. */
-function isRecord(value: unknown): value is Record<string, unknown> {
-    return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
 
 /** Strip a write-status marker. `$?` unwritten, `$!` revised, `$~` machine
  *  translated; none of them belongs in an email. */

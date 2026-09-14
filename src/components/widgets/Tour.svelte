@@ -12,6 +12,7 @@
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { CANCEL_SYMBOL, QUESTION_SYMBOL } from '@parser/Symbols';
     import type { UIExplanation } from '@components/project/tourSteps';
+    import { must } from '@util/nullable';
     import { onDestroy, tick, untrack } from 'svelte';
 
     interface Props {
@@ -26,7 +27,8 @@
     let { explanations, subheader, close }: Props = $props();
 
     let step = $state(0);
-    let current = $derived(explanations[step]);
+    // `step` is clamped to the explanations by the navigation below.
+    let current = $derived(must(explanations[step], `explanation ${step}`));
 
     /** The bounding rect of the current target, or null if not on screen. */
     let rect = $state<DOMRect | null>(null);
@@ -201,6 +203,7 @@
         if (focusables.length === 0) return;
         const first = focusables[0];
         const last = focusables[focusables.length - 1];
+        if (first === undefined || last === undefined) return;
         const active = document.activeElement;
         if (event.shiftKey && (active === first || active === dialog)) {
             event.preventDefault();

@@ -52,12 +52,14 @@ export default class PatternProperty extends PatternNode {
     }
 
     clone(replace?: Replacement) {
-        return new PatternProperty(
-            this.replaceChild('slash', this.slash, replace),
-            this.replaceChild('name', this.name, replace),
-            this.replaceChild('equal', this.equal, replace),
-            this.replaceChild('value', this.value, replace),
-        ) as this;
+        return this.cloned(
+            new PatternProperty(
+                this.replaceChild('slash', this.slash, replace),
+                this.replaceChild('name', this.name, replace),
+                this.replaceChild('equal', this.equal, replace),
+                this.replaceChild('value', this.value, replace),
+            ),
+        );
     }
 
     computeConflicts(): Conflict[] {

@@ -10,7 +10,7 @@
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
     import { onDestroy, untrack } from 'svelte';
-    import { writable, type Writable } from 'svelte/store';
+    import { writable } from 'svelte/store';
     import { DB, locales } from '@db/Database';
     import { consent, refreshConsentFromBrowser } from '@input/permissions';
     import {
@@ -49,7 +49,7 @@
      * `mode` stays undefined, which Contexts documents as correct outside a ProjectView.
      */
     const evaluation = writable<EvaluationContext | undefined>(undefined);
-    setEvaluation(evaluation as Writable<EvaluationContext>);
+    setEvaluation(evaluation);
 
     /**
      * Published only when something step-relevant moved. `update()` runs on every evaluator

@@ -65,7 +65,15 @@ test('comparing a general union member to a literal keeps the general type', () 
     expect(conflictsIn(`a•#|'': 1\n(a = 'hi') ? a.length() 0`)).toEqual([]);
 });
 
-test.each([
+test.each<
+    [
+        good: string,
+        bad: string,
+        node: new (...params: never[]) => Node,
+        conflict: new (...params: never[]) => Conflict,
+        index: number,
+    ]
+>([
     // A literal given a name narrows like the literal written inline, the same way a
     // check given a name guards like the check written inline (#1285).
     [
@@ -82,13 +90,7 @@ k: 'x'
         0,
     ],
 ])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
-    testConflict(
-        good,
-        bad,
-        node as new (...params: never[]) => Node,
-        conflict as new (...params: never[]) => Conflict,
-        index as number,
-    );
+    testConflict(good, bad, node, conflict, index);
 });
 
 /**

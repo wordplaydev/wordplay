@@ -41,6 +41,7 @@ import {
 } from '@db/teachers/TeacherDatabase.svelte';
 import Gallery, {
     deserializeGallery,
+    parseGallery,
     GallerySchemaLatestVersion,
     type SerializedGallery,
 } from '@db/galleries/Gallery';
@@ -540,10 +541,11 @@ export default class GalleryDatabase {
 
         const id = uuidv4();
         const name: Record<string, string> = {};
-        name[localeToString(locales.getLocales()[0])] =
-            locales.getMultilingualText((l) => l.ui.gallery.untitled);
+        name[localeToString(locales.getLocale())] = locales.getMultilingualText(
+            (l) => l.ui.gallery.untitled,
+        );
         const description: Record<string, string> = {};
-        description[localeToString(locales.getLocales()[0])] = '';
+        description[localeToString(locales.getLocale())] = '';
 
         const gallery: SerializedGallery = {
             v: GallerySchemaLatestVersion,
@@ -710,12 +712,12 @@ export default class GalleryDatabase {
         const unsubscribe = onSnapshot(
             doc(firestore, GalleriesCollection, galleryID),
             (snapshot) => {
-                const data = snapshot.data();
-                if (data === undefined) return;
+                const gallery = parseGallery(snapshot.data());
+                if (gallery === undefined) return;
                 // Deliberately not cached to Dexie, matching `find`: that cache
                 // is the creator's own galleries, and one being passed through
                 // is not one of them.
-                this.publicGalleries.set(galleryID, deserializeGallery(data));
+                this.publicGalleries.set(galleryID, gallery);
                 // Its `public` flag and its how-to list can both have changed,
                 // and both decide what the how-to watch should be doing.
                 this.database.HowTos.publicGalleryChanged(galleryID);

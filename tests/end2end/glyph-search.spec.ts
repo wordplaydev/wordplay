@@ -67,9 +67,10 @@ test('emoji rank first in search results', async ({ page }) => {
             const glyphs = await page
                 .locator('.emojis .emoji span.emoji')
                 .allInnerTexts();
-            return glyphs.length > 0
-                ? /\p{Emoji_Presentation}/u.test(glyphs[0])
-                : null;
+            const first = glyphs[0];
+            return first === undefined
+                ? null
+                : /\p{Emoji_Presentation}/u.test(first);
         })
         .toBe(true);
 });

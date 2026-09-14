@@ -53,10 +53,12 @@ export default class PatternClass extends PatternAtom {
     }
 
     clone(replace?: Replacement) {
-        return new PatternClass(
-            this.replaceChild('base', this.base, replace),
-            this.replaceChild('property', this.property, replace),
-        ) as this;
+        return this.cloned(
+            new PatternClass(
+                this.replaceChild('base', this.base, replace),
+                this.replaceChild('property', this.property, replace),
+            ),
+        );
     }
 
     static readonly LocalePath = (l: LocaleText) => l.node.PatternClass;

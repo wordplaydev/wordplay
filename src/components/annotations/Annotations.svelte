@@ -58,7 +58,6 @@
     import Token from '@nodes/Token';
     import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
     import type Evaluator from '@runtime/Evaluator';
-    import type Step from '@runtime/Step';
     import { onDestroy, tick } from 'svelte';
     import {
         locales,
@@ -243,6 +242,7 @@
 
         // If stepping, add the current evaluation as a non-collapsible step.
         if (stepping && evaluator) {
+            const step = $evaluation?.step;
             const [node, view] = getStepView();
             if (node && source.contains(node))
                 keyed.push({
@@ -251,10 +251,8 @@
                         element: view,
                         messages: [
                             (locales: Locales) =>
-                                $evaluation?.step
-                                    ? (
-                                          $evaluation?.step as Step
-                                      ).getExplanations(locales, evaluator)
+                                step !== undefined
+                                    ? step.getExplanations(locales, evaluator)
                                     : evaluator.steppedToNode() &&
                                         evaluator.isDone()
                                       ? locales.concretize(

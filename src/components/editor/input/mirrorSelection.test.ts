@@ -71,15 +71,14 @@ describe('shouldEchoNatively', () => {
         modifiers: Partial<
             Pick<KeyboardEvent, 'ctrlKey' | 'metaKey' | 'altKey' | 'shiftKey'>
         > = {},
-    ) =>
-        ({
-            key: k,
-            ctrlKey: false,
-            metaKey: false,
-            altKey: false,
-            shiftKey: false,
-            ...modifiers,
-        }) as KeyboardEvent;
+    ) => ({
+        key: k,
+        ctrlKey: false,
+        metaKey: false,
+        altKey: false,
+        shiftKey: false,
+        ...modifiers,
+    });
 
     test.each(['a', 'Z', '1', '*', '¶'])(
         'a plain character (%s) echoes',

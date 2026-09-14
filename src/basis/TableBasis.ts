@@ -10,7 +10,7 @@ import TableType from '@nodes/TableType';
 import TextType from '@nodes/TextType';
 import TypeVariable from '@nodes/TypeVariable';
 import TypeVariables from '@nodes/TypeVariables';
-import type TableValue from '@values/TableValue';
+import TableValue from '@values/TableValue';
 import TextValue from '@values/TextValue';
 import { createBasisConversion, createEqualsFunction } from '@basis/Basis';
 
@@ -45,6 +45,7 @@ export default function bootstrapTable(locales: Locales) {
                     ),
                     TableType.make(),
                     ListType.make(RowTypeVariable.getReference()),
+                    TableValue,
                     (requestor: Expression, table: TableValue) =>
                         new ListValue(requestor, table.rows),
                 ),
@@ -55,6 +56,7 @@ export default function bootstrapTable(locales: Locales) {
                     ),
                     TableType.make(),
                     TextType.make(),
+                    TableValue,
                     (requestor: Expression, table: TableValue) =>
                         new TextValue(requestor, table.toWordplay(locales)),
                 ),

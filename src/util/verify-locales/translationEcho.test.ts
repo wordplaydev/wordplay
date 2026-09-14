@@ -2,9 +2,10 @@ import fs from 'fs';
 import { describe, expect, test } from 'vitest';
 import { isMachineTranslated } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
-import type Tutorial from '../../tutorial/Tutorial';
+import { isTutorial, type Tutorial } from '../../tutorial/Tutorial';
 import { TutorialModes } from '../../tutorial/TutorialMode';
 import { getTutorialPath } from './TutorialSchema';
+import { must } from '@util/nullable';
 
 /**
  * Catch a locale whose tutorial is still English while claiming to be translated.
@@ -37,7 +38,9 @@ const MAX_ECHO = 0.25;
 const ENOUGH_TO_JUDGE = 20;
 
 function load(path: string): Tutorial {
-    return JSON.parse(fs.readFileSync(path, 'utf8')) as Tutorial;
+    const json: unknown = JSON.parse(fs.readFileSync(path, 'utf8'));
+    if (!isTutorial(json)) throw new Error(`${path} is not a tutorial`);
+    return json;
 }
 
 /** Every dialog paragraph paired with its en-US source, by position. */
@@ -87,7 +90,7 @@ describe('no locale is quietly still in English', () => {
                 const rate = echoed.length / claimed.length;
                 if (rate > MAX_ECHO)
                     echoing.push(
-                        `${locale}: ${echoed.length}/${claimed.length} machine translations (${Math.round(rate * 100)}%) are still the English, e.g. ${JSON.stringify(withoutAnnotations(echoed[0][1]).slice(0, 50))}`,
+                        `${locale}: ${echoed.length}/${claimed.length} machine translations (${Math.round(rate * 100)}%) are still the English, e.g. ${JSON.stringify(withoutAnnotations(must(echoed[0], 'an echo')[1]).slice(0, 50))}`,
                     );
             }
 

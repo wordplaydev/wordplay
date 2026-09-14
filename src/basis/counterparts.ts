@@ -93,13 +93,14 @@ export default function buildCounterparts(
 
     // Structures are keyed by a basis type name ('measurement', 'text', …), which is code,
     // not locale text, so the keys are the same in both.
-    const kinds = Object.keys(mine.structureDefinitionsByName);
-    const theirKinds = Object.keys(theirs.structureDefinitionsByName);
-    if (kinds.length !== theirKinds.length) return undefined;
-    for (const kind of kinds) {
-        const a = mine.structureDefinitionsByName[kind];
-        const b = theirs.structureDefinitionsByName[kind];
-        if (a === undefined || b === undefined) return undefined;
+    if (
+        mine.structureDefinitionsByName.size !==
+        theirs.structureDefinitionsByName.size
+    )
+        return undefined;
+    for (const [kind, a] of mine.structureDefinitionsByName) {
+        const b = theirs.structureDefinitionsByName.get(kind);
+        if (b === undefined) return undefined;
         pairStructure(a, b);
     }
 

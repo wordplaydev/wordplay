@@ -1,4 +1,5 @@
 import { Modes, type GuidePlace } from '@components/concepts/GuideHistory';
+import { must } from '@util/nullable';
 import {
     getLanguageQuoteClose,
     getLanguageQuoteOpen,
@@ -24,7 +25,10 @@ export default function placeLabel(
     // purpose header — which is exactly what `kits` did when it was added.
     if (place.mode !== 'language') {
         const which = Modes.indexOf(place.mode);
-        return locales.getPlainText((l) => l.ui.docs.mode.browse.labels[which]);
+        // The labels are a positional tuple with one entry per mode.
+        return locales.getPlainText((l) =>
+            must(l.ui.docs.mode.browse.labels[which], 'a browse mode label'),
+        );
     }
     return locales.getPlainText(
         (l) => l.ui.docs.purposes[place.purpose].header,

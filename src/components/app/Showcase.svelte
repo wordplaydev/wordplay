@@ -48,6 +48,7 @@
     import { withMonoEmoji } from '@unicode/emoji';
     import type Project from '@db/projects/Project';
     import type Node from '@nodes/Node';
+    import { must } from '@util/nullable';
     import { writable } from 'svelte/store';
 
     /** The examples, in the order their buttons appear. The icons live here
@@ -88,9 +89,10 @@
 
     /** One tooltip line per chosen locale, for the example at `index`. */
     function tipsFor(index: number) {
+        // One tip per example, in the same order as `Examples`.
         return $locales.getMultilingualFrom(
             (l) => l.ui.page.landing.tour.examples,
-            (text) => text.tips[index],
+            (text) => must(text.tips[index], `the tip for example ${index}`),
         );
     }
     function showTip(view: HTMLElement, index: number) {
@@ -103,8 +105,11 @@
      *  in its own program doc, so a separate short label had nowhere to go. */
     const descriptions = $derived(
         Examples.map((_, index) =>
-            $locales.getPrimaryPlainText(
-                (l) => l.ui.page.landing.tour.examples.tips[index],
+            $locales.getPrimaryPlainText((l) =>
+                must(
+                    l.ui.page.landing.tour.examples.tips[index],
+                    `the tip for example ${index}`,
+                ),
             ),
         ),
     );
@@ -119,8 +124,9 @@
             // The example becomes code, so it must be the primary locale's text
             // alone and free of write-status markers — a `$~` prefix, or a join
             // of several locales, is not a program anyone could run.
+            // `selected` always names one of the examples.
             const text = $locales.getUnannotatedPrimaryText(
-                Examples[selected].text,
+                must(Examples[selected], 'the selected example').text,
             );
             const markup = Markup.words(text);
             const example = markup
@@ -179,7 +185,11 @@
         // Naming the example is what makes this audible more than once: a
         // constant "example selected" is spoken once and never again.
         if (announce && $announce)
-            $announce('tour', $locales.getLanguages()[0], descriptions[index]);
+            $announce(
+                'tour',
+                must($locales.getLanguages()[0], 'the primary language'),
+                must(descriptions[index], `the description for ${index}`),
+            );
     }
 
     /** Arrow keys move within the group, which is a single tab stop — the same

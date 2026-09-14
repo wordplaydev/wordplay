@@ -1,3 +1,4 @@
+import { must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 import { getOutlineOfRows, rectsToRows, type Rect } from './outline';
 
@@ -12,9 +13,10 @@ function points(path: string): [number, number][] {
         .replace(/^M\s*/, '')
         .replace(/\s*Z$/, '')
         .split(/\s*L\s*/)
-        .map((pair) => {
+        .map((pair): [number, number] => {
             const [x, y] = pair.trim().split(/\s+/).map(Number);
-            return [x, y] as [number, number];
+            // Every vertex the tracer emits is an x and a y.
+            return [must(x, 'an x'), must(y, 'a y')];
         });
 }
 
@@ -22,10 +24,14 @@ function points(path: string): [number, number][] {
  *  wider than the padding paints each one as a bump. */
 function zeroLengthSegments(path: string): number {
     const p = points(path);
-    return p.filter(
-        (point, i) =>
-            i > 0 && point[0] === p[i - 1][0] && point[1] === p[i - 1][1],
-    ).length;
+    return p.filter((point, i) => {
+        const previous = p[i - 1];
+        return (
+            previous !== undefined &&
+            point[0] === previous[0] &&
+            point[1] === previous[1]
+        );
+    }).length;
 }
 
 /** Places where the trace doubles back on itself: down the right chain y must
@@ -35,12 +41,18 @@ function reversals(path: string): number {
     const p = points(path);
     let bottom = 0;
     p.forEach((point, i) => {
-        if (point[1] > p[bottom][1]) bottom = i;
+        const lowest = p[bottom];
+        if (lowest !== undefined && point[1] > lowest[1]) bottom = i;
     });
     let count = 0;
-    for (let i = 1; i <= bottom; i++) if (p[i][1] < p[i - 1][1]) count++;
-    for (let i = bottom + 1; i < p.length; i++)
-        if (p[i][1] > p[i - 1][1]) count++;
+    // Down the right chain (to the lowest point) y must never decrease; up the
+    // left chain it must never increase.
+    for (const [i, point] of p.entries()) {
+        const previous = p[i - 1];
+        if (previous === undefined) continue;
+        if (i <= bottom ? point[1] < previous[1] : point[1] > previous[1])
+            count++;
+    }
     return count;
 }
 

@@ -92,10 +92,10 @@
 
         const bands = spectrumBands(spectrum, Bands);
         const bandWidth = width / Bands;
-        for (let band = 0; band < bands.length; band++) {
+        for (const [band, magnitude] of bands.entries()) {
             // Reduced motion keeps the colour but stops the height moving, so
             // the music is still visible without anything pulsing.
-            const level = reduced ? 0.35 : bands[band];
+            const level = reduced ? 0.35 : magnitude;
             if (level <= 0.02) continue;
             // Hue sweeps across the spectrum, so pitch has a place as well as
             // a brightness.

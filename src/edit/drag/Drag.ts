@@ -1,4 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
+import { must, type NonEmpty } from '@util/nullable';
 import type Project from '@db/projects/Project';
 import Block from '@nodes/Block';
 import Expression from '@nodes/Expression';
@@ -80,7 +81,8 @@ export function dropNodeOnSource(
     dragged: Node[],
     target: Node | InsertionPoint | AssignmentPoint,
 ): [Project, Source, Node[]] {
-    const first = dragged[0];
+    // A drag is of at least one node; nothing calls this with an empty run.
+    const first = must(dragged[0], 'a dragged node');
     const root = project.getRoot(first);
     const draggedRoot = root?.root;
 
@@ -88,7 +90,10 @@ export function dropNodeOnSource(
     let editedSpace = source.spaces;
 
     // Clone what's being dragged, in case it came with nodes we shouldn't mess with.
-    const draggedClones: Node[] = dragged.map((node) => node.clone());
+    const draggedClones: NonEmpty<Node> = [
+        first.clone(),
+        ...dragged.slice(1).map((node) => node.clone()),
+    ];
 
     // First, decide whether to remove the nodes or replace them with a placeholder.
     // We do this based on the field: if it is in a list or can be undefined, then we remove,
@@ -263,9 +268,11 @@ export function dropNodeOnSource(
                 parent !== undefined && containing !== undefined
                     ? parent.getField(containing)
                     : undefined;
-            const following = Array.isArray(list)
-                ? list[list.indexOf(dragged[dragged.length - 1]) + 1]
-                : undefined;
+            const lastDragged = dragged.at(-1);
+            const following =
+                Array.isArray(list) && lastDragged !== undefined
+                    ? list[list.indexOf(lastDragged) + 1]
+                    : undefined;
             return [
                 program,
                 following === undefined

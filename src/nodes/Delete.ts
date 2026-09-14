@@ -1,4 +1,5 @@
 import conciseRef from '@nodes/conciseRef';
+import ValueException from '@values/ValueException';
 import type { TemplateInput } from '@locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import getConceptName from '@locale/getConceptName';
@@ -106,11 +107,13 @@ export default class Delete extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Delete(
-            this.replaceChild('table', this.table, replace),
-            this.replaceChild('del', this.del, replace),
-            this.replaceChild('query', this.query, replace),
-        ) as this;
+        return this.cloned(
+            new Delete(
+                this.replaceChild('table', this.table, replace),
+                this.replaceChild('del', this.del, replace),
+                this.replaceChild('query', this.query, replace),
+            ),
+        );
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {
@@ -164,9 +167,9 @@ export default class Delete extends Expression {
         node;
         const type = this.table.getType(context);
         if (type instanceof TableType)
-            return type.columns
-                .filter((col) => col instanceof Bind)
-                .map((col) => col) as Bind[];
+            return type.columns.filter(
+                (col): col is Bind => col instanceof Bind,
+            );
         else return [];
     }
 
@@ -220,8 +223,9 @@ export default class Delete extends Expression {
                     const remove = evaluator.popValue(this, BooleanType.make());
                     if (!(remove instanceof BoolValue)) return remove;
                     // Query was false? Keep instead of deleting.
-                    if (remove.bool === false)
-                        info.list.push(info.table.rows[info.index]);
+                    const row = info.table.rows[info.index];
+                    if (remove.bool === false && row !== undefined)
+                        info.list.push(row);
                     // Increment the counter.
                     info.index = info.index + 1;
                 },
@@ -231,7 +235,9 @@ export default class Delete extends Expression {
     }
 
     evaluate(evaluator: Evaluator): Value {
-        const { table, list } = getIterationResult<DeleteState>(evaluator);
+        const state = getIterationResult<DeleteState>(evaluator);
+        if (state === undefined) return new ValueException(evaluator, this);
+        const { table, list } = state;
         // Pop the table.
         evaluator.popValue(this);
 

@@ -81,10 +81,12 @@ export default class Changed extends SimpleExpression {
     }
 
     clone(replace?: Replacement) {
-        return new Changed(
-            this.replaceChild('change', this.change, replace),
-            this.replaceChild('stream', this.stream, replace),
-        ) as this;
+        return this.cloned(
+            new Changed(
+                this.replaceChild('change', this.change, replace),
+                this.replaceChild('stream', this.stream, replace),
+            ),
+        );
     }
 
     getPurpose() {

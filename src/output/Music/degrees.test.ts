@@ -5,6 +5,7 @@ import {
     degreeVoices,
 } from '@output/Music/degrees';
 import { Scales } from '@output/Music/scales';
+import { must } from '@util/nullable';
 
 const major = Scales.major;
 
@@ -13,9 +14,9 @@ test('a whole degree is one voice at full volume, mashed or not', () => {
         for (const degree of [1, 3, 8, 0, -6]) {
             const voices = degreeVoices(degree, major, 0, mash);
             expect(voices).toHaveLength(1);
-            expect(voices[0].degree).toBe(degree);
-            expect(voices[0].weight).toBe(1);
-            expect(voices[0].semitones).toBe(
+            expect(voices[0]?.degree).toBe(degree);
+            expect(voices[0]?.weight).toBe(1);
+            expect(voices[0]?.semitones).toBe(
                 degreeToSemitones(degree, major, 0),
             );
         }
@@ -25,7 +26,9 @@ test('a mashed fraction sounds both neighbors, the nearer one louder', () => {
     const voices = degreeVoices(1.2, major, 0, true);
     expect(voices.map((voice) => voice.degree)).toEqual([1, 2]);
     expect(voices.map((voice) => voice.semitones)).toEqual([0, 2]);
-    expect(voices[0].weight).toBeGreaterThan(voices[1].weight);
+    expect(must(voices[0], 'the lower voice').weight).toBeGreaterThan(
+        must(voices[1], 'the upper voice').weight,
+    );
 });
 
 test('a mashed pair keeps constant power, so a run does not dip', () => {
@@ -44,7 +47,9 @@ test('a negative fraction leans on the neighbor it is nearer', () => {
     // −1.2 is between −2 and −1, and closer to −1.
     const voices = degreeVoices(-1.2, major, 0, true);
     expect(voices.map((voice) => voice.degree)).toEqual([-2, -1]);
-    expect(voices[1].weight).toBeGreaterThan(voices[0].weight);
+    expect(must(voices[1], 'the upper voice').weight).toBeGreaterThan(
+        must(voices[0], 'the lower voice').weight,
+    );
 });
 
 test('a degree a hair off whole is one voice, not two', () => {
@@ -53,24 +58,25 @@ test('a degree a hair off whole is one voice, not two', () => {
     for (const degree of [1 + DegreeEpsilon / 10, 2 - DegreeEpsilon / 10]) {
         const voices = degreeVoices(degree, major, 0, true);
         expect(voices).toHaveLength(1);
-        expect(voices[0].weight).toBe(1);
+        expect(voices[0]?.weight).toBe(1);
     }
 });
 
 test('an unmashed fraction is one note bent between its neighbors', () => {
     const voices = degreeVoices(1.2, major, 0, false);
     expect(voices).toHaveLength(1);
-    expect(voices[0].weight).toBe(1);
+    const bent = must(voices[0], 'the only voice');
+    expect(bent.weight).toBe(1);
     // Two fifths of the way from degree 1 (0 semitones) to degree 2 (2).
-    expect(voices[0].semitones).toBeCloseTo(0.4, 10);
+    expect(bent.semitones).toBeCloseTo(0.4, 10);
     // A whole degree even so, since a kit indexes its kit by degree.
-    expect(Number.isInteger(voices[0].degree)).toBe(true);
-    expect(voices[0].degree).toBe(1);
+    expect(Number.isInteger(bent.degree)).toBe(true);
+    expect(bent.degree).toBe(1);
 });
 
 test('an unmashed fraction rounds its degree to the nearer kit piece', () => {
-    expect(degreeVoices(1.8, major, 0, false)[0].degree).toBe(2);
-    expect(degreeVoices(1.2, major, 0, false)[0].degree).toBe(1);
+    expect(degreeVoices(1.8, major, 0, false)[0]?.degree).toBe(2);
+    expect(degreeVoices(1.2, major, 0, false)[0]?.degree).toBe(1);
 });
 
 test('no degree ever resolves to a pitch that is not a number', () => {

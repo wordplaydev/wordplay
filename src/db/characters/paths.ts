@@ -131,8 +131,7 @@ export function transformPathPoints(
         if (point.curve) moved.curve = transform(point.curve);
         return moved;
     };
-    const [first, ...rest] = points;
-    return [move(first), ...rest.map(move)];
+    return points.map(move);
 }
 
 /**
@@ -187,7 +186,7 @@ export function insertPathPoint(
         midpoint,
         ...updated.slice(insertion),
     ];
-    return { points: [grown[0], ...grown.slice(1)], index: insertion };
+    return { points: grown, index: insertion };
 }
 
 /** Remove a point, or refuse if that would leave a path too short to draw a line with. */
@@ -235,7 +234,7 @@ export function curvePathPoint(
               }
             : point,
     );
-    return [curved[0], ...curved.slice(1)];
+    return curved;
 }
 
 /**
@@ -253,7 +252,7 @@ export function straightenPathPoint(
         delete flat.curve;
         return flat;
     });
-    return [straightened[0], ...straightened.slice(1)];
+    return straightened;
 }
 
 /** Where a quadratic Bezier reaches its extreme on one axis, if it does so between its ends. */

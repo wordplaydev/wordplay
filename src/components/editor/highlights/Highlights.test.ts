@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+import { must } from '@util/nullable';
 import Source from '@nodes/Source';
 import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
@@ -56,7 +57,7 @@ describe('getDragHighlights', () => {
     test('a live dragged node is highlighted', () => {
         const source = new Source('test', '1 + 2');
         const project = Project.make(null, 'test', source, [], DefaultLocale);
-        const dragged = source.find<Node>(NumberLiteral);
+        const dragged = must(source.find(NumberLiteral), 'NumberLiteral');
         const result = getDragHighlights(
             source,
             project,
@@ -75,9 +76,12 @@ describe('getDragHighlights', () => {
         // (which can throw a `.length`-of-undefined deep in analysis); it just isn't highlighted.
         const source = new Source('test', '1 + 2');
         const project = Project.make(null, 'test', source, [], DefaultLocale);
-        const dragged = source.find<Node>(NumberLiteral);
+        const dragged = must(source.find(NumberLiteral), 'NumberLiteral');
         const detached = new Source('stale', '9');
-        const staleHovered = detached.find<Node>(NumberLiteral);
+        const staleHovered = must(
+            detached.find(NumberLiteral),
+            'NumberLiteral',
+        );
         let result: Highlights | undefined;
         expect(() => {
             result = getDragHighlights(
@@ -99,7 +103,7 @@ describe('getProjectHighlights', () => {
     function highlightsFor(code: string, blocks: boolean) {
         const source = new Source('test', code);
         const project = Project.make(null, 'test', source, [], DefaultLocale);
-        const stage = source.find<Evaluate>(Evaluate);
+        const stage = must(source.find(Evaluate), 'Evaluate');
         expect(stage).toBeDefined();
         return {
             stage,
@@ -147,7 +151,7 @@ describe('getProjectHighlights', () => {
         // node instead wouldn't pass.
         let number: NumberLiteral | undefined;
         const { highlights } = runtimeHighlights("Phrase(1→'')", (source) => {
-            number = source.find<NumberLiteral>(NumberLiteral);
+            number = must(source.find(NumberLiteral), 'NumberLiteral');
             expect(number).toBeDefined();
             return { animating: [number!], sounding: [number!] };
         });
@@ -159,7 +163,7 @@ describe('getProjectHighlights', () => {
         // are per-source, so a node this source doesn't hold must not be
         // marked — that filter is what discards basis-built nodes.
         const other = new Source('other', "Phrase(2→'')");
-        const stray = other.find<NumberLiteral>(NumberLiteral);
+        const stray = must(other.find(NumberLiteral), 'NumberLiteral');
         expect(stray).toBeDefined();
         const { highlights } = runtimeHighlights("Phrase(1→'')", () => ({
             animating: [stray!],

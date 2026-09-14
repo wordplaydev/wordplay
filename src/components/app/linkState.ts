@@ -16,7 +16,8 @@ export type LinkState = {
  *  selects what it shows. A hash is dropped: it addresses a place within a
  *  page, not a different one. */
 function split(to: string): { path: string; search: string } {
-    const withoutHash = to.split('#')[0];
+    const hash = to.indexOf('#');
+    const withoutHash = hash === -1 ? to : to.slice(0, hash);
     const query = withoutHash.indexOf('?');
     return query === -1
         ? { path: withoutHash, search: '' }

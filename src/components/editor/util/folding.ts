@@ -76,8 +76,8 @@ export const FOLD_GLYPH_ROTATION = 90;
  *  docs-excluded foldability checks. */
 function leavesSpanLines(leaves: Node[], spaces: Spaces): boolean {
     if (leaves.length < 2) return false;
-    for (let i = 1; i < leaves.length; i++)
-        if (spaces.getSpace(leaves[i]).includes('\n')) return true;
+    for (const leaf of leaves.slice(1))
+        if (spaces.getSpace(leaf).includes('\n')) return true;
     return false;
 }
 
@@ -115,8 +115,8 @@ function isBodyFoldable(node: Node, spaces: Spaces | undefined): boolean {
     // Span lines iff some body leaf after the first carries a newline (the first
     // body leaf's leading space is the gap before the body and doesn't count —
     // matching leavesSpanLines on the docs-excluded leaves).
-    for (let i = skip + 1; i < leaves.length; i++)
-        if (spaces.getSpace(leaves[i]).includes('\n')) return true;
+    for (const leaf of leaves.slice(skip + 1))
+        if (spaces.getSpace(leaf).includes('\n')) return true;
     return false;
 }
 

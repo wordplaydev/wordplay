@@ -20,6 +20,7 @@ import BoolValue from '@values/BoolValue';
 import SingletonStreamValue from '@values/SingletonStreamValue';
 import TextValue from '@values/TextValue';
 import type { StreamKind } from '@values/StreamValue';
+import { first } from '@util/nullable';
 
 /** Annotation-stripped key tables, keyed by the raw table object so the strip
  *  runs once per loaded locale rather than on every keystroke. */
@@ -59,7 +60,7 @@ export function localizeKeyName(
 ): string {
     const map = getKeyMap(locales);
     const entry = map[canonicalEnglish];
-    return entry && entry.length > 0 ? entry[0] : canonicalEnglish;
+    return (entry === undefined ? undefined : first(entry)) ?? canonicalEnglish;
 }
 
 /** Resolve a user-supplied `key` filter (typed by the author in any locale)

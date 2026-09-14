@@ -17,9 +17,9 @@ function segmentWords(graphemes: string[], lang: string): WordInfo {
     // Map each grapheme's UTF-16 start offset to its grapheme index.
     const offsetToIndex = new Map<number, number>();
     let off = 0;
-    for (let i = 0; i < graphemes.length; i++) {
+    for (const [i, grapheme] of graphemes.entries()) {
         offsetToIndex.set(off, i);
-        off += graphemes[i].length;
+        off += grapheme.length;
     }
     offsetToIndex.set(off, graphemes.length);
 

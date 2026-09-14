@@ -326,9 +326,11 @@ export default function bootstrapList(locales: Locales) {
                                 const index =
                                     Math.floor(random * current.length) %
                                     current.length;
+                                // `index` is inside the remaining values,
+                                // which the loop keeps non-empty.
                                 const value = current[index];
                                 current.splice(index, 1);
-                                shuffled.push(value);
+                                if (value !== undefined) shuffled.push(value);
                             }
                             return new ListValue(requestor, shuffled);
                         } else
@@ -377,7 +379,8 @@ export default function bootstrapList(locales: Locales) {
                     (requestor, evaluation) => {
                         requestor;
                         const list = evaluation.getClosure();
-                        if (list instanceof ListValue) return list.first();
+                        if (list instanceof ListValue)
+                            return list.first() ?? new NoneValue(requestor);
                         else
                             return evaluation.getValueOrTypeException(
                                 requestor,
@@ -481,7 +484,8 @@ export default function bootstrapList(locales: Locales) {
                     (requestor, evaluation) => {
                         requestor;
                         const list = evaluation.getClosure();
-                        if (list instanceof ListValue) return list.last();
+                        if (list instanceof ListValue)
+                            return list.last() ?? new NoneValue(requestor);
                         else
                             return evaluation.getValueOrTypeException(
                                 requestor,
@@ -650,10 +654,16 @@ export default function bootstrapList(locales: Locales) {
                     }>(
                         ListType.make(TranslateTypeVariable.getReference()),
                         // Start with an index of one, the list we're translating, and an empty translated list.
-                        (evaluator) => {
+                        (evaluator, expression) => {
+                            const list = evaluator.getClosureOf(
+                                ListValue,
+                                ListType.make(),
+                                expression,
+                            );
+                            if (list instanceof ExceptionValue) return list;
                             return {
                                 index: 1,
-                                list: evaluator.getCurrentClosure() as ListValue,
+                                list,
                                 translated: [],
                             };
                         },
@@ -715,10 +725,16 @@ export default function bootstrapList(locales: Locales) {
                     }>(
                         ListType.make(ListTypeVariable.getReference()),
                         // Start with an index of one, the list we're translating, and an empty translated list.
-                        (evaluator) => {
+                        (evaluator, expression) => {
+                            const list = evaluator.getClosureOf(
+                                ListValue,
+                                ListType.make(),
+                                expression,
+                            );
+                            if (list instanceof ExceptionValue) return list;
                             return {
                                 index: 1,
-                                list: evaluator.getCurrentClosure() as ListValue,
+                                list,
                                 filtered: [],
                             };
                         },
@@ -782,10 +798,16 @@ export default function bootstrapList(locales: Locales) {
                     }>(
                         BooleanType.make(),
                         // Start with an index of one, the list we're checking.
-                        (evaluator) => {
+                        (evaluator, expression) => {
+                            const list = evaluator.getClosureOf(
+                                ListValue,
+                                ListType.make(),
+                                expression,
+                            );
+                            if (list instanceof ExceptionValue) return list;
                             return {
                                 index: 1,
-                                list: evaluator.getCurrentClosure() as ListValue,
+                                list,
                                 matches: true,
                             };
                         },
@@ -853,10 +875,16 @@ export default function bootstrapList(locales: Locales) {
                     new Iteration<{ index: number; list: ListValue }>(
                         ListType.make(ListTypeVariable.getReference()),
                         // Start with an index of one and the list we're truncating.
-                        (evaluator) => {
+                        (evaluator, expression) => {
+                            const list = evaluator.getClosureOf(
+                                ListValue,
+                                ListType.make(),
+                                expression,
+                            );
+                            if (list instanceof ExceptionValue) return list;
                             return {
                                 index: 1,
-                                list: evaluator.getCurrentClosure() as ListValue,
+                                list,
                             };
                         },
                         // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
@@ -927,10 +955,16 @@ export default function bootstrapList(locales: Locales) {
                     new Iteration<{ index: number; list: ListValue }>(
                         ListTypeVariable.getReference(),
                         // Start with an index of one and the list we're searching.
-                        (evaluator) => {
+                        (evaluator, expression) => {
+                            const list = evaluator.getClosureOf(
+                                ListValue,
+                                ListType.make(),
+                                expression,
+                            );
+                            if (list instanceof ExceptionValue) return list;
                             return {
                                 index: 1,
-                                list: evaluator.getCurrentClosure() as ListValue,
+                                list,
                             };
                         },
                         // If we're past the end, stop. Otherwise, evaluate the translator function on the next value.
@@ -1009,11 +1043,13 @@ export default function bootstrapList(locales: Locales) {
                                     evaluator,
                                     expression,
                                 );
-                            return {
-                                index: 1,
-                                list: evaluator.getCurrentClosure() as ListValue,
-                                combo: initial,
-                            };
+                            const list = evaluator.getClosureOf(
+                                ListValue,
+                                ListType.make(),
+                                expression,
+                            );
+                            if (list instanceof ExceptionValue) return list;
+                            return { index: 1, list, combo: initial };
                         },
                         // If we're past the end, stop. Otherwise, create the new combo with the combiner.
                         (evaluator, info, expr) =>
@@ -1079,10 +1115,16 @@ export default function bootstrapList(locales: Locales) {
                         ListType.make(ListTypeVariable.getReference()),
                         // Start with an index at the beginning of the list, a reference to the list for convenience,
                         // and an empty list of keyed values.
-                        (evaluator) => {
+                        (evaluator, expression) => {
+                            const list = evaluator.getClosureOf(
+                                ListValue,
+                                ListType.make(),
+                                expression,
+                            );
+                            if (list instanceof ExceptionValue) return list;
                             return {
                                 index: 1, // 1-indexed, since we index the list, not a Javascript array
-                                list: evaluator.getCurrentClosure() as ListValue,
+                                list,
                                 keyed: [],
                             };
                         },
@@ -1146,6 +1188,7 @@ export default function bootstrapList(locales: Locales) {
                     ),
                     ListType.make(ListTypeVariable.getReference()),
                     TextType.make(),
+                    ListValue,
                     (requestor: Expression, val: ListValue) =>
                         new TextValue(requestor, val.toString()),
                 ),
@@ -1156,6 +1199,7 @@ export default function bootstrapList(locales: Locales) {
                     ),
                     ListType.make(ListTypeVariable.getReference()),
                     SetType.make(ListTypeVariable.getReference()),
+                    ListValue,
                     (requestor: Expression, val: ListValue) =>
                         new SetValue(requestor, val.getValues()),
                 ),

@@ -145,23 +145,39 @@ test("every locale's changelog translations are readable and current", () => {
         const file = updatesFilePath(locale);
         if (!fs.existsSync(file)) continue;
 
-        const raw = JSON.parse(fs.readFileSync(file, 'utf-8')) as {
-            format?: number;
-            entries?: Record<string, string>;
-        };
+        const raw = readRawUpdates(file);
         expect(
             Object.keys(readTranslations(locale)).length,
             `${file} parsed as empty — it is at format ${String(raw.format)}, which the app no longer reads, so ${locale} would silently render in English.`,
-        ).toBe(Object.keys(raw.entries ?? {}).length);
+        ).toBe(Object.keys(raw.entries).length);
 
         // An entry edited after release gets a new id, orphaning the old one.
         // Harmless to render but pure weight, and a sign the bundle drifted.
-        const orphans = Object.keys(raw.entries ?? {}).filter(
-            (id) => !live.has(id),
-        );
+        const orphans = Object.keys(raw.entries).filter((id) => !live.has(id));
         expect(
             orphans,
             `${file} has translations for entries that no longer exist. Run "npm run locales-fix" to drop them.`,
         ).toEqual([]);
     }
 });
+
+/** A locale's updates file read as the two fields this test asks about, rather
+ *  than trusted to have them: a bundle at an old format is the thing being
+ *  looked for. */
+function readRawUpdates(file: string): {
+    format: number | undefined;
+    entries: Record<string, string>;
+} {
+    const json: unknown = JSON.parse(fs.readFileSync(file, 'utf-8'));
+    if (json === null || typeof json !== 'object')
+        throw new Error(`${file} is not an object`);
+    const format: unknown = Reflect.get(json, 'format');
+    const block: unknown = Reflect.get(json, 'entries');
+    const entries: Record<string, string> = {};
+    if (block !== null && typeof block === 'object')
+        for (const id of Object.keys(block)) {
+            const markup: unknown = Reflect.get(block, id);
+            if (typeof markup === 'string') entries[id] = markup;
+        }
+    return { format: typeof format === 'number' ? format : undefined, entries };
+}

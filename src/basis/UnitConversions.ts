@@ -1,4 +1,5 @@
 import { createBasisConversion } from '@basis/Basis';
+import { entriesOf, keysOf } from '@util/nullable';
 import { getTemplatedDocLocales } from '@locale/getDocLocales';
 import type Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
@@ -324,8 +325,8 @@ export type UnitCategory = keyof typeof UnitCategories;
 
 /** The kind of measurement a unit measures. Every key in `Units` has one. */
 export function getUnitCategory(key: UnitKey): UnitCategory | undefined {
-    return (Object.keys(UnitCategories) as UnitCategory[]).find((category) =>
-        (UnitCategories[category] as readonly UnitKey[]).includes(key),
+    return keysOf(UnitCategories).find((category) =>
+        UnitCategories[category].some((unit: UnitKey) => unit === key),
     );
 }
 
@@ -619,12 +620,14 @@ function conversionsForSpoke(
             getUnitDocLocales(locales, spoke, hub),
             typeFor(spoke),
             typeFor(hub),
+            NumberValue,
             scale(spoke, hub, is, of),
         ),
         createBasisConversion(
             getUnitDocLocales(locales, hub, spoke),
             typeFor(hub),
             typeFor(spoke),
+            NumberValue,
             scale(hub, spoke, of, is),
         ),
     ];
@@ -644,6 +647,7 @@ function conversionsForAffine(
             getUnitDocLocales(locales, from, to),
             typeFor(from),
             typeFor(to),
+            NumberValue,
             (requestor: Expression, value: NumberValue) => {
                 const scaled = value.multiply(
                     requestor,
@@ -661,6 +665,7 @@ function conversionsForAffine(
             getUnitDocLocales(locales, to, from),
             typeFor(to),
             typeFor(from),
+            NumberValue,
             (requestor: Expression, value: NumberValue) => {
                 const shifted = shifts
                     ? value.subtract(
@@ -689,13 +694,11 @@ export default function createUnitConversions(
 ): ConversionDefinition[] {
     return [
         ...Dimensions.map((dimension) =>
-            Object.entries(dimension.spokes).flatMap(([spoke, size]) =>
-                conversionsForSpoke(
-                    locales,
-                    dimension.hub,
-                    spoke as UnitKey,
-                    size,
-                ),
+            entriesOf(dimension.spokes).flatMap(([spoke, size]) =>
+                // The record is partial, so a listed spoke may carry no size.
+                size === undefined
+                    ? []
+                    : conversionsForSpoke(locales, dimension.hub, spoke, size),
             ),
         ).flat(),
         ...AffineConversions.flatMap((affine) =>

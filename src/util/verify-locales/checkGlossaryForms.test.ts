@@ -6,7 +6,7 @@ import { expect, test } from 'vitest';
 
 /** en-US with the `parameter` term's forms replaced. */
 function localeWithForms(forms: string[]): LocaleText {
-    const copy = JSON.parse(JSON.stringify(DefaultLocale)) as LocaleText;
+    const copy = structuredClone(DefaultLocale);
     copy.glossary.parameter.forms = forms;
     return copy;
 }

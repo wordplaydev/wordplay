@@ -116,10 +116,12 @@ export default class Insert extends Expression {
     }
 
     clone(replace?: Replacement) {
-        return new Insert(
-            this.replaceChild('table', this.table, replace),
-            this.replaceChild('row', this.row, replace),
-        ) as this;
+        return this.cloned(
+            new Insert(
+                this.replaceChild('table', this.table, replace),
+                this.replaceChild('row', this.row, replace),
+            ),
+        );
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {
@@ -219,9 +221,9 @@ export default class Insert extends Expression {
         node;
         const type = this.table.getType(context);
         if (type instanceof TableType)
-            return type.columns
-                .filter((col) => col instanceof Bind)
-                .map((col) => col) as Bind[];
+            return type.columns.filter(
+                (col): col is Bind => col instanceof Bind,
+            );
         else return [];
     }
 
@@ -267,13 +269,12 @@ export default class Insert extends Expression {
                     )
                   : // Otherwise, loop through the required columns, finding the corresponding bind, and compiling it's expression, or the default if not found.
                     tableType.columns.reduce((steps: Step[], column) => {
-                        const matchingCell: Expression | undefined =
-                            this.row.cells.find(
-                                (cell) =>
-                                    column instanceof Bind &&
-                                    cell instanceof Bind &&
-                                    column.sharesName(cell),
-                            ) as Expression | undefined;
+                        const matchingCell = this.row.cells.find(
+                            (cell) =>
+                                column instanceof Bind &&
+                                cell instanceof Bind &&
+                                column.sharesName(cell),
+                        );
                         if (
                             matchingCell === undefined ||
                             !(matchingCell instanceof Bind) ||

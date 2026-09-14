@@ -305,8 +305,7 @@ export default class Evaluator {
      * A set of singleton stream values that have updated, for pooling them into a single reevaluation, rather than evaluating each at once.
      * Requires the UI handling inputs to trigger reevaluation after they are handled.
      */
-    singletonReactions: Map<Function, SingletonStreamValue<any, any>[]> =
-        new Map();
+    singletonReactions: Map<Function, StreamValue[]> = new Map();
 
     /** The animation multiplier to apply to all time-based streams. Can come from anywhere, but typically a user configuration.
      */
@@ -441,8 +440,7 @@ export default class Evaluator {
             this.#replayingInputs = true;
 
             // Iterate through all input and see if we can map them to a new node and it's corresponding stream.
-            for (let i = 0; i < evaluator.#inputs.length; i++) {
-                const input = evaluator.#inputs[i];
+            for (const input of evaluator.#inputs) {
                 // Is it a flush? Flush.
                 if (input === null) this.flush();
                 // See if we can find the corresponding stream.
@@ -594,6 +592,22 @@ export default class Evaluator {
         return this.getCurrentEvaluation()?.getClosure();
     }
 
+    /** The current evaluation's closure narrowed to the given value class, or
+     *  the exception to return instead (see Evaluation.getClosureOf). */
+    getClosureOf<Kind extends Value>(
+        kind: abstract new (...args: never[]) => Kind,
+        expected: Type,
+        requestor: Expression,
+    ): Kind | ExceptionValue {
+        return (
+            this.getCurrentEvaluation()?.getClosureOf(
+                kind,
+                expected,
+                requestor,
+            ) ?? new ValueException(this, requestor)
+        );
+    }
+
     getCurrentContext() {
         return (
             this.getCurrentEvaluation()?.getContext() ??
@@ -611,6 +625,7 @@ export default class Evaluator {
         if (indexedValues === undefined) return undefined;
         for (let index = indexedValues.length - 1; index >= 0; index--) {
             const val = indexedValues[index];
+            if (val === undefined) continue;
             if (val.stepNumber <= stepIndex) return val.value;
         }
         return undefined;
@@ -650,6 +665,7 @@ export default class Evaluator {
         if (indexedValues === undefined) return undefined;
         for (let index = indexedValues.length - 1; index >= 0; index--) {
             const val = indexedValues[index];
+            if (val === undefined) continue;
             if (val.stepNumber <= stepIndex) {
                 val.value = value;
                 return;
@@ -705,6 +721,7 @@ export default class Evaluator {
         // frame in this project wins.
         for (let i = this.#evaluations.length - 1; i >= 0; i--) {
             const evaluation = this.#evaluations[i];
+            if (evaluation === undefined) continue;
             const currentStep = evaluation.currentStep();
             if (currentStep === undefined) continue;
             const here = currentStep.getActiveNode(this) ?? currentStep.node;
@@ -768,12 +785,14 @@ export default class Evaluator {
                 .at(-1)?.value;
         // Was a step index given that the value should be computed after? Find the first value with a step index after.
         for (let index = values.length - 1; index >= 0; index--) {
-            const step = values[index].stepNumber;
+            const value = values[index];
+            if (value === undefined) continue;
+            const step = value.stepNumber;
             if (
                 step < beforeStepNumber &&
                 (afterStepNumber === undefined || step > afterStepNumber)
             )
-                return values[index].value;
+                return value.value;
         }
         return undefined;
     }
@@ -1591,6 +1610,7 @@ export default class Evaluator {
     getReactionPriorTo(stepIndex: StepNumber): StreamChange | undefined {
         for (let index = this.reactions.length - 1; index >= 0; index--) {
             const change = this.reactions[index];
+            if (change === undefined) continue;
             if (change.stepIndex <= stepIndex) return change;
         }
         return this.reactions[0];
@@ -2165,7 +2185,8 @@ export default class Evaluator {
         const index = this.getStepIndex();
 
         // If we haven't stored any values yet, or the most recent value is before the current index, remember it.
-        if (list.length === 0 || list[list.length - 1].stepNumber < index) {
+        const mostRecent = list[list.length - 1];
+        if (mostRecent === undefined || mostRecent.stepNumber < index) {
             list.push({ value: value, stepNumber: index });
 
             // Trim the history of values to avoid crashing the tab from memory overload.

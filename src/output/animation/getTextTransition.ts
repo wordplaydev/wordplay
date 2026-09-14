@@ -62,5 +62,6 @@ export function getTextTransitionStep(
     progress: number,
 ): string {
     const index = getTransitionIndex(steps.length, progress);
-    return index < 0 ? '' : steps[index];
+    // The index is clamped into range, so the only miss is an empty list.
+    return steps[index] ?? '';
 }

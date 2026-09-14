@@ -5,6 +5,7 @@ import type LocaleText from '@locale/LocaleText';
 import LocalePath, {
     getKeyTemplatePairs,
 } from '@util/verify-locales/LocalePath';
+import { must } from '@util/nullable';
 
 /** The top-level sections of the locale JSON, derived from the default locale
  *  so a newly-added section can never drift out of sync with this analysis (the
@@ -111,10 +112,11 @@ export function collectUsedPrefixes(sources: Iterable<string>): Set<string> {
         for (const match of text.matchAll(PROPERTY_CHAIN_PATTERN)) {
             // Optional-chaining tokens (`?.`) end up inside the capture; strip
             // them so `node?.Block` and `node.Block` collapse to the same key.
-            used.add(match[1].replace(/\?\./g, '.'));
+            // Neither pattern's capture group is optional.
+            used.add(must(match[1], 'a property chain').replace(/\?\./g, '.'));
         }
         for (const match of text.matchAll(HTML_TEMPLATE_PATTERN))
-            used.add(match[1]);
+            used.add(must(match[1], 'a template path'));
     }
     return used;
 }
@@ -148,8 +150,6 @@ export function findUnusedKeys(
         sources.push(fs.readFileSync(file, 'utf8'));
     }
     const usedPrefixes = collectUsedPrefixes(sources);
-    const leaves = getKeyTemplatePairs(
-        locale as unknown as Record<string, unknown>,
-    );
+    const leaves = getKeyTemplatePairs(locale);
     return leaves.filter((leaf) => !isLeafUsed(leaf.toString(), usedPrefixes));
 }

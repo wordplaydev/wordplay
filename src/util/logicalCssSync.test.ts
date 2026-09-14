@@ -64,7 +64,7 @@ describe('what the guard flags', () => {
 
     test('the reported line is the one the declaration is on', () => {
         const found = checkStyleSource(Chrome, style('margin-left: 1px;'));
-        expect(found[0].line).toBe(3);
+        expect(found[0]!.line).toBe(3);
     });
 });
 

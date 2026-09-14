@@ -19,7 +19,7 @@ function getPaletteHex(name: string): string {
     );
     if (match === null)
         throw new Error(`No hex declaration for --${name} in app.html`);
-    return match[1];
+    return match[1]!;
 }
 
 /** WCAG 2.2 AA minimum contrast for normal-size text. */
@@ -37,10 +37,10 @@ function highlightSurfaceTextColor(): string {
     const rule = appHtml.match(/\.highlight-surface\s*\{([^}]*)\}/);
     if (rule === null)
         throw new Error('No .highlight-surface rule in app.html');
-    const color = rule[1].match(/(?:^|[^-])color:\s*var\(--([a-z-]+)\)/);
+    const color = rule[1]!.match(/(?:^|[^-])color:\s*var\(--([a-z-]+)\)/);
     if (color === null)
         throw new Error('.highlight-surface declares no var() color');
-    return getPaletteHex(color[1]);
+    return getPaletteHex(color[1]!);
 }
 
 /** Read a `--name: #rrggbbaa;` translucent palette declaration out of app.html. */
@@ -50,7 +50,7 @@ function getPaletteHexAlpha(name: string): { hex: string; alpha: number } {
     );
     if (match === null)
         throw new Error(`No translucent declaration for --${name} in app.html`);
-    return { hex: `#${match[1]}`, alpha: parseInt(match[2], 16) / 255 };
+    return { hex: `#${match[1]}`, alpha: parseInt(match[2]!, 16) / 255 };
 }
 
 /** Composite a translucent color over an opaque one, as the browser paints it. */
@@ -58,8 +58,11 @@ function composite(
     top: { hex: string; alpha: number },
     bottom: string,
 ): string {
-    const channels = (hex: string) =>
-        [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+    const channels = (hex: string): [number, number, number] => [
+        parseInt(hex.slice(1, 3), 16),
+        parseInt(hex.slice(3, 5), 16),
+        parseInt(hex.slice(5, 7), 16),
+    ];
     const [tr, tg, tb] = channels(top.hex);
     const [br, bg, bb] = channels(bottom);
     const mix = (t: number, b: number) =>

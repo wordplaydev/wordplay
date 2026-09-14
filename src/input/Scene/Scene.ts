@@ -455,7 +455,10 @@ export default class Scene extends StreamValue<
         this.timerRemainingMs = undefined;
         this.pendingAnimations = undefined;
         this.awaiting = false;
-        this.cursor = this.outputs[index - 1];
+        // `index` is clamped to 1…`outputs.length` above.
+        const next = this.outputs[index - 1];
+        if (next === undefined) return;
+        this.cursor = next;
         const item = this.items[this.cursor];
         if (item instanceof StructureValue) this.show(item);
     }

@@ -389,7 +389,7 @@ export default class NumberValue extends SimpleValue {
 
 function convertBase(text: string): NumberAndPrecision {
     const [baseString, numString] = text.toString().split(';');
-    const base = parseInt(baseString);
+    const base = baseString === undefined ? NaN : parseInt(baseString);
     if (isNaN(base) || numString === undefined)
         return [new Decimal(NaN), undefined];
     else {
@@ -401,6 +401,8 @@ function convertBase(text: string): NumberAndPrecision {
             );
 
         const [integral, fractional] = text.split('.');
+        // Splitting always yields a first part.
+        if (integral === undefined) return [new Decimal(NaN), undefined];
         const integralDigits = integral
             .split('')
             .map((d) =>
@@ -423,8 +425,9 @@ function convertBase(text: string): NumberAndPrecision {
         } else {
             let num = new Decimal(0);
             let position = 0;
-            while (integralDigits.length > 0) {
-                const digit = integralDigits.pop() as number;
+            for (;;) {
+                const digit = integralDigits.pop();
+                if (digit === undefined) break;
                 num = num.plus(
                     new Decimal(digit).times(
                         new Decimal(base).pow(new Decimal(position)),
@@ -452,8 +455,9 @@ function convertBase(text: string): NumberAndPrecision {
                                       ? 15
                                       : parseInt(d),
                     );
-                while (fractionalDigits.length > 0) {
-                    const digit = fractionalDigits.shift() as number;
+                for (;;) {
+                    const digit = fractionalDigits.shift();
+                    if (digit === undefined) break;
                     num = num.plus(
                         new Decimal(digit).times(
                             new Decimal(base).pow(new Decimal(position).neg()),

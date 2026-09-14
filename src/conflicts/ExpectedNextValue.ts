@@ -49,7 +49,7 @@ export default class ExpectedNextValue extends Conflict {
             r.initial,
             r.dots,
             r.condition,
-            r.nextdots ?? new StreamToken(),
+            r.nextdots ?? StreamToken(),
             placeholder,
         );
         const fill: Resolutions = [

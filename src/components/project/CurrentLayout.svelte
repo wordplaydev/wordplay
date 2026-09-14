@@ -10,6 +10,7 @@
     } from '@db/settings/Arrangement';
     import type { LocaleTextAccessor } from '@locale/Locales';
     import { withMonoEmoji } from '@unicode/emoji';
+    import { must } from '@util/nullable';
 
     interface Props {
         arrangement: ArrangementType;
@@ -32,10 +33,19 @@
         tip: LocaleTextAccessor;
         icon: string;
     }[] = $derived(
+        // The labels and tips are positional tuples in ArrangementOrder order.
         ArrangementOrder.map((value, index) => ({
             value,
-            label: (l) => l.ui.dialog.settings.mode.layout.labels[index],
-            tip: (l) => l.ui.dialog.settings.mode.layout.tips[index],
+            label: (l) =>
+                must(
+                    l.ui.dialog.settings.mode.layout.labels[index],
+                    `the label for layout ${index}`,
+                ),
+            tip: (l) =>
+                must(
+                    l.ui.dialog.settings.mode.layout.tips[index],
+                    `the tip for layout ${index}`,
+                ),
             icon: LayoutIcons[value],
         })),
     );
@@ -45,11 +55,13 @@
      *  only: the responsive branch (concretize) already is, and the string
      *  becomes Options' aria-label. */
     const tip = $derived.by(() => {
-        const computedTip = $locales.getPrimaryPlainText(
-            (l) =>
+        const computedTip = $locales.getPrimaryPlainText((l) =>
+            must(
                 l.ui.dialog.settings.mode.layout.tips[
                     ArrangementOrder.indexOf(computedLayout)
                 ],
+                'the tip for the computed layout',
+            ),
         );
         return arrangement === Arrangement.Responsive
             ? $locales

@@ -1,4 +1,12 @@
 <script lang="ts">
+    /** An element's children as HTML elements; the DOM types them as
+     *  `Element`, and only an HTML one has the layout this measures. */
+    function htmlChildrenOf(element: Element): HTMLElement[] {
+        return Array.from(element.children).filter(
+            (child): child is HTMLElement => child instanceof HTMLElement,
+        );
+    }
+
     import overflowFit from '@components/widgets/overflowFit';
     import {
         placeNearTarget,
@@ -92,7 +100,7 @@
             const available = eContainer.clientWidth;
             if (available === 0) return;
 
-            const itemEls = Array.from(eItemsMeasure.children) as HTMLElement[];
+            const itemEls = htmlChildrenOf(eItemsMeasure);
             if (itemEls.length !== itemCount) return;
 
             const gap = parseFloat(getComputedStyle(eContainer).columnGap) || 8;
@@ -101,11 +109,9 @@
             // Pinned items always reserve their measured width.
             let pinnedWidth = 0;
             if (ePinnedMeasure && pinned.length > 0) {
-                const pinnedEls = Array.from(
-                    ePinnedMeasure.children,
-                ) as HTMLElement[];
-                for (let i = 0; i < pinnedEls.length; i++) {
-                    pinnedWidth += pinnedEls[i].offsetWidth + (i > 0 ? gap : 0);
+                const pinnedEls = htmlChildrenOf(ePinnedMeasure);
+                for (const [i, el] of pinnedEls.entries()) {
+                    pinnedWidth += el.offsetWidth + (i > 0 ? gap : 0);
                 }
                 pinnedWidth += gap; // gap before pinned group
             }
@@ -113,12 +119,9 @@
             // Pinned-start items reserve their measured width too.
             let pinnedStartWidth = 0;
             if (ePinnedStartMeasure && pinnedStart.length > 0) {
-                const pinnedStartEls = Array.from(
-                    ePinnedStartMeasure.children,
-                ) as HTMLElement[];
-                for (let i = 0; i < pinnedStartEls.length; i++) {
-                    pinnedStartWidth +=
-                        pinnedStartEls[i].offsetWidth + (i > 0 ? gap : 0);
+                const pinnedStartEls = htmlChildrenOf(ePinnedStartMeasure);
+                for (const [i, el] of pinnedStartEls.entries()) {
+                    pinnedStartWidth += el.offsetWidth + (i > 0 ? gap : 0);
                 }
                 pinnedStartWidth += gap; // gap after pinned-start group
             }
@@ -282,7 +285,8 @@
     $effect(() => {
         const handler = (e: PointerEvent) => {
             if (!open) return;
-            const t = e.target as Node;
+            const t = e.target;
+            if (!(t instanceof Node)) return;
             if (!panelEl?.contains(t) && !toggleEl?.contains(t)) doClose();
         };
         window.addEventListener('pointerdown', handler, true);

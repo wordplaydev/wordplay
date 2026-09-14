@@ -6,6 +6,17 @@ import { toCircle } from '@output/Output/Shape/Circle';
 import { toPath } from '@output/Output/Shape/Path';
 import { toPolygon } from '@output/Output/Shape/Polygon';
 import { toRectangle } from '@output/Output/Shape/Rectangle';
+import { must } from '@util/nullable';
+import StructureValue from '@values/StructureValue';
+import type Value from '@values/Value';
+import type { Form } from '@output/Output/Shape/Form';
+
+/** The converters differ in what they accept — `toRectangle` insists on a
+ * structure — so give the tables one shape of converter to tabulate. */
+type ToForm = (value: Value | undefined) => Form | undefined;
+
+const rectangle: ToForm = (value) =>
+    value instanceof StructureValue ? toRectangle(value) : undefined;
 
 test('Polygon clamps sides to a minimum of 3', () => {
     // Fewer than three sides is a degenerate polygon that draws nothing; render it as a triangle.
@@ -33,17 +44,21 @@ test('Polygon rounds a fractional side count', () => {
 function pointsIn(text: string): [number, number][] {
     const numbers = (text.match(/-?\d+(\.\d+)?/g) ?? []).map(Number);
     const points: [number, number][] = [];
-    for (let i = 0; i + 1 < numbers.length; i += 2)
-        points.push([numbers[i], numbers[i + 1]]);
+    for (let i = 0; i + 1 < numbers.length; i += 2) {
+        const x = numbers[i];
+        const y = numbers[i + 1];
+        if (x === undefined || y === undefined) continue;
+        points.push([x, y]);
+    }
     return points;
 }
 
-test.each([
-    ['Rectangle(-6m 4m 2m -1m)', toRectangle],
+test.each<[string, ToForm]>([
+    ['Rectangle(-6m 4m 2m -1m)', rectangle],
     ['Polygon(3m 5 -2m 1m)', toPolygon],
     ['Path([Place(-4m 3m) Place(2m 5m) Place(3m -1m)] closed: ⊤)', toPath],
 ])('%s frames exactly the region it clips', (code, convert) => {
-    const form = convert(evaluateCode(code) as never);
+    const form = convert(evaluateCode(code));
     if (form === undefined) throw new Error(`not a form: ${code}`);
 
     // Where GroupView puts the border SVG.
@@ -52,14 +67,15 @@ test.each([
 
     const clip = pointsIn(form.toCSSClip());
     const border = pointsIn(form.toClipSVGPath(0, 0)).map(
-        ([x, y]) => [x + offsetX, y + offsetY] as [number, number],
+        ([x, y]): [number, number] => [x + offsetX, y + offsetY],
     );
     expect(clip.length).toBeGreaterThan(2);
     // Same corners, in the same order, once the border is put where it is drawn. A rectangle
     // repeats no corner; a path repeats its first, so compare the corners the clip names.
     for (const [index, [x, y]] of clip.entries()) {
-        expect(border[index][0]).toBeCloseTo(x, 6);
-        expect(border[index][1]).toBeCloseTo(y, 6);
+        const corner = border[index];
+        expect(corner?.[0]).toBeCloseTo(x, 6);
+        expect(corner?.[1]).toBeCloseTo(y, 6);
     }
 });
 
@@ -76,8 +92,10 @@ test('a circle frames exactly the region it clips', () => {
     const border = pointsIn(form.toClipSVGPath(0, 0));
 
     expect(Number(clip[1])).toBeCloseTo(form.radius * PX_PER_METER, 6);
-    expect(Number(clip[2])).toBeCloseTo(border[0][0] + offsetX, 6);
-    expect(Number(clip[3])).toBeCloseTo(border[0][1] + offsetY, 6);
+    // The border path starts at the circle's centre.
+    const centre = must(border[0], "the circle's centre");
+    expect(Number(clip[2])).toBeCloseTo(centre[0] + offsetX, 6);
+    expect(Number(clip[3])).toBeCloseTo(centre[1] + offsetY, 6);
     // And that is the circle the program actually asked for, in stage pixels.
     expect(Number(clip[2])).toBeCloseTo(1 * PX_PER_METER, 6);
     expect(Number(clip[3])).toBeCloseTo(-1 * PX_PER_METER, 6);
@@ -91,12 +109,12 @@ test('a circle frames exactly the region it clips', () => {
  * written name instead, or a shape's role description and its rotate/resize handles are read
  * out as punctuation (#1251 again).
  */
-test.each([
-    ['Rectangle(-1m 1m 1m -1m)', toRectangle, 'Rectangle'],
+test.each<[string, ToForm, string]>([
+    ['Rectangle(-1m 1m 1m -1m)', rectangle, 'Rectangle'],
     ['Circle(2m)', toCircle, 'Circle'],
     ['Polygon(2m 6)', toPolygon, 'Polygon'],
     ['Path([Place(0m 0m) Place(1m 1m)])', toPath, 'Path'],
 ])('%s describes itself in words', (code, convert, expected) => {
-    const form = convert(evaluateCode(code) as never);
+    const form = convert(evaluateCode(code));
     expect(form?.getDescription(DefaultLocales)).toBe(expected);
 });

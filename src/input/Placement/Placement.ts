@@ -26,6 +26,7 @@ import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 import createStreamEvaluator from '@input/createStreamEvaluator';
 import type { StreamKind } from '@values/StreamValue';
+import { first, must } from '@util/nullable';
 
 type Direction = -1 | 0 | 1;
 export type PlacementEvent = { x: Direction; y: Direction; z: Direction };
@@ -108,7 +109,11 @@ export default class Placement extends SingletonStreamValue<
     getType(context: Context): Type {
         return StreamType.make(
             NameType.make(
-                context.project.shares.output.Place.names.getNames()[0],
+                // The basis always names its Place definition.
+                must(
+                    first(context.project.shares.output.Place.names.getNames()),
+                    "the Place type's name",
+                ),
             ),
         );
     }
@@ -136,6 +141,13 @@ export function createPlacementDefinition(
         [BooleanType.make(), BooleanLiteral.make(false)],
     ]);
 
+    // `createInputs` returns one bind per type, and five types are given above.
+    const place = must(inputs[0], "Placement's place input");
+    const distance = must(inputs[1], "Placement's distance input");
+    const horizontal = must(inputs[2], "Placement's horizontal input");
+    const vertical = must(inputs[3], "Placement's vertical input");
+    const depth = must(inputs[4], "Placement's depth input");
+
     return StreamDefinition.make(
         getDocLocales(locales, (locale) => locale.input.Placement.doc),
         getNameLocales(locales, (locale) => locale.input.Placement.names),
@@ -146,26 +158,26 @@ export function createPlacementDefinition(
             (evaluation) =>
                 new Placement(
                     evaluation,
-                    evaluation.get(inputs[0].names, StructureValue) ??
+                    evaluation.get(place.names, StructureValue) ??
                         createPlaceStructure(
                             evaluation.getEvaluator(),
                             0,
                             0,
                             0,
                         ),
-                    evaluation.get(inputs[1].names, NumberValue)?.toNumber() ??
+                    evaluation.get(distance.names, NumberValue)?.toNumber() ??
                         1,
-                    evaluation.get(inputs[2].names, BoolValue)?.bool ?? true,
-                    evaluation.get(inputs[3].names, BoolValue)?.bool ?? true,
-                    evaluation.get(inputs[4].names, BoolValue)?.bool ?? false,
+                    evaluation.get(horizontal.names, BoolValue)?.bool ?? true,
+                    evaluation.get(vertical.names, BoolValue)?.bool ?? true,
+                    evaluation.get(depth.names, BoolValue)?.bool ?? false,
                 ),
             (stream, evaluation) =>
                 stream.configure(
-                    evaluation.get(inputs[1].names, NumberValue)?.toNumber() ??
+                    evaluation.get(distance.names, NumberValue)?.toNumber() ??
                         1,
-                    evaluation.get(inputs[2].names, BoolValue)?.bool ?? true,
-                    evaluation.get(inputs[3].names, BoolValue)?.bool ?? true,
-                    evaluation.get(inputs[4].names, BoolValue)?.bool ?? false,
+                    evaluation.get(horizontal.names, BoolValue)?.bool ?? true,
+                    evaluation.get(vertical.names, BoolValue)?.bool ?? true,
+                    evaluation.get(depth.names, BoolValue)?.bool ?? false,
                 ),
         ),
         new StructureType(placeType),

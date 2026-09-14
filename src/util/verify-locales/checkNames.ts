@@ -8,13 +8,15 @@ import { getKeyTemplatePairs } from '@util/verify-locales/LocalePath';
 import type Log from '@util/verify-locales/Log';
 import { leadingAnnotations } from '@util/verify-locales/protect';
 import toValidName from '@util/toValidName';
+import { must } from '@util/nullable';
 
 /** A valid Wordplay identifier: a single name or operator token (plus End). */
 function isValidName(text: string): boolean {
     const tokens = tokenize(text).getTokens();
+    // Tokenizing always yields at least the End token.
+    const first = must(tokens[0], 'a token');
     return (
-        tokens.length <= 2 &&
-        (tokens[0].isName() || tokens[0].isSymbol(Sym.Operator))
+        tokens.length <= 2 && (first.isName() || first.isSymbol(Sym.Operator))
     );
 }
 
@@ -34,9 +36,7 @@ export default function checkNames(
     target: LocaleText,
     fix: boolean,
 ): LocaleText {
-    const revised = fix
-        ? (JSON.parse(JSON.stringify(target)) as LocaleText)
-        : target;
+    const revised = fix ? structuredClone(target) : target;
     for (const pair of getKeyTemplatePairs(revised)) {
         const segments = [...pair.path, pair.key];
         if (!isNameTextPath(segments)) continue;

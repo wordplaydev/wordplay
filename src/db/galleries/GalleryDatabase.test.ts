@@ -1,6 +1,37 @@
+import { isRecord } from '@util/guards';
+import { must } from '@util/nullable';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import Gallery from './Gallery';
+import type { Character } from '@db/characters/Character';
 import type Project from '@db/projects/Project';
+
+/** A recorded write's fields, checked rather than asserted. */
+function fieldsOf(data: unknown): Record<string, unknown> {
+    if (!isRecord(data)) throw new Error('a write with no fields');
+    return data;
+}
+
+/** The document id a recorded write's reference names, or undefined if it
+ *  names something else — which is the question each `find` below asks. */
+function refID(reference: unknown): string | undefined {
+    if (!isRecord(reference) || !isRecord(reference._ref)) return undefined;
+    const { id } = reference._ref;
+    return typeof id === 'string' ? id : undefined;
+}
+
+/** The collection a recorded write's reference names. */
+function refCollection(reference: unknown): string | undefined {
+    if (!isRecord(reference) || !isRecord(reference._ref)) return undefined;
+    const { collection } = reference._ref;
+    return typeof collection === 'string' ? collection : undefined;
+}
+
+/** The elements an arrayUnion/arrayRemove field operation carries. */
+function opElements(operation: unknown): unknown[] {
+    if (!isRecord(operation) || !Array.isArray(operation.elements))
+        throw new Error('not an array field operation');
+    return operation.elements;
+}
 
 type BatchOp = {
     kind: 'set' | 'update' | 'delete';
@@ -24,6 +55,11 @@ type FakeGallerySubscription = {
     unsubscribed: boolean;
 };
 const gallerySubscriptions: FakeGallerySubscription[] = [];
+
+/** The gallery subscription a watch just opened, which each caller has asserted exists. */
+function gallerySubscription(index = 0): FakeGallerySubscription {
+    return must(gallerySubscriptions[index], `gallery subscription ${index}`);
+}
 
 vi.mock('firebase/firestore', () => ({
     and: vi.fn(),
@@ -120,13 +156,30 @@ function makeGallery(
     });
 }
 
+/** The members of `Project` the gallery database actually calls. Written out
+ *  rather than reached through `any`, so a change in what it calls breaks the
+ *  stub instead of passing vacuously. */
+type ProjectStub = {
+    getID: () => string;
+    getGallery: () => string | null;
+    getOwner: () => string | null;
+    hasCollaborator: () => boolean;
+    withGallery: (gallery: string | null) => Project;
+    asPersisted: () => ProjectStub;
+    serialize: () => {
+        id: string;
+        gallery: string | null;
+        owner: string | null;
+    };
+};
+
 function makeStubProject(
     id: string,
     gallery: string | null = null,
     owner: string | null = 'user-1',
 ): Project {
     const data = { id, gallery, owner };
-    const project: any = {
+    const project: ProjectStub = {
         getID: () => id,
         getGallery: () => gallery,
         getOwner: () => owner,
@@ -136,12 +189,66 @@ function makeStubProject(
         asPersisted: () => project,
         serialize: () => data,
     };
+    // @ts-expect-error `Project` is a class with private state, so a stub of
+    // what the gallery database calls can never be assignable to it.
     return project;
+}
+
+/** The parts of `Database` the gallery database reaches for. Same reason as
+ *  `ProjectStub`: a class with private state can have no structural stand-in,
+ *  so the one suppression lives in the factory below. */
+type DatabaseFake = {
+    getUser: () => unknown;
+    /** Pass-through wrappers; each test supplies a generic `vi.fn`, whose type
+     *  the database never sees through this fake. */
+    track?: unknown;
+    read?: unknown;
+    isConnectivityError?: unknown;
+    markSyncFailed?: unknown;
+    markFirebaseFailed?: unknown;
+    reportListenerError?: unknown;
+    markSynced?: unknown;
+    markSyncing?: unknown;
+    Locales: {
+        getLocaleSet: () => { getMultilingualText: () => string };
+        locales: { subscribe: () => () => void };
+    };
+    HowTos?: {
+        watchGallery: ReturnType<typeof vi.fn>;
+        publicGalleryChanged: ReturnType<typeof vi.fn>;
+        reevaluateWatches: ReturnType<typeof vi.fn>;
+        galleriesChanged: ReturnType<typeof vi.fn>;
+    };
+    loadProjects: () => Promise<unknown>;
+    readonly MaybeProjects: unknown;
+};
+
+/** The fake the membership tests use, which also stands in for the projects and
+ *  characters databases those writers read back through. */
+type DatabaseFakeWithDomains = DatabaseFake & {
+    projectsFake: {
+        edit: ReturnType<typeof vi.fn>;
+        getHistory: ReturnType<typeof vi.fn>;
+        get: ReturnType<typeof vi.fn>;
+        refreshGallery: ReturnType<typeof vi.fn>;
+        saveSoon: ReturnType<typeof vi.fn>;
+        syncUser: ReturnType<typeof vi.fn>;
+    };
+    Characters: {
+        byID: Map<string, unknown>;
+        updateCharacter: ReturnType<typeof vi.fn>;
+        getByID: ReturnType<typeof vi.fn>;
+    };
+};
+
+function fakeGalleryDatabase(fake: DatabaseFake): GalleryDatabase {
+    // @ts-expect-error The fake implements only what this database calls.
+    return new GalleryDatabase(fake);
 }
 
 describe('GalleryDatabase atomic project + gallery updates', () => {
     let db: GalleryDatabase;
-    let mockDatabase: any;
+    let mockDatabase: DatabaseFakeWithDomains;
     let projectsEditMock: ReturnType<typeof vi.fn>;
     let getHistoryMock: ReturnType<typeof vi.fn>;
     let markSavedMock: ReturnType<typeof vi.fn>;
@@ -200,7 +307,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             },
         };
 
-        db = new GalleryDatabase(mockDatabase);
+        db = fakeGalleryDatabase(mockDatabase);
     });
 
     describe('server-owned fields', () => {
@@ -218,7 +325,10 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             await db.edit(makeGallery('g-update'));
 
             expect(vi.mocked(setDoc)).toHaveBeenCalledTimes(1);
-            const [, data, options] = vi.mocked(setDoc).mock.calls[0];
+            const [, data, options] = must(
+                vi.mocked(setDoc).mock.calls[0],
+                'the setDoc call asserted above',
+            );
             for (const field of ['moderation', 'moderatedAt', 'flags', 'words'])
                 expect(
                     data,
@@ -237,7 +347,10 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             // them — or the next client to read it cannot parse it.
             await db.edit(makeGallery('g-create'), true);
 
-            const [, data, options] = vi.mocked(setDoc).mock.calls[0];
+            const [, data, options] = must(
+                vi.mocked(setDoc).mock.calls[0],
+                'the setDoc call asserted above',
+            );
             expect(data).toHaveProperty('words');
             expect(options).toBeUndefined();
         });
@@ -257,20 +370,23 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             const finished: string[] = [];
             let releaseFirst: (() => void) | undefined;
 
-            vi.mocked(setDoc).mockImplementation((async (
-                _reference: unknown,
-                data: { name?: Record<string, string> },
-            ) => {
-                const name = data.name?.['en-US'] ?? '?';
-                started.push(name);
-                // Hold the first write open so the second would overlap it if
-                // anything still issued the two concurrently.
-                if (started.length === 1)
-                    await new Promise<void>((resolve) => {
-                        releaseFirst = resolve;
-                    });
-                finished.push(name);
-            }) as unknown as typeof setDoc);
+            vi.mocked(setDoc).mockImplementation(
+                async (_reference, data: unknown) => {
+                    const names = isRecord(data) ? data.name : undefined;
+                    const name =
+                        isRecord(names) && typeof names['en-US'] === 'string'
+                            ? names['en-US']
+                            : '?';
+                    started.push(name);
+                    // Hold the first write open so the second would overlap it if
+                    // anything still issued the two concurrently.
+                    if (started.length === 1)
+                        await new Promise<void>((resolve) => {
+                            releaseFirst = resolve;
+                        });
+                    finished.push(name);
+                },
+            );
 
             const created = makeGallery('g-race', {
                 name: { 'en-US': 'Untitled' },
@@ -301,7 +417,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             // queue and silently drop everything that follows.
             vi.mocked(setDoc)
                 .mockRejectedValueOnce(new Error('offline'))
-                .mockResolvedValueOnce(undefined as never);
+                .mockResolvedValueOnce(undefined);
 
             const first = db.edit(makeGallery('g-fail')).catch(() => undefined);
             const second = db.edit(
@@ -314,7 +430,10 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
     });
 
     describe('addCharacter / removeCharacter (#822)', () => {
-        function makeStubCharacter(id: string, gallery: string | null) {
+        function makeStubCharacter(
+            id: string,
+            gallery: string | null,
+        ): Character {
             return {
                 id,
                 owner: 'u1',
@@ -332,10 +451,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             db.accessibleGalleries.set('g-new', makeGallery('g-new'));
             db.accessibleGalleries.set('g-old', makeGallery('g-old'));
 
-            await db.addCharacter(
-                makeStubCharacter('c1', 'g-old') as never,
-                'g-new',
-            );
+            await db.addCharacter(makeStubCharacter('c1', 'g-old'), 'g-new');
 
             // 1 character set + 1 new-gallery update + 1 old-gallery update
             expect(lastBatchOps).toHaveLength(3);
@@ -347,16 +463,12 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             // The document written carries the new membership, not the old.
             expect(characterSet!.data).toMatchObject({ gallery: 'g-new' });
 
-            const added = lastBatchOps.find(
-                (o) => (o.ref as { _ref: { id: string } })._ref.id === 'g-new',
-            );
+            const added = lastBatchOps.find((o) => refID(o.ref) === 'g-new');
             expect(added!.data).toEqual({
                 characters: { _op: 'arrayUnion', elements: ['c1'] },
             });
 
-            const removed = lastBatchOps.find(
-                (o) => (o.ref as { _ref: { id: string } })._ref.id === 'g-old',
-            );
+            const removed = lastBatchOps.find((o) => refID(o.ref) === 'g-old');
             expect(removed!.data).toEqual({
                 characters: { _op: 'arrayRemove', elements: ['c1'] },
             });
@@ -364,19 +476,13 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
 
         it('touches only the new gallery when the character was in none', async () => {
             db.accessibleGalleries.set('g-new', makeGallery('g-new'));
-            await db.addCharacter(
-                makeStubCharacter('c1', null) as never,
-                'g-new',
-            );
+            await db.addCharacter(makeStubCharacter('c1', null), 'g-new');
             expect(lastBatchOps).toHaveLength(2);
         });
 
         it('mirrors membership into the local gallery cache right away', async () => {
             db.accessibleGalleries.set('g-new', makeGallery('g-new'));
-            await db.addCharacter(
-                makeStubCharacter('c1', null) as never,
-                'g-new',
-            );
+            await db.addCharacter(makeStubCharacter('c1', null), 'g-new');
             expect(
                 db.accessibleGalleries.get('g-new')!.getCharacters(),
             ).toEqual(['c1']);
@@ -384,10 +490,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
 
         it('does nothing when the character is already in that gallery', async () => {
             db.accessibleGalleries.set('g-new', makeGallery('g-new'));
-            await db.addCharacter(
-                makeStubCharacter('c1', 'g-new') as never,
-                'g-new',
-            );
+            await db.addCharacter(makeStubCharacter('c1', 'g-new'), 'g-new');
             expect(lastBatchOps).toHaveLength(0);
         });
 
@@ -404,10 +507,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
                     );
                 },
             );
-            await db.addCharacter(
-                makeStubCharacter('c1', null) as never,
-                'g-new',
-            );
+            await db.addCharacter(makeStubCharacter('c1', null), 'g-new');
             expect(lastBatchOps).toHaveLength(0);
         });
 
@@ -417,10 +517,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
                 makeGallery('g-old', { characters: ['c1'] }),
             );
 
-            await db.removeCharacter(
-                makeStubCharacter('c1', 'g-old') as never,
-                null,
-            );
+            await db.removeCharacter(makeStubCharacter('c1', 'g-old'), null);
 
             expect(lastBatchOps).toHaveLength(2);
             const characterSet = lastBatchOps.find((o) => o.kind === 'set');
@@ -456,18 +553,14 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             });
 
             const newGalleryUpdate = lastBatchOps.find(
-                (o) =>
-                    o.kind === 'update' &&
-                    (o.ref as { _ref: { id: string } })._ref.id === 'g-new',
+                (o) => o.kind === 'update' && refID(o.ref) === 'g-new',
             );
             expect(newGalleryUpdate!.data).toEqual({
                 projects: { _op: 'arrayUnion', elements: ['p1'] },
             });
 
             const oldGalleryUpdate = lastBatchOps.find(
-                (o) =>
-                    o.kind === 'update' &&
-                    (o.ref as { _ref: { id: string } })._ref.id === 'g-old',
+                (o) => o.kind === 'update' && refID(o.ref) === 'g-old',
             );
             expect(oldGalleryUpdate!.data).toEqual({
                 projects: { _op: 'arrayRemove', elements: ['p1'] },
@@ -493,9 +586,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
             expect(lastBatchOps).toHaveLength(2);
             expect(
                 lastBatchOps.find(
-                    (o) =>
-                        o.kind === 'update' &&
-                        (o.ref as { _ref: { id: string } })._ref.id === 'g-new',
+                    (o) => o.kind === 'update' && refID(o.ref) === 'g-new',
                 )!.data,
             ).toEqual({
                 projects: { _op: 'arrayUnion', elements: ['p1'] },
@@ -587,37 +678,27 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
 
             const projectUpdates = lastBatchOps.filter(
                 (o) =>
-                    o.kind === 'update' &&
-                    (o.ref as { _ref: { collection: string } })._ref
-                        .collection === 'projects',
+                    o.kind === 'update' && refCollection(o.ref) === 'projects',
             );
             expect(projectUpdates).toHaveLength(2);
             for (const u of projectUpdates) {
                 expect(u.data).toEqual({ gallery: null });
             }
-            expect(
-                projectUpdates
-                    .map((u) => (u.ref as { _ref: { id: string } })._ref.id)
-                    .sort(),
-            ).toEqual(['p1', 'p3']);
+            expect(projectUpdates.map((u) => refID(u.ref)).sort()).toEqual([
+                'p1',
+                'p3',
+            ]);
 
             const galleryUpdate = lastBatchOps.find(
                 (o) =>
-                    o.kind === 'update' &&
-                    (o.ref as { _ref: { collection: string } })._ref
-                        .collection === 'galleries',
+                    o.kind === 'update' && refCollection(o.ref) === 'galleries',
             );
-            const data = galleryUpdate!.data as {
-                creators: unknown;
-                projects: unknown;
-            };
+            const data = fieldsOf(galleryUpdate!.data);
             expect(data.creators).toEqual({
                 _op: 'arrayRemove',
                 elements: [ownerToRemove],
             });
-            const projectsRemoved = (
-                data.projects as { _op: string; elements: string[] }
-            ).elements.sort();
+            const projectsRemoved = opElements(data.projects).toSorted();
             expect(projectsRemoved).toEqual(['p1', 'p3']);
         });
 
@@ -633,9 +714,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
 
             const galleryUpdate = lastBatchOps.find(
                 (o) =>
-                    o.kind === 'update' &&
-                    (o.ref as { _ref: { collection: string } })._ref
-                        .collection === 'galleries',
+                    o.kind === 'update' && refCollection(o.ref) === 'galleries',
             );
             expect(galleryUpdate!.data).toEqual({
                 curators: { _op: 'arrayRemove', elements: ['teacher-uid'] },
@@ -646,7 +725,7 @@ describe('GalleryDatabase atomic project + gallery updates', () => {
 
 describe('find distinguishes a gallery we cannot reach from one that is not there', () => {
     let db: GalleryDatabase;
-    let mockDatabase: any;
+    let mockDatabase: DatabaseFake;
     let isConnectivityError: ReturnType<typeof vi.fn>;
 
     beforeEach(() => {
@@ -667,7 +746,7 @@ describe('find distinguishes a gallery we cannot reach from one that is not ther
                 return {};
             },
         };
-        db = new GalleryDatabase(mockDatabase);
+        db = fakeGalleryDatabase(mockDatabase);
         vi.spyOn(console, 'error').mockImplementation(() => {});
     });
 
@@ -726,7 +805,7 @@ describe('watching a public gallery (#1375)', () => {
         releasedHowTos = [];
         notifiedHowTos = [];
         syncMarks = [];
-        db = new GalleryDatabase({
+        db = fakeGalleryDatabase({
             getUser: vi.fn(() => null),
             read: vi.fn(<T>(p: Promise<T>) => p),
             isConnectivityError: vi.fn(() => false),
@@ -754,8 +833,7 @@ describe('watching a public gallery (#1375)', () => {
                 reevaluateWatches: vi.fn(),
                 galleriesChanged: vi.fn(),
             },
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } as any);
+        });
         gallerySubscriptions.length = 0;
         vi.spyOn(console, 'error').mockImplementation(() => {});
     });
@@ -783,7 +861,7 @@ describe('watching a public gallery (#1375)', () => {
         // The gallery's `public` flag and its how-to list both decide what the
         // how-to watch should be doing, so a change to either has to reach it.
         db.watchPublic('g1');
-        gallerySubscriptions[0].onNext({
+        gallerySubscription().onNext({
             data: () => makeGallery('g1', { public: true }).getData(),
         });
 
@@ -797,7 +875,7 @@ describe('watching a public gallery (#1375)', () => {
         // set, so gating on moderation approval would blank a legitimately
         // public space no moderator has looked at yet.
         db.watchPublic('g1');
-        gallerySubscriptions[0].onNext({
+        gallerySubscription().onNext({
             data: () => makeGallery('g1', { public: false }).getData(),
         });
 
@@ -809,7 +887,7 @@ describe('watching a public gallery (#1375)', () => {
         // creator's galleries domain breaking, and reporting it as such would
         // show them a sync error for a page they merely visited.
         db.watchPublic('g1');
-        gallerySubscriptions[0].onError({ code: 'permission-denied' });
+        gallerySubscription().onError({ code: 'permission-denied' });
 
         expect(db.publicWatchState.get('g1')).toBe('denied');
         expect(syncMarks).toEqual([]);
@@ -821,10 +899,10 @@ describe('watching a public gallery (#1375)', () => {
         expect(gallerySubscriptions).toHaveLength(1);
 
         first();
-        expect(gallerySubscriptions[0].unsubscribed).toBe(false);
+        expect(gallerySubscription().unsubscribed).toBe(false);
 
         second();
-        expect(gallerySubscriptions[0].unsubscribed).toBe(true);
+        expect(gallerySubscription().unsubscribed).toBe(true);
         expect(releasedHowTos).toEqual(['g1']);
     });
 });

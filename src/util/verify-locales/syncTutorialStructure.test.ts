@@ -1,13 +1,15 @@
 import fs from 'fs';
 import { describe, expect, test } from 'vitest';
 import { Revised, Unwritten } from '@locale/Annotations';
-import type Tutorial from '../../tutorial/Tutorial';
-import type {
-    Act,
-    CharacterName,
-    Dialog,
-    Line,
-    Scene,
+import {
+    isDialog,
+    isTutorial,
+    type Act,
+    type CharacterName,
+    type Dialog,
+    type Line,
+    type Scene,
+    type Tutorial,
 } from '../../tutorial/Tutorial';
 import type { ThemeName } from '../../tutorial/ThemeNames';
 import { TutorialModes } from '../../tutorial/TutorialMode';
@@ -19,6 +21,20 @@ import {
     sceneSignature,
     syncTutorialStructure,
 } from './syncTutorialStructure';
+import { must } from '@util/nullable';
+/** Fixture accessors: every tutorial built here has the act, scene, and line
+ *  these reach, so the index — not the value — is what decides presence. */
+const act0 = (t: Tutorial) => must(t.acts[0], 'an act');
+const scenes0 = (t: Tutorial) => act0(t).scenes;
+const scene0 = (t: Tutorial) => must(scenes0(t)[0], 'a scene');
+const lines0 = (t: Tutorial) => scene0(t).lines;
+const line0 = (t: Tutorial) => must(lines0(t)[0], 'a line');
+/** The same line, known to be dialog, so a test can read or set what is said. */
+function dialog0(t: Tutorial): Dialog {
+    const line = line0(t);
+    if (!isDialog(line)) throw new Error('Expected a dialog line');
+    return line;
+}
 
 // ── Fixtures ─────────────────────────────────────────────────────────────────
 
@@ -67,19 +83,15 @@ function translated(
     source: Tutorial,
     mark: (text: string) => string,
 ): Tutorial {
-    const copy = JSON.parse(JSON.stringify(source)) as Tutorial;
+    const copy = structuredClone(source);
     for (const a of copy.acts) {
         a.title = mark(a.title);
         for (const s of a.scenes) {
             s.title = mark(s.title);
             if (s.subtitle !== null) s.subtitle = mark(s.subtitle);
-            s.lines = s.lines.map((line) =>
-                line !== null && Array.isArray(line)
-                    ? ([
-                          line[0],
-                          line[1],
-                          ...line.slice(2).map((t) => mark(t as string)),
-                      ] as unknown as Line)
+            s.lines = s.lines.map((line): Line =>
+                isDialog(line)
+                    ? [line[0], line[1], ...line.slice(2).map(mark)]
                     : line,
             );
         }
@@ -96,11 +108,18 @@ function translations(t: Tutorial): string[] {
             out.push(s.title);
             if (s.subtitle !== null) out.push(s.subtitle);
             for (const line of s.lines)
-                if (line !== null && Array.isArray(line))
-                    for (const text of line.slice(2)) out.push(text as string);
+                if (isDialog(line))
+                    for (const text of line.slice(2)) out.push(text);
         }
     }
     return out;
+}
+
+/** A shipped tutorial file, checked rather than trusted to be one. */
+function loadTutorial(path: string): Tutorial {
+    const json: unknown = JSON.parse(fs.readFileSync(path, 'utf8'));
+    if (!isTutorial(json)) throw new Error(`${path} is not a tutorial`);
+    return json;
 }
 
 const sync = (source: Tutorial, target: Tutorial, propagateRevised = false) =>
@@ -125,8 +144,8 @@ describe('inserting into en-US never disturbs an existing translation', () => {
     const before = translations(locale);
 
     test('a scene inserted mid-act', () => {
-        const source = JSON.parse(JSON.stringify(base)) as Tutorial;
-        source.acts[0].scenes.splice(
+        const source = structuredClone(base);
+        scenes0(source).splice(
             2,
             0,
             scene('New', 'Music', [dialog('Music', 'serious', 'new line')]),
@@ -140,7 +159,7 @@ describe('inserting into en-US never disturbs an existing translation', () => {
             before,
         );
         // And the new scene landed at the right index, fully marked.
-        expect(result.acts[0].scenes.map((s) => s.concept)).toEqual([
+        expect(scenes0(result).map((s) => s.concept)).toEqual([
             'Program',
             'Evaluate',
             'Music',
@@ -156,31 +175,28 @@ describe('inserting into en-US never disturbs an existing translation', () => {
         ]);
         // A bare marker, with no copy of the English: falling back to the
         // source locale is automatic, so carrying it would only duplicate it.
-        expect(result.acts[0].scenes[2].title).toBe(Unwritten);
+        expect(must(scenes0(result)[2], 'a scene').title).toBe(Unwritten);
     });
 
     test('lines inserted mid-scene', () => {
-        const source = JSON.parse(JSON.stringify(base)) as Tutorial;
-        source.acts[0].scenes[0].lines.splice(
-            1,
-            0,
-            dialog('Music', 'kind', 'interjection'),
-            { fit: "Phrase('🎼')" },
-        );
+        const source = structuredClone(base);
+        lines0(source).splice(1, 0, dialog('Music', 'kind', 'interjection'), {
+            fit: "Phrase('🎼')",
+        });
 
         const { tutorial: result, report } = sync(source, locale);
 
         expect(
             translations(result).filter((t) => !t.startsWith(Unwritten)),
         ).toEqual(before);
-        expect(result.acts[0].scenes[0].lines.map(lineSignature)).toEqual(
-            source.acts[0].scenes[0].lines.map(lineSignature),
+        expect(lines0(result).map(lineSignature)).toEqual(
+            lines0(source).map(lineSignature),
         );
         expect(report.inserted.map((i) => i.kind)).toEqual(['line', 'line']);
     });
 
     test('a whole act inserted', () => {
-        const source = JSON.parse(JSON.stringify(base)) as Tutorial;
+        const source = structuredClone(base);
         source.acts.splice(
             1,
             0,
@@ -210,11 +226,11 @@ describe('inserting into en-US never disturbs an existing translation', () => {
 test('a scene the locale has and en-US does not is reported, never deleted', () => {
     const source = tutorial([act('One', [scene('A', 'Program')])]);
     const target = translated(source, (t) => `«${t}»`);
-    target.acts[0].scenes.push(scene('Extra', 'Doc'));
+    scenes0(target).push(scene('Extra', 'Doc'));
 
     const { tutorial: result, report } = sync(source, target);
 
-    expect(result.acts[0].scenes.map((s) => s.title)).toEqual(['«A»', 'Extra']);
+    expect(scenes0(result).map((s) => s.title)).toEqual(['«A»', 'Extra']);
     expect(report.removed).toEqual([
         expect.objectContaining({ kind: 'scene', label: 'Extra' }),
     ]);
@@ -267,12 +283,12 @@ describe('$! propagation', () => {
     ]);
 
     function propagated(sourceText: string, targetText: string) {
-        const from = JSON.parse(JSON.stringify(source)) as Tutorial;
-        (from.acts[0].scenes[0].lines[0] as string[])[2] = sourceText;
-        const to = JSON.parse(JSON.stringify(source)) as Tutorial;
-        (to.acts[0].scenes[0].lines[0] as string[])[2] = targetText;
+        const from = structuredClone(source);
+        dialog0(from)[2] = sourceText;
+        const to = structuredClone(source);
+        dialog0(to)[2] = targetText;
         const { tutorial: result } = sync(from, to, true);
-        return (result.acts[0].scenes[0].lines[0] as string[])[2];
+        return must(dialog0(result)[2], 'the spoken text');
     }
 
     test('a revised source marks a clean translation', () => {
@@ -299,13 +315,11 @@ describe('$! propagation', () => {
     });
 
     test('nothing propagates unless asked', () => {
-        const from = JSON.parse(JSON.stringify(source)) as Tutorial;
-        (from.acts[0].scenes[0].lines[0] as string[])[2] = `${Revised}Hello`;
+        const from = structuredClone(source);
+        dialog0(from)[2] = `${Revised}Hello`;
         const to = translated(source, (t) => `«${t}»`);
         const { tutorial: result } = sync(from, to, false);
-        expect((result.acts[0].scenes[0].lines[0] as string[])[2]).toBe(
-            '«Hello»',
-        );
+        expect(dialog0(result)[2]).toBe('«Hello»');
     });
 });
 
@@ -317,7 +331,7 @@ test('syncing is idempotent', () => {
         ]),
     ]);
     const target = translated(source, (t) => `«${t}»`);
-    target.acts[0].scenes.splice(1, 1);
+    scenes0(target).splice(1, 1);
 
     const once = sync(source, target).tutorial;
     const twice = sync(source, once);
@@ -374,7 +388,7 @@ describe('paragraphs within an aligned line', () => {
             source,
             targetWith('«the @editor paragraph»', '«the @stage paragraph»'),
         );
-        expect(synced.acts[0].scenes[0].lines[0]).toEqual([
+        expect(line0(synced)).toEqual([
             'Program',
             'kind',
             '«the @editor paragraph»',
@@ -382,7 +396,7 @@ describe('paragraphs within an aligned line', () => {
             Unwritten,
         ]);
         expect(report.padded).toHaveLength(1);
-        expect(report.padded[0].strings).toBe(1);
+        expect(must(report.padded[0], 'a padded line').strings).toBe(1);
         // Not folded into `inserted`: the shipped-tutorial tests below assert
         // that bucket is empty, and a paragraph is not a missing line.
         expect(report.inserted).toHaveLength(0);
@@ -408,7 +422,7 @@ describe('paragraphs within an aligned line', () => {
             source,
             targetWith('«the @editor paragraph»', '«a closing paragraph»'),
         );
-        expect(synced.acts[0].scenes[0].lines[0]).toHaveLength(4);
+        expect(line0(synced)).toHaveLength(4);
         expect(report.padded).toHaveLength(0);
         expect(report.unpaired).toEqual([
             expect.objectContaining({ kind: 'line', source: 3, target: 2 }),
@@ -425,7 +439,7 @@ describe('paragraphs within an aligned line', () => {
                 '«one of our own»',
             ),
         );
-        expect(synced.acts[0].scenes[0].lines[0]).toHaveLength(6);
+        expect(line0(synced)).toHaveLength(6);
         expect(report.unpaired).toEqual([
             expect.objectContaining({ source: 3, target: 4 }),
         ]);
@@ -462,9 +476,7 @@ describe('the shipped tutorials', () => {
         .filter((locale) => locale !== 'en-US');
 
     for (const mode of TutorialModes) {
-        const source = JSON.parse(
-            fs.readFileSync(getTutorialPath('en-US', mode), 'utf8'),
-        ) as Tutorial;
+        const source = loadTutorial(getTutorialPath('en-US', mode));
 
         function reports() {
             return locales
@@ -474,9 +486,7 @@ describe('the shipped tutorials', () => {
                 )
                 .filter(([, path]) => fs.existsSync(path))
                 .map(([locale, path]) => {
-                    const target = JSON.parse(
-                        fs.readFileSync(path, 'utf8'),
-                    ) as Tutorial;
+                    const target = loadTutorial(path);
                     return [locale, sync(source, target).report] as const;
                 });
         }

@@ -15,6 +15,7 @@ import {
     type Phoneme,
 } from '@output/Music/phonemes';
 import { GlideSeconds, OnsetSeconds } from '@output/Music/voice';
+import { must } from '@util/nullable';
 
 /** A note's worth of a track's notes, as much as word assignment needs. */
 export type Sounding = { degrees: readonly number[] };
@@ -90,7 +91,12 @@ export function assignWords(
     return notes.map((note) => {
         // A rest sings nothing and consumes nothing.
         if (note.degrees.length === 0) return undefined;
-        const current = syllables[index % syllables.length];
+        // The list is non-empty (checked above) and the index is taken modulo
+        // its length, so there is always a syllable here.
+        const current = must(
+            syllables[index % syllables.length],
+            'a syllable at a wrapped index',
+        );
         covered = covered + 1;
         if (covered >= current.notes) {
             index = index + 1;

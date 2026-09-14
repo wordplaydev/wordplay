@@ -5,7 +5,7 @@ import {
     repairConceptName,
     translateTutorial,
 } from '@util/verify-locales/verifyTutorial';
-import type { Dialog } from '../../tutorial/Tutorial';
+import { isDialog, type Dialog } from '../../tutorial/Tutorial';
 import { MachineTranslated, Unwritten } from '@locale/Annotations';
 import DefaultLocale from '@locale/DefaultLocale';
 import type Locale from '@locale/Locale';
@@ -13,6 +13,7 @@ import type Translator from '@util/verify-locales/Translator';
 import { collectingLog } from '@util/verify-locales/Log';
 import { CHECKPOINT_PATHS } from '@util/verify-locales/verifyLocale';
 import type Tutorial from '../../tutorial/Tutorial';
+import { must } from '@util/nullable';
 
 test.each([
     // A glued translation fragment truncates to the valid property.
@@ -65,8 +66,11 @@ describe('queuedForTranslation', () => {
 
 describe('findDialogDelimiterProblems', () => {
     /** A dialog line is `[character, emotion, ...paragraphs]`. */
-    const line = (...text: string[]) =>
-        ['FunctionDefinition', 'happy', ...text] as Dialog;
+    const line = (...text: string[]): Dialog => [
+        'FunctionDefinition',
+        'happy',
+        ...text,
+    ];
 
     test('a faithful translation has no problems', () => {
         expect(
@@ -198,16 +202,30 @@ describe('findDialogDelimiterProblems', () => {
 describe('tutorial checkpointing', () => {
     /** A tutorial whose single scene holds `count` unwritten dialog lines. */
     function tutorialWithLines(count: number): Tutorial {
-        const lines = [];
+        const lines: Dialog[] = [];
         for (let index = 0; index < count; index++)
-            lines.push(['@Phrase', 'curious', `${Unwritten}line ${index}`]);
+            lines.push(['Phrase', 'curious', `${Unwritten}line ${index}`]);
         // An unshipped locale name on purpose: Basis.Bases is keyed by locale
         // name, so a synthetic locale must never claim a shipped one's.
         return {
+            $schema: '',
             language: 'zh',
             regions: ['SG'],
-            acts: [{ title: 'Act', scenes: [{ title: 'Scene', lines }] }],
-        } as unknown as Tutorial;
+            acts: [
+                {
+                    title: 'Act',
+                    performance: { fit: 'Phrase()' },
+                    scenes: [
+                        {
+                            title: 'Scene',
+                            subtitle: null,
+                            performance: { fit: 'Phrase()' },
+                            lines,
+                        },
+                    ],
+                },
+            ],
+        };
     }
 
     /** Echoes with an `X` prefix and records every string it was asked for, in
@@ -223,7 +241,7 @@ describe('tutorial checkpointing', () => {
                 Promise.resolve(
                     regions.length > 0 ? `${language}-${regions[0]}` : language,
                 ),
-            getSupportedLocales: () => Promise.resolve([] as Locale[]),
+            getSupportedLocales: () => Promise.resolve<Locale[]>([]),
         };
     }
 
@@ -242,7 +260,7 @@ describe('tutorial checkpointing', () => {
             undefined,
             echoingTranslator(sent),
             async (partial) => {
-                saves.push(JSON.parse(JSON.stringify(partial)) as Tutorial);
+                saves.push(structuredClone(partial));
             },
         );
 
@@ -252,10 +270,15 @@ describe('tutorial checkpointing', () => {
         // Every line holds the translation of the string that was sent for it —
         // the write-back drains the results with shift(), so a slice boundary
         // that shifted one against the other would mis-assign them here.
-        const lines = revised.acts[0].scenes[0].lines as string[][];
+        const lines = must(
+            must(revised.acts[0], 'an act').scenes[0],
+            'a scene',
+        ).lines;
         expect(lines.length).toBe(count);
         expect(sent.length).toBe(count);
-        for (let index = 0; index < count; index++)
-            expect(lines[index][2]).toBe(`${MachineTranslated}X${sent[index]}`);
+        for (const [index, line] of lines.entries()) {
+            if (!isDialog(line)) throw new Error('Expected a dialog line');
+            expect(line[2]).toBe(`${MachineTranslated}X${sent[index]}`);
+        }
     });
 });

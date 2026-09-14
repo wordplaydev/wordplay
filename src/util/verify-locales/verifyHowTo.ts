@@ -492,15 +492,22 @@ async function translateHowToFile(
         );
     }
 
+    // The count check above guarantees every index below. A `null` is a real
+    // answer here (a refused translation), so the index decides presence.
+    const bought = (index: number): string | null => {
+        if (index >= translations.length)
+            throw new Error(`Expected a translation at ${index}`);
+        return translations[index] ?? null;
+    };
     const boughtPhrase = new Map<Token, string | null>();
     phrasesToBuy.forEach((phrase, index) =>
-        boughtPhrase.set(phrase, translations[(buyTitle ? 1 : 0) + index]),
+        boughtPhrase.set(phrase, bought((buyTitle ? 1 : 0) + index)),
     );
     const boughtExample = new Map<Example, string | null>();
     examplesToBuy.forEach((example, index) =>
         boughtExample.set(
             example,
-            translations[(buyTitle ? 1 : 0) + phrasesToBuy.length + index],
+            bought((buyTitle ? 1 : 0) + phrasesToBuy.length + index),
         ),
     );
 

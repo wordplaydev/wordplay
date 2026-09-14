@@ -34,16 +34,24 @@ test('longer new text grows in successively at the end', () => {
     const steps = getRandomTransition('hi', 'hello', POOL, 20, seeded(3));
     // Length never shrinks on the way to a longer text.
     const lengths = steps.map((s) => [...s].length);
-    for (let i = 1; i < lengths.length; i++)
-        expect(lengths[i]).toBeGreaterThanOrEqual(lengths[i - 1]);
+    let previous: number | undefined = undefined;
+    for (const length of lengths) {
+        if (previous !== undefined)
+            expect(length).toBeGreaterThanOrEqual(previous);
+        previous = length;
+    }
     expect(steps.at(-1)).toBe('hello');
 });
 
 test('shorter new text loses surplus positions one at a time', () => {
     const steps = getRandomTransition('hello', 'hi', POOL, 20, seeded(4));
     const lengths = steps.map((s) => [...s].length);
-    for (let i = 1; i < lengths.length; i++)
-        expect(lengths[i]).toBeLessThanOrEqual(lengths[i - 1]);
+    let previous: number | undefined = undefined;
+    for (const length of lengths) {
+        if (previous !== undefined)
+            expect(length).toBeLessThanOrEqual(previous);
+        previous = length;
+    }
     // Never blank when the end is non-empty.
     expect(steps.every((s) => s.length > 0)).toBe(true);
     expect(steps.at(-1)).toBe('hi');
@@ -60,8 +68,10 @@ test('positions lock in at different times', () => {
     // The step at which each position first shows (and keeps) its final
     // character should vary across positions.
     const lockSteps = [...'zzzzzzzz'].map((_, position) => {
-        for (let s = steps.length - 1; s > 0; s--)
-            if ([...steps[s]][position] !== 'z') return s + 1;
+        for (let s = steps.length - 1; s > 0; s--) {
+            const step = steps[s];
+            if (step !== undefined && [...step][position] !== 'z') return s + 1;
+        }
         return 1;
     });
     expect(new Set(lockSteps).size).toBeGreaterThan(1);

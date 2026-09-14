@@ -8,6 +8,7 @@
     import type MapValue from '@values/MapValue';
     import Expandable from '@components/values/Expandable.svelte';
     import { fitCount } from '@components/values/fit';
+    import { must } from '@util/nullable';
     import SymbolView from '@components/values/SymbolView.svelte';
     import ValueView from '@components/values/ValueView.svelte';
 
@@ -20,7 +21,8 @@
 
     let start = $derived(
         fitCount((i) => {
-            const [key, val] = value.values[i];
+            // fitCount only asks about indices below the length it is given.
+            const [key, val] = must(value.values[i], `pair ${i}`);
             return key.toWordplay().length + val.toWordplay().length;
         }, value.values.length),
     );

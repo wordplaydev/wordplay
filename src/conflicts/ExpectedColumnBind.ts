@@ -42,8 +42,8 @@ export default class ExpectedColumnBind extends Conflict {
         const columns = tableType instanceof TableType ? tableType.columns : [];
         const usedNames = new Set(
             this.update.row.cells
-                .filter((c) => c instanceof Input)
-                .map((c) => (c as Input).getName()),
+                .filter((c): c is Input => c instanceof Input)
+                .map((c) => c.getName()),
         );
         const targetColumn = columns.find(
             (c) =>

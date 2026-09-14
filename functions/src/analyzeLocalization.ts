@@ -1,4 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
+import { isRecord } from './shared/guards.js';
 import type { CallableRequest } from 'firebase-functions/v2/https';
 import type {
     AnalyzeLocalizationInputs,
@@ -59,10 +60,6 @@ type RawResult = {
     literalTerms: RawTerm[];
     backTranslation: string;
 };
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-    return typeof value === 'object' && value !== null;
-}
 
 function isRawTerm(value: unknown): value is RawTerm {
     return (
@@ -229,10 +226,15 @@ export async function analyze(
             if (parsed === null) return null;
 
             parsed.forEach((r, j) => {
+                // `parse` refuses a response whose row count differs from the
+                // chunk's, so each row has a string; saying so keeps a future
+                // change to that check from writing a row under no key.
+                const unit = chunk[j];
+                if (unit === undefined) return;
                 const literalTerms: LiteralTermFinding[] =
                     r.literalTerms.flatMap((t) => {
                         const suggestion = buildSuggestion(
-                            chunk[j].text,
+                            unit.text,
                             t.term,
                             t.id,
                             glossary,
@@ -242,7 +244,7 @@ export async function analyze(
                             : [{ term: t.term, id: t.id, suggestion }];
                     });
                 out.push({
-                    key: chunk[j].key,
+                    key: unit.key,
                     complex: r.complex,
                     readingLevelNote: r.readingLevelNote,
                     literalTerms,

@@ -184,8 +184,7 @@ export default class Spaces {
         const replacedToken = replaced.getFirstLeaf();
 
         // Get the next token after the replaced node.
-        const lastTokenOfReplaced = replaced.leaves().at(-1) as
-            Token | undefined;
+        const lastTokenOfReplaced = replaced.leaves().at(-1);
         const nextToken = lastTokenOfReplaced
             ? this.root.getNextToken(lastTokenOfReplaced, 1)
             : undefined;

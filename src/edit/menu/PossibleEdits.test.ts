@@ -1044,7 +1044,7 @@ test('markup built for a custom character carries spaces so it can render', () =
     const literal = new FormattedLiteral([
         FormattedTranslation.makeWithLink('creator/Star'),
     ]);
-    expect(literal.texts[0].markup.spaces).toBeDefined();
+    expect(literal.texts[0]!.markup.spaces).toBeDefined();
 });
 
 test('a selected placeholder expecting formatted text recommends custom characters', () => {

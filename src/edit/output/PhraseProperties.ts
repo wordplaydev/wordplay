@@ -122,8 +122,8 @@ export default function getPhraseProperties(
     const faceIndex = typeProperties.findIndex((prop) =>
         prop.isName(locales, (l) => l.output.Phrase.face.names),
     );
-    if (faceIndex >= 0) {
-        const faceProperty = typeProperties[faceIndex];
+    const faceProperty = typeProperties[faceIndex];
+    if (faceProperty !== undefined) {
         typeProperties.splice(faceIndex, 1);
         phraseProperties = [
             ...phraseProperties.slice(0, 1),

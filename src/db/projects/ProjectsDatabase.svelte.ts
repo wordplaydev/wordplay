@@ -40,6 +40,7 @@ import {
     upgradeProject,
     type ProjectID,
     type SerializedProject,
+    SerializedProjectUnknownVersionSchema,
     type SerializedProjectUnknownVersion,
 } from '@db/projects/ProjectSchemas';
 import YjsFirestoreProvider from '@db/projects/YjsFirestoreProvider';
@@ -49,6 +50,7 @@ import type LocaleText from '@locale/LocaleText';
 import type Node from '@nodes/Node';
 import Source from '@nodes/Source';
 import { REMIX_SYMBOL } from '@parser/Symbols';
+import { must } from '@util/nullable';
 import { type Observable } from 'dexie';
 import { FirebaseError } from 'firebase/app';
 import type { User } from 'firebase/auth';
@@ -1544,9 +1546,9 @@ export default class ProjectsDatabase {
             remote.getTimestamp() >= localTimestampBeforeMerge;
         const tracked = this.lastCRDTCodes.get(remote.getID()) ?? [];
         let trackedChanged = false;
-        for (let i = 0; i < remoteSources.length; i++) {
+        for (const [i, remoteSource] of remoteSources.entries()) {
             const postApplyCode = crdt.getCode(i);
-            const remoteCode = remoteSources[i].code.toString();
+            const remoteCode = remoteSource.code.toString();
             if (postApplyCode === remoteCode) continue;
             const snapshotChangedSource = postApplyCode !== beforeApply[i];
             if (
@@ -1584,9 +1586,8 @@ export default class ProjectsDatabase {
         if (crdt === undefined) return;
         const codes = project.getSources().map((s) => s.code.toString());
         const previous = this.lastCRDTCodes.get(id) ?? [];
-        for (let i = 0; i < codes.length; i++) {
+        for (const [i, newCode] of codes.entries()) {
             const oldCode = previous[i] ?? '';
-            const newCode = codes[i];
             if (oldCode !== newCode)
                 crdt.applyLocalEdit(i, oldCode, newCode, 'local');
         }
@@ -1604,7 +1605,10 @@ export default class ProjectsDatabase {
             // deserialization does — without this, words like `true` stay plain
             // names until the project is reloaded.
             new Source(
-                locales[0].glossary.start.word,
+                // Every caller passes the chosen locales, which are never empty;
+                // reading the first one's word threw before this said so.
+                must(locales[0], 'a locale to name the new source after')
+                    .glossary.start.word,
                 code,
                 buildKeywordIndex(locales.map((l) => l.keyword)),
             ),
@@ -2617,10 +2621,12 @@ export default class ProjectsDatabase {
     async parseProject(data: unknown): Promise<Project | undefined> {
         // If the project data doesn't parse, then return nothing, since it's not valid.
         try {
-            // Assume it's a project of an unknown version and upgrade it.
-            const serialized = upgradeProject(
-                data as SerializedProjectUnknownVersion,
-            );
+            // The data may be a project of any version, so check that first,
+            // then upgrade it.
+            const stored =
+                SerializedProjectUnknownVersionSchema.safeParse(data);
+            if (!stored.success) throw stored.error;
+            const serialized = upgradeProject(stored.data);
             // Now parse it with Zod, verifying it complies with the schema.
             const project = ProjectSchema.parse(serialized);
             // Now convert it to an in-memory project so we can manipulate it more easily.

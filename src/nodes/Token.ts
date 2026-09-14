@@ -1,4 +1,5 @@
 import { Purpose, type PurposeType } from '@concepts/Purpose';
+import { keysOf } from '@util/nullable';
 import {
     getLanguageQuoteOpen,
     getLanguageSecondaryQuote,
@@ -330,14 +331,13 @@ export default class Token extends Node {
 
     getDescriptionInputs(locales: Locales): Record<string, TemplateInput> {
         const text = this.getText();
-        const wildcards: ReadonlySet<SymType> = WildcardSymbols;
         return {
             label: getTokenLabel(this, locales),
             // Say the token's text when it varies (a name, number, or word):
             // "name resting" rather than just "name", so different names are
             // distinguishable by ear. Fixed symbols add nothing to their label.
             text:
-                this.types.some((type) => wildcards.has(type)) &&
+                this.types.some((type) => WildcardSymbols.has(type)) &&
                 text.length > 0
                     ? text
                     : undefined,
@@ -394,8 +394,10 @@ export default class Token extends Node {
                     // Is this the open and its not the preferred quote? Make it the preferred one.
                     if (open === this) text = preferredOpen;
                     // Is this the close and the close isn't the preferred?
+                    // The preferred quote is always one the table closes; if it
+                    // somehow isn't, the token keeps the text it has.
                     if (close === this)
-                        text = TextCloseByTextOpen[preferredOpen];
+                        text = TextCloseByTextOpen[preferredOpen] ?? text;
                 }
             }
         }
@@ -445,12 +447,14 @@ export default class Token extends Node {
 
     clone(replace?: Replacement): this {
         if (replace === undefined)
-            return new Token(this.text, this.types, this.canonical) as this;
+            return this.cloned(
+                new Token(this.text, this.types, this.canonical),
+            );
 
         const { original, replacement } = replace;
         // Is this what we're replacing? Replace it.
         if (original === this && replacement instanceof Token)
-            return replacement as this;
+            return this.cloned(replacement);
         // Otherwise, just return this, since it isn't changing.
         else return this;
     }
@@ -478,11 +482,7 @@ export default class Token extends Node {
 export function getTokenLabel(token: Node, locales: Locales): string {
     if (!(token instanceof Token)) return token.getLabel(locales);
 
-    const tokenType = Object.entries(Sym).find(
-        ([, val]) => val === token.types[0],
-    );
-    const tokenLabel = tokenType
-        ? locales.getLocale().token[tokenType[0] as keyof typeof Sym]
-        : '';
-    return tokenLabel;
+    const first = token.types[0];
+    const tokenType = keysOf(Sym).find((key) => Sym[key] === first);
+    return tokenType === undefined ? '' : locales.getLocale().token[tokenType];
 }

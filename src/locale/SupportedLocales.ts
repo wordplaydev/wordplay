@@ -40,6 +40,13 @@ export const SupportedLocales = Array.from(
 /** A type to represent one of the strings above */
 export type SupportedLocale = (typeof SupportedLocales)[number];
 
+const SupportedLocaleSet: ReadonlySet<string> = new Set(SupportedLocales);
+
+/** Whether a string names a supported locale, narrowing it when it does. */
+export function isSupportedLocale(locale: string): locale is SupportedLocale {
+    return SupportedLocaleSet.has(locale);
+}
+
 /**
  * The web app manifest a page in the given locale links to: there's one per
  * locale, since a manifest carries only one language and an installed app
@@ -49,8 +56,5 @@ export type SupportedLocale = (typeof SupportedLocales)[number];
  * uninstallable.
  */
 export function getManifestPath(locale: string): string {
-    const supported = SupportedLocales.some(
-        (candidate: SupportedLocale) => candidate === locale,
-    );
-    return `/manifests/${supported ? locale : 'en-US'}.webmanifest`;
+    return `/manifests/${isSupportedLocale(locale) ? locale : 'en-US'}.webmanifest`;
 }

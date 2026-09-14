@@ -59,6 +59,7 @@ import {
     getMisplacedShareConflicts,
 } from '@nodes/util';
 import { getPublishedShareConflicts } from '@nodes/publishedShare';
+import { must } from '@util/nullable';
 
 export default class StructureDefinition extends DefinitionExpression {
     readonly docs: Docs;
@@ -128,13 +129,13 @@ export default class StructureDefinition extends DefinitionExpression {
         return new StructureDefinition(
             docs,
             undefined,
-            new TypeToken(),
+            TypeToken(),
             names instanceof Names ? names : Names.make(names),
             interfaces,
             types,
-            new EvalOpenToken(),
+            EvalOpenToken(),
             inputs,
-            new EvalCloseToken(),
+            EvalCloseToken(),
             block,
         );
     }
@@ -253,18 +254,20 @@ export default class StructureDefinition extends DefinitionExpression {
     }
 
     clone(replace?: Replacement) {
-        return new StructureDefinition(
-            this.replaceChild('docs', this.docs, replace),
-            this.replaceChild('share', this.share, replace),
-            this.replaceChild('type', this.type, replace),
-            this.replaceChild('names', this.names, replace),
-            this.replaceChild('interfaces', this.interfaces, replace),
-            this.replaceChild('types', this.types, replace),
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('inputs', this.inputs, replace),
-            this.replaceChild('close', this.close, replace),
-            this.replaceChild('expression', this.expression, replace),
-        ) as this;
+        return this.cloned(
+            new StructureDefinition(
+                this.replaceChild('docs', this.docs, replace),
+                this.replaceChild('share', this.share, replace),
+                this.replaceChild('type', this.type, replace),
+                this.replaceChild('names', this.names, replace),
+                this.replaceChild('interfaces', this.interfaces, replace),
+                this.replaceChild('types', this.types, replace),
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('inputs', this.inputs, replace),
+                this.replaceChild('close', this.close, replace),
+                this.replaceChild('expression', this.expression, replace),
+            ),
+        );
     }
 
     getPurpose() {
@@ -329,13 +332,14 @@ export default class StructureDefinition extends DefinitionExpression {
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {
         // This is the scope of the expression and inputs, and its parent is for everything else.
-        return child === this.expression || this.inputs.includes(child as Bind)
+        return child === this.expression ||
+            this.inputs.some((input) => input === child)
             ? this
             : this.getParent(context);
     }
 
     getInputs() {
-        return this.inputs.filter((i) => i instanceof Bind) as Bind[];
+        return this.inputs.filter((i): i is Bind => i instanceof Bind);
     }
 
     /** Create a new structure definition with the provided inputs instead */
@@ -367,7 +371,13 @@ export default class StructureDefinition extends DefinitionExpression {
     }
 
     getTypeReference(): NameType {
-        return new NameType(this.getNames()[0], undefined, this);
+        // Only basis definitions are asked for a type reference, and each of
+        // those is named by its locale.
+        return new NameType(
+            must(this.getNames()[0], 'a structure definition name'),
+            undefined,
+            this,
+        );
     }
 
     getReference(locales: Locales): Reference {
@@ -397,12 +407,12 @@ export default class StructureDefinition extends DefinitionExpression {
                       : undefined,
             )
             .filter(
-                (s) =>
+                (s): s is FunctionDefinition =>
                     s !== undefined &&
                     (implemented === undefined ||
                         (implemented === true && !s.isAbstract()) ||
                         (implemented === false && s.isAbstract())),
-            ) as FunctionDefinition[];
+            );
     }
 
     /** Gets bindings that aren't functions */
@@ -501,19 +511,19 @@ export default class StructureDefinition extends DefinitionExpression {
     ): Bind | FunctionDefinition | StructureDefinition | undefined {
         // Definitions can be inputs...
         const inputBind = this.inputs.find(
-            (i) => i instanceof Bind && i.hasName(name),
-        ) as Bind;
+            (i): i is Bind => i instanceof Bind && i.hasName(name),
+        );
         if (inputBind !== undefined) return inputBind;
 
         // ...or they can be in a structure's block binds.
         return this.expression !== undefined
-            ? (this.expression.statements.find(
-                  (i) =>
+            ? this.expression.statements.find(
+                  (i): i is FunctionDefinition | StructureDefinition | Bind =>
                       (i instanceof StructureDefinition ||
                           i instanceof FunctionDefinition ||
                           i instanceof Bind) &&
                       i.names.hasName(name),
-              ) as FunctionDefinition | StructureDefinition | Bind)
+              )
             : undefined;
     }
 
@@ -566,17 +576,20 @@ export default class StructureDefinition extends DefinitionExpression {
             definitions = [
                 ...(askerInsideInput || askerInsideStatic
                     ? []
-                    : (this.inputs.filter(
-                          (i) => i instanceof Bind && i !== node,
-                      ) as Bind[])),
+                    : this.inputs.filter(
+                          (i): i is Bind => i instanceof Bind && i !== node,
+                      )),
                 ...(this.types ? this.types.variables : []),
                 ...(this.expression instanceof Block
-                    ? (this.expression.statements.filter(
-                          (s) =>
+                    ? this.expression.statements.filter(
+                          (
+                              s,
+                          ): s is
+                              FunctionDefinition | StructureDefinition | Bind =>
                               s instanceof FunctionDefinition ||
                               s instanceof StructureDefinition ||
                               s instanceof Bind,
-                      ) as Definition[])
+                      )
                     : []),
             ];
             this.#definitionsCache.set(node, definitions);
@@ -594,21 +607,22 @@ export default class StructureDefinition extends DefinitionExpression {
     ): ConversionDefinition | undefined {
         // Find the conversion in this type's block that produces a compatible type.
         return this.expression instanceof Block
-            ? (this.expression.statements.find(
-                  (s) =>
+            ? this.expression.statements.find(
+                  (s): s is ConversionDefinition =>
                       s instanceof ConversionDefinition &&
                       s.input instanceof Type &&
                       s.output instanceof Type &&
                       s.convertsTypeTo(input, output, context),
-              ) as ConversionDefinition | undefined)
+              )
             : undefined;
     }
 
     getAllConversions() {
         return this.expression instanceof Block
-            ? (this.expression.statements.filter(
-                  (s) => s instanceof ConversionDefinition,
-              ) as ConversionDefinition[])
+            ? this.expression.statements.filter(
+                  (s): s is ConversionDefinition =>
+                      s instanceof ConversionDefinition,
+              )
             : [];
     }
 
@@ -696,7 +710,8 @@ export default class StructureDefinition extends DefinitionExpression {
                 : new StructureDefinitionValue(this, closure, new Map());
         for (let i = statics.length - 1; i >= 0; i--) {
             const value = evaluator.popValue(this);
-            def.statics.set(statics[i], value);
+            const statik = statics[i];
+            if (statik !== undefined) def.statics.set(statik, value);
         }
         // In the unlikely event the Start action didn't bind (e.g. fresh
         // Definition value above), bind now.

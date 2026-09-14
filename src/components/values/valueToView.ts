@@ -67,8 +67,20 @@ export default function valueToView(type: Function): Component {
     let prototype = type;
     do {
         const view = mapping.get(prototype);
-        if (view !== undefined) return view as Component;
+        if (view !== undefined) return asView(view);
         prototype = Object.getPrototypeOf(prototype);
     } while (prototype);
-    return UnknownView as Component;
+    return asView(UnknownView);
+}
+
+/**
+ * A registered view as the component a caller renders. Each view declares the
+ * value class it draws, and Svelte compares a component's props strictly, so a
+ * registry of views for different value classes cannot be typed without this.
+ * What makes the lookup right is that the map is keyed by the very class each
+ * view declares.
+ */
+function asView(view: unknown): Component {
+    // sound: the registry is keyed by the value class each view declares.
+    return view as Component;
 }

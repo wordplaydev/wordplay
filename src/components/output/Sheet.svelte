@@ -188,11 +188,13 @@
             // you had switched away from.
             if (next.length !== marks.length) marks = next;
             else
-                for (let i = 0; i < next.length; i++)
-                    if (!sameMark(next[i], marks[i])) {
+                for (const [i, mark] of next.entries()) {
+                    const current = marks[i];
+                    if (current === undefined || !sameMark(mark, current)) {
                         marks = next;
                         break;
                     }
+                }
 
             const measured = region?.clientWidth ?? 0;
             if (measured !== width) width = measured;

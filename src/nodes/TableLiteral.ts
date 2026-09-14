@@ -39,6 +39,7 @@ import TextType from '@nodes/TextType';
 import type Type from '@nodes/Type';
 import type TypeSet from '@nodes/TypeSet';
 import UnionType from '@nodes/UnionType';
+import { isDefined } from '@util/nullable';
 
 export default class TableLiteral extends CompositeLiteral {
     readonly type: TableType;
@@ -85,10 +86,11 @@ export default class TableLiteral extends CompositeLiteral {
                 const tokens = tokenize(trimmed).getTokens();
                 // Strip the end of file
                 tokens.pop();
+                const firstToken = tokens[0];
                 // Convert numbers to number literals
-                if (tokens.length === 0) cells.push(NoneLiteral.make());
-                else if (tokens[0].isSymbol(Sym.Number))
-                    cells.push(new NumberLiteral(tokens[0]));
+                if (firstToken === undefined) cells.push(NoneLiteral.make());
+                else if (firstToken.isSymbol(Sym.Number))
+                    cells.push(new NumberLiteral(firstToken));
                 else {
                     // Combine all of the tokens
                     const text = tokens
@@ -105,7 +107,9 @@ export default class TableLiteral extends CompositeLiteral {
             rows.push(Row.make(cells));
         }
 
-        function inferType(expressions: Expression[]): Type {
+        /** The alternatives as a right-nested union, or undefined when the
+         * column offered no values to infer from. */
+        function inferType(expressions: Expression[]): Type | undefined {
             const types = [
                 ...(expressions.some((expr) => expr instanceof NumberLiteral)
                     ? [NumberType.make()]
@@ -120,22 +124,17 @@ export default class TableLiteral extends CompositeLiteral {
                     ? [NoneType.make()]
                     : []),
             ];
-            if (types.length === 1) return types[0];
-            else if (types.length === 2)
-                return UnionType.make(types[0], types[1]);
-            else if (types.length === 3)
-                return UnionType.make(
-                    types[0],
-                    UnionType.make(types[1], types[2]),
-                );
-            else
-                return UnionType.make(
-                    types[0],
-                    UnionType.make(
-                        types[1],
-                        UnionType.make(types[2], types[3]),
-                    ),
-                );
+            return unionOf(types);
+        }
+
+        /** Right-nested union of the given types, or undefined when empty. */
+        function unionOf(types: Type[]): Type | undefined {
+            const [first, ...rest] = types;
+            if (first === undefined) return undefined;
+            const restUnion = unionOf(rest);
+            return restUnion === undefined
+                ? first
+                : UnionType.make(first, restUnion);
         }
 
         const type = TableType.make(
@@ -143,21 +142,31 @@ export default class TableLiteral extends CompositeLiteral {
                 const tokens = tokenize(
                     col.replaceAll(' ', '').replaceAll('_', ''),
                 ).getTokens();
-                const name = tokens[0].isSymbol(Sym.Name)
-                    ? tokens[0].getText()
-                    : tokens[0].isSymbol(Sym.Number)
-                      ? `n${tokens[0].getText()}`
-                      : `n${index}`;
+                const firstToken = tokens[0];
+                const name =
+                    firstToken === undefined
+                        ? `n${index}`
+                        : firstToken.isSymbol(Sym.Name)
+                          ? firstToken.getText()
+                          : firstToken.isSymbol(Sym.Number)
+                            ? `n${firstToken.getText()}`
+                            : `n${index}`;
 
                 return Bind.make(
                     undefined,
                     // Try to make a valid name
                     Names.make([name]),
                     inferType(
-                        rows.map((row) => {
-                            const cell = row.cells[index];
-                            return cell instanceof Input ? cell.value : cell;
-                        }),
+                        rows
+                            .map((row) => {
+                                const cell = row.cells[index];
+                                return cell instanceof Input
+                                    ? cell.value
+                                    : cell;
+                            })
+                            // A row shorter than the header contributes nothing,
+                            // as an undefined cell did before.
+                            .filter(isDefined),
                     ),
                     undefined,
                 );
@@ -288,10 +297,10 @@ export default class TableLiteral extends CompositeLiteral {
         if (prior) return prior;
 
         const rows: StructureValue[] = [];
-        for (let r = 0; r < this.rows.length; r++) {
+        for (const tableRow of this.rows) {
             // Get the values, building the list in order of appearance.
             const values: Value[] = [];
-            for (let c = 0; c < this.rows[r].cells.length; c++)
+            for (let c = 0; c < tableRow.cells.length; c++)
                 values.unshift(evaluator.popValue(this));
 
             const row = getRowFromValues(evaluator, this, this.type, values);
@@ -302,10 +311,12 @@ export default class TableLiteral extends CompositeLiteral {
     }
 
     clone(replace?: Replacement) {
-        return new TableLiteral(
-            this.replaceChild('type', this.type, replace),
-            this.replaceChild('rows', this.rows, replace),
-        ) as this;
+        return this.cloned(
+            new TableLiteral(
+                this.replaceChild('type', this.type, replace),
+                this.replaceChild('rows', this.rows, replace),
+            ),
+        );
     }
 
     /**

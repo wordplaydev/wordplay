@@ -75,7 +75,7 @@ export default class StreamDefinition extends DefinitionExpression {
         this.close = close;
         this.expression = expression;
         this.dot =
-            output !== undefined && dot === undefined ? new TypeToken() : dot;
+            output !== undefined && dot === undefined ? TypeToken() : dot;
         this.output = output;
 
         this.computeChildren();
@@ -92,11 +92,11 @@ export default class StreamDefinition extends DefinitionExpression {
             docs,
             new Token(STREAM_SYMBOL, Sym.Stream),
             names instanceof Names ? names : Names.make(names),
-            new EvalOpenToken(),
+            EvalOpenToken(),
             inputs,
-            new EvalCloseToken(),
+            EvalCloseToken(),
             expression,
-            new TypeToken(),
+            TypeToken(),
             output,
         );
     }
@@ -138,7 +138,7 @@ export default class StreamDefinition extends DefinitionExpression {
             },
             {
                 name: 'output',
-                kind: any(node(Type), none(['dot', () => new TypeToken()])),
+                kind: any(node(Type), none(['dot', () => TypeToken()])),
                 label: () => (l) => l.glossary.type.word,
             },
         ];
@@ -149,19 +149,21 @@ export default class StreamDefinition extends DefinitionExpression {
     }
 
     clone(replace?: Replacement) {
-        return new StreamDefinition(
-            this.replaceChild('docs', this.docs, replace),
-            this.replaceChild('dots', this.dots, replace),
-            this.replaceChild('names', this.names, replace),
-            this.replaceChild('open', this.open, replace),
-            this.replaceChild('inputs', this.inputs, replace),
-            this.replaceChild('close', this.close, replace),
-            // Passed through, not replaced: the expression is a basis-internal node that the grammar
-            // deliberately doesn't declare as a child, so it's never a replacement target.
-            this.expression,
-            this.replaceChild('dot', this.dot, replace),
-            this.replaceChild('output', this.output, replace),
-        ) as this;
+        return this.cloned(
+            new StreamDefinition(
+                this.replaceChild('docs', this.docs, replace),
+                this.replaceChild('dots', this.dots, replace),
+                this.replaceChild('names', this.names, replace),
+                this.replaceChild('open', this.open, replace),
+                this.replaceChild('inputs', this.inputs, replace),
+                this.replaceChild('close', this.close, replace),
+                // Passed through, not replaced: the expression is a basis-internal node that the grammar
+                // deliberately doesn't declare as a child, so it's never a replacement target.
+                this.expression,
+                this.replaceChild('dot', this.dot, replace),
+                this.replaceChild('output', this.output, replace),
+            ),
+        );
     }
 
     getEvaluateTemplate(
@@ -231,11 +233,15 @@ export default class StreamDefinition extends DefinitionExpression {
     accepts(fun: StreamDefinition, context: Context) {
         if (!this.sharesName(fun)) return false;
         for (let i = 0; i < this.inputs.length; i++) {
-            if (i >= fun.inputs.length) return false;
+            const thisInput = this.inputs[i];
+            const thatInput = fun.inputs[i];
+            // A missing counterpart is a mismatch, as the length check was.
+            if (thisInput === undefined || thatInput === undefined)
+                return false;
             if (
-                !this.inputs[i]
+                !thisInput
                     .getType(context)
-                    .accepts(fun.inputs[i].getType(context), context)
+                    .accepts(thatInput.getType(context), context)
             )
                 return false;
         }
@@ -250,9 +256,9 @@ export default class StreamDefinition extends DefinitionExpression {
     getDefinitions(node: Node): Definition[] {
         // Return inputs that aren't the one asking.
         return [
-            ...(this.inputs.filter(
-                (i) => i instanceof Bind && i !== node,
-            ) as Bind[]),
+            ...this.inputs.filter(
+                (i): i is Bind => i instanceof Bind && i !== node,
+            ),
         ];
     }
 

@@ -13,6 +13,7 @@ import {
     retargetExamplesIn,
     retargetSerializedExample,
 } from './retargetExampleNames';
+import { must } from '@util/nullable';
 
 /**
  * A localized example spells names that live at *other* locale paths, so re-translating one
@@ -351,7 +352,7 @@ test('a multi-source example is retargeted inside the full project', () => {
     const result = retargetSerializedExample(en, lo, Greek, 'el');
     expect(result.kind).toBe('retargeted');
     if (result.kind !== 'retargeted') return;
-    expect(result.sources[0].code).toBe(
+    expect(must(result.sources[0], 'a source').code).toBe(
         `↓ words\nΦράση(words[1] ${declared(PhraseBubble)}: 'γεια!')\n`,
     );
     // The borrowed source is untouched, and header names ride through.
@@ -430,7 +431,7 @@ test('a compared key name left in English is repaired to the locale display name
     const result = retargetSerializedExample(en, lo, Greek, 'el');
     expect(result.kind).toBe('retargeted');
     if (result.kind !== 'retargeted') return;
-    expect(result.sources[0].code).toContain(`'${expected}'`);
+    expect(must(result.sources[0], 'a source').code).toContain(`'${expected}'`);
 });
 
 test('a key name already in the locale display form is left alone', () => {

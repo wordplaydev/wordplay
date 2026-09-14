@@ -1,3 +1,4 @@
+import { matchGroups, must } from '@util/nullable';
 import * as Y from 'yjs';
 
 /**
@@ -139,8 +140,8 @@ export default class ProjectCRDT {
         // operations are deterministic across peers.
         seed.clientID = 0;
         seed.transact(() => {
-            for (let i = 0; i < codes.length; i++) {
-                seed.getText(`source:${i}`).insert(0, codes[i]);
+            for (const [i, code] of codes.entries()) {
+                seed.getText(`source:${i}`).insert(0, code);
             }
         }, 'init');
         const bytes = Y.encodeStateAsUpdateV2(seed);
@@ -273,7 +274,10 @@ export default class ProjectCRDT {
         const out: number[] = [];
         for (const key of this.doc.share.keys()) {
             const match = /^source:(\d+)$/.exec(key);
-            if (match !== null) out.push(parseInt(match[1], 10));
+            if (match === null) continue;
+            // The one group is mandatory, so a match always carries it.
+            const [, index] = matchGroups(match);
+            out.push(parseInt(must(index, 'a source index'), 10));
         }
         return out.sort((a, b) => a - b);
     }
@@ -301,7 +305,7 @@ export function bytesToBase64(bytes: Uint8Array): string {
     if (typeof Buffer !== 'undefined')
         return Buffer.from(bytes).toString('base64');
     let str = '';
-    for (let i = 0; i < bytes.length; i++) str += String.fromCharCode(bytes[i]);
+    for (const byte of bytes) str += String.fromCharCode(byte);
     return btoa(str);
 }
 

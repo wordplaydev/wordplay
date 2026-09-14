@@ -1,3 +1,4 @@
+import { matchGroups, must } from '@util/nullable';
 import { readFileSync } from 'fs';
 import { expect, test } from 'vitest';
 
@@ -37,7 +38,14 @@ test('every callable is refused to a proxy session, or named read-only', () => {
         ...Index.matchAll(
             /export const (\w+) = onCall(?:<[\s\S]*?>)?\(([\s\S]*?)\n\);/g,
         ),
-    ];
+    ].map((match) => {
+        // Both groups are mandatory in the pattern, so a match carries them.
+        const [, name, body] = matchGroups(match);
+        return {
+            name: must(name, 'an onCall export name'),
+            body: must(body, 'an onCall body'),
+        };
+    });
     expect(
         registrations.length,
         'no onCall registrations found — did index.ts change shape?',
@@ -45,10 +53,10 @@ test('every callable is refused to a proxy session, or named read-only', () => {
 
     const unguarded = registrations
         .filter(
-            ([, name, body]) =>
+            ({ name, body }) =>
                 !body.includes('noProxy(') && !(name in ReadOnlyCallables),
         )
-        .map(([, name]) => name);
+        .map(({ name }) => name);
 
     expect(
         unguarded,

@@ -1,6 +1,7 @@
 import type { Character } from '@db/characters/Character';
 import { buildCharacterSearch } from '@db/characters/characterSearch';
 import { searchItems } from '@util/search';
+import { must } from '@util/nullable';
 import { describe, expect, test } from 'vitest';
 
 const L = 'en';
@@ -35,13 +36,19 @@ const search = (query: string) =>
 
 describe('buildCharacterSearch', () => {
     test('matches a character by its name (priority 1)', () => {
-        const [c, match] = searchItems(records, 'Star', L)[0];
+        const [c, match] = must(
+            searchItems(records, 'Star', L)[0],
+            'a search result for Star',
+        );
         expect(c).toBe(star);
         expect(match[3]).toBe(1);
     });
 
     test('matches a character by its description (priority 2)', () => {
-        const [c, match] = searchItems(records, 'red heart', L)[0];
+        const [c, match] = must(
+            searchItems(records, 'red heart', L)[0],
+            'a search result for red heart',
+        );
         expect(c).toBe(heart);
         expect(match[3]).toBe(2);
     });

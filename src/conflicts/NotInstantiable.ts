@@ -77,7 +77,7 @@ export default class NotInstantiable extends Conflict {
                 const matchIndex = this.abstractFunctions.findIndex(
                     (f) => f === s,
                 );
-                return matchIndex >= 0 ? stubs[matchIndex] : s;
+                return stubs[matchIndex] ?? s;
             },
         );
         const newBlock = existingBlock
@@ -91,8 +91,8 @@ export default class NotInstantiable extends Conflict {
             : new Block(
                   stubs,
                   BlockKind.Structure,
-                  new EvalOpenToken(),
-                  new EvalCloseToken(),
+                  EvalOpenToken(),
+                  EvalCloseToken(),
               );
         const newDef = this.definition.replace('expression', newBlock);
         return [

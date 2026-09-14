@@ -1,3 +1,4 @@
+import { first, matchGroups, must } from '@util/nullable';
 import { readFileSync } from 'fs';
 import { describe, expect, test } from 'vitest';
 import {
@@ -40,7 +41,13 @@ function block(collection: string): string {
 function hasOnlyLists(rules: string): string[][] {
     return Array.from(rules.matchAll(/hasOnly\(\[([^\]]*)\]\)/g))
         .map((match) =>
-            Array.from(match[1].matchAll(/['"]([^'"]+)['"]/g)).map((f) => f[1]),
+            // The one group is mandatory in each pattern, so a match carries it.
+            Array.from(
+                must(
+                    matchGroups(match)[1],
+                    'the contents of a hasOnly list',
+                ).matchAll(/['"]([^'"]+)['"]/g),
+            ).map((field) => must(matchGroups(field)[1], 'a field name')),
         )
         .filter((list) => list.length > 0);
 }
@@ -49,7 +56,9 @@ describe('the client writes exactly what firestore.rules admits', () => {
     test('a chat update carries only the keys the rule allows', () => {
         const lists = hasOnlyLists(block('chats'));
         expect(lists).toHaveLength(1);
-        expect(lists[0].toSorted()).toEqual([...ChatWritableFields].toSorted());
+        expect(first(lists)?.toSorted()).toEqual(
+            [...ChatWritableFields].toSorted(),
+        );
     });
 
     test("a how-to's narrow openings are the ones the client sends", () => {

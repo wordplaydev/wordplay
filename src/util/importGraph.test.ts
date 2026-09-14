@@ -797,12 +797,42 @@ test('resolving a color needs no basis', () => {
 // `TeacherDatabase`, whose gallery lookup became two membership queries because
 // the rules no longer let anyone list every class, and `rulesFields`. Only the
 // byte ceiling with no slack left moves.
+//
+// The type-soundness pass adds one leaf file to all five: `nullable.ts`, the
+// helpers (`first`, `isDefined`, `must`, …) that answer "is this present" where
+// an index read or a lookup used to be asserted. `Basis` reaches it, so every
+// page does; it imports nothing, so one file is all it can ever cost. Every
+// byte ceiling moves a hundredth with it: the helpers' own doc comments, plus
+// `Node.ts` gaining the overloads that let `replaceChild` and `nodes` be typed
+// without a cast. Its sibling `guards.ts` (`isRecord`, `isStringArray`) is the
+// second leaf the same pass adds to all five: fetched locale bundles are now
+// checked before they are trusted, and `LocalesDatabase` is on every page.
+// `isLocaleText.ts` is the third, and it is a file of its own rather than a
+// function in `LocaleText.ts` because `DefaultLocale` is read at module init
+// by the node tree: importing a *value* from the locale type module there
+// closes a cycle, and the constant reads as undefined.
+// The byte ceilings move another hundredth for the schemas those checks are
+// made of: every version a stored project, gallery, chat, how-to, presence
+// record, or updates bundle may have is now a zod schema a read is parsed
+// against, where before the shape was asserted.
+// They move a third and last hundredth for `noUncheckedIndexedAccess` itself,
+// which is on repo-wide as of this pass. It adds **+0 files**: what it costs is
+// a line or two wherever an index read used to be taken on faith — a hoisted
+// local and its check, a `for…of` in place of a counter — spread across the
+// parser, the node tree, the locale machinery and the widgets, all of them
+// files these graphs already carried. Nothing new joins a graph for it, and
+// nothing can: the flag changes how existing reads are typed, not what any
+// module imports. `Page` and the landing page move two hundredths rather than
+// one, because the widgets and the token views they carry are where unchecked
+// index reads were densest. A future pass should expect this ceiling to come
+// back down rather than keep climbing, since the checks replace asserted reads
+// rather than adding to them.
 test.each([
-    ['src/routes/+layout.svelte', 529, 3.99],
-    ['src/components/app/Page.svelte', 553, 4.24],
-    ['src/routes/[[locale]]/+page.svelte', 568, 4.33],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 573, 4.35],
-    ['src/routes/[[locale]]/projects/+page.svelte', 580, 4.37],
+    ['src/routes/+layout.svelte', 532, 4.03],
+    ['src/components/app/Page.svelte', 556, 4.29],
+    ['src/routes/[[locale]]/+page.svelte', 571, 4.38],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 576, 4.39],
+    ['src/routes/[[locale]]/projects/+page.svelte', 583, 4.41],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

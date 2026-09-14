@@ -15,18 +15,11 @@ describe('selectTranslation', () => {
     });
 
     test('falls back to the default locale when a key is missing', () => {
-        // Simulate a partial/stale locale that lacks a newly added key.
-        const partial = {
-            ...DefaultLocale,
-            output: {
-                ...DefaultLocale.output,
-                Color: {
-                    ...DefaultLocale.output.Color,
-                    // Drop a key newer code expects.
-                    lighter: undefined,
-                },
-            },
-        } as unknown as LocaleText;
+        // Simulate a partial/stale locale that lacks a newly added key. The
+        // key is deleted rather than typed away, since a stale locale file is
+        // missing it at runtime while the type still promises it.
+        const partial: LocaleText = structuredClone(DefaultLocale);
+        Reflect.deleteProperty(partial.output.Color, 'lighter');
 
         expect(
             selectTranslation(partial, (l) => l.output.Color.lighter.doc),
@@ -36,16 +29,8 @@ describe('selectTranslation', () => {
 
 describe('basis builders tolerate incomplete locales', () => {
     test('getDocLocales does not throw on a locale missing a key', () => {
-        const partial = {
-            ...DefaultLocale,
-            basis: {
-                ...DefaultLocale.basis,
-                Boolean: {
-                    ...DefaultLocale.basis.Boolean,
-                    doc: undefined,
-                },
-            },
-        } as unknown as LocaleText;
+        const partial: LocaleText = structuredClone(DefaultLocale);
+        Reflect.deleteProperty(partial.basis.Boolean, 'doc');
 
         const locales = new Locales(concretize, [partial], DefaultLocale);
         expect(() =>

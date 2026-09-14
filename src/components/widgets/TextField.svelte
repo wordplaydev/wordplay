@@ -18,7 +18,7 @@
 
     interface Props {
         /** The current text to show */
-        text?: string;
+        text?: string | undefined;
         placeholder: LocaleTextAccessor | string;
         description: LocaleTextAccessor;
         /** A validation function that either returns true if valid or a message accessor if false */

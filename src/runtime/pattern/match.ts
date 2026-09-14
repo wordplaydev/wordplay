@@ -252,7 +252,7 @@ function* matchNode(
     if (node instanceof PatternClass) {
         const matches = classPredicate(node);
         const here = graphemes[state.pos];
-        const ok = state.pos < graphemes.length && matches(here);
+        const ok = here !== undefined && matches(here);
         yield atomBeat(node, state, ok, here);
         return ok ? { pos: state.pos + 1, caps: state.caps } : null;
     }
@@ -260,9 +260,17 @@ function* matchNode(
     if (node instanceof PatternLiteralText) {
         const literal = literalGraphemes(node);
         let ok = state.pos + literal.length <= graphemes.length; // off the end?
-        for (let index = 0; ok && index < literal.length; index++)
-            if (!foldEq(graphemes[state.pos + index], literal[index], fold))
+        for (let index = 0; ok && index < literal.length; index++) {
+            // Both are in range while `ok` holds, checked above.
+            const grapheme = graphemes[state.pos + index];
+            const expected = literal[index];
+            if (
+                grapheme === undefined ||
+                expected === undefined ||
+                !foldEq(grapheme, expected, fold)
+            )
                 ok = false;
+        }
         const here = graphemes
             .slice(state.pos, state.pos + literal.length)
             .join('');
@@ -288,8 +296,7 @@ function* matchNode(
         const predicates = setMemberPredicates(node, fold);
         const here = graphemes[state.pos];
         const ok =
-            state.pos < graphemes.length &&
-            predicates.some((matches) => matches(here));
+            here !== undefined && predicates.some((matches) => matches(here));
         yield atomBeat(node, state, ok, here);
         return ok ? { pos: state.pos + 1, caps: state.caps } : null;
     }
@@ -301,9 +308,17 @@ function* matchNode(
             // A backreference: match the same text the capture matched.
             const literal = graphemesOf(capture.text);
             let ok = state.pos + literal.length <= graphemes.length;
-            for (let index = 0; ok && index < literal.length; index++)
-                if (!foldEq(graphemes[state.pos + index], literal[index], fold))
+            for (let index = 0; ok && index < literal.length; index++) {
+                // Both are in range while `ok` holds, checked above.
+                const grapheme = graphemes[state.pos + index];
+                const expected = literal[index];
+                if (
+                    grapheme === undefined ||
+                    expected === undefined ||
+                    !foldEq(grapheme, expected, fold)
+                )
                     ok = false;
+            }
             const here = graphemes
                 .slice(state.pos, state.pos + literal.length)
                 .join('');
@@ -315,7 +330,7 @@ function* matchNode(
         // Otherwise a bare named class (e.g. `linebreak`).
         const namedClass = namedClassPredicate(name);
         const here = graphemes[state.pos];
-        const ok = state.pos < graphemes.length && namedClass(here);
+        const ok = here !== undefined && namedClass(here);
         yield atomBeat(node, state, ok, here);
         return ok ? { pos: state.pos + 1, caps: state.caps } : null;
     }
@@ -473,20 +488,24 @@ function* matchSeq(
 ): Matcher {
     const parts = node.parts;
     if (parts.length === 0) return state;
-    let current = yield* matchNode(
-        parts[0] as PatternNode,
-        graphemes,
-        state,
-        fold,
-    );
+    // A `|` with no operand on one side (`|a`, `a|`) has an empty operand,
+    // which matches nothing rather than crashing the matcher.
+    const firstPart = parts[0];
+    let current =
+        firstPart instanceof PatternNode
+            ? yield* matchNode(firstPart, graphemes, state, fold)
+            : null;
     let index = 1;
     while (index < parts.length) {
         const part = parts[index];
         if (!(part instanceof PatternNode)) {
             // `|`: try the right operand from the start too and keep the longer
             // of (left chain so far, right operand). Both are rooted at `state`.
-            const right = parts[index + 1] as PatternNode;
-            const rightResult = yield* matchNode(right, graphemes, state, fold);
+            const right = parts[index + 1];
+            const rightResult =
+                right instanceof PatternNode
+                    ? yield* matchNode(right, graphemes, state, fold)
+                    : null;
             current = longer(current, rightResult);
             index += 2;
         } else {
