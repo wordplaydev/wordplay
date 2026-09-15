@@ -75,6 +75,18 @@ export const ExcludedTerms = new Map<string, string>([
     // `key` is the @Map key here, but the tutorial's keys are keyboard keys —
     // a different idea that @Key already documents.
     ['key', 'the keyboard sense, which @Key owns, dominates'],
+    // `source` and `share` name real concepts here, but their everyday senses
+    // dominate this corpus: the tutorial's "one other source of input" and "the
+    // only source of change", and the verb "to share" throughout the sharing
+    // dialog. Both stay in the glossary and stay linkable by hand; they just
+    // aren't linked automatically. Same reason `start` above is excluded.
+    ['source', 'the everyday "source of" sense dominates the tutorial'],
+    ['share', 'the verb "to share" dominates the sharing dialog'],
+    // `kit` is a published source here, but a *drum* kit throughout the music
+    // documentation — @Instrument's drums, cat, and dog are each "a kit rather
+    // than pitched". Auto-linking put a link to the publishing sense on all of
+    // them. @KitType links the word by hand, which exclusion still allows.
+    ['kit', 'the drum-kit sense dominates the music documentation'],
 ]);
 
 /**

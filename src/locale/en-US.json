@@ -103,6 +103,26 @@
             "forms": ["projects"],
             "definition": "All the files that make up one @wordplay @Program."
         },
+        "source": {
+            "word": "source",
+            "forms": ["sources"],
+            "definition": "One @code document in a @project. A @project can have more than one, and each can @share things the others @borrow."
+        },
+        "borrow": {
+            "word": "borrow",
+            "forms": ["borrows", "borrowed", "borrowing"],
+            "definition": "To use something another @Source shared, by writing ↓ and that @source’s name."
+        },
+        "share": {
+            "word": "share",
+            "forms": ["shares", "shared", "sharing"],
+            "definition": "To mark something in a @Source with ↑ so other @source files can @borrow it."
+        },
+        "kit": {
+            "word": "kit",
+            "forms": ["kits"],
+            "definition": "A @Source someone published so other people can @borrow it in their own @project."
+        },
         "code": {
             "word": "code",
             "definition": "The text you write to tell a @Program what to do."
@@ -835,7 +855,10 @@
                 "bind": "name",
                 "version": "version"
             },
-            "doc": "I borrow @Bind that are shared by other @Source in your performance — just use their name and I'll bring in their name and @value.",
+            "doc": [
+                "I @borrow @Bind that are shared by other @Source in your performance — just use their name and I'll bring in their name and @value.",
+                "Write \\↓\\ and then the name of the other @Source. That @Source has to mark what it shares with \\↑\\, like \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
             "start": "Borrowing $name from $source",
             "conflict": {
                 "KitCannotBorrow": {
@@ -2048,7 +2071,7 @@
             "description": "$name",
             "emotion": "curious",
             "doc": [
-                "I am a kit someone published. Everything it shares is reached through my name, so `colors.sunset` says which `sunset` you mean."
+                "I am a @kit someone published. Everything it shares is reached through my name, so `colors.sunset` says which `sunset` you mean."
             ]
         },
         "TableLiteral": {
@@ -7535,7 +7558,7 @@
                     "tip": "copy project to clipboard as text",
                     "label": "copy as text"
                 },
-                "addSource": "create a new @Source",
+                "addSource": "create another @Source, so you can keep data or shared code in its own file",
                 "remix": {
                     "tip": "make your own copy of this project to change",
                     "label": "remix"
@@ -8773,6 +8796,7 @@
                     "stories": "tell a story",
                     "motion": "use physics",
                     "video": "use a camera",
+                    "organizing": "organize a bigger project",
                     "gallery": "created by your fellow Wordplay directors"
                 },
                 "bookmarked": "Bookmarked",

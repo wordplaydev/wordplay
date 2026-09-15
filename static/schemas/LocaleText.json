@@ -3632,6 +3632,9 @@
                         "blocks": {
                             "$ref": "#/definitions/GlossaryText"
                         },
+                        "borrow": {
+                            "$ref": "#/definitions/GlossaryText"
+                        },
                         "cell": {
                             "$ref": "#/definitions/GlossaryText"
                         },
@@ -3683,6 +3686,9 @@
                         "key": {
                             "$ref": "#/definitions/GlossaryText"
                         },
+                        "kit": {
+                            "$ref": "#/definitions/GlossaryText"
+                        },
                         "language": {
                             "$ref": "#/definitions/GlossaryText"
                         },
@@ -3725,7 +3731,13 @@
                         "scope": {
                             "$ref": "#/definitions/GlossaryText"
                         },
+                        "share": {
+                            "$ref": "#/definitions/GlossaryText"
+                        },
                         "sideEffect": {
+                            "$ref": "#/definitions/GlossaryText"
+                        },
+                        "source": {
                             "$ref": "#/definitions/GlossaryText"
                         },
                         "stage": {
@@ -3777,6 +3789,10 @@
                         "sideEffect",
                         "abstraction",
                         "project",
+                        "source",
+                        "borrow",
+                        "share",
+                        "kit",
                         "code",
                         "act",
                         "how",
@@ -19221,6 +19237,9 @@
                                                 "music": {
                                                     "type": "string"
                                                 },
+                                                "organizing": {
+                                                    "type": "string"
+                                                },
                                                 "randomization": {
                                                     "type": "string"
                                                 },
@@ -19248,6 +19267,7 @@
                                                 "stories",
                                                 "motion",
                                                 "video",
+                                                "organizing",
                                                 "gallery"
                                             ],
                                             "type": "object"

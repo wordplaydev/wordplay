@@ -929,7 +929,8 @@
                 "choose-an-instrument",
                 "write-rhythm",
                 "layer-an-arrangement",
-                "sing-words"
+                "sing-words",
+                "split-into-sources"
             ],
             "type": "string"
         },
