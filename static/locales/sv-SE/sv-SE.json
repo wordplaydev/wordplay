@@ -7713,8 +7713,8 @@
             },
             "button": {
                 "selectOutput": "$~visa denna produktion på scenen",
-                "zoomIn": "$~Gör koden större",
-                "zoomOut": "$~Gör koden mindre",
+                "zoomIn": "$~gör koden större",
+                "zoomOut": "$~gör koden mindre",
                 "replace": "$~ersätt alla träffar",
                 "selectOutputError": "$~visa detta utdata på scenen; utvärderingen av denna källa slutade med ett fel",
                 "addView": "$~visa denna kod i en andra vy",
@@ -7805,7 +7805,7 @@
                 "nextMatch": "$~gå till nästa sökträff",
                 "insertTranslate": "$~infoga översättningssymbol",
                 "insertThis": "$~infoga den här symbolen",
-                "tab": "$~Tabb flyttar tangentbordsfokus. För att infoga en tabb, tryck $control+ $alt +Tab, använd infoga-knappen nedan eller ändra detta i inställningarna.",
+                "tab": "$~Tabb flyttar tangentbordsfokus. Vill du sätta in en tabb, använd knappen nedan, eller ändra vad Tabb gör i inställningarna.",
                 "matchDelimiter": "$~flytta markören till matchande avgränsare",
                 "insertPattern": "$~insatsmönster",
                 "insertSearch": "$~symbol för sökning efter mönster",
@@ -7825,18 +7825,19 @@
                 },
                 "selected": "$~markerade $#count[$count tecken|$count tecken]: $text",
                 "unknownPosition": "$~i koden",
-                "insertWholeNote": "$~Infoga en helnot, fyra taktslag lång",
-                "insertDottedWholeNote": "$~Infoga en punkterad helnot, sex taktslag lång",
-                "insertHalfNote": "$~Infoga en halvnot, två taktslag lång",
-                "insertDottedHalfNote": "$~Infoga en punkterad halvnot, tre taktslag lång",
-                "insertQuarterNote": "$~Infoga en fjärdedelsnot, ett taktslag lång",
-                "insertDottedQuarterNote": "$~Infoga en punkterad fjärdedelsnot, ett och ett halvt taktslag lång",
-                "insertEighthNote": "$~Infoga en åttondelsnot, ett halvt taktslag lång",
-                "insertDottedEighthNote": "$~Infoga en punkterad åttondelsnot, tre fjärdedels taktslag lång",
-                "insertSixteenthNote": "$~Infoga en sextondelsnot, en fjärdedels taktslag lång",
-                "insertDottedSixteenthNote": "$~Infoga en punkterad sextondelsnot, tre åttondels taktslag lång",
+                "insertWholeNote": "$~sätt in en helnot, fyra slag lång",
+                "insertDottedWholeNote": "$~sätt in en punkterad helnot, sex slag lång",
+                "insertHalfNote": "$~sätt in en halvnot, två slag lång",
+                "insertDottedHalfNote": "$~sätt in en punkterad halvnot, tre slag lång",
+                "insertQuarterNote": "$~sätt in en fjärdedelsnot, ett slag lång",
+                "insertDottedQuarterNote": "$~sätt in en punkterad fjärdedelsnot, ett och ett halvt slag lång",
+                "insertEighthNote": "$~sätt in en åttondelsnot, ett halvt slag lång",
+                "insertDottedEighthNote": "$~sätt in en punkterad åttondelsnot, tre fjärdedels slag lång",
+                "insertSixteenthNote": "$~sätt in en sextondelsnot, en fjärdedels slag lång",
+                "insertDottedSixteenthNote": "$~sätt in en punkterad sextondelsnot, tre åttondels slag lång",
                 "selectedNodes": "$~$#count[$count nod vald|$count noder valda], $first till $last",
-                "insertRange": "$~infoga intervallsymbol"
+                "insertRange": "$~infoga intervallsymbol",
+                "findText": "$~sök i koden"
             },
             "options": {
                 "locale": {
@@ -8085,7 +8086,7 @@
                 "forwardNode": "$~steg till nästa utvärdering av markören",
                 "forwardInput": "$~steg framåt till nästa streamingång",
                 "present": "$~till slutet",
-                "start": "$~Till början",
+                "start": "$~till början",
                 "reset": "$~starta om prestandan"
             },
             "tour": {
@@ -8840,7 +8841,34 @@
                     "moveCursor": "$~Flytta",
                     "editCode": "$~Redigera",
                     "insertCode": "$~Infoga",
-                    "debug": "$~Felsök"
+                    "debug": "$~Felsök",
+                    "format": "$~Format",
+                    "help": "$~Hjälp"
+                },
+                "column": {
+                    "symbol": "$~Symbol",
+                    "shortcut": "$~Genväg",
+                    "action": "$~Åtgärd",
+                    "change": "$~Ändra"
+                },
+                "via": {
+                    "toolbar": "$~verktygsfält",
+                    "chooser": "$~teckenväljare"
+                },
+                "change": {
+                    "on": "$~sluta ändra denna genväg",
+                    "off": "$~ändra denna genväg"
+                },
+                "capture": "$~tryck på de tangenter du vill använda",
+                "reset": "$~använd standardgenvägen",
+                "resetAll": "$~använd alla standardgenvägar",
+                "custom": "$~ändrad",
+                "feedback": {
+                    "bound": "$~$command är nu $shortcut",
+                    "conflict": "$~$shortcut används redan för $command",
+                    "reserved": "$~din dator reserverar $shortcut för sig själv",
+                    "unmodified": "$~en genväg behöver Control eller Alt, annars vore det bara vanlig skrivning",
+                    "reset": "$~$command har fått tillbaka sin vanliga genväg"
                 }
             },
             "feedback": {

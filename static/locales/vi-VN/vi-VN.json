@@ -7967,8 +7967,8 @@
             },
             "button": {
                 "selectOutput": "$~Hiển thị kết quả này trên sân khấu",
-                "zoomIn": "$~Làm cho mã lớn hơn",
-                "zoomOut": "$~Thu nhỏ mã nguồn",
+                "zoomIn": "$~làm cho mã số lớn hơn",
+                "zoomOut": "$~làm cho mã số nhỏ hơn",
                 "replace": "$~thay thế tất cả các kết quả khớp",
                 "selectOutputError": "$~hiển thị kết quả này trên sân khấu; việc chạy nguồn này đã kết thúc bằng một lỗi",
                 "addView": "$~hiển thị mã số này trong khung xem thứ hai",
@@ -8059,7 +8059,7 @@
                 "nextMatch": "$~chuyển đến kết quả tìm kiếm phù hợp tiếp theo",
                 "insertTranslate": "$~chèn ký hiệu dịch",
                 "insertThis": "$~chèn biểu tượng này",
-                "tab": "$~Phím Tab di chuyển con trỏ bàn phím. Để chèn tab, nhấn $control + $alt + Tab, sử dụng nút chèn bên dưới hoặc thay đổi trong cài đặt.",
+                "tab": "$~Phím Tab di chuyển tiêu điểm bàn phím. Để chèn một khoảng tab, hãy dùng nút chèn bên dưới, hoặc đổi chức năng của Tab trong phần cài đặt.",
                 "matchDelimiter": "$~Di chuyển con trỏ đến dấu phân cách phù hợp.",
                 "insertPattern": "$~chèn mẫu",
                 "insertSearch": "$~chèn biểu tượng tìm kiếm mẫu",
@@ -8079,18 +8079,19 @@
                 },
                 "selected": "$~đã chọn $#count[$count ký tự]: $text",
                 "unknownPosition": "$~trong mã số",
-                "insertWholeNote": "$~Chèn một nốt tròn, dài bốn phách",
-                "insertDottedWholeNote": "$~Chèn một nốt tròn có chấm, dài sáu phách",
-                "insertHalfNote": "$~Chèn một nốt trắng, dài hai phách",
-                "insertDottedHalfNote": "$~Chèn một nốt trắng có chấm, dài ba phách",
-                "insertQuarterNote": "$~Chèn một nốt đen, dài một phách",
-                "insertDottedQuarterNote": "$~Chèn một nốt đen có chấm, dài một phách rưỡi",
-                "insertEighthNote": "$~Chèn một nốt móc đơn, dài nửa phách",
-                "insertDottedEighthNote": "$~Chèn một nốt móc đơn có chấm, dài ba phần tư phách",
-                "insertSixteenthNote": "$~Chèn một nốt móc kép, dài một phần tư phách",
-                "insertDottedSixteenthNote": "$~Chèn một nốt móc kép có chấm, dài ba phần tám phách",
+                "insertWholeNote": "$~chèn một nốt tròn, dài bốn phách",
+                "insertDottedWholeNote": "$~chèn một nốt tròn chấm dôi, dài sáu phách",
+                "insertHalfNote": "$~chèn một nốt trắng, dài hai phách",
+                "insertDottedHalfNote": "$~chèn một nốt trắng chấm dôi, dài ba phách",
+                "insertQuarterNote": "$~chèn một nốt đen, dài một phách",
+                "insertDottedQuarterNote": "$~chèn một nốt đen chấm dôi, dài một phách rưỡi",
+                "insertEighthNote": "$~chèn một nốt móc đơn, dài nửa phách",
+                "insertDottedEighthNote": "$~chèn một nốt móc đơn chấm dôi, dài ba phần tư phách",
+                "insertSixteenthNote": "$~chèn một nốt móc kép, dài một phần tư phách",
+                "insertDottedSixteenthNote": "$~chèn một nốt móc kép chấm dôi, dài ba phần tám phách",
                 "selectedNodes": "$~Đã chọn $#count[$count nút] nút, từ $first đến $last",
-                "insertRange": "$~chèn ký hiệu khoảng"
+                "insertRange": "$~chèn ký hiệu khoảng",
+                "findText": "$~tìm kiếm trong mã số"
             },
             "error": {
                 "invalidName": "$~Đây phải là một tên chơi chữ hợp lệ.",
@@ -8332,7 +8333,7 @@
                 "forwardNode": "$~bước tiếp theo để đánh giá con trỏ",
                 "forwardInput": "$~bước tới đầu vào luồng tiếp theo",
                 "present": "$~đến cuối cùng",
-                "start": "$~Trở lại điểm khởi đầu",
+                "start": "$~về đầu",
                 "reset": "$~hiệu suất khởi động lại"
             },
             "tour": {
@@ -9124,7 +9125,34 @@
                     "moveCursor": "$~Di chuyển",
                     "editCode": "$~Biên tập",
                     "insertCode": "$~Chèn",
-                    "debug": "$~Gỡ lỗi"
+                    "debug": "$~Gỡ lỗi",
+                    "format": "$~Định dạng",
+                    "help": "$~Trợ giúp"
+                },
+                "column": {
+                    "symbol": "$~Ký hiệu",
+                    "shortcut": "$~Phím tắt",
+                    "action": "$~Hành động",
+                    "change": "$~Đổi"
+                },
+                "via": {
+                    "toolbar": "$~thanh công cụ",
+                    "chooser": "$~bộ chọn ký tự"
+                },
+                "change": {
+                    "on": "$~ngừng đổi phím tắt này",
+                    "off": "$~đổi phím tắt này"
+                },
+                "capture": "$~nhấn các phím bạn muốn",
+                "reset": "$~dùng phím tắt mặc định",
+                "resetAll": "$~dùng tất cả các phím tắt mặc định",
+                "custom": "$~đã thay đổi",
+                "feedback": {
+                    "bound": "$~$command giờ là $shortcut",
+                    "conflict": "$~$shortcut đã được dùng cho $command",
+                    "reserved": "$~máy tính của bạn giữ $shortcut cho riêng nó",
+                    "unmodified": "$~một phím tắt cần có phím Control hoặc Alt, nếu không thì chỉ là gõ chữ thôi",
+                    "reset": "$~$command đã quay lại phím tắt thường dùng của nó"
                 }
             },
             "feedback": {

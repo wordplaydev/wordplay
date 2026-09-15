@@ -7794,7 +7794,7 @@
                 "nextMatch": "$~ir a la siguiente coincidencia de búsqueda",
                 "insertTranslate": "$~insertar símbolo de traducción",
                 "insertThis": "$~insertar este símbolo",
-                "tab": "$~Tab mueve el foco del teclado. Para insertar un tabulador, presiona $control+$alt+Tab, usa el botón de insertar de abajo o cámbialo en la configuración.",
+                "tab": "$~Tab mueve el foco del teclado. Para insertar una tabulación, usa el botón de insertar de abajo, o cambia lo que hace Tab en configuración.",
                 "matchDelimiter": "$~mover el cursor al delimitador coincidente",
                 "insertPattern": "$~insertar patrón",
                 "insertSearch": "$~insertar símbolo de búsqueda de patrón",
@@ -7814,18 +7814,19 @@
                 },
                 "selected": "$~seleccionado $#count[$#count carácter|$count caracteres|$count caracteres]: $text",
                 "unknownPosition": "$~en el código",
-                "insertWholeNote": "$~insertar una redonda, de cuatro tiempos",
-                "insertDottedWholeNote": "$~insertar una redonda con puntillo, de seis tiempos",
-                "insertHalfNote": "$~insertar una blanca, de dos tiempos",
-                "insertDottedHalfNote": "$~insertar una blanca con puntillo, de tres tiempos",
-                "insertQuarterNote": "$~insertar una negra, de un tiempo",
-                "insertDottedQuarterNote": "$~insertar una negra con puntillo, de un tiempo y medio",
-                "insertEighthNote": "$~insertar una corchea, de medio tiempo",
-                "insertDottedEighthNote": "$~insertar una corchea con puntillo, de tres cuartos de tiempo",
-                "insertSixteenthNote": "$~insertar una semicorchea, de un cuarto de tiempo",
-                "insertDottedSixteenthNote": "$~insertar una semicorchea con puntillo, de tres octavos de tiempo",
+                "insertWholeNote": "$~insertar una redonda, de cuatro tiempos de duración",
+                "insertDottedWholeNote": "$~insertar una redonda con puntillo, de seis tiempos de duración",
+                "insertHalfNote": "$~insertar una blanca, de dos tiempos de duración",
+                "insertDottedHalfNote": "$~insertar una blanca con puntillo, de tres tiempos de duración",
+                "insertQuarterNote": "$~insertar una negra, de un tiempo de duración",
+                "insertDottedQuarterNote": "$~insertar una negra con puntillo, de un tiempo y medio de duración",
+                "insertEighthNote": "$~insertar una corchea, de medio tiempo de duración",
+                "insertDottedEighthNote": "$~insertar una corchea con puntillo, de tres cuartos de tiempo de duración",
+                "insertSixteenthNote": "$~insertar una semicorchea, de un cuarto de tiempo de duración",
+                "insertDottedSixteenthNote": "$~insertar una semicorchea con puntillo, de tres octavos de tiempo de duración",
                 "selectedNodes": "$~$#count[$#count nodo seleccionado|$count nodos seleccionados|$count nodos seleccionados], de $first a $last",
-                "insertRange": "$~insertar símbolo de rango"
+                "insertRange": "$~insertar símbolo de rango",
+                "findText": "$~buscar en el código"
             },
             "options": {
                 "locale": {
@@ -8074,7 +8075,7 @@
                 "forwardNode": "$~ir a la siguiente evaluación del cursor",
                 "forwardInput": "avanzar a la siguiente entrada del flujo",
                 "present": "$~hasta el final",
-                "start": "$~Hasta el inicio",
+                "start": "$~al principio",
                 "reset": "reiniciar la actuación"
             },
             "tour": {
@@ -8835,7 +8836,34 @@
                     "moveCursor": "Mover",
                     "editCode": "Editar",
                     "insertCode": "Insertar",
-                    "debug": "Depurar"
+                    "debug": "Depurar",
+                    "format": "$~Formato",
+                    "help": "$~Ayuda"
+                },
+                "column": {
+                    "symbol": "$~Símbolo",
+                    "shortcut": "$~Atajo",
+                    "action": "$~Acción",
+                    "change": "$~Cambiar"
+                },
+                "via": {
+                    "toolbar": "$~barra de herramientas",
+                    "chooser": "$~selector de caracteres"
+                },
+                "change": {
+                    "on": "$~dejar de cambiar este atajo",
+                    "off": "$~cambiar este atajo"
+                },
+                "capture": "$~presiona las teclas que quieras",
+                "reset": "$~usar el atajo predeterminado",
+                "resetAll": "$~usar todos los atajos predeterminados",
+                "custom": "$~cambiado",
+                "feedback": {
+                    "bound": "$~$command ahora es $shortcut",
+                    "conflict": "$~$shortcut ya hace $command",
+                    "reserved": "$~tu computadora reserva $shortcut para sí misma",
+                    "unmodified": "$~un atajo necesita Control o Alt, o sería solo escribir",
+                    "reset": "$~$command volvió a su atajo habitual"
                 }
             },
             "feedback": {

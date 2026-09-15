@@ -779,6 +779,9 @@ type UITexts = {
             matchDelimiter: string;
             /** [plain] Select the whole program */
             selectAll: string;
+            /** [plain] Open the editor's search field. Distinct from `search`,
+             *  which labels the character chooser's own search. */
+            findText: string;
             /** [plain] Move cursor to the next search match */
             nextMatch: string;
             /** [plain] Increment the literal at the cursor */
@@ -905,8 +908,8 @@ type UITexts = {
             elide: string;
             /** [plain] Large deletion notification */
             largeDelete: string;
-            /** [plain] Notice shown when Tab is pressed and tab-inserts-tab is off, explaining how to insert a tab. $control and $alt are the platform-specific Control/Command and Alt/Option modifier labels. */
-            tab: Template<['control', 'alt']>;
+            /** [plain] Notice shown when Tab is pressed and tab-inserts-tab is off, explaining how to insert a tab. */
+            tab: string;
             /** Explanations for why something isn't editable */
             ignored: {
                 /** [plain] The source is not editable */
@@ -2339,6 +2342,56 @@ type UITexts = {
                 insertCode: string;
                 /** [plain] Subheader for shortcuts related to debugging/evaluation */
                 debug: string;
+                /** [plain] Subheader for shortcuts that write formatted text in a documentation or chat editor */
+                format: string;
+                /** [plain] Subheader for shortcuts that open help */
+                help: string;
+            };
+            /** Column headers for the table of shortcuts */
+            column: {
+                /** [plain] Column header for a command's icon */
+                symbol: string;
+                /** [plain] Column header for a command's keyboard shortcut */
+                shortcut: string;
+                /** [plain] Column header for what a command does */
+                action: string;
+                /** [plain] Column header for the controls that change a shortcut */
+                change: string;
+            };
+            /** Start and stop recording a new shortcut for one command */
+            change: ToggleText;
+            /** [plain] Shown in place of the shortcut while recording one */
+            capture: string;
+            /** [plain] Put one command back on its default shortcut */
+            reset: string;
+            /** [plain] Put every command back on its default shortcut */
+            resetAll: string;
+            /** [plain] Marks a shortcut the creator changed */
+            custom: string;
+            /** What a creator hears when they change a shortcut. Announced
+             *  rather than shown alone, since the dialog is operated by keyboard
+             *  and a refusal that only appears visually reads as nothing
+             *  happening. */
+            feedback: {
+                /** [plain] A shortcut was set. $command names the command, $shortcut the keys. */
+                bound: Template<['command', 'shortcut']>;
+                /** [plain] Refused: another command already answers to it. $shortcut the keys, $command the command holding them. */
+                conflict: Template<['shortcut', 'command']>;
+                /** [plain] Refused: the operating system or browser takes these keys first. $shortcut names them. */
+                reserved: Template<['shortcut']>;
+                /** [plain] Refused: a shortcut needs Control or Alt, or it would be ordinary typing */
+                unmodified: string;
+                /** [plain] A command was put back on its default. $command names it. */
+                reset: Template<['command']>;
+            };
+            /** Where to find a command that has no keyboard shortcut, shown in
+             *  place of one. A keyboard-only reader is otherwise told only that
+             *  there is no shortcut, which leaves them stuck. */
+            via: {
+                /** [plain] The command has a button on a toolbar */
+                toolbar: string;
+                /** [plain] The command is offered by the character chooser below the editor */
+                chooser: string;
             };
         };
         /** The feedback dialog */

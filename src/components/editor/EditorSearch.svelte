@@ -78,11 +78,14 @@
     onkeydown={(event) => event.stopPropagation()}
     onkeydowncapture={(event) => {
         const control = event.metaKey || event.ctrlKey;
-        if (control && event.code === 'KeyF') {
+        // Keyed by the character, like the commands these duplicate, so the
+        // chord lands on the layout's own F and G rather than QWERTY's.
+        const key = event.key.toLowerCase();
+        if (control && key === 'f') {
             event.preventDefault();
             event.stopPropagation();
             active = !active;
-        } else if (control && event.code === 'KeyG') {
+        } else if (control && key === 'g') {
             event.preventDefault();
             event.stopPropagation();
             next();

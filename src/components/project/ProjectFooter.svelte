@@ -13,6 +13,11 @@
         ExitFullscreen,
         ShowKeyboardHelp,
     } from '@components/editor/commands/Commands';
+    import {
+        toAriaKeyshortcuts,
+        toShortcut,
+    } from '@components/editor/commands/shortcuts';
+    import { ShortcutsDialogID } from '@components/widgets/dialogIDs';
     import Checkpoints from '@components/project/Checkpoints.svelte';
     import type { CheckpointAnchor } from '@components/project/checkpoints';
     import CopyProjectButton from '@components/project/CopyProjectButton.svelte';
@@ -276,12 +281,14 @@
 {#snippet shortcutsItem()}
     <span data-uiid="shortcutsDialog"
         ><Dialog
-            id="shortcuts"
+            id={ShortcutsDialogID}
             header={(l) => l.ui.dialog.help.header}
             explanation={(l) => l.ui.dialog.help.explanation}
             button={{
                 tip: ShowKeyboardHelp.description,
                 icon: ShowKeyboardHelp.symbol,
+                shortcut: toShortcut(ShowKeyboardHelp),
+                ariaShortcut: toAriaKeyshortcuts(ShowKeyboardHelp),
             }}><Shortcuts /></Dialog
         ></span
     >

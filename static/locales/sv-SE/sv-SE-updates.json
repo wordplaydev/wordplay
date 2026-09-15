@@ -978,6 +978,12 @@
         "ea85f668a42b7": "$~Ett galleri eller kit som en moderator säger nej till förblir nu så, i stället för att genast läggas tillbaka i könlistan.",
         "e3c78159889be": "$~En kurator som får veta om ett rapporterat projekt eller galleri kan nu faktiskt hitta det i sin granskningslista.",
         "e5beb26ab9e99": "$~Om du anger en e-postadress kan Wordplay nu skicka e-post till dig när något händer som du vill veta om, som ett beslut om något du har gjort. Du väljer själv vilka typer av meddelanden du vill få på din profilsida.",
-        "e83581303f404": "$~Om du granskar saker – för att du modererar, eller för att du sköter ett galleri – finns det nu en länk till din granskningslista på startsidan, i stället för att den bara syns i dina notiser."
+        "e83581303f404": "$~Om du granskar saker – för att du modererar, eller för att du sköter ett galleri – finns det nu en länk till din granskningslista på startsidan, i stället för att den bara syns i dina notiser.",
+        "e951c6f0b07aa": "$~Nu kan du ändra alla tangentbordsgenvägar till tangenter som ditt tangentbord kan nå, och dina val följer med dig till alla datorer du loggar in på. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "e0277e5dfc455": "$~Vi rättade fyra genvägar som aldrig fungerade: de för ∆, ≥, ljus text, och gör om medan du ritar ett tecken. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "eaf77bdd06a6e": "$~Genvägen för att visa listan med genvägar öppnar den nu.",
+        "e15065ca4cd91": "$~Att flytta en fönsterruta med piltangenterna kör inte längre ditt program samtidigt.",
+        "ec2a904d11589": "$~Vissa genvägar flyttades till tangenter som Windows, Chromebooks och Linux inte reserverar för sig själva. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "eb770841e3ff7": "$~Listan med genvägar visar nu alla kommandon, inklusive de utan genväg och var du kan hitta dem istället. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
     }
 }

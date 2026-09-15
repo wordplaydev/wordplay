@@ -20,3 +20,8 @@ export const LocaleDialogID = 'locale';
  *  can be documented in the code, or the source can stop being published, and only the
  *  second of those lives outside it. */
 export const ShareDialogID = 'share';
+
+/** The project's keyboard shortcut reference, which the ShowKeyboardHelp command opens.
+ *  The command used to toggle a state variable in ProjectView that nothing rendered, so
+ *  its chord did nothing at all; the dialog is driven by the URL, like the three above. */
+export const ShortcutsDialogID = 'shortcuts';

@@ -8045,7 +8045,7 @@
                 "nextMatch": "$~עבור אל התאמת החיפוש הבאה",
                 "insertTranslate": "$~הכנס סמל תרגום",
                 "insertThis": "$~הכנס את הסמל הזה",
-                "tab": "$~Tab מזיז את המיקוד במקלדת. כדי להוסיף Tab, לחצו $control+ $alt +Tab, השתמשו בלחצן הוספה למטה, או שנו זאת בהגדרות.",
+                "tab": "$~מקש Tab מזיז את המיקוד של המקלדת. כדי להוסיף טאב, השתמש בכפתור ההוספה למטה, או שנה את פעולת ה-Tab בהגדרות.",
                 "matchDelimiter": "$~הזזת הסמן למפריד התואם",
                 "insertPattern": "$~תבנית הכנס",
                 "insertSearch": "$~סמל חיפוש תבנית הכנס",
@@ -8065,18 +8065,19 @@
                 },
                 "selected": "$~נבחרו $#count[תו אחד|$count תווים|$count תווים]: $text",
                 "unknownPosition": "$~בקוד",
-                "insertWholeNote": "$~הוסף תו שלם, באורך ארבעה פעימות",
-                "insertDottedWholeNote": "$~הוסף תו שלם עם נקודה, באורך שש פעימות",
+                "insertWholeNote": "$~הוסף תו שלם, באורך ארבע פעימות",
+                "insertDottedWholeNote": "$~הוסף תו שלם מנוקד, באורך שש פעימות",
                 "insertHalfNote": "$~הוסף חצי תו, באורך שתי פעימות",
-                "insertDottedHalfNote": "$~הוסף חצי תו עם נקודה, באורך שלוש פעימות",
+                "insertDottedHalfNote": "$~הוסף חצי תו מנוקד, באורך שלוש פעימות",
                 "insertQuarterNote": "$~הוסף רבע תו, באורך פעימה אחת",
-                "insertDottedQuarterNote": "$~הוסף רבע תו עם נקודה, באורך פעימה וחצי",
-                "insertEighthNote": "$~הוסף שמינית, באורך חצי פעימה",
-                "insertDottedEighthNote": "$~הוסף שמינית עם נקודה, באורך שלושה רבעי פעימה",
-                "insertSixteenthNote": "$~הוסף שש־עשרה, באורך רבע פעימה",
-                "insertDottedSixteenthNote": "$~הוסף שש־עשרה עם נקודה, באורך שלוש שמיניות של פעימה",
+                "insertDottedQuarterNote": "$~הוסף רבע תו מנוקד, באורך פעימה וחצי",
+                "insertEighthNote": "$~הוסף שמינית תו, באורך חצי פעימה",
+                "insertDottedEighthNote": "$~הוסף שמינית תו מנוקדת, באורך שלושת רבעי פעימה",
+                "insertSixteenthNote": "$~הוסף שש עשרה תו, באורך רבע פעימה",
+                "insertDottedSixteenthNote": "$~הוסף שש עשרה תו מנוקד, באורך שלושה שמיניות פעימה",
                 "selectedNodes": "$~$#count[נבחר צומת אחד ($#count)|נבחרו שני צמתים ($count)|נבחרו $count צמתים] מ־$first עד $last",
-                "insertRange": "$~הוסף סמל טווח"
+                "insertRange": "$~הוסף סמל טווח",
+                "findText": "$~חפש בקוד"
             },
             "error": {
                 "invalidName": "$~זה חייב להיות שם חוקי של משחק מילים.",
@@ -8318,7 +8319,7 @@
                 "forwardNode": "$~שלב להערכה הבאה של הסמן",
                 "forwardInput": "$~מעבר קדימה לקלט הזרם הבא",
                 "present": "$~עד הסוף",
-                "start": "$~להתחלה",
+                "start": "$~אל ההתחלה",
                 "reset": "$~ביצועי הפעלה מחדש"
             },
             "tour": {
@@ -9111,7 +9112,34 @@
                     "moveCursor": "$~מַהֲלָך",
                     "editCode": "$~לַעֲרוֹך",
                     "insertCode": "$~לְהַכנִיס",
-                    "debug": "$~לְנַפּוֹת"
+                    "debug": "$~לְנַפּוֹת",
+                    "format": "$~פורמט",
+                    "help": "$~עזרה"
+                },
+                "column": {
+                    "symbol": "$~סמל",
+                    "shortcut": "$~קיצור דרך",
+                    "action": "$~פעולה",
+                    "change": "$~שנה"
+                },
+                "via": {
+                    "toolbar": "$~סרגל כלים",
+                    "chooser": "$~בורר תווים"
+                },
+                "change": {
+                    "on": "$~הפסק לשנות את קיצור הדרך הזה",
+                    "off": "$~שנה את קיצור הדרך הזה"
+                },
+                "capture": "$~לחץ על המקשים שאתה רוצה",
+                "reset": "$~השתמש בקיצור הדרך הרגיל",
+                "resetAll": "$~השתמש בכל קיצורי הדרך הרגילים",
+                "custom": "$~שונה",
+                "feedback": {
+                    "bound": "$~$command הוא כעת $shortcut",
+                    "conflict": "$~$shortcut כבר משמש עבור $command",
+                    "reserved": "$~המחשב שלך שומר את $shortcut לעצמו",
+                    "unmodified": "$~קיצור דרך חייב לכלול Control או Alt, אחרת זו תהיה סתם הקלדה",
+                    "reset": "$~$command חזר לקיצור הדרך הרגיל שלו"
                 }
             },
             "feedback": {

@@ -978,6 +978,12 @@
         "ea85f668a42b7": "$~Una galería o kit que una moderadora rechaza ahora se queda así, en lugar de volver a la fila de espera de inmediato.",
         "e3c78159889be": "$~Una curadora a quien se le avisa sobre un proyecto o galería reportado ahora sí puede encontrarlo en su lista de revisión.",
         "e5beb26ab9e99": "$~Si nos das un correo electrónico, Wordplay puede enviarte un mensaje cuando pase algo que te interese saber, como una decisión sobre algo que hiciste. Tú eliges qué tipo de mensajes quieres recibir en tu página de perfil.",
-        "e83581303f404": "$~Si revisas cosas —porque moderas, o porque curas una galería—, ahora hay un enlace a tu lista de revisión en la página de inicio, en lugar de solo en tus notificaciones."
+        "e83581303f404": "$~Si revisas cosas —porque moderas, o porque curas una galería—, ahora hay un enlace a tu lista de revisión en la página de inicio, en lugar de solo en tus notificaciones.",
+        "e951c6f0b07aa": "$~Ahora puedes cambiar cualquier atajo de teclado a teclas que tu teclado pueda alcanzar, y tus elecciones te siguen a cualquier computadora en la que inicies sesión. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "e0277e5dfc455": "$~Arreglamos cuatro atajos que nunca funcionaron: los de ∆, ≥, texto claro, y rehacer mientras se dibuja un carácter. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "eaf77bdd06a6e": "$~El atajo para mostrar la lista de atajos ahora sí la abre.",
+        "e15065ca4cd91": "$~Mover una teja de ventana con las teclas de flecha ya no avanza tu programa al mismo tiempo.",
+        "ec2a904d11589": "$~Algunos atajos cambiaron a teclas que Windows, Chromebooks y Linux no reservan para sí mismos. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "eb770841e3ff7": "$~La lista de atajos ahora muestra cada comando, incluyendo los que no tienen atajo y dónde encontrarlos en su lugar. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
     }
 }

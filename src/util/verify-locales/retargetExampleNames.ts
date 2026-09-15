@@ -26,7 +26,8 @@ import {
     getComparedTextValues,
     shouldTranslateText,
 } from '@db/projects/translatableText';
-import { canonicalizeKeyName, localizeKeyName } from '@input/Key/Key';
+import { canonicalizeKeyName } from '@input/Key/Key';
+import { localizeKeyName } from '@input/Key/keyNames';
 import { WellKnownKeys } from '@input/Key/KeyboardKeys';
 import {
     endOfNode,

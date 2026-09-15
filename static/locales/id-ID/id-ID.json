@@ -7978,8 +7978,8 @@
             },
             "button": {
                 "selectOutput": "$~Tampilkan hasil ini di atas panggung.",
-                "zoomIn": "$~Perbesar kodenya",
-                "zoomOut": "$~Perkecil ukuran kode.",
+                "zoomIn": "$~perbesar kode",
+                "zoomOut": "$~perkecil kode",
                 "replace": "$~ganti semua kecocokan",
                 "selectOutputError": "$~tampilkan output ini di panggung; evaluasi sumber ini berakhir dengan kesalahan",
                 "addView": "$~tampilkan kode ini di tampilan kedua",
@@ -8070,7 +8070,7 @@
                 "nextMatch": "$~Lanjutkan ke hasil pencarian berikutnya",
                 "insertTranslate": "$~sisipkan simbol terjemahan",
                 "insertThis": "$~sisipkan simbol ini",
-                "tab": "$~Tombol Tab memindahkan fokus keyboard. Untuk menyisipkan tab, tekan $control + $alt + Tab, gunakan tombol sisipkan di bawah, atau ubah ini di pengaturan.",
+                "tab": "$~Tab memindahkan fokus keyboard. Untuk menyisipkan tab, gunakan tombol sisip di bawah, atau ubah fungsi Tab di pengaturan.",
                 "matchDelimiter": "$~Pindahkan kursor ke pembatas yang sesuai.",
                 "insertPattern": "$~sisipkan pola",
                 "insertSearch": "$~sisipkan simbol pencarian pola",
@@ -8090,18 +8090,19 @@
                 },
                 "selected": "$~$#count[$count karakter] terpilih: $text",
                 "unknownPosition": "$~di dalam kode",
-                "insertWholeNote": "$~Sisipkan not penuh, sepanjang empat ketukan",
-                "insertDottedWholeNote": "$~Sisipkan not penuh bertitik, sepanjang enam ketukan",
-                "insertHalfNote": "$~Sisipkan not setengah, sepanjang dua ketukan",
-                "insertDottedHalfNote": "$~Sisipkan not setengah bertitik, sepanjang tiga ketukan",
-                "insertQuarterNote": "$~Sisipkan not seperempat, sepanjang satu ketukan",
-                "insertDottedQuarterNote": "$~Sisipkan not seperempat bertitik, sepanjang satu setengah ketukan",
-                "insertEighthNote": "$~Sisipkan not seperdelapan, sepanjang setengah ketukan",
-                "insertDottedEighthNote": "$~Sisipkan not seperdelapan bertitik, sepanjang tiga perempat ketukan",
-                "insertSixteenthNote": "$~Sisipkan not seperenam belas, sepanjang seperempat ketukan",
-                "insertDottedSixteenthNote": "$~Sisipkan not seperenam belas bertitik, sepanjang tiga perdelapan ketukan",
+                "insertWholeNote": "$~sisipkan not penuh, panjang empat ketukan",
+                "insertDottedWholeNote": "$~sisipkan not penuh bertitik, panjang enam ketukan",
+                "insertHalfNote": "$~sisipkan not setengah, panjang dua ketukan",
+                "insertDottedHalfNote": "$~sisipkan not setengah bertitik, panjang tiga ketukan",
+                "insertQuarterNote": "$~sisipkan not seperempat, panjang satu ketukan",
+                "insertDottedQuarterNote": "$~sisipkan not seperempat bertitik, panjang satu setengah ketukan",
+                "insertEighthNote": "$~sisipkan not seperdelapan, panjang setengah ketukan",
+                "insertDottedEighthNote": "$~sisipkan not seperdelapan bertitik, panjang tiga perempat ketukan",
+                "insertSixteenthNote": "$~sisipkan not seperenam belas, panjang seperempat ketukan",
+                "insertDottedSixteenthNote": "$~sisipkan not seperenam belas bertitik, panjang tiga perdelapan ketukan",
                 "selectedNodes": "$~$#count[$count node dipilih]|, $first sampai $last",
-                "insertRange": "$~sisipkan simbol rentang"
+                "insertRange": "$~sisipkan simbol rentang",
+                "findText": "$~cari di kode"
             },
             "error": {
                 "invalidName": "$~Ini harus berupa nama Wordplay yang valid.",
@@ -8342,7 +8343,7 @@
                 "forwardNode": "$~langkah selanjutnya untuk evaluasi kursor",
                 "forwardInput": "$~langkah maju ke input aliran berikutnya",
                 "present": "$~sampai akhir",
-                "start": "$~Ke awal",
+                "start": "$~ke awal",
                 "reset": "$~memulai ulang kinerja"
             },
             "tour": {
@@ -9140,7 +9141,34 @@
                     "moveCursor": "$~Bergerak",
                     "editCode": "$~Edit",
                     "insertCode": "$~Menyisipkan",
-                    "debug": "$~Debug"
+                    "debug": "$~Debug",
+                    "format": "$~Format",
+                    "help": "$~Bantuan"
+                },
+                "column": {
+                    "symbol": "$~Simbol",
+                    "shortcut": "$~Pintasan",
+                    "action": "$~Tindakan",
+                    "change": "$~Ubah"
+                },
+                "via": {
+                    "toolbar": "$~bilah alat",
+                    "chooser": "$~pemilih karakter"
+                },
+                "change": {
+                    "on": "$~berhenti mengubah pintasan ini",
+                    "off": "$~ubah pintasan ini"
+                },
+                "capture": "$~tekan tombol yang kamu inginkan",
+                "reset": "$~gunakan pintasan bawaan",
+                "resetAll": "$~gunakan semua pintasan bawaan",
+                "custom": "$~diubah",
+                "feedback": {
+                    "bound": "$~$command sekarang $shortcut",
+                    "conflict": "$~$shortcut sudah digunakan untuk $command",
+                    "reserved": "$~komputermu memakai $shortcut untuk dirinya sendiri",
+                    "unmodified": "$~pintasan harus memakai Control atau Alt, kalau tidak itu hanya mengetik biasa",
+                    "reset": "$~$command kembali ke pintasan biasanya"
                 }
             },
             "feedback": {

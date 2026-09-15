@@ -71,6 +71,11 @@ import {
 } from '@db/settings/MusicSettings';
 import { SaySetting } from '@db/settings/SaySetting';
 import { SpaceSetting } from '@db/settings/SpaceSetting';
+import {
+    KeybindingsSetting,
+    type Chord,
+    type Keybindings,
+} from '@db/settings/KeybindingsSetting';
 import { TabSetting } from '@db/settings/TabSetting';
 import {
     TutorialSetting,
@@ -207,8 +212,25 @@ export type SettingsSchemaV9 = Omit<SettingsSchemaV8, 'v'> & {
     emailNotifications?: EmailNotificationSettings;
 };
 
-export type SettingsSchema = SettingsSchemaV9;
-const SettingsSchemaLatestVersion = 9;
+/**
+ * v10 adds the creator's keyboard shortcut overrides.
+ *
+ * Synced rather than device-local because a keybinding is a fact about the
+ * person — the layout they type on, the hand they have — and the creators this
+ * was built for share school Chromebooks, where a device-local map is worthless.
+ *
+ * Optional for the reason every field since v6 is: a document written before
+ * this genuinely lacks it, and filling in a default during the upgrade would let
+ * the first sync after this ships erase bindings set on another device.
+ */
+export type SettingsSchemaV10 = Omit<SettingsSchemaV9, 'v'> & {
+    v: 10;
+    /** Keyboard shortcut overrides, by command id. */
+    keybindings?: Keybindings;
+};
+
+export type SettingsSchema = SettingsSchemaV10;
+const SettingsSchemaLatestVersion = 10;
 
 type SettingsSchemaUnknown =
     | SettingsSchemaV1
@@ -219,6 +241,7 @@ type SettingsSchemaUnknown =
     | SettingsSchemaV6
     | SettingsSchemaV7
     | SettingsSchemaV8
+    | SettingsSchemaV9
     | SettingsSchema;
 
 /**
@@ -284,6 +307,10 @@ function upgradeSettings(settings: SettingsSchemaUnknown): SettingsSchema {
             // v8→v9: nothing to fill in — an absent `emailNotifications` means
             // "never chosen", which the defaults answer.
             return upgradeSettings({ ...settings, v: 9 });
+        case 9:
+            // v9→v10: nothing to fill in — an absent `keybindings` means the
+            // creator has overridden nothing, which is the empty map.
+            return upgradeSettings({ ...settings, v: 10 });
         case SettingsSchemaLatestVersion:
             return settings;
         default:
@@ -328,6 +355,7 @@ export default class SettingsDatabase {
         updates: UpdatesSetting,
         say: SaySetting,
         tab: TabSetting,
+        keybindings: KeybindingsSetting,
         musicVisualization: MusicVisualizationSetting,
         musicVolume: MusicVolumeSetting,
         musicDucking: MusicDuckingSetting,
@@ -444,6 +472,8 @@ export default class SettingsDatabase {
                     this.settings.emailNotifications,
                     data.emailNotifications,
                 );
+            if (data.keybindings !== undefined)
+                this.setValidated(this.settings.keybindings, data.keybindings);
         }
     }
 
@@ -913,6 +943,26 @@ export default class SettingsDatabase {
         return this.settings.tab.get();
     }
 
+    /** Bind one command to a chord, or pass undefined to put it back on its
+     *  default. Writes the whole map, which is what makes the store's identity
+     *  a sound memo key for the matcher (see `bindCommands`). */
+    setKeybinding(id: string, chord: Chord | null | undefined) {
+        const current = this.settings.keybindings.get();
+        const revised: Keybindings = { ...current };
+        if (chord === undefined) delete revised[id];
+        else revised[id] = chord;
+        this.settings.keybindings.set(this.database, revised);
+    }
+
+    /** Put every command back on its default. */
+    resetKeybindings() {
+        this.settings.keybindings.set(this.database, {});
+    }
+
+    getKeybindings() {
+        return this.settings.keybindings.get();
+    }
+
     setBlocks(on: boolean) {
         this.settings.blocks.set(this.database, on);
     }
@@ -980,6 +1030,7 @@ export default class SettingsDatabase {
             lines: this.settings.lines.get(),
             wrap: this.settings.wrap.get(),
             space: this.settings.space.get(),
+            keybindings: this.settings.keybindings.get(),
         };
     }
 }

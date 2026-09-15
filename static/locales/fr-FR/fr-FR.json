@@ -7709,8 +7709,8 @@
             },
             "button": {
                 "selectOutput": "$~montrer cette sortie sur scène",
-                "zoomIn": "$~Agrandir le code",
-                "zoomOut": "$~Réduisez la taille du code.",
+                "zoomIn": "$~agrandir le code",
+                "zoomOut": "$~rapetisser le code",
                 "replace": "$~remplacer toutes les correspondances",
                 "selectOutputError": "$~montrer cette sortie sur la scène ; l'évaluation de cette source s'est terminée par une erreur",
                 "addView": "$~afficher ce code dans une deuxième vue",
@@ -7801,7 +7801,7 @@
                 "nextMatch": "$~passer au résultat de recherche suivant",
                 "insertTranslate": "$~insérer le symbole de traduction",
                 "insertThis": "$~insérer ce symbole",
-                "tab": "$~La touche Tabulation permet de déplacer le focus clavier. Pour insérer une tabulation, appuyez sur $control+ $alt +Tab, utilisez le bouton Insérer ci-dessous ou modifiez ce paramètre.",
+                "tab": "$~La touche Tab déplace le focus du clavier. Pour insérer une tabulation, utilise le bouton d'insertion ci-dessous, ou change ce que fait Tab dans les paramètres.",
                 "matchDelimiter": "$~Déplacer le curseur jusqu'au délimiteur correspondant",
                 "insertPattern": "$~insérer un motif",
                 "insertSearch": "$~insérer le symbole de recherche de motif",
@@ -7821,18 +7821,19 @@
                 },
                 "selected": "$~$#count[$#count caractère sélectionné|$count caractères sélectionnés|$count caractères sélectionnés] : $text",
                 "unknownPosition": "$~dans le code",
-                "insertWholeNote": "$~Insérer une ronde, longue de quatre temps",
-                "insertDottedWholeNote": "$~Insérer une ronde pointée, longue de six temps",
-                "insertHalfNote": "$~Insérer une blanche, longue de deux temps",
-                "insertDottedHalfNote": "$~Insérer une blanche pointée, longue de trois temps",
-                "insertQuarterNote": "$~Insérer une noire, longue d'un temps",
-                "insertDottedQuarterNote": "$~Insérer une noire pointée, longue d'un temps et demi",
-                "insertEighthNote": "$~Insérer une croche, longue d'un demi-temps",
-                "insertDottedEighthNote": "$~Insérer une croche pointée, longue de trois quarts de temps",
-                "insertSixteenthNote": "$~Insérer une double croche, longue d'un quart de temps",
-                "insertDottedSixteenthNote": "$~Insérer une double croche pointée, longue de trois huitièmes de temps",
+                "insertWholeNote": "$~insérer une ronde, longue de quatre temps",
+                "insertDottedWholeNote": "$~insérer une ronde pointée, longue de six temps",
+                "insertHalfNote": "$~insérer une blanche, longue de deux temps",
+                "insertDottedHalfNote": "$~insérer une blanche pointée, longue de trois temps",
+                "insertQuarterNote": "$~insérer une noire, longue d'un temps",
+                "insertDottedQuarterNote": "$~insérer une noire pointée, longue d'un temps et demi",
+                "insertEighthNote": "$~insérer une croche, longue d'un demi-temps",
+                "insertDottedEighthNote": "$~insérer une croche pointée, longue de trois quarts de temps",
+                "insertSixteenthNote": "$~insérer une double croche, longue d'un quart de temps",
+                "insertDottedSixteenthNote": "$~insérer une double croche pointée, longue de trois huitièmes de temps",
                 "selectedNodes": "$~$#count[$#count nœud sélectionné|$count nœuds sélectionnés|$count nœuds sélectionnés], de $first à $last",
-                "insertRange": "$~insérer le symbole de plage"
+                "insertRange": "$~insérer le symbole de plage",
+                "findText": "$~chercher dans le code"
             },
             "options": {
                 "locale": {
@@ -8081,7 +8082,7 @@
                 "forwardNode": "$~étape vers l'évaluation suivante du curseur",
                 "forwardInput": "$~avancer vers le flux d'entrée suivant",
                 "present": "$~jusqu'à la fin",
-                "start": "$~Au début",
+                "start": "$~vers le début",
                 "reset": "$~redémarrer les performances"
             },
             "tour": {
@@ -8842,7 +8843,34 @@
                     "moveCursor": "$~Se déplacer",
                     "editCode": "$~Modifier",
                     "insertCode": "$~Insérer",
-                    "debug": "$~Déboguer"
+                    "debug": "$~Déboguer",
+                    "format": "$~Format",
+                    "help": "$~Aide"
+                },
+                "column": {
+                    "symbol": "$~Symbole",
+                    "shortcut": "$~Raccourci",
+                    "action": "$~Action",
+                    "change": "$~Changer"
+                },
+                "via": {
+                    "toolbar": "$~barre d'outils",
+                    "chooser": "$~sélecteur de caractères"
+                },
+                "change": {
+                    "on": "$~arrêter de modifier ce raccourci",
+                    "off": "$~modifier ce raccourci"
+                },
+                "capture": "$~appuie sur les touches que tu veux",
+                "reset": "$~utiliser le raccourci par défaut",
+                "resetAll": "$~utiliser tous les raccourcis par défaut",
+                "custom": "$~changé",
+                "feedback": {
+                    "bound": "$~$command est maintenant $shortcut",
+                    "conflict": "$~$shortcut fait déjà $command",
+                    "reserved": "$~ton ordinateur garde $shortcut pour lui-même",
+                    "unmodified": "$~un raccourci a besoin de Contrôle ou Alt, sinon ce serait juste écrire du texte",
+                    "reset": "$~$command retrouve son raccourci habituel"
                 }
             },
             "feedback": {

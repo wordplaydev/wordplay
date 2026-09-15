@@ -69,6 +69,9 @@ const Probes: Probe[] = [
     probe('lines', Settings.settings.lines, false),
     probe('wrap', Settings.settings.wrap, false),
     probe('space', Settings.settings.space, true),
+    probe('keybindings', Settings.settings.keybindings, {
+        undo: { key: 'u', control: true },
+    }),
 ];
 
 /** The settings that claim to follow the creator's account. */

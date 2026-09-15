@@ -7692,8 +7692,8 @@
             },
             "button": {
                 "selectOutput": "$~이 출력을 무대에 표시",
-                "zoomIn": "$~코드 크기를 늘리세요",
-                "zoomOut": "$~코드 크기를 줄이세요",
+                "zoomIn": "$~코드를 더 크게 만들기",
+                "zoomOut": "$~코드를 더 작게 만들기",
                 "replace": "$~모든 일치 항목을 바꿉니다",
                 "selectOutputError": "$~이 출력을 무대에 보여줍니다. 이 소스의 평가가 오류로 끝났습니다",
                 "addView": "$~이 코드를 두 번째 보기로 보여주기",
@@ -7784,7 +7784,7 @@
                 "nextMatch": "$~다음 검색 결과로 이동",
                 "insertTranslate": "$~번역 기호 삽입",
                 "insertThis": "$~이 기호를 삽입하세요",
-                "tab": "$~Tab 키를 누르면 키보드 포커스가 이동합니다. 탭을 삽입하려면 $control + $alt + Tab 키를 누르거나, 아래의 삽입 버튼을 사용하거나, 설정에서 이 설정을 변경하세요.",
+                "tab": "$~탭 키는 키보드 초점을 이동시킵니다. 탭 문자를 넣으려면 아래의 삽입 버튼을 쓰거나, 설정에서 탭 키의 동작을 바꾸세요.",
                 "matchDelimiter": "$~커서를 일치하는 구분 기호로 이동합니다.",
                 "insertPattern": "$~패턴 삽입",
                 "insertSearch": "$~패턴 검색 기호 삽입",
@@ -7804,18 +7804,19 @@
                 },
                 "selected": "$~선택된 $#count[글자 $count개]: $text",
                 "unknownPosition": "$~코드 안에서",
-                "insertWholeNote": "$~온음표를 넣어요. 네 박자 길이예요",
-                "insertDottedWholeNote": "$~점 온음표를 넣어요. 여섯 박자 길이예요",
-                "insertHalfNote": "$~이분음표를 넣어요. 두 박자 길이예요",
-                "insertDottedHalfNote": "$~점 이분음표를 넣어요. 세 박자 길이예요",
-                "insertQuarterNote": "$~사분음표를 넣어요. 한 박자 길이예요",
-                "insertDottedQuarterNote": "$~점 사분음표를 넣어요. 한 박자 반 길이예요",
-                "insertEighthNote": "$~팔분음표를 넣어요. 반 박자 길이예요",
-                "insertDottedEighthNote": "$~점 팔분음표를 넣어요. 사분의 삼 박자 길이예요",
-                "insertSixteenthNote": "$~십육분음표를 넣어요. 사분의 일 박자 길이예요",
-                "insertDottedSixteenthNote": "$~점 십육분음표를 넣어요. 팔분의 삼 박자 길이예요",
+                "insertWholeNote": "$~온음표 삽입하기, 길이는 4박자",
+                "insertDottedWholeNote": "$~점 온음표 삽입하기, 길이는 6박자",
+                "insertHalfNote": "$~2분음표 삽입하기, 길이는 2박자",
+                "insertDottedHalfNote": "$~점 2분음표 삽입하기, 길이는 3박자",
+                "insertQuarterNote": "$~4분음표 삽입하기, 길이는 1박자",
+                "insertDottedQuarterNote": "$~점 4분음표 삽입하기, 길이는 1.5박자",
+                "insertEighthNote": "$~8분음표 삽입하기, 길이는 0.5박자",
+                "insertDottedEighthNote": "$~점 8분음표 삽입하기, 길이는 0.75박자",
+                "insertSixteenthNote": "$~16분음표 삽입하기, 길이는 0.25박자",
+                "insertDottedSixteenthNote": "$~점 16분음표 삽입하기, 길이는 0.375박자",
                 "selectedNodes": "$~노드 $#count[$count개]개 선택됨, $first 부터 $last 까지",
-                "insertRange": "$~range 기호 넣기"
+                "insertRange": "$~range 기호 넣기",
+                "findText": "$~코드 검색하기"
             },
             "options": {
                 "locale": {
@@ -8814,7 +8815,34 @@
                     "moveCursor": "$~이동하다",
                     "editCode": "$~편집하다",
                     "insertCode": "$~끼워 넣다",
-                    "debug": "$~디버그"
+                    "debug": "$~디버그",
+                    "format": "$~서식",
+                    "help": "$~도움말"
+                },
+                "column": {
+                    "symbol": "$~기호",
+                    "shortcut": "$~단축키",
+                    "action": "$~동작",
+                    "change": "$~바꾸기"
+                },
+                "via": {
+                    "toolbar": "$~도구 모음",
+                    "chooser": "$~문자 선택기"
+                },
+                "change": {
+                    "on": "$~이 단축키 바꾸기 그만두기",
+                    "off": "$~이 단축키 바꾸기"
+                },
+                "capture": "$~원하는 키를 누르세요",
+                "reset": "$~기본 단축키 사용하기",
+                "resetAll": "$~모든 기본 단축키 사용하기",
+                "custom": "$~바뀜",
+                "feedback": {
+                    "bound": "$~$command 은(는) 이제 $shortcut 입니다",
+                    "conflict": "$~$shortcut 은(는) 이미 $command 에 쓰이고 있습니다",
+                    "reserved": "$~$shortcut 은(는) 컴퓨터가 쓰고 있는 단축키입니다",
+                    "unmodified": "$~단축키는 Control이나 Alt를 포함해야 합니다. 그렇지 않으면 그냥 입력이 됩니다",
+                    "reset": "$~$command 이(가) 원래 단축키로 돌아왔습니다"
                 }
             },
             "feedback": {

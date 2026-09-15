@@ -18,10 +18,6 @@
         handleKeyCommand,
         resetVisualColumnAfter,
     } from '@components/editor/commands/Commands';
-    import {
-        altKeyLabel,
-        controlKeyLabel,
-    } from '@components/editor/commands/shortcuts';
     import { resolveFeedback } from '@components/editor/commands/feedback';
     import { getInternalClipboard } from '@components/editor/commands/InternalClipboard';
     import {
@@ -2594,30 +2590,6 @@
         if (input) setKeyboardFocus(input, message);
     }
 
-    /** Move keyboard focus to the next tabbable element after `from` in document
-     *  order, emulating what plain Tab normally does. Used when the
-     *  tab-inserts-tab setting has reassigned plain Tab to inserting a tab, so the
-     *  insert-tab shortcut (Ctrl/Alt+Tab) can still move focus out of the editor. */
-    function focusNextTabbable(from: HTMLElement) {
-        const tabbable = Array.from(
-            document.querySelectorAll<HTMLElement>(
-                'a[href], button, input, textarea, select, [tabindex]',
-            ),
-        ).filter(
-            (el) =>
-                !el.hasAttribute('disabled') &&
-                el.getAttribute('tabindex') !== '-1' &&
-                el.getClientRects().length > 0,
-        );
-        const index = tabbable.indexOf(from);
-        const next = index >= 0 ? tabbable[index + 1] : undefined;
-        if (next)
-            setKeyboardFocus(
-                next,
-                'Switching focus on the insert-tab shortcut.',
-            );
-    }
-
     /** True if the last symbol was a dead key*/
     let keyWasDead = false;
     let replacePreviousWithNext = false;
@@ -2900,12 +2872,12 @@
         // always works.
         if (event.key === 'Tab' && !event.shiftKey) {
             const plain = !event.ctrlKey && !event.metaKey && !event.altKey;
-            // The insert-tab shortcut: Ctrl/Cmd+Alt+Tab (see Commands.ts).
-            const shortcut = (event.ctrlKey || event.metaKey) && event.altKey;
             if ($insertTab) {
-                // Setting on: plain Tab inserts a tab, and the shortcut — which
-                // would otherwise insert — instead moves focus to the next
-                // control, since Tab can no longer do that.
+                // Setting on: plain Tab inserts a tab. Shift+Tab is what leaves
+                // the editor — it is never touched above — since every forward
+                // Tab chord belongs to an OS or the browser: Ctrl+Alt+Tab is
+                // Windows' persistent task switcher, Alt+Tab is the OS, and
+                // Ctrl+Tab and Ctrl+Shift+Tab are the browser's.
                 if (plain && $caret) {
                     // Echo the tab by name via the live region: Tab can't
                     // default through to the textarea (its default is a focus
@@ -2925,28 +2897,16 @@
                     event.preventDefault();
                     event.stopPropagation();
                     return;
-                } else if (shortcut && input) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    focusNextTabbable(input);
-                    return;
                 }
             } else if (plain) {
                 // Setting off: plain Tab keeps its default focus switch; explain
                 // how to insert a tab instead, auto-dismissing the notice after a
-                // few seconds. Don't preventDefault, so focus still moves. The
-                // Ctrl/Alt+Tab insert shortcut falls through to its command below.
+                // few seconds. Don't preventDefault, so focus still moves.
                 notify?.set({
                     id: TabNotification,
-                    // Concretize so the Alt/Option label matches the platform,
-                    // reusing the same modifier label as keyboard-shortcut hints.
                     content: {
                         markup: $locales.concretize(
                             (l) => l.ui.source.cursor.tab,
-                            {
-                                control: controlKeyLabel(),
-                                alt: altKeyLabel(),
-                            },
                         ),
                     },
                     variant: 'info',
@@ -3003,6 +2963,10 @@
             setZoom,
             getMode: projectCommandContext?.context.getMode,
             setMode: projectCommandContext?.context.setMode,
+            // Forwarded so the shortcut-help chord resolves here rather than
+            // declining, which made the editor announce it as unhandled before
+            // the event bubbled to the window handler that could answer it.
+            help: projectCommandContext?.context.help,
         });
 
         // Don't insert symbols if composing.

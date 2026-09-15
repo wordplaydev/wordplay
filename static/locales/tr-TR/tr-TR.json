@@ -7720,8 +7720,8 @@
             },
             "button": {
                 "selectOutput": "$~bu çıktıyı sahnede göster",
-                "zoomIn": "$~Kodu daha büyük yapın",
-                "zoomOut": "$~Kodu küçültün",
+                "zoomIn": "$~kodu büyüt",
+                "zoomOut": "$~kodu küçült",
                 "replace": "$~tüm eşleşmeleri değiştir",
                 "selectOutputError": "$~bu çıktıyı sahnede göster; bu kaynağın değerlendirmesi bir hatayla bitti",
                 "addView": "$~bu kodu ikinci bir görünümde göster",
@@ -7812,7 +7812,7 @@
                 "nextMatch": "$~Sonraki arama sonucuna git",
                 "insertTranslate": "$~çeviri sembolünü ekle",
                 "insertThis": "$~Bu sembolü ekleyin",
-                "tab": "$~Tab tuşu klavye odağını değiştirir. Bir sekme eklemek için $control + $alt + Tab tuşlarına basın, aşağıdaki ekleme düğmesini kullanın veya bunu ayarlardan değiştirin.",
+                "tab": "$~Tab tuşu klavye odağını taşır. Bir sekme eklemek için aşağıdaki ekle düğmesini kullan veya ayarlardan Tab tuşunun ne yaptığını değiştir.",
                 "matchDelimiter": "$~İmleci eşleşen sınırlayıcıya taşı",
                 "insertPattern": "$~desen ekle",
                 "insertSearch": "$~desen arama sembolü ekle",
@@ -7832,18 +7832,19 @@
                 },
                 "selected": "$~seçili $#count[$count karakter|$count karakter]: $text",
                 "unknownPosition": "$~kodun içinde",
-                "insertWholeNote": "$~Altı vuruş uzunluğunda noktalı bir tam nota ekle",
-                "insertDottedWholeNote": "$~İki vuruş uzunluğunda bir yarım nota ekle",
-                "insertHalfNote": "$~Üç vuruş uzunluğunda noktalı bir yarım nota ekle",
-                "insertDottedHalfNote": "$~Bir vuruş uzunluğunda bir dörtlük nota ekle",
-                "insertQuarterNote": "$~Bir buçuk vuruş uzunluğunda noktalı bir dörtlük nota ekle",
-                "insertDottedQuarterNote": "$~Yarım vuruş uzunluğunda bir sekizlik nota ekle",
-                "insertEighthNote": "$~Dörtte üç vuruş uzunluğunda noktalı bir sekizlik nota ekle",
-                "insertDottedEighthNote": "$~Dörtte bir vuruş uzunluğunda bir on altılık nota ekle",
-                "insertSixteenthNote": "$~Sekizde üç vuruş uzunluğunda noktalı bir on altılık nota ekle",
-                "insertDottedSixteenthNote": "$~müzik ve ses yap",
+                "insertWholeNote": "$~dört vuruş uzunluğunda bir tam nota ekle",
+                "insertDottedWholeNote": "$~altı vuruş uzunluğunda noktalı bir tam nota ekle",
+                "insertHalfNote": "$~iki vuruş uzunluğunda bir yarım nota ekle",
+                "insertDottedHalfNote": "$~üç vuruş uzunluğunda noktalı bir yarım nota ekle",
+                "insertQuarterNote": "$~bir vuruş uzunluğunda bir dörtlük nota ekle",
+                "insertDottedQuarterNote": "$~bir buçuk vuruş uzunluğunda noktalı bir dörtlük nota ekle",
+                "insertEighthNote": "$~yarım vuruş uzunluğunda bir sekizlik nota ekle",
+                "insertDottedEighthNote": "$~dörtte üç vuruş uzunluğunda noktalı bir sekizlik nota ekle",
+                "insertSixteenthNote": "$~dörtte bir vuruş uzunluğunda bir on altılık nota ekle",
+                "insertDottedSixteenthNote": "$~sekizde üç vuruş uzunluğunda noktalı bir on altılık nota ekle",
                 "selectedNodes": "$~$#count[$count düğüm seçildi|$count düğüm seçildi], $first ile $last arası",
-                "insertRange": "$~aralık simgesi ekle"
+                "insertRange": "$~aralık simgesi ekle",
+                "findText": "$~kodda ara"
             },
             "options": {
                 "locale": {
@@ -8092,7 +8093,7 @@
                 "forwardNode": "$~imlecin bir sonraki değerlendirmesine doğru adım",
                 "forwardInput": "$~bir sonraki akış girişine doğru adım at",
                 "present": "$~sonuna kadar",
-                "start": "$~Başlangıca",
+                "start": "$~başlangıca",
                 "reset": "$~yeniden başlatma performansı"
             },
             "tour": {
@@ -8845,7 +8846,34 @@
                     "moveCursor": "$~Taşınmak",
                     "editCode": "$~Düzenlemek",
                     "insertCode": "$~Sokmak",
-                    "debug": "$~Hata ayıklama"
+                    "debug": "$~Hata ayıklama",
+                    "format": "$~Biçim",
+                    "help": "$~Yardım"
+                },
+                "column": {
+                    "symbol": "$~Sembol",
+                    "shortcut": "$~Kısayol",
+                    "action": "$~Eylem",
+                    "change": "$~Değiştir"
+                },
+                "via": {
+                    "toolbar": "$~araç çubuğu",
+                    "chooser": "$~karakter seçici"
+                },
+                "change": {
+                    "on": "$~bu kısayolu değiştirmeyi durdur",
+                    "off": "$~bu kısayolu değiştir"
+                },
+                "capture": "$~istediğin tuşlara bas",
+                "reset": "$~varsayılan kısayolu kullan",
+                "resetAll": "$~tüm varsayılan kısayolları kullan",
+                "custom": "$~değiştirildi",
+                "feedback": {
+                    "bound": "$~$command artık $shortcut oldu",
+                    "conflict": "$~$shortcut zaten $command için kullanılıyor",
+                    "reserved": "$~bilgisayarın $shortcut kısayolunu kendine ayırıyor",
+                    "unmodified": "$~bir kısayolda Control ya da Alt olmalı, yoksa yazı yazmaktan farksız olur",
+                    "reset": "$~$command eski kısayoluna geri döndü"
                 }
             },
             "feedback": {

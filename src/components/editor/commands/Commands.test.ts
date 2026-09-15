@@ -1,12 +1,25 @@
-import { expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import Commands, {
     Category,
+    ModeDebug,
+    ModeEdit,
+    ModePlay,
     handleKeyCommand,
     InsertSymbol,
+    keyMatches,
+    USBaseCharacter,
     Visibility,
     type Command,
     type CommandContext,
+    type Keystroke,
 } from './Commands';
+import { invalidKeys, overlappingChords, reservedChords } from './chords';
+import * as AllCommandExports from './Commands';
+import AllMarkupCommands from '@components/editor/markup/MarkupCommands';
+import { isRecord } from '@util/guards';
+import { isDefined } from '@util/nullable';
+import { readdirSync, readFileSync } from 'fs';
+import { join } from 'path';
 import { DB } from '@db/Database';
 import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
@@ -24,9 +37,14 @@ import {
     PATTERN_START_SYMBOL,
     PATTERN_WORD_SYMBOL,
     PATTERN_WORDEDGE_SYMBOL,
+    CHANGE_SYMBOL,
+    DEBUG_SYMBOL,
+    EDIT_SYMBOL,
+    PLAY_SYMBOL,
     STREAM_SYMBOL,
     THIS_SYMBOL,
     TRANSLATE_SYMBOL,
+    TYPE_SYMBOL,
 } from '@parser/Symbols';
 import type { InsertContext } from '@edit/insertContext';
 import { NoteDurations } from '@output/Music/durations';
@@ -118,13 +136,13 @@ test('commands claiming external feedback are enumerated', () => {
     expect(external.sort()).toEqual(
         [
             // focus: opening the dialog moves focus, which reads its label
-            '⌨️', // keyboard help
+            '⌨', // keyboard help (bare codepoint, not the FE0F emoji)
             // delegated: the state layer announces, so every entry point into
             // it (command, toolbar, settings dialog) sounds identical
             '⧠', // blocks/text editing mode → the blocks setting
             '▾', // autocomplete menu → the menu's own open/close
             '⏯', // toggle evaluation mode → setUIMode
-            '✏️', // edit mode → setUIMode
+            '✎', // edit mode → setUIMode (EDIT_SYMBOL, what the switcher draws)
             '⏸', // debug mode → setUIMode
             '▶', // play mode → setUIMode
             '⛶', // perform → performProject announces the fresh performance
@@ -233,6 +251,7 @@ test('an inactive command consumes its shortcut, and a reason is returned to be 
         l.ui.markup.feedback.notInExample;
     let executed = 0;
     const make = (active: NonNullable<Command['active']>): Command => ({
+        id: 'test-synthetic',
         symbol: '?',
         description: (l) => l.ui.markup.command.highlight,
         visible: Visibility.Invisible,
@@ -280,4 +299,365 @@ test('an inactive command consumes its shortcut, and a reason is returned to be 
         true,
     );
     expect(executed).toBe(1);
+});
+
+/**
+ * The four defects these close had all shipped, and three of them were the
+ * *second* instance of a class already fixed in the other command table. See
+ * chords.ts for why none of this can be an end-to-end test.
+ */
+
+test('no two commands can match one keystroke', () => {
+    expect(
+        overlappingChords(Commands),
+        'handleKeyCommand takes the first match, so the later command is unreachable',
+    ).toEqual([]);
+});
+
+test("every command's key is a character or a named key, never a code", () => {
+    expect(invalidKeys(Commands)).toEqual([]);
+});
+
+test('no command claims a chord the OS or browser takes first', () => {
+    expect(reservedChords(Commands)).toEqual([]);
+});
+
+/**
+ * The bindings that shipped dead, each kept as a case so the rule above has
+ * something concrete to point at. Every one of these is a keystroke a real
+ * browser produces and the old matcher refused.
+ */
+describe('the keystrokes that used to match nothing', () => {
+    function press(
+        key: string,
+        code: string,
+        modifiers: Partial<Keystroke> = {},
+    ): Keystroke {
+        return {
+            key,
+            code,
+            metaKey: false,
+            ctrlKey: false,
+            shiftKey: false,
+            altKey: false,
+            ...modifiers,
+        };
+    }
+
+    /** The command a keystroke reaches, by symbol, ignoring the catch-all. */
+    function matched(keystroke: Keystroke, commands: Command[]) {
+        const found = commands.find(
+            (command) =>
+                command !== InsertSymbol &&
+                (command.control === undefined ||
+                    command.control ===
+                        (keystroke.metaKey || keystroke.ctrlKey)) &&
+                (command.shift === undefined ||
+                    command.shift === keystroke.shiftKey) &&
+                (command.alt === undefined ||
+                    command.alt === keystroke.altKey) &&
+                command.key !== undefined &&
+                keyMatches(
+                    command.key,
+                    command.control === true || command.alt === true,
+                    keystroke.key,
+                    keystroke.key.toLowerCase(),
+                    USBaseCharacter[keystroke.code],
+                ),
+        );
+        return found?.symbol;
+    }
+
+    // #913: `∆` was keyed 'J', which is neither a code nor the key a real
+    // Alt+j produces. It looked like it worked on macOS only because an
+    // unmatched alt chord falls through and Option+j types ∆ by itself.
+    test('Alt+j inserts the change symbol on every platform', () => {
+        expect(matched(press('j', 'KeyJ', { altKey: true }), Commands)).toBe(
+            CHANGE_SYMBOL,
+        );
+        // macOS rewrites the character, so the physical position answers.
+        expect(matched(press('∆', 'KeyJ', { altKey: true }), Commands)).toBe(
+            CHANGE_SYMBOL,
+        );
+        // And a dead key, which is what Option+e and friends deliver.
+        expect(matched(press('Dead', 'KeyJ', { altKey: true }), Commands)).toBe(
+            CHANGE_SYMBOL,
+        );
+    });
+
+    // `≥` sat behind `·` on the identical chord and could never fire.
+    test('Alt+. inserts greater-or-equal, which used to be unreachable', () => {
+        expect(matched(press('.', 'Period', { altKey: true }), Commands)).toBe(
+            '≥',
+        );
+    });
+
+    /**
+     * The physical fallback must not reach an unmodified command. `[` and `{`
+     * are the same physical key, and both are Wordplay syntax — a list and a
+     * set — so a `[` command that answered to the position would wrap a
+     * selection in brackets every time someone opened a set.
+     */
+    test('an unmodified command answers to its character only', () => {
+        expect(matched(press('[', 'BracketLeft'), Commands)).toBe('[ ]');
+        expect(
+            matched(press('{', 'BracketLeft', { shiftKey: true }), Commands),
+        ).toBeUndefined();
+        // Same for the parenthesis, whose key shares a digit.
+        expect(
+            matched(press('(', 'Digit9', { shiftKey: true }), Commands),
+        ).toBe('( )');
+        expect(matched(press('9', 'Digit9'), Commands)).toBeUndefined();
+    });
+
+    // A shifted digit's key is punctuation, so a command keyed '8' needs the
+    // code to answer — and on AZERTY an unshifted digit needs Shift to type.
+    test('a shifted digit still reaches its command', () => {
+        expect(
+            matched(
+                press('*', 'Digit8', { ctrlKey: true, shiftKey: true }),
+                Commands,
+            ),
+        ).toBeUndefined();
+        // The type symbol no longer requires the digit to be unshifted, which
+        // is what made it untypable on layouts where digits are shifted.
+        expect(matched(press('8', 'Digit8', { altKey: true }), Commands)).toBe(
+            TYPE_SYMBOL,
+        );
+        expect(
+            matched(
+                press('*', 'Digit8', { altKey: true, shiftKey: true }),
+                Commands,
+            ),
+        ).toBe(TYPE_SYMBOL);
+    });
+});
+
+/**
+ * A symbol renders in the shortcut reference and on the command's own button, so
+ * it must be a glyph a reader can match between the two — and it must render the
+ * way the rest of the app's symbols do.
+ */
+describe('a command symbol is a glyph, not a colour emoji', () => {
+    test('no symbol carries the colour presentation selector', () => {
+        // U+FE0F forces the colour emoji font whatever family the element is
+        // given, which defeats Emoji.svelte's monochrome default. Symbols.ts
+        // declares the playback glyphs as bare codepoints for this reason; the
+        // rule is the same for every command symbol.
+        const coloured = [...Commands, ...AllMarkupCommands]
+            .filter((command) => command.symbol.includes('️'))
+            .map((command) => command.symbol);
+        expect(coloured).toEqual([]);
+    });
+
+    test('the mode commands use the glyphs their switcher draws', () => {
+        // The evaluation-mode switcher renders ProjectModeIcons; a command whose
+        // symbol is a different character names a button nobody can find by it.
+        expect(ModeEdit.symbol).toBe(EDIT_SYMBOL);
+        expect(ModeDebug.symbol).toBe(DEBUG_SYMBOL);
+        expect(ModePlay.symbol).toBe(PLAY_SYMBOL);
+    });
+});
+
+/**
+ * `Visibility.Invisible` has to mean "no button anywhere", because the shortcut
+ * reference uses it to decide whether showing a symbol helps a reader find the
+ * command or is a placeholder matching nothing. Seventeen commands were marked
+ * Invisible while a view rendered them explicitly, which is what made the
+ * reference show glyphs for buttons that don't exist.
+ */
+test('every explicitly rendered command says it has a button', () => {
+    const sources = readdirSync('src/components/project')
+        .filter((name) => name.endsWith('.svelte'))
+        .map((name) =>
+            readFileSync(join('src/components/project', name), 'utf8'),
+        )
+        .join('\n');
+    const rendered = new Set(
+        [...sources.matchAll(/command=\{([A-Z][A-Za-z]*)\}/g)]
+            .map((m) => m[1])
+            .filter(isDefined),
+    );
+    // Resolved by export name, which is what the markup names.
+    const exported: Record<string, unknown> = AllCommandExports;
+    const invisible = [...rendered].filter((name) => {
+        const command = exported[name];
+        return isRecord(command) && command.visible === Visibility.Invisible;
+    });
+    expect(
+        invisible,
+        'these are rendered as buttons but marked Invisible; use Visibility.Elsewhere',
+    ).toEqual([]);
+});
+
+/**
+ * A command's `id` is what a creator's stored keybinding override is keyed on,
+ * so renaming one silently orphans their choice — the override stays in their
+ * settings pointing at a command that no longer answers to it.
+ *
+ * Pinning the whole list is the cheapest way to make that a decision rather than
+ * an accident: a rename shows up here as a diff a reviewer has to approve, and
+ * adding a command is a one-line addition. Unknown ids are deliberately *kept*
+ * when read back (see KeybindingsSetting), so a temporarily missing command
+ * doesn't destroy a creator's other bindings.
+ */
+describe('command ids', () => {
+    const all = [...Commands, ...AllMarkupCommands];
+
+    test('are unique', () => {
+        // Borrowed commands are the same object in both tables, so a duplicate
+        // here means two different commands claimed one id.
+        const ids = [...new Set(all)].map((command) => command.id);
+        const repeated = ids.filter((id, i) => ids.indexOf(id) !== i);
+        expect(repeated).toEqual([]);
+    });
+
+    test('are kebab-case and locale-independent', () => {
+        expect(
+            all.map((c) => c.id).filter((id) => !/^[a-z][a-z0-9-]*$/.test(id)),
+        ).toEqual([]);
+    });
+
+    test('are stable', () => {
+        expect([...new Set(all.map((c) => c.id))].sort()).toEqual([
+            'backspace',
+            'copy',
+            'cut',
+            'decrement-literal',
+            'delete',
+            'elide',
+            'enter-fullscreen',
+            'enumerate',
+            'exit-fullscreen',
+            'expand-after-inline',
+            'expand-before-inline',
+            'expand-next-line',
+            'expand-prior-line',
+            'focus-cycle',
+            'focus-docs',
+            'focus-output',
+            'focus-palette',
+            'focus-source',
+            'fold-all',
+            'go-to-next-match',
+            'increment-literal',
+            'insert-borrow',
+            'insert-change',
+            'insert-convert',
+            'insert-degree',
+            'insert-docs',
+            'insert-dot',
+            'insert-dotted-eighth-note',
+            'insert-dotted-half-note',
+            'insert-dotted-quarter-note',
+            'insert-dotted-sixteenth-note',
+            'insert-dotted-whole-note',
+            'insert-eighth-note',
+            'insert-false',
+            'insert-function',
+            'insert-greater-or-equal',
+            'insert-half-note',
+            'insert-less-or-equal',
+            'insert-line',
+            'insert-none',
+            'insert-not-equal',
+            'insert-pattern',
+            'insert-pattern-ahead',
+            'insert-pattern-any',
+            'insert-pattern-behind',
+            'insert-pattern-end',
+            'insert-pattern-fold',
+            'insert-pattern-space',
+            'insert-pattern-start',
+            'insert-pattern-word',
+            'insert-pattern-word-edge',
+            'insert-previous',
+            'insert-product',
+            'insert-quarter-note',
+            'insert-quotient',
+            'insert-range',
+            'insert-search',
+            'insert-share',
+            'insert-sixteenth-note',
+            'insert-stream',
+            'insert-symbol',
+            'insert-tab',
+            'insert-table-close',
+            'insert-table-open',
+            'insert-this',
+            'insert-translate',
+            'insert-true',
+            'insert-type',
+            'insert-whole-note',
+            'line-end',
+            'line-start',
+            'markup-bold',
+            'markup-char-expand-after-inline',
+            'markup-char-expand-before-inline',
+            'markup-char-next-inline',
+            'markup-char-prior-inline',
+            'markup-continue-bullet',
+            'markup-document-source-end',
+            'markup-document-source-start',
+            'markup-extra',
+            'markup-insert-attention',
+            'markup-insert-docs',
+            'markup-insert-example',
+            'markup-insert-link',
+            'markup-italic',
+            'markup-light',
+            'markup-redo-markup',
+            'markup-toggle-bullet',
+            'markup-toggle-defect',
+            'markup-toggle-highlight',
+            'markup-toggle-mode',
+            'markup-underline',
+            'markup-undo-markup',
+            'markup-word-expand-after-inline',
+            'markup-word-expand-before-inline',
+            'markup-word-line-end',
+            'markup-word-line-start',
+            'markup-word-next-inline',
+            'markup-word-prior-inline',
+            'markup-word-select-all',
+            'match-delimiter',
+            'mode-debug',
+            'mode-edit',
+            'mode-play',
+            'mode-toggle',
+            'move-next-line',
+            'move-prior-line',
+            'next-inline',
+            'next-node',
+            'parent',
+            'parenthesize',
+            'paste',
+            'perform',
+            'prior-inline',
+            'prior-node',
+            'redo',
+            'restart',
+            'select-all',
+            'show-keyboard-help',
+            'show-menu',
+            'source-end',
+            'source-start',
+            'step-back',
+            'step-back-input',
+            'step-back-node',
+            'step-forward',
+            'step-forward-input',
+            'step-forward-node',
+            'step-out',
+            'step-to-present',
+            'step-to-start',
+            'tidy',
+            'toggle-blocks',
+            'toggle-search',
+            'undo',
+            'unfold-all',
+            'zoom-in',
+            'zoom-out',
+        ]);
+    });
 });

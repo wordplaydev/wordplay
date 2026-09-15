@@ -978,6 +978,12 @@
         "ea85f668a42b7": "$~Uma galeria ou kit a que um moderador diz não agora mantém-se assim, em vez de voltar logo para a lista de espera.",
         "e3c78159889be": "$~Um curador(a) que é avisado(a) sobre um projeto ou galeria denunciado agora consegue encontrá-lo na sua lista de revisão.",
         "e5beb26ab9e99": "$~Se indicar um email, o Wordplay pode agora enviar-lhe uma mensagem quando acontece algo que possa querer saber, como uma decisão sobre algo que criou. Pode escolher que tipos de mensagens recebe na página do seu perfil.",
-        "e83581303f404": "$~Se costuma rever conteúdos — por ser moderador(a) ou por ser curador(a) de uma galeria — agora há uma ligação para a sua lista de revisão na página inicial, e não apenas nas suas notificações."
+        "e83581303f404": "$~Se costuma rever conteúdos — por ser moderador(a) ou por ser curador(a) de uma galeria — agora há uma ligação para a sua lista de revisão na página inicial, e não apenas nas suas notificações.",
+        "e951c6f0b07aa": "$~Agora pode alterar qualquer atalho de teclado para teclas que o seu teclado consiga alcançar, e as suas escolhas seguem-no para qualquer computador em que iniciar sessão. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "e0277e5dfc455": "$~Corrigimos quatro atalhos que nunca funcionaram: os de ∆, ≥, texto claro, e refazer ao desenhar um carácter. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "eaf77bdd06a6e": "$~O atalho para mostrar a lista de atalhos agora abre-a.",
+        "e15065ca4cd91": "$~Mover um bloco de janela com as teclas de seta já não avança o programa ao mesmo tempo.",
+        "ec2a904d11589": "$~Alguns atalhos passaram para teclas que o Windows, os Chromebooks e o Linux não reservam para si próprios. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "eb770841e3ff7": "$~A lista de atalhos agora mostra todos os comandos, incluindo os que não têm atalho e onde os encontrar em alternativa. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
     }
 }

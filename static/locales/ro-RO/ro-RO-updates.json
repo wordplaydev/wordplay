@@ -978,6 +978,12 @@
         "ea85f668a42b7": "$~O galerie sau un kit refuzat de un moderator rămâne acum așa, fără să revină imediat în lista de așteptare.",
         "e3c78159889be": "$~Un curator anunțat despre un proiect sau o galerie raportate poate acum să le găsească cu adevărat în lista sa de verificare.",
         "e5beb26ab9e99": "$~Dacă dai o adresă de email, Wordplay îți poate trimite acum un email atunci când se întâmplă ceva ce ai vrea să știi, cum ar fi o decizie despre ceva ce ai făcut tu. Tu alegi ce fel de emailuri primești, din pagina ta de profil.",
-        "e83581303f404": "$~Dacă verifici lucruri — pentru că moderezi sau pentru că îngrijești o galerie — acum există un link către lista ta de verificare pe pagina principală, nu doar în notificările tale."
+        "e83581303f404": "$~Dacă verifici lucruri — pentru că moderezi sau pentru că îngrijești o galerie — acum există un link către lista ta de verificare pe pagina principală, nu doar în notificările tale.",
+        "e951c6f0b07aa": "$~Acum poți schimba orice scurtătură de la tastatură cu taste pe care tastatura ta le poate atinge, iar alegerile tale te urmează pe orice calculator pe care te conectezi. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "e0277e5dfc455": "$~Am reparat patru scurtături care nu funcționau niciodată: cele pentru ∆, ≥, text deschis la culoare și refacere în timp ce desenezi un caracter. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "eaf77bdd06a6e": "$~Scurtătura pentru afișarea listei de scurtături acum o deschide.",
+        "e15065ca4cd91": "$~Mutarea unei plăci de fereastră cu tastele săgeți nu mai avansează programul tău în același timp.",
+        "ec2a904d11589": "$~Unele scurtături au fost mutate pe taste pe care Windows, Chromebook-urile și Linux nu le păstrează pentru ele însele. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "eb770841e3ff7": "$~Lista de scurtături arată acum fiecare comandă, inclusiv cele fără scurtătură și unde le poți găsi în schimb. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
     }
 }

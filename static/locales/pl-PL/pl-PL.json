@@ -7722,8 +7722,8 @@
             },
             "button": {
                 "selectOutput": "$~pokaż ten wynik na scenie",
-                "zoomIn": "$~Powiększ kod",
-                "zoomOut": "$~Zmniejsz kod",
+                "zoomIn": "$~powiększ kod",
+                "zoomOut": "$~pomniejsz kod",
                 "replace": "$~zamień wszystkie mecze",
                 "selectOutputError": "$~pokaż to wyjście na scenie; wykonanie tego źródła zakończyło się błędem",
                 "addView": "$~pokaż ten kod w drugim widoku",
@@ -7814,7 +7814,7 @@
                 "nextMatch": "$~przejdź do następnego wyniku wyszukiwania",
                 "insertTranslate": "$~wstaw symbol tłumaczenia",
                 "insertThis": "$~wstaw ten symbol",
-                "tab": "$~Klawisz Tab przesuwa fokus klawiatury. Aby wstawić tabulator, naciśnij $control+ $alt +Tab, użyj poniższego przycisku „Wstaw” lub zmień to w ustawieniach.",
+                "tab": "$~Tab przenosi ostrość klawiatury. Aby wstawić tabulator, użyj przycisku wstawiania poniżej albo zmień działanie klawisza Tab w ustawieniach.",
                 "matchDelimiter": "$~przesuń kursor do pasującego ogranicznika",
                 "insertPattern": "$~wstaw wzór",
                 "insertSearch": "$~wstaw symbol wyszukiwania wzorca",
@@ -7834,18 +7834,19 @@
                 },
                 "selected": "$~zaznaczone $#count[$count znak|$count znaki|$count znaków|$count znaku]: $text",
                 "unknownPosition": "$~w kodzie",
-                "insertWholeNote": "$~Wstaw całą nutę, długą na cztery uderzenia",
-                "insertDottedWholeNote": "$~Wstaw całą nutę z kropką, długą na sześć uderzeń",
-                "insertHalfNote": "$~Wstaw półnutę, długą na dwa uderzenia",
-                "insertDottedHalfNote": "$~Wstaw półnutę z kropką, długą na trzy uderzenia",
-                "insertQuarterNote": "$~Wstaw ćwierćnutę, długą na jedno uderzenie",
-                "insertDottedQuarterNote": "$~Wstaw ćwierćnutę z kropką, długą na półtora uderzenia",
-                "insertEighthNote": "$~Wstaw ósemkę, długą na pół uderzenia",
-                "insertDottedEighthNote": "$~Wstaw ósemkę z kropką, długą na trzy czwarte uderzenia",
-                "insertSixteenthNote": "$~Wstaw szesnastkę, długą na jedną czwartą uderzenia",
-                "insertDottedSixteenthNote": "$~Wstaw szesnastkę z kropką, długą na trzy ósme uderzenia",
+                "insertWholeNote": "$~wstaw całą nutę, cztery uderzenia długości",
+                "insertDottedWholeNote": "$~wstaw całą nutę z kropką, sześć uderzeń długości",
+                "insertHalfNote": "$~wstaw półnutę, dwa uderzenia długości",
+                "insertDottedHalfNote": "$~wstaw półnutę z kropką, trzy uderzenia długości",
+                "insertQuarterNote": "$~wstaw ćwierćnutę, jedno uderzenie długości",
+                "insertDottedQuarterNote": "$~wstaw ćwierćnutę z kropką, półtora uderzenia długości",
+                "insertEighthNote": "$~wstaw ósemkę, pół uderzenia długości",
+                "insertDottedEighthNote": "$~wstaw ósemkę z kropką, trzy czwarte uderzenia długości",
+                "insertSixteenthNote": "$~wstaw szesnastkę, jedną czwartą uderzenia długości",
+                "insertDottedSixteenthNote": "$~wstaw szesnastkę z kropką, trzy ósme uderzenia długości",
                 "selectedNodes": "$~$#count[$count węzeł zaznaczony|$count węzły zaznaczone|$count węzłów zaznaczonych|$count węzła zaznaczone], od $first do $last",
-                "insertRange": "$~wstaw symbol zakresu"
+                "insertRange": "$~wstaw symbol zakresu",
+                "findText": "$~przeszukaj kod"
             },
             "options": {
                 "locale": {
@@ -8094,7 +8095,7 @@
                 "forwardNode": "$~krok do następnej oceny kursora",
                 "forwardInput": "$~przejdź do następnego strumienia wejściowego",
                 "present": "$~do końca",
-                "start": "$~Na początek",
+                "start": "$~na początek",
                 "reset": "$~ponowne uruchomienie wydajności"
             },
             "tour": {
@@ -8851,7 +8852,34 @@
                     "moveCursor": "$~Przenosić",
                     "editCode": "$~Redagować",
                     "insertCode": "$~Wstawić",
-                    "debug": "$~Odpluskwić"
+                    "debug": "$~Odpluskwić",
+                    "format": "$~Format",
+                    "help": "$~Pomoc"
+                },
+                "column": {
+                    "symbol": "$~Symbol",
+                    "shortcut": "$~Skrót",
+                    "action": "$~Działanie",
+                    "change": "$~Zmień"
+                },
+                "via": {
+                    "toolbar": "$~pasek narzędzi",
+                    "chooser": "$~wybór znaku"
+                },
+                "change": {
+                    "on": "$~przestań zmieniać ten skrót",
+                    "off": "$~zmień ten skrót"
+                },
+                "capture": "$~naciśnij klawisze, które chcesz wybrać",
+                "reset": "$~użyj domyślnego skrótu",
+                "resetAll": "$~użyj wszystkich domyślnych skrótów",
+                "custom": "$~zmieniono",
+                "feedback": {
+                    "bound": "$~$command to teraz $shortcut",
+                    "conflict": "$~$shortcut już wykonuje $command",
+                    "reserved": "$~twój komputer zachowuje $shortcut dla siebie",
+                    "unmodified": "$~skrót potrzebuje klawisza Control lub Alt, inaczej byłoby to zwykłe pisanie",
+                    "reset": "$~$command wrócił do swojego zwykłego skrótu"
                 }
             },
             "feedback": {
