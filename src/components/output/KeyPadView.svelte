@@ -13,7 +13,7 @@
     import Button from '@components/widgets/Button.svelte';
     import KeyHold from '@components/output/keyHold';
     import layoutKeyPad from '@components/output/keyPadLayout';
-    import { localizeKeyName } from '@input/Key/Key';
+    import { localizeKeyName } from '@input/Key/keyNames';
     import type { KeyAnalysis } from '@input/Key/analyzeProjectKeys';
 
     interface Props {

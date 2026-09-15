@@ -7808,7 +7808,7 @@
                 "nextMatch": "$~次の検索結果に進む",
                 "insertTranslate": "$~翻訳記号を挿入する",
                 "insertThis": "$~この記号を挿入する",
-                "tab": "$~タブはキーボードの操作対象を移動します。タブを挿入するには、$control+$alt+Tabを押すか、下の挿入ボタンを使うか、設定で変更してください。",
+                "tab": "$~Tabキーはキーボードの操作対象を移動します。タブを入力するには、下の挿入ボタンを使うか、設定でTabキーの動きを変えてください。",
                 "matchDelimiter": "$~対応する区切り記号へカーソルを移動する",
                 "insertPattern": "$~パターンを挿入する",
                 "insertSearch": "$~パターン検索記号を挿入する",
@@ -7828,18 +7828,19 @@
                 },
                 "selected": "$~選択された $#count[$count 文字]: $text",
                 "unknownPosition": "$~コードの中",
-                "insertWholeNote": "$~全音符を入れます。4拍の長さです",
-                "insertDottedWholeNote": "$~付点全音符を入れます。6拍の長さです",
-                "insertHalfNote": "$~2分音符を入れます。2拍の長さです",
-                "insertDottedHalfNote": "$~付点2分音符を入れます。3拍の長さです",
-                "insertQuarterNote": "$~4分音符を入れます。1拍の長さです",
-                "insertDottedQuarterNote": "$~付点4分音符を入れます。1拍半の長さです",
-                "insertEighthNote": "$~8分音符を入れます。半拍の長さです",
-                "insertDottedEighthNote": "$~付点8分音符を入れます。4分の3拍の長さです",
-                "insertSixteenthNote": "$~16分音符を入れます。4分の1拍の長さです",
-                "insertDottedSixteenthNote": "$~付点16分音符を入れます。8分の3拍の長さです",
+                "insertWholeNote": "$~全音符を挿入する（4拍分の長さ）",
+                "insertDottedWholeNote": "$~付点全音符を挿入する（6拍分の長さ）",
+                "insertHalfNote": "$~2分音符を挿入する（2拍分の長さ）",
+                "insertDottedHalfNote": "$~付点2分音符を挿入する（3拍分の長さ）",
+                "insertQuarterNote": "$~4分音符を挿入する（1拍分の長さ）",
+                "insertDottedQuarterNote": "$~付点4分音符を挿入する（1.5拍分の長さ）",
+                "insertEighthNote": "$~8分音符を挿入する（0.5拍分の長さ）",
+                "insertDottedEighthNote": "$~付点8分音符を挿入する（0.75拍分の長さ）",
+                "insertSixteenthNote": "$~16分音符を挿入する（0.25拍分の長さ）",
+                "insertDottedSixteenthNote": "$~付点16分音符を挿入する（0.375拍分の長さ）",
                 "selectedNodes": "$~$#count[$count個のノードを選択中、$firstから$lastまで]",
-                "insertRange": "$~範囲の記号を挿入する"
+                "insertRange": "$~範囲の記号を挿入する",
+                "findText": "$~コードを検索する"
             },
             "options": {
                 "locale": {
@@ -8088,7 +8089,7 @@
                 "forwardNode": "$~カーソルの次の評価まで進む",
                 "forwardInput": "$~次のストリーム入力まで進む",
                 "present": "$~最後まで",
-                "start": "$~最初まで",
+                "start": "$~最初へ",
                 "reset": "$~実行をやり直す"
             },
             "tour": {
@@ -8841,7 +8842,34 @@
                     "moveCursor": "$~移動",
                     "editCode": "$~編集",
                     "insertCode": "$~挿入",
-                    "debug": "$~デバッグ"
+                    "debug": "$~デバッグ",
+                    "format": "$~書式",
+                    "help": "$~ヘルプ"
+                },
+                "column": {
+                    "symbol": "$~記号",
+                    "shortcut": "$~ショートカット",
+                    "action": "$~操作",
+                    "change": "$~変更"
+                },
+                "via": {
+                    "toolbar": "$~ツールバー",
+                    "chooser": "$~文字選択ツール"
+                },
+                "change": {
+                    "on": "$~このショートカットの変更をやめる",
+                    "off": "$~このショートカットを変更する"
+                },
+                "capture": "$~使いたいキーを押してください",
+                "reset": "$~既定のショートカットを使う",
+                "resetAll": "$~すべての既定のショートカットを使う",
+                "custom": "$~変更されました",
+                "feedback": {
+                    "bound": "$~$command のショートカットが $shortcut になりました",
+                    "conflict": "$~$shortcut はすでに $command に使われています",
+                    "reserved": "$~$shortcut はあなたのコンピューターが使うために予約されています",
+                    "unmodified": "$~ショートカットには Control か Alt が必要です。そうしないと、ただの文字入力になってしまいます",
+                    "reset": "$~$command のショートカットが元に戻りました"
                 }
             },
             "feedback": {

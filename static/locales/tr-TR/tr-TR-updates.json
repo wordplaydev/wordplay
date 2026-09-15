@@ -978,6 +978,12 @@
         "ea85f668a42b7": "$~Bir denetleyicinin reddettiği galeri veya kit artık hemen bekleme sırasına geri dönmüyor, reddedilmiş olarak kalıyor.",
         "e3c78159889be": "$~Bildirilen bir proje veya galeri hakkında bilgilendirilen bir küratör, artık bunu inceleme listesinde gerçekten bulabiliyor.",
         "e5beb26ab9e99": "$~E-posta adresini verirsen, Wordplay artık bilmek isteyebileceğin bir şey olduğunda sana e-posta gönderebilir. Örneğin, yaptığın bir şey hakkında bir karar verildiğinde. Hangi tür e-postaları almak istediğini profil sayfandan seçebilirsin.",
-        "e83581303f404": "$~İnceleme yapıyorsan — çünkü denetleyicisin ya da bir galeriyi düzenliyorsun — artık inceleme listene giden bir bağlantı, sadece bildirimlerinde değil, ana sayfada da bulunuyor."
+        "e83581303f404": "$~İnceleme yapıyorsan — çünkü denetleyicisin ya da bir galeriyi düzenliyorsun — artık inceleme listene giden bir bağlantı, sadece bildirimlerinde değil, ana sayfada da bulunuyor.",
+        "e951c6f0b07aa": "$~Artık her klavye kısayolunu, klavyenle kolayca ulaşabileceğin tuşlarla değiştirebilirsin. Yaptığın seçimler, giriş yaptığın her bilgisayarda seni takip eder. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "e0277e5dfc455": "$~Hiç çalışmayan dört kısayolu düzelttik: ∆, ≥, açık renk metin ve bir karakter çizerken yinele için olanlar. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "eaf77bdd06a6e": "$~Kısayollar listesini gösteren kısayol artık gerçekten açıyor.",
+        "e15065ca4cd91": "$~Bir pencere bloğunu ok tuşlarıyla taşımak artık programını aynı anda ilerletmiyor.",
+        "ec2a904d11589": "$~Bazı kısayollar, Windows, Chromebook ve Linux'un kendine ayırmadığı tuşlara taşındı. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "eb770841e3ff7": "$~Kısayollar listesi artık her komutu gösteriyor. Kısayolu olmayan komutları ve bunları başka nerede bulabileceğini de gösteriyor. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
     }
 }

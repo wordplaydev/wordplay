@@ -212,6 +212,15 @@
                               height: tile.position.height,
                           },
                 );
+            // Consume it, but only when we actually moved something: the window
+            // handler above dispatches the same chord to the evaluator's
+            // stepping commands, so without this one Ctrl+Arrow both moved the
+            // tile and stepped the program. An arrow we didn't act on must still
+            // reach them.
+            if (horizontal !== 0 || vertical !== 0) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
             return;
         }
     }

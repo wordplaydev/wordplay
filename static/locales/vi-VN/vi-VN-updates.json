@@ -978,6 +978,12 @@
         "ea85f668a42b7": "$~Một phòng trưng bày hay bộ công cụ bị người kiểm duyệt từ chối giờ đây sẽ giữ nguyên trạng thái đó, thay vì quay lại hàng chờ ngay lập tức.",
         "e3c78159889be": "$~Người phụ trách được báo về một dự án hay phòng trưng bày bị báo cáo giờ đây có thể thực sự tìm thấy nó trong danh sách xét duyệt của mình.",
         "e5beb26ab9e99": "$~Nếu bạn cung cấp một địa chỉ email, Wordplay có thể gửi email cho bạn khi có việc gì đó xảy ra mà bạn nên biết, ví dụ như một quyết định về thứ bạn đã tạo ra. Bạn có thể chọn muốn nhận loại thông báo nào ở trang hồ sơ của mình.",
-        "e83581303f404": "$~Nếu bạn xem xét mọi thứ — vì bạn kiểm duyệt, hoặc vì bạn quản lý một phòng trưng bày — thì bây giờ đã có một liên kết đến danh sách xem xét của bạn trên trang chủ, thay vì chỉ có trong các thông báo của bạn."
+        "e83581303f404": "$~Nếu bạn xem xét mọi thứ — vì bạn kiểm duyệt, hoặc vì bạn quản lý một phòng trưng bày — thì bây giờ đã có một liên kết đến danh sách xem xét của bạn trên trang chủ, thay vì chỉ có trong các thông báo của bạn.",
+        "e951c6f0b07aa": "$~Giờ đây bạn có thể đổi bất kỳ phím tắt nào sang những phím mà bàn phím của bạn có thể chạm tới, và các lựa chọn của bạn sẽ đi theo bạn tới bất kỳ máy tính nào bạn đăng nhập. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "e0277e5dfc455": "$~Chúng tôi đã sửa bốn phím tắt chưa bao giờ hoạt động: phím tắt cho ∆, ≥, chữ sáng màu, và làm lại khi đang vẽ một ký tự. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "eaf77bdd06a6e": "$~Phím tắt để hiện danh sách phím tắt giờ đã mở được danh sách đó.",
+        "e15065ca4cd91": "$~Di chuyển một ô cửa sổ bằng phím mũi tên giờ không còn làm chương trình của bạn chạy từng bước cùng lúc nữa.",
+        "ec2a904d11589": "$~Một số phím tắt đã được đổi sang những phím mà Windows, Chromebook và Linux không giữ riêng cho mình. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "eb770841e3ff7": "$~Danh sách phím tắt giờ hiện mọi lệnh, kể cả những lệnh không có phím tắt, cùng nơi bạn có thể tìm cách khác để dùng chúng. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
     }
 }

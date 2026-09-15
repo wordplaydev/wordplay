@@ -7970,8 +7970,8 @@
             },
             "button": {
                 "selectOutput": "Exibir este resultado no palco",
-                "zoomIn": "Aumente o tamanho do código.",
-                "zoomOut": "Reduza o tamanho do código.",
+                "zoomIn": "$~aumentar o tamanho do código",
+                "zoomOut": "$~diminuir o tamanho do código",
                 "replace": "substituir todas as correspondências",
                 "selectOutputError": "$~mostrar este resultado no palco; a avaliação desta fonte terminou com um erro",
                 "addView": "$~mostrar este código numa segunda vista",
@@ -8062,7 +8062,7 @@
                 "nextMatch": "ir para o próximo resultado da pesquisa",
                 "insertTranslate": "inserir símbolo de tradução",
                 "insertThis": "Insira este símbolo",
-                "tab": "$~A tecla Tab move o foco do teclado. Para introduzir uma tabulação, prima $control+ $alt +Tab, utilize o botão de inserção abaixo ou altere esta definição.",
+                "tab": "$~A tecla Tab move o foco do teclado. Para inserir uma tabulação, use o botão de inserção abaixo, ou altere o que a tecla Tab faz nas definições.",
                 "matchDelimiter": "$~mover o cursor para o delimitador correspondente",
                 "insertPattern": "$~inserir padrão",
                 "insertSearch": "$~inserir símbolo de pesquisa de padrão",
@@ -8082,18 +8082,19 @@
                 },
                 "selected": "$~$#count[$#count carácter selecionado|$count carateres selecionados|$count carateres selecionados]: $text",
                 "unknownPosition": "$~no código",
-                "insertWholeNote": "$~Inserir uma nota inteira, com quatro tempos de duração",
-                "insertDottedWholeNote": "$~Inserir uma nota inteira pontuada, com seis tempos de duração",
-                "insertHalfNote": "$~Inserir uma meia nota, com dois tempos de duração",
-                "insertDottedHalfNote": "$~Inserir uma meia nota pontuada, com três tempos de duração",
-                "insertQuarterNote": "$~Inserir uma semínima, com um tempo de duração",
-                "insertDottedQuarterNote": "$~Inserir uma semínima pontuada, com um tempo e meio de duração",
-                "insertEighthNote": "$~Inserir uma colcheia, com meio tempo de duração",
-                "insertDottedEighthNote": "$~Inserir uma colcheia pontuada, com três quartos de tempo de duração",
-                "insertSixteenthNote": "$~Inserir uma semicolcheia, com um quarto de tempo de duração",
-                "insertDottedSixteenthNote": "$~Inserir uma semicolcheia pontuada, com três oitavos de tempo de duração",
+                "insertWholeNote": "$~inserir uma semibreve, com a duração de quatro tempos",
+                "insertDottedWholeNote": "$~inserir uma semibreve com ponto, com a duração de seis tempos",
+                "insertHalfNote": "$~inserir uma mínima, com a duração de dois tempos",
+                "insertDottedHalfNote": "$~inserir uma mínima com ponto, com a duração de três tempos",
+                "insertQuarterNote": "$~inserir uma semínima, com a duração de um tempo",
+                "insertDottedQuarterNote": "$~inserir uma semínima com ponto, com a duração de um tempo e meio",
+                "insertEighthNote": "$~inserir uma colcheia, com a duração de meio tempo",
+                "insertDottedEighthNote": "$~inserir uma colcheia com ponto, com a duração de três quartos de tempo",
+                "insertSixteenthNote": "$~inserir uma semicolcheia, com a duração de um quarto de tempo",
+                "insertDottedSixteenthNote": "$~inserir uma semicolcheia com ponto, com a duração de três oitavos de tempo",
                 "selectedNodes": "$~$#count[$#count nó selecionado|$count nós selecionados|$count nós selecionados] selecionados, de $first a $last",
-                "insertRange": "$~inserir símbolo de intervalo"
+                "insertRange": "$~inserir símbolo de intervalo",
+                "findText": "$~pesquisar no código"
             },
             "error": {
                 "invalidName": "Este deve ser um nome válido para um jogo de palavras.",
@@ -8334,7 +8335,7 @@
                 "forwardNode": "passo para a próxima avaliação do cursor",
                 "forwardInput": "avançar para a próxima entrada de fluxo",
                 "present": "até ao fim",
-                "start": "Ao início",
+                "start": "$~para o início",
                 "reset": "reiniciar desempenho"
             },
             "tour": {
@@ -9124,7 +9125,34 @@
                     "moveCursor": "Mover",
                     "editCode": "Editar",
                     "insertCode": "Inserir",
-                    "debug": "Depurar"
+                    "debug": "Depurar",
+                    "format": "$~Formatar",
+                    "help": "$~Ajuda"
+                },
+                "column": {
+                    "symbol": "$~Símbolo",
+                    "shortcut": "$~Atalho",
+                    "action": "$~Ação",
+                    "change": "$~Alterar"
+                },
+                "via": {
+                    "toolbar": "$~barra de ferramentas",
+                    "chooser": "$~seletor de carateres"
+                },
+                "change": {
+                    "on": "$~parar de alterar este atalho",
+                    "off": "$~alterar este atalho"
+                },
+                "capture": "$~prima as teclas que quer",
+                "reset": "$~usar o atalho padrão",
+                "resetAll": "$~usar todos os atalhos padrão",
+                "custom": "$~alterado",
+                "feedback": {
+                    "bound": "$~$command é agora $shortcut",
+                    "conflict": "$~$shortcut já faz $command",
+                    "reserved": "$~o seu computador reserva $shortcut para si próprio",
+                    "unmodified": "$~um atalho precisa de Control ou Alt, senão seria apenas escrita normal",
+                    "reset": "$~$command voltou ao seu atalho habitual"
                 }
             },
             "feedback": {

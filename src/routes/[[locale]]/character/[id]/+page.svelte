@@ -1461,16 +1461,22 @@
         }
 
         const control = event.ctrlKey || event.metaKey;
+        // Fold the case before comparing: with Shift held a real browser reports
+        // 'Z', not 'z', so the redo branch below could never be reached — and the
+        // e2e test that covers it passes anyway, because Playwright's synthetic
+        // shifted letter reports the unshifted key. Same class of bug as the
+        // editor's own command table had; see chords.ts.
+        const key = event.key.toLowerCase();
 
         // Handle undo/redo
-        if (event.key === 'z' && control) {
+        if (key === 'z' && control) {
             if (event.shiftKey) redo();
             else undo();
             event.stopPropagation();
             event.preventDefault();
             return;
         }
-        if (event.key === 'y' && control) {
+        if (key === 'y' && control) {
             redo();
             event.stopPropagation();
             event.preventDefault();
@@ -1478,7 +1484,7 @@
         }
 
         // Handle copy
-        if (event.key === 'c' && control && selection.length > 0) {
+        if (key === 'c' && control && selection.length > 0) {
             copyShapes();
             event.stopPropagation();
             event.preventDefault();
@@ -1486,7 +1492,7 @@
         }
 
         // Handle paste
-        if (event.key === 'v' && control) {
+        if (key === 'v' && control) {
             pasteShapes();
             event.stopPropagation();
             event.preventDefault();
@@ -1494,7 +1500,7 @@
         }
 
         // Handle select all
-        if (event.key === 'a' && control) {
+        if (key === 'a' && control) {
             selectAll();
             event.stopPropagation();
             event.preventDefault();

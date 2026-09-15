@@ -978,6 +978,12 @@
         "ea85f668a42b7": "$~Eine Galerie oder ein Kit, das ein Moderator ablehnt, bleibt jetzt abgelehnt, statt sofort wieder in die Warteschlange zu kommen.",
         "e3c78159889be": "$~Ein Kurator, der über ein gemeldetes Projekt oder eine gemeldete Galerie informiert wird, kann es jetzt auch wirklich in seiner Prüfliste finden.",
         "e5beb26ab9e99": "$~Wenn du eine E-Mail-Adresse angibst, kann Wordplay dir jetzt eine E-Mail schicken, wenn etwas Wichtiges passiert. Zum Beispiel, wenn jemand über etwas entschieden hat, das du gemacht hast. Auf deiner Profilseite kannst du auswählen, welche Nachrichten du bekommen möchtest.",
-        "e83581303f404": "$~Wenn du Dinge prüfst – weil du moderierst oder weil du eine Galerie kuratierst – gibt es jetzt einen Link zu deiner Prüfliste auf der Startseite, statt nur in deinen Benachrichtigungen."
+        "e83581303f404": "$~Wenn du Dinge prüfst – weil du moderierst oder weil du eine Galerie kuratierst – gibt es jetzt einen Link zu deiner Prüfliste auf der Startseite, statt nur in deinen Benachrichtigungen.",
+        "e0277e5dfc455": "$~Wir haben vier Tastenkürzel repariert, die nie funktioniert haben: die für ∆, ≥, hellen Text und Wiederholen beim Zeichnen eines Zeichens. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "eaf77bdd06a6e": "$~Das Tastenkürzel zum Anzeigen der Liste der Tastenkürzel öffnet diese jetzt auch.",
+        "e15065ca4cd91": "$~Wenn du eine Fensterkachel mit den Pfeiltasten verschiebst, läuft dein Programm nicht mehr gleichzeitig einen Schritt weiter.",
+        "ec2a904d11589": "$~Manche Tastenkürzel wurden auf Tasten verlegt, die Windows, Chromebooks und Linux nicht für sich selbst reservieren. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "eb770841e3ff7": "$~Die Liste der Tastenkürzel zeigt jetzt jeden Befehl, auch solche ohne Tastenkürzel, und wo du diese stattdessen findest. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "e951c6f0b07aa": "$~Du kannst jetzt jedes Tastenkürzel auf Tasten ändern, die deine Tastatur erreichen kann, und deine Wahl folgt dir auf jeden Computer, bei dem du dich anmeldest. (<826@https://github.com/wordplaydev/wordplay/issues/826>)"
     }
 }

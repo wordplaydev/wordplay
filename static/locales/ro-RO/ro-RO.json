@@ -7969,8 +7969,8 @@
             },
             "button": {
                 "selectOutput": "$~arată această ieșire pe scenă",
-                "zoomIn": "$~Măriți codul",
-                "zoomOut": "$~Faceți codul mai mic",
+                "zoomIn": "$~mărește codul",
+                "zoomOut": "$~micșorează codul",
                 "replace": "$~înlocuiește toate chibriturile",
                 "selectOutputError": "$~arată această ieșire pe scenă; evaluarea acestei surse s-a încheiat cu o eroare",
                 "addView": "$~arată acest cod într-o a doua fereastră",
@@ -8061,7 +8061,7 @@
                 "nextMatch": "$~treceți la următoarea potrivire de căutare",
                 "insertTranslate": "$~inserați simbolul de traducere",
                 "insertThis": "$~introduceți acest simbol",
-                "tab": "$~Tab mută focalizarea tastaturii. Pentru a insera un tabulator, apăsați $control+ $alt +Tab, utilizați butonul Inserare de mai jos sau modificați această opțiune în setări.",
+                "tab": "$~Tab mută focalizarea tastaturii. Ca să introduci un tab, folosește butonul de mai jos sau schimbă ce face Tab din setări.",
                 "matchDelimiter": "$~mutați cursorul la delimitatorul corespunzător",
                 "insertPattern": "$~inserați modelul",
                 "insertSearch": "$~inserați simbolul de căutare a modelului",
@@ -8081,18 +8081,19 @@
                 },
                 "selected": "$~$#count[$#count caracter selectat|$count caractere selectate|$count de caractere selectate]: $text",
                 "unknownPosition": "$~în cod",
-                "insertWholeNote": "$~Introdu o notă întreagă, lungă de patru bătăi",
-                "insertDottedWholeNote": "$~Introdu o notă întreagă cu punct, lungă de șase bătăi",
-                "insertHalfNote": "$~Introdu o jumătate de notă, lungă de două bătăi",
-                "insertDottedHalfNote": "$~Introdu o jumătate de notă cu punct, lungă de trei bătăi",
-                "insertQuarterNote": "$~Introdu o pătrime de notă, lungă de o bătaie",
-                "insertDottedQuarterNote": "$~Introdu o pătrime de notă cu punct, lungă de o bătaie și jumătate",
-                "insertEighthNote": "$~Introdu o optime de notă, lungă de jumătate de bătaie",
-                "insertDottedEighthNote": "$~Introdu o optime de notă cu punct, lungă de trei sferturi de bătaie",
-                "insertSixteenthNote": "$~Introdu o șaisprezecime de notă, lungă de un sfert de bătaie",
-                "insertDottedSixteenthNote": "$~Introdu o șaisprezecime de notă cu punct, lungă de trei optimi de bătaie",
+                "insertWholeNote": "$~inserează o notă întreagă, cu durata de patru timpi",
+                "insertDottedWholeNote": "$~inserează o notă întreagă cu punct, cu durata de șase timpi",
+                "insertHalfNote": "$~inserează o doime, cu durata de doi timpi",
+                "insertDottedHalfNote": "$~inserează o doime cu punct, cu durata de trei timpi",
+                "insertQuarterNote": "$~inserează o pătrime, cu durata de un timp",
+                "insertDottedQuarterNote": "$~inserează o pătrime cu punct, cu durata de un timp și jumătate",
+                "insertEighthNote": "$~inserează o optime, cu durata de jumătate de timp",
+                "insertDottedEighthNote": "$~inserează o optime cu punct, cu durata de trei sferturi de timp",
+                "insertSixteenthNote": "$~inserează o șaisprezecime, cu durata de un sfert de timp",
+                "insertDottedSixteenthNote": "$~inserează o șaisprezecime cu punct, cu durata de trei optimi de timp",
                 "selectedNodes": "$~$#count[$#count nod selectat|$count noduri selectate|$count de noduri selectate] de la $first până la $last",
-                "insertRange": "$~inserează simbolul de interval"
+                "insertRange": "$~inserează simbolul de interval",
+                "findText": "$~caută în cod"
             },
             "error": {
                 "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",
@@ -8333,7 +8334,7 @@
                 "forwardNode": "$~pas către următoarea evaluare a cursorului",
                 "forwardInput": "$~pas înainte la următoarea intrare de flux",
                 "present": "$~până la sfârșit",
-                "start": "$~Spre început",
+                "start": "$~la început",
                 "reset": "$~repornirea performanței"
             },
             "tour": {
@@ -9136,7 +9137,34 @@
                     "moveCursor": "$~Mişcare",
                     "editCode": "$~Edita",
                     "insertCode": "$~Introduce",
-                    "debug": "$~Depanare"
+                    "debug": "$~Depanare",
+                    "format": "$~Format",
+                    "help": "$~Ajutor"
+                },
+                "column": {
+                    "symbol": "$~Simbol",
+                    "shortcut": "$~Scurtătură",
+                    "action": "$~Acțiune",
+                    "change": "$~Schimbă"
+                },
+                "via": {
+                    "toolbar": "$~bară de instrumente",
+                    "chooser": "$~selector de caractere"
+                },
+                "change": {
+                    "on": "$~oprește schimbarea acestei scurtături",
+                    "off": "$~schimbă această scurtătură"
+                },
+                "capture": "$~apasă tastele pe care le vrei",
+                "reset": "$~folosește scurtătura implicită",
+                "resetAll": "$~folosește toate scurtăturile implicite",
+                "custom": "$~schimbat",
+                "feedback": {
+                    "bound": "$~$command este acum $shortcut",
+                    "conflict": "$~$shortcut face deja $command",
+                    "reserved": "$~calculatorul tău păstrează $shortcut pentru el însuși",
+                    "unmodified": "$~o scurtătură are nevoie de Control sau Alt, altfel ar fi doar scriere obișnuită",
+                    "reset": "$~$command a revenit la scurtătura sa obișnuită"
                 }
             },
             "feedback": {

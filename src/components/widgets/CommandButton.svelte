@@ -7,7 +7,10 @@
         resetVisualColumnAfter,
         type Command,
     } from '@components/editor/commands/Commands';
-    import { toShortcut } from '@components/editor/commands/shortcuts';
+    import {
+        toAriaKeyshortcuts,
+        toShortcut,
+    } from '@components/editor/commands/shortcuts';
     import { resolveFeedback } from '@components/editor/commands/feedback';
     import TokenView from '@components/editor/tokens/TokenView.svelte';
     import {
@@ -17,6 +20,7 @@
         getProjectCommandContext,
     } from '@components/project/Contexts';
     import { locales } from '@db/Database';
+    import { keyLabelFor } from '@input/Key/keyNames';
     import { must } from '@util/nullable';
     import Button from '@components/widgets/Button.svelte';
 
@@ -50,6 +54,15 @@
         icon = undefined,
         uiid = undefined,
     }: Props = $props();
+
+    // The locale's own word for this key, so a tooltip names what the reader's
+    // keyboard prints. Resolved here rather than in shortcuts.ts, which imports
+    // nothing because it renders on every page.
+    let localizedKey = $derived(
+        command.key === undefined
+            ? undefined
+            : keyLabelFor(command.key, $locales),
+    );
 
     const editors = getEditors();
     const context = getProjectCommandContext();
@@ -117,7 +130,8 @@
 <Button
     {background}
     tip={command.description}
-    shortcut={toShortcut(command)}
+    shortcut={toShortcut(command, { keyLabel: localizedKey })}
+    ariaShortcut={toAriaKeyshortcuts(command)}
     bind:view
     uiid={uiid ?? command.uiid}
     {active}

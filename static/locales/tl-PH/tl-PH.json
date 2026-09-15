@@ -7974,8 +7974,8 @@
             },
             "button": {
                 "selectOutput": "$~ipakita ang output na ito sa entablado",
-                "zoomIn": "$~Gawing mas malaki ang code",
-                "zoomOut": "$~Gawing mas maliit ang code",
+                "zoomIn": "$~palakihin ang kodigo",
+                "zoomOut": "$~paliitin ang kodigo",
                 "replace": "$~palitan ang lahat ng tugma",
                 "selectOutputError": "$~ipakita ang output na ito sa entablado; ang pagtatasa ng pinagmulang ito ay nagtapos sa isang error",
                 "addView": "$~ipakita ang kodigong ito sa pangalawang tanawin",
@@ -8066,7 +8066,7 @@
                 "nextMatch": "$~pumunta sa susunod na tugma sa paghahanap",
                 "insertTranslate": "$~ipasok ang simbolo ng pagsasalin",
                 "insertThis": "$~ilagay ang simbolong ito",
-                "tab": "$~Inililipat ng Tab ang pokus ng keyboard. Para maglagay ng tab, pindutin ang $control+ $alt +Tab, gamitin ang button na insert sa ibaba, o baguhin ito sa mga setting.",
+                "tab": "$~Ang Tab ay lumilipat ng pokus ng keyboard. Para maglagay ng tab, gamitin ang buton na maglagay sa ibaba, o baguhin kung ano ang ginagawa ng Tab sa mga setting.",
                 "matchDelimiter": "$~ilipat ang cursor sa katugmang delimiter",
                 "insertPattern": "$~ipasok ang pattern",
                 "insertSearch": "$~simbolo ng paghahanap ng pattern na isingit",
@@ -8086,18 +8086,19 @@
                 },
                 "selected": "$~napiling $#count[$count karakter|$count na karakter]: $text",
                 "unknownPosition": "$~sa kodigo",
-                "insertWholeNote": "$~Maglagay ng whole note, apat na beats ang haba",
-                "insertDottedWholeNote": "$~Maglagay ng dotted whole note, anim na beats ang haba",
-                "insertHalfNote": "$~Maglagay ng half note, dalawang beats ang haba",
-                "insertDottedHalfNote": "$~Maglagay ng dotted half note, tatlong beats ang haba",
-                "insertQuarterNote": "$~Maglagay ng quarter note, isang beat ang haba",
-                "insertDottedQuarterNote": "$~Maglagay ng dotted quarter note, isa't kalahating beats ang haba",
-                "insertEighthNote": "$~Maglagay ng eighth note, kalahating beat ang haba",
-                "insertDottedEighthNote": "$~Maglagay ng dotted eighth note, tatlong-kapat na beat ang haba",
-                "insertSixteenthNote": "$~Maglagay ng sixteenth note, isang-kapat na beat ang haba",
-                "insertDottedSixteenthNote": "$~Maglagay ng dotted sixteenth note, tatlong-kawalo na beat ang haba",
+                "insertWholeNote": "$~maglagay ng buong nota, apat na bit ang haba",
+                "insertDottedWholeNote": "$~maglagay ng tuldok na buong nota, anim na bit ang haba",
+                "insertHalfNote": "$~maglagay ng kalahating nota, dalawang bit ang haba",
+                "insertDottedHalfNote": "$~maglagay ng tuldok na kalahating nota, tatlong bit ang haba",
+                "insertQuarterNote": "$~maglagay ng ikaapat na nota, isang bit ang haba",
+                "insertDottedQuarterNote": "$~maglagay ng tuldok na ikaapat na nota, isa't kalahating bit ang haba",
+                "insertEighthNote": "$~maglagay ng ikawalong nota, kalahating bit ang haba",
+                "insertDottedEighthNote": "$~maglagay ng tuldok na ikawalong nota, tatlong-kapat ng bit ang haba",
+                "insertSixteenthNote": "$~maglagay ng ikalabing-anim na nota, ikaapat na bahagi ng bit ang haba",
+                "insertDottedSixteenthNote": "$~maglagay ng tuldok na ikalabing-anim na nota, tatlong-ikawalo ng bit ang haba",
                 "selectedNodes": "$~$#count[$count node na napili|$count na node na napili], mula sa $first hanggang $last",
-                "insertRange": "$~ipasok ang simbolo ng saklaw"
+                "insertRange": "$~ipasok ang simbolo ng saklaw",
+                "findText": "$~hanapin sa kodigo"
             },
             "error": {
                 "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",
@@ -8338,7 +8339,7 @@
                 "forwardNode": "$~hakbang sa susunod na pagsusuri ng cursor",
                 "forwardInput": "$~hakbang pasulong sa susunod na input ng stream",
                 "present": "$~hanggang sa dulo",
-                "start": "$~Sa simula",
+                "start": "$~pumunta sa simula",
                 "reset": "$~i-restart ang pagganap"
             },
             "tour": {
@@ -9133,7 +9134,34 @@
                     "moveCursor": "$~Ilipat",
                     "editCode": "$~I-edit",
                     "insertCode": "$~Ipasok",
-                    "debug": "$~Pag-debug"
+                    "debug": "$~Pag-debug",
+                    "format": "$~Format",
+                    "help": "$~Tulong"
+                },
+                "column": {
+                    "symbol": "$~Simbolo",
+                    "shortcut": "$~Shortcut",
+                    "action": "$~Kilos",
+                    "change": "$~Baguhin"
+                },
+                "via": {
+                    "toolbar": "$~toolbar",
+                    "chooser": "$~pumipiling karakter"
+                },
+                "change": {
+                    "on": "$~itigil ang pagbabago ng shortcut na ito",
+                    "off": "$~baguhin ang shortcut na ito"
+                },
+                "capture": "$~pindutin ang mga susi na gusto mo",
+                "reset": "$~gamitin ang default na shortcut",
+                "resetAll": "$~gamitin ang lahat ng default na shortcut",
+                "custom": "$~binago",
+                "feedback": {
+                    "bound": "$~ang $command ay $shortcut na ngayon",
+                    "conflict": "$~ang $shortcut ay ginagamit na ng $command",
+                    "reserved": "$~ang $shortcut ay ginagamit ng iyong kompyuter para sa sarili nito",
+                    "unmodified": "$~kailangan ng shortcut ang Control o Alt, kundi ito ay magiging pag-type lamang",
+                    "reset": "$~ang $command ay bumalik na sa karaniwan nitong shortcut"
                 }
             },
             "feedback": {

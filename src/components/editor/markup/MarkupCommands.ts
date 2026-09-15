@@ -75,6 +75,7 @@ function edit(
 /** The five formatting runs, which differ only in their symbol, key, and word. */
 const Formats: {
     format: Format;
+    id: string;
     symbol: string;
     key: string;
     shift: boolean;
@@ -82,6 +83,7 @@ const Formats: {
 }[] = [
     {
         format: 'italic',
+        id: 'markup-italic',
         symbol: ITALIC_SYMBOL,
         key: 'i',
         shift: false,
@@ -89,6 +91,7 @@ const Formats: {
     },
     {
         format: 'bold',
+        id: 'markup-bold',
         symbol: BOLD_SYMBOL,
         key: 'b',
         shift: false,
@@ -96,6 +99,7 @@ const Formats: {
     },
     {
         format: 'extra',
+        id: 'markup-extra',
         symbol: EXTRA_SYMBOL,
         key: 'e',
         shift: false,
@@ -103,6 +107,7 @@ const Formats: {
     },
     {
         format: 'underline',
+        id: 'markup-underline',
         symbol: UNDERSCORE_SYMBOL,
         key: 'u',
         shift: false,
@@ -110,6 +115,7 @@ const Formats: {
     },
     {
         format: 'light',
+        id: 'markup-light',
         symbol: LIGHT_SYMBOL,
         key: 'l',
         shift: true,
@@ -118,7 +124,8 @@ const Formats: {
 ];
 
 const FormatCommands: Command[] = Formats.map(
-    ({ format, symbol, key, shift, description }) => ({
+    ({ format, id, symbol, key, shift, description }) => ({
+        id,
         symbol,
         description,
         visible: Visibility.Visible,
@@ -145,6 +152,7 @@ const inExample = (context: CommandContext) =>
         : notInExample;
 
 const ContinueBullet: Command = {
+    id: 'markup-continue-bullet',
     // Enter on a bulleted line continues the list. It shares the bullet
     // command's description because it is the same affordance reached a
     // second way, and it declines off a bulleted line so `InsertLine` — which
@@ -168,6 +176,7 @@ const ContinueBullet: Command = {
 };
 
 const InsertExample: Command = {
+    id: 'markup-insert-example',
     symbol: CODE_SYMBOL,
     description: (l) => l.ui.markup.command.example,
     visible: Visibility.Visible,
@@ -182,6 +191,7 @@ const InsertExample: Command = {
 };
 
 const InsertLink: Command = {
+    id: 'markup-insert-link',
     symbol: '🔗',
     description: (l) => l.ui.markup.command.link,
     visible: Visibility.Visible,
@@ -196,6 +206,7 @@ const InsertLink: Command = {
 };
 
 const ToggleBullet: Command = {
+    id: 'markup-toggle-bullet',
     symbol: BULLET_SYMBOL,
     description: (l) => l.ui.markup.command.bullet,
     visible: Visibility.Visible,
@@ -210,6 +221,7 @@ const ToggleBullet: Command = {
 };
 
 const ToggleHighlight: Command = {
+    id: 'markup-toggle-highlight',
     symbol: HIGHLIGHT_SYMBOL,
     description: (l) => l.ui.markup.command.highlight,
     visible: Visibility.Visible,
@@ -217,11 +229,10 @@ const ToggleHighlight: Command = {
     control: true,
     alt: false,
     shift: true,
-    // Keyed by code, not key: with Shift held the key is `*` on a US layout,
-    // so a command keyed `'8'` never matched a real keystroke. Same for the
-    // three below.
-    key: 'Digit8',
-    keySymbol: '8',
+    // Keyed by the character, like every command: with Shift held the key a US
+    // layout reports is `*`, so this once matched no real keystroke at all.
+    // `handleKeyCommand` now resolves that through the physical position.
+    key: '8',
     // Greyed outside an example rather than hidden, so the annotations can be
     // discovered from the toolbar at all (#1062); the same predicate makes the
     // shortcut decline audibly there.
@@ -231,6 +242,7 @@ const ToggleHighlight: Command = {
 };
 
 const ToggleDefect: Command = {
+    id: 'markup-toggle-defect',
     symbol: DEFECT_SYMBOL,
     description: (l) => l.ui.markup.command.defect,
     visible: Visibility.Visible,
@@ -238,14 +250,14 @@ const ToggleDefect: Command = {
     control: true,
     alt: false,
     shift: true,
-    key: 'Digit7',
-    keySymbol: '7',
+    key: '7',
     active: inExample,
     feedback: 'delegated',
     execute: (context) => edit(context, toggleDefect),
 };
 
 const InsertDocs: Command = {
+    id: 'markup-insert-docs',
     symbol: DOCS_SYMBOL,
     description: (l) => l.ui.markup.command.docs,
     visible: Visibility.Visible,
@@ -254,9 +266,9 @@ const InsertDocs: Command = {
     alt: true,
     shift: false,
     // Option+7 is `¶` on a Mac, which used to fall through and insert the
-    // symbol by accident rather than by this command.
-    key: 'Digit7',
-    keySymbol: '7',
+    // symbol by accident rather than by this command; the physical position is
+    // what catches it now that the character has been rewritten.
+    key: '7',
     // An explanation belongs inside an example, next to the code it explains.
     active: inExample,
     feedback: { path: (l) => l.ui.markup.feedback.docs },
@@ -264,6 +276,7 @@ const InsertDocs: Command = {
 };
 
 const InsertAttention: Command = {
+    id: 'markup-insert-attention',
     symbol: ATTENTION_SYMBOL,
     description: (l) => l.ui.markup.command.attention,
     visible: Visibility.Visible,
@@ -271,14 +284,14 @@ const InsertAttention: Command = {
     control: true,
     alt: false,
     shift: true,
-    key: 'Period',
-    keySymbol: '.',
+    key: '.',
     active: inExample,
     feedback: { path: (l) => l.ui.markup.feedback.attention },
     execute: (context) => edit(context, insertAttention),
 };
 
 const UndoMarkup: Command = {
+    id: 'markup-undo-markup',
     symbol: UNDO_SYMBOL,
     description: (l) => l.ui.markup.command.undo,
     visible: Visibility.Visible,
@@ -287,14 +300,14 @@ const UndoMarkup: Command = {
     control: true,
     alt: false,
     shift: false,
-    key: 'KeyZ',
-    keySymbol: 'Z',
+    key: 'z',
     active: (context) => context.canUndoMarkup?.() === true,
     feedback: { path: (l) => l.ui.markup.feedback.undid },
     execute: (context) => context.undoMarkup?.(-1) === true,
 };
 
 const RedoMarkup: Command = {
+    id: 'markup-redo-markup',
     symbol: REDO_SYMBOL,
     description: (l) => l.ui.markup.command.redo,
     visible: Visibility.Visible,
@@ -303,14 +316,14 @@ const RedoMarkup: Command = {
     control: true,
     alt: false,
     shift: true,
-    key: 'KeyZ',
-    keySymbol: 'Z',
+    key: 'z',
     active: (context) => context.canRedoMarkup?.() === true,
     feedback: { path: (l) => l.ui.markup.feedback.redid },
     execute: (context) => context.undoMarkup?.(1) === true,
 };
 
 const ToggleMode: Command = {
+    id: 'markup-toggle-mode',
     symbol: '👁',
     description: (l) => l.ui.markup.command.mode,
     visible: Visibility.Visible,
@@ -406,6 +419,7 @@ function atBound(caret: Caret | undefined, end: 0 | 1): CommandResult {
  */
 const DocumentMotionCommands: Command[] = [
     {
+        id: 'markup-document-source-start',
         symbol: '⤒',
         description: (l) => l.ui.source.cursor.sourceStart,
         visible: Visibility.Invisible,
@@ -414,11 +428,11 @@ const DocumentMotionCommands: Command[] = [
         control: true,
         shift: false,
         key: 'Home',
-        keySymbol: '⇤',
         feedback: 'caret',
         execute: ({ caret }) => atBound(caret, 0),
     },
     {
+        id: 'markup-document-source-end',
         symbol: '⤓',
         description: (l) => l.ui.source.cursor.sourceEnd,
         visible: Visibility.Invisible,
@@ -427,7 +441,6 @@ const DocumentMotionCommands: Command[] = [
         control: true,
         shift: false,
         key: 'End',
-        keySymbol: '⇥',
         feedback: 'caret',
         execute: ({ caret }) => atBound(caret, 1),
     },
@@ -472,6 +485,7 @@ function moveWord(
  */
 const WordMotionCommands: Command[] = [
     {
+        id: 'markup-word-prior-inline',
         symbol: '⇠',
         description: (l) => l.ui.source.cursor.priorInline,
         visible: Visibility.Invisible,
@@ -480,11 +494,11 @@ const WordMotionCommands: Command[] = [
         control: false,
         shift: false,
         key: 'ArrowLeft',
-        keySymbol: '←',
         feedback: 'caret',
         execute: (context) => moveWord(context, -1, false),
     },
     {
+        id: 'markup-word-expand-before-inline',
         symbol: '⇠☐',
         description: (l) => l.ui.source.cursor.expandBeforeInline,
         visible: Visibility.Invisible,
@@ -493,11 +507,11 @@ const WordMotionCommands: Command[] = [
         control: false,
         shift: true,
         key: 'ArrowLeft',
-        keySymbol: '←',
         feedback: 'caret',
         execute: (context) => moveWord(context, -1, true),
     },
     {
+        id: 'markup-word-next-inline',
         symbol: '⇢',
         description: (l) => l.ui.source.cursor.nextInline,
         visible: Visibility.Invisible,
@@ -506,11 +520,11 @@ const WordMotionCommands: Command[] = [
         control: false,
         shift: false,
         key: 'ArrowRight',
-        keySymbol: '→',
         feedback: 'caret',
         execute: (context) => moveWord(context, 1, false),
     },
     {
+        id: 'markup-word-expand-after-inline',
         symbol: '☐⇢',
         description: (l) => l.ui.source.cursor.expandAfterInline,
         visible: Visibility.Invisible,
@@ -519,11 +533,11 @@ const WordMotionCommands: Command[] = [
         control: false,
         shift: true,
         key: 'ArrowRight',
-        keySymbol: '→',
         feedback: 'caret',
         execute: (context) => moveWord(context, 1, true),
     },
     {
+        id: 'markup-word-line-start',
         symbol: '⇤',
         description: (l) => l.ui.source.cursor.lineStart,
         visible: Visibility.Invisible,
@@ -532,11 +546,11 @@ const WordMotionCommands: Command[] = [
         control: true,
         shift: false,
         key: 'ArrowLeft',
-        keySymbol: '←',
         feedback: 'caret',
         execute: ({ caret }) => caret?.atLineBoundary(true) ?? false,
     },
     {
+        id: 'markup-word-line-end',
         symbol: '⇥',
         description: (l) => l.ui.source.cursor.lineEnd,
         visible: Visibility.Invisible,
@@ -545,11 +559,11 @@ const WordMotionCommands: Command[] = [
         control: true,
         shift: false,
         key: 'ArrowRight',
-        keySymbol: '→',
         feedback: 'caret',
         execute: ({ caret }) => caret?.atLineBoundary(false) ?? false,
     },
     {
+        id: 'markup-word-select-all',
         // Select the markup, never the `¶` wrapper. The code editor's select-all
         // returns a NODE position naming the whole program, which `clampToMarkup`
         // passes through untouched, `CaretView` renders as `visibility: hidden`,
@@ -562,8 +576,7 @@ const WordMotionCommands: Command[] = [
         alt: false,
         control: true,
         shift: false,
-        key: 'KeyA',
-        keySymbol: 'A',
+        key: 'a',
         feedback: 'caret',
         execute: ({ caret }) => {
             if (caret === undefined) return false;
@@ -596,6 +609,7 @@ const WordMotionCommands: Command[] = [
  */
 const CharacterMotionCommands: Command[] = [
     {
+        id: 'markup-char-prior-inline',
         symbol: '←',
         description: (l) => l.ui.source.cursor.priorInline,
         visible: Visibility.Invisible,
@@ -604,11 +618,11 @@ const CharacterMotionCommands: Command[] = [
         control: false,
         shift: false,
         key: 'ArrowLeft',
-        keySymbol: '←',
         feedback: 'caret',
         execute: (context) => moveCaret(context, -1, false),
     },
     {
+        id: 'markup-char-expand-before-inline',
         symbol: '←☐',
         description: (l) => l.ui.source.cursor.expandBeforeInline,
         visible: Visibility.Invisible,
@@ -617,11 +631,11 @@ const CharacterMotionCommands: Command[] = [
         control: false,
         shift: true,
         key: 'ArrowLeft',
-        keySymbol: '←',
         feedback: 'caret',
         execute: (context) => moveCaret(context, -1, true),
     },
     {
+        id: 'markup-char-next-inline',
         symbol: '→',
         description: (l) => l.ui.source.cursor.nextInline,
         visible: Visibility.Invisible,
@@ -630,11 +644,11 @@ const CharacterMotionCommands: Command[] = [
         control: false,
         shift: false,
         key: 'ArrowRight',
-        keySymbol: '→',
         feedback: 'caret',
         execute: (context) => moveCaret(context, 1, false),
     },
     {
+        id: 'markup-char-expand-after-inline',
         symbol: '☐→',
         description: (l) => l.ui.source.cursor.expandAfterInline,
         visible: Visibility.Invisible,
@@ -643,7 +657,6 @@ const CharacterMotionCommands: Command[] = [
         control: false,
         shift: true,
         key: 'ArrowRight',
-        keySymbol: '→',
         feedback: 'caret',
         execute: (context) => moveCaret(context, 1, true),
     },
@@ -690,14 +703,7 @@ const MotionCommands = EditorCommands.filter(
  *                surrounding text instead of inserting a character.
  *   Ctrl+S       tidy, which reformats code.
  */
-const ModifyKeys = new Set([
-    'Enter',
-    'Backspace',
-    'Delete',
-    'KeyX',
-    'KeyC',
-    'KeyV',
-]);
+const ModifyKeys = new Set(['Enter', 'Backspace', 'Delete', 'x', 'c', 'v']);
 const DeleteCommands = EditorCommands.filter(
     (command) =>
         command.category === Category.Modify &&

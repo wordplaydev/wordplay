@@ -8079,8 +8079,8 @@
             "button": {
                 "selectOutput": "show this output on stage",
                 "selectOutputError": "show this output on stage; this source's evaluation ended in an error",
-                "zoomIn": "Make the code larger",
-                "zoomOut": "Make the code smaller",
+                "zoomIn": "make the code larger",
+                "zoomOut": "make the code smaller",
                 "replace": "replace all matches",
                 "addView": "show this code in a second view",
                 "closeView": "close this view"
@@ -8121,6 +8121,8 @@
                 "parent": "select container",
                 "matchDelimiter": "move cursor to matching delimiter",
                 "selectAll": "select program",
+                "search": "search for special characters to insert",
+                "findText": "search the code",
                 "nextMatch": "go to the next search match",
                 "incrementLiteral": "increase number, text, or Boolean",
                 "decrementLiteral": "decrease number, text, or Boolean",
@@ -8157,16 +8159,16 @@
                 "insertPatternBehind": "insert pattern lookbehind symbol",
                 "insertPatternWord": "insert pattern word symbol",
                 "insertPatternWordEdge": "insert pattern word-edge symbol",
-                "insertWholeNote": "Insert a whole note, four beats long",
-                "insertDottedWholeNote": "Insert a dotted whole note, six beats long",
-                "insertHalfNote": "Insert a half note, two beats long",
-                "insertDottedHalfNote": "Insert a dotted half note, three beats long",
-                "insertQuarterNote": "Insert a quarter note, one beat long",
-                "insertDottedQuarterNote": "Insert a dotted quarter note, one and a half beats long",
-                "insertEighthNote": "Insert an eighth note, half a beat long",
-                "insertDottedEighthNote": "Insert a dotted eighth note, three quarters of a beat long",
-                "insertSixteenthNote": "Insert a sixteenth note, a quarter of a beat long",
-                "insertDottedSixteenthNote": "Insert a dotted sixteenth note, three eighths of a beat long",
+                "insertWholeNote": "insert a whole note, four beats long",
+                "insertDottedWholeNote": "insert a dotted whole note, six beats long",
+                "insertHalfNote": "insert a half note, two beats long",
+                "insertDottedHalfNote": "insert a dotted half note, three beats long",
+                "insertQuarterNote": "insert a quarter note, one beat long",
+                "insertDottedQuarterNote": "insert a dotted quarter note, one and a half beats long",
+                "insertEighthNote": "insert an eighth note, half a beat long",
+                "insertDottedEighthNote": "insert a dotted eighth note, three quarters of a beat long",
+                "insertSixteenthNote": "insert a sixteenth note, a quarter of a beat long",
+                "insertDottedSixteenthNote": "insert a dotted sixteenth note, three eighths of a beat long",
                 "insertBorrow": "insert borrow",
                 "insertShare": "insert share",
                 "insertLine": "insert line break",
@@ -8180,11 +8182,10 @@
                 "type": "type characters",
                 "undo": "undo previous edit",
                 "redo": "redo undone edit",
-                "search": "search for special characters to insert",
                 "tidy": "tidy spacing",
                 "elide": "toggle elision",
                 "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.",
-                "tab": "Tab moves keyboard focus. To insert a tab, press $control+$alt+Tab, use the insert button below, or change this in settings.",
+                "tab": "Tab moves keyboard focus. To insert a tab, use the insert button below, or change what Tab does in settings.",
                 "ignored": {
                     "readOnly": "Source is read only",
                     "blockSpace": "No tabs allowed here",
@@ -8507,7 +8508,7 @@
                 "forwardNode": "step to next evaluation of cursor",
                 "forwardInput": "step forward to next stream input",
                 "present": "to the end",
-                "start": "To the beginning",
+                "start": "to the beginning",
                 "reset": "restart performance"
             },
             "tour": {
@@ -9299,7 +9300,34 @@
                     "moveCursor": "Move",
                     "editCode": "Edit",
                     "insertCode": "Insert",
-                    "debug": "Debug"
+                    "debug": "Debug",
+                    "format": "Format",
+                    "help": "Help"
+                },
+                "column": {
+                    "symbol": "Symbol",
+                    "shortcut": "Shortcut",
+                    "action": "Action",
+                    "change": "Change"
+                },
+                "change": {
+                    "on": "stop changing this shortcut",
+                    "off": "change this shortcut"
+                },
+                "capture": "press the keys you want",
+                "reset": "use the default shortcut",
+                "resetAll": "use all the default shortcuts",
+                "custom": "changed",
+                "feedback": {
+                    "bound": "$command is now $shortcut",
+                    "conflict": "$shortcut already does $command",
+                    "reserved": "your computer keeps $shortcut for itself",
+                    "unmodified": "a shortcut needs Control or Alt, or it would just be typing",
+                    "reset": "$command is back to its usual shortcut"
+                },
+                "via": {
+                    "toolbar": "toolbar",
+                    "chooser": "character chooser"
                 }
             },
             "feedback": {

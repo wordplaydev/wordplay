@@ -101,7 +101,9 @@ test('the first message creates the chat and arrayUnions onto its messages array
     // its absence was a regression the moment the rich editor went on.
     await page.keyboard.press('Control+z');
     await expect(markup).not.toContainText('Hello chat');
-    await page.keyboard.press('Control+Shift+z');
+    // As a code, not a letter: Playwright's synthetic `Shift+z` reports key 'z',
+    // which no real browser produces. See shiftedLetterPresses.test.ts.
+    await page.keyboard.press('Control+Shift+KeyZ');
     await expect(markup).toContainText('Hello chat');
 
     // Control+Home goes to the start of the message and leaves it intact. This

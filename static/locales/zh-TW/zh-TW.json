@@ -7676,8 +7676,8 @@
             },
             "button": {
                 "selectOutput": "在舞台上顯示此輸出",
-                "zoomIn": "$~把程式碼變大",
-                "zoomOut": "$~把程式碼變小",
+                "zoomIn": "$~放大程式碼",
+                "zoomOut": "$~縮小程式碼",
                 "replace": "$~取代全部符合項目",
                 "selectOutputError": "$~在舞台上顯示這個輸出；這個來源的計算以錯誤結束",
                 "addView": "$~在第二個視窗顯示這段程式碼",
@@ -7768,7 +7768,7 @@
                 "nextMatch": "$~跳到下一個搜尋符合項目",
                 "insertTranslate": "$~插入翻譯符號",
                 "insertThis": "$~插入這個符號",
-                "tab": "$~Tab 會移動鍵盤焦點。要插入 Tab，請按 $control+$alt+Tab、使用下方的插入按鈕，或在設定裡更改。",
+                "tab": "$~Tab 鍵會移動鍵盤焦點。要插入 tab，請用下方的插入按鈕，或到設定裡更改 Tab 鍵的功能。",
                 "matchDelimiter": "$~把游標移到對應的分隔符號",
                 "insertPattern": "$~插入樣式",
                 "insertSearch": "$~插入樣式搜尋符號",
@@ -7788,18 +7788,19 @@
                 },
                 "selected": "$~已選取 $#count[$count 個字元]：$text",
                 "unknownPosition": "$~在程式碼中",
-                "insertWholeNote": "$~插入一個全音符，長四拍",
-                "insertDottedWholeNote": "$~插入一個附點全音符，長六拍",
-                "insertHalfNote": "$~插入一個二分音符，長兩拍",
-                "insertDottedHalfNote": "$~插入一個附點二分音符，長三拍",
-                "insertQuarterNote": "$~插入一個四分音符，長一拍",
-                "insertDottedQuarterNote": "$~插入一個附點四分音符，長一拍半",
-                "insertEighthNote": "$~插入一個八分音符，長半拍",
-                "insertDottedEighthNote": "$~插入一個附點八分音符，長四分之三拍",
-                "insertSixteenthNote": "$~插入一個十六分音符，長四分之一拍",
-                "insertDottedSixteenthNote": "$~插入一個附點十六分音符，長八分之三拍",
+                "insertWholeNote": "$~插入一個全音符，長度為四拍",
+                "insertDottedWholeNote": "$~插入一個附點全音符，長度為六拍",
+                "insertHalfNote": "$~插入一個二分音符，長度為兩拍",
+                "insertDottedHalfNote": "$~插入一個附點二分音符，長度為三拍",
+                "insertQuarterNote": "$~插入一個四分音符，長度為一拍",
+                "insertDottedQuarterNote": "$~插入一個附點四分音符，長度為一拍半",
+                "insertEighthNote": "$~插入一個八分音符，長度為半拍",
+                "insertDottedEighthNote": "$~插入一個附點八分音符，長度為四分之三拍",
+                "insertSixteenthNote": "$~插入一個十六分音符，長度為四分之一拍",
+                "insertDottedSixteenthNote": "$~插入一個附點十六分音符，長度為八分之三拍",
                 "selectedNodes": "$~已選取 $#count[$count 個節點]，從 $first 到 $last",
-                "insertRange": "$~插入範圍符號"
+                "insertRange": "$~插入範圍符號",
+                "findText": "$~搜尋程式碼"
             },
             "options": {
                 "locale": {
@@ -8048,7 +8049,7 @@
                 "forwardNode": "前進到下一個節點評估",
                 "forwardInput": "前進到下一個流輸入",
                 "present": "到現在",
-                "start": "返回開頭",
+                "start": "$~到開頭",
                 "reset": "重新啟動效能"
             },
             "tour": {
@@ -8793,7 +8794,34 @@
                     "moveCursor": "移動",
                     "editCode": "編輯",
                     "insertCode": "插入",
-                    "debug": "調試"
+                    "debug": "調試",
+                    "format": "$~格式",
+                    "help": "$~說明"
+                },
+                "column": {
+                    "symbol": "$~符號",
+                    "shortcut": "$~快速鍵",
+                    "action": "$~動作",
+                    "change": "$~更改"
+                },
+                "via": {
+                    "toolbar": "$~工具列",
+                    "chooser": "$~字元選擇器"
+                },
+                "change": {
+                    "on": "$~停止更改此快速鍵",
+                    "off": "$~更改此快速鍵"
+                },
+                "capture": "$~按下你想要的按鍵",
+                "reset": "$~使用預設快速鍵",
+                "resetAll": "$~使用全部預設快速鍵",
+                "custom": "$~已改變",
+                "feedback": {
+                    "bound": "$~$command 現在是 $shortcut",
+                    "conflict": "$~$shortcut 已經是 $command 的快速鍵了",
+                    "reserved": "$~你的電腦保留了 $shortcut，無法使用",
+                    "unmodified": "$~快速鍵需要搭配 Control 或 Alt，不然就只是在打字而已",
+                    "reset": "$~$command 已經恢復成原本的快速鍵"
                 }
             },
             "feedback": {

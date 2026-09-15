@@ -48,8 +48,14 @@
         /** Whether to continuously spin the icon, e.g. to show ongoing work.
          *  Respects prefers-reduced-motion via --animation-factor. */
         spinIcon?: boolean;
-        /** An optional shortcut string for ARIA */
-        shortcut?: string;
+        /** How the shortcut reads to a person: glyphs on macOS (⌘⇧8), words
+         *  elsewhere. Shown in the tip. */
+        shortcut?: string | undefined;
+        /** The same chord as `aria-keyshortcuts` requires it — UI Events key
+         *  names joined by '+'. Separate from `shortcut` because the display
+         *  form is not a value the attribute accepts: we used to pass the
+         *  glyphs, so a macOS screen reader was handed "⌘⇧8". */
+        ariaShortcut?: string | undefined;
         /** For a disclosure button: whether what it controls is showing, and
          *  the id of the region it shows. Screen readers announce a
          *  disclosure's state from these, and there's no way to infer them
@@ -91,6 +97,7 @@
         size = undefined,
         testid = undefined,
         shortcut = undefined,
+        ariaShortcut = undefined,
         expanded = undefined,
         controls = undefined,
         wrap = false,
@@ -184,7 +191,7 @@
     type={submit ? 'submit' : 'button'}
     aria-label={tooltip}
     aria-disabled={!active}
-    aria-keyshortcuts={shortcut}
+    aria-keyshortcuts={ariaShortcut}
     aria-expanded={expanded}
     aria-controls={controls}
     onpointerdown={(event) => {

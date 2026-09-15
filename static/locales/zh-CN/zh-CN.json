@@ -7674,8 +7674,8 @@
             },
             "button": {
                 "selectOutput": "在舞台上显示此输出",
-                "zoomIn": "$~把代码放大",
-                "zoomOut": "$~把代码缩小",
+                "zoomIn": "$~放大代码",
+                "zoomOut": "$~缩小代码",
                 "replace": "$~替换所有匹配项",
                 "selectOutputError": "$~在舞台上显示这个输出；这个源文件的求值以错误结束",
                 "addView": "$~在第二个视图中显示这段代码",
@@ -7766,7 +7766,7 @@
                 "nextMatch": "$~转到下一个搜索匹配项",
                 "insertTranslate": "$~插入翻译符号",
                 "insertThis": "$~插入这个符号",
-                "tab": "$~Tab 键会移动键盘焦点。要插入制表符，请按 $control+$alt+Tab，使用下面的插入按钮，或在设置中更改这一项。",
+                "tab": "$~Tab 键用来移动键盘焦点。要插入制表符，请使用下面的插入按钮，或者在设置中修改 Tab 键的作用。",
                 "matchDelimiter": "$~把光标移到配对的分隔符",
                 "insertPattern": "$~插入模式",
                 "insertSearch": "$~插入模式搜索符号",
@@ -7786,18 +7786,19 @@
                 },
                 "selected": "$~已选 $#count[$count 个字符]：$text",
                 "unknownPosition": "$~在代码中",
-                "insertWholeNote": "$~插入一个全音符，长四拍",
-                "insertDottedWholeNote": "$~插入一个附点全音符，长六拍",
-                "insertHalfNote": "$~插入一个二分音符，长两拍",
-                "insertDottedHalfNote": "$~插入一个附点二分音符，长三拍",
-                "insertQuarterNote": "$~插入一个四分音符，长一拍",
-                "insertDottedQuarterNote": "$~插入一个附点四分音符，长一拍半",
-                "insertEighthNote": "$~插入一个八分音符，长半拍",
-                "insertDottedEighthNote": "$~插入一个附点八分音符，长四分之三拍",
-                "insertSixteenthNote": "$~插入一个十六分音符，长四分之一拍",
-                "insertDottedSixteenthNote": "$~插入一个附点十六分音符，长八分之三拍",
+                "insertWholeNote": "$~插入一个全音符，时值四拍",
+                "insertDottedWholeNote": "$~插入一个附点全音符，时值六拍",
+                "insertHalfNote": "$~插入一个二分音符，时值两拍",
+                "insertDottedHalfNote": "$~插入一个附点二分音符，时值三拍",
+                "insertQuarterNote": "$~插入一个四分音符，时值一拍",
+                "insertDottedQuarterNote": "$~插入一个附点四分音符，时值一拍半",
+                "insertEighthNote": "$~插入一个八分音符，时值半拍",
+                "insertDottedEighthNote": "$~插入一个附点八分音符，时值四分之三拍",
+                "insertSixteenthNote": "$~插入一个十六分音符，时值四分之一拍",
+                "insertDottedSixteenthNote": "$~插入一个附点十六分音符，时值八分之三拍",
                 "selectedNodes": "$~已选择 $#count[$count 个节点]，从 $first 到 $last",
-                "insertRange": "$~插入范围符号"
+                "insertRange": "$~插入范围符号",
+                "findText": "$~搜索代码"
             },
             "options": {
                 "locale": {
@@ -8046,7 +8047,7 @@
                 "forwardNode": "前进到下一个节点评估",
                 "forwardInput": "前进到下一个流输入",
                 "present": "到现在",
-                "start": "$~回到开头",
+                "start": "$~到开头",
                 "reset": "重新启动性能"
             },
             "tour": {
@@ -8778,7 +8779,34 @@
                     "moveCursor": "移动",
                     "editCode": "编辑",
                     "insertCode": "插入",
-                    "debug": "调试"
+                    "debug": "调试",
+                    "format": "$~格式",
+                    "help": "$~帮助"
+                },
+                "column": {
+                    "symbol": "$~符号",
+                    "shortcut": "$~快捷键",
+                    "action": "$~操作",
+                    "change": "$~更改"
+                },
+                "via": {
+                    "toolbar": "$~工具栏",
+                    "chooser": "$~字符选择器"
+                },
+                "change": {
+                    "on": "$~停止修改此快捷键",
+                    "off": "$~修改此快捷键"
+                },
+                "capture": "$~按下你想要的按键",
+                "reset": "$~使用默认快捷键",
+                "resetAll": "$~使用所有默认快捷键",
+                "custom": "$~已更改",
+                "feedback": {
+                    "bound": "$~$command 现在的快捷键是 $shortcut",
+                    "conflict": "$~$shortcut 已经用于 $command",
+                    "reserved": "$~你的计算机把 $shortcut 留给自己用了",
+                    "unmodified": "$~快捷键需要包含 Control 或 Alt，不然就变成打字了",
+                    "reset": "$~$command 已恢复为常用快捷键"
                 }
             },
             "feedback": {

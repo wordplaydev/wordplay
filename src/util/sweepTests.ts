@@ -28,6 +28,7 @@ const SweepTests = [
     'src/examples/localizedExamples.test.ts',
     'src/util/verify-locales/exampleNamesSync.test.ts',
     'src/util/verify-locales/howToStructureSync.test.ts',
+    'src/util/verify-locales/keyNamesSync.test.ts',
     'src/util/verify-locales/localeArtifactsSync.test.ts',
     'src/util/verify-locales/localizedExamplesSync.test.ts',
 ];

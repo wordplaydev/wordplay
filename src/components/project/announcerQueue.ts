@@ -119,6 +119,13 @@ const Lanes = {
     // coalesce
     // The caret must keep up with navigation, and outrank the screen
     // reader's own chatter, so it doesn't wait behind paced announcements.
+    // A creator changing a shortcut: a discrete result of a deliberate action,
+    // which must never be dropped, so queued rather than coalesced. Not `echo`
+    // (it doesn't answer a typing keystroke) and not `interrupt` (a refused
+    // chord is their own considered action failing, not the app breaking).
+    // Text varies by construction — it names the command and the keys, or the
+    // command already holding them.
+    keybinding: 'queued',
     caret: { lane: 'coalesce', immediate: true },
     value: 'coalesce',
     color: 'coalesce',

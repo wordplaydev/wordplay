@@ -827,12 +827,33 @@ test('resolving a color needs no basis', () => {
 // index reads were densest. A future pass should expect this ceiling to come
 // back down rather than keep climbing, since the checks replace asserted reads
 // rather than adding to them.
+// The keyboard-shortcut pass is **+0 files**: `shortcuts.ts` keeps its
+// zero-import property, which is the whole reason it exists apart from the
+// command table, and the new convention helpers live in `chords.ts`, which only
+// a test imports. What moves is bytes in that one file — the named-key label
+// table that replaced each command's `keySymbol`, the ARIA spelling of a chord
+// (the attribute does not accept the glyphs we were passing it), and the
+// paragraph recording which chords macOS takes for itself, plus the six strings
+// the shortcut table needs for its column headers, its two new sections and the
+// commands that have no chord at all. Only the byte ceilings with no slack left
+// move.
+
+// Per-creator keybindings (#826) add **+1 file** to all five:
+// `KeybindingsSetting.ts`, reached through `Database`, which every page carries.
+// It is the settings-leaf case this file's rule allows a file budget to move by
+// one for — it imports only `Setting` and zod, both already on every graph, so
+// one file is all it can ever cost. The command table is *not* pulled in with
+// it: the overrides are a plain map keyed by command id, and `shortcuts.ts`
+// keeps its zero-import property, which is what stops the language runtime
+// following a tooltip onto the landing page. Every byte ceiling moves a
+// hundredth with the file, its rules, and the schema version that stores it.
+
 test.each([
-    ['src/routes/+layout.svelte', 532, 4.03],
-    ['src/components/app/Page.svelte', 556, 4.29],
-    ['src/routes/[[locale]]/+page.svelte', 571, 4.38],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 576, 4.39],
-    ['src/routes/[[locale]]/projects/+page.svelte', 583, 4.41],
+    ['src/routes/+layout.svelte', 533, 4.05],
+    ['src/components/app/Page.svelte', 557, 4.3],
+    ['src/routes/[[locale]]/+page.svelte', 572, 4.39],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 577, 4.41],
+    ['src/routes/[[locale]]/projects/+page.svelte', 584, 4.43],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

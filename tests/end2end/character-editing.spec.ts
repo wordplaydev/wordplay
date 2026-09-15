@@ -181,8 +181,11 @@ test('undo steps back exactly one keyboard-drawn pixel', async ({
         await expect.poll(() => pixels.count()).toBe(2);
 
         // And the state the undo left is still reachable, rather than replaced
-        // by a second copy of an older one.
-        await page.keyboard.press('Control+Shift+z');
+        // by a second copy of an older one. Pressed as a code, not a letter:
+        // Playwright's synthetic `Shift+z` reports key 'z', which no real
+        // browser produces, so the letter form would test a keystroke nobody
+        // can make — and did, while this redo was broken.
+        await page.keyboard.press('Control+Shift+KeyZ');
         await expect.poll(() => pixels.count()).toBe(3);
     } finally {
         await context.close();

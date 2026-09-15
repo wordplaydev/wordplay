@@ -47,6 +47,8 @@
     import PerformIcon from '@components/project/PerformIcon.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Wellspring from '@components/wellspring/Wellspring.svelte';
+    import { ShortcutsDialogID } from '@components/widgets/dialogIDs';
+    import { setDialogInURL } from '@components/widgets/dialogURL';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import Options from '@components/widgets/Options.svelte';
     import Tour from '@components/widgets/Tour.svelte';
@@ -363,9 +365,6 @@
 
     /** The current canvas */
     let canvas = $state<HTMLDivElement | undefined>();
-
-    /** Whether to show the keyboard help dialog */
-    let showHelpDialog = $state(false);
 
     /** The current canvas dimensions. Default to a value. */
     let canvasWidth = $state(1280);
@@ -2040,7 +2039,10 @@
         canUnfoldAll: focusedEditorState?.canUnfoldAll,
         blocks: $blocks,
         view: undefined,
-        help: () => (showHelpDialog = !showHelpDialog),
+        // The dialog lives in ProjectFooter and is driven by the URL, like every
+        // other persistable dialog. This used to toggle a state variable that
+        // nothing rendered, so the command consumed its chord and opened nothing.
+        help: () => setDialogInURL(ShortcutsDialogID, true),
         zoom: focusedEditorState?.zoom,
         setZoom: focusedEditorState?.setZoom,
         writingLayout: focusedEditorState?.writingLayout,

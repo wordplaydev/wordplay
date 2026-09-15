@@ -108,11 +108,26 @@ import Names from '@nodes/Names';
 import Source from '@nodes/Source';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
+import {
+    currentKeybindings,
+    effectiveChords,
+    type Keybindings,
+} from '@db/settings/KeybindingsSetting';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { TAB_SYMBOL } from '@parser/Spaces';
 import type Evaluator from '@runtime/Evaluator';
 
 export type Command = {
+    /** A stable, locale-independent name for this command, used to persist a
+     *  creator's keybinding override. Required so that adding a command without
+     *  one is a type error rather than a silently unremappable command.
+     *
+     *  Distinct from `uiid`, which is the tour-highlight selector: a tour step
+     *  names a `uiid`, so reusing that field here would make renaming an id
+     *  break a tour. Renaming an `id` orphans a stored override instead, which
+     *  is why `Commands.test.ts` pins the whole list — a rename has to be a diff
+     *  a reviewer approves. */
+    id: string;
     /** The iconographic text symbol to use */
     symbol: string;
     /** Degrees to rotate the rendered symbol, for reusing one glyph at different
@@ -127,12 +142,18 @@ export type Command = {
     category: Category;
     /** If true, the command is always visible and not hidden behind an accordion */
     important?: boolean;
-    /** The key that triggers the command. If omitted, the command has no keyboard
-     *  shortcut — UNLESS it's also a `typing` catch-all (e.g. InsertSymbol), in
-     *  which case every key triggers it. Palette-only commands omit both. */
+    /** The key that triggers the command: either a `NamedKeys` member
+     *  (`ArrowLeft`, `Enter`, …) or the single character the key types unshifted
+     *  on a US layout, lowercase for letters. Never a `KeyboardEvent.code` — a
+     *  chord is named by the character the creator sees on the key, the way the
+     *  browser's own copy and paste are, and `USBaseCharacter` resolves the
+     *  keystrokes a character alone can't answer. The label is derived from this
+     *  by `keyLabel`, so there is no second field that can disagree with it.
+     *
+     *  If omitted, the command has no keyboard shortcut — UNLESS it's also a
+     *  `typing` catch-all (e.g. InsertSymbol), in which case every key triggers
+     *  it. Palette-only commands omit both. */
     key?: string;
-    /** The optional symbol representing the key, for rendering shortcuts */
-    keySymbol?: string;
     /** If true, shift is required, if false, it's disqualifying, if undefined, it can be either */
     shift: boolean | undefined;
     /** If true, alt is required, if false, it's disqualifying, if undefined, it can be either */
@@ -232,7 +253,10 @@ export type CommandContext = {
     setFullscreen?: (on: boolean) => void;
     focusOrCycleTile?: (content?: TileKind) => void;
     resetInputs?: () => void;
-    help?: () => void;
+    /** Opens the keyboard shortcut reference. Optional-and-undefined because the
+     *  editor forwards whatever the project view gave it, which is nothing when
+     *  an editor is mounted outside a project (a documentation example). */
+    help?: (() => void) | undefined;
     getTokenViews?: () => HTMLElement[];
     /** Function to clear large deletion notification */
     clearLargeDeletionNotification?: () => void;
@@ -307,8 +331,18 @@ export type Revision = [Source, Caret];
 export type ProjectRevision = [Project, Caret];
 
 export const Visibility = {
+    /** The editor toolbar renders it. */
     Visible: 'visible',
+    /** The editor toolbar renders it, but only on a touch device. */
     Touch: 'touch',
+    /** A specific view places this button itself, rather than the toolbar
+     *  rendering it from the command list — the stepping controls, the
+     *  fullscreen toggle, the search toggle. Distinct from `Invisible` so that
+     *  `Invisible` can mean what it says: no button anywhere. The shortcut
+     *  reference relies on that to decide whether showing a command's symbol
+     *  helps a reader find it or is a placeholder matching nothing. */
+    Elsewhere: 'elsewhere',
+    /** No button at all: the chord is the only way to invoke it. */
     Invisible: 'invisible ',
 } as const;
 export type Visibility = (typeof Visibility)[keyof typeof Visibility];
@@ -330,6 +364,137 @@ export type Keystroke = Pick<
     KeyboardEvent,
     'key' | 'code' | 'metaKey' | 'ctrlKey' | 'shiftKey' | 'altKey'
 >;
+
+/**
+ * The keys a command may name that are not characters. For every one of these
+ * `event.key` and `event.code` are the same string, so there is nothing to
+ * resolve and `shift` may be required, disqualifying or either.
+ */
+export const NamedKeys: ReadonlySet<string> = new Set([
+    'ArrowLeft',
+    'ArrowRight',
+    'ArrowUp',
+    'ArrowDown',
+    'Home',
+    'End',
+    'PageUp',
+    'PageDown',
+    'Enter',
+    'Tab',
+    'Escape',
+    'Backspace',
+    'Delete',
+    'Insert',
+]);
+
+/**
+ * What each physical key types unshifted on a US layout, which is the fallback
+ * meaning of a character-keyed command.
+ *
+ * This is the third and last step of key resolution, never the first: a chord is
+ * named by the character the creator sees on the key, so that `Ctrl+z` is undo on
+ * AZERTY and Dvorak the same way the browser's own copy and paste are. But
+ * `event.key` alone can't answer every keystroke — it is `'*'` for Shift+8,
+ * `'Dead'` for macOS Option+i, and on AZERTY a digit needs Shift to type at all —
+ * so the physical position resolves what the character can't.
+ */
+export const USBaseCharacter: Readonly<Record<string, string>> = {
+    Digit0: '0',
+    Digit1: '1',
+    Digit2: '2',
+    Digit3: '3',
+    Digit4: '4',
+    Digit5: '5',
+    Digit6: '6',
+    Digit7: '7',
+    Digit8: '8',
+    Digit9: '9',
+    KeyA: 'a',
+    KeyB: 'b',
+    KeyC: 'c',
+    KeyD: 'd',
+    KeyE: 'e',
+    KeyF: 'f',
+    KeyG: 'g',
+    KeyH: 'h',
+    KeyI: 'i',
+    KeyJ: 'j',
+    KeyK: 'k',
+    KeyL: 'l',
+    KeyM: 'm',
+    KeyN: 'n',
+    KeyO: 'o',
+    KeyP: 'p',
+    KeyQ: 'q',
+    KeyR: 'r',
+    KeyS: 's',
+    KeyT: 't',
+    KeyU: 'u',
+    KeyV: 'v',
+    KeyW: 'w',
+    KeyX: 'x',
+    KeyY: 'y',
+    KeyZ: 'z',
+    Minus: '-',
+    Equal: '=',
+    BracketLeft: '[',
+    BracketRight: ']',
+    Backslash: '\\',
+    Semicolon: ';',
+    Quote: "'",
+    Backquote: '`',
+    Comma: ',',
+    Period: '.',
+    Slash: '/',
+    Space: ' ',
+};
+
+/**
+ * Whether a command's declared `key` names this keystroke.
+ *
+ * Resolution is three steps, in this order — see `USBaseCharacter` for why the
+ * physical position comes last. Callers fold the key once per keydown rather than
+ * once per command, since this runs on every keystroke.
+ *
+ * The physical fallback applies only to a *chorded* command, and that limit is
+ * load-bearing. Every keystroke it exists to resolve is one where a modifier has
+ * taken the character away — Shift turning 8 into `*`, macOS Option turning j
+ * into `∆`, AZERTY needing Shift to type a digit at all. For an unmodified key
+ * the character *is* the meaning, and falling back to the position would make a
+ * command claim every other character that physical key can type: `[` would
+ * answer to `{`, which in Wordplay opens a set rather than a list.
+ */
+export function keyMatches(
+    commandKey: string,
+    chorded: boolean,
+    key: string,
+    foldedKey: string,
+    baseCharacter: string | undefined,
+): boolean {
+    if (NamedKeys.has(commandKey)) return commandKey === key;
+    if (commandKey === foldedKey) return true;
+    return chorded && commandKey === baseCharacter;
+}
+
+/** One-slot memo for the override-applied command list. Concrete types here, so
+ *  nothing has to be cast back out of a generic cache. */
+let lastCommands: Command[] | undefined;
+let lastOverrides: Keybindings | undefined;
+let lastBound: Command[] | undefined;
+
+function bindCommands(commands: Command[], overrides: Keybindings): Command[] {
+    if (
+        lastBound !== undefined &&
+        lastCommands === commands &&
+        lastOverrides === overrides
+    )
+        return lastBound;
+    const bound = effectiveChords(commands, overrides);
+    lastCommands = commands;
+    lastOverrides = overrides;
+    lastBound = bound;
+    return bound;
+}
 
 export function handleKeyCommand(
     event: Keystroke,
@@ -371,10 +536,23 @@ export function handleKeyCommand(
         code = remapArrowKey(code, layout, writingDirection);
     }
 
+    // Fold the keystroke once, not once per command: this runs on every keydown
+    // and the loop below is ~138 iterations. See `USBaseCharacter` for why the
+    // character comes first and the physical position second.
+    const foldedKey = key.toLowerCase();
+    const baseCharacter = USBaseCharacter[code];
+
+    // Apply the creator's keybinding overrides, memoized on both inputs by
+    // reference: the store replaces the overrides object wholesale on every
+    // write, and there are only ever two command tables, so one slot is enough.
+    // With no overrides — the overwhelming case — `effectiveChords` hands the
+    // very same array back and this costs nothing.
+    const bound = bindCommands(commands, currentKeybindings());
+
     let matchedShortcut = false;
 
     // Loop through the commands and see if there's a match to this event.
-    for (const command of commands) {
+    for (const command of bound) {
         // Does this command's shortcut pattern match the event?
         if (
             (command.control === undefined || command.control === control) &&
@@ -386,8 +564,14 @@ export function handleKeyCommand(
             // shortcut, like the pattern glyphs) deliberately omit `key`; without
             // this guard they'd match every unmodified keystroke and clobber it.
             ((command.key === undefined && command.typing === true) ||
-                command.key === code ||
-                command.key === key)
+                (command.key !== undefined &&
+                    keyMatches(
+                        command.key,
+                        command.control === true || command.alt === true,
+                        key,
+                        foldedKey,
+                        baseCharacter,
+                    )))
         ) {
             // Update matched shortcut to true, since we matched one.
             // The only one that doesn't count is the insert symbol catch all.
@@ -491,17 +675,19 @@ function skipFolded(
 }
 
 export const ShowKeyboardHelp: Command = {
+    id: 'show-keyboard-help',
     uiid: 'showKeyboardHelp',
-    symbol: '⌨️',
+    // Bare codepoint: with U+FE0F the glyph renders in the colour emoji font
+    // whatever family it's given, which defeats Emoji's monochrome default.
+    symbol: '⌨',
     description: (l) => l.ui.project.help,
     feedback: 'focus',
-    visible: Visibility.Invisible,
+    visible: Visibility.Elsewhere,
     category: Category.Help,
     shift: false,
     alt: false,
     control: true,
-    key: 'Slash',
-    keySymbol: '?',
+    key: '/',
     execute: ({ help }) => {
         if (help) {
             help();
@@ -511,15 +697,18 @@ export const ShowKeyboardHelp: Command = {
 };
 
 export const ToggleSearch: Command = {
+    id: 'toggle-search',
     symbol: '🔍',
-    description: (l) => l.ui.source.field.search,
-    visible: Visibility.Invisible,
+    // Its own string: this used to borrow the search *field's* label, whose
+    // value is the single word "text", so the shortcut reference listed a
+    // command called "text".
+    description: (l) => l.ui.source.cursor.findText,
+    visible: Visibility.Elsewhere,
     category: Category.Cursor,
     shift: false,
     alt: false,
     control: true,
-    key: 'KeyF',
-    keySymbol: 'F',
+    key: 'f',
     // When an editor is handling this, consume Cmd/Ctrl+F (overriding the
     // browser's find shortcut) and toggle the editor's search field. Returns
     // false when no editor provides toggleSearch, so the browser shortcut still
@@ -533,6 +722,7 @@ export const ToggleSearch: Command = {
 };
 
 export const GoToNextMatch: Command = {
+    id: 'go-to-next-match',
     symbol: '🔍',
     description: (l) => l.ui.source.cursor.nextMatch,
     visible: Visibility.Invisible,
@@ -540,8 +730,7 @@ export const GoToNextMatch: Command = {
     shift: false,
     alt: false,
     control: true,
-    key: 'KeyG',
-    keySymbol: 'G',
+    key: 'g',
     // Move to the next match (overriding the browser's find-next) when an
     // editor is searching. Returns false otherwise so the browser shortcut
     // still works when no editor is searching.
@@ -549,6 +738,7 @@ export const GoToNextMatch: Command = {
 };
 
 export const IncrementLiteral: Command = {
+    id: 'increment-literal',
     uiid: 'incrementLiteral',
     symbol: '+',
     description: (l) => l.ui.source.cursor.incrementLiteral,
@@ -560,13 +750,13 @@ export const IncrementLiteral: Command = {
     alt: true,
     shift: false,
     key: 'ArrowUp',
-    keySymbol: '↑',
     active: ({ caret }) =>
         caret ? caret.getAdjustableLiteral() !== undefined : false,
     execute: ({ caret }) => caret?.adjustLiteral(undefined, 1) ?? false,
 };
 
 export const DecrementLiteral: Command = {
+    id: 'decrement-literal',
     uiid: 'decrementLiteral',
     symbol: '–',
     description: (l) => l.ui.source.cursor.decrementLiteral,
@@ -578,13 +768,13 @@ export const DecrementLiteral: Command = {
     control: false,
     alt: true,
     key: 'ArrowDown',
-    keySymbol: '↓',
     active: ({ caret }) =>
         caret ? caret.getAdjustableLiteral() !== undefined : false,
     execute: ({ caret }) => caret?.adjustLiteral(undefined, -1) ?? false,
 };
 
 export const StepBack: Command = {
+    id: 'step-back',
     uiid: 'stepBack',
     symbol: '←',
     description: (l) => l.ui.timeline.button.backStep,
@@ -595,7 +785,6 @@ export const StepBack: Command = {
     alt: false,
     control: true,
     key: 'ArrowLeft',
-    keySymbol: '←',
     // Show the button inactive at the beginning, but return null (not undefined)
     // so the dispatcher still consumes Ctrl/Cmd+← — otherwise the browser would
     // navigate back.
@@ -610,6 +799,7 @@ export const StepBack: Command = {
 };
 
 export const StepForward: Command = {
+    id: 'step-forward',
     uiid: 'stepForward',
     symbol: '→',
     description: (l) => l.ui.timeline.button.forwardStep,
@@ -620,7 +810,6 @@ export const StepForward: Command = {
     alt: false,
     control: true,
     key: 'ArrowRight',
-    keySymbol: '→',
     // Null (not undefined) when inactive, so the matched shortcut is consumed
     // rather than bubbling to the browser as a forward-navigation.
     active: (context) =>
@@ -638,6 +827,7 @@ export const StepForward: Command = {
 };
 
 export const StepBackInput: Command = {
+    id: 'step-back-input',
     uiid: 'stepBackInput',
     symbol: '⇠',
     description: (l) => l.ui.timeline.button.backInput,
@@ -648,7 +838,6 @@ export const StepBackInput: Command = {
     alt: false,
     control: true,
     key: 'ArrowLeft',
-    keySymbol: '←',
     // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
         inPlayMode(context) || !context.evaluator.isAtBeginning() ? true : null,
@@ -661,6 +850,7 @@ export const StepBackInput: Command = {
 };
 
 export const StepForwardInput: Command = {
+    id: 'step-forward-input',
     uiid: 'stepForwardInput',
     symbol: '⇢',
     description: (l) => l.ui.timeline.button.forwardInput,
@@ -671,7 +861,6 @@ export const StepForwardInput: Command = {
     alt: false,
     control: true,
     key: 'ArrowRight',
-    keySymbol: '→',
     // Null when inactive so the matched shortcut never bubbles to the browser.
     active: (context) =>
         inPlayMode(context) || context.evaluator.isInPast() ? true : null,
@@ -683,6 +872,7 @@ export const StepForwardInput: Command = {
 };
 
 export const StepBackNode: Command = {
+    id: 'step-back-node',
     uiid: 'stepBackNode',
     symbol: '•←',
     description: (l) => l.ui.timeline.button.backNode,
@@ -690,10 +880,9 @@ export const StepBackNode: Command = {
     visible: Visibility.Visible,
     category: Category.Evaluate,
     shift: true,
-    alt: true,
+    alt: false,
     control: true,
-    key: 'ArrowLeft',
-    keySymbol: '←',
+    key: 'ArrowUp',
     // Null when inactive so the matched shortcut never bubbles to the browser.
     active: ({ caret }) => (caret !== undefined ? true : null),
     execute: (context) => {
@@ -707,16 +896,16 @@ export const StepBackNode: Command = {
 };
 
 export const StepForwardNode: Command = {
+    id: 'step-forward-node',
     uiid: 'stepForwardNode',
     symbol: '⇢•',
     description: (l) => l.ui.timeline.button.forwardNode,
     feedback: stepFeedback,
     visible: Visibility.Visible,
     category: Category.Evaluate,
-    key: 'ArrowRight',
-    keySymbol: '→',
+    key: 'ArrowDown',
     shift: true,
-    alt: true,
+    alt: false,
     control: true,
     // Null when inactive so the matched shortcut never bubbles to the browser.
     active: ({ caret }) => (caret !== undefined ? true : null),
@@ -731,15 +920,16 @@ export const StepForwardNode: Command = {
 };
 
 export const Restart: Command = {
+    id: 'restart',
     symbol: '↻',
     description: (l) => l.ui.timeline.button.reset,
     feedback: { path: (l) => l.ui.feedback.restarted },
     uiid: 'resetEvaluator',
     visible: Visibility.Visible,
     category: Category.Evaluate,
-    key: 'Enter',
-    shift: false,
-    alt: true,
+    key: '9',
+    shift: true,
+    alt: false,
     control: true,
     execute: ({ resetInputs }) => {
         // Don't handle this if we don't have access to the reset function.
@@ -751,6 +941,7 @@ export const Restart: Command = {
 };
 
 export const Perform: Command = {
+    id: 'perform',
     uiid: 'performProject',
     symbol: PERFORM_SYMBOL,
     description: (l) => l.ui.output.button.perform,
@@ -773,6 +964,7 @@ export const Perform: Command = {
 };
 
 export const StepToStart: Command = {
+    id: 'step-to-start',
     uiid: 'stepToStart',
     symbol: '⇤',
     description: (l) => l.ui.timeline.button.start,
@@ -794,6 +986,7 @@ export const StepToStart: Command = {
 };
 
 export const StepToPresent: Command = {
+    id: 'step-to-present',
     uiid: 'stepToPresent',
     symbol: '⇥',
     description: (l) => l.ui.timeline.button.present,
@@ -815,6 +1008,7 @@ export const StepToPresent: Command = {
 };
 
 export const StepOut: Command = {
+    id: 'step-out',
     uiid: 'stepOut',
     symbol: '↑',
     description: (l) => l.ui.timeline.button.out,
@@ -825,7 +1019,6 @@ export const StepOut: Command = {
     alt: false,
     control: true,
     key: 'ArrowUp',
-    keySymbol: '↑',
     // Stepping out requires a current evaluation to step out of. (This previously
     // required isPlaying(), which made the button inert exactly when stepping.)
     // Null when inactive so the matched shortcut never bubbles to the browser.
@@ -844,11 +1037,12 @@ export const StepOut: Command = {
 };
 
 export const ModeToggle: Command = {
+    id: 'mode-toggle',
     uiid: 'modeToggle',
     symbol: '⏯',
     description: (l) => l.ui.output.mode.toggle,
     feedback: 'delegated',
-    visible: Visibility.Invisible,
+    visible: Visibility.Elsewhere,
     category: Category.Evaluate,
     shift: false,
     alt: false,
@@ -872,17 +1066,21 @@ export const ModeToggle: Command = {
 /** The evaluation tips are a positional tuple in ProjectModes order — edit,
  *  debug, play — so each command below names its own index. */
 export const ModeEdit: Command = {
+    id: 'mode-edit',
     uiid: 'modeEdit',
-    symbol: '✏️',
+    // EDIT_SYMBOL, not the colour-emoji pencil: this is the glyph the mode
+    // switcher actually draws (ProjectModeIcons), and a symbol that doesn't
+    // match the button it names helps nobody find it. See the bare-codepoint
+    // note on PAUSE_SYMBOL in Symbols.ts.
+    symbol: EDIT_SYMBOL,
     description: (l) => l.ui.output.mode.evaluation.tips[0],
     feedback: 'delegated',
-    visible: Visibility.Invisible,
+    visible: Visibility.Elsewhere,
     category: Category.Evaluate,
-    shift: false,
-    alt: true,
+    shift: true,
+    alt: false,
     control: true,
-    key: 'Digit5',
-    keySymbol: '5',
+    key: '5',
     active: (context) =>
         context.setMode !== undefined && context.getMode?.() !== 'edit'
             ? true
@@ -894,18 +1092,18 @@ export const ModeEdit: Command = {
 };
 
 export const ModeDebug: Command = {
+    id: 'mode-debug',
     uiid: 'modeDebug',
     symbol: DEBUG_SYMBOL,
     description: (l) => l.ui.output.mode.evaluation.tips[1],
     feedback: 'delegated',
-    visible: Visibility.Invisible,
+    visible: Visibility.Elsewhere,
     category: Category.Evaluate,
-    shift: false,
-    alt: true,
+    shift: true,
+    alt: false,
     control: true,
     // 5/6/7 for edit/debug/play, matching the mode switcher's order.
-    key: 'Digit6',
-    keySymbol: '6',
+    key: '6',
     active: (context) =>
         context.setMode !== undefined && context.getMode?.() !== 'debug'
             ? true
@@ -917,17 +1115,17 @@ export const ModeDebug: Command = {
 };
 
 export const ModePlay: Command = {
+    id: 'mode-play',
     uiid: 'modePlay',
     symbol: PLAY_SYMBOL,
     description: (l) => l.ui.output.mode.evaluation.tips[2],
     feedback: 'delegated',
-    visible: Visibility.Invisible,
+    visible: Visibility.Elsewhere,
     category: Category.Evaluate,
-    shift: false,
-    alt: true,
+    shift: true,
+    alt: false,
     control: true,
-    key: 'Digit7',
-    keySymbol: '7',
+    key: '7',
     active: (context) =>
         context.setMode !== undefined && context.getMode?.() !== 'play'
             ? true
@@ -939,6 +1137,7 @@ export const ModePlay: Command = {
 };
 
 export const ShowMenu: Command = {
+    id: 'show-menu',
     uiid: 'showMenu',
     symbol: '▾',
     description: (l) => l.ui.source.menu.show,
@@ -949,7 +1148,6 @@ export const ShowMenu: Command = {
     alt: false,
     control: true,
     key: 'ArrowDown',
-    keySymbol: '↓',
     execute: ({ toggleMenu }) => {
         if (toggleMenu) {
             toggleMenu();
@@ -961,11 +1159,12 @@ export const ShowMenu: Command = {
 // No shortcut: its old ctrl/meta+alt+Enter now belongs to Restart. The footer's
 // browser-fullscreen Toggle is its remaining trigger, and Escape still exits.
 export const EnterFullscreen: Command = {
+    id: 'enter-fullscreen',
     uiid: 'enterFullscreen',
     symbol: '▶',
     description: (l) => l.ui.tile.toggle.fullscreen.off,
     feedback: { path: (l) => l.ui.feedback.fullscreenOn },
-    visible: Visibility.Invisible,
+    visible: Visibility.Elsewhere,
     category: Category.Evaluate,
     shift: false,
     alt: false,
@@ -979,11 +1178,12 @@ export const EnterFullscreen: Command = {
 };
 
 export const ExitFullscreen: Command = {
+    id: 'exit-fullscreen',
     uiid: 'exitFullscreen',
     symbol: EDIT_SYMBOL,
     description: (l) => l.ui.tile.toggle.fullscreen.on,
     feedback: { path: (l) => l.ui.feedback.fullscreenOff },
-    visible: Visibility.Invisible,
+    visible: Visibility.Elsewhere,
     category: Category.Evaluate,
     shift: false,
     alt: false,
@@ -999,15 +1199,16 @@ export const ExitFullscreen: Command = {
 };
 
 export const FocusOutput: Command = {
+    id: 'focus-output',
     uiid: 'focusOutput',
     symbol: STAGE_SYMBOL,
     description: (l) => l.ui.project.button.focusOutput,
     visible: Visibility.Invisible,
     category: Category.Cursor,
-    shift: false,
-    alt: true,
+    shift: true,
+    alt: false,
     control: true,
-    key: 'Digit1',
+    key: '1',
     execute: ({ focusOrCycleTile }) => {
         if (focusOrCycleTile) {
             focusOrCycleTile(TileKind.Output);
@@ -1017,15 +1218,16 @@ export const FocusOutput: Command = {
 };
 
 export const FocusSource: Command = {
+    id: 'focus-source',
     uiid: 'focusSource',
     symbol: SOURCE_SYMBOL,
     description: (l) => l.ui.project.button.focusSource,
     visible: Visibility.Invisible,
     category: Category.Cursor,
-    shift: false,
-    alt: true,
+    shift: true,
+    alt: false,
     control: true,
-    key: 'Digit2',
+    key: '2',
     execute: ({ focusOrCycleTile }) => {
         if (focusOrCycleTile) {
             focusOrCycleTile(TileKind.Source);
@@ -1036,15 +1238,16 @@ export const FocusSource: Command = {
 };
 
 export const FocusDocs: Command = {
+    id: 'focus-docs',
     uiid: 'focusDocs',
     symbol: DOCUMENTATION_SYMBOL,
     description: (l) => l.ui.project.button.focusDocs,
     visible: Visibility.Invisible,
     category: Category.Cursor,
-    shift: false,
-    alt: true,
+    shift: true,
+    alt: false,
     control: true,
-    key: 'Digit3',
+    key: '3',
     execute: ({ focusOrCycleTile }) => {
         if (focusOrCycleTile) {
             focusOrCycleTile(TileKind.Documentation);
@@ -1055,15 +1258,16 @@ export const FocusDocs: Command = {
 };
 
 export const FocusPalette: Command = {
+    id: 'focus-palette',
     uiid: 'focusPalette',
     symbol: PALETTE_SYMBOL,
     description: (l) => l.ui.project.button.focusPalette,
     visible: Visibility.Invisible,
     category: Category.Cursor,
-    shift: false,
-    alt: true,
+    shift: true,
+    alt: false,
     control: true,
-    key: 'Digit4',
+    key: '4',
     execute: ({ focusOrCycleTile }) => {
         if (focusOrCycleTile) {
             focusOrCycleTile(TileKind.Palette);
@@ -1074,14 +1278,15 @@ export const FocusPalette: Command = {
 };
 
 export const FocusCycle: Command = {
+    id: 'focus-cycle',
     symbol: '💬',
     description: (l) => l.ui.project.button.focusCycle,
     visible: Visibility.Invisible,
     category: Category.Cursor,
-    shift: false,
-    alt: true,
+    shift: true,
+    alt: false,
     control: true,
-    key: 'Digit0',
+    key: '0',
     execute: ({ focusOrCycleTile }) => {
         if (focusOrCycleTile) {
             focusOrCycleTile();
@@ -1092,6 +1297,7 @@ export const FocusCycle: Command = {
 };
 
 export const ToggleBlocks: Command = {
+    id: 'toggle-blocks',
     symbol: '⧠',
     description: (l) => l.ui.source.toggle.blocks.on,
     feedback: 'delegated',
@@ -1100,7 +1306,7 @@ export const ToggleBlocks: Command = {
     shift: false,
     alt: false,
     control: true,
-    key: 'Backslash',
+    key: '\\',
     important: true,
     execute: ({ toggleBlocks }) => {
         if (toggleBlocks) {
@@ -1112,6 +1318,7 @@ export const ToggleBlocks: Command = {
 };
 
 export const FoldAll: Command = {
+    id: 'fold-all',
     // The fold chevron rotated to point down (collapse all) — the same glyph as
     // unfold-all and the inline toggle, just reoriented, so the toolbar reads
     // consistently. Distinct from the filled ▾ menu trigger.
@@ -1126,8 +1333,7 @@ export const FoldAll: Command = {
     control: true,
     // ⌘/Ctrl+Shift+< (the comma key). Avoids the bracket keys, which browsers
     // bind to history navigation.
-    key: 'Comma',
-    keySymbol: '<',
+    key: ',',
     important: true,
     active: ({ canFoldAll }) => canFoldAll?.() ?? false,
     execute: ({ foldAll }) => {
@@ -1140,6 +1346,7 @@ export const FoldAll: Command = {
 };
 
 export const UnfoldAll: Command = {
+    id: 'unfold-all',
     // Right chevron (expand all) — mirrors the inline fold toggle's collapsed
     // state.
     symbol: FOLD_GLYPH,
@@ -1151,8 +1358,7 @@ export const UnfoldAll: Command = {
     alt: false,
     control: true,
     // ⌘/Ctrl+Shift+> (the period key).
-    key: 'Period',
-    keySymbol: '>',
+    key: '.',
     important: true,
     active: ({ canUnfoldAll }) => canUnfoldAll?.() ?? false,
     execute: ({ unfoldAll }) => {
@@ -1167,6 +1373,7 @@ export const UnfoldAll: Command = {
 /** The command to rule them all... inserts things during text editing mode. */
 
 export const InsertLine: Command = {
+    id: 'insert-line',
     symbol: '↲',
     description: (l) => l.ui.source.cursor.insertLine,
     visible: Visibility.Visible,
@@ -1185,6 +1392,7 @@ export const InsertLine: Command = {
 };
 
 export const InsertSymbol: Command = {
+    id: 'insert-symbol',
     symbol: 'a',
     description: (l) => l.ui.source.cursor.type,
     visible: Visibility.Invisible,
@@ -1201,6 +1409,7 @@ export const InsertSymbol: Command = {
 };
 
 export const Undo: Command = {
+    id: 'undo',
     symbol: UNDO_SYMBOL,
     description: (l) => l.ui.source.cursor.undo,
     feedback: { path: (l) => l.ui.feedback.undone },
@@ -1209,8 +1418,7 @@ export const Undo: Command = {
     shift: false,
     control: true,
     alt: false,
-    key: 'KeyZ',
-    keySymbol: 'Z',
+    key: 'z',
     important: true,
     active: ({ database, evaluator }) =>
         Projects.getHistory(evaluator.project.getID())?.isUndoable() === true
@@ -1226,6 +1434,7 @@ export const Undo: Command = {
 };
 
 export const Redo: Command = {
+    id: 'redo',
     symbol: REDO_SYMBOL,
     description: (l) => l.ui.source.cursor.redo,
     feedback: { path: (l) => l.ui.feedback.redone },
@@ -1234,8 +1443,7 @@ export const Redo: Command = {
     shift: true,
     control: true,
     alt: false,
-    key: 'KeyZ',
-    keySymbol: 'Z',
+    key: 'z',
     important: true,
     active: ({ evaluator, database }) =>
         Projects.getHistory(evaluator.project.getID())?.isRedoable() === true
@@ -1253,6 +1461,7 @@ export const Redo: Command = {
 // than by matching fragile key strings. See VerticalMovementCommands below.
 
 const MovePriorLine: Command = {
+    id: 'move-prior-line',
     symbol: '↑',
     description: (l) => l.ui.source.cursor.priorLine,
     visible: Visibility.Touch,
@@ -1261,7 +1470,6 @@ const MovePriorLine: Command = {
     control: false,
     shift: false,
     key: 'ArrowUp',
-    keySymbol: '↑',
     // Move one visual row up: between block tokens in blocks mode, or by
     // the rendered row in text mode (respects proportional glyphs, tabs, and
     // soft-wrapped rows). When the rendered rows can't say where to go — the end
@@ -1293,6 +1501,7 @@ const MovePriorLine: Command = {
 };
 
 const ExpandPriorLine: Command = {
+    id: 'expand-prior-line',
     symbol: '↑☐',
     description: (l) => l.ui.source.cursor.expandPriorLine,
     visible: Visibility.Invisible,
@@ -1301,7 +1510,6 @@ const ExpandPriorLine: Command = {
     control: false,
     shift: true,
     key: 'ArrowUp',
-    keySymbol: '↑',
     // On a selected node, extend the sibling selection. In blocks mode a text
     // range can't survive (the editor collapses one as it's made), so select the
     // node the caret is in — expandNode extends from there. Otherwise expand by
@@ -1335,6 +1543,7 @@ const ExpandPriorLine: Command = {
 };
 
 const MoveNextLine: Command = {
+    id: 'move-next-line',
     symbol: '↓',
     description: (l) => l.ui.source.cursor.nextLine,
     visible: Visibility.Touch,
@@ -1343,7 +1552,6 @@ const MoveNextLine: Command = {
     control: false,
     shift: false,
     key: 'ArrowDown',
-    keySymbol: '↓',
     // Move one visual row down: between block tokens in blocks mode, or by
     // the rendered row in text mode (respects proportional glyphs, tabs, and
     // soft-wrapped rows). When the rendered rows can't say where to go — the end
@@ -1371,6 +1579,7 @@ const MoveNextLine: Command = {
 };
 
 const ExpandNextLine: Command = {
+    id: 'expand-next-line',
     symbol: '↓☐',
     description: (l) => l.ui.source.cursor.expandNextLine,
     visible: Visibility.Invisible,
@@ -1379,7 +1588,6 @@ const ExpandNextLine: Command = {
     control: false,
     shift: true,
     key: 'ArrowDown',
-    keySymbol: '↓',
     // On a selected node, extend the sibling selection. In blocks mode a text
     // range can't survive (the editor collapses one as it's made), so select the
     // node the caret is in — expandNode extends from there. Otherwise expand by
@@ -1448,6 +1656,7 @@ const Commands: Command[] = [
     MoveNextLine,
     ExpandNextLine,
     {
+        id: 'prior-inline',
         symbol: '←',
         description: (l) => l.ui.source.cursor.priorInline,
         visible: Visibility.Touch,
@@ -1456,7 +1665,6 @@ const Commands: Command[] = [
         control: false,
         shift: false,
         key: 'ArrowLeft',
-        keySymbol: '←',
         execute: ({ caret, database, blocks, folded, getTokenViews }) => {
             if (caret === undefined) return true;
             const direction: -1 | 1 = blocks
@@ -1475,6 +1683,7 @@ const Commands: Command[] = [
         },
     },
     {
+        id: 'expand-before-inline',
         symbol: '←☐',
         description: (l) => l.ui.source.cursor.expandBeforeInline,
         visible: Visibility.Invisible,
@@ -1483,7 +1692,6 @@ const Commands: Command[] = [
         control: false,
         shift: true,
         key: 'ArrowLeft',
-        keySymbol: '←',
         execute: ({ caret, blocks, folded, getTokenViews }) =>
             caret === undefined
                 ? false
@@ -1500,6 +1708,7 @@ const Commands: Command[] = [
                       ),
     },
     {
+        id: 'next-inline',
         symbol: '→',
         description: (l) => l.ui.source.cursor.nextInline,
         visible: Visibility.Touch,
@@ -1508,7 +1717,6 @@ const Commands: Command[] = [
         control: false,
         shift: false,
         key: 'ArrowRight',
-        keySymbol: '→',
         execute: ({ caret, database, blocks, folded, getTokenViews }) => {
             if (caret === undefined) return false;
             const direction: -1 | 1 = blocks
@@ -1527,6 +1735,7 @@ const Commands: Command[] = [
         },
     },
     {
+        id: 'expand-after-inline',
         symbol: '☐→',
         description: (l) => l.ui.source.cursor.expandAfterInline,
         visible: Visibility.Invisible,
@@ -1535,7 +1744,6 @@ const Commands: Command[] = [
         control: false,
         shift: true,
         key: 'ArrowRight',
-        keySymbol: '→',
         execute: ({ caret, blocks, folded, getTokenViews }) =>
             caret === undefined
                 ? false
@@ -1552,6 +1760,7 @@ const Commands: Command[] = [
                       ),
     },
     {
+        id: 'line-start',
         symbol: '⇤',
         description: (l) => l.ui.source.cursor.lineStart,
         visible: Visibility.Touch,
@@ -1560,10 +1769,10 @@ const Commands: Command[] = [
         control: false,
         shift: false,
         key: 'Home',
-        keySymbol: '⇤',
         execute: ({ caret }) => caret?.atLineBoundary(true) ?? false,
     },
     {
+        id: 'line-end',
         symbol: '⇥',
         description: (l) => l.ui.source.cursor.lineEnd,
         visible: Visibility.Touch,
@@ -1572,10 +1781,10 @@ const Commands: Command[] = [
         control: false,
         shift: false,
         key: 'End',
-        keySymbol: '⇥',
         execute: ({ caret }) => caret?.atLineBoundary(false) ?? false,
     },
     {
+        id: 'source-start',
         symbol: '⤒',
         description: (l) => l.ui.source.cursor.sourceStart,
         visible: Visibility.Touch,
@@ -1584,10 +1793,10 @@ const Commands: Command[] = [
         control: false,
         shift: false,
         key: 'PageUp',
-        keySymbol: '',
         execute: ({ caret }) => caret?.atStart() ?? false,
     },
     {
+        id: 'source-end',
         symbol: '⤓',
         description: (l) => l.ui.source.cursor.sourceEnd,
         visible: Visibility.Touch,
@@ -1596,10 +1805,10 @@ const Commands: Command[] = [
         control: false,
         shift: false,
         key: 'PageDown',
-        keySymbol: '⇥',
         execute: ({ caret }) => caret?.atEnd() ?? false,
     },
     {
+        id: 'prior-node',
         symbol: '⬉',
         description: (l) => l.ui.source.cursor.priorNode,
         visible: Visibility.Invisible,
@@ -1608,10 +1817,10 @@ const Commands: Command[] = [
         shift: true,
         control: false,
         key: 'ArrowLeft',
-        keySymbol: '←',
         execute: ({ caret }) => caret?.left(true) ?? false,
     },
     {
+        id: 'next-node',
         symbol: '⬈',
         description: (l) => l.ui.source.cursor.nextNode,
         visible: Visibility.Invisible,
@@ -1619,18 +1828,17 @@ const Commands: Command[] = [
         alt: false,
         control: false,
         shift: true,
-        keySymbol: '→',
         key: 'ArrowRight',
         execute: ({ caret }) => caret?.right(true) ?? false,
     },
     {
+        id: 'parent',
         symbol: '↑',
         description: (l) => l.ui.source.cursor.parent,
         visible: Visibility.Visible,
         category: Category.Cursor,
         important: true,
         key: 'Escape',
-        keySymbol: '␛',
         alt: undefined,
         control: false,
         shift: undefined,
@@ -1675,6 +1883,7 @@ const Commands: Command[] = [
         },
     },
     {
+        id: 'match-delimiter',
         symbol: '⇄',
         description: (l) => l.ui.source.cursor.matchDelimiter,
         visible: Visibility.Invisible,
@@ -1682,8 +1891,7 @@ const Commands: Command[] = [
         alt: false,
         shift: true,
         control: true,
-        key: 'Backslash',
-        keySymbol: '\\',
+        key: '\\',
         execute: ({ caret }) => {
             if (caret === undefined) return false;
             // Resolve the delimiter token under the caret: either selected as a
@@ -1699,6 +1907,7 @@ const Commands: Command[] = [
         },
     },
     {
+        id: 'select-all',
         symbol: SELECTION_SYMBOL,
         description: (l) => l.ui.source.cursor.selectAll,
         visible: Visibility.Visible,
@@ -1707,8 +1916,7 @@ const Commands: Command[] = [
         alt: false,
         shift: false,
         control: true,
-        key: 'KeyA',
-        keySymbol: 'A',
+        key: 'a',
         execute: ({ editor, caret, blocks }) => {
             if (editor && caret) {
                 // If it blocks mode and in side of a block text editable token, select the whole token..
@@ -1747,20 +1955,20 @@ const Commands: Command[] = [
         },
     },
     {
+        id: 'insert-tab',
         symbol: TAB_SYMBOL,
         description: (l) => l.ui.source.cursor.insertTab,
         visible: Visibility.Visible,
         category: Category.Insert,
         // The inserted node and new caret position are announced.
         feedback: 'caret',
-        alt: true,
+        alt: false,
         shift: false,
-        control: true,
-        key: 'Tab',
-        keySymbol: TAB_SYMBOL,
+        control: false,
         execute: (context) => handleInsert(context, '\t'),
     },
     {
+        id: 'insert-true',
         symbol: TRUE_SYMBOL,
         description: (l) => l.ui.source.cursor.insertTrue,
         visible: Visibility.Visible,
@@ -1770,12 +1978,12 @@ const Commands: Command[] = [
         alt: true,
         shift: false,
         control: false,
-        key: 'Digit1',
-        keySymbol: '1',
+        key: '1',
         produces: () => BooleanType.make(),
         execute: (context) => handleInsert(context, TRUE_SYMBOL),
     },
     {
+        id: 'insert-false',
         symbol: FALSE_SYMBOL,
         description: (l) => l.ui.source.cursor.insertFalse,
         visible: Visibility.Visible,
@@ -1785,12 +1993,12 @@ const Commands: Command[] = [
         alt: true,
         shift: false,
         control: false,
-        key: 'Digit0',
-        keySymbol: '0',
+        key: '0',
         produces: () => BooleanType.make(),
         execute: (context) => handleInsert(context, FALSE_SYMBOL),
     },
     {
+        id: 'insert-none',
         symbol: NONE_SYMBOL,
         description: (l) => l.ui.source.cursor.insertNone,
         visible: Visibility.Visible,
@@ -1800,12 +2008,12 @@ const Commands: Command[] = [
         alt: true,
         shift: false,
         control: false,
-        key: 'KeyO',
-        keySymbol: 'O',
+        key: 'o',
         produces: () => NoneType.make(),
         execute: (context) => handleInsert(context, NONE_SYMBOL),
     },
     {
+        id: 'insert-function',
         symbol: FUNCTION_SYMBOL,
         description: (l) => l.ui.source.cursor.insertFunction,
         visible: Visibility.Visible,
@@ -1813,8 +2021,7 @@ const Commands: Command[] = [
         // The inserted node and new caret position are announced.
         feedback: 'caret',
         alt: true,
-        key: 'KeyF',
-        keySymbol: 'F',
+        key: 'f',
         shift: false,
         control: false,
         execute: ({ caret, locales }) =>
@@ -1832,6 +2039,7 @@ const Commands: Command[] = [
             ) ?? false,
     },
     {
+        id: 'insert-type',
         symbol: TYPE_SYMBOL,
         description: (l) => l.ui.source.cursor.insertType,
         visible: Visibility.Visible,
@@ -1839,13 +2047,13 @@ const Commands: Command[] = [
         // The inserted node and new caret position are announced.
         feedback: 'caret',
         alt: true,
-        shift: false,
+        shift: undefined,
         control: false,
-        key: 'Digit8',
-        keySymbol: '8',
+        key: '8',
         execute: (context) => handleInsert(context, TYPE_SYMBOL),
     },
     {
+        id: 'insert-docs',
         symbol: DOCS_SYMBOL,
         description: (l) => l.ui.source.cursor.insertDocs,
         visible: Visibility.Visible,
@@ -1855,11 +2063,11 @@ const Commands: Command[] = [
         alt: true,
         shift: false,
         control: false,
-        key: 'Digit7',
-        keySymbol: '7',
+        key: '7',
         execute: (context) => handleInsert(context, DOCS_SYMBOL),
     },
     {
+        id: 'insert-not-equal',
         symbol: '≠',
         description: (l) => l.ui.source.cursor.insertNotEqual,
         visible: Visibility.Visible,
@@ -1869,11 +2077,11 @@ const Commands: Command[] = [
         alt: true,
         shift: false,
         control: false,
-        key: 'Equal',
-        keySymbol: '=',
+        key: '=',
         execute: (context) => handleInsert(context, '≠'),
     },
     {
+        id: 'insert-product',
         symbol: PRODUCT_SYMBOL,
         description: (l) => l.ui.source.cursor.insertProduct,
         visible: Visibility.Visible,
@@ -1883,11 +2091,11 @@ const Commands: Command[] = [
         alt: true,
         shift: false,
         control: false,
-        key: 'KeyX',
-        keySymbol: 'X',
+        key: 'x',
         execute: (context) => handleInsert(context, PRODUCT_SYMBOL),
     },
     {
+        id: 'insert-dot',
         symbol: DOT_SYMBOL,
         description: (l) => l.ui.source.cursor.insertDot,
         visible: Visibility.Visible,
@@ -1897,11 +2105,13 @@ const Commands: Command[] = [
         alt: true,
         shift: false,
         control: false,
-        key: 'Period',
-        keySymbol: '.',
+        // No chord: `≥` has Alt+. , which is where macOS types it and where its
+        // pair `≤` sits at Alt+, . `·` has no such convention to honour, and two
+        // commands cannot share a chord — the first would always win.
         execute: (context) => handleInsert(context, DOT_SYMBOL),
     },
     {
+        id: 'insert-quotient',
         symbol: QUOTIENT_SYMBOL,
         description: (l) => l.ui.source.cursor.insertQuotient,
         visible: Visibility.Visible,
@@ -1911,11 +2121,11 @@ const Commands: Command[] = [
         alt: true,
         shift: false,
         control: false,
-        key: 'Slash',
-        keySymbol: '/',
+        key: '/',
         execute: (context) => handleInsert(context, QUOTIENT_SYMBOL),
     },
     {
+        id: 'insert-degree',
         symbol: DEGREE_SYMBOL,
         description: (l) => l.ui.source.cursor.insertDegree,
         visible: Visibility.Visible,
@@ -1923,13 +2133,13 @@ const Commands: Command[] = [
         // The inserted node and new caret position are announced.
         feedback: 'caret',
         alt: true,
-        shift: true,
+        shift: false,
         control: false,
-        key: 'Digit8',
-        keySymbol: '8',
+        key: 'd',
         execute: (context) => handleInsert(context, DEGREE_SYMBOL),
     },
     {
+        id: 'insert-less-or-equal',
         symbol: '≤',
         description: (l) => l.ui.source.cursor.insertLessOrEqual,
         visible: Visibility.Visible,
@@ -1939,13 +2149,12 @@ const Commands: Command[] = [
         shift: false,
         control: false,
         alt: true,
-        key: 'Comma',
-        keySymbol: ',',
+        key: ',',
         execute: (context) => handleInsert(context, '≤'),
     },
     {
+        id: 'insert-greater-or-equal',
         symbol: '≥',
-        keySymbol: '.',
         description: (l) => l.ui.source.cursor.insertGreaterOrEqual,
         visible: Visibility.Visible,
         category: Category.Insert,
@@ -1954,10 +2163,11 @@ const Commands: Command[] = [
         shift: false,
         control: false,
         alt: true,
-        key: 'Period',
+        key: '.',
         execute: (context) => handleInsert(context, '≥'),
     },
     {
+        id: 'insert-range',
         symbol: RANGE_SYMBOL,
         description: (l) => l.ui.source.cursor.insertRange,
         visible: Visibility.Visible,
@@ -1973,6 +2183,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, RANGE_SYMBOL),
     },
     {
+        id: 'insert-stream',
         symbol: STREAM_SYMBOL,
         description: (l) => l.ui.source.cursor.insertStream,
         visible: Visibility.Visible,
@@ -1982,12 +2193,12 @@ const Commands: Command[] = [
         alt: true,
         shift: false,
         control: false,
-        key: 'Semicolon',
-        keySymbol: ';',
+        key: ';',
         where: Anywhere,
         execute: (context) => handleInsert(context, STREAM_SYMBOL),
     },
     {
+        id: 'insert-change',
         symbol: CHANGE_SYMBOL,
         description: (l) => l.ui.source.cursor.insertChange,
         visible: Visibility.Visible,
@@ -1997,11 +2208,11 @@ const Commands: Command[] = [
         alt: true,
         shift: false,
         control: false,
-        key: 'J',
-        keySymbol: 'j',
+        key: 'j',
         execute: (context) => handleInsert(context, CHANGE_SYMBOL),
     },
     {
+        id: 'insert-previous',
         symbol: PREVIOUS_SYMBOL,
         description: (l) => l.ui.source.cursor.insertPrevious,
         visible: Visibility.Visible,
@@ -2012,10 +2223,10 @@ const Commands: Command[] = [
         shift: false,
         control: false,
         key: 'ArrowLeft',
-        keySymbol: '←',
         execute: (context) => handleInsert(context, PREVIOUS_SYMBOL),
     },
     {
+        id: 'insert-convert',
         symbol: CONVERT_SYMBOL,
         description: (l) => l.ui.source.cursor.insertConvert,
         visible: Visibility.Visible,
@@ -2026,10 +2237,10 @@ const Commands: Command[] = [
         shift: false,
         control: false,
         key: 'ArrowRight',
-        keySymbol: CONVERT_SYMBOL,
         execute: (context) => handleInsert(context, CONVERT_SYMBOL),
     },
     {
+        id: 'insert-translate',
         // Mirrors the Convert insert shortcut (Alt+→), with Shift for the "bar" arrow ↦.
         symbol: TRANSLATE_SYMBOL,
         description: (l) => l.ui.source.cursor.insertTranslate,
@@ -2041,10 +2252,10 @@ const Commands: Command[] = [
         shift: true,
         control: false,
         key: 'ArrowRight',
-        keySymbol: TRANSLATE_SYMBOL,
         execute: (context) => handleInsert(context, TRANSLATE_SYMBOL),
     },
     {
+        id: 'insert-this',
         symbol: THIS_SYMBOL,
         description: (l) => l.ui.source.cursor.insertThis,
         visible: Visibility.Visible,
@@ -2054,11 +2265,11 @@ const Commands: Command[] = [
         alt: true,
         shift: false,
         control: false,
-        key: 'Minus',
-        keySymbol: '-',
+        key: '-',
         execute: (context) => handleInsert(context, THIS_SYMBOL),
     },
     {
+        id: 'insert-table-open',
         symbol: TABLE_OPEN_SYMBOL,
         description: (l) => l.ui.source.cursor.insertTable,
         visible: Visibility.Visible,
@@ -2068,8 +2279,7 @@ const Commands: Command[] = [
         alt: true,
         shift: false,
         control: false,
-        key: 'KeyT',
-        keySymbol: 't',
+        key: 't',
         execute: ({ caret, blocks, project }) => {
             if (caret === undefined) return false;
 
@@ -2090,6 +2300,7 @@ const Commands: Command[] = [
         },
     },
     {
+        id: 'insert-table-close',
         symbol: TABLE_CLOSE_SYMBOL,
         description: (l) => l.ui.source.cursor.insertTable,
         visible: Visibility.Visible,
@@ -2099,13 +2310,13 @@ const Commands: Command[] = [
         alt: true,
         shift: true,
         control: false,
-        key: 'KeyT',
-        keySymbol: 't',
+        key: 't',
         execute: (context) => handleInsert(context, TABLE_CLOSE_SYMBOL),
     },
     // Pattern glyphs (LANGUAGE.md). Palette-only (no shortcut) to avoid key
     // collisions; inserting `⣿` auto-closes to `⣿⣿` via the delimiter machinery.
     {
+        id: 'insert-pattern',
         symbol: PATTERN_DELIMITER_SYMBOL,
         description: (l) => l.ui.source.cursor.insertPattern,
         visible: Visibility.Visible,
@@ -2119,6 +2330,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, PATTERN_DELIMITER_SYMBOL),
     },
     {
+        id: 'insert-search',
         symbol: MATCH_SEARCH_SYMBOL,
         description: (l) => l.ui.source.cursor.insertSearch,
         visible: Visibility.Visible,
@@ -2131,6 +2343,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, MATCH_SEARCH_SYMBOL),
     },
     {
+        id: 'insert-pattern-any',
         symbol: PATTERN_ANY_SYMBOL,
         description: (l) => l.ui.source.cursor.insertPatternAny,
         visible: Visibility.Visible,
@@ -2144,6 +2357,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, PATTERN_ANY_SYMBOL),
     },
     {
+        id: 'insert-pattern-space',
         symbol: PATTERN_SPACE_SYMBOL,
         description: (l) => l.ui.source.cursor.insertPatternSpace,
         visible: Visibility.Visible,
@@ -2157,6 +2371,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, PATTERN_SPACE_SYMBOL),
     },
     {
+        id: 'insert-pattern-start',
         symbol: PATTERN_START_SYMBOL,
         description: (l) => l.ui.source.cursor.insertPatternStart,
         visible: Visibility.Visible,
@@ -2170,6 +2385,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, PATTERN_START_SYMBOL),
     },
     {
+        id: 'insert-pattern-end',
         symbol: PATTERN_END_SYMBOL,
         description: (l) => l.ui.source.cursor.insertPatternEnd,
         visible: Visibility.Visible,
@@ -2183,6 +2399,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, PATTERN_END_SYMBOL),
     },
     {
+        id: 'insert-pattern-fold',
         symbol: PATTERN_FOLD_SYMBOL,
         description: (l) => l.ui.source.cursor.insertPatternFold,
         visible: Visibility.Visible,
@@ -2196,6 +2413,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, PATTERN_FOLD_SYMBOL),
     },
     {
+        id: 'insert-pattern-ahead',
         symbol: PATTERN_AHEAD_SYMBOL,
         description: (l) => l.ui.source.cursor.insertPatternAhead,
         visible: Visibility.Visible,
@@ -2209,6 +2427,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, PATTERN_AHEAD_SYMBOL),
     },
     {
+        id: 'insert-pattern-behind',
         symbol: PATTERN_BEHIND_SYMBOL,
         description: (l) => l.ui.source.cursor.insertPatternBehind,
         visible: Visibility.Visible,
@@ -2222,6 +2441,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, PATTERN_BEHIND_SYMBOL),
     },
     {
+        id: 'insert-pattern-word',
         symbol: PATTERN_WORD_SYMBOL,
         description: (l) => l.ui.source.cursor.insertPatternWord,
         visible: Visibility.Visible,
@@ -2235,6 +2455,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, PATTERN_WORD_SYMBOL),
     },
     {
+        id: 'insert-pattern-word-edge',
         symbol: PATTERN_WORDEDGE_SYMBOL,
         description: (l) => l.ui.source.cursor.insertPatternWordEdge,
         visible: Visibility.Visible,
@@ -2253,6 +2474,7 @@ const Commands: Command[] = [
     // has no name in the Unicode name table at all — which is the whole reason
     // they are here.
     {
+        id: 'insert-whole-note',
         symbol: Whole,
         description: (l) => l.ui.source.cursor.insertWholeNote,
         visible: Visibility.Visible,
@@ -2267,6 +2489,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, Whole),
     },
     {
+        id: 'insert-dotted-whole-note',
         symbol: Whole + Dot,
         description: (l) => l.ui.source.cursor.insertDottedWholeNote,
         visible: Visibility.Visible,
@@ -2281,6 +2504,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, Whole + Dot),
     },
     {
+        id: 'insert-half-note',
         symbol: Half,
         description: (l) => l.ui.source.cursor.insertHalfNote,
         visible: Visibility.Visible,
@@ -2295,6 +2519,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, Half),
     },
     {
+        id: 'insert-dotted-half-note',
         symbol: Half + Dot,
         description: (l) => l.ui.source.cursor.insertDottedHalfNote,
         visible: Visibility.Visible,
@@ -2309,6 +2534,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, Half + Dot),
     },
     {
+        id: 'insert-quarter-note',
         symbol: Quarter,
         description: (l) => l.ui.source.cursor.insertQuarterNote,
         visible: Visibility.Visible,
@@ -2323,6 +2549,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, Quarter),
     },
     {
+        id: 'insert-dotted-quarter-note',
         symbol: Quarter + Dot,
         description: (l) => l.ui.source.cursor.insertDottedQuarterNote,
         visible: Visibility.Visible,
@@ -2337,6 +2564,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, Quarter + Dot),
     },
     {
+        id: 'insert-eighth-note',
         symbol: Eighth,
         description: (l) => l.ui.source.cursor.insertEighthNote,
         visible: Visibility.Visible,
@@ -2351,6 +2579,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, Eighth),
     },
     {
+        id: 'insert-dotted-eighth-note',
         symbol: Eighth + Dot,
         description: (l) => l.ui.source.cursor.insertDottedEighthNote,
         visible: Visibility.Visible,
@@ -2365,6 +2594,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, Eighth + Dot),
     },
     {
+        id: 'insert-sixteenth-note',
         symbol: Sixteenth,
         description: (l) => l.ui.source.cursor.insertSixteenthNote,
         visible: Visibility.Visible,
@@ -2379,6 +2609,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, Sixteenth),
     },
     {
+        id: 'insert-dotted-sixteenth-note',
         symbol: Sixteenth + Dot,
         description: (l) => l.ui.source.cursor.insertDottedSixteenthNote,
         visible: Visibility.Visible,
@@ -2393,6 +2624,7 @@ const Commands: Command[] = [
         execute: (context) => handleInsert(context, Sixteenth + Dot),
     },
     {
+        id: 'insert-borrow',
         symbol: BORROW_SYMBOL,
         description: (l) => l.ui.source.cursor.insertBorrow,
         visible: Visibility.Visible,
@@ -2401,12 +2633,12 @@ const Commands: Command[] = [
         feedback: 'caret',
         alt: true,
         shift: false,
-        control: true,
-        key: 'ArrowDown',
-        keySymbol: '↓',
+        control: false,
+        key: 'b',
         execute: (context) => handleInsert(context, BORROW_SYMBOL),
     },
     {
+        id: 'insert-share',
         symbol: SHARE_SYMBOL,
         description: (l) => l.ui.source.cursor.insertShare,
         visible: Visibility.Visible,
@@ -2415,12 +2647,12 @@ const Commands: Command[] = [
         feedback: 'caret',
         alt: true,
         shift: false,
-        control: true,
-        key: 'ArrowUp',
-        keySymbol: '↑',
+        control: false,
+        key: 's',
         execute: (context) => handleInsert(context, SHARE_SYMBOL),
     },
     {
+        id: 'elide',
         symbol: ELISION_SYMBOL + ELISION_SYMBOL,
         description: (l) => l.ui.source.cursor.elide,
         // The revised node and new caret position are announced.
@@ -2431,7 +2663,6 @@ const Commands: Command[] = [
         shift: false,
         control: true,
         key: '8',
-        keySymbol: ELISION_SYMBOL,
         execute: ({ caret, blocks }) => {
             if (caret === undefined || blocks) return false;
             else return caret.elide() ?? false;
@@ -2464,12 +2695,12 @@ const Commands: Command[] = [
     ToggleBlocks,
     InsertLine,
     {
+        id: 'backspace',
         symbol: '⌫',
         description: (l) => l.ui.source.cursor.backspace,
         visible: Visibility.Touch,
         category: Category.Modify,
         key: 'Backspace',
-        keySymbol: '⌫',
         shift: false,
         control: false,
         alt: false,
@@ -2480,12 +2711,12 @@ const Commands: Command[] = [
                 : false,
     },
     {
+        id: 'delete',
         symbol: '⌦',
         description: (l) => l.ui.source.cursor.delete,
         visible: Visibility.Touch,
         category: Category.Modify,
         key: 'Delete',
-        keySymbol: '⌦',
         shift: false,
         control: false,
         alt: false,
@@ -2496,6 +2727,7 @@ const Commands: Command[] = [
                 : false,
     },
     {
+        id: 'cut',
         symbol: CUT_SYMBOL,
         description: (l) => l.ui.source.cursor.cut,
         feedback: (context) => ({
@@ -2508,8 +2740,7 @@ const Commands: Command[] = [
         control: true,
         shift: false,
         alt: false,
-        key: 'KeyX',
-        keySymbol: 'X',
+        key: 'x',
         active: ({ caret }) =>
             caret !== undefined &&
             (caret.isNode() || caret.isRange()) &&
@@ -2549,6 +2780,7 @@ const Commands: Command[] = [
         },
     },
     {
+        id: 'copy',
         symbol: COPY_SYMBOL,
         description: (l) => l.ui.source.cursor.copy,
         feedback: (context) => ({
@@ -2561,8 +2793,7 @@ const Commands: Command[] = [
         control: true,
         shift: false,
         alt: false,
-        key: 'KeyC',
-        keySymbol: 'C',
+        key: 'c',
         active: ({ caret }) =>
             caret !== undefined && (caret.isNode() || caret.isRange()),
         execute: ({ caret }) => {
@@ -2595,6 +2826,7 @@ const Commands: Command[] = [
         },
     },
     {
+        id: 'paste',
         symbol: PASTE_SYMBOL,
         description: (l) => l.ui.source.cursor.paste,
         feedback: (context) => ({
@@ -2607,8 +2839,7 @@ const Commands: Command[] = [
         control: true,
         shift: false,
         alt: false,
-        key: 'KeyV',
-        keySymbol: 'V',
+        key: 'v',
         active: ({ editor }) =>
             editor &&
             typeof navigator.clipboard !== 'undefined' &&
@@ -2678,6 +2909,7 @@ const Commands: Command[] = [
     FoldAll,
     UnfoldAll,
     {
+        id: 'parenthesize',
         symbol: '( )',
         description: (l) => l.ui.source.cursor.parenthesize,
         // The revised node and new caret position are announced.
@@ -2693,6 +2925,7 @@ const Commands: Command[] = [
             caret?.wrap(project, '(', blocks) ?? false,
     },
     {
+        id: 'enumerate',
         symbol: '[ ]',
         description: (l) => l.ui.source.cursor.enumerate,
         // The revised node and new caret position are announced.
@@ -2717,6 +2950,7 @@ const Commands: Command[] = [
     FocusCycle,
 
     {
+        id: 'tidy',
         symbol: '🧹',
         description: (l) => l.ui.source.cursor.tidy,
         // The revised node and new caret position are announced.
@@ -2749,14 +2983,14 @@ const Commands: Command[] = [
     },
 
     {
+        id: 'zoom-in',
         symbol: '+⌕',
         description: (l) => l.ui.source.button.zoomIn,
         visible: Visibility.Visible,
         category: Category.Cursor,
-        control: true,
-        shift: true,
-        alt: true,
-        key: 'Equal',
+        control: false,
+        shift: false,
+        alt: false,
         important: true,
         active: ({ zoom }) => zoom !== undefined && zoom < 16,
         execute: ({ editor, zoom, setZoom }) => {
@@ -2768,14 +3002,14 @@ const Commands: Command[] = [
         },
     },
     {
+        id: 'zoom-out',
         symbol: '–⌕',
         description: (l) => l.ui.source.button.zoomOut,
         visible: Visibility.Visible,
         category: Category.Cursor,
-        control: true,
-        shift: true,
-        alt: true,
-        key: 'Minus',
+        control: false,
+        shift: false,
+        alt: false,
         important: true,
         active: ({ zoom }) => zoom !== undefined && zoom > -4,
         execute: ({ editor, zoom, setZoom }) => {

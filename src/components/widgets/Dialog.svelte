@@ -43,6 +43,12 @@
         button?:
             | {
                   tip: LocaleTextAccessor;
+                  /** The chord that also opens this dialog, when a command does.
+                   *  Without it the opener borrows a command's tip and icon but
+                   *  silently drops its shortcut, which is why the keyboard help
+                   *  never advertised the chord that opens the keyboard help. */
+                  shortcut?: string | undefined;
+                  ariaShortcut?: string | undefined;
                   icon?: string | undefined;
                   /** Continuously spin the icon (e.g. to show ongoing work). */
                   spinIcon?: boolean;
@@ -161,6 +167,8 @@
     {/snippet}
     <Button
         tip={button.tip}
+        shortcut={button.shortcut}
+        ariaShortcut={button.ariaShortcut}
         action={() => (show = true)}
         icon={button.icon}
         spinIcon={button.spinIcon ?? false}

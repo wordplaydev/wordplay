@@ -32,8 +32,9 @@ test('a playing project announces its output; an edited one stays quiet', async 
     await page.waitForTimeout(1500);
     expect((await region.textContent()) ?? '').not.toContain('Output');
 
-    // Playing, it announces what the program produced.
-    await page.keyboard.press('ControlOrMeta+Alt+Digit7');
+    // Playing, it announces what the program produced. Control+Alt is AltGr on
+    // Windows and Linux and Home/End on ChromeOS, so no command uses it.
+    await page.keyboard.press('ControlOrMeta+Shift+Digit7');
     await expect(region).toContainText('Output', { timeout: 15000 });
 });
 

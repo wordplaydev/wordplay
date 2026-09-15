@@ -1,5 +1,5 @@
 import Project from '@db/projects/Project';
-import { localizeKeyName } from '@input/Key/Key';
+import { localizeKeyName } from '@input/Key/keyNames';
 import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
 import type { RegionCode } from '@locale/Regions';

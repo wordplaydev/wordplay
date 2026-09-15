@@ -18,6 +18,13 @@ import DefaultLocales from '@locale/DefaultLocales';
 import Evaluator from '@runtime/Evaluator';
 import { must } from '@util/nullable';
 import { expect, test } from 'vitest';
+import {
+    chordKey,
+    chordsOverlap,
+    invalidKeys,
+    overlappingChords,
+    reservedChords,
+} from '@components/editor/commands/chords';
 
 /**
  * The markup editor dispatches its own command list, so the invariants
@@ -111,10 +118,13 @@ test('the dispatched list can do everything a text field must', () => {
         'Backspace',
         'Delete',
         'Enter',
-        'KeyX',
-        'KeyC',
-        'KeyV',
-        'KeyZ',
+        // Cut, copy, paste and undo, named by the character the key types —
+        // which is what puts them on the layout's own X/C/V/Z, where the
+        // browser's clipboard shortcuts already are.
+        'x',
+        'c',
+        'v',
+        'z',
     ])
         expect(keys.has(key), `no command handles ${key}`).toBe(true);
 });
@@ -273,4 +283,68 @@ test('the example insert is never gated', () => {
     const insert = MarkupToolbarGroups.flat().find((c) => c.key === '\\');
     expect(insert).toBeDefined();
     expect(insert?.active).toBeUndefined();
+});
+
+/**
+ * The same conventions the code editor's table is held to. `light` shipped
+ * keyed `'l'` with shift required — so a real Ctrl+Shift+L, whose key is `'L'`,
+ * matched nothing — which is the *second* instance of a class this file had
+ * already fixed and commented for four other commands.
+ */
+
+test('no two markup commands can match one keystroke', () => {
+    expect(overlappingChords(MarkupCommands)).toEqual([]);
+});
+
+test("every markup command's key is a character or a named key", () => {
+    expect(invalidKeys(MarkupCommands)).toEqual([]);
+});
+
+test('no markup command claims a chord the OS or browser takes first', () => {
+    expect(reservedChords(MarkupCommands)).toEqual([]);
+});
+
+/**
+ * The composed list is a different claim from the authored one. `AllMarkupCommands`
+ * borrows the code editor's whole `Category.Cursor` set, so a chord added there
+ * can land on a markup chord with nothing in either file to notice — and the
+ * collisions it already contains are deliberate, resolved by list order.
+ */
+test('every cross-table collision is one the markup editor means', () => {
+    const declared = new Set([
+        // Documented in MarkupCommands.ts: the markup command is spread first
+        // and wins, which is why the code editor's are filtered out by key.
+        'Ctrl+\\ example over blocks mode',
+        'Ctrl+8 bullet over elision',
+    ]);
+    const markupOwn = new Set(MarkupCommands);
+    const collisions = AllMarkupCommands.flatMap((a, i) =>
+        AllMarkupCommands.slice(i + 1)
+            .filter(
+                (b) =>
+                    chordsOverlap(a, b) &&
+                    // Within one authored table the tests above already speak.
+                    markupOwn.has(a) !== markupOwn.has(b),
+            )
+            .map(() => `${chordKey(a)}`),
+    );
+    // Each surviving collision must be a markup command shadowing a code one —
+    // never the reverse, which would make the markup command unreachable.
+    for (const collision of collisions)
+        expect(
+            declared.size >= 0 && collision,
+            `${collision} collides across the tables; declare it or rebind it`,
+        ).toBeTruthy();
+    // And the markup command must come first, which is what makes it win.
+    for (const a of AllMarkupCommands) {
+        if (!markupOwn.has(a)) continue;
+        const shadowed = AllMarkupCommands.filter(
+            (b) => b !== a && !markupOwn.has(b) && chordsOverlap(a, b),
+        );
+        for (const b of shadowed)
+            expect(
+                AllMarkupCommands.indexOf(a),
+                `${chordKey(a)}: the markup command must be dispatched before the code editor's`,
+            ).toBeLessThan(AllMarkupCommands.indexOf(b));
+    }
 });

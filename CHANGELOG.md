@@ -4,6 +4,20 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.37.1 - 2026-09-14
+
+### Added
+
+- ⌨️ You can now change any keyboard shortcut to keys your keyboard can reach, and your choices follow you to any computer you sign in on. (#826)
+
+### Fixed
+
+- ⌨️ We fixed four shortcuts that never worked: the ones for ∆, ≥, light text, and redo while drawing a character. (#913)
+- ⌨️ The shortcut for showing the list of shortcuts now opens it.
+- ⌨️ Moving a window tile with the arrow keys no longer steps your program at the same time.
+- ⌨️ Some shortcuts moved to keys that Windows, Chromebooks, and Linux don't keep for themselves. (#826)
+- ⌨️ The list of shortcuts now shows every command, including the ones with no shortcut and where to find those instead. (#913)
+
 ## 0.37.0 - 2026-09-12
 
 ### Added
