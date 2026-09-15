@@ -7702,8 +7702,8 @@
             },
             "button": {
                 "selectOutput": "mostrar este resultado en el escenario",
-                "zoomIn": "$~agrandar el código",
-                "zoomOut": "$~achicar el código",
+                "zoomIn": "$!agrandar el código",
+                "zoomOut": "$!achicar el código",
                 "replace": "$~reemplazar todas las coincidencias",
                 "selectOutputError": "$~mostrar esta salida en el escenario; la evaluación de esta fuente terminó con un error",
                 "addView": "$~mostrar este código en una segunda vista",

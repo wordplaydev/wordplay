@@ -179,8 +179,38 @@ async function run(): Promise<void> {
             );
             return;
         }
+        // `--mark` here queues exactly what this change left behind. Without
+        // it the only way to clear the gate was a bare `--mark`, which marks
+        // the whole historical census — 177 strings where a change introduced
+        // 27, buying paid re-translation for work the change never touched.
+        if (mark) {
+            let marked = 0;
+            for (const locale of locales)
+                for (const [, file, kinds] of filesFor(locale)) {
+                    const entries = queueable.filter(
+                        (entry) =>
+                            entry.locale === locale && entry.file === file,
+                    );
+                    if (entries.length === 0) continue;
+                    const text = readJSON(file);
+                    if (text === undefined) continue;
+                    const count = markStale(entries, kinds, text);
+                    if (count === 0) continue;
+                    await writeFormatted(
+                        file,
+                        JSON.stringify(text, null, 4),
+                        true,
+                        log,
+                    );
+                    marked += count;
+                }
+            log.good(
+                `Marked ${marked} translation(s) "$!" — the ones this change left behind, not the whole census.`,
+            );
+            return;
+        }
         const scope = log.bad(
-            `${queueable.length} translation(s) fell behind an en-US string this change reworded. Run "npm run locales-drift -- --mark" and commit the result.`,
+            `${queueable.length} translation(s) fell behind an en-US string this change reworded. Run "npm run locales-drift -- --since <base> --mark" and commit the result.`,
         );
         for (const entry of queueable.slice(0, 20))
             scope.say(`${entry.locale} ${entry.id}`);
