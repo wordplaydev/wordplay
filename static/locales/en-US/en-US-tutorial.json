@@ -5432,6 +5432,14 @@
                         null,
                         [
                             "Doc",
+                            "curious",
+                            "Speaking of making things easier to read, did you know a @project can hold more than one @Source?",
+                            "When a program gets long, you can move part of it into a @Source of its own. Mark what you want to use elsewhere with \\↑\\, then @Borrow it back with \\↓\\ and that @Source's name.",
+                            "The project controls at the bottom are where you make one. Have a look and I'll point them out: @Tour/project"
+                        ],
+                        null,
+                        [
+                            "Doc",
                             "serious",
                             "And one last thing.",
                             "While I'm really all about explaining things, sometimes it's helpful to elide things too. You know, to remove something from a project temporarily so that it isn't part of the project.",

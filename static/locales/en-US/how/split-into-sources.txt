@@ -1,0 +1,31 @@
+Split a project into source files
+
+A project can hold more than one @Source. Putting a long list of data in a file
+of its own keeps your main program short enough to read at a glance.
+
+Say you want a list of colors to pick from. Make a second @Source, name it
+/colors/, and put the list there. The \↑\ in front of the name means /share this
+with the rest of the project/:
+
+\
+↑ colors/en: ['🔴' '🟠' '🟡' '🟢' '🔵' '🟣']
+\
+
+The /en/ after the name says which language the name is written in, so someone
+reading your project in another language knows whether they can read it.
+
+Now go back to your main @Source and bring the list in with a @Borrow. Write
+\↓\ and then the name of the other source:
+
+\
+↓ colors
+
+Phrase(colors.random())
+\🪲
+
+Inside this @Source, /colors/ now means the list you shared. Anything you mark
+with \↑\ can be borrowed this way: a list, a number, a function, or a structure.
+
+To make a new @Source, use the /add source/ button at the bottom of the project.
+
+pick-from-a-list, your-own-template
