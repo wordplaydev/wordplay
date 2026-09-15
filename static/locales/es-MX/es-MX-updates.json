@@ -984,6 +984,8 @@
         "eaf77bdd06a6e": "$~El atajo para mostrar la lista de atajos ahora sí la abre.",
         "e15065ca4cd91": "$~Mover una teja de ventana con las teclas de flecha ya no avanza tu programa al mismo tiempo.",
         "ec2a904d11589": "$~Algunos atajos cambiaron a teclas que Windows, Chromebooks y Linux no reservan para sí mismos. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
-        "eb770841e3ff7": "$~La lista de atajos ahora muestra cada comando, incluyendo los que no tienen atajo y dónde encontrarlos en su lugar. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
+        "eb770841e3ff7": "$~La lista de atajos ahora muestra cada comando, incluyendo los que no tienen atajo y dónde encontrarlos en su lugar. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "efc9a05b9de4f": "$~Agregamos una guía práctica y nuevas palabras del glosario a la <Guía@https://wordplay.dev/guide> que explican cómo un proyecto puede tener más de una fuente, y cómo compartir y prestar cosas entre ellas. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "ee25d92cdeeaa": "$~El tutorial ahora te dice que un proyecto puede tener más de una fuente, y te ofrece un recorrido por los controles del proyecto. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
     }
 }

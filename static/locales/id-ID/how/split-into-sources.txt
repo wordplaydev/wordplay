@@ -1,0 +1,31 @@
+Membagi proyek menjadi beberapa sumber
+
+Sebuah proyek dapat menyimpan lebih dari satu @Source. Menaruh daftar data yang panjang dalam sebuah berkas
+tersendiri membuat program utamamu tetap singkat, sehingga mudah dibaca sekilas.
+
+Misalnya kamu ingin daftar warna untuk dipilih. Buat sumber kedua @Source, beri nama 
+/ warna /, dan taruh daftar itu di sana. Tanda \↑\ di depan nama berarti / bagikan ini
+dengan bagian lain dari proyek /:
+
+\
+↑ colors/en: ['🔴' '🟠' '🟡' '🟢' '🔵' '🟣']
+\
+
+ Kata / en / setelah nama menunjukkan bahasa yang dipakai untuk menulis nama itu, agar seseorang
+yang membaca proyekmu dalam bahasa lain tahu apakah mereka bisa memahaminya.
+
+Sekarang kembali ke @Source utamamu dan ambil daftar itu dengan cara @Borrow. Tulis 
+\↓\ lalu nama sumber lainnya:
+
+\
+↓ colors
+
+Phrase(colors.random())
+\🪲
+
+ Di dalam @Source ini, / warna / sekarang berarti daftar yang kamu bagikan. Apa pun yang kamu tandai
+dengan \↑\ dapat dipinjam dengan cara ini: sebuah daftar, angka, fungsi, atau struktur.
+
+Untuk membuat @Source, gunakan tombol / tambah sumber / di bagian bawah proyek.
+
+pick-from-a-list, your-own-template

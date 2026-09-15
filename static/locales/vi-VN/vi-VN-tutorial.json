@@ -5480,6 +5480,14 @@
                         null,
                         [
                             "Doc",
+                            "curious",
+                            "$~Nói về việc làm cho mọi thứ dễ đọc hơn, bạn có biết một @project có thể chứa nhiều hơn một @Source không?",
+                            "$~Khi một chương trình trở nên dài, bạn có thể chuyển một phần của nó sang một @Source riêng. Đánh dấu phần bạn muốn dùng ở nơi khác bằng \\↑\\, rồi @Borrow nó trở lại bằng \\↓\\ và tên của @Source đó.",
+                            "$~Các điều khiển dự án ở phía dưới là nơi bạn tạo một cái. Hãy nhìn xem, tôi sẽ chỉ cho bạn: @Tour/project"
+                        ],
+                        null,
+                        [
+                            "Doc",
                             "serious",
                             "$~Và điều cuối cùng.",
                             "$~Mặc dù tôi luôn thích giải thích mọi thứ, nhưng đôi khi việc lược bỏ bớt một số chi tiết cũng rất hữu ích. Ví dụ, tạm thời loại bỏ một phần nào đó khỏi dự án để nó không còn là một phần của dự án nữa.",

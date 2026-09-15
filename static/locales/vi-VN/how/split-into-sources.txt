@@ -1,0 +1,31 @@
+Chia một dự án thành nhiều tệp nguồn
+
+Một dự án có thể chứa nhiều hơn một @Source. Đặt một danh sách dữ liệu dài vào một tệp
+riêng giúp chương trình chính của bạn đủ ngắn để đọc lướt qua một cái là hiểu.
+
+Giả sử bạn muốn có một danh sách màu để chọn. Hãy tạo một @Source thứ hai, đặt tên là 
+/ màu sắc /, rồi đặt danh sách đó vào đây. Dấu \↑\ đứng trước tên có nghĩa là / chia sẻ cái này
+với phần còn lại của dự án /:
+
+\
+↑ colors/en: ['🔴' '🟠' '🟡' '🟢' '🔵' '🟣']
+\
+
+ Chữ / en / đứng sau tên cho biết tên này viết bằng ngôn ngữ nào, để
+ai đó đọc dự án của bạn bằng một ngôn ngữ khác biết được liệu họ có đọc được hay không.
+
+Bây giờ hãy quay lại @Source chính của bạn và đưa danh sách vào bằng cách @Borrow. Viết 
+\↓\ rồi đến tên của nguồn kia:
+
+\
+↓ colors
+
+Phrase(colors.random())
+\🪲
+
+ Bên trong @Source này, / màu sắc / giờ chính là danh sách bạn đã chia sẻ. Bất cứ thứ gì bạn đánh dấu
+bằng \↑\ đều có thể được mượn theo cách này: một danh sách, một số, một hàm, hoặc một cấu trúc.
+
+Để tạo một @Source, hãy dùng nút / thêm nguồn / ở phía dưới dự án.
+
+pick-from-a-list, your-own-template

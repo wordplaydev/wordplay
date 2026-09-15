@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~luồng",
             "definition": "$~Một @value thay đổi theo thời gian khi thế giới của bạn thay đổi, giống như @Time đang trôi qua hoặc một @Key đang được nhấn. Mỗi khi nó thay đổi, @Program sẽ được tính lại với @value mới."
+        },
+        "source": {
+            "word": "$~nguồn",
+            "definition": "$~Một tài liệu @code trong một @project. Một @project có thể có nhiều hơn một, và mỗi cái có thể @share những thứ mà các cái khác @borrow."
+        },
+        "borrow": {
+            "word": "$~mượn",
+            "definition": "$~Dùng thứ mà một @Source khác đã chia sẻ, bằng cách viết ↓ và tên của @source đó."
+        },
+        "share": {
+            "word": "$~chia sẻ",
+            "definition": "$~Đánh dấu thứ gì đó trong một @Source bằng ↑ để các tệp @source khác có thể @borrow nó."
+        },
+        "kit": {
+            "word": "$~bộ dụng cụ",
+            "definition": "$~Một @Source mà ai đó đã xuất bản để người khác có thể @borrow nó trong @project của riêng họ."
         }
     },
     "terms": {},
@@ -789,7 +805,10 @@
                 "bind": "$~tên",
                 "version": "$~phiên bản"
             },
-            "doc": "$~Tôi mượn @Bind được chia sẻ bởi các @Source khác trong màn trình diễn của bạn — chỉ cần dùng tên của chúng và tôi sẽ mang tên cùng @value của chúng vào.",
+            "doc": [
+                "$~Tôi @borrow @Bind được chia sẻ bởi các @Source khác trong màn trình diễn của bạn — chỉ cần dùng tên của chúng và tôi sẽ mang tên và @value của chúng vào.",
+                "Viết \\↓\\ rồi đến tên của @Source khác đó. @Source đó phải đánh dấu những gì nó chia sẻ với \\↑\\, chẳng hạn như \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
             "start": "$~Mượn biến $name từ biến $source",
             "conflict": {
                 "UnknownBorrow": {
@@ -7449,7 +7468,7 @@
                     "tip": "$~Sao chép dự án vào clipboard dưới dạng văn bản",
                     "label": "$~sao chép dưới dạng văn bản"
                 },
-                "addSource": "$~tạo một nguồn mới @Source",
+                "addSource": "$~tạo thêm một @Source khác, để bạn có thể giữ dữ liệu hoặc mã số chia sẻ trong tệp riêng của nó",
                 "revert": "$~khôi phục lại mã gốc",
                 "focusOutput": "$~tập trung bàn phím trên sân khấu",
                 "focusSource": "$~tập trung vào nguồn tiếp theo",
@@ -8586,7 +8605,8 @@
                     "motion": "$~sử dụng vật lý",
                     "video": "$~sử dụng máy ảnh",
                     "gallery": "$~Được tạo bởi các đồng nghiệp giám đốc Wordplay của bạn",
-                    "music": "$~tạo nhạc và âm thanh"
+                    "music": "$~tạo nhạc và âm thanh",
+                    "organizing": "$~sắp xếp một dự án lớn hơn"
                 },
                 "related": "$~Không phải thứ bạn đang tìm kiếm?",
                 "howToGalleryButton": {

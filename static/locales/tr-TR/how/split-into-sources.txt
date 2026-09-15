@@ -1,0 +1,31 @@
+Bir projeyi kaynak dosyalarına ayırma
+
+Bir proje birden fazla @Source barındırabilir. Uzun bir veri listesini kendine ait bir dosyaya koymak
+, ana programını tek bakışta okunacak kadar kısa tutar.
+
+Diyelim ki seçilecek bir renk listesi istiyorsun. İkinci bir @Source yap, ona bir isim ver 
+/ renkler / ve listeyi oraya koy. İsmin önündeki \↑\ işareti / bunu paylaş
+projenin geri kalanıyla / anlamına gelir:
+
+\
+↑ colors/en: ['🔴' '🟠' '🟡' '🟢' '🔵' '🟣']
+\
+
+ İsimden sonra gelen / tr / ismin hangi dilde yazıldığını söyler. Böylece
+projeni başka bir dilde okuyan biri, onu okuyup okuyamayacağını anlar.
+
+Şimdi ana @Source dosyana geri dön ve listeyi bir @Borrow ile içeri al.
+\↓\ yaz, ardından diğer kaynağın ismini yaz:
+
+\
+↓ colors
+
+Phrase(colors.random())
+\🪲
+
+ Bu @Source içinde / renkler / , artık paylaştığın liste anlamına gelir.
+ile işaretlediğin \↑\ her şey bu şekilde ödünç alınabilir: bir liste, bir sayı, bir fonksiyon ya da bir yapı.
+
+Yeni bir @Source, şunu kullan: / kaynak ekle / projenin altındaki düğme.
+
+pick-from-a-list, your-own-template

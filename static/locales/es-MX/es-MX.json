@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~flujo",
             "definition": "$~Un @value que cambia con el tiempo, a medida que tu mundo cambia, como @Time marcando el paso del tiempo o una @Key siendo presionada. Cada vez que cambia, @Program se evalúa otra vez con el nuevo @value."
+        },
+        "source": {
+            "word": "$~fuente",
+            "definition": "$~Un documento de @code en un @project. Un @project puede tener más de uno, y cada uno puede @share cosas que los otros @borrow."
+        },
+        "borrow": {
+            "word": "$~prestar",
+            "definition": "$~Usar algo que otra @Source compartió, escribiendo ↓ y el nombre de esa @source."
+        },
+        "share": {
+            "word": "$~compartir",
+            "definition": "$~Marcar algo en una @Source con ↑ para que otros archivos de @source puedan @borrow."
+        },
+        "kit": {
+            "word": "$~kit",
+            "definition": "$~Una @Source que alguien publicó para que otras personas puedan @borrow en su propio @project."
         }
     },
     "terms": {},
@@ -756,7 +772,10 @@
             "name": "pedir prestado",
             "description": "$~pedir prestado $name[$name|sin nombre]",
             "emotion": "excited",
-            "doc": "$~Yo pido prestado @Bind que otros @Source comparten en tu actuación. Solo usa su nombre y yo traigo su nombre y @value.",
+            "doc": [
+                "$~Yo @borrow @Bind que otras @Source comparten en tu actuación — solo usa su nombre y yo traeré su nombre y @value.",
+                "Escribe \\↓\\ y luego el nombre de la otra @Source. Esa @Source tiene que marcar lo que comparte con \\↑\\, como \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
             "start": "préstamo $name de $source",
             "conflict": {
                 "UnknownBorrow": {
@@ -7442,7 +7461,7 @@
                     "tip": "$~copiar proyecto al portapapeles como texto",
                     "label": "$~copiar como texto"
                 },
-                "addSource": "crear una nueva @Source",
+                "addSource": "$~crear otra @Source, para que puedas guardar datos o código compartido en su propio archivo",
                 "revert": "volver al código original ",
                 "focusOutput": "enfoque el teclado en el escenario",
                 "focusSource": "enfoque en la siguiente fuente ",
@@ -7702,8 +7721,8 @@
             },
             "button": {
                 "selectOutput": "mostrar este resultado en el escenario",
-                "zoomIn": "$!agrandar el código",
-                "zoomOut": "$!achicar el código",
+                "zoomIn": "$~hacer el código más grande",
+                "zoomOut": "$~hacer el código más pequeño",
                 "replace": "$~reemplazar todas las coincidencias",
                 "selectOutputError": "$~mostrar esta salida en el escenario; la evaluación de esta fuente terminó con un error",
                 "addView": "$~mostrar este código en una segunda vista",
@@ -8181,7 +8200,8 @@
                     "motion": "$~usar física",
                     "video": "$~usar una cámara",
                     "gallery": "$~creado por tus compañeras directoras de Wordplay",
-                    "music": "$~hacer música y sonido"
+                    "music": "$~hacer música y sonido",
+                    "organizing": "$~organizar un proyecto más grande"
                 },
                 "related": "$~¿No es lo que buscas?",
                 "howToGalleryButton": {

@@ -984,6 +984,8 @@
         "eaf77bdd06a6e": "$~Phím tắt để hiện danh sách phím tắt giờ đã mở được danh sách đó.",
         "e15065ca4cd91": "$~Di chuyển một ô cửa sổ bằng phím mũi tên giờ không còn làm chương trình của bạn chạy từng bước cùng lúc nữa.",
         "ec2a904d11589": "$~Một số phím tắt đã được đổi sang những phím mà Windows, Chromebook và Linux không giữ riêng cho mình. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
-        "eb770841e3ff7": "$~Danh sách phím tắt giờ hiện mọi lệnh, kể cả những lệnh không có phím tắt, cùng nơi bạn có thể tìm cách khác để dùng chúng. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
+        "eb770841e3ff7": "$~Danh sách phím tắt giờ hiện mọi lệnh, kể cả những lệnh không có phím tắt, cùng nơi bạn có thể tìm cách khác để dùng chúng. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "efc9a05b9de4f": "$~Chúng tôi đã thêm một bài làm cách nào để và các từ mới vào <Sổ tay hướng dẫn@https://wordplay.dev/guide> để giải thích cách một dự án có thể có nhiều hơn một tệp nguồn, và cách chia sẻ và mượn giữa các tệp đó. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "ee25d92cdeeaa": "$~Bài học giờ đây cho bạn biết rằng một dự án có thể có nhiều hơn một tệp nguồn, và giúp bạn tìm hiểu các công cụ điều khiển dự án. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
     }
 }

@@ -1,0 +1,31 @@
+Divide un proyecto en fuentes
+
+Un proyecto puede tener más de una @Source. Poner una lista larga de datos en su propia fuente
+mantiene tu programa principal corto para que puedas leerlo de un vistazo.
+
+Digamos que quieres una lista de colores para elegir. Crea una segunda @Source, ponle el nombre 
+/ colores /, y coloca la lista ahí. El \↑\ antes del nombre significa / comparte esto
+con el resto del proyecto /:
+
+\
+↑ colors/en: ['🔴' '🟠' '🟡' '🟢' '🔵' '🟣']
+\
+
+ El / en / después del nombre indica en qué idioma está escrito el nombre, para que alguien
+que lea tu proyecto en otro idioma sepa si puede leerlo.
+
+Ahora regresa a tu @Source principal y trae la lista con un @Borrow. Escribe 
+\↓\ y luego el nombre de la otra fuente:
+
+\
+↓ colors
+
+Phrase(colors.random())
+\🪲
+
+ Dentro de esta @Source, / colores / ahora significa la lista que compartiste. Cualquier cosa que marques
+con \↑\ se puede prestar así: una lista, un número, una función o una estructura.
+
+Para crear una nueva @Source, usa el botón / agregar fuente / en la parte de abajo del proyecto.
+
+pick-from-a-list, your-own-template

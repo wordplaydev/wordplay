@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~流",
             "definition": "$~一个随着你的世界变化而不断变化的 @value，比如 @Time 的滴答，或者一个 @Key 被按下。每次它变化时，@Program 都会用新的 @value 重新求值。"
+        },
+        "source": {
+            "word": "$~源文件",
+            "definition": "$~这是@project中的一个@code文档。一个@project可以有多个源文件，每个源文件都可以@share其他源文件@borrow的内容。"
+        },
+        "borrow": {
+            "word": "$~借用",
+            "definition": "$~通过写 ↓ 加上那个 @source 的名字，来使用另一个 @Source 分享的东西。"
+        },
+        "share": {
+            "word": "$~分享",
+            "definition": "$~在@Source中用 ↑ 标记某样东西，这样其他@source文件就能@borrow它了。"
+        },
+        "kit": {
+            "word": "$~工具包",
+            "definition": "$~这是别人发布的@Source，好让其他人能在自己的@project里@borrow它。"
         }
     },
     "terms": {},
@@ -783,7 +799,10 @@
             "name": "借用",
             "description": "$~借用 $name[$name|未命名]",
             "emotion": "excited",
-            "doc": "$~我借用你表演中其他 @Source 共享的 @Bind ——只要用它们的名字，我就会带来它们的名字和 @value。",
+            "doc": [
+                "$~我 @borrow @Bind，它们由你表演中的其他 @Source 分享——只要用它们的名字，我就会把它们的名字和 @value 带进来。",
+                "写 \\↓\\，然后写另一个 @Source 的名字。那个 @Source 必须标出它用 \\↑\\ 分享了什么，就像 \\↑ colors/en: ['🔴' '🟠' '🟡']\\。"
+            ],
             "start": "向 $name 借用 $source",
             "conflict": {
                 "UnknownBorrow": {
@@ -7419,7 +7438,7 @@
                     "tip": "$~把项目作为文字复制到剪贴板",
                     "label": "$~作为文字复制"
                 },
-                "addSource": "$~创建一个新的 @Source",
+                "addSource": "$~创建另一个@Source，这样你就能把数据或共享代码放进它自己的文件里",
                 "revert": "恢复到原始代码",
                 "focusOutput": "聚焦舞台上的键盘乐器",
                 "focusSource": "聚焦到下一个源",
@@ -8153,7 +8172,8 @@
                     "motion": "使用物理效果",
                     "video": "使用摄像头",
                     "gallery": "Wordplay 同行创作者制作",
-                    "music": "$~制作音乐和声音"
+                    "music": "$~制作音乐和声音",
+                    "organizing": "$~组织一个更大的项目"
                 },
                 "related": "这不是你要找的吗？",
                 "howToGalleryButton": {

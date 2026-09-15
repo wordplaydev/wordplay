@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~flux",
             "definition": "$~O @value care se schimbă în timp, pe măsură ce lumea ta se schimbă, cum ar fi @Time care trece sau o @Key care este apăsată. De fiecare dată când se schimbă, @Program se evaluează din nou cu noua @value."
+        },
+        "source": {
+            "word": "$~sursă",
+            "definition": "$~Un document @code dintr-un @project. Un @project poate avea mai multe, iar fiecare poate @share lucruri pe care celelalte le @borrow."
+        },
+        "borrow": {
+            "word": "$~împrumută",
+            "definition": "$~Pentru a folosi ceva ce o altă @Source a partajat, scrie ↓ și numele acelei @source."
+        },
+        "share": {
+            "word": "$~partajează",
+            "definition": "$~Pentru a marca ceva într-o @Source cu ↑, ca alte fișiere @source să poată @borrow acel lucru."
+        },
+        "kit": {
+            "word": "$~trusă",
+            "definition": "$~O @Source pe care cineva a publicat-o, pentru ca alte persoane să o poată @borrow în propriul @project."
         }
     },
     "terms": {},
@@ -789,7 +805,10 @@
                 "bind": "$~nume",
                 "version": "$~versiune"
             },
-            "doc": "$~Împrumut @Bind care sunt partajate de alte @Source din spectacolul tău — doar folosește-le numele și eu voi aduce numele și @value lor.",
+            "doc": [
+                "$~Eu @borrow @Bind care sunt partajate de alte @Source din reprezentația ta — folosește doar numele lor și eu voi aduce numele și @value lor.",
+                "Scrie \\↓\\ și apoi numele celeilalte @Source. Acea @Source trebuie să marcheze ce partajează cu \\↑\\, cum ar fi \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
             "start": "$~Împrumutând $name din $source",
             "conflict": {
                 "UnknownBorrow": {
@@ -7451,7 +7470,7 @@
                     "tip": "$~copiază proiectul în clipboard ca text",
                     "label": "$~copiază ca text"
                 },
-                "addSource": "$~creează o nouă @Source",
+                "addSource": "$~creează o altă @Source, ca să poți păstra date sau cod partajat în propriul fișier",
                 "revert": "$~reveniți la codul original",
                 "focusOutput": "$~tastatură concentrată pe scenă",
                 "focusSource": "$~concentrați-vă pe următoarea sursă",
@@ -8595,7 +8614,8 @@
                     "motion": "$~folosește fizica",
                     "video": "$~folosește o cameră",
                     "gallery": "$~creat de colegii tăi regizori de Wordplay",
-                    "music": "$~fă muzică și sunet"
+                    "music": "$~fă muzică și sunet",
+                    "organizing": "$~organizează un proiect mai mare"
                 },
                 "related": "$~Nu este ceea ce cauți?",
                 "howToGalleryButton": {

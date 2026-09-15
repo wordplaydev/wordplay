@@ -984,6 +984,8 @@
         "eaf77bdd06a6e": "$~Le raccourci pour afficher la liste des raccourcis l'ouvre maintenant vraiment.",
         "e15065ca4cd91": "$~Déplacer une tuile de fenêtre avec les touches fléchées ne fait plus avancer ton programme en même temps.",
         "ec2a904d11589": "$~Certains raccourcis ont été déplacés vers des touches que Windows, les Chromebooks et Linux ne gardent pas pour eux-mêmes. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
-        "eb770841e3ff7": "$~La liste des raccourcis montre maintenant chaque commande, y compris celles sans raccourci, et indique où les trouver à la place. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
+        "eb770841e3ff7": "$~La liste des raccourcis montre maintenant chaque commande, y compris celles sans raccourci, et indique où les trouver à la place. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "efc9a05b9de4f": "$~Nous avons ajouté un comment faire et de nouveaux mots de glossaire au <Guide@https://wordplay.dev/guide> qui expliquent comment un projet peut avoir plusieurs fichiers source, et comment partager et emprunter entre eux. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "ee25d92cdeeaa": "$~Le tutoriel explique maintenant qu'un projet peut avoir plusieurs fichiers source, et propose une visite des contrôles du projet. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
     }
 }

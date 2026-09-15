@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~agos",
             "definition": "$~Isang @value na nagbabago sa paglipas ng panahon habang nagbabago ang iyong mundo, tulad ng pagtatak ng @Time o pagpindot ng @Key. Tuwing nagbabago ito, muling sinusuri ng @Program ang bagong @value."
+        },
+        "source": {
+            "word": "$~pinagmulan",
+            "definition": "$~Isang dokumento ng @code sa isang @project. Ang isang @project ay maaaring magkaroon ng higit sa isa, at bawat isa ay maaaring @share ng mga bagay na @borrow ng iba."
+        },
+        "borrow": {
+            "word": "$~humiram",
+            "definition": "$~Para gamitin ang isang bagay na ibinahagi ng ibang @Source, isulat ang ↓ at ang pangalan ng @source na iyon."
+        },
+        "share": {
+            "word": "$~ibahagi",
+            "definition": "$~Para markahan ang isang bagay sa isang @Source gamit ang ↑ para ang ibang mga file ng @source ay makapag-@borrow nito."
+        },
+        "kit": {
+            "word": "$~kit",
+            "definition": "$~Isang @Source na inilathala ng isang tao para ang ibang tao ay makapag-@borrow nito sa kanilang sariling @project."
         }
     },
     "terms": {},
@@ -789,7 +805,10 @@
                 "bind": "$~pangalan",
                 "version": "$~bersyon"
             },
-            "doc": "$~Humihiram ako ng @Bind na ibinabahagi ng ibang @Source sa iyong pagtatanghal — gamitin mo lang ang kanilang pangalan at dadalhin ko ang kanilang pangalan at @value.",
+            "doc": [
+                "$~@borrow ko ang mga @Bind na ibinahagi ng ibang @Source sa iyong pagtatanghal — gamitin lang ang kanilang pangalan at dadalhin ko ang kanilang pangalan at @value.",
+                "Isulat ang \\↓\\ at pagkatapos ang pangalan ng ibang @Source. Kailangang markahan ng @Source na iyon kung ano ang ibinabahagi nito sa \\↑\\, tulad ng \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
             "start": "$~Paghiram ng $name mula sa $source",
             "conflict": {
                 "UnknownBorrow": {
@@ -7455,7 +7474,7 @@
                     "tip": "$~kopyahin ang proyekto sa clipboard bilang teksto",
                     "label": "$~kopyahin bilang teksto"
                 },
-                "addSource": "$~lumikha ng bagong @Source",
+                "addSource": "$~gumawa ng isa pang @Source, para makapagtago ka ng datos o ibinahaging kodigo sa sarili nitong file",
                 "revert": "$~bumalik sa orihinal na code",
                 "focusOutput": "$~itutok ang keyboard sa entablado",
                 "focusSource": "$~tumuon sa susunod na mapagkukunan",
@@ -8592,7 +8611,8 @@
                     "motion": "$~gumamit ng pisika",
                     "video": "$~gumamit ng kamera",
                     "gallery": "$~nilikha ng iyong mga kapwa direktor ng Wordplay",
-                    "music": "$~gumawa ng musika at tunog"
+                    "music": "$~gumawa ng musika at tunog",
+                    "organizing": "$~ayusin ang isang mas malaking proyekto"
                 },
                 "related": "$~Hindi ito ang hinahanap mo?",
                 "howToGalleryButton": {

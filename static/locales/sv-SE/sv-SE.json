@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~ström",
             "definition": "$~En @value som ändras med tiden när din värld ändras, som att @Time tickar eller en @Key trycks ner. Varje gång den ändras körs @Program igen med det nya @value."
+        },
+        "source": {
+            "word": "$~källa",
+            "definition": "$~Ett @code-dokument i ett @project. Ett @project kan ha fler än ett, och alla kan @share saker som de andra @borrow."
+        },
+        "borrow": {
+            "word": "$~låna",
+            "definition": "$~Att använda något som en annan @Source har delat, genom att skriva ↓ och den @source namn."
+        },
+        "share": {
+            "word": "$~dela",
+            "definition": "$~Att markera något i en @Source med ↑ så att andra @source-filer kan @borrow det."
+        },
+        "kit": {
+            "word": "$~sats",
+            "definition": "$~En @Source som någon publicerat så att andra kan @borrow den i sitt eget @project."
         }
     },
     "terms": {},
@@ -784,7 +800,10 @@
             "name": "$~låna",
             "description": "$~låna $name[$name|utan namn]",
             "emotion": "excited",
-            "doc": "$~Jag lånar @Bind som delas av andra @Source i ditt framträdande — använd bara deras namn så tar jag in deras namn och @value.",
+            "doc": [
+                "$~Jag @borrow @Bind som delas av andra @Source i ditt framträdande — använd bara deras namn så hämtar jag deras namn och @value.",
+                "Skriv \\↓\\ och sedan namnet på den andra @Source. Den @Source måste markera det den delar med \\↑\\, till exempel \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
             "start": "$~Lånar $name från $source",
             "conflict": {
                 "UnknownBorrow": {
@@ -7440,7 +7459,7 @@
                     "tip": "$~kopiera projekt till urklipp som text",
                     "label": "$~kopiera som text"
                 },
-                "addSource": "$~skapa en ny @Source",
+                "addSource": "$~skapa en ny @Source, så att du kan hålla data eller delad kod i en egen fil",
                 "revert": "$~återgå till originalkoden",
                 "focusOutput": "$~fokus tangentbordet på scenen",
                 "focusSource": "$~fokusera på nästa källa",
@@ -8192,7 +8211,8 @@
                     "motion": "$~använda fysik",
                     "video": "$~använda en kamera",
                     "gallery": "$~skapad av dina Wordplay-regissörskollegor",
-                    "music": "$~skapa musik och ljud"
+                    "music": "$~skapa musik och ljud",
+                    "organizing": "$~organisera ett större projekt"
                 },
                 "related": "$~Inte vad du letar efter?",
                 "howToGalleryButton": {

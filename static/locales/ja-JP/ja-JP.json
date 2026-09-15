@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~ストリーム",
             "definition": "$~世界の変化に合わせて、時間とともに変わっていく@valueです。たとえば、@Timeが刻まれたり、@Keyが押されたりすることです。値が変わるたびに、@Programは新しい@valueでもう一度評価されます。"
+        },
+        "source": {
+            "word": "$~ソース",
+            "definition": "$~@projectの中にある1つの@codeドキュメント。1つの@projectは複数持つことができ、それぞれが他のものが@borrowものを@shareことができます。"
+        },
+        "borrow": {
+            "word": "$~借りる",
+            "definition": "$~↓とその@sourceの名前を書くことで、他の@Sourceが共有したものを使うことです。"
+        },
+        "share": {
+            "word": "$~共有する",
+            "definition": "$~@Sourceの中にあるものに↑を付けて、他の@sourceファイルがそれを@borrowできるようにすることです。"
+        },
+        "kit": {
+            "word": "$~キット",
+            "definition": "$~誰かが公開した@Sourceで、他の人が自分の@projectの中でそれを@borrowことができます。"
         }
     },
     "terms": {},
@@ -784,7 +800,10 @@
             "name": "$~借用",
             "description": "$~借用 $name[$name|名前なし]",
             "emotion": "excited",
-            "doc": "$~わたしは、あなたの作品の中の他の @Source が共有している @Bind を借ります。名前を使うだけで、わたしがその名前と @value を持ってきます。",
+            "doc": [
+                "$~あなたの作品の中で、他の@Sourceが共有している@Bindを私は@borrowします。名前を使うだけで、私がその名前と@valueを取り込みます。",
+                "次のように書いてください: \\↓\\、そのあとにもう一方の@Sourceの名前を書きます。その@Sourceは、何を共有するかを\\↑\\のようにマークしておく必要があります。例えば\\↑ colors/en: ['🔴' '🟠' '🟡']\\。"
+            ],
             "start": "$~$name から $source を借りています",
             "conflict": {
                 "UnknownBorrow": {
@@ -7448,7 +7467,7 @@
                     "tip": "$~プロジェクトをテキストとしてクリップボードにコピーする",
                     "label": "$~テキストとしてコピーする"
                 },
-                "addSource": "$~新しい @Source を作る",
+                "addSource": "$~もう1つ@Sourceを作って、データや共有コードを別のファイルに保つ",
                 "revert": "$~元のコードに戻す",
                 "focusOutput": "$~キーボードの操作をステージに合わせる",
                 "focusSource": "$~次のソースに合わせる",
@@ -7716,8 +7735,8 @@
             },
             "button": {
                 "selectOutput": "$~この出力をステージに表示",
-                "zoomIn": "$!コードを大きくする",
-                "zoomOut": "$!コードを小さくする",
+                "zoomIn": "$~コードを大きくする",
+                "zoomOut": "$~コードを小さくする",
                 "replace": "$~一致するものをすべて置き換える",
                 "selectOutputError": "$~この出力をステージに表示します。このソースの評価はエラーで終わりました",
                 "addView": "$~このコードを2番目のビューに表示する",
@@ -8195,7 +8214,8 @@
                     "motion": "$~物理を使う",
                     "video": "$~カメラを使う",
                     "gallery": "$~仲間の Wordplay ディレクターが作りました",
-                    "music": "$~音楽と音を作る"
+                    "music": "$~音楽と音を作る",
+                    "organizing": "$~もっと大きなプロジェクトを整理する"
                 },
                 "related": "$~さがしているものが見つかりませんか？",
                 "howToGalleryButton": {
