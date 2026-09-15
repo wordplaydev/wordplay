@@ -1,0 +1,31 @@
+Dela upp ett projekt i källor
+
+Ett projekt kan innehålla mer än en @Source. Att lägga en lång lista med data i en egen fil
+håller ditt huvudprogram tillräckligt kort för att man ska kunna läsa det snabbt.
+
+Säg att du vill ha en lista med färger att välja mellan. Skapa en till @Source, ge den namnet 
+/ färger /, och lägg listan där. \↑\ framför namnet betyder / dela detta
+med resten av projektet /:
+
+\
+↑ colors/en: ['🔴' '🟠' '🟡' '🟢' '🔵' '🟣']
+\
+
+ Detta / en / efter namnet visar vilket språk namnet är skrivet på, så att någon
+som läser ditt projekt på ett annat språk vet om de kan läsa det.
+
+Gå nu tillbaka till din huvud @Source och hämta in listan med ett @Borrow. Skriv 
+\↓\ och sedan namnet på den andra källan:
+
+\
+↓ colors
+
+Phrase(colors.random())
+\🪲
+
+ Inuti denna @Source / färger / betyder nu listan du delade. Allt du markerar
+med \↑\ kan lånas på detta sätt: en lista, ett tal, en funktion, eller en struktur.
+
+För att skapa en ny @Source, använd knappen / lägg till källa / längst ner i projektet.
+
+pick-from-a-list, your-own-template

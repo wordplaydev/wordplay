@@ -984,6 +984,8 @@
         "eaf77bdd06a6e": "$~Pintasan untuk menampilkan daftar pintasan sekarang benar-benar membukanya.",
         "e15065ca4cd91": "$~Memindahkan petak jendela dengan tombol panah kini tidak lagi ikut menjalankan programmu.",
         "ec2a904d11589": "$~Beberapa pintasan dipindahkan ke tombol yang tidak dipakai sendiri oleh Windows, Chromebook, dan Linux. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
-        "eb770841e3ff7": "$~Daftar pintasan sekarang menampilkan semua perintah, termasuk yang tidak punya pintasan dan tempat lain untuk menemukannya. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
+        "eb770841e3ff7": "$~Daftar pintasan sekarang menampilkan semua perintah, termasuk yang tidak punya pintasan dan tempat lain untuk menemukannya. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "efc9a05b9de4f": "$~Kami menambahkan sebuah cara dan kata-kata baru di daftar istilah pada <Panduan@https://wordplay.dev/guide> yang menjelaskan bagaimana sebuah proyek dapat memiliki lebih dari satu berkas sumber, dan bagaimana cara berbagi dan meminjam di antara berkas-berkas itu. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "ee25d92cdeeaa": "$~Tutorial sekarang memberi tahu kamu bahwa sebuah proyek dapat memiliki lebih dari satu berkas sumber, dan menawarkan tur kontrol proyek. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
     }
 }

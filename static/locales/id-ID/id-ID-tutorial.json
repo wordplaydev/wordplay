@@ -5480,6 +5480,14 @@
                         null,
                         [
                             "Doc",
+                            "curious",
+                            "$~Bicara soal membuat sesuatu lebih mudah dibaca, tahukah kamu bahwa satu @project bisa memuat lebih dari satu @Source?",
+                            "$~Saat sebuah program menjadi panjang, kamu bisa memindahkan sebagian darinya ke @Source tersendiri. Tandai apa yang ingin kamu gunakan di tempat lain dengan \\↑\\, lalu @Borrow kembali dengan \\↓\\ dan nama @Source itu.",
+                            "$~Kontrol proyek di bagian bawah adalah tempat kamu membuat satu. Coba lihat, aku akan menunjukkannya: @Tour/project"
+                        ],
+                        null,
+                        [
+                            "Doc",
                             "serious",
                             "$~Dan satu hal terakhir.",
                             "$~Meskipun saya sangat suka menjelaskan segala sesuatu, terkadang ada baiknya juga untuk menghilangkan beberapa hal. Misalnya, untuk menghapus sesuatu dari proyek untuk sementara waktu agar tidak menjadi bagian dari proyek tersebut.",

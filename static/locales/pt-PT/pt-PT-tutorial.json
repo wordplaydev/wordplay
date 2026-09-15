@@ -5436,6 +5436,14 @@
                         null,
                         [
                             "Doc",
+                            "curious",
+                            "$~Por falar em tornar as coisas mais fáceis de ler, sabia que uma @project pode conter mais do que uma @Source?",
+                            "$~Quando um programa se torna longo, pode mover parte dele para uma @Source própria. Marque o que quer usar noutro sítio com \\↑\\, depois pode @Borrow isso com \\↓\\ e o nome dessa @Source.",
+                            "$~Os controlos do projeto, em baixo, são onde pode criar um. Vamos dar uma vista de olhos e eu mostro-lhos: @Tour/project"
+                        ],
+                        null,
+                        [
+                            "Doc",
                             "serious",
                             "E mais uma coisa.",
                             "Embora goste muito de explicar as coisas, por vezes também é útil omitir alguns pormenores. Sabe, remover algo de um projeto temporariamente para que deixe de fazer parte dele.",

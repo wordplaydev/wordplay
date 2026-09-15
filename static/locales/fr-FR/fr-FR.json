@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~flux",
             "definition": "$~Un @value qui change avec le temps, comme @Time qui avance ou une @Key que l'on appuie. À chaque changement, @Program s'évalue à nouveau avec la nouvelle @value."
+        },
+        "source": {
+            "word": "$~source",
+            "definition": "$~Un document @code dans un @project. Un @project peut en avoir plusieurs, et chacun peut @share des choses que les autres @borrow."
+        },
+        "borrow": {
+            "word": "$~emprunter",
+            "definition": "$~Utiliser quelque chose partagé par un autre @Source, en écrivant ↓ suivi du nom de ce @source."
+        },
+        "share": {
+            "word": "$~partager",
+            "definition": "$~Marquer quelque chose dans un @Source avec ↑ pour que d'autres fichiers @source puissent l'@borrow."
+        },
+        "kit": {
+            "word": "$~kit",
+            "definition": "$~Un @Source que quelqu'un a publié pour que d'autres personnes puissent l'@borrow dans leur propre @project."
         }
     },
     "terms": {},
@@ -784,7 +800,10 @@
             "name": "$~emprunter",
             "description": "$~emprunter $name[$name|sans nom]",
             "emotion": "excited",
-            "doc": "$~J'emprunte des @Bind qui sont partagés par d'autres @Source dans ta performance — utilise simplement leur nom et j'apporterai leur nom et leur @value.",
+            "doc": [
+                "$~J'@borrow @Bind qui sont partagés par d'autres @Source dans ta représentation — utilise simplement leur nom et j'irai chercher leur nom et @value.",
+                "Écris \\↓\\ puis le nom de l'autre @Source. Ce @Source doit marquer ce qu'il partage avec \\↑\\, comme \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
             "start": "$~Emprunter $name à partir de $source",
             "conflict": {
                 "UnknownBorrow": {
@@ -7449,7 +7468,7 @@
                     "tip": "$~copier le projet dans le presse-papiers sous forme de texte",
                     "label": "$~copier comme texte"
                 },
-                "addSource": "$~créer une nouvelle @Source",
+                "addSource": "$~créer un autre @Source, pour pouvoir garder des données ou du code partagé dans son propre fichier",
                 "revert": "$~revenir au code d'origine",
                 "focusOutput": "$~clavier de mise au point sur la scène",
                 "focusSource": "$~se concentrer sur la source suivante",
@@ -8188,7 +8207,8 @@
                     "motion": "$~utiliser la physique",
                     "video": "$~utiliser un appareil photo",
                     "gallery": "$~créé par vos collègues directeurs de Wordplay",
-                    "music": "$~faire de la musique et du son"
+                    "music": "$~faire de la musique et du son",
+                    "organizing": "$~organiser un projet plus grand"
                 },
                 "related": "$~Ce n'est pas ce que vous cherchez ?",
                 "howToGalleryButton": {

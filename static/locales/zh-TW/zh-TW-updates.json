@@ -984,6 +984,8 @@
         "eaf77bdd06a6e": "$~顯示快速鍵清單的快速鍵，現在真的能打開清單了",
         "e15065ca4cd91": "$~用方向鍵移動視窗磚塊時，不會同時讓你的程式往前跑一步了",
         "ec2a904d11589": "$~有些快速鍵改到了 Windows、Chromebook 和 Linux 不會佔用的按鍵上。（<826@https://github.com/wordplaydev/wordplay/issues/826>）",
-        "eb770841e3ff7": "$~快速鍵清單現在會列出所有指令，包括沒有快速鍵的指令，並告訴你去哪裡找到它們。（<913@https://github.com/wordplaydev/wordplay/issues/913>）"
+        "eb770841e3ff7": "$~快速鍵清單現在會列出所有指令，包括沒有快速鍵的指令，並告訴你去哪裡找到它們。（<913@https://github.com/wordplaydev/wordplay/issues/913>）",
+        "efc9a05b9de4f": "$~我們在<指南（Guide）@https://wordplay.dev/guide>中新增了一篇操作指南和一些詞彙表新字詞，說明一個工程如何能擁有多個程式文件，以及如何在它們之間分享與借用。（<268@https://github.com/wordplaydev/wordplay/issues/268>）",
+        "ee25d92cdeeaa": "$~教學現在會告訴你，一個工程可以擁有多個程式文件，還會帶你導覽工程的控制項。（<268@https://github.com/wordplaydev/wordplay/issues/268>）"
     }
 }

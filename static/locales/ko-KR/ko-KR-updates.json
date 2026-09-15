@@ -984,6 +984,8 @@
         "eaf77bdd06a6e": "$~단축키 목록을 보여주는 단축키가 이제 제대로 열립니다.",
         "e15065ca4cd91": "$~화살표 키로 창 타일을 옮길 때 더 이상 프로그램이 동시에 실행되지 않습니다.",
         "ec2a904d11589": "$~일부 단축키를 윈도우, 크롬북, 리눅스가 따로 쓰지 않는 키로 옮겼습니다. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
-        "eb770841e3ff7": "$~단축키 목록에 이제 모든 명령어가 나옵니다. 단축키가 없는 명령어와 그 대신 어디서 찾을 수 있는지도 함께 보여줍니다. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
+        "eb770841e3ff7": "$~단축키 목록에 이제 모든 명령어가 나옵니다. 단축키가 없는 명령어와 그 대신 어디서 찾을 수 있는지도 함께 보여줍니다. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "efc9a05b9de4f": "$~<안내서@https://wordplay.dev/guide>에 어떻게와 새로운 용어 설명을 추가했습니다. 프로젝트가 여러 개의 소스 파일을 가질 수 있는 방법과, 소스 파일끼리 공유하고 빌리는 방법을 설명합니다. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "ee25d92cdeeaa": "$~이제 튜토리얼에서 프로젝트가 여러 개의 소스 파일을 가질 수 있다는 것을 알려주고, 프로젝트 제어 기능을 둘러보는 안내도 제공합니다. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
     }
 }

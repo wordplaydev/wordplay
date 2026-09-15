@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~akış",
             "definition": "$~Zaman içinde dünyan değiştikçe değişen bir @value, örneğin @Time'nin işlemesi ya da bir @Key'ye basılması gibi. Her değiştiğinde, @Program yeni @value ile yeniden çalışır."
+        },
+        "source": {
+            "word": "$~kaynak",
+            "definition": "$~Bir @project içindeki tek bir @code belgesi. Bir @project'nin birden fazla belgesi olabilir ve her biri diğerlerinin @borrow şeyleri @share edebilir."
+        },
+        "borrow": {
+            "word": "$~ödünç al",
+            "definition": "$~↓ yazıp o @source'in ismini yazarak başka bir @Source'ın paylaştığı bir şeyi kullanmak."
+        },
+        "share": {
+            "word": "$~paylaş",
+            "definition": "$~Diğer @source dosyalarının @borrow edebilmesi için bir @Source içindeki bir şeyi ↑ ile işaretlemek."
+        },
+        "kit": {
+            "word": "$~set",
+            "definition": "$~Başka insanların kendi @project'lerinde @borrow edebilmesi için birinin yayımladığı bir @Source."
         }
     },
     "terms": {},
@@ -784,7 +800,10 @@
             "name": "$~borçalmak",
             "description": "$~ödünç al $name[$name|isimsiz]",
             "emotion": "excited",
-            "doc": "$~Performansındaki başka @Source ile paylaşılan @Bind ödünç alırım — sadece isimlerini kullan, ben de isimlerini ve @value getiririm.",
+            "doc": [
+                "$~Performansındaki diğer @Source tarafından paylaşılan @Bind'leri @borrow ederim — sadece isimlerini kullan, ben de onların ismini ve @value'ini getiririm.",
+                "Şunu yaz \\↓\\ ve ardından diğer @Source'ın ismini yaz. O @Source neyi paylaştığını şununla işaretlemiş olmalı \\↑\\, şunun gibi \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
             "start": "$~$name'tan $source ödünç alınıyor",
             "conflict": {
                 "UnknownBorrow": {
@@ -7447,7 +7466,7 @@
                     "tip": "$~projeyi metin olarak panoya kopyala",
                     "label": "$~metin olarak kopyala"
                 },
-                "addSource": "$~yeni bir @Source oluştur",
+                "addSource": "$~verileri veya paylaşılan kodu kendi dosyasında tutabilmen için başka bir @Source oluştur",
                 "revert": "$~orijinal koda geri dön",
                 "focusOutput": "$~sahnede klavyeye odaklan",
                 "focusSource": "$~bir sonraki kaynağa odaklan",
@@ -8199,7 +8218,8 @@
                     "motion": "$~fizik kullan",
                     "video": "$~bir kamera kullan",
                     "gallery": "$~Diğer Wordplay yöneticileriniz tarafından oluşturuldu",
-                    "music": "$~orkestra"
+                    "music": "$~orkestra",
+                    "organizing": "$~daha büyük bir projeyi düzenle"
                 },
                 "related": "$~Aradığınız bu değil mi?",
                 "howToGalleryButton": {

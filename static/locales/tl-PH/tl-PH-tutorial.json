@@ -5492,6 +5492,14 @@
                         null,
                         [
                             "Doc",
+                            "curious",
+                            "$~Kung pinag-uusapan natin ang paggawa ng mas madaling basahin, alam mo ba na ang isang @project ay maaaring maglaman ng higit sa isang @Source?",
+                            "$~Kapag humaba na ang isang programa, maaari mong ilipat ang isang bahagi nito sa sarili nitong @Source. Markahan ang gusto mong gamitin sa ibang lugar gamit ang \\↑\\, pagkatapos @Borrow ito pabalik gamit ang \\↓\\ at ang pangalan ng @Source na iyon.",
+                            "$~Ang mga kontrol ng proyekto sa ibaba ay kung saan ka gagawa ng isa. Tingnan mo at ituturo ko sa iyo kung saan ang mga ito: @Tour/project"
+                        ],
+                        null,
+                        [
+                            "Doc",
                             "serious",
                             "$~At isa pang bagay.",
                             "$~Bagama't ang totoo ay nagpapaliwanag lang ako, minsan nakakatulong din na alisin ang mga bagay-bagay. Alam mo, pansamantalang alisin ang isang bagay sa isang proyekto para hindi na ito maging bahagi ng proyekto.",

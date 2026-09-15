@@ -1,0 +1,31 @@
+Podziel projekt na pliki źródłowe
+
+Projekt może zawierać więcej niż jedno @Source. Umieszczenie długiej listy danych we własnym pliku
+sprawia, że twój główny program pozostaje na tyle krótki, by odczytać go jednym spojrzeniem.
+
+Załóżmy, że chcesz mieć listę kolorów do wyboru. Utwórz drugie @Source, nazwij je 
+/ kolory /, i umieść tam listę. Znak \↑\ przed nazwą oznacza / udostępnij to
+reszcie projektu /:
+
+\
+↑ colors/en: ['🔴' '🟠' '🟡' '🟢' '🔵' '🟣']
+\
+
+ Znak / en / po nazwie mówi, w jakim języku napisana jest nazwa, dzięki czemu ktoś,
+kto czyta twój projekt w innym języku, wie, czy może go przeczytać.
+
+Teraz wróć do swojego głównego @Source i wprowadź listę za pomocą @Borrow. Napisz 
+\↓\ a potem nazwę innego źródła:
+
+\
+↓ colors
+
+Phrase(colors.random())
+\🪲
+
+ Wewnątrz tego @Source, / kolory / oznacza teraz listę, którą udostępniłeś. Wszystko, co oznaczysz
+znakiem \↑\ można w ten sposób pożyczyć: listę, liczbę, funkcję albo strukturę.
+
+Aby utworzyć nowe @Source, użyj przycisku / dodaj źródło / na dole projektu.
+
+pick-from-a-list, your-own-template

@@ -984,6 +984,8 @@
         "eaf77bdd06a6e": "$~Kısayollar listesini gösteren kısayol artık gerçekten açıyor.",
         "e15065ca4cd91": "$~Bir pencere bloğunu ok tuşlarıyla taşımak artık programını aynı anda ilerletmiyor.",
         "ec2a904d11589": "$~Bazı kısayollar, Windows, Chromebook ve Linux'un kendine ayırmadığı tuşlara taşındı. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
-        "eb770841e3ff7": "$~Kısayollar listesi artık her komutu gösteriyor. Kısayolu olmayan komutları ve bunları başka nerede bulabileceğini de gösteriyor. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
+        "eb770841e3ff7": "$~Kısayollar listesi artık her komutu gösteriyor. Kısayolu olmayan komutları ve bunları başka nerede bulabileceğini de gösteriyor. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "efc9a05b9de4f": "$~<Rehber@https://wordplay.dev/guide>'e yeni bir nasıl yapılır ve yeni sözlük kelimeleri ekledik. Bunlar bir projenin birden fazla kaynak dosyasına sahip olabileceğini ve kaynaklar arasında nasıl paylaşım yapılıp ödünç alınabileceğini anlatıyor. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "ee25d92cdeeaa": "$~Öğretici artık bir projenin birden fazla kaynak dosyasına sahip olabileceğini anlatıyor ve proje kontrolleri hakkında bir tur sunuyor. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
     }
 }

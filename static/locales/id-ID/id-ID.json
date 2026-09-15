@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~aliran",
             "definition": "$~@value adalah nilai yang berubah seiring waktu saat dunia kamu berubah, seperti @Time yang terus berdetak atau @Key yang ditekan. Setiap kali nilainya berubah, @Program dijalankan lagi dengan @value yang baru."
+        },
+        "source": {
+            "word": "$~sumber",
+            "definition": "$~Satu dokumen @code dalam sebuah @project. Sebuah @project bisa punya lebih dari satu, dan setiap @share bisa berbagi hal-hal yang dipinjam oleh yang lain @borrow."
+        },
+        "borrow": {
+            "word": "$~pinjam",
+            "definition": "$~Untuk memakai sesuatu yang dibagikan oleh @Source lain, tulis ↓ lalu nama @source itu."
+        },
+        "share": {
+            "word": "$~bagikan",
+            "definition": "$~Untuk menandai sesuatu dalam @Source dengan ↑ supaya file @source lain bisa meminjam @borrow."
+        },
+        "kit": {
+            "word": "$~perkakas",
+            "definition": "$~@Source yang diterbitkan seseorang supaya orang lain bisa meminjam @borrow itu dalam @project mereka sendiri."
         }
     },
     "terms": {},
@@ -789,7 +805,10 @@
                 "bind": "$~nama",
                 "version": "$~versi"
             },
-            "doc": "$~Aku meminjam @Bind yang dibagikan oleh @Source lain dalam pertunjukanmu — cukup gunakan namanya dan aku akan membawa nama serta @value mereka.",
+            "doc": [
+                "$~Saya @borrow @Bind yang dibagikan oleh @Source lain dalam pertunjukanmu — cukup pakai namanya dan saya akan membawa nama dan @value mereka.",
+                "Tulis \\↓\\ lalu nama @Source lain itu. @Source itu harus menandai apa yang dibagikannya dengan \\↑\\, seperti \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
             "start": "$~Meminjam $name dari $source",
             "conflict": {
                 "UnknownBorrow": {
@@ -7460,7 +7479,7 @@
                     "tip": "$~Salin proyek ke papan klip sebagai teks.",
                     "label": "$~salin sebagai teks"
                 },
-                "addSource": "$~buat @Source baru",
+                "addSource": "$~buat @Source lain, supaya kamu bisa menyimpan data atau kode yang dibagikan dalam file tersendiri",
                 "revert": "$~kembali ke kode asli",
                 "focusOutput": "$~fokus keyboard di atas panggung",
                 "focusSource": "$~fokus pada sumber berikutnya",
@@ -8599,7 +8618,8 @@
                     "motion": "$~gunakan fisika",
                     "video": "$~gunakan kamera",
                     "gallery": "$~Dibuat oleh sesama direktur Wordplay Anda",
-                    "music": "$~buat musik dan suara"
+                    "music": "$~buat musik dan suara",
+                    "organizing": "$~mengatur proyek yang lebih besar"
                 },
                 "related": "$~Bukan yang Anda cari?",
                 "howToGalleryButton": {

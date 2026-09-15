@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~Datenstrom",
             "definition": "$~Ein @value, der sich mit der Zeit verändert, so wie @Time tickt oder eine @Key gedrückt wird. Jedes Mal, wenn er sich ändert, wertet @Program erneut mit dem neuen @value aus."
+        },
+        "source": {
+            "word": "$~Quelle",
+            "definition": "$~Ein @code-Dokument in einem @project. Ein @project kann mehr als eines haben, und jedes kann Dinge @share, die sich die anderen @borrow."
+        },
+        "borrow": {
+            "word": "$~leihen",
+            "definition": "$~Um etwas zu nutzen, das eine andere @Source geteilt hat, schreibst du ↓ und den Namen dieser @source."
+        },
+        "share": {
+            "word": "$~teilen",
+            "definition": "$~Um etwas in einer @Source mit ↑ zu markieren, damit andere @source-Dateien es @borrow können."
+        },
+        "kit": {
+            "word": "$~Baukasten",
+            "definition": "$~Eine @Source, die jemand veröffentlicht hat, damit andere Menschen sie in ihrem eigenen @borrow @project können."
         }
     },
     "terms": {},
@@ -784,7 +800,10 @@
             "name": "$~ausleihen",
             "description": "$~Leihen $name[$name|namenlos]",
             "emotion": "excited",
-            "doc": "$~Ich leihe mir @Bind, die von anderen @Source in deiner Aufführung geteilt werden — benutze einfach ihren Namen und ich hole ihren Namen und @value herbei.",
+            "doc": [
+                "$~Ich @borrow @Bind, die von anderen @Source in deiner Aufführung geteilt werden — benutze einfach ihren Namen, und ich hole ihren Namen und @value herein.",
+                "Schreibe \\↓\\ und dann den Namen der anderen @Source. Diese @Source muss markieren, was sie teilt, mit \\↑\\, wie \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
             "start": "$~$name wird aus $source ausgeliehen",
             "conflict": {
                 "UnknownBorrow": {
@@ -7445,7 +7464,7 @@
                     "tip": "$~Projekt als Text in die Zwischenablage kopieren",
                     "label": "$~als Text kopieren"
                 },
-                "addSource": "$~erstelle eine neue @Source",
+                "addSource": "$~eine weitere @Source erstellen, damit du Daten oder geteilten Code in einer eigenen Datei aufbewahren kannst",
                 "revert": "$~zum Originalcode zurückkehren",
                 "focusOutput": "$~Fokus Tastatur auf der Bühne",
                 "focusSource": "$~Konzentrieren Sie sich auf die nächste Quelle",
@@ -8188,7 +8207,8 @@
                     "motion": "$~Physik anwenden",
                     "video": "$~eine Kamera benutzen",
                     "gallery": "$~erstellt von euren Wordplay-Regisseurkollegen",
-                    "music": "$~Musik und Klang machen"
+                    "music": "$~Musik und Klang machen",
+                    "organizing": "$~ein größeres Projekt organisieren"
                 },
                 "related": "$~Nicht das, wonach Sie suchen?",
                 "howToGalleryButton": {

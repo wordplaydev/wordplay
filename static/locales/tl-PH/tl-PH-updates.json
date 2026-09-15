@@ -984,6 +984,8 @@
         "eaf77bdd06a6e": "$~Ang shortcut para ipakita ang listahan ng mga shortcut ay bubuksan na ngayon ito.",
         "e15065ca4cd91": "$~Ang paglipat ng isang tile ng window gamit ang mga arrow key ay hindi na sabay na nagpapatakbo ng iyong programa.",
         "ec2a904d11589": "$~May mga shortcut na inilipat sa mga susi na hindi ginagamit para sa sarili nila ng Windows, Chromebooks, at Linux. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
-        "eb770841e3ff7": "$~Ang listahan ng mga shortcut ay nagpapakita na ngayon ng bawat utos, kasama ang mga walang shortcut at kung saan mo makikita ang mga iyon sa halip. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
+        "eb770841e3ff7": "$~Ang listahan ng mga shortcut ay nagpapakita na ngayon ng bawat utos, kasama ang mga walang shortcut at kung saan mo makikita ang mga iyon sa halip. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "efc9a05b9de4f": "$~Nagdagdag kami ng kung paano gawin at bagong mga salita sa glosaryo sa <Gabay@https://wordplay.dev/guide> na nagpapaliwanag kung paano magkakaroon ang isang proyekto ng higit sa isang source file, at kung paano magbahagi at humiram sa pagitan nila. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "ee25d92cdeeaa": "$~Sinasabi na ngayon ng tutorial na ang isang proyekto ay maaaring magkaroon ng higit sa isang source file, at nag-aalok ito ng tour ng mga kontrol ng proyekto. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
     }
 }

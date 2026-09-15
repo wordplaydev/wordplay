@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~串流",
             "definition": "$~一種 @value，會隨著你的世界改變而隨時間變化，像是 @Time 的計時或是 @Key 被按下。每次它改變時，@Program 就會用新的 @value 再次評估一次。"
+        },
+        "source": {
+            "word": "$~程式文件",
+            "definition": "$~@project中的一份@code程式文件。一個@project可以有不只一份，每一份都可以@share其他文件@borrow的東西。"
+        },
+        "borrow": {
+            "word": "$~借用",
+            "definition": "$~使用另一個@Source分享的東西，方法是寫下 ↓ 和那個@source的名稱。"
+        },
+        "share": {
+            "word": "$~分享",
+            "definition": "$~在@Source裡用 ↑ 標記某個東西，讓其他@source檔案可以@borrow它。"
+        },
+        "kit": {
+            "word": "$~工具包",
+            "definition": "$~有人發布的@Source，讓其他人可以在自己的@borrow裡@project它。"
         }
     },
     "terms": {},
@@ -784,7 +800,10 @@
             "name": "借用",
             "description": "$~借用 $name[$name|未命名]",
             "emotion": "excited",
-            "doc": "$~我借用你演出裡其他 @Source 分享的 @Bind — 只要用它們的姓名，我就會帶進它們的姓名和 @value。",
+            "doc": [
+                "$~我@borrow其他@Source在你的表演裡分享的@Bind——只要用它們的名稱，我就會把名稱和@value帶進來。",
+                "寫下 \\↓\\ 然後接上另一個@Source的名稱。那個@Source必須用 \\↑\\ 標記它分享的東西，像是 \\↑ colors/en: ['🔴' '🟠' '🟡']\\。"
+            ],
             "start": "向 $name 借用 $source",
             "conflict": {
                 "UnknownBorrow": {
@@ -7421,7 +7440,7 @@
                     "tip": "$~以文字形式複製工程到剪貼簿",
                     "label": "$~複製為文字"
                 },
-                "addSource": "建立新的@Source",
+                "addSource": "$~建立另一個@Source，這樣你就能把資料或分享的程式碼放在獨立的檔案裡",
                 "revert": "恢復到原始碼",
                 "focusOutput": "聚焦舞台上的鍵盤樂器",
                 "focusSource": "聚焦到下一個來源",
@@ -8155,7 +8174,8 @@
                     "motion": "動作",
                     "video": "錄影",
                     "gallery": "Wordplay 同儕創作者製作",
-                    "music": "$~製作音樂和聲音"
+                    "music": "$~製作音樂和聲音",
+                    "organizing": "$~整理一個比較大的工程"
                 },
                 "related": "這些不是您要找的嗎？",
                 "howToGalleryButton": {

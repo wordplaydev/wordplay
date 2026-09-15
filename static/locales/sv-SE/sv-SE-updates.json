@@ -984,6 +984,8 @@
         "eaf77bdd06a6e": "$~Genvägen för att visa listan med genvägar öppnar den nu.",
         "e15065ca4cd91": "$~Att flytta en fönsterruta med piltangenterna kör inte längre ditt program samtidigt.",
         "ec2a904d11589": "$~Vissa genvägar flyttades till tangenter som Windows, Chromebooks och Linux inte reserverar för sig själva. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
-        "eb770841e3ff7": "$~Listan med genvägar visar nu alla kommandon, inklusive de utan genväg och var du kan hitta dem istället. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
+        "eb770841e3ff7": "$~Listan med genvägar visar nu alla kommandon, inklusive de utan genväg och var du kan hitta dem istället. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "efc9a05b9de4f": "$~Vi har lagt till en hur man-guide och nya ord i ordlistan i <Guiden@https://wordplay.dev/guide> som förklarar hur ett projekt kan ha fler än en källa, och hur man delar och lånar mellan dem. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "ee25d92cdeeaa": "$~Handledningen berättar nu att ett projekt kan ha fler än en källa, och visar dig runt bland projektets kontroller. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
     }
 }

@@ -1,0 +1,31 @@
+Hatiin ang isang proyekto sa mga pinagmulan
+
+Ang isang proyekto ay maaaring maglaman ng higit sa isang @Source. Ang paglalagay ng mahabang listahan ng datos sa sarili nitong
+file ay nagpapanatili sa iyong pangunahing programa na maikli, para madaling basahin ito.
+
+Sabihin nating gusto mo ng listahan ng mga kulay na mapagpipilian. Gumawa ka ng pangalawang @Source, pangalanan itong 
+/ mga kulay /, at ilagay ang listahan doon. Ang \↑\ sa harap ng pangalan ay nangangahulugang / ibahagi ito
+sa ibang bahagi ng proyekto /:
+
+\
+↑ colors/en: ['🔴' '🟠' '🟡' '🟢' '🔵' '🟣']
+\
+
+ Ang / en / pagkatapos ng pangalan ay nagsasabi kung anong wika ang ginamit sa pangalan, para malaman ng sinumang
+bumasa ng iyong proyekto sa ibang wika kung mababasa nila ito.
+
+Ngayon, bumalik sa iyong pangunahing @Source at dalhin ang listahan gamit ang @Borrow. Isulat 
+\↓\ at pagkatapos ay ang pangalan ng ibang pinagmulan:
+
+\
+↓ colors
+
+Phrase(colors.random())
+\🪲
+
+ Sa loob ng @Source, / mga kulay / ay ngayon ay tumutukoy sa listahang ibinahagi mo. Anumang minarkahan mo
+gamit ang \↑\ ay maaaring hiramin sa ganitong paraan: isang listahan, isang numero, isang function, o isang structure.
+
+Para gumawa ng bagong @Source, gamitin ang / idagdag ang pinagmulan / na buton sa ibaba ng proyekto.
+
+pick-from-a-list, your-own-template

@@ -984,6 +984,8 @@
         "e15065ca4cd91": "$~Wenn du eine Fensterkachel mit den Pfeiltasten verschiebst, läuft dein Programm nicht mehr gleichzeitig einen Schritt weiter.",
         "ec2a904d11589": "$~Manche Tastenkürzel wurden auf Tasten verlegt, die Windows, Chromebooks und Linux nicht für sich selbst reservieren. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
         "eb770841e3ff7": "$~Die Liste der Tastenkürzel zeigt jetzt jeden Befehl, auch solche ohne Tastenkürzel, und wo du diese stattdessen findest. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
-        "e951c6f0b07aa": "$~Du kannst jetzt jedes Tastenkürzel auf Tasten ändern, die deine Tastatur erreichen kann, und deine Wahl folgt dir auf jeden Computer, bei dem du dich anmeldest. (<826@https://github.com/wordplaydev/wordplay/issues/826>)"
+        "e951c6f0b07aa": "$~Du kannst jetzt jedes Tastenkürzel auf Tasten ändern, die deine Tastatur erreichen kann, und deine Wahl folgt dir auf jeden Computer, bei dem du dich anmeldest. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
+        "efc9a05b9de4f": "$~Wir haben eine Wie-man-Anleitung und neue Wörterbuch-Einträge im <Leitfaden@https://wordplay.dev/guide> ergänzt. Sie erklären, wie ein Projekt mehr als eine Quelle haben kann und wie man zwischen ihnen teilen und leihen kann. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "ee25d92cdeeaa": "$~Die Anleitung erklärt jetzt, dass ein Projekt mehr als eine Quelle haben kann. Sie bietet dir auch einen Rundgang durch die Projektsteuerung. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
     }
 }

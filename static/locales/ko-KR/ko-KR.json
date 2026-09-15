@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~스트림",
             "definition": "$~@Time이 똑딱똑딱 흐르거나 @Key이 눌리는 것처럼, 여러분의 세상이 변할 때마다 함께 변하는 @value입니다. 값이 변할 때마다, @Program은 새로운 @value으로 다시 평가됩니다."
+        },
+        "source": {
+            "word": "$~소스",
+            "definition": "$~@project 안에 있는 하나의 @code 문서입니다. @project는 여러 개의 문서를 가질 수 있고, 각 문서는 다른 문서가 @borrow 것을 @share 수 있습니다."
+        },
+        "borrow": {
+            "word": "$~빌리기",
+            "definition": "$~다른 @Source가 공유한 것을 사용하려면, ↓와 그 @source의 이름을 적습니다."
+        },
+        "share": {
+            "word": "$~공유하기",
+            "definition": "$~@Source 안에 있는 것을 ↑로 표시하면, 다른 @source 파일이 그것을 @borrow 수 있습니다."
+        },
+        "kit": {
+            "word": "$~키트",
+            "definition": "$~다른 사람이 자신의 @project에서 @borrow 수 있도록 누군가 공개한 @Source입니다."
         }
     },
     "terms": {},
@@ -783,7 +799,10 @@
             "name": "빌리기",
             "description": "$~$name[$name|이름 없음] 빌리기",
             "emotion": "excited",
-            "doc": "$~저는 여러분의 공연에서 다른 @Source 이(가) 함께 쓰는 @Bind 을(를) 빌려 옵니다. 그 이름만 쓰면 제가 그 이름과 @value 을(를) 가져옵니다.",
+            "doc": [
+                "$~저는 여러분의 공연에서 다른 @Source 이 공유한 @borrow @Bind 을 가져옵니다. 그냥 그 이름만 쓰면, 제가 그 이름과 @value 을 가져올게요.",
+                "이렇게 쓰세요: \\↓\\ 그런 다음 다른 @Source 의 이름을 적으세요. 그 @Source 은 무엇을 공유하는지 \\↑\\ 처럼 표시해야 합니다, 예를 들면 \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
             "start": "$name $source 빌리기",
             "conflict": {
                 "UnknownBorrow": {
@@ -7437,7 +7456,7 @@
                     "tip": "$~프로젝트를 텍스트로 클립보드에 복사",
                     "label": "$~텍스트로 복사"
                 },
-                "addSource": "$~새로운 @Source 생성",
+                "addSource": "$~데이터나 공유 코드를 별도의 파일에 담아둘 수 있도록 또 다른 @Source 만들기",
                 "revert": "$~원래 코드로 되돌리기",
                 "focusOutput": "$~무대에 키보드 집중",
                 "focusSource": "$~다음 소스에 집중하세요",
@@ -8065,7 +8084,7 @@
                 "forwardNode": "$~커서의 다음 평가 단계",
                 "forwardInput": "$~다음 스트림 입력으로 앞으로 이동",
                 "present": "$~끝까지",
-                "start": "$!처음으로",
+                "start": "$~처음으로",
                 "reset": "$~성능 다시 시작"
             },
             "tour": {
@@ -8171,7 +8190,8 @@
                     "motion": "$~물리학을 사용하다",
                     "video": "$~카메라를 사용하다",
                     "gallery": "$~Wordplay의 다른 디렉터들이 제작했습니다.",
-                    "music": "$~음악과 소리 만들기"
+                    "music": "$~음악과 소리 만들기",
+                    "organizing": "$~더 큰 프로젝트 정리하기"
                 },
                 "related": "$~원하시는 내용이 아닌가요?",
                 "howToGalleryButton": {

@@ -1,0 +1,31 @@
+Diviser un projet en plusieurs fichiers source
+
+Un projet peut contenir plusieurs @Source. Mettre une longue liste de données dans un fichier
+à part garde ton programme principal assez court pour le lire d'un coup d'œil.
+
+Imagine que tu veuilles une liste de couleurs parmi lesquelles choisir. Crée un deuxième @Source, donne-lui un nom 
+/ couleurs /, et mets la liste dedans. Le \↑\ devant le nom veut dire / partager ceci
+avec le reste du projet /:
+
+\
+↑ colors/en: ['🔴' '🟠' '🟡' '🟢' '🔵' '🟣']
+\
+
+ Le / fr / après le nom indique dans quelle langue le nom est écrit, pour que quelqu'un
+qui lit ton projet dans une autre langue sache s'il peut le comprendre.
+
+Retourne maintenant à ton @Source principal et fais venir la liste avec un @Borrow. Écris 
+\↓\ puis le nom de l'autre source :
+
+\
+↓ colors
+
+Phrase(colors.random())
+\🪲
+
+ À l'intérieur de ce @Source, / couleurs / désigne maintenant la liste que tu as partagée. Tout ce que tu marques
+avec \↑\ peut être emprunté de cette façon : une liste, un nombre, une fonction, ou une structure.
+
+Pour créer un nouveau @Source, utilise le bouton / ajouter une source / en bas du projet.
+
+pick-from-a-list, your-own-template

@@ -1,0 +1,31 @@
+Ein Projekt in Quellen aufteilen
+
+Ein Projekt kann mehr als eine @Source enthalten. Eine lange Liste von Daten in eine eigene Datei zu packen,
+hält dein Hauptprogramm kurz genug, um es auf einen Blick zu lesen.
+
+Angenommen, du willst eine Liste von Farben zur Auswahl. Erstelle eine zweite @Source, nenne sie 
+/ Farben / und schreibe die Liste dort hinein. Das \↑\ vor dem Namen bedeutet: / teile das hier
+mit dem Rest des Projekts /:
+
+\
+↑ colors/en: ['🔴' '🟠' '🟡' '🟢' '🔵' '🟣']
+\
+
+ Das / en / nach dem Namen sagt, in welcher Sprache der Name geschrieben ist, damit jemand,
+der dein Projekt in einer anderen Sprache liest, weiß, ob er es lesen kann.
+
+Gehe jetzt zurück zu deiner Haupt @Source und hole die Liste mit einem @Borrow herein. Schreibe 
+\↓\ und dann den Namen der anderen Quelle:
+
+\
+↓ colors
+
+Phrase(colors.random())
+\🪲
+
+ Innerhalb dieser @Source bedeutet / Farben / jetzt die Liste, die du geteilt hast. Alles, was du
+mit \↑\ markierst, kann auf diese Weise geliehen werden: eine Liste, eine Zahl, eine Funktion oder eine Struktur.
+
+Um eine neue @Source, nutze den / Quelle hinzufügen / -Knopf unten im Projekt.
+
+pick-from-a-list, your-own-template

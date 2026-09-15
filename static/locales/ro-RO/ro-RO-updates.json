@@ -984,6 +984,8 @@
         "eaf77bdd06a6e": "$~Scurtătura pentru afișarea listei de scurtături acum o deschide.",
         "e15065ca4cd91": "$~Mutarea unei plăci de fereastră cu tastele săgeți nu mai avansează programul tău în același timp.",
         "ec2a904d11589": "$~Unele scurtături au fost mutate pe taste pe care Windows, Chromebook-urile și Linux nu le păstrează pentru ele însele. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
-        "eb770841e3ff7": "$~Lista de scurtături arată acum fiecare comandă, inclusiv cele fără scurtătură și unde le poți găsi în schimb. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
+        "eb770841e3ff7": "$~Lista de scurtături arată acum fiecare comandă, inclusiv cele fără scurtătură și unde le poți găsi în schimb. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "efc9a05b9de4f": "$~Am adăugat instrucțiuni și cuvinte noi de glosar în <Ghid@https://wordplay.dev/guide>, care explică cum un proiect poate avea mai multe fișiere sursă și cum poți partaja și împrumuta lucruri între ele. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "ee25d92cdeeaa": "$~Tutorialul îți spune acum că un proiect poate avea mai multe fișiere sursă și îți oferă un tur al comenzilor proiectului. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
     }
 }

@@ -984,6 +984,8 @@
         "eaf77bdd06a6e": "$~打开快捷键列表的快捷键，现在真的能打开它了。",
         "e15065ca4cd91": "$~用方向键移动窗口块时，不会再同时让你的程序也跟着走一步了。",
         "ec2a904d11589": "$~一些快捷键换成了新的键，这些键不会被 Windows、Chromebook 和 Linux 系统自己占用。（<826@https://github.com/wordplaydev/wordplay/issues/826>）",
-        "eb770841e3ff7": "$~快捷键列表现在会显示所有命令，包括那些没有快捷键的命令，还会告诉你去哪里找到它们。（<913@https://github.com/wordplaydev/wordplay/issues/913>）"
+        "eb770841e3ff7": "$~快捷键列表现在会显示所有命令，包括那些没有快捷键的命令，还会告诉你去哪里找到它们。（<913@https://github.com/wordplaydev/wordplay/issues/913>）",
+        "efc9a05b9de4f": "$~我们在《<指南@https://wordplay.dev/guide>》里新增了一篇如何指南和一些词汇表新词，解释了一个项目怎样可以有多个源文件，以及怎样在它们之间分享和借用东西。（<268@https://github.com/wordplaydev/wordplay/issues/268>）",
+        "ee25d92cdeeaa": "$~教程现在会告诉你，一个项目可以有多个源文件，还会带你了解项目控制项。（<268@https://github.com/wordplaydev/wordplay/issues/268>）"
     }
 }

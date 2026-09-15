@@ -1,0 +1,31 @@
+Împarte un proiect în surse
+
+Un proiect poate avea mai multe @Source. Punând o listă lungă de date într-o sursă
+a ei păstrează programul tău principal destul de scurt încât să-l poți citi dintr-o privire.
+
+Să zicem că vrei o listă de culori din care să alegi. Creează o a doua @Source, dă-i un nume 
+/ culori / și pune lista acolo. \↑\ din fața numelui înseamnă / partajează asta
+cu restul proiectului /:
+
+\
+↑ colors/en: ['🔴' '🟠' '🟡' '🟢' '🔵' '🟣']
+\
+
+„ / en / ” de după nume arată în ce limbă este scris numele, ca să știe cineva
+care citește proiectul tău într-o altă limbă dacă poate să-l înțeleagă.
+
+Acum întoarce-te la @Source ta principală și adu lista folosind @Borrow un împrumut. Scrie 
+\↓\ și apoi numele celeilalte surse:
+
+\
+↓ colors
+
+Phrase(colors.random())
+\🪲
+
+ În interiorul acestei @Source, / culori / înseamnă acum lista pe care ai partajat-o. Orice marchezi
+cu \↑\ poate fi împrumutat astfel: o listă, un număr, o funcție sau o structură.
+
+Pentru a crea o nouă @Source, folosește butonul / adaugă sursă / din partea de jos a proiectului.
+
+pick-from-a-list, your-own-template

@@ -5480,6 +5480,14 @@
                         null,
                         [
                             "Doc",
+                            "curious",
+                            "$~Okumayı kolaylaştırmaktan bahsetmişken, bir @project birden fazla @Source içerebilir, bunu biliyor muydun?",
+                            "$~Bir program uzadığında, bir kısmını kendi @Source içine taşıyabilirsin. Başka yerde kullanmak istediğin şeyi şununla işaretle: \\↑\\, sonra şununla geri @Borrow: \\↓\\ ve o @Source'ın ismiyle.",
+                            "$~Alt kısımdaki proje kontrolleri, bir tane oluşturduğun yerdir. Bir bak, sana göstereyim: @Tour/project"
+                        ],
+                        null,
+                        [
+                            "Doc",
                             "serious",
                             "$~Ve son bir şey.",
                             "$~Aslında her şeyi açıklamakla ilgili olsam da, bazen bazı şeyleri atlamak da faydalı oluyor. Biliyorsunuz, bir şeyi projeden geçici olarak kaldırmak, böylece projenin bir parçası olmamasını sağlamak.",

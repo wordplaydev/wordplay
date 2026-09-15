@@ -984,6 +984,8 @@
         "eaf77bdd06a6e": "$~Skrót pokazujący listę skrótów teraz naprawdę ją otwiera.",
         "e15065ca4cd91": "$~Przesuwanie kafelka okna strzałkami nie uruchamia już równocześnie twojego programu krok po kroku.",
         "ec2a904d11589": "$~Niektóre skróty zmieniono na klawisze, których nie zajmują dla siebie Windows, Chromebooki ani Linux. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
-        "eb770841e3ff7": "$~Lista skrótów pokazuje teraz wszystkie polecenia, w tym te bez skrótu, oraz miejsce, gdzie ich szukać. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
+        "eb770841e3ff7": "$~Lista skrótów pokazuje teraz wszystkie polecenia, w tym te bez skrótu, oraz miejsce, gdzie ich szukać. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "efc9a05b9de4f": "$~Dodaliśmy poradnik \"jak\" oraz nowe słowa do słowniczka w <Przewodniku@https://wordplay.dev/guide>, które wyjaśniają, jak projekt może mieć więcej niż jeden plik źródłowy oraz jak udostępniać i pożyczać rzeczy między nimi. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "ee25d92cdeeaa": "$~Samouczek mówi teraz, że projekt może mieć więcej niż jeden plik źródłowy, i pokazuje przegląd elementów sterujących projektem. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
     }
 }

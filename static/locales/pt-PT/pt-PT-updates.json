@@ -984,6 +984,8 @@
         "eaf77bdd06a6e": "$~O atalho para mostrar a lista de atalhos agora abre-a.",
         "e15065ca4cd91": "$~Mover um bloco de janela com as teclas de seta já não avança o programa ao mesmo tempo.",
         "ec2a904d11589": "$~Alguns atalhos passaram para teclas que o Windows, os Chromebooks e o Linux não reservam para si próprios. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
-        "eb770841e3ff7": "$~A lista de atalhos agora mostra todos os comandos, incluindo os que não têm atalho e onde os encontrar em alternativa. (<913@https://github.com/wordplaydev/wordplay/issues/913>)"
+        "eb770841e3ff7": "$~A lista de atalhos agora mostra todos os comandos, incluindo os que não têm atalho e onde os encontrar em alternativa. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
+        "efc9a05b9de4f": "$~Adicionámos um guia como e novas palavras ao glossário do <Guia@https://wordplay.dev/guide> que explicam como um projeto pode ter mais do que um ficheiro fonte, e como partilhar e pedir emprestado entre eles. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "ee25d92cdeeaa": "$~O tutorial agora explica que um projeto pode ter mais do que um ficheiro fonte, e oferece uma visita guiada aos controlos do projeto. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
     }
 }

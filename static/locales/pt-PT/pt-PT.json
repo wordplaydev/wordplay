@@ -183,6 +183,22 @@
         "stream": {
             "word": "$~fluxo",
             "definition": "$~Um @value que muda ao longo do tempo, à medida que o seu mundo muda, como o avançar de @Time ou o pressionar de uma @Key. Sempre que muda, @Program é avaliado novamente com o novo @value."
+        },
+        "source": {
+            "word": "$~fonte",
+            "definition": "$~Um documento de @code num @project. Um @project pode ter mais do que um, e cada um pode @share coisas que os outros @borrow."
+        },
+        "borrow": {
+            "word": "$~pedir emprestado",
+            "definition": "$~Para usar algo que outra @Source partilhou, escrevendo ↓ e o nome dessa @source."
+        },
+        "share": {
+            "word": "$~partilhar",
+            "definition": "$~Para marcar algo numa @Source com ↑, para que outros ficheiros de @source o possam @borrow."
+        },
+        "kit": {
+            "word": "$~conjunto",
+            "definition": "$~Uma @Source que alguém publicou para que outras pessoas a possam @borrow no seu próprio @project."
         }
     },
     "terms": {},
@@ -789,7 +805,10 @@
                 "bind": "nome",
                 "version": "versão"
             },
-            "doc": "$~Peço emprestados @Bind que são partilhados por outros @Source na sua atuação — basta usar o nome deles e eu trago o seu nome e @value.",
+            "doc": [
+                "$~Posso @borrow @Bind que são partilhados por outras @Source na sua performance — basta usar o seu nome e eu trago o seu nome e @value.",
+                "Escreva \\↓\\ e depois o nome da outra @Source. Essa @Source tem de marcar o que partilha com \\↑\\, @how \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
             "start": "Emprestando $name de $source",
             "conflict": {
                 "UnknownBorrow": {
@@ -7453,7 +7472,7 @@
                     "tip": "copiar projeto para a área de transferência como texto",
                     "label": "copiar como texto"
                 },
-                "addSource": "$~criar um novo @Source",
+                "addSource": "$~criar outra @Source, para poder manter dados ou código partilhado no seu próprio ficheiro",
                 "revert": "reverter para o código original",
                 "focusOutput": "teclado de foco no palco",
                 "focusSource": "concentre-se na próxima fonte",
@@ -8583,7 +8602,8 @@
                     "motion": "Usar a física",
                     "video": "Usar uma câmara",
                     "gallery": "Criado pelos seus colegas diretores do Wordplay",
-                    "music": "$~criar música e som"
+                    "music": "$~criar música e som",
+                    "organizing": "$~organizar um projeto maior"
                 },
                 "related": "Não é o que procura?",
                 "howToGalleryButton": {
