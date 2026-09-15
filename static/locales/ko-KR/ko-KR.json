@@ -8065,7 +8065,7 @@
                 "forwardNode": "$~커서의 다음 평가 단계",
                 "forwardInput": "$~다음 스트림 입력으로 앞으로 이동",
                 "present": "$~끝까지",
-                "start": "$~처음으로",
+                "start": "$!처음으로",
                 "reset": "$~성능 다시 시작"
             },
             "tour": {
