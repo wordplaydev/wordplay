@@ -1,0 +1,2185 @@
+{
+    "$schema": "../../../static/schemas/sections/node.json",
+    "node": {
+        "Dimension": {
+            "name": "$~dimensi",
+            "description": "$~satuan $name[$name|bagian]$exponent[ pangkat $exponent|]",
+            "emotion": "serious",
+            "doc": [
+                "$~Saya adalah sebuah /satuan ukuran/!",
+                "Saya bisa berupa satuan standar apa pun, seperti \\1m\\, \\10s\\, \\100g\\, atau satuan ilmiah lainnya. Saya juga senang menjadi satuan apa pun yang ingin saya buat sendiri, seperti \\17apel\\.",
+                "Tanda I dapat dikombinasikan dengan \\/\\ untuk membuat satuan rasio seperti \\17apel/hari\\ dan dengan \\^\\ untuk membuat satuan eksponensial seperti \\9.8m/s^2\\",
+                "Saya harus selalu diletakkan setelah @Number. Jika tidak, saya mungkin disalahartikan sebagai @Reference, yang akan sangat memalukan!",
+                "Saya juga cukup mahir menemukan ketidaksesuaian antar satuan. Misalnya, \\1kucing + 1anjing\\🪲 tidak masuk akal!",
+                "Jika Anda ingin melakukan konversi antar @value satuan yang berbeda, silakan hubungi @Convert."
+            ]
+        },
+        "Doc": {
+            "name": "$~penjelasan",
+            "description": "$~dokumentasi$language[ dalam $language|], $#words[$words kata]",
+            "emotion": "serious",
+            "doc": [
+                "$~Aku memformat sesuatu dengan gaya kaya menggunakan @Markup, seperti penjelasan tentang beberapa @Program milikmu, atau bahkan kata-kata yang kamu tampilkan di panggung dengan @Phrase.",
+                "Misalnya, aku bisa diletakkan sebelum @expression apa pun:",
+                "\\¶Apakah ini benar-benar seharusnya 7?¶\n7\\",
+                "Misalnya, kamu bisa meletakkan aku sebelum @Bind:",
+                "\\¶Saya mengukur tinggi badan seseorang¶\ntinggi2: 5m\\🪲",
+                "Atau sebelum @FunctionDefinition:",
+                "\\¶Saya menambahkan dua angka¶\nƒ jumlah2(a2•# b2•#) a2 + b2\\",
+                "Atau sebelum @StructureDefinition:",
+                "\\¶Saya mengingat nama orang dan buah favoritnya¶\n•orang(nama2•'' buah•'')\\",
+                "Kamu juga bisa meletakkan aku tepat di awal @Program untuk menjelaskan tentang apa keseluruhan pertunjukannya",
+                "\\¶Program ini mengucapkan salam¶\n\n'halo!'\\",
+                "Kamu bisa memberiku @Language agar orang lain tahu dalam bahasa apa aku ditulis:",
+                "\\¶Saya adalah dokumen berbahasa Inggris¶\ndurasi: 5s\\🪲",
+                "Tahukah kamu bahwa kamu bisa membuat daftar dariku? Coba tanya @Docs."
+            ]
+        },
+        "Docs": {
+            "name": "$~daftar penjelasan",
+            "description": "$~daftar dokumentasi$languages[ dalam $languages| dari $count]",
+            "emotion": "serious",
+            "doc": [
+                "$~Saya adalah daftar @Doc, berguna ketika Anda memiliki beberapa terjemahan @Doc dalam berbagai @language.",
+                "Anda tidak perlu melakukan hal khusus untuk membuat daftar. Cukup letakkan beberapa @Doc bersebelahan, seperti ini:",
+                "\\¶Halo¶/en ¶Hola¶/es salam: '…'\\🪲"
+            ],
+            "start": "$~Meningkatkan nilai dokumentasi!"
+        },
+        "KeyValue": {
+            "name": "$~pemetaan",
+            "description": "$~kunci $key ke nilai $value",
+            "emotion": "kind",
+            "doc": [
+                "$~Aku adalah pemetaan dari sebuah *kunci* ke sebuah *nilai*, selalu di dalam @Map.",
+                "Kamu bisa memetakan jenis @value apa pun ke yang lain. Sebagai contoh, ini pemetaan angka:",
+                "\\{1:1}\\",
+                "Atau pemetaan dari teks ke angka:",
+                "\\{'kelinci': 1}\\"
+            ]
+        },
+        "Language": {
+            "name": "$~bahasa",
+            "description": "$~bahasa $language[$language|tidak ditentukan]$region[, wilayah $region|]",
+            "emotion": "eager",
+            "doc": [
+                "$~Aku label @language, dan aku bekerja dengan @Name dan @Doc!",
+                "Aku sangat pandai membuat *jelas sekali* bahasa apa yang dipakai dalam suatu tulisan. Cukup dengan garis miring dan beberapa huruf, tidak akan ada yang bingung lagi tentang bahasa apa yang dipakai dalam suatu teks.",
+                "Misalnya, jika kamu ingin menulis \"Language\" tapi ingin memperjelas bahwa itu dalam bahasa Inggris:",
+                "\\'Bahasa'/id\\",
+                "Kamu bisa melakukan ini untuk @Name:",
+                "\\suara2: 'meong'\\🪲",
+                "…atau untuk @Doc:",
+                "\\¶Onomatope¶\nsuara2: 'meong'\\🪲",
+                "Kadang teks bukan hanya satu bahasa — tapi *campuran*. Seperti Spanglish, di mana bahasa Spanyol dan Inggris bercampur. Untuk itu, tuliskan setiap bahasa dengan garis bawah di antaranya. Bahasa pertama adalah yang *utama* — itulah yang kupakai kalau aku harus memilih (misalnya, untuk menentukan tanda kutip mana yang dipakai).",
+                "\\\"Hola gentleman!\"/es_en\\",
+                "\\¶Salam dua bahasa¶\nhello/es_en: 'Hola gentleman!'\\🪲",
+                "Kamu juga bisa menambahkan satu @region, setelah tanda hubung, sama seperti dengan satu bahasa:",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
+                "Tidak ada batas berapa banyak bahasa yang bisa kamu daftarkan — asal jangan mengulang bahasa yang sama dua kali; aku akan memberitahumu kalau kamu melakukannya.",
+                "Kamu bisa menulis bahasa dengan <kode 2-huruf@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>-nya atau dengan *nama*-nya, dalam bahasa itu sendiri atau dalam bahasa Inggris — `/es`, `/Español`, dan `/Spanish` artinya sama, begitu juga `/es-MX`, `/es-México`, dan `/es-Mexico`. Huruf besar dan tanda aksen tidak berpengaruh, jadi `/ESPANOL` juga berfungsi. Nama yang mengandung spasi ditulis tanpa spasi, seperti `/BahasaIndonesia`, karena label itu harus jadi satu kata. Jika aku tidak mengenali suatu bahasa atau wilayah, aku akan memberitahumu."
+            ],
+            "conflict": {
+                "UnknownLanguage": {
+                    "name": "$~bahasa tidak dikenal",
+                    "explanation": "$~Saya tidak tahu bahasa ini",
+                    "resolution": "$~Hapus kode bahasa ini"
+                },
+                "MissingLanguage": {
+                    "name": "$~bahasa hilang",
+                    "explanation": "$~Saya kekurangan satu bahasa. Bisakah Anda menambahkannya?",
+                    "resolution": "$~Hapus tag bahasa yang kosong"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~bahasa ganda",
+                    "explanation": "$~Anda menggunakan bahasa ' $code ' dua kali. Tag campuran bahasa seharusnya hanya mencantumkan setiap bahasa satu kali.",
+                    "resolution": "$~Hapus tag * $code * yang duplikat"
+                },
+                "UnknownRegion": {
+                    "name": "$~wilayah tidak dikenal",
+                    "explanation": "$~Aku tidak mengenal wilayah ini",
+                    "resolution": "$~Hapus wilayah ini"
+                }
+            }
+        },
+        "Name": {
+            "name": "$~nama",
+            "description": "$~nama $name[$name|tanpa nama]",
+            "emotion": "kind",
+            "doc": [
+                "$~Aku menandai sebuah @value, dan aku adalah @how yang berguna untuk memberi label singkat pada sesuatu yang sulit dihitung, atau yang tidak ingin kamu hitung berulang-ulang.",
+                "@Bind memberiku namaku seperti ini:",
+                "\\hai: 5\\🪲",
+                "Aku hanya pernah mewakili satu nilai, dan begitu aku memilikinya, aku tidak bisa berubah. Misalnya, kalau kamu mencoba melakukan ini dengan @Bind, kami akan mengeluh.",
+                "\\hai: 5\nhai2: 3\\🪲",
+                "Yang perlu kamu lakukan untuk mendapatkan nilaiku hanyalah membuat @Reference atau @PropertyReference memakai nama. Di sini, @Bind memberiku nama, lalu @Reference mendapatkan nilai yang diberikan kepadaku.",
+                "\\hai: 5\nhai\\",
+                "Karena @Bind bisa muncul di banyak tempat, aku bisa muncul di banyak tempat. Aku ada dalam @Block di atas, tapi aku bisa ada dalam @FunctionDefinition. Di sini aku menamai sebuah pesan untuk sementara:",
+                "\\ƒ katakan(pesan•'') pesan\\",
+                "Aku didefinisikan di dalam @FunctionDefinition, dan begitu fungsi selesai dihitung, aku menghilang.",
+                "Kamu bisa memakai @Language untuk menunjukkan bahasa apa namaku. Ini berguna saat berbagi karyamu dengan orang lain, kalau-kalau mereka ingin membaca programmu."
+            ]
+        },
+        "Names": {
+            "name": "$~daftar nama",
+            "description": "$~nama-nama $names[$names|kosong]",
+            "emotion": "kind",
+            "label": {
+                "names": "$~namanama"
+            },
+            "doc": [
+                "$~Aku adalah daftar @Name, berguna saat kamu ingin memberi sebuah @value beberapa nama, sering kali dengan @Language yang berbeda.",
+                "Nama-nama dipisahkan oleh \\,\\ simbol. Misalnya, di sini @Bind memberi sebuah nilai beberapa @Name",
+                "\\halo: 'selamat datang'\\🪲"
+            ]
+        },
+        "Row": {
+            "name": "$~baris",
+            "description": "$~baris dengan $#count[$count sel]",
+            "emotion": "shy",
+            "doc": "$~Saya mewakili sebuah baris dalam sebuah @Table. Mungkin sebaiknya Anda berbicara langsung dengan @Table, mereka tahu segalanya tentang saya. Saya hanya duduk dan menjaga agar @value-nilai tetap sesuai :(",
+            "conflict": {
+                "InvalidRow": {
+                    "name": "$~baris tidak sah",
+                    "explanation": "$~Baris harus berisi semua nilai atau semua @Bind.",
+                    "resolutionKeepPositional": "$~Hapus sel yang diberi nama, hanya simpan sel yang menunjukkan posisinya.",
+                    "resolutionUnwrapInputs": "$~Hapus nama dari sel yang diberi nama."
+                },
+                "MissingCell": {
+                    "name": "$~kolom hilang",
+                    "explanation": "$~Saya kehilangan kolom $column",
+                    "resolution": "$~Tambahkan sel tempat penampung untuk * $column *"
+                },
+                "ExtraCell": {
+                    "name": "$~kolom tambahan",
+                    "explanation": "$~Berdasarkan tipe tabel saya, saya adalah kolom tambahan yang seharusnya tidak ada di sini.",
+                    "resolution": "$~Hapus sel tambahan"
+                },
+                "UnknownColumn": {
+                    "name": "$~nama kolom tidak dikenal",
+                    "explanation": "$~Saya tidak tahu kolom dengan nama ini.",
+                    "resolution": "$~Ganti nama menjadi * $name *"
+                },
+                "UnexpectedColumnBind": {
+                    "name": "$~tidak ada baris pengikat",
+                    "explanation": "$~Seharusnya saya berupa nilai, bukan @Bind."
+                }
+            }
+        },
+        "Token": {
+            "name": "$~token",
+            "description": "$~$label$text[ $text|]",
+            "emotion": "neutral",
+            "doc": [
+                "$~Aku adalah bagian terkecil dari sebuah pertunjukan — atom dari mana semua karakter dalam Puisi itu terbentuk. Bagaimana kau menemukanku?",
+                "Akulah substrat dari mana semua karakter dalam Puisi ini tercipta. Akulah partikel atom dari koreografi kita."
+            ]
+        },
+        "TypeInputs": {
+            "name": "$~masukan jenis",
+            "description": "$~$#count[$count input jenis]",
+            "emotion": "curious",
+            "doc": "$~Saya adalah daftar tipe yang menggantikan @TypeVariables dalam @StructureDefinition atau @FunctionDefinition. Saya membantu semua orang mengetahui jenis input apa yang akan mereka terima."
+        },
+        "TypeVariable": {
+            "name": "$~variabel jenis",
+            "description": "$~variabel jenis $name",
+            "emotion": "curious",
+            "label": {
+                "type": "$~jenis"
+            },
+            "doc": "$~Aku adalah @type misterius pada @FunctionDefinition atau @StructureDefinition, disediakan oleh @TypeInputs ketika salah satunya dievaluasi. @Set, @List, dan @Map menggunakanku.",
+            "conflict": {
+                "DuplicateTypeVariable": {
+                    "name": "$~variabel jenis ganda",
+                    "explanation": "$~Saya memiliki nama yang sama dengan $duplicate",
+                    "resolution": "$~Hapus variabel tipe duplikat."
+                }
+            }
+        },
+        "TypeVariables": {
+            "name": "$~variabel jenis",
+            "description": "$~$#count[$count variabel jenis]",
+            "emotion": "curious",
+            "doc": "$~Saya adalah daftar @TypeVariable."
+        },
+        "Markup": {
+            "name": "$~teks berformat",
+            "description": "$~teks berformat $#count[$count paragraf]",
+            "emotion": "serious",
+            "label": {
+                "paragraphs": "$~paragraf"
+            },
+            "doc": [
+                "$~Saya adalah daftar paragraf, memakai banyak jenis @markup yang ada di @Doc, seperti @Words, @WebLink, @ConceptLink, dan @Example.",
+                "Kamu akan menemukan saya di @Doc, dan di @FormattedLiteral:",
+                "\\¶Saya adalah dokumentasi dengan teks *tebal*. Saya bisa merujuk ke konsep seperti @Phrase, dan bisa menautkan ke <hal-hal di web@https://wordplay.dev>.¶\nFrasa(\n\t`Saya adalah teks berformat untuk @Phrase, menggunakan *tebal*, /miring/, dan _garis bawah_`\n)\\"
+            ]
+        },
+        "Paragraph": {
+            "name": "$~ayat",
+            "description": "$~paragraf $text",
+            "emotion": "serious",
+            "doc": [
+                "$~Aku adalah rangkaian @Words, @ConceptLink, @WebLink, dan @Example, dipisahkan oleh baris kosong, dan berada di dalam @Doc.",
+                "Yang perlu kamu lakukan untuk menulisku hanyalah menulis sekumpulan kata di dalam @Doc:",
+                "\\¶Saya adalah sebuah paragraf di dalam dokumen.¶'satu paragraf'\\",
+                "Jika kamu mau beberapa paragraf, cukup taruh baris kosong.",
+                "\\¶Paragraf 1.\n\nParagraf 2.\n\nParagraf 3.¶'tiga paragraf'\\"
+            ]
+        },
+        "WebLink": {
+            "name": "$~link",
+            "description": "$~tautan ke $url",
+            "emotion": "serious",
+            "doc": [
+                "$~Aku adalah tautan ke sesuatu di internet. Aku hanya butuh deskripsi dan sebuah URL:",
+                "\\¶Saya adalah <tautan@https://wordplay.dev> di sebuah dokumen¶\n'contoh tautan'\\",
+                "Jika ada yang memilihku, aku akan membuka jendela baru ke URL itu."
+            ]
+        },
+        "ConceptLink": {
+            "name": "$~karakter",
+            "description": "$~tautan ke $concept",
+            "emotion": "serious",
+            "doc": [
+                "$~Saya adalah tautan ke karakter Verse. Saya berguna ketika kamu ingin menulis @Doc dan merujuk ke salah satu dari kami.",
+                "Misalnya, kamu ingin membicarakan @Evaluate, dan betapa hebatnya mereka. Kamu bisa menulis:",
+                "\\¶Kamu tahu, @Evaluate cukup keren.¶'lihat, sebuah tautan karakter!'\\",
+                "Karakter juga punya nomor Unicode yang sesuai dengan mereka. Misalnya, @FunctionDefinition adalah 192. Kamu bisa merujuk ke karakter Unicode mana pun dengan menulis @U/ dan nomornya, lalu karakter itu akan muncul:",
+                "\\`@U/192 sangat baik!`\\",
+                "Dan jika kamu membuat karakter sendiri, kamu bisa merujuk padanya dengan nama yang kamu berikan.",
+                "\\`@coolbeans/cat`\\",
+                "Oh... sepertinya karakter itu tidak ada, jadi kamu mendapat kotak kecil. Tetapi jika ada, karakter itu akan muncul di sini!"
+            ],
+            "kind": {
+                "codepoint": "$~$concept karakter Unicode",
+                "ui": "$~tautan ke elemen antarmuka $concept",
+                "how": "$~tautan ke panduan $concept",
+                "character": "$~karakter kustom $concept",
+                "tour": "$~tautan ke tur $concept"
+            }
+        },
+        "Words": {
+            "name": "$~kata-kata",
+            "description": "$~kata $text",
+            "emotion": "serious",
+            "doc": [
+                "$~Aku adalah kata-kata apa pun yang kamu suka di dalam @Doc. Misalnya:",
+                "\\¶Semoga Kekuatan menyertaimu.¶\n'hanya beberapa kata!'\\",
+                "Namun kadang, kamu mungkin mau memakai karakter khusus yang dipakai @Doc /sebagai/ kata. Misalnya:",
+                "\\¶Teman-teman saya memakai , //, **, ||, dan simbol lainnya.¶\n'memakai karakter khusus!'\\",
+                "Jika kamu cukup mengulang karakter khusus itu, kamu akan mendapatkan karakternya, bukan arti khususnya."
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$~format huruf tidak didukung",
+                    "explanation": "$~Temanku * $face * tidak tahu bagaimana menjadi $format .",
+                    "resolution": "$~Hapus formatnya"
+                }
+            }
+        },
+        "Example": {
+            "name": "$~contoh",
+            "description": "$~contoh kode $code",
+            "emotion": "serious",
+            "doc": [
+                "$~Aku menyimpan contoh potongan @code di dalam @Doc, seperti ini:",
+                "\\¶Ini contoh penjumlahan: \\1 + 2\\¶\n3 + 4\\",
+                "Jika kamu menggunakan Contoh dalam cara-caramu, kamu bisa menandai satu Contoh sebagai sorotan.",
+                "\\¶Ini contoh yang disorot: \\1 + 2\\⭐¶\n3 + 4\\",
+                "Contoh yang disorot ditampilkan sebagai pratinjau di ruang @how dan @guide."
+            ]
+        },
+        "Mention": {
+            "name": "$~menyebutkan",
+            "description": "$~sebut $name",
+            "emotion": "serious",
+            "doc": [
+                "$~Aku adalah rujukan ke istilah \\¶@project¶\\ atau input dinamis \\¶$name¶\\.",
+                "Namun, ini sebagian besar adalah fitur internal, jadi kamu tidak perlu mengetahuinya."
+            ]
+        },
+        "Branch": {
+            "name": "$~cabang",
+            "description": "$~pilihan teks berformat pada $condition",
+            "emotion": "serious",
+            "doc": [
+                "$~Ini adalah @how untuk memilih antara dua segmen penjelasan berdasarkan apakah @value input penjelasan didefinisikan atau benar.",
+                "Ini sebagian besar merupakan fitur internal, jadi Anda tidak perlu mengetahuinya."
+            ]
+        },
+        "BinaryEvaluate": {
+            "name": "$~evaluasi biner",
+            "description": "$~operasi $operator pada $left dan $right",
+            "emotion": "insecure",
+            "doc": [
+                "$~Aku adalah @Evaluate, tapi dalam bentuk yang lebih sederhana, berguna saat kamu mau memakai @FunctionDefinition yang menerima dua masukan.",
+                "Misalnya, begini @how kamu memakai @Evaluate untuk menjumlahkan dua angka:",
+                "\\1.+(1)\\",
+                "Bukankah itu terlihat agak lucu? Itu tidak salah: ia hanya berkata ambil fungsi tambah pada 1 lalu jalankan.",
+                "Tapi jauh lebih mudah memakai @BinaryEvaluate",
+                "\\1 + 1\\",
+                "Ini membuat semuanya lebih rapi, meski pada dasarnya sama saja.",
+                "Hanya ada satu hal yang perlu diperhatikan: saat aku dalam bentuk ini, aku mengevaluasi dari kiri ke kanan. Itu mungkin membingungkan jika kamu terbiasa dengan urutan operasi dalam matematika.",
+                "Ini berarti yang berikut dievaluasi dengan cara yang mungkin tidak kamu duga:",
+                "\\1 + 2 × 3 + 4\\🪲",
+                "Dalam matematika, perkalian akan didahulukan, lalu penjumlahan, sehingga hasilnya adalah \\11\\. Tapi karena aku mengevaluasi dalam urutan baca, hasilnya adalah \\13\\."
+            ],
+            "label": {
+                "operator": "$~operator"
+            },
+            "right": "$~masukan",
+            "start": "$~Mari kita evaluasi $left terlebih dahulu.",
+            "finish": "$~Lihat, aku menghasilkan $value !",
+            "conflict": {
+                "OrderOfOperations": {
+                    "name": "$~urutan tidak jelas",
+                    "explanation": "$~Aku mengevaluasi dari kiri ke kanan, tetapi matematika biasanya mengevaluasi ^ sebelum × ÷, dan × ÷ sebelum + −. Urutan itu disebut PEMDAS. Pilih bagaimana kamu ingin aku mengevaluasi ini.",
+                    "resolutionPEMDAS": "$~Terapkan urutan matematika PEMDAS: evaluasi $higher sebelum $lower",
+                    "resolutionReading": "$~Lanjutkan urutan membaca: evaluasi $lower sebelum $higher",
+                    "resolutionWrap": "$~Tambahkan tanda kurung untuk memperjelas urutannya."
+                }
+            }
+        },
+        "Bind": {
+            "name": "$~mengikat",
+            "description": "$~ikat $name[$name|tanpa nama]$value[ ke $value|]",
+            "emotion": "excited",
+            "doc": [
+                "$~Aku menamai *nilai*.",
+                "Seperti ini!",
+                "\\pi: 3.1415926\\🪲",
+                "Aku menamai input untuk @FunctionDefinition dan @StructureDefinition, aku menamai nilai dalam @Block. Aku menamai segalanya!",
+                "Oh, tapi tahukah kamu bahwa kamu bisa punya satu nilai dengan *banyak nama*?",
+                "Aku sangat senang memberitahumu tentang ini! Satu @value, banyak @Names. Misalnya:",
+                "\\joe: 5\\🪲",
+                "Lihat apa yang aku lakukan di sana?",
+                "Satu nilai, tiga nama.",
+                "Kamu bisa merujuk ke angka lima itu dengan *salah satu* dari nama-nama itu.",
+                "Ini terutama berguna saat kamu ingin memberi nama dalam banyak @language:",
+                "\\joe: 5\\🪲",
+                "Kamu lihat yang aku lakukan tadi? Tiga nama untuk satu nilai, hanya dalam bahasa yang berbeda!",
+                "Baik, aku punya satu rahasia terakhir.",
+                "Tahukah kamu bahwa aku bisa bekerja dengan @Is untuk memberitahuku jenis nilai apa yang seharusnya dimiliki sebuah nama? Dan jika aku tidak memilikinya, aku akan memberitahumu?",
+                "Seperti ini:",
+                "\\angkabesar•#: 'satu zilion'\\🪲",
+                "Lihat, aku bilang \\bignumber\\ seharusnya berupa angka, tapi ini teks, dan keduanya tidak cocok, jadi BUM!",
+                "Aku akan memberitahumu jika keduanya tidak sesuai.",
+                "Kadang kamu *harus* memberitahuku jenis data sesuatu karena aku tidak bisa menebaknya sendiri. Itu biasanya terjadi di @FunctionDefinition.",
+                "Sebagai contoh, di sini, @FunctionDefinition tidak tahu jenis nilai apa yang dimiliki \\a\\ dan \\b\\, karena aku tidak memberitahunya.",
+                "\\ƒ jumlah(a b) a + b\\🪲",
+                "Tapi kita bisa mengubah ini untuk menambahkan @Is, dan sekarang @FunctionDefinition tahu bahwa keduanya adalah angka:",
+                "\\ƒ jumlah(a•# b•#) a + b\\"
+            ],
+            "label": {
+                "value": "$~nilai",
+                "names": "$~namanama",
+                "type": "$~jenis"
+            },
+            "start": "$~Mari kita lihat nilai apa yang kita dapatkan dari $value !",
+            "finish": "$~Oh bagus, aku dapat $value ! Mari kita beri nama $name",
+            "conflict": {
+                "DuplicateName": {
+                    "conflict": {
+                        "name": "$~nama ganda",
+                        "explanation": "$~Seseorang sudah menggunakan nama $shadowed sehingga saya tidak bisa menggunakan nama ini."
+                    },
+                    "resolution": "$~Terdapat nama yang sama, apakah Anda ingin menghapus salah satunya?"
+                },
+                "DuplicateShare": {
+                    "name": "$~berbagi ganda",
+                    "explanation": "$~Saya memiliki nama yang sama dengan $duplicate . Itu membuat tidak jelas apa yang kita bagikan.",
+                    "resolution": "$~Hapus postingan duplikat ini"
+                },
+                "IncompatibleType": {
+                    "name": "$~jenis tidak cocok",
+                    "explanation": "$~Saya mengharapkan $expected , tetapi menerima tipe $given",
+                    "resolution": "$~Ubah menjadi $expected, karena $expected diperlukan",
+                    "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
+                    "resolutionOtherwise": "$~Tangani nilai yang hilang dengan ??, karena $expected tidak mengizinkan ø",
+                    "resolutionGuard": "$~Pastikan bahwa tipe $expected terlebih dahulu dengan menggunakan type guard, karena $expected tidak mungkin berupa tipe data lain yang mungkin.",
+                    "resolutionDeclaration": "$~Nyatakan tipenya secara eksplisit, karena $expected membutuhkan nilai literal untuk dipertahankan.",
+                    "resolutionWrap": "$~Masukkan ke dalam daftar, set, atau peta, karena $expected membutuhkan kumpulan nilai.",
+                    "resolutionStructure": "$~Bungkus dengan $expected , karena slot tersebut membutuhkan nilai $expected",
+                    "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
+                    "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
+                    "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis.",
+                    "explanationDivideByZero": "$~Ini bisa jadi ø karena $source mungkin dibagi nol, dan angka diperlukan di sini."
+                },
+                "MisplacedShare": {
+                    "name": "$~berbagi salah tempat",
+                    "explanation": "$~Saya hanya bisa membagikan ini di bagian atas sebuah sumber, atau — jika ini adalah nilai atau fungsi — langsung di dalam @StructureDefinition.",
+                    "resolution": "$~Hapus tanda *↑*"
+                },
+                "MissingShareLanguages": {
+                    "name": "$~bahasa hilang",
+                    "explanation": "$~Jika Anda ingin membagikan ini, Anda harus menyebutkan bahasa apa yang digunakan, agar orang lain tahu apakah mereka dapat membacanya!",
+                    "resolution": "$~Hapus tanda *↑*"
+                },
+                "RequiredAfterOptional": {
+                    "name": "$~masukan wajib setelah masukan pilihan",
+                    "explanation": "$~Saya tidak bisa berada di sini, ada @Bind opsional sebelum saya.",
+                    "resolution": "$~Pindahkan input yang wajib diisi sebelum input opsional."
+                },
+                "UnexpectedEtc": {
+                    "name": "$~masukan tak terduga setelah daftar masukan",
+                    "explanation": "$~Panjangnya hanya bisa bervariasi di dalam @FunctionDefinition.",
+                    "resolution": "$~Hapus ***"
+                },
+                "UnusedBind": {
+                    "name": "$~pengikat tak terpakai",
+                    "explanation": "$~Nama saya $name , tetapi tidak ada yang menggunakan saya. Mungkin saya tidak dibutuhkan?",
+                    "resolution": "$~Hapus pengikatan ini"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~menutupi kata kunci",
+                    "explanation": "$~Nama ini juga merupakan kata kunci $keyword , jadi saya akan membacanya sebagai nama di sini; kata kunci $keyword masih berfungsi di tempat lain."
+                }
+            }
+        },
+        "Block": {
+            "name": "$~memblokir",
+            "description": "$~blok $#count[$count pernyataan]",
+            "emotion": "shy",
+            "doc": [
+                "$~Aku membuat ruang kecil yang tenang dan pribadi untuk mengevaluasi berbagai hal. Hai!",
+                "Seperti ini:",
+                "\\(1 - 1) + 2\\",
+                "Itu membantu memperjelas urutan evaluasi.",
+                "@Bind juga membantu.",
+                "\\(\n\thitung: 10\n\thitung ^ hitung)\\",
+                "Lihat bagaimana @Bind membuat \\count\\? Itu hanya dinamai di dalam diriku. Jadi ini tidak akan berhasil:",
+                "\\(\n\thitung: 10\n\thitung ^ hitung) + count\\🪲",
+                "Karena count hanya dinamai di dalam diriku.",
+                "Jika kamu memberiku satu @expression, aku hanya mengembalikan @value-nya:",
+                "\\(1 + 1)\\",
+                "Jika kamu memberiku lebih dari satu, aku mengumpulkannya ke dalam sebuah daftar, secara berurutan:",
+                "\\(1 2 3 4 5)\\",
+                "Pernyataan @Bind adalah @sideEffect, bukan nilai, jadi keduanya tidak muncul dalam daftar:",
+                "\\(\n\ta: 1\n\tb: 2\n\ta + b\n\ta × b\n)\\",
+                "Itu memberikan \\[3 2]\\: hanya nilai dari dua ekspresi yang bukan @Bind."
+            ],
+            "label": {
+                "statements": "$~ekspresi"
+            },
+            "start": "$~Ekspresi pertama",
+            "finish": "$~Selesai, saya mendapatkan $value",
+            "conflict": {
+                "ExpectedEndingExpression": {
+                    "name": "$~ekspresi hilang",
+                    "explanation": "$~Saya membutuhkan setidaknya satu ekspresi yang bukan @Bind, agar saya memiliki nilai untuk dikembalikan.",
+                    "resolution": "$~Tambahkan ekspresi terakhir"
+                }
+            }
+        },
+        "BooleanLiteral": {
+            "name": "$~nilai benar-salah",
+            "description": "$~$value[benar|salah]",
+            "emotion": "precise",
+            "doc": "$~Saya adalah \\⊤\\ atau \\⊥\\. Lihat @Boolean untuk mempelajari lebih lanjut tentang logika indah kami.",
+            "start": "$~$value !"
+        },
+        "Borrow": {
+            "name": "$~meminjam",
+            "description": "$~pinjam $name[$name|tanpa nama]",
+            "emotion": "excited",
+            "label": {
+                "source": "$~sumber",
+                "bind": "$~nama",
+                "version": "$~versi"
+            },
+            "doc": [
+                "$~Saya @borrow @Bind yang dibagikan oleh @Source lain dalam pertunjukanmu — cukup pakai namanya dan saya akan membawa nama dan @value mereka.",
+                "Tulis \\↓\\ lalu nama @Source lain itu. @Source itu harus menandai apa yang dibagikannya dengan \\↑\\, seperti \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
+            "start": "$~Meminjam $name dari $source",
+            "conflict": {
+                "UnknownBorrow": {
+                    "name": "$~pinjaman tidak dikenal",
+                    "explanation": "$~Saya tidak tahu @Source dengan nama ini.",
+                    "resolution": "$~Hapus pinjaman ini"
+                },
+                "BorrowCycle": {
+                    "name": "$~pinjaman merujuk diri sendiri",
+                    "explanation": "$~Ini bergantung pada $borrow , yang bergantung pada @Source , sehingga program tidak dapat dievaluasi.",
+                    "resolution": "$~Hapus pinjaman ini untuk memutus siklusnya."
+                },
+                "MissingKitVersion": {
+                    "name": "$~versi tidak ditemukan",
+                    "explanation": "$~kit menyimpan setiap versi yang pernah dimilikinya, jadi saya perlu tahu versi $kit mana yang kamu mau",
+                    "resolution": "$~Hapus pinjaman ini"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~dua versi dari satu kit",
+                    "explanation": "$~saya hanya bisa memakai satu versi kit dalam satu waktu, dan @Source ini meminta dua versi dari $kit",
+                    "resolution": "$~Hapus pinjaman ini"
+                },
+                "UnknownKit": {
+                    "name": "$~kit tidak dikenal",
+                    "explanation": "$~saya tidak dapat menemukan $kit",
+                    "resolution": "$~Hapus pinjaman ini"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~pinjaman ganda",
+                    "explanation": "$~Sesuatu yang dipinjam di atas sudah memakai nama yang dibawa oleh $name, jadi saya tidak bisa tahu mana yang kamu maksud",
+                    "resolution": "$~Pinjam ini sebagai $name saja, supaya nama-namanya tidak mengganggu"
+                },
+                "UnavailableKit": {
+                    "name": "$~kit tidak tersedia",
+                    "explanation": "$~$kit ada, tetapi tidak dibagikan kepadamu",
+                    "resolution": "$~Hapus pinjaman ini"
+                },
+                "KitCannotBorrow": {
+                    "name": "$~kit tidak bisa meminjam",
+                    "explanation": "$~kode sumber ini diterbitkan sebagai satu kit, dan kit adalah satu-satunya berkas yang didapat pembacanya — salin apa yang kamu pinjam ke dalam kode sumber ini sebagai gantinya",
+                    "resolution": "$~Hapus pinjaman itu"
+                }
+            },
+            "exception": {
+                "CycleException": {
+                    "description": "$~siklus pinjaman",
+                    "explanation": "$~$borrow bergantung pada dirinya sendiri"
+                }
+            }
+        },
+        "Changed": {
+            "name": "$~berubah",
+            "description": "$~periksa perubahan pada $stream",
+            "emotion": "serious",
+            "label": {
+                "stream": "$~sungai kecil"
+            },
+            "doc": [
+                "$~Saya memeriksa apakah sebuah stream menyebabkan @Program dievaluasi ulang, dan membuat @Boolean. Seperti ini",
+                "\\∆ Waktu()\\",
+                "Saya sangat membantu jika Anda ingin sesuatu berubah hanya jika @stream data berubah.",
+                "Itu saja."
+            ],
+            "start": "$~Mari kita lihat apakah $stream berubah…"
+        },
+        "Conditional": {
+            "name": "$~bersyarat",
+            "description": "$~bergantung pada $condition",
+            "emotion": "curious",
+            "label": {
+                "condition": "$~kondisi",
+                "yes": "$~Ya",
+                "no": "$~TIDAK"
+            },
+            "doc": [
+                "$~Haruskah aku memberimu satu @value atau yang lain, tergantung pada sebuah @condition? Seperti ini?",
+                "\\angka: -100\nangka < 0 ? 'negatif' 'positif'\\",
+                "Tapi pernahkah kamu berpikir tentang bagaimana kita memutuskan?",
+                "Bukankah tampaknya keputusan seharusnya lebih halus daripada sekadar ya atau tidak? Apakah memilih antara \\⊤\\ dan \\⊥\\ hanya itu saja?",
+                "Apakah kamu tidak khawatir bahwa jika hanya jenis keputusan ini yang bisa kita buat, kita akan kehilangan konteks penting tentang dunia?",
+                "Ada satu hal lagi yang aku lakukan, dan aku tidak selalu mendapat penghargaan untuknya. Ketika @condition ku bertanya /jenis/ nilai apa sesuatu itu, aku tidak hanya menjawab ya atau tidak. Aku mengingat jawabannya di dalam setiap pilihanku.",
+                "\\ukuran•#|'': 5\nukuran•# ? ukuran + 1 'terlalu kecil'\\",
+                "Sendirian, nilai itu bisa menjadi sebuah @Number atau beberapa @Text, dan menambahkannya akan menjadi @conflict, karena keduanya ditambahkan dengan @how yang sangat berbeda. Tapi di dalam /ya/ ku, kita baru saja bertanya apakah itu sebuah @Number, jadi di sana itu adalah satu. Di dalam /tidak/ ku, itu adalah @Text.",
+                "Tidak masalah bagaimana kamu bertanya. Sebuah pemeriksaan jenis, perbandingan dengan nilai tertentu, pemeriksaan nilai yang hilang, dan pemeriksaan yang kamu simpan di bawah sebuah nama, semuanya memberitahuku hal yang sama. Dan @Boolean/and, @Boolean/or, serta @Boolean/not menggabungkannya sesuai yang kamu harapkan.",
+                "Ada dua hal yang tidak bisa kuberitahu. Jika kamu membandingkan dengan @Text yang memiliki beberapa terjemahan, aku tidak belajar apa pun, karena terjemahan mana yang kamu dapatkan tergantung pada siapa yang membaca."
+            ],
+            "start": "$~Mari kita lihat apakah $condition bernilai benar.",
+            "else": "$~$jumping[melompati kode | tidak melompati kode]",
+            "afterthen": "$~Selesai dengan ya, mari kita lewati tidak?",
+            "finish": "$~Saya rasa itu adalah $value ?",
+            "conflict": {
+                "ExpectedBooleanCondition": {
+                    "name": "$~diharapkan kondisi benar-salah",
+                    "explanation": "$~Saya membutuhkan @Boolean untuk membuat keputusan, tetapi yang saya dapatkan malah $type .",
+                    "resolution": "$~Konversikan ke $expected , karena $expected diperlukan.",
+                    "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
+                    "resolutionOtherwise": "$~Tangani nilai yang hilang dengan ??, karena $expected tidak mengizinkan ø",
+                    "resolutionGuard": "$~Pastikan bahwa tipe $expected terlebih dahulu dengan menggunakan type guard, karena $expected tidak mungkin berupa tipe data lain yang mungkin.",
+                    "resolutionDeclaration": "$~Nyatakan tipenya secara eksplisit, karena $expected membutuhkan nilai literal untuk dipertahankan.",
+                    "resolutionWrap": "$~Masukkan ke dalam daftar, set, atau peta, karena $expected membutuhkan kumpulan nilai.",
+                    "resolutionStructure": "$~Bungkus dengan $expected , karena slot tersebut membutuhkan nilai $expected",
+                    "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
+                    "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
+                    "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis."
+                }
+            }
+        },
+        "ConversionDefinition": {
+            "name": "$~definisi konversi",
+            "description": "$~konversi dari $input ke $output",
+            "emotion": "excited",
+            "label": {
+                "input": "$~tipe input",
+                "output": "$~tipe keluaran",
+                "expression": "$~ekspresi"
+            },
+            "doc": [
+                "$~Kawan, aku mendefinisikan konversi dari satu @type ke yang lain! Aku masuk ke @Block, seperti ini:",
+                "\\→ #kitty #cat ⬚ ÷ 2\n6kitty → #cat\\",
+                "Lihat bagaimana aku mengubah kucing kecil menjadi kucing? Keren!",
+                "Mungkin kamu bertanya-tanya apa yang dilakukan \\⬚\\ di sana. Itu mewakili @value yang sedang dikonversi. Aku menggunakannya karena nilai itu tidak punya nama lain."
+            ],
+            "start": "$~Mantap, konversi baru!",
+            "conflict": {
+                "MisplacedConversion": {
+                    "name": "$~konversi salah tempat",
+                    "explanation": "$~Wah, aku tidak bisa berada di sini, hanya di @Block.",
+                    "resolution": "$~Hapus konversi ini"
+                }
+            }
+        },
+        "Convert": {
+            "name": "$~mengubah",
+            "description": "$~ubah $expression menjadi $type",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Aku mengubah @value dari satu @type ke yang lain. Yo — lihat ini:",
+                "\\1 → \"\"\\",
+                "\\5s → #ms\\",
+                "\\'halo' → []\\",
+                "Kamu bahkan bisa merangkainya bersama:",
+                "\\'halo' → [] → {}\\",
+                "Nilai memiliki sekumpulan @ConversionDefinition yang sudah ditentukan, tetapi jika kamu membuat @StructureDefinition untuk jenis nilai baru, kamu bisa menentukan sendiri dengan @ConversionDefinition."
+            ],
+            "start": "$~Dapatkan nilai tersebut dari $expression !",
+            "finish": "$~Hebat, saya menghasilkan $value",
+            "conflict": {
+                "UnknownConversion": {
+                    "name": "$~konversi tidak dikenal",
+                    "explanation": "$~Kami tidak menemukan cara untuk mengkonversi $expected menjadi $given",
+                    "resolution": "$~Hapus konversi"
+                }
+            },
+            "exception": {
+                "ConversionException": {
+                    "description": "$~konversi yang mustahil",
+                    "explanation": "$~Saya tidak tahu cara mengkonversi dari $from ke $to"
+                }
+            }
+        },
+        "Delete": {
+            "name": "$~menghapus",
+            "description": "$~hapus baris dari $table yang cocok dengan $query",
+            "emotion": "angry",
+            "doc": [
+                "$~Aku menghapus baris dari @Table yang cocok dengan @condition. Kadang sebuah tabel ISINYA TERLALU BANYAK!",
+                "Seperti jika kamu punya beberapa pemain dalam permainan dan satu pergi, lalu kamu ingin berkata PERGI SANA PEMAIN, KELUAR DARI TABELKU!",
+                "\\pemain: ⎡nama•'' tim•'' poin•#⎦\n\t⎡'jen' 'merah' 8⎦\n\t⎡'joan' 'biru' 11⎦\n\t⎡'jeff' 'merah' 9⎦\n\t⎡'janet' 'biru' 7⎦\npemain ⎡- nama = 'jeff'\\",
+                "Fiuh, Jeff sudah pergi. DAH JEFF. Ingat saja bahwa aku tidak mengubah tabel asli, aku membuat yang baru, tanpa JEFF. Kamu yang menentukan ke mana perginya."
+            ],
+            "start": "$~Mari kita siapkan mejanya dulu.",
+            "finish": "$~Saya membuat tabel baru tanpa baris yang cocok!"
+        },
+        "DocumentedExpression": {
+            "name": "$~ekspresi terjelaskan",
+            "description": "$~$expression yang terdokumentasi",
+            "emotion": "eager",
+            "doc": [
+                "$~Aku adalah @expression apa pun, tetapi dengan @Doc!",
+                "Untuk membuatku, cukup letakkan @Doc sebelum sebuah ekspresi, dan kamu akan mendapatkanku:",
+                "\\gandaplus: 1\n(2 × gandaplus) +\n\t¶Ayo buat sedikit lebih besar¶\n\t1\\",
+                "Aku berguna untuk membuat catatan pada bagian tertentu dari sebuah program.",
+                "Jika kamu meletakkan 👀 di @Doc, aku juga bisa menyorot ekspresi itu:",
+                "\\¶Lihat aku! 👀¶\n1 + 1\\"
+            ],
+            "start": "$~Mari kita evaluasi ekspresi tersebut."
+        },
+        "Evaluate": {
+            "name": "$~mengevaluasi",
+            "description": "$~jalankan $name[$name|fungsi]$first[ $first|]",
+            "emotion": "shy",
+            "label": {
+                "function": "$~fungsi",
+                "types": "$~jenis",
+                "inputs": "$~masukan"
+            },
+            "doc": [
+                "$~Aku mengevaluasi @FunctionDefinition kesayanganku, memberinya masukan dan mengikuti langkah-langkahnya. Hai! Seperti ini:",
+                "\\ƒ salam(pesan•'')\n\tsalam('kucing kecil')\\🪲",
+                "Fungsi bisa berasal dari mana saja. Misalnya, @Text punya fungsi. Seperti ini:",
+                "\\'kucing kecil'.panjang()\\",
+                "Jika sebuah fungsi punya nama berupa satu simbol saja, kamu bisa menuliskanku sebagai @BinaryEvaluate.",
+                "\\'kucing kecil' ⊆ 'kecil'\\",
+                "Itu melakukan hal yang sama seperti ini:",
+                "\\'kucing kecil'.memiliki('kecil')\\",
+                "Tentu saja, aku bukan apa-apa tanpa @FunctionDefinition. Yang kulakukan hanyalah memberi masukan kepada mereka lalu mengikuti langkah-langkah mereka.",
+                "Sebenarnya, aku juga punya beberapa kemampuan sendiri. Misalnya, jika masukan untuk @FunctionDefinition adalah @Boolean, kamu bisa menuliskan namanya saja untuk menyalakannya, tanpa perlu memberinya @value."
+            ],
+            "start": "$~Mari kita evaluasi inputnya terlebih dahulu.",
+            "evaluate": "$~Mari kita evaluasi fungsinya sekarang.",
+            "finish": "$~Saya mengevaluasinya menjadi $value",
+            "conflict": {
+                "IncompatibleInput": {
+                    "name": "$~masukan tidak cocok",
+                    "explanation": "$~Saya mengharapkan $expected , tetapi menerima $given",
+                    "resolution": "$~Ubah menjadi $expected, karena $expected diperlukan",
+                    "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
+                    "resolutionOtherwise": "$~Tangani nilai yang hilang dengan ??, karena $expected tidak mengizinkan ø",
+                    "resolutionGuard": "$~Pastikan bahwa tipe $expected terlebih dahulu dengan menggunakan type guard, karena $expected tidak mungkin berupa tipe data lain yang mungkin.",
+                    "resolutionDeclaration": "$~Nyatakan tipenya secara eksplisit, karena $expected membutuhkan nilai literal untuk dipertahankan.",
+                    "resolutionWrap": "$~Masukkan ke dalam daftar, set, atau peta, karena $expected membutuhkan kumpulan nilai.",
+                    "resolutionStructure": "$~Bungkus dengan $expected , karena slot tersebut membutuhkan nilai $expected",
+                    "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
+                    "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
+                    "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis.",
+                    "explanationDivideByZero": "$~Ini bisa jadi ø karena $source mungkin dibagi nol, dan angka diperlukan di sini."
+                },
+                "UnexpectedTypeInput": {
+                    "name": "$~masukan jenis tak terduga",
+                    "explanation": "$~Saya adalah masukan tambahan yang tidak terduga.",
+                    "resolution": "$~Hapus input tipe ini"
+                },
+                "MissingInput": {
+                    "name": "$~masukan hilang",
+                    "explanation": "$~Saya tidak bisa mengevaluasi $name tanpa input $input :(",
+                    "resolutionAddInput": "$~Tambahkan $input yang hilang, dengan nilai defaultnya.",
+                    "resolutionPlaceholder": "$~Tambahkan $input yang hilang sebagai placeholder, lalu pilih nilai dari menu pelengkapan otomatis."
+                },
+                "NotInstantiable": {
+                    "name": "$~struktur tidak lengkap",
+                    "explanation": "$~Saya tidak bisa membuat @StructureDefinition ini karena memiliki fungsi yang belum diimplementasikan.",
+                    "resolution": "$~Membangun kerangka untuk fungsi-fungsi yang hilang."
+                },
+                "UnexpectedInput": {
+                    "name": "$~masukan tak terduga",
+                    "explanation": "$~Saya adalah masukan yang tak terduga.",
+                    "resolution": "$~Hapus input ini"
+                },
+                "UnknownInput": {
+                    "name": "$~masukan tidak dikenal",
+                    "explanation": "$~Fungsi ini * $name * tidak mengharapkan input berupa nama saya.",
+                    "resolution": "$~Ubah nama input ini menjadi * $name *"
+                },
+                "InputListMustBeLast": {
+                    "name": "$~masukan tambahan bukan yang terakhir",
+                    "explanation": "$~daftar input harus berada di akhir",
+                    "resolution": "$~Pindahkan input daftar ke akhir."
+                },
+                "SeparatedEvaluate": {
+                    "name": "$~evaluasi tidak jelas",
+                    "explanation": "$~Apakah $name adalah nama dari $structure[$structure| @FunctionDefinition ] yang ingin Anda evaluasi? Coba hapus spasi setelahnya, agar saya tahu itu adalah @Evaluate dan bukan @Block terpisah.",
+                    "resolution": "$~Tutup spasi antara * $name * dan inputnya"
+                },
+                "UnknownTimeZone": {
+                    "name": "$~zona waktu tidak dikenal",
+                    "explanation": "$~Saya tidak tahu zona waktu bernama *$zone*. Zona waktu dinamai sesuai wilayah dan kota, seperti \\'America/New_York'\\. Coba tulis kota yang kamu tahu, dan saya akan menyarankan satu!",
+                    "resolution": "$~Ubah menjadi *$zone*, zona waktu dari $city"
+                }
+            },
+            "exception": {
+                "FunctionException": {
+                    "description": "$~fungsi tidak diketahui",
+                    "explanation": "$~Oh tidak, $name bukan fungsi dalam $scope[$scope|this @Block]!"
+                }
+            }
+        },
+        "Input": {
+            "name": "$~Masukan",
+            "description": "$~masukan $name, $type",
+            "emotion": "serious",
+            "doc": [
+                "$~Saya adalah input yang diberikan ke @Evaluate. Nama saya sesuai dengan nama input dalam @FunctionDefinition atau @StructureDefinition yang sedang dievaluasi.",
+                "Saya bisa membantu dengan fungsi yang memiliki banyak @value default, di mana Anda hanya ingin mengganti input tertentu, tanpa mengubah semua yang lain.",
+                "Misalnya, @Phrase memiliki banyak sekali nilai default untuk mengontrol gayanya. Katakanlah Anda ingin memberikan @Text dan @Color, tetapi tidak ada yang lain dalam daftar inputnya. Anda dapat menggunakan saya untuk melakukan itu:",
+                "\\Phrase('Saya berwarna ungu!' warna: Color(50% 52 300°))\\"
+            ],
+            "start": "$~Mari kita evaluasi nilai saya."
+        },
+        "ExpressionPlaceholder": {
+            "name": "$~placeholder",
+            "description": "$~penampung untuk $type[$type|sebuah nilai]",
+            "emotion": "scared",
+            "label": {
+                "placeholder": "$~ekspresi"
+            },
+            "doc": [
+                "$~Aku adalah sebuah *ungkapan*, tapi bukan ungkapan yang sebenarnya… Aku hanya menggantikan peran ungkapan yang sebenarnya.",
+                "Aku tidak masalah kalau kamu belum tahu mau menulis apa. Seperti ini:",
+                "\\1 + _\\🪲",
+                "Apa yang akan kita tambahkan? Saya tidak tahu. Kamu yang beri tahu saya.",
+                "Atau jika seseorang mengevaluasi suatu fungsi dengan @Evaluate, saya mungkin akan menggantikan fungsi tersebut.",
+                "\\_(1 2 3)\\🪲",
+                "I don't like being on @Stage!"
+            ],
+            "start": "$~Saya tidak tahu harus berbuat apa di sini. Bisakah Anda memberi saya penjelasan?",
+            "conflict": {
+                "Placeholder": {
+                    "name": "$~placeholder",
+                    "explanation": "$~Bisakah kamu mengisi posisiku? Aku hanya sekadar tempat penampung.",
+                    "resolution": "$~Ganti dengan * $candidate *"
+                }
+            },
+            "exception": {
+                "UnimplementedException": {
+                    "description": "$~belum dilaksanakan",
+                    "explanation": "$~Saya tidak tahu harus berbuat apa di sini. Bisakah Anda memberi saya penjelasan?"
+                }
+            }
+        },
+        "FunctionDefinition": {
+            "name": "$~fungsi",
+            "description": "$~fungsi $name",
+            "emotion": "kind",
+            "label": {
+                "inputs": "$~masukan",
+                "output": "$~keluaran",
+                "expression": "$~ekspresi"
+            },
+            "doc": [
+                "$~Aku menerima beberapa masukan, lalu mengevaluasi sebuah @expression memakainya, menghasilkan keluaran. Hai lagi!",
+                "Ini contoh sederhana:",
+                "\\ƒ ulangi(pesan•'') pesan × 5\nulangi('hai')\\",
+                "Fungsi itu menerima satu masukan, \\message\\, dan memakai fungsi @Text.repeat untuk mengulang pesan lima kali.",
+                "Aku sangat berguna jika kamu mau mengevaluasi sesuatu berulang-ulang, tapi dengan masukan berbeda!",
+                "Aku punya banyak trik kecil lain. Misalnya, aku tidak harus punya nama. Di sini, aku langsung menuju @Evaluate sebagai sebuah @value.",
+                "\\(ƒ(pesan•'') pesan × 5)('hai')\\",
+                "Atau, ini fungsi yang menerima sejumlah masukan, memakai karakter \\…\\ setelah nama masukan.",
+                "\\ƒ ya(pesan…•'') pesan.tanpa('tidak')\nya('ya' 'ya' 'tidak' 'ya' 'tidak')\\",
+                "Lihat bagaimana ia mengambil semua 'no' lalu menyingkirkannya? Itu karena messages adalah @List, jadi kita bisa memakai @List.sansAll.",
+                "Kadang kamu mungkin mau memperjelas jenis nilai apa yang aku hasilkan. Untuk itu, tambahkan @Is setelah daftar masukan:",
+                "\\ƒ tambah(x•# y•#)•'' x + y\\🪲",
+                "Kamu mungkin menyadari masalah di sini: ia berkata menghasilkan @Text, tapi menerima dua @Number. Aku bisa memberitahumu saat ada yang tidak konsisten!",
+                "Tentu saja, aku tidak terlalu berguna tanpa @Evaluate; mereka menghidupkanku."
+            ],
+            "start": "$~Mari kita buat fungsi ini!",
+            "conflict": {
+                "NoExpression": {
+                    "name": "$~ekspresi hilang",
+                    "explanation": "$~Saya membutuhkan ekspresi untuk dievaluasi, bisakah Anda menambahkannya?",
+                    "resolution": "$~Tambahkan isi placeholder"
+                }
+            }
+        },
+        "Iteration": {
+            "name": "$~fungsi tingkat lebih tinggi",
+            "description": "$~iterasi internal",
+            "emotion": "kind",
+            "doc": "$~Saya adalah @FunctionDefinition yang sangat istimewa yang beroperasi pada daftar hal-hal. Anda tidak perlu tahu apa pun tentang saya, selain bahwa saya memungkinkan fungsi seperti @List.translate.",
+            "start": "$~Mengevaluasi fungsi yang diberikan",
+            "initialize": "$~bersiap untuk menelusuri item-item tersebut",
+            "next": "$~beralih ke item berikutnya",
+            "check": "$~memutuskan apakah akan melanjutkan",
+            "finish": "$~Saya mengevaluasinya menjadi $value"
+        },
+        "Initial": {
+            "name": "$~awal",
+            "description": "$~benar pada evaluasi pertama",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya akan memberi tahu Anda apakah evaluasi @Program saat ini adalah yang pertama, yang menghasilkan @value @Boolean. Misalnya:",
+                "\\◆ ? Waktu() 'hai'\\",
+                "Kamu tidak melihatnya, tetapi evaluasi pertama adalah waktu, tetapi kemudian semua detak waktu mendatang, saya adalah \\⊥\\, jadi @Conditional menjadi \\⊤\\.",
+                "Saya sangat membantu jika Anda bekerja dengan sebuah stream dan Anda hanya ingin melakukan sesuatu pada percobaan pertama — atau bahkan tidak pernah pada percobaan pertama!"
+            ]
+        },
+        "Insert": {
+            "name": "$~menyisipkan",
+            "description": "$~sisipkan satu baris ke $table",
+            "emotion": "kind",
+            "doc": [
+                "$~Saya menambahkan baris baru ke @Table . Anda tahu kan, terkadang ada tabel yang terasa kurang lengkap? Saya bisa menambahkannya!",
+                "Bayangkan Anda memiliki tabel pemain dalam sebuah permainan dan Anda ingin menambahkan pemain baru:",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡+ 'jason' 'red' 0⎦\\",
+                "Ingatlah, seperti semua hal dalam Verse, saya tidak mengubah tabel, saya merevisinya. Jadi Anda perlu menentukan di mana Anda ingin menempatkan tabel yang telah direvisi. Kemungkinan besar Anda ingin merevisi tabel dalam @Reaction terhadap suatu input, dan menyimpannya dalam @Bind ."
+            ],
+            "start": "$~Mari kita cari tabel yang perlu diperbarui.",
+            "finish": "$~Saya membuat tabel baru dengan baris yang telah direvisi!"
+        },
+        "Is": {
+            "name": "$~adalah",
+            "description": "$~adalah $type",
+            "emotion": "curious",
+            "doc": [
+                "$~Aku memeriksa apakah sebuah @value adalah @type tertentu, dan memberimu @Boolean. Ada begitu banyak jenis nilai yang berarti begitu banyak hal berbeda — aku membantu mencari tahu apa mereka.",
+                "Sebagai contoh, misalkan kamu punya nilai misterius. Aku bisa memberitahumu apakah itu sebuah @Number, dan memberimu @Boolean:",
+                "\\misteri: 'rahasia!'\nmisteri•#\\🪲",
+                "Itu bukan angka, jadi aku membuat \\⊥\\. Tapi bagaimana jika kita memeriksa apakah itu @TextType?",
+                "\\misteri: 'rahasia!'\nmisteri•''\\",
+                "Kita mendapatkan \\⊤\\!",
+                "Aku sangat membantu ketika kamu perlu tahu apakah sebuah @Name punya nilai dari jenis tertentu."
+            ],
+            "start": "$~Mari kita dapatkan nilai dari $expression terlebih dahulu.",
+            "finish": "$~$value[value adalah $type | value bukan $type ]",
+            "conflict": {
+                "ImpossibleType": {
+                    "name": "$~jenis tidak mungkin",
+                    "explanation": "$~ini tidak mungkin menjadi $type",
+                    "resolutionIsFalse": "$~Ganti pemeriksaan tipe ini dengan *⊥* (jawabannya selalu salah)",
+                    "resolutionDropOtherwise": "$~Hilangkan *??* — sisi kiri tidak pernah *ø*"
+                }
+            },
+            "exception": {
+                "TypeException": {
+                    "description": "$~nilai-nilai yang tidak kompatibel",
+                    "explanation": "$~Saya mengharapkan $expected , tetapi menerima $given"
+                }
+            }
+        },
+        "IsLocale": {
+            "name": "$~adalah bahasa",
+            "description": "$~adalah lokal $locale[$locale|apa saja]",
+            "emotion": "kind",
+            "doc": [
+                "$~Aku akan membantumu memeriksa apakah penonton telah memilih @language atau @region tertentu:",
+                "\\🌍/en\\",
+                "\\🌍/es-MX\\",
+                "Ini membantu jika kamu ingin mengubah pertunjukanmu berdasarkan bahasa yang dipilih."
+            ],
+            "start": "$~Apakah bahasanya $locale ?"
+        },
+        "ListAccess": {
+            "name": "$~akses daftar",
+            "description": "$~akses indeks $index dari $list",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Saya bekerja sama erat dengan @List untuk membantu mereka mendapatkan @value pada posisi tertentu. Jadi, misalnya, jika Anda memiliki sebuah daftar, dan Anda menginginkan item kedua, Anda akan menulis:",
+                "\\list: ['burung' 'bebek' 'ikan' 'ular'] list[2]\\"
+            ],
+            "start": "$~Mari kita dapatkan daftar $list terlebih dahulu.",
+            "finish": "$~Item pada indeks tersebut adalah $value !"
+        },
+        "ListLiteral": {
+            "name": "$~nilai daftar",
+            "description": "$~daftar dengan $#count[$count nilai]",
+            "emotion": "eager",
+            "doc": "$~Saya adalah @List @value tertentu! Lihat @List untuk mempelajari lebih lanjut tentang apa yang dapat Anda lakukan dengan saya.",
+            "start": "$~Mari kita evaluasi item-item tersebut terlebih dahulu.",
+            "finish": "$~Aku membuat diriku sendiri! $value"
+        },
+        "Spread": {
+            "name": "$~menyebar",
+            "description": "$~sebaran dari $list[$list|sebuah daftar]",
+            "emotion": "serious",
+            "doc": [
+                "$~Saya membantu Anda membuat @List dari @value-nilai daftar lain. Seperti ini:",
+                "\\list: [1 2 3]\nfinal: [:list 4 5 6]\\🪲"
+            ]
+        },
+        "MapLiteral": {
+            "name": "$~nilai peta",
+            "description": "$~peta dengan $#count[$count pasangan kunci-nilai]",
+            "emotion": "kind",
+            "label": {
+                "values": "$~pasangan"
+            },
+            "doc": "$~Saya adalah @Map spesifik antara kunci dan @value. Lihat @Map untuk mempelajari lebih lanjut tentang bagaimana saya bermanfaat.",
+            "start": "$~Mari kita evaluasi kunci dan nilainya terlebih dahulu.",
+            "finish": "$~Saya menghubungkan semua orang, $value",
+            "conflict": {
+                "NotAKeyValue": {
+                    "name": "$~nilai hilang",
+                    "explanation": "$~Saya berada di dalam @Map, jadi saya membutuhkan sebuah nilai.",
+                    "resolution": "$~Bungkus sebagai pasangan kunci-nilai"
+                }
+            }
+        },
+        "Match": {
+            "name": "$~cocok",
+            "description": "$~cocokkan $value dengan $#count[$count kasus]",
+            "emotion": "curious",
+            "label": {
+                "case": "$~kasus",
+                "other": "$~bawaan"
+            },
+            "doc": [
+                "$~Akulah pemeriksaan @condition yang paling megah: aku mengambil sebuah @value, membandingkannya dengan sejumlah kasus, dan mengevaluasi yang cocok!",
+                "Misalnya, jika kamu punya sebuah @Number dan ingin mengubahnya menjadi sebuah @Text, kamu mungkin melakukan sesuatu seperti ini:",
+                "\\angka: 2\nangka ???\n\t1: 'satu'\n\t2: 'dua'\n\t3: 'tiga'\n\t'lebih besar!'\\",
+                "Jika tidak ada yang cocok, aku mengevaluasi @expression bawaan yang kamu berikan padaku.",
+                "Aku sangat membantu untuk mengubah salah satu dari banyak kemungkinan @Number, @Text, atau nilai yang lebih rumit menjadi sesuatu yang lain.",
+                "Kamu bisa menggunakannya untuk @Boolean atau @None, tapi keduanya tidak bisa menjadi banyak hal, jadi aku tidak begitu berguna untuk nilai sederhana itu.",
+                "Seperti @Conditional, aku juga memberitahumu apa yang telah kupelajari. Di dalam sebuah kasus, @value yang kucocokkan diketahui sebagai kasus itu; di dalam kasus berikutnya, ia diketahui bukan salah satu kasus sebelumnya; dan di dalam bawaanku, ia diketahui bukan salah satu dari mereka.",
+                "\\jawaban•#|'': 1\njawaban ???\n\t1: jawaban + 1\n\t'bukan satu'\\",
+                "Aku bisa menyingkirkan kasus yang berupa sebuah @Number, sebuah @None, atau @Text dengan satu terjemahan, serta kasus sederhana lainnya. Tapi kasus yang mengevaluasi sesuatu tidak menyingkirkan apa pun, jadi bawaanku menyimpan segala kemungkinan yang masih bisa dimiliki oleh @value."
+            ],
+            "start": "$~Mari kita lihat apa itu $value ...",
+            "case": "$~Mari kita periksa kondisi ini",
+            "finish": "$~Oke, kita sudah mendapatkan nilai akhirnya!"
+        },
+        "NumberLiteral": {
+            "name": "$~nilai angka",
+            "description": "$~$number$unit[ $unit|]",
+            "emotion": "excited",
+            "doc": "$~Saya adalah @Number tertentu. Anda dapat menulis kepada saya dengan berbagai jenis angka dari berbagai jenis @language. Lihat @Number untuk semua yang dapat saya lakukan.",
+            "start": "$~$value !",
+            "conflict": {
+                "NotANumber": {
+                    "name": "$~bukan angka",
+                    "explanation": "$~Saya kira saya tahu semua angka, tapi saya tidak tahu angka yang ini.",
+                    "resolution": "$~Ganti dengan 0*"
+                }
+            }
+        },
+        "InternalExpression": {
+            "name": "$~ekspresi internal",
+            "description": "$~ekspresi bawaan",
+            "emotion": "neutral",
+            "doc": "$~Aku adalah @expression yang hanya digunakan oleh para pembuat asli. Bagaimana kamu menemukanku? Untuk belajar lebih banyak tentangku, kamu perlu berbicara dengan mereka.",
+            "start": "$~Ekspresi rahasia"
+        },
+        "NoneLiteral": {
+            "name": "$~nilai kosong",
+            "description": "$~tidak ada",
+            "emotion": "neutral",
+            "doc": "$~Aku membuat @None, satu-satunya @value kosong. Lihat @None untuk belajar lebih banyak tentangnya.",
+            "start": "$~… ø"
+        },
+        "Otherwise": {
+            "name": "$~jikatidak",
+            "description": "$~$left jika tidak $right",
+            "emotion": "curious",
+            "doc": [
+                "$~Aku memeriksa apakah @value adalah @None, dan jika ya, aku memberimu nilai cadangan sebagai gantinya.",
+                "/Sebagai contoh, jika kamu punya nilai yang bisa berupa @Number atau @None, @Otherwise membantumu memberikan angka bawaan:",
+                "\\mungkinNumber•#|ø: 1\nmungkinNumber ?? 0\\"
+            ],
+            "start": "$~ø ??",
+            "finish": "$~… $value"
+        },
+        "Previous": {
+            "name": "$~sebelumnya",
+            "description": "$~$number nilai sebelumnya$range[|] dari $stream",
+            "emotion": "serious",
+            "doc": [
+                "$~Saya menelusuri sejarah suatu @stream sungai dan menceritakan salah satu @value yang dimilikinya di masa lalu. Pernahkah Anda ingin mengingat masa lalu?",
+                "Saya adalah pencatat resmi Verse!",
+                "Sebagai contoh, berikut adalah nilai @Time lima detik yang lalu:",
+                "\\← 5 Time(1000ms)\\",
+                "Lihat bagaimana awalnya @None selama 5 detik, lalu tiba-tiba berubah menjadi waktu sebelumnya?",
+                "Jika Anda menginginkan beberapa nilai terakhir, berikan saya dua tanda panah, dan saya akan menginterpretasikan angka tersebut sebagai hitungan:",
+                "\\←← 5 Time(1000ms)\\",
+                "Lihat, ini terjadi lima kali sebelumnya, bukan hanya sekali?",
+                "Saya bisa membantu jika Anda ingin menciptakan pertunjukan yang bergantung pada masa lalu."
+            ],
+            "start": "$~Pertama, dapatkan $stream",
+            "finish": "$~Dievaluasi terhadap nilai aliran $value",
+            "label": {
+                "range": "$~jangkauan"
+            }
+        },
+        "Program": {
+            "name": "$~program",
+            "description": "$~program dengan $#count[$count pernyataan]",
+            "emotion": "serious",
+            "doc": [
+                "$~Aku adalah tempat sebuah pertunjukan dimulai dan berakhir, yang memuat semua karakter lain yang mengatur sebuah pertunjukan.",
+                "Kamu tahu bagaimana @Block mengevaluasi daftar ekspresi, dan menghasilkan yang terakhir dalam daftarnya?",
+                "Aku sama, tetapi alih-alih memberikan @value-ku ke @expression mana pun tempatku berada, aku menaruh nilai itu di @Stage.",
+                "Nilainya bisa apa saja: @Number, @Text, atau @Boolean, @List, @Set, @Map, atau bahkan sesuatu yang lebih rumit, seperti @Phrase, @Group, atau @Stage.",
+                "Jika kamu tidak memberiku nilai untuk ditampilkan di panggung, aku akan memintanya darimu.",
+                "Jika ada masalah selama pertunjukan, aku akan menampilkan masalah itu.",
+                "Dan jika pertunjukanmu bergantung pada sebuah *@stream*, aku akan mengevaluasi ulang setiap kali aliran itu berubah."
+            ],
+            "label": {
+                "borrows": "$~meminjam",
+                "expression": "$~memblokir"
+            },
+            "unevaluated": "$~Node yang Anda pilih tidak dievaluasi",
+            "start": "$~$stream[ $stream stream diubah menjadi $value !|Ini evaluasi pertama saya]",
+            "halt": "$~Terjadi pengecualian, berhenti",
+            "finish": "$~Selesai, saya mengevaluasinya menjadi $value",
+            "done": "$~tidak ada evaluasi",
+            "exception": {
+                "BlankException": {
+                    "description": "$~program kosong",
+                    "explanation": "$~Ayo kita mulai pertunjukan! Dari mana kita harus mulai?"
+                },
+                "EvaluationLimitException": {
+                    "description": "$~batas evaluasi",
+                    "explanation": "$~@Evaluate dan saya lelah melakukan evaluasi, terutama $function . Mungkinkah $function mengevaluasi dirinya sendiri selamanya, tanpa pernah berhenti?"
+                },
+                "StepLimitException": {
+                    "description": "$~batas langkah",
+                    "explanation": "$~Ada begitu banyak langkah -- terlalu banyak untuk diselesaikan! Bisakah Anda membuat prosesnya lebih sederhana?"
+                },
+                "ValueException": {
+                    "description": "$~nilai yang hilang",
+                    "explanation": "$~Saya mengharapkan nilai yang baik tetapi tidak mendapatkannya!"
+                },
+                "InternalException": {
+                    "description": "$~kesalahan internal",
+                    "explanation": "$~sesuatu yang sangat buruk terjadi secara internal: $reason"
+                },
+                "PermissionException": {
+                    "description": "$~izin ditolak",
+                    "explanation": "$~Saya memerlukan $permission Anda untuk menjalankan program ini, tetapi saya tidak memiliki izin. Klik Coba Lagi untuk mencoba kembali. Jika itu tidak membantu, izinkan $permission ke situs ini di pengaturan browser Anda."
+                }
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~berbagi tanpa dokumentasi",
+                    "explanation": "$~ini diterbitkan, jadi seseorang yang tidak menulisnya akan membacanya — tulis /doc/ di atasnya yang menjelaskan gunanya",
+                    "resolution": "$~Dokumentasikan di atas, atau hentikan penerbitan sumber ini"
+                },
+                "UnexampledShare": {
+                    "name": "$~tidak ada contoh",
+                    "explanation": "$~ini menerima input, jadi deskripsi saja tidak cukup — tambahkan contoh di dokumentasinya yang menunjukkan satu cara menggunakannya",
+                    "resolution": "$~Tambahkan contoh ke dokumentasinya, atau hentikan penerbitan sumber ini"
+                },
+                "UnexampledKit": {
+                    "name": "$~tidak ada contoh",
+                    "explanation": "$~tidak ada apa pun dalam sumber ini yang memiliki contoh, jadi tidak ada yang bisa ditampilkan kepada orang yang mencari kit — tambahkan satu contoh ke dokumentasi sumber ini",
+                    "resolution": "$~Tambahkan contoh ke dokumentasi sumber ini, atau hentikan penerbitan sumber ini"
+                }
+            }
+        },
+        "PropertyBind": {
+            "name": "$~menyaring",
+            "description": "$~perhalus properti $name[$name|tanpa nama]",
+            "emotion": "kind",
+            "label": {
+                "property": "$~milik",
+                "value": "$~nilai"
+            },
+            "doc": [
+                "$~Aku membuat salinan dari sebuah @StructureDefinition @value dengan hanya satu @property yang diubah — tidak perlu membangun ulang semuanya dengan semua nilai yang sama.",
+                "Sebagai contoh, bagaimana jika kamu menyimpan catatan kucing, tapi kemudian ingin membuat salinan seekor kucing dengan hobi yang berbeda? Aku bisa membantumu mengubahnya:",
+                "\\•kucing(nama•'' warna•'' hobi•'')\n\nanakKucing: kucing('taburan' 'oranye' 'menjilat')\nanakKucing.hobi:'mendengkur'\\",
+                "Itu jauh lebih mudah daripada membuat \\Cat\\ dengan nilai yang sama kecuali hobinya, bukan begitu?"
+            ],
+            "start": "$~Pertama-tama, mari kita dapatkan nilainya.",
+            "finish": "$~Saya menyalin strukturnya, tetapi dengan $property sebagai $value",
+            "conflict": {
+                "InvalidProperty": {
+                    "name": "$~properti tidak dikenal",
+                    "explanation": "$~Saya bukan nama dalam struktur $structure , jadi saya tidak dapat dimurnikan.",
+                    "resolution": "$~Ganti nama menjadi * $name *"
+                }
+            }
+        },
+        "PropertyReference": {
+            "name": "$~milik",
+            "description": "$~properti $name[$name|tanpa nama]",
+            "emotion": "kind",
+            "label": {
+                "property": "$~milik"
+            },
+            "doc": [
+                "$~Aku mengambil salah satu @property dari @StructureDefinition @value untukmu.",
+                "Seperti kalau kamu punya sebuah struktur tentang kota, kamu bisa mengambil nilai-nilainya bersamaku seperti ini:",
+                "\\•kota(nama•'' populasi•#people)\n\nportland: kota('Portland' 800000people)\n\nportland.populasi\\"
+            ],
+            "start": "$~Pertama-tama, mari kita dapatkan nilainya.",
+            "finish": "$~Properti ditemukan $property , nilainya adalah $value"
+        },
+        "Reaction": {
+            "name": "$~reaksi",
+            "description": "$~reaksi terhadap $condition",
+            "emotion": "excited",
+            "label": {
+                "initial": "$~awal",
+                "condition": "$~kondisi",
+                "next": "$~Berikutnya"
+            },
+            "doc": [
+                "$~Saya membuat siaran langsung baru yang diperbarui setiap kali ada perubahan di siaran langsung lainnya. Siaran langsung itu sangat keren!",
+                "Misalnya, jika Anda ingin @Time berdetik, tetapi menampilkan kata-kata alih-alih angka, Anda bisa melakukan sesuatu seperti ini:",
+                "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
+                "Itu seperti mengatakan \"/dimulai dengan kata 'mulai' dan kemudian jika waktu berubah, ubah menjadi genap atau ganjil, berdasarkan waktu tersebut./\"",
+                "Jadi aku juga seperti @stream, tapi aliran yang terbentuk dari aliran lain. Keren, kan?"
+            ],
+            "start": "$~Mari kita lihat apakah kita perlu memperbarui siaran langsungnya.",
+            "finish": "$~Nilai stream yang baru adalah $value",
+            "conflict": {
+                "ExpectedStream": {
+                    "name": "$~diharapkan aliran",
+                    "explanation": "$~$condition tidak merujuk pada stream, jadi saya tidak akan pernah bereaksi!",
+                    "resolution": "$~Abaikan reaksinya, pertahankan hanya nilai awalnya."
+                },
+                "ExpectedCondition": {
+                    "name": "$~kondisi hilang",
+                    "explanation": "$~Saya butuh sesuatu untuk memberi tahu kapan harus berubah, bisakah kamu menambahkan kondisi setelah @Reaction?",
+                    "resolution": "$~Tambahkan kondisi untuk diperiksa"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~nilai berikutnya hilang",
+                    "explanation": "$~Saya tahu kapan harus berubah, tetapi tidak tahu berubah menjadi apa, bisakah kamu menambahkan nilai berikutnya?",
+                    "resolution": "$~Tambahkan nilai berikutnya",
+                    "rangeResolution": "$~Buat @Range dengan \\‥\\ sebagai gantinya"
+                }
+            }
+        },
+        "Reference": {
+            "name": "$~referensi",
+            "description": "$~rujukan $name",
+            "emotion": "shy",
+            "doc": [
+                "$~Aku merujuk ke @value dengan @Name-nya: aku mencari @Bind dengan nama itu dan memberimu nilainya. Seperti ini:",
+                "\\burungBeo: 'polly'\nburungBeo\\",
+                "Jika aku tidak menemukan @name, maka aku tidak tahu harus berbuat apa.",
+                "\\burungBeo: 'polly'\nperry\\🪲"
+            ],
+            "start": "$~Berapakah nilai dari $name ?",
+            "conflict": {
+                "UnknownName": {
+                    "conflict": {
+                        "name": "$~nama tidak dikenal",
+                        "explanation": "$~$name[Saya tidak kenal siapa pun bernama $name di $scope[$scope|this @Block]|Bisakah Anda memberi saya sebuah nama?]"
+                    },
+                    "resolution": "$~Apakah maksud Anda * $suggestion ?*",
+                    "staticResolution": "$~Apakah maksudmu *$owner.$suggestion?*",
+                    "languageResolution": "$~*$name* adalah sebuah nama dalam $language. Tambahkan $language ke bahasa proyekmu untuk memakainya di sini."
+                },
+                "ReferenceCycle": {
+                    "name": "$~nilai merujuk diri sendiri",
+                    "explanation": "$~Eh, nilai $name bergantung pada dirinya sendiri, jadi bagaimana saya tahu nilai apa yang harus saya berikan padanya?",
+                    "resolution": "$~Ganti * $name * dengan placeholder untuk memutus siklus"
+                },
+                "UnexpectedTypeVariable": {
+                    "name": "$~variabel jenis tak terduga",
+                    "explanation": "$~Saya tidak tahu harus berbuat apa dengan jenis input ini.",
+                    "resolution": "$~Hapus variabel tipe ini dari fungsi."
+                }
+            },
+            "exception": {
+                "NameException": {
+                    "description": "$~nama tidak diketahui",
+                    "explanation": "$~$name[Saya tidak kenal siapa pun bernama $name di $scope[$scope|this @Block]…|Eep, tidak ada nama!]"
+                }
+            }
+        },
+        "Select": {
+            "name": "$~memilih",
+            "description": "$~pilih dari $table yang cocok dengan $query",
+            "emotion": "excited",
+            "doc": [
+                "$~Aku memilih baris-baris dari @Table yang cocok dengan @condition. Kadang kamu hanya ingin sebagian dari tabel — aku bisa mengambilnya untukmu!",
+                "Seperti kalau kamu punya tabel pemain dalam sebuah permainan dan kamu ingin menemukan yang punya 10 poin atau lebih untuk melihat siapa yang menang:",
+                "\\pemain: ⎡nama•'' tim•'' poin•#⎦\n\t⎡'jen' 'merah' 8⎦\n\t⎡'joan' 'biru' 11⎦\n\t⎡'jeff' 'merah' 9⎦\n\t⎡'janet' 'biru' 7⎦\npemain ⎡?nama⎦ poin ≥ 10\\",
+                "Seperti itulah, aku mendapatkan daftar baris pemenang! Ingat saja bahwa aku tidak mengubah tabel, aku membuat yang baru. Kamu harus memutuskan di mana akan menyimpannya."
+            ],
+            "start": "$~Mari kita siapkan mejanya dulu.",
+            "finish": "$~Saya membuat tabel baru hanya dengan baris dan kolom yang terpilih!",
+            "conflict": {
+                "ExpectedSelectName": {
+                    "name": "$~nama kolom hilang",
+                    "explanation": "$~Saya membutuhkan setidaknya satu nama kolom.",
+                    "resolution": "$~Hapus sel ini"
+                }
+            }
+        },
+        "SetLiteral": {
+            "name": "$~nilai himpunan",
+            "description": "$~himpunan dengan $#count[$count nilai]",
+            "emotion": "eager",
+            "doc": "$~Saya adalah @Set spesifik yang berisi @value-nilai tertentu. Lihat @Set untuk mempelajari lebih lanjut tentang @how bekerja dengan saya.",
+            "start": "$~Mari kita evaluasi nilainya terlebih dahulu!",
+            "finish": "$~Saya membuat sebuah set $value !"
+        },
+        "SetOrMapAccess": {
+            "name": "$~akses himpunan/peta",
+            "description": "$~akses $key dalam $setOrMap",
+            "emotion": "kind",
+            "doc": [
+                "$~Aku bisa melihat apakah @Set atau @Map punya @value atau @key.",
+                "Itu tidak terlalu sulit. Seperti ini:",
+                "\\favorit: {'bebek' 'angsa' 'monyet'}\nfavorit{'tikus'}\\",
+                "Atau ini, dengan @Map:",
+                "\\favorit: {\n\t\t'makaroni dan keju': 5stars\n\t\t'sereal': 2stars\n\t\t'bubur encer': 1stars\n\t}\nfavorit{'bubur encer'}\\"
+            ],
+            "start": "$~Apa nama set atau petanya?",
+            "finish": "$~Nilainya adalah $value",
+            "conflict": {
+                "IncompatibleKey": {
+                    "name": "$~kunci tidak cocok",
+                    "explanation": "$~Aku mengharapkan sebuah kunci dengan jenis $expected, tapi menerima $given",
+                    "resolution": "$~Konversikan ke $expected , karena $expected diperlukan.",
+                    "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
+                    "resolutionOtherwise": "$~Tangani nilai yang hilang dengan ??, karena $expected tidak mengizinkan ø",
+                    "resolutionGuard": "$~Pastikan bahwa tipe $expected terlebih dahulu dengan menggunakan type guard, karena $expected tidak mungkin berupa tipe data lain yang mungkin.",
+                    "resolutionDeclaration": "$~Nyatakan tipenya secara eksplisit, karena $expected membutuhkan nilai literal untuk dipertahankan.",
+                    "resolutionWrap": "$~Masukkan ke dalam daftar, set, atau peta, karena $expected membutuhkan kumpulan nilai.",
+                    "resolutionStructure": "$~Bungkus dengan $expected , karena slot tersebut membutuhkan nilai $expected",
+                    "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
+                    "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
+                    "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis."
+                }
+            }
+        },
+        "Source": {
+            "name": "$~sumber",
+            "description": "$~sumber $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Aku adalah jendela bernama di sekitar @Program — aku memberinya nama dan menyimpan @code-nya. Oh, kamu tahu @Program? Aku membantumu menamainya.",
+                "Kamu juga bisa membuat @Source @UI/addSource lain, dengan @Program lain, dan @Borrow hal-hal dari @Program lain itu untuk digunakan di program lain.",
+                "Ini bisa menjadi @how yang bagus untuk mengatur pertunjukan besar menjadi beberapa dokumen terpisah."
+            ]
+        },
+        "StreamDefinition": {
+            "name": "$~sungaikecil",
+            "description": "$~aliran $name",
+            "emotion": "curious",
+            "doc": "$~Saya mendefinisikan jenis @stream data baru. Saya /berpikir/ — jujur saja, saya masih mencari tahu caranya, jadi untuk saat ini gunakan saja aliran data yang sudah ada!",
+            "start": "$~Ciptakan jenis aliran baru ini"
+        },
+        "StructureDefinition": {
+            "name": "$~struktur",
+            "description": "$~struktur $name",
+            "emotion": "kind",
+            "label": {
+                "docs": "$~dokumentasi",
+                "inputs": "$~masukan",
+                "expression": "$~nilai dan fungsi",
+                "interfaces": "$~antarmuka"
+            },
+            "doc": [
+                "$~Aku mendefinisikan struktur yang menyimpan nilai dan fungsi. Halo, apa kabar? Aku? Aku baik-baik saja — aku senang melakukan ini sepanjang hari.",
+                "Aku bekerja seperti ini:",
+                "\\•pizza(\n\tbahan•['']\n\tukuran•#in\n) (\n\tƒ harga() ukuran × 10dollars/in\n)\n\npizza(['pepperoni' 'paprika'] 12in).harga()\\🪲",
+                "Lihat @how kerjanya? Aku mendefinisikan \\Pizza\\, yang punya dua input, \\ingredients\\ (sebuah daftar @Text) dan \\size\\ (sebuah angka dalam inci).",
+                "Di dalamnya, @FunctionDefinition membuat fungsi yang menghitung harga sebuah pizza, dengan anggapan $$10 per inci.",
+                "Aku tidak perlu punya @FunctionDefinition di dalamku. Aku bisa hanya berupa input.",
+                "\\•pizza(\n\tingredients•['']\n\tukuran•#in\n)\\",
+                "Aku juga bisa punya @Bind di dalam, jadi kita bisa menghitung harganya lebih dulu.",
+                "\\•pizza(\n\tbahan•['']\n\tukuran•#in\n) (\n\tharga: ukuran × 10dollars/in\n)\n\npizza(['pepperoni' 'paprika'] 12in).harga\\🪲",
+                "Tandai sebuah fungsi atau @value dengan ↑ agar menjadi milik struktur itu sendiri, bukan milik contohnya. Lalu kamu bisa memakai @name dari struktur itu untuk menjangkaunya, tanpa membuat satu pun.",
+                "\\•matematika() (\n\t↑\n\tpi: 3.14159\n\t↑ƒ kuadrat(n•#) n · n\n)\n\nmatematika.pi\nmatematika.kuadrat(5)\\"
+            ],
+            "start": "$~Mari kita definisikan struktur yang indah ini.",
+            "conflict": {
+                "DisallowedInputs": {
+                    "name": "$~masukan tidak diperbolehkan",
+                    "explanation": "$~Saya tidak dapat menerima input karena satu atau lebih fungsi antarmuka saya belum diimplementasikan.",
+                    "resolution": "$~Hapus inputnya"
+                },
+                "IncompleteImplementation": {
+                    "name": "$~struktur tidak lengkap",
+                    "explanation": "$~Semua fungsi saya harus diimplementasikan, atau tidak satu pun yang diimplementasikan. Tidak boleh ada campuran yang berantakan!",
+                    "resolution": "$~Hilangkan input untuk menjadikannya antarmuka."
+                },
+                "NotAnInterface": {
+                    "name": "$~bukan antarmuka",
+                    "explanation": "$~Saya bukanlah sebuah antarmuka; sebuah struktur hanya dapat mengimplementasikan antarmuka, bukan struktur lain.",
+                    "resolution": "$~Hapus ini dari daftar antarmuka"
+                },
+                "UnimplementedInterface": {
+                    "name": "$~belumdilaksanakan",
+                    "explanation": "$~Saya mengimplementasikan $interface tetapi belum mengimplementasikan $function",
+                    "resolution": "$~Susun kerangka * $function * yang hilang pada struktur ini"
+                }
+            }
+        },
+        "StructureDefinitionType": {
+            "name": "$~definisi struktur",
+            "description": "$~$name",
+            "emotion": "kind",
+            "doc": [
+                "$~Saya merujuk pada semacam @StructureDefinition. Orang biasanya tidak menyebut saya secara langsung."
+            ]
+        },
+        "KitType": {
+            "name": "$~kit",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya adalah kit yang diterbitkan seseorang. Semua yang dibagikannya bisa dijangkau lewat nama saya, jadi `colors.sunset` menunjukkan `sunset` mana yang kamu maksud."
+            ]
+        },
+        "TableLiteral": {
+            "name": "$~nilai tabel",
+            "description": "$~tabel dengan $#count[$count baris]",
+            "emotion": "angry",
+            "doc": "$~Saya adalah tabel tertentu dengan baris-baris tertentu. Lihat @Table untuk mengetahui bagaimana saya dapat membantu.",
+            "start": "$~Pertama, evaluasi baris-baris tersebut.",
+            "finish": "$~Dievaluasi ke tabel baru $value"
+        },
+        "TextLiteral": {
+            "name": "$~nilai teks",
+            "description": "$~teks '$text'",
+            "emotion": "serious",
+            "label": {
+                "texts": "$~teks"
+            },
+            "doc": "$~Saya mewakili satu atau lebih @Translation teks tertentu. Lihat @Text untuk mempelajari lebih lanjut tentang apa yang dapat saya lakukan!",
+            "start": "$~Mari kita buat teks dalam bahasa saat ini."
+        },
+        "Translation": {
+            "name": "$~terjemahan",
+            "description": "$~teks '$text'",
+            "emotion": "serious",
+            "label": {
+                "segments": "$~teks"
+            },
+            "doc": "$~Saya menampilkan beberapa teks, dengan tag @Language opsional. Lihat @Text untuk mempelajari lebih lanjut!",
+            "conflict": {
+                "phone": {
+                    "name": "$~kemungkinan nomor telepon",
+                    "explanation": "$~Apakah * $text * nomor telepon seseorang? Jangan bagikan saya secara online jika iya! $reminder"
+                },
+                "email": {
+                    "name": "$~kemungkinan surel",
+                    "explanation": "$~Apakah * $text * adalah email seseorang? Jangan bagikan di sini jika memang demikian! $reminder"
+                },
+                "tin": {
+                    "name": "$~kemungkinan nomor identitas pajak",
+                    "explanation": "$~Apakah * $text * merupakan pengidentifikasi pajak? Jika ya, jangan bagikan saya, saya adalah informasi yang sangat sensitif! $reminder"
+                },
+                "address": {
+                    "name": "$~kemungkinan alamat",
+                    "explanation": "$~Apakah * $text * alamat rumah seseorang? Jika ya, jangan cantumkan saya di sini, kita tidak ingin ada yang diuntit! $reminder"
+                },
+                "handle": {
+                    "name": "$~kemungkinan nama pengguna",
+                    "explanation": "$~Apakah * $text * adalah nama pengguna Anda di tempat lain di internet? Jika ya, jangan bagikan di sini kecuali Anda benar-benar bermaksud demikian. $reminder"
+                },
+                "resolution": "$~Ini bukan data sensitif.",
+                "reminder": "$~Catatan: Anda dapat membatalkan tindakan ini dan melihat hal-hal lain yang telah Anda tandai sebagai tidak sensitif di dialog berbagi.",
+                "character": {
+                    "name": "$~kemungkinan karakter khusus",
+                    "explanation": "$~Ini sepertinya nama karakter. Untuk menampilkannya, gunakan @FormattedLiteral sebagai ganti @TextLiteral.",
+                    "resolutionStrip": "$~Hapus karakter khusus dari teks."
+                }
+            }
+        },
+        "FormattedLiteral": {
+            "name": "$~teks berformat",
+            "description": "$~teks berformat $text",
+            "emotion": "serious",
+            "doc": "$~Saya mewakili banyak @FormattedTranslation berbeda dari teks yang diformat. Saat mengevaluasi, saya akan memilih yang paling sesuai berdasarkan @language yang dipilih oleh audiens.",
+            "start": "$~Mari kita buat teks dalam bahasa saat ini."
+        },
+        "FormattedTranslation": {
+            "name": "$~terjemahan berformat",
+            "description": "$~Terjemahkan teks berformat ke $language",
+            "emotion": "serious",
+            "doc": [
+                "$~Saya menampilkan beberapa teks yang diformat, dengan tag @Language.",
+                "Saya bisa menjadi:",
+                "\\`/miring/`\\",
+                "\\`*tebal*`\\",
+                "\\`^tebal ekstra^`\\",
+                "\\`_digarisbawahi_`\\",
+                "\\`<linked@https://wordplay.dev> `\\",
+                "\\`\\'kode'\\`\\",
+                "Saya bekerja sangat baik dengan @Phrase untuk menempatkan teks yang indah di @Stage."
+            ]
+        },
+        "This": {
+            "name": "$~ini",
+            "description": "$~struktur ini",
+            "emotion": "serious",
+            "doc": [
+                "$~Aku adalah \\⬚\\, sebuah kotak kecil yang mewakili @value apa pun yang sedang dikerjakan oleh @code di sekitarnya, jadi kamu tidak perlu menamainya.",
+                "Di dalam sebuah @ConversionDefinition, aku adalah nilai yang sedang diubah:",
+                "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "Di dalam sebuah @Reaction, aku adalah nilai yang paling baru:",
+                "\\2 … ∆ Waktu(1000ms) … ⬚ × 2\\",
+                "Di dalam sebuah @Translate, aku adalah item yang sedang dipetakan, jadi ini menambahkan satu ke setiap nilai:",
+                "\\[1 2 3] ↦ ⬚ + 1\\",
+                "Dan di dalam sebuah @StructureDefinition, aku adalah nilai itu sendiri, jadi aku bisa menjangkau bagian-bagianku sendiri dengan \\⬚.rank\\🪲, sama seperti aku menjangkau bagian-bagian dari nilai lain dengan \\other.rank\\🪲:",
+                "\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "Aku tidak sering muncul, tapi ketika aku muncul, aku benar-benar bisa membantu sebuah nilai keluar dari sebuah @Bind!"
+            ],
+            "start": "$~Dievaluasi menjadi $value",
+            "conflict": {
+                "MisplacedThis": {
+                    "name": "$~rujukan ini salah tempat",
+                    "explanation": "$~Saya hanya diperbolehkan dalam struktur, konversi, reaksi, atau penerjemahan.",
+                    "resolution": "$~Ganti dengan tempat penampung"
+                }
+            }
+        },
+        "UnaryEvaluate": {
+            "name": "$~evaluasi tunggal",
+            "description": "$~operasi $operator",
+            "emotion": "kind",
+            "label": {
+                "input": "$~masukan"
+            },
+            "doc": [
+                "$~Aku mengevaluasi sebuah @FunctionDefinition yang menerima satu @value, dengan nama satu-simbolnya ditulis tepat sebelum input — seperti \\-x\\🪲 atau \\~b\\🪲. Tahukah kamu bisa melakukan itu?",
+                "Seperti ini:",
+                "\\-(1 + 1)\\",
+                "Atau ini:",
+                "\\~⊥\\",
+                "Itu jauh lebih mudah dibaca daripada \\(1 + 1).negate()\\🪲 atau \\⊥.bukan()\\, bukan begitu?",
+                "Kamu tidak harus menulisku seperti itu, tetapi mungkin lebih mudah secara keseluruhan.",
+                "Hanya ada satu aturan: kamu tidak boleh memberi spasi di antara nama dan nilai. Jika tidak, kamu mungkin membuat @Reference atau @BinaryEvaluate."
+            ],
+            "start": "$~Berapakah nilainya?",
+            "finish": "$~Saya membuatnya menjadi $value"
+        },
+        "UnparsableExpression": {
+            "name": "$~tidakdapatdiuraikan",
+            "description": "$~kode yang tidak dapat dibaca",
+            "emotion": "excited",
+            "doc": [
+                "$~Aku adalah sepotong @code yang tidak masuk akal, jadi tidak ada yang tahu apa artinya.",
+                "jkwel fjiwojvioao jjiweo jrfe",
+                "/Tidak setiap @expression punya makna di panggung./",
+                "s w ieorjwei iojwi jfkdlsfdsk",
+                "/Sebenarnya, ada segala macam hal yang bisa kamu katakan yang sama sekali tidak masuk akal./",
+                "dsk sdlk jdkfiewipapweiurb,v kdsfdsf",
+                "/Ketika kamu melakukannya, aku muncul, karena aku tidak tahu apa maksudmu./",
+                "Bagaimanapun, kamulah sutradaranya, jadi hanya kamu yang tahu apa maksudmu!"
+            ],
+            "start": "$~???",
+            "conflict": {
+                "UnparsableConflict": {
+                    "conflict": {
+                        "name": "$~kode tidak terbaca",
+                        "explanation": "$~@FunctionDefinition di sini, @UnparsableExpression tidak tahu jenis $expression[ expression | type ] apa ini."
+                    },
+                    "resolution": "$~Apakah maksud Anda mengetik $first , $second ?"
+                },
+                "UnclosedDelimiter": {
+                    "name": "$~pembatas tidak tertutup",
+                    "explanation": "$~Saya memperkirakan $expected beberapa saat setelah $unclosed",
+                    "resolution": "$~Tambahkan * $expected * yang hilang"
+                }
+            },
+            "exception": {
+                "UnparsableException": {
+                    "description": "$~???",
+                    "explanation": "$~Hai, @FunctionDefinition di sini! Kami tidak yakin apa arti instruksi ini, jadi kami berhenti."
+                }
+            }
+        },
+        "Update": {
+            "name": "$~memperbarui",
+            "description": "$~perbarui baris di $table yang cocok dengan $query",
+            "emotion": "kind",
+            "doc": [
+                "$~Aku membantu merevisi @Table, menemukan baris-baris yang cocok dengan @condition, lalu membuat baris-baris hasil revisi dengan @value-nilai baru.",
+                "Jadi seperti, kalau kamu punya tabel karakter dan poin, dan kamu ingin memberi setiap karakter dalam sebuah tim satu poin, kamu bisa melakukan ini:",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
+                "Kamu bisa menggunakan @Bind untuk menyatakan kolom mana yang akan diubah, dan kamu bisa menggunakan nama kolom mana pun atau nama lain di @scope dalam kondisi."
+            ],
+            "start": "$~Mari kita siapkan mejanya dulu.",
+            "finish": "$~Dievaluasi ke tabel baru dengan baris yang direvisi!",
+            "conflict": {
+                "ExpectedColumnBind": {
+                    "name": "$~nilai kolom hilang",
+                    "explanation": "$~Saya membutuhkan nilai untuk setiap kolom.",
+                    "resolution": "$~Bungkus sel ini sebagai kolom bernama."
+                },
+                "IncompatibleCellType": {
+                    "name": "$~jenis sel tidak cocok",
+                    "explanation": "$~Seharusnya saya bertipe $expected , tetapi saya bertipe $given",
+                    "resolution": "$~Konversikan ke $expected , karena $expected diperlukan.",
+                    "resolutionLiteral": "$~Tandai daftar, himpunan, atau peta sebagai literal dengan !, sehingga nilainya tetap spesifik dan tidak digeneralisasi — $expected membutuhkan nilai yang tepat.",
+                    "resolutionOtherwise": "$~Tangani nilai yang hilang dengan ??, karena $expected tidak mengizinkan ø",
+                    "resolutionGuard": "$~Pastikan bahwa tipe $expected terlebih dahulu dengan menggunakan type guard, karena $expected tidak mungkin berupa tipe data lain yang mungkin.",
+                    "resolutionDeclaration": "$~Nyatakan tipenya secara eksplisit, karena $expected membutuhkan nilai literal untuk dipertahankan.",
+                    "resolutionWrap": "$~Masukkan ke dalam daftar, set, atau peta, karena $expected membutuhkan kumpulan nilai.",
+                    "resolutionStructure": "$~Bungkus dengan $expected , karena slot tersebut membutuhkan nilai $expected",
+                    "resolutionDefault": "$~Berikan nilai awal pada binding, karena $expected tidak boleh hilang di sini.",
+                    "resolutionWiden": "$~Izinkan tipe nilai untuk pengikatan ini, karena $expected terlalu sempit untuk apa yang sebenarnya disimpan.",
+                    "resolutionReorder": "$~Tukar posisi inputnya, karena tipe datanya lebih cocok jika diurutkan sebaliknya — $expected seharusnya berada di posisi lain.",
+                    "resolutionPlaceholder": "$~Untuk sementara, gantilah dengan nilai sementara, karena $expected wajib diisi — lalu pilih nilai dari menu pelengkapan otomatis."
+                }
+            }
+        },
+        "AnyType": {
+            "name": "$~setiap",
+            "description": "$~apa saja",
+            "emotion": "curious",
+            "doc": "$~Aku mewakili setiap @type yang mungkin. Kadang aku muncul karena aku tidak tahu jenis @value apa sesuatu itu, jadi bisa jadi apa saja."
+        },
+        "BooleanType": {
+            "name": "$~jenis boolean",
+            "description": "$~jenis boolean",
+            "emotion": "kind",
+            "doc": [
+                "$~Aku bekerja dengan @Bind untuk menyatakan bahwa sebuah nama adalah @Boolean @value. Seperti ini:",
+                "\\lapar•?: 'agar-agar'\\🪲",
+                "Jika kamu ingin memastikan bahwa sesuatu itu @Boolean, gunakan aku, dan aku akan memeriksanya!"
+            ]
+        },
+        "ConversionType": {
+            "name": "$~jenis konversi",
+            "description": "$~jenis konversi",
+            "emotion": "serious",
+            "doc": [
+                "$~Aku bekerja dengan @Bind untuk menunjukkan bahwa sebuah nama adalah @ConversionDefinition. Kamu mungkin tidak perlu menggunakanku, karena tidak banyak orang yang mengoperkanku sebagai @value, tetapi jika kamu melakukannya, aku akan terlihat seperti ini:",
+                "\\sihir•? → '': → ? '' ⬚ ? 'ya' 'tidak'\\🪲"
+            ]
+        },
+        "FormattedType": {
+            "name": "$~jenis teks berformat",
+            "description": "$~jenis teks berformat",
+            "emotion": "serious",
+            "doc": [
+                "$~Aku bekerja dengan @Bind untuk mencatat bahwa sebuah nama adalah @FormattedLiteral @value. Seperti ini:",
+                "\\lapar•`…`: `Aku sangat /keren/!`\\🪲",
+                "Ingin memastikan sesuatu itu nilai @FormattedLiteral? Beginilah @how memastikannya."
+            ]
+        },
+        "ExceptionType": {
+            "name": "$~pengecualian",
+            "description": "$~pengecualian",
+            "emotion": "neutral",
+            "doc": "$~Saya mewakili sebuah pengecualian. Tidak ada @how untuk memberi tahu bind bahwa saya adalah pengecualian, karena pengecualian hanya akan menghentikan @Program, jadi Anda tidak dapat menggunakannya sebagai @value."
+        },
+        "FunctionType": {
+            "name": "$~jenis fungsi",
+            "description": "$~fungsi dengan $inputs masukan",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mewakili @FunctionDefinition. Saya sangat membantu jika Anda ingin menyatakan jenis fungsi apa yang dipegang oleh @Bind! Seperti ini:",
+                "\\math•ƒ (# # # #) #: ƒ interesting(a•# b•# c•# d•#) a + b + c + d\\🪲"
+            ]
+        },
+        "ListType": {
+            "name": "$~jenis daftar",
+            "description": "$~jenis daftar$type[ dari $type|]",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Aku /sangat/ menyukai @List. Aku bisa memberi tahu @Bind jenis list apa mereka! Seperti ini, aku bilang bahwa ini adalah list dari @Number:",
+                "\\benda•[#]: [1 2 3 4 5]\\🪲",
+                "Aku bisa mengatakannya dengan tiga @how berbeda. Jika aku tidak menyebutkan jenis sama sekali, maka sebuah list bisa memiliki panjang berapa pun dan menyimpan apa saja:",
+                "\\barang•[]: [1 'dua' ø]\\🪲",
+                "Jika aku menyebutkan satu jenis, list tetap bisa memiliki panjang berapa pun, tetapi semua di dalamnya harus jenis yang satu itu, seperti list dari @Number di atas.",
+                "Dan jika aku menyebutkan beberapa jenis, artinya sebuah list dengan tepat sejumlah hal itu, dengan satu jenis untuk setiap tempat di dalamnya. Yang ini adalah list dari dua hal: sebuah @Number dulu, lalu beberapa @Text.",
+                "\\pasangan•[# '']: [1 'dua']\\🪲",
+                "Yang terakhir itu favoritku, karena kemudian semua orang tahu apa yang ada di mana. @ListAccess tahu hal pertama adalah @Number dan yang kedua adalah @Text, dan jika kamu memberiku jumlah hal yang salah, atau menaruhnya dengan urutan yang salah, aku akan mengatakannya!"
+            ]
+        },
+        "MapType": {
+            "name": "$~peta",
+            "description": "$~jenis peta dari $key[$key|apa saja] ke $value[$value|apa saja]",
+            "emotion": "kind",
+            "doc": [
+                "$~Saya memberi tahu @Bind jenis @Map apa yang dimiliki sebuah nama — tipe apa kunci dan nilainya. Tahukah Anda betapa hebatnya @Map ? Benar-benar hebat. Berikut adalah peta angka ke daftar:",
+                "\\stuff•{'':[]}: {}\\🪲"
+            ]
+        },
+        "NumberType": {
+            "name": "$~nomor",
+            "description": "$~jenis angka$unit[ dalam $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Saya memberi tahu @Bind bahwa sebuah nama menyimpan sebuah @Number . Tahukah Anda apa yang seharusnya menjadi @Bind ? Sebuah @Number — karena angka adalah yang terbaik.",
+                "\\count•#: 17\\🪲"
+            ]
+        },
+        "NameType": {
+            "name": "$~struktur",
+            "description": "$~jenis struktur $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya merepresentasikan @StructureDefinition berdasarkan namanya. Jadi, misalnya, jika Anda memiliki struktur seperti ini, Anda dapat membuat @Bind yang menyimpan @value-nilai yang dibuatnya.",
+                "\\•Teman(nama•'') sahabat•Teman: Teman('Jonah')\\🪲"
+            ],
+            "conflict": {
+                "UnknownTypeName": {
+                    "name": "$~nama jenis tidak dikenal",
+                    "explanation": "$~Nama tipe hanya dapat merujuk ke struktur atau variabel tipe, tetapi ini merujuk ke tipe $type",
+                    "resolution": "$~Ganti dengan placeholder tipe"
+                }
+            }
+        },
+        "NeverType": {
+            "name": "$~tidakpernah",
+            "description": "$~jenis yang mustahil",
+            "emotion": "curious",
+            "doc": "$~Aku mewakili @type yang mustahil. Seperti ketika kamu bertanya kepada @Is apakah sesuatu itu @Number, tetapi itu tidak akan pernah bisa menjadi angka."
+        },
+        "NoneType": {
+            "name": "$~jenis kosong",
+            "description": "$~jenis kosong",
+            "emotion": "neutral",
+            "doc": [
+                "$~@None adalah ketiadaan terbaik yang ada, dan saya adalah perwakilan setia mereka.",
+                "\\space•ø: ø\\🪲"
+            ]
+        },
+        "SetType": {
+            "name": "$~jenis himpunan",
+            "description": "$~jenis himpunan$type[ dari $type|]",
+            "emotion": "kind",
+            "doc": [
+                "$~Saya memberi tahu @Bind bahwa sebuah nama memegang @Set dari beberapa tipe. @Set adalah yang TERBAIK, sungguh!",
+                "\\unique•{''}: {'something' 'anything' 'someone'}\\🪲"
+            ]
+        },
+        "StreamDefinitionType": {
+            "name": "$~jenis definisi aliran",
+            "description": "$~jenis definisi aliran",
+            "emotion": "angry",
+            "doc": "$~Saya mewakili @stream data yang telah Anda definisikan, yang mana itu tidak mungkin, jadi mengapa Anda membaca ini?"
+        },
+        "StreamType": {
+            "name": "$~jenis aliran",
+            "description": "$~jenis aliran",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya merayakan keindahan dan makna @stream data… dengan meminta @Bind untuk menyimpannya:",
+                "\\time•…#ms: Waktu()\\🪲"
+            ]
+        },
+        "StructureType": {
+            "name": "$~jenis struktur",
+            "description": "$~Struktur $name",
+            "emotion": "kind",
+            "doc": "$~Saya adalah @type internal untuk mewakili jenis dari jenis @value bawaan."
+        },
+        "UnknownType": {
+            "name": "$~tidakdikenal",
+            "description": "$~tidak diketahui",
+            "connector": "$~, Karena",
+            "emotion": "curious",
+            "doc": "$~Saya adalah @type yang belum ada yang mengetahuinya. Hmm… apakah kamu tahu apa yang saya wakili? Kamu mungkin perlu memberi tahu kami jika kami tidak bisa menebaknya."
+        },
+        "TableType": {
+            "name": "$~jenis tabel",
+            "description": "$~tabel",
+            "emotion": "angry",
+            "doc": "$~Saya mewakili sebuah @Table.",
+            "conflict": {
+                "ExpectedColumnType": {
+                    "name": "$~jenis kolom hilang",
+                    "explanation": "$~Saya membutuhkan tipe kolom.",
+                    "resolution": "$~Tambahkan placeholder tipe"
+                }
+            }
+        },
+        "TextType": {
+            "name": "$~jenis teks",
+            "description": "$~$text['$text'|jenis teks]",
+            "emotion": "happy",
+            "doc": [
+                "$~Aku dengan menawan mewakili jenis @value paling menawan yang ada, @Text.",
+                "\\cerita•'': 'Pada suatu hari...'\\🪲"
+            ]
+        },
+        "TypePlaceholder": {
+            "name": "$~placeholder",
+            "description": "$~penampung jenis",
+            "emotion": "eager",
+            "doc": "$~Saya berharap suatu hari bisa mewakili @type, seperti sahabatku @ExpressionPlaceholder yang mewakili @expression! Maukah kamu membantuku memutuskan jenis apa?"
+        },
+        "UnionType": {
+            "name": "$~pilihan",
+            "description": "$~jenis salah satu dari $first atau $second",
+            "emotion": "curious",
+            "doc": [
+                "$~Aku mewakili @value yang bisa menjadi salah satu dari beberapa jenis — A atau B atau sesuatu yang lain? Aku tidak pernah bisa memutuskan!",
+                "\\kebimbangan•''|#|{ø}: 'Aku tidak tahu!'\\🪲"
+            ],
+            "elidedSuffix": "$~atau opsi lain $omitted"
+        },
+        "Unit": {
+            "name": "$~satuan",
+            "description": "$~$unit[satuan $unit|tanpa satuan]",
+            "emotion": "precise",
+            "doc": [
+                "$~Saya mewakili satuan apa pun yang mungkin dimiliki oleh @Number, termasuk tanpa satuan, hingga satuan paling rumit yang dapat Anda bayangkan. Seperti gravitasi, misalnya:",
+                "\\gravitasi•m/s^2: 9.8m/s^2\\🪲",
+                "Saya muncul di @Bind, tetapi juga tepat setelah @Number. Saya membantu memastikan bahwa angka-angka tersebut berjenis sama, dan pasti akan memberi tahu Anda jika ada kesalahan!"
+            ]
+        },
+        "UnparsableType": {
+            "name": "$~tidakdapatdiuraikan",
+            "description": "$~jenis yang tidak dapat dibaca",
+            "emotion": "curious",
+            "doc": "$~Saya mewakili @type dari @expression yang tidak diketahui. Saya muncul ketika kamu mencoba menggunakan ekspresi itu untuk sesuatu."
+        },
+        "VariableType": {
+            "name": "$~jenis variabel",
+            "description": "$~variabel jenis",
+            "emotion": "curious",
+            "doc": "$~Saya menggantikan @TypeVariable — jenis @value yang tidak diketahui — dalam semua negosiasi antar nilai."
+        },
+        "CycleType": {
+            "name": "$~siklus",
+            "description": "$~ketergantungan berputar",
+            "emotion": "curious",
+            "doc": "$~Saya mewakili @value yang @type-nya bergantung pada dirinya sendiri, jadi kami tidak bisa menentukan jenis nilainya."
+        },
+        "UnknownVariableType": {
+            "name": "$~variabel tidak dikenal",
+            "description": "$~variabel jenis tidak diketahui",
+            "emotion": "curious",
+            "doc": "$~Terkadang kami mencoba menebak jenis @value dari sesuatu; saya muncul ketika kami tidak tahu."
+        },
+        "NotAType": {
+            "name": "$~tidakterduga",
+            "description": "$~bukan sebuah $type",
+            "emotion": "curious",
+            "doc": "$~Saya mewakili @value yang @type-nya bukan yang kami harapkan — seperti ketika @ListAccess membutuhkan @Number tetapi mendapatkan sesuatu yang lain."
+        },
+        "NoExpressionType": {
+            "name": "$~tidak ada ekspresi",
+            "description": "$~jenis blok kosong",
+            "emotion": "angry",
+            "doc": "$~Saya adalah @type yang kamu dapatkan ketika @Block tidak memiliki @expression di dalamnya. Kamu tahu ia membutuhkan setidaknya satu — jadi berikan satu!"
+        },
+        "NotEnclosedType": {
+            "name": "$~tidak dalam struktur, konversi, atau reaksi",
+            "description": "$~tidak dalam sebuah struktur",
+            "emotion": "curious",
+            "doc": "$~Saya muncul ketika @This digunakan di tempat yang tidak seharusnya, sehingga tidak ada yang tahu @value apa yang saya wakili."
+        },
+        "NotImplementedType": {
+            "name": "$~belumdilaksanakan",
+            "description": "$~belum diterapkan",
+            "emotion": "curious",
+            "doc": "$~Ketika kamu menggunakan @ExpressionPlaceholder, tetapi tidak menyebutkan @type apa mereka, sayalah jenis yang kamu dapatkan. Terima saja!"
+        },
+        "UnknownNameType": {
+            "name": "$~nama tidak dikenal",
+            "description": "$~$name[ $name belum didefinisikan|nama belum diberikan]",
+            "emotion": "curious",
+            "doc": "$~Saya mewakili @name yang tidak dapat ditemukan oleh @Reference atau @PropertyReference, ketika kami tidak tahu siapa yang kamu maksud."
+        },
+        "NonFunctionType": {
+            "name": "$~tidakberfungsi",
+            "description": "$~bukan fungsi $type",
+            "emotion": "confused",
+            "doc": "$~Sebagian dari kita mengharapkan adanya acara; saya hadir ketika acara tersebut tidak diadakan."
+        },
+        "Translate": {
+            "name": "$~menerjemahkan",
+            "description": "$~terjemahkan setiap nilai dari $expression",
+            "emotion": "excited",
+            "doc": [
+                "$~Aku melakukan hal yang SAMA pada SETIAP @element dalam sebuah kumpulan! OH OH OH! Itulah yang aku LAKUKAN!!",
+                "Letakkan sebuah kumpulan di sebelah kiriku, gambar tanda panahku \\↦\\, lalu di sebelah kananku tulis apa yang harus DIUBAH oleh setiap elemen — gunakan @This untuk menyebut elemen yang sedang aku pegang SEKARANG!",
+                "\\[1 2 3] ↦ ⬚ + 1\\ memberimu \\[2 3 4]\\. BUM! Setiap angka, ditambah satu, tanpa perulangan, tanpa @FunctionDefinition, tanpa ribet!",
+                "Aku LUAR BIASA untuk membuat keluaran @Phrase dari data! Punya daftar nama? \\['Ada' 'Mac' 'Tim'] ↦ Frasa(⬚)\\ dan sekarang ada frasa untuk SETIAP nama!!",
+                "Aku bekerja pada @List, @Set, @Map (aku mengubah @value peta — kuncinya tetap di tempatnya!), dan bahkan @Table!",
+                "Ingin sesuatu yang lebih rumit — seperti @index dari setiap elemen, atau sebuah fungsi yang bisa kamu pakai ulang di banyak tempat? Kunjungi sepupuku yang lebih tenang dan dewasa seperti @List.translate. Tetapi untuk pemetaan cepat sehari-hari, aku ada di sini!!"
+            ],
+            "start": "$~Tunggu sebentar, izinkan saya mengambil semua yang ada di $expression !",
+            "finish": "$~TA-DA! Ini dia koleksi terbaru Anda: $value",
+            "next": "$~Item berikutnya: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~diharapkan koleksi",
+                    "explanation": "$~Saya mengharapkan sisi kiri dari konversi koleksi harus berupa koleksi, tetapi yang saya dapatkan $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~diharapkan ini",
+                    "explanation": "$~Apakah Anda bermaksud menggunakan @This untuk merujuk pada item dalam koleksi ini?"
+                }
+            }
+        },
+        "ExternalExample": {
+            "name": "$~contoh eksternal",
+            "description": "$~contoh kode eksternal$languages[ dalam $languages|]",
+            "emotion": "serious",
+            "doc": [
+                "$~Aku menampilkan @code dengan sorotan sintaks yang ditulis dalam @language pemrograman lain, sehingga pembuat yang sudah bisa membuat kode bisa membandingkannya.",
+                "Tulis satu varian untuk setiap bahasa sebagai kode dua huruf, tanda garis, dan kodenya, seperti \\py| a = 5\\js| let a = 5;\\. Pembaca akan melihat versi yang cocok dengan bahasa yang mereka pilih. Python (py), JavaScript (js), dan Java (jv) didukung."
+            ]
+        },
+        "Localized": {
+            "name": "$~terlokalisasi",
+            "description": "$~teks terlokalkan",
+            "emotion": "serious",
+            "label": {
+                "value": "$~nilai"
+            },
+            "doc": [
+                "$~Saya menerapkan sebuah bahasa pada teks yang kamu hitung, sehingga teks itu tetap memiliki @language-nya bahkan setelah kamu mengubahnya. Seperti ini:",
+                "\\('halo' + '!')/en\\",
+                "Kebanyakan operasi teks sudah menyimpan bahasa, tetapi saya memungkinkan kamu mengaturnya sendiri ketika kamu ingin menggantinya.",
+                "Saya hanya bekerja pada teks, jadi pastikan kamu memberiku teks!"
+            ],
+            "start": "$~Mari kita evaluasi $value , lalu beri tag dengan locale…"
+        },
+        "PatternLiteral": {
+            "name": "$~pola",
+            "description": "$~pola dengan $#count[$count bagian]",
+            "emotion": "curious",
+            "doc": [
+                "$~Aku adalah sebuah pola! Aku menggambarkan *bentuk* teks daripada kata-kata yang tepat, jadi kamu bisa memeriksa teks dengan \\≈\\ — apakah seluruh teks cocok? — atau mencarinya dengan \\⌕\\ untuk menemukan setiap tempat di mana bentuknya muncul. Pencarian mengembalikan sebuah daftar @Result.",
+                "Berikut pencarian dalam aksi — menemukan kata-kata makanan dalam sebuah kalimat tentang sarapan:",
+                "\\sarapan: 'Untuk sarapan aku makan telur, roti panggang, dan jus jeruk'\nsarapan ⌕ ⣿ \"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "Bacalah aku dari kiri ke kanan. Sebuah @PatternClass cocok dengan satu karakter dari jenis tertentu: \\⣿◌⣿\\ apa saja, \\⣿_⣿\\ sebuah huruf, \\⣿#⣿\\ sebuah angka, \\⣿␣⣿\\ sebuah spasi. Teks dalam tanda kutip adalah @PatternLiteralText yang cocok dengan tepat, seperti \\⣿\"-\"⣿\\. Sisanya \\⣿…⣿\\ — sebuah @PatternRest — cocok dengan berapa pun jumlah karakter.",
+                "Jumlah datang lebih dulu. Sebuah @PatternQuantified mengulang bagian berikutnya sebanyak @PatternQuantifier: \\⣿3 #⣿\\ adalah tiga angka, \\⣿3–5 #⣿\\ tiga sampai lima, \\⣿>0 #⣿\\ satu atau lebih, \\⣿≥0 #⣿\\ nol atau lebih, \\⣿≤1 #⣿\\ opsional.",
+                "Kelompokkan bagian dengan @PatternGroup, dan tawarkan pilihan dalam @PatternSequence, seperti \\⣿(◌ | #)⣿\\. Pilihan yang cocok paling panjang menang.",
+                "Sebuah @PatternSet cocok dengan satu karakter dari sekumpulan, dan sebuah @PatternRange mencakup rentang karakter, seperti \\⣿ {\"a\"–\"z\" #}⣿\\. Balikkan sebuah bagian dengan @PatternComplement, seperti \\⣿~#⣿\\.",
+                "Perhalus sebuah kelas dengan @PatternProperty, seperti \\⣿ _/greek⣿\\ untuk huruf Yunani atau \\⣿ ◌/emoji⣿\\.",
+                "Beri nama sebuah bagian dengan @PatternCapture, seperti \\⣿ year: (4 #)⣿\\, lalu gunakan lagi nanti dengan @PatternBackref dengan menulis namanya saja. Setiap @Result melaporkan bagian yang ditangkap berdasarkan nama.",
+                "Sauhkan ke tepi dengan @PatternAnchor: \\⣿⊢⣿\\ awal, \\⣿⊣⣿\\ akhir. Intip tanpa mengambil menggunakan @PatternLook: \\⣿▸(#)⣿\\ ke depan, \\⣿◂(#)⣿\\ ke belakang.",
+                "Cocokkan seluruh kata dengan @PatternWord \\⣿ ▭/en⣿\\ atau batas kata dengan @PatternWordEdge \\⣿ ┊/en⣿\\, terbagi untuk @language. Abaikan huruf besar atau kecil di dalam @PatternCaseFold \\⣿ Aa(\"hi\")⣿\\.",
+                "@type saya adalah @PatternType — beri catatan pada sebuah nama dengannya, seperti \\p•⣿⣿: ⣿ ◌⣿\\🪲 — sehingga kamu dapat menyimpan saya dalam sebuah nama dan menggunakan saya kembali di banyak teks."
+            ],
+            "start": "$~Coba saya lihat seperti apa teks ini.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~pola kosong",
+                    "explanation": "$~Saya tidak punya komponen, jadi saya tidak bisa mencocokkan apa pun yang berguna. Bisakah Anda menambahkan komponen?",
+                    "resolution": "$~Tambahkan \\◌\\ untuk mencocokkan salah satu karakter."
+                }
+            },
+            "step": {
+                "search": "$~Mari kita temukan setiap tempat pola ini muncul dalam teks.",
+                "test": "$~Mari kita periksa apakah keseluruhan teks ini sesuai dengan pola tersebut.",
+                "scan": "$~Mencari pola yang dimulai pada posisi $position .",
+                "match": "$~$pattern cocok dengan $glyph pada posisi $position .",
+                "miss": "$~$pattern tidak cocok dengan $glyph pada posisi $position .",
+                "end": "$~$pattern masih membutuhkan karakter, tetapi kita telah mencapai akhir teks pada posisi $position .",
+                "repeat": "$~$pattern cocok dengan $count — cukup untuk melanjutkan.",
+                "short": "$~$pattern hanya cocok dengan $count — tidak cukup.",
+                "here": "$~$pattern berlaku pada posisi $position .",
+                "nothere": "$~$pattern tidak berlaku pada posisi $position ."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~urutan",
+            "description": "$~urutan pola",
+            "emotion": "curious",
+            "doc": [
+                "$~Aku adalah deretan bagian pola, yang dipasangkan satu demi satu, dari kiri ke kanan.",
+                "Sebagai contoh, perhatikan bentuk nomor telepon — tiga digit, tanda hubung, lalu empat:",
+                "\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\🪲",
+                "Berikan pilihan dan saya akan mengambil mana pun yang sesuai, lebih menyukai yang terpanjang, seperti \\⣿\"cat\" | \"dog\"⣿\\ ."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~pilihan tumpang tindih",
+                    "explanation": "$~$shorter adalah awal dari $longer , dan pilihan terpanjang selalu menang, jadi $shorter hanya cocok ketika $longer tidak bisa. Apakah maksudmu begitu?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~kelas karakter",
+            "description": "$~kelas karakter",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan satu karakter dari jenis: \\⣿◌⣿\\ grafem apa saja, \\⣿_⣿\\ sebuah huruf, \\⣿#⣿\\ sebuah angka, \\⣿␣⣿\\ sebuah spasi.",
+                "Sebagai contoh, ambil setiap @code huruf-lalu-angka dari sebuah daftar:",
+                "\\kode: 'a1 b2 c3'\nkode ⌕ ⣿ _ #⣿\\",
+                "Hitung saya dengan penghitung seperti \\⣿>0 #⣿\\ (satu atau lebih angka), atau persempit saya dengan @property seperti \\⣿ _/greek⣿\\ (huruf Yunani)."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~milik",
+            "description": "$~properti Unicode",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mempersempit kelas karakter menjadi @property Unicode. Gunakan sebuah aksara, seperti \\⣿ _/greek⣿\\, \\⣿ _/han⣿\\, atau \\⣿ _/arabic⣿\\.",
+                "Contohnya, cari deretan huruf Yunani dalam teks campuran:",
+                "\\teks: 'halo αβγ dunia'\nteks ⌕ ⣿ >0 _/greek⣿\\",
+                "Atau sebuah kategori, seperti \\⣿ ◌/punctuation⣿\\, \\⣿ ◌/currency⣿\\, \\⣿ ◌/Nd⣿\\ (sebuah angka), atau \\⣿ _/Lu⣿\\ (sebuah huruf besar).",
+                "Atau sebuah properti ya-atau-tidak, seperti \\⣿ ◌/emoji⣿\\ atau \\⣿ _/uppercase⣿\\ — dan kamu bisa menuliskannya sebagai nama dan @value, seperti \\⣿ ◌/Script=Greek⣿\\.",
+                "Kecualikan sebuah properti dengan @PatternComplement, seperti \\⣿ ~◌/emoji⣿\\ (apa pun yang bukan emoji)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~properti tidak dikenal",
+                    "explanation": "$~Saya tidak mengenali properti $name . Coba kategori, skrip, atau ID Unicode.",
+                    "resolution": "$~Ubah menjadi $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~pembilang",
+            "description": "$~jumlah pengulangan",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya menentukan berapa kali harus dicocokkan: tepat \\⣿3 #⣿\\ , rentang \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (tepat tiga), \\⣿>0 #⣿\\ (satu atau lebih), \\⣿≥0 #⣿\\ (nol atau lebih), \\⣿<5 #⣿\\ (kurang dari lima), \\⣿≤1 #⣿\\ (opsional).",
+                "Sebagai contoh, temukan setiap rangkaian angka dalam sebuah kalimat:",
+                "\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "Saya selalu muncul sebelum bagian yang saya hitung, seperti \\⣿3 #⣿\\ atau \\⣿>0 _⣿\\ ."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~jumlah mustahil",
+                    "explanation": "$~Jumlah terendah saya lebih besar daripada jumlah tertinggi saya, jadi saya tidak akan pernah bisa mencocokkannya.",
+                    "resolution": "$~Tukar urutan saya sehingga yang lebih kecil berada di urutan pertama."
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~pengulangan",
+            "description": "$~kecocokan berulang",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan bagian selanjutnya beberapa kali.",
+                "Sebagai contoh, periksa apakah @code pos terdiri tepat lima digit:",
+                "\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "Hitung kelas seperti \\⣿3 #⣿\\ (tiga digit), grup seperti \\⣿2 (\"ab\")⣿\\ (dua \"ab\"), atau komplemen seperti \\⣿2 ~#⣿\\ (dua bukan digit). Dengan \\⣿>0 #⣿\\ saya serakah — saya mengambil sebanyak yang saya bisa."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~menangkap",
+            "description": "$~tangkap bernama $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya memberi nama pada bagian dari sebuah pertandingan sehingga Anda dapat membacanya kembali dari setiap @Result .",
+                "Sebagai contoh, ambil tahun, bulan, dan tanggal dari sebuah data:",
+                "\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "Gunakan kembali apa yang saya tangkap nanti dengan menulis nama saya lagi — lihat @PatternBackref — seperti \\⣿w:(>0 _) ␣ w⣿\\ untuk menemukan kata yang digandakan."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~tangkapan ganda",
+                    "explanation": "$~Tangkapan data lain sudah menggunakan nama $name , jadi yang ini akan menimpanya.",
+                    "resolution": "$~Ganti nama tangkapan ini menjadi $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~bukan",
+            "description": "$~kecocokan pelengkap",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan satu grafem yang BUKAN yang mengikutinya. Balikkan sebuah kelas seperti \\⣿~#⣿\\ (bukan angka), atau sebuah himpunan seperti \\⣿~{\":\" ␣}⣿\\ (bukan titik dua atau spasi).",
+                "Contohnya, ambil @key dan @value di sekitar titik dua dengan mencocokkan deretan yang bukan titik dua atau spasi:",
+                "\\pasangan: 'warna: biru'\npasangan ⌕ ⣿ >0 ~{\":\" ␣}⣿\\",
+                "Balikkan sebuah grup seperti \\⣿~(◌ | #)⣿\\, atau sebuah @property seperti \\⣿ ~◌/emoji⣿\\ (bukan emoji).",
+                "Letakkan saya sebelum @PatternLook untuk membaliknya: \\⣿~▸(#)⣿\\ berarti \"tidak diikuti oleh angka\", dan \\⣿~◂(\"$\")⣿\\ berarti \"tidak didahului oleh tanda dolar\"."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~kelompok",
+            "description": "$~grup pola",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya menggabungkan beberapa bagian sehingga jumlah atau pilihan yang sama berlaku untuk semuanya. Saya tidak pernah melakukan capture; beri nama bagian tersebut dengan @PatternCapture untuk itu.",
+                "Misalnya, periksa apakah suatu teks mengandung suku kata \"ab\" yang diulang:",
+                "\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "Hitung sebuah kelompok seperti \\⣿2 (\"ab\")⣿\\ (dua \"ab\") atau tawarkan pilihan seperti \\⣿(◌ | #)⣿\\ (sebuah huruf atau angka)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~kumpulan glif",
+            "description": "$~himpunan grafem",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan salah satu grafem dari serangkaian pilihan.",
+                "Sebagai contoh, temukan huruf vokal dalam sebuah kata:",
+                "\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "Campurkan rentang dan kelas, seperti \\⣿{\"a\"–\"z\" #}⣿\\ atau \\⣿{# \"a\"–\"f\"}⣿\\ (angka heksadesimal). Negasikan saya dengan @PatternComplement , seperti \\⣿~{\"!\" \"?\"}⣿\\ ."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~jangkauan",
+            "description": "$~rentang dari $low ke $high",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan grafem antara dua titik akhir berdasarkan urutan skalar, dan saya berada di dalam @PatternSet .",
+                "Sebagai contoh, pisahkan kata-kata dengan huruf kecil dari sebuah teks:",
+                "\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "Rentangkan huruf seperti \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ atau angka seperti \\⣿{\"0\"–\"9\"}⣿\\ , dalam gaya tulisan apa pun, seperti \\⣿{\"あ\"–\"ん\"}⣿\\ ."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~harfiah",
+            "description": "$~teks persis $text",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan persis teks di dalam tanda kutip saya, tanpa makna khusus apa pun.",
+                "Misalnya, temukan jumlah uang dalam sebuah kalimat:",
+                "\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "Gunakan saya untuk bagian tetap seperti \\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ , atau kata utuh \\⣿\"cat\"⣿\\ , yang dirangkai dengan bagian lain, seperti \\⣿3 # \"-\" 4 #⣿\\ untuk nomor telepon."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~jangkar",
+            "description": "$~tepi teks",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan tepi teks tanpa mengonsumsi apa pun: \\⣿⊢⣿\\ awal, \\⣿⊣⣿\\ akhir.",
+                "Misalnya, periksa apakah sapaan dimulai dengan \"Halo\":",
+                "\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "Posisi pin, seperti \\⣿⊢ \"Hi\"⣿\\ (diawali dengan \"Hi\"), \\⣿\".\" ⊣⣿\\ (diakhiri dengan titik), atau \\⣿⊢ _ ⊣⣿\\ (seluruh teks terdiri tepat satu huruf)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~kata",
+            "description": "$~kata utuh",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan satu kata utuh, yang ditemukan menurut aturan @language sendiri.",
+                "Contohnya, daftarkan kata-kata dalam sebuah kalimat:",
+                "\\kalimat: 'kucing itu duduk'\nkalimat ⌕ ⣿ ▭/en⣿\\",
+                "Sebutkan bahasanya, seperti \\⣿ ▭/en⣿\\ untuk bahasa Inggris atau \\⣿ ▭/zh⣿\\ untuk bahasa Tionghoa, dan batasi sebuah kata tertentu dengan tepi, seperti \\⣿ ┊/en \"cat\" ┊/en⣿\\."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~bahasa hilang",
+                    "explanation": "$~Saya butuh bahasa untuk mengetahui cara mencari kata. Bisakah Anda menambahkannya, seperti \\/en\\ ?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~tepi kata",
+            "description": "$~batas kata",
+            "emotion": "curious",
+            "doc": [
+                "$~Aku mencocokkan batas kata untuk @language tanpa mengambil apa pun.",
+                "Contohnya, cari \"cat\" sebagai kata utuh, bukan di dalam \"category\":",
+                "\\teks: 'seekor kucing dalam sebuah kategori'\nteks ⌕ ⣿ ┊/en \"cat\" ┊/en⣿\\",
+                "Bungkus sebuah kata denganku, seperti \\⣿ ┊/en \"cat\" ┊/en⣿\\, agar hanya cocok secara utuh."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~melihatsekeliling",
+            "description": "$~lihat sekeliling",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya memeriksa apa yang ada di depan \\⣿▸(#)⣿\\ atau di belakang \\⣿◂(#)⣿\\ tanpa mengonsumsinya, sehingga bagian selanjutnya tetap cocok dari tempat yang sama.",
+                "Sebagai contoh, temukan setiap huruf yang langsung diikuti oleh sebuah angka:",
+                "\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "Membutuhkan konteks, seperti \\⣿_ ▸(#)⣿\\ (huruf diikuti angka) atau \\⣿◂(\"$\") >0 #⣿\\ (angka tepat setelah \"$\").",
+                "Balikkan saya dengan @PatternComplement untuk melarang konteks, seperti \\⣿~▸(#)⣿\\ (tidak diikuti oleh angka)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~referensibalik",
+            "description": "$~referensi balik",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan teks yang sama dengan yang sudah dicocokkan oleh @PatternCapture bernama — cukup tulis nama tangkapannya saja.",
+                "Misalnya, temukan kata yang langsung diulang:",
+                "\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "Nama polos yang bukan merupakan tangkapan disebut kelas bernama, seperti \\⣿linebreak⣿\\ ."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~nama tidak dikenal",
+                    "explanation": "$~Tidak ada tangkapan atau kelas bernama $name , jadi saya tidak memiliki apa pun untuk dicocokkan.",
+                    "resolution": "$~Ubah menjadi $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~istirahat",
+            "description": "$~sisa masukan",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya mencocokkan bagian teks lainnya sebisa mungkin. Saya mahir di bagian akhir pola.",
+                "Misalnya, periksa apakah suatu teks adalah tagar — sebuah \"#\" lalu apa pun:",
+                "\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "Gunakan saya setelah awalan tetap, seperti \\⣿\"#\" …⣿\\ (tanda \"#\" lalu apa pun) atau \\⣿\"Hi \" …⣿\\ (\"Hi \" lalu semua yang ada setelahnya)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~abaikan huruf besar-kecil",
+            "description": "$~kecocokan tanpa peduli huruf besar-kecil",
+            "emotion": "curious",
+            "doc": [
+                "$~Aku mencocokkan bagian-bagianku tanpa memedulikan huruf besar dan kecil.",
+                "Contohnya, periksa sebuah kata tanpa memedulikan huruf kapitalnya:",
+                "\\berteriak: 'HALO'\nberteriak ≈ ⣿ Aa(\"hello\")⣿\\",
+                "Bungkus bagian-bagianku seperti \\⣿ Aa(\"hi\")⣿\\ (cocok dengan \"HI\", \"Hi\", atau \"hi\"). Tambahkan @language untuk aturannya, seperti \\⣿ Aa/tr(\"i\")⣿\\ (i Turkik), dan aku juga mencakup @PatternBackref, seperti \\⣿ Aa(w: (2 _) w)⣿\\."
+            ]
+        },
+        "PatternType": {
+            "name": "$~jenis pola",
+            "description": "$~pola",
+            "emotion": "curious",
+            "doc": [
+                "$~Saya adalah @type dari sebuah pola @value, diberi catatan seperti \\p•⣿⣿: ⣿ ◌⣿\\🪲.",
+                "Sebagai contoh, simpan sebuah pola dalam @name dan gunakan kembali di banyak teks:",
+                "\\angka: ⣿ >0 #⣿\n'Saya punya 3 kucing dan 12 ikan' ⌕ angka\\",
+                "Setelah disimpan, gunakan saya di mana pun sebuah pola cocok, seperti \\text ⌕ digits\\🪲 atau \\text ≈ digits\\🪲."
+            ]
+        },
+        "RangeType": {
+            "name": "$~rentang",
+            "description": "$~jenis rentang$unit[ dalam $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Aku memberi tahu @Bind bahwa sebuah nama menyimpan @Range — dua batas @Number, dan setiap angka di antara keduanya.",
+                "\\rentang•‥: 1 ‥ 10\\🪲"
+            ]
+        }
+    }
+}

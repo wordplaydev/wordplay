@@ -1,0 +1,40 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "$schema": {
+            "$ref": "../LocaleText.json#/definitions/LocaleText/properties/$schema"
+        },
+        "gallery": {
+            "$ref": "../LocaleText.json#/definitions/LocaleText/properties/gallery"
+        },
+        "glossary": {
+            "$ref": "../LocaleText.json#/definitions/LocaleText/properties/glossary"
+        },
+        "guidance": {
+            "$ref": "../LocaleText.json#/definitions/LocaleText/properties/guidance"
+        },
+        "language": {
+            "$ref": "../LocaleText.json#/definitions/LocaleText/properties/language"
+        },
+        "moderation": {
+            "$ref": "../LocaleText.json#/definitions/LocaleText/properties/moderation"
+        },
+        "musicsafety": {
+            "$ref": "../LocaleText.json#/definitions/LocaleText/properties/musicsafety"
+        },
+        "photosensitivity": {
+            "$ref": "../LocaleText.json#/definitions/LocaleText/properties/photosensitivity"
+        },
+        "regions": {
+            "$ref": "../LocaleText.json#/definitions/LocaleText/properties/regions"
+        },
+        "system": {
+            "$ref": "../LocaleText.json#/definitions/LocaleText/properties/system"
+        },
+        "terms": {
+            "$ref": "../LocaleText.json#/definitions/LocaleText/properties/terms"
+        }
+    }
+}

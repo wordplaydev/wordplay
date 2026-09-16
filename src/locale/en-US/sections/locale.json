@@ -1,0 +1,467 @@
+{
+    "$schema": "../../../../static/schemas/sections/locale.json",
+    "language": "en",
+    "regions": ["US"],
+    "guidance": "•Write short, plain, everyday sentences at a lower secondary reading level, because every other locale is translated from this English text and inherits whatever complexity it has.\n\n•Write each concept's docs, step descriptions, and conflict explanations in that concept's own first person voice, in the personality named by its emotion, so the angry Delete shouts and the scared placeholder trails off.\n\n•Say what went wrong in the voice of the concept that has the problem, never blaming the reader, and write each suggested fix as a short command to the reader with its reason attached, as in: convert it to the expected type, since that type is required.\n\n•Use a concept link when you name a language construct or built in type, a glossary reference the first time you use shared vocabulary like value or expression, and a plain word when you are only mentioning it in passing.\n\n•Give every runtime value in a template a name rather than a number, so translators can tell what will be substituted.\n\n•Address the reader as you, offer a keyboard way to do anything you describe doing with a pointer, and describe visual output for audience members who cannot see it.\n\n•Keep the performance vocabulary steady across all text: a program is a performance on a stage for an audience, problems in code are conflicts rather than errors, and the people watching are the audience rather than users.\n\n•Teach with tiny runnable examples, and mark any example that is meant to contain a mistake with the beetle so nobody translates it into working code.",
+    "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "This platform and the programming @language used to create projects on this platform."
+        },
+        "value": {
+            "word": "value",
+            "forms": ["values"],
+            "definition": "A piece of information, like a @Number, some words, or a @List."
+        },
+        "type": {
+            "word": "type",
+            "forms": ["types"],
+            "definition": "The kind of a @value, such as @Number or @Text. A value's type decides what you can do with it."
+        },
+        "expression": {
+            "word": "expression",
+            "forms": ["expressions"],
+            "definition": "A piece of @code that produces a @value when it runs."
+        },
+        "variable": {
+            "word": "variable",
+            "forms": ["variables"],
+            "definition": "A @name whose @value can change while a @Program runs."
+        },
+        "parameter": {
+            "word": "parameter",
+            "forms": ["parameters"],
+            "definition": "A named @Input that a @FunctionDefinition expects when you call it."
+        },
+        "argument": {
+            "word": "argument",
+            "forms": ["arguments"],
+            "definition": "A @value you give to a @FunctionDefinition for one of its @parameters."
+        },
+        "operator": {
+            "word": "operator",
+            "forms": ["operators"],
+            "definition": "A symbol, such as + or -, that combines or compares values."
+        },
+        "condition": {
+            "word": "condition",
+            "forms": ["conditions"],
+            "definition": "A true-or-false test that decides what a @Program does next."
+        },
+        "loop": {
+            "word": "loop",
+            "forms": ["loops", "looping"],
+            "definition": "@code that repeats an action many times."
+        },
+        "iteration": {
+            "word": "iteration",
+            "forms": ["iterations"],
+            "definition": "One pass through a @loop."
+        },
+        "recursion": {
+            "word": "recursion",
+            "forms": ["recursive"],
+            "definition": "When a @FunctionDefinition calls itself to handle a smaller part of a problem."
+        },
+        "property": {
+            "word": "property",
+            "forms": ["properties"],
+            "definition": "A named part of a @value, such as a @Color's brightness."
+        },
+        "element": {
+            "word": "element",
+            "forms": ["elements"],
+            "definition": "One item in a @List or group."
+        },
+        "scope": {
+            "word": "scope",
+            "forms": ["scopes"],
+            "definition": "The part of a @Program where a @name can be used."
+        },
+        "state": {
+            "word": "state",
+            "forms": ["states"],
+            "definition": "Information a @Program keeps and can change over time."
+        },
+        "stream": {
+            "word": "stream",
+            "forms": ["streams"],
+            "definition": "A @value that changes over time as your world changes, like @Time ticking or a @Key being pressed. Every time it changes, @Program evaluates again with the new @value."
+        },
+        "sideEffect": {
+            "word": "side effect",
+            "forms": ["side effects"],
+            "definition": "A change a @Program makes besides giving back a @value, such as showing @Output."
+        },
+        "abstraction": {
+            "word": "abstraction",
+            "forms": ["abstractions"],
+            "definition": "Hiding details so you can use something without knowing how it works inside."
+        },
+        "project": {
+            "word": "project",
+            "forms": ["projects"],
+            "definition": "All the files that make up one @wordplay @Program."
+        },
+        "source": {
+            "word": "source",
+            "forms": ["sources"],
+            "definition": "One @code document in a @project. A @project can have more than one, and each can @share things the others @borrow."
+        },
+        "borrow": {
+            "word": "borrow",
+            "forms": ["borrows", "borrowed", "borrowing"],
+            "definition": "To use something another @Source shared, by writing ↓ and that @source’s name."
+        },
+        "share": {
+            "word": "share",
+            "forms": ["shares", "shared", "sharing"],
+            "definition": "To mark something in a @Source with ↑ so other @source files can @borrow it."
+        },
+        "kit": {
+            "word": "kit",
+            "forms": ["kits"],
+            "definition": "A @Source someone published so other people can @borrow it in their own @project."
+        },
+        "code": {
+            "word": "code",
+            "definition": "The text you write to tell a @Program what to do."
+        },
+        "act": {
+            "word": "act",
+            "forms": ["acts"],
+            "definition": "A large part of the @tutorial, like an act in a play."
+        },
+        "how": {
+            "word": "how-to",
+            "forms": ["how-tos"],
+            "definition": "A short @guide that shows how to do one thing."
+        },
+        "gallery": {
+            "word": "gallery",
+            "forms": ["galleries"],
+            "definition": "A place where people share and explore projects."
+        },
+        "blocks": {
+            "word": "blocks",
+            "definition": "A way to edit @code by dragging pieces instead of typing."
+        },
+        "editor": {
+            "word": "editor",
+            "forms": ["editors"],
+            "definition": "The box where you write @code. What you type there is what @wordplay performs."
+        },
+        "stage": {
+            "word": "stage",
+            "forms": ["stages"],
+            "definition": "The space where @wordplay shows what your @code made."
+        },
+        "placeholder": {
+            "word": "placeholder",
+            "forms": ["placeholders"],
+            "definition": "An empty spot that shows where @code or a @value is missing."
+        },
+        "conflict": {
+            "word": "conflict",
+            "forms": ["conflicts"],
+            "definition": "A problem in @code that @wordplay marks so you can fix it."
+        },
+        "checkpoint": {
+            "word": "checkpoint",
+            "forms": ["checkpoints"],
+            "definition": "A saved point in your work that you can return to."
+        },
+        "guide": {
+            "word": "guide",
+            "forms": ["guides"],
+            "definition": "The searchable reference that explains @wordplay's ideas."
+        },
+        "tutorial": {
+            "word": "tutorial",
+            "forms": ["tutorials"],
+            "definition": "The step-by-step lessons that teach @wordplay."
+        },
+        "name": {
+            "word": "name",
+            "forms": ["named", "naming"],
+            "definition": "A word that refers to a @value or a @FunctionDefinition."
+        },
+        "markup": {
+            "word": "markup",
+            "definition": "Text with formatting, such as bold words or links."
+        },
+        "language": {
+            "word": "language",
+            "forms": ["languages"],
+            "definition": "A human language that a @name or text is written in."
+        },
+        "documentation": {
+            "word": "documentation",
+            "definition": "Text that explains what @code does."
+        },
+        "region": {
+            "word": "region",
+            "forms": ["regions"],
+            "definition": "A place where a @language is used, which can change how numbers and dates look."
+        },
+        "start": {
+            "word": "start",
+            "definition": "The main source file where a @project begins."
+        },
+        "query": {
+            "word": "query",
+            "forms": ["queries"],
+            "definition": "A way to choose rows from a @Table."
+        },
+        "key": {
+            "word": "key",
+            "forms": ["keys"],
+            "definition": "The @value used to find an item in a @Map."
+        },
+        "index": {
+            "word": "index",
+            "forms": ["indexes", "indices"],
+            "definition": "A @Number that picks an item by its position in a @List."
+        },
+        "moved": {
+            "word": "moved",
+            "definition": "@Output that changed position on stage."
+        },
+        "entered": {
+            "word": "new",
+            "definition": "@Output that appeared on stage for the first time."
+        },
+        "cell": {
+            "word": "cell",
+            "forms": ["cells"],
+            "definition": "One @value in a @Table row."
+        },
+        "column": {
+            "word": "column",
+            "forms": ["columns"],
+            "definition": "A named field in a @Table."
+        }
+    },
+    "terms": {},
+    "moderation": {
+        "warning": {
+            "header": "Warning",
+            "explanation": "A moderator judged that this content may:"
+        },
+        "blocked": {
+            "header": "Blocked",
+            "explanation": "A moderator judged that this content may:"
+        },
+        "unmoderated": {
+            "header": "Note",
+            "explanation": "This content hasn't been moderated yet. It may:"
+        },
+        "moderate": {
+            "header": "Moderate",
+            "explanation": "Review this project and decide if it's content does any of the following. If it does, content will be warned or blocked. You can skip if you're unsure."
+        },
+        "queue": {
+            "label": "what to review",
+            "labels": ["projects", "galleries", "kits", "how-tos", "reports"],
+            "tips": [
+                "review projects people have made public",
+                "review galleries asking to be listed publicly",
+                "review kits asking to be listed in the guide",
+                "review how-tos asking to be listed in the guide",
+                "review what people have asked you to look at"
+            ]
+        },
+        "noAddress": "Wordplay has no email address for you, so nothing here can reach you by email. You can add one on your <profile@/profile>.",
+        "subject": {
+            "project": "project",
+            "gallery": "gallery",
+            "howto": "how-to",
+            "character": "character",
+            "kit": "kit",
+            "chat": "chat"
+        },
+        "flags": {
+            "violence": "Incite, encourage, or celebrate violence, harm, or self harm to anyone.",
+            "dehumanization": "Dehumanize individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance.",
+            "disclosure": "Reveal private information about other people such as names, contact information, or physical addresses",
+            "misinformation": "Contain false, misleading, deceptive, or manipulative information"
+        },
+        "progress": "*$moderated* moderated, *$remaining* remaining",
+        "done": "Nothing else to moderate!",
+        "button": {
+            "submit": {
+                "tip": "save these moderation settings",
+                "label": "save"
+            },
+            "skip": {
+                "tip": "skip this project",
+                "label": "skip"
+            },
+            "property": "Whether the project has this property"
+        },
+        "report": {
+            "button": "ask a moderator to review this",
+            "confirm": "Report it",
+            "sent": "a moderator has been asked to look at this",
+            "announce": "a moderator has been asked to look at $project",
+            "flagged": "Someone reported this project, so it is first in line."
+        },
+        "strike": {
+            "issue": "warn this creator",
+            "consequence": "This will be warning number $#count[1|$count] for this creator. $banning[This warning takes away their ability to make anything public.|They will be able to make things public for $#remaining[1 more warning|$remaining more warnings].]",
+            "confirm": {
+                "description": "record this decision and warn the creator",
+                "prompt": "Warn them"
+            },
+            "banned": "You've been warned about public content three times, so you can no longer make projects or galleries public. You can still make projects, and still share them with people you choose. If you think this is a mistake, or it was a long time ago and you would like to share publicly again, write to hi@wordplay.dev and tell us your username and why.",
+            "warned": "Some public content of yours broke the sharing rules, so it is no longer public. This is warning $#count[1|$count]. $#remaining[One more and you will no longer be able to make anything public.|After $remaining more you will no longer be able to make anything public.]",
+            "notification": "Warning $#count[1|$count] about something you shared publicly."
+        },
+        "gallery": {
+            "pending": "A moderator is reading your gallery to decide whether it can be listed publicly. Until then, only people you share the link with can see it.",
+            "approved": "Your gallery is listed on the <public galleries page@://galleries?tab=public>! It can be taken off that list at any time, for any reason.",
+            "denied": "A moderator decided not to list your gallery publicly. You can keep working on it and make it public again to ask a second time.",
+            "explain": "This gallery is asking to be listed publicly. Look at it and its projects, and decide whether it is finished enough to show everyone.",
+            "done": "No galleries are waiting for a decision. Thank you!",
+            "approve": {
+                "label": "list it",
+                "tip": "list this gallery on the public galleries page"
+            },
+            "deny": {
+                "label": "don't list it",
+                "tip": "keep this gallery off the public galleries page"
+            },
+            "skip": {
+                "label": "skip",
+                "tip": "leave this gallery for another moderator to decide"
+            },
+            "notification": {
+                "approved": "$name is now listed publicly.",
+                "denied": "$name was not listed publicly."
+            }
+        },
+        "kit": {
+            "pending": "A moderator is reading your kit to decide whether it can be listed in the guide. It's marked listed, but nobody will find it there until they do.",
+            "approved": "Your kit is listed in the <guide@://guide?section=kits>! It can be taken off that list at any time, for any reason.",
+            "denied": "A moderator decided not to list your kit in the guide. You can publish a new version and ask a second time.",
+            "header": "Kits",
+            "explain": "This kit is asking to be listed in the guide. Read what it shares and decide whether other people should find it.",
+            "done": "No kits are waiting for a decision. Thank you!",
+            "approve": {
+                "label": "list it",
+                "tip": "list this kit in the guide"
+            },
+            "deny": {
+                "label": "don't list it",
+                "tip": "keep this kit out of the guide"
+            },
+            "skip": {
+                "label": "skip",
+                "tip": "leave this kit for another moderator to decide"
+            },
+            "notification": {
+                "approved": "$name is now listed in the guide.",
+                "denied": "$name was not listed in the guide."
+            }
+        },
+        "howto": {
+            "pending": "A moderator is reading your how-to to decide whether it can be listed in the guide. Until then, only people who can already see it can.",
+            "approved": "Your how-to is listed in the <guide@://guide?section=howto>! It can be taken off that list at any time, for any reason.",
+            "denied": "A moderator decided not to list your how-to in the guide. You can keep working on it and ask again.",
+            "unready": "Post your how-to and make it public first. A moderator can only say yes to something everyone can read.",
+            "header": "How-tos",
+            "explain": "This how-to is asking to be listed in the guide. Read it and decide whether other people learning @wordplay should find it there.",
+            "done": "No how-tos are waiting for a decision. Thank you!",
+            "approve": {
+                "label": "list it",
+                "tip": "list this how-to in the guide"
+            },
+            "deny": {
+                "label": "don't list it",
+                "tip": "keep this how-to out of the guide"
+            },
+            "skip": {
+                "label": "skip",
+                "tip": "leave this how-to for another moderator to decide"
+            },
+            "notification": {
+                "approved": "$name is now listed in the guide.",
+                "denied": "$name was not listed in the guide."
+            }
+        },
+        "error": {
+            "notmod": "There's nothing here for you to review. Wordplay's moderators review public content, and a gallery's curators review what's in their gallery. If you were recently given moderator privileges, you may need to log in again.",
+            "unreachable": "I couldn't read this queue, so I don't know whether anything is waiting. Try again in a moment.",
+            "unreadable": "Some things here are waiting but I couldn't read them, so they aren't shown."
+        },
+        "responsibility": {
+            "none": "Nobody reviews what you share here. It's only visible to you and the people you choose.",
+            "curators": "The curators of this gallery review what's shared here, including its chat.",
+            "both": "The curators of this gallery review what's shared here, and so do Wordplay's moderators, because anyone can see it.",
+            "platform": "Wordplay's <moderators@://rights> review this, because anyone can see it."
+        }
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "Heads up",
+            "explanation": "This project's visuals could be uncomfortable or even cause seizures for some people. It may include:"
+        },
+        "categories": {
+            "flashing": "Rapid flashing or contrast changes",
+            "redflash": "Rapidly flashing, strongly saturated red",
+            "strobe": "Strobe-like flashing that fills the screen",
+            "pattern": "Dense, highly contrasting geometric patterns",
+            "motion": "Fast animation of size, position, or transparency"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "Sound ahead",
+            "explanation": "This project's music could be startling or uncomfortably loud for some people. It may include:"
+        },
+        "categories": {
+            "startle": "A sudden jump in volume, especially after something quiet",
+            "loudness": "Long stretches at full volume, or many tracks adding up loud",
+            "pulse": "A beat fast enough to make its visuals flicker",
+            "register": "Notes far above or below a comfortable range",
+            "tracks": "More instruments at once than is easy to follow"
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "Games",
+            "description": "Interactive games with words and symbols."
+        },
+        "visualizations": {
+            "name": "Visualizations",
+            "description": "Visualizations of and via text."
+        },
+        "motion": {
+            "name": "Motion",
+            "description": "Examples of movement and collisions."
+        },
+        "music": {
+            "name": "Music",
+            "description": "Songs, instruments, and typography that moves to the beat."
+        },
+        "av": {
+            "name": "Audio/Video",
+            "description": "Using volume, pitch, and video as input, and speech as output."
+        },
+        "tools": {
+            "name": "Tools",
+            "description": "Simple utilities and applications."
+        },
+        "stories": {
+            "name": "Stories",
+            "description": "Interactive stories and narratives."
+        }
+    },
+    "system": {
+        "imageDescription": "The Wordplay logo — a speech bubble holding a circle, a triangle, and a square — beside the name Wordplay, surrounded by a faded crowd of symbols for everything Wordplay programs can sense and say.",
+        "noscript": "Wordplay uses JavaScript. Your browser doesn't support it, or it is disabled.",
+        "unsupportedHeading": "Unsupported Browser",
+        "unsupportedBody": "Your browser doesn't support critical functionality. To use Wordplay, you'll need to upgrade to a more recent version.",
+        "appDescription": "Accessible, multilingual, programmable typography."
+    }
+}

@@ -1,0 +1,426 @@
+{
+    "$schema": "../../../static/schemas/sections/locale.json",
+    "language": "id",
+    "regions": ["ID"],
+    "guidance": "",
+    "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Platform ini dan @language pemrograman yang dipakai untuk membuat proyek di platform ini."
+        },
+        "value": {
+            "word": "$~nilai",
+            "definition": "$~Sepotong informasi, seperti @Number, beberapa kata, atau @List."
+        },
+        "type": {
+            "word": "$~jenis",
+            "definition": "$~Macam dari sebuah @value, seperti @Number atau @Text. Jenis sebuah nilai menentukan apa yang bisa kamu lakukan dengannya."
+        },
+        "expression": {
+            "word": "$~ekspresi",
+            "definition": "$~Sepotong @code yang menghasilkan @value saat dijalankan."
+        },
+        "variable": {
+            "word": "$~variabel",
+            "definition": "$~Sebuah @name yang @value-nya bisa berubah saat sebuah @Program berjalan."
+        },
+        "parameter": {
+            "word": "$~parameter",
+            "definition": "$~@Input bernama yang diharapkan sebuah @FunctionDefinition saat kamu memanggilnya."
+        },
+        "argument": {
+            "word": "$~argumen",
+            "definition": "$~@value yang kamu berikan ke @FunctionDefinition untuk salah satu @parameters miliknya."
+        },
+        "operator": {
+            "word": "$~operator",
+            "definition": "$~Sebuah simbol, seperti + atau -, yang menggabungkan atau membandingkan @value."
+        },
+        "condition": {
+            "word": "$~kondisi",
+            "definition": "$~Sebuah uji benar-atau-salah yang menentukan apa yang dilakukan @Program berikutnya."
+        },
+        "loop": {
+            "word": "$~perulangan",
+            "definition": "$~@code yang mengulang sebuah tindakan berkali-kali."
+        },
+        "iteration": {
+            "word": "$~iterasi",
+            "definition": "$~Satu kali jalan melalui sebuah @loop."
+        },
+        "recursion": {
+            "word": "$~rekursi",
+            "definition": "$~Ketika sebuah @FunctionDefinition memanggil dirinya sendiri untuk menangani bagian masalah yang lebih kecil."
+        },
+        "property": {
+            "word": "$~properti",
+            "definition": "$~Bagian bernama dari sebuah @value, seperti kecerahan suatu @Color."
+        },
+        "element": {
+            "word": "$~elemen",
+            "definition": "$~Satu benda dalam sebuah @List atau kelompok."
+        },
+        "scope": {
+            "word": "$~cakupan",
+            "definition": "$~Bagian dari @Program tempat sebuah @name bisa dipakai."
+        },
+        "state": {
+            "word": "$~keadaan",
+            "definition": "$~Informasi yang disimpan @Program dan bisa berubah seiring waktu."
+        },
+        "sideEffect": {
+            "word": "$~efek samping",
+            "definition": "$~Perubahan yang dibuat @Program selain memberikan @value kembali, seperti menampilkan @Output."
+        },
+        "abstraction": {
+            "word": "$~abstraksi",
+            "definition": "$~Menyembunyikan rincian agar kamu bisa memakai sesuatu tanpa tahu @how kerjanya di dalam."
+        },
+        "project": {
+            "word": "$~proyek",
+            "definition": "$~Semua berkas yang membentuk satu @Program @wordplay."
+        },
+        "code": {
+            "word": "$~kode",
+            "definition": "$~Teks yang kamu tulis untuk memberi tahu @Program apa yang harus dilakukan."
+        },
+        "act": {
+            "word": "$~bertindak",
+            "definition": "$~Bagian besar dari @tutorial, seperti babak dalam sebuah drama."
+        },
+        "how": {
+            "word": "$~cara",
+            "definition": "$~@guide singkat yang menunjukkan cara melakukan satu hal."
+        },
+        "gallery": {
+            "word": "$~galeri",
+            "definition": "$~Tempat orang berbagi dan menjelajahi @project."
+        },
+        "blocks": {
+            "word": "$~blok",
+            "definition": "$~Cara mengedit @code dengan menyeret potongan-potongan, bukan mengetik."
+        },
+        "placeholder": {
+            "word": "$~penampung",
+            "definition": "$~Tempat kosong yang menunjukkan di mana @code atau @value belum ada."
+        },
+        "conflict": {
+            "word": "$~konflik",
+            "definition": "$~Masalah dalam @code yang ditandai @wordplay agar kamu bisa memperbaikinya."
+        },
+        "checkpoint": {
+            "word": "$~titik simpan",
+            "definition": "$~Titik tersimpan dalam pekerjaanmu yang bisa kamu kunjungi kembali."
+        },
+        "guide": {
+            "word": "$~panduan",
+            "definition": "$~Rujukan yang bisa dicari yang menjelaskan gagasan-gagasan @wordplay."
+        },
+        "tutorial": {
+            "word": "$~tutorial",
+            "definition": "$~Pelajaran langkah demi langkah yang mengajarkan @wordplay."
+        },
+        "name": {
+            "word": "$~nama",
+            "definition": "$~Sebuah kata yang merujuk ke sebuah @value atau @FunctionDefinition."
+        },
+        "markup": {
+            "word": "$~teks berformat",
+            "definition": "$~Teks dengan format, seperti kata tebal atau tautan."
+        },
+        "language": {
+            "word": "$~bahasa",
+            "definition": "$~Bahasa manusia tempat sebuah @name atau teks ditulis."
+        },
+        "documentation": {
+            "word": "$~dokumentasi",
+            "definition": "$~Teks yang menjelaskan apa yang dilakukan @code."
+        },
+        "region": {
+            "word": "$~wilayah",
+            "definition": "$~Tempat sebuah @language dipakai, yang bisa mengubah tampilan angka dan tanggal."
+        },
+        "start": {
+            "word": "$~awal",
+            "definition": "$~Berkas sumber utama tempat sebuah @project dimulai."
+        },
+        "query": {
+            "word": "$~pertanyaan",
+            "definition": "$~Cara memilih baris dari sebuah @Table."
+        },
+        "key": {
+            "word": "$~kunci",
+            "definition": "$~@value yang dipakai untuk menemukan sebuah benda dalam sebuah @Map."
+        },
+        "index": {
+            "word": "$~indeks",
+            "definition": "$~Sebuah @Number yang memilih item berdasarkan posisinya dalam sebuah @List."
+        },
+        "moved": {
+            "word": "$~terharu",
+            "definition": "$~@Output yang berubah posisi di panggung."
+        },
+        "entered": {
+            "word": "$~baru",
+            "definition": "$!@Output yang muncul di panggung untuk pertama kalinya."
+        },
+        "cell": {
+            "word": "$~sel",
+            "definition": "$~Satu @value dalam baris @Table."
+        },
+        "column": {
+            "word": "$~kolom",
+            "definition": "$~Sebuah kolom bernama di dalam @Table."
+        },
+        "editor": {
+            "word": "$~editor",
+            "definition": "$~Kotak tempat kamu menulis @code. Apa yang kamu ketik di sana akan dijalankan oleh @wordplay."
+        },
+        "stage": {
+            "word": "$~panggung",
+            "definition": "$~Ruang tempat @wordplay menampilkan hasil buatan @code kamu."
+        },
+        "stream": {
+            "word": "$~aliran",
+            "definition": "$~@value adalah nilai yang berubah seiring waktu saat dunia kamu berubah, seperti @Time yang terus berdetak atau @Key yang ditekan. Setiap kali nilainya berubah, @Program dijalankan lagi dengan @value yang baru."
+        },
+        "source": {
+            "word": "$~sumber",
+            "definition": "$~Satu dokumen @code dalam sebuah @project. Sebuah @project bisa punya lebih dari satu, dan setiap @share bisa berbagi hal-hal yang dipinjam oleh yang lain @borrow."
+        },
+        "borrow": {
+            "word": "$~pinjam",
+            "definition": "$~Untuk memakai sesuatu yang dibagikan oleh @Source lain, tulis ↓ lalu nama @source itu."
+        },
+        "share": {
+            "word": "$~bagikan",
+            "definition": "$~Untuk menandai sesuatu dalam @Source dengan ↑ supaya file @source lain bisa meminjam @borrow."
+        },
+        "kit": {
+            "word": "$~perkakas",
+            "definition": "$~@Source yang diterbitkan seseorang supaya orang lain bisa meminjam @borrow itu dalam @project mereka sendiri."
+        }
+    },
+    "terms": {},
+    "moderation": {
+        "warning": {
+            "header": "$~Peringatan",
+            "explanation": "$~Seorang moderator menilai bahwa konten ini mungkin:"
+        },
+        "blocked": {
+            "header": "$~Diblokir",
+            "explanation": "$~Seorang moderator menilai bahwa konten ini mungkin:"
+        },
+        "unmoderated": {
+            "header": "$~Catatan",
+            "explanation": "$~Konten ini belum dimoderasi. Mungkin:"
+        },
+        "moderate": {
+            "header": "$~Sedang",
+            "explanation": "$~Tinjau proyek ini dan tentukan apakah kontennya melakukan salah satu hal berikut. Jika ya, konten akan diberi peringatan atau diblokir. Anda dapat melewatinya jika Anda ragu."
+        },
+        "flags": {
+            "violence": "$~Memicu, mendorong, atau merayakan kekerasan, bahaya, atau tindakan menyakiti diri sendiri terhadap siapa pun.",
+            "dehumanization": "$~Mendehumanisasi individu atau kelompok berdasarkan ras, etnis, asal negara, kasta, orientasi seksual, jenis kelamin, agama, usia, kemampuan, atau penampilan mereka.",
+            "disclosure": "$~Mengungkap informasi pribadi tentang orang lain seperti nama, informasi kontak, atau alamat fisik.",
+            "misinformation": "$~Berisi informasi yang salah, menyesatkan, menipu, atau manipulatif."
+        },
+        "progress": "$~* $moderated * dimoderasi, * $remaining * tersisa",
+        "done": "$~Tidak ada lagi yang perlu dimoderasi!",
+        "button": {
+            "submit": {
+                "tip": "$~Simpan pengaturan moderasi ini.",
+                "label": "$~menyimpan"
+            },
+            "skip": {
+                "tip": "$~Lewati proyek ini",
+                "label": "$~melewati"
+            },
+            "property": "$~Apakah proyek tersebut memiliki properti ini?"
+        },
+        "error": {
+            "notmod": "$~Tidak ada yang perlu kamu periksa di sini. Moderator Wordplay memeriksa konten publik, dan kurator galeri memeriksa apa yang ada di galeri mereka. Jika kamu baru saja diberi hak moderator, kamu mungkin perlu masuk lagi.",
+            "unreachable": "$~Saya tidak bisa membaca antrean ini, jadi saya tidak tahu apakah ada yang sedang menunggu. Coba lagi sebentar lagi.",
+            "unreadable": "$~Ada beberapa hal di sini yang sedang menunggu, tetapi saya tidak bisa membacanya, jadi tidak ditampilkan."
+        },
+        "report": {
+            "button": "$~minta seorang moderator untuk memeriksa ini",
+            "confirm": "$~Laporkan",
+            "sent": "$~seorang moderator telah diminta untuk memeriksa ini",
+            "announce": "$~seorang moderator telah diminta untuk memeriksa $project",
+            "flagged": "$~Seseorang melaporkan proyek ini, jadi ini menjadi yang pertama diperiksa."
+        },
+        "strike": {
+            "issue": "$~peringatkan pembuat ini",
+            "consequence": "$~Ini akan menjadi peringatan nomor $#count[$count] untuk pembuat ini. $banning[Peringatan ini menghilangkan kemampuan mereka untuk membuat sesuatu menjadi publik.|Mereka masih bisa membuat sesuatu menjadi publik selama $#remaining[$remaining peringatan lagi].]",
+            "confirm": {
+                "description": "$~catat keputusan ini dan peringatkan pembuatnya",
+                "prompt": "$~Peringatkan mereka"
+            },
+            "banned": "$~Kamu sudah diperingatkan tiga kali tentang konten publik, jadi kamu tidak bisa lagi membuat proyek atau galeri bersifat publik. Kamu masih bisa membuat proyek, dan tetap bisa membagikannya kepada orang yang kamu pilih. Jika menurutmu ini suatu kesalahan, atau sudah lama sekali dan kamu ingin membagikan sesuatu secara publik lagi, tulis surat ke hi@wordplay.dev dan beri tahu kami nama penggunamu serta alasannya.",
+            "warned": "$~Beberapa konten publik milikmu melanggar aturan berbagi, jadi konten itu tidak lagi bersifat publik. Ini adalah peringatan $#count[$count]. $#remaining[Setelah $remaining lagi kamu tidak akan bisa membuat apa pun menjadi publik.]",
+            "notification": "$~Peringatan ke-$#count[$count] tentang sesuatu yang kamu bagikan secara publik."
+        },
+        "queue": {
+            "label": "$~apa yang perlu diperiksa",
+            "labels": ["$~proyek", "$~galeri", "$~kit", "$~cara", "$~pesan"],
+            "tips": [
+                "$~periksa proyek yang telah dipublikasikan orang lain",
+                "$~periksa galeri yang meminta untuk dicantumkan secara publik",
+                "$~periksa kit yang meminta untuk didaftarkan di panduan",
+                "$~tinjau cara yang meminta untuk dimasukkan ke panduan",
+                "$~tinjau pesan yang dilaporkan orang di galeri yang kamu kelola"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Seorang moderator sedang membaca galerimu untuk memutuskan apakah galeri ini bisa dicantumkan secara publik. Sampai saat itu, hanya orang yang kamu bagikan tautannya yang bisa melihatnya.",
+            "approved": "$~Galerimu sudah tercantum di <halaman galeri publik@://galleries?tab=public>! Galeri ini dapat dikeluarkan dari daftar itu kapan saja, dengan alasan apa pun.",
+            "denied": "$~Seorang moderator memutuskan untuk tidak mencantumkan galerimu secara publik. Kamu bisa terus mengerjakannya dan mempublikasikannya lagi untuk meminta sekali lagi.",
+            "explain": "$~Galeri ini meminta untuk dicantumkan secara publik. Lihat galeri ini dan proyek-proyeknya, lalu putuskan apakah sudah cukup selesai untuk ditampilkan kepada semua orang.",
+            "done": "$~Tidak ada galeri yang menunggu keputusan. Terima kasih!",
+            "approve": {
+                "label": "$~cantumkan",
+                "tip": "$~cantumkan galeri ini di halaman galeri publik"
+            },
+            "deny": {
+                "label": "$~jangan cantumkan",
+                "tip": "$~jangan cantumkan galeri ini di halaman galeri publik"
+            },
+            "skip": {
+                "label": "$~lewati",
+                "tip": "$~biarkan galeri ini diputuskan oleh moderator lain"
+            },
+            "notification": {
+                "approved": "$~$name sekarang tercantum secara publik.",
+                "denied": "$~$name tidak dicantumkan secara publik."
+            }
+        },
+        "responsibility": {
+            "none": "$~Tidak ada yang memeriksa apa yang kamu bagikan di sini. Ini hanya bisa dilihat olehmu dan orang-orang yang kamu pilih.",
+            "curators": "$~Kurator galeri ini memeriksa apa yang dibagikan di sini, termasuk obrolannya.",
+            "both": "$~Kurator galeri ini memeriksa apa yang dibagikan di sini, begitu juga moderator Wordplay, karena semua orang bisa melihatnya.",
+            "platform": "$~<moderators@://rights> Wordplay memeriksa ini, karena siapa saja bisa melihatnya."
+        },
+        "kit": {
+            "header": "$~Kit",
+            "explain": "$~Kit ini meminta untuk didaftarkan di panduan. Baca apa yang dibagikannya dan putuskan apakah orang lain sebaiknya bisa menemukannya.",
+            "done": "$~Tidak ada kit yang menunggu keputusan. Terima kasih!",
+            "approve": {
+                "label": "$~daftarkan",
+                "tip": "$~daftarkan kit ini di panduan"
+            },
+            "deny": {
+                "label": "$~jangan daftarkan",
+                "tip": "$~jangan masukkan kit ini ke panduan"
+            },
+            "skip": {
+                "label": "$~lewati",
+                "tip": "$~biarkan kit ini diputuskan oleh moderator lain"
+            },
+            "pending": "$~Seorang moderator sedang membaca perlengkapanmu untuk memutuskan apakah bisa didaftarkan di panduan. Perlengkapan ini ditandai terdaftar, tapi belum ada yang bisa menemukannya di sana sampai proses ini selesai.",
+            "approved": "$~Perlengkapanmu terdaftar di <panduan@://guide?section=kits>! Perlengkapan ini bisa dihapus dari daftar itu kapan saja, dengan alasan apa pun.",
+            "denied": "$~Seorang moderator memutuskan untuk tidak mendaftarkan perlengkapanmu di panduan. Kamu bisa menerbitkan versi baru dan mencoba lagi.",
+            "notification": {
+                "approved": "$~$name sekarang terdaftar di panduan.",
+                "denied": "$~$name tidak terdaftar di panduan."
+            }
+        },
+        "howto": {
+            "pending": "$~Seorang moderator sedang membaca caramu untuk memutuskan apakah bisa dimasukkan ke panduan. Sampai saat itu, hanya orang yang sudah bisa melihatnya yang bisa melihatnya.",
+            "approved": "$~Caramu sekarang ada di <panduan@://guide?section=howto>! Ini bisa dihapus dari daftar itu kapan saja, karena alasan apa pun.",
+            "denied": "$~Seorang moderator memutuskan untuk tidak memasukkan caramu ke panduan. Kamu bisa terus mengerjakannya dan meminta lagi.",
+            "unready": "$~Kirim caramu dan buat menjadi publik terlebih dahulu. Seorang moderator hanya bisa menyetujui sesuatu yang bisa dibaca semua orang.",
+            "header": "$~Cara",
+            "explain": "$~Cara ini meminta untuk dimasukkan ke panduan. Bacalah dan putuskan apakah orang lain yang belajar @wordplay sebaiknya menemukannya di sana.",
+            "done": "$~Tidak ada cara yang menunggu keputusan. Terima kasih!",
+            "approve": {
+                "label": "$~masukkan",
+                "tip": "$~masukkan cara ini ke panduan"
+            },
+            "deny": {
+                "label": "$~jangan masukkan",
+                "tip": "$~jangan masukkan cara ini ke panduan"
+            },
+            "skip": {
+                "label": "$~lewati",
+                "tip": "$~biarkan cara ini diputuskan oleh moderator lain"
+            },
+            "notification": {
+                "approved": "$~$name sekarang sudah ada di panduan.",
+                "denied": "$~$name tidak dimasukkan ke panduan."
+            }
+        },
+        "noAddress": "$~Wordplay tidak punya alamat email untukmu, jadi tidak ada yang bisa menghubungimu lewat email. Kamu bisa menambahkannya di <profil@/profile>.",
+        "subject": {
+            "project": "$~proyek",
+            "gallery": "$~galeri",
+            "howto": "$~cara",
+            "character": "$~karakter",
+            "kit": "$~kit",
+            "chat": "$~obrolan"
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "$~Pertandingan",
+            "description": "$~Permainan interaktif dengan kata dan simbol."
+        },
+        "visualizations": {
+            "name": "$~Visualisasi",
+            "description": "$~Visualisasi dari dan melalui teks."
+        },
+        "motion": {
+            "name": "$~Gerakan",
+            "description": "$~Contoh pergerakan dan tabrakan."
+        },
+        "av": {
+            "name": "$~Audio/Video",
+            "description": "$~Menggunakan volume, nada, dan video sebagai masukan, dan ucapan sebagai keluaran."
+        },
+        "tools": {
+            "name": "$~Peralatan",
+            "description": "$~Utilitas dan aplikasi sederhana."
+        },
+        "stories": {
+            "name": "$~Cerita",
+            "description": "$~Cerita dan narasi interaktif."
+        },
+        "music": {
+            "name": "$~Musik",
+            "description": "$~Lagu, alat musik, dan tipografi yang bergerak mengikuti ketukan."
+        }
+    },
+    "system": {
+        "noscript": "$~Wordplay menggunakan JavaScript. Browser Anda tidak mendukungnya, atau fitur tersebut dinonaktifkan.",
+        "unsupportedHeading": "$~Browser yang tidak didukung",
+        "unsupportedBody": "$~Browser Anda tidak mendukung fungsi penting. Untuk menggunakan Wordplay, Anda perlu memperbarui ke versi yang lebih baru.",
+        "imageDescription": "$~Logo Wordplay — sebuah gelembung ucapan yang berisi lingkaran, segitiga, dan persegi — di samping nama Wordplay, dikelilingi oleh kerumunan simbol yang samar untuk semua hal yang dapat dirasakan dan dikatakan oleh program Wordplay.",
+        "appDescription": "$~Tipografi yang mudah diakses, banyak bahasa, dan dapat diprogram."
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Perhatian",
+            "explanation": "$~Tampilan proyek ini dapat membuat sebagian orang tidak nyaman atau bahkan mengalami kejang. Proyek ini mungkin berisi:"
+        },
+        "categories": {
+            "flashing": "$~Kedipan cepat atau perubahan kontras",
+            "redflash": "$~Warna merah pekat yang berkedip cepat",
+            "strobe": "$~Kedipan seperti lampu strobo yang memenuhi layar",
+            "pattern": "$~Pola geometris yang rapat dan sangat kontras",
+            "motion": "$~Animasi ukuran, posisi, atau transparansi yang cepat"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Ada suara di depan",
+            "explanation": "$~Musik proyek ini bisa mengejutkan atau terlalu keras bagi sebagian orang. Musik ini mungkin berisi:"
+        },
+        "categories": {
+            "startle": "$~Volume yang tiba-tiba melonjak, terutama setelah suara yang pelan",
+            "loudness": "$~Volume penuh dalam waktu lama, atau banyak trek yang menumpuk menjadi keras",
+            "pulse": "$~Ketukan yang cukup cepat sehingga membuat tampilannya berkedip",
+            "register": "$~Nada yang jauh di atas atau di bawah rentang yang nyaman",
+            "tracks": "$~Lebih banyak alat musik sekaligus daripada yang mudah diikuti"
+        }
+    }
+}

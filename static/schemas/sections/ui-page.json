@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "ui": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "page": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/page"
+                }
+            }
+        }
+    }
+}

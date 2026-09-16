@@ -1,0 +1,1428 @@
+{
+    "$schema": "../../../../static/schemas/sections/ui-page.json",
+    "ui": {
+        "page": {
+            "breadcrumb": {
+                "label": "Breadcrumbs",
+                "home": "Home"
+            },
+            "unknown": {
+                "header": "Eep!",
+                "message": "Where is this place? Can we go home?"
+            },
+            "landing": {
+                "value": "Create interactive stories with words, symbols, emojis, and code with us! Get started in ",
+                "beta": [
+                    "@wordplay is in *beta*, so it might not work as intended or be complete. Report bugs and share ideas in <GitHub@https://github.com/wordplaydev/wordplay/issues>, see our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                ],
+                "chooseLocales": " or choose ",
+                "tagline": "accessible, multilingual, creative coding",
+                "tour": {
+                    "button": "show me",
+                    "loading": "Loading…",
+                    "failed": "The examples couldn't be loaded. Check your connection and try again.",
+                    "restart": "start this example over",
+                    "examples": {
+                        "label": "Example programs",
+                        "tips": [
+                            "Text can glow and animate",
+                            "Music is data, sound, and sight",
+                            "Time ticks and words are multilingual",
+                            "Text can respond to pointers, clicks, taps, and keys",
+                            "Audiences can make choices",
+                            "Audiences can chat with programs and words are shapes",
+                            "Physics and gravity can make text tumble and bounce",
+                            "Programs can listen to your speech",
+                            "Programs can watch your face, hands, and objects"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "\\¶@Phrase appears on stage, in any color, glow, and motion you like.¶\nPhrase(\n\t'hello!'\n\t6m\n\tcolor: 🌈(60% 90 200°)\n\taura: Aura(🌈(80% 80 200°) 0.3m)\n\tresting: Sequence.sway(8°)\n)\\",
+                        "music": "\\¶Music is notes on real instruments, at a tempo, in a key. The stage draws what it hears.¶\nMusic(\n\tTrack([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "\\¶Code can react to input like @Time, and text can be multilingual and spoken.¶\nhellos: ['hello'/en 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhello: hellos.random() … ∆ Time(1000ms) … hellos.random()\nPhrase(hello 4m)\nSay(hello)\\",
+                        "keys": "\\¶Code can react to pointers, keys, clicks, and taps.¶\nkey: Key()\nclick: Button()\nfaces: ['🙂' '😮' '😎' '🤩']\nwhich: 1 … ∆ key | ∆ click … (which % 4) + 1\nStage([Phrase(faces[which] 5m place: Pointer() bubble: 'hi')] place: Place(0m 0m -12m))\\",
+                        "choose": "\\¶Layout text and make it selectable.¶\nfruit: ƒ(e•'') Phrase(e 3m name: e selectable: ⊤)\npicked: Choice()\nshown: '?' … ∆ picked … picked\nGroup(Stack(padding: 1m) [\n\tPhrase(shown 4m)\n\tGroup(Row(padding: 1m) [fruit('🍎') fruit('🍐') fruit('🍒')])\n])\\",
+                        "letters": "\\¶Chat with programs and use the shape of fonts and symbols.¶\nmessage: Chat()\nword: 'hi' … ∆ message … message\nline: Contour(word 'Noto Sans' 8m)\nticks: 0 … ∆ Time(30ms) … ticks + 1\nshown: ((line.length() × ticks) ÷ 66).roundDown() + 1\ndots: line.subsequence(1 shown).translate(ƒ(p) Phrase('•' place: p))\nStage(dots.add(Phrase(word 8m opacity: 15%)))\\",
+                        "pile": "\\¶Text can have physics.¶\ntoss: ƒ(emoji•'' x•#m y•#m vx•#m/s) \nPhrase(\n\temoji 2m\n\tplace: Motion(Place(x y) Velocity(vx 0m/s))\n\tmatter: Matter(1kg 0.55 0.06 0.5)\n)\nStage(\n\t[\n\t\ttoss('🍎' -2m 5m 2.2m/s)\n\t\ttoss('🍊' 2m 7m -2.6m/s)\n\t\ttoss('🍋' -1m 9m 1.4m/s)\n\t\ttoss('🍇' 1.5m 11m -1.9m/s)\n\t\ttoss('🫐' 0.5m 15m -1.2m/s)\n\t\tShape(Rectangle(-4m -3m 4m -3.6m))\n\t\tShape(Rectangle(-4.6m 4m -4m -3m))\n\t\tShape(Rectangle(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "\\¶Code can react to the @Volume and @Pitch of your mic.¶\nPhrase('📣' 1m + (Volume() × 8m) rotation: (Pitch() ÷ 1hz) × 0.1°)\\",
+                        "smile": "\\¶Code can react to your @Face, and other things on @Camera.¶\nPhrase(Face().smiling ? '😄 thank you!' '🙂 smile at the camera' 2m)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "Wordplay is a programming language",
+                        "bullets": [
+                            "• Every program is an expression that becomes a value. \\1 + 1\\ is a program, and so is \\Phrase('hi')\\.",
+                            "• Numbers carry units, so \\1m + 1m\\ is meters, and \\1cat + 1dog\\🪲 is a mistake @wordplay catches before it runs.",
+                            "• Functions are values you can name, hand around, and call: \\ƒ double(n•#) n × 2\\.",
+                            "• When input changes, @wordplay reevaluates your program and shows its new value. No need to respond to events.",
+                            "• @wordplay finds mistakes before the program runs, and explains each problem."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "Wordplay is multilingual",
+                        "bullets": [
+                            "• Every programming language feature has a name in every language, so the code reads in words you already know.",
+                            "• Your own names can be multilingual too:\n\\cat/en, gato/es: '🐈'\nPhrase(cat)\\",
+                            "• Text carries a language, and shows the language your audience reads: \\'hello'/en'hola'/es\\.",
+                            "• The site itself is in 29 languages and you can choose more than one at a time; text appears in each.",
+                            "• You can help translate @wordplay itself, right inside the app at <localize@://localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "Wordplay is accessible",
+                        "bullets": [
+                            "• Anything you can do with a mouse, you can do with a keyboard.",
+                            "• Screen readers describe the stage as it changes, and optional sounds mark what reevaluates, what animates, and what collides.",
+                            "• You can read and write your code as blocks instead of text, and switch whenever you like.",
+                            "• Motion can be slowed down, or turned off completely.",
+                            "• Spoken output can be captioned on stage for anyone who can't hear it."
+                        ]
+                    },
+                    "senses": {
+                        "title": "Wordplay senses the world",
+                        "bullets": [
+                            "• Time passing: \\Time(1000ms)\\ ticks along, and \\Now()\\ knows today's date in your own calendar and time zone.",
+                            "• Where your audience points, what they touch, and which keys they press.",
+                            "• Programs can respond to your mic: how loud it is with @Volume, what pitch with @Pitch, and what words with @Speech.",
+                            "• Your audience can type in @Chat, and pick stage content with @Choice.",
+                            "• Programs can respond to the beat of the music they play, with @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "Wordplay performs",
+                        "bullets": [
+                            "• @Phrase puts words and emoji on the stage.",
+                            "• @Group arranges them in rows, stacks, grids, or wherever you place them.",
+                            "• @Pose and @Sequence turn, fade, scale, and move things around.",
+                            "• @Say speaks text aloud instead of showing it.",
+                            "• @Music plays tracks of notes on real instruments, at a tempo, in a key:\n\\Music(Track([1 3 5] instrument: Instrument.bell) tempo: 90beats/min)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "Wordplay is typography",
+                        "bullets": [
+                            "• Hundreds of faces, covering the world's writing systems.",
+                            "• You can draw your <custom characters@://characters> and use them anywhere an emoji goes.",
+                            "• The outline of every letter is data you can read and animate, with @Contour: \\Contour('a' 'Noto Sans')\\.",
+                            "• Text wraps by the rules of the language it's written in.",
+                            "• Right-to-left and vertical writing are laid out the way they should be."
+                        ]
+                    },
+                    "docs": {
+                        "title": "Wordplay explains itself",
+                        "bullets": [
+                            "• Documentation is part of the language with @Doc, not a comment beside it.",
+                            "• A searchable <guide@://guide> explains every built-in feature, with examples.",
+                            "• Every mistake is explained where it happened, in your language.",
+                            "• You can step through a program forwards /and/ backwards to debug what happened.",
+                            "• While you step, every value is shown right in the code that made it."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "Wordplay is for sharing",
+                        "bullets": [
+                            "• Your projects are yours, and you decide who can see them.",
+                            "• You can invite other people to build a project with you.",
+                            "• <Galleries@://galleries> gather projects around a theme.",
+                            "• Teachers can make classes and follow their students' work: <teach@://teach>.",
+                            "• You can remix anyone's public project and make it your own."
+                        ]
+                    },
+                    "free": {
+                        "title": "Wordplay is free and open",
+                        "bullets": [
+                            "• @wordplay is free and it always will be.",
+                            "• It's open source: you can read how it works and you can help us change it.",
+                            "• It comes from the <University of Washington@https://ischool.uw.edu/> Information School.",
+                            "• There's a community of creators, teachers, and contributors.",
+                            "• <Donations@://donate> pay for what it costs to run."
+                        ]
+                    }
+                },
+                "link": {
+                    "learn": "Learn the language with a dramatic cast of characters",
+                    "teach": "Manage classes of students and their projects",
+                    "guide": "Search and browse the language reference",
+                    "projects": "Create and share performances",
+                    "galleries": "Experience others' performances",
+                    "characters": "Create custom emojis and symbols",
+                    "rights": "Responsibilities, ours and yours",
+                    "about": "Why does this place exist?",
+                    "thanks": "Who helped make this?",
+                    "updates": "See what's new in Wordplay",
+                    "community": {
+                        "label": "Community",
+                        "subtitle": "Chat with us on Discord"
+                    },
+                    "contribute": {
+                        "label": "Contribute",
+                        "subtitle": "Help us make Wordplay"
+                    },
+                    "design": "Design system reference for contributors",
+                    "localize": "Help translate Wordplay into your language",
+                    "moderate": "review what people have asked us to look at",
+                    "admin": "see who can do what, and change it"
+                }
+            },
+            "learn": {
+                "header": "Learn",
+                "dialogue": "lesson dialogue",
+                "says": "$character says",
+                "error": "We weren't able to find a tutorial for this language.",
+                "choice": {
+                    "prompt": "How would you like to learn?",
+                    "quick": {
+                        "title": "Quick",
+                        "description": "For creators familiar with other programming languages who want to understand how Wordplay is different"
+                    },
+                    "complete": {
+                        "title": "Comprehensive",
+                        "description": "For creators new to programming who want a detailed introduction"
+                    }
+                },
+                "mode": {
+                    "label": "tutorial",
+                    "labels": ["quick", "complete"],
+                    "tips": [
+                        "a short tour for creators who know another programming language",
+                        "the full, dramatic introduction for creators new to programming"
+                    ]
+                },
+                "contrast": "compare with",
+                "button": {
+                    "next": "next pause in dialog",
+                    "previous": "previous pause in dialog"
+                },
+                "tour": {
+                    "skip": "skip the tour and keep going",
+                    "wait": "Take the tour first, or skip it, and then we'll keep going."
+                },
+                "options": {
+                    "lesson": "current lesson"
+                },
+                "search": {
+                    "placeholder": "search",
+                    "noResults": "No results found"
+                }
+            },
+            "localize": {
+                "header": "Localize",
+                "description": [
+                    "Here you can browse every localizable string in the platform, and propose translationns or revisions to unwritten and machine translated text. You can submit your revisions for review when you're ready.",
+                    "As you write, remember to write in ways that are simple, for a young audience that may not yet know advanced vocabulary. Also be consistent, using the same terminology across different text, when applicable."
+                ],
+                "tabs": {
+                    "label": "section",
+                    "labels": ["About", "Text", "Terms", "Glossary", "Submit"],
+                    "tips": [
+                        "how localizing works, and notes for people writing this language",
+                        "browse and edit the platform's text",
+                        "define phrases you can reuse across this language's text",
+                        "add the plurals and other spellings this language's terms can be written as",
+                        "review your edits and send them in"
+                    ]
+                },
+                "toSubmit": "review and submit your edits",
+                "submitEmpty": "You have no edits yet. Choose the Text tab to write some, or edit text in context with the edit mode.",
+                "clear": {
+                    "description": "delete all of your unsent edits for this language",
+                    "prompt": "delete all?"
+                },
+                "workspaceLink": "see all text + submit",
+                "workspaceHeader": "Text to write or review",
+                "submitHeader": "Submit",
+                "submitPrompt": "When you are ready to propose this batch of edits, you can submit below.",
+                "oneLocaleNote": "Each submission covers one language at a time. This batch will be submitted as edits to $locale. If you want to contribute to a different language, switch languages first; edits you save under each language are kept separately.",
+                "bundleSummary": "Edits in this batch",
+                "editEntry": "Jump back to edit this string",
+                "revertEntry": "Discard this edit from the batch",
+                "prevBundleItem": "Review the previous edit",
+                "nextBundleItem": "Review the next edit",
+                "descriptionField": {
+                    "description": "A short description of the batch of edits, to help reviewers understand the changes",
+                    "placeholder": "What did you change, and why?"
+                },
+                "notSpamLabel": "I promise that these edits are not spam",
+                "notSpamNote": "Wordplay is a not-for-profit project led by volunteers.",
+                "requireLogin": "You must be logged in to contribute localization suggestions.",
+                "singletonWordsWarning": "Some words in your draft only appear once across the entire language. Are you sure they are spelled correctly and consistent with other text?",
+                "literalTermsWarning": "Your draft uses glossary words as plain text. Tap one to turn it into a glossary link.",
+                "checkReadingLevel": "Check this string's reading level",
+                "readingLevelComplex": "This may be hard to read. Try shorter sentences and simpler words.",
+                "readingLevelOk": "This reads clearly for the target reading level.",
+                "submit": {
+                    "description": "Submit this batch of edits",
+                    "prompt": "Submit"
+                },
+                "submitSuccess": "Thanks! Your edits were submitted and will be reviewed soon.",
+                "viewPR": "View the pull request",
+                "submitError": "Something went wrong while submitting. Your edits are still saved on this device — please try again.",
+                "empty": "No strings match this filter.",
+                "prevEntry": "Edit the previous string",
+                "nextEntry": "Edit the next string",
+                "qualityMode": {
+                    "label": "show",
+                    "labels": ["all", "machine translated or unwritten"],
+                    "tips": [
+                        "show all strings",
+                        "show only machine-translated or unwritten strings"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "section",
+                    "labels": [
+                        "all",
+                        "glossary",
+                        "token",
+                        "node",
+                        "basis",
+                        "input",
+                        "output",
+                        "ui",
+                        "gallery",
+                        "moderation"
+                    ],
+                    "tips": [
+                        "show all sections",
+                        "shared terminology",
+                        "token descriptions",
+                        "programming language constructs",
+                        "built-in types like number, text, list",
+                        "stream and input source descriptions",
+                        "output type descriptions",
+                        "the application user interface",
+                        "default gallery content",
+                        "content moderation messages"
+                    ]
+                },
+                "section": {
+                    "glossary": "Terminology",
+                    "token": "Tokens",
+                    "node": "Language constructs",
+                    "basis": "Built-in types",
+                    "input": "Inputs",
+                    "output": "Outputs",
+                    "ui": "User interface",
+                    "gallery": "Gallery",
+                    "moderation": "Moderation"
+                }
+            },
+            "teach": {
+                "header": "Teach",
+                "prompt": {
+                    "none": "Welcome teacher! Create a class to set up and manage student accounts and project galleries.",
+                    "some": "Welcome teacher! Manage your classes or create a new one."
+                },
+                "error": {
+                    "offline": "We weren't able to check your teacher status. Are you logged in?",
+                    "login": "You need to be <logged in@://login> to manage classes.",
+                    "teacher": "You need teacher privileges to create and manage classes. Fill out this form and let's get to know each other!"
+                },
+                "link": {
+                    "request": "Request teacher privileges",
+                    "new": "Create a class"
+                }
+            },
+            "newclass": {
+                "header": "New class",
+                "subheader": {
+                    "class": "Your class",
+                    "students": "Your students",
+                    "credentials": "Usernames and passwords",
+                    "usernames": "Usernames",
+                    "submit": "Submit"
+                },
+                "prompt": {
+                    "start": "This form allows you to 1) generate accounts for all of the students in your class and 2) create a gallery that all of your students can add projects to. If students have existing accounts, you can add them to the gallery later.",
+                    "review": "Review the usernames and passwords we made. Do you want to *edit* them before proceeding? If you do, you won't be able to edit the student information above.",
+                    "reviewEmail": "Review the usernames we made. Do you want to *edit* them before proceeding? If you do, you won't be able to edit the student information above. Students choose nothing here — they sign in with the address beside their name.",
+                    "ready": "Let us know when you're ready to generate credentials above. You can edit them after you do.",
+                    "pending": "Generating usernames and passwords...",
+                    "submit": "Ready to submit? As soon as it's successful, you'll receive a download of this information. Passwords are *not recoverable*, so keep them somewhere safe.",
+                    "submitEmail": "Ready to submit? As soon as it's successful, you'll receive a download of this information. There are no passwords to keep safe — each student signs in with the address beside their name.",
+                    "submitting": "Requesting new accounts with the usernames and passwords above...",
+                    "download": "Your class is ready! You should see a download of your student data in your download folder. *Passwords are not recoverable*, so keep this file somewhere safe!",
+                    "downloadEmail": "Your class is ready! You should see a download of your student data in your download folder. There are no passwords to keep safe: each student goes to the login page, types their address, and asks for a link."
+                },
+                "field": {
+                    "name": {
+                        "description": "class name",
+                        "placeholder": "a short name"
+                    },
+                    "description": {
+                        "description": "description",
+                        "placeholder": "a description of your class, for you and your students."
+                    },
+                    "existing": {
+                        "label": "students with accounts",
+                        "prompt": "Do some of your students already have @wordplay accounts? Include them here."
+                    },
+                    "signin": {
+                        "prompt": "Want to create new accounts for students? First, decide how they will sign in. A class is *all one way or the other*, so pick the one that fits your students.",
+                        "mode": {
+                            "label": "how your students sign in",
+                            "labels": [
+                                "a username and password",
+                                "an emailed link"
+                            ],
+                            "tips": [
+                                "we make a username and a password for each student, and you hand them out",
+                                "each student signs in with their own email address, so there is no password to lose"
+                            ]
+                        }
+                    },
+                    "metadata": {
+                        "description": "student information",
+                        "placeholder": "e.g., student id, family name, given name",
+                        "prompt": "Provide *any information* about students, one per line, separated by commas. This can be family names, given names, student numbers, or other distinguishing details. We will use it to generate usernames that you can edit below, helping you associate usernames to learners."
+                    },
+                    "addresses": {
+                        "description": "student email addresses",
+                        "placeholder": "e.g., mia.chen@school.edu, 204, Chen",
+                        "prompt": "List your students one per line, *starting with their email address*. You can add anything else about them after a comma — a student number, a family name — and we will use it to generate usernames you can edit below."
+                    },
+                    "words": {
+                        "description": "words to use in passwords",
+                        "placeholder": "e.g., cat dot rat...",
+                        "prompt": "Provide at least *25 words* to randomly generate 2-3 word memorable passwords. Choose words your students know or ask them to brainstorm words. The more random the more secure!"
+                    },
+                    "affirm": {
+                        "prompt": "You chose emailed links, so we will make each student an account with the address you give us. Only do this if they are old enough to have an email account where they live. *We will not email anyone when you create this class*: each student goes to the login page, types their address, and asks for a link.",
+                        "label": "These students are old enough to have an email account where they live."
+                    },
+                    "generate": {
+                        "label": "generate",
+                        "tip": "create usernames and passwords based on the information above."
+                    },
+                    "edit": {
+                        "label": "edit",
+                        "tip": "edit the generated student information"
+                    },
+                    "submit": {
+                        "label": "create class",
+                        "tip": "create a new class with this information."
+                    }
+                },
+                "error": {
+                    "duplicates": "There are duplicate entries in the student information.",
+                    "columns": "Ensure each student has the same number of columns.",
+                    "addresses": "Every line must start with an email address.",
+                    "generate": "Unable to create unique usernames.",
+                    "taken": "One or more usernames above is taken",
+                    "limit": "You can't create a class of more than 50 students at a time.",
+                    "words": "Provide at least 25 words.",
+                    "affirmation": "Say that these students are old enough to have an email account before we make their accounts.",
+                    "inflight": "This class may already have been created. Check your classes before trying again.",
+                    "account": "Unable to create some of the accounts.",
+                    "generic": "We couldn't create the class. Here's some information to help developers figure out what went wrong."
+                }
+            },
+            "class": {
+                "header": "Class",
+                "subheader": {
+                    "teachers": "Teachers",
+                    "students": "Students",
+                    "galleries": "Galleries"
+                },
+                "prompt": {
+                    "gallery": "Create a gallery for your class to organize an assignment or project. All teachers on the project will be gallery curators and all students gallery creators.",
+                    "delete": "Deleting this class will permanently delete information about the class, but its projects, galleries, or student accounts."
+                },
+                "field": {
+                    "name": {
+                        "description": "name of the class",
+                        "placeholder": "name"
+                    },
+                    "description": {
+                        "description": "description of the class",
+                        "placeholder": "description"
+                    },
+                    "delete": {
+                        "tip": "delete this class forever",
+                        "label": "Delete this class"
+                    }
+                },
+                "error": {
+                    "notfound": "We couldn't find this class or you don't have permission to view it.",
+                    "gallery": "We couldn't create a gallery for this class."
+                }
+            },
+            "guide": {
+                "header": "Guide",
+                "description": "This is a reference for every part of the @wordplay programming language. Search for a character or browse the list to learn more."
+            },
+            "projects": {
+                "header": "Projects",
+                "projectprompt": "Ready to say something? Create a project or work on one. If you get stuck, keep <learning@://learn>.",
+                "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
+                "installedprompt": "You're using Wordplay as an installed app, and it keeps its own projects, separate from the ones in your web browser. Any projects you made in your browser are still there. <Log in@://login> to see all of your projects in both places.",
+                "subheader": {
+                    "shared": "Shared",
+                    "archived": "Archived"
+                },
+                "search": {
+                    "description": "Search projects and source files",
+                    "noResults": "No results found."
+                },
+                "button": {
+                    "newproject": "new project",
+                    "editproject": "edit this project",
+                    "viewproject": "view this project's code",
+                    "unarchive": "unarchive this project",
+                    "import": {
+                        "tip": "open a project file you saved",
+                        "label": "open a project file…"
+                    }
+                },
+                "import": {
+                    "done": "Opened $name.",
+                    "drop": "Drop a project file here to open it.",
+                    "replaced": "Replaced this project with $name.",
+                    "replace": {
+                        "header": "Replace this project?",
+                        "explanation": "The code in this project will be replaced. Wordplay saves what is here now, so you can get it back from the project history.",
+                        "prompt": "Open $name here instead of what this project has now?",
+                        "confirm": {
+                            "tip": "replace this project with the file you dropped",
+                            "label": "replace"
+                        }
+                    }
+                },
+                "confirm": {
+                    "archive": {
+                        "description": "archive this performance for later deletion",
+                        "prompt": "archive"
+                    },
+                    "delete": {
+                        "description": "permanently delete this performance",
+                        "prompt": "delete forever"
+                    }
+                },
+                "error": {
+                    "noaccess": "We couldn't reach the internet.",
+                    "newgallery": "We couldn't create a new gallery.",
+                    "nodeletes": "You must be <logged in@://login> to delete archived projects.",
+                    "delete": "Oops, we couldn't delete the project!",
+                    "importEmpty": "That file has nothing in it.",
+                    "importTooLarge": "That project is too big for Wordplay to save. Try one with less in it.",
+                    "importUnreadable": "Wordplay could not read that file. Project files end in .wp."
+                },
+                "sort": {
+                    "label": "order",
+                    "labels": ["name", "recently edited"],
+                    "tips": [
+                        "order projects by name",
+                        "order projects by when you last changed them"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "what this folder is called",
+                        "placeholder": "folder"
+                    },
+                    "none": "no folder",
+                    "button": {
+                        "create": "make a new folder",
+                        "expand": "show what is in this folder",
+                        "collapse": "hide what is in this folder"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "delete this folder and archive the projects in it",
+                            "prompt": "Delete folder and archive its projects"
+                        }
+                    },
+                    "announce": {
+                        "destination": "move $project to $folder",
+                        "moved": "$project moved to $folder",
+                        "movedOut": "$project moved out of its folder",
+                        "expanded": "$folder expanded, $#count[1 project|$count projects]",
+                        "collapsed": "$folder collapsed, $#count[1 project|$count projects]",
+                        "selected": "$folder selected, $#count[1 project|$count projects]",
+                        "projectSelected": "$project chosen",
+                        "cleared": "nothing chosen",
+                        "created": "$folder created",
+                        "deleted": "$folder deleted, $#count[1 project archived|$count projects archived]",
+                        "renamed": "folder renamed to $folder"
+                    },
+                    "instructions": {
+                        "none": "Click a project or a folder to choose it.",
+                        "project": "Move this project with the *up* and *down* arrow keys, or drag it onto a folder. Press *escape* when you are done.",
+                        "folder": "Type in the name to rename this folder. Deleting it puts everything inside it in your archive."
+                    }
+                }
+            },
+            "galleries": {
+                "header": "Galleries",
+                "prompt": "Galleries are collections of projects, often centered around a theme, and curated by you or other creators.",
+                "section": {
+                    "tabs": {
+                        "label": "gallery kind",
+                        "labels": ["Yours", "Examples", "Public"],
+                        "tips": [
+                            "galleries you curate or contribute to",
+                            "curated galleries from the Wordplay developers",
+                            "galleries creators have made public"
+                        ]
+                    },
+                    "own": [
+                        "Contribute to a gallery you're invited to, or curate your own gallery with a particular theme, and invite others.",
+                        "/Curators review what's reported in their gallery, from the <moderation page@://moderate>./"
+                    ],
+                    "examples": "These are curated galleries from the @wordplay developers. They are good starting points for learning and inspiration.",
+                    "public": "These are galleries that @wordplay creators have made public. Anyone can ask for their gallery to be listed here, and a moderator reads it first to make sure it is finished and follows the rules. A gallery can be taken off this list at any time, for any reason. They are shown in a different order each visit, so every gallery gets a turn near the top."
+                },
+                "button": {
+                    "newgallery": "new gallery"
+                },
+                "error": {
+                    "nogalleryedits": "You must be <logged in@://login> to create and change galleries.",
+                    "nopublic": "No galleries have been approved for this list yet. Check back soon!"
+                },
+                "search": {
+                    "description": "Search examples and public galleries",
+                    "noResults": "No results found.",
+                    "galleries": "Galleries",
+                    "examples": "Example projects",
+                    "projects": "Projects in public galleries"
+                }
+            },
+            "characters": {
+                "header": "Characters",
+                "prompt": "Create custom emojis and symbols to use in your projects and share with others.",
+                "button": {
+                    "new": "Create a new character",
+                    "copy": "Copy this character",
+                    "remove": {
+                        "tip": "delete this character",
+                        "prompt": "delete?"
+                    }
+                },
+                "subheader": {
+                    "shared": "Shared"
+                },
+                "unnamed": "Unnamed character",
+                "error": {
+                    "offline": "We couldn't access your characters stored online.",
+                    "noauth": "You must be <logged in@://login> to see your characters and create new ones.",
+                    "create": "Unable to create a new character."
+                }
+            },
+            "character": {
+                "header": "Character",
+                "instructions": {
+                    "empty": "Choose a drawing mode in the palette to create shapes.",
+                    "unselected": "Choose a drawing mode or select and edit shapes. Use *$control-a* to select everything and *$control-z* to undo.",
+                    "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use *$control-c* and *$control-v* to copy and paste, and *$control-z* to undo. With one path selected, press *enter* to edit its points. Use the controls below to change the selected shapes.",
+                    "eraser": "To erase shapes, click or tap on them. Drag to erase pixels. Use the *arrow* keys to move the eraser and *space* to delete.",
+                    "pixel": "To draw pixels, choose a color. Then, click the canvas or use the *arrows* to move the cursor and *space* to create a pixel. *Double-click* to fill.",
+                    "rect": "To draw rectangles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
+                    "ellipse": "To draw ellipses and circles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
+                    "path": "Paths can be line segments, polygons, and curves. Click to start add points, or use the *arrow* keys and *space*. Press *escape* to finish the path. *delete* will remove the last point.",
+                    "symbol": "Choose whether to add pixels or an outline, then pick a letter, symbol, or emoji. An outline can be resized and turned without blurring; pixels can be recolored one at a time. Click or tap something you've already made to select it instead.",
+                    "image": "Choose an image, then choose the square of it to keep. It replaces the pixels, and sits under any shapes you've drawn. Click or tap something you've already made to select it instead.",
+                    "points": "*Tab* between the points of the path. Use the *arrow* keys to move the selected point, *enter* to add a point next to it, and *delete* to remove it. Use *curve* to bend the segment arriving at a point, then move its handle; *delete* on a handle straightens it again. Press *escape* when you're done."
+                },
+                "shape": {
+                    "shape": "shape",
+                    "eraser": "eraser",
+                    "pixel": "pixel",
+                    "rect": "rectangle",
+                    "ellipse": "ellipse",
+                    "path": "path",
+                    "emoji": "emoji",
+                    "glyph": "outline",
+                    "symbol": "symbol",
+                    "image": "image"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "Share",
+                        "explanation": "Choose who can see this character, who can help make it, and which gallery it belongs to."
+                    },
+                    "button": {
+                        "label": "share",
+                        "tip": "share this character"
+                    },
+                    "delete": {
+                        "label": "delete",
+                        "tip": "delete this character"
+                    },
+                    "public": {
+                        "label": "visibility",
+                        "labels": ["public", "private"],
+                        "tips": [
+                            "anyone can see this character",
+                            "only you and collaborators can see this character"
+                        ]
+                    },
+                    "collaborators": "collaborators",
+                    "gallery": "Gallery",
+                    "galleryexplanation": "Put this character in one of your galleries and everyone in it can see it, use it in their projects, and make their own version of it. It stays yours; only you can change it.",
+                    "collaboratorsexplanation": "Collaborators can see this character and change it with you, even when it is private.",
+                    "publicexplanation": "Public means anyone can see this character and use it in their projects. Private means only you, your collaborators, and anyone in a gallery you've put it in.",
+                    "tab": {
+                        "label": "sharing settings",
+                        "labels": ["Public", "Collaborators", "Gallery"],
+                        "tips": [
+                            "choose who can see this character",
+                            "choose who can change this character with you",
+                            "choose a gallery to show this character in"
+                        ]
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "name of the character",
+                        "placeholder": "name"
+                    },
+                    "description": {
+                        "description": "description of the character",
+                        "placeholder": "description"
+                    },
+                    "mode": {
+                        "label": "mode",
+                        "labels": [
+                            "select",
+                            "eraser",
+                            "pixel",
+                            "rectangle",
+                            "ellipse",
+                            "path",
+                            "symbol",
+                            "image"
+                        ],
+                        "tips": [
+                            "select shapes and pixels",
+                            "erase shapes and pixels",
+                            "draw pixels",
+                            "draw rectangles",
+                            "draw ellipses",
+                            "draw paths",
+                            "add a letter, symbol, or emoji",
+                            "add an image as pixels"
+                        ]
+                    },
+                    "fill": {
+                        "label": "fill",
+                        "labels": ["none", "inherit", "choose"],
+                        "tips": [
+                            "no fill",
+                            "inherit fill color from surrounding text",
+                            "choose a fill color"
+                        ]
+                    },
+                    "stroke": {
+                        "label": "stroke",
+                        "labels": ["none", "inherit", "choose"],
+                        "tips": [
+                            "no stroke",
+                            "inherit stroke color from surrounding text",
+                            "choose a stroke color"
+                        ]
+                    },
+                    "none": "none",
+                    "inherit": "text color",
+                    "strokeWidth": {
+                        "label": "stroke width",
+                        "tip": "how wide the stroke is rendered"
+                    },
+                    "brushSize": {
+                        "label": "size",
+                        "tip": "how many cells across the brush and eraser cover"
+                    },
+                    "insertion": {
+                        "label": "add as",
+                        "labels": ["pixels", "outline"],
+                        "tips": [
+                            "add the symbol as pixels you can recolor one at a time",
+                            "add the symbol as an outline you can resize and turn without blurring"
+                        ]
+                    },
+                    "face": {
+                        "label": "font",
+                        "tip": "which font to take the symbol's shape from"
+                    },
+                    "weight": {
+                        "label": "weight",
+                        "tip": "how heavy the symbol's strokes are"
+                    },
+                    "italic": "italic",
+                    "glyphSize": {
+                        "label": "symbol size",
+                        "tip": "how many cells across the symbol is"
+                    },
+                    "radius": {
+                        "label": "corner radius",
+                        "tip": "how round rectangle corners are"
+                    },
+                    "angle": {
+                        "label": "angle",
+                        "tip": "how much to rotate the shape around its center"
+                    },
+                    "width": {
+                        "label": "width",
+                        "tip": "how wide the shape is"
+                    },
+                    "height": {
+                        "label": "height",
+                        "tip": "how tall the shape is"
+                    },
+                    "closed": "connected"
+                },
+                "button": {
+                    "back": {
+                        "label": "back",
+                        "tip": "move selected shapes behind."
+                    },
+                    "toBack": {
+                        "label": "to back",
+                        "tip": "move selected shapes to the back."
+                    },
+                    "forward": {
+                        "label": "forward",
+                        "tip": "move selected shapes in front."
+                    },
+                    "toFront": {
+                        "label": "to front",
+                        "tip": "move selected shapes to the front."
+                    },
+                    "copy": {
+                        "label": "copy",
+                        "tip": "copy selected shapes to clipboard."
+                    },
+                    "paste": {
+                        "label": "paste",
+                        "tip": "paste copied shapes from clipboard."
+                    },
+                    "clear": {
+                        "label": "all",
+                        "tip": "remove all shapes."
+                    },
+                    "clearPixels": {
+                        "label": "pixels",
+                        "tip": "remove all pixels."
+                    },
+                    "undo": {
+                        "label": "undo",
+                        "tip": "undo to the previous design"
+                    },
+                    "redo": {
+                        "label": "redo",
+                        "tip": "redo to the next design"
+                    },
+                    "all": {
+                        "label": "select all",
+                        "tip": "select all shapes and pixels"
+                    },
+                    "allColor": {
+                        "label": "all of color",
+                        "tip": "select all shapes with the same color as the selection"
+                    },
+                    "saturationUp": {
+                        "label": "saturation",
+                        "tip": "increase saturation"
+                    },
+                    "saturationDown": {
+                        "label": "saturation",
+                        "tip": "decrease saturation"
+                    },
+                    "end": {
+                        "label": "finish shape",
+                        "tip": "end the current path"
+                    },
+                    "horizontal": {
+                        "label": "flip horizontal",
+                        "tip": "flip the selection horizontally"
+                    },
+                    "vertical": {
+                        "label": "flip vertical",
+                        "tip": "flip the selection vertically"
+                    },
+                    "fit": {
+                        "label": "fit",
+                        "tip": "fit the shapes to the canvas"
+                    },
+                    "dismissError": {
+                        "label": "dismiss",
+                        "tip": "dismiss the error message"
+                    },
+                    "editPoints": {
+                        "label": "points",
+                        "tip": "edit the points of the selected path"
+                    },
+                    "donePoints": {
+                        "label": "done",
+                        "tip": "stop editing points"
+                    },
+                    "addPoint": {
+                        "label": "add point",
+                        "tip": "add a point next to the selected one"
+                    },
+                    "deletePoint": {
+                        "label": "remove point",
+                        "tip": "remove the selected point"
+                    },
+                    "curve": {
+                        "label": "curve",
+                        "tip": "bend the segment arriving at the selected point"
+                    },
+                    "straighten": {
+                        "label": "straighten",
+                        "tip": "straighten the segment arriving at the selected point"
+                    }
+                },
+                "image": {
+                    "instructions": "Drag the square to move it, or use the *size* slider to change how much of the image to keep. With the keyboard, press *enter* to start moving, then use the *arrow* keys, and *enter* again when you're done.",
+                    "button": {
+                        "label": "upload",
+                        "tip": "choose an image file from this device"
+                    },
+                    "add": {
+                        "label": "add",
+                        "tip": "add the chosen square to the character as pixels"
+                    },
+                    "crop": {
+                        "label": "crop box",
+                        "tip": "the square of the image to keep"
+                    },
+                    "preview": "what will be added",
+                    "size": {
+                        "label": "size",
+                        "tip": "how much of the image to keep"
+                    }
+                },
+                "feedback": {
+                    "imageTooBig": "That image is $size MB. Please choose one smaller than $limit MB.",
+                    "imageUnreadable": "We couldn't read that file as an image.",
+                    "glyphLoading": "Getting the font…",
+                    "glyphMissing": "This font has no shape for that symbol. Try another font.",
+                    "glyphEmpty": "That symbol has nothing to draw.",
+                    "glyphUnreadable": "We couldn't read that font. Check your connection, or try another font.",
+                    "name": "Characters need a valid Wordplay name of at least 1 character long. It can't be 'UI', a decimal or hexadecimal number, or the name of a built-in language feature.",
+                    "description": "Characters need a description so those who can't see know what they represent.",
+                    "end": "or press escape.",
+                    "loadfail": "There was a problem loading this character.",
+                    "notfound": "This character doesn't exist or isn't visible to you.",
+                    "unauthenticated": "You must be <logged in@://login> to edit a character.",
+                    "taken": "You already have a character with this name; not saving.",
+                    "projecteditfail": "There was a problem updating projects that use this character. The following projects need fixing: ",
+                    "untitledproject": "Untitled Project"
+                },
+                "announce": {
+                    "cropped": "crop box at $x $y",
+                    "cropMoving": "moving the crop box",
+                    "cropDone": "crop box placed",
+                    "imported": "added $#count[one pixel|$count pixels] from $x $y",
+                    "position": "at $x $y",
+                    "selection": "$shapes[selected $shapes|nothing selected]",
+                    "editing": "editing $#count[one point|$count points]",
+                    "editingDone": "done editing points",
+                    "point": "point $index at $x $y",
+                    "control": "curve $index at $x $y",
+                    "pointAdded": "added point $index at $x $y",
+                    "pointRemoved": "removed point $index, $#count[one point|$count points] left",
+                    "curved": "curved segment $index",
+                    "straightened": "straightened segment $index",
+                    "moved": "moved to $x $y",
+                    "drew": "drew at $x $y",
+                    "erased": "erased at $x $y",
+                    "finished": "made $shape at $x $y",
+                    "deleted": "deleted, $#count[one shape|$count shapes] left",
+                    "undone": "undid step $step of $total",
+                    "redone": "redid step $step of $total",
+                    "copied": "copied $#count[one $shapes|$count shapes: $shapes]",
+                    "pasted": "pasted at $x $y",
+                    "arranged": "layer $index of $total",
+                    "flipped": "flipped, now at $x $y",
+                    "fitted": "grew shapes to fill the canvas"
+                }
+            },
+            "about": {
+                "header": "About",
+                "content": [
+                    "Have you ever felt like coding was just for English-fluent, non-disabled Westerners who grew up with computers?",
+                    "Yeah, us too.",
+                    "This isn't an accident. Since the dawn of computing, programming languages have been designed and built by mostly the same group of people -- mostly white, cis, English-speaking men in academia and industry in the US and Europe, and a few incredible woman mathematicians. They did their work in a time of post-colonial, winner-take-all power, and programming languages were a key tool for securing that power.",
+                    "This history has led to a vision of computation that is primarily about speed, logic, profit, and domination.",
+                    "This is an injustice. Because computing, for better and worse, now undergirds daily life in visible and invisible ways, and the people who have access to create with it are the ones most like its creators. The rest of humanity remains beholden to this power, because imagining anything different requires literacy, gatekept by language barriers, accessibility barriers, economic barriers, and inequities in public education.",
+                    "*Wordplay* aspires to help change this. It's a programming platform designed to be global, supporting /all/ of the world's languages, but also be /about/ the world's languages. A platform on which everyone can create, with whatever abilities they have, to share interactive content that anyone can experience. For youth and young adults who want to express themselves through interactive words, emojis, and typography, playfully and artfully. Not with the goal of getting power for themselves, but to create a computational world that recognize the incredible strength and necessity of our beautiful differences.",
+                    "We're a community of designers, educators, and developers trying to bring this vision to life. We are people of color, we are trans, we are queer, we are disabled, we are immigrants, we are refugees. We're centered at the <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> in Seattle, Washington, USA, a place that aspires to welcome everyone and undo the ableist and racist ravages of colonialism that continue today. Making this programming language and platform is a small part of that mission, offering a glimpse of a future of computing where /everyone/ belongs.",
+                    "We'd love your help. Learn <how to contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>, <donate@://donate>, or track our <progress@https://github.com/amyjko/wordplay/milestones>. Write our community organizer <Amy@https://amyjko.phd> if you have questions."
+                ],
+                "districts": {
+                    "header": "For schools and districts",
+                    "content": [
+                        "Are you deciding whether *Wordplay* is okay to use in your school or district? Here's what we can and can't promise.",
+                        "We are not a company. We're a community-based research project housed at a not-for-profit university, and we have no revenue. That means there are agreements we can't sign, however much we want to help. We can't promise to pay a district's legal fees if it is sued. We can't promise to fix a problem on a fixed schedule. Signing a promise we can't keep would help nobody, least of all you.",
+                        "Here is what we can promise. We hold the platform to /WCAG 2.2 Level AA/ accessibility, we check it automatically on every change, and we fix what we find as quickly as a volunteer community can. We gather as little about the people who use it as we can, and we use it only to run the platform. Our <rights@://rights> page says exactly what we store, and our <source@https://github.com/wordplaydev/wordplay> is public, so you can check all of this yourself.",
+                        "This platform is always changing, and so are the rules you have to follow. If there is something you need that we don't do yet, write to us at hi@wordplay.dev and tell us about it. The maintainers will read it, and we will write back."
+                    ],
+                    "link": "Write to us about a requirement",
+                    "subject": "Wordplay school inquiry",
+                    "body": [
+                        "School or district name:",
+                        "Your name:",
+                        "Your role:",
+                        "Is there a requirement or regulation we need to meet that we don't yet?",
+                        "Is there one we can't meet as we are?",
+                        "Anything else you would like us to know?"
+                    ]
+                }
+            },
+            "updates": {
+                "header": "Updates",
+                "content": [
+                    "These are the latest new features, improvements, and bug fixes in @wordplay. We release updates weekly on most Saturdays, unless we find an urgent bug."
+                ],
+                "tips": {
+                    "expand": "Expand this date's updates",
+                    "collapse": "Collapse this date's updates"
+                },
+                "categories": {
+                    "added": "Added",
+                    "changed": "Changed",
+                    "removed": "Removed",
+                    "fixed": "Fixed"
+                }
+            },
+            "login": {
+                "header": "Login",
+                "profile": "Profile",
+                "subtitle": "Save, collaborate, and share",
+                "anonymous": "login",
+                "prompt": {
+                    "login": "Login to save your projects, collaborate, and share:",
+                    "join": "Or, <create an account@://join> to start.",
+                    "forgot": "*Forgot your password?* Unfortunately, we cannot recover your account since we do not gather contact information.",
+                    "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
+                    "paste": "Did the link open somewhere else? Installed apps sometimes open email links in a web browser instead. Copy the link from your email and paste it here to finish signing in.",
+                    "play": "You're logged in, we can save your projects online now! Want to create something?",
+                    "passwordrule": "Passwords must be at least 6 characters long; if you're not using a password manager, choose three long words you'll remember.",
+                    "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
+                    "changePassword": "Want to change your password? Submit a new one and repeat it.",
+                    "email": "Do you have an email-only account? Login with your email, and if there is account associated with it, we'll send you an email with sign-in link. New email-only accounts are not supported, to preserve privacy.",
+                    "sent": "If this email is associated with an account, it will receive an email with a login link. It may take a few minutes to appear. If there is no account associated with this email, you will not receive anything.",
+                    "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",
+                    "success": "Account created!",
+                    "confirm": "Check your old email address to confirm your new address.",
+                    "delete": "Want us to forget everything you've made here? This can't be undone.",
+                    "reallyDelete": "Are you sure? Your account and settings will be deleted immediately and your projects will be scheduled for deletion. Collaborators on your projects will immediately lose access to them. Type your email or username to confirm that this is what you want.",
+                    "name": "Pick an emoji or custom character to represent yourself to others."
+                },
+                "subheader": {
+                    "work": "Your work",
+                    "character": "Your character",
+                    "username": "Your username",
+                    "password": "Your password",
+                    "email": "Email",
+                    "logout": "Sign out",
+                    "delete": "Delete your account",
+                    "export": "Your archive"
+                },
+                "username": {
+                    "change": "Your username is how other people see you, and it begins the name of every character you make. You can change it whenever you like. Your old name keeps working, so anything already pointing at your characters still finds them.",
+                    "missing": "You don't have a username yet, so other people see you as *—* and you can't make characters. Pick one and that's fixed.",
+                    "changed": "Done. That’s your name now.",
+                    "claimed": "Done. That’s your name.",
+                    "field": {
+                        "description": "The username you want",
+                        "placeholder": "username"
+                    },
+                    "save": {
+                        "label": "Save",
+                        "tip": "Use this username from now on"
+                    }
+                },
+                "signin": {
+                    "usesPassword": "You sign in with a username and a password. If you'd rather not have a password to remember, you can switch to signing in with a link we email you — your username stays the same.",
+                    "usesEmail": "You sign in with your email address. If you’d rather have a username and a password instead, you can switch — your username stays the same.",
+                    "notYet": "You sign in with a username and a password. Where you live, you’re not old enough yet to use an email address here — from $date you’ll be able to switch to signing in with an emailed link instead.",
+                    "switched": "Done. Next time, sign in with your username and your new password.",
+                    "toPassword": {
+                        "label": "Use a password instead",
+                        "tip": "Switch to signing in with your username and a password"
+                    }
+                },
+                "error": {
+                    "expired": "This link expired.",
+                    "invalid": "This link isn't valid.",
+                    "email": "Not a valid email.",
+                    "invalidUsername": "Usernames must be at least 5 letters with no spaces.",
+                    "usernameTaken": "This username is already taken.",
+                    "failure": "Unable to login :(",
+                    "unverified": "We couldn't check that this is a real browser, so we stopped here. This can happen on school or work networks. Trying again won't help, but a different network or browser might. If you're at school, tell a teacher.",
+                    "offline": "We couldn't reach the cloud ☁️.",
+                    "deletePartial": "We removed your account's data, but couldn't finish removing your account. Please try again, or contact us if it keeps happening.",
+                    "invalidPassword": "Passwords must be at least 6 characters long.",
+                    "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
+                    "mismatched": "The passwords don't match.",
+                    "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again.",
+                    "unsaved": "You have changes that aren't saved online yet. If you log out now, they'll be lost from this device."
+                },
+                "feedback": {
+                    "changing": "Submitting new email...",
+                    "deleting": "Okay, deleting your projects and settings...",
+                    "updatedPassword": "Your password is updated.",
+                    "match": "This must match your account's username."
+                },
+                "field": {
+                    "email": {
+                        "description": "edit login email",
+                        "placeholder": "email"
+                    },
+                    "link": {
+                        "description": "paste login link",
+                        "placeholder": "link"
+                    },
+                    "username": {
+                        "description": "login username, don't use personally identifiable information",
+                        "placeholder": "username"
+                    },
+                    "password": {
+                        "description": "login password, at least 6 character",
+                        "placeholder": "password"
+                    },
+                    "currentPassword": {
+                        "description": "your current login password",
+                        "placeholder": "current password"
+                    },
+                    "newPassword": {
+                        "description": "your new password",
+                        "placeholder": "new password"
+                    }
+                },
+                "button": {
+                    "logout": {
+                        "tip": "logout of your account",
+                        "label": "logout"
+                    },
+                    "login": "create an account with this username and password",
+                    "updateEmail": "change your email",
+                    "delete": {
+                        "tip": "delete your account",
+                        "label": "delete my data…"
+                    },
+                    "reallyDelete": {
+                        "tip": "delete your account forever",
+                        "label": "delete it!!!"
+                    },
+                    "updatePassword": "submit new password"
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "Show password",
+                        "off": "Hide password"
+                    }
+                },
+                "notifications": {
+                    "header": "Email me about…",
+                    "noAddress": "Add an email address above to choose which emails Wordplay sends you.",
+                    "notYet": "When you can use an email address, you will be able to choose which emails Wordplay sends you.",
+                    "decisions": {
+                        "label": "moderation of things I made or reported",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Don't email me about moderation of things I made or reported",
+                            "Email me about moderation of things I made or reported"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "moderation waiting for my review",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Don't email me about moderation waiting for my review",
+                            "Email me about moderation waiting for my review"
+                        ]
+                    },
+                    "activity": {
+                        "label": "new chats and how-tos",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Don't email me about new chats and how-tos",
+                            "Email me about new chats and how-tos"
+                        ]
+                    }
+                },
+                "export": {
+                    "prompt": "Download a copy of everything you have made. It holds your projects, characters, galleries, how-tos, kits, conversations, classes, and settings. Each project comes as a file you can open in Wordplay again. Some of it is not only yours: conversations hold what everyone said, and class lists hold other people’s names. Anyone you give the file to can read all of it, so keep it somewhere private.",
+                    "proxy": "You are looking at someone else's account, so you cannot download a copy of it.",
+                    "button": {
+                        "tip": "download a copy of everything in your account",
+                        "label": "download my archive…"
+                    },
+                    "progress": "Collected $kind: $#count[$count thing|$count things] so far",
+                    "started": "Making your archive.",
+                    "finished": "Your archive $name is ready, with $#count[$count thing|$count things] in it.",
+                    "finishedPartial": "Your archive $name is ready, with $#count[$count thing|$count things] in it, but $#missing[$missing kind|$missing kinds] could not be read.",
+                    "failed": "Your archive couldn't be made. Try again in a moment.",
+                    "incomplete": "Your archive is ready, but these could not be read, so they are not in it: $kinds",
+                    "tooLarge": "You have made more than one archive can hold. Tell us and we'll help you get it.",
+                    "offline": "Wordplay can't reach the internet, so it can't make your archive.",
+                    "kind": {
+                        "account": "your account",
+                        "projects": "your projects",
+                        "galleries": "your galleries",
+                        "characters": "your characters",
+                        "howtos": "your how-tos",
+                        "chats": "your conversations",
+                        "kits": "your kits",
+                        "classes": "your classes",
+                        "feedback": "your ideas and bug reports",
+                        "device": "this device's settings",
+                        "archive": "the archive",
+                        "saving": "the file"
+                    },
+                    "readme": {
+                        "title": "Your Wordplay archive",
+                        "intro": "This is a copy of everything in the Wordplay account $name. It was made on $date. Wordplay made it for you. Nobody else has a copy.",
+                        "contents": "Each folder holds one kind of thing. There are folders for your projects, characters, galleries, how-tos, kits, conversations, and classes.",
+                        "relationships": "Inside each folder, items are sorted by how you are connected to them. A folder named owner holds what you made. creator holds what you wrote or may add to. curator holds what you look after. teacher and learner hold classes. collaborator, commenter and viewer hold work that belongs to someone else.",
+                        "device": "The device folder holds things that are only on the computer you made this archive on. It has settings that are not saved online, translations you started, and work that had not finished saving. Making an archive on another computer would not include these.",
+                        "formats": "To open a project again, go to your projects page in Wordplay and choose \"open a project file\". You can also drag the .wp file onto that page. To replace a project you already have, drag the file onto it and Wordplay will ask you first.",
+                        "excluded": "A few things are not here. Wordplay leaves out the step-by-step record of your edits, because the project already holds what those edits made. It leaves out the record of who was looking at a project. It also leaves out reports about broken rules, because those are written for the people who review them.",
+                        "privacy": "Some of this is not only yours. A conversation holds what everyone in it said. A class holds the names of everyone in it. Anyone you give this file to can read all of it. Keep it somewhere private, and think about who else is in it before you share it.",
+                        "missing": "Wordplay could not read some things when it made this archive. They are not here:",
+                        "manifest": "manifest.json holds the same facts in a form a program can read. It says when this was made, how many of each thing there are, and what could not be included.",
+                        "contentsFiles": "Every item has a .json file. That is exactly what Wordplay stores. Each project also has a .wp file. That is the project written out so you can read it and open it again.",
+                        "contentsAccount": "account.json says who you are, when you joined, and what you are allowed to do. The self folder holds what Wordplay keeps about you: your username, how much translating you have done, any warnings you were given, and your notifications.",
+                        "relationshipsWords": "The same word can mean two things. A creator of a gallery may add projects to it. The creator of a how-to wrote it. Each folder also has an index.json. It lists every way you are connected to each item, because more than one can be true."
+                    }
+                }
+            },
+            "join": {
+                "header": "Join",
+                "prompt": {
+                    "create": "Create an account to save your projects, collaborate with others, and share your work.",
+                    "username": "Usernames must be at least /5 characters/, can't be an email, and shouldn't contain your name or other identifying information.",
+                    "password": "Passwords must be at least /6 characters/. Type it twice and write it down somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information.",
+                    "region": "We ask where you live so we can follow the rules there about young people's accounts. We don't keep your answer.",
+                    "birthday": "We ask your birthday for the same reason. We don't keep it either — only whether you're old enough to use an email address, and when you will be.",
+                    "choose": "There are two ways to sign in. Pick whichever suits you.",
+                    "withPassword": "*A username and a password.* We won't know anything about you — but *there is no way to get your account back if you forget your password*, since we'd have no way to reach you.",
+                    "withEmail": "*An email address.* We email you a link each time you sign in, so there's no password to forget. We keep your address only to send those links.",
+                    "tooYoung": "Where you live, you need to be $#age[$age year|$age years] old to use an email address here. Until then, a username and password it is — and you can switch later.",
+                    "sent": "If that address can be used to sign in, a link is on its way. Check your email."
+                },
+                "field": {
+                    "region": {
+                        "description": "The country or region you live in",
+                        "placeholder": "country"
+                    },
+                    "year": {
+                        "description": "The year you were born",
+                        "placeholder": "year"
+                    },
+                    "month": {
+                        "description": "The month you were born",
+                        "placeholder": "month"
+                    },
+                    "day": {
+                        "description": "The day you were born",
+                        "placeholder": "day"
+                    },
+                    "email": {
+                        "description": "The email address you want to sign in with",
+                        "placeholder": "email"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "next",
+                        "tip": "Go on to the next step"
+                    },
+                    "back": {
+                        "label": "back",
+                        "tip": "Go back to the previous step"
+                    },
+                    "usePassword": {
+                        "label": "Use a password",
+                        "tip": "Make an account with a username and a password"
+                    },
+                    "useEmail": {
+                        "label": "Use an email address",
+                        "tip": "Make an account you sign into with an emailed link"
+                    }
+                },
+                "error": {
+                    "birthday": "That isn't a real date. Check the day and month.",
+                    "taken": "Someone claimed that username just now. Try another one.",
+                    "throttled": "That's a lot of sign-in links. Wait a little and try again.",
+                    "failed": "We couldn't make the account. Try again in a moment."
+                }
+            },
+            "rights": {
+                "header": "Rights",
+                "content": [
+                    "Hi!",
+                    "Let's set some expectations about your rights and ours (also in light of policy, such as the <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> and <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "The first thing to know is that we are not a commercial entity. We are a community-based research project housed at a not-for-profit university. Our goal is to create a platform that brings you joy and helps us make discoveries about a more equitable and just world of computing. We have no interest in making money on this platform; any money we gather (usually through public funding) is used to sustain the platform, not to enrich anyone who works on it (or contributes to it).",
+                    "Because we are not seeking profit, this also means that we can't make any promises about the reliability, availability, or longevity of this platform. That said, <Amy@https://amyjko.phd> is committed long term to sustaining it, and as a tenured professor, she's got a pretty stable gig.",
+                    "That brings us to *data*. Here's what we gather and store in the cloud:",
+                    "• Your *projects*. We store any projects you contribute and your changes to them, unless those projects appear to have personally identifiable information such as phone numbers, email addresses, usernames, tax identifiers, or addresses.",
+                    "• Your *settings*. This includes the languages you choose, your animation preferences, and your tutorial progress. Everything else is stored on your device only.",
+                    "• Aggregate *activity*. We track logins and the pages you visit, but not in a way that can identify you, track you across the site, or track you across other sites. We use Google Analytics in 'consent denied' mode, which only gathers minimal non-identifiable information about page views, without storing cookies, or sending IP address information to Google. We use this aggregate information to help raise funding by reporting how much the platform is being used.",
+                    "• Your *chat translations*. If you ask to read a chat in another language, we translate everyone else's messages, but never your own. Some browsers can do this translating on your device, and when yours can, nothing is sent to us. Otherwise the messages go to an AI translation service (right now that's Claude, made by Anthropic), and the translation is saved with the chat so nobody else in it has to translate the same words again. Only the people in that chat can read it.",
+                    "We don't store anything else. Our <source@https://github.com/amyjko/wordplay/tree/main/src> is public, so anyone can verify this, and report any unintended tracking.",
+                    "*You* own your data, not us. That means:",
+                    "• You control who can access your projects. They are private by default, but you can share them with individuals, groups, or make them entirely public.",
+                    "• You can fully delete any project or your own account at any time.",
+                    "• You can get an export of any project or your whole account at any time.",
+                    "Here's how we will and won't use your data:",
+                    "• We won't share your data with anyone, unless explicitly required by law. It's always possible that your data is taken without permission (a 'data breach'). If we discover that this has happened, we will notify you that this has happened using the email you've shared with us.",
+                    "• We won't contact you via your email address unless you 1) make an account change that requires us to, 2) you explicitly give us consent to reach out, or 3) in the case of data breach above.",
+                    "• We may analyze projects, galleries, and how to content on the platform to understand what everyone is making and how they are making it. We may share these aggregated, anonymized insights in academic publications. We will only do this under the supervision of an institutional review board, as mandated by U.S. federal law.",
+                    "Finally, a note about speech. Projects are private by default, and sharing one with specific people keeps it private. What follows is exactly who reviews what you share, depending on who can see it.",
+                    "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect that none of your *public* content will:"
+                ],
+                "consequences": [
+                    "If we find a project or gallery that violates these rules, we will warn creators before they view it, or block it from being viewed. If you repeatedly violate these rules, you'll lose the privilege of posting publicly."
+                ],
+                "warnings": [
+                    "Here is exactly what happens if public content of yours breaks these rules. A moderator reviews it, it stops being public, and you get a warning in your notifications saying which one it is. Anyone signed in can ask a moderator to look at public content using the report button on it.",
+                    "After three warnings you can still make projects, still share them with people you choose, and still use everything else here. What you lose is the ability to make anything public.",
+                    "If you think a warning was a mistake, or it was a long time ago and you'd like to share publicly again, write to hi@wordplay.dev and tell us your username and why. A person will read it."
+                ],
+                "license": [
+                    "One more thing about making a project *public*. Public projects are shared under the <Creative Commons Attribution-ShareAlike license@https://creativecommons.org/licenses/by-sa/4.0/>. That means anyone can /remix/ your public project — make their own copy of it and change it — and you can remix anyone else's.",
+                    "Three things come with that license. Remixers have to credit whoever made the original. They have to share their remix under this same license, so it stays open for the next person. And they can't take a public project private to keep it to themselves.",
+                    "We help with the credit part: when someone remixes a project, we remember where it came from and show a link back to it. Making a project public is how you say yes to all of this, so if you'd rather nobody remixed a project, keep it private."
+                ],
+                "research": [
+                    "One last choice, and it is entirely yours. We sometimes write and talk about Wordplay — in research papers, in talks, and in what we show teachers and families. We would love to show what people actually make with it, but we will not show your project unless you say we can.",
+                    "Every project has a *Research* setting in its sharing options, and it starts off. Turning it on lets us show that one project as an example, without your name, your username, or anything else that says the account is yours. It is per project, so saying yes to one says nothing about the others.",
+                    "You can turn it off any time. Turning it off means we stop using your project in anything new, but it can't take back something we already published or presented."
+                ],
+                "responsibility": [
+                    "Who reviews what you share depends on who can see it.",
+                    "• *Shared with no one, or only with people you named.* Nobody reviews it. Not us, not anyone.",
+                    "• *In a gallery with other people in it.* That gallery's curators review it, and the chats that go with it. This is true whether or not the gallery is public: the people in it can see your work, so someone there is responsible for it.",
+                    "• *In a public gallery.* Its curators review it, and so do we, because anyone can find it.",
+                    "• *Public, and not in a gallery.* We review it.",
+                    "Anyone who can see something can ask for it to be reviewed, using the report button on it. We never tell the person who made it who asked.",
+                    "Reporting a chat message hides it while someone looks. That happens once per message: if it's kept and someone reports it again, it stays visible while it's looked at a second time. You can always see your own words.",
+                    "A decision says which of the rules above it found were broken, and can carry a note from whoever decided. You'll get both in your notifications.",
+                    "A gallery curator's decision applies to their gallery. It is not one of the warnings below, and it can never cost you the ability to share publicly."
+                ]
+            },
+            "donate": {
+                "header": "Donate",
+                "prompt": "Help us fund @wordplay development",
+                "content": [
+                    "@wordplay is a free, community-based project supported by the <University of Washington@https://washington.edu>. We rely on gifts from people who believe in our mission of accessible, language-inclusive, educational programming languages.",
+                    "Here are our current costs:",
+                    "• We compensate University of Washington undergraduates, especially those who are disabled or whose first language was not English, to evolve and maintain the project. This is about 90% of our costs.",
+                    "• We give stipends to teachers who we collaborate with to develop multilingual, accessible curricula.",
+                    "• We pay Google for <Firebase@https://firebase.google.com/> bandwidth and storage, and <Workspace@https://workspace.google.com/> services.",
+                    "• We pay <Squarespace@https://www.squarespace.com/> annually for the domain.",
+                    "Our current costs, assuming 5 undergraduates at $$20 USD//hour, 10 hours//week during the academic year (36 weeks) and 2 undergraduates during the summer (12 weeks), plus cloud services, are about $$60K USD per year.",
+                    "If 2,400 people gave $$25 USD per year, that would cover our current costs, with any excess going to compensate more students and teachers.",
+                    "Can you be one of those 2,400 people? If so, here's our University of Washington giving link:"
+                ]
+            },
+            "design": {
+                "header": "Design",
+                "description": "This is a reference for @wordplay's visual design system, including colors, fonts, spacing, and reusable components. See the <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> and <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> guides for contributing.",
+                "theme": "Theme",
+                "colors": "Colors",
+                "accessibility": "Color Accessibility",
+                "accessibilityRules": [
+                    "Anything rendered as *text* must use one of the AA text variants (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, or a semantic variable that points at one), which meet the 4.5:1 contrast that <WCAG 2.2@https://www.w3.org/TR/WCAG22/> requires. The brighter brand hues are only for backgrounds, borders, and highlights, which need 3:1 or nothing. These ratios are enforced by unit tests and by automated scans of every page, in both light and dark mode. One deliberate exception: the light-mode border grey is below 3:1, because borders here are decorative separation and every essential boundary carries another cue.",
+                    "Never convey meaning by color alone: pair every color-coded state with a second cue — a shape, a line style, a glyph, or a word. For example, the editor draws the caret's highlight and major conflicts *solid*, selected output *dashed*, and minor conflicts *dotted*, so severity and selection remain distinct without hue.",
+                    "See the <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> guide for the full contributor guidance."
+                ],
+                "palette": "Palette",
+                "semantic": "Semantic Colors",
+                "fonts": "Fonts",
+                "spacing": "Spacing",
+                "typography": "Typography",
+                "logo": "Logo",
+                "logoDescription": [
+                    "The Wordplay logo is a speech bubble holding one letter: a tiny stage on which the bubble can say anything — a letter of the reader's writing system, an emoji, or a circle, triangle, and square while something loads. In the app, the letter follows your primary language's writing system; on script-neutral surfaces like the browser icon and share images, the bubble shows the three shapes, about to make something.",
+                    "The drawing itself never depicts motion. Movement is behavioral — the landing page cycles what the bubble says in step with the language chooser, and while loading the shapes take turns hopping, like a crowd doing the wave — and always scales with the animation speed setting, stopping entirely when animation is off.",
+                    "The mark is always drawn in the current text color, so wherever text meets contrast requirements, the logo does too."
+                ],
+                "components": "Components",
+                "copyvalue": "copy the full CSS value",
+                "col": {
+                    "component": "Component",
+                    "preview": "Preview",
+                    "variable": "Variable",
+                    "color": "Color",
+                    "hex": "Hex",
+                    "contrast": "Contrast",
+                    "description": "Description",
+                    "cssvalue": "CSS value",
+                    "computed": "Computed",
+                    "primaryface": "Primary face"
+                },
+                "demo": {
+                    "button": "Example",
+                    "note": "This is a note.",
+                    "notice": "This is a notice.",
+                    "header": "Header",
+                    "subheader": "Subheader",
+                    "toggleon": "On",
+                    "toggleoff": "Off",
+                    "textfieldplaceholder": "Enter text…",
+                    "textfielddescription": "Example text field",
+                    "optionslabel": "Example",
+                    "optiona": "Option A",
+                    "optionb": "Option B",
+                    "optionc": "Option C",
+                    "logoresting": "At rest",
+                    "logoloading": "Loading",
+                    "logoscripts": "Across writing systems",
+                    "logodownloadsvg": "Download SVG",
+                    "logodownloadpng": "Download PNG (512px)",
+                    "logodownloadcard": "Download share image"
+                }
+            },
+            "thanks": {
+                "header": "Thanks",
+                "intro": "Thank you to our *$#count[$count contributor|$count contributors]* for contributing to @wordplay's design, development, localization, and content! And thank you to the many teachers and youth who've guided our design in focus groups, design sessions, and classrooms, who we don't list here to maintain their privacy.\n\nThis project has been supported by the National Science Foundation under awards 2318257, 2031265, 2100296, and 2122950, the University of Washington, and generous <gifts@://donate> from people like you.",
+                "teachers": "Teachers",
+                "contributors": "Contributors"
+            },
+            "admin": {
+                "header": "Privileges",
+                "prompt": "Everyone below can do something most people can't. A change here reaches them right away, though a page they already have open can take up to an hour to notice. Superuser includes moderating and teaching, so someone who has it doesn't need the other two.",
+                "claim": {
+                    "admin": "Superuser",
+                    "mod": "Moderator",
+                    "teacher": "Teacher",
+                    "banned": "Can't share publicly"
+                },
+                "creator": "Creator",
+                "email": "Email",
+                "privileges": "Privileges",
+                "button": {
+                    "revoke": "Take away every privilege",
+                    "lift": {
+                        "label": "Give back sharing",
+                        "tip": "Let this creator share publicly again, and set their warning count back to zero"
+                    }
+                },
+                "confirm": "Their warning count goes back to zero and they can share publicly again. The record of what happened stays, so a moderator looking at them later can still see it.",
+                "ownAdmin": "You can't take away your own privileges. Ask another admin.",
+                "nobody": "Nobody has any privileges yet.",
+                "proxy": {
+                    "header": "Look as someone",
+                    "prompt": "Open Wordplay as another creator, to see what they see when something isn't working for them. It's read only: nothing you do is saved, and they won't see that you were there. It opens in a new tab, and closing that tab ends it.\n\nEvery time anyone does this, it's recorded.",
+                    "start": {
+                        "label": "Look",
+                        "tip": "Open a read-only session as this creator in a new tab"
+                    }
+                },
+                "error": {
+                    "notadmin": "This is a superuser space. There is nothing here for you to change.",
+                    "login": "You need to be <logged in@://login> to see this page.",
+                    "offline": "We weren't able to load who has privileges. Are you online?",
+                    "save": "We weren't able to save that change. Try again?",
+                    "none": "Choose at least one privilege before adding someone."
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,2769 @@
+{
+    "$schema": "../../../static/schemas/sections/ui.json",
+    "ui": {
+        "font": {
+            "app": "$~Noto Sans",
+            "code": "$~Noto Sans Mono",
+            "missing": "$~TIDAK",
+            "form": {
+                "sans": "$~gaya huruf sans-serif",
+                "serif": "$~gaya huruf serif",
+                "slab": "$~gaya huruf slab-serif",
+                "typewriter": "$~gaya huruf mesin tik",
+                "handwriting": "$~tulisan tangan",
+                "brush": "$~gaya huruf sapuan kuas",
+                "script": "$~gaya huruf sambung",
+                "poster": "$~gaya huruf poster",
+                "pixel": "$~gaya huruf piksel",
+                "outline": "$~gaya huruf berongga",
+                "textured": "$~gaya huruf bertekstur",
+                "emoji": "$~gambar, bukan huruf"
+            },
+            "impression": {
+                "calm": "$~tenang",
+                "oldFashioned": "$~kuno",
+                "strong": "$~kuat",
+                "quirky": "$~unik",
+                "playful": "$~jenaka",
+                "excited": "$~bersemangat",
+                "childlike": "$~kekanak-kanakan",
+                "artistic": "$~artistik",
+                "futuristic": "$~futuristik",
+                "energetic": "$~energik",
+                "cute": "$~lucu",
+                "cheerful": "$~ceria",
+                "fancy": "$~mewah"
+            },
+            "mechanic": {
+                "sameWidth": "$~setiap huruf memiliki lebar yang sama",
+                "tallLowercase": "$~huruf kecil setinggi huruf besar",
+                "shortLowercase": "$~huruf kecil jauh lebih pendek daripada huruf besar"
+            },
+            "description": {
+                "and": "$~$first dan $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
+        },
+        "phrases": {
+            "welcome": "$~Halo"
+        },
+        "widget": {
+            "confirm": {
+                "cancel": "$~membatalkan"
+            },
+            "dialog": {
+                "close": "$~menutup"
+            },
+            "loading": {
+                "message": "$~Sedang memuat, terima kasih sudah menunggu!"
+            },
+            "home": "$~kembali ke halaman utama",
+            "table": {
+                "cell": {
+                    "description": "$~edit sel ini",
+                    "placeholder": "$~nilai"
+                },
+                "addcolumn": "$~tambahkan kolom sebelum kolom ini",
+                "removecolumn": "$~hapus kolom ini"
+            },
+            "formatted": {
+                "edit": "$~sunting teks yang diformat",
+                "preview": "$~pratinjau teks yang diformat",
+                "highlight": "$~contoh sorotan",
+                "bullet": "$~peluru",
+                "attention": "$~sorot ungkapan ini",
+                "defect": "$~tandai contoh sebagai cacat yang diharapkan"
+            },
+            "backtotop": "$~kembali ke atas",
+            "overflow": {
+                "button": {
+                    "on": "$~sembunyikan kontrol tambahan",
+                    "off": "$~Tampilkan kontrol tambahan"
+                },
+                "popup": "$~Kontrol tambahan"
+            },
+            "color": {
+                "field": "$~bidang warna",
+                "instructions": "$~Gunakan tombol panah kiri dan kanan untuk mengubah rona, tombol panah atas dan bawah untuk mengubah kroma, dan tombol page up serta page down untuk mengubah kecerahan. Tahan shift untuk langkah yang lebih halus. Dengan pembaca layar, gunakan kontrol ini terlebih dahulu, atau gunakan penggeser kecerahan, kroma, dan rona di bawahnya.",
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~Masukkan warna dalam format web apa pun.",
+                    "placeholder": "$~#f00, rgb(), hsl(), merah",
+                    "invalid": "$~bukan warna yang diakui",
+                    "format": "$~format terdeteksi"
+                },
+                "pick": {
+                    "tip": "$~pilih warna dari layarmu"
+                }
+            },
+            "logo": {
+                "description": "$~Sebuah balon ucapan dengan huruf dari sistem penulisanmu di dalamnya"
+            },
+            "synced": {
+                "saved": "$~Tersimpan di semua perangkat",
+                "signedOut": "$~Tersimpan di semua perangkat saat kamu masuk akun"
+            }
+        },
+        "tile": {
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~Keluar dari layar penuh",
+                    "off": "$~Perluas ubin jendela ke layar penuh."
+                },
+                "show": {
+                    "on": "$~sembunyikan $name",
+                    "off": "$~tampilkan $name"
+                },
+                "showSource": {
+                    "on": "$~sembunyikan sumber $name",
+                    "off": "$~tampilkan sumber $name"
+                }
+            },
+            "label": {
+                "output": "$~panggung",
+                "palette": "$~palet",
+                "docs": "$~memandu",
+                "source": "$~sumber",
+                "collaborate": "$~berkolaborasi"
+            },
+            "button": {
+                "collapse": "$~jendela yang menyusut"
+            }
+        },
+        "project": {
+            "label": "$~proyek",
+            "defaults": {
+                "starterCode": "$~¶Selamat datang di proyek kosong Anda! Ini adalah komentar. Anda dapat menggunakannya untuk mendeskripsikan proyek Anda, membuat catatan, dan menjelaskan apa yang ingin Anda sampaikan kepada orang lain tentang karya Anda. Komentar ini mendukung *tebal*, /miring/,<links@https://wordplay.dev> dan banyak lagi.¶ Frasa('hai')"
+            },
+            "error": {
+                "unknown": "$~Proyek ini tidak ada atau Anda tidak memiliki akses ke proyek tersebut.",
+                "translate": "$~Terdapat masalah saat menerjemahkan proyek Anda.",
+                "tile": "$~Ups, terjadi kesalahan.",
+                "reset": "$~Upaya untuk mengatur ulang...",
+                "translateBroken": "$~Menerjemahkan akan menyebabkan kesalahan pada program kamu, jadi tidak ada yang diubah. Coba bahasa lain, atau terjemahkan lagi."
+            },
+            "button": {
+                "share": {
+                    "tip": "$~Tampilkan opsi berbagi proyek",
+                    "label": "$~membagikan"
+                },
+                "removeCollaborator": "$~hapus kolaborator",
+                "copy": {
+                    "tip": "$~Salin proyek ke papan klip sebagai teks.",
+                    "label": "$~salin sebagai teks"
+                },
+                "addSource": "$~buat @Source lain, supaya kamu bisa menyimpan data atau kode yang dibagikan dalam file tersendiri",
+                "revert": "$~kembali ke kode asli",
+                "focusOutput": "$~fokus keyboard di atas panggung",
+                "focusSource": "$~fokus pada sumber berikutnya",
+                "focusDocs": "$~fokus pada dokumentasi",
+                "focusPalette": "$~fokus pada palet warna",
+                "focusCycle": "$~fokus pada ubin berikutnya",
+                "savedLocally": "$~Proyek disimpan secara lokal, tetapi tidak secara online.",
+                "savedOnline": "$~Proyek disimpan secara online.",
+                "unsaved": "$~tampilkan kesalahan penyimpanan",
+                "translate": {
+                    "tip": "$~terjemahkan proyek ini ke bahasa baru, sehingga menjadi multibahasa",
+                    "label": "$~menerjemahkan"
+                },
+                "primary": "$~bahasa tulisan yang tidak ditandai dengan suatu bahasa",
+                "destination": "$~terjemahkan ke bahasa ini",
+                "remix": {
+                    "tip": "$~buat salinanmu sendiri dari proyek ini untuk mengubahnya",
+                    "label": "$~remix"
+                },
+                "languages": "$~tunjukkan bahasa yang dipakai untuk menulis proyek ini",
+                "addLanguage": "$~tulis proyek ini dalam bahasa ini juga",
+                "removeLanguage": "$~berhenti menulis proyek ini dalam bahasa ini",
+                "firstLanguage": "$~jadikan ini bahasa pertama proyek",
+                "removeUnusedLanguages": {
+                    "tip": "$~hapus bahasa yang tidak dipakai oleh kode proyek ini",
+                    "label": "$~hapus yang tidak dipakai"
+                },
+                "tinker": {
+                    "label": "$~coba…",
+                    "tip": "$~buka salinan contoh ini di jendela baru, supaya kamu bisa mengubahnya dan melihat apa yang terjadi"
+                }
+            },
+            "field": {
+                "name": {
+                    "description": "$~edit nama proyek",
+                    "placeholder": "$~nama",
+                    "invalid": "$~Terjemahan tidak lengkap — periksa tanda kutip dan tag bahasa Anda, seperti \"hi\"/en\"hola\"/es."
+                }
+            },
+            "help": "$~Tampilkan pintasan keyboard",
+            "collapsed": "$~Semua jendela Anda telah dilipat! Anda dapat menemukannya di bilah alat di bawah ini.",
+            "save": {
+                "projectsNotLoadingOnline": "$~Tidak dapat memuat proyek online.",
+                "settingsUnsaved": "$~Tidak dapat menyimpan pengaturan secara online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Browser Anda tidak dapat menyimpan proyek-proyek ini di perangkat ini.",
+                    "indexedDBUnsupported": "$~Browser Anda tidak mengizinkan @wordplay untuk menyimpan proyek di perangkat ini.",
+                    "firestoreBatchFailed": "$~Kami tidak dapat mengirim ini ke awan. Semuanya masih aman di perangkat ini.",
+                    "projectContainsPII": "$~Proyek-proyek ini tampaknya berisi informasi pribadi, jadi kami tidak menyimpannya secara online. Buka setiap proyek untuk memeriksa apa yang tampak bersifat pribadi.",
+                    "localProjectStorageFailed": "$~Perangkat ini kehabisan ruang penyimpanan, dan proyek-proyek ini belum ada di cloud, jadi berisiko.<Sign in@/login> yang menyimpannya secara online, bukan hanya di perangkat ini.",
+                    "projectTooLarge": "$~Proyek-proyek ini terlalu besar untuk disimpan secara daring. Proyek-proyek ini tetap aman di perangkat ini. Cobalah membuatnya lebih kecil.",
+                    "noCloudTarget": "$~Proyek-proyek ini hanya ada di perangkat ini, karena @wordplay tidak punya tempat untuk menyimpannya secara daring. <Masuklogin> untuk menyimpannya.",
+                    "cloudWriteRefused": "$~Awan tidak menerima perubahan ini, jadi kami memakai salinan yang ada di internet. Jika kamu rasa seharusnya bisa mengubah ini, tanyakan pada orang yang membagikannya kepadamu."
+                },
+                "projectsNotSavingOnline": "$~Beberapa proyek hanya ada di perangkat ini, belum ada secara daring."
+            },
+            "dialog": {
+                "languages": {
+                    "header": "$~Bahasa",
+                    "explanation": [
+                        "$~Ini adalah bahasa yang dipakai untuk menulis proyekmu.",
+                        "Kamu bisa menambahkan bahasa untuk menulis, menghapus bahasa yang tidak kamu pakai, atau menerjemahkan seluruh proyek ke bahasa baru."
+                    ],
+                    "count": "$~$#count[$count bahasa]",
+                    "meaning": [
+                        "$~Bahasa sebuah proyek menentukan nama dan kata mana yang bisa dipakai oleh kodenya. Jika proyekmu ditulis dalam bahasa Spanyol, proyek itu butuh bahasa Spanyol di sini, atau nama seperti \\Frase\\ tidak akan berarti apa-apa.",
+                        "Setiap orang yang membuka proyekmu memuat bahasa-bahasa ini, dan bahasa pertama menentukan bagaimana keluaranmu disusun. Nama dalam bahasa Inggris selalu bekerja, di setiap proyek."
+                    ],
+                    "unused": "$~tidak dipakai",
+                    "unloaded": "$~tidak bisa dimuat",
+                    "checking": "$~Mencari bahasa yang dipakai oleh kodemu…",
+                    "complete": "$~Kodemu tidak memakai bahasa apa pun yang belum ada di proyekmu.",
+                    "search": {
+                        "description": "$~Saring bahasa berdasarkan nama atau wilayah.",
+                        "placeholder": "$~bahasa atau wilayah"
+                    },
+                    "tab": {
+                        "label": "$~pengaturan bahasa",
+                        "labels": ["$~Ditulis dalam", "$~Terjemahkan"],
+                        "tips": [
+                            "$~lihat dan ubah bahasa yang dipakai untuk menulis proyek ini",
+                            "$~terjemahkan nama, teks, dan dokumentasi proyek ini ke bahasa lain"
+                        ]
+                    },
+                    "prompt": "$~terjemahkan",
+                    "mode": {
+                        "label": "$~apa yang dilakukan penerjemahan",
+                        "labels": ["$~tambah", "$~tulis ulang"],
+                        "tips": [
+                            "$~menambahkan bahasa baru ke proyekmu, sambil menyimpan semua yang sudah kamu tulis",
+                            "$~menulis ulang proyekmu dalam bahasa baru, menggantikan apa yang sudah kamu tulis"
+                        ]
+                    },
+                    "source": "$~Teks dan nama yang ditandai dengan suatu bahasa, seperti \\'hola'/es\\, diterjemahkan dari bahasa itu. Pilih bahasa untuk semua yang tidak ditandai."
+                }
+            },
+            "subheader": {
+                "source": "$~Sumber",
+                "destination": "$~Tujuan",
+                "missing": "$~Mungkin belum ada"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~Keluar dari mode layar penuh browser",
+                    "off": "$~masuk ke mode layar penuh browser"
+                },
+                "editName": {
+                    "on": "$~tampilkan nama dalam bahasa kamu",
+                    "off": "$~ubah nama dalam setiap bahasa"
+                }
+            },
+            "tour": {
+                "launch": "$~ikuti tur kontrol proyek",
+                "controls": "$~Kontrol-kontrol di bagian bawah ini berlaku untuk *proyek secara keseluruhan*, terlepas dari ubin mana yang sedang Anda kerjakan.",
+                "name": "$~Kolom /name/ adalah nama proyekmu. Nama muncul di tampilan *proyek* dan *galeri*.",
+                "sourceToggle": "$~Tombol ini menampilkan atau menyembunyikan *file sumber*. *Tombol lainnya* pada baris ini melakukan hal yang sama untuk ubin lainnya.",
+                "addSource": "$~Beberapa proyek mendapat manfaat dari *beberapa* file sumber, di mana data disimpan dalam satu file dan diimpor ke sumber *utama*. Tombol /tambah sumber/ membuat sumber baru.",
+                "share": "$~Dialog /share/ memungkinkan Anda untuk membagikan proyek Anda dengan *galeri*, dengan *publik*, atau menyalinnya sebagai *teks* untuk dibagikan di tempat lain.",
+                "checkpoints": "$~Panel /revisi/ memungkinkan Anda untuk kembali ke versi proyek sebelumnya, dan mengambil snapshot versi yang ingin Anda simpan.",
+                "languages": "$~Tombol /bahasa/ menunjukkan bahasa mana yang dipakai untuk menulis proyekmu, membuatmu bisa menambah atau menghapus bahasa, dan bisa *menerjemahkan* *nama*, *teks*, dan *dokumentasi* proyekmu ke bahasa baru."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~otomatis — saat ini $layout"
+                }
+            },
+            "link": {
+                "remixOf": "$~buka proyek asal remix ini",
+                "backTo": "$~kembali ke $place"
+            },
+            "scratch": "$~Ini adalah salinan sementara dari sebuah contoh. Remix untuk menyimpannya.",
+            "untitled": "$~Proyek tanpa judul"
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$~Sekarang",
+                "history": "$~versi",
+                "restore": "$~Ini adalah versi sebelumnya dari proyek ini.",
+                "ago": "$~$amount $unit lalu"
+            },
+            "button": {
+                "clear": "$~hapus riwayat",
+                "select": "$~lihat versi ini",
+                "checkpoint": "$~simpan versi proyek ini",
+                "back": "$~kembali ke versi sebelumnya",
+                "forward": "$~kembali ke versi berikutnya",
+                "restore": "$~Pulihkan versi ini",
+                "now": "$~kembali ke versi saat ini"
+            }
+        },
+        "gallery": {
+            "untitled": "$~Tanpa judul",
+            "undescribed": "$~Tidak ada deskripsi",
+            "subheader": {
+                "classes": {
+                    "header": "$~Kelas",
+                    "explanation": "$~Kelas-kelas yang terkait dengan galeri ini."
+                },
+                "curators": {
+                    "header": "$~Kurator",
+                    "explanation": [
+                        "$~Kurator dapat mengubah proyek dan pengaturan galeri, serta mengobrol di semua proyek.",
+                        "/Kurator memeriksa apa yang dilaporkan di galeri mereka — proyek, cara, dan obrolan yang menyertainya — dari <halaman moderasi@://moderate>. Keputusan seorang kurator berlaku untuk galeri miliknya sendiri; itu bukan salah satu <peringatan@://rights> resmi dari Wordplay./"
+                    ]
+                },
+                "creators": {
+                    "header": "$~Para pencipta",
+                    "explanation": "$~Para kreator dapat melihat semua proyek di galeri dan menambahkan proyek baru."
+                },
+                "delete": {
+                    "header": "$~Menghapus",
+                    "explanation": "$~Menghapus galeri ini tidak akan menghapus proyek-proyeknya. Yang akan terhapus adalah tutorial-tutorialnya. Galeri ini akan dihapus selamanya."
+                },
+                "characters": {
+                    "header": "$~Karakter",
+                    "explanation": "$~Karakter yang dibagikan di sini. Siapa pun di galeri ini bisa memakai salah satunya untuk proyek mereka sendiri, atau membuat versi mereka sendiri untuk diubah."
+                },
+                "projects": {
+                    "header": "$~Proyek",
+                    "explanation": "$~Proyek yang dibagikan di sini. Siapa pun di galeri ini bisa membuka salah satunya, dan membuat versi mereka sendiri untuk diubah."
+                }
+            },
+            "confirm": {
+                "delete": {
+                    "description": "$~hapus galeri",
+                    "prompt": "$~menghapus"
+                },
+                "remove": {
+                    "description": "$~hapus proyek dari galeri",
+                    "prompt": "$~menghapus"
+                },
+                "removecharacter": {
+                    "description": "$~hapus karakter dari galeri",
+                    "prompt": "$~hapus"
+                }
+            },
+            "error": {
+                "unknown": "$~Galeri ini tidak ada atau tidak bersifat publik.",
+                "unreachable": "$~Kami tidak dapat memuat galeri ini. Jika Anda berharap dapat mengaksesnya, periksa koneksi Anda; VPN, ekstensi peramban, atau filter jaringan mungkin memblokirnya."
+            },
+            "field": {
+                "name": {
+                    "description": "$~Nama galeri",
+                    "placeholder": "$~nama"
+                },
+                "description": {
+                    "description": "$~Deskripsi galeri",
+                    "placeholder": "$~Jelaskan galeri Anda. Apa tema, tujuan, atau komunitasnya?"
+                }
+            },
+            "projects": "$~$#count[$count proyek]",
+            "characters": "$~$#count[$count karakter]",
+            "button": {
+                "editcharacter": "$~Ubah karakter ini",
+                "copyreference": "$~Salin rujukan ke karakter ini, untuk ditempel ke dalam proyek",
+                "copied": "$~Tersalin!"
+            },
+            "tab": {
+                "label": "$~pengaturan galeri",
+                "labels": [
+                    "$~Pembuat",
+                    "$~Pengelola",
+                    "$~Keterlihatan",
+                    "$~Hapus"
+                ],
+                "tips": [
+                    "$~pilih siapa yang boleh menambahkan karya ke galeri ini",
+                    "$~pilih siapa yang boleh mengelola galeri ini",
+                    "$~pilih siapa yang boleh melihat galeri ini",
+                    "$~hapus galeri ini"
+                ]
+            }
+        },
+        "gallerymoderation": {
+            "header": "$~Laporan",
+            "description": "$~Hal-hal yang orang minta kamu periksa, dari yang paling lama. Sebuah keputusan menyebutkan aturan mana yang dilanggar, dan orang yang membuatnya diberi tahu tentang keputusan itu.",
+            "labels": {
+                "action": "$~Apa yang harus dilakukan",
+                "reason": "$~Aturan mana yang dilanggar",
+                "subject": "$~Apa yang dilaporkan"
+            },
+            "view": {
+                "label": "$~lihat",
+                "tip": "$~buka apa yang dilaporkan"
+            },
+            "remove": {
+                "label": "$~menghapus",
+                "tip": "$~ini melanggar aturan"
+            },
+            "keep": {
+                "label": "$~menyimpan",
+                "tip": "$~ini tidak melanggar aturan"
+            },
+            "empty": "$~Tidak ada yang menunggu keputusan.",
+            "error": "$~Kamu harus masuk untuk meninjau laporan.",
+            "note": {
+                "description": "$~Apa yang harus dikatakan kepada pembuatnya",
+                "placeholder": "$~katakan sesuatu kepada mereka (boleh dikosongkan)"
+            },
+            "remaining": "$~$#count[$count laporan menunggu]"
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~Cara-cara",
+                "subheader": "$~$#total[$total cara], $new baru",
+                "subheaderEmpty": "$~ciptakan yang pertama!",
+                "prompt": "$~Tutorial adalah penjelasan singkat dan contoh kode tentang cara melakukan sesuatu dengan @wordplay. Setelah Anda menemukan cara untuk membagikan sesuatu, tulis tutorial untuk kreator lain di galeri ini, agar mereka juga dapat mempelajarinya!"
+            },
+            "drafts": {
+                "header": "$~📝 Draf panduan",
+                "prompt": "$~Ini adalah ruang untuk draf Anda! Hanya Anda dan kolaborator Anda yang dapat melihat draf ini.",
+                "tooltip": "$~lihat draf Anda",
+                "note": "$~Ini adalah draf panduan. Hanya Anda dan kolaborator Anda yang dapat melihatnya."
+            },
+            "bookmarks": {
+                "header": "$~🔖 Penanda Buku",
+                "tooltip": "$~kunjungi panduan ini",
+                "canBookmark": {
+                    "label": "$~🔖 Tandai panduan ini",
+                    "tip": "$~Simpan panduan ini agar mudah ditemukan nanti."
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 hapus bookmark",
+                    "tip": "$~hapus panduan ini dari bookmark Anda"
+                },
+                "empty": "$~Anda dapat menandai panduan yang ingin Anda rujuk nanti.",
+                "notLoggedIn": "$~Anda pasti<logged in@://login> untuk menggunakan bookmark"
+            },
+            "navigationtooltip": "$~navigasi ke panduan",
+            "button": {
+                "reset": {
+                    "label": "$~tengah",
+                    "tip": "$~pusatkan kanvas"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~Buat panduan baru",
+                    "explanation": "$~Tuliskan nama dan isi dari panduan baru Anda."
+                },
+                "editForm": {
+                    "header": "$~Edit cara",
+                    "explanation": "$~Edit nama dan isi panduan Anda."
+                },
+                "post": {
+                    "label": "$~📣 posting",
+                    "tip": "$~Unggah panduan cara melakukannya ke ruang ini."
+                },
+                "save": {
+                    "label": "$~💾 Simpan sebagai draf",
+                    "tip": "$~Simpan panduan Anda sebagai draf."
+                },
+                "notification": {
+                    "label": "$~memberi tahu pelanggan",
+                    "labels": ["$~memberitahu", "$~jangan memberi tahu"],
+                    "tips": [
+                        "$~Beri tahu pelanggan saat Anda memposting panduan ini.",
+                        "$~Jangan beri tahu pelanggan saat Anda memposting panduan ini."
+                    ]
+                },
+                "editor": {
+                    "placeholder": "$~Tulis panduan Anda di sini, gunakan format dan kode untuk mengajar.",
+                    "description": "$~kotak teks untuk menulis panduan Anda"
+                },
+                "title": {
+                    "description": "$~judul panduan Anda",
+                    "placeholder": "$~Judul"
+                },
+                "untitledHowToPlaceholder": "$~Panduan tanpa judul",
+                "collaborators": {
+                    "header": "$~👥 kolaborator",
+                    "explanation": "$~Para kolaborator dapat mengedit panduan ini dan melihatnya dalam draf."
+                },
+                "collaboratorsToggle": {
+                    "on": "$~runtuhkan panel kolaborator",
+                    "off": "$~perluas panel kolaborator"
+                },
+                "access": {
+                    "header": "$~↗ bagikan",
+                    "explanation": "$~Kurator galeri ini dapat mengizinkan kreator dan kurator galeri lain yang mereka kelola untuk melihat panduan ini. Jika Anda tidak ingin mereka dapat melihatnya, Anda dapat membatasi siapa yang dapat melihat panduan ini hanya kepada kurator dan kreator di galeri ini."
+                },
+                "accessToggle": {
+                    "on": "$~tutup panel pengaturan akses",
+                    "off": "$~perluas panel pengaturan akses"
+                },
+                "accessMode": {
+                    "label": "$~batasi siapa yang dapat melihat panduan ini",
+                    "labels": ["$~terbatas", "$~diperluas"],
+                    "tips": [
+                        "$~Hanya kreator di galeri ini yang dapat melihat",
+                        "$~Para kreator dan kurator di galeri mana pun yang dikelola oleh kurator tersebut dapat melihat"
+                    ]
+                },
+                "localeOptionsLabel": "$~bahasa masukan editor",
+                "publicExplanation": "$~Jika Anda ingin siapa pun yang memiliki tautan tersebut dapat melihat panduan Anda, Anda dapat membuat panduan tersebut publik.",
+                "publicMode": {
+                    "label": "$~Publikasikan panduan ini",
+                    "labels": ["$~pribadi", "$~publik"],
+                    "tips": [
+                        "$~Hanya pemain Wordplayer yang memiliki akses langsung ke panduan ini yang dapat melihatnya.",
+                        "$~Siapa pun yang memiliki tautan dapat melihat panduan ini."
+                    ]
+                },
+                "noGuidingQuestions": "$~Galeri ini belum memiliki pertanyaan panduan, jadi belum ada yang bisa ditulis. Seorang kurator perlu menambahkan setidaknya satu pertanyaan panduan sebelum petunjuk cara berkunjung dapat ditulis."
+            },
+            "viewer": {
+                "edit": {
+                    "label": "$~✏️ edit",
+                    "tip": "$~edit panduan ini"
+                },
+                "delete": {
+                    "description": "$~hapus panduan ini",
+                    "prompt": "$~🗑️ hapus"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 kirim ke Panduan",
+                        "tip": "$~kirim cara ini agar dipertimbangkan untuk dimasukkan ke Panduan!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ dikirim ke Panduan",
+                        "tip": "$~cara ini sudah dikirim untuk dipertimbangkan agar dimasukkan ke Panduan."
+                    },
+                    "header": "$~daftar Panduan"
+                },
+                "usedBy": {
+                    "prompt": "$~Apakah Anda menggunakan panduan ini dalam proyek Anda atau panduan lain? Beri tahu orang lain dengan menambahkan proyek Anda ke daftar!",
+                    "empty": "$~Anda belum memiliki proyek atau panduan lain yang dipublikasikan. Cobalah membuat satu!",
+                    "countDisplay": "$~Direktur Wordplay lain telah memakai ini di $#count[$count proyek atau cara lain]",
+                    "selector": "$~pemilih proyek dan cara",
+                    "removeButton": "$~hapus proyek atau panduan dari daftar",
+                    "addButton": "$~tambahkan proyek atau panduan"
+                },
+                "reactionsPrompt": "$~Apakah Anda menyukai panduan ini? Berikan reaksi untuk mendukung pembuatnya!",
+                "chatPrompt": "$~Tinggalkan komentar atau pertanyaan untuk pembuatnya!",
+                "link": {
+                    "label": "$~🔗 salin tautan cara",
+                    "tip": "$~salin tautan ke panduan ini"
+                },
+                "collaborators": "$~ditulis oleh",
+                "view": {
+                    "tip": "$~lihat cara"
+                }
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~Cara mengatur ruang",
+                    "explanation": "$~Konfigurasikan pengaturan untuk ruang panduan ini. Klik tombol simpan di bagian bawah untuk menyimpan pengaturan Anda."
+                },
+                "configurationButton": {
+                    "tip": "$~konfigurasikan ruang panduan ini",
+                    "label": "$~⚙️ pengaturan"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~Visibilitas",
+                        "explanation": "$~Konfigurasikan siapa yang dapat melihat panduan di ruang ini secara default."
+                    },
+                    "mode": {
+                        "label": "$~visibilitas default",
+                        "labels": ["$~terbatas", "$~diperluas"],
+                        "tips": [
+                            "$~Hanya kolaborator galeri ini yang dapat melihat panduan cara pembuatan.",
+                            "$~Para kolaborator dari galeri yang Anda sebutkan di bawah ini dapat melihat panduan caranya."
+                        ]
+                    },
+                    "expandedOptions": "$~Biarkan kurator dan kreator galeri terpilih melihat panduan cara kerja galeri ini.",
+                    "expandedAdd": "$~tambahkan galeri ke daftar",
+                    "expandedRemove": "$~hapus galeri dari daftar"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~Pertanyaan Panduan",
+                        "explanation": "$~Konfigurasikan pertanyaan panduan yang ditampilkan saat membuat panduan baru. Pisahkan pertanyaan panduan dengan jeda baris."
+                    },
+                    "descriptor": "$~Kotak teks untuk menulis pertanyaan panduan Anda, dipisahkan oleh jeda baris.",
+                    "default": [
+                        "$~Apa yang kamu pelajari? Berikan contoh cara melakukannya."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~Reaksi",
+                        "explanation": "$~Konfigurasikan reaksi yang dapat diberikan pemirsa pada tutorial baru."
+                    },
+                    "reactionPickerTip": "$~pilih karakter untuk menjadi reaksi",
+                    "reactionDescriptionTip": "$~Jelaskan apa arti reaksi ini.",
+                    "addReactionTip": "$~tambahkan reaksi baru",
+                    "removeReactionTip": "$~hilangkan reaksi ini",
+                    "default": {
+                        "👍": "$~Aku suka ini!",
+                        "💭": "$~Ini menginspirasi saya!",
+                        "🙏": "$~Terima kasih!",
+                        "🎉": "$~Perayaan!",
+                        "🤩": "$~Aku ingin mencoba ini!",
+                        "😁": "$~Ini membuatku bahagia!"
+                    }
+                },
+                "submit": {
+                    "error": "$~Pertanyaan dan tanggapan yang membimbing tidak boleh kosong.",
+                    "label": "$~menyimpan",
+                    "tip": "$~simpan cara mengatur ruang"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~Panduan berjudul $title dipindahkan ke $x $y",
+                "canvasPosition": "$~kanvas dipindahkan ke $x , $y",
+                "moveActivated": "$~Pergerakan diaktifkan. $target dapat digerakkan menggunakan mouse, keyboard, atau layar sentuh.",
+                "moveDeactivated": "$~Pergerakan dinonaktifkan."
+            },
+            "error": {
+                "unknown": "$~Ruang panduan ini tidak ada atau tidak bersifat publik."
+            }
+        },
+        "source": {
+            "label": "$~sumber",
+            "title": "$~kode",
+            "empty": [
+                "$~Mari kita mulai! Anda bisa…",
+                "• Buka 📕 dan seret 🖱️ kami ke program ini.",
+                "• Ketik $symbol dan pilih kami dari menu.",
+                "• Ketik kami dengan ⌨️.",
+                "• Jelajahi<galleries@://galleries> untuk inspirasi.",
+                "Jika Anda mengalami kesulitan,<learn more@://learn> ."
+            ],
+            "confirm": {
+                "delete": {
+                    "description": "$~hapus @Source ini",
+                    "prompt": "$~menghapus"
+                }
+            },
+            "toggle": {
+                "blocks": {
+                    "on": "$~edit sebagai teks"
+                },
+                "characters": {
+                    "on": "$~sembunyikan pemilih emoji dan simbol",
+                    "off": "$~Tampilkan pemilih emoji dan simbol."
+                },
+                "expandSequence": {
+                    "on": "$~barang-barang yang runtuh",
+                    "off": "$~perluas item"
+                },
+                "search": {
+                    "on": "$~sembunyikan pencarian",
+                    "off": "$~cari kodenya"
+                }
+            },
+            "options": {
+                "locale": {
+                    "tip": "$~bahasa yang disukai untuk sumber",
+                    "all": "$~$#count[$count bahasa]",
+                    "viewing": "$~dalam $language"
+                }
+            },
+            "button": {
+                "selectOutput": "$~Tampilkan hasil ini di atas panggung.",
+                "zoomIn": "$~perbesar kode",
+                "zoomOut": "$~perkecil kode",
+                "replace": "$~ganti semua kecocokan",
+                "selectOutputError": "$~tampilkan output ini di panggung; evaluasi sumber ini berakhir dengan kesalahan",
+                "addView": "$~tampilkan kode ini di tampilan kedua",
+                "closeView": "$~tutup tampilan ini"
+            },
+            "field": {
+                "name": {
+                    "description": "$~edit nama sumber",
+                    "placeholder": "$~nama"
+                },
+                "search": "$~teks",
+                "replace": "$~mengganti"
+            },
+            "menu": {
+                "label": "$~menu pelengkap otomatis",
+                "show": "$~Tampilkan menu pelengkapan otomatis",
+                "empty": "$~Tidak ada saran.",
+                "item": "$~$code, $description"
+            },
+            "cursor": {
+                "priorLine": "$~pindahkan kursor ke baris sebelumnya",
+                "nextLine": "$~pindahkan kursor ke baris setelah",
+                "priorInline": "$~pindahkan kursor ke posisi sebelumnya",
+                "nextInline": "$~pindahkan kursor ke posisi setelah",
+                "expandBeforeInline": "$~perluas pilihan sebelum",
+                "expandAfterInline": "$~perluas pilihan setelah",
+                "expandPriorLine": "$~Perluas pilihan ke baris sebelumnya",
+                "expandNextLine": "$~Perluas pilihan ke baris berikutnya",
+                "lineStart": "$~pindahkan kursor ke awal baris",
+                "lineEnd": "$~pindahkan kursor ke akhir baris",
+                "sourceStart": "$~Pindahkan kursor ke awal kode sumber.",
+                "sourceEnd": "$~Pindahkan kursor ke akhir kode sumber.",
+                "priorNode": "$~pilih tetangga sebelum",
+                "nextNode": "$~pilih tetangga setelah",
+                "parent": "$~pilih kontainer",
+                "selectAll": "$~pilih program",
+                "incrementLiteral": "$~menambah angka, teks, atau Boolean",
+                "decrementLiteral": "$~mengurangi angka, teks, atau Boolean",
+                "insertTab": "$~sisipkan tab",
+                "insertTrue": "$~masukkan benar",
+                "insertFalse": "$~masukkan salah",
+                "insertNone": "$~sisipkan simbol tidak ada",
+                "insertNotEqual": "$~sisipan tidak sama dengan",
+                "insertProduct": "$~sisipkan simbol perkalian",
+                "insertDot": "$~sisipkan simbol hasil perkalian titik",
+                "insertQuotient": "$~sisipkan simbol hasil bagi",
+                "insertDegree": "$~sisipkan simbol derajat",
+                "insertFunction": "$~sisipkan fungsi",
+                "insertLessOrEqual": "$~masukkan kurang dari atau sama dengan",
+                "insertGreaterOrEqual": "$~masukkan lebih besar dari atau sama dengan",
+                "insertType": "$~sisipkan simbol tipe",
+                "insertDocs": "$~sisipkan simbol penjelasan",
+                "insertStream": "$~sisipkan simbol aliran",
+                "insertChange": "$~sisipkan simbol perubahan",
+                "insertConvert": "$~sisipkan simbol konversi",
+                "insertPrevious": "$~sisipkan simbol sebelumnya",
+                "insertTable": "$~sisipkan simbol buka tabel",
+                "insertBorrow": "$~sisipkan pinjam",
+                "insertShare": "$~sisipkan bagikan",
+                "insertLine": "$~sisipkan pemisah baris",
+                "backspace": "$~hapus pilihan atau simbol sebelumnya",
+                "delete": "$~hapus pilihan atau simbol berikutnya",
+                "cut": "$~pemilihan potongan",
+                "copy": "$~pilihan salinan",
+                "paste": "$~tempel isi keyboard",
+                "parenthesize": "$~pemilihan tanda kurung",
+                "enumerate": "$~daftar pilihan",
+                "type": "$~tipe karakter",
+                "undo": "$~Batalkan pengeditan sebelumnya",
+                "redo": "$~ulangi suntingan yang belum selesai",
+                "search": "$~mencari karakter khusus untuk disisipkan",
+                "tidy": "$~penataan ruang yang rapi",
+                "elide": "$~alihkan penghapusan",
+                "largeDelete": "$~Apakah Anda yakin ingin menghapus pilihan ini? Anda dapat menggunakan tombol batalkan (↺) jika berubah pikiran.",
+                "ignored": {
+                    "readOnly": "$~Sumber hanya dapat dibaca.",
+                    "blockSpace": "$~Tabulasi tidak diperbolehkan di sini.",
+                    "noDelete": "$~Tidak bisa menghapus ini",
+                    "noInsert": "$~Tidak dapat menyisipkan di sini",
+                    "noError": "$~Perubahan ini akan menimbulkan konflik.",
+                    "noEditor": "$~Tidak ada editor yang aktif.",
+                    "noClipboard": "$~Papan klip tidak tersedia",
+                    "noClipboardItem": "$~Tidak ada apa pun di papan klip.",
+                    "noSelection": "$~Tidak ada yang dipilih",
+                    "noMove": "$~Tidak bisa bergerak lebih jauh lagi",
+                    "unhandled": "$~kunci itu tidak melakukan apa pun di sini"
+                },
+                "nextMatch": "$~Lanjutkan ke hasil pencarian berikutnya",
+                "insertTranslate": "$~sisipkan simbol terjemahan",
+                "insertThis": "$~sisipkan simbol ini",
+                "tab": "$~Tab memindahkan fokus keyboard. Untuk menyisipkan tab, gunakan tombol sisip di bawah, atau ubah fungsi Tab di pengaturan.",
+                "matchDelimiter": "$~Pindahkan kursor ke pembatas yang sesuai.",
+                "insertPattern": "$~sisipkan pola",
+                "insertSearch": "$~sisipkan simbol pencarian pola",
+                "insertPatternAny": "$~sisipkan simbol pola grafem apa pun",
+                "insertPatternSpace": "$~sisipkan simbol pola spasi",
+                "insertPatternStart": "$~sisipkan simbol awal pola",
+                "insertPatternEnd": "$~sisipkan simbol akhir pola",
+                "insertPatternFold": "$~sisipkan pola simbol lipatan kotak",
+                "insertPatternAhead": "$~sisipkan simbol lookahead pola",
+                "insertPatternBehind": "$~sisipkan simbol lookbehind pola",
+                "insertPatternWord": "$~sisipkan simbol kata pola",
+                "insertPatternWordEdge": "$~sisipkan simbol tepi kata pola",
+                "echo": {
+                    "space": "$~spasi",
+                    "newline": "$~baris baru",
+                    "tab": "$~tab"
+                },
+                "selected": "$~$#count[$count karakter] terpilih: $text",
+                "unknownPosition": "$~di dalam kode",
+                "insertWholeNote": "$~sisipkan not penuh, panjang empat ketukan",
+                "insertDottedWholeNote": "$~sisipkan not penuh bertitik, panjang enam ketukan",
+                "insertHalfNote": "$~sisipkan not setengah, panjang dua ketukan",
+                "insertDottedHalfNote": "$~sisipkan not setengah bertitik, panjang tiga ketukan",
+                "insertQuarterNote": "$~sisipkan not seperempat, panjang satu ketukan",
+                "insertDottedQuarterNote": "$~sisipkan not seperempat bertitik, panjang satu setengah ketukan",
+                "insertEighthNote": "$~sisipkan not seperdelapan, panjang setengah ketukan",
+                "insertDottedEighthNote": "$~sisipkan not seperdelapan bertitik, panjang tiga perempat ketukan",
+                "insertSixteenthNote": "$~sisipkan not seperenam belas, panjang seperempat ketukan",
+                "insertDottedSixteenthNote": "$~sisipkan not seperenam belas bertitik, panjang tiga perdelapan ketukan",
+                "selectedNodes": "$~$#count[$count node dipilih]|, $first sampai $last",
+                "insertRange": "$~sisipkan simbol rentang",
+                "findText": "$~cari di kode"
+            },
+            "error": {
+                "invalidName": "$~Ini harus berupa nama Wordplay yang valid.",
+                "invalidWords": "$~Kata-kata tidak boleh kosong atau mengandung simbol yang dicadangkan."
+            },
+            "tour": {
+                "launch": "$~ikuti tur editor",
+                "editor": "$~Semua /kode/ kamu masuk ke dalam *editor*. Setiap program @wordplay *dievaluasi menjadi sebuah nilai*, dan nilai itulah yang muncul di *panggung*.",
+                "textBlocks": "$~Tombol ini beralih antara dua cara pengeditan: /teks/ dan /blok/. *Teks* lebih fleksibel tetapi lebih mudah membuat kesalahan. *Blok* lebih kecil kemungkinannya membuat kesalahan tetapi lebih lambat dan lebih kaku.",
+                "toolbar": "$~Kontrol pada bilah alat ini memungkinkan Anda untuk *memilih semua*, *memperbesar* dan *memperkecil*, *membatalkan*, *mengulang*, *memotong*, *menyalin*, dan *menempel*.",
+                "expand": "$~Tombol /expand/ akan menampilkan alat pengeditan yang lebih *canggih*.",
+                "shortcuts": "$~Tombol /shortcuts/ membuka daftar *pintasan keyboard* yang dapat Anda gunakan untuk mengedit lebih cepat."
+            },
+            "feedback": {
+                "cantDrop": "$~Tidak bisa dijatuhkan di sana:",
+                "cantPaste": "$~Tidak bisa menempelkan teks di sana:"
+            },
+            "clipboard": {
+                "label": "$~papan klip"
+            },
+            "notice": {
+                "dismiss": "$~Abaikan pemberitahuan ini"
+            },
+            "fold": {
+                "collapse": "$~runtuhkan $name",
+                "expand": "$~perluas $name",
+                "all": "$~lipat semua",
+                "none": "$~buka semuanya",
+                "collapsed": "$~$name menyusut",
+                "expanded": "$~$name diperluas"
+            },
+            "view": {
+                "added": "$~menambahkan tampilan kedua dari $name",
+                "closed": "$~menutup tampilan kedua dari $name"
+            }
+        },
+        "annotations": {
+            "label": "$~konflik dan bantuan",
+            "cursor": "$~Ini adalah *$node*$type[ dan itu adalah sebuah $type|].",
+            "cursorDoc": "$~Mereka berkata: “$description”",
+            "cursorParent": "$~Mereka ada di dalam *$node*$type[, yang menghasilkan sebuah $type|].",
+            "learn": "$~Pelajari selengkapnya",
+            "evaluating": "$~Wah, seru sekali, mari kita evaluasi!",
+            "space": "$~Inilah ruang angkasa! Siapa sangka ketiadaan bisa mengungkapkan begitu banyak hal?",
+            "nodeDescription": "$~Mereka $description .",
+            "button": {
+                "resolution": "$~Selesaikan konflik ini",
+                "toggle": "$~Tampilkan dan sembunyikan anotasi",
+                "highlightMajor": "$~tampilkan kode kesalahan ini di editor",
+                "highlightMinor": "$~tampilkan kode peringatan ini di editor",
+                "highlightStep": "$~tampilkan kode langkah evaluasi ini di editor",
+                "elsewhere": "$~buka tempat ini bisa diperbaiki"
+            },
+            "severity": {
+                "major": "$~kesalahan",
+                "minor": "$~peringatan"
+            },
+            "conflictLabel": "$~$severity: $conflict"
+        },
+        "output": {
+            "label": "$~panggung",
+            "toggle": {
+                "grid": {
+                    "on": "$~sembunyikan garis kisi",
+                    "off": "$~tampilkan garis kisi"
+                },
+                "fit": {
+                    "on": "$~kontrol zoom secara manual",
+                    "off": "$~sesuaikan zoom dengan konten"
+                }
+            },
+            "field": {
+                "key": {
+                    "description": "$~mendengarkan penekanan tombol"
+                },
+                "chat": {
+                    "description": "$~kirim pesan obrolan",
+                    "placeholder": "$~pesan"
+                }
+            },
+            "button": {
+                "submit": "$~Kirim pesan obrolan ini",
+                "zoomIn": "$~memperbesar tampilan panggung",
+                "zoomOut": "$~menjauh dari panggung",
+                "resetZoom": "$~hapus geseran dan perbesaran kamu",
+                "rotate": "$~putar $name",
+                "resize": "$~ubah ukuran $name",
+                "perform": "$~tampilkan: mulai ulang program, jalankan, dan penuhi layar dengan panggung",
+                "resetZoomAt": "$~hapus geser dan zoom kamu, sekarang $percent persen dari tampilan asli proyek"
+            },
+            "options": {
+                "locale": "$~bahasa pilihan untuk output",
+                "default": "$~$#count[$count bahasa]"
+            },
+            "tour": {
+                "launch": "$~ikuti tur panggung",
+                "stage": "$~Tahap ini menampilkan *nilai saat ini* program Anda. Nilai tersebut bisa berupa *nilai mentah* seperti angka atau daftar, *output visual* yang dapat Anda lihat, atau bahkan *suara* yang dapat Anda dengar.",
+                "reset": "$~Tombol /reset/ memulai kembali evaluasi programmu dari *awal*, di mode mana pun: di ▶️ *play* program berjalan lagi dari atas, di ✏️ *edit* program berhenti setelah evaluasi pertama agar kamu bisa melihat efek suntinganmu pada output awal, dan di ⏸️ *debug* program berhenti tepat di langkah pertama.",
+                "zoom": "$~Tombol /zoom/ memungkinkan Anda memperbesar dan memperkecil tampilan panggung sehingga Anda dapat melihat hasil karya Anda dengan lebih jelas atau lebih detail.",
+                "grid": "$~Tombol /grid/ menampilkan *grid* di atas panggung, berguna untuk menempatkan berbagai hal secara tepat saat Anda mendesain.",
+                "lock": "$~Tombol /lock/ mengunci tampilan panggung. Saat *terkunci*, panggung tetap diam; saat *tidak terkunci*, Anda dapat menggeser dan memperbesar tampilan dengan bebas.",
+                "animationSpeed": "$~Kontrol /kecepatan animasi/ mengatur seberapa cepat animasi diputar. Kontrol yang sama ada di *pengaturan*, jadi Anda dapat mengubahnya dari kedua tempat tersebut."
+            },
+            "permission": {
+                "title": "$~Proyek ini memerlukan izin.",
+                "microphone": "$~mikropon",
+                "camera": "$~kamera",
+                "note": "$~Browser Anda akan meminta izin sebelum berbagi.",
+                "retry": "$~Mencoba kembali"
+            },
+            "multiselect": "$~Gunakan tombol Tab, Alt, dan panah untuk berpindah antar output. Tekan spasi untuk menambah atau menghapus output yang sedang aktif dari pilihan Anda. Tekan Enter untuk memilih hanya output tersebut dan membuka palet. Tekan Escape untuk menghapus pilihan Anda. Tekan Control atau Command dan A untuk memilih semua output.",
+            "selected": "$~$name terpilih, $count terpilih",
+            "deselected": "$~$name tidak dipilih, $count dipilih",
+            "allSelected": "$~semua output dipilih, $count dipilih",
+            "cleared": "$~pilihan selesai",
+            "moved": "$~$name terharu $direction ke $place",
+            "directions": [
+                "$~atas",
+                "$~atas dan kanan",
+                "$~kanan",
+                "$~bawah dan kanan",
+                "$~bawah",
+                "$~bawah dan kiri",
+                "$~kiri",
+                "$~atas dan kiri"
+            ],
+            "closer": "$~lebih dekat",
+            "farther": "$~lebih jauh",
+            "turned": "$~berputar",
+            "manyChanged": "$~$#count[$count output] berubah di $container, seperti $example",
+            "selectedOnly": "$~$name terpilih, membuka palet",
+            "selectedSuffix": "$~terpilih",
+            "sensor": {
+                "microphone": {
+                    "on": "$~sembunyikan gelombang mikrofon",
+                    "off": "$~tampilkan gelombang mikrofon"
+                },
+                "camera": {
+                    "on": "$~sembunyikan pratinjau kamera",
+                    "off": "$~tampilkan pratinjau kamera"
+                }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~mode evaluasi",
+                    "labels": ["$~sunting", "$~debug", "$~mainkan"],
+                    "tips": [
+                        "$~beralih ke mode edit: jeda program di mana pun berada lalu ubah; hasil edit diputar ulang untuk menunjukkan efeknya di titik ini",
+                        "$~beralih ke mode debug: telusuri langkah demi langkah evaluasi program, dengan nilai ditampilkan di samping kode dan di palet",
+                        "$~beralih ke mode main: jalankan program secara langsung dari posisinya, merespons masukan secara langsung"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~mode evaluasi",
+                    "labels": ["$~lihat", "$~debug", "$~mainkan"],
+                    "tips": [
+                        "$~beralih ke mode lihat: jeda program di mana pun berada lalu baca",
+                        "$~beralih ke mode debug: telusuri langkah demi langkah evaluasi program, dengan nilai ditampilkan di samping kode dan di palet",
+                        "$~beralih ke mode main: jalankan program secara langsung dari posisinya, merespons masukan secara langsung"
+                    ]
+                },
+                "announce": "$~mode $mode",
+                "exception": "$~Program mengalami kesalahan, jadi program beralih ke mode debug agar kamu dapat memeriksanya.",
+                "toggle": "$~beralih antara mode edit dan play",
+                "resuming": "$~melanjutkan pada langkah $position",
+                "performing": "$~pertunjukan $number, dari awal"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~awal",
+                    "tip": "$~tampilkan proyek"
+                }
+            },
+            "download": {
+                "title": "$~Sedang bersiap…",
+                "note": "$~Ini diunduh sekali, lalu langsung dimuat pada waktu berikutnya.",
+                "percent": "$~$percent%",
+                "hand": "$~pelacak tangan",
+                "face": "$~pelacak wajah",
+                "objects": "$~pengenal benda",
+                "loading": "$~Sedang memuat $model…"
+            },
+            "sound": {
+                "enable": "$~Ketuk untuk suara",
+                "explanation": "$~Proyek ini punya musik, tetapi peramban kamu menunggu kamu berinteraksi dengan halaman sebelum memainkan suara.",
+                "loading": "$~Menyiapkan $instruments…",
+                "synthesized": "$~$instruments tidak dapat dimuat, jadi suaranya terdengar seperti buatan mesin."
+            },
+            "keypad": {
+                "label": "$~Kunci yang dipakai proyek ini",
+                "any": "$~Ketuk untuk bermain"
+            },
+            "announce": {
+                "zoom": "$~zoom panggung $percent persen",
+                "hidden": "$~tidak ada yang tampil di panggung pada $percent persen; hapus zoom kamu untuk menampilkan semuanya",
+                "shown": "$~semuanya kembali tampil di panggung"
+            },
+            "hidden": {
+                "message": "$~Semuanya tidak tampil di panggung.",
+                "show": "$~tampilkan semuanya"
+            },
+            "snap": {
+                "anchors": [
+                    "$~tengah horizontal",
+                    "$~tepi kiri",
+                    "$~tepi kanan",
+                    "$~tengah vertikal",
+                    "$~tepi bawah",
+                    "$~tepi atas",
+                    "$~garis dasar"
+                ],
+                "withOutput": "$~$anchor dengan $target milik $targetAnchor",
+                "withGrid": "$~$anchor pada kisi",
+                "aligned": "$~$constraints, di $place",
+                "none": "$~tidak ada yang bisa disejajarkan dengan $direction"
+            },
+            "removed": "$~$#count[$#count keluaran dihapus]",
+            "notRemovable": "$~yang tidak bisa dihapus sendiri",
+            "drew": "$~$#count[menggambar jalur dengan $#count titik; penggambaran mati]",
+            "drawing": "$~$#count[$#count titik, di $place]",
+            "point": {
+                "label": "$~titik $number dari $#count, di $place",
+                "moved": "$~titik $number ke $place",
+                "added": "$~menambahkan titik $number",
+                "removed": "$~menghapus titik $number",
+                "last": "$~sebuah jalur membutuhkan setidaknya dua titik"
+            }
+        },
+        "timeline": {
+            "slider": "$~penggeser waktu",
+            "button": {
+                "play": "$~evaluasi program, menanggapi masukan secara langsung",
+                "backStep": "$~mundur satu langkah",
+                "backNode": "$~langkah ke evaluasi kursor sebelumnya",
+                "backInput": "$~kembali satu masukan",
+                "out": "$~keluar dari fungsi ini",
+                "forwardStep": "$~satu langkah maju",
+                "forwardNode": "$~langkah selanjutnya untuk evaluasi kursor",
+                "forwardInput": "$~langkah maju ke input aliran berikutnya",
+                "present": "$~sampai akhir",
+                "start": "$~ke awal",
+                "reset": "$~memulai ulang kinerja"
+            },
+            "tour": {
+                "timeline": "$~/timeline/ memungkinkan kamu melangkah *maju* dan *mundur* melewati evaluasi programmu, satu langkah setiap kali. Ini muncul di bilah alat panggung dalam mode ✏️ *edit* dan ⏸️ *debug*. Ini cara yang bagus untuk melihat *bagaimana* programmu menghitung nilainya, dan untuk membangun gambaran di kepalamu tentang cara program @wordplay dievaluasi, terutama jika kamu belum melihat perilaku yang kamu inginkan.",
+                "annotations": "$~Jendela /annotations/ adalah tempat penjelasan setiap langkah muncul. Saat Anda menjalankan program langkah demi langkah, di sinilah Anda akan membaca apa yang baru saja terjadi.",
+                "editor": "$~Editor menampilkan kode Anda. Saat melakukan eksekusi langkah demi langkah, *nilai* setiap bagian program Anda akan muncul di sebelah bagian tersebut *setelah* dievaluasi, sehingga Anda dapat melihat nilai-nilai tersebut bertambah seiring berjalannya program.",
+                "history": "$~/Riwayat/ menunjukkan setiap *masukan* yang diterima programmu, seperti tombol, waktu, dan sentuhan penunjuk. Riwayat ini *bisa diseret*, jadi kamu bisa kembali ke momen mana pun dalam riwayat evaluasi program hanya dengan menyeretnya. Jika kamu lebih suka *mendengar* masukan itu daripada melihatnya, aktifkan /isyarat evaluasi/ di pengaturan, dan @wordplay akan memutar suara pendek untuk setiap masukan, dengan suara berbeda untuk setiap jenis masukan.",
+                "stepControls": "$~Kontrol langkah memungkinkan Anda untuk bergerak melalui evaluasi dengan tepat. Anda dapat melompat ke *awal* atau *akhir*, melangkah *maju* atau *mundur* satu langkah pada satu waktu, melompat sebanyak *satu input*, keluar dari suatu fungsi, atau melompat ke bagian kode yang *sedang dipilih*.",
+                "modes": "$~/mode switcher/ memilih cara programmu dievaluasi. Di mode ✏️ *edit*, program berhenti di posisinya dan kamu bisa mengubahnya — suntinganmu diputar ulang untuk menunjukkan efeknya di titik itu. Di mode ⏸️ *debug*, kode hanya bisa dibaca dan *nilai saat ini* dari setiap bagian programmu muncul di sebelahnya di editor dan di palet. Di mode ▶️ *play*, programmu berjalan langsung dari posisinya, menanggapi input secara langsung. Di samping switcher, tombol /perform/ — sebuah segitiga play yang dikelilingi sudut layar penuh — memulai pertunjukan dari atas dan memenuhi layar dengan panggung, dan ↻ mereset program di mode mana pun."
+            }
+        },
+        "tour": {
+            "label": "$~wisata",
+            "close": "$~mengakhiri tur",
+            "previous": "$~langkah sebelumnya",
+            "next": "$~langkah selanjutnya",
+            "offscreen": "$~Bagian antarmuka ini saat ini tidak terlihat di layar.",
+            "overflowed": "$~Kontrol ini tersembunyi di dalam menu yang disorot; buka menu itu untuk menemukan kontrol tersebut."
+        },
+        "docs": {
+            "kits": {
+                "header": "$~Kit",
+                "prompt": "$~Kit adalah kode yang dipublikasikan seseorang agar orang lain bisa membangun sesuatu dengannya. Salin barisnya, tempelkan di bagian atas programmu, dan semua yang dibagikannya bisa kamu gunakan.",
+                "empty": "$~Belum ada yang mempublikasikan kit. Punyamu bisa jadi yang pertama — bagikan sesuatu dengan ↑, lalu publikasikan dari pengaturan berbagi proyekmu.",
+                "shares": "$~membagikan $names",
+                "missing": "$~Tidak ada kit dengan nama itu. Mungkin sudah diganti namanya, atau belum pernah dipublikasikan.",
+                "missingVersion": "$~Versi itu tidak ada di sini. Coba versi lain di bawah.",
+                "nothing": "$~kit ini tidak membagikan apa pun",
+                "versions": "$~Setiap versi kit ini",
+                "version": {
+                    "tip": "$~lihat versi kit ini"
+                },
+                "open": "$~baca dokumentasi kit ini",
+                "none": "$~Tidak ada yang cocok dengan itu di sini.",
+                "kinds": {
+                    "label": "$~apa yang dibagikan kit",
+                    "all": "$~apa saja"
+                },
+                "yours": "$~Perlengkapanmu yang tidak terdaftar"
+            },
+            "label": "$~memandu",
+            "link": "$~tampilkan \" $name \" dalam dokumentasi",
+            "nodoc": "$~Siapakah aku? Apa aku ini? Apa tujuan hidupku?",
+            "button": {
+                "home": "$~kembali ke rumah",
+                "back": "$~kembali ke sebelumnya",
+                "toggle": "$~Perluas dan ciutkan kelompok konsep ini"
+            },
+            "field": {
+                "search": "$~kata kunci"
+            },
+            "header": {
+                "names": {
+                    "header": "$~Nama-nama",
+                    "explanation": "$~Nama-nama untuk konsep ini."
+                },
+                "inputs": {
+                    "header": "$~Masukan",
+                    "explanation": "$~Nilai yang wajib dan opsional."
+                },
+                "interfaces": {
+                    "header": "$~Antarmuka",
+                    "explanation": "$~Struktur yang menjadi dasar struktur ini."
+                },
+                "properties": {
+                    "header": "$~Properti",
+                    "explanation": "$~/Menghargai toko konsep ini./"
+                },
+                "functions": {
+                    "header": "$~Fungsi",
+                    "explanation": "$~Nilai-nilai yang dapat dihitung oleh konsep ini."
+                },
+                "conversions": {
+                    "header": "$~Konversi",
+                    "explanation": "$~Cara mengkonversi nilai ini menjadi nilai tipe lain."
+                },
+                "arrangements": {
+                    "header": "$~Pengaturan",
+                    "explanation": "$~Cara menyusun frasa dalam sebuah kelompok."
+                },
+                "forms": {
+                    "header": "$~Formulir",
+                    "explanation": "$~Bentuk-bentuk yang dapat ditempatkan di atas panggung."
+                },
+                "appearance": {
+                    "header": "$~Penampilan",
+                    "explanation": "$~Cara mengubah tampilan output."
+                },
+                "animation": {
+                    "header": "$~Animasi",
+                    "explanation": "$~Cara menganimasikan output di atas panggung."
+                },
+                "location": {
+                    "header": "$~Lokasi",
+                    "explanation": "$~Cara menentukan letak output di atas panggung."
+                },
+                "reactions": {
+                    "header": "$~Reaksi",
+                    "explanation": "$~Cara bereaksi terhadap atau menganalisis aliran masukan."
+                }
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~bagian",
+                    "labels": ["$~kode", "$~kit", "$~cara", "$~glosarium"],
+                    "tips": [
+                        "$~konsep bahasa pemrograman",
+                        "$~kode yang dipublikasikan orang lain agar kamu bisa membangun sesuatu dengannya",
+                        "$~pola yang bisa dipakai ulang untuk membuat proyek",
+                        "$~definisi istilah penting"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~kode",
+                    "labels": [
+                        "$~proyek",
+                        "$~kit",
+                        "$~keluaran",
+                        "$~masukan",
+                        "$~memutuskan",
+                        "$~nama",
+                        "$~teks",
+                        "$~pola",
+                        "$~angka",
+                        "$~kebenaran",
+                        "$~daftar",
+                        "$~set",
+                        "$~tabel",
+                        "$~dokumen",
+                        "$~jenis",
+                        "$~dll."
+                    ],
+                    "tips": [
+                        "$~konsep tingkat proyek",
+                        "$~apa yang disediakan oleh kit yang dipinjam proyek ini",
+                        "$~frasa, kelompok, tahapan, tata letak, dan lainnya",
+                        "$~waktu, tombol, kunci, adegan, dan banyak lagi",
+                        "$~memilih nilai berdasarkan nilai lainnya",
+                        "$~Beri nama nilai, fungsi, dan struktur data untuk digunakan di kemudian hari.",
+                        "$~teks biasa dan berformat",
+                        "$~mendeskripsikan bentuk teks untuk menguji atau menemukannya",
+                        "$~angka dan operasi matematika",
+                        "$~nilai benar, salah, dan tidak ada",
+                        "$~daftar dan operasi daftar",
+                        "$~himpunan, peta, dan operasi",
+                        "$~tabel dan operasi tabel",
+                        "$~dokumentasi dan komentar",
+                        "$~tipe data, konversi, dan pemeriksaan tipe",
+                        "$~konsep bahasa tingkat lanjut"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "$~panduan buatan pengguna",
+                    "labels": ["$~semua", "$~galeri & bookmark"],
+                    "tips": [
+                        "$~lihat semua panduan yang dibuat pengguna",
+                        "$~Lihat hanya panduan buatan pengguna dari galeri proyek ini dan semua bookmark."
+                    ]
+                }
+            },
+            "note": {
+                "empty": "$~Nama yang Anda tentukan dalam proyek Anda akan muncul di sini.",
+                "keepTyping": "$~Terus ketik untuk mencari…",
+                "noMatches": "$~Tidak ada kecocokan"
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Proyek",
+                    "explanation": "$~Konsep yang didefinisikan dalam proyek Anda."
+                },
+                "Outputs": {
+                    "header": "$~Keluaran",
+                    "explanation": "$~Berbagai jenis output yang dapat ditempatkan di atas panggung."
+                },
+                "Inputs": {
+                    "header": "$~Masukan",
+                    "explanation": "$~Aliran input dari dunia nyata yang berubah seiring waktu, menyebabkan program harus melakukan evaluasi ulang."
+                },
+                "Decisions": {
+                    "header": "$~Keputusan",
+                    "explanation": "$~Cara memilih di antara berbagai nilai berdasarkan kondisi."
+                },
+                "Definitions": {
+                    "header": "$~Definisi",
+                    "explanation": "$~Cara memberi nama pada nilai, fungsi, dan struktur data untuk penggunaan selanjutnya."
+                },
+                "Numbers": {
+                    "header": "$~Angka",
+                    "explanation": "$~Angka, satuan, dan operasi matematika."
+                },
+                "Text": {
+                    "header": "$~Teks",
+                    "explanation": "$~Teks biasa dan teks berformat, serta cara memanipulasinya."
+                },
+                "Truth": {
+                    "header": "$~Kebenaran",
+                    "explanation": "$~Nilai benar, salah, dan tidak ada, serta cara menggunakannya dalam logika."
+                },
+                "Lists": {
+                    "header": "$~Daftar",
+                    "explanation": "$~Daftar dan operasi daftar, cocok untuk menyimpan nilai dalam urutan tertentu."
+                },
+                "Maps": {
+                    "header": "$~Peta",
+                    "explanation": "$~Himpunan, peta, dan operasinya, cocok untuk menyimpan kumpulan nilai, atau pemetaan dari satu nilai ke nilai lainnya."
+                },
+                "Tables": {
+                    "header": "$~Tabel",
+                    "explanation": "$~/Tabel dan operasi tabel, cocok untuk menyimpan data terstruktur dalam baris dan kolom./"
+                },
+                "Types": {
+                    "header": "$~Jenis",
+                    "explanation": "$~Cara-cara untuk menyatakan bahwa nilai bernama harus memiliki tipe data tertentu dan untuk memeriksa apakah nilai tersebut memang memiliki tipe data yang sesuai."
+                },
+                "Documentation": {
+                    "header": "$~Dokumentasi",
+                    "explanation": "$~Cara menambahkan komentar dan penjelasan pada kode Anda."
+                },
+                "Advanced": {
+                    "header": "$~Canggih",
+                    "explanation": "$~Konsep dan fitur bahasa tingkat lanjut yang mungkin tidak Anda perlukan."
+                },
+                "Hidden": {
+                    "header": "$~Tersembunyi",
+                    "explanation": "$~Konsep-konsep yang disembunyikan dari dokumentasi utama."
+                },
+                "How": {
+                    "header": "$~Cara",
+                    "explanation": "$~Pola umum untuk membuat berbagai jenis proyek."
+                },
+                "GalleryHow": {
+                    "header": "$~Galeri cara",
+                    "explanation": "$~Pola umum untuk membuat berbagai jenis proyek, dari galeri Anda."
+                },
+                "Patterns": {
+                    "header": "$~Pola",
+                    "explanation": "$~/Deskripsikan bentuk teks dengan pola, dibatasi oleh \\⣿\\ , lalu uji apakah teks sesuai dengan bentuk tersebut ( \\≈\\ ) atau temukan setiap tempat teks tersebut muncul ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Kit",
+                    "explanation": "$~Hal-hal yang dibagikan oleh kit yang dipinjam proyek ini."
+                }
+            },
+            "how": {
+                "category": {
+                    "characters": "$~membuat dan mengontrol karakter",
+                    "styling": "$~gaya karakter dan teks",
+                    "animation": "$~menganimasikan karakter dan teks.",
+                    "layout": "$~menyusun karakter dan teks",
+                    "randomization": "$~acak berbagai hal",
+                    "remembering": "$~Melacak perubahan dan pilihan",
+                    "stories": "$~ceritakan sebuah kisah",
+                    "motion": "$~gunakan fisika",
+                    "video": "$~gunakan kamera",
+                    "gallery": "$~Dibuat oleh sesama direktur Wordplay Anda",
+                    "music": "$~buat musik dan suara",
+                    "organizing": "$~mengatur proyek yang lebih besar"
+                },
+                "related": "$~Bukan yang Anda cari?",
+                "howToGalleryButton": {
+                    "label": "$~lihat petunjuk cara melakukannya di ruang tersebut",
+                    "tip": "$~lihat petunjuk cara melakukannya di ruang tersebut"
+                },
+                "explain": {
+                    "header": "$~Cara-cara",
+                    "explanation": "$~Contoh singkat yang menunjukkan cara melakukan berbagai hal di @wordplay. Tekan putar pada pratinjau mana pun untuk melihatnya berjalan, lalu buka untuk membaca cara kerjanya."
+                },
+                "conceptHowTos": "$~Cara",
+                "bookmarked": "$~Ditandai",
+                "community": "$~Dari pembuat",
+                "galleries": "$~Dari galerimu",
+                "wordplay": "$~Dari Wordplay"
+            },
+            "tour": {
+                "launch": "$~ikuti tur bersama pemandu",
+                "guide": "$~Panduan ini berisi dokumentasi untuk semua konsep dan kemampuan bahasa pemrograman @wordplay.",
+                "code": "$~Ini adalah bagian /code/. Bagian ini berisi dokumentasi *bahasa pemrograman* — blok bangunan yang dapat Anda gabungkan untuk membuat program.",
+                "howto": "$~Ini adalah bagian /cara-cara/. Bagian ini berisi *pola-pola bermanfaat* untuk mencapai perilaku tertentu dalam proyek Anda.",
+                "mode": "$~Gunakan tombol ini untuk beralih sendiri antara bagian *kode* dan *cara*.",
+                "search": "$~Kotak /pencarian/ berguna untuk *menemukan* fitur, atau menemukan fitur dengan cepat *berdasarkan nama*."
+            },
+            "breadcrumb": {
+                "label": "$~riwayat navigasi",
+                "home": "$~Rumah"
+            },
+            "tutorial": "$~Tutorial",
+            "glossary": {
+                "explain": {
+                    "header": "$~Glosarium",
+                    "explanation": "$~/Istilah dan gagasan yang dipakai di seluruh bahasa pemrograman dan platform @wordplay./"
+                }
+            }
+        },
+        "dialog": {
+            "share": {
+                "header": "$~Membagikan",
+                "explanation": "$~Bagikan proyek ini dengan galeri atau seluruh dunia.",
+                "subheader": {
+                    "gallery": {
+                        "explanation": "$~Tambahkan proyek ini ke galeri bersama kreator lain, atau buat galeri sendiri.<projects@://projects> halaman. Jika Anda menambahkan proyek ke galeri publik, proyek Anda akan menjadi publik."
+                    },
+                    "public": {
+                        "header": "$~Publik/Pribadi",
+                        "explanation": "$~Proyek dan galeri publik dapat dilihat oleh siapa pun di dunia. Tujuan kami adalah agar konten ini membawa penegasan dan kegembiraan, dan berbagi secara publik adalah salah satu cara untuk mewujudkannya. Namun, ini juga berarti mengikuti beberapa aturan. Anda berjanji bahwa proyek Anda tidak akan:"
+                    },
+                    "pii": {
+                        "explanation": "$~Membagikan informasi identitas pribadi (PII) secara publik dapat membahayakan kreator, oleh karena itu kami mendeteksi kemungkinan PII dan memperingatkan kreator untuk menghapus data sensitif tersebut atau menandainya sebagai non-sensitif. Di bawah ini adalah daftar kemungkinan PII dalam proyek ini yang telah Anda tandai sebagai non-sensitif. Anda dapat mengklik tombol di sebelahnya untuk menandainya sebagai sensitif lagi, tetapi dengan demikian proyek Anda tidak akan lagi disimpan secara online."
+                    },
+                    "preview": {
+                        "explanation": "$~Ini adalah ikon kecil yang mewakili proyek Anda dalam daftar dan galeri. Secara otomatis memilih salah satu berdasarkan apa yang ditampilkan proyek Anda; Kustom memungkinkan Anda untuk menyematkan satu karakter atau emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~/Remix/ adalah salinan sebuah proyek yang diubah seseorang menjadi miliknya sendiri. Kami mengingat asal sebuah remix, agar orang yang membuat proyek asli tetap mendapat penghargaan."
+                    },
+                    "research": {
+                        "header": "$~Penelitian",
+                        "explanation": "$~Kadang kami menulis dan berbicara tentang Wordplay — dalam makalah penelitian, dalam presentasi, dan dalam hal yang kami tunjukkan kepada guru dan keluarga. Jika kamu mengaktifkan ini, kami bisa menampilkan proyek ini sebagai contoh, tanpa namamu, nama penggunamu, atau apa pun yang menunjukkan bahwa akun ini milikmu.\n\nKamu bisa menonaktifkannya kapan saja. Menonaktifkannya berarti kami berhenti menggunakan proyekmu dalam hal-hal baru, tetapi tidak bisa menarik kembali sesuatu yang sudah kami terbitkan atau tampilkan sebelumnya."
+                    },
+                    "kit": {
+                        "explanation": "$~Kit adalah satu sumber yang kamu terbitkan agar orang lain bisa membangun sesuatu dengannya. Apa pun yang kamu tandai dengan ↑ akan menjadi bagian darinya."
+                    }
+                },
+                "field": {
+                    "emailOrUsername": {
+                        "placeholder": "$~email/nama pengguna",
+                        "description": "$~Alamat email atau nama pengguna orang yang ingin Anda beri akses edit."
+                    },
+                    "preview": {
+                        "placeholder": "$~pratinjau glif",
+                        "description": "$~satu karakter atau emoji tunggal untuk digunakan sebagai glif pratinjau proyek ini."
+                    }
+                },
+                "mode": {
+                    "public": {
+                        "label": "$~visibilitas",
+                        "labels": ["$~pribadi", "$~publik"],
+                        "tips": [
+                            "$~Hanya Anda dan kolaborator yang dapat melihat proyek ini.",
+                            "$~Siapa pun dapat melihat proyek ini."
+                        ]
+                    },
+                    "preview": {
+                        "tips": [
+                            "$~biarkan proyek memilih sendiri glif pratinjaunya berdasarkan apa yang ditampilkannya",
+                            "$~sematkan glif pilihanmu"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~penelitian",
+                        "labels": [
+                            "$~tidak dibagikan",
+                            "$~dibagikan secara anonim"
+                        ],
+                        "tips": [
+                            "$~jangan tampilkan proyek ini dalam penelitian atau komunikasi tentang Wordplay",
+                            "$~izinkan Wordplay menampilkan proyek ini secara anonim dalam penelitian dan komunikasi tentang Wordplay"
+                        ]
+                    }
+                },
+                "error": {
+                    "unknown": "$~Kami tidak mengenal kreator dengan alamat email ini.",
+                    "anonymous": "$~Anda pasti<logged in@://login> untuk dibagikan.",
+                    "self": "$~Anda tidak bisa menambahkan diri sendiri.",
+                    "invalidPreview": "$~Pilih tepat satu karakter atau emoji."
+                },
+                "button": {
+                    "submit": "$~Bagikan proyek ini melalui alamat email ini.",
+                    "sensitive": {
+                        "tip": "$~Tandai teks ini sebagai teks sensitif lagi.",
+                        "label": "$~peka"
+                    }
+                },
+                "options": {
+                    "gallery": "$~pemilih galeri",
+                    "source": "$~sumber untuk diterbitkan"
+                },
+                "remix": {
+                    "source": "$~Proyek ini adalah remix dari:",
+                    "remixes": "$~Proyek-proyek ini adalah remix dari proyek ini:",
+                    "unknown": "$~Kami tidak dapat menemukan proyek asal remix ini. Mungkin proyek itu sudah dihapus, atau mungkin tidak bersifat publik.",
+                    "none": "$~Belum ada campuran ulang dari proyek ini yang dibagikan. Campuran ulang dimulai secara pribadi, jadi hanya muncul di sini setelah orang yang membuatnya memutuskan untuk membuatnya menjadi publik."
+                },
+                "tab": {
+                    "label": "$~pengaturan berbagi",
+                    "labels": [
+                        "$~Galeri",
+                        "$~Umum",
+                        "$~Pratinjau",
+                        "$~Privasi",
+                        "$~Campuran Ulang",
+                        "$~Kit"
+                    ],
+                    "tips": [
+                        "$~pilih galeri untuk menampilkan proyek ini",
+                        "$~pilih siapa yang bisa melihat proyek ini",
+                        "$~pilih simbol yang mewakili proyek ini dalam daftar",
+                        "$~periksa informasi pribadi yang ada di proyek ini",
+                        "$~lihat proyek ini dicampur ulang dari mana, dan apa yang mencampur ulangnya",
+                        "$~terbitkan sebagian dari proyek ini agar bisa dipakai orang lain"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Tidak ada informasi pribadi yang ditemukan."
+                },
+                "kit": {
+                    "nothing": "$~Belum ada yang dibagikan di sini. Tambahkan ↑ di depan nama, fungsi, atau struktur untuk membagikannya, seperti \\↑ sunset/en: 🔴\\, lalu proyek ini bisa menjadi kit.",
+                    "unpublished": "$~Kamu belum menerbitkan yang ini.",
+                    "name": {
+                        "placeholder": "$~nama",
+                        "description": "$~nama untuk kit ini"
+                    },
+                    "publish": {
+                        "label": "$~terbitkan",
+                        "tip": "$~terbitkan versi baru kit ini"
+                    },
+                    "version": "$~versi $version",
+                    "problem": {
+                        "exports": "$~belum ada yang dibagikan di sini",
+                        "invalid": "$~itu bukan nama yang bisa saya baca"
+                    },
+                    "undescribed": "$~sumber ini belum punya dokumentasi",
+                    "discovery": "$~Moderator bisa menyembunyikan versi yang sudah diterbitkan dari daftar. Apa pun yang sudah dipinjam orang lain tetap berfungsi, meskipun disembunyikan dari daftar.",
+                    "moderation": {
+                        "unrequested": "$~belum diminta untuk dicantumkan",
+                        "pending": "$~menunggu peninjauan oleh moderator",
+                        "approved": "$~sudah ditinjau dan dicantumkan",
+                        "denied": "$~moderator meminta perubahan"
+                    },
+                    "derived": "$~Deskripsi dan kata pencarian kit kamu diambil dari kalimat pertama dokumentasi sumber ini.",
+                    "heading": {
+                        "name": "$~Nama",
+                        "exports": "$~Apa yang dibagikan kit ini",
+                        "versions": "$~Versi",
+                        "listing": "$~Siapa yang bisa menemukannya"
+                    },
+                    "listing": {
+                        "label": "$~pendaftaran",
+                        "labels": ["$~tidak terdaftar", "$~terdaftar"],
+                        "tips": [
+                            "$~tidak ada yang bisa menemukan kit ini di panduan, dan apa pun yang sudah meminjamnya tetap bisa dipakai",
+                            "$~siapa saja bisa menemukan kit ini di panduan, setelah seorang moderator memeriksanya"
+                        ]
+                    },
+                    "remedy": "$~Ubah sumbernya lalu terbitkan versi baru, dan seorang moderator akan memeriksanya lagi.",
+                    "unreviewed": "$~Tidak ada yang memeriksa kit yang tidak terdaftar. Siapa saja yang kamu berikan tautan pinjamnya tetap bisa membacanya.",
+                    "permanent": "$~Menerbitkan sebuah versi bersifat permanen: program orang lain meminjamnya berdasarkan nomor, jadi menarik kembali satu versi akan merusak program mereka.",
+                    "confirm": "$~Terbitkan",
+                    "withdraw": {
+                        "label": "$~tarik kembali",
+                        "tip": "$~tarik kembali versi ini, yang hanya bisa dilakukan selama kit belum terdaftar"
+                    },
+                    "withdrawable": "$~Kit ini belum pernah terdaftar, jadi belum ada yang bisa menemukannya — kamu masih bisa menarik kembali versi terbarunya.",
+                    "unpublishable": "$~Kit ini belum bisa diterbitkan:",
+                    "failed": "$~Saya tidak bisa menerbitkan kit kamu. Pastikan kamu terhubung ke internet dan coba lagi."
+                }
+            },
+            "settings": {
+                "header": "$~Pengaturan",
+                "explanation": "$~Ubah tampilan Wordplay, cara kamu menulis kode, dan cara program menggunakan perangkat kamu.",
+                "button": {
+                    "show": "$~Tampilkan dialog pengaturan"
+                },
+                "mode": {
+                    "layout": {
+                        "label": "$~tata letak",
+                        "labels": [
+                            "$~mobil",
+                            "$~baris",
+                            "$~tumpukan",
+                            "$~dua",
+                            "$~satu",
+                            "$~bebas"
+                        ],
+                        "tips": [
+                            "$~Susun ubin secara otomatis berdasarkan ukuran dan bentuk jendela.",
+                            "$~tata letak layar horizontal",
+                            "$~tata letak layar vertikal",
+                            "$~dua ubin terbaru, berdampingan",
+                            "$~hanya ubin terbaru",
+                            "$~ubin yang dapat dipindahkan dan diubah ukurannya pada kanvas"
+                        ]
+                    },
+                    "animate": {
+                        "label": "$~kecepatan animasi",
+                        "labels": [
+                            "$~mati",
+                            "$~1/4",
+                            "$~1/3x",
+                            "$~1/2x",
+                            "$~1x",
+                            "$~2x",
+                            "$~5x",
+                            "$~10x",
+                            "$~mobil"
+                        ],
+                        "tips": [
+                            "$~animasi dimatikan",
+                            "$~seperempat kecepatan",
+                            "$~kecepatan ketiga",
+                            "$~setengah kecepatan",
+                            "$~kecepatan normal",
+                            "$~kecepatan ganda",
+                            "$~lima kecepatan",
+                            "$~sepuluh kecepatan",
+                            "$~gunakan pengaturan perangkat saat ini"
+                        ]
+                    },
+                    "dark": {
+                        "label": "$~tema",
+                        "labels": ["$~lampu", "$~gelap", "$~mobil"],
+                        "tips": [
+                            "$~warna yang lebih terang",
+                            "$~warna yang lebih gelap",
+                            "$~gunakan pengaturan perangkat saat ini"
+                        ]
+                    },
+                    "blocks": {
+                        "label": "$~editor",
+                        "labels": ["$~teks", "$~blok"],
+                        "tips": [
+                            "$~edit kode sebagai teks",
+                            "$~edit kode sebagai blok"
+                        ]
+                    },
+                    "blockDensity": {
+                        "label": "$~jarak antar blok",
+                        "labels": ["$~kompak", "$~normal", "$~luas"],
+                        "tips": [
+                            "$~Blok yang lebih rapat agar lebih banyak kode dapat ditampilkan di layar.",
+                            "$~spasi blok default",
+                            "$~Blok yang lebih longgar untuk memudahkan pemilihan dan penyeretan."
+                        ]
+                    },
+                    "space": {
+                        "label": "$~penanda spasi",
+                        "labels": ["$~bersembunyi", "$~menunjukkan"],
+                        "tips": [
+                            "$~jangan menampilkan indikator spasi dan tab",
+                            "$~Tampilkan indikator spasi dan tab secara eksplisit."
+                        ]
+                    },
+                    "lines": {
+                        "label": "$~nomor baris",
+                        "labels": ["$~bersembunyi", "$~menunjukkan"],
+                        "tips": [
+                            "$~jangan tampilkan nomor baris dalam mode teks",
+                            "$~Tampilkan nomor baris dalam mode teks"
+                        ]
+                    },
+                    "writing": {
+                        "label": "$~tata letak tulisan",
+                        "labels": [
+                            "$~horisontal",
+                            "$~rtl vertikal",
+                            "$~huruf vertikal",
+                            "$~otomatis"
+                        ],
+                        "tips": [
+                            "$~Teks horizontal, dibaca dari kiri ke kanan",
+                            "$~Teks vertikal, dibaca dari kanan ke kiri.",
+                            "$~Teks vertikal, dibaca dari kiri ke kanan",
+                            "$~Ikuti tata letak penulisan bahasa tersebut."
+                        ]
+                    },
+                    "tab": {
+                        "label": "$~tombol tab",
+                        "labels": ["$~alihkan fokus", "$~sisipkan tab"],
+                        "tips": [
+                            "$~tombol tab memindahkan fokus keyboard ke kontrol berikutnya",
+                            "$~tab menyisipkan tab di editor"
+                        ]
+                    },
+                    "wrap": {
+                        "label": "$~garis pembungkus",
+                        "labels": ["$~mati", "$~pada"],
+                        "tips": [
+                            "$~Baris panjang bergulir secara horizontal dalam mode teks.",
+                            "$~Baris panjang akan membungkus ke jendela editor dalam mode teks."
+                        ]
+                    },
+                    "words": {
+                        "label": "$~kata kunci",
+                        "labels": ["$~simbol", "$~kata-kata"],
+                        "tips": [
+                            "$~Tampilkan kata kunci bawaan sebagai simbol.",
+                            "$~Tampilkan kata kunci bawaan sebagai kata-kata dalam bahasa Anda."
+                        ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~visualisasi",
+                        "labels": [
+                            "$~orkestra",
+                            "$~pertunjukan cahaya",
+                            "$~suasana hati",
+                            "$~lembaran musik",
+                            "$~mati"
+                        ],
+                        "tips": [
+                            "$~Tampilkan musik sebagai orkestra alat musik",
+                            "$~Tampilkan musik sebagai cahaya yang berubah",
+                            "$~Tampilkan musik sebagai awan warna dan bentuk yang berubah bersama perasaan musik",
+                            "$~Tampilkan not sebagai musik tertulis di garis paranada, bergulir lewat saat dimainkan",
+                            "$~Jangan tampilkan musik"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~volume",
+                        "labels": ["$~mati", "$~pelan", "$~penuh"],
+                        "tips": [
+                            "$~Matikan semua musik",
+                            "$~Mainkan musik dengan pelan",
+                            "$~Mainkan musik dengan volume penuh"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~saat berbicara",
+                        "labels": ["$~pelan", "$~lebih pelan", "$~sunyi"],
+                        "tips": [
+                            "$~Turunkan musik sedikit saat ada yang diucapkan",
+                            "$~Turunkan musik banyak saat ada yang diucapkan",
+                            "$~Matikan musik saat ada yang diucapkan"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~getaran",
+                        "labels": ["$~mati", "$~hidup"],
+                        "tips": [
+                            "$~Jangan bergetar mengikuti irama",
+                            "$~Bergetar mengikuti irama, jika perangkat mendukungnya"
+                        ]
+                    },
+                    "captionSize": {
+                        "label": "$~ukuran keterangan",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Tampilkan keterangan yang lebih kecil",
+                            "$~Tampilkan keterangan dengan ukuran standar",
+                            "$~Tampilkan keterangan satu setengah kali lebih besar",
+                            "$~Tampilkan keterangan dua kali lebih besar",
+                            "$~Tampilkan keterangan tiga kali lebih besar"
+                        ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~warna proyek",
+                        "labels": ["$~pertahankan", "$~balik"],
+                        "tips": [
+                            "$~tampilkan warna proyek persis seperti yang ditulis, bahkan di layar gelap",
+                            "$~di layar gelap, balikkan warna proyek yang terang menjadi gelap: setiap warna tetap dengan rona aslinya, dan warna tetap sejauh yang dibuat oleh proyek"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~isyarat evaluasi",
+                        "labels": ["$~mati", "$~hidup"],
+                        "tips": [
+                            "$~Jangan buat suara saat program dievaluasi ulang",
+                            "$~Putar suara pendek setiap kali program dievaluasi ulang, satu suara untuk setiap jenis masukan"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~isyarat animasi",
+                        "labels": ["$~mati", "$~hidup"],
+                        "tips": [
+                            "$~Jangan buat suara saat keluaran beranimasi",
+                            "$~Putar suara pendek setiap kali animasi mencapai suatu pose, dengan suara yang mengikuti apa yang dilakukan pose itu"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~isyarat tabrakan",
+                        "labels": ["$~mati", "$~hidup"],
+                        "tips": [
+                            "$~Jangan buat suara saat keluaran bertabrakan",
+                            "$~Putar suara saat keluaran bertabrakan, makin keras benturannya makin keras suaranya"
+                        ]
+                    },
+                    "placement": {
+                        "label": "$~penempatan panggung",
+                        "labels": [
+                            "$~kiri atas",
+                            "$~kanan atas",
+                            "$~kiri bawah",
+                            "$~kanan bawah"
+                        ],
+                        "tips": [
+                            "$~letakkan panggung di kiri atas, dan ubin lain di tempat yang sesuai di sekitarnya",
+                            "$~letakkan panggung di kanan atas, dan ubin lain di tempat yang sesuai di sekitarnya",
+                            "$~letakkan panggung di kiri bawah, dan ubin lain di tempat yang sesuai di sekitarnya",
+                            "$~letakkan panggung di kanan bawah, dan ubin lain di tempat yang sesuai di sekitarnya"
+                        ]
+                    }
+                },
+                "options": {
+                    "face": "$~huruf muka",
+                    "mic": "$~mikrofon",
+                    "camera": "$~kamera",
+                    "voice": "$~Suara ucapan",
+                    "default": "$~bawaan"
+                },
+                "tab": {
+                    "label": "$~grup pengaturan",
+                    "labels": [
+                        "$~Tampilan",
+                        "$~Kode",
+                        "$~Kamera + Mikrofon",
+                        "$~Suara + Musik"
+                    ],
+                    "tips": [
+                        "$~bagaimana tampilan dan rasa Wordplay itu sendiri: huruf, warna, ubin, dan animasi",
+                        "$~bagaimana tampilan dan rasa kode saat kamu menuliskannya",
+                        "$~kamera dan mikrofon mana yang dibaca oleh program",
+                        "$~bagaimana musik, ucapan, dan teks sebuah program sampai kepadamu"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musik",
+                    "say": "$~Ucapkan",
+                    "cues": "$~Isyarat"
+                }
+            },
+            "notifications": {
+                "header": "$~Pemberitahuan",
+                "explanation": "$~Notifikasi dari obrolan baru dan panduan yang diterbitkan",
+                "open": "$~buka dialog notifikasi",
+                "howToNotifications": {
+                    "label": "$~pemberitahuan untuk panduan baru",
+                    "labels": ["$~mati", "$~pada"],
+                    "tips": [
+                        "$~jangan beri tahu saya tentang tutorial baru",
+                        "$~Beri tahu saya tentang panduan baru."
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~Hapus semua notifikasi",
+                    "tip": "$~Hapus semua notifikasi"
+                },
+                "notification": {
+                    "howToHeader": "$~Panduan baru berjudul \" $title \" telah diposting",
+                    "projectChatHeader": "$~Pesan baru dalam proyek \" $name \"",
+                    "howToChatHeader": "$~Pesan baru dalam panduan \" $title \"",
+                    "moderationHeader": "$~Pesan di \" $name \" memerlukan tindakan moderasi",
+                    "link": "$~detail",
+                    "reportedHeader": "$~Sesuatu yang kamu buat di \"$title\" telah dilaporkan dan sedang ditinjau",
+                    "reportReceivedHeader": "$~Laporanmu tentang \"$title\" telah dikirim ke orang yang bertanggung jawab",
+                    "decisionHeader": "$~Sebuah keputusan telah dibuat tentang sesuatu yang kamu buat di \"$title\"",
+                    "outcomeHeader": "$~Sebuah keputusan telah dibuat tentang apa yang kamu laporkan di \"$title\"",
+                    "because": "$~Karena hal itu:",
+                    "note": "$~Mereka berkata:",
+                    "reviewPending": "$~$#count[$count hal sedang menunggu untuk kamu tinjau]"
+                },
+                "delete": "$~Hapus pemberitahuan ini",
+                "popup": "$~$#count[$count pemberitahuan]",
+                "moderate": {
+                    "label": "$~ulas yang sedang menunggu",
+                    "tip": "$~buka hal-hal yang menunggu untuk ditinjau"
+                }
+            },
+            "locale": {
+                "header": "$~Bahasa",
+                "explanation": "$~Pilih bahasa untuk antarmuka, tutorial, dan dokumentasi. Bahasa yang ditandai 🤖 masih sebagian besar diterjemahkan oleh mesin, jadi beberapa teks mungkin sulit dibaca atau salah.",
+                "subheader": {
+                    "selected": "$~Terpilih",
+                    "supported": "$~Tersedia"
+                },
+                "search": {
+                    "description": "$~Saring bahasa berdasarkan nama atau wilayah",
+                    "placeholder": "$~bahasa atau wilayah"
+                },
+                "button": {
+                    "show": "$~Pilih bahasa untuk situs web",
+                    "replace": "$~gunakan bahasa ini",
+                    "add": "$~gunakan bahasa ini dan bahasa-bahasa yang ada saat ini",
+                    "remove": "$~hapus bahasa ini",
+                    "menu": "$~bahasa lain"
+                },
+                "localizeHelp": "$~Untuk membantu meningkatkan terjemahan dalam bahasa Anda, klik ikon pensil ✎ di *bagian bawah halaman* untuk mengaktifkan mode lokalisasi dan menyarankan perbaikan.",
+                "request": {
+                    "header": "$~Bahasa Anda tidak tersedia?",
+                    "explanation": "$~Pilih bahasa dan wilayah, lalu kami akan membuka issue di GitHub untuk membahas penambahannya.",
+                    "languageLabel": "$~bahasa",
+                    "regionLabel": "$~wilayah",
+                    "submit": "$~Meminta",
+                    "submitting": "$~Mengirim permintaan…",
+                    "success": "$~Diskusikan permintaan ini dengan kami di GitHub!",
+                    "error": "$~Terjadi kesalahan. Silakan coba lagi.",
+                    "alreadySupported": "$~Bahasa dan wilayah tersebut sudah didukung.",
+                    "requiresLogin": "$~Anda harus masuk terlebih dahulu untuk meminta bahasa.",
+                    "searchPlaceholder": "$~bahasa atau negara",
+                    "searchDescription": "$~Saring menu bahasa dan negara",
+                    "alreadyRequested": "$~Seseorang sudah meminta bahasa ini. Ikut diskusinya di GitHub!"
+                },
+                "choose": "$~Pilih sebuah bahasa"
+            },
+            "help": {
+                "header": "$~Jalan pintas",
+                "explanation": "$~Gunakan perintah keyboard ini untuk pengeditan yang lebih efisien.",
+                "subheader": {
+                    "moveCursor": "$~Bergerak",
+                    "editCode": "$~Edit",
+                    "insertCode": "$~Menyisipkan",
+                    "debug": "$~Debug",
+                    "format": "$~Format",
+                    "help": "$~Bantuan"
+                },
+                "column": {
+                    "symbol": "$~Simbol",
+                    "shortcut": "$~Pintasan",
+                    "action": "$~Tindakan",
+                    "change": "$~Ubah"
+                },
+                "via": {
+                    "toolbar": "$~bilah alat",
+                    "chooser": "$~pemilih karakter"
+                },
+                "change": {
+                    "on": "$~berhenti mengubah pintasan ini",
+                    "off": "$~ubah pintasan ini"
+                },
+                "capture": "$~tekan tombol yang kamu inginkan",
+                "reset": "$~gunakan pintasan bawaan",
+                "resetAll": "$~gunakan semua pintasan bawaan",
+                "custom": "$~diubah",
+                "feedback": {
+                    "bound": "$~$command sekarang $shortcut",
+                    "conflict": "$~$shortcut sudah digunakan untuk $command",
+                    "reserved": "$~komputermu memakai $shortcut untuk dirinya sendiri",
+                    "unmodified": "$~pintasan harus memakai Control atau Alt, kalau tidak itu hanya mengetik biasa",
+                    "reset": "$~$command kembali ke pintasan biasanya"
+                }
+            },
+            "feedback": {
+                "header": "$~Masukan",
+                "explanation": "$~Bantu kami meningkatkan @wordplay dengan melaporkan 🪲 *masalah* dan berbagi 💡 *ide*!",
+                "button": {
+                    "show": "$~Tampilkan formulir umpan balik.",
+                    "submit": {
+                        "tip": "$~Kirimkan masukan Anda",
+                        "label": "$~kirim"
+                    },
+                    "delete": {
+                        "description": "$~Hapus masukan Anda.",
+                        "prompt": "$~menghapus"
+                    },
+                    "like": "$~Suka dengan tanggapan ini?",
+                    "close": {
+                        "label": "$~menutup",
+                        "tip": "$~Tutup tanggapan ini sebagai moderator"
+                    },
+                    "comment": {
+                        "label": "$~kirim",
+                        "tip": "$~Kirimkan komentar Anda mengenai tanggapan ini."
+                    }
+                },
+                "mode": {
+                    "label": "$~masukan",
+                    "labels": ["$~cacat", "$~ide-ide"],
+                    "tips": [
+                        "$~Laporkan sesuatu yang tampaknya rusak.",
+                        "$~menyarankan fitur atau peningkatan baru"
+                    ]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~judul tanggapan Anda",
+                        "placeholder": "$~judul"
+                    },
+                    "defect": {
+                        "description": "$~deskripsi kerusakan Anda",
+                        "placeholder": "$~Langkah apa yang Anda ambil? Apa yang terjadi setelah itu? Jelaskan sedetail mungkin."
+                    },
+                    "idea": {
+                        "description": "$~deskripsi kerusakan Anda",
+                        "placeholder": "$~Apa yang sedang kamu coba lakukan tetapi tidak bisa kamu lakukan?"
+                    },
+                    "comment": {
+                        "description": "$~komentar",
+                        "placeholder": "$~Tambahkan komentar pada tanggapan ini"
+                    },
+                    "github": {
+                        "description": "$~Masalah GitHub",
+                        "placeholder": "$~Tautan ke masalah GitHub"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~cacat",
+                    "idea": "$~ide",
+                    "moderator": "$~moderator"
+                },
+                "prompt": {
+                    "defect": "$~Tidak menemukan masalah yang Anda alami? Laporkan di sini. Semakin detail informasi yang Anda berikan, semakin baik!",
+                    "idea": "$~Tidak menemukan ide yang Anda pikirkan? Sarankan."
+                },
+                "error": {
+                    "login": "$~Anda pasti<logged in@://login> untuk mengirimkan umpan balik",
+                    "empty": "$~Tidak ada umpan balik yang dapat ditampilkan.",
+                    "url": "$~Ini bukan URL GitHub yang valid."
+                }
+            }
+        },
+        "collaborate": {
+            "label": "$~berkolaborasi",
+            "role": {
+                "owner": "$~pemilik",
+                "collaborate": "$~berkolaborasi",
+                "comment": "$~berkomentar",
+                "view": "$~melihat",
+                "curate": "$~mengelola"
+            },
+            "field": {
+                "message": {
+                    "description": "$~Pesan obrolan yang akan dikirim",
+                    "placeholder": "$~Ketik pesan"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~mengirim",
+                    "tip": "$~kirim pesan ke kolaborator Anda dan"
+                },
+                "delete": "$~hapus pesan ini",
+                "confirmDelete": "$~Konfirmasi penghapusan?",
+                "transfer": {
+                    "description": "$~jadikan orang ini sebagai pemilik proyek",
+                    "prompt": "$~Jadikan mereka pemilik?",
+                    "consequence": "$~Kamu akan tetap menjadi kolaborator dan bisa terus menyunting, tapi kamu tidak akan bisa lagi menghapus proyek ini."
+                }
+            },
+            "moderation": {
+                "header": "$~Laporkan pesan ini",
+                "explanation": "$~Jika pesan ini tidak sesuai dengan harapan kami<community standards@://rights> atau jenis umpan balik yang Anda minta, Anda dapat melaporkannya. Saat Anda melaporkan pesan ini, pesan tersebut akan dikirim ke kurator galeri dan dihapus hingga dapat ditinjau.",
+                "report": {
+                    "tip": "$~Laporkan pesan ini",
+                    "label": "$~laporan"
+                },
+                "moderate": {
+                    "tip": "$~Buka dasbor moderasi",
+                    "label": "$~sedang"
+                },
+                "pending": "$~Pesan ini dihapus sementara sambil menunggu tindakan moderasi.",
+                "removed": "$~Pesan ini telah dihapus karena melanggar pedoman komunitas atau umpan balik.",
+                "inGallery": "$~Obrolan ini berada di dalam galeri. Obrolan ini tunduk pada moderasi oleh kurator galeri. Anda dapat melaporkan pesan yang melanggar aturan kami.<community standards@://rights> untuk moderasi."
+            },
+            "error": {
+                "unowned": "$~Proyek ini tidak disimpan secara online, jadi tidak dapat memiliki fitur obrolan atau kolaborator.",
+                "offline": "$~Obrolan ini tidak dapat dimuat.",
+                "empty": "$~Tidak ada pesan.",
+                "deleted": "$~Pesan ini telah dihapus.",
+                "transferGallery": "$~Proyek ini ada di dalam galeri. Memberikannya kepada orang lain tidak menambahkan mereka ke galeri itu, jadi mereka mungkin tidak bisa melihatnya di sana."
+            },
+            "restrictGalleryCreatorAccess": {
+                "mode": {
+                    "label": "$~batasi akses proyek",
+                    "labels": ["$~jangan membatasi", "$~membatasi"],
+                    "tips": [
+                        "$~Siapa pun yang dapat melihat galeri ini dapat melihat proyek Anda.",
+                        "$~Hanya kurator galeri yang dapat melihat proyek Anda."
+                    ]
+                }
+            },
+            "tour": {
+                "launch": "$~ikuti tur kolaborasi",
+                "collaborate": "$~Semua orang yang bisa membuka proyek ini ada dalam daftar ini, dan kamu bisa *mengobrol* dengan orang-orang yang diizinkan. Hanya /pemilik/, /kolaborator/, dan /pengomentar/ yang bisa melihat obrolan.",
+                "collaborators": "$~Setiap orang punya satu /hak akses/. *Berkolaborasi* berarti mereka bisa menyunting proyek dan mengobrol tentangnya. *Berkomentar* berarti mereka bisa mengobrol tapi tidak bisa menyunting. *Melihat* berarti mereka hanya bisa melihat, bukan mengobrol. *Pemilik* menyerahkan proyek ini pada mereka. /Pengelola/ galeri selalu bisa membukanya, jadi kamu tidak bisa mengubah hak akses mereka.",
+                "restrict": "$~Saat sebuah proyek berada di *galeri*, secara default *semua orang* yang dapat melihat galeri dapat melihat proyek Anda. Tombol /restrict/ *menyembunyikannya* dari semua orang kecuali Anda dan kurator galeri.",
+                "add": "$~Tekan tanda *+* di akhir daftar untuk menambahkan seseorang. Ketik *email* atau *nama pengguna* mereka, pilih apa yang boleh mereka lakukan, dan mereka akan bergabung ke daftar."
+            },
+            "announce": {
+                "transferred": "$~$name sekarang menjadi pemilik $project",
+                "privilege": "$~$name sekarang bisa $privilege",
+                "removed": "$~$name tidak bisa lagi membuka proyek ini",
+                "thread": "$~$#count[Utas pada pesan $name, $count balasan]",
+                "reacted": "$~$#count[$emoji pada pesan ini, $count orang]",
+                "unreacted": "$~$#count[Membatalkan $emoji, $count orang berhenti]",
+                "attached": "$~Sedang membahas $location.",
+                "found": "$~$name berkata $opening"
+            },
+            "translate": {
+                "label": "$~Terjemahkan pesan ke",
+                "off": "$~Hentikan penerjemahan",
+                "error": "$~Kami tidak bisa menerjemahkan pesan ini ke $to. Coba lagi sebentar lagi.",
+                "messageError": "$~Kami tidak bisa menerjemahkan pesan ini.",
+                "messageErrors": "$~$#count[Kami tidak bisa menerjemahkan $count pesan.]",
+                "direction": "$~$from → $to",
+                "translating": "$~Menerjemahkan pesan…",
+                "translated": "$~$#count[Menerjemahkan $count pesan ke $language.]",
+                "writingIn": "$~Saya menulis dalam",
+                "downloading": "$~Mengambil penerjemah $language untuk peramban Anda…",
+                "onDevice": "$~Peramban Anda menerjemahkan ini di perangkat Anda, jadi tidak ada pesan yang dikirim ke kami.",
+                "none": "$~Jangan diterjemahkan",
+                "dismiss": "$~tutup"
+            },
+            "table": {
+                "label": "$~siapa saja yang bisa membuka proyek ini",
+                "choose": "$~apa yang bisa dilakukan $name",
+                "adding": "$~apa yang bisa mereka lakukan",
+                "audience": "$~siapa saja yang bisa melihat obrolan ini",
+                "add": "$~tambahkan seseorang",
+                "cancel": "$~batalkan penambahan seseorang"
+            },
+            "prompt": "$~Tambahkan kolaborator, pengomentar, dan penonton",
+            "thread": {
+                "reply": "$~balas",
+                "replies": "$~$#count[$count balasan]",
+                "unseen": "$~$#count[$count balasan baru]",
+                "header": "$~Utas",
+                "back": "$~kembali ke percakapan",
+                "empty": "$~Belum ada balasan. Katakan sesuatu!",
+                "placeholder": "$~Balas…"
+            },
+            "reaction": {
+                "add": "$~beri reaksi",
+                "more": "$~lainnya…",
+                "label": "$~Pilih sebuah reaksi",
+                "full": "$~Pesan ini sudah memiliki semua reaksi yang bisa ditampung.",
+                "close": "$~tutup daftar reaksi",
+                "pick": "$~beri reaksi dengan $emoji",
+                "give": "$~$#count[tambahkan $emoji milikmu — $count orang sudah melakukannya]",
+                "take": "$~$#count[batalkan $emoji milikmu — $count orang memilikinya]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~berhenti membahas kode ini",
+                    "off": "$~bahas kode di tempat kursor saya berada"
+                },
+                "prompt": "$~Pesanmu tentang $location.",
+                "line": "$~baris $line",
+                "lines": "$~baris $first–$last",
+                "label": "$~tentang $location: $code",
+                "invalid": "$~kode ini sudah hilang",
+                "marker": "$~$#count[baca $count pesan tentang kode ini]"
+            }
+        },
+        "palette": {
+            "label": "$~palet",
+            "labels": {
+                "mixed": "$~campur aduk",
+                "computed": "$~dihitung",
+                "default": "$~bawaan",
+                "inherited": "$~diwarisi",
+                "notSequence": "$~bukan sebuah urutan",
+                "format": "$~format",
+                "weight": "$~berat",
+                "light": "$~lampu",
+                "normal": "$~normal",
+                "bold": "$~berani",
+                "extra": "$~tambahan",
+                "italic": "$~miring",
+                "underline": "$~menggarisbawahi"
+            },
+            "button": {
+                "revert": "$~kembali ke pengaturan default",
+                "set": "$~edit properti ini",
+                "addPhrase": "$~tambahkan frasa setelah ini",
+                "addGroup": "$~tambahkan grup setelah ini",
+                "addShape": "$~tambahkan bentuk setelah ini",
+                "addMotion": "$~atur tempat untuk aliran Motion",
+                "addPlacement": "$~tetapkan tempat ke aliran Penempatan",
+                "remove": "$~hapus konten ini",
+                "up": "$~pindahkan konten ini ke atas",
+                "down": "$~pindahkan konten ini ke bawah",
+                "edit": "$~Edit konten ini",
+                "sequence": "$~konversi ke Urutan",
+                "editMode": "$~beralih ke mode ubah",
+                "previousTrack": "$~tampilkan @Track sebelumnya",
+                "nextTrack": "$~tampilkan @Track berikutnya",
+                "addTrack": "$~tambahkan @Track",
+                "removeTrack": "$~hapus @Track ini",
+                "clearTrack": "$~hapus semua not dari @Track ini",
+                "makeChord": "$~jadikan not ini sebuah akor",
+                "unmakeChord": "$~kecilkan akor ini menjadi satu not",
+                "playMusic": "$~dengarkan @Music ini dari kursor",
+                "pauseMusic": "$~berhenti memainkan",
+                "importMIDI": "$~impor sebuah berkas MIDI sebagai @Music",
+                "record": "$~senandungkan sebuah nada untuk ditambahkan ke @Track ini",
+                "stopRecording": "$~berhenti dan tulis apa yang kamu senandungkan",
+                "playTrack": "$~dengarkan @Track ini sendirian, mulai dari kursor",
+                "pauseTrack": "$~berhenti memainkan @Track ini",
+                "rewind": "$~kembali ke awal"
+            },
+            "prompt": {
+                "select": "$~Untuk mengubah sesuatu, pilih di kode kamu atau di @Stage. Untuk menambah sesuatu yang baru, gunakan tombol + di atas.",
+                "editing": "$~Edit saya!",
+                "readonly": "$~Nilai-nilai ini *hanya dapat dibaca* dalam mode ini. Beralih ke mode ✏️ *ubah* untuk mengubahnya."
+            },
+            "field": {
+                "coordinate": "$~edit koordinat",
+                "text": "$~sunting teks"
+            },
+            "sequence": {
+                "button": {
+                    "add": "$~tambahkan pose",
+                    "remove": "$~hapus pose",
+                    "up": "$~pindahkan pose ke atas",
+                    "down": "$~pindahkan pose ke bawah"
+                },
+                "field": {
+                    "percent": "$~sunting persentase"
+                },
+                "preset": {
+                    "label": "$~urutan yang telah ditentukan sebelumnya",
+                    "custom": "$~kebiasaan"
+                }
+            },
+            "error": {
+                "nan": "$~Ini bukan angka.",
+                "percent": "$~Harus berupa persentase antara 0 dan 100.",
+                "lessThanNext": "$~Ini harus lebih kecil dari entri berikutnya.",
+                "moreThanPrevious": "$~Ini pasti lebih banyak daripada entri sebelumnya."
+            },
+            "tour": {
+                "launch": "$~jelajahi palet warnanya",
+                "palette": "$~Kamu bisa memakai /palette/ untuk menyunting *frasa*, *grup*, dan *panggung* di mode ✏️ *edit*; di mode lain kontrolnya hanya bisa dibaca, dan di mode ⏸️ *debug* setiap properti juga menampilkan *nilai saat ini*.",
+                "text": "$~Semua properti dari sebuah frasa dapat diedit di sini. Ini adalah teks frasa tersebut, tetapi properti lainnya memiliki kontrol tersendiri.",
+                "set": "$~Saat suatu properti saat ini menggunakan nilai /default/nya, tombol *pensil* memungkinkan Anda untuk mengatur nilai *eksplisit* untuk properti tersebut.",
+                "unset": "$~Saat suatu properti memiliki nilai yang /eksplisit/ ditetapkan, tombol *X* akan menghapus nilai tersebut, mengembalikan properti ke nilai *default*.",
+                "editor": "$~Semua perubahan yang Anda buat pada palet akan tercermin dalam /kode/ yang ditampilkan di *editor*.",
+                "stage": "$~Frasa juga dapat /dipindahkan/, /diubah ukurannya/, dan /diputar/ langsung di *panggung*."
+            },
+            "music": {
+                "staff": "$~nada-nada dari jalur ini",
+                "track": "$~jalur $count dari $total",
+                "duration": {
+                    "label": "$~berapa lama sebuah nada baru bertahan",
+                    "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
+                    "tips": [
+                        "$~sebuah nada penuh, empat ketukan",
+                        "$~sebuah nada setengah, dua ketukan",
+                        "$~sebuah nada seperempat, satu ketukan",
+                        "$~sebuah nada seperdelapan, setengah ketukan",
+                        "$~sebuah nada seperenam belas, seperempat ketukan"
+                    ]
+                },
+                "computed": "$~nada-nada jalur ini dihitung, jadi tidak bisa dipindahkan ke sini",
+                "note": "$~nada $degree, ketukan $beat",
+                "rest": "$~istirahat, ketukan $beat",
+                "added": "$~menambahkan nada $degree pada ketukan $beat, sekarang $#count[$#count nada]",
+                "removed": "$~menghapus not $degree pada ketukan $beat, sekarang $#count[$#count not]",
+                "moved": "$~not $degree, ketukan $beat",
+                "chooser": "$~musik mana yang akan diedit",
+                "unnamed": "$~musik $count",
+                "cursor": "$~seret untuk memilih dari ketukan mana akan dimainkan",
+                "findings": {
+                    "tracksSplit": "$~$#count[$#count trek] memainkan lebih dari satu not sekaligus, jadi $extra trek lagi ditambahkan untuk menampung suara tambahan.",
+                    "percussionDropped": "$~$#count[$#count suara drum] tidak cocok dengan perangkat kami, jadi dilewati.",
+                    "tracksTruncated": "$~$#count[$#count trek] dilewati, melebihi batas $cap.",
+                    "pitchesSnapped": "$~$#count[$#count not] tidak ada dalam tangga nada $scale dan dipindahkan ke yang terdekat, sejauh $semitones semitone.",
+                    "beatsRounded": "$~$#count[$#count panjang not] dibulatkan, paling banyak $error dari satu ketukan.",
+                    "meterChanges": "$~$#count[$#count perubahan tanda birama] dilewati: @Music tidak punya tanda birama.",
+                    "velocityRange": "$~Trek $track punya $#count[$#count tingkat kekerasan suara]. Setiap not menyimpan miliknya sendiri, tapi tidak ada penguatan bertahap.",
+                    "outOfRange": "$~$#count[$#count not] lebih dari tiga oktaf dari not pertama tangga nada. Not itu akan dimainkan, tapi bukan dari rekaman asli.",
+                    "tempoFolded": "$~$#count[$#count perubahan tempo] disatukan ke dalam panjang not, jadi musiknya tetap mempercepat dan memperlambat. Sebuah @Music punya satu tempo, dan yang ini adalah $using, jadi sebuah @Beat tidak akan cocok dengan not-notnya."
+                },
+                "notMIDI": "$~itu tidak terlihat seperti berkas MIDI",
+                "badMIDI": "$~Saya tidak bisa membaca berkas MIDI itu",
+                "listening": "$~Mendengarkan! Bersenandunglah atau nyanyikan sebuah lagu, lalu berhenti. Saya akan menuliskan not yang saya dengar dan menambahkannya ke trek ini.",
+                "heardNothing": "$~Saya tidak mendengar not apa pun. Coba bersenandung sedikit lebih keras, atau lebih dekat ke mikrofon.",
+                "transcribed": "$~Saya mendengar $#count[$#count not] dalam $scale pada sekitar $tempo ketukan per menit.",
+                "noMicrophone": "$~Saya tidak bisa mendengar mikrofonmu",
+                "imported": "$~menambahkan $#count[$#count trek] dan $notes not",
+                "importing": "$~$step… $percent%",
+                "tooBig": "$~Berkas itu punya $#count[$#count not], lebih banyak dari $cap yang bisa ditampung sebuah proyek. Coba karya yang lebih pendek, atau lebih sedikit alat musik.",
+                "steps": {
+                    "label": "$~apa yang sedang dilakukan sebuah impor",
+                    "labels": [
+                        "$~Membaca berkas",
+                        "$~Menyusun nada-nada",
+                        "$~Menamai trek-trek",
+                        "$~Menuliskannya ke dalam programmu",
+                        "$~Memeriksa programmu"
+                    ],
+                    "tips": [
+                        "$~membaca berkas",
+                        "$~menyusun nada-nada",
+                        "$~menamai trek-trek",
+                        "$~menuliskannya ke dalam programmu",
+                        "$~memeriksa programmu"
+                    ]
+                },
+                "report": "$~Apa yang kuimpor",
+                "reportExplanation": "$~Sebuah @Music dapat menyimpan sebagian besar hal yang dijelaskan berkas MIDI, tetapi tidak semuanya. Inilah yang berubah saat masuk."
+            },
+            "toolbar": {
+                "label": "$~tambah keluaran",
+                "addPhrase": "$~tambah sebuah frasa",
+                "wrapPhrase": "$~tampilkan nilai ini sebagai frasa",
+                "addRectangle": "$~tambah sebuah bentuk persegi panjang",
+                "addCircle": "$~tambahkan bentuk bulat",
+                "addPolygon": "$~tambahkan bentuk bersisi banyak",
+                "wrapForm": "$~tampilkan bentuk ini di panggung dengan membungkusnya dalam sebuah bentuk",
+                "group": "$~kumpulkan apa yang kamu pilih menjadi satu kelompok",
+                "groupEmpty": "$~pilih beberapa output untuk mengumpulkannya menjadi satu kelompok",
+                "groupScattered": "$~kelompok hanya bisa mengumpulkan output yang berada di tempat yang sama",
+                "groupKind": "$~kelompok bisa berisi frasa, kelompok lain, ucapan, atau musik, tetapi tidak bisa berisi bentuk atau panggung",
+                "addStage": "$~bungkus semuanya dalam sebuah panggung, supaya kamu bisa mengatur pencahayaan, warna, dan bingkai",
+                "stageExists": "$~sudah ada panggung",
+                "addMusic": "$~tambahkan musik, mulai dengan beberapa nada untuk dicoba",
+                "addSay": "$~tambahkan ucapan, yaitu suara yang diucapkan dengan keras",
+                "addPath": "$~tambahkan garis yang bisa kamu bengkokkan dan gambar",
+                "draw": {
+                    "off": "$~gambar jalur di panggung",
+                    "on": "$~berhenti menggambar"
+                }
+            }
+        },
+        "save": {
+            "saving": "$~penghematan",
+            "saved": "$~tersimpan",
+            "local": "$~tersimpan",
+            "unsaved": "$~belum disimpan",
+            "sync": {
+                "projects": "$~Proyek",
+                "galleries": "$~Galeri",
+                "characters": "$~Karakter",
+                "howtos": "$~Cara-cara",
+                "chats": "$~Obrolan",
+                "kits": "$~Kit"
+            },
+            "status": {
+                "header": "$~Simpan status",
+                "intro": "$~Pekerjaan Anda disimpan di perangkat ini dan diarsipkan di cloud.",
+                "columns": {
+                    "device": "$~pada perangkat ini",
+                    "cloud": "$~di awan",
+                    "unsaved": "$~belum disimpan"
+                },
+                "state": {
+                    "synced": "$~disinkronkan",
+                    "loading": "$~memuat",
+                    "syncing": "$~penghematan",
+                    "offline": "$~offline",
+                    "failed": "$~gagal"
+                },
+                "conversation": "$~percakapan",
+                "legend": "$~\"Belum tersimpan\" berarti sudah tersimpan di sini tetapi belum online. Perubahan akan tersimpan saat Anda kembali online.",
+                "errorsHeader": "$~Beberapa hal tidak dapat disimpan secara online:"
+            }
+        },
+        "localize": {
+            "header": "$~Melokalisir",
+            "reference": "$~Referensi bahasa Inggris",
+            "description": "$~Selamat datang di mode lokalisasi! Anda dapat menyarankan perbaikan pada teks di antarmuka @wordplay. Pilih teks apa pun untuk menyarankan pengeditan. Saran Anda akan ditinjau, dan jika disetujui, akan menjadi bagian dari platform agar dapat dilihat oleh semua orang. Terima kasih telah membantu menjadikan Wordplay lebih mudah diakses oleh semua orang di dunia!",
+            "toggle": {
+                "mode": {
+                    "on": "$~keluar dari mode pelokalan",
+                    "off": "$~masuk ke mode pelokalan untuk menyarankan perubahan pada teks platform dalam bahasa saat ini."
+                }
+            },
+            "button": {
+                "edit": "$~Sarankan pengeditan pada teks ini",
+                "editTip": "$~Sarankan pengeditan pada tooltip kontrol ini.",
+                "submit": "$~Kirim saran pengeditan",
+                "cancel": "$~Abaikan saran pengeditan.",
+                "revert": "$~Kembali ke teks resmi",
+                "prev": "$~Edit item sebelumnya",
+                "next": "$~Edit item berikutnya"
+            },
+            "field": {
+                "plain": {
+                    "description": "$~Teks pengganti yang disarankan",
+                    "placeholder": "$~Masukkan pengganti..."
+                },
+                "formatted": {
+                    "description": "$~Saran pengganti (mendukung format markup)",
+                    "placeholder": "$~Masukkan format pengganti..."
+                },
+                "name": {
+                    "description": "$~Nama yang disarankan (harus berupa nama permainan kata yang valid)",
+                    "placeholder": "$~Masukkan nama..."
+                },
+                "filter": {
+                    "description": "$~Saring string terjemahan berdasarkan jalur atau deskripsi.",
+                    "placeholder": "$~Menyaring..."
+                }
+            },
+            "inputs": {
+                "header": "$~Input yang diterima oleh templat ini",
+                "usedTip": "$~Klik untuk menyisipkan referensi lain di kursor",
+                "unusedTip": "$~Klik untuk menyisipkan referensi ini di kursor.",
+                "missing": "$~Input hilang:",
+                "legacy": "$~Gantikan referensi posisi lama ini dengan referensi bernama:",
+                "unknown": "$~Referensi-referensi ini tidak sesuai dengan input atau terminologi yang dideklarasikan, sehingga tidak akan menggantikan:",
+                "submitBlocked": "$~Periksa kembali setiap input sebelum mengirimkan.",
+                "plural": {
+                    "header": "$~Versi yang dibutuhkan bahasa ini",
+                    "tip": "$~Sebuah hitungan: klik untuk memasukkan satu versi kalimat untuk setiap $forms bentuk jamak bahasa ini",
+                    "arity": "$~$name memiliki $found versi, tetapi bahasa ini membutuhkan $expected.",
+                    "missing": "$~$name adalah hitungan, jadi pilih satu versi kalimat untuk setiap bentuk jamak.",
+                    "example": "$~sebagai contoh"
+                }
+            },
+            "strings": "$~String terjemahan",
+            "emotion": "$~Pilih sebuah emosi",
+            "invalidName": "$~Bukan nama Wordplay yang valid",
+            "invalidConceptLinks": "$~Tautan konsep ini tidak berfungsi dalam bahasa saat ini. Apakah Anda salah mengeja salah satunya, atau sengaja menghapusnya?",
+            "guidance": "$~Panduan untuk bahasa ini",
+            "guidanceEmpty": "$~Belum ada panduan. Tulis apa yang perlu diketahui oleh seseorang yang menerjemahkan ke bahasa ini.",
+            "guidanceToggle": {
+                "on": "$~sembunyikan panduan bahasa ini",
+                "off": "$~tampilkan panduan bahasa ini"
+            },
+            "terms": {
+                "header": "$~Daftar istilah",
+                "description": "$~Tetapkan istilah dan frasa untuk bahasa ini yang bisa kamu pakai ulang di mana saja dengan menulis $$ dan kunci kata itu, seperti $$program. Saat kamu mengubah sebuah kata di sini, kata itu berubah di semua tempat yang memakainya, jadi terjemahanmu tetap seragam. Ini hanya untuk memakai ulang kata; untuk menjelaskan sebuah istilah kepada pelajar, gunakan panduan istilah saja.",
+                "empty": "$~Belum ada kata. Tambahkan satu untuk memakainya ulang di seluruh teks bahasa ini.",
+                "key": {
+                    "description": "$~kunci untuk kata ini, ditulis setelah $ untuk memakainya",
+                    "placeholder": "$~kunci"
+                },
+                "phrase": {
+                    "description": "$~kata atau frasa yang diwakili oleh kunci ini",
+                    "placeholder": "$~kata"
+                },
+                "add": "$~tambahkan kata ini ke daftar",
+                "remove": "$~hapus kata ini dari daftar",
+                "invalidKey": "$~Sebuah kunci harus diawali dengan huruf dan hanya memakai huruf serta angka, dalam bahasa apa pun.",
+                "duplicateKey": "$~Bahasa ini sudah punya kata dengan kunci itu.",
+                "reservedKey": "$~Kunci itu sudah dipakai untuk sebuah nilai templat, jadi tidak bisa menjadi kata."
+            },
+            "glossary": {
+                "header": "$~Bentuk tulisan lain",
+                "description": "$~Daftar istilah menjelaskan kata-kata yang ditemui pelajar. Setiap istilah punya satu kata utama, dan di sini kamu bisa menambahkan cara lain kata itu ditulis dalam bahasa ini — bentuk jamak, akhiran lain, atau kata lain yang berarti sama. Saat menulis teks, kamu bisa menautkan salah satu bentuk itu dengan @ dan kata tersebut, dan seluruh kata tetap menjadi bagian dari tautan itu. Setiap bahasa menulis daftarnya sendiri, jadi tambahkan sebanyak atau sesedikit yang dibutuhkan bahasamu.",
+                "reference": "$~dalam bahasa Inggris",
+                "empty": "$~Belum ada bentuk lain.",
+                "form": {
+                    "description": "$~cara lain istilah ini ditulis",
+                    "placeholder": "$~bentuk"
+                },
+                "add": "$~tambahkan bentuk ini ke istilah",
+                "remove": "$~hapus bentuk ini dari istilah",
+                "ownWord": "$~Ini adalah kata asli istilah ini, yang sudah bisa dipakai sendiri.",
+                "otherWord": "$~Ini adalah kata untuk $term, jadi tidak akan jelas istilah mana yang kamu maksud.",
+                "conceptName": "$~Dokumentasi sudah menjelaskan kata ini, jadi tautan ke kata ini akan mengarah ke sana.",
+                "alreadyUsed": "$~Ini sudah menjadi salah satu bentuk dari $term, jadi tidak akan jelas istilah mana yang kamu maksud.",
+                "searchOnly": "$~Tautan berakhir pada spasi atau simbol, jadi bentuk ini hanya akan membantu pencarian."
+            }
+        },
+        "edit": {
+            "node": "$~$node$type[, $type|]",
+            "before": "$~sebelum $after[$after|akhir]",
+            "inside": "$~di $token , antara $before[$before|start] dan $after[$after|end]",
+            "between": "$~antara $before[$before|start] dan $after[$after|end]",
+            "line": "$~baris kosong antara $before[$before|start] dan $after[$after|end]",
+            "conflicts": "$~$#count[$count konflik]",
+            "assign": "$~/ $name[Berminat bergabung|Mempertimbangkan untuk keluar]…/",
+            "append": "$~/Ingin sekali menyisipkan…/",
+            "remove": "$~/Mempertimbangkan untuk pergi…/",
+            "replace": "$~Ingin ikut campur…",
+            "area": "$~kode tipe",
+            "delimiterMatchedSameLine": "$~mencocokkan $name pada baris yang sama",
+            "delimiterMatchedBelow": "$~cocok dengan $name $#lines[$lines baris di bawah]",
+            "delimiterMatchedAbove": "$~cocok dengan $name $#lines[$lines baris di atas]",
+            "delimiterUnmatched": "$~tidak ada pembatas yang cocok"
+        },
+        "template": {
+            "unwritten": "$~Akan ditentukan kemudian",
+            "unparsable": "$~Templat yang tidak dapat diuraikan: $template",
+            "machineTranslated": "$~Ini adalah terjemahan mesin, jadi mungkin tidak mudah dibaca atau tidak akurat.",
+            "locallyRevised": "$~Teks ini telah direvisi secara lokal dan berbeda dari terjemahan resmi."
+        },
+        "emoji": {
+            "noCharacters": "$~Buat karakter kustom",
+            "skinTone": "$~warna kulit",
+            "groups": {
+                "label": "$~kelompok",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~Ⅶ",
+                    "$~💰",
+                    "$~🔍"
+                ],
+                "tips": [
+                    "$~khusus",
+                    "$~senyum & emosi",
+                    "$~orang & tubuh",
+                    "$~hewan & alam",
+                    "$~makanan & minuman",
+                    "$~kegiatan",
+                    "$~perjalanan & tempat",
+                    "$~benda",
+                    "$~simbol",
+                    "$~bendera",
+                    "$~huruf kecil",
+                    "$~huruf besar",
+                    "$~matematika",
+                    "$~bentuk",
+                    "$~panah",
+                    "$~angka",
+                    "$~huruf angka",
+                    "$~mata uang",
+                    "$~hasil pencarian"
+                ]
+            },
+            "script": "$~naskah",
+            "scriptLabel": "$~filter berdasarkan skrip",
+            "pickFilter": "$~Pilih kategori atau skrip",
+            "moreLanguages": "$~dan $count lebih banyak",
+            "moreGlyphs": "$~Menampilkan $count — cari untuk menemukan lebih banyak",
+            "presentation": {
+                "label": "$~warna emoji",
+                "labels": ["$~warna", "$~hitam putih"],
+                "tips": [
+                    "$~sisipkan emoji berwarna",
+                    "$~sisipkan emoji hitam putih"
+                ]
+            }
+        },
+        "connection": {
+            "offline": "$~Anda sedang offline. Beberapa fitur tidak akan berfungsi sampai Anda online.",
+            "unreachable": "$~Kami tidak dapat mengakses basis data, jadi beberapa hal tidak akan berfungsi. VPN, ekstensi peramban, atau filter jaringan mungkin memblokirnya."
+        },
+        "presence": {
+            "peersLabel": "$~kolaborator yang menyunting proyek ini",
+            "joined": "$~Bergabung dengan biaya $name .",
+            "left": "$~Sisa $name .",
+            "waitingForSlot": "$~Sedang menunggu giliran mengedit — empat kolaborator sudah sedang mengedit. Saat salah satu dari mereka pergi, Anda juga bisa mengedit."
+        },
+        "update": {
+            "message": "$~Kami telah merilis versi baru.",
+            "refresh": "$~Menyegarkan",
+            "updates": "$~lihat pembaruan",
+            "dismiss": "$~Membubarkan"
+        },
+        "banner": {
+            "deleteFailed": "$~Kami tidak bisa menghapusnya.",
+            "saveFailed": "$~Kita tidak bisa menyelamatkan itu.",
+            "submitFailed": "$~Kami tidak bisa mengirimkan itu",
+            "loadFailed": "$~Kami tidak bisa memuat ini. Coba lagi sebentar.",
+            "storageFull": "$~Penyimpanan perangkat ini penuh, jadi kami tidak dapat menyimpan salinan di sini. Pekerjaan Anda masih tersimpan di cloud.",
+            "storageNearFull": "$~Penyimpanan di perangkat ini hampir penuh, jadi Wordplay mungkin sebentar lagi tidak dapat menyimpan data. Pekerjaan yang disimpan di cloud aman; mengosongkan ruang di perangkat atau browser Anda memungkinkan Wordplay untuk terus menyimpan data di sini.",
+            "saveTooLarge": "$~Ukuran file ini terlalu besar untuk disimpan. Coba hapus beberapa konten."
+        },
+        "wellspring": {
+            "label": "$~palet kode",
+            "recycle": "$~jatuhkan di sini untuk menghapus",
+            "empty": "$~Tidak ada konsep proyek",
+            "field": {
+                "search": "$~cari kode untuk diseret masuk"
+            },
+            "button": {
+                "toggle": "$~menampilkan dan menyembunyikan palet kode",
+                "clear": "$~hapus pencarian"
+            }
+        },
+        "feedback": {
+            "copied": "$~$text disalin",
+            "cut": "$~$text dipotong",
+            "pasted": "$~$text ditempel",
+            "deleted": "$~$text dihapus",
+            "undone": "$~dibatalkan",
+            "redone": "$~diulangi",
+            "foldedAll": "$~semua kode dilipat",
+            "unfoldedAll": "$~semua kode dibuka",
+            "editMode": "$~$mode",
+            "zoom": "$~perbesar $percent persen",
+            "fullscreenOn": "$~masuk layar penuh",
+            "fullscreenOff": "$~keluar layar penuh",
+            "restarted": "$~masukan dimulai ulang",
+            "step": "$~langkah $step, $node",
+            "stepAtStart": "$~di awal",
+            "stepAtEnd": "$~di akhir",
+            "searchOpened": "$~cari di dalam kode",
+            "searchClosed": "$~pencarian ditutup",
+            "searchMatch": "$~cocok $index dari $count",
+            "searchNoMatches": "$~tidak ada yang cocok",
+            "menuOpened": "$~menu, $#count[$count saran]",
+            "menuEmpty": "$~tidak ada saran",
+            "menuClosed": "$~menu ditutup",
+            "tidyNoop": "$~sudah rapi"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~Sembunyikan bunyi yang bisa dinyanyikan suara",
+                "off": "$~Tampilkan bunyi yang bisa dinyanyikan suara"
+            },
+            "groups": [
+                "$~vokal",
+                "$~aproksiman",
+                "$~bunyi l",
+                "$~bunyi sengau",
+                "$~bunyi desis",
+                "$~bunyi getar",
+                "$~bunyi hambat",
+                "$~bunyi klik"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~Dengarkan $symbol",
+            "insert": "$~Ketik $symbol"
+        },
+        "translation": {
+            "used": "$~Kamu sudah menerjemahkan $used dari $#limit[$limit karakter] hari ini",
+            "meter": "$~terjemahan yang digunakan hari ini",
+            "exhaustedHours": "$~Kamu sudah memakai semua jatah menerjemahkan untuk hari ini. Coba lagi sekitar $#hours[$hours jam] lagi.",
+            "exhaustedMinutes": "$~Kamu sudah memakai semua jatah menerjemahkan untuk hari ini. Coba lagi sekitar $#minutes[$minutes menit] lagi.",
+            "signIn": "$~Menerjemahkan membutuhkan akun, supaya semua orang mendapat bagian yang adil. <Masuk atau daftar@/login> untuk menerjemahkan proyek kamu.",
+            "progressLabel": "$~kemajuan terjemahan",
+            "analyzing": "$~Membaca program kamu…",
+            "revising": "$~Memasukkan kata-kata baru…",
+            "started": "$~Menerjemahkan $#count[$count frasa] ke $language…",
+            "progress": "$~Sudah menerjemahkan $done dari $#total[$total frasa]",
+            "finished": "$~Proyek kamu sekarang berbahasa $language.",
+            "finishedPartial": "$~Proyek kamu sekarang berbahasa $language, tetapi $#kept[$kept frasa] tetap menggunakan kata-kata asli."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Tautan masuk Wordplay kamu",
+                "heading": "$~Masuk ke Wordplay",
+                "body": "$~Pilih tombol di bawah ini untuk masuk. Tautan ini hanya bisa dipakai sekali, dan hanya berlaku sebentar.",
+                "button": "$~Masuk",
+                "disclaimer": "$~Jika kamu tidak meminta untuk masuk, kamu boleh mengabaikan email ini — tidak ada yang bisa masuk ke akunmu tanpa tautan ini."
+            },
+            "notice": {
+                "open": "$~Lihat",
+                "manage": "$~Ubah pengaturan pemberitahuanmu",
+                "heading": {
+                    "reported": "$~Dilaporkan",
+                    "decision": "$~Keputusan moderasi",
+                    "review": "$~Menunggu tinjauan",
+                    "warning": "$~Sebuah peringatan",
+                    "listing": "$~Keputusan pencantuman",
+                    "howto": "$~Cara baru",
+                    "chat": "$~Obrolan baru"
+                },
+                "subject": {
+                    "reported": "$~$kind milikmu dilaporkan",
+                    "received": "$~Kami menerima laporanmu",
+                    "decision": "$~Sebuah keputusan tentang $kind milikmu",
+                    "review": "$~Ada sesuatu yang menunggu tinjauanmu",
+                    "warning": "$~Sebuah peringatan tentang apa yang kamu bagikan",
+                    "listing": "$~Sebuah keputusan tentang pencantuman $kind milikmu",
+                    "howto": "$~Sebuah cara baru di galerimu"
+                },
+                "body": {
+                    "reported": "$~Seseorang meminta tinjauan atas sesuatu yang kamu buat di \"$title\". Orang yang bertanggung jawab akan memeriksanya.",
+                    "received": "$~Laporanmu tentang \"$title\" telah sampai kepada orang yang bertanggung jawab untuk meninjaunya.",
+                    "decision": "$~Sebuah keputusan telah dibuat tentang sesuatu yang kamu buat di \"$title\".",
+                    "review": "$~Seseorang meminta tinjauan atas \"$title\".",
+                    "warning": "$~Ini adalah peringatan ke-$#count[$count] tentang sesuatu yang kamu bagikan secara publik.",
+                    "listing": "$~Sebuah keputusan telah dibuat tentang apakah \"$title\" dicantumkan.",
+                    "howto": "$~\"$title\" diterbitkan di galeri yang kamu ikuti."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[$count hal menunggu untuk kamu tinjau]",
+                "heading": "$~$#count[$count hal] untuk ditinjau",
+                "open": "$~Mulai meninjau",
+                "body": "$~Laporan dan permintaan pencantuman menunggu di antrean moderasi sampai seseorang memutuskan tentangnya."
+            },
+            "chat": {
+                "subject": "$~Kamu punya obrolan yang belum dibaca",
+                "heading": "$~Obrolan baru",
+                "open": "$~Baca sekarang",
+                "body": "$~Ada pesan yang belum kamu baca di $#count[$count obrolan]."
+            }
+        },
+        "markup": {
+            "description": "$~tulis teks berformat",
+            "placeholder": "$~tulis sesuatu",
+            "mode": {
+                "prose": "$~tampilkan bagaimana tampilannya nanti",
+                "source": "$~tampilkan tanda format"
+            },
+            "command": {
+                "italic": "$~miring",
+                "bold": "$~tebal",
+                "extra": "$~tebal ekstra",
+                "underline": "$~garis bawah",
+                "light": "$~tipis",
+                "example": "$~contoh kode",
+                "link": "$~tautan web",
+                "concept": "$~tautan ke konsep",
+                "bullet": "$~poin",
+                "highlight": "$~sorot contoh ini",
+                "defect": "$~contoh ini memang seharusnya punya kesalahan",
+                "mode": "$~beralih antara teks biasa dan tanda format",
+                "docs": "$~penjelasan di dalam contoh",
+                "attention": "$~tarik perhatian ke baris ini",
+                "undo": "$~urungkan",
+                "redo": "$~ulangi"
+            },
+            "feedback": {
+                "formatOn": "$~$format aktif",
+                "formatOff": "$~$format nonaktif",
+                "example": "$~membuat contoh kode",
+                "link": "$~membuat tautan web",
+                "concept": "$~tertaut ke $name",
+                "bulletOn": "$~membuat poin",
+                "bulletOff": "$~menghapus poin",
+                "highlightOn": "$~contoh ini akan disorot",
+                "highlightOff": "$~contoh ini tidak akan disorot",
+                "defectOn": "$~contoh ini memang seharusnya punya kesalahan",
+                "defectOff": "$~contoh ini seharusnya tidak punya kesalahan",
+                "notInExample": "$~letakkan kursor pada contoh kode dulu",
+                "mode": "$~$mode",
+                "docs": "$~menambahkan penjelasan",
+                "attention": "$~menarik perhatian ke baris ini",
+                "undid": "$~membatalkan itu",
+                "redid": "$~mengulangi itu"
+            }
+        },
+        "proxy": {
+            "banner": "$~Kamu sedang melihat Wordplay sebagai orang lain. Tidak ada yang disimpan di sini, dan mereka tidak bisa melihat bahwa kamu ada di sana.",
+            "as": "$~sebagai $name",
+            "remaining": "$~$#minutes[$minutes menit tersisa]",
+            "stop": {
+                "label": "$~Berhenti",
+                "tip": "$~Tutup tab ini dan berhenti melihat sebagai mereka"
+            },
+            "starting": "$~Memulai…",
+            "failed": "$~Kami tidak bisa memulai sesi itu. Apakah kamu masih masuk sebagai administrator?",
+            "expired": "$~Tautan itu sudah digunakan, atau sudah kedaluwarsa. Mulai lagi dari <halaman hak akses@://admin>.",
+            "ended": "$~Sesi ini telah berakhir, dan kamu telah keluar darinya. Tutup tab ini. Untuk melihat lagi, mulai dari halaman hak akses."
+        }
+    }
+}

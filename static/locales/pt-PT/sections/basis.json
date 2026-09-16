@@ -1,0 +1,1975 @@
+{
+    "$schema": "../../../static/schemas/sections/basis.json",
+    "basis": {
+        "Boolean": {
+            "doc": [
+                "$~Somos \\⊤\\ e \\⊥\\. \\⊤\\ é verdadeiro. \\⊥\\ é falso. \\⊤\\ não é \\⊥\\; \\⊥\\ não é \\⊤\\. É assim que é.",
+                "@how nos faz? Apenas \\⊤\\ e \\⊥\\, nada mais, nada menos.",
+                "Algumas pessoas utilizam o teclado (/ctrl+9/ para \\⊤\\ e /ctrl+0/ para \\⊥\\). Outras utilizam a pesquisa de caracteres na parte inferior do @editor. Ou pode arrastar-nos daqui.",
+                "Confira a nossa @FunctionDefinition abaixo. São muito lógicas."
+            ],
+            "name": ["Booleano"],
+            "function": {
+                "and": {
+                    "doc": [
+                        "$~A avaliação é \\⊤\\ *apenas* quando ambos os valores são \\⊤\\. Útil para determinar se várias coisas são todas verdadeiras. Existem apenas quatro resultados possíveis.",
+                        "\\⊤ & ⊤\\",
+                        "\\⊤ & ⊥\\",
+                        "\\⊥ & ⊤\\",
+                        "\\⊥ & ⊥\\"
+                    ],
+                    "names": ["e"],
+                    "inputs": [
+                        {
+                            "doc": "$~O outro @Boolean a verificar. Se o primeiro for \\⊥\\, não importa qual seja este, a função vai dar @how resultado \\⊥\\.",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "or": {
+                    "doc": [
+                        "$~Sou avaliado @how \\⊤\\ quando *qualquer um* dos @value for \\⊤\\. Útil para determinar se uma de muitas coisas é verdadeira. Só existem quatro resultados possíveis",
+                        "\\⊤ | ⊤\\",
+                        "\\⊤ | ⊥\\",
+                        "\\⊥ | ⊤\\",
+                        "\\⊥ | ⊥\\"
+                    ],
+                    "names": ["ou"],
+                    "inputs": [
+                        {
+                            "doc": "$~O outro @Boolean a verificar. Se o primeiro for \\⊥\\, a função só vai dar @how resultado \\⊤\\ se este for \\⊤\\.",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "not": {
+                    "doc": "$~Eu obtenho o oposto de mim próprio: se \\⊤\\, dá \\⊥\\, se \\⊥\\ dá \\⊤\\.",
+                    "names": ["não"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ se ambos forem \\⊤\\ ou ambos forem \\⊥\\.",
+                    "names": ["iguala"],
+                    "inputs": [
+                        {
+                            "doc": "$~O outro @value a verificar.",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~\\⊤\\ se ambos forem opostos.",
+                    "names": ["nãoiguala"],
+                    "inputs": [
+                        {
+                            "doc": "$~O outro @value a verificar.",
+                            "names": "valor"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "Converte um valor @Boolean para os valores @Text equivalentes, \\'⊤'\\ e \\'⊥'\\",
+                "number": "$~Converte um @Boolean num @Number, \\1\\ para \\⊤\\ e \\0\\ para \\⊥\\"
+            }
+        },
+        "None": {
+            "doc": [
+                "$~Represento a ausência de um @value, escrito \\ø\\.",
+                "Sou @None. Invoca-me com \\ø\\."
+            ],
+            "name": ["Nenhum"],
+            "function": {
+                "equals": {
+                    "doc": "$~Será que outro @value também é nada? É bom que seja, senão, \\⊥\\.",
+                    "names": ["iguala"],
+                    "inputs": [
+                        {
+                            "doc": "$~O outro @value.",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~Será que outro @value /não/ é nada?",
+                    "names": ["nãoigual"],
+                    "inputs": [
+                        {
+                            "doc": "$~O outro @value.",
+                            "names": "valor"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "Quer transformar \\ø\\ em \\'ø'\\? Esta é a sua oportunidade."
+            }
+        },
+        "Text": {
+            "doc": [
+                "$~Posso representar qualquer texto, de qualquer @language. Basta colocar o texto entre os símbolos de abertura e fecho de texto: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, ou \\『』\\.",
+                "Para ilustrar, veja estas belas frases",
+                "\\'Só existem duas formas de viver a vida. Uma é como se nada fosse um milagre. A outra é como se tudo fosse um milagre.'\\",
+                "\\'一日三秋'\\",
+                "Lembre-se apenas de me fechar se me abrir, e use o símbolo correspondente. Caso contrário, não vou saber que já terminou as suas palavras.",
+                "\\'olá'/pt'hola'/es-MX\\",
+                "Também me pode etiquetar com idiomas, e até dar várias traduções. Vou avaliar para os idiomas que estiverem selecionados no momento, se houver um idioma correspondente.",
+                "Se quiser criar-me com outros valores, pode fazer assim:",
+                "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
+                "Viu com que elegância avaliei essas somas e as coloquei dentro do @Text?",
+                "Tenho um último pequeno segredo: sabia que todos temos um número único? É verdade! Pode referir-se a nós escrevendo @U/ e o nosso número. Por exemplo, @FunctionDefinition é 192:",
+                "\\'@U/192'\\",
+                "Viu @how @U/192 se transformou em @FunctionDefinition? Ouço-o chamar a estes números 'Unicode'.",
+                "De resto, há tantas funções gloriosas que @FunctionDefinition criou para me pôr a fazer todo o tipo de coisas com palavras!"
+            ],
+            "name": ["Texto"],
+            "function": {
+                "length": {
+                    "doc": [
+                        "$~Avalio o número de caracteres legíveis no texto; uma letra é um caractere, um emoji é um caractere, etc. Por exemplo:",
+                        "\\'olá'.comprimento()\\",
+                        "\\'🐈📚'.comprimento()\\"
+                    ],
+                    "names": ["comprimento"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ se eu for a mesma sequência de caracteres que o @Text fornecido.",
+                    "names": ["iguala"],
+                    "inputs": [
+                        {
+                            "doc": "O @Text a comparar.",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ se eu /não/ for a mesma sequência de caracteres que o @Text fornecido.",
+                    "names": "≠",
+                    "inputs": [
+                        {
+                            "doc": "O @Text para comparar",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ se o @Text fornecido aparecer em mim.",
+                        "\\'econtrou o que estava procurando?'.tem('tu')\\"
+                    ],
+                    "names": ["tem"],
+                    "inputs": [
+                        {
+                            "doc": "O @Text para pesquisar em mim.",
+                            "names": "texto"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": [
+                        "$~\\⊤\\ se eu começar com o @Text fornecido.",
+                        "\\'Olá verso!'.starts('olá')\\",
+                        "\\'Olá verso!'.starts('verso')\\"
+                    ],
+                    "names": ["começa"],
+                    "inputs": [
+                        {
+                            "doc": "O @Text a ser verificado no início de mim.",
+                            "names": "texto"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": [
+                        "$~\\⊤\\ se terminar com o @Text fornecido.",
+                        "\\'Sou eu uma pergunta?'.ends('?')\\",
+                        "\\'Eu não sou uma pergunta.'.ends('?')\\"
+                    ],
+                    "names": ["termina"],
+                    "inputs": [
+                        {
+                            "doc": "O @Text a ser verificado no final de mim.",
+                            "names": "texto"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": [
+                        "$~Crio um novo @Text que sou eu, repetido o número de vezes de \\count\\:",
+                        "\\'olá ' × 5\\",
+                        "Se me der um @Number com fração, ignoro a fração:",
+                        "\\'olá ' × 5.5\\",
+                        "Se me der um @Number negativo ou zero, dou um @Text vazio.",
+                        "\\'olá ' × -5\\",
+                        "O texto mais longo que posso criar tem 65 535 caracteres. Se tentar criar um texto mais longo, repito o texto tantas vezes quantas puder."
+                    ],
+                    "names": ["repetido", "repetir"],
+                    "inputs": [
+                        {
+                            "doc": "O número de vezes que me devo repetir no novo texto.",
+                            "names": "contagem"
+                        }
+                    ]
+                },
+                "segment": {
+                    "doc": [
+                        "$~Divido-me numa @List de @Text, usando o @Text fornecido @how separador e removendo os separadores. Por exemplo:",
+                        "\\'maçãs, laranjas, uvas' ÷ ', '\\",
+                        "Se o separador for um @Text vazio, divido-me em caracteres:",
+                        "\\'🖌️🏠🥸' ÷ ''\\"
+                    ],
+                    "names": ["segmentado", "segmento"],
+                    "inputs": [
+                        {
+                            "doc": "O @Text a utilizar @how separador.",
+                            "names": "delimitador"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Por vezes é útil combinar dois @Text num só. Dá-me outro @Text e eu criarei um novo texto que nos una:",
+                        "\\'Olá' + 'verso'\\"
+                    ],
+                    "names": ["combinado", "combinar"],
+                    "inputs": [
+                        {
+                            "doc": "O @Text a adicionar.",
+                            "names": "texto"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ se todo o texto corresponder ao padrão fornecido.",
+                        "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
+                    ],
+                    "names": ["$~partidas"],
+                    "inputs": [
+                        {
+                            "doc": "$~O padrão a comparar.",
+                            "names": "$~padrão"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Encontre todos os locais em que o padrão fornecido corresponde em mim, @how uma lista de @Result .",
+                        "\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~pesquisa"],
+                    "inputs": [
+                        {
+                            "doc": "$~O padrão a procurar.",
+                            "names": "$~padrão"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Crio um novo @Text que sou eu, com todas as letras em maiúsculas:",
+                        "\\'olá'.maiúsculas()\\",
+                        "As letras só têm maiúsculas e minúsculas em alguns sistemas de escrita, por isso um texto num sistema de escrita sem elas, @how o japonês ou o árabe, não muda.",
+                        "A minha etiqueta de @language decide as regras a usar. O turco tem um i com ponto e um i sem ponto, e só o texto marcado como turco fica em maiúsculas à maneira turca:",
+                        "\\'iyi'/tr.maiúsculas()\\",
+                        "\\'iyi'.maiúsculas()\\"
+                    ],
+                    "names": ["$~maiúsculas"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Crio um novo @Text que sou eu, com todas as letras em minúsculas:",
+                        "\\'OLÁ'.minúsculas()\\",
+                        "Transforme dois textos em minúsculas para os comparar sem se preocupar com as maiúsculas. Isto mantém todas as palavras que começam por a, estejam ou não em maiúscula:",
+                        "\\['Maçã' 'damasco' 'Banana'].filtro(\n\tƒ(palavra•'') palavra.minúsculas().começa('a')\n)\\",
+                        "Tal @how em @Text/uppercase, as letras só têm maiúsculas e minúsculas em alguns sistemas de escrita, e a minha etiqueta de @language decide as regras a usar."
+                    ],
+                    "names": ["$~minúsculas"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Faço um novo @Text a partir de um pedaço de mim. A contagem começa em 1, e ambas as pontas são incluídas:",
+                        "\\'olá'.subsequência(2 4)\\",
+                        "Deixe a ponta final de fora e eu vou até ao meu último símbolo:",
+                        "\\'olá'.subsequência(3)\\",
+                        "Conto os símbolos da forma @how os vê, por isso um emoji feito de várias partes continua a ser um único símbolo e nunca é cortado ao meio:",
+                        "\\'🐈📚!'.subsequência(1 2)\\",
+                        "Se pedir mais do que aquilo que tenho, dou-lhe o que tenho."
+                    ],
+                    "names": ["$~subsequência"],
+                    "inputs": [
+                        {
+                            "doc": "$~O local onde começar, contando a partir de 1.",
+                            "names": "$~início"
+                        },
+                        {
+                            "doc": "$~O local onde parar, contando a partir de 1. Deixe de fora para ir até ao fim.",
+                            "names": "$~fim"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Digo-lhe onde é que o @Text dado aparece primeiro em mim, contando a partir de 1:",
+                        "\\'olá'.índice('ll')\\",
+                        "Se não estiver em mim de todo, dou-lhe @None em vez disso:",
+                        "\\'olá'.índice('z')\\",
+                        "Junto com @Text/subsequence posso apanhar tudo até algo — aqui, a primeira palavra:",
+                        "\\frase: 'olá mundo'\nfrase.subsequência(1 (frase.índice(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~índice"],
+                    "inputs": [
+                        {
+                            "doc": "$~O @Text a procurar em mim.",
+                            "names": "$~texto"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Faço um novo @Text com todas as ocorrências de um @Text trocadas por outro:",
+                        "\\'2026-08-21'.substituir('-' '/')\\",
+                        "Todas as ocorrências mudam, não apenas a primeira:",
+                        "\\'ha ha ha'.substituir('ha' 'ho')\\",
+                        "Se me pedir para substituir um @Text vazio, devolvo-me a mim próprio sem alterações."
+                    ],
+                    "names": ["$~substituir"],
+                    "inputs": [
+                        {
+                            "doc": "$~O @Text a procurar em mim.",
+                            "names": "$~de"
+                        },
+                        {
+                            "doc": "$~O @Text a colocar no seu lugar.",
+                            "names": "$~substituição"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Faço um novo @Text com o espaço em branco retirado de ambas as pontas. O espaço no meio mantém-se:",
+                        "\\'  olá  '.aparar()\\",
+                        "Isto é útil para texto escrito por alguém, que muitas vezes traz espaços extra que não foram pedidos."
+                    ],
+                    "names": ["$~aparar"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Faço um novo @Text com os meus símbolos na ordem inversa:",
+                        "\\'olá'.invertido()\\",
+                        "Inverto a ordem dos meus símbolos da forma @how os vê, por isso os emojis mantêm-se inteiros e as letras mantêm os seus acentos:",
+                        "\\'🐈📚'.invertido()\\"
+                    ],
+                    "names": ["$~invertido", "$~inverter"],
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "list": "Divide o texto numa lista de caracteres individuais.",
+                "number": [
+                    "$~Converte texto num @Number, e se não for um número, num valor que não é um número, que aparece como \\!#\\:",
+                    "\\'olá' → #\\"
+                ],
+                "formatted": "$~Converte texto em texto formatado, interpretando qualquer marcação que este contenha."
+            }
+        },
+        "Number": {
+            "doc": [
+                "$~Eu crio @Number, com qualquer número de unidades que possa imaginar!",
+                "Aqui estão os meus 5 favoritos:",
+                "\\0\\",
+                "\\1ºandar\\",
+                "\\πpimentas\\",
+                "\\∞rocha\\",
+                "\\1000000abraços\\",
+                "Isto resulta basicamente num número infinito de números.",
+                "E um número infinito de unidades!",
+                "E um número infinito de pares número/unidade…",
+                "Posso ser um número inteiro, um número real, negativo, positivo, fracionário, decimal, ou até mesmo não ser um número.",
+                "E pode escrever-me utilizando diversos sistemas numéricos, incluindo o arábico \\123\\, o romano \\ⅩⅩⅩⅠⅩ\\, o japonês \\二十\\ e muitos outros:",
+                "\\1 + Ⅰ + 一\\",
+                "Também me pode escrever nas bases 2 a 16, inserindo um número de base assim:",
+                "\\2;11111111\\",
+                "\\10;255\\",
+                "\\16;FF\\",
+                "Existe um número especial chamado NaN que é possível quando se escreve algo que não é um número:",
+                "\\2;22\\",
+                "Não existe o dígito '2' na base 2, pelo que não é um número válido. O @value NaN também aparecerá se tentar converter um texto que não seja um número num número.",
+                "\\'olá'→#\\"
+            ],
+            "name": ["Número"],
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Adiciono um @Number com a mesma @Unit a mim próprio, criando um novo @Number com a mesma @Unit.",
+                        "Por exemplo:",
+                        "\\1 + 1\\",
+                        "\\3cat + 5cat\\",
+                        "Se as unidades não coincidirem, interrompo a apresentação.",
+                        "\\3gatos + 5cães\\🪲"
+                    ],
+                    "names": ["adicionar"],
+                    "inputs": [
+                        {
+                            "doc": "O @Number a adicionar.",
+                            "names": "número"
+                        }
+                    ]
+                },
+                "subtract": {
+                    "doc": [
+                        "$~Subtraio o @Number que me fornece a mim próprio, criando um novo @Number da mesma @Unit.",
+                        "Por exemplo:",
+                        "\\1 - 1\\",
+                        "\\3cat - 5cat\\",
+                        "Se as unidades não coincidirem, interrompo a apresentação.",
+                        "\\3gato - 5cão\\🪲"
+                    ],
+                    "names": ["subtrair"],
+                    "inputs": [
+                        {
+                            "doc": "O @Number a ser-me subtraído.",
+                            "names": "número"
+                        }
+                    ]
+                },
+                "multiply": {
+                    "doc": [
+                        "$~Multiplico-me pelo @Number dado, criando um produto do meu @Unit e do @Unit do número dado:",
+                        "\\5 × 5\\",
+                        "\\5m × 5m\\",
+                        "\\5m × 1/s\\"
+                    ],
+                    "names": ["multiplicar"],
+                    "inputs": [
+                        {
+                            "doc": "O número a multiplicar.",
+                            "names": "número"
+                        }
+                    ]
+                },
+                "divide": {
+                    "doc": [
+                        "$~Divido-me pelo @Number dado, criando um quociente do meu @Unit e do @Unit do número dado:",
+                        "\\5 ÷ 5\\",
+                        "\\5m ÷ 5m\\",
+                        "\\5m ÷ 5s\\"
+                    ],
+                    "names": ["dividir"],
+                    "inputs": [
+                        {
+                            "doc": "O @Number pelo qual devo ser dividido.",
+                            "names": "número"
+                        }
+                    ]
+                },
+                "remainder": {
+                    "doc": [
+                        "$~Divido-me pelo número fornecido (@Number), mas apresento o resto:",
+                        "\\10 % 2\\",
+                        "\\10m % 2\\",
+                        "\\10m/s % 3\\"
+                    ],
+                    "names": ["restante"],
+                    "inputs": [
+                        {
+                            "doc": "O @Number pelo qual devo ser dividido.",
+                            "names": "número"
+                        }
+                    ]
+                },
+                "positive": {
+                    "doc": [
+                        "$~Crio um novo @Number que me torna positivo, se for negativo.",
+                        "\\-200.positivo()\\"
+                    ],
+                    "names": ["positivo"],
+                    "inputs": []
+                },
+                "round": {
+                    "doc": [
+                        "$~Crio um novo @Number que me arredonda ao inteiro mais próximo.",
+                        "\\9.4.redondo()\\",
+                        "\\9.5.redondo()\\",
+                        "\\9.6.redondo()\\"
+                    ],
+                    "names": ["redondo"],
+                    "inputs": []
+                },
+                "roundDown": {
+                    "doc": [
+                        "$~Crio um novo @Number que arredonda para o maior inteiro menor do que eu.",
+                        "\\10.5.arredondarParaBaixo()\\",
+                        "\\10.1.arredondarParaBaixo()\\",
+                        "\\10.01.arredondarParaBaixo()\\"
+                    ],
+                    "names": ["arredondarParaBaixo"],
+                    "inputs": []
+                },
+                "roundUp": {
+                    "doc": [
+                        "$~Crio um novo @Number que arredonda para o menor inteiro maior do que eu.",
+                        "\\10.5.arredondarParaCima()\\",
+                        "\\10.9.arredondarParaCima()\\",
+                        "\\10.99.arredondarParaCima()\\"
+                    ],
+                    "names": ["arredondarParaCima"],
+                    "inputs": []
+                },
+                "power": {
+                    "doc": [
+                        "$~Elevo-me à potência do @Number dado. Expoentes fracionários são permitidos!",
+                        "\\2 ^ 8\\",
+                        "\\10 ^ -2\\",
+                        "\\5 ^ -.5\\"
+                    ],
+                    "names": ["poder"],
+                    "inputs": [
+                        {
+                            "doc": "O expoente a que devo elevar-me.",
+                            "names": "número"
+                        }
+                    ]
+                },
+                "root": {
+                    "doc": [
+                        "$~Eu crio a raiz de mim mesmo usando a raiz fornecida.",
+                        "\\4 √ 2\\",
+                        "\\1000 √ 3\\"
+                    ],
+                    "names": ["raiz"],
+                    "inputs": [
+                        {
+                            "doc": "A raiz a calcular.",
+                            "names": "número"
+                        }
+                    ]
+                },
+                "lessThan": {
+                    "doc": [
+                        "$~\\⊤\\ se eu for menor do que o @Number dado:",
+                        "\\1 < 2\\",
+                        "\\2 < 1\\"
+                    ],
+                    "names": ["menorque"],
+                    "inputs": [
+                        {
+                            "doc": "O @Number com o qual me deve comparar.",
+                            "names": "número"
+                        }
+                    ]
+                },
+                "lessOrEqual": {
+                    "doc": [
+                        "$~\\⊤\\ se eu for menor ou igual ao @Number dado:",
+                        "\\1 ≤ 2\\",
+                        "\\2 ≤ 1\\",
+                        "\\2 ≤ 2\\"
+                    ],
+                    "names": ["menorouigual"],
+                    "inputs": [
+                        {
+                            "doc": "O @Number com o qual me deve comparar.",
+                            "names": "número"
+                        }
+                    ]
+                },
+                "greaterThan": {
+                    "doc": [
+                        "$~\\⊤\\ se eu for maior do que o @Number dado:",
+                        "\\1 > 2\\",
+                        "\\2 > 1\\"
+                    ],
+                    "names": ["maiorque"],
+                    "inputs": [
+                        {
+                            "doc": "O @Number com o qual me deve comparar.",
+                            "names": "número"
+                        }
+                    ]
+                },
+                "greaterOrEqual": {
+                    "doc": [
+                        "$~\\⊤\\ se eu for maior ou igual ao @Number dado:",
+                        "\\1 ≥ 2\\",
+                        "\\2 ≥ 1\\",
+                        "\\2 ≥ 2\\"
+                    ],
+                    "names": ["maiorouigual"],
+                    "inputs": [
+                        {
+                            "doc": "O @Number com o qual me deve comparar.",
+                            "names": "número"
+                        }
+                    ]
+                },
+                "equal": {
+                    "doc": [
+                        "$~\\⊤\\ se eu for igual ao @Number dado:",
+                        "\\1 = 2\\",
+                        "\\2 = 2\\"
+                    ],
+                    "names": ["igual"],
+                    "inputs": [
+                        {
+                            "doc": "O @Number com o qual me deve comparar.",
+                            "names": "número"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": [
+                        "$~\\⊤\\ se eu não for igual ao @Number dado:",
+                        "\\1 ≠ 2\\",
+                        "\\2 ≠ 2\\"
+                    ],
+                    "names": ["nãoIqual"],
+                    "inputs": [
+                        {
+                            "doc": "O @Number com o qual me deve comparar.",
+                            "names": "número"
+                        }
+                    ]
+                },
+                "cos": {
+                    "doc": ["$~Calcule o coseno de mim.", "\\π.cos()\\"],
+                    "names": ["cosseno"],
+                    "inputs": []
+                },
+                "sin": {
+                    "doc": ["$~Calcule o seno de mim.", "\\π.cos()\\"],
+                    "names": ["pecado", "seno"],
+                    "inputs": []
+                },
+                "min": {
+                    "doc": [
+                        "$~Encontra o menor número entre mim e os outros.",
+                        "\\1.min(2 3 -1)\\"
+                    ],
+                    "names": "min",
+                    "inputs": [
+                        {
+                            "doc": "Quantos números me quiser dar!",
+                            "names": "números"
+                        }
+                    ]
+                },
+                "max": {
+                    "doc": [
+                        "$~Encontra o maior número entre mim e os outros.",
+                        "\\1.máx(2 3 4)\\"
+                    ],
+                    "names": "máx",
+                    "inputs": [
+                        {
+                            "doc": "Quantos números me quiser dar!",
+                            "names": "números"
+                        }
+                    ]
+                },
+                "tan": {
+                    "doc": ["$~Calcula a minha tangente.", "\\π.tan()\\"],
+                    "names": ["$~tangente"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Calcula o meu arco-seno (seno inverso).",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Calcula o meu arco-cosseno (cosseno inverso).",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Calcula a minha arco-tangente (tangente inversa).",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Eleva o número _e_ ao meu expoente.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Calcula o meu logaritmo na base dada, ou o meu logaritmo natural se não for dada nenhuma base.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~A base do logaritmo. Deixa em branco para o logaritmo natural (base _e_).",
+                            "names": "$~base"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Um @Range de mim até ao @Number dado, incluindo ambos. Espalhe-o numa lista com @Spread, pergunte se guarda um número, ou use-o @how chave de @Match:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Conto para trás quando o meu fim é menor do que o meu início:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~até"],
+                    "inputs": [
+                        {
+                            "doc": "$~O @Number onde o meu intervalo termina. Tem de ter a mesma unidade que eu.",
+                            "names": "$~número"
+                        }
+                    ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Mantenha-me entre um número baixo e um número alto: se eu estiver abaixo do número baixo, é isso que recebe, e se eu estiver acima do número alto, recebe esse em vez disso.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~limite",
+                    "inputs": [
+                        {
+                            "doc": "$~O @value mais baixo que me é permitido ter.",
+                            "names": "$~baixo"
+                        },
+                        {
+                            "doc": "$~O @value mais alto que me é permitido ter.",
+                            "names": "$~alto"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Mova-se parte do caminho entre mim e outro número. A 0% recebe-me a mim, a 100% recebe o outro número, e a meio caminho recebe o número intermédio.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~paraQue",
+                    "inputs": [
+                        {
+                            "doc": "$~O número em direção ao qual se deve mover.",
+                            "names": "$~outro"
+                        },
+                        {
+                            "doc": "$~Até onde ir, sendo que 100% chega ao destino.",
+                            "names": "$~quantidade"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Descubra onde me situo entre um par de números e depois devolva o número que se situa da mesma forma entre outro par. Útil para transformar algo que mediu em algo que pode mostrar.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~redimensionar",
+                    "inputs": [
+                        {
+                            "doc": "$~O limite inferior do intervalo em que estou.",
+                            "names": "$~deBaixo"
+                        },
+                        {
+                            "doc": "$~O limite superior do intervalo em que estou.",
+                            "names": "$~deAlto"
+                        },
+                        {
+                            "doc": "$~O limite inferior do intervalo que pretende.",
+                            "names": "$~paraBaixo"
+                        },
+                        {
+                            "doc": "$~O limite superior do intervalo que pretende.",
+                            "names": "$~paraAlto"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "Uma representação em árabe dos meus dígitos em formato @Text.",
+                "list": [
+                    "Converto um número numa lista dos números de \\1\\ até ao número fornecido. Por exemplo:",
+                    "\\10→[]\\"
+                ],
+                "unit": "$from → $to"
+            },
+            "unit": {
+                "ns": "$~nanossegundos",
+                "us": "$~microssegundos",
+                "ms": "$~milissegundos",
+                "s": "$~segundos",
+                "min": "$~minutos",
+                "h": "$~horas",
+                "day": "$~dias",
+                "wk": "$~semanas",
+                "yr": "$~anos",
+                "pm": "$~picómetros",
+                "nm": "$~nanómetros",
+                "um": "$~micrómetros",
+                "mm": "$~milímetros",
+                "cm": "$~centímetros",
+                "dm": "$~decímetros",
+                "m": "$~metros",
+                "hm": "$~hectómetros",
+                "km": "$~quilómetros",
+                "Mm": "$~megámetros",
+                "Gm": "$~gigámetros",
+                "Tm": "$~terámetros",
+                "in": "$~polegadas",
+                "ft": "$~pés",
+                "yd": "$~jardas",
+                "mi": "$~milhas",
+                "nmi": "$~milhas náuticas",
+                "au": "$~unidades astronómicas",
+                "ly": "$~anos-luz",
+                "ug": "$~microgramas",
+                "mg": "$~miligramas",
+                "g": "$~gramas",
+                "kg": "$~quilogramas",
+                "t": "$~toneladas métricas",
+                "oz": "$~onças",
+                "lb": "$~libras",
+                "st": "$~stones",
+                "uston": "$~toneladas curtas dos EUA",
+                "ukton": "$~toneladas longas britânicas",
+                "degC": "$~graus Celsius",
+                "degF": "$~graus Fahrenheit",
+                "K": "$~kelvins",
+                "deg": "$~graus de ângulo",
+                "rad": "$~radianos",
+                "mm2": "$~milímetros quadrados",
+                "cm2": "$~centímetros quadrados",
+                "m2": "$~metros quadrados",
+                "km2": "$~quilómetros quadrados",
+                "in2": "$~polegadas quadradas",
+                "ft2": "$~pés quadrados",
+                "yd2": "$~jardas quadradas",
+                "mi2": "$~milhas quadradas",
+                "ha": "$~hectares",
+                "acre": "$~acres",
+                "mL": "$~mililitros",
+                "cL": "$~centilitros",
+                "dL": "$~decilitros",
+                "L": "$~litros",
+                "kL": "$~quilolitros",
+                "cm3": "$~centímetros cúbicos",
+                "m3": "$~metros cúbicos",
+                "tsp": "$~colheres de chá",
+                "tbsp": "$~colheres de sopa",
+                "cup": "$~chávenas",
+                "usfloz": "$~onças fluidas americanas",
+                "uspt": "$~pints americanos",
+                "usqt": "$~quartos americanos",
+                "usgal": "$~galões americanos",
+                "ukfloz": "$~onças fluidas britânicas",
+                "ukpt": "$~pints britânicos",
+                "ukqt": "$~quartos britânicos",
+                "ukgal": "$~galões britânicos",
+                "mps": "$~metros por segundo",
+                "kmph": "$~quilómetros por hora",
+                "miph": "$~milhas por hora",
+                "ftps": "$~pés por segundo",
+                "kn": "$~nós",
+                "Pa": "$~pascais",
+                "hPa": "$~hectopascais",
+                "kPa": "$~quilopascais",
+                "bar": "$~bars",
+                "atm": "$~atmosferas padrão",
+                "psi": "$~libras por polegada quadrada",
+                "mmHg": "$~milímetros de mercúrio",
+                "J": "$~joules",
+                "kJ": "$~quilojoules",
+                "cal": "$~calorias",
+                "kcal": "$~quilocalorias",
+                "Wh": "$~watt-hora",
+                "kWh": "$~quilowatt-hora",
+                "BTU": "$~unidades térmicas britânicas",
+                "eV": "$~eletrões-volt",
+                "mW": "$~miliwatts",
+                "W": "$~watts",
+                "kW": "$~quilowatts",
+                "MW": "$~megawatts",
+                "GW": "$~gigawatts",
+                "hp": "$~cavalos-vapor",
+                "uA": "$~microamperes",
+                "mA": "$~miliamperes",
+                "A": "$~amperes",
+                "kA": "$~quiloamperes",
+                "mV": "$~milivolts",
+                "V": "$~volts",
+                "kV": "$~quilovolts",
+                "mohm": "$~miliohms",
+                "ohm": "$~ohms",
+                "kohm": "$~quilo-ohms",
+                "Mohm": "$~mega-ohms",
+                "Hz": "$~hertz",
+                "kHz": "$~quilohertz",
+                "MHz": "$~megahertz",
+                "GHz": "$~gigahertz",
+                "bpm": "$~batimentos por minuto",
+                "bit": "$~bits",
+                "B": "$~bytes",
+                "kB": "$~quilobytes",
+                "MB": "$~megabytes",
+                "GB": "$~gigabytes",
+                "TB": "$~terabytes",
+                "KiB": "$~kibibytes",
+                "MiB": "$~mebibytes",
+                "GiB": "$~gibibytes",
+                "TiB": "$~tebibytes",
+                "lux": "$~lux",
+                "fc": "$~velas-pé"
+            },
+            "category": {
+                "time": "$~Tempo",
+                "length": "$~Comprimento",
+                "weight": "$~Peso",
+                "temperature": "$~Temperatura",
+                "angle": "$~Ângulo",
+                "area": "$~Área",
+                "volume": "$~Volume",
+                "speed": "$~Velocidade",
+                "pressure": "$~Pressão",
+                "energy": "$~Energia",
+                "power": "$~Potência",
+                "electricity": "$~Eletricidade",
+                "frequency": "$~Frequência",
+                "data": "$~Dados",
+                "brightness": "$~Brilho",
+                "other": "$~Outro"
+            }
+        },
+        "List": {
+            "doc": [
+                "$~Sou uma sequência de valores, de qualquer tipo!",
+                "Podes colocar qualquer coisa em mim: @Boolean, @Number, @Text, @None, até outra @List, @Set, @Map, ou qualquer @expression. Aqui está uma simples:",
+                "\\['maçã' 'banana' 'manga']\\",
+                "O que me torna especial é que mantenho as coisas em ordem e numero tudo de 1 até quantos itens houver em mim.",
+                "Os meus itens são numerados, a começar em 1. Podes obter os valores que guardo com @ListAccess, usando o seu número:",
+                "Por exemplo, o segundo @value nesta lista é \\['banana']\\",
+                "\\['maçã' 'banana' 'manga'][2]\\",
+                "Posso ter qualquer coisa em mim. Olha para esta lista, com @Text, @Number e @Time!",
+                "\\['maçã' 10 + 10 🕕()]\\",
+                "Quando me dás uma lista de muitas coisas, eu generalizo-as se tiverem um @type em comum. Mas às vezes podes querer literalmente essas coisas específicas. Se for o caso, basta colocar um ! depois de mim, e eu garanto que represento uma lista apenas desses valores específicos.",
+                "\\['maçã' 'banana' 'manga']!\\",
+                "É mais ou menos isto. Mas posso fazer todo o tipo de coisas entusiasmantes com as minhas @FunctionDefinition!"
+            ],
+            "name": ["Lista"],
+            "kind": "Tipo",
+            "out": "Resultado",
+            "outofbounds": "foradoslimites",
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Crio uma nova @List com o item fornecido no final.",
+                        "\\['maçã' 'banana' 'manga'].com('melancia')\\"
+                    ],
+                    "names": ["com", "adicionar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Sou o @value que queres adicionar.",
+                            "names": "artigo"
+                        }
+                    ]
+                },
+                "append": {
+                    "doc": [
+                        "$~Crio uma nova @List com os meus valores e, em seguida, todos os valores da @List fornecida após mim.",
+                        "\\['maçã' 'banana' 'manga'].withList(['melancia' 'carambola'])\\",
+                        "É um pouco mais fácil usar o @Spread, assim:",
+                        "\\['maçã' 'banana' 'manga' :['melancia' 'carambola']]\\"
+                    ],
+                    "names": ["comlista", "acrescentar"],
+                    "inputs": [
+                        {
+                            "doc": "Lista de valores a adicionar.",
+                            "names": "lista"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Crio uma nova lista que substitui o @value no @index dado pelo valor dado.",
+                        "\\['maçã' 'banana' 'manga'].substituir(1 'kiwi')\\"
+                    ],
+                    "names": ["substituir"],
+                    "inputs": [
+                        {
+                            "doc": "$~O @index do @value a substituir",
+                            "names": "índice"
+                        },
+                        {
+                            "doc": "$~O @value de substituição",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "length": {
+                    "doc": "$~O @Number de itens em mim.",
+                    "names": ["comprimento"],
+                    "inputs": []
+                },
+                "random": {
+                    "doc": [
+                        "$~Um dos meus itens escolhido ao acaso, ou @None se eu estiver vazia.",
+                        "\\['maçã' 'banana' 'manga'].aleatório()\\"
+                    ],
+                    "names": "aleatório",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": [
+                        "$~Crie uma nova lista com os itens da lista por ordem aleatória.",
+                        "\\['maçã' 'banana' 'manga'].embaralhado()\\"
+                    ],
+                    "names": "embaralhado",
+                    "inputs": []
+                },
+                "first": {
+                    "doc": [
+                        "$~O primeiro item em mim, ou @None se estiver vazio.",
+                        "\\['maçã' 'banana' 'manga'].primeiro()\\"
+                    ],
+                    "names": "primeiro",
+                    "inputs": []
+                },
+                "last": {
+                    "doc": [
+                        "$~O último item em mim, ou @None se estiver vazio.",
+                        "\\['maçã' 'banana' 'manga'].último()\\"
+                    ],
+                    "names": "último",
+                    "inputs": []
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ se eu tiver um item igual ao item dado em mim.",
+                        "\\['maçã' 'banana' 'manga'].tem('banana')\\"
+                    ],
+                    "names": "tem",
+                    "inputs": [
+                        {
+                            "doc": "$~O @value a procurar.",
+                            "names": "item"
+                        }
+                    ]
+                },
+                "join": {
+                    "doc": [
+                        "$~Combino os itens da minha lista em @Text, separados pelo separador @Text fornecido.",
+                        "\\['maçã' 'banana' 'manga'].juntar(', ')\\"
+                    ],
+                    "names": "juntar",
+                    "inputs": [
+                        {
+                            "doc": "O texto que separa os itens, opcionalmente vazio.",
+                            "names": "separador"
+                        }
+                    ]
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Obtenho uma lista dentro desta lista, começando no @index que forneces, e terminando com o último item, ou, se forneceres um, num item específico.",
+                        "\\['maçã' 'banana' 'manga'].subsequência(2)\\",
+                        "\\['maçã' 'banana' 'manga'].subsequência(1 2)\\",
+                        "E repara! Se forneceres números fora de ordem, dou-te a lista invertida",
+                        "\\['maçã' 'banana' 'manga'].subsequência(3 1)\\",
+                        "Se me deres algo menor que 1 para um índice, vou assumir que queres dizer 1.",
+                        "\\['maçã' 'banana' 'manga'].subsequência(-1003243 2)\\",
+                        "E se me der algo maior do que o maior índice, vou assumir que quer dizer o fim.",
+                        "\\['maçã' 'banana' 'manga'].subsequência(3 2304032432)\\"
+                    ],
+                    "names": "subsequência",
+                    "inputs": [
+                        {
+                            "doc": "$~O @index do primeiro item da subsequência que quer.",
+                            "names": "começo"
+                        },
+                        {
+                            "doc": "$~O @index opcional do último item da subsequência que quer. Se não der nenhum, a sua lista termina com o último item da lista.",
+                            "names": "fim"
+                        }
+                    ]
+                },
+                "sansFirst": {
+                    "doc": [
+                        "$~Crio uma lista sem o primeiro item.",
+                        "\\['maçã' 'banana' 'manga'].sansFirst()\\"
+                    ],
+                    "names": ["excetoPrimeiro", "semprimeiro"],
+                    "inputs": []
+                },
+                "sansLast": {
+                    "doc": [
+                        "$~Crio uma lista sem o meu último item.",
+                        "\\['maçã' 'banana' 'manga'].sansLast()\\"
+                    ],
+                    "names": ["excetoÚltimo", "semÚltimo"],
+                    "inputs": []
+                },
+                "sansAll": {
+                    "doc": [
+                        "$~Eu, mas sem o @value dado. Todas as cópias desaparecem, não apenas a primeira, seja qual for o nome que usar.\\['maçã' 'banana' 'manga' 'maçã'].exceto('maçã')\\"
+                    ],
+                    "names": ["exceto", "sem", "semtudo"],
+                    "inputs": [
+                        {
+                            "doc": "$~O @value cujas ocorrências quer remover todas da lista.",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Eu, mas ao contrário!",
+                        "\\['maçã' 'banana' 'manga'].reverse()\\"
+                    ],
+                    "names": ["invertido", "invertir"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ se os meus artigos e encomenda forem exatamente iguais à @List fornecida.",
+                        "\\['maçã' 'banana' 'manga'] = ['maçã' 'manga' 'banana']\\"
+                    ],
+                    "names": ["iguala"],
+                    "inputs": [
+                        {
+                            "doc": "A @List para me comparar.",
+                            "names": "lista"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ se os meus artigos e o pedido /não/ forem exatamente iguais à @List fornecida.",
+                        "\\['maçã' 'banana' 'manga'] ≠ ['maçã' 'manga' 'banana']\\"
+                    ],
+                    "names": ["nãoIguala"],
+                    "inputs": [
+                        {
+                            "doc": "A @List para me comparar.",
+                            "names": "lista"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Dê-me um @FunctionDefinition que recebe um @value e um @index opcional @how entrada e produz um valor, e vou avaliá-lo em cada um dos meus itens, transformando os meus valores em novos valores.",
+                        "Por exemplo, imagine que eu era uma lista de @Number e queria duplicar todos:",
+                        "\\[2 4 6 8].traduzir(ƒ(núm•#) núm × 2)\\"
+                    ],
+                    "names": "traduzir",
+                    "inputs": [
+                        {
+                            "doc": "A @FunctionDefinition que irá traduzir cada item.",
+                            "names": "tradutor"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "O item que está a ser traduzido.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "$~O @index do item que está a ser transformado.",
+                            "names": "índice"
+                        },
+                        {
+                            "doc": "A lista está a ser traduzida.",
+                            "names": "lista"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Dê-me um @FunctionDefinition que recebe um @value e um @index opcional @how entrada e produz um @Boolean, e vou criar uma nova lista que só inclui os itens que resultam \\⊤\\.",
+                        "Por exemplo, imagine que eu era uma lista de @Number e só queria os positivos:",
+                        "\\[2 -4 8 -16].filtro(ƒ(núm•#) núm ≥ 0)\\"
+                    ],
+                    "names": "filtro",
+                    "inputs": [
+                        {
+                            "doc": "$~Uma @FunctionDefinition que verifica cada item, produzindo \\⊤\\ se deve ser mantido.",
+                            "names": "verificador"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "O item que está a ser verificado.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "$~O @index do item que está a ser verificado.",
+                            "names": "índice"
+                        },
+                        {
+                            "doc": "A lista está a ser filtrada.",
+                            "names": "lista"
+                        }
+                    ]
+                },
+                "all": {
+                    "doc": [
+                        "$~Dê-me um @FunctionDefinition que recebe um @value @how entrada e produz um @Boolean se corresponder a alguma @condition. Vou criar \\⊤\\ se todos os itens corresponderem à condição.",
+                        "Por exemplo, imagine que eu era uma lista de @Number e queria saber se tudo era positivo:",
+                        "\\[2 -4 8 -16].tudo(ƒ(num•#) num ≥ 0)\\"
+                    ],
+                    "names": "tudo",
+                    "inputs": [
+                        {
+                            "doc": "$~O @FunctionDefinition que produz \\⊤\\ se um item satisfaz o seu @condition.",
+                            "names": "verificador"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "O item que está a ser verificado.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "$~O @index do item que está a ser verificado.",
+                            "names": "índice"
+                        },
+                        {
+                            "doc": "A lista está a ser verificada.",
+                            "names": "lista"
+                        }
+                    ]
+                },
+                "until": {
+                    "doc": [
+                        "$~Dá-me uma @FunctionDefinition que recebe um @value @how entrada e produz um @Boolean se corresponder a alguma @condition. Eu crio uma nova @List que contém todos os itens até a condição não ser cumprida.",
+                        "Por exemplo, imagina que eu era uma lista de animais @Text e querias tudo até \\'rato'\\ ser encontrado:",
+                        "\\['gato' 'cão' 'ratazana' 'rato' 'pónei'].até(ƒ(animal•'') animal = 'ratazana')\\🪲"
+                    ],
+                    "names": "até",
+                    "inputs": [
+                        {
+                            "doc": "$~A @FunctionDefinition que produz \\⊤\\ se devo parar de incluir itens.",
+                            "names": "verificador"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "O item que está a ser verificado.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "$~O @index do item que está a ser verificado.",
+                            "names": "índice"
+                        },
+                        {
+                            "doc": "A lista está a ser subsequenciado.",
+                            "names": "lista"
+                        }
+                    ]
+                },
+                "find": {
+                    "doc": [
+                        "$~Dá-me uma @FunctionDefinition que recebe um @value @how entrada e produz um @Boolean se corresponder a algum critério, e eu avalio para o item correspondente.",
+                        "Por exemplo, imagina que querias encontrar o primeiro animal que tinha a vogal \\'e'\\:",
+                        "\\['gato' 'cão' 'ratazana' 'rato' 'pónei'].encontrar(ƒ(animal•'') animal.⊆('e'))\\🪲"
+                    ],
+                    "names": "encontrar",
+                    "inputs": [
+                        {
+                            "doc": "$~A @FunctionDefinition que produz \\⊤\\ se corresponder aos seus critérios de pesquisa.",
+                            "names": "verificador"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "O item que está a ser verificado.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "$~O @index do item que está a ser verificado.",
+                            "names": "índice"
+                        },
+                        {
+                            "doc": "A lista que está a ser pesquisada.",
+                            "names": "lista"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Dê-me um @FunctionDefinition que recebe a combinação mais recente e um próximo @value, e cria uma próxima combinação, e vou percorrer do primeiro ao último dos meus itens, criando combinações sucessivas, e avaliar a combinação final para a qual o seu @FunctionDefinition avalia.",
+                        "Isto é muito útil para combinar todos os itens que tenho num único valor. Por exemplo, imagine que queria somar uma lista de números:",
+                        "\\[3 9 2 8 1 4].combinado(0 ƒ(soma•# número•#) soma + número)\\"
+                    ],
+                    "names": ["combinado", "combinar"],
+                    "inputs": [
+                        {
+                            "doc": "A combinação inicial.",
+                            "names": "inicial"
+                        },
+                        {
+                            "doc": "$~O @FunctionDefinition que recebe a última combinação e o próximo @value e produz a próxima combinação.",
+                            "names": "combinador"
+                        }
+                    ],
+                    "combiner": [
+                        {
+                            "doc": "A combinação atual",
+                            "names": "combinação"
+                        },
+                        {
+                            "doc": "O próximo item a combinar.",
+                            "names": "seguinte"
+                        },
+                        {
+                            "doc": "$~O @index do próximo item",
+                            "names": "índice"
+                        },
+                        {
+                            "doc": "A lista está a ser combinada.",
+                            "names": "lista"
+                        }
+                    ]
+                },
+                "sorted": {
+                    "doc": [
+                        "$~Posso receber uma lista e criar uma nova lista com os seus valores ordenados. Assim:",
+                        "\\[1 5 8 0 2].ordenado()\\",
+                        "Também posso fazer isto com valores @Text, por ordem alfabética. Uma letra maiúscula é ordenada junto à sua versão minúscula, por isso uma palavra não vai parar ao fim só por começar com maiúscula:",
+                        "\\['Laranja' 'quivi' 'Banana' 'maçã'].ordenado()\\",
+                        "E se tiver uma lista de valores que não são @Number nem @Text, pode dar-me um @FunctionDefinition que transforma cada item num @Number ou num @Text para que eu consiga ordená-lo. Por exemplo, aqui temos uma lista de listas de tamanhos diferentes; se me der uma função que transforma cada lista no seu comprimento, posso ordená-las por comprimento.",
+                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(\n\tƒ(lista2) lista2.comprimento()\n)\\",
+                        "Uma função que cria @Text é a forma de ordenar por uma palavra que calcula, em vez de pelo próprio @value. Aqui ordeno nomes pelo último:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].ordenado(\n\tƒ(nome2•'') (nome2 ÷ ' ').último()\n)\\"
+                    ],
+                    "names": "ordenado",
+                    "inputs": [
+                        {
+                            "doc": "$~O @FunctionDefinition opcional a usar para ordenar uma lista @value. Deve transformar o valor num @Number ou num @Text que possa ser usado para ordenar a lista.",
+                            "names": "sequenciador"
+                        }
+                    ],
+                    "sequencer": [
+                        {
+                            "doc": "$~O @value a transformar num @Number ou num @Text.",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Soma todos os meus números. Se estiver vazia, isso é 0, e se os meus números não estiverem todos medidos na mesma unidade, direi isso mesmo em vez de adivinhar.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~soma",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Soma todos os meus números e divide pelo número total de valores. Se estiver vazia, não há nada para calcular a média, por isso recebe @None.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~media",
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "text": "Para uma representação @Text da lista.",
+                "set": "Para um @Set, útil para remover duplicados."
+            }
+        },
+        "Set": {
+            "doc": [
+                "$~Sou um conjunto de valores! Isso significa que posso conter qualquer número de valores, incluindo nenhum valor. Pode criar-me assim:",
+                "\\{1 2 3}\\",
+                "Sou muito útil se quiser guardar uma coleção de coisas sem quaisquer duplicados.",
+                "Isso significa que, se me der valores que já tenho, vou ignorar os extras.",
+                "Por exemplo, este conjunto tem muitos duplicados:",
+                "\\{1 1 2 2 3 3}\\",
+                "Eu avalio-o apenas para \\{1 2 3}\\.",
+                "Se quiser ver se tenho um @value em mim, @SetOrMapAccess pode ajudar:",
+                "\\{'frasco' 'garrafa' 'copo de vidro'}{'chávena'}\\",
+                "Normalmente, se me der um conjunto de valores que sejam de um @type comum, vou assumir que são uma lista desse tipo. @how este conjunto é \\{''}\\, porque é tudo @Text.",
+                "\\{'olá' 'oi' 'olá'}\\",
+                "Mas pode querer indicar que sou um conjunto /apenas/ desses valores, para que eu possa avisar quando tentar usar um que não é permitido. Se for esse o caso, basta acrescentar um ! no meu fim.",
+                "\\{'olá' 'oi' 'olá'}!{'olá'}\\🪲",
+                "Há mais alguma coisa que queira fazer comigo? Veja todos os @FunctionDefinition giros que tenho!"
+            ],
+            "name": ["Conjunto"],
+            "kind": "Tipo",
+            "out": "Resultado",
+            "function": {
+                "size": {
+                    "doc": "Vou dizer-te quantos valores existem em mim.",
+                    "names": "tamanho",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~Sou \\⊤\\ se o @Set fornecido e eu tivermos exactamente os mesmos valores:",
+                        "\\{1 2 3} = {2 3 4}\\"
+                    ],
+                    "names": ["iguala"],
+                    "inputs": [
+                        {
+                            "doc": "O @Set para comparação.",
+                            "names": "conjunto"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~Sou \\⊤\\ se o @Set fornecido e eu não tivermos exactamente os mesmos valores:",
+                        "\\{1 2 3} ≠ {2 3 4}\\"
+                    ],
+                    "names": ["notqual"],
+                    "inputs": [
+                        {
+                            "doc": "O @Set para comparação.",
+                            "names": "conjunto"
+                        }
+                    ]
+                },
+                "add": {
+                    "doc": [
+                        "$~Dê-me um item para adicionar e eu criarei um novo @Set com os meus itens e o item fornecido.",
+                        "\\{1 2 3} + 4\\"
+                    ],
+                    "names": ["com", "adicionar"],
+                    "inputs": [
+                        {
+                            "doc": "O item a adicionar",
+                            "names": "artigo"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~Dê-me um item para remover e eu criarei um novo @Set sem o item.",
+                        "\\{1 2 3} - 2\\",
+                        "Se não tiver o artigo, farei uma avaliação por conta própria."
+                    ],
+                    "names": ["remover"],
+                    "inputs": [
+                        {
+                            "doc": "O item a remover.",
+                            "names": "item"
+                        }
+                    ]
+                },
+                "union": {
+                    "doc": [
+                        "$~Dá-me @Set e eu criarei um novo @Set que terá os meus itens e os itens do conjunto.",
+                        "\\{1 2 3} ∪ {3 4 5}\\"
+                    ],
+                    "names": ["união"],
+                    "inputs": [
+                        {
+                            "doc": "O @Set para combinar comigo.",
+                            "names": "conjunto"
+                        }
+                    ]
+                },
+                "intersection": {
+                    "doc": [
+                        "$~Dá-me @Set e eu criarei um novo @Set que terá apenas os itens que temos em comum.",
+                        "\\{1 2 3} ∩ {3 4 5}\\"
+                    ],
+                    "names": ["interseção"],
+                    "inputs": [
+                        {
+                            "doc": "O conjunto para comparar comigo.",
+                            "names": "conjunto"
+                        }
+                    ]
+                },
+                "difference": {
+                    "doc": [
+                        "$~Dá-me um @Set e eu criarei um novo @Set que terá apenas os itens que temos em comum.",
+                        "\\{1 2 3}.diferença({3 4 5})\\"
+                    ],
+                    "names": "diferença",
+                    "inputs": [
+                        {
+                            "doc": "O conjunto cujos itens devem ser removidos de mim.",
+                            "names": "conjunto"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Forneça-me uma @FunctionDefinition que receba um item e devolva \\⊤\\ se deve ser mantido, e eu criarei um @Set que contenha apenas os itens que correspondam aos seus critérios.",
+                        "Por exemplo, vamos encontrar os números ímpares em mim:",
+                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
+                    ],
+                    "names": "filtro",
+                    "inputs": [
+                        {
+                            "doc": "A @FunctionDefinition que verifica se um item deve ser mantido.",
+                            "names": "verificador"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "O item que está a ser verificado.",
+                            "names": "valor"
+                        },
+                        {
+                            "doc": "O conjunto que está a ser filtrado",
+                            "names": "conjunto"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Forneça-me uma @FunctionDefinition que receba um item e produza um novo item com base no mesmo; em seguida, traduzirei todos os itens para um novo @Set (removendo quaisquer duplicados).",
+                        "Por exemplo, vamos transformar todos os meus @Number em @Text:",
+                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
+                    ],
+                    "names": "traduzir",
+                    "inputs": [
+                        {
+                            "doc": "A @FunctionDefinition que traduz um dos meus itens para o novo item que pretende.",
+                            "names": "conjunto"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "O item que está a ser traduzido.",
+                            "names": "valor"
+                        },
+                        {
+                            "doc": "O conjunto que está a ser traduzido",
+                            "names": "conjunto"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "Uma representação @Text de um @Set",
+                "list": "Uma representação em forma de lista (@List) dos itens do conjunto."
+            }
+        },
+        "Map": {
+            "doc": [
+                "$~Eu junto valores, associando *chaves* a *valores*. Por exemplo:",
+                "\\{\n\t'amy': 6points\n\t'tony': 3points\n\t'shiela': 8points\n}\\",
+                "As minhas chaves podem ser qualquer tipo de @value, e os meus valores podem ser qualquer tipo de valor.",
+                "Algumas pessoas gostam de pensar em mim @how um @index, ou um dicionário, onde tu me dás algo, e eu dou-te aquilo a que está associado.",
+                "Se quiseres verificar a que algo está associado, podes dar a @SetOrMapAccess uma @key, e ela dar-te-á o valor:",
+                "\\{\n\t'amy': 6points\n\t'tony': 3points\n\t'shiela': 8points\n}{'amy'}\\",
+                "Se não houver nenhuma chave correspondente, eu dou-te @None.",
+                "\\{\n\t'amy': 6points\n\t'tony': 3points\n\t'shiela': 8points\n}{'jen'}\\",
+                "Também podes criar um mapa vazio assim:",
+                "\\{:}\\",
+                "Normalmente, eu vejo os tipos de chaves e valores que tu me dás e crio simplesmente um @type para os representar a todos. Por exemplo, este é um mapa de números para números:",
+                "\\{1: 1 2: 2 3: 3}\\",
+                "Mas imagina que querias garantir que eram apenas esses valores; basta adicionar ! no meu fim, e eu não vou generalizar. Isso ajuda-te a saber se estás a tentar obter um valor que não pretendias.",
+                "\\{1: 1 2: 2 3: 3}!{4}\\🪲",
+                "Eu sei fazer muitas coisas maravilhosas com os meus pares."
+            ],
+            "name": ["Mapa"],
+            "key": "Chave",
+            "value": "Valor",
+            "result": "Resultado",
+            "function": {
+                "size": {
+                    "doc": "Vou dizer-te quantos valores existem em mim.",
+                    "names": "tamanho",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~\\{⊤}\\ se os meus emparelhamentos forem exatamente iguais aos do @Map fornecido.",
+                        "\\{1:1 2:2} = {1:1 2:3}\\"
+                    ],
+                    "names": ["iguala"],
+                    "inputs": [
+                        {
+                            "doc": "O @Map para me comparar.",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\{⊤}\\ se os meus emparelhamentos /não/ forem exatamente iguais aos do @Map fornecido.",
+                        "\\{1:1 2:2} ≠ {1:1 2:3}\\"
+                    ],
+                    "names": ["nãoIguala"],
+                    "inputs": [
+                        {
+                            "doc": "O @Map para me comparar.",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "set": {
+                    "doc": [
+                        "$~Vou criar um novo @Map com todos os mesmos pares, mas com o novo par que me deres. Se eu já tiver a @key, vou emparelhá-la com o novo @value.",
+                        "\\{'amy': 6points 'tony': 3points}.emparalhar('jen' 0points)\\"
+                    ],
+                    "names": "emparalhar",
+                    "inputs": [
+                        {
+                            "doc": "$~@key para emparelhar com um @value.",
+                            "names": "chave"
+                        },
+                        {
+                            "doc": "$~O @value para emparelhar com o @key",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "unset": {
+                    "doc": [
+                        "$~Vou criar um novo @Map sem a @key que me der, removendo o seu par.",
+                        "\\{'amy': 6points 'tony': 3points}.desemparelhar('amy')\\"
+                    ],
+                    "names": "desemparelhar",
+                    "inputs": [
+                        {
+                            "doc": "$~O @key a esquecer.",
+                            "names": "chave"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~Vou criar um novo @Map sem nenhuma chave que tenha o @value.",
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.remover(\n\t0points\n)\\"
+                    ],
+                    "names": "remover",
+                    "inputs": [
+                        {
+                            "doc": "$~O @value a remover de mim, juntamente com quaisquer chaves a que está associado.",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Dê-me um @FunctionDefinition que receba uma @key e um @value e resulte em \\⊤\\ se um par deve ser mantido. Vou criar um novo @Map que cumpra o seu critério.",
+                        "Por exemplo, aqui queremos manter os pares que sejam a Amy ou que tenham mais de zero pontos.",
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.filtro(\n\tƒ(chave•'' valor•#points) (chave = 'amy') | (valor > 0points)\n)\\"
+                    ],
+                    "names": "filtro",
+                    "inputs": [
+                        {
+                            "doc": "A @FunctionDefinition que decide se deve ser mantido um emparelhamento.",
+                            "names": "verificador"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~O @key que está a ser verificado.",
+                            "names": "chave"
+                        },
+                        {
+                            "doc": "$~O @value que está a ser verificado.",
+                            "names": "valor"
+                        },
+                        {
+                            "doc": "O mapa que está a ser filtrado.",
+                            "names": "mapa"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Dê-me um @FunctionDefinition que receba uma @key e um @value e transforme o valor num novo valor. Vou criar um novo @Map com as mesmas chaves mas com valores atualizados.",
+                        "Por exemplo, vamos dar a todos um ponto, já que foram tão simpáticos.",
+                        "\\{'amy': 5points 'jen': 3points 'tony': 0points}.traduzir(\n\tƒ(chave•'' valor•#points) valor + 1points\n)\\🪲"
+                    ],
+                    "names": "traduzir",
+                    "inputs": [
+                        {
+                            "doc": "$~A @FunctionDefinition que traduz cada @value.",
+                            "names": "tradutor"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~O @key do @value que está a ser traduzido.",
+                            "names": "chave"
+                        },
+                        {
+                            "doc": "$~O @value que está a ser traduzido.",
+                            "names": "valor"
+                        },
+                        {
+                            "doc": "O mapa está a ser traduzido.",
+                            "names": "mapa"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "Uma representação @Text do mapeamento.",
+                "set": "As chaves do @Map",
+                "list": "Uma lista dos valores no @Map"
+            }
+        },
+        "Table": {
+            "doc": [
+                "$~Sou um conjunto de linhas de tabela! Posso ajudar a acompanhar grandes coleções de valores que têm a mesma estrutura.",
+                "Por exemplo, imagine que queria acompanhar um monte de pedras:",
+                "\\⎡nome•'' cor•''⎦\n⎡'obsidiana' 'preto'⎦\n⎡'pedra-pomes' 'cinzento'⎦\n⎡'citrino' 'amarelo'⎦\\",
+                "O @Bind pode ajudar a dar-lhe um nome! E depois pode fazer coisas @how criar uma tabela revista com uma nova linha @Insert:",
+                "\\rochas: ⎡nome•'' cor•''⎦\n\t⎡'obsidiana' 'preto'⎦\n\t⎡'pedra-pomes' 'cinzento'⎦\n\t⎡'citrino' 'amarelo'⎦\nrochas ⎡+'quartzo' 'branco'⎦\\",
+                "Ou se quiser encontrar linhas que correspondam, pode @Select linhas que correspondam a uma @condition:",
+                "\\pedras: ⎡nome•'' cor•''⎦\n\t⎡'obsidiana' 'preto'⎦\n\t⎡'pedra-pomes' 'cinzento'⎦\n\t⎡'citrino' 'amarelo'⎦\npedras ⎡?⎦ cor = 'cinzento'\\",
+                "Ou talvez queira criar uma tabela revista que tenha valores diferentes para as linhas que correspondam a uma condição:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
+                "Ou talvez queira eliminar linhas que correspondam a uma condição:",
+                "\\pedras: ⎡nome•'' cor•''⎦\n\t⎡'obsidiana' 'preto'⎦\n\t⎡'pedra-pomes' 'cinzento'⎦\n\t⎡'citrino' 'amarelo'⎦\npedras ⎡- nome.tem('i')\\",
+                "E se alguma vez quiser obter valores específicos de mim, pode converter qualquer tabela numa lista e aceder a cada linha com @PropertyReference",
+                "\\rochas: ⎡nome•'' cor•''⎦\n\t⎡'obsidiana' 'preto'⎦\n\t⎡'pedra-pomes' 'cinzento'⎦\n\t⎡'citrino' 'amarelo'⎦\n(rochas → [])[1].nome\\"
+            ],
+            "name": ["Tabela"],
+            "row": "Linha",
+            "function": {
+                "equals": {
+                    "doc": "Verifico se tenho exatamente as mesmas células, pela mesma ordem, que outra @Table.",
+                    "names": ["iguala"],
+                    "inputs": [
+                        {
+                            "doc": "A outra tabela a verificar.",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "Verifico se alguma das minhas células é diferente ou se está numa ordem diferente de outra @Table.",
+                    "names": ["nãoiguala"],
+                    "inputs": [
+                        {
+                            "doc": "A outra tabela a verificar.",
+                            "names": "valor"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": "Converto uma @Table numa lista de linhas, em que cada linha é uma @Structure com os nomes das suas colunas como propriedades.",
+                "text": "Eu simplesmente converto uma @Table em texto."
+            }
+        },
+        "Structure": {
+            "doc": "$~Sou um @value estruturado com campos nomeados e tipados, criado a partir de um @StructureDefinition. Ver @StructureDefinition.",
+            "name": ["Estrutura"],
+            "function": {
+                "equals": {
+                    "doc": "Verifico se as minhas propriedades têm o mesmo nome e valores que as propriedades de outra estrutura.",
+                    "names": ["iguala"],
+                    "inputs": [
+                        {
+                            "doc": "Outra estrutura a verificar.",
+                            "names": "valor"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "Verifico se as minhas propriedades são diferentes de alguma forma em termos de nome e @value em comparação com outra estrutura.",
+                    "names": ["nãoIguala"],
+                    "inputs": [
+                        {
+                            "doc": "Outra estrutura a verificar.",
+                            "names": "valor"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "Eu converto-me ao @Text."
+            }
+        },
+        "Formatted": {
+            "doc": [
+                "$~Sou um texto formatado: palavras com estilo, @how negrito, itálico e links. Coloquem-me entre crases:",
+                "\\`I am **bold** and /italic/`\\",
+                "Funciono de forma muito semelhante @Text , mas consigo manter a formatação. Pode combinar-me, repetir-me, verificar o que eu contenha e converter-me num @Text simples."
+            ],
+            "name": ["$~Formatado"],
+            "function": {
+                "length": {
+                    "doc": "$~Avalio o número de caracteres legíveis no meu texto, ignorando a formatação e as quebras de parágrafo.",
+                    "names": ["$~comprimento"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ se for o mesmo texto formatado que o @value dado.",
+                    "names": ["$~iguala"],
+                    "inputs": [
+                        {
+                            "doc": "$~O texto formatado para comparação.",
+                            "names": "$~valor"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ se /não/ for o mesmo texto formatado que o @value dado.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~O texto formatado para comparação.",
+                            "names": "$~valor"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "$~\\⊤\\ se o meu texto simples contiver o @Text fornecido. Ignoro a formatação e as quebras de parágrafo ao verificar.",
+                    "names": ["$~tem"],
+                    "inputs": [
+                        {
+                            "doc": "$~O @Text a pesquisar no meu texto.",
+                            "names": "$~texto"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "$~\\⊤\\ se o meu texto simples começar com o @Text fornecido. Ignoro a formatação e as quebras de parágrafo ao verificar.",
+                    "names": ["$~começa"],
+                    "inputs": [
+                        {
+                            "doc": "$~O @Text a verificar no início do meu texto.",
+                            "names": "$~texto"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "$~\\⊤\\ se o meu texto simples terminar com o @Text fornecido. Ignoro a formatação e as quebras de parágrafo ao verificar.",
+                    "names": ["$~termina"],
+                    "inputs": [
+                        {
+                            "doc": "$~O @Text a verificar no final do meu texto.",
+                            "names": "$~texto"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": "$~Crio um novo texto formatado que sou eu, repetido o número de vezes especificado. Se existir mais do que um parágrafo, as quebras de linha são mantidas entre cópias.",
+                    "names": ["$~repetido", "$~repetir"],
+                    "inputs": [
+                        {
+                            "doc": "$~O número de vezes que me devo repetir.",
+                            "names": "$~contagem"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "$~Dê-me outro texto formatado e eu juntá-los-ei num só. Se algum de nós tiver mais do que um parágrafo, as quebras de parágrafo serão mantidas.",
+                    "names": ["$~combinado", "$~combinar"],
+                    "inputs": [
+                        {
+                            "doc": "$~O texto formatado a anexar.",
+                            "names": "$~formatado"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Crio um novo texto formatado que sou eu, com todas as letras em maiúsculas. Só as minhas palavras mudam; a minha formatação, as ligações e os exemplos mantêm-se @how estão:",
+                        "\\`*olá* ali`.maiúsculas()\\",
+                        "Tal como em @Text/uppercase, as letras só têm maiúsculas e minúsculas em alguns sistemas de escrita, e a minha etiqueta de @language decide as regras a usar."
+                    ],
+                    "names": ["$~maiúsculas"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Crio um novo texto formatado que sou eu, com todas as letras em minúsculas. Só as minhas palavras mudam; a minha formatação, as ligações e os exemplos mantêm-se @how estão:",
+                        "\\`*OLÁ* ALI`.minúsculas()\\",
+                        "Tal como em @Text/lowercase, as letras só têm maiúsculas e minúsculas em alguns sistemas de escrita, e a minha etiqueta de @language decide as regras a usar."
+                    ],
+                    "names": ["$~minúsculas"],
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "text": "$~Converte texto formatado em texto simples @Text , removendo toda a formatação.",
+                "list": "$~Converte texto formatado num @List de @Text, um por cada símbolo das minhas palavras. A formatação não sobrevive a ser cortada em símbolos únicos, por isso é eliminada.",
+                "number": [
+                    "$~Converte as minhas palavras num @Number, e se não forem um número, num valor que não é um número, que aparece como \\!#\\:",
+                    "\\`olá` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Sou um intervalo de números! Tenho um início e um fim, e incluo ambos, e todos os números entre eles. Cria-me com \\‥\\ entre dois números:",
+                "\\1‥10\\",
+                "Pergunte-me se guardo um número:",
+                "\\(1‥10) ∋ 7\\",
+                "Espalhe-me numa lista para obter todos os números que guardo:",
+                "\\[:1‥10]\\",
+                "Use-me @how chave de @Match e faço corresponder qualquer número que guarde:",
+                "\\7 ???\n\t1 ‥ 9: 'pequeno'\n\t'grande'\\",
+                "O meu início e fim têm de ter a mesma unidade, tal como acontece nas comparações de @Number."
+            ],
+            "name": ["$~Intervalo"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ se o @Range dado tiver o mesmo início e fim que eu:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~O @Range com que me comparar.",
+                            "names": "$~intervalo"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ se o @Range dado tiver um início ou fim diferente do meu:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~O @Range com que me comparar.",
+                            "names": "$~intervalo"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ se o @Number dado estiver entre o meu início e fim, ou for um deles:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Não importa em que ordem fui escrito:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~tem"],
+                    "inputs": [
+                        {
+                            "doc": "$~O @Number a procurar em mim.",
+                            "names": "$~número"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Converto um intervalo numa lista de todos os números nele contidos, contando de um em um. Por exemplo:",
+                    "\\(1‥5)→[]\\"
+                ]
+            }
+        }
+    }
+}

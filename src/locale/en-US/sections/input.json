@@ -1,0 +1,934 @@
+{
+    "$schema": "../../../../static/schemas/sections/input.json",
+    "input": {
+        "Random": {
+            "doc": [
+                "It creates a different number every time you evaluate it.",
+                "17!",
+                "This creates a wonderful chaos that comes with unpredictability.",
+                "By default, it gives @Number values between \\0\\ and \\1\\:",
+                "\\Random()\\",
+                "But you can give it a @value, and it will generate values between \\0\\ and the value:",
+                "\\Random(10)\\",
+                "And if you give it two values, it will generate values between and including the two values:",
+                "\\Random(-10 10)\\",
+                "If your ranges have units, they will be preserved (and if they don't match, the minimum's unit will be used):",
+                "\\Random(-10m 10m)\\",
+                "And if you give numbers with particular numbers of significant digits after the decimal point, that precision will be preserved.",
+                "\\Random(1.00 10.00)\\"
+            ],
+            "names": ["🎲", "Random"],
+            "inputs": [
+                {
+                    "names": "min",
+                    "doc": "The minimum @value that will be created, or if it's larger than 0, the maximum value. If @None is provided, then the minimum is \\0\\."
+                },
+                {
+                    "names": "max",
+                    "doc": "The maximum @value that will created, or if its smaller than the minimum provided, the minimum. If @None is provided, then the maximum is \\1\\."
+                }
+            ]
+        },
+        "Choice": {
+            "doc": [
+                "It's a @stream of the names your audience selects by clicking, tapping, or pressing /Enter/ on a named @Phrase.",
+                "/clickety tap!/",
+                "So the best way to use it is to create a performance with named selectable phrases @Phrase, and then use a @Reaction to decide what to do when that name is chosen.",
+                "Here's the simplest example:",
+                "\\Group(\nStack() \n[\nPhrase('one' selectable:⊤ name:'1') \nPhrase('two' selectable:⊤ name:'2') \nPhrase(Choice())\n]\n)\\",
+                "Copy this into the @editor and then select one of the two @Phrase. You'll see the third @Phrase shows the name that was selected."
+            ],
+            "names": ["🔘", "Choice"]
+        },
+        "Button": {
+            "doc": [
+                "It tells you whether the mouse or trackpad's primary button is pressed, as a @stream of @Boolean.",
+                "/click click click/",
+                "Of course, a mouse or trackpad isn't an ideal choice for listening to an audience, since not everyone can use one. The more accessible choice is @Choice.",
+                "But if you /really/ need to listen to a mouse button, this is the way to do it. It will provide a stream of @Boolean, representing whether the primary button is up \\⊥\\ or down \\⊤\\.",
+                "Here's a simple example:",
+                "\\Phrase(Button() → '')\\",
+                "This just makes a @Phrase that is the @value of the stream as text. If you copy it into the @editor and click, you'll see it toggle back and forth between \\⊥\\ and \\⊤\\."
+            ],
+            "names": ["🖱️", "Button"],
+            "down": {
+                "names": "down",
+                "doc": "If @None, the @stream will provide both up and down @values. If a \\⊤\\, it will only change with the button is pressed. If given a \\⊥\\, it will only change when the button is released."
+            }
+        },
+        "Pointer": {
+            "doc": [
+                "It tracks where your audience is pointing on @Stage.",
+                "/whrrrrrr/",
+                "Of course, this is not an accessible choice: not everyone can see or easily point, so be really sure you're not excluding someone from participating by using this @stream.",
+                "If you're sure no one is excluded, then using @Pointer is as simple as just making a stream:",
+                "\\Pointer()\\",
+                "The @Place it provides will correspond to where on @Stage the pointer is pointing."
+            ],
+            "names": ["👆🏻", "Pointer"]
+        },
+        "Key": {
+            "doc": [
+                "It tells you which keyboard @key your audience is pressing and releasing.",
+                "/clickety/",
+                "Try this",
+                "\\Key()\\",
+                "See how when you type a key, it shows up on @Stage? Every time a key is pressed down, a new @Text is added to the @stream, describing the key that was pressed.",
+                "For a key that represents a character, the @value will be the character as @Text.",
+                "For special keys, like the /Escape/ key, it will be @Text that describes the key, using a <pre-defined name@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, unfortunately available only in English.",
+                "If you only want to know about a particular key, you can provide it:",
+                "\\Key('a')\\",
+                "And if you only want to know when when a @Key is released instead of pressed, you can provide a @Boolean:",
+                "\\Key('a' ⊥)\\"
+            ],
+            "names": ["⌨️", "Key"],
+            "key": {
+                "names": "key",
+                "doc": "If @None, than all keys are provided. If a specific @Text, then only that key is provided."
+            },
+            "down": {
+                "names": "down",
+                "doc": "IF @None, then @key down generates inputs. If \\⊤\\, then only down inputs are provided, and if \\⊥\\, then only release inputs are provided."
+            },
+            "keys": {
+                "Shift": ["Shift"],
+                "Control": ["Control", "Ctrl"],
+                "Alt": ["Alt", "Option"],
+                "Meta": ["Meta", "Command", "Windows"],
+                "AltGraph": ["AltGraph"],
+                "CapsLock": ["CapsLock", "Caps Lock"],
+                "NumLock": ["NumLock", "Num Lock"],
+                "ScrollLock": ["ScrollLock", "Scroll Lock"],
+                "Enter": ["Enter", "Return"],
+                "Tab": ["Tab"],
+                " ": ["Space", "Spacebar", " "],
+                "ArrowUp": ["ArrowUp", "Up"],
+                "ArrowDown": ["ArrowDown", "Down"],
+                "ArrowLeft": ["ArrowLeft", "Left"],
+                "ArrowRight": ["ArrowRight", "Right"],
+                "Home": ["Home"],
+                "End": ["End"],
+                "PageUp": ["PageUp", "Page Up"],
+                "PageDown": ["PageDown", "Page Down"],
+                "Backspace": ["Backspace"],
+                "Delete": ["Delete", "Del"],
+                "Insert": ["Insert", "Ins"],
+                "Clear": ["Clear"],
+                "Cut": ["Cut"],
+                "Copy": ["Copy"],
+                "Paste": ["Paste"],
+                "Undo": ["Undo"],
+                "Redo": ["Redo"],
+                "Escape": ["Escape", "Esc"],
+                "Pause": ["Pause"],
+                "ContextMenu": ["ContextMenu", "Menu"],
+                "Help": ["Help"],
+                "Convert": ["Convert"],
+                "NonConvert": ["NonConvert"],
+                "KanaMode": ["KanaMode"],
+                "HangulMode": ["HangulMode"],
+                "Hiragana": ["Hiragana"],
+                "Katakana": ["Katakana"],
+                "Romaji": ["Romaji"],
+                "F1": ["F1"],
+                "F2": ["F2"],
+                "F3": ["F3"],
+                "F4": ["F4"],
+                "F5": ["F5"],
+                "F6": ["F6"],
+                "F7": ["F7"],
+                "F8": ["F8"],
+                "F9": ["F9"],
+                "F10": ["F10"],
+                "F11": ["F11"],
+                "F12": ["F12"]
+            }
+        },
+        "Time": {
+            "doc": [
+                "It ticks forward at a frequency you choose.",
+                "/tick tick tick/",
+                "Each time it does, @Program reevaluates with the new time @value.",
+                "For example:",
+                "\\Time()\\",
+                "If you provide time a @Time.frequency, it will tick at that rate. For example:",
+                "\\Time(1000ms)\\",
+                "However, there are limits to how small it can be, since @Program needs time to evaluate before they can respond to the next tick.",
+                "The smallest is probably around \\20ms\\."
+            ],
+            "names": ["🕕", "Time"],
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "This is the frequency with which time should tick. It defaults to \\33ms\\, which is about 30 times per second."
+            },
+            "relative": {
+                "names": ["relative"],
+                "doc": "If \\⊤\\, time starts at 0, when the program is first evaluated. Otherwise, it starts at the number of milliseconds since the start of today, UTC (Coordinated Universal Time), allowing you to keep track of the time of day."
+            }
+        },
+        "Now": {
+            "doc": [
+                "I tick a new @Moment at whatever pace you choose, so a program always knows today's date and the current time.",
+                "This makes a localized clock one line of @code:",
+                "\\Phrase(Now() → '')\\",
+                "By default I tick every second. Give me a @Now.frequency in seconds, minutes, or hours to change the pace:",
+                "\\Now(1min)\\",
+                "My @Now.timezone and @Now.calendar mirror @Moment's inputs, and configure the Moments I create. For example, here's a clock showing the current time in Tokyo, on the Japanese calendar:",
+                "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "If those inputs change — say, a reaction gives me a different time zone — I start making Moments with the new settings.",
+                "How am I different from @Time? @Time counts the milliseconds since a program started, which is good for animation. I tell you the wall-clock date and time in a calendar and time zone, which is good for clocks and calendars."
+            ],
+            "names": ["⏰", "Now"],
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "How often I make a new @Moment, in seconds, minutes, or hours. If \\ø\\, I tick every \\1s\\."
+            },
+            "timezone": {
+                "names": ["timezone"],
+                "doc": "A standard time zone name for the Moments I make, made of a @region and a city, like \\'America/New_York'\\ or \\'Asia/Tokyo'\\. Don't know the name? Write a city you know and I'll suggest the closest time zone. If \\ø\\, I use the time zone of the device the program is running on."
+            },
+            "calendar": {
+                "names": ["calendar"],
+                "doc": "A Unicode calendar name for the Moments I make, like \\'gregory'\\, \\'hebrew'\\, \\'chinese'\\, or \\'japanese'\\. If \\ø\\, I use the calendar of the reader's locale."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "I am a single moment in time: a date on a calendar, a time of day, and the time zone and calendar they are expressed in.",
+                "All of my @properties are optional. Give me date parts to describe a date:",
+                "\\Moment(2026 7 1) → ''\\",
+                "Or just time parts, for a time of day:",
+                "\\Moment(hour: 15 minute: 30) → ''\\",
+                "If you give me no parts at all, I convert as the current date and time, wherever the program is running. If you leave out parts, any part bigger than the biggest one you gave comes from the current date and time, and smaller parts start at their beginning: so \\Moment(month: 12) → ''\\ is December 1 of this year, at midnight. Converting me only shows the kinds of parts you gave: date parts make a date, time parts make a time, and both make both:",
+                "\\Moment() → ''\\",
+                "My @Moment.timezone takes a standard IANA time zone name like \\'America/Los_Angeles'\\ or \\'Asia/Tokyo'\\; if you leave it \\ø\\, I use the time zone of the device the program is running on. My @Moment.calendar takes a Unicode calendar name like \\'gregory'\\, \\'hebrew'\\, or \\'japanese'\\; if you leave it \\ø\\, I use the calendar of the reader's locale. My @Moment.year, @Moment.month, and @Moment.day are in that calendar:",
+                "\\Moment(5786 10 4 calendar: 'hebrew') → ''\\",
+                "Converting me to @Text formats me for the reader's locale: the same Moment renders differently in English, 中文, or हिन्दी, and changes when the reader's locale changes.",
+                "My @Moment.era, @Moment.week, and @Moment.weekday are informational: @Now fills them in when it makes Moments, but they are ignored when formatting.",
+                "If you want a @stream of Moments that updates as time passes — a clock — see @Now. If you want the milliseconds elapsed since your program started — for animation — see @Time."
+            ],
+            "names": ["📅", "Moment"],
+            "year": {
+                "names": ["year"],
+                "doc": "The year, in my calendar. For example, the Gregorian year \\2026\\ is the Hebrew year \\5786\\."
+            },
+            "month": {
+                "names": ["month"],
+                "doc": "The month of the year in my calendar, starting at \\1\\."
+            },
+            "day": {
+                "names": ["day"],
+                "doc": "The day of the month."
+            },
+            "hour": {
+                "names": ["hour"],
+                "doc": "The hour of the day, from \\0\\ to \\23\\."
+            },
+            "minute": {
+                "names": ["minute"],
+                "doc": "The minute of the hour."
+            },
+            "second": {
+                "names": ["second"],
+                "doc": "The second of the minute."
+            },
+            "millisecond": {
+                "names": ["millisecond"],
+                "doc": "The millisecond of the second."
+            },
+            "timezone": {
+                "names": ["timezone"],
+                "doc": "A standard time zone name, made of a @region and a city, like \\'America/New_York'\\, \\'Europe/Paris'\\, or \\'Asia/Tokyo'\\. Don't know the name? Write a city you know and I'll suggest the closest time zone. If \\ø\\, I use the time zone of the device the program is running on."
+            },
+            "calendar": {
+                "names": ["calendar"],
+                "doc": "A Unicode calendar name, like \\'gregory'\\, \\'hebrew'\\, \\'chinese'\\, or \\'japanese'\\. If \\ø\\, the calendar of the reader's locale."
+            },
+            "era": {
+                "names": ["era"],
+                "doc": "The era my year is in, like \\'ce'\\ or \\'reiwa'\\. Informational: @Now sets it, and formatting ignores it."
+            },
+            "week": {
+                "names": ["week"],
+                "doc": "The week of the year, starting at \\1\\. Informational: @Now sets it, and formatting ignores it."
+            },
+            "weekday": {
+                "names": ["weekday"],
+                "doc": "The day of the week, from \\1\\ (Monday) through \\7\\ (Sunday). Informational: @Now sets it, and formatting ignores it."
+            },
+            "conversion": {
+                "text": "A @Text version of me, formatted for the reader's locale, in my calendar and time zone. Add a language after the @Text type to format for a specific locale, like \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "this is not a valid time zone name",
+                "calendar": "this is not a supported calendar name"
+            }
+        },
+        "Volume": {
+            "doc": [
+                "It's a @stream of the microphone's loudness, from 0 to 1.",
+                "/bzzzzzzz/",
+                "It's sampled at the frequency of your choice. By default, the frequency is \\30hz\\, or 30 times per second, but you can change it to anything less frequent.",
+                "\\Volume()\\",
+                "This is great for listening to how loud the audience is!"
+            ],
+            "names": ["🎤", "Volume"],
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "The time between samplings."
+            }
+        },
+        "Pitch": {
+            "doc": [
+                "It's a @stream of the microphone's pitch, in hertz.",
+                "/hummmmm/",
+                "It's sampled at the frequency of your choice. The human voice is between 20Hz and 5000Hz, so plan on numbers in that range.",
+                "\\Pitch()\\",
+                "This is great for listening the tone that someone is speaking or singing."
+            ],
+            "names": ["🎵", "Pitch"],
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "The time between samplings."
+            }
+        },
+        "Speech": {
+            "doc": [
+                "It recognizes speech and turns it into @Text.",
+                "/hello there!/",
+                "It uses your browser's speech recognition to listen to what you say and turn it into words (isn't this so cool?!).",
+                "\\Speech()\\",
+                "This is perfect for those who can speak a @language but are still learning to read or write it (and more)...",
+                "You can specify a language @code to recognize speech in a particular language:",
+                "\\Speech(language: 'es-MX')\\",
+                "If no language is specified, it defaults to your preferred language.",
+                "Speech recognition requires microphone access and Internet connection (please give access!). Also, there might be usage limits, so don't leave it on for too long (nooooo)!"
+            ],
+            "names": ["🎙️", "Speech", "Voice"],
+            "reset": {
+                "names": ["reset", "clear"],
+                "doc": "When this @value changes, clear the accumulated speech and start fresh."
+            },
+            "language": {
+                "names": ["language", "lang"],
+                "doc": "A BCP 47 @language @code (e.g., 'en-US'). If it's not supported by your browser's speech recognition, you'll get an error. It defaults to your preferred language."
+            },
+            "limit": {
+                "names": ["limit", "words"],
+                "doc": "The maximum number of words to keep in the accumulated speech (sliding window). When set, only the most recent words are kept, and older words are discarded. If not specified, all words are kept indefinitely."
+            },
+            "error": {
+                "browserNotSupported": "service not supported in this browser",
+                "noConnection": "no internet connection",
+                "serviceNotAllowed": "service not available",
+                "micNotAllowed": "microphone access not allowed",
+                "noMicrophone": "no microphone found",
+                "languageNotSupported": "language not supported",
+                "limit": "failed after multiple attempts"
+            }
+        },
+        "Camera": {
+            "doc": [
+                "It gives you a @List of @Color from your camera, one per frame.",
+                "/bzzzzzzz/",
+                "That @List essentially represents an image, but it's up to you to decide what to do with it.",
+                "You could try to represent the image with a bunch of @Phrase, which could look pretty cool! Try copying this...",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) × 0.5m y × -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "But you could also analyze the colors to decide if a light was on or off, or if a particular color was common, letting the audience influence a performance with the colors they show."
+            ],
+            "names": ["🎥", "Camera"],
+            "width": {
+                "names": ["width"],
+                "doc": "The number of @Color to sample in a row."
+            },
+            "height": {
+                "names": ["height"],
+                "doc": "The number of @Color to sample in a @column."
+            },
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "The time between @Color samples."
+            }
+        },
+        "Hand": {
+            "doc": [
+                "It tracks a hand seen by your camera — where it is, which fingers are up, and which way it faces.",
+                "/wiggle wiggle/",
+                "Hold your hand up, wave it around, count on your fingers — @Hand follows.",
+                "Behind the scenes, @Hand uses a machine-learning model. The first time you use it in a program the model takes a few seconds to download, and a tiny spinning hand appears in the top-right corner of the stage while it loads. After that it stays cached and starts instantly.",
+                "Each frame, @Hand gives you a @Gesture — look there for the full list of inputs and what they mean.",
+                "Try this — it shows an emoji that matches your hand pose wherever your real hand is:",
+                "\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+            ],
+            "names": ["🖐️", "Hand"],
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "The time between samples."
+            },
+            "resolution": {
+                "names": ["resolution"],
+                "doc": "The width in pixels at which to sample the camera before running the hand model. Higher @values can give slightly more accurate landmarks but cost more time per frame."
+            }
+        },
+        "Face": {
+            "doc": [
+                "It tracks a face seen by your camera — where it is, and what it's doing: open or closed eyes, an open mouth, a smile, a frown, raised eyebrows, and which way the head is turned.",
+                "/say cheese/",
+                "Look at the camera, smile, wink, open wide — @Face follows along.",
+                "Behind the scenes, @Face uses a machine-learning model. The first time you use it in a program the model takes a few seconds to download, and a tiny spinning face appears in the top-right corner of the stage while it loads. After that it stays cached and starts instantly.",
+                "Each frame, @Face gives you an @Expression. Look there for the full list of inputs and what they mean.",
+                "This example shows an emoji that matches your face wherever your real face is:",
+                "\\face: Face()\nPhrase((face.smiling ? '😀' face.mouthOpen ? '😮' '😐') place: face.place)\\"
+            ],
+            "names": ["🙂", "Face"],
+            "frequency": {
+                "names": ["frequency"],
+                "doc": "The time between samples."
+            },
+            "resolution": {
+                "names": ["resolution"],
+                "doc": "The width in pixels at which to sample the camera before running the face model. Higher @values can give slightly more accurate landmarks but cost more time per frame."
+            }
+        },
+        "Objects": {
+            "doc": [
+                "It tells you what things your camera sees — a cat, a cup, a book — and where they are.",
+                "/what's that/",
+                "Hold something up to the camera and @Objects will try to name it.",
+                "Behind the scenes, @Objects uses a machine-learning model that knows 80 kinds of everyday things.",
+                "Each frame, @Objects gives you a @List of @Thing, sorted by how sure the model is, with the surest first. Look at @Thing for what each one tells you.",
+                "The model is only guessing, so it will sometimes be wrong, or see nothing at all. Ask for a higher `confidence` to hear only the guesses it's surest about.",
+                "Here's an example that labels everything the camera sees:",
+                "\\Stage(Objects() ↦ Phrase(⬚.name place: ⬚.place))\\",
+                "You can also look for just one kind of thing, and ignore the rest:",
+                "\\things: Objects(category: 'cat')\nPhrase(things.length() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["📦", "Objects"],
+            "inputs": [
+                {
+                    "doc": "The time between samples.",
+                    "names": "frequency"
+                },
+                {
+                    "doc": "The width in pixels at which to sample the camera before looking for things. The model looks at a 320 pixel square, so larger @values mostly cost time.",
+                    "names": "resolution"
+                },
+                {
+                    "doc": "An optional kind of thing to look for, ignoring everything else.",
+                    "names": "category"
+                },
+                {
+                    "doc": "How sure the model has to be before I mention a thing, from 0 to 1. Higher means fewer but better guesses.",
+                    "names": "confidence"
+                },
+                {
+                    "doc": "The most things to mention at once.",
+                    "names": "count"
+                }
+            ],
+            "categories": {
+                "person": ["person", "people", "human", "someone"],
+                "bicycle": ["bicycle", "bike"],
+                "car": ["car", "automobile"],
+                "motorcycle": ["motorcycle", "motorbike"],
+                "airplane": ["airplane", "plane", "aeroplane"],
+                "bus": ["bus"],
+                "train": ["train"],
+                "truck": ["truck", "lorry"],
+                "boat": ["boat", "ship"],
+                "traffic light": ["traffic light", "stoplight"],
+                "fire hydrant": ["fire hydrant", "hydrant"],
+                "stop sign": ["stop sign"],
+                "parking meter": ["parking meter"],
+                "bench": ["bench"],
+                "bird": ["bird"],
+                "cat": ["cat", "kitty"],
+                "dog": ["dog", "puppy"],
+                "horse": ["horse"],
+                "sheep": ["sheep"],
+                "cow": ["cow"],
+                "elephant": ["elephant"],
+                "bear": ["bear"],
+                "zebra": ["zebra"],
+                "giraffe": ["giraffe"],
+                "backpack": ["backpack", "rucksack"],
+                "umbrella": ["umbrella"],
+                "handbag": ["handbag", "purse"],
+                "tie": ["tie", "necktie"],
+                "suitcase": ["suitcase", "luggage"],
+                "frisbee": ["frisbee"],
+                "skis": ["skis", "ski"],
+                "snowboard": ["snowboard"],
+                "sports ball": ["ball", "sports ball"],
+                "kite": ["kite"],
+                "baseball bat": ["baseball bat", "bat"],
+                "baseball glove": ["baseball glove", "mitt"],
+                "skateboard": ["skateboard"],
+                "surfboard": ["surfboard"],
+                "tennis racket": ["tennis racket", "racket", "racquet"],
+                "bottle": ["bottle"],
+                "wine glass": ["wine glass"],
+                "cup": ["cup", "mug"],
+                "fork": ["fork"],
+                "knife": ["knife"],
+                "spoon": ["spoon"],
+                "bowl": ["bowl"],
+                "banana": ["banana"],
+                "apple": ["apple"],
+                "sandwich": ["sandwich"],
+                "orange": ["orange"],
+                "broccoli": ["broccoli"],
+                "carrot": ["carrot"],
+                "hot dog": ["hot dog"],
+                "pizza": ["pizza"],
+                "donut": ["donut", "doughnut"],
+                "cake": ["cake"],
+                "chair": ["chair"],
+                "couch": ["couch", "sofa"],
+                "potted plant": ["potted plant", "houseplant", "plant"],
+                "bed": ["bed"],
+                "dining table": ["table", "dining table"],
+                "toilet": ["toilet"],
+                "tv": ["TV", "tv", "television"],
+                "laptop": ["laptop", "computer"],
+                "mouse": ["mouse"],
+                "remote": ["remote", "remote control"],
+                "keyboard": ["keyboard"],
+                "cell phone": ["phone", "cell phone", "mobile phone"],
+                "microwave": ["microwave"],
+                "oven": ["oven"],
+                "toaster": ["toaster"],
+                "sink": ["sink"],
+                "refrigerator": ["refrigerator", "fridge"],
+                "book": ["book"],
+                "clock": ["clock"],
+                "vase": ["vase"],
+                "scissors": ["scissors"],
+                "teddy bear": ["teddy bear", "stuffed animal"],
+                "hair drier": ["hair dryer", "hair drier"],
+                "toothbrush": ["toothbrush"]
+            }
+        },
+        "Scene": {
+            "doc": [
+                "It shows a @List of @Phrase, @Group or @Shape one at a time, stopping on the last.",
+                "/Boop boop boop/",
+                "To control timing, you can either set the @Phrase.duration on each output, and it will show it for that long before moving on to the next one, and use whatever @Phrase.entering or @Phrase.exiting transitions you might have set. If you set them to a @Sequence, it will use the its duration.",
+                "All of that lets you do things like this little @Scene, which shows these three phrases in sequence:",
+                "\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
+                "See how the first output is shown for a second, then the next for two seconds, but animated to a five degree rotation, and then it shows the last one?",
+                "You can make very elaborate sequences of output and animations with @Scene, and even make portions of them dynamic or interactive, as with any other @Phrase or @Group.",
+                "If you have animated output that is nested (a @Group with animated @Phrase inside), @Scene will wait for all of the animated content in the @Group to finish.",
+                "Oh, and one last little secret! You can even put @Boolean in the list, and if they are \\⊥\\, the @Scene will pause and wait for it to become true.",
+                "For example, if you wanted to make a sequence of @Phrase and only advance when @Button changes, you could do this:",
+                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "See how it pauses after each @Phrase, and waits for @Button to change before advancing?",
+                "By default I stop on my last output. Give me @Scene/loop and I come around to my first one again, which is what a game that asks another question after each round wants.",
+                "I check @Scene/loop every time your program changes, so a loop can end as well as begin. Here I keep asking until they get it right, and then stop:",
+                "\\guess: Chat()\nright: guess = 'cat'\nScene([\n\tPhrase('Guess the animal!' duration: 2s)\n\t∆ guess\n\tPhrase(right ? 'Yes!' 'Nope!' duration: 2s)\n] loop: ~right)\\",
+                "@Scene/replay starts me over, @Scene/pause holds me where I am, and @Scene/go sends me straight to one of my outputs. Set @Scene/pause to \\⊤\\ and I never move on my own, so @Scene/go becomes the only thing that advances me — that is how you make a slide show that goes forward /and/ back.",
+                "And if you want to know where I am, to show /3 of 10/ or play different music in different parts of a story, that is what @Spotlight is for."
+            ],
+            "names": ["🎬", "Scene"],
+            "outputs": {
+                "names": "outputs",
+                "doc": "The list of outputs to show in sequence."
+            },
+            "loop": {
+                "names": "loop",
+                "doc": "Whether I come back around to my first output once my last one is done. I stop on the last unless this is \\⊤\\. I check it on every evaluation, so you can end a loop as well as start one."
+            },
+            "until": {
+                "names": "until",
+                "doc": [
+                    "A @condition to wait for after each of my outputs, once it has had its @Phrase/duration or finished animating.",
+                    "It is the same as writing that @Boolean between every output in my list, which is what you would do to make one of my outputs wait. This says it once instead:",
+                    "\\Scene([Phrase('one') Phrase('two') Phrase('three')] until: ∆ Button())\\",
+                    "A @Boolean written in the list still works, and the two are separate waits, so you can hold longer in one particular place."
+                ]
+            },
+            "replay": {
+                "names": "replay",
+                "doc": [
+                    "When this is \\⊤\\ on an evaluation, I start over from my first output, wherever I had got to, and my @Slate/lap goes back to 0.",
+                    "Hand me a /momentary/ @condition, one that is true only on the evaluation the event caused, like \\∆ Button()\\. A lasting condition such as \\score > 10\\🪲 stays true once it becomes true, so it would restart me on every evaluation from then on."
+                ]
+            },
+            "pause": {
+                "names": "pause",
+                "doc": [
+                    "While this is \\⊤\\ I hold still, and when it goes back to \\⊥\\ I carry on. An output I was counting down keeps whatever time it had left, so pausing in the middle of a long @Phrase does not start it over.",
+                    "Unlike @Scene/replay I want a /lasting/ @condition, one that stays true for as long as you want me to wait. Leave me paused for good and I never move on my own, which is exactly what a slide show wants: then @Scene/go is the only thing that advances me."
+                ]
+            },
+            "go": {
+                "names": "go",
+                "doc": [
+                    "Where to go next. Give me a number and I show that output, counting from 1; give me a name and I show whichever output you gave that @Phrase/name to.",
+                    "I count outputs only, never the @Boolean in between, so sending me to 2 means my second @Phrase, however many conditions stand in the way.",
+                    "Like @Scene/replay, this wants a /momentary/ @condition — something that is \\ø\\ except on the evaluation you want me to move. A number that stays put would pin me there forever.",
+                    "Send me past either end and I stop there, unless @Scene/loop is \\⊤\\, in which case I come around. That means you never have to check. Here the arrow keys walk a slide show both ways:",
+                    "If you would rather say /one forward/ than /number three/, that is @Scene/step.",
+                    "\\slides: [Phrase('one') Phrase('two') Phrase('three')]\nkey: Key()\nat: Spotlight()\nScene(slides pause: ⊤\n\tgo: ∆ key ? ((key = 'ArrowLeft') ? at.index - 1 (key = 'ArrowRight') ? at.index + 1 ø) ø)\\"
+                ]
+            },
+            "step": {
+                "names": "step",
+                "doc": [
+                    "How many outputs to move, counting from where I am: \\1\\ is forward one and \\-1\\ is back one. This is @Scene/go said as a distance rather than a place.",
+                    "Like @Scene/go, I stop at my ends unless @Scene/loop is \\⊤\\, so you never have to check, and I want a /momentary/ @condition — something that is \\ø\\ except on the evaluation you want me to move.",
+                    "\\slides: [Phrase('one') Phrase('two') Phrase('three')]\nkey: Key()\nScene(slides pause: ⊤\n\tstep: ∆ key ? ((key = 'ArrowLeft') ? -1 (key = 'ArrowRight') ? 1 ø) ø)\\",
+                    "Nothing here has to know which @Phrase is showing, which is the difference from @Scene/go. Ask @Spotlight if you want to say so on stage."
+                ]
+            },
+            "name": {
+                "names": "name",
+                "doc": "My name. @Spotlight uses it to tell me apart from any other @Scene playing at the same time; with only one scene you can leave it alone."
+            }
+        },
+        "Spotlight": {
+            "doc": [
+                "I say where a @Scene is right now: which output it is showing, how many it has, and whether it is waiting for someone.",
+                "A @Scene shows things; I am how the rest of a program finds out what it is showing. That is what lets you put a counter under a slide show, play different music in different parts of a story, or show a /press any key/ hint only while the scene is really waiting.",
+                "\\slides: [Phrase('one') Phrase('two') Phrase('three')]\nat: Spotlight()\nStage([\n\tScene(slides loop: ⊤)\n\tPhrase(`\\at.index\\ of \\at.total\\` size: 0.3m place: Place(0m -2m))\n])\\",
+                "I always have a @Slate, even before anything has happened, so you never have to check me for \\ø\\."
+            ],
+            "names": "Spotlight",
+            "name": {
+                "names": "name",
+                "doc": "The @Scene/name of the scene to follow. Leave it \\ø\\ and I follow every scene."
+            }
+        },
+        "Slate": {
+            "doc": "Where a @Scene is: what it is showing, how far along it is, and whether it is waiting.",
+            "names": "Slate",
+            "scene": {
+                "names": "scene",
+                "doc": "The @Scene/name of the scene I came from, or \\''\\ if it has none."
+            },
+            "index": {
+                "names": "index",
+                "doc": "Which output the @Scene is showing, counting from 1. I count outputs only, never the @Boolean in between."
+            },
+            "total": {
+                "names": "total",
+                "doc": "How many outputs the @Scene has, not counting the @Boolean in between."
+            },
+            "lap": {
+                "names": "lap",
+                "doc": "How many times the @Scene has come back around to its first output. It is 0 the first time through."
+            },
+            "waiting": {
+                "names": "waiting",
+                "doc": "Whether the @Scene is stopped: waiting for a @Boolean to become true, or held by @Scene/pause. This is what a /press any key/ hint should watch."
+            }
+        },
+        "Motion": {
+            "doc": [
+                "It moves a starting @Phrase with gravity and physics.",
+                "/boing boing boing/",
+                "You give it a starting @Phrase, and then it refines it with a new place and rotation based on gravity.",
+                "This lets you do really simple things like creating bouncing emoji:",
+                "\\Motion(Phrase('o') startplace: Place(0m 10m))\\🪲",
+                "See how the o bounces? On the first evaluation, you give it a place up high on @Stage, but then after, it gets @None, which allows @Motion to change it to whatever position gravity would place it.",
+                "Check out the many other ways to configure it below."
+            ],
+            "names": ["⚽️", "Motion"],
+            "place": {
+                "doc": "The starting place.",
+                "names": "place"
+            },
+            "velocity": {
+                "doc": "The starting velocity",
+                "names": "velocity"
+            },
+            "nextplace": {
+                "doc": "The next place, overriding physics.",
+                "names": "nextplace"
+            },
+            "nextvelocity": {
+                "doc": "The next place, overriding velocity.",
+                "names": "nextvelocity"
+            }
+        },
+        "Chat": {
+            "doc": [
+                "It's a @stream of the @Text messages your audience types.",
+                "For example, this simple program checks if the message is 'hello', and if it is, the program evaluates to 'hi'. Otherwise, it evaluates to 'huh'?",
+                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "That's it! You can make all kinds of performances with this, like chat bots, text adventures, or text-based control schemes for other kinds of performances."
+            ],
+            "names": ["🗣️", "Chat"]
+        },
+        "Contour": {
+            "doc": [
+                "It traces the outline of each letter's glyph as a @List of @Place.",
+                "Give it some text and a font face, and it'll trace each glyph's outline point by point.",
+                "\\Contour('a' \"Noto Sans\")\\",
+                "Feed those @Place @values to a @List of @Phrase to see the outline drawn as dots:",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' place: point)))\\",
+                "You can scale the outline with a @Number of meters, move its origin with a @Place, choose a font weight, turn on italics, and set the `spacing` between points as a distance in meters. A smaller `spacing` traces the outline more closely, with evenly spaced points along both lines and curves.",
+                "Some glyphs, like color emoji, have no outline, so they add no points. While it fetches the font, it'll give you an empty @List, then fill it in when it's ready."
+            ],
+            "names": ["🖋️", "Contour"],
+            "inputs": [
+                {
+                    "doc": "The text whose glyph outlines I should trace.",
+                    "names": "glyphs"
+                },
+                {
+                    "doc": "The font face to trace the glyphs in.",
+                    "names": "face"
+                },
+                {
+                    "doc": "The height of the glyph in meters, scaling the outline.",
+                    "names": "size"
+                },
+                {
+                    "doc": "An optional origin @Place to offset every point by.",
+                    "names": "place"
+                },
+                {
+                    "doc": "The font weight to use, snapped to the nearest the face supports.",
+                    "names": "weight"
+                },
+                {
+                    "doc": "Whether to use the italic version of the face, if it has one.",
+                    "names": "italics"
+                },
+                {
+                    "doc": "The distance in meters between sampled points along the outline, kept consistent along lines and curves alike. Smaller @values trace more finely, down to a minimum of 0.01 meters.",
+                    "names": "spacing"
+                },
+                {
+                    "doc": "The order of the points: 'forward' or 'backward'.",
+                    "names": "direction"
+                }
+            ],
+            "error": {
+                "connection": "I couldn't reach the internet to get the font, so I can't trace its letters.",
+                "unavailable": "I couldn't find that font's file, so I can't trace its letters.",
+                "unreadable": "I downloaded the font, but I couldn't read it, so I can't trace its letters.",
+                "outline": "I loaded the font, but I couldn't get the shape of these letters."
+            }
+        },
+        "Placement": {
+            "doc": [
+                "It lets your audience drag @Output to a @Place on @Stage.",
+                "There are many ways to place @Output on @Stage: give them an explicit @Place, use @Motion and let gravity do its work, or put them in a @Group to be arranged.",
+                "But sometimes you want to give the /audience/ control over where @Output goes on @Stage.",
+                "Here's how it works: make a @Placement and give it to an @Output's @Place:",
+                "\\Phrase('hi' place: Placement())\\",
+                "Then, any time the audience uses an arrow @key or clicks or taps on stage, the @Placement will make a new @Place that moves in the desired direction.",
+                "Try copying this to your program and moving the @Output with the pointer or keyboard.",
+                "You can customize the @Placement, enabling and disabling movement on certain dimensions, changing how far a @Place moves, and the initial @Place the @stream starts with."
+            ],
+            "names": ["✥", "Placement"],
+            "inputs": [
+                {
+                    "doc": "The initial place to start with.",
+                    "names": "start"
+                },
+                {
+                    "doc": "How many meters the place should move when the audience requests a move.",
+                    "names": "distance"
+                },
+                {
+                    "doc": "If true, allows movement on the horizontal axis. On by default.",
+                    "names": "horizontal"
+                },
+                {
+                    "doc": "If true, allows movement on the vertical axis. On by default.",
+                    "names": "vertical"
+                },
+                {
+                    "doc": "If true, allows movement on the z-axis, with the + and - keys.",
+                    "names": "depth"
+                }
+            ]
+        },
+        "Webpage": {
+            "doc": [
+                "It fetches the text at a web address you give it.",
+                "The internet is fascinating — a whole world of connected computers sharing documents with each other.",
+                "This @stream connects to it — give it a URL, like this:",
+                "\\Webpage('https://wordplay.dev')\\",
+                "And there's apparently this thing called <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, which lets you @query things on a web page? Give it a CSS selection query and it'll get only the text that matches that query. Like this example, which gets the level one headers.",
+                "\\Webpage('https://wordplay.dev' 'h1')\\",
+                "Lots of things can go wrong with this one. If you lose your internet connection, or the URL doesn't resolve to anything, or the URL isn't public, or the URL isn't an HTML page… All of these can lead to exception. If if you find a page that works, you'll get some @Number indicating a percent complete and then a @List of the words on the page."
+            ],
+            "names": ["🔗", "Webpage"],
+            "url": {
+                "doc": "The HTML webpage URL to get.",
+                "names": "url"
+            },
+            "query": {
+                "doc": "The CSS @query to evaluate on the HTML",
+                "names": "query"
+            },
+            "frequency": {
+                "doc": "The number of minutes that should pass before the page is fetched again.",
+                "names": "frequency"
+            },
+            "error": {
+                "invalid": "this is not a valid URL",
+                "unvailable": "this URL isn't accessible",
+                "notHTML": "the response wasn't HTML",
+                "noConnection": "no connection to Wordplay",
+                "limit": "too many requests to this domain"
+            }
+        },
+        "Collision": {
+            "names": "Collision",
+            "doc": [
+                "It's a @stream of @Rebound @values for when named @Output bump into each other.",
+                "To have two @Output notice each other, give them both names, then give me both names. I'll make a new @Rebound whenever they touch. They don't need @Matter for that — a name is all I need to watch something.",
+                "Give me one name instead, and I'll tell you whenever that @Output touches anything else in the physical world. An @Output is in the physical world if it has @Matter, if a @Motion places it, if it's a @Shape directly on the @Stage, or if I'm watching its name too.",
+                "Noticing isn't the same as bouncing. @Output only pushes other @Output around if it has @Matter and a @Motion moving it. @Output that your program places goes exactly where you put it, so it passes through whatever it touches — I'll still tell you about the touch.",
+                "A @Rebound has the names that touched and the direction they touched from. Right after I make one, I'll make a \\ø\\, since a collision is over as soon as it happens.",
+                "I can only watch @Output placed directly on the @Stage. Anything inside a @Group moves in that group's own space, so I can't see it — give the @Group a name and watch that instead."
+            ],
+            "subject": {
+                "names": "subject",
+                "doc": "The name of the @Output I should watch. Watching it is enough to put it in the physical world, so it doesn't need @Matter."
+            },
+            "object": {
+                "names": "other",
+                "doc": "The name of the other @Output I should watch. With this given too, I only report those two touching; leave it out and I report the first one touching anything in the physical world."
+            }
+        },
+        "Beat": {
+            "doc": [
+                "I give a new @value every time playing @Music reaches a beat, so you can build visuals that move with the music. I always have a @Downbeat for you, so you can read it straight away: before any music plays I sit on beat zero with nothing sounding, and my \\tempo\\ stays zero until it starts.",
+                "Here three tracks take turns, so a different number of instruments sounds on each beat — and the diamond grows with however many are playing:",
+                "\\beat: Beat()\nStage([\n\tPhrase('◆' ((beat.instruments.length() · 1.4m) + 0.6m))\n\tMusic(\n\t\t[\n\t\t\tTrack([1 1 1 ø] instrument: Instrument.drums)\n\t\t\tTrack([3 ø 3 ø] instrument: Instrument.piano)\n\t\t\tTrack([ø ø 5 5] instrument: Instrument.bell)\n\t\t]\n\t\ttempo: 100beats/min\n\t)\n])\\",
+                "Give me a @Music name and I hear only that music. Two beats are listening below, to the same two musics: the top one hears everything, so it flickers between both names as each music reaches a beat, and the bottom one hears only the drum and never says anything else. That difference is the filter.",
+                "\\everything: Beat()\njustTheDrum: Beat('tick')\nStage([\n\tGroup(\n\t\tStack(padding: 0.5m)\n\t\t[\n\t\t\tPhrase(everything.name 1.4m)\n\t\t\tPhrase(justTheDrum.name 1.4m)\n\t\t]\n\t)\n\tMusic(Track([1 ø] instrument: Instrument.drums) tempo: 120beats/min name: 'tick')\n\tMusic(Track([5 5 5] instrument: Instrument.bell) tempo: 90beats/min name: 'chime')\n])\\",
+                "Whatever I drive is /in addition/ to the rendering the viewer has chosen; you're adding to it, never replacing it."
+            ],
+            "names": "Beat",
+            "name": {
+                "doc": "The name of the @Music to hear, matching its @Music/name. With \\ø\\, I hear every music playing — and beats from different musics arrive interleaved, so read @Downbeat/name to tell them apart.",
+                "names": "name"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "I am what a @Beat gives you: everything the player knows at the moment a beat is heard, so a visualization can show what is actually sounding.",
+                "Each @Music counts its own beats, so when a @Beat hears more than one, my @Downbeat/count belongs to whichever music this beat came from — check my @Downbeat/name to know which."
+            ],
+            "names": "Downbeat",
+            "name": {
+                "doc": "The name of the @Music this beat came from, which is what @Beat/name filters on.",
+                "names": "name"
+            },
+            "count": {
+                "doc": "How many beats this music has played, starting at \\0\\.\n\nCounting begins when the music /starts/, and starts over when it starts over — a @Music/replay, or leaving the stage and coming back. Editing the music while it plays does /not/ reset me, and neither does @Music/pause — a held music stops counting and picks up where it left off. The change splices in and the count carries on, which is what keeps an edit from sounding like a restart.",
+                "names": "count"
+            },
+            "tempo": {
+                "doc": "The music's tempo, in beats per minute.",
+                "names": "tempo"
+            },
+            "volume": {
+                "doc": "The music's overall volume, from \\0%\\ to \\100%\\. Each @Part carries its own.",
+                "names": "volume"
+            },
+            "key": {
+                "doc": "The music's own @Music/key. A track may override it, so read a @Part's key for what that track is actually playing.",
+                "names": "key"
+            },
+            "scale": {
+                "doc": "The music's own @Music/scale. A track may override it, so read a @Part's scale for what that track is actually using.",
+                "names": "scale"
+            },
+            "instruments": {
+                "doc": "The @Instrument sounding on this beat, each listed once. A shortcut for the common case; @Downbeat/parts has the detail.",
+                "names": "instruments"
+            },
+            "words": {
+                "doc": "The syllables being sung on this beat, in track order, or an empty list when nothing is singing. A shortcut for the common case, the way @Downbeat/instruments is; @Downbeat/parts has the detail.",
+                "names": "words"
+            },
+            "parts": {
+                "doc": "One @Part for every @Track, in the order they were written, whether or not it is sounding. This is the whole @state of the music on this beat.",
+                "names": "parts"
+            }
+        },
+        "Part": {
+            "doc": [
+                "I am one @Track's @state on one beat: what it is playing, how loud, and in what scale. A @Downbeat carries one of me per track, so a visualization can draw each voice separately rather than the mix.",
+                "My @values are the ones the player is actually using, after every default and override has been applied — so my scale and key are that track's, not the music's, when the track sets its own."
+            ],
+            "names": "Part",
+            "instrument": {
+                "doc": "The @Instrument playing me.",
+                "names": "instrument"
+            },
+            "sounding": {
+                "doc": "Whether a note is audible on this beat. A held note still counts, so I stay \\⊤\\ through the beats it sustains, not only the one it began on.",
+                "names": "sounding"
+            },
+            "degrees": {
+                "doc": "The notes covering this beat, as written. Empty on a rest, and more than one for a chord.",
+                "names": "degrees"
+            },
+            "pitch": {
+                "doc": "My @Part/degrees resolved against my scale and key, in semitones from the first note. Use this to place a note by height; use @Part/degrees to show what was written.",
+                "names": "pitch"
+            },
+            "volume": {
+                "doc": "How loud I am on this beat — my note's volume times my track's — from \\0%\\ to \\100%\\, and \\0%\\ when resting. Good for sizing whatever you draw.",
+                "names": "volume"
+            },
+            "pan": {
+                "doc": "Where I sit between the speakers: \\-1\\ is fully left, \\0\\ is centre, and \\1\\ is fully right. Good for placing whatever you draw.",
+                "names": "pan"
+            },
+            "scale": {
+                "doc": "The scale my degrees resolve against, after any @Track/scale override.",
+                "names": "scale"
+            },
+            "key": {
+                "doc": "The semitone shift applied to me, after any @Track/key override.",
+                "names": "key"
+            },
+            "loop": {
+                "doc": "Whether my track repeats when it reaches its end.",
+                "names": "loop"
+            },
+            "words": {
+                "doc": "The syllable this part is singing on this beat, or \\ø\\ when it is singing none — a rest, or a track with no @Track/words.",
+                "names": "words"
+            }
+        },
+        "Rebound": {
+            "names": "Rebound",
+            "doc": "I come from @Collision and represent the who was collided with and which direction the collision occurred on. Use me to decide whether to react to a collision in some special way, other than normal physics.",
+            "direction": {
+                "names": "direction",
+                "doc": "The direction and magnitude of the collision, relative to the subject of the collision"
+            },
+            "subject": {
+                "names": "subject",
+                "doc": "The name of the output that was hit by the subject."
+            },
+            "object": {
+                "names": "object",
+                "doc": "The name of the output that hit the subject"
+            }
+        },
+        "Direction": {
+            "names": "Direction",
+            "doc": "I'm a direction and magnitude, along x and y axes.",
+            "x": {
+                "names": "x",
+                "doc": "The direction and magnitude of the direction along the x-axis."
+            },
+            "y": {
+                "names": "y",
+                "doc": "The direction and magnitude of the direction along the y-axis."
+            }
+        }
+    }
+}

@@ -1,0 +1,1916 @@
+{
+    "$schema": "../../../static/schemas/sections/output.json",
+    "output": {
+        "Output": {
+            "names": "$~Çıktı",
+            "doc": [
+                "$~Ben aslında oluşturabileceğin bir @StructureDefinition değilim. Ama çok önemli biriyim, çünkü dansımızın en önemli öğelerine ilham veriyorum: @Phrase, @Group ve @Stage.",
+                "Onları @how kullanacağın hakkında daha fazla bilgi için git onlarla tanış."
+            ]
+        },
+        "Group": {
+            "doc": [
+                "$~@Phrase, @Shape ve @Group'yi @Stage üzerinde @Arrangement ile birlikte düzenlerim. Merhaba, nasılsın? Başkaları yanımdayken hep iyi olurum, o yüzden seninle olmak harika!",
+                "Çalışabilmem için bana bir @Arrangement ve düzenlemek için @Output'den oluşan bir @List vermen gerekir.",
+                "Örneğin, işte bir @Stack düzeniyle ve dikey olarak istiflenecek birkaç @Phrase ile buradayım:",
+                "\\Grup(Yığın() [İfadeetmek('birinci') İfadeetmek('ikinci')])\\",
+                "Şeyleri tam olarak @how düzenlediğim, bana verdiğin @Arrangement'e bağlıdır."
+            ],
+            "names": ["$~Grup"],
+            "layout": {
+                "doc": "$~@Output'u yerlerine koymak için kullanılacak düzenleme.",
+                "names": "$~düzen"
+            },
+            "content": {
+                "doc": "$~Düzenlenecek @Output listesi.",
+                "names": "$~içerik"
+            },
+            "matter": {
+                "doc": "$~Ne kadar ağır, ne kadar sekici ve ne kadar kaygan olduğum, ve bir @Motion beni hareket ettirdiğinde beni neyin katı yaptığı.",
+                "names": "$~konu"
+            },
+            "size": {
+                "doc": "$~İçimdeki harika içeriklerin kendilerine ait bir boyutları yoksa, ne kadar uzun olmaları gerekir!",
+                "names": "$~boyut"
+            },
+            "face": {
+                "doc": "$~İçimdeki yazı tipinin adının, kendi kullanacakları bir yüzleri olmadığı sürece, olması gerekir.",
+                "names": "$~yüz"
+            },
+            "place": {
+                "doc": "$~Sahnede olmam gereken yer. İçimdeki içerik oraya göre düzenlenecek.",
+                "names": "$~yer"
+            },
+            "name": {
+                "doc": ["$~@Phrase.name ile aynı!"],
+                "names": "$~isim"
+            },
+            "description": {
+                "doc": [
+                    "$~Görsel çıktıyı göremeyen izleyiciler için kullanılacak bir açıklama."
+                ],
+                "names": "$~Tanım"
+            },
+            "selectable": {
+                "doc": "$~@Phrase.selectable ile aynı!",
+                "names": "$~seçilebilir"
+            },
+            "color": {
+                "doc": "$~İçimdeki içeriklerin @Color olması gerekir, tabi kendi renkleri yoksa.",
+                "names": "$~renk"
+            },
+            "background": {
+                "doc": "$~Arkama yansıtılacak @Color.",
+                "names": "$~arkaplan"
+            },
+            "opacity": {
+                "doc": "$~İçimdeki her şeyin ne kadar saydam olacağı, şu ikisi arasında: \\0\\ ve \\1\\, farklı bir @Pose bunu değiştirmediği sürece.",
+                "names": "$~opaklık"
+            },
+            "offset": {
+                "doc": "$~Normal @Place konumumdan ne kadar kaydırılacağını gösteren bir @Place, farklı bir @Pose bunu değiştirmediği sürece. Yerinde titreşmek için yararlıdır.",
+                "names": "$~telafietmek"
+            },
+            "rotation": {
+                "doc": "$~Merkezimin etrafında ne kadar eğimli olmam gerektiği @Pose'umda farklı.",
+                "names": ["$~rotasyon"]
+            },
+            "scale": {
+                "doc": "$~Orijinal boyutuma göre ne kadar büyük olmam gerekiyor?",
+                "names": "$~ölçek"
+            },
+            "flipx": {
+                "doc": "$~@Phrase.flipx ile aynı!",
+                "names": "$~tersçevir"
+            },
+            "flipy": {
+                "doc": "$~@Phrase.flipy ile aynı",
+                "names": "$~tersyüz"
+            },
+            "entering": {
+                "doc": "$~@Phrase.entering! ile aynı",
+                "names": "$~giriş"
+            },
+            "resting": {
+                "doc": "$~@Phrase.resting ile aynı!",
+                "names": "$~dinlenme"
+            },
+            "moving": {
+                "doc": "$~@Phrase.moving! ile aynı",
+                "names": "$~hareketeden"
+            },
+            "exiting": {
+                "doc": "$~@Phrase.exiting! ile aynı",
+                "names": "$~çıkış"
+            },
+            "duration": {
+                "doc": "$~@Phrase.duration ile aynı!",
+                "names": ["$~süre"]
+            },
+            "style": {
+                "doc": "$~@Phrase.style ile aynı!",
+                "names": "$~stil"
+            },
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
+        },
+        "Phrase": {
+            "doc": [
+                "$~@Stage Stage'deki @Text Text'in en güzelini temsil ediyorum. Merhaba, merhaba! Beni hatırlıyor musunuz? Beni kim unutabilir ki?",
+                "Beni böyle yapın, @Stage Stage'de görüneceğim:",
+                "\\Phrase('magnificent!')\\",
+                "@TextLiteral veya @FormattedLiteral göstermem gerekiyor. @FormattedLiteral ile \\`*bold* and /italic/`\\ gibi şeyler kullanabilir veya oluşturduğunuz özel @ConceptLink referans verebilirim.",
+                "Ayrıca isteğe bağlı olarak bana @Output yapabileceği her şeyi verebilirsiniz; boyutumu, yazı tipimi, döndürmeyi değiştirmek ve @Pose ve @Sequence ile inanılmaz danslarımı yapmak da dahil.",
+                "Ayrıca beni @Stage Stage'de seçebilir ve yan taraftaki paleti 🎨 kullanarak düzenleyebilirsiniz; bu, farklı yazı tiplerini denemek ve @Text Text'iniz için doğru yazı tipini seçmek için harika bir yöntemdir."
+            ],
+            "names": ["$~İfadeetmek"],
+            "text": {
+                "doc": "$~@Stage üzerinde gösterilecek karakterler, bir @TextLiteral veya @FormattedLiteral.",
+                "names": "$~metin"
+            },
+            "size": {
+                "doc": "$~Boyum kaç metre olmalı?",
+                "names": "$~boyut"
+            },
+            "face": {
+                "doc": "$~Kullanmam gereken yazı tipinin adı. Birini seçmenin en kolay yolu beni seçmek ve yan taraftaki paleti 🎨 açmak; burada yazı tiplerini önizleyebilir ve adını yazmadan bir yazı tipi seçebilirsiniz.",
+                "names": "$~yüz"
+            },
+            "place": {
+                "doc": "$~Sahnede olmam gereken yer.",
+                "names": "$~yer"
+            },
+            "wrap": {
+                "doc": "$~Sembolleri sarmam gereken kenar veya sarmamam gerekiyorsa \\ø\\.",
+                "names": ["$~dürüm"]
+            },
+            "alignment": {
+                "doc": "$~@Phrase.wrap sınır kümesi varsa, sembolleri kenarın başlangıcına, ortasına veya sonuna hizalamalı mıyım?",
+                "names": "$~hizalama"
+            },
+            "direction": {
+                "doc": "$~Sembollerin yatay mı yoksa dikey mi yazılacağı ve dikey ve @Phrase.wrap ayarlıysa metnin sola mı yoksa sağa mı kaydırılacağı.",
+                "names": "$~yön"
+            },
+            "matter": {
+                "doc": "$~Ne kadar ağır, ne kadar sekici ve ne kadar kaygan olduğum, ve bir @Motion beni hareket ettirdiğinde beni neyin katı yaptığı.",
+                "names": "$~konu"
+            },
+            "aura": {
+                "doc": "$~Arkamda gösterilecek isteğe bağlı @Aura. Beni parlat!",
+                "names": "$~aura"
+            },
+            "name": {
+                "doc": [
+                    "$~Bana verdiğin bir isim! Bu birçok şey için yararlıdır.",
+                    "İlk olarak, bir ismim varsa, ekran okuyucu açıklamalarında kendimi anlatmak için onu kullanırım.",
+                    "İkinci olarak, animasyon yaparken, sahnede aynı içeriği temsil etmesi gereken birçok farklı ifaden olabilir; onlara aynı ismi ver, tek bir şey gibi hareket etsinler.",
+                    "Son olarak, @Choice ile yararlıyım: bana verdiğin isimler o akışta görünür.",
+                    "Yararlıysa, bana her biri farklı bir @language ile birçok farklı isim verebilirsin. Ben her zaman seçilen ilk dildeki ismi kullanırım."
+                ],
+                "names": "$~isim"
+            },
+            "description": {
+                "doc": [
+                    "$~Görsel çıktıyı göremeyen izleyiciler için kullanılacak özel bir açıklama."
+                ],
+                "names": "$~Tanım"
+            },
+            "selectable": {
+                "doc": "$~\\⊤\\ ise işaretçi veya klavye aracılığıyla seçilebileceğimi belirtir.",
+                "names": "$~seçilebilir"
+            },
+            "color": {
+                "doc": "$~Öntanımlı olarak olmam gereken @Color, farklı bir @Pose bunu değiştirmediği sürece.",
+                "names": "$~renk"
+            },
+            "background": {
+                "doc": "$~Arkama yansıtılacak @Color.",
+                "names": "$~arkaplan"
+            },
+            "opacity": {
+                "doc": "$~Öntanımlı olarak ne kadar saydam olacağım, şu ikisi arasında: \\0\\ ve \\1\\, farklı bir @Pose bunu değiştirmediği sürece. Görünüp kaybolmak için yararlıdır.",
+                "names": "$~opaklık"
+            },
+            "offset": {
+                "doc": "$~@Place konumumdan ne kadar kaydırılacağını gösteren bir @Place, farklı bir @Pose bunu değiştirmediği sürece. Yerinde titreşmek için yararlıdır.",
+                "names": "$~telafietmek"
+            },
+            "rotation": {
+                "doc": "$~Merkezi etrafında kaç derece döndürüleceğim, farklı bir @Pose bunu değiştirmediği sürece.",
+                "names": "$~rotasyon"
+            },
+            "scale": {
+                "doc": "$~Özgün boyutuma göre ne kadar büyütüleceğim, farklı bir @Pose bunu değiştirmediği sürece.",
+                "names": "$~ölçek"
+            },
+            "flipx": {
+                "doc": "$~x ekseninde yansıtılıp yansıtılmayacağım, farklı bir @Pose bunu değiştirmediği sürece.",
+                "names": "$~tersçevir"
+            },
+            "flipy": {
+                "doc": "$~y ekseninde yansıtılıp yansıtılmayacağım, farklı bir @Pose bunu değiştirmediği sürece.",
+                "names": "$~tersyüz"
+            },
+            "entering": {
+                "doc": "$~Sahneye çıktığımda yapmam gereken @Pose veya @Sequence.",
+                "names": "$~giriş"
+            },
+            "resting": {
+                "doc": "$~Sahneye girdikten sonra, çıkmadan önce ve @Place'im değişmezken yapmam gereken @Pose veya @Sequence. Bana bir tane vermezseniz, varsayılanlarımı kullanırım.",
+                "names": "$~dinlenme"
+            },
+            "moving": {
+                "doc": "$~Sahnede yer değiştirirken varsayılan ayarlarım yerine yapmam gereken @Pose veya @Sequence.",
+                "names": "$~hareketeden"
+            },
+            "exiting": {
+                "doc": "$~Sahneden çıkmadan önce yapılması gereken @Pose veya @Sequence.",
+                "names": "$~çıkış"
+            },
+            "duration": {
+                "doc": "$~Sahnede farklı bir yere geçildiğinde uygulanacak süre.",
+                "names": ["$~süre"]
+            },
+            "style": {
+                "doc": "$~Sahnede farklı bir yere geçerken kullanılacak animasyon stili.",
+                "names": "$~stil"
+            },
+            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
+            "changing": {
+                "doc": "$~Metnim değiştiğinde oynatılacak bir etkinin ismi. Bu etki @Phrase.duration süremce sürer ve @Phrase.style ile yumuşatılır. Eğer \\ø\\, metnim anında değişir. Eğer 'edit' (düzenle) ise, eski metni geriye doğru silerim; eski ve yeni metnin ortak olan kısmına kadar sildikten sonra yeni metni yazarım. Eğer 'rewrite' (yeniden yaz) ise, yeni metni eskinin üzerine yazarım; her seferinde rastgele bir sırayla bir sembolü değiştiririm. Eğer 'random' (rastgele) ise, her sembolüm metnimin dilinden (@language bilinmiyorsa yazısından) rastgele semboller arasında döner; metnimin büyük-küçük harf düzenine uyar ve bir çekiliş makinesi gibi yeni metnin üzerine iner. @FormattedLiteral metni ile, değişen semboller etki sırasında yeni metnin biçimini alır.",
+                "names": "$~değişiyor"
+            },
+            "bubble": {
+                "doc": [
+                    "$~Söylediklerimi gösteren, tam bana doğru işaret eden konuşma balonu. Buraya dört farklı şey gelebilir.",
+                    "Sadece gösterdiğim, başka bir şey yapmayan düz metin:",
+                    "\\İfadeetmek('bir' balon: 'merhaba!')\\",
+                    "Söylediklerimde *kalın* veya /italik/ kelimeler istiyorsan, @markup.",
+                    "Hem gösterip *hem* sesli söylediğim bir @Say:",
+                    "\\İfadeetmek('bir' balon: Söylemek('merhaba!'))\\",
+                    "Hangi taraftan konuştuğumu seçmek, onu bir düşünceye çevirmek ya da ona bir renk vermek istediğinde, bir @Bubble."
+                ],
+                "names": "$~balon"
+            }
+        },
+        "Arrangement": {
+            "doc": "$~Ben, @Row, @Stack, @Grid ve @Free dahil olmak üzere Verse'deki birçok başka düzenleme türüne ilham veririm. Her bir @Output'in nereye gideceğine karar vermek için @Group ile yakın çalışırım: her birini boyutunu ve şeklini koruyarak söylediğim yere taşırım. @Free, aramızda hiçbir şeye karar vermeyen olandır; bu yüzden orada her @Output kendi @Place'inde oturur. Koyduğum yerden bir şeyi biraz kaydırmak istersen, ona bir @Place yerine bir @Phrase/offset ver.",
+            "names": ["$~Ayarlama"]
+        },
+        "Row": {
+            "doc": "$~Ben @Row'im, @Output'nin yatay bir @Arrangement'i, aralarında isteğe bağlı boşluk bırakabilirim. İkizim @Stack ile tanıştın mı? Her birinin ne kadar ilerlediğine ben karar veririm ve ilk girdim onları benim boyumca @how hizalayacağımı söyler. Birine bir @Place verirsen, onun yerine o y konumunda oturur — ama bir @Shape'in kendine ait bir @Place'ı yoktur, bu yüzden onu diğer her şeyle birlikte hizalarım.",
+            "names": ["$~Sıra"],
+            "description": "$~$#count[$count ifade veya gruplu|$count ifade ve gruplu] satır",
+            "alignment": {
+                "doc": "$~İçeriğimin her @column'in başına, ortasına ya da sonuna mı hizalanacağını — yoksa \\'_'\\ ile, sözcüklerin üzerinde durduğu temel çizgiye mi hizalanacağını belirler, böylece farklı yükseklikteki harfler tek bir satır gibi okunur.",
+                "names": "$~hizalama"
+            },
+            "padding": {
+                "doc": "$~Çıktıların arasına yerleştirilecek dolgu miktarı.",
+                "names": "$~dolgu"
+            }
+        },
+        "Stack": {
+            "doc": "$~Ben @Stack'im, @Output'nin dikey bir @Arrangement'i, aralarında isteğe bağlı boşluk bırakabilirim. İkizim @Row ile tanıştın mı? Her birinin ne kadar aşağı ineceğine ben karar veririm ve ilk girdim onları benim enimce @how hizalayacağımı söyler. Birine bir @Place verirsen, onun yerine o x konumunda oturur — ama bir @Shape'in kendine ait bir @Place'ı yoktur, bu yüzden onu diğer her şeyle birlikte hizalarım.",
+            "names": ["$~Yığın"],
+            "description": "$~$#count[$count ifade veya gruplu|$count ifade ve gruplu] yığın",
+            "alignment": {
+                "doc": "$~Metnin her satırın başına, ortasına veya sonuna hizalanıp hizalanmayacağı.",
+                "names": "$~hizalama"
+            },
+            "padding": {
+                "doc": "$~Çıktıların arasına yerleştirilecek dolgu miktarı.",
+                "names": "$~dolgu"
+            }
+        },
+        "Grid": {
+            "doc": "$~Ben @Output'in ızgarasıyım. Bana bir satır ve @column sayısı ver, isteğe bağlı boşluklarla ve @cell boyutlarıyla düzenli bir düzen oluştururum. İki yönü de ben belirlerim, bu yüzden bir @Place hiçbir şeyi yana ya da yukarı aşağı hareket ettirmez — ama z değeri yine de ne kadar yakın olduğunu söyler.",
+            "names": ["$~Izgara"],
+            "description": "$~$rows satır $columns sütun ızgarası",
+            "rows": {
+                "doc": "$~Izgarada kaç satır yapılacağı.",
+                "names": "$~satırlar"
+            },
+            "columns": {
+                "doc": "$~Gridde kaç sütun oluşturulacak.",
+                "names": "$~sütunlar"
+            },
+            "padding": {
+                "doc": "$~Hücreler arasına ne kadar dolgu koyulmalı.",
+                "names": "$~dolgu"
+            },
+            "cellWidth": {
+                "doc": "$~Hücrelerin genişliği ne kadar olmalı.",
+                "names": "$~hücregenişliği"
+            },
+            "cellHeight": {
+                "doc": "$~Hücrelerin yüksekliği ne kadar olmalı?",
+                "names": "$~hücredolgusu"
+            }
+        },
+        "Free": {
+            "doc": [
+                "$~Ben, her bir @Output @Place Place'inin belirttiği yere oturmasına izin veren bir @Arrangement . Yani, ne olursa olsun. İstediğiniz yere oturun! Sadece bir yere oturun! Bana verdiğiniz tüm @Output bir @Place olduğundan emin olun, yoksa nereye gideceklerini bilemezler.",
+                "Ayrıca, her bir @Output verdiğiniz @Place , @Group @Place göre göreceli olduğunu unutmayın! Bu nedenle, şeylerin beklediğiniz yerde görünmemesinin nedenini merak ediyorsanız, @Group da bir yer vermeyi deneyin."
+            ],
+            "names": ["$~Özgür"],
+            "description": "$~serbest biçimli $#count[$count çıktı|$count çıktı]"
+        },
+        "Shape": {
+            "doc": "$~Ben tüm şekillere ilham kaynağıyım. @Stage'e hangi şeklin olması gerektiğini söylemekte faydalıyım.",
+            "names": ["$~Şekil"],
+            "form": {
+                "doc": "$~Ben gösterişli bir şeklim. Her şekil, düzenlemesini tanımlamak için farklı bilgiler gerektirir.",
+                "names": "$~biçim"
+            },
+            "name": {
+                "doc": "$~Animasyonlar ve @Collision için kullanabileceğiniz isim benim. Örneğin, eğer a zemini temsil ediyorsa, bana 'ground' demek isteyebilirsiniz.",
+                "names": "$~isim"
+            },
+            "description": {
+                "doc": [
+                    "$~Görsel çıktıyı göremeyen izleyiciler için kullanılacak bir açıklama."
+                ],
+                "names": "$~Tanım"
+            },
+            "selectable": {
+                "doc": "$~@Choice'un bir parçası olarak seçilebilir miyim?",
+                "names": "$~seçilebilir"
+            },
+            "color": {
+                "doc": "$~Benim rengim. Onunla doldururum, ama bir arka planım varsa, bu durumda kenarlığımı renklendirir.",
+                "names": "$~renk"
+            },
+            "background": {
+                "doc": "$~Arkaplanımın rengi.",
+                "names": "$~arkaplan"
+            },
+            "opacity": {
+                "doc": "$~Ne kadar şeffaf olmalıyım.",
+                "names": "$~opaklık"
+            },
+            "offset": {
+                "doc": "$~Yerimden ne kadar uzakta görünsem de, yerimde kalıyorum.",
+                "names": "$~telafietmek"
+            },
+            "rotation": {
+                "doc": "$~Ne kadar döndürülmem gerektiği. Bu @Collision'ı etkiler.",
+                "names": "$~rotasyon"
+            },
+            "scale": {
+                "doc": "$~Gerçek boyutumu değiştirmeden ne kadar büyütülmem gerektiğini.",
+                "names": "$~ölçek"
+            },
+            "flipx": {
+                "doc": "$~Beni x ekseninde yansıtmak ister misiniz?",
+                "names": "$~tersçevir"
+            },
+            "flipy": {
+                "doc": "$~Beni y ekseninde yansıtmak ister misiniz?",
+                "names": "$~tersyüz"
+            },
+            "entering": {
+                "doc": "$~@Stage'e girerken yapmam gereken @Pose veya @Sequence.",
+                "names": "$~giriş"
+            },
+            "resting": {
+                "doc": "$~Giriş yaptıktan sonra ve hareket etmiyorken yapmam gereken @Pose veya @Sequence.",
+                "names": "$~dinlenme"
+            },
+            "moving": {
+                "doc": "$~Yer değiştirirken yapmam gereken @Pose veya @Sequence.",
+                "names": "$~hareketeden"
+            },
+            "exiting": {
+                "doc": "$~@Stage'den çıkarken yapmam gereken @Pose veya @Sequence.",
+                "names": "$~çıkış"
+            },
+            "duration": {
+                "doc": "$~Tek bir @Pose animasyonum varsa ne kadar sürmeli?",
+                "names": "$~süre"
+            },
+            "style": {
+                "doc": "$~Kullanmam gereken animasyon stili.",
+                "names": "$~stil"
+            },
+            "filled": {
+                "doc": "$~İç kısmımın boyanıp boyanmayacağı. Kapanmadığım sürece iç kısmım yoktur, bu yüzden açık bir @Path hiçbir zaman doldurulmaz.",
+                "names": "$~dolu"
+            },
+            "stroked": {
+                "doc": "$~Dış hattımın boyanıp boyanmayacağı. Ne dolgu ne de dış hat olmadan görünmez olurum, bu da görünmeden bir şeyleri durduran bir engel oluşturmanın bir yoludur.",
+                "names": "$~çizgili"
+            },
+            "glyphs": {
+                "doc": "$~Dış hattım boyunca çizilecek, dolana kadar tekrarlanan metin. Sen bana bir şey vermedikçe hiçbir kelimem olmaz.",
+                "names": "$~harfler"
+            }
+        },
+        "Form": {
+            "doc": "$~Ben @Rectangle veya @Circle gibi soyut bir formum.",
+            "names": ["$~Biçim"]
+        },
+        "Rectangle": {
+            "doc": "$~Ben bir dikdörtgenim. @Stage'in istediğiniz boyutta bir sınırının olmasını sağlamak için kullanışlıdır.",
+            "names": ["$~Dikdörtgen"],
+            "left": {
+                "doc": "$~X ekseninde sahnenin sol kenarı",
+                "names": "$~sol"
+            },
+            "top": {
+                "doc": "$~Y eksenindeki sahnenin üst kenarı",
+                "names": "$~tepe"
+            },
+            "right": {
+                "doc": "$~X ekseninde sahnenin sağ kenarı",
+                "names": "$~Sağ"
+            },
+            "bottom": {
+                "doc": "$~Y eksenindeki sahnenin alt kenarı",
+                "names": "$~alt"
+            },
+            "z": {
+                "doc": "$~Dikdörtgenin derinlik konumu.",
+                "names": "$~z"
+            }
+        },
+        "Circle": {
+            "doc": "$~Ben @Stage'de şekiller oluşturmaya yarayan bir daireyim.",
+            "names": ["$~Daire"],
+            "radius": {
+                "doc": "$~Çemberin yarıçapı",
+                "names": "$~yarıçap"
+            },
+            "x": {
+                "doc": "$~Çemberin yatay merkezi.",
+                "names": "$~X"
+            },
+            "y": {
+                "doc": "$~Çemberin dikey merkezi.",
+                "names": "$~ve"
+            },
+            "z": {
+                "doc": "$~Çemberin derinlik konumu.",
+                "names": "$~z"
+            }
+        },
+        "Polygon": {
+            "doc": "$~@Stage'de şekiller oluşturmak için kullanışlı, eşit uzunlukta kenarlara ve açılara sahip 'düzenli' bir çokgenim.",
+            "names": ["$~Çokgen"],
+            "radius": {
+                "doc": "$~Çokgenin yarıçapı",
+                "names": "$~yarıçap"
+            },
+            "sides": {
+                "doc": "$~Çokgenin kenar sayısı",
+                "names": "$~taraflar"
+            },
+            "x": {
+                "doc": "$~Çokgenin yatay merkezi.",
+                "names": "$~X"
+            },
+            "y": {
+                "doc": "$~Çokgenin dikey merkezi.",
+                "names": "$~ve"
+            },
+            "z": {
+                "doc": "$~Poligonun derinlik konumu.",
+                "names": "$~z"
+            }
+        },
+        "Pose": {
+            "doc": [
+                "$~@Output tutması için bir @Pose yakalıyorum ve onların hareketlerinin yapı taşıyım. Birisi inanılmaz bir duruş sergilediğinde, bir an durakladığında ve herkes ona baktığında olan o anı biliyor musunuz? İşte o benim.",
+                "Bir pozun hazırlanmasında çok fazla emek var. Ne tür pozlar verebileceğinizi görmek için birçok farklı önerimi inceleyin!"
+            ],
+            "names": ["$~Poz"],
+            "style": {
+                "doc": "$~Bu poza geçerken kullanılacak animasyon stili.",
+                "names": "$~stil"
+            },
+            "color": {
+                "doc": "$~@Output'un @Color'ı varsayılanı yerine bu pozda olmalıdır.",
+                "names": "$~renk"
+            },
+            "opacity": {
+                "doc": "$~@Output'un varsayılanı yerine ne kadar şeffaf olması gerektiği, \\0\\ ile \\1\\ arasında. İçeri ve dışarı doğru geçişlerde faydalıdır.",
+                "names": "$~opaklık"
+            },
+            "offset": {
+                "doc": "$~Bir @Place'ın varsayılanı yerine, onun yerinden ne kadar uzakta olması gerektiğini belirten bir @Output. Yerinde kıpırdamak için faydalıdır.",
+                "names": "$~telafietmek"
+            },
+            "rotation": {
+                "doc": "$~@Output'un varsayılanı yerine @how döndürülmesi gerektiği.",
+                "names": "$~rotasyon"
+            },
+            "scale": {
+                "doc": "$~@Output'un varsayılan boyutu yerine orijinal boyutuna göre ne kadar büyütülmesi gerektiği.",
+                "names": "$~ölçek"
+            },
+            "flipx": {
+                "doc": "$~@Output'un varsayılanı yerine x ekseninde yansıtılıp yansıtılmayacağı.",
+                "names": "$~tersçevir"
+            },
+            "flipy": {
+                "doc": "$~@Output'un varsayılanı yerine y ekseninde yansıtılıp yansıtılmayacağı.",
+                "names": "$~tersyüz"
+            },
+            "description": "$~$opacity[şeffaf $opacity|] $rotation[2 derece döndürülmüş|] $scale[ölçeklenmiş $scale|] $flipx[yatay olarak çevrilmiş|] $flipy[dikey olarak çevrilmiş|] $blur[gölge bulanık $blur piksel|]",
+            "music": {
+                "doc": "$~Animasyon durumum başladığında veya bir @Sequence bana ulaştığında çalmam gereken @Music. Amaç kısa bir ses; sadece bir kez baştan sona çalarım.",
+                "names": "$~müzik"
+            }
+        },
+        "Color": {
+            "doc": [
+                "$~Ben görünür bir renğim, üç temel boyuttan oluşurum.",
+                "İşte renk çemberinde orta parlaklıkta ve yüksek doygunlukta bazı yaygın renkler:",
+                "\\Renk(50% 100 0°)\\",
+                "\\Renk(50% 100 30°)\\",
+                "\\Renk(50% 100 60°)\\",
+                "\\Renk(50% 100 90°)\\",
+                "\\Renk(50% 100 120°)\\",
+                "\\Renk(50% 100 150°)\\",
+                "\\Renk(50% 100 180°)\\",
+                "\\Renk(50% 100 210°)\\",
+                "\\Renk(50% 100 240°)\\",
+                "\\Renk(50% 100 270°)\\",
+                "\\Renk(50% 100 300°)\\",
+                "\\Renk(50% 100 330°)\\",
+                "En yaygın on bir renk ismi için beni sıfırdan oluşturmana gerek yok. İsmimde kısayollarım var:",
+                "\\Renk.kırmızı\\",
+                "\\Renk.mavi\\",
+                "Bu kısayollar senin @language'inde de çalışır, yani Fransızca konuşan biri şunu yazabilir \\couleur.rouge\\🪲 ve Japonca konuşan biri şunu yazabilir \\色.赤\\🪲. Kısayollar şunlardır: kırmızı, turuncu, sarı, yeşil, mavi, mor, kahverengi, pembe, siyah, beyaz ve gri."
+            ],
+            "names": ["$~Renk"],
+            "lightness": {
+                "doc": "$~\\0\\ ile \\1\\ arasında ne kadar açık olmalıyım, \\0\\'da siyahtan, \\0.5\\'te griye, \\1\\'de beyaza.",
+                "names": ["$~hafiflik", "$~ben"]
+            },
+            "chroma": {
+                "doc": "$~Ne kadar renge sahip olmalıyım, \\0\\ ile \\∞\\ arasında. Renk olmaması gri anlamına gelir, daha yüksek sayılar daha fazla renk anlamına gelir.",
+                "names": ["$~renk", "$~C"]
+            },
+            "hue": {
+                "doc": "$~Hangi renk olacağım, bir renk çarkı üzerinde, macentadan \\0\\, kırmızıdan \\30\\, yeşilden \\120\\, maviye \\270\\.",
+                "names": ["$~renktonu", "$~H"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~Temel renk siyah.",
+                    "names": ["$~siyah"]
+                },
+                "white": {
+                    "doc": "$~Temel renk beyazdır.",
+                    "names": ["$~beyaz"]
+                },
+                "gray": {
+                    "doc": "$~Temel renk gri.",
+                    "names": ["$~gri"]
+                },
+                "red": {
+                    "doc": "$~Temel renk kırmızı.",
+                    "names": ["$~kırmızı"]
+                },
+                "orange": {
+                    "doc": "$~Temel renk turuncu.",
+                    "names": ["$~turuncu"]
+                },
+                "yellow": {
+                    "doc": "$~Temel renk sarı.",
+                    "names": ["$~sarı"]
+                },
+                "green": {
+                    "doc": "$~Temel renk yeşil.",
+                    "names": ["$~yeşil"]
+                },
+                "blue": {
+                    "doc": "$~Temel renk mavidir.",
+                    "names": ["$~mavi"]
+                },
+                "purple": {
+                    "doc": "$~Temel renk mor.",
+                    "names": ["$~mor"]
+                },
+                "brown": {
+                    "doc": "$~Temel renk kahverengi.",
+                    "names": ["$~kahverengi"]
+                },
+                "pink": {
+                    "doc": "$~Temel renk pembe.",
+                    "names": ["$~pembe"]
+                }
+            },
+            "description": {
+                "modified": "$~$modifier $color",
+                "mix": "$~$first - $second",
+                "light": "$~ışık",
+                "dark": "$~karanlık"
+            },
+            "random": {
+                "doc": [
+                    "$~Rastgele bir renk verin.",
+                    "Renk seçeneği yoksa, temel renklerden birini rastgele seçiyorum:",
+                    "\\Color.random()\\",
+                    "Tek bir renk kullanırken, açıklığını ve doygunluğunu koruyorum ama rastgele bir ton seçiyorum:",
+                    "\\Color.random(Color.blue)\\",
+                    "İki renk kullanırken, bu iki renk arasından rastgele bir açıklık, doygunluk ve ton seçiyorum:",
+                    "\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~rastgele",
+                "inputs": [
+                    {
+                        "doc": "$~İsteğe bağlı bir renk. Tek başına kullanıldığında, açıklığını ve doygunluğunu koruyup tonunu rastgele seçiyorum. İkinci bir renkle birlikte kullanıldığında ise, seçilebilecek renk yelpazesinin bir ucunu oluşturuyor.",
+                        "names": "$~A"
+                    },
+                    {
+                        "doc": "$~İsteğe bağlı ikinci bir renk. Verildiğinde, iki renk arasında rastgele bir açıklık, doygunluk ve ton seçiyorum.",
+                        "names": "$~B"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Bana daha açık renkli bir versiyon ver, açıklık oranımı belirli bir yüzde artır (varsayılan olarak %5).",
+                    "\\Color.blue.lighter()\\",
+                    "\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~dahahafif",
+                "inputs": [
+                    {
+                        "doc": "$~Parlaklık seviyesini yüzde olarak ne kadar artırmak istediğinizi belirtin. Varsayılan @value %5'tir.",
+                        "names": "$~ile"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Bana daha koyu bir versiyon ver, açıklık oranımı belirli bir yüzde (varsayılan olarak %5) düşür.",
+                    "\\Color.blue.darker()\\",
+                    "\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~dahakoyu",
+                "inputs": [
+                    {
+                        "doc": "$~Parlaklık seviyesini yüzde olarak ne kadar düşürmek istediğinizi belirtin. Varsayılan @value %5'tir.",
+                        "names": "$~ile"
+                    }
+                ]
+            }
+        },
+        "Sequence": {
+            "doc": [
+                "$~Ben @Output'i zaman içinde bir dizi @Pose boyunca hareketlendiririm! Benimle dans etmek ister misin? Kolay.",
+                "Bana sadece bir @Map vermen gerekiyor; her @key dansta yüzde kaç ilerlediğimizi temsil eder, ve o anahtarların her @value'i olunacak bir @Pose'tir.",
+                "Bununla hareketlendirmenin /çok/ farklı yolu var! Örneğin, işte basit bir tane:",
+                "\\İfadeetmek(\n\t'selam'\n\tresting: Sekans(\n\t\t{0%: Poz(rotation: 360°) 100%: Poz(rotation: 0°)}\n\t)\\🪲",
+                "Bu şunu söyler: /başlangıçta (%0), eğim 360'ta başla ve eğim 0'da bit/. Bu bizi sonsuza dek döndürür, çünkü ben @Phrase'in dinlenme duruşu olarak ayarlandım!",
+                "Başka girdilerle oynayarak kendi yaratıcı danslarını dene."
+            ],
+            "names": ["$~Sekans"],
+            "poses": {
+                "doc": "$~0% ile 100% arasındaki yüzdeliklerin @Map'i, her biri bir @Pose ile eşleştirilmiştir. Tüm yüzdeleri sağlamanız gerekmez; bana verdiğiniz yüzdeler arasında bir @Output'u sorunsuzca taşıyacağım.",
+                "names": "$~pozlar"
+            },
+            "duration": {
+                "doc": "$~Bu dansı ne kadar süre yapmalıyım? Tekrar edeceksem, süreye herhangi bir zaman eklemeyeceğim, sadece daha hızlı dans edeceğim.",
+                "names": ["$~süre"]
+            },
+            "style": {
+                "doc": "$~Dans için hangi stili kullanmalıyım?",
+                "names": "$~stil"
+            },
+            "count": {
+                "doc": "$~Dizinin bitmeden önce kaç kez tekrarlanması gerektiği. Sahneye girdiğimde, sahnede hareket ettiğimde veya sahneden çıktığımda bu gerçekten çok yardımcı oluyor, ancak bir dinlenme dizisi için, sonsuza kadar dinlenebildiğim için görmezden geliniyor.",
+                "names": "$~saymak"
+            },
+            "description": {
+                "doc": "$~Animasyonu göremeyen izleyiciler için bu sekansın isteğe bağlı açıklaması.",
+                "names": "$~Tanım"
+            },
+            "animations": {
+                "sway": {
+                    "doc": [
+                        "$~Bir @Output'nin merkezi etrafında ileri geri eğilirim, hafif bir esintide asılı duran bir şey gibi. İyi bir dinlenme animasyonuyum, çünkü küçük bir /angle/ dikkat çekmeden “canlı” gibi görünür.",
+                        "\\💬('🐈' dinlenme: 💃.sallanmak(10°))\\"
+                    ],
+                    "names": ["$~sallanmak"],
+                    "angle": {
+                        "doc": "$~Her yönde ne kadar eğilineceği. Küçük değerler yumuşak görünür; büyük olanlar telaşlı görünür.",
+                        "names": ["$~açı"]
+                    }
+                },
+                "bounce": {
+                    "doc": [
+                        "$~Bir @Output'yi /height/ kadar yukarı zıplatırım ve yere inmesini sağlarım, yukarı ve aşağı inerken biraz eziyorum. Bana yeni gelmiş bir @Phrase ver, ben de onu ağırlığı varmış gibi hissettireyim.",
+                        "\\💬('🐈' dinlenme: 💃.sıçrama(3m))\\"
+                    ],
+                    "names": ["$~sıçrama"],
+                    "height": {
+                        "doc": "$~Metre cinsinden ne kadar yükseğe zıplanacağı.",
+                        "names": ["$~yükseklik"]
+                    }
+                },
+                "spin": {
+                    "doc": [
+                        "$~Bir @Output'yi merkezi etrafında tamamen döndürürüm, 360°'den 0°'ye geri. Beni dinlenme animasyonu olarak ayarla, sonsuza dek dönmeye devam edeyim.",
+                        "\\💬('🐈' dinlenme: 💃.döndürmek(2s))\\"
+                    ],
+                    "names": ["$~döndürmek"]
+                },
+                "fadein": {
+                    "doc": [
+                        "$~Bir @Output'yi görünmezden tamamen görünür hale getiririm. /entering/ için, yani sahneye bir şey geldiğinde kullanılırım.",
+                        "\\💬('🐈' giriş: 💃.kaybolmak(1s))\\"
+                    ],
+                    "names": ["$~kaybolmak"]
+                },
+                "fadeout": {
+                    "doc": [
+                        "$~Bir @Output'yi tamamen görünürden görünmez hale getiririm. /exiting/ için, yani bir şey sahneden ayrıldığında kullanılırım.",
+                        "\\💬('🐈' çıkış: 💃.kaybolma(süre: 1s))\\"
+                    ],
+                    "names": ["$~kaybolma"]
+                },
+                "popup": {
+                    "doc": [
+                        "$~Bir @Output'yi hiçlikten büyütürüm, gerçek boyutunu biraz aşarım, sonra geri otururum. İşte o küçük aşma, bir gelişi mekanik yerine eğlenceli hissettiren şeydir.",
+                        "\\💬('🐈' giriş: 💃.anidenbelirmek(0.5s))\\"
+                    ],
+                    "names": ["$~anidenbelirmek"]
+                },
+                "shake": {
+                    "doc": [
+                        "$~Bir @Output'yi birkaç yönde ileri geri sarsarım. “Hayır” gibi ya da sallanan bir şey gibi okunurum. Hızlı hareket ederim, o yüzden beni kısa tut.",
+                        "\\💬('🐈' dinlenme: 💃.sallamak(0.5s saymak: 3x))\\"
+                    ],
+                    "names": ["$~sallamak"]
+                },
+                "pulse": {
+                    "doc": [
+                        "$~Bir @Output'yi /amount/ kadar büyütüp geri küçültürüm, bir kez. Hiçbir şeyi yerinden oynatmadan “buraya bak” demenin en sessiz yoluyum.",
+                        "\\💬('🐈' dinlenme: 💃.nabız(1.2))\\"
+                    ],
+                    "names": ["$~nabız"],
+                    "amount": {
+                        "doc": "$~Zirvede ne kadar büyüneceği. 1 hiçbir değişiklik olmaması demektir.",
+                        "names": ["$~miktar"]
+                    }
+                },
+                "heartbeat": {
+                    "doc": [
+                        "$~İki hızlı ölçek vuruşu yaparım, sonra dinlenirim, bir kalp atışının ritmi gibi. @Sequence'nin /pulse/'undan daha aceleciyim ve /flash/'tan daha doğalım.",
+                        "\\💬('🐈' dinlenme: 💃.kalpatışı(1.4 1s))\\"
+                    ],
+                    "names": ["$~kalpatışı"],
+                    "amount": {
+                        "doc": "$~Her vuruşta ne kadar büyüneceği.",
+                        "names": ["$~miktar"]
+                    }
+                },
+                "tada": {
+                    "doc": [
+                        "$~Kutlarım: küçük bir daralma, sonra ileri geri sallanarak bir büyüme. Kazanmak, bitirmek ve doğru yapmak için varım.",
+                        "\\💬('🐈' dinlenme: 💃.tada(1.2 1s))\\"
+                    ],
+                    "names": ["$~tada"],
+                    "amount": {
+                        "doc": "$~Kutlarken ne kadar büyüneceği.",
+                        "names": ["$~miktar"]
+                    }
+                },
+                "wiggle": {
+                    "doc": [
+                        "$~Bir @Output'yi eğerken yana yana kaydırırım, her salınım bir öncekinden daha küçük. Biraz daha karakterli bir sarsıntıyım.",
+                        "\\💬('🐈' dinlenme: 💃.kıpırdamak(8°))\\"
+                    ],
+                    "names": ["$~kıpırdamak"],
+                    "angle": {
+                        "doc": "$~Her salınımda ne kadar eğilineceği.",
+                        "names": ["$~açı"]
+                    }
+                },
+                "flash": {
+                    "doc": [
+                        "$~Bir @Output'yi görünür ve görünmez arasında iki kez yakıp söndürürüm, giderken solarak. Fark etmemek zordur — bu da beni görmezden gelmenin zor olduğu anlamına gelir, o yüzden beni az kullan.",
+                        "Hızlı yanıp sönerim, o yüzden yanıp sönmeye duyarlı bir izleyici beni rahatsız edici bulabilir. Tekrar edeceksem, daha uzun bir /duration/ ile beni yavaşlat.",
+                        "\\💬('🐈' dinlenme: 💃.flaş(1s))\\"
+                    ],
+                    "names": ["$~flaş"]
+                },
+                "zoomin": {
+                    "doc": [
+                        "$~Bir @Output'yi hiçlikten tam boyutuna büyütürüm. /popup/'ın aksine, ben aşmam — daha sade, daha sakin gelişim.",
+                        "\\💬('🐈' giriş: 💃.yakınlaştırma(0.5s))\\"
+                    ],
+                    "names": ["$~yakınlaştırma"]
+                },
+                "fadeinup": {
+                    "doc": [
+                        "$~Bir @Output'yi solarak görünür yaparken, /distance/ kadar aşağıdan yukarı yerine kaydırırım.",
+                        "\\💬('🐈' giriş: 💃.yavaşçayukarı(2m))\\"
+                    ],
+                    "names": ["$~yavaşçayukarı"],
+                    "distance": {
+                        "doc": "$~Metre cinsinden ne kadar aşağıdan başlanacağı.",
+                        "names": ["$~mesafe"]
+                    }
+                },
+                "fadeindown": {
+                    "doc": [
+                        "$~Bir @Output'yi solarak görünür yaparken, /distance/ kadar yukarıdan aşağı yerine kaydırırım.",
+                        "\\💬('🐈' giriş: 💃.solma(2m))\\"
+                    ],
+                    "names": ["$~solma"],
+                    "distance": {
+                        "doc": "$~Metre cinsinden ne kadar yukarıdan başlanacağı.",
+                        "names": ["$~mesafe"]
+                    }
+                },
+                "fadeinleft": {
+                    "doc": [
+                        "$~Bir @Output'yi solarak görünür yaparken, /distance/ kadar soldan sağa yerine kaydırırım.",
+                        "\\💬('🐈' giriş: 💃.sol(2m))\\"
+                    ],
+                    "names": ["$~sol"],
+                    "distance": {
+                        "doc": "$~Metre cinsinden ne kadar soldan başlanacağı.",
+                        "names": ["$~mesafe"]
+                    }
+                },
+                "fadeinright": {
+                    "doc": [
+                        "$~Bir @Output öğesini yavaşça belirirken sola kaydırarak yerine getiririm; sağdaki /distance/ noktasından başlarım.",
+                        "\\💬('🐈' giriş: 💃.sağadoğrusolma(2m))\\"
+                    ],
+                    "names": ["$~sağadoğrusolma"],
+                    "distance": {
+                        "doc": "$~Sağda ne kadar uzaktan başlanacağı, metre cinsinden.",
+                        "names": ["$~mesafe"]
+                    }
+                },
+                "rotatein": {
+                    "doc": [
+                        "$~Bir @Output öğesini yavaşça belirirken döndürerek yerine getiririm; /angle/ kadar dönmüş başlar, dik biterim.",
+                        "\\💬('🐈' giriş: 💃.dönen(180°))\\"
+                    ],
+                    "names": ["$~dönen"],
+                    "angle": {
+                        "doc": "$~Başlangıçta ne kadar döndürüleceği, derece cinsinden.",
+                        "names": ["$~açı"]
+                    }
+                },
+                "zoomout": {
+                    "doc": [
+                        "$~Bir @Output öğesini tam boyutundan hiçliğe kadar küçültürüm.",
+                        "\\💬('🐈' çıkış: 💃.uzaklaştırma(0.5s))\\"
+                    ],
+                    "names": ["$~uzaklaştırma"]
+                },
+                "fadeoutup": {
+                    "doc": [
+                        "$~Bir @Output öğesini yavaşça kaybolurken /distance/ kadar yukarı kaydırırım.",
+                        "\\💬('🐈' çıkış: 💃.fadeoutup(2m))\\"
+                    ],
+                    "names": ["$~fadeoutup"],
+                    "distance": {
+                        "doc": "$~Yukarı ne kadar kaydırılacağı, metre cinsinden.",
+                        "names": ["$~mesafe"]
+                    }
+                },
+                "fadeoutdown": {
+                    "doc": [
+                        "$~Bir @Output öğesini yavaşça kaybolurken /distance/ kadar aşağı kaydırırım.",
+                        "\\💬('🐈' çıkış: 💃.solmaaşağı(2m))\\"
+                    ],
+                    "names": ["$~solmaaşağı"],
+                    "distance": {
+                        "doc": "$~Aşağı ne kadar kaydırılacağı, metre cinsinden.",
+                        "names": ["$~mesafe"]
+                    }
+                },
+                "fadeoutleft": {
+                    "doc": [
+                        "$~Bir @Output öğesini yavaşça kaybolurken /distance/ kadar sola kaydırırım.",
+                        "\\💬('🐈' çıkış: 💃.soldankaybol(2m))\\"
+                    ],
+                    "names": ["$~soldankaybol"],
+                    "distance": {
+                        "doc": "$~Sola ne kadar kaydırılacağı, metre cinsinden.",
+                        "names": ["$~mesafe"]
+                    }
+                },
+                "fadeoutright": {
+                    "doc": [
+                        "$~Bir @Output öğesini yavaşça kaybolurken /distance/ kadar sağa kaydırırım.",
+                        "\\💬('🐈' çıkış: 💃.solupgitmek(2m))\\"
+                    ],
+                    "names": ["$~solupgitmek"],
+                    "distance": {
+                        "doc": "$~Sağa ne kadar kaydırılacağı, metre cinsinden.",
+                        "names": ["$~mesafe"]
+                    }
+                },
+                "rotateout": {
+                    "doc": [
+                        "$~Bir @Output öğesini yavaşça kaybolurken döndürerek uzaklaştırırım; /angle/ kadar dönmüş biterim.",
+                        "\\💬('🐈' çıkış: 💃.döndürerekçıkış(180°))\\"
+                    ],
+                    "names": ["döndürerekçıkış"],
+                    "angle": {
+                        "doc": "$~Kaybolmadan önce ne kadar döndürüleceği, derece cinsinden.",
+                        "names": ["$~açı"]
+                    }
+                },
+                "rainbow": {
+                    "doc": [
+                        "$~Bir @Output öğesini gökkuşağının her renginden geçirir ve başladığım yere geri getiririm.",
+                        "Rengi hızlı değiştiririm, bu yüzden yanıp sönmeye duyarlı bir izleyici beni rahatsız edici bulabilir. Daha uzun bir /duration/ beni çok daha yumuşak yapar.",
+                        "\\💬('🐈' dinlenme: 💃.gökkuşağı(3s))\\"
+                    ],
+                    "names": ["$~gökkuşağı"]
+                },
+                "swing": {
+                    "doc": [
+                        "$~Bir @Output öğesini bir sarkaç gibi sallarım; /angle/ kadar dışarı çıkar, sonra gitgide küçülen yaylarla geri döner ve durur. /sway/ gibi değil, ben yavaşça dururum.",
+                        "\\💬('🐈' dinlenme: 💃.salla(20°))\\"
+                    ],
+                    "names": ["$~salla"],
+                    "angle": {
+                        "doc": "$~İlk ve en büyük salınımın ne kadar gideceği.",
+                        "names": ["$~açı"]
+                    }
+                },
+                "blink": {
+                    "doc": [
+                        "$~Bir @Output öğesini, arada hiç yavaşça kaybolmadan kapatır ve tekrar açarım; tıpkı bir imlecin yanıp sönmesi gibi. /flash/ yavaşça geçer; ben keserim.",
+                        "\\💬('🐈' dinlenme: 💃.gözKırp(1s))\\"
+                    ],
+                    "names": ["$~gözKırp"]
+                },
+                "nod": {
+                    "doc": [
+                        "$~Bir @Output öğesini iki kez aşağı indirir ve tekrar yukarı kaldırırım; tıpkı onaylayan bir baş sallama gibi. “Evet” demenin en yumuşak yoluyum.",
+                        "\\💬('🐈' dinlenme: 💃.başsalla(0.4m))\\"
+                    ],
+                    "names": ["$~başsalla"],
+                    "distance": {
+                        "doc": "$~Her baş sallamada ne kadar aşağı ineceği, metre cinsinden.",
+                        "names": ["$~mesafe"]
+                    }
+                },
+                "dim": {
+                    "doc": [
+                        "$~Bir @Output öğesini /amount/ değerine kadar yavaşça soldurur ve tekrar tam haline getiririm, ama onu asla gizlemem. Bir şeyin beklediğini veya etkin olmadığını göstermek için varım.",
+                        "\\💬('🐈' dinlenme: 💃.karart(20% 2s))\\"
+                    ],
+                    "names": ["$~karart"],
+                    "amount": {
+                        "doc": "$~En sönük noktada ne kadar soluk olacağı.",
+                        "names": ["$~miktar"]
+                    }
+                },
+                "slidein": {
+                    "doc": [
+                        "$~Bir @Output öğesini, istediğin herhangi bir yerden yerine kaydırırım, yavaşça kaybolmadan. Bana bir @Place ver, oradan başlayıp durgun halde bitiririm, böylece tek bir animasyon her yönü kapsar.",
+                        "\\💬('🐈' giriş: 💃.içerikay(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~içerikay"],
+                    "from": {
+                        "doc": "$~@Output öğesinin durduğu yerden ne kadar öteden başlanacağı.",
+                        "names": ["$~kaynak"]
+                    }
+                },
+                "slideout": {
+                    "doc": [
+                        "$~Bir @Output öğesini istediğin yere kaydırırım, hiç soldurmadan. Bana bir @Place ver, orada bitiririm. Böylece tek bir animasyon her yönü kapsar.",
+                        "\\💬('🐈' çıkış: 💃.dışarıkay(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~dışarıkay"],
+                    "to": {
+                        "doc": "$~@Output öğesinin durduğu yerden ne kadar öteye varılacağı.",
+                        "names": ["$~hedef"]
+                    }
+                },
+                "float": {
+                    "doc": [
+                        "$~Bir @Output öğesini yavaşça /distance/ kadar yukarı ve tekrar aşağı süzerim. Bana uzun bir /duration/ ver, bir şeyi ağırlıksız gibi göstereyim.",
+                        "\\💬('🐈' dinlenme: 💃.süzül(0.5m 3s))\\"
+                    ],
+                    "names": ["$~süzül"],
+                    "distance": {
+                        "doc": "$~Metre olarak, ne kadar yukarı süzüleceği.",
+                        "names": ["$~mesafe"]
+                    }
+                },
+                "drift": {
+                    "doc": [
+                        "$~Bir @Output öğesini yavaşça /distance/ kadar yana ve tekrar geri süzerim. Ben /float/ gibiyim ama yanlamasına.",
+                        "\\💬('🐈' dinlenme: 💃.sürüklen(0.5m 3s))\\"
+                    ],
+                    "names": ["$~sürüklen"],
+                    "distance": {
+                        "doc": "$~Metre olarak, ne kadar yana süzüleceği.",
+                        "names": ["$~mesafe"]
+                    }
+                },
+                "orbit": {
+                    "doc": [
+                        "$~Bir @Output öğesini /radius/ yarıçaplı bir daire boyunca taşırım ve başladığı yere geri döndürürüm. İleri geri gitmek yerine bir yol izleyen tek önceden tanımlı animasyon benim.",
+                        "\\💬('🐈' dinlenme: 💃.yörünge(2m 4s))\\"
+                    ],
+                    "names": ["$~yörünge"],
+                    "radius": {
+                        "doc": "$~Metre olarak, dairenin ne kadar geniş olduğu.",
+                        "names": ["$~yarıçap"]
+                    }
+                },
+                "glow": {
+                    "doc": [
+                        "$~Bir @Output öğesini /color/ rengine doğru parlatır ve tekrar sönmesine izin veririm. Bir şeyin ısınıp soğuması gibi. /rainbow/ öğesinden farklı olarak tek bir renk tonunda kalırım.",
+                        "\\💬('🐈' dinlenme: 💃.parla(🌈.turuncu 2s))\\"
+                    ],
+                    "names": ["$~parla"],
+                    "color": {
+                        "doc": "$~Hangi @Color öğesinin parlayacağı. Onun etrafında parlatır ve karartırım.",
+                        "names": ["$~renk"]
+                    }
+                }
+            }
+        },
+        "Place": {
+            "doc": "$~@Stage'de bir konumum. Tüm girdilerim isteğe bağlıdır, çünkü varsayılan olarak merkezdeyim.",
+            "names": ["$~Yer"],
+            "x": {
+                "doc": "$~X ekseninde bir konum.",
+                "names": "$~X"
+            },
+            "y": {
+                "doc": "$~Y ekseninde bir konum",
+                "names": "$~ve"
+            },
+            "z": {
+                "doc": "$~Z ekseninde bir konum",
+                "names": "$~z"
+            },
+            "rotation": {
+                "doc": "$~Bu pozisyonda dönüş",
+                "names": ["$~rotasyon"]
+            }
+        },
+        "Velocity": {
+            "doc": "$~@Output @Stage üzerinde ne kadar hızlı hareket ettiğini ölçüyorum — x ve y eksenlerinde saniyede metre cinsinden ve dönüşte saniyede derece cinsinden. Girişlerim isteğe bağlıdır; varsayılan olarak hiçbir şey hareket etmez.",
+            "names": ["$~Hız"],
+            "x": {
+                "doc": "$~X ekseninde her saniye kaç metre hareket etmemiz gerekiyor.",
+                "names": "$~X"
+            },
+            "y": {
+                "doc": "$~Y ekseninde her saniye kaç metre hareket etmemiz gerekiyor.",
+                "names": "$~ve"
+            },
+            "angle": {
+                "doc": "$~Her saniye kaç derece döndürülmeli",
+                "names": ["$~açı"]
+            }
+        },
+        "Matter": {
+            "doc": "$~@Output'nin ne kadar ağır, sekici ve kaygan olduğunu belirtirim. Bende ve bir @Motion'de olan @Output katıdır: @Stage üzerindeki @Shape'ten ve hareket eden diğer @Output'lerden sekerek geri döner. Programının yerleştirdiği @Output bunun yerine koyduğun yere gider ve değdiği şeylerin içinden geçer. @Output'nin @Collision tarafından fark edilmesi için bana ihtiyacı yoktur — bunun için bir isim yeterlidir.",
+            "names": ["$~Konu"],
+            "mass": {
+                "doc": "$~Bir ağırlık, kilogram cinsinden",
+                "names": "$~yığın"
+            },
+            "bounciness": {
+                "doc": "$~Çarpışmaya devam etmek için ne kadar enerjim var, 0 hiç demek değil, 1 ise hepsi demek.",
+                "names": "$~zıplama"
+            },
+            "friction": {
+                "doc": "$~Ne kadar kaydırmaya devam edeceğiz; 0 hiç demek değil, 1 ise sonsuza kadar demek.",
+                "names": "$~sürtünme"
+            },
+            "roundedness": {
+                "doc": "$~Çıktının köşeleri ne kadar yuvarlanacak; 0 hiç yuvarlanmayacak, 1 ise boyutunun %100'ü anlamına geliyor, yani boyutlar dairesel oluyor.",
+                "names": "$~yuvarlaklık"
+            },
+            "text": {
+                "doc": "$~Diğer @Phrase ve @Group ile hiç çarpışıp çarpışamayacağım; ⊥, onları fark etmediğim anlamına gelir ve @Collision onlar hakkında hiçbir şey söylemez.",
+                "names": "$~metin"
+            },
+            "shapes": {
+                "doc": "$~@Stage üzerindeki @Shape ile hiç çarpışıp çarpışamayacağım; ⊥, duvarlardan ve zeminlerden geçtiğim anlamına gelir ve @Collision onlar hakkında hiçbir şey söylemez.",
+                "names": "$~zemin"
+            },
+            "pull": {
+                "doc": "$~Diğer çıktıları bana doğru ne kadar güçlü çektiğim. 0, hiç çekmediğim anlamına gelir ve normal olan budur. Büyük sayılar daha güçlü çeker, negatif bir sayı ise çekmek yerine iter. Sadece bir @Motion tarafından yerleştirilmiş çıktı çekilebilir.",
+                "names": "$~çek"
+            }
+        },
+        "Aura": {
+            "doc": [
+                "$~@Phrase PARLATIYORUM! Ben bir AURA'yım. Şöyle:",
+                "\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\🪲"
+            ],
+            "names": ["$~🔮", "$~Aura"],
+            "color": {
+                "doc": "$~@Aura'nın @Color olması gerekir.",
+                "names": "$~renk"
+            },
+            "blur": {
+                "doc": "$~@Aura'nın ne kadar bulanık olması gerektiği. \\0m\\ hiç bulanık olmaması anlamına geliyor.",
+                "names": "$~bulanıklık"
+            },
+            "offsetX": {
+                "doc": "$~Ne kadar sola veya sağa bakmam gerektiğini. \\0m\\ hemen altında.",
+                "names": "$~ofsetX"
+            },
+            "offsetY": {
+                "doc": "$~Ne kadar yukarıda veya aşağıda görünmem gerektiğini.\\0m\\ tam altında.",
+                "names": "$~ofsetY"
+            }
+        },
+        "Stage": {
+            "doc": [
+                "$~@Output Output'unuzu izleyicilere gösteriyorum. Merhaba. Sahne burada. Ne göstermemi istediğinizi söyleyin, ben de göstereyim.",
+                "\\Stage([Phrase('stufffffff')])\\",
+                "İSTERSENİZ, BANA @Color PLAN RENK BİLGİSİ VERİN, BEN DE SAHNEYİ ONA GÖRE AYDINLATACAĞIM.",
+                "\\Stage([Phrase('stufffffff')] arkaplan: Color(75% 50 100°))\\",
+                "İsterseniz çerçeve kenarı da verebilirsiniz, ben de onu kırpacağım.",
+                "\\Stage([Phrase('stufffffff')] arkaplan: Color(75% 50 100°) çerçeve: Rectangle(-1m -1m 1m 1m))\\"
+            ],
+            "names": ["$~Sahne"],
+            "content": {
+                "doc": "$~Sahnede gösterilecek @Output listesi.",
+                "names": "$~içerik"
+            },
+            "frame": {
+                "doc": "$~Sahnenin etrafına yerleştirilecek ve sahnenin dışında kalan her şeyi gizleyecek çerçeve şekli ve boyutu.",
+                "names": "$~çerçeve"
+            },
+            "size": {
+                "doc": "$~@Group.size BEĞEN",
+                "names": "$~boyut"
+            },
+            "face": {
+                "doc": "$~@Group.face BEĞEN",
+                "names": "$~yüz"
+            },
+            "place": {
+                "doc": "$~EĞER BİR KAMERA OLSAM, BAKTIĞIM YER BUDUR",
+                "names": "$~yer"
+            },
+            "name": {
+                "doc": ["$~@Phrase.name ile AYNI!"],
+                "names": "$~isim"
+            },
+            "description": {
+                "doc": [
+                    "$~Görsel çıktıyı göremeyen izleyiciler için kullanılacak bir açıklama."
+                ],
+                "names": "$~Tanım"
+            },
+            "selectable": {
+                "doc": "$~@Phrase.selectable ile aynı!",
+                "names": "$~seçilebilir"
+            },
+            "color": {
+                "doc": "$~@Group.color ile AYNI",
+                "names": "$~renk"
+            },
+            "background": {
+                "doc": "$~@Group.background ile AYNI",
+                "names": "$~arkaplan"
+            },
+            "opacity": {
+                "doc": "$~@Group.opacity İLE AYNI",
+                "names": "$~opaklık"
+            },
+            "offset": {
+                "doc": "$~@Group.offset ile aynı",
+                "names": "$~telafietmek"
+            },
+            "rotation": {
+                "doc": "$~@Group.rotation ile AYNI",
+                "names": ["$~rotasyon"]
+            },
+            "scale": {
+                "doc": "$~@Group.scale AYNI",
+                "names": "$~ölçek"
+            },
+            "flipx": {
+                "doc": "$~@Group.flipx ile aynı",
+                "names": "$~tersçevir"
+            },
+            "flipy": {
+                "doc": "$~@Group.flipy ile aynı",
+                "names": "$~tersyüz"
+            },
+            "entering": {
+                "doc": "$~@Group.entering ile aynı",
+                "names": "$~giriş"
+            },
+            "resting": {
+                "doc": "$~@Group.resting ile AYNI!",
+                "names": "$~dinlenme"
+            },
+            "moving": {
+                "doc": "$~@Group.moving ile aynı!",
+                "names": "$~hareketeden"
+            },
+            "exiting": {
+                "doc": "$~@Group.exiting ile aynı!",
+                "names": "$~çıkış"
+            },
+            "duration": {
+                "doc": "$~@Phrase.duration ile AYNI!",
+                "names": ["$~süre"]
+            },
+            "style": {
+                "doc": "$~@Phrase.style ile AYNI!",
+                "names": "$~stil"
+            },
+            "gravity": {
+                "doc": "$~@Motion konumundaki çıktıya uygulanacak yer çekimi.",
+                "names": "$~yerçekimi"
+            },
+            "defaultDescription": "$~$name[$name |]sahnesi: $#count[$count çıktılı|$count çıktılı]$frame[ $frame çerçeveli|] $pose $color[$color|]",
+            "overlay": {
+                "doc": "$~Ekrana düz olarak sabitlenmiş, bilgi göstergesi gibi çalışan bir @Output listesi. Bu, sahnenin @Place kamerasından veya derinliğinden etkilenmez.",
+                "names": "$~kaplama"
+            },
+            "air": {
+                "doc": "$~Havanın hareket eden çıktıyı ne kadar yavaşlattığı. 1, normal havadır. 0 ise uzay boşluğudur, orada her şey sonsuza kadar hareket etmeye devam eder. Daha büyük sayılar havadan daha yoğun demektir.",
+                "names": "$~hava"
+            }
+        },
+        "Easing": {
+            "straight": "$~dümdüz",
+            "cautious": "$~dikkatli",
+            "pokey": "$~sivri",
+            "zippy": "$~hareketli"
+        },
+        "Source": {
+            "names": "$~Kaynak",
+            "doc": [
+                "$~Projelerin birden fazla @Source dosyası olabileceğini biliyor musun? Projenin mantığına dayalı bir @Source oluşturmana izin veririm. Bu, projenin farklı hesaplamaları arasında bazı verileri kaydetmek istiyorsan gerçekten işe yarar.",
+                "Örneğin, her fare düğmesine bastığında birer birer sayan basit bir sayaç yapmak istediğini düşün. Bir şeyi kaç kez yaptığını hatırlamak için bunu kullanabilirsin.",
+                "\\↓ count\n[\n\tİfadeetmek(\n\t\t`\\\n\t\tcount\\ times!`\n\t)\n\tKaynak('say' count … ∆ Düğme() … count + 1)\n]\\🪲",
+                "Onu kopyalamayı dene, /count/ adında yeni bir @Source oluştur ve içine 0 yazarak sayımı 0'dan başlat. Bu küçük proje /count/ kaynağındaki @value'i alır ve fare düğmesine her basıldığında /count/ @Source'ini mevcut /count/ değeri artı /1/ olacak şekilde düzenler."
+            ],
+            "name": {
+                "names": "$~isim",
+                "doc": "$~Oluşturulacak veya güncellenecek kaynak dosyanın adı."
+            },
+            "value": {
+                "names": "$~değer",
+                "doc": "$~Kaynak dosyanın oluşturulacağı veya güncelleneceği veri @value."
+            },
+            "DynamicEditLimitException": {
+                "description": "$~dinamik kaynak düzenleme sınırı",
+                "explanation": "$~Bu proje @Source dosyalarına çok fazla ve çok hızlı veri kaydetti. @Source'u yalnızca bir girdiye yanıt olarak ve çok hızlı bir şekilde güncellemediğinden emin olun."
+            },
+            "ReadOnlyEditException": {
+                "description": "$~salt okunur kaynak düzenleme",
+                "explanation": "$~Bu proje verileri hatırlıyor, ancak düzenleme hakkınız yok. Denemek istiyorsanız kopyalayın."
+            },
+            "EmptySourceNameException": {
+                "description": "$~boş kaynak adı",
+                "explanation": "$~Verilen @Source'un adı boştu, bu yüzden kaydedemedik."
+            },
+            "ProjectSizeLimitException": {
+                "description": "$~proje boyut sınırı",
+                "explanation": "$~Bu projede çok fazla metin var, bu yüzden kaydedemiyoruz."
+            }
+        },
+        "Say": {
+            "doc": [
+                "$~Metni @Stage üzerinde göstermek yerine sesli okurum. Merhaba!",
+                "Bana söyleyecek bir şey ver, ben de verdiğin metin her değiştiğinde onu söylerim:",
+                "\\Söylemek('falan filan falan')\\",
+                "Eğer varsa @TextLiteral öğesinin @Language değerini kullanırım, yoksa seçili @language öğesini kullanırım.",
+                "Ayarlardan bir ses seçebilirsin."
+            ],
+            "names": ["$~Söylemek"],
+            "text": {
+                "doc": "$~Sesli olarak okumam gereken metin.",
+                "names": "$~metin"
+            },
+            "defaultDescription": "$~$text deyin"
+        },
+        "Gesture": {
+            "doc": "$~Ben kameranın algıladığı bir el duruşunun anlık görüntüsüyüm; @Hand akışı tarafından yayılırım. Konumum elin sahnede nerede olduğunu söyler, parmaklarım kaç parmağın açık olduğunu söyler, açık özelliğim el açıkken (3 veya daha fazla parmak açık) doğrudur; başparmağım, @index, orta, yüzük ve serçe parmaklarım da hangi parmakların açık olduğunu söyler. Avuç içim, avuç kameraya baktığında doğru, elin arkası baktığında yanlıştır.",
+            "names": ["$~Jestyapmak"],
+            "place": {
+                "doc": "$~Elin sahnede bulunduğu yer.",
+                "names": ["$~yer"]
+            },
+            "open": {
+                "doc": "$~\\⊤\\ el açıksa (3 veya daha fazla parmak açık ise), \\⊥\\ yumruk ise.",
+                "names": ["$~açık"]
+            },
+            "fingers": {
+                "doc": "$~0'dan (yumruk) 5'e (başparmak dahil tüm parmaklar yukarıda) kadar kaç parmak uzatılmış?",
+                "names": ["$~parmaklar"]
+            },
+            "thumb": {
+                "doc": "$~\\⊤\\ başparmak açıksa.",
+                "names": ["$~başparmak"]
+            },
+            "index": {
+                "doc": "$~\\⊤\\ @index parmağı açıksa.",
+                "names": ["$~indeks"]
+            },
+            "middle": {
+                "doc": "$~\\⊤\\ orta parmak açıksa.",
+                "names": ["$~orta"]
+            },
+            "ring": {
+                "doc": "$~\\⊤\\ yüzük parmağı açıksa.",
+                "names": ["$~yüzük"]
+            },
+            "pinky": {
+                "doc": "$~\\⊤\\ serçe parmağı açıksa.",
+                "names": ["$~serçeparmak"]
+            },
+            "palm": {
+                "doc": "$~\\⊤\\ avuç içi kameraya bakıyorsa, \\⊥\\ elin arkası bakıyorsa.",
+                "names": ["$~avuçiçi"]
+            }
+        },
+        "Result": {
+            "doc": "$~\\⌕\\ ile yapılan desen aramasında bir eşleşmeye daha yaklaştım: eşleşen metin, bulunduğu yer ve yakalanan veriler.",
+            "names": ["$~Sonuç"],
+            "text": {
+                "doc": "$~Eşleşen metnin tamamı.",
+                "names": "$~metin"
+            },
+            "start": {
+                "doc": "$~Maçın başlangıç noktası, 1'den itibaren sayılıyor.",
+                "names": "$~başlangıç"
+            },
+            "end": {
+                "doc": "$~Maçın bittiği yer, 1'den itibaren sayılıyor.",
+                "names": "$~son"
+            },
+            "groups": {
+                "doc": "$~Her bir yakalamanın adı, eşleştiği metne atanmıştır.",
+                "names": "$~gruplar"
+            },
+            "starts": {
+                "doc": "$~Her yakalamanın başladığı yere olan @name değeri.",
+                "names": "$~başlar"
+            },
+            "ends": {
+                "doc": "$~Her yakalamanın bittiği yere olan @name değeri.",
+                "names": "$~son"
+            }
+        },
+        "TextEffect": {
+            "edit": "$~düzenle",
+            "rewrite": "$~yenidenYaz",
+            "random": "$~rastgele"
+        },
+        "Expression": {
+            "doc": "$~Ben, kameranın algıladığı ve @Face akışının yaydığı bir yüz ifadesinin anlık görüntüsüyüm. Yerim, yüzün sahnede nerede olduğunu söyler. @Expression.leftEyeOpen, @Expression.rightEyeOpen ve @Expression.eyesOpen özelliklerim gözlerin açık olup olmadığını söyler. @Expression.mouthOpen, @Expression.smiling, @Expression.frowning ve @Expression.browsRaised özelliklerim yüzün ne yaptığını söyler. Her birinin, ne kadar güçlü olduğunu gösteren, 0 ile 1 arasında eşleşen bir miktarı vardır (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount). @Expression.turn ve @Expression.tilt özelliklerim başın hangi yöne baktığını derece cinsinden söyler.",
+            "names": ["$~İfade"],
+            "place": {
+                "doc": "$~Yüzün sahnede nerede olduğu.",
+                "names": ["$~yer"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ sol göz açıksa, \\⊥\\ kapalıysa.",
+                "names": ["$~solGözAçık"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ sağ göz açıksa, \\⊥\\ kapalıysa.",
+                "names": ["$~sağGözAçık"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ her iki göz de açıksa.",
+                "names": ["$~gözlerAçık"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ ağız açıksa.",
+                "names": ["$~ağızAçık"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~Ağzın ne kadar açık olduğu, 0'dan (kapalı) 1'e (iyice açık) kadar.",
+                "names": ["$~ağızAçıklıkMiktarı"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ yüz gülümsüyorsa.",
+                "names": ["$~gülümseme"]
+            },
+            "smileAmount": {
+                "doc": "$~Yüzün ne kadar gülümsediği, 0'dan 1'e kadar.",
+                "names": ["$~gülümsemeMiktarı"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ yüz somurtuyorsa, ister ağzın köşeleriyle ister indirilmiş kaşlarla.",
+                "names": ["$~kaşÇatma"]
+            },
+            "frownAmount": {
+                "doc": "$~Yüzün ne kadar somurttuğu, 0 ile 1 arasında, hem ağzın köşelerini hem de indirilmiş kaşları sayarak.",
+                "names": ["$~kaşÇatmaMiktarı"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ kaşlar kalkıksa.",
+                "names": ["$~kaşlarKalkık"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~Kaşların ne kadar kalkık olduğu, 0'dan 1'e kadar.",
+                "names": ["$~kaşKaldırmaMiktarı"]
+            },
+            "turn": {
+                "doc": "$~Başın ne kadar döndüğü, derece cinsinden — sola doğru negatif, sağa doğru pozitif.",
+                "names": ["$~dön"]
+            },
+            "tilt": {
+                "doc": "$~Başın ne kadar eğildiği, derece cinsinden — aşağı doğru negatif, yukarı doğru pozitif.",
+                "names": ["$~eğ"]
+            }
+        },
+        "Thing": {
+            "doc": "$~Ben kameranın gördüğü bir şeyim. @Objects akışı beni bir @List içinde gönderir. İsmim ne olduğumu söyler, güvenim modelin ne kadar emin olduğunu söyler, yerim sahnede nerede olduğumu söyler, genişliğim ve yüksekliğim ise ne kadar büyük göründüğümü söyler.",
+            "names": ["$~Şey"],
+            "name": {
+                "doc": "$~Şeyin ne olduğu, senin dilinde.",
+                "names": ["$~isim"]
+            },
+            "confidence": {
+                "doc": "$~Modelin bunun o şey olduğundan ne kadar emin olduğu, 0 (rastgele bir tahmin) ile 1 (kesin) arasında.",
+                "names": ["$~güven"]
+            },
+            "place": {
+                "doc": "$~Şeyin sahnede nerede olduğu.",
+                "names": ["$~yer"]
+            },
+            "width": {
+                "doc": "$~Şeyin ne kadar geniş göründüğü, metre olarak.",
+                "names": ["$~genişlik"]
+            },
+            "height": {
+                "doc": "$~Şeyin ne kadar uzun göründüğü, metre olarak.",
+                "names": ["$~yükseklik"]
+            }
+        },
+        "Music": {
+            "doc": [
+                "$~Notları sese çeviririm: bir tempoda, bir anahtarda ve bir gama karşı birlikte çalınan bir ya da daha çok @Track. Ben duyabileceğin /ve/ görebileceğin müziğim — her izleyici @how göründüğümü seçer.",
+                "En küçük şarkı, tek bir parçada üç nottur:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Notlar sayılardır. 1, gamın ilk notasıdır — bir ezginin bittiğini hissettiren nota — 2 bir üstteki notadır ve 8 yine o ilk notadır, bir oktav daha yüksek. ø bir es'tir, yani sessizliktir. Sayılar iki uçtan da devam eder: 9 bir oktav üstteki ikinci notadır, 0 ve -1 ise ilk notanın altına iner.",
+                "Bir /gam/, bir parçanın kurulduğu küçük nota takımıdır ve o notaların hangileri olduğu, parçanın havasının çoğunu belirler. @Music/scale, sen aksini söylemedikçe \\🎼.majör\\ olur ve parlak duyulur; \\🎼.minör\\ ise tam olarak aynı sayılardan daha hüzünlü duyulur. Bir /anahtar/, tüm parçanın ne kadar yüksek ya da alçak durduğudur ve @Music/key ile belirlenir. Ve @Music/tempo, parçanın ne kadar hızlı gittiğidir, dakikadaki vuruş olarak — vuruş, ona uyup alkış tutabileceğin düzenli nabızdır.",
+                "Notalar sabit perdeler değil sayılar olduğu için, üçü de ezgiye dokunmadan değişebilir. Bu, aynı üç notadır, daha hüzünlü, daha alçak ve daha yavaş:",
+                "\\🎼(🎶([1 3 5]) gam: 🎼.minör anahtar: -5semitones tempo: 60beats/min)\\",
+                "Bir parça sonuna ulaştığında yeniden başlar, bu yüzden kısa bir liste sonsuza dek çalan bir tekrardır. Bu dört vuruş uzunluğundadır, boşluklarda eslerle:",
+                "\\🎼(🎶([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "Bana bir parça listesi ver, hepsi aynı anda çalar, her biri kendi çalgısı, hızı ve ses düzeyiyle. Burada bir bas davul ile bir trampet vuruşu tutarken bir hi-hat iki kat hızda gider — tek bir sayıdan çıkan bir poliritim. Davullar perdeli değil bir takımdır, bu yüzden sayıları notalar yerine takımın parçalarını seçer:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] çalgı: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] çalgı: 🔈.🥁 vuruş: 0.5beats sesDüzeyi: 30%)\n\t]\n\ttempo: 96beats/min\n)\\",
+                "Süslü parantez içindeki sayılar bir akor olarak birlikte çalar ve bir sayının üzerine yazılan bir nota değeri, o girişe kendi uzunluğunu verir. Burada iki tam nota akoru, hareketli bir ezginin altında tutunur:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] çalgı: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] çalgı: 🔈.🎹 sesDüzeyi: 50%)\n\t])\\",
+                "Sayı üreten her şey müzik yapabilir. Bu ezgi kendini yeni bir sıraya karıştırır ve ne kadar yüksek sesle konuştuğunu izler:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].karıştırılmış())\n\ttempo: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "Hiç kimse beni duymak zorunda değil. @Beat her vuruşu duyulduğu anda bildirir, böylece izleyicinin seçtiği görselleştirmeyle birlikte müziği çalmakla kalmaz, çizebilirsin de. @Beat her zaman bir @Downbeat'e sahiptir, bu yüzden hiçbir şey kontrol etmeden onu okuyabilirsin:",
+                "\\vuruş: Vuruş()\nsayı: vuruş.say\n🎭([\n\t\t💬('◆' boyut: 1m + ((sayı % 4) = 0 ? 2m 0m) yer: 📍(-2m 2m))\n\t\t💬('◆' boyut: 1m + ((sayı % 4) = 2 ? 2m 0m) yer: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] çalgı: 🔈.🥁))\n\t])\\",
+                "Biçimlendirilecek kendime ait bir görünüşüm yok, bu yüzden her zamanki görünüm girişlerinin hiçbirini almam — boyut, yer, renk ya da hareket yok. Nasıl göründüğüm izleyicinin seçimidir, ayarlarında yapılır ve senin yerleşimine yerleştirilmek yerine sahneye sabitlenir; hiç yer kaplamam, bu yüzden beni bir @Row ya da @Stack içine koymak yanımdaki hiçbir şeyi kıpırdatmaz. Müziği kendin çizmek için @Beat kullan: sana her vuruşu duyulduğu anda verir, istediğin çıktıyı yönlendirebilirsin.",
+                "Değerlendirmeler boyunca çalmayı sürdürürüm: ben çalarken notalarımı düzenle, değişiklik baştan başlamak yerine bir sonraki vuruşta araya eklenir; işte bir ezgiyi çalma sırasında değiştirmeyi müzikal yapan budur. Beni baştan yeniden çalmak için @Music/replay'e bak; beni yerinde durdurup aynı noktadan sürdürmek için @Music/pause'a bak."
+            ],
+            "names": ["$~Müzik"],
+            "tracks": {
+                "doc": "$~Bir @Track ya da aynı anda çalınan bir liste. Her parça tek bir enstrümanla tek bir sestir, bu yüzden bir liste bir gruptur.",
+                "names": "$~parçalar"
+            },
+            "tempo": {
+                "doc": "$~Ne kadar hızlı çaldığım, dakika başına vuruş olarak. Bir vuruş, birlikte alkışlayacağın düzenli nabızdır, bu yüzden 120beats/min saniyede iki vuruştur, hızlı bir yürüyüş hızı kadar. Sayıyı yarıya indirmek, tek bir notayı değiştirmeden her şeyin iki kat uzun sürmesini sağlar.",
+                "names": "$~tempo"
+            },
+            "key": {
+                "doc": [
+                    "$~Çaldığım her notayı ne kadar kaydıracağım, yukarı veya aşağı.",
+                    "Birim yarım seslerdir. Bir yarım ses, Batı müziğindeki en küçük adımdır: bir piyanoda bir tuştan hemen yanındakine olan mesafedir, siyah tuşlar sayılarak, ve on iki tanesi bir oktav yapar. Yani \\anahtar: 12semitones\\🪲 aynı parçanın bir oktav yükseğidir, \\anahtar: -12semitones\\🪲 bir oktav alçağıdır ve \\anahtar: 2semitones\\🪲 onu biraz yukarı iter.",
+                    "Burada iki sayma buluşur ve bunları karıştırmak kolaydır. Notalar /gam adımlarını/ sayar, oktavın şu olduğu yerde: \\8\\: şundan \\1\\ şuna \\8\\ bir oktavdır. Bir anahtar /yarım sesleri/ sayar, oktavın şu olduğu yerde: \\12\\. İkisi de aynı mesafeyi tanımlar — yedi notalık bir gamın şundan \\1\\ şuna \\8\\ olan sekiz adımı on iki yarım sesi kapsar. Bir anahtar yarım seslerle ölçülür çünkü bir yarım ses her gamda aynı büyüklüktedir, ama bir adım değildir: @Music/scale'in beşli gamı bir oktava beş nota sığdırır ve majör yedi sığdırır, bu yüzden adımlarla kaydırmak her birini farklı bir mesafe hareket ettirirken, \\12semitones\\ hepsinde bir oktavdır.",
+                    "Yalnızca bir sayı olduğu için, bir anahtar herhangi bir yerden gelebilir. Burada /yukarı/ seçildiğinde tüm parça iki yarım ses yükselir — bir @Choice okuyacak sahnede seçilebilir bir şeye ihtiyaç duyar, bu yüzden iki cümle onu çalıştıran şeydir:",
+                    "\\🎭([\n\t\t💬('yukarı' seçilebilir: ⊤ isim: 'yukarı' yer: 📍(-2m 0m))\n\t\t💬('ana sayfa' seçilebilir: ⊤ isim: 'ana sayfa' yer: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) anahtar: (🔘() = 'yukarı' ? 2semitones 0semitones))\n\t])\\"
+                ],
+                "names": "$~anahtar"
+            },
+            "scale": {
+                "doc": [
+                    "$~Sayılarımın hangi notaları @expression ettiği: ilk notadan yarım ses uzaklıklarının bir listesi.",
+                    "Bir gam, bir parçanın üzerine kurulduğu küçük nota kümesidir ve birini seçmek, bir ruh hali seçmenin çoğudur. Aynı melodi şurada parlak ses çıkarır: \\🎼.majör\\, şurada üzgün: \\🎼.minör\\ ve şurada rüya gibi: \\🎼.tamSes\\, tek bir sayı değişmeden.",
+                    "Bazı gamlarımın yanlış notası yoktur: \\🎼.pentatonik\\, \\🎼.minörPentatonik\\ ve \\🎼.blues\\ herhangi bir sırada iyi ses çıkarır, bu da onları başlamak için iyi bir yer yapar. Diğerleri bilerek gergindir — \\🎼.değişik\\, \\🎼.eksiltilmiş\\ ve \\🎼.locrian\\ uyumsuz ses çıkarır ve amaçları da budur.",
+                    "Ayrıca kendi listeni de yazabilirsin. Bu, açıkça yazılmış bir beşli gamdır: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
+                "names": "$~gam"
+            },
+            "volume": {
+                "doc": "$~Genel olarak ne kadar yüksek sesliyim, şundan \\0%\\ şuna \\100%\\. Her @Track'in de bu değere göre ölçülen kendi ses düzeyi vardır, bu yüzden benimkini düşürmek tüm grubu birlikte düşürür.",
+                "names": "$~sesDüzeyi"
+            },
+            "replay": {
+                "doc": [
+                    "$~Bir değerlendirmede bu \\⊤\\ olduğunda, hiçbir notam değişmese bile baştan başlarım.",
+                    "Bu, sürekli çalmak yerine bir olaya yanıt veren ses içindir. Doğru bir yanıt bir çıngırak çalarsa, üst üste iki doğru yanıt tam olarak aynı müziği üretir, bu yüzden hiçbir şey değişmez ve hiçbir şey tekrar ses çıkarmaz. Ben senin /yeniden, şimdi/ deme yolunum — aşağıda /doğru/'yu iki kez seç ve iki kez çıngırar:",
+                    "\\🎭([\n\t\t💬('doğru' seçilebilir: ⊤ isim: 'doğru' yer: 📍(-2m 0m))\n\t\t💬('yanlış' seçilebilir: ⊤ isim: 'yanlış' yer: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] çalgı: 🔈.🔔 döngü: ⊥) tekrarOynat: ∆ 🔘() ? (🔘() = 'doğru') ⊥)\n\t])\\",
+                    "Bana /anlık/ bir @condition ver, yalnızca olayın neden olduğu değerlendirmede doğru olan bir koşul, yukarıdaki \\∆ 🔘()\\ gibi. Şunun gibi kalıcı bir koşul \\score > 10\\🪲 bir kez doğru olduğunda doğru kalır, bu yüzden o andan itibaren her değerlendirmede beni yeniden başlatır."
+                ],
+                "names": "$~tekrarOynat"
+            },
+            "name": {
+                "doc": "$~İsmim, yani kimliğim. Onu koru ve notalarıma yapılan düzenlemeler çalarken araya eklenir; onu değiştir ve yeni bir parça olarak baştan başlarım. Aynı zamanda @Beat'in üzerinde filtre yapabileceği şeydir, bu yüzden aynı anda çalan iki parça birbirinden ayırt edilebilir.",
+                "names": "$~isim"
+            },
+            "description": {
+                "doc": "$~Beni tarif eden bir açıklama, duyulamadığımda ekran okuyucular tarafından söylenir.",
+                "names": "$~açıklama"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Majör gam, varsayılanım: parlak ve tanıdık.",
+                    "names": "$~majör"
+                },
+                "minor": {
+                    "doc": "$~Doğal minör gam: majörden daha karanlık.",
+                    "names": "$~minör"
+                },
+                "chromatic": {
+                    "doc": "$~On iki yarım sesin hepsi, böylece dereceler ve yarım sesler çakışır.",
+                    "names": "$~kromatik"
+                },
+                "pentatonic": {
+                    "doc": "$~Majör beşli gam: beş nota ve yanlışı yok — her derece diğer her dereceyle iyi ses çıkarır.",
+                    "names": "$~pentatonik"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Minör beşli gam: beş nota ve yanlışı yok.",
+                    "names": "$~minörPentatonik"
+                },
+                "blues": {
+                    "doc": "$~Blues gamı: minör beşli artı bir eksik beşli. Burada da yanlış nota yok.",
+                    "names": "$~blues"
+                },
+                "dorian": {
+                    "doc": "$~Dorian modu: yükseltilmiş altılıyla minör, cazsı bir ara ruh hali.",
+                    "names": "$~dorian"
+                },
+                "phrygian": {
+                    "doc": "$~Frigyen modu: alçaltılmış ikiliyle minör, karanlık ve İspanyol tınılı.",
+                    "names": "$~phrygian"
+                },
+                "lydian": {
+                    "doc": "$~Lidyen modu: yükseltilmiş dörtlüyle majör, süzülen ve parlak.",
+                    "names": "$~lydian"
+                },
+                "mixolydian": {
+                    "doc": "$~Miksolidyen modu: alçaltılmış yediliyle majör, bluesvari ve çözülmemiş.",
+                    "names": "$~mixolydian"
+                },
+                "locrian": {
+                    "doc": "$~Lokriyen modu: alçaltılmış ikili ve beşliyle, bilerek gergin. Bunu kolay caz bekleyerek seçtiysen, bunun yerine uyumsuzluk bekle.",
+                    "names": "$~locrian"
+                },
+                "melodicMinor": {
+                    "doc": "$~Melodik minör gam: yükseltilmiş altılı ve yedilyle minör, birçok caz armonisinin kökü.",
+                    "names": "$~melodikMinör"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Armonik minör gam: yükseltilmiş yedilyle minör, dramatik ve Eski Dünya tarzı.",
+                    "names": "$~harmonikMinör"
+                },
+                "lydianDominant": {
+                    "doc": "$~Lidyen dominant gam: alçaltılmış yedilyle lidyen, melodik minörün dördüncü modu.",
+                    "names": "$~lydianDominant"
+                },
+                "altered": {
+                    "doc": "$~Alterasyonlu gam: bilerek uyumsuz, dominant akorlar üzerinde gerginlik için. Burada yanlış ses çıkaran notalar var ve amaç da bu.",
+                    "names": "$~değişik"
+                },
+                "bebopDominant": {
+                    "doc": "$~Bebop dominant gamı: miksolidyen artı bir doğal yedili, sekiz nota, böylece koşuşturmalar vuruşa denk gelir.",
+                    "names": "$~bebopDominant"
+                },
+                "bebopMajor": {
+                    "doc": "$~Bebop majör gamı: majör artı bir yükseltilmiş beşli, sekiz nota, böylece koşuşturmalar vuruşa denk gelir.",
+                    "names": "$~bebopMajor"
+                },
+                "wholeTone": {
+                    "doc": "$~Tam ses gamı: eşit aralıklı altı nota, rüya gibi, çözülecek bir evi olmadan.",
+                    "names": "$~tamSes"
+                },
+                "diminished": {
+                    "doc": "$~Eksik gam: tam ve yarım adımların dönüşümlü olduğu, gergin ve simetrik.",
+                    "names": "$~eksiltilmiş"
+                }
+            },
+            "defaultDescription": "$~$#tracks[bir parça|$tracks parça] ile $tempo dakikada vuruşta müzik",
+            "pause": {
+                "doc": [
+                    "$~Bu \\⊤\\ iken yerinde dururum ve tekrar \\⊥\\ olduğunda durduğum vuruştan itibaren devam ederim.",
+                    "Beni @Music/replay'den farklı kılan şey budur: replay /baştan başla/ demektir, ben ise /burada bekle/ demektir. Durduğumda hâlâ çalan bir nota, tekrar başladığımda ondan geriye kalanı çalar, bu yüzden uzun bir akorun ortasında durmak onu kaybetmez. Aşağıda /tut/ ve /devam et/'i seç:",
+                    "\\🎭([\n\t\t💬('tut' seçilebilir: ⊤ isim: 'tut' yer: 📍(-2m 0m))\n\t\t💬('git' seçilebilir: ⊤ isim: 'git' yer: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] çalgı: 🔈.🎹) duraklat: 🔘() = 'tut')\n\t])\\",
+                    "Tekrardan farklı olarak, /kalıcı/ bir @condition isterim; sessizliği ne kadar istersen o kadar süre doğru kalan bir koşul. @Beat sayacım benimle birlikte bekler ve sıfırdan başlamak yerine kaldığı yerden devam eder."
+                ],
+                "names": "$~duraklat"
+            }
+        },
+        "Track": {
+            "doc": [
+                "$~Ben bir @Music içindeki tek bir sesim: tek bir @Instrument tarafından çalınan bir nota dizisi.",
+                "Notalarım sayıdır, @Music öğesinin açıkladığı aynı sayılar — 1 gamın ilk notasıdır, 8 aynı notanın bir oktav üstüdür, ø bir duraktır ve süslü parantez içindeki sayılar, örneğin \\{1 3 5}\\ bir akor olarak birlikte tınlar:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "Notaların tam sayı olması gerekmez. \\1.5\\ birinci nota ile ikinci notanın arasındadır ve ikisi de çalar — yakın olan daha yüksek sesle — böylece bir sayıyı notalar boyunca kaydırmak piyano tuşlarına bastırmak gibi tınlar:",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] vuruş: 0.5beats))\\",
+                "@Track/mash öğemi \\⊥\\ olarak ayarla, o zaman böyle bir sayı iki nota çalmak yerine bir notayı perdeden büker.",
+                "Her girdi benim @Track/beat öğem kadar sürer, sen değiştirmezsen bu bir vuruştur. Bunu değiştirmek, çaldığım her şeyi bir anda yeniden ızgaraya yerleştirir.",
+                "Bir girdinin geri kalanından daha uzun veya daha kısa olması gerektiğinde, uzunluğu sayının üzerine bir nota değeri olarak yaz. \\8𝅗𝅥\\ bir yarım notadır — bir vuruştan iki kat uzundur — ve çevresinde hiçbir şeye gerek duymaz:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Beş @value vardır: \\𝅝\\ dört vuruş sürer, \\𝅗𝅥\\ iki, \\𝅘𝅥\\ bir, \\𝅘𝅥𝅮\\ yarım vuruş, ve \\𝅘𝅥𝅯\\ bir vuruşun çeyreği. Bunlardan herhangi birinin ardından bir nokta koymak onu yarısı kadar daha uzun yapar, böylece \\𝅘𝅥𝅭\\ bir buçuk vuruştur. Bir çeyrek nota, vuruşum ne olursa olsun bir vuruştur, işte bu yüzden \\vuruş: 1𝅘𝅥𝅮\\🪲 ile aynı şeyi söyler \\0.5beats\\ ve daha anlaşılır okunur. Bir akorda değeri ilk sayıya koy: \\{1𝅗𝅥 3 5}\\.",
+                "Bunları bulmak zordur, bu yüzden düzenleyicinin altındaki simge sırası, imlecin benim sayılarımdan hemen sonra olduğu her yerde bunları sunar.",
+                "Bir es değer taşıyamaz, çünkü \\ø\\ bir sayı değildir. Arka arkaya iki es iki kat uzundur ve daha ince olan her şey için @Note vardır.",
+                "Tek bir nota kendi ses düzeyine ya da hiçbir değerin yazamayacağı bir uzunluğa ihtiyaç duyduğunda, onu bir @Note içine sar. Buna yalnızca ihtiyacın olan yerde başvur: yalın bir sayı daha kolay okunur, bu yüzden çoğu parçada hiç yoktur ve bu nadirlik, bir @Note'yi bir olay olarak öne çıkaran şeydir.",
+                "\\hücre: [1 3 5 3]\n🎼(\n\t🎶(\n\t\thücre\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n•#) n + 2))\n\t\t.Listeile(hücre.tersineçevrilmiş())\n\t\t.Listeile(hücre.tercümeetmek(ƒ(n2•#) 8 - n2))\n\t\tçalgı: 🔈.🎹\n\t)\n)\\",
+                "Eslerle doldurmak bir turun ihtiyacı olan tek şeydir: her iki parça da aynı sayıda vuruş tutar, böylece birbirinden uzaklaşmak yerine adım adım kalırlar. İki listeyi : ile bir listeye yaymak, onların @how oluşturulduğudur, çünkü \\append\\ her iki listenin de aynı türden şeyi tutmasına ihtiyaç duyar.",
+                "\\melodi: [1 2 3 1 1 2 3 1 3 4 5 ø]\ndinlen: [ø ø ø ø]\n🎼([\n\t\t🎶([:melodi :dinlen] çalgı: 🔈.🪈)\n\t\t🎶([:dinlen :melodi] çalgı: 🔈.🎻)\n\t])\\"
+            ],
+            "names": ["$~Parça"],
+            "notes": {
+                "doc": "$~Sırayla çalınacak notalar: bir nota için bir sayı, bir es için \\ø\\, bir akor için \\{1 3 5}\\ gibi bir küme veya bir giriş kendi ses seviyesine ihtiyaç duyduğunda bir @Note. Bir sayıya yazılan bir nota değeri — \\3𝅗𝅥\\ — o girişin ne kadar sürdüğünü söyler.",
+                "names": "$~notalar"
+            },
+            "instrument": {
+                "doc": "$~Beni çalan @Instrument. Bazı enstrümanlar perdelidir, bu yüzden sayılarım notaları seçer; diğerleri kittir, orada sayılarım bunun yerine sesleri seçer. Her enstrüman hangisi olduğunu söyler.",
+                "names": "$~çalgı"
+            },
+            "beat": {
+                "doc": "$~Bir çıplak girişin ne kadar sürdüğü, vuruş cinsinden. Bunu değiştirmezsen bir vuruştur ve bunu değiştirmek çaldığım her şeyi yeniden ızgaralar: \\0.5beats\\'te her giriş bir sekizlik notadır, bu yüzden aynı listede iki kat daha hızlı ilerlerim. Bir nota değeri aynı şeyi daha açık söyler, yani \\vuruş: 1𝅘𝅥𝅮\\🪲 o aynı sekizlik nota ızgarasıdır.",
+                "names": "$~vuruş"
+            },
+            "scale": {
+                "doc": "$~Sadece bana özel bir gam, @Music/scale'i geçersiz kılar; bir sesin diğerlerinden farklı notalardan yararlanması gerektiğinde.",
+                "names": "$~gam"
+            },
+            "key": {
+                "doc": "$~Sadece bana özel bir kayma, yarım ton cinsinden, @Music/key'i geçersiz kılar — bir sesin diğerlerinden daha yüksek veya daha alçak durması gerektiğinde. Bir track'i bir oktav düşürmek, bir bas hattının melodiyle tam olarak aynı sayılardan @how yazıldığıdır.",
+                "names": "$~anahtar"
+            },
+            "volume": {
+                "doc": "$~Ne kadar yüksek sesli olduğum, \\0%\\ ile \\100%\\ arasında, müziğin ses seviyesine göre ölçülür, böylece sessiz bir eşlik bir melodinin altında durabilir.",
+                "names": "$~sesDüzeyi"
+            },
+            "pan": {
+                "doc": "$~Hoparlörler arasında nerede durduğum: \\-1\\ tamamen sol, \\0\\ merkez ve \\1\\ tamamen sağdır. Track'leri birbirinden ayırmak, her birini seçmeyi kolaylaştırır.",
+                "names": "$~kaydırma"
+            },
+            "loop": {
+                "doc": "$~Sonuma ulaştığımda yeniden başlayıp başlamayacağım. Bu \\⊥\\ olmadıkça başlarım; bu da bir zil gibi tek seferlik bir sesin istediği şeydir.",
+                "names": "$~döngü"
+            },
+            "mash": {
+                "doc": "$~İki nota arasındaki bir notanın ne yaptığı. \\1.5\\ tam ortada durur \\1\\ ile \\2\\ arasında: bu \\⊥\\ değilse, her ikisi de duyulur, daha yakın olan daha yüksek, tıpkı birlikte basılan iki piyano tuşu gibi. \\⊥\\ ile bunun yerine tek bir nota elde edersin, aralarında ne kadar mesafedeyse o kadar perdeden saptırılmış olarak.",
+                "names": "$~ez"
+            },
+            "words": {
+                "doc": "$~@Instrument/voice öğesinin söyleyeceği heceler. Her nota için bir hece, boşluklarla ayrılmış, yani \\'so mi fa'\\ üç nota söyler ve boşluklar bir hecenin nerede bittiğini ve bir sonrakinin nerede başladığını gösterir.\n\nSuskunluklar hece almaz, yani bir söz gerçekten ses veren notalara denk gelir. Notalardan daha az hece varsa, susmak yerine baştan başlarlar. Hiç hece yoksa, ses bir /uh/ sesi tutar.\n\nBir heceyi tire ile bitirirseniz, o hece bir sonraki notada da tutulur; her tire için bir nota daha eklenir — böylece bir heceyi birkaç nota boyunca söylersiniz. Şurada \\🎶([1 2 3 4] kelimeler: 'la- mi so')\\, \\la\\ ilk iki notayı kapsar, sonra \\mi\\ ve \\so\\ birer nota alır.\n\nYazım <Uluslararası Fonetik Alfabe@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> ile yazılır; burada her harf bir sestir. Her sesi görmek ve duymak için düzenleyicinin altındaki 🤖 düğmesine basın. Tanımadığım harfler atlanır. Ses dışındaki her enstrüman beni yok sayar, yani bir söz @Track/instrument öğesini değiştirip geri aldığınızda korunur.",
+                "names": "$~kelimeler"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Ben bir @Track içinde kendi ses seviyesini veya hiçbir nota değerinin heceleyemeyeceği bir uzunluğu taşıyan tek bir girişim.",
+                "Çoğu nota düz sayılar olarak kalmalı ve çoğu uzunluk sayının kendisine yazıldığında daha kısadır: \\1𝅗𝅥\\ bir yarım notadır. Bir nota kendi ses seviyesine veya değerlerin arasına düşen bir uzunluğa ihtiyaç duyduğunda bana uzanmaya @value — ve çünkü \\♪(1 2beats ÷ 3)\\ çok daha fazla şey söyler, \\1\\ ile karşılaştırıldığında, beni her yerde kullanmak önemli notaları gömer.",
+                "Bir triole dürüst aritmetiktir: \\♪(1 2beats ÷ 3)\\ bunlardan üçünün iki vuruş doldurduğunu söyler. Uzunluğum da bir nota değeri olabilir, yani \\♪(1 1𝅗𝅥)\\ ve \\♪(1 2beats)\\ aynı iki vuruştur.",
+                "\\🎼(🎶([1 1 ♪(5 2beats sesDüzeyi: 60%) ø]))\\"
+            ],
+            "names": ["$~Nota"],
+            "degree": {
+                "doc": "$~Ne çalınacağı: bir nota için bir sayı, bir es için \\ø\\ veya bir akor için bir sayı kümesi, tıpkı bir @Track içindeki çıplak bir giriş gibi. Sayıdaki bir nota değeri — \\3𝅗𝅥\\ — ne kadar sürdüğümü söyler ve her ikisini de yazarsan @Note/beat'e üstün gelir.",
+                "names": "$~derece"
+            },
+            "beat": {
+                "doc": "$~Kaç vuruş sürdüğüm. Beni kullanmanın tüm nedeni budur: bir @Track içindeki her çıplak giriş aynı süre sürer ve bir notanın farklı bir süre almasının yolu benim. Bir nota değeri burada da işe yarar, yani \\1𝅗𝅥\\ ve \\2beats\\ aynı uzunluktadır.",
+                "names": "$~vuruş"
+            },
+            "volume": {
+                "doc": "$~Ne kadar yüksek sesli olduğum, @Track'in ses seviyesini geçersiz kılar, tek bir notayı vurgulamak için.",
+                "names": "$~sesDüzeyi"
+            }
+        },
+        "Instrument": {
+            "names": ["$~Çalgı"],
+            "id": {
+                "doc": "$~Hangi palet girişi olduğum.",
+                "names": "$~kimlik"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": [
+                        "$~Bir piyano. Gerçek bir piyanodan kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎹) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["$~piyano"]
+                },
+                "violin": {
+                    "doc": [
+                        "$~Bir keman. Gerçek bir kemandan kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎻) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["$~keman"]
+                },
+                "drums": {
+                    "doc": [
+                        "$~Bir davul seti. Kaydedildi ve perdelenmek yerine bir set: sayılar bir nota yerine setin bir parçasını seçer — \\1\\ bas davul, \\2\\ trampet, \\3\\ hi-hat, \\4\\ zil, \\5\\ tom tom, \\6\\ çan — ve \\7\\ tekrar bas davula döner.",
+                        "\\🎼(🎶([1 2 3 4 5 6] vuruş: 2beats döngü: ⊥ çalgı: 🔈.🥁) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["$~davul"]
+                },
+                "flute": {
+                    "doc": [
+                        "$~Bir flüt. Gerçek bir flütten kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🪈) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["$~flüt"]
+                },
+                "trumpet": {
+                    "doc": [
+                        "$~Bir trompet. Gerçek bir trompetten kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎺) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["$~trompet"]
+                },
+                "saxophone": {
+                    "doc": [
+                        "$~Bir saksofon, tenor. Gerçek bir saksofondan kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎷) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["$~saksofon", "$~saks"]
+                },
+                "bell": {
+                    "doc": [
+                        "$~Bir çan — orkestra çanları, tokmakla vurulan türden. Kaydedildi ve perdelendi, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🔔) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["$~çan"]
+                },
+                "didgeridoo": {
+                    "doc": [
+                        "$~Bir didgeridoo, Avustralya Aborjinlerinden. Gerçek bir didgeridoodan kaydedildi ve perdelendi, böylece sayılar notaları seçer, ancak bu bir uğultu çalgısıdır ve alçak kalır.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🪵) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🪵", "$~didgeridoo"]
+                },
+                "cat": {
+                    "names": ["$~kedi", "$~miyav"],
+                    "doc": [
+                        "$~Bir kedi — aslında tek bir kediden oluşan koca bir set. Gerçek bir kediden kaydedildi ve perdelenmek yerine bir set: sayılar bir nota yerine kedinin ne söylediğini seçer — \\1\\ sinirli, \\2\\ yalvaran, \\3\\ aç, \\4\\ itiraz eden, \\5\\ yakaran, \\6\\ istekli, \\7\\ rahatsız, \\8\\ korkmuş, \\9\\ hassas, \\10\\ rahatlamış, \\11\\ yalnız, \\12\\ mırlama — ve \\13\\ tekrar sinirlenmişe dönüyor. Bunun yerine notalar çalan bir kedi için bkz. \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] vuruş: 2beats döngü: ⊥ çalgı: 🔈.🐱) tempo: 60beats/min)\\"
+                    ]
+                },
+                "dog": {
+                    "names": ["$~köpek", "$~havlama"],
+                    "doc": [
+                        "$~Bir köpek — aslında tam bir takım. Gerçek köpeklerden kaydedildi ve perdelenmiş değil bir takım: sayılar bir nota yerine hangi havlamayı duyacağını seçer, en derinden en keskine doğru gider — \\1\\ boğuk, \\2\\ uyarıcı, \\3\\ koruyucu, \\4\\ tetikte, \\5\\ ısrarcı, \\6\\ talep eden, \\7\\ duyuran, \\8\\ istekli, \\9\\ heyecanlı, \\10\\ sabırsız, \\11\\ havlayan, \\12\\ tiz — ve \\13\\ tekrar boğuğa dönüyor. Bunun yerine notalar çalan bir köpek için bkz. \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] vuruş: 2beats döngü: ⊥ çalgı: 🔈.🐶) tempo: 60beats/min)\\"
+                    ]
+                },
+                "synth": {
+                    "doc": [
+                        "$~Bir sentezleyici solo sesi: parlak ve vızıltılı, osilatörlerden yapıldığından utanmayan. Kaydedilmiş değil sentezlenmiş ve perdelenmiş, bu yüzden sayılar notaları seçer.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎛) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["$~🎛️", "$~synth"]
+                },
+                "synthBass": {
+                    "doc": [
+                        "$~Bir sentezleyici bası: dolgun ve alçak. Kaydedilmiş değil sentezlenmiş ve perdelenmiş, bu yüzden sayılar notaları seçer.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎚) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🎚️", "$~synthBass"]
+                },
+                "synthPad": {
+                    "doc": [
+                        "$~Bir sentezleyici pad sesi: yumuşak, yavaş gelen ve her şeyin altında bir akoru tutmak için iyi. Kaydedilmiş değil sentezlenmiş ve perdelenmiş, bu yüzden sayılar notaları seçer.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.☁) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["☁️", "$~synthPad"]
+                },
+                "pitchedCat": {
+                    "doc": [
+                        "$~Aynı kedi, akort edilmiş. Takımın \\🔈.🐱\\ çaldığı on iki kayıt arasından, bu sabit bir perdeyi tutan tek olanı ve bir takım değil perdelenmiş, bu yüzden sayılar notaları seçer ve onunla bir ezgi yazabilirsin. Kaydedildiği notadan çok uzakta çalındığında, bir miyavlama söylenmiş yerine gerilmiş gibi gelmeye başlar, bu yüzden ortanın bir oktav kadar yakınında en mutludur.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.😺) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["$~perdeliKedi"]
+                },
+                "pitchedDog": {
+                    "doc": [
+                        "$~Aynı köpekler, ama akort edilmiş. Setin oluştuğu bütün havlamalar arasından bu, sabit bir perde tutan tek olanıdır. Ayrıca bu bir set değil, perdeli bir sestir. Yani sayılar notaları seçer ve onunla bir ezgi yazabilirsin. Kaydedildiği notadan uzakta çalındığında, bir havlama havlama gibi değil, gerilmiş gibi duyulmaya başlar. Bu yüzden orta perdenin bir oktav kadar yakınında en mutludur.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🐕) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["$~perdeliKöpek"]
+                },
+                "acousticGuitar": {
+                    "doc": [
+                        "$~Bir klasik gitar. Naylon telleri pena yerine parmaklarla çekilir. Gerçek bir gitardan kaydedildi ve perdelidir, böylece sayılar notaları seçer. Sade \\guitar\\ bunu @expression eder. Yani gitar isteyen eski projeler bunu çalar.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.🎸) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["$~akustikGitar", "$~gitar"]
+                },
+                "electricGuitar": {
+                    "doc": [
+                        "$~Bir elektro-akustik gitar — içinde bir manyetik bulunan içi boş bir gövde. Çelik tellidir, bu yüzden naylon \\🔈.🎸\\ gitardan daha parlak ve daha uzun süre tınlar. Gerçek bir gitardan kaydedildi ve perdelidir, böylece sayılar notaları seçer.",
+                        "\\🎼(🎶([1] vuruş: 4beats döngü: ⊥ çalgı: 🔈.⚡) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["$~elektroGitar"]
+                },
+                "voice": {
+                    "doc": [
+                        "$~Bir insandan kaydedilmek yerine filtrelerden oluşturulmuş bir şarkı söyleyen ses. Perdeli olduğu için sayılar notaları seçer.",
+                        "Ben bir sentezleyiciyim, tıpkı @Instrument/synth gibi — bir şarkıcının taklidi değilim. Ağzım ne kadar yüksek ya da alçak söylersem söyleyeyim aynı boyutta kalır, ki bunu gerçek bir boğaz yapamaz. İşte bu yüzden bir insanı taklit eden bir makine gibi duyuluyorum ve ne bir erkek ne de bir kadın gibi duyuluyorum.",
+                        "@Track öğeme bir @Track/words verin, ben de onları her nota için bir hece söyleyeyim. Hiç hece olmadan, bir /uh/ sesi tutarım, yani her zaman bir şeyler söylerim.",
+                        "\\🎼(🎶([1 2 3 5] kelimeler: 'la la la la' çalgı: 🔈.🤖) tempo: 120beats/min)\\",
+                        "Heceler <Uluslararası Fonetik Alfabe@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet> ile yazılır; bu, her harfin bir yazım değil bir /ses/ olduğu bir alfabedir — yani \\'ʃi'\\ hangi dilde yazarsan yaz, /she/ kelimesinin başındaki sestir. Yapabileceğim tüm sesleri görmek ve her birini duymak için düzenleyicinin altındaki 🤖 düğmesine bas."
+                    ],
+                    "names": ["$~ses"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~Bir ağız mızıkası, yanında düğmesi olan kromatik türde. Gerçek birinden kaydedildi ve akort edildi, böylece sayılar notaları seçer.",
+                        "\\Müzik(\n\tParça([1] vuruş: 4beats döngü: ⊥ çalgı: Çalgı.🌬)\n\ttempo: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~mızıka"]
+                }
+            },
+            "doc": [
+                "$~Bir @Track'in çalabileceği enstrümanlardan birine isim veririm. Ben sabit bir paletim: beni isimle seç, örneğin \\Çalgı.piyano\\ ya da \\Çalgı.piyano\\.",
+                "Çoğumuz /perdeliyiz/, yani bir parçanın sayıları notaları seçer ve daha büyük sayılar daha yüksek ses verir. Geri kalanımız /takımlardır/: bir sayı, bir nota yerine numaralı bir listeden bir ses seçer, böylece bir parça melodiden çok ritim olarak okunur, ve listenin sonunu geçen sayılar başa geri döner.",
+                "Çoğumuz aynı zamanda gerçek kayıtlarız, insanların gerçekten çaldığı enstrümanlardan örneklenmiş. Sentezleyiciler hiçbir şeyi taklit etmez — osilatörlerden yapılmışlardır ve sahip olmaları gereken ses budur. Her birimiz aşağıda hangisi olduğumuzu söyleriz."
+            ]
+        },
+        "Path": {
+            "doc": "$~Bir yer listesi boyunca çizilen bir yolum, @Stage üzerinde çizgiler, eğriler ve tepeler için kullanışlıyım.",
+            "names": ["$~Yol"],
+            "points": {
+                "doc": "$~Sırayla içinden geçtiğim yerler. Düz uzanırım, bu yüzden herhangi bir yerin derinliği yerine kendi z değerimi kullanırım.",
+                "names": "$~noktalar"
+            },
+            "closed": {
+                "doc": "$~Son yerimin ilk yerime tekrar bağlanıp bağlanmayacağı.",
+                "names": "$~kapalı"
+            },
+            "smooth": {
+                "doc": "$~Yerlerimde dönmek yerine yerlerim arasında eğri çizip çizmeyeceğim. Her iki durumda da yerlerim hareket etmez.",
+                "names": "$~pürüzsüz"
+            },
+            "thickness": {
+                "doc": "$~Ne kadar geniş çizileceğim.",
+                "names": "$~kalınlık"
+            },
+            "z": {
+                "doc": "$~Bulunduğum derinlik.",
+                "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Bir @Phrase'in ne söylediğini, tam onu gösteren bir konuşma balonu içinde gösteririm. Beni bir phrase'in @Phrase.bubble'ine ver, harfler konuşsun:",
+                "\\İfadeetmek('bir' balon: 'merhaba!')\\",
+                "Bana metin yerine bir @Say ver, o zaman hem gösterilirim hem sesli okunurum.",
+                "@Bubble.kind'imi bir düşünceyle değiştir, o zaman bir düşünce balonuna dönüşürüm.",
+                "Ben bir süslemeyim, bu yüzden sahnede bana yer açmak için hiçbir şey kenara kaymaz — ama @Stage görünür olmamı sağlar."
+            ],
+            "names": ["$~Balon"],
+            "text": {
+                "doc": [
+                    "$~Ne gösterdiğim. Bana düz metin ver, ya da *kalın* ya da /italik/ kelimeler istiyorsan @markup ver.",
+                    "Bana bunun yerine bir @Say ver, o zaman hem gösterilirim hem sesli okunurum. O zaman genelde @Stage'in altında görünen kelimelerin yerini alırım, çünkü benimkiler zaten konuşanın yanında ekranda görünür."
+                ],
+                "names": "$~metin"
+            },
+            "side": {
+                "doc": "$~@Phrase'in hangi tarafında oturduğum, bir ok olarak. Eğer \\ø\\, @Stage beni en az engel olacağım yere koyar ve her şey hareket ettiğinde yeniden seçer.",
+                "names": "$~kenar"
+            },
+            "kind": {
+                "doc": "$~Söylenen bir şey mi (\\'💬'\\) yoksa düşünülen bir şey mi (\\'💭'\\) olduğum. Bir düşünce, bir noktaya değil düşünen kişiye doğru daireler bırakır ve köşeleri yuvarlatır.",
+                "names": "$~tür"
+            },
+            "color": {
+                "doc": "$~Kelimelerimin @Color'i. Eğer \\ø\\, @Phrase'in kendi rengini kullanırım.",
+                "names": "$~renk"
+            },
+            "background": {
+                "doc": "$~İçini doldurduğum @Color. Eğer \\ø\\, üzerine çizildiğim şeyin arka planıyla doldurulurum.",
+                "names": "$~arkaPlan"
+            },
+            "size": {
+                "doc": "$~Kelimelerimin ne kadar büyük olduğu. Eğer \\ø\\, @Stage üzerinde metnin normalde olduğu boyuttalar — konuşanın boyutu değil, çünkü birkaç metre boyunda bir karakter koca bir kelime duvarı oluştururdu.",
+                "names": "$~boyut"
+            },
+            "wrap": {
+                "doc": "$~Kelimelerimi başka bir satıra sardığım sınır.",
+                "names": "$~sar"
+            }
+        }
+    }
+}

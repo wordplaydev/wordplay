@@ -1,0 +1,934 @@
+{
+    "$schema": "../../../static/schemas/sections/input.json",
+    "input": {
+        "Random": {
+            "doc": [
+                "$~Det skapar ett annat tal varje gång du utvärderar det.",
+                "17!",
+                "Detta skapar ett underbart kaos som kommer med oförutsägbarhet.",
+                "Som standard ger det @Number värden mellan \\0\\ och \\1\\:",
+                "\\Slumpmässig()\\",
+                "Men du kan ge det en @value, och då skapar det värden mellan \\0\\ och värdet:",
+                "\\Slumpmässig(10)\\",
+                "Och om du ger den två värden, skapar den värden mellan de två värdena, inklusive dem själva:",
+                "\\Slumpmässig(-10 10)\\",
+                "Om dina intervall har enheter, behålls de (och om de inte stämmer överens, används minimivärdets enhet):",
+                "\\Slumpmässig(-10m 10m)\\",
+                "Och om du ger tal med ett visst antal signifikanta siffror efter decimaltecknet, behålls den precisionen.",
+                "\\Slumpmässig(1.00 10.00)\\"
+            ],
+            "names": ["$~Slumpmässig"],
+            "inputs": [
+                {
+                    "names": "$~min",
+                    "doc": "$~Det minsta @value som skapas, eller om det är större än 0, det största värdet. Om @None anges, så är minimivärdet \\0\\."
+                },
+                {
+                    "names": "$~max",
+                    "doc": "$~Det största @value som skapas, eller om det är mindre än det angivna minimivärdet, minimivärdet. Om @None anges, så är maxvärdet \\1\\."
+                }
+            ]
+        },
+        "Choice": {
+            "doc": [
+                "$~Det är en @stream av namn som din publik väljer genom att klicka, trycka på eller trycka på /Enter/ på en namngiven @Phrase .",
+                "/klicka, tryck!/",
+                "Så det bästa sättet att använda det är att skapa en föreställning med namngivna, valbara fraser @Phrase , och sedan använda en @Reaction för att bestämma vad som ska göras när det namnet är valt.",
+                "Här är det enklaste exemplet:",
+                "\\Group(\nStack() \n[\nPhrase('one' valbara:⊤ namn:'1') \nPhrase('two' valbara:⊤ namn:'2') \nPhrase(Choice())\n]\n)\\",
+                "Kopiera detta till redigeraren och välj sedan en av de två @Phrase . Du kommer att se att den tredje @Phrase visar namnet som valdes."
+            ],
+            "names": ["$~Val"]
+        },
+        "Button": {
+            "doc": [
+                "$~Den talar om för dig om musens eller styrplattans huvudknapp är nedtryckt, som en @stream av @Boolean.",
+                "/klick klick klick/",
+                "En mus eller styrplatta är förstås inte det bästa valet för att lyssna på en publik, eftersom alla inte kan använda en. Det mer tillgängliga valet är @Choice.",
+                "Men om du /verkligen/ behöver lyssna på en musknapp, är det så här du gör det. Den ger en ström av @Boolean, som visar om huvudknappen är uppe \\⊥\\ eller nere \\⊤\\.",
+                "Här är ett enkelt exempel:",
+                "\\Fras(Knapp() → '')\\",
+                "Detta skapar bara en @Phrase som är @value av strömmen som text. Om du kopierar in det i redigeraren och klickar, ser du hur det växlar fram och tillbaka mellan \\⊥\\ och \\⊤\\."
+            ],
+            "names": ["$~Knapp"],
+            "down": {
+                "names": "$~ner",
+                "doc": "$~Om @None ger strömmen både upp- och ner-värden. Om ett \\⊤\\, ändras den bara när knappen trycks ner. Om du anger ett \\⊥\\, ändras den bara när knappen släpps upp."
+            }
+        },
+        "Pointer": {
+            "doc": [
+                "$~Den spårar vart din publik pekar på @Stage .",
+                "/vrrrrr/",
+                "Naturligtvis är detta inte ett tillgängligt alternativ: inte alla kan se eller peka lätt, så se verkligen till att du inte utesluter någon från att delta genom att använda den här strömmen.",
+                "Om du är säker på att ingen är utesluten, är det lika enkelt att använda @Pointer som att bara skapa en @stream:",
+                "\\Pointer()\\",
+                "Den @Place som den anger kommer att motsvara var på @Stage pekaren pekar."
+            ],
+            "names": ["$~Pekare"]
+        },
+        "Key": {
+            "doc": [
+                "$~Den talar om för dig vilken @key på tangentbordet som din publik trycker ner och släpper.",
+                "/klickety/",
+                "Prova detta",
+                "\\Nyckel()\\",
+                "Ser du hur den visas på @Stage när du trycker på en tangent? Varje gång en tangent trycks ner läggs en ny @Text till i strömmen, som beskriver tangenten som trycktes ner.",
+                "För en tangent som står för ett tecken blir @value tecknet som @Text.",
+                "För specialtangenter, som /Escape/-tangenten, blir det @Text som beskriver tangenten, med ett <fördefinierat namn@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, som tyvärr bara finns på engelska.",
+                "Om du bara vill veta om en viss tangent kan du ange den:",
+                "\\Nyckel('a')\\",
+                "Och om du bara vill veta när en @Key släpps istället för trycks ner, kan du ange en @Boolean:",
+                "\\Nyckel('a' ⊥)\\"
+            ],
+            "names": ["$~Nyckel"],
+            "key": {
+                "names": "$~nyckel",
+                "doc": "$~Om @None finns alla nycklar. Om en specifik @Text tillhandahålls endast den nyckeln."
+            },
+            "down": {
+                "names": "$~ner",
+                "doc": "$~OM @None, då skapar @key nedtryckning indata. Om \\⊤\\, då ges bara indata för nedtryckning, och om \\⊥\\, då ges bara indata för att släppa."
+            },
+            "keys": {
+                "Shift": ["$~Flytta"],
+                "Control": ["$~Kontrollera", "$~Ctrl"],
+                "Alt": ["$~Alt", "$~Alternativ"],
+                "Meta": ["$~Meta", "$~Kommando", "$~Fönster"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~CapsLock", "$~Caps Lock"],
+                "NumLock": ["$~NumLock", "$~Num Lock"],
+                "ScrollLock": ["$~ScrollLock", "$~Scroll Lock"],
+                "Enter": ["$~Skriva in", "$~Återvända"],
+                "Tab": ["$~Flik"],
+                " ": ["$~Utrymme", "$~Mellanslag", "$~"],
+                "ArrowUp": ["$~Pil upp", "$~Upp"],
+                "ArrowDown": ["$~Pil ner", "$~Ner"],
+                "ArrowLeft": ["$~Pil vänster", "$~Vänster"],
+                "ArrowRight": ["$~Pil Höger", "$~Rätt"],
+                "Home": ["$~Hem"],
+                "End": ["$~Avsluta"],
+                "PageUp": ["$~PageUp", "$~Sida upp"],
+                "PageDown": ["$~PageDown", "$~Sida ner"],
+                "Backspace": ["$~Backsteg"],
+                "Delete": ["$~Radera", "$~Del"],
+                "Insert": ["$~Infoga", "$~Ins"],
+                "Clear": ["$~Rensa"],
+                "Cut": ["$~Skära"],
+                "Copy": ["$~Kopiera"],
+                "Paste": ["$~Klistra"],
+                "Undo": ["$~Ångra"],
+                "Redo": ["$~Göra om"],
+                "Escape": ["$~Fly", "$~Esc"],
+                "Pause": ["$~Paus"],
+                "ContextMenu": ["$~Kontextmeny", "$~Meny"],
+                "Help": ["$~Hjälp"],
+                "Convert": ["$~Konvertera"],
+                "NonConvert": ["$~Icke-konverterande"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~Hangul-läge"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
+            }
+        },
+        "Time": {
+            "doc": [
+                "$~Den tickar framåt med en frekvens som du väljer.",
+                "/tick tick tick/",
+                "Varje gång den gör det, beräknas @Program om med den nya tiden @value.",
+                "Till exempel:",
+                "\\Tid()\\",
+                "Om du ger tiden en @Time.frequency, tickar den i den takten. Till exempel:",
+                "\\Tid(1000ms)\\",
+                "Det finns dock gränser för hur litet det kan vara, eftersom @Program behöver tid att beräkna innan de kan svara på nästa tick.",
+                "Det minsta är förmodligen ungefär \\20ms\\."
+            ],
+            "names": ["$~Tid"],
+            "frequency": {
+                "names": ["$~frekvens"],
+                "doc": "$~Detta är den frekvens med vilken tiden ska ticka. Den har som standard \\33ms\\, vilket är cirka 30 gånger per sekund."
+            },
+            "relative": {
+                "names": ["$~relativ"],
+                "doc": "$~Om \\⊤\\ börjar tiden vid 0, när programmet först utvärderas. Annars börjar den vid antalet millisekunder sedan dagens början, UTC (Coordinated Universal Time), så att du kan hålla reda på tiden på dygnet."
+            }
+        },
+        "Volume": {
+            "doc": [
+                "$~Det är en @stream av mikrofonens ljudstyrka, från 0 till 1.",
+                "/bzzzzzzzz/",
+                "Den samplas med den frekvens du väljer. Som standard är frekvensen \\30hz\\ , eller 30 gånger per sekund, men du kan ändra den till något mindre frekvent.",
+                "\\Volume()\\",
+                "Det här är fantastiskt för att lyssna på hur högljudd publiken är!"
+            ],
+            "names": ["$~Volym"],
+            "frequency": {
+                "names": ["$~frekvens"],
+                "doc": "$~Tiden mellan provtagningarna."
+            }
+        },
+        "Pitch": {
+            "doc": [
+                "$~Det är en @stream av mikrofonens tonhöjd, i hertz.",
+                "/hummmmm/",
+                "Den samplas med den frekvens du väljer. Den mänskliga rösten ligger mellan 20 Hz och 5000 Hz, så planera för tal i det intervallet.",
+                "\\Pitch()\\",
+                "Detta är utmärkt för att lyssna på tonen när någon talar eller sjunger."
+            ],
+            "names": ["$~Tonhöjd"],
+            "frequency": {
+                "names": ["$~frekvens"],
+                "doc": "$~Tiden mellan provtagningarna."
+            }
+        },
+        "Camera": {
+            "doc": [
+                "$~Den ger dig en @List med @Color från din kamera, en per bildruta.",
+                "/bzzzzzzzz/",
+                "Den @List representerar i huvudsak en bild, men det är upp till dig att bestämma vad du ska göra med den.",
+                "Du kan försöka representera bilden med en massa @Phrase , vilket skulle kunna se ganska coolt ut! Försök att kopiera det här...",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' plats: Place((x - 1) × 0.5m y × -0.5m) färg: color varaktighet: 0s\n)\n)\n)\n)\n)\\",
+                "Men man kunde också analysera färgerna för att avgöra om ett ljus var tänt eller släckt, eller om en viss färg var vanlig, och låta publiken påverka en föreställning med de färger de visar."
+            ],
+            "names": ["$~Kamera"],
+            "width": {
+                "names": ["$~bredd"],
+                "doc": "$~Antalet @Color att ta prov i en rad."
+            },
+            "height": {
+                "names": ["$~höjd"],
+                "doc": "$~Antalet @Color att ta prover på i en @column."
+            },
+            "frequency": {
+                "names": ["$~frekvens"],
+                "doc": "$~Tiden mellan @Color-prover."
+            }
+        },
+        "Scene": {
+            "doc": [
+                "$~Den visar en @List av @Phrase, @Group eller @Shape en i taget, och stannar på den sista.",
+                "/Puff puff puff/",
+                "För att styra tidsschemat kan du antingen ange @Phrase.duration på varje utdata, och den visas så länge innan den går vidare till nästa, och använder de @Phrase.entering eller @Phrase.exiting övergångar du har ställt in. Om du ställer in dem till en @Sequence används dess varaktighet.",
+                "Allt detta gör att du kan göra saker som denna lilla @Scene, som visar dessa tre fraser i följd:",
+                "\\Scen(\n\t[\n\t\tFras('Hej' varaktighet: 1s)\n\t\tFras(\n\t\t\t'Hur mår du?'\n\t\t\tvaraktighet: 2s\n\t\t\trotation: 5°\n\t\t\tgårin: Pose(rotation: 0°)\n\t\t)\n\t\tFras('Jag mår bra')\n\t]\n)\\",
+                "Ser du hur den första utdatan visas i en sekund, sedan nästa i två sekunder, men animerad till en fem graders rotation, och sedan visas den sista?",
+                "Du kan göra mycket utarbetade sekvenser av utdata och animationer med @Scene, och till och med göra delar av dem dynamiska eller interaktiva, precis som med vilket annat @Phrase eller @Group som helst.",
+                "Om du har animerad utdata som är nästlad (en @Group med animerad @Phrase inuti), väntar @Scene tills allt animerat innehåll i @Group är klart.",
+                "Åh, och en sista liten hemlighet! Du kan till och med sätta @Boolean i listan, och om de är \\⊥\\, pausar @Scene och väntar på att det ska bli sant.",
+                "Om du till exempel vill göra en sekvens av @Phrase och bara gå vidare när @Button ändras, kan du göra så här:",
+                "\\klicka: ∆ Knapp()\nScen(\n\t[\n\t\tFras('Hej')\n\t\tklicka\n\t\tFras(\n\t\t\t'Hur mår du?'\n\t\t\tvaraktighet: 0.25s\n\t\t\trotation: 5°\n\t\t\tgårin: Pose(rotation: 0°)\n\t\t)\n\t\tklicka\n\t\tFras('Jag mår bra')\n\t]\n)\\",
+                "Ser du hur den pausar efter varje @Phrase, och väntar på att @Button ska ändras innan den går vidare?",
+                "Som standard stannar jag på min sista utdata. Ge mig @Scene/loop så börjar jag om från min första igen, vilket är vad ett spel som ställer en ny @query efter varje runda vill ha.",
+                "Jag kontrollerar @Scene/loop varje gång ditt program ändras, så en loop kan avslutas precis som den kan börja. Här fortsätter jag att fråga tills de svarar rätt, och stannar sedan:",
+                "\\gissa: Chatta()\nrätt2: gissa = 'cat'\nScen(\n\t[\n\t\tFras('Gissa djuret!' varaktighet: 2s)\n\t\t∆ gissa\n\t\tFras(rätt2 ? 'Ja!' 'Nej!' varaktighet: 2s)\n\t]\n\tupprepa: ~rätt2\n)\\",
+                "@Scene/replay startar om mig, @Scene/pause håller mig där jag är, och @Scene/go skickar mig direkt till en av mina utdata. Ställ in @Scene/pause till \\⊤\\ och jag flyttar mig aldrig av mig själv, så @Scene/go blir det enda som för mig framåt — så gör man ett bildspel som går både framåt /och/ bakåt.",
+                "Och om du vill veta var jag är, för att visa /3 av 10/ eller spela olika musik i olika delar av en berättelse, är det vad @Spotlight är till för."
+            ],
+            "names": ["$~Scen"],
+            "outputs": {
+                "names": "$~utgångar",
+                "doc": "$~Listan över utgångar som ska visas i följd."
+            },
+            "loop": {
+                "names": "$~upprepa",
+                "doc": "$~Om jag kommer tillbaka till min första utdata när min sista är klar. Jag stannar på den sista om inte detta är \\⊤\\. Jag kontrollerar det vid varje utvärdering, så du kan avsluta en loop precis som du kan starta en."
+            },
+            "replay": {
+                "names": "$~spelaUppIgen",
+                "doc": [
+                    "$~När detta är \\⊤\\ vid en utvärdering börjar jag om från min första utdata, oavsett var jag hade kommit, och min @Slate/lap går tillbaka till 0.",
+                    "Ge mig ett /tillfälligt/ @condition, ett som bara är sant vid den utvärdering som händelsen orsakade, som \\∆ Knapp()\\. Ett bestående villkor som \\score > 10\\🪲 förblir sant när det väl blivit sant, så det skulle starta om mig vid varje utvärdering från och med då."
+                ]
+            },
+            "pause": {
+                "names": "$~pausa",
+                "doc": [
+                    "$~Medan detta är \\⊤\\ håller jag stilla, och när det går tillbaka till \\⊥\\ fortsätter jag. En utdata jag räknade ner på behåller den tid den hade kvar, så en paus mitt i en lång @Phrase startar den inte om.",
+                    "Till skillnad från @Scene/replay vill jag ha ett /bestående/ @condition, ett som förblir sant så länge du vill att jag ska vänta. Lämna mig pausad för gott, så flyttar jag mig aldrig av mig själv, vilket är precis vad ett bildspel vill: då är @Scene/go det enda som för mig framåt."
+                ]
+            },
+            "go": {
+                "names": "$~kör",
+                "doc": [
+                    "$~Vart jag ska gå härnäst. Ge mig ett nummer så visar jag den utdatan, räknat från 1; ge mig ett namn så visar jag den utdata du gav det @Phrase/name.",
+                    "Jag räknar bara utdata, aldrig de @Boolean som ligger emellan, så att skicka mig till 2 betyder min andra @Phrase, oavsett hur många villkor som står i vägen.",
+                    "Liksom @Scene/replay vill den här ha ett /tillfälligt/ @condition — något som är \\ø\\ utom vid den utvärdering du vill att jag ska flytta mig. Ett nummer som ligger kvar skulle fästa mig där för alltid.",
+                    "Skicka mig förbi någon av ändarna så stannar jag där, om inte @Scene/loop är \\⊤\\, i så fall kommer jag runt igen. Det betyder att du aldrig behöver kontrollera det. Här går piltangenterna igenom ett bildspel åt båda hållen:",
+                    "Om du hellre vill säga /ett steg framåt/ än /nummer tre/, är det @Scene/step.",
+                    "\\bilder: [Fras('ett') Fras('två') Fras('tre')]\nnyckel2: Nyckel()\nvid: Spotlight()\nScen(\n\tbilder\n\tpausa: ⊤\n\tkör: ∆ nyckel2 ? ((nyckel2 = 'Pil vänster') ? vid.index - 1 (nyckel2 = 'Pil Höger') ? vid.index + 1 ø) ø\n)\\"
+                ]
+            },
+            "name": {
+                "names": "$~namn",
+                "doc": "$~Mitt namn. @Spotlight använder det för att skilja mig från andra @Scene som spelas samtidigt; med bara en scen kan du lämna det som det är."
+            },
+            "until": {
+                "names": "$~tills",
+                "doc": [
+                    "$~En @condition att vänta på efter var och en av mina utdata, när den har haft sin @Phrase/duration eller slutat animera.",
+                    "Det är samma sak som att skriva den @Boolean mellan varje utdata i min lista, vilket är vad du skulle göra för att få en av mina utdata att vänta. Detta säger det en gång istället:",
+                    "\\Scen([Fras('ett') Fras('två') Fras('tre')] tills: ∆ Knapp())\\",
+                    "En @Boolean som skrivs i listan fungerar fortfarande, och de två är separata väntetider, så du kan vänta längre på ett visst ställe."
+                ]
+            },
+            "step": {
+                "names": "$~steg",
+                "doc": [
+                    "$~Hur många utdata som ska flyttas, räknat från där jag är: \\1\\ är ett steg framåt och \\-1\\ är ett steg bakåt. Detta är @Scene/go sagt som ett avstånd istället för en plats.",
+                    "Som @Scene/go stannar jag vid mina ändar om inte @Scene/loop är \\⊤\\, så du behöver aldrig kontrollera det, och jag vill ha en /tillfällig/ @condition — något som är \\ø\\ utom vid den beräkning du vill att jag ska flytta.",
+                    "\\bilder: [Fras('ett') Fras('två') Fras('tre')]\nnyckel2: Nyckel()\nScen(\n\tbilder\n\tpausa: ⊤\n\tsteg: ∆ nyckel2 ? ((nyckel2 = 'Pil vänster') ? -1 (nyckel2 = 'Pil Höger') ? 1 ø) ø\n)\\",
+                    "Inget här behöver veta vilken @Phrase som visas, vilket är skillnaden från @Scene/go. @query @Spotlight om du vill visa det på scenen."
+                ]
+            }
+        },
+        "Motion": {
+            "doc": [
+                "$~Den flyttar en startande @Phrase med gravitation och fysik.",
+                "/boing boing boing/",
+                "Du ger den en start- @Phrase , och sedan förfinar den den med en ny plats och rotation baserat på gravitationen.",
+                "Detta låter dig göra riktigt enkla saker som att skapa studsande emoji:",
+                "\\Motion(Phrase('o') startplace: Place(0m 10m))\\🪲",
+                "Ser du hur o-et studsar? Vid den första utvärderingen ger du det en plats högt upp på @Stage , men därefter får det @None , vilket gör att @Motion kan ändra det till vilken position gravitationen skulle placera det.",
+                "Kolla in de många andra sätten att konfigurera det nedan."
+            ],
+            "names": ["$~Rörelse"],
+            "place": {
+                "doc": "$~Startplatsen.",
+                "names": "$~plats"
+            },
+            "velocity": {
+                "doc": "$~Starthastigheten",
+                "names": "$~hastighet"
+            },
+            "nextplace": {
+                "doc": "$~Nästa plats, överordnad fysik.",
+                "names": "$~nästaplats"
+            },
+            "nextvelocity": {
+                "doc": "$~Nästa plats, överordnade hastighet.",
+                "names": "$~nästahastighet"
+            }
+        },
+        "Chat": {
+            "doc": [
+                "$~Det är en @stream av @Text -meddelanden som din målgrupp skriver.",
+                "Till exempel kontrollerar det här enkla programmet om meddelandet är \"hej\", och om det är det utvärderas programmet till \"hej\". Annars utvärderas det till \"va\"?",
+                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "Det var allt! Du kan skapa alla möjliga typer av föreställningar med detta, som chattrobotar, textäventyr eller textbaserade kontrollscheman för andra typer av föreställningar."
+            ],
+            "names": ["$~Chatta"]
+        },
+        "Placement": {
+            "doc": [
+                "$~Den låter din publik dra @Output till en @Place på @Stage.",
+                "Det finns många sätt att placera @Output på @Stage: ge dem en tydlig @Place, använd @Motion och låt gravitationen göra jobbet, eller lägg dem i en @Group för att ordnas.",
+                "Men ibland vill du ge /publiken/ kontroll över var @Output hamnar på @Stage.",
+                "Så här fungerar det: skapa en @Placement och ge den till en @Output @Place:",
+                "\\Fras('hej' plats: Placering())\\",
+                "Sedan, varje gång publiken använder en piltangent @key eller klickar eller trycker på scenen, kommer @Placement att skapa en ny @Place som rör sig i önskad riktning.",
+                "Pröva att kopiera detta till ditt program och flytta @Output med pekaren eller tangentbordet.",
+                "Du kan anpassa @Placement, slå på och av rörelse i vissa riktningar, ändra hur långt en @Place rör sig, och den första @Place som strömmen börjar med."
+            ],
+            "names": ["$~Placering"],
+            "inputs": [
+                {
+                    "doc": "$~Den första platsen att börja med.",
+                    "names": "$~start"
+                },
+                {
+                    "doc": "$~Hur många meter platsen ska röra sig när publiken begär en flytt.",
+                    "names": "$~avstånd"
+                },
+                {
+                    "doc": "$~Om sant, tillåter rörelse på den horisontella axeln. På som standard.",
+                    "names": "$~horisontell"
+                },
+                {
+                    "doc": "$~Om sant, tillåter rörelse på den vertikala axeln. På som standard.",
+                    "names": "$~vertikal"
+                },
+                {
+                    "doc": "$~Om sant, tillåter rörelse på z-axeln, med + och - tangenterna.",
+                    "names": "$~djup"
+                }
+            ]
+        },
+        "Webpage": {
+            "doc": [
+                "$~Den hämtar texten från en webbadress som du ger den.",
+                "Internet är fascinerande — en hel värld av sammankopplade datorer som delar dokument med varandra.",
+                "Denna @stream ansluter till det — ge den en URL, så här:",
+                "\\webbsida('https://wordplay.dev')\\",
+                "Och det finns tydligen en sak som heter <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, som låter dig @query saker på en webbsida? Ge den en CSS-urvalsfråga så hämtar den bara den text som matchar den frågan. Som i detta exempel, som hämtar rubrikerna på nivå ett.",
+                "\\webbsida('https://wordplay.dev' 'h1')\\",
+                "Många saker kan gå fel med den här. Om du tappar din internetanslutning, eller om URL:en inte leder någonstans, eller om URL:en inte är offentlig, eller om URL:en inte är en HTML-sida… Allt detta kan leda till ett fel. Om du hittar en sida som fungerar får du en @Number som visar hur många procent som är klart och sedan en @List av orden på sidan."
+            ],
+            "names": ["$~webbsida"],
+            "url": {
+                "doc": "$~HTML-webbadressen att hämta.",
+                "names": "$~url"
+            },
+            "query": {
+                "doc": "$~CSS-@query som ska köras på HTML:en",
+                "names": "$~fråga"
+            },
+            "frequency": {
+                "doc": "$~Antalet minuter som ska gå innan sidan hämtas igen.",
+                "names": "$~frekvens"
+            },
+            "error": {
+                "invalid": "$~detta är inte en giltig URL",
+                "unvailable": "$~den här webbadressen är inte tillgänglig",
+                "notHTML": "$~svaret var inte HTML",
+                "noConnection": "$~ingen koppling till Wordplay",
+                "limit": "$~för många förfrågningar till den här domänen"
+            }
+        },
+        "Collision": {
+            "names": "$~Kollision",
+            "doc": [
+                "$~Det är en @stream av @Rebound-värden för när namngivna @Output krockar med varandra.",
+                "För att få två @Output att märka varandra, ge dem båda namn, och ge mig sedan båda namnen. Jag skapar en ny @Rebound varje gång de rör vid varandra. De behöver inte @Matter för det — ett namn räcker för att jag ska kunna bevaka något.",
+                "Ge mig ett namn istället, så berättar jag när det @Output rör vid något annat i den fysiska världen. En @Output är i den fysiska världen om den har @Matter, om en @Motion placerar den, om den är en @Shape direkt på @Stage, eller om jag också bevakar dess namn.",
+                "Att märka är inte samma sak som att studsa. @Output knuffar bara omkring andra @Output om den har @Matter och en @Motion som flyttar den. @Output som ditt program placerar går precis dit du sätter den, så den passerar rakt igenom det den rör vid — jag berättar ändå om beröringen.",
+                "En @Rebound har namnen som rörde vid varandra och riktningen de rörde vid varandra från. Direkt efter att jag skapar en gör jag en \\ø\\, eftersom en krock är över så fort den händer.",
+                "Jag kan bara bevaka @Output som placerats direkt på @Stage. Allt inuti en @Group rör sig i den gruppens eget utrymme, så jag kan inte se det — ge @Group ett namn och bevaka det istället."
+            ],
+            "subject": {
+                "names": "$~ämne",
+                "doc": "$~Namnet på @Output som jag ska bevaka. Att bevaka den räcker för att placera den i den fysiska världen, så den behöver inte @Matter."
+            },
+            "object": {
+                "names": "$~andra",
+                "doc": "$~Namnet på den andra @Output som jag ska bevaka. Om även denna anges rapporterar jag bara när just de två rör vid varandra; utelämnar du den rapporterar jag den första som rör vid vad som helst i den fysiska världen."
+            }
+        },
+        "Rebound": {
+            "names": "$~Studs",
+            "doc": "$~Jag kommer från @Collision och representerar vem som kolliderade med och i vilken riktning kollisionen inträffade. Använd mig för att bestämma om du ska reagera på en kollision på något speciellt sätt, annat än normal fysik.",
+            "direction": {
+                "names": "$~riktning",
+                "doc": "$~Kollisionens riktning och storlek i förhållande till kollisionsobjektet"
+            },
+            "subject": {
+                "names": "$~ämne",
+                "doc": "$~Namnet på utgången som träffades av ämnet."
+            },
+            "object": {
+                "names": "$~objekt",
+                "doc": "$~Namnet på utgången som träffade ämnet"
+            }
+        },
+        "Direction": {
+            "names": "$~Riktning",
+            "doc": "$~Jag är en riktning och magnitud, längs x- och y-axlarna.",
+            "x": {
+                "names": "$~x",
+                "doc": "$~Riktningen och storleken på riktningen längs x-axeln."
+            },
+            "y": {
+                "names": "$~y",
+                "doc": "$~Riktningen och storleken på riktningen längs y-axeln."
+            }
+        },
+        "Speech": {
+            "doc": [
+                "$~Den känner igen tal och gör om det till @Text.",
+                "/hej där!/",
+                "Den använder din webbläsares taligenkänning för att lyssna på vad du säger och göra om det till ord (är inte det häftigt?!).",
+                "\\Tal()\\",
+                "Det här är perfekt för dem som kan tala ett @language men fortfarande lär sig att läsa eller skriva det (och mer)...",
+                "Du kan ange en språkkod för att känna igen tal på ett visst språk:",
+                "\\Tal(språk: 'es-MX')\\",
+                "Om inget språk anges används ditt föredragna språk.",
+                "Taligenkänning kräver tillgång till mikrofon och internetanslutning (ge tillgång, tack!). Det kan också finnas användningsgränser, så låt den inte vara på för länge (neeej)!"
+            ],
+            "names": ["$~Tal", "$~Röst"],
+            "reset": {
+                "names": ["$~återställa", "$~rensa"],
+                "doc": "$~När denna @value ändras, rensa det uppsamlade talet och börja om på nytt."
+            },
+            "language": {
+                "names": ["$~språk", "$~lång"],
+                "doc": "$~En BCP 47-@language (t.ex. 'en-US'). Om den inte stöds av din webbläsares taligenkänning får du ett fel. Den använder ditt föredragna språk som standard."
+            },
+            "limit": {
+                "names": ["$~begränsa", "$~ord"],
+                "doc": "$~Det maximala antalet ord som ska behållas i det ackumulerade talet (glidande fönster). När detta är inställt behålls endast de senaste orden, och äldre ord kasseras. Om inget anges behålls alla ord på obestämd tid."
+            },
+            "error": {
+                "browserNotSupported": "$~tjänsten stöds inte i den här webbläsaren",
+                "noConnection": "$~ingen internetanslutning",
+                "serviceNotAllowed": "$~tjänsten är inte tillgänglig",
+                "micNotAllowed": "$~mikrofonåtkomst är inte tillåten",
+                "noMicrophone": "$~ingen mikrofon hittades",
+                "languageNotSupported": "$~språk stöds inte",
+                "limit": "$~misslyckades efter flera försök"
+            }
+        },
+        "Hand": {
+            "doc": [
+                "$~Den spårar en hand som din kamera ser – var den är, vilka fingrar som är uppe och åt vilket håll den är vänd.",
+                "/vigla vicka/",
+                "Håll upp handen, vifta med den, räkna på fingrarna — @Hand följer.",
+                "Bakom kulisserna använder @Hand en maskininlärningsmodell. Första gången du använder den i ett program tar det några sekunder att ladda ner modellen, och en liten snurrande hand visas i det övre högra hörnet av scenen medan den laddas. Därefter förblir den cachad och startar direkt.",
+                "Varje bildruta ger @Hand dig en @Gesture — se där för en fullständig lista över indata och vad de betyder.",
+                "Prova detta — det visar en emoji som matchar din handposition var din riktiga hand än är:",
+                "\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+            ],
+            "names": ["$~🖐️", "$~Hand"],
+            "frequency": {
+                "names": ["$~frekvens"],
+                "doc": "$~Tiden mellan proverna."
+            },
+            "resolution": {
+                "names": ["$~upplösning"],
+                "doc": "$~Bredden i pixlar för att ta prover från kameran innan handmodellen körs. Högre värden kan ge något mer exakta landmärken men kostar mer tid per bildruta."
+            }
+        },
+        "Contour": {
+            "doc": [
+                "$~Den spårar konturerna av varje bokstavs tecken som en @List över @Place .",
+                "Ge den lite text och ett teckensnitt, så kommer den att spåra varje teckens kontur punkt för punkt.",
+                "\\Contour('a' \"Noto Sans\")\\",
+                "Mata in dessa @Place -värden till en @List med @Phrase för att se konturen ritad som punkter:",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' plats: point)))\\",
+                "Du kan skala konturen med ett @Number of meters, flytta dess origo med ett @Place , välja en teckensnittsvikt, aktivera kursiv stil och ställa in `spacing` mellan punkter som ett avstånd i meter. Ett mindre `spacing` följer konturen närmare, med jämnt fördelade punkter längs både linjer och kurvor.",
+                "Vissa tecken, som färgemoji, har ingen kontur, så de lägger inte till några punkter. Medan den hämtar teckensnittet ger den dig en tom @List och fyller sedan i den när den är klar."
+            ],
+            "names": ["$~Kontur"],
+            "inputs": [
+                {
+                    "doc": "$~Texten vars glyfkonturer jag ska rita upp.",
+                    "names": "$~tecken"
+                },
+                {
+                    "doc": "$~Teckensnittet att spåra glyferna i.",
+                    "names": "$~ansikte"
+                },
+                {
+                    "doc": "$~Teckenhöjden i meter, skalad enligt konturen.",
+                    "names": "$~storlek"
+                },
+                {
+                    "doc": "$~Ett valfritt origo @Place att förskjuta varje punkt med.",
+                    "names": "$~plats"
+                },
+                {
+                    "doc": "$~Teckensnittstjockleken som ska användas, fäst vid närmaste ytstöd.",
+                    "names": "$~vikt"
+                },
+                {
+                    "doc": "$~Huruvida den kursiva versionen av ansiktet ska användas, om det finns en.",
+                    "names": "$~kursiv"
+                },
+                {
+                    "doc": "$~Avståndet i meter mellan samplade punkter längs konturen, hållet konsekvent längs både linjer och kurvor. Mindre värden spåras finare, ner till ett minimum av 0,01 meter.",
+                    "names": "$~mellanrum"
+                },
+                {
+                    "doc": "$~Punkternas ordning: 'framåt' eller 'bakåt'.",
+                    "names": "$~riktning"
+                }
+            ],
+            "error": {
+                "connection": "$~Jag kunde inte komma åt internet för att hämta typsnittet, så jag kan inte spåra bokstäverna.",
+                "unavailable": "$~Jag kunde inte hitta filen med det typsnittet, så jag kan inte spåra dess bokstäver.",
+                "unreadable": "$~Jag laddade ner typsnittet, men jag kunde inte läsa det, så jag kan inte spåra bokstäverna.",
+                "outline": "$~Jag laddade typsnittet, men jag kunde inte få formen på bokstäverna."
+            }
+        },
+        "Now": {
+            "doc": [
+                "$~Jag räknar upp ett nytt @Moment i vilken takt du än väljer, så ett program vet alltid dagens datum och den aktuella tiden.",
+                "Detta gör en lokaliserad klocka till en rad @code:",
+                "\\💬(⏰() → '')\\",
+                "Som standard räknar jag upp varje sekund. Ge mig en @Now.frequency i sekunder, minuter eller timmar för att ändra takten:",
+                "\\⏰(1min)\\",
+                "Min @Now.timezone och @Now.calendar speglar @Moment indata, och ställer in de Moment jag skapar. Här är till exempel en klocka som visar den aktuella tiden i Tokyo, med den japanska kalendern:",
+                "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "Om dessa indata ändras — säg att en reaktion ger mig en annan tidszon — börjar jag skapa Moment med de nya inställningarna.",
+                "Hur skiljer jag mig från @Time? @Time räknar millisekunderna sedan ett program startade, vilket är bra för animering. Jag berättar datumet och tiden på väggklockan i en kalender och tidszon, vilket är bra för klockor och kalendrar."
+            ],
+            "names": ["$~Nu"],
+            "frequency": {
+                "names": ["$~frekvens"],
+                "doc": "$~Hur ofta jag skapar ett nytt @Moment, i sekunder, minuter eller timmar. Om \\ø\\, räknar jag upp varje \\1s\\."
+            },
+            "timezone": {
+                "names": ["$~tidszon"],
+                "doc": "$~Ett standardnamn för tidszon för de Moment jag skapar, gjort av ett @region och en stad, som \\'America/New_York'\\ eller \\'Asia/Tokyo'\\. Känner du inte till namnet? Skriv en stad du känner till, så föreslår jag den närmaste tidszonen. Om \\ø\\, använder jag tidszonen för enheten som programmet körs på."
+            },
+            "calendar": {
+                "names": ["$~kalender"],
+                "doc": "$~Ett Unicode-kalendernamn för de Moment jag skapar, som \\'gregory'\\, \\'hebreiska'\\, \\'kinesiska'\\ eller \\'japanska'\\. Om \\ø\\, använder jag kalendern för läsarens lokala inställning."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "$~Jag är ett enda ögonblick i tiden: ett datum i en kalender, en tid på dygnet, och tidszonen och kalendern som de uttrycks i.",
+                "Alla mina egenskaper är valfria. Ge mig datumdelar för att beskriva ett datum:",
+                "\\📅(2026 7 1) → ''\\",
+                "Eller bara tidsdelar, för en tid på dygnet:",
+                "\\📅(timme: 15 minut: 30) → ''\\",
+                "Om du inte ger mig några delar alls, omvandlar jag till aktuellt datum och tid, där programmet än körs. Om du utelämnar delar, kommer varje del som är större än den största du gav från aktuellt datum och tid, och mindre delar börjar från sin början: så \\📅(månad: 12) → ''\\ är 1 december i år, vid midnatt. När jag omvandlas visas bara de sorters delar du gav: datumdelar ger ett datum, tidsdelar ger en tid, och båda ger båda:",
+                "\\📅() → ''\\",
+                "Min @Moment.timezone tar ett standardnamn för tidszon enligt IANA, som \\'America/Los_Angeles'\\ eller \\'Asien/Tokyo'\\; om du lämnar den \\ø\\, använder jag tidszonen på enheten där programmet körs. Min @Moment.calendar tar ett Unicode-kalendernamn som \\'gregory'\\, \\'hebreiska'\\, eller \\'japanska'\\; om du lämnar den \\ø\\, använder jag kalendern för läsarens språkinställning. Min @Moment.year, @Moment.month och @Moment.day är i den kalendern:",
+                "\\📅(5786 10 4 kalender: 'hebrew') → ''\\",
+                "När jag omvandlas till @Text formateras jag för läsarens språkinställning: samma Moment visas olika på engelska, 中文 eller हिन्दी, och ändras när läsarens språkinställning ändras.",
+                "Min @Moment.era, @Moment.week och @Moment.weekday är informativa: @Now fyller i dem när den skapar Moment, men de ignoreras vid formatering.",
+                "Om du vill ha en @stream av Moment som uppdateras när tiden går — en klocka — se @Now. Om du vill ha antalet millisekunder som gått sedan ditt program startade — för animering — se @Time."
+            ],
+            "names": ["$~📅", "$~Moment"],
+            "year": {
+                "names": ["$~år"],
+                "doc": "$~Året, i min kalender. Till exempel är det gregorianska året \\2026\\ det hebreiska året \\5786\\."
+            },
+            "month": {
+                "names": ["$~månad"],
+                "doc": "$~Månaden på året i min kalender, som börjar på \\1\\."
+            },
+            "day": {
+                "names": ["$~dag"],
+                "doc": "$~Dagen i månaden."
+            },
+            "hour": {
+                "names": ["$~timme"],
+                "doc": "$~Timmen på dygnet, från \\0\\ till \\23\\."
+            },
+            "minute": {
+                "names": ["$~minut"],
+                "doc": "$~Minuten på timmen."
+            },
+            "second": {
+                "names": ["$~sekund"],
+                "doc": "$~Sekunden på minuten."
+            },
+            "millisecond": {
+                "names": ["$~millisekund"],
+                "doc": "$~Millisekunden på sekunden."
+            },
+            "timezone": {
+                "names": ["$~tidszon"],
+                "doc": "$~Ett standardnamn för tidszon, gjort av ett @region och en stad, som \\'America/New_York'\\, \\'Europa/Paris'\\, eller \\'Asia/Tokyo'\\. Känner du inte till namnet? Skriv en stad du känner till, så föreslår jag den närmaste tidszonen. Om \\ø\\, använder jag tidszonen för enheten som programmet körs på."
+            },
+            "calendar": {
+                "names": ["$~kalender"],
+                "doc": "$~Ett Unicode-kalendernamn, som \\'gregory'\\, \\'hebreiska'\\, \\'kinesiska'\\ eller \\'japanska'\\. Om \\ø\\, kalendern för läsarens lokala inställning."
+            },
+            "era": {
+                "names": ["$~era"],
+                "doc": "$~Eran mitt år är i, som \\'ce'\\ eller \\'reiwa'\\. Informativt: @Now ställer in det, och formatering ignorerar det."
+            },
+            "week": {
+                "names": ["$~vecka"],
+                "doc": "$~Veckan på året, som börjar på \\1\\. Informativt: @Now ställer in det, och formatering ignorerar det."
+            },
+            "weekday": {
+                "names": ["$~veckodag"],
+                "doc": "$~Dagen i veckan, från \\1\\ (måndag) till \\7\\ (söndag). Informativt: @Now ställer in det, och formatering ignorerar det."
+            },
+            "conversion": {
+                "text": "$~En @Text-version av mig, formaterad för läsarens lokala inställning, i min kalender och tidszon. Lägg till ett språk efter @Text-typen för att formatera för en specifik lokal inställning, som \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "$~detta är inte ett giltigt tidszonsnamn",
+                "calendar": "$~detta är inte ett kalendernamn som stöds"
+            }
+        },
+        "Face": {
+            "doc": [
+                "$~Den följer ett ansikte som din kamera ser — var det är och vad det gör: öppna eller stängda ögon, en öppen mun, ett leende, en rynkad panna, höjda ögonbryn, och åt vilket håll huvudet är vänt.",
+                "/säg omelett/",
+                "Titta in i kameran, le, blinka, öppna munnen brett — @Face följer med.",
+                "Bakom kulisserna använder @Face en maskininlärningsmodell. Första gången du använder den i ett program tar modellen några sekunder att ladda ner, och ett litet snurrande ansikte syns i övre högra hörnet av scenen medan den laddas. Efter det ligger den kvar i cacheminnet och startar direkt.",
+                "För varje bildruta ger @Face dig ett @Expression. Titta där för hela listan med indata och vad de betyder.",
+                "Detta exempel visar en emoji som matchar ditt ansikte var ditt riktiga ansikte än är:",
+                "\\ansikte: 🙂()\n💬((ansikte.leende ? '😀' ansikte.munÖppen ? '😮' '😐') plats: ansikte.plats)\\"
+            ],
+            "names": ["$~Ansikte"],
+            "frequency": {
+                "names": ["$~frekvens"],
+                "doc": "$~Tiden mellan proverna."
+            },
+            "resolution": {
+                "names": ["$~upplösning"],
+                "doc": "$~Bredden i bildpunkter som kameran läses av med innan ansiktsmodellen körs. Högre värden kan ge lite mer exakta punkter men tar mer tid per bildruta."
+            }
+        },
+        "Objects": {
+            "doc": [
+                "$~Den berättar vilka saker din kamera ser — en katt, en kopp, en bok — och var de finns.",
+                "/vad är det/",
+                "Håll upp något framför kameran så försöker @Objects namnge det.",
+                "Bakom kulisserna använder @Objects en maskininlärningsmodell som känner till 80 sorters vardagliga saker.",
+                "För varje bildruta ger @Objects dig en @List av @Thing, sorterad efter hur säker modellen är, med den säkraste först. Titta på @Thing för att se vad var och en berättar för dig.",
+                "Modellen gissar bara, så ibland har den fel eller ser ingenting alls. Be om en högre `confidence` för att bara höra de gissningar den är säkrast på.",
+                "Här är ett exempel som märker allt kameran ser:",
+                "\\🎭(📦() ↦ 💬(⬚.namn plats: ⬚.plats))\\",
+                "Du kan också leta efter bara en sorts sak och strunta i resten:",
+                "\\saker: 📦(kategori: 'cat')\n💬(saker.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~Objekt"],
+            "inputs": [
+                {
+                    "doc": "$~Tiden mellan varje prov.",
+                    "names": "$~frekvens"
+                },
+                {
+                    "doc": "$~Bredden i pixlar som kameran provas i innan sakerna letas fram. Modellen tittar på en kvadrat på 320 pixlar, så större värden kostar mest tid.",
+                    "names": "$~upplösning"
+                },
+                {
+                    "doc": "$~En valfri sorts sak att leta efter, medan allt annat ignoreras.",
+                    "names": "$~kategori"
+                },
+                {
+                    "doc": "$~Hur säker modellen måste vara innan jag nämner en sak, från 0 till 1. Högre betyder färre men bättre gissningar.",
+                    "names": "$~säkerhet"
+                },
+                {
+                    "doc": "$~Det mesta antal saker att nämna på en gång.",
+                    "names": "$~antal"
+                }
+            ],
+            "categories": {
+                "person": ["$~person", "$~människor", "$~människa", "$~någon"],
+                "bicycle": ["$~cykel"],
+                "car": ["$~bil"],
+                "motorcycle": ["$~motorcykel"],
+                "airplane": ["$~flygplan", "$~plan"],
+                "bus": ["$~buss"],
+                "train": ["$~tåg"],
+                "truck": ["$~lastbil"],
+                "boat": ["$~båt", "$~fartyg"],
+                "traffic light": ["$~trafikljus"],
+                "fire hydrant": ["$~brandpost"],
+                "stop sign": ["$~stoppskylt"],
+                "parking meter": ["$~parkeringsautomat"],
+                "bench": ["$~bänk"],
+                "bird": ["$~fågel"],
+                "cat": ["$~katt", "$~kisse"],
+                "dog": ["$~hund", "$~valp"],
+                "horse": ["$~häst"],
+                "sheep": ["$~får"],
+                "cow": ["$~ko"],
+                "elephant": ["$~elefant"],
+                "bear": ["$~björn"],
+                "zebra": ["$~zebra"],
+                "giraffe": ["$~giraff"],
+                "backpack": ["$~ryggsäck"],
+                "umbrella": ["$~paraply"],
+                "handbag": ["$~handväska", "$~portmonnä"],
+                "tie": ["$~slips"],
+                "suitcase": ["$~resväska", "$~bagage"],
+                "frisbee": ["$~frisbee"],
+                "skis": ["$~skidor", "$~skida"],
+                "snowboard": ["$~snowboard"],
+                "sports ball": ["$~boll", "$~sportboll"],
+                "kite": ["$~drake"],
+                "baseball bat": ["$~basebollträ", "$~slagträ"],
+                "baseball glove": ["$~basebollhandske", "$~handske"],
+                "skateboard": ["$~skateboard"],
+                "surfboard": ["$~surfbräda"],
+                "tennis racket": ["$~tennisracket", "$~racket"],
+                "bottle": ["$~flaska"],
+                "wine glass": ["$~vinglas"],
+                "cup": ["$~kopp", "$~mugg"],
+                "fork": ["$~gaffel"],
+                "knife": ["$~kniv"],
+                "spoon": ["$~sked"],
+                "bowl": ["$~skål"],
+                "banana": ["$~banan"],
+                "apple": ["$~äpple"],
+                "sandwich": ["$~smörgås"],
+                "orange": ["$~apelsin"],
+                "broccoli": ["$~broccoli"],
+                "carrot": ["$~morot"],
+                "hot dog": ["$~varmkorv"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~munk"],
+                "cake": ["$~tårta"],
+                "chair": ["$~stol"],
+                "couch": ["$~soffa"],
+                "potted plant": ["$~krukväxt", "$~växt"],
+                "bed": ["$~säng"],
+                "dining table": ["$~bord", "$~matbord"],
+                "toilet": ["$~toalett"],
+                "tv": ["$~TV", "$~tv", "$~television"],
+                "laptop": ["$~bärbar dator", "$~dator"],
+                "mouse": ["$~mus"],
+                "remote": ["$~fjärrkontroll"],
+                "keyboard": ["$~tangentbord"],
+                "cell phone": ["$~telefon", "$~mobiltelefon"],
+                "microwave": ["$~mikrovågsugn"],
+                "oven": ["$~ugn"],
+                "toaster": ["$~brödrost"],
+                "sink": ["$~vask"],
+                "refrigerator": ["$~kylskåp", "$~kyl"],
+                "book": ["$~bok"],
+                "clock": ["$~klocka"],
+                "vase": ["$~vas"],
+                "scissors": ["$~sax"],
+                "teddy bear": ["$~nallebjörn", "$~gosedjur"],
+                "hair drier": ["$~hårtork"],
+                "toothbrush": ["$~tandborste"]
+            }
+        },
+        "Beat": {
+            "names": "$~Takt",
+            "doc": [
+                "$~Jag ger ett nytt @value varje gång @Music spelas och når ett taktslag, så du kan bygga bilder som rör sig med musiken. Jag har alltid ett @Downbeat åt dig, så du kan läsa det direkt: innan någon musik spelas sitter jag på taktslag noll utan att något låter, och mitt \\tempo\\ stannar på noll tills den börjar.",
+                "Här turas tre spår om, så ett olika antal instrument låter på varje taktslag — och diamanten växer med hur många som spelar:",
+                "\\slag: Takt()\n🎭([\n\t\t💬('◆' ((slag.instrument.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Ge mig ett @Music-namn så hör jag bara den musiken. Två taktslag lyssnar nedan, på samma två musiker: det övre hör allt, så det växlar mellan båda namnen när varje musik når ett taktslag, och det nedre hör bara trumman och säger aldrig något annat. Den skillnaden är filtret.",
+                "\\allt: Takt()\nbaraTrumman: Takt('tick')\n🎭([\n\t\t🔳(\n\t\t\t⬇(stoppning: 0.5m)\n\t\t\t[\n\t\t\t\t💬(allt.namn 1.4m)\n\t\t\t\t💬(baraTrumman.namn 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min namn: 'tick')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min namn: 'klang')\n\t])\\",
+                "Vad jag än styr sker /utöver/ den återgivning som betraktaren har valt; du lägger till den, du ersätter den aldrig."
+            ],
+            "name": {
+                "doc": "$~Namnet på den @Music som ska höras, som matchar dess @Music/name. Med \\ø\\ hör jag all musik som spelar — och taktslag från olika musiker kommer blandade, så läs @Downbeat/name för att skilja dem åt.",
+                "names": "$~namn"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Jag är det som ett @Beat ger dig: allt spelaren vet i det ögonblick ett taktslag hörs, så att en visualisering kan visa vad som faktiskt låter.",
+                "Varje @Music räknar sina egna taktslag, så när ett @Beat hör mer än ett hör min @Downbeat/count till vilken musik detta taktslag kom från — kontrollera min @Downbeat/name för att veta vilken."
+            ],
+            "names": "$~Nedslag",
+            "count": {
+                "doc": "$~Hur många taktslag den här musiken har spelat, med start på \\0\\.\n\nRäkningen börjar när musiken /startar/, och börjar om när den startar om — en @Music/replay, eller att lämna scenen och komma tillbaka. Att redigera musiken medan den spelar återställer /inte/ mig, och inte heller @Music/pause — en pausad musik slutar räkna och tar vid där den slutade. Ändringen skarvas in och räkningen fortsätter, vilket är det som gör att en redigering inte låter som en omstart.",
+                "names": "$~räkna"
+            },
+            "instruments": {
+                "doc": "$~Det @Instrument som låter på detta taktslag, var och en listad en gång. En genväg för det vanliga fallet; @Downbeat/parts har detaljerna.",
+                "names": "$~instrument"
+            },
+            "words": {
+                "doc": "$~Stavelserna som sjungs på detta taktslag, i spårordning, eller en tom lista när inget sjungs. En genväg för det vanliga fallet, så som @Downbeat/instruments är; @Downbeat/parts har detaljerna.",
+                "names": "$~ord"
+            },
+            "name": {
+                "doc": "$~Namnet på den @Music detta taktslag kom från, vilket är det som @Beat/name filtrerar på.",
+                "names": "$~namn"
+            },
+            "tempo": {
+                "doc": "$~Musikens tempo, i taktslag per minut.",
+                "names": "$~tempo"
+            },
+            "volume": {
+                "doc": "$~Musikens totala volym, från \\0%\\ till \\100%\\. Varje @Part bär sin egen.",
+                "names": "$~volym"
+            },
+            "key": {
+                "doc": "$~Musikens egen @Music/key. Ett spår kan åsidosätta den, så läs nyckeln för en @Part för att se vad det spåret faktiskt spelar.",
+                "names": "$~tonart"
+            },
+            "scale": {
+                "doc": "$~Musikens egen @Music/scale. Ett spår kan åsidosätta den, så läs skalan för en @Part för att se vad det spåret faktiskt använder.",
+                "names": "$~skala"
+            },
+            "parts": {
+                "doc": "$~En @Part för varje @Track, i den ordning de skrevs, oavsett om den låter eller inte. Detta är hela tillståndet för musiken på detta taktslag.",
+                "names": "$~delar"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~Jag är ett @Track @state på ett taktslag: vad det spelar, hur högt, och i vilken skala. Ett @Downbeat bär en av mig per spår, så att en visualisering kan rita varje stämma för sig i stället för mixen.",
+                "Mina värden är de som spelaren faktiskt använder, efter att varje standardval och åsidosättande har tillämpats — så min skala och nyckel är det spårets, inte musikens, när spåret sätter sina egna."
+            ],
+            "names": "$~Del",
+            "instrument": {
+                "doc": "$~Det @Instrument som spelar mig.",
+                "names": "$~instrument"
+            },
+            "sounding": {
+                "doc": "$~Om en ton hörs på detta taktslag. En hållen ton räknas fortfarande, så jag förblir \\⊤\\ genom de taktslag den håller i, inte bara det den började på.",
+                "names": "$~klingande"
+            },
+            "degrees": {
+                "doc": "$~Tonerna som täcker detta taktslag, som skrivna. Tom vid en paus, och fler än en vid ett ackord.",
+                "names": "$~grader"
+            },
+            "pitch": {
+                "doc": "$~Mina @Part/degrees löst mot min skala och nyckel, i halvtoner från den första tonen. Använd detta för att placera en ton efter höjd; använd @Part/degrees för att visa vad som skrevs.",
+                "names": "$~tonhöjd"
+            },
+            "volume": {
+                "doc": "$~Hur högt jag är på detta taktslag — min tons volym gånger mitt spårs — från \\0%\\ till \\100%\\, och \\0%\\ vid vila. Bra för att välja storlek på vad du än ritar.",
+                "names": "$~volym"
+            },
+            "pan": {
+                "doc": "$~Var jag sitter mellan högtalarna: \\-1\\ är helt vänster, \\0\\ är mitten, och \\1\\ är helt höger. Bra för att placera vad du än ritar.",
+                "names": "$~panorering"
+            },
+            "scale": {
+                "doc": "$~Skalan som mina steg löses mot, efter eventuellt @Track/scale-åsidosättande.",
+                "names": "$~skala"
+            },
+            "key": {
+                "doc": "$~Halvtonsförskjutningen som tillämpas på mig, efter eventuellt @Track/key-åsidosättande.",
+                "names": "$~tonart"
+            },
+            "loop": {
+                "doc": "$~Om mitt spår upprepas när det når sitt slut.",
+                "names": "$~loop"
+            },
+            "words": {
+                "doc": "$~Den stavelse som den här delen sjunger på det här taktslaget, eller \\ø\\ när den inte sjunger något — en paus, eller ett spår utan @Track/words.",
+                "names": "$~ord"
+            }
+        },
+        "Spotlight": {
+            "doc": [
+                "$~Jag säger var en @Scene befinner sig just nu: vilket utdata den visar, hur många den har, och om den väntar på någon.",
+                "En @Scene visar saker; jag är det sätt resten av programmet får veta vad den visar. Det är det som låter dig lägga en räknare under ett bildspel, spela olika musik i olika delar av en berättelse, eller visa ett /tryck på valfri tangent/-tips bara medan scenen verkligen väntar.",
+                "\\bilder: [Fras('ett') Fras('två') Fras('tre')]\nvid: Spotlight()\nEtapp(\n\t[\n\t\tScen(bilder upprepa: ⊤)\n\t\tFras(\n\t\t\t`\\vid.index\\ av \\vid.total\\`\n\t\t\tstorlek: 0.3m\n\t\t\tplats: Plats(0m -2m)\n\t\t)\n\t]\n)\\",
+                "Jag har alltid en @Slate, även innan något har hänt, så du behöver aldrig kontrollera mig för \\ø\\."
+            ],
+            "names": "$~Strålkastare",
+            "name": {
+                "names": "$~namn",
+                "doc": "$~@Scene/name för scenen som kommer efter. Lämna den \\ø\\ så följer jag varje scen."
+            }
+        },
+        "Slate": {
+            "doc": "$~Var en @Scene befinner sig: vad den visar, hur långt den har kommit, och om den väntar.",
+            "names": "$~Tavla",
+            "scene": {
+                "names": "$~scen",
+                "doc": "$~@Scene/name för scenen jag kom ifrån, eller \\''\\ om den inte har någon."
+            },
+            "index": {
+                "names": "$~index",
+                "doc": "$~Vilket utdata @Scene visar, räknat från 1. Jag räknar bara utdata, aldrig @Boolean emellan."
+            },
+            "total": {
+                "names": "$~totalt",
+                "doc": "$~Hur många utdata @Scene har, utan att räkna @Boolean emellan."
+            },
+            "lap": {
+                "names": "$~varv",
+                "doc": "$~Hur många gånger @Scene har kommit tillbaka till sitt första utdata. Det är 0 första gången runt."
+            },
+            "waiting": {
+                "names": "$~väntar",
+                "doc": "$~Om @Scene är stoppad: väntar på att ett @Boolean ska bli sant, eller hålls av @Scene/pause. Det är detta ett /tryck på valfri tangent/-tips bör bevaka."
+            }
+        }
+    }
+}

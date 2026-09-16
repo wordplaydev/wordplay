@@ -1,0 +1,432 @@
+{
+    "$schema": "../../../static/schemas/sections/locale.json",
+    "language": "sv",
+    "regions": ["SE"],
+    "guidance": "",
+    "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Denna plattform och programmerings@language som används för att skapa projekt på denna plattform."
+        },
+        "value": {
+            "word": "$~värde",
+            "definition": "$~En bit information, som ett @Number, några ord eller en @List."
+        },
+        "type": {
+            "word": "$~typ",
+            "definition": "$~Sorten av ett @value, till exempel @Number eller @Text. En typ bestämmer vad du kan göra med värdet."
+        },
+        "expression": {
+            "word": "$~uttryck",
+            "definition": "$~En bit @code som ger ett @value när den körs."
+        },
+        "variable": {
+            "word": "$~variabel",
+            "definition": "$~Ett @name vars @value kan ändras medan ett @Program körs."
+        },
+        "parameter": {
+            "word": "$~parameter",
+            "definition": "$~En namngiven @Input som en @FunctionDefinition förväntar sig när du anropar den."
+        },
+        "argument": {
+            "word": "$~argument",
+            "definition": "$~Ett @value som du ger till en @FunctionDefinition för en av dess @parameters."
+        },
+        "operator": {
+            "word": "$~operator",
+            "definition": "$~En symbol, som + eller -, som kombinerar eller jämför värden."
+        },
+        "condition": {
+            "word": "$~villkor",
+            "definition": "$~Ett sant-eller-falskt test som avgör vad ett @Program gör härnäst."
+        },
+        "loop": {
+            "word": "$~loop",
+            "definition": "$~@code som upprepar en handling många gånger."
+        },
+        "iteration": {
+            "word": "$~iteration",
+            "definition": "$~Ett varv genom en @loop."
+        },
+        "recursion": {
+            "word": "$~rekursion",
+            "definition": "$~När en @FunctionDefinition anropar sig själv för att hantera en mindre del av ett problem."
+        },
+        "property": {
+            "word": "$~egenskap",
+            "definition": "$~En namngiven del av ett @value, till exempel ljusstyrkan hos en @Color."
+        },
+        "element": {
+            "word": "$~element",
+            "definition": "$~En sak i en @List eller grupp."
+        },
+        "scope": {
+            "word": "$~räckvidd",
+            "definition": "$~Den del av ett @Program där ett @name kan användas."
+        },
+        "state": {
+            "word": "$~tillstånd",
+            "definition": "$~Information som ett @Program behåller och kan ändra över tid."
+        },
+        "sideEffect": {
+            "word": "$~sidoeffekt",
+            "definition": "$~En ändring som ett @Program gör förutom att ge tillbaka ett @value, till exempel att visa @Output."
+        },
+        "abstraction": {
+            "word": "$~abstraktion",
+            "definition": "$~Att dölja detaljer så att du kan använda något utan att veta hur det fungerar inuti."
+        },
+        "project": {
+            "word": "$~projekt",
+            "definition": "$~Alla filer som utgör ett @wordplay @Program."
+        },
+        "code": {
+            "word": "$~koda",
+            "definition": "$~Texten du skriver för att tala om för ett @Program vad det ska göra."
+        },
+        "act": {
+            "word": "$~agera",
+            "definition": "$~En stor del av @tutorial, som en akt i en pjäs."
+        },
+        "how": {
+            "word": "$~hur man",
+            "definition": "$~En kort @guide som visar hur man gör en sak."
+        },
+        "gallery": {
+            "word": "$~galleri",
+            "definition": "$~En plats där människor delar och utforskar @project."
+        },
+        "blocks": {
+            "word": "$~block",
+            "definition": "$~Ett sätt att redigera @code genom att dra bitar istället för att skriva."
+        },
+        "placeholder": {
+            "word": "$~platshållare",
+            "definition": "$~En tom plats som visar var @code eller ett @value saknas."
+        },
+        "conflict": {
+            "word": "$~konflikt",
+            "definition": "$~Ett problem i @code som @wordplay markerar så att du kan rätta till det."
+        },
+        "checkpoint": {
+            "word": "$~kontrollpunkt",
+            "definition": "$~En sparad punkt i ditt arbete som du kan återvända till."
+        },
+        "guide": {
+            "word": "$~guide",
+            "definition": "$~Den sökbara referensen som förklarar @wordplay:s idéer."
+        },
+        "tutorial": {
+            "word": "$~handledning",
+            "definition": "$~De steg-för-steg-lektioner som lär ut @wordplay."
+        },
+        "name": {
+            "word": "$~namn",
+            "definition": "$~Ett ord som pekar på ett @value eller en @FunctionDefinition."
+        },
+        "markup": {
+            "word": "$~formaterad text",
+            "definition": "$~Text med formatering, som feta ord eller länkar."
+        },
+        "language": {
+            "word": "$~språk",
+            "definition": "$~Ett mänskligt språk som ett @name eller en text är skrivet på."
+        },
+        "documentation": {
+            "word": "$~dokumentation",
+            "definition": "$~Text som förklarar vad @code gör."
+        },
+        "region": {
+            "word": "$~område",
+            "definition": "$~En plats där ett @language används, vilket kan ändra hur tal och datum ser ut."
+        },
+        "start": {
+            "word": "$~start",
+            "definition": "$~Den huvudsakliga källfilen där ett @project börjar."
+        },
+        "query": {
+            "word": "$~fråga",
+            "definition": "$~Ett sätt att välja rader från en @Table."
+        },
+        "key": {
+            "word": "$~nyckel",
+            "definition": "$~@value som används för att hitta ett objekt i en @Map."
+        },
+        "index": {
+            "word": "$~index",
+            "definition": "$~Ett @Number som väljer ett objekt utifrån dess plats i en @List."
+        },
+        "moved": {
+            "word": "$~rörd",
+            "definition": "$~@Output som ändrade plats på scenen."
+        },
+        "entered": {
+            "word": "$~ny",
+            "definition": "$~@Output som dök upp på scenen för första gången."
+        },
+        "cell": {
+            "word": "$~cell",
+            "definition": "$~Ett @value i en rad i en @Table."
+        },
+        "column": {
+            "word": "$~kolumn",
+            "definition": "$~Ett namngivet fält i en @Table."
+        },
+        "editor": {
+            "word": "$~redigerare",
+            "definition": "$~Rutan där du skriver @code. Det du skriver där är det @wordplay utför."
+        },
+        "stage": {
+            "word": "$~scen",
+            "definition": "$~Utrymmet där @wordplay visar vad din @code har gjort."
+        },
+        "stream": {
+            "word": "$~ström",
+            "definition": "$~En @value som ändras med tiden när din värld ändras, som att @Time tickar eller en @Key trycks ner. Varje gång den ändras körs @Program igen med det nya @value."
+        },
+        "source": {
+            "word": "$~källa",
+            "definition": "$~Ett @code-dokument i ett @project. Ett @project kan ha fler än ett, och alla kan @share saker som de andra @borrow."
+        },
+        "borrow": {
+            "word": "$~låna",
+            "definition": "$~Att använda något som en annan @Source har delat, genom att skriva ↓ och den @source namn."
+        },
+        "share": {
+            "word": "$~dela",
+            "definition": "$~Att markera något i en @Source med ↑ så att andra @source-filer kan @borrow det."
+        },
+        "kit": {
+            "word": "$~sats",
+            "definition": "$~En @Source som någon publicerat så att andra kan @borrow den i sitt eget @project."
+        }
+    },
+    "terms": {},
+    "moderation": {
+        "warning": {
+            "header": "$~Varning",
+            "explanation": "$~En moderator bedömde att detta innehåll kan:"
+        },
+        "blocked": {
+            "header": "$~Blockerad",
+            "explanation": "$~En moderator bedömde att detta innehåll kan:"
+        },
+        "unmoderated": {
+            "header": "$~Notera",
+            "explanation": "$~Det här innehållet har inte modererats än. Det kan:"
+        },
+        "moderate": {
+            "header": "$~Måttlig",
+            "explanation": "$~Granska det här projektet och avgör om dess innehåll gör något av följande. Om det gör det kommer innehållet att varnas eller blockeras. Du kan hoppa över om du är osäker."
+        },
+        "flags": {
+            "violence": "$~Uppmuntra, uppmuntra eller fira våld, skada eller självskada mot någon.",
+            "dehumanization": "$~Avhumanisera individer eller grupper baserat på deras ras, etnicitet, nationella ursprung, kast, sexuella läggning, kön, religion, ålder, förmåga eller utseende.",
+            "disclosure": "$~Avslöja privat information om andra personer såsom namn, kontaktinformation eller fysiska adresser",
+            "misinformation": "$~Innehåller falsk, vilseledande, vilseledande eller manipulativ information"
+        },
+        "progress": "$~*$moderated* modererad, *$remaining* återstår",
+        "button": {
+            "submit": {
+                "tip": "$~spara dessa modereringsinställningar",
+                "label": "$~spara"
+            },
+            "skip": {
+                "tip": "$~hoppa över detta projekt",
+                "label": "$~hoppa"
+            },
+            "property": "$~Om projektet har den här egenskapen"
+        },
+        "done": "$~Inget annat att moderera!",
+        "error": {
+            "notmod": "$~Det finns inget här för dig att granska. Wordplays moderatorer granskar offentligt innehåll, och ett galleris kuratorer granskar det som finns i deras galleri. Om du nyligen fick moderatorrättigheter kan du behöva logga in igen.",
+            "unreachable": "$~Jag kunde inte läsa denna kö, så jag vet inte om något väntar. Försök igen om en stund.",
+            "unreadable": "$~Vissa saker här väntar, men jag kunde inte läsa dem, så de visas inte."
+        },
+        "report": {
+            "button": "$~be en moderator granska det här",
+            "confirm": "$~Rapportera det",
+            "sent": "$~en moderator har blivit ombedd att titta på detta",
+            "announce": "$~en moderator har blivit ombedd att titta på $project",
+            "flagged": "$~Någon rapporterade detta projekt, så det ligger först i kön."
+        },
+        "strike": {
+            "issue": "$~varna denna skapare",
+            "consequence": "$~Detta blir varning nummer $#count[1|$count] för denna skapare. $banning[Denna varning tar bort möjligheten att göra något offentligt.|De kommer att kunna göra saker offentliga i $#remaining[1 varning till|$remaining varningar till].]",
+            "confirm": {
+                "description": "$~registrera detta beslut och varna skaparen",
+                "prompt": "$~Varna dem"
+            },
+            "banned": "$~Du har blivit varnad om offentligt innehåll tre gånger, så du kan inte längre göra projekt eller gallerier offentliga. Du kan fortfarande skapa projekt, och fortfarande dela dem med personer du väljer. Om du tror detta är ett misstag, eller det var länge sedan och du vill dela offentligt igen, skriv till hi@wordplay.dev och berätta ditt användarnamn och varför.",
+            "warned": "$~Något av ditt offentliga innehåll bröt delningsreglerna, så det är inte längre offentligt. Detta är varning $#count[1|$count]. $#remaining[En till och du kan inte längre göra något offentligt.|Efter $remaining till kan du inte längre göra något offentligt.]",
+            "notification": "$~Varning $#count[1|$count] om något du delade offentligt."
+        },
+        "queue": {
+            "label": "$~vad ska granskas",
+            "labels": [
+                "$~projekt",
+                "$~galleri:er",
+                "$~verktygspaket",
+                "$~hur-man-guider",
+                "$~meddelanden"
+            ],
+            "tips": [
+                "$~granska projekt som folk har gjort offentliga",
+                "$~granska galleri:er som vill listas publikt",
+                "$~granska kit som vill listas i guiden",
+                "$~granska hur-man-guider som vill listas i guiden",
+                "$~granska meddelanden som folk har anmält i galleri du sköter"
+            ]
+        },
+        "gallery": {
+            "pending": "$~En moderator läser ditt galleri för att avgöra om det kan listas publikt. Tills då kan bara de du delar länken med se det.",
+            "approved": "$~Ditt galleri är listat på <sidan för publika galleri:er@://galleries?tab=public>! Det kan tas bort från listan när som helst, av vilken anledning som helst.",
+            "denied": "$~En moderator bestämde sig för att inte lista ditt galleri publikt. Du kan fortsätta arbeta med det och göra det publikt igen för att fråga en andra gång.",
+            "explain": "$~Det här galleriet vill listas publikt. Titta på det och dess projekt, och avgör om det är klart nog att visa för alla.",
+            "done": "$~Inga galleri:er väntar på ett beslut. Tack!",
+            "approve": {
+                "label": "$~lista det",
+                "tip": "$~lista detta galleri på sidan för publika galleri:er"
+            },
+            "deny": {
+                "label": "$~lista inte det",
+                "tip": "$~håll detta galleri borta från sidan för publika galleri:er"
+            },
+            "skip": {
+                "label": "$~hoppa över",
+                "tip": "$~lämna detta galleri till en annan moderator att bestämma"
+            },
+            "notification": {
+                "approved": "$~$name är nu listat publikt.",
+                "denied": "$~$name listades inte publikt."
+            }
+        },
+        "responsibility": {
+            "none": "$~Ingen granskar det du delar här. Det syns bara för dig och de personer du väljer.",
+            "curators": "$~De som är ansvariga för detta galleri granskar det som delas här, inklusive chatten.",
+            "both": "$~De som är ansvariga för detta galleri granskar det som delas här, och det gör även Wordplays moderatorer, eftersom vem som helst kan se det.",
+            "platform": "$~Wordplays <moderators@://rights> granskar detta, eftersom vem som helst kan se det."
+        },
+        "kit": {
+            "header": "$~Kit",
+            "explain": "$~Det här kittet vill listas i guiden. Läs vad det delar och bestäm om andra ska kunna hitta det.",
+            "done": "$~Inga kit väntar på ett beslut. Tack!",
+            "approve": {
+                "label": "$~lista det",
+                "tip": "$~lista det här kittet i guiden"
+            },
+            "deny": {
+                "label": "$~lista det inte",
+                "tip": "$~håll det här kittet borta från guiden"
+            },
+            "skip": {
+                "label": "$~hoppa över",
+                "tip": "$~lämna detta kit till en annan moderator att avgöra"
+            },
+            "pending": "$~En moderator läser ditt paket för att avgöra om det kan listas i guiden. Det är märkt som listat, men ingen hittar det där förrän det verkligen är klart.",
+            "approved": "$~Ditt paket är listat i <guiden@://guide?section=kits>! Det kan tas bort från listan när som helst, av vilken anledning som helst.",
+            "denied": "$~En moderator bestämde att inte lista ditt paket i guiden. Du kan publicera en ny version och fråga igen.",
+            "notification": {
+                "approved": "$~$name är nu listad i guiden.",
+                "denied": "$~$name listades inte i guiden."
+            }
+        },
+        "howto": {
+            "pending": "$~En moderator läser din hur-man för att avgöra om den kan listas i guiden. Fram tills dess är det bara de som redan kan se den som kan göra det.",
+            "approved": "$~Din hur-man finns listad i <guiden@://guide?section=howto>! Den kan tas bort från listan när som helst, av vilken anledning som helst.",
+            "denied": "$~En moderator bestämde att inte lista din hur-man i guiden. Du kan fortsätta arbeta med den och fråga igen.",
+            "unready": "$~Publicera din hur-man och gör den offentlig först. En moderator kan bara säga ja till något som alla kan läsa.",
+            "header": "$~Hur-man-guider",
+            "explain": "$~Denna hur-man vill listas i guiden. Läs den och avgör om andra som lär sig @wordplay borde hitta den där.",
+            "done": "$~Inga hur-man-guider väntar på ett beslut. Tack!",
+            "approve": {
+                "label": "$~lista den",
+                "tip": "$~lista denna hur-man i guiden"
+            },
+            "deny": {
+                "label": "$~lista inte den",
+                "tip": "$~håll denna hur-man utanför guiden"
+            },
+            "skip": {
+                "label": "$~hoppa över",
+                "tip": "$~lämna denna hur-man till en annan moderator att bestämma"
+            },
+            "notification": {
+                "approved": "$~$name är nu listad i guiden.",
+                "denied": "$~$name listades inte i guiden."
+            }
+        },
+        "noAddress": "$~Wordplay har ingen e-postadress för dig, så inget här kan nå dig via e-post. Du kan lägga till en på din <profil@/profile>.",
+        "subject": {
+            "project": "$~projekt",
+            "gallery": "$~galleri",
+            "howto": "$~hur man",
+            "character": "$~karaktär",
+            "kit": "$~kit",
+            "chat": "$~chatt"
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "$~Spel",
+            "description": "$~Interaktiva spel med ord och symboler."
+        },
+        "visualizations": {
+            "name": "$~Visualiseringar",
+            "description": "$~Visualiseringar av och via text."
+        },
+        "motion": {
+            "name": "$~Rörelse",
+            "description": "$~Exempel på rörelser och kollisioner."
+        },
+        "av": {
+            "name": "$~Ljud/video",
+            "description": "$~Använder volym, tonhöjd och video som indata, och tal som utdata."
+        },
+        "tools": {
+            "name": "$~Verktyg",
+            "description": "$~Enkla verktyg och applikationer."
+        },
+        "stories": {
+            "name": "$~Berättelser",
+            "description": "$~Interaktiva berättelser och berättelser."
+        },
+        "music": {
+            "name": "$~Musik",
+            "description": "$~Låtar, instrument och typografi som rör sig till takten."
+        }
+    },
+    "system": {
+        "noscript": "$~Wordplay använder JavaScript. Din webbläsare stöder det inte, eller så är det inaktiverat.",
+        "unsupportedHeading": "$~Webbläsare som inte stöds",
+        "unsupportedBody": "$~Din webbläsare stöder inte viktiga funktioner. För att använda Wordplay måste du uppgradera till en nyare version.",
+        "imageDescription": "$~Wordplay-logotypen — en pratbubbla med en cirkel, en triangel och en fyrkant — bredvid namnet Wordplay, omgiven av en blek folkmassa av symboler för allt som Wordplay-program kan känna av och säga.",
+        "appDescription": "$~Tillgänglig, flerspråkig, programmerbar typografi."
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Se upp",
+            "explanation": "$~Det här projektets bilder kan vara obehagliga eller till och med orsaka anfall hos vissa personer. Det kan innehålla:"
+        },
+        "categories": {
+            "flashing": "$~Snabbt blinkande eller ändringar i kontrast",
+            "redflash": "$~Snabbt blinkande, starkt mättat rött",
+            "strobe": "$~Stroboskopliknande blinkande som fyller skärmen",
+            "pattern": "$~Täta, mycket kontrastrika geometriska mönster",
+            "motion": "$~Snabb animation av storlek, position eller genomskinlighet"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Ljud framöver",
+            "explanation": "$~Det här projektets musik kan vara skrämmande eller obekvämt hög för vissa människor. Den kan innehålla:"
+        },
+        "categories": {
+            "startle": "$~En plötslig ökning i ljudstyrka, särskilt efter något tyst",
+            "loudness": "$~Långa stunder på full volym, eller många spår som tillsammans blir högt",
+            "pulse": "$~En takt som är tillräckligt snabb för att få bilderna att flimra",
+            "register": "$~Toner långt över eller under ett bekvämt område",
+            "tracks": "$~Fler instrument samtidigt än vad som är lätt att följa"
+        }
+    }
+}

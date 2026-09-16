@@ -1,0 +1,1981 @@
+{
+    "$schema": "../../../static/schemas/sections/basis.json",
+    "basis": {
+        "Boolean": {
+            "doc": [
+                "$~Tayo ay \\⊤\\ at \\⊥\\. Ang \\⊤\\ ay totoo. Ang \\⊥\\ ay mali. Ang \\⊤\\ ay hindi \\⊥\\; ang \\⊥\\ ay hindi \\⊤\\. Ganito ito.",
+                "Paano mo kami ginagawa? \\⊤\\ at \\⊥\\ lang, walang sobra, walang kulang.",
+                "Ang ilan ay gumagamit ng keyboard (/ctrl+9/ para sa \\⊤\\ at /ctrl+0/ para sa \\⊥\\). Ang ilan ay gumagamit ng character search sa ibaba ng editor. O maaari mo kaming i-drag mula rito.",
+                "Tingnan ang aming @FunctionDefinition sa ibaba. Napaka-lohikal ng mga ito."
+            ],
+            "name": ["$~⊤⊥", "$~Boolean"],
+            "function": {
+                "and": {
+                    "doc": [
+                        "$~Sinusuri ko ang bilang na \\⊤\\ *lamang* kapag ang parehong @value ay \\⊤\\. Nakakatulong ito sa pagtukoy kung maraming bagay ang totoo. Apat na posibleng resulta lamang ang mayroon.",
+                        "\\⊤ & ⊤\\",
+                        "\\⊤ & ⊥\\",
+                        "\\⊥ & ⊤\\",
+                        "\\⊥ & ⊥\\"
+                    ],
+                    "names": ["$~at"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang isa pang @Boolean na dapat suriin. Kung ang una ay \\⊥\\, hindi mahalaga kung ano ito, ang function ay mag-evaluate sa \\⊥\\.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "or": {
+                    "doc": [
+                        "$~Nagiging halaga akong \\⊤\\ kapag *alinman* sa mga @value ay \\⊤\\. Kapaki-pakinabang para malaman kung isa sa maraming bagay ay totoo. May apat lamang na posibleng kalabasan",
+                        "\\⊤ | ⊤\\",
+                        "\\⊤ | ⊥\\",
+                        "\\⊥ | ⊤\\",
+                        "\\⊥ | ⊥\\"
+                    ],
+                    "names": ["$~o"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang isa pang @Boolean na susuriin. Kung ang una ay \\⊥\\, ang function ay mag-e-evaluate lamang sa \\⊤\\ kung ito ay \\⊤\\.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "not": {
+                    "doc": "$~Kabaligtaran ng aking nararamdaman: kung ang \\⊤\\, ay nagbibigay ng \\⊥\\, kung ang \\⊥\\, ay nagbibigay ng \\⊤\\.",
+                    "names": ["$~hindi"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ kung pareho ay \\⊤\\ o pareho ay \\⊥\\.",
+                    "names": ["$~katumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang isa pang @value na susuriin.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~\\⊤\\ kung pareho silang magkasalungat.",
+                    "names": ["$~≠", "$~notequal"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang isa pang @value na susuriin.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Kino-convert ang isang @Boolean sa katumbas na mga halaga ng @Text, \\'⊤'\\ at \\'⊥'\\",
+                "number": "$~Ginagawang @Number ang @Boolean, \\1\\ para sa \\⊤\\ at \\0\\ para sa \\⊥\\"
+            }
+        },
+        "None": {
+            "doc": [
+                "$~Kinakatawan ko ang kawalan ng isang @value, isinulat na \\ø\\.",
+                "Ako ay @None. Tawagin mo ako gamit ang \\ø\\."
+            ],
+            "name": ["$~o", "$~Wala"],
+            "function": {
+                "equals": {
+                    "doc": "$~May isa pa bang @value na wala rin? Dapat wala, kung hindi, \\⊥\\.",
+                    "names": ["$~katumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang isa pang @value.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~May isa pa bang @value na /hindi/ wala?",
+                    "names": ["$~≠", "$~notequal"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang isa pang @value.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Gusto mo bang gawing \\ø\\ na \\'ø'\\? Ito na ang pagkakataon mo."
+            }
+        },
+        "Text": {
+            "doc": [
+                "$~Kaya kong kumatawan sa anumang teksto, mula sa anumang @language. Ilagay lang ang teksto sa pagitan ng pambukas at pansarang mga simbolo ng teksto: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, o \\『』\\.",
+                "Upang ipakita, tingnan ang magagandang pariralang ito",
+                "\\'May dalawa lamang na paraan para mabuhay ang iyong buhay. Ang isa ay parang walang anumang himala. Ang isa naman ay parang lahat ay himala.'\\",
+                "\\'一日三秋'\\",
+                "Tandaan lang na isara mo ako kung binuksan mo ako, at gamitin ang tugmang simbolo. Kung hindi, hindi ko malalaman na tapos ka na sa iyong mga salita.",
+                "\\'kumusta'/tl'hola'/es-MX\\",
+                "Puwede mo rin akong lagyan ng tatak ng mga wika, at kahit magbigay ng maraming salin. Magiging @value ako sa anumang mga wikang kasalukuyang napili, kung may tugmang wika.",
+                "Kung gusto mo akong gawin gamit ang ibang mga halaga, puwede mong gawin ito:",
+                "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
+                "Tingnan mo kung gaano kagaan kong sinuri ang mga kabuuang iyon, at inilagay sila sa loob ng @Text?",
+                "Mayroon akong huling maliit na lihim: alam mo bang lahat tayo ay may natatanging numero? Totoo iyon! Puwede mo kaming tukuyin sa pamamagitan ng pagsulat ng @U/ at ang aming numero. Halimbawa, ang @FunctionDefinition ay 192:",
+                "\\'@U/192'\\",
+                "Tingnan mo kung paano naging @FunctionDefinition ang @U/192? Naririnig kong tinatawag ninyo ang mga numerong ito na 'Unicode'.",
+                "Kung hindi, napakaraming magagandang function na ginawa ng @FunctionDefinition para sa akin upang gumawa ng lahat ng uri ng bagay gamit ang mga salita!"
+            ],
+            "name": ["$~Teksto"],
+            "function": {
+                "length": {
+                    "doc": [
+                        "$~Sinusuri ko ang bilang ng mga nababasang karakter sa teksto; ang isang letra ay isang karakter, ang isang emoji ay isang karakter, atbp. Halimbawa:",
+                        "\\'hello'.length()\\",
+                        "\\'🐈📚'.length()\\"
+                    ],
+                    "names": ["$~haba"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ kung ako ay ang parehong pagkakasunod-sunod ng karakter gaya ng ibinigay na @Text.",
+                    "names": ["$~katumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text para ihambing.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ kung ako ay /hindi/ ang parehong pagkakasunod-sunod ng karakter gaya ng ibinigay na @Text.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text para ihambing",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ kung ang ibinigay na @Text ay lilitaw sa akin.",
+                        "\\'nahanap mo ba ang hinahanap mo?'.has('you')\\"
+                    ],
+                    "names": ["$~aymay"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na hahanapin sa akin.",
+                            "names": "$~teksto"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": [
+                        "$~\\⊤\\ kung magsisimula ako sa ibinigay na @Text.",
+                        "\\'hello verse!'.starts('hello')\\",
+                        "\\'kumusta taludtod!'.starts('taludtod')\\"
+                    ],
+                    "names": ["$~nagsisimula"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na dapat tignan sa simula ko.",
+                            "names": "$~teksto"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": [
+                        "$~\\⊤\\ kung magtatapos ako sa ibinigay na @Text.",
+                        "\\'Ako ba ay isang tanong?'.ends('?')\\",
+                        "\\'Hindi ako isang tanong.'.ends('?')\\"
+                    ],
+                    "names": ["$~mgadulo"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na dapat tignan sa dulo ng akin.",
+                            "names": "$~teksto"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": [
+                        "$~Gumawa ako ng bagong @Text na ako, inulit ang bilang ng beses ng \\count\\:",
+                        "\\'hi ' × 5\\",
+                        "Kung bibigyan mo ako ng fractional @Number, hindi ko papansinin ang fraction:",
+                        "\\'hi ' × 5.5\\",
+                        "Kung bibigyan mo ako ng negatibong @Number o zero, bibigyan ko naman ng blangkong @Text.",
+                        "\\'hi ' × -5\\",
+                        "Ang pinakamahabang teksto na kaya kong gawin ay 65,535 na karakter. Kung susubukan mong gumawa ng mas mahabang teksto, uulitin ko ang teksto nang maraming beses hangga't maaari."
+                    ],
+                    "names": ["$~paulitulit", "$~ulitin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang bilang ng beses na inulit ko ang sarili ko sa bagong teksto.",
+                            "names": "$~bilangin"
+                        }
+                    ]
+                },
+                "segment": {
+                    "doc": [
+                        "$~Hinahati ko ang aking sarili sa isang @List ng @Text, gamit ang ibinigay na @Text bilang separator, at inaalis ang mga separator. Halimbawa:",
+                        "\\'mansanas, dalandan, ubas' ÷ ', '\\",
+                        "Kung ang separator ay isang walang laman na @Text, hinahati ko ang aking sarili sa mga karakter:",
+                        "\\'🖌️🏠🥸' ÷ ''\\"
+                    ],
+                    "names": ["$~nakasegment"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na gagamitin bilang separator.",
+                            "names": "$~tagahiwalay"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Minsan, nakakatulong na pagsamahin ang dalawang @Text sa isa. Bigyan mo ako ng isa pang @Text at gagawa ako ng bagong teksto na magdudugtong sa atin:",
+                        "\\'hello ' + 'taludtod'\\"
+                    ],
+                    "names": ["$~pinagsama", "$~pagsamahin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na idadagdag.",
+                            "names": "$~teksto"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ kung ang buong teksto ay tumutugma sa ibinigay na padron.",
+                        "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
+                    ],
+                    "names": ["$~mgatugma"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang padron na dapat pagtumbasan.",
+                            "names": "$~padron"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Hanapin ang bawat lugar kung saan tumutugma ang ibinigay na pattern sa akin, bilang isang listahan ng @Result .",
+                        "\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~paghahanap"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang padron na hahanapin.",
+                            "names": "$~padron"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text na ako rin, kung saan malaki ang bawat letra:",
+                        "\\'kamusta'.malalakingTitik()\\",
+                        "May malaki at maliit na letra lang sa ilang sistema ng pagsulat, kaya ang tekstong walang ganitong sistema, gaya ng Japanese o Arabic, ay hindi nagbabago.",
+                        "Ang tatak ng aking @language ang magpapasya kung saang mga panuntunan susunod. May tuldok at walang-tuldok na i ang Turkish, at ang tekstong tinatakan bilang Turkish lang ang gagawing malaki ayon sa paraan ng Turkish:",
+                        "\\'iyi'/tr.malalakingTitik()\\",
+                        "\\'mabuti'.malalakingTitik()\\"
+                    ],
+                    "names": ["$~malalakingTitik"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text na ako rin, kung saan maliit ang bawat letra:",
+                        "\\'KAMUSTA'.maliliitNaTitik()\\",
+                        "Gawing maliit na letra ang dalawang teksto para maihambing sila nang hindi iniisip kung malaki o maliit ang mga letra. Nananatili sa listahan ang bawat salitang nagsisimula sa a, malaki man o maliit ang unang letra nito:",
+                        "\\['Mansanas' 'apricot' 'Saging'].pansala(\n\tƒ(salita•'') salita.maliliitNaTitik().nagsisimula('a')\n)\\",
+                        "Tulad ng @Text/uppercase, may malaki at maliit na letra lang sa ilang sistema ng pagsulat, at ang tatak ng aking @language ang magpapasya kung saang mga panuntunan susunod."
+                    ],
+                    "names": ["$~maliliitNaTitik"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text mula sa bahagi ko. Nagsisimula ang bilang sa 1, at kasama ang dalawang dulo:",
+                        "\\'kamusta'.subsequence(2 4)\\",
+                        "Alisin ang huling bilang at aabot ako hanggang sa huli kong simbolo:",
+                        "\\'kamusta'.subsequence(3)\\",
+                        "Binibilang ko ang mga simbolo ayon sa nakikita mo, kaya ang isang emoji na gawa sa maraming bahagi ay iisang simbolo pa rin at hindi kailanman puputulin sa kalahati:",
+                        "\\'🐈📚!'.subsequence(1 2)\\",
+                        "Kung humingi ka ng higit pa sa mayroon ako, ibinibigay ko ang mayroon ako."
+                    ],
+                    "names": ["$~subsequence"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang simula, bilang mula sa 1.",
+                            "names": "$~simula"
+                        },
+                        {
+                            "doc": "$~Ang hihintuan, bilang mula sa 1. Alisin ito para abutin ang dulo.",
+                            "names": "$~dulo"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Sinasabi ko sa iyo kung saan unang lumitaw ang ibinigay na @Text sa akin, bilang mula sa 1:",
+                        "\\'kamusta'.indeks('ll')\\",
+                        "Kung wala ito sa akin, ibinibigay ko ang @None sa halip:",
+                        "\\'kamusta'.indeks('z')\\",
+                        "Kasama ng @Text/subsequence kaya kong kunin ang lahat hanggang sa isang bagay — dito, ang unang salita:",
+                        "\\parirala: 'kamusta mundo'\nparirala.subsequence(1 (parirala.indeks(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~indeks"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na hahanapin sa akin.",
+                            "names": "$~teksto"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text kung saan ang bawat paglitaw ng isang @Text ay pinalitan ng iba:",
+                        "\\'2026-08-21'.palitan('-' '/')\\",
+                        "Nagbabago ang bawat paglitaw, hindi lang ang una:",
+                        "\\'ha ha ha'.palitan('ha' 'ho')\\",
+                        "Kung hihilingin mong palitan ang isang walang laman na @Text, ibinabalik ko ang aking sarili na walang pagbabago."
+                    ],
+                    "names": ["$~palitan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na hahanapin sa akin.",
+                            "names": "$~ng"
+                        },
+                        {
+                            "doc": "$~Ang @Text na ilalagay sa lugar nito.",
+                            "names": "$~kapalit"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text na tinanggalan ng blangkong puwang sa magkabilang dulo ko. Ang puwang sa gitna ay nananatili:",
+                        "\\'  kamusta  '.gupitin()\\",
+                        "Makakatulong ito para sa tekstong tina-type ng ibang tao, na kadalasang may dagdag na puwang na hindi mo naman hiniling."
+                    ],
+                    "names": ["$~gupitin"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Text na may mga simbolo ko sa kabaligtarang pagkakasunod-sunod:",
+                        "\\'kamusta'.binaligtad()\\",
+                        "Binabaligtad ko ang pagkakasunod-sunod ng aking mga simbolo ayon sa nakikita mo, kaya nananatiling buo ang mga emoji at pinapanatili ng mga letra ang kanilang mga marka:",
+                        "\\'🐈📚'.binaligtad()\\"
+                    ],
+                    "names": ["$~binaligtad", "$~baligtarin"],
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "list": "$~Hinahati ang teksto sa isang listahan ng mga indibidwal na karakter.",
+                "number": [
+                    "$~Kinokombert ang teksto tungo sa isang @Number, at kung hindi ito numero, isang halagang hindi-numero, na lumilitaw bilang \\!#\\:",
+                    "\\'hi' → #\\"
+                ],
+                "formatted": "$~Kino-convert ang teksto sa naka-format na teksto, binibigyang-kahulugan ang anumang markup na nilalaman nito."
+            }
+        },
+        "Number": {
+            "doc": [
+                "$~Lumilikha ako ng @Number, gamit ang anumang bilang ng mga yunit na maiisip mo!",
+                "Narito ang aking nangungunang 5:",
+                "\\0\\",
+                "\\1kuwento\\",
+                "\\πpie\\",
+                "\\∞rock\\",
+                "\\1000000yakap\\",
+                "Iyan ay karaniwang isang walang katapusang bilang ng mga numero.",
+                "At isang walang katapusang bilang ng mga yunit!",
+                "At isang walang katapusang bilang ng mga pares ng numero/yunit...",
+                "Maaari akong maging integer, real number, negatibo, positibo, fractional, decimal, kahit na hindi isang numero.",
+                "At maaari mo akong sulatan gamit ang maraming iba't ibang sistema ng numero, kabilang ang Arabic na \\123\\, Roman \\ⅩⅩⅩⅠⅩ\\, Japanese na \\二十\\, at marami pang iba:",
+                "\\1 + Ⅰ + 一\\",
+                "Maaari mo rin akong isulat sa mga base 2 hanggang 16 sa pamamagitan ng paglalagay ng base number na tulad nito:",
+                "\\2;11111111\\",
+                "\\10;255\\",
+                "\\16;FF\\",
+                "May isang espesyal na numero na tinatawag na NaN na posible kapag sumulat ka ng isang bagay na hindi isang numero:",
+                "\\2;22\\",
+                "Walang digit na '2' sa base 2, kaya hindi ito isang wastong numero. Lalabas din ang NaN kung susubukan mong i-convert ang tekstong hindi numero sa numero.",
+                "\\'hi'→#\\"
+            ],
+            "name": ["$~Numero"],
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Nagdaragdag ako ng @Number na may parehong @Unit sa aking sarili, na lumilikha ng isang bagong @Number ng parehong @Unit.",
+                        "Halimbawa:",
+                        "\\1 + 1\\",
+                        "\\3pusa + 5pusa\\",
+                        "Kung hindi magkatugma ang mga yunit, ititigil ko ang palabas.",
+                        "\\3pusa + 5aso\\🪲"
+                    ],
+                    "names": ["$~idagdag"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Number na idadagdag.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "subtract": {
+                    "doc": [
+                        "$~Ibinabawas ko ang @Number na ibinigay mo sa akin mula sa aking sarili, na lumilikha ng isang bagong @Number ng parehong @Unit.",
+                        "Halimbawa:",
+                        "\\1 - 1\\",
+                        "\\3pusa - 5pusa\\",
+                        "Kung hindi magkatugma ang mga yunit, ititigil ko ang palabas.",
+                        "\\3pusa - 5aso\\🪲"
+                    ],
+                    "names": ["$~ibawas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Number na ibawas sa akin.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "multiply": {
+                    "doc": [
+                        "$~Pinarami ko ang aking sarili sa ibinigay na @Number, na lumilikha ng isang produkto ng aking @Unit at ng ibinigay na numero na @Unit:",
+                        "\\5 × 5\\",
+                        "\\5m × 5m\\",
+                        "\\5m × 1/s\\"
+                    ],
+                    "names": ["$~magparami"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang bilang na ipaparami.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "divide": {
+                    "doc": [
+                        "$~Hinahati ko ang aking sarili sa ibinigay na @Number, na lumilikha ng quotient ng aking @Unit at ng ibinigay na numero na @Unit:",
+                        "\\5 ÷ 5\\",
+                        "\\5m ÷ 5m\\",
+                        "\\5m ÷ 5s\\"
+                    ],
+                    "names": ["$~hatiin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Number para hatiin ako.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "remainder": {
+                    "doc": [
+                        "$~Hinahati ko ang aking sarili sa ibinigay na @Number, ngunit ibinibigay ko ang natitira:",
+                        "\\10 % 2\\",
+                        "\\10m % 2\\",
+                        "\\10m/s % 3\\"
+                    ],
+                    "names": ["$~natitira"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Number para hatiin ako.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "positive": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @Number na nagpapa-positibo sa akin, kung negatibo man.",
+                        "\\-200.positive()\\"
+                    ],
+                    "names": ["$~positibo"],
+                    "inputs": []
+                },
+                "round": {
+                    "doc": [
+                        "$~Lumilikha ako ng isang bagong @Number na nag-round out sa akin sa pinakamalapit na integer.",
+                        "\\9.4.round()\\",
+                        "\\9.5.round()\\",
+                        "\\9.6.round()\\"
+                    ],
+                    "names": ["$~bilog"],
+                    "inputs": []
+                },
+                "roundDown": {
+                    "doc": [
+                        "$~Lumilikha ako ng isang bagong @Number na nag-round sa pinakamaliit na integer na mas mababa sa akin.",
+                        "\\10.5.roundDown()\\",
+                        "\\10.1.roundDown()\\",
+                        "\\10.01.roundDown()\\"
+                    ],
+                    "names": ["$~roundDown"],
+                    "inputs": []
+                },
+                "roundUp": {
+                    "doc": [
+                        "$~Lumilikha ako ng isang bagong @Number na nag-round up sa pinakamaliit na integer na mas malaki kaysa sa akin.",
+                        "\\10.5.roundUp()\\",
+                        "\\10.9.roundUp()\\",
+                        "\\10.99.roundUp()\\"
+                    ],
+                    "names": ["$~roundUp"],
+                    "inputs": []
+                },
+                "power": {
+                    "doc": [
+                        "$~Itinataas ko ang aking sarili sa ibinigay na kapangyarihan ng @Number. Ayos lang ang mga fractional exponent!",
+                        "\\2 ^ 8\\",
+                        "\\10 ^ -2\\",
+                        "\\5 ^ -.5\\"
+                    ],
+                    "names": ["$~kapangyarihan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang eksponente para itaas ako.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "root": {
+                    "doc": [
+                        "$~Nililikha ko ang ugat ng aking sarili gamit ang ibinigay na ugat.",
+                        "\\4 √ 2\\",
+                        "\\1000 √ 3\\"
+                    ],
+                    "names": ["$~ugat"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang ugat para kalkulahin.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "lessThan": {
+                    "doc": [
+                        "$~\\⊤\\ kung ako ay mas mababa sa ibinigay na @Number:",
+                        "\\1 < 2\\",
+                        "\\2 < 1\\"
+                    ],
+                    "names": ["$~masmababasa"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Number para ikumpara ako.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "lessOrEqual": {
+                    "doc": [
+                        "$~\\⊤\\ kung ako ay mas mababa sa o katumbas ng ibinigay na @Number:",
+                        "\\1 ≤ 2\\",
+                        "\\2 ≤ 1\\",
+                        "\\2 ≤ 2\\"
+                    ],
+                    "names": ["$~masmababaangkatumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Number para ikumpara ako.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "greaterThan": {
+                    "doc": [
+                        "$~\\⊤\\ kung ako ay mas malaki kaysa sa ibinigay na @Number:",
+                        "\\1 > 2\\",
+                        "\\2 > 1\\"
+                    ],
+                    "names": ["$~masmalakikaysasa"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Number para ikumpara ako.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "greaterOrEqual": {
+                    "doc": [
+                        "$~\\⊤\\ kung ako ay mas malaki o katumbas ng ibinigay na @Number:",
+                        "\\1 ≥ 2\\",
+                        "\\2 ≥ 1\\",
+                        "\\2 ≥ 2\\"
+                    ],
+                    "names": ["$~masmalakiokatumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Number para ikumpara ako.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "equal": {
+                    "doc": [
+                        "$~\\⊤\\ kung ako ay katumbas ng ibinigay na @Number:",
+                        "\\1 = 2\\",
+                        "\\2 = 2\\"
+                    ],
+                    "names": ["$~pantay"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Number para ikumpara ako.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": [
+                        "$~\\⊤\\ kung hindi ako katumbas ng ibinigay na @Number:",
+                        "\\1 ≠ 2\\",
+                        "\\2 ≠ 2\\"
+                    ],
+                    "names": ["$~≠", "$~notequal"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Number para ikumpara ako.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "cos": {
+                    "doc": ["$~Kwentahin ang cosine ng ako.", "\\π.cos()\\"],
+                    "names": ["$~kosino"],
+                    "inputs": []
+                },
+                "sin": {
+                    "doc": ["$~Kwentahin ang sine ng ako.", "\\π.cos()\\"],
+                    "names": ["$~kasalanan"],
+                    "inputs": []
+                },
+                "min": {
+                    "doc": [
+                        "$~Hanapin ang pinakamaliit na bilang ng ako at ng iba pa.",
+                        "\\1.min(2 3 -1)\\"
+                    ],
+                    "names": "$~minuto",
+                    "inputs": [
+                        {
+                            "doc": "$~Kahit ilang numero ang gusto mong ibigay sa akin!",
+                            "names": "$~mganumero"
+                        }
+                    ]
+                },
+                "max": {
+                    "doc": [
+                        "$~Hanapin ang pinakamalaking bilang ng ako at iba pa.",
+                        "\\1.max(2 3 4)\\"
+                    ],
+                    "names": "$~pinakamataas",
+                    "inputs": [
+                        {
+                            "doc": "$~Kahit ilang numero ang gusto mong ibigay sa akin!",
+                            "names": "$~mganumero"
+                        }
+                    ]
+                },
+                "tan": {
+                    "doc": ["$~Kalkulahin ang tangent ko.", "\\π.tan()\\"],
+                    "names": ["$~tanghente"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Kalkulahin ang arcsine (kabaligtaran ng sine) ko.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Kalkulahin ang arccosine (kabaligtaran ng cosine) ko.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Kalkulahin ang arctangent (kabaligtaran ng tangent) ko.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Itaas ang numerong _e_ sa aking kapangyarihan.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Kalkulahin ang aking logarithm sa ibinigay na base, o ang aking natural na logarithm kung walang ibinigay na base.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang base ng logarithm. Iwan itong walang laman para sa natural na logarithm (base _e_).",
+                            "names": "$~base"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Isang @Range mula sa akin hanggang sa ibinigay na @Number, kasama ang dalawa. Ikalat ito sa isang listahan gamit ang @Spread, itanong kung may hawak itong numero, o gamitin ito bilang susi ng @Match:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Bumibilang ako pababa kapag ang aking dulo ay mas mababa sa aking simula:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~hanggang"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Number na hanggang dito nagtatapos ang aking saklaw. Dapat ay may parehong yunit ito sa akin.",
+                            "names": "$~numero"
+                        }
+                    ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Panatilihin akong nasa pagitan ng mababang numero at mataas na numero: kung mas mababa ako sa mababang numero, iyon ang makukuha mo, at kung mas mataas ako sa mataas na numero, iyon naman ang makukuha mo.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~hangganan",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang pinakamababang @value na maaari kong maging.",
+                            "names": "$~mababa"
+                        },
+                        {
+                            "doc": "$~Ang pinakamataas na @value na maaari kong maging.",
+                            "names": "$~mataas"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Gumalaw ng bahagi ng daan mula sa akin patungo sa ibang numero. Sa 0% makukuha mo ako, sa 100% makukuha mo ang isa pa, at sa kalagitnaan ay makukuha mo ang numerong nasa gitna.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~patungo",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang numerong gagalawan mo patungo.",
+                            "names": "$~iba"
+                        },
+                        {
+                            "doc": "$~Gaano kalayo ang lalakbayin, kung saan dumarating ang 100%.",
+                            "names": "$~dami"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Hanapin kung saan ako nasa pagitan ng isang pares ng mga numero, pagkatapos ibigay ang numerong nasa parehong posisyon sa ibang pares. Kapaki-pakinabang para gawing maipapakita ang isang bagay na iyong sinukat.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~mulingIskala",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang mababang dulo ng saklaw kung saan ako nasa loob.",
+                            "names": "$~mulaMababa"
+                        },
+                        {
+                            "doc": "$~Ang mataas na dulo ng saklaw kung saan ako nasa loob.",
+                            "names": "$~mulaMataas"
+                        },
+                        {
+                            "doc": "$~Ang mababang dulo ng saklaw na gusto mo.",
+                            "names": "$~paMababa"
+                        },
+                        {
+                            "doc": "$~Ang mataas na dulo ng saklaw na gusto mo.",
+                            "names": "$~paMataas"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Isang Arabic @Text na representasyon ng aking mga numero.",
+                "list": [
+                    "$~Kino-convert ko ang isang numero sa isang listahan ng mga numero mula sa \\1\\ patungo sa anumang numerong ibinigay. Halimbawa:",
+                    "\\10→[]\\"
+                ],
+                "unit": "$from → $to"
+            },
+            "unit": {
+                "ns": "$~nanosegundo",
+                "us": "$~mikrosegundo",
+                "ms": "$~milisegundo",
+                "s": "$~segundo",
+                "min": "$~minuto",
+                "h": "$~oras",
+                "day": "$~araw",
+                "wk": "$~linggo",
+                "yr": "$~taon",
+                "pm": "$~picometro",
+                "nm": "$~nanometro",
+                "um": "$~mikrometro",
+                "mm": "$~milimetro",
+                "cm": "$~sentimetro",
+                "dm": "$~desimetro",
+                "m": "$~metro",
+                "hm": "$~hektometro",
+                "km": "$~kilometro",
+                "Mm": "$~megametro",
+                "Gm": "$~gigametro",
+                "Tm": "$~terametro",
+                "in": "$~pulgada",
+                "ft": "$~talampakan",
+                "yd": "$~yarda",
+                "mi": "$~milya",
+                "nmi": "$~nautikal na milya",
+                "au": "$~astronomikal na yunit",
+                "ly": "$~liwanag-taon",
+                "ug": "$~mikrogramo",
+                "mg": "$~miligramo",
+                "g": "$~gramo",
+                "kg": "$~kilogramo",
+                "t": "$~metrikong tonelada",
+                "oz": "$~onsa",
+                "lb": "$~libra",
+                "st": "$~stone",
+                "uston": "$~US na maiksing tonelada",
+                "ukton": "$~British na mahabang tonelada",
+                "degC": "$~antas Celsius",
+                "degF": "$~antas Fahrenheit",
+                "K": "$~kelvin",
+                "deg": "$~antas ng anggulo",
+                "rad": "$~radyan",
+                "mm2": "$~parisukat na milimetro",
+                "cm2": "$~parisukat na sentimetro",
+                "m2": "$~parisukat na metro",
+                "km2": "$~kilometrong parisukat",
+                "in2": "$~pulgadang parisukat",
+                "ft2": "$~talampakang parisukat",
+                "yd2": "$~yardang parisukat",
+                "mi2": "$~milyang parisukat",
+                "ha": "$~ektarya",
+                "acre": "$~akre",
+                "mL": "$~mililitro",
+                "cL": "$~sentilitro",
+                "dL": "$~desilitro",
+                "L": "$~litro",
+                "kL": "$~kilolitro",
+                "cm3": "$~sentimetrong kubiko",
+                "m3": "$~metrong kubiko",
+                "tsp": "$~kutsarita",
+                "tbsp": "$~kutsara",
+                "cup": "$~tasa",
+                "usfloz": "$~onsang likido ng Estados Unidos",
+                "uspt": "$~pintang Estados Unidos",
+                "usqt": "$~kwartang Estados Unidos",
+                "usgal": "$~galong Estados Unidos",
+                "ukfloz": "$~onsang likido ng Britanya",
+                "ukpt": "$~pintang Britanya",
+                "ukqt": "$~kwartang Britanya",
+                "ukgal": "$~galong Britanya",
+                "mps": "$~metro kada segundo",
+                "kmph": "$~kilometro kada oras",
+                "miph": "$~milya kada oras",
+                "ftps": "$~talampakan kada segundo",
+                "kn": "$~knots",
+                "Pa": "$~pascal",
+                "hPa": "$~hectopascal",
+                "kPa": "$~kilopascal",
+                "bar": "$~bar",
+                "atm": "$~karaniwang atmospera",
+                "psi": "$~libra kada parisukat na pulgada",
+                "mmHg": "$~milimetro ng mercury",
+                "J": "$~joule",
+                "kJ": "$~kilojoule",
+                "cal": "$~kalorya",
+                "kcal": "$~kilokalorya",
+                "Wh": "$~watt-oras",
+                "kWh": "$~kilowatt-oras",
+                "BTU": "$~British thermal unit",
+                "eV": "$~electronvolt",
+                "mW": "$~milliwatt",
+                "W": "$~watt",
+                "kW": "$~kilowatt",
+                "MW": "$~megawatt",
+                "GW": "$~gigawatt",
+                "hp": "$~horsepower",
+                "uA": "$~mikroampere",
+                "mA": "$~miliampere",
+                "A": "$~ampere",
+                "kA": "$~kiloampere",
+                "mV": "$~milivolts",
+                "V": "$~volts",
+                "kV": "$~kilovolts",
+                "mohm": "$~miliohm",
+                "ohm": "$~ohm",
+                "kohm": "$~kiloohm",
+                "Mohm": "$~megaohm",
+                "Hz": "$~hertz",
+                "kHz": "$~kilohertz",
+                "MHz": "$~megahertz",
+                "GHz": "$~gigahertz",
+                "bpm": "$~tibok bawat minuto",
+                "bit": "$~bits",
+                "B": "$~bytes",
+                "kB": "$~kilobytes",
+                "MB": "$~megabytes",
+                "GB": "$~gigabytes",
+                "TB": "$~terabytes",
+                "KiB": "$~kibibytes",
+                "MiB": "$~mebibytes",
+                "GiB": "$~gibibytes",
+                "TiB": "$~tebibytes",
+                "lux": "$~lux",
+                "fc": "$~foot-candles"
+            },
+            "category": {
+                "time": "$~Oras",
+                "length": "$~Haba",
+                "weight": "$~Bigat",
+                "temperature": "$~Temperatura",
+                "angle": "$~Anggulo",
+                "area": "$~Sukat ng Lawak",
+                "volume": "$~Dami",
+                "speed": "$~Bilis",
+                "pressure": "$~Presyon",
+                "energy": "$~Enerhiya",
+                "power": "$~Kapangyarihan",
+                "electricity": "$~Kuryente",
+                "frequency": "$~Dalas",
+                "data": "$~Datos",
+                "brightness": "$~Liwanag",
+                "other": "$~Iba pa"
+            }
+        },
+        "List": {
+            "doc": [
+                "$~Ako ay isang sunod-sunod na mga halaga, ng anumang uri!",
+                "Maaari kang maglagay ng anuman sa akin: @Boolean, @Number, @Text, @None, kahit iba pang @List, @Set, @Map, o anumang @expression. Narito ang isang simple:",
+                "\\['mansanas' 'saging' 'mangga']\\",
+                "Ang nagpapapantangi sa akin ay pinapanatili kong maayos ang mga bagay at binibilang ko ang lahat mula 1 hanggang kung ilan man ang mga bagay na nasa akin.",
+                "Numerado ang aking mga bagay, simula sa 1. Makukuha mo ang mga halagang iniimbak ko gamit ang @ListAccess, gamit ang kanilang numero:",
+                "Halimbawa, ang pangalawang @value sa listahang ito ay \\['saging']\\",
+                "\\['mansanas' 'saging' 'mangga'][2]\\",
+                "Kaya kong maglaman ng kahit ano. Tingnan mo ang listahang ito, na may @Text, @Number, at @Time!",
+                "\\['mansanas' 10 + 10 Oras()]\\",
+                "Kapag binigyan mo ako ng listahan ng maraming bagay, gagawin ko silang pangkalahatan kung mayroon silang parehong @type. Pero minsan maaaring literal mong ibig sabihin ang mga tiyak na bagay na iyon. Kung gayon, maglagay ka lang ng ! pagkatapos ko, at sisiguraduhin kong kumakatawan ako sa listahan ng partikular na mga halagang iyon lamang.",
+                "\\['mansanas' 'saging' 'mangga']!\\",
+                "Iyon na lang halos. Pero kaya kong gumawa ng lahat ng uri ng kawili-wiling bagay gamit ang aking @FunctionDefinition!"
+            ],
+            "name": ["$~Listahan"],
+            "kind": "Uri",
+            "out": "$~Resulta",
+            "outofbounds": "$~mgaLabasSaHangganan",
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @List gamit ang ibinigay na item sa dulo.",
+                        "\\['apple' 'banana' 'mango'].with('watermelon')\\"
+                    ],
+                    "names": "$~kasama",
+                    "inputs": [
+                        {
+                            "doc": "$~Ako ang @value na gusto mong idagdag.",
+                            "names": "$~bagay"
+                        }
+                    ]
+                },
+                "append": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong @List kasama ang aking mga @value, pagkatapos ay lahat ng mga halaga ng ibinigay na @List pagkatapos ko.",
+                        "\\['mansanas' 'saging' 'mangga'].withList(['pakwan' 'bituin'])\\",
+                        "Medyo mas madaling gamitin ang @Spread, gaya nito:",
+                        "\\['mansanas' 'saging' 'mangga' :['pakwan' 'bituin']]\\"
+                    ],
+                    "names": "$~kasamaangListahan",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang listahan ng mga halagang idadagdag.",
+                            "names": "$~listahan"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong listahan na pumapalit sa @value sa ibinigay na @index gamit ang ibinigay na halaga.",
+                        "\\['mansanas' 'saging' 'mangga'].palitan(1 'kiwi')\\"
+                    ],
+                    "names": ["$~palitan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @index ng @value na papalitan",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~Ang pamalit na @value",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "length": {
+                    "doc": "$~Ang @Number ng mga aytem sa akin.",
+                    "names": ["$~haba"],
+                    "inputs": []
+                },
+                "random": {
+                    "doc": [
+                        "$~Isang random na napiling isa sa aking mga item, o @None kung ako ay walang laman.",
+                        "\\['mansanas' 'saging' 'mangga'].random()\\"
+                    ],
+                    "names": "$~random",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": [
+                        "$~Gumawa ng bagong listahan gamit ang mga aytem sa listahan na random na nakaayos.",
+                        "\\['apple' 'banana' 'mango'].shuffled()\\"
+                    ],
+                    "names": "$~hinalo",
+                    "inputs": []
+                },
+                "first": {
+                    "doc": [
+                        "$~Ang unang aytem sa akin, o @None kung ako ay walang laman.",
+                        "\\['mansanas' 'saging' 'mangga'].una()\\"
+                    ],
+                    "names": "$~una",
+                    "inputs": []
+                },
+                "last": {
+                    "doc": [
+                        "$~Ang huling bagay sa akin, o @None kung wala akong laman.",
+                        "\\['mansanas' 'saging' 'mangga'].huli()\\"
+                    ],
+                    "names": "$~huli",
+                    "inputs": []
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ kung mayroon akong aytem na katumbas ng ibinigay na aytem sa akin.",
+                        "\\['mansanas' 'saging' 'mangga'].has('saging')\\"
+                    ],
+                    "names": "$~aymay",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @value na hahanapin.",
+                            "names": "$~bagay"
+                        }
+                    ]
+                },
+                "join": {
+                    "doc": [
+                        "$~Pinagsasama ko ang mga item sa aking listahan sa @Text, na pinaghihiwalay ng ibinigay na separator na @Text.",
+                        "\\['mansanas' 'saging' 'mangga'].join(', ')\\"
+                    ],
+                    "names": "$~sumali",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang teksto para paghiwalayin ang mga item, opsyonal na blangko.",
+                            "names": "$~panghiwalay"
+                        }
+                    ]
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Kumukuha ako ng listahan sa loob ng listahang ito, nagsisimula sa @index na ibinigay mo, at nagtatapos sa huling bagay, o kung magbibigay ka, sa isang partikular na bagay.",
+                        "\\['mansanas' 'saging' 'mangga'].kasunod(2)\\",
+                        "\\['mansanas' 'saging' 'mangga'].kasunod(1 2)\\",
+                        "At tingnan mo! Kung magbibigay ka ng mga numero na hindi maayos ang pagkakasunod, ibibigay ko sa iyo ang baligtad",
+                        "\\['mansanas' 'saging' 'mangga'].kasunod(3 1)\\",
+                        "Kung bibigyan mo ako ng isang bagay na mas maliit sa 1 para sa indeks, ipapalagay kong ibig mong sabihin ay 1.",
+                        "\\['mansanas' 'saging' 'mangga'].kasunod(-1003243 2)\\",
+                        "At kung bibigyan mo ako ng isang bagay na mas malaki sa pinakamalaking indeks, ipapalagay kong ibig mong sabihin ay ang dulo.",
+                        "\\['mansanas' 'saging' 'mangga'].kasunod(3 2304032432)\\"
+                    ],
+                    "names": "$~kasunod",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @index ng unang bagay ng bahaging gusto mo.",
+                            "names": "$~simulan"
+                        },
+                        {
+                            "doc": "$~Ang opsyonal na @index ng huling bagay ng bahaging gusto mo. Kung wala kang ibibigay, magtatapos ang iyong listahan sa huling bagay sa listahan.",
+                            "names": "$~katapusan"
+                        }
+                    ]
+                },
+                "sansFirst": {
+                    "doc": [
+                        "$~Gumagawa ako ng listahan nang wala ang una kong aytem.",
+                        "\\['mansanas' 'saging' 'mangga'].sansFirst()\\"
+                    ],
+                    "names": ["$~walangUna"],
+                    "inputs": []
+                },
+                "sansLast": {
+                    "doc": [
+                        "$~Gumagawa ako ng listahan nang wala ang aking huling aytem.",
+                        "\\['mansanas' 'saging' 'mangga'].sansLast()\\"
+                    ],
+                    "names": ["$~walangHuling"],
+                    "inputs": []
+                },
+                "sansAll": {
+                    "doc": [
+                        "$~Ako, ngunit wala ang ibinigay na @value. Bawat kopya ay aalisin, hindi lang ang una, kahit alin man sa aking mga pangalan ang gamitin mo:",
+                        "\\['mansanas' 'saging' 'mangga' 'mansanas'].nangwalang(\n\t'mansanas'\n)\\"
+                    ],
+                    "names": [
+                        "$~nangwalang",
+                        "$~walanglaman",
+                        "$~nangwalangLahat",
+                        "$~walangLahat"
+                    ],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @value na aalisin ang lahat ng paglitaw mula sa listahan.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Ako, pero pabaligtad!",
+                        "\\['apple' 'banana' 'mango'].reverse()\\"
+                    ],
+                    "names": ["$~baligtad"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ kung ang aking mga item at order ay eksaktong kapareho ng ibinigay na @List.",
+                        "\\['apple' 'banana' 'mangga'] = ['apple' 'mangga' 'saging']\\"
+                    ],
+                    "names": ["$~katumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @List para ikumpara ako.",
+                            "names": "$~listahan"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ kung ang aking mga item at order ay /hindi/ eksaktong kapareho ng ibinigay na @List.",
+                        "\\['mansanas' 'saging' 'mangga'] ≠ ['mansanas' 'mangga' 'saging']\\"
+                    ],
+                    "names": ["$~≠", "$~notequal"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @List para ikumpara ako.",
+                            "names": "$~listahan"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Bigyan mo ako ng @FunctionDefinition na kumukuha ng @value at opsyonal na @index bilang input at gumagawa ng halaga, at susuriin ko ito sa bawat isa sa aking mga bagay, na binabago ang aking mga halaga sa mga bagong halaga.",
+                        "Halimbawa, isipin na ako ay listahan ng @Number at gusto mong doblehin silang lahat:",
+                        "\\[2 4 6 8].isalin(ƒ(num•#) num × 2)\\"
+                    ],
+                    "names": "$~isalin",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @FunctionDefinition na magsasalin ng bawat item.",
+                            "names": "$~tagasalin"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Ang aytem na isinasalin.",
+                            "names": "$~bagay"
+                        },
+                        {
+                            "doc": "$~Ang @index ng bagay na binabago.",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~Ang listahang isinasalin.",
+                            "names": "$~listahan"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Bigyan mo ako ng @FunctionDefinition na kumukuha ng @value at opsyonal na @index bilang input at gumagawa ng @Boolean, at gagawa ako ng bagong listahan na naglalaman lamang ng mga bagay na nagreresulta \\⊤\\.",
+                        "Halimbawa, isipin na ako ay listahan ng @Number at gusto mo lang ang mga positibo:",
+                        "\\[2 -4 8 -16].pansala(ƒ(num•#) num ≥ 0)\\"
+                    ],
+                    "names": "$~pansala",
+                    "inputs": [
+                        {
+                            "doc": "$~Isang @FunctionDefinition na sumusuri sa bawat item, na bubuo ng \\⊤\\ kung dapat ba itong panatilihin.",
+                            "names": "$~tagasuri"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Ang item na sinusuri.",
+                            "names": "$~bagay"
+                        },
+                        {
+                            "doc": "$~Ang @index ng bagay na sinusuri.",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~Ang listahang sinasala.",
+                            "names": "$~listahan"
+                        }
+                    ]
+                },
+                "all": {
+                    "doc": [
+                        "$~Bigyan mo ako ng @FunctionDefinition na kumukuha ng @value bilang input at gumagawa ng @Boolean kung tumutugma ito sa isang @condition. Gagawa ako ng \\⊤\\ kung lahat ng item ay tumutugma sa kondisyon.",
+                        "Halimbawa, isipin mong ako ay isang listahan ng @Number at gusto mong malaman kung positibo lahat:",
+                        "\\[2 -4 8 -16].lahat(ƒ(num•#) num ≥ 0)\\"
+                    ],
+                    "names": "$~lahat",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @FunctionDefinition na gumagawa \\⊤\\ kung ang isang item ay tumutugma sa iyong @condition.",
+                            "names": "$~tagasuri"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Ang item na sinusuri.",
+                            "names": "$~bagay"
+                        },
+                        {
+                            "doc": "$~Ang @index ng item na sinusuri.",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~Sinusuri ang listahan.",
+                            "names": "$~listahan"
+                        }
+                    ]
+                },
+                "until": {
+                    "doc": [
+                        "$~Bigyan mo ako ng @FunctionDefinition na kumukuha ng @value bilang input at gumagawa ng @Boolean kung tumutugma ito sa isang @condition. Gagawa ako ng bagong @List na naglalaman ng lahat ng item hanggang sa hindi na matugunan ang kondisyon.",
+                        "Halimbawa, isipin mong ako ay isang listahan ng @Text na hayop at gusto mo ang lahat hanggang sa \\'daga'\\ ay nahanap:",
+                        "\\['pusa' 'aso' 'daga' 'daga' 'munting kabayo'].hanggang(\n\tƒ(hayop•'') hayop = 'daga'\n)\\🪲"
+                    ],
+                    "names": "$~hanggang",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @FunctionDefinition na naglalabas ng \\⊤\\ kung dapat ko bang ihinto ang pagsasama ng mga item.",
+                            "names": "$~tagasuri"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Ang item na sinusuri.",
+                            "names": "$~bagay"
+                        },
+                        {
+                            "doc": "$~Ang @index ng item na sinusuri.",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~Ang listahan ay nakasunod sa pagkakasunod-sunod.",
+                            "names": "$~listahan"
+                        }
+                    ]
+                },
+                "find": {
+                    "doc": [
+                        "$~Bigyan mo ako ng @FunctionDefinition na kumukuha ng @value bilang input at gumagawa ng @Boolean kung tumutugma ito sa ilang pamantayan, at ilalabas ko ang tumutugmang item.",
+                        "Halimbawa, isipin mong gusto mong hanapin ang unang hayop na may patinig na \\'e'\\:",
+                        "\\['pusa' 'aso' 'daga' 'daga' 'kabayo'].hanapin(\n\tƒ(hayop•'') hayop.aymay('e')\n)\\🪲"
+                    ],
+                    "names": "$~hanapin",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @FunctionDefinition na lalabas bilang \\⊤\\ kung tumutugma ito sa iyong pamantayan sa paghahanap.",
+                            "names": "$~tagasuri"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Ang item na sinusuri.",
+                            "names": "$~bagay"
+                        },
+                        {
+                            "doc": "$~Ang @index ng item na sinusuri.",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~Ang listahang hinahanap.",
+                            "names": "$~listahan"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Bigyan mo ako ng @FunctionDefinition na kumukuha ng pinakabagong kombinasyon at ng susunod na @value, at gagawa ng susunod na kombinasyon. Lalakad ako mula sa una hanggang huli sa mga item ko, gagawa ng sunod-sunod na kombinasyon, at magpapahalaga sa huling kombinasyong ibibigay ng iyong @FunctionDefinition.",
+                        "Malaking tulong ito para pagsamahin ang lahat ng item sa akin sa iisang halaga. Halimbawa, isipin mong gusto mong pagsama-samahin ang isang listahan ng mga numero:",
+                        "\\[3 9 2 8 1 4].pinagsama(\n\t0\n\tƒ(kabuuan•# numero•#) kabuuan + numero\n)\\"
+                    ],
+                    "names": ["$~pinagsama", "$~pagsamahin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang panimulang kombinasyon.",
+                            "names": "$~inisyal"
+                        },
+                        {
+                            "doc": "$~Ang @FunctionDefinition na kumukuha ng pinakabagong kombinasyon at ng susunod na @value at gumagawa ng susunod na kombinasyon.",
+                            "names": "$~tagapagsama"
+                        }
+                    ],
+                    "combiner": [
+                        {
+                            "doc": "$~Ang kasalukuyang kombinasyon",
+                            "names": "$~kombinasyon"
+                        },
+                        {
+                            "doc": "$~Ang susunod na item na pagsasamahin.",
+                            "names": "$~susunod"
+                        },
+                        {
+                            "doc": "$~Ang @index ng susunod na item",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~Pinagsasama-sama ang listahan.",
+                            "names": "$~listahan"
+                        }
+                    ]
+                },
+                "sorted": {
+                    "doc": [
+                        "$~Maaari akong tumanggap ng listahan, at gumawa ng bagong listahan na may nakaayos na mga @value nito. Ganito:",
+                        "\\[1 5 8 0 2].inayos()\\",
+                        "Magagawa ko rin ito para sa mga halagang @Text, ayon sa pagkakasunod-sunod ng alpabeto. Ang malaking letra ay nasa tabi ng maliit na letra nito sa pagkakasunod-sunod, kaya ang isang salita ay hindi napupunta sa dulo dahil lang nagsisimula ito sa malaking letra:",
+                        "\\['Kahel' 'kiwi' 'Saging' 'mansanas'].inayos()\\",
+                        "At kung mayroon kang listahan ng mga halagang hindi @Number o @Text, maaari mong bigyan ako ng isang @FunctionDefinition na nagpapalit ng bawat aytem sa isang @Number o isang @Text para maayos ko ito. Halimbawa, narito tayo ay may listahan ng mga listahan na may iba't ibang haba; kung bibigyan mo ako ng isang function na nagpapalit ng bawat listahan sa haba nito, maaari kong ayusin ayon sa haba nila.",
+                        "\\[[1] [2 3] [4 8 12] [8]].inayos(\n\tƒ(listahan2) listahan2.haba()\n)\\",
+                        "Ang isang function na gumagawa ng @Text ay paraan ng pag-aayos ayon sa isang salitang kinukuwenta mo, sa halip na ayon mismo sa halaga. Dito, inaayos ko ang mga pangalan ayon sa huling pangalan:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].inayos(\n\tƒ(pangalan2•'') (pangalan2 ÷ ' ').huli()\n)\\"
+                    ],
+                    "names": "$~inayos",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang opsyonal na @FunctionDefinition na gagamitin para ayusin ang isang listahang @value. Dapat nitong palitan ang halaga sa isang @Number o isang @Text na magagamit para sa pag-aayos ng listahan.",
+                            "names": "$~sequencer"
+                        }
+                    ],
+                    "sequencer": [
+                        {
+                            "doc": "$~Ang @value na papalitan sa isang @Number o isang @Text.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Idagdag ang lahat ng aking mga numero nang sama-sama. Kung ako ay walang laman, ang @value ay 0, at kung ang aking mga numero ay hindi lahat sinusukat sa parehong bagay, sasabihin ko iyon sa halip na hulaan.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~kabuuan",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Idagdag ang lahat ng aking mga numero nang sama-sama at hatiin sa bilang ng mga ito. Kung ako ay walang laman, walang mapagkukunang average, kaya ang makukuha mo ay @None.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~karaniwan",
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "text": "$~Sa isang representasyon ng listahan na @Text.",
+                "set": "$~Sa isang @Set, nakakatulong para sa pag-alis ng mga duplicate."
+            }
+        },
+        "Set": {
+            "doc": [
+                "$~Ako ay isang set ng mga halaga! Ibig sabihin, kaya kong maglaman ng kahit ilang halaga, kahit walang halaga. Magagawa mo akong ganito:",
+                "\\{1 2 3}\\",
+                "Napakahusay ko kung gusto mong magtago ng koleksyon ng mga bagay na walang duplikado.",
+                "Ibig sabihin, kung bibigyan mo ako ng mga halagang mayroon na ako, hindi ko papansinin ang mga sobra.",
+                "Halimbawa, ang set na ito ay may maraming duplikado:",
+                "\\{1 1 2 2 3 3}\\",
+                "Inilalabas ko ito bilang \\{1 2 3}\\.",
+                "Kung gusto mong makita kung mayroon akong @value sa loob ko, makakatulong ang @SetOrMapAccess:",
+                "\\{'garapon' 'bote' 'baso'}{'tasa'}\\",
+                "Karaniwan, kung bibigyan mo ako ng mga halagang may parehong @type, ipapalagay kong sila ay isang listahan ng uring iyon. Tulad ng set na ito na \\{''}\\, dahil lahat ito ay @Text.",
+                "\\{'uy' 'kumusta' 'hello'}\\",
+                "Pero baka gusto mong ipahiwatig na ako ay isang set ng /tanging/ mga halagang iyon lamang, para masabi ko sa iyo kung susubukan mong gumamit ng isang hindi pinapayagan. Kung ganoon, magdagdag lang ng ! sa dulo ko.",
+                "\\{'uy' 'hi' 'kumusta'}!{'oy'}\\🪲",
+                "Mayroon pa bang ibang gusto mong gawin sa akin? Tingnan mo ang lahat ng magagandang @FunctionDefinition na mayroon ako!"
+            ],
+            "name": ["$~Itakda"],
+            "kind": "Uri",
+            "out": "$~Resulta",
+            "function": {
+                "size": {
+                    "doc": "$~Sasabihin ko sa iyo kung gaano karaming mga @value ang nasa akin.",
+                    "names": "$~laki",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~Ako ay \\⊤\\ kung ang ibinigay na @Set at ako ay may eksaktong parehong mga @value:",
+                        "\\{1 2 3} = {2 3 4}\\"
+                    ],
+                    "names": ["$~katumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Set para ihambing.",
+                            "names": "$~itakda"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~Ako ay \\⊤\\ kung ang ibinigay na @Set at wala akong eksaktong parehong mga @value:",
+                        "\\{1 2 3} ≠ {2 3 4}\\"
+                    ],
+                    "names": ["$~≠", "$~notequal"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Set para ihambing.",
+                            "names": "$~itakda"
+                        }
+                    ]
+                },
+                "add": {
+                    "doc": [
+                        "$~Bigyan mo ako ng isang item na idadagdag at gagawa ako ng bagong @Set gamit ang mga item ko at ang ibinigay na item.",
+                        "\\{1 2 3} + 4\\"
+                    ],
+                    "names": ["$~kasama", "$~idagdag"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang item na idadagdag",
+                            "names": "$~bagay"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~Bigyan mo ako ng isang item na aalisin at gagawa ako ng bagong @Set nang wala ang item.",
+                        "\\{1 2 3} - 2\\",
+                        "Kung wala akong item, ako na lang mag-e-evaluate."
+                    ],
+                    "names": ["$~tanggalin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang bagay na aalisin.",
+                            "names": "$~bagay"
+                        }
+                    ]
+                },
+                "union": {
+                    "doc": [
+                        "$~Bigyan mo ako ng @Set at gagawa ako ng bagong @Set na naglalaman ng mga item ko at ng mga item ng set.",
+                        "\\{1 2 3} ∪ {3 4 5}\\"
+                    ],
+                    "names": ["$~unyon"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Set para pagsamahin sa akin.",
+                            "names": "$~itakda"
+                        }
+                    ]
+                },
+                "intersection": {
+                    "doc": [
+                        "$~Bigyan mo ako ng @Set at gagawa ako ng bagong @Set na maglalaman lamang ng mga bagay na pareho nating taglay.",
+                        "\\{1 2 3} ∩ {3 4 5}\\"
+                    ],
+                    "names": ["$~sangandaan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang set para ikumpara sa akin.",
+                            "names": "$~itakda"
+                        }
+                    ]
+                },
+                "difference": {
+                    "doc": [
+                        "$~Bigyan mo ako ng @Set at gagawa ako ng bagong @Set na may mga item na naglalaman lamang ng mga item na pareho nating taglay.",
+                        "\\{1 2 3}.pagkakaiba({3 4 5})\\"
+                    ],
+                    "names": "$~pagkakaiba",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang set na ang mga aytem ay dapat alisin sa akin.",
+                            "names": "$~itakda"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Bigyan mo ako ng @FunctionDefinition na kumukuha ng isang item at naglalabas ng \\⊤\\ kung dapat itong itago, at gagawa ako ng @Set na naglalaman lamang ng mga item na nakakatugon sa iyong pamantayan.",
+                        "Halimbawa, hanapin natin ang mga kakaibang numero sa akin:",
+                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
+                    ],
+                    "names": "$~pansala",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @FunctionDefinition na sumusuri sa isang item upang makita kung dapat itong panatilihin.",
+                            "names": "$~tagasuri"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Ang item na sinusuri.",
+                            "names": "$~halaga"
+                        },
+                        {
+                            "doc": "$~Ang set na sinasala",
+                            "names": "$~itakda"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Bigyan mo ako ng @FunctionDefinition na kumukuha ng isang item at gumagawa ng isang bagong item batay dito, pagkatapos ay isasalin ko ang lahat ng mga item sa akin sa isang bagong @Set (tinatanggal ang anumang mga duplicate).",
+                        "Halimbawa, gawin nating @Text ang lahat ng aking @Number:",
+                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
+                    ],
+                    "names": "$~isalin",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @FunctionDefinition na nagsasalin ng isa sa aking mga item sa bagong item na gusto mo.",
+                            "names": "$~itakda"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Ang aytem na isinasalin.",
+                            "names": "$~halaga"
+                        },
+                        {
+                            "doc": "$~Ang set na isinasalin",
+                            "names": "$~itakda"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Isang representasyon ng @Text ng isang @Set",
+                "list": "$~Isang representasyon ng @List ng mga aytem sa set."
+            }
+        },
+        "Map": {
+            "doc": [
+                "$~Pinagsasama-sama ko ang mga halaga, na iniuugnay ang mga *susi* sa mga *halaga*. Halimbawa:",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}\\",
+                "Ang aking mga susi ay maaaring anumang uri ng @value, at ang aking mga halaga ay maaaring anumang uri ng halaga.",
+                "May ilang taong gustong isipin ako na parang isang @index, o isang diksyunaryo, kung saan binibigyan mo ako ng isang bagay, at binibigyan kita ng kung saan ito naiuugnay.",
+                "Kung gusto mong tingnan kung saan naiuugnay ang isang bagay, maaari mong ibigay ang @SetOrMapAccess, isang @key at ibibigay nila sa iyo ang halaga:",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}{'amy'}\\",
+                "Kung walang tumutugmang susi, bibigyan kita ng @None.",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}{'jen'}\\",
+                "Maaari ka ring gumawa ng walang lamang map na ganito:",
+                "\\{:}\\",
+                "Karaniwan, titingnan ko kung anong uri ng mga susi at halaga ang ibibigay mo sa akin at gagawa lang ako ng @type para katawanin silang lahat. Tulad nito na isang map mula sa mga numero patungo sa mga numero:",
+                "\\{1:1 2:2 3:3}\\",
+                "Pero sabihin nating gusto mong tiyakin na tanging ang mga halagang iyon lamang; magdagdag lang ng ! sa dulo ko, at hindi ako mag-a-generalize. Makakatulong iyon para malaman mo kung susubukan mong kumuha ng halagang hindi mo balak.",
+                "\\{1:1 2:2 3:3}!{4}\\🪲",
+                "Marami akong alam na magagandang bagay gamit ang aking mga pares."
+            ],
+            "name": ["$~Mapa"],
+            "key": "$~Susi",
+            "value": "$~Halaga",
+            "result": "$~Resulta",
+            "function": {
+                "size": {
+                    "doc": "$~Sasabihin ko sa iyo kung gaano karaming mga @value ang nasa akin.",
+                    "names": "$~laki",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~\\{⊤}\\ kung ang aking mga pares ay eksaktong kapareho ng ibinigay na @Map.",
+                        "\\{1:1 2:2} = {1:1 2:3}\\"
+                    ],
+                    "names": ["$~katumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Map para ikumpara ako.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\{⊤}\\ kung ang aking mga pares ay /hindi/ eksaktong kapareho ng ibinigay na @Map.",
+                        "\\{1:1 2:2} ≠ {1:1 2:3}\\"
+                    ],
+                    "names": ["$~≠", "$~notequal"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Map para ikumpara ako.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "set": {
+                    "doc": [
+                        "$~Gagawa ako ng bagong @Map na may lahat ng parehong pares, pero may bagong pares na ibibigay mo sa akin. Kung mayroon na akong @key, iuugnay ko ito sa bagong @value.",
+                        "\\{'amy': 6points 'tony': 3points}.pares('jen' 0points)\\"
+                    ],
+                    "names": "$~pares",
+                    "inputs": [
+                        {
+                            "doc": "$~@key na ipapares sa isang @value.",
+                            "names": "$~susi"
+                        },
+                        {
+                            "doc": "$~Ang @value na ipapares sa @key",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "unset": {
+                    "doc": [
+                        "$~Gagawa ako ng bagong @Map na wala ang @key na ibinigay mo sa akin, tinatanggal ang pares nito.",
+                        "\\{'amy': 6points 'tony': 3points}.tanggalinangpares('amy')\\"
+                    ],
+                    "names": "$~tanggalinangpares",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @key na kalilimutan.",
+                            "names": "$~susi"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~Gagawa ako ng bagong @Map na walang anumang susi na may @value.",
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.tanggalin(\n\t0points\n)\\"
+                    ],
+                    "names": "$~tanggalin",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @value na aalisin sa akin, kasama ang anumang susi na kapares nito.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Bigyan mo ako ng @FunctionDefinition na kumukuha ng @key at @value at nagiging \\⊤\\ kung dapat itago ang isang pares. Gagawa ako ng bagong @Map na tumutugma sa iyong pamantayan.",
+                        "Halimbawa, dito gusto nating itago ang anumang pares na si Amy o may higit sa zero na puntos.",
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.pansala(\n\tƒ(susi•'' halaga•#points) (susi = 'amy') | (halaga > 0points)\n)\\"
+                    ],
+                    "names": "$~pansala",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @FunctionDefinition na nagpapasya kung pananatilihin ang isang pagpapares.",
+                            "names": "$~tagasuri"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Ang @key na sinusuri.",
+                            "names": "$~susi"
+                        },
+                        {
+                            "doc": "$~Ang @value na sinusuri.",
+                            "names": "$~halaga"
+                        },
+                        {
+                            "doc": "$~Sinasala ang mapa.",
+                            "names": "$~mapa"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Bigyan mo ako ng @FunctionDefinition na kumukuha ng @key at @value at ginagawa ang halaga na bagong halaga. Gagawa ako ng bagong @Map na may parehong mga susi ngunit may bagong mga halaga.",
+                        "Halimbawa, bigyan natin ang lahat ng isang puntos dahil napakabait nila.",
+                        "\\{'amy': 5points 'jen': 3points 'tony': 0points}.isalin(\n\tƒ(susi•'' halaga•#points) halaga + 1points\n)\\🪲"
+                    ],
+                    "names": "$~isalin",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @FunctionDefinition na nagsasalin ng bawat @value.",
+                            "names": "$~tagasalin"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Ang @key ng @value na isinasalin.",
+                            "names": "$~susi"
+                        },
+                        {
+                            "doc": "$~Ang @value na isinasalin.",
+                            "names": "$~halaga"
+                        },
+                        {
+                            "doc": "$~Ang mapa na isinasalin.",
+                            "names": "$~mapa"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Isang representasyon ng pagmamapa na @Text.",
+                "set": "$~Ang mga susi ng @Map",
+                "list": "$~Isang listahan ng mga halaga sa @Map"
+            }
+        },
+        "Table": {
+            "doc": [
+                "$~Isa akong grupo ng mga hilera ng talahanayan! Matutulungan kitang subaybayan ang malalaking koleksyon ng mga @value na may parehong istruktura.",
+                "Halimbawa, isipin mong gusto mong subaybayan ang maraming bato:",
+                "\\⎡pangalan•'' kulay•''⎦\n⎡'obsidiana' 'itim'⎦\n⎡'pumis' 'kulay-abo'⎦\n⎡'sitrina' 'dilaw'⎦\\",
+                "Matutulungan kang pangalanan ito ng @Bind! At pagkatapos ay maaari kang gumawa ng bagong talahanayan na may bagong hilera @Insert:",
+                "\\mgaBato: ⎡pangalan•'' kulay•''⎦\n\t⎡'obsidian' 'itim'⎦\n\t⎡'pumice' 'kulay abo'⎦\n\t⎡'citrine' 'dilaw'⎦\nmgaBato ⎡+'kuwarts' 'puti'⎦\\",
+                "O kung gusto mong hanapin ang mga hilerang tumutugma, maaari mong @Select ang mga hilerang tumutugma sa @condition:",
+                "\\mgaBato: ⎡pangalan•'' kulay•''⎦\n\t⎡'obsidian' 'itim'⎦\n\t⎡'pumice' 'kulay-abo'⎦\n\t⎡'citrine' 'dilaw'⎦\nmgaBato ⎡?⎦ kulay = 'kulay-abo'\\",
+                "O baka gusto mong gumawa ng bagong talahanayan na may ibang mga halaga para sa mga hilerang tumutugma sa isang kondisyon:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
+                "O baka gusto mong tanggalin ang mga hilerang tumutugma sa isang kondisyon:",
+                "\\mgaBato: ⎡pangalan•'' kulay•''⎦\n\t⎡'obsidian' 'itim'⎦\n\t⎡'pumice' 'kulay-abo'⎦\n\t⎡'citrine' 'dilaw'⎦\nmgaBato ⎡- pangalan.aymay('ako')\\",
+                "At kung gusto mong kumuha ng tiyak na mga halaga mula sa akin, maaari mong gawing listahan ang anumang talahanayan at kunin ang bawat hilera gamit ang @PropertyReference",
+                "\\mgaBato: ⎡pangalan•'' kulay•''⎦\n\t⎡'obsidian' 'itim'⎦\n\t⎡'pumice' 'kulay-abo'⎦\n\t⎡'citrine' 'dilaw'⎦\n(mgaBato → [])[1].pangalan\\"
+            ],
+            "name": ["$~Mesa"],
+            "row": "$~Hilera",
+            "function": {
+                "equals": {
+                    "doc": "$~Sinusuri ko kung mayroon akong eksaktong parehong mga cell sa eksaktong parehong pagkakasunud-sunod ng isa pang @Table.",
+                    "names": ["$~katumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang kabilang mesa na dapat suriin.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~Sinusuri ko kung ang alinman sa aking mga cell ay naiiba o nasa ibang pagkakasunud-sunod mula sa ibang @Table.",
+                    "names": ["$~hindiKatumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang kabilang mesa na dapat suriin.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": "$~Kino-convert ko ang isang @Table sa isang listahan ng mga hilera, kung saan ang bawat hilera ay isang @Structure na may mga pangalan ng hanay nito bilang mga katangian.",
+                "text": "$~Kino-convert ko lang ang isang @Table sa text."
+            }
+        },
+        "Structure": {
+            "doc": "$~Ako ay isang nakaayos na @value na may mga pinangalanan at may-uring field, na gawa mula sa isang @StructureDefinition. Tingnan ang @StructureDefinition.",
+            "name": ["$~Istruktura"],
+            "function": {
+                "equals": {
+                    "doc": "$~Sinusuri ko kung ang aking mga katangian ay kapareho ng pangalan at mga @value ng mga katangian ng ibang istraktura.",
+                    "names": ["$~katumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang iba pang istruktura na dapat suriin.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~Sinusuri ko kung ang aking mga ari-arian ay naiiba sa anumang paraan mula sa pangalan at mga @value bilang ibang istraktura.",
+                    "names": ["$~hindiKatumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang iba pang istruktura na dapat suriin.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Kino-convert ko ang sarili ko sa @Text."
+            }
+        },
+        "Formatted": {
+            "doc": [
+                "$~Naka-format ako ng teksto: mga salitang may istilo, tulad ng naka-bold, naka-italic, at mga link. Ilagay ako sa pagitan ng mga backtick:",
+                "\\`I am **bold** and /italic/`\\",
+                "Gumagana ako nang halos katulad @Text , pero kaya ko ang pag-format. Maaari mo akong pagsamahin, ulitin, tingnan kung ano ang nilalaman ko, at i-convert ako sa plain @Text ."
+            ],
+            "name": ["$~NakaFormat"],
+            "function": {
+                "length": {
+                    "doc": "$~Sinusuri ko ang bilang ng mga nababasang karakter sa aking teksto, hindi pinapansin ang pag-format at mga break sa talata.",
+                    "names": ["$~haba"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ kung ako ay parehong naka-format na teksto tulad ng ibinigay na @value.",
+                    "names": ["$~katumbas"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang naka-format na teksto na ihahambing.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ kung ako ay /hindi/ parehong naka-format na teksto tulad ng ibinigay na @value.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~Ang naka-format na teksto na ihahambing.",
+                            "names": "$~halaga"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "$~\\⊤\\ kung ang aking plain text ay naglalaman ng ibinigay na @Text . Hindi ko pinapansin ang formatting at mga paragraph break kapag tinitingnan ko.",
+                    "names": ["$~aymay"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na dapat hanapin sa aking teksto.",
+                            "names": "$~teksto"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "$~\\⊤\\ kung ang aking plain text ay nagsisimula sa ibinigay na @Text . Hindi ko pinapansin ang formatting at mga paragraph break kapag tinitingnan ko.",
+                    "names": ["$~nagsisimula"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na dapat tingnan sa simula ng aking teksto.",
+                            "names": "$~teksto"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "$~\\⊤\\ kung ang aking plain text ay nagtatapos sa ibinigay na @Text . Hindi ko pinapansin ang formatting at mga paragraph break kapag tinitingnan ko.",
+                    "names": ["$~mgadulo"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Text na dapat tingnan sa dulo ng aking teksto.",
+                            "names": "$~teksto"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": "$~Gumagawa ako ng bagong format na teksto, ako mismo, inuulit ko ito nang ilang beses. Kung mayroon akong higit sa isang talata, ang mga pahinga ay pinapanatili sa pagitan ng mga kopya.",
+                    "names": ["$~paulitulit", "$~ulitin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang dami ng beses na inuulit ko ang sarili ko.",
+                            "names": "$~bilangin"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "$~Bigyan mo ako ng isa pang naka-format na teksto at pagsasamahin kita. Kung ang isa sa atin ay may higit sa isang talata, mananatili ang mga break ng talata.",
+                    "names": ["$~pinagsama", "$~pagsamahin"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang naka-format na teksto na idadagdag.",
+                            "names": "$~nakaformat"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong tekstong may format na ako rin, kung saan malaki ang bawat letra. Ang mga salita ko lang ang nagbabago; nananatili ang aking format, mga link, at mga halimbawa:",
+                        "\\`*kamusta* diyan`.malalakingTitik()\\",
+                        "Tulad ng @Text/uppercase, may malaki at maliit na letra lang sa ilang sistema ng pagsulat, at ang tatak ng aking @language ang magpapasya kung saang mga panuntunan susunod."
+                    ],
+                    "names": ["$~malalakingTitik"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Gumagawa ako ng bagong tekstong may format na ako rin, kung saan maliit ang bawat letra. Ang mga salita ko lang ang nagbabago; nananatili ang aking format, mga link, at mga halimbawa:",
+                        "\\`*KAMUSTA* DIYAN`.maliliitNaTitik()\\",
+                        "Tulad ng @Text/lowercase, may malaki at maliit na letra lang sa ilang sistema ng pagsulat, at ang tatak ng aking @language ang magpapasya kung saang mga panuntunan susunod."
+                    ],
+                    "names": ["$~maliliitNaTitik"],
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "text": "$~Kino-convert ang naka-format na teksto sa plain @Text , at inaalis ang lahat ng formatting.",
+                "list": "$~Kinokombert ang naka-format na teksto tungo sa isang @List ng @Text, isa para sa bawat simbolo ng aking mga salita. Hindi mananatili ang pag-format kapag pinutol sa iisang simbolo, kaya ito ay tinatanggal.",
+                "number": [
+                    "$~Kinokombert ang aking mga salita tungo sa isang @Number, at kung hindi sila numero, isang halagang hindi-numero, na lumilitaw bilang \\!#\\:",
+                    "\\`hi` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Isa akong saklaw ng mga numero! May simula ako at may dulo, at kasama ko ang dalawa, at bawat numero sa pagitan nila. Ginagawa mo ako gamit ang \\‥\\ sa pagitan ng dalawang numero:",
+                "\\1‥10\\",
+                "Itanong sa akin kung may hawak akong numero:",
+                "\\(1‥10) ∋ 7\\",
+                "Ikalat ako sa isang listahan para makuha ang bawat numerong hawak ko:",
+                "\\[:1‥10]\\",
+                "Gamitin ako bilang susi ng @Match at itutugma ko ang anumang numerong hawak ko:",
+                "\\7 ???\n\t1 ‥ 9: 'maliit'\n\t'malaki'\\",
+                "Dapat magkapareho ang yunit ng aking simula at dulo, katulad ng ginagawa ng mga paghahambing na @Number."
+            ],
+            "name": ["$~Saklaw"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ kung ang ibinigay na @Range ay may parehong simula at dulo tulad ko:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Range na ikukumpara sa akin.",
+                            "names": "$~saklaw"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ kung ang ibinigay na @Range ay may ibang simula o dulo kaysa sa akin:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Range na ikukumpara sa akin.",
+                            "names": "$~saklaw"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ kung ang ibinigay na @Number ay nasa pagitan ng aking simula at dulo, o isa sa mga ito:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Hindi mahalaga kung anong paraan ako isinulat:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~mayroon"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ang @Number na hahanapin sa akin.",
+                            "names": "$~numero"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Ginagawa kong listahan ang isang saklaw ng bawat numero rito, bumibilang ng isa-isa. Halimbawa:",
+                    "\\(1‥5)→[]\\"
+                ]
+            }
+        }
+    }
+}

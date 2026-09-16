@@ -1,0 +1,1434 @@
+{
+    "$schema": "../../../static/schemas/sections/ui-page.json",
+    "ui": {
+        "page": {
+            "unknown": {
+                "header": "$~Hoppsan!",
+                "message": "$~Var är det här stället? Kan vi gå hem?"
+            },
+            "landing": {
+                "value": "$~Skapa interaktiva berättelser med ord, symboler, emojis och kod tillsammans med oss! Kom igång i",
+                "chooseLocales": "$~eller välj",
+                "beta": [
+                    "$~@wordplay är i *beta*, så det kanske inte fungerar som tänkt eller är färdigt. Rapportera fel och dela idéer på <GitHub@https://github.com/wordplaydev/wordplay/issues>, se våra <planer för 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0>, och <bidra@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                ],
+                "link": {
+                    "learn": "$~Lär dig språket med en dramatisk rollfigur",
+                    "teach": "$~Hantera klasser av elever och deras projekt",
+                    "guide": "$~Sök och bläddra i språkreferensen",
+                    "projects": "$~Skapa och dela framträdanden",
+                    "galleries": "$~Upplev andras framträdanden",
+                    "rights": "$~Ansvar, vårt och ditt",
+                    "about": "$~Varför finns det här stället?",
+                    "community": {
+                        "label": "$~Gemenskap",
+                        "subtitle": "$~Chatta med oss på Discord"
+                    },
+                    "contribute": {
+                        "label": "$~Medverka",
+                        "subtitle": "$~Hjälp oss att göra Wordplay"
+                    },
+                    "characters": "$~Skapa anpassade emojis och symboler",
+                    "updates": "$~Se vad som är nytt i Wordplay",
+                    "design": "$~Referens för designsystem för bidragsgivare",
+                    "thanks": "$~Vem hjälpte till att göra detta?",
+                    "localize": "$~Hjälp till att översätta Wordplay till ditt språk",
+                    "moderate": "$~granska vad andra har bett oss titta på",
+                    "admin": "$~se vem som kan göra vad, och ändra det"
+                },
+                "tagline": "$~tillgänglig, flerspråkig, kreativ kodning",
+                "tour": {
+                    "button": "$~visa mig",
+                    "loading": "$~Laddar…",
+                    "failed": "$~Exemplen kunde inte laddas. Kontrollera din anslutning och försök igen.",
+                    "restart": "$~börja om detta exempel",
+                    "examples": {
+                        "label": "$~Exempelprogram",
+                        "tips": [
+                            "$~Text kan glöda och animeras",
+                            "$~Musik är data, ljud och bild",
+                            "$~Tiden tickar och ord är flerspråkiga",
+                            "$~Text kan reagera på pekare, klick, tryck och tangenter",
+                            "$~Publiken kan göra val",
+                            "$~Publiken kan chatta med program och ord är former",
+                            "$~Fysik och tyngdkraft kan få text att tumla och studsa",
+                            "$~Program kan lyssna på ditt tal",
+                            "$~Program kan se ditt ansikte, dina händer och föremål"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶@Phrase visas på scenen, i valfri färg, med glöd och rörelse som du vill.¶\nFras(\n\t'hej!'\n\t6m\n\tfärg: Färg(60% 90 200°)\n\taura: Aura(Färg(80% 80 200°) 0.3m)\n\tvilande: Sekvens.vingla(8°)\n)\\",
+                        "music": "$~\\¶Musik är toner på riktiga instrument, i ett tempo, i en tonart. Scenen ritar det den hör.¶\nMusik(\n\tSpår([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Koden kan reagera på inmatning som @Time, och text kan vara flerspråkig och talad.¶\nhejsan: ['hej'/sv 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhej: hejsan.slumpmässig() … ∆ Tid(1000ms) … hejsan.slumpmässig(\n\t\t)\nFras(hej 4m)\nSäga(hej)\\",
+                        "keys": "$~\\¶Kod kan reagera på pekare, tangenter, klick och tryck.¶\nnyckel2: Nyckel()\nklick: Knapp()\nansikten: ['🙂' '😮' '😎' '🤩']\nvilken: 1 … ∆ nyckel2 | ∆ klick … (vilken % 4) + 1\nEtapp(\n\t[Fras(ansikten[vilken] 5m plats: Pekare() bubbla: 'hej')]\n\tplats: Plats(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Placera text och gör den markerbar.¶\nfrukt: ƒ(e•'') Fras(e 3m namn: e valbara: ⊤)\nvald: Val()\nvisad: '?' … ∆ vald … vald\nGrupp(\n\tStack(stoppning: 1m)\n\t[\n\t\tFras(visad 4m)\n\t\tGrupp(\n\t\t\tRad(stoppning: 1m)\n\t\t\t[frukt('🍎') frukt('🍐') frukt('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Chatta med program och använd formen på typsnitt och symboler.¶\nmeddelande: Chatta()\nord3: 'hej' … ∆ meddelande … meddelande\nrad: Kontur(ord3 'Noto Sans' 8m)\ntick: 0 … ∆ Tid(30ms) … tick + 1\nvisad: ((rad.längd() × tick) ÷ 66).rundaner() + 1\npunkter: rad.efterföljande(1 visad).översätta(\n\t\tƒ(p) Fras('•' plats: p)\n\t)\nEtapp(punkter.med(Fras(ord3 8m opacitet: 15%)))\\",
+                        "pile": "$~\\¶Text kan ha fysik.¶\nkasta: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFras(\n\t\t\temoji\n\t\t\t2m\n\t\t\tplats: Rörelse(Plats(x2 y2) Hastighet(vx 0m/s))\n\t\t\tmateria: Materia(1kg 0.55 0.06 0.5)\n\t\t)\nEtapp(\n\t[\n\t\tkasta('🍎' -2m 5m 2.2m/s)\n\t\tkasta('🍊' 2m 7m -2.6m/s)\n\t\tkasta('🍋' -1m 9m 1.4m/s)\n\t\tkasta('🍇' 1.5m 11m -1.9m/s)\n\t\tkasta('🫐' 0.5m 15m -1.2m/s)\n\t\tFigur(Rektangel(-4m -3m 4m -3.6m))\n\t\tFigur(Rektangel(-4.6m 4m -4m -3m))\n\t\tFigur(Rektangel(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Kod kan reagera på @Volume och @Pitch från din mikrofon.¶\nFras(\n\t'📣'\n\t1m + (Volym() × 8m)\n\trotation: (Tonhöjd() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Kod kan reagera på din @Face, och andra saker på @Camera.¶\nFras(Ansikte().leende ? '😄 tack!' '🙂 le mot kameran' 2m)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay är ett programmeringsspråk",
+                        "bullets": [
+                            "$~• Varje program är ett uttryck som blir ett värde. \\1 + 1\\ är ett program, och det är även \\Fras('hej')\\.",
+                            "• Tal har enheter, så \\1m + 1m\\ är meter, och \\1cat + 1dog\\🪲 är ett misstag som @wordplay hittar innan det körs.",
+                            "• Funktioner är värden du kan namnge, skicka runt och anropa: \\ƒ dubbel(n3•#) n3 × 2\\.",
+                            "• När indata ändras räknar @wordplay om ditt program och visar dess nya värde. Du behöver inte reagera på händelser själv.",
+                            "• @wordplay hittar misstag innan programmet körs, och förklarar varje problem."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay är flerspråkigt",
+                        "bullets": [
+                            "$~• Varje egenskap i programmeringsspråket har ett namn på varje språk, så koden går att läsa med ord du redan kan.",
+                            "• Dina egna namn kan också vara flerspråkiga:\n\\katt2/sv, gato/es: '🐈'\nFras(katt2)\\",
+                            "• Text har ett språk, och visas på det språk din publik läser: \\'hej'/sv'hola'/es\\.",
+                            "• Själva webbplatsen finns på 29 språk och du kan välja fler än ett åt gången. Texten visas på alla valda språk.",
+                            "• Du kan hjälpa till att översätta @wordplay direkt i appen på <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay är tillgängligt",
+                        "bullets": [
+                            "$~• Allt du kan göra med en mus kan du göra med ett tangentbord.",
+                            "• Skärmläsare beskriver scenen när den ändras, och valfria ljud visar vad som räknas om, vad som animeras och vad som kolliderar.",
+                            "• Du kan läsa och skriva din koda som block istället för text, och byta när du vill.",
+                            "• Rörelse kan göras långsammare, eller stängas av helt.",
+                            "• Talat ljud kan visas som text på scenen för de som inte kan höra det."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay känner av världen",
+                        "bullets": [
+                            "$~• Tiden går: \\Tid(1000ms)\\ tickar framåt, och \\Nu()\\ vet dagens datum enligt din egen kalender och tidszon.",
+                            "• Var din publik pekar, vad de rör vid, och vilka tangenter de trycker på.",
+                            "• Program kan reagera på din mikrofon: hur högt det är med @Volume, vilken tonhöjd med @Pitch, och vilka ord med @Speech.",
+                            "• Din publik kan skriva text med @Chat, och välja innehåll på scenen med @Choice.",
+                            "• Program kan reagera på takten i musiken de spelar, med @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay uppträder",
+                        "bullets": [
+                            "$~• @Phrase lägger ord och emoji på scenen.",
+                            "• @Group ordnar dem i rader, staplar, rutnät, eller var du vill placera dem.",
+                            "• @Pose och @Sequence vrider, tonar, skalar och flyttar saker.",
+                            "• @Say läser upp text istället för att visa den.",
+                            "• @Music spelar spår med toner på riktiga instrument, i ett tempo, i en tonart:\n\\Musik(\n\tSpår([1 3 5] instrument: Instrument.klocka)\n\ttempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay är typografi",
+                        "bullets": [
+                            "$~• Hundratals typsnitt, som täcker världens skriftsystem.",
+                            "• Du kan rita dina egna <specialtecken//characters> och använda dem var som helst en emoji kan användas.",
+                            "• Konturen av varje bokstav är data du kan läsa och animera, med @Contour: \\Kontur('a' 'Noto Sans')\\.",
+                            "• Text bryts enligt reglerna för det språk den är skriven på.",
+                            "• Höger-till-vänster-skrift och vertikal skrift läggs upp på rätt sätt."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay förklarar sig själv",
+                        "bullets": [
+                            "$~• Dokumentation är en del av språket med @Doc, inte en kommentar vid sidan om.",
+                            "• En sökbar <guide//guide> förklarar varje inbyggd funktion, med exempel.",
+                            "• Varje fel förklaras där det uppstod, på ditt eget språk.",
+                            "• Du kan stega igenom ett program framåt /och/ bakåt för att felsöka vad som hände.",
+                            "• Medan du stegar visas varje värde direkt i koden som skapade det."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay är till för att dela",
+                        "bullets": [
+                            "$~• Dina projekt är dina, och du bestämmer vem som får se dem.",
+                            "• Du kan bjuda in andra personer att bygga ett projekt tillsammans med dig.",
+                            "• <Gallerier@://galleries> samlar projekt kring ett tema.",
+                            "• Lärare kan skapa klasser och följa sina elevers arbete: <teach@://teach>.",
+                            "• Du kan remixa vem som helsts publika projekt och göra det till ditt eget."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay är gratis och öppet",
+                        "bullets": [
+                            "$~• @wordplay är gratis och kommer alltid att vara det.",
+                            "• Det är öppen källkod: du kan läsa hur det fungerar och du kan hjälpa oss att ändra det.",
+                            "• Det kommer från <University of Washington@https://ischool.uw.edu/>, Information School.",
+                            "• Det finns en gemenskap av skapare, lärare och bidragsgivare.",
+                            "• <Donationer//donate> betalar för vad det kostar att driva det."
+                        ]
+                    }
+                }
+            },
+            "learn": {
+                "header": "$~Lära sig",
+                "error": "$~Vi kunde inte hitta en handledning för detta språk.",
+                "button": {
+                    "next": "$~nästa paus i dialogrutan",
+                    "previous": "$~föregående paus i dialogrutan"
+                },
+                "options": {
+                    "lesson": "$~aktuell lektion"
+                },
+                "search": {
+                    "placeholder": "$~söka",
+                    "noResults": "$~Inga resultat hittades"
+                },
+                "choice": {
+                    "prompt": "$~Hur skulle du vilja lära dig?",
+                    "quick": {
+                        "title": "$~Snabbt",
+                        "description": "$~För skapare som är bekanta med andra programmeringsspråk och som vill förstå hur Wordplay skiljer sig"
+                    },
+                    "complete": {
+                        "title": "$~Omfattande",
+                        "description": "$~För skapare som är nya inom programmering och vill ha en detaljerad introduktion"
+                    }
+                },
+                "mode": {
+                    "label": "$~handledning",
+                    "labels": ["$~snabbt", "$~komplett"],
+                    "tips": [
+                        "$~en kort rundtur för skapare som kan ett annat programmeringsspråk",
+                        "$~den fullständiga, dramatiska introduktionen för skapare som är nya inom programmering"
+                    ]
+                },
+                "contrast": "$~jämför med",
+                "dialogue": "$~lektionsdialog",
+                "says": "$~$character säger",
+                "tour": {
+                    "skip": "$~hoppa över visningen och fortsätt",
+                    "wait": "$~Ta visningen först, eller hoppa över den, och sedan fortsätter vi."
+                }
+            },
+            "teach": {
+                "header": "$~Lära",
+                "prompt": {
+                    "none": "$~Välkommen lärare! Skapa en klass för att konfigurera och hantera studentkonton och projektgallerier.",
+                    "some": "$~Välkommen lärare! Hantera dina klasser eller skapa en ny."
+                },
+                "error": {
+                    "offline": "$~Vi kunde inte kontrollera din lärarstatus. Är du inloggad?",
+                    "login": "$~Du måste vara <inloggad@://login> för att hantera klasser.",
+                    "teacher": "$~Du behöver lärarbehörighet för att skapa och hantera klasser. Fyll i detta formulär och låt oss lära känna varandra!"
+                },
+                "link": {
+                    "request": "$~Begär lärarprivilegier",
+                    "new": "$~Skapa en klass"
+                }
+            },
+            "newclass": {
+                "header": "$~Ny klass",
+                "subheader": {
+                    "class": "$~Din klass",
+                    "students": "$~Dina elever",
+                    "credentials": "$~Användarnamn och lösenord",
+                    "submit": "$~Överlämna",
+                    "usernames": "$~Användarnamn"
+                },
+                "prompt": {
+                    "start": "$~Med det här formuläret kan du 1) skapa konton för alla elever i din klass och 2) skapa ett galleri som alla dina elever kan lägga till projekt i. Om elever redan har konton kan du lägga till dem i galleriet senare.",
+                    "review": "$~Granska användarnamnen och lösenorden vi skapade. Vill du *redigera* dem innan du fortsätter? Om du gör det kommer du inte att kunna redigera elevinformationen ovan.",
+                    "ready": "$~Meddela oss när du är redo att generera inloggningsuppgifter ovan. Du kan redigera dem efter att du har gjort det.",
+                    "pending": "$~Genererar användarnamn och lösenord...",
+                    "submit": "$~Redo att skicka in? Så snart det är framgångsrikt får du en nedladdning av denna information. Lösenord är *inte återställbara*, så förvara dem någonstans säkert.",
+                    "submitting": "$~Begär nya konton med användarnamnen och lösenorden ovan...",
+                    "download": "$~Din klass är klar! Du bör se en nedladdning av elevdata i din nedladdningsmapp. *Lösenord går inte att återfå*, så förvara filen på ett säkert ställe! Elever som loggar in via e-post har inget lösenord, så deras lösenordskolumn är tom.",
+                    "reviewEmail": "$~Granska användarnamnen vi skapade. Vill du *ändra* dem innan du går vidare? Om du gör det kan du inte längre ändra elevinformationen ovan. Eleverna väljer inget här — de loggar in med adressen bredvid sitt namn.",
+                    "downloadEmail": "$~Din klass är klar! Du bör se en nedladdning av dina elevuppgifter i din nedladdningsmapp. Det finns inga lösenord att hålla säkra: varje elev går till inloggningssidan, skriver sin adress och begär en länk.",
+                    "submitEmail": "$~Redo att skicka in? Så snart det lyckas får du en fil att ladda ner med den här informationen. Det finns inga lösenord att hålla säkra — varje elev loggar in med adressen bredvid sitt namn."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~klassnamn",
+                        "placeholder": "$~ett kort namn"
+                    },
+                    "description": {
+                        "description": "$~beskrivning",
+                        "placeholder": "$~en beskrivning av din klass, för dig och dina elever."
+                    },
+                    "existing": {
+                        "label": "$~studenter med konton",
+                        "prompt": "$~Har några av dina elever redan @wordplay-konton? Inkludera dem här."
+                    },
+                    "metadata": {
+                        "description": "$~studentinformation",
+                        "placeholder": "$~t.ex. student-id, efternamn, förnamn",
+                        "prompt": "$~Vill du skapa nya konton för elever? Ange *vilken information som helst* om eleverna, en rad per elev, åtskilda med kommatecken. Det kan vara efternamn, förnamn, elevnummer eller andra uppgifter som skiljer dem åt. Vi använder det för att skapa användarnamn som du kan ändra nedan, så att du lättare kan koppla användarnamn till elever. Om en av kolumnerna är elevernas e-postadresser loggar de eleverna in med en länk vi skickar till dem istället för ett lösenord. Lämna den cellen tom om du vill att eleven ska få ett användarnamn och lösenord som alla andra."
+                    },
+                    "words": {
+                        "description": "$~ord att använda i lösenord",
+                        "placeholder": "$~t.ex. kattprickråtta...",
+                        "prompt": "$~Ange minst *25 ord* för att slumpmässigt skapa minnesvärda lösenord med 2–3 ord. Välj ord som dina elever kan, eller be dem hitta på ord. Ju mer slumpmässigt, desto säkrare!"
+                    },
+                    "generate": {
+                        "label": "$~generera",
+                        "tip": "$~skapa användarnamn och lösenord baserat på informationen ovan."
+                    },
+                    "edit": {
+                        "label": "$~redigera",
+                        "tip": "$~redigera den genererade elevinformationen"
+                    },
+                    "submit": {
+                        "label": "$~skapa klass",
+                        "tip": "$~skapa en ny klass med denna information."
+                    },
+                    "affirm": {
+                        "prompt": "$~En av dina kolumner ser ut att innehålla e-postadresser, så de eleverna loggar in med en länk istället för ett lösenord. Gör bara detta om de är gamla nog för att ha ett eget e-postkonto där de bor. *Vi skickar inget e-postmeddelande när du skapar klassen*: varje elev går till inloggningssidan, skriver in sin adress och begär en länk.",
+                        "label": "$~Dessa elever är gamla nog för att ha ett eget e-postkonto där de bor."
+                    },
+                    "signin": {
+                        "prompt": "$~Vill du skapa nya konton för elever? Bestäm först hur de ska logga in. En klass väljer *antingen det ena eller det andra*, så välj det som passar dina elever.",
+                        "mode": {
+                            "label": "$~hur dina elever loggar in",
+                            "labels": [
+                                "$~ett användarnamn och lösenord",
+                                "$~en länk via e-post"
+                            ],
+                            "tips": [
+                                "$~vi skapar ett användarnamn och ett lösenord för varje elev, och du delar ut dem",
+                                "$~varje elev loggar in med sin egen e-postadress, så det finns inget lösenord att tappa bort"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~elevers e-postadresser",
+                        "placeholder": "$~t.ex. mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Lista dina elever en per rad, *börja med deras e-postadress*. Du kan lägga till annat om dem efter ett kommatecken — ett elevnummer, ett efternamn — och vi använder det för att skapa användarnamn du kan ändra nedan."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~Det finns dubbla poster i studentinformationen.",
+                    "columns": "$~Se till att varje elev har samma antal kolumner.",
+                    "generate": "$~Det går inte att skapa unika användarnamn.",
+                    "taken": "$~Ett eller flera användarnamn ovan tas",
+                    "limit": "$~Du kan inte skapa en klass med fler än 50 elever åt gången.",
+                    "words": "$~Ange minst 25 ord.",
+                    "account": "$~Det gick inte att skapa några av kontona.",
+                    "generic": "$~Vi kunde inte skapa klassen. Här är lite information som hjälper utvecklare att ta reda på vad som gick fel.",
+                    "affirmation": "$~Bekräfta att dessa elever är gamla nog för att ha ett eget e-postkonto innan vi skapar deras konton.",
+                    "inflight": "$~Den här klassen kan redan ha skapats. Kontrollera dina klasser innan du försöker igen.",
+                    "addresses": "$~Varje rad måste börja med en e-postadress."
+                }
+            },
+            "class": {
+                "header": "$~Klass",
+                "subheader": {
+                    "teachers": "$~Lärare",
+                    "students": "$~Studenter",
+                    "galleries": "$~Gallerier"
+                },
+                "prompt": {
+                    "gallery": "$~Skapa ett galleri för din klass för att organisera en uppgift eller ett projekt. Alla lärare i projektet kommer att vara gallerikuratorer och alla studenter galleriskapare.",
+                    "delete": "$~Om du tar bort den här klassen raderas information om klassen permanent, men dess projekt, gallerier eller studentkonton."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~klassens namn",
+                        "placeholder": "$~namn"
+                    },
+                    "description": {
+                        "description": "$~beskrivning av klassen",
+                        "placeholder": "$~beskrivning"
+                    },
+                    "delete": {
+                        "tip": "$~ta bort denna klass för alltid",
+                        "label": "$~Ta bort den här klassen"
+                    }
+                },
+                "error": {
+                    "notfound": "$~Vi kunde inte hitta den här klassen eller så har du inte behörighet att se den.",
+                    "gallery": "$~Vi kunde inte skapa ett galleri för den här klassen."
+                }
+            },
+            "guide": {
+                "header": "$~Guide",
+                "description": "$~Detta är en referens för varje del av programmeringsspråket @wordplay. Sök efter ett koncept eller bläddra i listan för att lära dig mer."
+            },
+            "projects": {
+                "header": "$~Projekt",
+                "projectprompt": "$~Redo att säga något? Skapa ett projekt eller arbeta med ett. Om du fastnar, fortsätt med <learning@://learn>.",
+                "archiveprompt": "$~Det här är projekt som du har arkiverat. Endast ägare kan permanent ta bort eller avarkivera dem. Arkiverade projekt kommer att raderas permanent 30 dagar efter att de senast redigerades.",
+                "button": {
+                    "newproject": "$~nytt projekt",
+                    "editproject": "$~redigera detta projekt",
+                    "unarchive": "$~avarkivera detta projekt",
+                    "viewproject": "$~visa det här projektets koda",
+                    "import": {
+                        "tip": "$~öppna en projektfil du har sparat",
+                        "label": "$~öppna en projektfil…"
+                    }
+                },
+                "confirm": {
+                    "archive": {
+                        "description": "$~arkivera detta framträdande för senare borttagning",
+                        "prompt": "$~arkiv"
+                    },
+                    "delete": {
+                        "description": "$~radera den här föreställningen permanent",
+                        "prompt": "$~radera för alltid"
+                    }
+                },
+                "error": {
+                    "noaccess": "$~Vi kunde inte nå internet.",
+                    "newgallery": "$~Vi kunde inte skapa ett nytt galleri.",
+                    "nodeletes": "$~Du måste vara <inloggad@://login> för att radera arkiverade projekt.",
+                    "delete": "$~Hoppsan, vi kunde inte ta bort projektet!",
+                    "importEmpty": "$~Den filen är tom.",
+                    "importTooLarge": "$~Det projektet är för stort för att Wordplay ska kunna spara det. Försök med ett som har mindre i sig.",
+                    "importUnreadable": "$~Wordplay kunde inte läsa den filen. Projektfiler slutar med .wp."
+                },
+                "subheader": {
+                    "shared": "$~Delad",
+                    "archived": "$~Arkiverad"
+                },
+                "search": {
+                    "description": "$~Sök i projekt och källfiler",
+                    "noResults": "$~Inga resultat hittades."
+                },
+                "installedprompt": "$~Du använder Wordplay som en installerad app. Den har sina egna projekt, skilda från dem i din webbläsare. Alla projekt du gjorde i din webbläsare finns kvar. <Logga in@://login> för att se alla dina projekt på båda ställena.",
+                "sort": {
+                    "label": "$~ordning",
+                    "labels": ["$~namn", "$~senast ändrad"],
+                    "tips": [
+                        "$~ordna projekt efter namn",
+                        "$~ordna projekt efter när du senast ändrade dem"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~vad den här mappen heter",
+                        "placeholder": "$~mapp"
+                    },
+                    "none": "$~ingen mapp",
+                    "button": {
+                        "create": "$~skapa en ny mapp",
+                        "expand": "$~visa vad som finns i denna mapp",
+                        "collapse": "$~göm vad som finns i denna mapp"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~ta bort denna mapp och arkivera projekten i den",
+                            "prompt": "$~Ta bort mapp och arkivera dess projekt"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~flytta $project till $folder",
+                        "moved": "$~$project flyttat till $folder",
+                        "movedOut": "$~$project flyttat ut ur sin mapp",
+                        "expanded": "$~$folder utfälld, $#count[1 projekt|$count projekt]",
+                        "collapsed": "$~$folder infälld, $#count[1 projekt|$count projekt]",
+                        "selected": "$~$folder vald, $#count[1 projekt|$count projekt]",
+                        "created": "$~$folder skapad",
+                        "deleted": "$~$folder borttagen, $#count[1 projekt arkiverat|$count projekt arkiverade]",
+                        "renamed": "$~mappen fick nytt namn: $folder",
+                        "projectSelected": "$~$project valt",
+                        "cleared": "$~inget valt"
+                    },
+                    "instructions": {
+                        "none": "$~Klicka på ett projekt eller en mapp för att välja det.",
+                        "project": "$~Flytta detta projekt med piltangenterna *upp* och *ned*, eller dra det till en mapp. Tryck på *escape* när du är klar.",
+                        "folder": "$~Skriv namnet för att byta namn på denna mapp. Tar du bort den läggs allt i den i ditt arkiv."
+                    }
+                },
+                "import": {
+                    "done": "$~Öppnade $name.",
+                    "drop": "$~Släpp en projektfil här för att öppna den.",
+                    "replaced": "$~Ersatte detta projekt med $name.",
+                    "replace": {
+                        "header": "$~Ersätta detta projekt?",
+                        "explanation": "$~Koden i detta projekt kommer att ersättas. Wordplay sparar det som finns här nu, så du kan hämta tillbaka det från projekthistoriken.",
+                        "prompt": "$~Öppna $name här istället för det detta projekt har nu?",
+                        "confirm": {
+                            "tip": "$~ersätt detta projekt med filen du släppte",
+                            "label": "$~ersätt"
+                        }
+                    }
+                }
+            },
+            "galleries": {
+                "header": "$~Gallerier",
+                "prompt": "$~Gallerier är samlingar av projekt, ofta kring ett tema, som du eller andra skapare väljer ut.",
+                "button": {
+                    "newgallery": "$~nytt galleri"
+                },
+                "section": {
+                    "tabs": {
+                        "label": "$~gallerityp",
+                        "labels": ["$~Din", "$~Exempel", "$~Offentlig"],
+                        "tips": [
+                            "$~gallerier som du sköter eller bidrar till",
+                            "$~utvalda gallerier från Wordplay-utvecklarna",
+                            "$~gallerier som skapare har gjort offentliga"
+                        ]
+                    },
+                    "own": [
+                        "$~Bidra till ett galleri du är inbjuden till, eller kuratera ditt eget galleri med ett visst tema, och bjud in andra.",
+                        "/Kuratorer granskar det som rapporteras i deras galleri, från <modereringssidan@://moderate>./"
+                    ],
+                    "examples": "$~Detta är utvalda gallerier från utvecklarna av @wordplay. De är bra utgångspunkter för att lära sig och hitta inspiration.",
+                    "public": "$~Det här är galleri:er som @wordplay skapare har gjort publika. Vem som helst kan be om att få sitt galleri listat här, och en moderator läser igenom det först för att se till att det är klart och följer reglerna. Ett galleri kan tas bort från listan när som helst, av vilken anledning som helst. De visas i en annan ordning varje gång du besöker sidan, så alla galleri:er får chansen att hamna högst upp."
+                },
+                "error": {
+                    "nogalleryedits": "$~Du måste vara <inloggad@://login> för att skapa och ändra gallerier.",
+                    "nopublic": "$~Inga galleri:er har blivit godkända för den här listan än. Kom tillbaka snart!"
+                },
+                "search": {
+                    "description": "$~Sök bland exempel och publika galleri:er",
+                    "noResults": "$~Inga resultat hittades.",
+                    "galleries": "$~Galleri:er",
+                    "examples": "$~Exempelprojekt",
+                    "projects": "$~Projekt i publika galleri:er"
+                }
+            },
+            "about": {
+                "header": "$~Om",
+                "content": [
+                    "$~Har du någonsin känt att koda bara var för icke-funktionshindrade människor i väst som talar flytande engelska och växte upp med datorer?",
+                    "Ja, vi också.",
+                    "Detta är ingen slump. Sedan datorernas början har programmeringsspråk mest utformats och byggts av samma grupp människor -- mestadels vita, cis, engelsktalande män inom forskning och industri i USA och Europa, och några få fantastiska kvinnliga matematiker. De arbetade i en tid av postkolonial makt där vinnaren tar allt, och programmeringsspråk var ett viktigt verktyg för att säkra den makten.",
+                    "Denna historia har lett till en syn på datorer som mest handlar om snabbhet, logik, vinst och dominans.",
+                    "Detta är en orättvisa. För datorer ligger nu, på gott och ont, till grund för vardagen på synliga och osynliga sätt, och de som får möjlighet att skapa med dem liknar mest deras skapare. Resten av mänskligheten förblir bunden till denna makt, eftersom att föreställa sig något annat kräver läskunnighet, som stängs ute av språkbarriärer, tillgänglighetsbarriärer, ekonomiska barriärer och orättvisor i den offentliga skolan.",
+                    "*Wordplay* vill hjälpa till att ändra på detta. Det är en programmeringsplattform som är gjord för att vara global och stödja /alla/ världens språk, men också handla /om/ världens språk. En plattform där alla kan skapa, med de förmågor de har, och dela interaktivt innehåll som vem som helst kan uppleva. För ungdomar och unga vuxna som vill uttrycka sig genom interaktiva ord, emojis och typografi, lekfullt och konstnärligt. Inte med målet att skaffa makt åt sig själva, utan att skapa en datorvärld som erkänner den otroliga styrkan och nödvändigheten i våra vackra olikheter.",
+                    "Vi är en gemenskap av formgivare, lärare och utvecklare som försöker förverkliga denna vision. Vi är rasifierade, vi är trans, vi är queera, vi är funktionshindrade, vi är invandrare, vi är flyktingar. Vi har vår bas vid <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> i Seattle, Washington, USA, en plats som vill välkomna alla och göra upp med de funkofobiska och rasistiska skador från kolonialismen som fortsätter än idag. Att göra detta programmeringsspråk och denna plattform är en liten del av det uppdraget, och ger en glimt av en framtid för datorer där /alla/ hör hemma.",
+                    "Vi skulle gärna vilja ha din hjälp. Lär dig <hur man bidrar@https://github.com/wordplaydev/wordplay/wiki/contribute>, <donera@://donate>, eller följ våra <framsteg@https://github.com/amyjko/wordplay/milestones>. Skriv till vår gemenskapsorganisatör <Amy@https://amyjko.phd> om du har frågor."
+                ],
+                "districts": {
+                    "header": "$~För skolor och kommuner",
+                    "content": [
+                        "$~Funderar du på om *Wordplay* går bra att använda i din skola eller kommun? Här är vad vi kan och inte kan lova.",
+                        "Vi är inget företag. Vi är ett samhällsbaserat forskningsprojekt som hör hemma på ett icke-vinstdrivande universitet, och vi har inga intäkter. Det betyder att det finns avtal vi inte kan skriva under, hur mycket vi än vill hjälpa till. Vi kan inte lova att betala en kommuns rättegångskostnader om den blir stämd. Vi kan inte lova att lösa ett problem inom en bestämd tid. Att skriva under ett löfte vi inte kan hålla skulle inte hjälpa någon, allra minst dig.",
+                        "Här är vad vi kan lova. Vi håller plattformen enligt tillgänglighetskraven i /WCAG 2.2 nivå AA/, vi kontrollerar det automatiskt vid varje ändring, och vi rättar det vi hittar så snabbt en frivillig gemenskap kan. Vi samlar in så lite som möjligt om de som använder plattformen, och vi använder det bara för att driva plattformen. Vår sida <rights//rights> visar exakt vad vi lagrar, och vår <source@https://github.com/wordplaydev/wordplay> är öppen för alla, så du kan kontrollera allt detta själv.",
+                        "Denna plattform ändras hela tiden, och det gör även reglerna du måste följa. Om det finns något du behöver som vi ännu inte erbjuder, skriv till oss på hi@wordplay.dev och berätta om det. De som underhåller plattformen läser det, och vi skriver tillbaka."
+                    ],
+                    "link": "$~Skriv till oss om ett krav",
+                    "subject": "$~Wordplay skolförfrågan",
+                    "body": [
+                        "$~Skolans eller kommunens namn:",
+                        "$~Ditt namn:",
+                        "$~Din roll:",
+                        "$~Finns det ett krav eller en regel vi behöver uppfylla som vi inte redan gör?",
+                        "$~Finns det något vi inte kan uppfylla som vi är nu?",
+                        "$~Är det något annat du vill att vi ska veta?"
+                    ]
+                }
+            },
+            "login": {
+                "header": "$~Inloggning",
+                "subtitle": "$~Spara, samarbeta och dela",
+                "anonymous": "$~inloggning",
+                "prompt": {
+                    "login": "$~Logga in för att spara dina projekt, samarbeta och dela:",
+                    "join": "$~Eller, <skapa ett konto@://join> för att börja.",
+                    "forgot": "$~*Har du glömt ditt lösenord?* Tyvärr kan vi inte återställa ditt konto eftersom vi inte samlar in kontaktinformation.",
+                    "enter": "$~Det verkar som om din inloggningslänk kom från en annan webbläsare eller enhet. Kan du ange din e-postadress igen, bara så att vi är säkra på att det är du?",
+                    "play": "$~Du är inloggad, vi kan spara dina projekt online nu! Vill du skapa något?",
+                    "passwordrule": "$~Lösenord måste vara minst 6 tecken långa; om du inte använder en lösenordshanterare, välj tre långa ord som du kommer ihåg.",
+                    "changeEmail": "$~Vill du ändra din e-postadress? Skicka in en ny så skickar vi en bekräftelse till den gamla.",
+                    "changePassword": "$~Vill du ändra ditt lösenord? Skicka in en ny och upprepa den.",
+                    "email": "$~Har du ett konto som bara har e-post? Logga in med din e-post, och om det finns ett konto kopplat till den skickar vi ett e-postmeddelande med en inloggningslänk. Nya konton som bara har e-post stöds inte, för att skydda din integritet.",
+                    "sent": "$~Om denna e-post är kopplad till ett konto kommer den att få ett e-postmeddelande med en inloggningslänk. Det kan ta några minuter innan det visas. Om det inte finns något konto kopplat till detta e-postmeddelande kommer du inte att få någonting.",
+                    "logout": "$~Använder du en delad enhet och vill hålla dina projekt privata? Logga ut så *tar vi bort dina projekt* från den här enheten, men de kommer att sparas online.",
+                    "success": "$~Konto skapat!",
+                    "confirm": "$~Kolla din gamla e-postadress för att bekräfta din nya adress.",
+                    "delete": "$~Vill du att vi ska glömma allt du har gjort här? Detta kan inte ångras.",
+                    "reallyDelete": "$~Är du säker? Ditt konto och dina inställningar kommer att raderas omedelbart och dina projekt kommer att schemaläggas för radering. Samarbetspartners i dina projekt förlorar omedelbart åtkomst till dem. Skriv din e-postadress eller ditt användarnamn för att bekräfta att det är detta du vill ha.",
+                    "name": "$~Välj en emoji eller ett eget tecken som visar dig för andra.",
+                    "paste": "$~Öppnades länken någon annanstans? Installerade appar öppnar ibland e-postlänkar i en webbläsare i stället. Kopiera länken från din e-post och klistra in den här för att slutföra inloggningen."
+                },
+                "error": {
+                    "expired": "$~Denna länk har upphört att gälla.",
+                    "invalid": "$~Den här länken är inte giltig.",
+                    "email": "$~Inte en giltig e-postadress.",
+                    "failure": "$~Kan inte logga in :(",
+                    "unverified": "$~Vi kunde inte kontrollera att detta är en riktig webbläsare, så vi stoppade här. Det kan hända på skol- eller arbetsnätverk. Att försöka igen hjälper inte, men ett annat nätverk eller en annan webbläsare kanske fungerar. Om du är i skolan, berätta för en lärare.",
+                    "offline": "$~Vi kunde inte nå molnet ☁️.",
+                    "wrongPassword": "$~Inte ett giltigt användarnamn och lösenord. Antingen är ditt lösenord fel eller så har någon annan det här användarnamnet.",
+                    "tooMany": "$~Du har försökt och misslyckats med att logga in för många gånger. Du måste vänta med att försöka igen.",
+                    "invalidUsername": "$~Användarnamn måste ha minst 5 bokstäver och inga mellanslag.",
+                    "invalidPassword": "$~Lösenord måste vara minst 6 tecken långa.",
+                    "mismatched": "$~Lösenorden stämmer inte överens.",
+                    "usernameTaken": "$~Detta användarnamn är redan upptaget.",
+                    "unsaved": "$~Du har ändringar som inte är sparade online än. Om du loggar ut nu försvinner de från den här enheten.",
+                    "deletePartial": "$~Vi tog bort dina kontouppgifter, men det gick inte att slutföra borttagningen av ditt konto. Försök igen eller kontakta oss om det fortsätter att hända."
+                },
+                "feedback": {
+                    "changing": "$~Skickar nytt e-postmeddelande...",
+                    "deleting": "$~Okej, tar bort dina projekt och inställningar...",
+                    "updatedPassword": "$~Ditt lösenord är uppdaterat.",
+                    "match": "$~Detta måste matcha ditt kontos användarnamn."
+                },
+                "field": {
+                    "email": {
+                        "description": "$~redigera inloggningsmail",
+                        "placeholder": "$~e-post"
+                    },
+                    "username": {
+                        "description": "$~logga in användarnamn, använd inte personligt identifierbar information",
+                        "placeholder": "$~användarnamn"
+                    },
+                    "password": {
+                        "description": "$~inloggningslösenord, minst 6 tecken",
+                        "placeholder": "$~lösenord"
+                    },
+                    "currentPassword": {
+                        "description": "$~ditt nuvarande inloggningslösenord",
+                        "placeholder": "$~nuvarande lösenord"
+                    },
+                    "newPassword": {
+                        "description": "$~ditt nya lösenord",
+                        "placeholder": "$~nytt lösenord"
+                    },
+                    "link": {
+                        "description": "$~klistra in inloggningslänk",
+                        "placeholder": "$~länk"
+                    }
+                },
+                "button": {
+                    "logout": {
+                        "tip": "$~logga ut från ditt konto",
+                        "label": "$~utloggning"
+                    },
+                    "login": "$~skapa ett konto med detta användarnamn och lösenord",
+                    "updateEmail": "$~ändra din e-post",
+                    "delete": {
+                        "tip": "$~radera ditt konto",
+                        "label": "$~radera mina uppgifter..."
+                    },
+                    "reallyDelete": {
+                        "tip": "$~radera ditt konto för alltid",
+                        "label": "$~radera det!!!"
+                    },
+                    "updatePassword": "$~skicka in nytt lösenord"
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "$~Visa lösenord",
+                        "off": "$~Dölj lösenord"
+                    }
+                },
+                "signin": {
+                    "usesPassword": "$~Du loggar in med ett användarnamn och ett lösenord. Om du hellre slipper komma ihåg ett lösenord kan du byta till att logga in med en länk vi mejlar dig — ditt användarnamn är detsamma som förut.",
+                    "usesEmail": "$~Du loggar in med din e-postadress. Om du hellre vill ha ett användarnamn och ett lösenord istället kan du byta — ditt användarnamn förblir detsamma.",
+                    "notYet": "$~Du loggar in med ett användarnamn och ett lösenord. Där du bor är du inte gammal nog ännu för att använda en e-postadress här — från $date kan du byta till att logga in med en mejlad länk istället.",
+                    "switched": "$~Klart. Nästa gång loggar du in med ditt användarnamn och ditt nya lösenord.",
+                    "toPassword": {
+                        "label": "$~Använd ett lösenord istället",
+                        "tip": "$~Byt till att logga in med ditt användarnamn och ett lösenord"
+                    }
+                },
+                "username": {
+                    "change": "$~Ditt användarnamn är hur andra ser dig, och det inleder namnet på varje karaktär du skapar. Du kan ändra det när du vill. Ditt gamla namn fortsätter att fungera, så allt som redan pekar på dina karaktärer hittar dem ändå.",
+                    "missing": "$~Du har inget användarnamn än, så andra ser dig som *—* och du kan inte skapa karaktärer. Välj ett, och det blir fast.",
+                    "changed": "$~Klart. Det är ditt namn nu.",
+                    "claimed": "$~Klart. Det är ditt namn.",
+                    "field": {
+                        "description": "$~Användarnamnet du vill ha",
+                        "placeholder": "$~användarnamn"
+                    },
+                    "save": {
+                        "label": "$~Spara",
+                        "tip": "$~Använd det här användarnamnet från och med nu"
+                    }
+                },
+                "notifications": {
+                    "header": "$~Mejla mig om…",
+                    "noAddress": "$~Lägg till en e-postadress ovan för att välja vilka mejl Wordplay skickar till dig.",
+                    "decisions": {
+                        "label": "$~granskning av saker jag gjort eller anmält",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Mejla mig inte om granskning av saker jag gjort eller anmält",
+                            "$~Mejla mig om granskning av saker jag gjort eller anmält"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~granskning som väntar på mig",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Mejla mig inte om granskning som väntar på mig",
+                            "$~Mejla mig om granskning som väntar på mig"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~nya chattar och hur man-guider",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Mejla mig inte om nya chattar och hur man-guider",
+                            "$~Mejla mig om nya chattar och hur man-guider"
+                        ]
+                    },
+                    "notYet": "$~När du kan använda en e-postadress kommer du att kunna välja vilka mejl Wordplay skickar till dig."
+                },
+                "subheader": {
+                    "work": "$~Ditt arbete",
+                    "character": "$~Din karaktär",
+                    "username": "$~Ditt användarnamn",
+                    "password": "$~Ditt lösenord",
+                    "email": "$~E-post",
+                    "logout": "$~Logga ut",
+                    "delete": "$~Ta bort ditt konto",
+                    "export": "$~Ditt arkiv"
+                },
+                "profile": "$~Profil",
+                "export": {
+                    "prompt": "$~Ladda ner en kopia av allt du har gjort. Den innehåller dina projekt, figurer, gallerier, hur-man-guider, satser, samtal, klasser och inställningar. Varje projekt kommer som en fil du kan öppna i Wordplay igen. En del av innehållet tillhör inte bara dig: samtal innehåller det alla har sagt, och klasslistor innehåller andra personers namn. Den du ger filen till kan läsa allt i den, så förvara den någonstans privat.",
+                    "proxy": "$~Du tittar på någon annans konto, så du kan inte ladda ner en kopia av det.",
+                    "button": {
+                        "tip": "$~ladda ner en kopia av allt i ditt konto",
+                        "label": "$~ladda ner mitt arkiv…"
+                    },
+                    "progress": "$~Samlade $kind: $#count[$count sak hittills|$count saker hittills]",
+                    "started": "$~Skapar ditt arkiv.",
+                    "finished": "$~Ditt arkiv $name är klart, med $#count[$count sak i sig|$count saker i sig].",
+                    "finishedPartial": "$~Ditt arkiv $name är klart, med $#count[$count sak i sig|$count saker i sig], men $#missing[$missing typ|$missing typer] kunde inte läsas.",
+                    "failed": "$~Ditt arkiv kunde inte skapas. Försök igen om en stund.",
+                    "tooLarge": "$~Du har gjort mer än ett arkiv kan rymma. Berätta för oss så hjälper vi dig att få det.",
+                    "offline": "$~Wordplay kan inte nå internet, så det kan inte skapa ditt arkiv.",
+                    "kind": {
+                        "account": "$~ditt konto",
+                        "projects": "$~dina projekt",
+                        "galleries": "$~dina gallerier",
+                        "characters": "$~dina karaktärer",
+                        "howtos": "$~dina hur man-guider",
+                        "chats": "$~dina samtal",
+                        "kits": "$~dina satser",
+                        "classes": "$~dina klasser",
+                        "feedback": "$~dina idéer och felrapporter",
+                        "device": "$~denna enhets inställningar",
+                        "archive": "$~arkivet",
+                        "saving": "$~filen"
+                    },
+                    "readme": {
+                        "title": "$~Ditt Wordplay-arkiv",
+                        "intro": "$~Detta är en kopia av allt i Wordplay-kontot $name. Den gjordes den $date. Wordplay gjorde den åt dig. Ingen annan har en kopia.",
+                        "contents": "$~Varje mapp innehåller en sorts sak. Det finns mappar för dina projekt, karaktärer, gallerier, hur man-guider, satser, samtal och klasser.",
+                        "relationships": "$~I varje mapp sorteras sakerna efter hur du är kopplad till dem. En mapp som heter owner innehåller det du har skapat. creator innehåller det du har skrivit eller kan lägga till i. curator innehåller det du tar hand om. teacher och learner innehåller klasser. collaborator, commenter och viewer innehåller arbete som tillhör någon annan.",
+                        "device": "$~Enhetsmappen innehåller saker som bara finns på datorn du gjorde detta arkiv på. Den har inställningar som inte sparas online, översättningar du har börjat på, och arbete som inte hade sparats klart. Om du gör ett arkiv på en annan dator kommer dessa saker inte med.",
+                        "formats": "$~För att öppna ett projekt igen, gå till din projektsida i Wordplay och välj \"öppna en projektfil\". Du kan också dra .wp-filen till den sidan. Om du vill ersätta ett projekt du redan har, dra filen till det, så frågar Wordplay dig först.",
+                        "excluded": "$~Några saker finns inte med här. Wordplay utelämnar den steg-för-steg-loggen över dina ändringar, eftersom projektet redan visar vad ändringarna ledde till. Den utelämnar loggen över vem som har tittat på ett projekt. Den utelämnar också rapporter om brutna regler, eftersom de är skrivna för de personer som granskar dem.",
+                        "privacy": "$~En del av detta tillhör inte bara dig. Ett samtal innehåller det alla i det har sagt. En klass innehåller namnen på alla som är med i den. Den du ger denna fil till kan läsa allt i den. Förvara den någonstans privat, och tänk på vilka andra som finns med i den innan du delar den.",
+                        "missing": "$~Wordplay kunde inte läsa vissa saker när detta arkiv skapades. De finns inte med här:",
+                        "manifest": "$~manifest.json innehåller samma uppgifter i en form som ett program kan läsa. Den anger när arkivet skapades, hur många det finns av varje sak, och vad som inte kunde tas med.",
+                        "contentsFiles": "$~Varje sak har en .json-fil. Det är exakt vad Wordplay sparar. Varje projekt har också en .wp-fil. Det är projektet skrivet ut så att du kan läsa det och öppna det igen.",
+                        "contentsAccount": "$~account.json anger vem du är, när du gick med, och vad du får göra. self-mappen innehåller det Wordplay sparar om dig: ditt användarnamn, hur mycket du har översatt, eventuella varningar du har fått, och dina meddelanden.",
+                        "relationshipsWords": "$~Samma ord kan betyda två saker. En creator av ett galleri kan lägga till projekt i det. Den som skrev en hur man-guide är dess creator. Varje mapp har också en index.json. Den listar alla sätt du är kopplad till varje sak, eftersom mer än ett kan stämma."
+                    },
+                    "incomplete": "$~Ditt arkiv är klart, men dessa kunde inte läsas, så de finns inte med: $kinds"
+                }
+            },
+            "join": {
+                "header": "$~Ansluta sig till",
+                "prompt": {
+                    "create": "$~Skapa ett konto för att spara dina projekt, samarbeta med andra och dela ditt arbete.",
+                    "username": "$~Användarnamn måste vara minst /5 tecken/, får inte vara en e-postadress och bör inte innehålla ditt namn eller annan information som avslöjar vem du är.",
+                    "password": "$~Lösenord måste vara minst /6 tecken/. Skriv det två gånger och skriv ner det på ett säkert ställe, som en lösenordshanterare. *Det finns inget sätt att återställa ditt konto* om du förlorar det, eftersom vi inte samlar in kontaktinformation.",
+                    "region": "$~Vi frågar var du bor så att vi kan följa reglerna där för unga personers konton. Vi sparar inte ditt svar.",
+                    "birthday": "$~Vi frågar om din födelsedag av samma skäl. Vi sparar inte den heller — bara om du är gammal nog att använda en e-postadress, och när du kommer att bli det.",
+                    "choose": "$~Det finns två sätt att logga in på. Välj det som passar dig.",
+                    "withPassword": "$~*Ett användarnamn och ett lösenord.* Vi kommer inte att veta något om dig — men *det finns inget sätt att få tillbaka ditt konto om du glömmer ditt lösenord*, eftersom vi inte har något sätt att nå dig.",
+                    "withEmail": "$~*En e-postadress.* Vi mejlar dig en länk varje gång du loggar in, så det finns inget lösenord att glömma. Vi sparar din adress bara för att skicka de länkarna.",
+                    "tooYoung": "$~Där du bor måste du vara $#age[$age år|$age år] gammal för att använda en e-postadress här. Tills dess blir det ett användarnamn och ett lösenord — och du kan byta senare.",
+                    "sent": "$~Om den adressen kan användas för att logga in är en länk på väg. Kolla din e-post."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Landet eller området du bor i",
+                        "placeholder": "$~land"
+                    },
+                    "year": {
+                        "description": "$~Året du föddes",
+                        "placeholder": "$~år"
+                    },
+                    "month": {
+                        "description": "$~Månaden du föddes",
+                        "placeholder": "$~månad"
+                    },
+                    "day": {
+                        "description": "$~Dagen du föddes",
+                        "placeholder": "$~dag"
+                    },
+                    "email": {
+                        "description": "$~E-postadressen du vill logga in med",
+                        "placeholder": "$~e-post"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~nästa",
+                        "tip": "$~Gå vidare till nästa steg"
+                    },
+                    "back": {
+                        "label": "$~tillbaka",
+                        "tip": "$~Gå tillbaka till föregående steg"
+                    },
+                    "usePassword": {
+                        "label": "$~Använd ett lösenord",
+                        "tip": "$~Skapa ett konto med användarnamn och lösenord"
+                    },
+                    "useEmail": {
+                        "label": "$~Använd en e-postadress",
+                        "tip": "$~Skapa ett konto du loggar in på med en länk via e-post"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Det där är inget riktigt datum. Kontrollera dag och månad.",
+                    "taken": "$~Någon tog just det användarnamnet. Prova ett annat.",
+                    "throttled": "$~Det är väldigt många inloggningslänkar. Vänta lite och försök igen.",
+                    "failed": "$~Vi kunde inte skapa kontot. Försök igen om en liten stund."
+                }
+            },
+            "rights": {
+                "header": "$~Rättigheter",
+                "content": [
+                    "$~Hej!",
+                    "Låt oss klargöra vad du har rätt till och vad vi har rätt till (även med tanke på lagar som <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> och <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Det första du bör veta är att vi inte är ett kommersiellt företag. Vi är ett forskningsprojekt som drivs av ett samhälle av användare, och vi hör till ett icke-kommersiellt universitet. Vårt mål är att skapa en plattform som ger dig glädje och hjälper oss att göra upptäckter om en mer rättvis och jämlik värld av datorprogrammering. Vi vill inte tjäna pengar på plattformen. Alla pengar vi samlar in (oftast från offentlig finansiering) används för att hålla plattformen igång, inte för att göra någon rik som arbetar med den (eller bidrar till den).",
+                    "Eftersom vi inte vill tjäna pengar kan vi inte lova att plattformen alltid fungerar, alltid finns tillgänglig, eller finns kvar för alltid. Men <Amy@https://amyjko.phd> vill hålla igång plattformen under lång tid. Hon är fast anställd professor, så hon har ett tryggt jobb.",
+                    "Det leder oss till *data*. Här är vad vi samlar in och sparar i molnet:",
+                    "• Dina *projekt*. Vi sparar alla projekt du bidrar med och dina ändringar av dem, om inte projekten verkar innehålla personliga uppgifter som telefonnummer, e-postadresser, användarnamn, personnummer eller adresser.",
+                    "• Dina *inställningar*. Det gäller de språk du väljer, dina animeringsinställningar och hur långt du kommit i handledningen. Allt annat sparas bara på din egen enhet.",
+                    "• Samlad *aktivitet*. Vi registrerar inloggningar och vilka sidor du besöker, men inte på ett sätt som kan identifiera dig, följa dig på webbplatsen, eller följa dig på andra webbplatser. Vi använder Google Analytics i läget \"samtycke nekat\", som bara samlar in minimal information om sidvisningar som inte kan kopplas till dig. Det sparar inga kakor och skickar inte din IP-adress till Google. Vi använder denna samlade information för att kunna visa hur mycket plattformen används, vilket hjälper oss att söka finansiering.",
+                    "• Dina *chattöversättningar*. Om du vill läsa en chatt på ett annat språk översätter vi alla andra deltagares meddelanden, men aldrig dina egna. Vissa webbläsare kan göra denna översättning direkt på din enhet, och då skickas ingenting till oss. Annars skickas meddelandena till en AI-tjänst för översättning (just nu Claude, gjord av Anthropic), och översättningen sparas tillsammans med chatten så att ingen annan behöver översätta samma ord igen. Bara personerna i den chatten kan läsa den.",
+                    "Vi sparar inget annat. Vår <källkod@https://github.com/amyjko/wordplay/tree/main/src> är öppen för alla, så vem som helst kan kontrollera detta och rapportera oönskad spårning.",
+                    "*Du* äger din data, inte vi. Det betyder att:",
+                    "• Du bestämmer vem som kan se dina projekt. De är privata som standard, men du kan dela dem med enskilda personer, grupper, eller göra dem helt öppna för alla.",
+                    "• Du kan när du vill ta bort helt ett projekt eller ditt eget konto.",
+                    "• Du kan när du vill få en kopia av ett projekt eller hela ditt konto.",
+                    "Så kommer vi att använda din data, och så kommer vi inte att göra det:",
+                    "• Vi delar inte din data med någon, om det inte krävs enligt lag. Det kan alltid hända att din data hamnar i orätta händer utan tillstånd (ett \"dataintrång\"). Om vi upptäcker att detta har hänt kommer vi att meddela dig via den e-postadress du delat med oss.",
+                    "• Vi kontaktar dig inte via e-post om inte 1) du gör en kontoändring som kräver det, 2) du uttryckligen ger oss tillstånd att höra av oss, eller 3) det handlar om ett dataintrång som ovan.",
+                    "• Vi kan analysera projekt, gallerier och hur man-guider på plattformen för att förstå vad alla skapar och hur de gör det. Vi kan dela dessa samlade och anonyma insikter i vetenskapliga publikationer. Vi gör detta bara under uppsikt av en etikprövningsnämnd, precis som amerikansk federal lag kräver.",
+                    "Sist en kommentar om det du säger på plattformen. Projekt är privata som standard, och om du delar ett projekt med bestämda personer förblir det privat. Här förklarar vi exakt vem som granskar vad du delar, beroende på vem som kan se det.",
+                    "Men att göra ett projekt *öppet för alla*, eller att lägga det i ett öppet galleri, är ett privilegium. Den här plattformen är byggd på kärlek, bekräftelse, respekt och värdighet. Därför förväntar vi oss att inget av ditt *offentliga* innehåll gör något av följande:"
+                ],
+                "consequences": [
+                    "$~Om vi hittar ett projekt eller galleri som bryter mot de här reglerna varnar vi den som skapat det innan andra får se det, eller så blockerar vi det helt. Om du bryter mot reglerna flera gånger förlorar du rätten att dela saker öppet."
+                ],
+                "license": [
+                    "$~En sak till om att göra ett projekt *offentligt*. Offentliga projekt delas under <Creative Commons Erkännande-DelaLika-licensen@https://creativecommons.org/licenses/by-sa/4.0/>. Det betyder att vem som helst kan /remixa/ ditt offentliga projekt — göra sin egen kopia av det och ändra det — och du kan remixa någon annans.",
+                    "Tre saker följer med den licensen. De som remixar måste ge erkännande till den som gjorde originalet. De måste dela sin remix under samma licens, så att den förblir öppen för nästa person. Och de kan inte göra ett offentligt projekt privat för att behålla det för sig själva.",
+                    "Vi hjälper till med erkännandet: när någon remixar ett projekt kommer vi ihåg var det kom från och visar en länk tillbaka till det. Att göra ett projekt offentligt är hur du säger ja till allt detta, så om du hellre vill att ingen remixar ett projekt, håll det privat."
+                ],
+                "research": [
+                    "$~Ett sista val, och det är helt ditt eget. Vi skriver och talar ibland om Wordplay — i forskningsartiklar, i föredrag och i det vi visar lärare och familjer. Vi skulle gärna vilja visa vad människor faktiskt skapar med det, men vi visar inte ditt projekt om du inte säger att vi får.",
+                    "Varje projekt har en inställning som heter *Forskning* bland delningsinställningarna, och den är avstängd från början. Slår du på den låter du oss visa just det projektet som exempel, utan ditt namn, ditt användarnamn eller något annat som visar att kontot är ditt. Det gäller per projekt, så säger du ja till ett projekt betyder det inget för de andra.",
+                    "Du kan stänga av den när som helst. Stänger du av den slutar vi använda ditt projekt i något nytt, men det går inte att ta tillbaka något vi redan har publicerat eller visat upp."
+                ],
+                "warnings": [
+                    "$~Här är exakt vad som händer om ditt offentliga innehåll bryter mot dessa regler. En moderator granskar det, det slutar vara offentligt, och du får en varning i dina aviseringar som säger vilket innehåll det gäller. Vem som helst som är inloggad kan be en moderator titta på offentligt innehåll genom att använda rapportknappen på det.",
+                    "Efter tre varningar kan du fortfarande skapa projekt, fortfarande dela dem med dem du väljer, och fortfarande använda allt annat här. Det du förlorar är möjligheten att göra något offentligt.",
+                    "Om du tycker att en varning var ett misstag, eller om det var länge sedan och du vill dela offentligt igen, skriv till hi@wordplay.dev och berätta ditt användarnamn och varför. En person kommer att läsa det."
+                ],
+                "responsibility": [
+                    "$~Vem som granskar det du delar beror på vem som kan se det.",
+                    "• *Delat med ingen, eller bara med personer du valt.* Ingen granskar det. Inte vi, inte någon annan.",
+                    "• *I ett galleri med andra personer i.* Det galleriets kuratorer granskar det, och chattarna som hör till. Det gäller oavsett om galleriet är offentligt eller inte: personerna i det kan se ditt arbete, så någon där ansvarar för det.",
+                    "• *I ett offentligt galleri.* Dess kuratorer granskar det, och det gör vi också, eftersom vem som helst kan hitta det.",
+                    "• *Offentligt, men inte i något galleri.* Vi granskar det.",
+                    "Vem som helst som kan se något kan be om att det granskas, genom att använda rapportknappen på det. Vi berättar aldrig för personen som skapade det vem som frågade.",
+                    "Att rapportera ett chattmeddelande gömmer det medan någon tittar på det. Det händer bara en gång per meddelande: om det behålls och någon rapporterar det igen, förblir det synligt medan det granskas en andra gång. Du kan alltid se dina egna ord.",
+                    "Ett beslut visar vilka av reglerna ovan som bröts, och kan innehålla en kommentar från den som bestämde. Du får båda i dina meddelanden.",
+                    "En galleri-kurators beslut gäller för deras galleri. Det är inte en av varningarna nedan, och det kan aldrig ta bort din möjlighet att dela offentligt."
+                ]
+            },
+            "donate": {
+                "header": "$~Donera",
+                "prompt": "$~Hjälp oss finansiera utvecklingen av @wordplay",
+                "content": [
+                    "$~@wordplay är ett gratis, communitybaserat projekt som stöds av <University of Washington@https://washington.edu>. Vi förlitar oss på gåvor från människor som tror på vårt uppdrag med tillgängliga, språkinkluderande, pedagogiska programmeringsspråk.",
+                    "Här är våra nuvarande kostnader:",
+                    "• Vi kompenserar studenter från University of Washington, särskilt de som är funktionshindrade eller vars modersmål inte var engelska, för att utveckla och underhålla projektet. Det är cirka 90 % av våra kostnader.",
+                    "• Vi ger stipendier till lärare som vi samarbetar med för att utveckla flerspråkiga, tillgängliga läroplaner.",
+                    "• Vi betalar Google för <Firebase@https://firebase.google.com/> bandbredd och lagring samt <Workspace@https://workspace.google.com/> tjänster.",
+                    "• Vi betalar <Squarespace@https://www.squarespace.com/> årligen för domänen.",
+                    "Våra nuvarande kostnader, förutsatt att 5 studenter på $20 USD//timme, 10 timmar//vecka under läsåret (36 veckor) och 2 studenter under sommaren (12 veckor), plus molntjänster, är cirka $60K USD per år.",
+                    "Om 2 400 personer gav $25 USD per år, skulle det täcka våra nuvarande kostnader, med eventuell överskottskompensation till fler elever och lärare.",
+                    "Kan du vara en av dessa 2 400 personer? Om så är fallet, här är vår University of Washington som ger länk:"
+                ]
+            },
+            "characters": {
+                "header": "$~Karaktärer",
+                "prompt": "$~Skapa anpassade emojis och symboler att använda i dina projekt och dela med andra.",
+                "button": {
+                    "new": "$~Skapa en ny karaktär",
+                    "copy": "$~Kopiera denna karaktär",
+                    "remove": {
+                        "tip": "$~ta bort detta tecken",
+                        "prompt": "$~radera?"
+                    }
+                },
+                "error": {
+                    "offline": "$~Vi kunde inte komma åt dina karaktärer lagrade online.",
+                    "noauth": "$~Du måste vara <inloggad@://login> för att se dina karaktärer och skapa nya.",
+                    "create": "$~Det går inte att skapa en ny karaktär."
+                },
+                "subheader": {
+                    "shared": "$~Delad"
+                },
+                "unnamed": "$~Namnlös figur"
+            },
+            "character": {
+                "header": "$~Karaktär",
+                "instructions": {
+                    "empty": "$~Välj ett ritläge i paletten för att skapa former.",
+                    "unselected": "$~Välj ett ritläge, eller markera och ändra former. Använd *$control-a* för att markera allt och *$control-z* för att ångra.",
+                    "selected": "$~Använd *piltangenterna* för att flytta former. Håll ned *shift* för att lägga till fler former i en markering. Använd *delete* för att ta bort markeringen. Använd *$control-c* och *$control-v* för att kopiera och klistra in, och *$control-z* för att ångra. När en bana är markerad kan du trycka på *enter* för att ändra dess punkter. Använd kontrollerna nedan för att ändra de markerade formerna.",
+                    "pixel": "$~Välj en färg för att rita pixlar. Klicka sedan på arbetsytan eller använd *pilarna* för att flytta markören och *mellanslag* för att skapa en pixel. *Dubbelklicka* för att fylla.",
+                    "rect": "$~För att rita rektanglar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
+                    "ellipse": "$~För att rita ellipser och cirklar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
+                    "path": "$~Banor kan vara linjesegment, polygoner och kurvor. Klicka för att börja lägga till punkter, eller använd *pil*tangenterna och *mellanslag*. Tryck på *escape* för att avsluta banan. *radera* tar bort den sista punkten.",
+                    "eraser": "$~För att radera former, klicka eller tryck på dem. Dra för att radera pixlar. Använd *pil*tangenterna för att flytta radergummit och *mellanslag* för att radera.",
+                    "points": "$~Tryck *Tab* för att flytta mellan banans punkter. Använd *piltangenterna* för att flytta den markerade punkten, *enter* för att lägga till en punkt bredvid den, och *delete* för att ta bort den. Använd *böj* för att böja segmentet som leder fram till en punkt, och flytta sedan dess handtag. *Delete* på ett handtag rätar ut det igen. Tryck på *escape* när du är klar.",
+                    "symbol": "$~Välj om du vill lägga till pixlar eller en kontur, och välj sedan en bokstav, symbol eller emoji. En kontur kan ändra storlek och vridas utan att bli suddig. Pixlar kan färgas om en i taget. Klicka eller tryck på något du redan gjort för att välja det istället.",
+                    "image": "$~Välj en bild, och välj sedan den fyrkant av den som ska sparas. Den ersätter pixlarna och läggs under alla former du har ritat. Klicka eller tryck på något du redan gjort för att välja det istället."
+                },
+                "shape": {
+                    "shape": "$~form",
+                    "pixel": "$~pixel",
+                    "rect": "$~rektangel",
+                    "ellipse": "$~ellips",
+                    "path": "$~väg",
+                    "eraser": "$~suddgummi",
+                    "emoji": "$~emoji",
+                    "glyph": "$~kontur",
+                    "symbol": "$~symbol",
+                    "image": "$~bild"
+                },
+                "field": {
+                    "name": {
+                        "description": "$~karaktärens namn",
+                        "placeholder": "$~namn"
+                    },
+                    "description": {
+                        "description": "$~beskrivning av karaktären",
+                        "placeholder": "$~beskrivning"
+                    },
+                    "mode": {
+                        "label": "$~läge",
+                        "labels": [
+                            "$~välj",
+                            "$~suddgummi",
+                            "$~pixel",
+                            "$~rektangel",
+                            "$~ellips",
+                            "$~väg",
+                            "$~emoji",
+                            "$~bild"
+                        ],
+                        "tips": [
+                            "$~välj former och pixlar",
+                            "$~radera former och pixlar",
+                            "$~rita pixlar",
+                            "$~rita rektanglar",
+                            "$~rita ellipser",
+                            "$~rita banor",
+                            "$~importera en emoji som pixlar",
+                            "$~lägg till en bild som pixlar"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~fylla",
+                        "labels": ["$~inget", "$~ärv", "$~välj"],
+                        "tips": [
+                            "$~ingen fyllning",
+                            "$~ärva fyllningsfärg från omgivande text",
+                            "$~välj en fyllningsfärg"
+                        ]
+                    },
+                    "stroke": {
+                        "label": "$~stroke",
+                        "labels": ["$~inget", "$~ärv", "$~välj"],
+                        "tips": [
+                            "$~ingen stroke",
+                            "$~ärva linjefärg från omgivande text",
+                            "$~välj en linjefärg"
+                        ]
+                    },
+                    "none": "$~ingen",
+                    "inherit": "$~textfärg",
+                    "strokeWidth": {
+                        "label": "$~slagbredd",
+                        "tip": "$~hur brett slaget återges"
+                    },
+                    "radius": {
+                        "label": "$~hörnradie",
+                        "tip": "$~hur runda rektangulära hörn är"
+                    },
+                    "angle": {
+                        "label": "$~vinkel",
+                        "tip": "$~hur mycket man ska rotera formen runt dess mitt"
+                    },
+                    "width": {
+                        "label": "$~bredd",
+                        "tip": "$~hur bred formen är"
+                    },
+                    "height": {
+                        "label": "$~höjd",
+                        "tip": "$~hur hög formen är"
+                    },
+                    "closed": "$~ansluten",
+                    "brushSize": {
+                        "label": "$~storlek",
+                        "tip": "$~hur många rutor på bredden penseln och suddgummit täcker"
+                    },
+                    "insertion": {
+                        "label": "$~lägg till som",
+                        "labels": ["$~pixlar", "$~kontur"],
+                        "tips": [
+                            "$~lägg till symbolen som pixlar du kan färga om en i taget",
+                            "$~lägg till symbolen som en kontur du kan ändra storlek och vrida på utan att den blir suddig"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~typsnitt",
+                        "tip": "$~vilket typsnitt symbolens form ska hämtas från"
+                    },
+                    "weight": {
+                        "label": "$~tjocklek",
+                        "tip": "$~hur tjocka symbolens streck är"
+                    },
+                    "italic": "$~kursiv",
+                    "glyphSize": {
+                        "label": "$~symbolstorlek",
+                        "tip": "$~hur många rutor på bredden symbolen är"
+                    }
+                },
+                "button": {
+                    "back": {
+                        "label": "$~tillbaka",
+                        "tip": "$~flytta valda former bakåt."
+                    },
+                    "toBack": {
+                        "label": "$~att backa",
+                        "tip": "$~flytta valda former längst bak."
+                    },
+                    "forward": {
+                        "label": "$~fram",
+                        "tip": "$~flytta valda former framåt."
+                    },
+                    "toFront": {
+                        "label": "$~till fronten",
+                        "tip": "$~flytta valda former längst fram."
+                    },
+                    "copy": {
+                        "label": "$~kopiera",
+                        "tip": "$~kopiera valda former till urklipp."
+                    },
+                    "paste": {
+                        "label": "$~klistra",
+                        "tip": "$~klistra in kopierade former från urklipp."
+                    },
+                    "clear": {
+                        "label": "$~alla",
+                        "tip": "$~ta bort alla former."
+                    },
+                    "clearPixels": {
+                        "label": "$~pixlar",
+                        "tip": "$~ta bort alla pixlar."
+                    },
+                    "undo": {
+                        "label": "$~ångra",
+                        "tip": "$~ångra till föregående design"
+                    },
+                    "redo": {
+                        "label": "$~göra om",
+                        "tip": "$~gör om till nästa design"
+                    },
+                    "all": {
+                        "label": "$~välj alla",
+                        "tip": "$~välj alla former och pixlar"
+                    },
+                    "end": {
+                        "label": "$~avsluta form",
+                        "tip": "$~avsluta den nuvarande banan"
+                    },
+                    "horizontal": {
+                        "label": "$~vänd horisontellt",
+                        "tip": "$~vänd markeringen vågrätt"
+                    },
+                    "vertical": {
+                        "label": "$~vänd vertikalt",
+                        "tip": "$~vänd markeringen lodrätt"
+                    },
+                    "fit": {
+                        "label": "$~färdig",
+                        "tip": "$~anpassa formerna till duken"
+                    },
+                    "dismissError": {
+                        "label": "$~avfärda",
+                        "tip": "$~ignorera felmeddelandet"
+                    },
+                    "allColor": {
+                        "label": "$~alla i färg",
+                        "tip": "$~markera alla former med samma färg som markeringen"
+                    },
+                    "saturationUp": {
+                        "label": "$~mättnad",
+                        "tip": "$~öka mättnaden"
+                    },
+                    "saturationDown": {
+                        "label": "$~mättnad",
+                        "tip": "$~minska mättnaden"
+                    },
+                    "editPoints": {
+                        "label": "$~punkter",
+                        "tip": "$~ändra punkterna på den markerade banan"
+                    },
+                    "donePoints": {
+                        "label": "$~klar",
+                        "tip": "$~sluta ändra punkter"
+                    },
+                    "addPoint": {
+                        "label": "$~lägg till punkt",
+                        "tip": "$~lägg till en punkt bredvid den markerade"
+                    },
+                    "deletePoint": {
+                        "label": "$~ta bort punkt",
+                        "tip": "$~ta bort den markerade punkten"
+                    },
+                    "curve": {
+                        "label": "$~böj",
+                        "tip": "$~böj segmentet som leder fram till den markerade punkten"
+                    },
+                    "straighten": {
+                        "label": "$~räta ut",
+                        "tip": "$~räta ut segmentet som leder fram till den markerade punkten"
+                    }
+                },
+                "feedback": {
+                    "name": "$~Tecken behöver ett giltigt Wordplay-namn som är minst 1 tecken långt. Det kan inte vara 'UI', ett decimaltal eller ett hexadecimalt tal, eller namnet på en inbyggd språkfunktion.",
+                    "description": "$~Karaktärer behöver en beskrivning så att de som inte kan se vet vad de representerar.",
+                    "end": "$~eller tryck på Escape.",
+                    "loadfail": "$~Det gick inte att läsa in den här karaktären.",
+                    "notfound": "$~Detta tecken finns inte eller är inte synligt för dig.",
+                    "unauthenticated": "$~Du måste vara <inloggad@://login> för att redigera ett tecken.",
+                    "taken": "$~Du har redan en karaktär med detta namn; inte sparar.",
+                    "projecteditfail": "$~Det uppstod ett problem när projekt som använder det här tecknet uppdaterades. Följande projekt behöver åtgärdas:",
+                    "untitledproject": "$~Namnlöst projekt",
+                    "glyphLoading": "$~Hämtar typsnittet…",
+                    "glyphMissing": "$~Det här typsnittet har ingen form för den symbolen. Prova ett annat typsnitt.",
+                    "glyphEmpty": "$~Den symbolen har inget att rita.",
+                    "glyphUnreadable": "$~Vi kunde inte läsa det typsnittet. Kontrollera din anslutning, eller prova ett annat typsnitt.",
+                    "imageTooBig": "$~Den bilden är $size MB. Välj en som är mindre än $limit MB.",
+                    "imageUnreadable": "$~Vi kunde inte läsa den filen som en bild."
+                },
+                "announce": {
+                    "position": "$~för $x $y",
+                    "selection": "$~$shapes[vald $shapes|inget valt]",
+                    "editing": "$~ändrar $#count[en punkt|$count punkter]",
+                    "editingDone": "$~klar med att ändra punkter",
+                    "point": "$~punkt $index vid $x $y",
+                    "control": "$~böj $index vid $x $y",
+                    "pointAdded": "$~la till punkt $index vid $x $y",
+                    "pointRemoved": "$~tog bort punkt $index, $#count[en punkt|$count punkter] kvar",
+                    "curved": "$~böjde segment $index",
+                    "straightened": "$~rätade ut segment $index",
+                    "moved": "$~flyttad till $x $y",
+                    "drew": "$~ritad vid $x $y",
+                    "erased": "$~raderad vid $x $y",
+                    "finished": "$~skapade $shape vid $x $y",
+                    "deleted": "$~raderad, $#count[en form kvar|$count former kvar]",
+                    "undone": "$~ångrade steg $step av $total",
+                    "redone": "$~gjorde om steg $step av $total",
+                    "copied": "$~kopierade $#count[en $shapes|$count former: $shapes]",
+                    "pasted": "$~inklistrad vid $x $y",
+                    "arranged": "$~lager $index av $total",
+                    "flipped": "$~vänd, nu vid $x $y",
+                    "fitted": "$~förstorade formerna så de fyller ritytan",
+                    "cropped": "$~beskärningsruta vid $x $y",
+                    "cropMoving": "$~flyttar beskärningsrutan",
+                    "cropDone": "$~beskärningsruta placerad",
+                    "imported": "$~lade till $#count[en pixel|$count pixlar] från $x $y"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Dela",
+                        "explanation": "$~Välj vem som får se det här tecknet, vem som får hjälpa till att skapa det, och vilket galleri det tillhör."
+                    },
+                    "button": {
+                        "label": "$~dela",
+                        "tip": "$~dela denna karaktär"
+                    },
+                    "delete": {
+                        "label": "$~radera",
+                        "tip": "$~ta bort det här tecknet"
+                    },
+                    "public": {
+                        "label": "$~synlighet",
+                        "labels": ["$~offentlig", "$~privat"],
+                        "tips": [
+                            "$~vem som helst kan se den här karaktären",
+                            "$~bara du och dina medarbetare kan se den här karaktären"
+                        ]
+                    },
+                    "collaborators": "$~kollaboratörer",
+                    "gallery": "$~Galleri",
+                    "galleryexplanation": "$~Lägg det här tecknet i ett av dina gallerier så kan alla där se det, använda det i sina projekt, och göra sin egen version av det. Det förblir ditt; bara du kan ändra det.",
+                    "collaboratorsexplanation": "$~Medarbetare kan se det här tecknet och ändra det tillsammans med dig, även när det är privat.",
+                    "publicexplanation": "$~Offentligt betyder att vem som helst kan se det här tecknet och använda det i sina projekt. Privat betyder att bara du, dina medarbetare, och alla i ett galleri du har lagt det i kan se det.",
+                    "tab": {
+                        "label": "$~delningsinställningar",
+                        "labels": ["$~Offentlig", "$~Medarbetare", "$~Galleri"],
+                        "tips": [
+                            "$~välj vem som kan se detta tecken",
+                            "$~välj vem som kan ändra detta tecken tillsammans med dig",
+                            "$~välj ett galleri att visa detta tecken i"
+                        ]
+                    }
+                },
+                "image": {
+                    "instructions": "$~Dra i rutan för att flytta den, eller använd *storlek*-skjutreglaget för att ändra hur mycket av bilden som ska behållas. Med tangentbordet: tryck på *enter* för att börja flytta, använd sedan *piltangenterna*, och tryck på *enter* igen när du är klar.",
+                    "button": {
+                        "label": "$~ladda upp",
+                        "tip": "$~välj en bildfil från den här enheten"
+                    },
+                    "add": {
+                        "label": "$~lägg till",
+                        "tip": "$~lägg till den valda rutan till tecknet som pixlar"
+                    },
+                    "crop": {
+                        "label": "$~beskärningsruta",
+                        "tip": "$~rutan av bilden som ska behållas"
+                    },
+                    "preview": "$~vad som kommer att läggas till",
+                    "size": {
+                        "label": "$~storlek",
+                        "tip": "$~hur mycket av bilden som ska behållas"
+                    }
+                }
+            },
+            "updates": {
+                "header": "$~Uppdateringar",
+                "content": [
+                    "$~Det här är de senaste nya funktionerna, förbättringarna och buggfixarna i @wordplay. Vi släpper uppdateringar varje vecka de flesta lördagar, såvida vi inte hittar ett akut fel."
+                ],
+                "tips": {
+                    "expand": "$~Utöka uppdateringarna för detta datum",
+                    "collapse": "$~Komprimera uppdateringar från detta datum"
+                },
+                "categories": {
+                    "added": "$~Tillagd",
+                    "changed": "$~Ändrad",
+                    "removed": "$~Borttagen",
+                    "fixed": "$~Fast"
+                }
+            },
+            "design": {
+                "header": "$~Design",
+                "description": "$~Detta är en referens för @wordplay:s system för visuell design, inklusive färger, teckensnitt, mellanrum och återanvändbara delar. Se guiderna <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> och <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> för att bidra.",
+                "theme": "$~Tema",
+                "colors": "$~Färger",
+                "palette": "$~Palett",
+                "semantic": "$~Semantiska färger",
+                "fonts": "$~Typsnitt",
+                "spacing": "$~Mellanrum",
+                "typography": "$~Typografi",
+                "components": "$~Komponenter",
+                "col": {
+                    "component": "$~Komponent",
+                    "preview": "$~Förhandsvisning",
+                    "variable": "$~Variabel",
+                    "color": "$~Färg",
+                    "hex": "$~Hexagon",
+                    "description": "$~Beskrivning",
+                    "cssvalue": "$~CSS-värde",
+                    "computed": "$~Beräknad",
+                    "primaryface": "$~Primärt ansikte",
+                    "contrast": "$~Kontrast"
+                },
+                "demo": {
+                    "button": "$~Exempel",
+                    "note": "$~Detta är en anteckning.",
+                    "notice": "$~Detta är ett meddelande.",
+                    "header": "$~Rubrik",
+                    "subheader": "$~Underrubrik",
+                    "toggleon": "$~På",
+                    "toggleoff": "$~Av",
+                    "textfieldplaceholder": "$~Ange text…",
+                    "textfielddescription": "$~Exempel på textfält",
+                    "optionslabel": "$~Exempel",
+                    "optiona": "$~Alternativ A",
+                    "optionb": "$~Alternativ B",
+                    "optionc": "$~Alternativ C",
+                    "logoresting": "$~I vila",
+                    "logoloading": "$~Laddar",
+                    "logoscripts": "$~Över olika skriftsystem",
+                    "logodownloadsvg": "$~Ladda ner SVG",
+                    "logodownloadpng": "$~Ladda ner PNG (512px)",
+                    "logodownloadcard": "$~Ladda ner delningsbild"
+                },
+                "accessibility": "$~Färgtillgänglighet",
+                "accessibilityRules": [
+                    "$~Allt som visas som *text* måste använda en av AA-textvarianterna (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, eller en semantisk variabel som pekar på en av dem). De uppfyller kontrasten 4,5:1 som <WCAG 2.2@https://www.w3.org/TR/WCAG22/> kräver. De ljusare varumärkesfärgerna är bara till för bakgrunder, kanter och markeringar, som behöver 3:1 eller inget alls. Dessa förhållanden kontrolleras av enhetstester och av automatiska genomsökningar av varje sida, i både ljust och mörkt läge. Ett medvetet undantag: kantgrå i ljust läge ligger under 3:1, eftersom kanter här bara skiljer saker åt på ett dekorativt sätt och varje viktig gräns bär en annan ledtråd.",
+                    "Förmedla aldrig mening enbart med färg: para varje färgkodat tillstånd med en andra ledtråd — en form, en linjestil, en symbol eller ett ord. Till exempel ritar editorn markörens markering och stora konflikter *heldragna*, valt utdata *streckat* och små konflikter *punktat*, så att allvar och val förblir tydliga utan färg.",
+                    "Se guiden <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> för hela vägledningen till bidragsgivare."
+                ],
+                "logo": "$~Logotyp",
+                "logoDescription": [
+                    "$~Wordplays logotyp är en pratbubbla med en bokstav i sig: en liten scen där bubblan kan säga vad som helst — en bokstav från läsarens skriftsystem, en emoji, eller en cirkel, triangel och fyrkant medan något laddas. I appen följer bokstaven ditt huvudspråks skriftsystem; på skriftneutrala ytor som webbläsarikonen och delningsbilder visar bubblan de tre formerna, redo att skapa något.",
+                    "Själva teckningen visar aldrig rörelse. Rörelsen kommer från beteendet — startsidan växlar det bubblan säger i takt med språkväljaren, och medan sidan laddas turas formerna om att hoppa, som en publik som gör vågen — och den anpassas alltid efter inställningen för animeringshastighet, och stannar helt när animering är avstängd.",
+                    "Märket ritas alltid i den aktuella textfärgen, så överallt där texten uppfyller kraven på kontrast gör logotypen det också."
+                ],
+                "copyvalue": "$~kopiera hela CSS-värdet"
+            },
+            "thanks": {
+                "header": "$~Tack",
+                "intro": "$~Tack till våra *$#count[$count bidragsgivare|$count bidragsgivare]* för att ni bidragit till @wordplay design, utveckling, lokalisering och innehåll! Och tack till alla lärare och unga som har väglett vår design i fokusgrupper, designmöten och klassrum, som vi inte listar här för att skydda deras integritet.\n\nDetta projekt har fått stöd av National Science Foundation genom anslagen 2318257, 2031265, 2100296 och 2122950, av University of Washington, och genom generösa <gåvor//donate> från människor som du.",
+                "teachers": "$~Lärare",
+                "contributors": "$~Bidragsgivare"
+            },
+            "localize": {
+                "header": "$~Lokalisera",
+                "description": [
+                    "$~Här kan du bläddra bland alla lokaliserbara strängar i plattformen och föreslå översättningar eller revideringar av oskriven och maskinöversatt text. Du kan skicka in dina revideringar för granskning när du är redo.",
+                    "När du skriver, kom ihåg att skriva på ett enkelt sätt som är anpassat till en ung publik som kanske ännu inte känner till avancerade ordförråd. Var också konsekvent och använd samma terminologi i olika texter, när det är tillämpligt."
+                ],
+                "workspaceLink": "$~se all text + skicka in",
+                "workspaceHeader": "$~Text att skriva eller recensera",
+                "submitHeader": "$~Överlämna",
+                "submitPrompt": "$~När du är redo att föreslå den här omgången redigeringar kan du skicka in dem nedan.",
+                "bundleSummary": "$~Redigeringar i den här batchen",
+                "editEntry": "$~Hoppa tillbaka för att redigera den här strängen",
+                "revertEntry": "$~Ignorera den här redigeringen från bunten",
+                "prevBundleItem": "$~Granska den föregående redigeringen",
+                "nextBundleItem": "$~Granska nästa redigering",
+                "descriptionField": {
+                    "description": "$~En kort beskrivning av redigeringsgruppen för att hjälpa granskare att förstå ändringarna",
+                    "placeholder": "$~Vad ändrade du, och varför?"
+                },
+                "notSpamLabel": "$~Jag lovar att dessa redigeringar inte är spam",
+                "notSpamNote": "$~Wordplay är ett ideellt projekt som leds av volontärer.",
+                "requireLogin": "$~Du måste vara inloggad för att bidra med lokaliseringsförslag.",
+                "submit": {
+                    "description": "$~Skicka in den här omgången redigeringar",
+                    "prompt": "$~Överlämna"
+                },
+                "submitSuccess": "$~Tack! Dina redigeringar har skickats in och kommer att granskas snart.",
+                "submitError": "$~Något gick fel när det skickades. Dina redigeringar är fortfarande sparade på den här enheten – försök igen.",
+                "empty": "$~Inga strängar matchar detta filter.",
+                "prevEntry": "$~Redigera föregående sträng",
+                "nextEntry": "$~Redigera nästa sträng",
+                "qualityMode": {
+                    "label": "$~visa",
+                    "labels": ["$~alla", "$~maskinöversatt eller oskriven"],
+                    "tips": [
+                        "$~visa alla strängar",
+                        "$~visa endast maskinöversatta eller oskrivna strängar"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~avsnitt",
+                    "labels": [
+                        "$~alla",
+                        "$~kalla",
+                        "$~tecken",
+                        "$~nod",
+                        "$~grund",
+                        "$~input",
+                        "$~produktion",
+                        "$~användargränssnitt",
+                        "$~galleri",
+                        "$~måtta"
+                    ],
+                    "tips": [
+                        "$~visa alla avsnitt",
+                        "$~delad terminologi",
+                        "$~tokenbeskrivningar",
+                        "$~programmeringsspråkskonstruktioner",
+                        "$~inbyggda typer som nummer, text, lista",
+                        "$~beskrivningar av strömmar och ingångskällor",
+                        "$~beskrivningar av utdatatyper",
+                        "$~applikationens användargränssnitt",
+                        "$~standardgalleriinnehåll",
+                        "$~meddelanden om innehållsmoderering"
+                    ]
+                },
+                "section": {
+                    "glossary": "$~Terminologi",
+                    "token": "$~Polletter",
+                    "node": "$~Språkkonstruktioner",
+                    "basis": "$~Inbyggda typer",
+                    "input": "$~Ingångar",
+                    "output": "$~Utgångar",
+                    "ui": "$~Gräns-snittet",
+                    "gallery": "$~Galleri",
+                    "moderation": "$~Måtta"
+                },
+                "singletonWordsWarning": "$~Vissa ord i ditt utkast förekommer bara en gång i hela språket. Är du säker på att de är rättstavade och stämmer med annan text?",
+                "viewPR": "$~Visa pull-förfrågan",
+                "oneLocaleNote": "$~Varje bidrag täcker ett språk i taget. Denna bunt kommer att skickas in som redigeringar till $locale . Om du vill bidra till ett annat språk, byt språk först; redigeringar du sparar under varje språk sparas separat.",
+                "literalTermsWarning": "$~Ditt utkast använder ordlistans ord som vanlig text. Tryck på ett för att göra det till en ordlistelänk.",
+                "checkReadingLevel": "$~Kontrollera läsnivån för denna sträng",
+                "readingLevelComplex": "$~Detta kan vara svårt att läsa. Prova kortare meningar och enklare ord.",
+                "readingLevelOk": "$~Detta läses tydligt för den avsedda läsnivån.",
+                "tabs": {
+                    "label": "$~avsnitt",
+                    "labels": [
+                        "$~Om",
+                        "$~Text",
+                        "$~Termer",
+                        "$~Ordlista",
+                        "$~Skicka in"
+                    ],
+                    "tips": [
+                        "$~hur översättning fungerar, och anteckningar för dem som skriver detta språk",
+                        "$~bläddra bland och redigera plattformens text",
+                        "$~skapa fraser du kan återanvända i detta språks text",
+                        "$~lägg till pluralformer och andra sätt att stava detta språkets termer",
+                        "$~granska dina ändringar och skicka in dem"
+                    ]
+                },
+                "toSubmit": "$~granska och skicka in dina ändringar",
+                "submitEmpty": "$~Du har inga ändringar ännu. Välj fliken Text för att skriva några, eller redigera text direkt med redigeringsläget.",
+                "clear": {
+                    "description": "$~radera alla dina osända ändringar för detta språk",
+                    "prompt": "$~radera alla?"
+                }
+            },
+            "breadcrumb": {
+                "label": "$~Ströbröd",
+                "home": "$~Hem"
+            },
+            "admin": {
+                "header": "$~Rättigheter",
+                "prompt": "$~Alla nedan kan göra något som de flesta inte kan. En ändring här når dem direkt, men en sida de redan har öppen kan ta upp till en timme att märka det. Superanvändare omfattar både att moderera och att undervisa, så den som har det behöver inte de andra två.",
+                "claim": {
+                    "admin": "$~Superanvändare",
+                    "mod": "$~Moderator",
+                    "teacher": "$~Lärare",
+                    "banned": "$~Kan inte dela offentligt"
+                },
+                "creator": "$~Skapare",
+                "email": "$~E-post",
+                "privileges": "$~Rättigheter",
+                "button": {
+                    "revoke": "$~Ta bort alla rättigheter",
+                    "lift": {
+                        "label": "$~Ge tillbaka delning",
+                        "tip": "$~Låt den här skaparen dela offentligt igen, och nollställ deras antal varningar"
+                    }
+                },
+                "confirm": "$~Deras antal varningar nollställs och de kan dela offentligt igen. Det som hände finns kvar i historiken, så en moderator som tittar på dem senare kan ändå se det.",
+                "ownAdmin": "$~Du kan inte ta bort dina egna rättigheter. Fråga en annan administratör.",
+                "nobody": "$~Ingen har några rättigheter än.",
+                "error": {
+                    "notadmin": "$~Det här är ett utrymme för superanvändare. Det finns inget här för dig att ändra.",
+                    "login": "$~Du måste vara <inloggad@://login> för att se den här sidan.",
+                    "offline": "$~Vi kunde inte hämta vem som har rättigheter. Är du uppkopplad?",
+                    "save": "$~Vi kunde inte spara den ändringen. Vill du försöka igen?",
+                    "none": "$~Välj minst en rättighet innan du lägger till någon."
+                },
+                "proxy": {
+                    "header": "$~Se som någon annan",
+                    "prompt": "$~Öppna Wordplay som en annan skapare, för att se vad de ser när något inte fungerar för dem. Det är skrivskyddat: inget du gör sparas, och de märker inte att du var där. Det öppnas i en ny flik, och stänger du fliken avslutas det.\n\nVarje gång någon gör detta, sparas det i en logg.",
+                    "start": {
+                        "label": "$~Se",
+                        "tip": "$~Öppna en skrivskyddad session som denna skapare i en ny flik"
+                    }
+                }
+            }
+        }
+    }
+}

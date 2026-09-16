@@ -1,0 +1,1441 @@
+{
+    "$schema": "../../../static/schemas/sections/ui-page.json",
+    "ui": {
+        "page": {
+            "unknown": {
+                "header": "$~Eep! / Sige!",
+                "message": "$~Saan ba ang lugar na ito? Pwede na ba tayong umuwi?"
+            },
+            "landing": {
+                "value": "$~Gumawa ng mga interactive na kwento gamit ang mga salita, simbolo, emoji, at code kasama namin! Magsimula sa",
+                "chooseLocales": "$~o pumili",
+                "beta": [
+                    "$~Ang @wordplay ay nasa *beta*, kaya maaaring hindi ito gumana ayon sa inaasahan o hindi kumpleto. Iulat ang mga bug at magbahagi ng mga ideya sa <GitHub@https://github.com/wordplaydev/wordplay/issues>, tingnan ang aming <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, at <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                ],
+                "link": {
+                    "learn": "$~Alamin ang wika kasama ang isang dramatikong hanay ng mga karakter",
+                    "teach": "$~Pamahalaan ang mga klase ng mga mag-aaral at ang kanilang mga proyekto",
+                    "guide": "$~Maghanap at mag-browse sa sanggunian ng wika",
+                    "projects": "$~Gumawa at magbahagi ng mga pagtatanghal",
+                    "galleries": "$~Damhin ang mga pagtatanghal ng iba",
+                    "characters": "$~Gumawa ng mga custom na emoji at simbolo",
+                    "rights": "$~Mga responsibilidad, atin at sa iyo",
+                    "about": "$~Bakit umiiral ang lugar na ito?",
+                    "thanks": "$~Sino ang tumulong sa paggawa nito?",
+                    "updates": "$~Tingnan kung ano ang bago sa Wordplay",
+                    "community": {
+                        "label": "$~Komunidad",
+                        "subtitle": "$~Makipag-chat sa amin sa Discord"
+                    },
+                    "contribute": {
+                        "label": "$~Mag-ambag",
+                        "subtitle": "$~Tulungan kaming gumawa ng Wordplay"
+                    },
+                    "design": "$~Sanggunian sa sistema ng disenyo para sa mga kontribyutor",
+                    "localize": "$~Tulungan mong isalin ang Wordplay sa iyong wika",
+                    "moderate": "$~suriin ang mga hiniling ng iba na tingnan",
+                    "admin": "$~tingnan kung sino ang may kakayahang gumawa ng ano, at baguhin ito"
+                },
+                "tagline": "$~naa-access, multilingguwal, malikhaing pag-kodigo",
+                "tour": {
+                    "button": "$~ipakita sa akin",
+                    "loading": "$~Naglo-load…",
+                    "failed": "$~Hindi na-load ang mga halimbawa. Tingnan ang iyong koneksyon at subukan ulit.",
+                    "restart": "$~simulan ulit ang halimbawang ito",
+                    "examples": {
+                        "label": "$~Mga halimbawang programa",
+                        "tips": [
+                            "$~Ang teksto ay maaaring magniningning at gumalaw",
+                            "$~Ang musika ay datos, tunog, at larawan",
+                            "$~Tumitibok ang oras at multilingguwal ang mga salita",
+                            "$~Ang teksto ay maaaring tumugon sa pointer, click, tap, at mga key",
+                            "$~Maaaring pumili ang mga manonood",
+                            "$~Maaaring makipag-usap ang mga manonood sa mga programa, at ang mga salita ay hugis",
+                            "$~Ang pisika at grabidad ay maaaring magpagulong at magpatalbog sa teksto",
+                            "$~Maaaring makinig ang mga programa sa iyong pagsasalita",
+                            "$~Maaaring pagmasdan ng mga programa ang iyong mukha, kamay, at mga bagay"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶Lumalabas ang @Phrase sa entablado, sa anumang kulay, ningning, at galaw na gusto mo.¶\nParirala(\n\t'kumusta!'\n\t6m\n\tkulay: Kulay(60% 90 200°)\n\taura: Aura(Kulay(80% 80 200°) 0.3m)\n\tnagpapahinga: Pagkakasunodsunod.ugoy(8°)\n)\\",
+                        "music": "$~\\¶Ang musika ay mga nota sa tunay na instrumento, sa isang tempo, sa isang key. Iginuguhit ng entablado ang naririnig nito.¶\nMusika(\n\tTrack([1 3 5 8 5 3] instrumento: Instrumento.piyano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Ang kodigo ay maaaring tumugon sa input tulad ng @Time, at ang teksto ay maaaring maraming wika at mabigkas.¶\nmgaKumusta: ['kumusta'/tl 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nkumusta: mgaKumusta.random() … ∆ Oras(1000ms) … mgaKumusta.random(\n\t\t)\nParirala(kumusta 4m)\nSabihin(kumusta)\\",
+                        "keys": "$~\\¶Ang kodigo ay maaaring tumugon sa pointer, susi, klik, at tap.¶\nsusi2: Susi()\nklik: Butones()\nmukha2: ['🙂' '😮' '😎' '🤩']\nalin: 1 … ∆ susi2 | ∆ klik … (alin % 4) + 1\nEntablado(\n\t[Parirala(mukha2[alin] 5m lugar: Panturo() bula: 'hi')]\n\tlugar: Lugar(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Ayusin ang teksto at gawin itong mapipili.¶\nprutas: ƒ(e•'') Parirala(e 3m pangalan: e mapipili: ⊤)\nnapili: Pagpipilian()\nipinakita: '?' … ∆ napili … napili\nGrupo(\n\tPatongpatong(padding: 1m)\n\t[\n\t\tParirala(ipinakita 4m)\n\t\tGrupo(\n\t\t\tHilera(padding: 1m)\n\t\t\t[prutas('🍎') prutas('🍐') prutas('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Makipag-usap sa mga programa at gamitin ang hugis ng mga font at simbolo.¶\nmensahe: Makipagchat()\nsalita2: 'hi' … ∆ mensahe … mensahe\nlinya: Kontur(salita2 'Noto Sans' 8m)\nmgaTik: 0 … ∆ Oras(30ms) … mgaTik + 1\nipinakita: ((linya.haba() × mgaTik) ÷ 66).roundDown() + 1\nmgaTuldok: linya.kasunod(1 ipinakita).isalin(\n\t\tƒ(p) Parirala('•' lugar: p)\n\t)\nEntablado(\n\tmgaTuldok.kasama(Parirala(salita2 8m kalabuan: 15%))\n)\\",
+                        "pile": "$~\\¶Maaaring may pisika ang teksto.¶\nitapon: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tParirala(\n\t\t\temoji\n\t\t\t2m\n\t\t\tlugar: Paggalaw(Lugar(x2 y2) Bilis(vx 0m/s))\n\t\t\tmaterya: Materya(1kg 0.55 0.06 0.5)\n\t\t)\nEntablado(\n\t[\n\t\titapon('🍎' -2m 5m 2.2m/s)\n\t\titapon('🍊' 2m 7m -2.6m/s)\n\t\titapon('🍋' -1m 9m 1.4m/s)\n\t\titapon('🍇' 1.5m 11m -1.9m/s)\n\t\titapon('🫐' 0.5m 15m -1.2m/s)\n\t\tHugis(Parihaba(-4m -3m 4m -3.6m))\n\t\tHugis(Parihaba(-4.6m 4m -4m -3m))\n\t\tHugis(Parihaba(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Ang kodigo ay maaaring tumugon sa @Volume at @Pitch ng iyong mikropono.¶\nParirala(\n\t'📣'\n\t1m + (Dami() × 8m)\n\tpagikot: (Tono() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Ang kodigo ay maaaring tumugon sa iyong @Face, at sa iba pang bagay sa @Camera.¶\nParirala(\n\tMukha().nakangiti ? '😄 salamat!' '🙂 ngumiti sa kamera'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Ang Wordplay ay isang programming language",
+                        "bullets": [
+                            "$~• Ang bawat programa ay isang ekspresyon na nagiging halaga. \\1 + 1\\ ay isang programa, at gayundin ang \\Parirala('hi')\\.",
+                            "• May unit ang mga numero, kaya ang \\1m + 1m\\ ay metro, at ang \\1cat + 1dog\\🪲 ay isang pagkakamali na nahuhuli ng @wordplay bago pa ito tumakbo.",
+                            "• Ang mga function ay mga halaga na maaari mong pangalanan, ipasa, at tawagin: \\ƒ doble(n3•#) n3 × 2\\.",
+                            "• Kapag nagbago ang input, sinusuri ulit ng @wordplay ang iyong programa at ipinapakita ang bago nitong halaga. Hindi na kailangang tumugon sa mga event.",
+                            "• Nahahanap ng @wordplay ang mga pagkakamali bago tumakbo ang programa, at ipinapaliwanag ang bawat problema."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Multilingguwal ang Wordplay",
+                        "bullets": [
+                            "$~• Bawat tampok ng programming language ay may pangalan sa bawat wika, kaya nababasa ang kodigo gamit ang mga salitang alam mo na.",
+                            "• Maaari ding maging multilingguwal ang iyong sariling mga pangalan:\n\\pusa2/tl, gato/es: '🐈'\nParirala(pusa2)\\",
+                            "• May kalakip na wika ang teksto, at ipinapakita nito ang wikang mababasa ng iyong manonood: \\'kumusta'/tl'hola'/es\\.",
+                            "• Ang site mismo ay nasa 29 na wika, at pwede kang pumili ng higit sa isa nang sabay-sabay; lalabas ang teksto sa bawat isa.",
+                            "• Pwede kang tumulong magsalin ng @wordplay mismo, mismo sa loob ng app sa <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Naa-access ang Wordplay",
+                        "bullets": [
+                            "$~• Anumang magagawa mo gamit ang mouse, magagawa mo rin gamit ang keyboard.",
+                            "• Inilalarawan ng mga screen reader ang stage habang nagbabago ito, at may mga opsyonal na tunog na nagsasaad kung ano ang muling sinusuri, ano ang gumagalaw, at ano ang nagbabanggaan.",
+                            "• Puwede mong basahin at isulat ang iyong kodigo bilang blocks sa halip na teksto, at lumipat kahit kailan mo gusto.",
+                            "• Ang paggalaw ay puwedeng bagalan, o patayin nang tuluyan.",
+                            "• Ang sinasalitang output ay puwedeng lagyan ng caption sa stage para sa sinumang hindi ito naririnig."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Nararamdaman ng Wordplay ang mundo",
+                        "bullets": [
+                            "$~• Ang paglipas ng oras: \\Oras(1000ms)\\ ay tumutunog paglipas ng segundo, at \\Ngayon()\\ alam ang petsa ngayon sa sarili mong kalendaryo at time zone.",
+                            "• Kung saan itinuturo ng iyong manonood, kung ano ang kanilang hinihipo, at kung aling mga key ang kanilang pinipindot.",
+                            "• Ang mga programa ay pwedeng tumugon sa iyong mic: gaano ito kalakas gamit ang @Volume, anong pitch gamit ang @Pitch, at anong mga salita gamit ang @Speech.",
+                            "• Pwedeng mag-type ang iyong manonood sa @Chat, at pumili ng laman ng stage gamit ang @Choice.",
+                            "• Ang mga programa ay pwedeng tumugon sa tibok ng musikang pinatutugtog nila, gamit ang @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Nagtatanghal ang Wordplay",
+                        "bullets": [
+                            "$~• Inilalagay ng @Phrase ang mga salita at emoji sa stage.",
+                            "• Inaayos sila ng @Group sa mga hanay, tambak, grid, o kahit saan mo ilagay.",
+                            "• Ang @Pose at @Sequence ay umiikot, nawawala, nagbabago ng laki, at gumagalaw ng mga bagay.",
+                            "• Binibigkas ng @Say ang teksto sa halip na ipakita ito.",
+                            "• Pinatutugtog ng @Music ang mga track ng mga nota sa tunay na instrumento, sa isang tempo, sa isang key:\n\\Musika(\n\tTrack([1 3 5] instrumento: Instrumento.kampana)\n\ttempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Ang Wordplay ay typography",
+                        "bullets": [
+                            "$~• Daan-daang uri ng letra, na sumasaklaw sa mga sistema ng pagsulat sa buong mundo.",
+                            "• Pwede kang gumuhit ng iyong <custom na mga karakter//characters> at gamitin sila kahit saan gamit ang emoji.",
+                            "• Ang balangkas ng bawat letra ay datos na pwede mong basahin at bigyan ng animasyon, gamit ang @Contour: \\Kontur('a' 'Noto Sans')\\.",
+                            "• Ang teksto ay nag-wa-wrap ayon sa mga tuntunin ng wikang ginamit dito.",
+                            "• Ang pagsulat mula kanan-papuntang-kaliwa at patayo ay inaayos sa tamang paraan."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Ipinapaliwanag ng Wordplay ang sarili nito",
+                        "bullets": [
+                            "$~• Ang dokumentasyon ay bahagi ng wika sa pamamagitan ng @Doc, hindi isang komento sa tabi nito.",
+                            "• Isang mahahanap na <gabay//guide> ang nagpapaliwanag ng bawat built-in na tampok, na may mga halimbawa.",
+                            "• Bawat pagkakamali ay ipinapaliwanag kung saan ito nangyari, sa sarili mong wika.",
+                            "• Pwede mong dumaan sa isang programa pasulong /at/ paatras para malaman kung ano ang nangyari.",
+                            "• Habang ikaw ay dumadaan, ipinapakita ang bawat halaga mismo sa kodigong gumawa nito."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Ang Wordplay ay para sa pagbabahagi",
+                        "bullets": [
+                            "$~• Ang iyong mga proyekto ay sa iyo, at ikaw ang magpapasya kung sino ang makakakita sa mga ito.",
+                            "• Pwede kang mag-imbita ng ibang tao para gumawa ng proyekto kasama ka.",
+                            "• Ang <Galleries@://galleries> ay nagtitipon ng mga proyekto ayon sa isang tema.",
+                            "• Ang mga guro ay pwedeng gumawa ng mga klase at sundan ang gawa ng kanilang mga mag-aaral: <turuan@://teach>.",
+                            "• Pwede mong baguhin ang alinmang pampublikong proyekto ng kahit sino at gawin itong sarili mo."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Ang Wordplay ay libre at bukas",
+                        "bullets": [
+                            "$~• Ang @wordplay ay libre at palagi itong mananatiling libre.",
+                            "• Ito ay open source: pwede mong basahin kung paano ito gumagana, at pwede kang tumulong sa amin na baguhin ito.",
+                            "• Ito ay mula sa <University of Washington@https://ischool.uw.edu/> Information School.",
+                            "• May isang komunidad ng mga tagalikha, guro, at tagatulong.",
+                            "• Ang <Mga Donasyon//donate> ay nagbabayad para sa gastos ng pagpapatakbo nito."
+                        ]
+                    }
+                }
+            },
+            "learn": {
+                "header": "$~Matuto",
+                "error": "$~Hindi kami nakahanap ng tutorial para sa wikang ito.",
+                "button": {
+                    "next": "$~susunod na paghinto sa diyalogo",
+                    "previous": "$~nakaraang paghinto sa diyalogo"
+                },
+                "options": {
+                    "lesson": "$~kasalukuyang aralin"
+                },
+                "search": {
+                    "placeholder": "$~paghahanap",
+                    "noResults": "$~Walang nakitang resulta"
+                },
+                "choice": {
+                    "prompt": "$~Paano mo gustong matuto?",
+                    "quick": {
+                        "title": "$~Mabilis",
+                        "description": "$~Para sa mga tagalikha na pamilyar sa ibang mga lengguwahe ng programming na gustong maunawaan kung paano naiiba ang Wordplay"
+                    },
+                    "complete": {
+                        "title": "$~Komprehensibo",
+                        "description": "$~Para sa mga tagalikha na bago sa programming na gusto ng detalyadong panimula"
+                    }
+                },
+                "mode": {
+                    "label": "$~pagtuturo",
+                    "labels": ["$~mabilis", "$~kumpleto"],
+                    "tips": [
+                        "$~isang maikling paglilibot para sa mga tagalikha na may alam na ibang lengguwahe ng programming",
+                        "$~ang kumpleto at dramatikong panimula para sa mga tagalikha na bago sa programming"
+                    ]
+                },
+                "contrast": "$~ihambing sa",
+                "dialogue": "$~diyalogo ng aralin",
+                "says": "$~sabi ni $character",
+                "tour": {
+                    "skip": "$~laktawan ang tour at magpatuloy",
+                    "wait": "$~Gawin muna ang tour, o laktawan ito, at pagkatapos ay magpapatuloy tayo."
+                }
+            },
+            "teach": {
+                "header": "$~Magturo",
+                "prompt": {
+                    "none": "$~Maligayang pagdating, guro! Gumawa ng klase para mag-set up at mamahala ng mga student account at project gallery.",
+                    "some": "$~Maligayang pagdating, guro! Pamahalaan ang iyong mga klase o lumikha ng bago."
+                },
+                "error": {
+                    "offline": "$~Hindi namin nasuri ang katayuan ng iyong guro. Naka-log in ka na ba?",
+                    "login": "$~Kailangan mong <login@://login> para mapamahalaan ang mga klase.",
+                    "teacher": "$~Kailangan mo ng mga pribilehiyo bilang guro para makagawa at makapamahalaan ang mga klase. Punan ang form na ito at kilalanin natin ang isa't isa!"
+                },
+                "link": {
+                    "request": "$~Humingi ng mga pribilehiyo ng guro",
+                    "new": "$~Gumawa ng klase"
+                }
+            },
+            "newclass": {
+                "header": "$~Bagong klase",
+                "subheader": {
+                    "class": "$~Ang klase mo",
+                    "students": "$~Ang iyong mga estudyante",
+                    "credentials": "$~Mga username at password",
+                    "submit": "$~Isumite",
+                    "usernames": "$~Mga Username"
+                },
+                "prompt": {
+                    "start": "$~Ang form na ito ay nagbibigay-daan sa iyo na 1) bumuo ng mga account para sa lahat ng mga mag-aaral sa iyong klase at 2) lumikha ng isang gallery kung saan maaaring magdagdag ng mga proyekto ang lahat ng iyong mga mag-aaral. Kung ang mga mag-aaral ay may mga dati nang account, maaari mo silang idagdag sa gallery sa ibang pagkakataon.",
+                    "review": "$~Suriin ang mga username at password na ginawa natin. Gusto mo bang *i-edit* ang mga ito bago magpatuloy? Kung gagawin mo, hindi mo na mae-edit ang impormasyon ng estudyante sa itaas.",
+                    "ready": "$~Ipaalam sa amin kung handa ka nang bumuo ng mga kredensyal sa itaas. Maaari mo itong i-edit pagkatapos mong gawin ito.",
+                    "pending": "$~Gumagawa ng mga username at password...",
+                    "submit": "$~Handa ka na bang magsumite? Sa sandaling maging matagumpay ito, makakatanggap ka ng download ng impormasyong ito. Ang mga password ay *hindi mababawi*, kaya itago ang mga ito sa isang ligtas na lugar.",
+                    "submitting": "$~Humihiling ng mga bagong account gamit ang mga username at password sa itaas...",
+                    "download": "$~Handa na ang iyong klase! Dapat mong makita ang isang download ng data ng iyong mga mag-aaral sa iyong download folder. *Hindi na mababawi ang mga password*, kaya itago ang file na ito sa isang ligtas na lugar! Ang mga mag-aaral na nag-sign in gamit ang email ay walang password, kaya walang laman ang kanilang haligi ng password.",
+                    "reviewEmail": "$~Suriin ang mga username na ginawa namin. Gusto mo bang *baguhin* ang mga ito bago magpatuloy? Kung oo, hindi mo na mababago ang impormasyon ng mag-aaral sa itaas. Wala nang pipiliin ang mga mag-aaral dito — mag-sign in sila gamit ang address na nasa tabi ng kanilang pangalan.",
+                    "downloadEmail": "$~Handa na ang iyong klase! Makikita mo ang isang download ng datos ng iyong mga mag-aaral sa iyong download folder. Walang password na kailangang ingatan: pupunta ang bawat mag-aaral sa pahina ng pag-login, ita-type ang kanilang address, at hihiling ng link.",
+                    "submitEmail": "$~Handa ka na bang magpadala? Kapag matagumpay ito, makakakuha ka agad ng isang na-download na kopya ng impormasyong ito. Walang password na kailangang ingatan — bawat estudyante ay mag-sign in gamit ang address na nasa tabi ng kanilang pangalan."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~pangalan ng klase",
+                        "placeholder": "$~isang maikling pangalan"
+                    },
+                    "description": {
+                        "description": "$~paglalarawan",
+                        "placeholder": "$~isang paglalarawan ng iyong klase, para sa iyo at sa iyong mga estudyante."
+                    },
+                    "existing": {
+                        "label": "$~mga mag-aaral na may mga account",
+                        "prompt": "$~Mayroon na bang mga @wordplay account ang ilan sa mga estudyante mo? Isama sila rito."
+                    },
+                    "metadata": {
+                        "description": "$~impormasyon ng mag-aaral",
+                        "placeholder": "$~hal., ID ng estudyante, apelyido, ibinigay na pangalan",
+                        "prompt": "$~Gusto mo bang gumawa ng mga bagong account para sa mga mag-aaral? Magbigay ng *anumang impormasyon* tungkol sa mga mag-aaral, isa bawat linya, na pinaghihiwalay ng kuwit. Puwede itong mga apelyido, mga pangalan, mga numero ng mag-aaral, o iba pang bagay na makapagpapakilala sa kanila. Gagamitin namin ito para gumawa ng mga username na puwede mong baguhin sa ibaba, para matulungan kang itugma ang mga username sa mga mag-aaral. Kung ang isa sa iyong mga haligi ay mga email address ng mag-aaral, ang mga mag-aaral na iyon ay mag-si-sign in gamit ang isang link na ipapadala namin sa email nila sa halip na password. Iwanang walang laman ang selulang iyon at bibigyan ang mag-aaral ng username at password tulad ng iba."
+                    },
+                    "words": {
+                        "description": "$~mga salitang gagamitin sa mga password",
+                        "placeholder": "$~hal., pusang tuldok daga...",
+                        "prompt": "$~Magbigay ng kahit *25 salita* para random na makabuo ng 2-3 salitang password na hindi malilimutan. Pumili ng mga salitang alam ng iyong mga estudyante o hilingin sa kanila na mag-brainstorm ng mga salita. Mas maraming random, mas ligtas!"
+                    },
+                    "generate": {
+                        "label": "$~makabuo",
+                        "tip": "$~lumikha ng mga username at password batay sa impormasyon sa itaas."
+                    },
+                    "edit": {
+                        "label": "$~i-edit",
+                        "tip": "$~i-edit ang nabuong impormasyon ng mag-aaral"
+                    },
+                    "submit": {
+                        "label": "$~lumikha ng klase",
+                        "tip": "$~lumikha ng bagong klase gamit ang impormasyong ito."
+                    },
+                    "affirm": {
+                        "prompt": "$~Ang isa sa iyong mga haligi ay mukhang mga email address, kaya ang mga mag-aaral na iyon ay mag-si-sign in gamit ang isang link sa halip na password. Gawin lamang ito kung sapat na ang edad nila para magkaroon ng email account sa lugar na kanilang tinitirhan. *Hindi kami magpapadala ng email sa kahit sino kapag ginawa mo ang klaseng ito*: pupunta ang bawat mag-aaral sa login page, ita-type ang kanilang address, at hihiling ng link.",
+                        "label": "$~Sapat na ang edad ng mga mag-aaral na ito para magkaroon ng email account sa lugar na kanilang tinitirhan."
+                    },
+                    "signin": {
+                        "prompt": "$~Gusto mo bang gumawa ng mga bagong account para sa mga mag-aaral? Una, magpasya kung paano sila mag-sign in. Ang isang klase ay *isang paraan lamang, hindi pareho*, kaya piliin ang angkop para sa iyong mga mag-aaral.",
+                        "mode": {
+                            "label": "$~paano mag-sign in ang iyong mga mag-aaral",
+                            "labels": [
+                                "$~isang username at password",
+                                "$~isang link na ipapadala sa email"
+                            ],
+                            "tips": [
+                                "$~gagawa kami ng username at password para sa bawat mag-aaral, at ikaw ang magbibigay nito sa kanila",
+                                "$~mag-sign in ang bawat mag-aaral gamit ang kanilang sariling email address, kaya walang password na maaaring mawala"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~mga email address ng mag-aaral",
+                        "placeholder": "$~hal., mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Ilista ang iyong mga mag-aaral, isa bawat linya, *simula sa kanilang email address*. Maaari kang magdagdag ng iba pang impormasyon tungkol sa kanila pagkatapos ng kuwit — isang numero ng mag-aaral, apelyido — at gagamitin namin ito para bumuo ng mga username na maaari mong baguhin sa ibaba."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~May mga dobleng entry sa impormasyon ng estudyante.",
+                    "columns": "$~Tiyaking ang bawat mag-aaral ay may parehong bilang ng mga kolum.",
+                    "generate": "$~Hindi makagawa ng mga natatanging username.",
+                    "taken": "$~Isa o higit pang mga username sa itaas ang ginamit",
+                    "limit": "$~Hindi ka makakagawa ng klase na may higit sa 50 mag-aaral nang sabay-sabay.",
+                    "words": "$~Magbigay ng kahit man lang 25 salita.",
+                    "account": "$~Hindi magawa ang ilan sa mga account.",
+                    "generic": "$~Hindi namin magawa ang klase. Narito ang ilang impormasyon para matulungan ang mga developer na malaman kung ano ang naging problema.",
+                    "affirmation": "$~Sabihin na sapat na ang edad ng mga mag-aaral na ito para magkaroon ng email account bago namin gawin ang kanilang mga account.",
+                    "inflight": "$~Maaaring nagawa na ang klaseng ito. Suriin muna ang iyong mga klase bago subukan ulit.",
+                    "addresses": "$~Dapat magsimula sa email address ang bawat linya."
+                }
+            },
+            "class": {
+                "header": "$~Klase",
+                "subheader": {
+                    "teachers": "$~Mga Guro",
+                    "students": "$~mga Mag-aaral",
+                    "galleries": "$~Mga Galeriya"
+                },
+                "prompt": {
+                    "gallery": "$~Gumawa ng gallery para sa iyong klase upang isaayos ang isang takdang-aralin o proyekto. Lahat ng guro sa proyekto ay magiging mga tagapangasiwa ng gallery at lahat ng estudyante ay magiging mga tagalikha ng gallery.",
+                    "delete": "$~Ang pagbura sa klaseng ito ay permanenteng magbubura ng impormasyon tungkol sa klase, ngunit ang mga proyekto, gallery, o student account nito."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~pangalan ng klase",
+                        "placeholder": "$~pangalan"
+                    },
+                    "description": {
+                        "description": "$~paglalarawan ng klase",
+                        "placeholder": "$~paglalarawan"
+                    },
+                    "delete": {
+                        "tip": "$~burahin ang klaseng ito magpakailanman",
+                        "label": "$~Burahin ang klaseng ito"
+                    }
+                },
+                "error": {
+                    "notfound": "$~Hindi namin mahanap ang klaseng ito o wala kang pahintulot na tingnan ito.",
+                    "gallery": "$~Hindi kami makagawa ng gallery para sa klaseng ito."
+                }
+            },
+            "guide": {
+                "header": "$~Gabay",
+                "description": "$~Ito ay isang sanggunian para sa bawat bahagi ng wikang pamprograma ng @wordplay. Maghanap ng isang karakter o mag-browse sa listahan para matuto nang higit pa."
+            },
+            "projects": {
+                "header": "$~Mga Proyekto",
+                "projectprompt": "$~Handa ka na bang magsabi ng kahit ano? Gumawa ng proyekto o gumawa ng isa. Kung nahihirapan ka, ipagpatuloy ang <learning@://learn>.",
+                "archiveprompt": "$~Ito ang mga proyektong na-archive mo. Tanging ang mga may-ari lamang ang maaaring permanenteng magbura o mag-alis ng mga ito sa archive. Ang mga naka-archive na proyekto ay permanenteng mabubura 30 araw pagkatapos ng huling pag-edit sa mga ito.",
+                "subheader": {
+                    "shared": "$~Ibinahagi",
+                    "archived": "$~Naka-archive"
+                },
+                "search": {
+                    "description": "$~Maghanap ng mga proyekto at mga source file",
+                    "noResults": "$~Walang nakitang resulta."
+                },
+                "button": {
+                    "newproject": "$~bagong proyekto",
+                    "editproject": "$~i-edit ang proyektong ito",
+                    "unarchive": "$~i-unarchive ang proyektong ito",
+                    "viewproject": "$~tingnan ang kodigo ng proyektong ito",
+                    "import": {
+                        "tip": "$~buksan ang isang project file na na-save mo",
+                        "label": "$~buksan ang isang project file…"
+                    }
+                },
+                "confirm": {
+                    "archive": {
+                        "description": "$~i-archive ang performance na ito para sa pagtanggal sa ibang pagkakataon",
+                        "prompt": "$~arkibos"
+                    },
+                    "delete": {
+                        "description": "$~permanenteng burahin ang pagganap na ito",
+                        "prompt": "$~burahin nang tuluyan"
+                    }
+                },
+                "error": {
+                    "noaccess": "$~Hindi namin ma-access ang internet.",
+                    "newgallery": "$~Hindi kami makagawa ng bagong gallery.",
+                    "nodeletes": "$~Dapat ay <login@://login> ka para mabura ang mga naka-archive na proyekto.",
+                    "delete": "$~Naku, hindi namin mabura ang proyekto!",
+                    "importEmpty": "$~Walang laman ang file na iyon.",
+                    "importTooLarge": "$~Masyadong malaki ang proyektong iyon para ma-save ng Wordplay. Sumubok ng isa na mas maliit.",
+                    "importUnreadable": "$~Hindi mabasa ng Wordplay ang file na iyon. Ang mga project file ay nagtatapos sa .wp."
+                },
+                "installedprompt": "$~Ginagamit mo ang Wordplay bilang isang naka-install na app, at may sariling mga proyekto ito, hiwalay sa mga nasa iyong web browser. Nandiyan pa rin ang anumang proyekto na ginawa mo sa iyong browser. <Mag-log in@://login> para makita ang lahat ng iyong proyekto sa dalawang lugar.",
+                "sort": {
+                    "label": "$~ayos",
+                    "labels": ["$~pangalan", "$~kamakailang binago"],
+                    "tips": [
+                        "$~ayusin ang mga proyekto ayon sa pangalan",
+                        "$~ayusin ang mga proyekto ayon sa huling pagbabago mo"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~ano ang tawag sa folder na ito",
+                        "placeholder": "$~folder"
+                    },
+                    "none": "$~walang folder",
+                    "button": {
+                        "create": "$~gumawa ng bagong folder",
+                        "expand": "$~ipakita ang laman ng folder na ito",
+                        "collapse": "$~itago ang laman ng folder na ito"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~burahin ang folder na ito at i-archive ang mga proyekto rito",
+                            "prompt": "$~Burahin ang folder at i-archive ang mga proyekto nito"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~ilipat ang $project sa $folder",
+                        "moved": "$~$project inilipat sa $folder",
+                        "movedOut": "$~$project inilipat palabas ng folder nito",
+                        "expanded": "$~$folder pinalawak, $#count[1 proyekto|$count na proyekto]",
+                        "collapsed": "$~$folder pinaliit, $#count[1 proyekto|$count na proyekto]",
+                        "selected": "$~$folder napili, $#count[1 proyekto|$count na proyekto]",
+                        "created": "$~$folder nagawa",
+                        "deleted": "$~$folder binura, $#count[1 proyekto na-archive|$count na proyekto na-archive]",
+                        "renamed": "$~pinalitan ang pangalan ng folder tungo sa $folder",
+                        "projectSelected": "$~$project napili",
+                        "cleared": "$~walang napili"
+                    },
+                    "instructions": {
+                        "none": "$~I-click ang isang proyekto o folder para piliin ito.",
+                        "project": "$~Ilipat ang proyektong ito gamit ang mga pindutang *pataas* at *pababa*, o hilahin ito papunta sa isang folder. Pindutin ang *escape* kapag tapos ka na.",
+                        "folder": "$~I-type ang pangalan para palitan ang pangalan ng folder na ito. Kung burahin mo ito, mailalagay ang lahat ng laman nito sa iyong archive."
+                    }
+                },
+                "import": {
+                    "done": "$~Binuksan ang $name.",
+                    "drop": "$~Ilagay dito ang isang project file para buksan ito.",
+                    "replaced": "$~Pinalitan ang proyektong ito ng $name.",
+                    "replace": {
+                        "header": "$~Palitan ang proyektong ito?",
+                        "explanation": "$~Papalitan ang kodigo sa proyektong ito. Sine-save ng Wordplay kung ano ang narito ngayon, kaya maibabalik mo ito mula sa kasaysayan ng proyekto.",
+                        "prompt": "$~Buksan ang $name dito sa halip na kung ano ang nasa proyektong ito ngayon?",
+                        "confirm": {
+                            "tip": "$~palitan ang proyektong ito ng file na inilagay mo",
+                            "label": "$~palitan"
+                        }
+                    }
+                }
+            },
+            "galleries": {
+                "header": "$~Mga Galeriya",
+                "prompt": "$~Ang mga gallery ay mga koleksyon ng mga proyekto, kadalasang nakasentro sa isang tema, at pinangangasiwaan mo o ng iba pang mga tagalikha.",
+                "section": {
+                    "tabs": {
+                        "label": "$~uri ng gallery",
+                        "labels": [
+                            "$~Sa iyo",
+                            "$~Mga Halimbawa",
+                            "$~Pampubliko"
+                        ],
+                        "tips": [
+                            "$~mga gallery na inaayos mo o pinagbibigyan ng tulong",
+                            "$~mga inayos na gallery mula sa mga tagabuo ng Wordplay",
+                            "$~mga gallery na ginawang pampubliko ng mga tagalikha"
+                        ]
+                    },
+                    "own": [
+                        "$~Mag-ambag sa isang galeriya na iniimbitahan ka, o pangasiwaan ang sarili mong galeriya na may partikular na tema, at mag-imbita ng iba.",
+                        "/Sinusuri ng mga tagapangasiwa ang naiulat sa kanilang galeriya, mula sa <pahina ng moderation@://moderate>./"
+                    ],
+                    "examples": "$~Ito ay mga piniling gallery mula sa mga developer ng @wordplay. Ang mga ito ay magagandang panimulang punto para sa pag-aaral at inspirasyon.",
+                    "public": "$~Ito ang mga gallery na ginawang pampubliko ng @wordplay na tagalikha. Puwedeng humiling ang sinuman na ilista ang kanilang gallery dito, at babasahin muna ito ng isang moderator para tiyakin na tapos na ito at sumusunod sa mga alituntunin. Puwedeng alisin ang isang gallery sa listahang ito anumang oras, sa kahit anong dahilan. Ipinapakita ang mga ito sa ibang pagkasunod-sunod sa bawat pagbisita, para may pagkakataon ang bawat gallery na mapunta sa itaas."
+                },
+                "button": {
+                    "newgallery": "$~bagong galeriya"
+                },
+                "error": {
+                    "nogalleryedits": "$~Dapat ay <naka-log in@://login> ka para makagawa at makapagpalit ng mga gallery.",
+                    "nopublic": "$~Wala pang gallery na naaprubahan para sa listahang ito. Bumalik-balik ka!"
+                },
+                "search": {
+                    "description": "$~Maghanap ng mga halimbawa at pampublikong gallery",
+                    "noResults": "$~Walang nakitang resulta.",
+                    "galleries": "$~Mga Gallery",
+                    "examples": "$~Mga halimbawang proyekto",
+                    "projects": "$~Mga proyekto sa mga pampublikong gallery"
+                }
+            },
+            "characters": {
+                "header": "$~Mga Karakter",
+                "prompt": "$~Gumawa ng mga custom na emoji at simbolo na gagamitin sa iyong mga proyekto at ibahagi sa iba.",
+                "button": {
+                    "new": "$~Gumawa ng bagong karakter",
+                    "copy": "$~Kopyahin ang karakter na ito",
+                    "remove": {
+                        "tip": "$~burahin ang karakter na ito",
+                        "prompt": "$~burahin?"
+                    }
+                },
+                "subheader": {
+                    "shared": "$~Ibinahagi"
+                },
+                "error": {
+                    "offline": "$~Hindi namin ma-access ang mga karakter mo na nakaimbak online.",
+                    "noauth": "$~Dapat ay <login@://login> ang iyong mga karakter para makita at makagawa ng mga bago.",
+                    "create": "$~Hindi makagawa ng bagong karakter."
+                },
+                "unnamed": "$~Karakter na walang pangalan"
+            },
+            "character": {
+                "header": "$~Karakter",
+                "instructions": {
+                    "empty": "$~Pumili ng drawing mode sa palette para lumikha ng mga hugis.",
+                    "unselected": "$~Pumili ng paraan ng pagguhit o pumili at baguhin ang mga hugis. Gamitin ang *$control-a* para piliin lahat at *$control-z* para bawiin ang huling ginawa.",
+                    "selected": "$~Gamitin ang mga *arrow* key para ilipat ang mga hugis. Pindutin nang matagal ang *shift* para magdagdag ng ibang mga hugis sa napili. Gamitin ang *delete* para tanggalin ang napili. Gamitin ang *$control-c* at *$control-v* para kopyahin at idikit, at *$control-z* para bawiin ang huling ginawa. Kapag isang landas ang napili, pindutin ang *enter* para baguhin ang mga punto nito. Gamitin ang mga kontrol sa ibaba para baguhin ang mga napiling hugis.",
+                    "eraser": "$~Para burahin ang mga hugis, i-click o i-tap ang mga ito. I-drag para burahin ang mga pixel. Gamitin ang mga *arrow* key para igalaw ang pambura at *space* para burahin.",
+                    "pixel": "$~Para gumuhit ng mga pixel, pumili ng kulay. Pagkatapos, i-click ang canvas o gamitin ang *mga arrow* para igalaw ang cursor at *space* para lumikha ng pixel. *I-double click* para punan.",
+                    "rect": "$~Para gumuhit ng mga parihaba, pumili ng kulay at stroke. Pagkatapos, i-click at i-drag, o gamitin ang *arrows* at *space* key para pumili ng gitna at laki.",
+                    "ellipse": "$~Para gumuhit ng mga ellipse at bilog, pumili ng kulay at stroke. Pagkatapos, i-click at i-drag, o gamitin ang *arrows* at *space* key para pumili ng gitna at laki.",
+                    "path": "$~Ang mga landas ay maaaring mga segment ng linya, polygon, at kurba. I-click upang simulan ang pagdaragdag ng mga punto, o gamitin ang mga *arrow* key at *space*. Pindutin ang *escape* upang tapusin ang landas. Aalisin ng *delete* ang huling punto.",
+                    "points": "$~Gamitin ang *Tab* para lumipat sa iba't ibang punto ng landas. Gamitin ang mga *arrow* key para ilipat ang napiling punto, ang *enter* para magdagdag ng punto sa tabi nito, at ang *delete* para tanggalin ito. Gamitin ang *curve* para yumuko ang bahaging papunta sa isang punto, pagkatapos ay ilipat ang hawakan nito; ang *delete* sa isang hawakan ay pinapatuwid itong muli. Pindutin ang *escape* kapag tapos ka na.",
+                    "symbol": "$~Piliin kung magdaragdag ng mga pixel o ng isang balangkas, pagkatapos ay pumili ng letra, simbolo, o emoji. Ang balangkas ay maaaring baguhan ang laki at ikot nang hindi lumalabo; ang mga pixel ay maaaring bigyan ng kulay nang isa-isa. I-click o i-tap ang isang bagay na nagawa mo na para piliin ito sa halip.",
+                    "image": "$~Pumili ng larawan, pagkatapos ay piliin ang parisukat na bahagi nito na gusto mong itago. Papalitan nito ang mga pixel, at ilalagay sa ilalim ng anumang hugis na naiguhit mo na. I-click o i-tap ang isang bagay na nagawa mo na para piliin ito sa halip."
+                },
+                "shape": {
+                    "shape": "$~hugis",
+                    "eraser": "$~pambura",
+                    "pixel": "$~piksel",
+                    "rect": "$~parihaba",
+                    "ellipse": "$~elips",
+                    "path": "$~landas",
+                    "emoji": "$~emoji",
+                    "glyph": "$~balangkas",
+                    "symbol": "$~simbolo",
+                    "image": "$~larawan"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Ibahagi",
+                        "explanation": "$~Piliin kung sino ang maaaring makakita sa karakter na ito, kung sino ang maaaring tumulong gumawa nito, at kung aling gallery ito kabilang."
+                    },
+                    "button": {
+                        "label": "$~ibahagi",
+                        "tip": "$~ibahagi ang karakter na ito"
+                    },
+                    "delete": {
+                        "label": "$~burahin",
+                        "tip": "$~burahin ang karakter na ito"
+                    },
+                    "public": {
+                        "label": "$~kakayahang makita",
+                        "labels": ["$~publiko", "$~pribado"],
+                        "tips": [
+                            "$~kahit sino ay makakakita ng karakter na ito",
+                            "$~ikaw lang at ang mga collaborator ang makakakita sa karakter na ito"
+                        ]
+                    },
+                    "collaborators": "$~mga kolaborator",
+                    "gallery": "$~Gallery",
+                    "galleryexplanation": "$~Ilagay ang karakter na ito sa isa sa iyong mga gallery at makikita ito ng lahat ng nasa loob nito, magagamit nila ito sa kanilang mga proyekto, at makakagawa sila ng sarili nilang bersyon nito. Mananatili itong sa iyo; ikaw lamang ang maaaring magbago nito.",
+                    "collaboratorsexplanation": "$~Makikita ng mga katuwang ang karakter na ito at maaari nilang baguhin ito kasama mo, kahit pribado ito.",
+                    "publicexplanation": "$~Ang Pampubliko ay nangangahulugang kahit sino ay maaaring makakita sa karakter na ito at gamitin ito sa kanilang mga proyekto. Ang Pribado ay nangangahulugang ikaw lamang, ang iyong mga katuwang, at kahit sino sa isang gallery na inilagay mo rito.",
+                    "tab": {
+                        "label": "$~mga setting ng pagbabahagi",
+                        "labels": ["$~Publiko", "$~Mga Katuwang", "$~Gallery"],
+                        "tips": [
+                            "$~piliin kung sino ang makakakita sa karakter na ito",
+                            "$~piliin kung sino ang maaaring makibahagi sa pagbabago ng karakter na ito kasama mo",
+                            "$~pumili ng isang galeriya kung saan ipapakita ang karakter na ito"
+                        ]
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "$~pangalan ng karakter",
+                        "placeholder": "$~pangalan"
+                    },
+                    "description": {
+                        "description": "$~paglalarawan ng karakter",
+                        "placeholder": "$~paglalarawan"
+                    },
+                    "mode": {
+                        "label": "$~paraan",
+                        "labels": [
+                            "$~piliin",
+                            "$~pambura",
+                            "$~piksel",
+                            "$~parihaba",
+                            "$~elips",
+                            "$~landas",
+                            "$~emoji",
+                            "$~larawan"
+                        ],
+                        "tips": [
+                            "$~pumili ng mga hugis at pixel",
+                            "$~burahin ang mga hugis at pixel",
+                            "$~gumuhit ng mga pixel",
+                            "$~gumuhit ng mga parihaba",
+                            "$~gumuhit ng mga ellipse",
+                            "$~gumuhit ng mga landas",
+                            "$~mag-import ng emoji bilang mga pixel",
+                            "$~idagdag ang larawan bilang mga pixel"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~punan",
+                        "labels": ["$~wala", "$~manahin", "$~pumili"],
+                        "tips": [
+                            "$~walang punan",
+                            "$~magmana ng kulay ng pagpuno mula sa nakapalibot na teksto",
+                            "$~pumili ng kulay ng pagpuno"
+                        ]
+                    },
+                    "stroke": {
+                        "label": "$~stroke",
+                        "labels": ["$~wala", "$~manahin", "$~pumili"],
+                        "tips": [
+                            "$~walang stroke",
+                            "$~magmana ng kulay ng stroke mula sa nakapalibot na teksto",
+                            "$~pumili ng kulay ng stroke"
+                        ]
+                    },
+                    "none": "$~wala",
+                    "inherit": "$~kulay ng teksto",
+                    "strokeWidth": {
+                        "label": "$~lapad ng stroke",
+                        "tip": "$~gaano kalawak ang naibigay na stroke"
+                    },
+                    "radius": {
+                        "label": "$~radius ng sulok",
+                        "tip": "$~kung paano ang mga bilog na parihaba na sulok"
+                    },
+                    "angle": {
+                        "label": "$~anggulo",
+                        "tip": "$~gaano karami paikutin ang hugis sa paligid ng gitna nito"
+                    },
+                    "width": {
+                        "label": "$~lapad",
+                        "tip": "$~gaano kalawak ang hugis"
+                    },
+                    "height": {
+                        "label": "$~taas",
+                        "tip": "$~gaano kataas ang hugis"
+                    },
+                    "closed": "$~konektado",
+                    "brushSize": {
+                        "label": "$~laki",
+                        "tip": "$~ilang selula ang saklaw ng brush at eraser"
+                    },
+                    "insertion": {
+                        "label": "$~idagdag bilang",
+                        "labels": ["$~mga pixel", "$~balangkas"],
+                        "tips": [
+                            "$~idagdag ang simbolo bilang mga pixel na kayang bigyan ng kulay nang isa-isa",
+                            "$~idagdag ang simbolo bilang balangkas na kayang baguhan ang laki at ikot nang hindi lumalabo"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~font",
+                        "tip": "$~kung saang font kukunin ang hugis ng simbolo"
+                    },
+                    "weight": {
+                        "label": "$~bigat",
+                        "tip": "$~gaano kabigat ang mga guhit ng simbolo"
+                    },
+                    "italic": "$~pahilis",
+                    "glyphSize": {
+                        "label": "$~laki ng simbolo",
+                        "tip": "$~ilang selula ang lapad ng simbolo"
+                    }
+                },
+                "button": {
+                    "back": {
+                        "label": "$~likod",
+                        "tip": "$~ilipat ang mga napiling hugis sa likod."
+                    },
+                    "toBack": {
+                        "label": "$~pabalik",
+                        "tip": "$~ilipat ang mga napiling hugis sa likod."
+                    },
+                    "forward": {
+                        "label": "$~pasulong",
+                        "tip": "$~ilipat ang mga napiling hugis sa harap."
+                    },
+                    "toFront": {
+                        "label": "$~sa harap",
+                        "tip": "$~ilipat ang mga napiling hugis sa harap."
+                    },
+                    "copy": {
+                        "label": "$~kopya",
+                        "tip": "$~kopyahin ang mga napiling hugis sa clipboard."
+                    },
+                    "paste": {
+                        "label": "$~idikit",
+                        "tip": "$~i-paste ang mga kinopyang hugis mula sa clipboard."
+                    },
+                    "clear": {
+                        "label": "$~lahat",
+                        "tip": "$~tanggalin ang lahat ng hugis."
+                    },
+                    "clearPixels": {
+                        "label": "$~mga pixel",
+                        "tip": "$~tanggalin lahat ng pixel."
+                    },
+                    "undo": {
+                        "label": "$~i-undo",
+                        "tip": "$~i-undo ang dating disenyo"
+                    },
+                    "redo": {
+                        "label": "$~ulitin",
+                        "tip": "$~ulitin sa susunod na disenyo"
+                    },
+                    "all": {
+                        "label": "$~piliin lahat",
+                        "tip": "$~piliin ang lahat ng hugis at pixel"
+                    },
+                    "allColor": {
+                        "label": "$~lahat ng kulay",
+                        "tip": "$~piliin ang lahat ng hugis na may parehong kulay gaya ng napili"
+                    },
+                    "saturationUp": {
+                        "label": "$~saturation",
+                        "tip": "$~dagdagan ang saturation"
+                    },
+                    "saturationDown": {
+                        "label": "$~saturation",
+                        "tip": "$~bawasan ang saturation"
+                    },
+                    "end": {
+                        "label": "$~hugis ng pagtatapos",
+                        "tip": "$~tapusin ang kasalukuyang landas"
+                    },
+                    "horizontal": {
+                        "label": "$~i-flip nang pahalang",
+                        "tip": "$~ibaligtad nang pahalang ang napili"
+                    },
+                    "vertical": {
+                        "label": "$~i-flip patayo",
+                        "tip": "$~ibaligtad nang patayo ang napili"
+                    },
+                    "fit": {
+                        "label": "$~magkasya",
+                        "tip": "$~iangkop ang mga hugis sa canvas"
+                    },
+                    "dismissError": {
+                        "label": "$~tanggalin",
+                        "tip": "$~balewalain ang mensahe ng error"
+                    },
+                    "editPoints": {
+                        "label": "$~mga punto",
+                        "tip": "$~baguhin ang mga punto ng napiling landas"
+                    },
+                    "donePoints": {
+                        "label": "$~tapos na",
+                        "tip": "$~itigil ang pagbabago ng mga punto"
+                    },
+                    "addPoint": {
+                        "label": "$~magdagdag ng punto",
+                        "tip": "$~magdagdag ng punto sa tabi ng napili"
+                    },
+                    "deletePoint": {
+                        "label": "$~tanggalin ang punto",
+                        "tip": "$~tanggalin ang napiling punto"
+                    },
+                    "curve": {
+                        "label": "$~paikutin (curve)",
+                        "tip": "$~iyuko ang bahaging papunta sa napiling punto"
+                    },
+                    "straighten": {
+                        "label": "$~patuwirin",
+                        "tip": "$~patuwirin ang bahaging papunta sa napiling punto"
+                    }
+                },
+                "feedback": {
+                    "name": "$~Kailangan ng mga karakter ng isang wastong pangalan sa Wordplay na may kahit isang karakter ang haba. Hindi ito maaaring 'UI', isang decimal o hexadecimal na numero, o ang pangalan ng isang built-in na tampok ng wika.",
+                    "description": "$~Kailangan ng mga tauhan ng deskripsyon para malaman ng mga hindi nakakakita kung ano ang kanilang kinakatawan.",
+                    "end": "$~o pindutin ang pagtakas.",
+                    "loadfail": "$~Nagkaroon ng problema sa paglo-load ng karakter na ito.",
+                    "notfound": "$~Hindi umiiral ang karakter na ito o hindi mo siya nakikita.",
+                    "unauthenticated": "$~Dapat ay <naka-log in@://login> ka para makapag-edit ng karakter.",
+                    "taken": "$~Mayroon ka nang karakter na may ganitong pangalan; hindi mo pa sine-save.",
+                    "projecteditfail": "$~Nagkaroon ng problema sa pag-update ng mga proyektong gumagamit ng karakter na ito. Kailangang ayusin ang mga sumusunod na proyekto:",
+                    "untitledproject": "$~Proyektong Walang Pamagat",
+                    "glyphLoading": "$~Kinukuha ang font…",
+                    "glyphMissing": "$~Walang hugis ang font na ito para sa simbolong iyon. Subukan ang ibang font.",
+                    "glyphEmpty": "$~Walang maiguhit para sa simbolong iyon.",
+                    "glyphUnreadable": "$~Hindi namin nabasa ang font na iyon. Tingnan ang iyong koneksyon, o subukan ang ibang font.",
+                    "imageTooBig": "$~Ang larawang iyon ay $size MB. Pumili ng mas maliit sa $limit MB.",
+                    "imageUnreadable": "$~Hindi namin nabasa ang file na iyon bilang larawan."
+                },
+                "announce": {
+                    "position": "$~sa halagang $x $y",
+                    "selection": "$~$shapes[napili $shapes|walang napili]",
+                    "editing": "$~binabago ang $#count[isang punto|$count na punto]",
+                    "editingDone": "$~tapos na ang pagbabago ng mga punto",
+                    "point": "$~punto $index sa $x $y",
+                    "control": "$~pagyuko $index sa $x $y",
+                    "pointAdded": "$~naidagdag ang punto $index sa $x $y",
+                    "pointRemoved": "$~natanggal ang punto $index, $#count[isang punto na lang ang natitira|$count na punto na lang ang natitira]",
+                    "curved": "$~niyuko ang bahaging $index",
+                    "straightened": "$~pinatuwid ang bahaging $index",
+                    "moved": "$~inilipat sa $x $y",
+                    "drew": "$~iginuhit sa $x $y",
+                    "erased": "$~binura sa $x $y",
+                    "finished": "$~ginawa ang $shape sa $x $y",
+                    "deleted": "$~tinanggal, $#count[isang hugis na natira|$count na hugis na natira]",
+                    "undone": "$~binawi ang hakbang $step ng $total",
+                    "redone": "$~inulit ang hakbang $step ng $total",
+                    "copied": "$~kinopya $#count[ang isang $shapes|$count na hugis: $shapes]",
+                    "pasted": "$~idiniit sa $x $y",
+                    "arranged": "$~nakapatong na $index ng $total",
+                    "flipped": "$~binaligtad, ngayon ay nasa $x $y",
+                    "fitted": "$~pinalaki ang mga hugis para punuin ang canvas",
+                    "cropped": "$~kahon ng pag-crop sa $x $y",
+                    "cropMoving": "$~inilipat ang kahon ng pag-crop",
+                    "cropDone": "$~inilagay ang kahon ng pag-crop",
+                    "imported": "$~nagdagdag ng $#count[isang pixel|$count na pixel] mula sa $x $y"
+                },
+                "image": {
+                    "instructions": "$~I-drag ang kuwadrado para ilipat ito, o gamitin ang *size* na slider para baguhin kung gaano karami sa larawan ang panatilihin. Gamit ang keyboard, pindutin ang *enter* para simulan ang paglipat, gamitin ang mga *arrow* key, at pindutin ulit ang *enter* kapag tapos ka na.",
+                    "button": {
+                        "label": "$~i-upload",
+                        "tip": "$~pumili ng file ng larawan mula sa device na ito"
+                    },
+                    "add": {
+                        "label": "$~idagdag",
+                        "tip": "$~idagdag ang piniling kuwadrado sa karakter bilang mga pixel"
+                    },
+                    "crop": {
+                        "label": "$~kahon ng pag-crop",
+                        "tip": "$~ang kuwadrado ng larawan na panatilihin"
+                    },
+                    "preview": "$~ang idadagdag",
+                    "size": {
+                        "label": "$~laki",
+                        "tip": "$~gaano karami sa larawan ang panatilihin"
+                    }
+                }
+            },
+            "about": {
+                "header": "$~Tungkol sa",
+                "content": [
+                    "$~Naranasan mo na bang maramdaman na ang coding ay para lang sa mga Kanluraning matatas sa Ingles at walang kapansanan na lumaki kasama ang mga kompyuter?",
+                    "Oo, kami rin.",
+                    "Hindi ito aksidente. Simula pa noong simula ng computing, ang mga programming language ay dinisenyo at binuo ng halos parehong grupo ng mga tao -- karamihan ay mga puti, cis, mga lalaking nagsasalita ng Ingles sa akademya at industriya sa US at Europa, at ilang kahanga-hangang babaeng matematiko. Ginawa nila ang kanilang trabaho sa panahon ng post-kolonyal, winner-take-all power, at ang mga programming language ay isang mahalagang kasangkapan para masiguro ang kapangyarihang iyon.",
+                    "Ang kasaysayang ito ay humantong sa isang pangitain ng komputasyon na pangunahing tungkol sa bilis, lohika, kita, at dominasyon.",
+                    "Isa itong kawalan ng katarungan. Dahil ang pagkukuwenta, sa ikabubuti at ikasasama, ngayon ay sumusuporta sa pang-araw-araw na buhay sa mga nakikita at di-nakikitang paraan, at ang mga taong may access upang lumikha gamit ito ang siyang mga pinakakatulad ng mga tagalikha nito. Ang iba pang bahagi ng sangkatauhan ay nananatiling nakatali sa kapangyarihang ito, dahil ang pag-iisip ng anumang kakaiba ay nangangailangan ng literasiya, na hinahadlangan ng mga hadlang sa wika, mga hadlang sa pag-access, mga hadlang sa ekonomiya, at mga hindi pagkakapantay-pantay sa pampublikong edukasyon.",
+                    "Hangad ng *Wordplay* na makatulong sa pagbabago nito. Ito ay isang plataporma ng programming na idinisenyo upang maging pandaigdigan, sumusuporta sa /lahat/ ng mga wika sa mundo, ngunit maging /tungkol/ din sa mga wika sa mundo. Isang plataporma kung saan ang lahat ay maaaring lumikha, gamit ang anumang kakayahan nila, upang magbahagi ng interactive na nilalaman na maaaring maranasan ng sinuman. Para sa mga kabataan at young adult na gustong ipahayag ang kanilang sarili sa pamamagitan ng mga interactive na salita, emoji, at tipograpiya, nang mapaglaro at may sining. Hindi sa layuning makakuha ng kapangyarihan para sa kanilang sarili, kundi upang lumikha ng isang mundo ng computational na kumikilala sa hindi kapani-paniwalang lakas at pangangailangan ng ating magagandang pagkakaiba.",
+                    "Kami ay isang komunidad ng mga taga-disenyo, tagapagturo, at developer na nagsisikap na isakatuparan ang pananaw na ito. Kami ay mga taong may kulay, kami ay trans, kami ay queer, kami ay may kapansanan, kami ay mga imigrante, kami ay mga refugee. Nakasentro kami sa <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> sa Seattle, Washington, USA, isang lugar na naghahangad na tanggapin ang lahat at alisin ang mga ableist at rasistang pananakit ng kolonyalismo na nagpapatuloy ngayon. Ang paggawa ng programming language at platform na ito ay isang maliit na bahagi ng misyong iyon, na nag-aalok ng isang sulyap sa isang kinabukasan ng computing kung saan nabibilang ang /lahat/.",
+                    "Gusto naming humingi ng tulong. Alamin kung <paano mag-contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>, <donate@://donate>, o subaybayan ang aming <progress@https://github.com/amyjko/wordplay/milestones>. Sumulat sa aming community organizer na <Amy@https://amyjko.phd> kung mayroon kang mga katanungan."
+                ],
+                "districts": {
+                    "header": "$~Para sa mga paaralan at distrito",
+                    "content": [
+                        "$~Nagdedesisyon ka ba kung sang-ayon gamitin ang *Wordplay* sa iyong paaralan o distrito? Narito ang aming maipapangako at hindi maipapangako.",
+                        "Hindi kami isang kompanya. Isa kaming pananaliksik na nakabatay sa komunidad, na nakatalaga sa isang unibersidad na hindi pangkalakal, at wala kaming kita. Ibig sabihin nito, may mga kasunduang hindi namin mapipirmahan, gaano man kami gustong tumulong. Hindi namin mapapangako na babayaran namin ang legal na gastos ng isang distrito kung ito ay idemanda. Hindi rin namin mapapangako na aayusin namin ang isang problema sa isang takdang iskedyul. Ang pagpirma sa isang pangakong hindi namin matutupad ay hindi makakatulong kaninuman, lalo na sa iyo.",
+                        "Ito naman ang aming maipapangako. Sinusunod namin ang pamantayan ng /WCAG 2.2 Level AA/ para sa akses, sinusuri namin ito nang awtomatiko sa bawat pagbabago, at inaayos namin ang aming natutuklasan sa pinakamabilis na paraang kaya ng isang komunidad ng boluntaryo. Kinukolekta namin ang kaunti lamang na impormasyon tungkol sa mga gumagamit nito, at ginagamit lamang namin ito para patakbuhin ang plataporma. Sinasabi nang eksakto ng aming pahinang <rights//rights> kung ano ang aming iniimbak, at bukas sa publiko ang aming <source@https://github.com/wordplaydev/wordplay>, kaya't masusuri mo ito mismo.",
+                        "Patuloy na nagbabago ang platapormang ito, at gayundin ang mga tuntuning kailangan mong sundin. Kung may kailangan ka na wala pa kami, sumulat sa amin sa hi@wordplay.dev at sabihin sa amin ang tungkol dito. Babasahin ito ng mga tagapangasiwa, at susulatan ka namin pabalik."
+                    ],
+                    "link": "$~Sumulat sa amin tungkol sa isang kinakailangan",
+                    "subject": "$~Katanungan ng paaralan tungkol sa Wordplay",
+                    "body": [
+                        "$~Pangalan ng paaralan o distrito:",
+                        "$~Iyong pangalan:",
+                        "$~Iyong tungkulin:",
+                        "$~May kinakailangan ba o regulasyong dapat naming sundin na hindi pa namin nasusunod?",
+                        "$~May isa ba na hindi namin kayang sundin sa kasalukuyan naming kalagayan?",
+                        "$~May iba ka pa bang gustong ipaalam sa amin?"
+                    ]
+                }
+            },
+            "updates": {
+                "header": "$~Mga Update",
+                "content": [
+                    "$~Ito ang mga pinakabagong bagong tampok, pagpapabuti, at pag-aayos ng bug sa @wordplay. Naglalabas kami ng mga update linggu-linggo tuwing Sabado, maliban na lang kung may makita kaming agarang bug."
+                ],
+                "tips": {
+                    "expand": "$~Palawakin ang mga update sa petsang ito",
+                    "collapse": "$~I-collapse ang mga update sa petsang ito"
+                },
+                "categories": {
+                    "added": "$~Idinagdag",
+                    "changed": "$~Binago",
+                    "removed": "$~Inalis",
+                    "fixed": "$~Naayos na"
+                }
+            },
+            "login": {
+                "header": "$~Mag-login",
+                "subtitle": "$~I-save, makipagtulungan, at ibahagi",
+                "anonymous": "$~mag-login",
+                "prompt": {
+                    "login": "$~Mag-login para i-save ang iyong mga proyekto, makipagtulungan, at magbahagi:",
+                    "join": "$~O kaya, <gumawa ng account@://join> para magsimula.",
+                    "forgot": "$~*Nakalimutan mo ba ang iyong password?* Sa kasamaang palad, hindi namin mababawi ang iyong account dahil hindi kami nangongolekta ng impormasyon sa pakikipag-ugnayan.",
+                    "enter": "$~Mukhang galing sa ibang browser o device ang login link mo. Maaari mo bang ilagay muli ang email mo para makasiguro kaming ikaw nga iyon?",
+                    "play": "$~Naka-log in ka na, puwede na naming i-save ang mga proyekto mo online! Gusto mo bang gumawa ng kahit ano?",
+                    "passwordrule": "$~Ang mga password ay dapat na hindi bababa sa 6 na karakter ang haba; kung hindi ka gumagamit ng password manager, pumili ng tatlong mahahabang salita na iyong matatandaan.",
+                    "changeEmail": "$~Gusto mo bang palitan ang iyong email? Magsumite ng bago at magpapadala kami ng kumpirmasyon sa luma.",
+                    "changePassword": "$~Gusto mo bang baguhin ang iyong password? Magsumite ng bago at ulitin ito.",
+                    "email": "$~Mayroon ka bang email-only account? Mag-login gamit ang iyong email, at kung mayroong account na nauugnay dito, padadalhan ka namin ng email na may link sa pag-sign-in. Hindi sinusuportahan ang mga bagong email-only account, para mapanatili ang privacy.",
+                    "sent": "$~Kung ang email na ito ay nauugnay sa isang account, makakatanggap ito ng email na may link sa pag-login. Maaaring abutin ng ilang minuto bago lumitaw. Kung walang account na nauugnay sa email na ito, wala kang matatanggap.",
+                    "logout": "$~Gumagamit ka ba ng isang shared device at gusto mong panatilihing pribado ang iyong mga proyekto? Mag-log out at *buburahin namin ang iyong mga proyekto* mula sa device na ito, ngunit ise-save ang mga ito online.",
+                    "success": "$~Nagawa na ang account!",
+                    "confirm": "$~Suriin ang iyong lumang email address upang kumpirmahin ang iyong bagong address.",
+                    "delete": "$~Gusto mo bang kalimutan namin lahat ng ginawa mo rito? Hindi na ito maaaring bawiin.",
+                    "reallyDelete": "$~Sigurado ka ba? Ang iyong account at mga setting ay agad na buburahin at ang iyong mga proyekto ay iiskedyul para sa pagbura. Ang mga kasama sa iyong mga proyekto ay agad na mawawalan ng access sa mga ito. I-type ang iyong email o username upang kumpirmahin na ito ang gusto mo.",
+                    "name": "$~Pumili ng isang emoji o custom na karakter na kakatawan sa iyo sa iba.",
+                    "paste": "$~Nagbukas ba ang link sa ibang lugar? Minsan ang mga naka-install na app ay nagbubukas ng mga link sa email sa isang web browser. Kopyahin ang link mula sa iyong email at i-paste dito para matapos ang pag-sign in."
+                },
+                "error": {
+                    "expired": "$~Nag-expire na ang link na ito.",
+                    "invalid": "$~Hindi wasto ang link na ito.",
+                    "email": "$~Hindi wastong email.",
+                    "invalidUsername": "$~Ang mga username ay dapat may kahit limang letra at walang espasyo.",
+                    "usernameTaken": "$~Ginagamit na ang username na ito.",
+                    "failure": "$~Hindi makapag-login :(",
+                    "unverified": "$~Hindi namin matiyak kung tunay na browser ito, kaya't huminto kami dito. Nangyayari ito minsan sa network ng paaralan o trabaho. Walang mangyayari kung susubukan mo ulit, pero maaaring gumana ang ibang network o browser. Kung nasa paaralan ka, sabihin mo sa isang guro.",
+                    "offline": "$~Hindi namin maabot ang ulap ☁️.",
+                    "invalidPassword": "$~Ang mga password ay dapat na hindi bababa sa 6 na karakter ang haba.",
+                    "wrongPassword": "$~Hindi wastong username at password. Maaaring mali ang iyong password, o may ibang gumagamit nito.",
+                    "mismatched": "$~Hindi magkatugma ang mga password.",
+                    "tooMany": "$~Napakaraming beses mo nang sinubukang mag-log in at nabigo. Kailangan mong maghintay para subukan muli.",
+                    "unsaved": "$~May mga pagbabago ka na hindi pa na-save online. Kung mag-log out ka ngayon, mawawala ang mga ito sa device na ito.",
+                    "deletePartial": "$~Inalis namin ang data ng iyong account, ngunit hindi namin matapos ang pag-alis nito. Pakisubukang muli, o makipag-ugnayan sa amin kung patuloy itong nangyayari."
+                },
+                "feedback": {
+                    "changing": "$~Nagsusumite ng bagong email...",
+                    "deleting": "$~Okay, binubura ko ang iyong mga proyekto at setting...",
+                    "updatedPassword": "$~Na-update na ang iyong password.",
+                    "match": "$~Dapat itong tumugma sa username ng iyong account."
+                },
+                "field": {
+                    "email": {
+                        "description": "$~i-edit ang email sa pag-login",
+                        "placeholder": "$~email"
+                    },
+                    "username": {
+                        "description": "$~username sa pag-login, huwag gumamit ng personal na impormasyong makakapagpakilala",
+                        "placeholder": "$~pangalan ng gumagamit"
+                    },
+                    "password": {
+                        "description": "$~password sa pag-login, hindi bababa sa 6 na karakter",
+                        "placeholder": "$~password"
+                    },
+                    "currentPassword": {
+                        "description": "$~ang iyong kasalukuyang password sa pag-login",
+                        "placeholder": "$~kasalukuyang password"
+                    },
+                    "newPassword": {
+                        "description": "$~ang iyong bagong password",
+                        "placeholder": "$~bagong password"
+                    },
+                    "link": {
+                        "description": "$~i-paste ang login link",
+                        "placeholder": "$~link"
+                    }
+                },
+                "button": {
+                    "logout": {
+                        "tip": "$~mag-logout sa iyong account",
+                        "label": "$~mag-logout"
+                    },
+                    "login": "$~gumawa ng account gamit ang username at password na ito",
+                    "updateEmail": "$~palitan ang iyong email",
+                    "delete": {
+                        "tip": "$~burahin ang iyong account",
+                        "label": "$~burahin ang aking datos..."
+                    },
+                    "reallyDelete": {
+                        "tip": "$~burahin ang iyong account magpakailanman",
+                        "label": "$~burahin mo!!!"
+                    },
+                    "updatePassword": "$~magsumite ng bagong password"
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "$~Ipakita ang password",
+                        "off": "$~Itago ang password"
+                    }
+                },
+                "signin": {
+                    "usesPassword": "$~Mag-sign in ka gamit ang isang username at isang password. Kung ayaw mong tandaan pa ang password, puwede kang lumipat sa pag-sign in gamit ang isang link na ipapadala namin sa email mo — mananatiling pareho ang username mo.",
+                    "usesEmail": "$~Nag-sign in ka gamit ang iyong email address. Kung mas gusto mo ang username at password sa halip, puwede kang lumipat — mananatiling pareho ang iyong username.",
+                    "notYet": "$~Mag-sign in ka gamit ang isang username at isang password. Sa lugar mo, hindi ka pa sapat ang gulang para gumamit ng email address dito — mula $date, puwede ka nang lumipat sa pag-sign in gamit ang link na ipapadala sa email.",
+                    "switched": "$~Tapos na. Sa susunod, mag-sign in ka gamit ang username mo at ang bago mong password.",
+                    "toPassword": {
+                        "label": "$~Gumamit na lang ng password",
+                        "tip": "$~Lumipat sa pag-sign in gamit ang username at password mo"
+                    }
+                },
+                "username": {
+                    "change": "$~Ang iyong username ang paraan ng ibang tao para makita ka, at ito ang simula ng pangalan ng bawat karakter na gagawin mo. Puwede mo itong baguhin anumang oras. Gumagana pa rin ang iyong lumang pangalan, kaya kahit ano na tumutukoy na sa iyong mga karakter ay mahahanap pa rin sila.",
+                    "missing": "$~Wala ka pang username, kaya nakikita ka ng iba bilang *—* at hindi ka makakagawa ng mga karakter. Pumili ng isa at hindi na ito babaguhin.",
+                    "changed": "$~Tapos na. Iyan na ang iyong pangalan ngayon.",
+                    "claimed": "$~Tapos na. Iyan ang iyong pangalan.",
+                    "field": {
+                        "description": "$~Ang username na gusto mo",
+                        "placeholder": "$~username"
+                    },
+                    "save": {
+                        "label": "$~I-save",
+                        "tip": "$~Gamitin ang username na ito mula ngayon"
+                    }
+                },
+                "notifications": {
+                    "header": "$~I-email ako tungkol sa…",
+                    "noAddress": "$~Magdagdag ng email address sa itaas para piliin kung anong mga email ang ipapadala sa iyo ng Wordplay.",
+                    "decisions": {
+                        "label": "$~pagmomoderate ng mga bagay na ginawa ko o inireport ko",
+                        "labels": ["$~naka-off", "$~naka-on"],
+                        "tips": [
+                            "$~Huwag akong i-email tungkol sa pagmomoderate ng mga bagay na ginawa ko o inireport ko",
+                            "$~I-email ako tungkol sa pagmomoderate ng mga bagay na ginawa ko o inireport ko"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~pagmomoderate na naghihintay para suriin ko",
+                        "labels": ["$~naka-off", "$~naka-on"],
+                        "tips": [
+                            "$~Huwag akong i-email tungkol sa pagmomoderate na naghihintay para suriin ko",
+                            "$~I-email ako tungkol sa pagmomoderate na naghihintay para suriin ko"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~mga bagong chat at kung paano gawin",
+                        "labels": ["$~naka-off", "$~naka-on"],
+                        "tips": [
+                            "$~Huwag akong i-email tungkol sa mga bagong chat at kung paano gawin",
+                            "$~I-email ako tungkol sa mga bagong chat at kung paano gawin"
+                        ]
+                    },
+                    "notYet": "$~Kapag may email address ka na magagamit, makakapili ka kung anong mga email ang ipapadala sa iyo ng Wordplay."
+                },
+                "subheader": {
+                    "work": "$~Ang iyong gawa",
+                    "character": "$~Ang iyong karakter",
+                    "username": "$~Ang iyong username",
+                    "password": "$~Ang iyong password",
+                    "email": "$~Email",
+                    "logout": "$~Mag-sign out",
+                    "delete": "$~Burahin ang iyong account",
+                    "export": "$~Ang iyong arkibo"
+                },
+                "profile": "$~Profile",
+                "export": {
+                    "prompt": "$~I-download ang isang kopya ng lahat ng iyong nagawa. Kasama rito ang iyong mga proyekto, karakter, gallery, kung paano gawin, kit, pag-uusap, klase, at mga setting. Ang bawat proyekto ay dumarating bilang isang file na puwede mong buksan ulit sa Wordplay. May mga bahagi rito na hindi lamang sa iyo: ang mga pag-uusap ay may laman kung ano ang sinabi ng lahat, at ang mga listahan ng klase ay may pangalan ng ibang tao. Kahit sino na bigyan mo ng file ay makakabasa ng lahat nito, kaya itago ito sa isang lugar na pribado.",
+                    "proxy": "$~Tinitingnan mo ang account ng ibang tao, kaya hindi mo maaaring i-download ang isang kopya nito.",
+                    "button": {
+                        "tip": "$~i-download ang isang kopya ng lahat sa iyong account",
+                        "label": "$~i-download ang aking arkibo…"
+                    },
+                    "progress": "$~Nakolekta na $kind: $#count[$count bagay|$count na bagay] sa ngayon",
+                    "started": "$~Ginagawa ang iyong arkibo.",
+                    "finished": "$~Handa na ang iyong arkibong $name, na may $#count[$count bagay|$count na bagay] dito.",
+                    "finishedPartial": "$~Handa na ang iyong arkibong $name, na may $#count[$count bagay|$count na bagay] dito, ngunit hindi mabasa ang $#missing[$missing uri|$missing na uri].",
+                    "failed": "$~Hindi nagawa ang iyong arkibo. Subukan ulit sa ibang sandali.",
+                    "tooLarge": "$~Gumawa ka ng higit pa sa kaya ng isang arkibo. Sabihin sa amin at tutulungan ka naming makuha ito.",
+                    "offline": "$~Hindi maabot ng Wordplay ang internet, kaya hindi nito magawa ang iyong arkibo.",
+                    "kind": {
+                        "account": "$~ang iyong akawnt",
+                        "projects": "$~ang iyong mga proyekto",
+                        "galleries": "$~ang iyong mga galerya",
+                        "characters": "$~ang iyong mga karakter",
+                        "howtos": "$~ang iyong mga kung paano gawin",
+                        "chats": "$~ang iyong mga pag-uusap",
+                        "kits": "$~ang iyong mga kit",
+                        "classes": "$~ang iyong mga klase",
+                        "feedback": "$~ang iyong mga ideya at ulat ng bug",
+                        "device": "$~mga setting ng device na ito",
+                        "archive": "$~ang archive",
+                        "saving": "$~ang file"
+                    },
+                    "readme": {
+                        "title": "$~Ang iyong Wordplay archive",
+                        "intro": "$~Ito ay kopya ng lahat ng laman ng akawnt sa Wordplay na $name. Ginawa ito noong $date. Ginawa ito ng Wordplay para sa iyo. Walang ibang may kopya nito.",
+                        "contents": "$~Bawat folder ay naglalaman ng isang uri ng bagay. May mga folder para sa iyong mga proyekto, karakter, galerya, kung paano gawin, kit, pag-uusap, at klase.",
+                        "relationships": "$~Sa loob ng bawat folder, nakaayos ang mga bagay ayon sa kung paano ka konektado sa mga ito. Ang folder na pinangalanang owner ay naglalaman ng ginawa mo. Ang creator ay naglalaman ng isinulat mo o maaaring idagdag mo. Ang curator ay naglalaman ng inaalagaan mo. Ang teacher at learner ay naglalaman ng mga klase. Ang collaborator, commenter, at viewer ay naglalaman ng gawang pag-aari ng iba.",
+                        "device": "$~Ang device folder ay naglalaman ng mga bagay na nasa computer lamang kung saan ginawa ang archive na ito. Naririto ang mga setting na hindi naka-save online, mga pagsasalin na sinimulan mo, at mga gawaing hindi pa tapos ma-save. Kung gagawa ka ng archive sa ibang computer, hindi kasama ang mga ito.",
+                        "formats": "$~Para buksan muli ang isang proyekto, pumunta sa iyong pahina ng mga proyekto sa Wordplay at piliin ang \"buksan ang isang project file\". Puwede mo ring i-drag ang .wp file papunta sa pahinang iyon. Kung gusto mong palitan ang isang proyektong meron ka na, i-drag ang file papunta dito at tatanungin ka muna ng Wordplay.",
+                        "excluded": "$~May ilang bagay na wala rito. Hindi kasama ng Wordplay ang paisa-isang talaan ng iyong mga pagbabago, dahil naipakita na ng proyekto mismo ang resulta ng mga pagbabagong iyon. Hindi rin kasama ang talaan kung sino ang tumingin sa isang proyekto. Hindi rin kasama ang mga ulat tungkol sa nasirang mga alituntunin, dahil isinulat ang mga iyon para sa mga taong sumusuri sa mga ito.",
+                        "privacy": "$~Hindi lahat dito ay sa iyo lamang. Ang isang pag-uusap ay naglalaman ng sinabi ng lahat ng kasali rito. Ang isang klase ay naglalaman ng mga pangalan ng lahat ng kasapi rito. Sinumang bigyan mo ng file na ito ay mababasa ang lahat nito. Itago ito sa lugar na pribado, at pag-isipan kung sino pa ang kasali rito bago mo ito ibahagi.",
+                        "missing": "$~May ilang bagay na hindi nabasa ng Wordplay noong ginawa ang archive na ito. Wala ang mga ito rito:",
+                        "manifest": "$~Ang manifest.json ay naglalaman ng parehong mga impormasyon sa anyong mababasa ng isang programa. Sinasabi nito kung kailan ito ginawa, ilan ang bawat uri ng bagay, at ano ang hindi naisama.",
+                        "contentsFiles": "$~Bawat item ay may .json file. Iyan mismo ang eksaktong iniimbak ng Wordplay. Bawat proyekto rin ay may .wp file. Iyan ang proyektong nakasulat nang buo para mabasa mo ito at mabuksan muli.",
+                        "contentsAccount": "$~Sinasabi ng account.json kung sino ka, kailan ka sumali, at ano ang pinapayagang gawin mo. Ang self folder ay naglalaman ng iniingatan ng Wordplay tungkol sa iyo: ang iyong username, kung gaano karaming pagsasalin ang nagawa mo, anumang babalang natanggap mo, at ang iyong mga abiso.",
+                        "relationshipsWords": "$~Ang parehong salita ay maaaring may dalawang kahulugan. Ang creator ng isang galerya ay maaaring magdagdag ng mga proyekto rito. Ang creator ng isang kung paano gawin ay siyang sumulat nito. Bawat folder ay may index.json din. Nakalista rito ang bawat paraan kung paano ka konektado sa bawat item, dahil maaaring higit sa isa ang totoo."
+                    },
+                    "incomplete": "$~Handa na ang iyong archive, pero hindi mabasa ang mga sumusunod, kaya wala ito sa loob nito: $kinds"
+                }
+            },
+            "join": {
+                "header": "$~Sumali",
+                "prompt": {
+                    "create": "$~Gumawa ng account para i-save ang iyong mga proyekto, makipagtulungan sa iba, at ibahagi ang iyong trabaho.",
+                    "username": "$~Ang mga username ay dapat na hindi bababa sa /5 karakter/, hindi maaaring email, at hindi dapat maglaman ng iyong pangalan o iba pang impormasyong nagpapakilala sa iyo.",
+                    "password": "$~Ang mga password ay dapat na hindi bababa sa /6 na karakter/. I-type ito nang dalawang beses at isulat sa isang ligtas na lugar, tulad ng isang password manager. *Walang paraan para mabawi ang iyong account* kung mawala mo ito, dahil hindi kami nangongolekta ng impormasyon sa pakikipag-ugnayan.",
+                    "region": "$~Tinatanong namin kung saan ka nakatira para masunod namin ang mga tuntunin doon tungkol sa mga account ng mga bata. Hindi namin itinatago ang sagot mo.",
+                    "birthday": "$~Tinatanong din namin ang kaarawan mo sa dahilang ito. Hindi rin namin ito itinatago — tinitingnan lamang namin kung sapat na ang gulang mo para gumamit ng email address, at kung kailan ka magiging sapat ang gulang.",
+                    "choose": "$~May dalawang paraan para mag-sign in. Piliin mo ang mas gusto mo.",
+                    "withPassword": "$~*Isang username at isang password.* Wala kaming malalaman tungkol sa iyo — pero *walang paraan para mabawi ang account mo kung makalimutan mo ang password mo*, dahil wala kaming paraan para makontak ka.",
+                    "withEmail": "$~*Isang email address.* Nagpapadala kami sa iyo ng link tuwing mag-sign in ka, kaya walang password na kailangang tandaan. Itinatago namin ang email address mo para lamang ipadala ang mga link na iyon.",
+                    "tooYoung": "$~Sa lugar mo, kailangan mong maging $#age[$age taong gulang|$age taong gulang] para makagamit ng email address dito. Hanggang doon, username at password muna ang gagamitin mo — at puwede ka pang lumipat sa ibang pagkakataon.",
+                    "sent": "$~Kung puwedeng gamitin ang address na iyon para mag-sign in, papunta na ang isang link. Tingnan mo ang email mo."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Ang bansa o rehiyon na tinitirhan mo",
+                        "placeholder": "$~bansa"
+                    },
+                    "year": {
+                        "description": "$~Ang taon ng iyong kapanganakan",
+                        "placeholder": "$~taon"
+                    },
+                    "month": {
+                        "description": "$~Ang buwan ng iyong kapanganakan",
+                        "placeholder": "$~buwan"
+                    },
+                    "day": {
+                        "description": "$~Ang araw ng iyong kapanganakan",
+                        "placeholder": "$~araw"
+                    },
+                    "email": {
+                        "description": "$~Ang email address na gusto mong gamitin sa pag-sign in",
+                        "placeholder": "$~email"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~susunod",
+                        "tip": "$~Magpatuloy sa susunod na hakbang"
+                    },
+                    "back": {
+                        "label": "$~bumalik",
+                        "tip": "$~Bumalik sa nakaraang hakbang"
+                    },
+                    "usePassword": {
+                        "label": "$~Gumamit ng password",
+                        "tip": "$~Gumawa ng account na may username at password"
+                    },
+                    "useEmail": {
+                        "label": "$~Gumamit ng email address",
+                        "tip": "$~Gumawa ng account na papasukan mo gamit ang link na ipinadala sa email"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Hindi iyan totoong petsa. Suriin ang araw at buwan.",
+                    "taken": "$~May kumuha na ng username na iyan ngayon lang. Sumubok ng iba.",
+                    "throttled": "$~Sobrang dami na ng mga link para sa pagpasok. Maghintay muna at subukan ulit.",
+                    "failed": "$~Hindi namin nagawa ang account. Subukan ulit mamaya."
+                }
+            },
+            "rights": {
+                "header": "$~Mga Karapatan",
+                "content": [
+                    "$~Kumusta!",
+                    "Atin munang linawin ang mga karapatan mo at ang sa amin (batay rin sa mga patakaran tulad ng <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> at <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Ang unang dapat malaman ay hindi kami isang kumpanyang pangnegosyo. Kami ay isang proyektong pananaliksik na nakabatay sa komunidad, at kasama ito ng isang unibersidad na hindi pangkalakalan. Layunin namin na lumikha ng isang plataporma na nagbibigay sa iyo ng saya, at tumutulong sa amin na tumuklas ng mas patas at makatarungang mundo ng computing. Wala kaming interes na kumita mula sa plataporma na ito; anumang pera na natatanggap namin (kadalasan sa pamamagitan ng pondo mula sa gobyerno) ay ginagamit para mapanatili ang plataporma, hindi para yumaman ang sinumang gumagawa rito (o nag-aambag dito).",
+                    "Dahil hindi kami naghahangad ng kita, nangangahulugan din ito na hindi kami makapangangako tungkol sa pagiging maaasahan, pagiging bukas, o kung gaano katagal ang plataporma na ito. Gayunpaman, matibay ang pangako ni <Amy@https://amyjko.phd> na panatilihin ito sa mahabang panahon, at bilang isang permanenteng propesor, mayroon siyang medyo matatag na trabaho.",
+                    "Dinadala tayo nito sa *datos*. Narito ang aming kinokolekta at iniimbak sa ulap:",
+                    "• Ang iyong mga *proyekto*. Iniimbak namin ang anumang proyektong iyong iniambag at ang mga binago mo rito, maliban kung ang mga proyektong iyon ay may impormasyong maaaring magkakilanlan sa iyo, tulad ng numero ng telepono, email address, username, numero ng buwis, o tirahan.",
+                    "• Ang iyong mga *setting*. Kasama rito ang mga wikang iyong pinili, ang iyong mga kagustuhan sa animation, at ang iyong pag-unlad sa tutorial. Ang lahat ng iba pa ay naka-imbak lamang sa iyong sariling device.",
+                    "• Kabuuang *aktibidad*. Sinusubaybayan namin ang mga pag-log in at ang mga pahinang binibisita mo, ngunit hindi sa paraang makikilala ka, o susubaybayan ka sa buong site, o sa ibang mga site. Ginagamit namin ang Google Analytics sa modong 'consent denied', na kumukolekta lamang ng pinakamaliit na impormasyong hindi nagpapakilala tungkol sa pagtingin sa pahina, nang hindi nag-iimbak ng cookies, o nagpapadala ng impormasyon ng IP address sa Google. Ginagamit namin ang kabuuang impormasyong ito upang makatulong sa paghingi ng pondo, sa pamamagitan ng pag-uulat kung gaano kalawak ginagamit ang plataporma.",
+                    "• Ang iyong mga *salin ng chat*. Kung hihilingin mong basahin ang isang chat sa ibang wika, isinasalin namin ang mga mensahe ng lahat ng iba pa, ngunit hindi kailanman ang sa iyo. May ilang browser na kayang gawin ang pagsasaling ito sa iyong sariling device, at kapag kaya ito ng sa iyo, walang ipinapadala sa amin. Kung hindi, ipinapadala ang mga mensahe sa isang serbisyo ng AI para sa pagsasalin (sa ngayon ito ay ang Claude, gawa ng Anthropic), at ang salin ay iniimbak kasama ng chat, para hindi na kailangang isaling muli ng iba ang parehong mga salita. Ang mga tao lamang sa chat na iyon ang makakabasa nito.",
+                    "Wala na kaming iba pang iniimbak. Ang aming <source@https://github.com/amyjko/wordplay/tree/main/src> ay bukas sa publiko, kaya sinuman ay maaaring tumingin at tiyakin ito, at mag-ulat ng anumang hindi inaasahang pagsubaybay.",
+                    "Ang *ikaw* ang may-ari ng iyong datos, hindi kami. Ibig sabihin nito:",
+                    "• Ikaw ang kumokontrol kung sino ang maaaring makakita ng iyong mga proyekto. Pribado ang mga ito bilang default, ngunit maaari mo itong ibahagi sa mga indibidwal, grupo, o gawing lubusang bukas sa publiko.",
+                    "• Maaari mong lubusang tanggalin ang anumang proyekto o ang sarili mong account anumang oras.",
+                    "• Maaari kang kumuha ng kopya ng anumang proyekto o ng buo mong account anumang oras.",
+                    "Ganito namin gagamitin, at hindi gagamitin, ang iyong datos:",
+                    "• Hindi namin ibabahagi ang iyong datos sa kahit sino, maliban kung ito ay hinihiling nang malinaw ng batas. Palaging may posibilidad na makuha ang iyong datos nang walang pahintulot (tinatawag itong 'data breach'). Kung matuklasan naming nangyari ito, ipapaalam namin sa iyo gamit ang email na ibinahagi mo sa amin.",
+                    "• Hindi ka namin kokontakin sa iyong email address maliban kung: 1) gumawa ka ng pagbabago sa account na nangangailangan nito, 2) malinaw kang nagbigay ng pahintulot na makipag-ugnayan kami, o 3) sa kaso ng data breach na nabanggit sa itaas.",
+                    "• Maaari naming suriin ang mga proyekto, gallery, at mga gabay na kung paano gawin sa plataporma upang maunawaan kung ano ang ginagawa ng lahat at paano nila ito ginagawa. Maaari naming ibahagi ang kabuuang, hindi nagpapakilalang mga natuklasang ito sa mga akademikong publikasyon. Gagawin lamang namin ito sa ilalim ng pangangasiwa ng isang institutional review board, ayon sa hinihiling ng batas pederal ng Estados Unidos.",
+                    "Bilang panghuli, isang paalala tungkol sa pananalita. Pribado ang mga proyekto bilang default, at ang pagbabahagi nito sa mga taong tinukoy lamang ay nananatiling pribado. Ang sumusunod ay eksaktong sino ang sumusuri sa iyong ibinabahagi, depende sa kung sino ang makakakita nito.",
+                    "Ngunit ang paggawa ng isang proyektong *bukas sa publiko*, o ang pagsasama nito sa isang pampublikong gallery, ay isang pribilehiyo. Ang plataporma na ito ay ginawa para sa pagmamahal, pagpapatibay, paggalang, at dignidad. Kaya naman, inaasahan namin na wala sa iyong *pampublikong* nilalaman ang:"
+                ],
+                "consequences": [
+                    "$~Kung makakita kami ng isang proyekto o gallery na lumalabag sa mga tuntuning ito, babalaan namin ang mga gumawa nito bago ito matingnan ng iba, o hahadlangan namin ito upang hindi na ito makita. Kung paulit-ulit mong nilalabag ang mga tuntuning ito, mawawalan ka ng pribilehiyong maglathala nang pampubliko."
+                ],
+                "license": [
+                    "$~Isa pang bagay tungkol sa paggawa ng proyektong *pampubliko*. Ang mga pampublikong proyekto ay ibinabahagi sa ilalim ng <Creative Commons Attribution-ShareAlike license@https://creativecommons.org/licenses/by-sa/4.0/>. Ibig sabihin, kahit sino ay maaaring mag-/remix/ ng iyong pampublikong proyekto — gumawa ng sariling kopya nito at baguhin ito — at maaari mo ring i-remix ang proyekto ng iba.",
+                    "Tatlong bagay ang kasama sa lisensyang ito. Kailangang kilalanin ng mga nag-remix kung sino ang gumawa ng orihinal. Kailangan nilang ibahagi ang kanilang remix sa ilalim ng parehong lisensyang ito, para manatili itong bukas para sa susunod na tao. At hindi nila maaaring gawing pribado ang isang pampublikong proyekto para itago ito sa sarili lamang.",
+                    "Tinutulungan namin kayo sa bahagi ng pagkilala: kapag may nag-remix ng proyekto, naaalala namin kung saan ito nagmula at nagpapakita ng link pabalik dito. Ang paggawa ng proyektong pampubliko ay ang paraan mo para pumayag sa lahat ng ito, kaya kung mas gugustuhin mong walang mag-remix ng isang proyekto, panatilihin itong pribado."
+                ],
+                "research": [
+                    "$~Isang huling pagpipilian, at ito ay ganap na sa iyo. Minsan sumusulat at nagsasalita kami tungkol sa Wordplay — sa mga papel-pananaliksik, sa mga talumpati, at sa ipinapakita namin sa mga guro at pamilya. Gusto naming ipakita ang tunay na ginagawa ng mga tao gamit ito, pero hindi namin ipapakita ang iyong proyekto maliban kung sasabihin mong pwede.",
+                    "Bawat proyekto ay may setting na *Pananaliksik* sa mga opsyon nito sa pagbabahagi, at ito ay naka-off sa simula. Kapag ito ay in-on mo, maaari naming ipakita ang isang proyektong iyon bilang halimbawa, nang walang pangalan mo, username mo, o anumang bagay na nagsasabing sa iyo ang account. Ito ay bawat proyekto, kaya ang pagsang-ayon sa isa ay walang sinasabi tungkol sa iba.",
+                    "Maaari mo itong i-off anumang oras. Ang pag-off nito ay nangangahulugang hihinto kaming gumamit ng iyong proyekto sa anumang bago, pero hindi na nito mababawi ang isang bagay na na-publish o na-ipresenta na namin."
+                ],
+                "warnings": [
+                    "$~Narito nang eksakto ang mangyayari kung sumira sa mga alituntuning ito ang iyong pampublikong nilalaman. Susuriin ito ng isang moderator, hihinto ito sa pagiging pampubliko, at makakatanggap ka ng babala sa iyong mga notification na nagsasabi kung alin ito. Sinumang naka-sign in ay maaaring humingi sa isang moderator na tingnan ang pampublikong nilalaman gamit ang pindutan ng ulat dito.",
+                    "Pagkatapos ng tatlong babala, maaari ka pa ring gumawa ng mga proyekto, ibahagi pa rin ang mga ito sa mga taong pinili mo, at gamitin pa rin ang lahat ng iba pa dito. Ang mawawala sa iyo ay ang kakayahang gumawa ng anumang pampubliko.",
+                    "Kung sa tingin mo ay mali ang isang babala, o matagal na itong nangyari at gusto mong magbahagi nang pampubliko muli, sumulat sa hi@wordplay.dev at sabihin sa amin ang iyong username at dahilan. May taong babasa nito."
+                ],
+                "responsibility": [
+                    "$~Ang sinuman ang sumusuri sa ibinahagi mo ay nakadepende sa kung sino ang makakakita nito.",
+                    "• *Ibinahagi sa walang sinuman, o sa mga taong pinangalanan mo lang.* Walang sumusuri nito. Hindi kami, hindi rin ang iba.",
+                    "• *Nasa isang gallery kasama ang ibang tao.* Sinusuri ito ng mga curator ng gallery na iyon, kasama ang mga chat na kalakip nito. Totoo ito, gallery man ito na pampubliko o hindi: makikita ng mga taong nasa gallery ang iyong gawa, kaya may isang tao roon na may pananagutan dito.",
+                    "• *Nasa isang pampublikong gallery.* Sinusuri ito ng mga curator nito, at sinusuri rin namin, dahil kahit sino ay makakahanap nito.",
+                    "• *Pampubliko, at hindi nasa isang gallery.* Sinusuri namin ito.",
+                    "Sinuman ang makakakita ng isang bagay ay maaaring humiling na suriin ito, gamit ang pindutang ulat na nakalagay dito. Hindi namin sinasabi sa gumawa nito kung sino ang humiling.",
+                    "Ang pag-uulat ng isang chat message ay nagtatago nito habang sinusuri ito ng isang tao. Nangyayari ito nang isang beses bawat mensahe: kung napanatili ito at may nag-ulat muli nito, mananatili itong nakikita habang sinusuri ito sa ikalawang pagkakataon. Palagi mong makikita ang sarili mong mga salita.",
+                    "Ang isang desisyon ay nagsasabi kung alin sa mga tuntunin sa itaas ang natagpuang nalabag, at maaaring may kalakip na tala mula sa nagdesisyon. Makukuha mo ang parehong ito sa iyong mga abiso.",
+                    "Ang desisyon ng isang curator ng gallery ay umaaplay sa kanilang gallery lang. Hindi ito isa sa mga babala sa ibaba, at hindi kailanman maaaring maalis dahil dito ang kakayahan mong magbahagi nang pampubliko."
+                ]
+            },
+            "donate": {
+                "header": "$~Mag-donate",
+                "prompt": "$~Tulungan kaming pondohan ang pagbuo ng @wordplay",
+                "content": [
+                    "$~Ang @wordplay ay isang libre at nakabatay sa komunidad na proyektong sinusuportahan ng <University of Washington@https://washington.edu>. Umaasa kami sa mga regalo mula sa mga taong naniniwala sa aming misyon ng mga madaling maunawaan, inklusibong wika, at mga wikang pang-edukasyon para sa programming.",
+                    "Narito ang aming kasalukuyang mga gastos:",
+                    "• Binabayaran namin ang mga undergraduate ng University of Washington, lalo na ang mga may kapansanan o ang unang wika ay hindi Ingles, upang paunlarin at mapanatili ang proyekto. Ito ay humigit-kumulang 90% ng aming mga gastos.",
+                    "• Nagbibigay kami ng mga stipend sa mga gurong aming katuwang upang bumuo ng mga multilingual at accessible na kurikulum.",
+                    "• Binabayaran namin ang Google para sa bandwidth at storage ng <Firebase@https://firebase.google.com/>, at mga serbisyo ng <Workspace@https://workspace.google.com/>.",
+                    "• Binabayaran namin ang <Squarespace@https://www.squarespace.com/> taon-taon para sa domain.",
+                    "Ang aming kasalukuyang mga gastos, sa pag-aakalang 5 undergraduate na nasa $$20 USD//oras, 10 oras//linggo sa panahon ng akademikong taon (36 na linggo) at 2 undergraduate sa panahon ng tag-araw (12 linggo), kasama ang mga serbisyo sa cloud, ay humigit-kumulang $$60K USD bawat taon.",
+                    "Kung 2,400 katao ang magbibigay ng $$25 USD kada taon, masasagot na nito ang kasalukuyan nating mga gastusin, at ang anumang sobra ay magagamit na sa mas maraming estudyante at guro.",
+                    "Maaari ka bang maging isa sa 2,400 taong iyon? Kung gayon, narito ang aming link sa pagbibigay mula sa University of Washington:"
+                ]
+            },
+            "design": {
+                "header": "$~Disenyo",
+                "description": "$~Ito ay isang sanggunian para sa sistema ng biswal na disenyo ng @wordplay, kabilang ang mga kulay, font, espasyo, at mga magagamit muli na bahagi. Tingnan ang mga gabay na <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> at <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> para sa pag-aambag.",
+                "theme": "$~Tema",
+                "colors": "$~Mga Kulay",
+                "palette": "$~Paleta",
+                "semantic": "$~Mga Kulay na Semantiko",
+                "fonts": "$~Mga Font",
+                "spacing": "$~Pag-iisa",
+                "typography": "$~Tipograpiya",
+                "components": "$~Mga Bahagi",
+                "col": {
+                    "component": "$~Bahagi",
+                    "preview": "$~Preview",
+                    "variable": "$~Pabagu-bago",
+                    "color": "$~Kulay",
+                    "hex": "$~Heksagono",
+                    "description": "$~Paglalarawan",
+                    "cssvalue": "$~Halaga ng CSS",
+                    "computed": "$~Kinukwenta",
+                    "primaryface": "$~Pangunahing mukha",
+                    "contrast": "$~Kontrast"
+                },
+                "demo": {
+                    "button": "$~Halimbawa",
+                    "note": "$~Ito ay isang tala.",
+                    "notice": "$~Ito ay isang paunawa.",
+                    "header": "$~Pangunahing Paunang Salita",
+                    "subheader": "$~Subheader",
+                    "toggleon": "$~Naka-on",
+                    "toggleoff": "$~Patay",
+                    "textfieldplaceholder": "$~Maglagay ng teksto…",
+                    "textfielddescription": "$~Halimbawang patlang ng teksto",
+                    "optionslabel": "$~Halimbawa",
+                    "optiona": "$~Opsyon A",
+                    "optionb": "$~Opsyon B",
+                    "optionc": "$~Opsyon C",
+                    "logoresting": "$~Nakapahinga",
+                    "logoloading": "$~Naglo-load",
+                    "logoscripts": "$~Sa iba't ibang sistema ng pagsulat",
+                    "logodownloadsvg": "$~I-download ang SVG",
+                    "logodownloadpng": "$~I-download ang PNG (512px)",
+                    "logodownloadcard": "$~I-download ang larawan na ibabahagi"
+                },
+                "accessibility": "$~Aksesibilidad ng Kulay",
+                "accessibilityRules": [
+                    "$~Anumang ipinapakita bilang *text* ay dapat gumamit ng isa sa mga AA text variant (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, o isang semantikong variable na tumuturo sa isa sa mga ito), na umaabot sa 4.5:1 na kontrast na kinakailangan ng <WCAG 2.2@https://www.w3.org/TR/WCAG22/>. Ang mas maliliwanag na kulay ng brand ay para lamang sa background, mga gilid, at mga highlight, na nangangailangan ng 3:1 o wala. Ang mga ratio na ito ay ipinapatupad ng mga unit test at ng awtomatikong pag-scan ng bawat pahina, sa parehong light at dark mode. Isang sinadyang eksepsiyon: ang kulay abo ng gilid sa light mode ay mas mababa sa 3:1, dahil ang mga gilid dito ay pandekorasyong paghihiwalay at bawat mahalagang hangganan ay may ibang senyas.",
+                    "Huwag kailanman ipahayag ang kahulugan sa pamamagitan lamang ng kulay: isabay sa bawat estado na may kulay ang pangalawang senyas — isang hugis, isang istilo ng linya, isang glyph, o isang salita. Halimbawa, iginuguhit ng editor ang highlight ng caret at ang mga malalaking conflict nang *solid*, ang napiling output nang *dashed*, at ang mga maliliit na conflict nang *dotted*, kaya nananatiling magkaiba ang antas at pagpili kahit walang kulay.",
+                    "Tingnan ang gabay sa <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> para sa buong patnubay para sa mga nag-aambag."
+                ],
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Ang logo ng Wordplay ay isang speech bubble na may hawak na isang letra: isang maliit na entablado kung saan puwedeng sabihin ng bubble ang kahit ano — isang letra mula sa sistema ng pagsulat ng mambabasa, isang emoji, o isang bilog, tatsulok, at parisukat habang may nilo-load. Sa app, sinusunod ng letra ang sistema ng pagsulat ng iyong pangunahing wika; sa mga lugar na walang tiyak na sistema ng pagsulat gaya ng icon ng browser at mga larawang ibinabahagi, ipinapakita ng bubble ang tatlong hugis, malapit nang gumawa ng isang bagay.",
+                    "Ang mismong guhit ay hindi kailanman nagpapakita ng galaw. Ang paggalaw ay pag-uugali — ang landing page ay pabago-bago kung ano ang sinasabi ng bubble kasabay ng pagpili ng wika, at habang nilo-load ang mga hugis ay salit-salitang lumulukso, gaya ng maramihang taong gumagawa ng wave — at palaging sumusukat sa setting ng bilis ng animation, at tuluyang humihinto kapag naka-off ang animation.",
+                    "Palaging iginuguhit ang marka gamit ang kasalukuyang kulay ng teksto, kaya saanman may sapat na contrast ang teksto, ganoon din ang logo."
+                ],
+                "copyvalue": "$~kopyahin ang buong CSS na halaga"
+            },
+            "thanks": {
+                "header": "$~Salamat",
+                "intro": "$~Salamat sa aming *$#count[$count nag-ambag|$count na nag-ambag]* sa pagtulong sa disenyo, pagbuo, lokalisasyon, at nilalaman ng @wordplay! At salamat sa maraming guro at kabataan na gumabay sa aming disenyo sa mga focus group, sesyon ng disenyo, at silid-aralan, na hindi namin nilista dito upang mapanatili ang kanilang privacy.\n\nSinuportahan ang proyektong ito ng National Science Foundation sa ilalim ng mga award na 2318257, 2031265, 2100296, at 2122950, ng University of Washington, at ng mga bukas-palad na <gifts//donate> mula sa mga taong tulad mo.",
+                "teachers": "$~Mga Guro",
+                "contributors": "$~Mga Kontribyutor"
+            },
+            "localize": {
+                "header": "$~I-localize",
+                "description": [
+                    "$~Dito mo mababasa ang bawat lokalisadong string sa platform, at makapagmungkahi ng mga pagsasalin o rebisyon sa mga hindi nakasulat at isinalin ng makinang teksto. Maaari mong isumite ang iyong mga rebisyon para sa pagsusuri kapag handa ka na.",
+                    "Habang nagsusulat ka, tandaan na magsulat sa mga simpleng paraan, para sa mga batang mambabasa na maaaring hindi pa nakakaalam ng mga advanced na bokabularyo. Maging pare-pareho rin, gamit ang parehong terminolohiya sa iba't ibang teksto, kung naaangkop."
+                ],
+                "workspaceLink": "$~tingnan lahat ng teksto + isumite",
+                "workspaceHeader": "$~Tekstong isusulat o rerepasuhin",
+                "submitHeader": "$~Isumite",
+                "submitPrompt": "$~Kapag handa ka nang imungkahi ang pangkat na ito ng mga pag-edit, maaari kang magsumite sa ibaba.",
+                "bundleSummary": "$~Mga pag-edit sa batch na ito",
+                "editEntry": "$~Bumalik para i-edit ang string na ito",
+                "revertEntry": "$~Itapon ang pag-edit na ito mula sa batch",
+                "prevBundleItem": "$~Suriin ang nakaraang pag-edit",
+                "nextBundleItem": "$~Suriin ang susunod na pag-edit",
+                "descriptionField": {
+                    "description": "$~Isang maikling paglalarawan ng pangkat ng mga pag-edit, upang matulungan ang mga tagasuri na maunawaan ang mga pagbabago",
+                    "placeholder": "$~Ano ang binago mo, at bakit?"
+                },
+                "notSpamLabel": "$~Ipinapangako ko na ang mga pag-edit na ito ay hindi spam.",
+                "notSpamNote": "$~Ang Wordplay ay isang proyektong hindi pangkalakal na pinamumunuan ng mga boluntaryo.",
+                "requireLogin": "$~Dapat kang naka-log in upang makapag-ambag ng mga mungkahi sa lokalisasyon.",
+                "submit": {
+                    "description": "$~Isumite ang batch na ito ng mga pag-edit",
+                    "prompt": "$~Isumite"
+                },
+                "submitSuccess": "$~Salamat! Naisumite na ang iyong mga pag-edit at susuriin ito sa lalong madaling panahon.",
+                "submitError": "$~May nangyaring mali habang nagsusumite. Naka-save pa rin ang iyong mga pag-edit sa device na ito — pakisubukang muli.",
+                "empty": "$~Walang mga string na tumutugma sa filter na ito.",
+                "prevEntry": "$~I-edit ang nakaraang string",
+                "nextEntry": "$~I-edit ang susunod na string",
+                "qualityMode": {
+                    "label": "$~palabas",
+                    "labels": [
+                        "$~lahat",
+                        "$~isinalin ng makina o hindi nakasulat"
+                    ],
+                    "tips": [
+                        "$~ipakita ang lahat ng mga string",
+                        "$~ipakita lamang ang mga string na isinalin ng makina o hindi nakasulat"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~seksyon",
+                    "labels": [
+                        "$~lahat",
+                        "$~termino",
+                        "$~token",
+                        "$~buhol",
+                        "$~batayan",
+                        "$~input",
+                        "$~output",
+                        "$~ui",
+                        "$~galeriya",
+                        "$~moderasyon"
+                    ],
+                    "tips": [
+                        "$~ipakita ang lahat ng seksyon",
+                        "$~ibinahaging terminolohiya",
+                        "$~mga paglalarawan ng token",
+                        "$~mga konstruksyon ng wikang pamprograma",
+                        "$~mga built-in na uri tulad ng numero, teksto, listahan",
+                        "$~mga paglalarawan ng stream at input source",
+                        "$~mga paglalarawan ng uri ng output",
+                        "$~interface ng gumagamit ng aplikasyon",
+                        "$~default na nilalaman ng gallery",
+                        "$~mga mensahe sa pagmo-moderate ng nilalaman"
+                    ]
+                },
+                "section": {
+                    "glossary": "$~Terminolohiya",
+                    "token": "$~Mga Token",
+                    "node": "$~Mga konstruksyon ng wika",
+                    "basis": "$~Mga built-in na uri",
+                    "input": "$~Mga Input",
+                    "output": "$~Mga Output",
+                    "ui": "$~Interface ng gumagamit",
+                    "gallery": "$~Galeriya",
+                    "moderation": "$~Moderasyon"
+                },
+                "singletonWordsWarning": "$~Ang ilang salita sa iyong draft ay lumilitaw nang isang beses lamang sa buong wika. Sigurado ka bang tama ang baybay ng mga ito at naaayon sa ibang teksto?",
+                "viewPR": "$~Tingnan ang kahilingan sa paghila",
+                "oneLocaleNote": "$~Ang bawat pagsusumite ay sumasaklaw sa isang wika sa bawat pagkakataon. Ang batch na ito ay isusumite bilang mga pag-edit sa $locale . Kung gusto mong mag-ambag sa ibang wika, magpalit muna ng wika; ang mga pag-edit na iyong sine-save sa ilalim ng bawat wika ay itatago nang hiwalay.",
+                "literalTermsWarning": "$~Ang iyong draft ay gumagamit ng mga salita ng glosaryo bilang payak na teksto. I-tap ang isa upang gawing link ng glosaryo ito.",
+                "checkReadingLevel": "$~Suriin ang antas ng pagbabasa ng string na ito",
+                "readingLevelComplex": "$~Maaaring mahirap itong basahin. Subukan ang mas maiikling pangungusap at mas simpleng mga salita.",
+                "readingLevelOk": "$~Malinaw itong nababasa para sa target na antas ng pagbabasa.",
+                "tabs": {
+                    "label": "$~seksyon",
+                    "labels": [
+                        "$~Tungkol Dito",
+                        "$~Teksto",
+                        "$~Mga Termino",
+                        "$~Talahulugan",
+                        "$~Ipasa"
+                    ],
+                    "tips": [
+                        "$~kung paano gumagana ang pagsasalin, at mga tala para sa mga taong sumusulat sa wikang ito",
+                        "$~tingnan at baguhin ang teksto ng platform",
+                        "$~magtakda ng mga parirala na maaari mong gamitin muli sa teksto ng wikang ito",
+                        "$~idagdag ang mga pangmaramihan at ibang paraan ng pagbaybay ng mga termino ng wikang ito",
+                        "$~suriin ang iyong mga pagbabago at ipadala ang mga ito"
+                    ]
+                },
+                "toSubmit": "$~suriin at ipasa ang iyong mga pagbabago",
+                "submitEmpty": "$~Wala ka pang mga pagbabago. Piliin ang tab na Teksto upang sumulat, o baguhin ang teksto sa konteksto gamit ang edit mode.",
+                "clear": {
+                    "description": "$~burahin lahat ng iyong hindi pa naipapadalang mga pagbabago para sa wikang ito",
+                    "prompt": "$~burahin lahat?"
+                }
+            },
+            "breadcrumb": {
+                "label": "$~Mga breadcrumb",
+                "home": "$~Tahanan"
+            },
+            "admin": {
+                "header": "$~Mga Pribilehiyo",
+                "prompt": "$~Ang bawat isa sa ibaba ay may kakayahang gawin ang hindi kaya ng karamihan. Agad na naaabot ng pagbabago dito ang mga ito, bagama't maaaring umabot ng isang oras bago ito makita ng isang pahinang bukas na nila. Kasama na sa Superuser ang pagmomoderate at pagtuturo, kaya ang sinumang may ito ay hindi na kailangan ang dalawa pang iba.",
+                "claim": {
+                    "admin": "$~Superuser",
+                    "mod": "$~Moderator",
+                    "teacher": "$~Guro",
+                    "banned": "$~Hindi maaaring ibahagi nang publiko"
+                },
+                "creator": "$~Tagalikha",
+                "email": "$~Email",
+                "privileges": "$~Mga Pribilehiyo",
+                "button": {
+                    "revoke": "$~Alisin ang lahat ng pribilehiyo",
+                    "lift": {
+                        "label": "$~Ibalik ang karapatang magbahagi",
+                        "tip": "$~Payagan muli ang tagalikhang ito na magbahagi nang publiko, at ibalik sa zero ang kanilang bilang ng babala"
+                    }
+                },
+                "confirm": "$~Babalik sa zero ang kanilang bilang ng babala at makakapagbahagi na muli sila nang publiko. Mananatili ang talaan ng nangyari, kaya makikita pa rin ito ng isang moderator na titingin sa kanila sa hinaharap.",
+                "ownAdmin": "$~Hindi mo maaaring alisin ang sarili mong mga pribilehiyo. Humingi ng tulong sa ibang admin.",
+                "nobody": "$~Wala pang sinumang may anumang pribilehiyo.",
+                "error": {
+                    "notadmin": "$~Ito ay isang espasyo para sa superuser. Walang dapat baguhin dito para sa iyo.",
+                    "login": "$~Kailangan mong <naka-log in@://login> upang makita ang pahinang ito.",
+                    "offline": "$~Hindi namin ma-load kung sino ang may mga pribilehiyo. Naka-online ka ba?",
+                    "save": "$~Hindi namin nai-save ang pagbabagong iyon. Subukan muli?",
+                    "none": "$~Pumili ng kahit isang pribilehiyo bago magdagdag ng isang tao."
+                },
+                "proxy": {
+                    "header": "$~Tumingin bilang isang tao",
+                    "prompt": "$~Buksan ang Wordplay bilang ibang creator, para makita mo kung ano ang nakikita nila kapag may hindi gumagana para sa kanila. Basahin lang ito: walang naisasave sa ginagawa mo, at hindi nila makikita na naroon ka. Bubukas ito sa bagong tab, at kapag isinara mo ang tab na iyon, matatapos ito.\n\nItinatala ang bawat pagkakataong ginagawa ito ninuman.",
+                    "start": {
+                        "label": "$~Tumingin",
+                        "tip": "$~Magbukas ng read-only na session bilang creator na ito sa bagong tab"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -45,7 +45,10 @@ function collectAssets(): Map<string, string> {
             withFileTypes: true,
         })) {
             const full = path.join(directory, entry.name);
-            if (entry.isDirectory()) walk(full);
+            // A locale's `sections/` are source, assembled into `<code>.json` at
+            // build time. Nothing fetches them, and hashing them would double a
+            // table that sits on every page's import graph.
+            if (entry.isDirectory() && entry.name !== 'sections') walk(full);
             else if (entry.name.endsWith('.json')) {
                 const url = `/${path.relative(StaticDirectory, full).split(path.sep).join('/')}`;
                 assets.set(url, hash(fs.readFileSync(full)));

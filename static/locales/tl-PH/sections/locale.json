@@ -1,0 +1,432 @@
+{
+    "$schema": "../../../static/schemas/sections/locale.json",
+    "language": "tl",
+    "regions": ["PH"],
+    "guidance": "",
+    "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Ang plataporma na ito at ang programming @language na ginagamit para gumawa ng mga proyekto sa plataporma na ito."
+        },
+        "value": {
+            "word": "$~halaga",
+            "definition": "$~Isang piraso ng impormasyon, tulad ng @Number, ilang salita, o @List."
+        },
+        "type": {
+            "word": "$~uri",
+            "definition": "$~Ang uri ng isang @value, gaya ng @Number o @Text. Ang uri ng isang halaga ang nagpapasya kung ano ang magagawa mo dito."
+        },
+        "expression": {
+            "word": "$~ekspresyon",
+            "definition": "$~Isang piraso ng @code na gumagawa ng @value kapag tumakbo ito."
+        },
+        "variable": {
+            "word": "$~variable",
+            "definition": "$~Isang @name na maaaring magbago ang @value habang tumatakbo ang @Program."
+        },
+        "parameter": {
+            "word": "$~parameter",
+            "definition": "$~May pangalang @Input na inaasahan ng @FunctionDefinition kapag tinawag mo ito."
+        },
+        "argument": {
+            "word": "$~argument",
+            "definition": "$~Isang @value na ibinibigay mo sa @FunctionDefinition para sa isa sa mga @parameters nito."
+        },
+        "operator": {
+            "word": "$~operator",
+            "definition": "$~Isang simbolo, tulad ng + o -, na pinagsasama o naghahambing ng mga @value."
+        },
+        "condition": {
+            "word": "$~kondisyon",
+            "definition": "$~Isang tama-o-mali na pagsubok na nagpapasya kung ano ang gagawin ng @Program sa susunod."
+        },
+        "loop": {
+            "word": "$~loop",
+            "definition": "$~@code na inuulit ang isang gawain nang maraming beses."
+        },
+        "iteration": {
+            "word": "$~iteration",
+            "definition": "$~Isang pagdaan sa isang @loop."
+        },
+        "recursion": {
+            "word": "$~recursion",
+            "definition": "$~Kapag tinatawag ng @FunctionDefinition ang sarili nito para asikasuhin ang mas maliit na bahagi ng isang problema."
+        },
+        "property": {
+            "word": "$~property",
+            "definition": "$~Isang pinangalanang bahagi ng isang @value, tulad ng liwanag ng isang @Color."
+        },
+        "element": {
+            "word": "$~element",
+            "definition": "$~Isang item sa isang @List o grupo."
+        },
+        "scope": {
+            "word": "$~scope",
+            "definition": "$~Ang bahagi ng isang @Program kung saan magagamit ang isang @name."
+        },
+        "state": {
+            "word": "$~estado",
+            "definition": "$~Impormasyong itinatago ng @Program at maaaring magbago sa paglipas ng panahon."
+        },
+        "sideEffect": {
+            "word": "$~side effect",
+            "definition": "$~Isang pagbabago na ginagawa ng @Program bukod sa pagbabalik ng @value, tulad ng pagpapakita ng @Output."
+        },
+        "abstraction": {
+            "word": "$~abstraction",
+            "definition": "$~Pagtatago ng mga detalye upang magamit mo ang isang bagay nang hindi mo alam kung paano ito gumagana sa loob."
+        },
+        "project": {
+            "word": "$~proyekto",
+            "definition": "$~Lahat ng file na bumubuo ng isang @Program ng @wordplay."
+        },
+        "code": {
+            "word": "$~kodigo",
+            "definition": "$~Ang teksto na isinusulat mo upang sabihin sa isang @Program kung ano ang gagawin."
+        },
+        "act": {
+            "word": "$~kumilos",
+            "definition": "$~Isang malaking bahagi ng @tutorial, tulad ng isang yugto sa isang dula."
+        },
+        "how": {
+            "word": "$~kung paano gawin",
+            "definition": "$~Isang maikling @guide na nagpapakita kung paano gawin ang isang bagay."
+        },
+        "gallery": {
+            "word": "$~gallery",
+            "definition": "$~Isang lugar kung saan nagbabahagi at nagtutuklas ang mga tao ng mga @project."
+        },
+        "blocks": {
+            "word": "$~blocks",
+            "definition": "$~Isang paraan upang i-edit ang @code sa pamamagitan ng pag-drag ng mga piraso sa halip na pag-type."
+        },
+        "placeholder": {
+            "word": "$~placeholder",
+            "definition": "$~Isang bakanteng puwesto na nagpapakita kung saan nawawala ang @code o isang @value."
+        },
+        "conflict": {
+            "word": "$~conflict",
+            "definition": "$~Isang problema sa @code na minamarkahan ng @wordplay upang maaayos mo ito."
+        },
+        "checkpoint": {
+            "word": "$~checkpoint",
+            "definition": "$~Isang naka-save na puwesto sa iyong trabaho na maaari mong balikan."
+        },
+        "guide": {
+            "word": "$~gabay",
+            "definition": "$~Ang reperensiyang mahahanap na nagpapaliwanag ng mga ideya ng @wordplay."
+        },
+        "tutorial": {
+            "word": "$~tutorial",
+            "definition": "$~Ang mga aralin na hakbang-hakbang na nagtuturo ng @wordplay."
+        },
+        "name": {
+            "word": "$~pangalan",
+            "definition": "$~Isang salita na tumutukoy sa isang @value o sa isang @FunctionDefinition."
+        },
+        "markup": {
+            "word": "$~markup",
+            "definition": "$~Teksto na may pormat, tulad ng mga matatapang na salita o mga link."
+        },
+        "language": {
+            "word": "$~wika",
+            "definition": "$~Isang wika ng tao kung saan nakasulat ang isang @name o teksto."
+        },
+        "documentation": {
+            "word": "$~dokumentasyon",
+            "definition": "$~Teksto na nagpapaliwanag kung ano ang ginagawa ng @code."
+        },
+        "region": {
+            "word": "$~rehiyon",
+            "definition": "$~Isang lugar kung saan ginagamit ang isang @language, na maaaring magbago kung paano lumitaw ang mga numero at petsa."
+        },
+        "start": {
+            "word": "$~simulan",
+            "definition": "$~Ang pangunahing source file kung saan nagsisimula ang isang @project."
+        },
+        "query": {
+            "word": "$~tanong",
+            "definition": "$~Isang paraan para pumili ng mga hilera mula sa isang @Table."
+        },
+        "key": {
+            "word": "$~susi",
+            "definition": "$~Ang @value na ginagamit para hanapin ang isang bagay sa isang @Map."
+        },
+        "index": {
+            "word": "$~indeks",
+            "definition": "$~Isang @Number na pumipili ng isang item ayon sa posisyon nito sa isang @List."
+        },
+        "moved": {
+            "word": "$~inilipat",
+            "definition": "$~@Output na nagbago ng posisyon sa entablado."
+        },
+        "entered": {
+            "word": "$~bago",
+            "definition": "$!@Output na lumitaw sa entablado sa unang pagkakataon."
+        },
+        "cell": {
+            "word": "$~selula",
+            "definition": "$~Isang @value sa isang hilera ng @Table."
+        },
+        "column": {
+            "word": "$~haligi",
+            "definition": "$~Isang may pangalang field sa isang @Table."
+        },
+        "editor": {
+            "word": "$~patnugutan",
+            "definition": "$~Ang kahon kung saan isinusulat mo ang @code. Ang itinatype mo roon ang ipinapatupad ng @wordplay."
+        },
+        "stage": {
+            "word": "$~entablado",
+            "definition": "$~Ang espasyo kung saan ipinapakita ng @wordplay ang ginawa ng iyong @code."
+        },
+        "stream": {
+            "word": "$~agos",
+            "definition": "$~Isang @value na nagbabago sa paglipas ng panahon habang nagbabago ang iyong mundo, tulad ng pagtatak ng @Time o pagpindot ng @Key. Tuwing nagbabago ito, muling sinusuri ng @Program ang bagong @value."
+        },
+        "source": {
+            "word": "$~pinagmulan",
+            "definition": "$~Isang dokumento ng @code sa isang @project. Ang isang @project ay maaaring magkaroon ng higit sa isa, at bawat isa ay maaaring @share ng mga bagay na @borrow ng iba."
+        },
+        "borrow": {
+            "word": "$~humiram",
+            "definition": "$~Para gamitin ang isang bagay na ibinahagi ng ibang @Source, isulat ang ↓ at ang pangalan ng @source na iyon."
+        },
+        "share": {
+            "word": "$~ibahagi",
+            "definition": "$~Para markahan ang isang bagay sa isang @Source gamit ang ↑ para ang ibang mga file ng @source ay makapag-@borrow nito."
+        },
+        "kit": {
+            "word": "$~kit",
+            "definition": "$~Isang @Source na inilathala ng isang tao para ang ibang tao ay makapag-@borrow nito sa kanilang sariling @project."
+        }
+    },
+    "terms": {},
+    "moderation": {
+        "warning": {
+            "header": "$~Babala",
+            "explanation": "$~Napagpasyahan ng isang moderator na ang nilalamang ito ay maaaring:"
+        },
+        "blocked": {
+            "header": "$~Na-block",
+            "explanation": "$~Napagpasyahan ng isang moderator na ang nilalamang ito ay maaaring:"
+        },
+        "unmoderated": {
+            "header": "$~Tala",
+            "explanation": "$~Hindi pa namo-moderate ang nilalamang ito. Maaaring:"
+        },
+        "moderate": {
+            "header": "$~Katamtaman",
+            "explanation": "$~Suriin ang proyektong ito at magpasya kung ang nilalaman nito ay gumagawa ng alinman sa mga sumusunod. Kung gagawin nito, ang nilalaman ay babala o haharangan. Maaari mong laktawan kung hindi ka sigurado."
+        },
+        "flags": {
+            "violence": "$~Mang-udyok, manghikayat, o magdiwang ng karahasan, pananakit, o pananakit sa sarili ng sinuman.",
+            "dehumanization": "$~Inaalisan ng pagkatao ang mga indibidwal o grupo batay sa kanilang lahi, etnisidad, bansang pinagmulan, kasta, oryentasyong sekswal, kasarian, relihiyon, edad, kakayahan, o hitsura.",
+            "disclosure": "$~Ibunyag ang pribadong impormasyon tungkol sa ibang tao tulad ng mga pangalan, impormasyon sa pakikipag-ugnayan, o mga pisikal na address",
+            "misinformation": "$~Naglalaman ng mali, mapanlinlang, mapanlinlang, o mapanlinlang na impormasyon"
+        },
+        "progress": "$~*$moderated* ang na-moderate, *$remaining* ang natitira",
+        "done": "$~Wala nang ibang dapat i-moderate!",
+        "button": {
+            "submit": {
+                "tip": "$~i-save ang mga setting ng moderasyon na ito",
+                "label": "$~i-save"
+            },
+            "skip": {
+                "tip": "$~laktawan ang proyektong ito",
+                "label": "$~laktawan"
+            },
+            "property": "$~Kung ang proyekto ay may ganitong katangian"
+        },
+        "error": {
+            "notmod": "$~Walang dito na kailangan mong suriin. Sinusuri ng mga moderator ng Wordplay ang pampublikong nilalaman, at sinusuri ng mga curator ng isang gallery ang nasa kanilang gallery. Kung kamakailan ka lang binigyan ng karapatan bilang moderator, maaaring kailanganin mong mag-log in ulit.",
+            "unreachable": "$~Hindi ko mabasa ang pilang ito, kaya hindi ko alam kung may naghihintay. Subukan ulit sa ilang sandali.",
+            "unreadable": "$~May mga bagay dito na naghihintay pero hindi ko sila mabasa, kaya hindi sila ipinapakita."
+        },
+        "report": {
+            "button": "$~hilingin sa isang tagapamahala na suriin ito",
+            "confirm": "$~Iulat ito",
+            "sent": "$~may hiniling na moderator na tingnan ito",
+            "announce": "$~may hiniling na moderator na tingnan ang $project",
+            "flagged": "$~May nag-ulat ng proyektong ito, kaya ito ang una sa pila."
+        },
+        "strike": {
+            "issue": "$~babalaan ang gumawang ito",
+            "consequence": "$~Ito ang magiging babala bilang $#count[1|$count] para sa taong ito. $banning[Aalisin ng babalang ito ang kanyang kakayahang gawing pampubliko ang anuman.|Kaya pa niyang gawing pampubliko ang mga bagay sa loob ng $#remaining[1 pang babala|$remaining pang mga babala].]",
+            "confirm": {
+                "description": "$~itala ang desisyong ito at babalaan ang gumawa",
+                "prompt": "$~Babalaan sila"
+            },
+            "banned": "$~Nabalaan ka na nang tatlong beses tungkol sa pampublikong nilalaman, kaya hindi ka na makakapaglabas ng mga proyekto o galeriya nang pampubliko. Puwede ka pa ring gumawa ng mga proyekto, at ibahagi pa rin ang mga ito sa mga taong pinili mo. Kung sa tingin mo ay pagkakamali ito, o matagal na itong nangyari at gusto mo nang muling magbahagi nang pampubliko, sumulat sa hi@wordplay.dev at sabihin sa amin ang iyong username at dahilan.",
+            "warned": "$~May pampublikong nilalaman mo na lumabag sa mga patakaran sa pagbabahagi, kaya hindi na ito pampubliko. Ito ang babala bilang $#count[1|$count]. $#remaining[Isa na lang at hindi ka na makakapaglabas ng anumang bagay nang pampubliko.|Pagkatapos ng $remaining pang babala, hindi ka na makakapaglabas ng anumang bagay nang pampubliko.]",
+            "notification": "$~Babala bilang $#count[1|$count] tungkol sa isang bagay na ibinahagi mo nang pampubliko."
+        },
+        "queue": {
+            "label": "$~ano ang susuriin",
+            "labels": [
+                "$~mga proyekto",
+                "$~mga gallery",
+                "$~mga kit",
+                "$~mga kung paano gawin",
+                "$~mga mensahe"
+            ],
+            "tips": [
+                "$~suriin ang mga proyektong ginawang publiko ng mga tao",
+                "$~suriin ang mga gallery na humihiling na ilista nang pampubliko",
+                "$~suriin ang mga kit na humihiling na ilista sa gabay",
+                "$~suriin ang mga kung paano gawin na humihiling na ilista sa gabay",
+                "$~suriin ang mga mensaheng ini-report ng mga tao sa mga gallery na iyong pinangangasiwaan"
+            ]
+        },
+        "gallery": {
+            "pending": "$~May isang moderator na nagbabasa ng iyong gallery para magpasya kung puwede itong ilista nang pampubliko. Hanggang hindi ito nagagawa, tanging ang mga taong ibinahagi mo ng link ang makakakita nito.",
+            "approved": "$~Naka-lista ang iyong gallery sa <pahina ng mga pampublikong gallery@://galleries?tab=public>! Puwede itong alisin sa listahang iyon anumang oras, sa kahit anong dahilan.",
+            "denied": "$~Nagpasya ang isang moderator na hindi ilista nang pampubliko ang iyong gallery. Puwede mo pa itong gawan ng trabaho at gawing pampubliko ulit para humiling muli.",
+            "explain": "$~Humihiling ang gallery na ito na ilista nang pampubliko. Tingnan ito at ang mga proyekto nito, at magpasya kung tapos na ito para ipakita sa lahat.",
+            "done": "$~Walang gallery na naghihintay ng desisyon. Salamat!",
+            "approve": {
+                "label": "$~ilista ito",
+                "tip": "$~ilista ang gallery na ito sa pahina ng mga pampublikong gallery"
+            },
+            "deny": {
+                "label": "$~huwag ilista",
+                "tip": "$~panatilihing hindi naka-lista ang gallery na ito sa pahina ng mga pampublikong gallery"
+            },
+            "skip": {
+                "label": "$~laktawan",
+                "tip": "$~iwan ang gallery na ito para ibang moderator ang magpasya"
+            },
+            "notification": {
+                "approved": "$~Naka-lista na ngayon nang pampubliko ang $name.",
+                "denied": "$~Hindi na-lista nang pampubliko ang $name."
+            }
+        },
+        "responsibility": {
+            "none": "$~Walang sumusuri sa ibinabahagi mo dito. Ikaw at ang mga taong pinili mo lang ang makakakita nito.",
+            "curators": "$~Sinusuri ng mga tagapangasiwa ng galeriyang ito ang mga ibinabahagi rito, kasama na ang chat nito.",
+            "both": "$~Sinusuri ng mga tagapangasiwa ng galeriyang ito ang mga ibinabahagi rito, at gayundin ang mga tagapagpatupad ng Wordplay, dahil makikita ito ng kahit sino.",
+            "platform": "$~Sinusuri ito ng mga <moderators@://rights> ng Wordplay, dahil kahit sino ay makakakita nito."
+        },
+        "kit": {
+            "header": "$~Mga Kit",
+            "explain": "$~Humihiling ang kit na ito na ilista sa gabay. Basahin kung ano ang ibinabahagi nito at magpasya kung dapat itong mahanap ng ibang tao.",
+            "done": "$~Walang kit na naghihintay ng desisyon. Salamat!",
+            "approve": {
+                "label": "$~ilista ito",
+                "tip": "$~ilista ang kit na ito sa gabay"
+            },
+            "deny": {
+                "label": "$~huwag ilista ito",
+                "tip": "$~panatilihing wala sa gabay ang kit na ito"
+            },
+            "skip": {
+                "label": "$~laktawan",
+                "tip": "$~iwan ang kit na ito para sa ibang tagapamahala na magpasya"
+            },
+            "pending": "$~May isang moderator na nagbabasa ng iyong kit para magpasya kung maaari itong ilista sa gabay. Nakamarka itong nakalista, pero walang makakahanap nito roon hangga't hindi pa ito naaprubahan.",
+            "approved": "$~Nakalista ang iyong kit sa <gabay@://guide?section=kits>! Maaari itong alisin sa listahan anumang oras, sa anumang dahilan.",
+            "denied": "$~Nagpasya ang isang moderator na huwag ilista ang iyong kit sa gabay. Maaari kang maglathala ng bagong bersyon at humiling muli.",
+            "notification": {
+                "approved": "$~Nakalista na ngayon ang $name sa gabay.",
+                "denied": "$~Hindi nailista ang $name sa gabay."
+            }
+        },
+        "howto": {
+            "pending": "$~May isang tagapamahala na nagbabasa ng iyong kung paano gawin para magpasya kung maaari itong ilista sa gabay. Hangga't hindi pa nagpapasya, ang mga taong may access na dati lang ang makakakita nito.",
+            "approved": "$~Nakalista na ang iyong kung paano gawin sa <gabay@://guide?section=howto>! Maaari itong tanggalin sa listahan anumang oras, para sa anumang dahilan.",
+            "denied": "$~Nagpasya ang isang tagapamahala na hindi ilista ang iyong kung paano gawin sa gabay. Maaari mo pa ring ipagpatuloy ang paggawa nito at humingi ulit ng pagsusuri.",
+            "unready": "$~I-post muna ang iyong kung paano gawin at gawin itong pampubliko. Isang bagay lang na kayang basahin ng lahat ang masasabihan ng oo ng isang tagapamahala.",
+            "header": "$~Mga Kung Paano Gawin",
+            "explain": "$~Humihiling ang kung paano gawin na ito na ilista sa gabay. Basahin ito at magpasya kung dapat itong makita roon ng iba pang natututo ng @wordplay.",
+            "done": "$~Walang kung paano gawin na naghihintay ng pagpapasya. Salamat!",
+            "approve": {
+                "label": "$~ilista ito",
+                "tip": "$~ilista ang kung paano gawin na ito sa gabay"
+            },
+            "deny": {
+                "label": "$~huwag ilista ito",
+                "tip": "$~huwag isama ang kung paano gawin na ito sa gabay"
+            },
+            "skip": {
+                "label": "$~laktawan",
+                "tip": "$~iwan ang kung paano gawin na ito para sa ibang tagapamahala na magpasya"
+            },
+            "notification": {
+                "approved": "$~Nakalista na ngayon ang $name sa gabay.",
+                "denied": "$~Hindi nailista ang $name sa gabay."
+            }
+        },
+        "noAddress": "$~Walang email address para sa iyo sa Wordplay, kaya walang makakarating sa iyo dito sa pamamagitan ng email. Maaari kang magdagdag ng isa sa iyong <profile@/profile>.",
+        "subject": {
+            "project": "$~proyekto",
+            "gallery": "$~gallery",
+            "howto": "$~kung paano gawin",
+            "character": "$~karakter",
+            "kit": "$~kit",
+            "chat": "$~chat"
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "$~MgaLaro",
+            "description": "$~Mga interaktibong laro na may mga salita at simbolo."
+        },
+        "visualizations": {
+            "name": "$~MgaBiswalisasyon",
+            "description": "$~Mga biswalisasyon ng at sa pamamagitan ng teksto."
+        },
+        "motion": {
+            "name": "$~Paggalaw",
+            "description": "$~Mga halimbawa ng paggalaw at banggaan."
+        },
+        "av": {
+            "name": "$~Tunog/Bidyo",
+            "description": "$~Gumagamit ng lakas ng tunog, pitch, at video bilang input, at pananalita bilang output."
+        },
+        "tools": {
+            "name": "$~MgaKagamitan",
+            "description": "$~Mga simpleng kagamitan at aplikasyon."
+        },
+        "stories": {
+            "name": "$~MgaKwento",
+            "description": "$~Mga interaktibong kwento at salaysay."
+        },
+        "music": {
+            "name": "$~Musika",
+            "description": "$~Mga kanta, instrumento, at typography na gumagalaw ayon sa beat."
+        }
+    },
+    "system": {
+        "noscript": "$~Gumagamit ang Wordplay ng JavaScript. Hindi ito sinusuportahan ng iyong browser, o hindi ito pinagana.",
+        "unsupportedHeading": "$~Hindi Sinusuportahang Browser",
+        "unsupportedBody": "$~Hindi sinusuportahan ng iyong browser ang mahahalagang functionality. Para magamit ang Wordplay, kakailanganin mong mag-upgrade sa mas bagong bersyon.",
+        "imageDescription": "$~Ang logo ng Wordplay — isang speech bubble na may hawak na bilog, tatsulok, at parisukat — sa tabi ng pangalang Wordplay, na napapaligiran ng malabong pulutong ng mga simbolo para sa lahat ng bagay na kayang maramdaman at sabihin ng mga programa ng Wordplay.",
+        "appDescription": "$~Naa-access, maraming wika, at maipoprogramang typography."
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Mag-ingat",
+            "explanation": "$~Ang mga larawan sa proyektong ito ay maaaring hindi komportable o kahit magdulot ng seizure sa ilang tao. Maaaring kabilang dito ang:"
+        },
+        "categories": {
+            "flashing": "$~Mabilis na pagkislap o pagbabago ng kaibahan",
+            "redflash": "$~Mabilis na kumukislap, matingkad na pulang kulay",
+            "strobe": "$~Kislap na parang strobe na pumupuno sa buong screen",
+            "pattern": "$~Siksik at may matinding kaibahan na mga hugis",
+            "motion": "$~Mabilis na paggalaw ng laki, posisyon, o pagiging malinaw"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~May tunog sa unahan",
+            "explanation": "$~Ang musika ng proyektong ito ay maaaring nakakagulat o masyadong malakas para sa ilang tao. Maaari itong magsama ng:"
+        },
+        "categories": {
+            "startle": "$~Biglaang paglakas ng tunog, lalo na pagkatapos ng isang tahimik na bahagi",
+            "loudness": "$~Mahabang panahon na buong lakas ang tunog, o maraming track na sabay-sabay na lumalakas",
+            "pulse": "$~Isang beat na sapat ang bilis para kumurap-kurap ang mga larawan nito",
+            "register": "$~Mga nota na masyadong mataas o masyadong mababa para sa komportableng saklaw",
+            "tracks": "$~Mas maraming instrumento nang sabay-sabay kaysa madaling masundan"
+        }
+    }
+}

@@ -1,0 +1,432 @@
+{
+    "$schema": "../../../static/schemas/sections/locale.json",
+    "language": "ro",
+    "regions": ["RO"],
+    "guidance": "",
+    "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Această platformă și @language de programare folosit pentru a crea proiecte pe această platformă."
+        },
+        "value": {
+            "word": "$~valoare",
+            "definition": "$~O informație, cum ar fi un @Number, niște cuvinte sau o @List."
+        },
+        "type": {
+            "word": "$~tip",
+            "definition": "$~Felul unui @value, cum ar fi @Number sau @Text. Tipul unei valori decide ce poți face cu ea."
+        },
+        "expression": {
+            "word": "$~expresie",
+            "definition": "$~O bucată de @code care produce o @value când rulează."
+        },
+        "variable": {
+            "word": "$~variabilă",
+            "definition": "$~Un @name a cărui @value se poate schimba în timp ce un @Program rulează."
+        },
+        "parameter": {
+            "word": "$~parametru",
+            "definition": "$~Un @Input cu nume pe care îl așteaptă o @FunctionDefinition când o apelezi."
+        },
+        "argument": {
+            "word": "$~argument",
+            "definition": "$~O @value pe care o dai unei @FunctionDefinition pentru unul dintre @parameters săi."
+        },
+        "operator": {
+            "word": "$~operator",
+            "definition": "$~Un simbol, cum ar fi + sau -, care combină sau compară valori."
+        },
+        "condition": {
+            "word": "$~condiție",
+            "definition": "$~Un test adevărat-sau-fals care decide ce face un @Program în continuare."
+        },
+        "loop": {
+            "word": "$~buclă",
+            "definition": "$~@code care repetă o acțiune de multe ori."
+        },
+        "iteration": {
+            "word": "$~iterație",
+            "definition": "$~O trecere printr-o @loop."
+        },
+        "recursion": {
+            "word": "$~recursie",
+            "definition": "$~Când o @FunctionDefinition se apelează pe sine pentru a rezolva o parte mai mică a unei probleme."
+        },
+        "property": {
+            "word": "$~proprietate",
+            "definition": "$~O parte cu nume a unei @value, cum ar fi luminozitatea unei @Color."
+        },
+        "element": {
+            "word": "$~element",
+            "definition": "$~Un element dintr-o @List sau un grup."
+        },
+        "scope": {
+            "word": "$~domeniu",
+            "definition": "$~Partea unui @Program în care un @name poate fi folosit."
+        },
+        "state": {
+            "word": "$~stare",
+            "definition": "$~Informație pe care un @Program o păstrează și o poate schimba în timp."
+        },
+        "sideEffect": {
+            "word": "$~efect secundar",
+            "definition": "$~O schimbare pe care o face un @Program pe lângă întoarcerea unei @value, cum ar fi afișarea unui @Output."
+        },
+        "abstraction": {
+            "word": "$~abstractizare",
+            "definition": "$~Ascunderea detaliilor ca să poți folosi ceva fără să știi cum funcționează pe dinăuntru."
+        },
+        "project": {
+            "word": "$~proiect",
+            "definition": "$~Toate fișierele care alcătuiesc un @Program @wordplay."
+        },
+        "code": {
+            "word": "$~cod",
+            "definition": "$~Textul pe care îl scrii pentru a-i spune unui @Program ce să facă."
+        },
+        "act": {
+            "word": "$~act",
+            "definition": "$~O parte mare din @tutorial, ca un act dintr-o piesă de teatru."
+        },
+        "how": {
+            "word": "$~instrucțiuni",
+            "definition": "$~Un @guide scurt care arată cum să faci un singur lucru."
+        },
+        "gallery": {
+            "word": "$~galerie",
+            "definition": "$~Un loc unde oamenii împart și explorează proiecte."
+        },
+        "blocks": {
+            "word": "$~blocuri",
+            "definition": "$~Un mod de a edita @code prin tragerea pieselor în loc de a scrie."
+        },
+        "placeholder": {
+            "word": "$~substituent",
+            "definition": "$~Un loc gol care arată unde lipsește @code sau o @value."
+        },
+        "conflict": {
+            "word": "$~conflict",
+            "definition": "$~O problemă din @code pe care @wordplay o marchează ca să o poți repara."
+        },
+        "checkpoint": {
+            "word": "$~punct de salvare",
+            "definition": "$~Un punct salvat din munca ta la care te poți întoarce."
+        },
+        "guide": {
+            "word": "$~ghid",
+            "definition": "$~Referința în care poți căuta și care explică ideile din @wordplay."
+        },
+        "tutorial": {
+            "word": "$~tutorial",
+            "definition": "$~Lecțiile pas cu pas care te învață @wordplay."
+        },
+        "name": {
+            "word": "$~nume",
+            "definition": "$~Un cuvânt care se referă la o @value sau la o @FunctionDefinition."
+        },
+        "markup": {
+            "word": "$~text formatat",
+            "definition": "$~Text cu formatare, cum ar fi cuvinte îngroșate sau legături."
+        },
+        "language": {
+            "word": "$~limbă",
+            "definition": "$~O limbă omenească în care este scris un @name sau un text."
+        },
+        "documentation": {
+            "word": "$~documentare",
+            "definition": "$~Text care explică ce face @code."
+        },
+        "region": {
+            "word": "$~regiune",
+            "definition": "$~Un loc unde se folosește o @language, ceea ce poate schimba felul în care arată numerele și datele."
+        },
+        "start": {
+            "word": "$~început",
+            "definition": "$~Fișierul sursă principal de unde începe un @project."
+        },
+        "query": {
+            "word": "$~interogare",
+            "definition": "$~Un mod de a alege rânduri dintr-un @Table."
+        },
+        "key": {
+            "word": "$~cheie",
+            "definition": "$~@value folosită pentru a găsi un element într-un @Map."
+        },
+        "index": {
+            "word": "$~index",
+            "definition": "$~Un @Number care alege un element după poziția lui într-o @List."
+        },
+        "moved": {
+            "word": "$~mutat",
+            "definition": "$~@Output care și-a schimbat poziția pe scenă."
+        },
+        "entered": {
+            "word": "$~nou",
+            "definition": "$~@Output care a apărut pe scenă pentru prima dată."
+        },
+        "cell": {
+            "word": "$~celulă",
+            "definition": "$~O @value dintr-un rând al unui @Table."
+        },
+        "column": {
+            "word": "$~coloană",
+            "definition": "$~Un câmp cu nume dintr-un @Table."
+        },
+        "editor": {
+            "word": "$~editor",
+            "definition": "$~Locul unde scrii @code. Ceea ce tastezi acolo este ceea ce execută @wordplay."
+        },
+        "stage": {
+            "word": "$~scenă",
+            "definition": "$~Spațiul unde @wordplay arată ce a creat @code al tău."
+        },
+        "stream": {
+            "word": "$~flux",
+            "definition": "$~O @value care se schimbă în timp, pe măsură ce lumea ta se schimbă, cum ar fi @Time care trece sau o @Key care este apăsată. De fiecare dată când se schimbă, @Program se evaluează din nou cu noua @value."
+        },
+        "source": {
+            "word": "$~sursă",
+            "definition": "$~Un document @code dintr-un @project. Un @project poate avea mai multe, iar fiecare poate @share lucruri pe care celelalte le @borrow."
+        },
+        "borrow": {
+            "word": "$~împrumută",
+            "definition": "$~Pentru a folosi ceva ce o altă @Source a partajat, scrie ↓ și numele acelei @source."
+        },
+        "share": {
+            "word": "$~partajează",
+            "definition": "$~Pentru a marca ceva într-o @Source cu ↑, ca alte fișiere @source să poată @borrow acel lucru."
+        },
+        "kit": {
+            "word": "$~trusă",
+            "definition": "$~O @Source pe care cineva a publicat-o, pentru ca alte persoane să o poată @borrow în propriul @project."
+        }
+    },
+    "terms": {},
+    "moderation": {
+        "warning": {
+            "header": "$~Avertizare",
+            "explanation": "$~Un moderator a considerat că acest conținut poate:"
+        },
+        "blocked": {
+            "header": "$~Blocat",
+            "explanation": "$~Un moderator a considerat că acest conținut poate:"
+        },
+        "unmoderated": {
+            "header": "$~Nota",
+            "explanation": "$~Acest conținut nu a fost încă moderat. Este posibil să:"
+        },
+        "moderate": {
+            "header": "$~Moderat",
+            "explanation": "$~Examinați acest proiect și decideți dacă conținutul său face oricare dintre următoarele acțiuni. Dacă face asta, conținutul va fi avertizat sau blocat. Puteți sări peste acest pas dacă nu sunteți sigur."
+        },
+        "flags": {
+            "violence": "$~Incitarea, încurajarea sau celebrarea violenței, vătămării corporale sau autovătămării oricui.",
+            "dehumanization": "$~A dezumaniza indivizi sau grupuri pe baza rasei, etniei, originii naționale, castei, orientării sexuale, sexului, religiei, vârstei, abilităților sau aspectului lor.",
+            "disclosure": "$~Dezvăluirea de informații private despre alte persoane, cum ar fi nume, informații de contact sau adrese fizice",
+            "misinformation": "$~Conțin informații false, înșelătoare, derutante sau manipulatoare"
+        },
+        "progress": "$~* $moderated * moderated, * $remaining * remaining",
+        "done": "$~Nimic altceva de moderat!",
+        "button": {
+            "submit": {
+                "tip": "$~salvați aceste setări de moderare",
+                "label": "$~salva"
+            },
+            "skip": {
+                "tip": "$~sări peste acest proiect",
+                "label": "$~sări peste"
+            },
+            "property": "$~Dacă proiectul are această proprietate"
+        },
+        "error": {
+            "notmod": "$~Nu ai nimic de analizat aici. Moderatorii Wordplay analizează conținutul public, iar curatorii unei galerii analizează ce se află în galeria lor. Dacă ai primit recent drepturi de moderator, s-ar putea să trebuiască să te autentifici din nou.",
+            "unreachable": "$~Nu am putut citi această coadă, așa că nu știu dacă ceva așteaptă. Încearcă din nou peste puțin timp.",
+            "unreadable": "$~Unele lucruri de aici așteaptă, dar nu am putut să le citesc, așa că nu sunt afișate."
+        },
+        "report": {
+            "button": "$~cere unui moderator să verifice asta",
+            "confirm": "$~Raportează-l",
+            "sent": "$~un moderator a fost rugat să verifice acest lucru",
+            "announce": "$~un moderator a fost rugat să verifice $project",
+            "flagged": "$~Cineva a raportat acest proiect, deci este primul la rând."
+        },
+        "strike": {
+            "issue": "$~avertizează acest creator",
+            "consequence": "$~Acesta va fi avertismentul numărul $#count[1|$#count|$count] pentru acest creator. $banning[Acest avertisment îi retrage dreptul de a face lucruri publice.|Va putea face lucruri publice pentru încă $#remaining[1 avertisment|$#remaining avertismente|$remaining de avertismente].]",
+            "confirm": {
+                "description": "$~înregistrează această decizie și avertizează creatorul",
+                "prompt": "$~Avertizează-i"
+            },
+            "banned": "$~Ai fost avertizat de trei ori despre conținut public, așa că nu mai poți face proiecte sau galerii publice. Poți în continuare să faci proiecte și să le împarți cu persoanele pe care le alegi tu. Dacă crezi că este o greșeală, sau dacă s-a întâmplat cu mult timp în urmă și vrei să faci din nou lucruri publice, scrie-ne la hi@wordplay.dev și spune-ne numele tău de utilizator și motivul.",
+            "warned": "$~Un conținut public de-al tău a încălcat regulile de partajare, așa că nu mai este public. Acesta este avertismentul $#count[1|$#count|$count]. $#remaining[Încă unul și nu vei mai putea face nimic public.|După încă $#remaining nu vei mai putea face nimic public.|După încă $remaining nu vei mai putea face nimic public.]",
+            "notification": "$~Avertismentul $#count[1|$#count|$count] despre ceva ce ai făcut public."
+        },
+        "queue": {
+            "label": "$~ce să verifici",
+            "labels": [
+                "$~proiecte",
+                "$~galerii",
+                "$~kituri",
+                "$~instrucțiuni",
+                "$~mesaje"
+            ],
+            "tips": [
+                "$~verifică proiecte pe care oamenii le-au făcut publice",
+                "$~verifică galeriile care cer să fie listate public",
+                "$~verifică kituri care cer să fie listate în ghid",
+                "$~verifică instrucțiunile care cer să fie listate în ghid",
+                "$~verifică mesajele pe care oamenii le-au semnalat în galeriile pe care le administrezi"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Un moderator citește galeria ta pentru a decide dacă poate fi listată public. Până atunci, doar persoanele cu care ai partajat legătura o pot vedea.",
+            "approved": "$~Galeria ta este listată pe <pagina galeriilor publice@://galleries?tab=public>! Poate fi scoasă de pe acea listă în orice moment, din orice motiv.",
+            "denied": "$~Un moderator a decis să nu îți listeze galeria public. Poți continua să lucrezi la ea și să o faci publică din nou pentru a cere a doua oară.",
+            "explain": "$~Această galerie cere să fie listată public. Uită-te la ea și la proiectele ei și decide dacă este suficient de terminată ca să fie arătată tuturor.",
+            "done": "$~Nicio galerie nu așteaptă o decizie. Îți mulțumim!",
+            "approve": {
+                "label": "$~listeaz-o",
+                "tip": "$~listează această galerie pe pagina galeriilor publice"
+            },
+            "deny": {
+                "label": "$~nu o listezi",
+                "tip": "$~ține această galerie în afara paginii galeriilor publice"
+            },
+            "skip": {
+                "label": "$~treci peste",
+                "tip": "$~lasă această galerie pentru ca un alt moderator să decidă"
+            },
+            "notification": {
+                "approved": "$~$name este acum listat public.",
+                "denied": "$~$name nu a fost listat public."
+            }
+        },
+        "responsibility": {
+            "none": "$~Nimeni nu analizează ce trimiți aici. Este vizibil doar pentru tine și persoanele pe care le alegi.",
+            "curators": "$~Curatorii acestei galerii verifică ce se împărtășește aici, inclusiv discuțiile.",
+            "both": "$~Curatorii acestei galerii verifică ce se împărtășește aici, iar moderatorii Wordplay fac la fel, pentru că oricine poate vedea asta.",
+            "platform": "$~<Moderatorii@://rights> Wordplay analizează acest lucru, pentru că oricine îl poate vedea."
+        },
+        "kit": {
+            "header": "$~Kituri",
+            "explain": "$~Acest kit cere să fie listat în ghid. Citește ce conține și decide dacă alți oameni ar trebui să îl găsească.",
+            "done": "$~Niciun kit nu așteaptă o decizie. Mulțumim!",
+            "approve": {
+                "label": "$~listează-l",
+                "tip": "$~listează acest kit în ghid"
+            },
+            "deny": {
+                "label": "$~nu-l lista",
+                "tip": "$~păstrează acest kit în afara ghidului"
+            },
+            "skip": {
+                "label": "$~omite",
+                "tip": "$~lasă acest set pentru ca un alt moderator să decidă"
+            },
+            "pending": "$~Un moderator citește kitul tău pentru a decide dacă poate fi listat în ghid. Este marcat ca listat, dar nimeni nu îl va găsi acolo până nu se întâmplă asta.",
+            "approved": "$~Kitul tău este listat în <ghid@://guide?section=kits>! Poate fi scos de pe listă oricând, din orice motiv.",
+            "denied": "$~Un moderator a decis să nu listeze kitul tău în ghid. Poți publica o versiune nouă și poți cere din nou.",
+            "notification": {
+                "approved": "$~$name este acum listat în ghid.",
+                "denied": "$~$name nu a fost listat în ghid."
+            }
+        },
+        "howto": {
+            "pending": "$~Un moderator citește instrucțiunile tale pentru a decide dacă pot fi listate în ghid. Până atunci, doar cei care le pot vedea deja au acces la ele.",
+            "approved": "$~Instrucțiunile tale sunt listate în <ghid@://guide?section=howto>! Ele pot fi scoase de pe această listă oricând, din orice motiv.",
+            "denied": "$~Un moderator a decis să nu îți listeze instrucțiunile în ghid. Poți continua să lucrezi la ele și să ceri din nou.",
+            "unready": "$~Publică-ți mai întâi instrucțiunile și fă-le publice. Un moderator poate spune da doar unui lucru pe care toată lumea îl poate citi.",
+            "header": "$~Instrucțiuni",
+            "explain": "$~Aceste instrucțiuni cer să fie listate în ghid. Citește-le și decide dacă alți oameni care învață @wordplay ar trebui să le găsească acolo.",
+            "done": "$~Nu există instrucțiuni care așteaptă o decizie. Mulțumim!",
+            "approve": {
+                "label": "$~listează-le",
+                "tip": "$~listează aceste instrucțiuni în ghid"
+            },
+            "deny": {
+                "label": "$~nu le lista",
+                "tip": "$~ține aceste instrucțiuni în afara ghidului"
+            },
+            "skip": {
+                "label": "$~sari peste",
+                "tip": "$~lasă aceste instrucțiuni pentru ca alt moderator să decidă"
+            },
+            "notification": {
+                "approved": "$~$name este acum listat în ghid.",
+                "denied": "$~$name nu a fost listat în ghid."
+            }
+        },
+        "noAddress": "$~Wordplay nu are o adresă de e-mail pentru tine, așa că nimic de aici nu te poate contacta prin e-mail. Poți adăuga una pe <profilul tău@/profile>.",
+        "subject": {
+            "project": "$~proiect",
+            "gallery": "$~galerie",
+            "howto": "$~instrucțiuni",
+            "character": "$~personaj",
+            "kit": "$~trusă",
+            "chat": "$~discuție"
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "$~Jocuri",
+            "description": "$~Jocuri interactive cu cuvinte și simboluri."
+        },
+        "visualizations": {
+            "name": "$~Vizualizări",
+            "description": "$~Vizualizări ale textului și prin intermediul textului."
+        },
+        "motion": {
+            "name": "$~Mişcare",
+            "description": "$~Exemple de mișcare și coliziuni."
+        },
+        "av": {
+            "name": "$~Audio/Video",
+            "description": "$~Folosind volumul, tonul și video ca intrare, iar vorbirea ca ieșire."
+        },
+        "tools": {
+            "name": "$~Instrumente",
+            "description": "$~Utilitare și aplicații simple."
+        },
+        "stories": {
+            "name": "$~Povești",
+            "description": "$~Povești și narațiuni interactive."
+        },
+        "music": {
+            "name": "$~Muzică",
+            "description": "$~Cântece, instrumente și tipografie care se mișcă în ritm."
+        }
+    },
+    "system": {
+        "noscript": "$~Jocul de cuvinte folosește JavaScript. Browserul dvs. nu îl acceptă sau este dezactivat.",
+        "unsupportedHeading": "$~Browser neacceptat",
+        "unsupportedBody": "$~Browserul dvs. nu acceptă funcționalități esențiale. Pentru a utiliza Wordplay, va trebui să faceți upgrade la o versiune mai recentă.",
+        "imageDescription": "$~Sigla Wordplay — un balon de vorbire care ține un cerc, un triunghi și un pătrat — lângă numele Wordplay, înconjurat de o mulțime estompată de simboluri pentru tot ce pot simți și spune programele Wordplay.",
+        "appDescription": "$~Tipografie accesibilă, multilingvă și programabilă."
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Atenție",
+            "explanation": "$~Imaginile din acest proiect pot fi neplăcute sau chiar pot provoca crize la unele persoane. Ele pot include:"
+        },
+        "categories": {
+            "flashing": "$~Clipiri rapide sau schimbări puternice de contrast",
+            "redflash": "$~Roșu puternic saturat care clipește rapid",
+            "strobe": "$~Clipiri de tip stroboscop care umplu ecranul",
+            "pattern": "$~Modele geometrice dese, cu contrast foarte puternic",
+            "motion": "$~Animație rapidă a dimensiunii, poziției sau transparenței"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Urmează sunet",
+            "explanation": "$~Muzica din acest proiect poate speria sau poate fi prea tare pentru unii oameni. Ea poate include:"
+        },
+        "categories": {
+            "startle": "$~O creștere bruscă a volumului, mai ales după ceva liniștit",
+            "loudness": "$~Perioade lungi la volum maxim sau multe piese care se adună tare",
+            "pulse": "$~Un ritm destul de rapid încât să facă imaginile să pâlpâie",
+            "register": "$~Note mult mai sus sau mai jos de un interval comod",
+            "tracks": "$~Mai multe instrumente deodată decât poți urmări ușor"
+        }
+    }
+}

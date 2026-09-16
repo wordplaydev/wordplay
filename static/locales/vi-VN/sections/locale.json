@@ -1,0 +1,432 @@
+{
+    "$schema": "../../../static/schemas/sections/locale.json",
+    "language": "vi",
+    "regions": ["VN"],
+    "guidance": "",
+    "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Nền tảng này và @language lập trình dùng để tạo ra các dự án trên nền tảng này."
+        },
+        "value": {
+            "word": "$~giá trị",
+            "definition": "$~Một mẩu thông tin, như một @Number, vài từ, hoặc một @List."
+        },
+        "type": {
+            "word": "$~kiểu",
+            "definition": "$~Loại của một @value, chẳng hạn như @Number hoặc @Text. Kiểu của một giá trị quyết định bạn có thể làm gì với nó."
+        },
+        "expression": {
+            "word": "$~biểu thức",
+            "definition": "$~Một đoạn @code tạo ra một @value khi nó chạy."
+        },
+        "variable": {
+            "word": "$~biến",
+            "definition": "$~Một @name mà @value của nó có thể thay đổi trong khi một @Program chạy."
+        },
+        "parameter": {
+            "word": "$~tham số",
+            "definition": "$~Một @Input có tên mà một @FunctionDefinition mong đợi khi bạn gọi nó."
+        },
+        "argument": {
+            "word": "$~đối số",
+            "definition": "$~Một @value mà bạn đưa cho một @FunctionDefinition để dùng cho một trong các @parameters của nó."
+        },
+        "operator": {
+            "word": "$~toán tử",
+            "definition": "$~Một ký hiệu, như + hoặc -, dùng để kết hợp hoặc so sánh các @value."
+        },
+        "condition": {
+            "word": "$~điều kiện",
+            "definition": "$~Một phép thử đúng-hoặc-sai quyết định điều một @Program làm tiếp theo."
+        },
+        "loop": {
+            "word": "$~vòng lặp",
+            "definition": "$~@code lặp lại một hành động nhiều lần."
+        },
+        "iteration": {
+            "word": "$~lần lặp",
+            "definition": "$~Một lần đi qua một @loop."
+        },
+        "recursion": {
+            "word": "$~đệ quy",
+            "definition": "$~Khi một @FunctionDefinition tự gọi chính nó để xử lý một phần nhỏ hơn của bài toán."
+        },
+        "property": {
+            "word": "$~thuộc tính",
+            "definition": "$~Một phần có tên của một @value, chẳng hạn như độ sáng của một @Color."
+        },
+        "element": {
+            "word": "$~phần tử",
+            "definition": "$~Một mục trong một @List hoặc nhóm."
+        },
+        "scope": {
+            "word": "$~phạm vi",
+            "definition": "$~Phần của một @Program nơi mà một @name có thể được dùng."
+        },
+        "state": {
+            "word": "$~trạng thái",
+            "definition": "$~Thông tin mà một @Program giữ lại và có thể thay đổi theo thời gian."
+        },
+        "sideEffect": {
+            "word": "$~hiệu ứng phụ",
+            "definition": "$~Một thay đổi mà một @Program tạo ra ngoài việc trả về một @value, chẳng hạn như hiển thị @Output."
+        },
+        "abstraction": {
+            "word": "$~trừu tượng hóa",
+            "definition": "$~Giấu đi các chi tiết để bạn có thể dùng một thứ gì đó mà không cần biết nó hoạt động bên trong ra sao."
+        },
+        "project": {
+            "word": "$~dự án",
+            "definition": "$~Tất cả các tệp tạo nên một @wordplay @Program."
+        },
+        "code": {
+            "word": "$~mã số",
+            "definition": "$~Văn bản bạn viết để cho một @Program biết phải làm gì."
+        },
+        "act": {
+            "word": "$~hành động",
+            "definition": "$~Một phần lớn của @tutorial, giống như một hành động trong một vở kịch."
+        },
+        "how": {
+            "word": "$~làm cách nào để",
+            "definition": "$~Một @guide ngắn cho thấy cách làm một việc."
+        },
+        "gallery": {
+            "word": "$~phòng trưng bày",
+            "definition": "$~Một nơi mọi người chia sẻ và khám phá các @project."
+        },
+        "blocks": {
+            "word": "$~khối",
+            "definition": "$~Một cách chỉnh sửa @code bằng cách kéo các mảnh thay vì gõ."
+        },
+        "placeholder": {
+            "word": "$~chỗ giữ chỗ",
+            "definition": "$~Một chỗ trống cho thấy nơi @code hoặc một @value còn thiếu."
+        },
+        "conflict": {
+            "word": "$~xung đột",
+            "definition": "$~Một vấn đề trong @code mà @wordplay đánh dấu để bạn có thể sửa nó."
+        },
+        "checkpoint": {
+            "word": "$~điểm lưu",
+            "definition": "$~Một điểm đã lưu trong công việc của bạn mà bạn có thể quay lại."
+        },
+        "guide": {
+            "word": "$~sổ tay hướng dẫn",
+            "definition": "$~Tài liệu tham khảo có thể tìm kiếm giải thích các ý tưởng của @wordplay."
+        },
+        "tutorial": {
+            "word": "$~bài học",
+            "definition": "$~Các bài học từng bước dạy về @wordplay."
+        },
+        "name": {
+            "word": "$~tên",
+            "definition": "$~Một từ chỉ đến một @value hoặc một @FunctionDefinition."
+        },
+        "markup": {
+            "word": "$~văn bản định dạng",
+            "definition": "$~Văn bản có định dạng, như chữ in đậm hoặc liên kết."
+        },
+        "language": {
+            "word": "$~ngôn ngữ",
+            "definition": "$~Một ngôn ngữ con người mà một @name hoặc văn bản được viết bằng."
+        },
+        "documentation": {
+            "word": "$~tài liệu",
+            "definition": "$~Văn bản giải thích điều @code làm."
+        },
+        "region": {
+            "word": "$~vùng đất",
+            "definition": "$~Một nơi mà một @language được dùng, điều này có thể thay đổi cách hiển thị số và ngày tháng."
+        },
+        "start": {
+            "word": "$~bắt đầu",
+            "definition": "$~Tập tin nguồn chính nơi một @project bắt đầu."
+        },
+        "query": {
+            "word": "$~truy vấn",
+            "definition": "$~Một cách để chọn các hàng từ một @Table."
+        },
+        "key": {
+            "word": "$~chìa khóa",
+            "definition": "$~@value dùng để tìm một mục trong một @Map."
+        },
+        "index": {
+            "word": "$~chỉ mục",
+            "definition": "$~Một @Number chọn một mục theo vị trí của nó trong một @List."
+        },
+        "moved": {
+            "word": "$~di chuyển",
+            "definition": "$~@Output đã đổi vị trí trên sân khấu."
+        },
+        "entered": {
+            "word": "$~mới",
+            "definition": "$~@Output xuất hiện trên sân khấu lần đầu tiên."
+        },
+        "cell": {
+            "word": "$~tế bào",
+            "definition": "$~Một @value trong một hàng @Table."
+        },
+        "column": {
+            "word": "$~cột",
+            "definition": "$~Một trường có tên trong một @Table."
+        },
+        "editor": {
+            "word": "$~trình soạn thảo",
+            "definition": "$~Ô để bạn viết @code. Những gì bạn gõ vào đó là những gì @wordplay thực hiện."
+        },
+        "stage": {
+            "word": "$~sân khấu",
+            "definition": "$~Không gian nơi @wordplay hiển thị những gì @code của bạn tạo ra."
+        },
+        "stream": {
+            "word": "$~luồng",
+            "definition": "$~Một @value thay đổi theo thời gian khi thế giới của bạn thay đổi, giống như @Time đang trôi qua hoặc một @Key đang được nhấn. Mỗi khi nó thay đổi, @Program sẽ được tính lại với @value mới."
+        },
+        "source": {
+            "word": "$~nguồn",
+            "definition": "$~Một tài liệu @code trong một @project. Một @project có thể có nhiều hơn một, và mỗi cái có thể @share những thứ mà các cái khác @borrow."
+        },
+        "borrow": {
+            "word": "$~mượn",
+            "definition": "$~Dùng thứ mà một @Source khác đã chia sẻ, bằng cách viết ↓ và tên của @source đó."
+        },
+        "share": {
+            "word": "$~chia sẻ",
+            "definition": "$~Đánh dấu thứ gì đó trong một @Source bằng ↑ để các tệp @source khác có thể @borrow nó."
+        },
+        "kit": {
+            "word": "$~bộ dụng cụ",
+            "definition": "$~Một @Source mà ai đó đã xuất bản để người khác có thể @borrow nó trong @project của riêng họ."
+        }
+    },
+    "terms": {},
+    "moderation": {
+        "warning": {
+            "header": "$~Cảnh báo",
+            "explanation": "$~Người điều hành đã đánh giá rằng nội dung này có thể:"
+        },
+        "blocked": {
+            "header": "$~Bị chặn",
+            "explanation": "$~Người điều hành đã đánh giá rằng nội dung này có thể:"
+        },
+        "unmoderated": {
+            "header": "$~Ghi chú",
+            "explanation": "$~Nội dung này chưa được kiểm duyệt. Có thể:"
+        },
+        "moderate": {
+            "header": "$~Vừa phải",
+            "explanation": "$~Hãy xem xét dự án này và quyết định xem nội dung của nó có vi phạm bất kỳ điều nào sau đây không. Nếu có, nội dung sẽ bị cảnh báo hoặc chặn. Bạn có thể bỏ qua nếu không chắc chắn."
+        },
+        "flags": {
+            "violence": "$~Kích động, khuyến khích hoặc tán dương hành vi bạo lực, gây hại hoặc tự gây hại cho bất kỳ ai.",
+            "dehumanization": "$~Phi nhân hóa các cá nhân hoặc nhóm người dựa trên chủng tộc, dân tộc, quốc tịch, đẳng cấp, khuynh hướng tình dục, giới tính, tôn giáo, tuổi tác, khả năng hoặc ngoại hình của họ.",
+            "disclosure": "$~Tiết lộ thông tin cá nhân của người khác, chẳng hạn như tên, thông tin liên lạc hoặc địa chỉ nhà.",
+            "misinformation": "$~Chứa thông tin sai sự thật, gây hiểu nhầm, lừa dối hoặc mang tính thao túng."
+        },
+        "progress": "$~*$moderated* đã được kiểm duyệt, *$remaining* còn lại",
+        "done": "$~Không còn gì khác để điều chỉnh nữa!",
+        "button": {
+            "submit": {
+                "tip": "$~lưu các cài đặt kiểm duyệt này",
+                "label": "$~cứu"
+            },
+            "skip": {
+                "tip": "$~bỏ qua dự án này",
+                "label": "$~nhảy"
+            },
+            "property": "$~Liệu dự án có thuộc tính này hay không."
+        },
+        "error": {
+            "notmod": "$~Không có gì ở đây để bạn xem xét cả. Người kiểm duyệt của Wordplay xem xét nội dung công khai, và người quản lý của một phòng trưng bày xem xét những gì trong phòng trưng bày của họ. Nếu bạn vừa mới được cấp quyền kiểm duyệt, bạn có thể cần đăng nhập lại.",
+            "unreachable": "$~Mình không thể đọc hàng đợi này, nên mình không biết có gì đang chờ hay không. Hãy thử lại sau một chút.",
+            "unreadable": "$~Có vài thứ ở đây đang chờ nhưng mình không thể đọc chúng, nên chúng không được hiển thị."
+        },
+        "report": {
+            "button": "$~nhờ một người kiểm duyệt xem xét việc này",
+            "confirm": "$~Báo cáo nó",
+            "sent": "$~một người kiểm duyệt đã được yêu cầu xem xét điều này",
+            "announce": "$~một người kiểm duyệt đã được yêu cầu xem xét $project",
+            "flagged": "$~Có người đã báo cáo dự án này, nên nó được xếp đầu hàng."
+        },
+        "strike": {
+            "issue": "$~cảnh báo người tạo này",
+            "consequence": "$~Đây sẽ là lời cảnh báo số $#count[$count] dành cho người tạo này. $banning[Lời cảnh báo này sẽ lấy đi khả năng công khai bất cứ thứ gì của họ.|Họ vẫn có thể công khai mọi thứ trong $#remaining[$remaining lần cảnh báo nữa].]",
+            "confirm": {
+                "description": "$~ghi lại quyết định này và cảnh báo người tạo",
+                "prompt": "$~Cảnh báo họ"
+            },
+            "banned": "$~Bạn đã bị cảnh báo về nội dung công khai ba lần, vì vậy bạn không thể công khai dự án hoặc phòng trưng bày nữa. Bạn vẫn có thể tạo dự án, và vẫn có thể chia sẻ chúng với những người bạn chọn. Nếu bạn nghĩ đây là một sai sót, hoặc việc đó xảy ra đã lâu và bạn muốn chia sẻ công khai trở lại, hãy viết thư tới hi@wordplay.dev và cho chúng tôi biết tên người dùng của bạn cùng lý do.",
+            "warned": "$~Một số nội dung công khai của bạn đã vi phạm các quy tắc chia sẻ, nên nó không còn công khai nữa. Đây là cảnh báo $#count[$count]. $#remaining[Sau $remaining lần nữa, bạn sẽ không còn có thể công khai bất cứ thứ gì.]",
+            "notification": "$~Cảnh báo thứ $#count[$count] về một thứ bạn đã chia sẻ công khai."
+        },
+        "queue": {
+            "label": "$~cần xem xét gì",
+            "labels": [
+                "$~dự án",
+                "$~phòng trưng bày",
+                "$~bộ công cụ",
+                "$~làm cách nào để",
+                "$~tin nhắn"
+            ],
+            "tips": [
+                "$~xem xét các dự án mà mọi người đã công khai",
+                "$~xem xét các phòng trưng bày xin được liệt kê công khai",
+                "$~xem xét các bộ công cụ đang xin được niêm yết trong sổ tay hướng dẫn",
+                "$~xem xét các bài làm cách nào để đang xin được đưa vào sổ tay hướng dẫn",
+                "$~xem lại các tin nhắn mà mọi người đã báo cáo trong các phòng trưng bày bạn quản lý"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Một người kiểm duyệt đang xem phòng trưng bày của bạn để quyết định xem có thể liệt kê nó công khai hay không. Trước khi đó, chỉ những người bạn chia sẻ liên kết mới có thể xem được.",
+            "approved": "$~Phòng trưng bày của bạn đã được liệt kê trên <trang phòng trưng bày công khai@://galleries?tab=public>! Nó có thể bị gỡ khỏi danh sách đó bất cứ lúc nào, vì bất kỳ lý do gì.",
+            "denied": "$~Một người kiểm duyệt đã quyết định không liệt kê phòng trưng bày của bạn công khai. Bạn có thể tiếp tục làm việc và công khai lại nó để xin xét duyệt lần nữa.",
+            "explain": "$~Phòng trưng bày này đang xin được liệt kê công khai. Hãy xem qua nó và các dự án của nó, rồi quyết định xem nó đã đủ hoàn thiện để cho mọi người xem chưa.",
+            "done": "$~Không có phòng trưng bày nào đang chờ quyết định. Cảm ơn bạn!",
+            "approve": {
+                "label": "$~liệt kê nó",
+                "tip": "$~liệt kê phòng trưng bày này trên trang phòng trưng bày công khai"
+            },
+            "deny": {
+                "label": "$~đừng liệt kê nó",
+                "tip": "$~giữ phòng trưng bày này ngoài trang phòng trưng bày công khai"
+            },
+            "skip": {
+                "label": "$~bỏ qua",
+                "tip": "$~để phòng trưng bày này cho một người kiểm duyệt khác quyết định"
+            },
+            "notification": {
+                "approved": "$~$name hiện đã được liệt kê công khai.",
+                "denied": "$~$name đã không được liệt kê công khai."
+            }
+        },
+        "responsibility": {
+            "none": "$~Không ai xem xét những gì bạn chia sẻ ở đây cả. Nó chỉ hiển thị với bạn và những người bạn chọn.",
+            "curators": "$~Người quản lý phòng trưng bày này kiểm duyệt những gì được chia sẻ ở đây, kể cả phần trò chuyện.",
+            "both": "$~Người quản lý phòng trưng bày này kiểm duyệt những gì được chia sẻ ở đây, và người kiểm duyệt của Wordplay cũng vậy, vì ai cũng có thể xem được nó.",
+            "platform": "$~<Người kiểm duyệt@://rights> của Wordplay xem xét điều này, vì ai cũng có thể xem được."
+        },
+        "kit": {
+            "header": "$~Bộ công cụ",
+            "explain": "$~Bộ công cụ này đang xin được niêm yết trong sổ tay hướng dẫn. Hãy đọc những gì nó chia sẻ và quyết định xem người khác có nên tìm thấy nó hay không.",
+            "done": "$~Không có bộ công cụ nào đang chờ quyết định. Cảm ơn bạn!",
+            "approve": {
+                "label": "$~niêm yết nó",
+                "tip": "$~niêm yết bộ công cụ này trong sổ tay hướng dẫn"
+            },
+            "deny": {
+                "label": "$~đừng niêm yết nó",
+                "tip": "$~giữ bộ công cụ này không xuất hiện trong sổ tay hướng dẫn"
+            },
+            "skip": {
+                "label": "$~bỏ qua",
+                "tip": "$~để bộ này lại cho người kiểm duyệt khác quyết định"
+            },
+            "pending": "$~Một người kiểm duyệt đang đọc bộ công cụ của bạn để quyết định xem nó có thể được đăng trong sổ tay hướng dẫn hay không. Nó được đánh dấu là đã đăng, nhưng chưa ai tìm thấy nó ở đó cho đến khi họ làm điều đó.",
+            "approved": "$~Bộ công cụ của bạn đã được đăng trong <sổ tay hướng dẫn@://guide?section=kits>! Nó có thể bị gỡ khỏi danh sách đó bất cứ lúc nào, vì bất kỳ lý do gì.",
+            "denied": "$~Một người kiểm duyệt đã quyết định không đăng bộ công cụ của bạn trong sổ tay hướng dẫn. Bạn có thể xuất bản một phiên bản mới và xin đăng lần thứ hai.",
+            "notification": {
+                "approved": "$~$name hiện đã được đăng trong sổ tay hướng dẫn.",
+                "denied": "$~$name đã không được đăng trong sổ tay hướng dẫn."
+            }
+        },
+        "howto": {
+            "pending": "$~Một người kiểm duyệt đang đọc bài làm cách nào để của bạn để quyết định xem có thể đưa vào sổ tay hướng dẫn hay không. Cho đến lúc đó, chỉ những người đã có thể xem nó mới xem được.",
+            "approved": "$~Bài làm cách nào để của bạn đã được liệt kê trong <sổ tay hướng dẫn@://guide?section=howto>! Nó có thể bị gỡ khỏi danh sách đó bất cứ lúc nào, vì bất kỳ lý do gì.",
+            "denied": "$~Một người kiểm duyệt đã quyết định không đưa bài làm cách nào để của bạn vào sổ tay hướng dẫn. Bạn có thể tiếp tục hoàn thiện và xin lại sau.",
+            "unready": "$~Hãy đăng bài làm cách nào để của bạn và công khai nó trước đã. Người kiểm duyệt chỉ có thể đồng ý với thứ mà ai cũng có thể đọc được.",
+            "header": "$~Làm cách nào để",
+            "explain": "$~Bài làm cách nào để này đang xin được đưa vào sổ tay hướng dẫn. Hãy đọc và quyết định xem những người khác đang học @wordplay có nên tìm thấy nó ở đó không.",
+            "done": "$~Không có bài làm cách nào để nào đang chờ quyết định. Cảm ơn bạn!",
+            "approve": {
+                "label": "$~đưa vào danh sách",
+                "tip": "$~đưa bài làm cách nào để này vào sổ tay hướng dẫn"
+            },
+            "deny": {
+                "label": "$~không đưa vào danh sách",
+                "tip": "$~giữ bài làm cách nào để này ngoài sổ tay hướng dẫn"
+            },
+            "skip": {
+                "label": "$~bỏ qua",
+                "tip": "$~để bài làm cách nào để này cho một người kiểm duyệt khác quyết định"
+            },
+            "notification": {
+                "approved": "$~$name giờ đã được liệt kê trong sổ tay hướng dẫn.",
+                "denied": "$~$name đã không được liệt kê trong sổ tay hướng dẫn."
+            }
+        },
+        "noAddress": "$~Wordplay không có địa chỉ email nào cho bạn, vì vậy không có gì ở đây có thể gửi đến email của bạn. Bạn có thể thêm địa chỉ email trên <trang hồ sơ của bạn@/profile>.",
+        "subject": {
+            "project": "$~dự án",
+            "gallery": "$~phòng trưng bày",
+            "howto": "$~làm cách nào để",
+            "character": "$~nhân vật",
+            "kit": "$~bộ công cụ",
+            "chat": "$~đoạn chat"
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "$~Tròchơi",
+            "description": "$~Trò chơi tương tác với từ ngữ và biểu tượng."
+        },
+        "visualizations": {
+            "name": "$~Hìnhảnhtrựcquan",
+            "description": "$~Hình ảnh hóa thông qua văn bản."
+        },
+        "motion": {
+            "name": "$~Cửđộng",
+            "description": "$~Ví dụ về chuyển động và va chạm."
+        },
+        "av": {
+            "name": "$~Âmthanh/Video",
+            "description": "$~Dùng âm lượng, cao độ, và video làm đầu vào, và giọng nói làm đầu ra."
+        },
+        "tools": {
+            "name": "$~Côngcụ",
+            "description": "$~Các tiện ích và ứng dụng đơn giản."
+        },
+        "stories": {
+            "name": "$~Nhữngcâuchuyện",
+            "description": "$~Những câu chuyện và lời kể tương tác."
+        },
+        "music": {
+            "name": "$~Âm nhạc",
+            "description": "$~Bài hát, nhạc cụ, và chữ nghệ thuật chuyển động theo nhịp."
+        }
+    },
+    "system": {
+        "noscript": "$~Wordplay sử dụng JavaScript. Trình duyệt của bạn không hỗ trợ hoặc đã tắt JavaScript.",
+        "unsupportedHeading": "$~Trình duyệt không được hỗ trợ",
+        "unsupportedBody": "$~Trình duyệt của bạn không hỗ trợ một số chức năng quan trọng. Để sử dụng Wordplay, bạn cần nâng cấp lên phiên bản mới hơn.",
+        "imageDescription": "$~Biểu tượng Wordplay — một bong bóng thoại chứa một hình tròn, một hình tam giác và một hình vuông — bên cạnh cái tên Wordplay, được bao quanh bởi một đám ký hiệu mờ nhạt cho mọi thứ mà các chương trình Wordplay có thể cảm nhận và nói ra.",
+        "appDescription": "$~Kiểu chữ dễ tiếp cận, đa ngôn ngữ, và có thể lập trình."
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Chú ý",
+            "explanation": "$~Hình ảnh trong dự án này có thể gây khó chịu, hoặc thậm chí gây co giật cho một số người. Nó có thể bao gồm:"
+        },
+        "categories": {
+            "flashing": "$~Nhấp nháy nhanh hoặc thay đổi độ tương phản",
+            "redflash": "$~Màu đỏ đậm nhấp nháy nhanh",
+            "strobe": "$~Ánh sáng nhấp nháy như đèn nháy phủ khắp màn hình",
+            "pattern": "$~Các họa tiết hình học dày đặc, tương phản mạnh",
+            "motion": "$~Chuyển động nhanh về kích thước, vị trí, hoặc độ trong suốt"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Sắp có âm thanh",
+            "explanation": "$~Âm nhạc trong dự án này có thể làm giật mình hoặc quá lớn khiến một số người khó chịu. Nó có thể bao gồm:"
+        },
+        "categories": {
+            "startle": "$~Âm lượng tăng đột ngột, nhất là sau một đoạn yên tĩnh",
+            "loudness": "$~Những đoạn dài với âm lượng lớn nhất, hoặc nhiều bản nhạc cộng lại thành lớn",
+            "pulse": "$~Nhịp nhanh đủ để làm hình ảnh nhấp nháy",
+            "register": "$~Các nốt cao hơn hoặc thấp hơn nhiều so với mức dễ nghe",
+            "tracks": "$~Nhiều nhạc cụ vang lên cùng lúc hơn mức dễ theo dõi"
+        }
+    }
+}

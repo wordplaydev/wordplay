@@ -1,0 +1,2766 @@
+{
+    "$schema": "../../../static/schemas/sections/ui.json",
+    "ui": {
+        "font": {
+            "app": "$~Noto Sans",
+            "code": "$~Noto Sans Mono",
+            "missing": "$~HAYIR",
+            "form": {
+                "sans": "$~çıkıntısız (sans-serif) bir yazı biçimi",
+                "serif": "$~çıkıntılı (serif) bir yazı biçimi",
+                "slab": "$~kalın çıkıntılı bir yazı biçimi",
+                "typewriter": "$~daktilo görünümlü bir yazı biçimi",
+                "handwriting": "$~el yazısı",
+                "brush": "$~fırça ile çizilmiş bir yazı biçimi",
+                "script": "$~bitişik bir yazı biçimi",
+                "poster": "$~afiş tarzı bir yazı biçimi",
+                "pixel": "$~piksel görünümlü bir yazı biçimi",
+                "outline": "$~içi boş bir yazı biçimi",
+                "textured": "$~dokulu bir yazı biçimi",
+                "emoji": "$~harfler değil, resimler"
+            },
+            "impression": {
+                "calm": "$~sakin",
+                "oldFashioned": "$~eski moda",
+                "strong": "$~güçlü",
+                "quirky": "$~tuhaf",
+                "playful": "$~eğlenceli",
+                "excited": "$~heyecanlı",
+                "childlike": "$~çocuksu",
+                "artistic": "$~sanatsal",
+                "futuristic": "$~fütüristik",
+                "energetic": "$~enerjik",
+                "cute": "$~şirin",
+                "cheerful": "$~neşeli",
+                "fancy": "$~gösterişli"
+            },
+            "mechanic": {
+                "sameWidth": "$~her harf aynı genişlikte",
+                "tallLowercase": "$~küçük harfler büyük harfler kadar uzun",
+                "shortLowercase": "$~küçük harfler büyük harflerden çok daha kısa"
+            },
+            "description": {
+                "and": "$~$first ve $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
+        },
+        "phrases": {
+            "welcome": "$~Merhaba"
+        },
+        "widget": {
+            "confirm": {
+                "cancel": "$~iptal etmek"
+            },
+            "dialog": {
+                "close": "$~kapalı"
+            },
+            "loading": {
+                "message": "$~Yükleniyor, beklediğin için teşekkürler!"
+            },
+            "home": "$~ana sayfaya git",
+            "table": {
+                "cell": {
+                    "description": "$~bu hücreyi düzenle",
+                    "placeholder": "$~değer"
+                },
+                "addcolumn": "$~bu sütundan önce bir sütun ekle",
+                "removecolumn": "$~bu sütunu kaldır"
+            },
+            "formatted": {
+                "edit": "$~Biçimlendirilmiş metni düzenle",
+                "preview": "$~Biçimlendirilmiş metni önizle",
+                "highlight": "$~vurgulama örneği",
+                "bullet": "$~madde işareti",
+                "attention": "$~bu ifadeyi vurgulayın",
+                "defect": "$~örneği beklenen bir kusur olarak işaretle"
+            },
+            "backtotop": "$~başa dön",
+            "overflow": {
+                "button": {
+                    "on": "$~Ek kontrolleri gizle",
+                    "off": "$~ek kontrolleri göster"
+                },
+                "popup": "$~Ek kontroller"
+            },
+            "color": {
+                "field": "$~renk alanı",
+                "instructions": "$~Renk tonunu değiştirmek için sol ve sağ ok tuşlarını, renk canlılığını değiştirmek için yukarı ve aşağı ok tuşlarını, açıklığı değiştirmek için ise sayfa yukarı ve sayfa aşağı tuşlarını kullan. Daha küçük adımlar için shift tuşunu basılı tut. Ekran okuyucuyla, önce bu kontrolü kullan ya da altındaki açıklık, renk canlılığı ve renk tonu kaydırıcılarını kullan.",
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~Herhangi bir web formatında bir renk girin",
+                    "placeholder": "$~#f00, rgb(), hsl(), kırmızı",
+                    "invalid": "$~tanınmış bir renk değil",
+                    "format": "$~algılanan format"
+                },
+                "pick": {
+                    "tip": "$~ekranından bir renk seç"
+                }
+            },
+            "logo": {
+                "description": "$~İçinde senin yazı sisteminden bir harf olan bir konuşma balonu"
+            },
+            "synced": {
+                "saved": "$~Cihazlar arasında kaydedilir",
+                "signedOut": "$~Giriş yaptığında cihazlar arasında kaydedilir"
+            }
+        },
+        "tile": {
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~tam ekrandan çık",
+                    "off": "$~pencere karosunu tam ekrana genişlet"
+                },
+                "show": {
+                    "on": "$~gizle $name",
+                    "off": "$~göster $name"
+                },
+                "showSource": {
+                    "on": "$~kaynağı gizle $name",
+                    "off": "$~kaynağı göster $name"
+                }
+            },
+            "label": {
+                "output": "$~sahne",
+                "palette": "$~palet",
+                "docs": "$~rehber",
+                "source": "$~kaynak",
+                "collaborate": "$~işbirliği yapmak"
+            },
+            "button": {
+                "collapse": "$~pencereyi daralt"
+            }
+        },
+        "project": {
+            "error": {
+                "unknown": "$~Bu proje mevcut değil veya projeye erişiminiz yok.",
+                "translate": "$~Projenizi çevirirken bir sorun oluştu.",
+                "tile": "$~Oops, bir hata oluştu",
+                "reset": "$~Sıfırlamayı deneyin...",
+                "translateBroken": "$~Çeviri yapmak programında hatalara yol açacaktı, bu yüzden hiçbir şey değişmedi. Başka bir dil dene ya da yeniden çevir."
+            },
+            "button": {
+                "share": {
+                    "tip": "$~proje paylaşım seçeneklerini göster",
+                    "label": "$~paylaşmak"
+                },
+                "removeCollaborator": "$~işbirlikçiyi kaldır",
+                "copy": {
+                    "tip": "$~projeyi metin olarak panoya kopyala",
+                    "label": "$~metin olarak kopyala"
+                },
+                "addSource": "$~verileri veya paylaşılan kodu kendi dosyasında tutabilmen için başka bir @Source oluştur",
+                "revert": "$~orijinal koda geri dön",
+                "focusOutput": "$~sahnede klavyeye odaklan",
+                "focusSource": "$~bir sonraki kaynağa odaklan",
+                "focusDocs": "$~belgelere odaklanın",
+                "focusPalette": "$~palete odaklan",
+                "focusCycle": "$~bir sonraki karoya odaklan",
+                "unsaved": "$~göster kaydetme hatası",
+                "translate": {
+                    "tip": "$~bu projeyi yeni bir dile çevir ve çok dilli yap",
+                    "label": "$~tercüme etmek"
+                },
+                "primary": "$~herhangi bir dille işaretlenmemiş yazının dili",
+                "savedLocally": "$~projeler yerel olarak kaydedilir, ancak çevrimiçi olarak kaydedilmez",
+                "savedOnline": "$~projeler çevrimiçi olarak kaydedilir",
+                "destination": "$~Bu dile çevir",
+                "remix": {
+                    "tip": "$~değiştirmek için bu projenin kendi kopyanı oluştur",
+                    "label": "$~yeniden düzenle"
+                },
+                "languages": "$~bu projenin hangi dillerde yazıldığını göster",
+                "addLanguage": "$~bu projeyi bu dilde de yaz",
+                "removeLanguage": "$~bu projeyi bu dilde yazmayı bırak",
+                "firstLanguage": "$~bunu projenin ilk dili yap",
+                "removeUnusedLanguages": {
+                    "tip": "$~bu projenin kodunun kullanmadığı dilleri kaldır",
+                    "label": "$~kullanılmayanları kaldır"
+                },
+                "tinker": {
+                    "label": "$~deneyin…",
+                    "tip": "$~bu örneğin bir kopyasını yeni bir pencerede aç, böylece değiştirip ne olduğunu görebilirsin"
+                }
+            },
+            "field": {
+                "name": {
+                    "description": "$~proje adını düzenle",
+                    "placeholder": "$~isim",
+                    "invalid": "$~Çeviri eksik — tırnak işaretlerinizi ve \"hi\"/en\"hola\"/es gibi dil etiketlerinizi kontrol edin."
+                }
+            },
+            "help": "$~klavye kısayollarını göster",
+            "collapsed": "$~Tüm pencereleriniz çöktü! Bunları aşağıdaki araç çubuğunda bulabilirsiniz",
+            "save": {
+                "projectsNotLoadingOnline": "$~Çevrimiçi projeler yüklenemiyor.",
+                "settingsUnsaved": "$~Ayarlar çevrimiçi olarak kaydedilemiyor.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Tarayıcınız bu projeleri bu cihaza kaydedemedi.",
+                    "indexedDBUnsupported": "$~Tarayıcınız @wordplay'in bu cihazda proje kaydetmesine izin vermiyor.",
+                    "firestoreBatchFailed": "$~Bunları buluta gönderemedik. Yine de bu cihazda güvendeler.",
+                    "projectContainsPII": "$~Bu projelerde kişisel bilgiler bulunuyor gibi göründüğü için bunları çevrimiçi olarak kaydetmedik. Kişisel bilgi içerip içermediğini kontrol etmek için her birini açın.",
+                    "localProjectStorageFailed": "$~Bu cihazda kaydedilecek yer kalmadı ve bu projeler henüz bulutta değil, bu yüzden risk altındalar.<Sign in@/login> Bu sayede veriler yalnızca bu cihazda değil, çevrimiçi olarak da kaydedilir.",
+                    "projectTooLarge": "$~Bu projeler çevrimiçi kaydedilemeyecek kadar büyük. Yine de bu cihazda güvende. Onları daha küçük yapmayı deneyin.",
+                    "noCloudTarget": "$~Bu projeler yalnızca bu cihazda, çünkü @wordplay onları çevrimiçi kaydedecek bir yer bulamadı. Kaydetmek için <giriş yapınlogin>.",
+                    "cloudWriteRefused": "$~Bulut bu değişiklikleri kabul etmedi. Bu yüzden çevrimiçi olan kopyayı kullandık. Bunları değiştirebilmen gerektiğini düşünüyorsan, bunları seninle paylaşan kişiye sor."
+                },
+                "projectsNotSavingOnline": "$~Bazı projeler yalnızca bu cihazda, henüz çevrimiçi değil."
+            },
+            "dialog": {
+                "languages": {
+                    "header": "$~Diller",
+                    "explanation": [
+                        "$~Bunlar projenin yazıldığı dillerdir.",
+                        "Yazmak için bir dil ekleyebilir, kullanmadığın bir dili kaldırabilir veya tüm projeyi yeni bir dile çevirebilirsin."
+                    ],
+                    "count": "$~$#count[$count dil|$count dil]",
+                    "meaning": [
+                        "$~Bir projenin dilleri, kodunun hangi isimleri ve kelimeleri kullanabileceğini belirler. Projen İspanyolca yazıldıysa, burada İspanyolcaya ihtiyacı vardır, yoksa şunun gibi isimler \\Frase\\ hiçbir anlam ifade etmez.",
+                        "Projeni açan herkes bu dilleri yükler ve ilk dil, çıktının nasıl düzenleneceğini belirler. İngilizce isimler her projede her zaman çalışır."
+                    ],
+                    "unused": "$~kullanılmıyor",
+                    "unloaded": "$~yüklenemedi",
+                    "checking": "$~Kodunun kullandığı diller aranıyor…",
+                    "complete": "$~Kodun, projenin eksik olan hiçbir dilini kullanmıyor.",
+                    "search": {
+                        "description": "$~Dilleri isme veya bölgeye göre filtrele",
+                        "placeholder": "$~dil veya bölge"
+                    },
+                    "tab": {
+                        "label": "$~dil ayarları",
+                        "labels": ["$~Yazıldığı dil", "$~Çevir"],
+                        "tips": [
+                            "$~bu projenin yazıldığı dilleri gör ve değiştir",
+                            "$~bu projenin isimlerini, metnini ve dokümantasyonunu başka bir dile çevir"
+                        ]
+                    },
+                    "prompt": "$~çevir",
+                    "mode": {
+                        "label": "$~çeviri yapmak ne işe yarar",
+                        "labels": ["$~ekle", "$~yeniden yaz"],
+                        "tips": [
+                            "$~yeni dili projene ekle, yazdığın her şeyi koru",
+                            "$~projeni yeni dilde yeniden yaz, yazdıklarının yerine geçsin"
+                        ]
+                    },
+                    "source": "$~Bir dille işaretlenmiş metinler ve isimler, örneğin \\'hola'/es\\, o dilden çevrilir. İşaretlenmemiş her şeyin dilini seç."
+                }
+            },
+            "subheader": {
+                "source": "$~Kaynak",
+                "destination": "$~Varış noktası",
+                "missing": "$~Belki eksik"
+            },
+            "defaults": {
+                "starterCode": "¶Boş projenize hoş geldiniz! Bu bir yorumdur.\n\nBunu projenizi açıklamak, not almak ve\nçalışmanız hakkında insanların bilmesini istediğiniz şeyleri açıklamak için kullanabilirsiniz.\n\n*Kalın*, /italik/, <links@https://wordplay.dev> ve daha fazlasını destekler.¶\nİfade('merhaba')"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~Tarayıcıyı tam ekran modundan çıkar.",
+                    "off": "$~Tarayıcıyı tam ekran moduna alın."
+                },
+                "editName": {
+                    "on": "$~ismi kendi dilinde göster",
+                    "off": "$~ismi her dilde düzenle"
+                }
+            },
+            "label": "$~proje kontrolleri",
+            "tour": {
+                "launch": "$~Proje kontrollerini inceleyin.",
+                "controls": "$~Alttaki bu kontroller, hangi kutucukta çalışıyor olursanız olun, *projenin tamamı* için geçerlidir.",
+                "name": "$~/isim/ alanı projenizin ismidir. İsimler *proje* ve *galeri* görünümlerinde görünür.",
+                "sourceToggle": "$~Bu /toggle/ düğmesi *kaynak dosyayı* gösterir veya gizler. Bu satırdaki *diğer /toggle/ düğmeleri* diğer kutucuklar için de aynı işlevi görür.",
+                "addSource": "$~Bazı projeler, verilerin birinde saklandığı ve *ana* kaynağa aktarıldığı *birden fazla* kaynak dosyasından faydalanır. \"/Kaynak ekle/\" düğmesi yeni bir dosya oluşturur.",
+                "share": "$~/paylaş/ iletişim kutusu, projenizi *galerilerle*, *herkesle* paylaşmanıza veya başka bir yerde paylaşmak üzere *metin* olarak kopyalamanıza olanak tanır.",
+                "checkpoints": "$~/revisions/ paneli, projenizin önceki sürümlerine *geri dönmenizi* ve hatırlamak istediğiniz sürümlerin *anlık görüntüsünü* almanızı sağlar.",
+                "languages": "$~/diller/ düğmesi projenin hangi dillerde yazıldığını gösterir, bir dil eklemene veya kaldırmana izin verir ve projenin *isimlerini*, *metnini* ve *dokümantasyonunu* yeni bir dile *çevirebilir*."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~otomatik — şu anda $layout"
+                }
+            },
+            "link": {
+                "remixOf": "$~bunun yeniden düzenlendiği projeye git",
+                "backTo": "$~$place adresine geri dön"
+            },
+            "scratch": "$~Bu, bir örneğin geçici bir kopyasıdır. Kalıcı olması için yeniden karıştır.",
+            "untitled": "$~Adsız proje"
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$~Şimdi",
+                "history": "$~versiyonlar",
+                "restore": "$~Bu, bu projenin önceki versiyonudur.",
+                "ago": "$~$amount $unit önce"
+            },
+            "button": {
+                "clear": "$~geçmişi sil",
+                "select": "$~bu sürümü görüntüle",
+                "checkpoint": "$~projenin bu sürümünü kaydet",
+                "back": "$~önceki sürüme geri dön",
+                "forward": "$~bir sonraki versiyona geri dön",
+                "restore": "$~bu sürümü geri yükle",
+                "now": "$~geçerli sürüme geri dön"
+            }
+        },
+        "gallery": {
+            "untitled": "$~Başlıksız",
+            "undescribed": "$~Açıklama yok",
+            "subheader": {
+                "classes": {
+                    "header": "$~Sınıflar",
+                    "explanation": "$~Bu galeriyle ilişkili sınıflar."
+                },
+                "curators": {
+                    "header": "$~Küratörler",
+                    "explanation": [
+                        "$~Küratörler, projeleri ve galeri ayarlarını düzenleyebilir ve tüm projelerde sohbet edebilir.",
+                        "/Küratörler, galerilerinde bildirilenleri gözden geçirir — projeler, nasıllar ve bunlarla ilgili sohbetler — bunu <denetleme sayfasından@://moderate> yapar. Bir küratörün kararı yalnızca kendi galerisi için geçerlidir; bu karar hiçbir zaman Wordplay'in <uyarılarından@://rights> biri değildir./"
+                    ]
+                },
+                "creators": {
+                    "header": "$~Yaratıcılar",
+                    "explanation": "$~Yaratıcılar galerideki tüm projeleri görüntüleyebilir ve yeni projeler ekleyebilir."
+                },
+                "delete": {
+                    "header": "$~Silmek",
+                    "explanation": "$~Bu galeriyi silmek projelerini silmez. Nasıl kılavuzlarını siler. Galeri kalıcı olarak silinir."
+                },
+                "characters": {
+                    "header": "$~Karakterler",
+                    "explanation": "$~Burada paylaşılan karakterler. Bu galerideki herkes bir karakteri kendi projesinde kullanabilir ya da değiştirmek için kendi sürümünü yapabilir."
+                },
+                "projects": {
+                    "header": "$~Projeler",
+                    "explanation": "$~Burada paylaşılan projeler. Bu galerideki herkes bir projeyi açabilir ve değiştirmek için kendi sürümünü yapabilir."
+                }
+            },
+            "confirm": {
+                "delete": {
+                    "description": "$~galeriyi sil",
+                    "prompt": "$~silmek"
+                },
+                "remove": {
+                    "description": "$~projeyi galeriden kaldır",
+                    "prompt": "$~kaldırmak"
+                },
+                "removecharacter": {
+                    "description": "$~karakteri galeriden kaldır",
+                    "prompt": "$~kaldır"
+                }
+            },
+            "error": {
+                "unknown": "$~Bu galeri mevcut değil veya herkese açık değil.",
+                "unreachable": "$~Bu galeri yüklenemedi. Erişim sağlamayı bekliyorsanız, bağlantınızı kontrol edin; bir VPN, tarayıcı uzantısı veya ağ filtresi erişimi engelliyor olabilir."
+            },
+            "field": {
+                "name": {
+                    "description": "$~Galeri adı",
+                    "placeholder": "$~isim"
+                },
+                "description": {
+                    "description": "$~Galeri açıklaması",
+                    "placeholder": "$~Galerinizi tanımlayın. Teması, hedefleri veya topluluğu nedir?"
+                }
+            },
+            "projects": "$~$#count[$count proje|$count proje]",
+            "characters": "$~$#count[$count karakter|$count karakter]",
+            "button": {
+                "editcharacter": "$~Bu karakteri düzenle",
+                "copyreference": "$~Bir projeye yapıştırmak için bu karaktere bir başvuru kopyala",
+                "copied": "$~Kopyalandı!"
+            },
+            "tab": {
+                "label": "$~galeri ayarları",
+                "labels": [
+                    "$~Oluşturanlar",
+                    "$~Küratörler",
+                    "$~Görünürlük",
+                    "$~Sil"
+                ],
+                "tips": [
+                    "$~bu galeriye kimlerin çalışma ekleyebileceğini seç",
+                    "$~bu galeriyi kimlerin yönetebileceğini seç",
+                    "$~bu galeriyi kimlerin görebileceğini seç",
+                    "$~bu galeriyi sil"
+                ]
+            }
+        },
+        "source": {
+            "label": "$~kaynak",
+            "empty": [
+                "$~Hadi başlayalım! Şunları yapabilirsiniz…",
+                "• 📕 uygulamasını açın ve bizi bu programa sürükleyin 🖱️.",
+                "• $symbol yazın ve menüden bizi seçin.",
+                "• Bize ⌨️ ile yazın.",
+                "• Göz atın<galleries@://galleries> İlham almak için.",
+                "Eğer sıkışıp kaldıysanız,<learn more@://learn> ."
+            ],
+            "confirm": {
+                "delete": {
+                    "description": "$~bu @Source'u sil",
+                    "prompt": "$~silmek"
+                }
+            },
+            "toggle": {
+                "blocks": {
+                    "on": "$~metin olarak düzenle"
+                },
+                "characters": {
+                    "on": "$~emoji ve sembol seçiciyi gizle",
+                    "off": "$~emoji ve sembol seçiciyi göster"
+                },
+                "expandSequence": {
+                    "on": "$~öğeleri daralt",
+                    "off": "$~öğeleri genişlet"
+                },
+                "search": {
+                    "on": "$~aramayı gizle",
+                    "off": "$~kodu ara"
+                }
+            },
+            "button": {
+                "selectOutput": "$~bu çıktıyı sahnede göster",
+                "zoomIn": "$~kodu büyüt",
+                "zoomOut": "$~kodu küçült",
+                "replace": "$~tüm eşleşmeleri değiştir",
+                "selectOutputError": "$~bu çıktıyı sahnede göster; bu kaynağın değerlendirmesi bir hatayla bitti",
+                "addView": "$~bu kodu ikinci bir görünümde göster",
+                "closeView": "$~bu görünümü kapat"
+            },
+            "field": {
+                "name": {
+                    "description": "$~kaynak adını düzenle",
+                    "placeholder": "$~isim"
+                },
+                "search": "$~metin",
+                "replace": "$~yer değiştirmek"
+            },
+            "menu": {
+                "label": "$~otomatik tamamlama menüsü",
+                "show": "$~otomatik tamamlama menüsünü göster",
+                "empty": "$~Önerim yok.",
+                "item": "$~$code, $description"
+            },
+            "cursor": {
+                "priorLine": "$~imleci önceki satıra taşı",
+                "nextLine": "$~imleci sonraki satıra taşı",
+                "priorInline": "$~imleci önceki konuma taşı",
+                "nextInline": "$~imleci sonraki konuma taşı",
+                "lineStart": "$~imleci satırın başına taşı",
+                "lineEnd": "$~imleci satır sonuna taşı",
+                "sourceStart": "$~imleci kaynağın başına taşı",
+                "sourceEnd": "$~imleci kaynağın sonuna taşı",
+                "priorNode": "$~komşuyu seçmeden önce",
+                "nextNode": "$~komşuyu seç",
+                "parent": "$~konteyner seç",
+                "selectAll": "$~program seç",
+                "incrementLiteral": "$~sayıyı, metni veya Boole değerini artırın",
+                "decrementLiteral": "$~sayıyı, metni veya Boolean'ı azalt",
+                "insertTab": "$~sekme ekle",
+                "insertTrue": "$~doğruyu ekle",
+                "insertFalse": "$~yanlış ekle",
+                "insertNone": "$~hiçbiri simgesi ekleme",
+                "insertNotEqual": "$~eşit olmayanı ekle",
+                "insertProduct": "$~çarpma sembolü ekle",
+                "insertDot": "$~nokta çarpım sembolünü ekle",
+                "insertQuotient": "$~bölüm sembolü ekle",
+                "insertDegree": "$~derece sembolü ekle",
+                "insertFunction": "$~ekleme fonksiyonu",
+                "insertLessOrEqual": "$~küçük veya eşit olanı ekle",
+                "insertGreaterOrEqual": "$~büyük veya eşit olanı ekle",
+                "insertType": "$~tip sembolü ekle",
+                "insertDocs": "$~açıklama sembolü ekle",
+                "insertStream": "$~akış sembolü ekle",
+                "insertChange": "$~değişiklik simgesini ekle",
+                "insertConvert": "$~dönüştürme sembolünü ekle",
+                "insertPrevious": "$~önceki sembolü ekle",
+                "insertTable": "$~tablo açma sembolü ekle",
+                "insertBorrow": "$~ödünç al ekle",
+                "insertShare": "$~paylaşım ekle",
+                "insertLine": "$~satır sonu ekle",
+                "backspace": "$~seçimi veya önceki sembolü sil",
+                "delete": "$~seçimi veya sonraki sembolü sil",
+                "cut": "$~Seçimi kes",
+                "copy": "$~seçimi kopyala",
+                "paste": "$~klavyenin içeriğini yapıştır",
+                "parenthesize": "$~parantez seçimi",
+                "enumerate": "$~seçimi saymak",
+                "type": "$~karakter yazın",
+                "undo": "$~önceki düzenlemeyi geri al",
+                "redo": "$~yapılmamış düzenlemeyi yeniden yap",
+                "search": "$~eklenecek özel karakterleri arayın",
+                "tidy": "$~düzenli aralık",
+                "elide": "$~geçişi değiştir",
+                "expandBeforeInline": "$~seçimi genişletmeden önce",
+                "expandAfterInline": "$~seçimi genişlet",
+                "expandPriorLine": "$~seçimi önceki satıra genişlet",
+                "expandNextLine": "$~seçimi bir sonraki satıra genişlet",
+                "largeDelete": "$~Bu seçimi silmek istediğinizden emin misiniz? Fikrinizi değiştirirseniz geri al düğmesini (↺) kullanabilirsiniz.",
+                "ignored": {
+                    "readOnly": "$~Kaynak salt okunur.",
+                    "blockSpace": "$~Buraya yer yok.",
+                    "noDelete": "$~Bunu silemiyorum.",
+                    "noInsert": "$~Buraya eklenemiyor",
+                    "noError": "$~Bu düzenleme bir çakışmaya yol açacaktır.",
+                    "noEditor": "$~Aktif editör yok.",
+                    "noClipboard": "$~Pano kullanılamıyor",
+                    "noClipboardItem": "$~Panoda hiçbir şey yok.",
+                    "noSelection": "$~Hiçbir şey seçilmedi.",
+                    "noMove": "$~Daha fazla ilerleyemiyorum",
+                    "unhandled": "$~o anahtar burada bir şey yapmıyor"
+                },
+                "nextMatch": "$~Sonraki arama sonucuna git",
+                "insertTranslate": "$~çeviri sembolünü ekle",
+                "insertThis": "$~Bu sembolü ekleyin",
+                "tab": "$~Tab tuşu klavye odağını taşır. Bir sekme eklemek için aşağıdaki ekle düğmesini kullan veya ayarlardan Tab tuşunun ne yaptığını değiştir.",
+                "matchDelimiter": "$~İmleci eşleşen sınırlayıcıya taşı",
+                "insertPattern": "$~desen ekle",
+                "insertSearch": "$~desen arama sembolü ekle",
+                "insertPatternAny": "$~herhangi bir harf deseni sembolü ekle",
+                "insertPatternSpace": "$~boşluk deseni sembolü ekle",
+                "insertPatternStart": "$~desen başlangıç sembolünü ekle",
+                "insertPatternEnd": "$~desen bitiş sembolünü ekle",
+                "insertPatternFold": "$~desen katlama sembolü ekle",
+                "insertPatternAhead": "$~desen ekleme ön izleme sembolü",
+                "insertPatternBehind": "$~desen ekleme, geriye dönük arama sembolü",
+                "insertPatternWord": "$~desen kelime sembolü ekle",
+                "insertPatternWordEdge": "$~desen kelime kenarı sembolü ekle",
+                "echo": {
+                    "space": "$~boşluk",
+                    "newline": "$~yeni satır",
+                    "tab": "$~sekme"
+                },
+                "selected": "$~seçili $#count[$count karakter|$count karakter]: $text",
+                "unknownPosition": "$~kodun içinde",
+                "insertWholeNote": "$~dört vuruş uzunluğunda bir tam nota ekle",
+                "insertDottedWholeNote": "$~altı vuruş uzunluğunda noktalı bir tam nota ekle",
+                "insertHalfNote": "$~iki vuruş uzunluğunda bir yarım nota ekle",
+                "insertDottedHalfNote": "$~üç vuruş uzunluğunda noktalı bir yarım nota ekle",
+                "insertQuarterNote": "$~bir vuruş uzunluğunda bir dörtlük nota ekle",
+                "insertDottedQuarterNote": "$~bir buçuk vuruş uzunluğunda noktalı bir dörtlük nota ekle",
+                "insertEighthNote": "$~yarım vuruş uzunluğunda bir sekizlik nota ekle",
+                "insertDottedEighthNote": "$~dörtte üç vuruş uzunluğunda noktalı bir sekizlik nota ekle",
+                "insertSixteenthNote": "$~dörtte bir vuruş uzunluğunda bir on altılık nota ekle",
+                "insertDottedSixteenthNote": "$~sekizde üç vuruş uzunluğunda noktalı bir on altılık nota ekle",
+                "selectedNodes": "$~$#count[$count düğüm seçildi|$count düğüm seçildi], $first ile $last arası",
+                "insertRange": "$~aralık simgesi ekle",
+                "findText": "$~kodda ara"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$~kaynak için tercih edilen dil",
+                    "all": "$~$#count[$count dil|$count dil]",
+                    "viewing": "$~$language dilinde"
+                }
+            },
+            "error": {
+                "invalidName": "$~Bu geçerli bir Wordplay adı olmalıdır.",
+                "invalidWords": "$~Kelimeler boş olamaz veya ayrılmış semboller içeremez."
+            },
+            "title": "$~kod",
+            "tour": {
+                "launch": "$~Editörün ofisini gezin.",
+                "editor": "$~Tüm kodunuz *editöre* yazılır. Her @wordplay programı *bir değere dönüşür* ve bu değer *sahneye* yansıtılır.",
+                "textBlocks": "$~Bu düğme, düzenleme için iki yöntem arasında geçiş yapar: /metin/ ve /bloklar/. *Metin* daha esnektir ancak hata yapma olasılığı daha yüksektir. *Bloklar* ise hata yapma olasılığı daha düşüktür ancak daha yavaş ve daha katıdır.",
+                "toolbar": "$~Bu /araç çubuğu/ kontrolleri, *tümünü seç*, *yakınlaştır* ve *uzaklaştır*, *geri al*, *yeniden yap*, *kes*, *kopyala* ve *yapıştır* işlemlerini yapmanıza olanak tanır.",
+                "expand": "$~/Genişlet/ seçeneği daha *gelişmiş* düzenleme araçlarını ortaya çıkarır.",
+                "shortcuts": "$~/Kısayollar/ düğmesi, daha hızlı düzenleme yapmanızı sağlayan *klavye kısayollarının* bir listesini açar."
+            },
+            "feedback": {
+                "cantDrop": "$~Oraya bırakamam:",
+                "cantPaste": "$~Oraya yapıştıramıyorum:"
+            },
+            "clipboard": {
+                "label": "$~pano"
+            },
+            "notice": {
+                "dismiss": "$~Bu bildirimi kapat"
+            },
+            "fold": {
+                "collapse": "$~$name çökert",
+                "expand": "$~$name genişlet",
+                "all": "$~tümünü katla",
+                "none": "$~tümünü aç",
+                "collapsed": "$~$name çöktü",
+                "expanded": "$~$name genişletildi"
+            },
+            "view": {
+                "added": "$~$name için ikinci bir görünüm eklendi",
+                "closed": "$~$name için ikinci görünüm kapatıldı"
+            }
+        },
+        "annotations": {
+            "label": "$~çatışmalar ve yardım",
+            "cursor": "$~Bu bir *$node*$type[ ve o bir $type|].",
+            "cursorDoc": "$~Şöyle diyorlar: “$description”",
+            "cursorParent": "$~Bunlar bir *$node*$type[içindedir, bu da bir $type olarak değerlendirilir.| içindedir.]",
+            "learn": "$~/Daha fazla bilgi edin/",
+            "evaluating": "$~Aman ne güzel, değerlendirelim!",
+            "space": "$~Burası uzay! Hiçbir şeyin bu kadar çok şey söyleyebileceğini kim bilebilirdi?",
+            "button": {
+                "resolution": "$~Bu çatışmayı çöz",
+                "toggle": "$~açıklamaları göster ve gizle",
+                "highlightMajor": "$~bu hatanın kodunu düzenleyicide göster",
+                "highlightMinor": "$~bu uyarının kodunu düzenleyicide göster",
+                "highlightStep": "$~bu değerlendirme adımının kodunu düzenleyicide göster",
+                "elsewhere": "$~bunun düzeltilebileceği yeri aç"
+            },
+            "nodeDescription": "$~$description .",
+            "severity": {
+                "major": "$~hata",
+                "minor": "$~uyarı"
+            },
+            "conflictLabel": "$~$severity: $conflict"
+        },
+        "output": {
+            "label": "$~sahne",
+            "toggle": {
+                "grid": {
+                    "on": "$~ızgara çizgilerini gizle",
+                    "off": "$~ızgara çizgilerini göster"
+                },
+                "fit": {
+                    "on": "$~yakınlaştırmayı manuel olarak kontrol et",
+                    "off": "$~içeriğe uygun yakınlaştırma"
+                }
+            },
+            "field": {
+                "key": {
+                    "description": "$~tuş vuruşlarını dinlemek"
+                },
+                "chat": {
+                    "description": "$~bir sohbet mesajı gönder",
+                    "placeholder": "$~mesaj"
+                }
+            },
+            "button": {
+                "submit": "$~bu sohbet mesajını gönder",
+                "zoomIn": "$~sahneye yakınlaştır",
+                "zoomOut": "$~sahneden uzaklaşarak yakınlaştırma yapın.",
+                "rotate": "$~döndür $name",
+                "resize": "$~$name yeniden boyutlandır",
+                "resetZoom": "$~kaydırmanı ve yakınlaştırmanı temizle",
+                "perform": "$~gerçekleştir: programı yeniden başlat, çalıştır ve ekranı sahneyle doldur",
+                "resetZoomAt": "$~kaydırma ve yakınlaştırmanı sıfırla, şimdi projenin kendi görünümünün yüzde $percent'i"
+            },
+            "options": {
+                "locale": "$~çıktı için tercih edilen dil",
+                "default": "$~$#count[$count dil|$count dil]"
+            },
+            "tour": {
+                "launch": "$~sahneyi gezin",
+                "stage": "$~/stage/, programınızın *mevcut değerini* gösterir. Bu değer, sayı veya liste gibi *ham bir değer*, görebileceğiniz *görsel çıktı* veya duyabileceğiniz *ses* olabilir.",
+                "reset": "$~/sıfırla/ düğmesi, programının değerlendirmesini her modda *baştan* başlatır: ▶️ *oynat* modunda en baştan yeniden çalışır, ✏️ *düzenle* modunda ilk değerlendirmeden sonra durur, böylece düzenlemelerinin ilk çıktıya etkisini görebilirsin, ⏸️ *hata ayıklama* modunda ise en ilk adımda durur.",
+                "zoom": "$~/zoom/ düğmeleri, sahneyi yakınlaştırmanıza ve uzaklaştırmanıza olanak tanıyarak çıktınızı daha net veya daha ayrıntılı bir şekilde görmenizi sağlar.",
+                "grid": "$~/grid/ düğmesi, tasarım yaparken nesneleri hassas bir şekilde yerleştirmenize yardımcı olacak şekilde sahnede bir *ızgara* gösterir.",
+                "lock": "$~/Kilit/ düğmesi, sahnenin görünümünü sabitler. *Kilitli* olduğunda, sahne sabit kalır; *kilitsiz* olduğunda ise serbestçe kaydırma ve yakınlaştırma yapabilirsiniz.",
+                "animationSpeed": "$~/animasyon hızı/ kontrolü, animasyonların ne kadar hızlı oynatılacağını ayarlar. Aynı kontrol *ayarlar* bölümünde de bulunur, bu nedenle her iki yerden de değiştirebilirsiniz."
+            },
+            "permission": {
+                "title": "$~Bu proje için izin gerekiyor.",
+                "microphone": "$~mikrofon",
+                "camera": "$~kamera",
+                "note": "$~Paylaşmadan önce tarayıcınız size soracaktır.",
+                "retry": "$~Tekrar dene"
+            },
+            "multiselect": "$~Çıktılar arasında geçiş yapmak için Tab, Alt ve ok tuşlarını kullanın. Odaklanmış çıktıyı seçime eklemek veya seçimden kaldırmak için Boşluk tuşuna basın. Yalnızca o çıktıyı seçmek ve paleti açmak için Enter tuşuna basın. Seçimi temizlemek için Escape tuşuna basın. Tüm çıktıları seçmek için Control veya Command ve A tuşlarına basın.",
+            "selected": "$~$name seçildi, $count seçildi",
+            "deselected": "$~$name seçimi kaldırıldı, $count seçildi",
+            "allSelected": "$~Seçilen tüm çıktılar, $count seçildi.",
+            "cleared": "$~seçim temizlendi",
+            "moved": "$~$name $direction yönünde $place konumuna hareket etti",
+            "directions": [
+                "$~yukarı",
+                "$~yukarı ve sağa",
+                "$~sağa",
+                "$~aşağı ve sağa",
+                "$~aşağı",
+                "$~aşağı ve sola",
+                "$~sola",
+                "$~yukarı ve sola"
+            ],
+            "closer": "$~daha yakın",
+            "farther": "$~daha uzak",
+            "turned": "$~döndü",
+            "manyChanged": "$~$container içinde $#count[$count çıktı|$count çıktı] değişti, $example gibi",
+            "selectedOnly": "$~$name seçildi, palet açılıyor",
+            "selectedSuffix": "$~seçildi",
+            "sensor": {
+                "microphone": {
+                    "on": "$~mikrofon dalga formunu gizle",
+                    "off": "$~mikrofon dalga formunu göster"
+                },
+                "camera": {
+                    "on": "$~kamera önizlemesini gizle",
+                    "off": "$~kamera önizlemesini göster"
+                }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~değerlendirme modu",
+                    "labels": ["$~düzenle", "$~hata ayıkla", "$~oynat"],
+                    "tips": [
+                        "$~düzenleme kipine geç: programı olduğu yerde duraklat ve değiştir; düzenlemeler bu noktada etkilerini göstermek için yeniden oynatılır",
+                        "$~hata ayıklama kipine geç: programın değerlendirmesini adım adım izle, değerler kodun yanında ve palette gösterilir",
+                        "$~oynatma kipine geç: programı olduğu yerden canlı çalıştır, girdilere gerçek zamanlı yanıt ver"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~değerlendirme modu",
+                    "labels": ["$~görüntüle", "$~hata ayıkla", "$~oynat"],
+                    "tips": [
+                        "$~görüntüleme kipine geç: programı olduğu yerde duraklat ve oku",
+                        "$~hata ayıklama kipine geç: programın değerlendirmesini adım adım izle, değerler kodun yanında ve palette gösterilir",
+                        "$~oynatma kipine geç: programı olduğu yerden canlı çalıştır, girdilere gerçek zamanlı yanıt ver"
+                    ]
+                },
+                "announce": "$~$mode modu",
+                "exception": "$~Programda bir hata oluştu, bu yüzden onu inceleyebilmen için hata ayıklama kipine geçti.",
+                "toggle": "$~düzenleme ve oynatma modları arasında geçiş yap",
+                "resuming": "$~$position adımından devam ediliyor",
+                "performing": "$~gösteri $number, baştan"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~başlangıç",
+                    "tip": "$~projeyi göster"
+                }
+            },
+            "download": {
+                "title": "$~Hazırlanıyor…",
+                "note": "$~Bu bir kez indirilir, sonra bir dahaki sefere anında yüklenir.",
+                "percent": "$~$percent%",
+                "hand": "$~el izleyici",
+                "face": "$~yüz izleyici",
+                "objects": "$~nesne tanıyıcı",
+                "loading": "$~$model yükleniyor…"
+            },
+            "sound": {
+                "enable": "$~Ses için dokun",
+                "explanation": "$~Bu projede müzik var, ama tarayıcın ses çalmadan önce sayfayla etkileşime geçmeni bekliyor.",
+                "loading": "$~$instruments hazırlanıyor…",
+                "synthesized": "$~$instruments yüklenemedi, bu yüzden sentezlenmiş gibi duyulurlar."
+            },
+            "keypad": {
+                "label": "$~Bu projenin kullandığı anahtarlar",
+                "any": "$~Oynamak için dokun"
+            },
+            "announce": {
+                "zoom": "$~sahne yakınlaştırması yüzde $percent",
+                "hidden": "$~yüzde $percent yakınlaştırmada sahnede hiçbir şey yok; her şeyi göstermek için yakınlaştırmayı sıfırla",
+                "shown": "$~her şey sahneye geri döndü"
+            },
+            "hidden": {
+                "message": "$~Her şey sahnenin dışında.",
+                "show": "$~her şeyi göster"
+            },
+            "snap": {
+                "anchors": [
+                    "$~yatay merkez",
+                    "$~sol kenar",
+                    "$~sağ kenar",
+                    "$~dikey merkez",
+                    "$~alt kenar",
+                    "$~üst kenar",
+                    "$~taban çizgisi"
+                ],
+                "withOutput": "$~$anchor, $target'in $targetAnchor ile",
+                "withGrid": "$~$anchor ızgarada",
+                "aligned": "$~$constraints, $place konumunda",
+                "none": "$~$direction ile hizalanacak hiçbir şey yok"
+            },
+            "removed": "$~$#count[$#count çıktı silindi|$#count çıktı silindi]",
+            "notRemovable": "$~tek başına silinemeyen bir öğe",
+            "drew": "$~$#count[$#count noktalı bir yol çizildi; çizim kapalı|$#count noktalı bir yol çizildi; çizim kapalı]",
+            "drawing": "$~$#count[$#count nokta, $place konumunda|$#count nokta, sonuncusu $place konumunda]",
+            "point": {
+                "label": "$~$#count noktadan $number. nokta, $place konumunda",
+                "moved": "$~$number numaralı nokta $place konumuna",
+                "added": "$~$number numaralı nokta eklendi",
+                "removed": "$~$number numaralı nokta kaldırıldı",
+                "last": "$~bir yolun en az iki noktaya ihtiyacı vardır"
+            }
+        },
+        "timeline": {
+            "slider": "$~zaman kaydırıcısı",
+            "button": {
+                "play": "$~programı çalıştır, girdilere gerçek zamanlı yanıt ver",
+                "backStep": "$~bir adım geri",
+                "backNode": "$~imlecin önceki değerlendirmesine adım",
+                "backInput": "$~bir giriş geri",
+                "out": "$~bu fonksiyondan çık",
+                "forwardStep": "$~bir adım öne çık",
+                "forwardNode": "$~imlecin bir sonraki değerlendirmesine doğru adım",
+                "forwardInput": "$~bir sonraki akış girişine doğru adım at",
+                "present": "$~sonuna kadar",
+                "start": "$~başlangıca",
+                "reset": "$~yeniden başlatma performansı"
+            },
+            "tour": {
+                "timeline": "$~/zaman çizelgesi/ programının değerlendirmesinde bir adım bir adım *ileri* ve *geri* gitmene olanak tanır. ✏️ *düzenle* ve ⏸️ *hata ayıklama* modlarında sahnenin araç çubuğunda görünür. Programının değerini *nasıl* hesapladığını görmek ve @wordplay programlarının nasıl değerlendirildiğine dair zihinsel bir model oluşturmak için harika bir yoldur, özellikle istediğin davranışı göremiyorsan.",
+                "annotations": "$~/annotations/ penceresi, her adımın açıklamalarının göründüğü yerdir. Programınızda adım adım ilerlerken, neler olduğunu burada okuyacaksınız.",
+                "editor": "$~/editör/ kodunuzu gösterir. Adım adım ilerlerken, programınızın her bölümünün *değeri*, değerlendirildikten *sonra* o bölümün yanında görünecektir; böylece program çalışırken değerlerin nasıl biriktiğini izleyebilirsiniz.",
+                "history": "$~/geçmiş/, programının aldığı her *girdiyi* gösterir: tuşlar, zaman adımları, işaretçi olayları. Bu geçmiş *sürüklenebilir*, yani sürükleyerek programın değerlendirme geçmişindeki herhangi bir ana geri dönebilirsin. Bu girdileri görmek yerine *duymak* istersen, ayarlardan /değerlendirme ipuçlarını/ aç. Böylece @wordplay her girdi için kısa bir ses çalar, her girdi türü için farklı bir sesle.",
+                "stepControls": "$~/Adım kontrolleri/ değerlendirme sürecinde hassas bir şekilde ilerlemenizi sağlar. *Başlangıç* veya *son* noktaya atlayabilir, birer adım ileri veya geri gidebilir, *bir girdi* kadar atlayabilir, bir fonksiyonun dışına çıkabilir veya kodun *şu anda seçili* bölümüne atlayabilirsiniz.",
+                "modes": "$~/mod değiştirici/ programının nasıl değerlendirildiğini seçer. ✏️ *düzenle* modunda program bulunduğu yerde durur ve onu değiştirebilirsin — düzenlemelerin o noktadaki etkisini göstermek için yeniden oynatılır. ⏸️ *hata ayıklama* modunda kod yalnızca okunabilir ve programının her parçasının *şimdiki değeri* düzenleyicide ve palette yanında görünür. ▶️ *oynat* modunda programın bulunduğu yerden canlı çalışır ve girdilere gerçek zamanlı yanıt verir. Değiştiricinin yanında, /performans/ düğmesi — tam ekran köşeleriyle sarılmış bir oynat üçgeni — en baştan bir performans başlatır ve ekranı sahneyle doldurur, ↻ ise programı her modda sıfırlar."
+            }
+        },
+        "docs": {
+            "kits": {
+                "header": "$~Kitler",
+                "prompt": "$~Bir kit, birinin başkalarının üzerine bir şeyler inşa etmesi için yayımladığı koddur. Onun satırını kopyala, programının en üstüne yapıştır, ve paylaştığı her şey senin kullanımına geçer.",
+                "empty": "$~Henüz kimse bir kit yayımlamadı. İlk kiti sen paylaşabilirsin — ↑ ile bir şey paylaş, sonra projenin paylaşım ayarlarından onu yayımla.",
+                "shares": "$~$names paylaşıyor",
+                "missing": "$~Bu isimde bir kit yok. Adı değiştirilmiş ya da hiç yayımlanmamış olabilir.",
+                "missingVersion": "$~O sürüm burada yok. Aşağıdakilerden birini dene.",
+                "nothing": "$~bu kit hiçbir şey paylaşmıyor",
+                "versions": "$~Bu kitin her sürümü",
+                "version": {
+                    "tip": "$~kitin bu sürümünü gör"
+                },
+                "open": "$~bu kitin dokümantasyonunu oku",
+                "none": "$~Buna uyan bir şey yok.",
+                "kinds": {
+                    "label": "$~kitler ne paylaşıyor",
+                    "all": "$~herhangi bir şey"
+                },
+                "yours": "$~Listelenmemiş kitlerin"
+            },
+            "label": "$~rehber",
+            "link": "$~$name kavramını dokümantasyonda göster",
+            "nodoc": "$~Ben kimim? Ben neyim? Amacım nedir?",
+            "button": {
+                "home": "$~eve dönüş",
+                "back": "$~öncekine dön",
+                "toggle": "$~bu kavram grubunu aç ve kapat"
+            },
+            "field": {
+                "search": "$~anahtar kelimeler"
+            },
+            "header": {
+                "inputs": {
+                    "header": "$~Girişler",
+                    "explanation": "$~/Zorunlu ve isteğe bağlı değerler./"
+                },
+                "interfaces": {
+                    "header": "$~Arayüzler",
+                    "explanation": "$~/Bu yapının dayandığı yapılar./"
+                },
+                "properties": {
+                    "header": "$~Özellikler",
+                    "explanation": "$~Bu kavram, mağazaların değerlerini yansıtır."
+                },
+                "functions": {
+                    "header": "$~Fonksiyonlar",
+                    "explanation": "$~/Bu kavramın hesaplayabileceği değerler./"
+                },
+                "conversions": {
+                    "header": "$~Dönüşümler",
+                    "explanation": "$~Bu değeri başka türdeki değerlere dönüştürmenin yolları."
+                },
+                "arrangements": {
+                    "header": "$~Düzenlemeler",
+                    "explanation": "$~/Dizeleri gruplandırma yöntemleri./"
+                },
+                "forms": {
+                    "header": "$~Formlar",
+                    "explanation": "$~/Sahneye yerleştirilebilen şekiller./"
+                },
+                "appearance": {
+                    "header": "$~Dış görünüş",
+                    "explanation": "$~Çıktının görünümünü değiştirmenin yolları./"
+                },
+                "animation": {
+                    "header": "$~Animasyon",
+                    "explanation": "$~/Sahne üzerinde çıktıyı canlandırmanın yolları./"
+                },
+                "location": {
+                    "header": "$~Konum",
+                    "explanation": "$~/Çıktının sahnede hangi aşamada olduğunu belirleme yöntemleri./"
+                },
+                "reactions": {
+                    "header": "$~Tepkiler",
+                    "explanation": "$~/Giriş akışına tepki verme veya onu analiz etme yöntemleri./"
+                },
+                "names": {
+                    "header": "$~İsimler",
+                    "explanation": "$~/Bu kavram için isimler./"
+                }
+            },
+            "how": {
+                "category": {
+                    "characters": "$~Karakterleri yarat ve kontrol et",
+                    "styling": "$~stil karakterleri ve metin",
+                    "animation": "$~karakterleri ve metni canlandır",
+                    "layout": "$~Karakterleri ve metni düzenle",
+                    "randomization": "$~rastgele kullan",
+                    "remembering": "$~değişiklikleri ve seçimleri takip et",
+                    "stories": "$~bir hikaye anlatmak",
+                    "motion": "$~fizik kullan",
+                    "video": "$~bir kamera kullan",
+                    "gallery": "$~Diğer Wordplay yöneticileriniz tarafından oluşturuldu",
+                    "music": "$~orkestra",
+                    "organizing": "$~daha büyük bir projeyi düzenle"
+                },
+                "related": "$~Aradığınız bu değil mi?",
+                "howToGalleryButton": {
+                    "label": "$~Bu alandaki \"nasıl yapılır\" bölümüne bakın.",
+                    "tip": "$~Bu alandaki \"nasıl yapılır\" bölümüne bakın."
+                },
+                "explain": {
+                    "header": "$~Nasıl yapılır",
+                    "explanation": "$~/@wordplay'de işlemlerin nasıl yapılacağını gösteren kısa örnekler. Çalıştırılmasını görmek için herhangi bir önizlemede oynat düğmesine basın, ardından nasıl çalıştığını okumak için dosyayı açın./"
+                },
+                "conceptHowTos": "$~Nasıl yapılır",
+                "bookmarked": "$~Yer İmlerine Eklendi",
+                "community": "$~Oluşturanlardan",
+                "galleries": "$~Galerilerinden",
+                "wordplay": "$~Wordplay'den"
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~göz at",
+                    "labels": ["$~kod", "$~kitler", "$~nasıl", "$~sözlük"],
+                    "tips": [
+                        "$~programlama dili kavramları",
+                        "$~başkalarının, senin üzerine inşa etmen için yayımladığı kod",
+                        "$~proje yapmak için tekrar kullanılabilir desenler",
+                        "$~anahtar terimlerin tanımları"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~amaç",
+                    "labels": [
+                        "$~proje",
+                        "$~kit",
+                        "$~çıktı",
+                        "$~giriş",
+                        "$~karar vermek",
+                        "$~isim",
+                        "$~metin",
+                        "$~model",
+                        "$~sayılar",
+                        "$~gerçek",
+                        "$~listeler",
+                        "$~setler",
+                        "$~tablolar",
+                        "$~belgeler",
+                        "$~türleri",
+                        "$~vesaire."
+                    ],
+                    "tips": [
+                        "$~proje düzeyindeki kavramlar",
+                        "$~bu projenin ödünç aldığı kitlerin sunduğu şeyler",
+                        "$~ifadeler, gruplar, aşamalar, düzenler ve daha fazlası",
+                        "$~zaman, düğmeler, tuşlar, sahneler ve daha fazlası",
+                        "$~Diğer değerlere göre değerler seçin",
+                        "$~Daha sonra kullanılmak üzere değerlere, fonksiyonlara ve veri yapılarına isim verin.",
+                        "$~düz ve biçimlendirilmiş metin",
+                        "$~Metnin şeklini tanımlayarak onu test edin veya bulun.",
+                        "$~sayılar ve matematiksel işlemler",
+                        "$~doğru, yanlış ve hiçbiri değerleri",
+                        "$~listeler ve liste işlemleri",
+                        "$~kümeler, haritalar ve işlemler",
+                        "$~tablolar ve tablo işlemleri",
+                        "$~dokümantasyon ve yorumlar",
+                        "$~veri türleri, dönüşümler ve tür kontrolleri",
+                        "$~ileri dil kavramları"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "$~kullanıcı tarafından oluşturulan nasıl yapılır kılavuzları",
+                    "labels": ["$~Tümü", "$~galeri ve yer işaretleri"],
+                    "tips": [
+                        "$~Kullanıcılar tarafından oluşturulan tüm nasıl yapılır kılavuzlarını görün",
+                        "$~Bu projenin galerisindeki yalnızca kullanıcılar tarafından oluşturulan \"nasıl yapılır\" kılavuzlarını ve tüm yer işaretlerini görüntüleyin."
+                    ]
+                }
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Proje",
+                    "explanation": "$~Projenizde tanımlanan kavramlar."
+                },
+                "Outputs": {
+                    "header": "$~Çıktılar",
+                    "explanation": "$~/Sahneye yerleştirilebilecek farklı çıktı türleri./"
+                },
+                "Inputs": {
+                    "header": "$~Girişler",
+                    "explanation": "$~/Zaman içinde değişen ve programın yeniden değerlendirilmesine neden olan, dünyadan gelen girdi akışları./"
+                },
+                "Decisions": {
+                    "header": "$~Kararlar",
+                    "explanation": "$~/Koşullara bağlı olarak farklı değerler arasında seçim yapma yolları./"
+                },
+                "Numbers": {
+                    "header": "$~Sayılar",
+                    "explanation": "$~/Sayılar, birimler ve matematiksel işlemler./"
+                },
+                "Text": {
+                    "header": "$~Metin",
+                    "explanation": "$~/Düz ve biçimlendirilmiş metin ve bunların manipülasyon yöntemleri./"
+                },
+                "Truth": {
+                    "header": "$~Gerçek",
+                    "explanation": "$~/Doğru, yanlış ve yok değerleri ve bunların mantıksal işlemlerde kullanım biçimleri./"
+                },
+                "Lists": {
+                    "header": "$~Listeler",
+                    "explanation": "$~Listeler ve liste işlemleri, değerleri belirli bir sırada saklamak için idealdir."
+                },
+                "Maps": {
+                    "header": "$~Haritalar",
+                    "explanation": "$~Kümeler, haritalar ve bunların işlemleri; değer koleksiyonlarını veya bir değerden diğerine eşlemeleri saklamak için uygundur."
+                },
+                "Tables": {
+                    "header": "$~Tablolar",
+                    "explanation": "$~/Tablolar ve tablo işlemleri, yapılandırılmış verileri satır ve sütunlar halinde saklamak için idealdir./"
+                },
+                "Types": {
+                    "header": "$~Türler",
+                    "explanation": "$~/Adlandırılmış değerlerin belirli bir veri türüne sahip olması gerektiğini belirtmenin ve bunu kontrol etmenin yolları./"
+                },
+                "Documentation": {
+                    "header": "$~Dokümantasyon",
+                    "explanation": "$~/Kodunuza yorum ve açıklama eklemenin yolları./"
+                },
+                "Advanced": {
+                    "header": "$~Gelişmiş",
+                    "explanation": "$~/Muhtemelen ihtiyacınız olmayacak gelişmiş dil kavramları ve özellikleri./"
+                },
+                "Hidden": {
+                    "header": "$~Gizlenmiş",
+                    "explanation": "$~/Ana dokümantasyonda yer almayan kavramlar./"
+                },
+                "How": {
+                    "header": "$~Nasıl",
+                    "explanation": "$~/Farklı türde projeler oluşturmak için yaygın kullanılan kalıplar./"
+                },
+                "Definitions": {
+                    "header": "$~Tanımlar",
+                    "explanation": "$~/Değerleri, fonksiyonları ve veri yapılarını daha sonra kullanılmak üzere adlandırmanın yolları./"
+                },
+                "GalleryHow": {
+                    "header": "$~Galeri nasıl yapılır",
+                    "explanation": "$~/Galerinizden farklı türde projeler oluşturmak için kullanılan yaygın şablonlar./"
+                },
+                "Patterns": {
+                    "header": "$~Desenler",
+                    "explanation": "$~/Metnin şeklini \\⣿\\ ile sınırlandırılmış bir desenle tanımlayın, ardından metnin şekle uyup uymadığını test edin ( \\≈\\ ) veya metnin göründüğü her yeri bulun ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Kitler",
+                    "explanation": "$~Bu projenin ödünç aldığı kitlerin onunla paylaştığı şeyler."
+                }
+            },
+            "note": {
+                "empty": "$~Projenizde tanımladığınız isimler burada görünecektir.",
+                "keepTyping": "$~Arama yapmak için yazmaya devam edin…",
+                "noMatches": "$~Eşleşme bulunamadı."
+            },
+            "tour": {
+                "launch": "$~Rehbere bir göz atın.",
+                "guide": "$~/guide/ klasörü, @wordplay'in tüm *programlama dili* kavramları ve *özellikleri* için *belgeler* içermektedir.",
+                "mode": "$~Bu /toggle/ özelliğini kullanarak *kod* ve *nasıl yapılır* bölümleri arasında kendiniz geçiş yapabilirsiniz.",
+                "search": "$~/Arama/ kutusu, özellikleri *keşfetmek* veya bir özelliği *ismiyle* hızlıca bulmak için faydalıdır.",
+                "code": "$~Bu, /code/ bölümüdür. Programlama dili belgelerini içerir; yani programlar oluşturmak için birleştirebileceğiniz yapı taşlarını.",
+                "howto": "$~Bu, \"nasıl yapılır\" bölümüdür. Projelerinizde belirli davranışları elde etmek için *yararlı kalıplar* içerir."
+            },
+            "breadcrumb": {
+                "label": "$~gezinme geçmişi",
+                "home": "$~Ev"
+            },
+            "tutorial": "$~Eğitim videosu",
+            "glossary": {
+                "explain": {
+                    "header": "$~Sözlük",
+                    "explanation": "$~/@wordplay programlama dili ve platformu boyunca kullanılan terimler ve fikirler./"
+                }
+            }
+        },
+        "dialog": {
+            "share": {
+                "header": "$~Paylaşım",
+                "explanation": "$~Bu projeyi galerilerle veya dünyayla paylaşın.",
+                "subheader": {
+                    "gallery": {
+                        "explanation": "$~Bu projeyi diğer yaratıcıların yanında bir galeriye ekleyin veya <projects@://projects> sayfanızda bir galeri oluşturun. Bir projeyi herkese açık bir galeriye eklerseniz, projeniz herkese açık hale gelir."
+                    },
+                    "public": {
+                        "header": "$~Kamu/Özel",
+                        "explanation": "$~Kamu projeleri ve galerileri dünyadaki herkes tarafından görülebilir. Amacımız bu içeriğin onay ve neşe getirmesidir ve kamusal olarak paylaşmak bunu yapmanın bir yoludur. Ancak bu aynı zamanda bazı kurallara uymak anlamına da gelir. Projenizin şunları yapmayacağına söz veriyorsunuz:"
+                    },
+                    "pii": {
+                        "explanation": "$~Kişisel olarak tanımlanabilir bilgileri (PII) herkese açık olarak paylaşmak yaratıcıları riske atabilir, bu nedenle olası PII'leri tespit ediyoruz ve yaratıcıları hassas verileri kaldırmaları veya hassas olmayan olarak işaretlemeleri konusunda uyarıyoruz.\n\nAşağıda, hassas olmayan olarak işaretlediğiniz bu projedeki olası PII'lerin bir listesi bulunmaktadır. Tekrar hassas olarak işaretlemek için yanındaki düğmeye tıklayabilirsiniz, ancak bunu yapmak projenizin artık çevrimiçi olarak kaydedilmeyeceği anlamına gelir."
+                    },
+                    "preview": {
+                        "explanation": "$~Bu, listelerde ve galerilerde projenizi temsil eden küçük simgedir. Otomatik ayar, projenizin gösterdiği içeriğe göre birini seçer; Özel ayar ise tek bir karakter veya emoji sabitlemenizi sağlar."
+                    },
+                    "remix": {
+                        "explanation": "$~Bir /yeniden düzenleme/, birinin kendine ait yapmak için değiştirdiği bir proje kopyasıdır. Bir yeniden düzenlemenin nereden geldiğini hatırlarız, böylece orijinali yapan kişi hâlâ emeğinin karşılığını alır."
+                    },
+                    "research": {
+                        "header": "$~Araştırma",
+                        "explanation": "$~Bazen Wordplay hakkında yazılar yazıp konuşuyoruz — araştırma yazılarında, konuşmalarda ve öğretmenlere, ailelere gösterdiğimiz şeylerde. Bunu açarsan, bu projeyi bir örnek olarak gösterebiliriz; isminle, kullanıcı adınla ya da hesabının sana ait olduğunu gösteren başka hiçbir bilgiyle değil.\n\nBunu istediğin zaman kapatabilirsin. Kapatmak, projeni yeni hiçbir şeyde kullanmayacağımız anlamına gelir. Ancak daha önce yayımladığımız ya da sunduğumuz bir şeyi geri alamayız."
+                    },
+                    "kit": {
+                        "explanation": "$~Kit, başkalarının üzerine inşa edebilmesi için yayımladığın tek bir kaynaktır. ↑ ile işaretlediğin her şey onun bir parçası olur."
+                    }
+                },
+                "field": {
+                    "emailOrUsername": {
+                        "placeholder": "$~e-posta/kullanıcı adı",
+                        "description": "$~düzenleme erişimi vermek istediğiniz kişinin e-postası veya kullanıcı adı"
+                    },
+                    "preview": {
+                        "placeholder": "$~önizleme glifi",
+                        "description": "$~Bu projenin önizleme simgesi olarak kullanılacak tek karakter veya emoji"
+                    }
+                },
+                "mode": {
+                    "public": {
+                        "label": "$~görünürlük",
+                        "labels": ["$~özel", "$~halk"],
+                        "tips": [
+                            "$~Bu projeyi yalnızca siz ve işbirlikçileriniz görebilir.",
+                            "$~Bu projeyi herkes görebilir."
+                        ]
+                    },
+                    "preview": {
+                        "tips": [
+                            "$~projenin, gösterdiği şeye göre kendi önizleme simgesini seçmesine izin ver",
+                            "$~seçtiğin bir simgeyi sabitle"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~araştırma",
+                        "labels": [
+                            "$~paylaşılmadı",
+                            "$~anonim olarak paylaşıldı"
+                        ],
+                        "tips": [
+                            "$~bu projeyi Wordplay hakkındaki araştırmalarda veya duyurularda gösterme",
+                            "$~Wordplay'in bu projeyi Wordplay hakkındaki araştırmalarda ve duyurularda anonim olarak göstermesine izin ver"
+                        ]
+                    }
+                },
+                "error": {
+                    "unknown": "$~Bu e-postaya sahip bir yaratıcıyı tanımıyoruz.",
+                    "anonymous": "$~Paylaşmak için <giriş yapmalısınız@://login>.",
+                    "self": "$~Kendinizi ekleyemezsiniz.",
+                    "invalidPreview": "$~Lütfen yalnızca bir karakter veya emoji seçin."
+                },
+                "button": {
+                    "submit": "$~Projeyi bu e-posta adresiyle paylaşın",
+                    "sensitive": {
+                        "tip": "$~bu metni yeniden hassas olarak işaretle",
+                        "label": "$~hassas"
+                    }
+                },
+                "options": {
+                    "gallery": "$~galeri seçici",
+                    "source": "$~yayımlanacak kaynak"
+                },
+                "remix": {
+                    "source": "$~Bu proje şunun yeniden düzenlemesidir:",
+                    "remixes": "$~Bu projeler, bunun yeniden düzenlemeleridir:",
+                    "unknown": "$~Bunun yeniden düzenlendiği projeyi bulamadık. Silinmiş olabilir ya da herkese açık olmayabilir.",
+                    "none": "$~Bu projenin henüz paylaşılmış bir yeni sürümü yok. Yeni bir sürüm önce gizli başlar, bu yüzden burada ancak onu yapan kişi herkese açık yapmaya karar verdikten sonra görünür."
+                },
+                "tab": {
+                    "label": "$~paylaşım ayarları",
+                    "labels": [
+                        "$~Galeri",
+                        "$~Herkese açık",
+                        "$~Önizleme",
+                        "$~Gizlilik",
+                        "$~Karışımlar",
+                        "$~Kit"
+                    ],
+                    "tips": [
+                        "$~bu projenin gösterileceği bir galeri seç",
+                        "$~bu projeyi kimlerin görebileceğini seç",
+                        "$~listelerde bu projeyi temsil eden simgeyi seç",
+                        "$~bu projede bulunan kişisel bilgileri gözden geçir",
+                        "$~bu projenin neyden karıştırıldığını ve onu neyin karıştırdığını gör",
+                        "$~bu projenin bir kısmını başkalarının kullanması için yayımla"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Hiçbir kişisel bilgi bulunamadı."
+                },
+                "kit": {
+                    "nothing": "$~Burada henüz paylaşılan bir şey yok. Bir isim, işlev ya da yapının önüne ↑ koyarak onu paylaşabilirsin, örneğin \\↑ sunset/en: 🔴\\, ve böylece bir kit olabilir.",
+                    "unpublished": "$~Bunu henüz yayımlamadın.",
+                    "name": {
+                        "placeholder": "$~isim",
+                        "description": "$~bu kite ne ad verilecek"
+                    },
+                    "publish": {
+                        "label": "$~yayımla",
+                        "tip": "$~bu kitin yeni bir sürümünü yayımla"
+                    },
+                    "version": "$~sürüm $version",
+                    "problem": {
+                        "exports": "$~burada henüz paylaşılan bir şey yok",
+                        "invalid": "$~bu, okuyabileceğim bir isim değil"
+                    },
+                    "undescribed": "$~bu kaynağın henüz dokümantasyonu yok",
+                    "discovery": "$~Moderatörler yayımlanmış bir sürümü listeden kaldırabilir. Başkalarının ödünç aldığı her şey, listeden kaldırılsa bile çalışmaya devam eder.",
+                    "moderation": {
+                        "unrequested": "$~listeye eklenmesi istenmedi",
+                        "pending": "$~bir moderatörün incelemesi bekleniyor",
+                        "approved": "$~incelendi ve listeye eklendi",
+                        "denied": "$~bir moderatör değişiklik istedi"
+                    },
+                    "derived": "$~Kitinizin açıklaması ve arama terimleri, bu kaynağın dokümantasyonundaki ilk cümleden alınır.",
+                    "heading": {
+                        "name": "$~İsim",
+                        "exports": "$~Bu kitin paylaştığı şey",
+                        "versions": "$~Sürümler",
+                        "listing": "$~Kimler bulabilir"
+                    },
+                    "listing": {
+                        "label": "$~listeleme",
+                        "labels": ["$~listeden kaldırılmış", "$~listelenmiş"],
+                        "tips": [
+                            "$~kimse bu kiti rehberde bulamaz, ama zaten ödünç alınmış her şey çalışmaya devam eder",
+                            "$~bir moderatör onu incelediğinde, herkes bu kiti rehberde bulabilir"
+                        ]
+                    },
+                    "remedy": "$~Kaynağı değiştirip yeni bir sürüm yayımlayın, bir moderatör tekrar bakacaktır.",
+                    "unreviewed": "$~Listeden kaldırılmış bir kiti kimse incelemez. Ödünç alma satırını verdiğiniz herkes onu yine de okuyabilir.",
+                    "permanent": "$~Bir sürümü yayımlamak kalıcıdır: başka insanların programları onu numarasıyla ödünç alır, bu yüzden bir sürümü geri almak onları bozar.",
+                    "confirm": "$~Yayımla",
+                    "withdraw": {
+                        "label": "$~geri çek",
+                        "tip": "$~bu sürümü geri çek, bu yalnızca kit listeden kaldırılmışken mümkündür"
+                    },
+                    "withdrawable": "$~Bu kit hiç listelenmedi. Bu yüzden henüz kimse onu bulamamış olabilir — en yeni sürümü hâlâ geri çekebilirsin.",
+                    "unpublishable": "$~Bu kit henüz yayımlanamaz:",
+                    "failed": "$~Setini yayımlayamadım. Çevrimiçi olduğundan emin ol ve tekrar dene."
+                }
+            },
+            "settings": {
+                "header": "$~Ayarlar",
+                "explanation": "$~Wordplay'in görünümünü, kod yazma şeklini ve programların cihazlarını nasıl kullandığını değiştir.",
+                "button": {
+                    "show": "$~ayarlar iletişim kutusunu göster"
+                },
+                "mode": {
+                    "layout": {
+                        "label": "$~düzen",
+                        "labels": [
+                            "$~otomatik",
+                            "$~satır",
+                            "$~yığın",
+                            "$~iki",
+                            "$~bir",
+                            "$~serbest"
+                        ],
+                        "tips": [
+                            "$~karoları pencere boyutuna ve şekline göre otomatik yerleştir",
+                            "$~yatay bir ekran düzeni",
+                            "$~dikey bir ekran düzeni",
+                            "$~en son iki karo, yan yana",
+                            "$~yalnızca en son karo",
+                            "$~bir tuval üzerinde taşınabilir ve yeniden boyutlandırılabilir karolar"
+                        ]
+                    },
+                    "animate": {
+                        "label": "$~animasyon hızı",
+                        "labels": [
+                            "$~kapalı",
+                            "$~1/4",
+                            "$~1/3x",
+                            "$~1/2x",
+                            "$~1x",
+                            "$~2x",
+                            "$~5x",
+                            "$~10x",
+                            "$~otomatik"
+                        ],
+                        "tips": [
+                            "$~animasyonlar kapalı",
+                            "$~çeyrek hızda",
+                            "$~üçüncü hız",
+                            "$~yarı hızda",
+                            "$~normal hız",
+                            "$~çift hız",
+                            "$~beş vitesli",
+                            "$~on vites",
+                            "$~Mevcut cihaz ayarlarını kullanın"
+                        ]
+                    },
+                    "dark": {
+                        "label": "$~tema",
+                        "labels": ["$~ışık", "$~karanlık", "$~otomatik"],
+                        "tips": [
+                            "$~daha açık renkler",
+                            "$~daha koyu renkler",
+                            "$~Mevcut cihaz ayarlarını kullanın"
+                        ]
+                    },
+                    "space": {
+                        "label": "$~boşluk işaretleri",
+                        "labels": ["$~saklamak", "$~göstermek"],
+                        "tips": [
+                            "$~Boşluk ve sekme göstergelerini göstermeyin.",
+                            "$~Boşluk ve sekme göstergelerini açıkça göster"
+                        ]
+                    },
+                    "lines": {
+                        "label": "$~satır numaraları",
+                        "labels": ["$~saklamak", "$~göstermek"],
+                        "tips": [
+                            "$~Metin modunda satır numaralarını gösterme",
+                            "$~Metin modunda satır numaralarını göster"
+                        ]
+                    },
+                    "writing": {
+                        "label": "$~yazı düzeni",
+                        "labels": [
+                            "$~yatay",
+                            "$~dikey rtl",
+                            "$~dikey harf",
+                            "$~otomatik"
+                        ],
+                        "tips": [
+                            "$~yatay metin, soldan sağa okunur.",
+                            "$~dikey metin, sağdan sola okunur.",
+                            "$~Dikey metin, soldan sağa okunur.",
+                            "$~dilin yazım düzenini takip edin"
+                        ]
+                    },
+                    "blocks": {
+                        "label": "$~düzenleme modu",
+                        "labels": ["$~metin", "$~bloklar"],
+                        "tips": [
+                            "$~kodu metin olarak düzenle",
+                            "$~Kodu bloklar halinde düzenle"
+                        ]
+                    },
+                    "blockDensity": {
+                        "label": "$~blok aralığı",
+                        "labels": ["$~kompakt", "$~normal", "$~ferah"],
+                        "tips": [
+                            "$~Ekrana daha fazla kod sığdırmak için daha sıkı bloklar",
+                            "$~varsayılan blok aralığı",
+                            "$~Daha kolay seçim ve sürükleme için daha gevşek bloklar"
+                        ]
+                    },
+                    "tab": {
+                        "label": "$~sekme tuşu",
+                        "labels": ["$~odak değiştir", "$~sekme ekle"],
+                        "tips": [
+                            "$~Tab tuşu, klavye odağını bir sonraki kontrole taşır.",
+                            "$~tab, düzenleyiciye bir sekme ekler."
+                        ]
+                    },
+                    "wrap": {
+                        "label": "$~sarma çizgileri",
+                        "labels": ["$~kapalı", "$~Açık"],
+                        "tips": [
+                            "$~Metin modunda uzun satırlar yatay olarak kaydırılır.",
+                            "$~Uzun satırlar metin modunda düzenleyici penceresine kaydırılır."
+                        ]
+                    },
+                    "words": {
+                        "label": "$~anahtar kelimeler",
+                        "labels": ["$~semboller", "$~kelimeler"],
+                        "tips": [
+                            "$~Dahili anahtar kelimeleri sembol olarak göster",
+                            "$~Dahili anahtar kelimeleri dilinizdeki kelimeler olarak göster"
+                        ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~görselleştirme",
+                        "labels": [
+                            "$~ışık gösterisi",
+                            "$~ruh hâli",
+                            "$~nota kâğıdı",
+                            "$~kapalı",
+                            "$~Müziği çalgılardan oluşan bir orkestra olarak göster"
+                        ],
+                        "tips": [
+                            "$~Müziği değişen ışık olarak göster",
+                            "$~Müziği, müziğin duygusuyla değişen bir renk ve şekil bulutu olarak göster",
+                            "$~Notaları bir porte üzerine yazılmış müzik olarak göster; çalındıkça kayarak geçsin",
+                            "$~Müziği gösterme",
+                            "$~@wordplay, sana şunları yapma imkânı veren bir programlama dilidir:\n\n• Kelimeleri ve emojileri eğlenceli biçimde canlandır 🤪\n\n• Zamanı 🕦, sesi 🎤, yüzleri 🙂, elleri 🖐️, web sitelerini 🔗 ve fiziği 🌎 kullan\n\n• Metinden konuşmayla konuş 🗣️ ve müzik çal 🎼\n\n• Arkadaşlarınla, gruplarla ya da herkesle paylaş 🤝\n\n• Herhangi bir dünya dilinde kod yaz 🌐\n\n• Fareyle 🖱️, dokunmayla 👆 ve klavyeyle ⌨️ düzenle\n\n• İleri ⏩ ve geri ⏪ hata ayıkla\n\n• Ekranlarla 🖥️ ve ekran okuyucularla 🔊 görüntüle\n\n<Washington Üniversitesi@https://ischool.uw.edu/> tarafından sonsuza dek ücretsiz."
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~ses düzeyi",
+                        "labels": ["$~kapalı", "$~kısık", "$~tam"],
+                        "tips": [
+                            "$~Tüm müziği sustur",
+                            "$~Müziği kısık çal",
+                            "$~Müziği tam sesle çal"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~konuşurken",
+                        "labels": ["$~kısık", "$~daha kısık", "$~sessiz"],
+                        "tips": [
+                            "$~Bir şey söylenirken müziği biraz kıs",
+                            "$~Bir şey söylenirken müziği çok kıs",
+                            "$~Bir şey söylenirken müziği sustur"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~titreşim",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Ritimde titreşme",
+                            "$~Cihaz destekliyorsa ritimde titreş"
+                        ]
+                    },
+                    "captionSize": {
+                        "label": "$~altyazı boyutu",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Daha küçük altyazılar göster",
+                            "$~Altyazıları standart boyutta göster",
+                            "$~Altyazıları bir buçuk kat büyük göster",
+                            "$~Altyazıları iki kat büyük göster",
+                            "$~Altyazıları üç kat büyük göster"
+                        ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~proje renkleri",
+                        "labels": ["$~koru", "$~çevir"],
+                        "tips": [
+                            "$~bir projenin renklerini, karanlık bir ekranda bile tam olarak yazıldığı gibi göster",
+                            "$~karanlık bir ekranda, parlak bir projenin renklerini koyu renklere çevir: her renk kendi tonunu korur ve renkler projenin belirlediği kadar birbirinden uzak kalır"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~değerlendirme ipuçları",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Program yeniden değerlendirildiğinde ses çıkarma",
+                            "$~Program her yeniden değerlendirildiğinde kısa bir ses çal, her girdi türü için ayrı bir ses"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~animasyon ipuçları",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Çıktı hareketlendiğinde ses çıkarma",
+                            "$~Bir animasyon bir poza ulaştığında kısa bir ses çal; ses, pozun ne yaptığına uygun olsun"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~çarpışma ipuçları",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Çıktı çarpıştığında ses çıkarma",
+                            "$~Çıktı çarpıştığında kısa bir ses çal; çarpışma ne kadar sertse ses o kadar yüksek olsun"
+                        ]
+                    },
+                    "placement": {
+                        "label": "$~sahne yerleşimi",
+                        "labels": [
+                            "$~sol üst",
+                            "$~sağ üst",
+                            "$~sol alt",
+                            "$~sağ alt"
+                        ],
+                        "tips": [
+                            "$~sahneyi sol üste yerleştir, diğer kutucukları da bunun etrafına uygun yerlere yerleştir",
+                            "$~sahneyi sağ üste yerleştir, diğer kutucukları da bunun etrafına uygun yerlere yerleştir",
+                            "$~sahneyi sol alta yerleştir, diğer kutucukları da bunun etrafına uygun yerlere yerleştir",
+                            "$~sahneyi sağ alta yerleştir, diğer kutucukları da bunun etrafına uygun yerlere yerleştir"
+                        ]
+                    }
+                },
+                "options": {
+                    "face": "$~yazı tipi",
+                    "mic": "$~mikrofon",
+                    "camera": "$~kamera",
+                    "default": "$~varsayılan",
+                    "voice": "$~Söyleme sesi"
+                },
+                "tab": {
+                    "label": "$~ayar grupları",
+                    "labels": [
+                        "$~Görünüm",
+                        "$~Kod",
+                        "$~Kamera + Mikrofon",
+                        "$~Ses + Müzik"
+                    ],
+                    "tips": [
+                        "$~Wordplay'in kendisinin nasıl göründüğü ve hissettirdiği: yazı tipi, renkler, döşemeler ve animasyon",
+                        "$~kodu yazarken nasıl göründüğü ve hissettirdiği",
+                        "$~programların hangi kameradan ve mikrofondan okuyacağı",
+                        "$~bir programın müziği, konuşması ve altyazıları sana nasıl ulaşır"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Müzik",
+                    "say": "$~Söyle",
+                    "cues": "$~İpuçları"
+                }
+            },
+            "locale": {
+                "header": "$~Dil",
+                "explanation": "$~Arayüz, öğretici ve dokümantasyon için diller seç. 🤖 ile işaretli diller hâlâ büyük ölçüde makine tarafından çevrildi, bu yüzden bazı metinler okunamaz veya yanlış olabilir.",
+                "subheader": {
+                    "selected": "$~Seçilmiş",
+                    "supported": "$~Mevcut"
+                },
+                "search": {
+                    "description": "$~Dilleri isim veya bölgeye göre süz",
+                    "placeholder": "$~dil veya bölge"
+                },
+                "button": {
+                    "show": "$~web sitesi için dil(ler) seçin",
+                    "replace": "$~bu dili kullanın",
+                    "add": "$~Bu dili ve mevcut dilleri kullanın.",
+                    "remove": "$~bu dili kaldır",
+                    "menu": "$~diğer diller"
+                },
+                "localizeHelp": "$~/Dilinizdeki çevirilerin iyileştirilmesine yardımcı olmak için, yerelleştirme modunu açmak ve iyileştirme önerilerinde bulunmak üzere sayfanın altındaki ✎ kalem simgesine tıklayın./",
+                "request": {
+                    "header": "$~Dilinizi göremiyor musunuz?",
+                    "explanation": "$~Bir dil ve bölge seçin, biz de bunu eklemeyi görüşmek üzere GitHub'da bir konu açalım.",
+                    "languageLabel": "$~dil",
+                    "regionLabel": "$~bölge",
+                    "submit": "$~Rica etmek",
+                    "submitting": "$~İstek gönderiliyor…",
+                    "success": "$~Bu isteği GitHub üzerinden bizimle tartışın!",
+                    "error": "$~Bir sorun oluştu. Lütfen tekrar deneyin.",
+                    "alreadySupported": "$~Bu dil ve bölge zaten desteklenmektedir.",
+                    "requiresLogin": "$~Dil talebinde bulunmak için giriş yapmanız gerekmektedir.",
+                    "searchPlaceholder": "$~dil veya ülke",
+                    "searchDescription": "$~Dil ve ülke menülerini filtrele",
+                    "alreadyRequested": "$~Birisi bu dili zaten istedi. GitHub'daki tartışmaya katıl!"
+                },
+                "choose": "$~Bir dil seç"
+            },
+            "help": {
+                "header": "$~Kısayollar",
+                "explanation": "$~Daha verimli düzenleme için bu klavye komutlarını kullanın.",
+                "subheader": {
+                    "moveCursor": "$~Taşınmak",
+                    "editCode": "$~Düzenlemek",
+                    "insertCode": "$~Sokmak",
+                    "debug": "$~Hata ayıklama",
+                    "format": "$~Biçim",
+                    "help": "$~Yardım"
+                },
+                "column": {
+                    "symbol": "$~Sembol",
+                    "shortcut": "$~Kısayol",
+                    "action": "$~Eylem",
+                    "change": "$~Değiştir"
+                },
+                "via": {
+                    "toolbar": "$~araç çubuğu",
+                    "chooser": "$~karakter seçici"
+                },
+                "change": {
+                    "on": "$~bu kısayolu değiştirmeyi durdur",
+                    "off": "$~bu kısayolu değiştir"
+                },
+                "capture": "$~istediğin tuşlara bas",
+                "reset": "$~varsayılan kısayolu kullan",
+                "resetAll": "$~tüm varsayılan kısayolları kullan",
+                "custom": "$~değiştirildi",
+                "feedback": {
+                    "bound": "$~$command artık $shortcut oldu",
+                    "conflict": "$~$shortcut zaten $command için kullanılıyor",
+                    "reserved": "$~bilgisayarın $shortcut kısayolunu kendine ayırıyor",
+                    "unmodified": "$~bir kısayolda Control ya da Alt olmalı, yoksa yazı yazmaktan farksız olur",
+                    "reset": "$~$command eski kısayoluna geri döndü"
+                }
+            },
+            "feedback": {
+                "header": "$~Geri bildirim",
+                "explanation": "$~@wordplay'i geliştirmemize yardımcı olmak için 🪲 *sorunları* bildirin ve 💡 *fikirleri* paylaşın!",
+                "button": {
+                    "show": "$~Geri bildirim formunu göster.",
+                    "submit": {
+                        "tip": "$~geri bildirimini gönder",
+                        "label": "$~göndermek"
+                    },
+                    "delete": {
+                        "description": "$~Geri bildiriminizi silin.",
+                        "prompt": "$~silmek"
+                    },
+                    "like": "$~Bu geri bildirimi beğenin",
+                    "close": {
+                        "label": "$~kapalı",
+                        "tip": "$~bir moderatör olarak bu geri bildirimi kapat"
+                    },
+                    "comment": {
+                        "label": "$~göndermek",
+                        "tip": "$~bu geri bildirime yorum gönder."
+                    }
+                },
+                "mode": {
+                    "label": "$!geri bildirim",
+                    "labels": ["$~kusurlar", "$~fikirler"],
+                    "tips": [
+                        "$~Bozuk görünen bir şeyi bildirin.",
+                        "$~yeni özellikler veya iyileştirmeler önerin"
+                    ]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~Geri bildiriminizin başlığı",
+                        "placeholder": "$~başlık"
+                    },
+                    "defect": {
+                        "description": "$~Kusurunuzun açıklaması",
+                        "placeholder": "$~Hangi adımları attınız? Sonrasında ne oldu? Mümkün olduğunca net olun."
+                    },
+                    "idea": {
+                        "description": "$~Kusurunuzun açıklaması",
+                        "placeholder": "$~Ne yapmaya çalışıyorsun da yapamıyorsun?"
+                    },
+                    "comment": {
+                        "description": "$~Yorum",
+                        "placeholder": "$~Bu geri bildirime bir yorum ekleyin"
+                    },
+                    "github": {
+                        "description": "$~GitHub sorunu",
+                        "placeholder": "$~GitHub sorununa bağlantı"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~kusur",
+                    "idea": "$~fikir",
+                    "moderator": "$~moderatör"
+                },
+                "prompt": {
+                    "defect": "$~Yaşadığın sorunu göremedin mi? Buradan bildir. Ne kadar çok ayrıntı verirsen o kadar iyi!",
+                    "idea": "$~Aklınıza gelen fikri göremiyor musunuz? Önerin."
+                },
+                "error": {
+                    "login": "$~Geri bildirim göndermek için <giriş yapmış@://login> olmalısın",
+                    "empty": "$~Gösterilecek geri bildirim yok.",
+                    "url": "$~Bu geçerli bir GitHub URL'si değil."
+                }
+            },
+            "notifications": {
+                "header": "$~Bildirimler",
+                "explanation": "$~Yeni sohbetlerden ve yayınlanan kılavuzlardan gelen bildirimler.",
+                "open": "$~bildirim iletişim kutusunu aç",
+                "howToNotifications": {
+                    "label": "$~Yeni nasıl yapılır videoları için bildirimler",
+                    "labels": ["$~kapalı", "$~Açık"],
+                    "tips": [
+                        "$~Yeni nasıl yapılır kılavuzları hakkında beni bilgilendirme.",
+                        "$~Yeni nasıl yapılır kılavuzlarından haberdar ol"
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~tüm bildirimleri temizle",
+                    "tip": "$~tüm bildirimleri temizle"
+                },
+                "notification": {
+                    "howToHeader": "$~\"Başlığı $title\" olan yeni bir kullanım kılavuzu yayınlandı.",
+                    "projectChatHeader": "$~\"$name\" projesinde yeni mesaj",
+                    "howToChatHeader": "$~\" $title \" bölümünde yeni mesaj",
+                    "link": "$~detaylar",
+                    "moderationHeader": "$~\"$name\" başlıklı mesaj moderasyon gerektiriyor.",
+                    "reportedHeader": "$~\"$title\" içinde yaptığın bir şey bildirildi ve inceleniyor",
+                    "reportReceivedHeader": "$~\"$title\" hakkındaki bildirimin, bundan sorumlu kişiye gönderildi",
+                    "decisionHeader": "$~\"$title\" içinde yaptığın bir şey hakkında bir karar verildi",
+                    "outcomeHeader": "$~\"$title\" içinde bildirdiğin şey hakkında bir karar verildi",
+                    "because": "$~Çünkü:",
+                    "note": "$~Şunu söylediler:",
+                    "reviewPending": "$~$#count[İncelemeni bekleyen bir şey var|İncelemeni bekleyen $count şey var]"
+                },
+                "delete": "$~Bu bildirimi sil",
+                "popup": "$~$#count[1 bildirim|$count bildirim]",
+                "moderate": {
+                    "label": "$~bekleyenleri incele",
+                    "tip": "$~incelemeni bekleyen şeylere git"
+                }
+            }
+        },
+        "collaborate": {
+            "label": "$~işbirliği yapmak",
+            "role": {
+                "owner": "$~mal sahibi",
+                "collaborate": "$~birlikte çalış",
+                "comment": "$~yorum yap",
+                "view": "$~görüntüle",
+                "curate": "$~düzenle"
+            },
+            "field": {
+                "message": {
+                    "description": "$~Gönderilecek sohbet mesajı",
+                    "placeholder": "$~Bir mesaj yazın"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~gönder",
+                    "tip": "$~iş birlikçilerine bir mesaj gönder ve"
+                },
+                "delete": "$~bu mesajı sil",
+                "confirmDelete": "$~Silme işlemini onaylıyor musunuz?",
+                "transfer": {
+                    "description": "$~bu kişiyi projenin sahibi yap",
+                    "prompt": "$~Onları sahibi yapmak ister misin?",
+                    "consequence": "$~Sen bir işbirlikçi olarak kalacaksın ve düzenlemeye devam edebileceksin, ama artık bu projeyi silemeyeceksin."
+                }
+            },
+            "error": {
+                "unowned": "$~Bu proje çevrimiçi olarak saklanmadığından, bir sohbet veya işbirlikçileri olamaz.",
+                "offline": "$~Bu sohbet yüklenemedi.",
+                "empty": "$~Mesaj yok.",
+                "deleted": "$~Bu mesaj silindi.",
+                "transferGallery": "$~Bu proje bir galeride bulunuyor. Projeyi başka birine vermek, onu o galeriye eklemez. Bu yüzden proje o galeride görünmeyebilir."
+            },
+            "moderation": {
+                "header": "$~Bu mesajı bildir",
+                "explanation": "$~Bu mesaj <topluluk standartlarımıza@://haklarımıza> uymuyorsa veya talep ettiğiniz geri bildirim türünü karşılamıyorsa, bildirebilirsiniz. Bu mesajı bildirdiğinizde, galeri küratörlerine gönderilecek ve incelenene kadar yayından kaldırılacaktır.",
+                "report": {
+                    "tip": "$~Bu mesajı bildir",
+                    "label": "$~rapor"
+                },
+                "moderate": {
+                    "tip": "$~Moderasyon kontrol paneline git",
+                    "label": "$~ılıman"
+                },
+                "pending": "$~Bu mesaj, moderasyon işlemi beklenirken geçici olarak kaldırılmıştır.",
+                "removed": "$~Bu mesaj, topluluk veya geri bildirim kurallarını ihlal ettiği için kaldırılmıştır.",
+                "inGallery": "$~Bu sohbet bir galeride yer almaktadır. Galeri küratörleri tarafından denetlenmektedir. <Topluluk standartlarımızı@://haklarımızı> ihlal eden mesajları denetim için bildirebilirsiniz."
+            },
+            "restrictGalleryCreatorAccess": {
+                "mode": {
+                    "label": "$~projeye erişimi kısıtla",
+                    "labels": ["$~kısıtlamayın", "$~kısıtlamak"],
+                    "tips": [
+                        "$~Bu galeriyi görebilen herkes projenizi görebilir.",
+                        "$~Projenizi yalnızca galeri küratörleri görebilir."
+                    ]
+                }
+            },
+            "tour": {
+                "launch": "$~İşbirliği turlarına katılın",
+                "collaborate": "$~Bu projeye erişebilen herkes burada listeleniyor. İzni olanlarla *sohbet* edebilirsin. Sohbeti yalnızca /sahip/, /işbirlikçiler/ ve /yorumcular/ görebilir.",
+                "collaborators": "$~Her kişinin bir /yetkisi/ vardır. *Birlikte çalış*, projeyi düzenleyebilecekleri ve hakkında sohbet edebilecekleri anlamına gelir. *Yorum yap*, sohbet edebilecekleri ama düzenleyemeyecekleri anlamına gelir. *Görüntüle*, bakabilecekleri ama sohbet edemeyecekleri anlamına gelir. *Sahip*, projeyi onlara verir. Bir galerinin /düzenleyicileri/ her zaman ona erişebilir, bu yüzden onların yetkisini değiştiremezsin.",
+                "restrict": "$~Bir proje bir *galeride* olduğunda, varsayılan olarak galeriyi görebilen *herkes* projenizi görebilir. /restrict/ seçeneği, projeyi sizden ve galeri yöneticilerinden başka herkesten *gizler*.",
+                "add": "$~Birini eklemek için listenin sonundaki *+* işaretine bas. *E-posta* adresini veya kullanıcı adını yaz, ne yapabileceğini seç, sonra listeye katılsın."
+            },
+            "translate": {
+                "label": "$~Mesajları şu dile çevir",
+                "off": "$~Çevirmeyi durdur",
+                "error": "$~Bu mesajları $to diline çeviremedik. Bir süre sonra tekrar dene.",
+                "messageError": "$~Bu mesajı çeviremedik.",
+                "direction": "$from → $to",
+                "messageErrors": "$~$#count[$count mesajı çeviremedik.|$count mesajı çeviremedik.]",
+                "translating": "$~Mesajlar çevriliyor…",
+                "translated": "$~$#count[$count mesaj $language diline çevrildi.|$count mesaj $language diline çevrildi.]",
+                "writingIn": "$~Şu dilde yazıyorum",
+                "downloading": "$~Tarayıcın için $language çevirmeni alınıyor…",
+                "onDevice": "$~Tarayıcın bunları kendi cihazında çevirdi, bu yüzden bize hiçbir mesaj gönderilmedi.",
+                "none": "$~Çevirme",
+                "dismiss": "$~kapat"
+            },
+            "announce": {
+                "transferred": "$~$name artık $project projesinin sahibi",
+                "privilege": "$~$name artık şunu yapabilir: $privilege",
+                "removed": "$~$name artık bu projeye erişemiyor",
+                "thread": "$~$#count[$name'in mesajındaki konu, $count yanıt|$name'in mesajındaki konu, $count yanıt]",
+                "reacted": "$~$#count[Bu mesajda $emoji, $count kişi|Bu mesajda $emoji, $count kişi]",
+                "unreacted": "$~$#count[$emoji geri alındı, $count kişi ayrıldı|$emoji geri alındı, $count kişi ayrıldı]",
+                "attached": "$~$location hakkında konuşuluyor.",
+                "found": "$~$name şunu söyledi: $opening"
+            },
+            "table": {
+                "label": "$~bu projeye kimler erişebilir",
+                "choose": "$~$name ne yapabilir",
+                "adding": "$~ne yapabilirler",
+                "audience": "$~bu sohbeti kimler görebilir",
+                "add": "$~birini ekle",
+                "cancel": "$~birini eklemekten vazgeç"
+            },
+            "prompt": "$~İşbirlikçi, yorumcu ve görüntüleyici ekle",
+            "thread": {
+                "reply": "$~yanıtla",
+                "replies": "$~$#count[$count yanıt|$count yanıt]",
+                "unseen": "$~$#count[$count yeni yanıt|$count yeni yanıt]",
+                "header": "$~Konu",
+                "back": "$~sohbete geri dön",
+                "empty": "$~Henüz yanıt yok. Bir şeyler söyle!",
+                "placeholder": "$~Yanıtla…"
+            },
+            "reaction": {
+                "add": "$~tepki ver",
+                "more": "$~daha fazla…",
+                "label": "$~Bir tepki seç",
+                "full": "$~Bu mesaj alabileceği kadar tepki aldı.",
+                "close": "$~tepkileri kapat",
+                "pick": "$~$emoji ile tepki ver",
+                "give": "$~$#count[$emoji tepkini ekle — $count kişi eklemiş|$emoji tepkini ekle — $count kişi eklemiş]",
+                "take": "$~$#count[$emoji tepkini geri al — $count kişide var|$emoji tepkini geri al — $count kişide var]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~bu kod hakkında konuşmayı bırak",
+                    "off": "$~imlecimin bulunduğu kod hakkında konuş"
+                },
+                "prompt": "$~Mesajın $location ile ilgili.",
+                "line": "$~satır $line",
+                "lines": "$~$first–$last satırları",
+                "label": "$~$location ile ilgili: $code",
+                "invalid": "$~bu kod artık yok",
+                "marker": "$~$#count[bu kodla ilgili mesajı oku|bu kodla ilgili $count mesajı oku]"
+            }
+        },
+        "palette": {
+            "label": "$~palet",
+            "labels": {
+                "mixed": "$~karışık",
+                "computed": "$~hesaplanmış",
+                "default": "$~varsayılan",
+                "inherited": "$~miras kalan",
+                "notSequence": "$~bir dizi değil",
+                "format": "$~biçim",
+                "weight": "$~ağırlık",
+                "light": "$~ışık",
+                "normal": "$~normal",
+                "bold": "$~gözü pek",
+                "extra": "$~ekstra",
+                "italic": "$~italik",
+                "underline": "$~altını çizmek"
+            },
+            "button": {
+                "revert": "$~varsayılana geri dön",
+                "set": "$~bu özelliği düzenle",
+                "addPhrase": "$~bundan sonra bir cümle ekle",
+                "addGroup": "$~bundan sonra bir grup ekle",
+                "addShape": "$~bundan sonra bir şekil ekle",
+                "addMotion": "$~Hareket akışına yer ayarla",
+                "addPlacement": "$~Yerleştirme akışına yer ayarla",
+                "remove": "$~bu içeriği kaldır",
+                "up": "$~bu içeriği yukarı taşı",
+                "down": "$~bu içeriği aşağı taşı",
+                "edit": "$~bu içeriği düzenle",
+                "sequence": "$~Sıraya dönüştür",
+                "editMode": "$~düzenleme moduna geç",
+                "previousTrack": "$~önceki @Track öğesini göster",
+                "nextTrack": "$~sonraki @Track öğesini göster",
+                "addTrack": "$~bir @Track ekle",
+                "removeTrack": "$~bu @Track öğesini kaldır",
+                "clearTrack": "$~bu @Track öğesinden her notayı kaldır",
+                "makeChord": "$~bu notayı bir akora dönüştür",
+                "unmakeChord": "$~bu akoru tek notaya indir",
+                "playMusic": "$~bu @Music öğesini imleçten itibaren dinle",
+                "pauseMusic": "$~çalmayı durdur",
+                "importMIDI": "$~bir MIDI dosyasını @Music olarak içe aktar",
+                "record": "$~bu @Track öğesine eklemek için bir ezgi mırıldan",
+                "stopRecording": "$~dur ve mırıldandığını yaz",
+                "playTrack": "$~bu @Track öğesini tek başına, imleçten itibaren dinle",
+                "pauseTrack": "$~bu @Track öğesini çalmayı durdur",
+                "rewind": "$~başlangıca geri dön"
+            },
+            "prompt": {
+                "editing": "$~Beni düzenle!",
+                "select": "$~Bir şeyi düzenlemek için, kodunuzda veya @Stage üzerinde seçin. Yeni bir şey eklemek için, yukarıdaki + düğmelerini kullanın.",
+                "readonly": "$~Bu değerler bu modda *salt okunurdur*. Onları değiştirmek için ✏️ *düzenleme* moduna geç."
+            },
+            "field": {
+                "coordinate": "$~Koordinatı düzenle",
+                "text": "$~metni düzenle"
+            },
+            "sequence": {
+                "button": {
+                    "add": "$~poz ekle",
+                    "remove": "$~pozu kaldır",
+                    "up": "$~pozu yukarı kaldır",
+                    "down": "$~pozu aşağı doğru hareket ettir"
+                },
+                "field": {
+                    "percent": "$~düzenleme yüzdesi"
+                },
+                "preset": {
+                    "label": "$~önceden tanımlanmış sıra",
+                    "custom": "$~gelenek"
+                }
+            },
+            "error": {
+                "nan": "$~Bu bir sayı değil.",
+                "percent": "$~0 ile 100 arasında bir yüzde olmalıdır.",
+                "lessThanNext": "$~Bu, bir sonraki girdiden daha az olmalıdır.",
+                "moreThanPrevious": "$~Bu, bir önceki girdiden daha fazla olmalı."
+            },
+            "tour": {
+                "launch": "$~Paletin bir turuna çıkın",
+                "palette": "$~✏️ *düzenle* modunda *ifadeleri*, *grupları* ve *sahneyi* düzenlemek için /paleti/ kullanabilirsin; diğer modlarda kontrolleri yalnızca okunabilir ve ⏸️ *hata ayıklama* modunda her özellik *şimdiki değerini* de gösterir.",
+                "text": "$~Bir ifadenin tüm özellikleri burada düzenlenebilir. Bu, ifadenin *metnidir*, ancak diğer özelliklerin kendi kontrolleri vardır.",
+                "set": "$~Bir özellik şu anda varsayılan değerini kullanıyorsa, kalem simgesi düğmesi ona açık bir değer atamanıza olanak tanır.",
+                "unset": "$~Bir özelliğe açık bir değer atandığında, *X* düğmesi bu değeri kaldırır ve özelliği *varsayılan* değerine döndürür.",
+                "editor": "$~Palet üzerinde yaptığınız tüm değişiklikler, *editörde* gösterilen /kod/ kısmına yansıtılır.",
+                "stage": "$~İfadeler ayrıca doğrudan *sahne* üzerinde /taşınabilir/, /boyutlandırılabilir/ ve /döndürülebilir/."
+            },
+            "music": {
+                "staff": "$~bu parçanın notaları",
+                "track": "$~parça $count içinden $total",
+                "duration": {
+                    "label": "$~yeni bir nota ne kadar sürer",
+                    "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
+                    "tips": [
+                        "$~birlik nota, dört vuruş",
+                        "$~ikilik nota, iki vuruş",
+                        "$~dörtlük nota, bir vuruş",
+                        "$~sekizlik nota, yarım vuruş",
+                        "$~onaltılık nota, çeyrek vuruş"
+                    ]
+                },
+                "computed": "$~bu parçanın notaları hesaplanır, bu yüzden buraya taşınamaz",
+                "note": "$~nota $degree, vuruş $beat",
+                "rest": "$~es, vuruş $beat",
+                "added": "$~$beat vuruşuna $degree notası eklendi, şimdi $#count[$#count nota|$#count nota]",
+                "removed": "$~$beat vuruşundaki $degree notası silindi, şimdi $#count[$#count nota|$#count nota]",
+                "moved": "$~nota $degree, vuruş $beat",
+                "chooser": "$~hangi müzik düzenlenecek",
+                "unnamed": "$~müzik $count",
+                "cursor": "$~hangi vuruştan çalınacağını seçmek için sürükle",
+                "findings": {
+                    "tracksSplit": "$~$#count[$#count parça|$#count parça] aynı anda birden fazla nota çaldı, bu yüzden fazladan sesleri tutmak için $extra tane daha eklendi.",
+                    "percussionDropped": "$~$#count[$#count davul sesi|$#count davul sesi] setimizde eşleşmedi, bu yüzden dışarıda bırakıldı.",
+                    "tracksTruncated": "$~$#count[$#count parça|$#count parça] $cap sınırını aştığı için dışarıda bırakıldı.",
+                    "pitchesSnapped": "$~$#count[$#count nota|$#count nota] $scale gamında değildi ve en yakınına taşındı, en fazla $semitones yarım ses kadar.",
+                    "beatsRounded": "$~$#count[$#count nota uzunluğu|$#count nota uzunluğu] yuvarlandı, en fazla bir vuruşun $error kadarı.",
+                    "meterChanges": "$~$#count[$#count ölçü işareti değişikliği|$#count ölçü işareti değişikliği] dışarıda bırakıldı: @Music ölçü işareti içermez.",
+                    "velocityRange": "$~$track parçasının $#count[$#count ses yüksekliği|$#count ses yüksekliği] var. Her nota kendininkini korur, ama yükselişler yoktur.",
+                    "outOfRange": "$~$#count[$#count nota|$#count nota] gamın ilk notasından üç oktavdan daha uzakta. Çalacaklar, ama gerçek bir kayıttan değil.",
+                    "tempoFolded": "$~$#count[$#count tempo değişikliği|$#count tempo değişikliği] nota uzunluklarına katıldı, bu yüzden müzik yine hızlanıp yavaşlar. Bir @Music tek bir tempoya sahiptir, bu da $using olduğu için, bir @Beat notalarla eşleşmez."
+                },
+                "notMIDI": "$~bu bir MIDI dosyasına benzemiyor",
+                "badMIDI": "$~o MIDI dosyasını okuyamadım",
+                "listening": "$~Dinliyorum! Bir ezgiyi mırıldan ya da söyle, sonra dur. Duyduğum notaları yazıp bu parçaya ekleyeceğim.",
+                "heardNothing": "$~Hiç nota duymadım. Biraz daha yüksek sesle mırıldanmayı dene ya da mikrofona yaklaş.",
+                "transcribed": "$~$scale gamında dakikada yaklaşık $tempo vuruşta $#count[$#count nota|$#count nota] duydum.",
+                "noMicrophone": "$~mikrofonunu duyamıyorum",
+                "imported": "$~$#count[$#count parça|$#count parça] ve $notes nota eklendi",
+                "importing": "$~$step… %$percent",
+                "tooBig": "$~O dosyada $#count[$#count nota|$#count nota] var, bir projenin tutabileceği $cap sınırından fazla. Daha kısa bir parça ya da daha az çalgı dene.",
+                "steps": {
+                    "label": "$~bir içe aktarmanın ne yaptığı",
+                    "labels": [
+                        "$~Dosya okunuyor",
+                        "$~Notaları çözmek",
+                        "$~Parçaları isimlendirmek",
+                        "$~Onları programına yazmak",
+                        "$~Programını kontrol etmek"
+                    ],
+                    "tips": [
+                        "$~dosyayı okumak",
+                        "$~notaları çözmek",
+                        "$~parçaları isimlendirmek",
+                        "$~onları programına yazmak",
+                        "$~programını kontrol etmek"
+                    ]
+                },
+                "report": "$~Neyi içe aktardım",
+                "reportExplanation": "$~Bir @Music, bir MIDI dosyasının anlattığı şeylerin çoğunu tutabilir ama hepsini tutamaz. İşte içe aktarma sırasında değişen şeyler."
+            },
+            "toolbar": {
+                "label": "$~çıktı ekle",
+                "addPhrase": "$~bir ifade ekle",
+                "wrapPhrase": "$~bu değeri bir ifade olarak göster",
+                "addRectangle": "$~dikdörtgen bir şekil ekle",
+                "addCircle": "$~yuvarlak bir şekil ekle",
+                "addPolygon": "$~çok kenarlı bir şekil ekle",
+                "wrapForm": "$~bu şekli bir şeklin içine sararak sahnede göster",
+                "group": "$~seçtiğini bir grup içinde topla",
+                "groupEmpty": "$~bir grup içinde toplamak için bazı çıktılar seç",
+                "groupScattered": "$~bir grup, yalnızca aynı yerde olan çıktıyı toplayabilir",
+                "groupKind": "$~bir grup; bir cümle, bir grup, konuşma veya müzik tutabilir, ama bir şekil ya da sahne tutamaz",
+                "addStage": "$~her şeyi bir sahnenin içine sar, böylece ışığı, rengi ve kareleri denetleyebilirsin",
+                "stageExists": "$~zaten bir sahne var",
+                "addMusic": "$~müzik ekle; üzerinde oynayabileceğin birkaç nota ile başla",
+                "addSay": "$~yüksek sesle söylenen bir konuşma ekle",
+                "addPath": "$~bükebileceğin ve çizebileceğin bir çizgi ekle",
+                "draw": {
+                    "off": "$~sahnede bir yol çiz",
+                    "on": "$~çizmeyi durdur"
+                }
+            }
+        },
+        "save": {
+            "saving": "$~tasarruf",
+            "saved": "$~kaydedildi",
+            "local": "$~kaydedildi",
+            "unsaved": "$~kaydedilmemiş",
+            "sync": {
+                "projects": "$~Projeler",
+                "galleries": "$~Galeriler",
+                "characters": "$~Karakterler",
+                "howtos": "$~Nasıl yapılır",
+                "chats": "$~Sohbetler",
+                "kits": "$~Kitler"
+            },
+            "status": {
+                "header": "$~Kaydetme durumu",
+                "intro": "$~Çalışmalarınız bu cihazda saklanır ve buluta kaydedilir.",
+                "columns": {
+                    "device": "$~bu cihazda",
+                    "cloud": "$~bulutta",
+                    "unsaved": "$~kaydedilmemiş"
+                },
+                "state": {
+                    "synced": "$~senkronize edildi",
+                    "loading": "$~yükleniyor",
+                    "syncing": "$~tasarruf",
+                    "offline": "$~çevrimdışı",
+                    "failed": "$~arızalı"
+                },
+                "conversation": "$~bir konuşma",
+                "legend": "$~Kaydedilmemiş, buraya kaydedilmiş ancak henüz çevrimiçi değil anlamına gelir. Çevrimiçi olduğunuzda kaydedilecektir.",
+                "errorsHeader": "$~Bazı şeyler çevrimiçi olarak kaydedilemedi:"
+            }
+        },
+        "edit": {
+            "node": "$~$node$type[, $type|]",
+            "before": "$~$after[$after|son]'dan önce",
+            "inside": "$~$token içinde, $before[$before|start] ve $after[$after|end] arasında",
+            "between": "$~$before[$before|başlangıç] ve $after[$after|bitiş] arasında",
+            "line": "$~$before[$before|başlangıç] ve $after[$after|bitiş] arasındaki boş satır",
+            "conflicts": "$~$#count[$count çakışma|$count çakışma]",
+            "assign": "$~/$name[Katılmaya istekli|Ayrılmayı düşünüyor]…/",
+            "append": "$~/Eklemek için can atıyorum…/",
+            "remove": "$~/Ayrılmayı düşünüyor…/",
+            "replace": "$~/İçeri girmek istiyor…/",
+            "area": "$~tip kodu",
+            "delimiterMatchedSameLine": "$~Aynı satırda $name ile eşleşen",
+            "delimiterMatchedBelow": "$~$name ile eşleşen $#lines[$lines satır aşağıda|$lines satır aşağıda]",
+            "delimiterMatchedAbove": "$~$name ile eşleşen $#lines[$lines satır yukarıda|$lines satır yukarıda]",
+            "delimiterUnmatched": "$~eşleşen ayırıcı yok"
+        },
+        "template": {
+            "unwritten": "$~Belirsiz",
+            "unparsable": "$~Ayrıştırılamayan şablon: $template",
+            "machineTranslated": "$~Bu metin makine çevirisiyle oluşturulmuştur, bu nedenle okunabilir veya doğru olmayabilir.",
+            "locallyRevised": "$~Bu metin yerel olarak gözden geçirilmiştir ve resmi çeviriden farklıdır."
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~Nasıl yapılır",
+                "subheader": "$~$#total[$total nasıl|$total nasıl], $new yeni",
+                "subheaderEmpty": "$~İlkini oluşturun!",
+                "prompt": "$~Nasıl yapılır kılavuzları, @wordplay ile bir şeyin nasıl yapılacağına dair kısa açıklamalar ve örnek kodlardır. Paylaşmak istediğiniz bir şeyi nasıl yapacağınızı bulduğunuzda, bu galerideki diğer içerik oluşturucuların da öğrenmesi için bir tane yazın!"
+            },
+            "drafts": {
+                "header": "$~📝 Nasıl yapılır taslakları",
+                "prompt": "$~Burası taslaklarınız için bir alan! Bu taslakları yalnızca siz ve işbirlikçileriniz görebilir.",
+                "tooltip": "$~Taslağınızı görüntüleyin",
+                "note": "$~Bu, taslak bir kullanım kılavuzudur. Sadece siz ve işbirlikçileriniz görebilir."
+            },
+            "bookmarks": {
+                "header": "$~🔖 Yer işaretleri",
+                "tooltip": "$~Bu kılavuza gidin.",
+                "canBookmark": {
+                    "label": "$~🔖 Nasıl yapılır sayfasını yer imlerine ekleyin",
+                    "tip": "$~Bu kılavuzu daha sonra bulmak için yer imlerinize ekleyin."
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 yer işaretini kaldır",
+                    "tip": "$~Bu kılavuzu yer işaretlerinizden kaldırın."
+                },
+                "empty": "$~Daha sonra başvurmak istediğiniz kılavuzları yer imlerine ekleyebilirsiniz.",
+                "notLoggedIn": "$~Yer işaretlerini kullanmak için <giriş yapmalısınız@://login>."
+            },
+            "navigationtooltip": "$~Nasıl yapılır sayfasına git",
+            "button": {
+                "reset": {
+                    "label": "$~merkez",
+                    "tip": "$~tuvali ortala"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~Yeni bir \"nasıl yapılır\" kılavuzu oluşturun.",
+                    "explanation": "$~Yeni \"nasıl yapılır\" kılavuzunuzun adını ve içeriğini yazın."
+                },
+                "editForm": {
+                    "header": "$~Nasıl yapılır kılavuzunu düzenle",
+                    "explanation": "$~Kılavuzunuzun adını ve içeriğini düzenleyin."
+                },
+                "post": {
+                    "label": "$~📣 gönderi",
+                    "tip": "$~Nasıl yapılır kılavuzunuzu bu alana gönderin."
+                },
+                "save": {
+                    "label": "$~💾 taslak olarak kaydet",
+                    "tip": "$~Kullanım kılavuzunuzu taslak olarak kaydedin."
+                },
+                "notification": {
+                    "label": "$~aboneleri bilgilendir",
+                    "labels": ["$~bildirmek", "$~bildirimde bulunma"],
+                    "tips": [
+                        "$~Bu kılavuzu yayınladığınızda abonelerinizi bilgilendirin.",
+                        "$~Bu kılavuzu yayınladığınızda abonelerinize bildirim göndermeyin."
+                    ]
+                },
+                "title": {
+                    "description": "$~\"Nasıl yapılır\" kılavuzunuzun başlığı",
+                    "placeholder": "$~Başlık"
+                },
+                "untitledHowToPlaceholder": "$~Başlıksız nasıl yapılır kılavuzu",
+                "collaboratorsToggle": {
+                    "on": "$~işbirlikçiler panelini daralt",
+                    "off": "$~işbirlikçiler panelini genişletin"
+                },
+                "editor": {
+                    "placeholder": "$~Biçimlendirme ve kod kullanarak nasıl yapılacağını anlatan metninizi buraya yazın.",
+                    "description": "$~Nasıl yapılır kılavuzunuzu yazabileceğiniz bir metin kutusu."
+                },
+                "collaborators": {
+                    "header": "$~👥 işbirlikçiler",
+                    "explanation": "$~İş birliği yapanlar bu kılavuzu düzenleyebilir ve taslak halinde görüntüleyebilirler."
+                },
+                "access": {
+                    "header": "$~↗ paylaş",
+                    "explanation": "$~Bu galerinin küratörü, küratörlüğünü yaptığı diğer galerilerin içerik oluşturucularının ve küratörlerinin bu kılavuzu görüntülemesine izin verebilir. Eğer görüntülemelerini istemiyorsanız, bu kılavuzu yalnızca bu galerinin küratörleri ve içerik oluşturucularıyla sınırlandırabilirsiniz."
+                },
+                "accessToggle": {
+                    "on": "$~erişim ayarları panelini daralt",
+                    "off": "$~Erişim ayarları panelini genişletin"
+                },
+                "accessMode": {
+                    "label": "$~Bu kılavuzu kimlerin görüntüleyebileceğini kısıtlayın.",
+                    "labels": ["$~sınırlı", "$~genişletilmiş"],
+                    "tips": [
+                        "$~Bu galerideki içerik oluşturucular yalnızca bunları görüntüleyebilir.",
+                        "$~Bir galerideki yaratıcılar ve küratörler, küratörün küratörlüğünü yaptığı her galeride görüntüleyebilirler."
+                    ]
+                },
+                "localeOptionsLabel": "$~editör giriş dili",
+                "publicExplanation": "$~Eğer linke sahip herkesin nasıl yapılır kılavuzunuzu görebilmesini istiyorsanız, kılavuzunuzu herkese açık hale getirebilirsiniz.",
+                "publicMode": {
+                    "label": "$~Bu kılavuzu herkese açık hale getirin.",
+                    "labels": ["$~özel", "$~halk"],
+                    "tips": [
+                        "$~Bu kılavuza doğrudan erişimi olan Wordplayer oyuncuları bunu görebilir.",
+                        "$~Bağlantıya sahip herkes bu nasıl yapılır videosunu izleyebilir."
+                    ]
+                },
+                "noGuidingQuestions": "$~Bu galeride henüz yol gösterici sorular yok, bu yüzden yazılacak bir şey de yok. Nasıl yapılacağına dair kılavuzlar yazılabilmesi için küratörün en az bir yol gösterici soru eklemesi gerekiyor."
+            },
+            "viewer": {
+                "edit": {
+                    "label": "$~✏️ düzenle",
+                    "tip": "$~Bu kılavuzu düzenle"
+                },
+                "delete": {
+                    "description": "$~Bu kılavuzu silin",
+                    "prompt": "$~🗑️ sil"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 Rehber'e gönder",
+                        "tip": "$~bu nasıl'ın Rehber'e eklenmesi için değerlendirilmek üzere gönder!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ Rehbere gönderildi",
+                        "tip": "$~bu nasıl, Rehber'e eklenmek üzere değerlendirilmesi için zaten gönderildi."
+                    },
+                    "header": "$~Rehber listesi"
+                },
+                "usedBy": {
+                    "prompt": "$~Bu kılavuzu projenizde veya başka bir kılavuzda kullandınız mı? Projenizi listeye ekleyerek başkalarının da haberdar olmasını sağlayın!",
+                    "empty": "$~Henüz hiçbir projeniz veya yayınlanmış başka bir \"nasıl yapılır\" kılavuzunuz yok. Bir tane oluşturmayı deneyin!",
+                    "countDisplay": "$~Diğer Wordplay yönetmenleri bunu $#count[$count başka proje veya nasılda|$count başka proje veya nasılda] kullandı",
+                    "selector": "$~proje ve nasıl yapılır seçici",
+                    "removeButton": "$~listeden projeyi veya nasıl yapılır dosyasını kaldır",
+                    "addButton": "$~proje veya nasıl yapılır ekle"
+                },
+                "reactionsPrompt": "$~Bu nasıl yapılır videosunu beğendiniz mi? Yaratıcıyı desteklemek için bir yorum bırakın!",
+                "chatPrompt": "$~Yaratıcıya yorum veya soru bırakın!",
+                "link": {
+                    "label": "$~🔗 Nasıl yapılır bağlantısını kopyala",
+                    "tip": "$~Bu kılavuzun bağlantısını kopyala"
+                },
+                "collaborators": "$~tarafından yazılmıştır",
+                "view": {
+                    "tip": "$~nasılı görüntüle"
+                }
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~Alan ayarları nasıl yapılır?",
+                    "explanation": "$~Bu \"nasıl yapılır\" alanının ayarlarını yapılandırın. Ayarlarınızı kaydetmek için alttaki kaydet düğmesine tıklayın."
+                },
+                "configurationButton": {
+                    "tip": "$~Bu nasıl yapılır alanını yapılandırın",
+                    "label": "$~⚙️ ayarlar"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~Görünürlük",
+                        "explanation": "$~Bu alanda varsayılan olarak kimlerin nasıl yapılır kılavuzlarını görüntüleyebileceğini yapılandırın."
+                    },
+                    "mode": {
+                        "label": "$~varsayılan görünürlük",
+                        "labels": ["$~sınırlı", "$~genişletilmiş"],
+                        "tips": [
+                            "$~nasılları yalnızca bu galerinin katkıda bulunanları görebilir",
+                            "$~aşağıda belirttiğin galerilerin katkıda bulunanları nasılları görebilir"
+                        ]
+                    },
+                    "expandedOptions": "$~Seçilen galerinin küratörlerinin ve yaratıcılarının bu galerinin nasıl yapılacağına dair kılavuzları görmelerini sağlayalım.",
+                    "expandedAdd": "$~Galeriyi listeye ekle",
+                    "expandedRemove": "$~Galeriyi listeden kaldır"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~Yönlendirici Sorular",
+                        "explanation": "$~Yeni bir \"nasıl yapılır\" kılavuzu oluştururken gösterilen yönlendirme sorularını yapılandırın. Yönlendirme sorularını bir satır sonuyla ayırın."
+                    },
+                    "descriptor": "$~Yönlendirici sorularınızı yazabileceğiniz, satır aralarıyla ayrılmış bir metin kutusu.",
+                    "default": [
+                        "$~Ne öğrendiniz? Nasıl yapılacağına dair örnekler verin."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~Tepkiler",
+                        "explanation": "$~Yeni \"nasıl yapılır\" videolarına izleyicilerin bırakabileceği tepkileri yapılandırın."
+                    },
+                    "reactionPickerTip": "$~Tepki verecek bir karakter seçin.",
+                    "reactionDescriptionTip": "$~Bu tepkinin ne anlama geldiğini açıklayın.",
+                    "addReactionTip": "$~yeni bir tepki ekle",
+                    "removeReactionTip": "$~Bu tepkiyi kaldır",
+                    "default": {
+                        "👍": "$~Bunu severim!",
+                        "💭": "$~Bu bana ilham veriyor!",
+                        "🙏": "$~Teşekkür ederim!",
+                        "🎉": "$~Kutlama!",
+                        "🤩": "$~Bunu denemek istiyorum!",
+                        "😁": "$~Bu beni çok mutlu ediyor!"
+                    }
+                },
+                "submit": {
+                    "error": "$~Yönlendirici sorular ve tepkiler boş olamaz.",
+                    "label": "$~kaydetmek",
+                    "tip": "$~Kaydetme kılavuzu alan ayarları"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~\"Nasıl yapılır\" başlıklı \"$title\" adlı kılavuz \"$x $y\" adresine taşındı.",
+                "canvasPosition": "$~tuval $x, $y konumuna taşındı",
+                "moveActivated": "$~Hareket etkinleştirildi. $target fare, klavye veya dokunmatik ekran kullanılarak hareket ettirilebilir.",
+                "moveDeactivated": "$~Hareket devre dışı bırakıldı."
+            },
+            "error": {
+                "unknown": "$~Bu \"nasıl yapılır\" alanı mevcut değil veya herkese açık değil."
+            }
+        },
+        "gallerymoderation": {
+            "header": "$~Şikâyetler",
+            "description": "$~İnsanların incelemeni istediği şeyler, en eskiden en yeniye doğru sıralanır. Bir karar, hangi kuralların çiğnendiğini söyler ve şeyi yapan kişiye ne karar verdiğin bildirilir.",
+            "labels": {
+                "action": "$~Ne yapılmalı",
+                "reason": "$~Hangi kuralları çiğnedi",
+                "subject": "$~Ne şikâyet edildi"
+            },
+            "view": {
+                "label": "$~görüntüle",
+                "tip": "$~şikâyet edileni aç"
+            },
+            "remove": {
+                "label": "$~kaldırmak",
+                "tip": "$~bu, kuralları çiğniyor"
+            },
+            "keep": {
+                "label": "$~kale",
+                "tip": "$~bu, kuralları çiğnemiyor"
+            },
+            "empty": "$~Karar bekleyen hiçbir şey yok.",
+            "error": "$~Şikâyetleri incelemek için oturum açmış olmalısın.",
+            "note": {
+                "description": "$~Bunu yapana ne söylenmeli",
+                "placeholder": "$~onlara bir şey söyle (isteğe bağlı)"
+            },
+            "remaining": "$~$#count[$count şikâyet bekliyor|$count şikâyet bekliyor]"
+        },
+        "emoji": {
+            "noCharacters": "$~Özel bir karakter oluşturun",
+            "groups": {
+                "label": "$~gruplar",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~Ⅶ",
+                    "$~💰",
+                    "$~🔍"
+                ],
+                "tips": [
+                    "$~özel",
+                    "$~gülücükler ve duygular",
+                    "$~insanlar ve vücut",
+                    "$~hayvanlar ve doğa",
+                    "$~yiyecek ve içecek",
+                    "$~etkinlikler",
+                    "$~seyahat ve yerler",
+                    "$~nesneler",
+                    "$~semboller",
+                    "$~bayraklar",
+                    "$~küçük harf",
+                    "$~büyük harf",
+                    "$~matematiksel",
+                    "$~şekiller",
+                    "$~oklar",
+                    "$~sayılar",
+                    "$~harf sayıları",
+                    "$~para birimi",
+                    "$~arama sonuçları"
+                ]
+            },
+            "skinTone": "$~cilt tonu",
+            "script": "$~komut dosyaları",
+            "scriptLabel": "$~komut dosyasına göre filtrele",
+            "pickFilter": "$~Bir kategori veya senaryo seçin.",
+            "moreLanguages": "$~ve daha fazla $count",
+            "moreGlyphs": "$~$count gösteriliyor — daha fazlasını bulmak için arama yap",
+            "presentation": {
+                "label": "$~emoji rengi",
+                "labels": ["$~renk", "$~siyah beyaz"],
+                "tips": ["$~renkli emoji ekle", "$~siyah beyaz emoji ekle"]
+            }
+        },
+        "localize": {
+            "header": "$~Yerelleştir",
+            "description": "$~Yerelleştirme moduna hoş geldiniz! @wordplay arayüzünde metne yönelik iyileştirmeler önerebilirsiniz. Düzenleme önermek için herhangi bir metni seçin. Önerileriniz incelenecek ve onaylanırsa, herkesin görebileceği şekilde platformun bir parçası haline gelecektir. Wordplay'i dünyadaki herkes için daha erişilebilir hale getirmeye yardımcı olduğunuz için teşekkür ederiz!",
+            "toggle": {
+                "mode": {
+                    "on": "$~yerelleştirme modundan çık",
+                    "off": "$~platformun geçerli dildeki metnine düzenleme önermek için yerelleştirme moduna gir."
+                }
+            },
+            "button": {
+                "edit": "$~Bu metne bir düzenleme önerin.",
+                "submit": "$~Önerilen düzenlemeyi gönder",
+                "cancel": "$~Önerilen düzenlemeyi iptal et",
+                "revert": "$~Resmi metne geri dön",
+                "editTip": "$~Bu denetimin ipucu metnine bir düzenleme önerin.",
+                "prev": "$~Önceki öğeyi düzenle",
+                "next": "$~Sonraki öğeyi düzenle"
+            },
+            "field": {
+                "plain": {
+                    "description": "$~Önerilen yedek metin",
+                    "placeholder": "$~Değiştirme işlemini girin..."
+                },
+                "formatted": {
+                    "description": "$~Önerilen alternatif (işaretleme biçimlendirmesini destekler)",
+                    "placeholder": "$~Biçimlendirilmiş değiştirme seçeneğini girin..."
+                },
+                "name": {
+                    "description": "$~Önerilen isim (geçerli bir kelime oyunu ismi olmalıdır)",
+                    "placeholder": "$~Adınızı girin..."
+                },
+                "filter": {
+                    "description": "$~Çeviri dizelerini yol veya açıklamaya göre filtrele",
+                    "placeholder": "$~Filtrele..."
+                }
+            },
+            "strings": "$~Çeviri dizeleri",
+            "emotion": "$~Bir duygu seç",
+            "invalidName": "$~Geçerli bir Wordplay adı değil.",
+            "reference": "$~İngilizce referans",
+            "invalidConceptLinks": "$~Bu kavram bağlantıları mevcut dilde çözümlenmiyor. Birini yanlış mı yazdınız, yoksa bilerek mi kaldırdınız?",
+            "inputs": {
+                "header": "$~Bu şablonun kabul ettiği girdiler",
+                "usedTip": "$~İmlecin bulunduğu yere başka bir referans eklemek için tıklayın.",
+                "unusedTip": "$~İmlecin bulunduğu yere bu referansı eklemek için tıklayın.",
+                "missing": "$~Eksik girdiler:",
+                "legacy": "$~Bu eski konum tabanlı referansları adlandırılmış referanslarla değiştirin:",
+                "submitBlocked": "$~Göndermeden önce her girdiyi kontrol edin.",
+                "unknown": "$~Bu referanslar, belirtilen girdi veya terminolojiyle eşleşmediğinden, bunların yerine geçmeyeceklerdir:",
+                "plural": {
+                    "header": "$~Bu dilin ihtiyaç duyduğu versiyonlar",
+                    "tip": "$~Bir sayım: bu dilin $forms çoğul biçiminin her biri için cümlenin bir versiyonunu eklemek üzere tıklayın",
+                    "arity": "$~$name'in $found versiyonu var, ama bu dilin $expected tanesine ihtiyacı var.",
+                    "missing": "$~$name bir sayımdır, bu yüzden her çoğul biçim için cümlenin bir versiyonunu seçin.",
+                    "example": "$~örneğin"
+                }
+            },
+            "guidance": "$~Bu dil için rehber",
+            "guidanceEmpty": "$~Henüz rehber yok. Bu dile çeviri yapacak birinin bilmesi gerekenleri yaz.",
+            "guidanceToggle": {
+                "on": "$~bu dilin rehberini gizle",
+                "off": "$~bu dilin rehberini göster"
+            },
+            "terms": {
+                "header": "$~Terim listesi",
+                "description": "$~Bu dil için, her yerde yeniden kullanabileceğin terimleri ve ifadeleri tanımla. Bunun için $$ ile kelimenin anahtarını yaz, örneğin $$program. Buradaki bir kelimeyi değiştirdiğinde, kullanıldığı her yerde değişir. Böylece çevirilerin tutarlı kalır. Bu sadece kelimeleri yeniden kullanmak içindir. Bir terimi öğrenenlere açıklamak için onun yerine sözlüğü kullan.",
+                "empty": "$~Henüz kelime yok. Bu dilin metninde yeniden kullanmak için bir tane ekle.",
+                "key": {
+                    "description": "$~bu kelimenin anahtarı, kullanmak için $ işaretinden sonra yazılır",
+                    "placeholder": "$~anahtar"
+                },
+                "phrase": {
+                    "description": "$~bu anahtarın temsil ettiği kelime veya ifade",
+                    "placeholder": "$~kelime"
+                },
+                "add": "$~bu kelimeyi listeye ekle",
+                "remove": "$~bu kelimeyi listeden çıkar",
+                "invalidKey": "$~Bir anahtar bir harfle başlamalı ve herhangi bir dilde yalnızca harfler ve sayılar kullanmalıdır.",
+                "duplicateKey": "$~Bu dilde bu anahtara sahip bir kelime zaten var.",
+                "reservedKey": "$~Bu anahtar zaten bir şablon değeri için kullanılıyor, bu yüzden bir kelime olamaz."
+            },
+            "glossary": {
+                "header": "$~Diğer yazılış biçimleri",
+                "description": "$~Sözlük, öğrencilerin karşılaştığı kelimeleri açıklar. Her terimin bir ana kelimesi vardır. Burada, o kelimenin bu dilde yazılabilecek diğer biçimlerini ekleyebilirsin — çoğul hallerini, başka eklerini veya aynı anlama gelen başka bir kelimeyi. Metin yazarken, bunların herhangi birini @ işareti ve kelimeyle bağlantı hâline getirebilirsin; kelimenin tamamı bağlantının bir parçası olarak kalır. Her dil kendi listesini yazar, bu yüzden dilinin ihtiyacı olduğu kadar biçim ekleyebilirsin.",
+                "reference": "$~İngilizce'de",
+                "empty": "$~Henüz başka biçim yok.",
+                "form": {
+                    "description": "$~bu terimin yazılabileceği başka bir biçim",
+                    "placeholder": "$~biçim"
+                },
+                "add": "$~bu biçimi terime ekle",
+                "remove": "$~bu biçimi terimden kaldır",
+                "ownWord": "$~Bu, terimin kendi kelimesidir ve zaten tek başına çalışır.",
+                "otherWord": "$~Bu, $term için kullanılan kelime, bu yüzden hangi terimi kastettiğin belirsiz olur.",
+                "conceptName": "$~Dokümantasyon bu kelimeyi zaten tanımlıyor, bu yüzden ona verilecek bir bağlantı oraya gider.",
+                "alreadyUsed": "$~Bu, $term'in zaten bir biçimi, bu yüzden hangi terimi kastettiğin belirsiz olur.",
+                "searchOnly": "$~Bir bağlantı bir boşlukta veya sembolde sona erer, bu yüzden bu biçim sadece arama yaparken işe yarar."
+            }
+        },
+        "tour": {
+            "label": "$~tur",
+            "close": "$~turu kapat",
+            "previous": "$~önceki adım",
+            "next": "$~sonraki adım",
+            "offscreen": "$~Arayüzün bu kısmı şu anda ekranda görünmüyor.",
+            "overflowed": "$~Bu denetim, vurgulanan menünün içinde gizlidir; denetimi bulmak için menüyü aç."
+        },
+        "connection": {
+            "offline": "$~Çevrimdışı durumdasınız. Çevrimiçi olana kadar bazı özellikler çalışmayacaktır.",
+            "unreachable": "$~Veritabanına erişemiyoruz, bu nedenle bazı şeyler çalışmayacak. VPN, tarayıcı eklentisi veya ağ filtresi bunu engelliyor olabilir."
+        },
+        "presence": {
+            "peersLabel": "$~bu projeyi düzenleyen işbirlikçiler",
+            "joined": "$~$name katıldı.",
+            "left": "$~$name kaldı.",
+            "waitingForSlot": "$~Düzenleme için sıra bekliyorum — dört işbirlikçi zaten düzenleme yapıyor. Birisi ayrıldığında, siz de düzenleme yapabileceksiniz."
+        },
+        "update": {
+            "message": "$~Yeni bir sürüm yayınladık.",
+            "refresh": "$~Yenile",
+            "updates": "$~Güncellemeleri görün",
+            "dismiss": "$~Azletmek"
+        },
+        "banner": {
+            "deleteFailed": "$~Bunu silemedik.",
+            "saveFailed": "$~Onu kurtaramadık",
+            "submitFailed": "$~Bunu gönderemedik.",
+            "loadFailed": "$~Bunu yükleyemedik. Biraz sonra tekrar dene.",
+            "storageFull": "$~Bu cihazın depolama alanı dolu, bu nedenle buraya bir kopya kaydedemedik. Çalışmanız hala bulutta.",
+            "storageNearFull": "$~Bu cihazın depolama alanı neredeyse doldu, bu nedenle Wordplay yakında kaydedemeyebilir. Buluta kaydedilen çalışmalar güvendedir; cihazınızda veya tarayıcınızda yer açmak, Wordplay'in buraya kaydetmeye devam etmesini sağlar.",
+            "saveTooLarge": "$~Bu dosya kaydedilemeyecek kadar büyük. Bazı içerikleri silmeyi deneyin."
+        },
+        "wellspring": {
+            "label": "$~kod paleti",
+            "recycle": "$~Silmek için buraya sürükleyin",
+            "empty": "$~Proje konsepti yok.",
+            "field": {
+                "search": "$~Sürüklemek için kod arayın"
+            },
+            "button": {
+                "toggle": "$~Kod paletini göster ve gizle",
+                "clear": "$~aramayı temizle"
+            }
+        },
+        "feedback": {
+            "copied": "$~$text kopyalandı",
+            "cut": "$~$text kesildi",
+            "pasted": "$~$text yapıştırıldı",
+            "deleted": "$~$text silindi",
+            "undone": "$~geri alındı",
+            "redone": "$~yeniden yapıldı",
+            "foldedAll": "$~tüm kod katlandı",
+            "unfoldedAll": "$~tüm kod açıldı",
+            "editMode": "$~$mode",
+            "zoom": "$~yakınlaştırma yüzde $percent",
+            "fullscreenOn": "$~tam ekrana girildi",
+            "fullscreenOff": "$~tam ekrandan çıkıldı",
+            "restarted": "$~girdiler yeniden başlatıldı",
+            "step": "$~adım $step, $node",
+            "stepAtStart": "$~başlangıçta",
+            "stepAtEnd": "$~sonda",
+            "searchOpened": "$~kodda bul",
+            "searchClosed": "$~bulma kapatıldı",
+            "searchMatch": "$~$index içinden eşleşme $count",
+            "searchNoMatches": "$~eşleşme yok",
+            "menuOpened": "$~menü, $#count[$count öneri|$count öneri]",
+            "menuEmpty": "$~öneri yok",
+            "menuClosed": "$~menü kapatıldı",
+            "tidyNoop": "$~zaten düzenli"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~Sesin söyleyebileceği sesleri gizle",
+                "off": "$~Sesin söyleyebileceği sesleri göster"
+            },
+            "groups": [
+                "$~ünlüler",
+                "$~yaklaşık ünsüzler",
+                "$~l sesleri",
+                "$~genizsi sesler",
+                "$~tıslama sesleri",
+                "$~titreşimli sesler",
+                "$~durak sesleri",
+                "$~şıklamalar"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~$symbol öğesini duy",
+            "insert": "$~$symbol öğesini yaz"
+        },
+        "translation": {
+            "used": "$~Bugün $#limit[$limit karakter|$limit karakter] üzerinden $used karakter çevirdin",
+            "meter": "$~bugün kullanılan çeviri",
+            "exhaustedHours": "$~Bugünkü çeviri hakkını kullandın. Yaklaşık $#hours[$hours saat|$hours saat] sonra tekrar dene.",
+            "exhaustedMinutes": "$~Bugünkü çeviri hakkını kullandın. Yaklaşık $#minutes[$minutes dakika|$minutes dakika] sonra tekrar dene.",
+            "signIn": "$~Çeviri yapmak için bir hesap gerekir, böylece herkes hakkını adil şekilde kullanır. Projeni çevirmek için <Giriş yap ya da katıl@/login>.",
+            "progressLabel": "$~çeviri ilerlemesi",
+            "analyzing": "$~Programın okunuyor…",
+            "revising": "$~Yeni sözcükler yerleştiriliyor…",
+            "started": "$~$#count[$count cümle|$count cümle] $language diline çevriliyor…",
+            "progress": "$~$#total[$total cümleden|$total cümleden] $done tanesi çevrildi",
+            "finished": "$~Projen artık $language konuşuyor.",
+            "finishedPartial": "$~Projen artık $language konuşuyor, ama $#kept[$kept cümle|$kept cümle] özgün sözcüklerini korudu."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Wordplay giriş bağlantın",
+                "heading": "$~Wordplay'e giriş yap",
+                "body": "$~Giriş yapmak için aşağıdaki düğmeyi seç. Bağlantı yalnızca bir kez ve kısa bir süre için çalışır.",
+                "button": "$~Giriş yap",
+                "disclaimer": "$~Eğer giriş yapmak istemediysen bu e-postayı görmezden gelebilirsin — bu bağlantı olmadan kimse hesabına giremez."
+            },
+            "notice": {
+                "open": "$~Bir göz at",
+                "manage": "$~Bildirim ayarlarını değiştir",
+                "heading": {
+                    "reported": "$~Şikayet edildi",
+                    "decision": "$~Denetim kararı",
+                    "review": "$~İnceleme bekliyor",
+                    "warning": "$~Bir uyarı",
+                    "listing": "$~Listeleme kararı",
+                    "howto": "$~Yeni bir nasıl rehberi",
+                    "chat": "$~Yeni sohbetler"
+                },
+                "subject": {
+                    "reported": "$~$kind öğen şikayet edildi",
+                    "received": "$~Şikayetin bize ulaştı",
+                    "decision": "$~$kind öğen hakkında bir karar",
+                    "review": "$~İncelemeni bekleyen bir şey var",
+                    "warning": "$~Paylaştığın şeyle ilgili bir uyarı",
+                    "listing": "$~$kind öğenin listelenmesi hakkında bir karar",
+                    "howto": "$~Galerinde yeni bir nasıl rehberi"
+                },
+                "body": {
+                    "reported": "$~Birisi, \"$title\" içinde yaptığın bir şeyin incelenmesini istedi. Sorumlu kişi buna bir göz atacak.",
+                    "received": "$~\"$title\" hakkındaki şikayetin, incelemekten sorumlu kişiye ulaştı.",
+                    "decision": "$~\"$title\" içinde yaptığın bir şey hakkında bir karar verildi.",
+                    "review": "$~Birisi \"$title\" için bir inceleme istedi.",
+                    "warning": "$~Bu, herkese açık paylaştığın bir şeyle ilgili $#count[1. uyarı|$count. uyarı].",
+                    "listing": "$~\"$title\"nin listelenip listelenmeyeceği hakkında bir karar verildi.",
+                    "howto": "$~\"$title\", parçası olduğun bir galeride yayımlandı."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[İncelemeni bekleyen bir şey var|İncelemeni bekleyen $count şey var]",
+                "heading": "$~İncelenecek $#count[1 şey|$count şey]",
+                "open": "$~İncelemeye başla",
+                "body": "$~Şikayetler ve listeleme istekleri, biri karar verene kadar denetim kuyruğunda bekler."
+            },
+            "chat": {
+                "subject": "$~Okunmamış sohbetlerin var",
+                "heading": "$~Yeni sohbetler",
+                "open": "$~Onları oku",
+                "body": "$~$#count[bir sohbette|$count sohbette] okumadığın mesajlar var."
+            }
+        },
+        "markup": {
+            "description": "$~biçimli metin yaz",
+            "placeholder": "$~bir şeyler yaz",
+            "mode": {
+                "prose": "$~nasıl görüneceğini göster",
+                "source": "$~biçimlendirme işaretlerini göster"
+            },
+            "command": {
+                "italic": "$~eğik",
+                "bold": "$~kalın",
+                "extra": "$~ekstra kalın",
+                "underline": "$~altı çizili",
+                "light": "$~ince",
+                "example": "$~kod örneği",
+                "link": "$~web bağlantısı",
+                "concept": "$~bir kavrama bağlantı",
+                "bullet": "$~madde işareti",
+                "highlight": "$~bu örneği vurgula",
+                "defect": "$~bu örnekte hata olması bekleniyor",
+                "mode": "$~düz metin ile biçimlendirme işaretleri arasında geçiş yap",
+                "docs": "$~örnek içindeki açıklama",
+                "attention": "$~bu satıra dikkat çek",
+                "undo": "$~geri al",
+                "redo": "$~yinele"
+            },
+            "feedback": {
+                "formatOn": "$~$format açık",
+                "formatOff": "$~$format kapalı",
+                "example": "$~bir kod örneği oluşturdu",
+                "link": "$~bir web bağlantısı oluşturdu",
+                "concept": "$~$name ile bağlantı kuruldu",
+                "bulletOn": "$~bir madde işareti oluşturdu",
+                "bulletOff": "$~madde işaretini kaldırdı",
+                "highlightOn": "$~bu örnek vurgulanacak",
+                "highlightOff": "$~bu örnek vurgulanmayacak",
+                "defectOn": "$~bu örnekte hata olması bekleniyor",
+                "defectOff": "$~bu örnekte hata olmaması gerekiyor",
+                "notInExample": "$~önce imlecini bir kod örneğine koy",
+                "mode": "$~$mode",
+                "docs": "$~bir açıklama ekledi",
+                "attention": "$~bu satıra dikkat çekiyor",
+                "undid": "$~bunu geri aldı",
+                "redid": "$~bunu yeniden yaptı"
+            }
+        },
+        "proxy": {
+            "banner": "$~Wordplay'e başka biri gibi bakıyorsun. Burada hiçbir şey kaydedilmiyor ve orada olduğunu göremezler.",
+            "as": "$~$name olarak",
+            "remaining": "$~$#minutes[$minutes dakika kaldı|$minutes dakika kaldı]",
+            "stop": {
+                "label": "$~Durdur",
+                "tip": "$~Bu sekmeyi kapat ve onlar gibi bakmayı durdur"
+            },
+            "starting": "$~Başlatılıyor…",
+            "failed": "$~Bu oturumu başlatamadık. Hâlâ bir yönetici olarak oturum açık mı?",
+            "expired": "$~Bu bağlantı zaten kullanılmış veya süresi dolmuş. <ayrıcalıklar sayfasından@://admin> tekrar başla.",
+            "ended": "$~Bu oturum sona erdi ve oturumun kapatıldı. Bu sekmeyi kapat. Tekrar bakmak için, ayrıcalıklar sayfasından başla."
+        }
+    }
+}

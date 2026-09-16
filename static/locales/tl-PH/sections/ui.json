@@ -1,0 +1,2774 @@
+{
+    "$schema": "../../../static/schemas/sections/ui.json",
+    "ui": {
+        "font": {
+            "app": "$~Noto Sans",
+            "code": "$~Noto Sans Mono",
+            "missing": "$~hindi",
+            "form": {
+                "sans": "$~isang estilong sans-serif",
+                "serif": "$~isang estilong serif",
+                "slab": "$~isang estilong slab-serif",
+                "typewriter": "$~isang estilong makinilya",
+                "handwriting": "$~sulat-kamay",
+                "brush": "$~isang estilong brush",
+                "script": "$~isang estilong cursive",
+                "poster": "$~isang estilong poster",
+                "pixel": "$~isang estilong pixel",
+                "outline": "$~isang estilong hollow",
+                "textured": "$~isang estilong texture",
+                "emoji": "$~mga larawan, hindi mga titik"
+            },
+            "impression": {
+                "calm": "$~kalmado",
+                "oldFashioned": "$~makaluma",
+                "strong": "$~malakas",
+                "quirky": "$~kakaiba",
+                "playful": "$~malikot",
+                "excited": "$~masigla",
+                "childlike": "$~parang bata",
+                "artistic": "$~artistiko",
+                "futuristic": "$~makabago",
+                "energetic": "$~masigasig",
+                "cute": "$~nakakagigil",
+                "cheerful": "$~masayahin",
+                "fancy": "$~pino"
+            },
+            "mechanic": {
+                "sameWidth": "$~pare-pareho ang lapad ng bawat titik",
+                "tallLowercase": "$~kasintaas ng malalaking titik ang maliliit na titik",
+                "shortLowercase": "$~mas maikli nang malaki ang maliliit na titik kaysa sa malalaking titik"
+            },
+            "description": {
+                "and": "$~$first at $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
+        },
+        "phrases": {
+            "welcome": "$~kumusta"
+        },
+        "widget": {
+            "confirm": {
+                "cancel": "$~kanselahin"
+            },
+            "dialog": {
+                "close": "$~malapit"
+            },
+            "loading": {
+                "message": "$~Naglo-load, salamat sa paghihintay!"
+            },
+            "home": "$~pumunta sa home page",
+            "table": {
+                "cell": {
+                    "description": "$~i-edit ang cell na ito",
+                    "placeholder": "$~halaga"
+                },
+                "addcolumn": "$~magdagdag ng kolum bago ang kolum na ito",
+                "removecolumn": "$~tanggalin ang kolum na ito"
+            },
+            "formatted": {
+                "edit": "$~i-edit ang naka-format na teksto",
+                "preview": "$~preview na naka-format na teksto",
+                "highlight": "$~i-highlight ang halimbawa",
+                "bullet": "$~bala",
+                "attention": "$~i-highlight ang ekspresyong ito",
+                "defect": "$~markahan ang halimbawa bilang isang inaasahang depekto"
+            },
+            "backtotop": "$~balik sa itaas",
+            "overflow": {
+                "button": {
+                    "on": "$~itago ang mga karagdagang kontrol",
+                    "off": "$~magpakita ng mga karagdagang kontrol"
+                },
+                "popup": "$~Mga karagdagang kontrol"
+            },
+            "color": {
+                "field": "$~patlang ng kulay",
+                "instructions": "$~Gamitin ang kaliwa at kanang arrow key para baguhin ang hue, ang pataas at pababang arrow key para baguhin ang chroma, at ang page up at page down key para baguhin ang liwanag. Pindutin ang shift para sa mas maliliit na hakbang. Kapag gumagamit ng screen reader, gamitin muna ang kontrol na ito, o gamitin ang mga slider ng liwanag, chroma, at hue sa ibaba nito.",
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~maglagay ng kulay sa anumang format ng web",
+                    "placeholder": "$~#f00, rgb(), hsl(), pula",
+                    "invalid": "$~hindi isang kinikilalang kulay",
+                    "format": "$~natukoy na format"
+                },
+                "pick": {
+                    "tip": "$~pumili ng kulay mula sa iyong screen"
+                }
+            },
+            "logo": {
+                "description": "$~Isang bula ng usapan na may isang letra ng iyong sistema ng pagsulat sa loob"
+            },
+            "synced": {
+                "saved": "$~Naka-save sa lahat ng device",
+                "signedOut": "$~Naka-save sa lahat ng device kapag naka-sign in ka"
+            }
+        },
+        "tile": {
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~lumabas sa buong screen",
+                    "off": "$~palawakin ang tile ng bintana sa buong screen"
+                },
+                "show": {
+                    "on": "$~itago $name",
+                    "off": "$~ipakita $name"
+                },
+                "showSource": {
+                    "on": "$~itago ang pinagmulan $name",
+                    "off": "$~ipakita ang pinagmulan $name"
+                }
+            },
+            "label": {
+                "output": "$~entablado",
+                "palette": "$~paleta",
+                "docs": "$~gabay",
+                "source": "$~pinagmulan",
+                "collaborate": "$~makipagtulungan"
+            },
+            "button": {
+                "collapse": "$~bintana na gumuho"
+            }
+        },
+        "project": {
+            "defaults": {
+                "starterCode": "$~¶Maligayang pagdating sa iyong blankong proyekto! Ito ay isang komento.\nMaaari mo itong gamitin upang ilarawan ang iyong proyekto, kumuha ng mga tala, at\nipaliwanag kung ano ang gusto mong malaman ng mga tao tungkol sa iyong trabaho.\nSinusuportahan nito ang *bold*, /italic/, <links@https://wordplay.dev> at marami pang iba.¶\nParirala('hi')"
+            },
+            "error": {
+                "unknown": "$~Hindi umiiral ang proyektong ito o wala kang access dito.",
+                "translate": "$~Nagkaroon ng problema sa pagsasalin ng iyong proyekto.",
+                "tile": "$~Naku, may error",
+                "reset": "$~Subukang i-reset...",
+                "translateBroken": "$~Kung isinalin namin ito, magkakaroon ng mga error sa iyong programa, kaya walang binago. Subukan ang ibang wika, o isalin muli."
+            },
+            "button": {
+                "share": {
+                    "tip": "$~ipakita ang mga opsyon sa pagbabahagi ng proyekto",
+                    "label": "$~ibahagi"
+                },
+                "removeCollaborator": "$~alisin ang kolaborator",
+                "copy": {
+                    "tip": "$~kopyahin ang proyekto sa clipboard bilang teksto",
+                    "label": "$~kopyahin bilang teksto"
+                },
+                "addSource": "$~gumawa ng isa pang @Source, para makapagtago ka ng datos o ibinahaging kodigo sa sarili nitong file",
+                "revert": "$~bumalik sa orihinal na code",
+                "focusOutput": "$~itutok ang keyboard sa entablado",
+                "focusSource": "$~tumuon sa susunod na mapagkukunan",
+                "focusDocs": "$~tumuon sa dokumentasyon",
+                "focusPalette": "$~tumuon sa paleta",
+                "focusCycle": "$~tumuon sa susunod na tile",
+                "savedLocally": "$~Ang mga proyekto ay sine-save nang lokal, ngunit hindi online",
+                "savedOnline": "$~ang mga proyekto ay naka-save online",
+                "unsaved": "$~ipakita ang error sa pag-save",
+                "translate": {
+                    "tip": "$~isalin ang proyektong ito sa bagong wika, para maging maraming wika",
+                    "label": "$~isalin"
+                },
+                "primary": "$~ang wika ng kasulatan na hindi minarkahan ng isang wika",
+                "destination": "$~isalin sa wikang ito",
+                "remix": {
+                    "tip": "$~gumawa ng sarili mong kopya ng proyektong ito para baguhin",
+                    "label": "$~remix"
+                },
+                "languages": "$~ipakita ang mga wikang ginamit sa proyektong ito",
+                "addLanguage": "$~isulat din ang proyektong ito sa wikang ito",
+                "removeLanguage": "$~itigil ang pagsulat ng proyektong ito sa wikang ito",
+                "firstLanguage": "$~gawin itong unang wika ng proyekto",
+                "removeUnusedLanguages": {
+                    "tip": "$~tanggalin ang mga wikang hindi ginagamit ng kodigo ng proyektong ito",
+                    "label": "$~tanggalin ang hindi ginagamit"
+                },
+                "tinker": {
+                    "label": "$~subukan ito…",
+                    "tip": "$~buksan ang kopya ng halimbawang ito sa bagong bintana, para masubukan mong baguhin ito at makita kung ano ang mangyayari"
+                }
+            },
+            "field": {
+                "name": {
+                    "description": "$~i-edit ang pangalan ng proyekto",
+                    "placeholder": "$~pangalan",
+                    "invalid": "$~Hindi kumpletong pagsasalin — tingnan ang iyong mga panipi at mga tag ng wika, tulad ng \"hi\"/en\"hola\"/es."
+                }
+            },
+            "help": "$~ipakita ang mga shortcut sa keyboard",
+            "collapsed": "$~Naka-collapse lahat ng window mo! Makikita mo ang mga ito sa toolbar sa ibaba.",
+            "save": {
+                "projectsNotLoadingOnline": "$~Hindi ma-load ang mga online na proyekto.",
+                "settingsUnsaved": "$~Hindi ma-save ang mga setting online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Hindi ma-save ng iyong browser ang mga proyektong ito sa device na ito.",
+                    "indexedDBUnsupported": "$~Hindi papayagan ng iyong browser ang @wordplay na mag-save ng mga proyekto sa device na ito.",
+                    "firestoreBatchFailed": "$~Hindi namin ito naipadala sa cloud. Ligtas pa rin ito sa device na ito.",
+                    "projectContainsPII": "$~Mukhang may personal na impormasyon ang mga proyektong ito, kaya hindi namin na-save online. Buksan ang bawat isa para tingnan kung ano ang mukhang personal.",
+                    "localProjectStorageFailed": "$~Naubusan na ng espasyo para i-save ang device na ito, at wala pa sa cloud ang mga proyektong ito, kaya nasa panganib ang mga ito.<Sign in@/login> , na nagse-save sa mga ito online sa halip na sa device na ito lang.",
+                    "projectTooLarge": "$~Napakalaki ng mga proyektong ito para i-save online. Ligtas pa rin sila sa device na ito. Subukan mong gawing mas maliit ang mga ito.",
+                    "noCloudTarget": "$~Ang mga proyektong ito ay nasa device na ito lamang, dahil walang lugar ang @wordplay para i-save ang mga ito online. <Mag-sign inlogin> para i-save ang mga ito.",
+                    "cloudWriteRefused": "$~Hindi tinanggap ng cloud ang mga pagbabagong ito, kaya ginamit na lang namin ang kopyang online. Kung sa tingin mo ay dapat mong magawang baguhin ito, tanungin mo ang taong nagbahagi nito sa iyo."
+                },
+                "projectsNotSavingOnline": "$~Ang ilang proyekto ay nasa device na ito lamang, hindi pa online."
+            },
+            "dialog": {
+                "languages": {
+                    "header": "$~Mga Wika",
+                    "explanation": [
+                        "$~Ito ang mga wikang ginamit sa iyong proyekto.",
+                        "Maaari kang magdagdag ng wikang gagamitin, magtanggal ng isang hindi mo ginagamit, o isalin ang buong proyekto sa isang bagong wika."
+                    ],
+                    "count": "$~$#count[$count wika|$count na wika]",
+                    "meaning": [
+                        "$~Ang mga wika ng proyekto ang nagpapasya kung anong mga pangalan at salita ang magagamit ng kodigo nito. Kung nakasulat sa Espanyol ang iyong proyekto, kailangan nito ang Espanyol dito, o ang mga pangalang gaya ng \\Frase\\ ay hindi mangangahulugan ng anuman.",
+                        "Lahat ng magbubukas ng iyong proyekto ay maglo-load ng mga wikang ito, at ang una ang nagpapasya kung paano ilalatag ang iyong output. Palaging gumagana ang mga pangalang Ingles, sa bawat proyekto."
+                    ],
+                    "unused": "$~hindi ginagamit",
+                    "unloaded": "$~hindi ma-load",
+                    "checking": "$~Naghahanap ng mga wikang ginagamit ng iyong kodigo…",
+                    "complete": "$~Ang iyong kodigo ay hindi gumagamit ng anumang wikang wala sa iyong proyekto.",
+                    "search": {
+                        "description": "$~Salain ang mga wika ayon sa pangalan o rehiyon",
+                        "placeholder": "$~wika o rehiyon"
+                    },
+                    "tab": {
+                        "label": "$~mga setting ng wika",
+                        "labels": ["$~Nakasulat sa", "$~Isalin"],
+                        "tips": [
+                            "$~tingnan at baguhin ang mga wikang ginamit sa proyektong ito",
+                            "$~isalin ang mga pangalan, teksto, at dokumentasyon ng proyektong ito sa ibang wika"
+                        ]
+                    },
+                    "prompt": "$~isalin",
+                    "mode": {
+                        "label": "$~kung ano ang ginagawa ng pagsasalin",
+                        "labels": ["$~idagdag", "$~isulat muli"],
+                        "tips": [
+                            "$~idagdag ang bagong wika sa iyong proyekto, habang nananatili ang lahat ng isinulat mo",
+                            "$~isulat muli ang iyong proyekto sa bagong wika, na papalitan ang isinulat mo"
+                        ]
+                    },
+                    "source": "$~Ang teksto at mga pangalan na minarkahan ng isang wika, tulad ng \\'hola'/es\\, ay isinasalin mula sa wikang iyon. Piliin ang wika ng lahat ng bagay na hindi minarkahan."
+                }
+            },
+            "subheader": {
+                "source": "$~Pinagmulan",
+                "destination": "$~Destinasyon",
+                "missing": "$~Maaaring nawawala"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~lumabas sa browser nang buong screen",
+                    "off": "$~ipasok ang buong screen ng browser"
+                },
+                "editName": {
+                    "on": "$~ipakita ang pangalan sa iyong wika",
+                    "off": "$~i-edit ang pangalan sa bawat wika"
+                }
+            },
+            "label": "$~mga kontrol sa proyekto",
+            "tour": {
+                "launch": "$~maglibot sa mga kontrol ng proyekto",
+                "controls": "$~Ang mga /controls/ na ito sa ibaba ay nalalapat sa *kabuuang proyekto*, kahit anong tile ang gamitin mo.",
+                "name": "$~Ang /name/ na field ay ang pangalan ng iyong proyekto. Lumalabas ang mga pangalan sa *project* at *gallery* na mga view.",
+                "sourceToggle": "$~Ipinapakita o itinatago ng /toggle/ na ito ang *source file*. Ganito rin ang gagawin ng *iba pang mga toggle* sa row na ito para sa iba pang mga tile.",
+                "addSource": "$~Ang ilang proyekto ay nakikinabang mula sa *maraming* source file, kung saan ang data ay iniimbak sa isa at ini-import sa *pangunahing* source. Ang button na /add source/ ay lumilikha ng bago.",
+                "share": "$~Ang dialog na /share/ ay nagbibigay-daan sa iyong ibahagi ang iyong proyekto sa mga *gallery*, sa *publiko*, o kopyahin ito bilang *text* upang ibahagi sa ibang lugar.",
+                "checkpoints": "$~Ang panel na /revisions/ ay nagbibigay-daan sa iyong *bumalik* sa mga nakaraang bersyon ng iyong proyekto, at mga *snapshot* na bersyong gusto mong matandaan.",
+                "languages": "$~Ang pindutan ng /mga wika/ ay nagpapakita kung anong mga wika ang ginamit sa iyong proyekto, nagbibigay-daan na magdagdag o magtanggal ng isa, at maaaring *isalin* ang mga *pangalan*, *teksto*, at *dokumentasyon* ng iyong proyekto sa isang bagong wika."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~awto — kasalukuyang $layout"
+                }
+            },
+            "link": {
+                "remixOf": "$~pumunta sa proyektong pinag-remix-an nito",
+                "backTo": "$~bumalik sa $place"
+            },
+            "scratch": "$~Pansamantalang kopya ito ng isang halimbawa. I-remix ito para mapanatili.",
+            "untitled": "$~Proyektong walang pamagat"
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$~ngayon",
+                "history": "$~mga bersyon",
+                "restore": "$~Ito ay isang nakaraang bersyon ng proyektong ito.",
+                "ago": "$~$amount $unit ang nakalipas"
+            },
+            "button": {
+                "clear": "$~burahin ang kasaysayan",
+                "select": "$~tingnan ang bersyong ito",
+                "checkpoint": "$~i-save ang bersyong ito ng proyekto",
+                "back": "$~bumalik sa nakaraang bersyon",
+                "forward": "$~bumalik sa susunod na bersyon",
+                "restore": "$~ibalik ang bersyong ito",
+                "now": "$~bumalik sa kasalukuyang bersyon"
+            }
+        },
+        "gallery": {
+            "untitled": "$~Walang Pamagat",
+            "undescribed": "$~Walang paglalarawan",
+            "subheader": {
+                "classes": {
+                    "header": "$~Mga Klase",
+                    "explanation": "$~Mga klaseng nauugnay sa gallery na ito."
+                },
+                "curators": {
+                    "header": "$~Mga Kurator",
+                    "explanation": [
+                        "$~Maaaring baguhin ng mga tagapangasiwa ang mga proyekto at ang mga setting ng galeriya, at makipag-chat sa lahat ng proyekto.",
+                        "/Sinusuri ng mga tagapangasiwa ang mga naiulat sa kanilang galeriya — mga proyekto, mga kung paano gawin, at ang mga chat na kasama nito — mula sa <pahina ng moderation@://moderate>. Ang desisyon ng isang tagapangasiwa ay para lamang sa sarili niyang galeriya; hindi ito kailanman isa sa mga <babala@://rights> ng Wordplay./"
+                    ]
+                },
+                "creators": {
+                    "header": "$~Mga Tagalikha",
+                    "explanation": "$~Maaaring tingnan ng mga tagalikha ang lahat ng proyekto sa gallery at magdagdag ng mga bagong proyekto."
+                },
+                "delete": {
+                    "header": "$~Burahin",
+                    "explanation": "$~Ang pagbura sa gallery na ito ay hindi magbubura sa mga proyekto nito. Buburahin nito ang mga how-to nito. Ang gallery ay permanenteng mabubura."
+                },
+                "characters": {
+                    "header": "$~Mga Karakter",
+                    "explanation": "$~Mga karakter na ibinahagi dito. Kahit sino sa gallery na ito ay maaaring gumamit ng isa sa kanilang sariling proyekto, o gumawa ng sarili nilang bersyon nito para baguhin."
+                },
+                "projects": {
+                    "header": "$~Mga Proyekto",
+                    "explanation": "$~Mga proyekto na ibinahagi dito. Kahit sino sa gallery na ito ay maaaring magbukas ng isa, at gumawa ng sarili nilang bersyon nito para baguhin."
+                }
+            },
+            "confirm": {
+                "delete": {
+                    "description": "$~burahin ang gallery",
+                    "prompt": "$~burahin"
+                },
+                "remove": {
+                    "description": "$~alisin ang proyekto mula sa gallery",
+                    "prompt": "$~tanggalin"
+                },
+                "removecharacter": {
+                    "description": "$~alisin ang karakter mula sa gallery",
+                    "prompt": "$~alisin"
+                }
+            },
+            "error": {
+                "unknown": "$~Hindi umiiral o hindi pampubliko ang gallery na ito.",
+                "unreachable": "$~Hindi namin ma-load ang gallery na ito. Kung inaasahan mong magkaroon ng access, suriin ang iyong koneksyon; maaaring hinaharangan ito ng isang VPN, extension ng browser, o filter ng network."
+            },
+            "field": {
+                "name": {
+                    "description": "$~Pangalan ng gallery",
+                    "placeholder": "$~pangalan"
+                },
+                "description": {
+                    "description": "$~Paglalarawan ng gallery",
+                    "placeholder": "$~Ilarawan ang iyong gallery. Ano ang tema, mga layunin, o komunidad nito?"
+                }
+            },
+            "projects": "$~$#count[$count proyekto|$count na proyekto]",
+            "characters": "$~$#count[$count karakter|$count na karakter]",
+            "button": {
+                "editcharacter": "$~I-edit ang karakter na ito",
+                "copyreference": "$~Kopyahin ang isang sanggunian sa karakter na ito, para i-paste sa isang proyekto",
+                "copied": "$~Nakopya na!"
+            },
+            "tab": {
+                "label": "$~mga setting ng gallery",
+                "labels": [
+                    "$~Mga Gumawa",
+                    "$~Mga Tagapangasiwa",
+                    "$~Kakikitaan",
+                    "$~Burahin"
+                ],
+                "tips": [
+                    "$~piliin kung sino ang maaaring magdagdag ng gawa sa gallery na ito",
+                    "$~piliin kung sino ang maaaring mamahala sa gallery na ito",
+                    "$~piliin kung sino ang maaaring makakita sa gallery na ito",
+                    "$~burahin ang gallery na ito"
+                ]
+            }
+        },
+        "gallerymoderation": {
+            "header": "$~Mga Ulat",
+            "description": "$~Ang mga hiniling sa iyo ng ibang tao na suriin, mula sa pinakaluma. Sinasabi ng desisyon kung anong mga alituntunin ang nalabag, at sinasabihan ang gumawa ng bagay kung ano ang naging desisyon mo.",
+            "labels": {
+                "action": "$~Ano ang Gagawin",
+                "reason": "$~Aling mga Alituntunin ang Nilabag",
+                "subject": "$~Ano ang Inireport"
+            },
+            "view": {
+                "label": "$~tingnan ito",
+                "tip": "$~buksan ang iniulat"
+            },
+            "remove": {
+                "label": "$~tanggalin",
+                "tip": "$~sumusuway ito sa mga panuntunan"
+            },
+            "keep": {
+                "label": "$~panatilihin",
+                "tip": "$~hindi ito sumusuway sa mga panuntunan"
+            },
+            "empty": "$~Walang naghihintay ng desisyon.",
+            "error": "$~Kailangan mong mag-sign in para suriin ang mga ulat.",
+            "note": {
+                "description": "$~Ano ang sasabihin sa gumawa nito",
+                "placeholder": "$~magsabi ng kahit ano sa kanila (opsyonal)"
+            },
+            "remaining": "$~$#count[$count ulat na naghihintay|$count na ulat na naghihintay]"
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~Mga Paano-Gawin",
+                "subheader": "$~$#total[$total kung paano gawin|$total na kung paano gawin], $new na bago",
+                "subheaderEmpty": "$~lumikha ng una!",
+                "prompt": "$~Ang mga \"how-to\" ay maiikling paliwanag at halimbawang code kung paano gawin ang isang bagay gamit ang @wordplay. Kapag nalaman mo na ang isang bagay na gusto mong ibahagi, sumulat ng isa para sa iba pang mga tagalikha sa gallery na ito, para matutunan din nila ito!"
+            },
+            "drafts": {
+                "header": "$~📝 Mga draft na paano gawin",
+                "prompt": "$~Ito ay isang espasyo para sa iyong mga draft! Ikaw lamang at ang iyong mga collaborator ang makakakita ng mga draft na ito.",
+                "tooltip": "$~tingnan ang iyong draft",
+                "note": "$~Ito ay isang draft na how-to. Ikaw lang at ang iyong mga collaborator ang makakakita nito."
+            },
+            "bookmarks": {
+                "header": "$~🔖 Mga Bookmark",
+                "tooltip": "$~pumunta sa kung paano ito gawin",
+                "canBookmark": {
+                    "label": "$~🔖 i-bookmark kung paano gawin",
+                    "tip": "$~i-bookmark ang how-to na ito para mahanap ito mamaya"
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 tanggalin ang bookmark",
+                    "tip": "$~alisin ang how-to na ito sa iyong mga bookmark"
+                },
+                "empty": "$~Maaari mong i-bookmark ang mga how-to na gusto mong sanggunian sa ibang pagkakataon.",
+                "notLoggedIn": "$~Dapat ay <naka-log in@://login> ka para magamit ang mga bookmark"
+            },
+            "navigationtooltip": "$~mag-navigate sa isang kung paano gawin",
+            "button": {
+                "reset": {
+                    "label": "$~sentro",
+                    "tip": "$~gitna ang canvas"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~Gumawa ng bagong paraan",
+                    "explanation": "$~Isulat ang pangalan at nilalaman ng iyong bagong how-to."
+                },
+                "editForm": {
+                    "header": "$~I-edit kung paano gawin",
+                    "explanation": "$~I-edit ang pangalan at nilalaman ng iyong how-to."
+                },
+                "post": {
+                    "label": "$~📣 post",
+                    "tip": "$~i-post ang iyong mga how-to sa space"
+                },
+                "save": {
+                    "label": "$~💾 i-save bilang draft",
+                    "tip": "$~i-save ang iyong mga tagubilin bilang isang draft"
+                },
+                "notification": {
+                    "label": "$~abisuhan ang mga subscriber",
+                    "labels": ["$~ipaalam", "$~huwag ipaalam"],
+                    "tips": [
+                        "$~abisuhan ang mga subscriber kapag na-post mo na ang how-to na ito",
+                        "$~huwag abisuhan ang mga subscriber kapag nai-post mo na ang how-to na ito"
+                    ]
+                },
+                "editor": {
+                    "placeholder": "$~Isulat ang iyong mga how-to dito, gamit ang formatting at code para magturo.",
+                    "description": "$~isang text box para isulat ang iyong mga paraan"
+                },
+                "title": {
+                    "description": "$~ang pamagat ng iyong mga tagubilin",
+                    "placeholder": "$~Pamagat"
+                },
+                "untitledHowToPlaceholder": "$~Walang pamagat na paraan",
+                "collaborators": {
+                    "header": "$~👥 mga kolaborator",
+                    "explanation": "$~Maaaring i-edit ng mga collaborator ang how-to na ito at tingnan ito sa mga draft."
+                },
+                "collaboratorsToggle": {
+                    "on": "$~tiklupin ang panel ng mga collaborator",
+                    "off": "$~palawakin ang panel ng mga collaborator"
+                },
+                "access": {
+                    "header": "$~↗ ibahagi",
+                    "explanation": "$~Maaaring pahintulutan ng curator ng gallery na ito ang mga tagalikha at curator ng iba pang mga gallery na kanilang kino-curate na tingnan ang how-to na ito. Kung ayaw mong makita nila ito, maaari mong limitahan kung sino ang maaaring tumingin sa how-to na ito sa mga curator at creator lamang sa gallery na ito."
+                },
+                "accessToggle": {
+                    "on": "$~tiklupin ang panel ng mga setting ng access",
+                    "off": "$~palawakin ang panel ng mga setting ng pag-access"
+                },
+                "accessMode": {
+                    "label": "$~paghigpitan kung sino ang makakatingin sa how-to na ito",
+                    "labels": ["$~pinaghihigpitan", "$~pinalawak"],
+                    "tips": [
+                        "$~tanging mga tagalikha lamang sa gallery na ito ang makakakita",
+                        "$~mga tagalikha at curator sa anumang gallery na maaaring tingnan ng mga curator curator"
+                    ]
+                },
+                "localeOptionsLabel": "$~wika ng input ng editor",
+                "publicExplanation": "$~Kung gusto mong makita ng sinumang may link ang how-to mo, puwede mong gawing pampubliko ang how-to mo.",
+                "publicMode": {
+                    "label": "$~gawing pampubliko ang mga tagubiling ito",
+                    "labels": ["$~pribado", "$~publiko"],
+                    "tips": [
+                        "$~tanging mga Wordplayer na may direktang access sa how-to na ito ang makakakita nito",
+                        "$~makikita ng sinumang may link ang how-to na ito"
+                    ]
+                },
+                "noGuidingQuestions": "$~Wala pang mga gabay na tanong ang gallery na ito, kaya wala pang maisusulat. Kailangang magdagdag ang isang curator ng kahit isang gabay na tanong bago maisulat ang mga how-to."
+            },
+            "viewer": {
+                "edit": {
+                    "label": "$~✏️ i-edit",
+                    "tip": "$~i-edit ang how-to na ito"
+                },
+                "delete": {
+                    "description": "$~burahin ang mga tagubiling ito",
+                    "prompt": "$~🗑️ burahin"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 ipasa sa Gabay",
+                        "tip": "$~ipasa ang kung paano gawin na ito para isaalang-alang na isama sa Gabay!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ isinumite sa Gabay",
+                        "tip": "$~naipasa na ang kung paano gawin na ito para isaalang-alang na isama sa Gabay."
+                    },
+                    "header": "$~listahan ng Gabay"
+                },
+                "usedBy": {
+                    "prompt": "$~Ginamit mo ba ang how-to na ito sa iyong proyekto o sa iba pang how-to? Ipaalam sa iba sa pamamagitan ng pagdaragdag ng iyong proyekto sa listahan!",
+                    "empty": "$~Wala ka pang anumang proyekto o iba pang nailathalang mga tagubilin. Subukang gumawa ng isa!",
+                    "countDisplay": "$~Ginamit ito ng ibang direktor ng Wordplay sa $#count[$count ibang proyekto o kung paano gawin|$count na ibang proyekto o kung paano gawin]",
+                    "selector": "$~tagapili ng proyekto at kung paano gawin",
+                    "removeButton": "$~alisin ang proyekto o mga tagubilin mula sa listahan",
+                    "addButton": "$~magdagdag ng proyekto o kung paano gawin"
+                },
+                "reactionsPrompt": "$~Nagustuhan mo ba ang how-to na ito? Mag-iwan ng reaksyon para suportahan ang lumikha!",
+                "chatPrompt": "$~Mag-iwan ng komento o tanong para sa lumikha!",
+                "link": {
+                    "label": "$~🔗 kopyahin ang link kung paano gawin",
+                    "tip": "$~kopyahin ang link papunta sa how-to na ito"
+                },
+                "collaborators": "$~isinulat ni",
+                "view": {
+                    "tip": "$~tingnan ang kung paano gawin"
+                }
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~Mga setting ng espasyo kung paano gamitin",
+                    "explanation": "$~I-configure ang mga setting para sa how-to space na ito. I-click ang save button sa ibaba para i-save ang iyong mga setting."
+                },
+                "configurationButton": {
+                    "tip": "$~i-configure ang espasyong ito para sa mga tagubilin (how-to space)",
+                    "label": "$~⚙️ mga setting"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~Kakayahang Makita",
+                        "explanation": "$~I-configure kung sino ang maaaring tumingin sa mga how-to sa espasyong ito bilang default"
+                    },
+                    "mode": {
+                        "label": "$~default na kakayahang makita",
+                        "labels": ["$~limitado", "$~pinalawak"],
+                        "tips": [
+                            "$~ang mga collaborator lang ng gallery na ito ang makakakita ng mga kung paano gawin",
+                            "$~ang mga collaborator ng mga gallery na itinuturo mo sa ibaba ang makakakita ng mga kung paano gawin"
+                        ]
+                    },
+                    "expandedOptions": "$~hayaang makita ng mga curator at tagalikha ng napiling gallery ang mga how-to ng gallery na ito",
+                    "expandedAdd": "$~magdagdag ng gallery sa listahan",
+                    "expandedRemove": "$~alisin ang gallery mula sa listahan"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~Mga Gabay na Tanong",
+                        "explanation": "$~I-configure ang mga gabay na tanong na ipinapakita kapag lumilikha ng bagong how-to. Paghiwalayin ang mga gabay na tanong gamit ang line break."
+                    },
+                    "descriptor": "$~isang text box para isulat ang iyong mga gabay na tanong, na pinaghihiwalay ng line break.",
+                    "default": [
+                        "$~Ano ang natutunan mo? Magbigay ng mga halimbawa kung paano ito gagawin."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~Mga Reaksyon",
+                        "explanation": "$~I-configure ang mga reaksyon na maaaring iwan ng mga manonood sa mga bagong how-to"
+                    },
+                    "reactionPickerTip": "$~pumili ng karakter na magiging reaksyon",
+                    "reactionDescriptionTip": "$~ilarawan ang ibig sabihin ng reaksyong ito",
+                    "addReactionTip": "$~magdagdag ng bagong reaksyon",
+                    "removeReactionTip": "$~alisin ang reaksyong ito",
+                    "default": {
+                        "👍": "$~Gusto ko ito!",
+                        "💭": "$~Nakaka-inspire ito sa akin!",
+                        "🙏": "$~Salamat!",
+                        "🎉": "$~Pagdiriwang!",
+                        "🤩": "$~Gusto kong subukan ito!",
+                        "😁": "$~Nakakatuwa ito!"
+                    }
+                },
+                "submit": {
+                    "error": "$~hindi maaaring walang laman ang mga gabay na tanong at reaksyon",
+                    "label": "$~i-save",
+                    "tip": "$~i-save ang mga setting ng espasyo para sa pag-aaral"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~paano-gawin na pinamagatang $title ay inilipat sa $x $y",
+                "canvasPosition": "$~inilipat ang canvas sa $x, $y",
+                "moveActivated": "$~na-activate ang paggalaw. Maaaring ilipat ang $target gamit ang mouse, keyboard, o touchscreen",
+                "moveDeactivated": "$~na-deactivate ang paggalaw."
+            },
+            "error": {
+                "unknown": "$~Hindi umiiral o hindi pampubliko ang how-to space na ito."
+            }
+        },
+        "source": {
+            "label": "$~pinagmulan",
+            "title": "$~kodigo",
+            "empty": [
+                "$~Simulan na natin! Kaya mo na...",
+                "• Buksan ang 📕 at i-drag 🖱️ kami papunta sa programang ito.",
+                "• I-type ang $symbol at piliin ang \"us\" mula sa menu.",
+                "• I-type kami gamit ang ⌨️.",
+                "• Mag-browse sa<galleries@://galleries> para sa inspirasyon.",
+                "Kung ikaw ay natigil,<learn more@://learn> ."
+            ],
+            "confirm": {
+                "delete": {
+                    "description": "$~burahin ang @Source na ito",
+                    "prompt": "$~burahin"
+                }
+            },
+            "toggle": {
+                "blocks": {
+                    "on": "$~i-edit bilang teksto"
+                },
+                "characters": {
+                    "on": "$~itago ang tagapili ng emoji at simbolo",
+                    "off": "$~ipakita ang tagapili ng emoji at simbolo"
+                },
+                "expandSequence": {
+                    "on": "$~mga item na tiklupin",
+                    "off": "$~palawakin ang mga item"
+                },
+                "search": {
+                    "on": "$~itago ang paghahanap",
+                    "off": "$~hanapin ang code"
+                }
+            },
+            "options": {
+                "locale": {
+                    "tip": "$~mas gustong wika para sa pinagmulan",
+                    "all": "$~$#count[$count wika|$count na wika]",
+                    "viewing": "$~sa wika ng $language"
+                }
+            },
+            "button": {
+                "selectOutput": "$~ipakita ang output na ito sa entablado",
+                "zoomIn": "$~palakihin ang kodigo",
+                "zoomOut": "$~paliitin ang kodigo",
+                "replace": "$~palitan ang lahat ng tugma",
+                "selectOutputError": "$~ipakita ang output na ito sa entablado; ang pagtatasa ng pinagmulang ito ay nagtapos sa isang error",
+                "addView": "$~ipakita ang kodigong ito sa pangalawang tanawin",
+                "closeView": "$~isara ang tanawing ito"
+            },
+            "field": {
+                "name": {
+                    "description": "$~i-edit ang pangalan ng pinagmulan",
+                    "placeholder": "$~pangalan"
+                },
+                "search": "$~teksto",
+                "replace": "$~palitan"
+            },
+            "menu": {
+                "label": "$~awtomatikong pagkumpleto ng menu",
+                "show": "$~ipakita ang menu ng awtomatikong pagkumpleto",
+                "empty": "$~Walang mga mungkahi.",
+                "item": "$~$code, $description"
+            },
+            "cursor": {
+                "priorLine": "$~ilipat ang cursor sa linya bago",
+                "nextLine": "$~ilipat ang cursor sa linya pagkatapos",
+                "priorInline": "$~ilipat ang cursor sa posisyon bago",
+                "nextInline": "$~ilipat ang cursor sa posisyon pagkatapos",
+                "expandBeforeInline": "$~palawakin ang pagpili bago",
+                "expandAfterInline": "$~palawakin ang pagpili pagkatapos",
+                "expandPriorLine": "$~palawakin ang pagpili sa naunang linya",
+                "expandNextLine": "$~palawakin ang seleksyon sa susunod na linya",
+                "lineStart": "$~ilipat ang cursor sa simula ng linya",
+                "lineEnd": "$~ilipat ang cursor sa dulo ng linya",
+                "sourceStart": "$~ilipat ang cursor sa simula ng pinagmulan",
+                "sourceEnd": "$~ilipat ang cursor sa dulo ng pinagmulan",
+                "priorNode": "$~pumili ng kapitbahay bago",
+                "nextNode": "$~pumili ng kapitbahay pagkatapos",
+                "parent": "$~pumili ng lalagyan",
+                "selectAll": "$~pumili ng programa",
+                "incrementLiteral": "$~dagdagan ang numero, teksto, o Boolean",
+                "decrementLiteral": "$~bawasan ang numero, teksto, o Boolean",
+                "insertTab": "$~ipasok ang tab",
+                "insertTrue": "$~ipasok ang totoo",
+                "insertFalse": "$~ipasok ang mali",
+                "insertNone": "$~maglagay ng simbolong wala",
+                "insertNotEqual": "$~hindi pantay ang ipasok",
+                "insertProduct": "$~maglagay ng simbolo ng pagpaparami",
+                "insertDot": "$~simbolo ng produkto na may tuldok na ipasok",
+                "insertQuotient": "$~simbolo ng pagsingit",
+                "insertDegree": "$~maglagay ng simbolo ng digri",
+                "insertFunction": "$~tungkulin ng pagsingit",
+                "insertLessOrEqual": "$~maglagay ng mas mababa sa o katumbas ng",
+                "insertGreaterOrEqual": "$~maglagay ng mas malaki sa o katumbas ng",
+                "insertType": "$~simbolo ng uri ng pagsingit",
+                "insertDocs": "$~simbolo ng paliwanag",
+                "insertStream": "$~simbolo ng stream na isingit",
+                "insertChange": "$~ipasok ang simbolo ng pagbabago",
+                "insertConvert": "$~ipasok ang simbolo ng pag-convert",
+                "insertPrevious": "$~ilagay ang naunang simbolo",
+                "insertTable": "$~simbolo ng paglalagay ng bukas na talahanayan",
+                "insertBorrow": "$~ipasok ang hiramin",
+                "insertShare": "$~ipasok ang bahagi",
+                "insertLine": "$~maglagay ng pahinga sa linya",
+                "backspace": "$~burahin ang seleksyon o naunang simbolo",
+                "delete": "$~burahin ang seleksyon o susunod na simbolo",
+                "cut": "$~pagpili ng hiwa",
+                "copy": "$~pagpili ng kopya",
+                "paste": "$~i-paste ang mga nilalaman ng keyboard",
+                "parenthesize": "$~pagpili sa loob ng panaklong",
+                "enumerate": "$~ilista ang seleksyon",
+                "type": "$~mga karakter na uri",
+                "undo": "$~i-undo ang nakaraang pag-edit",
+                "redo": "$~gawing muli ang hindi na-edit na pag-edit",
+                "search": "$~maghanap ng mga espesyal na karakter na ilalagay",
+                "tidy": "$~maayos na espasyo",
+                "elide": "$~toggle elision",
+                "largeDelete": "$~Sigurado ka bang gusto mong burahin ang napiling ito? Maaari mong gamitin ang buton na i-undo (↺) kung magbago ang iyong isip.",
+                "ignored": {
+                    "readOnly": "$~Ang pinagmulan ay read only",
+                    "blockSpace": "$~Bawal ang mga tab dito",
+                    "noDelete": "$~Hindi ito mabura",
+                    "noInsert": "$~Hindi maipasok dito",
+                    "noError": "$~Ang pag-edit na ito ay lilikha ng isang salungatan",
+                    "noEditor": "$~Walang aktibong editor",
+                    "noClipboard": "$~Walang available na clipboard",
+                    "noClipboardItem": "$~Walang nakalagay sa clipboard",
+                    "noSelection": "$~Walang napili",
+                    "noMove": "$~Hindi na makagalaw pa",
+                    "unhandled": "$~walang ginagawa ang susing iyon dito"
+                },
+                "nextMatch": "$~pumunta sa susunod na tugma sa paghahanap",
+                "insertTranslate": "$~ipasok ang simbolo ng pagsasalin",
+                "insertThis": "$~ilagay ang simbolong ito",
+                "tab": "$~Ang Tab ay lumilipat ng pokus ng keyboard. Para maglagay ng tab, gamitin ang buton na maglagay sa ibaba, o baguhin kung ano ang ginagawa ng Tab sa mga setting.",
+                "matchDelimiter": "$~ilipat ang cursor sa katugmang delimiter",
+                "insertPattern": "$~ipasok ang pattern",
+                "insertSearch": "$~simbolo ng paghahanap ng pattern na isingit",
+                "insertPatternAny": "$~maglagay ng simbolo ng anumang-grapheme na pattern",
+                "insertPatternSpace": "$~simbolo ng pattern ng espasyo",
+                "insertPatternStart": "$~simbolo ng pagsisimula ng pattern",
+                "insertPatternEnd": "$~simbolo ng pagtatapos ng pattern",
+                "insertPatternFold": "$~ipasok ang pattern na simbolo ng case-fold",
+                "insertPatternAhead": "$~maglagay ng simbolo ng lookahead na pattern",
+                "insertPatternBehind": "$~maglagay ng pattern na simbolo ng lookbehind",
+                "insertPatternWord": "$~simbolo ng salita na may pattern",
+                "insertPatternWordEdge": "$~simbolo ng word-edge na pattern na isingit",
+                "echo": {
+                    "space": "$~espasyo",
+                    "newline": "$~bagong linya",
+                    "tab": "$~tab"
+                },
+                "selected": "$~napiling $#count[$count karakter|$count na karakter]: $text",
+                "unknownPosition": "$~sa kodigo",
+                "insertWholeNote": "$~maglagay ng buong nota, apat na bit ang haba",
+                "insertDottedWholeNote": "$~maglagay ng tuldok na buong nota, anim na bit ang haba",
+                "insertHalfNote": "$~maglagay ng kalahating nota, dalawang bit ang haba",
+                "insertDottedHalfNote": "$~maglagay ng tuldok na kalahating nota, tatlong bit ang haba",
+                "insertQuarterNote": "$~maglagay ng ikaapat na nota, isang bit ang haba",
+                "insertDottedQuarterNote": "$~maglagay ng tuldok na ikaapat na nota, isa't kalahating bit ang haba",
+                "insertEighthNote": "$~maglagay ng ikawalong nota, kalahating bit ang haba",
+                "insertDottedEighthNote": "$~maglagay ng tuldok na ikawalong nota, tatlong-kapat ng bit ang haba",
+                "insertSixteenthNote": "$~maglagay ng ikalabing-anim na nota, ikaapat na bahagi ng bit ang haba",
+                "insertDottedSixteenthNote": "$~maglagay ng tuldok na ikalabing-anim na nota, tatlong-ikawalo ng bit ang haba",
+                "selectedNodes": "$~$#count[$count node na napili|$count na node na napili], mula sa $first hanggang $last",
+                "insertRange": "$~ipasok ang simbolo ng saklaw",
+                "findText": "$~hanapin sa kodigo"
+            },
+            "error": {
+                "invalidName": "$~Dapat itong isang wastong pangalan ng Wordplay.",
+                "invalidWords": "$~Hindi maaaring walang laman ang mga salita o maglaman ng mga nakalaan na simbolo."
+            },
+            "tour": {
+                "launch": "$~maglibot sa editor",
+                "editor": "$~Lahat ng /code/ mo ay nasa *editor*. Bawat programa ng @wordplay *ay sumusuri sa isang halaga*, at ang halagang iyon ang lumalabas sa *stage*.",
+                "textBlocks": "$~Ang toggle na ito ay nagpapalipat-lipat sa pagitan ng dalawang paraan ng pag-eedit: /text/ at /blocks/. Ang *Text* ay mas flexible ngunit mas madaling magkamali. Ang *Blocks* ay hindi gaanong madaling magkamali ngunit mas mabagal at mas matibay.",
+                "toolbar": "$~Ang mga kontrol na ito sa /toolbar/ ay nagbibigay-daan sa iyong *piliin lahat*, *mag-zoom in* at *mag-zoom out*, *mag-undo*, *mag-redo*, *mag-cut*, *magkopya*, at *mag-paste*.",
+                "expand": "$~Ipinapakita ng toggle na /expand/ ang mas *advanced* na mga tool sa pag-eedit.",
+                "shortcuts": "$~Ang button na /shortcuts/ ay magbubukas ng listahan ng mga *keyboard shortcut* na maaari mong gamitin para mas mabilis na mag-edit."
+            },
+            "feedback": {
+                "cantDrop": "$~Hindi pwedeng ihulog doon:",
+                "cantPaste": "$~Hindi ma-paste doon:"
+            },
+            "clipboard": {
+                "label": "$~clipboard"
+            },
+            "notice": {
+                "dismiss": "$~I-dismiss ang abisong ito"
+            },
+            "fold": {
+                "collapse": "$~tiklupin ang $name",
+                "expand": "$~palawakin ang $name",
+                "all": "$~tiklupin lahat",
+                "none": "$~ibuka ang lahat",
+                "collapsed": "$~Naka-collapse $name",
+                "expanded": "$~Pinalawak $name"
+            },
+            "view": {
+                "added": "$~nagdagdag ng pangalawang tanawin ng $name",
+                "closed": "$~isinara ang pangalawang tanawin ng $name"
+            }
+        },
+        "annotations": {
+            "label": "$~mga tunggalian at tulong",
+            "cursor": "$~Ito ay *$node*$type[ at ito ay isang $type|].",
+            "cursorDoc": "$~Sinasabi nila: “$description”",
+            "cursorParent": "$~Nasa loob sila ng isang *$node*$type[, na nagbibigay ng $type|].",
+            "learn": "$~/Matuto nang higit pa/",
+            "evaluating": "$~Ang saya, tara, suriin natin!",
+            "space": "$~Ito ang espasyo! Sino ang mag-aakala na walang makakapagsabi ng ganito karami?",
+            "nodeDescription": "$~Sila ay $description.",
+            "button": {
+                "resolution": "$~Lutasin ang tunggalian na ito",
+                "toggle": "$~ipakita at itago ang mga anotasyon",
+                "highlightMajor": "$~ipakita ang kodigo ng error na ito sa editor",
+                "highlightMinor": "$~ipakita ang kodigo ng babalang ito sa editor",
+                "highlightStep": "$~ipakita ang kodigo ng hakbang ng pagtatasa na ito sa editor",
+                "elsewhere": "$~buksan kung saan ito maaayos"
+            },
+            "severity": {
+                "major": "$~error",
+                "minor": "$~babala"
+            },
+            "conflictLabel": "$~$severity: $conflict"
+        },
+        "output": {
+            "label": "$~entablado",
+            "toggle": {
+                "grid": {
+                    "on": "$~itago ang mga linya ng grid",
+                    "off": "$~ipakita ang mga linya ng grid"
+                },
+                "fit": {
+                    "on": "$~manu-manong kontrolin ang zoom",
+                    "off": "$~ibagay ang zoom sa nilalaman"
+                }
+            },
+            "field": {
+                "key": {
+                    "description": "$~pakikinig sa mga pagpindot sa key"
+                },
+                "chat": {
+                    "description": "$~magpadala ng mensahe sa chat",
+                    "placeholder": "$~mensahe"
+                }
+            },
+            "button": {
+                "submit": "$~isumite ang mensaheng ito sa chat",
+                "zoomIn": "$~mag-zoom in sa entablado",
+                "zoomOut": "$~lumayo mula sa entablado",
+                "resetZoom": "$~i-clear ang iyong pan at zoom",
+                "rotate": "$~paikutin $name",
+                "resize": "$~baguhin ang laki $name",
+                "perform": "$~gawin: simulan muli ang programa, patakbuhin ito, at punuin ang screen ng entablado",
+                "resetZoomAt": "$~burahin ang iyong pan at zoom, ngayon ay $percent porsyento ng sariling view ng proyekto"
+            },
+            "options": {
+                "locale": "$~ginustong wika para sa output",
+                "default": "$~$#count[$count wika|$count na wika]"
+            },
+            "tour": {
+                "launch": "$~maglibot sa entablado",
+                "stage": "$~Ipinapakita ng /stage/ ang *kasalukuyang halaga* ng iyong programa. Ang halagang iyon ay maaaring isang *raw na halaga* tulad ng isang numero o listahan, *visual output* na nakikita mo, o kahit na *tunog* na naririnig mo.",
+                "reset": "$~Ang /reset/ na pindutan ay nagsisimula muli sa pagtakbo ng iyong programa mula sa *simula*, sa anumang mode: sa ▶️ *play* ay tatakbo itong muli mula sa itaas, sa ✏️ *edit* ay hihinto ito pagkatapos ng unang pagtakbo para makita mo ang epekto ng iyong mga pagbabago sa unang output, at sa ⏸️ *debug* ay hihinto ito sa pinakaunang hakbang.",
+                "zoom": "$~Ang mga buton na /zoom/ ay nagbibigay-daan sa iyong mag-zoom *in* at *out* sa entablado para mas malinaw o mas detalyado mong makita ang iyong output.",
+                "grid": "$~Ang buton na /grid/ ay nagpapakita ng *grid* sa entablado, na nakakatulong para sa eksaktong paglalagay ng mga bagay habang nagdidisenyo ka.",
+                "lock": "$~Nila-lock ng buton na /lock/ ang view ng entablado sa lugar nito. Kapag *naka-lock*, nananatili itong hindi gumagalaw; kapag *naka-unlock*, malaya kang makakapag-pan at makakapag-zoom.",
+                "animationSpeed": "$~Ang kontrol na /animation speed/ ay nagtatakda kung gaano kabilis tumutugtog ang mga animation. Ang parehong kontrol ay nasa *settings*, kaya maaari mo itong baguhin mula sa alinmang lugar."
+            },
+            "permission": {
+                "title": "$~Kailangan ng pahintulot ang proyektong ito",
+                "microphone": "$~mikropono",
+                "camera": "$~kamera",
+                "note": "$~Magtatanong ang iyong browser bago magbahagi.",
+                "retry": "$~Subukan muli"
+            },
+            "multiselect": "$~Gamitin ang tab at ang alt at arrow keys para lumipat sa pagitan ng mga output. Pindutin ang space para idagdag o alisin ang naka-focus na output mula sa iyong selection. Pindutin ang enter para piliin lang ang output na iyon at buksan ang palette. Pindutin ang escape para i-clear ang iyong selection. Pindutin ang control o command at A para piliin ang lahat ng output.",
+            "selected": "$~Napili $name , napili $count",
+            "deselected": "$~Hindi napili $name , napili $count",
+            "allSelected": "$~lahat ng output ay napili, $count ay napili",
+            "cleared": "$~nabura ang pagpili",
+            "moved": "$~$name inilipat $direction papunta sa $place",
+            "directions": [
+                "$~pataas",
+                "$~pataas at pakanan",
+                "$~pakanan",
+                "$~pababa at pakanan",
+                "$~pababa",
+                "$~pababa at pakaliwa",
+                "$~pakaliwa",
+                "$~pataas at pakaliwa"
+            ],
+            "closer": "$~mas malapit",
+            "farther": "$~mas malayo",
+            "turned": "$~umikot",
+            "manyChanged": "$~$#count[$count output|$count na output] ang nagbago sa $container, tulad ng $example",
+            "selectedOnly": "$~Napili $name , binubuksan ang palette",
+            "selectedSuffix": "$~napili",
+            "sensor": {
+                "microphone": {
+                    "on": "$~itago ang waveform ng mikropono",
+                    "off": "$~ipakita ang waveform ng mikropono"
+                },
+                "camera": {
+                    "on": "$~itago ang preview ng kamera",
+                    "off": "$~ipakita ang preview ng kamera"
+                }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~mode ng pagsusuri",
+                    "labels": ["$~i-edit", "$~i-debug", "$~laruin"],
+                    "tips": [
+                        "$~lumipat sa edit mode: itigil ang programa kahit saan ito naroon at baguhin ito; ang mga pagbabago ay maglalaro muli para ipakita ang epekto sa puntong ito",
+                        "$~lumipat sa debug mode: dahan-dahang dumaan sa pagtakbo ng programa, na may mga halaga na ipinapakita sa tabi ng kodigo at sa palette",
+                        "$~lumipat sa play mode: patakbuhin nang buhay ang programa mula sa kinaroroonan nito, na tumutugon sa mga input sa tunay na oras"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~mode ng pagsusuri",
+                    "labels": ["$~tingnan", "$~i-debug", "$~laruin"],
+                    "tips": [
+                        "$~lumipat sa view mode: itigil ang programa kahit saan ito naroon at basahin ito",
+                        "$~lumipat sa debug mode: dahan-dahang dumaan sa pagtakbo ng programa, na may mga halaga na ipinapakita sa tabi ng kodigo at sa palette",
+                        "$~lumipat sa play mode: patakbuhin nang buhay ang programa mula sa kinaroroonan nito, na tumutugon sa mga input sa tunay na oras"
+                    ]
+                },
+                "announce": "$~mode na $mode",
+                "exception": "$~Nagkaroon ng mali ang programa, kaya lumipat ito sa debug mode para masuri mo ito.",
+                "toggle": "$~lumipat sa pagitan ng edit at play mode",
+                "resuming": "$~nagpapatuloy sa hakbang $position",
+                "performing": "$~pagtatanghal $number, mula sa umpisa"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~simulan",
+                    "tip": "$~ipakita ang proyekto"
+                }
+            },
+            "download": {
+                "title": "$~Naghahanda…",
+                "note": "$~Ito ay dina-download minsan lang, pagkatapos ay agad na mailo-load sa susunod na pagkakataon.",
+                "percent": "$~$percent%",
+                "hand": "$~tagasubaybay ng kamay",
+                "face": "$~tagasubaybay ng mukha",
+                "objects": "$~tagakilala ng bagay",
+                "loading": "$~Nilo-load ang $model…"
+            },
+            "sound": {
+                "enable": "$~Pindutin para sa tunog",
+                "explanation": "$~May musika ang proyektong ito, ngunit naghihintay ang iyong browser na makipag-ugnayan ka muna sa pahina bago ito magpatunog.",
+                "loading": "$~Inihahanda ang $instruments…",
+                "synthesized": "$~Hindi ma-load ang $instruments, kaya ang tunog nila ay synthesized."
+            },
+            "keypad": {
+                "label": "$~Mga susi na ginagamit ng proyektong ito",
+                "any": "$~Pindutin para maglaro"
+            },
+            "announce": {
+                "zoom": "$~stage zoom $percent porsyento",
+                "hidden": "$~walang laman sa stage sa $percent porsyento; burahin ang iyong zoom para ipakita ang lahat",
+                "shown": "$~nasa stage na ulit ang lahat"
+            },
+            "hidden": {
+                "message": "$~Wala sa stage ang lahat.",
+                "show": "$~ipakita ang lahat"
+            },
+            "snap": {
+                "anchors": [
+                    "$~gitnang pahalang",
+                    "$~kaliwang gilid",
+                    "$~kanang gilid",
+                    "$~gitnang patayo",
+                    "$~ibabang gilid",
+                    "$~itaas na gilid",
+                    "$~linya ng patungan"
+                ],
+                "withOutput": "$~$anchor kasama ang $target ng $targetAnchor",
+                "withGrid": "$~$anchor sa grid",
+                "aligned": "$~$constraints, sa $place",
+                "none": "$~walang ipagsusunod sa $direction"
+            },
+            "removed": "$~$#count[$#count na output na binura|$#count na output na binura]",
+            "notRemovable": "$~na hindi mabubura nang mag-isa",
+            "drew": "$~$#count[gumuhit ng landas na may $#count puntos; naka-off ang pagguhit|gumuhit ng landas na may $#count na puntos; naka-off ang pagguhit]",
+            "drawing": "$~$#count[$#count puntos, sa $place|$#count na puntos, huli sa $place]",
+            "point": {
+                "label": "$~puntos $number ng $#count, sa $place",
+                "moved": "$~puntos $number tungo sa $place",
+                "added": "$~idinagdag ang puntos $number",
+                "removed": "$~inalis ang puntos $number",
+                "last": "$~kailangan ng landas ng hindi bababa sa dalawang puntos"
+            }
+        },
+        "timeline": {
+            "slider": "$~slider ng oras",
+            "button": {
+                "play": "$~patakbuhin ang programa, na tumutugon sa mga input nang real time",
+                "backStep": "$~umatras ng isa",
+                "backNode": "$~hakbang sa nakaraang pagsusuri ng cursor",
+                "backInput": "$~isang input pabalik",
+                "out": "$~lumabas sa tungkuling ito",
+                "forwardStep": "$~humakbang pasulong nang isa",
+                "forwardNode": "$~hakbang sa susunod na pagsusuri ng cursor",
+                "forwardInput": "$~hakbang pasulong sa susunod na input ng stream",
+                "present": "$~hanggang sa dulo",
+                "start": "$~pumunta sa simula",
+                "reset": "$~i-restart ang pagganap"
+            },
+            "tour": {
+                "timeline": "$~Ang /timeline/ ay nagbibigay-daan sa iyong maghakbang *pasulong* at *paatras* sa pagtakbo ng iyong programa, isang hakbang sa bawat pagkakataon. Lumalabas ito sa toolbar ng stage sa ✏️ *edit* at ⏸️ *debug* na mode, at magandang paraan ito para makita *kung paano* kinakalkula ng iyong programa ang halaga nito, at para makabuo ng ideya sa isip kung paano tumatakbo ang mga @wordplay na programa, lalo na kung hindi mo nakikita ang gawi na gusto mo.",
+                "annotations": "$~Ang window na /annotations/ ay kung saan lumalabas ang mga paliwanag ng bawat hakbang. Habang tinatahak mo ang iyong programa, dito mo mababasa ang nangyari.",
+                "editor": "$~Ipinapakita ng /editor/ ang iyong code. Habang nag-step, ang *value* ng bawat bahagi ng iyong programa ay lilitaw sa tabi ng bahaging iyon *pagkatapos* itong masuri, para mapanood mo ang pagtaas ng mga value habang tumatakbo ang programa.",
+                "history": "$~Ipinapakita ng /history/ ang bawat *input* na natanggap ng iyong programa, tulad ng mga susi, tiktik ng oras, at mga pointer event. *Madraggable* ito, kaya maaari kang bumalik sa kahit anong sandali sa kasaysayan ng pagsusuri ng programa sa pamamagitan lamang ng pag-drag. Kung mas nais mong *marinig* ang mga input na ito kaysa makita, buksan ang /evaluation cues/ sa settings, at @wordplay ay magpapatugtog ng maikling tunog para sa bawat isa, may ibang tunog para sa bawat uri ng input.",
+                "stepControls": "$~Ang /step ang kumokontrol sa/ na nagbibigay-daan sa iyong tumpak na pag-usad sa pagsusuri. Maaari kang tumalon sa *simula* o *dulo*, humakbang *pasulong* o *paatras* nang paisa-isang hakbang, tumalon sa *isang input*, humakbang *palabas* ng isang function, o tumalon sa *kasalukuyang napili* na bahagi ng code.",
+                "modes": "$~Ang /mode switcher/ ay pumipili kung paano tatakbo ang iyong programa. Sa ✏️ *edit* na mode, hihinto ang programa kung nasaan man ito at maaari mong baguhin — muling tatakbo ang iyong mga pagbabago para ipakita ang epekto sa puntong iyon. Sa ⏸️ *debug* na mode, ang kodigo ay para lamang basahin at ang *kasalukuyang halaga* ng bawat bahagi ng iyong programa ay lumalabas sa tabi nito sa editor at sa palette. Sa ▶️ *play* na mode, tumatakbo ang iyong programa nang live mula kung nasaan ito, tumutugon sa mga input sa totoong oras. Sa tabi ng switcher, ang /perform/ na pindutan — isang play na tatsulok na nakabalot sa mga sulok ng full screen — ay nagsisimula ng pagtakbo mula sa itaas at pinupuno ang screen ng stage, at ang ↻ ay nag-reset ng programa sa anumang mode."
+            }
+        },
+        "docs": {
+            "kits": {
+                "header": "$~Mga Kit",
+                "prompt": "$~Ang kit ay kodigo na inilathala ng isang tao para magamit ng ibang tao sa paggawa. Kopyahin ang linya para dito, idikit ito sa itaas ng iyong programa, at magiging sa iyo na ang lahat ng ibinabahagi nito.",
+                "empty": "$~Wala pang naglalathala ng kit. Maaaring sa iyo ang una — magbahagi gamit ang ↑, pagkatapos ay ilathala ito mula sa mga setting ng pagbabahagi ng iyong proyekto.",
+                "shares": "$~nagbabahagi ng $names",
+                "missing": "$~Walang kit na may ganitong pangalan. Maaaring binago ang pangalan nito, o hindi pa ito nailathala.",
+                "missingVersion": "$~Wala rito ang bersyong iyon. Subukan ang ibang bersyon sa ibaba.",
+                "nothing": "$~walang ibinabahagi ang kit na ito",
+                "versions": "$~Bawat bersyon ng kit na ito",
+                "version": {
+                    "tip": "$~tingnan ang bersyong ito ng kit"
+                },
+                "open": "$~basahin ang dokumentasyon ng kit na ito",
+                "none": "$~Walang tugma rito.",
+                "kinds": {
+                    "label": "$~kung ano ang ibinabahagi ng mga kit",
+                    "all": "$~kahit ano"
+                },
+                "yours": "$~Ang mga kit mong hindi nakalista"
+            },
+            "label": "$~gabay",
+            "link": "$~ipakita ang \"$name\" sa dokumentasyon",
+            "nodoc": "$~Sino ako? Ano ako? Ano ang aking layunin?",
+            "button": {
+                "home": "$~umuwi",
+                "back": "$~bumalik sa nakaraan",
+                "toggle": "$~palawakin at paliitin ang grupong konseptong ito"
+            },
+            "field": {
+                "search": "$~mga keyword"
+            },
+            "header": {
+                "names": {
+                    "header": "$~Mga Pangalan",
+                    "explanation": "$~/Mga pangalan para sa konseptong ito./"
+                },
+                "inputs": {
+                    "header": "$~Mga Input",
+                    "explanation": "$~/Mga kinakailangang at opsyonal na halaga./"
+                },
+                "interfaces": {
+                    "header": "$~Mga Interface",
+                    "explanation": "$~/Mga istrukturang pinagbabatayan ng istrukturang ito./"
+                },
+                "properties": {
+                    "header": "$~Mga Ari-arian",
+                    "explanation": "$~/Mga halagang iniimbak ng konseptong ito./"
+                },
+                "functions": {
+                    "header": "$~Mga Tungkulin",
+                    "explanation": "$~/Mga halagang kayang kalkulahin ng konseptong ito./"
+                },
+                "conversions": {
+                    "header": "$~Mga Conversion",
+                    "explanation": "$~/Mga paraan upang i-convert ang halagang ito sa mga halaga ng iba pang mga uri./"
+                },
+                "arrangements": {
+                    "header": "$~Mga Kaayusan",
+                    "explanation": "$~/Mga paraan ng pag-aayos ng mga parirala sa isang grupo./"
+                },
+                "forms": {
+                    "header": "$~Mga Form",
+                    "explanation": "$~/Mga hugis na maaaring ilagay sa entablado./"
+                },
+                "appearance": {
+                    "header": "$~Hitsura",
+                    "explanation": "$~/Mga paraan upang baguhin ang hitsura ng output./"
+                },
+                "animation": {
+                    "header": "$~Animasyon",
+                    "explanation": "$~/Mga paraan upang bigyang-buhay ang output sa entablado./"
+                },
+                "location": {
+                    "header": "$~Lokasyon",
+                    "explanation": "$~/Mga paraan ng pagtukoy kung saan nasa entablado ang output./"
+                },
+                "reactions": {
+                    "header": "$~Mga Reaksyon",
+                    "explanation": "$~/Mga paraan ng pagtugon o pagsusuri sa isang input stream./"
+                }
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~seksyon",
+                    "labels": [
+                        "$~kodigo",
+                        "$~mga kit",
+                        "$~kung paano gawin",
+                        "$~glosaryo"
+                    ],
+                    "tips": [
+                        "$~mga konsepto ng wika ng programming",
+                        "$~kodigo na inilathala ng ibang tao para magamit mo sa paggawa",
+                        "$~magagamit-muli na mga pattern para sa paggawa ng mga proyekto",
+                        "$~mga kahulugan ng mga pangunahing termino"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~kodigo",
+                    "labels": [
+                        "$~proyekto",
+                        "$~kit",
+                        "$~output",
+                        "$~input",
+                        "$~magdesisyon",
+                        "$~pangalan",
+                        "$~teksto",
+                        "$~padron",
+                        "$~mga numero",
+                        "$~katotohanan",
+                        "$~mga listahan",
+                        "$~mga set",
+                        "$~mga mesa",
+                        "$~mga dokumento",
+                        "$~mga uri",
+                        "$~atbp."
+                    ],
+                    "tips": [
+                        "$~mga konsepto sa antas ng proyekto",
+                        "$~kung ano ang ginagawang magagamit ng mga kit na hiniram ng proyektong ito",
+                        "$~mga parirala, grupo, yugto, layout at marami pang iba",
+                        "$~oras, mga butones, mga susi, mga eksena, at higit pa",
+                        "$~pumili ng mga halaga batay sa iba pang mga halaga",
+                        "$~mga halaga ng pangalan, mga tungkulin, at mga istruktura ng datos para magamit sa ibang pagkakataon",
+                        "$~payak at naka-format na teksto",
+                        "$~ilarawan ang hugis ng teksto upang subukan o hanapin ito",
+                        "$~mga numero at operasyon sa matematika",
+                        "$~mga halagang totoo, mali, at wala",
+                        "$~mga listahan at mga operasyon sa listahan",
+                        "$~mga set, mapa, at operasyon",
+                        "$~mga talahanayan at mga operasyon sa talahanayan",
+                        "$~dokumentasyon at mga komento",
+                        "$~mga uri ng data, mga conversion, at mga pagsusuri ng uri",
+                        "$~mga konsepto ng wika na mas mataas ang antas"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "$~mga tagubiling ginawa ng gumagamit",
+                    "labels": ["$~lahat", "$~gallery at mga bookmark"],
+                    "tips": [
+                        "$~tingnan ang lahat ng mga how-to na ginawa ng user",
+                        "$~tingnan lamang ang mga how-to na ginawa ng user mula sa gallery ng proyektong ito at lahat ng bookmark"
+                    ]
+                }
+            },
+            "note": {
+                "empty": "$~Lalabas dito ang mga pangalang tinukoy mo sa iyong proyekto.",
+                "keepTyping": "$~Patuloy na mag-type para maghanap…",
+                "noMatches": "$~Walang mga tugma"
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Proyekto",
+                    "explanation": "$~/Mga konseptong tinukoy sa iyong proyekto./"
+                },
+                "Outputs": {
+                    "header": "$~Mga Output",
+                    "explanation": "$~/Iba't ibang uri ng output na maaaring ilagay sa entablado./"
+                },
+                "Inputs": {
+                    "header": "$~Mga Input",
+                    "explanation": "$~/Mga input stream mula sa mundo na nagbabago sa paglipas ng panahon, na nagiging sanhi ng muling pagsusuri ng isang programa./"
+                },
+                "Decisions": {
+                    "header": "$~Mga Desisyon",
+                    "explanation": "$~/Mga paraan upang pumili sa pagitan ng iba't ibang mga halaga batay sa mga kundisyon./"
+                },
+                "Definitions": {
+                    "header": "$~Mga Kahulugan",
+                    "explanation": "$~/Mga paraan upang pangalanan ang mga halaga, tungkulin, at istruktura ng datos para magamit sa ibang pagkakataon./"
+                },
+                "Numbers": {
+                    "header": "$~Mga Numero",
+                    "explanation": "$~/Mga numero, yunit, at mga operasyon sa matematika./"
+                },
+                "Text": {
+                    "header": "$~Teksto",
+                    "explanation": "$~/Payak at naka-format na teksto, at mga paraan ng pagmamanipula sa mga ito./"
+                },
+                "Truth": {
+                    "header": "$~Katotohanan",
+                    "explanation": "$~/Mga halagang Tama, Mali, at Wala at mga paraan ng paggamit ng mga ito para sa lohika./"
+                },
+                "Lists": {
+                    "header": "$~Mga Listahan",
+                    "explanation": "$~/Mga listahan at operasyon ng listahan, mainam para sa pag-iimbak ng mga halaga sa isang partikular na pagkakasunud-sunod./"
+                },
+                "Maps": {
+                    "header": "$~Mga Mapa",
+                    "explanation": "$~/Mga set, mapa, at ang kanilang mga operasyon, mainam para sa pag-iimbak ng mga koleksyon ng mga halaga, o mga pagmamapa mula sa isang halaga patungo sa iba./"
+                },
+                "Tables": {
+                    "header": "$~Mga Mesa",
+                    "explanation": "$~/Mga talahanayan at operasyon ng talahanayan, mainam para sa pag-iimbak ng nakabalangkas na datos sa mga hilera at haligi./"
+                },
+                "Types": {
+                    "header": "$~Mga Uri",
+                    "explanation": "$~/Mga paraan ng pagdedeklara na ang mga pinangalanang halaga ay dapat magkaroon ng isang partikular na uri ng datos at pagsuri kung mayroon nga./"
+                },
+                "Documentation": {
+                    "header": "$~Dokumentasyon",
+                    "explanation": "$~/Mga paraan ng pagdaragdag ng mga komento at paliwanag sa iyong code./"
+                },
+                "Advanced": {
+                    "header": "$~Maunlad",
+                    "explanation": "$~/Mga advanced na konsepto at tampok ng wika na malamang na hindi mo kakailanganin./"
+                },
+                "Hidden": {
+                    "header": "$~Nakatago",
+                    "explanation": "$~/Mga konseptong nakatago mula sa pangunahing dokumentasyon./"
+                },
+                "How": {
+                    "header": "$~Paano-gawin",
+                    "explanation": "$~/Mga karaniwang padron para sa paglikha ng iba't ibang uri ng proyekto./"
+                },
+                "GalleryHow": {
+                    "header": "$~Paano gawin sa gallery",
+                    "explanation": "$~/Mga karaniwang padron para sa paglikha ng iba't ibang uri ng proyekto, mula sa iyong mga gallery./"
+                },
+                "Patterns": {
+                    "header": "$~Mga Pattern",
+                    "explanation": "$~/Ilarawan ang hugis ng teksto gamit ang isang padron, na pinaghihiwalay ng \\⣿\\ , pagkatapos ay subukan kung ang teksto ay akma sa hugis ( \\≈\\ ) o hanapin ang bawat lugar kung saan ito lumilitaw ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Mga Kit",
+                    "explanation": "$~Mga bagay na ibinahagi rito ng mga kit na hiniram ng proyektong ito."
+                }
+            },
+            "how": {
+                "category": {
+                    "characters": "$~lumikha at kontrolin ang mga karakter",
+                    "styling": "$~mga karakter at teksto ng estilo",
+                    "animation": "$~buhayin ang mga karakter at teksto",
+                    "layout": "$~ayusin ang mga karakter at teksto",
+                    "randomization": "$~gawing random ang mga bagay",
+                    "remembering": "$~subaybayan ang mga pagbabago at mga pagpipilian",
+                    "stories": "$~magkwento",
+                    "motion": "$~gumamit ng pisika",
+                    "video": "$~gumamit ng kamera",
+                    "gallery": "$~nilikha ng iyong mga kapwa direktor ng Wordplay",
+                    "music": "$~gumawa ng musika at tunog",
+                    "organizing": "$~ayusin ang isang mas malaking proyekto"
+                },
+                "related": "$~Hindi ito ang hinahanap mo?",
+                "howToGalleryButton": {
+                    "label": "$~tingnan ang mga paraan sa espasyo",
+                    "tip": "$~tingnan ang mga paraan sa espasyo"
+                },
+                "explain": {
+                    "header": "$~Mga Paano-Gawin",
+                    "explanation": "$~/Maikling halimbawa na nagpapakita kung paano gawin ang mga bagay sa @wordplay. Pindutin ang play sa anumang preview para makita itong tumakbo, pagkatapos ay buksan ito para mabasa kung paano ito gumagana./"
+                },
+                "conceptHowTos": "$~Paano-gawin",
+                "bookmarked": "$~Binookmark",
+                "community": "$~Mula sa mga gumawa",
+                "galleries": "$~Mula sa iyong mga gallery",
+                "wordplay": "$~Mula sa Wordplay"
+            },
+            "tour": {
+                "launch": "$~maglibot sa gabay",
+                "guide": "$~Ang /gabay/ ay naglalaman ng *dokumentasyon* para sa lahat ng konsepto at *kakayahan* ng *wikang pamprograma* ng @wordplay.",
+                "mode": "$~Gamitin ang /toggle/ na ito para lumipat sa pagitan ng mga seksyong *code* at *how-to*.",
+                "search": "$~Ang kahon na /search/ ay nakakatulong para sa *pagtuklas* ng mga tampok, o mabilis na paghahanap ng isa *ayon sa pangalan*.",
+                "code": "$~Ito ang seksyong /code/. Naglalaman ito ng dokumentasyon ng *programming language* — ang mga building block na maaari mong pagsamahin upang makagawa ng mga programa.",
+                "howto": "$~Ito ang seksyong /paano-gawin/. Naglalaman ito ng *mga kapaki-pakinabang na pattern* para sa pagkamit ng mga partikular na gawi sa iyong mga proyekto."
+            },
+            "breadcrumb": {
+                "label": "$~kasaysayan ng nabigasyon",
+                "home": "$~Tahanan"
+            },
+            "tutorial": "$~Pagtuturo",
+            "glossary": {
+                "explain": {
+                    "header": "$~Glosaryo",
+                    "explanation": "$~/Mga termino at ideya na ginagamit sa buong wika at plataporma ng @wordplay programming./"
+                }
+            }
+        },
+        "dialog": {
+            "share": {
+                "header": "$~Pagbabahagi",
+                "explanation": "$~Ibahagi ang proyektong ito sa mga gallery o sa mundo.",
+                "subheader": {
+                    "gallery": {
+                        "explanation": "$~Idagdag ang proyektong ito sa isang gallery kasama ng iba pang mga tagalikha, o lumikha ng gallery sa iyong pahina ng <projects@://projects>. Kung magdadagdag ka ng isang proyekto sa isang pampublikong gallery, magiging pampubliko ang iyong proyekto."
+                    },
+                    "public": {
+                        "header": "$~Pampubliko/Pribado",
+                        "explanation": "$~Ang mga pampublikong proyekto at gallery ay maaaring makita ng sinuman sa mundo. Ang aming layunin ay magdulot ng paninindigan at kagalakan ang nilalamang ito, at ang pagbabahagi sa publiko ay isang paraan upang magawa iyon. Ngunit nangangahulugan din ito ng pagsunod sa ilang mga patakaran. Nangangako ka na ang iyong proyekto ay hindi:"
+                    },
+                    "pii": {
+                        "explanation": "$~Ang pagbabahagi ng personal na impormasyon (PII) sa publiko ay maaaring maglagay sa panganib sa mga tagalikha, kaya tinitingnan namin ang posibleng PII at binabalaan ang mga tagalikha na alisin ang sensitibong data o markahan ito bilang hindi sensitibo.\n\nNasa ibaba ang isang listahan ng mga posibleng PII sa proyektong ito na iyong minarkahan bilang hindi sensitibo. Maaari mong i-click ang button sa tabi nito upang markahan itong muli bilang sensitibo, ngunit ang paggawa nito ay nangangahulugan na ang iyong proyekto ay hindi na mase-save online."
+                    },
+                    "preview": {
+                        "explanation": "$~Ito ang maliit na glyph na kumakatawan sa iyong proyekto sa mga listahan at gallery. Awtomatikong pumipili ng isa batay sa ipinapakita ng iyong proyekto; Binibigyang-daan ka ng Custom na i-pin ang isang character o emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~Ang /remix/ ay isang kopya ng proyekto na binago ng isang tao para maging sarili niya. Naaalala namin kung saan nagmula ang isang remix, kaya ang taong gumawa ng orihinal ay kinikilala pa rin."
+                    },
+                    "research": {
+                        "header": "$~Pananaliksik",
+                        "explanation": "$~Minsan sumusulat at nagsasalita kami tungkol sa Wordplay — sa mga papel na pananaliksik, sa mga pagtalakay, at sa mga ipinapakita namin sa mga guro at pamilya. Kapag binuksan mo ito, maaari naming ipakita ang proyektong ito bilang halimbawa, nang walang pangalan mo, username mo, o anumang bagay na nagsasabing sa iyo ang account.\n\nMaaari mong isara ito anumang oras. Ang pagsara nito ay nangangahulugang itigil na naming gamitin ang proyekto mo sa anumang bago, pero hindi na nito mababawi ang isang bagay na nailathala na o naiprisenta na namin."
+                    },
+                    "kit": {
+                        "explanation": "$~Ang kit ay isang pinagmulan na inilathala mo para magamit ng ibang tao sa paggawa. Anumang minarkahan mo ng ↑ ay nagiging bahagi nito."
+                    }
+                },
+                "field": {
+                    "emailOrUsername": {
+                        "placeholder": "$~email/username",
+                        "description": "$~email o username ng taong gusto mong bigyan ng access sa pag-edit"
+                    },
+                    "preview": {
+                        "placeholder": "$~preview na gliph",
+                        "description": "$~isang karakter o emoji na gagamitin bilang preview glyph ng proyektong ito"
+                    }
+                },
+                "mode": {
+                    "public": {
+                        "label": "$~kakayahang makita",
+                        "labels": ["$~pribado", "$~publiko"],
+                        "tips": [
+                            "$~Ikaw at ang mga collaborator lamang ang makakakita sa proyektong ito",
+                            "$~kahit sino ay maaaring makakita ng proyektong ito"
+                        ]
+                    },
+                    "preview": {
+                        "tips": [
+                            "$~hayaan ang proyekto na pumili ng sariling glyph na preview batay sa ipinapakita nito",
+                            "$~itakda ang isang glyph na iyong pinili"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~pananaliksik",
+                        "labels": [
+                            "$~hindi ibinahagi",
+                            "$~ibinahagi nang hindi nagpapakilala"
+                        ],
+                        "tips": [
+                            "$~huwag ipakita ang proyektong ito sa pananaliksik o komunikasyon tungkol sa Wordplay",
+                            "$~payagan ang Wordplay na ipakita ang proyektong ito nang hindi nagpapakilala sa pananaliksik at komunikasyon tungkol sa Wordplay"
+                        ]
+                    }
+                },
+                "error": {
+                    "unknown": "$~Hindi namin kilala ang creator na may ganitong email.",
+                    "anonymous": "$~Dapat ay <naka-log in@://login> ka para makapagbahagi.",
+                    "self": "$~Hindi mo maaaring idagdag ang iyong sarili.",
+                    "invalidPreview": "$~Pumili ng eksaktong isang karakter o emoji."
+                },
+                "button": {
+                    "submit": "$~Ibahagi ang proyekto gamit ang email address na ito",
+                    "sensitive": {
+                        "tip": "$~markahan muli ang tekstong ito bilang sensitibo",
+                        "label": "$~sensitibo"
+                    }
+                },
+                "options": {
+                    "gallery": "$~tagapili ng gallery",
+                    "source": "$~pinagmulan na ilalathala"
+                },
+                "remix": {
+                    "source": "$~Ang proyektong ito ay remix ng:",
+                    "remixes": "$~Ang mga proyektong ito ay remix ng proyektong ito:",
+                    "unknown": "$~Hindi namin mahanap ang proyektong pinag-remix-an nito. Maaaring binura na ito, o maaaring hindi ito pampubliko.",
+                    "none": "$~Wala pang naibabahaging remix ng proyektong ito. Ang isang remix ay nagsisimula bilang pribado, kaya lalabas lamang ito rito matapos magpasya ang gumawa nito na gawing pampubliko."
+                },
+                "tab": {
+                    "label": "$~mga setting sa pagbabahagi",
+                    "labels": [
+                        "$~Gallery",
+                        "$~Pampubliko",
+                        "$~Silip",
+                        "$~Pagkapribado",
+                        "$~Mga Remix",
+                        "$~Kit"
+                    ],
+                    "tips": [
+                        "$~pumili ng gallery kung saan ipapakita ang proyektong ito",
+                        "$~pumili kung sino ang makakakita ng proyektong ito",
+                        "$~pumili ng simbolo na kumakatawan sa proyektong ito sa mga listahan",
+                        "$~suriin ang personal na impormasyon na matatagpuan sa proyektong ito",
+                        "$~tingnan kung saan galing ang remix ng proyektong ito, at kung ano ang nag-remix dito",
+                        "$~ilathala ang bahagi ng proyektong ito para magamit ng ibang tao"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Walang natagpuang personal na impormasyon."
+                },
+                "kit": {
+                    "nothing": "$~Wala pang ibinabahagi rito. Ilagay ang ↑ bago ang pangalan, function, o structure para ibahagi ito, tulad ng \\↑ sunset/en: 🔴\\, at maaari na itong maging kit.",
+                    "unpublished": "$~Hindi mo pa nailalathala ito.",
+                    "name": {
+                        "placeholder": "$~pangalan",
+                        "description": "$~ano ang itatawag sa kit na ito"
+                    },
+                    "publish": {
+                        "label": "$~ilathala",
+                        "tip": "$~ilathala ang bagong bersyon ng kit na ito"
+                    },
+                    "version": "$~bersyon $version",
+                    "problem": {
+                        "exports": "$~wala pang ibinabahagi rito",
+                        "invalid": "$~hindi ito pangalang mabasa ko"
+                    },
+                    "undescribed": "$~wala pang dokumentasyon ang pinagmulang ito",
+                    "discovery": "$~Maaaring itago ng mga moderator ang isang inilathalang bersyon mula sa listahan. Anumang hiniram na ng iba ay gagana pa rin, kahit itinago na sa listahan.",
+                    "moderation": {
+                        "unrequested": "$~hindi hiniling na ilista",
+                        "pending": "$~naghihintay ng pagsusuri ng moderator",
+                        "approved": "$~nasuri na at nakalista na",
+                        "denied": "$~may hiniling na pagbabago ang moderator"
+                    },
+                    "derived": "$~Ang paglalarawan at mga hanapin na salita ng iyong kit ay kinuha mula sa unang pangungusap ng dokumentasyon ng pinagmulang ito.",
+                    "heading": {
+                        "name": "$~Pangalan",
+                        "exports": "$~Ang ibinabahagi ng kit na ito",
+                        "versions": "$~Mga Bersyon",
+                        "listing": "$~Sino ang makakahanap nito"
+                    },
+                    "listing": {
+                        "label": "$~paglilista",
+                        "labels": ["$~hindi nakalista", "$~nakalista"],
+                        "tips": [
+                            "$~walang makakahanap ng kit na ito sa gabay, at patuloy na gagana ang anumang humihiram na rito",
+                            "$~kahit sino ay makakahanap ng kit na ito sa gabay, kapag nasuri na ito ng isang tagapamahala"
+                        ]
+                    },
+                    "remedy": "$~Baguhin ang pinagmulan at maglabas ng bagong bersyon, at susuriin itong muli ng isang tagapamahala.",
+                    "unreviewed": "$~Walang sumusuri sa isang hindi nakalistang kit. Ang sinumang binigyan mo ng linya ng paghiram ay maaari pa ring basahin ito.",
+                    "permanent": "$~Permanente ang paglalabas ng bersyon: humihiram dito ang mga programa ng ibang tao gamit ang numero nito, kaya kung babawiin ito, masisira ang kanilang mga programa.",
+                    "confirm": "$~Ilabas ito",
+                    "withdraw": {
+                        "label": "$~bawiin",
+                        "tip": "$~bawiin ang bersyong ito, na posible lamang habang hindi nakalista ang kit"
+                    },
+                    "withdrawable": "$~Hindi pa kailanman nailista ang kit na ito, kaya wala pang nakakahanap nito — maaari mo pa ring bawiin ang pinakabagong bersyon.",
+                    "unpublishable": "$~Hindi pa maaaring ilabas ang kit na ito:",
+                    "failed": "$~Hindi ko na-publish ang iyong kit. Siguraduhing online ka at subukan ulit."
+                }
+            },
+            "settings": {
+                "header": "$~Mga Setting",
+                "explanation": "$~Baguhin kung paano magmukha ang Wordplay, kung paano ka magsulat ng kodigo, at kung paano gumagamit ang mga programa ng iyong mga device.",
+                "button": {
+                    "show": "$~ipakita ang dialog ng mga setting"
+                },
+                "mode": {
+                    "layout": {
+                        "label": "$~layout",
+                        "labels": [
+                            "$~awto",
+                            "$~hanay",
+                            "$~salansan",
+                            "$~dalawa",
+                            "$~isa",
+                            "$~libre"
+                        ],
+                        "tips": [
+                            "$~awtomatikong maglatag ng mga tile batay sa laki at hugis ng bintana",
+                            "$~pahalang na layout ng screen",
+                            "$~patayong layout ng screen",
+                            "$~dalawang pinakabagong tile, magkatabi",
+                            "$~ang pinakabagong tile lamang",
+                            "$~mga tile na maaaring ilipat at baguhin ang laki sa isang canvas"
+                        ]
+                    },
+                    "animate": {
+                        "label": "$~bilis ng animation",
+                        "labels": [
+                            "$~patay",
+                            "$~1/4",
+                            "$~1/3x",
+                            "$~1/2x",
+                            "$~1x",
+                            "$~2x",
+                            "$~5x",
+                            "$~10x",
+                            "$~awto"
+                        ],
+                        "tips": [
+                            "$~naka-off ang mga animation",
+                            "$~bilis ng isang-kapat",
+                            "$~ikatlong bilis",
+                            "$~kalahating bilis",
+                            "$~normal na bilis",
+                            "$~dobleng bilis",
+                            "$~limang bilis",
+                            "$~sampung bilis",
+                            "$~gamitin ang kasalukuyang setting ng device"
+                        ]
+                    },
+                    "dark": {
+                        "label": "$~tema",
+                        "labels": ["$~liwanag", "$~madilim", "$~awto"],
+                        "tips": [
+                            "$~mas mapusyaw na kulay",
+                            "$~mas madidilim na kulay",
+                            "$~gamitin ang kasalukuyang setting ng device"
+                        ]
+                    },
+                    "blocks": {
+                        "label": "$~editor",
+                        "labels": ["$~teksto", "$~mga bloke"],
+                        "tips": [
+                            "$~i-edit ang code bilang teksto",
+                            "$~i-edit ang code bilang mga bloke"
+                        ]
+                    },
+                    "space": {
+                        "label": "$~mga marka ng espasyo",
+                        "labels": ["$~magtago", "$~palabas"],
+                        "tips": [
+                            "$~huwag ipakita ang mga tagapagpahiwatig ng espasyo at tab",
+                            "$~ipakita nang malinaw ang mga tagapagpahiwatig ng espasyo at tab"
+                        ]
+                    },
+                    "lines": {
+                        "label": "$~mga numero ng linya",
+                        "labels": ["$~magtago", "$~palabas"],
+                        "tips": [
+                            "$~huwag ipakita ang mga numero ng linya sa text mode",
+                            "$~ipakita ang mga numero ng linya sa text mode"
+                        ]
+                    },
+                    "writing": {
+                        "label": "$~layout ng pagsulat",
+                        "labels": [
+                            "$~pahalang",
+                            "$~patayong rtl",
+                            "$~patayong litro",
+                            "$~awtomatiko"
+                        ],
+                        "tips": [
+                            "$~pahalang na teksto, binabasa mula kaliwa pakanan",
+                            "$~patayong teksto, binabasa mula kanan pakaliwa",
+                            "$~patayong teksto, binabasa mula kaliwa pakanan",
+                            "$~sundin ang pagkakaayos ng pagsulat ng wika"
+                        ]
+                    },
+                    "blockDensity": {
+                        "label": "$~pagitan ng bloke",
+                        "labels": ["$~siksik", "$~normal", "$~maluwang"],
+                        "tips": [
+                            "$~mas mahigpit na mga bloke upang magkasya ang mas maraming code sa screen",
+                            "$~default na espasyo sa bloke",
+                            "$~mas maluwag na mga bloke para sa mas madaling pagpili at pag-drag"
+                        ]
+                    },
+                    "tab": {
+                        "label": "$~pindutan ng tab",
+                        "labels": ["$~magpalit ng pokus", "$~ipasok ang tab"],
+                        "tips": [
+                            "$~Inililipat ng tab ang focus ng keyboard sa susunod na kontrol",
+                            "$~Naglalagay ang tab ng tab sa editor"
+                        ]
+                    },
+                    "wrap": {
+                        "label": "$~mga linya ng pambalot",
+                        "labels": ["$~patay", "$~sa"],
+                        "tips": [
+                            "$~mahahabang linya ay nag-i-scroll nang pahalang sa text mode",
+                            "$~mahahabang linya ang bumabalot papunta sa editor window sa text mode"
+                        ]
+                    },
+                    "words": {
+                        "label": "$~mga keyword",
+                        "labels": ["$~mga simbolo", "$~mga salita"],
+                        "tips": [
+                            "$~ipakita ang mga built-in na keyword bilang mga simbolo",
+                            "$~ipakita ang mga built-in na keyword bilang mga salita sa iyong wika"
+                        ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~biswalisasyon",
+                        "labels": [
+                            "$~orkestra",
+                            "$~palabas ng ilaw",
+                            "$~damdamin",
+                            "$~nota ng musika",
+                            "$~patay"
+                        ],
+                        "tips": [
+                            "$~Ipakita ang musika bilang isang orkestra ng mga instrumento",
+                            "$~Ipakita ang musika bilang nagbabagong ilaw",
+                            "$~Ipakita ang musika bilang isang ulap ng kulay at hugis na nagbabago ayon sa damdamin ng musika",
+                            "$~Ipakita ang mga nota bilang nakasulat na musika sa isang staff, na dumadausdos habang tumutugtog ang mga ito",
+                            "$~Huwag ipakita ang musika"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~lakas ng tunog",
+                        "labels": ["$~patay", "$~mahina", "$~buo"],
+                        "tips": [
+                            "$~Patahimikin ang lahat ng musika",
+                            "$~Patugtugin ang musika nang mahina",
+                            "$~Patugtugin ang musika sa buong lakas"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~habang nagsasalita",
+                        "labels": ["$~mahina", "$~mas mahina", "$~tahimik"],
+                        "tips": [
+                            "$~Bahagyang hinaan ang musika habang may sinasabi",
+                            "$~Hinaan nang malaki ang musika habang may sinasabi",
+                            "$~Patahimikin ang musika habang may sinasabi"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~pag-ugoy",
+                        "labels": ["$~patay", "$~bukas"],
+                        "tips": [
+                            "$~Huwag umugoy kasabay ng ritmo",
+                            "$~Umugoy kasabay ng ritmo, kung sinusuportahan ito ng aparato"
+                        ]
+                    },
+                    "captionSize": {
+                        "label": "$~laki ng kapsyon",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Ipakita ang mas maliliit na kapsyon",
+                            "$~Ipakita ang mga kapsyon sa karaniwang laki",
+                            "$~Ipakita ang mga kapsyon na kalahati pang mas malaki",
+                            "$~Ipakita ang mga kapsyon na dalawang beses na mas malaki",
+                            "$~Ipakita ang mga kapsyon na tatlong beses na mas malaki"
+                        ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~mga kulay ng proyekto",
+                        "labels": ["$~panatilihin", "$~baligtarin"],
+                        "tips": [
+                            "$~ipakita ang mga kulay ng proyekto nang kapareho ng pagkasulat nito, kahit sa maitim na screen",
+                            "$~sa maitim na screen, baligtarin ang mga maliwanag na kulay ng proyekto para maging madilim: pinapanatili ng bawat kulay ang sarili nitong tint, at nananatiling magkalayo ang mga kulay ayon sa itinakda ng proyekto"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~mga senyas ng pagsusuri",
+                        "labels": ["$~nakaoff", "$~nakaon"],
+                        "tips": [
+                            "$~Huwag maglabas ng tunog kapag muling nagsusuri ang programa",
+                            "$~Magpatugtog ng maikling tunog bawat pagsusuri ng programa, isa para sa bawat uri ng input"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~mga senyas ng animasyon",
+                        "labels": ["$~nakaoff", "$~nakaon"],
+                        "tips": [
+                            "$~Huwag maglabas ng tunog kapag umaanimate ang output",
+                            "$~Magpatugtog ng maikling tunog kapag umabot ang animasyon sa isang pose, sunod ang tunog sa kilos ng pose"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~mga senyas ng banggaan",
+                        "labels": ["$~nakaoff", "$~nakaon"],
+                        "tips": [
+                            "$~Huwag maglabas ng tunog kapag nagbanggaan ang output",
+                            "$~Magpatugtog ng maikling tunog kapag nagbanggaan ang output, mas malakas kung mas malakas ang tama"
+                        ]
+                    },
+                    "placement": {
+                        "label": "$~paglagay sa entablado",
+                        "labels": [
+                            "$~itaas na kaliwa",
+                            "$~itaas na kanan",
+                            "$~ibaba na kaliwa",
+                            "$~ibaba na kanan"
+                        ],
+                        "tips": [
+                            "$~ilagay ang entablado sa itaas na kaliwa, at ang ibang tile sa katugmang lugar sa palibot nito",
+                            "$~ilagay ang entablado sa itaas na kanan, at ang ibang tile sa katugmang lugar sa palibot nito",
+                            "$~ilagay ang entablado sa ibaba na kaliwa, at ang ibang tile sa katugmang lugar sa palibot nito",
+                            "$~ilagay ang entablado sa ibaba na kanan, at ang ibang tile sa katugmang lugar sa palibot nito"
+                        ]
+                    }
+                },
+                "options": {
+                    "face": "$~mukha ng font",
+                    "mic": "$~mikropono",
+                    "camera": "$~kamera",
+                    "voice": "$~Boses na Magsasalita",
+                    "default": "$~paunang"
+                },
+                "tab": {
+                    "label": "$~mga pangkat ng setting",
+                    "labels": [
+                        "$~Anyo",
+                        "$~Kodigo",
+                        "$~Kamera + Mikropono",
+                        "$~Tunog + Musika"
+                    ],
+                    "tips": [
+                        "$~kung paano lumitaw at gumana ang mismong Wordplay: font, mga kulay, mga tile, at animation",
+                        "$~kung paano lumitaw at gumana ang kodigo habang isinusulat mo ito",
+                        "$~kung aling kamera at mikropono ang binabasa ng mga programa",
+                        "$~kung paano umaabot sa iyo ang musika, pananalita, at caption ng isang programa"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musika",
+                    "say": "$~Sabihin",
+                    "cues": "$~Mga Senyas"
+                }
+            },
+            "notifications": {
+                "header": "$~Mga Abiso",
+                "explanation": "$~Mga abiso mula sa mga bagong chat at mga na-publish na how-to",
+                "open": "$~buksan ang dialog ng mga notification",
+                "howToNotifications": {
+                    "label": "$~mga abiso para sa mga bagong how-to",
+                    "labels": ["$~patay", "$~sa"],
+                    "tips": [
+                        "$~huwag mo akong abisuhan ng mga bagong how-to",
+                        "$~abisuhan ako ng mga bagong how-to"
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~i-clear ang lahat ng notification",
+                    "tip": "$~i-clear ang lahat ng notification"
+                },
+                "notification": {
+                    "howToHeader": "$~May bagong how-to na pinamagatang \"$title\" na nai-post",
+                    "projectChatHeader": "$~Bagong mensahe sa proyektong \"$name\"",
+                    "howToChatHeader": "$~Bagong mensahe sa kung paano gawin ang \"$title\"",
+                    "moderationHeader": "$~Ang mensahe sa \"$name\" ay nangangailangan ng aksyon sa pagmo-moderate",
+                    "link": "$~mga detalye",
+                    "reportedHeader": "$~May ginawa ka sa \"$title\" na iniulat, at sinusuri ito ngayon",
+                    "reportReceivedHeader": "$~Naipadala na ang ulat mo tungkol sa \"$title\" sa taong responsable dito",
+                    "decisionHeader": "$~May desisyon na ginawa tungkol sa isang bagay na ginawa mo sa \"$title\"",
+                    "outcomeHeader": "$~May desisyon na ginawa tungkol sa iniulat mo sa \"$title\"",
+                    "because": "$~Dahil ito:",
+                    "note": "$~Sinabi nila:",
+                    "reviewPending": "$~$#count[May isang bagay na|May $count na bagay na] naghihintay para suriin mo"
+                },
+                "delete": "$~burahin ang notipikasyong ito",
+                "popup": "$~$#count[1 abiso|$count na abiso]",
+                "moderate": {
+                    "label": "$~suriin ang naghihintay",
+                    "tip": "$~pumunta sa mga bagay na naghihintay sa iyo para suriin"
+                }
+            },
+            "locale": {
+                "header": "$~Wika",
+                "explanation": "$~Pumili ng mga wika para sa interface, tutorial, at dokumentasyon. Ang mga wikang may markang 🤖 ay malawak pa ring isinalin ng makina, kaya may ilang teksto na maaaring hindi mabasa o mali.",
+                "subheader": {
+                    "selected": "$~Napili",
+                    "supported": "$~Magagamit"
+                },
+                "search": {
+                    "description": "$~Salain ang mga wika ayon sa pangalan o rehiyon",
+                    "placeholder": "$~wika o rehiyon"
+                },
+                "button": {
+                    "show": "$~pumili ng wika/mga wika para sa website",
+                    "replace": "$~gamitin ang wikang ito",
+                    "add": "$~gamitin ang wikang ito at ang mga kasalukuyan",
+                    "remove": "$~alisin ang wikang ito",
+                    "menu": "$~ibang mga wika"
+                },
+                "localizeHelp": "$~/Para makatulong na mapabuti ang mga pagsasalin sa iyong wika, i-click ang ✎ icon na lapis sa *ibaba ng pahina* para i-on ang localization mode at magmungkahi ng mga pagpapabuti./",
+                "request": {
+                    "header": "$~Hindi mo makita ang wika mo?",
+                    "explanation": "$~Pumili ng wika at rehiyon at magbubukas tayo ng isyu sa GitHub para talakayin ang pagdaragdag nito.",
+                    "languageLabel": "$~wika",
+                    "regionLabel": "$~rehiyon",
+                    "submit": "$~Kahilingan",
+                    "submitting": "$~Nagpapadala ng kahilingan…",
+                    "success": "$~Talakayin sa amin ang kahilingang ito sa GitHub!",
+                    "error": "$~May nangyaring mali. Pakisubukang muli.",
+                    "alreadySupported": "$~Sinusuportahan na ang wikang iyon at rehiyon.",
+                    "requiresLogin": "$~Dapat kang naka-sign in para humiling ng wika.",
+                    "searchPlaceholder": "$~wika o bansa",
+                    "searchDescription": "$~Salain ang mga menu ng wika at bansa",
+                    "alreadyRequested": "$~May humiling na ng wikang ito. Sumali sa usapan sa GitHub!"
+                },
+                "choose": "$~Pumili ng wika"
+            },
+            "help": {
+                "header": "$~Mga Shortcut",
+                "explanation": "$~Gamitin ang mga utos na ito sa keyboard para sa mas mahusay na pag-edit.",
+                "subheader": {
+                    "moveCursor": "$~Ilipat",
+                    "editCode": "$~I-edit",
+                    "insertCode": "$~Ipasok",
+                    "debug": "$~Pag-debug",
+                    "format": "$~Format",
+                    "help": "$~Tulong"
+                },
+                "column": {
+                    "symbol": "$~Simbolo",
+                    "shortcut": "$~Shortcut",
+                    "action": "$~Kilos",
+                    "change": "$~Baguhin"
+                },
+                "via": {
+                    "toolbar": "$~toolbar",
+                    "chooser": "$~pumipiling karakter"
+                },
+                "change": {
+                    "on": "$~itigil ang pagbabago ng shortcut na ito",
+                    "off": "$~baguhin ang shortcut na ito"
+                },
+                "capture": "$~pindutin ang mga susi na gusto mo",
+                "reset": "$~gamitin ang default na shortcut",
+                "resetAll": "$~gamitin ang lahat ng default na shortcut",
+                "custom": "$~binago",
+                "feedback": {
+                    "bound": "$~ang $command ay $shortcut na ngayon",
+                    "conflict": "$~ang $shortcut ay ginagamit na ng $command",
+                    "reserved": "$~ang $shortcut ay ginagamit ng iyong kompyuter para sa sarili nito",
+                    "unmodified": "$~kailangan ng shortcut ang Control o Alt, kundi ito ay magiging pag-type lamang",
+                    "reset": "$~ang $command ay bumalik na sa karaniwan nitong shortcut"
+                }
+            },
+            "feedback": {
+                "header": "$~Feedback",
+                "explanation": "$~Tulungan kaming pagbutihin ang @wordplay sa pamamagitan ng pag-uulat ng 🪲 *mga problema* at pagbabahagi ng 💡 *mga ideya*!",
+                "button": {
+                    "show": "$~Ipakita ang form ng feedback.",
+                    "submit": {
+                        "tip": "$~isumite ang iyong feedback",
+                        "label": "$~isumite"
+                    },
+                    "delete": {
+                        "description": "$~Burahin ang iyong feedback.",
+                        "prompt": "$~burahin"
+                    },
+                    "like": "$~I-like ang feedback na ito",
+                    "close": {
+                        "label": "$~malapit",
+                        "tip": "$~isara ang feedback na ito bilang isang moderator"
+                    },
+                    "comment": {
+                        "label": "$~isumite",
+                        "tip": "$~magsumite ng komento sa feedback na ito."
+                    }
+                },
+                "mode": {
+                    "label": "$~puna",
+                    "labels": ["$~mga depekto", "$~mga ideya"],
+                    "tips": [
+                        "$~mag-ulat ng isang bagay na tila sira",
+                        "$~magmungkahi ng mga bagong tampok o pagpapabuti"
+                    ]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~pamagat ng iyong feedback",
+                        "placeholder": "$~pamagat"
+                    },
+                    "defect": {
+                        "description": "$~paglalarawan ng iyong depekto",
+                        "placeholder": "$~Anong mga hakbang ang iyong ginawa? Ano ang nangyari pagkatapos? Maging tumpak hangga't maaari."
+                    },
+                    "idea": {
+                        "description": "$~paglalarawan ng iyong depekto",
+                        "placeholder": "$~Ano ba ang sinusubukan mong gawin na hindi mo magawa?"
+                    },
+                    "comment": {
+                        "description": "$~komento",
+                        "placeholder": "$~Magdagdag ng komento sa feedback na ito"
+                    },
+                    "github": {
+                        "description": "$~Isyu sa GitHub",
+                        "placeholder": "$~Link sa isyu sa GitHub"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~depekto",
+                    "idea": "$~ideya",
+                    "moderator": "$~moderator"
+                },
+                "prompt": {
+                    "defect": "$~Hindi mo ba nakita ang problemang nararanasan mo? Iulat ito rito. Mas mabuti kung mas maraming detalye ang ibibigay mo!",
+                    "idea": "$~Hindi mo makita ang ideyang naiisip mo? Imungkahi mo ito."
+                },
+                "error": {
+                    "login": "$~Dapat ay <naka-log in@://login> ka para makapagsumite ng feedback",
+                    "empty": "$~Walang maipapakitang feedback.",
+                    "url": "$~Hindi ito isang wastong URL ng GitHub."
+                }
+            }
+        },
+        "collaborate": {
+            "label": "$~makipagtulungan",
+            "role": {
+                "owner": "$~may-ari",
+                "collaborate": "$~tumulong",
+                "comment": "$~magkomento",
+                "view": "$~tingnan",
+                "curate": "$~pumili"
+            },
+            "field": {
+                "message": {
+                    "description": "$~Ang mensahe sa chat na isusumite",
+                    "placeholder": "$~Mag-type ng mensahe"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~ipadala",
+                    "tip": "$~magpadala ng mensahe sa iyong mga katuwang at"
+                },
+                "delete": "$~burahin ang mensaheng ito",
+                "confirmDelete": "$~kumpirmahin ang pagbura?",
+                "transfer": {
+                    "description": "$~gawing may-ari ng proyekto ang taong ito",
+                    "prompt": "$~Gawin silang may-ari?",
+                    "consequence": "$~Mananatili kang katuwang at maaari kang magpatuloy sa pag-edit, pero hindi mo na maaaring burahin ang proyektong ito."
+                }
+            },
+            "moderation": {
+                "header": "$~Iulat ang mensaheng ito",
+                "explanation": "$~Kung ang mensaheng ito ay hindi nakakatugon sa aming <mga pamantayan ng komunidad@://rights> o sa uri ng feedback na iyong hiniling, maaari mo itong iulat. Kapag iniulat mo ang mensaheng ito, ipapadala ito sa mga curator ng gallery at aalisin hanggang sa masuri ito.",
+                "report": {
+                    "tip": "$~iulat ang mensaheng ito",
+                    "label": "$~ulat"
+                },
+                "moderate": {
+                    "tip": "$~pumunta sa dashboard ng pagmo-moderate",
+                    "label": "$~katamtaman"
+                },
+                "pending": "$~Pansamantalang inalis ang mensaheng ito habang naghihintay ng aksyon ng moderasyon.",
+                "removed": "$~Inalis ang mensaheng ito dahil sa paglabag sa mga alituntunin ng komunidad o feedback.",
+                "inGallery": "$~Ang chat na ito ay nasa isang gallery. Ito ay sasailalim sa moderasyon ng mga curator ng gallery. Maaari mong iulat ang mga mensaheng lumalabag sa aming <community standards@://rights> para sa moderasyon."
+            },
+            "error": {
+                "unowned": "$~Hindi nakaimbak online ang proyektong ito, kaya hindi ito maaaring magkaroon ng chat o mga collaborator.",
+                "offline": "$~Hindi ma-load ang chat na ito.",
+                "empty": "$~Walang mga mensahe.",
+                "deleted": "$~Binura na ang mensaheng ito.",
+                "transferGallery": "$~Nasa isang gallery ang proyektong ito. Kapag ibinigay mo ito sa iba, hindi sila awtomatikong naidaragdag sa gallery na iyon, kaya maaaring hindi nila ito makita doon."
+            },
+            "restrictGalleryCreatorAccess": {
+                "mode": {
+                    "label": "$~paghigpitan ang pag-access sa proyekto",
+                    "labels": ["$~huwag paghigpitan", "$~paghigpitan"],
+                    "tips": [
+                        "$~sinumang makakakita sa gallery na ito ay makakakita ng iyong proyekto",
+                        "$~tanging ang mga curator ng gallery lamang ang makakakita ng iyong proyekto"
+                    ]
+                }
+            },
+            "tour": {
+                "launch": "$~maglibot sa pakikipagtulungan",
+                "collaborate": "$~Nakalista rito ang lahat ng makaka-abot sa proyektong ito, at maaari kang *mag-chat* sa mga taong pinapayagan. Tanging ang /may-ari/, ang mga /katuwang/, at ang mga /nagkokomento/ ang makakakita ng chat.",
+                "collaborators": "$~Bawat tao ay may isang /karapatan/. Ang *Tumulong* ay nangangahulugang maaari nilang i-edit ang proyekto at mag-chat tungkol dito. Ang *Magkomento* ay nangangahulugang maaari silang mag-chat pero hindi maka-edit. Ang *Tingnan* ay nangangahulugang maaari lang silang tumingin pero hindi maka-chat. Ang *May-ari* ay nagbibigay sa kanila ng proyekto. Ang mga /kurador/ ng isang galeriya ay laging may abot dito, kaya hindi mo maaaring baguhin ang kanilang karapatan.",
+                "restrict": "$~Kapag ang isang proyekto ay nasa isang *gallery*, bilang default, *lahat* ng makakakita sa gallery ay makakakita ng iyong proyekto. *Itinatago* ito ng /restrict/ toggle mula sa lahat maliban sa iyo at sa mga curator ng gallery.",
+                "add": "$~Pindutin ang *+* sa dulo ng listahan para magdagdag ng tao. I-type ang kanilang *email* o *username*, piliin kung ano ang kaya nilang gawin, at sasali sila sa listahan."
+            },
+            "translate": {
+                "label": "$~Isalin ang mga mensahe sa",
+                "off": "$~Ihinto ang pagsasalin",
+                "error": "$~Hindi namin naisalin ang mga mensaheng ito sa $to. Subukan ulit mamaya.",
+                "messageError": "$~Hindi namin naisalin ang mensaheng ito.",
+                "direction": "$from → $to",
+                "messageErrors": "$~$#count[Hindi namin naisalin ang $count mensahe.|Hindi namin naisalin ang $count na mensahe.]",
+                "translating": "$~Isinasalin ang mga mensahe…",
+                "translated": "$~$#count[Naisalin ang $count mensahe sa $language.|Naisalin ang $count na mensahe sa $language.]",
+                "writingIn": "$~Sumusulat ako sa",
+                "downloading": "$~Kumukuha ng tagasalin ng $language para sa iyong browser…",
+                "onDevice": "$~Isinalin ito ng iyong browser mismo sa iyong device, kaya walang mensaheng ipinadala sa amin.",
+                "none": "$~Huwag isalin",
+                "dismiss": "$~itaboy"
+            },
+            "announce": {
+                "transferred": "$~Si $name na ngayon ang may-ari ng $project",
+                "privilege": "$~Ngayon ay maaaring $name ni $privilege",
+                "removed": "$~Hindi na maaabot ni $name ang proyektong ito",
+                "thread": "$~$#count[Thread sa mensahe ni $name, $count sagot|Thread sa mensahe ni $name, $count na sagot]",
+                "reacted": "$~$#count[$emoji sa mensaheng ito, $count tao|$emoji sa mensaheng ito, $count na tao]",
+                "unreacted": "$~$#count[Binawi ang $emoji, $count taong umalis|Binawi ang $emoji, $count na taong umalis]",
+                "attached": "$~Pinag-uusapan ang $location.",
+                "found": "$~Sinabi ni $name ang $opening"
+            },
+            "table": {
+                "label": "$~sino ang maaaring maabot ang proyektong ito",
+                "choose": "$~ano ang maaaring gawin ni $name",
+                "adding": "$~ano ang maaari nilang gawin",
+                "audience": "$~sino ang makakakita ng chat na ito",
+                "add": "$~magdagdag ng tao",
+                "cancel": "$~huwag na magdagdag ng tao"
+            },
+            "prompt": "$~Magdagdag ng mga katuwang, tagakomento, at tagatingin",
+            "thread": {
+                "reply": "$~sagot",
+                "replies": "$~$#count[$count sagot|$count na sagot]",
+                "unseen": "$~$#count[$count bagong sagot|$count na bagong sagot]",
+                "header": "$~Thread",
+                "back": "$~bumalik sa pag-uusap",
+                "empty": "$~Walang sagot pa. Sabihin ang iyong nasa isip!",
+                "placeholder": "$~Sumagot…"
+            },
+            "reaction": {
+                "add": "$~mag-reaksyon",
+                "more": "$~pa…",
+                "label": "$~Pumili ng reaksyon",
+                "full": "$~Puno na ang mensaheng ito ng reaksyon. Wala nang puwang.",
+                "close": "$~isara ang mga reaksyon",
+                "pick": "$~mag-reaksyon gamit ang $emoji",
+                "give": "$~$#count[idagdag ang iyong $emoji — $count tao ang mayroon nito|idagdag ang iyong $emoji — $count na tao ang mayroon nito]",
+                "take": "$~$#count[bawiin ang iyong $emoji — $count tao ang may nito|bawiin ang iyong $emoji — $count na tao ang may nito]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~itigil ang pag-usap tungkol sa kodigong ito",
+                    "off": "$~pag-usapan ang kodigo kung saan naroon ang aking cursor"
+                },
+                "prompt": "$~Tungkol sa $location ang mensahe mo.",
+                "line": "$~linya $line",
+                "lines": "$~mga linya $first–$last",
+                "label": "$~tungkol sa $location: $code",
+                "invalid": "$~wala na ang kodigong ito",
+                "marker": "$~$#count[basahin ang mensahe tungkol sa kodigong ito|basahin ang $count mensahe tungkol sa kodigong ito]"
+            }
+        },
+        "palette": {
+            "label": "$~paleta",
+            "labels": {
+                "mixed": "$~halo-halo",
+                "computed": "$~kinalkula",
+                "default": "$~paunang",
+                "inherited": "$~minana",
+                "notSequence": "$~hindi isang pagkakasunod-sunod",
+                "format": "$~pormat",
+                "weight": "$~timbang",
+                "light": "$~liwanag",
+                "normal": "$~normal",
+                "bold": "$~matapang",
+                "extra": "$~dagdag",
+                "italic": "$~italiko",
+                "underline": "$~salungguhit"
+            },
+            "button": {
+                "revert": "$~ibalik sa dati",
+                "set": "$~i-edit ang katangiang ito",
+                "addPhrase": "$~magdagdag ng parirala pagkatapos nito",
+                "addGroup": "$~magdagdag ng grupo pagkatapos nito",
+                "addShape": "$~magdagdag ng hugis pagkatapos nito",
+                "addMotion": "$~itakda ang lugar sa Motion stream",
+                "addPlacement": "$~itakda ang lugar sa stream ng Paglalagay",
+                "remove": "$~alisin ang nilalamang ito",
+                "up": "$~ilipat pataas ang nilalamang ito",
+                "down": "$~ilipat pababa ang nilalamang ito",
+                "edit": "$~i-edit ang nilalamang ito",
+                "sequence": "$~i-convert sa Sequence",
+                "editMode": "$~lumipat sa mode ng pag-edit",
+                "previousTrack": "$~ipakita ang nakaraang @Track",
+                "nextTrack": "$~ipakita ang susunod na @Track",
+                "addTrack": "$~magdagdag ng @Track",
+                "removeTrack": "$~alisin ang @Track na ito",
+                "clearTrack": "$~alisin ang bawat nota mula sa @Track na ito",
+                "makeChord": "$~gawing chord ang notang ito",
+                "unmakeChord": "$~gawing isang nota lang ang chord na ito",
+                "playMusic": "$~pakinggan ang @Music na ito mula sa cursor",
+                "pauseMusic": "$~itigil ang pagtugtog",
+                "importMIDI": "$~mag-angkat ng isang MIDI na file bilang @Music",
+                "record": "$~humuni ng himig para idagdag sa @Track na ito",
+                "stopRecording": "$~tumigil at isulat ang iyong hinuni",
+                "playTrack": "$~pakinggan ang @Track na ito nang mag-isa, mula sa cursor",
+                "pauseTrack": "$~itigil ang pagtugtog ng @Track na ito",
+                "rewind": "$~bumalik sa simula"
+            },
+            "prompt": {
+                "select": "$~Para baguhin ang isang bagay, piliin ito sa iyong kodigo o sa @Stage. Para magdagdag ng bago, gamitin ang mga + button sa itaas.",
+                "editing": "$~I-edit mo ako!",
+                "readonly": "$~Ang mga halagang ito ay *para-basa-lamang* sa mode na ito. Lumipat sa ✏️ mode ng *pag-edit* para baguhin ang mga ito."
+            },
+            "field": {
+                "coordinate": "$~i-edit ang coordinate",
+                "text": "$~i-edit ang teksto"
+            },
+            "sequence": {
+                "button": {
+                    "add": "$~magdagdag ng postura",
+                    "remove": "$~tanggalin ang postura",
+                    "up": "$~gumalaw, magpose pataas",
+                    "down": "$~igalaw ang posisyon pababa"
+                },
+                "field": {
+                    "percent": "$~i-edit ang porsyento"
+                },
+                "preset": {
+                    "label": "$~paunang natukoy na pagkakasunod-sunod",
+                    "custom": "$~pasadyang"
+                }
+            },
+            "error": {
+                "nan": "$~Hindi ito isang numero.",
+                "percent": "$~Dapat ay isang porsyento sa pagitan ng 0 at 100.",
+                "lessThanNext": "$~Dapat mas mababa ito kaysa sa susunod na entry.",
+                "moreThanPrevious": "$~Dapat ay higit pa ito kaysa sa nakaraang entry."
+            },
+            "tour": {
+                "launch": "$~maglibot sa paleta",
+                "palette": "$~Maaari mong gamitin ang /palette/ para baguhin ang mga *phrase*, *group*, at ang *stage* sa ✏️ *edit* na mode; sa ibang mode ang mga kontrol nito ay para lamang basahin, at sa ⏸️ *debug* na mode ang bawat property ay nagpapakita rin ng *kasalukuyang halaga* nito.",
+                "text": "$~Maaaring i-edit dito ang lahat ng /properties/ ng isang parirala. Ito ang *teksto* ng parirala, ngunit ang ibang mga katangian ay may sariling mga kontrol.",
+                "set": "$~Kapag kasalukuyang ginagamit ng isang property ang value nito na /default/, hinahayaan ka ng button na *pencil* na magtakda ng *explicit* value para dito.",
+                "unset": "$~Kapag ang isang property ay may nakatakdang halagang /explicit/, aalisin ng button na *X* ang halagang iyon, at ibabalik ang property sa *default* nito.",
+                "editor": "$~Ang lahat ng mga pagbabagong gagawin mo sa palette ay makikita sa /code/ na ipinapakita sa *editor*.",
+                "stage": "$~Maaari ding /ilipat/, /ibahin ang laki/, at /iikot/ ang mga parirala nang direkta sa *entablado*."
+            },
+            "music": {
+                "staff": "$~ang mga nota ng track na ito",
+                "track": "$~track $count ng $total",
+                "duration": {
+                    "label": "$~gaano katagal tumatagal ang isang bagong nota",
+                    "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
+                    "tips": [
+                        "$~isang buong nota, apat na kumpas",
+                        "$~isang kalahating nota, dalawang kumpas",
+                        "$~isang quarter na nota, isang kumpas",
+                        "$~isang eighth na nota, kalahating kumpas",
+                        "$~isang sixteenth na nota, isang-kapat na kumpas"
+                    ]
+                },
+                "computed": "$~ang mga nota ng track na ito ay kinakalkula, kaya hindi sila maililipat dito",
+                "note": "$~nota $degree, kumpas $beat",
+                "rest": "$~pahinga, kumpas $beat",
+                "added": "$~idinagdag ang nota $degree sa kumpas $beat, ngayon ay $#count[$#count na nota|$#count na mga nota]",
+                "removed": "$~inalis ang nota $degree sa beat $beat, ngayon ay $#count[$#count nota|$#count na nota]",
+                "moved": "$~nota $degree, beat $beat",
+                "chooser": "$~aling musika ang ie-edit",
+                "unnamed": "$~musika $count",
+                "cursor": "$~i-drag para piliin kung aling beat magsisimulang tumugtog",
+                "findings": {
+                    "tracksSplit": "$~$#count[$#count track|$#count na track] ang tumugtog ng higit sa isang nota sa isang pagkakataon, kaya $extra pa ang idinagdag para hawakan ang mga dagdag na tinig.",
+                    "percussionDropped": "$~$#count[$#count tunog ng tambol|$#count na tunog ng tambol] ang walang katugma sa aming kit, kaya hindi ito naisama.",
+                    "tracksTruncated": "$~$#count[$#count track ang|$#count na track ang] naiwan, lampas sa limitasyong $cap.",
+                    "pitchesSnapped": "$~$#count[$#count nota|$#count na nota] ang wala sa $scale na scale at inilipat sa pinakamalapit, hanggang $semitones semitones.",
+                    "beatsRounded": "$~$#count[$#count haba ng nota|$#count na haba ng nota] ang binilog, hanggang $error ng isang beat.",
+                    "meterChanges": "$~$#count[$#count pagbabago ng time signature|$#count na pagbabago ng time signature] ang naiwan: @Music ay walang time signature.",
+                    "velocityRange": "$~Ang track $track ay may $#count[$#count lakas ng tunog|$#count na lakas ng tunog]. Bawat nota ay may sariling lakas, ngunit walang mga swell.",
+                    "outOfRange": "$~$#count[$#count nota ang|$#count na nota ang] higit sa tatlong oktaba mula sa unang nota ng scale. Tutugtog ito, ngunit hindi mula sa isang totoong recording.",
+                    "tempoFolded": "$~$#count[$#count pagbabago ng tempo|$#count na pagbabago ng tempo] ang isinama sa haba ng mga nota, kaya bumibilis at bumabagal pa rin ang musika. Ang @Music ay may isang tempo, at ang isang ito ay $using, kaya ang @Beat ay hindi tutugma sa mga nota."
+                },
+                "notMIDI": "$~hindi iyan mukhang MIDI file",
+                "badMIDI": "$~Hindi ko mabasa ang MIDI file na iyan",
+                "listening": "$~Nakikinig! Humuni o kumanta ng isang himig, pagkatapos ay tumigil. Isusulat ko ang mga nota na naririnig ko at idadagdag sa track na ito.",
+                "heardNothing": "$~Wala akong narinig na nota. Subukang humuni nang kaunting mas malakas, o mas malapit sa mikropono.",
+                "transcribed": "$~Nakarinig ako ng $#count[$#count nota|$#count na nota] sa $scale sa humigit-kumulang $tempo beats bawat minuto.",
+                "noMicrophone": "$~Hindi ko marinig ang iyong mikropono",
+                "imported": "$~nagdagdag ng $#count[$#count track|$#count na track] at $notes na nota",
+                "importing": "$~$step… $percent%",
+                "tooBig": "$~Ang file na iyan ay may $#count[$#count nota|$#count na nota], higit sa $cap na kayang hawakan ng isang proyekto. Subukan ang mas maikling piyesa, o mas kaunting instrumento.",
+                "steps": {
+                    "label": "$~kung ano ang ginagawa ng isang import",
+                    "labels": [
+                        "$~Binabasa ang file",
+                        "$~Pag-alam sa mga nota",
+                        "$~Pagbibigay ng pangalan sa mga track",
+                        "$~Pagsulat ng mga ito sa iyong programa",
+                        "$~Pagsuri sa iyong programa"
+                    ],
+                    "tips": [
+                        "$~pagbabasa ng file",
+                        "$~pag-alam sa mga nota",
+                        "$~pagbibigay ng pangalan sa mga track",
+                        "$~pagsulat ng mga ito sa iyong programa",
+                        "$~pagsuri sa iyong programa"
+                    ]
+                },
+                "report": "$~Ang aking na-import",
+                "reportExplanation": "$~Kaya ng isang @Music na hawakan ang karamihan sa inilalarawan ng isang MIDI file, ngunit hindi lahat. Narito ang nagbago habang ini-import ito."
+            },
+            "toolbar": {
+                "label": "$~magdagdag ng output",
+                "addPhrase": "$~magdagdag ng phrase",
+                "wrapPhrase": "$~ipakita ang halagang ito bilang phrase",
+                "addRectangle": "$~magdagdag ng hugis na parihaba",
+                "addCircle": "$~magdagdag ng bilog na hugis",
+                "addPolygon": "$~magdagdag ng hugis na may maraming gilid",
+                "wrapForm": "$~ipakita ang anyong ito sa entablado sa pamamagitan ng pagbalot dito ng isang hugis",
+                "group": "$~tipunin ang iyong pinili sa isang grupo",
+                "groupEmpty": "$~pumili ng output para tipunin ito sa isang grupo",
+                "groupScattered": "$~isang grupo lang ang maaaring tipunin ng output na nasa iisang lugar",
+                "groupKind": "$~ang isang grupo ay maaaring maglaman ng isang parirala, isang grupo, salita, o musika, ngunit hindi ng isang hugis o ng entablado",
+                "addStage": "$~balutin ang lahat sa isang entablado, para makontrol mo ang ilaw, kulay, at mga frame",
+                "stageExists": "$~may entablado na",
+                "addMusic": "$~magdagdag ng musika, magsimula sa ilang tunog na maglalaro-laro ka",
+                "addSay": "$~magdagdag ng pananalita, na binibigkas nang malakas",
+                "addPath": "$~magdagdag ng linyang maaari mong ibaluktot at gamitin sa pagguhit",
+                "draw": {
+                    "off": "$~gumuhit ng landas sa entablado",
+                    "on": "$~itigil ang pagguhit"
+                }
+            }
+        },
+        "save": {
+            "saving": "$~pagtitipid",
+            "saved": "$~na-save",
+            "local": "$~na-save",
+            "unsaved": "$~hindi na-save",
+            "sync": {
+                "projects": "$~Mga Proyekto",
+                "galleries": "$~Mga Galeriya",
+                "characters": "$~Mga Karakter",
+                "howtos": "$~Mga Paano-Gawin",
+                "chats": "$~Mga Chat",
+                "kits": "$~Mga Kit"
+            },
+            "status": {
+                "header": "$~I-save ang katayuan",
+                "intro": "$~Ang iyong trabaho ay iniingatan sa device na ito at sine-save sa cloud.",
+                "columns": {
+                    "device": "$~sa aparatong ito",
+                    "cloud": "$~sa ulap",
+                    "unsaved": "$~hindi na-save"
+                },
+                "state": {
+                    "synced": "$~naka-sync",
+                    "loading": "$~pagkarga",
+                    "syncing": "$~pagtitipid",
+                    "offline": "$~offline",
+                    "failed": "$~nabigo"
+                },
+                "conversation": "$~isang pag-uusap",
+                "legend": "$~Ang ibig sabihin ng hindi na-save ay naka-save na rito pero hindi pa online. Mase-save ito kapag online ka na ulit.",
+                "errorsHeader": "$~May ilang bagay na hindi ma-save online:"
+            }
+        },
+        "localize": {
+            "header": "$~I-localize",
+            "reference": "$~Sanggunian sa Ingles",
+            "description": "$~Maligayang pagdating sa localization mode! Maaari kang magmungkahi ng mga pagpapabuti sa teksto sa interface ng @wordplay. Pumili ng anumang teksto upang magmungkahi ng pag-edit. Susuriin ang iyong mga mungkahi, at kung maaprubahan, ito ay magiging bahagi ng platform para makita ng lahat. Salamat sa pagtulong na gawing mas naa-access ang Wordplay para sa lahat sa mundo!",
+            "toggle": {
+                "mode": {
+                    "on": "$~umalis sa localization mode",
+                    "off": "$~pumasok sa localization mode para magmungkahi ng mga pagbabago sa teksto ng platform sa kasalukuyang wika."
+                }
+            },
+            "button": {
+                "edit": "$~Magmungkahi ng pag-edit sa tekstong ito",
+                "submit": "$~Isumite ang iminungkahing pag-edit",
+                "cancel": "$~Itapon ang iminungkahing pag-edit",
+                "revert": "$~Ibalik sa opisyal na teksto",
+                "editTip": "$~Magmungkahi ng pag-edit sa tooltip ng kontrol na ito",
+                "prev": "$~I-edit ang nakaraang item",
+                "next": "$~I-edit ang susunod na item"
+            },
+            "field": {
+                "plain": {
+                    "description": "$~Iminungkahing kapalit na teksto",
+                    "placeholder": "$~Ilagay ang kapalit..."
+                },
+                "formatted": {
+                    "description": "$~Iminungkahing kapalit (sumusuporta sa markup formatting)",
+                    "placeholder": "$~Ilagay ang naka-format na kapalit..."
+                },
+                "name": {
+                    "description": "$~Iminungkahing pangalan (dapat ay isang wastong pangalan sa Wordplay)",
+                    "placeholder": "$~Ilagay ang pangalan..."
+                },
+                "filter": {
+                    "description": "$~Salain ang mga string ng pagsasalin ayon sa path o paglalarawan",
+                    "placeholder": "$~Salain..."
+                }
+            },
+            "strings": "$~Mga string ng pagsasalin",
+            "emotion": "$~Pumili ng damdamin",
+            "invalidName": "$~Hindi wastong pangalan ng Wordplay",
+            "invalidConceptLinks": "$~Hindi malutas ang mga konseptong ito sa kasalukuyang wika. Mali ba ang baybay mo, o sinasadya mo itong alisin?",
+            "inputs": {
+                "header": "$~Mga input na tinatanggap ng template na ito",
+                "usedTip": "$~I-click para maglagay ng isa pang reperensya sa cursor",
+                "unusedTip": "$~I-click upang ilagay ang sangguniang ito sa cursor",
+                "missing": "$~Mga nawawalang input:",
+                "legacy": "$~Palitan ang mga lumang positional ref na ito ng mga pinangalanang ref:",
+                "submitBlocked": "$~Sumangguni sa bawat input bago isumite",
+                "unknown": "$~Ang mga sangguniang ito ay hindi tumutugma sa isang idineklarang input o terminolohiya, kaya hindi nila mapapalitan ang:",
+                "plural": {
+                    "header": "$~Mga bersyong kailangan ng wikang ito",
+                    "tip": "$~Isang bilang: i-click para maglagay ng isang bersyon ng pangungusap para sa bawat isa sa $forms na anyong maramihan ng wikang ito",
+                    "arity": "$~May $name na bersyon ang $found, ngunit kailangan ng wikang ito ng $expected.",
+                    "missing": "$~Isang bilang ang $name, kaya pumili ng bersyon ng pangungusap para sa bawat anyong maramihan.",
+                    "example": "$~halimbawa"
+                }
+            },
+            "guidance": "$~Gabay para sa wikang ito",
+            "guidanceEmpty": "$~Wala pang gabay. Isulat ang dapat malaman ng isang nagsasalin sa wikang ito.",
+            "guidanceToggle": {
+                "on": "$~itago ang gabay ng wikang ito",
+                "off": "$~ipakita ang gabay ng wikang ito"
+            },
+            "terms": {
+                "header": "$~Listahan ng mga termino",
+                "description": "$~Tukuyin ang mga termino at parirala para sa wikang ito na magagamit mo muli kahit saan sa pamamagitan ng pagsulat ng $$ at ang susi ng salita, tulad ng $$program. Kapag binago mo ang isang salita rito, magbabago ito sa lahat ng lugar kung saan ito ginagamit, kaya magiging pare-pareho ang iyong mga salin. Para lamang ito sa muling paggamit ng mga salita; upang ipaliwanag ang isang termino sa mga mag-aaral, gamitin na lang ang gabay ng mga termino.",
+                "empty": "$~Wala pang mga salita. Magdagdag ng isa upang magamit ito muli sa buong teksto ng wikang ito.",
+                "key": {
+                    "description": "$~ang susi para sa salitang ito, isinusulat pagkatapos ng $ upang gamitin ito",
+                    "placeholder": "$~susi"
+                },
+                "phrase": {
+                    "description": "$~ang salita o parirala na kinakatawan ng susing ito",
+                    "placeholder": "$~salita"
+                },
+                "add": "$~idagdag ang salitang ito sa listahan",
+                "remove": "$~alisin ang salitang ito sa listahan",
+                "invalidKey": "$~Ang isang susi ay dapat magsimula sa isang titik at gumamit lamang ng mga titik at numero, sa anumang wika.",
+                "duplicateKey": "$~Mayroon nang salita ang wikang ito na may ganoong susi.",
+                "reservedKey": "$~Ginagamit na ang susing iyon para sa isang halaga ng template, kaya hindi ito maaaring maging isang salita."
+            },
+            "glossary": {
+                "header": "$~Iba pang paraan ng pagsulat",
+                "description": "$~Ipinapaliwanag ng talahulugan ang mga salitang nakikita ng mga mag-aaral. May isang pangunahing salita ang bawat termino, at dito mo maidaragdag ang iba pang paraan ng pagsulat ng salitang iyon sa wikang ito — mga pangmaramihan, ibang hulapi, o ibang salitang may parehong kahulugan. Kapag sumusulat ng teksto, maaari mong i-link ang alinman sa mga ito gamit ang @ at ang salita, at ang buong salita ay mananatiling bahagi ng link. Bawat wika ay gumagawa ng sariling listahan, kaya magdagdag lang ng kasing dami o kasing kaunti ng kailangan ng iyong wika.",
+                "reference": "$~sa Ingles",
+                "empty": "$~Walang ibang paraan ng pagsulat pa.",
+                "form": {
+                    "description": "$~ibang paraan ng pagsulat ng terminong ito",
+                    "placeholder": "$~paraan ng pagsulat"
+                },
+                "add": "$~idagdag ang paraan ng pagsulat na ito sa termino",
+                "remove": "$~alisin ang paraan ng pagsulat na ito mula sa termino",
+                "ownWord": "$~Ito ang sariling salita ng termino, na gumagana na nang mag-isa.",
+                "otherWord": "$~Ito ang salita para sa $term, kaya hindi magiging malinaw kung aling termino ang ibig mong sabihin.",
+                "conceptName": "$~Naipaliwanag na ng dokumentasyon ang salitang ito, kaya ang link dito ay dun na magtutungo.",
+                "alreadyUsed": "$~Ito ay isa na sa mga paraan ng pagsulat ng $term, kaya hindi magiging malinaw kung aling termino ang ibig mong sabihin.",
+                "searchOnly": "$~Natatapos ang link sa isang espasyo o simbolo, kaya ang paraan ng pagsulat na ito ay makakatulong lang sa paghahanap."
+            }
+        },
+        "edit": {
+            "node": "$~$node$type[, $type|]",
+            "before": "$~bago ang $after[$after|tapos]",
+            "inside": "$~sa $token, sa pagitan ng $before[$before|simula] at $after[$after|katapusan]",
+            "between": "$~sa pagitan ng $before[$before|simula] at $after[$after|katapusan]",
+            "line": "$~walang laman na linya sa pagitan ng $before[$before|simula] at $after[$after|wakas]",
+            "conflicts": "$~$#count[$count conflict|$count na conflict]",
+            "assign": "$~/$name[Sabik na sumali|Isinasaalang-alang ang pag-alis]…/",
+            "append": "$~/Sabik na ipasok…/",
+            "remove": "$~/Isinasaalang-alang ang pag-alis…/",
+            "replace": "$~/Gustong makialam…/",
+            "area": "$~uri ng kodigo",
+            "delimiterMatchedSameLine": "$~pagtutugma ng $name sa parehong linya",
+            "delimiterMatchedBelow": "$~tumutugma ang $name sa $#lines[$lines linya sa ibaba|$lines na linya sa ibaba]",
+            "delimiterMatchedAbove": "$~tumutugma ang $name sa $#lines[$lines linya sa itaas|$lines na linya sa itaas]",
+            "delimiterUnmatched": "$~walang tumutugmang delimiter"
+        },
+        "template": {
+            "unwritten": "$~Ipapaalam na",
+            "unparsable": "$~Hindi mapaparadang template: $template",
+            "machineTranslated": "$~Ito ay isinalin gamit ang makina, kaya maaaring hindi ito mabasa o hindi tama.",
+            "locallyRevised": "$~Ang tekstong ito ay binago nang lokal at naiiba sa opisyal na salin."
+        },
+        "emoji": {
+            "noCharacters": "$~Gumawa ng pasadyang karakter",
+            "skinTone": "$~kulay ng balat",
+            "groups": {
+                "label": "$~mga grupo",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~Ⅶ",
+                    "$~💰",
+                    "$~🔍"
+                ],
+                "tips": [
+                    "$~pasadya",
+                    "$~mga ngiti at damdamin",
+                    "$~mga tao at katawan",
+                    "$~mga hayop at kalikasan",
+                    "$~pagkain at inumin",
+                    "$~mga gawain",
+                    "$~paglalakbay at mga lugar",
+                    "$~mga bagay",
+                    "$~mga simbolo",
+                    "$~mga bandila",
+                    "$~maliit na titik",
+                    "$~malaking titik",
+                    "$~pangmatematika",
+                    "$~mga hugis",
+                    "$~mga arrow",
+                    "$~mga numero",
+                    "$~mga numerong titik",
+                    "$~pera",
+                    "$~mga resulta ng paghahanap"
+                ]
+            },
+            "script": "$~mga iskrip",
+            "scriptLabel": "$~i-filter ayon sa script",
+            "pickFilter": "$~Pumili ng kategorya o script",
+            "moreLanguages": "$~at $count pa",
+            "moreGlyphs": "$~Ipinapakita ang $count — maghanap para makakita ng higit pa",
+            "presentation": {
+                "label": "$~kulay ng emoji",
+                "labels": ["$~kulay", "$~itim at puti"],
+                "tips": [
+                    "$~maglagay ng emoji na may kulay",
+                    "$~maglagay ng emoji na itim at puti"
+                ]
+            }
+        },
+        "tour": {
+            "label": "$~paglilibot",
+            "close": "$~isara ang paglilibot",
+            "previous": "$~nakaraang hakbang",
+            "next": "$~susunod na hakbang",
+            "offscreen": "$~Ang bahaging ito ng interface ay hindi nakikita sa screen sa kasalukuyan.",
+            "overflowed": "$~Nakatago ang kontrol na ito sa loob ng naka-highlight na menu; buksan ito para mahanap ang kontrol."
+        },
+        "connection": {
+            "offline": "$~Naka-offline ka. Hindi gagana ang ilang feature hangga't hindi ka online.",
+            "unreachable": "$~Hindi namin ma-access ang database, kaya may ilang bagay na hindi gagana. Maaaring hinaharangan ito ng VPN, browser extension, o network filter."
+        },
+        "presence": {
+            "peersLabel": "$~mga kolaborator na nag-eedit ng proyektong ito",
+            "joined": "$~Sumali $name .",
+            "left": "$~$name lang ang natitira.",
+            "waitingForSlot": "$~Naghihintay ng slot sa pag-eedit — apat na kolaborator ang nag-eedit na. Kapag umalis ang isa, makakapag-edit ka na rin."
+        },
+        "update": {
+            "message": "$~Naglabas kami ng bagong bersyon.",
+            "refresh": "$~I-refresh",
+            "updates": "$~tingnan ang mga update",
+            "dismiss": "$~I-dismiss"
+        },
+        "banner": {
+            "deleteFailed": "$~Hindi namin mabura iyon.",
+            "saveFailed": "$~Hindi namin nailigtas iyon",
+            "submitFailed": "$~Hindi namin maisumite iyon",
+            "loadFailed": "$~Hindi namin ito naiload. Subukan muli sandali.",
+            "storageFull": "$~Puno na ang storage ng device na ito, kaya hindi kami makapag-save ng kopya rito. Nasa cloud pa rin ang gawa mo.",
+            "storageNearFull": "$~Halos wala nang storage ang device na ito, kaya maaaring hindi na makapag-save ang Wordplay dito. Ligtas ang mga gawaing naka-save sa cloud; ang pagbabakante ng espasyo sa iyong device o browser ay nagbibigay-daan dito upang patuloy itong mag-save dito.",
+            "saveTooLarge": "$~Masyado itong malaki para i-save. Subukang mag-alis ng ilang nilalaman."
+        },
+        "wellspring": {
+            "label": "$~paleta ng kodigo",
+            "recycle": "$~i-drop dito para burahin",
+            "empty": "$~Walang mga konsepto ng proyekto",
+            "field": {
+                "search": "$~maghanap ng code na ida-drag papasok"
+            },
+            "button": {
+                "toggle": "$~ipakita at itago ang code palette",
+                "clear": "$~i-clear ang paghahanap"
+            }
+        },
+        "feedback": {
+            "copied": "$~kinopya ang $text",
+            "cut": "$~pinutol ang $text",
+            "pasted": "$~idinikit ang $text",
+            "deleted": "$~binura ang $text",
+            "undone": "$~binawi",
+            "redone": "$~ginawang muli",
+            "foldedAll": "$~tinupi ang lahat ng kodigo",
+            "unfoldedAll": "$~binuklat ang lahat ng kodigo",
+            "editMode": "$~$mode",
+            "zoom": "$~zoom $percent na porsyento",
+            "fullscreenOn": "$~pumasok sa buong screen",
+            "fullscreenOff": "$~umalis sa buong screen",
+            "restarted": "$~sinimulan muli ang mga input",
+            "step": "$~hakbang $step, $node",
+            "stepAtStart": "$~sa simula",
+            "stepAtEnd": "$~sa dulo",
+            "searchOpened": "$~maghanap sa kodigo",
+            "searchClosed": "$~isinara ang paghahanap",
+            "searchMatch": "$~tugma $index ng $count",
+            "searchNoMatches": "$~walang tugma",
+            "menuOpened": "$~menu, $#count[$count mungkahi|$count na mungkahi]",
+            "menuEmpty": "$~walang mungkahi",
+            "menuClosed": "$~isinara ang menu",
+            "tidyNoop": "$~maayos na"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~Itago ang mga tunog na kayang kantahin ng boses",
+                "off": "$~Ipakita ang mga tunog na kayang kantahin ng boses"
+            },
+            "groups": [
+                "$~mga patinig",
+                "$~mga aproksimant",
+                "$~mga tunog na l",
+                "$~mga tunog na pang-ilong",
+                "$~mga tunog na sumisitsit",
+                "$~mga tunog na iginugulong",
+                "$~mga tunog na napapatigil",
+                "$~mga kalabit"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~Pakinggan ang $symbol",
+            "insert": "$~I-type ang $symbol"
+        },
+        "translation": {
+            "used": "$~Nagamit mo na ang $used sa $#limit[$limit karakter|$limit na karakter] ngayong araw",
+            "meter": "$~nagamit na pagsasalin ngayong araw",
+            "exhaustedHours": "$~Naubos mo na ang pagsasalin para ngayong araw. Subukan muli sa mga $#hours[$hours oras|$hours na oras].",
+            "exhaustedMinutes": "$~Naubos mo na ang pagsasalin para ngayong araw. Subukan muli sa mga $#minutes[$minutes minuto|$minutes na minuto].",
+            "signIn": "$~Kailangan ng account para makapagsalin, para pantay ang bahagi ng lahat dito. <Mag-sign in o sumali@/login> para isalin ang iyong proyekto.",
+            "progressLabel": "$~progreso ng pagsasalin",
+            "analyzing": "$~Binabasa ang iyong programa…",
+            "revising": "$~Inilalagay ang mga bagong salita…",
+            "started": "$~Isinasalin ang $#count[$count parirala|$count na parirala] sa $language…",
+            "progress": "$~Naisalin na ang $done sa $#total[$total parirala|$total na parirala]",
+            "finished": "$~Ang iyong proyekto ay nagsasalita na ngayon ng $language.",
+            "finishedPartial": "$~Ang iyong proyekto ay nagsasalita na ngayon ng $language, pero ang $#kept[$kept parirala|$kept na parirala] ay nanatili sa orihinal na mga salita."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Ang link mo para pumasok sa Wordplay",
+                "heading": "$~Pumasok sa Wordplay",
+                "body": "$~Piliin ang buton sa ibaba para pumasok. Minsan lang gumagana ang link, at panandalian lang.",
+                "button": "$~Pumasok",
+                "disclaimer": "$~Kung hindi ikaw ang humiling na pumasok, huwag na lang pansinin ang email na ito — walang makakapasok sa account mo kung wala ang link na ito."
+            },
+            "notice": {
+                "open": "$~Tingnan ito",
+                "manage": "$~Baguhin ang iyong mga setting ng abiso",
+                "heading": {
+                    "reported": "$~Iniulat",
+                    "decision": "$~Desisyon ng pagmomonitor",
+                    "review": "$~Naghihintay ng pagsusuri",
+                    "warning": "$~Isang babala",
+                    "listing": "$~Desisyon sa pagtatala",
+                    "howto": "$~Bagong kung paano gawin",
+                    "chat": "$~Mga bagong chat"
+                },
+                "subject": {
+                    "reported": "$~Ang iyong $kind ay naiulat",
+                    "received": "$~Natanggap namin ang iyong ulat",
+                    "decision": "$~Isang desisyon tungkol sa iyong $kind",
+                    "review": "$~May isang bagay na naghihintay ng iyong pagsusuri",
+                    "warning": "$~Isang babala tungkol sa ibinahagi mo",
+                    "listing": "$~Isang desisyon tungkol sa pagtatala ng iyong $kind",
+                    "howto": "$~Isang bagong kung paano gawin sa iyong gallery"
+                },
+                "body": {
+                    "reported": "$~May humiling ng pagsusuri sa isang bagay na ginawa mo sa \"$title\". Titingnan ito ng taong responsable.",
+                    "received": "$~Naabot ng iyong ulat tungkol sa \"$title\" ang taong responsable sa pagsusuri nito.",
+                    "decision": "$~May ginawang desisyon tungkol sa isang bagay na ginawa mo sa \"$title\".",
+                    "review": "$~May humiling ng pagsusuri para sa \"$title\".",
+                    "warning": "$~Ito ang babala $#count[bilang 1|bilang $count] tungkol sa isang bagay na ibinahagi mo nang publiko.",
+                    "listing": "$~May ginawang desisyon kung ang \"$title\" ay itatala o hindi.",
+                    "howto": "$~Ang \"$title\" ay inilathala sa isang gallery na kinabibilangan mo."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[May isang bagay na|May $count na bagay na] naghihintay para suriin mo",
+                "heading": "$~$#count[1 bagay|$count na bagay] ang dapat suriin",
+                "open": "$~Simulan ang pagsusuri",
+                "body": "$~Ang mga ulat at kahilingan sa pagtatala ay naghihintay sa pila ng pagmomonitor hanggang may magpasya tungkol sa mga ito."
+            },
+            "chat": {
+                "subject": "$~May mga hindi mo pa nabasang chat",
+                "heading": "$~Mga bagong chat",
+                "open": "$~Basahin ang mga ito",
+                "body": "$~May mga mensaheng hindi mo pa nababasa sa $#count[isang chat|$count na chat]."
+            }
+        },
+        "markup": {
+            "description": "$~magsulat ng may-format na teksto",
+            "placeholder": "$~magsulat ng kahit ano",
+            "mode": {
+                "prose": "$~ipakita kung ano ang itsura nito",
+                "source": "$~ipakita ang mga marka ng pag-format"
+            },
+            "command": {
+                "italic": "$~italiko",
+                "bold": "$~bold",
+                "extra": "$~sobrang bold",
+                "underline": "$~guhitan sa ilalim",
+                "light": "$~manipis",
+                "example": "$~halimbawang kodigo",
+                "link": "$~link sa web",
+                "concept": "$~link sa isang konsepto",
+                "bullet": "$~bullet",
+                "highlight": "$~i-highlight ang halimbawang ito",
+                "defect": "$~ang halimbawang ito ay dapat may mga error",
+                "mode": "$~lumipat sa pagitan ng prosa at mga marka ng pag-format",
+                "docs": "$~paliwanag sa loob ng halimbawa",
+                "attention": "$~bigyang-pansin ang linyang ito",
+                "undo": "$~bawiin",
+                "redo": "$~gawing muli"
+            },
+            "feedback": {
+                "formatOn": "$~buhay ang $format",
+                "formatOff": "$~patay ang $format",
+                "example": "$~gumawa ng halimbawang kodigo",
+                "link": "$~gumawa ng link sa web",
+                "concept": "$~nag-link sa $name",
+                "bulletOn": "$~gumawa ng bullet",
+                "bulletOff": "$~inalis ang bullet",
+                "highlightOn": "$~ang halimbawang ito ay ma-hi-highlight",
+                "highlightOff": "$~ang halimbawang ito ay hindi ma-hi-highlight",
+                "defectOn": "$~ang halimbawang ito ay dapat may mga error",
+                "defectOff": "$~hindi dapat magkaroon ng mga error ang halimbawang ito",
+                "notInExample": "$~ilagay muna ang iyong cursor sa isang halimbawang kodigo",
+                "mode": "$~$mode",
+                "docs": "$~nagdagdag ng paliwanag",
+                "attention": "$~nagbibigay-pansin sa linyang ito",
+                "undid": "$~binawi iyon",
+                "redid": "$~inulit iyon"
+            }
+        },
+        "proxy": {
+            "banner": "$~Tinitingnan mo ang Wordplay bilang ibang tao. Walang naisasave dito, at hindi nila makikita na naroon ka.",
+            "as": "$~bilang $name",
+            "remaining": "$~$#minutes[$minutes minuto na lang ang natitira|$minutes minuto na lang ang natitira]",
+            "stop": {
+                "label": "$~Ihinto",
+                "tip": "$~Isara ang tab na ito at ihinto ang pagtingin bilang sila"
+            },
+            "starting": "$~Sinisimulan…",
+            "failed": "$~Hindi namin masimulan ang session na iyon. Naka-sign in ka pa ba bilang administrator?",
+            "expired": "$~Nagamit na ang link na iyon, o nag-expire na ito. Magsimula ulit mula sa <privileges page@://admin>.",
+            "ended": "$~Tapos na ang session na ito, at naka-sign out ka na dito. Isara ang tab na ito. Para tumingin ulit, magsimula mula sa privileges page."
+        }
+    }
+}

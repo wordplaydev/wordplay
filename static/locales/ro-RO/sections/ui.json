@@ -1,0 +1,2774 @@
+{
+    "$schema": "../../../static/schemas/sections/ui.json",
+    "ui": {
+        "font": {
+            "app": "$~Noto Sans",
+            "code": "$~Noto Sans Mono",
+            "missing": "$~nu",
+            "form": {
+                "sans": "$~un font fără serife",
+                "serif": "$~un font cu serife",
+                "slab": "$~un font cu serife groase",
+                "typewriter": "$~un font ca de mașină de scris",
+                "handwriting": "$~scris de mână",
+                "brush": "$~un font ca desenat cu pensula",
+                "script": "$~un font cursiv",
+                "poster": "$~un font de afiș",
+                "pixel": "$~un font din pixeli",
+                "outline": "$~un font gol pe interior",
+                "textured": "$~un font texturat",
+                "emoji": "$~imagini, nu litere"
+            },
+            "impression": {
+                "calm": "$~calm",
+                "oldFashioned": "$~de modă veche",
+                "strong": "$~puternic",
+                "quirky": "$~ciudățel",
+                "playful": "$~jucăuș",
+                "excited": "$~entuziasmat",
+                "childlike": "$~copilăresc",
+                "artistic": "$~artistic",
+                "futuristic": "$~futurist",
+                "energetic": "$~energic",
+                "cute": "$~drăguț",
+                "cheerful": "$~vesel",
+                "fancy": "$~elegant"
+            },
+            "mechanic": {
+                "sameWidth": "$~fiecare literă are aceeași lățime",
+                "tallLowercase": "$~literele mici sunt la fel de înalte ca majusculele",
+                "shortLowercase": "$~literele mici sunt mult mai scurte decât majusculele"
+            },
+            "description": {
+                "and": "$~$first și $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
+        },
+        "phrases": {
+            "welcome": "$~Buna ziua"
+        },
+        "widget": {
+            "confirm": {
+                "cancel": "$~anula"
+            },
+            "dialog": {
+                "close": "$~aproape"
+            },
+            "loading": {
+                "message": "$~Se încarcă, mulțumim că aștepți!"
+            },
+            "home": "$~mergeți la pagina principală",
+            "table": {
+                "cell": {
+                    "description": "$~editați această celulă",
+                    "placeholder": "$~valoare"
+                },
+                "addcolumn": "$~adăugați o coloană înaintea acestei coloane",
+                "removecolumn": "$~eliminați această coloană"
+            },
+            "formatted": {
+                "edit": "$~editați textul formatat",
+                "preview": "$~previzualizare text formatat",
+                "highlight": "$~exemplu de evidențiere",
+                "bullet": "$~glonţ",
+                "attention": "$~evidențiază această expresie",
+                "defect": "$~marchează exemplul ca defect așteptat"
+            },
+            "backtotop": "$~înapoi la început",
+            "overflow": {
+                "button": {
+                    "on": "$~ascunde controalele suplimentare",
+                    "off": "$~afișați controale suplimentare"
+                },
+                "popup": "$~Controale suplimentare"
+            },
+            "color": {
+                "field": "$~câmp de culoare",
+                "instructions": "$~Folosește tastele săgeată stânga și dreapta pentru a schimba nuanța, tastele săgeată sus și jos pentru a schimba croma și tastele page up și page down pentru a schimba luminozitatea. Ține apăsat shift pentru pași mai mici. Cu un cititor de ecran, interacționează mai întâi cu acest control sau folosește glisoarele de luminozitate, cromă și nuanță de dedesubt.",
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~introduceți o culoare în orice format web",
+                    "placeholder": "$~#f00, rgb(), hsl(), roșu",
+                    "invalid": "$~nu este o culoare recunoscută",
+                    "format": "$~format detectat"
+                },
+                "pick": {
+                    "tip": "$~alege o culoare de pe ecranul tău"
+                }
+            },
+            "logo": {
+                "description": "$~O bulă de vorbire cu o literă din sistemul tău de scriere înăuntru"
+            },
+            "synced": {
+                "saved": "$~Salvat pe toate dispozitivele",
+                "signedOut": "$~Salvat pe toate dispozitivele atunci când ești conectat"
+            }
+        },
+        "tile": {
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~ieșire ecran complet",
+                    "off": "$~extindeți dala ferestrei la ecran complet"
+                },
+                "show": {
+                    "on": "$~ascunde $name",
+                    "off": "$~arată $name"
+                },
+                "showSource": {
+                    "on": "$~ascunde sursa $name",
+                    "off": "$~arată sursa $name"
+                }
+            },
+            "label": {
+                "output": "$~etapă",
+                "palette": "$~paletă",
+                "docs": "$~ghid",
+                "source": "$~sursă",
+                "collaborate": "$~colabora"
+            },
+            "button": {
+                "collapse": "$~restrângere fereastră"
+            }
+        },
+        "project": {
+            "label": "$~proiect",
+            "defaults": {
+                "starterCode": "$~¶Bun venit la proiectul tău gol! Acesta este un comentariu. Îl poți folosi pentru a descrie proiectul tău, a lua notițe și a explica ce vrei ca oamenii să știe despre munca ta. Acceptă *bold*, /italic/,<links@https://wordplay.dev> și mai multe.¶ Expresie('hi')"
+            },
+            "error": {
+                "unknown": "$~Acest proiect nu există sau nu aveți acces la el.",
+                "translate": "$~A apărut o problemă la traducerea proiectului dumneavoastră.",
+                "tile": "$~Oops, a apărut o eroare",
+                "reset": "$~Încercare de resetare...",
+                "translateBroken": "$~Traducerea ar fi cauzat erori în programul tău, așa că nu s-a schimbat nimic. Încearcă o altă limbă sau tradu din nou."
+            },
+            "button": {
+                "share": {
+                    "tip": "$~afișați opțiunile de partajare a proiectului",
+                    "label": "$~a împărtăși"
+                },
+                "removeCollaborator": "$~elimină colaboratorul",
+                "copy": {
+                    "tip": "$~copiază proiectul în clipboard ca text",
+                    "label": "$~copiază ca text"
+                },
+                "addSource": "$~creează o altă @Source, ca să poți păstra date sau cod partajat în propriul fișier",
+                "revert": "$~reveniți la codul original",
+                "focusOutput": "$~tastatură concentrată pe scenă",
+                "focusSource": "$~concentrați-vă pe următoarea sursă",
+                "focusDocs": "$~concentrați-vă pe documentație",
+                "focusPalette": "$~concentrați-vă pe paletă",
+                "focusCycle": "$~concentrați-vă pe următoarea placă",
+                "savedLocally": "$~proiectele sunt salvate local, dar nu online",
+                "savedOnline": "$~proiectele sunt salvate online",
+                "unsaved": "$~afișați eroarea de salvare",
+                "translate": {
+                    "tip": "$~tradu acest proiect într-o limbă nouă, făcându-l multilingv",
+                    "label": "$~traduce"
+                },
+                "primary": "$~limba textului care nu este marcat cu o limbă",
+                "destination": "$~traduce în această limbă",
+                "remix": {
+                    "tip": "$~fă-ți propria copie a acestui proiect pentru a-l schimba",
+                    "label": "$~remixează"
+                },
+                "languages": "$~arată limbile în care este scris acest proiect",
+                "addLanguage": "$~scrie acest proiect și în această limbă",
+                "removeLanguage": "$~nu mai scrie acest proiect în această limbă",
+                "firstLanguage": "$~fă din aceasta prima limbă a proiectului",
+                "removeUnusedLanguages": {
+                    "tip": "$~elimină limbile pe care codul acestui proiect nu le folosește",
+                    "label": "$~elimină cele nefolosite"
+                },
+                "tinker": {
+                    "label": "$~încearcă…",
+                    "tip": "$~deschide o copie a acestui exemplu într-o fereastră nouă, ca să îl poți schimba și să vezi ce se întâmplă"
+                }
+            },
+            "field": {
+                "name": {
+                    "description": "$~editați numele proiectului",
+                    "placeholder": "$~nume",
+                    "invalid": "$~Traducere incompletă — verificați citatele și etichetele lingvistice, cum ar fi „hi”/en”hola”/es."
+                }
+            },
+            "help": "$~afișați comenzile rapide de la tastatură",
+            "collapsed": "$~Toate ferestrele sunt restrânse! Le puteți găsi în bara de instrumente de mai jos.",
+            "save": {
+                "projectsNotLoadingOnline": "$~Nu se pot încărca proiectele online.",
+                "settingsUnsaved": "$~Nu se pot salva setările online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Browserul dvs. nu a putut salva aceste proiecte pe acest dispozitiv.",
+                    "indexedDBUnsupported": "$~Browserul tău nu permite @wordplay să salveze proiecte pe acest dispozitiv.",
+                    "firestoreBatchFailed": "$~Nu am putut trimite acestea în cloud. Sunt încă în siguranță pe acest dispozitiv.",
+                    "projectContainsPII": "$~Aceste proiecte par să conțină informații personale, așa că nu le-am salvat online. Deschideți fiecare proiect pentru a vedea ce pare personal.",
+                    "localProjectStorageFailed": "$~Acest dispozitiv a rămas fără spațiu pentru salvare, iar aceste proiecte nu sunt încă în cloud, așa că sunt în pericol.<Sign in@/login> , ceea ce le salvează online în loc să fie doar pe acest dispozitiv.",
+                    "projectTooLarge": "$~Aceste proiecte sunt prea mari pentru a fi salvate online. Sunt încă în siguranță pe acest dispozitiv. Încearcă să le faci mai mici.",
+                    "noCloudTarget": "$~Aceste proiecte sunt doar pe acest dispozitiv, pentru că @wordplay nu a avut unde să le salveze online. <Conectează-telogin> pentru a le salva.",
+                    "cloudWriteRefused": "$~Norul (cloud) nu a acceptat aceste modificări, așa că am folosit copia care este online. Dacă crezi că ar trebui să poți schimba acestea, întreabă persoana care ți le-a trimis."
+                },
+                "projectsNotSavingOnline": "$~Unele proiecte sunt doar pe acest dispozitiv, nu sunt încă online."
+            },
+            "dialog": {
+                "languages": {
+                    "header": "$~Limbi",
+                    "explanation": [
+                        "$~Acestea sunt limbile în care este scris proiectul tău.",
+                        "Poți adăuga o limbă în care să scrii, poți elimina una pe care nu o folosești sau poți traduce întregul proiect într-o limbă nouă."
+                    ],
+                    "count": "$~$#count[$#count limbă|$count limbi|$count de limbi]",
+                    "meaning": [
+                        "$~Limbile unui proiect decid ce nume și cuvinte poate folosi codul lui. Dacă proiectul tău este scris în spaniolă, are nevoie de spaniolă aici, altfel nume precum \\Frase\\ nu vor însemna nimic.",
+                        "Toți cei care deschid proiectul tău încarcă aceste limbi, iar prima decide cum este aranjat rezultatul tău. Numele în engleză funcționează întotdeauna, în orice proiect."
+                    ],
+                    "unused": "$~nefolosit",
+                    "unloaded": "$~nu s-a putut încărca",
+                    "checking": "$~Se caută limbile pe care le folosește codul tău…",
+                    "complete": "$~Codul tău nu folosește nicio limbă care lipsește din proiectul tău.",
+                    "search": {
+                        "description": "$~Filtrați limbile după nume sau regiune",
+                        "placeholder": "$~limbă sau regiune"
+                    },
+                    "tab": {
+                        "label": "$~setări de limbă",
+                        "labels": ["$~Scris în", "$~Tradu"],
+                        "tips": [
+                            "$~vezi și schimbă limbile în care este scris acest proiect",
+                            "$~tradu numele, textul și documentarea acestui proiect în altă limbă"
+                        ]
+                    },
+                    "prompt": "$~tradu",
+                    "mode": {
+                        "label": "$~ce face traducerea",
+                        "labels": ["$~adaugă", "$~rescrie"],
+                        "tips": [
+                            "$~adaugă limba nouă la proiectul tău, păstrând tot ce ai scris",
+                            "$~rescrie proiectul tău în limba nouă, înlocuind ce ai scris"
+                        ]
+                    },
+                    "source": "$~Textele și numele marcate cu o limbă, cum ar fi \\'hola'/es\\, se traduc din acea limbă. Alege limba pentru tot ce nu este marcat."
+                }
+            },
+            "subheader": {
+                "source": "$~Sursă",
+                "destination": "$~Destinaţie",
+                "missing": "$~Poate lipsește"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~ieșire browser ecran complet",
+                    "off": "$~accesează browserul pe tot ecranul"
+                },
+                "editName": {
+                    "on": "$~arată numele în limba ta",
+                    "off": "$~editează numele în fiecare limbă"
+                }
+            },
+            "tour": {
+                "launch": "$~faceți un tur al controalelor proiectului",
+                "controls": "$~Aceste /comenzi/ din partea de jos se aplică întregului *proiect*, indiferent de dala în care lucrați.",
+                "name": "$~Câmpul /name/ este numele proiectului tău. Numele apar în vizualizările *project* și *gallery*.",
+                "sourceToggle": "$~Această /comutare/ afișează sau ascunde *fișierul sursă*. *Celelalte comenzi* de pe acest rând fac același lucru și pentru celelalte plăci.",
+                "addSource": "$~Unele proiecte beneficiază de fișiere sursă *mai multe*, unde datele sunt stocate într-unul singur și importate în sursa *principală*. Butonul /adăugați sursă/ creează una nouă.",
+                "share": "$~Caseta de dialog /share/ vă permite să partajați proiectul cu *galerii*, cu *publicul* sau să îl copiați ca *text* pentru a-l partaja în altă parte.",
+                "checkpoints": "$~Panoul /revisions/ vă permite să *reveniți* la versiunile anterioare ale proiectului și la versiunile *snapshot* pe care doriți să le rețineți.",
+                "languages": "$~Butonul /limbi/ arată în ce limbi este scris proiectul tău, îți permite să adaugi sau să elimini una și poate *traduce* *numele*, *textul* și *documentarea* proiectului tău într-o limbă nouă."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~auto — în prezent $layout"
+                }
+            },
+            "link": {
+                "remixOf": "$~mergi la proiectul din care a fost remixat acesta",
+                "backTo": "$~înapoi la $place"
+            },
+            "scratch": "$~Aceasta este o copie temporară a unui exemplu. Refă-l ca să îl păstrezi.",
+            "untitled": "$~Proiect fără titlu"
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$~acum",
+                "history": "$~versiuni",
+                "restore": "$~Aceasta este o versiune anterioară a acestui proiect.",
+                "ago": "$~$amount $unit acum"
+            },
+            "button": {
+                "clear": "$~șterge istoricul",
+                "select": "$~vezi această versiune",
+                "checkpoint": "$~salvați această versiune a proiectului",
+                "back": "$~reveniți la versiunea anterioară",
+                "forward": "$~reveniți la următoarea versiune",
+                "restore": "$~restaurați această versiune",
+                "now": "$~reveniți la versiunea curentă"
+            }
+        },
+        "gallery": {
+            "untitled": "$~Fără titlu",
+            "undescribed": "$~Fără descriere",
+            "subheader": {
+                "classes": {
+                    "header": "$~Cursuri",
+                    "explanation": "$~Cursuri asociate cu această galerie."
+                },
+                "curators": {
+                    "header": "$~Curatori",
+                    "explanation": [
+                        "$~Curatorii pot edita proiectele și setările galeriei și pot discuta pe orice proiect.",
+                        "/Curatorii verifică ce este semnalat în galeria lor — proiecte, instrucțiuni și discuțiile care le însoțesc — din <pagina de moderare@://moderate>. Decizia unui curator se aplică doar galeriei lui; nu este niciodată una dintre <regulile@://rights> Wordplay./"
+                    ]
+                },
+                "creators": {
+                    "header": "$~Creatori",
+                    "explanation": "$~Creatorii pot vizualiza toate proiectele din galerie și pot adăuga proiecte noi."
+                },
+                "delete": {
+                    "header": "$~Şterge",
+                    "explanation": "$~Ștergerea acestei galerii nu va șterge proiectele acesteia. Se vor șterge instrucțiunile sale. Galeria va fi ștearsă definitiv."
+                },
+                "characters": {
+                    "header": "$~Caractere",
+                    "explanation": "$~Caractere partajate aici. Oricine din această galerie poate folosi unul în propriul proiect, sau poate face propria versiune a lui, pe care să o schimbe."
+                },
+                "projects": {
+                    "header": "$~Proiecte",
+                    "explanation": "$~Proiecte partajate aici. Oricine din această galerie poate deschide unul, și poate face propria versiune a lui, pe care să o schimbe."
+                }
+            },
+            "confirm": {
+                "delete": {
+                    "description": "$~șterge galeria",
+                    "prompt": "$~şterge"
+                },
+                "remove": {
+                    "description": "$~eliminați proiectul din galerie",
+                    "prompt": "$~elimina"
+                },
+                "removecharacter": {
+                    "description": "$~scoate caracterul din galerie",
+                    "prompt": "$~scoate"
+                }
+            },
+            "error": {
+                "unknown": "$~Această galerie nu există sau nu este publică.",
+                "unreachable": "$~Nu am putut încărca această galerie. Dacă te aștepți să ai acces, verifică-ți conexiunea; o rețea VPN, o extensie de browser sau un filtru de rețea ar putea să o blocheze."
+            },
+            "field": {
+                "name": {
+                    "description": "$~Numele galeriei",
+                    "placeholder": "$~nume"
+                },
+                "description": {
+                    "description": "$~Descrierea galeriei",
+                    "placeholder": "$~Descrie galeria ta. Care este tema, obiectivele sau comunitatea sa?"
+                }
+            },
+            "projects": "$~$#count[$#count proiect|$count proiecte|$count de proiecte]",
+            "characters": "$~$#count[$#count caracter|$count caractere|$count de caractere]",
+            "button": {
+                "editcharacter": "$~Editează acest caracter",
+                "copyreference": "$~Copiază o referință către acest caracter, ca s-o lipești într-un proiect",
+                "copied": "$~Copiat!"
+            },
+            "tab": {
+                "label": "$~setări galerie",
+                "labels": [
+                    "$~Creatori",
+                    "$~Curatori",
+                    "$~Vizibilitate",
+                    "$~Șterge"
+                ],
+                "tips": [
+                    "$~alege cine poate adăuga lucrări în această galerie",
+                    "$~alege cine poate administra această galerie",
+                    "$~alege cine poate vedea această galerie",
+                    "$~șterge această galerie"
+                ]
+            }
+        },
+        "gallerymoderation": {
+            "header": "$~Rapoarte",
+            "description": "$~Ce ți-au cerut oamenii să verifici, cel mai vechi primul. O decizie arată ce reguli s-au încălcat, iar cel care a creat lucrul este anunțat ce ai decis.",
+            "labels": {
+                "action": "$~Ce trebuie făcut",
+                "reason": "$~Ce reguli a încălcat",
+                "subject": "$~Ce a fost raportat"
+            },
+            "view": {
+                "label": "$~vezi-l",
+                "tip": "$~deschide ce a fost raportat"
+            },
+            "remove": {
+                "label": "$~elimina",
+                "tip": "$~asta încalcă regulile"
+            },
+            "keep": {
+                "label": "$~păstra",
+                "tip": "$~asta nu încalcă regulile"
+            },
+            "empty": "$~Nimic nu așteaptă o decizie.",
+            "error": "$~Trebuie să fii conectat pentru a analiza rapoartele.",
+            "note": {
+                "description": "$~Ce să-i spui celui care l-a făcut",
+                "placeholder": "$~spune-le ceva (opțional)"
+            },
+            "remaining": "$~$#count[$#count raport în așteptare|$count rapoarte în așteptare|$count de rapoarte în așteptare]"
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~Ghiduri",
+                "subheader": "$~$#total[$#total instrucțiune|$total instrucțiuni|$total de instrucțiuni], $new noi",
+                "subheaderEmpty": "$~creează primul!",
+                "prompt": "$~Ghidurile „cum să faci” sunt explicații scurte și exemple de cod despre cum să faci ceva cu @wordplay. Când te-ai hotărât cum vrei să împărtășești ceva, scrie unul pentru ceilalți creatori din această galerie, astfel încât și ei să îl poată învăța!"
+            },
+            "drafts": {
+                "header": "$~📝 Ghiduri pentru schițe",
+                "prompt": "$~Acesta este un spațiu pentru schițele tale! Doar tu și colaboratorii tăi puteți vedea aceste schițe.",
+                "tooltip": "$~vizualizați schița dvs.",
+                "note": "$~Acesta este un ghid practic preliminar. Doar tu și colaboratorii tăi îl puteți vedea."
+            },
+            "bookmarks": {
+                "header": "$~🔖 Semne de carte",
+                "tooltip": "$~accesează acest ghid practic",
+                "canBookmark": {
+                    "label": "$~🔖 adaugă la favorite instrucțiuni practice",
+                    "tip": "$~Adaugă la favorite acest tutorial pentru a-l găsi mai târziu"
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 eliminați marcajul",
+                    "tip": "$~eliminați acest ghid practic din marcajele dvs."
+                },
+                "empty": "$~Puteți adăuga la favorite instrucțiuni practice pe care doriți să le consultați mai târziu.",
+                "notLoggedIn": "$~Trebuie să fii<logged in@://login> să folosești marcaje"
+            },
+            "navigationtooltip": "$~navigați la un ghid practic",
+            "button": {
+                "reset": {
+                    "label": "$~centru",
+                    "tip": "$~centrați pânza"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~Creați un nou ghid practic",
+                    "explanation": "$~Scrieți numele și conținutul noului vostru ghid practic."
+                },
+                "editForm": {
+                    "header": "$~Editați instrucțiunile",
+                    "explanation": "$~Editează numele și conținutul instrucțiunilor tale."
+                },
+                "post": {
+                    "label": "$~📣 postare",
+                    "tip": "$~postează instrucțiunile tale în spațiu"
+                },
+                "save": {
+                    "label": "$~💾 salvează ca schiță",
+                    "tip": "$~salvează instrucțiunile ca schiță"
+                },
+                "notification": {
+                    "label": "$~notificați abonații",
+                    "labels": ["$~notifica", "$~nu notifica"],
+                    "tips": [
+                        "$~anunță abonații când postezi acest ghid practic",
+                        "$~Nu anunța abonații când postezi acest ghid practic."
+                    ]
+                },
+                "editor": {
+                    "placeholder": "$~Scrieți instrucțiunile aici, folosind formatarea și codul pentru predare.",
+                    "description": "$~o casetă de text pentru a scrie instrucțiunile tale"
+                },
+                "title": {
+                    "description": "$~titlul instrucțiunilor tale",
+                    "placeholder": "$~Titlu"
+                },
+                "untitledHowToPlaceholder": "$~Ghid fără titlu",
+                "collaborators": {
+                    "header": "$~👥 colaboratori",
+                    "explanation": "$~Colaboratorii pot edita acest ghid practic și îl pot vizualiza în versiunea nefinalizată."
+                },
+                "collaboratorsToggle": {
+                    "on": "$~restrânge panoul colaboratorilor",
+                    "off": "$~extinde panoul colaboratorilor"
+                },
+                "access": {
+                    "header": "$~↗ distribuire",
+                    "explanation": "$~Curatorul acestei galerii poate permite creatorilor și curatorilor altor galerii pe care le gestionează să vizualizeze acest ghid. Dacă nu doriți ca aceștia să îl poată vizualiza, puteți restricționa accesul doar la curatorii și creatorii din această galerie."
+                },
+                "accessToggle": {
+                    "on": "$~restrângeți panoul de setări de acces",
+                    "off": "$~extindeți panoul de setări de acces"
+                },
+                "accessMode": {
+                    "label": "$~restricționează cine poate vedea acest ghid practic",
+                    "labels": ["$~restricționat", "$~extins"],
+                    "tips": [
+                        "$~doar creatorii din această galerie pot vizualiza",
+                        "$~creatori și curatori din orice galerie pe care curatorii o pot vizualiza"
+                    ]
+                },
+                "localeOptionsLabel": "$~limba de introducere a textului în editor",
+                "publicExplanation": "$~Dacă vrei ca oricine are linkul să poată vedea instrucțiunile tale, le poți face publice.",
+                "publicMode": {
+                    "label": "$~face public acest ghid",
+                    "labels": ["$~privat", "$~public"],
+                    "tips": [
+                        "$~doar jucătorii de Word cu acces direct la acest ghid îl pot vedea",
+                        "$~Oricine are linkul poate vedea acest ghid practic"
+                    ]
+                },
+                "noGuidingQuestions": "$~Această galerie nu are încă întrebări îndrumătoare, așa că nu există nimic despre care să scrieți. Un curator trebuie să adauge cel puțin o întrebare îndrumătoare înainte de a putea scrie instrucțiuni practice."
+            },
+            "viewer": {
+                "edit": {
+                    "label": "$~✏️ editare",
+                    "tip": "$~editează acest ghid practic"
+                },
+                "delete": {
+                    "description": "$~ștergeți acest ghid practic",
+                    "prompt": "$~🗑️ șterge"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 trimite spre Ghid",
+                        "tip": "$~trimite aceste instrucțiuni pentru a fi luate în considerare pentru includerea în Ghid!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ trimis către Ghid",
+                        "tip": "$~aceste instrucțiuni au fost deja trimise pentru a fi luate în considerare pentru includerea în Ghid."
+                    },
+                    "header": "$~listă din Ghid"
+                },
+                "usedBy": {
+                    "prompt": "$~Ai folosit acest ghid practic în proiectul tău sau în altul? Spune-le și altora adăugând proiectul tău la listă!",
+                    "empty": "$~Nu aveți încă niciun proiect sau alte instrucțiuni publicate. Încercați să creați unul!",
+                    "countDisplay": "$~Alți regizori Wordplay au folosit asta în $#count[$#count alt proiect sau altă instrucțiune|$count alte proiecte sau instrucțiuni|$count de alte proiecte sau instrucțiuni]",
+                    "selector": "$~selectorul de proiecte și instrucțiuni practice",
+                    "removeButton": "$~eliminați proiectul sau instrucțiunile din listă",
+                    "addButton": "$~adăugați un proiect sau un ghid practic"
+                },
+                "reactionsPrompt": "$~Ți-a plăcut acest tutorial? Lasă un comentariu pentru a-l susține pe creator!",
+                "chatPrompt": "$~Lasă un comentariu sau o întrebare pentru creator!",
+                "link": {
+                    "label": "$~🔗 copiați linkul cu instrucțiuni",
+                    "tip": "$~Copiază linkul către acest ghid practic"
+                },
+                "collaborators": "$~scris de",
+                "view": {
+                    "tip": "$~vezi instrucțiuni"
+                }
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~Setări de spațiu instructive",
+                    "explanation": "$~Configurați setările pentru acest spațiu de instrucțiuni. Faceți clic pe butonul de salvare din partea de jos pentru a salva setările."
+                },
+                "configurationButton": {
+                    "tip": "$~configurați acest spațiu cu instrucțiuni",
+                    "label": "$~⚙️ setări"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~Vizibilitate",
+                        "explanation": "$~Configurați în mod implicit cine poate vizualiza instrucțiunile din acest spațiu"
+                    },
+                    "mode": {
+                        "label": "$~vizibilitate implicită",
+                        "labels": ["$~limitat", "$~extins"],
+                        "tips": [
+                            "$~Doar colaboratorii acestei galerie pot vedea instrucțiunile",
+                            "$~Colaboratorii galeriilor pe care le indicați mai jos pot vizualiza instrucțiuni practice"
+                        ]
+                    },
+                    "expandedOptions": "$~permiteți curatorilor și creatorilor galeriei selectate să vadă instrucțiunile acestei galerii",
+                    "expandedAdd": "$~adăugați galeria la listă",
+                    "expandedRemove": "$~eliminați galeria din listă"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~Întrebări directoare",
+                        "explanation": "$~Configurați întrebările îndrumătoare afișate la crearea unui nou ghid practic. Separați întrebările îndrumătoare printr-o sfârșire de rând."
+                    },
+                    "descriptor": "$~o casetă de text pentru a scrie întrebările îndrumătoare, separate printr-o pauză de rând.",
+                    "default": [
+                        "$~Ce ai învățat? Dă exemple despre cum să faci asta."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~Reacții",
+                        "explanation": "$~Configurați reacțiile pe care spectatorii le pot lăsa la noile instrucțiuni practice"
+                    },
+                    "reactionPickerTip": "$~alege un personaj care să fie o reacție",
+                    "reactionDescriptionTip": "$~descrie ce înseamnă această reacție",
+                    "addReactionTip": "$~adăugați o reacție nouă",
+                    "removeReactionTip": "$~elimină această reacție",
+                    "default": {
+                        "👍": "$~Îmi place asta!",
+                        "💭": "$~Asta mă inspiră!",
+                        "🙏": "$~Mulțumesc!",
+                        "🎉": "$~Celebrare!",
+                        "🤩": "$~Vreau să încerc asta!",
+                        "😁": "$~Asta mă face fericit!"
+                    }
+                },
+                "submit": {
+                    "error": "$~Întrebările și reacțiile directoare nu pot fi goale",
+                    "label": "$~salva",
+                    "tip": "$~setările spațiului de instrucțiuni de salvare"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~instrucțiunile cu titlul $title au fost mutate la $x $y",
+                "canvasPosition": "$~pânza a fost mutată la $x , $y",
+                "moveActivated": "$~mișcare activată. $target poate fi mutat folosind mouse-ul, tastatura sau ecranul tactil",
+                "moveDeactivated": "$~mișcare dezactivată."
+            },
+            "error": {
+                "unknown": "$~Acest spațiu cu instrucțiuni practice nu există sau nu este public."
+            }
+        },
+        "source": {
+            "label": "$~sursă",
+            "title": "$~cod",
+            "empty": [
+                "$~Să începem! Poți…",
+                "• Deschideți 📕 și trageți-ne 🖱️ în acest program.",
+                "• Tastați $symbol și alegeți-ne din meniu.",
+                "• Scrieți-ne cu ⌨️.",
+                "• Răsfoiți<galleries@://galleries> pentru inspirație.",
+                "Dacă ești blocat,<learn more@://learn> ."
+            ],
+            "confirm": {
+                "delete": {
+                    "description": "$~ștergeți această @Source",
+                    "prompt": "$~şterge"
+                }
+            },
+            "toggle": {
+                "blocks": {
+                    "on": "$~editați ca text"
+                },
+                "characters": {
+                    "on": "$~ascunde selectorul de emoji-uri și simboluri",
+                    "off": "$~afișați selectorul de emoji-uri și simboluri"
+                },
+                "expandSequence": {
+                    "on": "$~restrânge elementele",
+                    "off": "$~extindeți elementele"
+                },
+                "search": {
+                    "on": "$~căutare ascunsă",
+                    "off": "$~caută codul"
+                }
+            },
+            "options": {
+                "locale": {
+                    "tip": "$~limba preferată pentru sursă",
+                    "all": "$~$#count[$#count limbă|$count limbi|$count de limbi]",
+                    "viewing": "$~în $language"
+                }
+            },
+            "button": {
+                "selectOutput": "$~arată această ieșire pe scenă",
+                "zoomIn": "$~mărește codul",
+                "zoomOut": "$~micșorează codul",
+                "replace": "$~înlocuiește toate chibriturile",
+                "selectOutputError": "$~arată această ieșire pe scenă; evaluarea acestei surse s-a încheiat cu o eroare",
+                "addView": "$~arată acest cod într-o a doua fereastră",
+                "closeView": "$~închide această fereastră"
+            },
+            "field": {
+                "name": {
+                    "description": "$~editați numele sursei",
+                    "placeholder": "$~nume"
+                },
+                "search": "$~text",
+                "replace": "$~înlocui"
+            },
+            "menu": {
+                "label": "$~meniu de completare automată",
+                "show": "$~afișați meniul de completare automată",
+                "empty": "$~Nicio sugestie.",
+                "item": "$~$code, $description"
+            },
+            "cursor": {
+                "priorLine": "$~mutați cursorul la linia dinainte",
+                "nextLine": "$~mutați cursorul la linia de după",
+                "priorInline": "$~mutați cursorul în poziția dinainte",
+                "nextInline": "$~mutați cursorul în poziția de după",
+                "expandBeforeInline": "$~extinde selecția înainte",
+                "expandAfterInline": "$~extinde selecția după",
+                "expandPriorLine": "$~extinde selecția la linia anterioară",
+                "expandNextLine": "$~extinde selecția la linia următoare",
+                "lineStart": "$~mutați cursorul la începutul liniei",
+                "lineEnd": "$~mutați cursorul la sfârșitul liniei",
+                "sourceStart": "$~mutați cursorul la începutul sursei",
+                "sourceEnd": "$~mutați cursorul la sfârșitul sursei",
+                "priorNode": "$~selectați vecinul înainte",
+                "nextNode": "$~selectați vecinul după",
+                "parent": "$~selectați containerul",
+                "selectAll": "$~selectați programul",
+                "incrementLiteral": "$~creștere număr, text sau boolean",
+                "decrementLiteral": "$~micșorați numărul, textul sau valoarea booleană",
+                "insertTab": "$~inserează o filă",
+                "insertTrue": "$~inserează adevărat",
+                "insertFalse": "$~inserează fals",
+                "insertNone": "$~introduceți simbolul niciunul",
+                "insertNotEqual": "$~inserează diferit",
+                "insertProduct": "$~introduceți simbolul înmulțirii",
+                "insertDot": "$~introduceți simbolul produsului scalar",
+                "insertQuotient": "$~introduceți simbolul cotientului",
+                "insertDegree": "$~introduceți simbolul gradului",
+                "insertFunction": "$~funcție de inserare",
+                "insertLessOrEqual": "$~introduceți mai mic sau egal cu",
+                "insertGreaterOrEqual": "$~introduceți mai mare sau egal cu",
+                "insertType": "$~simbolul tipului de inserare",
+                "insertDocs": "$~inserați simbolul explicativ",
+                "insertStream": "$~inserați simbolul fluxului",
+                "insertChange": "$~inserați simbolul de modificare",
+                "insertConvert": "$~inserează simbolul de conversie",
+                "insertPrevious": "$~inserează simbolul anterior",
+                "insertTable": "$~inserează simbolul deschis al tabelului",
+                "insertBorrow": "$~inserează împrumută",
+                "insertShare": "$~inserează o partajare",
+                "insertLine": "$~introduceți o sfârșire de linie",
+                "backspace": "$~șterge selecția sau simbolul anterior",
+                "delete": "$~șterge selecția sau următorul simbol",
+                "cut": "$~selecție tăiată",
+                "copy": "$~copie selecție",
+                "paste": "$~lipiți conținutul tastaturii",
+                "parenthesize": "$~selecție între paranteze",
+                "enumerate": "$~enumera selecția",
+                "type": "$~tastează caractere",
+                "undo": "$~anulează editarea anterioară",
+                "redo": "$~refacere editare anulată",
+                "search": "$~căutarea caracterelor speciale de inserat",
+                "tidy": "$~spațiere ordonată",
+                "elide": "$~comutare eliziune",
+                "largeDelete": "$~Sigur doriți să ștergeți această selecție? Puteți folosi butonul de anulare (↺) dacă vă răzgândiți.",
+                "ignored": {
+                    "readOnly": "$~Sursa este doar pentru citire",
+                    "blockSpace": "$~Nu sunt permise tabulatori aici",
+                    "noDelete": "$~Nu se poate șterge asta",
+                    "noInsert": "$~Nu se poate insera aici",
+                    "noError": "$~Această editare ar crea un conflict",
+                    "noEditor": "$~Niciun editor activ",
+                    "noClipboard": "$~Nu există clipboard disponibil",
+                    "noClipboardItem": "$~Nimic pe clipboard",
+                    "noSelection": "$~Nimic selectat",
+                    "noMove": "$~Nu mă pot mișca mai departe",
+                    "unhandled": "$~acea tastă nu face nimic aici"
+                },
+                "nextMatch": "$~treceți la următoarea potrivire de căutare",
+                "insertTranslate": "$~inserați simbolul de traducere",
+                "insertThis": "$~introduceți acest simbol",
+                "tab": "$~Tab mută focalizarea tastaturii. Ca să introduci un tab, folosește butonul de mai jos sau schimbă ce face Tab din setări.",
+                "matchDelimiter": "$~mutați cursorul la delimitatorul corespunzător",
+                "insertPattern": "$~inserați modelul",
+                "insertSearch": "$~inserați simbolul de căutare a modelului",
+                "insertPatternAny": "$~inserează orice simbol de model grafem",
+                "insertPatternSpace": "$~inserați simbolul modelului de spațiu",
+                "insertPatternStart": "$~inserați simbolul de început al modelului",
+                "insertPatternEnd": "$~inserați simbolul de sfârșit al modelului",
+                "insertPatternFold": "$~inserați modelul simbol de pliere tip majusculă",
+                "insertPatternAhead": "$~inserează modelul de simbol anticipat",
+                "insertPatternBehind": "$~inserează modelul, simbolul de căutare în spate",
+                "insertPatternWord": "$~inserați modelul cuvânt simbol",
+                "insertPatternWordEdge": "$~inserează modelul simbolul marginii cuvântului",
+                "echo": {
+                    "space": "$~spațiu",
+                    "newline": "$~linie nouă",
+                    "tab": "$~tab"
+                },
+                "selected": "$~$#count[$#count caracter selectat|$count caractere selectate|$count de caractere selectate]: $text",
+                "unknownPosition": "$~în cod",
+                "insertWholeNote": "$~inserează o notă întreagă, cu durata de patru timpi",
+                "insertDottedWholeNote": "$~inserează o notă întreagă cu punct, cu durata de șase timpi",
+                "insertHalfNote": "$~inserează o doime, cu durata de doi timpi",
+                "insertDottedHalfNote": "$~inserează o doime cu punct, cu durata de trei timpi",
+                "insertQuarterNote": "$~inserează o pătrime, cu durata de un timp",
+                "insertDottedQuarterNote": "$~inserează o pătrime cu punct, cu durata de un timp și jumătate",
+                "insertEighthNote": "$~inserează o optime, cu durata de jumătate de timp",
+                "insertDottedEighthNote": "$~inserează o optime cu punct, cu durata de trei sferturi de timp",
+                "insertSixteenthNote": "$~inserează o șaisprezecime, cu durata de un sfert de timp",
+                "insertDottedSixteenthNote": "$~inserează o șaisprezecime cu punct, cu durata de trei optimi de timp",
+                "selectedNodes": "$~$#count[$#count nod selectat|$count noduri selectate|$count de noduri selectate] de la $first până la $last",
+                "insertRange": "$~inserează simbolul de interval",
+                "findText": "$~caută în cod"
+            },
+            "error": {
+                "invalidName": "$~Acesta trebuie să fie un nume valid de joc de cuvinte.",
+                "invalidWords": "$~Cuvintele nu pot fi goale sau pot conține simboluri rezervate."
+            },
+            "tour": {
+                "launch": "$~faceți un tur al editorului",
+                "editor": "$~Tot codul tău /cod/ merge în *editor*. Fiecare program @wordplay *se evaluează ca o valoare*, iar acea valoare este cea care apare pe *stage*.",
+                "textBlocks": "$~Această funcție comută între două moduri de editare: /text/ și /blocuri/. *Text* este mai flexibil, dar se pot face mai ușor greșeli. *Blocurile* sunt mai puțin predispuse la erori, dar mai lente și mai rigide.",
+                "toolbar": "$~Aceste controale din /bara de instrumente/ vă permit să *selectați tot*, *măriți* și *micșorați*, *anulați*, *refaceți*, *tăiați*, *copiați* și *lipiți*.",
+                "expand": "$~Comutatorul /expand/ dezvăluie instrumente de editare mai *avansate*.",
+                "shortcuts": "$~Butonul /comenzi rapide/ deschide o listă de *comenzi rapide de la tastatură* pe care le puteți utiliza pentru a edita mai rapid."
+            },
+            "feedback": {
+                "cantDrop": "$~Nu pot să cobor acolo:",
+                "cantPaste": "$~Nu se poate lipi acolo:"
+            },
+            "clipboard": {
+                "label": "$~clipboard"
+            },
+            "notice": {
+                "dismiss": "$~Închideți această notificare"
+            },
+            "fold": {
+                "collapse": "$~restrânge $name",
+                "expand": "$~extinde $name",
+                "all": "$~pliază tot",
+                "none": "$~desfășura totul",
+                "collapsed": "$~$name restrâns",
+                "expanded": "$~$name extins"
+            },
+            "view": {
+                "added": "$~a adăugat o a doua fereastră pentru $name",
+                "closed": "$~a închis a doua fereastră pentru $name"
+            }
+        },
+        "annotations": {
+            "label": "$~conflicte și ajutor",
+            "cursor": "$~Acesta este un *$node*$type[ și este un $type|].",
+            "cursorDoc": "$~Ei spun: „$description”",
+            "cursorParent": "$~Sunt înăuntrul unui *$node*$type[, care se evaluează la un $type|].",
+            "learn": "$~/Află mai multe/",
+            "evaluating": "$~Ce distracție, hai să evaluăm!",
+            "space": "$~Acesta este spațiul! Cine ar fi crezut că nimic nu poate spune atât de multe?",
+            "nodeDescription": "$~Ei $description .",
+            "button": {
+                "resolution": "$~Rezolvă acest conflict",
+                "toggle": "$~afișarea și ascunderea adnotărilor",
+                "highlightMajor": "$~arată codul acestei erori în editor",
+                "highlightMinor": "$~arată codul acestei avertizări în editor",
+                "highlightStep": "$~arată codul acestui pas de evaluare în editor",
+                "elsewhere": "$~deschide unde poate fi reparat acest lucru"
+            },
+            "severity": {
+                "major": "$~eroare",
+                "minor": "$~avertizare"
+            },
+            "conflictLabel": "$~$severity: $conflict"
+        },
+        "output": {
+            "label": "$~etapă",
+            "toggle": {
+                "grid": {
+                    "on": "$~ascunde liniile de grilă",
+                    "off": "$~afișați liniile de grilă"
+                },
+                "fit": {
+                    "on": "$~controlează zoom-ul manual",
+                    "off": "$~potrivește zoom-ul la conținut"
+                }
+            },
+            "field": {
+                "key": {
+                    "description": "$~ascultând apăsările de taste"
+                },
+                "chat": {
+                    "description": "$~trimite un mesaj de chat",
+                    "placeholder": "$~mesaj"
+                }
+            },
+            "button": {
+                "submit": "$~trimite acest mesaj de chat",
+                "zoomIn": "$~măriți scena",
+                "zoomOut": "$~micșorați imaginea de pe scenă",
+                "resetZoom": "$~resetează deplasarea și zoomul",
+                "rotate": "$~rotește $name",
+                "resize": "$~redimensionează $name",
+                "perform": "$~execută: repornește programul, rulează-l și umple ecranul cu scena",
+                "resetZoomAt": "$~golește panoramarea și zoomul, acum $percent la sută din vederea proprie a proiectului"
+            },
+            "options": {
+                "locale": "$~limba preferată pentru ieșire",
+                "default": "$~$#count[$#count limbă|$count limbi|$count de limbi]"
+            },
+            "tour": {
+                "launch": "$~faceți un tur al scenei",
+                "stage": "$~/Stage/ arată *valoarea curentă* a programului. Această valoare poate fi o *valoare brută*, cum ar fi un număr sau o listă, un *rezultat vizual* pe care îl puteți vedea sau chiar un *sunet* pe care îl puteți auzi.",
+                "reset": "$~Butonul /resetare/ pornește din nou evaluarea programului tău de la *început*, în orice mod: în ▶️ *redare* rulează din nou de la capăt, în ✏️ *editare* se oprește după prima evaluare ca să vezi efectul modificărilor tale asupra rezultatului inițial, iar în ⏸️ *depanare* se oprește chiar la primul pas.",
+                "zoom": "$~Butoanele /zoom/ vă permit să măriți și să micșorați imaginea pe scenă, astfel încât să puteți vedea rezultatul mai clar sau mai detaliat.",
+                "grid": "$~Butonul /grilă/ afișează o *grilă* pe scenă, utilă pentru plasarea precisă a obiectelor în timp ce proiectați.",
+                "lock": "$~Butonul /blocare/ blochează vizualizarea scenei. Când este *blocat*, scena rămâne nemișcată; când este *deblocat*, poți panorama și mări liber.",
+                "animationSpeed": "$~Controlul /viteză animație/ setează viteza de redare a animațiilor. Aceeași comandă se află în *setări*, așa că o poți modifica din oricare dintre locuri."
+            },
+            "permission": {
+                "title": "$~Acest proiect necesită permisiune",
+                "microphone": "$~microfon",
+                "camera": "$~cameră",
+                "note": "$~Browserul tău te va întreba înainte de partajare.",
+                "retry": "$~Reîncercați"
+            },
+            "multiselect": "$~Folosește Tab și tastele Alt și săgeată pentru a te deplasa între ieșiri. Apăsă Space pentru a adăuga sau elimina ieșirea focalizată din selecție. Apăsă Enter pentru a selecta doar acea ieșire și a deschide paleta. Apăsă Escape pentru a șterge selecția. Apăsă Control sau Command și A pentru a selecta toate ieșirile.",
+            "selected": "$~$name selectat, $count selectat",
+            "deselected": "$~$name deselectat, $count selectat",
+            "allSelected": "$~toate ieșirile selectate, $count selectat",
+            "cleared": "$~selecție ștersă",
+            "moved": "$~$name s-a mutat $direction la $place",
+            "directions": [
+                "$~sus",
+                "$~sus și dreapta",
+                "$~dreapta",
+                "$~jos și dreapta",
+                "$~jos",
+                "$~jos și stânga",
+                "$~stânga",
+                "$~sus și stânga"
+            ],
+            "closer": "$~mai aproape",
+            "farther": "$~mai departe",
+            "turned": "$~rotit",
+            "manyChanged": "$~$#count[$#count ieșire s-a schimbat|$count ieșiri s-au schimbat|$count de ieșiri s-au schimbat] în $container, ca $example",
+            "selectedOnly": "$~$name selectat, se deschide paleta",
+            "selectedSuffix": "$~selectat",
+            "sensor": {
+                "microphone": {
+                    "on": "$~ascunde forma de undă a microfonului",
+                    "off": "$~arată forma de undă a microfonului"
+                },
+                "camera": {
+                    "on": "$~ascunde previzualizarea camerei",
+                    "off": "$~arată previzualizarea camerei"
+                }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~mod de evaluare",
+                    "labels": ["$~editează", "$~depanează", "$~redă"],
+                    "tips": [
+                        "$~treci la modul de editare: pune programul pe pauză oriunde se află și modifică-l; modificările se rejoacă pentru a arăta efectul lor în acest punct",
+                        "$~treci la modul de depanare: parcurge pas cu pas evaluarea programului, cu valorile arătate lângă cod și în paletă",
+                        "$~treci la modul de rulare: rulează programul în direct de unde se află, răspunzând la intrări în timp real"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~mod de evaluare",
+                    "labels": ["$~vezi", "$~depanează", "$~redă"],
+                    "tips": [
+                        "$~treci la modul de vizualizare: pune programul pe pauză oriunde se află și citește-l",
+                        "$~treci la modul de depanare: parcurge pas cu pas evaluarea programului, cu valorile arătate lângă cod și în paletă",
+                        "$~treci la modul de rulare: rulează programul în direct de unde se află, răspunzând la intrări în timp real"
+                    ]
+                },
+                "announce": "$~mod $mode",
+                "exception": "$~Programul a avut o eroare, așa că a trecut la modul de depanare ca să îl poți examina.",
+                "toggle": "$~comută între modurile editare și redare",
+                "resuming": "$~se reia la pasul $position",
+                "performing": "$~execuția $number, de la început"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~început",
+                    "tip": "$~arată proiectul"
+                }
+            },
+            "download": {
+                "title": "$~Se pregătește…",
+                "note": "$~Acesta se descarcă o singură dată, apoi se încarcă instantaneu data viitoare.",
+                "percent": "$~$percent%",
+                "hand": "$~detector de mâini",
+                "face": "$~detector de fețe",
+                "objects": "$~recunoscător de obiecte",
+                "loading": "$~Se încarcă $model…"
+            },
+            "sound": {
+                "enable": "$~Atinge pentru sunet",
+                "explanation": "$~Acest proiect are muzică, dar browserul tău așteaptă să interacționezi cu pagina înainte de a reda sunetul.",
+                "loading": "$~Se pregătesc $instruments…",
+                "synthesized": "$~$instruments nu s-au putut încărca, așa că sună sintetizat."
+            },
+            "keypad": {
+                "label": "$~Tastele pe care le folosește acest proiect",
+                "any": "$~Atinge pentru a reda"
+            },
+            "announce": {
+                "zoom": "$~zoom scenă $percent la sută",
+                "hidden": "$~nimic nu este pe scenă la $percent la sută; golește zoomul pentru a arăta totul",
+                "shown": "$~totul este din nou pe scenă"
+            },
+            "hidden": {
+                "message": "$~Totul este scos de pe scenă.",
+                "show": "$~arată totul"
+            },
+            "snap": {
+                "anchors": [
+                    "$~centru orizontal",
+                    "$~margine stângă",
+                    "$~margine dreaptă",
+                    "$~centru vertical",
+                    "$~margine de jos",
+                    "$~margine de sus",
+                    "$~linia de bază"
+                ],
+                "withOutput": "$~$anchor cu $target al lui $targetAnchor",
+                "withGrid": "$~$anchor pe grilă",
+                "aligned": "$~$constraints, la $place",
+                "none": "$~nimic cu care să se alinieze pe $direction"
+            },
+            "removed": "$~$#count[$#count element de ieșire șters|$#count elemente de ieșire șterse|$#count de elemente de ieșire șterse]",
+            "notRemovable": "$~care nu poate fi șters singur",
+            "drew": "$~$#count[am desenat un traseu cu $#count punct; desenarea este oprită|am desenat un traseu cu $#count puncte; desenarea este oprită|am desenat un traseu cu $#count de puncte; desenarea este oprită]",
+            "drawing": "$~$#count[$#count punct, la $place|$#count puncte, ultimul la $place|$#count de puncte, ultimul la $place]",
+            "point": {
+                "label": "$~punctul $number din $#count, la $place",
+                "moved": "$~punctul $number la $place",
+                "added": "$~punct adăugat $number",
+                "removed": "$~punct eliminat $number",
+                "last": "$~un traseu are nevoie de cel puțin două puncte"
+            }
+        },
+        "timeline": {
+            "slider": "$~cursor de timp",
+            "button": {
+                "play": "$~evaluează programul, răspunzând la intrări în timp real",
+                "backStep": "$~un pas înapoi",
+                "backNode": "$~pas către evaluarea anterioară a cursorului",
+                "backInput": "$~înapoi cu o intrare",
+                "out": "$~ieși din această funcție",
+                "forwardStep": "$~un pas înainte",
+                "forwardNode": "$~pas către următoarea evaluare a cursorului",
+                "forwardInput": "$~pas înainte la următoarea intrare de flux",
+                "present": "$~până la sfârșit",
+                "start": "$~la început",
+                "reset": "$~repornirea performanței"
+            },
+            "tour": {
+                "timeline": "$~/Cronologia/ îți permite să treci *înainte* și *înapoi* prin evaluarea programului tău, câte un pas pe rând. Apare în bara de instrumente a scenei în modurile ✏️ *editare* și ⏸️ *depanare* și este o cale bună să vezi *cum* calculează programul tău valoarea și să îți creezi o imagine mentală despre cum evaluează programele @wordplay, mai ales dacă nu vezi comportamentul pe care îl vrei.",
+                "annotations": "$~Fereastra /adnotări/ este locul unde apar explicațiile fiecărui pas. Pe măsură ce parcurgeți programul, aici veți citi ce tocmai s-a întâmplat.",
+                "editor": "$~/Editorul/ afișează codul. În timpul execuției pas cu pas, *valoarea* fiecărei părți a programului va apărea lângă acea parte *după* evaluare, astfel încât să puteți urmări cum se acumulează valori pe măsură ce programul rulează.",
+                "history": "$~/Istoricul/ arată fiecare *intrare* pe care programul tău a primit-o, cum ar fi taste, momente de timp și evenimente ale cursorului. Este *tras cu mouse-ul*, așa că te poți întoarce la orice moment din istoricul evaluării programului doar trăgând. Dacă preferi să *auzi* aceste intrări în loc să le vezi, activează /semnalele de evaluare/ din setări, iar @wordplay va reda un sunet scurt pentru fiecare, cu un sunet diferit pentru fiecare tip de intrare.",
+                "stepControls": "$~Comenzile /step/ vă permit să parcurgeți evaluarea cu precizie. Puteți sări la *start* sau *sfârșit*, să mergeți *înainte* sau *înapoi* pas cu pas, să săriți cu *o intrare*, să ieșiți *din funcție* sau să sari la partea *selectată în prezent* a codului.",
+                "modes": "$~/Comutatorul de mod/ alege cum evaluează programul tău. În modul ✏️ *editare*, programul se oprește acolo unde este și îl poți schimba — modificările tale se redau din nou ca să arate efectul lor în acel punct. În modul ⏸️ *depanare*, codul se poate doar citi, iar *valoarea curentă* a fiecărei părți din programul tău apare lângă ea în editor și în paletă. În modul ▶️ *redare*, programul tău rulează în direct de acolo unde este și răspunde la intrări în timp real. Lângă comutator, butonul /executare/ — un triunghi de redare încadrat de colțuri de ecran complet — pornește o execuție de la capăt și umple ecranul cu scena, iar ↻ resetează programul în orice mod."
+            }
+        },
+        "tour": {
+            "label": "$~tur",
+            "close": "$~închide turul",
+            "previous": "$~pasul anterior",
+            "next": "$~următorul pas",
+            "offscreen": "$~Această parte a interfeței nu este vizibilă momentan pe ecran.",
+            "overflowed": "$~Acest control este ascuns în meniul evidențiat; deschide-l pentru a găsi controlul."
+        },
+        "docs": {
+            "kits": {
+                "header": "$~Kituri",
+                "prompt": "$~Un kit este cod pe care cineva l-a publicat pentru ca alți oameni să construiască cu el. Copiază linia pentru unul, lipește-o la începutul programului tău, și tot ce împarte devine al tău, de folosit.",
+                "empty": "$~Nimeni nu a publicat încă un kit. Al tău ar putea fi primul — împarte ceva cu ↑, apoi publică-l din setările de partajare ale proiectului tău.",
+                "shares": "$~împarte $names",
+                "missing": "$~Nu există niciun kit cu acel nume. Poate a fost redenumit sau nu a fost niciodată publicat.",
+                "missingVersion": "$~Acea versiune nu este aici. Încearcă alta mai jos.",
+                "nothing": "$~acest kit nu împarte nimic",
+                "versions": "$~Fiecare versiune a acestui kit",
+                "version": {
+                    "tip": "$~vezi această versiune a kitului"
+                },
+                "open": "$~citește documentarea acestui kit",
+                "none": "$~Nimic de aici nu se potrivește cu asta.",
+                "kinds": {
+                    "label": "$~ce împart kiturile",
+                    "all": "$~orice"
+                },
+                "yours": "$~Kiturile tale care nu sunt listate"
+            },
+            "label": "$~ghid",
+            "link": "$~afișează „ $name ” în documentație",
+            "nodoc": "$~Cine sunt eu? Ce sunt eu? Care este scopul meu?",
+            "button": {
+                "home": "$~întoarce-te acasă",
+                "back": "$~revenire la precedent",
+                "toggle": "$~extinde și restrânge acest grup de concepte"
+            },
+            "field": {
+                "search": "$~cuvinte cheie"
+            },
+            "header": {
+                "names": {
+                    "header": "$~Nume",
+                    "explanation": "$~/Nume pentru acest concept./"
+                },
+                "inputs": {
+                    "header": "$~Intrări",
+                    "explanation": "$~/Valori obligatorii și opționale./"
+                },
+                "interfaces": {
+                    "header": "$~Interfețe",
+                    "explanation": "$~/Structuri pe care se bazează această structură./"
+                },
+                "properties": {
+                    "header": "$~Proprietăți",
+                    "explanation": "$~/Valorile pe care le stochează acest concept./"
+                },
+                "functions": {
+                    "header": "$~Funcții",
+                    "explanation": "$~/Valori pe care acest concept le poate calcula./"
+                },
+                "conversions": {
+                    "header": "$~Conversii",
+                    "explanation": "$~/Modalități de a converti această valoare în valori de alte tipuri./"
+                },
+                "arrangements": {
+                    "header": "$~Aranjamente",
+                    "explanation": "$~/Modalități de aranjare a frazelor într-un grup./"
+                },
+                "forms": {
+                    "header": "$~Formulare",
+                    "explanation": "$~Forme care pot fi plasate pe scenă."
+                },
+                "appearance": {
+                    "header": "$~Aspect",
+                    "explanation": "$~/Modalități de a schimba aspectul rezultatului./"
+                },
+                "animation": {
+                    "header": "$~Animaţie",
+                    "explanation": "$~/Modalități de animare a producției pe scenă./"
+                },
+                "location": {
+                    "header": "$~Locaţie",
+                    "explanation": "$~/Modalități de determinare a locului în care se află producția pe scenă./"
+                },
+                "reactions": {
+                    "header": "$~Reacții",
+                    "explanation": "$~/Modalități de reacție la sau de analiză a unui flux de intrare./"
+                }
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~secțiune",
+                    "labels": [
+                        "$~cod",
+                        "$~kituri",
+                        "$~instrucțiuni",
+                        "$~glosar"
+                    ],
+                    "tips": [
+                        "$~concepte ale limbajului de programare",
+                        "$~cod pe care alți oameni l-au publicat pentru ca tu să construiești cu el",
+                        "$~tipare reutilizabile pentru a face proiecte",
+                        "$~definiții ale termenilor cheie"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~cod",
+                    "labels": [
+                        "$~proiect",
+                        "$~kit",
+                        "$~ieșire",
+                        "$~intrare",
+                        "$~decide",
+                        "$~nume",
+                        "$~text",
+                        "$~model",
+                        "$~numere",
+                        "$~adevăr",
+                        "$~liste",
+                        "$~seturi",
+                        "$~mese",
+                        "$~documente",
+                        "$~tipuri",
+                        "$~etc."
+                    ],
+                    "tips": [
+                        "$~concepte la nivel de proiect",
+                        "$~ce pun la dispoziție kiturile pe care le împrumută acest proiect",
+                        "$~fraze, grupuri, etape, machete și multe altele",
+                        "$~timp, butoane, taste, scene și multe altele",
+                        "$~alege valori pe baza altor valori",
+                        "$~nume, valori, funcții și structuri de date pentru utilizare ulterioară",
+                        "$~text simplu și formatat",
+                        "$~descrie forma textului pentru a o testa sau a o găsi",
+                        "$~numere și operații matematice",
+                        "$~valori adevărat, fals și niciuna",
+                        "$~liste și operații cu liste",
+                        "$~seturi, hărți și operații",
+                        "$~tabele și operații cu tabele",
+                        "$~documentație și comentarii",
+                        "$~tipuri de date, conversii și verificări de tip",
+                        "$~concepte avansate de limbaj"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "$~instrucțiuni create de utilizatori",
+                    "labels": ["$~toate", "$~galerie și marcaje"],
+                    "tips": [
+                        "$~vezi toate instrucțiunile create de utilizatori",
+                        "$~vedeți doar instrucțiunile create de utilizatori din galeria acestui proiect și toate marcajele"
+                    ]
+                }
+            },
+            "note": {
+                "empty": "$~Numele pe care le definiți în proiectul dvs. vor apărea aici.",
+                "keepTyping": "$~Continuă să scrii pentru a căuta…",
+                "noMatches": "$~Nicio potrivire"
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Proiect",
+                    "explanation": "$~/Concepte definite în proiectul dumneavoastră./"
+                },
+                "Outputs": {
+                    "header": "$~Rezultate",
+                    "explanation": "$~Diferite tipuri de ieșiri care pot fi plasate pe scenă."
+                },
+                "Inputs": {
+                    "header": "$~Intrări",
+                    "explanation": "$~Fluxuri de intrare din lume care se schimbă în timp, determinând reevaluarea unui program."
+                },
+                "Decisions": {
+                    "header": "$~Decizii",
+                    "explanation": "$~/Modalități de a alege între diferite valori în funcție de condiții./"
+                },
+                "Definitions": {
+                    "header": "$~Definiții",
+                    "explanation": "$~/Modalități de denumire a valorilor, funcțiilor și structurilor de date pentru utilizare ulterioară./"
+                },
+                "Numbers": {
+                    "header": "$~Numere",
+                    "explanation": "$~Numere, unități și operații matematice."
+                },
+                "Text": {
+                    "header": "$~Text",
+                    "explanation": "$~Text simplu și formatat și modalități de manipulare a acestora."
+                },
+                "Truth": {
+                    "header": "$~Adevăr",
+                    "explanation": "$~/Valori adevărat, fals și nul și modalități de utilizare a acestora în scopuri logice./"
+                },
+                "Lists": {
+                    "header": "$~Liste",
+                    "explanation": "$~Liste și operații pe liste, utile pentru stocarea valorilor într-o anumită ordine."
+                },
+                "Maps": {
+                    "header": "$~Hărți",
+                    "explanation": "$~/Mulțimi, hărți și operațiile aferente, utile pentru stocarea colecțiilor de valori sau a mapărilor de la o valoare la altele./"
+                },
+                "Tables": {
+                    "header": "$~Tabele",
+                    "explanation": "$~/Tabele și operații pe tabele, utile pentru stocarea datelor structurate în rânduri și coloane./"
+                },
+                "Types": {
+                    "header": "$~Tipuri",
+                    "explanation": "$~/Modalități de declarare a faptului că valorile numite ar trebui să aibă un anumit tip de date și de verificare a faptului că acestea au./"
+                },
+                "Documentation": {
+                    "header": "$~Documentare",
+                    "explanation": "$~/Modalități de adăugare a comentariilor și explicațiilor la codul dvs./"
+                },
+                "Advanced": {
+                    "header": "$~Avansat",
+                    "explanation": "$~/Concepte și funcții avansate de limbaj de care probabil nu veți avea nevoie./"
+                },
+                "Hidden": {
+                    "header": "$~Ascuns",
+                    "explanation": "$~/Concepte care sunt ascunse din documentația principală./"
+                },
+                "How": {
+                    "header": "$~Cum se face",
+                    "explanation": "$~/Modele comune pentru crearea diferitelor tipuri de proiecte./"
+                },
+                "GalleryHow": {
+                    "header": "$~Ghiduri pentru galerie",
+                    "explanation": "$~/Modele comune pentru crearea diferitelor tipuri de proiecte, din galeriile dvs./"
+                },
+                "Patterns": {
+                    "header": "$~Modele",
+                    "explanation": "$~Descrieți forma textului cu un model, delimitat de \\⣿\\ , apoi testați dacă textul se potrivește formei ( \\≈\\ ) sau găsiți fiecare loc în care apare ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Kituri",
+                    "explanation": "$~Lucruri pe care kiturile împrumutate de acest proiect le-au partajat cu el."
+                }
+            },
+            "how": {
+                "category": {
+                    "characters": "$~crearea și controlul personajelor",
+                    "styling": "$~stilizarea caracterelor și a textului",
+                    "animation": "$~animarea personajelor și a textului",
+                    "layout": "$~aranjarea caracterelor și a textului",
+                    "randomization": "$~aleatoriza lucrurile",
+                    "remembering": "$~urmăriți modificările și alegerile",
+                    "stories": "$~spune o poveste",
+                    "motion": "$~folosește fizica",
+                    "video": "$~folosește o cameră",
+                    "gallery": "$~creat de colegii tăi regizori de Wordplay",
+                    "music": "$~fă muzică și sunet",
+                    "organizing": "$~organizează un proiect mai mare"
+                },
+                "related": "$~Nu este ceea ce cauți?",
+                "howToGalleryButton": {
+                    "label": "$~vezi instrucțiunile din spațiu",
+                    "tip": "$~vezi instrucțiunile din spațiu"
+                },
+                "explain": {
+                    "header": "$~Ghiduri",
+                    "explanation": "$~/Exemple scurte care arată cum se fac lucrurile în @wordplay. Apasă pe redare în orice previzualizare pentru a o vedea rulând, apoi deschide-o pentru a citi cum funcționează./"
+                },
+                "conceptHowTos": "$~Cum se face",
+                "bookmarked": "$~Salvat la favorite",
+                "community": "$~De la creatori",
+                "galleries": "$~Din galeriile tale",
+                "wordplay": "$~De la Wordplay"
+            },
+            "tour": {
+                "launch": "$~faceți un tur al ghidului",
+                "guide": "$~/Ghidul/ conține *documentație* pentru toate conceptele și *capacitățile* limbajului de programare @wordplay.",
+                "code": "$~Aceasta este secțiunea /code/. Conține documentația *limbajului de programare* — elementele constitutive pe care le puteți combina pentru a crea programe.",
+                "howto": "$~Aceasta este secțiunea /cum-se/. Conține *modele utile* pentru obținerea anumitor comportamente în proiectele tale.",
+                "mode": "$~Folosește acest buton /toggle/ pentru a comuta între secțiunile *code* și *cum să*.",
+                "search": "$~Caseta /căutare/ este utilă pentru *descoperirea* funcțiilor sau pentru găsirea rapidă a uneia *după nume*."
+            },
+            "breadcrumb": {
+                "label": "$~istoricul navigației",
+                "home": "$~Acasă"
+            },
+            "tutorial": "$~Tutorial",
+            "glossary": {
+                "explain": {
+                    "header": "$~Glosar",
+                    "explanation": "$~/Termeni și idei folosite în întreg limbajul de programare și platforma @wordplay./"
+                }
+            }
+        },
+        "dialog": {
+            "share": {
+                "header": "$~Partajare",
+                "explanation": "$~Distribuiți acest proiect cu galerii sau cu întreaga lume.",
+                "subheader": {
+                    "gallery": {
+                        "explanation": "$~Adaugă acest proiect într-o galerie alături de alți creatori sau creează o galerie pe<projects@://projects> pagină. Dacă adăugați un proiect la o galerie publică, proiectul dvs. va deveni public."
+                    },
+                    "public": {
+                        "header": "$~Public/Privat",
+                        "explanation": "$~Proiectele și galeriile publice pot fi văzute de oricine din lume. Scopul nostru este ca acest conținut să aducă afirmare și bucurie, iar partajarea publică este o modalitate de a face acest lucru. Dar înseamnă și respectarea unor reguli. Promiți că proiectul tău nu:"
+                    },
+                    "pii": {
+                        "explanation": "$~Partajarea publică a informațiilor de identificare personală (PII) poate pune în pericol creatorii, așa că detectăm posibile PII și îi avertizăm fie să elimine datele sensibile, fie să le marcheze ca nesensibile. Mai jos este o listă de posibile PII din acest proiect pe care l-ați marcat ca nesensibil. Puteți face clic pe butonul de lângă acesta pentru a-l marca din nou ca sensibil, dar acest lucru înseamnă că proiectul dvs. nu va mai fi salvat online."
+                    },
+                    "preview": {
+                        "explanation": "$~Aceasta este mica glifă care reprezintă proiectul tău în liste și galerii. Alege automat una în funcție de ceea ce afișează proiectul tău; opțiunea Personalizat îți permite să fixezi un singur caracter sau emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~Un /remix/ este o copie a unui proiect pe care cineva a schimbat-o pentru a o face a sa. Ținem minte de unde vine un remix, așa că persoana care a făcut originalul primește în continuare credit."
+                    },
+                    "research": {
+                        "header": "$~Cercetare",
+                        "explanation": "$~Uneori scriem și vorbim despre Wordplay — în lucrări de cercetare, în prezentări și în ceea ce arătăm profesorilor și familiilor. Dacă activezi această opțiune, putem arăta acest proiect ca exemplu, fără numele tău, numele tău de utilizator sau orice altceva care arată că acest cont îți aparține.\n\nPoți dezactiva asta oricând. Dezactivarea înseamnă că nu mai folosim proiectul tău în lucruri noi, dar nu poate anula ceva ce am publicat sau prezentat deja."
+                    },
+                    "kit": {
+                        "explanation": "$~Un kit este o sursă pe care ai publicat-o pentru ca alte persoane să construiască pornind de la ea. Orice marchezi cu ↑ devine parte din el."
+                    }
+                },
+                "field": {
+                    "emailOrUsername": {
+                        "placeholder": "$~e-mail/nume de utilizator",
+                        "description": "$~adresa de e-mail sau numele de utilizator al persoanei căreia doriți să îi acordați acces de editare"
+                    },
+                    "preview": {
+                        "placeholder": "$~previzualizare glif",
+                        "description": "$~un singur caracter sau emoji de utilizat ca glif de previzualizare pentru acest proiect"
+                    }
+                },
+                "mode": {
+                    "public": {
+                        "label": "$~vizibilitate",
+                        "labels": ["$~privat", "$~public"],
+                        "tips": [
+                            "$~doar tu și colaboratorii puteți vedea acest proiect",
+                            "$~oricine poate vedea acest proiect"
+                        ]
+                    },
+                    "preview": {
+                        "tips": [
+                            "$~lasă proiectul să-și aleagă singur simbolul de previzualizare, în funcție de ce arată",
+                            "$~fixează un simbol ales de tine"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~cercetare",
+                        "labels": ["$~nedistribuit", "$~distribuit anonim"],
+                        "tips": [
+                            "$~nu arăta acest proiect în cercetări sau comunicări despre Wordplay",
+                            "$~permite-i lui Wordplay să arate acest proiect anonim în cercetări și comunicări despre Wordplay"
+                        ]
+                    }
+                },
+                "error": {
+                    "unknown": "$~Nu cunoaștem niciun creator cu această adresă de e-mail.",
+                    "anonymous": "$~Trebuie să fii<logged in@://login> a împărtăși.",
+                    "self": "$~Nu te poți adăuga pe tine însuți.",
+                    "invalidPreview": "$~Alegeți exact un personaj sau un emoji."
+                },
+                "button": {
+                    "submit": "$~Distribuiți proiectul cu această adresă de e-mail",
+                    "sensitive": {
+                        "tip": "$~marchează din nou acest text ca fiind sensibil",
+                        "label": "$~sensibil"
+                    }
+                },
+                "options": {
+                    "gallery": "$~selector de galerie",
+                    "source": "$~sursă de publicat"
+                },
+                "remix": {
+                    "source": "$~Acest proiect este un remix al:",
+                    "remixes": "$~Aceste proiecte sunt remixuri ale acestuia:",
+                    "unknown": "$~Nu am putut găsi proiectul din care a fost remixat acesta. Poate a fost șters sau poate nu este public.",
+                    "none": "$~Încă nu au fost partajate remixuri ale acestui proiect. Un remix începe ca fiind privat, așa că apare aici doar după ce persoana care l-a creat decide să îl facă public."
+                },
+                "tab": {
+                    "label": "$~setări de partajare",
+                    "labels": [
+                        "$~Galerie",
+                        "$~Public",
+                        "$~Previzualizare",
+                        "$~Confidențialitate",
+                        "$~Remixuri",
+                        "$~Kit"
+                    ],
+                    "tips": [
+                        "$~alege o galerie în care să apară acest proiect",
+                        "$~alege cine poate vedea acest proiect",
+                        "$~alege simbolul care reprezintă acest proiect în liste",
+                        "$~verifică informațiile personale găsite în acest proiect",
+                        "$~vezi din ce a fost remixat acest proiect și ce l-a remixat",
+                        "$~publică o parte din acest proiect pentru ca alte persoane să o folosească"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Nu s-au găsit informații personale."
+                },
+                "kit": {
+                    "nothing": "$~Nimic nu este partajat încă aici. Pune ↑ înaintea unui nume, unei funcții sau unei structuri pentru a o partaja, cum ar fi \\↑ sunset/en: 🔴\\, și poate deveni un kit.",
+                    "unpublished": "$~Nu ai publicat încă acest lucru.",
+                    "name": {
+                        "placeholder": "$~nume",
+                        "description": "$~cum să numim acest kit"
+                    },
+                    "publish": {
+                        "label": "$~publică",
+                        "tip": "$~publică o versiune nouă a acestui kit"
+                    },
+                    "version": "$~versiunea $version",
+                    "problem": {
+                        "exports": "$~nimic nu este partajat încă aici",
+                        "invalid": "$~acela nu este un nume pe care îl pot citi"
+                    },
+                    "undescribed": "$~această sursă nu are încă documentare",
+                    "discovery": "$~Moderatorii pot retrage din listă o versiune publicată. Tot ce a fost împrumutat de alții funcționează în continuare, chiar dacă nu mai este listat.",
+                    "moderation": {
+                        "unrequested": "$~nu s-a cerut listarea",
+                        "pending": "$~așteaptă ca un moderator să îl revizuiască",
+                        "approved": "$~revizuit și listat",
+                        "denied": "$~un moderator a cerut modificări"
+                    },
+                    "derived": "$~Descrierea kitului tău și termenii de căutare sunt preluați din prima propoziție a documentării acestei surse.",
+                    "heading": {
+                        "name": "$~Nume",
+                        "exports": "$~Ce partajează acest kit",
+                        "versions": "$~Versiuni",
+                        "listing": "$~Cine îl poate găsi"
+                    },
+                    "listing": {
+                        "label": "$~listare",
+                        "labels": ["$~nelistat", "$~listat"],
+                        "tips": [
+                            "$~nimeni nu poate găsi acest kit în ghid, iar tot ce îl folosește deja continuă să funcționeze",
+                            "$~oricine poate găsi acest kit în ghid, odată ce un moderator l-a verificat"
+                        ]
+                    },
+                    "remedy": "$~Schimbă sursa și publică o versiune nouă, iar un moderator o va verifica din nou.",
+                    "unreviewed": "$~Nimeni nu verifică un kit nelistat. Oricine primește linia de împrumut îl poate citi în continuare.",
+                    "permanent": "$~Publicarea unei versiuni este permanentă: programele altor persoane o folosesc după număr, așa că retragerea ei le-ar strica.",
+                    "confirm": "$~Publică-l",
+                    "withdraw": {
+                        "label": "$~retrage",
+                        "tip": "$~retrage această versiune, ceea ce este posibil doar cât timp kitul este nelistat"
+                    },
+                    "withdrawable": "$~Acest kit nu a fost niciodată listat, deci nimeni nu l-a putut găsi încă — poți retrage în continuare cea mai nouă versiune.",
+                    "unpublishable": "$~Acest kit nu poate fi publicat încă:",
+                    "failed": "$~Nu am putut publica setul tău. Verifică dacă ești conectat la internet și încearcă din nou."
+                }
+            },
+            "settings": {
+                "header": "$~Setări",
+                "explanation": "$~Schimbă cum arată Wordplay, cum scrii cod și cum folosesc programele dispozitivele tale.",
+                "button": {
+                    "show": "$~afișați caseta de dialog pentru setări"
+                },
+                "mode": {
+                    "layout": {
+                        "label": "$~aspect",
+                        "labels": [
+                            "$~auto",
+                            "$~rând",
+                            "$~stivă",
+                            "$~două",
+                            "$~unul",
+                            "$~gratuit"
+                        ],
+                        "tips": [
+                            "$~așezați automat plăcile în funcție de dimensiunea și forma ferestrei",
+                            "$~o dispunere orizontală a ecranului",
+                            "$~o dispunere verticală a ecranului",
+                            "$~două plăci cele mai recente, una lângă alta",
+                            "$~doar cea mai recentă placă",
+                            "$~plăci mobile și redimensionabile pe o pânză"
+                        ]
+                    },
+                    "animate": {
+                        "label": "$~viteza de animație",
+                        "labels": [
+                            "$~oprit",
+                            "$~1/4",
+                            "$~1/3x",
+                            "$~1/2x",
+                            "$~1x",
+                            "$~2x",
+                            "$~5x",
+                            "$~10x",
+                            "$~auto"
+                        ],
+                        "tips": [
+                            "$~animații dezactivate",
+                            "$~un sfert de viteză",
+                            "$~a treia viteză",
+                            "$~jumătate de viteză",
+                            "$~viteză normală",
+                            "$~viteză dublă",
+                            "$~cinci viteze",
+                            "$~zece viteze",
+                            "$~utilizați setările curente ale dispozitivului"
+                        ]
+                    },
+                    "dark": {
+                        "label": "$~temă",
+                        "labels": ["$~aprinde", "$~întuneric", "$~auto"],
+                        "tips": [
+                            "$~culori mai deschise",
+                            "$~culori mai închise",
+                            "$~utilizați setările curente ale dispozitivului"
+                        ]
+                    },
+                    "blocks": {
+                        "label": "$~editor",
+                        "labels": ["$~text", "$~blocuri"],
+                        "tips": [
+                            "$~editați codul ca text",
+                            "$~editați codul ca blocuri"
+                        ]
+                    },
+                    "blockDensity": {
+                        "label": "$~spațierea blocurilor",
+                        "labels": ["$~compact", "$~normal", "$~spațios"],
+                        "tips": [
+                            "$~blocuri mai compacte pentru a încăpea mai mult cod pe ecran",
+                            "$~spațiere implicită a blocurilor",
+                            "$~blocuri mai libere pentru o selecție și o glisare mai ușoare"
+                        ]
+                    },
+                    "space": {
+                        "label": "$~marcaje de spațiu",
+                        "labels": ["$~ascunde", "$~spectacol"],
+                        "tips": [
+                            "$~nu afișați indicatorii de spațiu și tabulare",
+                            "$~afișați explicit indicatorii de spațiu și tabulare"
+                        ]
+                    },
+                    "lines": {
+                        "label": "$~numere de linie",
+                        "labels": ["$~ascunde", "$~spectacol"],
+                        "tips": [
+                            "$~nu afișa numerele de linie în modul text",
+                            "$~afișarea numerelor de linie în modul text"
+                        ]
+                    },
+                    "writing": {
+                        "label": "$~aspectul scrierii",
+                        "labels": [
+                            "$~orizontală",
+                            "$~vertical rtl",
+                            "$~litri verticali",
+                            "$~automat"
+                        ],
+                        "tips": [
+                            "$~text orizontal, citit de la stânga la dreapta",
+                            "$~text vertical, citit de la dreapta la stânga",
+                            "$~text vertical, citit de la stânga la dreapta",
+                            "$~urmați structura de scriere a limbii"
+                        ]
+                    },
+                    "tab": {
+                        "label": "$~tasta Tab",
+                        "labels": [
+                            "$~schimbă focalizarea",
+                            "$~inserează o filă"
+                        ],
+                        "tips": [
+                            "$~Tab mută focalizarea tastaturii la următorul control",
+                            "$~tab inserează un tab în editor"
+                        ]
+                    },
+                    "wrap": {
+                        "label": "$~linii de înfășurare",
+                        "labels": ["$~oprit", "$~pe"],
+                        "tips": [
+                            "$~linii lungi se derulează pe orizontală în modul text",
+                            "$~liniile lungi se încadrează în fereastra editorului în modul text"
+                        ]
+                    },
+                    "words": {
+                        "label": "$~cuvinte cheie",
+                        "labels": ["$~simboluri", "$~cuvinte"],
+                        "tips": [
+                            "$~afișați cuvintele cheie încorporate ca simboluri",
+                            "$~afișați cuvintele cheie încorporate ca și cuvinte în limba dvs."
+                        ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~vizualizare",
+                        "labels": [
+                            "$~orchestră",
+                            "$~spectacol de lumini",
+                            "$~dispoziție",
+                            "$~partitură",
+                            "$~oprit"
+                        ],
+                        "tips": [
+                            "$~Arată muzica ca o orchestră de instrumente",
+                            "$~Arată muzica ca lumină care se schimbă",
+                            "$~Arată muzica ca un nor de culoare și formă care se schimbă cu sentimentul muzicii",
+                            "$~Arată notele ca muzică scrisă pe un portativ, derulându-se în timp ce se redau",
+                            "$~Nu arăta muzica"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~volum",
+                        "labels": ["$~oprit", "$~încet", "$~maxim"],
+                        "tips": [
+                            "$~Oprește sunetul întregii muzici",
+                            "$~Pune muzica încet",
+                            "$~Pune muzica la volum maxim"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~în timp ce vorbește",
+                        "labels": ["$~încet", "$~mai încet", "$~fără sunet"],
+                        "tips": [
+                            "$~Dă muzica puțin mai încet când se spune ceva",
+                            "$~Dă muzica mult mai încet când se spune ceva",
+                            "$~Oprește sunetul muzicii când se spune ceva"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~vibrație",
+                        "labels": ["$~oprit", "$~pornit"],
+                        "tips": [
+                            "$~Nu vibra pe ritm",
+                            "$~Vibrează pe ritm, acolo unde dispozitivul acceptă asta"
+                        ]
+                    },
+                    "captionSize": {
+                        "label": "$~mărimea subtitrării",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Arată subtitrări mai mici",
+                            "$~Arată subtitrări la mărimea standard",
+                            "$~Arată subtitrări cu jumătate mai mari",
+                            "$~Arată subtitrări de două ori mai mari",
+                            "$~Arată subtitrări de trei ori mai mari"
+                        ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~culorile proiectului",
+                        "labels": ["$~păstrează", "$~inversează"],
+                        "tips": [
+                            "$~arată culorile unui proiect exact cum au fost scrise, chiar și pe un ecran întunecat",
+                            "$~pe un ecran întunecat, întoarce culorile unui proiect luminos în culori întunecate: fiecare culoare își păstrează nuanța, iar culorile rămân la fel de diferite între ele cum au fost făcute în proiect"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~semnale de evaluare",
+                        "labels": ["$~dezactivat", "$~activat"],
+                        "tips": [
+                            "$~Nu reda niciun sunet când programul se reevaluează",
+                            "$~Redă un sunet scurt de fiecare dată când programul se reevaluează, câte unul pentru fiecare tip de intrare"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~semnale de animație",
+                        "labels": ["$~dezactivat", "$~activat"],
+                        "tips": [
+                            "$~Nu reda niciun sunet când ieșirea se animează",
+                            "$~Redă un sunet scurt de fiecare dată când o animație ajunge la o poziție, cu sunetul potrivit acțiunii poziției"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~semnale de coliziune",
+                        "labels": ["$~dezactivat", "$~activat"],
+                        "tips": [
+                            "$~Nu reda niciun sunet când ieșirea se ciocnește",
+                            "$~Redă un sunet scurt când ieșirea se ciocnește, mai tare cu cât lovitura e mai puternică"
+                        ]
+                    },
+                    "placement": {
+                        "label": "$~plasarea scenei",
+                        "labels": [
+                            "$~sus stânga",
+                            "$~sus dreapta",
+                            "$~jos stânga",
+                            "$~jos dreapta"
+                        ],
+                        "tips": [
+                            "$~pune scena sus în stânga, și celelalte plăci în locuri asemănătoare în jurul ei",
+                            "$~pune scena sus în dreapta, și celelalte plăci în locuri asemănătoare în jurul ei",
+                            "$~pune scena jos în stânga, și celelalte plăci în locuri asemănătoare în jurul ei",
+                            "$~pune scena jos în dreapta, și celelalte plăci în locuri asemănătoare în jurul ei"
+                        ]
+                    }
+                },
+                "options": {
+                    "face": "$~font",
+                    "mic": "$~microfon",
+                    "camera": "$~cameră",
+                    "voice": "$~Voce Say",
+                    "default": "$~implicit"
+                },
+                "tab": {
+                    "label": "$~grupuri de setări",
+                    "labels": [
+                        "$~Aspect",
+                        "$~Cod",
+                        "$~Cameră + Microfon",
+                        "$~Sunet + Muzică"
+                    ],
+                    "tips": [
+                        "$~cum arată și se simte Wordplay în sine: fontul, culorile, plăcile și animația",
+                        "$~cum arată și se simte codul în timp ce îl scrii",
+                        "$~de la ce cameră și microfon citesc programele",
+                        "$~cum ajung la tine muzica, vorbirea și subtitrările unui program"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Muzică",
+                    "say": "$~Say",
+                    "cues": "$~Semnale"
+                }
+            },
+            "notifications": {
+                "header": "$~Notificări",
+                "explanation": "$~Notificări de la chat-uri noi și instrucțiuni publicate",
+                "open": "$~deschideți caseta de dialog pentru notificări",
+                "howToNotifications": {
+                    "label": "$~notificări pentru instrucțiuni noi",
+                    "labels": ["$~oprit", "$~pe"],
+                    "tips": [
+                        "$~nu mă anunța despre instrucțiuni noi",
+                        "$~Anunță-mă despre noile instrucțiuni practice"
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~ștergeți toate notificările",
+                    "tip": "$~ștergeți toate notificările"
+                },
+                "notification": {
+                    "howToHeader": "$~A fost publicat un nou ghid practic intitulat „ $title ”.",
+                    "projectChatHeader": "$~Mesaj nou în proiectul „ $name ”",
+                    "howToChatHeader": "$~Mesaj nou în instrucțiunile „ $title ”",
+                    "moderationHeader": "$~Mesajul din „ $name ” necesită acțiune de moderare",
+                    "link": "$~detalii",
+                    "reportedHeader": "$~Ceva ce ai făcut în „$title” a fost raportat și este verificat",
+                    "reportReceivedHeader": "$~Raportul tău despre „$title” a fost trimis persoanei responsabile",
+                    "decisionHeader": "$~S-a luat o decizie despre ceva ce ai făcut în „$title”",
+                    "outcomeHeader": "$~S-a luat o decizie despre ce ai raportat în „$title”",
+                    "because": "$~Pentru că:",
+                    "note": "$~Ei au spus:",
+                    "reviewPending": "$~$#count[Ceva|Nimic|$count lucruri] te așteaptă să verifici"
+                },
+                "delete": "$~ștergeți această notificare",
+                "popup": "$~$#count[o notificare|$#count notificări|$count de notificări]",
+                "moderate": {
+                    "label": "$~verifică ce așteaptă",
+                    "tip": "$~mergi la lucrurile care așteaptă să fie verificate de tine"
+                }
+            },
+            "locale": {
+                "header": "$~Limbă",
+                "explanation": "$~Alege limbile pentru interfață, tutorial și documentare. Limbile marcate cu 🤖 sunt încă în mare parte traduse de mașină, așa că unele texte pot fi greu de citit sau incorecte.",
+                "subheader": {
+                    "selected": "$~Selectat",
+                    "supported": "$~Disponibil"
+                },
+                "search": {
+                    "description": "$~Filtrează limbile după nume sau regiune",
+                    "placeholder": "$~limbă sau regiune"
+                },
+                "button": {
+                    "show": "$~alegeți limba (limbile) pentru site-ul web",
+                    "replace": "$~folosește acest limbaj",
+                    "add": "$~folosește acest limbaj și pe cele actuale",
+                    "remove": "$~eliminați această limbă",
+                    "menu": "$~alte limbi"
+                },
+                "localizeHelp": "$~Pentru a îmbunătăți traducerile în limba dvs., faceți clic pe pictograma creion ✎ din *partea de jos a paginii* pentru a activa modul de localizare și a sugera îmbunătățiri.",
+                "request": {
+                    "header": "$~Nu vă vedeți limba?",
+                    "explanation": "$~Alege o limbă și o regiune, iar noi vom deschide o problemă pe GitHub pentru a discuta despre adăugarea acesteia.",
+                    "languageLabel": "$~limbă",
+                    "regionLabel": "$~regiune",
+                    "submit": "$~Cerere",
+                    "submitting": "$~Se trimite solicitarea…",
+                    "success": "$~Discutați această solicitare cu noi pe GitHub!",
+                    "error": "$~Ceva nu a mers bine. Vă rugăm să încercați din nou.",
+                    "alreadySupported": "$~Limba și regiunea respectivă sunt deja acceptate.",
+                    "requiresLogin": "$~Trebuie să fii autentificat pentru a solicita o limbă.",
+                    "searchPlaceholder": "$~limbă sau țară",
+                    "searchDescription": "$~Filtrează meniurile de limbă și țară",
+                    "alreadyRequested": "$~Cineva a cerut deja această limbă. Alătură-te discuției pe GitHub!"
+                },
+                "choose": "$~Alege o limbă"
+            },
+            "help": {
+                "header": "$~Scurtături",
+                "explanation": "$~Folosește aceste comenzi de la tastatură pentru o editare mai eficientă.",
+                "subheader": {
+                    "moveCursor": "$~Mişcare",
+                    "editCode": "$~Edita",
+                    "insertCode": "$~Introduce",
+                    "debug": "$~Depanare",
+                    "format": "$~Format",
+                    "help": "$~Ajutor"
+                },
+                "column": {
+                    "symbol": "$~Simbol",
+                    "shortcut": "$~Scurtătură",
+                    "action": "$~Acțiune",
+                    "change": "$~Schimbă"
+                },
+                "via": {
+                    "toolbar": "$~bară de instrumente",
+                    "chooser": "$~selector de caractere"
+                },
+                "change": {
+                    "on": "$~oprește schimbarea acestei scurtături",
+                    "off": "$~schimbă această scurtătură"
+                },
+                "capture": "$~apasă tastele pe care le vrei",
+                "reset": "$~folosește scurtătura implicită",
+                "resetAll": "$~folosește toate scurtăturile implicite",
+                "custom": "$~schimbat",
+                "feedback": {
+                    "bound": "$~$command este acum $shortcut",
+                    "conflict": "$~$shortcut face deja $command",
+                    "reserved": "$~calculatorul tău păstrează $shortcut pentru el însuși",
+                    "unmodified": "$~o scurtătură are nevoie de Control sau Alt, altfel ar fi doar scriere obișnuită",
+                    "reset": "$~$command a revenit la scurtătura sa obișnuită"
+                }
+            },
+            "feedback": {
+                "header": "$~Feedback",
+                "explanation": "$~Ajută-ne să îmbunătățim @wordplay raportând 🪲 *problemele* și distribuind 💡 *idei*!",
+                "button": {
+                    "show": "$~Arătați formularul de feedback.",
+                    "submit": {
+                        "tip": "$~trimiteți feedback-ul dvs.",
+                        "label": "$~trimite"
+                    },
+                    "delete": {
+                        "description": "$~Ștergeți feedback-ul.",
+                        "prompt": "$~şterge"
+                    },
+                    "like": "$~Apreciază acest feedback",
+                    "close": {
+                        "label": "$~aproape",
+                        "tip": "$~închide acest feedback ca moderator"
+                    },
+                    "comment": {
+                        "label": "$~trimite",
+                        "tip": "$~trimiteți un comentariu la acest feedback."
+                    }
+                },
+                "mode": {
+                    "label": "$~feedback",
+                    "labels": ["$~defecte", "$~idei"],
+                    "tips": [
+                        "$~raportează ceva ce pare defect",
+                        "$~sugerează noi funcții sau îmbunătățiri"
+                    ]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~titlul feedback-ului dvs.",
+                        "placeholder": "$~titlu"
+                    },
+                    "defect": {
+                        "description": "$~descrierea defectului dumneavoastră",
+                        "placeholder": "$~Ce pași ai făcut? Ce s-a întâmplat după? Fii cât mai precis posibil."
+                    },
+                    "idea": {
+                        "description": "$~descrierea defectului dumneavoastră",
+                        "placeholder": "$~Ce încerci să faci și nu poți?"
+                    },
+                    "comment": {
+                        "description": "$~comentariu",
+                        "placeholder": "$~Adăugați un comentariu la acest feedback"
+                    },
+                    "github": {
+                        "description": "$~Problemă GitHub",
+                        "placeholder": "$~Legătură către problema GitHub"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~defect",
+                    "idea": "$~idee",
+                    "moderator": "$~moderator"
+                },
+                "prompt": {
+                    "defect": "$~Nu ai observat problema pe care o întâmpini? Raportează-o aici. Cu cât oferi mai multe detalii, cu atât mai bine!",
+                    "idea": "$~Nu ai înțeles ideea la care te gândești? Sugerează-o."
+                },
+                "error": {
+                    "login": "$~Trebuie să fii<logged in@://login> să trimită feedback",
+                    "empty": "$~Nu există feedback de afișat.",
+                    "url": "$~Aceasta nu este o adresă URL GitHub validă."
+                }
+            }
+        },
+        "collaborate": {
+            "label": "$~colabora",
+            "role": {
+                "owner": "$~proprietar",
+                "collaborate": "$~colaborează",
+                "comment": "$~comentează",
+                "view": "$~vizualizează",
+                "curate": "$~selectează"
+            },
+            "field": {
+                "message": {
+                    "description": "$~Mesajul de chat de trimis",
+                    "placeholder": "$~Scrieți un mesaj"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~trimite",
+                    "tip": "$~trimite un mesaj colaboratorilor tăi și"
+                },
+                "delete": "$~șterge acest mesaj",
+                "confirmDelete": "$~confirmați ștergerea?",
+                "transfer": {
+                    "description": "$~fă-o pe această persoană proprietarul proiectului",
+                    "prompt": "$~Vrei să îl faci proprietar?",
+                    "consequence": "$~Vei rămâne colaborator și vei putea edita în continuare, dar nu vei mai putea șterge acest proiect."
+                }
+            },
+            "moderation": {
+                "header": "$~Raportează acest mesaj",
+                "explanation": "$~Dacă acest mesaj nu corespunde cerințelor noastre<community standards@://rights> sau tipul de feedback solicitat, îl puteți raporta. Când raportați acest mesaj, acesta va fi trimis curatorilor galeriei și eliminat până când va putea fi revizuit.",
+                "report": {
+                    "tip": "$~raportează acest mesaj",
+                    "label": "$~raport"
+                },
+                "moderate": {
+                    "tip": "$~accesează tabloul de bord al moderării",
+                    "label": "$~moderat"
+                },
+                "pending": "$~Acest mesaj este eliminat temporar în așteptarea acțiunii de moderare.",
+                "removed": "$~Acest mesaj a fost eliminat pentru încălcarea regulilor comunității sau a feedback-ului.",
+                "inGallery": "$~Această conversație se află într-o galerie. Este supusă moderării de către curatorii galeriei. Puteți raporta mesajele care încalcă drepturile noastre.<community standards@://rights> pentru moderare."
+            },
+            "error": {
+                "unowned": "$~Acest proiect nu este stocat online, deci nu poate avea chat sau colaboratori.",
+                "offline": "$~Nu se poate încărca acest chat.",
+                "empty": "$~Niciun mesaj.",
+                "deleted": "$~Acest mesaj a fost șters.",
+                "transferGallery": "$~Acest proiect se află într-o galerie. Dacă îl dai altcuiva, acea persoană nu este adăugată automat la acea galerie, deci s-ar putea să nu îl poată vedea acolo."
+            },
+            "restrictGalleryCreatorAccess": {
+                "mode": {
+                    "label": "$~restricționează accesul la proiect",
+                    "labels": ["$~nu restricționa", "$~restricționează"],
+                    "tips": [
+                        "$~Oricine poate vedea această galerie poate vedea proiectul tău",
+                        "$~doar curatorii galeriei pot vedea proiectul tău"
+                    ]
+                }
+            },
+            "tour": {
+                "launch": "$~face un tur al colaborării",
+                "collaborate": "$~Toți cei care pot accesa acest proiect sunt listați aici și poți *discuta* cu cei care au voie. Doar /proprietarul/, /colaboratorii/ și /comentatorii/ pot vedea discuția.",
+                "collaborators": "$~Fiecare persoană are un singur /privilegiu/. *Colaborează* înseamnă că poate edita proiectul și poate discuta despre el. *Comentează* înseamnă că poate discuta, dar nu poate edita. *Vizualizează* înseamnă că poate doar să se uite, fără să discute. *Proprietar* îi dă proiectul. /Curatorii/ unei galerii pot accesa mereu proiectul, așa că nu le poți schimba privilegiul.",
+                "restrict": "$~Când un proiect se află într-o *galerie*, în mod implicit, *toți* cei care pot vedea galeria pot vedea proiectul dvs. Comutatorul /restricționare/ îl *ascunde* de toată lumea, cu excepția dvs. și a curatorilor galeriei.",
+                "add": "$~Apasă pe *+* la sfârșitul listei ca să adaugi pe cineva. Scrie *emailul* sau *numele de utilizator* al persoanei, alege ce poate să facă, și se va alătura listei."
+            },
+            "translate": {
+                "label": "$~Traduceți mesajele în",
+                "off": "$~Opriți traducerea",
+                "error": "$~Nu am putut traduce aceste mesaje în $to. Încercați din nou peste puțin timp.",
+                "messageError": "$~Nu am putut traduce acest mesaj.",
+                "direction": "$from → $to",
+                "messageErrors": "$~$#count[Nu am putut traduce $#count mesaj.|Nu am putut traduce $count mesaje.|Nu am putut traduce $count de mesaje.]",
+                "translating": "$~Se traduc mesajele…",
+                "translated": "$~$#count[Am tradus $count mesaj în $language.|Am tradus $count mesaje în $language.|Am tradus $count de mesaje în $language.]",
+                "writingIn": "$~Scriu în",
+                "downloading": "$~Se obține un traducător de $language pentru browserul dumneavoastră…",
+                "onDevice": "$~Browserul dumneavoastră a tradus acestea pe dispozitivul dumneavoastră, deci nu ne-a fost trimis niciun mesaj.",
+                "none": "$~Nu traduce",
+                "dismiss": "$~închide"
+            },
+            "announce": {
+                "transferred": "$~$name este acum proprietarul lui $project",
+                "privilege": "$~$name poate acum $privilege",
+                "removed": "$~$name nu mai poate accesa acest proiect",
+                "thread": "$~$#count[Fir de discuție la mesajul lui $name, $count răspuns|Fir de discuție la mesajul lui $name, $count răspunsuri|Fir de discuție la mesajul lui $name, $count de răspunsuri]",
+                "reacted": "$~$#count[$emoji la acest mesaj, $count persoană|$emoji la acest mesaj, $count persoane|$emoji la acest mesaj, $count de persoane]",
+                "unreacted": "$~$#count[$emoji retras, $count persoană a plecat|$emoji retras, $count persoane au plecat|$emoji retras, $count de persoane au plecat]",
+                "attached": "$~Se discută despre $location.",
+                "found": "$~$name a spus $opening"
+            },
+            "table": {
+                "label": "$~cine poate accesa acest proiect",
+                "choose": "$~ce poate face $name",
+                "adding": "$~ce pot face",
+                "audience": "$~cine poate vedea această discuție",
+                "add": "$~adaugă pe cineva",
+                "cancel": "$~renunță la adăugarea cuiva"
+            },
+            "prompt": "$~Adaugă colaboratori, comentatori și vizualizatori",
+            "thread": {
+                "reply": "$~răspunde",
+                "replies": "$~$#count[$#count răspuns|$count răspunsuri|$count de răspunsuri]",
+                "unseen": "$~$#count[$#count răspuns nou|$count răspunsuri noi|$count de răspunsuri noi]",
+                "header": "$~Fir de discuție",
+                "back": "$~înapoi la conversație",
+                "empty": "$~Niciun răspuns încă. Spune ceva!",
+                "placeholder": "$~Răspunde…"
+            },
+            "reaction": {
+                "add": "$~reacționează",
+                "more": "$~mai multe…",
+                "label": "$~Alege o reacție",
+                "full": "$~Acest mesaj are toate reacțiile pe care le poate avea.",
+                "close": "$~închide reacțiile",
+                "pick": "$~reacționează cu $emoji",
+                "give": "$~$#count[adaugă-ți $emoji — $count persoană a folosit-o deja|adaugă-ți $emoji — $count persoane au folosit-o deja|adaugă-ți $emoji — $count de persoane au folosit-o deja]",
+                "take": "$~$#count[retrage-ți $emoji — $count persoană îl are|retrage-ți $emoji — $count persoane îl au|retrage-ți $emoji — $count de persoane îl au]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~încetează să mai discuți despre acest cod",
+                    "off": "$~discută despre codul unde se află cursorul meu"
+                },
+                "prompt": "$~Mesajul tău este despre $location.",
+                "line": "$~linia $line",
+                "lines": "$~liniile $first–$last",
+                "label": "$~despre $location: $code",
+                "invalid": "$~acest cod nu mai există",
+                "marker": "$~$#count[citește mesajul despre acest cod|citește mesajele despre acest cod|citește cele $count de mesaje despre acest cod]"
+            }
+        },
+        "palette": {
+            "label": "$~paletă",
+            "labels": {
+                "mixed": "$~amestecat",
+                "computed": "$~calculat",
+                "default": "$~implicit",
+                "inherited": "$~moştenit",
+                "notSequence": "$~nu o secvență",
+                "format": "$~format",
+                "weight": "$~greutate",
+                "light": "$~aprinde",
+                "normal": "$~normal",
+                "bold": "$~îndrăzneţ",
+                "extra": "$~suplimentar",
+                "italic": "$~cursiv",
+                "underline": "$~subliniere"
+            },
+            "button": {
+                "revert": "$~revenire la valorile implicite",
+                "set": "$~editați această proprietate",
+                "addPhrase": "$~adăugați o frază după aceasta",
+                "addGroup": "$~adăugați un grup după aceasta",
+                "addShape": "$~adăugați o formă după aceasta",
+                "addMotion": "$~setează locul pentru fluxul de mișcare",
+                "addPlacement": "$~setați locul ca flux de plasare",
+                "remove": "$~eliminați acest conținut",
+                "up": "$~mută acest conținut mai sus",
+                "down": "$~mută acest conținut în jos",
+                "edit": "$~editează acest conținut",
+                "sequence": "$~convertiți în secvență",
+                "editMode": "$~treci la modul de editare",
+                "previousTrack": "$~arată @Track anterioară",
+                "nextTrack": "$~arată @Track următoare",
+                "addTrack": "$~adaugă o @Track",
+                "removeTrack": "$~elimină această @Track",
+                "clearTrack": "$~elimină fiecare notă din această @Track",
+                "makeChord": "$~transformă această notă într-un acord",
+                "unmakeChord": "$~redu acest acord la o singură notă",
+                "playMusic": "$~ascultă această @Music de la cursor",
+                "pauseMusic": "$~oprește redarea",
+                "importMIDI": "$~importă un fișier MIDI ca @Music",
+                "record": "$~fredonează o melodie pentru a o adăuga la @Track",
+                "stopRecording": "$~oprește-te și scrie ce ai fredonat",
+                "playTrack": "$~ascultă acest @Track singur, de la cursor",
+                "pauseTrack": "$~oprește redarea acestui @Track",
+                "rewind": "$~întoarce-te la început"
+            },
+            "prompt": {
+                "select": "$~Pentru a edita ceva, selectează-l în codul tău sau pe @Stage. Pentru a adăuga ceva nou, folosește butoanele + de mai sus.",
+                "editing": "$~Editează-mă!",
+                "readonly": "$~Aceste valori sunt *doar pentru citire* în acest mod. Treci la modul ✏️ *editare* ca să le schimbi."
+            },
+            "field": {
+                "coordinate": "$~editați coordonatele",
+                "text": "$~editați textul"
+            },
+            "sequence": {
+                "button": {
+                    "add": "$~adăugați o poză",
+                    "remove": "$~elimină poza",
+                    "up": "$~mută poza în sus",
+                    "down": "$~mută poza în jos"
+                },
+                "field": {
+                    "percent": "$~editați procentul"
+                },
+                "preset": {
+                    "label": "$~secvență predefinită",
+                    "custom": "$~personalizat"
+                }
+            },
+            "error": {
+                "nan": "$~Acesta nu este un număr.",
+                "percent": "$~Trebuie să fie un procent între 0 și 100.",
+                "lessThanNext": "$~Aceasta trebuie să fie mai mică decât următoarea intrare.",
+                "moreThanPrevious": "$~Aceasta trebuie să fie mai mult decât intrarea anterioară."
+            },
+            "tour": {
+                "launch": "$~fă un tur al paletei",
+                "palette": "$~Poți folosi /paleta/ ca să editezi *frazele*, *grupurile* și *scena* în modul ✏️ *editare*; în alte moduri controalele ei se pot doar citi, iar în modul ⏸️ *depanare* fiecare proprietate arată și *valoarea sa curentă*.",
+                "text": "$~Toate /proprietățile/ unei fraze pot fi editate aici. Acesta este *textul* frazei, dar celelalte proprietăți au propriile controale.",
+                "set": "$~Când o proprietate folosește în prezent valoarea sa /implicită/, butonul *creion* vă permite să setați o valoare *explicită* pentru aceasta.",
+                "unset": "$~Când o proprietate are setată o valoare /explicită/, butonul *X* elimină acea valoare, readucând proprietatea la valoarea *implicită*.",
+                "editor": "$~Toate modificările pe care le faceți în paletă se reflectă în /codul/ afișat în *editor*.",
+                "stage": "$~Frazele pot fi, de asemenea, /mutate/, /redimensionate/ și /rotite/ direct pe *scenă*."
+            },
+            "music": {
+                "staff": "$~notele acestei piese",
+                "track": "$~piesa $count din $total",
+                "duration": {
+                    "label": "$~cât durează o notă nouă",
+                    "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
+                    "tips": [
+                        "$~o notă întreagă, patru bătăi",
+                        "$~o notă de jumătate, două bătăi",
+                        "$~o notă de sfert, o bătaie",
+                        "$~o notă de optime, o jumătate de bătaie",
+                        "$~o notă de șaisprezecime, un sfert de bătaie"
+                    ]
+                },
+                "computed": "$~notele acestei piese sunt calculate, așa că nu pot fi mutate aici",
+                "note": "$~nota $degree, bătaia $beat",
+                "rest": "$~pauză, bătaia $beat",
+                "added": "$~am adăugat nota $degree la bătaia $beat, acum $#count[$#count notă|$#count note|$#count de note]",
+                "removed": "$~nota $degree eliminată la bătaia $beat, acum $#count[$#count notă|$#count note|$#count de note]",
+                "moved": "$~nota $degree, bătaia $beat",
+                "chooser": "$~ce muzică să editezi",
+                "unnamed": "$~muzica $count",
+                "cursor": "$~trage pentru a alege de la ce bătaie să cânți",
+                "findings": {
+                    "tracksSplit": "$~$#count[$#count pistă a cântat|$#count piste au cântat|$#count de piste au cântat] mai multe note în același timp, așa că $extra în plus au fost adăugate pentru a ține vocile suplimentare.",
+                    "percussionDropped": "$~$#count[$#count sunet de tobă nu a avut|$#count sunete de tobă nu au avut|$#count de sunete de tobă nu au avut] potrivire în setul nostru, așa că au fost lăsate deoparte.",
+                    "tracksTruncated": "$~$#count[$#count pistă a fost lăsată|$#count piste au fost lăsate|$#count de piste au fost lăsate] deoparte, peste limita de $cap.",
+                    "pitchesSnapped": "$~$#count[$#count notă nu era|$#count note nu erau|$#count de note nu erau] în gama $scale și au fost mutate la cea mai apropiată, cu până la $semitones semitonuri.",
+                    "beatsRounded": "$~$#count[$#count lungime de notă a fost rotunjită|$#count lungimi de notă au fost rotunjite|$#count de lungimi de notă au fost rotunjite], cu cel mult $error dintr-o bătaie.",
+                    "meterChanges": "$~$#count[$#count schimbare de măsură a fost lăsată|$#count schimbări de măsură au fost lăsate|$#count de schimbări de măsură au fost lăsate] deoparte: @Music nu are măsuri.",
+                    "velocityRange": "$~Pista $track are $#count[$#count intensitate|$#count intensități|$#count de intensități]. Fiecare notă o păstrează pe a sa, dar nu există creșteri treptate.",
+                    "outOfRange": "$~$#count[$#count notă este|$#count note sunt|$#count de note sunt] la mai mult de trei octave de prima notă a gamei. Vor cânta, dar nu dintr-o înregistrare reală.",
+                    "tempoFolded": "$~$#count[$#count schimbare de tempo a fost|$#count schimbări de tempo au fost|$#count de schimbări de tempo au fost] incluse în lungimile notelor, așa că muzica tot accelerează și încetinește. Un @Music are un singur tempo, iar acesta este $using, deci un @Beat nu se va potrivi cu notele."
+                },
+                "notMIDI": "$~asta nu pare a fi un fișier MIDI",
+                "badMIDI": "$~nu am putut citi acel fișier MIDI",
+                "listening": "$~Ascult! Fredonează sau cântă o melodie, apoi oprește-te. Voi nota notele pe care le aud și le voi adăuga la această pistă.",
+                "heardNothing": "$~Nu am auzit nicio notă. Încearcă să fredonezi puțin mai tare sau mai aproape de microfon.",
+                "transcribed": "$~Am auzit $#count[$#count notă|$#count note|$#count de note] în $scale la aproximativ $tempo bătăi pe minut.",
+                "noMicrophone": "$~Nu îți pot auzi microfonul",
+                "imported": "$~am adăugat $#count[$#count pistă|$#count piste|$#count de piste] și $notes note",
+                "importing": "$~$step… $percent%",
+                "tooBig": "$~Acel fișier are $#count[$#count notă|$#count note|$#count de note], mai mult decât cele $cap pe care le poate ține un proiect. Încearcă o piesă mai scurtă sau mai puține instrumente.",
+                "steps": {
+                    "label": "$~ce face un import",
+                    "labels": [
+                        "$~Se citește fișierul",
+                        "$~Aflarea notelor",
+                        "$~Denumirea pieselor",
+                        "$~Scrierea lor în programul tău",
+                        "$~Verificarea programului tău"
+                    ],
+                    "tips": [
+                        "$~citirea fișierului",
+                        "$~aflarea notelor",
+                        "$~denumirea pieselor",
+                        "$~scrierea lor în programul tău",
+                        "$~verificarea programului tău"
+                    ]
+                },
+                "report": "$~Ce am importat",
+                "reportExplanation": "$~Un @Music poate păstra cea mai mare parte din ce descrie un fișier MIDI, dar nu chiar totul. Iată ce s-a schimbat la intrare."
+            },
+            "toolbar": {
+                "label": "$~adaugă ieșire",
+                "addPhrase": "$~adaugă o frază",
+                "wrapPhrase": "$~arată această valoare ca frază",
+                "addRectangle": "$~adaugă o formă dreptunghiulară",
+                "addCircle": "$~adaugă o formă rotundă",
+                "addPolygon": "$~adaugă o formă cu mai multe laturi",
+                "wrapForm": "$~arată această formă pe scenă, învelind-o într-o formă",
+                "group": "$~adună ceea ce ai selectat într-un grup",
+                "groupEmpty": "$~selectează niște ieșiri ca să le aduni într-un grup",
+                "groupScattered": "$~un grup poate aduna doar ieșiri care sunt în același loc",
+                "groupKind": "$~un grup poate conține o frază, un grup, o vorbire sau o muzică, dar nu o formă sau scena",
+                "addStage": "$~învelește totul într-o scenă, ca să poți controla lumina, culoarea și cadrele",
+                "stageExists": "$~există deja o scenă",
+                "addMusic": "$~adaugă muzică, începând cu câteva note cu care să te joci",
+                "addSay": "$~adaugă o vorbire, care este rostită cu voce tare",
+                "addPath": "$~adaugă o linie pe care o poți îndoi și cu care poți desena",
+                "draw": {
+                    "off": "$~desenează un traseu pe scenă",
+                    "on": "$~oprește desenarea"
+                }
+            }
+        },
+        "save": {
+            "saving": "$~economisire",
+            "saved": "$~salvat",
+            "local": "$~salvat",
+            "unsaved": "$~nesalvat",
+            "sync": {
+                "projects": "$~Proiecte",
+                "galleries": "$~Galerii",
+                "characters": "$~Personaje",
+                "howtos": "$~Ghiduri",
+                "chats": "$~Chat-uri",
+                "kits": "$~Kituri"
+            },
+            "status": {
+                "header": "$~Salvați starea",
+                "intro": "$~Munca ta este păstrată pe acest dispozitiv și salvată în cloud.",
+                "columns": {
+                    "device": "$~pe acest dispozitiv",
+                    "cloud": "$~în nor",
+                    "unsaved": "$~nesalvat"
+                },
+                "state": {
+                    "synced": "$~sincronizat",
+                    "loading": "$~încărcare",
+                    "syncing": "$~economisire",
+                    "offline": "$~offline",
+                    "failed": "$~eșuat"
+                },
+                "conversation": "$~o conversație",
+                "legend": "$~Nesalvat înseamnă salvat aici, dar încă nu este online. Se va salva când te vei întoarce online.",
+                "errorsHeader": "$~Unele lucruri nu au putut fi salvate online:"
+            }
+        },
+        "localize": {
+            "header": "$~Localiza",
+            "reference": "$~Referință în limba engleză",
+            "description": "$~Bun venit în modul de localizare! Puteți sugera îmbunătățiri ale textului din interfața @wordplay. Alegeți orice text pentru a sugera o modificare. Sugestiile dvs. vor fi revizuite și, dacă sunt aprobate, vor deveni parte a platformei pentru ca toată lumea să le poată vedea. Vă mulțumim că ajutați la creșterea accesibilității Wordplay pentru toată lumea!",
+            "toggle": {
+                "mode": {
+                    "on": "$~ieși din modul de localizare",
+                    "off": "$~intră în modul de localizare pentru a sugera modificări la textul platformei în limba curentă."
+                }
+            },
+            "button": {
+                "edit": "$~Sugerează o modificare a acestui text",
+                "editTip": "$~Sugerați o modificare a tooltip-ului acestui control",
+                "submit": "$~Trimiteți editarea sugerată",
+                "cancel": "$~Renunță la editarea sugerată",
+                "revert": "$~Reveniți la textul oficial",
+                "prev": "$~Editați elementul anterior",
+                "next": "$~Editați următorul element"
+            },
+            "field": {
+                "plain": {
+                    "description": "$~Text de înlocuire sugerat",
+                    "placeholder": "$~Introduceți înlocuitorul..."
+                },
+                "formatted": {
+                    "description": "$~Înlocuire sugerată (acceptă formatarea markup)",
+                    "placeholder": "$~Introduceți înlocuirea formatată..."
+                },
+                "name": {
+                    "description": "$~Nume sugerat (trebuie să fie un nume valid de tip joc de cuvinte)",
+                    "placeholder": "$~Introduceți numele..."
+                },
+                "filter": {
+                    "description": "$~Filtrarea șirurilor de traducere după cale sau descriere",
+                    "placeholder": "$~Filtra..."
+                }
+            },
+            "inputs": {
+                "header": "$~Intrări acceptate de acest șablon",
+                "usedTip": "$~Faceți clic pentru a insera o altă referință la cursor",
+                "unusedTip": "$~Faceți clic pentru a insera această referință la cursor",
+                "missing": "$~Intrări lipsă:",
+                "legacy": "$~Înlocuiți aceste vechi referințe poziționale cu referințe denumite:",
+                "unknown": "$~Aceste referințe nu corespund unei intrări sau unei terminologii declarate, deci nu vor înlocui:",
+                "submitBlocked": "$~Referiți fiecare intrare înainte de trimitere",
+                "plural": {
+                    "header": "$~Versiunile de care are nevoie această limbă",
+                    "tip": "$~O numărătoare: apasă pentru a insera o versiune a propoziției pentru fiecare dintre cele $forms forme de plural ale acestei limbi",
+                    "arity": "$~$name are $found versiune (versiuni), dar această limbă are nevoie de $expected.",
+                    "missing": "$~$name este o numărătoare, așa că alege o versiune a propoziției pentru fiecare formă de plural.",
+                    "example": "$~de exemplu"
+                }
+            },
+            "strings": "$~Șiruri de traducere",
+            "emotion": "$~Alege o emoție",
+            "invalidName": "$~Nu este un nume valid pentru jocuri de cuvinte",
+            "invalidConceptLinks": "$~Aceste legături conceptuale nu se rezolvă în limba curentă. Ai scris greșit una sau ai eliminat-o intenționat?",
+            "guidance": "$~Ghid pentru această limbă",
+            "guidanceEmpty": "$~Încă nu există un ghid. Scrie ce ar trebui să știe cineva care traduce în această limbă.",
+            "guidanceToggle": {
+                "on": "$~ascunde ghidul acestei limbi",
+                "off": "$~arată ghidul acestei limbi"
+            },
+            "terms": {
+                "header": "$~Listă de termeni",
+                "description": "$~Definește termeni și expresii pentru această limbă, pe care le poți refolosi oriunde scriind $$ și cheia cuvântului, cum ar fi $$program. Când schimbi un cuvânt aici, se schimbă peste tot unde este folosit, așa că traducerile tale rămân consistente. Aceasta este doar pentru refolosirea cuvintelor; pentru a explica un termen celor care învață, folosește în schimb ghidul de termeni.",
+                "empty": "$~Încă niciun cuvânt. Adaugă unul ca să îl refolosești în textul acestei limbi.",
+                "key": {
+                    "description": "$~cheia pentru acest cuvânt, scrisă după un $ ca să îl folosești",
+                    "placeholder": "$~cheie"
+                },
+                "phrase": {
+                    "description": "$~cuvântul sau expresia pe care o reprezintă această cheie",
+                    "placeholder": "$~cuvânt"
+                },
+                "add": "$~adaugă acest cuvânt la listă",
+                "remove": "$~elimină acest cuvânt din listă",
+                "invalidKey": "$~O cheie trebuie să înceapă cu o literă și să folosească doar litere și numere, în orice limbă.",
+                "duplicateKey": "$~Această limbă are deja un cuvânt cu acea cheie.",
+                "reservedKey": "$~Acea cheie este deja folosită pentru o valoare șablon, așa că nu poate fi un cuvânt."
+            },
+            "glossary": {
+                "header": "$~Alte forme scrise",
+                "description": "$~Glosarul explică cuvintele pe care le întâlnesc cei care învață. Fiecare termen are un cuvânt principal, iar aici poți adăuga celelalte moduri în care acel cuvânt se scrie în această limbă — la plural, cu alte terminații sau un alt cuvânt cu același înțeles. Când scrii un text, poți lega oricare dintre ele cu @ și cuvântul, iar tot cuvântul rămâne parte din legătură. Fiecare limbă își scrie propria listă, așa că adaugă atâtea forme câte are nevoie limba ta.",
+                "reference": "$~în engleză",
+                "empty": "$~Încă nu există alte forme.",
+                "form": {
+                    "description": "$~un alt mod în care se scrie acest termen",
+                    "placeholder": "$~formă"
+                },
+                "add": "$~adaugă această formă la termen",
+                "remove": "$~șterge această formă din termen",
+                "ownWord": "$~Acesta este cuvântul propriu al termenului, care funcționează deja de unul singur.",
+                "otherWord": "$~Acesta este cuvântul pentru $term, așa că nu ar fi clar la ce termen te referi.",
+                "conceptName": "$~Documentarea definește deja acest cuvânt, așa că o legătură la el ar duce acolo în schimb.",
+                "alreadyUsed": "$~Aceasta este deja o formă a $term, așa că nu ar fi clar la ce termen te referi.",
+                "searchOnly": "$~O legătură se termină la un spațiu sau un simbol, așa că această formă va ajuta doar la căutare."
+            }
+        },
+        "edit": {
+            "node": "$~$node$type[, $type|]",
+            "before": "$~înainte $after[$after|sfârșit]",
+            "inside": "$~în $token , între $before[$before|start] și $after[$after|end]",
+            "between": "$~între $before[$before|start] și $after[$after|end]",
+            "line": "$~linie goală între $before[$before|start] și $after[$after|end]",
+            "conflicts": "$~$#count[$#count conflict|$count conflicte|$count de conflicte]",
+            "assign": "$~/ $name[Doritor să se alăture|Se gândește să plece]…/",
+            "append": "$~/Nerăbdător să inserez…/",
+            "remove": "$~/Se gândește să plece…/",
+            "replace": "$~/Vrea să intervină…/",
+            "area": "$~cod de tip",
+            "delimiterMatchedSameLine": "$~$name care se potrivește pe aceeași linie",
+            "delimiterMatchedBelow": "$~potrivește $name $#lines[$#lines linie mai jos|$lines linii mai jos|$lines de linii mai jos]",
+            "delimiterMatchedAbove": "$~potrivește $name $#lines[$#lines linie mai sus|$lines linii mai sus|$lines de linii mai sus]",
+            "delimiterUnmatched": "$~niciun delimitator potrivit"
+        },
+        "template": {
+            "unwritten": "$~De stabilit",
+            "unparsable": "$~Șablon neanalizabil: $template",
+            "machineTranslated": "$~Aceasta a fost tradusă automat, deci este posibil să nu fie lizibilă sau corectă.",
+            "locallyRevised": "$~Acest text a fost revizuit local și diferă de traducerea oficială."
+        },
+        "emoji": {
+            "noCharacters": "$~Creați un personaj personalizat",
+            "skinTone": "$~nuanța pielii",
+            "groups": {
+                "label": "$~grupuri",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~Ⅶ",
+                    "$~💰",
+                    "$~🔍"
+                ],
+                "tips": [
+                    "$~personalizat",
+                    "$~fețe zâmbitoare și emoții",
+                    "$~oameni și corp",
+                    "$~animale și natură",
+                    "$~mâncare și băutură",
+                    "$~activități",
+                    "$~călătorii și locuri",
+                    "$~obiecte",
+                    "$~simboluri",
+                    "$~steaguri",
+                    "$~litere mici",
+                    "$~litere mari",
+                    "$~matematice",
+                    "$~forme",
+                    "$~săgeți",
+                    "$~numere",
+                    "$~numere din litere",
+                    "$~monedă",
+                    "$~rezultatele căutării"
+                ]
+            },
+            "script": "$~scripturi",
+            "scriptLabel": "$~filtrare după script",
+            "pickFilter": "$~Alegeți o categorie sau un script",
+            "moreLanguages": "$~și mai multe $count",
+            "moreGlyphs": "$~Se afișează $count — caută pentru a găsi mai multe",
+            "presentation": {
+                "label": "$~emoji color",
+                "labels": ["$~culoare", "$~alb-negru"],
+                "tips": [
+                    "$~inserează emoji color",
+                    "$~inserează emoji alb-negru"
+                ]
+            }
+        },
+        "connection": {
+            "offline": "$~Ești offline. Unele funcții nu vor funcționa până când nu ești online.",
+            "unreachable": "$~Nu putem accesa baza de date, așa că unele lucruri nu vor funcționa. Este posibil ca o rețea VPN, o extensie de browser sau un filtru de rețea să o blocheze."
+        },
+        "presence": {
+            "peersLabel": "$~colaboratori care editează acest proiect",
+            "joined": "$~$name s-a alăturat.",
+            "left": "$~A mai rămas $name .",
+            "waitingForSlot": "$~Aștept un interval orar de editare — patru colaboratori editează deja. Când unul dintre ei pleacă, vei putea edita și tu."
+        },
+        "update": {
+            "message": "$~Am lansat o nouă versiune.",
+            "refresh": "$~Reîmprospăta",
+            "updates": "$~vezi actualizările",
+            "dismiss": "$~Închide"
+        },
+        "banner": {
+            "deleteFailed": "$~Nu am putut șterge asta.",
+            "saveFailed": "$~Nu am putut salva asta",
+            "submitFailed": "$~Nu am putut trimite asta",
+            "loadFailed": "$~Nu am putut încărca acest lucru. Încearcă din nou peste puțin timp.",
+            "storageFull": "$~Spațiul de stocare al acestui dispozitiv este plin, așa că nu am putut salva o copie aici. Lucrările tale sunt încă în cloud.",
+            "storageNearFull": "$~Spațiul de stocare pe acest dispozitiv este aproape epuizat, așa că este posibil ca Wordplay să nu mai poată salva pe el în curând. Lucrările salvate în cloud sunt în siguranță; eliberarea spațiului pe dispozitiv sau browser permite salvarea continuă aici.",
+            "saveTooLarge": "$~Acest conținut este prea mare pentru a fi salvat. Încearcă să elimini o parte din acesta."
+        },
+        "wellspring": {
+            "label": "$~paletă de cod",
+            "recycle": "$~plasați aici pentru a șterge",
+            "empty": "$~Niciun concept de proiect",
+            "field": {
+                "search": "$~căutarea codului de introdus"
+            },
+            "button": {
+                "toggle": "$~afișarea și ascunderea paletei de cod",
+                "clear": "$~căutare clară"
+            }
+        },
+        "feedback": {
+            "copied": "$~ai copiat $text",
+            "cut": "$~ai tăiat $text",
+            "pasted": "$~ai lipit $text",
+            "deleted": "$~ai șters $text",
+            "undone": "$~anulat",
+            "redone": "$~refăcut",
+            "foldedAll": "$~ai pliat tot codul",
+            "unfoldedAll": "$~ai despliat tot codul",
+            "editMode": "$~$mode",
+            "zoom": "$~mărire $percent la sută",
+            "fullscreenOn": "$~ai intrat pe ecran complet",
+            "fullscreenOff": "$~ai ieșit din ecran complet",
+            "restarted": "$~ai repornit intrările",
+            "step": "$~pas $step, $node",
+            "stepAtStart": "$~la început",
+            "stepAtEnd": "$~la sfârșit",
+            "searchOpened": "$~caută în cod",
+            "searchClosed": "$~ai închis căutarea",
+            "searchMatch": "$~potrivirea $index din $count",
+            "searchNoMatches": "$~nicio potrivire",
+            "menuOpened": "$~meniu, $#count[$#count sugestie|$count sugestii|$count de sugestii]",
+            "menuEmpty": "$~nicio sugestie",
+            "menuClosed": "$~ai închis meniul",
+            "tidyNoop": "$~deja ordonat"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~Ascunde sunetele pe care le poate cânta vocea",
+                "off": "$~Arată sunetele pe care le poate cânta vocea"
+            },
+            "groups": [
+                "$~vocale",
+                "$~aproximante",
+                "$~sunete l",
+                "$~nazale",
+                "$~sunete șuierătoare",
+                "$~sunete rulate",
+                "$~sunete oprite",
+                "$~pocnete"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~Ascultă $symbol",
+            "insert": "$~Scrie $symbol"
+        },
+        "translation": {
+            "used": "$~Ai tradus $used din $#limit[$#limit caracter|$limit caractere|$limit de caractere] astăzi",
+            "meter": "$~traducere folosită astăzi",
+            "exhaustedHours": "$~Ai folosit toată traducerea de azi. Încearcă din nou peste aproximativ $#hours[$#hours oră|$hours ore|$hours de ore].",
+            "exhaustedMinutes": "$~Ai folosit toată traducerea de azi. Încearcă din nou peste aproximativ $#minutes[$#minutes minut|$minutes minute|$minutes de minute].",
+            "signIn": "$~Traducerea are nevoie de un cont, ca toată lumea să aibă parte în mod echitabil de ea. <Conectează-te sau înscrie-te@/login> pentru a-ți traduce proiectul.",
+            "progressLabel": "$~progresul traducerii",
+            "analyzing": "$~Se citește programul tău…",
+            "revising": "$~Se pun cuvintele noi…",
+            "started": "$~Se traduc $#count[$#count frază|$count fraze|$count de fraze] în $language…",
+            "progress": "$~S-au tradus $done din $#total[$#total frază|$total fraze|$total de fraze]",
+            "finished": "$~Proiectul tău vorbește acum $language.",
+            "finishedPartial": "$~Proiectul tău vorbește acum $language, dar $#kept[$#kept frază a păstrat|$kept fraze au păstrat|$kept de fraze au păstrat] cuvintele originale."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Legătura ta de intrare în Wordplay",
+                "heading": "$~Intră în Wordplay",
+                "body": "$~Apasă butonul de mai jos ca să intri. Legătura funcționează o singură dată și doar pentru puțin timp.",
+                "button": "$~Intră",
+                "disclaimer": "$~Dacă nu ai cerut să intri, poți ignora acest email — nimeni nu poate intra în contul tău fără această legătură."
+            },
+            "notice": {
+                "open": "$~Aruncă o privire",
+                "manage": "$~Schimbă-ți setările de notificare",
+                "heading": {
+                    "reported": "$~Raportat",
+                    "decision": "$~Decizie de moderare",
+                    "review": "$~Așteaptă verificare",
+                    "warning": "$~Un avertisment",
+                    "listing": "$~Decizie de listare",
+                    "howto": "$~Instrucțiuni noi",
+                    "chat": "$~Discuții noi"
+                },
+                "subject": {
+                    "reported": "$~$kind al tău a fost raportat",
+                    "received": "$~Am primit raportul tău",
+                    "decision": "$~O decizie despre $kind al tău",
+                    "review": "$~Ceva așteaptă verificarea ta",
+                    "warning": "$~Un avertisment despre ceea ce ai distribuit",
+                    "listing": "$~O decizie despre listarea $kind al tău",
+                    "howto": "$~Instrucțiuni noi în galeria ta"
+                },
+                "body": {
+                    "reported": "$~Cineva a cerut o verificare pentru ceva ce ai făcut în „$title”. Persoana responsabilă se va uita la asta.",
+                    "received": "$~Raportul tău despre „$title” a ajuns la persoana responsabilă de verificarea lui.",
+                    "decision": "$~S-a luat o decizie despre ceva ce ai făcut în „$title”.",
+                    "review": "$~Cineva a cerut o verificare pentru „$title”.",
+                    "warning": "$~Acesta este avertismentul $#count[1|$#count|$count] despre ceva ce ai distribuit public.",
+                    "listing": "$~S-a luat o decizie despre listarea sau nu a „$title”.",
+                    "howto": "$~„$title” a fost publicat într-o galerie din care faci parte."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[Ceva|Nimic|$count lucruri] te așteaptă să verifici",
+                "heading": "$~$#count[1 lucru de verificat|$#count lucruri de verificat|$count de lucruri de verificat]",
+                "open": "$~Începe verificarea",
+                "body": "$~Rapoartele și cererile de listare așteaptă în coada de moderare până când cineva ia o decizie despre ele."
+            },
+            "chat": {
+                "subject": "$~Ai discuții necitite",
+                "heading": "$~Discuții noi",
+                "open": "$~Citește-le",
+                "body": "$~Ai mesaje necitite în $#count[o discuție|$#count discuții|$count de discuții]."
+            }
+        },
+        "markup": {
+            "description": "$~scrie text formatat",
+            "placeholder": "$~scrie ceva",
+            "mode": {
+                "prose": "$~arată cum va arăta",
+                "source": "$~arată semnele de formatare"
+            },
+            "command": {
+                "italic": "$~cursiv",
+                "bold": "$~aldin",
+                "extra": "$~extra aldin",
+                "underline": "$~subliniat",
+                "light": "$~subțire",
+                "example": "$~exemplu de cod",
+                "link": "$~legătură web",
+                "concept": "$~legătură către un concept",
+                "bullet": "$~marcator",
+                "highlight": "$~evidențiază acest exemplu",
+                "defect": "$~acest exemplu ar trebui să conțină erori",
+                "mode": "$~comută între text obișnuit și semne de formatare",
+                "docs": "$~explicație în interiorul exemplului",
+                "attention": "$~atrage atenția asupra acestei linii",
+                "undo": "$~anulează",
+                "redo": "$~refă"
+            },
+            "feedback": {
+                "formatOn": "$~$format activat",
+                "formatOff": "$~$format dezactivat",
+                "example": "$~a creat un exemplu de cod",
+                "link": "$~a creat o legătură web",
+                "concept": "$~legat la $name",
+                "bulletOn": "$~a creat un marcator",
+                "bulletOff": "$~a eliminat marcatorul",
+                "highlightOn": "$~acest exemplu va fi evidențiat",
+                "highlightOff": "$~acest exemplu nu va fi evidențiat",
+                "defectOn": "$~acest exemplu ar trebui să conțină erori",
+                "defectOff": "$~acest exemplu nu ar trebui să aibă erori",
+                "notInExample": "$~pune mai întâi cursorul într-un exemplu de cod",
+                "mode": "$~$mode",
+                "docs": "$~a adăugat o explicație",
+                "attention": "$~atrage atenția asupra acestei linii",
+                "undid": "$~a anulat acțiunea",
+                "redid": "$~a refăcut acțiunea"
+            }
+        },
+        "proxy": {
+            "banner": "$~Privești Wordplay ca altcineva. Nimic de aici nu se salvează, iar el nu poate vedea că ești aici.",
+            "as": "$~ca $name",
+            "remaining": "$~$#minutes[a mai rămas $#minutes minut|au mai rămas $minutes minute|au mai rămas $minutes de minute]",
+            "stop": {
+                "label": "$~Oprește",
+                "tip": "$~Închide această filă și oprește-te din a privi ca ei"
+            },
+            "starting": "$~Se pornește…",
+            "failed": "$~Nu am putut porni acea sesiune. Ești încă autentificat ca administrator?",
+            "expired": "$~Acel link a fost deja folosit sau a expirat. Începe din nou din <pagina privilegiilor@://admin>.",
+            "ended": "$~Această sesiune s-a încheiat și ai fost deconectat din ea. Închide această filă. Ca să privești din nou, începe din pagina privilegiilor."
+        }
+    }
+}

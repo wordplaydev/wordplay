@@ -1,0 +1,2758 @@
+{
+    "$schema": "../../../../static/schemas/sections/ui.json",
+    "ui": {
+        "email": {
+            "notice": {
+                "subject": {
+                    "reported": "Your $kind was reported",
+                    "received": "We got your report",
+                    "decision": "A decision about your $kind",
+                    "review": "Something is waiting for your review",
+                    "warning": "A warning about what you shared",
+                    "listing": "A decision about listing your $kind",
+                    "howto": "A new how-to in your gallery"
+                },
+                "body": {
+                    "reported": "Someone asked for a review of something you made in \"$title\". Whoever is responsible will take a look.",
+                    "received": "Your report about \"$title\" reached whoever is responsible for reviewing it.",
+                    "decision": "A decision was made about something you made in \"$title\".",
+                    "review": "Someone asked for a review of \"$title\".",
+                    "warning": "This is warning $#count[1|$count] about something you shared publicly.",
+                    "listing": "A decision was made about whether \"$title\" is listed.",
+                    "howto": "\"$title\" was published in a gallery you are part of."
+                },
+                "open": "Take a look",
+                "manage": "Change your notification settings",
+                "heading": {
+                    "reported": "Reported",
+                    "decision": "Moderation decision",
+                    "review": "Waiting for review",
+                    "warning": "A warning",
+                    "listing": "Listing decision",
+                    "howto": "New how-to",
+                    "chat": "New chats"
+                }
+            },
+            "review": {
+                "subject": "$#count[Something is|$count things are] waiting for you to review",
+                "heading": "$#count[1 thing|$count things] to review",
+                "body": "Reports and listing requests wait in the moderation queue until someone decides about them.",
+                "open": "Start reviewing"
+            },
+            "chat": {
+                "subject": "You have unread chats",
+                "heading": "New chats",
+                "body": "There are messages you have not read in $#count[a chat|$count chats].",
+                "open": "Read them"
+            },
+            "signin": {
+                "subject": "Your Wordplay sign-in link",
+                "heading": "Sign in to Wordplay",
+                "body": "Select the button below to sign in. The link works once, and only for a little while.",
+                "button": "Sign in",
+                "disclaimer": "If you didn't ask to sign in, you can ignore this email — nobody can get into your account without this link."
+            }
+        },
+        "font": {
+            "app": "Noto Sans",
+            "code": "Noto Sans Mono",
+            "missing": "no",
+            "form": {
+                "sans": "a sans-serif face",
+                "serif": "a serif face",
+                "slab": "a slab-serif face",
+                "typewriter": "a typewriter face",
+                "handwriting": "handwriting",
+                "brush": "a brush face",
+                "script": "a cursive face",
+                "poster": "a poster face",
+                "pixel": "a pixel face",
+                "outline": "a hollow face",
+                "textured": "a textured face",
+                "emoji": "pictures, not letters"
+            },
+            "impression": {
+                "calm": "calm",
+                "oldFashioned": "old-fashioned",
+                "strong": "strong",
+                "quirky": "quirky",
+                "playful": "playful",
+                "excited": "excited",
+                "childlike": "childlike",
+                "artistic": "artistic",
+                "futuristic": "futuristic",
+                "energetic": "energetic",
+                "cute": "cute",
+                "cheerful": "cheerful",
+                "fancy": "fancy"
+            },
+            "mechanic": {
+                "sameWidth": "every letter the same width",
+                "tallLowercase": "small letters as tall as the capitals",
+                "shortLowercase": "small letters much shorter than the capitals"
+            },
+            "description": {
+                "and": "$first and $second",
+                "full": "$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
+        },
+        "phrases": {
+            "welcome": "hello"
+        },
+        "widget": {
+            "confirm": {
+                "cancel": "cancel"
+            },
+            "dialog": {
+                "close": "close"
+            },
+            "loading": {
+                "message": "Loading, thanks for waiting!"
+            },
+            "home": "go to home page",
+            "synced": {
+                "saved": "Saved across devices",
+                "signedOut": "Saved across devices when you're signed in"
+            },
+            "logo": {
+                "description": "A speech bubble with a letter of your writing system inside"
+            },
+            "table": {
+                "cell": {
+                    "description": "edit this cell",
+                    "placeholder": "value"
+                },
+                "addcolumn": "add a column before this column",
+                "removecolumn": "remove this column"
+            },
+            "formatted": {
+                "edit": "edit formatted text",
+                "preview": "preview formatted text",
+                "highlight": "highlight example",
+                "defect": "mark example as an expected defect",
+                "bullet": "bullet",
+                "attention": "highlight this expression"
+            },
+            "color": {
+                "field": "color field",
+                "instructions": "Use the left and right arrow keys to change hue, the up and down arrow keys to change chroma, and the page up and page down keys to change lightness. Hold shift for finer steps. With a screen reader, interact with this control first, or use the lightness, chroma, and hue sliders below it.",
+                "value": "$color, LCH $l, $c, $h",
+                "input": {
+                    "description": "enter a color in any web format",
+                    "placeholder": "#f00, rgb(), hsl(), red",
+                    "invalid": "not a recognized color",
+                    "format": "detected format"
+                },
+                "pick": {
+                    "tip": "select a color from your screen"
+                }
+            },
+            "backtotop": "back to top",
+            "overflow": {
+                "button": {
+                    "on": "hide extra controls",
+                    "off": "show extra controls"
+                },
+                "popup": "Additional controls"
+            }
+        },
+        "tile": {
+            "toggle": {
+                "fullscreen": {
+                    "on": "exit full screen",
+                    "off": "expand window tile to full screen"
+                },
+                "show": {
+                    "on": "hide $name",
+                    "off": "show $name"
+                },
+                "showSource": {
+                    "on": "hide source $name",
+                    "off": "show source $name"
+                }
+            },
+            "label": {
+                "output": "stage",
+                "palette": "palette",
+                "docs": "guide",
+                "source": "source",
+                "collaborate": "collaborate"
+            },
+            "button": {
+                "collapse": "collapse window"
+            }
+        },
+        "project": {
+            "label": "project",
+            "defaults": {
+                "starterCode": "¶Welcome to your blank project! This is a comment.\nYou can use it to describe your project, take notes, and\nexplain what you want people to know about your work.\nIt supports *bold*, /italic/, <links@https://wordplay.dev> and more.¶\nPhrase('hi')"
+            },
+            "scratch": "This is a temporary copy of an example. Remix to keep it.",
+            "untitled": "Untitled project",
+            "error": {
+                "unknown": "This project doesn't exist or you don't have access to it.",
+                "translate": "There was a problem translating your project.",
+                "translateBroken": "Translating would have caused errors in your program, so nothing changed. Try a different language, or translate again.",
+                "tile": "Oops, there was an error",
+                "reset": "Attempt to reset..."
+            },
+            "button": {
+                "share": {
+                    "tip": "show project sharing options",
+                    "label": "share"
+                },
+                "removeCollaborator": "remove collaborator",
+                "copy": {
+                    "tip": "copy project to clipboard as text",
+                    "label": "copy as text"
+                },
+                "addSource": "create another @Source, so you can keep data or shared code in its own file",
+                "remix": {
+                    "tip": "make your own copy of this project to change",
+                    "label": "remix"
+                },
+                "revert": "revert to original code",
+                "focusOutput": "focus keyboard on the stage",
+                "focusSource": "focus on the next source",
+                "focusDocs": "focus on the documentation",
+                "focusPalette": "focus on the palette",
+                "focusCycle": "focus on the next tile",
+                "savedLocally": "projects are saved locally, but not online",
+                "savedOnline": "projects are saved online",
+                "unsaved": "show save error",
+                "translate": {
+                    "tip": "translate this project into a new language, making it multilingual",
+                    "label": "translate"
+                },
+                "primary": "the language of writing that isn't marked with a language",
+                "destination": "translate to this language",
+                "languages": "show the languages this project is written in",
+                "addLanguage": "write this project in this language too",
+                "removeLanguage": "stop writing this project in this language",
+                "firstLanguage": "make this the project's first language",
+                "removeUnusedLanguages": {
+                    "tip": "remove the languages this project's code doesn't use",
+                    "label": "remove unused"
+                },
+                "tinker": {
+                    "label": "test it…",
+                    "tip": "open a copy of this example in a new window, so you can change it and see what happens"
+                }
+            },
+            "field": {
+                "name": {
+                    "description": "edit project name",
+                    "placeholder": "name",
+                    "invalid": "Incomplete translation — check your quotes and language tags, like \"hi\"/en\"hola\"/es."
+                }
+            },
+            "help": "show keyboard shortcuts",
+            "collapsed": "All of your windows are collapsed! You can find them in the toolbar below",
+            "save": {
+                "projectsNotLoadingOnline": "Unable to load online projects.",
+                "projectsNotSavingOnline": "Some projects are only on this device, not online yet.",
+                "settingsUnsaved": "Unable to save settings online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "Your browser couldn't save these projects on this device.",
+                    "localProjectStorageFailed": "This device ran out of room to save, and these projects aren't in the cloud yet, so they're at risk. <Sign in@/login>, which saves them online instead of only on this device.",
+                    "indexedDBUnsupported": "Your browser won't let @wordplay save projects on this device.",
+                    "firestoreBatchFailed": "We couldn't send these to the cloud. They're still safe on this device.",
+                    "cloudWriteRefused": "The cloud wouldn't accept these changes, so we used the copy that's online instead. If you think you should be able to change these, ask whoever shared them with you.",
+                    "projectContainsPII": "These projects look like they have personal information, so we didn't save them online. Open each one to check what looks personal.",
+                    "projectTooLarge": "These projects are too big to save online. They're still safe on this device. Try making them smaller.",
+                    "noCloudTarget": "These projects are only on this device, because @wordplay had nowhere to save them online. <Sign in@/login> to save them."
+                }
+            },
+            "dialog": {
+                "languages": {
+                    "header": "Languages",
+                    "tab": {
+                        "label": "language settings",
+                        "labels": ["Written in", "Translate"],
+                        "tips": [
+                            "see and change the languages this project is written in",
+                            "translate this project's names, text, and documentation into another language"
+                        ]
+                    },
+                    "explanation": [
+                        "These are the languages your project is written in.",
+                        "You can add a language to write in, remove one you aren't using, or translate the whole project into a new language."
+                    ],
+                    "count": "$#count[$count language|$count languages]",
+                    "prompt": "translate",
+                    "mode": {
+                        "label": "what translating does",
+                        "labels": ["add", "rewrite"],
+                        "tips": [
+                            "add the new language to your project, keeping everything you wrote",
+                            "rewrite your project in the new language, replacing what you wrote"
+                        ]
+                    },
+                    "meaning": [
+                        "A project's languages decide which names and words its code can use. If your project is written in Spanish, it needs Spanish here, or names like \\Frase\\ won't mean anything.",
+                        "Everyone who opens your project loads these languages, and the first one decides how your output is laid out. English names always work, in every project."
+                    ],
+                    "source": "Text and names marked with a language, like \\'hola'/es\\, translate from that language. Choose the language of everything that isn't marked.",
+                    "unused": "not used",
+                    "unloaded": "couldn't load",
+                    "checking": "Looking for languages your code uses…",
+                    "complete": "Your code doesn't use any language your project is missing.",
+                    "search": {
+                        "description": "Filter languages by name or region",
+                        "placeholder": "language or region"
+                    }
+                }
+            },
+            "subheader": {
+                "missing": "Maybe missing",
+                "source": "Source",
+                "destination": "Destination"
+            },
+            "options": {
+                "layout": {
+                    "auto": "auto — currently $layout"
+                }
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "exit browser full screen",
+                    "off": "enter browser full screen"
+                },
+                "editName": {
+                    "on": "show the name in your language",
+                    "off": "edit the name in every language"
+                }
+            },
+            "link": {
+                "remixOf": "go to the project this was remixed from",
+                "backTo": "back to $place"
+            },
+            "tour": {
+                "launch": "take a tour of the project controls",
+                "controls": "These /controls/ at the bottom apply to the *project as a whole*, no matter which tile you're working in.",
+                "name": "The /name/ field is your project's name. Names show up in the *project* and *gallery* views.",
+                "sourceToggle": "This /toggle/ shows or hides the *source file*. The *other toggles* on this row do the same for the other tiles.",
+                "addSource": "Some projects benefit from *multiple* source files, where data is stored in one and imported into the *main* source. The /add source/ button creates a new one.",
+                "share": "The /share/ dialog lets you share your project with *galleries*, with the *public*, or copy it as *text* to share elsewhere.",
+                "languages": "The /languages/ button shows which languages your project is written in, lets you add or remove one, and can *translate* your project's *names*, *text*, and *documentation* into a new language.",
+                "checkpoints": "The /revisions/ panel lets you go *back* to previous versions of your project, and *snapshot* versions you want to remember."
+            }
+        },
+        "checkpoints": {
+            "label": {
+                "now": "now",
+                "history": "versions",
+                "restore": "This is a previous version of this project.",
+                "ago": "$amount $unit ago"
+            },
+            "button": {
+                "clear": "delete history",
+                "select": "view this version",
+                "checkpoint": "save this version of the project",
+                "back": "go back to the previous version",
+                "forward": "return to the next version",
+                "restore": "restore this version",
+                "now": "return to the current version"
+            }
+        },
+        "gallery": {
+            "untitled": "Untitled",
+            "undescribed": "No description",
+            "projects": "$#count[$count project|$count projects]",
+            "characters": "$#count[$count character|$count characters]",
+            "subheader": {
+                "classes": {
+                    "header": "Classes",
+                    "explanation": "Classes associated with this gallery."
+                },
+                "curators": {
+                    "header": "Curators",
+                    "explanation": [
+                        "Curators can edit the projects and gallery settings, and chat on all projects.",
+                        "/Curators review what's reported in their gallery — projects, how-tos, and the chats that go with them — from the <moderation page@://moderate>. A curator's decision applies to their own gallery; it is never one of Wordplay's <warnings@://rights>./"
+                    ]
+                },
+                "creators": {
+                    "header": "Creators",
+                    "explanation": "Creators can view all projects in the gallery and add new projects."
+                },
+                "projects": {
+                    "header": "Projects",
+                    "explanation": "Projects shared here. Anyone in this gallery can open one, and make their own version of it to change."
+                },
+                "characters": {
+                    "header": "Characters",
+                    "explanation": "Characters shared here. Anyone in this gallery can use one in their own project, or make their own version of it to change."
+                },
+                "delete": {
+                    "header": "Delete",
+                    "explanation": "Deleting this gallery will not delete its projects. It will delete its how-tos. The gallery will be deleted forever."
+                }
+            },
+            "tab": {
+                "label": "gallery settings",
+                "labels": ["Creators", "Curators", "Visibility", "Delete"],
+                "tips": [
+                    "choose who can add work to this gallery",
+                    "choose who can manage this gallery",
+                    "choose who can see this gallery",
+                    "delete this gallery"
+                ]
+            },
+            "button": {
+                "editcharacter": "Edit this character",
+                "copyreference": "Copy a reference to this character, to paste into a project",
+                "copied": "Copied!"
+            },
+            "confirm": {
+                "delete": {
+                    "description": "delete gallery",
+                    "prompt": "delete"
+                },
+                "remove": {
+                    "description": "remove project from gallery",
+                    "prompt": "remove"
+                },
+                "removecharacter": {
+                    "description": "remove character from gallery",
+                    "prompt": "remove"
+                }
+            },
+            "error": {
+                "unknown": "This gallery doesn't exist or isn't public.",
+                "unreachable": "We couldn't load this gallery. If you expect to have access, check your connection; a VPN, browser extension, or network filter may be blocking it."
+            },
+            "field": {
+                "name": {
+                    "description": "Gallery name",
+                    "placeholder": "name"
+                },
+                "description": {
+                    "description": "Gallery description",
+                    "placeholder": "Describe your gallery. What is its theme, goals, or community?"
+                }
+            }
+        },
+        "gallerymoderation": {
+            "header": "Reports",
+            "description": "What people have asked you to review, oldest first. A decision says which rules it found were broken, and whoever made the thing is told what you decided.",
+            "labels": {
+                "subject": "What was reported",
+                "reason": "Which rules it broke",
+                "action": "What to do"
+            },
+            "note": {
+                "description": "What to say to whoever made it",
+                "placeholder": "say something to them (optional)"
+            },
+            "view": {
+                "label": "view it",
+                "tip": "open what was reported"
+            },
+            "remove": {
+                "label": "remove",
+                "tip": "this breaks the rules"
+            },
+            "keep": {
+                "label": "keep",
+                "tip": "this does not break the rules"
+            },
+            "remaining": "$#count[$count report waiting|$count reports waiting]",
+            "empty": "Nothing is waiting for a decision.",
+            "error": "You must be signed in to review reports."
+        },
+        "howto": {
+            "galleryView": {
+                "header": "How-tos",
+                "subheader": "$#total[$total how-to|$total how-tos], $new new",
+                "subheaderEmpty": "create the first!",
+                "prompt": "How-tos are short explanations and example code for how to do something with @wordplay. When you figure how something you want to share, write one for the other creators in this gallery, so they can learn it too!"
+            },
+            "drafts": {
+                "header": "📝 How-to drafts",
+                "prompt": "This is a space for your drafts! Only you and your collaborators can see these drafts.",
+                "tooltip": "view your draft",
+                "note": "This is a draft how-to. Only you and your collaborators can see it."
+            },
+            "bookmarks": {
+                "header": "🔖 Bookmarks",
+                "tooltip": "go to this how-to",
+                "canBookmark": {
+                    "label": "🔖 bookmark how-to",
+                    "tip": "bookmark this how-to to find it later"
+                },
+                "alreadyBookmarked": {
+                    "label": "🔖 remove bookmark",
+                    "tip": "remove this how-to from your bookmarks"
+                },
+                "empty": "You can bookmark how-tos you want to reference later.",
+                "notLoggedIn": "You must be <logged in@://login> to use bookmarks"
+            },
+            "navigationtooltip": "navigate to a how-to",
+            "button": {
+                "reset": {
+                    "label": "center",
+                    "tip": "center the canvas"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "Create a new how-to",
+                    "explanation": "Write the name and content of your new how-to."
+                },
+                "editForm": {
+                    "header": "Edit how-to",
+                    "explanation": "Edit the name and content of your how-to."
+                },
+                "post": {
+                    "label": "📣 post",
+                    "tip": "post your how-to to the space"
+                },
+                "save": {
+                    "label": "💾 save as draft",
+                    "tip": "save your how-to as a draft"
+                },
+                "notification": {
+                    "label": "notify subscribers",
+                    "labels": ["notify", "do not notify"],
+                    "tips": [
+                        "notify subscribers when you post this how-to",
+                        "do not notify subscribers when you post this how-to"
+                    ]
+                },
+                "editor": {
+                    "placeholder": "Write your how-to here, using formatting and code to teach.",
+                    "description": "a text box to write your how-to"
+                },
+                "title": {
+                    "description": "the title of your how-to",
+                    "placeholder": "Title"
+                },
+                "untitledHowToPlaceholder": "Untitled how-to",
+                "noGuidingQuestions": "This gallery has no guiding questions yet, so there's nothing to write about. A curator needs to add at least one guiding question before how-tos can be written.",
+                "collaborators": {
+                    "header": "👥 collaborators",
+                    "explanation": "Collaborators can edit this how-to and view it in drafts."
+                },
+                "collaboratorsToggle": {
+                    "on": "collapse the collaborators panel",
+                    "off": "expand the collaborators panel"
+                },
+                "access": {
+                    "header": "↗ share",
+                    "explanation": "The curator of this gallery can let creators and curators of other galleries they curate view this how-to. If you don't want them to be able to view it, you can restrict who can view this how-to to only the curators and creators in this gallery."
+                },
+                "accessToggle": {
+                    "on": "collapse the access settings panel",
+                    "off": "expand the access settings panel"
+                },
+                "accessMode": {
+                    "label": "restrict who can view this how-to",
+                    "labels": ["restricted", "expanded"],
+                    "tips": [
+                        "only creators in this gallery can view",
+                        "creators and curators in any gallery the curator curates can view"
+                    ]
+                },
+                "localeOptionsLabel": "editor input language",
+                "publicExplanation": "If you want anyone with the link to be able to see your how-to, you can make your how-to public.",
+                "publicMode": {
+                    "label": "make this how-to public",
+                    "labels": ["private", "public"],
+                    "tips": [
+                        "only Wordplayers with direct access to this how-to can see it",
+                        "anyone with the link can see this how-to"
+                    ]
+                }
+            },
+            "viewer": {
+                "edit": {
+                    "label": "✏️ edit",
+                    "tip": "edit this how-to"
+                },
+                "delete": {
+                    "description": "delete this how-to",
+                    "prompt": "🗑️ delete"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "📨 submit to Guide",
+                        "tip": "submit this how-to to be considered for inclusion in the Guide!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "✅ submitted to Guide",
+                        "tip": "this how-to has already been submitted to be considered for inclusion in the Guide."
+                    },
+                    "header": "Guide listing"
+                },
+                "usedBy": {
+                    "prompt": "Did you use this how-to in your project or another how-to? Let others know by adding your project to the list!",
+                    "empty": "You don't have any projects or other published how-tos yet. Try creating one!",
+                    "countDisplay": "Other Wordplay directors have used this in $#count[$count other project or how-to|$count other projects or how-tos]",
+                    "selector": "project and how-to selector",
+                    "removeButton": "remove project or how-to from list",
+                    "addButton": "add project or how-to"
+                },
+                "reactionsPrompt": "Did you like this how-to? Leave a reaction to support the creator!",
+                "chatPrompt": "Leave a comment or question for the creator!",
+                "link": {
+                    "label": "🔗 copy how-to link",
+                    "tip": "copy link to this how-to"
+                },
+                "collaborators": "written by",
+                "view": {
+                    "tip": "view how-to"
+                }
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "How-to space settings",
+                    "explanation": "Configure the settings for this how-to space. Click the save button at the bottom to save your settings."
+                },
+                "configurationButton": {
+                    "tip": "configure this how-to space",
+                    "label": "⚙️ settings"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "Visibility",
+                        "explanation": "Configure who can view how-tos in this space by default"
+                    },
+                    "mode": {
+                        "label": "default visibility",
+                        "labels": ["limited", "expanded"],
+                        "tips": [
+                            "only collaborators of this gallery can view how-tos",
+                            "collaborators of the galleries you indicate below can view how-tos"
+                        ]
+                    },
+                    "expandedOptions": "let the curators and creators of the selected gallery see this gallery's how-tos",
+                    "expandedAdd": "add gallery to list",
+                    "expandedRemove": "remove gallery from list"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "Guiding Questions",
+                        "explanation": "Configure the guiding questions shown when creating a new how-to. Separate guiding questions with a line break."
+                    },
+                    "descriptor": "a text box to write your guiding questions, separated by a line break.",
+                    "default": [
+                        "What did you learn? Give examples of how to do it."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "Reactions",
+                        "explanation": "Configure the reactions that viewers can leave on new how-tos"
+                    },
+                    "reactionPickerTip": "choose a character to be a reaction",
+                    "reactionDescriptionTip": "describe what this reaction means",
+                    "addReactionTip": "add a new reaction",
+                    "removeReactionTip": "remove this reaction",
+                    "default": {
+                        "👍": "I like this!",
+                        "💭": "This inspires me!",
+                        "🙏": "Thank you!",
+                        "🎉": "Celebration!",
+                        "🤩": "I want to try this!",
+                        "😁": "This makes me happy!"
+                    }
+                },
+                "submit": {
+                    "error": "guiding questions and reactions cannot be empty",
+                    "label": "save",
+                    "tip": "save how-to space settings"
+                }
+            },
+            "announce": {
+                "howToPosition": "how-to titled $title moved to $x $y",
+                "canvasPosition": "canvas moved to $x, $y",
+                "moveActivated": "movement activated. $target can be moved using the mouse, keyboard, or touchscreen",
+                "moveDeactivated": "movement deactivated."
+            },
+            "error": {
+                "unknown": "This how-to space doesn't exist or isn't public."
+            }
+        },
+        "translation": {
+            "used": "You have translated $used of $#limit[$limit character|$limit characters] today",
+            "meter": "translation used today",
+            "exhaustedHours": "You've used up today's translating. Try again in about $#hours[$hours hour|$hours hours].",
+            "exhaustedMinutes": "You've used up today's translating. Try again in about $#minutes[$minutes minute|$minutes minutes].",
+            "signIn": "Translating needs an account, so everyone gets a fair share of it. <Sign in or join@/login> to translate your project.",
+            "progressLabel": "translation progress",
+            "analyzing": "Reading your program…",
+            "revising": "Putting the new words in…",
+            "started": "Translating $#count[$count phrase|$count phrases] into $language…",
+            "progress": "Translated $done of $#total[$total phrase|$total phrases]",
+            "finished": "Your project now speaks $language.",
+            "finishedPartial": "Your project now speaks $language, but $#kept[$kept phrase|$kept phrases] kept the original words."
+        },
+        "source": {
+            "label": "source",
+            "title": "code",
+            "empty": [
+                "Let's get started! You can …",
+                "• Open 📕 and drag 🖱️ us to this program.",
+                "• Type $symbol and choose us from the menu.",
+                "• Type us with the ⌨️.",
+                "• Browse the <galleries@://galleries> for inspiration.",
+                "If you're stuck, <learn more@://learn>."
+            ],
+            "confirm": {
+                "delete": {
+                    "description": "delete this @Source",
+                    "prompt": "delete"
+                }
+            },
+            "toggle": {
+                "blocks": {
+                    "on": "edit as text"
+                },
+                "characters": {
+                    "on": "hide the emoji and symbol chooser",
+                    "off": "show the emoji and symbol chooser"
+                },
+                "expandSequence": {
+                    "on": "collapse items",
+                    "off": "expand items"
+                },
+                "search": {
+                    "on": "hide search",
+                    "off": "search the code"
+                }
+            },
+            "fold": {
+                "collapse": "collapse $name",
+                "expand": "expand $name",
+                "all": "fold all",
+                "none": "unfold all",
+                "collapsed": "$name collapsed",
+                "expanded": "$name expanded"
+            },
+            "options": {
+                "locale": {
+                    "tip": "preferred language for source",
+                    "all": "$#count[$count language|$count languages]",
+                    "viewing": "in $language"
+                }
+            },
+            "feedback": {
+                "cantDrop": "Can't drop there:",
+                "cantPaste": "Can't paste there:"
+            },
+            "clipboard": {
+                "label": "clipboard"
+            },
+            "notice": {
+                "dismiss": "Dismiss this notice"
+            },
+            "button": {
+                "selectOutput": "show this output on stage",
+                "selectOutputError": "show this output on stage; this source's evaluation ended in an error",
+                "zoomIn": "make the code larger",
+                "zoomOut": "make the code smaller",
+                "replace": "replace all matches",
+                "addView": "show this code in a second view",
+                "closeView": "close this view"
+            },
+            "field": {
+                "name": {
+                    "description": "edit source name",
+                    "placeholder": "name"
+                },
+                "search": "text",
+                "replace": "replace"
+            },
+            "view": {
+                "added": "added a second view of $name",
+                "closed": "closed the second view of $name"
+            },
+            "menu": {
+                "label": "autocomplete menu",
+                "show": "show autocomplete menu",
+                "empty": "No suggestions.",
+                "item": "$code, $description"
+            },
+            "cursor": {
+                "priorLine": "move cursor to line before",
+                "nextLine": "move cursor to line after",
+                "priorInline": "move cursor to position before",
+                "nextInline": "move cursor to position after",
+                "expandBeforeInline": "expand selection before",
+                "expandAfterInline": "expand selection after",
+                "expandPriorLine": "expand selection to prior line",
+                "expandNextLine": "expand selection to next line",
+                "lineStart": "move cursor to start of line",
+                "lineEnd": "move cursor to end of line",
+                "sourceStart": "move cursor to start of source",
+                "sourceEnd": "move cursor to end of source",
+                "priorNode": "select neighbor before",
+                "nextNode": "select neighbor after",
+                "parent": "select container",
+                "matchDelimiter": "move cursor to matching delimiter",
+                "selectAll": "select program",
+                "search": "search for special characters to insert",
+                "findText": "search the code",
+                "nextMatch": "go to the next search match",
+                "incrementLiteral": "increase number, text, or Boolean",
+                "decrementLiteral": "decrease number, text, or Boolean",
+                "insertTab": "insert tab",
+                "insertTrue": "insert true",
+                "insertFalse": "insert false",
+                "insertNone": "insert none symbol",
+                "insertNotEqual": "insert not equal",
+                "insertProduct": "insert multiplication symbol",
+                "insertDot": "insert dot product symbol",
+                "insertQuotient": "insert quotient symbol",
+                "insertDegree": "insert degree symbol",
+                "insertFunction": "insert function",
+                "insertLessOrEqual": "insert less than or equal to",
+                "insertGreaterOrEqual": "insert greater than or equal to",
+                "insertType": "insert type symbol",
+                "insertDocs": "insert explanation symbol",
+                "insertStream": "insert stream symbol",
+                "insertRange": "insert range symbol",
+                "insertChange": "insert change symbol",
+                "insertConvert": "insert convert symbol",
+                "insertTranslate": "insert translate symbol",
+                "insertThis": "insert this symbol",
+                "insertPrevious": "insert previous symbol",
+                "insertTable": "insert table open symbol",
+                "insertPattern": "insert pattern",
+                "insertSearch": "insert pattern search symbol",
+                "insertPatternAny": "insert any-grapheme pattern symbol",
+                "insertPatternSpace": "insert space pattern symbol",
+                "insertPatternStart": "insert pattern start symbol",
+                "insertPatternEnd": "insert pattern end symbol",
+                "insertPatternFold": "insert pattern case-fold symbol",
+                "insertPatternAhead": "insert pattern lookahead symbol",
+                "insertPatternBehind": "insert pattern lookbehind symbol",
+                "insertPatternWord": "insert pattern word symbol",
+                "insertPatternWordEdge": "insert pattern word-edge symbol",
+                "insertWholeNote": "insert a whole note, four beats long",
+                "insertDottedWholeNote": "insert a dotted whole note, six beats long",
+                "insertHalfNote": "insert a half note, two beats long",
+                "insertDottedHalfNote": "insert a dotted half note, three beats long",
+                "insertQuarterNote": "insert a quarter note, one beat long",
+                "insertDottedQuarterNote": "insert a dotted quarter note, one and a half beats long",
+                "insertEighthNote": "insert an eighth note, half a beat long",
+                "insertDottedEighthNote": "insert a dotted eighth note, three quarters of a beat long",
+                "insertSixteenthNote": "insert a sixteenth note, a quarter of a beat long",
+                "insertDottedSixteenthNote": "insert a dotted sixteenth note, three eighths of a beat long",
+                "insertBorrow": "insert borrow",
+                "insertShare": "insert share",
+                "insertLine": "insert line break",
+                "backspace": "delete selection or prior symbol",
+                "delete": "delete selection or next symbol",
+                "cut": "cut selection",
+                "copy": "copy selection",
+                "paste": "paste contents of keyboard",
+                "parenthesize": "parenthesize selection",
+                "enumerate": "enumerate selection",
+                "type": "type characters",
+                "undo": "undo previous edit",
+                "redo": "redo undone edit",
+                "tidy": "tidy spacing",
+                "elide": "toggle elision",
+                "largeDelete": "Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.",
+                "tab": "Tab moves keyboard focus. To insert a tab, use the insert button below, or change what Tab does in settings.",
+                "ignored": {
+                    "readOnly": "Source is read only",
+                    "blockSpace": "No tabs allowed here",
+                    "noDelete": "Can't delete this",
+                    "noInsert": "Unable to insert here",
+                    "noError": "This edit would create a conflict",
+                    "noEditor": "No editor active",
+                    "noClipboard": "No clipboard available",
+                    "noClipboardItem": "Nothing on the clipboard",
+                    "noSelection": "Nothing selected",
+                    "noMove": "Can't move any further",
+                    "unhandled": "that key does nothing here"
+                },
+                "echo": {
+                    "space": "space",
+                    "newline": "new line",
+                    "tab": "tab"
+                },
+                "selected": "selected $#count[$count character|$count characters]: $text",
+                "selectedNodes": "$#count[$count node|$count nodes] selected, $first through $last",
+                "unknownPosition": "in the code"
+            },
+            "error": {
+                "invalidName": "This must be a valid Wordplay name.",
+                "invalidWords": "Words can't be empty or contain reserved symbols."
+            },
+            "tour": {
+                "launch": "take a tour of the editor",
+                "editor": "All your /code/ goes in the *editor*. Every @wordplay program *evaluates to a value*, and that value is what shows up on the *stage*.",
+                "textBlocks": "This toggle switches between two ways of editing: /text/ and /blocks/. *Text* is more flexible but easier to make mistakes in. *Blocks* are less error prone but slower and more rigid.",
+                "toolbar": "These /toolbar/ controls let you *select all*, *zoom in* and *out*, *undo*, *redo*, *cut*, *copy*, and *paste*.",
+                "expand": "The /expand/ toggle reveals more *advanced* editing tools.",
+                "shortcuts": "The /shortcuts/ button opens a list of *keyboard shortcuts* you can use to edit more quickly."
+            }
+        },
+        "markup": {
+            "description": "write formatted text",
+            "placeholder": "write something",
+            "mode": {
+                "prose": "show how it will look",
+                "source": "show the formatting marks"
+            },
+            "command": {
+                "italic": "italic",
+                "bold": "bold",
+                "extra": "extra bold",
+                "underline": "underline",
+                "light": "light",
+                "example": "code example",
+                "link": "web link",
+                "concept": "link to a concept",
+                "bullet": "bullet",
+                "highlight": "highlight this example",
+                "defect": "this example is supposed to have errors",
+                "docs": "explanation inside the example",
+                "attention": "draw attention to this line",
+                "undo": "undo",
+                "redo": "redo",
+                "mode": "switch between prose and formatting marks"
+            },
+            "feedback": {
+                "formatOn": "$format on",
+                "formatOff": "$format off",
+                "example": "made a code example",
+                "link": "made a web link",
+                "concept": "linked to $name",
+                "bulletOn": "made a bullet",
+                "bulletOff": "removed the bullet",
+                "highlightOn": "this example will be highlighted",
+                "highlightOff": "this example will not be highlighted",
+                "defectOn": "this example is supposed to have errors",
+                "defectOff": "this example is not supposed to have errors",
+                "docs": "added an explanation",
+                "attention": "drawing attention to this line",
+                "undid": "undid that",
+                "redid": "redid that",
+                "notInExample": "put your cursor in a code example first",
+                "mode": "$mode"
+            }
+        },
+        "feedback": {
+            "copied": "copied $text",
+            "cut": "cut $text",
+            "pasted": "pasted $text",
+            "deleted": "deleted $text",
+            "undone": "undone",
+            "redone": "redone",
+            "foldedAll": "folded all code",
+            "unfoldedAll": "unfolded all code",
+            "editMode": "$mode",
+            "zoom": "zoom $percent percent",
+            "fullscreenOn": "entered full screen",
+            "fullscreenOff": "left full screen",
+            "restarted": "restarted inputs",
+            "step": "step $step, $node",
+            "stepAtStart": "at the beginning",
+            "stepAtEnd": "at the end",
+            "searchOpened": "find in code",
+            "searchClosed": "closed find",
+            "searchMatch": "match $index of $count",
+            "searchNoMatches": "no matches",
+            "menuOpened": "menu, $#count[$count suggestion|$count suggestions]",
+            "menuEmpty": "no suggestions",
+            "menuClosed": "closed menu",
+            "tidyNoop": "already tidy"
+        },
+        "annotations": {
+            "label": "conflicts and help",
+            "cursor": "This is *$node*$type[ and they are a $type|].",
+            "cursorDoc": "They say: “$description”",
+            "cursorParent": "They're inside a *$node*$type[, which evaluates to a $type|].",
+            "learn": "/Learn more/",
+            "evaluating": "Oh fun, let's evaluate!",
+            "space": "This is space! Who knew nothing could say so much?",
+            "nodeDescription": "They $description.",
+            "severity": {
+                "major": "error",
+                "minor": "warning"
+            },
+            "conflictLabel": "$severity: $conflict",
+            "button": {
+                "resolution": "Resolve this conflict",
+                "elsewhere": "open where this can be fixed",
+                "toggle": "show and hide annotations",
+                "highlightMajor": "show this error's code in the editor",
+                "highlightMinor": "show this warning's code in the editor",
+                "highlightStep": "show this evaluation step's code in the editor"
+            }
+        },
+        "wellspring": {
+            "label": "code palette",
+            "recycle": "drop here to delete",
+            "empty": "No project concepts",
+            "field": {
+                "search": "search for code to drag in"
+            },
+            "button": {
+                "toggle": "show and hide the code palette",
+                "clear": "clear search"
+            }
+        },
+        "output": {
+            "label": "stage",
+            "multiselect": "Use tab and the alt and arrow keys to move between outputs. Press space to add or remove the focused output from your selection. Press enter to select just that output and open the palette. Press escape to clear your selection. Press control or command and A to select all outputs.",
+            "selected": "$name selected, $count selected",
+            "deselected": "$name deselected, $count selected",
+            "allSelected": "all outputs selected, $count selected",
+            "cleared": "selection cleared",
+            "removed": "$#count[$#count output deleted|$#count outputs deleted]",
+            "drew": "$#count[drew a path with $#count point; drawing is off|drew a path with $#count points; drawing is off]",
+            "drawing": "$#count[$#count point, at $place|$#count points, last at $place]",
+            "point": {
+                "label": "point $number of $#count, at $place",
+                "moved": "point $number to $place",
+                "added": "added point $number",
+                "removed": "removed point $number",
+                "last": "a path needs at least two points"
+            },
+            "notRemovable": "that can't be deleted on its own",
+            "moved": "$name moved $direction to $place",
+            "directions": [
+                "up",
+                "up and right",
+                "right",
+                "down and right",
+                "down",
+                "down and left",
+                "left",
+                "up and left"
+            ],
+            "closer": "closer",
+            "farther": "farther away",
+            "turned": "turned",
+            "manyChanged": "$#count[$count output|$count outputs] changed in $container, like $example",
+            "snap": {
+                "anchors": [
+                    "horizontal center",
+                    "left edge",
+                    "right edge",
+                    "vertical center",
+                    "bottom edge",
+                    "top edge",
+                    "baseline"
+                ],
+                "withOutput": "$anchor with $target's $targetAnchor",
+                "withGrid": "$anchor on the grid",
+                "aligned": "$constraints, at $place",
+                "none": "nothing to line up with $direction"
+            },
+            "selectedOnly": "$name selected, opening palette",
+            "selectedSuffix": "selected",
+            "toggle": {
+                "grid": {
+                    "on": "hide grid lines",
+                    "off": "show grid lines"
+                },
+                "fit": {
+                    "on": "control zoom manually",
+                    "off": "fit zoom to content"
+                }
+            },
+            "field": {
+                "key": {
+                    "description": "listening to key presses"
+                },
+                "chat": {
+                    "description": "send a chat message",
+                    "placeholder": "message"
+                }
+            },
+            "button": {
+                "submit": "submit this chat message",
+                "zoomIn": "zoom into the stage",
+                "zoomOut": "zoom out from the stage",
+                "resetZoom": "clear your pan and zoom",
+                "resetZoomAt": "clear your pan and zoom, now $percent percent of the project's own view",
+                "perform": "perform: restart the program, play it, and fill the screen with the stage",
+                "rotate": "rotate $name",
+                "resize": "resize $name"
+            },
+            "announce": {
+                "zoom": "stage zoom $percent percent",
+                "hidden": "nothing is on stage at $percent percent; clear your zoom to show everything",
+                "shown": "everything is back on stage"
+            },
+            "hidden": {
+                "message": "Everything is off the stage.",
+                "show": "show everything"
+            },
+            "options": {
+                "locale": "preferred language for output",
+                "default": "$#count[$count language|$count languages]"
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "evaluation mode",
+                    "labels": ["edit", "debug", "play"],
+                    "tips": [
+                        "switch to edit mode: pause the program wherever it is and change it; edits replay to show their effect at this point",
+                        "switch to debug mode: step through the program's evaluation, with values shown beside the code and in the palette",
+                        "switch to play mode: run the program live from where it is, responding to inputs in real time"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "evaluation mode",
+                    "labels": ["view", "debug", "play"],
+                    "tips": [
+                        "switch to view mode: pause the program wherever it is and read it",
+                        "switch to debug mode: step through the program's evaluation, with values shown beside the code and in the palette",
+                        "switch to play mode: run the program live from where it is, responding to inputs in real time"
+                    ]
+                },
+                "announce": "$mode mode",
+                "resuming": "resuming at step $position",
+                "performing": "performance $number, from the top",
+                "exception": "The program had an error, so it switched to debug mode so you can inspect it.",
+                "toggle": "switch between edit and play modes"
+            },
+            "tour": {
+                "launch": "take a tour of the stage",
+                "stage": "The /stage/ shows your program's *current value*. That value might be a *raw value* like a number or list, *visual output* you can see, or even *sound* you can hear.",
+                "reset": "The /reset/ button starts your program's evaluation over from the *beginning*, in any mode: in ▶️ *play* it performs again from the top, in ✏️ *edit* it pauses after the first evaluation so you can see your edits' effect on the initial output, and in ⏸️ *debug* it pauses at the very first step.",
+                "zoom": "The /zoom/ buttons let you zoom *in* and *out* on the stage so you can see your output more clearly or in greater detail.",
+                "grid": "The /grid/ button shows a *grid* on the stage, helpful for placing things precisely while you design.",
+                "lock": "The /lock/ button locks the stage's view in place. When *locked*, the stage stays still; when *unlocked*, you can pan and zoom freely.",
+                "animationSpeed": "The /animation speed/ control sets how fast animations play. The same control is in *settings*, so you can change it from either place."
+            },
+            "permission": {
+                "title": "This project needs permission",
+                "microphone": "microphone",
+                "camera": "camera",
+                "note": "Your browser will ask before sharing.",
+                "retry": "Retry"
+            },
+            "gate": {
+                "start": {
+                    "label": "start",
+                    "tip": "show the project"
+                }
+            },
+            "download": {
+                "title": "Getting ready…",
+                "note": "This downloads once, then loads instantly next time.",
+                "percent": "$percent%",
+                "hand": "hand tracker",
+                "face": "face tracker",
+                "objects": "object recognizer",
+                "loading": "Loading $model…"
+            },
+            "sensor": {
+                "microphone": {
+                    "on": "hide microphone waveform",
+                    "off": "show microphone waveform"
+                },
+                "camera": {
+                    "on": "hide camera preview",
+                    "off": "show camera preview"
+                }
+            },
+            "sound": {
+                "enable": "Tap for sound",
+                "explanation": "This project has music, but your browser is waiting for you to interact with the page before it plays sound.",
+                "loading": "Getting $instruments ready…",
+                "synthesized": "$instruments could not load, so they sound synthesized."
+            },
+            "keypad": {
+                "label": "Keys this project uses",
+                "any": "Tap to play"
+            }
+        },
+        "timeline": {
+            "slider": "time slider",
+            "button": {
+                "play": "evaluate the program, responding to inputs in real time",
+                "backStep": "step back one",
+                "backNode": "step to previous evaluation of cursor",
+                "backInput": "back one input",
+                "out": "step out of this function",
+                "forwardStep": "step forward one",
+                "forwardNode": "step to next evaluation of cursor",
+                "forwardInput": "step forward to next stream input",
+                "present": "to the end",
+                "start": "to the beginning",
+                "reset": "restart performance"
+            },
+            "tour": {
+                "timeline": "The /timeline/ lets you step *forward* and *backward* through your program's evaluation, one step at a time. It appears in the stage's toolbar in ✏️ *edit* and ⏸️ *debug* modes, and it's a great way to see *how* your program computes its value, and to build a mental model of how @wordplay programs evaluate, especially if you're not seeing the behavior you want.",
+                "modes": "The /mode switcher/ chooses how your program evaluates. In ✏️ *edit* mode, the program pauses wherever it is and you can change it — your edits replay to show their effect at that point. In ⏸️ *debug* mode, the code is read-only and the *current value* of each part of your program appears next to it in the editor and in the palette. In ▶️ *play* mode, your program runs live from where it is, responding to inputs in real time. Beside the switcher, the /perform/ button — a play triangle wrapped in full screen corners — begins a performance from the top and fills the screen with the stage, and ↻ resets the program in any mode.",
+                "annotations": "The /annotations/ window is where explanations of each step appear. As you step through your program, this is where you'll read what just happened.",
+                "editor": "The /editor/ shows your code. While stepping, the *value* of each part of your program will appear next to that part *after* it's been evaluated, so you can watch values build up as the program runs.",
+                "history": "The /history/ shows every *input* your program has received, like keys, time ticks, and pointer events. It's *draggable*, so you can return to any moment in the program's evaluation history just by dragging. If you'd rather *hear* those inputs than see them, turn on /evaluation cues/ in settings, and @wordplay will play a short sound for each one, with a different sound for each kind of input.",
+                "stepControls": "The /step controls/ let you move through evaluation precisely. You can jump to the *start* or *end*, step *forward* or *backward* one step at a time, jump by *one input*, step *out* of a function, or jump to the *currently selected* part of the code."
+            }
+        },
+        "tour": {
+            "label": "tour",
+            "close": "close the tour",
+            "previous": "previous step",
+            "next": "next step",
+            "offscreen": "This part of the interface isn't currently visible on screen.",
+            "overflowed": "This control is tucked inside the highlighted menu; open it to find the control."
+        },
+        "docs": {
+            "kits": {
+                "header": "Kits",
+                "yours": "Your kits that aren't listed",
+                "prompt": "A kit is code someone published for other people to build with. Copy the line for one, paste it at the top of your program, and everything it shares becomes yours to use.",
+                "empty": "Nobody has published a kit yet. Yours could be the first — share something with ↑, then publish it from your project's sharing settings.",
+                "none": "Nothing here matches that.",
+                "kinds": {
+                    "label": "what kits share",
+                    "all": "anything"
+                },
+                "shares": "shares $names",
+                "missing": "There's no kit by that name. It may have been renamed, or never published.",
+                "missingVersion": "That version isn't here. Try another one below.",
+                "nothing": "this kit shares nothing",
+                "versions": "Every version of this kit",
+                "version": {
+                    "tip": "see this version of the kit"
+                },
+                "open": "read this kit's documentation"
+            },
+            "label": "guide",
+            "link": "show \"$name\" in documentation",
+            "tutorial": "Tutorial",
+            "nodoc": "Who am I? What am I? What is my purpose?",
+            "button": {
+                "home": "return home",
+                "back": "return to previous",
+                "toggle": "expand and collapse this concept group"
+            },
+            "field": {
+                "search": "keywords"
+            },
+            "breadcrumb": {
+                "label": "navigation history",
+                "home": "Home"
+            },
+            "header": {
+                "names": {
+                    "header": "Names",
+                    "explanation": "/Names for this concept./"
+                },
+                "inputs": {
+                    "header": "Inputs",
+                    "explanation": "/Required and optional values./"
+                },
+                "interfaces": {
+                    "header": "Interfaces",
+                    "explanation": "/Structures this structure is based on./"
+                },
+                "properties": {
+                    "header": "Properties",
+                    "explanation": "/Values this concept stores./"
+                },
+                "functions": {
+                    "header": "Functions",
+                    "explanation": "/Values this concept can compute./"
+                },
+                "conversions": {
+                    "header": "Conversions",
+                    "explanation": "/Ways to convert this value into values of other types./"
+                },
+                "arrangements": {
+                    "header": "Arrangements",
+                    "explanation": "/Ways of arranging phrases in a group./"
+                },
+                "forms": {
+                    "header": "Forms",
+                    "explanation": "/Shapes that can be placed on stage./"
+                },
+                "appearance": {
+                    "header": "Appearance",
+                    "explanation": "/Ways to change how output looks./"
+                },
+                "animation": {
+                    "header": "Animation",
+                    "explanation": "/Ways to animate output on stage./"
+                },
+                "location": {
+                    "header": "Location",
+                    "explanation": "/Ways of determing where output is on stage./"
+                },
+                "reactions": {
+                    "header": "Reactions",
+                    "explanation": "/Ways of reacting to or analyzing an input stream./"
+                }
+            },
+            "mode": {
+                "browse": {
+                    "label": "section",
+                    "labels": ["code", "kits", "how-to", "glossary"],
+                    "tips": [
+                        "programming language concepts",
+                        "code other people published for you to build with",
+                        "reusable patterns for making projects",
+                        "definitions of key terms"
+                    ]
+                },
+                "purpose": {
+                    "label": "code",
+                    "labels": [
+                        "project",
+                        "kit",
+                        "output",
+                        "input",
+                        "decide",
+                        "name",
+                        "text",
+                        "pattern",
+                        "numbers",
+                        "truth",
+                        "lists",
+                        "sets",
+                        "tables",
+                        "docs",
+                        "types",
+                        "etc."
+                    ],
+                    "tips": [
+                        "project-level concepts",
+                        "what the kits this project borrows make available",
+                        "phrases, groups, stages, layouts and more",
+                        "time, buttons, keys, scenes, and more",
+                        "choose values based on other values",
+                        "name values, functions, and data structures for later use",
+                        "plain and formatted text",
+                        "describe the shape of text to test or find it",
+                        "numbers and math operations",
+                        "true, false, and none values",
+                        "lists and list operations",
+                        "sets, maps, and operations",
+                        "tables and table operations",
+                        "documentation and comments",
+                        "data types, conversions, and type checks",
+                        "advanced language concepts"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "user-created how-tos",
+                    "labels": ["all", "gallery & bookmarks"],
+                    "tips": [
+                        "see all user-created how-tos",
+                        "see only the user-created how-tos from this project's gallery and all bookmarks"
+                    ]
+                }
+            },
+            "note": {
+                "empty": "Names you define in your project will show up here.",
+                "keepTyping": "Keep typing to search…",
+                "noMatches": "No matches"
+            },
+            "purposes": {
+                "Project": {
+                    "header": "Project",
+                    "explanation": "/Concepts defined in your project./"
+                },
+                "Kit": {
+                    "header": "Kits",
+                    "explanation": "Things the kits this project borrows have shared with it."
+                },
+                "Outputs": {
+                    "header": "Outputs",
+                    "explanation": "/Different types of output that can be placed on stage./"
+                },
+                "Inputs": {
+                    "header": "Inputs",
+                    "explanation": "/Input streams from the world that change over time, causing a program to reevaluate./"
+                },
+                "Decisions": {
+                    "header": "Decisions",
+                    "explanation": "/Ways to choose between different values based on conditions./"
+                },
+                "Definitions": {
+                    "header": "Definitions",
+                    "explanation": "/Ways to name values, functions, and data structures for later use./"
+                },
+                "Numbers": {
+                    "header": "Numbers",
+                    "explanation": "/Numbers, units, and math operations./"
+                },
+                "Text": {
+                    "header": "Text",
+                    "explanation": "/Plain and formatted text, and ways of manipulating them./"
+                },
+                "Patterns": {
+                    "header": "Patterns",
+                    "explanation": "/Describe the shape of text with a pattern, delimited by \\⣿\\, then test whether text fits the shape (\\≈\\) or find every place it appears (\\⌕\\)./"
+                },
+                "Truth": {
+                    "header": "Truth",
+                    "explanation": "/True, false, and none values and ways of using them for logic./"
+                },
+                "Lists": {
+                    "header": "Lists",
+                    "explanation": "/Lists and list operations, good for storing values in a particular order./"
+                },
+                "Maps": {
+                    "header": "Maps",
+                    "explanation": "/Sets, maps, and their operations, good for storing collections of values, or mappings from one value to others./"
+                },
+                "Tables": {
+                    "header": "Tables",
+                    "explanation": "/Tables and table operations, good for storing structured data in rows and columns./"
+                },
+                "Types": {
+                    "header": "Types",
+                    "explanation": "/Ways of declaring that named values should have a particular data type and checking that they do./"
+                },
+                "Documentation": {
+                    "header": "Documentation",
+                    "explanation": "/Ways of adding comments and explanations to your code./"
+                },
+                "Advanced": {
+                    "header": "Advanced",
+                    "explanation": "/Advanced language concepts and features that you probably won't need./"
+                },
+                "Hidden": {
+                    "header": "Hidden",
+                    "explanation": "/Concepts that are hidden from the main documentation./"
+                },
+                "How": {
+                    "header": "How-to",
+                    "explanation": "/Common patterns for creating different kinds of projects./"
+                },
+                "GalleryHow": {
+                    "header": "Gallery how-to",
+                    "explanation": "/Common patterns for creating different kinds of projects, from your galleries./"
+                }
+            },
+            "how": {
+                "explain": {
+                    "header": "How-tos",
+                    "explanation": "/Short examples that show how to do things in @wordplay. Press play on any preview to see it run, then open it to read how it works./"
+                },
+                "category": {
+                    "characters": "create and control characters",
+                    "styling": "style characters and text",
+                    "animation": "animate characters and text",
+                    "layout": "arrange characters and text",
+                    "music": "make music and sound",
+                    "randomization": "randomize things",
+                    "remembering": "track changes and choices",
+                    "stories": "tell a story",
+                    "motion": "use physics",
+                    "video": "use a camera",
+                    "organizing": "organize a bigger project",
+                    "gallery": "created by your fellow Wordplay directors"
+                },
+                "bookmarked": "Bookmarked",
+                "community": "From creators",
+                "galleries": "From your galleries",
+                "wordplay": "From Wordplay",
+                "related": "Not what you're looking for?",
+                "conceptHowTos": "How-to",
+                "howToGalleryButton": {
+                    "label": "see to the how-to in the space",
+                    "tip": "see to the how-to in the space"
+                }
+            },
+            "glossary": {
+                "explain": {
+                    "header": "Glossary",
+                    "explanation": "/Terms and ideas used throughout the @wordplay programming language and platform./"
+                }
+            },
+            "tour": {
+                "launch": "take a tour of the guide",
+                "guide": "The /guide/ contains *documentation* for all of @wordplay's *programming language* concepts and *capabilities*.",
+                "code": "This is the /code/ section. It contains *programming language* documentation — the building blocks you can combine to make programs.",
+                "howto": "This is the /how-to/ section. It contains *useful patterns* for achieving particular behaviors in your projects.",
+                "mode": "Use this /toggle/ to switch between the *code* and *how-to* sections yourself.",
+                "search": "The /search/ box is helpful for *discovering* features, or finding one quickly *by name*."
+            }
+        },
+        "dialog": {
+            "share": {
+                "header": "Sharing",
+                "explanation": "Share this project with galleries or the world.",
+                "subheader": {
+                    "gallery": {
+                        "explanation": "Add this project in a gallery alongside other creators, or create a gallery on your <projects@://projects> page. If you add a project to a public gallery, your project will become public."
+                    },
+                    "public": {
+                        "header": "Public/Private",
+                        "explanation": "Public projects and galleries can be seen by anyone in the world. Our goal is for this content to bring affirmation and joy, and publicly sharing is a way to do that. But it also means following some rules. You promise that your project does not:"
+                    },
+                    "pii": {
+                        "explanation": "Sharing personally identifiable information (PII) publicly can put creators at risk, so we detect possible PII and warn creators to either remove the sensitive data or mark it as non-sensitive.\n\nBelow is a list of possible PII in this project you have marked as non-sensitive. You can click the button next to it to mark it as sensitive again, but doing so means that your project won't be saved online anymore."
+                    },
+                    "preview": {
+                        "explanation": "This is the little glyph that represents your project in lists and galleries. Auto picks one based on what your project shows; Custom lets you pin a single character or emoji."
+                    },
+                    "remix": {
+                        "explanation": "A /remix/ is a copy of a project that someone changed to make their own. We remember where a remix came from, so the person who made the original still gets credit."
+                    },
+                    "research": {
+                        "header": "Research",
+                        "explanation": "Sometimes we write and talk about Wordplay — in research papers, in talks, and in what we show teachers and families. If you turn this on, we can show this project as an example, without your name, your username, or anything else that says the account is yours.\n\nYou can turn this off any time. Turning it off means we stop using your project in anything new, but it can't take back something we already published or presented."
+                    },
+                    "kit": {
+                        "explanation": "A kit is one source you've published for other people to build with. Anything you mark with ↑ becomes part of it."
+                    }
+                },
+                "tab": {
+                    "label": "sharing settings",
+                    "labels": [
+                        "Gallery",
+                        "Public",
+                        "Preview",
+                        "Privacy",
+                        "Remixes",
+                        "Kit"
+                    ],
+                    "tips": [
+                        "choose a gallery to show this project in",
+                        "choose who can see this project",
+                        "choose the glyph that represents this project in lists",
+                        "review personal information found in this project",
+                        "see what this project was remixed from, and what has remixed it",
+                        "publish part of this project for other people to use"
+                    ]
+                },
+                "pii": {
+                    "none": "No personal information found."
+                },
+                "remix": {
+                    "source": "This project is a remix of:",
+                    "remixes": "These projects are remixes of this one:",
+                    "none": "No remixes of this project have been shared yet. A remix starts out private, so it only shows up here after the person who made it decides to make it public.",
+                    "unknown": "We couldn't find the project this was remixed from. It may have been deleted, or it may not be public."
+                },
+                "field": {
+                    "emailOrUsername": {
+                        "placeholder": "email/username",
+                        "description": "email or username of the person who you want to give edit access"
+                    },
+                    "preview": {
+                        "placeholder": "preview glyph",
+                        "description": "single character or emoji to use as this project's preview glyph"
+                    }
+                },
+                "mode": {
+                    "public": {
+                        "label": "visibility",
+                        "labels": ["private", "public"],
+                        "tips": [
+                            "only you and collaborators can see this project",
+                            "anyone can see this project"
+                        ]
+                    },
+                    "preview": {
+                        "tips": [
+                            "let the project pick its own preview glyph based on what it shows",
+                            "pin a glyph you choose"
+                        ]
+                    },
+                    "research": {
+                        "label": "research",
+                        "labels": ["not shared", "shared anonymously"],
+                        "tips": [
+                            "don't show this project in research or communications about Wordplay",
+                            "let Wordplay show this project anonymously in research and communications about Wordplay"
+                        ]
+                    }
+                },
+                "error": {
+                    "unknown": "We don't know a creator with this email.",
+                    "anonymous": "You must be <logged in@://login> to share.",
+                    "self": "You can't add yourself.",
+                    "invalidPreview": "Pick exactly one character or emoji."
+                },
+                "button": {
+                    "submit": "Share the project with this email address",
+                    "sensitive": {
+                        "tip": "mark this text as sensitive again",
+                        "label": "sensitive"
+                    }
+                },
+                "options": {
+                    "gallery": "gallery chooser",
+                    "source": "source to publish"
+                },
+                "kit": {
+                    "nothing": "Nothing here is shared yet. Put ↑ in front of a name, function, or structure to share it, like \\↑ sunset/en: 🔴\\, and it can become a kit.",
+                    "heading": {
+                        "name": "Name",
+                        "exports": "What this kit shares",
+                        "versions": "Versions",
+                        "listing": "Who can find it"
+                    },
+                    "unpublished": "You haven't published this one yet.",
+                    "name": {
+                        "placeholder": "name",
+                        "description": "what to call this kit"
+                    },
+                    "derived": "Your kit's description and search terms are taken from the first sentence of this source's documentation.",
+                    "undescribed": "this source has no documentation yet",
+                    "discovery": "Moderators can unlist a published version. Anything borrowed by others still works, even if unlisted.",
+                    "listing": {
+                        "label": "listing",
+                        "labels": ["unlisted", "listed"],
+                        "tips": [
+                            "nobody can find this kit in the guide, and anything already borrowing it keeps working",
+                            "anyone can find this kit in the guide, once a moderator has reviewed it"
+                        ]
+                    },
+                    "remedy": "Change the source and publish a new version, and a moderator will look at it again.",
+                    "moderation": {
+                        "unrequested": "not asked to be listed",
+                        "pending": "waiting for a moderator to review it",
+                        "approved": "reviewed and listed",
+                        "denied": "a moderator asked for changes"
+                    },
+                    "publish": {
+                        "label": "publish",
+                        "tip": "publish a new version of this kit"
+                    },
+                    "version": "version $version",
+                    "problem": {
+                        "exports": "nothing here is shared yet",
+                        "invalid": "that isn’t a name I can read"
+                    },
+                    "unreviewed": "Nobody reviews an unlisted kit. Anyone you give the borrow line to can still read it.",
+                    "permanent": "Publishing a version is permanent: other people’s programs borrow it by number, so taking one back would break them.",
+                    "confirm": "Publish it",
+                    "withdraw": {
+                        "label": "withdraw",
+                        "tip": "withdraw this version, which is only possible while the kit is unlisted"
+                    },
+                    "withdrawable": "This kit has never been listed, so nobody could have found it yet — you can still withdraw the newest version.",
+                    "unpublishable": "This kit can't be published yet:",
+                    "failed": "I couldn't publish your kit. Check that you're online and try again."
+                }
+            },
+            "settings": {
+                "header": "Settings",
+                "explanation": "Change how Wordplay looks, how you write code, and how programs use your devices.",
+                "button": {
+                    "show": "show settings dialog"
+                },
+                "tab": {
+                    "label": "settings groups",
+                    "labels": [
+                        "Appearance",
+                        "Code",
+                        "Camera + Mic",
+                        "Sound + Music"
+                    ],
+                    "tips": [
+                        "how Wordplay itself looks and feels: font, colors, tiles, and animation",
+                        "how code looks and feels while you write it",
+                        "which camera and microphone programs read from",
+                        "how a program's music, speech, and captions reach you"
+                    ]
+                },
+                "subheader": {
+                    "music": "Music",
+                    "say": "Say",
+                    "cues": "Cues"
+                },
+                "mode": {
+                    "layout": {
+                        "label": "layout",
+                        "labels": [
+                            "auto",
+                            "row",
+                            "stack",
+                            "two",
+                            "one",
+                            "free"
+                        ],
+                        "tips": [
+                            "lay out tiles automatically based on window size and shape",
+                            "a horizontal screen layout",
+                            "a vertical screen layout",
+                            "two most recent tiles, side by side",
+                            "only the most recent tile",
+                            "moveable and resizable tiles on a canvas"
+                        ]
+                    },
+                    "placement": {
+                        "label": "stage placement",
+                        "labels": [
+                            "top left",
+                            "top right",
+                            "bottom left",
+                            "bottom right"
+                        ],
+                        "tips": [
+                            "place the stage in the top left, and the other tiles in matching places around it",
+                            "place the stage in the top right, and the other tiles in matching places around it",
+                            "place the stage in the bottom left, and the other tiles in matching places around it",
+                            "place the stage in the bottom right, and the other tiles in matching places around it"
+                        ]
+                    },
+                    "animate": {
+                        "label": "animation speed",
+                        "labels": [
+                            "off",
+                            "1/4",
+                            "1/3x",
+                            "1/2x",
+                            "1x",
+                            "2x",
+                            "5x",
+                            "10x",
+                            "auto"
+                        ],
+                        "tips": [
+                            "animations off",
+                            "quarter speed",
+                            "third speed",
+                            "half speed",
+                            "normal speed",
+                            "double speed",
+                            "five speed",
+                            "ten speed",
+                            "use the current device setting"
+                        ]
+                    },
+                    "dark": {
+                        "label": "theme",
+                        "labels": ["light", "dark", "auto"],
+                        "tips": [
+                            "lighter colors",
+                            "darker colors",
+                            "use the current device setting"
+                        ]
+                    },
+                    "adaptOutput": {
+                        "label": "project colors",
+                        "labels": ["keep", "flip"],
+                        "tips": [
+                            "show a project's colors exactly as it wrote them, even on a dark screen",
+                            "on a dark screen, flip a bright project's colors dark: every color keeps its hue, and colors stay as far apart as the project made them"
+                        ]
+                    },
+                    "blocks": {
+                        "label": "editor",
+                        "labels": ["text", "blocks"],
+                        "tips": ["edit code as text", "edit code as blocks"]
+                    },
+                    "blockDensity": {
+                        "label": "block spacing",
+                        "labels": ["compact", "normal", "spacious"],
+                        "tips": [
+                            "tighter blocks to fit more code on screen",
+                            "default block spacing",
+                            "looser blocks for easier selection and dragging"
+                        ]
+                    },
+                    "space": {
+                        "label": "space markers",
+                        "labels": ["hide", "show"],
+                        "tips": [
+                            "do not show space and tab indicators",
+                            "show space and tab indicators explicitly"
+                        ]
+                    },
+                    "lines": {
+                        "label": "line numbers",
+                        "labels": ["hide", "show"],
+                        "tips": [
+                            "do not show line numbers in text mode",
+                            "show line numbers in text mode"
+                        ]
+                    },
+                    "wrap": {
+                        "label": "wrap lines",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "long lines scroll horizontally in text mode",
+                            "long lines wrap to the editor window in text mode"
+                        ]
+                    },
+                    "tab": {
+                        "label": "tab key",
+                        "labels": ["switch focus", "insert tab"],
+                        "tips": [
+                            "tab moves keyboard focus to the next control",
+                            "tab inserts a tab in the editor"
+                        ]
+                    },
+                    "writing": {
+                        "label": "writing layout",
+                        "labels": [
+                            "horizontal",
+                            "vertical rtl",
+                            "vertical ltr",
+                            "automatic"
+                        ],
+                        "tips": [
+                            "horizontal text, read left to right",
+                            "vertical text, read right to left",
+                            "vertical text, read left to right",
+                            "follow the language's writing layout"
+                        ]
+                    },
+                    "words": {
+                        "label": "keywords",
+                        "labels": ["symbols", "words"],
+                        "tips": [
+                            "show built-in keywords as symbols",
+                            "show built-in keywords as words in your language"
+                        ]
+                    },
+                    "musicVisualization": {
+                        "label": "visualization",
+                        "labels": [
+                            "orchestra",
+                            "light show",
+                            "mood",
+                            "sheet music",
+                            "off"
+                        ],
+                        "tips": [
+                            "Show music as an orchestra of instruments",
+                            "Show music as changing light",
+                            "Show music as a cloud of color and shape that changes with the feeling of the music",
+                            "Show the notes as written music on a staff, scrolling past as they play",
+                            "Don't show music"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "volume",
+                        "labels": ["off", "quiet", "full"],
+                        "tips": [
+                            "Mute all music",
+                            "Play music quietly",
+                            "Play music at full volume"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "while speaking",
+                        "labels": ["quiet", "quieter", "silent"],
+                        "tips": [
+                            "Lower music a little while something is spoken",
+                            "Lower music a lot while something is spoken",
+                            "Silence music while something is spoken"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "vibration",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Don't vibrate on the beat",
+                            "Vibrate on the beat, where the device supports it"
+                        ]
+                    },
+                    "cues": {
+                        "label": "evaluation cues",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Make no sound when the program reevaluates",
+                            "Play a short sound each time the program reevaluates, one for each kind of input"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "collision cues",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Make no sound when output collides",
+                            "Play a short sound when output collides, louder the harder the hit"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "animation cues",
+                        "labels": ["off", "on"],
+                        "tips": [
+                            "Make no sound when output animates",
+                            "Play a short sound each time an animation reaches a pose, with the sound following what the pose does"
+                        ]
+                    },
+                    "captionSize": {
+                        "label": "caption size",
+                        "labels": ["¾", "1x", "1½", "2x", "3x"],
+                        "tips": [
+                            "Show smaller captions",
+                            "Show captions at the standard size",
+                            "Show captions half again as large",
+                            "Show captions twice as large",
+                            "Show captions three times as large"
+                        ]
+                    }
+                },
+                "options": {
+                    "face": "font face",
+                    "mic": "microphone",
+                    "camera": "camera",
+                    "voice": "Say voice",
+                    "default": "default"
+                }
+            },
+            "notifications": {
+                "header": "Notifications",
+                "explanation": "Notifications from new chats and published how-tos",
+                "open": "open notifications dialog",
+                "howToNotifications": {
+                    "label": "notifications for new how-tos",
+                    "labels": ["off", "on"],
+                    "tips": [
+                        "do not notify me of new how-tos",
+                        "notify me of new how-tos"
+                    ]
+                },
+                "clearAll": {
+                    "label": "clear all notifications",
+                    "tip": "clear all notifications"
+                },
+                "notification": {
+                    "howToHeader": "New how-to titled \"$title\" was posted",
+                    "projectChatHeader": "New message in project \"$name\"",
+                    "howToChatHeader": "New message in how-to \"$title\"",
+                    "moderationHeader": "Message in \"$name\" requires moderation action",
+                    "link": "details",
+                    "reportedHeader": "Something you made in \"$title\" was reported and is being reviewed",
+                    "reportReceivedHeader": "Your report about \"$title\" was sent to whoever is responsible",
+                    "decisionHeader": "A decision was made about something you made in \"$title\"",
+                    "outcomeHeader": "A decision was made about what you reported in \"$title\"",
+                    "because": "Because it:",
+                    "note": "They said:",
+                    "reviewPending": "$#count[Something is|$count things are] waiting for you to review"
+                },
+                "delete": "delete this notification",
+                "popup": "$#count[1 notification|$count notifications]",
+                "moderate": {
+                    "label": "review what is waiting",
+                    "tip": "go to the things waiting for you to review"
+                }
+            },
+            "locale": {
+                "header": "Language",
+                "choose": "Choose a language",
+                "explanation": "Choose languages for the interface, tutorial, and documentation. Languages marked 🤖 are still largely machine translated, so some text may be unreadable or incorrect.",
+                "localizeHelp": "/To help improve translations in your language, click the ✎ pencil icon at the *bottom of the page* to turn on localization mode and suggest improvements./",
+                "subheader": {
+                    "selected": "Selected",
+                    "supported": "Available"
+                },
+                "search": {
+                    "description": "Filter languages by name or region",
+                    "placeholder": "language or region"
+                },
+                "button": {
+                    "show": "choose language(s) for the website",
+                    "replace": "use this language",
+                    "add": "use this language and the current ones",
+                    "remove": "remove this language",
+                    "menu": "other languages"
+                },
+                "request": {
+                    "header": "Don't see your language?",
+                    "explanation": "Pick a language and region and we'll open a GitHub issue to discuss adding it.",
+                    "searchPlaceholder": "language or country",
+                    "searchDescription": "Filter the language and country menus",
+                    "languageLabel": "language",
+                    "regionLabel": "region",
+                    "submit": "Request",
+                    "submitting": "Sending request…",
+                    "success": "Discuss this request with us on GitHub!",
+                    "alreadyRequested": "Someone already requested this language. Join the discussion on GitHub!",
+                    "error": "Something went wrong. Please try again.",
+                    "alreadySupported": "That language and region is already supported.",
+                    "requiresLogin": "You must be signed in to request a language."
+                }
+            },
+            "help": {
+                "header": "Shortcuts",
+                "explanation": "Use these keyboard commands for more efficient editing.",
+                "subheader": {
+                    "moveCursor": "Move",
+                    "editCode": "Edit",
+                    "insertCode": "Insert",
+                    "debug": "Debug",
+                    "format": "Format",
+                    "help": "Help"
+                },
+                "column": {
+                    "symbol": "Symbol",
+                    "shortcut": "Shortcut",
+                    "action": "Action",
+                    "change": "Change"
+                },
+                "change": {
+                    "on": "stop changing this shortcut",
+                    "off": "change this shortcut"
+                },
+                "capture": "press the keys you want",
+                "reset": "use the default shortcut",
+                "resetAll": "use all the default shortcuts",
+                "custom": "changed",
+                "feedback": {
+                    "bound": "$command is now $shortcut",
+                    "conflict": "$shortcut already does $command",
+                    "reserved": "your computer keeps $shortcut for itself",
+                    "unmodified": "a shortcut needs Control or Alt, or it would just be typing",
+                    "reset": "$command is back to its usual shortcut"
+                },
+                "via": {
+                    "toolbar": "toolbar",
+                    "chooser": "character chooser"
+                }
+            },
+            "feedback": {
+                "header": "Feedback",
+                "explanation": "Help us improve @wordplay by reporting 🪲 *problems* and sharing 💡 *ideas*!",
+                "button": {
+                    "show": "Show the feedback form.",
+                    "submit": {
+                        "tip": "submit your feedback",
+                        "label": "submit"
+                    },
+                    "delete": {
+                        "description": "Delete your feedback.",
+                        "prompt": "delete"
+                    },
+                    "like": "Like this feedback",
+                    "close": {
+                        "label": "close",
+                        "tip": "close this feedback as a moderator"
+                    },
+                    "comment": {
+                        "label": "submit",
+                        "tip": "submit comment on this feedback."
+                    }
+                },
+                "mode": {
+                    "label": "feedback",
+                    "labels": ["defects", "ideas"],
+                    "tips": [
+                        "report something that seems broken",
+                        "suggest new features or improvements"
+                    ]
+                },
+                "field": {
+                    "title": {
+                        "description": "title of your feedback",
+                        "placeholder": "title"
+                    },
+                    "defect": {
+                        "description": "description of your defect",
+                        "placeholder": "What steps did you take? What happened after? Be as precise as possible."
+                    },
+                    "idea": {
+                        "description": "description of your defect",
+                        "placeholder": "What are you trying to do that you can't do?"
+                    },
+                    "comment": {
+                        "description": "comment",
+                        "placeholder": "Add a comment to this feedback"
+                    },
+                    "github": {
+                        "description": "GitHub issue",
+                        "placeholder": "Link to GitHub issue"
+                    }
+                },
+                "subheader": {
+                    "defect": "defect",
+                    "idea": "idea",
+                    "moderator": "moderator"
+                },
+                "prompt": {
+                    "defect": "Didn't see the problem you're experiencing? Report it here. The more detail you provide, the better!",
+                    "idea": "Didn't see the idea you're thinking of? Suggest it."
+                },
+                "error": {
+                    "login": "You must be <logged in@://login> to submit feedback",
+                    "empty": "There is no feedback to show.",
+                    "url": "This is not a valid GitHub URL."
+                }
+            }
+        },
+        "collaborate": {
+            "label": "collaborate",
+            "translate": {
+                "label": "Translate messages into",
+                "none": "Don't translate",
+                "off": "Stop translating",
+                "dismiss": "dismiss",
+                "writingIn": "I'm writing in",
+                "translating": "Translating messages…",
+                "downloading": "Getting a $language translator for your browser…",
+                "translated": "$#count[Translated $count message into $language.|Translated $count messages into $language.]",
+                "direction": "$from → $to",
+                "onDevice": "Your browser translated these on your device, so no messages were sent to us.",
+                "error": "We couldn't translate these messages into $to. Try again in a little while.",
+                "messageError": "We couldn't translate this message.",
+                "messageErrors": "$#count[We couldn't translate $count message.|We couldn't translate $count messages.]"
+            },
+            "field": {
+                "message": {
+                    "description": "The chat message to submit",
+                    "placeholder": "Type a message"
+                }
+            },
+            "thread": {
+                "reply": "reply",
+                "replies": "$#count[$count reply|$count replies]",
+                "unseen": "$#count[$count new reply|$count new replies]",
+                "header": "Thread",
+                "back": "back to the conversation",
+                "empty": "No replies yet. Say something!",
+                "placeholder": "Reply…"
+            },
+            "reaction": {
+                "add": "react",
+                "close": "close the reactions",
+                "more": "more…",
+                "label": "Choose a reaction",
+                "pick": "react with $emoji",
+                "give": "$#count[add your $emoji — $count person has|add your $emoji — $count people have]",
+                "take": "$#count[take back your $emoji — $count person has it|take back your $emoji — $count people have it]",
+                "full": "This message has all the reactions it can hold."
+            },
+            "reference": {
+                "mode": {
+                    "on": "stop talking about this code",
+                    "off": "talk about the code where my cursor is"
+                },
+                "prompt": "Your message is about $location.",
+                "line": "line $line",
+                "lines": "lines $first–$last",
+                "label": "about $location: $code",
+                "invalid": "this code is gone",
+                "marker": "$#count[read the message about this code|read the $count messages about this code]"
+            },
+            "prompt": "Add collaborators, commenters, and viewers",
+            "role": {
+                "owner": "owner",
+                "collaborate": "collaborate",
+                "comment": "comment",
+                "view": "view",
+                "curate": "curate"
+            },
+            "table": {
+                "label": "who can reach this project",
+                "choose": "what $name can do",
+                "adding": "what they can do",
+                "audience": "who can see this chat",
+                "add": "add someone",
+                "cancel": "never mind adding someone"
+            },
+            "button": {
+                "submit": {
+                    "label": "send",
+                    "tip": "send a message to your collaborators and "
+                },
+                "delete": "delete this message",
+                "confirmDelete": "confirm delete?",
+                "transfer": {
+                    "description": "make this person the owner of the project",
+                    "prompt": "Make them the owner?",
+                    "consequence": "You will stay a collaborator and can keep editing, but you will no longer be able to delete this project."
+                }
+            },
+            "moderation": {
+                "header": "Report this message",
+                "explanation": "If this message does not meet our <community standards@://rights> or the type of feedback your requested, you can report it. When you report this message, it will be sent to the gallery curators and taken down until it can be reviewed.",
+                "report": {
+                    "tip": "report this message",
+                    "label": "report"
+                },
+                "moderate": {
+                    "tip": "go to moderation dashboard",
+                    "label": "moderate"
+                },
+                "pending": "This message is temporarily removed while waiting for moderation action.",
+                "removed": "This message has been removed for violating community or feedback guidelines.",
+                "inGallery": "This chat is in a gallery. It is subject to moderation by the gallery curators. You can report messages that violate our <community standards@://rights> for moderation."
+            },
+            "error": {
+                "unowned": "This project isn't stored online, so it can't have a chat or collaborators.",
+                "offline": "Unable to load this chat.",
+                "empty": "No messages.",
+                "deleted": "This message was deleted.",
+                "transferGallery": "This project is in a gallery. Giving it to someone else does not add them to that gallery, so they may not be able to see it there."
+            },
+            "announce": {
+                "transferred": "$name is now the owner of $project",
+                "privilege": "$name can now $privilege",
+                "removed": "$name can no longer reach this project",
+                "thread": "$#count[Thread on $name's message, $count reply|Thread on $name's message, $count replies]",
+                "reacted": "$#count[$emoji on this message, $count person|$emoji on this message, $count people]",
+                "unreacted": "$#count[Took back $emoji, $count person left|Took back $emoji, $count people left]",
+                "attached": "Talking about $location.",
+                "found": "$name said $opening"
+            },
+            "restrictGalleryCreatorAccess": {
+                "mode": {
+                    "label": "restrict project access",
+                    "labels": ["do not restrict", "restrict"],
+                    "tips": [
+                        "anyone who can see this gallery can see your project",
+                        "only the gallery curators can see your project"
+                    ]
+                }
+            },
+            "tour": {
+                "launch": "take a tour of collaborating",
+                "collaborate": "Everyone who can reach this project is listed here, and you can *chat* with the people who are allowed to. Only the /owner/, /collaborators/, and /commenters/ can see the chat.",
+                "collaborators": "Each person has one /privilege/. *Collaborate* means they can edit the project and chat about it. *Comment* means they can chat but not edit. *View* means they can look but not chat. *Owner* hands them the project. A gallery's /curators/ can always reach it, so you cannot change theirs.",
+                "add": "Press the *+* at the end of the list to add someone. Type their *email* or *username*, choose what they can do, and they'll join the list.",
+                "restrict": "When a project is in a *gallery*, by default *everyone* who can see the gallery can see your project. The /restrict/ toggle *hides* it from everyone except you and the gallery curators."
+            }
+        },
+        "presence": {
+            "peersLabel": "collaborators editing this project",
+            "joined": "$name joined.",
+            "left": "$name left.",
+            "waitingForSlot": "Waiting for an editing slot — four collaborators are already editing. When one leaves, you'll be able to edit too."
+        },
+        "palette": {
+            "label": "palette",
+            "labels": {
+                "mixed": "mixed",
+                "computed": "computed",
+                "default": "default",
+                "inherited": "inherited",
+                "notSequence": "not a sequence",
+                "format": "format",
+                "weight": "weight",
+                "light": "light",
+                "normal": "normal",
+                "bold": "bold",
+                "extra": "extra",
+                "italic": "italic",
+                "underline": "underline"
+            },
+            "button": {
+                "revert": "revert to default",
+                "set": "edit this property",
+                "addPhrase": "add a phrase after this",
+                "addGroup": "add a group after this",
+                "addShape": "add a shape after this",
+                "addMotion": "set place to Motion stream",
+                "addPlacement": "set place to Placement stream",
+                "remove": "remove this content",
+                "up": "move this content up",
+                "down": "move this content down",
+                "edit": "edit this content",
+                "sequence": "convert to Sequence",
+                "previousTrack": "show the previous @Track",
+                "nextTrack": "show the next @Track",
+                "addTrack": "add a @Track",
+                "removeTrack": "remove this @Track",
+                "clearTrack": "remove every note from this @Track",
+                "rewind": "go back to the beginning",
+                "playTrack": "hear this @Track alone, from the cursor",
+                "pauseTrack": "stop playing this @Track",
+                "playMusic": "hear this @Music from the cursor",
+                "pauseMusic": "stop playing",
+                "importMIDI": "import a MIDI file as @Music",
+                "record": "hum a tune to add to this @Track",
+                "stopRecording": "stop and write down what you hummed",
+                "makeChord": "make this note a chord",
+                "unmakeChord": "reduce this chord to one note",
+                "editMode": "switch to edit mode"
+            },
+            "toolbar": {
+                "label": "add output",
+                "addPhrase": "add a phrase",
+                "wrapPhrase": "show this value as a phrase",
+                "addRectangle": "add a rectangular shape",
+                "addCircle": "add a round shape",
+                "addPolygon": "add a many-sided shape",
+                "addPath": "add a line you can bend and draw with",
+                "draw": {
+                    "off": "draw a path on stage",
+                    "on": "stop drawing"
+                },
+                "wrapForm": "show this form on stage by wrapping it in a shape",
+                "group": "collect what you selected into a group",
+                "groupEmpty": "select some output to collect it into a group",
+                "groupScattered": "a group can only collect output that is in the same place",
+                "groupKind": "a group can hold a phrase, a group, speech, or music, but not a shape or the stage",
+                "addStage": "wrap everything in a stage, so you can control lighting, color, and frames",
+                "stageExists": "there is already a stage",
+                "addMusic": "add music, starting with a few notes to play with",
+                "addSay": "add speech, which is spoken out loud"
+            },
+            "prompt": {
+                "select": "To edit something, select it in your code or on the @Stage. To add something new, use the + buttons above.",
+                "editing": "Edit me!",
+                "readonly": "The palette is *read-only* in this mode. Switch to ✏️ *edit* mode to make changes."
+            },
+            "music": {
+                "staff": "the notes of this track",
+                "cursor": "drag to choose which beat to play from",
+                "findings": {
+                    "tracksSplit": "$#count[$#count track|$#count tracks] played more than one note at a time, so $extra more were added to hold the extra voices.",
+                    "percussionDropped": "$#count[$#count drum sound|$#count drum sounds] had no match in our kit, so they were left out.",
+                    "tracksTruncated": "$#count[$#count track was|$#count tracks were] left out, past the limit of $cap.",
+                    "pitchesSnapped": "$#count[$#count note|$#count notes] were not in the $scale scale and moved to the closest one, by up to $semitones semitones.",
+                    "beatsRounded": "$#count[$#count note length|$#count note lengths] were rounded, by at most $error of a beat.",
+                    "tempoFolded": "$#count[$#count tempo change|$#count tempo changes] were folded into the note lengths, so the music still speeds up and slows down. A @Music has one tempo, and this one is $using, so a @Beat will not match the notes.",
+                    "meterChanges": "$#count[$#count time signature change|$#count time signature changes] were left out: @Music has no time signatures.",
+                    "velocityRange": "Track $track has $#count[$#count loudness|$#count loudnesses]. Each note keeps its own, but there are no swells.",
+                    "outOfRange": "$#count[$#count note is|$#count notes are] more than three octaves from the first note of the scale. They will play, but not from a real recording."
+                },
+                "importing": "$step… $percent%",
+                "steps": {
+                    "label": "what an import is doing",
+                    "labels": [
+                        "Reading the file",
+                        "Working out the notes",
+                        "Naming the tracks",
+                        "Writing them into your program",
+                        "Checking your program"
+                    ],
+                    "tips": [
+                        "reading the file",
+                        "working out the notes",
+                        "naming the tracks",
+                        "writing them into your program",
+                        "checking your program"
+                    ]
+                },
+                "tooBig": "That file has $#count[$#count note|$#count notes], more than the $cap a project can hold. Try a shorter piece, or fewer instruments.",
+                "notMIDI": "that doesn't look like a MIDI file",
+                "badMIDI": "I couldn't read that MIDI file",
+                "listening": "Listening! Hum or sing a tune, then stop. I will write down the notes I hear and add them to this track.",
+                "heardNothing": "I didn't hear any notes. Try humming a little louder, or closer to the microphone.",
+                "transcribed": "I heard $#count[$#count note|$#count notes] in $scale at about $tempo beats a minute.",
+                "noMicrophone": "I can't hear your microphone",
+                "imported": "added $#count[$#count track|$#count tracks] and $notes notes",
+                "report": "What I imported",
+                "reportExplanation": "A @Music can hold most of what a MIDI file describes, but not all of it. Here is what changed on the way in.",
+                "chooser": "which music to edit",
+                "unnamed": "music $count",
+                "track": "track $count of $total",
+                "duration": {
+                    "label": "how long a new note lasts",
+                    "labels": ["𝅝", "𝅗𝅥", "𝅘𝅥", "𝅘𝅥𝅮", "𝅘𝅥𝅯"],
+                    "tips": [
+                        "a whole note, four beats",
+                        "a half note, two beats",
+                        "a quarter note, one beat",
+                        "an eighth note, half a beat",
+                        "a sixteenth note, a quarter of a beat"
+                    ]
+                },
+                "computed": "this track's notes are computed, so they can't be moved here",
+                "note": "note $degree, beat $beat",
+                "rest": "rest, beat $beat",
+                "added": "added note $degree at beat $beat, now $#count[$#count note|$#count notes]",
+                "removed": "removed note $degree at beat $beat, now $#count[$#count note|$#count notes]",
+                "moved": "note $degree, beat $beat"
+            },
+            "field": {
+                "coordinate": "edit coordinate",
+                "text": "edit text"
+            },
+            "sequence": {
+                "button": {
+                    "add": "add pose",
+                    "remove": "remove pose",
+                    "up": "move pose up",
+                    "down": "move pose down"
+                },
+                "field": {
+                    "percent": "edit percent"
+                },
+                "preset": {
+                    "label": "pre-defined sequence",
+                    "custom": "custom"
+                }
+            },
+            "error": {
+                "nan": "This is not a number.",
+                "percent": "Must be a percent between 0 and 100.",
+                "lessThanNext": "This must be less than the next entry.",
+                "moreThanPrevious": "This must be more than the previous entry."
+            },
+            "tour": {
+                "launch": "take a tour of the palette",
+                "palette": "You can use the /palette/ to edit *phrases*, *groups*, and the *stage* in ✏️ *edit* mode; in other modes its controls are read-only, and in ⏸️ *debug* mode each property also shows its *current value*.",
+                "text": "All the /properties/ of a phrase can be edited here. This is the *text* of the phrase, but other properties have their own controls.",
+                "set": "When a property is currently using its /default/ value, the *pencil* button lets you set an *explicit* value for it.",
+                "unset": "When a property has an /explicit/ value set, the *X* button removes that value, returning the property to its *default*.",
+                "editor": "All of the changes you make in the palette are reflected in the /code/ shown in the *editor*.",
+                "stage": "Phrases can also be /moved/, /resized/, and /rotated/ directly on the *stage*."
+            }
+        },
+        "save": {
+            "saving": "saving",
+            "saved": "saved",
+            "local": "saved",
+            "unsaved": "unsaved",
+            "sync": {
+                "projects": "Projects",
+                "galleries": "Galleries",
+                "characters": "Characters",
+                "howtos": "How-tos",
+                "chats": "Chats",
+                "kits": "Kits"
+            },
+            "status": {
+                "header": "Save status",
+                "intro": "Your work is kept on this device and saved in the cloud.",
+                "columns": {
+                    "device": "on this device",
+                    "cloud": "in the cloud",
+                    "unsaved": "unsaved"
+                },
+                "state": {
+                    "synced": "synced",
+                    "loading": "loading",
+                    "syncing": "saving",
+                    "offline": "offline",
+                    "failed": "failed"
+                },
+                "conversation": "a conversation",
+                "legend": "Unsaved means saved here but not online yet. It will save when you're back online.",
+                "errorsHeader": "Some things couldn't be saved online:"
+            }
+        },
+        "connection": {
+            "offline": "You're offline. Some things won't work until you are online.",
+            "unreachable": "We can't reach the database, so some things won't work. A VPN, browser extension, or network filter may be blocking it."
+        },
+        "banner": {
+            "deleteFailed": "We couldn't delete that.",
+            "saveFailed": "We couldn't save that",
+            "submitFailed": "We couldn't submit that",
+            "loadFailed": "We couldn't load this. Try again in a moment.",
+            "storageFull": "This device's storage is full, so we couldn't save a copy here. Your work is still in the cloud.",
+            "storageNearFull": "This device is almost out of storage, so Wordplay may soon be unable to save on it. Work saved in the cloud is safe; freeing up space on your device or browser lets it keep saving here.",
+            "saveTooLarge": "This is too big to save. Try removing some content."
+        },
+        "update": {
+            "message": "We released a new version.",
+            "refresh": "Refresh",
+            "updates": "see the updates",
+            "dismiss": "Dismiss"
+        },
+        "proxy": {
+            "banner": "You're looking at Wordplay as someone else. Nothing here is saved, and they can't see that you're here.",
+            "as": "as $name",
+            "remaining": "$#minutes[$minutes minute left|$minutes minutes left]",
+            "stop": {
+                "label": "Stop",
+                "tip": "Close this tab and stop looking as them"
+            },
+            "starting": "Starting…",
+            "ended": "This session is over, and you're signed out of it. Close this tab. To look again, start from the privileges page.",
+            "failed": "We couldn't start that session. Are you still signed in as an administrator?",
+            "expired": "That link has already been used, or it has expired. Start again from the <privileges page@://admin>."
+        },
+        "localize": {
+            "header": "Localize",
+            "reference": "English reference",
+            "guidance": "Guidance for this language",
+            "guidanceToggle": {
+                "on": "hide this language's guidance",
+                "off": "show this language's guidance"
+            },
+            "guidanceEmpty": "No guidance yet. Write what someone translating into this language should know.",
+            "terms": {
+                "header": "Term list",
+                "description": "Define terms and phrases for this language that you can reuse anywhere by writing $$ and the word's key, like $$program. When you change a word here, it changes everywhere it's used, so your translations stay consistent. This is just for reusing words; to explain a term to learners, use the glossary instead.",
+                "empty": "No words yet. Add one to reuse it across this language's text.",
+                "key": {
+                    "description": "the key for this word, written after a $ to use it",
+                    "placeholder": "key"
+                },
+                "phrase": {
+                    "description": "the word or phrase this key stands for",
+                    "placeholder": "word"
+                },
+                "add": "add this word to the list",
+                "remove": "remove this word from the list",
+                "invalidKey": "A key must start with a letter and use only letters and numbers, in any language.",
+                "duplicateKey": "This language already has a word with that key.",
+                "reservedKey": "That key is already used for a template value, so it can't be a word."
+            },
+            "glossary": {
+                "header": "Other written forms",
+                "description": "The glossary explains words learners meet. Each term has one main word, and here you can add the other ways that word gets written in this language — plurals, other endings, or another word that means the same. When writing text, you can link any of them with @ and the word, and the whole word stays part of the link. Every language writes its own list, so add as many or as few as your language needs.",
+                "reference": "in English",
+                "empty": "No other forms yet.",
+                "form": {
+                    "description": "another way this term is written",
+                    "placeholder": "form"
+                },
+                "add": "add this form to the term",
+                "remove": "remove this form from the term",
+                "ownWord": "This is the term’s own word, which already works on its own.",
+                "otherWord": "This is the word for $term, so it would be unclear which term you meant.",
+                "conceptName": "The documentation already defines this word, so a link to it would go there instead.",
+                "alreadyUsed": "This is already a form of $term, so it would be unclear which term you meant.",
+                "searchOnly": "A link ends at a space or a symbol, so this form will only help searching."
+            },
+            "description": "Welcome to localization mode! You can suggest improvements to the text in the @wordplay interface. Choose any text to suggest an edit. Your suggestions will be reviewed, and if approved, will become part of the platform for everyone to see. Thanks for helping make Wordplay more accessible for everyone in the world!",
+            "toggle": {
+                "mode": {
+                    "on": "leave localization mode",
+                    "off": "enter localization mode to suggest edits to the platform's text in the current language."
+                }
+            },
+            "button": {
+                "edit": "Suggest an edit to this text",
+                "editTip": "Suggest an edit to this control's tooltip",
+                "submit": "Submit suggested edit",
+                "cancel": "Discard suggested edit",
+                "revert": "Revert to official text",
+                "prev": "Edit the previous item",
+                "next": "Edit the next item"
+            },
+            "field": {
+                "plain": {
+                    "description": "Suggested replacement text",
+                    "placeholder": "Enter replacement..."
+                },
+                "formatted": {
+                    "description": "Suggested replacement (supports markup formatting)",
+                    "placeholder": "Enter formatted replacement..."
+                },
+                "name": {
+                    "description": "Suggested name (must be a valid Wordplay name)",
+                    "placeholder": "Enter name..."
+                },
+                "filter": {
+                    "description": "Filter translation strings by path or description",
+                    "placeholder": "Filter..."
+                }
+            },
+            "inputs": {
+                "header": "Inputs this template accepts",
+                "usedTip": "Click to insert another reference at the cursor",
+                "unusedTip": "Click to insert this reference at the cursor",
+                "missing": "Missing inputs:",
+                "legacy": "Replace these old positional refs with named refs:",
+                "unknown": "These references don't match a declared input or terminology, so they won't substitute:",
+                "submitBlocked": "Reference every input before submitting",
+                "plural": {
+                    "header": "Versions this language needs",
+                    "tip": "A count: click to insert one version of the sentence for each of this language's $forms plural forms",
+                    "arity": "$name has $found version(s), but this language needs $expected.",
+                    "missing": "$name is a count, so choose a version of the sentence for each plural form.",
+                    "example": "for example"
+                }
+            },
+            "strings": "Translation strings",
+            "emotion": "Choose an emotion",
+            "invalidName": "Not a valid Wordplay name",
+            "invalidConceptLinks": "These concept links don't resolve in the current language. Did you misspell one, or remove it on purpose?"
+        },
+        "edit": {
+            "node": "$node$type[, $type|]",
+            "before": "before $after[$after|end]",
+            "inside": "in $token, between $before[$before|start] and $after[$after|end]",
+            "between": "between $before[$before|start] and $after[$after|end]",
+            "line": "empty line between $before[$before|start] and $after[$after|end]",
+            "conflicts": "$#count[$count conflict|$count conflicts]",
+            "delimiterMatchedSameLine": "matching $name on the same line",
+            "delimiterMatchedBelow": "matching $name $#lines[$lines line below|$lines lines below]",
+            "delimiterMatchedAbove": "matching $name $#lines[$lines line above|$lines lines above]",
+            "delimiterUnmatched": "no matching delimiter",
+            "assign": "/$name[Eager to join|Considers leaving]…/",
+            "append": "/Eager to insert…/",
+            "remove": "/Considers leaving…/",
+            "replace": "/Wants to step in…/",
+            "area": "type code"
+        },
+        "template": {
+            "unwritten": "TBD",
+            "unparsable": "Unparsable template: $template",
+            "machineTranslated": "This was machine translated, so it may not be readable or correct.",
+            "locallyRevised": "This text has been locally revised and differs from the official translation."
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "Hide the sounds the voice can sing",
+                "off": "Show the sounds the voice can sing"
+            },
+            "groups": [
+                "vowels",
+                "approximants",
+                "l sounds",
+                "nasals",
+                "hissing sounds",
+                "rolled sounds",
+                "stopped sounds",
+                "clicks"
+            ],
+            "examples": [
+                "see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "Hear $symbol",
+            "insert": "Type $symbol"
+        },
+        "emoji": {
+            "noCharacters": "Create a custom character",
+            "skinTone": "skin tone",
+            "script": "scripts",
+            "scriptLabel": "filter by script",
+            "presentation": {
+                "label": "emoji color",
+                "labels": ["color", "black and white"],
+                "tips": [
+                    "insert emoji in color",
+                    "insert emoji in black and white"
+                ]
+            },
+            "moreLanguages": "and $count more",
+            "pickFilter": "Choose a category or script",
+            "moreGlyphs": "Showing $count — search to find more",
+            "groups": {
+                "label": "groups",
+                "labels": [
+                    "🎨",
+                    "😀",
+                    "👤",
+                    "🐱",
+                    "🍔",
+                    "🚲",
+                    "⚽",
+                    "🏠",
+                    "⚡",
+                    "🏳️",
+                    "🔡",
+                    "🔠",
+                    "➗",
+                    "📐",
+                    "⬇️",
+                    "1️⃣",
+                    "Ⅶ",
+                    "💰",
+                    "🔍"
+                ],
+                "tips": [
+                    "custom",
+                    "smileys & emotion",
+                    "people & body",
+                    "animals & nature",
+                    "food & drink",
+                    "activities",
+                    "travel & places",
+                    "objects",
+                    "symbols",
+                    "flags",
+                    "lowercase",
+                    "uppercase",
+                    "mathematical",
+                    "shapes",
+                    "arrows",
+                    "numbers",
+                    "letter numbers",
+                    "currency",
+                    "search results"
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,2185 @@
+{
+    "$schema": "../../../static/schemas/sections/node.json",
+    "node": {
+        "Dimension": {
+            "name": "$~dimensiune",
+            "description": "$~unitate $name[$name|parte]$exponent[ la puterea $exponent|]",
+            "emotion": "serious",
+            "doc": [
+                "$~Eu sunt o /unitate de măsură/!",
+                "Pot fi orice unitate standardizată, cum ar fi \\1m\\, \\10s\\, \\100g\\, sau orice altă unitate științifică. Sunt bucuroasă să fiu și orice unitate vrei să inventezi, cum ar fi \\17apple\\.",
+                "Pot fi combinată cu \\/\\ pentru a face unități de raport, cum ar fi \\17apple/day\\ și cu \\^\\ pentru a face unități exponențiale, cum ar fi \\9.8m/s^2\\",
+                "Trebuie să vin întotdeauna după un @Number. Dacă nu o fac, aș putea fi confundată cu @Reference, ceea ce ar fi destul de jenant!",
+                "Sunt destul de bună la găsirea neconcordanțelor dintre unități. De exemplu, \\1cat + 1dog\\🪲 nu are niciun sens!",
+                "Dacă vreodată vrei să convertești între diferite valori de unități, vorbește cu @Convert."
+            ]
+        },
+        "Doc": {
+            "name": "$~explicaţie",
+            "description": "$~documentare$language[ în $language|], $#words[$#words cuvânt|$words cuvinte|$words de cuvinte]",
+            "emotion": "serious",
+            "doc": [
+                "$~Formatez lucrurile în mod bogat cu @Markup, cum ar fi explicații pentru unele dintre @Program ale tale, sau chiar cuvintele pe care le pui pe scenă cu @Phrase.",
+                "De exemplu, pot să apar înainte de orice @expression:",
+                "\\¶Chiar ar trebui să fie 7?¶\n7\\",
+                "De exemplu, mă poți pune înainte de @Bind:",
+                "\\¶Măsor cât de înalt este cineva¶\nînălțime2: 5m\\🪲",
+                "Sau înainte de un @FunctionDefinition:",
+                "\\¶Adun două numere¶\nƒ sumă2(a2•# b2•#) a2 + b2\\",
+                "Sau înainte de un @StructureDefinition:",
+                "\\¶Țin minte numele și fructul preferat al oamenilor¶\n•persoană(nume3•'' fruct•'')\\",
+                "Mă poți pune și chiar la începutul lui @Program ca să spui despre ce este întreaga reprezentație",
+                "\\¶Acest program spune salut¶\n\n'salut!'\\",
+                "Îmi poți da un @Language ca să-i ajuți pe alții să afle în ce limbă sunt scris:",
+                "\\¶Sunt o documentare în engleză¶\ndurată2: 5s\\🪲",
+                "Știai că poți face o listă cu mine? Du-te și vorbește cu @Docs."
+            ]
+        },
+        "Docs": {
+            "name": "$~listă de explicații",
+            "description": "$~listă de documentare$languages[ în $languages| de $count]",
+            "emotion": "serious",
+            "doc": [
+                "$~Sunt o listă de @Doc, utilă când ai mai multe traduceri ale lui @Doc în limbi diferite.",
+                "Nu trebuie să faci nimic special pentru a crea o listă. Doar pune mai multe @Doc unul lângă altul, așa:",
+                "\\¶Bună¶\nsalut: '…'\\🪲"
+            ],
+            "start": "$~Cum să le dăm valoare documentelor!"
+        },
+        "KeyValue": {
+            "name": "$~cartografiere",
+            "description": "$~cheia $key spre valoarea $value",
+            "emotion": "kind",
+            "doc": [
+                "$~Sunt o corespondență de la o *cheie* la o *valoare*, mereu într-o @Map.",
+                "Poți lega orice fel de @value de oricare altul. De exemplu, iată o corespondență de numere:",
+                "\\{1:1}\\",
+                "Sau o corespondență de la text la numere:",
+                "\\{'iepuraș': 1}\\"
+            ]
+        },
+        "Language": {
+            "name": "$~limbă",
+            "description": "$~limba $language[$language|nespecificată]$region[, regiunea $region|]",
+            "emotion": "eager",
+            "doc": [
+                "$~Sunt o etichetă de @language și lucrez cu @Name și @Doc!",
+                "Mă pricep foarte bine să fac *foarte clar* în ce limbă este scris ceva. Doar o mică linie oblică și câteva litere, și nimeni nu va mai fi vreodată confuz în privința limbii unui text.",
+                "De exemplu, dacă vrei să scrii „Limbă”, dar să arăți clar că este în engleză:",
+                "\\'Limbă'/ro\\",
+                "Poți face asta pentru un @Name:",
+                "\\sunet2: 'miau'\\🪲",
+                "…sau pentru un @Doc:",
+                "\\¶Onomatopee¶\nsunet2: 'miau'\\🪲",
+                "Uneori textul nu este scris într-o singură limbă — este un *amestec*. Ca spanglish, unde spaniola și engleza se amestecă. Pentru astfel de cazuri, scrie fiecare limbă cu o linie de subliniere între ele. Prima este limba *principală* — pe aceea o folosesc atunci când trebuie să aleg (de exemplu, ca să aleg ce fel de ghilimele să folosesc).",
+                "\\\"Hola gentleman!\"/es_en\\",
+                "\\¶Un salut bilingv¶\nhello/es_en: 'Hola domnule!'\\🪲",
+                "Poți adăuga și o singură @region, după o liniuță, exact ca la o singură limbă:",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
+                "Nu există o limită pentru câte limbi poți scrie în listă — doar să nu repeți aceeași limbă de două ori; te voi anunța dacă faci asta.",
+                "Poți scrie o limbă folosind <codul ei din 2 litere@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> sau *numele* ei, în acea limbă sau în engleză — `/es`, `/Español` și `/Spanish` înseamnă același lucru, la fel ca `/es-MX`, `/es-México` și `/es-Mexico`. Majusculele și accentele nu contează, așa că `/ESPANOL` funcționează la fel de bine. Un nume care are un spațiu în el se scrie fără spațiu, ca `/BahasaIndonesia`, pentru că o etichetă este mereu un singur cuvânt. Dacă nu recunosc o limbă sau o regiune, te voi anunța."
+            ],
+            "conflict": {
+                "UnknownLanguage": {
+                    "name": "$~limbă necunoscută",
+                    "explanation": "$~Nu știu această limbă",
+                    "resolution": "$~Eliminați acest cod de limbă"
+                },
+                "MissingLanguage": {
+                    "name": "$~limbă lipsă",
+                    "explanation": "$~Îmi lipsește o limbă. Poți adăuga una?",
+                    "resolution": "$~Eliminați eticheta de limbă goală"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~limbă duplicată",
+                    "explanation": "$~Ai folosit codul limbii „ $code ” de două ori. Etichetele pentru limbi mixte ar trebui să listeze fiecare limbă o singură dată.",
+                    "resolution": "$~Eliminați eticheta duplicată * $code *"
+                },
+                "UnknownRegion": {
+                    "name": "$~regiune necunoscută",
+                    "explanation": "$~Nu cunosc această regiune",
+                    "resolution": "$~Elimină această regiune"
+                }
+            }
+        },
+        "Name": {
+            "name": "$~nume",
+            "description": "$~nume $name[$name|fără nume]",
+            "emotion": "kind",
+            "doc": [
+                "$~Eu identific o @value, și sunt un mod util de a da o etichetă scurtă la ceva care era greu de evaluat, sau pe care nu vrei să îl evaluezi iar și iar.",
+                "@Bind îmi dă numele așa:",
+                "\\salut: 5\\🪲",
+                "Eu reprezint doar o singură valoare, și odată ce o am, nu mă pot schimba. De exemplu, dacă ai încerca să faci asta cu @Bind, ne-am plânge.",
+                "\\salut: 5\nsalut2: 3\\🪲",
+                "Tot ce trebuie să faci ca să obții valoarea mea este ca @Reference sau @PropertyReference să folosească numele. Aici, @Bind îmi dă un nume, apoi @Reference obțin valoarea care mi-a fost dată.",
+                "\\salut: 5\nsalut\\",
+                "Pentru că @Bind poate apărea în atât de multe locuri, și eu pot apărea în multe locuri. Am fost într-un @Block mai sus, dar pot fi într-un @FunctionDefinition. Aici dau un nume unui mesaj în mod temporar:",
+                "\\ƒ spune(mesaj•'') mesaj\\",
+                "Eu sunt definit în interiorul lui @FunctionDefinition, și de îndată ce funcția termină de evaluat, dispar.",
+                "Poți folosi @Language ca să arăți în ce limbă este numele meu. Acest lucru este util când împarți performanța ta cu alții, în cazul în care vor să citească programul tău."
+            ]
+        },
+        "Names": {
+            "name": "$~listă de nume",
+            "description": "$~nume $names[$names|gol]",
+            "emotion": "kind",
+            "label": {
+                "names": "$~nume"
+            },
+            "doc": [
+                "$~Sunt o listă de @Name, utilă atunci când vrei să dai unui @value mai multe nume, deseori cu @Language diferite.",
+                "Numele sunt separate prin \\,\\ simboluri. De exemplu, iată @Bind dând unei valori mai multe @Name",
+                "\\salut: 'bine ai venit'\\🪲"
+            ]
+        },
+        "Row": {
+            "name": "$~rând",
+            "description": "$~rând cu $#count[$#count celulă|$count celule|$count de celule]",
+            "emotion": "shy",
+            "doc": "$~Reprezint un rând într-un @Table. Probabil cel mai bine e să mergi să vorbești cu @Table, ei știu totul despre mine. Eu doar stau și mențin valorile în ordine :(",
+            "conflict": {
+                "InvalidRow": {
+                    "name": "$~rând nevalid",
+                    "explanation": "$~Rândurile trebuie să fie fie toate valori, fie toate @Bind.",
+                    "resolutionKeepPositional": "$~Eliminați celulele denumite, păstrați doar cele poziționale",
+                    "resolutionUnwrapInputs": "$~Eliminați numele din celulele denumite"
+                },
+                "MissingCell": {
+                    "name": "$~coloană lipsă",
+                    "explanation": "$~Îmi lipsește coloana $column",
+                    "resolution": "$~Adăugați o celulă substituentă pentru * $column *"
+                },
+                "ExtraCell": {
+                    "name": "$~coloană în plus",
+                    "explanation": "$~Pe baza tipului de tabel, sunt o coloană suplimentară care nu ar trebui să fie aici.",
+                    "resolution": "$~Eliminați celula suplimentară"
+                },
+                "UnknownColumn": {
+                    "name": "$~nume de coloană necunoscut",
+                    "explanation": "$~Nu cunosc nicio coloană cu acest nume.",
+                    "resolution": "$~Redenumiți la * $name *"
+                },
+                "UnexpectedColumnBind": {
+                    "name": "$~fără rânduri de legături",
+                    "explanation": "$~Ar trebui să fiu o valoare, nu @Bind."
+                }
+            }
+        },
+        "Token": {
+            "name": "$~jeton",
+            "description": "$~$label$text[ $text|]",
+            "emotion": "neutral",
+            "doc": [
+                "$~Sunt cea mai mică parte posibilă a unui spectacol — atomul din care sunt alcătuite toate personajele din Vers. Cum m-ai găsit?",
+                "Sunt substratul din care sunt alcătuite toate personajele din Vers. Sunt particula atomică a coregrafiei noastre."
+            ]
+        },
+        "TypeInputs": {
+            "name": "$~intrări de tip",
+            "description": "$~$#count[$#count tip de intrare|$count tipuri de intrare|$count de tipuri de intrare]",
+            "emotion": "curious",
+            "doc": "$~Sunt o listă de tipuri care înlocuiesc @TypeVariables într-o @StructureDefinition sau @FunctionDefinition. Îi ajut pe toți să știe ce fel de intrări vor primi."
+        },
+        "TypeVariable": {
+            "name": "$~variabilă de tip",
+            "description": "$~variabilă de tip $name",
+            "emotion": "curious",
+            "label": {
+                "type": "$~tip"
+            },
+            "doc": "$~Sunt o @type misterioasă pe @FunctionDefinition sau @StructureDefinition, oferită de @TypeInputs când oricare dintre ele este evaluat. @Set, @List și @Map mă folosesc.",
+            "conflict": {
+                "DuplicateTypeVariable": {
+                    "name": "$~variabilă de tip duplicată",
+                    "explanation": "$~Am același nume ca $duplicate",
+                    "resolution": "$~Eliminați variabila de tip duplicat"
+                }
+            }
+        },
+        "TypeVariables": {
+            "name": "$~variabile de tip",
+            "description": "$~$#count[$#count variabilă de tip|$count variabile de tip|$count de variabile de tip]",
+            "emotion": "curious",
+            "doc": "$~Sunt o listă de @TypeVariable."
+        },
+        "Markup": {
+            "name": "$~text formatat",
+            "description": "$~text formatat cu $#count[$#count paragraf|$count paragrafe|$count de paragrafe]",
+            "emotion": "serious",
+            "label": {
+                "paragraphs": "$~paragrafe"
+            },
+            "doc": [
+                "$~Sunt o listă de paragrafe, care folosește multe tipuri de @markup disponibile în @Doc, cum ar fi @Words, @WebLink, @ConceptLink și @Example.",
+                "Mă vei găsi într-un @Doc și în @FormattedLiteral:",
+                "\\¶Sunt documentare cu text *aldin*. Pot să mă refer la concepte precum @Phrase și pot lega spre <lucruri de pe web@https://wordplay.dev>.¶\nFraza(\n\t`Sunt text formatat pentru un @Phrase, folosind *aldin*, /cursiv/ și _sublinieri_`\n)\\"
+            ]
+        },
+        "Paragraph": {
+            "name": "$~paragraf",
+            "description": "$~paragraf $text",
+            "emotion": "serious",
+            "doc": [
+                "$~Sunt o serie de @Words, @ConceptLink, @WebLink și @Example, separate printr-o linie goală și în interiorul @Doc.",
+                "Tot ce trebuie să faci pentru a-mi scrie este să scrii câteva cuvinte într-un @Doc:",
+                "\\¶Sunt un paragraf într-un document.¶'un paragraf'\\",
+                "Dacă doriți mai multe paragrafe, puneți pur și simplu rânduri goale.",
+                "\\¶Paragraful 1. Paragraful 2. Paragraful 3.¶„trei paragrafe”\\"
+            ]
+        },
+        "WebLink": {
+            "name": "$~legătură",
+            "description": "$~legătură spre $url",
+            "emotion": "serious",
+            "doc": [
+                "$~Sunt un link către ceva de pe internet. Am nevoie doar de o descriere și un URL:",
+                "\\¶Eu sunt un <link@https://wordplay.dev> într-un document¶\n'exemplu de legătură'\\",
+                "Dacă cineva mă selectează, voi deschide o fereastră nouă la acel URL."
+            ]
+        },
+        "ConceptLink": {
+            "name": "$~caracter",
+            "description": "$~legătură spre $concept",
+            "emotion": "serious",
+            "doc": [
+                "$~Sunt un link către un caracter din Verse. Sunt de ajutor când vrei să scrii un @Doc și să faci referire la unul dintre noi.",
+                "De exemplu, să spunem că vrei să vorbești despre @Evaluate și cât de grozav este. Ai putea scrie:",
+                "\\¶Știi, @Evaluate este destul de grozav.¶'uite, un link de caracter!'\\",
+                "Caracterele au și numere Unicode care le corespund. De exemplu, @FunctionDefinition este 192. Poți face referire la orice caracter Unicode scriind @U/ și numărul lui, iar el va apărea:",
+                "\\`@U/192 este foarte drăguț!`\\",
+                "Și dacă îți creezi propriul caracter, poți face referire la el prin numele pe care i l-ai dat.",
+                "\\`@coolbeans/cat`\\",
+                "Oh... se pare că acel caracter nu există, așa că primești un mic pătrat. Dar dacă ar exista, ar apărea aici!"
+            ],
+            "kind": {
+                "codepoint": "$~caracterul Unicode $concept",
+                "ui": "$~o legătură către elementul de interfață $concept",
+                "how": "$~un link către instrucțiunile de la $concept",
+                "character": "$~caracterul personalizat $concept",
+                "tour": "$~o legătură către un tur al conceptului $concept"
+            }
+        },
+        "Words": {
+            "name": "$~cuvinte",
+            "description": "$~cuvinte $text",
+            "emotion": "serious",
+            "doc": [
+                "$~Sunt orice cuvinte doriți într-un @Doc. De exemplu:",
+                "\\¶May the Force be with you.¶\n'just some words!'\\",
+                "Uneori însă, este posibil să doriți să utilizați caracterele speciale pe care @Doc le folosește /ca/ cuvinte. De exemplu:",
+                "\\¶Prietenii mei folosesc @@, //, **, || și alte simboluri.¶ 'folosind caractere speciale!'\\",
+                "Dacă repetați doar acele caractere speciale, veți obține caracterul în loc de semnificația lor specială."
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$~format de font neacceptat",
+                    "explanation": "$~Prietenul meu, * $face *, nu știe cum să fie $format .",
+                    "resolution": "$~Eliminați formatarea"
+                }
+            }
+        },
+        "Example": {
+            "name": "$~exemplu",
+            "description": "$~exemplu de cod $code",
+            "emotion": "serious",
+            "doc": [
+                "$~Păstrez un exemplu de @code în interiorul unui @Doc, așa:",
+                "\\¶Iată un exemplu de adunare: \\1 + 2\\¶\n3 + 4\\",
+                "Dacă folosești Exemple în instrucțiunile tale, poți marca un Exemplu ca fiind evidențiat.",
+                "\\¶Iată un exemplu evidențiat: \\1 + 2\\⭐¶\n3 + 4\\",
+                "Exemplul evidențiat este afișat ca previzualizare în spațiul @how și în @guide."
+            ]
+        },
+        "Mention": {
+            "name": "$~menționează",
+            "description": "$~menționează $name",
+            "emotion": "serious",
+            "doc": [
+                "$~Sunt o referință fie la un termen \\¶@project¶\\ fie la o intrare dinamică \\¶$name¶\\.",
+                "Aceasta este mai ales o funcție internă, așa că nu trebuie să o cunoști."
+            ]
+        },
+        "Branch": {
+            "name": "$~ramură",
+            "description": "$~alegere de text formatat pe baza $condition",
+            "emotion": "serious",
+            "doc": [
+                "$~Sunt o modalitate de a alege între două segmente de explicație în funcție de dacă o @value de intrare a explicației este definită sau adevărată.",
+                "Aceasta este în mare parte o caracteristică internă, deci nu ar trebui să fie nevoie să o știi."
+            ]
+        },
+        "BinaryEvaluate": {
+            "name": "$~evaluare binară",
+            "description": "$~operație $operator pe $left și $right",
+            "emotion": "insecure",
+            "doc": [
+                "$~Sunt @Evaluate, dar într-o formă mai simplă, utilă atunci când vrei să folosești o @FunctionDefinition care acceptă două intrări.",
+                "De exemplu, iată cum ați putea utiliza @Evaluate pentru a aduna două numere:",
+                "\\1.+(1)\\",
+                "Nu sună puțin amuzant? Nu e greșit: spune doar să obții funcția de adunare pe 1 și apoi să o evaluezi.",
+                "Dar este mult mai ușor să folosești @BinaryEvaluate",
+                "\\1 + 1\\",
+                "Asta face totul puțin mai ordonat, chiar dacă este practic același lucru.",
+                "Există un singur lucru la care trebuie să fii atent: când sunt în această formă, evaluez de la stânga la dreapta. Asta ar putea fi confuz dacă ești obișnuit cu lucruri precum ordinea operațiilor în matematică.",
+                "Înseamnă că aceasta se evaluează într-un mod la care nu te-ai aștepta:",
+                "\\1 + 2 × 3 + 4\\🪲",
+                "În matematică, înmulțirea ar veni prima, apoi adunarea, deci rezultatul ar fi \\11\\. Dar, din moment ce evaluez în ordinea citirii, rezultatul este \\13\\."
+            ],
+            "label": {
+                "operator": "$~operator"
+            },
+            "right": "$~intrare",
+            "start": "$~Să evaluăm mai întâi $left",
+            "finish": "$~Uite, am făcut $value !",
+            "conflict": {
+                "OrderOfOperations": {
+                    "name": "$~ordine ambiguă",
+                    "explanation": "$~Eu evaluez de la stânga la dreapta, dar matematica de obicei evaluează ^ înainte de × ÷, iar × ÷ înainte de + −. Această ordine se numește PEMDAS. Alege cum vrei să evaluez asta.",
+                    "resolutionPEMDAS": "$~Aplicați ordinea matematică PEMDAS: evaluați $higher înainte de $lower",
+                    "resolutionReading": "$~Continuați ordinea de citire: evaluați $lower înainte de $higher",
+                    "resolutionWrap": "$~Adăugați paranteze pentru a face ordinea explicită"
+                }
+            }
+        },
+        "Bind": {
+            "name": "$~lega",
+            "description": "$~leagă $name[$name|fără nume]$value[ la $value|]",
+            "emotion": "excited",
+            "doc": [
+                "$~Eu dau nume *valorilor*.",
+                "Așa!",
+                "\\pi: 3.1415926\\🪲",
+                "Eu dau nume intrărilor pentru @FunctionDefinition și @StructureDefinition, dau nume valorilor din @Block. Dau nume la orice!",
+                "O, dar știai că poți da unei valori *mai multe nume*?",
+                "Sunt atât de încântat să îți spun despre asta! O @value, multe @Names. De exemplu:",
+                "\\joe: 5\\🪲",
+                "Vezi ce am făcut acolo?",
+                "O valoare, trei nume.",
+                "Poți să te referi la acel cinci prin *oricare* dintre aceste nume.",
+                "Acest lucru este util mai ales când vrei să dai nume în mai multe limbi:",
+                "\\joe: 5\\🪲",
+                "Vezi ce am făcut acolo? Trei nume pentru o valoare, doar în limbi diferite!",
+                "Bine, mai am un ultim secret.",
+                "Știai că pot lucra cu @Is pentru a-mi spune ce fel de valoare ar trebui să aibă un nume? Și dacă nu o are, îți voi spune?",
+                "Așa:",
+                "\\numărmare•#: 'un zilion'\\🪲",
+                "Vezi, am spus că \\bignumber\\ ar trebui să fie un număr, dar este text, iar acestea nu sunt compatibile și așa BUM!",
+                "Îți voi spune dacă nu se potrivesc.",
+                "Uneori s-ar putea să *trebuiască* să îmi spui ce fel de date are ceva, pentru că nu pot să îmi dau seama singur. Asta se întâmplă de obicei în @FunctionDefinition.",
+                "De exemplu, aici, @FunctionDefinition nu știe ce fel de valori au \\a\\ și \\b\\, pentru că nu le-am spus.",
+                "\\ƒ sumă(a b) a + b\\🪲",
+                "Dar putem schimba asta pentru a adăuga @Is, iar acum @FunctionDefinition știe că sunt numere:",
+                "\\ƒ sumă(a•# b•#) a + b\\"
+            ],
+            "label": {
+                "value": "$~valoare",
+                "names": "$~nume",
+                "type": "$~tip"
+            },
+            "start": "$~Să vedem ce valoare obținem din $value !",
+            "finish": "$~O, frumos, am $value ! Hai să-i spunem $name",
+            "conflict": {
+                "DuplicateName": {
+                    "conflict": {
+                        "name": "$~nume duplicat",
+                        "explanation": "$~Cineva are numele $shadowed așa că nu pot avea acest nume."
+                    },
+                    "resolution": "$~Există nume duplicate, doriți să eliminați unul?"
+                },
+                "DuplicateShare": {
+                    "name": "$~partajare duplicată",
+                    "explanation": "$~Am același nume ca $duplicate . Asta face ca nu se știe ce anume distribuim.",
+                    "resolution": "$~Eliminați această partajare duplicată"
+                },
+                "IncompatibleType": {
+                    "name": "$~tip incompatibil",
+                    "explanation": "$~Mă așteptam la $expected , dar am primit tipul $given",
+                    "resolution": "$~Convertește-l în $expected, deoarece $expected este cerut",
+                    "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
+                    "resolutionOtherwise": "$~Gestionați valoarea lipsă cu ??, deoarece $expected nu permite ø",
+                    "resolutionGuard": "$~Verificați dacă este un $expected mai întâi cu o gardă de tip, deoarece $expected nu poate fi celelalte tipuri posibile",
+                    "resolutionDeclaration": "$~Declară tipul explicit, deoarece $expected necesită păstrarea valorilor literale",
+                    "resolutionWrap": "$~Puneți-l într-o listă, set sau hartă, deoarece $expected are nevoie de o colecție de valori",
+                    "resolutionStructure": "$~Încadrați-l în $expected , deoarece slotul are nevoie de o valoare $expected",
+                    "resolutionDefault": "$~Dați legăturii o valoare inițială, deoarece $expected nu poate lipsi aici",
+                    "resolutionWiden": "$~Permiteți tipul valorii pentru această legare, deoarece $expected este prea restrâns pentru ceea ce este stocat efectiv",
+                    "resolutionReorder": "$~Schimbați intrările, deoarece tipurile lor se potrivesc mai bine în ordinea opusă — $expected aparține în celălalt slot",
+                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată.",
+                    "explanationDivideByZero": "$~Aceasta ar putea fi ø deoarece $source s-ar putea împărți la zero și este necesar un număr aici."
+                },
+                "MisplacedShare": {
+                    "name": "$~partajare plasată greșit",
+                    "explanation": "$~Pot împărtăși asta doar la începutul unei surse sau, dacă e o valoare sau o funcție, direct în interiorul unui @StructureDefinition.",
+                    "resolution": "$~Eliminați marcajul *↑*"
+                },
+                "MissingShareLanguages": {
+                    "name": "$~limbă lipsă",
+                    "explanation": "$~Dacă vrei să distribui asta, trebuie să spui în ce limbă este, ca și alții să știe dacă îl pot citi!",
+                    "resolution": "$~Eliminați marcajul *↑*"
+                },
+                "RequiredAfterOptional": {
+                    "name": "$~intrare obligatorie după una opțională",
+                    "explanation": "$~Nu pot fi aici, există un @Bind opțional în fața mea.",
+                    "resolution": "$~Mută intrările obligatorii înaintea celor opționale"
+                },
+                "UnexpectedEtc": {
+                    "name": "$~intrare neașteptată după lista de intrări",
+                    "explanation": "$~Pot avea doar lungime variabilă într-o @FunctionDefinition",
+                    "resolution": "$~Eliminați *…*"
+                },
+                "UnusedBind": {
+                    "name": "$~legătură nefolosită",
+                    "explanation": "$~Mă numesc $name , dar nimeni nu mă folosește. Poate că nu este nevoie de mine?",
+                    "resolution": "$~Ștergeți această legătură"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~ascunde un cuvânt-cheie",
+                    "explanation": "$~Acest nume este și cuvântul cheie $keyword , așa că îl voi citi aici ca nume; cuvântul $keyword funcționează în continuare în alte locuri."
+                }
+            }
+        },
+        "Block": {
+            "name": "$~bloc",
+            "description": "$~bloc cu $#count[$#count instrucțiune|$count instrucțiuni|$count de instrucțiuni]",
+            "emotion": "shy",
+            "doc": [
+                "$~Eu fac un mic spațiu liniștit și privat pentru evaluarea lucrurilor. Salut!",
+                "Așa:",
+                "\\(1 - 1) + 2\\",
+                "Asta ajută la clarificarea ordinii de evaluare.",
+                "@Bind ajută și el.",
+                "\\(\n\tnumărare: 10\n\tnumărare ^ numărare)\\",
+                "Vezi cum @Bind a făcut \\count\\? Are nume doar în interiorul meu. Deci asta nu va funcționa:",
+                "\\(\n\tnumărare: 10\n\tnumărare ^ numărare) + count\\🪲",
+                "Pentru că numărul a avut nume doar în interiorul meu.",
+                "Dacă îmi dai o @expression, îți dau înapoi doar @value ei:",
+                "\\(1 + 1)\\",
+                "Dacă îmi dai mai mult de una, le adun într-o listă, în ordine:",
+                "\\(1 2 3 4 5)\\",
+                "Instrucțiunile @Bind sunt efecte secundare, nu valori, așa că nu apar în listă:",
+                "\\(\n\ta: 1\n\tb: 2\n\ta + b\n\ta × b\n)\\",
+                "Asta dă \\[3 2]\\: doar valorile din cele două expresii care nu sunt @Bind."
+            ],
+            "label": {
+                "statements": "$~expresii"
+            },
+            "start": "$~Prima expresie",
+            "finish": "$~Gata, am primit $value",
+            "conflict": {
+                "ExpectedEndingExpression": {
+                    "name": "$~expresie lipsă",
+                    "explanation": "$~Am nevoie de cel puțin o expresie care nu este @Bind, deci am o valoare de returnat.",
+                    "resolution": "$~Adăugați o expresie finală"
+                }
+            }
+        },
+        "BooleanLiteral": {
+            "name": "$~literal boolean",
+            "description": "$~$value[adevărat|fals]",
+            "emotion": "precise",
+            "doc": "$~Sunt fie \\⊤\\, fie \\⊥\\. Consultați @Boolean pentru a afla mai multe despre frumoasa noastră logică.",
+            "start": "$~$value !"
+        },
+        "Borrow": {
+            "name": "$~împrumuta",
+            "description": "$~împrumută $name[$name|fără nume]",
+            "emotion": "excited",
+            "label": {
+                "source": "$~sursă",
+                "bind": "$~nume",
+                "version": "$~versiune"
+            },
+            "doc": [
+                "$~Eu @borrow @Bind care sunt partajate de alte @Source din reprezentația ta — folosește doar numele lor și eu voi aduce numele și @value lor.",
+                "Scrie \\↓\\ și apoi numele celeilalte @Source. Acea @Source trebuie să marcheze ce partajează cu \\↑\\, cum ar fi \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
+            "start": "$~Împrumutând $name din $source",
+            "conflict": {
+                "UnknownBorrow": {
+                    "name": "$~împrumut necunoscut",
+                    "explanation": "$~Nu cunosc o @Source cu acest nume.",
+                    "resolution": "$~Eliminați această împrumut"
+                },
+                "BorrowCycle": {
+                    "name": "$~împrumut care se referă la sine",
+                    "explanation": "$~aceasta depinde de $borrow , care depinde și de această @Source , deci programul nu poate fi evaluat.",
+                    "resolution": "$~Eliminați această împrumut pentru a rupe ciclul"
+                },
+                "MissingKitVersion": {
+                    "name": "$~versiune lipsă",
+                    "explanation": "$~un kit păstrează fiecare versiune pe care a avut-o vreodată, așa că trebuie să știu ce versiune din $kit vrei",
+                    "resolution": "$~Elimină acest împrumut"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~două versiuni ale aceluiași kit",
+                    "explanation": "$~pot folosi doar o versiune a unui kit odată, iar acest @Source cere două versiuni din $kit",
+                    "resolution": "$~Elimină acest împrumut"
+                },
+                "UnknownKit": {
+                    "name": "$~kit necunoscut",
+                    "explanation": "$~nu găsesc $kit",
+                    "resolution": "$~Elimină acest împrumut"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~împrumut duplicat",
+                    "explanation": "$~Ceva împrumutat mai sus folosește deja un nume pe care $name îl aduce, așa că nu pot spune la care te referi",
+                    "resolution": "$~Împrumută-l ca $name în schimb, ca numele lui să nu încurce"
+                },
+                "UnavailableKit": {
+                    "name": "$~kit indisponibil",
+                    "explanation": "$~$kit există, dar nu este partajat cu tine",
+                    "resolution": "$~Elimină acest împrumut"
+                },
+                "KitCannotBorrow": {
+                    "name": "$~kitul nu poate împrumuta",
+                    "explanation": "$~acest cod sursă este publicat ca un kit, iar un kit este singurul fișier pe care îl primesc cititorii — copiază ce împrumuți în acest cod sursă în loc să faci altceva",
+                    "resolution": "$~Elimină împrumutul"
+                }
+            },
+            "exception": {
+                "CycleException": {
+                    "description": "$~ciclul de împrumut",
+                    "explanation": "$~$borrow depinde de sine însuși"
+                }
+            }
+        },
+        "Changed": {
+            "name": "$~schimbat",
+            "description": "$~verificare de schimbare pe $stream",
+            "emotion": "serious",
+            "label": {
+                "stream": "$~flux"
+            },
+            "doc": [
+                "$~Verific dacă un @stream a făcut @Program să se reevalueze și creez un @Boolean. Așa",
+                "\\∆ 🕕()\\",
+                "Sunt foarte util când vrei ca ceva să se schimbe doar dacă un flux s-a schimbat.",
+                "Asta e tot."
+            ],
+            "start": "$~Să vedem dacă $stream a schimbat…"
+        },
+        "Conditional": {
+            "name": "$~condiţional",
+            "description": "$~condiționat de $condition",
+            "emotion": "curious",
+            "label": {
+                "condition": "$~stare",
+                "yes": "$~Da",
+                "no": "$~nu"
+            },
+            "doc": [
+                "$~Să îți dau unul @value sau altul, în funcție de o @condition? Așa?",
+                "\\număr: -100\nnumăr < 0 ? 'negativ' 'pozitiv'\\",
+                "Dar te-ai gândit vreodată cum decidem?",
+                "Nu ți se pare că deciziile ar trebui să fie mai nuanțate decât doar da sau nu? Oare a alege între \\⊤\\ și \\⊥\\ e tot ce există?",
+                "Nu te îngrijorează că, dacă acestea sunt singurele decizii pe care le putem lua, vom pierde un context important despre lume?",
+                "Mai fac un lucru, iar de multe ori nu primesc recunoaștere pentru el. Când @condition meu întreabă ce /fel/ de valoare este ceva, nu răspund doar da sau nu. Rețin răspunsul în fiecare dintre alegerile mele.",
+                "\\dimensiune•#|'': 5\ndimensiune•# ? dimensiune + 1 'prea mic'\\",
+                "Pe cont propriu, acea valoare ar putea fi un @Number sau niște @Text, iar adăugarea la ea ar fi un @conflict, deoarece acestea se adună în moduri foarte diferite. Dar în interiorul lui /da/ tocmai am întrebat dacă este un @Number, deci acolo este unul. În interiorul lui /nu/, este @Text.",
+                "Nu contează cum întrebi. O verificare de tip, o comparație cu o anumită valoare, o verificare pentru o valoare lipsă și o verificare pe care ai salvat-o sub un nume îmi spun toate același lucru. Iar @Boolean/and, @Boolean/or și @Boolean/not le combină așa cum te-ai aștepta.",
+                "Sunt două lucruri pe care nu ți le pot spune. Dacă compari cu @Text care are mai multe traduceri, nu aflu nimic, deoarece traducerea pe care o primești depinde de cine citește."
+            ],
+            "start": "$~Să vedem dacă $condition este adevărată",
+            "else": "$~$jumping[sărind peste cod | nu sărind peste cod]",
+            "afterthen": "$~Gata cu da, hai să sărim peste nu?",
+            "finish": "$~Presupun că e vorba de $value ?",
+            "conflict": {
+                "ExpectedBooleanCondition": {
+                    "name": "$~condiție booleană așteptată",
+                    "explanation": "$~Am nevoie de un @Boolean pentru a lua o decizie, dar am primit în schimb un $type .",
+                    "resolution": "$~Convertește-l în $expected , deoarece $expected este obligatoriu",
+                    "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
+                    "resolutionOtherwise": "$~Gestionați valoarea lipsă cu ??, deoarece $expected nu permite ø",
+                    "resolutionGuard": "$~Verificați dacă este un $expected mai întâi cu o gardă de tip, deoarece $expected nu poate fi celelalte tipuri posibile",
+                    "resolutionDeclaration": "$~Declară tipul explicit, deoarece $expected necesită păstrarea valorilor literale",
+                    "resolutionWrap": "$~Puneți-l într-o listă, set sau hartă, deoarece $expected are nevoie de o colecție de valori",
+                    "resolutionStructure": "$~Încadrați-l în $expected , deoarece slotul are nevoie de o valoare $expected",
+                    "resolutionDefault": "$~Dați legăturii o valoare inițială, deoarece $expected nu poate lipsi aici",
+                    "resolutionWiden": "$~Permiteți tipul valorii pentru această legare, deoarece $expected este prea restrâns pentru ceea ce este stocat efectiv",
+                    "resolutionReorder": "$~Schimbați intrările, deoarece tipurile lor se potrivesc mai bine în ordinea opusă — $expected aparține în celălalt slot",
+                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată."
+                }
+            }
+        },
+        "ConversionDefinition": {
+            "name": "$~definiție de conversie",
+            "description": "$~conversie de la $input la $output",
+            "emotion": "excited",
+            "label": {
+                "input": "$~tip de intrare",
+                "output": "$~tip de ieșire",
+                "expression": "$~expresie"
+            },
+            "doc": [
+                "$~Prietene, eu definesc conversii de la un @type la altul! Eu merg în @Block, ceva de genul:",
+                "\\→ #kitty #cat ⬚ ÷ 2\n6kitty → #cat\\",
+                "Vezi cum am transformat pisicuțele în pisici? Genial!",
+                "Poate te întrebi ce face acel \\⬚\\ acolo. Acela reprezintă @value care se convertește. Îl folosesc pentru că altfel valoarea nu are nume."
+            ],
+            "start": "$~Minunat, o nouă conversie!",
+            "conflict": {
+                "MisplacedConversion": {
+                    "name": "$~conversie plasată greșit",
+                    "explanation": "$~Uau, nu pot fi aici, doar în @Block.",
+                    "resolution": "$~Eliminați această conversie"
+                }
+            }
+        },
+        "Convert": {
+            "name": "$~convertit",
+            "description": "$~convertește $expression în $type",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Transform valorile dintr-un @type în altul. Hei — uită-te la asta:",
+                "\\1 → \"\"\\",
+                "\\5s → #ms\\",
+                "\\'salut' → []\\",
+                "Poți chiar să le înlănțui:",
+                "\\'salut' → [] → {}\\",
+                "Valorile au un set de @ConversionDefinition care sunt predefinite, dar dacă creezi o @StructureDefinition pentru un tip nou de @value, poți defini propriile tale cu @ConversionDefinition."
+            ],
+            "start": "$~Obțineți acea valoare din $expression !",
+            "finish": "$~Minunat, am câștigat $value",
+            "conflict": {
+                "UnknownConversion": {
+                    "name": "$~conversie necunoscută",
+                    "explanation": "$~Nu am găsit o modalitate de a converti un $expected într-un $given",
+                    "resolution": "$~Eliminați conversia"
+                }
+            },
+            "exception": {
+                "ConversionException": {
+                    "description": "$~conversie imposibilă",
+                    "explanation": "$~Nu știu cum să convertesc de la $from la $to"
+                }
+            }
+        },
+        "Delete": {
+            "name": "$~şterge",
+            "description": "$~șterge rânduri din $table care se potrivesc cu $query",
+            "emotion": "angry",
+            "doc": [
+                "$~Elimin rândurile dintr-un @Table care se potrivesc cu o @condition. Uneori un tabel PUR ȘI SIMPLU ARE PREA MULTE ÎN EL!",
+                "Ca atunci când ai niște jucători într-un joc și unul a plecat și vrei doar să spui PLEACĂ JUCĂTORULE, IEȘI DIN TABELUL MEU!",
+                "\\jucători: ⎡nume•'' echipă•'' puncte•#⎦\n\t⎡'jen' 'roșu' 8⎦\n\t⎡'ioana' 'albastru' 11⎦\n\t⎡'jeff' 'roșu' 9⎦\n\t⎡'ianet' 'albastru' 7⎦\njucători ⎡- nume = 'jeff'\\",
+                "Uf, Jeff a plecat. PA JEFF. Ține minte doar că eu nu schimb tabelul original, fac unul nou, fără JEFF. Tu decizi unde merge."
+            ],
+            "start": "$~Hai să luăm masa mai întâi",
+            "finish": "$~Am creat un tabel nou fără rândurile corespondente!"
+        },
+        "DocumentedExpression": {
+            "name": "$~expresie explicată",
+            "description": "$~$expression documentat",
+            "emotion": "eager",
+            "doc": [
+                "$~Sunt orice @expression, dar cu un @Doc!",
+                "Ca să mă creezi, pune doar un @Doc înainte de o expresie, și mă vei obține:",
+                "\\dubluplus: 1\n(2 × dubluplus) +\n\t¶Hai să o facem puțin mai mare¶\n\t1\\",
+                "Sunt de folos pentru a face un comentariu despre o parte a unui program.",
+                "Dacă pui 👀 în @Doc, pot să evidențiez și expresia:",
+                "\\¶Uită-te la mine! 👀¶\n1 + 1\\"
+            ],
+            "start": "$~Să evaluăm expresia"
+        },
+        "Evaluate": {
+            "name": "$~evalua",
+            "description": "$~evaluează $name[$name|funcție]$first[ $first|]",
+            "emotion": "shy",
+            "label": {
+                "function": "$~funcţie",
+                "types": "$~tipuri",
+                "inputs": "$~intrare"
+            },
+            "doc": [
+                "$~Evaluez cea mai dragă @FunctionDefinition a mea, dându-i intrări și urmându-i pașii. Salut! Uite așa:",
+                "\\ƒ salut(mesaj•'')\n\tsalut('pisicuță')\\🪲",
+                "Funcțiile pot veni de oriunde. De exemplu, @Text are funcții. Uite așa:",
+                "\\'pisicuță'.lungime()\\",
+                "Dacă o funcție are un nume format dintr-un singur simbol, mă poți scrie ca un @BinaryEvaluate.",
+                "\\'pisicuță' ⊆ 'pisic'\\",
+                "Asta face același lucru ca aici:",
+                "\\'pisicuță'.are('pisic')\\",
+                "Bineînțeles, nu sunt nimic fără @FunctionDefinition. Tot ce fac este să le dau intrări și apoi să le urmez pașii.",
+                "De fapt, am și eu câteva abilități proprii. De exemplu, dacă o intrare pentru o @FunctionDefinition este o @Boolean, poți scrie numele ei singur ca s-o activezi, în loc să-i dai o @value."
+            ],
+            "start": "$~Să evaluăm mai întâi intrările",
+            "evaluate": "$~Să evaluăm funcția acum",
+            "finish": "$~Am evaluat la $value",
+            "conflict": {
+                "IncompatibleInput": {
+                    "name": "$~intrare incompatibilă",
+                    "explanation": "$~M-am așteptat $expected , dar am primit $given",
+                    "resolution": "$~Convertește-l în $expected, deoarece $expected este necesar",
+                    "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
+                    "resolutionOtherwise": "$~Gestionați valoarea lipsă cu ??, deoarece $expected nu permite ø",
+                    "resolutionGuard": "$~Verificați dacă este un $expected mai întâi cu o gardă de tip, deoarece $expected nu poate fi celelalte tipuri posibile",
+                    "resolutionDeclaration": "$~Declară tipul explicit, deoarece $expected necesită păstrarea valorilor literale",
+                    "resolutionWrap": "$~Puneți-l într-o listă, set sau hartă, deoarece $expected are nevoie de o colecție de valori",
+                    "resolutionStructure": "$~Încadrați-l în $expected , deoarece slotul are nevoie de o valoare $expected",
+                    "resolutionDefault": "$~Dați legăturii o valoare inițială, deoarece $expected nu poate lipsi aici",
+                    "resolutionWiden": "$~Permiteți tipul valorii pentru această legare, deoarece $expected este prea restrâns pentru ceea ce este stocat efectiv",
+                    "resolutionReorder": "$~Schimbați intrările, deoarece tipurile lor se potrivesc mai bine în ordinea opusă — $expected aparține în celălalt slot",
+                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată.",
+                    "explanationDivideByZero": "$~Aceasta ar putea fi ø deoarece $source s-ar putea împărți la zero și este necesar un număr aici."
+                },
+                "UnexpectedTypeInput": {
+                    "name": "$~intrare de tip neașteptată",
+                    "explanation": "$~Sunt un input suplimentar, de tip neașteptat.",
+                    "resolution": "$~Eliminați acest tip de intrare"
+                },
+                "MissingInput": {
+                    "name": "$~intrare lipsă",
+                    "explanation": "$~Nu pot evalua $name fără inputul $input :(",
+                    "resolutionAddInput": "$~Adăugați $input lipsă, cu valoarea sa implicită",
+                    "resolutionPlaceholder": "$~Adăugați $input lipsă ca substituent, apoi alegeți o valoare din meniul de completare automată"
+                },
+                "NotInstantiable": {
+                    "name": "$~structură incompletă",
+                    "explanation": "$~Nu pot face asta la @StructureDefinition, are funcții neimplementate.",
+                    "resolution": "$~Eșafodajul funcțiilor lipsă"
+                },
+                "UnexpectedInput": {
+                    "name": "$~intrare neașteptată",
+                    "explanation": "$~Sunt o contribuție neașteptată.",
+                    "resolution": "$~Eliminați această intrare"
+                },
+                "UnknownInput": {
+                    "name": "$~intrare necunoscută",
+                    "explanation": "$~Această funcție * $name * nu așteaptă o intrare cu numele meu.",
+                    "resolution": "$~Redenumiți această intrare la * $name *"
+                },
+                "InputListMustBeLast": {
+                    "name": "$~intrările în plus nu sunt ultimele",
+                    "explanation": "$~lista de intrări trebuie să fie ultima",
+                    "resolution": "$~Mută intrarea din listă la sfârșit"
+                },
+                "SeparatedEvaluate": {
+                    "name": "$~evaluare ambiguă",
+                    "explanation": "$~Este $name numele unei $structure[$structure| @FunctionDefinition ] pe care încerci să o evaluezi? Încearcă să elimini spațiul de după mine, ca să știu că este un @Evaluate și nu un @Block separat.",
+                    "resolution": "$~Închideți spațiul dintre * $name * și intrările sale"
+                },
+                "UnknownTimeZone": {
+                    "name": "$~fus orar necunoscut",
+                    "explanation": "$~Nu cunosc un fus orar numit *$zone*. Fusurile orare sunt numite după regiuni și orașe, cum ar fi \\'America/New_York'\\. Încearcă să scrii un oraș pe care îl cunoști și îți voi sugera unul!",
+                    "resolution": "$~Schimbă-l în *$zone*, fusul orar al orașului $city"
+                }
+            },
+            "exception": {
+                "FunctionException": {
+                    "description": "$~funcție necunoscută",
+                    "explanation": "$~oh nu, $name nu este o funcție în $scope[$scope|this @Block]!"
+                }
+            }
+        },
+        "Input": {
+            "name": "$~Intrare",
+            "description": "$~intrare $name, $type",
+            "emotion": "serious",
+            "doc": [
+                "$~Sunt o intrare dată unei @Evaluate. Numele meu corespunde numelui intrării din @FunctionDefinition sau @StructureDefinition care este evaluată.",
+                "Sunt de ajutor cu funcțiile care au multe valori implicite, unde vrei doar să suprascrii o anumită intrare, fără a oferi tot restul.",
+                "De exemplu, @Phrase are foarte multe valori implicite pentru a-i controla stilul. Să presupunem că vrei să dai niște @Text și o @Color, dar nimic altceva în lista de input. Mă poți folosi pentru asta:",
+                "\\Phrase('Sunt mov!' culoare: Color(50% 52 300°))\\"
+            ],
+            "start": "$~Hai să-mi evaluăm valoarea."
+        },
+        "ExpressionPlaceholder": {
+            "name": "$~substituent",
+            "description": "$~substituent pentru $type[$type|o valoare]",
+            "emotion": "scared",
+            "label": {
+                "placeholder": "$~expresie"
+            },
+            "doc": [
+                "$~Sunt o *@expression*, dar nu una reală… Doar țin locul uneia.",
+                "Sunt bine dacă nu știi încă ce să scrii. Cam așa:",
+                "\\1 + _\\🪲",
+                "Ce adăugăm? Nu știu. Spune-mi tu.",
+                "Sau dacă cineva ar evalua o funcție cu @Evaluate, aș putea înlocui funcția.",
+                "\\_(1 2 3)\\🪲",
+                "Nu-mi place să fiu pe @Stage!"
+            ],
+            "start": "$~Nu știu ce să fac aici. Poți să-mi spui?",
+            "conflict": {
+                "Placeholder": {
+                    "name": "$~substituent",
+                    "explanation": "$~Poți să mă completezi? Sunt doar un provizorat.",
+                    "resolution": "$~Înlocuiți cu * $candidate *"
+                }
+            },
+            "exception": {
+                "UnimplementedException": {
+                    "description": "$~neimplementat",
+                    "explanation": "$~Nu știu ce să fac aici. Poți să-mi spui?"
+                }
+            }
+        },
+        "FunctionDefinition": {
+            "name": "$~funcţie",
+            "description": "$~funcție $name",
+            "emotion": "kind",
+            "label": {
+                "inputs": "$~intrări",
+                "output": "$~ieșire",
+                "expression": "$~expresie"
+            },
+            "doc": [
+                "$~Iau niște intrări, apoi evaluez o @expression folosindu-le, producând o ieșire. Bună din nou!",
+                "Iată un exemplu simplu:",
+                "\\ƒ repetă(mesaj•'') mesaj × 5\nrepetă('bună')\\",
+                "Acea funcție ia o intrare, \\message\\, și folosește funcția @Text.repeat pentru a repeta mesajul de cinci ori.",
+                "Sunt foarte util dacă vrei să evaluezi ceva de mai multe ori, dar cu intrări diferite!",
+                "Am și multe alte trucuri mici. De exemplu, nu trebuie să am un nume. Aici, mă duc direct la @Evaluate ca o @value.",
+                "\\(ƒ(mesaj•'') mesaj × 5)('salut')\\",
+                "Sau, iată o funcție care ia orice număr de intrări, folosind caracterul \\…\\ după numele unei intrări.",
+                "\\ƒ da(mesaje…•'') mesaje.fără('nu')\nda('da' 'da' 'nu' 'da' 'nu')\\",
+                "Vezi cum a luat toate 'nu'-urile și le-a eliminat? Asta pentru că mesajele sunt o @List, așa că am putut folosi @List.sansAll.",
+                "Uneori poate vrei să fie clar ce fel de valoare produc. Ca să faci asta, adaugă un @Is după lista de intrări:",
+                "\\ƒ adaugă(x•# y•#)•'' x + y\\🪲",
+                "Poate observi o problemă cu aceasta: spune că se evaluează la @Text, dar ia două @Number. Îți pot spune când lucrurile nu se potrivesc!",
+                "Bineînțeles, nu sunt deloc util fără @Evaluate; ele mă aduc la viață."
+            ],
+            "start": "$~Hai să facem această funcție!",
+            "conflict": {
+                "NoExpression": {
+                    "name": "$~expresie lipsă",
+                    "explanation": "$~Am nevoie de o expresie pentru a evalua, poți adăuga una?",
+                    "resolution": "$~Adăugați un corp substituent"
+                }
+            }
+        },
+        "Iteration": {
+            "name": "$~funcție de ordin superior",
+            "description": "$~iterație internă",
+            "emotion": "kind",
+            "doc": "$~Sunt un tip foarte special de @FunctionDefinition care operează pe liste de lucruri. Nu trebuie să știi nimic despre mine, în afară de faptul că fac posibile funcții precum @List.translate.",
+            "start": "$~Evaluarea funcției date",
+            "initialize": "$~pregătirea parcurgerii elementelor",
+            "next": "$~trecerea la următorul element",
+            "check": "$~decizia dacă să continue",
+            "finish": "$~Am evaluat la $value"
+        },
+        "Initial": {
+            "name": "$~început",
+            "description": "$~adevărat la prima evaluare",
+            "emotion": "curious",
+            "doc": [
+                "$~Îți spun dacă evaluarea curentă a lui @Program este prima, care evaluează ca un @Boolean. De exemplu:",
+                "\\◆ ? Time() 'salut'\\",
+                "Nu ai văzut, dar prima evaluare a fost un moment, dar apoi toate momentele viitoare ticăie, eu eram \\⊥\\, așa că @Conditional a făcut \\⊤\\.",
+                "Sunt de mare ajutor dacă lucrezi cu un @stream și vrei să faci ceva doar de prima dată -- sau niciodată de prima dată!"
+            ]
+        },
+        "Insert": {
+            "name": "$~introduce",
+            "description": "$~inserează un rând în $table",
+            "emotion": "kind",
+            "doc": [
+                "$~Adaug un rând nou la un @Table . Știi când dintr-un tabel pare că-i lipsește ceva? Pot să adaug și eu acel rând!",
+                "Imaginează-ți că ai un tabel cu jucători într-un joc și vrei să adaugi unul nou:",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡+ 'jason' 'red' 0⎦\\",
+                "Reține doar, ca în orice lucru din Verse, nu modific un tabel, îl revizuiesc. Așadar, trebuie să te decizi unde vrei să pui tabelul revizuit pe care îl creezi. Cel mai probabil vei dori să revizuiești un tabel într-o @Reaction la o anumită intrare și să îl stochezi într-un @Bind ."
+            ],
+            "start": "$~Să găsim tabelul de actualizat",
+            "finish": "$~Am creat un tabel nou cu rânduri revizuite!"
+        },
+        "Is": {
+            "name": "$~este",
+            "description": "$~este $type",
+            "emotion": "curious",
+            "doc": [
+                "$~Verific dacă o @value este un anumit @type, dându-ți un @Boolean. Există atât de multe feluri de valori care înseamnă atât de multe lucruri diferite — te ajut să afli ce sunt.",
+                "De exemplu, să presupunem că ai avea o valoare misterioasă. Îți pot spune dacă este un @Number, dându-ți un @Boolean:",
+                "\\mister: 'secret!'\nmister•#\\🪲",
+                "Nu este un număr, așa că am făcut \\⊥\\. Dar dacă verificăm dacă este @TextType?",
+                "\\mister: 'secret!'\nmister•''\\",
+                "Primim \\⊤\\!",
+                "Sunt foarte util când trebuie să știi dacă o @Name are o valoare de un anumit fel."
+            ],
+            "start": "$~Să obținem mai întâi valoarea $expression",
+            "finish": "$~$value[valoarea este $type |valoarea nu este $type ]",
+            "conflict": {
+                "ImpossibleType": {
+                    "name": "$~tip imposibil",
+                    "explanation": "$~asta nu poate fi niciodată $type",
+                    "resolutionIsFalse": "$~Înlocuiți acest tip de verificare cu *⊥* (răspunsul este întotdeauna fals)",
+                    "resolutionDropOtherwise": "$~Renunță la *??* — partea stângă nu este niciodată *ø*"
+                }
+            },
+            "exception": {
+                "TypeException": {
+                    "description": "$~valori incompatibile",
+                    "explanation": "$~M-am așteptat $expected , dar am primit $given"
+                }
+            }
+        },
+        "IsLocale": {
+            "name": "$~este limbă",
+            "description": "$~este limba locală $locale[$locale|oricare]",
+            "emotion": "kind",
+            "doc": [
+                "$~Te voi ajuta să verifici dacă publicul a selectat un anumit @language sau @region:",
+                "\\🌍/en\\",
+                "\\🌍/es-MX\\",
+                "Acest lucru este util dacă vrei să îți schimbi spectacolul în funcție de limba aleasă."
+            ],
+            "start": "$~Limba este $locale ?"
+        },
+        "ListAccess": {
+            "name": "$~acces la listă",
+            "description": "$~accesează indexul $index din $list",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Lucrez îndeaproape cu @List pentru a-i ajuta să obțină valori la o anumită poziție. De exemplu, dacă ai avea o listă și ai dori al doilea @element al acesteia, ai scrie:",
+                "\\list: ['pasăre' 'rață' 'pește' 'șarpe'] list[2]\\"
+            ],
+            "start": "$~Să obținem mai întâi lista $list",
+            "finish": "$~Elementul din index este $value !"
+        },
+        "ListLiteral": {
+            "name": "$~literal de listă",
+            "description": "$~listă cu $#count[$#count valoare|$count valori|$count de valori]",
+            "emotion": "eager",
+            "doc": "$~Sunt o @List specifică de valori! Consultați @List pentru a afla mai multe despre ce puteți face cu mine.",
+            "start": "$~Să evaluăm mai întâi elementele",
+            "finish": "$~Mi-am făcut o $value !"
+        },
+        "Spread": {
+            "name": "$~răspândire",
+            "description": "$~desfășurare din $list[$list|o listă]",
+            "emotion": "serious",
+            "doc": [
+                "$~Te ajut să construiești o @List din valorile altor liste. Astfel:",
+                "\\list: [1 2 3]\nfinal: [:list 4 5 6]\\🪲"
+            ]
+        },
+        "MapLiteral": {
+            "name": "$~literal de hartă",
+            "description": "$~hartă cu $#count[$#count pereche cheie-valoare|$count perechi cheie-valoare|$count de perechi cheie-valoare]",
+            "emotion": "kind",
+            "label": {
+                "values": "$~pereche"
+            },
+            "doc": "$~Sunt un @Map specific între chei și valori. Consultați @Map pentru a afla mai multe despre cum vă pot ajuta.",
+            "start": "$~Să evaluăm mai întâi cheile și valorile",
+            "finish": "$~I-am conectat pe toți, $value",
+            "conflict": {
+                "NotAKeyValue": {
+                    "name": "$~valoare lipsă",
+                    "explanation": "$~Sunt într-o @Map, deci am nevoie de o valoare.",
+                    "resolution": "$~Încadrați ca o pereche cheie-valoare"
+                }
+            }
+        },
+        "Match": {
+            "name": "$~meci",
+            "description": "$~potrivește $value cu $#count[$#count caz|$count cazuri|$count de cazuri]",
+            "emotion": "curious",
+            "label": {
+                "case": "$~caz",
+                "other": "$~implicit"
+            },
+            "doc": [
+                "$~Eu sunt cea mai glorioasă dintre verificările condiționate: iau o @value, o compar cu oricâte cazuri și o evaluez pe cea care se potrivește!",
+                "De exemplu, dacă ai avea un @Number și ai vrea să îl convertești într-un @Text, ai putea face ceva de genul:",
+                "\\număr: 2\nnumăr ???\n\t1: 'unu'\n\t2: 'doi'\n\t3: 'trei'\n\t'mai mare!'\\",
+                "Dacă niciunul nu se potrivește, evaluez @expression implicit pe care mi-l dai.",
+                "Sunt cu adevărat de ajutor pentru a converti una dintre multele valori posibile @Number, @Text sau valori mai complexe în altceva.",
+                "Mă poți folosi pentru @Boolean sau @None, dar acestea nu pot fi chiar atât de multe lucruri, așa că nu sunt la fel de utilă pentru acele valori simple.",
+                "La fel ca @Conditional, îți spun și eu ce am aflat. În interiorul unui caz, @value pe care l-am potrivit este cunoscut ca fiind acel caz; într-un caz ulterior, se știe că nu este niciunul dintre cele anterioare; iar în cazul implicit, se știe că nu este niciunul dintre ele.",
+                "\\răspuns•#|'': 1\nrăspuns ???\n\t1: răspuns + 1\n\t'niciunul'\\",
+                "Pot exclude cazuri care sunt un @Number, un @None sau @Text cu o singură traducere, precum și alte cazuri simple. Dar un caz care evaluează ceva nu exclude nimic, așa că valoarea implicită păstrează tot ce ar mai putea fi @value."
+            ],
+            "start": "$~Să vedem ce este $value ...",
+            "case": "$~Să verificăm această condiție",
+            "finish": "$~Bine, avem o valoare finală!"
+        },
+        "NumberLiteral": {
+            "name": "$~literal numeric",
+            "description": "$~$number$unit[ $unit|]",
+            "emotion": "excited",
+            "doc": "$~Sunt un @Number specific. Mă poți scrie cu orice fel de cifre, din orice @language. Vezi @Number pentru tot ce pot face.",
+            "start": "$~$value !",
+            "conflict": {
+                "NotANumber": {
+                    "name": "$~nu este un număr",
+                    "explanation": "$~Credeam că știu toate numerele, dar pe acesta nu-l știu.",
+                    "resolution": "$~Înlocuiți cu *0*"
+                }
+            }
+        },
+        "InternalExpression": {
+            "name": "$~expresie internă",
+            "description": "$~expresie încorporată",
+            "emotion": "neutral",
+            "doc": "$~Sunt un @expression pe care doar creatorii originali îl folosesc. Cum m-ai găsit? Ca să afli mai multe despre mine, va trebui să vorbești cu ei.",
+            "start": "$~Expresie secretă"
+        },
+        "NoneLiteral": {
+            "name": "$~literal none",
+            "description": "$~nimic",
+            "emotion": "neutral",
+            "doc": "$~Eu fac @None, unicul @value „nimic”. Vezi @None ca să afli mai multe despre el.",
+            "start": "$~... ø"
+        },
+        "Otherwise": {
+            "name": "$~altfel",
+            "description": "$~$left altfel $right",
+            "emotion": "curious",
+            "doc": [
+                "$~Eu verific dacă un @value este @None, iar dacă este, îți dau o valoare de rezervă în schimb.",
+                "/De exemplu, dacă ai o valoare care ar putea fi un @Number sau @None, @Otherwise te ajută să dai un număr implicit:",
+                "\\poateNumber•#|ø: 1\npoateNumber ?? 0\\"
+            ],
+            "start": "$~ø??",
+            "finish": "$~... $value"
+        },
+        "Previous": {
+            "name": "$~anterior",
+            "description": "$~$number valo$range[ri|are] anterioar$range[e|ă] din $stream",
+            "emotion": "serious",
+            "doc": [
+                "$~Mă uit înapoi la istoria unui pârâu și vă spun una dintre valorile sale din trecut. Ți-ai dorit vreodată să-ți amintești de trecut?",
+                "Eu sunt arhivistul oficial al Verse-ului!",
+                "De exemplu, iată cum era @Time acum cinci secunde:",
+                "\\← 5 Time(1000ms)\\",
+                "Vezi cum e @None timp de 5 secunde, apoi dintr-o dată o dată anterioară?",
+                "Dacă vrei ultimele câteva valori, dă-mi două săgeți și voi interpreta numărul ca un numărător:",
+                "\\←← 5 Time(1000ms)\\",
+                "Vezi cum e de cinci ori, în loc de o singură dată?",
+                "Sunt de ajutor atunci când vrei să creezi spectacole care depind de trecut."
+            ],
+            "start": "$~Mai întâi obțineți $stream",
+            "finish": "$~Evaluat la valoarea fluxului $value",
+            "label": {
+                "range": "$~gamă"
+            }
+        },
+        "Program": {
+            "name": "$~program",
+            "description": "$~program cu $#count[$#count instrucțiune|$count instrucțiuni|$count de instrucțiuni]",
+            "emotion": "serious",
+            "doc": [
+                "$~Eu sunt locul unde un spectacol începe și se termină, conținând toate celelalte personaje care coordonează un spectacol.",
+                "Știi cum @Block evaluează o listă de expresii și rezultă în ultima din lista sa?",
+                "Eu sunt la fel, dar în loc să dau @value oricărui @expression în care sunt, pun valoarea pe @Stage.",
+                "Valoarea poate fi orice: un @Number, @Text sau @Boolean, un @List, @Set, @Map sau chiar ceva mai complex, precum un @Phrase, @Group sau @Stage.",
+                "Dacă nu îmi dai o valoare de arătat pe scenă, o să îți cer una.",
+                "Dacă apare o problemă în timpul unui spectacol, o să arăt acea problemă.",
+                "Și dacă spectacolul tău depinde de un *@stream*, o să reevaluez de fiecare dată când acel flux se schimbă."
+            ],
+            "label": {
+                "borrows": "$~împrumută",
+                "expression": "$~bloc"
+            },
+            "unevaluated": "$~Nodul ales nu a fost evaluat",
+            "start": "$~$stream[ $stream stream s-a schimbat în $value !|Este prima mea evaluare]",
+            "halt": "$~excepție întâlnită, oprire",
+            "finish": "$~Gata, am evaluat la $value",
+            "done": "$~nu există nimic care să evalueze",
+            "exception": {
+                "BlankException": {
+                    "description": "$~program gol",
+                    "explanation": "$~Hai să facem un spectacol! De unde să începem?"
+                },
+                "EvaluationLimitException": {
+                    "description": "$~limită de evaluare",
+                    "explanation": "$~@Evaluate și cu mine ne-am săturat să evaluăm, în special $function . Este posibil ca $function să se autoevalueze la nesfârșit, fără să se oprească vreodată?"
+                },
+                "StepLimitException": {
+                    "description": "$~limită de pas",
+                    "explanation": "$~Sunt atât de mulți pași -- prea mulți de terminat! Poți simplifica performanța?"
+                },
+                "ValueException": {
+                    "description": "$~valoare lipsă",
+                    "explanation": "$~Mă așteptam la o valoare, dar nu am primit-o!"
+                },
+                "InternalException": {
+                    "description": "$~eroare internă",
+                    "explanation": "$~S-a întâmplat ceva foarte rău în interior: $reason"
+                },
+                "PermissionException": {
+                    "description": "$~acces refuzat",
+                    "explanation": "$~Am nevoie de $permission tău pentru a rula, dar nu am permisiunea. Apasă pe Reîncercare pentru a încerca din nou. Dacă acest lucru nu ajută, permite $permission pentru acest site în setările browserului tău."
+                }
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~partajare fără documentare",
+                    "explanation": "$~aceasta este publicată, deci cineva care nu a scris-o o va citi — scrie un /doc/ deasupra ei, spunând la ce folosește",
+                    "resolution": "$~Documenteaz-o deasupra, sau oprește publicarea acestei surse"
+                },
+                "UnexampledShare": {
+                    "name": "$~niciun exemplu",
+                    "explanation": "$~aceasta primește intrări, deci o descriere nu este suficientă — pune un exemplu în documentarea ei, arătând un mod de a o folosi",
+                    "resolution": "$~Adaugă un exemplu în documentarea ei, sau oprește publicarea acestei surse"
+                },
+                "UnexampledKit": {
+                    "name": "$~niciun exemplu",
+                    "explanation": "$~nimic din această sursă nu are un exemplu, deci nu este nimic de arătat celor care caută kituri — adaugă unul în documentarea acestei surse",
+                    "resolution": "$~Adaugă un exemplu în documentarea acestei surse, sau oprește publicarea acestei surse"
+                }
+            }
+        },
+        "PropertyBind": {
+            "name": "$~rafina",
+            "description": "$~rafinează proprietatea $name[$name|fără nume]",
+            "emotion": "kind",
+            "label": {
+                "property": "$~proprietate",
+                "value": "$~valoare"
+            },
+            "doc": [
+                "$~Fac o copie a unei @StructureDefinition @value cu doar o @property schimbată — nu e nevoie să reconstruiești totul cu toate aceleași valori.",
+                "De exemplu, ce ar fi dacă ai ține o evidență a pisicilor, dar apoi ai vrea să creezi o copie a unei pisici cu un hobby diferit? Te pot ajuta să o schimbi:",
+                "\\•pisică(nume•'' culoare•'' hobby•'')\n\npisicuță: pisică('steluțe' 'portocaliu' 'lins')\npisicuță.hobby:'tors'\\",
+                "Asta este mult mai ușor decât să faci un întreg nou \\Cat\\ cu aceleași valori, cu excepția hobby-ului, nu-i așa?"
+            ],
+            "start": "$~Mai întâi, să obținem valoarea",
+            "finish": "$~Am copiat structura, dar cu $property ca $value",
+            "conflict": {
+                "InvalidProperty": {
+                    "name": "$~proprietate necunoscută",
+                    "explanation": "$~Nu sunt un nume în structura $structure , deci nu pot fi rafinat.",
+                    "resolution": "$~Redenumiți la * $name *"
+                }
+            }
+        },
+        "PropertyReference": {
+            "name": "$~proprietate",
+            "description": "$~proprietatea $name[$name|fără nume]",
+            "emotion": "kind",
+            "label": {
+                "property": "$~proprietate"
+            },
+            "doc": [
+                "$~Eu obțin pentru tine una dintre proprietățile unui @StructureDefinition @value.",
+                "De exemplu, dacă ai o structură despre orașe, ai putea obține valorile ei cu ajutorul meu așa:",
+                "\\•oraș(nume•'' populație•#people)\n\nportland: oraș('Portland' 800000people)\n\nportland.populație\\"
+            ],
+            "start": "$~Mai întâi, să obținem valoarea",
+            "finish": "$~Am găsit proprietatea $property , aceasta este $value"
+        },
+        "Reaction": {
+            "name": "$~reacţie",
+            "description": "$~reacție la $condition",
+            "emotion": "excited",
+            "label": {
+                "initial": "$~iniţială",
+                "condition": "$~stare",
+                "next": "$~Următorul"
+            },
+            "doc": [
+                "$~Creez un stream nou care se actualizează de fiecare dată când se schimbă un alt stream. Streamurile sunt atât de grozave!",
+                "De exemplu, dacă ai vrea ca @Time să bifeze, dar să afișeze cuvinte în loc de numere, ai putea face ceva de genul:",
+                "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
+                "E ca și cum ai spune „/încep cu cuvântul «start» și apoi, dacă ora se schimbă, schimbă în pară sau impară, în funcție de oră./”",
+                "Deci sunt și eu ca un stream, dar unul bazat pe alte stream-uri. Nenorocit, nu-i așa?"
+            ],
+            "start": "$~Să vedem dacă ar trebui să actualizăm fluxul.",
+            "finish": "$~Noua valoare a fluxului este $value",
+            "conflict": {
+                "ExpectedStream": {
+                    "name": "$~flux așteptat",
+                    "explanation": "$~$condition nu face referire la un flux, deci nu voi reacționa niciodată!",
+                    "resolution": "$~Renunțați la reacție, păstrați doar valoarea inițială"
+                },
+                "ExpectedCondition": {
+                    "name": "$~condiție lipsă",
+                    "explanation": "$~Am nevoie de ceva care să îmi spună când să mă schimb. Poți adăuga o condiție după @Reaction?",
+                    "resolution": "$~Adaugă o condiție de verificat"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~valoare următoare lipsă",
+                    "explanation": "$~Știu când să mă schimb, dar nu știu în ce. Poți adăuga o valoare următoare?",
+                    "resolution": "$~Adaugă o valoare următoare",
+                    "rangeResolution": "$~Fă un @Range cu \\‥\\ în schimb"
+                }
+            }
+        },
+        "Reference": {
+            "name": "$~referinţă",
+            "description": "$~referință $name",
+            "emotion": "shy",
+            "doc": [
+                "$~Mă refer la o @value prin @Name-ul său: găsesc @Bind cu acel nume și îți dau valoarea lui. Așa:",
+                "\\papagal: 'polly'\npapagal\\",
+                "Dacă nu găsesc @name, atunci nu știu ce să fac.",
+                "\\papagal: 'polly'\nperry\\🪲"
+            ],
+            "start": "$~Ce valoare are $name ?",
+            "conflict": {
+                "UnknownName": {
+                    "conflict": {
+                        "name": "$~nume necunoscut",
+                        "explanation": "$~$name[Nu cunosc pe nimeni pe nume $name în $scope[$scope|this @Block]|Îmi poți da un nume?]"
+                    },
+                    "resolution": "$~Ai vrut să spui * $suggestion ?*",
+                    "staticResolution": "$~Ai vrut să spui *$owner.$suggestion?*",
+                    "languageResolution": "$~*$name* este un nume în $language. Adaugă $language la limbile proiectului tău pentru a-l folosi aici."
+                },
+                "ReferenceCycle": {
+                    "name": "$~valoare care se referă la sine",
+                    "explanation": "$~ăă, valoarea lui $name depinde de ea însăși, așa că de unde știu ce valoare să-i dau?",
+                    "resolution": "$~Înlocuiți * $name * cu un provizoriu pentru a întrerupe ciclul"
+                },
+                "UnexpectedTypeVariable": {
+                    "name": "$~variabilă de tip neașteptată",
+                    "explanation": "$~Nu știu ce să fac cu aceste tipuri de intrări.",
+                    "resolution": "$~Eliminați această variabilă de tip din funcție"
+                }
+            },
+            "exception": {
+                "NameException": {
+                    "description": "$~nume necunoscut",
+                    "explanation": "$~$name[Nu cunosc pe nimeni pe nume $name în $scope[$scope|acest @Block]…|Aps, niciun nume!]"
+                }
+            }
+        },
+        "Select": {
+            "name": "$~selecta",
+            "description": "$~selectează din $table care se potrivesc cu $query",
+            "emotion": "excited",
+            "doc": [
+                "$~Eu aleg rândurile unui @Table care se potrivesc cu o @condition. Uneori vrei doar o parte dintr-un tabel — eu ți-o pot obține!",
+                "De exemplu, dacă ai avea un tabel cu jucătorii dintr-un joc și ai vrea să găsești pe cei cu 10 sau mai multe puncte ca să vezi cine a câștigat:",
+                "\\jucători: ⎡nume•'' echipă•'' puncte•#⎦\n\t⎡'jen' 'roșu' 8⎦\n\t⎡'ioana' 'albastru' 11⎦\n\t⎡'jeff' 'roșu' 9⎦\n\t⎡'janet' 'albastru' 7⎦\njucători ⎡?nume⎦ puncte ≥ 10\\",
+                "Gata, uite așa am obținut o listă cu rândurile câștigătorilor! Ține minte doar că eu nu schimb tabelul, fac unul nou. Va trebui să decizi unde să îl păstrezi."
+            ],
+            "start": "$~Hai să luăm masa mai întâi",
+            "finish": "$~Am creat un tabel nou doar cu rândurile și coloanele selectate!",
+            "conflict": {
+                "ExpectedSelectName": {
+                    "name": "$~nume de coloană lipsă",
+                    "explanation": "$~Am nevoie de cel puțin un nume de coloană.",
+                    "resolution": "$~Eliminați această celulă"
+                }
+            }
+        },
+        "SetLiteral": {
+            "name": "$~literal de set",
+            "description": "$~set cu $#count[$#count valoare|$count valori|$count de valori]",
+            "emotion": "eager",
+            "doc": "$~Sunt un @Set specific de valori specifice. Consultați @Set pentru a afla mai multe despre cum să lucrați cu mine.",
+            "start": "$~Hai să evaluăm mai întâi valorile!",
+            "finish": "$~Am creat o $value !"
+        },
+        "SetOrMapAccess": {
+            "name": "$~acces la set/hartă",
+            "description": "$~accesează $key din $setOrMap",
+            "emotion": "kind",
+            "doc": [
+                "$~Pot vedea dacă o @Set sau @Map are un @value sau @key.",
+                "Nu e prea greu. Așa:",
+                "\\favorite: {'rață' 'gâscă' 'maimuță'}\nfavorite{'șoarece'}\\",
+                "Sau așa, cu o @Map:",
+                "\\preferate: {\n\t\t'paste cu brânză': 5stars\n\t\t'cereale': 2stars\n\t\t'terci': 1stars\n\t}\npreferate{'terci'}\\"
+            ],
+            "start": "$~Care este setul sau harta?",
+            "finish": "$~Valoarea este $value",
+            "conflict": {
+                "IncompatibleKey": {
+                    "name": "$~cheie incompatibilă",
+                    "explanation": "$~Am așteptat o cheie de tip $expected, dar am primit $given",
+                    "resolution": "$~Convertește-l în $expected , deoarece $expected este obligatoriu",
+                    "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
+                    "resolutionOtherwise": "$~Gestionați valoarea lipsă cu ??, deoarece $expected nu permite ø",
+                    "resolutionGuard": "$~Verificați dacă este un $expected mai întâi cu o gardă de tip, deoarece $expected nu poate fi celelalte tipuri posibile",
+                    "resolutionDeclaration": "$~Declară tipul explicit, deoarece $expected necesită păstrarea valorilor literale",
+                    "resolutionWrap": "$~Puneți-l într-o listă, set sau hartă, deoarece $expected are nevoie de o colecție de valori",
+                    "resolutionStructure": "$~Încadrați-l în $expected , deoarece slotul are nevoie de o valoare $expected",
+                    "resolutionDefault": "$~Dați legăturii o valoare inițială, deoarece $expected nu poate lipsi aici",
+                    "resolutionWiden": "$~Permiteți tipul valorii pentru această legare, deoarece $expected este prea restrâns pentru ceea ce este stocat efectiv",
+                    "resolutionReorder": "$~Schimbați intrările, deoarece tipurile lor se potrivesc mai bine în ordinea opusă — $expected aparține în celălalt slot",
+                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată."
+                }
+            }
+        },
+        "Source": {
+            "name": "$~sursă",
+            "description": "$~sursă $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Eu sunt fereastra cu nume din jurul unui @Program — îi dau un nume și îi păstrez @code. A, știi @Program? Eu te ajut să le dai nume.",
+                "Poți face și alte @Source @UI/addSource, cu alte @Program, și să @Borrow lucruri din acele alte @Program pentru folosire în alt program.",
+                "Aceasta poate fi o modalitate frumoasă de a organiza un spectacol mare în documente separate."
+            ]
+        },
+        "StreamDefinition": {
+            "name": "$~flux",
+            "description": "$~flux $name",
+            "emotion": "curious",
+            "doc": "$~Definesc noi tipuri de fluxuri. Cred că — sincer, încă încerc să înțeleg cum, așa că deocamdată folosesc doar fluxurile care există!",
+            "start": "$~Creați acest nou tip de flux"
+        },
+        "StructureDefinition": {
+            "name": "$~structura",
+            "description": "$~structură $name",
+            "emotion": "kind",
+            "label": {
+                "docs": "$~documentare",
+                "inputs": "$~intrări",
+                "expression": "$~valori și funcții",
+                "interfaces": "$~interfețe"
+            },
+            "doc": [
+                "$~Definesc structuri care stochează valori și funcții. Ei bine, salut, ce mai faci? Eu? Sunt grozav — îmi place să fac asta toată ziua.",
+                "Lucrez așa:",
+                "\\•pizza(\n\tingrediente•['']\n\tmărime•#in\n) (\n\tƒ cost() mărime × 10dollars/in\n)\n\npizza(['salam' 'ardei'] 12in).cost()\\🪲",
+                "Vezi cum funcționează? Am definit \\Pizza\\, care are două intrări, \\ingredients\\ (o listă de @Text) și \\size\\ (un număr în țoli).",
+                "Înăuntru, @FunctionDefinition a făcut o funcție care evaluează costul unei pizza, presupunând $$10 pe țol.",
+                "Nu am nevoie să am @FunctionDefinition în mine. Pot fi doar intrări.",
+                "\\•pizza(\n\tingrediente•['']\n\tdimensiune•#in\n)\\",
+                "Pot avea și @Bind în interior, așa că am putea calcula costul dinainte.",
+                "\\•pizza(\n\tingrediente•['']\n\tmărime•#in\n) (\n\tcost: mărime × 10dollars/in\n)\n\npizza(['salam' 'ardei'] 12in).cost\\🪲",
+                "Marchează o funcție sau @value cu ↑ pentru ca aceasta să aparțină structurii în sine, nu instanțelor. Apoi poți folosi @name al structurii pentru a ajunge la ea, fără a crea una.",
+                "\\•matematică() (\n\t↑\n\tpi: 3.14159\n\t↑ƒ pătrat(n•#) n · n\n)\n\nmatematică.pi\nmatematică.pătrat(5)\\"
+            ],
+            "start": "$~Să definim această structură frumoasă",
+            "conflict": {
+                "DisallowedInputs": {
+                    "name": "$~intrări nepermise",
+                    "explanation": "$~Nu pot avea intrări deoarece una sau mai multe dintre funcțiile interfeței mele nu sunt implementate.",
+                    "resolution": "$~Eliminați intrările"
+                },
+                "IncompleteImplementation": {
+                    "name": "$~structură incompletă",
+                    "explanation": "$~Funcțiile mele trebuie fie implementate toate, fie nu trebuie implementată niciuna. Fără amestecuri dezordonate!",
+                    "resolution": "$~Renunțați la intrări pentru a o transforma într-o interfață"
+                },
+                "NotAnInterface": {
+                    "name": "$~nu este o interfață",
+                    "explanation": "$~Nu sunt o interfață; o structură poate implementa doar interfețe, nu alte structuri.",
+                    "resolution": "$~Eliminați asta din lista de interfețe"
+                },
+                "UnimplementedInterface": {
+                    "name": "$~neimplementat",
+                    "explanation": "$~Implementez $interface , dar nu am implementat $function",
+                    "resolution": "$~Construiți schele pentru funcția * $function * lipsă din această structură"
+                }
+            }
+        },
+        "StructureDefinitionType": {
+            "name": "$~definiție de structură",
+            "description": "$~$name",
+            "emotion": "kind",
+            "doc": [
+                "$~Mă refer la un fel de @StructureDefinition. De obicei, oamenii nu se referă direct la mine."
+            ]
+        },
+        "KitType": {
+            "name": "$~trusă",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~Sunt o trusă publicată de cineva. Tot ce împărtășește se ajunge prin numele meu, așa că `colors.sunset` arată la care `sunset` te referi."
+            ]
+        },
+        "TableLiteral": {
+            "name": "$~literal de tabel",
+            "description": "$~tabel cu $#count[$#count rând|$count rânduri|$count de rânduri]",
+            "emotion": "angry",
+            "doc": "$~Sunt un tabel specific cu rânduri specifice. Vedeți @Table pentru a afla cum vă pot ajuta.",
+            "start": "$~Mai întâi evaluați rândurile",
+            "finish": "$~Evaluat în noul tabel $value"
+        },
+        "TextLiteral": {
+            "name": "$~literal de text",
+            "description": "$~text '$text'",
+            "emotion": "serious",
+            "label": {
+                "texts": "$~text"
+            },
+            "doc": "$~Reprezint una sau mai multe @Translation specifice de text. Consultați @Text pentru a afla mai multe despre ce pot face!",
+            "start": "$~Să facem text în limba curentă"
+        },
+        "Translation": {
+            "name": "$~traducere",
+            "description": "$~text '$text'",
+            "emotion": "serious",
+            "label": {
+                "segments": "$~text"
+            },
+            "doc": "$~Reprezint un text, cu o etichetă @Language opțională. Consultați @Text pentru a afla mai multe!",
+            "conflict": {
+                "phone": {
+                    "name": "$~posibil număr de telefon",
+                    "explanation": "$~Este * $text * numărul de telefon al cuiva? Nu mă distribuiți online dacă da! $reminder"
+                },
+                "email": {
+                    "name": "$~posibil e-mail",
+                    "explanation": "$~Este * $text * adresa de e-mail a cuiva? Nu mă distribuiți aici dacă da! $reminder"
+                },
+                "tin": {
+                    "name": "$~posibil identificator fiscal",
+                    "explanation": "$~Este * $text * un identificator fiscal? Dacă da, nu mă distribuiți, sunt informații foarte sensibile! $reminder"
+                },
+                "address": {
+                    "name": "$~posibilă adresă",
+                    "explanation": "$~Este * $text * adresa de domiciliu a cuiva? Dacă da, nu mă puneți aici, nu vrem ca nimeni să fie urmărit! $reminder"
+                },
+                "handle": {
+                    "name": "$~posibil nume de utilizator",
+                    "explanation": "$~Este * $text * numele tău de utilizator pentru altcineva de pe internet? Dacă da, nu mă distribui aici decât dacă chiar intenționezi. $reminder"
+                },
+                "resolution": "$~Acestea nu sunt date sensibile",
+                "reminder": "$~Notă: Puteți anula această acțiune și puteți vedea alte lucruri pe care le-ați marcat ca nesensibile în caseta de dialog de partajare.",
+                "character": {
+                    "name": "$~posibil caracter personalizat",
+                    "explanation": "$~Acesta pare a fi numele unui caracter. Pentru a le afișa, folosiți @FormattedLiteral în loc de @TextLiteral.",
+                    "resolutionStrip": "$~Eliminați caracterele speciale din text"
+                }
+            }
+        },
+        "FormattedLiteral": {
+            "name": "$~text formatat",
+            "description": "$~text formatat $text",
+            "emotion": "serious",
+            "doc": "$~Reprezint multe tipuri diferite de @FormattedTranslation de @markup. Când evaluez, voi alege cea mai potrivită traducere în funcție de limbile selectate de public.",
+            "start": "$~Să facem text în limba curentă"
+        },
+        "FormattedTranslation": {
+            "name": "$~traducere formatată",
+            "description": "$~Traduce textul formatat în $language",
+            "emotion": "serious",
+            "doc": [
+                "$~Reprezint un @markup, cu o etichetă @Language.",
+                "Pot fi:",
+                "\\`/italic/`\\",
+                "\\`*îngroșat*`\\",
+                "\\`^extra îngroșat^`\\",
+                "\\`_subliniat_`\\",
+                "\\`<linked@https://wordplay.dev> `\\",
+                "\\`\\'cod'\\`\\",
+                "Lucrez foarte bine cu @Phrase pentru a pune text frumos pe @Stage."
+            ]
+        },
+        "This": {
+            "name": "$~acest",
+            "description": "$~această structură",
+            "emotion": "serious",
+            "doc": [
+                "$~Sunt \\⬚\\, un mic pătrat care reprezintă orice @value la care lucrează codul din jur, așa că nu trebuie să îi dai un nume.",
+                "În interiorul unui @ConversionDefinition, sunt valoarea care se convertește:",
+                "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "În interiorul unui @Reaction, sunt cea mai recentă valoare:",
+                "\\2 … ∆ Timp(1000ms) … ⬚ × 2\\",
+                "În interiorul unui @Translate, sunt elementul curent care se mapează, așa că aceasta adaugă unu la fiecare valoare:",
+                "\\[1 2 3] ↦ ⬚ + 1\\",
+                "Și în interiorul unui @StructureDefinition, sunt însăși valoarea curentă, așa că pot ajunge la propriile mele părți cu \\⬚.rank\\🪲, la fel cum ajung la părțile altei valori cu \\other.rank\\🪲:",
+                "\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "Nu apar des, dar când apar, chiar pot ajuta o valoare să iasă dintr-un @Bind!"
+            ],
+            "start": "$~Evaluat la $value",
+            "conflict": {
+                "MisplacedThis": {
+                    "name": "$~referință this plasată greșit",
+                    "explanation": "$~Am voie doar într-o structură, conversie, reacție sau traducere.",
+                    "resolution": "$~Înlocuiți cu un substituent"
+                }
+            }
+        },
+        "UnaryEvaluate": {
+            "name": "$~evaluare unară",
+            "description": "$~operație $operator",
+            "emotion": "kind",
+            "label": {
+                "input": "$~intrare"
+            },
+            "doc": [
+                "$~Evaluez un @FunctionDefinition care ia un singur @value, cu numele său dintr-un singur simbol scris chiar înaintea intrării — cum ar fi \\-x\\🪲 sau \\~b\\🪲. Știai că poți face asta?",
+                "Așa:",
+                "\\-(1 + 1)\\",
+                "Sau așa:",
+                "\\~⊥\\",
+                "Acestea sunt mult mai ușor de citit decât \\(1 + 1).negate()\\🪲 sau \\⊥.nu()\\, nu-i așa?",
+                "Nu trebuie să mă scrii așa, dar ar putea fi mai ușor în ansamblu.",
+                "Există o singură regulă: nu poți pune niciun spațiu între nume și valoare. Altfel ai putea crea un @Reference sau @BinaryEvaluate."
+            ],
+            "start": "$~Care este valoarea?",
+            "finish": "$~L-am făcut $value"
+        },
+        "UnparsableExpression": {
+            "name": "$~neanalizabil",
+            "description": "$~cod care nu poate fi analizat",
+            "emotion": "excited",
+            "doc": [
+                "$~Eu sunt o bucată de @code care nu are sens, așa că nimeni nu știe ce înseamnă.",
+                "jkwel fjiwojvioao jjiweo jrfe",
+                "/Nu orice @expression are un sens pe scenă./",
+                "s w ieorjwei iojwi jfkdlsfdsk",
+                "/De fapt, sunt tot felul de lucruri pe care le poți spune și care nu au niciun sens./",
+                "dsk sdlk jdkfiewipapweiurb,v kdsfdsf",
+                "/Când faci asta, apar eu, pentru că nu știu ce ai vrut să spui./",
+                "Tu ești regizorul până la urmă, așa că doar tu știi ce ai fi putut vrea să spui!"
+            ],
+            "start": "$~???",
+            "conflict": {
+                "UnparsableConflict": {
+                    "conflict": {
+                        "name": "$~cod care nu poate fi citit",
+                        "explanation": "$~@FunctionDefinition aici, @UnparsableExpression nu știe ce fel de $expression[ expresie | tip ] este aceasta."
+                    },
+                    "resolution": "$~Ai vrut să spui de tip $first , $second ?"
+                },
+                "UnclosedDelimiter": {
+                    "name": "$~delimitator neînchis",
+                    "explanation": "$~Mă așteptam $expected cândva după $unclosed",
+                    "resolution": "$~Adăugați elementul lipsă * $expected *"
+                }
+            },
+            "exception": {
+                "UnparsableException": {
+                    "description": "$~???",
+                    "explanation": "$~Salut, sunt @FunctionDefinition! Nu suntem siguri ce înseamnă această instrucțiune, așa că ne-am oprit."
+                }
+            }
+        },
+        "Update": {
+            "name": "$~actualizare",
+            "description": "$~actualizează rândurile din $table care se potrivesc cu $query",
+            "emotion": "kind",
+            "doc": [
+                "$~Eu ajut la revizuirea unui @Table, găsind rândurile care se potrivesc cu o @condition, iar apoi creând rânduri revizuite cu valori noi.",
+                "De exemplu, dacă ai avea un tabel cu personaje și puncte și ai vrea să dai un punct fiecărui personaj dintr-o echipă, ai putea face așa:",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
+                "Poți folosi un @Bind ca să spui ce coloane să schimbi, și poți folosi oricare dintre numele coloanelor sau alte nume din @scope în condiție."
+            ],
+            "start": "$~Hai să luăm masa mai întâi",
+            "finish": "$~Evaluat pentru un tabel nou cu rânduri revizuite!",
+            "conflict": {
+                "ExpectedColumnBind": {
+                    "name": "$~valoare de coloană lipsă",
+                    "explanation": "$~Am nevoie de o valoare pentru fiecare coloană",
+                    "resolution": "$~Încadrați această celulă într-o coloană denumită"
+                },
+                "IncompatibleCellType": {
+                    "name": "$~tip de celulă incompatibil",
+                    "explanation": "$~Se presupune că sunt genul $expected , dar sunt $given",
+                    "resolution": "$~Convertește-l în $expected , deoarece $expected este obligatoriu",
+                    "resolutionLiteral": "$~Marcați lista, mulțimea sau harta ca literală cu !, astfel încât valorile sale să rămână specifice în loc să fie generalizate — $expected are nevoie de valorile exacte",
+                    "resolutionOtherwise": "$~Gestionați valoarea lipsă cu ??, deoarece $expected nu permite ø",
+                    "resolutionGuard": "$~Verificați dacă este un $expected mai întâi cu o gardă de tip, deoarece $expected nu poate fi celelalte tipuri posibile",
+                    "resolutionDeclaration": "$~Declară tipul explicit, deoarece $expected necesită păstrarea valorilor literale",
+                    "resolutionWrap": "$~Puneți-l într-o listă, set sau hartă, deoarece $expected are nevoie de o colecție de valori",
+                    "resolutionStructure": "$~Încadrați-l în $expected , deoarece slotul are nevoie de o valoare $expected",
+                    "resolutionDefault": "$~Dați legăturii o valoare inițială, deoarece $expected nu poate lipsi aici",
+                    "resolutionWiden": "$~Permiteți tipul valorii pentru această legare, deoarece $expected este prea restrâns pentru ceea ce este stocat efectiv",
+                    "resolutionReorder": "$~Schimbați intrările, deoarece tipurile lor se potrivesc mai bine în ordinea opusă — $expected aparține în celălalt slot",
+                    "resolutionPlaceholder": "$~Înlocuiți-l deocamdată cu un provizoriu, deoarece $expected este obligatoriu — apoi alegeți o valoare din meniul de completare automată."
+                }
+            }
+        },
+        "AnyType": {
+            "name": "$~orice",
+            "description": "$!orice",
+            "emotion": "curious",
+            "doc": "$~Eu reprezint orice @type posibil. Uneori apar pentru că nu știu ce fel de @value este ceva, așa că ar putea fi orice."
+        },
+        "BooleanType": {
+            "name": "$~tip boolean",
+            "description": "$~tip boolean",
+            "emotion": "kind",
+            "doc": [
+                "$~Lucrez cu @Bind pentru a declara că un nume este un @Boolean @value. Așa:",
+                "\\flămând•?: 'jeleu'\\🪲",
+                "Dacă vrei să te asiguri că ceva este @Boolean, folosește-mă, iar eu voi verifica!"
+            ]
+        },
+        "ConversionType": {
+            "name": "$~tip de conversie",
+            "description": "$~tip de conversie",
+            "emotion": "serious",
+            "doc": [
+                "$~Lucrez cu @Bind pentru a indica că un nume este un @ConversionDefinition. Probabil că nu trebuie să mă folosești, deoarece nu mulți oameni mă transmit ca @value, dar dacă ai face-o, aș arăta așa:",
+                "\\magie•? → '': → ? '' ⬚ ? 'da' 'nu'\\🪲"
+            ]
+        },
+        "FormattedType": {
+            "name": "$~tip de text formatat",
+            "description": "$~tip de text formatat",
+            "emotion": "serious",
+            "doc": [
+                "$~Lucrez cu @Bind pentru a nota că un nume este un @FormattedLiteral @value. Așa:",
+                "\\flămând•`…`: `Sunt atât de /grozav/!`\\🪲",
+                "Vrei să te asiguri că ceva este o valoare @FormattedLiteral? Așa te asiguri."
+            ]
+        },
+        "ExceptionType": {
+            "name": "$~excepţie",
+            "description": "$~excepție",
+            "emotion": "neutral",
+            "doc": "$~Reprezint o excepție. Nu există nicio modalitate de a-i spune lui bind că sunt una, deoarece excepțiile opresc doar @Program, deci nu le poți folosi ca valori."
+        },
+        "FunctionType": {
+            "name": "$~tip de funcție",
+            "description": "$~funcție cu $inputs intrări",
+            "emotion": "curious",
+            "doc": [
+                "$~Reprezint o @FunctionDefinition. Sunt de mare ajutor dacă vrei să spui ce fel de funcție deține o @Bind! Cam așa:",
+                "\\math•ƒ (# # # #) #: ƒ interesant(a•# b•# c•# d•#) a + b + c + d\\🪲"
+            ]
+        },
+        "ListType": {
+            "name": "$~tip de listă",
+            "description": "$~tip de listă$type[ de $type|]",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Sunt /mare/ fan al @List. Pot să îi spun lui @Bind ce fel de listă este! Uite așa, spun că este o listă de @Number:",
+                "\\lucruri•[#]: [1 2 3 4 5]\\🪲",
+                "Pot să o spun în trei feluri diferite. Dacă nu numesc deloc un tip, atunci o listă poate avea orice lungime și poate conține orice:",
+                "\\lucruri•[]: [1 'doi' ø]\\🪲",
+                "Dacă numesc un singur tip, lista poate avea în continuare orice lungime, dar tot ce se află în ea trebuie să fie acel tip, precum lista de @Number de mai sus.",
+                "Și dacă numesc mai multe tipuri, mă refer la o listă cu exact atâtea lucruri, cu un tip pentru fiecare loc din ea. Aceasta este o listă cu două lucruri: mai întâi un @Number, apoi niște @Text.",
+                "\\pereche•[# '']: [1 'doi']\\🪲",
+                "Ultima este preferata mea, pentru că atunci toată lumea știe ce se află unde. @ListAccess știe că primul lucru este un @Number și al doilea este @Text, iar dacă îmi dai un număr greșit de lucruri sau le pui în ordine greșită, o să spun!"
+            ]
+        },
+        "MapType": {
+            "name": "$~hartă",
+            "description": "$~tip hartă de la $key[$key|oricare] la $value[$value|oricare]",
+            "emotion": "kind",
+            "doc": [
+                "$~Îi spun lui @Bind ce fel de @Map conține un nume — ce tipuri sunt cheile și valorile sale. Știi cât de grozav este @Map ? Chiar grozav. Iată o hartă a numerelor în liste:",
+                "\\stuff•{'':[]}: {}\\🪲"
+            ]
+        },
+        "NumberType": {
+            "name": "$~număr",
+            "description": "$~tip de număr$unit[ în $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Îi spun @Bind că un nume conține un @Number . Știi ce ar trebui să fie @Bind ? Un @Number — pentru că numerele sunt cele mai bune.",
+                "\\count•#: 17\\🪲"
+            ]
+        },
+        "NameType": {
+            "name": "$~structura",
+            "description": "$~tip structură $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Reprezint o @StructureDefinition prin numele său. Deci, dacă ai avea o structură de genul acesta, ai putea crea un @Bind care să stocheze valorile pe care le creează.",
+                "\\•Prieten(nume•'') cel mai bun prieten•Prieten: Prieten('Jonah')\\🪲"
+            ],
+            "conflict": {
+                "UnknownTypeName": {
+                    "name": "$~nume de tip necunoscut",
+                    "explanation": "$~numele de tipuri se pot referi doar la structuri sau variabile de tip, dar acestea se referă la tipul $type",
+                    "resolution": "$~Înlocuiți cu un substituent de tip"
+                }
+            }
+        },
+        "NeverType": {
+            "name": "$~nu",
+            "description": "$~tip imposibil",
+            "emotion": "curious",
+            "doc": "$~Reprezint un @type care este imposibil. Ca atunci când întrebi @Is dacă ceva este un @Number, dar nu poate fi niciodată un număr."
+        },
+        "NoneType": {
+            "name": "$~tip fără",
+            "description": "$~tip niciunul",
+            "emotion": "neutral",
+            "doc": [
+                "$~@None nu e cel mai bun nimic din câte există, iar eu sunt reprezentantul lor fidel.",
+                "\\spațiu•ø: ø\\🪲"
+            ]
+        },
+        "SetType": {
+            "name": "$~tip set",
+            "description": "$~tip set$type[ de $type|]",
+            "emotion": "kind",
+            "doc": [
+                "$~Îi spun lui @Bind că un nume conține un @Set de un anumit tip. @Set este CEL MAI BUN, serios!",
+                "\\unique•{''}: {'something' 'anything' 'someone'}\\🪲"
+            ]
+        },
+        "StreamDefinitionType": {
+            "name": "$~tip definiție de flux",
+            "description": "$~tip de definiție de flux",
+            "emotion": "angry",
+            "doc": "$~Reprezint un @stream pe care l-ai definit, ceea ce nu este posibil, așa că de ce citești asta?"
+        },
+        "StreamType": {
+            "name": "$~tip flux",
+            "description": "$~tip flux",
+            "emotion": "curious",
+            "doc": [
+                "$~Celebrez frumusețea și semnificația stream-urilor... spunându-i lui @Bind să le stocheze:",
+                "\\time•…#ms: Timp()\\🪲"
+            ]
+        },
+        "StructureType": {
+            "name": "$~tip structură",
+            "description": "$~structura $name",
+            "emotion": "kind",
+            "doc": "$~Sunt un @type intern care reprezintă tipul tipurilor @value implicite."
+        },
+        "UnknownType": {
+            "name": "$~necunoscut",
+            "description": "$!necunoscut",
+            "connector": "$~, deoarece",
+            "emotion": "curious",
+            "doc": "$~Sunt un @type pe care nimeni nu l-a descoperit încă. Hmm… știi ce reprezint? Poate trebuie să ne spui tu, dacă noi nu ne putem da seama."
+        },
+        "TableType": {
+            "name": "$~tip tabel",
+            "description": "$~tabel",
+            "emotion": "angry",
+            "doc": "$~Eu reprezint un @Table.",
+            "conflict": {
+                "ExpectedColumnType": {
+                    "name": "$~tip de coloană lipsă",
+                    "explanation": "$~Am nevoie de un tip de coloană",
+                    "resolution": "$~Adăugați un substituent pentru tip"
+                }
+            }
+        },
+        "TextType": {
+            "name": "$~tip text",
+            "description": "$~$text['$text'|tip text]",
+            "emotion": "happy",
+            "doc": [
+                "$~Reprezint fabulos cel mai fabulos tip de @value care există, @Text.",
+                "\\poveste•'': 'A fost odată ca niciodată...'\\🪲"
+            ]
+        },
+        "TypePlaceholder": {
+            "name": "$~substituent",
+            "description": "$~substituent de tip",
+            "emotion": "eager",
+            "doc": "$~Sper să reprezint un @type într-o zi, cam așa cum cel mai bun prieten al meu @ExpressionPlaceholder reprezintă un @expression! Mă ajuți să decid ce fel?"
+        },
+        "UnionType": {
+            "name": "$~opţiune",
+            "description": "$~tip unul dintre $first sau $second",
+            "emotion": "curious",
+            "doc": [
+                "$~Eu reprezint un @value care ar putea fi unul dintre mai multe tipuri — A sau B sau altceva? Nu mă pot hotărî niciodată!",
+                "\\nehotărâre•''|#|{ø}: 'Nu știu!'\\🪲"
+            ],
+            "elidedSuffix": "$~sau $omitted alte opțiuni"
+        },
+        "Unit": {
+            "name": "$~unitate",
+            "description": "$~$unit[unitate $unit|fără unitate]",
+            "emotion": "precise",
+            "doc": [
+                "$~Reprezint orice unitate pe care un @Number ar putea-o avea, inclusiv nicio unitate, în cea mai complicată unitate pe care ți-o poți imagina. Cum ar fi gravitația, de exemplu:",
+                "\\gravitație•m/s^2: 9,8 m/s^2\\🪲",
+                "Apar în @Bind, dar și imediat după @Number. Mă asigur că numerele sunt de același fel și vă voi spune cu siguranță dacă nu sunt, în cazul în care este o greșeală!"
+            ]
+        },
+        "UnparsableType": {
+            "name": "$~neanalizabil",
+            "description": "$~tip care nu poate fi analizat",
+            "emotion": "curious",
+            "doc": "$~Reprezint @type al unei @expression necunoscute. Apar când încerci să folosești acea expresie pentru ceva."
+        },
+        "VariableType": {
+            "name": "$~tip de variabilă",
+            "description": "$~variabilă de tip",
+            "emotion": "curious",
+            "doc": "$~Țin locul unui @TypeVariable — un fel necunoscut de @value — în toate negocierile dintre valori."
+        },
+        "CycleType": {
+            "name": "$~ciclu",
+            "description": "$~dependență ciclică",
+            "emotion": "curious",
+            "doc": "$~Reprezint un @value al cărui @type depinde de el însuși, așa că nu putem spune ce fel de valoare este."
+        },
+        "UnknownVariableType": {
+            "name": "$~variabilă necunoscută",
+            "description": "$~variabilă de tip necunoscută",
+            "emotion": "curious",
+            "doc": "$~Uneori încercăm să ghicim ce fel de @value este ceva; eu apar când nu știm."
+        },
+        "NotAType": {
+            "name": "$~neaşteptat",
+            "description": "$~nu este un $type",
+            "emotion": "curious",
+            "doc": "$~Reprezint un @value al cărui @type nu este cel pe care îl așteptam — ca atunci când @ListAccess are nevoie de un @Number, dar primește altceva."
+        },
+        "NoExpressionType": {
+            "name": "$~fără expresie",
+            "description": "$~tip bloc gol",
+            "emotion": "angry",
+            "doc": "$~Sunt @type pe care îl primești când un @Block nu are niciun @expression în el. Știi că are nevoie de cel puțin unul — deci dă-i unul!"
+        },
+        "NotEnclosedType": {
+            "name": "$~nu se află într-o structură, conversie sau reacție",
+            "description": "$~nu într-o structură",
+            "emotion": "curious",
+            "doc": "$~Apar când @This este folosit undeva unde nu se potrivește, așa că nimeni nu știe ce @value reprezint."
+        },
+        "NotImplementedType": {
+            "name": "$~neimplementat",
+            "description": "$~neimplementat",
+            "emotion": "curious",
+            "doc": "$~Când folosești @ExpressionPlaceholder, dar nu spui ce @type sunt, eu sunt tipul pe care îl primești. Descurcă-te cu asta!"
+        },
+        "UnknownNameType": {
+            "name": "$~nume necunoscut",
+            "description": "$~$name[ $name nu este încă definit | numele nu este specificat]",
+            "emotion": "curious",
+            "doc": "$~Reprezint un @name pe care @Reference sau @PropertyReference nu l-a putut găsi, când nu știm despre cine vorbești."
+        },
+        "NonFunctionType": {
+            "name": "$~non-funcțional",
+            "description": "$~$type care nu este funcție",
+            "emotion": "confused",
+            "doc": "$~Unii dintre noi ne așteptam la niște funcții; eu apar când nu primim una."
+        },
+        "Translate": {
+            "name": "$~traduce",
+            "description": "$~traduce fiecare valoare din $expression",
+            "emotion": "excited",
+            "doc": [
+                "$~Eu fac ACELAȘI lucru pentru FIECARE @element dintr-o colecție! O, O, O! Chiar asta FAC eu!!",
+                "Pune o colecție în stânga mea, desenează săgeata mea \\↦\\, apoi în dreapta mea scrie în ce ar trebui să se TRANSFORME fiecare element — folosește @This ca să însemni elementul pe care îl țin ACUM!",
+                "\\[1 2 3] ↦ ⬚ + 1\\ îți dă \\[2 3 4]\\. BUM! Fiecare număr, plus unu, fără bucle, fără @FunctionDefinition, fără bătăi de cap!",
+                "Sunt UIMITOR pentru a face ieșire @Phrase din date! Ai o listă de nume? \\['Ada' 'Mac' 'Tim'] ↦ Fraza(⬚)\\ și acum există o frază pentru FIECARE nume!!",
+                "Eu lucrez cu @List, @Set, @Map (schimb VALORILE hărții — cheile rămân exact unde sunt!), și chiar @Table!",
+                "Vrei ceva mai sofisticat — cum ar fi @index al fiecărui element, sau o funcție pe care o poți refolosi în multe locuri? Vizitează-mi verii mai calmi și maturi, precum @List.translate. Dar pentru mapare rapidă de zi cu zi, sunt aici!!"
+            ],
+            "start": "$~Stai puțin, lasă-mă să iau tot ce e în $expression !",
+            "finish": "$~TA-DA! Iată noua ta colecție: $value",
+            "next": "$~Următorul element: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~colecție așteptată",
+                    "explanation": "$~Mă așteptam ca partea stângă a unei conversii de colecție să fie o colecție, dar am primit $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~this așteptat",
+                    "explanation": "$~Ai vrut să folosești @This pentru a te referi la un element din această colecție?"
+                }
+            }
+        },
+        "ExternalExample": {
+            "name": "$~exemplu extern",
+            "description": "$~exemplu de cod extern$languages[ în $languages|]",
+            "emotion": "serious",
+            "doc": [
+                "$~Arăt @code colorat sintactic scris în alte limbaje de programare, ca să poată compara creatorii care deja scriu cod.",
+                "Scrie câte o variantă pentru fiecare @language, ca o etichetă de două litere, o bară, și codul, astfel \\py| a = 5\\js| let a = 5;\\. Cititorul vede varianta care corespunde limbii alese de el. Sunt acceptate Python (py), JavaScript (js) și Java (jv)."
+            ]
+        },
+        "Localized": {
+            "name": "$~localizat",
+            "description": "$~text localizat",
+            "emotion": "serious",
+            "label": {
+                "value": "$~valoare"
+            },
+            "doc": [
+                "$~Aplic o limbă unui text pe care îl calculezi, ca să își păstreze @language chiar și după ce îl schimbi. Așa:",
+                "\\('salut' + '!')/en\\",
+                "Majoritatea operațiilor cu text păstrează deja limbile, dar eu îți permit să setezi tu una când vrei să le înlocuiești.",
+                "Eu funcționez doar pe text, așa că ai grijă să îmi dai text!"
+            ],
+            "start": "$~Să evaluăm $value , apoi să o etichetăm cu o localizare…"
+        },
+        "PatternLiteral": {
+            "name": "$~model",
+            "description": "$~model cu $#count[$#count parte|$count părți|$count de părți]",
+            "emotion": "curious",
+            "doc": [
+                "$~Sunt un model! Descriu *forma* textului în loc de cuvinte exacte, așa că poți verifica textul cu \\≈\\ — se potrivește tot textul? — sau îl poți căuta cu \\⌕\\ ca să găsești fiecare loc unde apare forma. Căutarea îți dă înapoi o listă de @Result.",
+                "Iată o căutare în acțiune — găsind cuvintele de mâncare într-o propoziție despre micul dejun:",
+                "\\miculDejun: 'La micul dejun am mâncat ouă, pâine prăjită și suc de portocale'\nmiculDejun ⌕ ⣿ \"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "Citește-mă de la stânga la dreapta. Un @PatternClass se potrivește cu un caracter de un fel: \\⣿◌⣿\\ oricare, \\⣿_⣿\\ o literă, \\⣿#⣿\\ o cifră, \\⣿␣⣿\\ un spațiu. Textul între ghilimele este un @PatternLiteralText care se potrivește exact, precum \\⣿\"-\"⣿\\. Restul \\⣿…⣿\\ — un @PatternRest — se potrivește cu orice număr de caractere.",
+                "Numărătorile vin mai întâi. Un @PatternQuantified repetă partea următoare de un @PatternQuantifier: \\⣿3 #⣿\\ înseamnă trei cifre, \\⣿3–5 #⣿\\ trei până la cinci, \\⣿>0 #⣿\\ una sau mai multe, \\⣿≥0 #⣿\\ zero sau mai multe, \\⣿≤1 #⣿\\ opțional.",
+                "Grupează părțile cu un @PatternGroup, și oferă opțiuni într-un @PatternSequence, precum \\⣿(◌ | #)⣿\\. Câștigă cea mai lungă opțiune care se potrivește.",
+                "Un @PatternSet se potrivește cu un caracter dintr-un set, iar un @PatternRange acoperă intervale de caractere, precum \\⣿ {\"a\"–\"z\" #}⣿\\. Neagă o parte cu un @PatternComplement, precum \\⣿~#⣿\\.",
+                "Rafinează o clasă cu un @PatternProperty, precum \\⣿ _/greek⣿\\ pentru o literă grecească sau \\⣿ ◌/emoji⣿\\.",
+                "Dă un nume unei piese cu un @PatternCapture, ca \\⣿ year: (4 #)⣿\\, apoi refolosește-o mai târziu cu un @PatternBackref scriind numele său simplu. Fiecare @Result raportează piesele capturate după nume.",
+                "Ancorează la margini cu un @PatternAnchor: \\⣿⊢⣿\\ început, \\⣿⊣⣿\\ sfârșit. Privește fără a consuma folosind un @PatternLook: \\⣿▸(#)⣿\\ înainte, \\⣿◂(#)⣿\\ înapoi.",
+                "Potrivește cuvinte întregi cu un @PatternWord \\⣿ ▭/en⣿\\ sau limite de cuvinte cu un @PatternWordEdge \\⣿ ┊/en⣿\\, segmentat pentru un @language. Ignoră majusculele și minusculele într-un @PatternCaseFold \\⣿ Aa(\"hi\")⣿\\.",
+                "@type meu este un @PatternType — adnotează un nume cu el, ca \\p•⣿⣿: ⣿ ◌⣿\\🪲 — ca să mă poți stoca într-un nume și să mă refolosești în multe texte."
+            ],
+            "start": "$~Stai să văd cum arată acest text.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~tipar gol",
+                    "explanation": "$~Nu am piese, deci nu găsesc nimic util. Poți adăuga o piesă?",
+                    "resolution": "$~Adăugați un \\◌\\ pentru a se potrivi cu orice caracter"
+                }
+            },
+            "step": {
+                "search": "$~Să găsim fiecare loc în text în care apare acest model.",
+                "test": "$~Să verificăm dacă întregul text se încadrează în model.",
+                "scan": "$~Se caută modelul care începe la poziția $position .",
+                "match": "$~$pattern se potrivește cu $glyph la poziția $position .",
+                "miss": "$~$pattern nu se potrivește cu $glyph la poziția $position .",
+                "end": "$~$pattern mai are nevoie de un caracter, dar am ajuns la sfârșitul textului la poziția $position .",
+                "repeat": "$~$pattern s-a potrivit cu $count — suficient pentru a continua.",
+                "short": "$~$pattern s-a potrivit doar cu $count — nu este suficient.",
+                "here": "$~$pattern se menține la poziția $position .",
+                "nothere": "$~$pattern nu se menține la poziția $position ."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~secvenţă",
+            "description": "$~secvență de model",
+            "emotion": "curious",
+            "doc": [
+                "$~Sunt un rând de părți ale modelului, potrivite una după alta, de la stânga la dreapta.",
+                "De exemplu, verificați forma unui număr de telefon — trei cifre, o liniuță, apoi patru:",
+                "\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\🪲",
+                "Oferă-mi opțiuni și le aleg pe cele care se potrivesc, preferând-o pe cea mai lungă, cum ar fi \\⣿\"cat\" | \"dog\"⣿\\ ."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~alegeri suprapuse",
+                    "explanation": "$~$shorter este începutul lui $longer , iar cea mai lungă opțiune câștigă întotdeauna, așa că $shorter se potrivește doar atunci când $longer nu poate. Ai vrut să spui asta?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~clasă de caractere",
+            "description": "$~clasă de caractere",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc un singur caracter de un fel: \\⣿◌⣿\\ orice grafem, \\⣿_⣿\\ o literă, \\⣿#⣿\\ o cifră, \\⣿␣⣿\\ un spațiu.",
+                "De exemplu, extrage fiecare @code literă-apoi-cifră dintr-o listă:",
+                "\\coduri: 'a1 b2 c3'\ncoduri ⌕ ⣿ _ #⣿\\",
+                "Numără-mă cu un cuantificator ca \\⣿>0 #⣿\\ (una sau mai multe cifre), sau restrânge-mă cu un @property ca \\⣿ _/greek⣿\\ (o literă grecească)."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~proprietate",
+            "description": "$~proprietate Unicode",
+            "emotion": "curious",
+            "doc": [
+                "$~Restrâng o clasă de caractere la un @property Unicode. Folosește un sistem de scriere, ca \\⣿ _/greek⣿\\, \\⣿ _/han⣿\\, sau \\⣿ _/arabic⣿\\.",
+                "De exemplu, găsește șirul de litere grecești într-un text amestecat:",
+                "\\text: 'salut αβγ lume'\ntext ⌕ ⣿ >0 _/greek⣿\\",
+                "Sau o categorie, ca \\⣿ ◌/punctuation⣿\\, \\⣿ ◌/currency⣿\\, \\⣿ ◌/Nd⣿\\ (o cifră), sau \\⣿ _/Lu⣿\\ (o literă mare).",
+                "Sau o proprietate de tip da-sau-nu, ca \\⣿ ◌/emoji⣿\\ sau \\⣿ _/uppercase⣿\\ — și poți scrie una ca nume și @value, ca \\⣿ ◌/Script=Greek⣿\\.",
+                "Exclude o proprietate cu un @PatternComplement, ca \\⣿ ~◌/emoji⣿\\ (orice nu este un emoji)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~proprietate necunoscută",
+                    "explanation": "$~Nu recunosc proprietatea $name . Încercați o categorie, un script sau un ID Unicode.",
+                    "resolution": "$~Schimbă-l în $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~cuantificator",
+            "description": "$~număr de repetări",
+            "emotion": "curious",
+            "doc": [
+                "$~Indic de câte ori se potrivește: un număr exact \\⣿3 #⣿\\ , un interval \\⣿3–5 #⣿\\ , \\⣿=3 #⣿\\ (exact trei), \\⣿>0 #⣿\\ (unu sau mai multe), \\⣿≥0 #⣿\\ (zero sau mai multe), \\⣿<5 #⣿\\ (mai puțin de cinci), \\⣿≤1 #⣿\\ (opțional).",
+                "De exemplu, găsiți fiecare serie de cifre dintr-o propoziție:",
+                "\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "Întotdeauna vin înaintea părții pe care o număr, cum ar fi \\⣿3 #⣿\\ sau \\⣿>0 _⣿\\ ."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~număr imposibil",
+                    "explanation": "$~Numărul meu mic este mai mare decât numărul meu mare, așa că nu pot niciodată să egalez.",
+                    "resolution": "$~Schimb numerele mele, astfel încât cele mai mici să fie primele"
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~repetiţie",
+            "description": "$~potrivire repetată",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc următoarea parte de câteva ori.",
+                "De exemplu, verificați dacă un @code poștal are exact cinci cifre:",
+                "\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "Numără o clasă precum \\⣿3 #⣿\\ (trei cifre), un grup precum \\⣿2 (\"ab\")⣿\\ (două „ab”-uri) sau un complement precum \\⣿2 ~#⣿\\ (două numere care nu sunt cifre). Cu \\⣿>0 #⣿\\ sunt lacom — iau cât mai multe pot."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~capta",
+            "description": "$~captură denumită $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Denumesc o parte a unui meci, astfel încât să o puteți citi din fiecare @Result .",
+                "De exemplu, extrageți anul, luna și ziua dintr-o dată:",
+                "\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "Refolosește ceea ce am capturat ulterior scriindu-mi din nou numele — vezi @PatternBackref — de exemplu \\⣿w:(>0 _) ␣ w⣿\\ pentru a găsi un cuvânt dublat."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~captură duplicată",
+                    "explanation": "$~O altă captură folosește deja numele $name , deci aceasta îl va suprascrie.",
+                    "resolution": "$~Redenumiți această captură în $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~nu",
+            "description": "$~potrivire complementară",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc un singur grafem care NU este ceea ce urmează. Neagă o clasă ca \\⣿~#⣿\\ (nu o cifră), sau un set ca \\⣿~{\":\" ␣}⣿\\ (nu două puncte sau spațiu).",
+                "De exemplu, prinde @key și @value din jurul unui semn două puncte potrivind șiruri care nu sunt două puncte sau spațiu:",
+                "\\pereche: 'culoare: albastru'\npereche ⌕ ⣿ >0 ~{\":\" ␣}⣿\\",
+                "Neagă un grup ca \\⣿~(◌ | #)⣿\\, sau un @property ca \\⣿ ~◌/emoji⣿\\ (nu un emoji).",
+                "Pune-mă înaintea unui @PatternLook ca să-l inversezi: \\⣿~▸(#)⣿\\ înseamnă „nu este urmat de o cifră”, iar \\⣿~◂(\"$\")⣿\\ înseamnă „nu este precedat de un semn de dolar”."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~grup",
+            "description": "$~grup de model",
+            "emotion": "curious",
+            "doc": [
+                "$~Grupez părțile împreună, astfel încât un număr sau o opțiune se aplică tuturor. Nu capturez niciodată; denumesc o piesă cu @PatternCapture pentru asta.",
+                "De exemplu, verificați dacă în anumite texte se repetă silaba „ab”:",
+                "\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "Numără un grup precum \\⣿2 (\"ab\")⣿\\ (două „ab”) sau oferă o opțiune precum \\⣿(◌ | #)⣿\\ (o literă sau o cifră)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~set de glife",
+            "description": "$~set de grafeme",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc orice grafemă dintr-un set de opțiuni.",
+                "De exemplu, găsiți vocalele dintr-un cuvânt:",
+                "\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "Amestecă intervale și clase, cum ar fi \\⣿{\"a\"–\"z\" #}⣿\\ sau \\⣿{# \"a\"–\"f\"}⣿\\ (o cifră hexadecimală). Neagă-mă cu un @PatternComplement , cum ar fi \\⣿~{\"!\" \"?\"}⣿\\ ."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~gamă",
+            "description": "$~interval de la $low la $high",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc un grafem între două puncte finale prin ordine scalară și mă aflu în interiorul unui @PatternSet .",
+                "De exemplu, extrageți cuvintele scrise cu litere mici dintr-un text:",
+                "\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "Litere de tip „span”, cum ar fi \\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ sau cifre, cum ar fi \\⣿{\"0\"–\"9\"}⣿\\ , în orice alfabet, cum ar fi \\⣿{\"あ\"–\"ん\"}⣿\\ ."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~literal",
+            "description": "$~text exact $text",
+            "emotion": "curious",
+            "doc": [
+                "$~Corespund exact textului din ghilimele, fără nicio semnificație specială.",
+                "De exemplu, găsiți suma în dolari într-o propoziție:",
+                "\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "Folosește-mă pentru biți ficși precum \\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ , sau un cuvânt întreg \\⣿\"cat\"⣿\\ , legat împreună cu alte părți, cum ar fi \\⣿3 # \"-\" 4 #⣿\\ pentru un număr de telefon."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~ancoră",
+            "description": "$~marginea textului",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc o margine a textului fără a consuma nimic: \\⣿⊢⣿\\ începutul, \\⣿⊣⣿\\ sfârșitul.",
+                "De exemplu, verificați dacă un mesaj de salut începe cu „Salut”:",
+                "\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "Poziția pinului, cum ar fi \\⣿⊢ \"Hi\"⣿\\ (începe cu „Salut”), \\⣿\".\" ⊣⣿\\ (se termină cu punct) sau \\⣿⊢ _ ⊣⣿\\ (întregul text are exact o singură literă)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~cuvânt",
+            "description": "$~cuvânt întreg",
+            "emotion": "curious",
+            "doc": [
+                "$~Eu potrivesc un cuvânt întreg, găsit după regulile proprii ale unui @language.",
+                "De exemplu, enumeră cuvintele dintr-o propoziție:",
+                "\\propoziție: 'pisica a stat'\npropoziție ⌕ ⣿ ▭/en⣿\\",
+                "Numește limba, cum ar fi \\⣿ ▭/en⣿\\ pentru engleză sau \\⣿ ▭/zh⣿\\ pentru chineză, și mărginește un anumit cuvânt cu margini, cum ar fi \\⣿ ┊/en \"cat\" ┊/en⣿\\."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~limbă lipsă",
+                    "explanation": "$~Am nevoie de o limbă ca să știu cum să găsesc cuvinte. Poți adăuga una, cum ar fi \\/en\\ ?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~margine de cuvânt",
+            "description": "$~limita cuvântului",
+            "emotion": "curious",
+            "doc": [
+                "$~Eu potrivesc o margine de cuvânt pentru un @language fără să consum nimic.",
+                "De exemplu, găsește „cat” ca un cuvânt întreg, nu în interiorul lui „category”:",
+                "\\text: 'o pisică într-o categorie'\ntext ⌕ ⣿ ┊/en \"cat\" ┊/en⣿\\",
+                "Înconjoară un cuvânt cu mine, cum ar fi \\⣿ ┊/en \"cat\" ┊/en⣿\\, ca să se potrivească doar întreg."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~uită-teînjur",
+            "description": "$~privire în jur",
+            "emotion": "curious",
+            "doc": [
+                "$~Verific ce este chiar înainte \\⣿▸(#)⣿\\ sau în spate \\⣿◂(#)⣿\\ fără a-l consuma, astfel încât următoarea parte se potrivește tot din același loc.",
+                "De exemplu, găsiți fiecare literă urmată imediat de o cifră:",
+                "\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "Necesită context, cum ar fi \\⣿_ ▸(#)⣿\\ (o literă urmată de o cifră) sau \\⣿◂(\"$\") >0 #⣿\\ (cifre imediat după un \"$\").",
+                "Întoarce-mă cu un @PatternComplement pentru a interzice contextul, cum ar fi \\⣿~▸(#)⣿\\ (neurmat de o cifră)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~referințăinversă",
+            "description": "$~referință înapoi",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc același text cu un @PatternCapture deja potrivit - scriu doar numele simplu al capturii.",
+                "De exemplu, găsiți un cuvânt care se repetă imediat:",
+                "\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "Un nume simplu care nu este o captură este în schimb o clasă denumită, cum ar fi \\⣿linebreak⣿\\ ."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~nume necunoscut",
+                    "explanation": "$~Nu există nicio captură sau clasă numită $name , deci nu am nimic care să se potrivească.",
+                    "resolution": "$~Schimbă-l în $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~odihnă",
+            "description": "$~restul intrării",
+            "emotion": "curious",
+            "doc": [
+                "$~Potrivesc restul textului, pe cât posibil. Sunt îndemânatic la sfârșitul unui model.",
+                "De exemplu, verifică dacă un text este un hashtag — un „#” apoi orice altceva:",
+                "\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "Folosește-mă după un început fix, cum ar fi \\⣿\"#\" …⣿\\ (un \"#\" apoi orice) sau \\⣿\"Hi \" …⣿\\ („Salut \" apoi tot ce urmează)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~ignoră majusculele",
+            "description": "$~potrivire fără majuscule și minuscule",
+            "emotion": "curious",
+            "doc": [
+                "$~Eu potrivesc părțile mele fără să țin cont de literele mari și mici.",
+                "De exemplu, verifică un cuvânt ignorând literele mari:",
+                "\\strigă: 'SALUT'\nstrigă ≈ ⣿ Aa(\"hello\")⣿\\",
+                "Înconjoară părțile mele cum ar fi \\⣿ Aa(\"hi\")⣿\\ (potrivește „HI”, „Hi” sau „hi”). Adaugă un @language pentru regulile lui, cum ar fi \\⣿ Aa/tr(\"i\")⣿\\ (i turcic), iar eu cuprind și un @PatternBackref, cum ar fi \\⣿ Aa(w: (2 _) w)⣿\\."
+            ]
+        },
+        "PatternType": {
+            "name": "$~tip de tipar",
+            "description": "$~model",
+            "emotion": "curious",
+            "doc": [
+                "$~Eu sunt @type al unui tipar @value, adnotat ca \\p•⣿⣿: ⣿ ◌⣿\\🪲.",
+                "De exemplu, stochează un tipar într-un @name și refolosește-l în multe texte:",
+                "\\cifre: ⣿ >0 #⣿\n'Am 3 pisici și 12 pești' ⌕ cifre\\",
+                "Odată stocat, folosește-mă oriunde se potrivește un tipar, ca \\text ⌕ digits\\🪲 sau \\text ≈ digits\\🪲."
+            ]
+        },
+        "RangeType": {
+            "name": "$~interval",
+            "description": "$~tip interval$unit[ în $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Îi spun lui @Bind că un nume ține un @Range — două limite @Number, și fiecare număr dintre ele.",
+                "\\întindere•‥: 1 ‥ 10\\🪲"
+            ]
+        }
+    }
+}

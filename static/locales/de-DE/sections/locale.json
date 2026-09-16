@@ -1,0 +1,432 @@
+{
+    "$schema": "../../../static/schemas/sections/locale.json",
+    "language": "de",
+    "regions": ["DE"],
+    "guidance": "",
+    "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Diese Plattform und die Programmier-@language, mit der man Projekte auf dieser Plattform erstellt."
+        },
+        "value": {
+            "word": "Wert",
+            "definition": "$~Ein Stück Information, wie eine @Number, ein paar Wörter oder eine @List."
+        },
+        "type": {
+            "word": "Typ",
+            "definition": "$~Die Art eines @value, wie @Number oder @Text. Der Typ eines Werts entscheidet, was du damit tun kannst."
+        },
+        "expression": {
+            "word": "$~Ausdruck",
+            "definition": "$~Ein Stück @code, das einen @value erzeugt, wenn es läuft."
+        },
+        "variable": {
+            "word": "$~Variable",
+            "definition": "$~Ein @name, dessen @value sich ändern kann, während ein @Program läuft."
+        },
+        "parameter": {
+            "word": "$~Parameter",
+            "definition": "$~Ein benannter @Input, den ein @FunctionDefinition erwartet, wenn du ihn aufrufst."
+        },
+        "argument": {
+            "word": "$~Argument",
+            "definition": "$~Ein @value, den du einer @FunctionDefinition für einen ihrer @parameters gibst."
+        },
+        "operator": {
+            "word": "$~Operator",
+            "definition": "$~Ein Symbol, wie + oder -, das Werte verbindet oder vergleicht."
+        },
+        "condition": {
+            "word": "$~Bedingung",
+            "definition": "$~Ein Wahr-oder-Falsch-Test, der entscheidet, was ein @Program als Nächstes tut."
+        },
+        "loop": {
+            "word": "$~Schleife",
+            "definition": "$~@code, der eine Aktion viele Male wiederholt."
+        },
+        "iteration": {
+            "word": "$~Durchlauf",
+            "definition": "$~Ein Durchgang durch eine @loop."
+        },
+        "recursion": {
+            "word": "$~Rekursion",
+            "definition": "$~Wenn eine @FunctionDefinition sich selbst aufruft, um einen kleineren Teil eines Problems zu lösen."
+        },
+        "property": {
+            "word": "$~Eigenschaft",
+            "definition": "$~Ein benannter Teil eines @value, wie die Helligkeit eines @Color."
+        },
+        "element": {
+            "word": "$~Element",
+            "definition": "$~Ein Element in einer @List oder Gruppe."
+        },
+        "scope": {
+            "word": "$~Gültigkeitsbereich",
+            "definition": "$~Der Teil eines @Program, in dem ein @name verwendet werden kann."
+        },
+        "state": {
+            "word": "$~Zustand",
+            "definition": "$~Informationen, die ein @Program behält und mit der Zeit ändern kann."
+        },
+        "sideEffect": {
+            "word": "$~Nebenwirkung",
+            "definition": "$~Eine Änderung, die ein @Program macht, außer einen @value zurückzugeben, wie das Anzeigen von @Output."
+        },
+        "abstraction": {
+            "word": "$~Abstraktion",
+            "definition": "$~Details verstecken, damit du etwas benutzen kannst, ohne zu wissen, wie es innen funktioniert."
+        },
+        "project": {
+            "word": "Projekt",
+            "definition": "$~Alle Dateien, die ein @wordplay-@Program bilden."
+        },
+        "code": {
+            "word": "$~Code",
+            "definition": "$~Der Text, den du schreibst, um einem @Program zu sagen, was es tun soll."
+        },
+        "act": {
+            "word": "speilen",
+            "definition": "$~Ein großer Teil der @tutorial, wie ein Akt in einem Theaterstück."
+        },
+        "how": {
+            "word": "$~Wie man",
+            "definition": "$~Ein kurzer @guide, der zeigt, wie man eine Sache macht."
+        },
+        "gallery": {
+            "word": "$~Galerie",
+            "definition": "$~Ein Ort, an dem Menschen Projekte teilen und erkunden."
+        },
+        "blocks": {
+            "word": "$~Blöcke",
+            "definition": "$~Eine Art, @code zu bearbeiten, indem man Teile zieht, statt zu tippen."
+        },
+        "placeholder": {
+            "word": "$~Platzhalter",
+            "definition": "$~Eine leere Stelle, die zeigt, wo @code oder ein @value fehlt."
+        },
+        "conflict": {
+            "word": "$~Konflikt",
+            "definition": "$~Ein Problem im @code, das @wordplay markiert, damit du es beheben kannst."
+        },
+        "checkpoint": {
+            "word": "$~Prüfpunkt",
+            "definition": "$~Ein gespeicherter Punkt in deiner Arbeit, zu dem du zurückkehren kannst."
+        },
+        "guide": {
+            "word": "$~Leitfaden",
+            "definition": "$~Das durchsuchbare Nachschlagewerk, das die Ideen von @wordplay erklärt."
+        },
+        "tutorial": {
+            "word": "$~Anleitung",
+            "definition": "$~Die Schritt-für-Schritt-Lektionen, die @wordplay lehren."
+        },
+        "name": {
+            "word": "Name",
+            "definition": "$~Ein Wort, das sich auf einen @value oder eine @FunctionDefinition bezieht."
+        },
+        "markup": {
+            "word": "$~formatierter Text",
+            "definition": "$~Text mit Formatierung, wie fette Wörter oder Links."
+        },
+        "language": {
+            "word": "$~Sprache",
+            "definition": "$~Eine menschliche Sprache, in der ein @name oder Text geschrieben ist."
+        },
+        "documentation": {
+            "word": "$~Dokumentation",
+            "definition": "$~Text, der erklärt, was @code tut."
+        },
+        "region": {
+            "word": "$~Region",
+            "definition": "$~Ein Ort, an dem eine @language benutzt wird, was ändern kann, wie Zahlen und Daten aussehen."
+        },
+        "start": {
+            "word": "Anfang",
+            "definition": "$~Die Hauptquelldatei, in der ein @project beginnt."
+        },
+        "query": {
+            "word": "Abfrage",
+            "definition": "$~Eine Möglichkeit, Zeilen aus einer @Table auszuwählen."
+        },
+        "key": {
+            "word": "Schlüssel",
+            "definition": "$~Der @value, mit dem man ein Element in einer @Map findet."
+        },
+        "index": {
+            "word": "Index",
+            "definition": "$~Eine @Number, die ein Element nach seiner Position in einer @List auswählt."
+        },
+        "moved": {
+            "word": "gerührt",
+            "definition": "$~@Output, die ihre Position auf der Bühne geändert hat."
+        },
+        "entered": {
+            "word": "neu",
+            "definition": "$~@Output, das zum ersten Mal auf der Bühne erschienen ist."
+        },
+        "cell": {
+            "word": "$~Zelle",
+            "definition": "$~Eine @value in einer @Table-Zeile."
+        },
+        "column": {
+            "word": "$~Spalte",
+            "definition": "$~Ein benanntes Feld in einer @Table."
+        },
+        "editor": {
+            "word": "$~Editor",
+            "definition": "$~Die Box, in der du @code schreibst. Was du dort eingibst, führt @wordplay aus."
+        },
+        "stage": {
+            "word": "$~Bühne",
+            "definition": "$~Der Bereich, in dem @wordplay zeigt, was dein @code erschaffen hat."
+        },
+        "stream": {
+            "word": "$~Datenstrom",
+            "definition": "$~Ein @value, der sich mit der Zeit verändert, so wie @Time tickt oder eine @Key gedrückt wird. Jedes Mal, wenn er sich ändert, wertet @Program erneut mit dem neuen @value aus."
+        },
+        "source": {
+            "word": "$~Quelle",
+            "definition": "$~Ein @code-Dokument in einem @project. Ein @project kann mehr als eines haben, und jedes kann Dinge @share, die sich die anderen @borrow."
+        },
+        "borrow": {
+            "word": "$~leihen",
+            "definition": "$~Um etwas zu nutzen, das eine andere @Source geteilt hat, schreibst du ↓ und den Namen dieser @source."
+        },
+        "share": {
+            "word": "$~teilen",
+            "definition": "$~Um etwas in einer @Source mit ↑ zu markieren, damit andere @source-Dateien es @borrow können."
+        },
+        "kit": {
+            "word": "$~Baukasten",
+            "definition": "$~Eine @Source, die jemand veröffentlicht hat, damit andere Menschen sie in ihrem eigenen @borrow @project können."
+        }
+    },
+    "terms": {},
+    "moderation": {
+        "warning": {
+            "header": "$~Warnung",
+            "explanation": "$~Ein Moderator hat entschieden, dass dieser Inhalt:"
+        },
+        "blocked": {
+            "header": "$~verstopft",
+            "explanation": "$~Ein Moderator hat entschieden, dass dieser Inhalt:"
+        },
+        "unmoderated": {
+            "header": "$~Notiz",
+            "explanation": "$~Dieser Inhalt wurde noch nicht moderiert. Er kann:"
+        },
+        "moderate": {
+            "header": "$~Mäßig",
+            "explanation": "$~Überprüfen Sie dieses Projekt und entscheiden Sie, ob sein Inhalt eines der folgenden Dinge tut. Wenn dies der Fall ist, wird der Inhalt gewarnt oder blockiert. Sie können diesen Schritt überspringen, wenn Sie sich nicht sicher sind."
+        },
+        "flags": {
+            "violence": "$~Gewalt, Verletzungen oder Selbstverletzungen gegenüber anderen anstiften, dazu ermutigen oder sie feiern.",
+            "dehumanization": "$~Entmenschlichung von Einzelpersonen oder Gruppen aufgrund ihrer Rasse, ethnischen Zugehörigkeit, nationalen Herkunft, Kaste, sexuellen Orientierung, ihres Geschlechts, ihrer Religion, ihres Alters, ihrer Fähigkeiten oder ihres Aussehens.",
+            "disclosure": "$~Private Informationen über andere Personen preisgeben, wie etwa Namen, Kontaktdaten oder Postanschriften",
+            "misinformation": "$~Falsche, irreführende, täuschende oder manipulative Informationen enthalten"
+        },
+        "progress": "$~*$moderated* moderiert, *$remaining* verbleibend",
+        "button": {
+            "submit": {
+                "tip": "$~diese Moderations-Einstellungen speichern",
+                "label": "$~speichern"
+            },
+            "skip": {
+                "tip": "$~dieses Projekt überspringen",
+                "label": "$~überspringen"
+            },
+            "property": "$~Ob das Projekt diese Eigenschaft hat"
+        },
+        "done": "$~Sonst nichts zu moderieren!",
+        "error": {
+            "notmod": "$~Hier gibt es nichts für dich zu prüfen. Die Moderatorinnen und Moderatoren von Wordplay prüfen öffentliche Inhalte, und die Kuratorinnen und Kuratoren einer Galerie prüfen, was in ihrer Galerie ist. Wenn du gerade erst Moderationsrechte bekommen hast, musst du dich vielleicht neu anmelden.",
+            "unreachable": "$~Ich konnte diese Warteschlange nicht lesen. Deshalb weiß ich nicht, ob etwas wartet. Versuche es gleich noch einmal.",
+            "unreadable": "$~Hier warten einige Dinge, aber ich konnte sie nicht lesen. Deshalb werden sie nicht angezeigt."
+        },
+        "report": {
+            "button": "$~eine moderierende Person bitten, das zu prüfen",
+            "confirm": "$~Melden",
+            "sent": "$~eine moderierende Person wurde gebeten, sich das anzusehen",
+            "announce": "$~eine moderierende Person wurde gebeten, sich $project anzusehen",
+            "flagged": "$~Jemand hat dieses Projekt gemeldet, daher steht es ganz vorne in der Reihe."
+        },
+        "strike": {
+            "issue": "$~diese Ersteller:in verwarnen",
+            "consequence": "$~Das ist die $#count[1|$count]. Warnung für diese Person, die etwas erstellt hat. $banning[Mit dieser Warnung darf sie nichts mehr öffentlich machen.|Sie darf noch $#remaining[1 weitere Warnung|$remaining weitere Warnungen] erhalten, bevor sie nichts mehr öffentlich machen darf.]",
+            "confirm": {
+                "description": "$~diese Entscheidung festhalten und die Ersteller:in verwarnen",
+                "prompt": "$~Verwarnen"
+            },
+            "banned": "$~Du wurdest dreimal wegen öffentlicher Inhalte verwarnt. Deshalb kannst du Projekte oder Galerien nicht mehr öffentlich machen. Du kannst weiterhin Projekte erstellen und sie mit Menschen teilen, die du selbst auswählst. Wenn du denkst, das war ein Fehler, oder es ist schon lange her und du möchtest wieder öffentlich teilen, schreib an hi@wordplay.dev und sag uns deinen Benutzernamen und warum.",
+            "warned": "$~Ein öffentlicher Inhalt von dir hat gegen die Teilen-Regeln verstoßen und ist deshalb nicht mehr öffentlich. Dies ist Verwarnung $#count[1|$count]. $#remaining[Nach einer weiteren Verwarnung kannst du nichts mehr öffentlich machen.|Nach $remaining weiteren Verwarnungen kannst du nichts mehr öffentlich machen.]",
+            "notification": "$~Verwarnung $#count[1|$count] wegen etwas, das du öffentlich geteilt hast."
+        },
+        "queue": {
+            "label": "$~was überprüft werden soll",
+            "labels": [
+                "$~Projekte",
+                "$~Galerien",
+                "$~Kits",
+                "$~Wie-mans",
+                "$~Nachrichten"
+            ],
+            "tips": [
+                "$~Projekte prüfen, die andere veröffentlicht haben",
+                "$~Galerien überprüfen, die öffentlich gelistet werden möchten",
+                "$~Kits prüfen, die im Leitfaden gelistet werden möchten",
+                "$~Wie-mans prüfen, die im Leitfaden gelistet werden möchten",
+                "$~Nachrichten prüfen, die in Galerien gemeldet wurden, die du betreust"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Ein Moderator liest gerade deine Galerie, um zu entscheiden, ob sie öffentlich gelistet werden kann. Bis dahin können nur Menschen sie sehen, mit denen du den Link geteilt hast.",
+            "approved": "$~Deine Galerie ist auf der <Seite mit öffentlichen Galerien@://galleries?tab=public> gelistet! Sie kann jederzeit und aus jedem Grund wieder von dieser Liste entfernt werden.",
+            "denied": "$~Ein Moderator hat entschieden, deine Galerie nicht öffentlich zu listen. Du kannst weiter daran arbeiten und sie erneut öffentlich machen, um es noch einmal zu versuchen.",
+            "explain": "$~Diese Galerie möchte öffentlich gelistet werden. Schau sie dir mit ihren Projekten an und entscheide, ob sie fertig genug ist, um allen gezeigt zu werden.",
+            "done": "$~Es warten keine Galerien auf eine Entscheidung. Danke!",
+            "approve": {
+                "label": "$~listen",
+                "tip": "$~diese Galerie auf der Seite mit öffentlichen Galerien listen"
+            },
+            "deny": {
+                "label": "$~nicht listen",
+                "tip": "$~diese Galerie von der Seite mit öffentlichen Galerien fernhalten"
+            },
+            "skip": {
+                "label": "$~überspringen",
+                "tip": "$~diese Galerie für einen anderen Moderator zur Entscheidung lassen"
+            },
+            "notification": {
+                "approved": "$~$name ist jetzt öffentlich gelistet.",
+                "denied": "$~$name wurde nicht öffentlich gelistet."
+            }
+        },
+        "responsibility": {
+            "none": "$~Niemand prüft, was du hier teilst. Es ist nur für dich und die Personen sichtbar, die du auswählst.",
+            "curators": "$~Die Kuratoren dieser Galerie prüfen, was hier geteilt wird, auch den Chat.",
+            "both": "$~Die Kuratoren dieser Galerie prüfen, was hier geteilt wird, und das tun auch die Moderatoren von Wordplay, denn jeder kann es sehen.",
+            "platform": "$~Die <moderators@://rights> von Wordplay prüfen das, weil es jede und jeder sehen kann."
+        },
+        "kit": {
+            "header": "$~Kits",
+            "explain": "$~Dieses Kit möchte im Leitfaden gelistet werden. Lies, was es zeigt, und entscheide, ob andere Menschen es finden sollen.",
+            "done": "$~Keine Kits warten auf eine Entscheidung. Danke!",
+            "approve": {
+                "label": "$~listen",
+                "tip": "$~dieses Kit im Leitfaden listen"
+            },
+            "deny": {
+                "label": "$~nicht listen",
+                "tip": "$~dieses Kit aus dem Leitfaden heraushalten"
+            },
+            "skip": {
+                "label": "$~überspringen",
+                "tip": "$~dies einem anderen Moderator oder einer anderen Moderatorin zur Entscheidung überlassen"
+            },
+            "pending": "$~Ein Moderator liest gerade dein Kit, um zu entscheiden, ob es im Leitfaden gelistet werden kann. Es ist als gelistet markiert, aber niemand wird es dort finden, bis das entschieden ist.",
+            "approved": "$~Dein Kit ist im <Leitfaden@://guide?section=kits> gelistet! Es kann jederzeit und aus jedem Grund wieder von dieser Liste genommen werden.",
+            "denied": "$~Ein Moderator hat entschieden, dein Kit nicht im Leitfaden zu listen. Du kannst eine neue Version veröffentlichen und noch einmal fragen.",
+            "notification": {
+                "approved": "$~$name ist jetzt im Leitfaden gelistet.",
+                "denied": "$~$name wurde nicht im Leitfaden gelistet."
+            }
+        },
+        "howto": {
+            "pending": "$~Ein Moderator liest gerade dein Wie-man, um zu entscheiden, ob es im Leitfaden gelistet werden kann. Bis dahin können es nur Personen sehen, die es schon jetzt sehen können.",
+            "approved": "$~Dein Wie-man ist im <Leitfaden@://guide?section=howto> gelistet! Es kann jederzeit und aus jedem Grund wieder von der Liste genommen werden.",
+            "denied": "$~Ein Moderator hat entschieden, dein Wie-man nicht im Leitfaden zu listen. Du kannst weiter daran arbeiten und später erneut fragen.",
+            "unready": "$~Veröffentliche dein Wie-man zuerst öffentlich. Ein Moderator kann nur zu etwas Ja sagen, das alle lesen können.",
+            "header": "$~Wie-mans",
+            "explain": "$~Dieses Wie-man möchte im Leitfaden gelistet werden. Lies es und entscheide, ob andere Leute, die @wordplay lernen, es dort finden sollten.",
+            "done": "$~Kein Wie-man wartet auf eine Entscheidung. Danke!",
+            "approve": {
+                "label": "$~listen",
+                "tip": "$~dieses Wie-man im Leitfaden listen"
+            },
+            "deny": {
+                "label": "$~nicht listen",
+                "tip": "$~dieses Wie-man aus dem Leitfaden heraushalten"
+            },
+            "skip": {
+                "label": "$~überspringen",
+                "tip": "$~dieses Wie-man einem anderen Moderator zur Entscheidung überlassen"
+            },
+            "notification": {
+                "approved": "$~$name ist jetzt im Leitfaden gelistet.",
+                "denied": "$~$name wurde nicht im Leitfaden gelistet."
+            }
+        },
+        "noAddress": "$~Wordplay hat keine E-Mail-Adresse für dich, also kann dich hier nichts per E-Mail erreichen. Du kannst eine auf deinem <Profil@/profile> hinzufügen.",
+        "subject": {
+            "project": "$~Projekt",
+            "gallery": "$~Galerie",
+            "howto": "$~Wie man",
+            "character": "$~Figur",
+            "kit": "$~Werkzeugkasten",
+            "chat": "$~Chat"
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "$~Spiele",
+            "description": "$~Interaktive Spiele mit Wörtern und Symbolen."
+        },
+        "visualizations": {
+            "name": "$~Visualisierungen",
+            "description": "$~Visualisierungen von und über Text."
+        },
+        "motion": {
+            "name": "$~Bewegung",
+            "description": "$~Beispiele für Bewegungen und Kollisionen."
+        },
+        "av": {
+            "name": "$~Audio/Video",
+            "description": "$~Nutzt Lautstärke, Tonhöhe und Video als Eingabe und Sprache als Ausgabe."
+        },
+        "tools": {
+            "name": "$~Werkzeuge",
+            "description": "$~Einfache Dienstprogramme und Anwendungen."
+        },
+        "stories": {
+            "name": "$~Geschichten",
+            "description": "$~Interaktive Geschichten und Erzählungen."
+        },
+        "music": {
+            "name": "$~Musik",
+            "description": "$~Lieder, Instrumente und Typografie, die sich zum Takt bewegt."
+        }
+    },
+    "system": {
+        "noscript": "$~Wordplay verwendet JavaScript. Ihr Browser unterstützt es nicht oder es ist deaktiviert.",
+        "unsupportedHeading": "$~Nicht unterstützter Browser",
+        "unsupportedBody": "$~Ihr Browser unterstützt wichtige Funktionen nicht. Um Wordplay nutzen zu können, müssen Sie auf eine neuere Version aktualisieren.",
+        "imageDescription": "$~Das Wordplay-Logo — eine Sprechblase mit einem Kreis, einem Dreieck und einem Quadrat — neben dem Namen Wordplay, umgeben von einer verblassten Menge von Symbolen für alles, was Wordplay-Programme wahrnehmen und sagen können.",
+        "appDescription": "$~Barrierefreie, mehrsprachige, programmierbare Typografie."
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Achtung",
+            "explanation": "$~Die Bilder in diesem Projekt könnten für manche Menschen unangenehm sein oder sogar Anfälle auslösen. Sie können enthalten:"
+        },
+        "categories": {
+            "flashing": "$~Schnelles Blinken oder starke Wechsel im Kontrast",
+            "redflash": "$~Schnell blinkendes, sehr kräftiges Rot",
+            "strobe": "$~Blitzartiges Blinken, das den ganzen Bildschirm füllt",
+            "pattern": "$~Dichte geometrische Muster mit sehr starkem Kontrast",
+            "motion": "$~Schnelle Animation von Größe, Position oder Durchsichtigkeit"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Ton voraus",
+            "explanation": "$~Die Musik in diesem Projekt könnte manche Menschen erschrecken oder für sie unangenehm laut sein. Sie kann Folgendes enthalten:"
+        },
+        "categories": {
+            "startle": "$~Ein plötzlicher Sprung in der Lautstärke, besonders nach etwas Leisem",
+            "loudness": "$~Lange Abschnitte bei voller Lautstärke oder viele Spuren, die zusammen laut werden",
+            "pulse": "$~Ein Takt, der schnell genug ist, um die Bilder flackern zu lassen",
+            "register": "$~Töne, die weit über oder unter einem angenehmen Bereich liegen",
+            "tracks": "$~Mehr Instrumente gleichzeitig, als leicht zu verfolgen ist"
+        }
+    }
+}

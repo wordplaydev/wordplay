@@ -1,0 +1,1437 @@
+{
+    "$schema": "../../../static/schemas/sections/ui-page.json",
+    "ui": {
+        "page": {
+            "unknown": {
+                "header": "$~Eep!",
+                "message": "$~Di mana tempat ini? Bisakah kita pulang?"
+            },
+            "landing": {
+                "value": "$~Buat cerita interaktif dengan kata-kata, simbol, emoji, dan kode bersama kami! Mulai sekarang di sini.",
+                "chooseLocales": "$~atau pilih",
+                "beta": [
+                    "$~@wordplay masih dalam versi *beta*, jadi mungkin tidak berfungsi sebagaimana mestinya atau belum lengkap. Laporkan bug dan bagikan ide Anda di sini.<GitHub@https://github.com/wordplaydev/wordplay/issues> , lihat rencana <1.0 kami di https://github.com/wordplaydev/wordplay/milestones/1.0>, dan<contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ."
+                ],
+                "link": {
+                    "learn": "$~Pelajari bahasa tersebut dengan deretan karakter yang dramatis.",
+                    "teach": "$~Mengelola kelas siswa dan proyek mereka.",
+                    "guide": "$~Cari dan telusuri referensi bahasa.",
+                    "projects": "$~Buat dan bagikan pertunjukan",
+                    "galleries": "$~Saksikan penampilan orang lain.",
+                    "characters": "$~Buat emoji dan simbol khusus.",
+                    "rights": "$~Tanggung jawab, kita dan Anda",
+                    "about": "$~Mengapa tempat ini ada?",
+                    "thanks": "$~Siapa yang membantu membuatnya?",
+                    "updates": "$~Lihat apa yang baru di Wordplay",
+                    "community": {
+                        "label": "$~Masyarakat",
+                        "subtitle": "$~Ngobrol dengan kami di Discord"
+                    },
+                    "contribute": {
+                        "label": "$~Menyumbang",
+                        "subtitle": "$~Bantu kami membuat Wordplay"
+                    },
+                    "design": "$~Referensi sistem desain untuk kontributor",
+                    "localize": "$~Bantu terjemahkan Wordplay ke bahasamu",
+                    "moderate": "$~lihat kembali apa yang diminta orang untuk kami periksa",
+                    "admin": "$~lihat siapa yang bisa melakukan apa, dan ubah itu"
+                },
+                "tagline": "$~pengodean kreatif yang mudah diakses dan berbahasa banyak",
+                "tour": {
+                    "button": "$~tunjukkan padaku",
+                    "loading": "$~Memuat…",
+                    "failed": "$~Contoh tidak bisa dimuat. Periksa sambunganmu dan coba lagi.",
+                    "restart": "$~mulai ulang contoh ini",
+                    "examples": {
+                        "label": "$~Contoh program",
+                        "tips": [
+                            "$~Teks bisa bersinar dan bergerak",
+                            "$~Musik adalah data, suara, dan gambar",
+                            "$~Waktu berdetak dan kata-kata bisa berbahasa banyak",
+                            "$~Teks bisa menanggapi penunjuk, klik, ketukan, dan tombol",
+                            "$~Penonton bisa membuat pilihan",
+                            "$~Penonton bisa mengobrol dengan program dan kata-kata bisa berbentuk",
+                            "$~Fisika dan gravitasi bisa membuat teks jatuh dan memantul",
+                            "$~Program bisa mendengarkan ucapanmu",
+                            "$~Program bisa mengamati wajah, tangan, dan bendamu"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶@Phrase muncul di atas panggung, dengan warna, cahaya, dan gerakan apa pun yang kamu suka.¶\nFrasa(\n\t'halo!'\n\t6m\n\twarna: Warna(60% 90 200°)\n\taura: Aura(Warna(80% 80 200°) 0.3m)\n\tberistirahat: Urutan.bergoyang(8°)\n)\\",
+                        "music": "$~\\¶Musik adalah nada pada alat musik sungguhan, dengan tempo, dalam sebuah kunci nada. Panggung menggambar apa yang didengarnya.¶\nMusik(\n\tTrek([1 3 5 8 5 3] alatMusik: AlatMusik.piano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Kode bisa bereaksi terhadap masukan seperti @Time, dan teks bisa berbahasa banyak dan diucapkan.¶\nhellos: ['halo'/id 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nhalo: hellos.acak() … ∆ Waktu(1000ms) … hellos.acak()\nFrasa(halo 4m)\nMengatakan(halo)\\",
+                        "keys": "$~\\¶Kode bisa bereaksi terhadap penunjuk, tombol, klik, dan ketukan.¶\nkunci2: Kunci()\nklik: Tombol()\nwajah2: ['🙂' '😮' '😎' '🤩']\nyangMana: 1 … ∆ kunci2 | ∆ klik … (yangMana % 4) + 1\nPanggung(\n\t[Frasa(wajah2[yangMana] 5m tempat: Penunjuk() gelembung: 'hai')]\n\ttempat: Tempat(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Atur tata letak teks dan buat teks bisa dipilih.¶\nbuah: ƒ(e•'') Frasa(e 3m nama: e dapatdipilih: ⊤)\ndipilih: Pilihan()\nditampilkan: '?' … ∆ dipilih … dipilih\nKelompok(\n\tTumpukan(lapisan: 1m)\n\t[\n\t\tFrasa(ditampilkan 4m)\n\t\tKelompok(\n\t\t\tBaris(lapisan: 1m)\n\t\t\t[buah('🍎') buah('🍐') buah('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Mengobrol dengan program dan memakai bentuk huruf serta simbol.¶\npesan: Mengobrol()\nkata2: 'hai' … ∆ pesan … pesan\nbaris2: Kontur(kata2 'Noto Sans' 8m)\ndetik2: 0 … ∆ Waktu(30ms) … detik2 + 1\nditampilkan: ((baris2.panjang() × detik2) ÷ 66).bulatkankebawah(\n\t) + 1\ntitik: baris2.suburutan(1 ditampilkan).menerjemahkan(\n\t\tƒ(p) Frasa('•' tempat: p)\n\t)\nPanggung(titik.dengan(Frasa(kata2 8m kegelapan: 15%)))\\",
+                        "pile": "$~\\¶Teks bisa punya fisika.¶\nlempar: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFrasa(\n\t\t\temoji\n\t\t\t2m\n\t\t\ttempat: Gerakan(Tempat(x2 y2) Kecepatan(vx 0m/s))\n\t\t\turusan: Urusan(1kg 0.55 0.06 0.5)\n\t\t)\nPanggung(\n\t[\n\t\tlempar('🍎' -2m 5m 2.2m/s)\n\t\tlempar('🍊' 2m 7m -2.6m/s)\n\t\tlempar('🍋' -1m 9m 1.4m/s)\n\t\tlempar('🍇' 1.5m 11m -1.9m/s)\n\t\tlempar('🫐' 0.5m 15m -1.2m/s)\n\t\tBangun(Persegipanjang(-4m -3m 4m -3.6m))\n\t\tBangun(Persegipanjang(-4.6m 4m -4m -3m))\n\t\tBangun(Persegipanjang(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Kode bisa bereaksi terhadap @Volume dan @Pitch dari mikrofonmu.¶\nFrasa(\n\t'📣'\n\t1m + (Volume() × 8m)\n\trotasi: (Melempar() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Kode bisa bereaksi terhadap @Face kamu, dan hal lain di @Camera.¶\nFrasa(\n\tWajah().tersenyum ? '😄 terima kasih!' '🙂 senyum ke kamera'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay adalah bahasa pemrograman",
+                        "bullets": [
+                            "$~• Setiap program adalah ekspresi yang menjadi sebuah nilai. \\1 + 1\\ adalah sebuah program, begitu juga \\Frasa('hai')\\.",
+                            "• Angka punya satuan, jadi \\1m + 1m\\ adalah meter, dan \\1cat + 1dog\\🪲 adalah kesalahan yang ditangkap @wordplay sebelum program berjalan.",
+                            "• Fungsi adalah nilai yang bisa kamu beri nama, kamu bawa, dan kamu panggil: \\ƒ ganda(n3•#) n3 × 2\\.",
+                            "• Saat masukan berubah, @wordplay menilai ulang programmu dan menunjukkan nilai barunya. Kamu tidak perlu menanggapi setiap kejadian.",
+                            "• @wordplay menemukan kesalahan sebelum program berjalan, dan menjelaskan setiap masalah."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay berbahasa banyak",
+                        "bullets": [
+                            "$~• Setiap fitur bahasa pemrograman punya nama dalam setiap bahasa, jadi kode bisa dibaca dengan kata-kata yang sudah kamu kenal.",
+                            "• Namamu sendiri juga bisa berbahasa banyak:\n\\kucing2/id, gato/es: '🐈'\nFrasa(kucing2)\\",
+                            "• Teks punya sebuah bahasa, dan menunjukkan bahasa yang dibaca penontonmu: \\'halo'/id'hola'/es\\.",
+                            "• Situs ini tersedia dalam 29 bahasa dan kamu bisa memilih lebih dari satu sekaligus; teks akan tampil dalam setiap bahasa yang dipilih.",
+                            "• Kamu bisa membantu menerjemahkan @wordplay sendiri, langsung di dalam aplikasi di <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay mudah diakses",
+                        "bullets": [
+                            "$~• Apa pun yang bisa kamu lakukan dengan tetikus, bisa kamu lakukan dengan papan ketik.",
+                            "• Pembaca layar menjelaskan pentas saat berubah, dan bunyi pilihan menandai apa yang dihitung ulang, apa yang bergerak, dan apa yang bertabrakan.",
+                            "• Kamu bisa membaca dan menulis kode sebagai blok alih-alih teks, dan berpindah kapan saja kamu suka.",
+                            "• Gerakan bisa diperlambat, atau dimatikan sepenuhnya.",
+                            "• Suara ucapan bisa diberi teks di pentas untuk siapa saja yang tidak bisa mendengarnya."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay merasakan dunia",
+                        "bullets": [
+                            "$~• Waktu berjalan: \\Waktu(1000ms)\\ berdetak terus, dan \\Sekarang()\\ tahu tanggal hari ini sesuai kalender dan zona waktumu sendiri.",
+                            "• Ke mana penontonmu menunjuk, apa yang mereka sentuh, dan tombol apa yang mereka tekan.",
+                            "• Program bisa merespons mikrofonmu: seberapa keras suaranya dengan @Volume, nada apa dengan @Pitch, dan kata apa dengan @Speech.",
+                            "• Penontonmu bisa mengetik di @Chat, dan memilih isi panggung dengan @Choice.",
+                            "• Program bisa merespons ketukan musik yang diputar, dengan @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay tampil",
+                        "bullets": [
+                            "$~• @Phrase menaruh kata dan emoji di panggung.",
+                            "• @Group menyusunnya dalam baris, tumpukan, kisi-kisi, atau di mana pun kamu meletakkannya.",
+                            "• @Pose dan @Sequence memutar, memudarkan, mengubah ukuran, dan menggerakkan benda.",
+                            "• @Say mengucapkan teks dengan suara, bukan hanya menampilkannya.",
+                            "• @Music memainkan rangkaian nada dengan alat musik sungguhan, pada tempo tertentu, dalam nada dasar tertentu:\n\\Musik(\n\tTrek([1 3 5] alatMusik: AlatMusik.lonceng)\n\ttempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay adalah tipografi",
+                        "bullets": [
+                            "$~• Ratusan jenis huruf, mencakup berbagai sistem tulisan di dunia.",
+                            "• Kamu bisa menggambar <karakter buatanmu sendiri//characters> dan memakainya di mana pun emoji bisa dipakai.",
+                            "• Garis luar setiap huruf adalah data yang bisa kamu baca dan animasikan, dengan @Contour: \\Kontur('a' 'Noto Sans')\\.",
+                            "• Teks melipat baris sesuai aturan bahasa yang digunakan.",
+                            "• Tulisan dari kanan ke kiri dan tulisan vertikal ditata dengan cara yang seharusnya."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay menjelaskan dirinya sendiri",
+                        "bullets": [
+                            "$~• Dokumentasi adalah bagian dari bahasa itu sendiri dengan @Doc, bukan sekadar komentar di sampingnya.",
+                            "• <Panduan//guide> yang bisa dicari menjelaskan setiap fitur bawaan, lengkap dengan contoh.",
+                            "• Setiap kesalahan dijelaskan tepat di tempat kejadiannya, dalam bahasamu sendiri.",
+                            "• Kamu bisa menjalankan program langkah demi langkah, maju /maupun/ mundur, untuk melacak apa yang terjadi.",
+                            "• Saat kamu menelusuri langkah-langkahnya, setiap nilai ditampilkan tepat di kode yang membuatnya."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay dibuat untuk berbagi",
+                        "bullets": [
+                            "$~• Proyekmu adalah milikmu, dan kamu yang menentukan siapa saja yang boleh melihatnya.",
+                            "• Kamu bisa mengajak orang lain untuk membangun proyek bersamamu.",
+                            "• <Galeri@://galleries> mengumpulkan proyek-proyek berdasarkan tema.",
+                            "• Guru bisa membuat kelas dan mengikuti perkembangan pekerjaan murid-muridnya: <ajar@://teach>.",
+                            "• Kamu bisa mengubah proyek publik milik siapa pun dan menjadikannya karyamu sendiri."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay gratis dan terbuka",
+                        "bullets": [
+                            "$~• @wordplay gratis dan akan selalu gratis.",
+                            "• Ini adalah sumber terbuka: kamu bisa membaca cara kerjanya dan membantu kami mengubahnya.",
+                            "• Berasal dari Information School di <University of Washington@https://ischool.uw.edu/>.",
+                            "• Ada komunitas pencipta, guru, dan penyumbang.",
+                            "• <Sumbangan//donate> membiayai biaya menjalankan layanan ini."
+                        ]
+                    }
+                }
+            },
+            "learn": {
+                "header": "$~Mempelajari",
+                "error": "$~Kami tidak dapat menemukan tutorial untuk bahasa ini.",
+                "button": {
+                    "next": "$~jeda berikutnya dalam dialog",
+                    "previous": "$~jeda sebelumnya dalam dialog"
+                },
+                "options": {
+                    "lesson": "$~pelajaran saat ini"
+                },
+                "search": {
+                    "placeholder": "$~mencari",
+                    "noResults": "$~Tidak ada hasil yang ditemukan"
+                },
+                "choice": {
+                    "prompt": "$~Bagaimana Anda ingin belajar?",
+                    "quick": {
+                        "title": "$~Cepat",
+                        "description": "$~Bagi para kreator yang terbiasa dengan bahasa pemrograman lain dan ingin memahami perbedaan Wordplay."
+                    },
+                    "complete": {
+                        "title": "$~Luas",
+                        "description": "$~Untuk para kreator yang baru mengenal pemrograman dan menginginkan pengantar yang detail."
+                    }
+                },
+                "mode": {
+                    "label": "$~tutorial",
+                    "labels": ["$~cepat", "$~menyelesaikan"],
+                    "tips": [
+                        "$~tur singkat untuk para kreator yang mengetahui bahasa pemrograman lain",
+                        "$~pengantar lengkap dan dramatis untuk para kreator yang baru mengenal pemrograman."
+                    ]
+                },
+                "contrast": "$~bandingkan dengan",
+                "dialogue": "$~dialog pelajaran",
+                "says": "$~$character berkata",
+                "tour": {
+                    "skip": "$~lewati tur dan lanjutkan",
+                    "wait": "$~Ikuti tur ini dulu, atau lewati saja, lalu kita akan lanjutkan."
+                }
+            },
+            "localize": {
+                "header": "$~Melokalisir",
+                "description": [
+                    "$~Di sini Anda dapat menelusuri setiap teks yang dapat dilokalisasi di platform ini, dan mengusulkan terjemahan atau revisi untuk teks yang belum diterjemahkan dan yang telah diterjemahkan mesin. Anda dapat mengirimkan revisi Anda untuk ditinjau ketika Anda sudah siap.",
+                    "Saat menulis, ingatlah untuk menggunakan gaya bahasa yang sederhana, untuk audiens muda yang mungkin belum mengetahui kosakata tingkat lanjut. Selain itu, konsistenlah dengan menggunakan terminologi yang sama di berbagai teks, jika memungkinkan."
+                ],
+                "workspaceLink": "$~lihat semua teks + kirim",
+                "workspaceHeader": "$~Teks untuk ditulis atau diulas",
+                "submitHeader": "$~Kirim",
+                "submitPrompt": "$~Jika Anda sudah siap untuk mengajukan serangkaian perubahan ini, Anda dapat mengirimkannya di bawah ini.",
+                "oneLocaleNote": "$~Setiap pengajuan mencakup satu bahasa dalam satu waktu. Kumpulan ini akan dikirimkan sebagai suntingan ke $locale . Jika Anda ingin berkontribusi pada bahasa lain, ganti bahasa terlebih dahulu; suntingan yang Anda simpan di bawah setiap bahasa akan disimpan secara terpisah.",
+                "bundleSummary": "$~Perubahan dalam batch ini",
+                "editEntry": "$~Kembali untuk mengedit teks ini",
+                "revertEntry": "$~Abaikan suntingan ini dari kumpulan suntingan.",
+                "prevBundleItem": "$~Tinjau kembali suntingan sebelumnya",
+                "nextBundleItem": "$~Tinjau suntingan berikutnya",
+                "descriptionField": {
+                    "description": "$~Deskripsi singkat dari kumpulan suntingan, untuk membantu peninjau memahami perubahannya.",
+                    "placeholder": "$~Apa yang Anda ubah, dan mengapa?"
+                },
+                "notSpamLabel": "$~Saya berjanji bahwa suntingan ini bukan spam.",
+                "notSpamNote": "$~Wordplay adalah proyek nirlaba yang dipimpin oleh para sukarelawan.",
+                "requireLogin": "$~Anda harus masuk terlebih dahulu untuk memberikan saran lokalisasi.",
+                "singletonWordsWarning": "$~Beberapa kata dalam draf Anda hanya muncul sekali di seluruh teks. Apakah Anda yakin ejaannya sudah benar dan konsisten dengan teks lainnya?",
+                "submit": {
+                    "description": "$~Kirimkan kumpulan suntingan ini",
+                    "prompt": "$~Kirim"
+                },
+                "submitSuccess": "$~Terima kasih! Perubahan Anda telah dikirim dan akan segera ditinjau.",
+                "viewPR": "$~Lihat permintaan pull request",
+                "submitError": "$~Terjadi kesalahan saat mengirimkan. Perubahan Anda masih tersimpan di perangkat ini — silakan coba lagi.",
+                "empty": "$~Tidak ada string yang cocok dengan filter ini.",
+                "prevEntry": "$~Edit string sebelumnya",
+                "nextEntry": "$~Edit string berikutnya",
+                "qualityMode": {
+                    "label": "$~menunjukkan",
+                    "labels": [
+                        "$~semua",
+                        "$~diterjemahkan mesin atau tidak tertulis"
+                    ],
+                    "tips": [
+                        "$~Tampilkan semua string",
+                        "$~hanya menampilkan teks yang diterjemahkan mesin atau teks yang tidak tertulis"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~bagian",
+                    "labels": [
+                        "$~semua",
+                        "$~ketentuan",
+                        "$~token",
+                        "$~simpul",
+                        "$~dasar",
+                        "$~masukan",
+                        "$~keluaran",
+                        "$~antarmuka pengguna",
+                        "$~galeri",
+                        "$~moderasi"
+                    ],
+                    "tips": [
+                        "$~Tampilkan semua bagian",
+                        "$~terminologi bersama",
+                        "$~deskripsi token",
+                        "$~konstruksi bahasa pemrograman",
+                        "$~tipe bawaan seperti angka, teks, daftar",
+                        "$~deskripsi aliran dan sumber input",
+                        "$~deskripsi tipe keluaran",
+                        "$~antarmuka pengguna aplikasi",
+                        "$~konten galeri default",
+                        "$~pesan moderasi konten"
+                    ]
+                },
+                "section": {
+                    "glossary": "$~Terminologi",
+                    "token": "$~Token",
+                    "node": "$~Konstruksi bahasa",
+                    "basis": "$~Tipe bawaan",
+                    "input": "$~Masukan",
+                    "output": "$~Keluaran",
+                    "ui": "$~Antarmuka pengguna",
+                    "gallery": "$~Galeri",
+                    "moderation": "$~Moderasi"
+                },
+                "literalTermsWarning": "$~Draf kamu memakai kata-kata glosarium sebagai teks biasa. Ketuk salah satu untuk mengubahnya menjadi tautan glosarium.",
+                "checkReadingLevel": "$~Periksa tingkat keterbacaan string ini",
+                "readingLevelComplex": "$~Ini mungkin sulit dibaca. Coba pakai kalimat lebih pendek dan kata lebih sederhana.",
+                "readingLevelOk": "$~Ini mudah dibaca untuk tingkat keterbacaan yang dituju.",
+                "tabs": {
+                    "label": "$~bagian",
+                    "labels": [
+                        "$~Tentang",
+                        "$~Teks",
+                        "$~Istilah",
+                        "$~Daftar Istilah",
+                        "$~Kirim"
+                    ],
+                    "tips": [
+                        "$~cara kerja pelokalan, dan catatan untuk orang yang menulis bahasa ini",
+                        "$~jelajahi dan ubah teks platform ini",
+                        "$~tentukan frasa yang bisa kamu pakai lagi di seluruh teks bahasa ini",
+                        "$~tambahkan bentuk jamak dan cara penulisan lain untuk istilah-istilah dalam bahasa ini",
+                        "$~tinjau perubahanmu dan kirimkan"
+                    ]
+                },
+                "toSubmit": "$~tinjau dan kirim perubahanmu",
+                "submitEmpty": "$~Kamu belum punya perubahan. Pilih tab Teks untuk menulis, atau ubah teks langsung dengan mode ubah.",
+                "clear": {
+                    "description": "$~hapus semua perubahanmu yang belum terkirim untuk bahasa ini",
+                    "prompt": "$~hapus semua?"
+                }
+            },
+            "teach": {
+                "header": "$~Mengajar",
+                "prompt": {
+                    "none": "$~Selamat datang, guru! Buat kelas untuk mengatur dan mengelola akun siswa dan galeri proyek.",
+                    "some": "$~Selamat datang, guru! Kelola kelas Anda atau buat kelas baru."
+                },
+                "error": {
+                    "offline": "$~Kami tidak dapat memeriksa status guru Anda. Apakah Anda sudah masuk?",
+                    "login": "$~Anda perlu menjadi<logged in@://login> untuk mengelola kelas.",
+                    "teacher": "$~Anda memerlukan hak akses guru untuk membuat dan mengelola kelas. Isi formulir ini dan mari kita saling mengenal!"
+                },
+                "link": {
+                    "request": "$~Meminta hak akses guru",
+                    "new": "$~Buat kelas"
+                }
+            },
+            "newclass": {
+                "header": "$~Kelas baru",
+                "subheader": {
+                    "class": "$~Kelasmu",
+                    "students": "$~Siswa Anda",
+                    "credentials": "$~Nama pengguna dan kata sandi",
+                    "submit": "$~Kirim",
+                    "usernames": "$~Nama Pengguna"
+                },
+                "prompt": {
+                    "start": "$~Formulir ini memungkinkan Anda untuk 1) membuat akun untuk semua siswa di kelas Anda dan 2) membuat galeri tempat semua siswa dapat menambahkan proyek. Jika siswa sudah memiliki akun, Anda dapat menambahkannya ke galeri nanti.",
+                    "review": "$~Periksa kembali nama pengguna dan kata sandi yang telah kita buat. Apakah Anda ingin *mengedit*nya sebelum melanjutkan? Jika ya, Anda tidak akan dapat mengedit informasi siswa di atas.",
+                    "ready": "$~Beri tahu kami jika Anda sudah siap untuk membuat kredensial di atas. Anda dapat mengeditnya setelah selesai.",
+                    "pending": "$~Membuat nama pengguna dan kata sandi...",
+                    "submit": "$~Siap untuk mengirimkan? Segera setelah berhasil, Anda akan menerima tautan unduhan informasi ini. Kata sandi *tidak dapat dipulihkan*, jadi simpanlah di tempat yang aman.",
+                    "submitting": "$~Meminta pembuatan akun baru dengan nama pengguna dan kata sandi di atas...",
+                    "download": "$~Kelasmu sudah siap! Kamu akan melihat unduhan data siswa di folder unduhanmu. *Kata sandi tidak bisa dipulihkan*, jadi simpan file ini di tempat yang aman! Siswa yang masuk lewat email tidak punya kata sandi, jadi kolom kata sandinya kosong.",
+                    "reviewEmail": "$~Periksa nama pengguna yang sudah kami buat. Apakah kamu mau *mengubahnya* sebelum lanjut? Jika ya, kamu tidak bisa lagi mengubah data siswa di atas. Siswa tidak perlu memilih apa pun di sini — mereka masuk dengan alamat di sebelah nama mereka.",
+                    "downloadEmail": "$~Kelasmu sudah siap! Kamu akan melihat unduhan data siswa di folder unduhanmu. Tidak ada kata sandi yang perlu dijaga: setiap siswa membuka halaman masuk, mengetik alamat mereka, dan meminta tautan.",
+                    "submitEmail": "$~Siap mengirim? Begitu berhasil, kamu akan menerima unduhan informasi ini. Tidak ada kata sandi yang perlu dijaga — setiap murid masuk dengan alamat di samping namanya."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nama kelas",
+                        "placeholder": "$~nama pendek"
+                    },
+                    "description": {
+                        "description": "$~keterangan",
+                        "placeholder": "$~Deskripsi kelas Anda, untuk Anda dan siswa Anda."
+                    },
+                    "existing": {
+                        "label": "$~siswa dengan akun",
+                        "prompt": "$~Apakah beberapa siswa Anda sudah memiliki akun @wordplay? Cantumkan mereka di sini."
+                    },
+                    "metadata": {
+                        "description": "$~informasi siswa",
+                        "placeholder": "$~contoh: nomor identitas siswa, nama keluarga, nama depan",
+                        "prompt": "$~Ingin membuat akun baru untuk siswa? Berikan *informasi apa saja* tentang siswa, satu per baris, dipisahkan dengan koma. Ini bisa berupa nama keluarga, nama depan, nomor siswa, atau detail lain yang membedakan mereka. Kami akan memakainya untuk membuat nama pengguna yang bisa kamu ubah di bawah, agar kamu bisa menghubungkan nama pengguna dengan siswa. Jika salah satu kolommu berisi alamat email siswa, siswa itu akan masuk memakai tautan yang kami kirim lewat email, bukan kata sandi. Biarkan sel itu kosong, dan siswa akan mendapat nama pengguna dan kata sandi seperti yang lain."
+                    },
+                    "words": {
+                        "description": "$~kata-kata yang digunakan dalam kata sandi",
+                        "placeholder": "$~misalnya, kucing titik tikus...",
+                        "prompt": "$~Berikan setidaknya *25 kata* untuk menghasilkan kata sandi yang mudah diingat secara acak, terdiri dari 2-3 kata. Pilih kata-kata yang dikenal siswa Anda atau minta mereka untuk bertukar pikiran. Semakin acak, semakin aman!"
+                    },
+                    "generate": {
+                        "label": "$~menghasilkan",
+                        "tip": "$~Buat nama pengguna dan kata sandi berdasarkan informasi di atas."
+                    },
+                    "edit": {
+                        "label": "$~sunting",
+                        "tip": "$~edit informasi siswa yang dihasilkan"
+                    },
+                    "submit": {
+                        "label": "$~buat kelas",
+                        "tip": "$~Buat kelas baru dengan informasi ini."
+                    },
+                    "affirm": {
+                        "prompt": "$~Salah satu kolommu tampak seperti alamat email, jadi siswa itu akan masuk memakai tautan, bukan kata sandi. Lakukan ini hanya jika mereka cukup umur untuk memiliki akun email di tempat tinggal mereka. *Kami tidak akan mengirim email ke siapa pun saat kamu membuat kelas ini*: setiap siswa membuka halaman masuk, mengetik alamat mereka, dan meminta tautan.",
+                        "label": "$~Siswa-siswa ini sudah cukup umur untuk memiliki akun email di tempat tinggal mereka."
+                    },
+                    "signin": {
+                        "prompt": "$~Ingin membuat akun baru untuk siswa? Pertama, tentukan cara mereka masuk. Satu kelas *harus memakai satu cara saja*, jadi pilih yang paling sesuai untuk siswamu.",
+                        "mode": {
+                            "label": "$~cara siswamu masuk",
+                            "labels": [
+                                "$~nama pengguna dan kata sandi",
+                                "$~tautan lewat surel"
+                            ],
+                            "tips": [
+                                "$~kami membuat nama pengguna dan kata sandi untuk setiap siswa, lalu kamu membagikannya",
+                                "$~setiap siswa masuk dengan alamat surel mereka sendiri, jadi tidak ada kata sandi yang bisa hilang"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~alamat surel siswa",
+                        "placeholder": "$~misalnya, mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Tuliskan nama siswamu satu per baris, *dimulai dengan alamat surel mereka*. Kamu bisa menambahkan hal lain tentang mereka setelah tanda koma — nomor siswa, nama keluarga — dan kami akan memakainya untuk membuat nama pengguna yang bisa kamu ubah di bawah ini."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~Terdapat entri ganda dalam informasi siswa.",
+                    "columns": "$~Pastikan setiap siswa memiliki jumlah kolom yang sama.",
+                    "generate": "$~Tidak dapat membuat nama pengguna yang unik.",
+                    "taken": "$~Satu atau lebih nama pengguna di atas sudah digunakan.",
+                    "limit": "$~Kamu tidak bisa membuat kelas dengan lebih dari 50 siswa sekaligus.",
+                    "words": "$~Berikan minimal 25 kata.",
+                    "account": "$~Beberapa akun tidak dapat dibuat.",
+                    "generic": "$~Kami tidak dapat membuat kelas tersebut. Berikut beberapa informasi untuk membantu pengembang mencari tahu apa yang salah.",
+                    "affirmation": "$~Nyatakan bahwa siswa-siswa ini sudah cukup umur untuk memiliki akun email sebelum kami membuat akun mereka.",
+                    "inflight": "$~Kelas ini mungkin sudah pernah dibuat. Periksa daftar kelasmu sebelum mencoba lagi.",
+                    "addresses": "$~Setiap baris harus dimulai dengan alamat surel."
+                }
+            },
+            "class": {
+                "header": "$~Kelas",
+                "subheader": {
+                    "teachers": "$~Guru",
+                    "students": "$~Siswa",
+                    "galleries": "$~Galeri"
+                },
+                "prompt": {
+                    "gallery": "$~Buatlah galeri untuk kelas Anda guna mengorganisir tugas atau proyek. Semua guru yang terlibat dalam proyek ini akan menjadi kurator galeri dan semua siswa akan menjadi pembuat galeri.",
+                    "delete": "$~Menghapus kelas ini akan menghapus informasi tentang kelas tersebut secara permanen, tetapi tidak akan menghapus proyek, galeri, atau akun siswa."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nama kelas",
+                        "placeholder": "$~nama"
+                    },
+                    "description": {
+                        "description": "$~deskripsi kelas",
+                        "placeholder": "$~keterangan"
+                    },
+                    "delete": {
+                        "tip": "$~hapus kelas ini selamanya",
+                        "label": "$~Hapus kelas ini"
+                    }
+                },
+                "error": {
+                    "notfound": "$~Kami tidak dapat menemukan kelas ini atau Anda tidak memiliki izin untuk melihatnya.",
+                    "gallery": "$~Kami tidak dapat membuat galeri untuk kelas ini."
+                }
+            },
+            "guide": {
+                "header": "$~Memandu",
+                "description": "$~Ini adalah referensi untuk setiap bagian dari bahasa pemrograman @wordplay. Cari karakter atau telusuri daftar untuk mempelajari lebih lanjut."
+            },
+            "projects": {
+                "header": "$~Proyek",
+                "projectprompt": "$~Siap untuk menyampaikan sesuatu? Buat proyek atau kerjakan proyek yang sudah ada. Jika Anda menemui kesulitan, jangan ragu untuk bertanya.<learning@://learn> .",
+                "archiveprompt": "$~Ini adalah proyek yang telah Anda arsipkan. Hanya pemilik yang dapat menghapus atau mengembalikan arsipnya secara permanen. Proyek yang diarsipkan akan dihapus secara permanen 30 hari setelah terakhir diedit.",
+                "subheader": {
+                    "shared": "$~Dibagikan",
+                    "archived": "$~Diarsipkan"
+                },
+                "search": {
+                    "description": "$~Cari proyek dan file sumber.",
+                    "noResults": "$~Tidak ada hasil yang ditemukan."
+                },
+                "button": {
+                    "newproject": "$~proyek baru",
+                    "editproject": "$~edit proyek ini",
+                    "unarchive": "$~Buka arsip proyek ini",
+                    "viewproject": "$~lihat kode proyek ini",
+                    "import": {
+                        "tip": "$~buka berkas proyek yang kamu simpan",
+                        "label": "$~buka berkas proyek…"
+                    }
+                },
+                "confirm": {
+                    "archive": {
+                        "description": "$~arsipkan pertunjukan ini untuk dihapus nanti",
+                        "prompt": "$~arsip"
+                    },
+                    "delete": {
+                        "description": "$~hapus permanen pertunjukan ini",
+                        "prompt": "$~hapus selamanya"
+                    }
+                },
+                "error": {
+                    "noaccess": "$~Kami tidak bisa mengakses internet.",
+                    "newgallery": "$~Kami tidak bisa membuat galeri baru.",
+                    "nodeletes": "$~Anda pasti<logged in@://login> untuk menghapus proyek yang diarsipkan.",
+                    "delete": "$~Ups, kami tidak dapat menghapus proyek tersebut!",
+                    "importEmpty": "$~Berkas itu tidak berisi apa-apa.",
+                    "importTooLarge": "$~Proyek itu terlalu besar untuk disimpan oleh Wordplay. Coba proyek dengan isi yang lebih sedikit.",
+                    "importUnreadable": "$~Wordplay tidak bisa membaca berkas itu. Berkas proyek berakhiran .wp."
+                },
+                "installedprompt": "$~Kamu menggunakan Wordplay sebagai aplikasi yang terpasang, dan aplikasi ini menyimpan proyeknya sendiri, terpisah dari proyek di peramban webmu. Semua proyek yang kamu buat di peramban masih ada di sana. <Masuk@://login> untuk melihat semua proyekmu di kedua tempat.",
+                "sort": {
+                    "label": "$~urutan",
+                    "labels": ["$~nama", "$~baru saja diedit"],
+                    "tips": [
+                        "$~urutkan proyek berdasarkan nama",
+                        "$~urutkan proyek berdasarkan waktu terakhir kamu mengubahnya"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~nama folder ini",
+                        "placeholder": "$~folder"
+                    },
+                    "none": "$~tidak ada folder",
+                    "button": {
+                        "create": "$~buat folder baru",
+                        "expand": "$~tampilkan isi folder ini",
+                        "collapse": "$~sembunyikan isi folder ini"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~hapus folder ini dan arsipkan proyek di dalamnya",
+                            "prompt": "$~Hapus folder dan arsipkan proyeknya"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~pindahkan $project ke $folder",
+                        "moved": "$~$project dipindahkan ke $folder",
+                        "movedOut": "$~$project dipindahkan keluar dari foldernya",
+                        "expanded": "$~$folder dibuka, $#count[$count proyek]",
+                        "collapsed": "$~$folder ditutup, $#count[$count proyek]",
+                        "selected": "$~$folder dipilih, $#count[$count proyek]",
+                        "created": "$~$folder dibuat",
+                        "deleted": "$~$folder dihapus, $#count[$count proyek diarsipkan]",
+                        "renamed": "$~nama folder diganti menjadi $folder",
+                        "projectSelected": "$~$project dipilih",
+                        "cleared": "$~tidak ada yang dipilih"
+                    },
+                    "instructions": {
+                        "none": "$~Klik sebuah proyek atau folder untuk memilihnya.",
+                        "project": "$~Pindahkan proyek ini dengan tombol panah *atas* dan *bawah*, atau seret ke sebuah folder. Tekan *escape* jika sudah selesai.",
+                        "folder": "$~Ketikkan nama untuk mengganti nama folder ini. Jika kamu menghapusnya, semua isinya akan masuk ke arsipmu."
+                    }
+                },
+                "import": {
+                    "done": "$~$name dibuka.",
+                    "drop": "$~Letakkan berkas proyek di sini untuk membukanya.",
+                    "replaced": "$~Proyek ini diganti dengan $name.",
+                    "replace": {
+                        "header": "$~Ganti proyek ini?",
+                        "explanation": "$~Kode dalam proyek ini akan diganti. Wordplay menyimpan apa yang ada sekarang, jadi kamu bisa mengambilnya kembali dari riwayat proyek.",
+                        "prompt": "$~Buka $name di sini menggantikan isi proyek ini sekarang?",
+                        "confirm": {
+                            "tip": "$~ganti proyek ini dengan berkas yang kamu letakkan",
+                            "label": "$~ganti"
+                        }
+                    }
+                }
+            },
+            "galleries": {
+                "header": "$~Galeri",
+                "prompt": "$~Galeri adalah kumpulan proyek, yang seringkali berpusat pada suatu tema, dan dikurasi oleh Anda atau kreator lain.",
+                "section": {
+                    "tabs": {
+                        "label": "$~jenis galeri",
+                        "labels": ["$~Milikmu", "$~Contoh", "$~Publik"],
+                        "tips": [
+                            "$~galeri yang kamu kelola atau kamu ikut isi",
+                            "$~galeri pilihan dari para pengembang Wordplay",
+                            "$~galeri yang dibuat publik oleh para pembuatnya"
+                        ]
+                    },
+                    "own": [
+                        "$~Ikut membantu galeri yang mengundangmu, atau buat galeri sendiri dengan tema tertentu, lalu undang orang lain.",
+                        "/Kurator memeriksa apa yang dilaporkan di galeri mereka, dari <halaman moderasi@://moderate>./"
+                    ],
+                    "examples": "$~Ini adalah galeri pilihan dari para pengembang @wordplay. Galeri-galeri ini merupakan titik awal yang baik untuk belajar dan mendapatkan inspirasi.",
+                    "public": "$~Ini adalah galeri yang telah dibuat publik oleh @wordplay pembuat. Siapa pun dapat meminta agar galerinya ditampilkan di sini, dan seorang moderator membacanya terlebih dahulu untuk memastikan galeri itu selesai dan mengikuti aturan. Sebuah galeri dapat dihapus dari daftar ini kapan saja, untuk alasan apa pun. Galeri ditampilkan dalam urutan yang berbeda setiap kunjungan, sehingga setiap galeri mendapat giliran berada di dekat bagian atas."
+                },
+                "button": {
+                    "newgallery": "$~galeri baru"
+                },
+                "error": {
+                    "nogalleryedits": "$~Anda pasti<logged in@://login> untuk membuat dan mengubah galeri.",
+                    "nopublic": "$~Belum ada galeri yang disetujui untuk daftar ini. Periksa lagi nanti!"
+                },
+                "search": {
+                    "description": "$~Cari contoh dan galeri publik",
+                    "noResults": "$~Tidak ada hasil yang ditemukan.",
+                    "galleries": "$~Galeri",
+                    "examples": "$~Proyek contoh",
+                    "projects": "$~Proyek dalam galeri publik"
+                }
+            },
+            "characters": {
+                "header": "$~Karakter",
+                "prompt": "$~Buat emoji dan simbol khusus untuk digunakan dalam proyek Anda dan bagikan dengan orang lain.",
+                "button": {
+                    "new": "$~Buat karakter baru",
+                    "copy": "$~Salin karakter ini",
+                    "remove": {
+                        "tip": "$~hapus karakter ini",
+                        "prompt": "$~menghapus?"
+                    }
+                },
+                "subheader": {
+                    "shared": "$~Dibagikan"
+                },
+                "error": {
+                    "offline": "$~Kami tidak dapat mengakses karakter Anda yang tersimpan secara online.",
+                    "noauth": "$~Anda pasti<logged in@://login> untuk melihat karakter Anda dan membuat karakter baru.",
+                    "create": "$~Tidak dapat membuat karakter baru."
+                },
+                "unnamed": "$~Karakter tanpa nama"
+            },
+            "character": {
+                "header": "$~Karakter",
+                "instructions": {
+                    "empty": "$~Pilih mode menggambar di palet untuk membuat bentuk.",
+                    "unselected": "$~Pilih mode menggambar atau pilih dan ubah bentuk. Gunakan *$control-a* untuk memilih semuanya dan *$control-z* untuk membatalkan.",
+                    "selected": "$~Gunakan tombol *panah* untuk memindahkan bentuk. Tahan *shift* untuk menambah bentuk lain ke dalam pilihan. Gunakan *delete* untuk menghapus pilihan. Gunakan *$control-c* dan *$control-v* untuk menyalin dan menempel, serta *$control-z* untuk membatalkan. Jika satu jalur terpilih, tekan *enter* untuk mengubah titik-titiknya. Gunakan kontrol di bawah untuk mengubah bentuk yang terpilih.",
+                    "eraser": "$~Untuk menghapus bentuk, klik atau ketuk bentuk tersebut. Seret untuk menghapus piksel. Gunakan tombol panah untuk menggerakkan penghapus dan spasi untuk menghapus.",
+                    "pixel": "$~Untuk menggambar piksel, pilih warna. Kemudian, klik kanvas atau gunakan *panah* untuk menggerakkan kursor dan *spasi* untuk membuat piksel. *Klik dua kali* untuk mengisi.",
+                    "rect": "$~Untuk menggambar persegi panjang, pilih warna dan garis tepi. Kemudian, klik dan seret, atau gunakan tombol *panah* dan *spasi* untuk memilih titik tengah dan ukuran.",
+                    "ellipse": "$~Untuk menggambar elips dan lingkaran, pilih warna dan garis tepi. Kemudian, klik dan seret, atau gunakan tombol *panah* dan *spasi* untuk memilih titik tengah dan ukuran.",
+                    "path": "$~Jalur dapat berupa segmen garis, poligon, dan kurva. Klik untuk mulai menambahkan titik, atau gunakan tombol panah dan spasi. Tekan escape untuk menyelesaikan jalur. Tombol delete akan menghapus titik terakhir.",
+                    "points": "$~Tekan *Tab* untuk berpindah antar titik pada jalur. Gunakan tombol *panah* untuk memindahkan titik yang terpilih, *enter* untuk menambah titik di sebelahnya, dan *delete* untuk menghapusnya. Gunakan *curve* untuk melengkungkan segmen yang menuju ke sebuah titik, lalu geser gagangnya; tekan *delete* pada gagang untuk meluruskannya kembali. Tekan *escape* jika sudah selesai.",
+                    "symbol": "$~Pilih untuk menambah piksel atau garis luar, lalu pilih huruf, simbol, atau emoji. Garis luar bisa diubah ukurannya dan diputar tanpa menjadi buram. Piksel bisa diberi warna satu per satu. Klik atau ketuk sesuatu yang sudah kamu buat untuk memilihnya.",
+                    "image": "$~Pilih sebuah gambar, lalu pilih bagian kotaknya yang ingin disimpan. Bagian ini menggantikan piksel, dan berada di bawah bentuk apa pun yang sudah kamu gambar. Klik atau ketuk sesuatu yang sudah kamu buat untuk memilihnya."
+                },
+                "shape": {
+                    "shape": "$~membentuk",
+                    "eraser": "$~penghapus",
+                    "pixel": "$~piksel",
+                    "rect": "$~persegi panjang",
+                    "ellipse": "$~elips",
+                    "path": "$~jalur",
+                    "emoji": "$~emoji",
+                    "glyph": "$~garis luar",
+                    "symbol": "$~simbol",
+                    "image": "$~gambar"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Membagikan",
+                        "explanation": "$~Pilih siapa yang boleh melihat karakter ini, siapa yang boleh membantu membuatnya, dan galeri mana tempatnya berada."
+                    },
+                    "button": {
+                        "label": "$~membagikan",
+                        "tip": "$~Bagikan karakter ini"
+                    },
+                    "delete": {
+                        "label": "$~menghapus",
+                        "tip": "$~hapus karakter ini"
+                    },
+                    "public": {
+                        "label": "$~visibilitas",
+                        "labels": ["$~publik", "$~pribadi"],
+                        "tips": [
+                            "$~Siapa pun bisa melihat karakter ini.",
+                            "$~Hanya Anda dan kolaborator yang dapat melihat karakter ini."
+                        ]
+                    },
+                    "collaborators": "$~kolaborator",
+                    "gallery": "$~Galeri",
+                    "galleryexplanation": "$~Masukkan karakter ini ke salah satu galerimu, maka semua orang di dalamnya bisa melihatnya, memakainya di proyek mereka, dan membuat versi mereka sendiri. Karakter ini tetap milikmu; hanya kamu yang bisa mengubahnya.",
+                    "collaboratorsexplanation": "$~Kolaborator bisa melihat karakter ini dan mengubahnya bersamamu, bahkan saat statusnya pribadi.",
+                    "publicexplanation": "$~Publik berarti siapa pun bisa melihat karakter ini dan memakainya di proyek mereka. Pribadi berarti hanya kamu, para kolaboratormu, dan siapa pun di galeri tempat kamu memasukkannya yang bisa melihatnya.",
+                    "tab": {
+                        "label": "$~pengaturan berbagi",
+                        "labels": ["$~Publik", "$~Kolaborator", "$~Galeri"],
+                        "tips": [
+                            "$~pilih siapa yang bisa melihat karakter ini",
+                            "$~pilih siapa yang bisa mengubah karakter ini bersamamu",
+                            "$~pilih galeri untuk menampilkan karakter ini"
+                        ]
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nama karakter",
+                        "placeholder": "$~nama"
+                    },
+                    "description": {
+                        "description": "$~deskripsi karakter",
+                        "placeholder": "$~keterangan"
+                    },
+                    "mode": {
+                        "label": "$~mode",
+                        "labels": [
+                            "$~pilih",
+                            "$~penghapus",
+                            "$~piksel",
+                            "$~persegi panjang",
+                            "$~elips",
+                            "$~jalur",
+                            "$~emoji",
+                            "$~gambar"
+                        ],
+                        "tips": [
+                            "$~pilih bentuk dan piksel",
+                            "$~menghapus bentuk dan piksel",
+                            "$~menggambar piksel",
+                            "$~menggambar persegi panjang",
+                            "$~menggambar elips",
+                            "$~menggambar jalur",
+                            "$~impor emoji sebagai piksel",
+                            "$~tambahkan gambar sebagai piksel"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~mengisi",
+                        "labels": ["$~tidak ada", "$~mewarisi", "$~memilih"],
+                        "tips": [
+                            "$~tidak diisi",
+                            "$~mewarisi warna isian dari teks di sekitarnya.",
+                            "$~pilih warna isian"
+                        ]
+                    },
+                    "stroke": {
+                        "label": "$~stroke",
+                        "labels": ["$~tidak ada", "$~mewarisi", "$~memilih"],
+                        "tips": [
+                            "$~tidak terkena stroke",
+                            "$~mewarisi warna garis tepi dari teks di sekitarnya.",
+                            "$~pilih warna garis tepi"
+                        ]
+                    },
+                    "none": "$~tidak ada",
+                    "inherit": "$~warna teks",
+                    "strokeWidth": {
+                        "label": "$~lebar goresan",
+                        "tip": "$~seberapa lebar goresan yang dihasilkan"
+                    },
+                    "radius": {
+                        "label": "$~radius sudut",
+                        "tip": "$~seberapa bulat sudut persegi panjang"
+                    },
+                    "angle": {
+                        "label": "$~sudut",
+                        "tip": "$~seberapa besar bentuk tersebut harus diputar di sekitar pusatnya"
+                    },
+                    "width": {
+                        "label": "$~lebar",
+                        "tip": "$~seberapa lebar bentuknya"
+                    },
+                    "height": {
+                        "label": "$~tinggi",
+                        "tip": "$~seberapa tinggi bentuk tersebut"
+                    },
+                    "closed": "$~terhubung",
+                    "brushSize": {
+                        "label": "$~ukuran",
+                        "tip": "$~berapa banyak sel yang dilewati kuas dan penghapus"
+                    },
+                    "insertion": {
+                        "label": "$~tambahkan sebagai",
+                        "labels": ["$~piksel", "$~garis luar"],
+                        "tips": [
+                            "$~tambahkan simbol sebagai piksel yang bisa diwarnai ulang satu per satu",
+                            "$~tambahkan simbol sebagai garis luar yang bisa diubah ukurannya dan diputar tanpa menjadi buram"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~jenis huruf",
+                        "tip": "$~jenis huruf mana yang menjadi sumber bentuk simbol ini"
+                    },
+                    "weight": {
+                        "label": "$~ketebalan",
+                        "tip": "$~seberapa tebal guratan simbol ini"
+                    },
+                    "italic": "$~miring",
+                    "glyphSize": {
+                        "label": "$~ukuran simbol",
+                        "tip": "$~berapa banyak sel yang dilewati simbol ini"
+                    }
+                },
+                "button": {
+                    "back": {
+                        "label": "$~kembali",
+                        "tip": "$~Pindahkan bentuk yang dipilih ke belakang."
+                    },
+                    "toBack": {
+                        "label": "$~kembali",
+                        "tip": "$~Pindahkan bentuk yang dipilih ke belakang."
+                    },
+                    "forward": {
+                        "label": "$~maju",
+                        "tip": "$~Pindahkan bentuk yang dipilih ke depan."
+                    },
+                    "toFront": {
+                        "label": "$~ke depan",
+                        "tip": "$~Pindahkan bentuk yang dipilih ke depan."
+                    },
+                    "copy": {
+                        "label": "$~menyalin",
+                        "tip": "$~Salin bentuk yang dipilih ke papan klip."
+                    },
+                    "paste": {
+                        "label": "$~pasta",
+                        "tip": "$~Tempel bentuk yang disalin dari clipboard."
+                    },
+                    "clear": {
+                        "label": "$~semua",
+                        "tip": "$~Hapus semua bentuk."
+                    },
+                    "clearPixels": {
+                        "label": "$~piksel",
+                        "tip": "$~Hapus semua piksel."
+                    },
+                    "undo": {
+                        "label": "$~membuka",
+                        "tip": "$~Batalkan ke desain sebelumnya"
+                    },
+                    "redo": {
+                        "label": "$~mengulangi",
+                        "tip": "$~ulangi ke desain berikutnya"
+                    },
+                    "all": {
+                        "label": "$~pilih semua",
+                        "tip": "$~pilih semua bentuk dan piksel"
+                    },
+                    "allColor": {
+                        "label": "$~semua warna",
+                        "tip": "$~Pilih semua bentuk dengan warna yang sama dengan yang dipilih."
+                    },
+                    "saturationUp": {
+                        "label": "$~kejenuhan",
+                        "tip": "$~meningkatkan saturasi"
+                    },
+                    "saturationDown": {
+                        "label": "$~kejenuhan",
+                        "tip": "$~penurunan saturasi"
+                    },
+                    "end": {
+                        "label": "$~bentuk akhir",
+                        "tip": "$~akhiri jalur saat ini"
+                    },
+                    "horizontal": {
+                        "label": "$~balik horizontal",
+                        "tip": "$~balik pilihan secara mendatar"
+                    },
+                    "vertical": {
+                        "label": "$~balik vertikal",
+                        "tip": "$~balik pilihan secara tegak"
+                    },
+                    "fit": {
+                        "label": "$~bugar",
+                        "tip": "$~sesuaikan bentuk-bentuk tersebut dengan kanvas."
+                    },
+                    "dismissError": {
+                        "label": "$~membubarkan",
+                        "tip": "$~abaikan pesan kesalahan"
+                    },
+                    "editPoints": {
+                        "label": "$~titik",
+                        "tip": "$~ubah titik-titik pada jalur yang terpilih"
+                    },
+                    "donePoints": {
+                        "label": "$~selesai",
+                        "tip": "$~berhenti mengubah titik"
+                    },
+                    "addPoint": {
+                        "label": "$~tambah titik",
+                        "tip": "$~tambahkan titik di sebelah titik yang terpilih"
+                    },
+                    "deletePoint": {
+                        "label": "$~hapus titik",
+                        "tip": "$~hapus titik yang terpilih"
+                    },
+                    "curve": {
+                        "label": "$~lengkungkan",
+                        "tip": "$~lengkungkan segmen yang menuju ke titik yang terpilih"
+                    },
+                    "straighten": {
+                        "label": "$~luruskan",
+                        "tip": "$~luruskan segmen yang menuju ke titik yang terpilih"
+                    }
+                },
+                "feedback": {
+                    "name": "$~Karakter membutuhkan nama Wordplay yang sah dengan panjang minimal 1 karakter. Nama tidak boleh 'UI', angka desimal atau heksadesimal, atau nama fitur bahasa bawaan.",
+                    "description": "$~Karakter-karakter tersebut membutuhkan deskripsi agar mereka yang tidak dapat melihat tahu apa yang mereka wakili.",
+                    "end": "$~atau tekan escape.",
+                    "loadfail": "$~Terdapat masalah saat memuat karakter ini.",
+                    "notfound": "$~Karakter ini tidak ada atau tidak terlihat oleh Anda.",
+                    "unauthenticated": "$~Anda pasti<logged in@://login> untuk mengedit karakter.",
+                    "taken": "$~Anda sudah memiliki karakter dengan nama ini; tidak akan disimpan.",
+                    "projecteditfail": "$~Terdapat masalah saat memperbarui proyek yang menggunakan karakter ini. Proyek-proyek berikut perlu diperbaiki:",
+                    "untitledproject": "$~Proyek Tanpa Judul",
+                    "glyphLoading": "$~Mengambil jenis huruf…",
+                    "glyphMissing": "$~Jenis huruf ini tidak punya bentuk untuk simbol tersebut. Coba jenis huruf lain.",
+                    "glyphEmpty": "$~Simbol itu tidak punya apa pun untuk digambar.",
+                    "glyphUnreadable": "$~Kami tidak bisa membaca jenis huruf itu. Periksa koneksimu, atau coba jenis huruf lain.",
+                    "imageTooBig": "$~Gambar itu berukuran $size MB. Silakan pilih gambar yang lebih kecil dari $limit MB.",
+                    "imageUnreadable": "$~Kami tidak dapat membaca berkas itu sebagai gambar."
+                },
+                "announce": {
+                    "position": "$~pada $x $y",
+                    "selection": "$~$shapes[ $shapes yang dipilih | tidak ada yang dipilih]",
+                    "editing": "$~mengubah $#count[$count titik]",
+                    "editingDone": "$~selesai mengubah titik",
+                    "point": "$~titik $index di $x $y",
+                    "control": "$~lengkung $index di $x $y",
+                    "pointAdded": "$~titik $index ditambahkan di $x $y",
+                    "pointRemoved": "$~titik $index dihapus, tersisa $#count[$count titik]",
+                    "curved": "$~segmen $index dilengkungkan",
+                    "straightened": "$~segmen $index diluruskan",
+                    "moved": "$~berpindah ke $x $y",
+                    "drew": "$~digambar di $x $y",
+                    "erased": "$~dihapus di $x $y",
+                    "finished": "$~membuat $shape di $x $y",
+                    "deleted": "$~dihapus, $#count[$count bentuk tersisa]",
+                    "undone": "$~membatalkan langkah $step dari $total",
+                    "redone": "$~mengulangi langkah $step dari $total",
+                    "copied": "$~menyalin $#count[$count bentuk: $shapes]",
+                    "pasted": "$~ditempel di $x $y",
+                    "arranged": "$~lapisan $index dari $total",
+                    "flipped": "$~dibalik, sekarang di $x $y",
+                    "fitted": "$~memperbesar bentuk hingga memenuhi kanvas",
+                    "cropped": "$~kotak potong di $x $y",
+                    "cropMoving": "$~memindahkan kotak potong",
+                    "cropDone": "$~kotak potong ditempatkan",
+                    "imported": "$~menambahkan $#count[$count piksel] dari $x $y"
+                },
+                "image": {
+                    "instructions": "$~Seret kotak untuk memindahkannya, atau gunakan penggeser *ukuran* untuk mengubah berapa banyak bagian gambar yang disimpan. Dengan papan ketik, tekan *enter* untuk mulai memindahkan, lalu gunakan tombol *panah*, dan tekan *enter* lagi saat selesai.",
+                    "button": {
+                        "label": "$~unggah",
+                        "tip": "$~pilih berkas gambar dari perangkat ini"
+                    },
+                    "add": {
+                        "label": "$~tambah",
+                        "tip": "$~tambahkan kotak yang dipilih ke karakter sebagai piksel"
+                    },
+                    "crop": {
+                        "label": "$~kotak potong",
+                        "tip": "$~kotak gambar yang akan disimpan"
+                    },
+                    "preview": "$~apa yang akan ditambahkan",
+                    "size": {
+                        "label": "$~ukuran",
+                        "tip": "$~berapa banyak bagian gambar yang disimpan"
+                    }
+                }
+            },
+            "about": {
+                "header": "$~Tentang",
+                "content": [
+                    "$~Pernahkah Anda merasa bahwa pemrograman hanya untuk orang Barat yang fasih berbahasa Inggris, tidak memiliki disabilitas, dan tumbuh besar dengan komputer?",
+                    "Ya, kami juga.",
+                    "Ini bukanlah suatu kebetulan. Sejak awal mula komputasi, bahasa pemrograman telah dirancang dan dibangun oleh sebagian besar kelompok orang yang sama -- sebagian besar pria kulit putih, cisgender, berbahasa Inggris di dunia akademis dan industri di AS dan Eropa, dan beberapa matematikawan wanita yang luar biasa. Mereka melakukan pekerjaan mereka di masa pasca-kolonial, di mana pemenang mengambil semuanya, dan bahasa pemrograman adalah alat kunci untuk mengamankan kekuasaan tersebut.",
+                    "Sejarah ini telah menghasilkan visi komputasi yang terutama berfokus pada kecepatan, logika, keuntungan, dan dominasi.",
+                    "Ini adalah sebuah ketidakadilan. Karena komputasi, baik atau buruk, kini menopang kehidupan sehari-hari dalam berbagai cara yang terlihat maupun tidak terlihat, dan orang-orang yang memiliki akses untuk berkreasi dengannya adalah orang-orang yang paling mirip dengan para penciptanya. Sisa umat manusia tetap terikat pada kekuatan ini, karena membayangkan sesuatu yang berbeda membutuhkan kemampuan membaca dan menulis, yang dibatasi oleh kendala bahasa, kendala aksesibilitas, kendala ekonomi, dan ketidakadilan dalam pendidikan publik.",
+                    "*Wordplay* bercita-cita untuk membantu mengubah hal ini. Ini adalah platform pemrograman yang dirancang untuk bersifat global, mendukung /semua/ bahasa di dunia, tetapi juga /berkaitan dengan/ bahasa-bahasa di dunia. Sebuah platform di mana setiap orang dapat berkreasi, dengan kemampuan apa pun yang mereka miliki, untuk berbagi konten interaktif yang dapat dinikmati siapa pun. Untuk kaum muda dan dewasa muda yang ingin mengekspresikan diri melalui kata-kata interaktif, emoji, dan tipografi, dengan cara yang menyenangkan dan artistik. Bukan dengan tujuan untuk mendapatkan kekuasaan bagi diri mereka sendiri, tetapi untuk menciptakan dunia komputasi yang mengakui kekuatan dan kebutuhan luar biasa dari perbedaan kita yang indah.",
+                    "Kami adalah komunitas desainer, pendidik, dan pengembang yang berupaya mewujudkan visi ini. Kami adalah orang-orang dari berbagai ras, transgender, queer, penyandang disabilitas, imigran, dan pengungsi. Kami berpusat pada...<University of Washington@https://washington.edu><Information School@https://ischool.uw.edu/> Di Seattle, Washington, AS, sebuah tempat yang bercita-cita untuk menyambut semua orang dan menghapus dampak buruk diskriminasi terhadap penyandang disabilitas dan rasisme akibat kolonialisme yang masih berlanjut hingga saat ini. Membuat bahasa pemrograman dan platform ini adalah bagian kecil dari misi tersebut, menawarkan sekilas gambaran masa depan komputasi di mana /semua orang/ diterima.",
+                    "Kami sangat mengharapkan bantuan Anda. Pelajari<how to contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ,<donate@://donate> atau lacak kami<progress@https://github.com/amyjko/wordplay/milestones> Tulis surat kepada koordinator komunitas kami.<Amy@https://amyjko.phd> Jika Anda memiliki pertanyaan."
+                ],
+                "districts": {
+                    "header": "$~Untuk sekolah dan distrik",
+                    "content": [
+                        "$~Apakah Anda sedang memutuskan apakah *Wordplay* boleh dipakai di sekolah atau distrik Anda? Ini yang bisa dan tidak bisa kami janjikan.",
+                        "Kami bukan perusahaan. Kami adalah proyek penelitian berbasis komunitas yang bernaung di universitas nirlaba, dan kami tidak punya pendapatan. Artinya, ada perjanjian yang tidak bisa kami tanda tangani, walau kami sangat ingin membantu. Kami tidak bisa berjanji membayar biaya hukum sebuah distrik jika digugat. Kami tidak bisa berjanji memperbaiki masalah dalam jadwal tertentu. Menandatangani janji yang tidak bisa kami tepati tidak akan membantu siapa pun, apalagi Anda.",
+                        "Ini yang bisa kami janjikan. Kami menjaga platform ini sesuai standar aksesibilitas /WCAG 2.2 Level AA/, kami memeriksanya secara otomatis setiap ada perubahan, dan kami memperbaiki apa yang kami temukan secepat yang bisa dilakukan komunitas sukarelawan. Kami mengumpulkan data orang yang memakainya sesedikit mungkin, dan kami hanya memakainya untuk menjalankan platform ini. Halaman <rights//rights> kami menjelaskan tepat apa yang kami simpan, dan <source@https://github.com/wordplaydev/wordplay> kami bersifat terbuka, jadi Anda bisa memeriksa semua ini sendiri.",
+                        "Platform ini selalu berubah, begitu juga aturan yang harus Anda ikuti. Jika ada hal yang Anda butuhkan tapi belum kami sediakan, tulis surat kepada kami di hi@wordplay.dev dan ceritakan hal itu. Para pengelola akan membacanya, dan kami akan membalas surat Anda."
+                    ],
+                    "link": "$~Tulis surat kepada kami tentang suatu persyaratan",
+                    "subject": "$~Pertanyaan sekolah tentang Wordplay",
+                    "body": [
+                        "$~Nama sekolah atau distrik:",
+                        "$~Nama Anda:",
+                        "$~Peran Anda:",
+                        "$~Apakah ada persyaratan atau aturan yang harus kami penuhi tapi belum kami penuhi?",
+                        "$~Apakah ada satu yang tidak bisa kami penuhi seperti keadaan kami sekarang?",
+                        "$~Ada hal lain yang ingin Anda sampaikan kepada kami?"
+                    ]
+                }
+            },
+            "updates": {
+                "header": "$~Pembaruan",
+                "content": [
+                    "$~Berikut adalah fitur-fitur baru, peningkatan, dan perbaikan bug terbaru di @wordplay. Kami merilis pembaruan setiap minggu, biasanya pada hari Sabtu, kecuali jika kami menemukan bug yang mendesak."
+                ],
+                "tips": {
+                    "expand": "$~Perluas pembaruan tanggal ini",
+                    "collapse": "$~Sembunyikan pembaruan tanggal ini"
+                },
+                "categories": {
+                    "added": "$~Ditambahkan",
+                    "changed": "$~Berubah",
+                    "removed": "$~DIHAPUS",
+                    "fixed": "$~Tetap"
+                }
+            },
+            "login": {
+                "header": "$~Login",
+                "subtitle": "$~Simpan, berkolaborasi, dan bagikan",
+                "anonymous": "$~login",
+                "prompt": {
+                    "login": "$~Masuk untuk menyimpan proyek Anda, berkolaborasi, dan berbagi:",
+                    "join": "$~Atau,<create an account@://join> untuk memulai.",
+                    "forgot": "$~*Lupa kata sandi Anda?* Sayangnya, kami tidak dapat memulihkan akun Anda karena kami tidak mengumpulkan informasi kontak.",
+                    "enter": "$~Sepertinya tautan login Anda berasal dari browser atau perangkat lain. Bisakah Anda memasukkan email Anda lagi, agar kami yakin itu Anda?",
+                    "play": "$~Anda sudah masuk, kami dapat menyimpan proyek Anda secara online sekarang! Ingin membuat sesuatu?",
+                    "passwordrule": "$~Kata sandi harus minimal 6 karakter; jika Anda tidak menggunakan pengelola kata sandi, pilih tiga kata panjang yang mudah Anda ingat.",
+                    "changeEmail": "$~Ingin mengganti email Anda? Kirimkan email baru dan kami akan mengirimkan konfirmasi ke email lama Anda.",
+                    "changePassword": "$~Ingin mengubah kata sandi Anda? Kirimkan kata sandi baru dan ulangi.",
+                    "email": "$~Apakah Anda memiliki akun hanya melalui email? Masuk menggunakan email Anda, dan jika ada akun yang terkait dengannya, kami akan mengirimkan email berisi tautan masuk. Akun hanya melalui email baru tidak didukung, untuk menjaga privasi.",
+                    "sent": "$~Jika email ini terkait dengan sebuah akun, Anda akan menerima email berisi tautan login. Tautan tersebut mungkin perlu beberapa menit untuk muncul. Jika tidak ada akun yang terkait dengan email ini, Anda tidak akan menerima apa pun.",
+                    "logout": "$~Apakah Anda menggunakan perangkat bersama dan ingin menjaga proyek Anda tetap pribadi? Keluar dari akun dan kami akan *menghapus proyek Anda* dari perangkat ini, tetapi proyek tersebut akan tetap tersimpan secara online.",
+                    "success": "$~Akun telah dibuat!",
+                    "confirm": "$~Periksa alamat email lama Anda untuk mengkonfirmasi alamat email baru Anda.",
+                    "delete": "$~Apakah Anda ingin kami melupakan semua yang telah Anda buat di sini? Ini tidak bisa diubah.",
+                    "reallyDelete": "$~Apakah Anda yakin? Akun dan pengaturan Anda akan segera dihapus dan proyek Anda akan dijadwalkan untuk dihapus. Kolaborator pada proyek Anda akan segera kehilangan akses ke proyek tersebut. Ketik email atau nama pengguna Anda untuk mengkonfirmasi bahwa ini yang Anda inginkan.",
+                    "name": "$~Pilih emoji atau karakter khusus untuk mewakili dirimu kepada orang lain.",
+                    "paste": "$~Apakah tautan terbuka di tempat lain? Aplikasi yang terpasang kadang membuka tautan email di peramban web. Salin tautan dari emailmu dan tempel di sini untuk menyelesaikan proses masuk."
+                },
+                "error": {
+                    "expired": "$~Tautan ini telah kedaluwarsa.",
+                    "invalid": "$~Tautan ini tidak valid.",
+                    "email": "$~Bukan alamat email yang valid.",
+                    "invalidUsername": "$~Nama pengguna harus terdiri minimal 5 huruf tanpa spasi.",
+                    "usernameTaken": "$~Nama pengguna ini sudah digunakan.",
+                    "failure": "$~Tidak bisa login :(",
+                    "unverified": "$~Kami tidak dapat memastikan bahwa ini peramban asli, jadi kami berhenti di sini. Ini bisa terjadi di jaringan sekolah atau kantor. Mencoba lagi tidak akan membantu, tetapi jaringan atau peramban lain mungkin bisa. Jika kamu sedang di sekolah, beri tahu gurumu.",
+                    "offline": "$~Kami tidak bisa meraih awan itu ☁️.",
+                    "invalidPassword": "$~Kata sandi harus memiliki panjang minimal 6 karakter.",
+                    "wrongPassword": "$~Nama pengguna dan kata sandi tidak valid. Kata sandi Anda salah, atau orang lain sudah menggunakan nama pengguna ini.",
+                    "mismatched": "$~Kata sandinya tidak cocok.",
+                    "tooMany": "$~Anda telah mencoba masuk dan gagal terlalu banyak kali. Anda harus menunggu untuk mencoba lagi.",
+                    "unsaved": "$~Kamu punya perubahan yang belum tersimpan secara daring. Jika kamu keluar sekarang, perubahan itu akan hilang dari perangkat ini.",
+                    "deletePartial": "$~Kami telah menghapus data akun Anda, tetapi tidak dapat menyelesaikan penghapusan akun Anda. Silakan coba lagi, atau hubungi kami jika hal ini terus terjadi."
+                },
+                "feedback": {
+                    "changing": "$~Mengirim email baru...",
+                    "deleting": "$~Oke, menghapus proyek dan pengaturan Anda...",
+                    "updatedPassword": "$~Kata sandi Anda telah diperbarui.",
+                    "match": "$~Ini harus sesuai dengan nama pengguna akun Anda."
+                },
+                "field": {
+                    "email": {
+                        "description": "$~edit email login",
+                        "placeholder": "$~e-mail"
+                    },
+                    "username": {
+                        "description": "$~Gunakan nama pengguna untuk login, jangan gunakan informasi yang dapat mengidentifikasi seseorang.",
+                        "placeholder": "$~nama belakang"
+                    },
+                    "password": {
+                        "description": "$~kata sandi login, minimal 6 karakter",
+                        "placeholder": "$~kata sandi"
+                    },
+                    "currentPassword": {
+                        "description": "$~kata sandi login Anda saat ini",
+                        "placeholder": "$~kata sandi saat ini"
+                    },
+                    "newPassword": {
+                        "description": "$~kata sandi baru Anda",
+                        "placeholder": "$~kata sandi baru"
+                    },
+                    "link": {
+                        "description": "$~tempel tautan masuk",
+                        "placeholder": "$~tautan"
+                    }
+                },
+                "button": {
+                    "logout": {
+                        "tip": "$~Keluar dari akun Anda",
+                        "label": "$~keluar"
+                    },
+                    "login": "$~Buat akun dengan nama pengguna dan kata sandi ini.",
+                    "updateEmail": "$~ubah email Anda",
+                    "delete": {
+                        "tip": "$~hapus akun Anda",
+                        "label": "$~hapus data saya…"
+                    },
+                    "reallyDelete": {
+                        "tip": "$~hapus akun Anda selamanya",
+                        "label": "$~Hapus saja!!!"
+                    },
+                    "updatePassword": "$~Kirim kata sandi baru"
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "$~Tampilkan kata sandi",
+                        "off": "$~Sembunyikan kata sandi"
+                    }
+                },
+                "signin": {
+                    "usesPassword": "$~Kamu masuk dengan nama pengguna dan kata sandi. Kalau kamu tidak mau repot mengingat kata sandi, kamu bisa beralih untuk masuk dengan tautan yang kami kirim lewat email — nama penggunamu tetap sama.",
+                    "usesEmail": "$~Kamu masuk dengan alamat emailmu. Jika kamu lebih suka pakai nama pengguna dan kata sandi, kamu bisa beralih — nama penggunamu tetap sama.",
+                    "notYet": "$~Kamu masuk dengan nama pengguna dan kata sandi. Di tempat tinggalmu, kamu belum cukup umur untuk memakai alamat email di sini — mulai $date kamu bisa beralih untuk masuk dengan tautan lewat email.",
+                    "switched": "$~Selesai. Lain kali, masuklah dengan nama penggunamu dan kata sandi barumu.",
+                    "toPassword": {
+                        "label": "$~Pakai kata sandi saja",
+                        "tip": "$~Beralih ke cara masuk dengan nama pengguna dan kata sandi"
+                    }
+                },
+                "username": {
+                    "change": "$~Nama penggunamu adalah cara orang lain melihatmu, dan itu menjadi awal dari nama setiap karakter yang kamu buat. Kamu bisa mengubahnya kapan saja. Nama lamamu tetap bekerja, jadi apa pun yang sudah menunjuk ke karaktermu masih bisa menemukannya.",
+                    "missing": "$~Kamu belum punya nama pengguna, jadi orang lain melihatmu sebagai *—* dan kamu belum bisa membuat karakter. Pilih satu nama, dan itu akan tetap.",
+                    "changed": "$~Selesai. Itu namamu sekarang.",
+                    "claimed": "$~Selesai. Itu namamu.",
+                    "field": {
+                        "description": "$~Nama pengguna yang kamu inginkan",
+                        "placeholder": "$~nama pengguna"
+                    },
+                    "save": {
+                        "label": "$~Simpan",
+                        "tip": "$~Gunakan nama pengguna ini mulai sekarang"
+                    }
+                },
+                "notifications": {
+                    "header": "$~Kirimi saya email tentang…",
+                    "noAddress": "$~Tambahkan alamat email di atas untuk memilih email apa saja yang dikirim Wordplay kepadamu.",
+                    "decisions": {
+                        "label": "$~moderasi hal yang saya buat atau laporkan",
+                        "labels": ["$~mati", "$~aktif"],
+                        "tips": [
+                            "$~Jangan kirimi saya email tentang moderasi hal yang saya buat atau laporkan",
+                            "$~Kirimi saya email tentang moderasi hal yang saya buat atau laporkan"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~moderasi yang menunggu ulasan saya",
+                        "labels": ["$~mati", "$~aktif"],
+                        "tips": [
+                            "$~Jangan kirimi saya email tentang moderasi yang menunggu ulasan saya",
+                            "$~Kirimi saya email tentang moderasi yang menunggu ulasan saya"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~obrolan dan cara baru",
+                        "labels": ["$~mati", "$~aktif"],
+                        "tips": [
+                            "$~Jangan kirimi saya email tentang obrolan dan cara baru",
+                            "$~Kirimi saya email tentang obrolan dan cara baru"
+                        ]
+                    },
+                    "notYet": "$~Saat kamu dapat menggunakan alamat email, kamu bisa memilih email apa saja yang dikirim Wordplay kepadamu."
+                },
+                "subheader": {
+                    "work": "$~Karyamu",
+                    "character": "$~Karaktermu",
+                    "username": "$~Nama penggunamu",
+                    "password": "$~Kata sandimu",
+                    "email": "$~Email",
+                    "logout": "$~Keluar",
+                    "delete": "$~Hapus akunmu",
+                    "export": "$~Arsipmu"
+                },
+                "profile": "$~Profil",
+                "export": {
+                    "prompt": "$~Unduh salinan semua yang telah kamu buat. Arsip ini berisi proyek, karakter, galeri, cara, perkakas, percakapan, kelas, dan pengaturanmu. Setiap proyek disertakan sebagai berkas yang bisa kamu buka lagi di Wordplay. Sebagian isinya bukan hanya milikmu: percakapan berisi apa yang dikatakan semua orang, dan daftar kelas berisi nama orang lain. Siapa pun yang kamu beri berkas ini bisa membaca semuanya, jadi simpan di tempat yang pribadi.",
+                    "proxy": "$~Kamu sedang melihat akun milik orang lain, jadi kamu tidak bisa mengunduh salinannya.",
+                    "button": {
+                        "tip": "$~unduh salinan semua isi akunmu",
+                        "label": "$~unduh arsipku…"
+                    },
+                    "progress": "$~Terkumpul $kind: $#count[$count hal] sejauh ini",
+                    "started": "$~Sedang membuat arsipmu.",
+                    "finished": "$~Arsipmu $name sudah siap, dengan $#count[$count hal] di dalamnya.",
+                    "finishedPartial": "$~Arsipmu $name sudah siap, dengan $#count[$count hal] di dalamnya, tetapi $#missing[$missing jenis] tidak bisa dibaca.",
+                    "failed": "$~Arsipmu tidak bisa dibuat. Coba lagi sebentar lagi.",
+                    "tooLarge": "$~Kamu telah membuat lebih banyak dari yang bisa ditampung satu arsip. Beri tahu kami dan kami akan membantumu mendapatkannya.",
+                    "offline": "$~Wordplay tidak bisa terhubung ke internet, jadi arsipmu tidak bisa dibuat.",
+                    "kind": {
+                        "account": "$~akun kamu",
+                        "projects": "$~proyek kamu",
+                        "galleries": "$~galeri kamu",
+                        "characters": "$~karakter kamu",
+                        "howtos": "$~cara-cara kamu",
+                        "chats": "$~percakapan kamu",
+                        "kits": "$~perkakas kamu",
+                        "classes": "$~kelas kamu",
+                        "feedback": "$~ide dan laporan bug kamu",
+                        "device": "$~pengaturan perangkat ini",
+                        "archive": "$~arsip",
+                        "saving": "$~berkas"
+                    },
+                    "readme": {
+                        "title": "$~Arsip Wordplay kamu",
+                        "intro": "$~Ini adalah salinan dari semua isi akun Wordplay $name. Salinan ini dibuat pada $date. Wordplay membuatnya untuk kamu. Tidak ada orang lain yang punya salinannya.",
+                        "contents": "$~Setiap folder menyimpan satu jenis hal. Ada folder untuk proyek, karakter, galeri, cara, perkakas, percakapan, dan kelas kamu.",
+                        "relationships": "$~Di dalam setiap folder, isinya diurutkan berdasarkan hubungan kamu dengan hal itu. Folder bernama owner menyimpan hal yang kamu buat. creator menyimpan hal yang kamu tulis atau bisa kamu tambahkan. curator menyimpan hal yang kamu jaga. teacher dan learner menyimpan kelas. collaborator, commenter, dan viewer menyimpan karya milik orang lain.",
+                        "device": "$~Folder device menyimpan hal yang hanya ada di komputer tempat kamu membuat arsip ini. Folder ini berisi pengaturan yang tidak disimpan secara daring, terjemahan yang sedang kamu kerjakan, dan pekerjaan yang belum selesai disimpan. Membuat arsip di komputer lain tidak akan menyertakan hal-hal ini.",
+                        "formats": "$~Untuk membuka proyek lagi, buka halaman proyek kamu di Wordplay dan pilih \"buka berkas proyek\". Kamu juga bisa menyeret berkas .wp ke halaman itu. Untuk mengganti proyek yang sudah kamu punya, seret berkasnya ke sana dan Wordplay akan bertanya dahulu.",
+                        "excluded": "$~Ada beberapa hal yang tidak ada di sini. Wordplay tidak menyertakan catatan langkah demi langkah dari perubahan yang kamu buat, karena proyeknya sudah menyimpan hasil dari perubahan itu. Wordplay juga tidak menyertakan catatan tentang siapa yang melihat suatu proyek. Wordplay juga tidak menyertakan laporan tentang pelanggaran aturan, karena laporan itu ditulis untuk orang yang memeriksanya.",
+                        "privacy": "$~Sebagian dari isi ini bukan hanya milik kamu. Sebuah percakapan menyimpan apa yang dikatakan setiap orang di dalamnya. Sebuah kelas menyimpan nama semua orang di dalamnya. Siapa pun yang kamu beri berkas ini bisa membaca semuanya. Simpan berkas ini di tempat yang pribadi, dan pikirkan siapa saja yang ada di dalamnya sebelum kamu membagikannya.",
+                        "missing": "$~Wordplay tidak bisa membaca beberapa hal saat membuat arsip ini. Hal-hal itu tidak ada di sini:",
+                        "manifest": "$~manifest.json menyimpan fakta yang sama dalam bentuk yang bisa dibaca oleh program. Berkas ini menyebutkan kapan arsip ini dibuat, berapa banyak masing-masing hal, dan apa saja yang tidak bisa disertakan.",
+                        "contentsFiles": "$~Setiap item punya berkas .json. Itu adalah persis apa yang disimpan Wordplay. Setiap proyek juga punya berkas .wp. Itu adalah proyek yang ditulis ulang agar kamu bisa membacanya dan membukanya lagi.",
+                        "contentsAccount": "$~account.json menyebutkan siapa kamu, kapan kamu bergabung, dan apa yang boleh kamu lakukan. Folder self menyimpan apa yang disimpan Wordplay tentang kamu: nama pengguna kamu, seberapa banyak terjemahan yang sudah kamu lakukan, peringatan apa pun yang pernah kamu terima, dan pemberitahuan kamu.",
+                        "relationshipsWords": "$~Kata yang sama bisa punya dua arti. Seorang creator dari sebuah galeri bisa menambahkan proyek ke dalamnya. creator dari sebuah cara adalah orang yang menulisnya. Setiap folder juga punya index.json. Berkas ini mencatat setiap cara kamu terhubung dengan setiap item, karena bisa lebih dari satu cara yang berlaku."
+                    },
+                    "incomplete": "$~Arsipmu sudah siap, tapi ini tidak bisa dibaca, jadi tidak ada di dalamnya: $kinds"
+                }
+            },
+            "join": {
+                "header": "$~Bergabung",
+                "prompt": {
+                    "create": "$~Buat akun untuk menyimpan proyek Anda, berkolaborasi dengan orang lain, dan berbagi karya Anda.",
+                    "username": "$~Nama pengguna harus minimal /5 karakter/, tidak boleh berupa alamat email, dan tidak boleh mengandung nama Anda atau informasi identitas lainnya.",
+                    "password": "$~Kata sandi harus minimal 6 karakter. Ketik dua kali dan catat di tempat yang aman, seperti pengelola kata sandi. *Tidak ada cara untuk memulihkan akun Anda* jika Anda kehilangan akun tersebut, karena kami tidak mengumpulkan informasi kontak.",
+                    "region": "$~Kami menanyakan tempat tinggalmu supaya kami bisa mengikuti aturan di sana tentang akun anak-anak. Kami tidak menyimpan jawabanmu.",
+                    "birthday": "$~Kami menanyakan tanggal lahirmu karena alasan yang sama. Kami juga tidak menyimpannya — kami hanya menyimpan apakah kamu sudah cukup umur untuk memakai alamat email, dan kapan kamu akan cukup umur.",
+                    "choose": "$~Ada dua cara untuk masuk. Pilih yang paling cocok untukmu.",
+                    "withPassword": "$~*Nama pengguna dan kata sandi.* Kami tidak akan tahu apa pun tentangmu — tetapi *tidak ada cara untuk mendapatkan kembali akunmu kalau kamu lupa kata sandimu*, karena kami tidak punya cara untuk menghubungimu.",
+                    "withEmail": "$~*Alamat email.* Kami mengirimkan tautan lewat email setiap kali kamu masuk, jadi tidak ada kata sandi yang perlu diingat. Kami hanya menyimpan alamatmu untuk mengirim tautan itu.",
+                    "tooYoung": "$~Di tempat tinggalmu, kamu harus berusia $#age[$age tahun] untuk memakai alamat email di sini. Sampai saat itu, kamu memakai nama pengguna dan kata sandi — dan kamu bisa beralih nanti.",
+                    "sent": "$~Kalau alamat itu bisa dipakai untuk masuk, sebuah tautan sedang dikirim. Periksa emailmu."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Negara atau wilayah tempat tinggalmu",
+                        "placeholder": "$~negara"
+                    },
+                    "year": {
+                        "description": "$~Tahun kelahiranmu",
+                        "placeholder": "$~tahun"
+                    },
+                    "month": {
+                        "description": "$~Bulan kelahiranmu",
+                        "placeholder": "$~bulan"
+                    },
+                    "day": {
+                        "description": "$~Tanggal kelahiranmu",
+                        "placeholder": "$~tanggal"
+                    },
+                    "email": {
+                        "description": "$~Alamat email yang ingin kamu pakai untuk masuk",
+                        "placeholder": "$~email"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~berikutnya",
+                        "tip": "$~Lanjut ke langkah berikutnya"
+                    },
+                    "back": {
+                        "label": "$~kembali",
+                        "tip": "$~Kembali ke langkah sebelumnya"
+                    },
+                    "usePassword": {
+                        "label": "$~Pakai kata sandi",
+                        "tip": "$~Buat akun dengan nama pengguna dan kata sandi"
+                    },
+                    "useEmail": {
+                        "label": "$~Pakai alamat email",
+                        "tip": "$~Buat akun yang kamu masuki dengan tautan lewat email"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Itu bukan tanggal yang benar. Periksa lagi hari dan bulannya.",
+                    "taken": "$~Ada orang lain yang baru saja memakai nama pengguna itu. Coba nama lain.",
+                    "throttled": "$~Sudah terlalu banyak tautan masuk yang diminta. Tunggu sebentar, lalu coba lagi.",
+                    "failed": "$~Kami tidak bisa membuat akunnya. Coba lagi sebentar lagi."
+                }
+            },
+            "rights": {
+                "header": "$~Hak-hak",
+                "content": [
+                    "$~Hai!",
+                    "Mari kita bicarakan hak kamu dan hak kami (juga berdasarkan aturan seperti <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> dan <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Hal pertama yang perlu kamu tahu adalah kami bukan perusahaan yang mencari keuntungan. Kami adalah proyek riset berbasis komunitas yang dijalankan di universitas nirlaba. Tujuan kami adalah membuat platform yang membuatmu senang, dan membantu kami menemukan cara membuat dunia komputer yang lebih adil dan setara. Kami tidak ingin mencari uang dari platform ini. Uang yang kami dapatkan (biasanya dari dana publik) dipakai untuk menjaga platform ini tetap berjalan, bukan untuk memperkaya siapa pun yang bekerja atau berkontribusi di sini.",
+                    "Karena kami tidak mencari keuntungan, kami juga tidak bisa berjanji soal keandalan, ketersediaan, atau umur panjang platform ini. Walau begitu, <Amy@https://amyjko.phd> berkomitmen menjaga platform ini dalam jangka panjang. Sebagai profesor tetap, dia punya pekerjaan yang cukup stabil.",
+                    "Sekarang mari bicara soal *data*. Berikut ini yang kami kumpulkan dan simpan di penyimpanan awan (cloud):",
+                    "• *Proyek* kamu. Kami menyimpan setiap proyek yang kamu buat dan perubahan yang kamu lakukan padanya, kecuali jika proyek itu tampaknya berisi data pribadi seperti nomor telepon, alamat surel, nama pengguna, nomor identitas pajak, atau alamat rumah.",
+                    "• *Pengaturan* kamu. Ini termasuk bahasa yang kamu pilih, preferensi animasi, dan kemajuan tutorial kamu. Semua hal lain hanya disimpan di perangkatmu sendiri.",
+                    "• *Aktivitas* secara umum. Kami mencatat kapan kamu masuk (login) dan halaman yang kamu kunjungi, tapi tidak dengan cara yang bisa mengenali siapa kamu, mengikutimu di seluruh situs, atau mengikutimu di situs lain. Kami menggunakan Google Analytics dalam mode 'persetujuan ditolak', yang hanya mengumpulkan sedikit informasi tanpa identitas tentang tampilan halaman, tanpa menyimpan cookie, dan tanpa mengirim informasi alamat IP ke Google. Kami memakai informasi umum ini untuk membantu mencari dana, dengan menunjukkan seberapa banyak platform ini digunakan.",
+                    "• *Terjemahan obrolan* kamu. Jika kamu meminta untuk membaca obrolan dalam bahasa lain, kami menerjemahkan pesan orang lain, tapi tidak pernah menerjemahkan pesanmu sendiri. Beberapa peramban bisa melakukan penerjemahan ini langsung di perangkatmu, dan jika peramban kamu bisa melakukannya, tidak ada data yang dikirim ke kami. Jika tidak, pesan itu dikirim ke layanan penerjemah kecerdasan buatan (saat ini bernama Claude, buatan Anthropic), dan hasil terjemahannya disimpan bersama obrolan itu, supaya orang lain tidak perlu menerjemahkan kata yang sama lagi. Hanya orang-orang dalam obrolan itu yang bisa membacanya.",
+                    "Kami tidak menyimpan hal lain selain itu. <Kode sumber@https://github.com/amyjko/wordplay/tree/main/src> kami bersifat terbuka untuk umum, jadi siapa pun bisa memeriksanya, dan melaporkan jika ada pelacakan yang tidak seharusnya terjadi.",
+                    "*Kamu* yang memiliki datamu, bukan kami. Artinya:",
+                    "• Kamu yang mengatur siapa yang bisa melihat proyekmu. Secara bawaan, proyekmu bersifat pribadi, tapi kamu bisa membagikannya kepada orang tertentu, kelompok tertentu, atau membuatnya benar-benar terbuka untuk umum.",
+                    "• Kamu bisa menghapus sepenuhnya proyek apa pun, atau akunmu sendiri, kapan saja.",
+                    "• Kamu bisa mengunduh salinan proyek apa pun, atau seluruh akunmu, kapan saja.",
+                    "Berikut cara kami menggunakan dan tidak menggunakan datamu:",
+                    "• Kami tidak akan membagikan datamu kepada siapa pun, kecuali memang diwajibkan oleh hukum. Selalu ada kemungkinan datamu diambil tanpa izin (disebut 'kebocoran data'). Jika kami menemukan hal ini terjadi, kami akan memberitahumu melalui alamat surel yang sudah kamu berikan kepada kami.",
+                    "• Kami tidak akan menghubungimu lewat alamat surelmu, kecuali jika 1) kamu melakukan perubahan akun yang mengharuskan kami menghubungimu, 2) kamu memberi izin secara jelas agar kami menghubungimu, atau 3) terjadi kebocoran data seperti disebutkan di atas.",
+                    "• Kami mungkin menganalisis proyek, galeri, dan konten cara di platform ini, untuk memahami apa yang orang-orang buat dan bagaimana mereka membuatnya. Kami mungkin membagikan hasil analisis ini dalam bentuk umum dan tanpa nama, di dalam publikasi akademik. Kami hanya akan melakukan ini dengan pengawasan dewan peninjau kelembagaan, sesuai yang diwajibkan hukum federal Amerika Serikat.",
+                    "Terakhir, catatan tentang ucapan. Proyek bersifat pribadi secara bawaan, dan membagikannya kepada orang tertentu tetap membuatnya pribadi. Berikut ini penjelasan siapa yang memeriksa apa yang kamu bagikan, tergantung siapa yang bisa melihatnya.",
+                    "Namun, membuat proyek menjadi *terbuka untuk umum*, atau memasukkannya ke galeri publik, adalah sebuah hak istimewa. Platform ini dibuat dengan dasar cinta, penghargaan, rasa hormat, dan martabat. Karena itu, kami mengharapkan bahwa konten *publik* milikmu tidak akan:"
+                ],
+                "consequences": [
+                    "$~Jika kami menemukan proyek atau galeri yang melanggar aturan ini, kami akan memperingatkan pembuatnya sebelum orang lain melihatnya, atau memblokirnya agar tidak bisa dilihat. Jika kamu berulang kali melanggar aturan ini, kamu akan kehilangan hak untuk membagikan isi secara publik."
+                ],
+                "license": [
+                    "$~Satu hal lagi tentang membuat proyek menjadi *publik*. Proyek publik dibagikan dengan <lisensi Creative Commons Attribution-ShareAlike@https://creativecommons.org/licenses/by-sa/4.0/>. Artinya, siapa pun boleh me-/remix/ proyek publikmu — membuat salinan sendiri dan mengubahnya — dan kamu boleh me-remix proyek milik orang lain.",
+                    "Ada tiga hal yang datang bersama lisensi itu. Orang yang me-remix harus memberi penghargaan kepada pembuat proyek asli. Mereka harus membagikan remix mereka dengan lisensi yang sama, agar tetap terbuka untuk orang berikutnya. Dan mereka tidak boleh menjadikan proyek publik sebagai proyek pribadi untuk disimpan sendiri.",
+                    "Kami membantu bagian penghargaan: ketika seseorang me-remix sebuah proyek, kami mengingat asalnya dan menampilkan tautan kembali ke proyek itu. Membuat proyek menjadi publik adalah caramu menyetujui semua ini, jadi jika kamu lebih suka tidak ada yang me-remix sebuah proyek, biarkan proyek itu tetap pribadi."
+                ],
+                "research": [
+                    "$~Ini pilihan terakhir, dan sepenuhnya milikmu. Kami kadang menulis dan berbicara tentang Wordplay — dalam makalah penelitian, dalam presentasi, dan dalam apa yang kami tunjukkan kepada guru dan keluarga. Kami ingin sekali menunjukkan apa yang benar-benar dibuat orang dengan Wordplay, tapi kami tidak akan menampilkan proyekmu kecuali kamu mengizinkannya.",
+                    "Setiap proyek memiliki pengaturan *Penelitian* di opsi berbaginya, dan pengaturan ini awalnya dimatikan. Menyalakannya membuat kami bisa menampilkan proyek itu sebagai contoh, tanpa namamu, nama penggunamu, atau apa pun yang menunjukkan bahwa akun itu milikmu. Pengaturan ini berlaku per proyek, jadi menyetujui satu proyek tidak berarti apa-apa untuk proyek lainnya.",
+                    "Kamu bisa mematikannya kapan saja. Mematikannya berarti kami berhenti memakai proyekmu untuk hal baru, tapi kami tidak bisa menarik kembali sesuatu yang sudah kami terbitkan atau tampilkan."
+                ],
+                "warnings": [
+                    "$~Berikut ini yang terjadi jika konten publikmu melanggar aturan ini. Seorang moderator akan memeriksanya, konten itu berhenti menjadi publik, dan kamu mendapat peringatan di notifikasimu yang menyebutkan konten mana yang dimaksud. Siapa pun yang sudah masuk bisa meminta moderator memeriksa konten publik dengan tombol lapor pada konten tersebut.",
+                    "Setelah tiga peringatan, kamu masih bisa membuat proyek, masih bisa membagikannya kepada orang yang kamu pilih, dan masih bisa memakai semua fitur lain di sini. Yang kamu kehilangan adalah kemampuan untuk membuat sesuatu menjadi publik.",
+                    "Jika kamu merasa sebuah peringatan adalah kesalahan, atau peringatan itu sudah lama dan kamu ingin berbagi secara publik lagi, tulis surat ke hi@wordplay.dev dan beri tahu kami nama penggunamu serta alasannya. Seseorang akan membacanya."
+                ],
+                "responsibility": [
+                    "$~Siapa yang memeriksa apa yang kamu bagikan tergantung pada siapa yang bisa melihatnya.",
+                    "• *Dibagikan ke tidak ada orang, atau hanya ke orang yang kamu sebut namanya.* Tidak ada yang memeriksanya. Bukan kami, bukan siapa pun.",
+                    "• *Di galeri yang ada orang lain di dalamnya.* Kurator galeri itu memeriksanya, begitu juga obrolan yang menyertainya. Ini berlaku baik galeri itu publik atau tidak: orang-orang di dalamnya bisa melihat karyamu, jadi ada orang di sana yang bertanggung jawab atasnya.",
+                    "• *Di galeri publik.* Kuratornya memeriksanya, dan kami juga, karena siapa saja bisa menemukannya.",
+                    "• *Publik, dan tidak berada di galeri.* Kami yang memeriksanya.",
+                    "Siapa saja yang bisa melihat sesuatu bisa meminta agar hal itu diperiksa, dengan menggunakan tombol lapor pada hal itu. Kami tidak pernah memberi tahu pembuatnya siapa yang melaporkan.",
+                    "Melaporkan pesan obrolan akan menyembunyikannya sementara ada yang memeriksanya. Ini terjadi sekali untuk setiap pesan: jika pesan itu tetap disimpan dan seseorang melaporkannya lagi, pesan itu akan tetap terlihat selama diperiksa untuk kedua kalinya. Kamu selalu bisa melihat kata-katamu sendiri.",
+                    "Sebuah keputusan menyatakan aturan mana di atas yang dianggap dilanggar, dan bisa disertai catatan dari orang yang membuat keputusan itu. Kamu akan menerima keduanya di notifikasimu.",
+                    "Keputusan kurator galeri berlaku untuk galerinya sendiri. Itu bukan salah satu dari peringatan di bawah ini, dan tidak akan pernah membuatmu kehilangan kemampuan untuk berbagi secara publik."
+                ]
+            },
+            "donate": {
+                "header": "$~Menyumbangkan",
+                "prompt": "$~Bantu kami mendanai pengembangan @wordplay.",
+                "content": [
+                    "$~@wordplay adalah proyek berbasis komunitas gratis yang didukung oleh<University of Washington@https://washington.edu> Kami bergantung pada donasi dari orang-orang yang percaya pada misi kami untuk menyediakan program pendidikan yang mudah diakses dan inklusif bahasa.",
+                    "Berikut adalah biaya kami saat ini:",
+                    "• Kami memberikan kompensasi kepada mahasiswa S1 Universitas Washington, terutama mereka yang penyandang disabilitas atau yang bahasa pertamanya bukan bahasa Inggris, untuk mengembangkan dan memelihara proyek ini. Ini mencakup sekitar 90% dari biaya kami.",
+                    "• Kami memberikan tunjangan kepada guru yang berkolaborasi dengan kami untuk mengembangkan kurikulum multibahasa dan mudah diakses.",
+                    "• Kami membayar Google untuk<Firebase@https://firebase.google.com/> bandwidth dan penyimpanan, dan<Workspace@https://workspace.google.com/> layanan.",
+                    "• Kami membayar<Squarespace@https://www.squarespace.com/> setiap tahun untuk domain tersebut.",
+                    "Biaya kami saat ini, dengan asumsi 5 mahasiswa S1 dengan tarif $20 USD/jam, 10 jam/minggu selama tahun akademik (36 minggu) dan 2 mahasiswa S1 selama musim panas (12 minggu), ditambah layanan cloud, adalah sekitar $60K.000 USD per tahun.",
+                    "Jika 2.400 orang memberikan sumbangan sebesar $25 USD per tahun, itu akan menutupi biaya operasional kami saat ini, dan kelebihan dana akan digunakan untuk memberikan kompensasi kepada lebih banyak siswa dan guru.",
+                    "Apakah Anda bisa menjadi salah satu dari 2.400 orang tersebut? Jika ya, berikut tautan donasi kami di Universitas Washington:"
+                ]
+            },
+            "design": {
+                "header": "$~Desain",
+                "description": "$~Ini adalah referensi untuk sistem desain visual @wordplay, termasuk warna, font, spasi, dan komponen yang dapat digunakan kembali. Lihat<design wiki@https://github.com/wordplaydev/wordplay/wiki/design> Dan<develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> panduan untuk berkontribusi.",
+                "theme": "$~Tema",
+                "colors": "$~Warna",
+                "palette": "$~Palet",
+                "semantic": "$~Warna Semantik",
+                "fonts": "$~Font",
+                "spacing": "$~Jarak",
+                "typography": "$~Tipografi",
+                "components": "$~Komponen",
+                "col": {
+                    "component": "$~Komponen",
+                    "preview": "$~Pratinjau",
+                    "variable": "$~Variabel",
+                    "color": "$~Warna",
+                    "hex": "$~Heksagon",
+                    "description": "$~Keterangan",
+                    "cssvalue": "$~Nilai CSS",
+                    "computed": "$~Dihitung",
+                    "primaryface": "$~Wajah utama",
+                    "contrast": "$~Kontras"
+                },
+                "demo": {
+                    "button": "$~Contoh",
+                    "note": "$~Ini adalah sebuah catatan.",
+                    "notice": "$~Ini adalah sebuah pengumuman.",
+                    "header": "$~Judul",
+                    "subheader": "$~Subjudul",
+                    "toggleon": "$~Pada",
+                    "toggleoff": "$~Mati",
+                    "textfieldplaceholder": "$~Masukkan teks…",
+                    "textfielddescription": "$~Contoh kolom teks",
+                    "optionslabel": "$~Contoh",
+                    "optiona": "$~Opsi A",
+                    "optionb": "$~Opsi B",
+                    "optionc": "$~Opsi C",
+                    "logoresting": "$~Sedang diam",
+                    "logoloading": "$~Sedang memuat",
+                    "logoscripts": "$~Di berbagai sistem tulisan",
+                    "logodownloadsvg": "$~Unduh SVG",
+                    "logodownloadpng": "$~Unduh PNG (512px)",
+                    "logodownloadcard": "$~Unduh gambar berbagi"
+                },
+                "accessibility": "$~Aksesibilitas Warna",
+                "accessibilityRules": [
+                    "$~Apa pun yang ditampilkan sebagai *teks* harus memakai salah satu varian teks AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, atau variabel semantik yang menunjuk ke salah satunya). Varian-varian ini memenuhi kontras 4.5:1 yang diwajibkan oleh <WCAG 2.2@https://www.w3.org/TR/WCAG22/>. Warna merek yang lebih terang hanya untuk latar belakang, garis tepi, dan sorotan, yang membutuhkan kontras 3:1 atau tidak sama sekali. Rasio-rasio ini dijaga oleh uji unit dan pemindaian otomatis pada setiap halaman, baik dalam mode terang maupun gelap. Ada satu pengecualian yang disengaja: warna abu-abu garis tepi pada mode terang berada di bawah 3:1, karena garis tepi di sini hanya pemisah dekoratif dan setiap batas penting sudah memiliki penanda lain.",
+                    "Jangan pernah menyampaikan makna hanya melalui warna: pasangkan setiap keadaan berkode warna dengan penanda kedua — bentuk, gaya garis, simbol, atau kata. Contohnya, editor menggambar sorotan kursor dan konflik besar dengan garis *penuh*, output terpilih dengan garis *putus-putus*, dan konflik kecil dengan garis *titik-titik*, sehingga tingkat keparahan dan pilihan tetap dapat dibedakan tanpa warna.",
+                    "Lihat panduan <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> untuk panduan lengkap bagi kontributor."
+                ],
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Logo Wordplay adalah balon bicara yang memuat satu huruf: sebuah panggung kecil tempat balon itu bisa mengatakan apa saja — sebuah huruf dari sistem tulisan pembaca, sebuah emoji, atau lingkaran, segitiga, dan persegi saat ada sesuatu yang sedang dimuat. Di dalam aplikasi, huruf itu mengikuti sistem tulisan bahasa utamamu; pada permukaan yang netral terhadap tulisan seperti ikon peramban dan gambar berbagi, balon itu menampilkan tiga bentuk, yang siap membuat sesuatu.",
+                    "Gambar itu sendiri tidak pernah menunjukkan gerakan. Gerakan bersifat perilaku — halaman awal mengganti apa yang dikatakan balon itu seiring dengan pemilih bahasa, dan saat memuat, bentuk-bentuk itu bergiliran melompat, seperti kerumunan yang melakukan gelombang — dan selalu menyesuaikan dengan pengaturan kecepatan animasi, berhenti sepenuhnya saat animasi dimatikan.",
+                    "Tanda itu selalu digambar dengan warna teks saat ini, jadi di mana pun teks memenuhi syarat kontras, logo pun demikian."
+                ],
+                "copyvalue": "$~salin nilai CSS lengkap"
+            },
+            "thanks": {
+                "header": "$~Terima kasih",
+                "intro": "$~Terima kasih kepada *$#count[$count kontributor]* kami yang telah berkontribusi pada desain, pengembangan, pelokalan, dan konten @wordplay! Dan terima kasih kepada banyak guru serta anak muda yang telah membimbing desain kami dalam kelompok fokus, sesi desain, dan ruang kelas, yang tidak kami sebutkan di sini untuk menjaga privasi mereka.\n\nProyek ini didukung oleh National Science Foundation melalui penghargaan 2318257, 2031265, 2100296, dan 2122950, University of Washington, serta <hadiah//donate> yang murah hati dari orang-orang seperti Anda.",
+                "teachers": "$~Guru",
+                "contributors": "$~Kontributor"
+            },
+            "breadcrumb": {
+                "label": "$~Tepung roti",
+                "home": "$~Rumah"
+            },
+            "admin": {
+                "header": "$~Hak Istimewa",
+                "prompt": "$~Semua orang di bawah ini bisa melakukan sesuatu yang tidak bisa dilakukan kebanyakan orang. Perubahan di sini langsung berlaku, meski halaman yang sudah terbuka bisa butuh waktu sampai satu jam untuk menyadarinya. Superuser sudah mencakup moderasi dan mengajar, jadi orang yang punya hak ini tidak perlu dua hak lainnya.",
+                "claim": {
+                    "admin": "$~Superuser",
+                    "mod": "$~Moderator",
+                    "teacher": "$~Guru",
+                    "banned": "$~Tidak bisa berbagi secara publik"
+                },
+                "creator": "$~Pembuat",
+                "email": "$~Surel",
+                "privileges": "$~Hak Istimewa",
+                "button": {
+                    "revoke": "$~Hilangkan semua hak istimewa",
+                    "lift": {
+                        "label": "$~Kembalikan hak berbagi",
+                        "tip": "$~Izinkan pembuat ini berbagi secara publik lagi, dan atur ulang jumlah peringatan mereka ke nol"
+                    }
+                },
+                "confirm": "$~Jumlah peringatan mereka kembali ke nol dan mereka bisa berbagi secara publik lagi. Catatan tentang apa yang terjadi tetap ada, jadi moderator yang memeriksa mereka nanti masih bisa melihatnya.",
+                "ownAdmin": "$~Kamu tidak bisa menghilangkan hak istimewamu sendiri. Minta bantuan admin lain.",
+                "nobody": "$~Belum ada yang memiliki hak istimewa apa pun.",
+                "error": {
+                    "notadmin": "$~Ini adalah ruang superuser. Tidak ada yang perlu kamu ubah di sini.",
+                    "login": "$~Kamu perlu <masuk@://login> untuk melihat halaman ini.",
+                    "offline": "$~Kami tidak bisa memuat siapa yang punya hak istimewa. Apakah kamu sedang daring?",
+                    "save": "$~Kami tidak bisa menyimpan perubahan itu. Coba lagi?",
+                    "none": "$~Pilih setidaknya satu hak istimewa sebelum menambahkan seseorang."
+                },
+                "proxy": {
+                    "header": "$~Lihat sebagai seseorang",
+                    "prompt": "$~Buka Wordplay sebagai pencipta lain, untuk melihat apa yang mereka lihat ketika sesuatu tidak berfungsi bagi mereka. Ini hanya bisa dibaca: tidak ada yang kamu lakukan akan disimpan, dan mereka tidak akan tahu bahwa kamu ada di sana. Ini terbuka di tab baru, dan menutup tab itu akan mengakhirinya.\n\nSetiap kali seseorang melakukan ini, hal itu dicatat.",
+                    "start": {
+                        "label": "$~Lihat",
+                        "tip": "$~Buka sesi hanya-baca sebagai pencipta ini di tab baru"
+                    }
+                }
+            }
+        }
+    }
+}

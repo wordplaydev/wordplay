@@ -1,0 +1,432 @@
+{
+    "$schema": "../../../static/schemas/sections/locale.json",
+    "language": "pt",
+    "regions": ["PT"],
+    "guidance": "$~•Trate sempre quem usa a aplicação na terceira pessoa, com pode, o seu e a sua, e evite as formas de tu como podes ou o teu, que só surgem pontualmente na documentação dos nós.\n\n•Nos botões, dicas e etiquetas de acessibilidade use o infinitivo em minúsculas, como partilhar, traduzir, guardar ou eliminar, e reserve as frases com maiúscula inicial e ponto final para as explicações.\n\n•Quando o género da pessoa é desconhecido, acrescente o feminino entre parênteses, como em diretor(a), professor(a), curador(a) ou Bem-vindo(a).\n\n•Mantenha o vocabulário europeu, com ecrã e não tela, ficheiro e não arquivo, utilizador e não usuário, guardar e não salvar, definições e não configurações, e prefira estar a fazer em vez do gerúndio.\n\n•Siga a ortografia posterior ao Acordo de 1990, com projeto, ação, seleção e objeto, conservando as palavras europeias como contacto e facto.\n\n•Traduza os termos técnicos em vez de os importar do inglês, respeitando as escolhas já feitas, como palco para a área de saída e texto para os valores textuais, e dê a cada tipo ou função um único nome português com maiúscula inicial, como Aleatório, Movimento ou Colocação.\n\n•Nas descrições dos nós, escritas na primeira pessoa, faça a concordância de género com o nome português do nó, escrevendo posso ser combinada para uma dimensão e sou definido para um nome.",
+    "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Esta plataforma e o @language de programação usado para criar projetos nesta plataforma."
+        },
+        "value": {
+            "word": "valor",
+            "definition": "$~Uma parte de informação, como um @Number, algumas palavras ou uma @List."
+        },
+        "type": {
+            "word": "tipo",
+            "definition": "$~O tipo de um @value, como @Number ou @Text. O tipo de um valor decide o que pode fazer com ele."
+        },
+        "expression": {
+            "word": "$~expressão",
+            "definition": "$~Uma parte de @code que produz um @value quando corre."
+        },
+        "variable": {
+            "word": "$~variável",
+            "definition": "$~Um @name cujo @value pode mudar enquanto um @Program corre."
+        },
+        "parameter": {
+            "word": "$~parâmetro",
+            "definition": "$~Uma @Input com nome que uma @FunctionDefinition espera quando a chama."
+        },
+        "argument": {
+            "word": "$~argumento",
+            "definition": "$~Um @value que dá a uma @FunctionDefinition para um dos seus @parameters."
+        },
+        "operator": {
+            "word": "$~operador",
+            "definition": "$~Um símbolo, @how + ou -, que combina ou compara valores."
+        },
+        "condition": {
+            "word": "$~condição",
+            "definition": "$~Um teste de verdadeiro ou falso que decide o que um @Program faz a seguir."
+        },
+        "loop": {
+            "word": "$~ciclo",
+            "definition": "$~@code que repete uma ação muitas vezes."
+        },
+        "iteration": {
+            "word": "$~iteração",
+            "definition": "$~Uma passagem por um @loop."
+        },
+        "recursion": {
+            "word": "$~recursão",
+            "definition": "$~Quando uma @FunctionDefinition se chama a si própria para tratar de uma parte mais pequena de um problema."
+        },
+        "property": {
+            "word": "$~propriedade",
+            "definition": "$~Uma parte com nome de um @value, como o brilho de uma @Color."
+        },
+        "element": {
+            "word": "$~elemento",
+            "definition": "$~Um item numa @List ou grupo."
+        },
+        "scope": {
+            "word": "$~âmbito",
+            "definition": "$~A parte de um @Program onde um @name pode ser usado."
+        },
+        "state": {
+            "word": "$~estado",
+            "definition": "$~Informação que um @Program guarda e pode mudar ao longo do tempo."
+        },
+        "sideEffect": {
+            "word": "$~efeito secundário",
+            "definition": "$~Uma alteração que um @Program faz além de devolver um @value, como mostrar @Output."
+        },
+        "abstraction": {
+            "word": "$~abstração",
+            "definition": "$~Esconder detalhes para poderes usar algo sem saber @how funciona por dentro."
+        },
+        "project": {
+            "word": "projeto",
+            "definition": "$~Todos os ficheiros que formam um @Program @wordplay."
+        },
+        "code": {
+            "word": "código",
+            "definition": "$~O texto que escreves para dizer a um @Program o que fazer."
+        },
+        "act": {
+            "word": "atuar",
+            "definition": "$~Uma parte grande do @tutorial, como um ato numa peça de teatro."
+        },
+        "how": {
+            "word": "como",
+            "definition": "$~Um @guide curto que mostra como fazer uma coisa."
+        },
+        "gallery": {
+            "word": "$~galeria",
+            "definition": "$~Um lugar onde as pessoas partilham e exploram projetos."
+        },
+        "blocks": {
+            "word": "$~blocos",
+            "definition": "$~Uma forma de editar @code arrastando peças em vez de escrever."
+        },
+        "placeholder": {
+            "word": "$~marcador de posição",
+            "definition": "$~Um lugar vazio que mostra onde falta @code ou um @value."
+        },
+        "conflict": {
+            "word": "$~conflito",
+            "definition": "$~Um problema no @code que o @wordplay marca para o poderes corrigir."
+        },
+        "checkpoint": {
+            "word": "$~ponto de controlo",
+            "definition": "$~Um ponto guardado no teu trabalho ao qual podes voltar."
+        },
+        "guide": {
+            "word": "$~guia",
+            "definition": "$~A referência pesquisável que explica as ideias do @wordplay."
+        },
+        "tutorial": {
+            "word": "$~tutorial",
+            "definition": "$~As lições passo a passo que ensinam o @wordplay."
+        },
+        "name": {
+            "word": "nome",
+            "definition": "$~Uma palavra que se refere a um @value ou a uma @FunctionDefinition."
+        },
+        "markup": {
+            "word": "marcação",
+            "definition": "$~Texto com formatação, @how palavras a negrito ou ligações."
+        },
+        "language": {
+            "word": "idioma",
+            "definition": "$~Um idioma humano em que um @name ou texto está escrito."
+        },
+        "documentation": {
+            "word": "documentação",
+            "definition": "$~Texto que explica o que o @code faz."
+        },
+        "region": {
+            "word": "região",
+            "definition": "$~Um lugar onde um @language é usado, que pode mudar a forma como os números e as datas aparecem."
+        },
+        "start": {
+            "word": "iniciar",
+            "definition": "$~O ficheiro de origem principal onde um @project começa."
+        },
+        "query": {
+            "word": "consulta",
+            "definition": "$~Uma forma de escolher linhas de uma @Table."
+        },
+        "key": {
+            "word": "chave",
+            "definition": "$~O @value usado para encontrar um item num @Map."
+        },
+        "index": {
+            "word": "índice",
+            "definition": "$~Um @Number que escolhe um item pela sua posição numa @List."
+        },
+        "moved": {
+            "word": "movido",
+            "definition": "$~@Output que mudou de posição no palco."
+        },
+        "entered": {
+            "word": "novo",
+            "definition": "$~@Output que apareceu no palco pela primeira vez."
+        },
+        "cell": {
+            "word": "célula",
+            "definition": "$~Um @value numa linha de @Table."
+        },
+        "column": {
+            "word": "coluna",
+            "definition": "$~Um campo com nome numa @Table."
+        },
+        "editor": {
+            "word": "$~editor",
+            "definition": "$~A caixa onde escreve @code. O que escrever ali é o que o @wordplay executa."
+        },
+        "stage": {
+            "word": "$~palco",
+            "definition": "$~O espaço onde @wordplay mostra o que o seu @code criou."
+        },
+        "stream": {
+            "word": "$~fluxo",
+            "definition": "$~Um @value que muda ao longo do tempo, à medida que o seu mundo muda, como o avançar de @Time ou o pressionar de uma @Key. Sempre que muda, @Program é avaliado novamente com o novo @value."
+        },
+        "source": {
+            "word": "$~fonte",
+            "definition": "$~Um documento de @code num @project. Um @project pode ter mais do que um, e cada um pode @share coisas que os outros @borrow."
+        },
+        "borrow": {
+            "word": "$~pedir emprestado",
+            "definition": "$~Para usar algo que outra @Source partilhou, escrevendo ↓ e o nome dessa @source."
+        },
+        "share": {
+            "word": "$~partilhar",
+            "definition": "$~Para marcar algo numa @Source com ↑, para que outros ficheiros de @source o possam @borrow."
+        },
+        "kit": {
+            "word": "$~conjunto",
+            "definition": "$~Uma @Source que alguém publicou para que outras pessoas a possam @borrow no seu próprio @project."
+        }
+    },
+    "terms": {},
+    "moderation": {
+        "warning": {
+            "header": "Aviso",
+            "explanation": "Um moderador considerou que este conteúdo pode:"
+        },
+        "blocked": {
+            "header": "Bloqueado",
+            "explanation": "Um moderador considerou que este conteúdo pode:"
+        },
+        "unmoderated": {
+            "header": "Nota",
+            "explanation": "Este conteúdo ainda não foi moderado. Ele pode:"
+        },
+        "moderate": {
+            "header": "Moderado",
+            "explanation": "Analise este projeto e decida se o conteúdo se enquadra em alguma das seguintes situações. Caso positivo, o conteúdo será alertado ou bloqueado. Se tiver dúvidas, pode ignorar este passo."
+        },
+        "flags": {
+            "violence": "Incitar, encorajar ou celebrar a violência, o dano ou a automutilação contra qualquer pessoa.",
+            "dehumanization": "Desumanizar indivíduos ou grupos com base na sua raça, etnia, nacionalidade, casta, orientação sexual, género, religião, idade, capacidade ou aparência.",
+            "disclosure": "Revelar informações privadas sobre outras pessoas, como nomes, informações de contacto ou endereços físicos.",
+            "misinformation": "Contêm informações falsas, enganosas, fraudulentas ou manipuladoras."
+        },
+        "progress": "*$moderated* moderado, *$remaining* restantes",
+        "done": "Nada mais a moderar!",
+        "button": {
+            "submit": {
+                "tip": "Guardar estas configurações de moderação",
+                "label": "guardar"
+            },
+            "skip": {
+                "tip": "saltar este projeto",
+                "label": "ignorar"
+            },
+            "property": "Se o projeto possuir esta propriedade"
+        },
+        "error": {
+            "notmod": "$~Não há aqui nada para analisar. Os moderadores do Wordplay analisam conteúdo público, e os curadores de uma galeria analisam o que está na sua galeria. Se recebeu privilégios de moderador(a) recentemente, pode ser necessário iniciar sessão novamente.",
+            "unreachable": "$~Não consegui ler esta fila, por isso não sei se há algo à espera. Tente novamente daqui a pouco.",
+            "unreadable": "$~Há coisas à espera aqui, mas não consegui lê-las, por isso não são mostradas."
+        },
+        "report": {
+            "button": "$~pedir a um(a) moderador(a) para rever isto",
+            "confirm": "$~Denunciar",
+            "sent": "$~foi pedido a um(a) moderador(a) que analise isto",
+            "announce": "$~foi pedido a um(a) moderador(a) que analise $project",
+            "flagged": "$~Alguém denunciou este projeto, por isso está em primeiro lugar na fila."
+        },
+        "strike": {
+            "issue": "$~avisar este criador(a)",
+            "consequence": "$~Este vai ser o aviso número $#count[1|$#count|$count] para este(a) criador(a). $banning[Este aviso retira-lhe a capacidade de tornar seja o que for público.|Vai poder tornar coisas públicas durante mais $#remaining[1 aviso|$#remaining avisos|$remaining avisos].]",
+            "confirm": {
+                "description": "$~registar esta decisão e avisar o criador(a)",
+                "prompt": "$~avisar"
+            },
+            "banned": "$~Já foi avisado(a) três vezes sobre conteúdo público, por isso já não pode tornar projetos ou galerias públicos. Ainda pode criar projetos, e ainda pode partilhá-los com as pessoas que escolher. Se achar que isto é um engano, ou se foi há muito tempo e gostaria de voltar a partilhar publicamente, escreva para hi@wordplay.dev e diga-nos o seu nome de utilizador e a razão.",
+            "warned": "$~Algum conteúdo público seu não cumpriu as regras de partilha, por isso deixou de ser público. Este é o aviso $#count[1|$#count|$count]. $#remaining[Mais um e já não poderá tornar mais nada público.|Depois de mais $#remaining já não poderá tornar mais nada público.|Depois de mais $remaining já não poderá tornar mais nada público.]",
+            "notification": "$~Aviso $#count[1|$#count|$count] sobre algo que partilhou publicamente."
+        },
+        "queue": {
+            "label": "$~o que rever",
+            "labels": [
+                "$~projetos",
+                "$~galerias",
+                "$~kits",
+                "$~guias rápidos",
+                "$~mensagens"
+            ],
+            "tips": [
+                "$~rever projetos que as pessoas tornaram públicos",
+                "$~rever galerias que pedem para ser listadas publicamente",
+                "$~rever kits que pedem para ser listados no guia",
+                "$~rever guias rápidos que pedem para ser listados no guia",
+                "$~rever mensagens denunciadas nas galerias que cura"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Um moderador está a ler a sua galeria para decidir se pode ser listada publicamente. Até essa decisão, só as pessoas com quem partilhar a hiperligação podem vê-la.",
+            "approved": "$~A sua galeria está listada na <página de galerias públicas@://galleries?tab=public>! Pode ser retirada dessa lista em qualquer momento, por qualquer motivo.",
+            "denied": "$~Um moderador decidiu não listar a sua galeria publicamente. Pode continuar a trabalhar nela e torná-la pública novamente para pedir uma segunda vez.",
+            "explain": "$~Esta galeria está a pedir para ser listada publicamente. Veja-a e os seus projetos, e decida se está suficientemente terminada para mostrar a todos.",
+            "done": "$~Não há galerias à espera de uma decisão. Obrigado!",
+            "approve": {
+                "label": "$~listar",
+                "tip": "$~listar esta galeria na página de galerias públicas"
+            },
+            "deny": {
+                "label": "$~não listar",
+                "tip": "$~manter esta galeria fora da página de galerias públicas"
+            },
+            "skip": {
+                "label": "$~saltar",
+                "tip": "$~deixar esta galeria para outro moderador decidir"
+            },
+            "notification": {
+                "approved": "$~$name está agora listada publicamente.",
+                "denied": "$~$name não foi listada publicamente."
+            }
+        },
+        "responsibility": {
+            "none": "$~Ninguém analisa o que partilha aqui. Só é visível para si e para as pessoas que escolher.",
+            "curators": "$~Os curadores desta galeria revêm o que é partilhado aqui, incluindo a conversa.",
+            "both": "$~Os curadores desta galeria revêm o que é partilhado aqui, tal como os moderadores do Wordplay, porque qualquer pessoa o pode ver.",
+            "platform": "$~Os <moderadores@://rights> do Wordplay analisam isto, porque qualquer pessoa o pode ver."
+        },
+        "kit": {
+            "header": "$~Kits",
+            "explain": "$~Este kit está a pedir para ser listado no guia. Leia o que partilha e decida se outras pessoas o devem encontrar.",
+            "done": "$~Não há kits à espera de uma decisão. Obrigado!",
+            "approve": {
+                "label": "$~listar",
+                "tip": "$~listar este kit no guia"
+            },
+            "deny": {
+                "label": "$~não listar",
+                "tip": "$~manter este kit fora do guia"
+            },
+            "skip": {
+                "label": "$~ignorar",
+                "tip": "$~deixar este kit para outro(a) moderador(a) decidir"
+            },
+            "pending": "$~Um moderador (a) está a ler o seu kit para decidir se pode ser listado no guia. Está marcado como listado, mas ninguém o vai encontrar lá até que isso aconteça.",
+            "approved": "$~O seu kit está listado no <guia@://guide?section=kits>! Pode ser retirado dessa lista a qualquer momento, por qualquer motivo.",
+            "denied": "$~Um moderador (a) decidiu não listar o seu kit no guia. Pode publicar uma nova versão e pedir novamente.",
+            "notification": {
+                "approved": "$~$name está agora listado no guia.",
+                "denied": "$~$name não foi listado no guia."
+            }
+        },
+        "howto": {
+            "pending": "$~Um moderador(a) está a ler o seu guia rápido para decidir se pode ser listado no guia. Até lá, só quem já o pode ver continua a poder.",
+            "approved": "$~O seu guia rápido está listado no <guia@://guide?section=howto>! Pode ser retirado dessa lista a qualquer momento, por qualquer motivo.",
+            "denied": "$~Um moderador(a) decidiu não listar o seu guia rápido no guia. Pode continuar a trabalhar nele e pedir novamente.",
+            "unready": "$~Publique primeiro o seu guia rápido e torne-o público. Um moderador(a) só pode dizer que sim a algo que todos possam ler.",
+            "header": "$~Guias rápidos",
+            "explain": "$~Este guia rápido está a pedir para ser listado no guia. Leia-o e decida se outras pessoas a aprender @wordplay o deviam encontrar aí.",
+            "done": "$~Não há guias rápidos à espera de uma decisão. Obrigado(a)!",
+            "approve": {
+                "label": "$~listar",
+                "tip": "$~listar este guia rápido no guia"
+            },
+            "deny": {
+                "label": "$~não listar",
+                "tip": "$~manter este guia rápido fora do guia"
+            },
+            "skip": {
+                "label": "$~ignorar",
+                "tip": "$~deixar este guia rápido para outro moderador(a) decidir"
+            },
+            "notification": {
+                "approved": "$~$name está agora listado no guia.",
+                "denied": "$~$name não foi listado no guia."
+            }
+        },
+        "noAddress": "$~O Wordplay não tem nenhum endereço de email seu, por isso nada aqui o pode contactar por email. Pode adicionar um no seu <perfil@/profile>.",
+        "subject": {
+            "project": "$~projeto",
+            "gallery": "$~galeria",
+            "howto": "$~como",
+            "character": "$~personagem",
+            "kit": "$~kit",
+            "chat": "$~conversa"
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "Jogos",
+            "description": "Jogos interativos com palavras e símbolos."
+        },
+        "visualizations": {
+            "name": "Visualizações",
+            "description": "Visualizações de e através de texto."
+        },
+        "motion": {
+            "name": "Movimento",
+            "description": "Exemplos de movimento e colisões."
+        },
+        "av": {
+            "name": "Áudio/Vídeo",
+            "description": "$~Usar volume, tom e vídeo como entrada, e voz como saída."
+        },
+        "tools": {
+            "name": "Ferramentas",
+            "description": "Utilitários e aplicações simples."
+        },
+        "stories": {
+            "name": "Histórias",
+            "description": "Histórias e narrativas interativas."
+        },
+        "music": {
+            "name": "$~Música",
+            "description": "$~Canções, instrumentos e tipografia que se move ao ritmo."
+        }
+    },
+    "system": {
+        "noscript": "O Wordplay utiliza JavaScript. O seu navegador não o suporta ou está desativado.",
+        "unsupportedHeading": "Navegador não compatível",
+        "unsupportedBody": "O seu navegador não suporta funcionalidades essenciais. Para utilizar o Wordplay, precisa de atualizar para uma versão mais recente.",
+        "imageDescription": "$~O logótipo do Wordplay — um balão de fala com um círculo, um triângulo e um quadrado — ao lado do nome Wordplay, rodeado por um grupo esbatido de símbolos para tudo o que os programas do Wordplay podem sentir e dizer.",
+        "appDescription": "$~Tipografia acessível, multilingue e programável."
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Atenção",
+            "explanation": "$~As imagens deste projeto podem ser incómodas ou até causar convulsões em algumas pessoas. Pode incluir:"
+        },
+        "categories": {
+            "flashing": "$~Piscar rápido ou mudanças de contraste",
+            "redflash": "$~Vermelho muito intenso a piscar rapidamente",
+            "strobe": "$~Piscar como um estroboscópio que enche o ecrã",
+            "pattern": "$~Padrões geométricos densos e com muito contraste",
+            "motion": "$~Animação rápida de tamanho, posição ou transparência"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Som à frente",
+            "explanation": "$~A música deste projeto pode assustar ou ser demasiado alta para algumas pessoas. Pode incluir:"
+        },
+        "categories": {
+            "startle": "$~Um aumento súbito de volume, sobretudo depois de algo silencioso",
+            "loudness": "$~Longos períodos a todo o volume, ou muitas faixas a somar-se e a ficar altas",
+            "pulse": "$~Um ritmo rápido o suficiente para fazer as imagens tremeluzir",
+            "register": "$~Notas muito acima ou muito abaixo de um intervalo confortável",
+            "tracks": "$~Mais instrumentos ao mesmo tempo do que é fácil de acompanhar"
+        }
+    }
+}

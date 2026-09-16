@@ -1,0 +1,938 @@
+{
+    "$schema": "../../../static/schemas/sections/input.json",
+    "input": {
+        "Random": {
+            "doc": [
+                "$~Nó tạo ra một con số khác nhau mỗi lần bạn chạy nó.",
+                "17!",
+                "Điều này tạo nên sự hỗn loạn tuyệt vời đi kèm với tính khó đoán.",
+                "Theo mặc định, nó cho các giá trị @Number nằm giữa \\0\\ và \\1\\:",
+                "\\Ngẫunhiên()\\",
+                "Nhưng bạn có thể cho nó một @value, và nó sẽ tạo ra các giá trị nằm giữa \\0\\ và giá trị đó:",
+                "\\Ngẫunhiên(10)\\",
+                "Và nếu bạn cho nó hai giá trị, nó sẽ tạo ra các giá trị nằm giữa và bao gồm cả hai giá trị:",
+                "\\Ngẫunhiên(-10 10)\\",
+                "Nếu các khoảng của bạn có đơn vị, chúng sẽ được giữ lại (và nếu chúng không khớp, đơn vị của giá trị nhỏ nhất sẽ được dùng):",
+                "\\Ngẫunhiên(-10m 10m)\\",
+                "Và nếu bạn cho các con số có số chữ số có nghĩa nhất định sau dấu thập phân, độ chính xác đó sẽ được giữ lại.",
+                "\\Ngẫunhiên(1.00 10.00)\\"
+            ],
+            "names": ["$~Ngẫunhiên"],
+            "inputs": [
+                {
+                    "names": "$~phút",
+                    "doc": "$~@value nhỏ nhất sẽ được tạo ra, hoặc nếu nó lớn hơn 0 thì là giá trị lớn nhất. Nếu @None được cung cấp, thì giá trị nhỏ nhất là \\0\\."
+                },
+                {
+                    "names": "$~tốiđa",
+                    "doc": "$~@value lớn nhất sẽ được tạo ra, hoặc nếu nó nhỏ hơn giá trị nhỏ nhất được cung cấp, thì là giá trị nhỏ nhất. Nếu @None được cung cấp, thì giá trị lớn nhất là \\1\\."
+                }
+            ]
+        },
+        "Choice": {
+            "doc": [
+                "$~Đó là một chuỗi các tên mà khán giả của bạn chọn bằng cách nhấp chuột, chạm hoặc nhấn phím /Enter/ vào một @Phrase được đặt tên.",
+                "/Tiếng gõ lách cách!/",
+                "Vì vậy, cách tốt nhất để sử dụng nó là tạo một màn trình diễn với các cụm từ có thể chọn được đặt tên @Phrase , và sau đó sử dụng @Reaction để quyết định hành động cần thực hiện khi tên đó được chọn.",
+                "Đây là ví dụ đơn giản nhất:",
+                "\\Group(\nStack() \n[\nPhrase('one' cóthểlựachọn:⊤ tên:'1') \nPhrase('two' cóthểlựachọn:⊤ tên:'2') \nPhrase(Choice())\n]\n)\\",
+                "Sao chép đoạn mã này vào @editor rồi chọn một trong hai @Phrase . Bạn sẽ thấy @Phrase thứ ba hiển thị tên đã được chọn."
+            ],
+            "names": ["$~Sựlựachọn"]
+        },
+        "Button": {
+            "doc": [
+                "$~Nó cho bạn biết nút chính của chuột hoặc bàn di chuột có đang được nhấn không, dưới dạng một @stream các @Boolean.",
+                "/nhấp nhấp nhấp/",
+                "Dĩ nhiên, chuột hoặc bàn di chuột không phải lựa chọn lý tưởng để lắng nghe khán giả, vì không phải ai cũng dùng được. Lựa chọn dễ tiếp cận hơn là @Choice.",
+                "Nhưng nếu bạn /thật sự/ cần lắng nghe một nút chuột, thì đây là cách làm. Nó sẽ cung cấp một luồng các @Boolean, thể hiện việc nút chính đang được nhả lên \\⊥\\ hay được nhấn xuống \\⊤\\.",
+                "Đây là một ví dụ đơn giản:",
+                "\\Cụmtừ(Cáinút() → '')\\",
+                "Cái này chỉ tạo ra một @Phrase là @value của luồng dưới dạng văn bản. Nếu bạn sao chép nó vào @editor và nhấp, bạn sẽ thấy nó chuyển qua lại giữa \\⊥\\ và \\⊤\\."
+            ],
+            "names": ["$~Cáinút"],
+            "down": {
+                "names": "$~xuống",
+                "doc": "$~Nếu là @None, @stream dữ liệu sẽ cung cấp cả @value lên và xuống. Nếu là \\⊤\\, giá trị chỉ thay đổi khi nút được nhấn. Nếu là \\⊥\\, giá trị chỉ thay đổi khi nút được nhả ra."
+            }
+        },
+        "Pointer": {
+            "doc": [
+                "$~Nó theo dõi vị trí mà khán giả của bạn đang chỉ vào trên @Stage .",
+                "/whrrrrrr/",
+                "Tất nhiên, đây không phải là lựa chọn dễ tiếp cận: không phải ai cũng có thể nhìn thấy hoặc dễ dàng chỉ trỏ, vì vậy hãy chắc chắn rằng bạn không loại trừ bất kỳ ai khỏi việc tham gia bằng cách sử dụng @stream phát này.",
+                "Nếu bạn chắc chắn không có ai bị loại trừ, thì việc sử dụng @Pointer đơn giản chỉ là tạo một luồng:",
+                "\\Pointer()\\",
+                "Thuộc @Place mà nó cung cấp sẽ tương ứng với vị trí mà con trỏ đang trỏ tới trên @Stage ."
+            ],
+            "names": ["$~Contrỏ"]
+        },
+        "Key": {
+            "doc": [
+                "$~Nó cho bạn biết khán giả của bạn đang nhấn và thả phím nào trên bàn phím @key.",
+                "/lách cách/",
+                "Hãy thử điều này",
+                "\\Chìakhóa()\\",
+                "Bạn có thấy khi bạn gõ một phím, nó hiện ra trên @Stage không? Mỗi lần một phím được nhấn xuống, một @Text mới sẽ được thêm vào @stream, mô tả phím vừa được nhấn.",
+                "Với một phím đại diện cho một ký tự, @value sẽ là ký tự đó dưới dạng @Text.",
+                "Với các phím đặc biệt, như phím /Escape/, nó sẽ là @Text mô tả phím đó, dùng một <tên định sẵn@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, tiếc là chỉ có bằng tiếng Anh.",
+                "Nếu bạn chỉ muốn biết về một phím cụ thể, bạn có thể cung cấp nó:",
+                "\\Chìakhóa('a')\\",
+                "Và nếu bạn chỉ muốn biết khi nào một @Key được thả ra thay vì được nhấn xuống, bạn có thể cung cấp một @Boolean:",
+                "\\Chìakhóa('a' ⊥)\\"
+            ],
+            "names": ["$~Chìakhóa"],
+            "key": {
+                "names": "$~chìakhóa",
+                "doc": "$~Nếu là @None, thì tất cả các khóa đều được cung cấp. Nếu là @Text cụ thể, thì chỉ khóa đó được cung cấp."
+            },
+            "down": {
+                "names": "$~xuống",
+                "doc": "$~NẾU @None, thì @key khi nhấn xuống sẽ tạo ra dữ liệu vào. Nếu \\⊤\\, thì chỉ có dữ liệu vào khi nhấn xuống được cung cấp, và nếu \\⊥\\, thì chỉ có dữ liệu vào khi thả ra được cung cấp."
+            },
+            "keys": {
+                "Shift": ["$~Sự thay đổi"],
+                "Control": ["$~Điều khiển"],
+                "Alt": ["$~Alt", "$~Lựa chọn"],
+                "Meta": ["$~Siêu hình", "$~Yêu cầu", "$~Windows"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~CapsLock", "$~Caps Lock"],
+                "NumLock": ["$~NumLock", "$~Khóa số"],
+                "ScrollLock": ["$~ScrollLock", "$~Khóa cuộn"],
+                "Enter": ["$~Đi vào", "$~Trở lại"],
+                "Tab": ["$~Tab"],
+                " ": ["$~Không gian", "$~Phím cách", "$~"],
+                "ArrowUp": ["$~Mũi tên lên", "$~Hướng lên"],
+                "ArrowDown": ["$~Mũi tên xuống", "$~Xuống"],
+                "ArrowLeft": ["$~Mũi tên trái", "$~Bên trái"],
+                "ArrowRight": ["$~Mũi tên phải", "$~Phải"],
+                "Home": ["$~Trang chủ"],
+                "End": ["$~Kết thúc"],
+                "PageUp": ["$~Trang lên"],
+                "PageDown": ["$~Trang xuống"],
+                "Backspace": ["$~Xóa"],
+                "Delete": ["$~Xóa bỏ", "$~Del"],
+                "Insert": ["$~Chèn", "$~Bảo hiểm"],
+                "Clear": ["$~Thông thoáng"],
+                "Cut": ["$~Cắt"],
+                "Copy": ["$~Sao chép"],
+                "Paste": ["$~Dán"],
+                "Undo": ["$~Hoàn tác"],
+                "Redo": ["$~Làm lại"],
+                "Escape": ["$~Bỏ trốn", "$~Thoát"],
+                "Pause": ["$~Tạm dừng"],
+                "ContextMenu": ["$~Menu ngữ cảnh", "$~Thực đơn"],
+                "Help": ["$~Giúp đỡ"],
+                "Convert": ["$~Chuyển thành"],
+                "NonConvert": ["$~Người không chuyển đổi"],
+                "KanaMode": ["$~Chế độ Kana"],
+                "HangulMode": ["$~HangulMode"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
+            }
+        },
+        "Time": {
+            "doc": [
+                "$~Nó nhích tới với một tần suất mà bạn chọn.",
+                "/tích tích tích/",
+                "Mỗi lần như vậy, @Program tính lại với thời gian mới @value.",
+                "Ví dụ:",
+                "\\Thờigian()\\",
+                "Nếu bạn cung cấp cho thời gian một @Time.frequency, nó sẽ nhích theo nhịp độ đó. Ví dụ:",
+                "\\Thờigian(1000ms)\\",
+                "Tuy nhiên, có giới hạn về mức độ nhỏ của nó, vì @Program cần thời gian để tính toán trước khi có thể phản hồi nhịp tiếp theo.",
+                "Mức nhỏ nhất có lẽ vào khoảng \\20ms\\."
+            ],
+            "names": ["$~Thờigian"],
+            "frequency": {
+                "names": ["$~Tínhthườngxuyên"],
+                "doc": "$~Đây là tần suất thời gian nên tích tắc. Mặc định là \\33ms\\, tức khoảng 30 lần mỗi giây."
+            },
+            "relative": {
+                "names": ["$~liênquanđến"],
+                "doc": "$~Nếu \\⊤\\, thời gian bắt đầu từ 0, khi chương trình được thực thi lần đầu tiên. Ngược lại, nó bắt đầu từ số mili giây kể từ đầu ngày hôm nay, theo giờ UTC (Giờ phối hợp quốc tế), cho phép bạn theo dõi thời gian trong ngày."
+            }
+        },
+        "Volume": {
+            "doc": [
+                "$~Đó là một @stream thể hiện độ lớn âm thanh của micro, từ 0 đến 1.",
+                "/bzzzzzzz/",
+                "Nó được lấy mẫu ở tần số bạn chọn. Theo mặc định, tần số là \\30hz\\ , hoặc 30 lần mỗi giây, nhưng bạn có thể thay đổi nó thành bất kỳ tần số nào thấp hơn.",
+                "\\Volume()\\",
+                "Đây là công cụ tuyệt vời để nghe xem khán giả hò reo lớn đến mức nào!"
+            ],
+            "names": ["$~Âmlượng"],
+            "frequency": {
+                "names": ["$~Tínhthườngxuyên"],
+                "doc": "$~Khoảng thời gian giữa các lần lấy mẫu."
+            }
+        },
+        "Pitch": {
+            "doc": [
+                "$~Đây là chuỗi tín hiệu âm thanh từ micro, tính bằng hertz.",
+                "/Hừm/",
+                "Âm thanh được lấy mẫu ở tần số bạn chọn. Giọng nói con người nằm trong khoảng từ 20Hz đến 5000Hz, vì vậy hãy chọn các con số trong @scope đó.",
+                "\\Pitch()\\",
+                "Đây là công cụ tuyệt vời để nghe rõ giọng điệu khi ai đó nói hoặc hát."
+            ],
+            "names": ["$~Sânbóngđá"],
+            "frequency": {
+                "names": ["$~Tínhthườngxuyên"],
+                "doc": "$~Khoảng thời gian giữa các lần lấy mẫu."
+            }
+        },
+        "Camera": {
+            "doc": [
+                "$~Nó cung cấp cho bạn một @List @Color từ camera của bạn, mỗi khung hình một đối tượng.",
+                "/bzzzzzzz/",
+                "Về cơ bản, @List đại diện cho một hình ảnh, nhưng bạn sẽ quyết định sử dụng nó như thế nào.",
+                "Bạn có thể thử thể hiện hình ảnh bằng nhiều @Phrase , trông sẽ khá thú vị đấy! Hãy thử sao chép đoạn mã này...",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' vịTrí: Place((x - 1) × 0.5m y × -0.5m) màusắc: color khoảngthờigian: 0s\n)\n)\n)\n)\n)\\",
+                "Nhưng bạn cũng có thể phân tích màu sắc để quyết định xem đèn có bật hay tắt, hoặc liệu một màu cụ thể có phổ @variable hay không, cho phép khán giả tác động đến màn trình diễn bằng màu sắc mà họ thể hiện."
+            ],
+            "names": ["$~Máyảnh"],
+            "width": {
+                "names": ["$~chiềurộng"],
+                "doc": "$~Số lượng @Color cần lấy mẫu trong một hàng."
+            },
+            "height": {
+                "names": ["$~chiềucao"],
+                "doc": "$~Số lượng @Color cần lấy mẫu trong một @column."
+            },
+            "frequency": {
+                "names": ["$~Tínhthườngxuyên"],
+                "doc": "$~Khoảng thời gian giữa các lần lấy mẫu @Color."
+            }
+        },
+        "Scene": {
+            "doc": [
+                "$~Nó hiển thị một @List gồm @Phrase, @Group hoặc @Shape từng cái một, dừng lại ở cái cuối cùng.",
+                "/Boop boop boop/",
+                "Để điều khiển thời gian, bạn có thể đặt @Phrase.duration trên mỗi đầu ra, và nó sẽ hiển thị đầu ra đó trong khoảng thời gian ấy trước khi chuyển sang cái tiếp theo, dùng bất kỳ hiệu ứng chuyển cảnh @Phrase.entering hoặc @Phrase.exiting nào bạn đã đặt. Nếu bạn đặt chúng thành một @Sequence, nó sẽ dùng thời lượng của cái đó.",
+                "Tất cả những điều đó cho phép bạn làm những thứ như @Scene nhỏ này, hiển thị ba cụm từ theo thứ tự:",
+                "\\Bốicảnh(\n\t[\n\t\tCụmtừ('Xin chào' khoảngthờigian: 1s)\n\t\tCụmtừ(\n\t\t\t'Bạn khỏe không?'\n\t\t\tkhoảngthờigian: 2s\n\t\t\txoay: 5°\n\t\t\tvào: Tưthế(xoay: 0°)\n\t\t)\n\t\tCụmtừ('Tôi khỏe')\n\t]\n)\\",
+                "Bạn có thấy đầu ra đầu tiên hiện ra trong một giây, rồi cái tiếp theo trong hai giây, nhưng lại có hiệu ứng xoay năm độ, và sau đó nó hiện cái cuối cùng không?",
+                "Bạn có thể tạo ra những chuỗi đầu ra và hoạt ảnh rất công phu với @Scene, và thậm chí làm cho một phần trong đó trở nên năng động hoặc tương tác, giống như với bất kỳ @Phrase hay @Group nào khác.",
+                "Nếu bạn có một đầu ra hoạt ảnh được lồng bên trong (một @Group có @Phrase hoạt ảnh bên trong), @Scene sẽ đợi tất cả nội dung hoạt ảnh trong @Group hoàn tất.",
+                "À, và còn một bí mật nhỏ cuối cùng nữa! Bạn thậm chí có thể đặt @Boolean vào trong danh sách, và nếu chúng là \\⊥\\, @Scene sẽ tạm dừng và chờ cho đến khi nó trở thành đúng.",
+                "Ví dụ, nếu bạn muốn tạo một chuỗi @Phrase và chỉ tiến tới khi @Button thay đổi, bạn có thể làm như sau:",
+                "\\nhấpChuột: ∆ Cáinút()\nBốicảnh(\n\t[\n\t\tCụmtừ('Xin chào')\n\t\tnhấpChuột\n\t\tCụmtừ(\n\t\t\t'Bạn khỏe không?'\n\t\t\tkhoảngthờigian: 0.25s\n\t\t\txoay: 5°\n\t\t\tvào: Tưthế(xoay: 0°)\n\t\t)\n\t\tnhấpChuột\n\t\tCụmtừ('Tôi khỏe')\n\t]\n)\\",
+                "Bạn có thấy nó tạm dừng sau mỗi @Phrase, và chờ @Button thay đổi trước khi tiến tới không?",
+                "Mặc định thì tôi dừng ở đầu ra cuối cùng của mình. Cho tôi @Scene/loop và tôi sẽ quay lại đầu ra đầu tiên, đó là điều mà một trò chơi hỏi thêm câu hỏi sau mỗi vòng muốn có.",
+                "Tôi kiểm tra @Scene/loop mỗi khi chương trình của bạn thay đổi, vì vậy một vòng lặp có thể kết thúc cũng như bắt đầu. Ở đây tôi cứ hỏi mãi cho đến khi họ trả lời đúng, rồi mới dừng lại:",
+                "\\đoán: Tròchuyện()\nđúng2: đoán = 'cat'\nBốicảnh(\n\t[\n\t\tCụmtừ('Đoán con vật!' khoảngthờigian: 2s)\n\t\t∆ đoán\n\t\tCụmtừ(\n\t\t\tđúng2 ? 'Đúng rồi!' 'Sai rồi!'\n\t\t\tkhoảngthờigian: 2s\n\t\t)\n\t]\n\tvòngLặp: ~đúng2\n)\\",
+                "@Scene/replay khiến tôi bắt đầu lại từ đầu, @Scene/pause giữ tôi ở nguyên chỗ tôi đang ở, và @Scene/go gửi tôi thẳng đến một trong các đầu ra của tôi. Đặt @Scene/pause thành \\⊤\\ và tôi sẽ không bao giờ tự di chuyển, vì vậy @Scene/go trở thành thứ duy nhất khiến tôi tiến tới — đó là cách bạn tạo một buổi trình chiếu vừa đi tới /vừa/ đi lui.",
+                "Và nếu bạn muốn biết tôi đang ở đâu, để hiển thị /3 trên 10/ hoặc phát nhạc khác nhau ở các phần khác nhau của một câu chuyện, đó chính là mục đích của @Spotlight."
+            ],
+            "names": ["$~Bốicảnh"],
+            "outputs": {
+                "names": "$~đầura",
+                "doc": "$~Danh sách các kết quả cần hiển thị theo trình tự."
+            },
+            "loop": {
+                "names": "$~vòngLặp",
+                "doc": "$~Liệu tôi có quay lại đầu ra đầu tiên của mình sau khi đầu ra cuối cùng kết thúc hay không. Tôi dừng ở cái cuối cùng trừ khi đây là \\⊤\\. Tôi kiểm tra điều này ở mỗi lần đánh giá, vì vậy bạn có thể kết thúc một vòng lặp cũng như bắt đầu nó."
+            },
+            "replay": {
+                "names": "$~phátLại",
+                "doc": [
+                    "$~Khi điều này là \\⊤\\ trong một lần đánh giá, tôi bắt đầu lại từ đầu ra đầu tiên của mình, dù trước đó tôi đã đi đến đâu, và @Slate/lap của tôi quay về 0.",
+                    "Hãy đưa cho tôi một @condition /tức thời/, chỉ đúng vào lần đánh giá do sự kiện đó gây ra, chẳng hạn như \\∆ Cáinút()\\. Một điều kiện kéo dài như \\score > 10\\🪲 vẫn duy trì đúng khi đã trở thành đúng, vậy nên nó sẽ khiến tôi khởi động lại ở mọi lần đánh giá kể từ đó."
+                ]
+            },
+            "pause": {
+                "names": "$~tạmDừng",
+                "doc": [
+                    "$~Trong khi điều này là \\⊤\\ tôi giữ nguyên, và khi nó quay lại thành \\⊥\\ tôi tiếp tục. Một đầu ra mà tôi đang đếm ngược giữ nguyên thời gian còn lại của nó, vì vậy tạm dừng giữa chừng một @Phrase dài không khiến nó bắt đầu lại từ đầu.",
+                    "Không giống @Scene/replay, tôi muốn một @condition /kéo dài/, một điều kiện vẫn đúng miễn là bạn muốn tôi chờ. Cứ để tôi tạm dừng mãi mãi và tôi sẽ không bao giờ tự di chuyển, đó chính xác là điều một buổi trình chiếu muốn: khi đó @Scene/go là thứ duy nhất khiến tôi tiến tới."
+                ]
+            },
+            "go": {
+                "names": "$~đi",
+                "doc": [
+                    "$~Đi đến đâu tiếp theo. Cho tôi một số và tôi sẽ hiển thị đầu ra đó, đếm từ 1; cho tôi một tên và tôi sẽ hiển thị bất kỳ đầu ra nào bạn đã đặt @Phrase/name đó cho.",
+                    "Tôi chỉ đếm các đầu ra, không bao giờ đếm @Boolean ở giữa, vậy nên gửi tôi đến số 2 nghĩa là @Phrase thứ hai của tôi, dù có bao nhiêu điều kiện cản đường đi nữa.",
+                    "Giống như @Scene/replay, điều này cần một @condition /tức thời/ — một thứ chỉ là \\ø\\ ngoại trừ ở lần đánh giá mà bạn muốn tôi di chuyển. Một con số giữ nguyên mãi sẽ ghim tôi lại đó vĩnh viễn.",
+                    "Gửi tôi qua khỏi một trong hai đầu và tôi dừng lại ở đó, trừ khi @Scene/loop là \\⊤\\, trong trường hợp đó tôi sẽ quay vòng lại. Điều đó có nghĩa là bạn không bao giờ phải kiểm tra. Ở đây các phím mũi tên cho phép đi cả hai chiều trong một buổi trình chiếu:",
+                    "Nếu bạn muốn nói /tiến một bước/ thay vì /số ba/, đó chính là @Scene/step.",
+                    "\\trangChiếu: [Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\nchìaKhóa2: Chìakhóa()\ntại: Spotlight()\nBốicảnh(\n\ttrangChiếu\n\ttạmDừng: ⊤\n\tđi: ∆ chìaKhóa2 ? ((chìaKhóa2 = 'Mũi tên trái') ? tại.index - 1 (chìaKhóa2 = 'Mũi tên phải') ? tại.index + 1 ø) ø\n)\\"
+                ]
+            },
+            "name": {
+                "names": "$~tên",
+                "doc": "$~Tên của tôi. @Spotlight dùng nó để phân biệt tôi với bất kỳ @Scene nào khác đang chạy cùng lúc; nếu chỉ có một cảnh, bạn có thể để nguyên không cần đặt."
+            },
+            "until": {
+                "names": "$~choĐếnKhi",
+                "doc": [
+                    "$~Một @condition để chờ sau mỗi đầu ra của tôi, một khi nó đã có đủ @Phrase/duration hoặc đã hoạt ảnh xong.",
+                    "Điều này cũng giống như viết @Boolean đó giữa mỗi đầu ra trong danh sách của tôi, đây là cách bạn làm để khiến một trong các đầu ra của tôi chờ đợi. Cách này nói điều đó một lần thay vì lặp lại:",
+                    "\\Bốicảnh(\n\t[Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\n\tchoĐếnKhi: ∆ Cáinút()\n)\\",
+                    "Một @Boolean được viết trong danh sách vẫn hoạt động, và hai lần chờ này tách biệt nhau, nên em có thể giữ lâu hơn ở một chỗ nào đó."
+                ]
+            },
+            "step": {
+                "names": "$~bước",
+                "doc": [
+                    "$~Số lượng đầu ra cần di chuyển, tính từ vị trí hiện tại của tôi: \\1\\ là tiến một bước và \\-1\\ là lùi một bước. Đây là @Scene/go được nói dưới dạng khoảng cách thay vì vị trí.",
+                    "Giống như @Scene/go, tôi dừng lại ở hai đầu của mình trừ khi @Scene/loop là \\⊤\\, để em không bao giờ phải kiểm tra, và tôi muốn một @condition /tạm thời/ — thứ gì đó vẫn là \\ø\\ ngoại trừ ở lần đánh giá mà em muốn tôi di chuyển.",
+                    "\\trangChiếu: [Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\nchìaKhóa2: Chìakhóa()\nBốicảnh(\n\ttrangChiếu\n\ttạmDừng: ⊤\n\tbước: ∆ chìaKhóa2 ? ((chìaKhóa2 = 'Mũi tên trái') ? -1 (chìaKhóa2 = 'Mũi tên phải') ? 1 ø) ø\n)\\",
+                    "Không có gì ở đây cần biết @Phrase nào đang hiển thị, đó là điểm khác biệt so với @Scene/go. Hãy hỏi @Spotlight nếu em muốn nói điều đó trên sân khấu."
+                ]
+            }
+        },
+        "Motion": {
+            "doc": [
+                "$~Nó di chuyển một @Phrase bắt đầu bằng trọng lực và các định luật vật lý.",
+                "/boing boing boing/",
+                "Bạn cung cấp cho nó một @Phrase ban đầu, sau đó nó sẽ tinh chỉnh nó với một vị trí và hướng xoay mới dựa trên trọng lực.",
+                "Điều này cho phép bạn thực hiện những việc rất đơn giản như tạo biểu tượng cảm xúc nảy:",
+                "\\Motion(Phrase('o') startplace: Place(0m 10m))\\🪲",
+                "Bạn thấy chữ o nảy lên không? Trong lần đánh giá đầu tiên, bạn đặt nó ở vị trí cao trên @Stage , nhưng sau đó, nó được đặt trên @None , cho phép @Motion thay đổi vị trí của nó đến bất kỳ vị trí nào mà trọng lực đặt nó vào.",
+                "Hãy xem các cách cấu hình khác bên dưới."
+            ],
+            "names": ["$~Cửđộng"],
+            "place": {
+                "doc": "$~Điểm xuất phát.",
+                "names": "$~vịTrí"
+            },
+            "velocity": {
+                "doc": "$~Vận tốc ban đầu",
+                "names": "$~vậntốc"
+            },
+            "nextplace": {
+                "doc": "$~Bước tiếp theo, vượt qua mọi định luật vật lý.",
+                "names": "$~nơitiếptheo"
+            },
+            "nextvelocity": {
+                "doc": "$~Địa điểm tiếp theo, tốc độ vượt trội.",
+                "names": "$~vậntốctiếptheo"
+            }
+        },
+        "Chat": {
+            "doc": [
+                "$~Đây là @stream tin nhắn @Text mà người xem của bạn nhập vào.",
+                "Ví dụ, chương trình đơn giản này kiểm tra xem thông điệp có phải là 'hello' hay không, và nếu đúng thì chương trình sẽ trả về 'hi'. Nếu không thì nó sẽ trả về 'huh'?",
+                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "Vậy là xong! Bạn có thể tạo ra đủ loại hình trình diễn với công cụ này, chẳng hạn như chatbot, trò chơi phiêu lưu bằng văn bản, hoặc các sơ đồ điều khiển dựa trên văn bản cho các loại hình trình diễn khác."
+            ],
+            "names": ["$~Tròchuyện"]
+        },
+        "Placement": {
+            "doc": [
+                "$~Nó cho phép khán giả của bạn kéo @Output đến một @Place trên @Stage.",
+                "Có nhiều cách để đặt @Output trên @Stage: cho chúng một @Place rõ ràng, dùng @Motion và để trọng lực làm việc, hoặc đặt chúng vào một @Group để được sắp xếp.",
+                "Nhưng đôi khi bạn muốn cho /khán giả/ quyền điều khiển nơi @Output đi trên @Stage.",
+                "Đây là cách nó hoạt động: tạo một @Placement và đưa nó cho @Place của một @Output:",
+                "\\Cụmtừ('chào' vịTrí: Vịtrí())\\",
+                "Sau đó, bất cứ khi nào khán giả dùng một phím mũi tên @key hoặc nhấp hay chạm vào sân khấu, @Placement sẽ tạo ra một @Place mới di chuyển theo hướng mong muốn.",
+                "Hãy thử sao chép cái này vào chương trình của bạn và di chuyển @Output bằng con trỏ hoặc bàn phím.",
+                "Bạn có thể tùy chỉnh @Placement, bật và tắt chuyển động theo một số chiều nhất định, thay đổi mức độ di chuyển của một @Place, và @Place ban đầu mà @stream khởi đầu."
+            ],
+            "names": ["$~Vịtrí"],
+            "inputs": [
+                {
+                    "doc": "$~Điểm khởi đầu đầu tiên.",
+                    "names": "$~bắtđầu"
+                },
+                {
+                    "doc": "$~Địa điểm đó cần di chuyển bao nhiêu mét khi khán giả yêu cầu di chuyển?",
+                    "names": "$~khoảngcách"
+                },
+                {
+                    "doc": "$~Nếu đúng, cho phép di chuyển trên trục ngang. Mặc định là bật.",
+                    "names": "$~nằmngang"
+                },
+                {
+                    "doc": "$~Nếu đúng, cho phép di chuyển trên trục dọc. Mặc định là bật.",
+                    "names": "$~thẳngđứng"
+                },
+                {
+                    "doc": "$~Nếu đúng, cho phép di chuyển trên trục z bằng các phím + và -.",
+                    "names": "$~độsâu"
+                }
+            ]
+        },
+        "Webpage": {
+            "doc": [
+                "$~Nó lấy văn bản tại một địa chỉ web mà bạn đưa cho nó.",
+                "Internet thật hấp dẫn — cả một thế giới máy tính kết nối với nhau chia sẻ @documentation.",
+                "@stream này kết nối với nó — hãy đưa cho nó một URL, như thế này:",
+                "\\Trangweb('https://wordplay.dev')\\",
+                "Và hình như có một thứ gọi là <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, cho phép bạn @query các thứ trên một trang web? Đưa cho nó một truy vấn chọn CSS và nó sẽ chỉ lấy văn bản khớp với truy vấn đó. Như ví dụ này, lấy các tiêu đề cấp một.",
+                "\\Trangweb('https://wordplay.dev' 'h1')\\",
+                "Rất nhiều thứ có thể sai với cái này. Nếu bạn mất kết nối internet, hoặc URL không dẫn tới đâu, hoặc URL không công khai, hoặc URL không phải là một trang HTML… Tất cả những điều này có thể dẫn tới ngoại lệ. Nhưng nếu bạn tìm được một trang hoạt động, bạn sẽ nhận được một số @Number cho biết phần trăm hoàn thành và sau đó là một @List các từ trên trang."
+            ],
+            "names": ["$~Trangweb"],
+            "url": {
+                "doc": "$~URL trang web HTML cần lấy.",
+                "names": "$~URL"
+            },
+            "query": {
+                "doc": "$~@query CSS cần tính toán trên HTML",
+                "names": "$~truyvấn"
+            },
+            "frequency": {
+                "doc": "$~Số phút cần trôi qua trước khi trang được tải lại.",
+                "names": "$~Tínhthườngxuyên"
+            },
+            "error": {
+                "invalid": "$~Đây không phải là URL hợp lệ.",
+                "unvailable": "$~URL này không thể truy cập được",
+                "notHTML": "$~Phản hồi không phải là HTML",
+                "noConnection": "$~không có liên hệ gì với Wordplay",
+                "limit": "$~Có quá nhiều yêu cầu đến tên miền này."
+            }
+        },
+        "Collision": {
+            "names": "$~Vachạm",
+            "doc": [
+                "$~Đây là một dòng các @value @Rebound, dùng khi các @Output có tên chạm vào nhau.",
+                "Để hai @Output nhận ra nhau, hãy đặt tên cho cả hai, rồi cho tôi biết cả hai tên đó. Tôi sẽ tạo một @Rebound mới mỗi khi chúng chạm nhau. Chúng không cần @Matter để làm việc đó — chỉ cần có tên là tôi có thể theo dõi.",
+                "Hãy cho tôi một tên thôi, và tôi sẽ báo cho bạn biết mỗi khi @Output đó chạm vào bất cứ thứ gì khác trong thế giới vật lý. Một @Output nằm trong thế giới vật lý nếu nó có @Matter, nếu một @Motion đặt nó vào đó, nếu nó là một @Shape nằm trực tiếp trên @Stage, hoặc nếu tôi cũng đang theo dõi tên của nó.",
+                "Nhận ra không giống với việc va chạm và bật lại. @Output chỉ đẩy các @Output khác đi khi nó có @Matter và một @Motion đang làm nó chuyển động. @Output mà chương trình của bạn đặt vào sẽ đi đúng vào nơi bạn đặt nó, nên nó xuyên qua bất cứ thứ gì nó chạm vào — nhưng tôi vẫn sẽ báo cho bạn biết về cú chạm đó.",
+                "Một @Rebound có các tên đã chạm nhau và hướng chúng chạm từ đó. Ngay sau khi tôi tạo một cái, tôi sẽ tạo một \\ø\\, vì một va chạm sẽ kết thúc ngay khi nó xảy ra.",
+                "Tôi chỉ có thể theo dõi @Output được đặt trực tiếp trên @Stage. Bất cứ thứ gì bên trong một @Group di chuyển trong không gian riêng của nhóm đó, nên tôi không thể thấy nó — hãy đặt tên cho @Group đó và theo dõi nó thay vào đó."
+            ],
+            "subject": {
+                "names": "$~chủthể",
+                "doc": "$~Tên của @Output mà tôi nên theo dõi. Chỉ cần theo dõi nó là đủ để đưa nó vào thế giới vật lý, nên nó không cần @Matter."
+            },
+            "object": {
+                "names": "$~khác",
+                "doc": "$~Tên của @Output khác mà tôi nên theo dõi. Nếu có cả tên này, tôi chỉ báo khi hai thứ đó chạm nhau; nếu không có, tôi sẽ báo khi cái đầu tiên chạm vào bất cứ thứ gì trong thế giới vật lý."
+            }
+        },
+        "Rebound": {
+            "names": "$~Sựphụchồi",
+            "doc": "$~Tôi đến từ @Collision và đại diện cho đối tượng bị va chạm và hướng va chạm. Hãy sử dụng tôi để quyết định xem có nên phản ứng với va chạm theo cách đặc biệt nào đó, ngoài các quy luật vật lý thông thường hay không.",
+            "direction": {
+                "names": "$~phươnghướng",
+                "doc": "$~Hướng và cường độ của va chạm, so với đối tượng bị va chạm."
+            },
+            "subject": {
+                "names": "$~chủthể",
+                "doc": "$~Tên của kết quả đầu ra mà đối tượng đã chạm tới."
+            },
+            "object": {
+                "names": "$~sựvật",
+                "doc": "$~Tên của kết quả đầu ra đã tác động đến đối tượng."
+            }
+        },
+        "Direction": {
+            "names": "$~Phươnghướng",
+            "doc": "$~Tôi là một đại lượng có hướng và độ lớn, dọc theo trục x và trục y.",
+            "x": {
+                "names": "$~x",
+                "doc": "$~Hướng và độ lớn của hướng dọc theo trục x."
+            },
+            "y": {
+                "names": "$~y",
+                "doc": "$~Hướng và độ lớn của hướng dọc theo trục y."
+            }
+        },
+        "Speech": {
+            "doc": [
+                "$~Nó nhận diện lời nói và @variable nó thành @Text.",
+                "/xin chào!/",
+                "Nó dùng khả năng nhận diện giọng nói của trình duyệt để nghe những gì bạn nói và biến nó thành từ ngữ (điều này thật tuyệt phải không?!).",
+                "\\Lờinói()\\",
+                "Điều này rất hoàn hảo cho những ai có thể nói một @language nhưng vẫn đang học đọc hoặc viết nó (và hơn thế nữa)...",
+                "Bạn có thể chỉ định một mã ngôn ngữ để nhận diện lời nói bằng một ngôn ngữ cụ thể:",
+                "\\Lờinói(ngônngữ: 'es-MX')\\",
+                "Nếu không chỉ định ngôn ngữ, nó sẽ mặc định dùng ngôn ngữ ưa thích của bạn.",
+                "Nhận diện giọng nói cần quyền truy cập micrô và kết nối Internet (hãy cho phép truy cập nhé!). Ngoài ra, có thể có giới hạn sử dụng, nên đừng để nó bật quá lâu (khôôông)!"
+            ],
+            "names": ["$~Lờinói", "$~Tiếngnói"],
+            "reset": {
+                "names": ["$~càilại", "$~thôngthoáng"],
+                "doc": "$~Khi @value này thay đổi, hãy xóa phần lời nói đã tích lũy và bắt đầu lại từ đầu."
+            },
+            "language": {
+                "names": ["$~ngônngữ"],
+                "doc": "$~Một mã @language theo BCP 47 (ví dụ: 'en-US'). Nếu khả năng nhận diện giọng nói của trình duyệt không hỗ trợ nó, bạn sẽ gặp lỗi. Nó mặc định dùng ngôn ngữ ưa thích của bạn."
+            },
+            "limit": {
+                "names": ["$~giớihạn", "$~từ"],
+                "doc": "$~Số lượng từ tối đa được giữ lại trong dữ liệu lời nói tích lũy (cửa sổ trượt). Khi được thiết lập, chỉ những từ gần đây nhất được giữ lại, và các từ cũ hơn sẽ bị loại bỏ. Nếu không được chỉ định, tất cả các từ sẽ được giữ lại vô thời hạn."
+            },
+            "error": {
+                "browserNotSupported": "$~Dịch vụ không được hỗ trợ trên trình duyệt này",
+                "noConnection": "$~không có kết nối internet",
+                "serviceNotAllowed": "$~Dịch vụ không khả dụng",
+                "micNotAllowed": "$~Không được phép truy cập micro.",
+                "noMicrophone": "$~Không tìm thấy micrô",
+                "languageNotSupported": "$~Ngôn ngữ không được hỗ trợ",
+                "limit": "$~Thất bại sau nhiều lần thử."
+            }
+        },
+        "Hand": {
+            "doc": [
+                "$~Nó theo dõi bàn tay mà camera của bạn nhìn thấy — vị trí của bàn tay, những ngón tay nào đang giơ lên và hướng bàn tay đang quay về phía nào.",
+                "/lắc lư lắc lư/",
+                "Giơ tay lên, vẫy tay xung quanh, đếm trên các ngón tay — @Hand theo dõi.",
+                "Về mặt kỹ thuật, @Hand sử dụng mô hình máy học. Lần đầu tiên bạn sử dụng nó trong một chương trình, mô hình cần vài giây để tải xuống, và một bàn tay nhỏ đang xoay tròn sẽ xuất hiện ở góc trên bên phải màn hình trong khi chờ tải. Sau đó, nó được lưu vào bộ nhớ cache và bắt đầu hoạt động ngay lập tức.",
+                "Mỗi khung hình, @Hand sẽ cung cấp cho bạn một @Gesture — hãy xem ở đó để biết danh sách đầy đủ các thao tác nhập liệu và ý nghĩa của chúng.",
+                "Hãy thử cách này — nó sẽ hiển thị biểu tượng cảm xúc phù hợp với tư thế tay của bạn bất kể tay thật của bạn đang ở đâu:",
+                "\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+            ],
+            "names": ["$~Tay"],
+            "frequency": {
+                "names": ["$~Tínhthườngxuyên"],
+                "doc": "$~Khoảng thời gian giữa các lần lấy mẫu."
+            },
+            "resolution": {
+                "names": ["$~nghịquyết"],
+                "doc": "$~Độ rộng tính bằng pixel mà camera lấy mẫu trước khi chạy mô hình bàn tay. @value cao hơn có thể cho ra các điểm mốc chính xác hơn một chút nhưng tốn nhiều thời gian hơn cho mỗi khung hình."
+            }
+        },
+        "Contour": {
+            "doc": [
+                "$~Nó phác họa đường viền của từng ký tự dưới dạng @List của @Place .",
+                "Hãy cung cấp cho nó một đoạn văn bản và một kiểu phông chữ, và nó sẽ đồ lại đường viền của từng ký tự từng điểm một.",
+                "\\Contour('a' \"Noto Sans\")\\",
+                "Hãy đưa các @value @Place đó vào một @List gồm @Phrase để thấy đường viền được vẽ dưới dạng các chấm:",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' vịTrí: point)))\\",
+                "Bạn có thể điều chỉnh kích thước đường viền bằng @Number of meters, di chuyển điểm gốc bằng @Place , chọn độ đậm phông chữ, bật chế độ in nghiêng và đặt `spacing` giữa các điểm theo khoảng cách tính bằng mét. `spacing` nhỏ hơn sẽ vẽ đường viền sát hơn, với các điểm cách đều nhau dọc theo cả đường thẳng và đường cong.",
+                "Một số ký tự, như biểu tượng cảm xúc màu sắc, không có đường viền, vì vậy chúng không được tính điểm. Trong khi tải phông chữ, nó sẽ trả về một @List trống, sau đó sẽ điền thông tin vào khi hoàn tất."
+            ],
+            "names": ["$~Đườngviền"],
+            "inputs": [
+                {
+                    "doc": "$~Văn bản mà tôi cần đồ lại đường viền của các ký tự.",
+                    "names": "$~kýtự"
+                },
+                {
+                    "doc": "$~Phông chữ dùng để đồ lại các ký tự.",
+                    "names": "$~khuônmặt"
+                },
+                {
+                    "doc": "$~Chiều cao của ký tự tính bằng mét, được đo theo tỷ lệ đường viền.",
+                    "names": "$~kíchcỡ"
+                },
+                {
+                    "doc": "$~@property @Place tùy chọn dùng để dịch chuyển mọi điểm.",
+                    "names": "$~địađiểm"
+                },
+                {
+                    "doc": "$~Độ đậm của phông chữ cần sử dụng, được căn chỉnh sao cho gần nhất với các điểm hỗ trợ trên mặt chữ.",
+                    "names": "$~cânnặng"
+                },
+                {
+                    "doc": "$~Liệu có nên sử dụng phiên bản chữ nghiêng của khuôn mặt hay không, nếu có.",
+                    "names": "$~chữnghiêng"
+                },
+                {
+                    "doc": "$~Khoảng cách tính bằng mét giữa các điểm được lấy mẫu dọc theo đường viền, được giữ nhất quán dọc theo cả đường thẳng và đường cong. @value nhỏ hơn cho phép vẽ chi tiết hơn, đến mức tối thiểu là 0,01 mét.",
+                    "names": "$~khoảngcách"
+                },
+                {
+                    "doc": "$~Thứ tự các điểm: 'tiến' hoặc 'lùi'.",
+                    "names": "$~phươnghướng"
+                }
+            ],
+            "error": {
+                "connection": "$~Tôi không thể truy cập internet để tải phông chữ, vì vậy tôi không thể đồ lại các chữ cái của nó.",
+                "unavailable": "$~Tôi không tìm thấy tệp phông chữ đó, nên tôi không thể đồ lại các chữ cái của nó.",
+                "unreadable": "$~Tôi đã tải phông chữ xuống, nhưng tôi không thể đọc được nó, vì vậy tôi không thể đồ lại các chữ cái của nó.",
+                "outline": "$~Tôi đã tải phông chữ lên, nhưng không thể tạo được hình dạng của các chữ cái này."
+            }
+        },
+        "Now": {
+            "doc": [
+                "$~Tôi đánh dấu một @Moment mới theo nhịp mà bạn chọn, nên chương trình luôn biết ngày hôm nay và giờ hiện tại.",
+                "Điều này @variable một chiếc đồng hồ theo @region thành một dòng @code:",
+                "\\Cụmtừ(⏰() → '')\\",
+                "Mặc định thì tôi đánh dấu mỗi giây. Hãy cho tôi một @Now.frequency tính bằng giây, phút, hoặc giờ để đổi nhịp:",
+                "\\⏰(1min)\\",
+                "@Now.timezone và @Now.calendar của tôi phản chiếu các đầu vào của @Moment, và thiết lập các Moment mà tôi tạo ra. Ví dụ, đây là một chiếc đồng hồ hiển thị giờ hiện tại ở Tokyo, theo lịch Nhật Bản:",
+                "\\⏰(1s 'Asia/Tokyo' 'japanese')\\",
+                "Nếu các đầu vào đó thay đổi — chẳng hạn, một phản ứng cho tôi một múi giờ khác — thì tôi bắt đầu tạo ra các Moment với thiết lập mới.",
+                "Tôi khác @Time thế nào? @Time đếm số mili giây kể từ khi chương trình bắt đầu, điều này tốt cho hoạt hình. Tôi cho bạn biết ngày và giờ trên đồng hồ tường theo một lịch và một múi giờ, điều này tốt cho đồng hồ và lịch."
+            ],
+            "names": ["$~⏰", "$~Now"],
+            "frequency": {
+                "names": ["$~frequency"],
+                "doc": "$~Tôi tạo một @Moment mới thường xuyên thế nào, tính bằng giây, phút, hoặc giờ. Nếu \\ø\\, tôi đánh dấu mỗi \\1s\\."
+            },
+            "timezone": {
+                "names": ["$~timezone"],
+                "doc": "$~Một tên múi giờ chuẩn cho các Moment mà tôi tạo ra, gồm một @region và một thành phố, ví dụ như \\'America/New_York'\\ hoặc \\'Châu Á/Tokyo'\\. Không biết tên? Hãy viết một thành phố mà bạn biết và tôi sẽ gợi ý múi giờ gần nhất. Nếu \\ø\\, tôi dùng múi giờ của thiết bị đang chạy chương trình."
+            },
+            "calendar": {
+                "names": ["$~calendar"],
+                "doc": "$~Một tên lịch Unicode cho các Moment mà tôi tạo ra, như \\'gregory'\\, \\'tiếng Hê-brơ'\\, \\'tiếng Trung'\\, hoặc \\'tiếng Nhật'\\. Nếu \\ø\\, tôi dùng lịch theo địa phương của người đọc."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "$~Mình là một khoảnh khắc duy nhất trong thời gian: một ngày trên lịch, một giờ trong ngày, cùng với múi giờ và lịch mà chúng được ghi theo.",
+                "Tất cả @property của mình đều không bắt buộc. Hãy cho mình các phần ngày để mô tả một ngày:",
+                "\\📅(2026 7 1) → ''\\",
+                "Hoặc chỉ các phần giờ, để chỉ một giờ trong ngày:",
+                "\\📅(hour: 15 minute: 30) → ''\\",
+                "Nếu bạn không cho mình phần nào cả, mình sẽ chuyển thành ngày giờ hiện tại, ở bất cứ nơi nào chương trình đang chạy. Nếu bạn bỏ trống một số phần, thì bất kỳ phần nào lớn hơn phần lớn nhất bạn đã cho sẽ lấy từ ngày giờ hiện tại, còn các phần nhỏ hơn thì bắt đầu từ điểm khởi đầu của chúng: vậy nên \\📅(month: 12) → ''\\ là ngày 1 tháng 12 của năm nay, vào lúc nửa đêm. Khi chuyển mình chỉ hiện ra những loại phần mà bạn đã cho: các phần ngày tạo ra một ngày, các phần giờ tạo ra một giờ, và cả hai tạo ra cả hai:",
+                "\\📅() → ''\\",
+                "@Moment.timezone của mình nhận một tên múi giờ IANA chuẩn như \\'America/Los_Angeles'\\ hoặc \\'Châu Á/Tokyo'\\; nếu bạn để trống nó là \\ø\\, mình sẽ dùng múi giờ của thiết bị mà chương trình đang chạy trên đó. @Moment.calendar của mình nhận một tên lịch Unicode như \\'gregory'\\, \\'tiếng Do Thái'\\, hoặc \\'tiếng Nhật'\\; nếu bạn để trống nó là \\ø\\, mình sẽ dùng lịch theo vùng @language của người đọc. @Moment.year, @Moment.month, và @Moment.day của mình đều theo lịch đó:",
+                "\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "Khi chuyển mình sang @Text sẽ định dạng mình theo vùng ngôn ngữ của người đọc: cùng một Moment sẽ hiển thị khác nhau bằng tiếng Anh, 中文, hoặc हिन्दी, và thay đổi khi vùng ngôn ngữ của người đọc thay đổi.",
+                "@Moment.era, @Moment.week, và @Moment.weekday của mình mang tính thông tin: @Now điền chúng vào khi tạo ra các Moment, nhưng chúng bị bỏ qua khi định dạng.",
+                "Nếu bạn muốn một @stream các Moment tự cập nhật khi thời gian trôi qua — một cái đồng hồ — hãy xem @Now. Nếu bạn muốn số mili giây đã trôi qua kể từ khi chương trình của bạn bắt đầu — để làm hoạt hình — hãy xem @Time."
+            ],
+            "names": ["$~📅", "$~Moment"],
+            "year": {
+                "names": ["$~year"],
+                "doc": "$~Năm, theo lịch của tôi. Ví dụ, năm Gregory \\2026\\ là năm Do Thái \\5786\\."
+            },
+            "month": {
+                "names": ["$~month"],
+                "doc": "$~Tháng trong năm theo lịch của tôi, bắt đầu từ \\1\\."
+            },
+            "day": {
+                "names": ["$~day"],
+                "doc": "$~Ngày trong tháng."
+            },
+            "hour": {
+                "names": ["$~hour"],
+                "doc": "$~Giờ trong ngày, từ \\0\\ đến \\23\\."
+            },
+            "minute": {
+                "names": ["$~minute"],
+                "doc": "$~Phút trong giờ."
+            },
+            "second": {
+                "names": ["$~second"],
+                "doc": "$~Giây trong phút."
+            },
+            "millisecond": {
+                "names": ["$~millisecond"],
+                "doc": "$~Mili giây trong giây."
+            },
+            "timezone": {
+                "names": ["$~timezone"],
+                "doc": "$~Một tên múi giờ chuẩn, gồm một @region và một thành phố, ví dụ như \\'America/New_York'\\, \\'Europe/Paris'\\, hoặc \\'Châu Á/Tokyo'\\. Không biết tên? Hãy viết một thành phố mà bạn biết và tôi sẽ gợi ý múi giờ gần nhất. Nếu \\ø\\, tôi dùng múi giờ của thiết bị đang chạy chương trình."
+            },
+            "calendar": {
+                "names": ["$~calendar"],
+                "doc": "$~Một tên lịch Unicode, như \\'gregory'\\, \\'tiếng Hê-brơ'\\, \\'tiếng Trung'\\, hoặc \\'tiếng Nhật'\\. Nếu \\ø\\, lịch theo địa phương của người đọc."
+            },
+            "era": {
+                "names": ["$~era"],
+                "doc": "$~Thời đại mà năm của tôi thuộc về, như \\'ce'\\ hoặc \\'reiwa'\\. Mang tính thông tin: @Now đặt nó, và việc định dạng bỏ qua nó."
+            },
+            "week": {
+                "names": ["$~week"],
+                "doc": "$~Tuần trong năm, bắt đầu từ \\1\\. Mang tính thông tin: @Now đặt nó, và việc định dạng bỏ qua nó."
+            },
+            "weekday": {
+                "names": ["$~weekday"],
+                "doc": "$~Ngày trong tuần, từ \\1\\ (Thứ Hai) đến \\7\\ (Chủ Nhật). Mang tính thông tin: @Now đặt nó, và việc định dạng bỏ qua nó."
+            },
+            "conversion": {
+                "text": "$~Một phiên bản @Text của tôi, được định dạng theo địa phương của người đọc, theo lịch và múi giờ của tôi. Thêm một ngôn ngữ sau kiểu @Text để định dạng cho một địa phương cụ thể, như \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "$~đây không phải là một tên múi giờ hợp lệ",
+                "calendar": "$~đây không phải là một tên lịch được hỗ trợ"
+            }
+        },
+        "Face": {
+            "doc": [
+                "$~Nó theo dõi một khuôn mặt mà máy ảnh của bạn nhìn thấy — nó ở đâu, và nó đang làm gì: mắt mở hay nhắm, miệng mở, một nụ cười, một cái cau mày, đôi lông mày nhướng lên, và đầu quay về hướng nào.",
+                "/cười lên nào/",
+                "Hãy nhìn vào máy ảnh, mỉm cười, nháy mắt, mở miệng thật to — @Face sẽ làm theo.",
+                "Đằng sau hậu trường, @Face dùng một mô hình học máy. Lần đầu tiên bạn dùng nó trong một chương trình, mô hình mất vài giây để tải xuống, và một khuôn mặt nhỏ đang quay xuất hiện ở góc trên bên phải của sân khấu trong khi nó tải. Sau đó nó được lưu lại và bắt đầu ngay lập tức.",
+                "Mỗi khung hình, @Face cho bạn một @Expression. Hãy xem ở đó để biết danh sách đầy đủ các đầu vào và ý nghĩa của chúng.",
+                "Ví dụ này cho thấy một biểu tượng cảm xúc khớp với khuôn mặt của bạn ở bất cứ nơi nào khuôn mặt thật của bạn ở đó:",
+                "\\khuônMặt: 🙂()\nCụmtừ((khuônMặt.cườiTươi ? '😀' khuônMặt.miệngMở ? '😮' '😐') vịTrí: khuônMặt.vịTrí)\\"
+            ],
+            "names": ["$~KhuônMặt"],
+            "frequency": {
+                "names": ["$~tầnSố"],
+                "doc": "$~Khoảng thời gian giữa các mẫu."
+            },
+            "resolution": {
+                "names": ["$~độPhânGiải"],
+                "doc": "$~Chiều rộng tính bằng điểm ảnh mà máy ảnh được lấy mẫu trước khi chạy mô hình khuôn mặt. @value cao hơn có thể cho các điểm mốc chính xác hơn một chút nhưng tốn nhiều thời gian hơn mỗi khung hình."
+            }
+        },
+        "Objects": {
+            "doc": [
+                "$~Nó cho bạn biết máy ảnh của bạn nhìn thấy những gì — một con mèo, một cái cốc, một quyển sách — và chúng ở đâu.",
+                "/đó là gì/",
+                "Đưa một thứ gì đó lên trước máy ảnh và @Objects sẽ cố gắng gọi tên nó.",
+                "Bên trong, @Objects dùng một mô hình học máy biết 80 loại đồ vật hằng ngày.",
+                "Mỗi khung hình, @Objects đưa cho bạn một @List gồm @Thing, được sắp xếp theo mức độ chắc chắn của mô hình, thứ chắc chắn nhất đứng đầu. Hãy xem @Thing để biết mỗi thứ cho bạn biết điều gì.",
+                "Mô hình chỉ đang đoán, nên đôi khi nó sẽ sai, hoặc không thấy gì cả. Hãy yêu cầu `confidence` cao hơn để chỉ nghe những phán đoán mà nó chắc chắn nhất.",
+                "Đây là một ví dụ ghi nhãn mọi thứ mà máy ảnh nhìn thấy:",
+                "\\🎭(📦() ↦ Cụmtừ(⬚.tên vịTrí: ⬚.vịTrí))\\",
+                "Bạn cũng có thể chỉ tìm một loại đồ vật, và bỏ qua những thứ còn lại:",
+                "\\nhữngThứ: 📦(danhMục: 'cat')\nCụmtừ(nhữngThứ.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~ĐốiTượng"],
+            "inputs": [
+                {
+                    "doc": "$~Khoảng thời gian giữa các lần lấy mẫu.",
+                    "names": "$~tầnSuất"
+                },
+                {
+                    "doc": "$~Chiều rộng tính bằng điểm ảnh dùng để lấy mẫu máy ảnh trước khi tìm đồ vật. Mô hình nhìn vào một ô vuông 320 điểm ảnh, nên @value lớn hơn chủ yếu tốn thời gian.",
+                    "names": "$~độPhânGiải"
+                },
+                {
+                    "doc": "$~Một loại đồ vật tùy chọn để tìm, bỏ qua mọi thứ khác.",
+                    "names": "$~danhMục"
+                },
+                {
+                    "doc": "$~Mô hình phải chắc chắn đến mức nào trước khi tôi nhắc đến một đồ vật, từ 0 đến 1. Cao hơn nghĩa là ít phán đoán hơn nhưng tốt hơn.",
+                    "names": "$~độTinCậy"
+                },
+                {
+                    "doc": "$~Số đồ vật nhiều nhất được nhắc đến cùng một lúc.",
+                    "names": "$~sốĐếm"
+                }
+            ],
+            "categories": {
+                "person": ["$~người", "$~mọi người", "$~con người", "$~ai đó"],
+                "bicycle": ["$~xe đạp"],
+                "car": ["$~xe hơi", "$~ô tô"],
+                "motorcycle": ["$~xe máy", "$~xe gắn máy"],
+                "airplane": ["$~máy bay", "$~phi cơ"],
+                "bus": ["$~xe buýt"],
+                "train": ["$~tàu hỏa"],
+                "truck": ["$~xe tải"],
+                "boat": ["$~thuyền", "$~tàu thủy"],
+                "traffic light": ["$~đèn giao thông", "$~đèn tín hiệu"],
+                "fire hydrant": ["$~trụ nước cứu hỏa", "$~trụ nước"],
+                "stop sign": ["$~biển báo dừng"],
+                "parking meter": ["$~đồng hồ đỗ xe"],
+                "bench": ["$~ghế dài"],
+                "bird": ["$~chim"],
+                "cat": ["$~mèo", "$~mèo con"],
+                "dog": ["$~chó", "$~cún con"],
+                "horse": ["$~ngựa"],
+                "sheep": ["$~cừu"],
+                "cow": ["$~bò"],
+                "elephant": ["$~voi"],
+                "bear": ["$~gấu"],
+                "zebra": ["$~ngựa vằn"],
+                "giraffe": ["$~hươu cao cổ"],
+                "backpack": ["$~ba lô"],
+                "umbrella": ["$~ô"],
+                "handbag": ["$~túi xách", "$~ví"],
+                "tie": ["$~cà vạt"],
+                "suitcase": ["$~va li", "$~hành lý"],
+                "frisbee": ["$~đĩa ném"],
+                "skis": ["$~ván trượt tuyết"],
+                "snowboard": ["$~ván trượt tuyết"],
+                "sports ball": ["$~quả bóng", "$~bóng thể thao"],
+                "kite": ["$~diều"],
+                "baseball bat": ["$~gậy bóng chày", "$~gậy"],
+                "baseball glove": ["$~găng tay bóng chày", "$~găng tay"],
+                "skateboard": ["$~ván trượt"],
+                "surfboard": ["$~ván lướt sóng"],
+                "tennis racket": ["$~vợt quần vợt", "$~vợt"],
+                "bottle": ["$~chai"],
+                "wine glass": ["$~ly rượu vang"],
+                "cup": ["$~cốc", "$~cốc có quai"],
+                "fork": ["$~nĩa"],
+                "knife": ["$~dao"],
+                "spoon": ["$~thìa"],
+                "bowl": ["$~tô"],
+                "banana": ["$~chuối"],
+                "apple": ["$~táo"],
+                "sandwich": ["$~bánh mì kẹp"],
+                "orange": ["$~cam"],
+                "broccoli": ["$~bông cải xanh"],
+                "carrot": ["$~cà rốt"],
+                "hot dog": ["$~xúc xích"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~bánh vòng"],
+                "cake": ["$~bánh ngọt"],
+                "chair": ["$~ghế"],
+                "couch": ["$~ghế dài", "$~ghế sô pha"],
+                "potted plant": [
+                    "$~cây trồng trong chậu",
+                    "$~cây trong nhà",
+                    "$~cây"
+                ],
+                "bed": ["$~giường"],
+                "dining table": ["$~bàn", "$~bàn ăn"],
+                "toilet": ["$~bồn cầu"],
+                "tv": ["$~ti vi", "$~tivi"],
+                "laptop": ["$~máy tính xách tay", "$~máy tính"],
+                "mouse": ["$~chuột"],
+                "remote": ["$~điều khiển từ xa"],
+                "keyboard": ["$~bàn phím"],
+                "cell phone": ["$~điện thoại", "$~điện thoại di động"],
+                "microwave": ["$~lò vi sóng"],
+                "oven": ["$~lò nướng"],
+                "toaster": ["$~máy nướng bánh mì"],
+                "sink": ["$~bồn rửa"],
+                "refrigerator": ["$~tủ lạnh"],
+                "book": ["$~sách"],
+                "clock": ["$~đồng hồ"],
+                "vase": ["$~lọ hoa"],
+                "scissors": ["$~kéo"],
+                "teddy bear": ["$~gấu bông", "$~thú nhồi bông"],
+                "hair drier": ["$~máy sấy tóc"],
+                "toothbrush": ["$~bàn chải đánh răng"]
+            }
+        },
+        "Beat": {
+            "names": "$~Nhịp",
+            "doc": [
+                "$~Tôi đưa ra một @value mới mỗi khi @Music phát tới một nhịp, nhờ vậy bạn có thể tạo hình ảnh chuyển động theo nhạc. Tôi luôn có một @Downbeat cho bạn, nên bạn có thể đọc nó ngay lập tức: trước khi có nhạc nào phát, tôi nằm ở nhịp không mà không phát ra âm thanh, và \\tempo\\ của tôi giữ ở mức không cho tới khi nhạc bắt đầu.",
+                "Ở đây ba bản nhạc thay phiên nhau, nên số nhạc cụ phát ra khác nhau trên mỗi nhịp — và hình thoi lớn lên theo số nhạc cụ đang phát:",
+                "\\nhịp: Nhịp()\n🎭([\n\t\tCụmtừ('◆' ((nhịp.nhạcCụ.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] nhạcCụ: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] nhạcCụ: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] nhạcCụ: 🔈.🔔)\n\t\t\t]\n\t\t\tnhịpĐộ: 100beats/min\n\t\t)\n\t])\\",
+                "Hãy cho tôi một tên @Music và tôi chỉ nghe bản nhạc đó. Hai nhịp bên dưới đang lắng nghe, cùng hai bản nhạc đó: cái trên nghe tất cả, nên nó nhấp nháy giữa hai tên khi mỗi bản nhạc tới một nhịp, còn cái dưới chỉ nghe tiếng trống và không bao giờ nói điều gì khác. Sự khác biệt đó chính là bộ lọc.",
+                "\\mọiThứ: Nhịp()\nchỉCáiTrống: Nhịp('tích tắc')\n🎭([\n\t\t🔳(\n\t\t\t⬇(đệm: 0.5m)\n\t\t\t[\n\t\t\t\tCụmtừ(mọiThứ.tên 1.4m)\n\t\t\t\tCụmtừ(chỉCáiTrống.tên 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] nhạcCụ: 🔈.🥁) nhịpĐộ: 120beats/min tên: 'tích tắc')\n\t\t🎼(🎶([5 5 5] nhạcCụ: 🔈.🔔) nhịpĐộ: 90beats/min tên: 'tiếng chuông')\n\t])\\",
+                "Bất cứ điều gì tôi điều khiển đều là /bổ sung thêm/ cho cách hiển thị mà người xem đã chọn; bạn đang thêm vào nó, chứ không bao giờ thay thế nó."
+            ],
+            "name": {
+                "doc": "$~Tên của @Music cần nghe, khớp với @Music/name của nó. Với \\ø\\, tôi nghe mọi bản nhạc đang phát — và nhịp từ các bản nhạc khác nhau tới xen kẽ nhau, nên hãy đọc @Downbeat/name để phân biệt chúng.",
+                "names": "$~tên"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Tôi là thứ mà @Beat cho bạn: mọi thứ mà bộ phát biết ngay lúc nghe thấy một nhịp, để hình ảnh có thể cho thấy cái gì đang thực sự vang lên.",
+                "Mỗi @Music đếm nhịp riêng của nó, nên khi một @Beat nghe hơn một, @Downbeat/count của tôi thuộc về bản nhạc mà nhịp này tới từ đó — hãy kiểm tra @Downbeat/name của tôi để biết là bản nào."
+            ],
+            "names": "$~PháchMạnh",
+            "count": {
+                "doc": "$~Bản nhạc này đã chơi bao nhiêu nhịp, bắt đầu ở \\0\\.\n\nViệc đếm bắt đầu khi nhạc /bắt đầu/, và bắt đầu lại khi nó bắt đầu lại — một @Music/replay, hoặc rời sân khấu rồi quay lại. Sửa nhạc trong khi nó phát thì /không/ đặt lại tôi, và @Music/pause cũng vậy — một bản nhạc bị giữ ngừng đếm và tiếp tục từ chỗ nó dừng. Thay đổi ghép vào và việc đếm tiếp tục, đó là điều khiến một lần sửa không nghe giống như khởi động lại.",
+                "names": "$~đếm"
+            },
+            "instruments": {
+                "doc": "$~@Instrument vang lên trong nhịp này, mỗi cái được liệt kê một lần. Một lối tắt cho trường hợp thường gặp; @Downbeat/parts có chi tiết.",
+                "names": "$~nhạcCụ"
+            },
+            "words": {
+                "doc": "$~Các âm tiết đang được hát trên nhịp này, theo thứ tự bản nhạc, hoặc một danh sách rỗng khi không có gì đang hát. Đây là một lối tắt cho trường hợp thường gặp, giống như @Downbeat/instruments; @Downbeat/parts có chi tiết đầy đủ.",
+                "names": "$~từNgữ"
+            },
+            "name": {
+                "doc": "$~Tên của @Music mà nhịp này tới từ đó, chính là thứ @Beat/name lọc theo.",
+                "names": "$~tên"
+            },
+            "tempo": {
+                "doc": "$~Nhịp độ của bản nhạc, tính bằng nhịp mỗi phút.",
+                "names": "$~nhịpĐộ"
+            },
+            "volume": {
+                "doc": "$~Âm lượng chung của bản nhạc, từ \\0%\\ tới \\100%\\. Mỗi @Part mang âm lượng riêng của nó.",
+                "names": "$~âmLượng"
+            },
+            "key": {
+                "doc": "$~@Music/key riêng của bản nhạc. Một bản có thể ghi đè nó, nên hãy đọc chìa khóa của một @Part để biết bản đó đang thực sự chơi gì.",
+                "names": "$~chìaKhóa"
+            },
+            "scale": {
+                "doc": "$~@Music/scale riêng của bản nhạc. Một bản có thể ghi đè nó, nên hãy đọc scale của một @Part để biết bản đó đang thực sự dùng gì.",
+                "names": "$~thangÂm"
+            },
+            "parts": {
+                "doc": "$~Một @Part cho mỗi @Track, theo thứ tự chúng được viết, dù nó có đang vang lên hay không. Đây là toàn bộ @state của bản nhạc trong nhịp này.",
+                "names": "$~phần"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~Tôi là @state của một @Track trong một nhịp: nó đang chơi gì, to cỡ nào, và ở scale nào. Một @Downbeat mang một cái tôi cho mỗi bản, nên hình ảnh có thể vẽ từng giọng riêng thay vì hòa lẫn.",
+                "Các @value của tôi là những giá trị mà bộ phát đang thực sự dùng, sau khi mọi mặc định và ghi đè đã được áp dụng — nên scale và chìa khóa của tôi là của bản đó, không phải của bản nhạc, khi bản đó tự đặt riêng."
+            ],
+            "names": "$~Phần",
+            "instrument": {
+                "doc": "$~@Instrument đang chơi tôi.",
+                "names": "$~nhạcCụ"
+            },
+            "sounding": {
+                "doc": "$~Có một nốt nghe được trong nhịp này hay không. Một nốt được giữ vẫn được tính, nên tôi giữ \\⊤\\ suốt các nhịp mà nó ngân, không chỉ nhịp nó bắt đầu.",
+                "names": "$~phátRaÂm"
+            },
+            "degrees": {
+                "doc": "$~Các nốt phủ lên nhịp này, như đã viết. Rỗng khi nghỉ, và nhiều hơn một khi là hợp âm.",
+                "names": "$~bậc"
+            },
+            "pitch": {
+                "doc": "$~@Part/degrees của tôi được giải theo scale và chìa khóa của tôi, tính bằng nửa cung từ nốt đầu tiên. Dùng cái này để đặt một nốt theo độ cao; dùng @Part/degrees để cho thấy cái gì đã được viết.",
+                "names": "$~caoĐộ"
+            },
+            "volume": {
+                "doc": "$~Tôi to cỡ nào trong nhịp này — âm lượng của nốt tôi nhân với âm lượng của bản của tôi — từ \\0%\\ tới \\100%\\, và \\0%\\ khi nghỉ. Tốt để định cỡ bất cứ gì bạn vẽ.",
+                "names": "$~âmLượng"
+            },
+            "pan": {
+                "doc": "$~Tôi ngồi ở đâu giữa hai loa: \\-1\\ là hoàn toàn bên trái, \\0\\ là chính giữa, và \\1\\ là hoàn toàn bên phải. Tốt để đặt bất cứ gì bạn vẽ.",
+                "names": "$~cânBằngTráiPhải"
+            },
+            "scale": {
+                "doc": "$~Scale mà các bậc của tôi được giải theo, sau bất kỳ ghi đè @Track/scale nào.",
+                "names": "$~thangÂm"
+            },
+            "key": {
+                "doc": "$~Độ dịch nửa cung áp dụng cho tôi, sau bất kỳ ghi đè @Track/key nào.",
+                "names": "$~chìaKhóa"
+            },
+            "loop": {
+                "doc": "$~Bản của tôi có lặp lại khi nó chạm tới cuối hay không.",
+                "names": "$~vòngLặp"
+            },
+            "words": {
+                "doc": "$~Âm tiết mà phần này đang hát ở nhịp này, hoặc \\ø\\ khi nó không hát gì cả — một quãng nghỉ, hoặc một bản nhạc không có @Track/words.",
+                "names": "$~từNgữ"
+            }
+        },
+        "Spotlight": {
+            "doc": [
+                "$~Tôi cho biết một @Scene đang ở đâu ngay lúc này: nó đang hiển thị đầu ra nào, nó có bao nhiêu đầu ra, và nó có đang chờ ai đó hay không.",
+                "Một @Scene hiển thị các thứ; tôi là cách phần còn lại của một chương trình biết được nó đang hiển thị gì. Đó là điều cho phép em đặt một bộ đếm bên dưới một buổi trình chiếu ảnh, phát nhạc khác nhau ở các phần khác nhau của một câu chuyện, hoặc chỉ hiển thị gợi ý /nhấn phím bất kỳ/ trong khi cảnh thực sự đang chờ.",
+                "\\trangChiếu: [Cụmtừ('một') Cụmtừ('hai') Cụmtừ('ba')]\ntại: Spotlight()\nSânkhấu(\n\t[\n\t\tBốicảnh(trangChiếu vòngLặp: ⊤)\n\t\tCụmtừ(\n\t\t\t`\\tại.index\\ của \\tại.total\\`\n\t\t\tkíchcỡ: 0.3m\n\t\t\tvịTrí: VịTrí(0m -2m)\n\t\t)\n\t]\n)\\",
+                "Tôi luôn có một @Slate, ngay cả trước khi có bất cứ điều gì xảy ra, nên em không bao giờ phải kiểm tra tôi để tìm \\ø\\."
+            ],
+            "names": "$~ĐènSânKhấu",
+            "name": {
+                "names": "$~tên",
+                "doc": "$~@Scene/name của cảnh cần theo sau. Để nó là \\ø\\ và tôi sẽ theo mọi cảnh."
+            }
+        },
+        "Slate": {
+            "doc": "$~Một @Scene đang ở đâu: nó đang hiển thị gì, nó đã đi được bao xa, và nó có đang chờ hay không.",
+            "names": "$~BảngĐen",
+            "scene": {
+                "names": "$~cảnh",
+                "doc": "$~@Scene/name của cảnh mà tôi đến từ đó, hoặc \\''\\ nếu nó không có cảnh nào."
+            },
+            "index": {
+                "names": "$~chỉMục",
+                "doc": "$~@Scene đang hiển thị đầu ra nào, đếm từ 1. Tôi chỉ đếm các đầu ra, không bao giờ đếm @Boolean ở giữa."
+            },
+            "total": {
+                "names": "$~tổng",
+                "doc": "$~@Scene có bao nhiêu đầu ra, không tính @Boolean ở giữa."
+            },
+            "lap": {
+                "names": "$~vòng",
+                "doc": "$~@Scene đã quay trở lại đầu ra đầu tiên của nó bao nhiêu lần. Nó là 0 vào lần đi qua đầu tiên."
+            },
+            "waiting": {
+                "names": "$~đangChờ",
+                "doc": "$~@Scene có đang dừng hay không: đang chờ @Boolean trở thành đúng, hoặc bị @Scene/pause giữ lại. Đây là điều mà một gợi ý /nhấn phím bất kỳ/ nên theo dõi."
+            }
+        }
+    }
+}

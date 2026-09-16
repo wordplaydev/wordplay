@@ -1,0 +1,2185 @@
+{
+    "$schema": "../../../static/schemas/sections/node.json",
+    "node": {
+        "Dimension": {
+            "name": "$~boyut",
+            "description": "$~birim $name[$name|parça]$exponent[ üssü $exponent|]",
+            "emotion": "serious",
+            "doc": [
+                "$~Ben bir /ölçü birimiyim/!",
+                "Herhangi bir standartlaştırılmış birim olabilirim, örneğin \\1m\\, \\10s\\, \\100g\\ veya herhangi bir bilimsel birim. \\17apple\\ gibi oluşturmak istediğiniz herhangi bir birim olmaktan da mutluluk duyarım.",
+                "\\/\\ ile birleştirilerek \\17elma/gün\\ gibi oran birimleri ve \\^\\ ile birleştirilerek \\9.8m/s^2\\ gibi üstel birimler elde edilebilir.",
+                "@Number'dan sonra her zaman gelmeliyim. Aksi takdirde @Reference ile karıştırılabilirim ki bu da oldukça utanç verici olur!",
+                "Ben de birimler arasındaki tutarsızlıkları bulmada oldukça iyiyim. Örneğin, \\1cat + 1dog\\🪲 hiçbir anlam @expression etmiyor!",
+                "Eğer farklı birim değerleri arasında dönüşüm yapmak isterseniz @Convert ile görüşün."
+            ]
+        },
+        "Doc": {
+            "name": "$~açıklama",
+            "description": "$~dokümantasyon$language[ $language dilinde|], $#words[$words kelime|$words kelime]",
+            "emotion": "serious",
+            "doc": [
+                "$~@Markup ile şeyleri güzel bir biçimde açıklarım. Örneğin @Program'nden bazılarını açıklayabilirim, ya da @Phrase ile sahneye koyduğun kelimeleri.",
+                "Örneğin, herhangi bir @expression'ten önce gelebilirim:",
+                "\\¶Bunun gerçekten 7 olması mı gerekiyor?¶\n7\\",
+                "Örneğin, beni @Bind'den önce koyabilirsin:",
+                "\\¶Birinin ne kadar uzun olduğunu ölçerim¶\nboy: 5m\\🪲",
+                "Ya da bir @FunctionDefinition'den önce:",
+                "\\¶İki sayıyı toplarım¶\nƒ toplam2(a2•# b2•#) a2 + b2\\",
+                "Ya da bir @StructureDefinition'den önce:",
+                "\\¶İnsanların ismini ve en sevdiği meyveyi hatırlarım¶\n•kişi(isim3•'' meyve•'')\\",
+                "Bütün gösterinin neyle ilgili olduğunu söylemek için beni @Program'nin en başına da koyabilirsin",
+                "\\¶Bu program merhaba der¶\n\n'merhaba!'\\",
+                "Başkalarının hangi dilde yazıldığımı bilmesine yardım etmek için bana bir @Language verebilirsin:",
+                "\\¶Ben İngilizce bir dokümanım¶\nsüre2: 5s\\🪲",
+                "Benden bir liste yapabileceğini biliyor muydun? Gidip @Docs ile konuş."
+            ]
+        },
+        "Docs": {
+            "name": "$~açıklama listesi",
+            "description": "$~dokümantasyon listesi$languages[ $languages dillerinde| $count adet]",
+            "emotion": "serious",
+            "doc": [
+                "$~@Doc'un bir listesiyim. @Doc'un farklı dillerde birden fazla çevirisi olduğunda kullanışlıdır.",
+                "Bir liste yapmak için özel bir şey yapmanıza gerek yok. Sadece bir sürü @Doc'u yan yana koyun, şöyle:",
+                "\\¶Merhaba¶/tr\n¶Hola¶/es\nselamlama: '…'\\🪲"
+            ],
+            "start": "$~Belgeleri değerli kılmak!"
+        },
+        "KeyValue": {
+            "name": "$~haritalama",
+            "description": "$~$key anahtarından $value değerine",
+            "emotion": "kind",
+            "doc": [
+                "$~Ben bir *anahtar*dan bir *değer*e eşlemeyim, her zaman bir @Map içinde.",
+                "Her türden @value başka herhangi birine eşleyebilirsin. Örneğin, işte bir sayı eşlemesi:",
+                "\\{1:1}\\",
+                "Ya da metinden sayılara bir eşleme:",
+                "\\{'tavşan': 1}\\"
+            ]
+        },
+        "Language": {
+            "name": "$~dil",
+            "description": "$~dil $language[$language|belirtilmemiş]$region[, bölge $region|]",
+            "emotion": "eager",
+            "doc": [
+                "$~Ben bir @language etiketiyim ve @Name ile @Doc ile çalışırım!",
+                "Bir metnin hangi dilde yazıldığını *çok net* göstermekte gerçekten iyiyimdir. Küçük bir eğik çizgi ve birkaç harf yeterli, artık kimse bir metnin hangi dilde olduğu konusunda kafası karışık kalmaz.",
+                "Örneğin, \"Dil\" demek istiyorsan ama bunun İngilizce olduğunu belirtmek istiyorsan:",
+                "\\'Dil'/tr\\",
+                "Bunu bir @Name için yapabilirsin:",
+                "\\ses2: 'miyav'\\🪲",
+                "…ya da bir @Doc için:",
+                "\\¶Yansıma Sözcük¶\nses2: 'miyav'\\🪲",
+                "Bazen bir metin tek bir dilde olmaz — *karışık* olur. İspanyolca ile İngilizcenin karıştığı Spanglish gibi. Böyle durumlarda, her dili aralarına alt çizgi koyarak listele. İlki *asıl* dildir — bir seçim yapmam gerektiğinde (örneğin hangi tırnak işaretini kullanacağıma karar verirken) kullandığım dil odur.",
+                "\\\"Hola gentleman!\"/es_en\\",
+                "\\¶İki dilli bir selamlama¶\nhello/es_en: 'Hola gentleman!'\\🪲",
+                "Tek bir dilde olduğu gibi, bir tire koyduktan sonra tek bir @region de ekleyebilirsin:",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
+                "Kaç dil listeleyebileceğinin bir sınırı yoktur — sadece aynı dili iki kez yazma; eğer yaparsan sana haber veririm.",
+                "Bir dili <2 harfli kodu@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> ile ya da *ismiyle* yazabilirsin, o dilde ya da İngilizce olarak — `/es`, `/Español` ve `/Spanish` hepsi aynı şeyi @expression eder, aynı şekilde `/es-MX`, `/es-México` ve `/es-Mexico` de öyle. Büyük harfler ve aksanlar önemli değildir, yani `/ESPANOL` da çalışır. İçinde boşluk olan bir isim, boşluksuz yazılır, örneğin `/BahasaIndonesia`, çünkü bir etiket tek bir kelime olmalıdır. Eğer bir dili ya da bölgeyi tanımıyorsam, sana haber veririm."
+            ],
+            "conflict": {
+                "UnknownLanguage": {
+                    "name": "$~bilinmeyen dil",
+                    "explanation": "$~Bu dili bilmiyorum.",
+                    "resolution": "$~Bu dil kodunu kaldırın"
+                },
+                "MissingLanguage": {
+                    "name": "$~eksik dil",
+                    "explanation": "$~Bir dil eksik. Ekleyebilir misiniz?",
+                    "resolution": "$~Boş dil etiketini kaldırın."
+                },
+                "DuplicateLanguage": {
+                    "name": "$~yinelenen dil",
+                    "explanation": "$~' $code ' dilini iki kez kullandınız. Karma dil etiketlerinde her dil yalnızca bir kez listelenmelidir.",
+                    "resolution": "$~Yinelenen * $code * etiketini kaldırın"
+                },
+                "UnknownRegion": {
+                    "name": "$~bilinmeyen bölge",
+                    "explanation": "$~Bu bölgeyi tanımıyorum",
+                    "resolution": "$~Bu bölgeyi kaldır"
+                }
+            }
+        },
+        "Name": {
+            "name": "$~isim",
+            "description": "$~isim $name[$name|isimsiz]",
+            "emotion": "kind",
+            "doc": [
+                "$~Ben bir @value'ı tanımlarım ve değerlendirmesi zor olan ya da tekrar tekrar değerlendirmek istemediğin bir şeye kısa bir etiket vermenin yardımcı bir yoluyum.",
+                "@Bind bana ismimi şöyle verir:",
+                "\\merhaba: 5\\🪲",
+                "Ben her zaman yalnızca tek bir değeri temsil ederim ve bir kez ona sahip olunca, değişemem. Örneğin, bunu @Bind ile yapmayı denesen, biz şikayet ederdik.",
+                "\\merhaba: 5\nmerhaba2: 3\\🪲",
+                "Değerimi almak için tek yapman gereken, @Reference veya @PropertyReference'in ismi kullanmasını sağlamak. Burada, @Bind bana isim verir, sonra @Reference bana verilen değeri alır.",
+                "\\selam: 5\nselam\\",
+                "@Bind pek çok yerde görünebildiği için, ben de birçok yerde görünebilirim. Yukarıda bir @Block içindeydim, ama bir @FunctionDefinition içinde de olabilirim. İşte burada bir mesaja geçici olarak isim veriyorum:",
+                "\\ƒ söyle(mesaj•'') mesaj\\",
+                "Ben @FunctionDefinition'ın içinde tanımlanırım ve fonksiyon değerlendirmesini bitirir bitirmez, kaybolurum.",
+                "İsmimin hangi dilde olduğunu belirtmek için @Language kullanabilirsin. Bu, performansını başkalarıyla paylaşırken, programını okumak isteyenler için yardımcı olur."
+            ]
+        },
+        "Names": {
+            "name": "$~isim listesi",
+            "description": "$~isimler $names[$names|boş]",
+            "emotion": "kind",
+            "doc": [
+                "$~Ben bir @Name listesiyim; bir @value'e birden fazla isim vermek istediğinde, genellikle farklı @Language ile, işe yararım.",
+                "İsimler şununla ayrılır: \\,\\ simgeleri. Örneğin, işte @Bind bir değere birden çok @Name veriyor",
+                "\\merhaba: 'hoş geldin'\\🪲"
+            ],
+            "label": {
+                "names": "$~isimler"
+            }
+        },
+        "Row": {
+            "name": "$~sıra",
+            "description": "$~$#count[$count hücreli|$count hücreli] satır",
+            "emotion": "shy",
+            "doc": "$~@Table'da bir satırı temsil ediyorum. Muhtemelen @Table ile konuşmak en iyisi, onlar benim hakkımda her şeyi biliyorlar. Ben sadece etrafta oturup değerleri aynı çizgide tutuyorum :(",
+            "conflict": {
+                "InvalidRow": {
+                    "name": "$~geçersiz satır",
+                    "explanation": "$~Satırların ya tamamen değerlerden oluşması ya da tamamen @Bind içermesi gerekir.",
+                    "resolutionKeepPositional": "$~Adlandırılmış hücreleri silin, yalnızca konumlu hücreleri saklayın.",
+                    "resolutionUnwrapInputs": "$~Adlandırılmış hücrelerden adları kaldırın."
+                },
+                "MissingCell": {
+                    "name": "$~eksik kolon",
+                    "explanation": "$~$column sütununu bulamadım.",
+                    "resolution": "$~* $column * için bir yer tutucu hücre ekleyin."
+                },
+                "ExtraCell": {
+                    "name": "$~fazladan kolon",
+                    "explanation": "$~Tablo türüme bakıldığında, burada olmaması gereken fazladan bir sütunum.",
+                    "resolution": "$~Fazla hücreyi kaldırın"
+                },
+                "UnknownColumn": {
+                    "name": "$~bilinmeyen kolon ismi",
+                    "explanation": "$~Bu isimde bir köşe yazısı bilmiyorum.",
+                    "resolution": "$~* $name * olarak yeniden adlandırın."
+                },
+                "UnexpectedColumnBind": {
+                    "name": "$~bağlanmış satır yok",
+                    "explanation": "$~Ben bir değer olmalıyım, @Bind değil."
+                }
+            }
+        },
+        "Token": {
+            "name": "$~jeton",
+            "description": "$~$label$text[ $text|]",
+            "emotion": "neutral",
+            "doc": [
+                "$~Ben bir performansın mümkün olan en küçük parçasıyım; Şiirdeki tüm karakterlerin yapıldığı atomum. Beni @how buldunuz?",
+                "Ben, şiirdeki tüm karakterlerin yapıldığı temel maddeyim. Ben, koreografimizin atomik parçacığıyım."
+            ]
+        },
+        "TypeInputs": {
+            "name": "$~tip girdileri",
+            "description": "$~$#count[$count tip girişi|$count tip girişi]",
+            "emotion": "curious",
+            "doc": "$~@StructureDefinition veya @FunctionDefinition'daki @TypeVariables'ın yerini alan türlerin bir listesiyim. Herkesin ne tür girdiler alacağını bilmesine yardımcı oluyorum."
+        },
+        "TypeVariable": {
+            "name": "$~tip değişkeni",
+            "description": "$~tip değişkeni $name",
+            "emotion": "curious",
+            "doc": "$~Ben @FunctionDefinition ya da @StructureDefinition üzerinde bir gizem @type; ikisinden biri hesaplandığında @TypeInputs tarafından sağlanırım. @Set, @List ve @Map beni kullanır.",
+            "conflict": {
+                "DuplicateTypeVariable": {
+                    "name": "$~yinelenen tip değişkeni",
+                    "explanation": "$~Benim adım da $duplicate ile aynı.",
+                    "resolution": "$~Yinelenen tür değişkenini kaldırın."
+                }
+            },
+            "label": {
+                "type": "$~tip"
+            }
+        },
+        "TypeVariables": {
+            "name": "$~tip değişkenleri",
+            "description": "$~$#count[$count tip değişkeni|$count tip değişkeni]",
+            "emotion": "curious",
+            "doc": "$~Ben @TypeVariable'lardan oluşan bir listeyim."
+        },
+        "Markup": {
+            "name": "$~biçimli metin",
+            "description": "$~biçimli metin $#count[$count paragraf|$count paragraf]",
+            "emotion": "serious",
+            "doc": [
+                "$~Ben bir paragraf listesiyim ve @Doc içinde bulunan birçok @markup türünü kullanıyorum, örneğin @Words, @WebLink, @ConceptLink ve @Example.",
+                "Beni bir @Doc içinde ve @FormattedLiteral içinde bulabilirsin:",
+                "\\¶Ben *kalın* metin içeren bir dokümantasyonum. @Phrase gibi kavramlara başvurabilir, <web'deki şeylere@https://wordplay.dev> bağlantı verebilirim.¶\nİfadeetmek(\n\t`Ben bir @Phrase için biçimli metnim, *kalın*, /italik/ ve _altı çizili_ kullanıyorum`\n)\\"
+            ],
+            "label": {
+                "paragraphs": "$~paragraflar"
+            }
+        },
+        "Paragraph": {
+            "name": "$~paragraf",
+            "description": "$~paragraf $text",
+            "emotion": "serious",
+            "doc": [
+                "$~@Words, @ConceptLink, @WebLink ve @Example'dan oluşan, aralarında boşluk bulunan ve @Doc'un da bulunduğu bir seriyim.",
+                "Bana yazmanız gereken tek şey @Doc'a bir kaç kelime yazmak:",
+                "\\¶Ben bir belgedeki bir paragrafım.¶'bir paragraf'\\",
+                "Eğer birden fazla paragraf istiyorsanız, boş satırlar koymanız yeterli.",
+                "\\¶Paragraf 1.\n\nParagraf 2.\n\nParagraf 3.¶'üç paragraf'\\"
+            ]
+        },
+        "WebLink": {
+            "name": "$~bağlantı",
+            "description": "$~$url bağlantısı",
+            "emotion": "serious",
+            "doc": [
+                "$~Ben internetteki bir şeye bağlantım. Sadece bir açıklamaya ve bir URL'ye ihtiyacım var:",
+                "\\¶Ben bir <link@https://wordplay.dev>'in bir dokümanındayım¶\n'link örneği'\\",
+                "Eğer biri beni seçerse URL'ye yeni bir pencere açacağım."
+            ]
+        },
+        "ConceptLink": {
+            "name": "$~karakter",
+            "description": "$~$concept bağlantısı",
+            "emotion": "serious",
+            "doc": [
+                "$~Ben Verse karakterine bir bağlantıyım. Bir @Doc yazmak ve birimize atıfta bulunmak istediğinizde yardımcı olurum.",
+                "Örneğin, @Evaluate hakkında konuşmak ve ne kadar harika olduğunu anlatmak istediğinizi düşünün. Şöyle yazabilirsiniz:",
+                "\\¶Biliyor musun, @Evaluate gerçekten harika.¶'bak, bir karakter bağlantısı!'\\",
+                "Karakterlerin ayrıca kendilerine karşılık gelen Unicode numaraları vardır. Örneğin, @FunctionDefinition 192'dir. Herhangi bir Unicode karakterine @U/ yazıp numarasını ekleyerek atıfta bulunabilirsiniz ve o görünür:",
+                "\\`@U/192 çok güzel!`\\",
+                "Ve kendi karakterinizi oluşturursanız, onlara verdiğiniz isimle atıfta bulunabilirsiniz.",
+                "\\`@coolbeans/cat`\\",
+                "Ah... Sanırım o karakter yok, bu yüzden küçük bir kare görüyorsunuz. Ama olsaydı, burada görünürdü!"
+            ],
+            "kind": {
+                "codepoint": "$~Unicode karakteri $concept",
+                "ui": "$~$concept arayüz öğesine bir bağlantı",
+                "how": "$~$concept kullanım kılavuzuna bağlantı",
+                "character": "$~özel karakter $concept",
+                "tour": "$~$concept turuna giden bir bağlantı"
+            }
+        },
+        "Words": {
+            "name": "$~kelimeler",
+            "description": "$~kelimeler $text",
+            "emotion": "serious",
+            "doc": [
+                "$~@Doc'ta istediğiniz herhangi bir kelimeyi kullanabilirsiniz. Örneğin:",
+                "\\¶Güç seninle olsun.¶\n'sadece birkaç kelime!'\\",
+                "Bazen, @Doc'un /as/ kelimeleri kullandığı özel karakterleri kullanmak isteyebilirsiniz. Örneğin:",
+                "\\¶Arkadaşlarım @@, //, **, || ve diğer sembolleri kullanıyorlar.¶\n'özel karakterler kullanarak!'\\",
+                "Eğer sadece bu özel karakterleri tekrarlarsanız, özel anlamları yerine karakterleri elde edersiniz."
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$~desteklenmeyen yazı tipi biçimi",
+                    "explanation": "$~Arkadaşım * $face * $format olmayı bilmiyor.",
+                    "resolution": "$~Biçimlendirmeyi kaldır"
+                }
+            }
+        },
+        "Example": {
+            "name": "$~örnek",
+            "description": "$~kod örneği $code",
+            "emotion": "serious",
+            "doc": [
+                "$~Bir @Doc içinde örnek bir @code parçası tutarım, şöyle:",
+                "\\¶İşte bir toplama örneği: \\1 + 2\\¶\n3 + 4\\",
+                "Nasıl rehberlerinde Örnekler kullanıyorsan, bir Örneği öne çıkan olarak etiketleyebilirsin.",
+                "\\¶İşte vurgulanmış bir örnek: \\1 + 2\\⭐¶\n3 + 4\\",
+                "Öne çıkan örnek, @how alanında ve @guide'de önizleme olarak gösterilir."
+            ]
+        },
+        "Mention": {
+            "name": "$~değinmek",
+            "description": "$~$name bahsi",
+            "emotion": "serious",
+            "doc": [
+                "$~Ben ya bir terime \\¶@project¶\\ ya da dinamik bir girdiye \\¶$name¶\\ yapılan bir referansım.",
+                "Ama bu çoğunlukla dahili bir @property, bu yüzden bunu bilmene gerek yok."
+            ]
+        },
+        "Branch": {
+            "name": "$~dal",
+            "description": "$~$condition üzerinde biçimli metin seçimi",
+            "emotion": "serious",
+            "doc": [
+                "$~Açıklama giriş değerinin tanımlanmış veya doğru olmasına göre iki açıklama segmenti arasında seçim yapmanın bir yoluyum.",
+                "Bu çoğunlukla dahili bir @property olduğundan bunu bilmenize gerek yok."
+            ]
+        },
+        "BinaryEvaluate": {
+            "name": "$~ikili değerlendirme",
+            "description": "$~$operator ve $left üzerinde $right işlemi",
+            "emotion": "insecure",
+            "doc": [
+                "$~Ben @Evaluate'im, ancak daha basit bir biçimde, iki girdi alan bir @FunctionDefinition kullanmak istediğinizde faydalı olur.",
+                "Örneğin, iki sayıyı toplamak için @Evaluate'i şu şekilde kullanabilirsiniz:",
+                "\\1.+(1)\\",
+                "Bu biraz komik görünmüyor mu? Yanlış değil: sadece 1'deki add fonksiyonunu al ve sonra değerlendir diyor.",
+                "Ama @BinaryEvaluate kullanmak çok daha kolay",
+                "\\1 + 1\\",
+                "Bu, temelde aynı şey olmasına rağmen, her şeyi biraz daha düzenli hale getiriyor.",
+                "Dikkat etmeniz gereken tek bir şey var: Bu formdayken, soldan sağa doğru değerlendiriyorum. Matematikte işlem sırası gibi şeylere alışkınsanız bu kafa karıştırıcı olabilir.",
+                "Bu, beklemediğiniz bir şekilde değerlendirildiği anlamına geliyor:",
+                "\\1 + 2 × 3 + 4\\🪲",
+                "Matematikte önce çarpma, sonra toplama gelir ve sonuç \\11\\ olur. Ama okuma sırasına göre değerlendirme yaptığım için sonuç \\13\\ olur."
+            ],
+            "right": "$~giriş",
+            "start": "$~Öncelikle $left'i değerlendirelim.",
+            "finish": "$~Bak, $value kazanç sağladım!",
+            "conflict": {
+                "OrderOfOperations": {
+                    "name": "$~belirsiz sıralama",
+                    "explanation": "$~Ben soldan sağa doğru değerlendiririm, ama matematikte genellikle ^ önce ×  ÷ önce hesaplanır, ve × ÷ de + − önce gelir. Bu sıraya PEMDAS denir. Bunu nasıl değerlendirmemi istediğini seç.",
+                    "resolutionPEMDAS": "$~PEMDAS matematiksel sıralamasını uygulayın: $higher $lower önce değerlendirin.",
+                    "resolutionReading": "$~Okuma sırasına göre devam edin: önce $lower sonra $higher değerlendirin.",
+                    "resolutionWrap": "$~Sıralamayı açıkça belirtmek için parantez ekleyin."
+                }
+            },
+            "label": {
+                "operator": "$~operatör"
+            }
+        },
+        "Bind": {
+            "name": "$~bağlamak",
+            "description": "$~$name[$name|isimsiz]$value[ değerini $value ile|] bağla",
+            "emotion": "excited",
+            "doc": [
+                "$~Ben *değerlere* isim veririm.",
+                "İşte böyle!",
+                "\\pi: 3.1415926\\🪲",
+                "Ben @FunctionDefinition ve @StructureDefinition için girdilere isim veririm, @Block içindeki değerlere isim veririm. Her şeye isim veririm!",
+                "Ama bir değere *birçok isim* verebileceğini biliyor muydun?",
+                "Bunu sana anlatmak için çok heyecanlıyım! Bir @value, birçok @Names. Örneğin:",
+                "\\joe: 5\\🪲",
+                "Orada ne yaptığımı gördün mü?",
+                "Bir değer, üç isim.",
+                "O beşe bu isimlerden *herhangi* biriyle başvurabilirsin.",
+                "Bu özellikle birçok dilde isim vermek istediğinde işe yarar:",
+                "\\joe: 5\\🪲",
+                "Orada ne yaptığımı gördün mü? Bir değere üç isim, sadece farklı dillerde!",
+                "Tamam, son bir sırrım var.",
+                "Bir ismin ne tür bir değere sahip olması gerektiğini söylemek için @Is ile çalışabileceğimi biliyor muydun? Ve eğer o değere sahip değilse, sana söyleyeceğimi?",
+                "İşte böyle:",
+                "\\büyüksayı•#: 'bir zilyon'\\🪲",
+                "Bak, dedim ki \\bignumber\\ bir sayı olmalı, ama o bir metin, ve bunlar uyumlu değil, o yüzden BUMM!",
+                "Eğer uyuşmuyorlarsa sana haber veririm.",
+                "Bazen bir şeyin ne tür veri olduğunu bana söylemek *zorunda* kalabilirsin, çünkü kendim bulamam. Bu genellikle @FunctionDefinition içinde olur.",
+                "Örneğin, burada, @FunctionDefinition \\a\\ ve \\b\\ değerlerinin ne tür değerlere sahip olduğunu bilmiyor, çünkü onlara söylemedim.",
+                "\\ƒ topla(a b) a + b\\🪲",
+                "Ama bunu @Is ekleyerek değiştirebiliriz, ve şimdi @FunctionDefinition onların sayı olduğunu biliyor:",
+                "\\ƒ toplam(a•# b•#) a + b\\"
+            ],
+            "start": "$~Bakalım $value'dan ne gibi bir değer elde edeceğiz!",
+            "finish": "$~Harika, $value kazandım! Adını da $name koyalım.",
+            "conflict": {
+                "DuplicateName": {
+                    "conflict": {
+                        "name": "$~yinelenen isim",
+                        "explanation": "$~Birinin adı $shadowed, o yüzden ben bu adı kullanamam."
+                    },
+                    "resolution": "$~Tekrar eden isimler var, birini kaldırmak ister misiniz?"
+                },
+                "DuplicateShare": {
+                    "name": "$~yinelenen paylaşım",
+                    "explanation": "$~Benim adım da $duplicate ile aynı. Bu da neyi paylaştığımızı belirsizleştiriyor.",
+                    "resolution": "$~Bu yinelenen paylaşımı kaldır"
+                },
+                "IncompatibleType": {
+                    "name": "$~uyumsuz tip",
+                    "explanation": "$~Ben normalde $expected tipinde olmam gerekirken, $given tipindeyim.",
+                    "resolution": "$~$expected gerekli olduğu için, onu $expected tipine dönüştür",
+                    "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
+                    "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",
+                    "resolutionGuard": "$~Öncelikle bir tür kontrolüyle bunun bir $expected olup olmadığını doğrulayın, çünkü $expected diğer olası türler olamaz.",
+                    "resolutionDeclaration": "$~$expected değişkeninin sabit değerlerinin korunması gerektiğinden, türü açıkça belirtin.",
+                    "resolutionWrap": "$~$expected bir değerler koleksiyonuna ihtiyaç duyduğundan, onu bir liste, küme veya haritaya koyun.",
+                    "resolutionStructure": "$~Yuvanın $ $expected $expected içine sarın.",
+                    "resolutionDefault": "$~Bağlantıya bir başlangıç değeri verin, çünkü $expected burada eksik olamaz.",
+                    "resolutionWiden": "$~Bu bağlama için değerin türüne izin verin, çünkü $expected aslında depolanan şey için çok dar kapsamlıdır.",
+                    "resolutionReorder": "$~Girişleri yer değiştirin, çünkü türleri diğer sırada daha iyi uyuyor — $expected diğer yuvaya ait.",
+                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin.",
+                    "explanationDivideByZero": "$~Bu, $source sıfıra bölünebileceğinden ve burada bir sayı gerektiğinden ø olabilir."
+                },
+                "MisplacedShare": {
+                    "name": "$~yanlış yerleştirilmiş paylaşım",
+                    "explanation": "$~Bunu yalnızca bir kaynağın en üstünde paylaşabilirim, ya da — bir değer veya bir fonksiyonsa — doğrudan bir @StructureDefinition içinde.",
+                    "resolution": "$~*↑* işaretini kaldırın"
+                },
+                "MissingShareLanguages": {
+                    "name": "$~eksik dil",
+                    "explanation": "$~Bunu paylaşmak istiyorsanız, başkalarının okuyup okuyamayacağını anlaması için hangi dilde olduğunu belirtmeniz gerekiyor!",
+                    "resolution": "$~*↑* işaretini kaldırın"
+                },
+                "RequiredAfterOptional": {
+                    "name": "$~isteğe bağlıdan sonra gerekli girdi",
+                    "explanation": "$~Burada olamam, benden önce isteğe bağlı bir @Bind işlemi var.",
+                    "resolution": "$~Gerekli girdileri isteğe bağlı girdilerden önce taşıyın"
+                },
+                "UnexpectedEtc": {
+                    "name": "$~girdi listesinden sonra beklenmeyen girdi",
+                    "explanation": "$~@FunctionDefinition'da yalnızca değişken uzunlukta olabilirim.",
+                    "resolution": "$~*…*'ı kaldırın"
+                },
+                "UnusedBind": {
+                    "name": "$~kullanılmayan bağlama",
+                    "explanation": "$~Benim adım $name, ama kimse beni kullanmıyor. Belki de bana ihtiyaç yok?",
+                    "resolution": "$~Bu bağlantıyı sil"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~bir anahtar kelimeyi gölgeliyor",
+                    "explanation": "$~Bu isim aynı zamanda $keyword anahtar kelimesi olduğundan, burada bir isim olarak okuyacağım; $keyword anahtar kelimesi başka yerlerde de çalışmaya devam ediyor."
+                }
+            },
+            "label": {
+                "value": "$~değer",
+                "names": "$~isimler",
+                "type": "$~tip"
+            }
+        },
+        "Block": {
+            "name": "$~engellemek",
+            "description": "$~$#count[$count ifadeli|$count ifadeli] blok",
+            "emotion": "shy",
+            "doc": [
+                "$~Ben şeyleri değerlendirmek için küçük, sessiz, özel bir alan yaratırım. Merhaba!",
+                "İşte böyle:",
+                "\\(1 - 1) + 2\\",
+                "Bu, değerlendirme sırasını netleştirmeye yardım eder.",
+                "@Bind da yardım eder.",
+                "\\(\n\tsay: 10\n\tsay ^ say)\\",
+                "@Bind @how \\count\\ yaptı gördün mü? O sadece içimde isimlendirilmiştir. Yani bu işe yaramaz:",
+                "\\(\n\tsay: 10\n\tsay ^ say) + count\\🪲",
+                "Çünkü sayaç sadece içimde isimlendirilmişti.",
+                "Bana bir @expression verirsen, sana sadece onun @value değerini geri veririm:",
+                "\\(1 + 1)\\",
+                "Bana birden fazla verirsen, onları sırayla bir listede toplarım:",
+                "\\(1 2 3 4 5)\\",
+                "@Bind ifadeleri yan etkidir, değer değildir, o yüzden listede görünmezler:",
+                "\\(\n\ta: 1\n\tb: 2\n\ta + b\n\ta × b\n)\\",
+                "Bu şunu verir \\[3 2]\\: sadece @Bind olmayan iki ifadeden gelen değerler."
+            ],
+            "start": "$~İlk ifade",
+            "finish": "$~Tamam, $value para kazandım.",
+            "conflict": {
+                "ExpectedEndingExpression": {
+                    "name": "$~eksik ifade",
+                    "explanation": "Geri döndürebileceğim bir değerim olabilmesi için, @Bind olmayan en az bir ifadeye ihtiyacım var.",
+                    "resolution": "$~Son bir ifade ekleyin"
+                }
+            },
+            "label": {
+                "statements": "$~ifadeler"
+            }
+        },
+        "BooleanLiteral": {
+            "name": "$~mantıksal sabit",
+            "description": "$~$value[doğru|yanlış]",
+            "emotion": "precise",
+            "doc": "$~Ben ya \\⊤\\ ya da \\⊥\\'yim. Güzel mantığımız hakkında daha fazla bilgi edinmek için @Boolean'a bakın.",
+            "start": "$~$value!"
+        },
+        "Borrow": {
+            "name": "$~borçalmak",
+            "description": "$~ödünç al $name[$name|isimsiz]",
+            "emotion": "excited",
+            "doc": [
+                "$~Performansındaki diğer @Source tarafından paylaşılan @Bind'leri @borrow ederim — sadece isimlerini kullan, ben de onların ismini ve @value'ini getiririm.",
+                "Şunu yaz \\↓\\ ve ardından diğer @Source'ın ismini yaz. O @Source neyi paylaştığını şununla işaretlemiş olmalı \\↑\\, şunun gibi \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
+            "start": "$~$name'tan $source ödünç alınıyor",
+            "conflict": {
+                "UnknownBorrow": {
+                    "name": "$~bilinmeyen ödünç alma",
+                    "explanation": "$~Bu isimde bir kaynak bilmiyorum",
+                    "resolution": "$~Bu ödünç almayı kaldır"
+                },
+                "BorrowCycle": {
+                    "name": "$~kendine gönderme yapan ödünç alma",
+                    "explanation": "$~Bu, $borrow'e bağlıdır, $borrow de bu @Source'a bağlıdır, bu nedenle program değerlendirilemez.",
+                    "resolution": "$~Bu ödünç almayı kaldırarak döngüyü kırın."
+                },
+                "MissingKitVersion": {
+                    "name": "$~sürüm eksik",
+                    "explanation": "$~bir kit, sahip olduğu her sürümü saklar, bu yüzden $kit'in hangi sürümünü istediğini bilmem gerekiyor",
+                    "resolution": "$~Bu ödünç almayı kaldır"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~bir kitin iki sürümü",
+                    "explanation": "$~aynı anda yalnızca bir kit sürümü kullanabilirim, ama bu @Source $kit'ten iki sürüm istiyor",
+                    "resolution": "$~Bu ödünç almayı kaldır"
+                },
+                "UnknownKit": {
+                    "name": "$~bilinmeyen kit",
+                    "explanation": "$~$kit'i bulamıyorum",
+                    "resolution": "$~Bu ödünç almayı kaldır"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~yinelenen ödünç alma",
+                    "explanation": "$~Yukarıda ödünç alınan bir şey, $name'in getirdiği bir ismi zaten kullanıyor, bu yüzden hangisini kastettiğini anlayamıyorum",
+                    "resolution": "$~Bunun yerine $name olarak ödünç al, böylece isimleri karışıklığa yol açmaz"
+                },
+                "UnavailableKit": {
+                    "name": "$~kullanılamayan kit",
+                    "explanation": "$~$kit var, ama seninle paylaşılmamış",
+                    "resolution": "$~Bu ödünç almayı kaldır"
+                },
+                "KitCannotBorrow": {
+                    "name": "$~kit ödünç alamaz",
+                    "explanation": "$~bu kaynak bir kit olarak yayımlanır, ve bir kit okuyucularının aldığı tek dosyadır — ödünç aldığın şeyi kopyalamak yerine bu kaynağın içine kopyala",
+                    "resolution": "$~Ödünç almayı kaldır"
+                }
+            },
+            "exception": {
+                "CycleException": {
+                    "description": "$~ödünç alma döngüsü",
+                    "explanation": "$~$borrow kendi kendine bağlıdır"
+                }
+            },
+            "label": {
+                "source": "$~@Source",
+                "bind": "$~isim",
+                "version": "$~versiyon"
+            }
+        },
+        "Changed": {
+            "name": "$~değişti",
+            "description": "$~$stream üzerinde değişiklik kontrolü",
+            "emotion": "serious",
+            "doc": [
+                "$~Bir akışın @Program'ın yeniden değerlendirilmesine neden olup olmadığını kontrol ediyorum ve bir @Boolean oluşturuyorum. Bunun gibi",
+                "\\∆ Zaman()\\",
+                "Sadece bir akışın değişmesi durumunda bir şeyin değişmesini istediğinizde gerçekten yardımcı oluyorum.",
+                "İşte bu kadar."
+            ],
+            "start": "$~Bakalım $stream değişmiş mi…",
+            "label": {
+                "stream": "$~aktarım"
+            }
+        },
+        "Conditional": {
+            "name": "$~şartlı",
+            "description": "$~$condition koşuluna bağlı",
+            "emotion": "curious",
+            "doc": [
+                "$~Sana bir @value mı yoksa başka bir @condition mı vereyim, buna bağlı olarak mı karar vereyim? Böyle mi?",
+                "\\sayı: -100\nsayı < 0 ? 'negatif' 'pozitif'\\",
+                "Ama @how karar verdiğimizi hiç düşündün mü?",
+                "Kararların sadece evet ya da hayır olmaktan daha ince ayrıntılı olması gerektiği gibi görünmüyor mu? Kararlar sadece şunlar arasında seçim yapmaktan mı ibaret: \\⊤\\ ve \\⊥\\ arasında mı hepsi bu?",
+                "Eğer yapabileceğimiz tek karar türü bunlarsa, dünya hakkında önemli bir bağlamı kaçıracağımızdan endişelenmiyor musun?",
+                "Bir şey daha yapıyorum ve bunun için her zaman takdir görmüyorum. @condition bir değerin /ne tür/ bir değer olduğunu sorduğunda, sadece evet ya da hayır demiyorum. Cevabı her bir seçimimin içinde hatırlıyorum.",
+                "\\boyut•#|'': 5\nboyut•# ? boyut + 1 'çok küçük'\\",
+                "Tek başına, o değer bir @Number ya da bir @Text olabilir ve ona ekleme yapmak bir @conflict olurdu, çünkü bunlar çok farklı yollarla eklenir. Ama /evet/ seçimimin içinde bunun bir @Number olup olmadığını sormuşuzdur, yani orada odur. /hayır/ seçimimin içinde ise @Text olur.",
+                "Nasıl sorduğun önemli değil. Bir tip kontrolü, belirli bir değere karşı bir karşılaştırma, eksik bir değer kontrolü ve bir isim altında kaydettiğin bir kontrol bana aynı şeyi söyler. Ve @Boolean/and, @Boolean/or ve @Boolean/not bunları beklediğin şekilde birleştirir.",
+                "Sana söyleyemeyeceğim iki şey var. Birden fazla çevirisi olan bir @Text ile karşılaştırma yaparsan, hiçbir şey öğrenemem, çünkü hangi çeviriyi aldığın okuyanın kim olduğuna bağlıdır."
+            ],
+            "start": "$~Bakalım $condition doğru mu?",
+            "else": "$~$jumping[kodun üzerinden atlama | kodun üzerinden atlamama]",
+            "afterthen": "$~evet bitti, hayırı geçelim mi?",
+            "finish": "$~Sanırım bu $value demek?",
+            "conflict": {
+                "ExpectedBooleanCondition": {
+                    "name": "$~mantıksal koşul bekleniyordu",
+                    "explanation": "$~Karar vermek için @Boolean'a ihtiyacım var, ancak bunun yerine $type aldım.",
+                    "resolution": "$~$expected gerekli olduğundan, onu $expected expected'e dönüştürün.",
+                    "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
+                    "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",
+                    "resolutionGuard": "$~Öncelikle bir tür kontrolüyle bunun bir $expected olup olmadığını doğrulayın, çünkü $expected diğer olası türler olamaz.",
+                    "resolutionDeclaration": "$~$expected değişkeninin sabit değerlerinin korunması gerektiğinden, türü açıkça belirtin.",
+                    "resolutionWrap": "$~$expected bir değerler koleksiyonuna ihtiyaç duyduğundan, onu bir liste, küme veya haritaya koyun.",
+                    "resolutionStructure": "$~Yuvanın $ $expected $expected içine sarın.",
+                    "resolutionDefault": "$~Bağlantıya bir başlangıç değeri verin, çünkü $expected burada eksik olamaz.",
+                    "resolutionWiden": "$~Bu bağlama için değerin türüne izin verin, çünkü $expected aslında depolanan şey için çok dar kapsamlıdır.",
+                    "resolutionReorder": "$~Girişleri yer değiştirin, çünkü türleri diğer sırada daha iyi uyuyor — $expected diğer yuvaya ait.",
+                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin."
+                }
+            },
+            "label": {
+                "condition": "$~durum",
+                "yes": "$~Evet",
+                "no": "$~HAYIR"
+            }
+        },
+        "ConversionDefinition": {
+            "name": "$~dönüştürme tanımı",
+            "description": "$~$input tipinden $output tipine dönüşüm",
+            "emotion": "excited",
+            "doc": [
+                "$~Dostum, ben bir @type türünden başka bir türe dönüşümler tanımlarım! Ben @Block içine giderim, aşağı yukarı böyle:",
+                "\\→ #kitty #cat ⬚ ÷ 2\n6kitty → #cat\\",
+                "Kedicikleri kedilere @how çevirdiğimi gördün mü? Süper!",
+                "Orada o \\⬚\\ ne yapıyor diye merak ediyor olabilirsin. O, dönüştürülen @value değerini temsil eder. Onu kullanırım çünkü değerin başka türlü bir ismi yoktur."
+            ],
+            "start": "$~Harika, yeni bir dönüşüm!",
+            "conflict": {
+                "MisplacedConversion": {
+                    "name": "$~yanlış yerleştirilmiş dönüştürme",
+                    "explanation": "$~Vay canına, burada olamam, sadece @Block'tayım.",
+                    "resolution": "$~Bu dönüşümü kaldır"
+                }
+            },
+            "label": {
+                "input": "$~giriş türü",
+                "output": "$~çıktı türü",
+                "expression": "$~ifade"
+            }
+        },
+        "Convert": {
+            "name": "$~dönüştürmek",
+            "description": "$~$expression ifadesini $type tipine dönüştür",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Değerleri bir @type türünden başka birine çeviririm. Hey — şuna bak:",
+                "\\1 → \"\"\\",
+                "\\5s → #ms\\",
+                "\\'merhaba' → []\\",
+                "Bunları birbirine bile zincirleyebilirsin:",
+                "\\'merhaba' → [] → {}\\",
+                "Değerlerin önceden tanımlı bir @ConversionDefinition kümesi vardır, ama yeni bir @value tipi için bir @StructureDefinition yaparsan, @ConversionDefinition ile kendi özelliklerini tanımlayabilirsin."
+            ],
+            "start": "$~$expression ifadesinden o değeri alın!",
+            "finish": "$~Harika, $value kazandım!",
+            "conflict": {
+                "UnknownConversion": {
+                    "name": "$~bilinmeyen dönüştürme",
+                    "explanation": "$~$expected $given dönüştürmenin bir yolunu bulamadık.",
+                    "resolution": "$~Dönüştürmeyi kaldır"
+                }
+            },
+            "exception": {
+                "ConversionException": {
+                    "description": "$~imkansız dönüşüm",
+                    "explanation": "$~$from'dan $to'ya nasıl dönüştüreceğimi bilmiyorum."
+                }
+            }
+        },
+        "Delete": {
+            "name": "$~silmek",
+            "description": "$~$table ile eşleşen satırları $query tablosundan sil",
+            "emotion": "angry",
+            "doc": [
+                "$~Bir @condition ile eşleşen @Table satırlarını kaldırırım. Bazen bir tabloda ÇOK FAZLA ŞEY OLUR!",
+                "Mesela bir oyunda oyuncuların olsa ve biri ayrılsa, sadece OYUNCU DEFOL, TABLOMDAN ÇIK demek istersin!",
+                "\\oyuncular: ⎡isim•'' takım•'' puanlar•#⎦\n\t⎡'jen' 'kırmızı' 8⎦\n\t⎡'joan' 'mavi' 11⎦\n\t⎡'jeff' 'kırmızı' 9⎦\n\t⎡'janet' 'mavi' 7⎦\noyuncular ⎡- isim = 'jeff'\\",
+                "Oh, Jeff gitti. GÜLE GÜLE JEFF. Şunu unutma ki ben özgün tabloyu değiştirmem, JEFF olmadan yeni bir tane yaparım. Nereye gideceğine sen karar verirsin."
+            ],
+            "start": "$~Önce masayı alalım",
+            "finish": "$~Eşleşen satırlar olmadan yeni bir tablo oluşturdum!"
+        },
+        "DocumentedExpression": {
+            "name": "$~açıklanmış ifade",
+            "description": "$~dokümante edilmiş $expression",
+            "emotion": "eager",
+            "doc": [
+                "$~Ben herhangi bir @expression'yım, ama bir @Doc ile!",
+                "Beni yapmak için bir ifadeden önce bir @Doc koyman yeter, ve beni elde edersin:",
+                "\\çiftartı: 1\n(2 × çiftartı) +\n\t¶Hadi bunu biraz daha büyütelim¶\n\t1\\",
+                "Bir programın belirli bir kısmına yorum yapmak için işe yararım.",
+                "@Doc içine 👀 koyarsan, ifadeyi de vurgulayabilirim:",
+                "\\¶Bana bak! 👀¶\n1 + 1\\"
+            ],
+            "start": "$~İfadeyi değerlendirelim"
+        },
+        "Evaluate": {
+            "name": "$~değerlendirmek",
+            "description": "$~değerlendir $name[$name|fonksiyon]$first[ $first|]",
+            "emotion": "shy",
+            "doc": [
+                "$~En sevdiğim @FunctionDefinition değerlendiriyorum, ona girdiler veriyorum ve adımlarını izliyorum. Merhaba! İşte böyle:",
+                "\\ƒ selamlama(mesaj•'')\n\tselamlama('kedicik')\\🪲",
+                "Fonksiyonlar her yerden gelebilir. Örneğin, @Text fonksiyonlara sahiptir. İşte böyle:",
+                "\\'kedicik'.uzunluk()\\",
+                "Bir fonksiyonun tek bir simgeden oluşan bir ismi varsa, beni bir @BinaryEvaluate olarak yazabilirsin.",
+                "\\'kedicik' ⊆ 'cik'\\",
+                "Bu, şununla aynı şeyi yapar:",
+                "\\'kedicik'.sahipolmak('cik')\\",
+                "Tabii ki, @FunctionDefinition olmadan hiçbir şey değilim. Tek yaptığım onlara girdiler vermek ve sonra adımlarını izlemek.",
+                "Aslında kendime ait bazı becerilerim de var. Örneğin, bir @FunctionDefinition için bir girdi @Boolean ise, ona bir @value vermek yerine, açmak için ismini tek başına yazabilirsin."
+            ],
+            "start": "$~Önce girdileri değerlendirelim",
+            "evaluate": "$~şimdi fonksiyonu değerlendirelim",
+            "finish": "$~$value bir değerlendirme yaptım.",
+            "conflict": {
+                "IncompatibleInput": {
+                    "name": "$~uyumsuz girdi",
+                    "explanation": "$~$expected bekliyordum, ancak $given aldım.",
+                    "resolution": "$~$expected gerekli olduğu için, onu $expected tipine dönüştür",
+                    "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
+                    "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",
+                    "resolutionGuard": "$~Öncelikle bir tür kontrolüyle bunun bir $expected olup olmadığını doğrulayın, çünkü $expected diğer olası türler olamaz.",
+                    "resolutionDeclaration": "$~$expected değişkeninin sabit değerlerinin korunması gerektiğinden, türü açıkça belirtin.",
+                    "resolutionWrap": "$~$expected bir değerler koleksiyonuna ihtiyaç duyduğundan, onu bir liste, küme veya haritaya koyun.",
+                    "resolutionStructure": "$~Yuvanın $ $expected $expected içine sarın.",
+                    "resolutionDefault": "$~Bağlantıya bir başlangıç değeri verin, çünkü $expected burada eksik olamaz.",
+                    "resolutionWiden": "$~Bu bağlama için değerin türüne izin verin, çünkü $expected aslında depolanan şey için çok dar kapsamlıdır.",
+                    "resolutionReorder": "$~Girişleri yer değiştirin, çünkü türleri diğer sırada daha iyi uyuyor — $expected diğer yuvaya ait.",
+                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin.",
+                    "explanationDivideByZero": "$~Bu, $source sıfıra bölünebileceğinden ve burada bir sayı gerektiğinden ø olabilir."
+                },
+                "UnexpectedTypeInput": {
+                    "name": "$~beklenmeyen tip girdisi",
+                    "explanation": "$~Ben fazladan, beklenmedik bir girdi türüyüm.",
+                    "resolution": "$~Bu türdeki girişi kaldırın"
+                },
+                "MissingInput": {
+                    "name": "$~eksik girdi",
+                    "explanation": "$~$name girdisi olmadan $input'i değerlendiremiyorum :(",
+                    "resolutionAddInput": "$~Eksik olan $input varsayılan değeriyle ekleyin.",
+                    "resolutionPlaceholder": "$~Eksik olan $input değişkenini yer tutucu olarak ekleyin, ardından otomatik tamamlama menüsünden bir değer seçin."
+                },
+                "NotInstantiable": {
+                    "name": "$~eksik yapı",
+                    "explanation": "$~Bu @StructureDefinition'ı oluşturamıyorum, çünkü uygulanmamış fonksiyonları var.",
+                    "resolution": "$~Eksik işlevlerin iskeletini oluşturun."
+                },
+                "UnexpectedInput": {
+                    "name": "$~beklenmeyen girdi",
+                    "explanation": "$~Ben beklenmedik bir girdiyim.",
+                    "resolution": "$~Bu girişi kaldır"
+                },
+                "UnknownInput": {
+                    "name": "$~bilinmeyen girdi",
+                    "explanation": "$~Bu *$name* fonksiyonu benim ismimi içeren bir girdi beklemiyor.",
+                    "resolution": "$~Bu girdiyi * $name * olarak yeniden adlandırın."
+                },
+                "InputListMustBeLast": {
+                    "name": "$~fazladan girdiler en sonda değil",
+                    "explanation": "$~Giriş listesi en sonda olmalıdır.",
+                    "resolution": "$~Liste girişini sona taşı"
+                },
+                "SeparatedEvaluate": {
+                    "name": "$~belirsiz değerlendirme",
+                    "explanation": "$~$name, değerlendirmeye çalıştığınız $structure[$structure|@FunctionDefinition] adlı bir yapının adı mı? @Evaluate olduğunu ve ayrı bir @Block olmadığını anlamam için benden sonraki boşluğu kaldırmayı deneyin.",
+                    "resolution": "$~* $name * ile girdileri arasındaki boşluğu kapatın."
+                },
+                "UnknownTimeZone": {
+                    "name": "$~bilinmeyen saat dilimi",
+                    "explanation": "$~*$zone* adında bir saat dilimi bilmiyorum. Saat dilimleri bölgelerin ve şehirlerin adını taşır, örneğin \\'America/New_York'\\. Bildiğin bir şehri yazmayı dene, ben de bir tane önereyim!",
+                    "resolution": "$~Onu $zone şehrinin saat dilimi olan *$city* olarak değiştir"
+                }
+            },
+            "exception": {
+                "FunctionException": {
+                    "description": "$~bilinmeyen fonksiyon",
+                    "explanation": "$~aman Tanrım, $name $scope[$scope|bu @Block]'ta bir fonksiyon değil!"
+                }
+            },
+            "label": {
+                "function": "$~işlev",
+                "types": "$~türleri",
+                "inputs": "$~giriş"
+            }
+        },
+        "Input": {
+            "name": "$~Giriş",
+            "description": "$~girdi $name, $type",
+            "emotion": "serious",
+            "doc": [
+                "$~@Evaluate'e verilen bir girdiyim. Adım, değerlendirilen @FunctionDefinition veya @StructureDefinition'daki girdinin adına karşılık gelir.",
+                "Sadece belirli bir girdiyi geçersiz kılmak istediğiniz, ancak diğer her şeyi vermek istemediğiniz, birçok varsayılan değere sahip fonksiyonlarda yardımcı oluyorum.",
+                "Örneğin, @Phrase stilini kontrol etmek için birçok varsayılan değere sahiptir. Diyelim ki biraz @Text ve bir @Color vermek istediniz, ancak giriş listesinde başka hiçbir şey vermek istemediniz. Bunu yapmak için beni kullanabilirsiniz:",
+                "\\Phrase('Ben morum!' renk: Color(50% 52 300°))\\"
+            ],
+            "start": "$~Değerimi ölçelim."
+        },
+        "ExpressionPlaceholder": {
+            "name": "$~yertutucu",
+            "description": "$~$type[$type|bir değer|] için yer tutucu",
+            "emotion": "scared",
+            "doc": [
+                "$~Ben bir *@expression*yim, ama gerçek bir ifade değilim... Sadece birinin yerini alıyorum.",
+                "Eğer henüz ne yazacağınızı bilmiyorsanız, sorun değil. Şöyle:",
+                "\\1 + _\\🪲",
+                "Ne ekliyoruz? Bilmiyorum. Sen söyle.",
+                "Ya da biri @Evaluate ile bir fonksiyonu değerlendiriyorsa, ben fonksiyonun yerine geçebilirim",
+                "\\_(1 2 3)\\🪲",
+                "@Stage olmayı sevmiyorum!"
+            ],
+            "start": "$~Burada ne yapacağımı bilmiyorum. Bana bilgi verebilir misiniz?",
+            "conflict": {
+                "Placeholder": {
+                    "name": "$~yertutucu",
+                    "explanation": "$~Beni doldurabilir misin? Ben sadece bir yer tutucuyum.",
+                    "resolution": "$~* $candidate * ile değiştirin"
+                }
+            },
+            "exception": {
+                "UnimplementedException": {
+                    "description": "$~uygulanmamış",
+                    "explanation": "$~Burada ne yapacağımı bilmiyorum. Bana bilgi verebilir misiniz?"
+                }
+            },
+            "label": {
+                "placeholder": "$~ifade"
+            }
+        },
+        "FunctionDefinition": {
+            "name": "$~işlev",
+            "description": "$~fonksiyon $name",
+            "emotion": "kind",
+            "doc": [
+                "$~Ben bazı girdiler alırım, sonra onları kullanarak bir @expression değerlendiririm, ve bir çıktı üretirim. Yine merhaba!",
+                "İşte basit bir örnek:",
+                "\\ƒ tekrarla(mesaj•'') mesaj × 5\ntekrarla('merhaba')\\",
+                "O fonksiyon bir girdi alır, \\message\\, ve mesajı beş kez tekrarlamak için @Text.repeat fonksiyonunu kullanır.",
+                "Bir şeyi tekrar tekrar, ama farklı girdilerle değerlendirmek istersen gerçekten çok yardımcı olurum!",
+                "Başka birçok küçük numaram da var. Örneğin, bir isme sahip olmam gerekmez. Burada, doğrudan bir @value olarak @Evaluate'e gidiyorum.",
+                "\\(ƒ(mesaj•'') mesaj × 5)('merhaba')\\",
+                "Ya da, bir girdi isminden sonra \\…\\ karakterini kullanarak, herhangi bir sayıda girdi alan bir fonksiyon burada.",
+                "\\ƒ evet(mesajlar…•'') mesajlar.olmadan('hayır')\nevet('evet' 'evet' 'hayır' 'evet' 'hayır')\\",
+                "Tüm 'hayır'ları alıp onlardan @how kurtulduğunu gördün mü? Bunun nedeni mesajların bir @List olması, bu yüzden @List.sansAll kullanabildik.",
+                "Bazen hangi tür değeri ürettiğimi netleştirmek isteyebilirsin. Bunu yapmak için, girdiler listesinden sonra bir @Is ekle:",
+                "\\ƒ ekle(x•# y•#)•'' x + y\\🪲",
+                "Bunda bir sorun fark edebilirsin: @Text olarak değerlendirildiğini söylüyor, ama iki @Number alıyor. İşler tutarsız olduğunda sana söyleyebilirim!",
+                "Elbette, @Evaluate olmadan hiç işe yaramam; onlar beni hayata getirir."
+            ],
+            "start": "$~Hadi bunu bir fonksiyon haline getirelim!",
+            "conflict": {
+                "NoExpression": {
+                    "name": "$~eksik ifade",
+                    "explanation": "$~Değerlendirmek için bir ifadeye ihtiyacım var, ekleyebilir misiniz?",
+                    "resolution": "$~Yer tutucu bir gövde ekleyin"
+                }
+            },
+            "label": {
+                "inputs": "$~girdiler",
+                "expression": "$~ifade",
+                "output": "$~çıktı"
+            }
+        },
+        "Iteration": {
+            "name": "$~yüksek dereceli fonksiyon",
+            "description": "$~iç yineleme",
+            "emotion": "kind",
+            "doc": "$~Ben, şeylerin listeleri üzerinde işlem yapan çok özel bir @FunctionDefinition türüyüm. @List.translate gibi fonksiyonları mümkün kılmam dışında, benim hakkımda hiçbir şey bilmenize gerek yok.",
+            "start": "$~Verilen fonksiyonun değerlendirilmesi",
+            "initialize": "$~Öğeler arasında adım atmaya hazırlanmak",
+            "next": "$~bir sonraki maddeye geçmek",
+            "check": "$~devam edip etmemeye karar vermek",
+            "finish": "$~$value bir değerlendirme yaptım."
+        },
+        "Initial": {
+            "name": "$~başlangıç",
+            "description": "$~ilk değerlendirmede doğru",
+            "emotion": "curious",
+            "doc": [
+                "$~@Program'ın mevcut değerlendirmesinin @Boolean'a değerlendirilen ilk değerlendirme olup olmadığını söylüyorum. Örneğin:",
+                "\\◆ ? Time() 'merhaba'\\",
+                "Görmedin ama ilk değerlendirme bir zamandı, ama sonra tüm gelecek zaman tikleri, ben \\⊥\\ idim, bu yüzden @Conditional \\⊤\\ yaptı.",
+                "Bir yayın üzerinde çalışıyorsanız ve bir şeyi yalnızca ilk seferde yapmak istiyorsanız -- ya da hiç ilk seferde yapmak istemiyorsanız -- gerçekten yardımcı olurum!"
+            ]
+        },
+        "Insert": {
+            "name": "$~sokmak",
+            "description": "$~$table tablosuna bir satır ekle",
+            "emotion": "kind",
+            "doc": [
+                "$~@Table Table'a yeni bir satır ekliyorum. Bazen bir tabloda bir şeylerin eksik olduğunu hissedersiniz ya? İşte ben ekleyebilirim!",
+                "Bir oyunda oyuncuların listesinin bulunduğu bir tablo hayal edin ve yeni bir oyuncu eklemek istediğinizi düşünün:",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡+ 'jason' 'red' 0⎦\\",
+                "Unutmayın, tıpkı ayetteki her şey gibi, ben bir tabloyu değiştirmiyorum, revize ediyorum. Bu yüzden oluşturduğunuz revize edilmiş tabloyu nereye koymak istediğinizi bulmanız gerekiyor. Büyük olasılıkla, bir girdiye @Reaction ile bir tabloyu revize etmek ve onu @Bind içinde saklamak isteyeceksiniz."
+            ],
+            "start": "$~Güncellenecek tabloyu bulalım",
+            "finish": "$~Satırları revize edilmiş yeni bir tablo oluşturdum!"
+        },
+        "Is": {
+            "name": "$~dır",
+            "description": "$~$type mı",
+            "emotion": "curious",
+            "doc": [
+                "$~Bir @value'ın belirli bir @type olup olmadığını kontrol ederim ve sana bir @Boolean veririm. O kadar çok tür değer var ki, hepsi çok farklı şeyler @expression ediyor — ben onların ne olduğunu anlamana yardım ederim.",
+                "Örneğin, gizemli bir değerin olduğunu varsay. Onun bir @Number olup olmadığını sana söyleyebilirim ve bir @Boolean veririm:",
+                "\\gizem: 'sır!'\ngizem•#\\🪲",
+                "Bu bir sayı değil, bu yüzden ben \\⊥\\. Ama onun @TextType olup olmadığını kontrol edersek?",
+                "\\gizem: 'sır!'\ngizem•''\\",
+                "Elde ederiz \\⊤\\!",
+                "Bir @Name'ın belirli bir türde bir değeri olup olmadığını bilmen gerektiğinde gerçekten çok yardımcı olurum."
+            ],
+            "start": "$~Öncelikle $expression'ın değerini alalım.",
+            "finish": "$~$value[değer $type'dir|değer $type değildir]",
+            "conflict": {
+                "ImpossibleType": {
+                    "name": "$~imkansız tip",
+                    "explanation": "$~Bu asla $type olamaz",
+                    "resolutionIsFalse": "$~Bu tür kontrolünü *⊥* ile değiştirin (cevap her zaman yanlıştır).",
+                    "resolutionDropOtherwise": "$~*??* işaretini kaldırın — sol taraf asla *ø* olmaz."
+                }
+            },
+            "exception": {
+                "TypeException": {
+                    "description": "$~uyumsuz değerler",
+                    "explanation": "$~$expected bekliyordum, ancak $given aldım."
+                }
+            }
+        },
+        "IsLocale": {
+            "name": "$~dil mi",
+            "description": "$~yerel ayar $locale[$locale|herhangi] mi",
+            "emotion": "kind",
+            "doc": [
+                "$~İzleyicinin belirli bir @language ya da @region seçip seçmediğini kontrol etmene yardım ederim:",
+                "\\🌍/en\\",
+                "\\🌍/es-MX\\",
+                "Seçilen dile göre performansını değiştirmek istersen bu işine yarar."
+            ],
+            "start": "$~Dil $locale mı?"
+        },
+        "ListAccess": {
+            "name": "$~liste erişimi",
+            "description": "$~$index listesinin $list dizinine eriş",
+            "emotion": "cheerful",
+            "doc": [
+                "$~@List ile yakın bir şekilde çalışarak belirli bir konumdaki değerleri almalarına yardımcı oluyorum. Yani, bir listeniz varsa ve ikinci öğesini istiyorsanız şunu yazardınız:",
+                "\\list: ['kuş' 'ördek' 'balık' 'yılan']\nlist[2]\\"
+            ],
+            "start": "$~Önce $list'lık listeyi alalım",
+            "finish": "$~Dizindeki öğe $value!'dur."
+        },
+        "ListLiteral": {
+            "name": "$~liste sabiti",
+            "description": "$~$#count[$count değerli|$count değerli] liste",
+            "emotion": "eager",
+            "doc": "$~Ben belirli bir @List değerleriyim! Benimle neler yapabileceğinizi öğrenmek için @List'e bakın.",
+            "start": "$~Önce maddeleri değerlendirelim",
+            "finish": "$~Ben bir ben yaptım! $value"
+        },
+        "Spread": {
+            "name": "$~yaymak",
+            "description": "$~$list[$list|bir liste] yayılımı",
+            "emotion": "serious",
+            "doc": [
+                "$~Diğer listelerin değerlerinden bir @List oluşturmanıza yardımcı oluyorum. Şöyle:",
+                "\\list: [1 2 3]\nfinal: [:list 4 5 6]\\🪲"
+            ]
+        },
+        "MapLiteral": {
+            "name": "$~harita sabiti",
+            "description": "$~$#count[$count anahtar-değer çiftli|$count anahtar-değer çiftli] harita",
+            "emotion": "kind",
+            "doc": "$~Anahtarlar ve değerler arasında belirli bir @Map'im. @how yardımcı olabileceğim hakkında daha fazla bilgi edinmek için @Map'e bakın.",
+            "start": "$~Öncelikle anahtarları ve değerleri değerlendirelim",
+            "finish": "$~Herkesi birbirine bağladım, $value",
+            "conflict": {
+                "NotAKeyValue": {
+                    "name": "$~eksik değer",
+                    "explanation": "$~Bir @Map'in içindeyim, bu yüzden bir değere ihtiyacım var.",
+                    "resolution": "$~Anahtar-değer çifti olarak paketleyin."
+                }
+            },
+            "label": {
+                "values": "$~çift"
+            }
+        },
+        "Match": {
+            "name": "$~kibrit",
+            "description": "$~$value değerini $#count[$count durumla|$count durumla] eşleştir",
+            "emotion": "curious",
+            "doc": [
+                "$~Ben koşullu kontrollerin en görkemlisiyim: bir @value alırım, onu herhangi bir sayıda durumla karşılaştırırım ve eşleşeni değerlendiririm!",
+                "Örneğin, bir @Number değerin varsa ve onu bir @Text değere dönüştürmek istiyorsan, şöyle bir şey yapabilirsin:",
+                "\\sayı: 2\nsayı ???\n\t1: 'bir'\n\t2: 'iki'\n\t3: 'üç'\n\t'daha büyük!'\\",
+                "Hiçbiri eşleşmezse, bana verdiğin varsayılan @expression değerini değerlendiririm.",
+                "Olası birçok @Number, @Text ya da daha karmaşık değerden birini başka bir şeye dönüştürmek için gerçekten yararlıyım.",
+                "Onu @Boolean ya da @None için kullanabilirsin, ama bunlar gerçekten o kadar çok şey olamazlar, bu yüzden bu basit değerler için o kadar yararlı değilim.",
+                "@Conditional gibi, ben de öğrendiğim şeyi sana söylerim. Bir durumun içinde, eşleştirdiğim @value o @state olarak bilinir; sonraki bir durumun içinde, daha önceki hiçbiri olmadığı bilinir; ve varsayılanımda, hiçbiri olmadığı bilinir.",
+                "\\cevap•#|'': 1\ncevap ???\n\t1: cevap + 1\n\t'bir değil'\\",
+                "Bir @Number, bir @None ya da tek çevirisi olan bir @Text olan durumları ve diğer basit durumları eleyebilirim. Ama bir şeyi değerlendiren bir durum hiçbir şeyi elemez, bu yüzden varsayılanım @value değerin hâlâ olabileceği her şeyi tutar."
+            ],
+            "start": "$~Bakalım $value ne anlama geliyor...",
+            "case": "$~Bu durumu kontrol edelim",
+            "finish": "$~Tamam, son bir değerimiz var!",
+            "label": {
+                "case": "$~dava",
+                "other": "$~varsayılan"
+            }
+        },
+        "NumberLiteral": {
+            "name": "$~sayı sabiti",
+            "description": "$~$number$unit[ $unit|]",
+            "emotion": "excited",
+            "doc": "$~Ben belirli bir @Number'ım. Bana her türlü dilden her türlü rakamla yazabilirsiniz. Yapabileceğim her şey için @Number'a bakın.",
+            "start": "$~$value!",
+            "conflict": {
+                "NotANumber": {
+                    "name": "$~sayı değil",
+                    "explanation": "$~Bütün sayıları bildiğimi sanıyordum ama bunu bilmiyormuşum.",
+                    "resolution": "$~*0* ile değiştirin"
+                }
+            }
+        },
+        "InternalExpression": {
+            "name": "$~dahili ifade",
+            "description": "$~yerleşik ifade",
+            "emotion": "neutral",
+            "doc": "$~Ben yalnızca özgün yaratıcıların kullandığı bir @expression'ım. Beni @how buldun? Benim hakkımda daha çok bilgi almak için onlarla konuşman gerekir.",
+            "start": "$~Gizli ifade"
+        },
+        "NoneLiteral": {
+            "name": "$~boş sabit",
+            "description": "$~hiçbir şey",
+            "emotion": "neutral",
+            "doc": "$~Ben @None yaparım, o eşi benzeri olmayan hiçlik @value. Onlar hakkında daha çok bilgi için @None bak.",
+            "start": "$~…ø"
+        },
+        "Otherwise": {
+            "name": "$~aksitakdirde",
+            "description": "$~$left yoksa $right",
+            "emotion": "curious",
+            "doc": [
+                "$~Bir @value'ın @None olup olmadığını kontrol ederim, eğer öyleyse sana onun yerine bir yedek değer veririm.",
+                "/Örneğin, @Number ya da @None olabilen bir değerin varsa, @Otherwise sana varsayılan bir sayı vermene yardım eder:",
+                "\\belkiNumber•#|ø: 1\nbelkiNumber ?? 0\\"
+            ],
+            "start": "$~ø ??",
+            "finish": "$~… $value"
+        },
+        "Previous": {
+            "name": "$~öncesi",
+            "description": "$~$number akışının önceki $range değer$stream[i|i]",
+            "emotion": "serious",
+            "doc": [
+                "$~Bir akarsuyun tarihine bakıyorum ve size geçmişteki değerlerinden birini anlatıyorum. Hiç geçmişi hatırlamak istediniz mi?",
+                "Ben, Verse'ün resmi kayıt tutucusuyum!",
+                "Örneğin, @Time beş saniye önceki paylaşımı şöyleydi:",
+                "\\← 5 Time(1000ms)\\",
+                "Bakın, 5 saniye boyunca @None oluyor, sonra aniden önceki bir zamana dönüyor?",
+                "Son birkaç değeri istiyorsanız, bana iki ok işareti verin, ben de sayıyı bir sayım olarak yorumlayacağım:",
+                "\\←← 5 Time(1000ms)\\",
+                "Bakın, sadece bir kez değil, önceki beş kez olmuş.",
+                "Geçmişe dayalı performanslar yaratmak istediğinizde yardımcı olabilirim."
+            ],
+            "start": "$~Önce $stream'i alın.",
+            "finish": "$~Değer akışına göre değerlendirildi $value",
+            "label": {
+                "range": "$~menzil"
+            }
+        },
+        "Program": {
+            "name": "$~program",
+            "description": "$~$#count[$count ifadeli|$count ifadeli] program",
+            "emotion": "serious",
+            "doc": [
+                "$~Ben bir performansın başladığı ve bittiği yerim, bir gösteriyi düzenleyen diğer tüm karakterleri içeririm.",
+                "@Block bir ifadeler listesini değerlendirir ve listesindeki sonuncuya göre değer üretir, biliyorsun değil mi?",
+                "Ben de aynıyım, ama @value değerimi içinde bulunduğum @expression neyse ona vermek yerine, değeri @Stage koyarım.",
+                "Değer herhangi bir şey olabilir: bir @Number, @Text ya da @Boolean, bir @List, @Set, @Map, hatta bir @Phrase, @Group ya da @Stage gibi daha karmaşık bir şey.",
+                "Sahnede göstermem için bana bir değer vermezsen, senden bir tane isterim.",
+                "Bir performans sırasında bir sorun olursa, o sorunu gösteririm.",
+                "Ve performansın bir *@stream*a bağlıysa, o akış her değiştiğinde yeniden değerlendirme yaparım."
+            ],
+            "unevaluated": "$~seçtiğiniz düğüm değerlendirilmedi",
+            "start": "$~$stream[$stream akışı $value'ye değiştirildi!|Bu benim ilk değerlendirmem]",
+            "halt": "$~karşılaşılan istisna, durdurulma",
+            "finish": "$~İşlem tamamlandı, değeri $value olarak değerlendirdim.",
+            "done": "$~değerlendiren hiçbir şey yok",
+            "exception": {
+                "BlankException": {
+                    "description": "$~boş program",
+                    "explanation": "$~Hadi bir gösteri yapalım! Nereden başlayalım?"
+                },
+                "EvaluationLimitException": {
+                    "description": "$~değerlendirme limiti",
+                    "explanation": "$~@Evaluate ve ben, özellikle $function'i değerlendirmekten yorulduk.\n\n$function'in hiç durmadan sonsuza dek kendini değerlendirmesi mümkün mü?"
+                },
+                "StepLimitException": {
+                    "description": "$~adım sınırı",
+                    "explanation": "$~Çok fazla adım var -- bitirilemeyecek kadar çok! Performansı daha basit hale getirebilir misin?"
+                },
+                "ValueException": {
+                    "description": "$~eksik değer",
+                    "explanation": "$~Bir değer bekliyordum ama alamadım!"
+                },
+                "InternalException": {
+                    "description": "$~dahili hata",
+                    "explanation": "$~İçeride çok kötü bir şey oldu: $reason"
+                },
+                "PermissionException": {
+                    "description": "$~izin reddedildi",
+                    "explanation": "$~Çalıştırmak için $permission izninize ihtiyacım var, ancak iznim yok. Tekrar denemek için Yeniden Dene'ye tıklayın. Bu işe yaramazsa, tarayıcınızın ayarlarından bu site için $permission izni verin."
+                }
+            },
+            "label": {
+                "borrows": "$~ödünç alıyor",
+                "expression": "$~engellemek"
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~belgelenmemiş paylaşım",
+                    "explanation": "$~bu yayımlanmış, bu yüzden onu yazmamış biri onu okuyacak — üstüne ne işe yaradığını anlatan bir /doc/ yaz",
+                    "resolution": "$~Üstüne belge yaz, ya da bu kaynağı yayımlamayı durdur"
+                },
+                "UnexampledShare": {
+                    "name": "$~örnek yok",
+                    "explanation": "$~bu girdi alıyor, bu yüzden bir açıklama yeterli değil — belgesine onu kullanmanın bir yolunu gösteren bir örnek koy",
+                    "resolution": "$~Belgesine bir örnek ekle, ya da bu kaynağı yayımlamayı durdur"
+                },
+                "UnexampledKit": {
+                    "name": "$~örnek yok",
+                    "explanation": "$~bu kaynakta hiçbir şeyin örneği yok, bu yüzden kit arayan kişilere gösterecek bir şey yok — bu kaynağın belgesine bir tane ekle",
+                    "resolution": "$~Bu kaynağın belgesine bir örnek ekle, ya da bu kaynağı yayımlamayı durdur"
+                }
+            }
+        },
+        "PropertyBind": {
+            "name": "$~rafineetmek",
+            "description": "$~$name[$name|isimsiz] özelliğini iyileştir",
+            "emotion": "kind",
+            "doc": [
+                "$~Bir @StructureDefinition @value'in sadece bir @property'i değiştirilmiş bir kopyasını yaparım — her şeyi aynı değerlerle baştan kurmaya gerek yok.",
+                "Örneğin, kediler hakkında kayıt tutuyordun, ama sonra farklı bir hobiye sahip bir kedinin kopyasını oluşturmak istedin diyelim. Onu değiştirmene yardım edebilirim:",
+                "\\•kedi(isim•'' renk•'' hobi•'')\n\npisi: kedi('serpiştirmeler' 'turuncu' 'yalama')\npisi.hobi:'mırlama'\\",
+                "Bu, hobi dışında aynı değerlere sahip tamamen yeni bir \\Cat\\ yapmaktan çok daha kolay, değil mi?"
+            ],
+            "start": "$~İlk önce değeri alalım",
+            "finish": "$~Yapıyı kopyaladım ama $property'i $value olarak kullandım",
+            "conflict": {
+                "InvalidProperty": {
+                    "name": "$~bilinmeyen özellik",
+                    "explanation": "$~Ben $structure yapısında bir isim değilim, bu yüzden rafine edilemem.",
+                    "resolution": "$~* $name * olarak yeniden adlandırın."
+                }
+            },
+            "label": {
+                "property": "$~mülk",
+                "value": "$~değer"
+            }
+        },
+        "PropertyReference": {
+            "name": "$~mülk",
+            "description": "$~özellik $name[$name|isimsiz]",
+            "emotion": "kind",
+            "doc": [
+                "$~Senin için bir @StructureDefinition @value'ın özelliklerinden birini alırım.",
+                "Mesela şehirler hakkında bir yapın olsa, onun değerlerini benimle şöyle alabilirsin:",
+                "\\•şehir(isim•'' nüfus•#people)\n\nportland: şehir('Portland' 800000people)\n\nportland.nüfus\\"
+            ],
+            "start": "$~İlk önce değeri alalım",
+            "finish": "$~Bulunan mülk $property, değeri $value'dur.",
+            "label": {
+                "property": "$~mülk"
+            }
+        },
+        "Reaction": {
+            "name": "$~tepki",
+            "description": "$~$condition koşuluna tepki",
+            "emotion": "excited",
+            "doc": [
+                "$~Yeni bir yayın oluşturuyorum ve başka bir yayın değiştiğinde o yayın da güncelleniyor. Yayınlar gerçekten harika!",
+                "Örneğin, @Time zaman sayacının çalışmasını ama sayılar yerine kelimeler göstermesini istiyorsanız, şöyle bir şey yapabilirsiniz:",
+                "\\time: Time(1000ms)\n'start' … ∆ time … ((time % 2) = 0ms) ? 'even' 'odd'\\",
+                "Bu, \"/'başlangıç' kelimesiyle başlayın ve zaman değişirse, zamana bağlı olarak çift veya tek sayıya geçin./\" demek gibi bir şey.",
+                "Yani ben de bir akıntı gibiyim, ama diğer akıntılara dayalı bir akıntı. Harika, değil mi?"
+            ],
+            "start": "$~Akışı güncellememiz gerekip gerekmediğine bakalım",
+            "finish": "$~Yeni akış değeri $value'dur.",
+            "conflict": {
+                "ExpectedStream": {
+                    "name": "$~akış bekleniyordu",
+                    "explanation": "$~$condition bir akışa referans vermiyor, bu yüzden asla tepki vermeyeceğim!",
+                    "resolution": "$~Tepkimeyi atlayın, sadece başlangıç değerini koruyun."
+                },
+                "ExpectedCondition": {
+                    "name": "$~eksik koşul",
+                    "explanation": "$~Ne zaman değişeceğimi bilmem için bir şeye ihtiyacım var, @Reaction sonrasına bir koşul ekleyebilir misin?",
+                    "resolution": "$~Kontrol edilecek bir koşul ekle"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~eksik sonraki değer",
+                    "explanation": "$~Ne zaman değişeceğimi biliyorum ama neye değişeceğimi bilmiyorum, bir sonraki değer ekleyebilir misin?",
+                    "resolution": "$~Bir sonraki değer ekle",
+                    "rangeResolution": "$~Şununla bir @Range oluştur: \\‥\\ yerine"
+                }
+            },
+            "label": {
+                "initial": "$~ilk",
+                "condition": "$~durum",
+                "next": "$~Sonraki"
+            }
+        },
+        "Reference": {
+            "name": "$~referans",
+            "description": "$~referans $name",
+            "emotion": "shy",
+            "doc": [
+                "$~Bir @value'a @Name'i ile atıfta bulunurum: O isme sahip @Bind'i bulur ve sana değerini veririm. Şöyle:",
+                "\\papağan: 'papağan'\npapağan\\",
+                "Eğer @name'ı bulamazsam, ne yapacağımı bilemem.",
+                "\\papağan: 'polly'\nperry\\🪲"
+            ],
+            "start": "$~$name değişkeninin değeri nedir?",
+            "conflict": {
+                "UnknownName": {
+                    "conflict": {
+                        "name": "$~bilinmeyen isim",
+                        "explanation": "$~$name[Bu @Block'ta $name adında kimseyi tanımıyorum[$scope|bana bir isim verebilir misin?]"
+                    },
+                    "resolution": "$~*$suggestion* mı demek istediniz?",
+                    "staticResolution": "$~Şunu mu demek istedin *$owner.$suggestion?*",
+                    "languageResolution": "$~*$name*, $language dilinde bir isimdir. Burada kullanmak için $language dilini projenin dillerine ekle."
+                },
+                "ReferenceCycle": {
+                    "name": "$~kendine gönderme yapan değer",
+                    "explanation": "$~Şey, $name'in değeri kendisine bağlı, peki ona hangi değeri vereceğimi nasıl bileceğim?",
+                    "resolution": "$~Döngüyü kırmak için * $name * yerine bir yer tutucu yazın."
+                },
+                "UnexpectedTypeVariable": {
+                    "name": "$~beklenmeyen tip değişkeni",
+                    "explanation": "$~Bu tip girdilerle ne yapacağımı bilmiyorum",
+                    "resolution": "$~Bu tür değişkenini fonksiyondan kaldırın."
+                }
+            },
+            "exception": {
+                "NameException": {
+                    "description": "$~bilinmeyen isim",
+                    "explanation": "$~$name[$name[$scope|Bu @Block'ta $scope adında birini tanımıyorum]…|Eep, isim yok!]"
+                }
+            }
+        },
+        "Select": {
+            "name": "$~seçme",
+            "description": "$~$table ile eşleşen $query tablosundan seç",
+            "emotion": "excited",
+            "doc": [
+                "$~Bir @condition ile eşleşen @Table satırlarını seçerim. Bazen bir tablonun sadece bir kısmını istersin — ben onu senin için alabilirim!",
+                "Mesela bir oyunda oyuncuların olduğu bir tablon olsa ve kimin kazandığını görmek için 10 ya da daha çok puanı olanları bulmak istesen:",
+                "\\oyuncular: ⎡isim•'' takım•'' puanlar•#⎦\n\t⎡'jen' 'kırmızı' 8⎦\n\t⎡'joan' 'mavi' 11⎦\n\t⎡'jeff' 'kırmızı' 9⎦\n\t⎡'janet' 'mavi' 7⎦\noyuncular ⎡?isim⎦ puanlar ≥ 10\\",
+                "İşte böyle, kazananların satırlarından oluşan bir liste aldım! Şunu unutma: ben tabloyu değiştirmiyorum, yeni bir tane yapıyorum. Onu nerede saklayacağına sen karar vermelisin."
+            ],
+            "start": "$~Önce masayı alalım",
+            "finish": "$~Sadece seçili satır ve sütunlardan oluşan yeni bir tablo oluşturdum!",
+            "conflict": {
+                "ExpectedSelectName": {
+                    "name": "$~eksik kolon ismi",
+                    "explanation": "$~En az bir sütun adına ihtiyacım var.",
+                    "resolution": "$~Bu hücreyi kaldır"
+                }
+            }
+        },
+        "SetLiteral": {
+            "name": "$~küme sabiti",
+            "description": "$~$#count[$count değerli|$count değerli] küme",
+            "emotion": "eager",
+            "doc": "$~Ben belirli değerlerden oluşan belirli bir @Set'im. Benimle @how çalışacağını daha çok öğrenmek için @Set'e bak.",
+            "start": "$~Önce değerleri değerlendirelim!",
+            "finish": "$~Bir $value değeri belirledim!"
+        },
+        "SetOrMapAccess": {
+            "name": "$~küme/harita erişimi",
+            "description": "$~$key içinde $setOrMap anahtarına eriş",
+            "emotion": "kind",
+            "doc": [
+                "$~Bir @Set ya da @Map'in bir @value ya da @key'e sahip olup olmadığını görebilirim.",
+                "Pek zor değil. Şöyle:",
+                "\\favoriler: {'ördek' 'kaz' 'maymun'}\nfavoriler{'fare'}\\",
+                "Ya da bunun gibi, bir @Map ile:",
+                "\\favoriler: {\n\t\t'peynirli makarna': 5stars\n\t\t'mısır gevreği': 2stars\n\t\t'lapa': 1stars\n\t}\nfavoriler{'lapa'}\\"
+            ],
+            "start": "$~Set veya harita nedir?",
+            "finish": "$~Değer $value'dur.",
+            "conflict": {
+                "IncompatibleKey": {
+                    "name": "$~uyumsuz anahtar",
+                    "explanation": "$~$expected tipinde bir anahtar bekledim, ama $given aldım",
+                    "resolution": "$~$expected gerekli olduğundan, onu $expected expected'e dönüştürün.",
+                    "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
+                    "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",
+                    "resolutionGuard": "$~Öncelikle bir tür kontrolüyle bunun bir $expected olup olmadığını doğrulayın, çünkü $expected diğer olası türler olamaz.",
+                    "resolutionDeclaration": "$~$expected değişkeninin sabit değerlerinin korunması gerektiğinden, türü açıkça belirtin.",
+                    "resolutionWrap": "$~$expected bir değerler koleksiyonuna ihtiyaç duyduğundan, onu bir liste, küme veya haritaya koyun.",
+                    "resolutionStructure": "$~Yuvanın $ $expected $expected içine sarın.",
+                    "resolutionDefault": "$~Bağlantıya bir başlangıç değeri verin, çünkü $expected burada eksik olamaz.",
+                    "resolutionWiden": "$~Bu bağlama için değerin türüne izin verin, çünkü $expected aslında depolanan şey için çok dar kapsamlıdır.",
+                    "resolutionReorder": "$~Girişleri yer değiştirin, çünkü türleri diğer sırada daha iyi uyuyor — $expected diğer yuvaya ait.",
+                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin."
+                }
+            }
+        },
+        "Source": {
+            "name": "$~kaynak",
+            "description": "$~kaynak $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Ben bir @Program'in etrafındaki isimli pencereyim — ona bir isim veririm ve @code'sini tutarım. Ah, @Program'yi bilir misin? Onlara isim vermene yardım ederim.",
+                "Başka @Program ile başka @Source @UI/addSource da yapabilir, o başka @Program'den bazı şeyleri başka bir programda kullanmak için @Borrow edebilirsin.",
+                "Bu, büyük bir gösteriyi ayrı belgelere bölerek düzenlemenin güzel bir yolu olabilir."
+            ]
+        },
+        "StreamDefinition": {
+            "name": "$~aktarım",
+            "description": "$~akış $name",
+            "emotion": "curious",
+            "doc": "$~Yeni türde akışlar tanımlıyorum. Sanırım — dürüst olmak gerekirse, @how yapacağımı hala çözmeye çalışıyorum, bu yüzden şimdilik mevcut akışları kullanın!",
+            "start": "$~Bu yeni tür akışı yaratın"
+        },
+        "StructureDefinition": {
+            "name": "$~yapı",
+            "description": "$~yapı $name",
+            "emotion": "kind",
+            "doc": [
+                "$~Değerleri ve fonksiyonları depolayan yapılar tanımlarım. Merhaba, nasılsın? Ben mi? Harikayım — bunu bütün gün yapmayı seviyorum.",
+                "Şöyle çalışırım:",
+                "\\•pizza(\n\tmalzemeler•['']\n\tboyut•#in\n) (\n\tƒ maliyet() boyut × 10dollars/in\n)\n\npizza(['sucuk' 'biber'] 12in).maliyet()\\🪲",
+                "Bunun @how çalıştığını gördün mü? Ben \\Pizza\\ tanımladım, ki iki girdisi var, \\ingredients\\ (bir @Text listesi) ve \\size\\ (inç cinsinden bir sayı).",
+                "İçeride, @FunctionDefinition bir pizzanın maliyetini değerlendiren bir fonksiyon yaptı, inç başına $$10 varsayarak.",
+                "İçimde @FunctionDefinition olmasına gerek yok. Sadece girdiler de olabilirim.",
+                "\\•pizza(\n\tmalzemeler•['']\n\tboyut•#in\n)\\",
+                "İçimde @Bind de bulundurabilirim, böylece maliyeti önceden değerlendirebiliriz.",
+                "\\•pizza(\n\tmalzemeler•['']\n\tboyut•#in\n) (\n\tfiyat: boyut × 10dollars/in\n)\n\npizza(['sucuk' 'biberler'] 12in).fiyat\\🪲",
+                "Bir fonksiyonu veya @value öğesini ↑ ile işaretle. Böylece o, örneklere değil yapının kendisine ait olur. Sonra ona ulaşmak için yapının @name öğesini kullanabilirsin, bir örnek yapmadan.",
+                "\\•matematik() (\n\t↑\n\tpi: 3.14159\n\t↑ƒ kare(n•#) n · n\n)\n\nmatematik.pi\nmatematik.kare(5)\\"
+            ],
+            "start": "$~Bu güzel yapıyı tanımlayalım",
+            "conflict": {
+                "DisallowedInputs": {
+                    "name": "$~girdilere izin verilmiyor",
+                    "explanation": "$~Arayüz fonksiyonlarımdan biri veya birkaçı uygulanmadığı için girdi alamıyorum.",
+                    "resolution": "$~Girişleri kaldırın"
+                },
+                "IncompleteImplementation": {
+                    "name": "$~eksik yapı",
+                    "explanation": "$~Fonksiyonlarımın ya tamamı uygulanmalı ya da hiçbiri uygulanmamalı. Karışık durumlar olmamalı!",
+                    "resolution": "$~Girişleri kaldırarak arayüz haline getirin."
+                },
+                "NotAnInterface": {
+                    "name": "$~bir arayüz değil",
+                    "explanation": "$~Ben bir arayüz değilim; bir yapı yalnızca arayüzleri uygulayabilir, diğer yapıları değil.",
+                    "resolution": "$~Bunu arayüz listesinden çıkarın."
+                },
+                "UnimplementedInterface": {
+                    "name": "$~uygulanmamış",
+                    "explanation": "$~$interface'i uyguladım ama $function'ı uygulamadım.",
+                    "resolution": "$~Bu yapıda eksik olan * $function * oluşturun."
+                }
+            },
+            "label": {
+                "docs": "$~dokümantasyon",
+                "inputs": "$~girdiler",
+                "expression": "$~değerler ve fonksiyonlar",
+                "interfaces": "$~arayüzler"
+            }
+        },
+        "StructureDefinitionType": {
+            "name": "$~yapı tanımı",
+            "description": "$name",
+            "emotion": "kind",
+            "doc": [
+                "$~Bir tür @StructureDefinition'a atıfta bulunuyorum. İnsanlar genellikle bana doğrudan atıfta bulunmazlar"
+            ]
+        },
+        "KitType": {
+            "name": "$~kit",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~Ben birinin yayımladığı bir kitim. Paylaştığı her şeye ismim üzerinden ulaşılır, bu yüzden `colors.sunset` hangi `sunset`i kastettiğini belirtir."
+            ]
+        },
+        "TableLiteral": {
+            "name": "$~tablo sabiti",
+            "description": "$~$#count[$count satırlı|$count satırlı] tablo",
+            "emotion": "angry",
+            "doc": "$~Belirli satırları olan belirli bir tabloyum. @how yardımcı olabileceğimi öğrenmek için @Table'a bakın.",
+            "start": "$~İlk önce satırları değerlendirin",
+            "finish": "$~Yeni tabloya göre değerlendirildi $value"
+        },
+        "TextLiteral": {
+            "name": "$~metin sabiti",
+            "description": "$~metin '$text'",
+            "emotion": "serious",
+            "doc": "$~Bir veya daha fazla belirli @Translation çevirisini temsil ediyorum. Neler yapabileceğim hakkında daha fazla bilgi edinmek için @Text bakın!",
+            "start": "$~Şimdi mevcut dilde metin oluşturalım.",
+            "label": {
+                "texts": "$~metin"
+            }
+        },
+        "Translation": {
+            "name": "$~çeviri",
+            "description": "$~metin '$text'",
+            "emotion": "serious",
+            "doc": "$~Ben biraz metni temsil ederim, isteğe bağlı bir @Language etiketiyle. Daha çok öğrenmek için @Text'e bak!",
+            "conflict": {
+                "phone": {
+                    "name": "$~olası telefon numarası",
+                    "explanation": "$~*$text* birinin telefon numarası mı? Eğer öyleyse, beni internette paylaşmayın!\n\n$reminder"
+                },
+                "email": {
+                    "name": "$~olası e-posta",
+                    "explanation": "$~*$text* birinin e-posta adresi mi? Eğer öyleyse beni burada paylaşmayın!\n\n$reminder"
+                },
+                "tin": {
+                    "name": "$~olası vergi kimliği",
+                    "explanation": "$~*$text* bir vergi kimlik numarası mı? Eğer öyleyse, kesinlikle beni paylaşmayın, çok hassas bir bilgiyim!\n\n$reminder"
+                },
+                "address": {
+                    "name": "$~olası adres",
+                    "explanation": "$~*$text* birinin ev adresi mi? Eğer öyleyse, beni buraya yazmayın, kimsenin takip edilmesini istemiyoruz!\n\n$reminder"
+                },
+                "handle": {
+                    "name": "$~olası kullanıcı adı",
+                    "explanation": "$~*$text*, internette başka bir yerde kullandığınız kullanıcı adınız mı? Eğer öyleyse, gerçekten istemediğiniz sürece beni burada paylaşmayın.\n\n$reminder"
+                },
+                "resolution": "$~Bu hassas bir veri değil",
+                "reminder": "$~Not: Bu işlemi geri alabilir ve paylaşım iletişim kutusunda hassas olmayan olarak işaretlediğiniz diğer şeyleri görebilirsiniz.",
+                "character": {
+                    "name": "$~olası özel karakter",
+                    "explanation": "$~Bu bir karakter adı gibi görünüyor. Bunları göstermek için @TextLiteral yerine @FormattedLiteral kullanın.",
+                    "resolutionStrip": "$~Metinden özel karakterleri kaldırın."
+                }
+            },
+            "label": {
+                "segments": "$~metin"
+            }
+        },
+        "FormattedLiteral": {
+            "name": "$~biçimlendirilmiş metin",
+            "description": "$~biçimlendirilmiş metin $text",
+            "emotion": "serious",
+            "doc": "$~Biçimlendirilmiş metnin birçok farklı @FormattedTranslation'ını temsil ediyorum. Değerlendirdiğimde, izleyicinin seçtiği dillere göre en iyi eşleşmeyi seçeceğim.",
+            "start": "$~Şimdi mevcut dilde metin oluşturalım."
+        },
+        "FormattedTranslation": {
+            "name": "$~biçimlendirilmiş çeviri",
+            "description": "$~Biçimlendirilmiş metni $language diline çevir",
+            "emotion": "serious",
+            "doc": [
+                "$~@Language etiketiyle biçimlendirilmiş bir metin sunuyorum.",
+                "Ben olabilirim:",
+                "\\`/italik/`\\",
+                "\\`*kalın*`\\",
+                "\\`^ekstra kalın^`\\",
+                "\\`_altı çizili_`\\",
+                "\\`<linked@https://wordplay.dev>`\\",
+                "\\`\\'kod'\\`\\",
+                "@Stage'e güzel metinler koymak için @Phrase'i gerçekten iyi kullanıyorum."
+            ]
+        },
+        "This": {
+            "name": "$~Bu",
+            "description": "$~bu yapı",
+            "emotion": "serious",
+            "doc": [
+                "$~Ben \\⬚\\, çevredeki kodun üzerinde çalıştığı @value ne ise onun yerine geçen küçük bir kareyim. Böylece ona isim vermene gerek kalmaz.",
+                "Bir @ConversionDefinition içinde, ben dönüştürülen değerim:",
+                "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "Bir @Reaction içinde, ben en son değerim:",
+                "\\2 … ∆ Zaman(1000ms) … ⬚ × 2\\",
+                "Bir @Translate içinde, ben eşlenen şu anki öğeyim. Yani bu, her değere bir ekler:",
+                "\\[1 2 3] ↦ ⬚ + 1\\",
+                "Ve bir @StructureDefinition içinde, ben şu anki değerin kendisiyim. Yani kendi parçalarıma şununla ulaşabilirim: \\⬚.rank\\🪲, tıpkı başka bir değerin parçalarına şununla ulaştığım gibi: \\other.rank\\🪲:",
+                "\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "Sık görünmem, ama göründüğümde bir değerin @Bind içinden çıkmasına gerçekten yardım edebilirim!"
+            ],
+            "start": "$~$value olarak belirlenmiştir.",
+            "conflict": {
+                "MisplacedThis": {
+                    "name": "$~yanlış yerleştirilmiş bu göndermesi",
+                    "explanation": "$~Sadece yapı, dönüşüm, reaksiyon veya çeviri işlemlerine katılmama izin veriliyor.",
+                    "resolution": "$~Yer tutucu ile değiştirin"
+                }
+            }
+        },
+        "UnaryEvaluate": {
+            "name": "$~tekli değerlendirme",
+            "description": "$~işlem $operator",
+            "emotion": "kind",
+            "doc": [
+                "$~Tek bir @value alan bir @FunctionDefinition öğesini değerlendiririm. Onun tek sembollü ismi tam girdiden önce yazılır — şöyle: \\-x\\🪲 veya \\~b\\🪲. Bunu yapabileceğini biliyor muydun?",
+                "Şöyle:",
+                "\\-(1 + 1)\\",
+                "Veya şöyle:",
+                "\\~⊥\\",
+                "Bunlar şundan çok daha kolay okunuyor: \\(1 + 1).negate()\\🪲 veya \\⊥.Olumsuz()\\, öyle değil mi?",
+                "Beni bu şekilde yazmak zorunda değilsin, ama genel olarak daha kolay olabilir.",
+                "Tek bir kural var: isimle değer arasına hiç boşluk koyamazsın. Yoksa bir @Reference veya @BinaryEvaluate yapıyor olabilirsin."
+            ],
+            "start": "$~Değeri ne kadar?",
+            "finish": "$~Bunu $value yaptım.",
+            "label": {
+                "input": "$~giriş"
+            }
+        },
+        "UnparsableExpression": {
+            "name": "$~çözümlenemez",
+            "description": "$~ayrıştırılamayan kod",
+            "emotion": "excited",
+            "doc": [
+                "$~Ben anlamı olmayan bir @code parçasıyım, bu yüzden kimse ne demek olduğumu bilmiyor.",
+                "jkwel fjiwojvioao jjiweo jrfe",
+                "/Her @expression'in sahnede anlamı yoktur./",
+                "s w ieorjwei iojwi jfkdlsfdsk",
+                "/Aslında, hiçbir anlamı olmayan her türlü şeyi söyleyebilirsin./",
+                "dsk sdlk jdkfiewipapweiurb,v kdsfdsf",
+                "/Bunu yaptığında ben ortaya çıkarım, çünkü ne demek istediğini bilmiyorum./",
+                "Sonuçta yönetmen sensin, bu yüzden ne demek istediğini yalnızca sen bilirsin!"
+            ],
+            "start": "$~???",
+            "conflict": {
+                "UnparsableConflict": {
+                    "conflict": {
+                        "name": "$~okunamayan kod",
+                        "explanation": "$~Burada @FunctionDefinition kullanıldığında, @UnparsableExpression, $expression[ expression | type ] ifadesinin ne türde olduğunu bilmiyor."
+                    },
+                    "resolution": "$~$first, $second gibi türleri mi kastettiniz?"
+                },
+                "UnclosedDelimiter": {
+                    "name": "$~kapatılmamış ayraç",
+                    "explanation": "$~$expected'ın $unclosed'dan bir süre sonra olmasını bekliyordum.",
+                    "resolution": "$~Eksik olan * $expected * öğesini ekleyin."
+                }
+            },
+            "exception": {
+                "UnparsableException": {
+                    "description": "$~???",
+                    "explanation": "$~Merhaba, @FunctionDefinition burada! Bu talimatın ne anlama geldiğinden emin değiliz, bu yüzden durduk."
+                }
+            }
+        },
+        "Update": {
+            "name": "$~güncelleme",
+            "description": "$~$table ile eşleşen $query tablosundaki satırları güncelle",
+            "emotion": "kind",
+            "doc": [
+                "$~Bir @Table'i gözden geçirmene yardım ederim, bir @condition'a uyan satırları bulur ve sonra yeni değerlerle gözden geçirilmiş satırlar oluştururum.",
+                "Yani, örneğin karakterler ve puanlardan oluşan bir tablon olsaydı ve bir takımdaki her karaktere bir puan vermek isteseydin, şunu yapabilirdin:",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
+                "Hangi kolonların değişeceğini söylemek için bir @Bind kullanabilirsin ve koşulda kolon isimlerinden herhangi birini ya da @scope'deki başka isimleri kullanabilirsin."
+            ],
+            "start": "$~Önce masayı alalım",
+            "finish": "$~Revize edilmiş satırlarla yeni bir tabloya değerlendirildi!",
+            "conflict": {
+                "ExpectedColumnBind": {
+                    "name": "$~eksik kolon değeri",
+                    "explanation": "$~Her sütun için bir değere ihtiyacım var.",
+                    "resolution": "$~Bu hücreyi adlandırılmış bir sütun olarak sarmalayın."
+                },
+                "IncompatibleCellType": {
+                    "name": "$~uyumsuz hücre tipi",
+                    "explanation": "$~Benim $expected türünde olmam gerekirken, $given türündeyim.",
+                    "resolution": "$~$expected gerekli olduğundan, onu $expected expected'e dönüştürün.",
+                    "resolutionLiteral": "$~Listeyi, kümeyi veya haritayı ! ile tam olarak belirtin, böylece değerleri genelleştirilmek yerine belirli kalır — $expected tam değerlere ihtiyaç duyar.",
+                    "resolutionOtherwise": "$~$expected ø'ye izin vermediği için eksik değeri ?? ile ele alın.",
+                    "resolutionGuard": "$~Öncelikle bir tür kontrolüyle bunun bir $expected olup olmadığını doğrulayın, çünkü $expected diğer olası türler olamaz.",
+                    "resolutionDeclaration": "$~$expected değişkeninin sabit değerlerinin korunması gerektiğinden, türü açıkça belirtin.",
+                    "resolutionWrap": "$~$expected bir değerler koleksiyonuna ihtiyaç duyduğundan, onu bir liste, küme veya haritaya koyun.",
+                    "resolutionStructure": "$~Yuvanın $ $expected $expected içine sarın.",
+                    "resolutionDefault": "$~Bağlantıya bir başlangıç değeri verin, çünkü $expected burada eksik olamaz.",
+                    "resolutionWiden": "$~Bu bağlama için değerin türüne izin verin, çünkü $expected aslında depolanan şey için çok dar kapsamlıdır.",
+                    "resolutionReorder": "$~Girişleri yer değiştirin, çünkü türleri diğer sırada daha iyi uyuyor — $expected diğer yuvaya ait.",
+                    "resolutionPlaceholder": "$~Şimdilik bunun yerine bir yer tutucu koyun, çünkü $expected gerekli — ardından otomatik tamamlama menüsünden bir değer seçin."
+                }
+            }
+        },
+        "AnyType": {
+            "name": "$~herhangi",
+            "description": "$~herhangi bir şey",
+            "emotion": "curious",
+            "doc": "$~Ben olası herhangi bir @type'i temsil ederim. Bazen ortaya çıkarım çünkü bir şeyin ne tür bir @value olduğunu bilmem, bu yüzden herhangi bir şey olabilir."
+        },
+        "BooleanType": {
+            "name": "$~boolean tipi",
+            "description": "$~boole tipi",
+            "emotion": "kind",
+            "doc": [
+                "$~Bir ismin bir @Boolean @value olduğunu bildirmek için @Bind ile çalışırım. Şöyle:",
+                "\\aç•?: 'jöle'\\🪲",
+                "Bir şeyin @Boolean olduğundan emin olmak istersen beni kullan, ben kontrol edeyim!"
+            ]
+        },
+        "ConversionType": {
+            "name": "$~dönüşüm tipi",
+            "description": "$~dönüşüm tipi",
+            "emotion": "serious",
+            "doc": [
+                "$~Bir ismin bir @ConversionDefinition olduğunu belirtmek için @Bind ile çalışırım. Muhtemelen beni kullanmana gerek yok, çünkü çok az kişi beni bir @value olarak dolaştırır, ama dolaştırsaydın, şöyle görünürdüm:",
+                "\\sihir•? → '': → ? '' ⬚ ? 'evet' 'hayır'\\🪲"
+            ]
+        },
+        "FormattedType": {
+            "name": "$~biçimlendirilmiş metin tipi",
+            "description": "$~biçimlendirilmiş metin tipi",
+            "emotion": "serious",
+            "doc": [
+                "$~Bir ismin bir @FormattedLiteral @value olduğunu belirtmek için @Bind ile çalışırım. Şöyle:",
+                "\\aç•`…`: `Çok /şık/ım!`\\🪲",
+                "Bir şeyin @FormattedLiteral değeri olduğundan emin olmak mı istiyorsun? İşte böyle emin olursun."
+            ]
+        },
+        "ExceptionType": {
+            "name": "$~istisna",
+            "description": "$~istisna",
+            "emotion": "neutral",
+            "doc": "$~Ben bir istisnayı temsil ediyorum. bind'e benim bir istisna olduğumu söylemenin bir yolu yok çünkü istisnalar yalnızca @Program'ı durdurur, bu yüzden onları @value olarak kullanamazsınız."
+        },
+        "FunctionType": {
+            "name": "$~fonksiyon tipi",
+            "description": "$~$inputs girdili fonksiyon",
+            "emotion": "curious",
+            "doc": [
+                "$~@FunctionDefinition'ı temsil ediyorum. @Bind'in ne tür bir işlevi tuttuğunu söylemek istiyorsanız gerçekten yardımcı olurum! Şöyle:",
+                "\\math•ƒ (# # # #) #: ƒ ilginç(a•# b•# c•# d•#) a + b + c + d\\🪲"
+            ]
+        },
+        "ListType": {
+            "name": "$~liste tipi",
+            "description": "$~liste tipi$type[ / $type|]",
+            "emotion": "cheerful",
+            "doc": [
+                "$~@List hakkında /çok/ hayranım. @Bind öğesine @how bir liste olduğunu söyleyebiliyorum! İşte böyle, bunun bir @Number listesi olduğunu söylüyorum:",
+                "\\şeyler•[#]: [1 2 3 4 5]\\🪲",
+                "Bunu üç farklı şekilde söyleyebilirim. Hiç tip belirtmezsem, bir liste herhangi bir uzunlukta olabilir ve herhangi bir şeyi tutabilir:",
+                "\\şeyler•[]: [1 'iki' ø]\\🪲",
+                "Bir tip belirtirsem, liste yine herhangi bir uzunlukta olabilir, ama içindeki her şey o tek tipte olmalı, yukarıdaki @Number listesi gibi.",
+                "Ve birkaç tip belirtirsem, tam olarak o kadar şeyden oluşan bir liste demek isterim, her yeri için bir tip vardır. Bu, iki şeyden oluşan bir listedir: önce bir @Number, sonra biraz @Text.",
+                "\\çift•[# '']: [1 'iki']\\🪲",
+                "Sonuncusu en sevdiğim, çünkü o zaman herkes neyin nerede olduğunu bilir. @ListAccess ilk şeyin bir @Number ve ikincinin @Text olduğunu bilir, ve bana yanlış sayıda şey verirsen ya da onları yanlış sırada koyarsan, bunu söylerim!"
+            ]
+        },
+        "MapType": {
+            "name": "$~harita",
+            "description": "$~$key[$key|herhangi] anahtarından $value[$value|herhangi] değerine harita tipi",
+            "emotion": "kind",
+            "doc": [
+                "$~@Bind bir ismin ne tür bir @Map içerdiğini, yani anahtarlarının ve değerlerinin hangi türde olduğunu söylüyorum. @Map ne kadar harika olduğunu biliyor musunuz? Gerçekten harika. İşte sayıları listelere dönüştüren bir harita:",
+                "\\stuff•{'':[]}: {}\\🪲"
+            ]
+        },
+        "NumberType": {
+            "name": "$~sayı",
+            "description": "$~sayı tipi$unit[ / $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~@Bind bir ismin bir @Number tuttuğunu söylüyorum. @Bind ne olması gerektiğini biliyor musun? Bir @Number — çünkü sayılar en iyisidir.",
+                "\\count•#: 17\\🪲"
+            ]
+        },
+        "NameType": {
+            "name": "$~yapı",
+            "description": "$~yapı tipi $name",
+            "emotion": "curious",
+            "doc": [
+                "$~@StructureDefinition'ı ismiyle temsil ediyorum. Yani, eğer böyle bir yapınız varsa, oluşturduğu değerleri depolayan bir @Bind yapabilirsiniz.",
+                "\\•Arkadaş(isim•'')\nen iyi•Arkadaş: Arkadaş('Jonah')\\🪲"
+            ],
+            "conflict": {
+                "UnknownTypeName": {
+                    "name": "$~bilinmeyen tip ismi",
+                    "explanation": "$~Tür adları yalnızca yapılara veya tür değişkenlerine atıfta bulunabilir, ancak bu $type türüne atıfta bulunur.",
+                    "resolution": "$~Bir tür yer tutucu ile değiştirin."
+                }
+            }
+        },
+        "NeverType": {
+            "name": "$~Asla",
+            "description": "$~imkansız tip",
+            "emotion": "curious",
+            "doc": "$~Ben imkansız olan bir @type'i temsil ederim. Örneğin @Is'a bir şeyin @Number olup olmadığını sorduğunda, ama o asla bir sayı olamaz."
+        },
+        "NoneType": {
+            "name": "$~hiçbiri tipi",
+            "description": "$~boş tip",
+            "emotion": "neutral",
+            "doc": [
+                "$~@None en iyi hiçliktir ve ben onların sadık temsilcisiyim.",
+                "\\space•ø: ø\\🪲"
+            ]
+        },
+        "SetType": {
+            "name": "$~küme tipi",
+            "description": "$~küme tipi$type[ / $type|]",
+            "emotion": "kind",
+            "doc": [
+                "$~@Bind bir ismin belirli bir türde @Set içerdiğini söylüyorum. @Set gerçekten EN İYİSİ!",
+                "\\unique•{''}: {'something' 'anything' 'someone'}\\🪲"
+            ]
+        },
+        "StreamDefinitionType": {
+            "name": "$~akış tanımı tipi",
+            "description": "$~akış tanımı tipi",
+            "emotion": "angry",
+            "doc": "$~Tanımladığınız bir akımı temsil ediyorum ki bu mümkün değil, o zaman bunu neden okuyorsunuz?"
+        },
+        "StreamType": {
+            "name": "$~akış tipi",
+            "description": "$~akış tipi",
+            "emotion": "curious",
+            "doc": [
+                "$~Akarsuların güzelliğini ve anlamını kutluyorum… @Bind'e bunları saklamasını söyleyerek:",
+                "\\time•…#ms: Zaman()\\🪲"
+            ]
+        },
+        "StructureType": {
+            "name": "$~yapı tipi",
+            "description": "$~$name yapısı",
+            "emotion": "kind",
+            "doc": "$~Ben varsayılan @value tiplerinin tipini temsil eden dahili bir @type'im."
+        },
+        "UnknownType": {
+            "name": "$~bilinmeyen",
+            "description": "$~bilinmeyen",
+            "connector": "$~, Çünkü",
+            "emotion": "curious",
+            "doc": "$~Ben henüz kimsenin çözemediği bir @type'im. Ee… neyi temsil ettiğimi biliyor musun? Biz çözemezsek belki bize söylemen gerekir."
+        },
+        "TableType": {
+            "name": "$~tablo tipi",
+            "description": "$~tablo",
+            "emotion": "angry",
+            "doc": "$~Ben bir @Table'ı temsil ediyorum.",
+            "conflict": {
+                "ExpectedColumnType": {
+                    "name": "$~eksik kolon tipi",
+                    "explanation": "$~Bir sütun türüne ihtiyacım var.",
+                    "resolution": "$~Bir tür yer tutucu ekleyin"
+                }
+            }
+        },
+        "TextType": {
+            "name": "$~metin tipi",
+            "description": "$~$text['$text'|metin tipi]",
+            "emotion": "happy",
+            "doc": [
+                "$~Ben, var olan en muhteşem @value tipini muhteşemce temsil ederim, @Text.",
+                "\\hikaye•'': 'Bir zamanlar...'\\🪲"
+            ]
+        },
+        "TypePlaceholder": {
+            "name": "$~yertutucu",
+            "description": "$~tip yer tutucusu",
+            "emotion": "eager",
+            "doc": "$~Bir gün bir @type temsil etmeyi umuyorum, tıpkı en yakın arkadaşım @ExpressionPlaceholder bir @expression temsil ettiği gibi! Hangi tür olacağıma karar vermeme yardım eder misin?"
+        },
+        "UnionType": {
+            "name": "$~seçenek",
+            "description": "$~$first veya $second tiplerinden biri",
+            "emotion": "curious",
+            "doc": [
+                "$~Birkaç tipten biri olabilecek bir @value öğesini temsil ederim — A mı yoksa B mi yoksa başka bir şey mi? Bir türlü karar veremem!",
+                "\\kararsızlık•''|#|{ø}: 'Bilmiyorum!'\\🪲"
+            ],
+            "elidedSuffix": "$~veya $omitted"
+        },
+        "Unit": {
+            "name": "$~birim",
+            "description": "$~$unit[birim $unit|birimsiz]",
+            "emotion": "precise",
+            "doc": [
+                "$~@Number'ın sahip olabileceği herhangi bir birimi, hiçbir birim olmadan, hayal edebileceğiniz en karmaşık birime kadar temsil ediyorum. Örneğin yerçekimi gibi:",
+                "\\yerçekimi•m/s^2: 9,8m/s^2\\🪲",
+                "@Bind'de görünüyorum, ama aynı zamanda @Number'dan hemen sonra da. Sayıların aynı türden olduğundan emin olmaya yardımcı oluyorum ve bir hata olması durumunda, aynı türden olmadıklarını kesinlikle size söylerim!"
+            ]
+        },
+        "UnparsableType": {
+            "name": "$~çözümlenemez",
+            "description": "$~ayrıştırılamayan tip",
+            "emotion": "curious",
+            "doc": "$~Bilinmeyen bir @expression değerinin @type değerini temsil ederim. O ifadeyi bir şey için kullanmaya çalıştığında ortaya çıkarım."
+        },
+        "VariableType": {
+            "name": "$~değişken tipi",
+            "description": "$~tip değişkeni",
+            "emotion": "curious",
+            "doc": "$~Değerler arasındaki tüm görüşmelerde bir @TypeVariable — bilinmeyen bir @value türü — yerine geçerim."
+        },
+        "CycleType": {
+            "name": "$~döngü",
+            "description": "$~döngüsel bağımlılık",
+            "emotion": "curious",
+            "doc": "$~@type değeri kendisine bağlı olan bir @value temsil ederim, bu yüzden ne tür bir değer olduğunu söyleyemeyiz."
+        },
+        "UnknownVariableType": {
+            "name": "$~bilinmeyen değişken",
+            "description": "$~bilinmeyen tip değişkeni",
+            "emotion": "curious",
+            "doc": "$~Bazen bir şeyin ne tür bir @value olduğunu tahmin etmeye çalışırız; bilmediğimizde ben ortaya çıkarım."
+        },
+        "NotAType": {
+            "name": "$~beklenmedik",
+            "description": "$~bir $type değil",
+            "emotion": "curious",
+            "doc": "$~@type değeri beklediğimiz olmayan bir @value temsil ederim — örneğin @ListAccess bir @Number isteyip başka bir şey aldığında."
+        },
+        "NoExpressionType": {
+            "name": "$~ifade yok",
+            "description": "$~boş blok tipi",
+            "emotion": "angry",
+            "doc": "$~İçinde hiç @expression olmayan bir @Block olduğunda aldığın @type benim. En az bir tane gerektiğini biliyorsun — o yüzden bir tane ver!"
+        },
+        "NotEnclosedType": {
+            "name": "$~yapıda, dönüştürmede veya tepkide değil",
+            "description": "$~bir yapı içinde değil",
+            "emotion": "curious",
+            "doc": "$~@This ait olmadığı bir yerde kullanıldığında ortaya çıkarım, böylece kimse hangi @value temsil ettiğini bilmez."
+        },
+        "NotImplementedType": {
+            "name": "$~uygulanmamış",
+            "description": "$~uygulanmamış",
+            "emotion": "curious",
+            "doc": "$~@ExpressionPlaceholder kullandığında ama hangi @type olduklarını söylemediğinde, aldığın tip benim. Baş et bununla!"
+        },
+        "UnknownNameType": {
+            "name": "$~bilinmeyen isim",
+            "description": "$~$name[ $name henüz tanımlanmadı | isim verilmedi ]",
+            "emotion": "curious",
+            "doc": "$~@Reference veya @PropertyReference öğesinin bulamadığı bir @name temsil ederim, kimden bahsettiğini bilmediğimizde."
+        },
+        "NonFunctionType": {
+            "name": "$~işlevsiz",
+            "description": "$~fonksiyon olmayan $type",
+            "emotion": "confused",
+            "doc": "$~Bazılarımız fonksiyon bekliyordu; fonksiyon alamayınca ben geliyorum."
+        },
+        "Translate": {
+            "name": "$~çevir",
+            "description": "$~$expression ifadesinin her değerini çevir",
+            "emotion": "excited",
+            "doc": [
+                "$~Bir koleksiyondaki HER öğeye AYNI şeyi yaparım! OH OH OH! Tam olarak YAPTIĞIM şey bu!!",
+                "Soluma bir koleksiyon koy, okumu çiz \\↦\\, sonra sağıma her öğenin NEYE DÖNÜŞECEĞİNİ yaz — ŞU AN elimde tuttuğum öğeyi belirtmek için @This kullan!",
+                "\\[1 2 3] ↦ ⬚ + 1\\ sana şunu verir: \\[2 3 4]\\. BUMM! Her sayı, artı bir, döngü yok, @FunctionDefinition yok, telaş yok!",
+                "Veriden @Phrase çıktı üretmekte HARİKAYIM! Bir isim listen mi var? \\['Ada' 'Mac' 'Tim'] ↦ İfadeetmek(⬚)\\ ve artık HER isim için bir söz öbeği var!!",
+                "@List, @Set, @Map (haritanın DEĞERLERİNİ değiştiririm — anahtarlar oldukları yerde kalır!) ve hatta @Table üzerinde çalışırım!",
+                "Daha süslü bir şey mi istiyorsun — her öğenin @index gibi, ya da birçok yerde tekrar kullanabileceğin bir fonksiyon gibi? @List.translate gibi daha sakin, yetişkin kuzenlerimi ziyaret et. Ama hızlı, günlük eşleme için ben buradayım!!"
+            ],
+            "start": "$~Dur bir dakika, $expression klasöründeki her şeyi alayım!",
+            "finish": "$~İşte karşınızda yepyeni koleksiyonunuz! $value",
+            "next": "$~Sonraki öğe: $value !",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~koleksiyon bekleniyordu",
+                    "explanation": "$~Koleksiyon dönüştürme işleminin sol tarafının bir koleksiyon olması gerektiğini bekliyordum, ancak $type aldım."
+                },
+                "ExpectedThis": {
+                    "name": "$~bu bekleniyordu",
+                    "explanation": "$~@This ifadesini bu koleksiyondaki bir öğeye atıfta bulunmak için mi kullandınız?"
+                }
+            }
+        },
+        "ExternalExample": {
+            "name": "$~harici örnek",
+            "description": "$~dış kod örneği$languages[ $languages dilinde|]",
+            "emotion": "serious",
+            "doc": [
+                "$~Başka programlama dillerinde yazılmış, sözdizimi vurgulamalı kodu gösteririm, böylece zaten @code yazan yaratıcılar karşılaştırma yapabilir.",
+                "Her @language için bir varyant yaz: iki harfli bir etiket, bir çubuk ve kod, şöyle \\py| a = 5\\js| let a = 5;\\. Okuyucu, seçtiği dile uyan varyantı görür. Python (py), JavaScript (js) ve Java (jv) desteklenir."
+            ]
+        },
+        "Localized": {
+            "name": "$~yerelleştirilmiş",
+            "description": "$~yerelleştirilmiş metin",
+            "emotion": "serious",
+            "label": {
+                "value": "$~değer"
+            },
+            "doc": [
+                "$~Hesapladığın bir metne bir yerel ayar uygularım, böylece onu değiştirdikten sonra bile @language özelliğini korur. Şöyle:",
+                "\\('merhaba' + '!')/en\\",
+                "Çoğu metin işlemi yerel ayarları zaten korur, ama onları geçersiz kılmak istediğinde bir tanesini kendin ayarlamana izin veririm.",
+                "Sadece metin üzerinde çalışırım, o yüzden bana biraz metin verdiğinden emin ol!"
+            ],
+            "start": "$~Önce $value değerlendirelim, sonra da ona bir yerel ayar etiketi ekleyelim…"
+        },
+        "PatternLiteral": {
+            "name": "$~model",
+            "description": "$~$#count[$count parçalı|$count parçalı] desen",
+            "emotion": "curious",
+            "doc": [
+                "$~Ben bir desenim! Metnin tam kelimeleri yerine *şeklini* tarif ederim, böylece metni \"metnin tamamı uyuyor mu?\" diye kontrol edebilirsin \\≈\\ — ya da şeklin göründüğü her yeri bulmak için arayabilirsin \\⌕\\. Arama sana bir @Result listesi geri verir.",
+                "İşte iş başında bir arama — kahvaltı hakkındaki bir cümlede yemek kelimelerini bulmak:",
+                "\\kahvaltı: 'Kahvaltıda yumurta, kızarmış ekmek ve portakal suyu içtim'\nkahvaltı ⌕ ⣿ \"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "Beni soldan sağa oku. Bir @PatternClass belirli bir türden tek bir karaktere uyar: \\⣿◌⣿\\ herhangi biri, \\⣿_⣿\\ bir harf, \\⣿#⣿\\ bir rakam, \\⣿␣⣿\\ bir boşluk. Tırnak içindeki metin tam olarak uyan bir @PatternLiteralText'dir, şöyle: \\⣿\"-\"⣿\\. Geri kalan \\⣿…⣿\\ — bir @PatternRest — herhangi bir sayıda karaktere uyar.",
+                "Önce sayılar gelir. Bir @PatternQuantified bir sonraki kısmı bir @PatternQuantifier kadar tekrarlar: \\⣿3 #⣿\\ üç rakamdır, \\⣿3–5 #⣿\\ üçten beşe, \\⣿>0 #⣿\\ bir veya daha fazla, \\⣿≥0 #⣿\\ sıfır veya daha fazla, \\⣿≤1 #⣿\\ isteğe bağlı.",
+                "Kısımları bir @PatternGroup ile grupla ve bir @PatternSequence içinde seçenekler sun, şöyle: \\⣿(◌ | #)⣿\\. En uzun uyan seçenek kazanır.",
+                "Bir @PatternSet bir kümedeki bir karaktere uyar ve bir @PatternRange karakter aralıklarını kapsar, şöyle: \\⣿ {\"a\"–\"z\" #}⣿\\. Bir kısmı bir @PatternComplement ile tersine çevir, şöyle: \\⣿~#⣿\\.",
+                "Bir sınıfı bir @PatternProperty ile inceleştir, örneğin bir Yunan harfi için \\⣿ _/greek⣿\\ ya da \\⣿ ◌/emoji⣿\\.",
+                "Bir parçaya @PatternCapture ile isim ver, örneğin \\⣿ year: (4 #)⣿\\, sonra çıplak ismini yazarak onu @PatternBackref ile tekrar kullan. Her @Result yakalanan parçaları isme göre bildirir.",
+                "Kenarlara bir @PatternAnchor ile sabitle: \\⣿⊢⣿\\ başlangıç, \\⣿⊣⣿\\ bitiş. Bir @PatternLook kullanarak tüketmeden göz at: \\⣿▸(#)⣿\\ ileri, \\⣿◂(#)⣿\\ geri.",
+                "Tam kelimeleri bir @PatternWord \\⣿ ▭/en⣿\\ ile veya kelime sınırlarını bir @PatternWordEdge \\⣿ ┊/en⣿\\ ile eşleştir, bir @language için bölümlere ayrılmış. Bir @PatternCaseFold \\⣿ Aa(\"hi\")⣿\\ içinde harf büyüklüğünü yok say.",
+                "My @type is a @PatternType — bir ismi onunla işaretle, örneğin \\p•⣿⣿: ⣿ ◌⣿\\🪲 — böylece beni bir isimde saklayabilir ve birçok metinde tekrar kullanabilirsin."
+            ],
+            "start": "$~Metnin nasıl göründüğüne bir bakayım.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~boş desen",
+                    "explanation": "$~Elimde hiç parça yok, bu yüzden işime yarayacak hiçbir şeyle eşleştiremiyorum. Bir parça ekleyebilir misiniz?",
+                    "resolution": "$~Herhangi bir karakterle eşleşmesi için \\◌\\ ekleyin."
+                }
+            },
+            "step": {
+                "search": "$~Bu kalıbın metinde geçtiği her yeri bulalım.",
+                "test": "$~Bu metnin tamamının kalıba uyup uymadığını kontrol edelim.",
+                "scan": "$~$position konumundan başlayan deseni arıyoruz.",
+                "match": "$~$pattern $glyph konumundaki $position ile eşleşir.",
+                "miss": "$~$pattern $glyph konumundaki $position ile eşleşmiyor.",
+                "end": "$~$pattern hala bir karakter gerekiyor, ancak $position konumunda metnin sonuna ulaştık.",
+                "repeat": "$~$pattern $count eşleşti; bu da devam etmek için yeterli.",
+                "short": "$~$pattern yalnızca $count eşleşti - yeterli değil.",
+                "here": "$~$pattern $position pozisyonunda geçerlidir.",
+                "nothere": "$~$pattern $position pozisyonunda geçerli değil."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~sekans",
+            "description": "$~desen dizisi",
+            "emotion": "curious",
+            "doc": [
+                "$~Ben, soldan sağa doğru art arda eşleştirilmiş desen parçalarından oluşan bir sırayım.",
+                "Örneğin, bir telefon numarasının yapısına bakın — üç rakam, bir tire, ardından dört rakam:",
+                "\\phone: '555-1234'\nphone ≈ ⣿3 # \"-\" 4 #⣿\\🪲",
+                "Seçenekler sunuluyor ve ben de en uygun olanı seçiyorum, en uzun olanı tercih ediyorum, tıpkı \\⣿\"cat\" | \"dog\"⣿\\ gibi."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~örtüşen seçimler",
+                    "explanation": "$~$shorter , $longer başlangıcıdır ve en uzun seçenek her zaman kazanır, bu nedenle $shorter yalnızca $longer eşleşemediğinde eşleşir. Bunu mu demek istediniz?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~karakter sınıfı",
+            "description": "$~karakter sınıfı",
+            "emotion": "curious",
+            "doc": [
+                "$~Bir türden tek bir karakteri eşleştiririm: \\⣿◌⣿\\ herhangi bir grafem, \\⣿_⣿\\ bir harf, \\⣿#⣿\\ bir rakam, \\⣿␣⣿\\ bir boşluk.",
+                "Örneğin, bir listeden her harf-sonra-rakam kodunu çek:",
+                "\\kodlar: 'a1 b2 c3'\nkodlar ⌕ ⣿ _ #⣿\\",
+                "Beni şöyle bir niceleyici ile say \\⣿>0 #⣿\\ (bir veya daha fazla rakam) veya beni şöyle bir @property ile daralt \\⣿ _/greek⣿\\ (bir Yunan harfi)."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~mülk",
+            "description": "$~Unicode özelliği",
+            "emotion": "curious",
+            "doc": [
+                "$~Bir karakter sınıfını bir Unicode @property ile daraltırım. Şöyle bir yazı sistemi kullan, \\⣿ _/greek⣿\\, \\⣿ _/han⣿\\ veya \\⣿ _/arabic⣿\\.",
+                "Örneğin, karışık bir metindeki Yunan harflerinin dizisini bul:",
+                "\\metin: 'merhaba αβγ dünya'\nmetin ⌕ ⣿ >0 _/greek⣿\\",
+                "Ya da bir kategori, örneğin \\⣿ ◌/punctuation⣿\\, \\⣿ ◌/currency⣿\\, \\⣿ ◌/Nd⣿\\ (bir rakam), ya da \\⣿ _/Lu⣿\\ (bir büyük harf).",
+                "Ya da evet-hayır türü bir özellik, örneğin \\⣿ ◌/emoji⣿\\ ya da \\⣿ _/uppercase⣿\\ — ve bunu bir isim ve @value ile yazabilirsin, örneğin \\⣿ ◌/Script=Greek⣿\\.",
+                "Bir özelliği bir @PatternComplement ile hariç tut, örneğin \\⣿ ~◌/emoji⣿\\ (emoji olmayan her şey)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~bilinmeyen özellik",
+                    "explanation": "$~$name özelliğini tanımıyorum. Bir kategori, komut dosyası veya Unicode kimliği deneyin.",
+                    "resolution": "$~Bunu $suggestion olarak değiştirin."
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~nicelikbelirleyici",
+            "description": "$~tekrar sayısı",
+            "emotion": "curious",
+            "doc": [
+                "$~Eşleşme sayısını şu şekilde belirtiyorum: tam olarak \\⣿3 #⣿\\ , \\⣿3–5 #⣿\\ aralığı, \\⣿=3 #⣿\\ (tam olarak üç), \\⣿>0 #⣿\\ (bir veya daha fazla), \\⣿≥0 #⣿\\ (sıfır veya daha fazla), \\⣿<5 #⣿\\ (beşten az), \\⣿≤1 #⣿\\ (isteğe bağlı).",
+                "Örneğin, bir cümledeki tüm rakam dizilerini bulun:",
+                "\\text: 'I have 3 cats and 12 fish'\ntext ⌕ ⣿>0 #⣿\\",
+                "Saymaya başladığım kısımdan her zaman önce gelirim, örneğin \\⣿3 #⣿\\ veya \\⣿>0 _⣿\\ ."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~imkansız sayım",
+                    "explanation": "$~Düşük sayımım yüksek sayımımdan daha büyük, bu yüzden asla eşleşemem.",
+                    "resolution": "$~Sayılarımı değiştir, böylece küçük olan önce gelsin."
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~tekrarlama",
+            "description": "$~tekrarlı eşleşme",
+            "emotion": "curious",
+            "doc": [
+                "$~Sonraki bölümü birkaç kez eşleştiriyorum.",
+                "Örneğin, bir posta kodunun tam olarak beş rakamdan oluştuğunu kontrol edin:",
+                "\\zip: '98101'\nzip ≈ ⣿5 #⣿\\",
+                "\\⣿3 #⣿\\ gibi bir sınıfı (üç basamaklı), \\⣿2 (\"ab\")⣿\\ gibi bir grubu (iki \"ab\") veya \\⣿2 ~#⣿\\ gibi bir tamamlayıcıyı (iki rakamsız sayı) sayın. \\⣿>0 #⣿\\ olduğunda açgözlüyüm — alabildiğim kadarını alıyorum."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~esiralmak",
+            "description": "$~$name olarak adlandırılmış yakalama",
+            "emotion": "curious",
+            "doc": [
+                "$~Her bir @Result hesabından okuyabilmeniz için eşleşmenin bir parçasını adlandırıyorum.",
+                "Örneğin, bir tarihten yılı, ayı ve günü çıkarın:",
+                "\\date: '2026-06-17'\ndate ⌕ ⣿y:(4 #) \"-\" m:(2 #) \"-\" d:(2 #)⣿\\",
+                "Daha sonra yakaladığım şeyi, adımı tekrar yazarak yeniden kullanın — bkz. @PatternBackref — örneğin \\⣿w:(>0 _) ␣ w⣿\\ şeklinde, çift kelime bulmak için."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~yinelenen yakalama",
+                    "explanation": "$~Başka bir yakalama işlemi zaten $name adını kullanıyor, bu nedenle bu yakalama işlemi onu geçersiz kılacaktır.",
+                    "resolution": "$~Bu yakalamayı $replacement olarak yeniden adlandırın."
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~Olumsuz",
+            "description": "$~tümleyen eşleşme",
+            "emotion": "curious",
+            "doc": [
+                "$~Sonrasında gelen şey OLMAYAN tek bir grafem ile eşleşirim. Bir sınıfı ters çevir, örneğin \\⣿~#⣿\\ (rakam değil), ya da bir kümeyi, örneğin \\⣿~{\":\" ␣}⣿\\ (iki nokta ya da boşluk değil).",
+                "Örneğin, iki nokta çevresindeki @key ve @value öğelerini, iki nokta ya da boşluk olmayan dizilerle eşleştirerek yakala:",
+                "\\çift: 'renk: mavi'\nçift ⌕ ⣿ >0 ~{\":\" ␣}⣿\\",
+                "Bir grubu ters çevir, örneğin \\⣿~(◌ | #)⣿\\, ya da bir @property öğesini, örneğin \\⣿ ~◌/emoji⣿\\ (emoji değil).",
+                "Bir @PatternLook öğesini ters çevirmek için beni önüne koy: \\⣿~▸(#)⣿\\ \"bir rakam gelmiyor\" demektir, ve \\⣿~◂(\"$\")⣿\\ \"öncesinde dolar işareti yok\" demektir."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~grup",
+            "description": "$~desen grubu",
+            "emotion": "curious",
+            "doc": [
+                "$~Parçaları bir araya getiriyorum, böylece bir sayım veya seçim hepsine uygulanıyor. Hiçbir zaman yakalama yapmıyorum; bunun için bir parçayı @PatternCapture etiketiyle adlandırıyorum.",
+                "Örneğin, bazı metinlerde \"ab\" hecesinin tekrarlandığını kontrol edin:",
+                "\\chant: 'ababab'\nchant ≈ ⣿>0 (\"ab\")⣿\\",
+                "\\⣿2 (\"ab\")⣿\\ (iki \"ab\") gibi bir grubu sayın veya \\⣿(◌ | #)⣿\\ (bir harf veya rakam) gibi bir seçenek sunun."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~harf seti",
+            "description": "$~grafem kümesi",
+            "emotion": "curious",
+            "doc": [
+                "$~Verilen seçenekler arasından herhangi bir harf ögesini eşleştiriyorum.",
+                "Örneğin, bir kelimedeki sesli harfleri bulun:",
+                "\\word: 'hello'\nword ⌕ ⣿{\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "\\⣿{\"a\"–\"z\" #}⣿\\ veya \\⣿{# \"a\"–\"f\"}⣿\\ (onaltılık rakam) gibi aralıkları ve sınıfları karıştırın. Beni bir @PatternComplement ile olumsuzlayın, örneğin \\⣿~{\"!\" \"?\"}⣿\\ ."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~menzil",
+            "description": "$~$low ile $high arasında aralık",
+            "emotion": "curious",
+            "doc": [
+                "$~İki uç nokta arasında skaler sıraya göre bir grafem eşleştiriyorum ve bir @PatternSet içinde yaşıyorum.",
+                "Örneğin, bir metinden küçük harfle başlayan kelimeleri ayıklayın:",
+                "\\text: 'hello world 2026'\ntext ⌕ ⣿>0 {\"a\"–\"z\"}⣿\\",
+                "\\⣿{\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ gibi harfleri veya \\⣿{\"0\"–\"9\"}⣿\\ gibi rakamları, \\⣿{\"あ\"–\"ん\"}⣿\\ gibi herhangi bir yazı sisteminde kullanın."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~kelimeanlamıyla",
+            "description": "$~tam metin $text",
+            "emotion": "curious",
+            "doc": [
+                "$~Tırnak içindeki metni, özel bir anlam yüklemeden, birebir aynı şekilde kullanıyorum.",
+                "Örneğin, bir cümledeki dolar tutarını bulun:",
+                "\\receipt: 'It costs $5 today'\nreceipt ⌕ ⣿\"$\" >0 #⣿\\",
+                "\\⣿\"-\"⣿\\ , \\⣿\"@\"⣿\\ gibi sabit parçalar veya \\⣿\"cat\"⣿\\ gibi diğer parçalarla bir araya getirilmiş tam bir kelime için beni kullanın; örneğin, bir telefon numarası için \\⣿3 # \"-\" 4 #⣿\\ gibi."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~çapa",
+            "description": "$~metin kenarı",
+            "emotion": "curious",
+            "doc": [
+                "$~Metnin bir kenarını, hiçbir şey tüketmeden eşleştiriyorum: \\⣿⊢⣿\\ başlangıç, \\⣿⊣⣿\\ son.",
+                "Örneğin, bir selamlamanın \"Merhaba\" ile başlayıp başlamadığını kontrol edin:",
+                "\\greeting: 'Hello world'\ngreeting ≈ ⣿⊢ \"Hello\" …⣿\\",
+                "Pin konumu, örneğin \\⣿⊢ \"Hi\"⣿\\ ( \"Hi\" ile başlar), \\⣿\".\" ⊣⣿\\ (nokta ile biter) veya \\⣿⊢ _ ⊣⣿\\ (metnin tamamı tek bir harften oluşur)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~kelime",
+            "description": "$~tam kelime",
+            "emotion": "curious",
+            "doc": [
+                "$~Bir @language öğesinin kendi kurallarıyla bulunan tam bir kelime ile eşleşirim.",
+                "Örneğin, bir cümledeki kelimeleri listele:",
+                "\\cümle: 'kedi oturdu'\ncümle ⌕ ⣿ ▭/en⣿\\",
+                "Dili adlandır, örneğin İngilizce için \\⣿ ▭/en⣿\\ ya da Çince için \\⣿ ▭/zh⣿\\, ve belirli bir kelimeyi kenarlarla sınırla, örneğin \\⣿ ┊/en \"cat\" ┊/en⣿\\."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~eksik dil",
+                    "explanation": "$~Kelimeleri nasıl bulacağımı bilmek için bir dile ihtiyacım var. \\/en\\ gibi bir tane ekleyebilir misiniz?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~kelime kenarı",
+            "description": "$~kelime sınırı",
+            "emotion": "curious",
+            "doc": [
+                "$~Bir @language öğesi için hiçbir şey tüketmeden bir kelime sınırı ile eşleşirim.",
+                "Örneğin, \"cat\" kelimesini \"category\" içinde değil, tam bir kelime olarak bul:",
+                "\\metin: 'bir kategorideki bir kedi'\nmetin ⌕ ⣿ ┊/en \"cat\" ┊/en⣿\\",
+                "Bir kelimeyi benimle sar, örneğin \\⣿ ┊/en \"cat\" ┊/en⣿\\, bu yüzden yalnızca tamamıyla eşleşir."
+            ]
+        },
+        "PatternLook": {
+            "name": "$~etrafabakın",
+            "description": "$~etrafına bakma",
+            "emotion": "curious",
+            "doc": [
+                "$~Tüketmeden hemen önümdeki \\⣿▸(#)⣿\\ veya arkamdaki \\⣿◂(#)⣿\\ şeyleri kontrol ediyorum, böylece bir sonraki parça aynı noktadan eşleşmeye devam ediyor.",
+                "Örneğin, hemen ardından bir rakam gelen her harfi bulun:",
+                "\\text: 'a1 b2 cc'\ntext ⌕ ⣿_ ▸(#)⣿\\",
+                "Bağlam gerektirir, örneğin \\⣿_ ▸(#)⣿\\ (bir harf ve ardından bir rakam) veya \\⣿◂(\"$\") >0 #⣿\\ (bir \"$\") işaretinden hemen sonra rakamlar).",
+                "Bağlamı yasaklamak için beni @PatternComplement ile ters çevirin, örneğin \\⣿~▸(#)⣿\\ (rakamla takip edilmeyen)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "$~gerireferans",
+            "description": "$~geri referans",
+            "emotion": "curious",
+            "doc": [
+                "$~Aynı metni, @PatternCapture adlı kullanıcının zaten eşleştirdiği metni eşleştiriyorum; sadece yakalamanın adını yazmanız yeterli.",
+                "Örneğin, hemen tekrarlanan bir kelime bulun:",
+                "\\text: 'the the cat sat sat'\ntext ⌕ ⣿w:(>0 _) ␣ w⣿\\",
+                "Yakalama işlemi içermeyen yalın bir isim, bunun yerine adlandırılmış bir sınıftır, örneğin \\⣿linebreak⣿\\ ."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~bilinmeyen isim",
+                    "explanation": "$~$name adında bir yakalama veya sınıf yok, bu yüzden eşleştirebileceğim bir şey bulamıyorum.",
+                    "resolution": "$~Bunu $suggestion olarak değiştirin."
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~dinlenmek",
+            "description": "$~girdinin geri kalanı",
+            "emotion": "curious",
+            "doc": [
+                "$~Metnin geri kalanıyla olabildiğince uyumlu yazıyorum. Desenlerin son kısımlarında becerikliyim.",
+                "Örneğin, bir metnin hashtag olup olmadığını kontrol edin — \"#\" işaretinden sonra herhangi bir şey:",
+                "\\tag: '#breakfast'\ntag ≈ ⣿\"#\" …⣿\\",
+                "Beni, \\⣿\"#\" …⣿\\ (bir \"#\" ardından herhangi bir şey) veya \\⣿\"Hi \" …⣿\\ (\"Hi\" ardından her şey) gibi sabit bir başlangıçtan sonra kullanın."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~büyük-küçük harf gözetme",
+            "description": "$~büyük-küçük harf duyarsız eşleşme",
+            "emotion": "curious",
+            "doc": [
+                "$~Parçalarımı büyük ve küçük harf ayrımını yok sayarak eşleştiririm.",
+                "Örneğin, bir kelimeyi büyük harflerini yok sayarak kontrol et:",
+                "\\bağır: 'MERHABA'\nbağır ≈ ⣿ Aa(\"hello\")⣿\\",
+                "Parçalarımı şöyle sar: \\⣿ Aa(\"hi\")⣿\\ (\"HI\", \"Hi\" veya \"hi\" ile eşleşir). Kuralları için bir @language ekle, örneğin \\⣿ Aa/tr(\"i\")⣿\\ (Türkçe i), ben de bir @PatternBackref kapsarım, örneğin \\⣿ Aa(w: (2 _) w)⣿\\."
+            ]
+        },
+        "PatternType": {
+            "name": "$~desen tipi",
+            "description": "$~desen",
+            "emotion": "curious",
+            "doc": [
+                "$~Ben bir kalıp @value @type ile işaretlenmişim, örneğin \\p•⣿⣿: ⣿ ◌⣿\\🪲.",
+                "Örneğin, bir kalıbı bir @name içinde sakla ve onu birçok metinde tekrar kullan:",
+                "\\rakamlar: ⣿ >0 #⣿\n'3 kedim ve 12 balığım var' ⌕ rakamlar\\",
+                "Saklandıktan sonra, beni bir kalıbın uyduğu her yerde kullan, örneğin \\text ⌕ digits\\🪲 veya \\text ≈ digits\\🪲."
+            ]
+        },
+        "RangeType": {
+            "name": "$~aralık",
+            "description": "$~aralık tip$unit[ in $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~@Bind'a bir ismin bir @Range tuttuğunu söylerim — iki @Number sınırı ve aralarındaki her sayıyı.",
+                "\\aralık2•‥: 1 ‥ 10\\🪲"
+            ]
+        }
+    }
+}

@@ -1,0 +1,1976 @@
+{
+    "$schema": "../../../static/schemas/sections/basis.json",
+    "basis": {
+        "Boolean": {
+            "doc": [
+                "$~Kita adalah \\⊤\\ dan \\⊥\\. \\⊤\\ itu benar. \\⊥\\ itu salah. \\⊤\\ bukan \\⊥\\; \\⊥\\ bukan \\⊤\\. Beginilah adanya.",
+                "Bagaimana @how Anda membuat kami? Hanya \\⊤\\ dan \\⊥\\, tidak lebih, tidak kurang.",
+                "Beberapa menggunakan keyboard (/ctrl+9/ untuk \\⊤\\ dan /ctrl+0/ untuk \\⊥\\). Beberapa menggunakan pencarian karakter di bagian bawah @editor. Atau Anda dapat menyeret kami dari sini.",
+                "Lihat @FunctionDefinition kami di bawah ini. Penjelasannya sangat logis."
+            ],
+            "name": ["$~⊤⊥", "$~Boolean"],
+            "function": {
+                "and": {
+                    "doc": [
+                        "$~Saya mengevaluasi ke \\⊤\\ *hanya* ketika kedua nilainya adalah \\⊤\\. Berguna untuk menentukan apakah banyak hal semuanya benar. Hanya ada empat kemungkinan hasil.",
+                        "\\⊤ & ⊤\\",
+                        "\\⊤ & ⊥\\",
+                        "\\⊥ & ⊤\\",
+                        "\\⊥ & ⊥\\"
+                    ],
+                    "names": ["$~Dan", "dan"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Boolean lain yang perlu diperiksa. Jika yang pertama adalah \\⊥\\, tidak masalah apa pun nilainya, fungsi akan dievaluasi menjadi \\⊥\\.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "or": {
+                    "doc": [
+                        "$~Aku bernilai \\⊤\\ ketika *salah satu* @value adalah \\⊤\\. Berguna untuk menentukan apakah salah satu dari banyak hal itu benar. Hanya ada empat hasil yang mungkin",
+                        "\\⊤ | ⊤\\",
+                        "\\⊤ | ⊥\\",
+                        "\\⊥ | ⊤\\",
+                        "\\⊥ | ⊥\\"
+                    ],
+                    "names": ["$~atau"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Boolean lain yang perlu diperiksa. Jika yang pertama adalah \\⊥\\, fungsi hanya akan menghasilkan \\⊤\\ jika yang ini adalah \\⊤\\.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "not": {
+                    "doc": "$~Saya mendapatkan kebalikan dari diri saya sendiri: jika \\⊤\\, maka hasilnya \\⊥\\, jika \\⊥\\, maka hasilnya \\⊤\\.",
+                    "names": ["$~bukan"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ jika keduanya adalah \\⊤\\ atau keduanya adalah \\⊥\\.",
+                    "names": ["$~samadengan"],
+                    "inputs": [
+                        {
+                            "doc": "$~@value lain yang akan diperiksa.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~\\⊤\\ jika keduanya berlawanan.",
+                    "names": ["$~tidaksama"],
+                    "inputs": [
+                        {
+                            "doc": "$~@value lain yang akan diperiksa.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Mengonversi @Boolean ke nilai @Text yang setara, \\'⊤'\\ dan \\'⊥'\\",
+                "number": "$~Mengubah @Boolean menjadi @Number, \\1\\ untuk \\⊤\\ dan \\0\\ untuk \\⊥\\"
+            }
+        },
+        "None": {
+            "doc": [
+                "$~Aku mewakili ketiadaan @value, ditulis \\ø\\.",
+                "Aku adalah @None. Panggil aku dengan \\ø\\."
+            ],
+            "name": ["$~Hai", "$~Tidakada"],
+            "function": {
+                "equals": {
+                    "doc": "$~Apakah @value lain juga tidak ada? Sebaiknya begitu, kalau tidak, \\⊥\\.",
+                    "names": ["$~samadengan"],
+                    "inputs": [
+                        {
+                            "doc": "$~@value yang lain.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~Apakah @value lain /bukan/ tidak ada?",
+                    "names": ["$~tidaksama"],
+                    "inputs": [
+                        {
+                            "doc": "$~@value yang lain.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Ingin mengubah \\ø\\ menjadi \\'ø'\\? Inilah kesempatanmu."
+            }
+        },
+        "Text": {
+            "doc": [
+                "$~Saya dapat mewakili teks apa pun, dari @language mana pun. Cukup letakkan teks di antara simbol teks pembuka dan penutup: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, atau \\『』\\.",
+                "Sebagai contoh, perhatikan frasa-frasa indah ini",
+                "\\'Hanya ada dua cara untuk menjalani hidupmu. Yang pertama adalah seolah-olah tidak ada yang merupakan keajaiban. Yang kedua adalah seolah-olah segalanya adalah keajaiban.'\\",
+                "\\『一日三秋』\\",
+                "Ingat saja untuk menutupku jika kamu membukaku, dan gunakan simbol yang cocok. Jika tidak, aku tidak akan tahu bahwa kamu sudah selesai dengan kata-katamu.",
+                "\\'hello'/en'hola'/es-MX\\",
+                "Kamu juga bisa menandaiku dengan bahasa, dan bahkan memberikan beberapa terjemahan. Aku akan bernilai sesuai bahasa yang sedang dipilih, jika ada bahasa yang cocok.",
+                "Jika kamu ingin membuatku dengan beberapa @value lain, kamu bisa melakukan ini:",
+                "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
+                "Lihat betapa anggunnya aku baru saja menghitung jumlah-jumlah itu, dan menempatkannya di dalam @Text?",
+                "Aku punya satu rahasia kecil terakhir: tahukah kamu bahwa kita semua punya nomor yang unik? Itu benar! Kamu bisa merujuk kami dengan menulis @U/ dan nomor kami. Sebagai contoh, @FunctionDefinition adalah 192:",
+                "\\'@U/192'\\",
+                "Lihat bagaimana @U/192 berubah menjadi @FunctionDefinition? Aku dengar kamu menyebut nomor-nomor ini 'Unicode'.",
+                "Selain itu, ada begitu banyak fungsi hebat yang @FunctionDefinition buat untukku agar bisa melakukan segala macam hal dengan kata-kata!"
+            ],
+            "name": ["$~Teks"],
+            "function": {
+                "length": {
+                    "doc": [
+                        "$~Aku menghasilkan jumlah karakter yang terbaca dalam teks; satu huruf adalah satu karakter, satu emoji adalah satu karakter, dan seterusnya. Misalnya:",
+                        "\\'halo'.📏()\\",
+                        "\\'🐈📚'.📏()\\"
+                    ],
+                    "names": ["$~panjang"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ jika saya adalah urutan karakter yang sama dengan @Text yang diberikan.",
+                    "names": ["$~samadengan"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang akan dibandingkan.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ jika saya bukan urutan karakter yang sama dengan @Text yang diberikan.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang akan dibandingkan",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ jika @Text yang diberikan muncul dalam diriku.",
+                        "\\'apakah kamu menemukan apa yang kamu cari?'.⊆('kamu')\\"
+                    ],
+                    "names": ["$~memiliki"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang akan dicari di dalamku.",
+                            "names": "$~teks"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": [
+                        "$~\\⊤\\ jika saya mulai dengan @Text yang diberikan.",
+                        "\\'halo bait!'.starts('halo')\\",
+                        "\\'halo bait!'.starts('bait')\\"
+                    ],
+                    "names": ["$~mulai"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang perlu diperiksa di awal saya.",
+                            "names": "$~teks"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": [
+                        "$~\\⊤\\ jika aku berakhir dengan @Text yang diberikan.",
+                        "\\'apakah aku sebuah pertanyaan?'.berakhir('?')\\",
+                        "\\'Saya bukan sebuah pertanyaan.'.berakhir('?')\\"
+                    ],
+                    "names": ["$~berakhir"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang perlu diperiksa di akhir saya.",
+                            "names": "$~teks"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": [
+                        "$~Aku membuat @Text baru yang adalah diriku, diulang sebanyak \\count\\:",
+                        "\\'hai ' × 5\\",
+                        "Jika kamu memberiku @Number pecahan, aku mengabaikan pecahannya:",
+                        "\\'hai ' × 5.5\\",
+                        "Jika kamu memberiku @Number negatif atau nol, aku memberi @Text kosong.",
+                        "\\'hai ' × -5\\",
+                        "Teks terpanjang yang bisa aku buat adalah 65.535 karakter. Jika kamu mencoba membuat teks lebih panjang, aku akan mengulang teks sebanyak yang aku bisa."
+                    ],
+                    "names": ["$~ulang", "$~mengulang"],
+                    "inputs": [
+                        {
+                            "doc": "$~Jumlah pengulangan yang saya perlukan dalam teks baru.",
+                            "names": "$~menghitung"
+                        }
+                    ]
+                },
+                "segment": {
+                    "doc": [
+                        "$~Saya membagi diri saya menjadi @List dari @Text, menggunakan @Text yang diberikan sebagai pemisah, dan menghapus pemisahnya. Misalnya:",
+                        "\\'apel, jeruk, anggur' ÷ ', '\\",
+                        "Jika pemisahnya adalah @Text kosong, saya membagi diri saya menjadi beberapa karakter:",
+                        "\\'🖌️🏠🥸' ÷ ''\\"
+                    ],
+                    "names": ["$~tersegmentasi", "$~segmen"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang digunakan sebagai pemisah.",
+                            "names": "$~pembatas"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Kadang berguna untuk menggabungkan dua @Text menjadi satu. Beri aku @Text lain dan aku akan membuat teks baru yang menyatukan kita:",
+                        "\\'halo ' + 'bait'\\"
+                    ],
+                    "names": ["$~gabungan", "$~menggabungkan"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang akan ditambahkan.",
+                            "names": "$~teks"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ jika seluruh teks cocok dengan pola yang diberikan.",
+                        "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
+                    ],
+                    "names": ["$~pertandingan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Pola yang akan dicocokkan.",
+                            "names": "$~pola"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Temukan setiap tempat di mana pola yang diberikan cocok di dalam diri saya, sebagai daftar @Result .",
+                        "\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~mencari"],
+                    "inputs": [
+                        {
+                            "doc": "$~Pola yang perlu dicari.",
+                            "names": "$~pola"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Aku membuat @Text baru yang seperti aku, dengan setiap huruf besar semua:",
+                        "\\'halo'.hurufBesar()\\",
+                        "Huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, jadi teks dalam sistem tulisan yang tidak punya itu, seperti tulisan Jepang atau Arab, tidak berubah.",
+                        "Tanda bahasaku menentukan aturan siapa yang dipakai. @language Turki punya huruf i bertitik dan i tanpa titik, dan hanya teks yang ditandai sebagai bahasa Turki yang diubah menjadi huruf besar dengan @how Turki:",
+                        "\\'iyi'/tr.hurufBesar()\\",
+                        "\\'iyi'.hurufBesar()\\"
+                    ],
+                    "names": ["$~hurufBesar"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Aku membuat @Text baru yang seperti aku, dengan setiap huruf kecil semua:",
+                        "\\'HALO'.hurufKecil()\\",
+                        "Ubah dua teks menjadi huruf kecil untuk membandingkannya tanpa peduli pada huruf besar atau kecil. @how ini tetap menyimpan setiap kata yang dimulai dengan huruf a, baik ditulis dengan huruf besar maupun tidak:",
+                        "\\['Apel' 'aprikot' 'Pisang'].menyaring(\n\tƒ(kata•'') kata.hurufKecil().mulai('a')\n)\\",
+                        "Seperti @Text/uppercase, huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, dan tanda bahasaku menentukan aturan siapa yang dipakai."
+                    ],
+                    "names": ["$~hurufKecil"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Aku membuat @Text baru dari sebagian diriku. Hitungan dimulai dari 1, dan kedua ujungnya ikut dihitung:",
+                        "\\'halo'.subrangkaian(2 4)\\",
+                        "Biarkan ujungnya kosong, dan aku akan sampai ke simbol terakhirku:",
+                        "\\'halo'.subrangkaian(3)\\",
+                        "Aku menghitung simbol seperti yang kamu lihat, jadi emoji yang terdiri dari beberapa bagian tetap dianggap satu simbol dan tidak akan pernah terpotong di tengah:",
+                        "\\'🐈📚!'.subrangkaian(1 2)\\",
+                        "Jika kamu meminta lebih banyak daripada yang aku punya, aku memberikan sebanyak yang aku punya."
+                    ],
+                    "names": ["$~subrangkaian"],
+                    "inputs": [
+                        {
+                            "doc": "$~Tempat untuk mulai, dihitung dari 1.",
+                            "names": "$~awal"
+                        },
+                        {
+                            "doc": "$~Tempat untuk berhenti, dihitung dari 1. Biarkan kosong untuk sampai ke akhir.",
+                            "names": "$~akhir"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Aku memberitahumu di mana @Text yang diberikan pertama kali muncul dalam diriku, dihitung dari 1:",
+                        "\\'halo'.indeks('ll')\\",
+                        "Jika sama sekali tidak ada dalam diriku, aku memberikan @None sebagai gantinya:",
+                        "\\'halo'.indeks('z')\\",
+                        "Bersama dengan @Text/subsequence, aku bisa mengambil semuanya sampai pada sesuatu — di sini, kata pertama:",
+                        "\\frasa: 'halo dunia'\nfrasa.subrangkaian(1 (frasa.indeks(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~indeks"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang harus dicari dalam diriku.",
+                            "names": "$~teks"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Aku membuat @Text baru dengan setiap kemunculan satu @Text ditukar dengan yang lain:",
+                        "\\'2026-08-21'.ganti('-' '/')\\",
+                        "Setiap kemunculan berubah, tidak hanya yang pertama:",
+                        "\\'ha ha ha'.ganti('ha' 'ho')\\",
+                        "Jika kamu memintaku mengganti @Text yang kosong, aku memberikan diriku kembali tanpa perubahan."
+                    ],
+                    "names": ["$~ganti"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang harus dicari dalam diriku.",
+                            "names": "$~dari"
+                        },
+                        {
+                            "doc": "$~@Text yang harus ditaruh sebagai gantinya.",
+                            "names": "$~pengganti"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Aku membuat @Text baru dengan spasi kosong dihilangkan dari kedua ujungku. Spasi di tengah tetap ada:",
+                        "\\'  halo  '.pangkas()\\",
+                        "Ini berguna untuk teks yang diketik seseorang, yang sering membawa spasi tambahan yang tidak kamu minta."
+                    ],
+                    "names": ["$~pangkas"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Aku membuat @Text baru dengan urutan simbolku dibalik:",
+                        "\\'halo'.dibalik()\\",
+                        "Aku membalik urutan simbolku seperti yang kamu lihat, jadi emoji tetap utuh dan huruf tetap mempertahankan tanda aksennya:",
+                        "\\'🐈📚'.dibalik()\\"
+                    ],
+                    "names": ["$~dibalik", "$~balik"],
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "list": "$~Memisahkan teks menjadi daftar karakter individual.",
+                "number": [
+                    "$~Mengubah teks menjadi @Number, dan jika bukan angka, menjadi nilai bukan-angka, yang muncul sebagai \\!#\\:",
+                    "\\'hai' → #\\"
+                ],
+                "formatted": "$~Mengonversi teks menjadi teks berformat, dengan menginterpretasikan setiap markup yang terdapat di dalamnya."
+            }
+        },
+        "Number": {
+            "doc": [
+                "$~Aku membuat @Number, dengan satuan sebanyak yang bisa kamu bayangkan!",
+                "Ini 5 teratasku:",
+                "\\0\\",
+                "\\1story\\",
+                "\\πpie\\",
+                "\\∞rock\\",
+                "\\1000000hugs\\",
+                "Itu pada dasarnya angka yang tak terhingga banyaknya.",
+                "Dan satuan yang tak terhingga banyaknya!",
+                "Dan pasangan angka/satuan yang tak terhingga banyaknya…",
+                "Aku bisa berupa bilangan bulat, bilangan riil, negatif, positif, pecahan, desimal, bahkan bukan angka.",
+                "Dan kamu bisa menulisku dengan banyak sistem angka berbeda, termasuk Arab \\123\\, Romawi \\ⅩⅩⅩⅠⅩ\\, Jepang \\二十\\, dan lainnya:",
+                "\\1 + Ⅰ + 一\\",
+                "Kamu juga bisa menulisku dalam basis 2 sampai 16 dengan menaruh nomor basis seperti ini:",
+                "\\2;11111111\\",
+                "\\10;255\\",
+                "\\16;FF\\",
+                "Ada satu angka khusus bernama NaN yang muncul saat kamu menulis sesuatu yang bukan angka:",
+                "\\2;22\\",
+                "Tidak ada digit '2' dalam basis 2, jadi itu bukan angka yang sah. NaN juga akan muncul jika kamu mencoba mengubah teks bukan-angka menjadi angka",
+                "\\'hai' → #\\"
+            ],
+            "name": ["$~Nomor"],
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Saya menambahkan sebuah @Number dengan @Unit yang sama ke diri saya, sehingga membuat @Number baru dengan @Unit yang sama.",
+                        "Contohnya:",
+                        "\\1 + 1\\",
+                        "\\3cat + 5cat\\",
+                        "Jika satuannya tidak cocok, saya menghentikan pertunjukan.",
+                        "\\3cat + 5dog\\🪲"
+                    ],
+                    "names": ["$~menambahkan"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number yang akan ditambahkan.",
+                            "names": "$~nomor"
+                        }
+                    ]
+                },
+                "subtract": {
+                    "doc": [
+                        "$~Saya mengurangkan @Number yang kamu berikan dari diri saya, sehingga membuat @Number baru dengan @Unit yang sama.",
+                        "Contohnya:",
+                        "\\1 - 1\\",
+                        "\\3cat - 5cat\\",
+                        "Jika satuannya tidak cocok, saya menghentikan pertunjukan.",
+                        "\\3cat - 5dog\\🪲"
+                    ],
+                    "names": ["$~mengurangi"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number yang akan dikurangkan dariku.",
+                            "names": "$~nomor"
+                        }
+                    ]
+                },
+                "multiply": {
+                    "doc": [
+                        "$~Aku mengalikan diriku dengan @Number yang diberikan, membuat hasil kali dari @Unit-ku dan @Unit angka yang diberikan:",
+                        "\\5 × 5\\",
+                        "\\5m × 5m\\",
+                        "\\5m × 1/s\\"
+                    ],
+                    "names": ["$~berkembangbiak"],
+                    "inputs": [
+                        {
+                            "doc": "$~Angka yang akan dikalikan.",
+                            "names": "$~nomor"
+                        }
+                    ]
+                },
+                "divide": {
+                    "doc": [
+                        "$~Aku membagi diriku dengan @Number yang diberikan, membuat hasil bagi dari @Unit-ku dan @Unit angka yang diberikan:",
+                        "\\5 ÷ 5\\",
+                        "\\5m ÷ 5m\\",
+                        "\\5m ÷ 5s\\"
+                    ],
+                    "names": ["$~membagi"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number yang akan membagiku.",
+                            "names": "$~nomor"
+                        }
+                    ]
+                },
+                "remainder": {
+                    "doc": [
+                        "$~Aku membagi diriku dengan @Number yang diberikan, tapi memberi sisanya:",
+                        "\\10 % 2\\",
+                        "\\10m % 2\\",
+                        "\\10m/s % 3\\"
+                    ],
+                    "names": ["$~sisa"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number yang akan membagiku.",
+                            "names": "$~nomor"
+                        }
+                    ]
+                },
+                "positive": {
+                    "doc": [
+                        "$~Aku membuat @Number baru yang membuatku positif, jika negatif.",
+                        "\\-200.positif()\\"
+                    ],
+                    "names": ["$~positif"],
+                    "inputs": []
+                },
+                "round": {
+                    "doc": [
+                        "$~Saya membuat @Number baru yang membulatkan @value saya ke bilangan bulat terdekat.",
+                        "\\9.4.round()\\",
+                        "\\9.5.round()\\",
+                        "\\9.6.round()\\"
+                    ],
+                    "names": ["$~bulat"],
+                    "inputs": []
+                },
+                "roundDown": {
+                    "doc": [
+                        "$~Saya membuat @Number baru yang membulatkan ke bilangan bulat terkecil yang kurang dari @value saya.",
+                        "\\10.5.roundDown()\\",
+                        "\\10.1.roundDown()\\",
+                        "\\10.01.roundDown()\\"
+                    ],
+                    "names": ["$~bulatkankebawah"],
+                    "inputs": []
+                },
+                "roundUp": {
+                    "doc": [
+                        "$~Saya membuat @Number baru yang membulatkan ke bilangan bulat terkecil yang lebih besar dari saya.",
+                        "\\10.5.roundUp()\\",
+                        "\\10.9.roundUp()\\",
+                        "\\10.99.roundUp()\\"
+                    ],
+                    "names": ["$~Ringkasan"],
+                    "inputs": []
+                },
+                "power": {
+                    "doc": [
+                        "$~Aku memangkatkan diriku dengan @Number yang diberikan. Pangkat pecahan boleh saja!",
+                        "\\2 ^ 8\\",
+                        "\\10 ^ -2\\",
+                        "\\5 ^ -.5\\"
+                    ],
+                    "names": ["$~kekuatan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Eksponen untuk menaikkan saya ke.",
+                            "names": "$~nomor"
+                        }
+                    ]
+                },
+                "root": {
+                    "doc": [
+                        "$~Saya menciptakan akar diri saya sendiri menggunakan akar yang diberikan.",
+                        "\\4 √ 2\\",
+                        "\\1000 √ 3\\"
+                    ],
+                    "names": ["$~akar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Akar yang akan dihitung.",
+                            "names": "$~nomor"
+                        }
+                    ]
+                },
+                "lessThan": {
+                    "doc": [
+                        "$~\\⊤\\ jika aku lebih kecil dari @Number yang diberikan:",
+                        "\\1 < 2\\",
+                        "\\2 < 1\\"
+                    ],
+                    "names": ["$~kurangdari"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number yang akan dibandingkan denganku.",
+                            "names": "$~nomor"
+                        }
+                    ]
+                },
+                "lessOrEqual": {
+                    "doc": [
+                        "$~\\⊤\\ jika aku lebih kecil dari atau sama dengan @Number yang diberikan:",
+                        "\\1 ≤ 2\\",
+                        "\\2 ≤ 1\\",
+                        "\\2 ≤ 2\\"
+                    ],
+                    "names": ["$~kurangdarisamadengan"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number yang akan dibandingkan denganku.",
+                            "names": "$~nomor"
+                        }
+                    ]
+                },
+                "greaterThan": {
+                    "doc": [
+                        "$~\\⊤\\ jika aku lebih besar dari @Number yang diberikan:",
+                        "\\1 > 2\\",
+                        "\\2 > 1\\"
+                    ],
+                    "names": ["$~lebihbesardari"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number yang akan dibandingkan denganku.",
+                            "names": "$~nomor"
+                        }
+                    ]
+                },
+                "greaterOrEqual": {
+                    "doc": [
+                        "$~\\⊤\\ jika aku lebih besar dari atau sama dengan @Number yang diberikan:",
+                        "\\1 ≥ 2\\",
+                        "\\2 ≥ 1\\",
+                        "\\2 ≥ 2\\"
+                    ],
+                    "names": ["$~lebihbesaratausamadengan"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number yang akan dibandingkan denganku.",
+                            "names": "$~nomor"
+                        }
+                    ]
+                },
+                "equal": {
+                    "doc": [
+                        "$~\\⊤\\ jika aku sama dengan @Number yang diberikan:",
+                        "\\1 = 2\\",
+                        "\\2 = 2\\"
+                    ],
+                    "names": ["$~setara"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number yang akan dibandingkan denganku.",
+                            "names": "$~nomor"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": [
+                        "$~\\⊤\\ jika aku tidak sama dengan @Number yang diberikan:",
+                        "\\1 ≠ 2\\",
+                        "\\2 ≠ 2\\"
+                    ],
+                    "names": ["$~tidaksama"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number yang akan dibandingkan denganku.",
+                            "names": "$~nomor"
+                        }
+                    ]
+                },
+                "cos": {
+                    "doc": ["$~Hitung kosinus dari saya.", "\\π.cos()\\"],
+                    "names": ["$~karena", "$~kosinus"],
+                    "inputs": []
+                },
+                "sin": {
+                    "doc": ["$~Hitung sinus dari saya.", "\\π.cos()\\"],
+                    "names": ["$~dosa", "$~sinus"],
+                    "inputs": []
+                },
+                "min": {
+                    "doc": [
+                        "$~Carilah jumlah terkecil dari saya dan orang lain.",
+                        "\\1.min(2 3 -1)\\"
+                    ],
+                    "names": "$~menit",
+                    "inputs": [
+                        {
+                            "doc": "$~Anda bisa memberikan angka sebanyak yang Anda inginkan!",
+                            "names": "$~angka"
+                        }
+                    ]
+                },
+                "max": {
+                    "doc": [
+                        "$~Temukan jumlah terbesar dari saya dan orang lain.",
+                        "\\1.max(2 3 4)\\"
+                    ],
+                    "names": "$~maksimal",
+                    "inputs": [
+                        {
+                            "doc": "$~Anda bisa memberikan angka sebanyak yang Anda inginkan!",
+                            "names": "$~angka"
+                        }
+                    ]
+                },
+                "tan": {
+                    "doc": ["$~Hitung tangen dari saya.", "\\π.tan()\\"],
+                    "names": ["$~tangen"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Hitung arcsinus (kebalikan sinus) dari saya.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Hitung arccosinus (kebalikan cosinus) dari saya.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Hitung arctangen (kebalikan tangen) dari saya.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Pangkatkan angka _e_ dengan pangkat saya.",
+                        "\\1.eksp()\\"
+                    ],
+                    "names": ["$~eksp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Hitung logaritma saya dengan basis yang diberikan, atau logaritma natural saya jika tidak ada basis yang diberikan.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Basis dari logaritma. Biarkan kosong untuk logaritma natural (basis _e_).",
+                            "names": "$~basis"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Sebuah @Range dari aku sampai @Number yang diberikan, termasuk keduanya. Sebarkan aku menjadi sebuah daftar dengan @Spread, tanyakan apakah aku menyimpan sebuah angka, atau gunakan aku sebagai kunci @Match:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Aku menghitung mundur kalau akhirku lebih kecil dari awalku:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~ke"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number tempat rentangku berakhir. Ini harus punya satuan yang sama denganku.",
+                            "names": "$~angka"
+                        }
+                    ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Jaga aku tetap di antara angka rendah dan angka tinggi: jika aku di bawah angka rendah, itulah yang kamu dapat, dan jika aku di atas angka tinggi, kamu dapat angka itu sebagai gantinya.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~batas",
+                    "inputs": [
+                        {
+                            "doc": "$~@value terendah yang boleh aku miliki.",
+                            "names": "$~rendah"
+                        },
+                        {
+                            "doc": "$~@value tertinggi yang boleh aku miliki.",
+                            "names": "$~tinggi"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Bergerak sebagian jalan dariku ke angka lain. Pada 0% kamu dapat aku, pada 100% kamu dapat angka lainnya, dan tepat di tengah memberi angka di antaranya.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~menuju",
+                    "inputs": [
+                        {
+                            "doc": "$~Angka tujuan untuk bergerak.",
+                            "names": "$~lain"
+                        },
+                        {
+                            "doc": "$~Seberapa jauh harus bergerak, di mana 100% berarti sampai.",
+                            "names": "$~jumlah"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Temukan posisiku di antara satu pasang angka, lalu berikan kembali angka yang berada pada posisi yang sama di antara pasangan angka lain. Berguna untuk mengubah sesuatu yang kamu ukur menjadi sesuatu yang bisa kamu tampilkan.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~ubahSkala",
+                    "inputs": [
+                        {
+                            "doc": "$~Ujung rendah dari rentang tempatku berada.",
+                            "names": "$~dariRendah"
+                        },
+                        {
+                            "doc": "$~Ujung tinggi dari rentang tempatku berada.",
+                            "names": "$~dariTinggi"
+                        },
+                        {
+                            "doc": "$~Ujung rendah dari rentang yang kamu inginkan.",
+                            "names": "$~keRendah"
+                        },
+                        {
+                            "doc": "$~Ujung tinggi dari rentang yang kamu inginkan.",
+                            "names": "$~keTinggi"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Representasi @Text Arab dari angka-angkaku.",
+                "list": [
+                    "$~Saya mengubah sebuah angka menjadi daftar angka dari \\1\\ hingga angka yang diberikan. Misalnya:",
+                    "\\10→[]\\"
+                ],
+                "unit": "$from → $to"
+            },
+            "unit": {
+                "ns": "$~nanodetik",
+                "us": "$~mikrodetik",
+                "ms": "$~milidetik",
+                "s": "$~detik",
+                "min": "$~menit",
+                "h": "$~jam",
+                "day": "$~hari",
+                "wk": "$~minggu",
+                "yr": "$~tahun",
+                "pm": "$~pikometer",
+                "nm": "$~nanometer",
+                "um": "$~mikrometer",
+                "mm": "$~milimeter",
+                "cm": "$~sentimeter",
+                "dm": "$~desimeter",
+                "m": "$~meter",
+                "hm": "$~hektometer",
+                "km": "$~kilometer",
+                "Mm": "$~megameter",
+                "Gm": "$~gigameter",
+                "Tm": "$~terameter",
+                "in": "$~inci",
+                "ft": "$~kaki",
+                "yd": "$~yard",
+                "mi": "$~mil",
+                "nmi": "$~mil laut",
+                "au": "$~satuan astronomi",
+                "ly": "$~tahun cahaya",
+                "ug": "$~mikrogram",
+                "mg": "$~miligram",
+                "g": "$~gram",
+                "kg": "$~kilogram",
+                "t": "$~ton metrik",
+                "oz": "ounce",
+                "lb": "$~pon",
+                "st": "$~stone",
+                "uston": "$~ton pendek AS",
+                "ukton": "$~ton panjang Inggris",
+                "degC": "$~derajat Celsius",
+                "degF": "$~derajat Fahrenheit",
+                "K": "$~kelvin",
+                "deg": "$~derajat sudut",
+                "rad": "$~radian",
+                "mm2": "$~milimeter persegi",
+                "cm2": "$~sentimeter persegi",
+                "m2": "$~meter persegi",
+                "km2": "$~kilometer persegi",
+                "in2": "$~inci persegi",
+                "ft2": "$~kaki persegi",
+                "yd2": "$~yard persegi",
+                "mi2": "$~mil persegi",
+                "ha": "$~hektar",
+                "acre": "akre",
+                "mL": "$~mililiter",
+                "cL": "$~centiliter",
+                "dL": "$~desiliter",
+                "L": "$~liter",
+                "kL": "$~kiloliter",
+                "cm3": "$~sentimeter kubik",
+                "m3": "$~meter kubik",
+                "tsp": "$~sendok teh",
+                "tbsp": "$~sendok makan",
+                "cup": "$~cangkir",
+                "usfloz": "ounce cairan AS",
+                "uspt": "$~pint AS",
+                "usqt": "$~quart AS",
+                "usgal": "$~galon AS",
+                "ukfloz": "ounce cairan Inggris",
+                "ukpt": "$~pint Inggris",
+                "ukqt": "$~quart Inggris",
+                "ukgal": "$~galon Inggris",
+                "mps": "$~meter per detik",
+                "kmph": "$~kilometer per jam",
+                "miph": "$~mil per jam",
+                "ftps": "$~kaki per detik",
+                "kn": "$~knot",
+                "Pa": "$~pascal",
+                "hPa": "$~hektopascal",
+                "kPa": "$~kilopascal",
+                "bar": "$~bar",
+                "atm": "$~atmosfer standar",
+                "psi": "$~pon per inci persegi",
+                "mmHg": "$~milimeter air raksa",
+                "J": "$~joule",
+                "kJ": "$~kilojoule",
+                "cal": "$~kalori",
+                "kcal": "$~kilokalori",
+                "Wh": "$~watt jam",
+                "kWh": "$~kilowatt jam",
+                "BTU": "$~satuan termal Inggris",
+                "eV": "$~elektronvolt",
+                "mW": "$~miliwatt",
+                "W": "$~watt",
+                "kW": "$~kilowatt",
+                "MW": "$~megawatt",
+                "GW": "$~gigawatt",
+                "hp": "$~tenaga kuda",
+                "uA": "$~mikroampere",
+                "mA": "$~miliampere",
+                "A": "$~ampere",
+                "kA": "$~kiloampere",
+                "mV": "$~milivolt",
+                "V": "$~volt",
+                "kV": "$~kilovolt",
+                "mohm": "$~miliohm",
+                "ohm": "$~ohm",
+                "kohm": "$~kiloohm",
+                "Mohm": "$~megaohm",
+                "Hz": "$~hertz",
+                "kHz": "$~kilohertz",
+                "MHz": "$~megahertz",
+                "GHz": "$~gigahertz",
+                "bpm": "$~detak per menit",
+                "bit": "$~bit",
+                "B": "$~byte",
+                "kB": "$~kilobyte",
+                "MB": "$~megabyte",
+                "GB": "$~gigabyte",
+                "TB": "$~terabyte",
+                "KiB": "$~kibibyte",
+                "MiB": "$~mebibyte",
+                "GiB": "$~gibibita",
+                "TiB": "$~tebibita",
+                "lux": "$~lux",
+                "fc": "$~foot-candle"
+            },
+            "category": {
+                "time": "$~Waktu",
+                "length": "$~Panjang",
+                "weight": "$~Berat",
+                "temperature": "$~Suhu",
+                "angle": "$~Sudut",
+                "area": "$~Luas",
+                "volume": "$~Volume",
+                "speed": "$~Kecepatan",
+                "pressure": "$~Tekanan",
+                "energy": "$~Energi",
+                "power": "$~Daya",
+                "electricity": "$~Listrik",
+                "frequency": "$~Frekuensi",
+                "data": "$~Data",
+                "brightness": "$~Kecerahan",
+                "other": "$~Lainnya"
+            }
+        },
+        "List": {
+            "doc": [
+                "$~Aku adalah urutan nilai, jenis apa pun!",
+                "Kamu bisa menaruh apa saja dalam diriku: @Boolean, @Number, @Text, @None, bahkan @List, @Set, @Map lain, atau @expression apa pun. Ini contoh sederhana:",
+                "\\['apel' 'pisang' 'mangga']\\",
+                "Yang membuatku istimewa adalah aku menjaga segala hal tetap berurutan dan aku menomori semuanya dari 1 sampai berapa pun jumlah item dalam diriku.",
+                "Item-itemku dinomori, mulai dari 1. Kamu bisa mengambil nilai yang aku simpan dengan @ListAccess, memakai nomornya:",
+                "Misalnya, @value kedua dalam daftar ini adalah \\['pisang']\\",
+                "\\['apel' 'pisang' 'mangga'][2]\\",
+                "Aku bisa berisi apa saja. Lihat daftar ini, dengan @Text, @Number, dan @Time!",
+                "\\['apel' 10 + 10 🕕()]\\",
+                "Saat kamu memberiku daftar berisi banyak hal, aku akan menyamaratakannya jika mereka punya @type yang sama. Tapi kadang kamu mungkin benar-benar memaksudkan hal-hal tertentu itu. Jika begitu, cukup taruh ! setelahku, dan aku akan memastikan aku mewakili daftar yang khusus berisi hanya nilai-nilai itu.",
+                "\\['apel' 'pisang' 'mangga']!\\",
+                "Kira-kira begitu. Tapi aku bisa melakukan segala macam hal seru dengan @FunctionDefinition-ku!"
+            ],
+            "name": ["$~Daftar"],
+            "kind": "Jenis",
+            "out": "$~Hasil",
+            "outofbounds": "$~diLuarBatas",
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Saya membuat @List baru dengan item yang diberikan di bagian akhir.",
+                        "\\['apel' 'pisang' 'mangga'].with('semangka')\\"
+                    ],
+                    "names": "$~dengan",
+                    "inputs": [
+                        {
+                            "doc": "$~Aku adalah @value yang ingin kamu tambahkan.",
+                            "names": "$~barang"
+                        }
+                    ]
+                },
+                "append": {
+                    "doc": [
+                        "$~Saya membuat @List baru dengan @value-nilai saya, kemudian semua nilai dari @List yang diberikan setelah saya.",
+                        "\\['apel' 'pisang' 'mangga'].withList(['semangka' 'belimbing'])\\",
+                        "Menggunakan @Spread sedikit lebih mudah, seperti ini:",
+                        "\\['apel' 'pisang' 'mangga' :['semangka' 'belimbing']]\\"
+                    ],
+                    "names": "$~denganDaftar",
+                    "inputs": [
+                        {
+                            "doc": "$~Daftar @value yang akan ditambahkan.",
+                            "names": "$~daftar"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Aku membuat daftar baru yang mengganti @value pada @index yang diberikan dengan nilai yang diberikan.",
+                        "\\['apple' 'banana' 'mango'].replace(1 'kiwi')\\"
+                    ],
+                    "names": ["$~mengganti"],
+                    "inputs": [
+                        {
+                            "doc": "$~@index dari @value yang akan diganti",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~@value pengganti",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "length": {
+                    "doc": "$~@Number item di dalam aku.",
+                    "names": ["$~panjang"],
+                    "inputs": []
+                },
+                "random": {
+                    "doc": [
+                        "$~Salah satu item saya dipilih secara acak, atau @None jika saya kosong.",
+                        "\\['apel' 'pisang' 'mangga'].random()\\"
+                    ],
+                    "names": "$~acak",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": [
+                        "$~Buat daftar baru dengan item-item dalam daftar yang diurutkan secara acak.",
+                        "\\['apel' 'pisang' 'mangga'].diacak()\\"
+                    ],
+                    "names": "$~diacak",
+                    "inputs": []
+                },
+                "first": {
+                    "doc": [
+                        "$~Item pertama di dalam diriku, atau @None jika aku kosong.",
+                        "\\['apple' 'banana' 'mango'].first()\\"
+                    ],
+                    "names": "$~Pertama",
+                    "inputs": []
+                },
+                "last": {
+                    "doc": [
+                        "$~Item terakhir di dalam diriku, atau @None jika aku kosong.",
+                        "\\['apple' 'banana' 'mango'].last()\\"
+                    ],
+                    "names": "$~terakhir",
+                    "inputs": []
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ jika saya memiliki suatu barang yang sama dengan barang yang diberikan di dalam diri saya.",
+                        "\\['apel' 'pisang' 'mangga'].has('pisang')\\"
+                    ],
+                    "names": "$~memiliki",
+                    "inputs": [
+                        {
+                            "doc": "$~@value yang akan dicari.",
+                            "names": "$~barang"
+                        }
+                    ]
+                },
+                "join": {
+                    "doc": [
+                        "$~Saya menggabungkan item-item dalam daftar saya ke dalam @Text, dipisahkan oleh pemisah @Text yang diberikan.",
+                        "\\['apple' 'banana' 'mango'].join(', ')\\"
+                    ],
+                    "names": "$~bergabung",
+                    "inputs": [
+                        {
+                            "doc": "$~Teks yang digunakan untuk memisahkan item, opsional kosong.",
+                            "names": "$~pemisah"
+                        }
+                    ]
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Saya mendapatkan sebuah daftar di dalam daftar ini, dimulai dari @index yang kamu berikan, dan diakhiri dengan item terakhir, atau jika kamu memberikannya, sebuah item tertentu.",
+                        "\\['apel' 'pisang' 'mangga'].suburutan(2)\\",
+                        "\\['apel' 'pisang' 'mangga'].suburutan(1 2)\\",
+                        "Lihat! Jika kamu memberikan angka yang tidak berurutan, saya memberikanmu urutan terbalik",
+                        "\\['apel' 'pisang' 'mangga'].suburutan(3 1)\\",
+                        "Jika kamu memberi saya sesuatu yang lebih kecil dari 1 untuk sebuah indeks, saya akan menganggap kamu maksudnya 1.",
+                        "\\['apel' 'pisang' 'mangga'].suburutan(-1003243 2)\\",
+                        "Dan jika kamu memberi saya sesuatu yang lebih besar dari indeks terbesar, saya akan menganggap kamu maksudnya bagian akhir.",
+                        "\\['apel' 'pisang' 'mangga'].suburutan(3 2304032432)\\"
+                    ],
+                    "names": "$~suburutan",
+                    "inputs": [
+                        {
+                            "doc": "$~@index dari item pertama pada bagian daftar yang kamu inginkan.",
+                            "names": "$~awal"
+                        },
+                        {
+                            "doc": "$~@index opsional dari item terakhir pada bagian daftar yang kamu inginkan. Jika kamu tidak memberikannya, daftarmu akan diakhiri dengan item terakhir dalam daftar.",
+                            "names": "$~akhir"
+                        }
+                    ]
+                },
+                "sansFirst": {
+                    "doc": [
+                        "$~Saya membuat daftar tanpa item pertama saya.",
+                        "\\['apel' 'pisang' 'mangga'].sansFirst()\\"
+                    ],
+                    "names": ["$~tanpaPertama"],
+                    "inputs": []
+                },
+                "sansLast": {
+                    "doc": [
+                        "$~Saya membuat daftar tanpa item terakhir saya.",
+                        "\\['apel' 'pisang' 'mangga'].sansLast()\\"
+                    ],
+                    "names": ["$~tanpaTerakhir", "$~tanpaterakhir"],
+                    "inputs": []
+                },
+                "sansAll": {
+                    "doc": [
+                        "$~Diriku, tapi tanpa @value yang diberikan. Setiap salinan hilang, tidak hanya yang pertama, apa pun nama yang kamu gunakan untukku:",
+                        "\\['apel' 'pisang' 'mangga' 'apel'].tanpa('apel')\\"
+                    ],
+                    "names": ["$~tanpa", "$~tanpaSemua", "$~tanpasemua"],
+                    "inputs": [
+                        {
+                            "doc": "$~@value yang semua kemunculannya akan dihapus dari daftar.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Aku, tapi kebalikannya!",
+                        "\\['apple' 'banana' 'mango'].reverse()\\"
+                    ],
+                    "names": ["$~terbalik", "$~balik"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ jika item dan pesanan saya sama persis dengan @List yang diberikan.",
+                        "\\['apel' 'pisang' 'mangga'] = ['apel' 'mangga' 'pisang']\\"
+                    ],
+                    "names": ["$~samadengan"],
+                    "inputs": [
+                        {
+                            "doc": "$~@List yang digunakan untuk membandingkan saya.",
+                            "names": "$~daftar"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ jika item dan pesanan saya tidak persis sama dengan @List yang diberikan.",
+                        "\\['apel' 'pisang' 'mangga'] ≠ ['apel' 'mangga' 'pisang']\\"
+                    ],
+                    "names": ["$~tidaksama"],
+                    "inputs": [
+                        {
+                            "doc": "$~@List yang digunakan untuk membandingkan saya.",
+                            "names": "$~daftar"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Beri saya sebuah @FunctionDefinition yang menerima sebuah @value dan @index opsional sebagai input dan menghasilkan sebuah nilai, lalu saya akan menjalankannya pada setiap item saya, mengubah nilai-nilai saya menjadi nilai-nilai baru.",
+                        "Sebagai contoh, bayangkan saya adalah sebuah daftar @Number dan kamu ingin melipatgandakan semuanya:",
+                        "\\[2 4 6 8].menerjemahkan(ƒ(num•#) num × 2)\\"
+                    ],
+                    "names": "$~menerjemahkan",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition yang akan menerjemahkan setiap item.",
+                            "names": "$~penterjemah"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Item yang sedang diterjemahkan.",
+                            "names": "$~barang"
+                        },
+                        {
+                            "doc": "$~@index dari item yang sedang diubah.",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~Daftar yang sedang diterjemahkan.",
+                            "names": "$~daftar"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Beri saya sebuah @FunctionDefinition yang menerima sebuah @value dan @index opsional sebagai input dan menghasilkan sebuah @Boolean, lalu saya akan membuat sebuah daftar baru yang hanya berisi item-item yang dihasilkan \\⊤\\.",
+                        "Sebagai contoh, bayangkan saya adalah sebuah daftar @Number dan kamu hanya ingin yang positif:",
+                        "\\[2 -4 8 -16].menyaring(ƒ(num•#) num ≥ 0)\\"
+                    ],
+                    "names": "$~menyaring",
+                    "inputs": [
+                        {
+                            "doc": "$~Sebuah @FunctionDefinition yang memeriksa setiap item, menghasilkan \\⊤\\ jika item tersebut harus dipertahankan.",
+                            "names": "$~pemeriksa"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Barang yang sedang diperiksa.",
+                            "names": "$~barang"
+                        },
+                        {
+                            "doc": "$~@index dari item yang sedang diperiksa.",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~Daftar yang sedang difilter.",
+                            "names": "$~daftar"
+                        }
+                    ]
+                },
+                "all": {
+                    "doc": [
+                        "$~Beri saya sebuah @FunctionDefinition yang menerima sebuah @value sebagai input dan menghasilkan sebuah @Boolean jika cocok dengan suatu @condition. Saya akan membuat \\⊤\\ jika semua item cocok dengan kondisi tersebut.",
+                        "Sebagai contoh, bayangkan saya adalah sebuah daftar @Number dan kamu ingin tahu apakah semuanya positif:",
+                        "\\[2 -4 8 -16].semua(ƒ(num•#) num ≥ 0)\\"
+                    ],
+                    "names": "$~semua",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition yang menghasilkan \\⊤\\ jika sebuah item memenuhi @condition milikmu.",
+                            "names": "$~pemeriksa"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Barang yang sedang diperiksa.",
+                            "names": "$~barang"
+                        },
+                        {
+                            "doc": "$~@index dari item yang sedang diperiksa.",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~Daftar yang sedang diperiksa.",
+                            "names": "$~daftar"
+                        }
+                    ]
+                },
+                "until": {
+                    "doc": [
+                        "$~Beri aku @FunctionDefinition yang menerima @value sebagai masukan dan menghasilkan @Boolean jika ia cocok dengan suatu @condition. Aku akan membuat @List baru yang berisi semua item sampai kondisinya tidak terpenuhi.",
+                        "Misalnya, bayangkan aku adalah daftar @Text hewan dan kamu mau semuanya sampai \\'tikus'\\ ditemukan:",
+                        "\\[\n\t'kucing'\n\t'anjing'\n\t'tikus'\n\t'tikus kecil'\n\t'kuda poni'\n].sampai(ƒ(hewan•'') hewan = 'tikus')\\🪲"
+                    ],
+                    "names": "$~sampai",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition yang menghasilkan \\⊤\\ jika saya berhenti menyertakan item.",
+                            "names": "$~pemeriksa"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Barang yang sedang diperiksa.",
+                            "names": "$~barang"
+                        },
+                        {
+                            "doc": "$~@index dari item yang sedang diperiksa.",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~Daftar yang sedang diurutkan.",
+                            "names": "$~daftar"
+                        }
+                    ]
+                },
+                "find": {
+                    "doc": [
+                        "$~Beri aku @FunctionDefinition yang menerima @value sebagai masukan dan menghasilkan @Boolean jika ia cocok dengan suatu kriteria, dan aku akan menghasilkan item yang cocok.",
+                        "Misalnya, bayangkan kamu mau menemukan hewan pertama yang punya huruf vokal \\'e'\\:",
+                        "\\[\n\t'kucing'\n\t'anjing'\n\t'tikus'\n\t'tikus kecil'\n\t'kuda poni'\n].menemukan(ƒ(hewan•'') hewan.⊆('e'))\\🪲"
+                    ],
+                    "names": "$~menemukan",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition yang menghasilkan \\⊤\\ jika sesuai dengan kriteria pencarian Anda.",
+                            "names": "$~pemeriksa"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Barang yang sedang diperiksa.",
+                            "names": "$~barang"
+                        },
+                        {
+                            "doc": "$~@index dari item yang sedang diperiksa.",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~Daftar yang sedang dicari.",
+                            "names": "$~daftar"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Beri saya sebuah @FunctionDefinition yang menerima gabungan terbaru dan @value berikutnya, lalu membuat gabungan berikutnya, dan saya akan bergerak dari item pertama sampai terakhir, membuat gabungan-gabungan berturut-turut, dan menghasilkan gabungan akhir yang dihasilkan oleh @FunctionDefinition milikmu.",
+                        "Ini sangat membantu untuk menggabungkan semua item dalam saya menjadi satu nilai. Sebagai contoh, bayangkan kamu ingin menjumlahkan sebuah daftar angka:",
+                        "\\[3 9 2 8 1 4].gabungan(0 ƒ(jumlah•# angka•#) jumlah + angka)\\"
+                    ],
+                    "names": ["$~gabungan", "$~menggabungkan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Kombinasi awal.",
+                            "names": "$~awal"
+                        },
+                        {
+                            "doc": "$~@FunctionDefinition yang menerima gabungan terbaru dan @value berikutnya dan menghasilkan gabungan berikutnya.",
+                            "names": "$~penggabung"
+                        }
+                    ],
+                    "combiner": [
+                        {
+                            "doc": "$~Kombinasi saat ini",
+                            "names": "$~kombinasi"
+                        },
+                        {
+                            "doc": "$~Item selanjutnya yang akan digabungkan.",
+                            "names": "$~Berikutnya"
+                        },
+                        {
+                            "doc": "$~@index dari item berikutnya",
+                            "names": "$~indeks"
+                        },
+                        {
+                            "doc": "$~Daftar tersebut sedang digabungkan.",
+                            "names": "$~daftar"
+                        }
+                    ]
+                },
+                "sorted": {
+                    "doc": [
+                        "$~Aku bisa mengambil sebuah daftar, dan membuat daftar baru dengan @value-nilainya yang sudah diurutkan. Seperti ini:",
+                        "\\[1 5 8 0 2].diurutkan()\\",
+                        "Aku juga bisa melakukannya untuk nilai @Text, dengan urutan abjad. Huruf besar diurutkan berdampingan dengan huruf kecilnya, jadi sebuah kata tidak dipindah ke akhir hanya karena diawali huruf besar:",
+                        "\\['Jeruk' 'kiwi' 'Pisang' 'apel'].diurutkan()\\",
+                        "Dan jika kamu punya daftar nilai yang bukan @Number atau @Text, kamu bisa memberiku @FunctionDefinition yang mengubah setiap item menjadi @Number atau @Text supaya aku bisa mengurutkannya. Misalnya, di sini ada daftar berisi beberapa daftar dengan panjang berbeda; jika kamu memberiku fungsi yang mengubah setiap daftar menjadi panjangnya, aku bisa mengurutkan berdasarkan panjangnya.",
+                        "\\[[1] [2 3] [4 8 12] [8]].diurutkan(\n\tƒ(daftar3) daftar3.panjang()\n)\\",
+                        "Fungsi yang membuat @Text adalah @how untuk mengurutkan berdasarkan kata yang kamu hitung sendiri, bukan berdasarkan nilai itu sendiri. Di sini aku mengurutkan nama berdasarkan nama belakangnya:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].diurutkan(\n\tƒ(nama3•'') (nama3 ÷ ' ').terakhir()\n)\\"
+                    ],
+                    "names": "$~diurutkan",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition opsional yang dipakai untuk mengurutkan sebuah daftar @value. Ini harus mengubah nilai menjadi @Number atau @Text yang bisa dipakai untuk mengurutkan daftar.",
+                            "names": "$~pengurut"
+                        }
+                    ],
+                    "sequencer": [
+                        {
+                            "doc": "$~@value yang diubah menjadi @Number atau @Text.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Jumlahkan semua angkaku. Jika aku kosong, hasilnya 0, dan jika angka-angkaku tidak semuanya diukur dengan satuan yang sama, aku akan mengatakannya daripada menebak.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~total",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Jumlahkan semua angkaku lalu bagi dengan banyaknya angka itu. Jika aku kosong, tidak ada yang bisa dirata-ratakan, jadi kamu dapat @None.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~rataRata",
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "text": "$~Ke representasi @Text dari daftar tersebut.",
+                "set": "$~Ke @Set, berguna untuk menghapus duplikat."
+            }
+        },
+        "Set": {
+            "doc": [
+                "$~Aku adalah kumpulan nilai! Artinya aku bisa berisi berapa pun banyak nilai, termasuk tanpa nilai sama sekali. Kamu bisa membuatku seperti ini:",
+                "\\{1 2 3}\\",
+                "Aku sangat cocok jika kamu ingin menyimpan kumpulan hal tanpa ada yang kembar.",
+                "Artinya, jika kamu memberiku nilai yang sudah kupunya, aku akan mengabaikan yang berlebih.",
+                "Contohnya, kumpulan ini punya banyak nilai kembar:",
+                "\\{1 1 2 2 3 3}\\",
+                "Aku menghitungnya menjadi hanya \\{1 2 3}\\.",
+                "Jika kamu ingin tahu apakah aku punya @value di dalamku, @SetOrMapAccess bisa membantu:",
+                "\\{'jar' 'bottle' 'glass'}{'cup'}\\",
+                "Biasanya, jika kamu memberiku sekumpulan nilai yang punya @type sama, aku akan menganggapnya sebagai daftar dari jenis itu. Seperti kumpulan ini yaitu \\{''}\\, karena semuanya @Text.",
+                "\\{'hey' 'hi' 'hello'}\\",
+                "Tapi mungkin kamu ingin menunjukkan bahwa aku adalah kumpulan dari /hanya/ nilai-nilai itu, agar aku bisa memberitahumu ketika kamu mencoba memakai yang tidak diizinkan. Jika begitu, cukup tambahkan ! di ujungku.",
+                "\\{'hey' 'hi' 'hello'}!{'yo'}\\🪲",
+                "Apakah ada hal lain yang ingin kamu lakukan denganku? Lihat semua @FunctionDefinition keren yang kupunya!"
+            ],
+            "name": ["$~Mengatur"],
+            "kind": "Jenis",
+            "out": "$~Hasil",
+            "function": {
+                "size": {
+                    "doc": "$~Saya akan memberi tahu Anda berapa banyak @value yang ada dalam diri saya.",
+                    "names": "$~ukuran",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~Saya \\⊤\\ jika @Set yang diberikan dan saya memiliki @value yang persis sama:",
+                        "\\{1 2 3} = {2 3 4}\\"
+                    ],
+                    "names": ["$~samadengan"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Set yang akan dibandingkan.",
+                            "names": "$~mengatur"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~Saya \\⊤\\ jika @Set yang diberikan dan saya tidak memiliki @value yang persis sama:",
+                        "\\{1 2 3} ≠ {2 3 4}\\"
+                    ],
+                    "names": ["$~tidaksama"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Set yang akan dibandingkan.",
+                            "names": "$~mengatur"
+                        }
+                    ]
+                },
+                "add": {
+                    "doc": [
+                        "$~Berikan saya sebuah item untuk ditambahkan dan saya akan membuat @Set baru dengan item saya dan item yang diberikan.",
+                        "\\{1 2 3} + 4\\"
+                    ],
+                    "names": ["$~dengan", "$~menambahkan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Barang yang akan ditambahkan",
+                            "names": "$~barang"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~Beri saya item yang ingin dihapus dan saya akan membuat @Set baru tanpa item tersebut.",
+                        "\\{1 2 3} - 2\\",
+                        "Jika saya tidak memiliki barang tersebut, saya akan menilainya sendiri."
+                    ],
+                    "names": ["$~menghapus"],
+                    "inputs": [
+                        {
+                            "doc": "$~Barang yang akan dihapus.",
+                            "names": "$~barang"
+                        }
+                    ]
+                },
+                "union": {
+                    "doc": [
+                        "$~Berikan saya @Set dan saya akan membuat @Set baru yang berisi item saya dan item dari set tersebut.",
+                        "\\{1 2 3} ∪ {3 4 5}\\"
+                    ],
+                    "names": ["$~serikat"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Set untuk bergabung denganku.",
+                            "names": "$~mengatur"
+                        }
+                    ]
+                },
+                "intersection": {
+                    "doc": [
+                        "$~Berikan saya @Set dan saya akan membuat @Set baru yang hanya berisi item yang kita miliki bersama.",
+                        "\\{1 2 3} ∩ {3 4 5}\\"
+                    ],
+                    "names": ["$~persimpangan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Set yang bisa dibandingkan dengan saya.",
+                            "names": "$~mengatur"
+                        }
+                    ]
+                },
+                "difference": {
+                    "doc": [
+                        "$~Berikan saya @Set dan saya akan membuat @Set baru yang hanya berisi item-item yang kita miliki bersama.",
+                        "\\{1 2 3}.perbedaan({3 4 5})\\"
+                    ],
+                    "names": "$~perbedaan",
+                    "inputs": [
+                        {
+                            "doc": "$~Kumpulan barang-barang yang harus disingkirkan dari saya.",
+                            "names": "$~mengatur"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Berikan saya @FunctionDefinition yang menerima sebuah item dan menghasilkan \\⊤\\ jika item tersebut harus dipertahankan, dan saya akan membuat @Set yang hanya berisi item yang memenuhi kriteria Anda.",
+                        "Sebagai contoh, mari kita temukan angka ganjil dalam diri saya:",
+                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
+                    ],
+                    "names": "$~menyaring",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition yang memeriksa suatu item untuk melihat apakah item tersebut harus disimpan.",
+                            "names": "$~pemeriksa"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Barang yang sedang diperiksa.",
+                            "names": "$~nilai"
+                        },
+                        {
+                            "doc": "$~Himpunan yang sedang difilter",
+                            "names": "$~mengatur"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Berikan saya @FunctionDefinition yang menerima sebuah item dan menghasilkan item baru berdasarkan item tersebut, kemudian saya akan menerjemahkan semua item di dalamnya ke dalam @Set baru (dengan menghapus duplikat apa pun).",
+                        "Sebagai contoh, mari kita ubah semua @Number saya menjadi @Text:",
+                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
+                    ],
+                    "names": "$~menerjemahkan",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition yang menerjemahkan salah satu item saya menjadi item baru yang Anda inginkan.",
+                            "names": "$~mengatur"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Item yang sedang diterjemahkan.",
+                            "names": "$~nilai"
+                        },
+                        {
+                            "doc": "$~Himpunan yang sedang diterjemahkan",
+                            "names": "$~mengatur"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Representasi @Text dari sebuah @Set",
+                "list": "$~Representasi @List dari item-item dalam himpunan tersebut."
+            }
+        },
+        "Map": {
+            "doc": [
+                "$~Aku menyatukan nilai-nilai, memetakan *kunci* ke *nilai*. Contohnya:",
+                "\\{'amy': 6points 'tony':3points 'shiela': 8points}\\",
+                "Kunci-kunciku bisa berupa @value jenis apa pun, dan nilai-nilaiku bisa berupa nilai jenis apa pun.",
+                "Sebagian orang suka membayangkanku seperti @index, atau kamus, di mana kamu memberiku sesuatu, dan aku memberimu apa yang dipetakan padanya.",
+                "Jika kamu ingin memeriksa sesuatu dipetakan ke apa, kamu bisa memberi @SetOrMapAccess, sebuah @key dan mereka akan memberimu nilainya:",
+                "\\{'amy': 6points 'tony':3points 'shiela': 8points}{'amy'}\\",
+                "Jika tidak ada kunci yang cocok, aku akan memberimu @None.",
+                "\\{'amy': 6points 'tony':3points 'shiela': 8points}{'jen'}\\",
+                "Kamu juga bisa membuat peta kosong seperti ini:",
+                "\\{:}\\",
+                "Biasanya, aku akan melihat jenis kunci dan nilai apa pun yang kamu beri, lalu menyusun sebuah @type untuk mewakili semuanya. Seperti ini adalah peta dari angka ke angka:",
+                "\\{1:1 2:2 3:3}\\",
+                "Tapi misalnya kamu ingin memastikan bahwa isinya hanya nilai-nilai itu saja; cukup tambahkan ! di ujungku, dan aku tidak akan menggeneralisasi. Itu akan membantumu tahu jika kamu mencoba mengambil nilai yang tidak kamu maksud.",
+                "\\{1:1 2:2 3:3}!{4}\\🪲",
+                "Aku tahu @how melakukan banyak hal menakjubkan dengan pasangan-pasanganku."
+            ],
+            "name": ["$~Peta"],
+            "key": "$~Kunci",
+            "value": "$~Nilai",
+            "result": "$~Hasil",
+            "function": {
+                "size": {
+                    "doc": "$~Saya akan memberi tahu Anda berapa banyak @value yang ada dalam diri saya.",
+                    "names": "$~ukuran",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~\\{⊤}\\ jika pasangan saya sama persis dengan @Map yang diberikan.",
+                        "\\{1:1 2:2} = {1:1 2:3}\\"
+                    ],
+                    "names": ["$~samadengan"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Map untuk membandingkan saya.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\{⊤}\\ jika pasangan saya tidak sama persis dengan @Map yang diberikan.",
+                        "\\{1:1 2:2} ≠ {1:1 2:3}\\"
+                    ],
+                    "names": ["$~tidaksama"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Map untuk membandingkan saya.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "set": {
+                    "doc": [
+                        "$~Aku akan membuat @Map baru dengan semua pasangan yang sama, tapi dengan pasangan baru yang kamu berikan. Jika aku sudah punya @key itu, aku akan memasangkannya ke @value baru.",
+                        "\\{'amy': 6points 'tony':3points}.pair('jen' 0points)\\"
+                    ],
+                    "names": "$~pasangan",
+                    "inputs": [
+                        {
+                            "doc": "$~@key untuk dipasangkan dengan @value.",
+                            "names": "$~kunci"
+                        },
+                        {
+                            "doc": "$~@value yang akan dipasangkan dengan @key",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "unset": {
+                    "doc": [
+                        "$~Aku akan membuat @Map baru tanpa @key yang kamu berikan, menghapus pasangannya.",
+                        "\\{'amy': 6points 'tony':3points}.unpair('amy')\\"
+                    ],
+                    "names": "$~lepaskanpasangan",
+                    "inputs": [
+                        {
+                            "doc": "$~@key yang akan dilupakan.",
+                            "names": "$~kunci"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~Aku akan membuat @Map baru tanpa kunci apa pun yang memiliki @value.",
+                        "\\{'amy': 0points 'jen': 0points 'tony':3points}.remove(0points)\\"
+                    ],
+                    "names": "$~menghapus",
+                    "inputs": [
+                        {
+                            "doc": "$~@value yang akan dihapus dari saya, beserta semua kunci yang dipasangkan dengannya.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Beri aku sebuah @FunctionDefinition yang mengambil @key dan @value lalu menghasilkan \\⊤\\ jika sebuah pasangan harus disimpan. Aku akan membuat @Map baru yang memenuhi ketentuanmu.",
+                        "Contohnya, di sini kita ingin menyimpan pasangan mana pun yang bernama Amy atau punya poin lebih dari nol.",
+                        "\\{'amy': 0points 'jen': 0points 'tony':3points}.filter(ƒ(key•'' value•#points) (key = 'amy') | (value > 0points))\\"
+                    ],
+                    "names": "$~menyaring",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition yang menentukan apakah akan mempertahankan sebuah pasangan.",
+                            "names": "$~pemeriksa"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~@key yang sedang diperiksa.",
+                            "names": "$~kunci"
+                        },
+                        {
+                            "doc": "$~@value yang sedang diperiksa.",
+                            "names": "$~nilai"
+                        },
+                        {
+                            "doc": "$~Peta yang sedang difilter.",
+                            "names": "$~peta"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Beri aku sebuah @FunctionDefinition yang mengambil @key dan @value lalu menghitung nilai itu menjadi nilai baru. Aku akan membuat @Map baru dengan kunci yang sama tapi nilai yang diperbarui.",
+                        "Contohnya, mari beri semua orang satu poin karena mereka sudah sangat baik.",
+                        "\\{'amy': 5points 'jen': 3points 'tony': 0points}.translate(ƒ(key•'' value•#points) value + 1points)\\🪲"
+                    ],
+                    "names": "$~menerjemahkan",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition yang menerjemahkan setiap @value.",
+                            "names": "$~penterjemah"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~@key dari @value yang sedang diterjemahkan.",
+                            "names": "$~kunci"
+                        },
+                        {
+                            "doc": "$~@value yang sedang diterjemahkan.",
+                            "names": "$~nilai"
+                        },
+                        {
+                            "doc": "$~Peta yang sedang diterjemahkan.",
+                            "names": "$~peta"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Representasi @Text dari pemetaan tersebut.",
+                "set": "$~Kunci dari @Map",
+                "list": "$~Daftar nilai dalam @Map"
+            }
+        },
+        "Table": {
+            "doc": [
+                "$~Saya adalah sekumpulan baris tabel! Saya dapat membantu kamu melacak kumpulan besar @value yang memiliki struktur sama.",
+                "Misalnya, bayangkan kamu ingin melacak sekumpulan batu:",
+                "\\⎡nama•'' warna•''⎦\n⎡'obsidian' 'hitam'⎦\n⎡'batu apung' 'abu-abu'⎦\n⎡'sitrin' 'kuning'⎦\\",
+                "@Bind dapat membantu kamu memberinya nama! Lalu kamu bisa melakukan hal-hal seperti membuat tabel baru dengan sebuah baris baru @Insert:",
+                "\\batuan: ⎡nama•'' warna•''⎦\n\t⎡'obsidian' 'hitam'⎦\n\t⎡'batu apung' 'abu-abu'⎦\n\t⎡'sitrin' 'kuning'⎦\nbatuan ⎡+'kuarsa' 'putih'⎦\\",
+                "Atau jika kamu ingin menemukan baris yang cocok, kamu bisa @Select baris yang cocok dengan @condition:",
+                "\\batuan: ⎡nama•'' warna•''⎦\n\t⎡'obsidian' 'hitam'⎦\n\t⎡'batu apung' 'abu-abu'⎦\n\t⎡'sitrin' 'kuning'⎦\nbatuan ⎡?⎦ warna = 'abu-abu'\\",
+                "Atau mungkin kamu ingin membuat tabel baru yang memiliki nilai berbeda untuk baris yang cocok dengan sebuah kondisi:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
+                "Atau mungkin kamu ingin menghapus baris yang cocok dengan sebuah kondisi:",
+                "\\batu: ⎡nama•'' warna•''⎦\n\t⎡'obsidian' 'hitam'⎦\n\t⎡'batu apung' 'abu-abu'⎦\n\t⎡'sitrin' 'kuning'⎦\nbatu ⎡- nama.memiliki('i')\\",
+                "Dan jika kamu ingin mengambil nilai tertentu dari saya, kamu bisa mengubah tabel apa pun menjadi daftar dan mengakses baris satu per satu dengan @PropertyReference",
+                "\\batu: ⎡nama•'' warna•''⎦\n\t⎡'obsidian' 'hitam'⎦\n\t⎡'batu apung' 'abu-abu'⎦\n\t⎡'sitrin' 'kuning'⎦\n(batu → [])[1].nama\\"
+            ],
+            "name": ["$~Meja"],
+            "row": "$~Baris",
+            "function": {
+                "equals": {
+                    "doc": "$~Saya memeriksa apakah saya memiliki @cell yang persis sama dan dalam urutan yang persis sama dengan @Table lainnya.",
+                    "names": ["$~samadengan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Tabel lain yang perlu diperiksa.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~Saya memeriksa apakah ada @cell saya yang berbeda atau berada dalam urutan yang berbeda dari @Table lain.",
+                    "names": ["$~tidaksamadengan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Tabel lain yang perlu diperiksa.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": "$~Saya mengkonversi sebuah @Table menjadi daftar baris, di mana setiap baris adalah sebuah @Structure dengan nama kolomnya sebagai properti.",
+                "text": "$~Saya hanya mengkonversi @Table menjadi teks."
+            }
+        },
+        "Structure": {
+            "doc": "$~Saya adalah @value terstruktur dengan bidang bernama dan berjenis, dibuat dari @StructureDefinition. Lihat @StructureDefinition.",
+            "name": ["$~Struktur"],
+            "function": {
+                "equals": {
+                    "doc": "$~Saya memeriksa apakah @property saya memiliki nama dan @value yang sama dengan properti struktur lain.",
+                    "names": ["$~samadengan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Struktur lain yang perlu diperiksa.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~Saya memeriksa apakah @property saya berbeda dalam hal apa pun dari nama dan @value struktur lain.",
+                    "names": ["$~tidaksamadengan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Struktur lain yang perlu diperiksa.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Saya mengubah diri saya menjadi @Text."
+            }
+        },
+        "Formatted": {
+            "doc": [
+                "$~Saya adalah teks yang diformat: kata-kata dengan gaya, seperti tebal, miring, dan tautan. Letakkan saya di antara tanda backtick:",
+                "\\`I am **bold** and /italic/`\\",
+                "Saya bekerja mirip dengan @Text , tetapi saya dapat membawa format. Anda dapat menggabungkan saya, mengulang saya, memeriksa apa yang saya masukkan, dan mengubah saya menjadi @Text biasa."
+            ],
+            "name": ["$~Diformat"],
+            "function": {
+                "length": {
+                    "doc": "$~Saya menilai berdasarkan jumlah karakter yang dapat dibaca dalam teks saya, mengabaikan format dan pemisah paragraf.",
+                    "names": ["$~panjang"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ jika saya adalah @markup yang sama dengan @value yang diberikan.",
+                    "names": ["$~samadengan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Teks yang diformat untuk dibandingkan.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ jika saya /bukan/ @markup yang sama dengan @value yang diberikan.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~Teks yang diformat untuk dibandingkan.",
+                            "names": "$~nilai"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "$~\\⊤\\ jika teks biasa saya berisi @Text yang diberikan. Saya mengabaikan format dan pemisah paragraf saat memeriksanya.",
+                    "names": ["$~memiliki"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang harus dicari dalam teks saya.",
+                            "names": "$~teks"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "$~\\⊤\\ jika teks biasa saya diawali dengan @Text yang diberikan. Saya mengabaikan format dan pemisah paragraf saat memeriksa.",
+                    "names": ["$~mulai"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang perlu diperiksa di awal teks saya.",
+                            "names": "$~teks"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "$~\\⊤\\ jika teks biasa saya diakhiri dengan @Text yang diberikan. Saya mengabaikan format dan pemisah paragraf saat memeriksa.",
+                    "names": ["$~berakhir"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text yang perlu diperiksa di akhir teks saya.",
+                            "names": "$~teks"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": "$~Saya membuat teks baru yang diformat sesuai dengan diri saya, diulang sebanyak jumlah yang diberikan. Jika saya memiliki lebih dari satu paragraf, pemisah antar salinan akan dipertahankan.",
+                    "names": ["$~ulang", "$~mengulang"],
+                    "inputs": [
+                        {
+                            "doc": "$~Jumlah kali saya harus mengulanginya.",
+                            "names": "$~menghitung"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "$~Berikan saya teks lain yang sudah diformat dan saya akan menggabungkannya menjadi satu. Jika salah satu dari kita memiliki lebih dari satu paragraf, pemisah paragraf akan tetap dipertahankan.",
+                    "names": ["$~gabungan", "$~menggabungkan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Teks yang diformat untuk ditambahkan.",
+                            "names": "$~diformat"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Aku membuat @markup baru yang seperti aku, dengan setiap huruf besar semua. Hanya kata-kataku yang berubah; format, tautan, dan contohku tetap seperti semula:",
+                        "\\`*hai* di sana`.hurufBesar()\\",
+                        "Seperti @Text/uppercase, huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, dan tanda bahasaku menentukan aturan siapa yang dipakai."
+                    ],
+                    "names": ["$~hurufBesar"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Aku membuat @markup baru yang seperti aku, dengan setiap huruf kecil semua. Hanya kata-kataku yang berubah; format, tautan, dan contohku tetap seperti semula:",
+                        "\\`*HAI* DI SANA`.hurufKecil()\\",
+                        "Seperti @Text/lowercase, huruf hanya punya bentuk besar dan kecil di beberapa sistem tulisan, dan tanda bahasaku menentukan aturan siapa yang dipakai."
+                    ],
+                    "names": ["$~hurufKecil"],
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "text": "$~Mengubah teks berformat menjadi teks biasa @Text , dengan menghapus semua format.",
+                "list": "$~Mengubah teks berformat menjadi @List dari @Text, satu untuk setiap simbol dari kata-kataku. Format tidak bisa bertahan saat dipotong menjadi simbol tunggal, jadi format itu dihapus.",
+                "number": [
+                    "$~Mengubah kata-kataku menjadi @Number, dan jika bukan angka, menjadi nilai bukan-angka, yang muncul sebagai \\!#\\:",
+                    "\\`hai` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Aku adalah rentang angka! Aku punya awal dan akhir, dan aku mencakup keduanya, serta setiap angka di antaranya. Kamu membuatku dengan \\‥\\ di antara dua angka:",
+                "\\1‥10\\",
+                "Tanyakan padaku apakah aku menyimpan sebuah angka:",
+                "\\(1‥10) ∋ 7\\",
+                "Sebarkan aku menjadi sebuah daftar untuk mendapatkan setiap angka yang aku simpan:",
+                "\\[:1‥10]\\",
+                "Gunakan aku sebagai kunci @Match dan aku akan cocok dengan angka mana pun yang aku simpan:",
+                "\\7 ???\n\t1 ‥ 9: 'kecil'\n\t'besar'\\",
+                "Awal dan akhirku harus punya satuan yang sama, sama seperti perbandingan @Number."
+            ],
+            "name": ["$~Rentang"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ jika @Range yang diberikan punya awal dan akhir yang sama denganku:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range untuk dibandingkan denganku.",
+                            "names": "$~rentang"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ jika @Range yang diberikan punya awal atau akhir yang berbeda dariku:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range untuk dibandingkan denganku.",
+                            "names": "$~rentang"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ jika @Number yang diberikan berada di antara awal dan akhirku, atau merupakan salah satunya:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Tidak masalah bagaimana urutan penulisanku:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~punya"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number yang dicari di dalam diriku.",
+                            "names": "$~angka"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Aku mengubah sebuah rentang menjadi daftar setiap angka di dalamnya, dihitung satu per satu. Sebagai contoh:",
+                    "\\(1‥5)→[]\\"
+                ]
+            }
+        }
+    }
+}

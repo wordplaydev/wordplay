@@ -1,0 +1,432 @@
+{
+    "$schema": "../../../static/schemas/sections/locale.json",
+    "language": "tr",
+    "regions": ["TR"],
+    "guidance": "",
+    "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~Bu platform ve bu platformda projeler oluşturmak için kullanılan programlama @language."
+        },
+        "value": {
+            "word": "$~değer",
+            "definition": "$~Bir bilgi parçası, örneğin bir @Number, bazı kelimeler veya bir @List."
+        },
+        "type": {
+            "word": "$~tip",
+            "definition": "$~Bir @value türü, örneğin @Number veya @Text gibi. Bir değerin tipi, onunla ne yapabileceğini belirler."
+        },
+        "expression": {
+            "word": "$~ifade",
+            "definition": "$~Çalıştığında bir @value üreten bir @code parçası."
+        },
+        "variable": {
+            "word": "$~değişken",
+            "definition": "$~İsmi olan ve bir @Program çalışırken @value değişebilen bir @name."
+        },
+        "parameter": {
+            "word": "$~parametre",
+            "definition": "$~Onu çağırdığında bir @FunctionDefinition tarafından beklenen isimli bir @Input."
+        },
+        "argument": {
+            "word": "$~argüman",
+            "definition": "$~Bir @FunctionDefinition için, @parameters birinden birine verdiğin bir @value."
+        },
+        "operator": {
+            "word": "$~işleç",
+            "definition": "$~Değerleri birleştiren veya karşılaştıran bir sembol, örneğin + veya -."
+        },
+        "condition": {
+            "word": "$~koşul",
+            "definition": "$~Bir @Program programın sonra ne yapacağına karar veren doğru-ya-da-yanlış bir test."
+        },
+        "loop": {
+            "word": "$~döngü",
+            "definition": "$~Bir eylemi birçok kez tekrarlayan @code."
+        },
+        "iteration": {
+            "word": "$~yineleme",
+            "definition": "$~Bir @loop içinden bir geçiş."
+        },
+        "recursion": {
+            "word": "$~özyineleme",
+            "definition": "$~Bir @FunctionDefinition bir sorunun daha küçük bir parçasını çözmek için kendini çağırdığında."
+        },
+        "property": {
+            "word": "$~özellik",
+            "definition": "$~Bir @value isimli bir parçası, örneğin bir @Color parlaklığı gibi."
+        },
+        "element": {
+            "word": "$~öğe",
+            "definition": "$~Bir @List ya da grubun içindeki bir öğe."
+        },
+        "scope": {
+            "word": "$~kapsam",
+            "definition": "$~Bir @Program bir @name kullanılabildiği bölümü."
+        },
+        "state": {
+            "word": "$~durum",
+            "definition": "$~Bir @Program tuttuğu ve zamanla değiştirebildiği bilgi."
+        },
+        "sideEffect": {
+            "word": "$~yan etki",
+            "definition": "$~Bir @Program'ın, bir @value geri vermenin dışında yaptığı değişiklik, örneğin @Output göstermek gibi."
+        },
+        "abstraction": {
+            "word": "$~soyutlama",
+            "definition": "$~Bir şeyi içeride @how çalıştığını bilmeden kullanabilmen için ayrıntıları gizlemek."
+        },
+        "project": {
+            "word": "$~proje",
+            "definition": "$~Bir @wordplay @Program oluşturan tüm dosyalar."
+        },
+        "code": {
+            "word": "$~kod",
+            "definition": "$~Bir @Program'a ne yapacağını söylemek için yazdığın metin."
+        },
+        "act": {
+            "word": "$~davranmak",
+            "definition": "$~Bir @tutorial büyük bir bölümü, bir oyundaki perde gibi."
+        },
+        "how": {
+            "word": "$~nasıl",
+            "definition": "$~Tek bir şeyi nasıl yapacağını gösteren kısa bir @guide."
+        },
+        "gallery": {
+            "word": "$~galeri",
+            "definition": "$~İnsanların projeleri paylaştığı ve keşfettiği bir yer."
+        },
+        "blocks": {
+            "word": "$~bloklar",
+            "definition": "$~Yazmak yerine parçaları sürükleyerek @code düzenlemenin bir yolu."
+        },
+        "placeholder": {
+            "word": "$~yer tutucu",
+            "definition": "$~@code ya da bir @value eksik olduğunu gösteren boş bir yer."
+        },
+        "conflict": {
+            "word": "$~çakışma",
+            "definition": "$~@code içindeki bir sorun; @wordplay onu işaretler ki düzeltebilesin."
+        },
+        "checkpoint": {
+            "word": "$~kontrol noktası",
+            "definition": "$~Çalışmanda geri dönebileceğin kaydedilmiş bir nokta."
+        },
+        "guide": {
+            "word": "$~rehber",
+            "definition": "$~@wordplay'in fikirlerini açıklayan, aranabilir başvuru kaynağı."
+        },
+        "tutorial": {
+            "word": "$~öğretici",
+            "definition": "$~@wordplay'i öğreten adım adım dersler."
+        },
+        "name": {
+            "word": "$~isim",
+            "definition": "$~Bir @value ya da bir @FunctionDefinition gösteren bir kelime."
+        },
+        "markup": {
+            "word": "$~biçimli metin",
+            "definition": "$~Biçimlendirilmiş metin, örneğin kalın kelimeler veya bağlantılar."
+        },
+        "language": {
+            "word": "$~dil",
+            "definition": "$~Bir @name ya da metnin yazıldığı insan dili."
+        },
+        "documentation": {
+            "word": "$~dokümantasyon",
+            "definition": "$~@code'ın ne yaptığını açıklayan metin."
+        },
+        "region": {
+            "word": "$~bölge",
+            "definition": "$~Bir @language'ın kullanıldığı yer; sayıların ve tarihlerin nasıl göründüğünü değiştirebilir."
+        },
+        "start": {
+            "word": "$~başlangıç",
+            "definition": "$~Bir @project başladığı ana kaynak dosya."
+        },
+        "query": {
+            "word": "$~sorgu",
+            "definition": "$~Bir @Table satırlarını seçmenin bir yolu."
+        },
+        "key": {
+            "word": "$~anahtar",
+            "definition": "$~Bir @Map içinde bir öğeyi bulmak için kullanılan @value."
+        },
+        "index": {
+            "word": "$~dizin",
+            "definition": "$~Bir @List içindeki konumuna göre bir öğe seçen bir @Number."
+        },
+        "moved": {
+            "word": "$~etkilenmiş",
+            "definition": "$~Sahnede konumu değişen @Output."
+        },
+        "entered": {
+            "word": "$~yeni",
+            "definition": "$~Sahnede ilk kez görünen @Output."
+        },
+        "cell": {
+            "word": "$~hücre",
+            "definition": "$~Bir @Table satırındaki tek bir @value."
+        },
+        "column": {
+            "word": "$~kolon",
+            "definition": "$~Bir @Table isimli bir alan."
+        },
+        "editor": {
+            "word": "$~düzenleyici",
+            "definition": "$~@code yazdığın kutu. Oraya yazdığın şey, @wordplay programının çalıştırdığı şeydir."
+        },
+        "stage": {
+            "word": "$~sahne",
+            "definition": "$~@code ile oluşturduğun şeyi @wordplay gösterdiği alan."
+        },
+        "stream": {
+            "word": "$~akış",
+            "definition": "$~Zaman içinde dünyan değiştikçe değişen bir @value, örneğin @Time'nin işlemesi ya da bir @Key'ye basılması gibi. Her değiştiğinde, @Program yeni @value ile yeniden çalışır."
+        },
+        "source": {
+            "word": "$~kaynak",
+            "definition": "$~Bir @project içindeki tek bir @code belgesi. Bir @project'nin birden fazla belgesi olabilir ve her biri diğerlerinin @borrow şeyleri @share edebilir."
+        },
+        "borrow": {
+            "word": "$~ödünç al",
+            "definition": "$~↓ yazıp o @source'in ismini yazarak başka bir @Source'ın paylaştığı bir şeyi kullanmak."
+        },
+        "share": {
+            "word": "$~paylaş",
+            "definition": "$~Diğer @source dosyalarının @borrow edebilmesi için bir @Source içindeki bir şeyi ↑ ile işaretlemek."
+        },
+        "kit": {
+            "word": "$~set",
+            "definition": "$~Başka insanların kendi @project'lerinde @borrow edebilmesi için birinin yayımladığı bir @Source."
+        }
+    },
+    "terms": {},
+    "moderation": {
+        "warning": {
+            "header": "$~Uyarı",
+            "explanation": "$~Bir moderatör bu içeriğin şu şekilde olabileceğine karar verdi:"
+        },
+        "blocked": {
+            "header": "$~Engellendi",
+            "explanation": "$~Bir moderatör bu içeriğin şu şekilde olabileceğine karar verdi:"
+        },
+        "unmoderated": {
+            "header": "$~Not",
+            "explanation": "$~Bu içerik henüz denetlenmedi. Şunları içerebilir:"
+        },
+        "moderate": {
+            "header": "$~Ilıman",
+            "explanation": "$~Bu projeyi inceleyin ve içeriğinin aşağıdakilerden herhangi birini yapıp yapmadığına karar verin. Yaparsa, içerik uyarılır veya engellenir. Emin değilseniz atlayabilirsiniz."
+        },
+        "flags": {
+            "violence": "$~Herhangi birine karşı şiddeti, zararı veya kendine zarar vermeyi teşvik etmeyin, desteklemeyin veya kutlamayın.",
+            "dehumanization": "$~Bireyleri veya grupları ırk, etnik köken, ulusal köken, kast, cinsel yönelim, cinsiyet, din, yaş, yetenek veya görünüm temelinde insanlıktan çıkarmak.",
+            "disclosure": "$~Diğer kişilerin adları, iletişim bilgileri veya fiziksel adresleri gibi özel bilgilerini ifşa etmeyin",
+            "misinformation": "$~Yanlış, yanıltıcı, aldatıcı veya manipülatif bilgiler içerir"
+        },
+        "progress": "$~*$moderated* denetlendi, *$remaining* kaldı",
+        "button": {
+            "submit": {
+                "tip": "$~bu denetim ayarlarını kaydet",
+                "label": "$~kaydetmek"
+            },
+            "skip": {
+                "tip": "$~bu projeyi atla",
+                "label": "$~atlamak"
+            },
+            "property": "$~Projenin bu özelliğe sahip olup olmadığı"
+        },
+        "done": "$~Başka ölçülecek bir şey yok!",
+        "error": {
+            "notmod": "$~Burada incelemen gereken bir şey yok. Wordplay'in denetçileri herkese açık içerikleri inceler, bir galerinin küratörleri de kendi galerilerindekileri inceler. Yakın zamanda sana denetçi yetkisi verildiyse, yeniden giriş yapman gerekebilir.",
+            "unreachable": "$~Bu kuyruğu okuyamadım, bu yüzden bekleyen bir şey olup olmadığını bilmiyorum. Biraz sonra tekrar dene.",
+            "unreadable": "$~Burada bekleyen bazı şeyler var ama onları okuyamadım, bu yüzden gösterilmiyorlar."
+        },
+        "report": {
+            "button": "$~bunu incelemesi için bir moderatörden yardım iste",
+            "confirm": "$~Şikâyet et",
+            "sent": "$~bir moderatörden buna bakması istendi",
+            "announce": "$~bir moderatörden $project projesine bakması istendi",
+            "flagged": "$~Birisi bu projeyi bildirdi, bu yüzden sırada ilk o var."
+        },
+        "strike": {
+            "issue": "$~bu içerik üreticisini uyar",
+            "consequence": "$~Bu, bu kullanıcı için $#count[1 numaralı|$count numaralı] uyarı olacak. $banning[Bu uyarı, onların herhangi bir şeyi herkese açık yapma yeteneğini elinden alır.|$#remaining[1 uyarı daha|$remaining uyarı daha] alana kadar bir şeyleri herkese açık yapabilecekler.]",
+            "confirm": {
+                "description": "$~bu kararı kaydet ve içerik üreticisini uyar",
+                "prompt": "$~Onları uyar"
+            },
+            "banned": "$~Herkese açık içerik hakkında üç kez uyarıldın, bu yüzden artık proje veya galerileri herkese açık yapamazsın. Yine de proje yapabilir ve seçtiğin kişilerle paylaşabilirsin. Bunun bir hata olduğunu düşünüyorsan ya da bu uzun zaman önce oldu ve yeniden herkese açık paylaşım yapmak istiyorsan, hi@wordplay.dev adresine yaz ve kullanıcı adını ve nedenini bize bildir.",
+            "warned": "$~Herkese açık içeriklerinden biri paylaşım kurallarını ihlal etti, bu yüzden artık herkese açık değil. Bu, $#count[1. uyarın.|$count. uyarın.] $#remaining[Bir uyarı daha alırsan artık hiçbir şeyi herkese açık yapamayacaksın.|$remaining uyarı daha alırsan artık hiçbir şeyi herkese açık yapamayacaksın.]",
+            "notification": "$~Herkese açık paylaştığın bir şey hakkında $#count[1. uyarı.|$count. uyarı.]"
+        },
+        "queue": {
+            "label": "$~neyi incelemeli",
+            "labels": [
+                "$~projeler",
+                "$~galeriler",
+                "$~kitler",
+                "$~nasıllar",
+                "$~mesajlar"
+            ],
+            "tips": [
+                "$~insanların herkese açık yaptığı projeleri incele",
+                "$~herkese açık listelenmek isteyen galerileri incele",
+                "$~rehberde listelenmek isteyen kitleri incele",
+                "$~rehberde listelenmeyi isteyen nasılları incele",
+                "$~düzenlediğin galerilerde bildirilen mesajları incele"
+            ]
+        },
+        "gallery": {
+            "pending": "$~Bir denetçi, galerinin herkese açık olarak listelenip listelenemeyeceğine karar vermek için onu inceliyor. Bu süre boyunca galerini sadece bağlantısını paylaştığın kişiler görebilir.",
+            "approved": "$~Galerin <herkese açık galeriler sayfasında@://galleries?tab=public> listelendi! Bu liste her an, herhangi bir nedenle değiştirilebilir ve galerin listeden çıkarılabilir.",
+            "denied": "$~Bir denetçi, galerini herkese açık olarak listelememeye karar verdi. Üzerinde çalışmayı sürdürebilir ve yeniden herkese açık hâle getirerek tekrar isteyebilirsin.",
+            "explain": "$~Bu galeri herkese açık olarak listelenmek istiyor. Galeriye ve içindeki projelere bak, ve herkese gösterilecek kadar tamamlanmış olup olmadığına karar ver.",
+            "done": "$~Karar bekleyen bir galeri yok. Teşekkürler!",
+            "approve": {
+                "label": "$~listele",
+                "tip": "$~bu galeriyi herkese açık galeriler sayfasında listele"
+            },
+            "deny": {
+                "label": "$~listeleme",
+                "tip": "$~bu galeriyi herkese açık galeriler sayfasında listeleme"
+            },
+            "skip": {
+                "label": "$~atla",
+                "tip": "$~bu galerinin kararını başka bir denetçiye bırak"
+            },
+            "notification": {
+                "approved": "$~$name artık herkese açık olarak listeleniyor.",
+                "denied": "$~$name herkese açık olarak listelenmedi."
+            }
+        },
+        "responsibility": {
+            "none": "$~Burada paylaştığın şeyi kimse incelemez. Sadece sen ve seçtiğin kişiler görebilir.",
+            "curators": "$~Bu galerinin küratörleri burada paylaşılanları, sohbet dahil, inceler.",
+            "both": "$~Bu galerinin küratörleri burada paylaşılanları inceler, ve Wordplay'in denetçileri de inceler, çünkü bunu herkes görebilir.",
+            "platform": "$~Wordplay'in <denetçileri@://rights> bunu inceler, çünkü herkes görebilir."
+        },
+        "kit": {
+            "header": "$~Kitler",
+            "explain": "$~Bu kit rehberde listelenmek istiyor. Neyi paylaştığını oku ve başka kişilerin onu bulup bulmaması gerektiğine karar ver.",
+            "done": "$~Karar bekleyen hiçbir kit yok. Teşekkürler!",
+            "approve": {
+                "label": "$~listele",
+                "tip": "$~bu kiti rehberde listele"
+            },
+            "deny": {
+                "label": "$~listeleme",
+                "tip": "$~bu kiti rehberde tutma"
+            },
+            "skip": {
+                "label": "$~atla",
+                "tip": "$~bu seti başka bir moderatörün karar vermesi için bırak"
+            },
+            "pending": "$~Bir denetmen, kitinin rehberde listelenip listelenemeyeceğine karar vermek için onu inceliyor. Kit listelenmiş olarak işaretli, ama bir denetmen onaylayana kadar kimse onu orada bulamaz.",
+            "approved": "$~Kitin <rehberde@://guide?section=kits> listelendi! Bu listeden istediğin zaman, herhangi bir nedenle çıkarılabilir.",
+            "denied": "$~Bir denetmen, kitini rehberde listelememeye karar verdi. Yeni bir sürüm yayımlayıp tekrar isteyebilirsin.",
+            "notification": {
+                "approved": "$~$name artık rehberde listelendi.",
+                "denied": "$~$name rehberde listelenmedi."
+            }
+        },
+        "howto": {
+            "pending": "$~Bir denetleyici, nasıl'ının rehberde listelenip listelenemeyeceğine karar vermek için onu okuyor. O zamana kadar, ona zaten erişebilenler dışında kimse göremez.",
+            "approved": "$~Nasıl'ın <rehber@://guide?section=howto>'de listelendi! Herhangi bir zamanda, herhangi bir nedenle bu listeden çıkarılabilir.",
+            "denied": "$~Bir denetleyici, nasıl'ını rehberde listelememeye karar verdi. Üzerinde çalışmaya devam edip tekrar isteyebilirsin.",
+            "unready": "$~Önce nasıl'ını yayınla ve herkese açık yap. Bir denetleyici yalnızca herkesin okuyabileceği bir şeye evet diyebilir.",
+            "header": "$~Nasıllar",
+            "explain": "$~Bu nasıl, rehberde listelenmeyi istiyor. Onu oku ve @wordplay'yi öğrenen diğer kişilerin onu orada bulup bulmaması gerektiğine karar ver.",
+            "done": "$~Karar bekleyen nasıl yok. Teşekkürler!",
+            "approve": {
+                "label": "$~listele",
+                "tip": "$~bu nasıl'ı rehberde listele"
+            },
+            "deny": {
+                "label": "$~listeleme",
+                "tip": "$~bu nasıl'ı rehberin dışında tut"
+            },
+            "skip": {
+                "label": "$~atla",
+                "tip": "$~bu nasıl'ın kararını başka bir denetleyiciye bırak"
+            },
+            "notification": {
+                "approved": "$~$name artık rehberde listeleniyor.",
+                "denied": "$~$name rehberde listelenmedi."
+            }
+        },
+        "noAddress": "$~Wordplay senin için kayıtlı bir e-posta adresi bulamadı, bu yüzden buradaki hiçbir şey sana e-posta ile ulaşamaz. <profil@/profile> sayfandan bir tane ekleyebilirsin.",
+        "subject": {
+            "project": "$~proje",
+            "gallery": "$~galeri",
+            "howto": "$~nasıl",
+            "character": "$~karakter",
+            "kit": "$~kit",
+            "chat": "$~sohbet"
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "$~Oyunlar",
+            "description": "$~Kelimeler ve sembollerle etkileşimli oyunlar."
+        },
+        "visualizations": {
+            "name": "$~Görselleştirmeler",
+            "description": "$~Metin aracılığıyla ve metnin görselleştirilmesi."
+        },
+        "motion": {
+            "name": "$~Hareket",
+            "description": "$~Hareket ve çarpışma örnekleri."
+        },
+        "av": {
+            "name": "$~Ses/Görüntü",
+            "description": "$~Müzik"
+        },
+        "tools": {
+            "name": "$~Aletler",
+            "description": "$~Basit yardımcı programlar ve uygulamalar."
+        },
+        "stories": {
+            "name": "$~Hikayeler",
+            "description": "$~Etkileşimli hikayeler ve anlatılar."
+        },
+        "music": {
+            "name": "$~Şarkılar, çalgılar ve ritme göre hareket eden tipografi.",
+            "description": "$~Ritme göre hareket eden şarkılar, enstrümanlar ve tipografi."
+        }
+    },
+    "system": {
+        "noscript": "$~Wordplay JavaScript kullanıyor. Tarayıcınız JavaScript'i desteklemiyor veya devre dışı bırakılmış.",
+        "unsupportedHeading": "$~Desteklenmeyen Tarayıcı",
+        "unsupportedBody": "$~Tarayıcınız kritik işlevleri desteklemiyor. Wordplay'i kullanmak için daha yeni bir sürüme yükseltmeniz gerekecek.",
+        "imageDescription": "$~Wordplay logosu — bir daire, bir üçgen ve bir kare tutan bir konuşma balonu — Wordplay isminin yanında; Wordplay programlarının algılayıp söyleyebileceği her şeyin sembollerinden oluşan solgun bir kalabalıkla çevrili.",
+        "appDescription": "$~Erişilebilir, çok dilli, programlanabilir tipografi."
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~Dikkat",
+            "explanation": "$~Bu projenin görüntüleri bazı insanları rahatsız edebilir, hatta nöbet geçirmelerine yol açabilir. Şunları içerebilir:"
+        },
+        "categories": {
+            "flashing": "$~Hızlı yanıp sönme veya kontrast değişimleri",
+            "redflash": "$~Hızla yanıp sönen, çok canlı kırmızı",
+            "strobe": "$~Ekranı kaplayan, ışık patlaması gibi yanıp sönme",
+            "pattern": "$~Sık ve çok kontrastlı geometrik desenler",
+            "motion": "$~Boyutun, konumun veya saydamlığın hızlı hareketi"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~Ses uyarısı",
+            "explanation": "$~Bu projenin müziği bazı insanlar için ürkütücü veya rahatsız edici derecede yüksek olabilir. Şunları içerebilir:"
+        },
+        "categories": {
+            "startle": "$~Özellikle sessiz bir andan sonra sesin aniden yükselmesi",
+            "loudness": "$~Uzun süre tam sesle çalması veya birçok parçanın birleşerek yüksek ses çıkarması",
+            "pulse": "$~Görselleri titretecek kadar hızlı bir ritim",
+            "register": "$~Rahat aralığın çok üstünde veya çok altında olan notalar",
+            "tracks": "$~Takip etmesi kolay olandan daha fazla enstrümanın aynı anda çalması"
+        }
+    }
+}

@@ -22,6 +22,10 @@
 import fs from 'node:fs';
 import Log from '@util/verify-locales/Log';
 import { getLocalePath } from '@util/verify-locales/LocaleSchema';
+import {
+    LocaleSections,
+    getSectionPath,
+} from '@util/verify-locales/localeFiles';
 import type LocaleText from '@locale/LocaleText';
 import writeFormatted from '@util/verify-locales/writeFormatted';
 import {
@@ -83,16 +87,25 @@ async function run(): Promise<void> {
 
     const localeKinds = getCheckablePathKinds(sourceLocale);
 
-    /** The en-US source, the locale's file, and the matching kinds map, for the
-     *  locale file and for every tutorial mode. */
+    /** The en-US source, the locale's file, and the matching kinds map, for
+     *  every locale section and every tutorial mode.
+     *
+     *  Sections rather than the assembled document, because the assembly is a
+     *  build artifact with no git history, and drift is recovered from history
+     *  alone. A section keeps the document's full nesting — `node.json` is
+     *  `{ node: … }` — so a `LocalePath` resolves in it unchanged; only the
+     *  list of files to walk is different. */
     function filesFor(locale: string) {
         return [
-            [
-                getLocalePath('en-US'),
-                getLocalePath(locale),
-                localeKinds,
-                sourceLocale,
-            ] as const,
+            ...LocaleSections.map(
+                (section) =>
+                    [
+                        getSectionPath('en-US', section),
+                        getSectionPath(locale, section),
+                        localeKinds,
+                        sourceLocale,
+                    ] as const,
+            ),
             ...tutorials.map(
                 ({ mode, source, kinds }) =>
                     [
