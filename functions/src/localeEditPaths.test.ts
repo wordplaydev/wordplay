@@ -1,9 +1,11 @@
 import { describe, expect, test } from 'vitest';
+import { isRecord } from './shared/guards.js';
 import {
     LocaleSections,
     isListEditPath,
     listDisplay,
     localeSectionPath,
+    mergeSections,
     parseOverrideKey,
     sectionFileFor,
     setAtPath,
@@ -208,5 +210,62 @@ describe('locale section routing', () => {
             ].map((path) => sectionFileFor(path)),
         );
         expect([...reached].sort()).toEqual([...LocaleSections].sort());
+    });
+});
+
+describe('a submission round trip through sections', () => {
+    // The shape `submitLocalization` actually performs: fetch the sections an
+    // edit touches, merge them, apply the edit, slice back. The merge is the
+    // half that is easy to get wrong, because `ui` arrives in two files.
+    const fetched = [
+        {
+            json: {
+                $schema: 'x',
+                language: 'es',
+                glossary: { v: { word: 'valor' } },
+            },
+        },
+        { json: { $schema: 'x', ui: { dialog: { save: 'guardar' } } } },
+        {
+            json: {
+                $schema: 'x',
+                ui: { page: { login: { header: 'entrar' } } },
+            },
+        },
+    ];
+
+    test('merging keeps both halves of ui', () => {
+        const merged = mergeSections(fetched);
+        const ui = merged['ui'];
+        expect(isRecord(ui) ? Object.keys(ui).sort() : []).toEqual([
+            'dialog',
+            'page',
+        ]);
+        // Each section carries its own $schema, and the merged document has none.
+        expect(merged['$schema']).toBeUndefined();
+    });
+
+    test('an edit to one half does not drop the other', () => {
+        const merged = mergeSections(fetched);
+        setAtPath(merged, 'ui.page.login.header', undefined, 'iniciar sesión');
+
+        expect(sliceForSection(merged, 'ui-page.json')).toEqual({
+            ui: { page: { login: { header: 'iniciar sesión' } } },
+        });
+        // The untouched half survives, which a replace-instead-of-merge would
+        // have silently destroyed.
+        expect(sliceForSection(merged, 'ui.json')).toEqual({
+            ui: { dialog: { save: 'guardar' } },
+        });
+        expect(sliceForSection(merged, 'locale.json')).toEqual({
+            language: 'es',
+            glossary: { v: { word: 'valor' } },
+        });
+    });
+
+    test('nothing is written for a section that was never fetched', () => {
+        expect(sliceForSection(mergeSections(fetched), 'node.json')).toEqual(
+            {},
+        );
     });
 });
