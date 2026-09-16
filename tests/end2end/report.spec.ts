@@ -35,7 +35,17 @@ test('someone else’s public project can be reported, and the report jumps the 
     // The moderator sees it first, ahead of the ordinary unmoderated queue.
     const mod = await loginNewContext(browser, 'moderator', 'password');
     try {
-        await mod.page.goto('/en-US/moderate');
+        // Reach the queue the way a moderator actually does: through the bell,
+        // which is deliberately the only way in. Closing the dialog writes the
+        // URL too, so closing before navigating used to supersede the
+        // navigation — the dialog shut and the page stayed put.
+        await mod.page.goto('/en-US/?dialog=notifications');
+        const review = mod.page.getByTestId('notifications-moderate');
+        // Waits out the moderator claim, which the button is gated on.
+        await expect(review).toBeVisible({ timeout: 30000 });
+        await review.click();
+        await expect(mod.page).toHaveURL(/\/en-US\/moderate$/);
+
         await expect(mod.page.getByText(/reported this project/i)).toBeVisible({
             timeout: 30000,
         });

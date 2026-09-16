@@ -448,9 +448,14 @@
         });
     });
 
-    function go(notice: SerializedNotice) {
+    /** Navigate before closing. Closing writes the URL too — Dialog persists
+     *  `?dialog=` — so closing first started a second goto against the old path
+     *  that superseded this one, shutting the dialog and leaving the page put.
+     *  The trailing close is a no-op once the destination's URL has closed it,
+     *  and is what closes it when a notice leads to the page we're already on. */
+    async function go(path: string) {
+        await localeGoto(path);
         showDialog = false;
-        localeGoto(noticeAction(notice) ?? noticeLink(notice));
     }
 </script>
 
@@ -494,11 +499,9 @@
          account settings, below Delete Account. -->
     {#if responsible}
         <Button
-            action={() => {
-                showDialog = false;
-                localeGoto('/moderate');
-            }}
+            action={() => go('/moderate')}
             background
+            testid="notifications-moderate"
             tip={(l) => l.ui.dialog.notifications.moderate.tip}
             label={(l) => l.ui.dialog.notifications.moderate.label}
         />
@@ -547,7 +550,7 @@
             <Button
                 tip={(l) => l.ui.dialog.notifications.notification.link}
                 icon={'🔗'}
-                action={() => go(notice)}
+                action={() => go(noticeAction(notice) ?? noticeLink(notice))}
             />
         </div>
     {/each}

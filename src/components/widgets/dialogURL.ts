@@ -58,7 +58,12 @@ function replaceSearch(params: URLSearchParams) {
 }
 
 /** Set `dialog=id` when opening, or remove it when closing (only if it still
- *  refers to this dialog, so a newly-opened dialog isn't clobbered). */
+ *  refers to this dialog, so a newly-opened dialog isn't clobbered).
+ *
+ *  Note that this is itself a navigation, which is the one way to violate the
+ *  one-way flow above: a handler that closes a dialog *and* navigates elsewhere
+ *  must await the navigation first, or this strips the param from the old path
+ *  and supersedes it — the dialog shuts and the page stays put. */
 export function setDialogInURL(id: string, open: boolean) {
     const params = new URLSearchParams(page.url.searchParams);
     if (open) params.set(PARAM_DIALOG, id);
