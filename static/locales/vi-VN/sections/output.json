@@ -1,0 +1,1916 @@
+{
+    "$schema": "../../../static/schemas/sections/output.json",
+    "output": {
+        "Output": {
+            "names": "$~Đầura",
+            "doc": [
+                "$~Tôi không phải là một @StructureDefinition mà bạn có thể thực sự tạo ra. Nhưng tôi là một định nghĩa rất quan trọng, vì tôi truyền cảm hứng cho những yếu tố quan trọng nhất của điệu nhảy của chúng ta: @Phrase, @Group và @Stage.",
+                "Hãy gặp họ để tìm hiểu thêm về cách sử dụng chúng."
+            ]
+        },
+        "Group": {
+            "doc": [
+                "$~Tôi sắp xếp @Phrase, @Shape và @Group cùng nhau trên @Stage với một @Arrangement. Ồ xin chào, bạn khỏe không? Tôi luôn ổn khi có người khác ở bên, nên thật tuyệt khi được ở cùng bạn!",
+                "Để hoạt động, tôi cần bạn cho tôi một @Arrangement, và sau đó một @List gồm @Output để sắp xếp.",
+                "Ví dụ, đây là tôi với một cách sắp xếp @Stack và vài @Phrase để xếp chồng theo chiều dọc:",
+                "\\Nhóm(Ngănxếp() [Cụmtừ('thứ nhất') Cụmtừ('thứ hai')])\\",
+                "Cách tôi sắp xếp mọi thứ chính xác như thế nào phụ thuộc vào @Arrangement mà bạn đưa cho tôi."
+            ],
+            "names": ["$~Nhóm"],
+            "layout": {
+                "doc": "$~Cách sắp xếp để đặt các @Output vào đúng vị trí của chúng.",
+                "names": "$~cáchtrìnhbày"
+            },
+            "content": {
+                "doc": "$~Danh sách @Output cần sắp xếp.",
+                "names": "$~nộidung"
+            },
+            "matter": {
+                "doc": "$~Tôi nặng, nảy và trơn đến mức nào, và điều gì làm tôi rắn chắc khi một @Motion di chuyển tôi.",
+                "names": "$~vấnđề"
+            },
+            "size": {
+                "doc": "$~Nội dung tuyệt vời bên trong tôi hẳn phải cao đến mức nào, trừ khi chúng có kích thước riêng!",
+                "names": "$~kíchcỡ"
+            },
+            "face": {
+                "doc": "$~Tên của kiểu chữ mà nội dung bên trong tôi cần phải có, trừ khi họ có kiểu chữ riêng để sử dụng.",
+                "names": ["$~khuônmặt", "$~phôngchữ"]
+            },
+            "place": {
+                "doc": "$~Vị trí trên sân khấu mà tôi nên đứng. Nội dung bên trong tôi sẽ được sắp xếp tương đối so với vị trí đó.",
+                "names": "$~vịTrí"
+            },
+            "name": {
+                "doc": ["$~Giống như @Phrase.name!"],
+                "names": "$~tên"
+            },
+            "description": {
+                "doc": [
+                    "$~Lời mô tả dành cho những khán giả không thể nhìn thấy hình ảnh."
+                ],
+                "names": "$~Sựmiêutả"
+            },
+            "selectable": {
+                "doc": "$~Tương tự như @Phrase.selectable!",
+                "names": "$~cóthểlựachọn"
+            },
+            "color": {
+                "doc": "$~@Color là màu mà nội dung bên trong tôi nên có, trừ khi chúng có màu riêng.",
+                "names": "$~màusắc"
+            },
+            "background": {
+                "doc": "$~Màu @Color sẽ được chiếu phía sau tôi.",
+                "names": "$~lýlịch"
+            },
+            "opacity": {
+                "doc": "$~Mọi thứ bên trong tôi nên trong suốt đến mức nào, giữa \\0\\ và \\1\\, trừ khi bị thay thế bởi một @Pose khác.",
+                "names": "$~độmờđục"
+            },
+            "offset": {
+                "doc": "$~Một @Place cho biết tôi nên lệch bao nhiêu so với @Place bình thường của tôi, trừ khi bị thay thế bởi một @Pose khác. Hữu ích để lắc lư tại chỗ.",
+                "names": "$~bùlại"
+            },
+            "rotation": {
+                "doc": "$~Tôi nên nghiêng bao nhiêu quanh tâm của mình, @Pose của tôi có một tâm khác.",
+                "names": ["$~xoay"]
+            },
+            "scale": {
+                "doc": "$~Tôi nên có kích thước như thế nào so với kích thước ban đầu của mình?",
+                "names": "$~tỉlệ"
+            },
+            "flipx": {
+                "doc": "$~Giống như @Phrase.flipx!",
+                "names": "$~lậtngược"
+            },
+            "flipy": {
+                "doc": "$~Tương tự như @Phrase.flipy",
+                "names": "$~lật"
+            },
+            "entering": {
+                "doc": "$~Tương tự như @Phrase.entering!",
+                "names": "$~vào"
+            },
+            "resting": {
+                "doc": "$~Giống như @Phrase.resting!",
+                "names": "$~nghỉngơi"
+            },
+            "moving": {
+                "doc": "$~Giống như @Phrase.moving!",
+                "names": "$~dichuyển"
+            },
+            "exiting": {
+                "doc": "$~Tương tự như @Phrase.exiting!",
+                "names": "$~thoátra"
+            },
+            "duration": {
+                "doc": "$~Tương tự như @Phrase.duration!",
+                "names": ["$~khoảngthờigian"]
+            },
+            "style": {
+                "doc": "$~Giống như @Phrase.style!",
+                "names": "$~phongcách"
+            },
+            "defaultDescription": "$~$name[$name|] $layout $pose $color[$color|]"
+        },
+        "Phrase": {
+            "doc": [
+                "$~Tôi đại diện cho những người đáng yêu nhất của @Text trên @Stage . Xin chào, xin chào! Mọi người còn nhớ tôi không? Làm sao ai có thể quên tôi được chứ.",
+                "Hãy tạo hình tôi như thế này, và tôi sẽ xuất hiện trên @Stage :",
+                "\\Phrase('magnificent!')\\",
+                "Tôi cần sử dụng @TextLiteral hoặc @FormattedLiteral để hiển thị. Với @FormattedLiteral , tôi có thể sử dụng các kiểu chữ như \\`*bold* and /italic/`\\ hoặc tham chiếu đến @ConceptLink tùy chỉnh mà bạn tạo.",
+                "Bạn cũng có thể tùy chọn cung cấp cho tôi tất cả những gì mà @Output có thể làm, bao gồm thay đổi kích thước, phông chữ, xoay và thực hiện tất cả các điệu nhảy tuyệt vời của tôi với @Pose và @Sequence .",
+                "Bạn cũng có thể chọn tôi trên @Stage và chỉnh sửa tôi bằng bảng màu 🎨 bên cạnh — đó là một cách tuyệt vời để thử các phông chữ khác nhau và chọn kiểu chữ phù hợp cho @Text của bạn."
+            ],
+            "names": ["$~Cụmtừ"],
+            "text": {
+                "doc": "$~Các ký tự cần hiển thị trên @Stage, @TextLiteral hoặc @FormattedLiteral.",
+                "names": "$~chữ"
+            },
+            "size": {
+                "doc": "$~Tôi nên cao bao nhiêu mét?",
+                "names": "$~kíchcỡ"
+            },
+            "face": {
+                "doc": "$~Tên của kiểu chữ mà tôi nên dùng. Cách dễ nhất để chọn một kiểu chữ là chọn tôi và mở bảng màu 🎨 bên cạnh, nơi bạn có thể xem trước các kiểu chữ và chọn một kiểu mà không cần gõ tên của nó.",
+                "names": "$~khuônmặt"
+            },
+            "place": {
+                "doc": "$~Đây là vị trí trên sân khấu mà tôi nên đứng.",
+                "names": "$~vịTrí"
+            },
+            "wrap": {
+                "doc": "$~Vị trí mà tôi nên xuống dòng các ký hiệu hoặc \\ø\\ nếu tôi không nên xuống dòng chúng.",
+                "names": ["$~bọc"]
+            },
+            "alignment": {
+                "doc": "$~Nếu có thiết lập ranh giới @Phrase.wrap, tôi nên căn chỉnh các ký hiệu vào đầu, giữa hay cuối cạnh?",
+                "names": "$~sựcănchỉnh"
+            },
+            "direction": {
+                "doc": "$~Cho biết các ký hiệu được viết theo chiều ngang hay chiều dọc, và nếu viết theo chiều dọc và @Phrase.wrap được thiết lập, thì văn bản sẽ xuống dòng bên trái hay bên phải.",
+                "names": "$~phươnghướng"
+            },
+            "matter": {
+                "doc": "$~Tôi nặng, nảy và trơn đến mức nào, và điều gì làm tôi rắn chắc khi một @Motion di chuyển tôi.",
+                "names": "$~vấnđề"
+            },
+            "aura": {
+                "doc": "$~Thêm hiệu ứng @Aura tùy chọn để hiển thị phía sau tôi. Hãy làm tôi tỏa sáng!",
+                "names": "$~hàoquang"
+            },
+            "name": {
+                "doc": [
+                    "$~Một cái tên bạn đặt cho tôi! Điều này hữu ích cho nhiều thứ.",
+                    "Đầu tiên, nếu tôi có tên, tôi sẽ dùng nó để mô tả bản thân trong các mô tả cho trình đọc màn hình.",
+                    "Thứ hai, khi tạo hoạt ảnh, bạn có thể có nhiều @expression khác nhau nhưng đại diện cho cùng một nội dung trên sân khấu; hãy đặt cho chúng cùng một tên và chúng sẽ chuyển động như một.",
+                    "Cuối cùng, tôi hữu ích với @Choice: các tên bạn đặt cho tôi sẽ xuất hiện trong @stream đó.",
+                    "Bạn có thể đặt cho tôi nhiều tên khác nhau, mỗi tên bằng một @language khác, nếu điều đó hữu ích. Tôi sẽ luôn dùng tên bằng ngôn ngữ được chọn đầu tiên."
+                ],
+                "names": "$~tên"
+            },
+            "description": {
+                "doc": [
+                    "$~Mô tả tùy chỉnh dành cho những người xem không thể nhìn thấy hình ảnh."
+                ],
+                "names": "$~Sựmiêutả"
+            },
+            "selectable": {
+                "doc": "$~Nếu \\⊤\\, điều đó cho biết tôi có thể được chọn bằng con trỏ hoặc bàn phím.",
+                "names": "$~cóthểlựachọn"
+            },
+            "color": {
+                "doc": "$~@Color mà tôi nên có theo mặc định, trừ khi bị thay thế bởi một @Pose khác.",
+                "names": "$~màusắc"
+            },
+            "background": {
+                "doc": "$~@Color sẽ chiếu hình ảnh phía sau tôi.",
+                "names": "$~lýlịch"
+            },
+            "opacity": {
+                "doc": "$~Tôi nên trong suốt như thế nào theo mặc định, giữa \\0\\ và \\1\\, trừ khi bị ghi đè bởi một @Pose khác. Hữu ích để làm hiệu ứng mờ dần vào và ra.",
+                "names": "$~độmờđục"
+            },
+            "offset": {
+                "doc": "$~Một @Place cho biết tôi nên lệch bao nhiêu so với @Place của tôi, trừ khi bị thay thế bởi một @Pose khác. Hữu ích để lắc lư tại chỗ.",
+                "names": "$~bùlại"
+            },
+            "rotation": {
+                "doc": "$~Số độ mà tôi nên được xoay quanh tâm của nó, trừ khi bị thay thế bởi một @Pose khác.",
+                "names": "$~xoay"
+            },
+            "scale": {
+                "doc": "$~Tôi nên được phóng to bao nhiêu so với kích thước ban đầu của nó, trừ khi bị thay thế bởi một @Pose khác.",
+                "names": "$~tỉlệ"
+            },
+            "flipx": {
+                "doc": "$~Tôi có nên được phản chiếu trên trục x hay không, trừ khi bị thay thế bởi một @Pose khác.",
+                "names": "$~lậtngược"
+            },
+            "flipy": {
+                "doc": "$~Tôi có nên được phản chiếu trên trục y hay không, trừ khi bị thay thế bởi một @Pose khác.",
+                "names": "$~lật"
+            },
+            "entering": {
+                "doc": "$~@Pose hoặc @Sequence mà tôi nên làm khi bước vào sân khấu.",
+                "names": "$~vào"
+            },
+            "resting": {
+                "doc": "$~Tôi nên sử dụng @Pose hoặc @Sequence nào sau khi vào sân khấu, trước khi rời khỏi sân khấu và trong khi @Place của tôi không thay đổi? Nếu bạn không cung cấp cho tôi, tôi sẽ sử dụng các thiết lập mặc định.",
+                "names": "$~nghỉngơi"
+            },
+            "moving": {
+                "doc": "$~Tôi nên sử dụng @Pose hoặc @Sequence nào khi di chuyển vị trí trên sân khấu, thay vì các thiết lập mặc định?",
+                "names": "$~dichuyển"
+            },
+            "exiting": {
+                "doc": "$~@Pose hoặc @Sequence cần thực hiện trước khi rời khỏi sân khấu.",
+                "names": "$~thoátra"
+            },
+            "duration": {
+                "doc": "$~Thời gian áp dụng khi di chuyển đến vị trí khác trên sân khấu.",
+                "names": ["$~khoảngthờigian"]
+            },
+            "style": {
+                "doc": "$~Phong cách hoạt hình được sử dụng khi di chuyển đến một vị trí khác trên sân khấu.",
+                "names": "$~phongcách"
+            },
+            "defaultDescription": "$~$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]",
+            "changing": {
+                "doc": "$~Tên của một hiệu ứng để phát khi văn bản của tôi thay đổi, trong khoảng @Phrase.duration của tôi, được làm mượt bởi @Phrase.style của tôi. Nếu \\ø\\, văn bản của tôi thay đổi ngay lập tức. Nếu là 'edit', tôi xóa văn bản cũ trở lại phần mà văn bản cũ và mới cùng chia sẻ, rồi gõ ra văn bản mới. Nếu là 'rewrite', tôi gõ văn bản mới đè lên văn bản cũ, thay thế từng ký hiệu một theo thứ tự ngẫu nhiên. Nếu là 'random', mỗi ký hiệu của tôi quay qua các ký hiệu ngẫu nhiên từ @language của văn bản của tôi (hoặc chữ viết của nó, khi không biết ngôn ngữ), khớp với chữ hoa chữ thường của văn bản của tôi, giống như một máy quay may mắn, cho đến khi nó dừng ở văn bản mới. Với văn bản @FormattedLiteral, các ký hiệu đang thay đổi sẽ mang định dạng của văn bản mới trong lúc diễn ra hiệu ứng.",
+                "names": "$~đangThayĐổi"
+            },
+            "bubble": {
+                "doc": [
+                    "$~Bong bóng thoại cho thấy tôi đang nói gì, chỉ thẳng vào tôi. Có bốn thứ có thể đặt vào đây.",
+                    "Văn bản thường, tôi chỉ hiện ra và không làm gì thêm:",
+                    "\\Cụmtừ('một' bongBóng: 'xin chào!')\\",
+                    "Văn bản có định dạng, nếu bạn muốn có chữ *đậm* hay /nghiêng/ trong lời tôi nói.",
+                    "Một @Say, tôi vừa hiện ra *vừa* đọc to lên:",
+                    "\\Cụmtừ('một' bongBóng: Nói('xin chào!'))\\",
+                    "Một @Bubble, khi bạn muốn chọn tôi nói từ phía nào, đổi thành một suy nghĩ thay vì lời nói, hoặc đặt cho nó một màu."
+                ],
+                "names": "$~bongBóng"
+            }
+        },
+        "Arrangement": {
+            "doc": "$~Tôi là nguồn cảm hứng cho nhiều loại cách sắp xếp khác trong Verse, bao gồm @Row, @Stack, @Grid, và @Free. Tôi làm việc chặt chẽ với @Group để quyết định mỗi @Output đi đâu: tôi di chuyển từng cái đến nơi tôi nói, giữ nguyên kích thước và hình dạng của nó. @Free là người trong chúng tôi không quyết định gì cả, nên ở đó mỗi @Output ngồi ở @Place riêng của nó. Nếu bạn muốn đẩy nhẹ một thứ gì đó khỏi nơi tôi đặt nó, hãy cho nó một @Phrase/offset thay vì một @Place.",
+            "names": ["$~Sắpxếp"]
+        },
+        "Row": {
+            "doc": "$~Tôi là @Row, một @Arrangement theo chiều ngang của @Output, có đệm tùy chọn ở giữa. Bạn đã gặp anh em sinh đôi của tôi, @Stack chưa? Tôi quyết định mỗi cái đi xa bao nhiêu, và đầu vào đầu tiên của tôi cho biết cách xếp hàng chúng theo chiều dọc xuyên qua tôi. Cho một trong chúng một @Place và nó sẽ ngồi ở vị trí y đó thay vào đó — nhưng một @Shape không có @Place riêng của nó, nên tôi xếp nó thẳng hàng với mọi thứ khác.",
+            "names": ["$~Hàngngang"],
+            "description": "$~hàng gồm $#count[$count cụm từ hoặc nhóm]",
+            "alignment": {
+                "doc": "$~Có nên xếp nội dung của tôi vào đầu, giữa, hay cuối mỗi @column — hay, với \\'_'\\, theo đường cơ sở mà các chữ dựa vào, để những chữ cái có chiều cao khác nhau vẫn đọc thành một dòng.",
+                "names": "$~sựcănchỉnh"
+            },
+            "padding": {
+                "doc": "$~Khoảng cách đệm cần đặt giữa các @value đầu ra.",
+                "names": "$~đệm"
+            }
+        },
+        "Stack": {
+            "doc": "$~Tôi là @Stack, một @Arrangement theo chiều dọc của @Output, có đệm tùy chọn ở giữa. Bạn đã gặp anh em sinh đôi của tôi, @Row chưa? Tôi quyết định mỗi cái đi xuống bao xa, và đầu vào đầu tiên của tôi cho biết cách xếp hàng chúng theo chiều ngang qua tôi. Cho một trong chúng một @Place và nó sẽ ngồi ở vị trí x đó thay vào đó — nhưng một @Shape không có @Place riêng của nó, nên tôi xếp nó thẳng hàng với mọi thứ khác.",
+            "names": ["$~Ngănxếp"],
+            "description": "$~chồng gồm $#count[$count cụm từ hoặc nhóm]",
+            "alignment": {
+                "doc": "$~Chọn căn chỉnh văn bản ở đầu, giữa hoặc cuối mỗi dòng.",
+                "names": "$~sựcănchỉnh"
+            },
+            "padding": {
+                "doc": "$~Khoảng cách đệm cần đặt giữa các @value đầu ra.",
+                "names": "$~đệm"
+            }
+        },
+        "Grid": {
+            "doc": "$~Tôi là lưới của @Output. Hãy cho tôi số hàng và số @column, tôi sẽ tạo một cách sắp xếp gọn gàng với đệm tùy chọn và kích thước @cell. Tôi quyết định cả hai hướng, nên một @Place sẽ không di chuyển bất cứ thứ gì sang ngang hoặc lên xuống — dù @value z của nó vẫn cho biết nó gần đến mức nào.",
+            "names": ["$~Lưới"],
+            "description": "$~$rows hàng $columns cột lưới",
+            "rows": {
+                "doc": "$~Số hàng cần tạo trong lưới.",
+                "names": "$~hàng"
+            },
+            "columns": {
+                "doc": "$~Cần tạo bao nhiêu cột trong lưới?",
+                "names": "$~cột"
+            },
+            "padding": {
+                "doc": "$~Cần đặt khoảng cách đệm bao nhiêu giữa các ô?",
+                "names": "$~đệm"
+            },
+            "cellWidth": {
+                "doc": "$~Khoảng cách giữa các ô nên là bao nhiêu?",
+                "names": "$~chiềurộngô"
+            },
+            "cellHeight": {
+                "doc": "$~Chiều cao của các ô nên là bao nhiêu?",
+                "names": "$~đệmtếbào"
+            }
+        },
+        "Free": {
+            "doc": [
+                "$~Tôi là một @Arrangement cho phép mỗi @Output có thể ngồi ở bất cứ vị trí nào được chỉ định bởi @Place của nó. Tôi kiểu như, tùy bạn thôi. Ngồi ở đâu cũng được! Cứ ngồi ở đâu đó là được! Hãy đảm bảo tất cả các @Output bạn đưa cho tôi đều có @Place , nếu không chúng sẽ không biết phải đi đâu.",
+                "À, và hãy nhớ rằng @Place mà bạn gán cho mỗi @Output là tương đối so với @Place của @Group ! Vì vậy, nếu bạn thắc mắc tại sao mọi thứ không xuất hiện ở vị trí mong muốn, hãy thử gán vị trí cho cả @Group nữa."
+            ],
+            "names": ["$~Miễnphí"],
+            "description": "$~$#count[$count đầu ra] dạng tự do"
+        },
+        "Shape": {
+            "doc": "$~Tôi là nguồn cảm hứng cho mọi hình dáng. Tôi hữu ích trong việc hướng dẫn @Stage nên có hình dáng như thế nào.",
+            "names": ["$~Hìnhdạng"],
+            "form": {
+                "doc": "$~Tôi là kiểu hình dạng cần được thể hiện. Mỗi hình dạng đòi hỏi những thông tin khác nhau để xác định cách sắp xếp của nó.",
+                "names": "$~hìnhthức"
+            },
+            "name": {
+                "doc": "$~Tôi là tên bạn có thể sử dụng cho hoạt ảnh và @Collision. Ví dụ, nếu a đại diện cho mặt đất, bạn có thể muốn gọi tôi là 'ground'.",
+                "names": "$~tên"
+            },
+            "description": {
+                "doc": [
+                    "$~Lời mô tả dành cho những khán giả không thể nhìn thấy hình ảnh."
+                ],
+                "names": "$~Sựmiêutả"
+            },
+            "selectable": {
+                "doc": "$~Tôi có đủ @condition để được chọn tham gia chương trình @Choice hay không?",
+                "names": "$~cóthểlựachọn"
+            },
+            "color": {
+                "doc": "$~Màu của tôi. Tôi tô bằng màu đó, trừ khi tôi có nền, khi đó nó tô màu cho viền của tôi.",
+                "names": "$~màusắc"
+            },
+            "background": {
+                "doc": "$~Màu nền của tôi.",
+                "names": "$~lýlịch"
+            },
+            "opacity": {
+                "doc": "$~Tôi nên minh bạch đến mức nào?",
+                "names": "$~độmờđục"
+            },
+            "offset": {
+                "doc": "$~Tôi nên xuất hiện cách vị trí của mình bao xa, trong khi vẫn ở nguyên tại chỗ?",
+                "names": "$~bùlại"
+            },
+            "rotation": {
+                "doc": "$~Góc xoay của tôi nên như thế nào? Điều này ảnh hưởng đến @Collision.",
+                "names": "$~xoay"
+            },
+            "scale": {
+                "doc": "$~Tôi nên được phóng to đến mức nào mà không thay đổi kích thước thật của mình?",
+                "names": "$~tỉlệ"
+            },
+            "flipx": {
+                "doc": "$~Liệu có nên phản chiếu hình ảnh của tôi trên trục x hay không.",
+                "names": "$~lậtngược"
+            },
+            "flipy": {
+                "doc": "$~Liệu có nên phản chiếu hình ảnh của tôi trên trục y hay không.",
+                "names": "$~lật"
+            },
+            "entering": {
+                "doc": "$~Tư thế (@Pose) hoặc chuỗi động tác (@Sequence) nào tôi nên thực hiện khi vào sân khấu (@Stage).",
+                "names": "$~vào"
+            },
+            "resting": {
+                "doc": "$~Tư thế (@Pose) hoặc chuỗi động tác (@Sequence) mà tôi nên thực hiện sau khi vào và trong khi tôi không di chuyển.",
+                "names": "$~nghỉngơi"
+            },
+            "moving": {
+                "doc": "$~Tư thế (@Pose) hoặc chuỗi động tác (@Sequence) nào tôi nên thực hiện khi di chuyển đến địa điểm khác?",
+                "names": "$~dichuyển"
+            },
+            "exiting": {
+                "doc": "$~Tư thế (@Pose) hoặc chuỗi động tác (@Sequence) mà tôi nên thực hiện khi rời khỏi sân khấu (@Stage).",
+                "names": "$~thoátra"
+            },
+            "duration": {
+                "doc": "$~Thời lượng hoạt ảnh của tôi sẽ là bao lâu nếu mỗi hoạt ảnh chỉ có một @Pose?",
+                "names": "$~khoảngthờigian"
+            },
+            "style": {
+                "doc": "$~Tôi nên sử dụng phong cách hoạt hình nào.",
+                "names": "$~phongcách"
+            },
+            "filled": {
+                "doc": "$~Có tô màu bên trong mình hay không. Mình không có bên trong trừ khi mình khép kín, nên một @Path chưa khép kín thì không bao giờ được tô.",
+                "names": "$~đãTôĐầy"
+            },
+            "stroked": {
+                "doc": "$~Có vẽ đường viền của mình hay không. Không có màu tô và không có đường viền thì mình trở nên vô hình, đây là một cách để tạo ra một rào chắn ngăn mọi thứ mà không bị nhìn thấy.",
+                "names": "$~đãVẽViền"
+            },
+            "glyphs": {
+                "doc": "$~Chữ để vẽ dọc theo đường viền của mình, lặp lại cho đến khi lấp đầy. Mình không có chữ nào trừ khi bạn cho mình một ít.",
+                "names": "$~chữTượngHình"
+            }
+        },
+        "Form": {
+            "doc": "$~Tôi là một hình dạng trừu tượng, giống như một @Rectangle hoặc @Circle.",
+            "names": ["$~Hìnhthức"]
+        },
+        "Rectangle": {
+            "doc": "$~Tôi là một hình chữ nhật, hữu ích để tạo đường viền cho @Stage với kích thước do bạn chọn.",
+            "names": ["$~Hìnhchữnhật"],
+            "left": {
+                "doc": "$~Cạnh trái của sân khấu trên trục x.",
+                "names": "$~bêntrái"
+            },
+            "top": {
+                "doc": "$~Cạnh trên của sân khấu trên trục y",
+                "names": "$~đứngđầu"
+            },
+            "right": {
+                "doc": "$~Cạnh phải của sân khấu trên trục x.",
+                "names": "$~Phải"
+            },
+            "bottom": {
+                "doc": "$~Cạnh dưới của bệ đỡ trên trục y",
+                "names": "$~đáy"
+            },
+            "z": {
+                "doc": "$~Vị trí độ sâu của hình chữ nhật.",
+                "names": "$~z"
+            }
+        },
+        "Circle": {
+            "doc": "$~Tôi là một hình tròn, hữu ích để tạo hình trên @Stage.",
+            "names": ["$~Vòngtròn"],
+            "radius": {
+                "doc": "$~Bán kính của đường tròn",
+                "names": "$~bánkính"
+            },
+            "x": {
+                "doc": "$~Tâm ngang của đường tròn.",
+                "names": "$~x"
+            },
+            "y": {
+                "doc": "$~Tâm thẳng đứng của đường tròn.",
+                "names": "$~y"
+            },
+            "z": {
+                "doc": "$~Vị trí độ sâu của hình tròn.",
+                "names": "$~z"
+            }
+        },
+        "Polygon": {
+            "doc": "$~Tôi là một đa giác đều có các cạnh và góc bằng nhau, hữu ích để tạo hình trên @Stage.",
+            "names": ["$~Đagiác"],
+            "radius": {
+                "doc": "$~Bán kính của đa giác",
+                "names": "$~bánkính"
+            },
+            "sides": {
+                "doc": "$~Số cạnh của đa giác",
+                "names": "$~cácmặt"
+            },
+            "x": {
+                "doc": "$~Tâm ngang của đa giác.",
+                "names": "$~x"
+            },
+            "y": {
+                "doc": "$~Tâm thẳng đứng của đa giác.",
+                "names": "$~y"
+            },
+            "z": {
+                "doc": "$~Vị trí độ sâu của đa giác.",
+                "names": "$~z"
+            }
+        },
+        "Pose": {
+            "doc": [
+                "$~Tôi ghi lại một @Pose để @Output giữ, và tôi là nền tảng cho chuyển động của họ. Bạn biết đấy, khi ai đó đứng ở một tư thế vô cùng ấn tượng, dừng lại một chút, và mọi người đều nhìn? Đó chính là tôi.",
+                "Có rất nhiều yếu tố tạo nên một tư thế. Hãy xem nhiều gợi ý của tôi để xem bạn có thể tạo ra những kiểu tư thế nào!"
+            ],
+            "names": ["$~Tưthế"],
+            "style": {
+                "doc": "$~Kiểu hoạt ảnh cần sử dụng khi chuyển sang tư thế này.",
+                "names": "$~phongcách"
+            },
+            "color": {
+                "doc": "$~@property @Color và @Output nên ở vị trí này, thay vì vị trí mặc định.",
+                "names": "$~màusắc"
+            },
+            "opacity": {
+                "doc": "$~Độ trong suốt của @Output nên nằm trong khoảng từ \\0\\ đến \\1\\, thay vì @value mặc định. Điều này hữu ích cho việc làm mờ dần vào và ra.",
+                "names": "$~độmờđục"
+            },
+            "offset": {
+                "doc": "$~@property @Place cho biết vị trí cần dịch chuyển so với vị trí mặc định của @Output. Hữu ích cho việc điều chỉnh vị trí linh hoạt.",
+                "names": "$~bùlại"
+            },
+            "rotation": {
+                "doc": "$~Góc xoay của @Output nên như thế nào so với góc xoay mặc định.",
+                "names": "$~xoay"
+            },
+            "scale": {
+                "doc": "$~Mức độ phóng đại của một @Output so với kích thước gốc, thay vì kích thước mặc định.",
+                "names": "$~tỉlệ"
+            },
+            "flipx": {
+                "doc": "$~Liệu một @Output có nên được phản chiếu trên trục x, thay vì vị trí mặc định của nó hay không.",
+                "names": "$~lậtngược"
+            },
+            "flipy": {
+                "doc": "$~Liệu một @Output có nên được phản chiếu trên trục y, thay vì vị trí mặc định của nó hay không.",
+                "names": "$~lật"
+            },
+            "description": "$~$opacity[trong suốt $opacity|] $rotation[xoay $rotation độ|] $scale[thu nhỏ $scale|] $flipx[lật ngang|] $flipy[lật dọc|] $blur[bóng mờ $blur pixel|]",
+            "music": {
+                "doc": "$~@Music tôi nên phát khi @state hoạt ảnh của tôi bắt đầu, hoặc khi một @Sequence chạm tới tôi. Đây là một âm thanh ngắn; tôi chỉ phát một lần duy nhất.",
+                "names": "$~âmNhạc"
+            }
+        },
+        "Color": {
+            "doc": [
+                "$~Tôi là một màu sắc nhìn thấy được, tạo thành từ ba chiều thiết yếu.",
+                "Đây là một số màu phổ @variable quanh vòng tròn màu, ở độ sáng trung bình và độ tươi cao:",
+                "\\Màusắc(50% 100 0°)\\",
+                "\\Màusắc(50% 100 30°)\\",
+                "\\Màusắc(50% 100 60°)\\",
+                "\\Màusắc(50% 100 90°)\\",
+                "\\Màusắc(50% 100 120°)\\",
+                "\\Màusắc(50% 100 150°)\\",
+                "\\Màusắc(50% 100 180°)\\",
+                "\\Màusắc(50% 100 210°)\\",
+                "\\Màusắc(50% 100 240°)\\",
+                "\\Màusắc(50% 100 270°)\\",
+                "\\Màusắc(50% 100 300°)\\",
+                "\\Màusắc(50% 100 330°)\\",
+                "Với mười một tên màu phổ biến nhất, bạn không cần phải tạo tôi từ đầu. Tôi có các lối tắt trên tên của mình:",
+                "\\Màusắc.màuđỏ\\",
+                "\\Màusắc.màuxanhdatrời\\",
+                "Các lối tắt này cũng hoạt động trong @language của bạn, nên một người nói tiếng Pháp có thể viết \\couleur.rouge\\🪲 và một người nói tiếng Nhật có thể viết \\色.赤\\🪲. Các lối tắt là: đỏ, cam, vàng, xanh lá, xanh dương, tím, nâu, hồng, đen, trắng và xám."
+            ],
+            "names": ["$~Màusắc"],
+            "lightness": {
+                "doc": "$~Tôi nên sáng như thế nào từ \\0\\ đến \\1\\, từ màu đen tại \\0\\, đến màu xám tại \\0.5\\, đến màu trắng tại \\1\\.",
+                "names": ["$~ánhsáng"]
+            },
+            "chroma": {
+                "doc": "$~Tôi nên có bao nhiêu màu sắc, từ \\0\\ đến \\∞\\. Không có màu nghĩa là màu xám, số càng cao thì màu càng nhiều.",
+                "names": ["$~màusắc"]
+            },
+            "hue": {
+                "doc": "$~Tôi nên có màu gì trên vòng tròn màu, từ màu đỏ tươi \\0\\, đỏ \\30\\, xanh lá cây \\120\\, đến xanh dương \\270\\?",
+                "names": ["$~sắcđộ"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "$~Màu cơ bản là màu đen.",
+                    "names": ["$~đen"]
+                },
+                "white": {
+                    "doc": "$~Màu cơ bản là màu trắng.",
+                    "names": ["$~trắng"]
+                },
+                "gray": {
+                    "doc": "$~Màu cơ bản là màu xám.",
+                    "names": ["$~xám"]
+                },
+                "red": {
+                    "doc": "$~Màu cơ bản là màu đỏ.",
+                    "names": ["$~màuđỏ"]
+                },
+                "orange": {
+                    "doc": "$~Màu cơ bản là màu cam.",
+                    "names": ["$~quảcam"]
+                },
+                "yellow": {
+                    "doc": "$~Màu vàng là màu cơ bản.",
+                    "names": ["$~màuvàng"]
+                },
+                "green": {
+                    "doc": "$~Màu cơ bản là màu xanh lá cây.",
+                    "names": ["$~màuxanhlá"]
+                },
+                "blue": {
+                    "doc": "$~Màu cơ bản là màu xanh dương.",
+                    "names": ["$~màuxanhdatrời"]
+                },
+                "purple": {
+                    "doc": "$~Màu tím là màu cơ bản.",
+                    "names": ["$~màutím"]
+                },
+                "brown": {
+                    "doc": "$~Màu nâu là màu cơ bản.",
+                    "names": ["$~màunâu"]
+                },
+                "pink": {
+                    "doc": "$~Màu cơ bản là màu hồng.",
+                    "names": ["$~hồng"]
+                }
+            },
+            "description": {
+                "modified": "$~$modifier $color",
+                "mix": "$~$first - $second",
+                "light": "$~ánh sáng",
+                "dark": "$~tối tăm"
+            },
+            "random": {
+                "doc": [
+                    "$~Chọn một màu ngẫu nhiên.",
+                    "Nếu không có màu nào cụ thể, tôi sẽ chọn ngẫu nhiên một trong những màu cơ bản:",
+                    "\\Color.random()\\",
+                    "Với một màu duy nhất, tôi giữ nguyên độ sáng và độ bão hòa nhưng chọn một sắc độ ngẫu nhiên:",
+                    "\\Color.random(Color.blue)\\",
+                    "Với hai màu, tôi chọn ngẫu nhiên độ sáng, độ bão hòa và sắc độ giữa hai màu đó:",
+                    "\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "$~ngẫunhiên",
+                "inputs": [
+                    {
+                        "doc": "$~Một màu tùy chọn. Khi chỉ dùng một màu, tôi giữ nguyên độ sáng và độ bão hòa của nó và chọn ngẫu nhiên sắc độ. Khi dùng thêm màu thứ hai, bạn có thể chọn một trong các sắc độ nằm ở đầu kia của dải màu.",
+                        "names": "$~Một"
+                    },
+                    {
+                        "doc": "$~Màu thứ hai là tùy chọn. Khi được cung cấp, tôi sẽ chọn ngẫu nhiên độ sáng, độ bão hòa và sắc độ giữa hai màu đó.",
+                        "names": "$~b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "$~Hãy cho tôi một phiên bản nhẹ hơn, tăng độ sáng của tôi lên một tỷ lệ phần trăm (mặc định là 5%).",
+                    "\\Color.blue.lighter()\\",
+                    "\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "$~nhẹhơn",
+                "inputs": [
+                    {
+                        "doc": "$~Mức độ tăng độ sáng, tính theo phần trăm. Mặc định là 5%.",
+                        "names": "$~qua"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "$~Hãy cho tôi một phiên bản tối hơn, giảm độ sáng của tôi đi một phần trăm (mặc định là 5%).",
+                    "\\Color.blue.darker()\\",
+                    "\\Color.blue.darker(20%)\\"
+                ],
+                "names": "$~tốihơn",
+                "inputs": [
+                    {
+                        "doc": "$~Mức độ giảm độ sáng, tính theo phần trăm. Mặc định là 5%.",
+                        "names": "$~qua"
+                    }
+                ]
+            }
+        },
+        "Sequence": {
+            "doc": [
+                "$~Tôi làm cho @Output chuyển động qua một chuỗi @Pose theo thời gian! Bạn có muốn nhảy múa cùng tôi không? Việc đó rất dễ.",
+                "Bạn chỉ cần cho tôi một @Map, trong đó mỗi @key thể hiện chúng ta đã đi được bao nhiêu phần trăm trong điệu nhảy, và mỗi @value của những chìa khóa đó là một @Pose để trở thành.",
+                "Có /rất/ nhiều cách khác nhau để bạn có thể tạo chuyển động với điều này! Ví dụ, đây là một cách đơn giản:",
+                "\\Cụmtừ(\n\t'chào'\n\tresting: Sựliêntiếp(\n\t\t{0%: Tưthế(rotation: 360°) 100%: Tưthế(rotation: 0°)}\n\t)\\🪲",
+                "Điều này nói rằng, /ở lúc bắt đầu (0%), khởi đầu ở độ nghiêng 360, và kết thúc ở độ nghiêng 0/. Điều đó sẽ làm chúng ta xoay tròn mãi mãi, vì tôi được đặt làm tư thế nghỉ của @Phrase!",
+                "Hãy thử những điệu nhảy sáng tạo của riêng bạn bằng cách chơi với các đầu vào khác."
+            ],
+            "names": ["$~Sựliêntiếp"],
+            "poses": {
+                "doc": "$~Một @Map hiển thị tỷ lệ phần trăm từ 0% đến 100%, mỗi tỷ lệ được ghép nối với một @Pose. Bạn không cần phải cung cấp tất cả các tỷ lệ phần trăm; tôi sẽ tự động di chuyển một @Output giữa các tỷ lệ bạn cung cấp.",
+                "names": "$~tưthế"
+            },
+            "duration": {
+                "doc": "$~Tôi nên nhảy điệu nhảy này trong bao lâu? Nếu tôi nhảy lại, tôi sẽ không tăng thêm thời gian, mà chỉ nhảy nhanh hơn thôi.",
+                "names": ["$~khoảngthờigian"]
+            },
+            "style": {
+                "doc": "$~Tôi nên sử dụng phong cách nào cho điệu nhảy này?",
+                "names": "$~phongcách"
+            },
+            "count": {
+                "doc": "$~Cần lặp lại chuỗi động tác bao nhiêu lần trước khi hoàn tất? Điều này rất hữu ích khi tôi bước lên sân khấu, di chuyển trên sân khấu hoặc rời khỏi sân khấu, nhưng đối với chuỗi động tác nghỉ ngơi, nó bị bỏ qua vì tôi có thể nghỉ ngơi mãi mãi.",
+                "names": "$~đếm"
+            },
+            "description": {
+                "doc": "$~Phần mô tả tùy chọn cho chuỗi hình ảnh này dành cho những người xem không thể nhìn thấy hoạt hình.",
+                "names": "$~Sựmiêutả"
+            },
+            "animations": {
+                "sway": {
+                    "doc": [
+                        "$~Tôi nghiêng qua nghiêng lại quanh tâm của một @Output, giống như thứ gì đó đang treo trong làn gió nhẹ. Tôi là một chuyển động nghỉ tốt, vì một /angle/ nhỏ trông như “có sự sống” mà không kéo sự chú ý.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.đungđưa(10°))\\"
+                    ],
+                    "names": ["đungđưa"],
+                    "angle": {
+                        "doc": "$~Nghiêng bao xa về mỗi hướng. @value nhỏ trông nhẹ nhàng; giá trị lớn trông cuống cuồng.",
+                        "names": ["$~góc"]
+                    }
+                },
+                "bounce": {
+                    "doc": [
+                        "$~Tôi nhảy một @Output lên tới /height/ rồi để nó đáp xuống, hơi bẹp lại một chút khi lên và khi xuống. Cho tôi một @Phrase vừa mới đến và tôi sẽ làm nó có cảm giác có trọng lượng.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.tunglên(3m))\\"
+                    ],
+                    "names": ["$~tunglên"],
+                    "height": {
+                        "doc": "$~Nhảy cao bao nhiêu, tính bằng mét.",
+                        "names": ["$~chiềucao"]
+                    }
+                },
+                "spin": {
+                    "doc": [
+                        "$~Tôi quay một @Output trọn một vòng quanh tâm của nó, từ 360° về lại 0°. Đặt tôi làm chuyển động nghỉ và tôi sẽ quay mãi mãi.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.quay(2s))\\"
+                    ],
+                    "names": ["$~quay"]
+                },
+                "fadein": {
+                    "doc": [
+                        "$~Tôi đưa một @Output từ vô hình đến hoàn toàn hiện rõ. Tôi dành cho việc /entering/, khi thứ gì đó đang tới sân khấu.",
+                        "\\Cụmtừ('🐈' vào: 💃.mờdần(1s))\\"
+                    ],
+                    "names": ["$~mờdần"]
+                },
+                "fadeout": {
+                    "doc": [
+                        "$~Tôi đưa một @Output từ hoàn toàn hiện rõ đến vô hình. Tôi dành cho việc /exiting/, khi thứ gì đó đang rời sân khấu.",
+                        "\\Cụmtừ('🐈' thoátra: 💃.mờdầntắt(khoảngthờigian: 1s))\\"
+                    ],
+                    "names": ["mờdầntắt"]
+                },
+                "popup": {
+                    "doc": [
+                        "$~Tôi làm một @Output lớn lên từ hư không, vượt quá kích thước thật của nó, rồi lắng về đúng chỗ. Chính cái vượt quá nhỏ đó làm cho sự xuất hiện có cảm giác vui tươi thay vì máy móc.",
+                        "\\Cụmtừ('🐈' vào: 💃.cửasổbậtlên(0.5s))\\"
+                    ],
+                    "names": ["$~cửasổbậtlên"]
+                },
+                "shake": {
+                    "doc": [
+                        "$~Tôi giật một @Output qua lại theo nhiều hướng. Tôi được hiểu là “không”, hoặc như thứ gì đó đang rung lắc. Tôi di chuyển nhanh, nên hãy giữ tôi ngắn.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.lắc(0.5s đếm: 3x))\\"
+                    ],
+                    "names": ["$~lắc"]
+                },
+                "pulse": {
+                    "doc": [
+                        "$~Tôi phóng to một @Output lên tới /amount/ rồi thu nhỏ lại, một lần. Tôi là cách yên lặng nhất để nói “nhìn đây” mà không làm thứ gì lệch chỗ.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.xung(1.2))\\"
+                    ],
+                    "names": ["$~xung"],
+                    "amount": {
+                        "doc": "$~To hơn bao nhiêu ở đỉnh. 1 là không thay đổi gì cả.",
+                        "names": ["$~sốlượng"]
+                    }
+                },
+                "heartbeat": {
+                    "doc": [
+                        "$~Tôi đập to lên hai nhịp nhanh rồi nghỉ, giống nhịp của một trái tim. Tôi khẩn cấp hơn /pulse/ của @Sequence và tự nhiên hơn /flash/.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.nhịptim(1.4 1s))\\"
+                    ],
+                    "names": ["$~nhịptim"],
+                    "amount": {
+                        "doc": "$~To hơn bao nhiêu ở mỗi nhịp.",
+                        "names": ["$~sốlượng"]
+                    }
+                },
+                "tada": {
+                    "doc": [
+                        "$~Tôi ăn mừng: hơi thu nhỏ, rồi phóng to lên với một cái lắc qua lại. Tôi dành cho việc chiến thắng, hoàn thành và làm đúng.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.tada(1.2 1s))\\"
+                    ],
+                    "names": ["$~tada"],
+                    "amount": {
+                        "doc": "$~To hơn bao nhiêu khi ăn mừng.",
+                        "names": ["$~sốlượng"]
+                    }
+                },
+                "wiggle": {
+                    "doc": [
+                        "$~Tôi trượt một @Output qua lại trong khi nghiêng nó, mỗi cú đưa nhỏ hơn cú trước. Tôi là một cái lắc có thêm một chút cá tính.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.lắclư(8°))\\"
+                    ],
+                    "names": ["$~lắclư"],
+                    "angle": {
+                        "doc": "$~Nghiêng bao xa ở mỗi cú đưa.",
+                        "names": ["$~góc"]
+                    }
+                },
+                "flash": {
+                    "doc": [
+                        "$~Tôi nháy một @Output giữa hiện rõ và vô hình hai lần, mờ dần khi tôi làm vậy. Tôi khó bỏ qua — điều đó cũng có nghĩa là tôi khó phớt lờ, nên hãy dùng tôi tiết kiệm.",
+                        "Tôi nháy nhanh, nên người xem nhạy cảm với nhấp nháy có thể thấy tôi khó chịu. Hãy làm tôi chậm lại với /duration/ dài hơn nếu tôi sẽ lặp lại.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.đènflash(1s))\\"
+                    ],
+                    "names": ["$~đènflash"]
+                },
+                "zoomin": {
+                    "doc": [
+                        "$~Tôi làm một @Output lớn lên từ hư không đến kích thước đầy đủ. Khác với /popup/, tôi không vượt quá — tôi là sự xuất hiện đơn giản hơn, êm dịu hơn.",
+                        "\\Cụmtừ('🐈' vào: 💃.phóngto(0.5s))\\"
+                    ],
+                    "names": ["$~phóngto"]
+                },
+                "fadeinup": {
+                    "doc": [
+                        "$~Tôi làm một @Output mờ hiện lên trong khi trượt nó lên đúng chỗ từ /distance/ bên dưới.",
+                        "\\Cụmtừ('🐈' vào: 💃.mờdầnlên(2m))\\"
+                    ],
+                    "names": ["$~mờdầnlên"],
+                    "distance": {
+                        "doc": "$~Bắt đầu ở bao xa bên dưới, tính bằng mét.",
+                        "names": ["$~khoảngcách"]
+                    }
+                },
+                "fadeindown": {
+                    "doc": [
+                        "$~Tôi làm một @Output mờ hiện lên trong khi trượt nó xuống đúng chỗ từ /distance/ bên trên.",
+                        "\\Cụmtừ('🐈' vào: 💃.hiệnxuống(2m))\\"
+                    ],
+                    "names": ["hiệnxuống"],
+                    "distance": {
+                        "doc": "$~Bắt đầu ở bao xa bên trên, tính bằng mét.",
+                        "names": ["$~khoảngcách"]
+                    }
+                },
+                "fadeinleft": {
+                    "doc": [
+                        "$~Tôi làm một @Output mờ hiện lên trong khi trượt nó sang phải đúng chỗ từ /distance/ bên trái.",
+                        "\\Cụmtừ('🐈' vào: 💃.mờdầnbêntrái(2m))\\"
+                    ],
+                    "names": ["$~mờdầnbêntrái"],
+                    "distance": {
+                        "doc": "$~Bắt đầu ở bao xa về bên trái, tính bằng mét.",
+                        "names": ["$~khoảngcách"]
+                    }
+                },
+                "fadeinright": {
+                    "doc": [
+                        "$~Tôi làm cho một @Output hiện dần lên trong khi trượt nó về bên trái vào vị trí, từ /distance/ ở bên phải.",
+                        "\\Cụmtừ('🐈' vào: 💃.mờdầnbênphải(2m))\\"
+                    ],
+                    "names": ["$~mờdầnbênphải"],
+                    "distance": {
+                        "doc": "$~Bắt đầu cách bao xa về bên phải, tính bằng mét.",
+                        "names": ["$~khoảngcách"]
+                    }
+                },
+                "rotatein": {
+                    "doc": [
+                        "$~Tôi xoay một @Output vào vị trí trong khi làm cho nó hiện dần lên, bắt đầu xoay một góc /angle/ và kết thúc thẳng đứng.",
+                        "\\Cụmtừ('🐈' vào: 💃.xoaytrong(180°))\\"
+                    ],
+                    "names": ["$~xoaytrong"],
+                    "angle": {
+                        "doc": "$~Bắt đầu xoay bao nhiêu, tính bằng độ.",
+                        "names": ["$~góc"]
+                    }
+                },
+                "zoomout": {
+                    "doc": [
+                        "$~Tôi thu nhỏ một @Output từ kích thước đầy đủ xuống còn không gì cả.",
+                        "\\Cụmtừ('🐈' thoátra: 💃.thunhỏ(0.5s))\\"
+                    ],
+                    "names": ["$~thunhỏ"]
+                },
+                "fadeoutup": {
+                    "doc": [
+                        "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó lên trên một khoảng /distance/.",
+                        "\\Cụmtừ('🐈' thoátra: 💃.mờdầntắtlên(2m))\\"
+                    ],
+                    "names": ["mờdầntắtlên"],
+                    "distance": {
+                        "doc": "$~Trượt lên bao xa, tính bằng mét.",
+                        "names": ["$~khoảngcách"]
+                    }
+                },
+                "fadeoutdown": {
+                    "doc": [
+                        "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó xuống dưới một khoảng /distance/.",
+                        "\\Cụmtừ('🐈' thoátra: 💃.mờdầnxuống(2m))\\"
+                    ],
+                    "names": ["$~mờdầnxuống"],
+                    "distance": {
+                        "doc": "$~Trượt xuống bao xa, tính bằng mét.",
+                        "names": ["$~khoảngcách"]
+                    }
+                },
+                "fadeoutleft": {
+                    "doc": [
+                        "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó sang bên trái một khoảng /distance/.",
+                        "\\Cụmtừ('🐈' thoátra: 💃.mờdầntắttrái(2m))\\"
+                    ],
+                    "names": ["mờdầntắttrái"],
+                    "distance": {
+                        "doc": "$~Trượt sang trái bao xa, tính bằng mét.",
+                        "names": ["$~khoảngcách"]
+                    }
+                },
+                "fadeoutright": {
+                    "doc": [
+                        "$~Tôi làm cho một @Output mờ dần đi trong khi trượt nó sang bên phải một khoảng /distance/.",
+                        "\\Cụmtừ('🐈' thoátra: 💃.mờdầnhoàntoàn(2m))\\"
+                    ],
+                    "names": ["$~mờdầnhoàntoàn"],
+                    "distance": {
+                        "doc": "$~Trượt sang phải bao xa, tính bằng mét.",
+                        "names": ["$~khoảngcách"]
+                    }
+                },
+                "rotateout": {
+                    "doc": [
+                        "$~Tôi xoay một @Output đi trong khi làm cho nó mờ dần đi, kết thúc xoay một góc /angle/.",
+                        "\\Cụmtừ('🐈' thoátra: 💃.xoayvòng(180°))\\"
+                    ],
+                    "names": ["$~xoayvòng"],
+                    "angle": {
+                        "doc": "$~Xoay bao nhiêu trước khi @variable mất, tính bằng độ.",
+                        "names": ["$~góc"]
+                    }
+                },
+                "rainbow": {
+                    "doc": [
+                        "$~Tôi cho một @Output đi qua mọi sắc màu của cầu vồng rồi trở về nơi tôi bắt đầu.",
+                        "Tôi đổi màu rất nhanh, nên người xem nhạy cảm với ánh sáng nhấp nháy có thể thấy khó chịu. Một /duration/ dài hơn sẽ làm tôi dịu dàng hơn nhiều.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.cầuvồng(3s))\\"
+                    ],
+                    "names": ["$~cầuvồng"]
+                },
+                "swing": {
+                    "doc": [
+                        "$~Tôi đung đưa một @Output như một con lắc, ra đến /angle/ rồi quay trở lại qua những vòng cung nhỏ dần cho đến khi nó dừng lại. Khác với /sway/, tôi lắng lại.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.đungĐưa(20°))\\"
+                    ],
+                    "names": ["$~đungĐưa"],
+                    "angle": {
+                        "doc": "$~Cú đung đưa đầu tiên và lớn nhất đi xa bao nhiêu.",
+                        "names": ["$~góc"]
+                    }
+                },
+                "blink": {
+                    "doc": [
+                        "$~Tôi tắt một @Output rồi bật lại mà không mờ dần ở giữa, giống như một con trỏ nhấp nháy. /flash/ làm mờ dần; còn tôi cắt ngay.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.nháyMắt(1s))\\"
+                    ],
+                    "names": ["$~nháyMắt"]
+                },
+                "nod": {
+                    "doc": [
+                        "$~Tôi nhúng một @Output xuống rồi lên lại hai lần, giống như một cái gật đầu đồng ý. Tôi là cách nhẹ nhàng nhất để nói “vâng”.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.gậtĐầu(0.4m))\\"
+                    ],
+                    "names": ["$~gậtĐầu"],
+                    "distance": {
+                        "doc": "$~Nhúng xuống bao xa mỗi lần gật, tính bằng mét.",
+                        "names": ["$~khoảngCách"]
+                    }
+                },
+                "dim": {
+                    "doc": [
+                        "$~Tôi làm cho một @Output mờ dần xuống đến /amount/ rồi trở lại đầy đủ, mà không bao giờ ẩn nó đi. Tôi dùng để cho thấy có điều gì đó đang chờ hoặc không hoạt động.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.mờĐi(20% 2s))\\"
+                    ],
+                    "names": ["$~mờĐi"],
+                    "amount": {
+                        "doc": "$~Mờ đến mức nào tại điểm mờ nhất.",
+                        "names": ["$~lượng"]
+                    }
+                },
+                "slidein": {
+                    "doc": [
+                        "$~Tôi trượt một @Output vào vị trí từ bất cứ nơi nào bạn thích, mà không mờ dần. Hãy cho tôi một @Place và tôi sẽ bắt đầu ở đó rồi kết thúc ở @state nghỉ, nên một hiệu ứng động bao trùm mọi hướng.",
+                        "\\Cụmtừ('🐈' vào: 💃.trượtVào(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~trượtVào"],
+                    "from": {
+                        "doc": "$~Nơi bắt đầu, tính từ vị trí @Output đang nằm.",
+                        "names": ["$~từ"]
+                    }
+                },
+                "slideout": {
+                    "doc": [
+                        "$~Tôi trượt một @Output đi tới bất cứ nơi nào bạn thích, mà không mờ dần. Hãy cho tôi một @Place và tôi sẽ kết thúc ở đó, nên một hoạt ảnh bao gồm mọi hướng.",
+                        "\\Cụmtừ('🐈' thoátra: 💃.trượtRa(📍(0m -4m)))\\"
+                    ],
+                    "names": ["$~trượtRa"],
+                    "to": {
+                        "doc": "$~Nơi kết thúc, tính từ vị trí @Output đang nằm.",
+                        "names": ["$~đến"]
+                    }
+                },
+                "float": {
+                    "doc": [
+                        "$~Tôi làm một @Output trôi từ từ lên trên một khoảng /distance/ rồi trở xuống. Hãy cho tôi một /duration/ dài và tôi sẽ làm cho thứ gì đó trông như không trọng lượng.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.trôiNổi(0.5m 3s))\\"
+                    ],
+                    "names": ["$~trôiNổi"],
+                    "distance": {
+                        "doc": "$~Trôi lên xa bao nhiêu, tính bằng mét.",
+                        "names": ["$~khoảngCách"]
+                    }
+                },
+                "drift": {
+                    "doc": [
+                        "$~Tôi làm một @Output trôi từ từ sang bên một khoảng /distance/ rồi trở lại. Tôi là /float/, nhưng theo chiều ngang.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.trôiDạt(0.5m 3s))\\"
+                    ],
+                    "names": ["$~trôiDạt"],
+                    "distance": {
+                        "doc": "$~Trôi sang bên xa bao nhiêu, tính bằng mét.",
+                        "names": ["$~khoảngCách"]
+                    }
+                },
+                "orbit": {
+                    "doc": [
+                        "$~Tôi mang một @Output đi quanh một vòng tròn có /radius/, rồi trở về nơi nó bắt đầu. Tôi là hoạt ảnh định sẵn duy nhất vẽ ra một đường đi thay vì đi tới đi lui.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.quỹĐạo(2m 4s))\\"
+                    ],
+                    "names": ["$~quỹĐạo"],
+                    "radius": {
+                        "doc": "$~Vòng tròn rộng bao nhiêu, tính bằng mét.",
+                        "names": ["$~bánKính"]
+                    }
+                },
+                "glow": {
+                    "doc": [
+                        "$~Tôi làm một @Output sáng lên hướng về /color/ rồi để nó mờ trở lại, giống như thứ gì đó ấm lên rồi nguội đi. Khác với /rainbow/, tôi giữ nguyên một màu.",
+                        "\\Cụmtừ('🐈' nghỉngơi: 💃.phátSáng(🌈.quảcam 2s))\\"
+                    ],
+                    "names": ["$~phátSáng"],
+                    "color": {
+                        "doc": "$~@Color nào sẽ phát sáng. Tôi sẽ làm nó sáng lên rồi tối đi.",
+                        "names": ["$~màuSắc"]
+                    }
+                }
+            }
+        },
+        "Place": {
+            "doc": "$~Tôi là một vị trí trên @Stage. Tất cả các đầu vào của tôi đều là tùy chọn, vì theo mặc định tôi ở vị trí trung tâm.",
+            "names": ["$~VịTrí"],
+            "x": {
+                "doc": "$~Vị trí trên trục x.",
+                "names": "$~x"
+            },
+            "y": {
+                "doc": "$~Vị trí trên trục y",
+                "names": "$~y"
+            },
+            "z": {
+                "doc": "$~Vị trí trên trục z",
+                "names": "$~z"
+            },
+            "rotation": {
+                "doc": "$~Xoay tại vị trí này",
+                "names": ["$~xoay"]
+            }
+        },
+        "Velocity": {
+            "doc": "$~Tôi xác định tốc độ di chuyển @Output trên @Stage — mét mỗi giây dọc theo trục x và y, và độ mỗi giây quay. Các đầu vào của tôi là tùy chọn; theo mặc định, không có gì di chuyển.",
+            "names": ["$~Vậntốc"],
+            "x": {
+                "doc": "$~Mỗi giây di chuyển bao nhiêu mét trên trục x?",
+                "names": "$~x"
+            },
+            "y": {
+                "doc": "$~Mỗi giây di chuyển bao nhiêu mét trên trục y?",
+                "names": "$~y"
+            },
+            "angle": {
+                "doc": "$~Mỗi giây quay bao nhiêu độ?",
+                "names": ["$~góc"]
+            }
+        },
+        "Matter": {
+            "doc": "$~Tôi cho biết @Output nặng, nảy và trơn đến mức nào. @Output có tôi và một @Motion thì rắn chắc: nó bật lại khỏi @Shape trên @Stage và khỏi các @Output khác đang chuyển động. @Output mà chương trình của bạn đặt vào sẽ đi đến đúng nơi bạn đặt nó, và xuyên qua bất cứ thứ gì nó chạm vào. @Output không cần tôi để được @Collision nhận ra — chỉ cần có tên là đủ cho việc đó.",
+            "names": ["$~Vấnđề"],
+            "mass": {
+                "doc": "$~@blocks lượng, tính bằng kilogam.",
+                "names": "$~khối"
+            },
+            "bounciness": {
+                "doc": "$~Tôi cần bao nhiêu năng lượng để tiếp tục va chạm? 0 nghĩa là không cần gì cả, 1 nghĩa là toàn bộ.",
+                "names": "$~độđànhồi"
+            },
+            "friction": {
+                "doc": "$~Mức độ trượt là bao nhiêu; 0 nghĩa là không trượt, 1 nghĩa là trượt mãi mãi.",
+                "names": "$~masát"
+            },
+            "roundedness": {
+                "doc": "$~Mức độ bo tròn các góc của sản phẩm đầu ra; 0 nghĩa là không bo tròn và 1 nghĩa là bo tròn 100% kích thước, tạo ra các cạnh hình tròn.",
+                "names": "$~độtròn"
+            },
+            "text": {
+                "doc": "$~Liệu tôi có thể va chạm với các @Phrase và @Group khác hay không; ⊥ nghĩa là tôi không nhận ra chúng và @Collision nghĩa là không có thông tin gì về chúng.",
+                "names": "$~chữ"
+            },
+            "shapes": {
+                "doc": "$~Liệu tôi có thể va chạm với @Shape trên @Stage hay không; ⊥ nghĩa là tôi rơi xuyên qua tường và sàn, và @Collision nghĩa là không có thông tin gì về chúng.",
+                "names": "$~đất"
+            },
+            "pull": {
+                "doc": "$~Tôi hút các đầu ra khác về phía mình mạnh đến mức nào. 0 nghĩa là không hút chút nào, đó là mức bình thường. Số càng lớn thì hút càng mạnh, còn số âm thì đẩy ra xa thay vì hút lại. Chỉ những đầu ra được đặt bởi một @Motion mới có thể bị hút.",
+                "names": "$~kéo"
+            }
+        },
+        "Aura": {
+            "doc": [
+                "$~Tôi làm cho @Phrase tỏa sáng! Tôi là một HÀO QUANG. Giống như thế này:",
+                "\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\🪲"
+            ],
+            "names": ["$~Hàoquang"],
+            "color": {
+                "doc": "$~@Color mà @Aura nên có.",
+                "names": "$~màusắc"
+            },
+            "blur": {
+                "doc": "$~Độ mờ của @Aura nên là bao nhiêu? \\0m\\ nghĩa là hoàn toàn không mờ.",
+                "names": "$~mờ"
+            },
+            "offsetX": {
+                "doc": "$~Tôi nên xuất hiện ở vị trí nào bên trái hoặc bên phải? \\0m\\ nằm ngay bên dưới.",
+                "names": "$~offsetX"
+            },
+            "offsetY": {
+                "doc": "$~Tôi nên xuất hiện cao hay thấp đến đâu.\\0m\\ nằm ngay bên dưới.",
+                "names": "$~độlệchY"
+            }
+        },
+        "Stage": {
+            "doc": [
+                "$~Tôi sẽ cho khán giả xem @Output của bạn. Chào. Lên sân khấu nào. Hãy cho tôi biết bạn muốn cho xem gì và tôi sẽ cho xem.",
+                "\\Stage([Phrase('stufffffff')])\\",
+                "NẾU BẠN MUỐN, HÃY CHO TÔI BIẾT PHÔNG NỀN @Color VÀ TÔI SẼ CHIẾU SÁNG SÂN KHẤU CHO PHÙ HỢP.",
+                "\\Stage([Phrase('stufffffff')] lýlịch: Color(75% 50 100°))\\",
+                "Bạn cũng có thể cung cấp cho tôi khung viền và tôi sẽ cắt ảnh.",
+                "\\Stage([Phrase('stufffffff')] lýlịch: Color(75% 50 100°) khung: Rectangle(-1m -1m 1m 1m))\\"
+            ],
+            "names": ["$~Sânkhấu"],
+            "content": {
+                "doc": "$~Danh sách các @Output cần hiển thị trên sân khấu.",
+                "names": "$~nộidung"
+            },
+            "frame": {
+                "doc": "$~Hình dạng và kích thước của khung để đặt xung quanh sân khấu, che khuất mọi thứ bên ngoài.",
+                "names": "$~khung"
+            },
+            "size": {
+                "doc": "$~THÍCH @Group.size thước",
+                "names": "$~kíchcỡ"
+            },
+            "face": {
+                "doc": "$~LIKE @Group.face",
+                "names": "$~khuônmặt"
+            },
+            "place": {
+                "doc": "$~NẾU TÔI LÀ MỘT CHIẾC MÁY ẢNH, ĐÂY LÀ NƠI TÔI ĐANG NHÌN",
+                "names": "$~vịTrí"
+            },
+            "name": {
+                "doc": ["$~GIỐNG VỚI @Phrase.name!"],
+                "names": "$~tên"
+            },
+            "description": {
+                "doc": [
+                    "$~Lời mô tả dành cho những khán giả không thể nhìn thấy hình ảnh."
+                ],
+                "names": "$~Sựmiêutả"
+            },
+            "selectable": {
+                "doc": "$~Tương tự như @Phrase.selectable!",
+                "names": "$~cóthểlựachọn"
+            },
+            "color": {
+                "doc": "$~Tương tự như @Group.color",
+                "names": "$~màusắc"
+            },
+            "background": {
+                "doc": "$~Tương tự như @Group.background",
+                "names": "$~lýlịch"
+            },
+            "opacity": {
+                "doc": "$~Tương tự như @Group.opacity",
+                "names": "$~độmờđục"
+            },
+            "offset": {
+                "doc": "$~Tương tự như @Group.offset",
+                "names": "$~bùlại"
+            },
+            "rotation": {
+                "doc": "$~Tương tự như @Group.rotation",
+                "names": ["$~xoay"]
+            },
+            "scale": {
+                "doc": "$~Tương tự như @Group.scale",
+                "names": "$~tỉlệ"
+            },
+            "flipx": {
+                "doc": "$~Tương tự như @Group.flipx",
+                "names": "$~lậtngược"
+            },
+            "flipy": {
+                "doc": "$~Tương tự như @Group.flipy",
+                "names": "$~lật"
+            },
+            "entering": {
+                "doc": "$~Tương tự như @Group.entering",
+                "names": "$~vào"
+            },
+            "resting": {
+                "doc": "$~Tương tự như @Group.resting!",
+                "names": "$~nghỉngơi"
+            },
+            "moving": {
+                "doc": "$~Tương tự như @Group.moving!",
+                "names": "$~dichuyển"
+            },
+            "exiting": {
+                "doc": "$~Tương tự như @Group.exiting!",
+                "names": "$~thoátra"
+            },
+            "duration": {
+                "doc": "$~Tương tự như @Phrase.duration!",
+                "names": ["$~khoảngthờigian"]
+            },
+            "style": {
+                "doc": "$~Tương tự như @Phrase.style!",
+                "names": "$~phongcách"
+            },
+            "gravity": {
+                "doc": "$~Trọng lực áp dụng cho đầu ra có vị trí nằm trong @Motion.",
+                "names": "$~trọnglực"
+            },
+            "defaultDescription": "$~sân khấu $name[$name |]gồm $#count[$count đầu ra]$frame[với khung $frame|] $pose $color[$color|]",
+            "overlay": {
+                "doc": "$~Một danh sách các @Output được ghim phẳng lên màn hình dưới dạng bảng hiển thị phía trước, không bị ảnh hưởng bởi máy quay @Place hay chiều sâu của sân khấu.",
+                "names": "$~lớpPhủ"
+            },
+            "air": {
+                "doc": "$~Không khí làm chậm đầu ra đang chuyển động đến mức nào. 1 là không khí bình thường, 0 là khoảng không vũ trụ, nơi mọi thứ cứ chuyển động mãi mãi, còn số càng lớn thì càng đặc hơn không khí.",
+                "names": "$~khôngKhí"
+            }
+        },
+        "Easing": {
+            "straight": "$~thẳng",
+            "cautious": "$~thậnTrọng",
+            "pokey": "$~chậmChạp",
+            "zippy": "$~nhanhNhẹn"
+        },
+        "Source": {
+            "names": "$~Nguồn",
+            "doc": [
+                "$~Bạn có biết rằng các dự án có thể có nhiều hơn một tệp @Source không? Tôi cho phép bạn tạo một @Source dựa trên logic của dự án. Điều này thật hữu ích nếu bạn muốn lưu một số dữ liệu giữa các lần chạy khác nhau của dự án.",
+                "Ví dụ, hãy tưởng tượng bạn muốn tạo một bộ đếm đơn giản đếm tăng lên một mỗi lần bạn nhấn nút chuột. Bạn có thể dùng cái này để nhớ bạn đã làm điều gì đó bao nhiêu lần.",
+                "\\↓ count\n[\n\tCụmtừ(\n\t\t`\\\n\t\tcount\\ times!`\n\t)\n\tNguồn('đếm' count … ∆ Cáinút() … count + 1)\n]\\🪲",
+                "Hãy thử sao chép nó, tạo một @Source mới tên là /count/ và gõ 0 vào đó, để bắt đầu đếm từ 0. Dự án nhỏ này sẽ lấy @value trong nguồn /count/ và mỗi lần nhấn nút chuột, nó chỉnh sửa @Source /count/ để trở thành giá trị /count/ hiện tại cộng thêm /1/."
+            ],
+            "name": {
+                "names": "$~tên",
+                "doc": "$~Tên của tập tin nguồn cần tạo hoặc cập nhật."
+            },
+            "value": {
+                "names": "$~giátrị",
+                "doc": "$~Dữ liệu @value mà tệp nguồn nên được tạo hoặc cập nhật."
+            },
+            "DynamicEditLimitException": {
+                "description": "$~giới hạn chỉnh sửa nguồn động",
+                "explanation": "$~Dự án này đã lưu dữ liệu vào các tệp @Source quá nhiều lần và quá nhanh. Hãy đảm bảo rằng nó chỉ cập nhật @Source khi nhận được dữ liệu đầu vào và không cập nhật quá nhanh."
+            },
+            "ReadOnlyEditException": {
+                "description": "$~chỉnh sửa mã nguồn chỉ đọc",
+                "explanation": "$~Dự án này lưu trữ dữ liệu, nhưng bạn không có quyền chỉnh sửa. Hãy sao chép nó nếu bạn muốn thử."
+            },
+            "EmptySourceNameException": {
+                "description": "$~tên nguồn trống",
+                "explanation": "$~Tham số @Source được cung cấp có tên trống nên chúng tôi không thể lưu lại."
+            },
+            "ProjectSizeLimitException": {
+                "description": "$~giới hạn kích thước dự án",
+                "explanation": "$~Dự án này có quá nhiều văn bản nên chúng tôi không thể lưu lại được."
+            }
+        },
+        "Say": {
+            "doc": [
+                "$~Tôi nói văn bản thành tiếng thay vì hiển thị nó trên @Stage. Xin chào!",
+                "Chỉ cần cho tôi điều gì đó để nói, và tôi sẽ nói nó mỗi khi văn bản tôi nhận được thay đổi:",
+                "\\Nói('blah blah blah')\\",
+                "Tôi sẽ dùng @Language của @TextLiteral nếu nó có, nếu không tôi sẽ dùng @language được chọn.",
+                "Bạn có thể chọn một giọng nói trong phần cài đặt."
+            ],
+            "names": ["$~Nói"],
+            "text": {
+                "doc": "$~Đoạn văn tôi nên đọc to.",
+                "names": "$~chữ"
+            },
+            "defaultDescription": "$~Nói $text"
+        },
+        "Gesture": {
+            "doc": "$~Tôi là một ảnh chụp về tư thế tay được camera phát hiện, phát ra bởi @stream @Hand. Vị trí của tôi cho bạn biết bàn tay ở đâu trên sân khấu, các ngón tay của tôi cho biết có bao nhiêu ngón đang duỗi ra, open của tôi là đúng khi bàn tay mở (3 ngón trở lên duỗi ra), và ngón cái, @index, ngón giữa, ngón đeo nhẫn, và ngón út mỗi cái cho biết ngón cụ thể nào đang duỗi ra. Lòng bàn tay của tôi là đúng khi lòng bàn tay hướng về phía camera, sai khi mu bàn tay hướng về phía camera.",
+            "names": ["$~Cửchỉ"],
+            "place": {
+                "doc": "$~Vị trí bàn tay trên sân khấu.",
+                "names": ["$~vịTrí"]
+            },
+            "open": {
+                "doc": "$~\\⊤\\ nếu bàn tay mở ra (từ 3 ngón trở lên duỗi ra), \\⊥\\ nếu nó là nắm đấm.",
+                "names": ["$~mở"]
+            },
+            "fingers": {
+                "doc": "$~Có bao nhiêu ngón tay được duỗi ra, từ 0 (nắm đấm) đến 5 (tất cả các ngón tay đều giơ lên, kể cả ngón cái)?",
+                "names": ["$~ngóntay"]
+            },
+            "thumb": {
+                "doc": "$~\\⊤\\ nếu ngón cái duỗi ra.",
+                "names": ["$~ngóntaycái"]
+            },
+            "index": {
+                "doc": "$~\\⊤\\ nếu ngón @index duỗi ra.",
+                "names": ["$~chỉmục"]
+            },
+            "middle": {
+                "doc": "$~\\⊤\\ nếu ngón giữa duỗi ra.",
+                "names": ["$~ởgiữa"]
+            },
+            "ring": {
+                "doc": "$~\\⊤\\ nếu ngón áp út duỗi ra.",
+                "names": ["$~nhẫn"]
+            },
+            "pinky": {
+                "doc": "$~\\⊤\\ nếu ngón út duỗi ra.",
+                "names": ["$~ngónút"]
+            },
+            "palm": {
+                "doc": "$~\\⊤\\ nếu lòng bàn tay hướng về máy quay, \\⊥\\ nếu mu bàn tay hướng về máy quay.",
+                "names": ["$~câycọ"]
+            }
+        },
+        "Result": {
+            "doc": "$~Tôi là kết quả khớp đầu tiên của tìm kiếm mẫu với \\⌕\\ : văn bản khớp, vị trí của nó và bất kỳ @element nào được bắt giữ.",
+            "names": ["$~Kếtquả"],
+            "text": {
+                "doc": "$~Toàn bộ văn bản khớp nhau.",
+                "names": "$~chữ"
+            },
+            "start": {
+                "doc": "$~Vị trí trận đấu bắt đầu, tính từ 1.",
+                "names": "$~bắtđầu"
+            },
+            "end": {
+                "doc": "$~Điểm kết thúc trận đấu, tính từ 1.",
+                "names": "$~kếtthúc"
+            },
+            "groups": {
+                "doc": "$~Tên của mỗi hình ảnh được ghép với văn bản tương ứng.",
+                "names": "$~cácnhóm"
+            },
+            "starts": {
+                "doc": "$~@name của mỗi lần chụp đến nơi nó bắt đầu.",
+                "names": "$~bắtđầu"
+            },
+            "ends": {
+                "doc": "$~@name của mỗi lần chụp đến nơi nó kết thúc.",
+                "names": "$~kếtthúc"
+            }
+        },
+        "TextEffect": {
+            "edit": "$~sửa",
+            "rewrite": "$~viếtLại",
+            "random": "$~ngẫuNhiên"
+        },
+        "Expression": {
+            "doc": "$~Tôi là một ảnh chụp nhanh của một biểu cảm khuôn mặt được máy ảnh phát hiện, phát ra từ @stream @Face. Vị trí của tôi cho bạn biết khuôn mặt ở đâu trên sân khấu. @Expression.leftEyeOpen, @Expression.rightEyeOpen, và @Expression.eyesOpen của tôi cho biết mắt có mở hay không. @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, và @Expression.browsRaised của tôi cho biết khuôn mặt đang làm gì, và mỗi cái có một lượng tương ứng (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) từ 0 đến 1 cho biết nó mạnh đến mức nào. @Expression.turn và @Expression.tilt của tôi cho biết đầu đang hướng về phía nào, tính bằng độ.",
+            "names": ["$~BiểuCảm"],
+            "place": {
+                "doc": "$~Khuôn mặt ở đâu trên sân khấu.",
+                "names": ["$~vịTrí"]
+            },
+            "leftEyeOpen": {
+                "doc": "$~\\⊤\\ nếu mắt trái mở, \\⊥\\ nếu nó nhắm.",
+                "names": ["$~mắtTráiMở"]
+            },
+            "rightEyeOpen": {
+                "doc": "$~\\⊤\\ nếu mắt phải mở, \\⊥\\ nếu nó nhắm.",
+                "names": ["$~mắtPhảiMở"]
+            },
+            "eyesOpen": {
+                "doc": "$~\\⊤\\ nếu cả hai mắt đều mở.",
+                "names": ["$~mắtMở"]
+            },
+            "mouthOpen": {
+                "doc": "$~\\⊤\\ nếu miệng mở.",
+                "names": ["$~miệngMở"]
+            },
+            "mouthOpenAmount": {
+                "doc": "$~Miệng há bao nhiêu, từ 0 (khép) đến 1 (há to).",
+                "names": ["$~mứcĐộMiệngMở"]
+            },
+            "smiling": {
+                "doc": "$~\\⊤\\ nếu khuôn mặt đang mỉm cười.",
+                "names": ["$~cườiTươi"]
+            },
+            "smileAmount": {
+                "doc": "$~Khuôn mặt cười bao nhiêu, từ 0 đến 1.",
+                "names": ["$~mứcĐộCười"]
+            },
+            "frowning": {
+                "doc": "$~\\⊤\\ nếu khuôn mặt đang cau mày, bằng khóe miệng hoặc bằng lông mày hạ xuống.",
+                "names": ["$~cauMày"]
+            },
+            "frownAmount": {
+                "doc": "$~Khuôn mặt cau mày nhiều bao nhiêu, từ 0 đến 1, tính cả khóe miệng và lông mày hạ xuống.",
+                "names": ["$~mứcĐộCauMày"]
+            },
+            "browsRaised": {
+                "doc": "$~\\⊤\\ nếu đôi lông mày nhướng lên.",
+                "names": ["$~lôngMàyNhướn"]
+            },
+            "browRaiseAmount": {
+                "doc": "$~Lông mày nhướng lên bao nhiêu, từ 0 đến 1.",
+                "names": ["$~mứcĐộNhướnLôngMày"]
+            },
+            "turn": {
+                "doc": "$~Đầu quay đi bao xa, tính bằng độ — âm là sang trái, dương là sang phải.",
+                "names": ["$~xoay"]
+            },
+            "tilt": {
+                "doc": "$~Đầu nghiêng đi bao xa, tính bằng độ — âm là xuống dưới, dương là lên trên.",
+                "names": ["$~nghiêng"]
+            }
+        },
+        "Thing": {
+            "doc": "$~Tôi là một thứ mà máy ảnh nhìn thấy, được gửi ra trong một @List bởi @stream @Objects. Tên của tôi cho biết tôi là gì, độ tin cậy của tôi cho biết mô hình chắc chắn đến mức nào, vị trí của tôi cho biết tôi ở đâu trên sân khấu, còn chiều rộng và chiều cao của tôi cho biết tôi trông lớn cỡ nào.",
+            "names": ["$~Vật"],
+            "name": {
+                "doc": "$~Thứ đó là gì, bằng @language của bạn.",
+                "names": ["$~tên"]
+            },
+            "confidence": {
+                "doc": "$~Mô hình chắc chắn đến mức nào rằng đó là thứ đó, từ 0 (đoán bừa) đến 1 (chắc chắn).",
+                "names": ["$~độTinCậy"]
+            },
+            "place": {
+                "doc": "$~Thứ đó ở đâu trên sân khấu.",
+                "names": ["$~vịTrí"]
+            },
+            "width": {
+                "doc": "$~Thứ đó trông rộng cỡ nào, tính bằng mét.",
+                "names": ["$~chiềuRộng"]
+            },
+            "height": {
+                "doc": "$~Thứ đó trông cao cỡ nào, tính bằng mét.",
+                "names": ["$~chiềuCao"]
+            }
+        },
+        "Music": {
+            "doc": [
+                "$~Tôi @variable các nốt nhạc thành âm thanh: một hoặc nhiều @Track phát cùng nhau, ở một nhịp độ, trong một tông, dựa trên một thang âm. Tôi là âm nhạc mà bạn có thể nghe /và/ nhìn thấy — mỗi người xem chọn cách tôi xuất hiện.",
+                "Bài hát nhỏ nhất là ba nốt trên một bản nhạc:",
+                "\\🎼(🎶([1 3 5]))\\",
+                "Nốt nhạc là các con số. 1 là nốt đầu tiên của thang âm — nốt mà một giai điệu nghe như đã kết thúc — 2 là nốt tiếp theo cao hơn, và 8 lại là nốt đầu tiên đó, nhưng cao hơn một quãng tám. ø là một nốt nghỉ, tức là sự im lặng. Các con số vẫn tiếp tục vượt qua cả hai đầu: 9 là nốt thứ hai cao hơn một quãng tám, còn 0 và -1 bước xuống dưới nốt đầu tiên.",
+                "Một /thang âm/ là tập hợp nhỏ các nốt mà một bản nhạc được xây dựng nên, và việc chọn những nốt nào chiếm phần lớn tâm trạng của nó. @Music/scale là \\🎼.trưởng\\ trừ khi bạn nói khác đi, nghe tươi sáng; \\🎼.thứ\\ nghe buồn hơn từ chính những con số y hệt. Một /tông/ là mức cao hay thấp của toàn bản nhạc, được đặt bởi @Music/key. Và @Music/tempo là tốc độ chạy của nó, tính bằng số nhịp mỗi phút — một nhịp là mạch đập đều đặn mà bạn có thể vỗ tay theo.",
+                "Vì các nốt là con số chứ không phải cao độ cố định, cả ba đều có thể thay đổi mà không đụng tới giai điệu. Đây vẫn là ba nốt đó, buồn hơn, thấp hơn, và chậm hơn:",
+                "\\🎼(🎶([1 3 5]) thangÂm: 🎼.thứ chìaKhóa: -5semitones nhịpĐộ: 60beats/min)\\",
+                "Một bản nhạc bắt đầu lại khi tới cuối, nên một danh sách ngắn là một đoạn nhạc lặp phát mãi mãi. Cái này dài bốn nhịp, với các nốt nghỉ xen giữa:",
+                "\\🎼(🎶([1 ø 5 ø]) nhịpĐộ: 90beats/min)\\",
+                "Hãy đưa cho tôi một danh sách các bản nhạc và chúng phát cùng lúc, mỗi bản với nhạc cụ, tốc độ, và âm lượng riêng. Ở đây một trống bass và một trống snare giữ nhịp trong khi hi-hat chạy với tốc độ gấp đôi — một đa nhịp điệu tạo ra từ một con số. Trống là một bộ dụng cụ chứ không có cao độ, nên các con số của chúng chọn từng phần của bộ trống thay vì các nốt:",
+                "\\🎼(\n\t[\n\t\t🎶([1 ø 2 ø 1 ø 2 ø] nhạcCụ: 🔈.🥁)\n\t\t🎶([3 3 3 3 3 3 3 3] nhạcCụ: 🔈.🥁 nhịp: 0.5beats âmLượng: 30%)\n\t]\n\tnhịpĐộ: 96beats/min\n)\\",
+                "Các con số bên trong dấu ngoặc nhọn vang lên cùng nhau thành một hợp âm, và một @value nốt viết trên một con số cho mục đó độ dài riêng. Ở đây hai hợp âm nốt tròn giữ ở dưới một giai điệu đang chuyển động:",
+                "\\🎼([\n\t\t🎶([1 2 3 5 3 2 1 ø] nhạcCụ: 🔈.🪈)\n\t\t🎶([{1𝅝 3 5} {5𝅝 7 9}] nhạcCụ: 🔈.🎹 âmLượng: 50%)\n\t])\\",
+                "Bất cứ thứ gì tạo ra số đều có thể tạo ra nhạc. Giai điệu này tự xáo trộn thành một trật tự mới, và đi theo độ to của giọng bạn đang nói:",
+                "\\🎼(\n\t🎶([1 2 3 5 3 2 1].xáotrộn())\n\tnhịpĐộ: (60 + (🎤() × 120)) × 1beats/min\n)\\",
+                "Không ai bắt buộc phải nghe tôi. @Beat báo cáo mỗi nhịp khi nó vang lên, nên bạn có thể vẽ nhạc cũng như phát nhạc, bên cạnh bất kỳ hình ảnh nào mà người xem chọn. @Beat luôn có một @Downbeat, nên bạn có thể đọc nó mà không cần kiểm tra gì:",
+                "\\nhịp: Nhịp()\nđếm: nhịp.đếm\n🎭([\n\t\tCụmtừ('◆' kíchcỡ: 1m + ((đếm % 4) = 0 ? 2m 0m) vịTrí: 📍(-2m 2m))\n\t\tCụmtừ('◆' kíchcỡ: 1m + ((đếm % 4) = 2 ? 2m 0m) vịTrí: 📍(2m 2m))\n\t\t🎼(🎶([1 ø 5 ø] nhạcCụ: 🔈.🥁))\n\t])\\",
+                "Tôi không có vẻ ngoài riêng để tạo kiểu, nên tôi không nhận các đầu vào về vẻ ngoài thông thường — không kích thước, vị trí, màu sắc, hay hoạt ảnh. Cách tôi xuất hiện là lựa chọn của người xem, thực hiện trong phần cài đặt của họ, và nó được neo vào sân khấu chứ không đặt trong bố cục của bạn; tôi không chiếm chỗ, nên đặt tôi trong một @Row hay một @Stack không bao giờ làm dịch chuyển bất cứ thứ gì bên cạnh tôi. Để tự vẽ nhạc, hãy dùng @Beat: nó trao cho bạn mỗi nhịp khi nó vang lên, để điều khiển bất kỳ đầu ra nào bạn thích.",
+                "Tôi tiếp tục phát qua các lần đánh giá: chỉnh sửa các nốt của tôi trong khi tôi đang phát và thay đổi sẽ ghép vào ở nhịp tiếp theo thay vì khởi động lại, đó là điều khiến việc thay đổi một giai điệu giữa lúc phát nghe có tính âm nhạc. Để phát tôi lại từ đầu, xem @Music/replay; để giữ tôi đứng yên và tiếp tục ở cùng chỗ, xem @Music/pause."
+            ],
+            "names": ["$~ÂmNhạc"],
+            "tracks": {
+                "doc": "$~Một @Track, hoặc một danh sách các bản chơi cùng lúc. Mỗi bản là một giọng với một nhạc cụ, nên một danh sách các bản là một ban nhạc.",
+                "names": "$~bảnNhạc"
+            },
+            "tempo": {
+                "doc": "$~Tôi chơi nhanh cỡ nào, tính bằng nhịp mỗi phút. Một nhịp là nhịp đập đều mà bạn sẽ vỗ tay theo, nên 120beats/min là hai nhịp mỗi giây, khoảng tốc độ của một bước đi nhanh. Giảm số đi một nửa làm mọi thứ mất gấp đôi thời gian mà không thay đổi một nốt nào.",
+                "names": "$~nhịpĐộ"
+            },
+            "key": {
+                "doc": [
+                    "$~Dịch mỗi nốt tôi chơi lên hay xuống bao xa.",
+                    "Đơn vị là nửa cung. Một nửa cung là bước nhỏ nhất trong nhạc phương Tây: trên một cây đàn dương cầm nó là khoảng cách từ một phím tới phím ngay kế bên, tính cả các phím đen, và mười hai cái làm thành một quãng tám. Vậy nên \\chìaKhóa: 12semitones\\🪲 là cùng bản cao hơn một quãng tám, \\chìaKhóa: -12semitones\\🪲 thấp hơn một quãng tám, và \\chìaKhóa: 2semitones\\🪲 nhích nó lên một chút.",
+                    "Hai cách đếm gặp nhau ở đây, và chúng dễ bị nhầm. Các nốt đếm /bước scale/, ở đó quãng tám là \\8\\: từ \\1\\ lên tới \\8\\ là một quãng tám. Một chìa khóa đếm /nửa cung/, ở đó quãng tám là \\12\\. Cả hai mô tả cùng một khoảng cách — tám bước từ \\1\\ tới \\8\\ của một scale bảy nốt trải dài mười hai nửa cung. Một chìa khóa được đo bằng nửa cung vì một nửa cung có cùng kích cỡ trong mọi scale, còn một bước thì không: pentatonic của @Music/scale có năm nốt cho một quãng tám và major có bảy, nên dịch theo bước sẽ dời mỗi cái một khoảng cách khác nhau, trong khi \\12semitones\\ là một quãng tám trong tất cả chúng.",
+                    "Vì nó chỉ là một con số, một chìa khóa có thể tới từ bất cứ đâu. Ở đây cả bản nâng lên hai nửa cung khi /lên/ là lựa chọn — một @Choice cần thứ gì đó chọn được trên sân khấu để đọc, nên hai cụm chữ là thứ khiến nó hoạt động:",
+                    "\\🎭([\n\t\tCụmtừ('lên' cóthểlựachọn: ⊤ tên: 'lên' vịTrí: 📍(-2m 0m))\n\t\tCụmtừ('trang chủ' cóthểlựachọn: ⊤ tên: 'trang chủ' vịTrí: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3]) chìaKhóa: (🔘() = 'lên' ? 2semitones 0semitones))\n\t])\\"
+                ],
+                "names": "$~chìaKhóa"
+            },
+            "scale": {
+                "doc": [
+                    "$~Các số của tôi có nghĩa là những nốt nào: một danh sách các độ dịch nửa cung từ nốt đầu tiên.",
+                    "Một scale là tập nhỏ các nốt mà một bản được dựng từ đó, và chọn một cái là phần lớn của việc chọn một tâm trạng. Cùng giai điệu nghe tươi sáng trong \\🎼.trưởng\\, buồn trong \\🎼.thứ\\, và như mơ trong \\🎼.toànCung\\, mà không một con số nào thay đổi.",
+                    "Một số scale của tôi không có nốt sai: \\🎼.ngũCung\\, \\🎼.ngũCungThứ\\, và \\🎼.blues\\ nghe hay theo bất kỳ thứ tự nào, khiến chúng là chỗ tốt để bắt đầu. Những cái khác căng thẳng có chủ đích — \\🎼.biếnĐổi\\, \\🎼.giảm\\, và \\🎼.locrian\\ sẽ nghe nghịch tai, và đó là mục đích của chúng.",
+                    "Bạn cũng có thể tự viết danh sách của mình. Đây là một scale pentatonic viết ra rõ: \\[\n\t0semitones\n\t2semitones\n\t4semitones\n\t7semitones\n\t9semitones\n]\\"
+                ],
+                "names": "$~thangÂm"
+            },
+            "volume": {
+                "doc": "$~Tôi to cỡ nào nhìn chung, từ \\0%\\ tới \\100%\\. Mỗi @Track cũng có âm lượng riêng của nó, đo theo cái này, nên giảm âm lượng của tôi làm giảm cả ban nhạc cùng nhau.",
+                "names": "$~âmLượng"
+            },
+            "replay": {
+                "doc": [
+                    "$~Khi cái này là \\⊤\\ trong một lần chạy, tôi bắt đầu lại từ đầu, ngay cả khi không nốt nào của tôi thay đổi.",
+                    "Cái này dành cho âm thanh đáp lại một sự kiện thay vì chơi liên tục. Nếu một câu trả lời đúng phát tiếng ding, thì hai câu trả lời đúng liền nhau tạo ra đúng cùng bản nhạc, nên sẽ không có gì thay đổi và không có gì vang lên lại. Tôi là cách bạn nói /lại đi, ngay bây giờ/ — chọn /đúng/ hai lần bên dưới và nó ding hai lần:",
+                    "\\🎭([\n\t\tCụmtừ('đúng' cóthểlựachọn: ⊤ tên: 'đúng' vịTrí: 📍(-2m 0m))\n\t\tCụmtừ('sai' cóthểlựachọn: ⊤ tên: 'sai' vịTrí: 📍(2m 0m))\n\t\t🎼(🎶([1 5 8] nhạcCụ: 🔈.🔔 vòngLặp: ⊥) phátLại: ∆ 🔘() ? (🔘() = 'đúng') ⊥)\n\t])\\",
+                    "Đưa cho tôi một @condition /nhất thời/, cái chỉ đúng trong lần chạy mà sự kiện gây ra, như \\∆ 🔘()\\ ở trên. Một điều kiện kéo dài như \\score > 10\\🪲 giữ đúng một khi nó trở thành đúng, nên nó sẽ khởi động lại tôi trong mỗi lần chạy kể từ đó."
+                ],
+                "names": "$~phátLại"
+            },
+            "name": {
+                "doc": "$~Tên của tôi, chính là danh tính của tôi. Giữ nó thì các lần sửa nốt của tôi ghép vào trong khi tôi chơi; thay đổi nó thì tôi bắt đầu lại như một bản mới. Nó cũng là thứ @Beat có thể lọc theo, nên hai bản chơi cùng lúc có thể được phân biệt.",
+                "names": "$~tên"
+            },
+            "description": {
+                "doc": "$~Một mô tả về tôi, được trình đọc màn hình nói khi không thể nghe thấy tôi.",
+                "names": "$~môTả"
+            },
+            "scales": {
+                "major": {
+                    "doc": "$~Scale major, mặc định của tôi: tươi sáng và quen thuộc.",
+                    "names": "$~trưởng"
+                },
+                "minor": {
+                    "doc": "$~Scale minor tự nhiên: tối hơn major.",
+                    "names": "$~thứ"
+                },
+                "chromatic": {
+                    "doc": "$~Cả mười hai nửa cung, nên các bậc và các nửa cung trùng nhau.",
+                    "names": "$~nửaCung"
+                },
+                "pentatonic": {
+                    "doc": "$~Scale pentatonic major: năm nốt, và không có nốt sai — mỗi bậc nghe hay với mọi bậc khác.",
+                    "names": "$~ngũCung"
+                },
+                "minorPentatonic": {
+                    "doc": "$~Scale pentatonic minor: năm nốt, và không có nốt sai.",
+                    "names": "$~ngũCungThứ"
+                },
+                "blues": {
+                    "doc": "$~Scale blues: pentatonic minor cộng một nốt năm giáng. Ở đây cũng không có nốt sai.",
+                    "names": "$~blues"
+                },
+                "dorian": {
+                    "doc": "$~Điệu thức dorian: minor với nốt sáu nâng, một tâm trạng ở giữa mang chất jazz.",
+                    "names": "$~dorian"
+                },
+                "phrygian": {
+                    "doc": "$~Điệu thức phrygian: minor với nốt hai hạ, tối và pha chút chất Tây Ban Nha.",
+                    "names": "$~phrygian"
+                },
+                "lydian": {
+                    "doc": "$~Điệu thức lydian: major với nốt bốn nâng, lơ lửng và tươi sáng.",
+                    "names": "$~lydian"
+                },
+                "mixolydian": {
+                    "doc": "$~Điệu thức mixolydian: major với nốt bảy hạ, mang chất blues và chưa giải quyết.",
+                    "names": "$~mixolydian"
+                },
+                "locrian": {
+                    "doc": "$~Điệu thức locrian: căng thẳng có chủ đích, với nốt hai và năm hạ. Nếu bạn chọn cái này mà mong jazz dễ nghe, thì hãy mong sự nghịch tai thay vào đó.",
+                    "names": "$~locrian"
+                },
+                "melodicMinor": {
+                    "doc": "$~Scale minor giai điệu: minor với nốt sáu và bảy nâng, gốc rễ của nhiều hòa âm jazz.",
+                    "names": "$~thứGiaiĐiệu"
+                },
+                "harmonicMinor": {
+                    "doc": "$~Scale minor hòa âm: minor với nốt bảy nâng, kịch tính và mang chất Cựu Thế Giới.",
+                    "names": "$~thứHòaÂm"
+                },
+                "lydianDominant": {
+                    "doc": "$~Scale lydian dominant: lydian với nốt bảy hạ, điệu thức thứ tư của minor giai điệu.",
+                    "names": "$~lydianÁt"
+                },
+                "altered": {
+                    "doc": "$~Scale altered: nghịch tai có chủ ý, để tạo căng thẳng trên các hợp âm dominant. Ở đây có những nốt nghe sai, và đó chính là mục đích.",
+                    "names": "$~biếnĐổi"
+                },
+                "bebopDominant": {
+                    "doc": "$~Scale bebop dominant: mixolydian cộng một nốt bảy tự nhiên, tám nốt nên các chuỗi chạy rơi đúng vào nhịp.",
+                    "names": "$~bebopÁt"
+                },
+                "bebopMajor": {
+                    "doc": "$~Scale bebop major: major cộng một nốt năm nâng, tám nốt nên các chuỗi chạy rơi đúng vào nhịp.",
+                    "names": "$~bebopTrưởng"
+                },
+                "wholeTone": {
+                    "doc": "$~Scale toàn cung: sáu nốt cách đều nhau, như mơ, không có nhà để giải quyết về.",
+                    "names": "$~toànCung"
+                },
+                "diminished": {
+                    "doc": "$~Scale giảm: xen kẽ bước nguyên và bước nửa, căng thẳng và đối xứng.",
+                    "names": "$~giảm"
+                }
+            },
+            "defaultDescription": "$~nhạc với $#tracks[$tracks track] ở $tempo nhịp mỗi phút",
+            "pause": {
+                "doc": [
+                    "$~Trong khi cái này là \\⊤\\ tôi đứng yên, và khi nó trở về \\⊥\\ tôi tiếp tục từ đúng nhịp mà tôi đã dừng.",
+                    "Đây là điều khiến tôi khác với @Music/replay: replay nghĩa là /bắt đầu lại/, còn tôi nghĩa là /chờ ở đây/. Một nốt vẫn còn đang vang khi tôi dừng sẽ chơi hết phần còn lại của nó khi tôi bắt đầu lại, nên dừng giữa một hợp âm dài không làm mất nó. Chọn /giữ/ và /đi/ bên dưới:",
+                    "\\🎭([\n\t\tCụmtừ('giữ' cóthểlựachọn: ⊤ tên: 'giữ' vịTrí: 📍(-2m 0m))\n\t\tCụmtừ('đi' cóthểlựachọn: ⊤ tên: 'đi' vịTrí: 📍(2m 0m))\n\t\t🎼(🎶([1 3 5 8 5 3] nhạcCụ: 🔈.🎹) tạmDừng: 🔘() = 'giữ')\n\t])\\",
+                    "Khác với phát lại, tôi muốn một @condition /lâu dài/, một điều kiện giữ đúng chừng nào bạn còn muốn sự im lặng. Bộ đếm @Beat của tôi chờ cùng tôi và tiếp tục từ chỗ nó đang dừng, thay vì bắt đầu lại từ số không."
+                ],
+                "names": "$~tạmDừng"
+            }
+        },
+        "Track": {
+            "doc": [
+                "$~Tôi là một giọng trong một @Music: một chuỗi các nốt được chơi bởi một @Instrument.",
+                "Các nốt của tôi là những con số, cũng chính những con số mà @Music giải thích — 1 là nốt đầu tiên của thang âm, 8 là nốt đó cao lên một quãng tám, ø là một nốt nghỉ, và những con số trong dấu ngoặc nhọn như \\{1 3 5}\\ vang lên cùng nhau thành một hợp âm:",
+                "\\🎼(🎶([1 ø {1 3 5} 8]))\\",
+                "Các nốt không cần phải là số nguyên. \\1.5\\ nằm giữa nốt đầu tiên và nốt thứ hai, và cả hai đều vang lên — nốt gần hơn thì to hơn — nên khi trượt một con số qua các nốt nghe như đang gõ mạnh các phím đàn dương cầm:",
+                "\\🎼(🎶([1 1.2 1.4 1.6 1.8 2] nhịp: 0.5beats))\\",
+                "Đặt @Track/mash của tôi thành \\⊥\\ và một con số như vậy sẽ bẻ cong một nốt lệch khỏi cao độ thay vì chơi hai nốt.",
+                "Mỗi mục kéo dài bằng @Track/beat của tôi, tức là một phách trừ khi bạn thay đổi nó. Thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi cùng một lúc.",
+                "Khi một mục cần dài hơn hoặc ngắn hơn phần còn lại, hãy viết độ dài ngay trên con số đó như một @value nốt. \\8𝅗𝅥\\ là một nốt trắng — dài gấp đôi một phách — và không cần gì bao quanh nó:",
+                "\\🎼(🎶([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "Có năm giá trị: \\𝅝\\ kéo dài bốn phách, \\𝅗𝅥\\ hai phách, \\𝅘𝅥\\ một phách, \\𝅘𝅥𝅮\\ nửa phách, và \\𝅘𝅥𝅯\\ một phần tư phách. Một dấu chấm sau bất kỳ nốt nào làm cho nó dài thêm một nửa nữa, nên \\𝅘𝅥𝅭\\ là một phách rưỡi. Một nốt đen là một phách dù phách của tôi là gì, đó là lý do tại sao \\nhịp: 1𝅘𝅥𝅮\\🪲 nói cùng một điều như \\0.5beats\\ và đọc dễ hiểu hơn. Trên một hợp âm, đặt giá trị lên con số đầu tiên: \\{1𝅗𝅥 3 5}\\.",
+                "Những thứ này khó tìm, nên hàng ký hiệu bên dưới @editor sẽ cung cấp chúng bất cứ khi nào con trỏ của bạn nằm ngay sau một con số của tôi.",
+                "Một dấu lặng không thể mang giá trị, vì \\ø\\ không phải là con số. Hai dấu lặng liền nhau dài gấp đôi, và với bất cứ điều gì tinh tế hơn thì có @Note.",
+                "Khi một nốt đơn cần âm lượng riêng, hoặc một độ dài mà không giá trị nào diễn tả được, hãy bọc nốt đó trong một @Note. Chỉ dùng nó ở nơi bạn cần: một con số trần trụi thì dễ đọc hơn, nên hầu hết các bản nhạc chẳng có cái nào cả, và sự hiếm hoi đó chính là điều khiến một @Note nổi bật như một sự kiện.",
+                "\\tếBào: [1 3 5 3]\n🎼(\n\t🎶(\n\t\ttếBào\n\t\t.withList(tếBào.dịch(ƒ(n•#) n + 2))\n\t\t.withList(tếBào.đảongược())\n\t\t.withList(tếBào.dịch(ƒ(n2•#) 8 - n2))\n\t\tnhạcCụ: 🔈.🎹\n\t)\n)\\",
+                "Thêm các dấu lặng vào là tất cả những gì một vòng cần: cả hai phần giữ cùng số nhịp, nên chúng đi cùng bước thay vì trôi xa nhau. Trải hai danh sách thành một bằng : là cách chúng được tạo nên, vì \\append\\ cần cả hai danh sách giữ cùng một kiểu thứ.",
+                "\\giaiĐiệu: [1 2 3 1 1 2 3 1 3 4 5 ø]\nnghỉ: [ø ø ø ø]\n🎼([\n\t\t🎶([:giaiĐiệu :nghỉ] nhạcCụ: 🔈.🪈)\n\t\t🎶([:nghỉ :giaiĐiệu] nhạcCụ: 🔈.🎻)\n\t])\\"
+            ],
+            "names": ["$~BảnNhạc"],
+            "notes": {
+                "doc": "$~Các nốt cần chơi, theo thứ tự: một số cho một nốt, \\ø\\ cho một dấu lặng, một tập hợp như \\{1 3 5}\\ cho một hợp âm, hoặc một @Note khi một mục cần âm lượng riêng. Một @value nốt viết trên một số — \\3𝅗𝅥\\ — cho biết mục đó kéo dài bao lâu.",
+                "names": "$~nốtNhạc"
+            },
+            "instrument": {
+                "doc": "$~@Instrument chơi tôi. Một số nhạc cụ có cao độ, nên các số của tôi chọn nốt; số khác là bộ trống, nơi các số của tôi chọn âm thanh thay vì nốt. Mỗi nhạc cụ cho biết nó thuộc loại nào.",
+                "names": "$~nhạcCụ"
+            },
+            "beat": {
+                "doc": "$~Một mục trần kéo dài bao lâu, tính bằng phách. Nó là một phách trừ khi bạn thay đổi nó, và thay đổi nó sẽ chia lại lưới cho mọi thứ tôi chơi: ở \\0.5beats\\ mỗi mục là một nốt móc đơn, nên tôi đi qua cùng danh sách nhanh gấp đôi. Một @value nốt nói cùng một điều dễ hiểu hơn, nên \\nhịp: 1𝅘𝅥𝅮\\🪲 là cùng cái lưới nốt móc đơn đó.",
+                "names": "$~nhịp"
+            },
+            "scale": {
+                "doc": "$~Một thang âm chỉ dành cho tôi, ghi đè @Music/scale, dùng khi một giọng cần lấy các nốt khác với phần còn lại.",
+                "names": "$~thangÂm"
+            },
+            "key": {
+                "doc": "$~Một dịch chuyển chỉ dành cho tôi, tính bằng nửa cung, ghi đè @Music/key — dùng khi một giọng cần cao hơn hoặc thấp hơn phần còn lại. Hạ một bản nhạc xuống một quãng tám là cách một dòng bass được viết từ chính những con số như giai điệu.",
+                "names": "$~chìaKhóa"
+            },
+            "volume": {
+                "doc": "$~Tôi to đến mức nào, từ \\0%\\ đến \\100%\\, đo so với âm lượng của bản nhạc, nên một phần đệm nhẹ có thể nằm dưới giai điệu.",
+                "names": "$~âmLượng"
+            },
+            "pan": {
+                "doc": "$~Tôi nằm ở đâu giữa các loa: \\-1\\ là hoàn toàn bên trái, \\0\\ là ở giữa, và \\1\\ là hoàn toàn bên phải. Trải các bản nhạc ra xa nhau giúp mỗi bản dễ nghe rõ hơn.",
+                "names": "$~cânBằngTráiPhải"
+            },
+            "loop": {
+                "doc": "$~Tôi có bắt đầu lại khi đến điểm kết thúc hay không. Tôi sẽ bắt đầu lại trừ khi @value này là \\⊥\\, đó là điều mà một âm thanh một lần như tiếng ding cần.",
+                "names": "$~vòngLặp"
+            },
+            "mash": {
+                "doc": "$~Điều mà một nốt giữa hai nốt làm. \\1.5\\ nằm ở giữa \\1\\ và \\2\\: trừ khi đây là \\⊥\\, cả hai đều vang lên, cái gần hơn thì to hơn, giống như hai phím đàn dương cầm được nhấn cùng nhau. Với \\⊥\\ bạn có một nốt thay vào đó, bị uốn lệch cao độ tùy theo khoảng cách nó nằm giữa chúng.",
+                "names": "$~nghiềnNát"
+            },
+            "words": {
+                "doc": "$~Các âm tiết để @Instrument/voice hát. Mỗi nốt một âm tiết, cách nhau bằng khoảng trắng, nên \\'son mi fa'\\ hát ba nốt và các khoảng trắng cho biết một âm tiết kết thúc ở đâu và âm tiết tiếp theo bắt đầu.\n\nCác nốt nghỉ không cần âm tiết, nên lời hát rơi vào những nốt thực sự có tiếng. Nếu có ít âm tiết hơn số nốt, chúng sẽ bắt đầu lại từ đầu thay vì im lặng. Nếu hoàn toàn không có âm tiết nào, giọng hát giữ một âm /uh/.\n\nKết thúc một âm tiết bằng dấu gạch nối để giữ nó qua nốt tiếp theo nữa, thêm một nốt cho mỗi dấu gạch nối — đó là cách bạn hát một âm tiết qua nhiều nốt. Trong \\🎶([1 2 3 4] từNgữ: 'la- mi so')\\, \\la\\ bao gồm hai nốt đầu tiên, rồi \\mi\\ và \\so\\ mỗi cái lấy một nốt.\n\nCách viết là <Bảng Chữ Cái Ngữ Âm Quốc Tế@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, trong đó mỗi chữ cái là một âm. Nhấn 🤖 dưới @editor để xem mọi âm và nghe nó. Những chữ cái tôi không nhận ra sẽ bị bỏ qua. Mọi nhạc cụ khác ngoài giọng hát đều bỏ qua tôi, nên lời hát vẫn còn khi bạn đổi @Track/instrument rồi đổi lại.",
+                "names": "$~từNgữ"
+            }
+        },
+        "Note": {
+            "doc": [
+                "$~Tôi là một mục trong một @Track mang âm lượng riêng, hoặc một độ dài mà không @value nốt nào ghi được.",
+                "Hầu hết các nốt nên giữ là số trần, và hầu hết các độ dài viết ngắn gọn hơn trên chính con số: \\1𝅗𝅥\\ là một nốt trắng. Đáng dùng tôi khi một nốt cần âm lượng riêng, hoặc một độ dài nằm giữa các giá trị — và vì \\♪(1 2beats ÷ 3)\\ nói nhiều hơn nhiều so với \\1\\, dùng tôi ở mọi nơi sẽ chôn vùi những nốt quan trọng.",
+                "Một chùm ba là phép tính trung thực: \\♪(1 2beats ÷ 3)\\ cho biết ba nốt này lấp đầy hai phách. Độ dài của tôi cũng có thể là một giá trị nốt, nên \\♪(1 1𝅗𝅥)\\ và \\♪(1 2beats)\\ là cùng hai phách đó.",
+                "\\🎼(🎶([1 1 ♪(5 2beats âmLượng: 60%) ø]))\\"
+            ],
+            "names": ["$~NốtNhạc"],
+            "degree": {
+                "doc": "$~Chơi gì: một số cho một nốt, \\ø\\ cho một dấu lặng, hoặc một tập hợp các số cho một hợp âm, đúng như một mục trần trong một @Track. Một @value nốt trên con số — \\3𝅗𝅥\\ — cho biết tôi kéo dài bao lâu, và thắng @Note/beat nếu bạn viết cả hai.",
+                "names": "$~bậc"
+            },
+            "beat": {
+                "doc": "$~Tôi kéo dài bao nhiêu phách. Đây chính là toàn bộ lý do để dùng tôi: mọi mục trần trong một @Track kéo dài cùng thời gian, và tôi là cách để một nốt có thời gian khác. Một @value nốt cũng dùng được ở đây, nên \\1𝅗𝅥\\ và \\2beats\\ là cùng một độ dài.",
+                "names": "$~nhịp"
+            },
+            "volume": {
+                "doc": "$~Tôi to đến mức nào, ghi đè âm lượng của @Track, để nhấn một nốt đơn.",
+                "names": "$~âmLượng"
+            }
+        },
+        "Instrument": {
+            "names": ["$~NhạcCụ"],
+            "id": {
+                "doc": "$~Tôi là mục nào trong bảng màu.",
+                "names": "$~id"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": [
+                        "$~Một cây đàn piano. Được ghi âm từ đàn thật, và có cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎹) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~đànPiano"]
+                },
+                "violin": {
+                    "doc": [
+                        "$~Một cây đàn violin. Được ghi âm từ đàn thật, và có cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎻) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~đànVĩCầm"]
+                },
+                "drums": {
+                    "doc": [
+                        "$~Một bộ trống. Được ghi âm, và là một bộ trống chứ không có cao độ: các con số chọn một phần của bộ trống thay vì một nốt nhạc — \\1\\ trống bass, \\2\\ trống snare, \\3\\ chũm chọe hi-hat, \\4\\ chũm chọe, \\5\\ trống tom tom, \\6\\ chuông bò — và \\7\\ quay vòng trở lại trống bass.",
+                        "\\🎼(🎶([1 2 3 4 5 6] nhịp: 2beats vòngLặp: ⊥ nhạcCụ: 🔈.🥁) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~trống"]
+                },
+                "flute": {
+                    "doc": [
+                        "$~Một cây sáo. Được ghi âm từ sáo thật, và có cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🪈) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~sáo"]
+                },
+                "trumpet": {
+                    "doc": [
+                        "$~Một cây kèn trumpet. Được ghi âm từ kèn thật, và có cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎺) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~kènTrumpet"]
+                },
+                "saxophone": {
+                    "doc": [
+                        "$~Một cây kèn saxophone, loại tenor. Được ghi âm từ kèn thật, và có cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎷) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~kènSaxophone"]
+                },
+                "bell": {
+                    "doc": [
+                        "$~Một cái chuông — chuông dàn nhạc, loại được gõ bằng dùi. Được ghi âm, và có cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🔔) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~chuông"]
+                },
+                "didgeridoo": {
+                    "doc": [
+                        "$~Một cây didgeridoo, từ người bản địa Úc. Được ghi âm từ nhạc cụ thật, và có cao độ, nên các con số chọn nốt nhạc, dù đây là nhạc cụ tạo âm ngân dài và luôn ở âm trầm.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🪵) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~kènDidgeridoo"]
+                },
+                "cat": {
+                    "names": ["$~mèo", "$~meoMeo"],
+                    "doc": [
+                        "$~Một con mèo — thật ra là cả một bộ tiếng mèo. Được ghi âm từ mèo thật, và là một bộ tiếng chứ không có cao độ: các con số chọn điều con mèo đang nói thay vì một nốt nhạc — \\1\\ bực bội, \\2\\ nài nỉ, \\3\\ đói bụng, \\4\\ phản đối, \\5\\ van xin, \\6\\ ao ước, \\7\\ khó chịu, \\8\\ sợ hãi, \\9\\ nhạy cảm, \\10\\ được an ủi, \\11\\ cô đơn, \\12\\ kêu gừ gừ — và \\13\\ quay trở lại thành khó chịu. Để xem một chú mèo chơi nốt nhạc thay vào đó, hãy xem \\🔈.😺\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] nhịp: 2beats vòngLặp: ⊥ nhạcCụ: 🔈.🐱) nhịpĐộ: 60beats/min)\\"
+                    ]
+                },
+                "dog": {
+                    "names": ["$~chó", "$~sủa"],
+                    "doc": [
+                        "$~Một chú chó — thật ra là cả một bộ chúng. Được thu âm từ những chú chó thật, và là một bộ chứ không theo cao độ: các con số chọn tiếng sủa mà bạn nghe thấy thay vì một nốt nhạc, chạy từ trầm nhất đến chói nhất — \\1\\ cộc cằn, \\2\\ cảnh báo, \\3\\ canh giữ, \\4\\ báo động, \\5\\ khăng khăng, \\6\\ đòi hỏi, \\7\\ thông báo, \\8\\ hăng hái, \\9\\ phấn khích, \\10\\ nôn nóng, \\11\\ sủa oăng oẳng, \\12\\ the thé — và \\13\\ quay trở lại thành cộc cằn. Để xem một chú chó chơi nốt nhạc thay vào đó, hãy xem \\🔈.🐕\\.",
+                        "\\🎼(🎶([1 2 3 4 5 6 7 8 9 10 11 12] nhịp: 2beats vòngLặp: ⊥ nhạcCụ: 🔈.🐶) nhịpĐộ: 60beats/min)\\"
+                    ]
+                },
+                "synth": {
+                    "doc": [
+                        "$~Một tiếng dẫn của bộ tổng hợp: sáng và rè, và không ngại ngùng về việc được tạo từ các bộ dao động. Được tổng hợp chứ không thu âm, và theo cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎛) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~đànTổngHợp"]
+                },
+                "synthBass": {
+                    "doc": [
+                        "$~Một tiếng trầm của bộ tổng hợp: dày và thấp. Được tổng hợp chứ không thu âm, và theo cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎚) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~đànBassTổngHợp"]
+                },
+                "synthPad": {
+                    "doc": [
+                        "$~Một tiếng đệm của bộ tổng hợp: nhẹ nhàng, đến chậm rãi, và hợp để giữ một hợp âm bên dưới mọi thứ khác. Được tổng hợp chứ không thu âm, và theo cao độ, nên các con số chọn nốt nhạc.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.☁) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~đànPadTổngHợp"]
+                },
+                "pitchedCat": {
+                    "doc": [
+                        "$~Vẫn chú mèo đó, nhưng đã chỉnh cao độ. Trong mười hai bản thu mà bộ \\🔈.🐱\\ chơi, đây là bản giữ một cao độ ổn định, và nó theo cao độ chứ không phải một bộ, nên các con số chọn nốt nhạc và bạn có thể viết một giai điệu với nó. Khi chơi xa nốt mà nó được thu âm, tiếng meo bắt đầu nghe như bị kéo giãn thay vì được hát, nên nó dễ chịu nhất trong khoảng một quãng tám quanh nốt giữa.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.😺) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~mèoTheoCaoĐộ"]
+                },
+                "pitchedDog": {
+                    "doc": [
+                        "$~Vẫn những chú chó đó, nhưng đã được chỉnh âm. Trong tất cả tiếng sủa mà bộ âm được lấy ra, đây là tiếng giữ cao độ ổn định, và nó có cao độ chứ không phải là một bộ âm, nên các số sẽ chọn nốt và bạn có thể viết một giai điệu bằng nó. Nếu chơi cách xa nốt mà nó được ghi âm, tiếng sủa bắt đầu nghe như bị kéo dãn thay vì sủa, nên nó hay nhất khi ở trong khoảng một quãng tám gần nốt giữa.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🐕) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~chóTheoCaoĐộ"]
+                },
+                "acousticGuitar": {
+                    "doc": [
+                        "$~Một cây đàn ghi-ta cổ điển, với dây ni-lông được gảy bằng ngón tay chứ không phải bằng miếng gảy. Được ghi âm từ một cây đàn thật, và có cao độ, nên các số sẽ chọn nốt. Đây là loại mà chữ \\guitar\\ đơn giản ám chỉ, nên các dự án cũ yêu cầu một cây ghi-ta sẽ chơi loại này.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.🎸) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~ghiTaThùng", "$~ghiTa"]
+                },
+                "electricGuitar": {
+                    "doc": [
+                        "$~Một cây ghi-ta điện-mộc — thân rỗng có bộ thu âm bên trong, dây thép, nên nó vang sáng hơn và lâu hơn cây đàn ni-lông \\🔈.🎸\\. Được ghi âm từ một cây đàn thật, và có cao độ, nên các số sẽ chọn nốt.",
+                        "\\🎼(🎶([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: 🔈.⚡) nhịpĐộ: 60beats/min)\\"
+                    ],
+                    "names": ["$~ghiTaĐiện"]
+                },
+                "voice": {
+                    "doc": [
+                        "$~Một giọng hát, được tạo ra từ các bộ lọc chứ không phải thu âm từ một người. Có cao độ, nên các con số chọn nốt nhạc.",
+                        "Tôi là một máy tổng hợp âm thanh, giống như @Instrument/synth — không phải bắt chước một ca sĩ. Miệng tôi giữ nguyên kích thước dù tôi hát cao hay thấp, điều mà không cổ họng thật nào làm được. Đó là lý do tôi nghe giống như một cỗ máy đang giả giọng một người, và tại sao tôi nghe không giống đàn ông cũng không giống phụ nữ.",
+                        "Hãy cho @Track của tôi một @Track/words và tôi sẽ hát chúng, mỗi nốt một âm tiết. Nếu không có, tôi giữ một âm /uh/, nên tôi luôn hát điều gì đó.",
+                        "\\🎼(🎶([1 2 3 5] từNgữ: 'la la la la' nhạcCụ: 🔈.🤖) nhịpĐộ: 120beats/min)\\",
+                        "Các âm tiết được viết bằng <Bảng Chữ Cái Ngữ Âm Quốc Tế@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, một bảng chữ cái trong đó mỗi chữ cái là một /âm/ chứ không phải một cách viết — nên \\'ʃi'\\ là âm ở đầu từ /cô ấy/, dù bạn viết bằng @language nào. Nhấn 🤖 bên dưới @editor để xem mọi âm mà tôi có thể tạo ra và nghe từng âm một."
+                    ],
+                    "names": ["$~giọngNói"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "$~Một cây khẩu cầm, loại có nút bấm bên hông. Được thu âm từ một cây thật, và được chỉnh cao độ, nên các con số sẽ chọn nốt nhạc.",
+                        "\\ÂmNhạc(\n\tBảnNhạc([1] nhịp: 4beats vòngLặp: ⊥ nhạcCụ: NhạcCụ.🌬)\n\tnhịpĐộ: 60beats/min\n)\\"
+                    ],
+                    "names": ["$~kènHarmonica"]
+                }
+            },
+            "doc": [
+                "$~Tôi đặt tên cho một trong các nhạc cụ mà @Track có thể chơi. Tôi là một bảng cố định: hãy chọn tôi bằng tên, như \\🔈.🎹\\ hoặc \\🔈.🎹\\.",
+                "Hầu hết chúng tôi thuộc loại /có cao độ/, nghĩa là các con số của một bản nhạc chọn nốt và số càng lớn thì nghe càng cao. Số còn lại là /bộ/: một con số chọn một âm thanh từ một danh sách được đánh số thay vì một nốt, nên một bản nhạc được đọc như nhịp điệu chứ không phải giai điệu, và các con số vượt quá cuối danh sách sẽ quay vòng về đầu.",
+                "Hầu hết chúng tôi cũng là những bản thu thật, lấy mẫu từ các nhạc cụ mà con người thật sự đã chơi. Các bộ tổng hợp âm không bắt chước gì cả — chúng được tạo ra từ các bộ dao động, và đó là âm thanh vốn có của chúng. Mỗi chúng tôi đều ghi rõ ở dưới mình thuộc loại nào."
+            ]
+        },
+        "Path": {
+            "doc": "$~Mình là một đường đi được vẽ qua một danh sách các vị trí, hữu ích cho các đường thẳng, đường cong, và các ngọn đồi trên @Stage.",
+            "names": ["$~ĐườngDẫn"],
+            "points": {
+                "doc": "$~Các vị trí mình đi qua, theo thứ tự. Mình nằm phẳng, nên mình dùng độ sâu z của riêng mình thay vì độ sâu của bất kỳ vị trí nào.",
+                "names": "$~điểm"
+            },
+            "closed": {
+                "doc": "$~Có nối vị trí cuối cùng của mình trở lại vị trí đầu tiên hay không.",
+                "names": "$~đãĐóng"
+            },
+            "smooth": {
+                "doc": "$~Có uốn cong qua các vị trí của mình thay vì rẽ ngoặt tại đó hay không. Dù thế nào thì các vị trí của mình cũng không di chuyển.",
+                "names": "$~mượt"
+            },
+            "thickness": {
+                "doc": "$~Vẽ mình rộng bao nhiêu.",
+                "names": "$~độDày"
+            },
+            "z": {
+                "doc": "$~Độ sâu mình nằm ở đó.",
+                "names": "$~z"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "$~Tôi cho thấy một @Phrase đang nói gì, trong một bong bóng chỉ thẳng vào người đó. Đưa tôi vào @Phrase.bubble của một câu và để các chữ cái lên tiếng:",
+                "\\Cụmtừ('a' bongBóng: 'chào bạn!')\\",
+                "Đưa cho tôi một @Say thay vì chữ, tôi sẽ được đọc to lên chứ không chỉ hiện ra thôi.",
+                "Đổi @Bubble.kind của tôi thành một suy nghĩ, tôi sẽ @variable thành bong bóng suy nghĩ.",
+                "Tôi chỉ là vật trang trí, nên không có gì trên sân khấu phải nhường chỗ cho tôi — nhưng @Stage vẫn luôn giữ tôi trong tầm nhìn."
+            ],
+            "names": ["$~BongBóng"],
+            "text": {
+                "doc": [
+                    "$~Điều tôi cho thấy. Đưa cho tôi chữ thường, hoặc chữ có định dạng nếu bạn muốn có từ *đậm* hay /nghiêng/.",
+                    "Đưa cho tôi một @Say thay vì chữ, tôi sẽ được đọc to lên chứ không chỉ hiện ra thôi. Khi đó tôi thay cho những chữ thường xuất hiện ở chân @Stage, vì chữ của tôi đã ở ngay trên màn hình, cạnh người nói."
+                ],
+                "names": "$~vănBản"
+            },
+            "side": {
+                "doc": "$~Tôi nằm ở phía nào của @Phrase, thể hiện bằng một mũi tên. Nếu \\ø\\, @Stage sẽ đặt tôi ở nơi ít vướng nhất, và chọn lại mỗi khi mọi thứ di chuyển.",
+                "names": "$~cạnh"
+            },
+            "kind": {
+                "doc": "$~Tôi là điều được nói (\\'💬'\\) hay điều được nghĩ (\\'💭'\\). Một suy nghĩ để lại các vòng tròn hướng về phía người nghĩ thay vì một điểm nhọn, và các góc được bo tròn.",
+                "names": "$~loại"
+            },
+            "color": {
+                "doc": "$~@Color của chữ tôi. Nếu \\ø\\, tôi dùng chính màu của @Phrase.",
+                "names": "$~màuSắc"
+            },
+            "background": {
+                "doc": "$~@Color mà tôi được tô đầy bên trong. Nếu \\ø\\, tôi được tô bằng màu nền của thứ mà tôi được vẽ lên.",
+                "names": "$~nền"
+            },
+            "size": {
+                "doc": "$~Chữ của tôi lớn cỡ nào. Nếu \\ø\\, chúng sẽ có kích thước chữ bình thường trên @Stage — không phải kích thước của người đang nói, vì một nhân vật cao vài mét sẽ tạo ra cả một bức tường chữ.",
+                "names": "$~kíchThước"
+            },
+            "wrap": {
+                "doc": "$~Ranh giới mà tại đó tôi xuống dòng chữ của mình.",
+                "names": "$~gói"
+            }
+        }
+    }
+}

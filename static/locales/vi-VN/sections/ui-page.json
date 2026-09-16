@@ -1,0 +1,1441 @@
+{
+    "$schema": "../../../static/schemas/sections/ui-page.json",
+    "ui": {
+        "page": {
+            "unknown": {
+                "header": "$~Ái chà!",
+                "message": "$~Đây là đâu vậy? Chúng ta có thể về nhà được không?"
+            },
+            "landing": {
+                "value": "$~Hãy cùng chúng tôi tạo nên những câu chuyện tương tác bằng từ ngữ, biểu tượng, biểu tượng cảm xúc và mã lập trình! Bắt đầu ngay tại đây!",
+                "chooseLocales": "$~hoặc chọn",
+                "beta": [
+                    "$~@wordplay hiện đang trong giai đoạn *beta*, vì vậy nó có thể không hoạt động như mong muốn hoặc chưa hoàn thiện. Vui lòng báo cáo lỗi và chia sẻ ý tưởng tại <GitHub@https://github.com/wordplaydev/wordplay/issues>, xem <kế hoạch phiên bản 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> và <đóng góp@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                ],
+                "link": {
+                    "learn": "$~Học ngôn ngữ với dàn nhân vật đầy kịch tính.",
+                    "teach": "$~Quản lý các lớp học và dự án của sinh viên.",
+                    "guide": "$~Tìm kiếm và duyệt qua tài liệu tham khảo ngôn ngữ",
+                    "projects": "$!Tạo và chia sẻ các màn trình diễn",
+                    "galleries": "$~Trải nghiệm các màn trình diễn của người khác",
+                    "characters": "$~Tạo biểu tượng cảm xúc và ký hiệu tùy chỉnh",
+                    "rights": "$~Trách nhiệm, của chúng ta và của bạn",
+                    "about": "$~Tại sao nơi này lại tồn tại?",
+                    "updates": "$~Xem có gì mới trong Wordplay",
+                    "community": {
+                        "label": "$~Cộng đồng",
+                        "subtitle": "$~Trò chuyện với chúng tôi trên Discord"
+                    },
+                    "contribute": {
+                        "label": "$~Đóng góp",
+                        "subtitle": "$~Hãy giúp chúng tôi tạo ra trò chơi chữ Wordplay"
+                    },
+                    "design": "$~Tài liệu tham khảo về hệ thống thiết kế dành cho người đóng góp.",
+                    "thanks": "$~Ai đã giúp tạo ra cái này?",
+                    "localize": "$~Giúp dịch Wordplay sang ngôn ngữ của bạn",
+                    "moderate": "$~xem lại những gì mọi người đã nhờ chúng ta xem xét",
+                    "admin": "$~xem ai có thể làm gì, và thay đổi điều đó"
+                },
+                "tagline": "$~lập trình sáng tạo, dễ tiếp cận, đa ngôn ngữ",
+                "tour": {
+                    "button": "$~cho tôi xem",
+                    "loading": "$~Đang tải…",
+                    "failed": "$~Không thể tải các ví dụ. Hãy kiểm tra kết nối và thử lại.",
+                    "restart": "$~bắt đầu lại ví dụ này",
+                    "examples": {
+                        "label": "$~Chương trình mẫu",
+                        "tips": [
+                            "$~Chữ có thể phát sáng và chuyển động",
+                            "$~Âm nhạc là dữ liệu, âm thanh và hình ảnh",
+                            "$~Thời gian trôi và từ ngữ có thể đa ngôn ngữ",
+                            "$~Chữ có thể phản ứng với con trỏ, cú nhấp, cú chạm và phím bấm",
+                            "$~Khán giả có thể đưa ra lựa chọn",
+                            "$~Khán giả có thể trò chuyện với chương trình, và từ ngữ có thể là hình khối",
+                            "$~Vật lý và trọng lực có thể khiến chữ nhào lộn và nảy lên",
+                            "$~Chương trình có thể lắng nghe giọng nói của bạn",
+                            "$~Chương trình có thể quan sát khuôn mặt, bàn tay và đồ vật của bạn"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶@Phrase xuất hiện trên sân khấu, với bất kỳ màu sắc, ánh sáng và chuyển động nào bạn thích.¶\nCụmtừ(\n\t'chào bạn!'\n\t6m\n\tmàusắc: Màusắc(60% 90 200°)\n\thàoquang: Hàoquang(Màusắc(80% 80 200°) 0.3m)\n\tnghỉngơi: Sựliêntiếp.đungđưa(8°)\n)\\",
+                        "music": "$~\\¶Âm nhạc là những nốt nhạc trên nhạc cụ thật, với một nhịp độ, trong một âm giai. Sân khấu vẽ ra những gì nó nghe được.¶\nÂmNhạc(\n\tBảnNhạc([1 3 5 8 5 3] nhạcCụ: NhạcCụ.đànPiano)\n\tnhịpĐộ: 120beats/min\n)\\",
+                        "hello": "$~\\¶Mã số có thể phản ứng với dữ liệu đầu vào như @Time, và văn bản có thể đa ngôn ngữ và được đọc lên.¶\nnhữngLờiChào: ['xin chào'/vi 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nxinChào: nhữngLờiChào.ngẫunhiên() … ∆ Thờigian(1000ms) … nhữngLờiChào.ngẫunhiên(\n\t\t)\nCụmtừ(xinChào 4m)\nNói(xinChào)\\",
+                        "keys": "$~\\¶Mã số có thể phản ứng với con trỏ, phím, cú nhấp chuột và cú chạm.¶\nchìaKhóa2: Chìakhóa()\nnhấpChuột: Cáinút()\nkhuônMặt2: ['🙂' '😮' '😎' '🤩']\ncáiNào: 1 … ∆ chìaKhóa2 | ∆ nhấpChuột … (cáiNào % 4) + 1\nSânkhấu(\n\t[\n\t\tCụmtừ(\n\t\t\tkhuônMặt2[cáiNào]\n\t\t\t5m\n\t\t\tvịTrí: Contrỏ()\n\t\t\tbongBóng: 'chào'\n\t\t)\n\t]\n\tvịTrí: VịTrí(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Bố cục văn bản và làm cho nó có thể chọn được.¶\ntráiCây: ƒ(e•'') Cụmtừ(e 3m tên: e cóthểlựachọn: ⊤)\nđãChọn: Sựlựachọn()\nđãHiện: '?' … ∆ đãChọn … đãChọn\nNhóm(\n\tNgănxếp(đệm: 1m)\n\t[\n\t\tCụmtừ(đãHiện 4m)\n\t\tNhóm(\n\t\t\tHàngngang(đệm: 1m)\n\t\t\t[tráiCây('🍎') tráiCây('🍐') tráiCây('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Trò chuyện với chương trình và dùng hình dạng của phông chữ và ký hiệu.¶\ntinNhắn: Tròchuyện()\ntừ3: 'chào' … ∆ tinNhắn … tinNhắn\ndòng: Đườngviền(từ3 'Noto Sans' 8m)\ntiếngTíchTắc: 0 … ∆ Thờigian(30ms) … tiếngTíchTắc + 1\nđãHiện: ((dòng.chiềudài() × tiếngTíchTắc) ÷ 66).làmtrònxuống(\n\t) + 1\ndấuChấm: dòng.chuỗicon(1 đãHiện).dịch(\n\t\tƒ(p) Cụmtừ('•' vịTrí: p)\n\t)\nSânkhấu(dấuChấm.với(Cụmtừ(từ3 8m độmờđục: 15%)))\\",
+                        "pile": "$~\\¶Văn bản cũng có thể có vật lý.¶\ntung: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tCụmtừ(\n\t\t\temoji\n\t\t\t2m\n\t\t\tvịTrí: Cửđộng(VịTrí(x2 y2) Vậntốc(vx 0m/s))\n\t\t\tvấnđề: Vấnđề(1kg 0.55 0.06 0.5)\n\t\t)\nSânkhấu(\n\t[\n\t\ttung('🍎' -2m 5m 2.2m/s)\n\t\ttung('🍊' 2m 7m -2.6m/s)\n\t\ttung('🍋' -1m 9m 1.4m/s)\n\t\ttung('🍇' 1.5m 11m -1.9m/s)\n\t\ttung('🫐' 0.5m 15m -1.2m/s)\n\t\tHìnhdạng(Hìnhchữnhật(-4m -3m 4m -3.6m))\n\t\tHìnhdạng(Hìnhchữnhật(-4.6m 4m -4m -3m))\n\t\tHìnhdạng(Hìnhchữnhật(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Mã số có thể phản ứng với @Volume và @Pitch của micro của bạn.¶\nCụmtừ(\n\t'📣'\n\t1m + (Âmlượng() × 8m)\n\txoay: (Sânbóngđá() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Mã số có thể phản ứng với @Face của bạn, và những thứ khác trên @Camera.¶\nCụmtừ(\n\tKhuônMặt().cườiTươi ? '😄 cảm ơn bạn!' '🙂 mỉm cười với máy quay'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay là một ngôn ngữ lập trình",
+                        "bullets": [
+                            "$~• Mỗi chương trình là một biểu thức trở thành một giá trị. \\1 + 1\\ là một chương trình, và đây cũng vậy \\Cụmtừ('chào')\\.",
+                            "• Số mang theo đơn vị, nên \\1m + 1m\\ là mét, và \\1cat + 1dog\\🪲 là một lỗi mà @wordplay bắt được trước khi chạy.",
+                            "• Hàm là những giá trị mà bạn có thể đặt tên, chuyền đi, và gọi: \\ƒ gấpĐôi(n3•#) n3 × 2\\.",
+                            "• Khi đầu vào thay đổi, @wordplay tính lại chương trình của bạn và cho thấy giá trị mới. Không cần phải phản hồi các sự kiện.",
+                            "• @wordplay tìm ra các lỗi trước khi chương trình chạy, và giải thích từng vấn đề."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay là đa ngôn ngữ",
+                        "bullets": [
+                            "$~• Mỗi tính năng của ngôn ngữ lập trình đều có tên trong mọi ngôn ngữ, nên mã số hiển thị bằng những từ bạn đã biết.",
+                            "• Tên của riêng bạn cũng có thể đa ngôn ngữ:\n\\mèo2/vi, gato/es: '🐈'\nCụmtừ(mèo2)\\",
+                            "• Văn bản mang theo một ngôn ngữ, và hiển thị bằng ngôn ngữ mà khán giả của bạn đọc được: \\'xin chào'/vi'hola'/es\\.",
+                            "• Trang này có 29 ngôn ngữ và bạn có thể chọn nhiều hơn một lúc; chữ sẽ hiện ra bằng từng ngôn ngữ.",
+                            "• Bạn có thể giúp dịch chính @wordplay, ngay trong ứng dụng tại <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay dễ tiếp cận",
+                        "bullets": [
+                            "$~• Bất cứ điều gì em làm được với chuột, em cũng làm được với bàn phím.",
+                            "• Trình đọc màn hình mô tả sân khấu mỗi khi nó thay đổi. Em cũng có thể bật âm thanh để báo cho biết điều gì đang được tính lại, điều gì đang chuyển động, và điều gì đang va chạm.",
+                            "• Em có thể đọc và viết mã số của mình dưới dạng khối thay vì chữ, và đổi qua lại bất cứ lúc nào.",
+                            "• Chuyển động có thể được làm chậm lại, hoặc tắt hẳn.",
+                            "• Lời nói phát ra có thể hiện thành chữ trên sân khấu, dành cho những ai không nghe được."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay cảm nhận thế giới",
+                        "bullets": [
+                            "$~• Thời gian trôi qua: \\Thờigian(1000ms)\\ chạy từng giây, và \\Now()\\ biết ngày hôm nay theo lịch và múi giờ của riêng bạn.",
+                            "• Nơi khán giả của bạn chỉ vào, những gì họ chạm vào, và phím nào họ nhấn.",
+                            "• Chương trình có thể phản ứng với micro của bạn: âm to nhỏ ra sao với @Volume, cao độ nào với @Pitch, và lời nói gì với @Speech.",
+                            "• Khán giả của bạn có thể gõ chữ vào @Chat, và chọn nội dung trên sân khấu bằng @Choice.",
+                            "• Chương trình có thể phản ứng theo nhịp của bản nhạc đang phát, với @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay trình diễn",
+                        "bullets": [
+                            "$~• @Phrase đặt chữ và biểu tượng cảm xúc lên sân khấu.",
+                            "• @Group sắp xếp chúng thành hàng, chồng, lưới, hoặc bất cứ chỗ nào bạn đặt.",
+                            "• @Pose và @Sequence xoay, mờ dần, phóng to thu nhỏ, và di chuyển mọi thứ.",
+                            "• @Say đọc to chữ lên thay vì chỉ hiển thị.",
+                            "• @Music phát các đoạn nhạc bằng nhạc cụ thật, theo một nhịp độ, trong một tông nhạc:\n\\ÂmNhạc(\n\tBảnNhạc([1 3 5] nhạcCụ: NhạcCụ.chuông)\n\tnhịpĐộ: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay là chữ nghệ thuật",
+                        "bullets": [
+                            "$~• Hàng trăm kiểu chữ, phủ khắp các hệ chữ viết trên thế giới.",
+                            "• Bạn có thể vẽ <ký tự riêng//characters> và dùng chúng ở bất cứ đâu biểu tượng cảm xúc có thể dùng.",
+                            "• Đường nét của mỗi chữ cái đều là dữ liệu bạn có thể đọc và làm chuyển động, với @Contour: \\Đườngviền('a' 'Noto Sans')\\.",
+                            "• Chữ tự xuống dòng theo quy tắc của ngôn ngữ mà nó được viết ra.",
+                            "• Chữ viết từ phải sang trái và chữ viết dọc được sắp xếp đúng như cách chúng cần được trình bày."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay tự giải thích chính nó",
+                        "bullets": [
+                            "$~• Tài liệu là một phần của ngôn ngữ, với @Doc, chứ không phải một lời ghi chú bên cạnh.",
+                            "• Một <sổ tay hướng dẫn//guide> có thể tìm kiếm giải thích mọi tính năng có sẵn, kèm ví dụ.",
+                            "• Mỗi lỗi sai đều được giải thích ngay tại chỗ xảy ra, bằng ngôn ngữ của bạn.",
+                            "• Bạn có thể chạy từng bước một chương trình tới /và/ lui để tìm hiểu chuyện gì đã xảy ra.",
+                            "• Khi bạn chạy từng bước, mọi giá trị đều hiện ngay trong đoạn mã số đã tạo ra nó."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay dành để chia sẻ",
+                        "bullets": [
+                            "$~• Dự án của bạn là của bạn, và bạn quyết định ai được xem chúng.",
+                            "• Bạn có thể mời người khác cùng xây dựng dự án với mình.",
+                            "• <Phòng trưng bày@://galleries> tập hợp các dự án theo một chủ đề.",
+                            "• Giáo viên có thể tạo lớp học và theo dõi bài làm của học sinh: <teach@://teach>.",
+                            "• Bạn có thể lấy dự án công khai của bất kỳ ai và biến nó thành của riêng mình."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay miễn phí và mở",
+                        "bullets": [
+                            "$~• @wordplay miễn phí và sẽ luôn miễn phí.",
+                            "• Đây là mã nguồn mở: bạn có thể đọc cách nó hoạt động và giúp chúng tôi thay đổi nó.",
+                            "• Nó ra đời từ Trường Thông tin học của <Đại học Washington@https://ischool.uw.edu/>.",
+                            "• Có một cộng đồng gồm những người sáng tạo, giáo viên, và người đóng góp.",
+                            "• <Ủng hộ//donate> giúp trang trải chi phí vận hành."
+                        ]
+                    }
+                }
+            },
+            "learn": {
+                "header": "$~Học hỏi",
+                "error": "$~Chúng tôi không tìm thấy hướng dẫn nào cho ngôn ngữ này.",
+                "button": {
+                    "next": "$~tạm dừng tiếp theo trong cuộc hội thoại",
+                    "previous": "$~tạm dừng trước đó trong đoạn hội thoại"
+                },
+                "options": {
+                    "lesson": "$~bài học hiện tại"
+                },
+                "search": {
+                    "placeholder": "$~tìm kiếm",
+                    "noResults": "$~Không tìm thấy kết quả nào."
+                },
+                "choice": {
+                    "prompt": "$~Bạn muốn học theo cách nào?",
+                    "quick": {
+                        "title": "$~Nhanh",
+                        "description": "$~Dành cho những người sáng tạo đã quen thuộc với các ngôn ngữ lập trình khác và muốn hiểu Wordplay khác biệt như thế nào."
+                    },
+                    "complete": {
+                        "title": "$~Toàn diện",
+                        "description": "$~Dành cho những người sáng tạo mới bắt đầu lập trình và muốn có một giới thiệu chi tiết."
+                    }
+                },
+                "mode": {
+                    "label": "$~hướng dẫn",
+                    "labels": ["$~nhanh", "$~hoàn thành"],
+                    "tips": [
+                        "$~Một chuyến tham quan ngắn dành cho những nhà sáng tạo biết một ngôn ngữ lập trình khác.",
+                        "$~phần giới thiệu đầy đủ và ấn tượng dành cho những nhà sáng tạo mới bước chân vào lĩnh vực lập trình."
+                    ]
+                },
+                "contrast": "$~so sánh với",
+                "dialogue": "$~hội thoại bài học",
+                "says": "$~$character nói",
+                "tour": {
+                    "skip": "$~bỏ qua phần giới thiệu và tiếp tục",
+                    "wait": "$~Hãy xem phần giới thiệu trước, hoặc bỏ qua, rồi chúng ta sẽ tiếp tục."
+                }
+            },
+            "teach": {
+                "header": "$~Dạy bảo",
+                "prompt": {
+                    "none": "$~Chào mừng thầy/cô! Hãy tạo một lớp học để thiết lập và quản lý tài khoản học sinh và thư viện dự án.",
+                    "some": "$~Chào mừng thầy/cô! Quản lý lớp học của bạn hoặc tạo lớp học mới."
+                },
+                "error": {
+                    "offline": "$~Chúng tôi không thể kiểm tra trạng thái giáo viên của bạn. Bạn đã đăng nhập chưa?",
+                    "login": "$~Bạn cần đăng nhập vào <địa chỉ email> để quản lý lớp học.",
+                    "teacher": "$~Bạn cần có quyền giáo viên để tạo và quản lý lớp học. Hãy điền vào mẫu này và chúng ta cùng làm quen nhé!"
+                },
+                "link": {
+                    "request": "$~Yêu cầu quyền quản trị viên",
+                    "new": "$~Tạo một lớp"
+                }
+            },
+            "newclass": {
+                "header": "$~Lớp mới",
+                "subheader": {
+                    "class": "$~Lớp học của bạn",
+                    "students": "$~Học sinh của bạn",
+                    "credentials": "$~Tên người dùng và mật khẩu",
+                    "submit": "$~Nộp",
+                    "usernames": "$~Tên đăng nhập"
+                },
+                "prompt": {
+                    "start": "$~Biểu mẫu này cho phép bạn 1) tạo tài khoản cho tất cả học sinh trong lớp và 2) tạo một thư viện mà tất cả học sinh có thể thêm dự án vào. Nếu học sinh đã có tài khoản, bạn có thể thêm họ vào thư viện sau.",
+                    "review": "$~Hãy xem lại tên người dùng và mật khẩu mà chúng ta đã tạo. Bạn có muốn *chỉnh sửa* chúng trước khi tiếp tục không? Nếu có, bạn sẽ không thể chỉnh sửa thông tin học sinh ở trên.",
+                    "ready": "$~Hãy cho chúng tôi biết khi nào bạn sẵn sàng tạo thông tin đăng nhập ở trên. Bạn có thể chỉnh sửa chúng sau khi tạo xong.",
+                    "pending": "$~Tạo tên người dùng và mật khẩu...",
+                    "submit": "$~Sẵn sàng gửi? Ngay sau khi thành công, bạn sẽ nhận được bản tải xuống thông tin này. Mật khẩu *không thể khôi phục*, vì vậy hãy lưu giữ chúng ở nơi an toàn.",
+                    "submitting": "$~Đang yêu cầu tạo tài khoản mới với tên người dùng và mật khẩu ở trên...",
+                    "download": "$~Lớp học của bạn đã sẵn sàng! Bạn sẽ thấy một bản tải xuống dữ liệu học sinh trong thư mục tải xuống của mình. *Mật khẩu không thể khôi phục được*, vì vậy hãy giữ tệp này ở nơi an toàn! Học sinh đăng nhập bằng email sẽ không có mật khẩu, nên cột mật khẩu của các em sẽ trống.",
+                    "reviewEmail": "$~Xem lại các tên đăng nhập chúng tôi đã tạo. Bạn có muốn *chỉnh sửa* chúng trước khi tiếp tục không? Nếu có, bạn sẽ không thể chỉnh sửa thông tin học sinh ở trên nữa. Học sinh không cần chọn gì ở đây — các em đăng nhập bằng địa chỉ ghi bên cạnh tên của mình.",
+                    "downloadEmail": "$~Lớp học của bạn đã sẵn sàng! Bạn sẽ thấy một tệp tải xuống chứa dữ liệu học sinh trong thư mục tải xuống của mình. Không có mật khẩu nào cần giữ an toàn: mỗi học sinh chỉ cần vào trang đăng nhập, nhập địa chỉ của mình, và yêu cầu một đường liên kết.",
+                    "submitEmail": "$~Sẵn sàng gửi chưa? Ngay khi thành công, bạn sẽ nhận được một bản tải về của thông tin này. Không cần giữ mật khẩu nào cả — mỗi học sinh đăng nhập bằng địa chỉ bên cạnh tên của mình."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~tên lớp",
+                        "placeholder": "$~tên ngắn"
+                    },
+                    "description": {
+                        "description": "$~Sự miêu tả",
+                        "placeholder": "$~Bản mô tả về lớp học của bạn, dành cho bạn và các học sinh của bạn."
+                    },
+                    "existing": {
+                        "label": "$~sinh viên có tài khoản",
+                        "prompt": "$~Một số học sinh của bạn đã có tài khoản @wordplay chưa? Hãy thêm họ vào đây."
+                    },
+                    "metadata": {
+                        "description": "$~thông tin sinh viên",
+                        "placeholder": "$~Ví dụ: mã số sinh viên, họ, tên",
+                        "prompt": "$~Bạn muốn tạo tài khoản mới cho học sinh? Hãy cung cấp *bất kỳ thông tin nào* về học sinh, mỗi em một dòng, cách nhau bằng dấu phẩy. Đó có thể là họ, tên, số học sinh, hoặc các thông tin khác giúp phân biệt từng em. Chúng tôi sẽ dùng thông tin đó để tạo tên đăng nhập mà bạn có thể chỉnh sửa bên dưới, giúp bạn gắn tên đăng nhập với từng học sinh. Nếu một trong các cột là địa chỉ email học sinh, thì những học sinh đó sẽ đăng nhập bằng một liên kết chúng tôi gửi qua email thay vì dùng mật khẩu. Hãy để ô đó trống nếu muốn học sinh có tên đăng nhập và mật khẩu như những em khác."
+                    },
+                    "words": {
+                        "description": "$~những từ dùng trong mật khẩu",
+                        "placeholder": "$~ví dụ: mèo chấm chuột...",
+                        "prompt": "$~Cung cấp ít nhất *25 từ* để tạo ngẫu nhiên mật khẩu dễ nhớ gồm 2-3 từ. Hãy chọn những từ học sinh của bạn biết hoặc yêu cầu các em nghĩ ra các từ. Càng ngẫu nhiên thì càng an toàn!"
+                    },
+                    "generate": {
+                        "label": "$~phát ra",
+                        "tip": "$~Tạo tên người dùng và mật khẩu dựa trên thông tin trên."
+                    },
+                    "edit": {
+                        "label": "$~biên tập",
+                        "tip": "$~chỉnh sửa thông tin sinh viên được tạo ra"
+                    },
+                    "submit": {
+                        "label": "$~tạo lớp",
+                        "tip": "$~Tạo một lớp mới với thông tin này."
+                    },
+                    "affirm": {
+                        "prompt": "$~Một trong các cột của bạn trông giống địa chỉ email, vì vậy những học sinh đó sẽ đăng nhập bằng một liên kết thay vì mật khẩu. Chỉ làm điều này nếu các em đủ tuổi để có tài khoản email theo quy định nơi các em sinh sống. *Chúng tôi sẽ không gửi email cho ai khi bạn tạo lớp học này*: mỗi học sinh sẽ vào trang đăng nhập, nhập địa chỉ email của mình, và yêu cầu một liên kết.",
+                        "label": "$~Những học sinh này đã đủ tuổi để có tài khoản email theo quy định nơi các em sinh sống."
+                    },
+                    "signin": {
+                        "prompt": "$~Bạn muốn tạo tài khoản mới cho học sinh? Trước tiên, hãy quyết định cách các em sẽ đăng nhập. Cả lớp phải chọn *chỉ một cách duy nhất*, vì vậy hãy chọn cách phù hợp với học sinh của bạn.",
+                        "mode": {
+                            "label": "$~cách học sinh của bạn đăng nhập",
+                            "labels": [
+                                "$~tên đăng nhập và mật khẩu",
+                                "$~một đường liên kết gửi qua email"
+                            ],
+                            "tips": [
+                                "$~chúng tôi tạo một tên đăng nhập và một mật khẩu cho mỗi học sinh, và bạn phát chúng cho các em",
+                                "$~mỗi học sinh đăng nhập bằng địa chỉ email riêng của mình, nên không có mật khẩu nào có thể bị mất"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~địa chỉ email của học sinh",
+                        "placeholder": "$~ví dụ: mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Liệt kê học sinh của bạn, mỗi em một dòng, *bắt đầu bằng địa chỉ email của các em*. Bạn có thể thêm bất kỳ thông tin nào khác về các em sau dấu phẩy — số học sinh, họ — và chúng tôi sẽ dùng thông tin đó để tạo tên đăng nhập mà bạn có thể chỉnh sửa bên dưới."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~Có các mục trùng lặp trong thông tin sinh viên.",
+                    "columns": "$~Hãy đảm bảo mỗi học sinh có số cột bằng nhau.",
+                    "generate": "$~Không thể tạo tên người dùng duy nhất.",
+                    "taken": "$~Một hoặc nhiều tên người dùng ở trên đã được sử dụng.",
+                    "limit": "$~Bạn không thể tạo một lớp học có hơn 50 học sinh cùng một lúc.",
+                    "words": "$~Hãy cung cấp ít nhất 25 từ.",
+                    "account": "$~Không thể tạo một số tài khoản.",
+                    "generic": "$~Chúng tôi không thể tạo lớp. Dưới đây là một số thông tin giúp các nhà phát triển tìm ra lỗi.",
+                    "affirmation": "$~Hãy xác nhận rằng những học sinh này đã đủ tuổi để có tài khoản email trước khi chúng tôi tạo tài khoản cho các em.",
+                    "inflight": "$~Lớp học này có thể đã được tạo trước đó. Hãy kiểm tra lại các lớp học của bạn trước khi thử lại.",
+                    "addresses": "$~Mỗi dòng phải bắt đầu bằng một địa chỉ email."
+                }
+            },
+            "class": {
+                "header": "$~Lớp học",
+                "subheader": {
+                    "teachers": "$~Giáo viên",
+                    "students": "$~Sinh viên",
+                    "galleries": "$~Phòng trưng bày"
+                },
+                "prompt": {
+                    "gallery": "$~Hãy tạo một thư viện ảnh cho lớp học để sắp xếp bài tập hoặc dự án. Tất cả giáo viên tham gia dự án sẽ là người quản lý thư viện và tất cả học sinh sẽ là người tạo ảnh.",
+                    "delete": "$~Việc xóa lớp học này sẽ xóa vĩnh viễn thông tin về lớp học, nhưng sẽ giữ lại các dự án, thư viện ảnh hoặc tài khoản học viên của lớp đó."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~tên của lớp",
+                        "placeholder": "$~tên"
+                    },
+                    "description": {
+                        "description": "$~mô tả về lớp học",
+                        "placeholder": "$~Sự miêu tả"
+                    },
+                    "delete": {
+                        "tip": "$~Xóa lớp này vĩnh viễn",
+                        "label": "$~Xóa lớp này"
+                    }
+                },
+                "error": {
+                    "notfound": "$~Chúng tôi không tìm thấy lớp học này hoặc bạn không có quyền xem.",
+                    "gallery": "$~Chúng tôi không thể tạo thư viện ảnh cho lớp học này."
+                }
+            },
+            "guide": {
+                "header": "$~Hướng dẫn",
+                "description": "$~Đây là tài liệu tham khảo cho mọi thành phần của ngôn ngữ lập trình @wordplay. Tìm kiếm một ký tự hoặc duyệt qua danh sách để tìm hiểu thêm."
+            },
+            "projects": {
+                "header": "$~Dự án",
+                "projectprompt": "$~Bạn đã sẵn sàng nói điều gì đó chưa? Hãy tạo một dự án hoặc bắt tay vào thực hiện một dự án. Nếu gặp khó khăn, hãy tiếp tục <học hỏi@://học hỏi>.",
+                "archiveprompt": "$~Đây là các dự án bạn đã lưu trữ. Chỉ chủ sở hữu mới có thể xóa hoặc bỏ lưu trữ vĩnh viễn chúng. Các dự án đã lưu trữ sẽ bị xóa vĩnh viễn sau 30 ngày kể từ lần chỉnh sửa cuối cùng.",
+                "subheader": {
+                    "shared": "$~Chia sẻ",
+                    "archived": "$~Đã lưu trữ"
+                },
+                "button": {
+                    "newproject": "$~dự án mới",
+                    "editproject": "$~chỉnh sửa dự án này",
+                    "unarchive": "$~bỏ lưu trữ dự án này",
+                    "viewproject": "$~xem mã số của dự án này",
+                    "import": {
+                        "tip": "$~mở một tệp dự án bạn đã lưu",
+                        "label": "$~mở một tệp dự án…"
+                    }
+                },
+                "confirm": {
+                    "archive": {
+                        "description": "$~Lưu trữ bản ghi hình này để xóa sau này.",
+                        "prompt": "$~lưu trữ"
+                    },
+                    "delete": {
+                        "description": "$~xóa vĩnh viễn màn trình diễn này",
+                        "prompt": "$~xóa vĩnh viễn"
+                    }
+                },
+                "error": {
+                    "noaccess": "$~Chúng tôi không thể truy cập internet.",
+                    "newgallery": "$~Chúng tôi không thể tạo thư viện ảnh mới.",
+                    "nodeletes": "$~Bạn phải đăng nhập vào tài khoản <login@://login> để xóa các dự án đã lưu trữ.",
+                    "delete": "$~Ôi, chúng tôi không thể xóa dự án được!",
+                    "importEmpty": "$~Tệp đó không có gì trong đó.",
+                    "importTooLarge": "$~Dự án đó quá lớn để Wordplay lưu. Hãy thử một dự án nhỏ hơn.",
+                    "importUnreadable": "$~Wordplay không đọc được tệp đó. Tệp dự án có đuôi .wp."
+                },
+                "search": {
+                    "description": "$~Tìm kiếm dự án và tệp nguồn",
+                    "noResults": "$~Không tìm thấy kết quả nào."
+                },
+                "installedprompt": "$~Bạn đang dùng Wordplay như một ứng dụng đã cài đặt, và nó giữ các dự án riêng, tách biệt với các dự án trong trình duyệt web của bạn. Bất kỳ dự án nào bạn đã tạo trong trình duyệt vẫn còn ở đó. <Đăng nhập@://login> để xem tất cả dự án của bạn ở cả hai nơi.",
+                "sort": {
+                    "label": "$~sắp xếp",
+                    "labels": ["$~tên", "$~chỉnh sửa gần đây"],
+                    "tips": [
+                        "$~sắp xếp dự án theo tên",
+                        "$~sắp xếp dự án theo lần bạn thay đổi gần nhất"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~tên của thư mục này",
+                        "placeholder": "$~thư mục"
+                    },
+                    "none": "$~không có thư mục",
+                    "button": {
+                        "create": "$~tạo thư mục mới",
+                        "expand": "$~hiện những gì trong thư mục này",
+                        "collapse": "$~ẩn những gì trong thư mục này"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~xóa thư mục này và lưu trữ các dự án trong đó",
+                            "prompt": "$~Xóa thư mục và lưu trữ các dự án của nó"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~chuyển $project sang $folder",
+                        "moved": "$~$project đã được chuyển sang $folder",
+                        "movedOut": "$~$project đã được chuyển ra khỏi thư mục của nó",
+                        "expanded": "$~$folder đã mở rộng, $#count[$count dự án]",
+                        "collapsed": "$~$folder đã thu gọn, $#count[$count dự án]",
+                        "selected": "$~$folder đã được chọn, $#count[$count dự án]",
+                        "created": "$~$folder đã được tạo",
+                        "deleted": "$~$folder đã bị xóa, $#count[$count dự án đã được lưu trữ]",
+                        "renamed": "$~thư mục đã được đổi tên thành $folder",
+                        "projectSelected": "$~$project đã được chọn",
+                        "cleared": "$~chưa chọn gì"
+                    },
+                    "instructions": {
+                        "none": "$~Nhấp vào một dự án hoặc một thư mục để chọn nó.",
+                        "project": "$~Di chuyển dự án này bằng phím mũi tên *lên* và *xuống*, hoặc kéo nó vào một thư mục. Nhấn *escape* khi bạn xong.",
+                        "folder": "$~Gõ tên để đổi tên thư mục này. Xóa nó sẽ đưa mọi thứ bên trong vào kho lưu trữ của bạn."
+                    }
+                },
+                "import": {
+                    "done": "$~Đã mở $name.",
+                    "drop": "$~Thả một tệp dự án vào đây để mở nó.",
+                    "replaced": "$~Đã thay dự án này bằng $name.",
+                    "replace": {
+                        "header": "$~Thay dự án này?",
+                        "explanation": "$~Mã số trong dự án này sẽ bị thay thế. Wordplay lưu lại những gì đang có ở đây, nên bạn có thể lấy lại từ lịch sử dự án.",
+                        "prompt": "$~Mở $name ở đây thay cho những gì dự án này đang có?",
+                        "confirm": {
+                            "tip": "$~thay dự án này bằng tệp bạn vừa thả vào",
+                            "label": "$~thay thế"
+                        }
+                    }
+                }
+            },
+            "galleries": {
+                "header": "$~Phòng trưng bày",
+                "prompt": "$~Các phòng trưng bày là tập hợp các dự án, thường xoay quanh một chủ đề và được bạn hoặc các nhà sáng tạo khác tuyển chọn.",
+                "section": {
+                    "tabs": {
+                        "label": "$~loại phòng trưng bày",
+                        "labels": ["$~Trân trọng,", "$~Ví dụ", "$~Công cộng"],
+                        "tips": [
+                            "$~các phòng trưng bày mà bạn quản lý hoặc đóng góp vào",
+                            "$~các phòng trưng bày được tuyển chọn bởi các nhà phát triển Wordplay",
+                            "$~các phòng trưng bày mà những người sáng tạo đã công khai"
+                        ]
+                    },
+                    "own": [
+                        "$~Đóng góp cho một phòng trưng bày mà bạn được mời tham gia, hoặc tự phụ trách phòng trưng bày của riêng bạn với một chủ đề cụ thể, và mời người khác tham gia.",
+                        "/Người phụ trách xem xét những gì được báo cáo trong phòng trưng bày của họ, từ <trang kiểm duyệt@://moderate>./"
+                    ],
+                    "examples": "$~Đây là những bộ sưu tập hình ảnh được tuyển chọn từ các nhà phát triển @wordplay. Chúng là những điểm khởi đầu tốt để học hỏi và tìm kiếm nguồn cảm hứng.",
+                    "public": "$~Đây là những phòng trưng bày mà người tạo @wordplay đã công khai. Ai cũng có thể xin đưa phòng trưng bày của mình vào danh sách này, và một người kiểm duyệt sẽ xem qua trước để chắc chắn nó đã hoàn thành và tuân theo quy định. Một phòng trưng bày có thể bị gỡ khỏi danh sách này bất cứ lúc nào, vì bất kỳ lý do gì. Chúng được hiển thị theo thứ tự khác nhau mỗi lần bạn ghé thăm, để mỗi phòng trưng bày đều có lượt xuất hiện ở đầu danh sách."
+                },
+                "button": {
+                    "newgallery": "$~phòng trưng bày mới"
+                },
+                "error": {
+                    "nogalleryedits": "$~Bạn phải đăng nhập vào <địa chỉ email> để tạo và chỉnh sửa thư viện ảnh.",
+                    "nopublic": "$~Chưa có phòng trưng bày nào được duyệt vào danh sách này. Hãy quay lại kiểm tra sau nhé!"
+                },
+                "search": {
+                    "description": "$~Tìm ví dụ và các phòng trưng bày công khai",
+                    "noResults": "$~Không tìm thấy kết quả nào.",
+                    "galleries": "$~Phòng trưng bày",
+                    "examples": "$~Dự án ví dụ",
+                    "projects": "$~Dự án trong các phòng trưng bày công khai"
+                }
+            },
+            "characters": {
+                "header": "$~Nhân vật",
+                "prompt": "$~Tạo biểu tượng cảm xúc và ký hiệu tùy chỉnh để sử dụng trong các dự án của bạn và chia sẻ với người khác.",
+                "button": {
+                    "new": "$~Tạo nhân vật mới",
+                    "copy": "$~Sao chép ký tự này",
+                    "remove": {
+                        "tip": "$~xóa ký tự này",
+                        "prompt": "$~xóa bỏ?"
+                    }
+                },
+                "subheader": {
+                    "shared": "$~Chia sẻ"
+                },
+                "error": {
+                    "offline": "$~Chúng tôi không thể truy cập vào các nhân vật của bạn được lưu trữ trực tuyến.",
+                    "noauth": "$~Bạn phải đăng nhập vào <địa chỉ email> để xem các nhân vật của mình và tạo nhân vật mới.",
+                    "create": "$~Không thể tạo nhân vật mới."
+                },
+                "unnamed": "$~Nhân vật chưa đặt tên"
+            },
+            "character": {
+                "header": "$~Tính cách",
+                "instructions": {
+                    "empty": "$~Chọn chế độ vẽ trong bảng công cụ để tạo hình.",
+                    "unselected": "$~Chọn một chế độ vẽ hoặc chọn và chỉnh sửa hình. Dùng *$control-a* để chọn tất cả và *$control-z* để hoàn tác.",
+                    "selected": "$~Dùng phím *mũi tên* để di chuyển hình. Giữ *shift* để thêm hình vào phần đang chọn. Dùng *delete* để xóa phần đang chọn. Dùng *$control-c* và *$control-v* để sao chép và dán, và *$control-z* để hoàn tác. Khi đã chọn một đường, nhấn *enter* để chỉnh sửa các điểm của nó. Dùng các nút điều khiển bên dưới để thay đổi hình đang chọn.",
+                    "eraser": "$~Để xóa hình dạng, hãy nhấp hoặc chạm vào chúng. Kéo để xóa các pixel. Sử dụng các phím mũi tên để di chuyển công cụ tẩy và phím cách để xóa.",
+                    "pixel": "$~Để vẽ pixel, hãy chọn một màu. Sau đó, nhấp vào khung vẽ hoặc sử dụng các phím *mũi tên* để di chuyển con trỏ và phím *khoảng cách* để tạo một pixel. Nhấp đúp chuột để tô màu.",
+                    "rect": "$~Để vẽ hình chữ nhật, hãy chọn màu sắc và độ dày viền. Sau đó, nhấp chuột và kéo, hoặc sử dụng các phím *mũi tên* và *khoảng cách* để chọn tâm và kích thước.",
+                    "ellipse": "$~Để vẽ hình elip và hình tròn, hãy chọn màu sắc và độ dày nét vẽ. Sau đó, nhấp chuột và kéo, hoặc sử dụng các phím *mũi tên* và *khoảng cách* để chọn tâm và kích thước.",
+                    "path": "$~Đường dẫn có thể là đoạn thẳng, đa giác và đường cong. Nhấp chuột để bắt đầu thêm điểm, hoặc sử dụng các phím mũi tên và phím cách. Nhấn phím Escape để kết thúc đường dẫn. Phím Delete sẽ xóa điểm cuối cùng.",
+                    "points": "$~Nhấn *Tab* để chuyển qua các điểm của đường. Dùng phím *mũi tên* để di chuyển điểm đang chọn, *enter* để thêm một điểm bên cạnh nó, và *delete* để xóa điểm đó. Dùng *curve* để uốn cong đoạn nối tới một điểm, rồi di chuyển tay cầm của nó; nhấn *delete* trên tay cầm sẽ làm thẳng lại. Nhấn *escape* khi bạn xong.",
+                    "symbol": "$~Chọn thêm điểm ảnh hoặc đường viền, rồi chọn một chữ cái, ký hiệu hoặc biểu tượng cảm xúc. Đường viền có thể đổi kích thước và xoay mà không bị mờ; điểm ảnh có thể đổi màu từng cái một. Nhấp hoặc chạm vào thứ bạn đã tạo để chọn nó thay vì tạo mới.",
+                    "image": "$~Chọn một hình ảnh, rồi chọn phần vuông của nó để giữ lại. Phần này sẽ thay thế các điểm ảnh, và nằm dưới mọi hình bạn đã vẽ. Nhấp hoặc chạm vào thứ bạn đã tạo để chọn nó thay vì tạo mới."
+                },
+                "shape": {
+                    "shape": "$~hình dạng",
+                    "eraser": "$~cục tẩy",
+                    "pixel": "$~điểm ảnh",
+                    "rect": "$~hình chữ nhật",
+                    "ellipse": "$~hình elip",
+                    "path": "$~con đường",
+                    "emoji": "$~biểu tượng cảm xúc",
+                    "glyph": "$~đường viền",
+                    "symbol": "$~ký hiệu",
+                    "image": "$~hình ảnh"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Chia sẻ",
+                        "explanation": "$~Chọn ai có thể xem ký tự này, ai có thể giúp tạo ra nó, và nó thuộc phòng trưng bày nào."
+                    },
+                    "button": {
+                        "label": "$~chia sẻ",
+                        "tip": "$~chia sẻ nhân vật này"
+                    },
+                    "delete": {
+                        "label": "$~xóa bỏ",
+                        "tip": "$~xóa ký tự này"
+                    },
+                    "public": {
+                        "label": "$~khả năng hiển thị",
+                        "labels": ["$~công cộng", "$~riêng tư"],
+                        "tips": [
+                            "$~Ai cũng có thể nhìn thấy nhân vật này.",
+                            "$~Chỉ bạn và những người cộng tác mới có thể nhìn thấy nhân vật này."
+                        ]
+                    },
+                    "collaborators": "$~cộng tác viên",
+                    "gallery": "$~Phòng trưng bày",
+                    "galleryexplanation": "$~Đặt ký tự này vào một trong các phòng trưng bày của bạn để mọi người trong đó có thể xem nó, dùng nó trong dự án của họ, và tạo phiên bản riêng của nó. Nó vẫn thuộc về bạn; chỉ mình bạn mới có thể thay đổi nó.",
+                    "collaboratorsexplanation": "$~Những người cộng tác có thể xem ký tự này và cùng bạn thay đổi nó, ngay cả khi nó ở chế độ riêng tư.",
+                    "publicexplanation": "$~Công khai nghĩa là bất kỳ ai cũng có thể xem ký tự này và dùng nó trong dự án của họ. Riêng tư nghĩa là chỉ mình bạn, những người cộng tác của bạn, và bất kỳ ai trong phòng trưng bày mà bạn đã đặt nó vào mới có thể xem.",
+                    "tab": {
+                        "label": "$~cài đặt chia sẻ",
+                        "labels": [
+                            "$~Công khai",
+                            "$~Người cộng tác",
+                            "$~Phòng trưng bày"
+                        ],
+                        "tips": [
+                            "$~chọn ai có thể xem nhân vật này",
+                            "$~chọn ai có thể cùng bạn thay đổi nhân vật này",
+                            "$~chọn một phòng trưng bày để đưa nhân vật này vào"
+                        ]
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "$~tên của nhân vật",
+                        "placeholder": "$~tên"
+                    },
+                    "description": {
+                        "description": "$~mô tả nhân vật",
+                        "placeholder": "$~Sự miêu tả"
+                    },
+                    "mode": {
+                        "label": "$~cách thức",
+                        "labels": [
+                            "$~chọn",
+                            "$~cục tẩy",
+                            "$~điểm ảnh",
+                            "$~hình chữ nhật",
+                            "$~hình elip",
+                            "$~con đường",
+                            "$~biểu tượng cảm xúc",
+                            "$~hình ảnh"
+                        ],
+                        "tips": [
+                            "$~chọn hình và điểm ảnh",
+                            "$~xóa hình dạng và pixel",
+                            "$~vẽ pixel",
+                            "$~vẽ hình chữ nhật",
+                            "$~vẽ hình elip",
+                            "$~vẽ đường đi",
+                            "$~nhập biểu tượng cảm xúc dưới dạng pixel",
+                            "$~thêm hình ảnh dưới dạng điểm ảnh"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~đổ đầy",
+                        "labels": ["$~không có", "$~kế thừa", "$~chọn"],
+                        "tips": [
+                            "$~không đầy",
+                            "$~kế thừa màu nền từ văn bản xung quanh.",
+                            "$~Chọn màu tô"
+                        ]
+                    },
+                    "stroke": {
+                        "label": "$~đột quỵ",
+                        "labels": ["$~không có", "$~kế thừa", "$~chọn"],
+                        "tips": [
+                            "$~không bị đột quỵ",
+                            "$~kế thừa màu nét vẽ từ văn bản xung quanh.",
+                            "$~Chọn màu nét vẽ"
+                        ]
+                    },
+                    "none": "$~không có",
+                    "inherit": "$~màu chữ",
+                    "strokeWidth": {
+                        "label": "$~độ rộng nét",
+                        "tip": "$~độ rộng của nét vẽ"
+                    },
+                    "radius": {
+                        "label": "$~bán kính góc",
+                        "tip": "$~Góc của hình chữ nhật tròn như thế nào?"
+                    },
+                    "angle": {
+                        "label": "$~góc",
+                        "tip": "$~xoay hình bao nhiêu độ quanh tâm của nó?"
+                    },
+                    "width": {
+                        "label": "$~chiều rộng",
+                        "tip": "$~hình dạng đó rộng bao nhiêu"
+                    },
+                    "height": {
+                        "label": "$~chiều cao",
+                        "tip": "$~Hình dạng đó cao bao nhiêu?"
+                    },
+                    "closed": "$~đã kết nối",
+                    "brushSize": {
+                        "label": "$~kích thước",
+                        "tip": "$~bút vẽ và cục tẩy phủ bao nhiêu tế bào theo chiều ngang"
+                    },
+                    "insertion": {
+                        "label": "$~thêm dưới dạng",
+                        "labels": ["$~điểm ảnh", "$~đường viền"],
+                        "tips": [
+                            "$~thêm ký hiệu dưới dạng điểm ảnh mà bạn có thể đổi màu từng cái một",
+                            "$~thêm ký hiệu dưới dạng đường viền mà bạn có thể đổi kích thước và xoay mà không bị mờ"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~phông chữ",
+                        "tip": "$~lấy hình dạng của ký hiệu từ phông chữ nào"
+                    },
+                    "weight": {
+                        "label": "$~độ đậm",
+                        "tip": "$~nét của ký hiệu đậm đến mức nào"
+                    },
+                    "italic": "$~chữ nghiêng",
+                    "glyphSize": {
+                        "label": "$~kích thước ký hiệu",
+                        "tip": "$~ký hiệu rộng bao nhiêu tế bào"
+                    }
+                },
+                "button": {
+                    "back": {
+                        "label": "$~mặt sau",
+                        "tip": "$~Di chuyển các hình đã chọn ra phía sau."
+                    },
+                    "toBack": {
+                        "label": "$~trở lại",
+                        "tip": "$~Di chuyển các hình đã chọn ra phía sau."
+                    },
+                    "forward": {
+                        "label": "$~phía trước",
+                        "tip": "$~Di chuyển các hình đã chọn lên phía trước."
+                    },
+                    "toFront": {
+                        "label": "$~lên phía trước",
+                        "tip": "$~Di chuyển các hình đã chọn lên phía trước."
+                    },
+                    "copy": {
+                        "label": "$~bản sao",
+                        "tip": "$~Sao chép các hình dạng đã chọn vào clipboard."
+                    },
+                    "paste": {
+                        "label": "$~dán",
+                        "tip": "$~Dán các hình dạng đã sao chép từ clipboard."
+                    },
+                    "clear": {
+                        "label": "$~tất cả",
+                        "tip": "$~Xóa bỏ tất cả các hình dạng."
+                    },
+                    "clearPixels": {
+                        "label": "$~điểm ảnh",
+                        "tip": "$~Xóa tất cả các pixel."
+                    },
+                    "undo": {
+                        "label": "$~hoàn tác",
+                        "tip": "$~hoàn tác về thiết kế trước đó"
+                    },
+                    "redo": {
+                        "label": "$~làm lại",
+                        "tip": "$~làm lại theo thiết kế tiếp theo"
+                    },
+                    "all": {
+                        "label": "$~chọn tất cả",
+                        "tip": "$~chọn tất cả các hình dạng và pixel"
+                    },
+                    "end": {
+                        "label": "$~hình dạng hoàn thiện",
+                        "tip": "$~kết thúc đường dẫn hiện tại"
+                    },
+                    "horizontal": {
+                        "label": "$~lật ngang",
+                        "tip": "$~lật phần đang chọn theo chiều ngang"
+                    },
+                    "vertical": {
+                        "label": "$~lật dọc",
+                        "tip": "$~lật phần đang chọn theo chiều dọc"
+                    },
+                    "fit": {
+                        "label": "$~phù hợp",
+                        "tip": "$~Điều chỉnh các hình dạng cho phù hợp với khung vẽ."
+                    },
+                    "dismissError": {
+                        "label": "$~miễn nhiệm",
+                        "tip": "$~bỏ qua thông báo lỗi"
+                    },
+                    "allColor": {
+                        "label": "$~tất cả màu sắc",
+                        "tip": "$~Chọn tất cả các hình có cùng màu với hình đã chọn."
+                    },
+                    "saturationUp": {
+                        "label": "$~độ bão hòa",
+                        "tip": "$~tăng độ bão hòa"
+                    },
+                    "saturationDown": {
+                        "label": "$~độ bão hòa",
+                        "tip": "$~giảm độ bão hòa"
+                    },
+                    "editPoints": {
+                        "label": "$~điểm",
+                        "tip": "$~chỉnh sửa các điểm của đường đang chọn"
+                    },
+                    "donePoints": {
+                        "label": "$~xong",
+                        "tip": "$~dừng chỉnh sửa điểm"
+                    },
+                    "addPoint": {
+                        "label": "$~thêm điểm",
+                        "tip": "$~thêm một điểm bên cạnh điểm đang chọn"
+                    },
+                    "deletePoint": {
+                        "label": "$~xóa điểm",
+                        "tip": "$~xóa điểm đang chọn"
+                    },
+                    "curve": {
+                        "label": "$~uốn cong",
+                        "tip": "$~uốn cong đoạn nối tới điểm đang chọn"
+                    },
+                    "straighten": {
+                        "label": "$~làm thẳng",
+                        "tip": "$~làm thẳng đoạn nối tới điểm đang chọn"
+                    }
+                },
+                "feedback": {
+                    "name": "$~Các ký tự cần một tên Wordplay hợp lệ dài ít nhất 1 ký tự. Nó không thể là 'UI', một số thập phân hoặc thập lục phân, hoặc tên của một tính năng ngôn ngữ có sẵn.",
+                    "description": "$~Các nhân vật cần được mô tả để những người không thể nhìn thấy biết họ đại diện cho điều gì.",
+                    "end": "$~hoặc nhấn phím Escape.",
+                    "loadfail": "$~Đã xảy ra lỗi khi tải ký tự này.",
+                    "notfound": "$~Nhân vật này không tồn tại hoặc bạn không nhìn thấy nhân vật này.",
+                    "unauthenticated": "$~Bạn phải đăng nhập vào <địa chỉ email> để chỉnh sửa nhân vật.",
+                    "taken": "$~Bạn đã có một nhân vật với tên này rồi; không lưu lại.",
+                    "projecteditfail": "$~Đã xảy ra sự cố khi cập nhật các dự án sử dụng nhân vật này. Các dự án sau cần được sửa chữa:",
+                    "untitledproject": "$~Dự án chưa có tiêu đề",
+                    "glyphLoading": "$~Đang tải phông chữ…",
+                    "glyphMissing": "$~Phông chữ này không có hình dạng cho ký hiệu đó. Hãy thử phông chữ khác.",
+                    "glyphEmpty": "$~Ký hiệu đó không có gì để vẽ.",
+                    "glyphUnreadable": "$~Chúng tôi không đọc được phông chữ đó. Hãy kiểm tra kết nối mạng, hoặc thử phông chữ khác.",
+                    "imageTooBig": "$~Hình ảnh đó nặng $size MB. Hãy chọn hình nhỏ hơn $limit MB.",
+                    "imageUnreadable": "$~Chúng tôi không thể đọc tệp đó như một hình ảnh."
+                },
+                "announce": {
+                    "position": "$~ở mức $x $y",
+                    "selection": "$~$shapes[đã chọn $shapes|chưa chọn gì]",
+                    "editing": "$~đang chỉnh sửa $#count[$count điểm]",
+                    "editingDone": "$~đã xong chỉnh sửa điểm",
+                    "point": "$~điểm $index tại $x $y",
+                    "control": "$~đường cong $index tại $x $y",
+                    "pointAdded": "$~đã thêm điểm $index tại $x $y",
+                    "pointRemoved": "$~đã xóa điểm $index, còn lại $#count[$count điểm]",
+                    "curved": "$~đã uốn cong đoạn $index",
+                    "straightened": "$~đã làm thẳng đoạn $index",
+                    "moved": "$~đã di chuyển đến $x $y",
+                    "drew": "$~đã vẽ tại $x $y",
+                    "erased": "$~đã xóa tại $x $y",
+                    "finished": "$~đã tạo $shape tại $x $y",
+                    "deleted": "$~đã xóa, còn lại $#count[$count hình dạng]",
+                    "undone": "$~đã hoàn tác bước $step trong $total",
+                    "redone": "$~đã làm lại bước $step trong $total",
+                    "copied": "$~đã sao chép $#count[$count hình dạng: $shapes]",
+                    "pasted": "$~đã dán tại $x $y",
+                    "arranged": "$~lớp $index trong $total",
+                    "flipped": "$~đã lật, giờ ở $x $y",
+                    "fitted": "$~đã phóng to hình dạng để lấp đầy khung vẽ",
+                    "cropped": "$~khung cắt tại $x $y",
+                    "cropMoving": "$~đang di chuyển khung cắt",
+                    "cropDone": "$~đã đặt khung cắt",
+                    "imported": "$~đã thêm $#count[$count điểm ảnh] từ $x $y"
+                },
+                "image": {
+                    "instructions": "$~Kéo hình vuông để di chuyển nó, hoặc dùng thanh trượt *kích thước* để thay đổi lượng ảnh muốn giữ lại. Với bàn phím, nhấn *enter* để bắt đầu di chuyển, dùng các phím *mũi tên*, rồi nhấn *enter* lần nữa khi xong.",
+                    "button": {
+                        "label": "$~tải lên",
+                        "tip": "$~chọn một tệp hình ảnh từ thiết bị này"
+                    },
+                    "add": {
+                        "label": "$~thêm",
+                        "tip": "$~thêm hình vuông đã chọn vào ký tự dưới dạng điểm ảnh"
+                    },
+                    "crop": {
+                        "label": "$~khung cắt",
+                        "tip": "$~hình vuông của ảnh cần giữ lại"
+                    },
+                    "preview": "$~những gì sẽ được thêm vào",
+                    "size": {
+                        "label": "$~kích thước",
+                        "tip": "$~giữ lại bao nhiêu phần của ảnh"
+                    }
+                }
+            },
+            "about": {
+                "header": "$~Về",
+                "content": [
+                    "$~Bạn đã bao giờ cảm thấy rằng viết mã số chỉ dành cho những người phương Tây nói tiếng Anh trôi chảy, không khuyết tật, và lớn lên cùng máy tính chưa?",
+                    "Vâng, chúng tôi cũng vậy.",
+                    "Điều này không phải là ngẫu nhiên. Từ buổi đầu của ngành máy tính, các ngôn ngữ lập trình phần lớn được thiết kế và xây dựng bởi cùng một nhóm người -- chủ yếu là những người đàn ông da trắng, hợp giới, nói tiếng Anh trong giới học thuật và công nghiệp ở Mỹ và Châu Âu, cùng một vài nhà toán học nữ phi thường. Họ làm việc trong thời kỳ hậu thuộc địa, khi kẻ thắng nắm giữ tất cả quyền lực, và các ngôn ngữ lập trình là công cụ chính để giữ vững quyền lực đó.",
+                    "Lịch sử này đã dẫn đến một tầm nhìn về máy tính chủ yếu xoay quanh tốc độ, logic, lợi nhuận và sự thống trị.",
+                    "Đây là một sự bất công. Bởi vì máy tính, dù tốt hay xấu, giờ đây là nền tảng cho cuộc sống hằng ngày theo những cách hữu hình và vô hình, và những người có cơ hội sáng tạo với nó lại là những người giống nhất với những người tạo ra nó. Phần còn lại của nhân loại vẫn phụ thuộc vào quyền lực này, bởi vì việc tưởng tượng ra điều gì đó khác đi đòi hỏi sự hiểu biết, vốn bị chặn lại bởi rào cản ngôn ngữ, rào cản khả năng tiếp cận, rào cản kinh tế, và sự bất bình đẳng trong giáo dục công.",
+                    "*Wordplay* mong muốn giúp thay đổi điều này. Đây là một nền tảng lập trình được thiết kế để mang tính toàn cầu, hỗ trợ /tất cả/ các ngôn ngữ trên thế giới, và cũng /nói về/ các ngôn ngữ trên thế giới. Một nền tảng mà mọi người đều có thể sáng tạo, với bất kỳ khả năng nào mình có, để chia sẻ nội dung tương tác mà bất kỳ ai cũng có thể trải nghiệm. Dành cho thanh thiếu niên và người trẻ muốn thể hiện bản thân qua từ ngữ tương tác, biểu tượng cảm xúc và kiểu chữ, một cách vui tươi và nghệ thuật. Không phải với mục tiêu giành lấy quyền lực cho riêng mình, mà để tạo ra một thế giới máy tính công nhận sức mạnh phi thường và sự cần thiết của những khác biệt tươi đẹp của chúng ta.",
+                    "Chúng tôi là một cộng đồng gồm các nhà thiết kế, nhà giáo dục và nhà phát triển đang cố gắng biến tầm nhìn này thành hiện thực. Chúng tôi là người da màu, chúng tôi là người chuyển giới, chúng tôi là người queer, chúng tôi là người khuyết tật, chúng tôi là người nhập cư, chúng tôi là người tị nạn. Chúng tôi tập trung tại <Trường Thông tin@https://ischool.uw.edu/> thuộc <Đại học Washington@https://washington.edu> ở Seattle, Washington, Mỹ, một nơi mong muốn chào đón mọi người và xóa bỏ những tàn phá phân biệt khả năng và phân biệt chủng tộc của chủ nghĩa thực dân vẫn còn tiếp diễn đến ngày nay. Tạo ra ngôn ngữ lập trình và nền tảng này là một phần nhỏ trong sứ mệnh đó, mang đến một cái nhìn thoáng qua về tương lai của máy tính, nơi /mọi người/ đều thuộc về.",
+                    "Chúng tôi rất mong nhận được sự giúp đỡ của bạn. Hãy tìm hiểu <cách đóng góp@https://github.com/wordplaydev/wordplay/wiki/contribute>, <quyên góp@://donate>, hoặc theo dõi <tiến trình@https://github.com/amyjko/wordplay/milestones> của chúng tôi. Hãy viết thư cho người tổ chức cộng đồng của chúng tôi là <Amy@https://amyjko.phd> nếu bạn có câu hỏi."
+                ],
+                "districts": {
+                    "header": "$~Dành cho trường học và phòng giáo dục",
+                    "content": [
+                        "$~Bạn đang cân nhắc xem *Wordplay* có phù hợp để dùng trong trường học hay phòng giáo dục của bạn không? Đây là những gì chúng tôi có thể và không thể hứa.",
+                        "Chúng tôi không phải là một công ty. Chúng tôi là một dự án nghiên cứu cộng đồng, đặt tại một trường đại học phi lợi nhuận, và chúng tôi không có doanh thu. Điều đó có nghĩa là có những thỏa thuận chúng tôi không thể ký, dù rất muốn giúp đỡ. Chúng tôi không thể hứa trả phí pháp lý cho một phòng giáo dục nếu bị kiện. Chúng tôi không thể hứa sửa một vấn đề theo một lịch trình cố định. Ký một lời hứa mà chúng tôi không thể giữ sẽ chẳng giúp ích được ai, kể cả bạn.",
+                        "Đây là những gì chúng tôi có thể hứa. Chúng tôi giữ nền tảng này theo tiêu chuẩn khả năng tiếp cận /WCAG 2.2 mức AA/, chúng tôi kiểm tra tự động sau mỗi thay đổi, và chúng tôi sửa những gì tìm thấy nhanh nhất có thể với một cộng đồng tình nguyện. Chúng tôi thu thập càng ít thông tin về người dùng càng tốt, và chỉ dùng thông tin đó để vận hành nền tảng. Trang <rights//rights> của chúng tôi ghi rõ những gì chúng tôi lưu trữ, và <source@https://github.com/wordplaydev/wordplay> của chúng tôi là công khai, để bạn có thể tự kiểm tra tất cả những điều này.",
+                        "Nền tảng này luôn thay đổi, và các quy định bạn phải tuân theo cũng vậy. Nếu có điều gì bạn cần mà chúng tôi chưa làm được, hãy viết cho chúng tôi tại hi@wordplay.dev và cho chúng tôi biết. Những người quản lý sẽ đọc, và chúng tôi sẽ hồi âm."
+                    ],
+                    "link": "$~Viết cho chúng tôi về một yêu cầu",
+                    "subject": "$~Câu hỏi từ trường học về Wordplay",
+                    "body": [
+                        "$~Tên trường hoặc phòng giáo dục:",
+                        "$~Tên của bạn:",
+                        "$~Vai trò của bạn:",
+                        "$~Có yêu cầu hay quy định nào chúng tôi cần đáp ứng mà chưa làm được không?",
+                        "$~Có yêu cầu nào chúng tôi không thể đáp ứng với tình trạng hiện tại không?",
+                        "$~Bạn có muốn cho chúng tôi biết thêm điều gì khác không?"
+                    ]
+                }
+            },
+            "updates": {
+                "header": "$~Cập nhật",
+                "content": [
+                    "$~Đây là những tính năng mới nhất, cải tiến và sửa lỗi trong @wordplay. Chúng tôi phát hành bản cập nhật hàng tuần vào hầu hết các ngày thứ Bảy, trừ khi chúng tôi phát hiện ra lỗi khẩn cấp."
+                ],
+                "tips": {
+                    "expand": "$~Mở rộng các cập nhật của ngày này",
+                    "collapse": "$~Thu gọn các cập nhật của ngày này"
+                },
+                "categories": {
+                    "added": "$~Đã thêm",
+                    "changed": "$~Đã thay đổi",
+                    "removed": "$~LOẠI BỎ",
+                    "fixed": "$~Đã sửa"
+                }
+            },
+            "login": {
+                "header": "$~Đăng nhập",
+                "subtitle": "$~Lưu, cộng tác và chia sẻ",
+                "anonymous": "$~đăng nhập",
+                "prompt": {
+                    "login": "$~Đăng nhập để lưu dự án, cộng tác và chia sẻ:",
+                    "join": "$~Hoặc, <tạo tài khoản@://tham gia> để bắt đầu.",
+                    "forgot": "$~*Quên mật khẩu?* Rất tiếc, chúng tôi không thể khôi phục tài khoản của bạn vì chúng tôi không thu thập thông tin liên hệ.",
+                    "enter": "$~Có vẻ như liên kết đăng nhập của bạn đến từ một trình duyệt hoặc thiết bị khác. Bạn có thể nhập lại email của mình để chúng tôi chắc chắn đó là bạn không?",
+                    "play": "$~Bạn đã đăng nhập thành công, giờ chúng tôi có thể lưu dự án của bạn trực tuyến rồi! Bạn muốn tạo gì đó không?",
+                    "passwordrule": "$~Mật khẩu phải có ít nhất 6 ký tự; nếu bạn không sử dụng trình quản lý mật khẩu, hãy chọn ba từ dài mà bạn dễ nhớ.",
+                    "changeEmail": "$~Bạn muốn thay đổi email? Hãy nhập email mới và chúng tôi sẽ gửi email xác nhận đến email cũ.",
+                    "changePassword": "$~Bạn muốn thay đổi mật khẩu? Hãy nhập mật khẩu mới và nhập lại.",
+                    "email": "$~Bạn có tài khoản chỉ dùng email không? Hãy đăng nhập bằng email của bạn, và nếu có tài khoản được liên kết với email đó, chúng tôi sẽ gửi cho bạn một email chứa liên kết đăng nhập. Để bảo vệ quyền riêng tư, chúng tôi không hỗ trợ tài khoản chỉ dùng email mới.",
+                    "sent": "$~Nếu địa chỉ email này được liên kết với một tài khoản, bạn sẽ nhận được một email có liên kết đăng nhập. Có thể mất vài phút để liên kết xuất hiện. Nếu không có tài khoản nào được liên kết với địa chỉ email này, bạn sẽ không nhận được bất cứ thứ gì.",
+                    "logout": "$~Bạn đang sử dụng thiết bị dùng chung và muốn giữ các dự án của mình ở chế độ riêng tư? Hãy đăng xuất và chúng tôi sẽ *xóa các dự án của bạn* khỏi thiết bị này, nhưng chúng vẫn sẽ được lưu trực tuyến.",
+                    "success": "$~Tài khoản đã được tạo!",
+                    "confirm": "$~Kiểm tra địa chỉ email cũ của bạn để xác nhận địa chỉ mới.",
+                    "delete": "$~Bạn muốn chúng tôi quên hết những gì bạn đã tạo ra ở đây sao? Chuyện này không thể nào đảo ngược được.",
+                    "reallyDelete": "$~Bạn có chắc chắn không? Tài khoản và cài đặt của bạn sẽ bị xóa ngay lập tức và các dự án của bạn sẽ được lên lịch xóa. Những người cộng tác trong dự án của bạn sẽ ngay lập tức mất quyền truy cập vào chúng. Vui lòng nhập email hoặc tên người dùng của bạn để xác nhận rằng đây là điều bạn muốn.",
+                    "name": "$~Chọn một biểu tượng cảm xúc hoặc ký tự tùy chỉnh để đại diện cho bạn với người khác.",
+                    "paste": "$~Liên kết có mở ở nơi khác không? Các ứng dụng đã cài đặt đôi khi mở liên kết email trong trình duyệt web thay vì trong ứng dụng. Hãy sao chép liên kết từ email của bạn và dán vào đây để hoàn tất việc đăng nhập."
+                },
+                "error": {
+                    "expired": "$~Liên kết này đã hết hạn.",
+                    "invalid": "$~Liên kết này không hợp lệ.",
+                    "email": "$~Đây không phải là email hợp lệ.",
+                    "invalidUsername": "$!Tên người dùng phải có ít nhất 5 chữ cái và không có khoảng trắng.",
+                    "usernameTaken": "$~Tên người dùng này đã được sử dụng.",
+                    "failure": "$~Không thể đăng nhập :(",
+                    "unverified": "$~Chúng tôi không thể xác nhận đây là một trình duyệt thật, nên đã dừng lại ở đây. Điều này có thể xảy ra khi bạn dùng mạng ở trường học hoặc nơi làm việc. Thử lại sẽ không giúp ích gì, nhưng đổi sang mạng khác hoặc trình duyệt khác có thể sẽ được. Nếu bạn đang ở trường, hãy báo cho thầy cô giáo biết.",
+                    "offline": "$~Chúng tôi không thể với tới mây ☁️.",
+                    "invalidPassword": "$~Mật khẩu phải có ít nhất 6 ký tự.",
+                    "wrongPassword": "$~Tên người dùng và mật khẩu không hợp lệ. Có thể mật khẩu của bạn sai hoặc người khác đã sử dụng tên người dùng này.",
+                    "mismatched": "$~Mật khẩu không khớp.",
+                    "tooMany": "$~Bạn đã đăng nhập không thành công quá nhiều lần. Bạn phải đợi để thử lại.",
+                    "unsaved": "$~Bạn có những thay đổi chưa được lưu trực tuyến. Nếu bạn đăng xuất ngay bây giờ, các thay đổi đó sẽ bị mất khỏi thiết bị này.",
+                    "deletePartial": "$~Chúng tôi đã xóa dữ liệu tài khoản của bạn, nhưng không thể hoàn tất việc xóa tài khoản. Vui lòng thử lại hoặc liên hệ với chúng tôi nếu sự việc vẫn tiếp diễn."
+                },
+                "feedback": {
+                    "changing": "$~Đang gửi email mới...",
+                    "deleting": "$~Được rồi, tôi đang xóa các dự án và cài đặt của bạn...",
+                    "updatedPassword": "$~Mật khẩu của bạn đã được cập nhật.",
+                    "match": "$~Tên này phải trùng khớp với tên người dùng tài khoản của bạn."
+                },
+                "field": {
+                    "email": {
+                        "description": "$~chỉnh sửa email đăng nhập",
+                        "placeholder": "$~e-mail"
+                    },
+                    "username": {
+                        "description": "$~Tên đăng nhập là tên người dùng, không sử dụng thông tin nhận dạng cá nhân.",
+                        "placeholder": "$~tên người dùng"
+                    },
+                    "password": {
+                        "description": "$~Mật khẩu đăng nhập, tối thiểu 6 ký tự",
+                        "placeholder": "$~mật khẩu"
+                    },
+                    "currentPassword": {
+                        "description": "$~mật khẩu đăng nhập hiện tại của bạn",
+                        "placeholder": "$~mật khẩu hiện tại"
+                    },
+                    "newPassword": {
+                        "description": "$~mật khẩu mới của bạn",
+                        "placeholder": "$~mật khẩu mới"
+                    },
+                    "link": {
+                        "description": "$~dán liên kết đăng nhập",
+                        "placeholder": "$~liên kết"
+                    }
+                },
+                "button": {
+                    "logout": {
+                        "tip": "$~Đăng xuất khỏi tài khoản của bạn",
+                        "label": "$~đăng xuất"
+                    },
+                    "login": "$~tạo một tài khoản với tên người dùng và mật khẩu này",
+                    "updateEmail": "$~thay đổi email của bạn",
+                    "delete": {
+                        "tip": "$~xóa tài khoản của bạn",
+                        "label": "$~Xóa dữ liệu của tôi…"
+                    },
+                    "reallyDelete": {
+                        "tip": "$~xóa tài khoản của bạn vĩnh viễn",
+                        "label": "$~Xóa nó đi!!!"
+                    },
+                    "updatePassword": "$~nhập mật khẩu mới"
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "$~Hiển thị mật khẩu",
+                        "off": "$~Ẩn mật khẩu"
+                    }
+                },
+                "signin": {
+                    "usesPassword": "$~Bạn đăng nhập bằng tên đăng nhập và mật khẩu. Nếu bạn không muốn nhớ mật khẩu, bạn có thể chuyển sang đăng nhập bằng một đường liên kết chúng tôi gửi qua email — tên đăng nhập của bạn vẫn giữ nguyên.",
+                    "usesEmail": "$~Bạn đăng nhập bằng địa chỉ email. Nếu muốn dùng tên đăng nhập và mật khẩu thay vì email, bạn có thể đổi cách này — tên đăng nhập của bạn vẫn giữ nguyên.",
+                    "notYet": "$~Bạn đăng nhập bằng tên đăng nhập và mật khẩu. Ở nơi bạn sống, bạn chưa đủ tuổi để dùng địa chỉ email ở đây — từ $date bạn sẽ có thể chuyển sang đăng nhập bằng một đường liên kết gửi qua email.",
+                    "switched": "$~Xong rồi. Lần sau, hãy đăng nhập bằng tên đăng nhập và mật khẩu mới của bạn.",
+                    "toPassword": {
+                        "label": "$~Dùng mật khẩu thay thế",
+                        "tip": "$~Chuyển sang đăng nhập bằng tên đăng nhập và mật khẩu"
+                    }
+                },
+                "username": {
+                    "change": "$~Tên đăng nhập là cách người khác nhìn thấy bạn, và nó cũng là phần đầu tên của mọi nhân vật bạn tạo ra. Bạn có thể đổi tên đăng nhập bất cứ lúc nào. Tên cũ vẫn hoạt động bình thường, nên bất cứ thứ gì từng trỏ đến nhân vật của bạn vẫn tìm thấy chúng.",
+                    "missing": "$~Bạn chưa có tên đăng nhập, nên người khác sẽ thấy bạn là *—* và bạn chưa thể tạo nhân vật. Hãy chọn một tên, và tên đó sẽ cố định.",
+                    "changed": "$~Xong. Đó là tên của bạn bây giờ.",
+                    "claimed": "$~Xong. Đó là tên của bạn.",
+                    "field": {
+                        "description": "$~Tên đăng nhập bạn muốn dùng",
+                        "placeholder": "$~tên đăng nhập"
+                    },
+                    "save": {
+                        "label": "$~Lưu",
+                        "tip": "$~Dùng tên đăng nhập này từ bây giờ"
+                    }
+                },
+                "notifications": {
+                    "header": "$~Gửi email cho tôi về…",
+                    "noAddress": "$~Thêm địa chỉ email ở trên để chọn những email mà Wordplay sẽ gửi cho bạn.",
+                    "decisions": {
+                        "label": "$~việc kiểm duyệt những gì tôi đã tạo hoặc đã báo cáo",
+                        "labels": ["$~tắt", "$~bật"],
+                        "tips": [
+                            "$~Không gửi email cho tôi về việc kiểm duyệt những gì tôi đã tạo hoặc đã báo cáo",
+                            "$~Gửi email cho tôi về việc kiểm duyệt những gì tôi đã tạo hoặc đã báo cáo"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~việc kiểm duyệt đang chờ tôi xem xét",
+                        "labels": ["$~tắt", "$~bật"],
+                        "tips": [
+                            "$~Không gửi email cho tôi về việc kiểm duyệt đang chờ tôi xem xét",
+                            "$~Gửi email cho tôi về việc kiểm duyệt đang chờ tôi xem xét"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~cuộc trò chuyện mới và các sổ tay hướng dẫn làm cách nào để",
+                        "labels": ["$~tắt", "$~bật"],
+                        "tips": [
+                            "$~Không gửi email cho tôi về cuộc trò chuyện mới và các sổ tay hướng dẫn làm cách nào để",
+                            "$~Gửi email cho tôi về cuộc trò chuyện mới và các sổ tay hướng dẫn làm cách nào để"
+                        ]
+                    },
+                    "notYet": "$~Khi bạn có thể dùng một địa chỉ email, bạn sẽ chọn được những email mà Wordplay gửi cho bạn."
+                },
+                "subheader": {
+                    "work": "$~Công việc của bạn",
+                    "character": "$~Nhân vật của bạn",
+                    "username": "$~Tên người dùng của bạn",
+                    "password": "$~Mật khẩu của bạn",
+                    "email": "$~Email",
+                    "logout": "$~Đăng xuất",
+                    "delete": "$~Xóa tài khoản của bạn",
+                    "export": "$~Kho lưu trữ của bạn"
+                },
+                "profile": "$~Hồ sơ",
+                "export": {
+                    "prompt": "$~Tải xuống một bản sao của mọi thứ bạn đã tạo. Nó chứa các dự án, nhân vật, phòng trưng bày, làm cách nào để, bộ dụng cụ, cuộc trò chuyện, lớp học và cài đặt của bạn. Mỗi dự án được lưu thành một tệp mà bạn có thể mở lại trong Wordplay. Một số nội dung không chỉ thuộc về bạn: các cuộc trò chuyện chứa lời của mọi người, còn danh sách lớp học chứa tên của người khác. Bất kỳ ai bạn đưa tệp này cho đều có thể đọc được tất cả, vì vậy hãy giữ nó ở một nơi riêng tư.",
+                    "proxy": "$~Bạn đang xem tài khoản của người khác, nên bạn không thể tải xuống một bản sao của nó.",
+                    "button": {
+                        "tip": "$~tải xuống một bản sao của mọi thứ trong tài khoản của bạn",
+                        "label": "$~tải xuống kho lưu trữ của tôi…"
+                    },
+                    "progress": "$~Đã thu thập $kind: $#count[$count mục] cho đến nay",
+                    "started": "$~Đang tạo kho lưu trữ của bạn.",
+                    "finished": "$~Kho lưu trữ $name của bạn đã sẵn sàng, với $#count[$count mục] trong đó.",
+                    "finishedPartial": "$~Kho lưu trữ $name của bạn đã sẵn sàng, với $#count[$count mục] trong đó, nhưng $#missing[$missing loại] không đọc được.",
+                    "failed": "$~Không thể tạo kho lưu trữ của bạn. Hãy thử lại sau một lát.",
+                    "tooLarge": "$~Bạn đã tạo ra nhiều thứ hơn mức một kho lưu trữ có thể chứa. Hãy báo cho chúng tôi biết và chúng tôi sẽ giúp bạn lấy nó.",
+                    "offline": "$~Wordplay không kết nối được internet, nên không thể tạo kho lưu trữ của bạn.",
+                    "kind": {
+                        "account": "$~tài khoản của bạn",
+                        "projects": "$~dự án của bạn",
+                        "galleries": "$~phòng trưng bày của bạn",
+                        "characters": "$~nhân vật của bạn",
+                        "howtos": "$~làm cách nào để của bạn",
+                        "chats": "$~cuộc trò chuyện của bạn",
+                        "kits": "$~bộ dụng cụ của bạn",
+                        "classes": "$~lớp học của bạn",
+                        "feedback": "$~ý tưởng và báo cáo lỗi của bạn",
+                        "device": "$~cài đặt của thiết bị này",
+                        "archive": "$~kho lưu trữ",
+                        "saving": "$~tệp"
+                    },
+                    "readme": {
+                        "title": "$~Kho lưu trữ Wordplay của bạn",
+                        "intro": "$~Đây là bản sao của mọi thứ trong tài khoản Wordplay $name. Bản sao này được tạo vào ngày $date. Wordplay đã tạo nó cho bạn. Không ai khác có bản sao này.",
+                        "contents": "$~Mỗi thư mục chứa một loại thứ. Có các thư mục cho dự án, nhân vật, phòng trưng bày, làm cách nào để, bộ dụng cụ, cuộc trò chuyện và lớp học của bạn.",
+                        "relationships": "$~Bên trong mỗi thư mục, các mục được sắp xếp theo cách bạn liên quan đến chúng. Thư mục tên owner chứa những gì bạn đã tạo. creator chứa những gì bạn đã viết hoặc có thể thêm vào. curator chứa những gì bạn chăm sóc. teacher và learner chứa các lớp học. collaborator, commenter và viewer chứa công việc thuộc về người khác.",
+                        "device": "$~Thư mục device chứa những thứ chỉ có trên máy tính bạn dùng để tạo kho lưu trữ này. Nó có các cài đặt không được lưu trực tuyến, các bản dịch bạn đã bắt đầu, và công việc chưa lưu xong. Nếu tạo kho lưu trữ trên một máy tính khác, những thứ này sẽ không có trong đó.",
+                        "formats": "$~Để mở lại một dự án, hãy vào trang dự án của bạn trong Wordplay và chọn \"mở một tệp dự án\". Bạn cũng có thể kéo tệp .wp vào trang đó. Để thay thế một dự án bạn đã có, hãy kéo tệp vào dự án đó và Wordplay sẽ hỏi bạn trước.",
+                        "excluded": "$~Có vài thứ không có ở đây. Wordplay bỏ qua bản ghi từng bước các chỉnh sửa của bạn, vì dự án đã chứa kết quả của những chỉnh sửa đó. Nó cũng bỏ qua bản ghi ai đã xem một dự án. Nó cũng bỏ qua các báo cáo về việc vi phạm quy tắc, vì những báo cáo đó được viết cho những người xem xét chúng.",
+                        "privacy": "$~Một số thứ ở đây không chỉ thuộc về bạn. Một cuộc trò chuyện chứa những gì mọi người trong đó đã nói. Một lớp học chứa tên của mọi người trong đó. Bất kỳ ai bạn đưa tệp này cho đều có thể đọc được tất cả. Hãy giữ nó ở nơi riêng tư, và suy nghĩ về những ai khác có trong đó trước khi bạn chia sẻ nó.",
+                        "missing": "$~Wordplay không đọc được một số thứ khi tạo kho lưu trữ này. Chúng không có ở đây:",
+                        "manifest": "$~manifest.json chứa cùng các thông tin đó dưới dạng mà một chương trình có thể đọc được. Nó cho biết khi nào bản này được tạo, có bao nhiêu mục của mỗi loại, và những gì không thể đưa vào.",
+                        "contentsFiles": "$~Mỗi mục đều có một tệp .json. Đó chính xác là những gì Wordplay lưu trữ. Mỗi dự án cũng có một tệp .wp. Đó là dự án được viết ra để bạn có thể đọc và mở lại nó.",
+                        "contentsAccount": "$~account.json cho biết bạn là ai, khi bạn tham gia, và bạn được phép làm gì. Thư mục self chứa những gì Wordplay lưu về bạn: tên người dùng của bạn, bạn đã dịch được bao nhiêu, những cảnh báo bạn đã nhận, và các thông báo của bạn.",
+                        "relationshipsWords": "$~Cùng một từ có thể mang hai nghĩa. Một creator của một phòng trưng bày có thể thêm dự án vào đó. creator của một làm cách nào để là người đã viết nó. Mỗi thư mục cũng có một index.json. Nó liệt kê mọi cách bạn liên quan đến mỗi mục, vì có thể đúng nhiều hơn một cách cùng lúc."
+                    },
+                    "incomplete": "$~Tệp lưu trữ của bạn đã sẵn sàng, nhưng những mục sau không đọc được, nên chúng không có trong đó: $kinds"
+                }
+            },
+            "join": {
+                "header": "$~Tham gia",
+                "prompt": {
+                    "create": "$~Hãy tạo tài khoản để lưu dự án của bạn, cộng tác với người khác và chia sẻ công việc của bạn.",
+                    "username": "$~Tên người dùng phải có ít nhất 5 ký tự, không được là địa chỉ email và không được chứa tên của bạn hoặc thông tin nhận dạng khác.",
+                    "password": "$~Mật khẩu phải có ít nhất 6 ký tự. Hãy nhập mật khẩu hai lần và ghi lại ở một nơi an toàn, chẳng hạn như trình quản lý mật khẩu. *Không có cách nào để khôi phục tài khoản của bạn* nếu bạn bị mất, vì chúng tôi không thu thập thông tin liên hệ.",
+                    "region": "$~Chúng tôi hỏi nơi bạn sống để có thể tuân theo các quy định ở đó về tài khoản của người trẻ tuổi. Chúng tôi không lưu lại câu trả lời của bạn.",
+                    "birthday": "$~Chúng tôi hỏi ngày sinh của bạn cũng vì lý do đó. Chúng tôi cũng không lưu lại ngày sinh — chỉ lưu việc bạn đã đủ tuổi dùng địa chỉ email hay chưa, và khi nào bạn sẽ đủ tuổi.",
+                    "choose": "$~Có hai cách để đăng nhập. Hãy chọn cách phù hợp với bạn.",
+                    "withPassword": "$~*Tên đăng nhập và mật khẩu.* Chúng tôi sẽ không biết gì về bạn — nhưng *không có cách nào lấy lại tài khoản nếu bạn quên mật khẩu*, vì chúng tôi không có cách nào liên lạc với bạn.",
+                    "withEmail": "$~*Địa chỉ email.* Chúng tôi gửi cho bạn một đường liên kết mỗi lần bạn đăng nhập, vì vậy sẽ không có mật khẩu nào để quên. Chúng tôi chỉ lưu địa chỉ của bạn để gửi những đường liên kết đó.",
+                    "tooYoung": "$~Ở nơi bạn sống, bạn cần đủ $#age[$age tuổi] để dùng địa chỉ email ở đây. Trước khi đủ tuổi, bạn sẽ dùng tên đăng nhập và mật khẩu — và bạn có thể chuyển đổi sau.",
+                    "sent": "$~Nếu địa chỉ đó có thể dùng để đăng nhập, một đường liên kết đang được gửi tới. Hãy kiểm tra email của bạn."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Quốc gia hoặc vùng đất nơi bạn sống",
+                        "placeholder": "$~quốc gia"
+                    },
+                    "year": {
+                        "description": "$~Năm bạn sinh",
+                        "placeholder": "$~năm"
+                    },
+                    "month": {
+                        "description": "$~Tháng bạn sinh",
+                        "placeholder": "$~tháng"
+                    },
+                    "day": {
+                        "description": "$~Ngày bạn sinh",
+                        "placeholder": "$~ngày"
+                    },
+                    "email": {
+                        "description": "$~Địa chỉ email bạn muốn dùng để đăng nhập",
+                        "placeholder": "$~email"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~tiếp theo",
+                        "tip": "$~Chuyển sang bước tiếp theo"
+                    },
+                    "back": {
+                        "label": "$~quay lại",
+                        "tip": "$~Quay lại bước trước"
+                    },
+                    "usePassword": {
+                        "label": "$~Dùng mật khẩu",
+                        "tip": "$~Tạo tài khoản bằng tên đăng nhập và mật khẩu"
+                    },
+                    "useEmail": {
+                        "label": "$~Dùng địa chỉ email",
+                        "tip": "$~Tạo tài khoản mà bạn đăng nhập bằng một liên kết gửi qua email"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Đó không phải là ngày có thật. Hãy kiểm tra lại ngày và tháng.",
+                    "taken": "$~Vừa có người khác dùng tên đăng nhập đó rồi. Hãy thử một tên khác.",
+                    "throttled": "$~Có quá nhiều liên kết đăng nhập được gửi rồi. Hãy đợi một chút rồi thử lại.",
+                    "failed": "$~Chúng tôi không thể tạo tài khoản. Hãy thử lại sau một lát."
+                }
+            },
+            "rights": {
+                "header": "$~Quyền",
+                "content": [
+                    "$~Xin chào!",
+                    "Hãy cùng nói rõ một số điều về quyền của bạn và của chúng tôi (cũng dựa theo các quy định như <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> và <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Điều đầu tiên cần biết là chúng tôi không phải là một tổ chức kinh doanh. Chúng tôi là một dự án nghiên cứu cộng đồng, đặt tại một trường đại học phi lợi nhuận. Mục tiêu của chúng tôi là tạo ra một nền tảng mang lại niềm vui cho bạn và giúp chúng tôi tìm ra những khám phá về một thế giới máy tính công bằng và bình đẳng hơn. Chúng tôi không có ý định kiếm tiền từ nền tảng này. Bất kỳ khoản tiền nào chúng tôi nhận được (thường là qua các nguồn tài trợ công) đều dùng để duy trì nền tảng, chứ không dùng để làm giàu cho bất kỳ ai làm việc hay đóng góp cho nó.",
+                    "Vì chúng tôi không tìm kiếm lợi nhuận, điều này cũng có nghĩa là chúng tôi không thể hứa hẹn về độ tin cậy, khả năng hoạt động liên tục, hay tuổi thọ lâu dài của nền tảng này. Tuy vậy, <Amy@https://amyjko.phd> vẫn cam kết duy trì nền tảng này lâu dài, và với tư cách là một giáo sư biên chế, cô ấy có một công việc khá ổn định.",
+                    "Điều đó dẫn chúng ta đến *dữ liệu*. Đây là những gì chúng tôi thu thập và lưu trữ trên đám mây:",
+                    "• *Dự án* của bạn. Chúng tôi lưu lại mọi dự án bạn đóng góp và những thay đổi bạn thực hiện, trừ khi những dự án đó có vẻ chứa thông tin có thể nhận diện cá nhân như số điện thoại, địa chỉ email, tên người dùng, mã số thuế, hoặc địa chỉ nhà.",
+                    "• *Cài đặt* của bạn. Bao gồm các ngôn ngữ bạn chọn, tùy chọn hoạt ảnh, và tiến trình bài học của bạn. Mọi thứ khác chỉ được lưu trên thiết bị của bạn.",
+                    "• *Hoạt động* tổng hợp. Chúng tôi theo dõi số lần đăng nhập và các trang bạn ghé thăm, nhưng không theo cách có thể nhận diện bạn, theo dõi bạn trên toàn trang, hay theo dõi bạn trên các trang khác. Chúng tôi dùng Google Analytics ở chế độ 'từ chối đồng ý', chỉ thu thập thông tin tối thiểu, không thể nhận diện, về lượt xem trang, không lưu cookie, và không gửi thông tin địa chỉ IP cho Google. Chúng tôi dùng thông tin tổng hợp này để giúp gây quỹ bằng cách báo cáo mức độ sử dụng của nền tảng.",
+                    "• *Bản dịch trò chuyện* của bạn. Nếu bạn yêu cầu đọc một cuộc trò chuyện bằng ngôn ngữ khác, chúng tôi dịch tin nhắn của mọi người khác, nhưng không bao giờ dịch tin nhắn của chính bạn. Một số trình duyệt có thể tự dịch ngay trên thiết bị của bạn, và khi đó không có gì được gửi tới chúng tôi. Nếu không, tin nhắn sẽ được gửi tới một dịch vụ dịch bằng trí tuệ nhân tạo (hiện tại là Claude, do Anthropic tạo ra), và bản dịch sẽ được lưu lại cùng cuộc trò chuyện để không ai khác trong đó phải dịch lại cùng những từ đó. Chỉ những người trong cuộc trò chuyện đó mới đọc được.",
+                    "Chúng tôi không lưu bất cứ điều gì khác. <Mã nguồn@https://github.com/amyjko/wordplay/tree/main/src> của chúng tôi được công khai, để bất kỳ ai cũng có thể kiểm chứng điều này, và báo cáo bất kỳ hành vi theo dõi ngoài ý muốn nào.",
+                    "*Bạn* sở hữu dữ liệu của mình, không phải chúng tôi. Điều đó có nghĩa là:",
+                    "• Bạn kiểm soát ai có thể truy cập vào dự án của mình. Chúng ở chế độ riêng tư theo mặc định, nhưng bạn có thể chia sẻ với từng cá nhân, nhóm, hoặc công khai hoàn toàn.",
+                    "• Bạn có thể xóa hoàn toàn bất kỳ dự án nào hoặc tài khoản của chính mình bất cứ lúc nào.",
+                    "• Bạn có thể tải về bản sao của bất kỳ dự án nào, hoặc toàn bộ tài khoản của mình, bất cứ lúc nào.",
+                    "Đây là cách chúng tôi sẽ và sẽ không sử dụng dữ liệu của bạn:",
+                    "• Chúng tôi sẽ không chia sẻ dữ liệu của bạn với bất kỳ ai, trừ khi pháp luật yêu cầu rõ ràng. Luôn có khả năng dữ liệu của bạn bị lấy đi mà không được phép (gọi là 'rò rỉ dữ liệu'). Nếu chúng tôi phát hiện điều này đã xảy ra, chúng tôi sẽ thông báo cho bạn qua địa chỉ email bạn đã chia sẻ với chúng tôi.",
+                    "• Chúng tôi sẽ không liên hệ với bạn qua địa chỉ email của bạn, trừ khi 1) bạn thực hiện một thay đổi tài khoản cần chúng tôi xác nhận, 2) bạn đồng ý rõ ràng cho chúng tôi liên hệ, hoặc 3) trong trường hợp rò rỉ dữ liệu như đã nói ở trên.",
+                    "• Chúng tôi có thể phân tích các dự án, phòng trưng bày, và nội dung làm cách nào để trên nền tảng, để hiểu mọi người đang tạo ra gì và tạo ra như thế nào. Chúng tôi có thể chia sẻ những hiểu biết tổng hợp, ẩn danh này trong các công bố học thuật. Chúng tôi sẽ chỉ làm điều này dưới sự giám sát của một hội đồng đạo đức nghiên cứu, theo yêu cầu bắt buộc của pháp luật liên bang Hoa Kỳ.",
+                    "Cuối cùng, một lưu ý về lời nói. Các dự án ở chế độ riêng tư theo mặc định, và việc chia sẻ với những người cụ thể vẫn giữ nó ở chế độ riêng tư. Dưới đây là chính xác ai sẽ xem xét nội dung bạn chia sẻ, tùy vào việc ai có thể nhìn thấy nó.",
+                    "Nhưng việc đưa một dự án ra *công khai*, hoặc đưa nó vào một phòng trưng bày công khai, là một đặc quyền. Đây là một nền tảng được tạo ra vì tình yêu thương, sự công nhận, sự tôn trọng, và phẩm giá. Vì vậy, chúng tôi mong rằng không có nội dung *công khai* nào của bạn sẽ:"
+                ],
+                "consequences": [
+                    "$~Nếu chúng tôi phát hiện một dự án hoặc phòng trưng bày vi phạm những quy tắc này, chúng tôi sẽ cảnh báo người tạo trước khi họ xem nó, hoặc chặn không cho xem nó. Nếu bạn vi phạm những quy tắc này nhiều lần, bạn sẽ mất quyền đăng nội dung công khai."
+                ],
+                "license": [
+                    "$~Còn một điều nữa về việc tạo một dự án *công khai*. Các dự án công khai được chia sẻ theo <giấy phép Creative Commons Attribution-ShareAlike@https://creativecommons.org/licenses/by-sa/4.0/>. Điều đó nghĩa là bất kỳ ai cũng có thể /phối lại/ dự án công khai của bạn — tạo bản sao của riêng họ và thay đổi nó — và bạn cũng có thể phối lại dự án của bất kỳ ai khác.",
+                    "Giấy phép đó đi kèm ba điều. Người phối lại phải ghi công người đã tạo ra bản gốc. Họ phải chia sẻ bản phối lại của mình theo cùng giấy phép này, để nó vẫn mở cho người tiếp theo. Và họ không thể biến một dự án công khai thành riêng tư để giữ cho riêng mình.",
+                    "Chúng tôi giúp bạn phần ghi công: khi ai đó phối lại một dự án, chúng tôi ghi nhớ nó đến từ đâu và hiển thị một liên kết trở lại. Tạo một dự án công khai là cách bạn đồng ý với tất cả điều này, vì vậy nếu bạn không muốn ai phối lại một dự án, hãy giữ nó riêng tư."
+                ],
+                "research": [
+                    "$~Một lựa chọn cuối cùng, và nó hoàn toàn là của bạn. Đôi khi chúng tôi viết và nói về Wordplay — trong các bài nghiên cứu, trong các buổi nói chuyện, và trong những gì chúng tôi trình bày cho giáo viên và gia đình. Chúng tôi rất muốn cho mọi người thấy những gì các bạn thật sự tạo ra bằng nó, nhưng chúng tôi sẽ không giới thiệu dự án của bạn trừ khi bạn cho phép.",
+                    "Mỗi dự án đều có một thiết lập *Nghiên cứu* trong phần tùy chọn chia sẻ, và nó mặc định là tắt. Bật nó lên cho phép chúng tôi giới thiệu dự án đó như một ví dụ, mà không nêu tên bạn, tên tài khoản của bạn, hay bất cứ điều gì cho biết đó là tài khoản của bạn. Thiết lập này áp dụng riêng cho từng dự án, nên đồng ý cho một dự án không có nghĩa là bạn đồng ý cho các dự án khác.",
+                    "Bạn có thể tắt nó bất cứ lúc nào. Tắt nó nghĩa là chúng tôi sẽ ngừng dùng dự án của bạn trong bất cứ điều gì mới, nhưng không thể thu hồi những gì chúng tôi đã công bố hoặc trình bày trước đó."
+                ],
+                "warnings": [
+                    "$~Đây là chính xác những gì xảy ra nếu nội dung công khai của bạn vi phạm các quy tắc này. Một người kiểm duyệt sẽ xem xét nó, nó sẽ không còn công khai nữa, và bạn sẽ nhận được một cảnh báo trong thông báo của mình cho biết đó là nội dung nào. Bất kỳ ai đã đăng nhập đều có thể yêu cầu người kiểm duyệt xem xét nội dung công khai bằng cách dùng nút báo cáo trên nội dung đó.",
+                    "Sau ba lần cảnh báo, bạn vẫn có thể tạo dự án, vẫn có thể chia sẻ chúng với những người bạn chọn, và vẫn có thể dùng mọi thứ khác ở đây. Điều bạn mất là khả năng công khai bất cứ thứ gì.",
+                    "Nếu bạn nghĩ một cảnh báo là sai sót, hoặc đó là chuyện đã lâu rồi và bạn muốn chia sẻ công khai lại, hãy viết thư tới hi@wordplay.dev và cho chúng tôi biết tên tài khoản của bạn cùng lý do. Sẽ có người đọc thư của bạn."
+                ],
+                "responsibility": [
+                    "$~Ai xem xét những gì bạn chia sẻ tùy thuộc vào việc ai có thể nhìn thấy nó.",
+                    "• *Chỉ chia sẻ với không ai, hoặc chỉ với những người bạn nêu tên.* Không ai xem xét nó cả. Không phải chúng tôi, không phải ai khác.",
+                    "• *Trong một phòng trưng bày có người khác.* Người quản lý phòng trưng bày đó xem xét nó, cùng với những cuộc trò chuyện đi kèm. Điều này đúng dù phòng trưng bày đó có công khai hay không: những người trong đó có thể xem tác phẩm của bạn, nên ai đó ở đó phải chịu trách nhiệm về nó.",
+                    "• *Trong một phòng trưng bày công khai.* Người quản lý phòng trưng bày đó xem xét nó, và chúng tôi cũng vậy, vì ai cũng có thể tìm thấy nó.",
+                    "• *Công khai, nhưng không nằm trong phòng trưng bày nào.* Chúng tôi xem xét nó.",
+                    "Bất kỳ ai nhìn thấy được một thứ gì đó đều có thể yêu cầu xem xét nó, bằng cách dùng nút báo cáo trên đó. Chúng tôi không bao giờ nói cho người tạo ra nó biết ai đã yêu cầu.",
+                    "Báo cáo một tin nhắn trò chuyện sẽ ẩn nó đi trong khi có người xem xét. Điều này chỉ xảy ra một lần cho mỗi tin nhắn: nếu tin nhắn được giữ lại và có người báo cáo lần nữa, nó vẫn hiển thị trong khi được xem xét lần thứ hai. Bạn luôn có thể xem được lời của chính mình.",
+                    "Một quyết định sẽ cho biết quy tắc nào ở trên bị vi phạm, và có thể kèm theo ghi chú từ người đưa ra quyết định. Bạn sẽ nhận được cả hai trong phần thông báo của mình.",
+                    "Quyết định của một người quản lý phòng trưng bày chỉ áp dụng cho phòng trưng bày của họ. Đó không phải là một trong những cảnh báo bên dưới, và nó không bao giờ có thể khiến bạn mất khả năng chia sẻ công khai."
+                ]
+            },
+            "donate": {
+                "header": "$~Quyên tặng",
+                "prompt": "$~Hãy giúp chúng tôi gây quỹ phát triển @wordplay.",
+                "content": [
+                    "$~@wordplay là một dự án miễn phí, dựa trên cộng đồng, được hỗ trợ bởi <Đại học Washington@https://washington.edu>. Chúng tôi dựa vào sự đóng góp từ những người tin tưởng vào sứ mệnh của chúng tôi về việc tạo ra các ngôn ngữ lập trình giáo dục dễ tiếp cận và đa ngôn ngữ.",
+                    "Đây là chi phí hiện tại của chúng tôi:",
+                    "• Chúng tôi trả thù lao cho sinh viên đại học Washington, đặc biệt là những sinh viên khuyết tật hoặc những người có ngôn ngữ mẹ đẻ không phải là tiếng Anh, để phát triển và duy trì dự án. Khoản này chiếm khoảng 90% chi phí của chúng tôi.",
+                    "• Chúng tôi cấp học bổng cho các giáo viên mà chúng tôi hợp tác để phát triển chương trình giảng dạy đa ngôn ngữ, dễ tiếp cận.",
+                    "• Chúng tôi trả tiền cho Google để sử dụng băng thông và dung lượng lưu trữ của <Firebase@https://firebase.google.com/> và các dịch vụ của <Workspace@https://workspace.google.com/>.",
+                    "• Chúng tôi trả phí hàng năm cho tên miền <Squarespace@https://www.squarespace.com/>.",
+                    "Chi phí hiện tại của chúng tôi, giả sử có 5 sinh viên đại học với mức phí 20 USD/giờ, 10 giờ/tuần trong năm học (36 tuần) và 2 sinh viên đại học trong mùa hè (12 tuần), cộng thêm phí dịch vụ điện toán đám mây, vào khoảng 60.000 USD mỗi năm.",
+                    "Nếu 2.400 người quyên góp 25 đô la Mỹ mỗi năm, số tiền đó sẽ đủ trang trải chi phí hiện tại của chúng tôi, và phần dư sẽ được dùng để trả lương cho thêm học sinh và giáo viên.",
+                    "Bạn có thể là một trong số 2.400 người đó không? Nếu có, đây là liên kết quyên góp của Đại học Washington:"
+                ]
+            },
+            "design": {
+                "header": "$~Thiết kế",
+                "description": "$~Đây là tài liệu tham khảo về hệ thống thiết kế hình ảnh của @wordplay, bao gồm màu sắc, phông chữ, khoảng cách và các thành phần có thể tái sử dụng. Xem hướng dẫn đóng góp tại <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> và <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop>.",
+                "theme": "$~Chủ đề",
+                "colors": "$~Màu sắc",
+                "palette": "$~Bảng màu",
+                "semantic": "$~Màu sắc ngữ nghĩa",
+                "fonts": "$~Phông chữ",
+                "spacing": "$~Khoảng cách",
+                "typography": "$~Kiểu chữ",
+                "components": "$~Các thành phần",
+                "col": {
+                    "component": "$~Thành phần",
+                    "preview": "$~Xem trước",
+                    "variable": "$~Biến",
+                    "color": "$~Màu sắc",
+                    "hex": "$~Hex",
+                    "description": "$~Sự miêu tả",
+                    "cssvalue": "$~Giá trị CSS",
+                    "computed": "$~Đã tính toán",
+                    "primaryface": "$~Mặt chính",
+                    "contrast": "$~Độ tương phản"
+                },
+                "demo": {
+                    "button": "$~Ví dụ",
+                    "note": "$~Đây là một ghi chú.",
+                    "notice": "$~Đây là một thông báo.",
+                    "header": "$~Tiêu đề",
+                    "subheader": "$~Tiêu đề phụ",
+                    "toggleon": "$~TRÊN",
+                    "toggleoff": "$~Tắt",
+                    "textfieldplaceholder": "$~Nhập văn bản…",
+                    "textfielddescription": "$~Ví dụ về trường văn bản",
+                    "optionslabel": "$~Ví dụ",
+                    "optiona": "$~Phương án A",
+                    "optionb": "$~Phương án B",
+                    "optionc": "$~Phương án C",
+                    "logoresting": "$~Đang nghỉ",
+                    "logoloading": "$~Đang tải",
+                    "logoscripts": "$~Qua các hệ thống chữ viết",
+                    "logodownloadsvg": "$~Tải xuống SVG",
+                    "logodownloadpng": "$~Tải xuống PNG (512px)",
+                    "logodownloadcard": "$~Tải xuống hình ảnh chia sẻ"
+                },
+                "accessibility": "$~Khả năng tiếp cận màu sắc",
+                "accessibilityRules": [
+                    "$~Bất cứ thứ gì hiển thị dưới dạng *chữ* đều phải dùng một trong các biến thể chữ AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, hoặc một biến ngữ nghĩa trỏ đến một trong số đó), vì chúng đạt độ tương phản 4.5:1 mà <WCAG 2.2@https://www.w3.org/TR/WCAG22/> yêu cầu. Các màu thương hiệu sáng hơn chỉ dùng cho nền, viền và điểm nhấn, những thứ cần độ tương phản 3:1 hoặc không cần gì cả. Các tỷ lệ này được kiểm soát bằng các bài kiểm tra đơn vị và bằng cách quét tự động mọi trang, ở cả chế độ sáng và tối. Có một ngoại lệ cố ý: màu xám của viền ở chế độ sáng thấp hơn 3:1, vì viền ở đây chỉ để phân tách trang trí và mọi ranh giới quan trọng đều có thêm một dấu hiệu khác.",
+                    "Đừng bao giờ truyền đạt ý nghĩa chỉ bằng màu sắc: hãy ghép mỗi trạng thái mã hóa bằng màu với một dấu hiệu thứ hai — một hình dạng, một kiểu đường, một biểu tượng, hoặc một từ. Ví dụ, trình soạn thảo vẽ điểm nhấn của con trỏ và các xung đột lớn dạng *nét liền*, kết quả được chọn dạng *nét đứt*, và các xung đột nhỏ dạng *nét chấm*, để mức độ nghiêm trọng và lựa chọn vẫn khác biệt mà không cần màu sắc.",
+                    "Hãy xem sổ tay hướng dẫn <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> để biết đầy đủ hướng dẫn dành cho người đóng góp."
+                ],
+                "logo": "$~Biểu trưng",
+                "logoDescription": [
+                    "$~Biểu tượng của Wordplay là một bong bóng lời nói chứa một chữ cái: một sân khấu nhỏ mà bong bóng có thể nói bất cứ điều gì — một chữ cái trong hệ thống chữ viết của người đọc, một biểu tượng cảm xúc, hoặc một hình tròn, hình tam giác và hình vuông trong khi thứ gì đó đang tải. Trong ứng dụng, chữ cái theo hệ thống chữ viết của ngôn ngữ chính của bạn; trên các bề mặt không phụ thuộc chữ viết như biểu tượng trình duyệt và hình ảnh chia sẻ, bong bóng hiển thị ba hình dạng, sắp tạo ra một thứ gì đó.",
+                    "Bản vẽ tự nó không bao giờ thể hiện chuyển động. Chuyển động là hành vi — trang chủ luân chuyển những gì bong bóng nói theo bộ chọn ngôn ngữ, và trong khi tải các hình dạng lần lượt nhảy, giống như một đám đông làm sóng người — và luôn thay đổi theo cài đặt tốc độ hoạt hình, dừng hoàn toàn khi tắt hoạt hình.",
+                    "Dấu hiệu này luôn được vẽ bằng màu chữ hiện tại, vì vậy bất cứ nơi nào chữ đáp ứng yêu cầu tương phản, biểu tượng cũng vậy."
+                ],
+                "copyvalue": "$~sao chép toàn bộ giá trị CSS"
+            },
+            "thanks": {
+                "header": "$~Cảm ơn",
+                "intro": "$~Xin cảm ơn *$#count[$count người đóng góp]* của chúng tôi đã đóng góp cho thiết kế, phát triển, bản địa hóa và nội dung của @wordplay! Và xin cảm ơn nhiều giáo viên cùng bạn trẻ đã hướng dẫn thiết kế của chúng tôi trong các nhóm thảo luận, buổi thiết kế và lớp học, những người mà chúng tôi không liệt kê ở đây để giữ sự riêng tư cho họ.\n\nDự án này được hỗ trợ bởi Quỹ Khoa học Quốc gia theo các giải thưởng 2318257, 2031265, 2100296 và 2122950, Đại học Washington, cùng những <món quà//donate> hào phóng từ những người như bạn.",
+                "teachers": "$~Giáo viên",
+                "contributors": "$~Người đóng góp"
+            },
+            "localize": {
+                "header": "$~Bản địa hóa",
+                "description": [
+                    "$~Tại đây, bạn có thể xem tất cả các chuỗi văn bản có thể bản địa hóa trên nền tảng và đề xuất bản dịch hoặc chỉnh sửa cho văn bản chưa được viết và văn bản được dịch máy. Bạn có thể gửi bản chỉnh sửa của mình để được xem xét khi bạn đã sẵn sàng.",
+                    "Khi viết, hãy nhớ sử dụng ngôn từ đơn giản, dễ hiểu cho đối tượng độc giả trẻ tuổi, những người có thể chưa biết đến vốn từ vựng nâng cao. Đồng thời, hãy nhất quán, sử dụng cùng một thuật ngữ trong các văn bản khác nhau, nếu có thể."
+                ],
+                "workspaceLink": "$~xem tất cả văn bản + gửi đi",
+                "workspaceHeader": "$~Văn bản cần viết hoặc đánh giá",
+                "submitHeader": "$~Nộp",
+                "submitPrompt": "$~Khi bạn đã sẵn sàng đề xuất đợt chỉnh sửa này, bạn có thể gửi bên dưới.",
+                "bundleSummary": "$~Các chỉnh sửa trong đợt này",
+                "editEntry": "$~Quay lại để chỉnh sửa chuỗi này",
+                "revertEntry": "$~Loại bỏ chỉnh sửa này khỏi lô",
+                "prevBundleItem": "$~Xem lại bản chỉnh sửa trước đó",
+                "nextBundleItem": "$~Xem lại bản chỉnh sửa tiếp theo",
+                "descriptionField": {
+                    "description": "$~Mô tả ngắn gọn về loạt chỉnh sửa, giúp người đánh giá hiểu rõ các thay đổi.",
+                    "placeholder": "$~Bạn đã thay đổi điều gì và tại sao?"
+                },
+                "notSpamLabel": "$~Tôi cam đoan những chỉnh sửa này không phải là thư rác.",
+                "notSpamNote": "$~Wordplay là một dự án phi lợi nhuận do các tình nguyện viên điều hành.",
+                "requireLogin": "$~Bạn phải đăng nhập để đóng góp ý kiến về bản địa hóa.",
+                "submit": {
+                    "description": "$~Gửi lô chỉnh sửa này",
+                    "prompt": "$~Nộp"
+                },
+                "submitSuccess": "$~Cảm ơn bạn! Các chỉnh sửa của bạn đã được gửi và sẽ được xem xét sớm.",
+                "submitError": "$~Đã xảy ra lỗi trong quá trình gửi. Các chỉnh sửa của bạn vẫn được lưu trên thiết bị này — vui lòng thử lại.",
+                "empty": "$~Không có chuỗi nào khớp với bộ lọc này.",
+                "prevEntry": "$~Chỉnh sửa chuỗi trước đó",
+                "nextEntry": "$~Chỉnh sửa chuỗi tiếp theo",
+                "qualityMode": {
+                    "label": "$~trình diễn",
+                    "labels": [
+                        "$~tất cả",
+                        "$~được dịch bằng máy hoặc không được viết"
+                    ],
+                    "tips": [
+                        "$~hiển thị tất cả các chuỗi",
+                        "$~Chỉ hiển thị các chuỗi được dịch bằng máy hoặc chưa được viết."
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~phần",
+                    "labels": [
+                        "$~tất cả",
+                        "$~thuật ngữ",
+                        "$~mã thông báo",
+                        "$~nút",
+                        "$~cơ sở",
+                        "$~đầu vào",
+                        "$~đầu ra",
+                        "$~giao diện người dùng",
+                        "$~phòng trưng bày",
+                        "$~sự điều độ"
+                    ],
+                    "tips": [
+                        "$~hiển thị tất cả các phần",
+                        "$~thuật ngữ chung",
+                        "$~mô tả mã thông báo",
+                        "$~cấu trúc ngôn ngữ lập trình",
+                        "$~các kiểu dữ liệu tích hợp sẵn như số, văn bản, danh sách",
+                        "$~Mô tả nguồn luồng và nguồn đầu vào",
+                        "$~mô tả loại đầu ra",
+                        "$~giao diện người dùng ứng dụng",
+                        "$~nội dung thư viện mặc định",
+                        "$~tin nhắn kiểm duyệt nội dung"
+                    ]
+                },
+                "section": {
+                    "glossary": "$~Thuật ngữ",
+                    "token": "$~Mã thông báo",
+                    "node": "$~Cấu trúc ngôn ngữ",
+                    "basis": "$~Các loại tích hợp sẵn",
+                    "input": "$~Đầu vào",
+                    "output": "$~Đầu ra",
+                    "ui": "$~Giao diện người dùng",
+                    "gallery": "$~Phòng trưng bày",
+                    "moderation": "$~Sự điều độ"
+                },
+                "singletonWordsWarning": "$~Một số từ trong bản nháp của bạn chỉ xuất hiện một lần duy nhất trong toàn bộ văn bản. Bạn có chắc chắn rằng chúng được viết đúng chính tả và nhất quán với các đoạn văn khác không?",
+                "viewPR": "$~Xem yêu cầu kéo (pull request)",
+                "oneLocaleNote": "$~Mỗi lần đóng góp chỉ dành cho một ngôn ngữ. Những đóng góp này sẽ được gửi dưới dạng chỉnh sửa cho biến $locale . Nếu bạn muốn đóng góp cho một ngôn ngữ khác, hãy chuyển đổi ngôn ngữ trước; các chỉnh sửa bạn lưu dưới mỗi ngôn ngữ sẽ được giữ riêng biệt.",
+                "literalTermsWarning": "$~Bản nháp của bạn dùng các từ trong bảng thuật ngữ dưới dạng văn bản thường. Chạm vào một từ để biến nó thành một liên kết bảng thuật ngữ.",
+                "checkReadingLevel": "$~Kiểm tra mức độ dễ đọc của chuỗi này",
+                "readingLevelComplex": "$~Cái này có thể khó đọc. Hãy thử dùng câu ngắn hơn và từ đơn giản hơn.",
+                "readingLevelOk": "$~Cái này đọc rõ ràng cho mức độ đọc mong muốn.",
+                "tabs": {
+                    "label": "$~phần",
+                    "labels": [
+                        "$~Giới thiệu",
+                        "$~Văn bản",
+                        "$~Thuật ngữ",
+                        "$~Sổ tay từ ngữ",
+                        "$~Gửi đi"
+                    ],
+                    "tips": [
+                        "$~cách dịch hoạt động, và ghi chú cho những người viết ngôn ngữ này",
+                        "$~xem và chỉnh sửa văn bản của nền tảng",
+                        "$~đặt các cụm từ mà bạn có thể dùng lại trong văn bản của ngôn ngữ này",
+                        "$~thêm các dạng số nhiều và cách viết khác của từ này trong ngôn ngữ này",
+                        "$~xem lại các chỉnh sửa của bạn và gửi đi"
+                    ]
+                },
+                "toSubmit": "$~xem lại và gửi đi các chỉnh sửa của bạn",
+                "submitEmpty": "$~Bạn chưa có chỉnh sửa nào. Chọn thẻ Văn bản để viết, hoặc chỉnh sửa văn bản ngay tại chỗ bằng chế độ chỉnh sửa.",
+                "clear": {
+                    "description": "$~xóa tất cả các chỉnh sửa chưa gửi của bạn cho ngôn ngữ này",
+                    "prompt": "$~xóa tất cả?"
+                }
+            },
+            "breadcrumb": {
+                "label": "$~Vụn bánh mì",
+                "home": "$~Trang chủ"
+            },
+            "admin": {
+                "header": "$~Đặc quyền",
+                "prompt": "$~Mỗi người dưới đây có thể làm một việc mà hầu hết mọi người không làm được. Thay đổi ở đây có hiệu lực ngay lập tức, dù một trang đang mở sẵn có thể mất đến một giờ mới nhận ra điều đó. Siêu người dùng bao gồm cả kiểm duyệt và giảng dạy, nên ai có quyền này thì không cần hai quyền kia nữa.",
+                "claim": {
+                    "admin": "$~Siêu người dùng",
+                    "mod": "$~Người kiểm duyệt",
+                    "teacher": "$~Giáo viên",
+                    "banned": "$~Không thể chia sẻ công khai"
+                },
+                "creator": "$~Người tạo",
+                "email": "$~Email",
+                "privileges": "$~Đặc quyền",
+                "button": {
+                    "revoke": "$~Lấy lại tất cả đặc quyền",
+                    "lift": {
+                        "label": "$~Trả lại quyền chia sẻ",
+                        "tip": "$~Cho phép người tạo này chia sẻ công khai trở lại, và đặt lại số lần cảnh báo của họ về không"
+                    }
+                },
+                "confirm": "$~Số lần cảnh báo của họ trở về không, và họ có thể chia sẻ công khai trở lại. Bản ghi về những gì đã xảy ra vẫn được giữ lại, để một người kiểm duyệt xem xét sau này vẫn có thể thấy được.",
+                "ownAdmin": "$~Bạn không thể lấy lại đặc quyền của chính mình. Hãy nhờ một quản trị viên khác.",
+                "nobody": "$~Chưa có ai có đặc quyền nào cả.",
+                "error": {
+                    "notadmin": "$~Đây là không gian dành cho quản trị viên cấp cao. Không có gì ở đây để bạn thay đổi.",
+                    "login": "$~Bạn cần phải <đăng nhập@://login> để xem trang này.",
+                    "offline": "$~Chúng tôi không thể tải danh sách ai có đặc quyền. Bạn có đang kết nối mạng không?",
+                    "save": "$~Chúng tôi không thể lưu thay đổi đó. Bạn thử lại nhé?",
+                    "none": "$~Hãy chọn ít nhất một đặc quyền trước khi thêm ai đó."
+                },
+                "proxy": {
+                    "header": "$~Nhìn như một người khác",
+                    "prompt": "$~Mở Wordplay như một người tạo khác, để xem họ thấy gì khi có gì đó không hoạt động với họ. Đây chỉ để xem: mọi thứ bạn làm sẽ không được lưu, và họ sẽ không biết là bạn đã ở đó. Nó mở trong một thẻ mới, và đóng thẻ đó sẽ kết thúc việc này.\n\nMỗi lần ai đó làm điều này, việc đó sẽ được ghi lại.",
+                    "start": {
+                        "label": "$~Nhìn",
+                        "tip": "$~Mở một phiên chỉ để xem như người tạo này trong một thẻ mới"
+                    }
+                }
+            }
+        }
+    }
+}

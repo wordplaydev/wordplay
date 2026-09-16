@@ -1,0 +1,1916 @@
+{
+    "$schema": "../../../../static/schemas/sections/output.json",
+    "output": {
+        "Output": {
+            "names": "Output",
+            "doc": [
+                "I am not a @StructureDefinition you can actually make. But I am a very important one, as I inspire the most important @elements of our dance: @Phrase, @Group, and @Stage.",
+                "Go meet them to learn more about how to use them."
+            ]
+        },
+        "Group": {
+            "doc": [
+                "I arrange @Phrase, @Shape and @Group together on @Stage with an @Arrangement. Oh hello, how are you? I'm always fine when others are around, so it's great to be with you!",
+                "To work, I need you to give me an @Arrangement, and then a @List of @Output to arrange.",
+                "For example, here I am with a @Stack arrangement and a few @Phrase to stack vertically:",
+                "\\Group(Stack() [Phrase('first') Phrase('second')])\\",
+                "How exactly I arrange things depend on the @Arrangement you give me."
+            ],
+            "names": ["🔳", "Group"],
+            "layout": {
+                "doc": "The arrangement to use to put @Output in their places.",
+                "names": "layout"
+            },
+            "content": {
+                "doc": "The list of @Output to arrange.",
+                "names": "content"
+            },
+            "matter": {
+                "doc": "How heavy, bouncy, and slippery I am, and what makes me solid when a @Motion moves me.",
+                "names": "matter"
+            },
+            "size": {
+                "doc": "How tall the wonderful content inside me should be, unless they have a size of their own!",
+                "names": "size"
+            },
+            "face": {
+                "doc": "The name of the font face content inside me should have, unless they have their own face to use.",
+                "names": ["face", "font"]
+            },
+            "place": {
+                "doc": "The place on stage where I should be. The content inside me will be arranged relative to there.",
+                "names": "place"
+            },
+            "name": {
+                "doc": ["The same as @Phrase.name!"],
+                "names": "name"
+            },
+            "description": {
+                "doc": [
+                    "A description to use for audience members who can't see visual output."
+                ],
+                "names": "description"
+            },
+            "selectable": {
+                "doc": "The same as @Phrase.selectable!",
+                "names": "selectable"
+            },
+            "color": {
+                "doc": "The @Color that content inside me should be, unless they have their own color.",
+                "names": "color"
+            },
+            "background": {
+                "doc": "The @Color to project behind me.",
+                "names": "background"
+            },
+            "opacity": {
+                "doc": "How transparent everything inside me should be, between \\0\\ and \\1\\, unless overridden by a different @Pose.",
+                "names": "opacity"
+            },
+            "offset": {
+                "doc": "A @Place indicating how offset from my normal @Place it should be, unless overridden by a different @Pose. Helpful for wiggling in place.",
+                "names": "offset"
+            },
+            "rotation": {
+                "doc": "How tilted should I be around my center, my @Pose has a different one.",
+                "names": ["📐", "rotation"]
+            },
+            "scale": {
+                "doc": "How big I should be relative to my original size.",
+                "names": "scale"
+            },
+            "flipx": {
+                "doc": "Same as @Phrase.flipx!",
+                "names": "flipx"
+            },
+            "flipy": {
+                "doc": "Same as @Phrase.flipy",
+                "names": "flipy"
+            },
+            "entering": {
+                "doc": "Same as @Phrase.entering!",
+                "names": "entering"
+            },
+            "resting": {
+                "doc": "Same as @Phrase.resting!",
+                "names": "resting"
+            },
+            "moving": {
+                "doc": "Same as @Phrase.moving!",
+                "names": "moving"
+            },
+            "exiting": {
+                "doc": "Same as @Phrase.exiting!",
+                "names": "exiting"
+            },
+            "duration": {
+                "doc": "Same as @Phrase.duration!",
+                "names": ["⏳", "duration"]
+            },
+            "style": {
+                "doc": "Same as @Phrase.style!",
+                "names": "style"
+            },
+            "defaultDescription": "$name[$name|] $layout $pose $color[$color|]"
+        },
+        "Phrase": {
+            "doc": [
+                "I represent the loveliest of @Text on @Stage. Hello, hello! Remember me? How could anyone forget /me/.",
+                "Just make me like this, and I'll appear on @Stage:",
+                "\\Phrase('magnificent!')\\",
+                "I need @TextLiteral or @FormattedLiteral to show. With @FormattedLiteral, I can use things like \\`*bold* and /italic/`\\ or refer to custom @ConceptLink you create.",
+                "You can also optionally give me everything an @Output can do, including changing my size, font, rotation, and do all of my incredible dances with @Pose and @Sequence.",
+                "You can also select me on @Stage and edit me with the palette 🎨 next door — it's a great way to try out different fonts and pick the right /face/ for your @Text."
+            ],
+            "names": ["💬", "Phrase"],
+            "text": {
+                "doc": "The characters to show on @Stage, a @TextLiteral or @FormattedLiteral.",
+                "names": "text"
+            },
+            "size": {
+                "doc": "How tall I should be, in meters!",
+                "names": "size"
+            },
+            "face": {
+                "doc": "The name of the font face I should put on. The easiest way to choose one is to select me and open the palette 🎨 next door, where you can preview fonts and pick a /face/ without typing its name.",
+                "names": "face"
+            },
+            "place": {
+                "doc": "The place on stage where I should be.",
+                "names": "place"
+            },
+            "wrap": {
+                "doc": "The edge at which I should wrap symbols or \\ø\\ if I shouldn't wrap them.",
+                "names": ["↵", "wrap"]
+            },
+            "alignment": {
+                "doc": "If there's a @Phrase.wrap boundary set, whether I should align symbols to the start, center, or end of edge.",
+                "names": "alignment"
+            },
+            "direction": {
+                "doc": "Whether symbols are written horizontally or vertically, and if vertical and @Phrase.wrap is set, whether text wraps left or right.",
+                "names": "direction"
+            },
+            "matter": {
+                "doc": "How heavy, bouncy, and slippery I am, and what makes me solid when a @Motion moves me.",
+                "names": "matter"
+            },
+            "aura": {
+                "doc": "The optional @Aura to show behind me. Make me glow!",
+                "names": "aura"
+            },
+            "bubble": {
+                "doc": [
+                    "The speech bubble showing what I'm saying, pointing right at me. Four different things can go here.",
+                    "Plain text, which I show and nothing more:",
+                    "\\Phrase('a' bubble: 'hello!')\\",
+                    "Formatted text, if you want *bold* or /italic/ words in what I say.",
+                    "A @Say, which I show *and* speak out loud:",
+                    "\\Phrase('a' bubble: Say('hello!'))\\",
+                    "A @Bubble, when you want to choose which side I speak from, make it a thought instead, or give it a color."
+                ],
+                "names": "bubble"
+            },
+            "name": {
+                "doc": [
+                    "A name you give me! This is helpful for many things.",
+                    "First, if I have a name, I'll use it to describe myself in screen reader descriptions.",
+                    "Second, when animating, you might have multiple different @expressions that are supposed to represent the same content on stage; give them the same name and they will animate as one.",
+                    "Finally, I'm helpful with @Choice: the names you give me appear in that @stream.",
+                    "You can give me many different names, each in a different @language, if it's helpful. I'll always use the name in the first selected language."
+                ],
+                "names": "name"
+            },
+            "description": {
+                "doc": [
+                    "A custom description to use for audience members who can't see visual output."
+                ],
+                "names": "description"
+            },
+            "selectable": {
+                "doc": "If \\⊤\\, indicates that I can be selected via a pointer or keyboard.",
+                "names": "selectable"
+            },
+            "color": {
+                "doc": "The @Color I should be by default, unless overridden by a different @Pose.",
+                "names": "color"
+            },
+            "background": {
+                "doc": "The @Color to project behind me.",
+                "names": "background"
+            },
+            "opacity": {
+                "doc": "How transparent I should be by default, between \\0\\ and \\1\\, unless overridden by a different @Pose. Helpful for fading in and out.",
+                "names": "opacity"
+            },
+            "offset": {
+                "doc": "A @Place indicating how offset from my @Place it should be, unless overridden by a different @Pose. Helpful for wiggling in place.",
+                "names": "offset"
+            },
+            "rotation": {
+                "doc": "The amount in degrees I should should be rotated around its center, unless overridden by a different @Pose.",
+                "names": "rotation"
+            },
+            "scale": {
+                "doc": "How magnified I should be relative to its original size, unless overridden by a different @Pose.",
+                "names": "scale"
+            },
+            "flipx": {
+                "doc": "Whether I should be mirrored on the x-axis, unless overridden by a different @Pose.",
+                "names": "flipx"
+            },
+            "flipy": {
+                "doc": "Whether I should be mirrored on the y-axis, unless overridden by a different @Pose.",
+                "names": "flipy"
+            },
+            "entering": {
+                "doc": "The @Pose or @Sequence I should do upon entering the stage.",
+                "names": "entering"
+            },
+            "resting": {
+                "doc": "The @Pose or @Sequence I should do after I've entered stage, before I exit, and while my @Place isn't changing. If you don't give me one, I'll just use my defaults.",
+                "names": "resting"
+            },
+            "moving": {
+                "doc": "The @Pose or @Sequence I should do when moving places on stage, instead of my defaults.",
+                "names": "moving"
+            },
+            "exiting": {
+                "doc": "The @Pose or @Sequence to should do before exiting stage.",
+                "names": "exiting"
+            },
+            "changing": {
+                "doc": "The name of an effect to play when my text changes, over my @Phrase.duration, eased by my @Phrase.style. If \\ø\\, my text changes instantly. If 'edit', I erase the old text back to what the old and new text share, then type out the new text. If 'rewrite', I type the new text over the old, replacing one symbol at a time in a random order. If 'random', each of my symbols spins through random symbols from my text's @language (or its script, when the language is unknown), matching my text's case, like a slot machine, until it lands on the new text. With @FormattedLiteral text, the changing symbols take on the new text's formatting during the effect.",
+                "names": "changing"
+            },
+            "duration": {
+                "doc": "The duration to apply when moving to a different place on stage.",
+                "names": ["⏳", "duration"]
+            },
+            "style": {
+                "doc": "The animation style to use when moving to a different place on stage.",
+                "names": "style"
+            },
+            "defaultDescription": "$size[$size meter |]phrase $text $name[named $name|] $face[$face|] $animation $color[$color|] $bubble[saying $bubble|]"
+        },
+        "Arrangement": {
+            "doc": "I am an inspiration to the many other kinds of arrangement in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to decide where each @Output goes: I move each one to where I say, keeping its size and its shape. @Free is the one of us that decides nothing, so there each @Output sits at its own @Place. If you want to nudge something a little from where I put it, give it a @Phrase/offset rather than a @Place.",
+            "names": ["⠿", "Arrangement"]
+        },
+        "Row": {
+            "doc": "I am @Row, a horizontal @Arrangement of @Output, with optional padding in between. Have you met my twin, @Stack? I decide how far along each one goes, and my first input says how to line them up down me. Give one of them a @Place and it will sit at that y instead — but a @Shape has no @Place of its own, so I line it up with everything else.",
+            "names": ["➡", "Row"],
+            "description": "row of $#count[$count phrase or group|$count phrases and groups]",
+            "alignment": {
+                "doc": "Whether to line my content up at the start, center, or end of each @column — or, with \\'_'\\, on the baseline its words sit on, so letters of different heights read as one line.",
+                "names": "alignment"
+            },
+            "padding": {
+                "doc": "The amount of padding to place between output.",
+                "names": "padding"
+            }
+        },
+        "Stack": {
+            "doc": "I am @Stack, a vertical @Arrangement of @Output, with optional padding in between. Have you met my twin, @Row? I decide how far down each one goes, and my first input says how to line them up across me. Give one of them a @Place and it will sit at that x instead — but a @Shape has no @Place of its own, so I line it up with everything else.",
+            "names": ["⬇", "Stack"],
+            "description": "stack of $#count[$count phrase or group|$count phrases and groups]",
+            "alignment": {
+                "doc": "Whether to align text at the start, center, or end on each row.",
+                "names": "alignment"
+            },
+            "padding": {
+                "doc": "The amount of padding to place between output.",
+                "names": "padding"
+            }
+        },
+        "Grid": {
+            "doc": "I am grid of @Output. Give me a row and @column count and I'll make a tidy arrangement with optional padding and @cell sizes. I decide both directions, so a @Place won't move anything sideways or up and down — though its z still says how near it is.",
+            "names": ["▦", "Grid"],
+            "description": "$rows row $columns column grid",
+            "rows": {
+                "doc": "How many rows to make in the grid.",
+                "names": "rows"
+            },
+            "columns": {
+                "doc": "How many columns to make in the grid.",
+                "names": "columns"
+            },
+            "padding": {
+                "doc": "How much padding to place between @cells.",
+                "names": "padding"
+            },
+            "cellWidth": {
+                "doc": "How wide the @cells should be.",
+                "names": "cellwidth"
+            },
+            "cellHeight": {
+                "doc": "How tall the @cells should be.",
+                "names": "cellpadding"
+            }
+        },
+        "Free": {
+            "doc": [
+                "I'm an @Arrangement that lets each @Output sit wherever its @Place says. I'm like, whatever. Sit wherever you want! Just sit somewhere! Make sure all the @Output you give me have a @Place, otherwise they won't know where to go.",
+                "Oh, and remember that the @Place you give each @Output is relative to the @Group's @Place! So if you're wondering why things aren't appearing where you expect, try giving the @Group a place too."
+            ],
+            "names": ["❖", "Free"],
+            "description": "free-form $#count[$count output|$count outputs]"
+        },
+        "Shape": {
+            "doc": "I'm an inspiration to all shapes. I'm useful for telling @Stage what shape to be.",
+            "names": ["⬟", "Shape"],
+            "form": {
+                "doc": "I'm the kind of shape to show. Each shape requires different information to define its arrangement.",
+                "names": "form"
+            },
+            "name": {
+                "doc": "I'm the name you can use, for animations and @Collision. For example, if a represent the ground, you might want to call me 'ground'.",
+                "names": "name"
+            },
+            "description": {
+                "doc": [
+                    "A description to use for audience members who can't see visual output."
+                ],
+                "names": "description"
+            },
+            "selectable": {
+                "doc": "Whether I can be selected as part of @Choice.",
+                "names": "selectable"
+            },
+            "color": {
+                "doc": "My color. I fill with it, unless I have a background, in which case it colors my border.",
+                "names": "color"
+            },
+            "background": {
+                "doc": "The color of my background.",
+                "names": "background"
+            },
+            "opacity": {
+                "doc": "How transparent I should be.",
+                "names": "opacity"
+            },
+            "offset": {
+                "doc": "How far from my place I should appear, while remaining in place.",
+                "names": "offset"
+            },
+            "rotation": {
+                "doc": "How rotated I should be. This affects @Collision.",
+                "names": "rotation"
+            },
+            "scale": {
+                "doc": "How magnified I should be, without changing my actual size.",
+                "names": "scale"
+            },
+            "flipx": {
+                "doc": "Whether to mirror me on my x-axis.",
+                "names": "flipx"
+            },
+            "flipy": {
+                "doc": "Whether to mirror me on my y-axis.",
+                "names": "flipy"
+            },
+            "entering": {
+                "doc": "The @Pose or @Sequence I should do when entering @Stage.",
+                "names": "entering"
+            },
+            "resting": {
+                "doc": "The @Pose or @Sequence I should do after entering and while I'm not moving.",
+                "names": "resting"
+            },
+            "moving": {
+                "doc": "The @Pose or @Sequence I should do when moving places.",
+                "names": "moving"
+            },
+            "exiting": {
+                "doc": "The @Pose or @Sequence I should do when leaving @Stage.",
+                "names": "exiting"
+            },
+            "duration": {
+                "doc": "How long my animations should take if they are a single @Pose.",
+                "names": "duration"
+            },
+            "style": {
+                "doc": "The animation style I should use.",
+                "names": "style"
+            },
+            "filled": {
+                "doc": "Whether to paint my inside. I have no inside unless I close, so an open @Path is never filled.",
+                "names": "filled"
+            },
+            "stroked": {
+                "doc": "Whether to paint my outline. With no fill and no outline I am invisible, which is one way to make a barrier that stops things without being seen.",
+                "names": "stroked"
+            },
+            "glyphs": {
+                "doc": "Text to draw along my outline, repeated until it fills. I have no words unless you give me some.",
+                "names": "glyphs"
+            }
+        },
+        "Say": {
+            "doc": [
+                "I speak text aloud instead of showing it on @Stage. Hi!",
+                "Just give me something to say, and I'll say it whenever the text I'm given changes:",
+                "\\Say('blah blah blah')\\",
+                "I'll use the @Language of the @TextLiteral if it has one, otherwise I'll use the selected @language.",
+                "You can select a voice in settings."
+            ],
+            "names": ["🔊", "Say"],
+            "text": {
+                "doc": "The text I should speak aloud.",
+                "names": "text"
+            },
+            "defaultDescription": "Say $text"
+        },
+        "Music": {
+            "doc": [
+                "I turn notes into sound: one or more @Track played together, at a tempo, in a key, against a scale. I am music you can hear /and/ see — every viewer chooses how I appear.",
+                "The smallest song is three notes on one track:",
+                "\\Music(Track([1 3 5]))\\",
+                "Notes are numbers. 1 is the first note of the scale — the one a melody sounds finished on — 2 is the next note up, and 8 is that first note again, an octave higher. ø is a rest, which is silence. The numbers keep going past both ends: 9 is the second note an octave up, and 0 and -1 step below the first.",
+                "A /scale/ is the small set of notes a piece is built from, and which notes those are is most of its mood. @Music/scale is \\Music.major\\ unless you say otherwise, which sounds bright; \\Music.minor\\ sounds sadder from exactly the same numbers. A /key/ is how high or low the whole piece sits, set by @Music/key. And @Music/tempo is how fast it goes, in beats per minute — a beat is the steady pulse you would clap along to.",
+                "Because the notes are numbers rather than fixed pitches, all three can change without touching the melody. This is the same three notes, sadder, lower, and slower:",
+                "\\Music(Track([1 3 5]) scale: Music.minor key: -5semitones tempo: 60beats/min)\\",
+                "A track starts again when it reaches its end, so a short list is a riff that plays forever. This one is four beats long, with rests in the gaps:",
+                "\\Music(Track([1 ø 5 ø]) tempo: 90beats/min)\\",
+                "Hand me a list of tracks and they play at the same time, each with its own instrument, speed, and volume. Here a bass drum and a snare keep the beat while a hi-hat runs at double speed — a polyrhythm out of one number. Drums are a kit rather than pitched, so their numbers pick pieces of the kit instead of notes:",
+                "\\Music(\n\t[Track([1 ø 2 ø 1 ø 2 ø] instrument: Instrument.drums)\n\t Track([3 3 3 3 3 3 3 3] instrument: Instrument.drums beat: 0.5beats volume: 30%)]\n\ttempo: 96beats/min\n)\\",
+                "Numbers inside braces sound together as a chord, and a note @value written on a number gives that entry its own length. Here two whole-note chords hold underneath a moving tune:",
+                "\\Music([\n\tTrack([1 2 3 5 3 2 1 ø] instrument: Instrument.flute)\n\tTrack([{1𝅝 3 5} {5𝅝 7 9}] instrument: Instrument.piano volume: 50%)\n])\\",
+                "Anything that makes numbers can make music. This melody shuffles itself into a new order, and follows how loudly you are speaking:",
+                "\\Music(\n\tTrack([1 2 3 5 3 2 1].shuffled())\n\ttempo: (60 + (Volume() · 120)) · 1beats/min\n)\\",
+                "Nobody has to hear me. @Beat reports each beat as it sounds, so you can draw the music as well as play it, alongside whichever visualization the viewer chose. @Beat always has a @Downbeat, so you can read it without checking for anything:",
+                "\\beat: Beat()\ncount: beat.count\nStage([\n\tPhrase('◆' size: 1m + ((count % 4) = 0 ? 2m 0m) place: Place(-2m 2m))\n\tPhrase('◆' size: 1m + ((count % 4) = 2 ? 2m 0m) place: Place(2m 2m))\n\tMusic(Track([1 ø 5 ø] instrument: Instrument.drums))\n])\\",
+                "I have no look of my own to style, so I take none of the usual appearance inputs — no size, place, color, or animation. How I appear is the viewer's choice, made in their settings, and it is anchored to the stage rather than placed in your layout; I take up no room, so putting me in a @Row or a @Stack never moves anything beside me. To draw the music yourself, use @Beat: it hands you every beat as it sounds, to drive any output you like.",
+                "I keep playing across evaluations: edit my notes while I am playing and the change splices in at the next beat instead of restarting, which is what makes changing a melody mid-play feel musical. To play me again from the top, see @Music/replay; to hold me still and pick up in the same place, see @Music/pause."
+            ],
+            "names": ["🎼", "Music"],
+            "tracks": {
+                "doc": "One @Track, or a list of them played at the same time. Each track is one voice with one instrument, so a list of them is a band.",
+                "names": "tracks"
+            },
+            "tempo": {
+                "doc": "How fast I play, in beats per minute. A beat is the steady pulse you would clap along to, so 120beats/min is two beats every second, about the speed of a brisk walk. Halving the number makes everything take twice as long without changing a single note.",
+                "names": "tempo"
+            },
+            "key": {
+                "doc": [
+                    "How far to shift every note I play, up or down.",
+                    "The unit is semitones. A semitone is the smallest step in Western music: on a piano it is the distance from one key to the very next one, counting the black keys, and twelve of them make an octave. So \\key: 12semitones\\🪲 is the same piece an octave higher, \\key: -12semitones\\🪲 an octave lower, and \\key: 2semitones\\🪲 nudges it up a little.",
+                    "Two countings meet here, and they are easy to mix up. Notes count /scale steps/, where the octave is \\8\\: from \\1\\ up to \\8\\ is one octave. A key counts /semitones/, where the octave is \\12\\. Both describe the same distance — the eight steps from \\1\\ to \\8\\ of a seven-note scale span twelve semitones. A key is measured in semitones because a semitone is the same size in every scale, while a step is not: @Music/scale's pentatonic has five notes to an octave and major has seven, so shifting by steps would move each of them a different distance, while \\12semitones\\ is an octave in all of them.",
+                    "Because it is only a number, a key can come from anywhere. Here the whole piece lifts two semitones while /up/ is the choice — a @Choice needs something selectable on stage to read, so the two phrases are what make it work:",
+                    "\\Stage([\n\tPhrase('up' selectable: ⊤ name: 'up' place: Place(-2m 0m))\n\tPhrase('home' selectable: ⊤ name: 'home' place: Place(2m 0m))\n\tMusic(Track([1 3 5 8 5 3]) key: (Choice() = 'up' ? 2semitones 0semitones))\n])\\"
+                ],
+                "names": "key"
+            },
+            "scale": {
+                "doc": [
+                    "Which notes my numbers mean: a list of semitone offsets from the first note.",
+                    "A scale is the small set of notes a piece is built from, and picking one is most of picking a mood. The same melody sounds bright in \\Music.major\\, sad in \\Music.minor\\, and dreamlike in \\Music.wholeTone\\, without a single number changing.",
+                    "Some of my scales have no wrong notes: \\Music.pentatonic\\, \\Music.minorPentatonic\\, and \\Music.blues\\ sound good in any order, which makes them a good place to start. Others are tense on purpose — \\Music.altered\\, \\Music.diminished\\, and \\Music.locrian\\ will sound dissonant, and that is what they are for.",
+                    "You can also write your own list. This is a pentatonic scale spelled out: \\[0semitones 2semitones 4semitones 7semitones 9semitones]\\"
+                ],
+                "names": "scale"
+            },
+            "volume": {
+                "doc": "How loud I am overall, from \\0%\\ to \\100%\\. Each @Track has its own volume as well, measured against this one, so lowering mine lowers the whole band together.",
+                "names": "volume"
+            },
+            "replay": {
+                "doc": [
+                    "When this is \\⊤\\ on an evaluation, I start over from the top, even when none of my notes have changed.",
+                    "This is for sound that answers an event rather than playing continuously. If a right answer plays a ding, then two right answers in a row produce exactly the same music, so nothing would change and nothing would sound again. I am how you say /again, now/ — choose /right/ twice below and it dings twice:",
+                    "\\Stage([\n\tPhrase('right' selectable: ⊤ name: 'right' place: Place(-2m 0m))\n\tPhrase('wrong' selectable: ⊤ name: 'wrong' place: Place(2m 0m))\n\tMusic(Track([1 5 8] instrument: Instrument.bell loop: ⊥) replay: ∆ Choice() ? (Choice() = 'right') ⊥)\n])\\",
+                    "Hand me a /momentary/ @condition, one that is true only on the evaluation the event caused, like the \\∆ Choice()\\ above. A lasting condition such as \\score > 10\\🪲 stays true once it becomes true, so it would restart me on every evaluation from then on."
+                ],
+                "names": "replay"
+            },
+            "pause": {
+                "doc": [
+                    "While this is \\⊤\\ I hold still, and when it goes back to \\⊥\\ I carry on from the very beat I stopped on.",
+                    "This is what makes me different from @Music/replay: replay means /start over/, and I mean /wait here/. A note that was still sounding when I stopped plays out whatever was left of it when I start again, so stopping in the middle of a long chord does not lose it. Choose /hold/ and /go/ below:",
+                    "\\Stage([\n\tPhrase('hold' selectable: ⊤ name: 'hold' place: Place(-2m 0m))\n\tPhrase('go' selectable: ⊤ name: 'go' place: Place(2m 0m))\n\tMusic(Track([1 3 5 8 5 3] instrument: Instrument.piano) pause: Choice() = 'hold')\n])\\",
+                    "Unlike replay, I want a /lasting/ @condition, one that stays true for as long as you want the silence. My @Beat count waits with me and picks up where it was, rather than starting again at zero."
+                ],
+                "names": "pause"
+            },
+            "name": {
+                "doc": "My name, which is my identity. Keep it and edits to my notes splice in while I play; change it and I start over as a new piece. It is also what @Beat can filter on, so two pieces playing at once can be told apart.",
+                "names": "name"
+            },
+            "description": {
+                "doc": "A description of me, spoken by screen readers when I can't be heard.",
+                "names": "description"
+            },
+            "scales": {
+                "major": {
+                    "doc": "The major scale, my default: bright and familiar.",
+                    "names": "major"
+                },
+                "minor": {
+                    "doc": "The natural minor scale: darker than major.",
+                    "names": "minor"
+                },
+                "chromatic": {
+                    "doc": "All twelve semitones, so degrees and semitones coincide.",
+                    "names": "chromatic"
+                },
+                "pentatonic": {
+                    "doc": "The major pentatonic scale: five notes, and no wrong ones — every degree sounds good with every other.",
+                    "names": "pentatonic"
+                },
+                "minorPentatonic": {
+                    "doc": "The minor pentatonic scale: five notes, and no wrong ones.",
+                    "names": "minorPentatonic"
+                },
+                "blues": {
+                    "doc": "The blues scale: the minor pentatonic plus a flat five. No wrong notes here either.",
+                    "names": "blues"
+                },
+                "dorian": {
+                    "doc": "The dorian mode: minor with a raised sixth, a jazzy in-between mood.",
+                    "names": "dorian"
+                },
+                "phrygian": {
+                    "doc": "The phrygian mode: minor with a lowered second, dark and Spanish-tinged.",
+                    "names": "phrygian"
+                },
+                "lydian": {
+                    "doc": "The lydian mode: major with a raised fourth, floating and bright.",
+                    "names": "lydian"
+                },
+                "mixolydian": {
+                    "doc": "The mixolydian mode: major with a lowered seventh, bluesy and unresolved.",
+                    "names": "mixolydian"
+                },
+                "locrian": {
+                    "doc": "The locrian mode: tense on purpose, with a lowered second and fifth. If you picked this expecting easy jazz, expect dissonance instead.",
+                    "names": "locrian"
+                },
+                "melodicMinor": {
+                    "doc": "The melodic minor scale: minor with a raised sixth and seventh, the root of much jazz harmony.",
+                    "names": "melodicMinor"
+                },
+                "harmonicMinor": {
+                    "doc": "The harmonic minor scale: minor with a raised seventh, dramatic and Old-World.",
+                    "names": "harmonicMinor"
+                },
+                "lydianDominant": {
+                    "doc": "The lydian dominant scale: lydian with a lowered seventh, the fourth mode of melodic minor.",
+                    "names": "lydianDominant"
+                },
+                "altered": {
+                    "doc": "The altered scale: deliberately dissonant, for tension over dominant chords. There are wrong-sounding notes here, and that is the point.",
+                    "names": "altered"
+                },
+                "bebopDominant": {
+                    "doc": "The bebop dominant scale: mixolydian plus a natural seventh, eight notes so runs land on the beat.",
+                    "names": "bebopDominant"
+                },
+                "bebopMajor": {
+                    "doc": "The bebop major scale: major plus a raised fifth, eight notes so runs land on the beat.",
+                    "names": "bebopMajor"
+                },
+                "wholeTone": {
+                    "doc": "The whole tone scale: six evenly spaced notes, dreamlike, with no home to resolve to.",
+                    "names": "wholeTone"
+                },
+                "diminished": {
+                    "doc": "The diminished scale: alternating whole and half steps, tense and symmetrical.",
+                    "names": "diminished"
+                }
+            },
+            "defaultDescription": "music with $#tracks[one track|$tracks tracks] at $tempo beats per minute"
+        },
+        "Track": {
+            "doc": [
+                "I am one voice in a @Music: a series of notes played by one @Instrument.",
+                "My notes are numbers, the same numbers @Music explains — 1 is the first note of the scale, 8 is that note an octave up, ø is a rest, and numbers in braces like \\{1 3 5}\\ sound together as a chord:",
+                "\\Music(Track([1 ø {1 3 5} 8]))\\",
+                "Notes need not be whole. \\1.5\\ is between the first note and the second, and both of them play — the nearer one louder — so sliding a number across the notes sounds like mashing piano keys:",
+                "\\Music(Track([1 1.2 1.4 1.6 1.8 2] beat: 0.5beats))\\",
+                "Set my @Track/mash to \\⊥\\ and a number like that bends one note off pitch instead of playing two.",
+                "Every entry lasts my @Track/beat, which is one beat unless you change it. Changing it re-grids everything I play at once.",
+                "When one entry should be longer or shorter than the rest, write the length on the number itself as a note @value. \\8𝅗𝅥\\ is a half note — twice as long as a beat — and needs nothing around it:",
+                "\\Music(Track([1 ø {1 3 5} 8𝅗𝅥]))\\",
+                "There are five values: \\𝅝\\ lasts four beats, \\𝅗𝅥\\ two, \\𝅘𝅥\\ one, \\𝅘𝅥𝅮\\ half a beat, and \\𝅘𝅥𝅯\\ a quarter of one. A dot after any of them makes it half again as long, so \\𝅘𝅥𝅭\\ is a beat and a half. A quarter note is one beat whatever my beat is, which is why \\beat: 1𝅘𝅥𝅮\\🪲 says the same thing as \\0.5beats\\ and reads more plainly. On a chord, put the value on the first number: \\{1𝅗𝅥 3 5}\\.",
+                "These are hard to find, so the row of symbols under the @editor offers them whenever your cursor is just after a number of mine.",
+                "A rest can't carry a value, because \\ø\\ is not a number. Two rests in a row are twice as long, and for anything finer there is @Note.",
+                "When a single note needs its own volume, or a length no value can spell, wrap that one in a @Note. Reach for it only where you need it: a bare number is easier to read, so most tracks have none at all, and that rarity is what makes a @Note stand out as an event.",
+                "\\cell: [1 3 5 3]\nMusic(\n\tTrack(\n\t\tcell\n\t\t\t.append(cell.translate(ƒ(n•#) n + 2))\n\t\t\t.append(cell.reverse())\n\t\t\t.append(cell.translate(ƒ(n•#) 8 - n))\n\t\tinstrument: Instrument.piano\n\t)\n)\\",
+                "Padding with rests is all a round needs: both parts hold the same number of beats, so they stay in step instead of drifting apart. Spreading two lists into one with : is how they get built, because \\append\\ needs both lists to hold the same kind of thing.",
+                "\\tune: [1 2 3 1 1 2 3 1 3 4 5 ø]\nrest: [ø ø ø ø]\nMusic([\n\tTrack([:tune :rest] instrument: Instrument.flute)\n\tTrack([:rest :tune] instrument: Instrument.violin)\n])\\"
+            ],
+            "names": ["🎶", "Track"],
+            "notes": {
+                "doc": "The notes to play, in order: a number for a note, \\ø\\ for a rest, a set like \\{1 3 5}\\ for a chord, or a @Note when one entry needs its own volume. A note @value written on a number — \\3𝅗𝅥\\ — says how long that one entry lasts.",
+                "names": "notes"
+            },
+            "instrument": {
+                "doc": "The @Instrument that plays me. Some instruments are pitched, so my numbers pick notes; others are kits, where my numbers pick sounds instead. Each instrument says which it is.",
+                "names": "instrument"
+            },
+            "beat": {
+                "doc": "How long one bare entry lasts, in beats. It is one beat unless you change it, and changing it re-grids everything I play: at \\0.5beats\\ every entry is an eighth note, so I move twice as fast through the same list. A note @value says the same thing more plainly, so \\beat: 1𝅘𝅥𝅮\\🪲 is that same eighth-note grid.",
+                "names": "beat"
+            },
+            "scale": {
+                "doc": "A scale just for me, overriding @Music/scale, for when one voice should draw on different notes than the rest.",
+                "names": "scale"
+            },
+            "key": {
+                "doc": "A shift just for me, in semitones, overriding @Music/key — for when one voice should sit higher or lower than the rest. Dropping a track an octave is how a bass line gets written from the very same numbers as the tune.",
+                "names": "key"
+            },
+            "volume": {
+                "doc": "How loud I am, from \\0%\\ to \\100%\\, measured against the music's volume, so a quiet accompaniment can sit under a melody.",
+                "names": "volume"
+            },
+            "pan": {
+                "doc": "Where I sit between the speakers: \\-1\\ is fully left, \\0\\ is centre, and \\1\\ is fully right. Spreading tracks apart makes each of them easier to pick out.",
+                "names": "pan"
+            },
+            "loop": {
+                "doc": "Whether I start again when I reach my end. I do unless this is \\⊥\\, which is what a one-off sound like a ding wants.",
+                "names": "loop"
+            },
+            "mash": {
+                "doc": "What a note between two notes does. \\1.5\\ sits halfway between \\1\\ and \\2\\: unless this is \\⊥\\, both of them sound, the closer one louder, the way two piano keys pressed together do. With \\⊥\\ you get one note instead, bent off pitch by however far between them it sits.",
+                "names": "mash"
+            },
+            "words": {
+                "doc": "The syllables for @Instrument/voice to sing. One syllable per note, separated by spaces, so \\'so mi fa'\\ sings three notes and the spaces are what say where one syllable ends and the next begins.\n\nRests take no syllable, so a lyric lands on the notes that actually sound. If there are fewer syllables than notes, they start over from the beginning rather than falling silent. If there are none at all, the voice holds an /uh/ sound.\n\nEnd a syllable with a hyphen to hold it across the next note too, one more note for each hyphen — which is how you sing one syllable over several notes. In \\Track([1 2 3 4] words: 'la- mi so')\\, \\la\\ covers the first two notes, then \\mi\\ and \\so\\ take one each.\n\nThe spelling is the <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, where each letter is one sound. Press 🤖 under the @editor to see every sound and hear it. Letters I don't recognize are skipped. Every instrument other than the voice ignores me, so a lyric survives changing @Track/instrument and back.",
+                "names": "words"
+            }
+        },
+        "Note": {
+            "doc": [
+                "I am one entry in a @Track that carries its own volume, or a length no note @value can spell.",
+                "Most notes should stay plain numbers, and most lengths are shorter written on the number itself: \\1𝅗𝅥\\ is a half note. I am worth reaching for when one note needs its own volume, or a length that falls between the values — and because \\Note(1 2beats ÷ 3)\\ says so much more than \\1\\, using me everywhere would bury the notes that matter.",
+                "A triplet is honest arithmetic: \\Note(1 2beats ÷ 3)\\ says three of these fill two beats. My length can be a note value too, so \\Note(1 1𝅗𝅥)\\ and \\Note(1 2beats)\\ are the same two beats.",
+                "\\Music(Track([1 1 Note(5 2beats volume: 60%) ø]))\\"
+            ],
+            "names": ["♪", "Note"],
+            "degree": {
+                "doc": "What to play: a number for a note, \\ø\\ for a rest, or a set of numbers for a chord, exactly as a bare entry in a @Track would be. A note @value on the number — \\3𝅗𝅥\\ — says how long I last, and wins over @Note/beat if you write both.",
+                "names": "degree"
+            },
+            "beat": {
+                "doc": "How many beats I last. This is the whole reason to use me: every bare entry in a @Track lasts the same time, and I am how one note gets a different one. A note @value works here too, so \\1𝅗𝅥\\ and \\2beats\\ are the same length.",
+                "names": "beat"
+            },
+            "volume": {
+                "doc": "How loud I am, overriding the @Track's volume, for accenting a single note.",
+                "names": "volume"
+            }
+        },
+        "Instrument": {
+            "doc": [
+                "I name one of the instruments a @Track can play. I am a fixed palette: pick me by name, like \\Instrument.piano\\ or \\Instrument.🎹\\.",
+                "Most of us are /pitched/, meaning a track's numbers choose notes and bigger numbers sound higher. The rest are /kits/: a number picks a sound from a numbered list instead of a note, so a track reads as rhythm rather than melody, and numbers past the end of the list wrap back around to its start.",
+                "Most of us are also real recordings, sampled from instruments people actually played. The synthesizers are not imitating anything — they are built out of oscillators, and that is the sound they are meant to have. Each of us says below which we are."
+            ],
+            "names": ["🔈", "Instrument"],
+            "id": {
+                "doc": "Which palette entry I am.",
+                "names": "id"
+            },
+            "instruments": {
+                "piano": {
+                    "doc": [
+                        "A piano. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.piano) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🎹", "piano"]
+                },
+                "acousticGuitar": {
+                    "doc": [
+                        "A classical guitar, with nylon strings plucked by fingers rather than a pick. Recorded from a real one, and pitched, so numbers choose notes. This is the one plain \\guitar\\ means, so older projects that asked for a guitar play this.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.acousticGuitar) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🎸", "acousticGuitar", "guitar"]
+                },
+                "electricGuitar": {
+                    "doc": [
+                        "An electro-acoustic guitar — a hollow body with a pickup in it, steel-strung, so it rings brighter and longer than the nylon \\Instrument.acousticGuitar\\. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.electricGuitar) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["⚡", "electricGuitar"]
+                },
+                "violin": {
+                    "doc": [
+                        "A violin. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.violin) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🎻", "violin"]
+                },
+                "drums": {
+                    "doc": [
+                        "A drum kit. Recorded, and a kit rather than pitched: numbers pick a piece of the kit rather than a note — \\1\\ bass drum, \\2\\ snare, \\3\\ hi-hat, \\4\\ cymbal, \\5\\ tom tom, \\6\\ cowbell — and \\7\\ wraps back around to the bass drum.",
+                        "\\Music(Track([1 2 3 4 5 6] beat: 2beats loop: ⊥ instrument: Instrument.drums) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🥁", "drums"]
+                },
+                "flute": {
+                    "doc": [
+                        "A flute. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.flute) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🪈", "flute"]
+                },
+                "trumpet": {
+                    "doc": [
+                        "A trumpet. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.trumpet) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🎺", "trumpet"]
+                },
+                "saxophone": {
+                    "doc": [
+                        "A saxophone, a tenor. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.saxophone) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🎷", "saxophone", "sax"]
+                },
+                "harmonica": {
+                    "doc": [
+                        "A harmonica, the chromatic kind with a button on the side. Recorded from a real one, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.harmonica) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🌬️", "harmonica"]
+                },
+                "bell": {
+                    "doc": [
+                        "A bell — orchestral chimes, the kind struck with a mallet. Recorded, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.bell) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🔔", "bell"]
+                },
+                "didgeridoo": {
+                    "doc": [
+                        "A didgeridoo, from Aboriginal Australia. Recorded from a real one, and pitched, so numbers choose notes, though it is a drone instrument and stays low.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.didgeridoo) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🪵", "didgeridoo"]
+                },
+                "cat": {
+                    "doc": [
+                        "A cat — a whole kit of one, actually. Recorded from a real cat, and a kit rather than pitched: numbers pick what the cat is saying rather than a note — \\1\\ irritated, \\2\\ begging, \\3\\ hungry, \\4\\ protesting, \\5\\ pleading, \\6\\ wishful, \\7\\ bothered, \\8\\ scared, \\9\\ sensitive, \\10\\ comforted, \\11\\ lonely, \\12\\ purring — and \\13\\ wraps back around to irritated. For a cat that plays notes instead, see \\Instrument.pitchedCat\\.",
+                        "\\Music(Track([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: Instrument.cat) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🐱", "cat", "meow"]
+                },
+                "pitchedCat": {
+                    "doc": [
+                        "The same cat, tuned. Of the twelve recordings the kit \\Instrument.cat\\ plays, this is the one that holds a steady pitch, and it is pitched rather than a kit, so numbers choose notes and you can write a tune with it. Played far from the note it was recorded at, a meow starts to sound stretched rather than sung, so it is happiest within an octave or so of the middle.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.pitchedCat) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["😺", "pitchedCat"]
+                },
+                "dog": {
+                    "doc": [
+                        "A dog — a whole kit of them, actually. Recorded from real dogs, and a kit rather than pitched: numbers pick which bark you hear rather than a note, running from deepest to sharpest — \\1\\ gruff, \\2\\ warning, \\3\\ guarding, \\4\\ alert, \\5\\ insisting, \\6\\ demanding, \\7\\ announcing, \\8\\ eager, \\9\\ excited, \\10\\ impatient, \\11\\ yapping, \\12\\ shrill — and \\13\\ wraps back around to gruff. For a dog that plays notes instead, see \\Instrument.pitchedDog\\.",
+                        "\\Music(Track([1 2 3 4 5 6 7 8 9 10 11 12] beat: 2beats loop: ⊥ instrument: Instrument.dog) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🐶", "dog", "bark"]
+                },
+                "pitchedDog": {
+                    "doc": [
+                        "The same dogs, tuned. Of all the barks the kit is cut from, this is the one that holds a steady pitch, and it is pitched rather than a kit, so numbers choose notes and you can write a tune with it. Played far from the note it was recorded at, a bark starts to sound stretched rather than barked, so it is happiest within an octave or so of the middle.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.pitchedDog) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🐕", "pitchedDog"]
+                },
+                "synth": {
+                    "doc": [
+                        "A synthesizer lead: bright and buzzy, and unashamed about being made of oscillators. Synthesized rather than recorded, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.synth) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🎛️", "synth"]
+                },
+                "synthBass": {
+                    "doc": [
+                        "A synthesizer bass: fat and low. Synthesized rather than recorded, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.synthBass) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["🎚️", "synthBass"]
+                },
+                "synthPad": {
+                    "doc": [
+                        "A synthesizer pad: soft, slow to arrive, and good for holding a chord under everything else. Synthesized rather than recorded, and pitched, so numbers choose notes.",
+                        "\\Music(Track([1] beat: 4beats loop: ⊥ instrument: Instrument.synthPad) tempo: 60beats/min)\\"
+                    ],
+                    "names": ["☁️", "synthPad"]
+                },
+                "voice": {
+                    "doc": [
+                        "A singing voice, built out of filters rather than recorded from a person. Pitched, so numbers choose notes.",
+                        "I am a synthesizer, like @Instrument/synth — not an imitation of a singer. My mouth stays the same size however high or low I sing, which no real throat can do. That is why I sound like a machine doing an impression of a person, and why I sound like neither a man nor a woman.",
+                        "Give my @Track a @Track/words and I sing them, one syllable per note. Without any, I hold an /uh/ sound, so I always sing something.",
+                        "\\Music(Track([1 2 3 5] words: 'la la la la' instrument: Instrument.voice) tempo: 120beats/min)\\",
+                        "The syllables are spelled in the <International Phonetic Alphabet@https://en.wikipedia.org/wiki/International_Phonetic_Alphabet>, an alphabet where each letter is one /sound/ rather than one spelling — so \\'ʃi'\\ is the noise at the start of /she/, whatever @language you write in. Press 🤖 under the @editor to see every sound I can make and hear each one."
+                    ],
+                    "names": ["🤖", "voice"]
+                }
+            }
+        },
+        "Form": {
+            "doc": "I am an abstract form, like a @Rectangle or @Circle.",
+            "names": ["Form"]
+        },
+        "Rectangle": {
+            "doc": "I am a rectangle, useful for making @Stage have a boundary the size of your choosing.",
+            "names": ["▭", "Rectangle"],
+            "left": {
+                "doc": "The left edge of the stage on the x-axis",
+                "names": "left"
+            },
+            "top": {
+                "doc": "The top edge of the stage on the y-axes",
+                "names": "top"
+            },
+            "right": {
+                "doc": "The right edge of the stage on the x-axis",
+                "names": "right"
+            },
+            "bottom": {
+                "doc": "The bottom edge of the stage on the y-axis",
+                "names": "bottom"
+            },
+            "z": {
+                "doc": "The depth position of the rectangle.",
+                "names": "z"
+            }
+        },
+        "Circle": {
+            "doc": "I am a circle, useful for making shapes on @Stage.",
+            "names": ["●", "Circle"],
+            "radius": {
+                "doc": "The radius of the circle",
+                "names": "radius"
+            },
+            "x": {
+                "doc": "The horizontal center of the circle.",
+                "names": "x"
+            },
+            "y": {
+                "doc": "The vertical center of the circle.",
+                "names": "y"
+            },
+            "z": {
+                "doc": "The depth position of the circle.",
+                "names": "z"
+            }
+        },
+        "Path": {
+            "doc": "I am a path drawn through a list of places, useful for lines, curves, and hills on @Stage.",
+            "names": ["╱", "Path"],
+            "points": {
+                "doc": "The places I pass through, in order. I lie flat, so I use my own z rather than the depth of any place.",
+                "names": "points"
+            },
+            "closed": {
+                "doc": "Whether to join my last place back to my first.",
+                "names": "closed"
+            },
+            "smooth": {
+                "doc": "Whether to curve through my places instead of turning at them. My places do not move either way.",
+                "names": "smooth"
+            },
+            "thickness": {
+                "doc": "How wide to draw me.",
+                "names": "thickness"
+            },
+            "z": {
+                "doc": "The depth I lie at.",
+                "names": "z"
+            }
+        },
+        "Polygon": {
+            "doc": "I am a 'regular' polygon with equal length sides and angles, useful for making shapes on @Stage.",
+            "names": ["⬢", "Polygon"],
+            "radius": {
+                "doc": "The radius of the polygon",
+                "names": "radius"
+            },
+            "sides": {
+                "doc": "The number of sides of the polygon",
+                "names": "sides"
+            },
+            "x": {
+                "doc": "The horizontal center of the polygon.",
+                "names": "x"
+            },
+            "y": {
+                "doc": "The vertical center of the polygon.",
+                "names": "y"
+            },
+            "z": {
+                "doc": "The depth position of the polygon.",
+                "names": "z"
+            }
+        },
+        "Pose": {
+            "doc": [
+                "I capture a @Pose for @Output to hold, and I'm the building block of their movements. You know when someone strikes the most amazing way of standing, pauses, and everyone looks? That's me.",
+                "So much goes into a pose. Check out my many inputs to see what kinds of poses you might make!"
+            ],
+            "names": ["🤪", "Pose"],
+            "style": {
+                "doc": "The style of animation to use when moving to this pose.",
+                "names": "style"
+            },
+            "color": {
+                "doc": "The @Color a @Output should be in this pose, instead of it's default.",
+                "names": "color"
+            },
+            "opacity": {
+                "doc": "How transparent a @Output should be, between \\0\\ and \\1\\, instead of it's default. Helpful for fading in and out.",
+                "names": "opacity"
+            },
+            "offset": {
+                "doc": "A @Place indicating how offset from a @Output's place it should be, instead of it's default. Helpful for wiggling in place.",
+                "names": "offset"
+            },
+            "rotation": {
+                "doc": "How rotated a @Output should be, instead of it's default.",
+                "names": "rotation"
+            },
+            "scale": {
+                "doc": "How magnified a @Output should be relative to its original size, instead of it's default.",
+                "names": "scale"
+            },
+            "flipx": {
+                "doc": "Whether a @Output should be mirrored on the x-axis, instead of its default.",
+                "names": "flipx"
+            },
+            "flipy": {
+                "doc": "Whether a @Output should be mirrored on the y-axis, instead of it's default.",
+                "names": "flipy"
+            },
+            "music": {
+                "doc": "The @Music I should play when my animation @state begins or when a @Sequence reaches me. A short sound is the point; I only ever play through once.",
+                "names": "music"
+            },
+            "description": "$opacity[transparent $opacity|] $rotation[rotated $rotation degrees|] $scale[scaled $scale|] $flipx[flipped horizontally|] $flipy[flipped vertically|] $blur[shadow blurred $blur pixels|]"
+        },
+        "Color": {
+            "doc": [
+                "I am a visible color, made of three essential dimensions.",
+                "Here are some common colors around the color wheel, at medium brightness and high chroma:",
+                "\\Color(50% 100 0°)\\",
+                "\\Color(50% 100 30°)\\",
+                "\\Color(50% 100 60°)\\",
+                "\\Color(50% 100 90°)\\",
+                "\\Color(50% 100 120°)\\",
+                "\\Color(50% 100 150°)\\",
+                "\\Color(50% 100 180°)\\",
+                "\\Color(50% 100 210°)\\",
+                "\\Color(50% 100 240°)\\",
+                "\\Color(50% 100 270°)\\",
+                "\\Color(50% 100 300°)\\",
+                "\\Color(50% 100 330°)\\",
+                "For the eleven most common color names, you don't have to make me from scratch. I have shortcuts on my name:",
+                "\\Color.red\\",
+                "\\Color.blue\\",
+                "These shortcuts work in your @language too, so a French speaker can write \\couleur.rouge\\🪲 and a Japanese speaker can write \\色.赤\\🪲. The shortcuts are: red, orange, yellow, green, blue, purple, brown, pink, black, white, and gray."
+            ],
+            "names": ["🌈", "Color"],
+            "lightness": {
+                "doc": "How light I should be from \\0\\ to \\1\\, from black at \\0\\, to grey at \\0.5\\, to white at \\1\\.",
+                "names": ["lightness", "l"]
+            },
+            "chroma": {
+                "doc": "How much color I should have, from \\0\\ to \\∞\\. No color means grey, higher numbers mean the more color.",
+                "names": ["chroma", "c"]
+            },
+            "hue": {
+                "doc": "What color I should be, on a color wheel, from magenta \\0\\, red \\30\\, green \\120\\, to blue \\270\\.",
+                "names": ["hue", "h"]
+            },
+            "colors": {
+                "black": {
+                    "doc": "The basic color black.",
+                    "names": ["black"]
+                },
+                "white": {
+                    "doc": "The basic color white.",
+                    "names": ["white"]
+                },
+                "gray": {
+                    "doc": "The basic color gray.",
+                    "names": ["gray"]
+                },
+                "red": {
+                    "doc": "The basic color red.",
+                    "names": ["red"]
+                },
+                "orange": {
+                    "doc": "The basic color orange.",
+                    "names": ["orange"]
+                },
+                "yellow": {
+                    "doc": "The basic color yellow.",
+                    "names": ["yellow"]
+                },
+                "green": {
+                    "doc": "The basic color green.",
+                    "names": ["green"]
+                },
+                "blue": {
+                    "doc": "The basic color blue.",
+                    "names": ["blue"]
+                },
+                "purple": {
+                    "doc": "The basic color purple.",
+                    "names": ["purple"]
+                },
+                "brown": {
+                    "doc": "The basic color brown.",
+                    "names": ["brown"]
+                },
+                "pink": {
+                    "doc": "The basic color pink.",
+                    "names": ["pink"]
+                }
+            },
+            "description": {
+                "modified": "$modifier $color",
+                "mix": "$first-$second",
+                "light": "light",
+                "dark": "dark"
+            },
+            "random": {
+                "doc": [
+                    "Give a random color.",
+                    "With no colors, I pick one of the basic colors at random:",
+                    "\\Color.random()\\",
+                    "With one color, I keep its lightness and chroma but pick a random hue:",
+                    "\\Color.random(Color.blue)\\",
+                    "With two colors, I pick a random lightness, chroma, and hue between the two:",
+                    "\\Color.random(Color.black Color.white)\\"
+                ],
+                "names": "random",
+                "inputs": [
+                    {
+                        "doc": "An optional color. Alone, I keep its lightness and chroma and randomize the hue. With a second color, it's one end of the range to pick from.",
+                        "names": "a"
+                    },
+                    {
+                        "doc": "An optional second color. When given, I pick a random lightness, chroma, and hue between the two colors.",
+                        "names": "b"
+                    }
+                ]
+            },
+            "lighter": {
+                "doc": [
+                    "Give a lighter version of me, raising my lightness by a percent (5% by default).",
+                    "\\Color.blue.lighter()\\",
+                    "\\Color.blue.lighter(20%)\\"
+                ],
+                "names": "lighter",
+                "inputs": [
+                    {
+                        "doc": "How much to raise the lightness, as a percent. Defaults to 5%.",
+                        "names": "by"
+                    }
+                ]
+            },
+            "darker": {
+                "doc": [
+                    "Give a darker version of me, lowering my lightness by a percent (5% by default).",
+                    "\\Color.blue.darker()\\",
+                    "\\Color.blue.darker(20%)\\"
+                ],
+                "names": "darker",
+                "inputs": [
+                    {
+                        "doc": "How much to lower the lightness, as a percent. Defaults to 5%.",
+                        "names": "by"
+                    }
+                ]
+            }
+        },
+        "Sequence": {
+            "doc": [
+                "I animate @Output through a series of @Pose over time! Do you want to dance with me? It's easy.",
+                "You just need to give me a @Map, where each @key represents what percent along we are in the dance, and each @value of those keys is a @Pose to be.",
+                "There are /so/ many different ways you can animate with this! For example, here's a simple one:",
+                "\\Phrase('hi' resting:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\🪲",
+                "This says, /at the beginning (0%), start at tilt 360, and end at tilt 0/. That'll spin us around in circles forever, since I'm set as the @Phrase's rest pose!",
+                "Try your own creative dances by playing with other inputs."
+            ],
+            "names": ["💃", "Sequence"],
+            "poses": {
+                "doc": "A @Map of percentages between 0% and 100%, each paired with a @Pose. You don't have to provide all the percents; I will smoothly move a @Output between the ones you give me.",
+                "names": "poses"
+            },
+            "duration": {
+                "doc": "How long should I do this dance? If I'm to repeat it, I won't add any time to the duration, I'll just dance faster.",
+                "names": ["⏳", "duration"]
+            },
+            "style": {
+                "doc": "The style should I use to for the dance.",
+                "names": "style"
+            },
+            "count": {
+                "doc": "How many times the sequence should repeat before it is done. This is really helpful for when I enter stage, move on stage, or exit on stage, but when for a rest sequence, it's ignored, since I can rest forever.",
+                "names": "count"
+            },
+            "description": {
+                "doc": "An optional description of this sequence for viewers who can't see the animation.",
+                "names": "description"
+            },
+            "animations": {
+                "sway": {
+                    "doc": [
+                        "I tilt back and forth around an @Output's center, like something hanging in a light breeze. I'm a good resting animation, because a small /angle/ reads as “alive” without pulling attention.",
+                        "\\Phrase('🐈' resting: Sequence.sway(10°))\\"
+                    ],
+                    "names": ["sway"],
+                    "angle": {
+                        "doc": "How far to tilt in each direction. Small @values look gentle; large ones look frantic.",
+                        "names": ["angle"]
+                    }
+                },
+                "bounce": {
+                    "doc": [
+                        "I hop an @Output up to /height/ and let it land, squashing a little on the way up and down. Give me a @Phrase that just arrived and I'll make it feel like it has weight.",
+                        "\\Phrase('🐈' resting: Sequence.bounce(3m))\\"
+                    ],
+                    "names": ["bounce"],
+                    "height": {
+                        "doc": "How high to hop, in meters.",
+                        "names": ["height"]
+                    }
+                },
+                "spin": {
+                    "doc": [
+                        "I turn an @Output all the way around its center, from 360° back to 0°. Set me as a resting animation and I'll keep turning forever.",
+                        "\\Phrase('🐈' resting: Sequence.spin(2s))\\"
+                    ],
+                    "names": ["spin"]
+                },
+                "fadein": {
+                    "doc": [
+                        "I bring an @Output from invisible to fully visible. I'm meant for /entering/, when something is arriving on stage.",
+                        "\\Phrase('🐈' entering: Sequence.fadein(1s))\\"
+                    ],
+                    "names": ["fadein"]
+                },
+                "fadeout": {
+                    "doc": [
+                        "I take an @Output from fully visible to invisible. I'm meant for /exiting/, when something is leaving the stage.",
+                        "\\Phrase('🐈' exiting: Sequence.fadeout(duration: 1s))\\"
+                    ],
+                    "names": ["fadeout"]
+                },
+                "popup": {
+                    "doc": [
+                        "I grow an @Output from nothing, overshoot its real size, then settle back. That little overshoot is what makes an arrival feel playful instead of mechanical.",
+                        "\\Phrase('🐈' entering: Sequence.popup(0.5s))\\"
+                    ],
+                    "names": ["popup"]
+                },
+                "shake": {
+                    "doc": [
+                        "I jerk an @Output back and forth in several directions. I read as “no”, or as something rattling. I move fast, so keep me short.",
+                        "\\Phrase('🐈' resting: Sequence.shake(0.5s count: 3x))\\"
+                    ],
+                    "names": ["shake"]
+                },
+                "pulse": {
+                    "doc": [
+                        "I scale an @Output up to /amount/ and back down, once. I'm the quietest way to say “look here” without moving anything out of place.",
+                        "\\Phrase('🐈' resting: Sequence.pulse(1.2))\\"
+                    ],
+                    "names": ["pulse"],
+                    "amount": {
+                        "doc": "How much bigger to get at the peak. 1 is no change at all.",
+                        "names": ["amount"]
+                    }
+                },
+                "heartbeat": {
+                    "doc": [
+                        "I give two quick scale beats and then rest, the rhythm of a heartbeat. I'm more urgent than @Sequence's /pulse/ and more organic than /flash/.",
+                        "\\Phrase('🐈' resting: Sequence.heartbeat(1.4 1s))\\"
+                    ],
+                    "names": ["heartbeat"],
+                    "amount": {
+                        "doc": "How much bigger to get on each beat.",
+                        "names": ["amount"]
+                    }
+                },
+                "tada": {
+                    "doc": [
+                        "I celebrate: a small shrink, then a scale up with a wiggle back and forth. I'm for winning, finishing, and getting it right.",
+                        "\\Phrase('🐈' resting: Sequence.tada(1.2 1s))\\"
+                    ],
+                    "names": ["tada"],
+                    "amount": {
+                        "doc": "How much bigger to get while celebrating.",
+                        "names": ["amount"]
+                    }
+                },
+                "wiggle": {
+                    "doc": [
+                        "I slide an @Output side to side while tilting it, with each swing smaller than the last. I'm a shake with a little more personality.",
+                        "\\Phrase('🐈' resting: Sequence.wiggle(8°))\\"
+                    ],
+                    "names": ["wiggle"],
+                    "angle": {
+                        "doc": "How far to tilt on each swing.",
+                        "names": ["angle"]
+                    }
+                },
+                "flash": {
+                    "doc": [
+                        "I blink an @Output between visible and invisible twice, fading as I go. I'm hard to miss — which also means I'm hard to ignore, so use me sparingly.",
+                        "I flash quickly, so a viewer who is sensitive to flashing may find me uncomfortable. Slow me down with a longer /duration/ if I'm going to repeat.",
+                        "\\Phrase('🐈' resting: Sequence.flash(1s))\\"
+                    ],
+                    "names": ["flash"]
+                },
+                "swing": {
+                    "doc": [
+                        "I swing an @Output like a pendulum, out to /angle/ and then back through smaller and smaller arcs until it comes to rest. Unlike /sway/, I settle.",
+                        "\\Phrase('🐈' resting: Sequence.swing(20°))\\"
+                    ],
+                    "names": ["swing"],
+                    "angle": {
+                        "doc": "How far the first, largest swing goes.",
+                        "names": ["angle"]
+                    }
+                },
+                "blink": {
+                    "doc": [
+                        "I turn an @Output off and back on with no fade in between, the way a cursor blinks. /flash/ fades; I cut.",
+                        "\\Phrase('🐈' resting: Sequence.blink(1s))\\"
+                    ],
+                    "names": ["blink"]
+                },
+                "nod": {
+                    "doc": [
+                        "I dip an @Output down and back up twice, like a nod of agreement. I'm the gentlest way to say “yes”.",
+                        "\\Phrase('🐈' resting: Sequence.nod(0.4m))\\"
+                    ],
+                    "names": ["nod"],
+                    "distance": {
+                        "doc": "How far to dip on each nod, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "dim": {
+                    "doc": [
+                        "I fade an @Output down to /amount/ and back to full, without ever hiding it. I'm for showing that something is waiting or inactive.",
+                        "\\Phrase('🐈' resting: Sequence.dim(20% 2s))\\"
+                    ],
+                    "names": ["dim"],
+                    "amount": {
+                        "doc": "How faint to get at the dimmest point.",
+                        "names": ["amount"]
+                    }
+                },
+                "zoomin": {
+                    "doc": [
+                        "I grow an @Output from nothing to full size. Unlike /popup/, I don't overshoot — I'm the plainer, calmer arrival.",
+                        "\\Phrase('🐈' entering: Sequence.zoomin(0.5s))\\"
+                    ],
+                    "names": ["zoomin"]
+                },
+                "fadeinup": {
+                    "doc": [
+                        "I fade an @Output in while sliding it up into place from /distance/ below.",
+                        "\\Phrase('🐈' entering: Sequence.fadeinup(2m))\\"
+                    ],
+                    "names": ["fadeinup"],
+                    "distance": {
+                        "doc": "How far below to start, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "fadeindown": {
+                    "doc": [
+                        "I fade an @Output in while sliding it down into place from /distance/ above.",
+                        "\\Phrase('🐈' entering: Sequence.fadeindown(2m))\\"
+                    ],
+                    "names": ["fadeindown"],
+                    "distance": {
+                        "doc": "How far above to start, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "fadeinleft": {
+                    "doc": [
+                        "I fade an @Output in while sliding it rightward into place from /distance/ to the left.",
+                        "\\Phrase('🐈' entering: Sequence.fadeinleft(2m))\\"
+                    ],
+                    "names": ["fadeinleft"],
+                    "distance": {
+                        "doc": "How far to the left to start, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "fadeinright": {
+                    "doc": [
+                        "I fade an @Output in while sliding it leftward into place from /distance/ to the right.",
+                        "\\Phrase('🐈' entering: Sequence.fadeinright(2m))\\"
+                    ],
+                    "names": ["fadeinright"],
+                    "distance": {
+                        "doc": "How far to the right to start, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "rotatein": {
+                    "doc": [
+                        "I spin an @Output into place while fading it in, starting turned by /angle/ and ending upright.",
+                        "\\Phrase('🐈' entering: Sequence.rotatein(180°))\\"
+                    ],
+                    "names": ["rotatein"],
+                    "angle": {
+                        "doc": "How far around to start, in degrees.",
+                        "names": ["angle"]
+                    }
+                },
+                "slidein": {
+                    "doc": [
+                        "I slide an @Output into place from wherever you like, without fading. Give me a @Place and I'll start there and end at rest, so one animation covers every direction.",
+                        "\\Phrase('🐈' entering: Sequence.slidein(Place(0m -4m)))\\"
+                    ],
+                    "names": ["slidein"],
+                    "from": {
+                        "doc": "Where to start, as an offset from where the @Output rests.",
+                        "names": ["from"]
+                    }
+                },
+                "zoomout": {
+                    "doc": [
+                        "I shrink an @Output from full size down to nothing.",
+                        "\\Phrase('🐈' exiting: Sequence.zoomout(0.5s))\\"
+                    ],
+                    "names": ["zoomout"]
+                },
+                "fadeoutup": {
+                    "doc": [
+                        "I fade an @Output out while sliding it /distance/ upward.",
+                        "\\Phrase('🐈' exiting: Sequence.fadeoutup(2m))\\"
+                    ],
+                    "names": ["fadeoutup"],
+                    "distance": {
+                        "doc": "How far to slide up, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "fadeoutdown": {
+                    "doc": [
+                        "I fade an @Output out while sliding it /distance/ downward.",
+                        "\\Phrase('🐈' exiting: Sequence.fadeoutdown(2m))\\"
+                    ],
+                    "names": ["fadeoutdown"],
+                    "distance": {
+                        "doc": "How far to slide down, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "fadeoutleft": {
+                    "doc": [
+                        "I fade an @Output out while sliding it /distance/ to the left.",
+                        "\\Phrase('🐈' exiting: Sequence.fadeoutleft(2m))\\"
+                    ],
+                    "names": ["fadeoutleft"],
+                    "distance": {
+                        "doc": "How far to slide left, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "fadeoutright": {
+                    "doc": [
+                        "I fade an @Output out while sliding it /distance/ to the right.",
+                        "\\Phrase('🐈' exiting: Sequence.fadeoutright(2m))\\"
+                    ],
+                    "names": ["fadeoutright"],
+                    "distance": {
+                        "doc": "How far to slide right, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "rotateout": {
+                    "doc": [
+                        "I spin an @Output away while fading it out, ending turned by /angle/.",
+                        "\\Phrase('🐈' exiting: Sequence.rotateout(180°))\\"
+                    ],
+                    "names": ["rotateout"],
+                    "angle": {
+                        "doc": "How far around to spin before disappearing, in degrees.",
+                        "names": ["angle"]
+                    }
+                },
+                "slideout": {
+                    "doc": [
+                        "I slide an @Output away to wherever you like, without fading. Give me a @Place and I'll end there, so one animation covers every direction.",
+                        "\\Phrase('🐈' exiting: Sequence.slideout(Place(0m -4m)))\\"
+                    ],
+                    "names": ["slideout"],
+                    "to": {
+                        "doc": "Where to end up, as an offset from where the @Output rests.",
+                        "names": ["to"]
+                    }
+                },
+                "float": {
+                    "doc": [
+                        "I drift an @Output slowly up by /distance/ and back down. Give me a long /duration/ and I'll make something look weightless.",
+                        "\\Phrase('🐈' resting: Sequence.float(0.5m 3s))\\"
+                    ],
+                    "names": ["float"],
+                    "distance": {
+                        "doc": "How far to drift up, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "drift": {
+                    "doc": [
+                        "I drift an @Output slowly /distance/ to the side and back. I'm /float/, sideways.",
+                        "\\Phrase('🐈' resting: Sequence.drift(0.5m 3s))\\"
+                    ],
+                    "names": ["drift"],
+                    "distance": {
+                        "doc": "How far to drift sideways, in meters.",
+                        "names": ["distance"]
+                    }
+                },
+                "orbit": {
+                    "doc": [
+                        "I carry an @Output around a circle of /radius/, returning to where it started. I'm the only predefined animation that traces a path instead of going back and forth.",
+                        "\\Phrase('🐈' resting: Sequence.orbit(2m 4s))\\"
+                    ],
+                    "names": ["orbit"],
+                    "radius": {
+                        "doc": "How wide the circle is, in meters.",
+                        "names": ["radius"]
+                    }
+                },
+                "rainbow": {
+                    "doc": [
+                        "I cycle an @Output through every hue of the rainbow and back to where I started.",
+                        "I change color quickly, so a viewer who is sensitive to flashing may find me uncomfortable. A longer /duration/ makes me much gentler.",
+                        "\\Phrase('🐈' resting: Sequence.rainbow(3s))\\"
+                    ],
+                    "names": ["rainbow"]
+                },
+                "glow": {
+                    "doc": [
+                        "I brighten an @Output toward /color/ and let it fade back, like something warming up and cooling down. Unlike /rainbow/, I stay in one hue.",
+                        "\\Phrase('🐈' resting: Sequence.glow(Color.orange 2s))\\"
+                    ],
+                    "names": ["glow"],
+                    "color": {
+                        "doc": "Which @Color to glow. I'll brighten and darken around it.",
+                        "names": ["color"]
+                    }
+                }
+            }
+        },
+        "Place": {
+            "doc": "I'm a location on @Stage. All my inputs are optional, because I'm at the center by default.",
+            "names": ["📍", "Place"],
+            "x": {
+                "doc": "A position on the x-axis.",
+                "names": "x"
+            },
+            "y": {
+                "doc": "A position on the y-axis",
+                "names": "y"
+            },
+            "z": {
+                "doc": "A position on the z-axis",
+                "names": "z"
+            },
+            "rotation": {
+                "doc": "Rotation at this position",
+                "names": ["📐", "rotation"]
+            }
+        },
+        "Gesture": {
+            "doc": "I'm a snapshot of a hand pose detected by the camera, emitted by the @Hand @stream. My place tells you where the hand is on stage, my fingers tells you how many are extended, my open is true when the hand is open (3+ fingers extended), and my thumb, @index, middle, ring, and pinky each say which specific fingers are extended. My palm is true when the palm faces the camera, false when the back of the hand does.",
+            "names": ["✋", "Gesture"],
+            "place": {
+                "doc": "Where the hand is on stage.",
+                "names": ["place"]
+            },
+            "open": {
+                "doc": "\\⊤\\ if the hand is open (3+ fingers extended), \\⊥\\ if it's a fist.",
+                "names": ["open"]
+            },
+            "fingers": {
+                "doc": "How many fingers are extended, from 0 (fist) to 5 (all fingers up, including the thumb).",
+                "names": ["fingers"]
+            },
+            "thumb": {
+                "doc": "\\⊤\\ if the thumb is extended.",
+                "names": ["thumb"]
+            },
+            "index": {
+                "doc": "\\⊤\\ if the @index finger is extended.",
+                "names": ["index"]
+            },
+            "middle": {
+                "doc": "\\⊤\\ if the middle finger is extended.",
+                "names": ["middle"]
+            },
+            "ring": {
+                "doc": "\\⊤\\ if the ring finger is extended.",
+                "names": ["ring"]
+            },
+            "pinky": {
+                "doc": "\\⊤\\ if the pinky finger is extended.",
+                "names": ["pinky"]
+            },
+            "palm": {
+                "doc": "\\⊤\\ if the palm faces the camera, \\⊥\\ if the back of the hand does.",
+                "names": ["palm"]
+            }
+        },
+        "Thing": {
+            "doc": "I'm one thing the camera saw, emitted in a @List by the @Objects @stream. My name says what I am, my confidence says how sure the model is, my place says where I was on stage, and my width and height say how big I looked.",
+            "names": ["🔎", "Thing"],
+            "name": {
+                "doc": "What the thing is, in your @language.",
+                "names": ["name"]
+            },
+            "confidence": {
+                "doc": "How sure the model is that it's that thing, from 0 (a wild guess) to 1 (certain).",
+                "names": ["confidence"]
+            },
+            "place": {
+                "doc": "Where the thing is on stage.",
+                "names": ["place"]
+            },
+            "width": {
+                "doc": "How wide the thing looked, in meters.",
+                "names": ["width"]
+            },
+            "height": {
+                "doc": "How tall the thing looked, in meters.",
+                "names": ["height"]
+            }
+        },
+        "Expression": {
+            "doc": "!I'm a snapshot of a facial expression detected by the camera, emitted by the @Face @stream. My place tells you where the face is on stage. My @Expression.leftEyeOpen, @Expression.rightEyeOpen, and @Expression.eyesOpen say whether the eyes are open. My @Expression.mouthOpen, @Expression.smiling, @Expression.frowning, and @Expression.browsRaised say what the face is doing, and each has a matching amount (@Expression.mouthOpenAmount, @Expression.smileAmount, @Expression.frownAmount, @Expression.browRaiseAmount) from 0 to 1 for how strong it is. My @Expression.turn and @Expression.tilt say which way the head is facing, in degrees.",
+            "names": ["😀", "Expression"],
+            "place": {
+                "doc": "Where the face is on stage.",
+                "names": ["place"]
+            },
+            "leftEyeOpen": {
+                "doc": "\\⊤\\ if the left eye is open, \\⊥\\ if it's closed.",
+                "names": ["leftEyeOpen"]
+            },
+            "rightEyeOpen": {
+                "doc": "\\⊤\\ if the right eye is open, \\⊥\\ if it's closed.",
+                "names": ["rightEyeOpen"]
+            },
+            "eyesOpen": {
+                "doc": "\\⊤\\ if both eyes are open.",
+                "names": ["eyesOpen"]
+            },
+            "mouthOpen": {
+                "doc": "\\⊤\\ if the mouth is open.",
+                "names": ["mouthOpen"]
+            },
+            "mouthOpenAmount": {
+                "doc": "How open the mouth is, from 0 (closed) to 1 (wide open).",
+                "names": ["mouthOpenAmount"]
+            },
+            "smiling": {
+                "doc": "\\⊤\\ if the face is smiling.",
+                "names": ["smiling"]
+            },
+            "smileAmount": {
+                "doc": "How much the face is smiling, from 0 to 1.",
+                "names": ["smileAmount"]
+            },
+            "frowning": {
+                "doc": "\\⊤\\ if the face is frowning, either with the corners of the mouth or with lowered eyebrows.",
+                "names": ["frowning"]
+            },
+            "frownAmount": {
+                "doc": "How much the face is frowning, from 0 to 1, counting both the corners of the mouth and lowered eyebrows.",
+                "names": ["frownAmount"]
+            },
+            "browsRaised": {
+                "doc": "\\⊤\\ if the eyebrows are raised.",
+                "names": ["browsRaised"]
+            },
+            "browRaiseAmount": {
+                "doc": "How much the eyebrows are raised, from 0 to 1.",
+                "names": ["browRaiseAmount"]
+            },
+            "turn": {
+                "doc": "How far the head is turned, in degrees — negative to the left, positive to the right.",
+                "names": ["turn"]
+            },
+            "tilt": {
+                "doc": "How far the head is tilted, in degrees — negative down, positive up.",
+                "names": ["tilt"]
+            }
+        },
+        "Velocity": {
+            "doc": "I'm how fast @Output moves on @Stage — meters per second along x and y, and degrees per second of rotation. My inputs are optional; by default nothing moves.",
+            "names": ["💨", "Velocity"],
+            "x": {
+                "doc": "How many meters to move each second on the x-axis.",
+                "names": "x"
+            },
+            "y": {
+                "doc": "How many meters to move each second on the y-axis.",
+                "names": "y"
+            },
+            "angle": {
+                "doc": "How many degrees to rotate each second",
+                "names": ["angle", "°"]
+            }
+        },
+        "Result": {
+            "doc": "I'm one match from a pattern search with \\⌕\\: the matched text, where it is, and any captures.",
+            "names": ["Result"],
+            "text": {
+                "doc": "The whole matched text.",
+                "names": "text"
+            },
+            "start": {
+                "doc": "Where the match starts, counting from 1.",
+                "names": "start"
+            },
+            "end": {
+                "doc": "Where the match ends, counting from 1.",
+                "names": "end"
+            },
+            "groups": {
+                "doc": "Each capture's name to the text it matched.",
+                "names": "groups"
+            },
+            "starts": {
+                "doc": "Each capture's @name to where it starts.",
+                "names": "starts"
+            },
+            "ends": {
+                "doc": "Each capture's @name to where it ends.",
+                "names": "ends"
+            }
+        },
+        "Matter": {
+            "doc": "I say how heavy, bouncy, and slippery @Output is. @Output that has me and a @Motion is solid: it bounces off the @Shape on the @Stage and off other moving @Output. @Output that your program places goes where you put it instead, and passes through what it touches. @Output doesn't need me to be noticed by @Collision — a name is enough for that.",
+            "names": ["⚛️", "Matter"],
+            "mass": {
+                "doc": "A weight, in kilograms",
+                "names": "mass"
+            },
+            "bounciness": {
+                "doc": "How much of my energy to keep on collision, 0 means none, 1 means all of it.",
+                "names": "bounciness"
+            },
+            "friction": {
+                "doc": "How much to keep sliding; 0 means none, 1 means forever.",
+                "names": "friction"
+            },
+            "roundedness": {
+                "doc": "How much to round the corners of the output; 0 means none and 1 means 100% of its size, making the sizes circular.",
+                "names": "roundedness"
+            },
+            "text": {
+                "doc": "Whether I can bump into other @Phrase and @Group at all; ⊥ means I don't notice them and @Collision says nothing about them.",
+                "names": "text"
+            },
+            "shapes": {
+                "doc": "Whether I can bump into the @Shape on the @Stage at all; ⊥ means I fall through walls and floors and @Collision says nothing about them.",
+                "names": "ground"
+            },
+            "pull": {
+                "doc": "How strongly I pull other output toward me. 0 means not at all, which is normal. Bigger numbers pull harder, and a negative number pushes away instead. Only output placed by a @Motion can be pulled.",
+                "names": "pull"
+            }
+        },
+        "Aura": {
+            "doc": [
+                "I make @Phrase GLOW! I am an AURA. Like this:",
+                "\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\🪲"
+            ],
+            "names": ["🔮", "Aura"],
+            "color": {
+                "doc": "The @Color the @Aura should be.",
+                "names": "color"
+            },
+            "blur": {
+                "doc": "How blurry the @Aura should be. \\0m\\ means not blurry at all.",
+                "names": "blur"
+            },
+            "offsetX": {
+                "doc": "How far left or right I should appear. \\0m\\ is directly under.",
+                "names": "offsetX"
+            },
+            "offsetY": {
+                "doc": "How far up or down I should appear.\\0m\\ is directly under.",
+                "names": "offsetY"
+            }
+        },
+        "Bubble": {
+            "doc": [
+                "I show what a @Phrase is saying, in a bubble that points right at them. Give me to a phrase's @Phrase.bubble and let the letters talk:",
+                "\\Phrase('a' bubble: 'hello!')\\",
+                "Give me a @Say instead of text and I'll be spoken out loud as well as shown.",
+                "Change my @Bubble.kind to a thought and I become a thought bubble instead.",
+                "I'm a decoration, so nothing on stage moves aside to make room for me — but the @Stage does make sure I end up in view."
+            ],
+            "names": ["🗨", "Bubble"],
+            "text": {
+                "doc": [
+                    "What I show. Give me plain text, or formatted text if you want *bold* or /italic/ words.",
+                    "Give me a @Say instead and I'll be spoken out loud as well as shown. I then stand in for the words that usually appear at the foot of the @Stage, since mine are already on screen next to whoever said them."
+                ],
+                "names": "text"
+            },
+            "side": {
+                "doc": "Which side of the @Phrase I sit on, as an arrow. If \\ø\\, the @Stage puts me wherever I'm least in the way, and chooses again whenever things move.",
+                "names": "side"
+            },
+            "kind": {
+                "doc": "Whether I'm something said (\\'💬'\\) or something thought (\\'💭'\\). A thought trails circles toward the thinker instead of a point, and rounds off.",
+                "names": "kind"
+            },
+            "color": {
+                "doc": "The @Color of my words. If \\ø\\, I use the @Phrase's own color.",
+                "names": "color"
+            },
+            "background": {
+                "doc": "The @Color I'm filled with. If \\ø\\, I'm filled with the background of whatever I'm drawn on.",
+                "names": "background"
+            },
+            "size": {
+                "doc": "How big my words are. If \\ø\\, they're the size text normally is on the @Stage — not the size of whoever is speaking, since a character several meters tall would make a wall of words.",
+                "names": "size"
+            },
+            "wrap": {
+                "doc": "The boundary at which I wrap my words to another line.",
+                "names": "wrap"
+            }
+        },
+        "Stage": {
+            "doc": [
+                "I SHOW YOUR @Output TO THE AUDIENCE. HI. STAGE HERE. TELL ME WHAT TO SHOW AND I WILL SHOW IT.",
+                "\\Stage([Phrase('stufffffff')])\\",
+                "IF YOU WANT, GIVE ME A BACKGROUND @Color AND I WILL LIGHT THE STAGE ACCORDINGLY.",
+                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°))\\",
+                "YOU MAY ALSO GIVE ME A FRAME BORDER AND I WILL CROP.",
+                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
+            ],
+            "names": ["🎭", "Stage"],
+            "content": {
+                "doc": "The list of @Output to show on stage.",
+                "names": "content"
+            },
+            "frame": {
+                "doc": "The shape and size of frame to place around the stage, hiding everything outside it.",
+                "names": "frame"
+            },
+            "size": {
+                "doc": "LIKE @Group.size",
+                "names": "size"
+            },
+            "face": {
+                "doc": "LIKE @Group.face",
+                "names": "face"
+            },
+            "place": {
+                "doc": "IF I WERE A CAMERA, THIS IS WHERE I AM LOOKING",
+                "names": "place"
+            },
+            "name": {
+                "doc": ["SAME AS @Phrase.name!"],
+                "names": "name"
+            },
+            "description": {
+                "doc": [
+                    "A description to use for audience members who can't see visual output."
+                ],
+                "names": "description"
+            },
+            "selectable": {
+                "doc": "SAME AS @Phrase.selectable!",
+                "names": "selectable"
+            },
+            "color": {
+                "doc": "SAME AS @Group.color",
+                "names": "color"
+            },
+            "background": {
+                "doc": "SAME AS @Group.background",
+                "names": "background"
+            },
+            "opacity": {
+                "doc": "SAME AS @Group.opacity",
+                "names": "opacity"
+            },
+            "offset": {
+                "doc": "SAME AS @Group.offset",
+                "names": "offset"
+            },
+            "rotation": {
+                "doc": "SAME AS @Group.rotation",
+                "names": ["📐", "rotation"]
+            },
+            "scale": {
+                "doc": "SAME AS @Group.scale",
+                "names": "scale"
+            },
+            "flipx": {
+                "doc": "SAME AS @Group.flipx",
+                "names": "flipx"
+            },
+            "flipy": {
+                "doc": "SAME AS @Group.flipy",
+                "names": "flipy"
+            },
+            "entering": {
+                "doc": "SAME AS @Group.entering",
+                "names": "entering"
+            },
+            "resting": {
+                "doc": "SAME AS @Group.resting!",
+                "names": "resting"
+            },
+            "moving": {
+                "doc": "SAME AS @Group.moving!",
+                "names": "moving"
+            },
+            "exiting": {
+                "doc": "SAME AS @Group.exiting!",
+                "names": "exiting"
+            },
+            "duration": {
+                "doc": "SAME AS @Phrase.duration!",
+                "names": ["⏳", "duration"]
+            },
+            "style": {
+                "doc": "SAME AS @Phrase.style!",
+                "names": "style"
+            },
+            "gravity": {
+                "doc": "The gravity to apply to output whose place is in @Motion.",
+                "names": "gravity"
+            },
+            "overlay": {
+                "doc": "A list of @Output pinned flat to the screen as a heads-up display, unaffected by the stage's @Place camera or depth.",
+                "names": "overlay"
+            },
+            "air": {
+                "doc": "How much the air slows down moving output. 1 is normal air, 0 is outer space, where things keep going forever, and bigger numbers are thicker than air.",
+                "names": "air"
+            },
+            "defaultDescription": "stage $name[$name |]of $#count[$count output|$count outputs]$frame[with frame $frame|] $pose $color[$color|]"
+        },
+        "Easing": {
+            "straight": "straight",
+            "cautious": "cautious",
+            "pokey": "pokey",
+            "zippy": "zippy"
+        },
+        "TextEffect": {
+            "edit": "edit",
+            "rewrite": "rewrite",
+            "random": "random"
+        },
+        "Source": {
+            "names": "Source",
+            "doc": [
+                "You know how projects can have more than one @Source file? I let you create a @Source based on your project's logic. This is really helpful if you want to save some data between different evaluations of your project.",
+                "For example, imagine you wanted to make a simple counter that counts up by one each time you press a mouse button. You might use this to remember how many times you did something.",
+                "\\↓ count\n[\n\tPhrase(`\\count\\ times!`)\n\tSource('count' count … ∆ Button() … count + 1 )\n]\\🪲",
+                "Try copying it, making a new @Source called /count/ and typing 0 in it, to start the count at 0. This little project will get the @value in the /count/ source and each time the mouse button is pressed, edits the /count/ @Source with to be the current /count/ value plus /1/."
+            ],
+            "name": {
+                "names": "name",
+                "doc": "The name of the source file to create or update."
+            },
+            "value": {
+                "names": "value",
+                "doc": "The data @value that the source file should be created or updated with."
+            },
+            "DynamicEditLimitException": {
+                "description": "dynamic source edit limit",
+                "explanation": "This project saved data to @Source files too many times, too quickly. Make sure it only updates @Source in response to an input, and not too fast."
+            },
+            "ReadOnlyEditException": {
+                "description": "read only source edit",
+                "explanation": "This project remembers data, but you don't have rights to edit it. Copy it if you want to try it."
+            },
+            "EmptySourceNameException": {
+                "description": "empty source name",
+                "explanation": "The @Source given had an empty name, so we couldn't save it."
+            },
+            "ProjectSizeLimitException": {
+                "description": "project size limit",
+                "explanation": "This project has too much text, so we can't save it."
+            }
+        }
+    }
+}

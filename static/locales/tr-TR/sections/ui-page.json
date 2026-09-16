@@ -1,0 +1,1441 @@
+{
+    "$schema": "../../../static/schemas/sections/ui-page.json",
+    "ui": {
+        "page": {
+            "unknown": {
+                "header": "$~İyy!",
+                "message": "$~Burası neresi? Eve gidebilir miyiz?"
+            },
+            "landing": {
+                "value": "$~Bizimle kelimeler, semboller, emojiler ve kod kullanarak etkileşimli hikayeler oluştur! Başlamak için",
+                "chooseLocales": "$~veya seçin",
+                "beta": [
+                    "$~@wordplay *beta* aşamasındadır, bu nedenle amaçlandığı gibi çalışmayabilir veya tamamlanmamış olabilir. Hataları bildirin ve fikirlerinizi <GitHub@https://github.com/wordplaydev/wordplay/issues> adresinde paylaşın, <1.0 planlarımıza@https://github.com/wordplaydev/wordplay/milestones/1.0> ve <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> bakın."
+                ],
+                "link": {
+                    "learn": "$~Dramatik karakterlerden oluşan bir kadroyla dili öğrenin",
+                    "teach": "$~Öğrencilerin sınıflarını ve projelerini yönetin",
+                    "guide": "$~Dil referansını arayın ve göz atın",
+                    "projects": "$~Gösteriler oluştur ve paylaş",
+                    "galleries": "$~Başkalarının performanslarını deneyimleyin",
+                    "rights": "$~Sorumluluklar, bizim ve sizin",
+                    "about": "$~Bu yer neden var?",
+                    "community": {
+                        "label": "$~Toplum",
+                        "subtitle": "$~Discord'da bizimle sohbet et"
+                    },
+                    "contribute": {
+                        "label": "$~Katkı yapmak",
+                        "subtitle": "$~Wordplay'i yapmamıza yardım et"
+                    },
+                    "characters": "$~Özel emojiler ve semboller yaratın",
+                    "updates": "$~Wordplay'deki yeniliklere göz atın.",
+                    "design": "$~Katkıda bulunanlar için tasarım sistemi referansı",
+                    "thanks": "$~Bunu yapmaya kimler yardımcı oldu?",
+                    "localize": "$~Wordplay'i kendi dilinize çevirmeye yardım edin",
+                    "moderate": "$~insanların incelenmesini istediği şeyleri gözden geçir",
+                    "admin": "$~kimin ne yapabildiğini gör ve bunu değiştir"
+                },
+                "tagline": "$~herkesin kullanabileceği, çok dilli, yaratıcı kodlama",
+                "tour": {
+                    "button": "$~bana göster",
+                    "loading": "$~Yükleniyor…",
+                    "failed": "$~Örnekler yüklenemedi. Bağlantını kontrol et ve tekrar dene.",
+                    "restart": "$~bu örneği baştan başlat",
+                    "examples": {
+                        "label": "$~Örnek programlar",
+                        "tips": [
+                            "$~Metin parlayabilir ve hareket edebilir",
+                            "$~Müzik; veri, ses ve görüntüdür",
+                            "$~Zaman ilerler ve kelimeler çok dillidir",
+                            "$~Metin; işaretçilere, tıklamalara, dokunuşlara ve tuşlara tepki verebilir",
+                            "$~İzleyiciler seçim yapabilir",
+                            "$~İzleyiciler programlarla sohbet edebilir ve kelimeler şekil alabilir",
+                            "$~Fizik ve yerçekimi, metnin düşmesini ve sekmesini sağlayabilir",
+                            "$~Programlar senin konuşmanı dinleyebilir",
+                            "$~Programlar yüzünü, ellerini ve nesneleri izleyebilir"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶@Phrase sahnede görünür; istediğin renkte, parlaklıkta ve hareketle.¶\nİfadeetmek(\n\t'merhaba!'\n\t6m\n\trenk: Renk(60% 90 200°)\n\taura: Aura(Renk(80% 80 200°) 0.3m)\n\tdinlenme: Sekans.sallanmak(8°)\n)\\",
+                        "music": "$~\\¶Müzik, gerçek çalgılarda, bir tempoda, bir tonda çalınan notalardan oluşur. Sahne duyduğunu çizer.¶\nMüzik(\n\tParça([1 3 5 8 5 3] çalgı: Çalgı.piyano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Kod, @Time gibi girdilere tepki verebilir ve metin çok dilli olup sesli okunabilir.¶\nmerhabalar: ['merhaba'/tr 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nmerhaba: merhabalar.rastgele() … ∆ Zaman(1000ms) … merhabalar.rastgele(\n\t\t)\nİfadeetmek(merhaba 4m)\nSöylemek(merhaba)\\",
+                        "keys": "$~\\¶Kod; işaretçilere, tuşlara, tıklamalara ve dokunuşlara tepki verebilir.¶\nanahtar2: Anahtar()\ntıklama: Düğme()\nyüzler: ['🙂' '😮' '😎' '🤩']\nhangisi: 1 … ∆ anahtar2 | ∆ tıklama … (hangisi % 4) + 1\nSahne(\n\t[\n\t\tİfadeetmek(\n\t\t\tyüzler[hangisi]\n\t\t\t5m\n\t\t\tyer: İşaretçi()\n\t\t\tbalon: 'merhaba'\n\t\t)\n\t]\n\tyer: Yer(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Metni yerleştir ve seçilebilir yap.¶\nmeyve: ƒ(e•'') İfadeetmek(e 3m isim: e seçilebilir: ⊤)\nseçildi: Seçenek()\ngösterildi: '?' … ∆ seçildi … seçildi\nGrup(\n\tYığın(dolgu: 1m)\n\t[\n\t\tİfadeetmek(gösterildi 4m)\n\t\tGrup(\n\t\t\tSıra(dolgu: 1m)\n\t\t\t[meyve('🍎') meyve('🍐') meyve('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Programlarla sohbet et ve yazı tiplerinin ile sembollerin şeklini kullan.¶\nmesaj: Sohbet()\nkelime2: 'selam' … ∆ mesaj … mesaj\nsatır: Kontur(kelime2 'Noto Sans' 8m)\ntikSesleri: 0 … ∆ Zaman(30ms) … tikSesleri + 1\ngösterildi: ((satır.uzunluk() × tikSesleri) ÷ 66).Aşağıyuvarla(\n\t) + 1\nnoktalar: satır.altdizi(1 gösterildi).tercümeetmek(\n\t\tƒ(p) İfadeetmek('•' yer: p)\n\t)\nSahne(noktalar.ile(İfadeetmek(kelime2 8m opaklık: 15%)))\\",
+                        "pile": "$~\\¶Yazının fiziği olabilir.¶\nfırlat: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tİfadeetmek(\n\t\t\temoji\n\t\t\t2m\n\t\t\tyer: Hareket(Yer(x2 y2) Hız(vx 0m/s))\n\t\t\tkonu: Konu(1kg 0.55 0.06 0.5)\n\t\t)\nSahne(\n\t[\n\t\tfırlat('🍎' -2m 5m 2.2m/s)\n\t\tfırlat('🍊' 2m 7m -2.6m/s)\n\t\tfırlat('🍋' -1m 9m 1.4m/s)\n\t\tfırlat('🍇' 1.5m 11m -1.9m/s)\n\t\tfırlat('🫐' 0.5m 15m -1.2m/s)\n\t\tŞekil(Dikdörtgen(-4m -3m 4m -3.6m))\n\t\tŞekil(Dikdörtgen(-4.6m 4m -4m -3m))\n\t\tŞekil(Dikdörtgen(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Kod, mikrofonunun @Volume ve @Pitch değerine tepki verebilir.¶\nİfadeetmek(\n\t'📣'\n\t1m + (Hacim() × 8m)\n\trotasyon: (Saha() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Kod, @Face değerine ve @Camera üzerindeki başka şeylere tepki verebilir.¶\nİfadeetmek(\n\tYüz().gülümseme ? '😄 teşekkür ederim!' '🙂 kameraya gülümse'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay bir programlama dilidir",
+                        "bullets": [
+                            "$~• Her program, bir değere dönüşen bir ifadedir. \\1 + 1\\ bir programdır, \\İfadeetmek('selam')\\ de öyledir.",
+                            "• Sayılar birim taşır, bu yüzden \\1m + 1m\\ metredir, \\1cat + 1dog\\🪲 ise @wordplay'ın çalışmadan önce yakaladığı bir hatadır.",
+                            "• Fonksiyonlar; isim verebileceğin, aktarabileceğin ve çağırabileceğin değerlerdir: \\ƒ çift2(n3•#) n3 × 2\\.",
+                            "• Girdi değiştiğinde, @wordplay programını yeniden değerlendirir ve yeni değerini gösterir. Olaylara tepki vermene gerek yoktur.",
+                            "• @wordplay, program çalışmadan önce hataları bulur ve her sorunu açıklar."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay çok dillidir",
+                        "bullets": [
+                            "$~• Her programlama dili özelliğinin her dilde bir ismi vardır, bu yüzden kodu zaten bildiğin kelimelerle okuyabilirsin.",
+                            "• Kendi isimlerin de çok dilli olabilir:\n\\kedi2/tr, gato/es: '🐈'\nİfadeetmek(kedi2)\\",
+                            "• Metin bir dil taşır ve izleyicinin okuduğu dili gösterir: \\'merhaba'/tr'hola'/es\\.",
+                            "• Sitenin kendisi 29 dilde ve aynı anda birden fazla dil seçebilirsin; metin her dilde görünür.",
+                            "• @wordplay'ı çevirmeye yardımcı olabilirsin, doğrudan uygulama içinde <localize//localize> üzerinden."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay erişilebilir",
+                        "bullets": [
+                            "$~• Farenle yapabileceğin her şeyi klavyenle de yapabilirsin.",
+                            "• Ekran okuyucular, sahne değiştikçe onu anlatır. İsteğe bağlı sesler de neyin yeniden hesaplandığını, neyin canlandığını ve neyin çarpıştığını belirtir.",
+                            "• Kodunu metin yerine bloklar olarak okuyup yazabilirsin. İstediğin zaman ikisi arasında geçiş yapabilirsin.",
+                            "• Hareket yavaşlatılabilir ya da tamamen kapatılabilir.",
+                            "• Sesli çıkışı duyamayan biri için sahnede altyazı olarak gösterilebilir."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay dünyayı hisseder",
+                        "bullets": [
+                            "$~• Zamanın geçişi: \\Zaman(1000ms)\\ tıklar, ve \\Şimdi()\\ kendi takviminde ve saat diliminde bugünün tarihini bilir.",
+                            "• İzleyicinin nereyi işaret ettiği, neye dokunduğu ve hangi tuşlara bastığı.",
+                            "• Programlar mikrofonuna tepki verebilir: @Volume ile ne kadar yüksek sesli olduğuna, @Pitch ile hangi tonda olduğuna ve @Speech ile hangi kelimelerin söylendiğine.",
+                            "• İzleyicin @Chat ile yazı yazabilir ve @Choice ile sahnedeki içeriği seçebilir.",
+                            "• Programlar, çaldıkları müziğin ritmine @Beat ile tepki verebilir."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay performans sergiler",
+                        "bullets": [
+                            "$~• @Phrase sahneye kelimeler ve emoji yerleştirir.",
+                            "• @Group bunları satırlar, yığınlar, ızgaralar halinde ya da senin belirlediğin herhangi bir yere yerleştirir.",
+                            "• @Pose ve @Sequence nesneleri döndürür, soldurur, ölçeklendirir ve hareket ettirir.",
+                            "• @Say metni göstermek yerine sesli okur.",
+                            "• @Music gerçek çalgılarla, bir tempoda ve bir tonda nota parçaları çalar:\n\\Müzik(Parça([1 3 5] çalgı: Çalgı.çan) tempo: 90beats/min)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay tipografidir",
+                        "bullets": [
+                            "$~• Dünyanın yazı sistemlerini kapsayan yüzlerce yazı tipi.",
+                            "• <özel karakterlerini//characters> çizebilir ve bunları bir emoji kullanılan her yerde kullanabilirsin.",
+                            "• Her harfin dış hattı, @Contour ile okuyabileceğin ve canlandırabileceğin bir veridir: \\Kontur('a' 'Noto Sans')\\.",
+                            "• Metin, yazıldığı dilin kurallarına göre satır sonlarında bölünür.",
+                            "• Sağdan sola ve dikey yazı, olması gerektiği gibi düzenlenir."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay kendini açıklar",
+                        "bullets": [
+                            "$~• Dokümantasyon, yanındaki bir yorum değil, @Doc ile dilin bir parçasıdır.",
+                            "• Aranabilir bir <rehber//guide>, her yerleşik özelliği örneklerle açıklar.",
+                            "• Her hata, kendi dilinde, meydana geldiği yerde açıklanır.",
+                            "• Bir programı ne olduğunu anlamak için ileri /ve/ geri adımlarla izleyebilirsin.",
+                            "• Adım adım ilerlerken, her değer onu oluşturan kodun tam içinde gösterilir."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay paylaşmak içindir",
+                        "bullets": [
+                            "$~• Projelerin sana aittir ve onları kimin görebileceğine sen karar verirsin.",
+                            "• Başkalarını seninle birlikte bir proje oluşturmaya davet edebilirsin.",
+                            "• <Galeriler@://galleries>, projeleri bir tema etrafında bir araya getirir.",
+                            "• Öğretmenler sınıflar oluşturup öğrencilerinin çalışmalarını takip edebilir: <teach@://teach>.",
+                            "• Herhangi birinin herkese açık projesini yeniden düzenleyip kendine mal edebilirsin."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay ücretsiz ve açıktır",
+                        "bullets": [
+                            "$~• @wordplay ücretsizdir ve her zaman ücretsiz kalacaktır.",
+                            "• Açık kaynaklıdır: nasıl çalıştığını okuyabilir ve onu değiştirmemize yardımcı olabilirsin.",
+                            "• <Washington Üniversitesi@https://ischool.uw.edu/> Bilişim Okulu'ndan gelir.",
+                            "• Yaratıcılardan, öğretmenlerden ve katkıda bulunanlardan oluşan bir topluluk vardır.",
+                            "• <Bağışlar//donate>, çalıştırma maliyetlerini karşılar."
+                        ]
+                    }
+                }
+            },
+            "learn": {
+                "header": "$~Öğrenmek",
+                "error": "$~Bu dil için bir eğitim bulamadık.",
+                "button": {
+                    "next": "$~diyalogdaki bir sonraki duraklama",
+                    "previous": "$~iletişim kutusundaki önceki duraklama"
+                },
+                "options": {
+                    "lesson": "$~güncel ders"
+                },
+                "search": {
+                    "placeholder": "$~aramak",
+                    "noResults": "$~Hiçbir sonuç bulunamadı."
+                },
+                "choice": {
+                    "prompt": "$~Nasıl öğrenmek istersiniz?",
+                    "quick": {
+                        "title": "$~Hızlı",
+                        "description": "$~Diğer programlama dillerine aşina olan ve Wordplay'in nasıl farklı olduğunu anlamak isteyen içerik oluşturucular için."
+                    },
+                    "complete": {
+                        "title": "$~Kapsayıcı",
+                        "description": "$~Programlamaya yeni başlayan ve detaylı bir giriş isteyen içerik oluşturucular için."
+                    }
+                },
+                "mode": {
+                    "label": "$~öğretici",
+                    "labels": ["$~hızlı", "$~tamamlamak"],
+                    "tips": [
+                        "$~Başka bir programlama dili bilen içerik oluşturucular için kısa bir tur.",
+                        "$~Programlamaya yeni başlayan içerik oluşturucular için eksiksiz ve etkileyici bir giriş."
+                    ]
+                },
+                "contrast": "$~ile karşılaştırın",
+                "dialogue": "$~ders diyaloğu",
+                "says": "$~$character diyor ki",
+                "tour": {
+                    "skip": "$~turu atla ve devam et",
+                    "wait": "$~Önce turu yap ya da atla, sonra devam edeceğiz."
+                }
+            },
+            "teach": {
+                "header": "$~Öğretmek",
+                "prompt": {
+                    "none": "$~Hoş geldiniz öğretmenim! Öğrenci hesaplarını ve proje galerilerini kurmak ve yönetmek için bir sınıf oluşturun.",
+                    "some": "$~Hoş geldiniz öğretmenim! Derslerinizi yönetin veya yeni bir ders oluşturun."
+                },
+                "error": {
+                    "offline": "$~Öğretmen durumunuzu kontrol edemedik. Giriş yaptınız mı?",
+                    "login": "$~Dersleri yönetmek için <giriş yapmanız gerekiyor.",
+                    "teacher": "$~Sınıfları oluşturmak ve yönetmek için öğretmen ayrıcalıklarına ihtiyacınız var. Bu formu doldurun ve birbirimizi tanıyalım!"
+                },
+                "link": {
+                    "request": "$~Öğretmen ayrıcalıkları talep edin",
+                    "new": "$~Bir sınıf oluştur"
+                }
+            },
+            "newclass": {
+                "header": "$~Yeni sınıf",
+                "subheader": {
+                    "class": "$~Senin sınıfın",
+                    "students": "$~Öğrencileriniz",
+                    "credentials": "$~Kullanıcı adları ve şifreler",
+                    "submit": "$~Göndermek",
+                    "usernames": "$~Kullanıcı Adları"
+                },
+                "prompt": {
+                    "start": "$~Bu form sana şunu sağlar: 1) sınıfındaki tüm öğrenciler için hesaplar oluştur ve 2) tüm öğrencilerinin proje ekleyebileceği bir galeri oluştur. Öğrencilerin var olan hesapları varsa, onları galeriye daha sonra ekleyebilirsin.",
+                    "review": "$~Oluşturduğumuz kullanıcı adlarını ve şifreleri inceleyin. Devam etmeden önce bunları *düzenlemek* ister misiniz? İsterseniz, yukarıdaki öğrenci bilgilerini düzenleyemezsiniz.",
+                    "ready": "$~Yukarıdaki kimlik bilgilerini oluşturmaya hazır olduğunuzda bize bildirin. Bunu yaptıktan sonra bunları düzenleyebilirsiniz.",
+                    "pending": "$~Kullanıcı adı ve şifreler oluşturuluyor...",
+                    "submit": "$~Göndermeye hazır mısınız? Başarılı olur olmaz, bu bilgilerin indirilmesini alacaksınız. Parolalar *kurtarılamaz*, bu yüzden onları güvenli bir yerde saklayın.",
+                    "submitting": "$~Yukarıdaki kullanıcı adı ve şifrelerle yeni hesap talep ediyorum...",
+                    "download": "$~Sınıfın hazır! İndirilenler klasöründe öğrenci bilgilerinin indirildiğini görmelisin. *Şifreler geri getirilemez*, bu yüzden bu dosyayı güvenli bir yerde sakla! E-posta ile giriş yapan öğrencilerin şifresi olmaz, bu yüzden onların şifre kolonu boş kalır.",
+                    "reviewEmail": "$~Oluşturduğumuz kullanıcı adlarını gözden geçir. Devam etmeden önce bunları *düzenlemek* ister misin? Düzenlersen, yukarıdaki öğrenci bilgilerini artık değiştiremezsin. Öğrenciler burada bir şey seçmez — isimlerinin yanındaki adresle giriş yaparlar.",
+                    "downloadEmail": "$~Sınıfın hazır! İndirilenler klasöründe öğrenci bilgilerinin bir kopyasını görmelisin. Saklanacak bir şifre yok: her öğrenci giriş sayfasına gider, adresini yazar ve bir bağlantı ister.",
+                    "submitEmail": "$~Göndermeye hazır mısın? Başarılı olur olmaz, bu bilgilerin bir indirme dosyasını alacaksın. Saklanacak bir şifre yok — her öğrenci, adının yanındaki adresle giriş yapar."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~sınıf adı",
+                        "placeholder": "$~kısa bir isim"
+                    },
+                    "description": {
+                        "description": "$~Tanım",
+                        "placeholder": "$~Sizin ve öğrencileriniz için sınıfınızın bir tanımı."
+                    },
+                    "existing": {
+                        "label": "$~Hesap sahibi öğrenciler",
+                        "prompt": "$~Öğrencilerinizden bazılarının @wordplay hesapları var mı? Onları buraya ekleyin."
+                    },
+                    "metadata": {
+                        "description": "$~öğrenci bilgileri",
+                        "placeholder": "$~örneğin, öğrenci kimliği, soyadı, verilen ad",
+                        "prompt": "$~Öğrenciler için yeni hesaplar mı oluşturmak istiyorsun? Öğrenciler hakkında *herhangi bir bilgi* ver, her satıra bir tane, virgülle ayrılmış. Bunlar aile isimleri, verilen isimler, öğrenci numaraları ya da başka ayırt edici bilgiler olabilir. Bunları kullanarak, aşağıda düzenleyebileceğin kullanıcı isimleri oluşturacağız; böylece kullanıcı isimlerini öğrencilerle eşleştirebilirsin. Eğer kolonlardan biri öğrenci e-posta adresleriyse, o öğrenciler şifre yerine kendilerine e-posta ile gönderdiğimiz bir bağlantıyla giriş yapar. O hücreyi boş bırakırsan, öğrenci diğer herkes gibi bir kullanıcı ismi ve şifre alır."
+                    },
+                    "words": {
+                        "description": "$~şifrelerde kullanılacak kelimeler",
+                        "placeholder": "$~örneğin kedi nokta fare...",
+                        "prompt": "$~Akılda kalıcı 2-3 kelimelik parolaları rastgele üretmek için en az *25 kelime* ver. Öğrencilerinin bildiği kelimeleri seç ya da onlardan kelimeler düşünmelerini iste. Ne kadar rastgele olursa o kadar güvenli!"
+                    },
+                    "generate": {
+                        "label": "$~üretmek",
+                        "tip": "$~yukarıdaki bilgilere dayanarak kullanıcı isimleri ve parolalar oluştur."
+                    },
+                    "edit": {
+                        "label": "$~düzenlemek",
+                        "tip": "$~oluşturulan öğrenci bilgilerini düzenle"
+                    },
+                    "submit": {
+                        "label": "$~sınıf oluştur",
+                        "tip": "$~bu bilgilerle yeni bir sınıf oluştur."
+                    },
+                    "affirm": {
+                        "prompt": "$~Kolonlarından biri e-posta adresine benziyor, bu yüzden o öğrenciler şifre yerine bir bağlantıyla giriş yapacak. Bunu sadece öğrenciler yaşadıkları yerde e-posta hesabına sahip olacak yaşta iseler yap. *Bu sınıfı oluşturduğunda kimseye e-posta göndermeyeceğiz*: her öğrenci giriş sayfasına gider, adresini yazar ve bir bağlantı ister.",
+                        "label": "$~Bu öğrenciler, yaşadıkları yerde e-posta hesabına sahip olacak yaştadır."
+                    },
+                    "signin": {
+                        "prompt": "$~Öğrenciler için yeni hesaplar mı oluşturmak istiyorsun? Önce nasıl giriş yapacaklarına karar ver. Bir sınıf *ya hep bir yolla ya da diğeriyle* çalışır, bu yüzden öğrencilerine uygun olanı seç.",
+                        "mode": {
+                            "label": "$~öğrencilerinin nasıl giriş yapacağı",
+                            "labels": [
+                                "$~bir kullanıcı adı ve şifre",
+                                "$~e-postayla gönderilen bir bağlantı"
+                            ],
+                            "tips": [
+                                "$~her öğrenci için bir kullanıcı adı ve şifre oluşturuyoruz, sen de bunları dağıtıyorsun",
+                                "$~her öğrenci kendi e-posta adresiyle giriş yapar, böylece kaybedilecek bir şifre olmaz"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~öğrenci e-posta adresleri",
+                        "placeholder": "$~örneğin, mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Öğrencilerini her satıra bir tane olacak şekilde, *e-posta adresleriyle başlayarak* listele. Virgülden sonra onlar hakkında başka bilgiler ekleyebilirsin — bir öğrenci numarası, bir soyadı gibi — bunları kullanarak aşağıda düzenleyebileceğin kullanıcı adları oluşturacağız."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~Öğrenci bilgilerinde mükerrer kayıtlar bulunmaktadır.",
+                    "columns": "$~Her öğrencinin aynı sayıda sütuna sahip olduğundan emin olun.",
+                    "generate": "$~Benzersiz kullanıcı adları oluşturulamıyor.",
+                    "taken": "$~Yukarıdaki kullanıcı adlarından bir veya daha fazlası alınmış",
+                    "limit": "$~Bir seferde 50'den fazla öğrencili bir sınıf oluşturamazsın.",
+                    "words": "$~En az 25 kelime yazın.",
+                    "account": "$~Hesapların bir kısmı oluşturulamadı.",
+                    "generic": "$~Sınıfı oluşturamadık. Geliştiricilerin neyin yanlış gittiğini anlamalarına yardımcı olacak bazı bilgiler şunlardır.",
+                    "affirmation": "$~Hesaplarını oluşturmadan önce, bu öğrencilerin e-posta hesabına sahip olacak yaşta olduğunu belirt.",
+                    "inflight": "$~Bu sınıf zaten oluşturulmuş olabilir. Tekrar denemeden önce sınıflarını kontrol et.",
+                    "addresses": "$~Her satır bir e-posta adresiyle başlamalıdır."
+                }
+            },
+            "class": {
+                "header": "$~Sınıf",
+                "subheader": {
+                    "teachers": "$~Öğretmenler",
+                    "students": "$~Öğrenciler",
+                    "galleries": "$~Galeriler"
+                },
+                "prompt": {
+                    "gallery": "$~Sınıfınız için bir ödev veya proje düzenlemek üzere bir galeri oluşturun. Projedeki tüm öğretmenler galeri küratörleri ve tüm öğrenciler galeri yaratıcıları olacak.",
+                    "delete": "$~Bu dersi silmek, dersle ilgili bilgilerin yanı sıra, projelerin, galerilerin veya öğrenci hesaplarının kalıcı olarak silinmesine neden olur."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~sınıfın adı",
+                        "placeholder": "$~isim"
+                    },
+                    "description": {
+                        "description": "$~sınıfın tanımı",
+                        "placeholder": "$~Tanım"
+                    },
+                    "delete": {
+                        "tip": "$~bu sınıfı kalıcı olarak sil",
+                        "label": "$~Bu sınıfı sil"
+                    }
+                },
+                "error": {
+                    "notfound": "$~Bu dersi bulamadık veya görüntüleme yetkiniz yok.",
+                    "gallery": "$~Bu ders için bir galeri oluşturamadık."
+                }
+            },
+            "guide": {
+                "header": "$~Rehber",
+                "description": "$~Bu, @wordplay programlama dilinin her bölümü için bir referanstır. Daha fazla bilgi edinmek için bir kavram arayın veya listeye göz atın."
+            },
+            "projects": {
+                "header": "$~Projeler",
+                "projectprompt": "$~Bir şey söylemeye hazır mısınız? Bir proje oluşturun veya üzerinde çalışın. Takılırsanız, <learning@://learn>'e devam edin.",
+                "archiveprompt": "$~Bunlar arşivlediğiniz projelerdir. Yalnızca sahipleri bunları kalıcı olarak silebilir veya arşivden çıkarabilir. Arşivlenen projeler, son düzenlendikten 30 gün sonra kalıcı olarak silinecektir.",
+                "button": {
+                    "newproject": "$~yeni proje",
+                    "editproject": "$~bu projeyi düzenle",
+                    "unarchive": "$~bu projeyi arşivden çıkar",
+                    "viewproject": "$~bu projenin kodunu görüntüle",
+                    "import": {
+                        "tip": "$~kaydettiğin bir proje dosyasını aç",
+                        "label": "$~bir proje dosyası aç…"
+                    }
+                },
+                "confirm": {
+                    "archive": {
+                        "description": "$~bu performansı sonradan silmek için arşivle",
+                        "prompt": "$~arşiv"
+                    },
+                    "delete": {
+                        "description": "$~bu performansı kalıcı olarak sil",
+                        "prompt": "$~sonsuza dek sil"
+                    }
+                },
+                "error": {
+                    "noaccess": "$~İnternete ulaşamadık.",
+                    "newgallery": "$~Yeni bir galeri oluşturamadık.",
+                    "nodeletes": "$~Arşivlenmiş projeleri silmek için <giriş yapmalısınız@://login>.",
+                    "delete": "$~Oops, projeyi silemedik!",
+                    "importEmpty": "$~Bu dosyanın içinde hiçbir şey yok.",
+                    "importTooLarge": "$~Bu proje, Wordplay'in kaydedemeyeceği kadar büyük. İçinde daha az şey olan bir proje dene.",
+                    "importUnreadable": "$~Wordplay bu dosyayı okuyamadı. Proje dosyaları .wp ile biter."
+                },
+                "subheader": {
+                    "shared": "$~Paylaşılan",
+                    "archived": "$~Arşivlendi"
+                },
+                "search": {
+                    "description": "$~Projeleri ve kaynak dosyalarını arayın.",
+                    "noResults": "$~Hiçbir sonuç bulunamadı."
+                },
+                "installedprompt": "$~Wordplay'i yüklenmiş bir uygulama olarak kullanıyorsun. Bu uygulama kendi projelerini tutar. Bunlar web tarayıcındaki projelerden ayrıdır. Tarayıcında yaptığın projeler hâlâ oradadır. Her iki yerdeki tüm projelerini görmek için <giriş yap@://login>.",
+                "sort": {
+                    "label": "$~sıralama",
+                    "labels": ["$~isim", "$~son düzenlenen"],
+                    "tips": [
+                        "$~projeleri isme göre sırala",
+                        "$~projeleri son değiştirdiğin zamana göre sırala"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~bu klasörün adı",
+                        "placeholder": "$~klasör"
+                    },
+                    "none": "$~klasör yok",
+                    "button": {
+                        "create": "$~yeni bir klasör oluştur",
+                        "expand": "$~bu klasörün içindekileri göster",
+                        "collapse": "$~bu klasörün içindekileri gizle"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~bu klasörü sil ve içindeki projeleri arşivle",
+                            "prompt": "$~Klasörü sil ve projelerini arşivle"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~$project projesini $folder klasörüne taşı",
+                        "moved": "$~$project, $folder klasörüne taşındı",
+                        "movedOut": "$~$project, klasöründen çıkarıldı",
+                        "expanded": "$~$folder açıldı, $#count[1 proje|$count proje]",
+                        "collapsed": "$~$folder daraltıldı, $#count[1 proje|$count proje]",
+                        "selected": "$~$folder seçildi, $#count[1 proje|$count proje]",
+                        "created": "$~$folder oluşturuldu",
+                        "deleted": "$~$folder silindi, $#count[1 proje arşivlendi|$count proje arşivlendi]",
+                        "renamed": "$~klasör adı $folder olarak değiştirildi",
+                        "projectSelected": "$~$project seçildi",
+                        "cleared": "$~hiçbir şey seçilmedi"
+                    },
+                    "instructions": {
+                        "none": "$~Seçmek için bir projeye ya da klasöre tıkla.",
+                        "project": "$~Bu projeyi *yukarı* ve *aşağı* ok tuşlarıyla taşı, ya da bir klasörün üzerine sürükle. Bitirdiğinde *escape* tuşuna bas.",
+                        "folder": "$~Bu klasörün adını değiştirmek için yeni ismi yaz. Klasörü silmek, içindeki her şeyi arşivine koyar."
+                    }
+                },
+                "import": {
+                    "done": "$~$name açıldı.",
+                    "drop": "$~Açmak için bir proje dosyasını buraya bırak.",
+                    "replaced": "$~Bu proje $name ile değiştirildi.",
+                    "replace": {
+                        "header": "$~Bu proje değiştirilsin mi?",
+                        "explanation": "$~Bu projedeki kod değiştirilecek. Wordplay şu anda burada olanı kaydeder, böylece proje geçmişinden geri alabilirsin.",
+                        "prompt": "$~Bu projenin şu anki içeriği yerine $name burada açılsın mı?",
+                        "confirm": {
+                            "tip": "$~bu projeyi bıraktığın dosyayla değiştir",
+                            "label": "$~değiştir"
+                        }
+                    }
+                }
+            },
+            "galleries": {
+                "header": "$~Galeriler",
+                "prompt": "$~Galeriler, genellikle bir tema etrafında toplanan ve sizin veya diğer yaratıcılar tarafından derlenen proje koleksiyonlarıdır.",
+                "button": {
+                    "newgallery": "$~yeni galeri"
+                },
+                "section": {
+                    "tabs": {
+                        "label": "$~galeri türü",
+                        "labels": ["$~Sizinkiler", "$~Örnekler", "$~Halk"],
+                        "tips": [
+                            "$~düzenlediğin veya katkıda bulunduğun galeriler",
+                            "$~Wordplay geliştiricilerinin düzenlediği galeriler",
+                            "$~oluşturanların herkese açık yaptığı galeriler"
+                        ]
+                    },
+                    "own": [
+                        "$~Davet edildiğin bir galeriye katkıda bulun ya da belirli bir temayla kendi galerini oluştur ve başkalarını davet et.",
+                        "/Küratörler, galerilerinde bildirilenleri <denetleme sayfasından@://moderate> gözden geçirir./"
+                    ],
+                    "examples": "$~Bunlar @wordplay geliştiricileri tarafından derlenmiş galerilerdir. Öğrenme ve ilham almak için iyi birer başlangıç noktasıdırlar.",
+                    "public": "$~Bunlar @wordplay oluşturucunun herkese açık hâle getirdiği galeriler. Herkes kendi galerisinin burada listelenmesini isteyebilir. Bir denetçi, galerinin tamamlanmış olduğunu ve kurallara uyduğunu kontrol etmek için önce onu inceler. Bir galeri her an, herhangi bir nedenle bu listeden çıkarılabilir. Galeriler her ziyarette farklı bir sırayla gösterilir, böylece her galeri sırayla üstte yer alır."
+                },
+                "error": {
+                    "nogalleryedits": "$~Galeri oluşturmak ve değiştirmek için <giriş yapmalısınız@://login>.",
+                    "nopublic": "$~Bu liste için henüz onaylanmış bir galeri yok. Yakında tekrar bak!"
+                },
+                "search": {
+                    "description": "$~Örnekleri ve herkese açık galerileri ara",
+                    "noResults": "$~Hiçbir sonuç bulunamadı.",
+                    "galleries": "$~Galeriler",
+                    "examples": "$~Örnek projeler",
+                    "projects": "$~Herkese açık galerilerdeki projeler"
+                }
+            },
+            "about": {
+                "header": "$~Hakkında",
+                "content": [
+                    "$~Hiç kodlamanın yalnızca akıcı İngilizce konuşan, engelli olmayan ve bilgisayarla büyümüş Batılılar için olduğunu hissettin mi?",
+                    "Evet, biz de.",
+                    "Bu bir tesadüf değil. Bilgisayarların doğuşundan beri programlama dilleri çoğunlukla aynı grup insan tarafından tasarlandı ve yapıldı -- çoğunlukla beyaz, cis, İngilizce konuşan, ABD ve Avrupa'daki akademi ve endüstriden erkekler ve birkaç inanılmaz kadın matematikçi. Çalışmalarını sömürgecilik sonrası, kazananın her şeyi aldığı bir güç döneminde yaptılar ve programlama dilleri bu gücü sağlamlaştırmak için önemli bir araçtı.",
+                    "Bu tarih, öncelikle hız, mantık, kâr ve egemenlik hakkında olan bir hesaplama vizyonuna yol açtı.",
+                    "Bu bir adaletsizlik. Çünkü hesaplama, iyi ya da kötü, artık günlük hayatı görünür ve görünmez şekillerde destekliyor ve onunla üretme imkânına sahip olanlar, onu yaratanlara en çok benzeyen kişiler. İnsanlığın geri kalanı bu güce bağımlı kalıyor, çünkü farklı bir şey hayal etmek okuryazarlık gerektiriyor; bu da dil engelleri, erişilebilirlik engelleri, ekonomik engeller ve kamu eğitimindeki eşitsizlikler tarafından engelleniyor.",
+                    "*Wordplay* bunu değiştirmeye yardım etmeyi amaçlıyor. Bu, küresel olmak için tasarlanmış bir programlama platformu; dünyanın /tüm/ dillerini destekliyor, ama aynı zamanda dünyanın dilleri /hakkında/ da. Herkesin, sahip olduğu yeteneklerle üretebileceği ve herkesin deneyimleyebileceği etkileşimli içerikleri paylaşabileceği bir platform. Kendini etkileşimli kelimeler, emojiler ve tipografi aracılığıyla oyuncu ve sanatlı bir şekilde ifade etmek isteyen gençler ve genç yetişkinler için. Kendileri için güç elde etme amacıyla değil, güzel farklılıklarımızın inanılmaz gücünü ve gerekliliğini tanıyan bir hesaplama dünyası yaratmak için.",
+                    "Biz bu vizyonu hayata geçirmeye çalışan bir tasarımcılar, eğitimciler ve geliştiriciler topluluğuyuz. Biz renkli insanlarız, trans'iz, queer'iz, engelliyiz, göçmeniz, mülteciyiz. Merkezimiz ABD'nin Washington eyaletindeki Seattle'da bulunan <Washington Üniversitesi@https://washington.edu> <Bilgi Okulu@https://ischool.uw.edu/>; herkesi kucaklamayı ve bugün de süren sömürgeciliğin engelli ve ırkçı yıkımlarını geri döndürmeyi amaçlayan bir yer. Bu programlama dilini ve platformunu yapmak, bu görevin küçük bir parçası; /herkesin/ ait olduğu bir hesaplama geleceğinin bir görüntüsünü sunuyor.",
+                    "Yardımını çok isteriz. <Nasıl katkı sağlayacağını@https://github.com/wordplaydev/wordplay/wiki/contribute> öğren, <bağış yap@://donate> ya da <ilerlememizi@https://github.com/amyjko/wordplay/milestones> takip et. Sorun varsa topluluk düzenleyicimiz <Amy@https://amyjko.phd>'ye yaz."
+                ],
+                "districts": {
+                    "header": "$~Okullar ve bölgeler için",
+                    "content": [
+                        "$~*Wordplay*'in okulunuzda veya bölgenizde kullanılabilir olup olmadığına mı karar veriyorsunuz? İşte neyi söz verebileceğimiz ve neyi veremeyeceğimiz.",
+                        "Biz bir şirket değiliz. Kâr amacı gütmeyen bir üniversitede yürütülen, topluluk temelli bir araştırma projesiyiz ve hiçbir gelirimiz yok. Bu, yardım etmeyi ne kadar çok istesek de, imzalayamayacağımız bazı anlaşmalar olduğu anlamına gelir. Bir bölge dava edilirse hukuki masraflarını ödeyeceğimize söz veremeyiz. Bir sorunu belirli bir takvimde çözeceğimize söz veremeyiz. Tutamayacağımız bir sözü imzalamak kimseye yardımcı olmaz, en başta size.",
+                        "İşte size verebileceğimiz söz. Platformu /WCAG 2.2 Seviye AA/ erişilebilirlik standardına uygun tutuyoruz, her değişiklikte bunu otomatik olarak kontrol ediyoruz ve bulduğumuz sorunları bir gönüllü topluluğun yapabileceği en hızlı şekilde düzeltiyoruz. Platformu kullanan insanlar hakkında olabildiğince az bilgi topluyoruz ve bu bilgiyi yalnızca platformu çalıştırmak için kullanıyoruz. <rights//rights> sayfamız tam olarak neyi sakladığımızı anlatır ve <source@https://github.com/wordplaydev/wordplay> herkese açıktır, böylece tüm bunları kendiniz kontrol edebilirsiniz.",
+                        "Bu platform sürekli değişiyor, uymanız gereken kurallar da öyle. İhtiyacınız olan ama henüz sunmadığımız bir şey varsa, bize hi@wordplay.dev adresinden yazın ve bize anlatın. Yürütücüler bunu okuyacak ve size geri yazacağız."
+                    ],
+                    "link": "$~Bize bir gereklilik hakkında yazın",
+                    "subject": "$~Wordplay okul başvurusu",
+                    "body": [
+                        "$~Okul veya bölge adı:",
+                        "$~Adınız:",
+                        "$~Göreviniz:",
+                        "$~Henüz karşılamadığımız bir gereklilik veya yönetmelik var mı?",
+                        "$~Şu anki halimizle karşılayamayacağımız bir tane var mı?",
+                        "$~Bilmemizi istediğiniz başka bir şey var mı?"
+                    ]
+                }
+            },
+            "login": {
+                "header": "$~Giriş yapmak",
+                "subtitle": "$~Kaydedin, işbirliği yapın ve paylaşın",
+                "anonymous": "$~giriş yapmak",
+                "prompt": {
+                    "login": "$~Projelerinizi kaydetmek, işbirliği yapmak ve paylaşmak için giriş yapın:",
+                    "join": "$~Veya başlamak için <bir hesap oluşturun@://join>.",
+                    "forgot": "$~*Şifrenizi mi unuttunuz?* İletişim bilgilerinizi toplamadığımız için hesabınızı maalesef kurtaramıyoruz.",
+                    "enter": "$~Giriş bağlantınız farklı bir tarayıcıdan veya cihazdan gelmiş gibi görünüyor. Siz olduğunuzdan emin olmak için e-postanızı tekrar girebilir misiniz?",
+                    "play": "$~Giriş yaptınız, projelerinizi artık çevrimiçi olarak kaydedebiliriz! Bir şey oluşturmak ister misiniz?",
+                    "passwordrule": "$~Şifreleriniz en az 6 karakter uzunluğunda olmalı; eğer şifre yöneticisi kullanmıyorsanız hatırlayabileceğiniz üç uzun kelime seçin.",
+                    "changeEmail": "$~E-postanızı değiştirmek mi istiyorsunuz? Yeni bir tane gönderin, eskisine bir onay gönderelim.",
+                    "changePassword": "$~Şifrenizi değiştirmek mi istiyorsunuz? Yeni bir şifre gönderip tekrarlayın.",
+                    "email": "$~Yalnızca e-postayla açılan bir hesabın mı var? E-postanla giriş yap; onunla ilişkili bir hesap varsa sana giriş bağlantısı içeren bir e-posta göndeririz. Gizliliği korumak için yalnızca e-postayla açılan yeni hesaplar desteklenmiyor.",
+                    "sent": "$~Bu e-posta bir hesapla ilişkiliyse, giriş bağlantısı içeren bir e-posta alacaktır. Görünmesi birkaç dakika sürebilir. Bu e-postayla ilişkili bir hesap yoksa, hiçbir şey almayacaksınız.",
+                    "logout": "$~Paylaşılan bir cihaz mı kullanıyorsunuz ve projelerinizi gizli tutmak mı istiyorsunuz? Çıkış yapın ve projelerinizi bu cihazdan *sileriz*, ancak çevrimiçi olarak kaydedilecekler.",
+                    "success": "$~Hesap oluşturuldu!",
+                    "confirm": "$~Yeni adresini onaylamak için eski e-posta adresini kontrol et.",
+                    "delete": "$~Burada yaptığınız her şeyi unutmamızı mı istiyorsunuz? Bu geri alınamaz.",
+                    "reallyDelete": "$~Emin misiniz? Hesabınız ve ayarlarınız hemen silinecek ve projeleriniz silinmek üzere planlanacak. Projelerinizdeki işbirlikçiler bunlara erişimi hemen kaybedecek. Bunu istediğinizi onaylamak için e-postanızı veya kullanıcı adınızı yazın.",
+                    "name": "$~Kendinizi başkalarına göstermek için bir emoji ya da özel karakter seçin.",
+                    "paste": "$~Bağlantı başka bir yerde mi açıldı? Yüklenmiş uygulamalar bazen e-posta bağlantılarını bunun yerine bir web tarayıcısında açar. E-postandaki bağlantıyı kopyala ve girişi tamamlamak için buraya yapıştır."
+                },
+                "error": {
+                    "expired": "$~Bu bağlantının süresi doldu.",
+                    "invalid": "$~Bu bağlantı geçerli değil.",
+                    "email": "$~Geçerli bir e-posta değil.",
+                    "failure": "$~Giriş yapılamıyor :(",
+                    "unverified": "$~Bunun gerçek bir tarayıcı olduğunu doğrulayamadık, bu yüzden burada durduk. Bu, okul veya iş ağlarında olabilir. Tekrar denemek işe yaramaz, ama farklı bir ağ veya tarayıcı işe yarayabilir. Okuldaysan, bir öğretmene söyle.",
+                    "offline": "$~Buluta ulaşamadık ☁️.",
+                    "wrongPassword": "$~Geçerli bir kullanıcı adı ve şifre değil. Ya şifreniz yanlış ya da başka biri bu kullanıcı adına sahip.",
+                    "tooMany": "$~Çok fazla kez giriş yapmayı denediniz ve başarısız oldunuz. Tekrar denemek için beklemeniz gerekecek.",
+                    "invalidUsername": "$~Kullanıcı isimleri en az 5 harf olmalı ve boşluk içermemeli.",
+                    "invalidPassword": "$~Şifreler en az 6 karakter uzunluğunda olmalıdır.",
+                    "mismatched": "$~Şifreler uyuşmuyor.",
+                    "usernameTaken": "$~Bu kullanıcı adı zaten alınmış.",
+                    "unsaved": "$~Çevrimiçi olarak kaydedilmemiş değişikliklerin var. Şimdi çıkış yaparsan, bu cihazdan silinirler.",
+                    "deletePartial": "$~Hesabınızın verilerini sildik, ancak hesabınızı tamamen silemedik. Lütfen tekrar deneyin veya sorun devam ederse bizimle iletişime geçin."
+                },
+                "feedback": {
+                    "changing": "$~Yeni e-posta gönderiliyor...",
+                    "deleting": "$~Tamam, projelerinizi ve ayarlarınızı siliyorum...",
+                    "updatedPassword": "$~Şifreniz güncellendi.",
+                    "match": "$~Bunun hesabınızın kullanıcı adı ile aynı olması gerekir."
+                },
+                "field": {
+                    "email": {
+                        "description": "$~giriş e-postasını düzenle",
+                        "placeholder": "$~e-posta"
+                    },
+                    "username": {
+                        "description": "$~giriş kullanıcı adı, kişisel olarak tanımlanabilir bilgileri kullanmayın",
+                        "placeholder": "$~kullanıcı adı"
+                    },
+                    "password": {
+                        "description": "$~giriş şifresi, en az 6 karakter",
+                        "placeholder": "$~şifre"
+                    },
+                    "currentPassword": {
+                        "description": "$~mevcut giriş şifreniz",
+                        "placeholder": "$~Mevcut Şifre"
+                    },
+                    "newPassword": {
+                        "description": "$~yeni şifreniz",
+                        "placeholder": "$~Yeni Şifre"
+                    },
+                    "link": {
+                        "description": "$~giriş bağlantısını yapıştır",
+                        "placeholder": "$~bağlantı"
+                    }
+                },
+                "button": {
+                    "logout": {
+                        "tip": "$~hesabınızdan çıkış yapın",
+                        "label": "$~Çıkış yap"
+                    },
+                    "login": "$~bu kullanıcı ismi ve parola ile bir hesap oluştur",
+                    "updateEmail": "$~e-postanızı değiştirin",
+                    "delete": {
+                        "tip": "$~hesabını sil",
+                        "label": "$~verilerimi sil…"
+                    },
+                    "reallyDelete": {
+                        "tip": "$~hesabını sonsuza dek sil",
+                        "label": "$~Sil onu!!!"
+                    },
+                    "updatePassword": "$~yeni şifre gönder"
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "$~Şifreyi göster",
+                        "off": "$~Şifreyi gizle"
+                    }
+                },
+                "signin": {
+                    "usesPassword": "$~Kullanıcı adı ve şifre ile giriş yapıyorsun. Ezberlemen gereken bir şifre istemiyorsan, sana e-posta ile göndereceğimiz bir bağlantıyla giriş yapmaya geçebilirsin — kullanıcı adın aynı kalır.",
+                    "usesEmail": "$~Giriş yapmak için e-posta adresini kullanırsın. Bunun yerine bir kullanıcı adı ve şifre kullanmak istersen, değiştirebilirsin — kullanıcı adın aynı kalır.",
+                    "notYet": "$~Kullanıcı adı ve şifre ile giriş yapıyorsun. Yaşadığın yerde, burada bir e-posta adresi kullanmak için henüz yeterli yaşta değilsin — $date tarihinden itibaren e-posta ile gönderilen bir bağlantıyla giriş yapmaya geçebileceksin.",
+                    "switched": "$~Tamam. Bir sonraki sefer, kullanıcı adınla ve yeni şifrenle giriş yap.",
+                    "toPassword": {
+                        "label": "$~Bunun yerine şifre kullan",
+                        "tip": "$~Kullanıcı adı ve şifreyle giriş yapmaya geç"
+                    }
+                },
+                "username": {
+                    "change": "$~Kullanıcı adın, diğer insanların seni nasıl gördüğüdür ve oluşturduğun her karakterin isminin başında yer alır. İstediğin zaman değiştirebilirsin. Eski isim çalışmaya devam eder, bu yüzden ona işaret eden her şey karakterlerini bulmaya devam eder.",
+                    "missing": "$~Henüz bir kullanıcı adın yok, bu yüzden diğer insanlar seni *—* olarak görüyor ve karakter oluşturamıyorsun. Bir tane seç, bu artık değişmeyecek.",
+                    "changed": "$~Tamamlandı. Artık ismin bu.",
+                    "claimed": "$~Tamamlandı. İşte ismin.",
+                    "field": {
+                        "description": "$~İstediğin kullanıcı adı",
+                        "placeholder": "$~kullanıcı adı"
+                    },
+                    "save": {
+                        "label": "$~Kaydet",
+                        "tip": "$~Bu kullanıcı adını bundan sonra kullan"
+                    }
+                },
+                "notifications": {
+                    "header": "$~Bana e-posta gönder…",
+                    "noAddress": "$~Wordplay'in sana hangi e-postaları göndereceğini seçmek için yukarıya bir e-posta adresi ekle.",
+                    "decisions": {
+                        "label": "$~yaptığım veya bildirdiğim şeylerin denetlenmesi",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Yaptığım veya bildirdiğim şeylerin denetlenmesi hakkında bana e-posta gönderme",
+                            "$~Yaptığım veya bildirdiğim şeylerin denetlenmesi hakkında bana e-posta gönder"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~incelememi bekleyen denetimler",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~İncelememi bekleyen denetimler hakkında bana e-posta gönderme",
+                            "$~İncelememi bekleyen denetimler hakkında bana e-posta gönder"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~yeni sohbetler ve nasıl yapılır rehberleri",
+                        "labels": ["$~kapalı", "$~açık"],
+                        "tips": [
+                            "$~Yeni sohbetler ve nasıl yapılır rehberleri hakkında bana e-posta gönderme",
+                            "$~Yeni sohbetler ve nasıl yapılır rehberleri hakkında bana e-posta gönder"
+                        ]
+                    },
+                    "notYet": "$~Bir e-posta adresi kullanabildiğinde, Wordplay'in sana hangi e-postaları göndereceğini seçebileceksin."
+                },
+                "subheader": {
+                    "work": "$~Çalışman",
+                    "character": "$~Karakterin",
+                    "username": "$~Kullanıcı adın",
+                    "password": "$~Şifren",
+                    "email": "$~E-posta",
+                    "logout": "$~Çıkış yap",
+                    "delete": "$~Hesabını sil",
+                    "export": "$~Arşivin"
+                },
+                "profile": "$~Profil",
+                "export": {
+                    "prompt": "$~Yaptığın her şeyin bir kopyasını indir. Bu kopya; projelerini, karakterlerini, galerilerini, nasıllarını, setlerini, konuşmalarını, sınıflarını ve ayarlarını içerir. Her proje, tekrar Wordplay'de açabileceğin bir dosya olarak gelir. Bunların bir kısmı sadece sana ait değildir: konuşmalar herkesin söylediklerini, sınıf listeleri ise başka kişilerin isimlerini içerir. Bu dosyayı verdiğin herkes tüm içeriğini okuyabilir, bu yüzden onu güvenli bir yerde sakla.",
+                    "proxy": "$~Başka birinin hesabına bakıyorsun, bu yüzden onun bir kopyasını indiremezsin.",
+                    "button": {
+                        "tip": "$~hesabındaki her şeyin bir kopyasını indir",
+                        "label": "$~arşivimi indir…"
+                    },
+                    "progress": "$~Toplanan $kind: şimdiye kadar $#count[$count şey|$count şey]",
+                    "started": "$~Arşivin hazırlanıyor.",
+                    "finished": "$~$name arşivin hazır, içinde $#count[$count şey|$count şey] var.",
+                    "finishedPartial": "$~$name arşivin hazır, içinde $#count[$count şey|$count şey] var, ama $#missing[$missing tür|$missing tür] okunamadı.",
+                    "failed": "$~Arşivin oluşturulamadı. Birazdan tekrar dene.",
+                    "tooLarge": "$~Bir arşivin alabileceğinden daha fazlasını yaptın. Bize haber ver, sana yardımcı olalım.",
+                    "offline": "$~Wordplay internete erişemiyor, bu yüzden arşivini oluşturamıyor.",
+                    "kind": {
+                        "account": "$~hesabın",
+                        "projects": "$~projelerin",
+                        "galleries": "$~galerilerin",
+                        "characters": "$~karakterlerin",
+                        "howtos": "$~nasıl rehberlerin",
+                        "chats": "$~konuşmaların",
+                        "kits": "$~setlerin",
+                        "classes": "$~sınıfların",
+                        "feedback": "$~fikirlerin ve hata bildirimlerin",
+                        "device": "$~bu cihazın ayarları",
+                        "archive": "$~arşiv",
+                        "saving": "$~dosya"
+                    },
+                    "readme": {
+                        "title": "$~Wordplay arşivin",
+                        "intro": "$~Bu, $name adlı Wordplay hesabındaki her şeyin bir kopyasıdır. $date tarihinde oluşturuldu. Wordplay bunu senin için yaptı. Başka kimsede bir kopyası yok.",
+                        "contents": "$~Her klasör tek bir tür şeyi tutar. Projelerin, karakterlerin, galerilerin, nasıl rehberlerin, setlerin, konuşmaların ve sınıfların için klasörler vardır.",
+                        "relationships": "$~Her klasörün içinde öğeler, onlarla nasıl bağlantılı olduğuna göre sıralanır. owner adlı klasör senin yaptıklarını tutar. creator, yazdığın veya ekleyebileceğin şeyleri tutar. curator, göz kulak olduğun şeyleri tutar. teacher ve learner sınıfları tutar. collaborator, commenter ve viewer, başkasına ait olan çalışmaları tutar.",
+                        "device": "$~Cihaz klasörü, yalnızca bu arşivi oluşturduğun bilgisayarda bulunan şeyleri tutar. İçinde çevrimiçi kaydedilmemiş ayarlar, başlattığın çeviriler ve kaydedilmesi tamamlanmamış çalışmalar bulunur. Başka bir bilgisayarda oluşturulan bir arşiv bunları içermez.",
+                        "formats": "$~Bir projeyi tekrar açmak için Wordplay'de projelerin sayfasına git ve \"bir proje dosyası aç\" seçeneğini seç. .wp dosyasını da bu sayfaya sürükleyebilirsin. Zaten sahip olduğun bir projenin yerine geçmesi için dosyayı üzerine sürükle, Wordplay önce sana soracaktır.",
+                        "excluded": "$~Bazı şeyler burada yer almaz. Wordplay, yaptığın değişikliklerin adım adım kaydını dahil etmez, çünkü proje bu değişikliklerin sonucunu zaten içerir. Bir projeye kimlerin baktığının kaydını da dahil etmez. Kural ihlali bildirimlerini de dahil etmez, çünkü bunlar bu bildirimleri inceleyen kişiler için yazılır.",
+                        "privacy": "$~Bunların bir kısmı yalnızca sana ait değildir. Bir konuşma, içindeki herkesin söylediklerini tutar. Bir sınıf, içindeki herkesin ismini tutar. Bu dosyayı verdiğin kişi her şeyi okuyabilir. Bu dosyayı özel bir yerde sakla ve paylaşmadan önce içinde başka kimlerin olduğunu düşün.",
+                        "missing": "$~Wordplay bu arşivi oluştururken bazı şeyleri okuyamadı. Bunlar burada değil:",
+                        "manifest": "$~manifest.json aynı bilgileri bir programın okuyabileceği biçimde tutar. Bunun ne zaman oluşturulduğunu, her şeyden kaç tane olduğunu ve nelerin dahil edilemediğini belirtir.",
+                        "contentsFiles": "$~Her öğenin bir .json dosyası vardır. Bu, Wordplay'in tam olarak sakladığı şeydir. Her projenin ayrıca bir .wp dosyası vardır. Bu, projenin okuyup tekrar açabilmen için yazıya dökülmüş halidir.",
+                        "contentsAccount": "$~account.json kim olduğunu, ne zaman katıldığını ve neler yapmana izin verildiğini belirtir. self klasörü, Wordplay'in senin hakkında tuttuğu şeyleri içerir: kullanıcı adın, ne kadar çeviri yaptığın, sana verilen uyarılar ve bildirimlerin.",
+                        "relationshipsWords": "$~Aynı kelime iki farklı anlama gelebilir. Bir galerinin creator'ı ona projeler ekleyebilir. Bir nasıl rehberinin creator'ı onu yazan kişidir. Her klasörde ayrıca bir index.json bulunur. Bu dosya, her öğeyle bağlantılı olduğun her yolu listeler, çünkü birden fazlası aynı anda doğru olabilir."
+                    },
+                    "incomplete": "$~Arşivin hazır, ancak şunlar okunamadığı için içine eklenmedi: $kinds"
+                }
+            },
+            "join": {
+                "header": "$~Katılmak",
+                "prompt": {
+                    "create": "$~Projelerinizi kaydetmek, başkalarıyla işbirliği yapmak ve çalışmalarınızı paylaşmak için bir hesap oluşturun.",
+                    "username": "$~Kullanıcı isimleri en az /5 karakter/ olmalı, bir e-posta olamaz ve ismini ya da seni tanımlayan başka bilgileri içermemeli.",
+                    "password": "$~Şifreler en az /6 karakter/ olmalıdır. İki kez yazın ve şifre yöneticisi gibi güvenli bir yere yazın. Hesabınızı kaybederseniz *kurtarmanın bir yolu yoktur* çünkü iletişim bilgilerini toplamıyoruz.",
+                    "region": "$~Yaşadığın yeri soruyoruz ki genç insanların hesaplarıyla ilgili oradaki kurallara uyabilelim. Cevabını saklamıyoruz.",
+                    "birthday": "$~Doğum gününü de aynı sebeple soruyoruz. Onu da saklamıyoruz — sadece e-posta adresi kullanmak için yeterli yaşta olup olmadığını ve ne zaman olacağını biliyoruz.",
+                    "choose": "$~Giriş yapmanın iki yolu var. Sana uyanı seç.",
+                    "withPassword": "$~*Kullanıcı adı ve şifre.* Senin hakkında hiçbir şey bilmeyeceğiz — ama *şifreni unutursan hesabını geri alman mümkün olmaz*, çünkü sana ulaşmamızın bir yolu olmaz.",
+                    "withEmail": "$~*Bir e-posta adresi.* Her giriş yaptığında sana bir bağlantı gönderiyoruz, böylece unutulacak bir şifre olmuyor. Adresini sadece bu bağlantıları göndermek için saklıyoruz.",
+                    "tooYoung": "$~Yaşadığın yerde, burada bir e-posta adresi kullanmak için $#age[$age yaşında|$age yaşında] olman gerekiyor. O zamana kadar, kullanıcı adı ve şifre kullanacaksın — sonra değiştirebilirsin.",
+                    "sent": "$~Bu adres giriş yapmak için kullanılabiliyorsa, bir bağlantı yolda. E-postanı kontrol et."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Yaşadığın ülke veya bölge",
+                        "placeholder": "$~ülke"
+                    },
+                    "year": {
+                        "description": "$~Doğduğun yıl",
+                        "placeholder": "$~yıl"
+                    },
+                    "month": {
+                        "description": "$~Doğduğun ay",
+                        "placeholder": "$~ay"
+                    },
+                    "day": {
+                        "description": "$~Doğduğun gün",
+                        "placeholder": "$~gün"
+                    },
+                    "email": {
+                        "description": "$~Giriş yapmak istediğin e-posta adresi",
+                        "placeholder": "$~e-posta"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~ileri",
+                        "tip": "$~Bir sonraki adıma geç"
+                    },
+                    "back": {
+                        "label": "$~geri",
+                        "tip": "$~Önceki adıma dön"
+                    },
+                    "usePassword": {
+                        "label": "$~Bir şifre kullan",
+                        "tip": "$~Bir kullanıcı adı ve şifreyle hesap oluştur"
+                    },
+                    "useEmail": {
+                        "label": "$~Bir e-posta adresi kullan",
+                        "tip": "$~E-postayla gönderilen bir bağlantıyla giriş yaptığın bir hesap oluştur"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Bu gerçek bir tarih değil. Günü ve ayı kontrol et.",
+                    "taken": "$~Az önce birisi bu kullanıcı adını aldı. Başka bir tane dene.",
+                    "throttled": "$~Bu çok fazla giriş bağlantısı. Biraz bekleyip tekrar dene.",
+                    "failed": "$~Hesabı oluşturamadık. Biraz sonra tekrar dene."
+                }
+            },
+            "rights": {
+                "header": "$~Haklar",
+                "content": [
+                    "$~Merhaba!",
+                    "Haklarınız ve bizim haklarımız hakkında bazı beklentileri netleştirelim (ilgili kurallar da göz önünde, örneğin <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> ve <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Bilmeniz gereken ilk şey, ticari bir kuruluş olmadığımızdır. Kar amacı gütmeyen bir üniversitede yürütülen, topluluk temelli bir araştırma projesiyiz. Amacımız size keyif veren ve daha adil, daha eşit bir bilgisayar dünyası hakkında keşifler yapmamıza yardımcı olan bir platform oluşturmaktır. Bu platformdan para kazanmak gibi bir amacımız yok; topladığımız para (genellikle kamu fonlarından) yalnızca platformu ayakta tutmak için kullanılır, üzerinde çalışan ya da katkı sağlayan kimseyi zenginleştirmek için değil.",
+                    "Kar amacı gütmediğimiz için, bu platformun güvenilirliği, erişilebilirliği ya da ne kadar süreceği konusunda söz veremeyiz. Yine de <Amy@https://amyjko.phd> bu platformu uzun vadede sürdürmeye kararlı ve kadrolu bir profesör olarak oldukça sağlam bir konumda.",
+                    "Bu bizi *veri* konusuna getiriyor. Bulutta topladığımız ve sakladığımız şeyler şunlardır:",
+                    "• *Projeleriniz*. Katkıda bulunduğunuz projeleri ve üzerlerinde yaptığınız değişiklikleri saklarız. Ancak bu projelerde telefon numarası, e-posta adresi, kullanıcı adı, vergi kimlik numarası ya da adres gibi kişisel olarak sizi tanımlayabilecek bilgiler varsa bunları saklamayız.",
+                    "• *Ayarlarınız*. Seçtiğiniz diller, animasyon tercihleriniz ve öğretici ilerlemeniz buna dahildir. Bunların dışındaki her şey yalnızca kendi cihazınızda saklanır.",
+                    "• Toplu *etkinlik* bilgileri. Girişleri ve ziyaret ettiğiniz sayfaları izleriz ama sizi tanımlayacak, sitede takip edecek ya da başka sitelerde izleyecek şekilde değil. Google Analytics'i 'onay reddedildi' modunda kullanırız. Bu mod, çerez saklamadan veya Google'a IP adresi bilgisi göndermeden yalnızca sayfa görüntülemeleri hakkında en az düzeyde, kimliği belirlemeyen bilgi toplar. Bu toplu bilgiyi, platformun ne kadar kullanıldığını göstererek fon bulmaya yardımcı olmak için kullanırız.",
+                    "• *Sohbet çevirileriniz*. Bir sohbeti başka bir dilde okumak isterseniz, diğer herkesin mesajlarını çeviririz ama sizin kendi mesajlarınızı asla çevirmeyiz. Bazı tarayıcılar bu çeviriyi kendi cihazınızda yapabilir; tarayıcınız bunu yapabiliyorsa bize hiçbir şey gönderilmez. Aksi halde mesajlar bir yapay zeka çeviri hizmetine gider (şu anda bu, Anthropic tarafından yapılan Claude'dur) ve çeviri sohbetle birlikte kaydedilir. Böylece o sohbetteki başka kimsenin aynı sözleri tekrar çevirmesine gerek kalmaz. Sadece o sohbette olan kişiler bunu okuyabilir.",
+                    "Başka hiçbir şey saklamıyoruz. <Kaynak kodumuz@https://github.com/amyjko/wordplay/tree/main/src> herkese açıktır. Bu sayede herkes bunu doğrulayabilir ve istenmeyen bir izleme fark ederse bize bildirebilir.",
+                    "Verileriniz *sizindir*, bizim değil. Bu şu anlama gelir:",
+                    "• Projelerinize kimin erişebileceğine siz karar verirsiniz. Varsayılan olarak gizlidirler ama bunları belirli kişilerle, gruplarla paylaşabilir ya da tamamen herkese açık hale getirebilirsiniz.",
+                    "• İstediğiniz zaman herhangi bir projeyi ya da kendi hesabınızı tamamen silebilirsiniz.",
+                    "• İstediğiniz zaman herhangi bir projenin ya da tüm hesabınızın bir kopyasını dışa aktarabilirsiniz.",
+                    "Verilerinizi nasıl kullanacağımız ve kullanmayacağımız şöyle:",
+                    "• Yasa açıkça gerektirmedikçe verilerinizi kimseyle paylaşmayacağız. Verilerinizin izinsiz alınması ('veri sızıntısı') her zaman mümkündür. Böyle bir şeyin olduğunu fark edersek, bizimle paylaştığınız e-posta adresi üzerinden sizi bilgilendireceğiz.",
+                    "• 1) hesabınızda bir değişiklik yapmanız bunu gerektirmedikçe, 2) siz açıkça bize ulaşmamız için izin vermedikçe ya da 3) yukarıdaki veri sızıntısı durumu dışında, sizinle e-posta adresiniz üzerinden iletişime geçmeyeceğiz.",
+                    "• Herkesin ne yaptığını ve nasıl yaptığını anlamak için projeleri, galerileri ve platformdaki nasıl içeriklerini inceleyebiliriz. Bu toplu ve kimliksizleştirilmiş bulguları akademik yayınlarda paylaşabiliriz. Bunu yalnızca Amerika Birleşik Devletleri federal yasalarının gerektirdiği şekilde, kurumsal bir inceleme kurulunun gözetiminde yaparız.",
+                    "Son olarak, konuşma özgürlüğü hakkında bir not. Projeler varsayılan olarak gizlidir ve bir projeyi belirli kişilerle paylaşmak onu gizli tutar. Aşağıda, paylaştığınız şeyi kimin görebileceğine bağlı olarak tam olarak kimin inceleyeceği anlatılmaktadır.",
+                    "Ancak bir projeyi *herkese açık* yapmak ya da herkese açık bir galeriye eklemek bir ayrıcalıktır. Bu platform sevgi, onaylama, saygı ve onur için yapılmıştır. Bu nedenle, *herkese açık* içeriğinizin şunları içermemesini bekleriz:"
+                ],
+                "consequences": [
+                    "$~Bu kurallara aykırı bir proje ya da galeri bulursak, insanlar onu görmeden önce oluşturanları uyarırız ya da içeriğin görüntülenmesini engelleriz. Bu kuralları tekrar tekrar ihlal ederseniz, herkese açık paylaşım yapma hakkınızı kaybedersiniz."
+                ],
+                "license": [
+                    "$~Bir projeyi *herkese açık* yapmakla ilgili bir şey daha. Herkese açık projeler <Creative Commons Atıf-AynıLisanslaPaylaş lisansı@https://creativecommons.org/licenses/by-sa/4.0/> altında paylaşılır. Bu, herkesin senin herkese açık projeni /yeniden düzenleyebileceği/ — kendi kopyasını oluşturup değiştirebileceği — ve senin de başkasınınkini yeniden düzenleyebileceğin anlamına gelir.",
+                    "Bu lisansla birlikte üç şey gelir. Yeniden düzenleyenler, orijinali yapan kişinin emeğini belirtmek zorundadır. Yeniden düzenlemelerini bu aynı lisans altında paylaşmak zorundadır, böylece bir sonraki kişi için açık kalır. Ve herkese açık bir projeyi kendine saklamak için özele çeviremezler.",
+                    "Emeği belirtme kısmında yardımcı oluruz: biri bir projeyi yeniden düzenlediğinde, nereden geldiğini hatırlar ve ona geri dönen bir bağlantı gösteririz. Bir projeyi herkese açık yapmak, tüm bunlara evet demenin yoludur; bu yüzden bir projeyi kimsenin yeniden düzenlememesini istersen, onu özel tut."
+                ],
+                "research": [
+                    "$~Son bir seçim var ve bu tamamen sana ait. Wordplay hakkında zaman zaman yazılar yazıyor ve konuşuyoruz — araştırma makalelerinde, konuşmalarda ve öğretmenlere ile ailelere gösterdiğimiz şeylerde. İnsanların onunla gerçekten neler yaptığını göstermeyi çok isteriz, ama sen izin vermedikçe projeni göstermeyiz.",
+                    "Her projenin paylaşım ayarlarında bir *Araştırma* seçeneği vardır ve başlangıçta kapalıdır. Bunu açmak, o tek projeyi örnek olarak göstermemize izin verir; adını, kullanıcı adını ya da hesabının sana ait olduğunu gösteren başka hiçbir şeyi göstermeyiz. Bu ayar her proje için ayrıdır, yani birine evet demen diğerleri hakkında hiçbir şey söylemez.",
+                    "Bunu istediğin zaman kapatabilirsin. Kapatmak, projeni yeni hiçbir şeyde kullanmayacağımız anlamına gelir, ama daha önce yayınladığımız ya da sunduğumuz bir şeyi geri alamaz."
+                ],
+                "warnings": [
+                    "$~Senin genel (herkese açık) içeriğin bu kurallara aykırıysa tam olarak şu olur: Bir moderatör onu inceler, içerik artık herkese açık olmaktan çıkar ve bildirimlerinde hangi içerik olduğunu söyleyen bir uyarı alırsın. Oturum açmış herkes, üzerindeki bildir düğmesini kullanarak bir moderatörden herkese açık içeriği incelemesini isteyebilir.",
+                    "Üç uyarıdan sonra bile projeler oluşturabilir, bunları seçtiğin kişilerle paylaşabilir ve buradaki her şeyi kullanmaya devam edebilirsin. Kaybettiğin tek şey, herhangi bir şeyi herkese açık yapabilme yeteneğidir.",
+                    "Bir uyarının hatalı olduğunu düşünüyorsan ya da uzun zaman önce olduysa ve yeniden herkese açık paylaşım yapmak istiyorsan, hi@wordplay.dev adresine yaz ve bize kullanıcı adını ile nedenini söyle. Bir kişi bunu okuyacak."
+                ],
+                "responsibility": [
+                    "$~Paylaştığın şeyi kimin incelediği, onu kimin görebildiğine bağlıdır.",
+                    "• *Kimseyle paylaşılmamışsa ya da sadece isim verdiğin kişilerle paylaşılmışsa.* Kimse incelemez. Ne biz, ne de başka biri.",
+                    "• *İçinde başka kişiler olan bir galerideyse.* O galerinin küratörleri, onunla birlikte gelen sohbetleri de incelerler. Galeri herkese açık olsun ya da olmasın, bu böyledir: galerideki kişiler çalışmanı görebilir, bu yüzden orada birisi ondan sorumludur.",
+                    "• *Herkese açık bir galerideyse.* Küratörleri inceler, biz de inceleriz, çünkü herkes onu bulabilir.",
+                    "• *Herkese açıksa ve bir galeride değilse.* Biz inceleriz.",
+                    "Bir şeyi görebilen herkes, üzerindeki şikayet düğmesini kullanarak incelenmesini isteyebilir. Kimin şikayet ettiğini, onu yapan kişiye asla söylemeyiz.",
+                    "Bir sohbet mesajını şikayet etmek, biri bakana kadar onu gizler. Bu, her mesaj için bir kere olur: mesaj kalırsa ve biri onu tekrar şikayet ederse, ikinci kez incelenirken görünür kalır. Kendi sözlerini her zaman görebilirsin.",
+                    "Bir karar, yukarıdaki kurallardan hangilerinin çiğnendiğini söyler ve kararı veren kişiden bir not içerebilir. Bildirimlerinde ikisini de göreceksin.",
+                    "Bir galeri küratörünün kararı, sadece kendi galerisi için geçerlidir. Bu, aşağıdaki uyarılardan biri değildir ve sana herkese açık paylaşım yapma hakkını asla kaybettiremez."
+                ]
+            },
+            "donate": {
+                "header": "$~Bağış yapmak",
+                "prompt": "$~@wordplay geliştirmesini finanse etmemize yardım et",
+                "content": [
+                    "$~@wordplay, <University of Washington@https://washington.edu> tarafından desteklenen ücretsiz, topluluk tabanlı bir projedir. Erişilebilir, dil kapsayıcı, eğitimsel programlama dilleri misyonumuza inanan kişilerin bağışlarına güveniyoruz.",
+                    "Güncel maliyetlerimiz şöyle:",
+                    "• Projeyi geliştirmek ve sürdürmek için özellikle engelli veya ana dili İngilizce olmayan Washington Üniversitesi lisans öğrencilerine tazminat ödüyoruz. Bu, maliyetlerimizin yaklaşık %90'ını oluşturuyor.",
+                    "• Çok dilli, erişilebilir müfredat geliştirmek için işbirliği yaptığımız öğretmenlere burs veriyoruz.",
+                    "• Google'a <Firebase@https://firebase.google.com/> bant genişliği ve depolama alanı ile <Workspace@https://workspace.google.com/> hizmetleri için ödeme yapıyoruz.",
+                    "• Alan adı için <Squarespace@https://www.squarespace.com/> adresine yıllık ödeme yapıyoruz.",
+                    "Akademik yıl boyunca (36 hafta) haftada 10 saat, saatte 20 USD//saat ve yaz döneminde 2 lisans öğrencisi (12 hafta) ve bulut hizmetleri varsayarak, mevcut maliyetlerimiz yılda yaklaşık 60.000 USD//saattir.",
+                    "Eğer 2.400 kişi yılda 25 ABD doları bağışta bulunsaydı, bu mevcut maliyetlerimizi karşılardı; aşan miktar ise daha fazla öğrenciye ve öğretmene tazminat olarak giderilirdi.",
+                    "Bu 2.400 kişiden biri olabilir misiniz? Eğer öyleyse, işte Washington Üniversitesi bağış bağlantısı:"
+                ]
+            },
+            "characters": {
+                "header": "$~Karakterler",
+                "prompt": "$~Projelerinizde kullanmak ve başkalarıyla paylaşmak için özel emojiler ve semboller oluşturun.",
+                "button": {
+                    "new": "$~Yeni bir karakter yarat",
+                    "copy": "$~Bu karakteri kopyala",
+                    "remove": {
+                        "tip": "$~bu karakteri sil",
+                        "prompt": "$~silmek?"
+                    }
+                },
+                "error": {
+                    "offline": "$~Çevrimiçi olarak depolanan karakterlerinize erişemedik.",
+                    "noauth": "$~Karakterlerinizi görmek ve yenilerini oluşturmak için <giriş yapmalısınız@://login>.",
+                    "create": "$~Yeni bir karakter oluşturulamıyor."
+                },
+                "subheader": {
+                    "shared": "$~Paylaşılan"
+                },
+                "unnamed": "$~İsimsiz karakter"
+            },
+            "character": {
+                "header": "$~Karakter",
+                "instructions": {
+                    "empty": "$~Şekilleri oluşturmak için paletten bir çizim modu seçin.",
+                    "unselected": "$~Bir çizim kipi seç ya da şekilleri seçip düzenle. Her şeyi seçmek için *$control-a*, geri almak için *$control-z* kullan.",
+                    "selected": "$~Şekilleri taşımak için *ok* tuşlarını kullan. Seçime başka şekiller eklemek için *shift* tuşunu basılı tut. Seçimi kaldırmak için *delete* kullan. Kopyalamak için *$control-c*, yapıştırmak için *$control-v*, geri almak için *$control-z* kullan. Bir yol seçiliyken noktalarını düzenlemek için *enter* tuşuna bas. Seçili şekilleri değiştirmek için aşağıdaki denetimleri kullan.",
+                    "pixel": "$~Piksel çizmek için bir renk seçin. Ardından, tuvale tıklayın veya imleci hareket ettirmek için *okları* ve bir piksel oluşturmak için *boşluk* tuşunu kullanın. Doldurmak için *çift tıklayın*.",
+                    "rect": "$~Dikdörtgenler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
+                    "ellipse": "$~Elips ve daireler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
+                    "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır.",
+                    "eraser": "$~Şekilleri silmek için üzerlerine tıklayın veya dokunun. Pikselleri silmek için sürükleyin. Silgiyi hareket ettirmek için *ok* tuşlarını ve silmek için *boşluk* tuşunu kullanın.",
+                    "points": "$~Yolun noktaları arasında geçmek için *Tab* tuşuna bas. Seçili noktayı taşımak için *ok* tuşlarını, yanına bir nokta eklemek için *enter* tuşunu, kaldırmak için *delete* tuşunu kullan. Bir noktaya gelen parçayı bükmek için *curve* kullan, ardından tutamacını hareket ettir; tutamaç üzerinde *delete* tuşuna basmak onu yeniden düzleştirir. Bitirince *escape* tuşuna bas.",
+                    "symbol": "$~Piksel mi yoksa dış çizgi mi ekleyeceğine karar ver, sonra bir harf, sembol ya da emoji seç. Bir dış çizgi bulanıklaşmadan yeniden boyutlandırılabilir ve döndürülebilir; pikseller ise tek tek yeniden renklendirilebilir. Zaten yaptığın bir şeyi seçmek için üzerine tıkla ya da dokun.",
+                    "image": "$~Bir resim seç, sonra saklamak istediğin kareyi belirle. Bu, pikselleri değiştirir ve çizdiğin şekillerin altında kalır. Zaten yaptığın bir şeyi seçmek için üzerine tıkla ya da dokun."
+                },
+                "shape": {
+                    "shape": "$~şekil",
+                    "pixel": "$~piksel",
+                    "rect": "$~dikdörtgen",
+                    "ellipse": "$~elips",
+                    "path": "$~yol",
+                    "eraser": "$~silgi",
+                    "emoji": "$~emoji",
+                    "glyph": "$~dış çizgi",
+                    "symbol": "$~sembol",
+                    "image": "$~resim"
+                },
+                "field": {
+                    "name": {
+                        "description": "$~karakterin adı",
+                        "placeholder": "$~isim"
+                    },
+                    "description": {
+                        "description": "$~karakterin tanımı",
+                        "placeholder": "$~Tanım"
+                    },
+                    "mode": {
+                        "label": "$~mod",
+                        "labels": [
+                            "$~seç",
+                            "$~silgi",
+                            "$~piksel",
+                            "$~dikdörtgen",
+                            "$~elips",
+                            "$~yol",
+                            "$~emoji",
+                            "$~resim"
+                        ],
+                        "tips": [
+                            "$~şekilleri ve pikselleri seç",
+                            "$~Şekilleri ve pikselleri silin.",
+                            "$~piksel çizmek",
+                            "$~dikdörtgenler çizin",
+                            "$~elips çizin",
+                            "$~yollar çiz",
+                            "$~Emoji'yi piksel olarak içe aktar",
+                            "$~resmi piksel olarak ekle"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~doldurmak",
+                        "labels": ["$~hiçbiri", "$~devral", "$~seç"],
+                        "tips": [
+                            "$~dolgu yok",
+                            "$~Çevreleyen metinden dolgu rengini devral",
+                            "$~Dolgu rengi seçin"
+                        ]
+                    },
+                    "stroke": {
+                        "label": "$~felç",
+                        "labels": ["$~hiçbiri", "$~devral", "$~seç"],
+                        "tips": [
+                            "$~felç yok",
+                            "$~Çevreleyen metinden kontur rengini devral",
+                            "$~Bir çizgi rengi seçin"
+                        ]
+                    },
+                    "none": "$~hiçbiri",
+                    "inherit": "$~metin rengi",
+                    "strokeWidth": {
+                        "label": "$~vuruş genişliği",
+                        "tip": "$~vuruşun ne kadar geniş olduğu"
+                    },
+                    "radius": {
+                        "label": "$~köşe yarıçapı",
+                        "tip": "$~dikdörtgen köşeleri ne kadar yuvarlaktır"
+                    },
+                    "angle": {
+                        "label": "$~açı",
+                        "tip": "$~şeklin merkezi etrafında ne kadar döndürülmesi gerektiği"
+                    },
+                    "width": {
+                        "label": "$~Genişlik",
+                        "tip": "$~şeklin genişliği ne kadar"
+                    },
+                    "height": {
+                        "label": "$~yükseklik",
+                        "tip": "$~şeklin uzunluğu ne kadar"
+                    },
+                    "closed": "$~bağlı",
+                    "brushSize": {
+                        "label": "$~boyut",
+                        "tip": "$~fırçanın ve silginin kaç hücre genişliğinde olduğu"
+                    },
+                    "insertion": {
+                        "label": "$~şu şekilde ekle",
+                        "labels": ["$~pikseller", "$~dış çizgi"],
+                        "tips": [
+                            "$~sembolü, tek tek yeniden renklendirebileceğin pikseller olarak ekle",
+                            "$~sembolü, bulanıklaşmadan yeniden boyutlandırıp döndürebileceğin bir dış çizgi olarak ekle"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~yazı tipi",
+                        "tip": "$~sembolün şeklinin hangi yazı tipinden alınacağı"
+                    },
+                    "weight": {
+                        "label": "$~kalınlık",
+                        "tip": "$~sembolün çizgilerinin ne kadar kalın olduğu"
+                    },
+                    "italic": "$~italik",
+                    "glyphSize": {
+                        "label": "$~sembol boyutu",
+                        "tip": "$~sembolün kaç hücre genişliğinde olduğu"
+                    }
+                },
+                "button": {
+                    "back": {
+                        "label": "$~geri",
+                        "tip": "$~seçilen şekilleri arkaya taşı."
+                    },
+                    "toBack": {
+                        "label": "$~geri dönmek",
+                        "tip": "$~seçilen şekilleri en arkaya taşı."
+                    },
+                    "forward": {
+                        "label": "$~ileri",
+                        "tip": "$~seçilen şekilleri öne taşı."
+                    },
+                    "toFront": {
+                        "label": "$~Ön tarafa",
+                        "tip": "$~seçilen şekilleri en öne taşı."
+                    },
+                    "copy": {
+                        "label": "$~kopyala",
+                        "tip": "$~seçilen şekilleri panoya kopyala."
+                    },
+                    "paste": {
+                        "label": "$~yapıştırmak",
+                        "tip": "$~kopyalanan şekilleri panodan yapıştır."
+                    },
+                    "clear": {
+                        "label": "$~Tümü",
+                        "tip": "$~tüm şekilleri kaldır."
+                    },
+                    "clearPixels": {
+                        "label": "$~pikseller",
+                        "tip": "$~tüm pikselleri kaldır."
+                    },
+                    "undo": {
+                        "label": "$~geri almak",
+                        "tip": "$~önceki tasarıma geri al"
+                    },
+                    "redo": {
+                        "label": "$~yeniden yapmak",
+                        "tip": "$~sonraki tasarıma yinele"
+                    },
+                    "all": {
+                        "label": "$~hepsini seç",
+                        "tip": "$~tüm şekilleri ve pikselleri seç"
+                    },
+                    "end": {
+                        "label": "$~bitiş şekli",
+                        "tip": "$~geçerli yolu bitir"
+                    },
+                    "horizontal": {
+                        "label": "$~yatay çevir",
+                        "tip": "$~seçimi yatay olarak çevir"
+                    },
+                    "vertical": {
+                        "label": "$~dikey çevir",
+                        "tip": "$~seçimi dikey olarak çevir"
+                    },
+                    "fit": {
+                        "label": "$~yerleştirmek",
+                        "tip": "$~şekilleri tuvale uydur"
+                    },
+                    "dismissError": {
+                        "label": "$~azletmek",
+                        "tip": "$~hata mesajını kapat"
+                    },
+                    "allColor": {
+                        "label": "$~tüm renkler",
+                        "tip": "$~Seçimle aynı renkteki tüm şekilleri seçin."
+                    },
+                    "saturationUp": {
+                        "label": "$~doygunluk",
+                        "tip": "$~doygunluğu artırmak"
+                    },
+                    "saturationDown": {
+                        "label": "$~doygunluk",
+                        "tip": "$~doygunluğu azaltmak"
+                    },
+                    "editPoints": {
+                        "label": "$~noktalar",
+                        "tip": "$~seçili yolun noktalarını düzenle"
+                    },
+                    "donePoints": {
+                        "label": "$~bitti",
+                        "tip": "$~noktaları düzenlemeyi durdur"
+                    },
+                    "addPoint": {
+                        "label": "$~nokta ekle",
+                        "tip": "$~seçili noktanın yanına bir nokta ekle"
+                    },
+                    "deletePoint": {
+                        "label": "$~noktayı kaldır",
+                        "tip": "$~seçili noktayı kaldır"
+                    },
+                    "curve": {
+                        "label": "$~eğri",
+                        "tip": "$~seçili noktaya gelen parçayı bük"
+                    },
+                    "straighten": {
+                        "label": "$~düzleştir",
+                        "tip": "$~seçili noktaya gelen parçayı düzleştir"
+                    }
+                },
+                "feedback": {
+                    "name": "$~Karakterler en az 1 karakter uzunluğunda geçerli bir Wordplay ismine ihtiyaç duyar. Bu isim 'UI', ondalık ya da onaltılık bir sayı, veya yerleşik bir dil özelliğinin ismi olamaz.",
+                    "description": "$~Karakterlerin, neyi temsil ettiğini göremeyenler için bir tanıma ihtiyacı vardır.",
+                    "end": "$~veya escape tuşuna basın.",
+                    "loadfail": "$~Bu karakter yüklenirken bir sorun oluştu.",
+                    "notfound": "$~Bu karakter yok veya sana görünmüyor.",
+                    "unauthenticated": "$~Bir karakteri düzenlemek için <giriş yapmalısınız@://login>.",
+                    "taken": "$~Zaten bu isimde bir karakteriniz var; kaydedilemiyor.",
+                    "projecteditfail": "$~Bu karakteri kullanan projeler güncellenirken bir sorun oluştu. Aşağıdaki projelerin düzeltilmesi gerekiyor:",
+                    "untitledproject": "$~Başlıksız Proje",
+                    "glyphLoading": "$~Yazı tipi alınıyor…",
+                    "glyphMissing": "$~Bu yazı tipinde o sembol için bir şekil yok. Başka bir yazı tipi dene.",
+                    "glyphEmpty": "$~O sembolün çizilecek bir şeyi yok.",
+                    "glyphUnreadable": "$~O yazı tipini okuyamadık. Bağlantını kontrol et ya da başka bir yazı tipi dene.",
+                    "imageTooBig": "$~O görsel $size MB büyüklüğünde. Lütfen $limit MB'den küçük bir görsel seçin.",
+                    "imageUnreadable": "$~Bu dosyayı görsel olarak okuyamadık."
+                },
+                "announce": {
+                    "position": "$~$x $y'de",
+                    "selection": "$~$shapes[seçildi $shapes|hiçbir şey seçilmedi]",
+                    "editing": "$~$#count[bir nokta düzenleniyor|$count nokta düzenleniyor]",
+                    "editingDone": "$~noktaları düzenleme bitti",
+                    "point": "$~nokta $index, $x $y konumunda",
+                    "control": "$~eğri $index, $x $y konumunda",
+                    "pointAdded": "$~nokta $index, $x $y konumuna eklendi",
+                    "pointRemoved": "$~nokta $index kaldırıldı, $#count[bir nokta kaldı|$count nokta kaldı]",
+                    "curved": "$~parça $index büküldü",
+                    "straightened": "$~parça $index düzleştirildi",
+                    "moved": "$~$x $y konumuna taşındı",
+                    "drew": "$~$x $y konumunda çizildi",
+                    "erased": "$~$x $y konumunda silindi",
+                    "finished": "$~$shape $x konumunda $y oluşturuldu",
+                    "deleted": "$~silindi, $#count[bir şekil kaldı|$count şekil kaldı]",
+                    "undone": "$~$step adımdan $total. adım geri alındı",
+                    "redone": "$~$step adımdan $total. adım yinelendi",
+                    "copied": "$~$#count[bir $shapes kopyalandı|$count şekil kopyalandı: $shapes]",
+                    "pasted": "$~$x $y konumuna yapıştırıldı",
+                    "arranged": "$~$index katmandan $total. katman",
+                    "flipped": "$~çevrildi, şimdi $x $y konumunda",
+                    "fitted": "$~şekiller tuvali dolduracak şekilde büyütüldü",
+                    "cropped": "$~kırpma kutusu $x $y konumunda",
+                    "cropMoving": "$~kırpma kutusu taşınıyor",
+                    "cropDone": "$~kırpma kutusu yerleştirildi",
+                    "imported": "$~$x $y konumundan $#count[1 piksel eklendi|$count piksel eklendi]"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Paylaşmak",
+                        "explanation": "$~Bu karakteri kimlerin görebileceğini, kimlerin yapımına yardım edebileceğini ve hangi galeriye ait olduğunu seç."
+                    },
+                    "button": {
+                        "label": "$~paylaşmak",
+                        "tip": "$~bu karakteri paylaş"
+                    },
+                    "delete": {
+                        "label": "$~silmek",
+                        "tip": "$~bu karakteri sil"
+                    },
+                    "public": {
+                        "label": "$~görünürlük",
+                        "labels": ["$~halk", "$~özel"],
+                        "tips": [
+                            "$~Bu karakteri herkes görebilir.",
+                            "$~Bu karakteri yalnızca siz ve işbirlikçileriniz görebilir."
+                        ]
+                    },
+                    "collaborators": "$~işbirlikçiler",
+                    "gallery": "$~Galeri",
+                    "galleryexplanation": "$~Bu karakteri galerilerinden birine koy, böylece içindeki herkes onu görebilir, kendi projelerinde kullanabilir ve kendi sürümünü yapabilir. Karakter senin kalır; sadece sen onu değiştirebilirsin.",
+                    "collaboratorsexplanation": "$~Ortak çalışanlar bu karakteri görebilir ve gizli olsa bile seninle birlikte değiştirebilir.",
+                    "publicexplanation": "$~Herkese açık, bu karakteri herkesin görebileceği ve kendi projelerinde kullanabileceği anlamına gelir. Gizli, bu karakteri yalnızca senin, ortak çalışanlarının ve onu koyduğun bir galerideki herkesin görebileceği anlamına gelir.",
+                    "tab": {
+                        "label": "$~paylaşım ayarları",
+                        "labels": [
+                            "$~Herkese Açık",
+                            "$~Katkıda Bulunanlar",
+                            "$~Galeri"
+                        ],
+                        "tips": [
+                            "$~bu karakteri kimlerin görebileceğini seç",
+                            "$~bu karakteri seninle birlikte kimlerin değiştirebileceğini seç",
+                            "$~bu karakterin gösterileceği bir galeri seç"
+                        ]
+                    }
+                },
+                "image": {
+                    "instructions": "$~Kareyi taşımak için sürükleyin, ya da görselin ne kadarının saklanacağını değiştirmek için *boyut* kaydırıcısını kullanın. Klavye ile taşımaya başlamak için *enter* tuşuna basın, sonra *ok* tuşlarını kullanın, bitirdiğinizde tekrar *enter* tuşuna basın.",
+                    "button": {
+                        "label": "$~yükle",
+                        "tip": "$~bu cihazdan bir görsel dosyası seç"
+                    },
+                    "add": {
+                        "label": "$~ekle",
+                        "tip": "$~seçilen kareyi karaktere piksel olarak ekle"
+                    },
+                    "crop": {
+                        "label": "$~kırpma kutusu",
+                        "tip": "$~saklanacak görsel karesi"
+                    },
+                    "preview": "$~eklenecek olan şey",
+                    "size": {
+                        "label": "$~boyut",
+                        "tip": "$~görselin ne kadarının saklanacağı"
+                    }
+                }
+            },
+            "updates": {
+                "header": "$~Güncellemeler",
+                "content": [
+                    "$~Bunlar @wordplay'deki en son yeni özellikler, iyileştirmeler ve hata düzeltmeleridir. Acil bir hata bulmadığımız sürece, güncellemeleri genellikle Cumartesi günleri olmak üzere haftalık olarak yayınlıyoruz."
+                ],
+                "tips": {
+                    "expand": "$~Bu tarihe ait güncellemeleri genişletin",
+                    "collapse": "$~Bu tarihe ait güncellemeleri gizle"
+                },
+                "categories": {
+                    "added": "$~Eklendi",
+                    "changed": "$~Değiştirildi",
+                    "removed": "$~Kaldırıldı",
+                    "fixed": "$~Sabit"
+                }
+            },
+            "design": {
+                "header": "$~Tasarım",
+                "description": "$~Bu, renkler, yazı tipleri, boşluklar ve yeniden kullanılabilir bileşenler de dahil olmak üzere @wordplay'in görsel tasarım sistemi için bir referanstır. Katkıda bulunmak için <tasarım wiki@https://github.com/wordplaydev/wordplay/wiki/design> ve <geliştirme wiki@https://github.com/wordplaydev/wordplay/wiki/develop> kılavuzlarına bakın.",
+                "theme": "$~Tema",
+                "colors": "$~Renkler",
+                "palette": "$~Palet",
+                "semantic": "$~Semantik Renkler",
+                "fonts": "$~Yazı Tipleri",
+                "spacing": "$~Aralık",
+                "typography": "$~Tipografi",
+                "components": "$~Bileşenler",
+                "col": {
+                    "component": "$~Bileşen",
+                    "preview": "$~Önizleme",
+                    "variable": "$~Değişken",
+                    "color": "$~Renk",
+                    "hex": "$~Altıgen",
+                    "description": "$~Tanım",
+                    "cssvalue": "$~CSS değeri",
+                    "computed": "$~Hesaplandı",
+                    "primaryface": "$~Birincil yüz",
+                    "contrast": "$~Karşıtlık"
+                },
+                "demo": {
+                    "button": "$~Örnek",
+                    "note": "$~Bu bir nottur.",
+                    "notice": "$~Bu bir duyurudur.",
+                    "header": "$~Başlık",
+                    "subheader": "$~Alt başlık",
+                    "toggleon": "$~Açık",
+                    "toggleoff": "$~Kapalı",
+                    "textfieldplaceholder": "$~Metin girin…",
+                    "textfielddescription": "$~Örnek metin alanı",
+                    "optionslabel": "$~Örnek",
+                    "optiona": "$~A Seçeneği",
+                    "optionb": "$~B Seçeneği",
+                    "optionc": "$~C Seçeneği",
+                    "logoresting": "$~Durgun halde",
+                    "logoloading": "$~Yükleniyor",
+                    "logoscripts": "$~Yazı sistemleri arasında",
+                    "logodownloadsvg": "$~SVG indir",
+                    "logodownloadpng": "$~PNG indir (512px)",
+                    "logodownloadcard": "$~Paylaşım görselini indir"
+                },
+                "accessibility": "$~Renk Erişilebilirliği",
+                "accessibilityRules": [
+                    "$~*Metin* olarak gösterilen her şey AA metin türlerinden birini kullanmalıdır (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text* veya bunlardan birini işaret eden anlamsal bir değişken). Bunlar <WCAG 2.2@https://www.w3.org/TR/WCAG22/> tarafından istenen 4.5:1 karşıtlık oranını sağlar. Daha parlak marka renkleri yalnızca arka planlar, kenarlıklar ve vurgular içindir; bunlar 3:1 veya hiç oran gerektirmez. Bu oranlar birim testleriyle ve her sayfanın hem açık hem koyu modda otomatik taranmasıyla uygulanır. Bilerek yapılan bir istisna vardır: açık moddaki kenarlık grisi 3:1 oranının altındadır, çünkü buradaki kenarlıklar süsleyici ayırma amaçlıdır ve her önemli sınır başka bir ipucu taşır.",
+                    "Anlamı asla yalnızca renkle aktarma: renkle kodlanmış her durumu ikinci bir ipucuyla eşleştir — bir şekil, bir çizgi türü, bir simge veya bir kelime. Örneğin, düzenleyici imlecin vurgusunu ve büyük çakışmaları *düz*, seçili çıktıyı *kesik* ve küçük çakışmaları *noktalı* çizer, böylece önem ve seçim renk olmadan da ayrı kalır.",
+                    "Katkıda bulunanlara yönelik tam rehber için <tasarım wiki@https://github.com/wordplaydev/wordplay/wiki/design> rehberine bakın."
+                ],
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Wordplay logosu, içinde tek bir harf bulunan bir konuşma balonudur: balonun her şeyi söyleyebileceği küçük bir sahnedir — okuyucunun yazı sisteminden bir harf, bir emoji ya da bir şey yüklenirken bir daire, üçgen ve kare. Uygulamada harf, senin ana dilinin yazı sistemini takip eder; tarayıcı simgesi ve paylaşım görselleri gibi yazıdan bağımsız yerlerde balon, bir şey yapmak üzere olan üç şekli gösterir.",
+                    "Çizimin kendisi asla hareketi göstermez. Hareket davranışsaldır — açılış sayfası, balonun söylediklerini dil seçici ile aynı adımda değiştirir ve yükleme sırasında şekiller sırayla zıplar, tıpkı Meksika dalgası yapan bir kalabalık gibi — ve her zaman animasyon hızı ayarına göre ölçeklenir, animasyon kapalıyken tamamen durur.",
+                    "İşaret her zaman geçerli metin renginde çizilir, bu yüzden metnin kontrast gerekliliklerini karşıladığı her yerde logo da karşılar."
+                ],
+                "copyvalue": "$~tam CSS değerini kopyala"
+            },
+            "thanks": {
+                "header": "$~Teşekkürler",
+                "intro": "$~@wordplay'in tasarımına, geliştirilmesine, yerelleştirilmesine ve içeriğine katkı sağlayan *$#count[$count katkıcımıza|$count katkıcımıza]* teşekkür ederiz! Ayrıca odak gruplarında, tasarım oturumlarında ve sınıflarda tasarımımıza yön veren birçok öğretmene ve gence de teşekkür ederiz; gizliliklerini korumak için onları burada listelemiyoruz.\n\nBu proje, 2318257, 2031265, 2100296 ve 2122950 numaralı ödüllerle Ulusal Bilim Vakfı tarafından, Washington Üniversitesi tarafından ve sizin gibi insanların cömert <bağışları//donate> ile desteklenmiştir.",
+                "teachers": "$~Öğretmenler",
+                "contributors": "$~Katkıda Bulunanlar"
+            },
+            "localize": {
+                "header": "$~Yerelleştir",
+                "description": [
+                    "$~Burada platformdaki yerelleştirilebilir tüm metinleri inceleyebilir ve yazılmamış veya makine çevirisi yapılmış metinler için çeviri veya düzeltme önerilerinde bulunabilirsiniz. Hazır olduğunuzda düzeltmelerinizi inceleme için gönderebilirsiniz.",
+                    "Yazarken, henüz ileri düzey kelime bilgisine sahip olmayan genç bir okuyucu kitlesi için basit bir dil kullanmaya özen gösterin. Ayrıca, mümkün olduğunca farklı metinlerde aynı terminolojiyi kullanarak tutarlı olun."
+                ],
+                "workspaceLink": "$~tüm metni gör + gönder",
+                "workspaceHeader": "$~Yazılacak veya incelenecek metin",
+                "submitHeader": "$~Göndermek",
+                "submitPrompt": "$~Bu düzenleme paketini önermeye hazır olduğunuzda, aşağıdan gönderebilirsiniz.",
+                "bundleSummary": "$~Bu partideki düzenlemeler",
+                "editEntry": "$~Bu metni düzenlemek için geri dön",
+                "revertEntry": "$~Bu düzenlemeyi toplu işlemden çıkarın.",
+                "prevBundleItem": "$~Önceki düzenlemeyi inceleyin",
+                "nextBundleItem": "$~Sonraki düzenlemeyi inceleyin",
+                "descriptionField": {
+                    "description": "$~Yapılan düzenlemelerin kısa bir açıklaması, gözden geçirenlerin değişiklikleri anlamalarına yardımcı olmak amacıyla aşağıda yer almaktadır.",
+                    "placeholder": "$~Neyi değiştirdiniz ve neden?"
+                },
+                "notSpamLabel": "$~Bu düzenlemelerin spam olmadığını garanti ederim.",
+                "notSpamNote": "$~Wordplay, gönüllüler tarafından yürütülen kar amacı gütmeyen bir projedir.",
+                "requireLogin": "$~Yerelleştirme önerilerinde bulunmak için giriş yapmanız gerekmektedir.",
+                "submit": {
+                    "description": "$~Bu düzenleme grubunu gönder",
+                    "prompt": "$~Göndermek"
+                },
+                "submitSuccess": "$~Teşekkürler! Düzenlemeleriniz gönderildi ve yakında incelenecek.",
+                "submitError": "$~Gönderim sırasında bir sorun oluştu. Düzenlemeleriniz bu cihazda hala kayıtlı durumda; lütfen tekrar deneyin.",
+                "empty": "$~Bu filtreyle eşleşen hiçbir dize bulunamadı.",
+                "prevEntry": "$~Önceki metni düzenle",
+                "nextEntry": "$~Sonraki dizeyi düzenle",
+                "qualityMode": {
+                    "label": "$~göstermek",
+                    "labels": [
+                        "$~Tümü",
+                        "$~makine çevirisi veya yazılı olmayan"
+                    ],
+                    "tips": [
+                        "$~tüm dizeleri göster",
+                        "$~yalnızca makine çevirisi yapılmış veya yazılmamış metinleri göster"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~bölüm",
+                    "labels": [
+                        "$~Tümü",
+                        "$~terim",
+                        "$~belirteç",
+                        "$~düğüm",
+                        "$~temel",
+                        "$~giriş",
+                        "$~çıktı",
+                        "$~kullanıcı arayüzü",
+                        "$~galeri",
+                        "$~ılımlılık"
+                    ],
+                    "tips": [
+                        "$~tüm bölümleri göster",
+                        "$~ortak terminoloji",
+                        "$~belirteç açıklamaları",
+                        "$~programlama dili yapıları",
+                        "$~sayı, metin, liste gibi yerleşik türler",
+                        "$~akış ve giriş kaynağı açıklamaları",
+                        "$~çıktı türü açıklamaları",
+                        "$~uygulama kullanıcı arayüzü",
+                        "$~varsayılan galeri içeriği",
+                        "$~içerik denetimi mesajları"
+                    ]
+                },
+                "section": {
+                    "glossary": "$~Terminoloji",
+                    "token": "$~Jetonlar",
+                    "node": "$~Dil yapıları",
+                    "basis": "$~Dahili tipler",
+                    "input": "$~Girişler",
+                    "output": "$~Çıktılar",
+                    "ui": "$~Kullanıcı arayüzü",
+                    "gallery": "$~Galeri",
+                    "moderation": "$~Ölçülülük"
+                },
+                "singletonWordsWarning": "$~Taslağınızdaki bazı kelimeler metnin tamamında yalnızca bir kez geçiyor. Bu kelimelerin doğru yazıldığından ve metnin geri kalanıyla tutarlı olduğundan emin misiniz?",
+                "viewPR": "$~Çekme isteğini görüntüle",
+                "oneLocaleNote": "$~Her gönderim bir seferde yalnızca bir dili kapsar. Bu parti, $locale değişkenine yapılan düzenlemeler olarak gönderilecektir. Farklı bir dile katkıda bulunmak istiyorsanız, önce dilleri değiştirin; her dil altında kaydettiğiniz düzenlemeler ayrı ayrı saklanır.",
+                "literalTermsWarning": "$~Taslağın sözlük kelimelerini düz metin olarak kullanıyor. Birine dokunarak onu bir sözlük bağlantısına dönüştür.",
+                "checkReadingLevel": "$~Bu metnin okuma düzeyini kontrol et",
+                "readingLevelComplex": "$~Bunu okumak zor olabilir. Daha kısa cümleler ve daha basit kelimeler dene.",
+                "readingLevelOk": "$~Bu, hedef okuma düzeyi için açıkça okunuyor.",
+                "tabs": {
+                    "label": "$~bölüm",
+                    "labels": [
+                        "$~Hakkında",
+                        "$~Metin",
+                        "$~Terimler",
+                        "$~Sözlük",
+                        "$~Gönder"
+                    ],
+                    "tips": [
+                        "$~yerelleştirmenin nasıl çalıştığı ve bu dili yazan kişiler için notlar",
+                        "$~platformun metnine göz atın ve düzenleyin",
+                        "$~bu dilin metninde tekrar tekrar kullanabileceğiniz ifadeler tanımlayın",
+                        "$~bu dilde terimlerin çoğul hallerini ve diğer yazılışlarını ekle",
+                        "$~düzenlemelerinizi gözden geçirin ve gönderin"
+                    ]
+                },
+                "toSubmit": "$~düzenlemelerinizi gözden geçirin ve gönderin",
+                "submitEmpty": "$~Henüz hiç düzenlemeniz yok. Bazıları yazmak için Metin sekmesini seçin ya da düzenleme kipiyle metni yerinde düzenleyin.",
+                "clear": {
+                    "description": "$~bu dil için gönderilmemiş tüm düzenlemelerinizi silin",
+                    "prompt": "$~hepsi silinsin mi?"
+                }
+            },
+            "breadcrumb": {
+                "label": "$~Ekmek kırıntıları",
+                "home": "$~Ev"
+            },
+            "admin": {
+                "header": "$~Yetkiler",
+                "prompt": "$~Aşağıdaki herkes çoğu insanın yapamadığı bir şeyi yapabilir. Buradaki bir değişiklik onlara hemen ulaşır, ama zaten açık olan bir sayfanın bunu fark etmesi bir saate kadar sürebilir. Süper kullanıcı yetkisi, denetleme ve öğretmeyi de kapsar. Bu yüzden bu yetkiye sahip birinin diğer ikisine ihtiyacı yoktur.",
+                "claim": {
+                    "admin": "$~Süper kullanıcı",
+                    "mod": "$~Denetçi",
+                    "teacher": "$~Öğretmen",
+                    "banned": "$~Herkese açık paylaşamaz"
+                },
+                "creator": "$~Oluşturan",
+                "email": "$~E-posta",
+                "privileges": "$~Yetkiler",
+                "button": {
+                    "revoke": "$~Tüm yetkileri geri al",
+                    "lift": {
+                        "label": "$~Paylaşım hakkını geri ver",
+                        "tip": "$~Bu oluşturan kişinin yeniden herkese açık paylaşım yapmasına izin ver ve uyarı sayısını sıfıra ayarla"
+                    }
+                },
+                "confirm": "$~Uyarı sayıları sıfıra döner ve yeniden herkese açık paylaşım yapabilirler. Neler olduğunun kaydı saklanır, böylece daha sonra bir denetçi onlara baktığında hâlâ görebilir.",
+                "ownAdmin": "$~Kendi yetkilerini geri alamazsın. Başka bir yöneticiye sor.",
+                "nobody": "$~Henüz kimsenin bir yetkisi yok.",
+                "error": {
+                    "notadmin": "$~Burası bir süper kullanıcı alanı. Burada değiştirebileceğin bir şey yok.",
+                    "login": "$~Bu sayfayı görmek için <giriş yapmış@://login> olman gerekiyor.",
+                    "offline": "$~Kimlerin yetkisi olduğunu yükleyemedik. İnternete bağlı mısın?",
+                    "save": "$~Bu değişikliği kaydedemedik. Tekrar dener misin?",
+                    "none": "$~Birini eklemeden önce en az bir yetki seç."
+                },
+                "proxy": {
+                    "header": "$~Başka biri gibi bak",
+                    "prompt": "$~Wordplay'i başka bir yaratıcı gibi aç, bir şey onlar için çalışmadığında ne gördüklerini görmek için. Sadece okunabilir: yaptığın hiçbir şey kaydedilmez ve orada olduğunu görmezler. Yeni bir sekmede açılır ve o sekmeyi kapatmak bu oturumu bitirir.\n\nHerkes bunu her yaptığında, kaydedilir.",
+                    "start": {
+                        "label": "$~Bak",
+                        "tip": "$~Bu yaratıcı gibi yeni bir sekmede salt okunur bir oturum aç"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,2185 @@
+{
+    "$schema": "../../../static/schemas/sections/node.json",
+    "node": {
+        "Dimension": {
+            "name": "dimensión",
+            "description": "$~unit $name[$name|part]$exponent[ a la potencia $exponent|]",
+            "emotion": "serious",
+            "doc": [
+                "$~¡Soy una /unidad de medida/!",
+                "Puedo ser cualquier unidad estándar, como \\1m\\, \\10s\\, \\100g\\, o cualquier otra unidad científica. También me alegra ser cualquier unidad que quieras inventar, como \\17apple\\.",
+                "Me pueden combinar con \\/\\ para hacer unidades de razón como \\17apple/day\\ y con \\^\\ para hacer unidades exponenciales como \\9.8m/s^2\\",
+                "Siempre debo venir después de un @Number. Si no, ¡me pueden confundir con @Reference, lo cual sería muy vergonzoso!",
+                "También soy muy buena para encontrar inconsistencias entre unidades. Por ejemplo, \\1cat + 1dog\\🪲 ¡no tiene ningún sentido!",
+                "Si alguna vez quieres convertir entre distintos valores de unidades, ve a hablar con @Convert."
+            ]
+        },
+        "Doc": {
+            "name": "explicación",
+            "description": "$~documentation$language[ en $language|], $#words[$#words palabra|$words palabras|$words palabras]",
+            "emotion": "serious",
+            "doc": [
+                "$~Doy formato completo a las cosas con @Markup, como explicaciones de algunos de tus @Program, o hasta las palabras que pones en el escenario con @Phrase.",
+                "Por ejemplo, puedo ir antes de cualquier @expression:",
+                "\\¶¿De verdad se supone que esto sea 7?¶\n7\\",
+                "Por ejemplo, puedes ponerme antes de @Bind:",
+                "\\¶mido qué tan alta es una persona¶\naltura2: 5m\\🪲",
+                "O antes de un @FunctionDefinition:",
+                "\\¶sumo dos números¶\nƒ suma2(a2•# b2•#) a2 + b2\\",
+                "O antes de un @StructureDefinition:",
+                "\\¶recuerdo el nombre y la fruta favorita de las personas¶\n•persona(nombre2•'' fruta•'')\\",
+                "También puedes ponerme justo al principio de @Program para decir de qué trata toda la actuación",
+                "\\¶este programa dice hola¶\n\n'¡hola!'\\",
+                "Puedes darme un @Language para ayudar a que otras personas sepan en qué idioma estoy escrito:",
+                "\\¶soy un documento en inglés¶\nduración2: 5s\\🪲",
+                "¿Sabías que puedes hacer una lista de mí? Ve a hablar con @Docs."
+            ]
+        },
+        "Docs": {
+            "name": "lista de explicaciones",
+            "description": "$~documentation list$languages[ en $languages| de $count]",
+            "emotion": "serious",
+            "doc": [
+                "$~Soy una lista de @Doc, útil cuando tienes varias traducciones de @Doc en distintos idiomas.",
+                "No tienes que hacer nada especial para hacer una lista. Solo pon un montón de @Doc uno junto al otro, así:",
+                "\\¶Hello¶/en\n¶Hola¶/es\nsaludo: '…'\\🪲"
+            ],
+            "start": "¡Creando el valor de los documentos!"
+        },
+        "KeyValue": {
+            "name": "mapeo",
+            "description": "$~key $key to value $value",
+            "emotion": "kind",
+            "doc": [
+                "$~Soy una relación entre una *clave* y un *valor*, siempre dentro de un @Map.",
+                "Puedes relacionar cualquier tipo de @value con cualquier otro. Por ejemplo, aquí hay una relación de números:",
+                "\\{1:1}\\",
+                "O una relación de texto a números:",
+                "\\{'conejito': 1}\\"
+            ]
+        },
+        "Language": {
+            "name": "idioma",
+            "description": "$~language $language[$language|sin especificar]$region[, región $region|]",
+            "emotion": "eager",
+            "doc": [
+                "$~¡Soy una etiqueta de @language y trabajo con @Name y @Doc!",
+                "Soy muy buena para dejar *bien claro* en qué idioma está escrito algo. Solo con una pequeña diagonal y unas letras, nadie tendrá dudas sobre en qué idioma está un texto.",
+                "Por ejemplo, si quieres decir \"Idioma\" pero dejar claro que está en inglés:",
+                "\\'Idioma'/es\\",
+                "Puedes hacer esto con un @Name:",
+                "\\sonido: 'miau'\\🪲",
+                "…o con un @Doc:",
+                "\\¶Onomatopeya¶\nsonido: 'miau'\\🪲",
+                "A veces un texto no es de un solo idioma, sino una *mezcla*. Como el spanglish, donde el español y el inglés se combinan. Para esos casos, escribe cada idioma separado por un guion bajo. El primero es el *principal*: ese es el que uso cuando tengo que elegir algo (por ejemplo, para decidir qué comillas usar).",
+                "\\\"Hola gentleman!\"/es_en\\",
+                "\\¶A bilingual greeting¶\nhello/es_en: '¡Hola caballero!'\\🪲",
+                "También puedes agregar una sola @region, después de un guion, igual que con un solo idioma:",
+                "\\\"Hola gentleman!\"/es_en-MX\\",
+                "No hay límite de cuántos idiomas puedes escribir en la lista, solo no repitas el mismo dos veces; si lo haces, te lo diré.",
+                "Puedes escribir un idioma con su <código de 2 letras@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> o con su *nombre*, en ese idioma o en inglés. `/es`, `/Español` y `/Spanish` significan lo mismo, y también `/es-MX`, `/es-México` y `/es-Mexico`. Las mayúsculas y los acentos no importan, así que `/ESPANOL` también funciona. Un nombre con espacio se escribe sin el espacio, como `/BahasaIndonesia`, porque una etiqueta es una sola palabra. Si no reconozco un idioma o una región, te lo diré."
+            ],
+            "conflict": {
+                "UnknownLanguage": {
+                    "name": "$~idioma desconocido",
+                    "explanation": "$~no conozco este idioma",
+                    "resolution": "$~quitar este código de idioma"
+                },
+                "MissingLanguage": {
+                    "name": "$~falta un idioma",
+                    "explanation": "$~me falta un idioma. ¿Puedes añadir uno?",
+                    "resolution": "$~quitar la etiqueta de idioma vacía"
+                },
+                "DuplicateLanguage": {
+                    "name": "$~idioma duplicado",
+                    "explanation": "$~Usaste el idioma '$code' dos veces. Las etiquetas de idiomas mezclados deben listar cada idioma solo una vez.",
+                    "resolution": "$~quitar la etiqueta *$code* duplicada"
+                },
+                "UnknownRegion": {
+                    "name": "$~región desconocida",
+                    "explanation": "$~no conozco esta región",
+                    "resolution": "$~quitar esta región"
+                }
+            }
+        },
+        "Name": {
+            "name": "nombre",
+            "description": "$~nombre $name[$name|sin nombre]",
+            "emotion": "kind",
+            "doc": [
+                "$~Yo identifico un @value, y soy una forma útil de dar una etiqueta corta a algo que fue difícil de evaluar, o que no quieres tener que evaluar una y otra vez.",
+                "@Bind me da mi nombre así:",
+                "\\hola: 5\\🪲",
+                "Yo solo represento un valor, y una vez que lo tengo, no puedo cambiar. Por ejemplo, si intentaras hacer esto con @Bind, nos quejaríamos.",
+                "\\hola: 5\nhola2: 3\\🪲",
+                "Todo lo que tienes que hacer para obtener mi valor es que @Reference o @PropertyReference use el nombre. Aquí, @Bind me da un nombre, y luego @Reference obtiene el valor que me dieron.",
+                "\\hola: 5\nhola\\",
+                "Como @Bind puede aparecer en tantos lugares, yo puedo aparecer en muchos lugares. Yo estaba en un @Block arriba, pero puedo estar en un @FunctionDefinition. Aquí estoy nombrando un mensaje de forma temporal:",
+                "\\ƒ decir(mensaje•'') mensaje\\",
+                "Me definen dentro de @FunctionDefinition, y luego, en cuanto la función termina de evaluar, desaparezco.",
+                "Puedes usar @Language para indicar en qué idioma está mi nombre. Esto es útil cuando compartes tu actuación con otras personas, por si quieren leer tu programa."
+            ]
+        },
+        "Names": {
+            "name": "lista de nombres",
+            "description": "$~nombres $names[$names|vacío]",
+            "emotion": "kind",
+            "doc": [
+                "$~Soy una lista de @Name, útil cuando quieres darle a un @value varios nombres, a menudo con diferentes @Language.",
+                "Los nombres se separan con \\,\\ símbolos. Por ejemplo, aquí está @Bind dando a un valor varios @Name",
+                "\\hola: 'bienvenida'\\🪲"
+            ],
+            "label": {
+                "names": "$~nombres"
+            }
+        },
+        "Row": {
+            "name": "fila",
+            "description": "$~fila de $#count[$#count celda|$count celdas|$count celdas]",
+            "emotion": "shy",
+            "doc": "Represento una fila en una @Table. Probablemente sea mejor hablar con @Table, ellos saben todo sobre mí. Solo estoy por aquí y mantengo los valores en línea :(",
+            "conflict": {
+                "InvalidRow": {
+                    "name": "$~fila no válida",
+                    "explanation": "$~Las filas deben tener todos los valores o todos @Bind.",
+                    "resolutionKeepPositional": "$~Quitar las celdas con nombre, conservar solo las de posición",
+                    "resolutionUnwrapInputs": "$~Quitar los nombres de las celdas con nombre"
+                },
+                "MissingCell": {
+                    "name": "$~falta una columna",
+                    "explanation": "$~Me falta la columna $column",
+                    "resolution": "$~Agregar una celda marcador de posición para *$column*"
+                },
+                "ExtraCell": {
+                    "name": "$~columna de más",
+                    "explanation": "$~Según mi tipo de tabla, soy una columna de más que no debería estar aquí.",
+                    "resolution": "$~Quitar la celda de más"
+                },
+                "UnknownColumn": {
+                    "name": "$~nombre de columna desconocido",
+                    "explanation": "$~No conozco ninguna columna con este nombre",
+                    "resolution": "$~Cambiar el nombre a *$name*"
+                },
+                "UnexpectedColumnBind": {
+                    "name": "$~las filas no tienen enlaces",
+                    "explanation": "$~Debería ser un valor, no @Bind."
+                }
+            }
+        },
+        "Token": {
+            "name": "token",
+            "description": "$~$label$text[ $text|]",
+            "emotion": "neutral",
+            "doc": [
+                "$~Soy la parte más pequeña posible de una actuación: el átomo del que están hechos todos los caracteres del Verso. ¿Cómo me encontraste?",
+                "Soy la base de la que están hechos todos los caracteres del Verso. Soy la partícula atómica de nuestra coreografía."
+            ]
+        },
+        "Markup": {
+            "name": "marcado",
+            "description": "$~texto con formato de $#count[$#count párrafo|$count párrafos|$count párrafos]",
+            "emotion": "serious",
+            "doc": [
+                "$~Soy una lista de párrafos, usando los muchos tipos de @markup disponibles en @Doc, como @Words, @WebLink, @ConceptLink, y @Example.",
+                "Me encuentras en un @Doc, y en @FormattedLiteral:",
+                "\\¶Soy documentación con texto en *negrita*. Puedo referirme a conceptos como @Phrase y enlazar a <cosas en la red@https://wordplay.dev>.¶\nFrase(\n\t`Soy texto con formato para un @Phrase, usando *negrita*, /cursiva/ y _subrayado_`\n)\\"
+            ],
+            "label": {
+                "paragraphs": "$~párrafos"
+            }
+        },
+        "Paragraph": {
+            "name": "párrafo",
+            "description": "$~párrafo $text",
+            "emotion": "serious",
+            "doc": [
+                "$~Soy una serie de @Words, @ConceptLink, @WebLink y @Example, separados por una línea en blanco y dentro de @Doc.",
+                "Lo único que necesitas para escribirme es escribir un montón de palabras en un @Doc:",
+                "\\¶Soy un párrafo en un documento.¶\n'un párrafo'\\",
+                "Si quieres varios párrafos, solo pon líneas en blanco.",
+                "\\¶Párrafo 1.\n\nPárrafo 2.\n\nPárrafo 3.¶\n'tres párrafos'\\"
+            ]
+        },
+        "WebLink": {
+            "name": "enlace",
+            "description": "$~enlace a $url",
+            "emotion": "serious",
+            "doc": [
+                "$~Soy un enlace a algo en internet. Solo necesito una descripción y una URL:",
+                "\\¶Soy un <enlace@https://wordplay.dev> en un documento¶\n'ejemplo de enlace'\\",
+                "Si alguien me selecciona, abriré una ventana nueva con la URL."
+            ]
+        },
+        "ConceptLink": {
+            "name": "$~carácter",
+            "description": "$~enlace a $concept",
+            "emotion": "serious",
+            "doc": [
+                "Soy un enlace a un personaje del Verso. Soy útil cuando quieres escribir un @Doc y referirte a uno de nosotros.",
+                "Por ejemplo, imagina que quieres hablar de @Evaluate y de lo genial que es. Podrías escribir:",
+                "\\¶¿Sabes? @Evaluate es genial.¶'¡mira, un enlace de personaje!'\\",
+                "Los personajes también tienen números Unicode que les corresponden. Por ejemplo, @FunctionDefinition es 192. Puedes referirte a cualquier carácter Unicode escribiendo @U/ y su número, y aparecerá:",
+                "\\`¡@U/192 es muy agradable!`\\",
+                "Y si creas tu propio personaje, puedes referirte a él con el nombre que le diste.",
+                "\\`@coolbeans/cat`\\",
+                "Ay... parece que ese personaje no existe, así que aparece un cuadrito. ¡Pero si existiera, se mostraría aquí!"
+            ],
+            "kind": {
+                "codepoint": "$~el carácter Unicode $concept",
+                "ui": "$~un enlace al elemento de interfaz $concept",
+                "how": "$~un enlace a la guía práctica $concept",
+                "character": "$~el carácter personalizado $concept",
+                "tour": "$~un enlace a un recorrido por $concept"
+            }
+        },
+        "Words": {
+            "name": "palabras",
+            "description": "$~palabras $text",
+            "emotion": "serious",
+            "doc": [
+                "$~Soy las palabras que quieras dentro de un @Doc. Por ejemplo:",
+                "\\¶Que la Fuerza te acompañe.¶\n'¡solo unas palabras!'\\",
+                "Sin embargo, a veces quizás quieras usar los caracteres especiales que @Doc usa /como/ palabras. Por ejemplo:",
+                "\\¶Mis amigas usan , //, **, ||, y otros símbolos.¶\n'¡usando caracteres especiales!'\\",
+                "Si solo repites esos caracteres especiales, obtendrás el carácter en lugar de su significado especial."
+            ],
+            "conflict": {
+                "UnsupportedFontFormat": {
+                    "name": "$~formato de fuente no compatible",
+                    "explanation": "$~Mi amiga *$face* no sabe cómo ser $format.",
+                    "resolution": "$~quitar el formato"
+                }
+            }
+        },
+        "Example": {
+            "name": "ejemplo",
+            "description": "$~ejemplo de código $code",
+            "emotion": "serious",
+            "doc": [
+                "$~Guardo un ejemplo de @code dentro de un @Doc, así:",
+                "\\¶aquí hay un ejemplo de suma: \\1 + 2\\¶\n3 + 4\\",
+                "Si usas Ejemplos en tus guías prácticas, puedes marcar uno como destacado.",
+                "\\¶aquí hay un ejemplo destacado: \\1 + 2\\⭐¶\n3 + 4\\",
+                "El ejemplo destacado se muestra como la vista previa en el espacio de @how y en @guide."
+            ]
+        },
+        "Mention": {
+            "name": "mención",
+            "description": "$~mencionar $name",
+            "emotion": "serious",
+            "doc": [
+                "$~Soy una referencia, ya sea a un término \\¶@project¶\\ o a una entrada dinámica \\¶$name¶\\.",
+                "Esta es sobre todo una función interna, así que no deberías necesitar conocerla."
+            ]
+        },
+        "Branch": {
+            "name": "rama",
+            "description": "$~elección de texto con formato según $condition",
+            "emotion": "serious",
+            "doc": [
+                "Soy una forma de elegir entre dos segmentos de explicación basados en si un @value de entrada de explicación está definido o verdadero.",
+                "Esto es principalmente una característica interna, así que no deberías necesitar conocerla."
+            ]
+        },
+        "BinaryEvaluate": {
+            "name": "evaluación binaria",
+            "description": "$~operación $operator sobre $left y $right",
+            "emotion": "insecure",
+            "doc": [
+                "$~Soy @Evaluate, pero de una forma más sencilla, útil cuando quieres usar una @FunctionDefinition que toma dos entradas.",
+                "Por ejemplo, así podrías usar @Evaluate para sumar dos números:",
+                "\\1.+(1)\\",
+                "¿No se ve un poco raro? No está mal: solo dice obtén la función sumar sobre 1 y luego evalúala.",
+                "Pero es mucho más fácil usar @BinaryEvaluate",
+                "\\1 + 1\\",
+                "Esto hace que todo se vea un poco más ordenado, aunque básicamente es lo mismo.",
+                "Solo hay una cosa que debes cuidar: cuando estoy en esta forma, evalúo de izquierda a derecha. Eso podría confundirte si estás acostumbrada al orden de las operaciones en matemáticas.",
+                "Significa que esto se evalúa de una manera que quizás no esperes:",
+                "\\1 + 2 × 3 + 4\\🪲",
+                "En matemáticas, la multiplicación va primero y luego la suma, así que el resultado sería \\11\\. Pero como yo evalúo en orden de lectura, el resultado es \\13\\."
+            ],
+            "right": "entrada",
+            "start": "vamos a evaluar primero $left",
+            "finish": "mira, ¡hice $value!",
+            "conflict": {
+                "OrderOfOperations": {
+                    "name": "$~orden ambiguo",
+                    "explanation": "$~Yo evalúo de izquierda a derecha, pero las matemáticas normalmente evalúan ^ antes que × ÷, y × ÷ antes que + −. Ese orden se llama PEMDAS. Elige cómo quieres que yo evalúe esto.",
+                    "resolutionPEMDAS": "$~Aplicar el orden matemático PEMDAS: evaluar $higher antes que $lower",
+                    "resolutionReading": "$~Mantener el orden de lectura: evaluar $lower antes que $higher",
+                    "resolutionWrap": "$~Agregar paréntesis para dejar claro el orden"
+                }
+            },
+            "label": {
+                "operator": "$~operador"
+            }
+        },
+        "Bind": {
+            "name": "vincular",
+            "description": "$~bind $name[$name|sin nombre]$value[ a $value|]",
+            "emotion": "excited",
+            "doc": [
+                "$~Yo doy nombre a los *valores*.",
+                "¡Así!",
+                "\\pi: 3.1415926\\🪲",
+                "Yo doy nombre a las entradas de @FunctionDefinition y @StructureDefinition, doy nombre a los valores en @Block. ¡Le doy nombre a todo!",
+                "Ah, pero ¿sabías que un valor puede tener *muchos nombres*?",
+                "¡Estoy muy emocionado de contarte esto! Un @value, muchos @Names. Por ejemplo:",
+                "\\joe: 5\\🪲",
+                "¿Viste lo que hice ahí?",
+                "Un valor, tres nombres.",
+                "Puedes referirte a ese cinco con *cualquiera* de esos nombres.",
+                "Esto sirve mucho cuando quieres dar nombres en muchos idiomas:",
+                "\\joe: 5\\🪲",
+                "¿Viste lo que hice ahí? ¡Tres nombres para un valor, solo que en distintos idiomas!",
+                "Bueno, tengo un último secreto.",
+                "¿Sabías que puedo trabajar con @Is para decirme qué tipo de valor debe tener un nombre? Y si no lo tiene, ¿te lo diré?",
+                "Así:",
+                "\\númerogrande•#: 'un trillón'\\🪲",
+                "Mira, yo dije que \\bignumber\\ debía ser un número, pero es texto, y esos no son compatibles, así que ¡BUM!",
+                "Te avisaré si no coinciden.",
+                "A veces *tendrás* que decirme qué tipo de datos tiene algo, porque yo no puedo averiguarlo solo. Eso suele pasar en @FunctionDefinition.",
+                "Por ejemplo, aquí @FunctionDefinition no sabe qué tipo de valores tienen \\a\\ y \\b\\, porque no se lo dije.",
+                "\\ƒ suma(a b) a + b\\🪲",
+                "Pero podemos cambiar esto para agregar el @Is, y ahora @FunctionDefinition sabe que son números:",
+                "\\ƒ suma(a•# b•#) a + b\\"
+            ],
+            "start": "¡Veamos qué valor obtenemos de $value!",
+            "finish": "¡Oh bien, obtuve $value! Vamos a llamarlo $name",
+            "conflict": {
+                "DuplicateName": {
+                    "conflict": {
+                        "name": "$~nombre duplicado",
+                        "explanation": "$~Alguien tiene el nombre $shadowed, así que yo no puedo tener este nombre."
+                    },
+                    "resolution": "$~Hay nombres duplicados, ¿quieres quitar uno?"
+                },
+                "DuplicateShare": {
+                    "name": "$~compartición duplicada",
+                    "explanation": "$~Tengo el mismo nombre que $duplicate. Eso hace confuso lo que estamos compartiendo.",
+                    "resolution": "$~quitar esta compartición duplicada"
+                },
+                "IncompatibleType": {
+                    "name": "$~tipo incompatible",
+                    "explanation": "$~Yo esperaba $expected, pero recibí el tipo $given",
+                    "resolution": "$~Conviértelo a $expected, ya que se necesita $expected",
+                    "resolutionLiteral": "$~Marca la lista, el conjunto o el mapa como literal con !, para que sus valores sigan siendo específicos en vez de generalizarse — $expected necesita los valores exactos",
+                    "resolutionOtherwise": "$~Maneja el valor faltante con ??, ya que $expected no permite ø",
+                    "resolutionGuard": "$~Primero comprueba que sea un $expected con una protección de tipo, ya que $expected no puede ser los otros tipos posibles",
+                    "resolutionDeclaration": "$~Declara el tipo de forma explícita, ya que $expected necesita conservar los valores literales",
+                    "resolutionWrap": "$~Ponlo en una lista, un conjunto o un mapa, ya que $expected necesita una colección de valores",
+                    "resolutionStructure": "$~Envuélvelo en $expected, ya que el espacio necesita un valor $expected",
+                    "resolutionDefault": "$~Dale un valor inicial a la asignación, ya que $expected no puede faltar aquí",
+                    "resolutionWiden": "$~Permite el tipo del valor para esta asignación, ya que $expected es demasiado estrecho para lo que realmente se guarda",
+                    "resolutionReorder": "$~Intercambia las entradas, ya que sus tipos encajan mejor en el otro orden — $expected pertenece al otro espacio",
+                    "resolutionPlaceholder": "$~Reemplázalo por un marcador de posición por ahora, ya que se necesita $expected — luego elige un valor del menú de autocompletado",
+                    "explanationDivideByZero": "$~Esto podría ser ø porque $source podría dividir entre cero, y aquí se necesita un número"
+                },
+                "MisplacedShare": {
+                    "name": "$~compartir fuera de lugar",
+                    "explanation": "$~Solo puedo compartir esto al inicio de una fuente o, si es un valor o una función, directamente dentro de un @StructureDefinition.",
+                    "resolution": "$~Quita el marcador *↑*"
+                },
+                "MissingShareLanguages": {
+                    "name": "$~falta el idioma",
+                    "explanation": "$~si quieres compartir esto, tienes que decir en qué idioma está, ¡para que otras sepan si pueden leerlo!",
+                    "resolution": "$~Quita el marcador *↑*"
+                },
+                "RequiredAfterOptional": {
+                    "name": "$~entrada obligatoria después de una opcional",
+                    "explanation": "$~No puedo estar aquí, hay un @Bind opcional antes de mí",
+                    "resolution": "$~Mueve las entradas obligatorias antes de las opcionales"
+                },
+                "UnexpectedEtc": {
+                    "name": "$~entrada inesperada después de la lista de entradas",
+                    "explanation": "$~Solo puedo tener largo variable en un @FunctionDefinition",
+                    "resolution": "$~Quitar el *…*"
+                },
+                "UnusedBind": {
+                    "name": "$~vínculo sin usar",
+                    "explanation": "$~Me llamo $name, pero nadie me usa. ¿Tal vez no me necesitan?",
+                    "resolution": "$~Eliminar este vínculo"
+                },
+                "ShadowsKeyword": {
+                    "name": "$~oculta una palabra clave",
+                    "explanation": "$~Este nombre también es la palabra clave $keyword, así que aquí lo leeré como un nombre; la palabra clave $keyword sigue funcionando en otros lugares."
+                }
+            },
+            "label": {
+                "value": "$~valor",
+                "names": "$~nombres",
+                "type": "$~tipo"
+            }
+        },
+        "Block": {
+            "name": "bloque",
+            "description": "$~bloque $#count[$#count instrucción|$count instrucciones|$count instrucciones]",
+            "emotion": "shy",
+            "doc": [
+                "$~Hago un espacio pequeño, callado y privado para evaluar cosas. ¡Hola!",
+                "Así:",
+                "\\(1 - 1) + 2\\",
+                "Eso ayuda a aclarar el orden de evaluación.",
+                "@Bind también ayuda.",
+                "\\(\n\tcontar: 10\n\tcontar ^ contar)\\",
+                "¿Ves cómo @Bind hizo \\count\\? Solo tiene nombre dentro de mí. Así que esto no funcionará:",
+                "\\(\n\tconteo: 10\n\tconteo ^ conteo) + count\\🪲",
+                "Porque count solo tenía nombre dentro de mí.",
+                "Si me das un solo @expression, solo te devuelvo su @value:",
+                "\\(1 + 1)\\",
+                "Si me das más de uno, los reúno en una lista, en orden:",
+                "\\(1 2 3 4 5)\\",
+                "Las instrucciones @Bind son efectos secundarios, no valores, así que no aparecen en la lista:",
+                "\\(\n\ta: 1\n\tb: 2\n\ta + b\n\ta × b\n)\\",
+                "Eso da \\[3 2]\\: solo los valores de las dos expresiones que no son @Bind."
+            ],
+            "start": "$~Primera expresión",
+            "finish": "listo, obtuve $value",
+            "conflict": {
+                "ExpectedEndingExpression": {
+                    "name": "$~falta una expresión",
+                    "explanation": "Necesito al menos una expresión que no sea @Bind, para tener un valor que devolver.",
+                    "resolution": "$~Agregar una expresión final"
+                }
+            },
+            "label": {
+                "statements": "$~expresiones"
+            }
+        },
+        "BooleanLiteral": {
+            "name": "booleano específico",
+            "description": "$!$value[verdadero|falso]",
+            "emotion": "precise",
+            "doc": "$~Soy \\⊤\\ o \\⊥\\. Mira @Boolean para saber más sobre nuestra hermosa lógica.",
+            "start": "¡$value!"
+        },
+        "Borrow": {
+            "name": "pedir prestado",
+            "description": "$~pedir prestado $name[$name|sin nombre]",
+            "emotion": "excited",
+            "doc": [
+                "$~Yo @borrow @Bind que otras @Source comparten en tu actuación — solo usa su nombre y yo traeré su nombre y @value.",
+                "Escribe \\↓\\ y luego el nombre de la otra @Source. Esa @Source tiene que marcar lo que comparte con \\↑\\, como \\↑ colors/en: ['🔴' '🟠' '🟡']\\."
+            ],
+            "start": "préstamo $name de $source",
+            "conflict": {
+                "UnknownBorrow": {
+                    "name": "$~préstamo desconocido",
+                    "explanation": "$!No conozco ninguna fuente con este nombre",
+                    "resolution": "$~Quitar este préstamo"
+                },
+                "BorrowCycle": {
+                    "name": "$~préstamo que se refiere a sí mismo",
+                    "explanation": "$~esto depende de $borrow, que depende de este @Source, así que el programa no se puede evaluar",
+                    "resolution": "$~Quitar este préstamo para romper el ciclo"
+                },
+                "MissingKitVersion": {
+                    "name": "$~falta la versión",
+                    "explanation": "$~un kit guarda cada versión que ha tenido, así que necesito saber qué versión de $kit quieres",
+                    "resolution": "$~quitar este préstamo"
+                },
+                "ConflictingKitVersions": {
+                    "name": "$~dos versiones de un mismo kit",
+                    "explanation": "$~solo puedo usar una versión de un kit a la vez, y este @Source pide dos de $kit",
+                    "resolution": "$~quitar este préstamo"
+                },
+                "UnknownKit": {
+                    "name": "$~kit desconocido",
+                    "explanation": "$~no puedo encontrar $kit",
+                    "resolution": "$~quitar este préstamo"
+                },
+                "DuplicateBorrow": {
+                    "name": "$~préstamo duplicado",
+                    "explanation": "$~Algo que se pidió prestado arriba ya usa un nombre que $name trae, así que no puedo saber cuál quieres decir",
+                    "resolution": "$~Pídelo prestado como $name en su lugar, para que sus nombres no estorben"
+                },
+                "UnavailableKit": {
+                    "name": "$~kit no disponible",
+                    "explanation": "$~$kit existe, pero no está compartido contigo",
+                    "resolution": "$~quitar este préstamo"
+                },
+                "KitCannotBorrow": {
+                    "name": "$~un kit no puede tomar prestado",
+                    "explanation": "$~esta fuente se publica como un kit, y un kit es el único archivo que reciben quienes lo leen — copia lo que tomes prestado dentro de esta fuente en su lugar",
+                    "resolution": "$~quitar el préstamo"
+                }
+            },
+            "exception": {
+                "CycleException": {
+                    "description": "ciclo de préstamo",
+                    "explanation": "$borrow depende de sí mismo"
+                }
+            },
+            "label": {
+                "source": "$~fuente",
+                "bind": "$~nombre",
+                "version": "$~versión"
+            }
+        },
+        "Changed": {
+            "name": "cambiado",
+            "description": "$~revisar cambio en $stream",
+            "emotion": "serious",
+            "doc": [
+                "$~Yo reviso si un @stream hizo que @Program se volviera a evaluar, y hago un @Boolean. Así",
+                "\\∆ Tiempo()\\",
+                "Soy muy útil cuando quieres que algo cambie solo si un flujo cambió.",
+                "Eso es todo."
+            ],
+            "start": "veamos si $stream cambió…",
+            "label": {
+                "stream": "$~flujo"
+            }
+        },
+        "Conditional": {
+            "name": "condicional",
+            "description": "$~condicional según $condition",
+            "emotion": "curious",
+            "doc": [
+                "$~¿Debo darte un @value u otro, según una @condition? ¿Así?",
+                "\\número: -100\nnúmero < 0 ? 'negativo' 'positivo'\\",
+                "Pero, ¿alguna vez has pensado en cómo decidimos?",
+                "¿No te parece que las decisiones deberían ser más sutiles que solo sí o no? ¿Decidir entre \\⊤\\ y \\⊥\\ es todo lo que hay?",
+                "¿No te preocupa que, si estas son las únicas decisiones que podemos tomar, nos falte algún contexto importante sobre el mundo?",
+                "Hay algo más que hago, y no siempre me lo reconocen. Cuando mi @condition @query qué /tipo/ de valor es algo, no respondo solo sí o no. Recuerdo la respuesta dentro de cada una de mis opciones.",
+                "\\tamaño•#|'': 5\ntamaño•# ? tamaño + 1 'demasiado pequeño'\\",
+                "Por sí solo, ese valor podría ser un @Number o algún @Text, y sumarle algo sería un @conflict, porque esos se suman de maneras muy distintas. Pero dentro de mi /sí/ acabamos de preguntar si es un @Number, así que ahí lo es. Dentro de mi /no/, es el @Text.",
+                "No importa cómo preguntes. Una revisión de tipo, una comparación contra un valor en particular, una revisión de un valor faltante y una revisión que guardaste con un nombre me dicen todas lo mismo. Y @Boolean/and, @Boolean/or y @Boolean/not las combinan como esperarías.",
+                "Hay dos cosas que no puedo decirte. Si comparas contra @Text que tiene varias traducciones, no aprendo nada, porque cuál traducción recibes depende de quién esté leyendo."
+            ],
+            "start": "veamos si $condition es verdadero",
+            "else": "$jumping[saltando sobre código | no saltando sobre código]",
+            "afterthen": "terminado con sí, ¿saltemos el no?",
+            "finish": "$~¿Supongo que es $value?",
+            "conflict": {
+                "ExpectedBooleanCondition": {
+                    "name": "$~se esperaba una condición booleana",
+                    "explanation": "$~Necesito un @Boolean para tomar una decisión, pero en su lugar recibí un $type.",
+                    "resolution": "$~Conviértelo a $expected, ya que $expected es obligatorio",
+                    "resolutionLiteral": "$~Marca la lista, el conjunto o el mapa como literal con !, para que sus valores sigan siendo específicos en lugar de generalizarse — $expected necesita los valores exactos",
+                    "resolutionOtherwise": "$~Maneja el valor faltante con ??, ya que $expected no permite ø",
+                    "resolutionGuard": "$~Primero verifica que sea un $expected con una protección de tipo, ya que $expected no puede ser los otros tipos posibles",
+                    "resolutionDeclaration": "$~Declara el tipo de forma explícita, ya que $expected necesita que se conserven los valores literales",
+                    "resolutionWrap": "$~Ponlo en una lista, un conjunto o un mapa, ya que $expected necesita una colección de valores",
+                    "resolutionStructure": "$~Envuélvelo en $expected, ya que el espacio necesita un valor $expected",
+                    "resolutionDefault": "$~Dale a la variable un valor inicial, ya que $expected no puede faltar aquí",
+                    "resolutionWiden": "$~Permite el tipo del valor para esta variable, ya que $expected es demasiado estrecho para lo que en realidad se guarda",
+                    "resolutionReorder": "$~Intercambia las entradas, ya que sus tipos encajan mejor en el otro orden — $expected pertenece al otro espacio",
+                    "resolutionPlaceholder": "$~Reemplázalo por un marcador de posición por ahora, ya que $expected es obligatorio — luego elige un valor del menú de autocompletar"
+                }
+            },
+            "label": {
+                "condition": "$~condición",
+                "yes": "$~sí",
+                "no": "$~no"
+            }
+        },
+        "ConversionDefinition": {
+            "name": "definición de conversión",
+            "description": "$~conversión de $input a $output",
+            "emotion": "excited",
+            "doc": [
+                "$~¡Oye, yo defino conversiones de un @type a otro! Entro en @Block, algo así:",
+                "\\→ #kitty #cat ⬚ ÷ 2\n6kitty → #cat\\",
+                "¿Ves cómo convertí gatitos en gatos? ¡Genial!",
+                "Quizás te preguntes qué hace ese \\⬚\\ ahí. Eso representa el @value que se está convirtiendo. Lo uso porque de otra forma el valor no tiene nombre."
+            ],
+            "start": "$~¡Genial, una nueva conversión!",
+            "conflict": {
+                "MisplacedConversion": {
+                    "name": "$~conversión mal ubicada",
+                    "explanation": "$~vaya, no puedo estar aquí, solo en @Block.",
+                    "resolution": "$~quitar esta conversión"
+                }
+            },
+            "label": {
+                "input": "$~tipo de entrada",
+                "output": "$~tipo de salida",
+                "expression": "$~expresión"
+            }
+        },
+        "Convert": {
+            "name": "convertir",
+            "description": "$~convertir $expression a $type",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Yo convierto valores de un @type a otro. ¡Yo — mira esto!:",
+                "\\1 → \"\"\\",
+                "\\5s → #ms\\",
+                "\\'hola' → []\\",
+                "Incluso puedes encadenar varios juntos:",
+                "\\'hola' → [] → {}\\",
+                "Los valores tienen un conjunto de @ConversionDefinition que ya están definidos, pero si haces un @StructureDefinition para un nuevo tipo de @value, puedes definir el tuyo con @ConversionDefinition."
+            ],
+            "start": "¡obtén ese valor de $expression!",
+            "finish": "Increíble, hice $value",
+            "conflict": {
+                "UnknownConversion": {
+                    "name": "$~conversión desconocida",
+                    "explanation": "$~No pudimos encontrar una forma de convertir un $expected en un $given",
+                    "resolution": "$~quitar la conversión"
+                }
+            },
+            "exception": {
+                "ConversionException": {
+                    "description": "conversión imposible",
+                    "explanation": "No sé cómo convertir de $from a $to"
+                }
+            }
+        },
+        "Delete": {
+            "name": "eliminar",
+            "description": "$~eliminar filas de $table que coincidan con $query",
+            "emotion": "angry",
+            "doc": [
+                "$~Yo quito las filas de una @Table que coinciden con una @condition. ¡A veces una tabla TIENE DEMASIADO ADENTRO!",
+                "Como si tuvieras unos jugadores en un juego y uno se fuera, y solo quisieras decir ¡VETE, JUGADOR, SAL DE MI TABLA!",
+                "\\jugadoras: ⎡nombre•'' equipo•'' puntos•#⎦\n\t⎡'jen' 'rojo' 8⎦\n\t⎡'juana' 'azul' 11⎦\n\t⎡'jeff' 'rojo' 9⎦\n\t⎡'janet' 'azul' 7⎦\njugadoras ⎡- nombre = 'jeff'\\",
+                "Uf, Jeff se fue. ADIÓS, JEFF. Solo recuerda que yo no cambio la tabla original, hago una nueva, sin JEFF. Tú decides a dónde va."
+            ],
+            "start": "$~Primero obtengamos la tabla",
+            "finish": "¡Hice una nueva tabla sin las filas coincidentes!"
+        },
+        "DocumentedExpression": {
+            "name": "expresión explicada",
+            "description": "$~$expression documentado",
+            "emotion": "eager",
+            "doc": [
+                "$~¡Soy cualquier @expression, pero con un @Doc!",
+                "Para crearme, solo pon un @Doc antes de una expresión, y ahí estaré:",
+                "\\dobleplus: 1\n(2 × dobleplus) +\n\t¶hagámoslo un poco más grande¶\n\t1\\",
+                "Soy útil para hacer un comentario sobre alguna parte de un programa.",
+                "Si pones 👀 en el @Doc, también puedo resaltar la expresión:",
+                "\\¶¡mírame! 👀¶\n1 + 1\\"
+            ],
+            "start": "$~Evaluemos la expresión"
+        },
+        "Evaluate": {
+            "name": "evaluar",
+            "description": "$~evaluar $name[$name|function]$first[ $first|]",
+            "emotion": "shy",
+            "doc": [
+                "$~Yo evalúo a mi querida @FunctionDefinition, dándole entradas y siguiendo sus pasos. ¡Hola! Así:",
+                "\\ƒ saludo(mensaje•'')\n\tsaludo('gatita')\\🪲",
+                "Las funciones pueden venir de cualquier lugar. Por ejemplo, @Text tiene funciones. Así:",
+                "\\'gatita'.longitud()\\",
+                "Si una función tiene un nombre de un solo símbolo, puedes escribirme como @BinaryEvaluate.",
+                "\\'gatita' ⊆ 'itina'\\",
+                "Eso hace lo mismo que esto:",
+                "\\'gatita'.tiene('itina')\\",
+                "Claro que no soy nada sin @FunctionDefinition. Todo lo que hago es darles entradas y luego seguir sus pasos.",
+                "En realidad, sí tengo algunas habilidades propias. Por ejemplo, si una entrada para una @FunctionDefinition es una @Boolean, puedes escribir su nombre solo para activarla, en vez de darle un @value."
+            ],
+            "start": "$~Primero evaluemos las entradas",
+            "evaluate": "vamos a evaluar la función ahora",
+            "finish": "Evalué a $value",
+            "conflict": {
+                "IncompatibleInput": {
+                    "name": "$~entrada incompatible",
+                    "explanation": "$~Yo esperaba $expected, pero recibí $given",
+                    "resolution": "$~convertirlo a $expected, ya que se necesita $expected",
+                    "resolutionLiteral": "$~marca la lista, el conjunto o el mapa como literal con !, para que sus valores sigan siendo específicos en vez de generalizarse — $expected necesita los valores exactos",
+                    "resolutionOtherwise": "$~maneja el valor faltante con ??, ya que $expected no permite ø",
+                    "resolutionGuard": "$~comprueba primero que sea un $expected con una guarda de tipo, ya que $expected no puede ser los otros tipos posibles",
+                    "resolutionDeclaration": "$~declara el tipo de forma explícita, ya que $expected necesita que se conserven los valores literales",
+                    "resolutionWrap": "$~ponlo en una lista, un conjunto o un mapa, ya que $expected necesita una colección de valores",
+                    "resolutionStructure": "$~Envuélvelo en $expected, porque el espacio necesita un valor $expected",
+                    "resolutionDefault": "$~Dale al enlace un valor inicial, porque $expected no puede faltar aquí",
+                    "resolutionWiden": "$~Permite el tipo del valor para este enlace, porque $expected es demasiado estrecho para lo que realmente se guarda",
+                    "resolutionReorder": "$~Intercambia las entradas, porque sus tipos encajan mejor en el otro orden — $expected pertenece al otro espacio",
+                    "resolutionPlaceholder": "$~Reemplázalo por un marcador de posición por ahora, porque $expected es obligatorio — luego elige un valor del menú de autocompletado",
+                    "explanationDivideByZero": "$~Esto podría ser ø porque $source podría dividir entre cero, y aquí se necesita un número"
+                },
+                "UnexpectedTypeInput": {
+                    "name": "$~entrada de tipo inesperada",
+                    "explanation": "$~Soy una entrada de tipo extra e inesperada.",
+                    "resolution": "$~quitar esta entrada de tipo"
+                },
+                "MissingInput": {
+                    "name": "$~falta una entrada",
+                    "explanation": "$~No puedo evaluar $name sin la entrada $input :(",
+                    "resolutionAddInput": "$~agregar la entrada $input que falta, con su valor por defecto",
+                    "resolutionPlaceholder": "$~agregar la entrada $input que falta como marcador de posición, luego elige un valor del menú de autocompletado"
+                },
+                "NotInstantiable": {
+                    "name": "$~estructura incompleta",
+                    "explanation": "$~No puedo hacer este @StructureDefinition, tiene funciones sin implementar.",
+                    "resolution": "$~crear el esqueleto de las funciones que faltan"
+                },
+                "UnexpectedInput": {
+                    "name": "$~entrada inesperada",
+                    "explanation": "$~Soy una entrada inesperada.",
+                    "resolution": "$~quitar esta entrada"
+                },
+                "UnknownInput": {
+                    "name": "$~entrada desconocida",
+                    "explanation": "$~Esta función *$name* no espera una entrada con mi nombre.",
+                    "resolution": "$~cambiar el nombre de esta entrada a *$name*"
+                },
+                "InputListMustBeLast": {
+                    "name": "$~las entradas extra no están al final",
+                    "explanation": "$~la lista de entradas debe ir al final",
+                    "resolution": "$~mover la entrada de lista al final"
+                },
+                "SeparatedEvaluate": {
+                    "name": "$~evaluación ambigua",
+                    "explanation": "$~¿Es $name el nombre de un $structure[$structure|@FunctionDefinition] que intentas evaluar? Intenta quitar el espacio después de mí, para que sepa que soy un @Evaluate y no un @Block separado.",
+                    "resolution": "$~quitar el espacio entre *$name* y sus entradas"
+                },
+                "UnknownTimeZone": {
+                    "name": "$~zona horaria desconocida",
+                    "explanation": "$~No conozco una zona horaria llamada *$zone*. Las zonas horarias llevan el nombre de regiones y ciudades, como \\'America/New_York'\\. ¡Intenta escribir una ciudad que conozcas y yo te sugeriré una!",
+                    "resolution": "$~cambiarla a *$zone*, la zona horaria de $city"
+                }
+            },
+            "exception": {
+                "FunctionException": {
+                    "description": "función desconocida",
+                    "explanation": "$~¡ay no, $name no es una función en $scope[$scope|este @Block]!"
+                }
+            },
+            "label": {
+                "function": "$~función",
+                "types": "$~tipos",
+                "inputs": "$~entrada"
+            }
+        },
+        "Input": {
+            "name": "$~Entrada",
+            "description": "$~entrada $name, $type",
+            "emotion": "serious",
+            "doc": [
+                "$~Soy una entrada que se da a un @Evaluate. Mi nombre corresponde al nombre de la entrada en el @FunctionDefinition o @StructureDefinition que se está evaluando.",
+                "Soy útil con funciones que tienen muchos valores por defecto, donde solo quieres cambiar una entrada específica, sin dar todo lo demás.",
+                "Por ejemplo, @Phrase tiene muchísimos valores por defecto para controlar su estilo. Digamos que quieres dar algo de @Text y un @Color, pero nada más de su lista de entradas. Puedes usarme para hacer eso:",
+                "\\Frase('¡Soy morado!' color: 🌈(50% 52 300°))\\"
+            ],
+            "start": "$~Vamos a evaluar mi valor."
+        },
+        "ExpressionPlaceholder": {
+            "name": "marcador de posición",
+            "description": "$~marcador de posición para $type[$type|un valor]",
+            "emotion": "scared",
+            "doc": [
+                "$~Soy una *@expression*, pero no una de verdad… Solo ocupo el lugar de una.",
+                "Soy útil si aún no sabes qué escribir. Como esto:",
+                "\\1 + _\\🪲",
+                "¿Qué estamos sumando? No lo sé. Tú dime.",
+                "O si alguien estaba evaluando una función con @Evaluate, yo podría ocupar el lugar de la función",
+                "\\_(1 2 3)\\🪲",
+                "¡No me gusta estar en @Stage!"
+            ],
+            "start": "$~No sé qué hacer aquí. ¿Me puedes ayudar?",
+            "conflict": {
+                "Placeholder": {
+                    "name": "$~marcador de posición",
+                    "explanation": "$~¿Puedes llenarme? Solo soy un marcador de posición.",
+                    "resolution": "$~reemplazar con *$candidate*"
+                }
+            },
+            "exception": {
+                "UnimplementedException": {
+                    "description": "sin implementar",
+                    "explanation": "$~No sé qué hacer aquí. ¿Me puedes ayudar?"
+                }
+            },
+            "label": {
+                "placeholder": "$~expresión"
+            }
+        },
+        "FunctionDefinition": {
+            "name": "función",
+            "description": "$!función $name",
+            "emotion": "kind",
+            "doc": [
+                "$~Tomo algunas entradas, luego evalúo una @expression usándolas, y produzco una salida. ¡Hola de nuevo!",
+                "Aquí hay un ejemplo simple:",
+                "\\ƒ repetir(mensaje•'') mensaje × 5\nrepetir('hola')\\",
+                "Esa función toma una entrada, \\message\\, y usa la función @Text.repeat para repetir el mensaje cinco veces.",
+                "¡Soy muy útil si quieres evaluar algo una y otra vez, pero con entradas diferentes!",
+                "Tengo muchos otros truquitos. Por ejemplo, no necesito tener un nombre. Aquí, voy directamente a @Evaluate como una @value.",
+                "\\(ƒ(mensaje•'') mensaje × 5)('hola')\\",
+                "O aquí hay una función que toma cualquier cantidad de entradas, usando el carácter \\…\\ después de un nombre de entrada.",
+                "\\ƒ sí(mensajes…•'') mensajes.sin('no')\nsí('sí' 'sí' 'no' 'sí' 'no')\\",
+                "¿Viste cómo tomó todos los 'no' y los eliminó? Eso es porque messages es una @List, y así pudimos usar @List.sansAll.",
+                "A veces quizás quieras dejar claro qué tipo de valor produzco. Para hacerlo, agrega un @Is después de la lista de entradas:",
+                "\\ƒ agregar(x•# y•#)•'' x + y\\🪲",
+                "Quizás notes un problema con esta: dice que evalúa a @Text, pero toma dos @Number. ¡Puedo avisarte cuando las cosas no coinciden!",
+                "Por supuesto, no soy útil en absoluto sin @Evaluate; ellos me dan vida."
+            ],
+            "start": "$~¡Hagamos esta función!",
+            "conflict": {
+                "NoExpression": {
+                    "name": "$~falta una expresión",
+                    "explanation": "$~Necesito una expresión para evaluar, ¿puedes agregar una?",
+                    "resolution": "$~agregar un cuerpo con marcador de posición"
+                }
+            },
+            "label": {
+                "inputs": "$~entradas",
+                "expression": "$~expresión",
+                "output": "$~salida"
+            }
+        },
+        "Iteration": {
+            "name": "función de orden superior",
+            "description": "$~iteración interna",
+            "emotion": "kind",
+            "doc": "Soy un tipo muy especial de @FunctionDefinition que opera en listas de cosas. No necesitas saber nada sobre mí, excepto que hago funciones como @List.translate posibles.",
+            "start": "$~Evaluando la función dada",
+            "initialize": "preparándome para recorrer los elementos",
+            "next": "pasando al siguiente elemento",
+            "check": "decidiendo si continuar",
+            "finish": "Me evalué como $value"
+        },
+        "Initial": {
+            "name": "$~comenzar",
+            "description": "$~verdadero en la primera evaluación",
+            "emotion": "curious",
+            "doc": [
+                "$~Te digo si la evaluación actual de @Program es la primera, evaluando a un @Boolean. Por ejemplo:",
+                "\\◆ ? Tiempo() 'hola'\\",
+                "No lo viste, pero la primera evaluación fue un tiempo, pero luego en todos los ticks de tiempo futuros, yo estaba \\⊥\\, así que @Conditional hizo \\⊤\\.",
+                "¡Soy muy útil si trabajas con un @stream y solo quieres hacer algo la primera vez — o nunca la primera vez!"
+            ]
+        },
+        "Insert": {
+            "name": "insertar",
+            "description": "$~insertar una fila en $table",
+            "emotion": "kind",
+            "doc": [
+                "$~Agrego una nueva fila a una @Table. ¿Sabes cuando a una tabla simplemente le falta algo? ¡Yo puedo agregarlo!",
+                "Imagina que tienes una tabla de jugadoras en un juego y quieres agregar una nueva:",
+                "\\jugadoras: ⎡nombre•'' equipo•'' puntos•#⎦\n\t⎡'jen' 'rojo' 1⎦\n\t⎡'juana' 'azul' 0⎦\n\t⎡'jeff' 'rojo' 3⎦\n\t⎡'janet' 'azul' 2⎦\njugadoras ⎡+'jasón' 'rojo' 0⎦\\",
+                "Solo recuerda, como todo en el Verso, no cambio una tabla, la reviso. Así que necesitas averiguar dónde quieres poner la tabla revisada que creas. Lo más probable es que quieras revisar una tabla en un @Reaction a alguna entrada, y guardarla en un @Bind."
+            ],
+            "start": "$~Busquemos la tabla que vamos a actualizar",
+            "finish": "¡Hice una nueva tabla con filas revisadas!"
+        },
+        "Is": {
+            "name": "es",
+            "description": "$~es $type",
+            "emotion": "curious",
+            "doc": [
+                "$~Compruebo si un @value es un @type en particular, dándote un @Boolean. Hay tantos tipos de valores que significan tantas cosas distintas — yo ayudo a averiguar qué son.",
+                "Por ejemplo, supón que tienes un valor misterioso. Puedo decirte si es un @Number, dándote un @Boolean:",
+                "\\misterio: '¡secreto!'\nmisterio•#\\🪲",
+                "No es un número, así que hice \\⊥\\. Pero ¿si comprobamos si es @TextType?",
+                "\\misterio: '¡secreto!'\nmisterio•''\\",
+                "Obtenemos \\⊤\\!",
+                "Soy muy útil cuando necesitas saber si algún @Name tiene un valor de cierto tipo."
+            ],
+            "start": "vamos a obtener el valor de $expression primero",
+            "finish": "$~$value[value is $type|value is not $type]",
+            "conflict": {
+                "ImpossibleType": {
+                    "name": "$~tipo imposible",
+                    "explanation": "$~esto nunca puede ser $type",
+                    "resolutionIsFalse": "$~Reemplaza esta comprobación de tipo con *⊥* (la respuesta siempre es falso)",
+                    "resolutionDropOtherwise": "$~Quita el *??* — el lado izquierdo nunca es *ø*"
+                }
+            },
+            "exception": {
+                "TypeException": {
+                    "description": "valores incompatibles",
+                    "explanation": "Esperaba un $expected pero recibí un $given"
+                }
+            }
+        },
+        "IsLocale": {
+            "name": "$~es idioma",
+            "description": "$~is locale $locale[$locale|any]",
+            "emotion": "kind",
+            "doc": [
+                "$~Te ayudo a comprobar si el público eligió cierto @language o @region:",
+                "\\🌍/en\\",
+                "\\🌍/es-MX\\",
+                "Esto es útil si quieres cambiar tu actuación según el idioma elegido."
+            ],
+            "start": "¿es el idioma $locale?"
+        },
+        "ListAccess": {
+            "name": "acceso a lista",
+            "description": "$~access index $index of $list",
+            "emotion": "cheerful",
+            "doc": [
+                "$~Trabajo de cerca con @List para ayudarles a obtener valores en cierta posición. Por ejemplo, si tuvieras una lista y quisieras su segundo @element, escribirías:",
+                "\\lista: ['pájaro' 'pato' 'pez' 'serpiente']\nlista[2]\\"
+            ],
+            "start": "vamos a obtener la lista $list primero",
+            "finish": "¡el elemento es $value!"
+        },
+        "ListLiteral": {
+            "name": "lista específica",
+            "description": "$~list of $#count[$#count value|$count values|$count values]",
+            "emotion": "eager",
+            "doc": "Soy una @List específica de valores. Consulta @List para aprender más sobre lo que puedes hacer conmigo.",
+            "start": "$~Primero evaluemos los elementos",
+            "finish": "¡Creé una lista! $value"
+        },
+        "Spread": {
+            "name": "$~esparcir",
+            "description": "$~spread of $list[$list|a list]",
+            "emotion": "serious",
+            "doc": [
+                "$~Te ayudo a construir un @List con los valores de otras listas. Así:",
+                "\\lista: [1 2 3]\nfinal: [:lista 4 5 6]\\🪲"
+            ]
+        },
+        "MapLiteral": {
+            "name": "$~literal de mapa",
+            "description": "$~map of $#count[$#count key-value pair|$count key-value pairs|$count key-value pairs]",
+            "emotion": "kind",
+            "doc": "Soy un @Map específico entre claves y valores. Consulta @Map para aprender más sobre cómo soy útil.",
+            "start": "$~Primero evaluemos las claves y los valores",
+            "finish": "Conecté a todos, $value",
+            "conflict": {
+                "NotAKeyValue": {
+                    "name": "$~falta un valor",
+                    "explanation": "$~Estoy en un @Map, así que necesito un valor.",
+                    "resolution": "$~Envolver como par clave-valor"
+                }
+            },
+            "label": {
+                "values": "$~par"
+            }
+        },
+        "Match": {
+            "name": "$~coincidencia",
+            "description": "$~match $value to $#count[$#count case|$count cases|$count cases]",
+            "emotion": "curious",
+            "doc": [
+                "$~¡Soy la más gloriosa de las comprobaciones condicionales: tomo un @value, lo comparo con cualquier cantidad de casos y evalúo el que coincide!",
+                "Por ejemplo, si tuvieras un @Number y quisieras convertirlo en un @Text, podrías hacer algo así:",
+                "\\número: 2\nnúmero ???\n\t1: 'uno'\n\t2: 'dos'\n\t3: 'tres'\n\t'¡más grande!'\\",
+                "Si ninguno coincide, evalúo el @expression predeterminado que me das.",
+                "Soy muy útil para convertir uno de muchos posibles @Number, @Text o valores más complejos en otra cosa.",
+                "Puedes usarme para @Boolean o @None, pero esos no pueden ser tantas cosas, así que no soy tan útil para esos valores simples.",
+                "Como @Conditional, también te digo lo que he aprendido. Dentro de un caso, se sabe que el @value que coincidí es ese caso; dentro de un caso posterior, se sabe que no es ninguno anterior; y en mi predeterminado, se sabe que no es ninguno de ellos.",
+                "\\respuesta•#|'': 1\nrespuesta ???\n\t1: respuesta + 1\n\t'ninguno'\\",
+                "Puedo descartar casos que son un @Number, un @None o @Text con una sola traducción, y otros casos sencillos. Pero un caso que evalúa algo no descarta nada, así que mi opción por defecto conserva todo lo que el @value todavía podría ser."
+            ],
+            "start": "$~Veamos qué es $value...",
+            "case": "$~Revisemos esta condición",
+            "finish": "$~¡Muy bien, tenemos un valor final!",
+            "label": {
+                "case": "$~caso",
+                "other": "$~por defecto"
+            }
+        },
+        "NumberLiteral": {
+            "name": "número específico",
+            "description": "$~$number$unit[ $unit|]",
+            "emotion": "excited",
+            "doc": "Soy un @Number específico. Puedes escribirme con cualquier tipo de dígitos de cualquier @language. Consulta @Number para conocer todo lo que puedo hacer.",
+            "start": "¡$value!",
+            "conflict": {
+                "NotANumber": {
+                    "name": "$~no es un número",
+                    "explanation": "$~Pensé que conocía todos los números, pero este no lo conozco",
+                    "resolution": "$~Reemplazar con *0*"
+                }
+            }
+        },
+        "InternalExpression": {
+            "name": "expresión interna",
+            "description": "$~expresión integrada",
+            "emotion": "neutral",
+            "doc": "$~Soy una @expression que solo usan las creadoras originales. ¿Cómo me encontraste? Para saber más sobre mí, necesitas hablar con ellas.",
+            "start": "$!expresión secreta"
+        },
+        "NoneLiteral": {
+            "name": "simplemente ninguna",
+            "description": "$~nada",
+            "emotion": "neutral",
+            "doc": "$~Yo hago @None, el único @value de tipo nada. Consulta @None para saber más sobre él.",
+            "start": "… ø"
+        },
+        "Otherwise": {
+            "name": "si no",
+            "description": "$~$left otherwise $right",
+            "emotion": "curious",
+            "doc": [
+                "$~Yo reviso si un @value es @None, y si lo es, te doy un valor de respaldo en su lugar.",
+                "/Por ejemplo, si tuvieras un valor que puede ser un @Number o @None, @Otherwise te ayuda a dar un número por defecto:",
+                "\\talVezNumber•#|ø: 1\ntalVezNumber ?? 0\\"
+            ],
+            "start": "ø ??",
+            "finish": "… $value"
+        },
+        "Previous": {
+            "name": "anterior",
+            "description": "$~previous $number value$range[s|] of $stream",
+            "emotion": "serious",
+            "doc": [
+                "$~Yo miro hacia atrás en la historia de un @stream y te digo uno de sus valores pasados. ¿Alguna vez quisiste recordar el pasado?",
+                "¡Soy la guardiana oficial de los registros del Verso!",
+                "Por ejemplo, esto es lo que era @Time hace cinco tics:",
+                "\\← 5 Tiempo(1000ms)\\",
+                "¿Ves cómo es @None durante 5 segundos y luego, de repente, un momento anterior?",
+                "Si quieres los últimos varios valores, dame dos flechas y yo interpretaré el número como una cuenta:",
+                "\\←← 5 Tiempo(1000ms)\\",
+                "¿Ves cómo son los cinco momentos anteriores, en vez de solo uno?",
+                "Soy útil cuando quieres crear actuaciones que dependen del pasado."
+            ],
+            "start": "primero obtener $stream",
+            "finish": "evaluado al valor del flujo $value",
+            "label": {
+                "range": "$~rango"
+            }
+        },
+        "Program": {
+            "name": "programa",
+            "description": "$~programa con $#count[$#count instrucción|$count instrucciones|$count instrucciones]",
+            "emotion": "serious",
+            "doc": [
+                "$~Soy donde una actuación comienza y termina, y contengo a todos los demás caracteres que dirigen un espectáculo.",
+                "¿Sabes cómo @Block evalúa una lista de expresiones y da como resultado la última de su lista?",
+                "Yo soy igual, pero en lugar de dar mi @value a la @expression en la que estoy, pongo el valor en el @Stage.",
+                "El valor puede ser cualquier cosa: un @Number, @Text o @Boolean, un @List, @Set, @Map, o incluso algo más complejo, como un @Phrase, @Group o @Stage.",
+                "Si no me das un valor para mostrar en el escenario, te pediré uno.",
+                "Si hay un problema durante una actuación, mostraré ese problema.",
+                "Y si tu actuación depende de un *@stream*, volveré a evaluar cada vez que ese flujo cambie."
+            ],
+            "unevaluated": "el nodo que elegiste no se evaluó",
+            "start": "$~$stream[¡el flujo $stream cambió a $value!|Es mi primera evaluación]",
+            "halt": "se encontró una excepción, deteniéndose",
+            "finish": "todo listo, me evalué como $value",
+            "done": "no hay nada evaluando",
+            "exception": {
+                "BlankException": {
+                    "description": "programa vacío",
+                    "explanation": "¡Vamos a hacer un espectáculo! ¿Dónde deberíamos comenzar?"
+                },
+                "EvaluationLimitException": {
+                    "description": "límite de evaluación",
+                    "explanation": "$~@Evaluate y yo estamos cansadas de evaluar, sobre todo a $function.\n\n¿Es posible que $function se esté evaluando a sí misma para siempre, sin detenerse nunca?"
+                },
+                "StepLimitException": {
+                    "description": "límite de pasos",
+                    "explanation": "$~Hay tantos. muchos. pasos... ¡demasiados para terminar! ¿Puedes hacer la actuación más simple?"
+                },
+                "ValueException": {
+                    "description": "valor faltante",
+                    "explanation": "¡Esperaba un valor pero no obtuve ninguno!"
+                },
+                "InternalException": {
+                    "description": "$~error interno",
+                    "explanation": "$~pasó algo muy malo por dentro: $reason"
+                },
+                "PermissionException": {
+                    "description": "$~permiso denegado",
+                    "explanation": "$~necesito tu $permission para funcionar, pero no lo tengo. Haz clic en Reintentar para probar otra vez. Si eso no ayuda, permite $permission para este sitio en la configuración de tu navegador."
+                }
+            },
+            "label": {
+                "borrows": "$~toma prestado",
+                "expression": "$~bloque"
+            },
+            "conflict": {
+                "UndocumentedShare": {
+                    "name": "$~compartido sin documentar",
+                    "explanation": "$~esto está publicado, así que alguien que no lo escribió lo va a leer — escribe un /doc/ arriba que diga para qué sirve",
+                    "resolution": "$~documéntalo arriba, o deja de publicar esta fuente"
+                },
+                "UnexampledShare": {
+                    "name": "$~sin ejemplo",
+                    "explanation": "$~esto recibe entradas, así que una descripción no basta — pon un ejemplo en su documentación que muestre una forma de usarlo",
+                    "resolution": "$~agrega un ejemplo a su documentación, o deja de publicar esta fuente"
+                },
+                "UnexampledKit": {
+                    "name": "$~sin ejemplo",
+                    "explanation": "$~nada en esta fuente tiene un ejemplo, así que no hay nada que mostrar a quien busca kits — agrega uno a la documentación de esta fuente",
+                    "resolution": "$~agrega un ejemplo a la documentación de esta fuente, o deja de publicar esta fuente"
+                }
+            }
+        },
+        "PropertyBind": {
+            "name": "ajustar",
+            "description": "$~afinar propiedad $name[$name|sin nombre]",
+            "emotion": "kind",
+            "doc": [
+                "$~hago una copia de un @StructureDefinition @value con solo un @property cambiado; no hace falta rehacer todo con los mismos valores.",
+                "Por ejemplo, ¿qué tal si llevas un registro de gatos, pero luego quieres crear una copia de un gato con un pasatiempo diferente? Puedo ayudarte a cambiarlo:",
+                "\\•gato(nombre•'' color•'' pasatiempo•'')\n\ngatito: gato('chispas' 'naranja' 'lamer')\ngatito.pasatiempo:'ronronear'\\",
+                "Eso es mucho más fácil que hacer un \\Cat\\ completamente nuevo con los mismos valores excepto el pasatiempo, ¿no crees?"
+            ],
+            "start": "$~Primero obtengamos el valor",
+            "finish": "Copié la estructura, pero con $property como $value",
+            "conflict": {
+                "InvalidProperty": {
+                    "name": "$~propiedad desconocida",
+                    "explanation": "$~no soy un nombre en la estructura $structure, así que no me pueden afinar.",
+                    "resolution": "$~Renombrar a *$name*"
+                }
+            },
+            "label": {
+                "property": "$~propiedad",
+                "value": "$~valor"
+            }
+        },
+        "PropertyReference": {
+            "name": "propiedad",
+            "description": "$~propiedad $name[$name|sin nombre]",
+            "emotion": "kind",
+            "doc": [
+                "$~obtengo una de las propiedades de un @StructureDefinition @value para ti.",
+                "Como si tuvieras una estructura sobre ciudades, podrías obtener sus valores conmigo así:",
+                "\\•ciudad(nombre•'' población•#people)\n\nportland: ciudad('Portland' 800000people)\n\nportland.población\\"
+            ],
+            "start": "$~Primero obtengamos el valor",
+            "finish": "se encontró la propiedad $property, es $value",
+            "label": {
+                "property": "$~propiedad"
+            }
+        },
+        "Reaction": {
+            "name": "reacción",
+            "description": "$~reacción a $condition",
+            "emotion": "excited",
+            "doc": [
+                "$~hago un nuevo @stream que se actualiza cada vez que otro flujo cambia. ¡Los flujos son geniales!",
+                "Como, si quisieras que @Time avanzara, pero, tipo, para mostrar palabras en vez de números, podrías hacer algo así:",
+                "\\tiempo: Tiempo(1000ms)\n'comenzar' … ∆ tiempo … ((tiempo % 2) = 0ms) ? 'par' 'impar'\\",
+                "Eso es como decir \"/comienza con la palabra 'comenzar' y luego, si el tiempo cambia, cambia a par o impar, según el tiempo./\"",
+                "Así que yo también soy como un flujo, pero uno basado en otros flujos. Increíble, ¿no?"
+            ],
+            "start": "veamos si debemos actualizar el flujo",
+            "finish": "el nuevo valor del flujo es $value",
+            "conflict": {
+                "ExpectedStream": {
+                    "name": "$~se esperaba un flujo",
+                    "explanation": "$~$condition no hace referencia a un flujo, así que ¡nunca voy a reaccionar!",
+                    "resolution": "$~Quitar la reacción, conservar solo el valor inicial"
+                },
+                "ExpectedCondition": {
+                    "name": "$~falta la condición",
+                    "explanation": "$~necesito algo que me diga cuándo cambiar, ¿puedes agregar una condición después del @Reaction?",
+                    "resolution": "$~agregar una condición para verificar"
+                },
+                "ExpectedNextValue": {
+                    "name": "$~falta el siguiente valor",
+                    "explanation": "$~sé cuándo cambiar, pero no a qué cambiar, ¿puedes agregar un siguiente valor?",
+                    "resolution": "$~agregar un siguiente valor",
+                    "rangeResolution": "$~crea un @Range con \\‥\\ en su lugar"
+                }
+            },
+            "label": {
+                "initial": "$~inicial",
+                "condition": "$~condición",
+                "next": "$~siguiente"
+            }
+        },
+        "Reference": {
+            "name": "referencia",
+            "description": "$~referencia $name",
+            "emotion": "shy",
+            "doc": [
+                "$~me refiero a un @value por su @Name: encuentro el @Bind con ese nombre y te doy su valor. Así:",
+                "\\loro: 'polly'\nloro\\",
+                "Si no encuentro el @name, entonces no sé qué hacer.",
+                "\\loro: 'lorito'\nperry\\🪲"
+            ],
+            "start": "¿qué valor tiene $name?",
+            "conflict": {
+                "UnknownName": {
+                    "conflict": {
+                        "name": "$~nombre desconocido",
+                        "explanation": "$~$name[no conozco a nadie que se llame $name en $scope[$scope|este @Block]|¿Me puedes dar un nombre?]"
+                    },
+                    "resolution": "$~¿Querías decir *$suggestion?*",
+                    "staticResolution": "$~¿Querías decir *$owner.$suggestion?*",
+                    "languageResolution": "$~*$name* es un nombre en $language. Agrega $language a los idiomas de tu proyecto para usarlo aquí."
+                },
+                "ReferenceCycle": {
+                    "name": "$~valor que se refiere a sí mismo",
+                    "explanation": "$~mmm, el valor de $name depende de sí mismo, entonces ¿cómo sé qué valor darle?",
+                    "resolution": "$~reemplaza *$name* con un marcador de posición para romper el ciclo"
+                },
+                "UnexpectedTypeVariable": {
+                    "name": "$~variable de tipo inesperada",
+                    "explanation": "$~no sé qué hacer con estas entradas de tipo",
+                    "resolution": "$~quitar esta variable de tipo de la función"
+                }
+            },
+            "exception": {
+                "NameException": {
+                    "description": "nombre desconocido",
+                    "explanation": "$~$name[no conozco a nadie que se llame $name en $scope[$scope|este @Block]…|¡Ay, no hay nombre!]"
+                }
+            }
+        },
+        "Select": {
+            "name": "seleccionar",
+            "description": "$~seleccionar de $table que coincidan con $query",
+            "emotion": "excited",
+            "doc": [
+                "$~elijo las filas de un @Table que coinciden con una @condition. A veces solo quieres una parte de una tabla, ¡yo te la puedo conseguir!",
+                "Por ejemplo, ¿qué tal si tuvieras una tabla de jugadoras en un juego y quisieras encontrar a las que tienen 10 o más puntos para ver quién ganó?:",
+                "\\jugadoras: ⎡nombre•'' equipo•'' puntos•#⎦\n\t⎡'jen' 'rojo' 8⎦\n\t⎡'juana' 'azul' 11⎦\n\t⎡'jeff' 'rojo' 9⎦\n\t⎡'janet' 'azul' 7⎦\njugadoras ⎡?nombre⎦ puntos ≥ 10\\",
+                "¡Así de fácil obtuve una lista de filas con las ganadoras! Solo recuerda que yo no cambio la tabla, hago una nueva. Tú decidirás dónde guardarla."
+            ],
+            "start": "$~Obtengamos la tabla primero",
+            "finish": "¡Hice una nueva tabla solo con las filas y columnas seleccionadas!",
+            "conflict": {
+                "ExpectedSelectName": {
+                    "name": "$~falta el nombre de la columna",
+                    "explanation": "$~Necesito al menos un nombre de columna.",
+                    "resolution": "$~quitar esta celda"
+                }
+            }
+        },
+        "SetLiteral": {
+            "name": "conjunto específico",
+            "description": "$~conjunto de $#count[$#count valor|$count valores|$count valores]",
+            "emotion": "eager",
+            "doc": "$~Soy un @Set específico de valores específicos. Consulta @Set para aprender más sobre cómo trabajar conmigo.",
+            "start": "$~¡Evaluemos primero los valores!",
+            "finish": "¡Hice un conjunto $value!"
+        },
+        "SetOrMapAccess": {
+            "name": "acceso a conjunto/mapa",
+            "description": "$~acceder a $key en $setOrMap",
+            "emotion": "kind",
+            "doc": [
+                "$~Puedo ver si un @Set o @Map tiene un @value o @key.",
+                "No es muy difícil. Así:",
+                "\\favoritos: {'pato' 'ganso' 'mono'}\nfavoritos{'ratón'}\\",
+                "O así, con un @Map:",
+                "\\favoritos: {\n\t\t'macarrones con queso': 5stars\n\t\t'cereal': 2stars\n\t\t'papilla': 1stars\n\t}\nfavoritos{'papilla'}\\"
+            ],
+            "start": "$~¿Cuál es el conjunto o el mapa?",
+            "finish": "el valor es $value",
+            "conflict": {
+                "IncompatibleKey": {
+                    "name": "$~clave incompatible",
+                    "explanation": "$~Esperaba una clave de tipo $expected, pero recibí $given",
+                    "resolution": "$~Conviértelo a $expected, ya que $expected es obligatorio",
+                    "resolutionLiteral": "$~Marca la lista, el conjunto o el mapa como literal con !, para que sus valores sigan siendo específicos en vez de generalizarse — $expected necesita los valores exactos",
+                    "resolutionOtherwise": "$~Maneja el valor faltante con ??, ya que $expected no permite ø",
+                    "resolutionGuard": "$~Comprueba primero que sea un $expected con una protección de tipo, ya que $expected no puede ser los otros tipos posibles",
+                    "resolutionDeclaration": "$~Declara el tipo de forma explícita, ya que $expected necesita conservar los valores literales",
+                    "resolutionWrap": "$~Ponlo en una lista, un conjunto o un mapa, ya que $expected necesita una colección de valores",
+                    "resolutionStructure": "$~Envuélvelo en $expected, ya que el espacio necesita un valor $expected",
+                    "resolutionDefault": "$~Dale al enlace un valor inicial, ya que $expected no puede faltar aquí",
+                    "resolutionWiden": "$~Permite el tipo del valor para este enlace, ya que $expected es demasiado estrecho para lo que en realidad se guarda",
+                    "resolutionReorder": "$~Intercambia las entradas, ya que sus tipos encajan mejor en el otro orden — $expected pertenece al otro espacio",
+                    "resolutionPlaceholder": "$~Reemplázalo por ahora con un marcador de posición, ya que $expected es obligatorio — luego elige un valor del menú de autocompletado"
+                }
+            }
+        },
+        "Source": {
+            "name": "fuente",
+            "description": "$~fuente $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Soy la ventana con nombre que rodea a un @Program: le doy un nombre y guardo su @code. Ah, ¿conoces @Program? Yo te ayudo a nombrarlos.",
+                "También puedes hacer otros @Source @UI/addSource, con otros @Program, y @Borrow cosas de esos otros @Program para usarlas en otro programa.",
+                "Esta puede ser una buena forma de organizar una actuación grande en documentos separados."
+            ]
+        },
+        "StreamDefinition": {
+            "name": "flujo",
+            "description": "$~flujo $name",
+            "emotion": "curious",
+            "doc": "$~Yo defino nuevos tipos de flujos. Eso /creo/ — la verdad todavía estoy descubriendo cómo, así que por ahora ¡solo usa los flujos que ya existen!",
+            "start": "crea este nuevo tipo de flujo"
+        },
+        "StructureDefinition": {
+            "name": "estructura",
+            "description": "$!estructura $name",
+            "emotion": "kind",
+            "doc": [
+                "$~Yo defino estructuras que guardan valores y funciones. ¡Hola! ¿Cómo estás? ¿Yo? Estoy muy bien — me encanta hacer esto todo el día.",
+                "Así funciono:",
+                "\\•pizza(\n\tingredientes•['']\n\ttamaño•#in\n) (\n\tƒ costo() tamaño × 10dollars/in\n)\n\npizza(['pepperoni' 'chiles'] 12in).costo()\\🪲",
+                "¿Ves cómo funciona? Yo definí \\Pizza\\, que tiene dos entradas, \\ingredients\\ (una lista de @Text) y \\size\\ (un número en pulgadas).",
+                "Adentro, @FunctionDefinition creó una función que calcula el costo de una pizza, suponiendo $$10 por pulgada.",
+                "No necesito tener @FunctionDefinition dentro de mí. Puedo ser solo entradas.",
+                "\\•pizza(\n\tingredientes•['']\n\ttamaño•#in\n)\\",
+                "También puedo tener @Bind adentro, así que podríamos calcular el costo por adelantado.",
+                "\\•pizza(\n\tingredientes•['']\n\ttamaño•#in\n) (\n\tcosto: tamaño × 10dollars/in\n)\n\npizza(['pepperoni' 'pimientos'] 12in).costo\\🪲",
+                "Marca una función o @value con ↑ para que pertenezca a la estructura misma, no a las instancias. Después puedes usar el @name de la estructura para llegar a ella, sin crear una.",
+                "\\•matemáticas() (\n\t↑\n\tpi: 3.14159\n\t↑ƒ cuadrado(n•#) n · n\n)\n\nmatemáticas.pi\nmatemáticas.cuadrado(5)\\"
+            ],
+            "start": "$~Definamos esta encantadora estructura",
+            "conflict": {
+                "DisallowedInputs": {
+                    "name": "$~no se permiten entradas",
+                    "explanation": "$~no puedo tener entradas porque una o más de mis funciones de interfaz no está implementada",
+                    "resolution": "$~quitar las entradas"
+                },
+                "IncompleteImplementation": {
+                    "name": "$~estructura incompleta",
+                    "explanation": "$~mis funciones o están todas implementadas, o ninguna está implementada. ¡Nada de mezclas desordenadas!",
+                    "resolution": "$~soltar las entradas para convertirla en interfaz"
+                },
+                "NotAnInterface": {
+                    "name": "$~no es una interfaz",
+                    "explanation": "$~yo no soy una interfaz; una estructura solo puede implementar interfaces, no otras estructuras",
+                    "resolution": "$~soltar esto de la lista de interfaces"
+                },
+                "UnimplementedInterface": {
+                    "name": "$~sin implementar",
+                    "explanation": "$~yo implemento $interface pero no he implementado $function",
+                    "resolution": "$~crear el esqueleto de *$function* que falta en esta estructura"
+                }
+            },
+            "label": {
+                "docs": "$~documentación",
+                "inputs": "$~entradas",
+                "expression": "$~valores y funciones",
+                "interfaces": "$~interfaces"
+            }
+        },
+        "StructureDefinitionType": {
+            "name": "$~definición de estructura",
+            "description": "$name",
+            "emotion": "kind",
+            "doc": [
+                "$~Me refiero a algún tipo de @StructureDefinition. La gente no suele referirse a mí directamente"
+            ]
+        },
+        "KitType": {
+            "name": "$~kit",
+            "description": "$~$name",
+            "emotion": "curious",
+            "doc": [
+                "$~Soy un kit que alguien publicó. Todo lo que comparto se alcanza a través de mi nombre, así que `colors.sunset` dice cuál `sunset` quieres decir."
+            ]
+        },
+        "TableLiteral": {
+            "name": "tabla específica",
+            "description": "$~tabla de $#count[$#count fila|$count filas|$count filas]",
+            "emotion": "angry",
+            "doc": "Soy una tabla específica con filas específicas. Mira @Table para saber cómo puedo ayudar.",
+            "start": "$~Primero evalúa las filas",
+            "finish": "evaluado como nueva tabla $value"
+        },
+        "TextLiteral": {
+            "name": "texto específico",
+            "description": "$~texto '$text'",
+            "emotion": "serious",
+            "doc": "$~Represento uno o más @Translation específicos de texto. ¡Mira @Text para aprender más sobre lo que puedo hacer!",
+            "start": "$~Hagamos texto en el idioma actual",
+            "label": {
+                "texts": "$~texto"
+            }
+        },
+        "Translation": {
+            "name": "traducción",
+            "description": "$~texto '$text'",
+            "emotion": "serious",
+            "doc": "$~Represento algún texto, con una etiqueta @Language opcional. ¡Consulta @Text para aprender más!",
+            "conflict": {
+                "phone": {
+                    "name": "$~posible número de teléfono",
+                    "explanation": "$~¿Es *$text* el número de teléfono de alguien? ¡Si es así, no me compartas en línea!\n\n$reminder"
+                },
+                "email": {
+                    "name": "$~posible correo electrónico",
+                    "explanation": "$~¿Es *$text* el correo electrónico de alguien? ¡Si es así, no me compartas aquí!\n\n$reminder"
+                },
+                "tin": {
+                    "name": "$~posible identificador fiscal",
+                    "explanation": "$~¿Es *$text* un identificador fiscal? ¡Si es así, definitivamente no me compartas, soy información muy delicada!\n\n$reminder"
+                },
+                "address": {
+                    "name": "$~posible dirección",
+                    "explanation": "$~¿Es *$text* la dirección de casa de alguien? Si es así, no me pongas aquí, ¡no queremos que acosen a nadie!\n\n$reminder"
+                },
+                "handle": {
+                    "name": "$~posible nombre de usuaria",
+                    "explanation": "$~¿Es *$text* tu nombre de usuaria en otro lugar de internet? Si es así, no me compartas aquí a menos que de verdad quieras hacerlo.\n\n$reminder"
+                },
+                "resolution": "Esto no es información sensible",
+                "reminder": "$~Nota: puedes deshacer esta acción y ver otras cosas que marcaste como no delicadas en el cuadro de diálogo de compartir.",
+                "character": {
+                    "name": "$~posible carácter personalizado",
+                    "explanation": "$~Esto parece un nombre de carácter. Para mostrarlos, usa @FormattedLiteral en lugar de @TextLiteral.",
+                    "resolutionStrip": "$~Quitar los caracteres especiales del texto"
+                }
+            },
+            "label": {
+                "segments": "$~texto"
+            }
+        },
+        "FormattedLiteral": {
+            "name": "$~texto con formato",
+            "description": "$~texto con formato $text",
+            "emotion": "serious",
+            "doc": "Represento muchas @FormattedTranslation diferentes de texto formateado. Cuando evalúo, elegiré la mejor coincidencia según los idiomas seleccionados por la audiencia.",
+            "start": "$~Hagamos texto en el idioma actual"
+        },
+        "FormattedTranslation": {
+            "name": "texto formateado",
+            "description": "$~Traducir texto con formato a $language",
+            "emotion": "serious",
+            "doc": [
+                "$~Represento un @markup, con una etiqueta @Language.",
+                "Puedo ser:",
+                "\\`/cursiva/`\\",
+                "\\`*negrita*`\\",
+                "\\`^extranegrita^`\\",
+                "\\`_subrayado_`\\",
+                "\\`<enlazado@https://wordplay.dev>`\\",
+                "\\`\\\n'código'\\`\\",
+                "Funciono muy bien con @Phrase para poner texto hermoso en @Stage."
+            ]
+        },
+        "This": {
+            "name": "esto",
+            "description": "$~esta estructura",
+            "emotion": "serious",
+            "doc": [
+                "$~Soy \\⬚\\, un cuadrito que representa aquello @value en lo que está trabajando el @code de alrededor, así no tienes que ponerle nombre.",
+                "Dentro de un @ConversionDefinition, soy el valor que se está convirtiendo:",
+                "\\→ #rainbows #joys ⬚ × 1000000joys\n2rainbows → #joys\\",
+                "Dentro de un @Reaction, soy el valor más reciente:",
+                "\\2 … ∆ Tiempo(1000ms) … ⬚ × 2\\",
+                "Dentro de un @Translate, soy el @element actual que se está mapeando, así que esto suma uno a cada valor:",
+                "\\[1 2 3] ↦ ⬚ + 1\\",
+                "Y dentro de un @StructureDefinition, soy el valor mismo, así que puedo llegar a mis propias partes con \\⬚.rank\\🪲, igual que llego a las partes de otro valor con \\other.rank\\🪲:",
+                "\\•Card(rank•#) (\n\tƒ beats(other•Card) ⬚.rank > other.rank\n)\n\nCard(10).beats(Card(7))\\",
+                "No aparezco muy seguido, pero cuando lo hago, ¡de verdad puedo ayudar a un valor a salir de un @Bind!"
+            ],
+            "start": "evaluado como $value",
+            "conflict": {
+                "MisplacedThis": {
+                    "name": "$~esta referencia está fuera de lugar",
+                    "explanation": "$~Solo se me permite en una estructura, conversión, reacción o traducción.",
+                    "resolution": "$~reemplazar con un marcador de posición"
+                }
+            }
+        },
+        "UnaryEvaluate": {
+            "name": "evaluación unaria",
+            "description": "$~operación $operator",
+            "emotion": "kind",
+            "doc": [
+                "$~Evalúo un @FunctionDefinition que toma un solo @value, con su nombre de un símbolo escrito justo antes del input — como \\-x\\🪲 o \\~b\\🪲. ¿Sabías que podías hacer eso?",
+                "Así:",
+                "\\-(1 + 1)\\",
+                "O así:",
+                "\\~⊥\\",
+                "Esos son mucho más fáciles de leer que \\(1 + 1).negate()\\🪲 o \\⊥.no()\\, ¿verdad?",
+                "No tienes que escribirme así, pero podría ser más fácil en general.",
+                "Solo hay una regla: no puedes poner ningún espacio entre el nombre y el valor. Si no, podrías estar haciendo un @Reference o un @BinaryEvaluate."
+            ],
+            "start": "$~¿Cuál es el valor?",
+            "finish": "Lo hice $value",
+            "label": {
+                "input": "$~input"
+            }
+        },
+        "UnparsableExpression": {
+            "name": "no parsable",
+            "description": "$~código no analizable",
+            "emotion": "excited",
+            "doc": [
+                "$~Soy un pedazo de @code que no tiene sentido, así que nadie sabe qué significa.",
+                "jkwel fjiwojvioao jjiweo jrfe",
+                "/No todo @expression tiene significado en el escenario./",
+                "s w ieorjwei iojwi jfkdlsfdsk",
+                "/De hecho, hay toda clase de cosas que puedes decir que no tienen ningún sentido./",
+                "dsk sdlk jdkfiewipapweiurb,v kdsfdsf",
+                "/Cuando lo haces, aparezco, porque no sé qué quisiste decir./",
+                "¡Al fin y al cabo tú eres quien dirige, así que solo tú sabes qué pudiste haber querido decir!"
+            ],
+            "start": "???",
+            "conflict": {
+                "UnparsableConflict": {
+                    "conflict": {
+                        "name": "$~código ilegible",
+                        "explanation": "$~@FunctionDefinition aquí, @UnparsableExpression no sabe qué clase de $expression[ expresión | tipo ] es esta."
+                    },
+                    "resolution": "$~¿Quisiste decir el tipo $first, $second?"
+                },
+                "UnclosedDelimiter": {
+                    "name": "$~delimitador sin cerrar",
+                    "explanation": "$~esperaba $expected en algún momento después de $unclosed",
+                    "resolution": "$~agrega el *$expected* que falta"
+                }
+            },
+            "exception": {
+                "UnparsableException": {
+                    "description": "???",
+                    "explanation": "$~¡Hola, aquí @FunctionDefinition! No estamos seguras de qué significa esta instrucción, así que nos detuvimos."
+                }
+            }
+        },
+        "Update": {
+            "name": "actualización",
+            "description": "$~actualiza las filas de $table que coincidan con $query",
+            "emotion": "kind",
+            "doc": [
+                "$~yo ayudo a revisar una @Table, encuentro las filas que coinciden con una @condition, y luego creo filas revisadas con nuevos valores.",
+                "Así que, si tuvieras una tabla de personajes y puntos, y quisieras dar un punto a cada personaje de un equipo, podrías hacer esto:",
+                "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
+                "Puedes usar una @Bind para decir qué columnas cambiar, y puedes usar cualquiera de los nombres de columna u otros nombres en @scope dentro de la condición."
+            ],
+            "start": "$~Obtengamos la tabla primero",
+            "finish": "$~¡Se evaluó a una nueva tabla con filas revisadas!",
+            "conflict": {
+                "ExpectedColumnBind": {
+                    "name": "$~falta el valor de la columna",
+                    "explanation": "$~necesito un valor para cada columna",
+                    "resolution": "$~envuelve esta celda como una columna con nombre"
+                },
+                "IncompatibleCellType": {
+                    "name": "$~tipo de celda incompatible",
+                    "explanation": "$~se supone que soy del tipo $expected, pero soy $given",
+                    "resolution": "$~conviértelo a $expected, ya que $expected es obligatorio",
+                    "resolutionLiteral": "$~marca la lista, el conjunto o el mapa como literal con !, para que sus valores queden específicos en lugar de generalizarse — $expected necesita los valores exactos",
+                    "resolutionOtherwise": "$~maneja el valor faltante con ??, ya que $expected no permite ø",
+                    "resolutionGuard": "$~comprueba primero que sea un $expected con una protección de tipo, ya que $expected no puede ser los otros tipos posibles",
+                    "resolutionDeclaration": "$~declara el tipo de forma explícita, ya que $expected necesita conservar los valores literales",
+                    "resolutionWrap": "$~ponlo en una lista, un conjunto o un mapa, ya que $expected necesita una colección de valores",
+                    "resolutionStructure": "$~envuélvelo en $expected, ya que el espacio necesita un valor $expected",
+                    "resolutionDefault": "$~da a la asignación un valor inicial, ya que $expected no puede faltar aquí",
+                    "resolutionWiden": "$~permite el tipo del valor para esta asignación, ya que $expected es demasiado estrecho para lo que en realidad se guarda",
+                    "resolutionReorder": "$~intercambia las entradas, ya que sus tipos encajan mejor en el otro orden — $expected pertenece al otro espacio",
+                    "resolutionPlaceholder": "$~reemplázalo por un marcador de posición por ahora, ya que $expected es obligatorio — luego elige un valor del menú de autocompletado"
+                }
+            }
+        },
+        "AnyType": {
+            "name": "cualquier tipo",
+            "description": "$~cualquier cosa",
+            "emotion": "curious",
+            "doc": "$~Represento cualquier @type posible. A veces aparezco porque no sé qué clase de @value es algo, así que podría ser cualquier cosa."
+        },
+        "BooleanType": {
+            "name": "$~tipo booleano",
+            "description": "$~tipo booleano",
+            "emotion": "kind",
+            "doc": [
+                "$~yo trabajo con @Bind para declarar que un nombre es un @Boolean @value. Así:",
+                "\\hambriento•?: 'gelatina'\\🪲",
+                "Si quieres asegurarte de que algo es @Boolean, ¡úsame y yo lo comprobaré!"
+            ]
+        },
+        "ConversionType": {
+            "name": "$~tipo de conversión",
+            "description": "$~tipo de conversión",
+            "emotion": "serious",
+            "doc": [
+                "$~Trabajo con @Bind para indicar que un nombre es un @ConversionDefinition. Seguramente no necesitas usarme, porque no mucha gente me pasa como @value, pero si lo hicieras, me vería así:",
+                "\\magia•? → '': → ? '' ⬚ ? 'sí' 'no'\\🪲"
+            ]
+        },
+        "FormattedType": {
+            "name": "$~tipo de texto con formato",
+            "description": "$~tipo de texto con formato",
+            "emotion": "serious",
+            "doc": [
+                "$~Trabajo con @Bind para señalar que un nombre es un @FormattedLiteral @value. Así:",
+                "\\conHambre•`…`: `¡soy tan /elegante/!`\\🪲",
+                "¿Quieres asegurarte de que algo es un valor @FormattedLiteral? Así lo compruebas."
+            ]
+        },
+        "ExceptionType": {
+            "name": "excepción",
+            "description": "$~excepción",
+            "emotion": "neutral",
+            "doc": "$~Represento una excepción. No hay forma de decirle a bind que soy una, porque las excepciones solo detienen @Program, así que no puedes usarlas como valores."
+        },
+        "FunctionType": {
+            "name": "$!tipo de función",
+            "description": "$~función con $inputs entradas",
+            "emotion": "curious",
+            "doc": [
+                "$~Represento una @FunctionDefinition. ¡Soy muy útil si quieres decir qué tipo de función guarda un @Bind! Así:",
+                "\\matemáticas•ƒ(a•# b•# c•# d•#) #: ƒ interesante(a2•# b2•# c2•# d2•#) a2 + b2 + c2 + d2\\🪲"
+            ]
+        },
+        "ListType": {
+            "name": "$!tipo de lista",
+            "description": "$~tipo de lista$type[ de $type|]",
+            "emotion": "cheerful",
+            "doc": [
+                "$~¡Soy /tan/ fan de @List! ¡Me toca decirle a @Bind qué tipo de lista son! Así, digo que es una lista de @Number:",
+                "\\cosas•[#]: [1 2 3 4 5]\\🪲",
+                "Puedo decirlo de tres formas distintas. Si no nombro ningún tipo, entonces una lista puede tener cualquier longitud y guardar cualquier cosa:",
+                "\\cosas•[]: [1 'dos' ø]\\🪲",
+                "Si nombro un tipo, la lista todavía puede tener cualquier longitud, pero todo lo que hay en ella tiene que ser de ese único tipo, como la lista de @Number de allá arriba.",
+                "Y si nombro varios tipos, me refiero a una lista de exactamente esa cantidad de cosas, con un tipo para cada lugar en ella. Esta es una lista de dos cosas: primero un @Number, y luego algo de @Text.",
+                "\\par•[# '']: [1 'dos']\\🪲",
+                "Esa última es mi favorita, porque así todas saben qué está en cada lugar. @ListAccess sabe que la primera cosa es un @Number y la segunda es @Text, y si me das la cantidad equivocada de cosas, o las pones en el orden equivocado, ¡yo lo diré!"
+            ]
+        },
+        "MapType": {
+            "name": "tipo de mapa",
+            "description": "$~tipo de mapa de $key[$key|cualquiera] a $value[$value|cualquiera]",
+            "emotion": "kind",
+            "doc": [
+                "$~Le digo a @Bind qué tipo de @Map guarda un nombre — qué tipos son sus claves y sus valores. ¿Sabes lo increíble que es @Map? En serio, muy increíble. Aquí hay un mapa de números a listas:",
+                "\\cosas•{'':[]}: {}\\🪲"
+            ]
+        },
+        "NumberType": {
+            "name": "$~número",
+            "description": "$~tipo de número$unit[ en $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~Le digo a @Bind que un nombre guarda un @Number. ¿Sabes qué debería ser @Bind? Un @Number — porque los números son lo mejor.",
+                "\\contar•#: 17\\🪲"
+            ]
+        },
+        "NameType": {
+            "name": "$~estructura",
+            "description": "$~tipo de estructura $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Represento una @StructureDefinition por su nombre. Así que, si tuvieras una estructura como esta, podrías hacer un @Bind que guarde los valores que ella crea.",
+                "\\•Friend(name•'')\nbestie•Friend: Friend('Jonah')\\🪲"
+            ],
+            "conflict": {
+                "UnknownTypeName": {
+                    "name": "$~nombre de tipo desconocido",
+                    "explanation": "$~los nombres de tipo solo pueden referirse a estructuras o variables de tipo, pero este se refiere al tipo $type",
+                    "resolution": "$~reemplazar con un marcador de posición de tipo"
+                }
+            }
+        },
+        "NeverType": {
+            "name": "tipo nunca",
+            "description": "$~tipo imposible",
+            "emotion": "curious",
+            "doc": "$~Represento un @type que es imposible. Como cuando le preguntas a @Is si algo es un @Number, pero nunca puede ser un número."
+        },
+        "NoneType": {
+            "name": "$~tipo ninguno",
+            "description": "$~tipo ninguno",
+            "emotion": "neutral",
+            "doc": [
+                "$~@None es la mejor nada que existe, ¡y yo soy su fiel representante!",
+                "\\espacio•ø: ø\\🪲"
+            ]
+        },
+        "SetType": {
+            "name": "$!tipo de conjunto",
+            "description": "$~set type$type[ of $type|]",
+            "emotion": "kind",
+            "doc": [
+                "$~Yo le digo a @Bind que un nombre guarda un @Set de algún tipo. @Set es lo MEJOR, ¡en serio!",
+                "\\único•{''}: {'algo' 'cualquier cosa' 'alguien'}\\🪲"
+            ]
+        },
+        "StreamDefinitionType": {
+            "name": "$!tipo de definición de flujo",
+            "description": "$~tipo de definición de flujo",
+            "emotion": "angry",
+            "doc": "Represento un @stream que has definido, lo cual no es posible, así que ¿por qué incluso estás leyendo esto?"
+        },
+        "StreamType": {
+            "name": "$!tipo de flujo",
+            "description": "$~tipo de flujo",
+            "emotion": "curious",
+            "doc": [
+                "$~Celebro la belleza y el significado de los flujos… ¡diciéndole a @Bind que los guarde!:",
+                "\\tiempo•…#ms: Tiempo()\\🪲"
+            ]
+        },
+        "StructureType": {
+            "name": "$!tipo de estructura",
+            "description": "$~tipo de estructura $name",
+            "emotion": "kind",
+            "doc": "$~Soy un @type interno que representa el tipo de los tipos @value predeterminados."
+        },
+        "UnknownType": {
+            "name": "tipo desconocido",
+            "description": "$~desconocido",
+            "connector": ", porque ",
+            "emotion": "curious",
+            "doc": "$~Soy un @type que nadie ha descifrado todavía. Mmm… ¿sabes qué represento? Tal vez necesites decírnoslo si no logramos descubrirlo."
+        },
+        "TableType": {
+            "name": "$!tipo de tabla",
+            "description": "$~tabla",
+            "emotion": "angry",
+            "doc": "$~Represento un @Table.",
+            "conflict": {
+                "ExpectedColumnType": {
+                    "name": "$~falta el tipo de columna",
+                    "explanation": "$~necesito un tipo de columna",
+                    "resolution": "$~agregar un marcador de posición de tipo"
+                }
+            }
+        },
+        "TextType": {
+            "name": "$!tipo de texto",
+            "description": "$~$text['$text'|text type]",
+            "emotion": "happy",
+            "doc": [
+                "$~Represento de forma fabulosa el tipo más fabuloso de @value que existe, @Text.",
+                "\\cuento•'': 'Había una vez...'\\🪲"
+            ]
+        },
+        "TypePlaceholder": {
+            "name": "$~marcador de posición",
+            "description": "$~marcador de posición de tipo",
+            "emotion": "eager",
+            "doc": "$~¡Espero representar un @type algún día, así como mi mejor amiga @ExpressionPlaceholder representa un @expression! ¿Me ayudas a decidir de qué tipo?"
+        },
+        "UnionType": {
+            "name": "$~opción",
+            "description": "$~tipo uno de $first o $second",
+            "emotion": "curious",
+            "doc": [
+                "$~Represento un @value que podría ser uno de varios tipos: ¿A o B o algo más? ¡Nunca puedo decidirme!",
+                "\\indecisión•''|#|{ø}: '¡No lo sé!'\\🪲"
+            ],
+            "elidedSuffix": "$~u $omitted otras opciones"
+        },
+        "Unit": {
+            "name": "unidad",
+            "description": "$~$unit[unidad $unit|sin unidad]",
+            "emotion": "precise",
+            "doc": [
+                "$~Represento cualquier unidad que un @Number pueda tener, incluyendo ninguna unidad, hasta la unidad más complicada que puedas imaginar. Como la gravedad, por ejemplo:",
+                "\\gravedad•#m/s^2: 9.8m/s^2\\🪲",
+                "Aparezco en @Bind, pero también justo después de @Number. Ayudo a asegurar que los números sean del mismo tipo, ¡y sin duda te aviso si no lo son, por si es un error!"
+            ]
+        },
+        "TypeInputs": {
+            "name": "entradas de tipo",
+            "description": "$~$#count[$#count entrada de tipo|$count entradas de tipo|$count entradas de tipo]",
+            "emotion": "curious",
+            "doc": "Soy una lista de tipos que ocupan el lugar de @TypeVariables en una @StructureDefinition o @FunctionDefinition. Ayudo a todos a saber qué tipo de entradas recibirán."
+        },
+        "TypeVariable": {
+            "name": "variable de tipo",
+            "description": "$~variable de tipo $name",
+            "emotion": "curious",
+            "doc": "$~Soy un @type misterioso sobre @FunctionDefinition o @StructureDefinition, que @TypeInputs da cuando se evalúa cualquiera de los dos. @Set, @List y @Map me usan.",
+            "conflict": {
+                "DuplicateTypeVariable": {
+                    "name": "$~variable de tipo duplicada",
+                    "explanation": "$~Tengo el mismo nombre que $duplicate",
+                    "resolution": "$~quitar la variable de tipo duplicada"
+                }
+            },
+            "label": {
+                "type": "$~tipo"
+            }
+        },
+        "TypeVariables": {
+            "name": "variables de tipo",
+            "description": "$~$#count[$#count variable de tipo|$count variables de tipo|$count variables de tipo]",
+            "emotion": "curious",
+            "doc": "Soy una lista de @TypeVariable."
+        },
+        "UnparsableType": {
+            "name": "tipo no interpretable",
+            "description": "$~tipo no analizable",
+            "emotion": "curious",
+            "doc": "$~Represento el @type de una @expression desconocida. Aparezco cuando intentas usar esa expresión para algo."
+        },
+        "VariableType": {
+            "name": "tipo de variable",
+            "description": "$~variable de tipo",
+            "emotion": "curious",
+            "doc": "$~Represento un @TypeVariable, un tipo desconocido de @value, en todas las negociaciones entre valores."
+        },
+        "CycleType": {
+            "name": "$~ciclo",
+            "description": "$~dependencia cíclica",
+            "emotion": "curious",
+            "doc": "$~Represento un @value cuyo @type depende de sí mismo, así que no podemos saber qué tipo de valor es."
+        },
+        "UnknownVariableType": {
+            "name": "tipo de variable desconocida",
+            "description": "$~variable de tipo desconocida",
+            "emotion": "curious",
+            "doc": "$~A veces intentamos adivinar qué @value es algo; yo aparezco cuando no lo sabemos."
+        },
+        "NotAType": {
+            "name": "tipo inesperado",
+            "description": "$~no es un $type",
+            "emotion": "curious",
+            "doc": "$~Represento un @value cuyo @type no es el que esperábamos, como cuando @ListAccess necesita un @Number pero recibe algo más."
+        },
+        "NoExpressionType": {
+            "name": "$~sin expresión",
+            "description": "$~tipo de bloque vacío",
+            "emotion": "angry",
+            "doc": "$~Soy el @type que obtienes cuando un @Block no tiene ningún @expression dentro. Sabes que necesita al menos uno, ¡así que dale uno!"
+        },
+        "NotEnclosedType": {
+            "name": "fuera de estructura, conversión o reacción",
+            "description": "$~no está en una estructura",
+            "emotion": "curious",
+            "doc": "$~Aparezco cuando @This se usa en un lugar donde no pertenece, así que nadie sabe qué @value represento."
+        },
+        "NotImplementedType": {
+            "name": "no implementado",
+            "description": "$~sin implementar",
+            "emotion": "curious",
+            "doc": "$~Cuando usas @ExpressionPlaceholder, pero no dices de qué @type son, yo soy el tipo que obtienes. ¡Aguántate!"
+        },
+        "UnknownNameType": {
+            "name": "nombre desconocido",
+            "description": "$~$name[$name aún no está definido|El nombre no se ha dado]",
+            "emotion": "curious",
+            "doc": "$~Represento un @name que @Reference o @PropertyReference no pudo encontrar, cuando no sabemos de quién hablas."
+        },
+        "NonFunctionType": {
+            "name": "no es una función",
+            "description": "$~$type que no es función",
+            "emotion": "confused",
+            "doc": "Algunos de nosotros esperábamos funciones; aparezco cuando no obtenemos una."
+        },
+        "Translate": {
+            "name": "$~traducir",
+            "description": "$~traducir cada valor de $expression",
+            "emotion": "excited",
+            "doc": [
+                "$~¡Hago LO MISMO con CADA @element de una colección! ¡AY AY AY! ¡Eso es literalmente lo que HAGO!",
+                "Pon una colección a mi izquierda, dibuja mi flecha \\↦\\, y luego a mi derecha escribe en qué debe CONVERTIRSE cada elemento — ¡usa @This para referirte al elemento que sostengo AHORA MISMO!",
+                "\\[1 2 3] ↦ ⬚ + 1\\ te da \\[2 3 4]\\. ¡BUM! ¡Cada número, más uno, sin bucles, sin @FunctionDefinition, sin complicaciones!",
+                "¡Soy INCREÍBLE para hacer salidas de @Phrase a partir de datos! ¿Tienes una lista de nombres? \\['Ada' 'Mac' 'Tim'] ↦ Frase(⬚)\\ ¡y ahora hay una frase para CADA nombre!",
+                "Trabajo con @List, @Set, @Map (cambio los VALORES del mapa — ¡las claves se quedan justo donde están!), ¡y hasta con @Table!",
+                "¿Quieres algo más elegante — como el @index de cada elemento, o una función que puedas reutilizar en muchos lugares? Visita a mis primos más tranquilos y adultos como @List.translate. ¡Pero para mapear rápido todos los días, aquí estoy!"
+            ],
+            "start": "$~¡Espera, déjame tomar todo lo que hay en $expression!",
+            "finish": "$~¡TA-CHÁN! Aquí está tu nueva colección: $value",
+            "next": "$~¡Siguiente elemento: $value!",
+            "conflict": {
+                "ExpectedCollection": {
+                    "name": "$~se esperaba una colección",
+                    "explanation": "$~Esperaba que el lado izquierdo de una conversión de colección fuera una colección, pero recibí $type"
+                },
+                "ExpectedThis": {
+                    "name": "$~se esperaba esto",
+                    "explanation": "$~¿Querías usar @This para referirte a un elemento de esta colección?"
+                }
+            }
+        },
+        "ExternalExample": {
+            "name": "$~ejemplo externo",
+            "description": "$~ejemplo de código externo$languages[ en $languages|]",
+            "emotion": "serious",
+            "doc": [
+                "$~Muestro @code con resaltado de sintaxis escrito en otros lenguajes de programación, para que las creadoras que ya saben programar puedan comparar.",
+                "Escribe una variante por @language como una etiqueta de dos letras, una barra y el código, así \\py| a = 5\\js| let a = 5;\\. Quien lee ve la que coincide con el idioma que eligió. Se admiten Python (py), JavaScript (js) y Java (jv)."
+            ]
+        },
+        "Localized": {
+            "name": "$~localizado",
+            "description": "$~texto localizado",
+            "emotion": "serious",
+            "label": {
+                "value": "$~valor"
+            },
+            "doc": [
+                "$~Aplico un idioma a un texto que calculas, para que conserve su @language aun después de cambiarlo. Así:",
+                "\\('hola' + '¡')/en\\",
+                "Casi todas las operaciones de texto ya conservan el idioma, pero yo te dejo poner uno tú mismo cuando quieres reemplazarlos.",
+                "Solo funciono con texto, así que ¡asegúrate de darme uno!"
+            ],
+            "start": "$~Vamos a evaluar $value, luego a marcarlo con un idioma…"
+        },
+        "PatternLiteral": {
+            "name": "$~patrón",
+            "description": "$~patrón de $#count[$#count parte|$count partes|$count partes]",
+            "emotion": "curious",
+            "doc": [
+                "$~¡Soy un patrón! Describo la *forma* del texto en lugar de las palabras exactas, así que puedes revisar un texto con \\≈\\ — ¿encaja todo el texto? — o buscar en él con \\⌕\\ para encontrar cada lugar donde aparece la forma. La búsqueda devuelve una lista de @Result.",
+                "Aquí ves una búsqueda en acción — encuentra las palabras de comida en una frase sobre el desayuno:",
+                "\\desayuno: 'En el desayuno comí huevos, pan tostado y jugo de naranja'\ndesayuno ⌕ ⣿ \"eggs\" | \"toast\" | \"juice\" | \"pancakes\"⣿\\",
+                "Léeme de izquierda a derecha. Un @PatternClass coincide con un carácter de cierto tipo: \\⣿◌⣿\\ cualquiera, \\⣿_⣿\\ una letra, \\⣿#⣿\\ un dígito, \\⣿␣⣿\\ un espacio. El texto entre comillas es un @PatternLiteralText que coincide exactamente, como \\⣿\"-\"⣿\\. El resto \\⣿…⣿\\ — un @PatternRest — coincide con cualquier cantidad de caracteres.",
+                "Los conteos van primero. Un @PatternQuantified repite la siguiente parte según un @PatternQuantifier: \\⣿3 #⣿\\ son tres dígitos, \\⣿3–5 #⣿\\ de tres a cinco, \\⣿>0 #⣿\\ uno o más, \\⣿≥0 #⣿\\ cero o más, \\⣿≤1 #⣿\\ opcional.",
+                "Agrupa partes con un @PatternGroup, y ofrece opciones en un @PatternSequence, como \\⣿(◌ | #)⣿\\. Gana la opción coincidente más larga.",
+                "Un @PatternSet coincide con un carácter de un conjunto, y un @PatternRange abarca rangos de caracteres, como \\⣿ {\"a\"–\"z\" #}⣿\\. Niega una parte con un @PatternComplement, como \\⣿~#⣿\\.",
+                "Afina una clase con un @PatternProperty, como \\⣿ _/greek⣿\\ para una letra griega o \\⣿ ◌/emoji⣿\\.",
+                "Nombra una pieza con un @PatternCapture, como \\⣿ year: (4 #)⣿\\, luego reúsalo más tarde con un @PatternBackref escribiendo su nombre solo. Cada @Result informa las piezas capturadas por nombre.",
+                "Ancla a los bordes con un @PatternAnchor: \\⣿⊢⣿\\ inicio, \\⣿⊣⣿\\ fin. Mira sin consumir usando un @PatternLook: \\⣿▸(#)⣿\\ adelante, \\⣿◂(#)⣿\\ atrás.",
+                "Encuentra palabras completas con un @PatternWord \\⣿ ▭/en⣿\\ o límites de palabra con un @PatternWordEdge \\⣿ ┊/en⣿\\, segmentado para un @language. Ignora las mayúsculas y minúsculas dentro de un @PatternCaseFold \\⣿ Aa(\"hi\")⣿\\.",
+                "Mi @type es un @PatternType — anota un nombre con él, como \\p•⣿⣿: ⣿ ◌⣿\\🪲 — para que puedas guardarme en un nombre y reusarme en muchos textos."
+            ],
+            "start": "$~Déjame ver cómo se ve este texto.",
+            "conflict": {
+                "EmptyPattern": {
+                    "name": "$~patrón vacío",
+                    "explanation": "$~No tengo partes, así que no encuentro nada útil. ¿Puedes agregar una parte?",
+                    "resolution": "$~Agrega un \\◌\\ para encontrar cualquier carácter"
+                }
+            },
+            "step": {
+                "search": "$~Busquemos cada lugar donde aparece este patrón en el texto.",
+                "test": "$~Revisemos si todo este texto encaja con el patrón.",
+                "scan": "$~Buscando el patrón empezando en la posición $position.",
+                "match": "$~$pattern coincide con $glyph en la posición $position.",
+                "miss": "$~$pattern no coincide con $glyph en la posición $position.",
+                "end": "$~$pattern aún necesita un carácter, pero llegamos al final del texto en la posición $position.",
+                "repeat": "$~$pattern coincidió con $count — suficiente para seguir.",
+                "short": "$~$pattern coincidió solo con $count — no es suficiente.",
+                "here": "$~$pattern se cumple en la posición $position.",
+                "nothere": "$~$pattern no se cumple en la posición $position."
+            }
+        },
+        "PatternSequence": {
+            "name": "$~secuencia",
+            "description": "$~secuencia de patrón",
+            "emotion": "curious",
+            "doc": [
+                "$~Soy una fila de partes de patrón, que se comparan una tras otra, de izquierda a derecha.",
+                "Por ejemplo, revisa la forma de un número de teléfono: tres dígitos, un guion y luego cuatro:",
+                "\\teléfono: '555-1234'\nteléfono ≈ ⣿ 3 # \"-\" 4 #⣿\\🪲",
+                "Ofrece opciones y tomo la que encaje, prefiriendo la más larga, como \\⣿ \"cat\" | \"dog\"⣿\\."
+            ],
+            "conflict": {
+                "OverlappingAlternatives": {
+                    "name": "$~opciones que se traslapan",
+                    "explanation": "$~$shorter es el inicio de $longer, y la opción más larga siempre gana, así que $shorter solo coincide cuando $longer no puede. ¿Eso querías decir?"
+                }
+            }
+        },
+        "PatternClass": {
+            "name": "$~clase de carácter",
+            "description": "$~clase de carácter",
+            "emotion": "curious",
+            "doc": [
+                "$~Coincido con un solo carácter de un tipo: \\⣿◌⣿\\ cualquier grafema, \\⣿_⣿\\ una letra, \\⣿#⣿\\ un dígito, \\⣿␣⣿\\ un espacio.",
+                "Por ejemplo, saca de una lista cada @code de letra seguida de dígito:",
+                "\\códigos: 'a1 b2 c3'\ncódigos ⌕ ⣿ _ #⣿\\",
+                "Cuéntame con un cuantificador como \\⣿>0 #⣿\\ (uno o más dígitos), o limítame con un @property como \\⣿ _/greek⣿\\ (una letra griega)."
+            ]
+        },
+        "PatternProperty": {
+            "name": "$~propiedad",
+            "description": "$~propiedad Unicode",
+            "emotion": "curious",
+            "doc": [
+                "$~Limito una clase de carácter a un @property de Unicode. Usa una escritura, como \\⣿ _/greek⣿\\, \\⣿ _/han⣿\\, o \\⣿ _/arabic⣿\\.",
+                "Por ejemplo, encuentra la serie de letras griegas en un texto mezclado:",
+                "\\texto: 'hola αβγ mundo'\ntexto ⌕ ⣿ >0 _/greek⣿\\",
+                "O una categoría, como \\⣿ ◌/punctuation⣿\\, \\⣿ ◌/currency⣿\\, \\⣿ ◌/Nd⣿\\ (un dígito), o \\⣿ _/Lu⣿\\ (una letra mayúscula).",
+                "O una propiedad de sí o no, como \\⣿ ◌/emoji⣿\\ o \\⣿ _/uppercase⣿\\ — y puedes escribir una con un nombre y @value, como \\⣿ ◌/Script=Greek⣿\\.",
+                "Excluye una propiedad con un @PatternComplement, como \\⣿ ~◌/emoji⣿\\ (cualquier cosa que no sea un emoji)."
+            ],
+            "conflict": {
+                "UnrecognizedPatternProperty": {
+                    "name": "$~propiedad desconocida",
+                    "explanation": "$~No reconozco la propiedad $name. Prueba con una categoría, un script o un id de Unicode.",
+                    "resolution": "$~Cámbialo por $suggestion"
+                }
+            }
+        },
+        "PatternQuantifier": {
+            "name": "$~cuantificador",
+            "description": "$~conteo de repeticiones",
+            "emotion": "curious",
+            "doc": [
+                "$~Yo digo cuántas veces coincidir: un número exacto \\⣿3 #⣿\\, un rango \\⣿3–5 #⣿\\, \\⣿=3 #⣿\\ (exactamente tres), \\⣿>0 #⣿\\ (uno o más), \\⣿≥0 #⣿\\ (cero o más), \\⣿<5 #⣿\\ (menos de cinco), \\⣿≤1 #⣿\\ (opcional).",
+                "Por ejemplo, encuentra cada serie de dígitos en una oración:",
+                "\\texto: 'Tengo 3 gatos y 12 peces'\ntexto ⌕ ⣿ >0 #⣿\\",
+                "Siempre voy antes de la parte que cuento, como \\⣿3 #⣿\\ o \\⣿>0 _⣿\\."
+            ],
+            "conflict": {
+                "MalformedQuantifier": {
+                    "name": "$~conteo imposible",
+                    "explanation": "$~Mi conteo bajo es más grande que mi conteo alto, así que nunca puedo coincidir.",
+                    "resolution": "$~Intercambia mis conteos para que el menor vaya primero"
+                }
+            }
+        },
+        "PatternQuantified": {
+            "name": "$~repetición",
+            "description": "$~coincidencia repetida",
+            "emotion": "curious",
+            "doc": [
+                "$~Yo coincido con la siguiente parte varias veces.",
+                "Por ejemplo, revisa que un @code postal tenga exactamente cinco dígitos:",
+                "\\códigoPostal: '98101'\ncódigoPostal ≈ ⣿ 5 #⣿\\",
+                "Cuenta una clase como \\⣿3 #⣿\\ (tres dígitos), un grupo como \\⣿ 2 (\"ab\")⣿\\ (dos \"ab\"), o un complemento como \\⣿2 ~#⣿\\ (dos que no sean dígitos). Con \\⣿>0 #⣿\\ soy glotona: tomo tantas como puedo."
+            ]
+        },
+        "PatternCapture": {
+            "name": "$~captura",
+            "description": "$~captura llamada $name",
+            "emotion": "curious",
+            "doc": [
+                "$~Yo doy un nombre a una parte de una coincidencia para que puedas leerla de vuelta desde cada @Result.",
+                "Por ejemplo, saca el año, el mes y el día de una fecha:",
+                "\\fecha: '2026-06-17'\nfecha ⌕ ⣿ y: (4 #) \"-\" m: (2 #) \"-\" d: (2 #)⣿\\",
+                "Vuelve a usar lo que capturé más tarde escribiendo mi nombre de nuevo — mira @PatternBackref — como \\⣿ w: (>0 _) ␣ w⣿\\ para encontrar una palabra duplicada."
+            ],
+            "conflict": {
+                "DuplicateCaptureName": {
+                    "name": "$~captura duplicada",
+                    "explanation": "$~Otra captura ya usa el nombre $name, así que esta lo sobrescribiría.",
+                    "resolution": "$~Cambia el nombre de esta captura a $replacement"
+                }
+            }
+        },
+        "PatternComplement": {
+            "name": "$~no",
+            "description": "$~coincidencia de complemento",
+            "emotion": "curious",
+            "doc": [
+                "$~Yo coincido con un solo grafema que NO sea lo que sigue. Niega una clase como \\⣿~#⣿\\ (que no sea un dígito), o un conjunto como \\⣿~{\":\" ␣}⣿\\ (que no sea dos puntos ni espacio).",
+                "Por ejemplo, toma el @key y el @value alrededor de unos dos puntos coincidiendo con series que no sean dos puntos ni espacio:",
+                "\\par: 'color: azul'\npar ⌕ ⣿ >0 ~{\":\" ␣}⣿\\",
+                "Niega un grupo como \\⣿~(◌ | #)⣿\\, o un @property como \\⣿ ~◌/emoji⣿\\ (que no sea un emoji).",
+                "Ponme antes de un @PatternLook para invertirlo: \\⣿~▸(#)⣿\\ significa \"que no le siga un dígito\", y \\⣿~◂(\"$\")⣿\\ significa \"no precedido por un signo de dólar\"."
+            ]
+        },
+        "PatternGroup": {
+            "name": "$~grupo",
+            "description": "$~grupo de patrón",
+            "emotion": "curious",
+            "doc": [
+                "$~Junto varias partes para que una cuenta o una opción se aplique a todas. Nunca capturo; para eso, nombra una parte con un @PatternCapture.",
+                "Por ejemplo, revisa que un texto sea la sílaba \"ab\" repetida:",
+                "\\cántico: 'ababab'\ncántico ≈ ⣿ >0 (\"ab\")⣿\\",
+                "Cuenta un grupo como \\⣿ 2 (\"ab\")⣿\\ (dos \"ab\") u ofrece una opción como \\⣿(◌ | #)⣿\\ (una letra o un dígito)."
+            ]
+        },
+        "PatternSet": {
+            "name": "$~conjunto de glifos",
+            "description": "$~conjunto de grafemas",
+            "emotion": "curious",
+            "doc": [
+                "$~Coincido con cualquier grafema de un conjunto de opciones.",
+                "Por ejemplo, encuentra las vocales en una palabra:",
+                "\\palabra: 'hola'\npalabra ⌕ ⣿ {\"a\" \"e\" \"i\" \"o\" \"u\"}⣿\\",
+                "Mezcla rangos y clases, como \\⣿ {\"a\"–\"z\" #}⣿\\ o \\⣿ {# \"a\"–\"f\"}⣿\\ (un dígito hexadecimal). Niégame con un @PatternComplement, como \\⣿~{\"!\" \"?\"}⣿\\."
+            ]
+        },
+        "PatternRange": {
+            "name": "$~rango",
+            "description": "$~rango de $low a $high",
+            "emotion": "curious",
+            "doc": [
+                "$~Coincido con un grafema entre dos extremos según el orden escalar, y vivo dentro de un @PatternSet.",
+                "Por ejemplo, saca las palabras en minúscula de un texto:",
+                "\\texto: 'hola mundo 2026'\ntexto ⌕ ⣿ >0 {\"a\"–\"z\"}⣿\\",
+                "Abarca letras como \\⣿ {\"a\"–\"z\" \"A\"–\"Z\"}⣿\\ o dígitos como \\⣿{\"0\"–\"9\"}⣿\\, en cualquier escritura, como \\⣿ {\"あ\"–\"ん\"}⣿\\."
+            ]
+        },
+        "PatternLiteralText": {
+            "name": "$~literal",
+            "description": "$~texto exacto $text",
+            "emotion": "curious",
+            "doc": [
+                "$~Coincido exactamente con el texto que está entre mis comillas, sin ningún significado especial.",
+                "Por ejemplo, encuentra el monto en dólares dentro de una oración:",
+                "\\recibo: 'Cuesta $5 hoy'\nrecibo ⌕ ⣿ \"$\" >0 #⣿\\",
+                "Úsame para partes fijas como \\⣿\"-\"⣿\\, \\⣿\"@\"⣿\\, o una palabra completa \\⣿ \"cat\"⣿\\, unidas con otras partes, como \\⣿3 # \"-\" 4 #⣿\\ para un número de teléfono."
+            ]
+        },
+        "PatternAnchor": {
+            "name": "$~ancla",
+            "description": "$~borde de texto",
+            "emotion": "curious",
+            "doc": [
+                "$~Coincido con un borde del texto sin consumir nada: \\⣿⊢⣿\\ el inicio, \\⣿⊣⣿\\ el final.",
+                "Por ejemplo, revisa que un saludo comience con \"Hola\":",
+                "\\saludo: 'Hola mundo'\nsaludo ≈ ⣿ ⊢ \"Hello\" …⣿\\",
+                "Fija la posición, como \\⣿ ⊢ \"Hi\"⣿\\ (comienza con \"Hola\"), \\⣿\".\" ⊣⣿\\ (termina con un punto), o \\⣿⊢ _ ⊣⣿\\ (todo el texto es exactamente una letra)."
+            ]
+        },
+        "PatternWord": {
+            "name": "$~palabra",
+            "description": "$~palabra completa",
+            "emotion": "curious",
+            "doc": [
+                "$~Coincido con una palabra completa, encontrada por las propias reglas de @language.",
+                "Por ejemplo, enlista las palabras de una oración:",
+                "\\oración: 'el gato se sentó'\noración ⌕ ⣿ ▭/en⣿\\",
+                "Indica el idioma, como \\⣿ ▭/en⣿\\ para inglés o \\⣿ ▭/zh⣿\\ para chino, y limita una palabra específica con bordes, como \\⣿ ┊/en \"cat\" ┊/en⣿\\."
+            ],
+            "conflict": {
+                "MissingPatternLocale": {
+                    "name": "$~idioma faltante",
+                    "explanation": "$~Necesito un idioma para saber cómo encontrar palabras. ¿Puedes agregar uno, como \\/en\\?"
+                }
+            }
+        },
+        "PatternWordEdge": {
+            "name": "$~borde de palabra",
+            "description": "$~límite de palabra",
+            "emotion": "curious",
+            "doc": [
+                "$~Coincido con el límite de una palabra para un @language sin consumir nada.",
+                "Por ejemplo, encuentra \"gato\" como palabra completa, no dentro de \"gatito\":",
+                "\\texto: 'un gato en una categoría'\ntexto ⌕ ⣿ ┊/en \"cat\" ┊/en⣿\\",
+                "Envuelve una palabra conmigo, como \\⣿ ┊/en \"cat\" ┊/en⣿\\, para que solo coincida completa."
+            ]
+        },
+        "PatternLook": {
+            "name": "mirada alrededor",
+            "description": "$~búsqueda alrededor",
+            "emotion": "curious",
+            "doc": [
+                "$~Reviso lo que viene justo adelante \\⣿▸(#)⣿\\ o atrás \\⣿◂(#)⣿\\ sin consumirlo, así la siguiente parte todavía coincide desde el mismo lugar.",
+                "Por ejemplo, encuentra cada letra que va seguida de un dígito:",
+                "\\texto: 'a1 b2 cc'\ntexto ⌕ ⣿ _ ▸(#)⣿\\",
+                "Exige un contexto, como \\⣿_ ▸(#)⣿\\ (una letra seguida de un dígito) o \\⣿◂(\"$\") >0 #⣿\\ (dígitos justo después de un \"$\").",
+                "Inviérteme con un @PatternComplement para prohibir el contexto, como \\⣿~▸(#)⣿\\ (no seguido de un dígito)."
+            ]
+        },
+        "PatternBackref": {
+            "name": "referencia hacia atrás",
+            "description": "$~retroreferencia",
+            "emotion": "curious",
+            "doc": [
+                "$~Coincido con el mismo texto que ya coincidió un @PatternCapture con nombre — solo escribe el nombre sin adornos de la captura.",
+                "Por ejemplo, encuentra una palabra que se repite justo después:",
+                "\\texto: 'el el gato se sentó sentó'\ntexto ⌕ ⣿ w: (>0 _) ␣ w⣿\\",
+                "Un nombre sin adornos que no es una captura es una clase con nombre, como \\⣿ linebreak⣿\\."
+            ],
+            "conflict": {
+                "UndefinedBackreference": {
+                    "name": "$~nombre desconocido",
+                    "explanation": "$~No hay ninguna captura ni clase llamada $name, así que no tengo nada con qué coincidir.",
+                    "resolution": "$~Cámbialo a $suggestion"
+                }
+            }
+        },
+        "PatternRest": {
+            "name": "$~resto",
+            "description": "$~resto de la entrada",
+            "emotion": "curious",
+            "doc": [
+                "$~Coincido con el resto del texto, tanto como sea posible. Soy útil al final de un patrón.",
+                "Por ejemplo, revisa que un texto sea una etiqueta — un \"#\" y luego cualquier cosa:",
+                "\\etiqueta: '#desayuno'\netiqueta ≈ ⣿ \"#\" …⣿\\",
+                "Úsame después de un inicio fijo, como \\⣿\"#\" …⣿\\ (un \"#\" y luego cualquier cosa) o \\⣿ \"Hi \" …⣿\\ (\"Hola \" y luego todo lo que sigue)."
+            ]
+        },
+        "PatternCaseFold": {
+            "name": "$~ignorar mayúsculas",
+            "description": "$~coincidencia sin distinguir mayúsculas",
+            "emotion": "curious",
+            "doc": [
+                "$~Comparo mis partes sin importar si están en mayúsculas o minúsculas.",
+                "Por ejemplo, revisa una palabra sin importar sus mayúsculas:",
+                "\\gritar: 'HOLA'\ngritar ≈ ⣿ Aa(\"hello\")⣿\\",
+                "Envuelve mis partes así \\⣿ Aa(\"hi\")⣿\\ (coincide con \"HI\", \"Hi\" o \"hi\"). Agrega un @language para sus reglas, como \\⣿ Aa/tr(\"i\")⣿\\ (la i turca), y también aplico el @scope de un @PatternBackref, como \\⣿ Aa(w: (2 _) w)⣿\\."
+            ]
+        },
+        "PatternType": {
+            "name": "$~tipo de patrón",
+            "description": "$~patrón",
+            "emotion": "curious",
+            "doc": [
+                "$~Soy el @type de un patrón @value, anotado así \\p•⣿⣿: ⣿ ◌⣿\\🪲.",
+                "Por ejemplo, guarda un patrón en un @name y reúsalo en muchos textos:",
+                "\\dígitos: ⣿ >0 #⣿\n'tengo 3 gatos y 12 peces' ⌕ dígitos\\",
+                "Una vez guardado, úsame en cualquier lugar donde quepa un patrón, como \\text ⌕ digits\\🪲 o \\text ≈ digits\\🪲."
+            ]
+        },
+        "RangeType": {
+            "name": "$~rango",
+            "description": "$~tipo rango$unit[ en $unit|]",
+            "emotion": "precise",
+            "doc": [
+                "$~le digo a @Bind que un nombre guarda un @Range — dos límites @Number, y cada número entre ellos.",
+                "\\tramo•‥: 1 ‥ 10\\🪲"
+            ]
+        }
+    }
+}

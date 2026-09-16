@@ -1,0 +1,1973 @@
+{
+    "$schema": "../../../../static/schemas/sections/basis.json",
+    "basis": {
+        "Boolean": {
+            "doc": [
+                "We are \\⊤\\ and \\⊥\\. \\⊤\\ is true. \\⊥\\ is false. \\⊤\\ is not \\⊥\\; \\⊥\\ is not \\⊤\\. This is how it is.",
+                "How do you make us? Just \\⊤\\ and \\⊥\\, nothing more, nothing less.",
+                "Some use the keyboard (/ctrl+9/ for \\⊤\\ and /ctrl+0/ for \\⊥\\). Some use the character search at the bottom of the @editor. Or you can drag us from here.",
+                "Check out our @FunctionDefinition below. They're very logical."
+            ],
+            "name": ["⊤⊥", "Boolean"],
+            "function": {
+                "and": {
+                    "doc": [
+                        "I evaluate to \\⊤\\ *only* when both @values are \\⊤\\. Helpful for determining if many things are all true. There are only four possible outcomes",
+                        "\\⊤ & ⊤\\",
+                        "\\⊤ & ⊥\\",
+                        "\\⊥ & ⊤\\",
+                        "\\⊥ & ⊥\\"
+                    ],
+                    "names": ["&", "and"],
+                    "inputs": [
+                        {
+                            "doc": "The other @Boolean to check. If the first is \\⊥\\, it doesn't matter what this is, the function will evaluate to \\⊥\\.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "or": {
+                    "doc": [
+                        "I evaluate to \\⊤\\ when *either* @value are \\⊤\\. Helpful for determining if one of many things are true. There are only four possible outcomes",
+                        "\\⊤ | ⊤\\",
+                        "\\⊤ | ⊥\\",
+                        "\\⊥ | ⊤\\",
+                        "\\⊥ | ⊥\\"
+                    ],
+                    "names": ["|", "or"],
+                    "inputs": [
+                        {
+                            "doc": "The other @Boolean to check. If the first is \\⊥\\, the function will only evaluate to \\⊤\\ if this is \\⊤\\.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "not": {
+                    "doc": "I get the opposite of myself: if \\⊤\\, it gives \\⊥\\, if \\⊥\\, it gives \\⊤\\.",
+                    "names": ["~", "not"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "\\⊤\\ if both are \\⊤\\ or both are \\⊥\\.",
+                    "names": ["=", "equals"],
+                    "inputs": [
+                        {
+                            "doc": "The other @value to check.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "\\⊤\\ if both are opposites.",
+                    "names": ["≠", "notequal"],
+                    "inputs": [
+                        {
+                            "doc": "The other @value to check.",
+                            "names": "value"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "Converts a @Boolean to the equivalent @Text values, \\'⊤'\\ and \\'⊥'\\",
+                "number": "Converts a @Boolean to a @Number, \\1\\ for \\⊤\\ and \\0\\ for \\⊥\\"
+            }
+        },
+        "None": {
+            "doc": [
+                "I represent the absence of a @value, written \\ø\\.",
+                "I am @None. Invoke me with \\ø\\."
+            ],
+            "name": ["ø", "None"],
+            "function": {
+                "equals": {
+                    "doc": "Is another @value also nothing? It better be, otherwise, \\⊥\\.",
+                    "names": ["=", "equals"],
+                    "inputs": [
+                        {
+                            "doc": "The other @value.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "Is another @value /not/ nothing?",
+                    "names": ["≠", "notequal"],
+                    "inputs": [
+                        {
+                            "doc": "The other @value.",
+                            "names": "value"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "Want to make \\ø\\ into \\'ø'\\? This is your chance."
+            }
+        },
+        "Text": {
+            "doc": [
+                "I can represent any text, from any @language. Just put the text between opening and closing text symbols: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
+                "To illustrate, consider these beautiful phrases",
+                "\\“There are only two ways to live your life. One is as though nothing is a miracle. The other is as though everything is a miracle.”\\",
+                "\\『一日三秋』\\",
+                "Just remember to close me if you open me, and use the matching symbol. Otherwise I won't know that you're done with your words.",
+                "\\'hello'/en'hola'/es-MX\\",
+                "You can also tag me with languages, and even give multiple translations. I'll evaluate to whatever languages are currently selected, if there's a matching language.",
+                "If you want to make me with some other @values, you can do this:",
+                "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
+                "See how elegantly I just evaluated those sums, and placed them inside the @Text?",
+                "I have one last little secret: did you know we all have a unique number? It's true! You can refer to us by writing @U/ and our number. For example, @FunctionDefinition is 192:",
+                "\\'@U/192'\\",
+                "See how @U/192 turned into @FunctionDefinition? I hear you call these numbers 'Unicode'.",
+                "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
+            ],
+            "name": ["''", "Text"],
+            "function": {
+                "length": {
+                    "doc": [
+                        "I evaluate to the number of legible characters in the text; one letter is one character, one emoji is one character, etc. For example:",
+                        "\\'hello'.length()\\",
+                        "\\'🐈📚'.length()\\"
+                    ],
+                    "names": ["📏", "length"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "\\⊤\\ if I am the same character sequence as the given @Text.",
+                    "names": ["=", "equals"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to compare.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "\\⊤\\ if I am /not/ the same character sequence as the given @Text.",
+                    "names": "≠",
+                    "inputs": [
+                        {
+                            "doc": "The @Text to compare",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "\\⊤\\ if the given @Text appears in me.",
+                        "\\'did you find what you were looking for?'.has('you')\\"
+                    ],
+                    "names": ["⊆", "has"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to search for in me.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": [
+                        "\\⊤\\ if I start with the given @Text.",
+                        "\\'hello verse!'.starts('hello')\\",
+                        "\\'hello verse!'.starts('verse')\\"
+                    ],
+                    "names": ["starts"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to check for at the start of me.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": [
+                        "\\⊤\\ if I end with the given @Text.",
+                        "\\'am I a question?'.ends('?')\\",
+                        "\\'I am not a question.'.ends('?')\\"
+                    ],
+                    "names": ["ends"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to check for at the end of me.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "I make a new @Text that's me, with every letter in uppercase:",
+                        "\\'hello'.uppercase()\\",
+                        "Letters only have cases in some writing systems, so text in a writing system without them, like Japanese or Arabic, is unchanged.",
+                        "My @language tag decides whose rules to use. Turkish has a dotted and a dotless i, and only text tagged as Turkish uppercases them the Turkish way:",
+                        "\\'iyi'/tr.uppercase()\\",
+                        "\\'iyi'.uppercase()\\"
+                    ],
+                    "names": ["🔠", "uppercase"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "I make a new @Text that's me, with every letter in lowercase:",
+                        "\\'HELLO'.lowercase()\\",
+                        "Make two texts lowercase to compare them without caring about capitalization. This keeps every word that starts with an a, whether or not it's capitalized:",
+                        "\\['Apple' 'apricot' 'Banana'].filter(ƒ(word•'') word.lowercase().starts('a'))\\",
+                        "Like @Text/uppercase, letters only have cases in some writing systems, and my @language tag decides whose rules to use."
+                    ],
+                    "names": ["🔡", "lowercase"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "I make a new @Text from a piece of me. Counting starts at 1, and both ends are included:",
+                        "\\'hello'.subsequence(2 4)\\",
+                        "Leave the end out and I go all the way to my last symbol:",
+                        "\\'hello'.subsequence(3)\\",
+                        "I count symbols the way you see them, so an emoji made of several parts is still one symbol and never gets cut in half:",
+                        "\\'🐈📚!'.subsequence(1 2)\\",
+                        "If you ask for more than I have, I give you what I have."
+                    ],
+                    "names": ["subsequence"],
+                    "inputs": [
+                        {
+                            "doc": "The place to start, counting from 1.",
+                            "names": "start"
+                        },
+                        {
+                            "doc": "The place to stop, counting from 1. Leave it out to go to the end.",
+                            "names": "end"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "I tell you where the given @Text first shows up in me, counting from 1:",
+                        "\\'hello'.index('ll')\\",
+                        "If it isn't in me at all, I give @None instead:",
+                        "\\'hello'.index('z')\\",
+                        "Together with @Text/subsequence I can take everything up to something — here, the first word:",
+                        "\\phrase: 'hello world'\nphrase.subsequence(1 (phrase.index(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["index"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to look for in me.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "I make a new @Text with every occurence of one @Text swapped for another:",
+                        "\\'2026-08-21'.replace('-' '/')\\",
+                        "Every occurrence changes, not just the first:",
+                        "\\'ha ha ha'.replace('ha' 'ho')\\",
+                        "If you ask me to replace an empty @Text, I give myself back unchanged."
+                    ],
+                    "names": ["replace"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to look for in me.",
+                            "names": "of"
+                        },
+                        {
+                            "doc": "The @Text to put in its place.",
+                            "names": "replacement"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "I make a new @Text with the blank space taken off both of my ends. Space in the middle stays:",
+                        "\\'  hello  '.trim()\\",
+                        "This is handy for text someone typed, which often carries extra spaces you didn't ask for."
+                    ],
+                    "names": ["trim"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "I make a new @Text with my symbols in the opposite order:",
+                        "\\'hello'.reverse()\\",
+                        "I reverse the order of my symbols the way you see them, so emoji stay whole and letters keep their accents:",
+                        "\\'🐈📚'.reverse()\\"
+                    ],
+                    "names": ["reversed", "reverse"],
+                    "inputs": []
+                },
+                "repeat": {
+                    "doc": [
+                        "I make a new @Text that's me, repeated the number of times of \\count\\:",
+                        "\\'hi ' × 5\\",
+                        "If you give me a fractional @Number, I ignore the fraction:",
+                        "\\'hi ' × 5.5\\",
+                        "If you give me a negative @Number or zero, I give an empty @Text.",
+                        "\\'hi ' × -5\\",
+                        "The longest text I can make is 65,535 characters. If you try to make a longer text, I'll repeat the text as many times as I can."
+                    ],
+                    "names": ["×", "·", "🔁", "repeated", "repeat"],
+                    "inputs": [
+                        {
+                            "doc": "The number of times to repeat myself in the new text.",
+                            "names": "count"
+                        }
+                    ]
+                },
+                "segment": {
+                    "doc": [
+                        "I divide myself into a @List of @Text, using the given @Text as a separator, and removing the separators. For example:",
+                        "\\'apples, oranges, grapes' ÷ ', '\\",
+                        "If the separator is an empty @Text, I divide myself into characters:",
+                        "\\'🖌️🏠🥸' ÷ ''\\"
+                    ],
+                    "names": ["÷", "segmented", "segment"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to use as a separator.",
+                            "names": "delimiter"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "Sometimes it's helpful to combine two @Text into one. Give me another @Text and I'll make a new text that joins us together:",
+                        "\\'hello ' + 'verse'\\"
+                    ],
+                    "names": ["+", "combined", "combine"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to append.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "\\⊤\\ if the whole text matches the given pattern.",
+                        "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
+                    ],
+                    "names": ["≈", "matches"],
+                    "inputs": [
+                        {
+                            "doc": "The pattern to match against.",
+                            "names": "pattern"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "Find every place the given pattern matches in me, as a list of @Result.",
+                        "\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["⌕", "search"],
+                    "inputs": [
+                        {
+                            "doc": "The pattern to search for.",
+                            "names": "pattern"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": "Splits the text into a list of individual characters.",
+                "number": [
+                    "Converts text into a @Number, and if it's not a number, a not a number value, which shows up as \\!#\\:",
+                    "\\'hi' → #\\"
+                ],
+                "formatted": "Converts text into formatted text, interpreting any markup it contains."
+            }
+        },
+        "Formatted": {
+            "doc": [
+                "I'm formatted text: words with style, like bold, italics, and links. Put me between backticks:",
+                "\\`I am **bold** and /italic/`\\",
+                "I work a lot like @Text, but I can carry formatting. You can combine me, repeat me, check what I contain, and convert me to plain @Text."
+            ],
+            "name": ["`…`", "Formatted"],
+            "function": {
+                "length": {
+                    "doc": "I evaluate to the number of legible characters in my text, ignoring formatting and paragraph breaks.",
+                    "names": ["📏", "length"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "\\⊤\\ if I am the same formatted text as the given @value.",
+                    "names": ["=", "equals"],
+                    "inputs": [
+                        {
+                            "doc": "The formatted text to compare.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "\\⊤\\ if I am /not/ the same formatted text as the given @value.",
+                    "names": "≠",
+                    "inputs": [
+                        {
+                            "doc": "The formatted text to compare.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "\\⊤\\ if my plain text contains the given @Text. I ignore formatting and paragraph breaks when I look.",
+                    "names": ["⊆", "has"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to look for in my text.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "\\⊤\\ if my plain text starts with the given @Text. I ignore formatting and paragraph breaks when I check.",
+                    "names": ["starts"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to check for at the start of my text.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "\\⊤\\ if my plain text ends with the given @Text. I ignore formatting and paragraph breaks when I check.",
+                    "names": ["ends"],
+                    "inputs": [
+                        {
+                            "doc": "The @Text to check for at the end of my text.",
+                            "names": "text"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "I make new formatted text that's me, with every letter in uppercase. Only my words change; my formatting, links, and examples stay as they are:",
+                        "\\`*hi* there`.uppercase()\\",
+                        "Like @Text/uppercase, letters only have cases in some writing systems, and my @language tag decides whose rules to use."
+                    ],
+                    "names": ["🔠", "uppercase"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "I make new formatted text that's me, with every letter in lowercase. Only my words change; my formatting, links, and examples stay as they are:",
+                        "\\`*HI* THERE`.lowercase()\\",
+                        "Like @Text/lowercase, letters only have cases in some writing systems, and my @language tag decides whose rules to use."
+                    ],
+                    "names": ["🔡", "lowercase"],
+                    "inputs": []
+                },
+                "repeat": {
+                    "doc": "I make new formatted text that's me, repeated the given number of times. If I have more than one paragraph, the breaks are kept between copies.",
+                    "names": ["×", "·", "🔁", "repeated", "repeat"],
+                    "inputs": [
+                        {
+                            "doc": "The number of times to repeat myself.",
+                            "names": "count"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "Give me another formatted text and I'll join us together into one. If either of us has more than one paragraph, the paragraph breaks are kept.",
+                    "names": ["+", "combined", "combine"],
+                    "inputs": [
+                        {
+                            "doc": "The formatted text to append.",
+                            "names": "formatted"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "Converts formatted text into plain @Text, removing all formatting.",
+                "list": "Converts formatted text into a @List of @Text, one for each symbol of my words. Formatting can't survive being cut into single symbols, so it's dropped.",
+                "number": [
+                    "Converts my words into a @Number, and if they aren't a number, a not a number value, which shows up as \\!#\\:",
+                    "\\`hi` → #\\"
+                ]
+            }
+        },
+        "Number": {
+            "doc": [
+                "I create @Number, with any number of units you can imagine!",
+                "Here are my top 5:",
+                "\\0\\",
+                "\\1story\\",
+                "\\πpie\\",
+                "\\∞rock\\",
+                "\\1000000hugs\\",
+                "That's basically an infinite number of numbers.",
+                "And an infinite number of units!",
+                "And an infinite number of number/unit pairs…",
+                "I can be integers, real numbers, negative, positive, fractional, decimal, even not a number.",
+                "And you can write me with many different number systems, including Arabic \\123\\, Roman \\ⅩⅩⅩⅠⅩ\\, Japanese \\二十\\, and more:",
+                "\\1 + Ⅰ + 一\\",
+                "You can also write me in bases 2 to 16 by putting a base number like this:",
+                "\\2;11111111\\",
+                "\\10;255\\",
+                "\\16;FF\\",
+                "There is one special number called NaN that is possible when you write something that isn't a number:",
+                "\\2;22\\",
+                "There is no digit '2' in base 2, so it's not a valid number. NaN will also show up if you try to convert non-number text to number",
+                "\\'hi'→#\\"
+            ],
+            "name": ["#", "Number"],
+            "function": {
+                "add": {
+                    "doc": [
+                        "I add a @Number with the same @Unit to myself, creating a new @Number of the same @Unit.",
+                        "For example:",
+                        "\\1 + 1\\",
+                        "\\3cat + 5cat\\",
+                        "If the units don't match, I halt the show.",
+                        "\\3cat + 5dog\\🪲"
+                    ],
+                    "names": ["+", "add"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number to add.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "subtract": {
+                    "doc": [
+                        "I subtract the @Number you give me from myself, creating a new @Number of the same @Unit.",
+                        "For example:",
+                        "\\1 - 1\\",
+                        "\\3cat - 5cat\\",
+                        "If the units don't match, I halt the show.",
+                        "\\3cat - 5dog\\🪲"
+                    ],
+                    "names": ["-", "subtract"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number to subtract from me.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "multiply": {
+                    "doc": [
+                        "I multiply myself to the given @Number, creating a product of my @Unit and the given number's @Unit:",
+                        "\\5 × 5\\",
+                        "\\5m × 5m\\",
+                        "\\5m × 1/s\\"
+                    ],
+                    "names": ["×", "·", "multiply"],
+                    "inputs": [
+                        {
+                            "doc": "The number to multiply.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "divide": {
+                    "doc": [
+                        "I divide myself by the given @Number, creating a quotient of my @Unit and the given number's @Unit:",
+                        "\\5 ÷ 5\\",
+                        "\\5m ÷ 5m\\",
+                        "\\5m ÷ 5s\\"
+                    ],
+                    "names": ["÷", "divide"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number to divide me by.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "remainder": {
+                    "doc": [
+                        "I divide myself by the given @Number, but give the remainder:",
+                        "\\10 % 2\\",
+                        "\\10m % 2\\",
+                        "\\10m/s % 3\\"
+                    ],
+                    "names": ["%", "remainder"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number to divide me by.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "positive": {
+                    "doc": [
+                        "I create a new @Number that makes me positive, if negative.",
+                        "\\-200.positive()\\"
+                    ],
+                    "names": ["positive"],
+                    "inputs": []
+                },
+                "round": {
+                    "doc": [
+                        "I create a new @Number that rounds me to the closest integer.",
+                        "\\9.4.round()\\",
+                        "\\9.5.round()\\",
+                        "\\9.6.round()\\"
+                    ],
+                    "names": ["round"],
+                    "inputs": []
+                },
+                "roundDown": {
+                    "doc": [
+                        "I create a new @Number that rounds to smallest integer less than me.",
+                        "\\10.5.roundDown()\\",
+                        "\\10.1.roundDown()\\",
+                        "\\10.01.roundDown()\\"
+                    ],
+                    "names": ["roundDown"],
+                    "inputs": []
+                },
+                "roundUp": {
+                    "doc": [
+                        "I create a new @Number that rounds to the smallest integer greater than me.",
+                        "\\10.5.roundUp()\\",
+                        "\\10.9.roundUp()\\",
+                        "\\10.99.roundUp()\\"
+                    ],
+                    "names": ["roundUp"],
+                    "inputs": []
+                },
+                "power": {
+                    "doc": [
+                        "I raise myself to the given @Number's power. Fractional exponents are okay!",
+                        "\\2 ^ 8\\",
+                        "\\10 ^ -2\\",
+                        "\\5 ^ -.5\\"
+                    ],
+                    "names": ["^", "power"],
+                    "inputs": [
+                        {
+                            "doc": "The exponent to raise me to.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "root": {
+                    "doc": [
+                        "I create the root of myself using the given root.",
+                        "\\4 √ 2\\",
+                        "\\1000 √ 3\\"
+                    ],
+                    "names": ["√", "root"],
+                    "inputs": [
+                        {
+                            "doc": "The root to compute.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "lessThan": {
+                    "doc": [
+                        "\\⊤\\ if I'm less than the given @Number:",
+                        "\\1 < 2\\",
+                        "\\2 < 1\\"
+                    ],
+                    "names": ["<", "lessthan"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number to compare me to.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "lessOrEqual": {
+                    "doc": [
+                        "\\⊤\\ if I'm less than or equal to the given @Number:",
+                        "\\1 ≤ 2\\",
+                        "\\2 ≤ 1\\",
+                        "\\2 ≤ 2\\"
+                    ],
+                    "names": ["≤", "lessorequal"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number to compare me to.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "greaterThan": {
+                    "doc": [
+                        "\\⊤\\ if I'm greater than to the given @Number:",
+                        "\\1 > 2\\",
+                        "\\2 > 1\\"
+                    ],
+                    "names": [">", "greaterthan"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number to compare me to.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "greaterOrEqual": {
+                    "doc": [
+                        "\\⊤\\ if I'm greater than or equal to the given @Number:",
+                        "\\1 ≥ 2\\",
+                        "\\2 ≥ 1\\",
+                        "\\2 ≥ 2\\"
+                    ],
+                    "names": ["≥", "greaterorequal"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number to compare me to.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "A @Range from me to the given @Number, including both. Spread it into a list with @Spread, ask whether it holds a number, or use it as a @Match key:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "I count down when my end is below my start:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["‥", "to"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number my range ends at. It must have the same unit I do.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "equal": {
+                    "doc": [
+                        "\\⊤\\ if I'm equal to the given @Number:",
+                        "\\1 = 2\\",
+                        "\\2 = 2\\"
+                    ],
+                    "names": ["=", "equal"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number to compare me to.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": [
+                        "\\⊤\\ if I'm not equal to the given @Number:",
+                        "\\1 ≠ 2\\",
+                        "\\2 ≠ 2\\"
+                    ],
+                    "names": ["≠", "notequal"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number to compare me to.",
+                            "names": "number"
+                        }
+                    ]
+                },
+                "cos": {
+                    "doc": ["Compute the cosine of me.", "\\π.cos()\\"],
+                    "names": ["cos", "cosine"],
+                    "inputs": []
+                },
+                "sin": {
+                    "doc": ["Compute the sine of me.", "\\π.cos()\\"],
+                    "names": ["sin", "sine"],
+                    "inputs": []
+                },
+                "tan": {
+                    "doc": ["Compute the tangent of me.", "\\π.tan()\\"],
+                    "names": ["tan", "tangent"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "Compute the arcsine (inverse sine) of me.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "Compute the arccosine (inverse cosine) of me.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "Compute the arctangent (inverse tangent) of me.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": ["Raise the number _e_ to my power.", "\\1.exp()\\"],
+                    "names": ["exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "Compute my logarithm in the given base, or my natural logarithm if no base is given.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["log"],
+                    "inputs": [
+                        {
+                            "doc": "The base of the logarithm. Leave it out for the natural logarithm (base _e_).",
+                            "names": "base"
+                        }
+                    ]
+                },
+                "min": {
+                    "doc": [
+                        "Find the smallest number of me and others.",
+                        "\\1.min(2 3 -1)\\"
+                    ],
+                    "names": "min",
+                    "inputs": [
+                        {
+                            "doc": "As many numbers as you want to give me!",
+                            "names": "numbers"
+                        }
+                    ]
+                },
+                "max": {
+                    "doc": [
+                        "Find the largest number of me and others.",
+                        "\\1.max(2 3 4)\\"
+                    ],
+                    "names": "max",
+                    "inputs": [
+                        {
+                            "doc": "As many numbers as you want to give me!",
+                            "names": "numbers"
+                        }
+                    ]
+                },
+                "limit": {
+                    "doc": [
+                        "Keep me between a low and a high number: if I'm below the low one, that's what you get, and if I'm above the high one, you get that instead.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "limit",
+                    "inputs": [
+                        {
+                            "doc": "The lowest I'm allowed to be.",
+                            "names": "low"
+                        },
+                        {
+                            "doc": "The highest I'm allowed to be.",
+                            "names": "high"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "Move part of the way from me to another number. At 0% you get me, at 100% you get the other one, and halfway between gives the number in the middle.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "toward",
+                    "inputs": [
+                        {
+                            "doc": "The number to move toward.",
+                            "names": "other"
+                        },
+                        {
+                            "doc": "How far to go, where 100% arrives.",
+                            "names": "amount"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "Find where I sit between one pair of numbers, then give back the number sitting the same way between another pair. Handy for turning something you measured into something you can show.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "rescale",
+                    "inputs": [
+                        {
+                            "doc": "The low end of the range I'm in.",
+                            "names": "fromLow"
+                        },
+                        {
+                            "doc": "The high end of the range I'm in.",
+                            "names": "fromHigh"
+                        },
+                        {
+                            "doc": "The low end of the range you want.",
+                            "names": "toLow"
+                        },
+                        {
+                            "doc": "The high end of the range you want.",
+                            "names": "toHigh"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "An Arabic @Text representation of my digits.",
+                "list": [
+                    "I convert a number to a list of the numbers from \\1\\ to whatever number is given. For example:",
+                    "\\10→[]\\"
+                ],
+                "unit": "$from → $to"
+            },
+            "unit": {
+                "ns": "nanoseconds",
+                "us": "microseconds",
+                "ms": "milliseconds",
+                "s": "seconds",
+                "min": "minutes",
+                "h": "hours",
+                "day": "days",
+                "wk": "weeks",
+                "yr": "years",
+                "pm": "picometers",
+                "nm": "nanometers",
+                "um": "micrometers",
+                "mm": "millimeters",
+                "cm": "centimeters",
+                "dm": "decimeters",
+                "m": "meters",
+                "hm": "hectometers",
+                "km": "kilometers",
+                "Mm": "megameters",
+                "Gm": "gigameters",
+                "Tm": "terameters",
+                "in": "inches",
+                "ft": "feet",
+                "yd": "yards",
+                "mi": "miles",
+                "nmi": "nautical miles",
+                "au": "astronomical units",
+                "ly": "light years",
+                "ug": "micrograms",
+                "mg": "milligrams",
+                "g": "grams",
+                "kg": "kilograms",
+                "t": "metric tons",
+                "oz": "ounces",
+                "lb": "pounds",
+                "st": "stones",
+                "uston": "US short tons",
+                "ukton": "British long tons",
+                "degC": "degrees Celsius",
+                "degF": "degrees Fahrenheit",
+                "K": "kelvins",
+                "deg": "degrees of angle",
+                "rad": "radians",
+                "mm2": "square millimeters",
+                "cm2": "square centimeters",
+                "m2": "square meters",
+                "km2": "square kilometers",
+                "in2": "square inches",
+                "ft2": "square feet",
+                "yd2": "square yards",
+                "mi2": "square miles",
+                "ha": "hectares",
+                "acre": "acres",
+                "mL": "milliliters",
+                "cL": "centiliters",
+                "dL": "deciliters",
+                "L": "liters",
+                "kL": "kiloliters",
+                "cm3": "cubic centimeters",
+                "m3": "cubic meters",
+                "tsp": "teaspoons",
+                "tbsp": "tablespoons",
+                "cup": "cups",
+                "usfloz": "US fluid ounces",
+                "uspt": "US pints",
+                "usqt": "US quarts",
+                "usgal": "US gallons",
+                "ukfloz": "British fluid ounces",
+                "ukpt": "British pints",
+                "ukqt": "British quarts",
+                "ukgal": "British gallons",
+                "mps": "meters per second",
+                "kmph": "kilometers per hour",
+                "miph": "miles per hour",
+                "ftps": "feet per second",
+                "kn": "knots",
+                "Pa": "pascals",
+                "hPa": "hectopascals",
+                "kPa": "kilopascals",
+                "bar": "bars",
+                "atm": "standard atmospheres",
+                "psi": "pounds per square inch",
+                "mmHg": "millimeters of mercury",
+                "J": "joules",
+                "kJ": "kilojoules",
+                "cal": "calories",
+                "kcal": "kilocalories",
+                "Wh": "watt hours",
+                "kWh": "kilowatt hours",
+                "BTU": "British thermal units",
+                "eV": "electronvolts",
+                "mW": "milliwatts",
+                "W": "watts",
+                "kW": "kilowatts",
+                "MW": "megawatts",
+                "GW": "gigawatts",
+                "hp": "horsepower",
+                "uA": "microamperes",
+                "mA": "milliamperes",
+                "A": "amperes",
+                "kA": "kiloamperes",
+                "mV": "millivolts",
+                "V": "volts",
+                "kV": "kilovolts",
+                "mohm": "milliohms",
+                "ohm": "ohms",
+                "kohm": "kiloohms",
+                "Mohm": "megaohms",
+                "Hz": "hertz",
+                "kHz": "kilohertz",
+                "MHz": "megahertz",
+                "GHz": "gigahertz",
+                "bpm": "beats per minute",
+                "bit": "bits",
+                "B": "bytes",
+                "kB": "kilobytes",
+                "MB": "megabytes",
+                "GB": "gigabytes",
+                "TB": "terabytes",
+                "KiB": "kibibytes",
+                "MiB": "mebibytes",
+                "GiB": "gibibytes",
+                "TiB": "tebibytes",
+                "lux": "lux",
+                "fc": "foot-candles"
+            },
+            "category": {
+                "time": "Time",
+                "length": "Length",
+                "weight": "Weight",
+                "temperature": "Temperature",
+                "angle": "Angle",
+                "area": "Area",
+                "volume": "Volume",
+                "speed": "Speed",
+                "pressure": "Pressure",
+                "energy": "Energy",
+                "power": "Power",
+                "electricity": "Electricity",
+                "frequency": "Frequency",
+                "data": "Data",
+                "brightness": "Brightness",
+                "other": "Other"
+            }
+        },
+        "Range": {
+            "doc": [
+                "I'm a range of numbers! I have a start and an end, and I include both of them, and every number in between. You make me with \\‥\\ between two numbers:",
+                "\\1‥10\\",
+                "Ask me whether I hold a number:",
+                "\\(1‥10) ∋ 7\\",
+                "Spread me into a list to get every number I hold:",
+                "\\[:1‥10]\\",
+                "Use me as a @Match key and I match any number I hold:",
+                "\\7 ??? 1‥9: 'small' 'big'\\",
+                "My start and end must have the same unit, just like @Number comparisons do."
+            ],
+            "name": ["‥", "Range"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "\\⊤\\ if the given @Range has the same start and end as me:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["="],
+                    "inputs": [
+                        {
+                            "doc": "The @Range to compare me to.",
+                            "names": "range"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "\\⊤\\ if the given @Range has a different start or end than me:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["≠"],
+                    "inputs": [
+                        {
+                            "doc": "The @Range to compare me to.",
+                            "names": "range"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "\\⊤\\ if the given @Number is between my start and end, or is one of them:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "It doesn't matter which way around I was written:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["∋", "has"],
+                    "inputs": [
+                        {
+                            "doc": "The @Number to look for in me.",
+                            "names": "number"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "I convert a range to a list of every number in it, counting by one. For example:",
+                    "\\(1‥5)→[]\\"
+                ]
+            }
+        },
+        "List": {
+            "doc": [
+                "I'm a sequence of values, of any kind!",
+                "You can put anything in me: @Boolean, @Number, @Text, @None, even other @List, @Set, @Map, or any @expression. Here's a simple one:",
+                "\\['apple' 'banana' 'mango']\\",
+                "What makes me special is that I keep things in order and I number everything from 1 to however many items are in me.",
+                "My items are numbered, starting from 1. You can get values that I'm storing with @ListAccess, using their number:",
+                "For example, the second @value in this list is \\['banana']\\",
+                "\\['apple' 'banana' 'mango'][2]\\",
+                "I can have anything in me. Look at this list, with @Text, @Number, and @Time!",
+                "\\['apple' 10 + 10 Time()]\\",
+                "When you give me a list of many things, I'll generalize them if they have a @type in common. But sometimes you might literally mean those specific things. If you do, just put a ! after me, and I'll make sure that I represent a list of specifically only those values.",
+                "\\['apple' 'banana' 'mango']!\\",
+                "That's kind of it. But I can do all kinds of exciting things with my @FunctionDefinition!"
+            ],
+            "name": ["[]", "List"],
+            "kind": "Kind",
+            "out": "Result",
+            "outofbounds": "outofbounds",
+            "function": {
+                "add": {
+                    "doc": [
+                        "I create a new @List with the given item at the end.",
+                        "\\['apple' 'banana' 'mango'].with('watermelon')\\"
+                    ],
+                    "names": ["with", "add"],
+                    "inputs": [
+                        {
+                            "doc": "I am the @value you want to add.",
+                            "names": "item"
+                        }
+                    ]
+                },
+                "append": {
+                    "doc": [
+                        "I create a new @List with my @values, then all the values of the given @List after me.",
+                        "\\['apple' 'banana' 'mango'].withList(['watermelon' 'starfruit'])\\",
+                        "It's a little bit easier to use @Spread though, like this:",
+                        "\\['apple' 'banana' 'mango' :['watermelon' 'starfruit']]\\"
+                    ],
+                    "names": ["withList", "append"],
+                    "inputs": [
+                        {
+                            "doc": "The list of @values to add.",
+                            "names": "list"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "I create a new list that replaces the @value at the given @index with the given value.",
+                        "\\['apple' 'banana' 'mango'].replace(1 'kiwi')\\"
+                    ],
+                    "names": ["replace"],
+                    "inputs": [
+                        {
+                            "doc": "The @index of the @value to replace",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The replacement @value",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "length": {
+                    "doc": "The @Number of items in me.",
+                    "names": ["📏", "length"],
+                    "inputs": []
+                },
+                "random": {
+                    "doc": [
+                        "A randomly selected one of my items, or @None if I'm empty.",
+                        "\\['apple' 'banana' 'mango'].random()\\"
+                    ],
+                    "names": "random",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": [
+                        "Make a new list with the items in the list randomly ordered.",
+                        "\\['apple' 'banana' 'mango'].shuffled()\\"
+                    ],
+                    "names": "shuffled",
+                    "inputs": []
+                },
+                "first": {
+                    "doc": [
+                        "The first item in me, or @None if I'm empty.",
+                        "\\['apple' 'banana' 'mango'].first()\\"
+                    ],
+                    "names": "first",
+                    "inputs": []
+                },
+                "last": {
+                    "doc": [
+                        "The last item in me, or @None if I'm empty.",
+                        "\\['apple' 'banana' 'mango'].last()\\"
+                    ],
+                    "names": "last",
+                    "inputs": []
+                },
+                "has": {
+                    "doc": [
+                        "\\⊤\\ if I have an item equal to the given item in me.",
+                        "\\['apple' 'banana' 'mango'].has('banana')\\"
+                    ],
+                    "names": "has",
+                    "inputs": [
+                        {
+                            "doc": "The @value to search for.",
+                            "names": "item"
+                        }
+                    ]
+                },
+                "join": {
+                    "doc": [
+                        "I combine the items in my list into @Text, separated by the given separator @Text.",
+                        "\\['apple' 'banana' 'mango'].join(', ')\\"
+                    ],
+                    "names": "join",
+                    "inputs": [
+                        {
+                            "doc": "The text to separate the items by, optionally empty.",
+                            "names": "separator"
+                        }
+                    ]
+                },
+                "subsequence": {
+                    "doc": [
+                        "I get a list within this list, starting at the @index you provide, and ending with the last item, or if you provide one, a particular item.",
+                        "\\['apple' 'banana' 'mango'].subsequence(2)\\",
+                        "\\['apple' 'banana' 'mango'].subsequence(1 2)\\",
+                        "And look! If you provide numbers out of order, I give you the reverse",
+                        "\\['apple' 'banana' 'mango'].subsequence(3 1)\\",
+                        "If you give me something smaller than 1 for an index, I'll assume you mean 1.",
+                        "\\['apple' 'banana' 'mango'].subsequence(-1003243 2)\\",
+                        "And if you give me something larger than the largest index, I'll assume you mean the end.",
+                        "\\['apple' 'banana' 'mango'].subsequence(3 2304032432)\\"
+                    ],
+                    "names": "subsequence",
+                    "inputs": [
+                        {
+                            "doc": "The @index of the first item of the subsequence you want.",
+                            "names": "start"
+                        },
+                        {
+                            "doc": "The optional @index of the last item of the subsequence you want. If you don't give one, your list will end with the last item in the list.",
+                            "names": "end"
+                        }
+                    ]
+                },
+                "sansFirst": {
+                    "doc": [
+                        "I create a list without my first item.",
+                        "\\['apple' 'banana' 'mango'].sansFirst()\\"
+                    ],
+                    "names": ["withoutFirst", "sansFirst"],
+                    "inputs": []
+                },
+                "sansLast": {
+                    "doc": [
+                        "I create a list without my last item.",
+                        "\\['apple' 'banana' 'mango'].sansLast()\\"
+                    ],
+                    "names": ["withoutLast", "sansLast"],
+                    "inputs": []
+                },
+                "sansAll": {
+                    "doc": [
+                        "Me, but without the given @value. Every copy goes, not just the first one, whichever of my names you use:",
+                        "\\['apple' 'banana' 'mango' 'apple'].without('apple')\\"
+                    ],
+                    "names": ["without", "sans", "withoutAll", "sansAll"],
+                    "inputs": [
+                        {
+                            "doc": "The @value to remove all occurences of from the list.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "reverse": {
+                    "doc": [
+                        "Me, but in reverse!",
+                        "\\['apple' 'banana' 'mango'].reverse()\\"
+                    ],
+                    "names": ["reversed", "reverse"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "\\⊤\\ if my items and order are the exact same as the given @List.",
+                        "\\['apple' 'banana' 'mango'] = ['apple' 'mango' 'banana']\\"
+                    ],
+                    "names": ["=", "equals"],
+                    "inputs": [
+                        {
+                            "doc": "The @List to compare me to.",
+                            "names": "list"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "\\⊤\\ if my items and order are /not/ the exact same as the given @List.",
+                        "\\['apple' 'banana' 'mango'] ≠ ['apple' 'mango' 'banana']\\"
+                    ],
+                    "names": ["≠", "notequal"],
+                    "inputs": [
+                        {
+                            "doc": "The @List to compare me to.",
+                            "names": "list"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a @value and optional @index as input and produces a value, and I'll evaluate it on each of my items, translating my values into new values.",
+                        "For example, imagine I was a list of @Number and you wanted to double all of them:",
+                        "\\[2 4 6 8].translate(ƒ(num•#) num × 2)\\"
+                    ],
+                    "names": "translate",
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that will translate each item.",
+                            "names": "translator"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "The item being translated.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The @index of the item being translated.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being translated.",
+                            "names": "list"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a @value and optional @index as input and produces a @Boolean, and I'll create a new list that only includes the items that result \\⊤\\.",
+                        "For example, imagine I was a list of @Number and you only wanted the positive ones:",
+                        "\\[2 -4 8 -16].filter(ƒ(num•#) num ≥ 0)\\"
+                    ],
+                    "names": "filter",
+                    "inputs": [
+                        {
+                            "doc": "A @FunctionDefinition that checks each item, producing \\⊤\\ if it should be kept.",
+                            "names": "checker"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The @index of the item being checked.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being filtered.",
+                            "names": "list"
+                        }
+                    ]
+                },
+                "all": {
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a @value as input and produces a @Boolean if it matches some @condition. I'll create \\⊤\\ if all the items match the condition.",
+                        "For example, imagine I was a list of @Number and you wanted to know if everything was positive:",
+                        "\\[2 -4 8 -16].all(ƒ(num•#) num ≥ 0)\\"
+                    ],
+                    "names": "all",
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that produces \\⊤\\ if an item satisfies your @condition.",
+                            "names": "checker"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The @index of the item being checked.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being checked.",
+                            "names": "list"
+                        }
+                    ]
+                },
+                "until": {
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a @value as input and produces a @Boolean if it matches some @condition. I'll create a new @List that contains all the items until the condition isn't met.",
+                        "For example, imagine I was a list of @Text animals and you wanted everything up until \\'rat'\\ was found:",
+                        "\\['cat' 'dog' 'rat' 'mouse' 'pony'].until(ƒ(animal•'') animal = 'rat')\\🪲"
+                    ],
+                    "names": "until",
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that produces \\⊤\\ if I should stop including items.",
+                            "names": "checker"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The @index of the item being checked.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being subsequenced.",
+                            "names": "list"
+                        }
+                    ]
+                },
+                "find": {
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a @value as input and produces a @Boolean if it matches some criteria, and I'll evaluate to the matching item.",
+                        "For example, imagine you wanted to find the first animal that had the vowel \\'e'\\:",
+                        "\\['cat' 'dog' 'rat' 'mouse' 'pony'].find(ƒ(animal•'') animal.has('e'))\\🪲"
+                    ],
+                    "names": "find",
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that produces \\⊤\\ if it matches your search criteria.",
+                            "names": "checker"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "item"
+                        },
+                        {
+                            "doc": "The @index of the item being checked.",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being searched.",
+                            "names": "list"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes the most recent combination and a next @value, and creates a next combination, and I'll move from the first to last of my items, creating successive combinations, and evaluating to the final combination your @FunctionDefinition evaluates to.",
+                        "This is really helpful for combining all of the items in me into a single value. For example, imagine you wanted to add a list of numbers:",
+                        "\\[3 9 2 8 1 4].combine(0 ƒ(sum•# number•#) sum + number)\\"
+                    ],
+                    "names": ["combined", "combine"],
+                    "inputs": [
+                        {
+                            "doc": "The starting combination.",
+                            "names": "initial"
+                        },
+                        {
+                            "doc": "The @FunctionDefinition that takes the latest combination and the next @value and produces the next combination.",
+                            "names": "combiner"
+                        }
+                    ],
+                    "combiner": [
+                        {
+                            "doc": "The current combination",
+                            "names": "combination"
+                        },
+                        {
+                            "doc": "The next item to combine.",
+                            "names": "next"
+                        },
+                        {
+                            "doc": "The @index of the next item",
+                            "names": "index"
+                        },
+                        {
+                            "doc": "The list being combined.",
+                            "names": "list"
+                        }
+                    ]
+                },
+                "sorted": {
+                    "doc": [
+                        " I can take a list, and make a new list with its @values sorted. Like this:",
+                        "\\[1 5 8 0 2].sorted()\\",
+                        "I can also do it for @Text values, in alphabetical order. A capital letter sorts next to its lowercase one, so a word isn't sent to the end just for starting with a capital:",
+                        "\\['Orange' 'kiwi' 'Banana' 'apple'].sorted()\\",
+                        "And if you have a list of values that aren't @Number or @Text, you can give me a @FunctionDefinition that turns each item into a @Number or a @Text so I can sort it. For example, here we have a list of lists of different lengths; if you give me a function that turns each list into its length, I can sort by their length.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sorted(ƒ(list) list.length())\\",
+                        "A function that makes @Text is how you sort by a word you compute, instead of by the value itself. Here I sort names by the last one:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sorted(ƒ(name•'') (name ÷ ' ').last())\\"
+                    ],
+                    "names": "sorted",
+                    "inputs": [
+                        {
+                            "doc": " The optional @FunctionDefinition to use to sort a list @value. It should turn the value into a @Number or a @Text that can be used for sorting the list.",
+                            "names": "sequencer"
+                        }
+                    ],
+                    "sequencer": [
+                        {
+                            "doc": " The @value to turn into a @Number or a @Text.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "sum": {
+                    "doc": [
+                        "Add all of my numbers together. If I'm empty, that's 0, and if my numbers aren't all measured in the same thing, I'll say so rather than guess.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "sum",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "Add all of my numbers together and divide by how many there are. If I'm empty there's nothing to average, so you get @None.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "average",
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "text": "To a @Text representation of the list.",
+                "set": "To a @Set, helpful for removing duplicates."
+            }
+        },
+        "Set": {
+            "doc": [
+                "I'm a set of values! That means I can contain any number of values, including no values. You can make me like this:",
+                "\\{1 2 3}\\",
+                "I'm really good if you want to keep a collection of things without any duplicates.",
+                "That means that if you give me values I already have, I'll ignore the extras.",
+                "For example, this set has many duplicates:",
+                "\\{1 1 2 2 3 3}\\",
+                "I evaluate it to just \\{1 2 3}\\.",
+                "If you want to see if I have a @value in me, @SetOrMapAccess can help:",
+                "\\{'jar' 'bottle' 'glass'}{'cup'}\\",
+                "Usually, if you give me a bunch of values that are of a common @type, I'll assume they're a list of that type. Like this set is \\{''}\\, because it's all @Text.",
+                "\\{'hey' 'hi' 'hello'}\\",
+                "But you might want to indicate that I'm a set of /only/ those values, so I can tell you when you're trying to use one that's not allowed. If so, just add a ! at the end of me.",
+                "\\{'hey' 'hi' 'hello'}!{'yo'}\\🪲",
+                "Is there something else you want to do with me? Check out all the neat @FunctionDefinition I have!"
+            ],
+            "name": ["{}", "Set"],
+            "kind": "Kind",
+            "out": "Result",
+            "function": {
+                "size": {
+                    "doc": "I'll tell you how many @values are in me.",
+                    "names": "size",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "I'm \\⊤\\ if the given @Set and I have the exact same @values:",
+                        "\\{1 2 3} = {2 3 4}\\"
+                    ],
+                    "names": ["=", "equals"],
+                    "inputs": [
+                        {
+                            "doc": "The @Set to compare.",
+                            "names": "set"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "I'm \\⊤\\ if the given @Set and I don't have the exact same @values:",
+                        "\\{1 2 3} ≠ {2 3 4}\\"
+                    ],
+                    "names": ["≠", "notequal"],
+                    "inputs": [
+                        {
+                            "doc": "The @Set to compare.",
+                            "names": "set"
+                        }
+                    ]
+                },
+                "add": {
+                    "doc": [
+                        "Give me an item to add and I'll make a new @Set with my items and the given item.",
+                        "\\{1 2 3} + 4\\"
+                    ],
+                    "names": ["with", "add", "+"],
+                    "inputs": [
+                        {
+                            "doc": "The item to add",
+                            "names": "item"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "Give me an item to remove and I'll make a new @Set without the item.",
+                        "\\{1 2 3} - 2\\",
+                        "If I don't have the item, I'll just evaluate to myself."
+                    ],
+                    "names": ["remove", "-"],
+                    "inputs": [
+                        {
+                            "doc": "The item to remove.",
+                            "names": "item"
+                        }
+                    ]
+                },
+                "union": {
+                    "doc": [
+                        "Give me @Set and I'll create a new @Set that has my items and the set's items.",
+                        "\\{1 2 3} ∪ {3 4 5}\\"
+                    ],
+                    "names": ["union", "∪"],
+                    "inputs": [
+                        {
+                            "doc": "The @Set to combine with me.",
+                            "names": "set"
+                        }
+                    ]
+                },
+                "intersection": {
+                    "doc": [
+                        "Give me @Set and I'll create a new @Set that has only the items we have in common.",
+                        "\\{1 2 3} ∩ {3 4 5}\\"
+                    ],
+                    "names": ["intersection", "∩"],
+                    "inputs": [
+                        {
+                            "doc": "The set to compare with me.",
+                            "names": "set"
+                        }
+                    ]
+                },
+                "difference": {
+                    "doc": [
+                        "Give me @Set and I'll create a new @Set that has the items has only the items we have in common.",
+                        "\\{1 2 3}.difference({3 4 5})\\"
+                    ],
+                    "names": "difference",
+                    "inputs": [
+                        {
+                            "doc": "The set whose items should be removed from me.",
+                            "names": "set"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "Give me @FunctionDefinition that takes an item and produces \\⊤\\ if it should be kept, and I'll make a @Set that only contains the items that meet your criteria.",
+                        "For example, let's find the odd numbers in me:",
+                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
+                    ],
+                    "names": "filter",
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that checks an item to see if it should be kept.",
+                            "names": "checker"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "The item being checked.",
+                            "names": "value"
+                        },
+                        {
+                            "doc": "The set being filtered",
+                            "names": "set"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "Give me @FunctionDefinition that takes an item and produces a new item based on it, then I'll translate all the items in me into a new @Set (removing any duplicates).",
+                        "For example, let's make all my @Number into @Text:",
+                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
+                    ],
+                    "names": "translate",
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that translates one of my items into the new item you want.",
+                            "names": "set"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "The item being translated.",
+                            "names": "value"
+                        },
+                        {
+                            "doc": "The set being translated",
+                            "names": "set"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "A @Text representation of a @Set",
+                "list": "A @List representation of the items in the set."
+            }
+        },
+        "Map": {
+            "doc": [
+                "I bring values together, mapping *keys* to *values*. For example:",
+                "\\{'amy': 6points 'tony':3points 'shiela': 8points}\\",
+                "My keys can be any kind of @value, and my values can be any kind of value.",
+                "Some people like to think of my like an @index, or a dictionary, where you give me something, and I give you what it's mapped to.",
+                "If you wanted to check what something is mapped to, you can give @SetOrMapAccess, a @key and they'll give you the value:",
+                "\\{'amy': 6points 'tony':3points 'shiela': 8points}{'amy'}\\",
+                "If there is no matching key, I'll give you @None.",
+                "\\{'amy': 6points 'tony':3points 'shiela': 8points}{'jen'}\\",
+                "You can also make an empty map like this:",
+                "\\{:}\\",
+                "Usually, I'll see whatever kinds of keys and values you give me and just come up with a @type to represent all of them. Like this is a map from numbers to numbers:",
+                "\\{1:1 2:2 3:3}\\",
+                "But say you wanted to ensure it was specifically only those values; just add ! at the end of me, and I won't generalize. That'll help you know if you're trying to get a value you didn't intend.",
+                "\\{1:1 2:2 3:3}!{4}\\🪲",
+                "I know how to many wonderful things with my pairings."
+            ],
+            "name": ["{:}", "Map"],
+            "key": "Key",
+            "value": "Value",
+            "result": "Result",
+            "function": {
+                "size": {
+                    "doc": "I'll tell you how many @values are in me.",
+                    "names": "size",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "\\{⊤}\\ if my pairings are the exact same as the given @Map's.",
+                        "\\{1:1 2:2} = {1:1 2:3}\\"
+                    ],
+                    "names": ["=", "equals"],
+                    "inputs": [
+                        {
+                            "doc": "The @Map to compare me to.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "\\{⊤}\\ if my pairings are /not/ the exact same as the given @Map's.",
+                        "\\{1:1 2:2} ≠ {1:1 2:3}\\"
+                    ],
+                    "names": ["≠", "notequal"],
+                    "inputs": [
+                        {
+                            "doc": "The @Map to compare me to.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "set": {
+                    "doc": [
+                        "I'll make a new @Map with all the same pairings, but with the new pairing you give me. If I already have the @key, I'll pair it to the new @value.",
+                        "\\{'amy': 6points 'tony':3points}.pair('jen' 0points)\\"
+                    ],
+                    "names": "pair",
+                    "inputs": [
+                        {
+                            "doc": "@key to pair with a @value.",
+                            "names": "key"
+                        },
+                        {
+                            "doc": "The @value to pair with the @key",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "unset": {
+                    "doc": [
+                        "I'll make a new @Map without the @key you give me, removing its pairing.",
+                        "\\{'amy': 6points 'tony':3points}.unpair('amy')\\"
+                    ],
+                    "names": "unpair",
+                    "inputs": [
+                        {
+                            "doc": "The @key to forget.",
+                            "names": "key"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "I'll create a new @Map without any keys that have the @value.",
+                        "\\{'amy': 0points 'jen': 0points 'tony':3points}.remove(0points)\\"
+                    ],
+                    "names": "remove",
+                    "inputs": [
+                        {
+                            "doc": "The @value to remove from me, along with any keys its paired to.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a @key and @value and evaluates to \\⊤\\ if a pairing should be kept. I'll create a new @Map that meets your criteria.",
+                        "For example, here we want to keep any pairings that are Amy or have more than zero points.",
+                        "\\{'amy': 0points 'jen': 0points 'tony':3points}.filter(ƒ(key•'' value•#points) (key = 'amy') | (value > 0points))\\"
+                    ],
+                    "names": "filter",
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that decides whether to keep a pairing.",
+                            "names": "checker"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "The @key being checked.",
+                            "names": "key"
+                        },
+                        {
+                            "doc": "The @value being checked.",
+                            "names": "value"
+                        },
+                        {
+                            "doc": "The map being filtered.",
+                            "names": "map"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "Give me a @FunctionDefinition that takes a @key and @value and evaluates the value to a new value. I'll create a new @Map with the same keys but updated values.",
+                        "For example, let's give everyone one point since they've been so nice.",
+                        "\\{'amy': 5points 'jen': 3points 'tony': 0points}.translate(ƒ(key•'' value•#points) value + 1points)\\🪲"
+                    ],
+                    "names": "translate",
+                    "inputs": [
+                        {
+                            "doc": "The @FunctionDefinition that translates each @value.",
+                            "names": "translator"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "The @key of the @value being translated.",
+                            "names": "key"
+                        },
+                        {
+                            "doc": "The @value being translated.",
+                            "names": "value"
+                        },
+                        {
+                            "doc": "The map being translated.",
+                            "names": "map"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "A @Text representation of the mapping.",
+                "set": "The keys of the @Map",
+                "list": "A list of the values in the @Map"
+            }
+        },
+        "Table": {
+            "doc": [
+                "I'm a set of table rows! I can help you keep track of large collections of @values that have the same structure.",
+                "For example, imagine you wanted to keep track of a bunch of rocks:",
+                "\\⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\\",
+                "@Bind can help you name it! And then you can do things like make a revised table with an new row @Insert:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡+ 'quartz' 'white'⎦\\",
+                "Or if you want to find rows that match, you can @Select rows that match a @condition:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡?⎦ color = 'grey'\\",
+                "Or maybe you want to make a revised table that has different values for rows that match a condition:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
+                "Or maybe you want to delete a rows match a condition:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡- name.has('i')\\",
+                "And if you ever want to get specific values from me, you can convert any table to a list and access individual rows with @PropertyReference",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\n(rocks → [])[1].name\\"
+            ],
+            "name": ["⎡⎦", "Table"],
+            "row": "Row",
+            "function": {
+                "equals": {
+                    "doc": "I check if I have the exact same @cells in the exact same order as another @Table.",
+                    "names": ["=", "equals"],
+                    "inputs": [
+                        {
+                            "doc": "The other table to check.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "I check if any of my @cells are different or in a different order from another @Table.",
+                    "names": ["≠", "notEquals"],
+                    "inputs": [
+                        {
+                            "doc": "The other table to check.",
+                            "names": "value"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": "I convert a @Table into a list of rows, where each row is a @Structure with its column names as properties.",
+                "text": "I just convert a @Table to text."
+            }
+        },
+        "Structure": {
+            "doc": "I'm a structured @value with named, typed fields, created from a @StructureDefinition. See @StructureDefinition.",
+            "name": ["Structure"],
+            "function": {
+                "equals": {
+                    "doc": "I check if my @properties are the same name and @values as another structure's properties.",
+                    "names": ["=", "equals"],
+                    "inputs": [
+                        {
+                            "doc": "The other structure to check.",
+                            "names": "value"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "I check if my @properties are different in any way from the name and @values as another structure's.",
+                    "names": ["≠", "notEquals"],
+                    "inputs": [
+                        {
+                            "doc": "The other structure to check.",
+                            "names": "value"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "I convert myself to @Text."
+            }
+        }
+    }
+}

@@ -1,0 +1,1434 @@
+{
+    "$schema": "../../../static/schemas/sections/ui-page.json",
+    "ui": {
+        "page": {
+            "unknown": {
+                "header": "$~Apuc!",
+                "message": "$~Unde este acest loc? Putem merge acasă?"
+            },
+            "landing": {
+                "value": "$~Creează povești interactive cu cuvinte, simboluri, emoji-uri și cod alături de noi! Începe în",
+                "chooseLocales": "$~sau alege",
+                "beta": [
+                    "$~@wordplay este în *beta*, așa că s-ar putea să nu funcționeze cum trebuie sau să nu fie complet. Raportează erori și împărtășește idei pe <GitHub@https://github.com/wordplaydev/wordplay/issues>, vezi <planurile noastre 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> și <contribuie@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                ],
+                "link": {
+                    "learn": "$~Învață limba alături de o distribuție dramatică de personaje",
+                    "teach": "$~Gestionează clasele de studenți și proiectele acestora",
+                    "guide": "$~Căutați și răsfoiți referința lingvistică",
+                    "projects": "$~Creați și distribuiți spectacole",
+                    "galleries": "$~Experimentează performanțele altora",
+                    "characters": "$~Creați emoji-uri și simboluri personalizate",
+                    "rights": "$~Responsabilități, ale noastre și ale dumneavoastră",
+                    "about": "$~De ce există acest loc?",
+                    "thanks": "$~Cine a ajutat la realizarea acestui lucru?",
+                    "updates": "$~Vezi ce este nou în Jocul de cuvinte",
+                    "community": {
+                        "label": "$~Comunitate",
+                        "subtitle": "$~Discută cu noi pe Discord"
+                    },
+                    "contribute": {
+                        "label": "$~Contribui",
+                        "subtitle": "$~Ajută-ne să creăm Wordplay"
+                    },
+                    "design": "$~Referință de sistem de proiectare pentru contribuitori",
+                    "localize": "$~Ajută la traducerea Wordplay în limba ta",
+                    "moderate": "$~vezi ce au cerut oamenii să verificăm",
+                    "admin": "$~vezi cine poate face ce, și schimbă asta"
+                },
+                "tagline": "$~programare creativă, accesibilă și multilingvă",
+                "tour": {
+                    "button": "$~arată-mi",
+                    "loading": "$~Se încarcă…",
+                    "failed": "$~Exemplele nu au putut fi încărcate. Verifică-ți conexiunea și încearcă din nou.",
+                    "restart": "$~ia acest exemplu de la capăt",
+                    "examples": {
+                        "label": "$~Programe exemplu",
+                        "tips": [
+                            "$~Textul poate străluci și se poate anima",
+                            "$~Muzica înseamnă date, sunet și imagine",
+                            "$~Timpul trece și cuvintele sunt multilingve",
+                            "$~Textul poate reacționa la cursor, clicuri, atingeri și taste",
+                            "$~Publicul poate face alegeri",
+                            "$~Publicul poate discuta cu programele, iar cuvintele sunt forme",
+                            "$~Fizica și gravitația pot face textul să se rostogolească și să sară",
+                            "$~Programele îți pot asculta vocea",
+                            "$~Programele îți pot privi fața, mâinile și obiectele"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶@Phrase apare pe scenă, în orice culoare, cu orice strălucire și mișcare îți place.¶\nFraza(\n\t'salut!'\n\t6m\n\tculoare: Culoare(60% 90 200°)\n\taură: Aură(Culoare(80% 80 200°) 0.3m)\n\todihnă: Secvenţă.legănare(8°)\n)\\",
+                        "music": "$~\\¶Muzica este note pe instrumente reale, la un tempo, într-o tonalitate. Scena desenează ce aude.¶\nMuzică(\n\tPistă([1 3 5 8 5 3] instrument: Instrument.pian)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Codul poate reacționa la o intrare precum @Time, iar textul poate fi în mai multe limbi și poate fi rostit.¶\nsaluturi: ['salut'/ro 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nsalut: saluturi.aleatoriu() … ∆ Timp(1000ms) … saluturi.aleatoriu(\n\t\t)\nFraza(salut 4m)\nCuvânt(salut)\\",
+                        "keys": "$~\\¶Codul poate reacționa la mișcări ale cursorului, taste, clicuri și atingeri.¶\ncheie2: Cheie()\nclic: Buton()\nfețe: ['🙂' '😮' '😎' '🤩']\ncare: 1 … ∆ cheie2 | ∆ clic … (care % 4) + 1\nEtapă(\n\t[Fraza(fețe[care] 5m loc: Indicator() balon: 'salut')]\n\tloc: Loc(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Așază textul în pagină și fă-l selectabil.¶\nfruct: ƒ(e•'') Fraza(e 3m nume: e selectabil: ⊤)\nales: Alegere()\narătat: '?' … ∆ ales … ales\nGrup(\n\tStivă(umplutură: 1m)\n\t[\n\t\tFraza(arătat 4m)\n\t\tGrup(\n\t\t\tRând(umplutură: 1m)\n\t\t\t[fruct('🍎') fruct('🍐') fruct('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Discută cu programe și folosește forma fonturilor și a simbolurilor.¶\nmesaj: Chat()\ncuvânt2: 'salut' … ∆ mesaj … mesaj\nlinie: Contur(cuvânt2 'Noto Sans' 8m)\nsecunde: 0 … ∆ Timp(30ms) … secunde + 1\narătat: ((linie.lungime() × secunde) ÷ 66).rotunjireînjos() + 1\npuncte: linie.subsecvență(1 arătat).traduce(\n\t\tƒ(p) Fraza('•' loc: p)\n\t)\nEtapă(puncte.cu(Fraza(cuvânt2 8m opacitate: 15%)))\\",
+                        "pile": "$~\\¶Textul poate avea fizică.¶\naruncă: ƒ(emoji•'' x2•#m y2•#m vx•#m/s)\n\t\tFraza(\n\t\t\temoji\n\t\t\t2m\n\t\t\tloc: Mişcare(Loc(x2 y2) Viteză(vx 0m/s))\n\t\t\tmaterie: Materie(1kg 0.55 0.06 0.5)\n\t\t)\nEtapă(\n\t[\n\t\taruncă('🍎' -2m 5m 2.2m/s)\n\t\taruncă('🍊' 2m 7m -2.6m/s)\n\t\taruncă('🍋' -1m 9m 1.4m/s)\n\t\taruncă('🍇' 1.5m 11m -1.9m/s)\n\t\taruncă('🫐' 0.5m 15m -1.2m/s)\n\t\tFigură(Dreptunghi(-4m -3m 4m -3.6m))\n\t\tFigură(Dreptunghi(-4.6m 4m -4m -3m))\n\t\tFigură(Dreptunghi(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Codul poate reacționa la @Volume și @Pitch ale microfonului tău.¶\nFraza('📣' 1m + (Volum() × 8m) rotaţie: (Pas() ÷ 1hz) × 0.1°)\\",
+                        "smile": "$~\\¶Codul poate reacționa la @Face al tău, și la alte lucruri de pe @Camera.¶\nFraza(\n\tFață().zâmbind ? '😄 mulțumesc!' '🙂 zâmbește către cameră'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay este un limbaj de programare",
+                        "bullets": [
+                            "$~• Fiecare program este o expresie care devine o valoare. \\1 + 1\\ este un program, și la fel este \\Fraza('salut')\\.",
+                            "• Numerele au unități de măsură, astfel încât \\1m + 1m\\ înseamnă metri, iar \\1cat + 1dog\\🪲 este o greșeală pe care @wordplay o prinde înainte să ruleze.",
+                            "• Funcțiile sunt valori pe care le poți denumi, transmite altora și apela: \\ƒ dublu(n3•#) n3 × 2\\.",
+                            "• Când intrarea se schimbă, @wordplay reevaluează programul tău și arată noua sa valoare. Nu e nevoie să reacționezi tu la evenimente.",
+                            "• @wordplay găsește greșelile înainte ca programul să ruleze și explică fiecare problemă."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay este multilingv",
+                        "bullets": [
+                            "$~• Fiecare element al limbajului de programare are un nume în fiecare limbă, așa că poți citi codul în cuvinte pe care le cunoști deja.",
+                            "• Și numele pe care le alegi tu pot fi multilingve:\n\\pisică2/ro, gato/es: '🐈'\nFraza(pisică2)\\",
+                            "• Textul poartă o limbă și arată limba pe care publicul tău o citește: \\'salut'/ro'hola'/es\\.",
+                            "• Site-ul este disponibil în 29 de limbi și poți alege mai multe deodată; textul apare în fiecare dintre ele.",
+                            "• Poți ajuta la traducerea @wordplay chiar din aplicație, la <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay este accesibil",
+                        "bullets": [
+                            "$~• Orice poți face cu mausul, poți face și cu tastatura.",
+                            "• Cititoarele de ecran descriu scena pe măsură ce se schimbă, iar sunete opționale arată ce se reevaluează, ce se animă și ce se ciocnește.",
+                            "• Poți citi și scrie codul tău ca blocuri în loc de text și poți schimba oricând vrei.",
+                            "• Mișcarea poate fi încetinită sau dezactivată complet.",
+                            "• Sunetul vorbit poate avea subtitrare pe scenă pentru cei care nu îl pot auzi."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay simte lumea",
+                        "bullets": [
+                            "$~• Trecerea timpului: \\Timp(1000ms)\\ bate secundă cu secundă, iar \\Acum()\\ știe data de azi, în calendarul și fusul tău orar.",
+                            "• Unde arată publicul tău, ce atinge și ce taste apasă.",
+                            "• Programele pot răspunde microfonului tău: cât de tare este cu @Volume, ce înălțime are sunetul cu @Pitch, și ce cuvinte spui cu @Speech.",
+                            "• Publicul tău poate scrie text cu @Chat și poate alege conținut de pe scenă cu @Choice.",
+                            "• Programele pot răspunde la ritmul muzicii pe care o redau, cu @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay pune în scenă",
+                        "bullets": [
+                            "$~• @Phrase pune cuvinte și emoji pe scenă.",
+                            "• @Group le aranjează în rânduri, stive, grile, sau oriunde vrei tu să le pui.",
+                            "• @Pose și @Sequence rotesc, estompează, măresc sau micșorează și mută lucrurile.",
+                            "• @Say rostește textul cu voce tare, în loc să îl arate.",
+                            "• @Music redă piese cu note pe instrumente reale, într-un anumit tempo, într-o anumită tonalitate:\n\\Muzică(\n\tPistă([1 3 5] instrument: Instrument.clopoțel)\n\ttempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay este tipografie",
+                        "bullets": [
+                            "$~• Sute de fonturi, care acoperă sistemele de scriere ale lumii.",
+                            "• Poți desena <caracterele tale personalizate//characters> și le poți folosi oriunde poți folosi un emoji.",
+                            "• Conturul fiecărei litere este o dată pe care o poți citi și anima, cu @Contour: \\Contur('a' 'Noto Sans')\\.",
+                            "• Textul se aranjează pe rânduri după regulile limbii în care este scris.",
+                            "• Scrisul de la dreapta la stânga și scrisul vertical sunt aranjate exact cum trebuie."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay se explică singur",
+                        "bullets": [
+                            "$~• Documentarea face parte din limbă, cu @Doc, nu este doar un comentariu alăturat.",
+                            "• Un <ghid//guide> căutabil explică fiecare funcție încorporată, cu exemple.",
+                            "• Fiecare greșeală este explicată chiar acolo unde a apărut, în limba ta.",
+                            "• Poți parcurge un program pas cu pas, înainte /și/ înapoi, ca să vezi ce s-a întâmplat.",
+                            "• În timp ce parcurgi codul, fiecare valoare este arătată chiar în codul care a creat-o."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay este pentru a împărtăși",
+                        "bullets": [
+                            "$~• Proiectele tale sunt ale tale, iar tu decizi cine le poate vedea.",
+                            "• Poți invita alte persoane să construiască un proiect împreună cu tine.",
+                            "• <Galeriile@://galleries> adună proiecte în jurul unei teme.",
+                            "• Profesorii pot crea clase și pot urmări munca elevilor lor: <predă@://teach>.",
+                            "• Poți remixa proiectul public al oricui și îl poți face al tău."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay este gratuit și deschis",
+                        "bullets": [
+                            "$~• @wordplay este gratuit și va rămâne mereu gratuit.",
+                            "• Este cu sursă deschisă: poți citi cum funcționează și ne poți ajuta să îl schimbăm.",
+                            "• Vine de la Facultatea de Informatică a <Universității din Washington@https://ischool.uw.edu/>.",
+                            "• Există o comunitate de creatori, profesori și colaboratori.",
+                            "• <Donațiile//donate> acoperă costurile de funcționare."
+                        ]
+                    }
+                }
+            },
+            "learn": {
+                "header": "$~Învăţa",
+                "error": "$~Nu am putut găsi un tutorial pentru acest limbaj.",
+                "button": {
+                    "next": "$~următoarea pauză în dialog",
+                    "previous": "$~pauză anterioară în dialog"
+                },
+                "options": {
+                    "lesson": "$~lecția curentă"
+                },
+                "search": {
+                    "placeholder": "$~căutare",
+                    "noResults": "$~Nu s-au găsit rezultate"
+                },
+                "choice": {
+                    "prompt": "$~Cum ți-ar plăcea să înveți?",
+                    "quick": {
+                        "title": "$~Rapid",
+                        "description": "$~Pentru creatorii familiarizați cu alte limbaje de programare care vor să înțeleagă prin ce Wordplay este diferit"
+                    },
+                    "complete": {
+                        "title": "$~Cuprinzător",
+                        "description": "$~Pentru creatorii noi în programare care doresc o introducere detaliată"
+                    }
+                },
+                "mode": {
+                    "label": "$~tutorial",
+                    "labels": ["$~rapid", "$~complet"],
+                    "tips": [
+                        "$~un scurt tur pentru creatorii care cunosc un alt limbaj de programare",
+                        "$~introducerea completă și dramatică pentru creatorii noi în programare"
+                    ]
+                },
+                "contrast": "$~compara cu",
+                "dialogue": "$~dialog de lecție",
+                "says": "$~$character spune",
+                "tour": {
+                    "skip": "$~sari peste tur și continuă",
+                    "wait": "$~Fă mai întâi turul, sau sari peste el, și apoi vom continua."
+                }
+            },
+            "localize": {
+                "header": "$~Localiza",
+                "description": [
+                    "$~Aici poți răsfoi fiecare șir localizabil din platformă și poți propune traduceri sau revizuiri pentru texte nescrise și traduse automat. Poți trimite revizuirile pentru revizuire atunci când ești gata.",
+                    "Pe măsură ce scrii, nu uita să scrii într-un mod simplu, pentru un public tânăr care s-ar putea să nu cunoască încă un vocabular avansat. De asemenea, fii consecvent, folosind aceeași terminologie în texte diferite, atunci când este cazul."
+                ],
+                "workspaceLink": "$~vezi tot textul + trimite",
+                "workspaceHeader": "$~Text de scris sau de recenzat",
+                "submitHeader": "$~Trimite",
+                "submitPrompt": "$~Când ești gata să propui acest set de modificări, le poți trimite mai jos.",
+                "oneLocaleNote": "$~Fiecare trimitere acoperă o singură limbă odată. Acest lot va fi trimis ca modificări la $locale . Dacă doriți să contribuiți la o altă limbă, schimbați mai întâi limba; modificările pe care le salvați pentru fiecare limbă sunt păstrate separat.",
+                "bundleSummary": "$~Modificări în acest lot",
+                "editEntry": "$~Reveniți pentru a edita acest șir de caractere",
+                "revertEntry": "$~Eliminați această editare din lot",
+                "prevBundleItem": "$~Revizuiți editarea anterioară",
+                "nextBundleItem": "$~Revizuiți următoarea editare",
+                "descriptionField": {
+                    "description": "$~O scurtă descriere a lotului de modificări, pentru a ajuta recenzorii să înțeleagă modificările",
+                    "placeholder": "$~Ce ai schimbat și de ce?"
+                },
+                "notSpamLabel": "$~Promit că aceste editări nu sunt spam.",
+                "notSpamNote": "$~Wordplay este un proiect non-profit condus de voluntari.",
+                "requireLogin": "$~Trebuie să fii autentificat pentru a contribui cu sugestii de localizare.",
+                "singletonWordsWarning": "$~Unele cuvinte din schița ta apar o singură dată în întreaga limbă. Ești sigur că sunt scrise corect și sunt în concordanță cu restul textului?",
+                "submit": {
+                    "description": "$~Trimiteți acest lot de modificări",
+                    "prompt": "$~Trimite"
+                },
+                "submitSuccess": "$~Mulțumesc! Modificările dvs. au fost trimise și vor fi revizuite în curând.",
+                "viewPR": "$~Vizualizați cererea de extragere",
+                "submitError": "$~A apărut o eroare la trimitere. Modificările sunt încă salvate pe acest dispozitiv — te rugăm să încerci din nou.",
+                "empty": "$~Niciun șir de caractere nu corespunde acestui filtru.",
+                "prevEntry": "$~Editați șirul anterior",
+                "nextEntry": "$~Editați următorul șir de caractere",
+                "qualityMode": {
+                    "label": "$~spectacol",
+                    "labels": ["$~toate", "$~tradus automat sau nescris"],
+                    "tips": [
+                        "$~afișați toate șirurile de caractere",
+                        "$~afișați doar șiruri traduse automat sau nescrise"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~secțiune",
+                    "labels": [
+                        "$~toate",
+                        "$~termen",
+                        "$~jeton",
+                        "$~nodul",
+                        "$~bază",
+                        "$~intrare",
+                        "$~ieșire",
+                        "$~interfață utilizator",
+                        "$~galerie",
+                        "$~moderare"
+                    ],
+                    "tips": [
+                        "$~afișați toate secțiunile",
+                        "$~terminologie comună",
+                        "$~descrieri de tokenuri",
+                        "$~construcții ale limbajelor de programare",
+                        "$~tipuri încorporate precum număr, text, listă",
+                        "$~descrieri ale fluxului și sursei de intrare",
+                        "$~descrieri ale tipurilor de ieșire",
+                        "$~interfața utilizator a aplicației",
+                        "$~conținut implicit al galeriei",
+                        "$~mesaje de moderare a conținutului"
+                    ]
+                },
+                "section": {
+                    "glossary": "$~Terminologie",
+                    "token": "$~Jetoane",
+                    "node": "$~Construcții lingvistice",
+                    "basis": "$~Tipuri încorporate",
+                    "input": "$~Intrări",
+                    "output": "$~Rezultate",
+                    "ui": "$~Interfață utilizator",
+                    "gallery": "$~Galerie",
+                    "moderation": "$~Moderare"
+                },
+                "literalTermsWarning": "$~Ciorna ta folosește cuvinte din glosar ca text simplu. Atinge unul ca să îl transformi într-o legătură către glosar.",
+                "checkReadingLevel": "$~Verifică nivelul de citire al acestui șir de text",
+                "readingLevelComplex": "$~Acest text poate fi greu de citit. Încearcă propoziții mai scurte și cuvinte mai simple.",
+                "readingLevelOk": "$~Acest text se citește clar pentru nivelul de citire țintă.",
+                "tabs": {
+                    "label": "$~secțiune",
+                    "labels": [
+                        "$~Despre",
+                        "$~Text",
+                        "$~Termeni",
+                        "$~Glosar",
+                        "$~Trimite"
+                    ],
+                    "tips": [
+                        "$~cum funcționează localizarea și note pentru cei care scriu această limbă",
+                        "$~răsfoiește și modifică textul platformei",
+                        "$~definește fraze pe care le poți refolosi în textul acestei limbi",
+                        "$~adaugă pluralele și celelalte moduri de scriere ale termenilor din această limbă",
+                        "$~verifică modificările tale și trimite-le"
+                    ]
+                },
+                "toSubmit": "$~verifică și trimite modificările tale",
+                "submitEmpty": "$~Nu ai încă nicio modificare. Alege fila Text ca să scrii câteva sau modifică textul direct cu modul de editare.",
+                "clear": {
+                    "description": "$~șterge toate modificările netrimise pentru această limbă",
+                    "prompt": "$~ștergi tot?"
+                }
+            },
+            "teach": {
+                "header": "$~Predă",
+                "prompt": {
+                    "none": "$~Bun venit, domnule profesor! Creați o clasă pentru a configura și gestiona conturile elevilor și galeriile de proiecte.",
+                    "some": "$~Bun venit, profesore! Gestionează-ți cursurile sau creează una nouă."
+                },
+                "error": {
+                    "offline": "$~Nu am putut verifica statutul dumneavoastră de profesor. Sunteți conectat(ă)?",
+                    "login": "$~Trebuie să fii<logged in@://login> să gestioneze clasele.",
+                    "teacher": "$~Ai nevoie de privilegii de profesor pentru a crea și gestiona cursuri. Completează acest formular și hai să ne cunoaștem!"
+                },
+                "link": {
+                    "request": "$~Solicitați privilegii de profesor",
+                    "new": "$~Creați o clasă"
+                }
+            },
+            "newclass": {
+                "header": "$~Clasă nouă",
+                "subheader": {
+                    "class": "$~Clasa ta",
+                    "students": "$~Studenții dumneavoastră",
+                    "credentials": "$~Nume de utilizator și parole",
+                    "submit": "$~Trimite",
+                    "usernames": "$~Nume de utilizator"
+                },
+                "prompt": {
+                    "start": "$~Acest formular vă permite 1) să generați conturi pentru toți elevii din clasa dvs. și 2) să creați o galerie la care toți elevii dvs. pot adăuga proiecte. Dacă elevii au deja conturi, îi puteți adăuga ulterior în galerie.",
+                    "review": "$~Verifică numele de utilizator și parolele pe care le-am creat. Dorești să le *editezi* înainte de a continua? Dacă faci asta, nu vei putea edita informațiile despre elev de mai sus.",
+                    "ready": "$~Anunță-ne când ești gata să generezi acreditări mai sus. Le poți edita după ce o faci.",
+                    "pending": "$~Se generează nume de utilizator și parole...",
+                    "submit": "$~Gata să trimiteți? De îndată ce procesul are succes, veți primi o versiune descărcabilă a acestor informații. Parolele *nu pot fi recuperate*, așa că păstrați-le într-un loc sigur.",
+                    "submitting": "$~Se solicită conturi noi cu numele de utilizator și parolele de mai sus...",
+                    "download": "$~Clasa ta este gata! Ar trebui să vezi o descărcare cu datele elevilor tăi în folderul de descărcări. *Parolele nu pot fi recuperate*, așa că păstrează acest fișier undeva sigur! Elevii care se conectează prin email nu au parolă, deci coloana lor de parolă este goală.",
+                    "reviewEmail": "$~Verifică numele de utilizator create de noi. Vrei să le *editezi* înainte de a continua? Dacă alegi să faci asta, nu vei mai putea edita informațiile despre elevi de mai sus. Elevii nu aleg nimic aici — ei se autentifică folosind adresa de lângă numele lor.",
+                    "downloadEmail": "$~Clasa ta este gata! Ar trebui să vezi o descărcare cu datele elevilor tăi în folderul de descărcări. Nu există parole de păstrat în siguranță: fiecare elev merge pe pagina de autentificare, își scrie adresa și cere un link.",
+                    "submitEmail": "$~Ești gata să trimiți? Imediat ce reușești, vei primi un fișier cu aceste informații. Nu există parole de păstrat — fiecare elev se conectează cu adresa scrisă lângă numele lui."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~numele clasei",
+                        "placeholder": "$~un nume scurt"
+                    },
+                    "description": {
+                        "description": "$~descriere",
+                        "placeholder": "$~o descriere a clasei tale, pentru tine și elevii tăi."
+                    },
+                    "existing": {
+                        "label": "$~studenți cu conturi",
+                        "prompt": "$~Au deja unii dintre elevii tăi conturi @wordplay? Includeți-i aici."
+                    },
+                    "metadata": {
+                        "description": "$~informații despre studenți",
+                        "placeholder": "$~de exemplu, legitimație de student, nume de familie, prenume",
+                        "prompt": "$~Vrei să creezi conturi noi pentru elevi? Adaugă *orice informație* despre elevi, câte una pe linie, separate prin virgule. Poate fi numele de familie, prenumele, numerele elevilor sau alte detalii care îi deosebesc. Vom folosi aceste informații pentru a genera nume de utilizator pe care le poți edita mai jos, ca să poți lega ușor numele de utilizator de fiecare elev. Dacă una dintre coloane conține adrese de email ale elevilor, aceștia se vor conecta printr-un link trimis pe email, în loc de o parolă. Lasă acea celulă goală și elevul va primi un nume de utilizator și o parolă, la fel ca ceilalți."
+                    },
+                    "words": {
+                        "description": "$~cuvinte de folosit în parole",
+                        "placeholder": "$~de exemplu, pisică punct șobolan...",
+                        "prompt": "$~Furnizați cel puțin *25 de cuvinte* pentru a genera aleatoriu parole memorabile de 2-3 cuvinte. Alegeți cuvinte pe care le cunosc elevii sau rugați-i să facă un brainstorming de cuvinte. Cu cât sunt mai aleatorii, cu atât sunt mai sigure!"
+                    },
+                    "generate": {
+                        "label": "$~genera",
+                        "tip": "$~creați nume de utilizator și parole pe baza informațiilor de mai sus."
+                    },
+                    "edit": {
+                        "label": "$~edita",
+                        "tip": "$~editați informațiile generate despre elev"
+                    },
+                    "submit": {
+                        "label": "$~creați o clasă",
+                        "tip": "$~creați o clasă nouă cu aceste informații."
+                    },
+                    "affirm": {
+                        "prompt": "$~Una dintre coloanele tale seamănă cu adrese de email, așa că acei elevi se vor conecta printr-un link în loc de o parolă. Fă asta doar dacă au vârsta potrivită pentru a avea un cont de email acolo unde locuiesc. *Nu vom trimite niciun email nimănui când creezi această clasă*: fiecare elev intră pe pagina de conectare, își scrie adresa și cere un link.",
+                        "label": "$~Acești elevi au vârsta potrivită pentru a avea un cont de email acolo unde locuiesc."
+                    },
+                    "signin": {
+                        "prompt": "$~Vrei să creezi conturi noi pentru elevi? Mai întâi, decide cum se vor autentifica. O clasă folosește *un singur fel de autentificare pentru toți*, așa că alege varianta potrivită pentru elevii tăi.",
+                        "mode": {
+                            "label": "$~cum se autentifică elevii tăi",
+                            "labels": [
+                                "$~un nume de utilizator și o parolă",
+                                "$~un link trimis prin e-mail"
+                            ],
+                            "tips": [
+                                "$~noi facem un nume de utilizator și o parolă pentru fiecare elev, iar tu le distribui",
+                                "$~fiecare elev se autentifică cu propria adresă de e-mail, astfel încât nu există nicio parolă de pierdut"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~adresele de e-mail ale elevilor",
+                        "placeholder": "$~de exemplu, mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Scrie-ți elevii câte unul pe linie, *începând cu adresa lor de e-mail*. Poți adăuga orice altceva despre ei după o virgulă — un număr de elev, un nume de familie — și vom folosi acea informație pentru a genera nume de utilizator pe care le poți edita mai jos."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~Există intrări duplicate în informațiile despre student.",
+                    "columns": "$~Asigurați-vă că fiecare elev are același număr de coloane.",
+                    "generate": "$~Nu se pot crea nume de utilizator unice.",
+                    "taken": "$~Unul sau mai multe nume de utilizator de mai sus sunt luate.",
+                    "limit": "$~Nu poți crea o clasă cu mai mult de 50 de elevi deodată.",
+                    "words": "$~Furnizați cel puțin 25 de cuvinte.",
+                    "account": "$~Nu se pot crea unele dintre conturi.",
+                    "generic": "$~Nu am putut crea clasa. Iată câteva informații care să ajute dezvoltatorii să înțeleagă ce a mers prost.",
+                    "affirmation": "$~Confirmă că acești elevi au vârsta potrivită pentru a avea un cont de email înainte să le creăm conturile.",
+                    "inflight": "$~Este posibil ca această clasă să fi fost deja creată. Verifică-ți clasele înainte să încerci din nou.",
+                    "addresses": "$~Fiecare linie trebuie să înceapă cu o adresă de e-mail."
+                }
+            },
+            "class": {
+                "header": "$~Clasă",
+                "subheader": {
+                    "teachers": "$~Profesori",
+                    "students": "$~Studenți",
+                    "galleries": "$~Galerii"
+                },
+                "prompt": {
+                    "gallery": "$~Creează o galerie pentru clasa ta pentru a organiza o temă sau un proiect. Toți profesorii implicați în proiect vor fi curatori de galerii, iar toți elevii vor fi creatori de galerii.",
+                    "delete": "$~Ștergerea acestui curs va șterge definitiv informațiile despre el, dar nu și proiectele, galeriile sau conturile de elevi ale acestuia."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~numele clasei",
+                        "placeholder": "$~nume"
+                    },
+                    "description": {
+                        "description": "$~descrierea clasei",
+                        "placeholder": "$~descriere"
+                    },
+                    "delete": {
+                        "tip": "$~ștergeți această clasă pentru totdeauna",
+                        "label": "$~Ștergeți această clasă"
+                    }
+                },
+                "error": {
+                    "notfound": "$~Nu am putut găsi acest curs sau nu aveți permisiunea de a-l vizualiza.",
+                    "gallery": "$~Nu am putut crea o galerie pentru acest curs."
+                }
+            },
+            "guide": {
+                "header": "$~Ghid",
+                "description": "$~Aceasta este o referință pentru fiecare parte a limbajului de programare @wordplay. Căutați un personaj sau răsfoiți lista pentru a afla mai multe."
+            },
+            "projects": {
+                "header": "$~Proiecte",
+                "projectprompt": "$~Ești gata să spui ceva? Creează un proiect sau lucrează la unul. Dacă te blochezi, continuă<learning@://learn> .",
+                "archiveprompt": "$~Acestea sunt proiecte pe care le-ați arhivat. Doar proprietarii le pot șterge sau dezarhiva definitiv. Proiectele arhivate vor fi șterse definitiv la 30 de zile de la ultima editare.",
+                "subheader": {
+                    "shared": "$~Partajat",
+                    "archived": "$~Arhivat"
+                },
+                "search": {
+                    "description": "$~Căutați proiecte și fișiere sursă",
+                    "noResults": "$~Nu s-au găsit rezultate."
+                },
+                "button": {
+                    "newproject": "$~proiect nou",
+                    "editproject": "$~editează acest proiect",
+                    "unarchive": "$~dearhivați acest proiect",
+                    "viewproject": "$~vezi codul acestui proiect",
+                    "import": {
+                        "tip": "$~deschide un fișier de proiect pe care l-ai salvat",
+                        "label": "$~deschide un fișier de proiect…"
+                    }
+                },
+                "confirm": {
+                    "archive": {
+                        "description": "$~arhivează această performanță pentru ștergere ulterioară",
+                        "prompt": "$~arhivă"
+                    },
+                    "delete": {
+                        "description": "$~ștergeți definitiv această performanță",
+                        "prompt": "$~șterge definitiv"
+                    }
+                },
+                "error": {
+                    "noaccess": "$~Nu am putut accesa internetul.",
+                    "newgallery": "$~Nu am putut crea o galerie nouă.",
+                    "nodeletes": "$~Trebuie să fii<logged in@://login> pentru a șterge proiectele arhivate.",
+                    "delete": "$~Oops, nu am putut șterge proiectul!",
+                    "importEmpty": "$~Acel fișier nu conține nimic.",
+                    "importTooLarge": "$~Acel proiect este prea mare pentru ca Wordplay să îl salveze. Încearcă unul cu mai puțin conținut.",
+                    "importUnreadable": "$~Wordplay nu a putut citi acel fișier. Fișierele de proiect se termină în .wp."
+                },
+                "installedprompt": "$~Folosești Wordplay ca aplicație instalată, iar aceasta își păstrează propriile proiecte, separate de cele din navigatorul tău web. Orice proiect făcut în navigator este încă acolo. <Autentifică-te@://login> ca să vezi toate proiectele tale din ambele locuri.",
+                "sort": {
+                    "label": "$~ordine",
+                    "labels": ["$~nume", "$~editat recent"],
+                    "tips": [
+                        "$~ordonează proiectele după nume",
+                        "$~ordonează proiectele după momentul ultimei modificări"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~cum se numește acest dosar",
+                        "placeholder": "$~dosar"
+                    },
+                    "none": "$~fără dosar",
+                    "button": {
+                        "create": "$~creează un dosar nou",
+                        "expand": "$~arată ce este în acest dosar",
+                        "collapse": "$~ascunde ce este în acest dosar"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~șterge acest dosar și arhivează proiectele din el",
+                            "prompt": "$~Șterge dosarul și arhivează proiectele lui"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~mută $project în $folder",
+                        "moved": "$~$project mutat în $folder",
+                        "movedOut": "$~$project mutat în afara dosarului său",
+                        "expanded": "$~$folder extins, $#count[1 proiect|$#count proiecte|$count de proiecte]",
+                        "collapsed": "$~$folder restrâns, $#count[1 proiect|$#count proiecte|$count de proiecte]",
+                        "selected": "$~$folder selectat, $#count[1 proiect|$#count proiecte|$count de proiecte]",
+                        "created": "$~$folder creat",
+                        "deleted": "$~$folder șters, $#count[1 proiect arhivat|$#count proiecte arhivate|$count de proiecte arhivate]",
+                        "renamed": "$~dosar redenumit în $folder",
+                        "projectSelected": "$~$project ales",
+                        "cleared": "$~nimic ales"
+                    },
+                    "instructions": {
+                        "none": "$~Apasă pe un proiect sau pe un dosar ca să îl alegi.",
+                        "project": "$~Mută acest proiect cu tastele săgeată *sus* și *jos*, sau trage-l peste un dosar. Apasă *escape* când ai terminat.",
+                        "folder": "$~Scrie numele ca să redenumești acest dosar. Dacă îl ștergi, tot ce este în el ajunge în arhiva ta."
+                    }
+                },
+                "import": {
+                    "done": "$~$name a fost deschis.",
+                    "drop": "$~Trage aici un fișier de proiect pentru a-l deschide.",
+                    "replaced": "$~Acest proiect a fost înlocuit cu $name.",
+                    "replace": {
+                        "header": "$~Înlocuiești acest proiect?",
+                        "explanation": "$~Codul din acest proiect va fi înlocuit. Wordplay salvează ce este aici acum, așa că îl poți recupera din istoricul proiectului.",
+                        "prompt": "$~Deschizi $name aici, în locul a ceea ce are acum acest proiect?",
+                        "confirm": {
+                            "tip": "$~înlocuiește acest proiect cu fișierul pe care l-ai tras",
+                            "label": "$~înlocuiește"
+                        }
+                    }
+                }
+            },
+            "galleries": {
+                "header": "$~Galerii",
+                "prompt": "$~Galeriile sunt colecții de proiecte, adesea centrate pe o temă și curatoriate de tine sau de alți creatori.",
+                "section": {
+                    "tabs": {
+                        "label": "$~tip de galerie",
+                        "labels": ["$~Al tău", "$~Exemple", "$~Public"],
+                        "tips": [
+                            "$~galerii pe care le organizezi sau la care contribui",
+                            "$~galerii selectate de dezvoltatorii Wordplay",
+                            "$~galerii pe care creatorii le-au făcut publice"
+                        ]
+                    },
+                    "own": [
+                        "$~Contribuie la o galerie la care ești invitat sau administrează propria ta galerie cu o temă anume și invită și alți oameni.",
+                        "/Curatorii verifică ce este semnalat în galeria lor, din <pagina de moderare@://moderate>./"
+                    ],
+                    "examples": "$~Acestea sunt galerii atent selecționate de dezvoltatorii @wordplay. Sunt puncte de plecare bune pentru învățare și inspirație.",
+                    "public": "$~Acestea sunt galerii pe care creatorii @wordplay le-au făcut publice. Oricine poate cere ca galeria lui să fie listată aici, iar un moderator o citește întâi ca să se asigure că este terminată și respectă regulile. O galerie poate fi scoasă din această listă în orice moment, din orice motiv. Sunt arătate într-o ordine diferită la fiecare vizită, astfel încât fiecare galerie își are rândul aproape de vârf."
+                },
+                "button": {
+                    "newgallery": "$~galerie nouă"
+                },
+                "error": {
+                    "nogalleryedits": "$~Trebuie să fii<logged in@://login> pentru a crea și modifica galerii.",
+                    "nopublic": "$~Nicio galerie nu a fost aprobată încă pentru această listă. Revino în curând!"
+                },
+                "search": {
+                    "description": "$~Caută exemple și galerii publice",
+                    "noResults": "$~Nu s-au găsit rezultate.",
+                    "galleries": "$~Galerii",
+                    "examples": "$~Proiecte exemplu",
+                    "projects": "$~Proiecte din galerii publice"
+                }
+            },
+            "characters": {
+                "header": "$~Personaje",
+                "prompt": "$~Creează emoji-uri și simboluri personalizate pentru a le utiliza în proiectele tale și pentru a le distribui cu ceilalți.",
+                "button": {
+                    "new": "$~Creează un personaj nou",
+                    "copy": "$~Copiați acest caracter",
+                    "remove": {
+                        "tip": "$~șterge acest caracter",
+                        "prompt": "$~şterge?"
+                    }
+                },
+                "subheader": {
+                    "shared": "$~Partajat"
+                },
+                "error": {
+                    "offline": "$~Nu am putut accesa personajele tale stocate online.",
+                    "noauth": "$~Trebuie să fii<logged in@://login> să-ți vezi personajele și să creezi altele noi.",
+                    "create": "$~Imposibil de creat un personaj nou."
+                },
+                "unnamed": "$~Caracter fără nume"
+            },
+            "character": {
+                "header": "$~Caracter",
+                "instructions": {
+                    "empty": "$~Alegeți un mod de desenare din paletă pentru a crea forme.",
+                    "unselected": "$~Alege un mod de desenare sau selectează și editează forme. Folosește *$control-a* pentru a selecta tot și *$control-z* pentru a anula.",
+                    "selected": "$~Folosește tastele *săgeți* pentru a muta formele. Ține apăsat *shift* pentru a adăuga mai multe forme la selecție. Folosește *delete* pentru a elimina selecția. Folosește *$control-c* și *$control-v* pentru a copia și lipi, și *$control-z* pentru a anula. Cu o singură cale selectată, apasă *enter* pentru a-i edita punctele. Folosește comenzile de mai jos pentru a schimba formele selectate.",
+                    "eraser": "$~Pentru a șterge forme, faceți clic sau atingeți pe ele. Trageți pentru a șterge pixelii. Folosiți tastele *săgeată* pentru a muta radiera și *spațiu* pentru a șterge.",
+                    "pixel": "$~Pentru a desena pixeli, alegeți o culoare. Apoi, faceți clic pe pânză sau utilizați *săgețile* pentru a muta cursorul și *spațiu* pentru a crea un pixel. Faceți *dublu clic* pentru a umple.",
+                    "rect": "$~Pentru a desena dreptunghiuri, alegeți o culoare și o contur. Apoi, faceți clic și trageți sau utilizați tasta *săgeți* și tasta *spațiu* pentru a alege un centru și o dimensiune.",
+                    "ellipse": "$~Pentru a desena elipse și cercuri, alegeți o culoare și o contur. Apoi, faceți clic și trageți sau utilizați tasta *săgeți* și tasta *spațiu* pentru a alege un centru și o dimensiune.",
+                    "path": "$~Traseele pot fi segmente de linie, poligoane și curbe. Faceți clic pentru a începe adăugarea de puncte sau utilizați tastele *săgeată* și *spațiu*. Apăsați *escape* pentru a termina traseul. *ștergere* va elimina ultimul punct.",
+                    "points": "$~Apasă *Tab* pentru a trece între punctele căii. Folosește tastele *săgeți* pentru a muta punctul selectat, *enter* pentru a adăuga un punct lângă el și *delete* pentru a-l elimina. Folosește *curbează* pentru a îndoi segmentul care ajunge la un punct, apoi mișcă mânerul acestuia; *delete* pe un mâner îl îndreaptă din nou. Apasă *escape* când ai terminat.",
+                    "symbol": "$~Alege dacă vrei să adaugi pixeli sau un contur, apoi alege o literă, un simbol sau un emoji. Un contur poate fi redimensionat și rotit fără să se estompeze; pixelii pot fi recolorați unul câte unul. Dă clic sau atinge ceva ce ai făcut deja ca să îl selectezi în schimb.",
+                    "image": "$~Alege o imagine, apoi alege pătratul din ea pe care vrei să îl păstrezi. Acesta înlocuiește pixelii și stă sub orice formă pe care ai desenat-o. Dă clic sau atinge ceva ce ai făcut deja ca să îl selectezi în schimb."
+                },
+                "shape": {
+                    "shape": "$~formă",
+                    "eraser": "$~radieră",
+                    "pixel": "$~pixel",
+                    "rect": "$~dreptunghi",
+                    "ellipse": "$~elipsă",
+                    "path": "$~cale",
+                    "emoji": "$~emoji",
+                    "glyph": "$~contur",
+                    "symbol": "$~simbol",
+                    "image": "$~imagine"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Distribuie",
+                        "explanation": "$~Alege cine poate vedea acest caracter, cine poate ajuta să-l creeze, și cărei galerii îi aparține."
+                    },
+                    "button": {
+                        "label": "$~a împărtăși",
+                        "tip": "$~împărtășește acest personaj"
+                    },
+                    "delete": {
+                        "label": "$~şterge",
+                        "tip": "$~șterge acest caracter"
+                    },
+                    "public": {
+                        "label": "$~vizibilitate",
+                        "labels": ["$~public", "$~privat"],
+                        "tips": [
+                            "$~oricine poate vedea acest personaj",
+                            "$~doar tu și colaboratorii puteți vedea acest personaj"
+                        ]
+                    },
+                    "collaborators": "$~colaboratori",
+                    "gallery": "$~Galerie",
+                    "galleryexplanation": "$~Pune acest caracter într-una din galeriile tale și oricine este în ea îl poate vedea, îl poate folosi în proiectele sale, și îi poate face propria versiune. Rămâne al tău; doar tu îl poți schimba.",
+                    "collaboratorsexplanation": "$~Colaboratorii pot vedea acest caracter și îl pot schimba împreună cu tine, chiar și atunci când este privat.",
+                    "publicexplanation": "$~Public înseamnă că oricine poate vedea acest caracter și îl poate folosi în proiectele sale. Privat înseamnă că doar tu, colaboratorii tăi, și oricine dintr-o galerie în care l-ai pus îl pot vedea.",
+                    "tab": {
+                        "label": "$~setări de partajare",
+                        "labels": ["$~Public", "$~Colaboratori", "$~Galerie"],
+                        "tips": [
+                            "$~alege cine poate vedea acest caracter",
+                            "$~alege cine poate schimba acest caracter împreună cu tine",
+                            "$~alege o galerie în care să arăți acest caracter"
+                        ]
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "$~numele personajului",
+                        "placeholder": "$~nume"
+                    },
+                    "description": {
+                        "description": "$~descrierea personajului",
+                        "placeholder": "$~descriere"
+                    },
+                    "mode": {
+                        "label": "$~mod",
+                        "labels": [
+                            "$~selectează",
+                            "$~radieră",
+                            "$~pixel",
+                            "$~dreptunghi",
+                            "$~elipsă",
+                            "$~cale",
+                            "$~emoji",
+                            "$~imagine"
+                        ],
+                        "tips": [
+                            "$~selectează forme și pixeli",
+                            "$~șterge formele și pixelii",
+                            "$~desenează pixeli",
+                            "$~desenează dreptunghiuri",
+                            "$~desenează elipse",
+                            "$~desenează căi",
+                            "$~importă un emoji ca pixeli",
+                            "$~adaugă o imagine ca pixeli"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~umple",
+                        "labels": ["$~nici unul", "$~moşteni", "$~alege"],
+                        "tips": [
+                            "$~fără umplere",
+                            "$~moștenește culoarea de umplere din textul înconjurător",
+                            "$~alegeți o culoare de umplere"
+                        ]
+                    },
+                    "stroke": {
+                        "label": "$~accident vascular cerebral",
+                        "labels": ["$~nici unul", "$~moşteni", "$~alege"],
+                        "tips": [
+                            "$~fără accident vascular cerebral",
+                            "$~moștenește culoarea conturului din textul înconjurător",
+                            "$~alegeți o culoare a conturului"
+                        ]
+                    },
+                    "none": "$~nici unul",
+                    "inherit": "$~culoarea textului",
+                    "strokeWidth": {
+                        "label": "$~lățimea conturului",
+                        "tip": "$~cât de lățime este redată conturul"
+                    },
+                    "radius": {
+                        "label": "$~raza colțului",
+                        "tip": "$~cât de rotunjite sunt colțurile dreptunghiurilor"
+                    },
+                    "angle": {
+                        "label": "$~unghi",
+                        "tip": "$~cât de mult să rotești forma în jurul centrului său"
+                    },
+                    "width": {
+                        "label": "$~lăţime",
+                        "tip": "$~cât de lată este forma"
+                    },
+                    "height": {
+                        "label": "$~înălţime",
+                        "tip": "$~cât de înaltă este forma"
+                    },
+                    "closed": "$~conectat",
+                    "brushSize": {
+                        "label": "$~mărime",
+                        "tip": "$~câte celule acoperă pensula și radiera, pe lățime"
+                    },
+                    "insertion": {
+                        "label": "$~adaugă ca",
+                        "labels": ["$~pixeli", "$~contur"],
+                        "tips": [
+                            "$~adaugă simbolul ca pixeli pe care îi poți recolora unul câte unul",
+                            "$~adaugă simbolul ca un contur pe care îl poți redimensiona și roti fără să se estompeze"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~font",
+                        "tip": "$~din ce font este preluată forma simbolului"
+                    },
+                    "weight": {
+                        "label": "$~grosime",
+                        "tip": "$~cât de groase sunt liniile simbolului"
+                    },
+                    "italic": "$~cursiv",
+                    "glyphSize": {
+                        "label": "$~mărimea simbolului",
+                        "tip": "$~câte celule are simbolul pe lățime"
+                    }
+                },
+                "button": {
+                    "back": {
+                        "label": "$~spate",
+                        "tip": "$~mută formele selectate în spate."
+                    },
+                    "toBack": {
+                        "label": "$~a susține",
+                        "tip": "$~mută formele selectate în spate."
+                    },
+                    "forward": {
+                        "label": "$~redirecţiona",
+                        "tip": "$~mută formele selectate în față."
+                    },
+                    "toFront": {
+                        "label": "$~în față",
+                        "tip": "$~mută formele selectate în față."
+                    },
+                    "copy": {
+                        "label": "$~copie",
+                        "tip": "$~copiază formele selectate în clipboard."
+                    },
+                    "paste": {
+                        "label": "$~pastă",
+                        "tip": "$~lipește formele copiate din clipboard."
+                    },
+                    "clear": {
+                        "label": "$~toate",
+                        "tip": "$~eliminați toate formele."
+                    },
+                    "clearPixels": {
+                        "label": "$~pixeli",
+                        "tip": "$~eliminați toți pixelii."
+                    },
+                    "undo": {
+                        "label": "$~anula",
+                        "tip": "$~anulează modificarea designului anterior"
+                    },
+                    "redo": {
+                        "label": "$~reface",
+                        "tip": "$~refaceți la următorul design"
+                    },
+                    "all": {
+                        "label": "$~selectați tot",
+                        "tip": "$~selectați toate formele și pixelii"
+                    },
+                    "allColor": {
+                        "label": "$~toată culoarea",
+                        "tip": "$~selectați toate formele cu aceeași culoare ca selecția"
+                    },
+                    "saturationUp": {
+                        "label": "$~saturaţie",
+                        "tip": "$~creșterea saturației"
+                    },
+                    "saturationDown": {
+                        "label": "$~saturaţie",
+                        "tip": "$~scăderea saturației"
+                    },
+                    "end": {
+                        "label": "$~formă de finisare",
+                        "tip": "$~încheie calea curentă"
+                    },
+                    "horizontal": {
+                        "label": "$~răsturnare pe orizontală",
+                        "tip": "$~întoarce selecția pe orizontală"
+                    },
+                    "vertical": {
+                        "label": "$~răsturnare verticală",
+                        "tip": "$~întoarce selecția pe verticală"
+                    },
+                    "fit": {
+                        "label": "$~potrivire",
+                        "tip": "$~potrivește formele pe pânză"
+                    },
+                    "dismissError": {
+                        "label": "$~respinge",
+                        "tip": "$~închide mesajul de eroare"
+                    },
+                    "editPoints": {
+                        "label": "$~puncte",
+                        "tip": "$~editează punctele căii selectate"
+                    },
+                    "donePoints": {
+                        "label": "$~gata",
+                        "tip": "$~oprește editarea punctelor"
+                    },
+                    "addPoint": {
+                        "label": "$~adaugă punct",
+                        "tip": "$~adaugă un punct lângă cel selectat"
+                    },
+                    "deletePoint": {
+                        "label": "$~elimină punct",
+                        "tip": "$~elimină punctul selectat"
+                    },
+                    "curve": {
+                        "label": "$~curbează",
+                        "tip": "$~îndoaie segmentul care ajunge la punctul selectat"
+                    },
+                    "straighten": {
+                        "label": "$~îndreaptă",
+                        "tip": "$~îndreaptă segmentul care ajunge la punctul selectat"
+                    }
+                },
+                "feedback": {
+                    "name": "$~Caracterele au nevoie de un nume Wordplay valid, de cel puțin 1 caracter. Nu poate fi 'UI', un număr zecimal sau hexazecimal, ori numele unei funcții încorporate a limbii.",
+                    "description": "$~Personajele au nevoie de o descriere, astfel încât cei care nu le pot vedea să știe ce reprezintă.",
+                    "end": "$~sau apăsați tasta Escape.",
+                    "loadfail": "$~A apărut o problemă la încărcarea acestui caracter.",
+                    "notfound": "$~Acest personaj nu există sau nu este vizibil pentru tine.",
+                    "unauthenticated": "$~Trebuie să fii<logged in@://login> a edita un personaj.",
+                    "taken": "$~Ai deja un personaj cu acest nume; nu se salvează.",
+                    "projecteditfail": "$~A apărut o problemă la actualizarea proiectelor care utilizează acest caracter. Următoarele proiecte necesită remediere:",
+                    "untitledproject": "$~Proiect fără titlu",
+                    "glyphLoading": "$~Se încarcă fontul…",
+                    "glyphMissing": "$~Acest font nu are o formă pentru acel simbol. Încearcă alt font.",
+                    "glyphEmpty": "$~Acel simbol nu are nimic de desenat.",
+                    "glyphUnreadable": "$~Nu am putut citi acel font. Verifică-ți conexiunea sau încearcă alt font.",
+                    "imageTooBig": "$~Acea imagine are $size MB. Te rugăm să alegi una mai mică de $limit MB.",
+                    "imageUnreadable": "$~Nu am putut citi acel fișier ca imagine."
+                },
+                "announce": {
+                    "position": "$~la $x $y",
+                    "selection": "$~$shapes[selected $shapes |nimic selectat]",
+                    "editing": "$~se editează $#count[un punct|$#count puncte|$count de puncte]",
+                    "editingDone": "$~editarea punctelor este gata",
+                    "point": "$~punctul $index la $x $y",
+                    "control": "$~curba $index la $x $y",
+                    "pointAdded": "$~a fost adăugat punctul $index la $x $y",
+                    "pointRemoved": "$~punctul $index a fost eliminat, $#count[a mai rămas un punct|au mai rămas $#count puncte|au mai rămas $count de puncte]",
+                    "curved": "$~segmentul $index a fost curbat",
+                    "straightened": "$~segmentul $index a fost îndreptat",
+                    "moved": "$~mutat la $x $y",
+                    "drew": "$~desenat la $x $y",
+                    "erased": "$~șters la $x $y",
+                    "finished": "$~creat $shape la $x $y",
+                    "deleted": "$~șters, $#count[a mai rămas o formă|au mai rămas $#count forme|au mai rămas $count de forme]",
+                    "undone": "$~pasul $step din $total anulat",
+                    "redone": "$~pasul $step din $total refăcut",
+                    "copied": "$~copiat $#count[o formă: $shapes|$count forme: $shapes|$count de forme: $shapes]",
+                    "pasted": "$~lipit la $x $y",
+                    "arranged": "$~stratul $index din $total",
+                    "flipped": "$~întors, acum la $x $y",
+                    "fitted": "$~formele au fost mărite pentru a umple pânza",
+                    "cropped": "$~chenar de decupare la $x $y",
+                    "cropMoving": "$~mutarea chenarului de decupare",
+                    "cropDone": "$~chenar de decupare plasat",
+                    "imported": "$~s-a adăugat $#count[un pixel de la $x $y|$count pixeli de la $x $y|$count de pixeli de la $x $y]"
+                },
+                "image": {
+                    "instructions": "$~Trage pătratul pentru a-l muta, sau folosește glisorul *dimensiune* pentru a schimba cât de mult din imagine păstrezi. Cu tastatura, apasă *enter* pentru a începe mutarea, apoi folosește tastele *săgeți*, și apasă *enter* din nou când ai terminat.",
+                    "button": {
+                        "label": "$~încarcă",
+                        "tip": "$~alege un fișier imagine de pe acest dispozitiv"
+                    },
+                    "add": {
+                        "label": "$~adaugă",
+                        "tip": "$~adaugă pătratul ales la caracter ca pixeli"
+                    },
+                    "crop": {
+                        "label": "$~chenar de decupare",
+                        "tip": "$~pătratul imaginii de păstrat"
+                    },
+                    "preview": "$~ce se va adăuga",
+                    "size": {
+                        "label": "$~mărime",
+                        "tip": "$~cât de mult din imagine se păstrează"
+                    }
+                }
+            },
+            "about": {
+                "header": "$~Despre",
+                "content": [
+                    "$~Ai simțit vreodată că programarea este doar pentru occidentali fluenți în limba engleză, fără dizabilități, care au crescut cu computerele?",
+                    "Da, și noi.",
+                    "Nu este o coincidență. Încă de la începuturile informaticii, limbajele de programare au fost proiectate și construite în mare parte de același grup de oameni - în mare parte bărbați albi, cisgen, vorbitori de limba engleză din mediul academic și industrial din SUA și Europa, și câteva femei matematiciene incredibile. Și-au desfășurat activitatea într-o perioadă postcolonială, a puterii învingătoare, iar limbajele de programare au fost un instrument cheie pentru asigurarea acestei puteri.",
+                    "Această istorie a condus la o viziune asupra calculului care se bazează în primul rând pe viteză, logică, profit și dominație.",
+                    "Aceasta este o nedreptate. Pentru că informatica, spre bine și spre rău, stă la baza vieții de zi cu zi în moduri vizibile și invizibile, iar oamenii care au acces să creeze cu ajutorul ei sunt cei mai asemănători cu creatorii săi. Restul umanității rămâne îndatorată acestei puteri, deoarece imaginarea a ceva diferit necesită alfabetizare, fiind împiedicată de bariere lingvistice, bariere de accesibilitate, bariere economice și inegalități în educația publică.",
+                    "*Wordplay* aspiră să ajute la schimbarea acestui lucru. Este o platformă de programare concepută pentru a fi globală, suportând /toate/ limbile lumii, dar și /despre/ limbile lumii. O platformă pe care oricine poate crea, indiferent de abilitățile pe care le are, pentru a partaja conținut interactiv pe care oricine îl poate experimenta. Pentru tinerii și tinerii adulți care doresc să se exprime prin cuvinte interactive, emoji-uri și tipografie, în mod jucăuș și artistic. Nu cu scopul de a obține putere pentru ei înșiși, ci de a crea o lume computațională care recunoaște puterea incredibilă și necesitatea frumoaselor noastre diferențe.",
+                    "Suntem o comunitate de designeri, educatori și dezvoltatori care încearcă să aducă această viziune la viață. Suntem oameni de culoare, suntem trans, suntem queer, suntem persoane cu dizabilități, suntem imigranți, suntem refugiați. Ne concentrăm pe...<University of Washington@https://washington.edu><Information School@https://ischool.uw.edu/> în Seattle, Washington, SUA, un loc care aspiră să primească pe toată lumea și să anuleze ravagiile colonialismului, care continuă și astăzi, legate de discriminarea persoanelor cu dizabilități. Crearea acestui limbaj de programare și a acestei platforme este o mică parte a acestei misiuni, oferind o privire asupra unui viitor al informaticii în care /toată lumea/ își are locul.",
+                    "Ne-ar plăcea să ne ajutați. Învață<how to contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> ,<donate@://donate> sau urmăriți-ne<progress@https://github.com/amyjko/wordplay/milestones> Scrieți organizatorului comunității noastre<Amy@https://amyjko.phd> dacă aveți întrebări."
+                ],
+                "districts": {
+                    "header": "$~Pentru școli și inspectorate",
+                    "content": [
+                        "$~Te gândești dacă *Wordplay* este potrivit pentru școala sau inspectoratul tău? Iată ce putem și ce nu putem promite.",
+                        "Nu suntem o companie. Suntem un proiect de cercetare bazat pe comunitate, găzduit de o universitate non-profit, și nu avem venituri. Asta înseamnă că există acorduri pe care nu le putem semna, oricât de mult am vrea să ajutăm. Nu putem promite să plătim cheltuielile legale ale unui inspectorat dacă este dat în judecată. Nu putem promite să rezolvăm o problemă într-un termen fix. Semnarea unei promisiuni pe care nu o putem respecta nu ar ajuta pe nimeni, cel mai puțin pe tine.",
+                        "Iată ce putem promite. Menținem platforma la standardul de accesibilitate /WCAG 2.2 Nivel AA/, o verificăm automat la fiecare modificare, și rezolvăm ce găsim cât de repede poate o comunitate de voluntari. Adunăm cât mai puține informații despre persoanele care o folosesc, și le folosim doar pentru a face platforma să funcționeze. Pagina noastră <rights//rights> spune exact ce păstrăm, iar <source@https://github.com/wordplaydev/wordplay> a noastră este publică, așa că poți verifica totul singur.",
+                        "Această platformă se schimbă mereu, la fel și regulile pe care trebuie să le respecți. Dacă ai nevoie de ceva ce încă nu oferim, scrie-ne la hi@wordplay.dev și spune-ne despre asta. Persoanele care întrețin platforma vor citi mesajul tău și îți vom răspunde."
+                    ],
+                    "link": "$~Scrie-ne despre o cerință",
+                    "subject": "$~Întrebare din partea unei școli despre Wordplay",
+                    "body": [
+                        "$~Numele școlii sau al inspectoratului:",
+                        "$~Numele tău:",
+                        "$~Rolul tău:",
+                        "$~Există o cerință sau o reglementare pe care trebuie să o îndeplinim și încă nu o facem?",
+                        "$~Există una pe care nu o putem îndeplini așa cum suntem acum?",
+                        "$~Mai este ceva ce vrei să știm?"
+                    ]
+                }
+            },
+            "updates": {
+                "header": "$~Actualizări",
+                "content": [
+                    "$~Acestea sunt cele mai recente funcții noi, îmbunătățiri și corecții de erori din @wordplay. Lansăm actualizări săptămânal, în majoritatea zilelor de sâmbătă, cu excepția cazului în care găsim o eroare urgentă."
+                ],
+                "tips": {
+                    "expand": "$~Extindeți actualizările acestei date",
+                    "collapse": "$~Restrângeți actualizările acestei date"
+                },
+                "categories": {
+                    "added": "$~Adăugat",
+                    "changed": "$~Schimbat",
+                    "removed": "$~Îndepărtat",
+                    "fixed": "$~Fix"
+                }
+            },
+            "login": {
+                "header": "$~Log in",
+                "subtitle": "$~Salvați, colaborați și partajați",
+                "anonymous": "$~log in",
+                "prompt": {
+                    "login": "$~Conectați-vă pentru a salva proiectele, a colabora și a partaja:",
+                    "join": "$~Sau,<create an account@://join> a începe.",
+                    "forgot": "$~*Ați uitat parola?* Din păcate, nu vă putem recupera contul deoarece nu colectăm informații de contact.",
+                    "enter": "$~Se pare că linkul de conectare provine de pe un alt browser sau dispozitiv. Poți introduce din nou adresa de e-mail, ca să fim siguri că ești tu?",
+                    "play": "$~Ești autentificat, putem salva proiectele tale online acum! Vrei să creezi ceva?",
+                    "passwordrule": "$~Parolele trebuie să aibă cel puțin 6 caractere; dacă nu folosiți un manager de parole, alegeți trei cuvinte lungi pe care le veți ține minte.",
+                    "changeEmail": "$~Doriți să vă schimbați adresa de e-mail? Trimiteți una nouă și vă vom trimite o confirmare către cea veche.",
+                    "changePassword": "$~Doriți să vă schimbați parola? Introduceți una nouă și repetați-o.",
+                    "email": "$~Ai un cont doar pentru e-mail? Conectează-te cu adresa ta de e-mail și, dacă există un cont asociat cu aceasta, îți vom trimite un e-mail cu un link de conectare. Conturile noi doar pentru e-mail nu sunt acceptate, pentru a păstra confidențialitatea.",
+                    "sent": "$~Dacă această adresă de e-mail este asociată cu un cont, va primi un e-mail cu un link de conectare. Apariția acestuia poate dura câteva minute. Dacă nu există niciun cont asociat cu această adresă de e-mail, nu veți primi nimic.",
+                    "logout": "$~Folosești un dispozitiv partajat și vrei să-ți păstrezi proiectele private? Deconectează-te și vom *șterge* proiectele tale de pe acest dispozitiv, dar acestea vor fi salvate online.",
+                    "success": "$~Cont creat!",
+                    "confirm": "$~Verificați vechea adresă de e-mail pentru a confirma noua adresă.",
+                    "delete": "$~Vrei să uităm tot ce ai făcut aici? Asta nu poate fi anulată.",
+                    "reallyDelete": "$~Sigur? Contul și setările dvs. vor fi șterse imediat, iar proiectele dvs. vor fi programate pentru ștergere. Colaboratorii la proiectele dvs. vor pierde imediat accesul la acestea. Introduceți adresa de e-mail sau numele de utilizator pentru a confirma că doriți acest lucru.",
+                    "name": "$~Alege un emoji sau un caracter personalizat care să te reprezinte în fața celorlalți.",
+                    "paste": "$~S-a deschis linkul în altă parte? Aplicațiile instalate deschid uneori linkurile din e-mail într-un navigator web. Copiază linkul din e-mailul tău și lipește-l aici ca să termini autentificarea."
+                },
+                "error": {
+                    "expired": "$~Acest link a expirat.",
+                    "invalid": "$~Acest link nu este valid.",
+                    "email": "$~Nu este o adresă de e-mail validă.",
+                    "invalidUsername": "$~Numele de utilizator trebuie să aibă cel puțin 5 litere, fără spații.",
+                    "usernameTaken": "$~Acest nume de utilizator este deja utilizat.",
+                    "failure": "$~Nu mă pot conecta :(",
+                    "unverified": "$~Nu am putut verifica dacă acesta este un browser real, așa că ne-am oprit aici. Acest lucru se poate întâmpla pe rețele de la școală sau de la muncă. Dacă încerci din nou, nu va ajuta, dar o rețea sau un browser diferit ar putea funcționa. Dacă ești la școală, spune unui profesor.",
+                    "offline": "$~Nu am putut ajunge la nor ☁️.",
+                    "invalidPassword": "$~Parolele trebuie să aibă cel puțin 6 caractere.",
+                    "wrongPassword": "$~Nume de utilizator și parolă nevalide. Fie parola este greșită, fie altcineva are acest nume de utilizator.",
+                    "mismatched": "$~Parolele nu se potrivesc.",
+                    "tooMany": "$~Ai încercat să te conectezi de prea multe ori și ai eșuat. Va trebui să aștepți înainte să încerci din nou.",
+                    "unsaved": "$~Ai modificări care nu sunt încă salvate online. Dacă te deconectezi acum, se vor pierde de pe acest dispozitiv.",
+                    "deletePartial": "$~Am eliminat datele contului dvs., dar nu am putut finaliza eliminarea contului. Vă rugăm să încercați din nou sau să ne contactați dacă problema persistă."
+                },
+                "feedback": {
+                    "changing": "$~Se trimite un e-mail nou...",
+                    "deleting": "$~Bine, se șterg proiectele și setările...",
+                    "updatedPassword": "$~Parola dumneavoastră este actualizată.",
+                    "match": "$~Acesta trebuie să corespundă cu numele de utilizator al contului dvs."
+                },
+                "field": {
+                    "email": {
+                        "description": "$~editează adresa de e-mail de conectare",
+                        "placeholder": "$~e-mail"
+                    },
+                    "username": {
+                        "description": "$~nume de utilizator de conectare, nu utilizați informații de identificare personală",
+                        "placeholder": "$~nume de utilizator"
+                    },
+                    "password": {
+                        "description": "$~parolă de conectare, cel puțin 6 caractere",
+                        "placeholder": "$~parolă"
+                    },
+                    "currentPassword": {
+                        "description": "$~parola dvs. actuală de conectare",
+                        "placeholder": "$~Parola actuală"
+                    },
+                    "newPassword": {
+                        "description": "$~noua ta parolă",
+                        "placeholder": "$~Parolă Nouă"
+                    },
+                    "link": {
+                        "description": "$~lipește linkul de autentificare",
+                        "placeholder": "$~link"
+                    }
+                },
+                "button": {
+                    "logout": {
+                        "tip": "$~deconectare din contul dvs.",
+                        "label": "$~deconectare"
+                    },
+                    "login": "$~creează un cont cu acest nume de utilizator și parolă",
+                    "updateEmail": "$~schimbă-ți adresa de e-mail",
+                    "delete": {
+                        "tip": "$~șterge-ți contul",
+                        "label": "$~șterge-mi datele…"
+                    },
+                    "reallyDelete": {
+                        "tip": "$~șterge-ți contul definitiv",
+                        "label": "$~șterg-o!!!"
+                    },
+                    "updatePassword": "$~trimiteți noua parolă"
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "$~Afișează parola",
+                        "off": "$~Ascunde parola"
+                    }
+                },
+                "signin": {
+                    "usesPassword": "$~Te conectezi cu un nume de utilizator și o parolă. Dacă preferi să nu ții minte o parolă, poți trece la conectarea printr-un link pe care ți-l trimitem prin email — numele tău de utilizator rămâne același.",
+                    "usesEmail": "$~Te conectezi cu adresa ta de email. Dacă preferi să folosești un nume de utilizator și o parolă în loc, poți schimba — numele tău de utilizator rămâne același.",
+                    "notYet": "$~Te conectezi cu un nume de utilizator și o parolă. Acolo unde locuiești, încă nu ai vârsta necesară pentru a folosi o adresă de email aici — de la $date vei putea trece la conectarea printr-un link trimis pe email.",
+                    "switched": "$~Gata. Data viitoare, conectează-te cu numele tău de utilizator și noua ta parolă.",
+                    "toPassword": {
+                        "label": "$~Folosește o parolă în schimb",
+                        "tip": "$~Treci la conectarea cu numele tău de utilizator și o parolă"
+                    }
+                },
+                "username": {
+                    "change": "$~Numele tău de utilizator este felul în care ceilalți te văd, și începe numele fiecărui personaj pe care îl creezi. Îl poți schimba oricând vrei. Numele tău vechi continuă să funcționeze, așa că orice lucru care indica spre personajele tale tot le găsește.",
+                    "missing": "$~Încă nu ai un nume de utilizator, așa că ceilalți te văd ca *—* și nu poți crea personaje. Alege unul și acesta rămâne fix.",
+                    "changed": "$~Gata. Acesta este numele tău acum.",
+                    "claimed": "$~Gata. Acesta este numele tău.",
+                    "field": {
+                        "description": "$~Numele de utilizator pe care îl vrei",
+                        "placeholder": "$~nume de utilizator"
+                    },
+                    "save": {
+                        "label": "$~Salvează",
+                        "tip": "$~Folosește acest nume de utilizator de acum înainte"
+                    }
+                },
+                "notifications": {
+                    "header": "$~Trimite-mi e-mail despre…",
+                    "noAddress": "$~Adaugă o adresă de e-mail mai sus ca să alegi ce e-mailuri îți trimite Wordplay.",
+                    "decisions": {
+                        "label": "$~moderarea lucrurilor pe care le-am făcut sau raportat",
+                        "labels": ["$~oprit", "$~pornit"],
+                        "tips": [
+                            "$~Nu-mi trimite e-mail despre moderarea lucrurilor pe care le-am făcut sau raportat",
+                            "$~Trimite-mi e-mail despre moderarea lucrurilor pe care le-am făcut sau raportat"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~moderare care așteaptă verificarea mea",
+                        "labels": ["$~oprit", "$~pornit"],
+                        "tips": [
+                            "$~Nu-mi trimite e-mail despre moderarea care așteaptă verificarea mea",
+                            "$~Trimite-mi e-mail despre moderarea care așteaptă verificarea mea"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~discuții noi și instrucțiuni",
+                        "labels": ["$~oprit", "$~pornit"],
+                        "tips": [
+                            "$~Nu-mi trimite e-mail despre discuții noi și instrucțiuni",
+                            "$~Trimite-mi e-mail despre discuții noi și instrucțiuni"
+                        ]
+                    },
+                    "notYet": "$~Când vei putea folosi o adresă de e-mail, vei putea alege ce e-mailuri îți trimite Wordplay."
+                },
+                "subheader": {
+                    "work": "$~Munca ta",
+                    "character": "$~Personajul tău",
+                    "username": "$~Numele tău de utilizator",
+                    "password": "$~Parola ta",
+                    "email": "$~E-mail",
+                    "logout": "$~Deconectare",
+                    "delete": "$~Șterge-ți contul",
+                    "export": "$~Arhiva ta"
+                },
+                "profile": "$~Profil",
+                "export": {
+                    "prompt": "$~Descarcă o copie a tot ce ai creat. Aceasta conține proiectele tale, personajele, galeriile, instrucțiunile, trusele, conversațiile, clasele și setările tale. Fiecare proiect vine ca un fișier pe care îl poți deschide din nou în Wordplay. O parte din conținut nu îți aparține doar ție: conversațiile conțin ce au spus toți cei implicați, iar listele de clase conțin numele altor persoane. Oricine primește acest fișier de la tine poate citi tot conținutul, așa că păstrează-l într-un loc privat.",
+                    "proxy": "$~Te uiți la contul altcuiva, așa că nu poți descărca o copie a acestuia.",
+                    "button": {
+                        "tip": "$~descarcă o copie a tot ce se află în contul tău",
+                        "label": "$~descarcă arhiva mea…"
+                    },
+                    "progress": "$~$kind adunate: $#count[un lucru până acum|$count lucruri până acum|$count de lucruri până acum]",
+                    "started": "$~Se creează arhiva ta.",
+                    "finished": "$~Arhiva ta $name este gata, cu $#count[un lucru în ea|$count lucruri în ea|$count de lucruri în ea].",
+                    "finishedPartial": "$~Arhiva ta $name este gata, cu $#count[un lucru în ea|$count lucruri în ea|$count de lucruri în ea], dar $#missing[un tip nu a putut fi citit|$missing tipuri nu au putut fi citite|$missing de tipuri nu au putut fi citite].",
+                    "failed": "$~Arhiva ta nu a putut fi creată. Încearcă din nou peste puțin timp.",
+                    "tooLarge": "$~Ai creat mai mult decât poate ține o singură arhivă. Spune-ne și te vom ajuta să o obții.",
+                    "offline": "$~Wordplay nu poate ajunge la internet, așa că nu poate crea arhiva ta.",
+                    "kind": {
+                        "account": "$~contul tău",
+                        "projects": "$~proiectele tale",
+                        "galleries": "$~galeriile tale",
+                        "characters": "$~personajele tale",
+                        "howtos": "$~instrucțiunile tale",
+                        "chats": "$~conversațiile tale",
+                        "kits": "$~trusele tale",
+                        "classes": "$~clasele tale",
+                        "feedback": "$~ideile și rapoartele tale de erori",
+                        "device": "$~setările acestui dispozitiv",
+                        "archive": "$~arhiva",
+                        "saving": "$~fișierul"
+                    },
+                    "readme": {
+                        "title": "$~Arhiva ta de Wordplay",
+                        "intro": "$~Aceasta este o copie a tot ce se află în contul de Wordplay $name. A fost făcută pe $date. Wordplay a făcut-o pentru tine. Nimeni altcineva nu are o copie.",
+                        "contents": "$~Fiecare folder păstrează un singur fel de lucru. Există foldere pentru proiectele, personajele, galeriile, instrucțiunile, trusele, conversațiile și clasele tale.",
+                        "relationships": "$~În fiecare folder, elementele sunt sortate după cum ești legat de ele. Un folder numit owner păstrează ce ai făcut tu. creator păstrează ce ai scris sau la ce poți adăuga. curator păstrează ce ai grijă. teacher și learner păstrează clasele. collaborator, commenter și viewer păstrează lucrări care aparțin altcuiva.",
+                        "device": "$~Folderul device păstrează lucruri care se află doar pe calculatorul pe care ai făcut această arhivă. Conține setări care nu sunt salvate online, traduceri pe care le-ai început și lucrări care nu apucaseră să se salveze. O arhivă făcută pe alt calculator nu le-ar include.",
+                        "formats": "$~Ca să deschizi din nou un proiect, mergi la pagina ta de proiecte din Wordplay și alege „deschide un fișier de proiect”. Poți și să tragi fișierul .wp pe acea pagină. Ca să înlocuiești un proiect pe care îl ai deja, trage fișierul peste el, iar Wordplay te va întreba mai întâi.",
+                        "excluded": "$~Câteva lucruri nu se află aici. Wordplay nu include istoricul pas cu pas al modificărilor tale, pentru că proiectul păstrează deja rezultatul acelor modificări. Nu include nici cine s-a uitat la un proiect. De asemenea, nu include rapoartele despre reguli încălcate, pentru că acelea sunt scrise pentru persoanele care le verifică.",
+                        "privacy": "$~O parte din acestea nu îți aparțin doar ție. O conversație păstrează ce a spus fiecare participant. O clasă păstrează numele tuturor celor din ea. Oricine primește acest fișier de la tine poate citi tot ce conține. Păstrează-l undeva privat și gândește-te cine altcineva apare în el înainte să îl distribui.",
+                        "missing": "$~Wordplay n-a putut citi unele lucruri când a făcut această arhivă. Ele nu se află aici:",
+                        "manifest": "$~manifest.json păstrează aceleași informații într-o formă pe care un program o poate citi. Spune când a fost făcută arhiva, câte elemente sunt din fiecare fel și ce nu a putut fi inclus.",
+                        "contentsFiles": "$~Fiecare element are un fișier .json. Acesta este exact ceea ce stochează Wordplay. Fiecare proiect are și un fișier .wp. Acela este proiectul scris astfel încât să-l poți citi și deschide din nou.",
+                        "contentsAccount": "$~account.json spune cine ești, când te-ai alăturat și ce ai voie să faci. Folderul self păstrează ce ține Wordplay despre tine: numele tău de utilizator, cât ai tradus, orice avertismente pe care le-ai primit și notificările tale.",
+                        "relationshipsWords": "$~Același cuvânt poate însemna două lucruri. Creatorul unei galerii poate adăuga proiecte în ea. Creatorul unor instrucțiuni le-a scris. Fiecare folder are și un index.json. El listează fiecare fel în care ești legat de un element, pentru că mai multe pot fi adevărate în același timp."
+                    },
+                    "incomplete": "$~Arhiva ta este gata, dar acestea nu au putut fi citite, deci nu sunt în ea: $kinds"
+                }
+            },
+            "join": {
+                "header": "$~Alătură-te",
+                "prompt": {
+                    "create": "$~Creează un cont pentru a salva proiectele, a colabora cu alții și a-ți partaja munca.",
+                    "username": "$~Numele de utilizator trebuie să aibă cel puțin /5 caractere/, nu poate fi o adresă de e-mail și nu trebuie să conțină numele dvs. sau alte informații de identificare.",
+                    "password": "$~Parolele trebuie să aibă cel puțin /6 caractere/. Tastați-le de două ori și notați-le într-un loc sigur, cum ar fi un manager de parole. *Nu există nicio modalitate de a vă recupera contul* dacă îl pierdeți, deoarece nu colectăm informații de contact.",
+                    "region": "$~Te întrebăm unde locuiești ca să respectăm regulile de acolo pentru conturile tinerilor. Nu păstrăm răspunsul tău.",
+                    "birthday": "$~Îți întrebăm ziua de naștere din același motiv. Nici pe aceasta nu o păstrăm — doar dacă ai vârsta necesară pentru a folosi o adresă de email și când vei avea.",
+                    "choose": "$~Există două moduri de a te conecta. Alege-l pe cel care ți se potrivește.",
+                    "withPassword": "$~*Un nume de utilizator și o parolă.* Nu vom ști nimic despre tine — dar *nu există nicio cale de a-ți recupera contul dacă uiți parola*, pentru că nu am avea cum să te contactăm.",
+                    "withEmail": "$~*O adresă de email.* Îți trimitem un link prin email de fiecare dată când te conectezi, așa că nu ai nicio parolă de uitat. Păstrăm adresa ta doar ca să trimitem acele linkuri.",
+                    "tooYoung": "$~Acolo unde locuiești, trebuie să ai $#age[$#age an|$age ani|$age de ani] pentru a folosi o adresă de email aici. Până atunci, rămâi cu un nume de utilizator și o parolă — poți schimba mai târziu.",
+                    "sent": "$~Dacă acea adresă poate fi folosită pentru conectare, un link este pe drum. Verifică-ți emailul."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Țara sau regiunea în care locuiești",
+                        "placeholder": "$~țară"
+                    },
+                    "year": {
+                        "description": "$~Anul în care te-ai născut",
+                        "placeholder": "$~an"
+                    },
+                    "month": {
+                        "description": "$~Luna în care te-ai născut",
+                        "placeholder": "$~lună"
+                    },
+                    "day": {
+                        "description": "$~Ziua în care te-ai născut",
+                        "placeholder": "$~zi"
+                    },
+                    "email": {
+                        "description": "$~Adresa de email cu care vrei să te conectezi",
+                        "placeholder": "$~email"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~următorul",
+                        "tip": "$~Treci la pasul următor"
+                    },
+                    "back": {
+                        "label": "$~înapoi",
+                        "tip": "$~Mergi înapoi la pasul anterior"
+                    },
+                    "usePassword": {
+                        "label": "$~Folosește o parolă",
+                        "tip": "$~Creează un cont cu un nume de utilizator și o parolă"
+                    },
+                    "useEmail": {
+                        "label": "$~Folosește o adresă de email",
+                        "tip": "$~Creează un cont în care intri printr-o legătură trimisă pe email"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Aceasta nu este o dată reală. Verifică ziua și luna.",
+                    "taken": "$~Cineva a luat acest nume de utilizator chiar acum. Încearcă altul.",
+                    "throttled": "$~Sunt prea multe legături de intrare cerute. Așteaptă puțin și încearcă din nou.",
+                    "failed": "$~Nu am putut crea contul. Încearcă din nou peste puțin timp."
+                }
+            },
+            "rights": {
+                "header": "$~Drepturi",
+                "content": [
+                    "$~Bună!",
+                    "Hai să stabilim câteva lucruri despre drepturile tale și ale noastre (și în lumina unor legi, precum <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> și <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "Primul lucru pe care trebuie să-l știi este că nu suntem o firmă. Suntem un proiect de cercetare bazat pe comunitate, găzduit de o universitate non-profit. Scopul nostru este să creăm o platformă care să-ți aducă bucurie și să ne ajute să descoperim o lume a programării mai dreaptă și mai echitabilă. Nu avem niciun interes să câștigăm bani din această platformă. Orice bani strângem (de obicei prin fonduri publice) sunt folosiți ca să susținem platforma, nu ca să îmbogățească pe cineva care lucrează la ea (sau contribuie la ea).",
+                    "Pentru că nu urmărim profitul, asta înseamnă și că nu putem promite nimic despre siguranța, disponibilitatea sau durata de viață a acestei platforme. Totuși, <Amy@https://amyjko.phd> s-a angajat pe termen lung să o susțină, iar ca profesoară titulară, are un loc de muncă destul de stabil.",
+                    "Asta ne aduce la *date*. Iată ce strângem și păstrăm în cloud:",
+                    "• *Proiectele* tale. Păstrăm orice proiect la care contribui și modificările tale, cu excepția cazului în care acele proiecte par să conțină informații care te pot identifica personal, precum numere de telefon, adrese de e-mail, nume de utilizator, coduri fiscale sau adrese.",
+                    "• *Setările* tale. Aici intră limbile pe care le alegi, preferințele tale pentru animație și progresul tău în tutorial. Tot restul se păstrează doar pe dispozitivul tău.",
+                    "• *Activitatea* generală. Urmărim conectările și paginile pe care le vizitezi, dar nu într-un mod care te poate identifica, te poate urmări pe site sau te poate urmări pe alte site-uri. Folosim Google Analytics în modul „consimțământ refuzat”, care strânge doar informații minime, ne-identificabile despre vizualizările de pagini, fără să salveze module cookie sau să trimită adresa ta IP către Google. Folosim aceste informații generale ca să strângem fonduri, arătând cât de mult este folosită platforma.",
+                    "• *Traducerile* discuțiilor tale. Dacă ceri să citești o discuție într-o altă limbă, traducem mesajele celorlalți, dar niciodată pe ale tale. Unele browsere pot face această traducere direct pe dispozitivul tău, și atunci când al tău poate, nu ni se trimite nimic. Altfel, mesajele ajung la un serviciu de traducere bazat pe inteligență artificială (acum este Claude, făcut de Anthropic), iar traducerea este salvată împreună cu discuția, astfel încât nimeni altcineva din ea nu trebuie să traducă aceleași cuvinte din nou. Doar persoanele din acea discuție o pot citi.",
+                    "Nu păstrăm nimic altceva. <Codul@https://github.com/amyjko/wordplay/tree/main/src> nostru este public, așa că oricine poate verifica acest lucru și poate raporta orice urmărire neintenționată.",
+                    "*Tu* deții datele tale, nu noi. Asta înseamnă:",
+                    "• Tu controlezi cine poate accesa proiectele tale. Sunt private în mod implicit, dar le poți împărtăși cu anumite persoane, grupuri sau le poți face complet publice.",
+                    "• Poți șterge complet orice proiect sau chiar contul tău, oricând.",
+                    "• Poți obține o copie a oricărui proiect sau a întregului tău cont, oricând.",
+                    "Iată cum vom folosi și cum nu vom folosi datele tale:",
+                    "• Nu vom împărtăși datele tale cu nimeni, cu excepția cazului în care legea o cere în mod explicit. Există mereu posibilitatea ca datele tale să fie luate fără permisiune (o „scurgere de date”). Dacă descoperim că s-a întâmplat asta, te vom anunța folosind adresa de e-mail pe care ne-ai dat-o.",
+                    "• Nu te vom contacta prin adresa ta de e-mail, decât dacă 1) faci o schimbare de cont care ne obligă să o facem, 2) ne dai voie în mod explicit să te contactăm sau 3) în cazul unei scurgeri de date, ca mai sus.",
+                    "• Putem analiza proiecte, galerii și conținutul de tip instrucțiuni de pe platformă, ca să înțelegem ce creează toată lumea și cum o face. Putem împărtăși aceste observații generale și anonime în publicații științifice. Vom face asta doar sub supravegherea unui comitet instituțional de etică, așa cum cere legea federală din Statele Unite.",
+                    "În cele din urmă, o notă despre exprimare. Proiectele sunt private în mod implicit, iar dacă împărtășești unul cu anumite persoane, el rămâne privat. Ceea ce urmează arată exact cine analizează ce împărtășești, în funcție de cine îl poate vedea.",
+                    "Dar a face un proiect *public*, sau a-l include într-o galerie publică, este un privilegiu. Aceasta este o platformă făcută pentru iubire, susținere, respect și demnitate. De aceea, așteptăm ca niciun conținut *public* de-al tău să nu:"
+                ],
+                "consequences": [
+                    "$~Dacă găsim un proiect sau o galerie care încalcă aceste reguli, îi vom avertiza pe creatori înainte ca alții să îl vadă, sau vom bloca vizualizarea lui. Dacă încalci aceste reguli în mod repetat, vei pierde privilegiul de a publica lucruri în mod public."
+                ],
+                "license": [
+                    "$~Încă un lucru despre a face un proiect *public*. Proiectele publice sunt împărtășite sub <licența Creative Commons Atribuire-Distribuire în condiții identice@https://creativecommons.org/licenses/by-sa/4.0/>. Asta înseamnă că oricine poate /remixa/ proiectul tău public — poate să facă propria copie a lui și să o schimbe — iar tu poți remixa proiectul oricui altcuiva.",
+                    "Trei lucruri vin cu acea licență. Cei care remixează trebuie să dea credit celui care a făcut originalul. Trebuie să împărtășească remixul lor sub aceeași licență, ca să rămână deschis pentru următoarea persoană. Și nu pot lua un proiect public pentru a-l face privat și a-l păstra doar pentru ei.",
+                    "Noi ajutăm cu partea de credit: când cineva remixează un proiect, ținem minte de unde a venit și arătăm un link înapoi la el. A face un proiect public este felul în care spui da la toate acestea, așa că, dacă preferi ca nimeni să nu remixeze un proiect, păstrează-l privat."
+                ],
+                "research": [
+                    "$~O ultimă alegere, și este numai a ta. Uneori scriem și vorbim despre Wordplay — în lucrări de cercetare, în discursuri și în ce arătăm profesorilor și familiilor. Ne-ar plăcea să arătăm ce fac oamenii cu adevărat cu el, dar nu vom arăta proiectul tău decât dacă tu spui că putem.",
+                    "Fiecare proiect are o opțiune numită *Cercetare* în setările lui de partajare, și ea este oprită la început. Dacă o pornești, ne lași să arătăm acel proiect ca exemplu, fără numele tău, fără numele tău de utilizator sau orice altceva care ar spune că este contul tău. Este setată pentru fiecare proiect în parte, deci a spune da la unul nu spune nimic despre celelalte.",
+                    "Poți s-o oprești oricând. Dacă o oprești, nu mai folosim proiectul tău în ceva nou, dar nu putem retrage ceva ce am publicat sau prezentat deja."
+                ],
+                "warnings": [
+                    "$~Iată exact ce se întâmplă dacă un conținut public de-al tău încalcă aceste reguli. Un moderator îl verifică, el nu mai este public, iar tu primești un avertisment în notificările tale care spune despre care este vorba. Oricine este autentificat poate cere unui moderator să verifice un conținut public, folosind butonul de raportare de pe el.",
+                    "După trei avertismente încă poți face proiecte, încă le poți partaja cu oamenii pe care îi alegi și încă poți folosi tot restul de aici. Ce pierzi este posibilitatea de a face ceva public.",
+                    "Dacă crezi că un avertisment a fost o greșeală, sau a trecut mult timp de atunci și ai vrea să partajezi din nou public, scrie-ne la hi@wordplay.dev și spune-ne numele tău de utilizator și motivul. O persoană va citi mesajul tău."
+                ],
+                "responsibility": [
+                    "$~Cine analizează ce trimiți depinde de cine îl poate vedea.",
+                    "• *Trimis fără nimeni, sau doar cu persoane numite de tine.* Nimeni nu îl analizează. Nici noi, nici altcineva.",
+                    "• *Într-o galerie cu alte persoane în ea.* Curatorii acelei galerii îl analizează, la fel și discuțiile care îl însoțesc. Asta este valabil fie că galeria este publică sau nu: persoanele din ea îți pot vedea munca, deci cineva de acolo răspunde pentru ea.",
+                    "• *Într-o galerie publică.* Curatorii ei îl analizează, și noi la fel, pentru că oricine îl poate găsi.",
+                    "• *Public, dar nu într-o galerie.* Noi îl analizăm.",
+                    "Oricine poate vedea ceva poate cere ca acel lucru să fie analizat, folosind butonul de semnalare de pe el. Nu îi spunem niciodată persoanei care l-a creat cine a făcut semnalarea.",
+                    "Semnalarea unui mesaj de chat îl ascunde cât timp cineva îl analizează. Asta se întâmplă o singură dată pentru fiecare mesaj: dacă mesajul rămâne și cineva îl semnalează din nou, rămâne vizibil cât timp este analizat a doua oară. Îți poți vedea mereu propriile cuvinte.",
+                    "O decizie arată care dintre regulile de mai sus au fost încălcate și poate avea o notă de la cel care a decis. Vei primi ambele în notificările tale.",
+                    "Decizia unui curator de galerie se aplică doar galeriei sale. Nu este unul dintre avertismentele de mai jos și nu poate niciodată să îți ia dreptul de a trimite lucruri public."
+                ]
+            },
+            "donate": {
+                "header": "$~Dona",
+                "prompt": "$~Ajută-ne să finanțăm dezvoltarea @wordplay",
+                "content": [
+                    "$~@wordplay este un proiect gratuit, bazat pe comunitate, susținut de<University of Washington@https://washington.edu> Ne bazăm pe donații de la oameni care cred în misiunea noastră de a crea limbaje de programare accesibile, incluzive din punct de vedere lingvistic și educaționale.",
+                    "Iată costurile noastre actuale:",
+                    "• Compensăm studenții de la Universitatea din Washington, în special pe cei cu dizabilități sau a căror limbă maternă nu a fost engleza, pentru dezvoltarea și întreținerea proiectului. Aceasta reprezintă aproximativ 90% din costurile noastre.",
+                    "• Acordăm burse profesorilor cu care colaborăm pentru a dezvolta programe școlare multilingve și accesibile.",
+                    "• Plătim Google pentru<Firebase@https://firebase.google.com/> lățime de bandă și spațiu de stocare și<Workspace@https://workspace.google.com/> servicii.",
+                    "• Plătim<Squarespace@https://www.squarespace.com/> anual pentru domeniu.",
+                    "Costurile noastre actuale, presupunând că 5 studenți la 20 USD/oră, 10 ore/săptămână în timpul anului universitar (36 de săptămâni) și 2 studenți în timpul verii (12 săptămâni), plus servicii cloud, sunt de aproximativ 60.000 USD pe an.",
+                    "Dacă 2.400 de oameni ar dona 25 USD pe an, asta ar acoperi costurile noastre actuale, iar orice surplus ar fi folosit pentru a compensa mai mulți elevi și profesori.",
+                    "Poți fi și tu una dintre acele 2.400 de persoane? Dacă da, iată linkul nostru către donațiile Universității din Washington:"
+                ]
+            },
+            "design": {
+                "header": "$~Proiecta",
+                "description": "$~Aceasta este o referință pentru sistemul de design vizual al @wordplay, inclusiv culori, fonturi, spațiere și componente reutilizabile. Vedeți<design wiki@https://github.com/wordplaydev/wordplay/wiki/design> şi<develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop> ghiduri pentru contribuții.",
+                "theme": "$~Temă",
+                "colors": "$~Culori",
+                "palette": "$~Paletă",
+                "semantic": "$~Culori semantice",
+                "fonts": "$~Fonturi",
+                "spacing": "$~Spațiere",
+                "typography": "$~Tipografie",
+                "components": "$~Componente",
+                "col": {
+                    "component": "$~Componentă",
+                    "preview": "$~Previzualizare",
+                    "variable": "$~Variabilă",
+                    "color": "$~Culoare",
+                    "hex": "$~Hex",
+                    "description": "$~Descriere",
+                    "cssvalue": "$~Valoare CSS",
+                    "computed": "$~Calculat",
+                    "primaryface": "$~Fața principală",
+                    "contrast": "$~Contrast"
+                },
+                "demo": {
+                    "button": "$~Exemplu",
+                    "note": "$~Aceasta este o notă.",
+                    "notice": "$~Aceasta este o notificare.",
+                    "header": "$~Antet",
+                    "subheader": "$~Subtitlu",
+                    "toggleon": "$~Pe",
+                    "toggleoff": "$~Dezactivat",
+                    "textfieldplaceholder": "$~Introduceți textul…",
+                    "textfielddescription": "$~Câmp de text exemplu",
+                    "optionslabel": "$~Exemplu",
+                    "optiona": "$~Opțiunea A",
+                    "optionb": "$~Opțiunea B",
+                    "optionc": "$~Opțiunea C",
+                    "logoresting": "$~În repaus",
+                    "logoloading": "$~Se încarcă",
+                    "logoscripts": "$~Prin diferite sisteme de scriere",
+                    "logodownloadsvg": "$~Descarcă SVG",
+                    "logodownloadpng": "$~Descarcă PNG (512px)",
+                    "logodownloadcard": "$~Descarcă imaginea de partajare"
+                },
+                "accessibility": "$~Accesibilitatea culorilor",
+                "accessibilityRules": [
+                    "$~Orice este afișat ca *text* trebuie să folosească una dintre variantele de text AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text* sau o variabilă semantică ce indică spre una dintre ele). Acestea îndeplinesc contrastul de 4,5:1 pe care îl cere <WCAG 2.2@https://www.w3.org/TR/WCAG22/>. Nuanțele de marcă mai luminoase sunt doar pentru fundaluri, margini și evidențieri, care au nevoie de 3:1 sau de nimic. Aceste rapoarte sunt verificate prin teste unitare și prin scanări automate ale fiecărei pagini, atât în modul luminos, cât și în cel întunecat. Există o excepție intenționată: griul de margine din modul luminos este sub 3:1, fiindcă marginile de aici sunt o separare decorativă, iar fiecare limită importantă are un alt indiciu.",
+                    "Nu transmite niciodată un sens doar prin culoare: însoțește fiecare stare marcată prin culoare cu un al doilea indiciu — o formă, un stil de linie, un simbol sau un cuvânt. De exemplu, editorul desenează evidențierea cursorului și conflictele majore *pline*, ieșirea selectată *întreruptă* și conflictele minore *punctate*, astfel încât gravitatea și selecția rămân distincte fără nuanță.",
+                    "Consultă ghidul <wiki de design@https://github.com/wordplaydev/wordplay/wiki/design> pentru îndrumarea completă pentru contribuitori."
+                ],
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Sigla Wordplay este un balon de vorbire care ține o singură literă: o scenă mică pe care balonul poate spune orice — o literă din sistemul de scriere al cititorului, un emoji sau un cerc, un triunghi și un pătrat în timp ce ceva se încarcă. În aplicație, litera urmează sistemul de scriere al limbii tale principale; pe suprafețe neutre față de scriere, cum ar fi pictograma din browser și imaginile de distribuit, balonul arată cele trei forme, gata să facă ceva.",
+                    "Desenul în sine nu arată niciodată mișcare. Mișcarea vine din comportament — pagina de start schimbă pe rând ce spune balonul, în ritm cu selectorul de limbă, iar în timpul încărcării formele sar pe rând, ca o mulțime care face valul — și se potrivește mereu cu setarea vitezei de animație, oprindu-se complet când animația este dezactivată.",
+                    "Semnul este mereu desenat în culoarea actuală a textului, așa că oriunde textul îndeplinește cerințele de contrast, o face și sigla."
+                ],
+                "copyvalue": "$~copiază valoarea CSS completă"
+            },
+            "thanks": {
+                "header": "$~Mulţumesc",
+                "intro": "$~Mulțumim *$#count[$#count colaboratorului nostru|$count colaboratorilor noștri|$count de colaboratori]* pentru contribuția la designul, dezvoltarea, localizarea și conținutul @wordplay! Și mulțumim numeroșilor profesori și tineri care ne-au ghidat designul în grupuri de discuții, sesiuni de design și clase, pe care nu îi enumerăm aici pentru a le păstra confidențialitatea.\n\nAcest proiect a fost sprijinit de National Science Foundation prin premiile 2318257, 2031265, 2100296 și 2122950, de University of Washington și de <daruri//donate> generoase de la oameni ca tine.",
+                "teachers": "$~Profesori",
+                "contributors": "$~Contribuitori"
+            },
+            "breadcrumb": {
+                "label": "$~Pesmet",
+                "home": "$~Acasă"
+            },
+            "admin": {
+                "header": "$~Privilegii",
+                "prompt": "$~Toți cei de mai jos pot face ceva ce majoritatea oamenilor nu pot. O schimbare aici ajunge la ei imediat, deși o pagină pe care o au deja deschisă poate dura până la o oră ca să observe. Superutilizator include moderarea și predarea, așa că cineva care are acest privilegiu nu are nevoie de celelalte două.",
+                "claim": {
+                    "admin": "$~Superutilizator",
+                    "mod": "$~Moderator",
+                    "teacher": "$~Profesor",
+                    "banned": "$~Nu poate distribui public"
+                },
+                "creator": "$~Creator",
+                "email": "$~E-mail",
+                "privileges": "$~Privilegii",
+                "button": {
+                    "revoke": "$~Retrage toate privilegiile",
+                    "lift": {
+                        "label": "$~Redă dreptul de distribuire",
+                        "tip": "$~Permite acestui creator să distribuie public din nou și readu numărul lui de avertismente la zero"
+                    }
+                },
+                "confirm": "$~Numărul lor de avertismente revine la zero și pot distribui public din nou. Înregistrarea a ceea ce s-a întâmplat rămâne, așa că un moderator care se uită la ei mai târziu tot o poate vedea.",
+                "ownAdmin": "$~Nu îți poți retrage propriile privilegii. Cere altui administrator.",
+                "nobody": "$~Nimeni nu are încă privilegii.",
+                "error": {
+                    "notadmin": "$~Acesta este un spațiu pentru superutilizatori. Nu este nimic aici pentru tine de schimbat.",
+                    "login": "$~Trebuie să fii <autentificat@://login> ca să vezi această pagină.",
+                    "offline": "$~Nu am putut încărca cine are privilegii. Ești conectat la internet?",
+                    "save": "$~Nu am putut salva acea schimbare. Încerci din nou?",
+                    "none": "$~Alege cel puțin un privilegiu înainte de a adăuga pe cineva."
+                },
+                "proxy": {
+                    "header": "$~Privește ca cineva",
+                    "prompt": "$~Deschide Wordplay ca alt creator, ca să vezi ce vede el atunci când ceva nu îi merge bine. Poți doar să privești: nimic din ce faci nu se salvează, iar el nu va ști că ai fost acolo. Se deschide într-o filă nouă, iar închiderea acelei file oprește sesiunea.\n\nDe fiecare dată când cineva face asta, se înregistrează.",
+                    "start": {
+                        "label": "$~Privește",
+                        "tip": "$~Deschide o sesiune doar pentru privire ca acest creator, într-o filă nouă"
+                    }
+                }
+            }
+        }
+    }
+}

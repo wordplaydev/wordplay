@@ -1,0 +1,1975 @@
+{
+    "$schema": "../../../static/schemas/sections/basis.json",
+    "basis": {
+        "Boolean": {
+            "doc": [
+                "$~Chúng ta là \\⊤\\ và \\⊥\\. \\⊤\\ là đúng. \\⊥\\ là sai. \\⊤\\ không phải là \\⊥\\; \\⊥\\ không phải là \\⊤\\. Sự thật là như vậy.",
+                "Bạn tạo ra chúng tôi như thế nào? Chỉ có \\⊤\\ và \\⊥\\, không hơn không kém.",
+                "Một số người dùng bàn phím (/ctrl+9/ cho \\⊤\\ và /ctrl+0/ cho \\⊥\\). Một số người dùng chức năng tìm kiếm ký tự ở cuối @editor. Hoặc bạn có thể kéo chúng tôi từ đây.",
+                "Hãy xem phần @FunctionDefinition bên dưới. Chúng rất logic."
+            ],
+            "name": ["$~⊤⊥", "$~Boolean"],
+            "function": {
+                "and": {
+                    "doc": [
+                        "$~Tôi đánh giá thành \\⊤\\ *chỉ* khi cả hai @value đều là \\⊤\\. Hữu ích để xác định xem nhiều thứ có đều đúng hay không. Chỉ có bốn kết quả có thể xảy ra",
+                        "\\⊤ & ⊤\\",
+                        "\\⊤ & ⊥\\",
+                        "\\⊥ & ⊤\\",
+                        "\\⊥ & ⊥\\"
+                    ],
+                    "names": ["$~Và", "và"],
+                    "inputs": [
+                        {
+                            "doc": "$~@variable @Boolean khác cần kiểm tra. Nếu biến đầu tiên là \\⊥\\, thì @value của biến này không quan trọng, hàm sẽ trả về \\⊥\\.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "or": {
+                    "doc": [
+                        "$~Tôi đánh giá thành \\⊤\\ khi *một trong hai* @value là \\⊤\\. Hữu ích để xác định xem một trong nhiều thứ có đúng hay không. Chỉ có bốn kết quả có thể xảy ra",
+                        "\\⊤ | ⊤\\",
+                        "\\⊤ | ⊥\\",
+                        "\\⊥ | ⊤\\",
+                        "\\⊥ | ⊥\\"
+                    ],
+                    "names": ["$~hoặc"],
+                    "inputs": [
+                        {
+                            "doc": "$~@variable @Boolean còn lại cần kiểm tra. Nếu biến đầu tiên là \\⊥\\, hàm sẽ chỉ trả về \\⊤\\ nếu biến này cũng là \\⊤\\.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "not": {
+                    "doc": "$~Tôi lấy @value ngược lại của chính mình: nếu \\⊤\\, nó cho ra \\⊥\\, nếu \\⊥\\, nó cho ra \\⊤\\.",
+                    "names": ["$~không"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ nếu cả hai đều là \\⊤\\ hoặc cả hai đều là \\⊥\\.",
+                    "names": ["$~bằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~@value còn lại để kiểm tra.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~\\⊤\\ nếu cả hai đều trái dấu.",
+                    "names": ["$~khôngbằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~@value còn lại để kiểm tra.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Chuyển đổi giá trị @Boolean thành các giá trị @Text tương đương, '⊤' và '⊥'.",
+                "number": "$~Chuyển đổi từ @Boolean sang @Number, \\1\\ cho \\⊤\\ và \\0\\ cho \\⊥\\"
+            }
+        },
+        "None": {
+            "doc": [
+                "$~Tôi đại diện cho sự vắng mặt của một @value, được viết là \\ø\\.",
+                "Tôi là @None. Hãy gọi tôi bằng \\ø\\."
+            ],
+            "name": ["$~Khôngcó"],
+            "function": {
+                "equals": {
+                    "doc": "$~Một @value khác cũng là không có gì phải không? Tốt hơn là đúng như vậy, nếu không thì, \\⊥\\.",
+                    "names": ["$~bằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~@value kia.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~Một @value khác có /không/ phải là không có gì không?",
+                    "names": ["$~khôngbằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~@value kia.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Bạn muốn biến \\ø\\ thành \\'ø'\\? Đây là cơ hội của bạn."
+            }
+        },
+        "Text": {
+            "doc": [
+                "$~Tớ có thể đại diện cho bất kỳ văn bản nào, từ bất kỳ @language nào. Chỉ cần đặt văn bản giữa ký hiệu mở và ký hiệu đóng: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, hoặc \\『』\\.",
+                "Để minh họa, hãy xem những cụm từ đẹp đẽ này",
+                "\\'Chỉ có hai cách để sống cuộc đời của bạn. Một là sống như thể không có gì là điều kỳ diệu. Cách kia là sống như thể mọi thứ đều là điều kỳ diệu.'\\",
+                "\\'一日三秋'\\",
+                "Chỉ cần nhớ đóng tớ lại nếu bạn đã mở tớ ra, và dùng đúng ký hiệu tương ứng. Nếu không, tớ sẽ không biết là bạn đã viết xong lời của mình.",
+                "\\'xin chào'/vi'hola'/es-MX\\",
+                "Bạn cũng có thể gắn thẻ ngôn ngữ cho tớ, và thậm chí đưa nhiều bản dịch. Tớ sẽ đánh giá theo những ngôn ngữ đang được chọn hiện tại, nếu có một ngôn ngữ khớp.",
+                "Nếu bạn muốn tạo ra tớ cùng vài @value khác, bạn có thể làm thế này:",
+                "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
+                "Bạn thấy tớ vừa tính những phép cộng đó một cách gọn gàng và đặt chúng vào bên trong @Text chưa?",
+                "Tớ còn một bí mật nhỏ cuối cùng: bạn có biết mỗi chúng ta đều có một con số riêng không? Đúng vậy đó! Bạn có thể nhắc đến chúng tớ bằng cách viết @U/ và con số của chúng tớ. Ví dụ, @FunctionDefinition là 192:",
+                "\\'@U/192'\\",
+                "Bạn thấy @U/192 đã @variable thành @FunctionDefinition như thế nào chưa? Tớ nghe nói bạn gọi những con số này là 'Unicode'.",
+                "Ngoài ra, còn có rất nhiều hàm tuyệt vời mà @FunctionDefinition đã tạo ra cho tớ để làm đủ mọi thứ với chữ nghĩa!"
+            ],
+            "name": ["$~Chữ"],
+            "function": {
+                "length": {
+                    "doc": [
+                        "$~Tôi đánh giá thành số ký tự đọc được trong văn bản; một chữ cái là một ký tự, một biểu tượng cảm xúc là một ký tự, v.v. Ví dụ:",
+                        "\\'xin chào'.📏()\\",
+                        "\\'🐈📚'.📏()\\"
+                    ],
+                    "names": ["$~chiềudài"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ nếu tôi có cùng chuỗi ký tự với @Text đã cho.",
+                    "names": ["$~bằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Đoạn văn bản @Text cần so sánh.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ nếu tôi /không/ có cùng chuỗi ký tự với @Text đã cho.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~@Text để so sánh",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ nếu @Text đã cho xuất hiện trong tôi.",
+                        "\\'bạn đã tìm thấy thứ mình đang tìm chưa?'.⊆('bạn')\\"
+                    ],
+                    "names": ["$~có"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text cần tìm kiếm trong tôi.",
+                            "names": "$~chữ"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": [
+                        "$~\\⊤\\ nếu tôi bắt đầu bằng @Text đã cho.",
+                        "\\'chào vũ trụ!'.bắtđầu('chào')\\",
+                        "\\'xin chào vũ trụ!'.bắtđầu('vũ trụ')\\"
+                    ],
+                    "names": ["$~bắtđầu"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text cần kiểm tra ở đầu phần mô tả.",
+                            "names": "$~chữ"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": [
+                        "$~\\⊤\\ nếu tôi kết thúc bằng @Text đã cho.",
+                        "\\'tôi có phải là một câu hỏi không?'.kếtthúc('?')\\",
+                        "\\'Tôi không phải là một câu hỏi.'.kếtthúc('?')\\"
+                    ],
+                    "names": ["$~kếtthúc"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text cần kiểm tra ở cuối phần của tôi.",
+                            "names": "$~chữ"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": [
+                        "$~Tôi tạo một @Text mới, đó là chính tôi, được lặp lại số lần bằng \\count\\:",
+                        "\\'hi ' × 5\\",
+                        "Nếu bạn cung cấp cho tôi một @Number có phần thập phân, tôi sẽ bỏ qua phần thập phân đó:",
+                        "\\'hi ' × 5.5\\",
+                        "Nếu bạn cung cấp cho tôi một @Number âm hoặc số không, tôi sẽ cung cấp một @Text trống.",
+                        "\\'hi ' × -5\\",
+                        "Văn bản dài nhất tôi có thể tạo ra là 65.535 ký tự. Nếu bạn cố gắng tạo một văn bản dài hơn, tôi sẽ lặp lại văn bản đó nhiều lần nhất có thể."
+                    ],
+                    "names": ["$~lặplại"],
+                    "inputs": [
+                        {
+                            "doc": "$~Số @iteration lại ý trong văn bản mới.",
+                            "names": "$~đếm"
+                        }
+                    ]
+                },
+                "segment": {
+                    "doc": [
+                        "$~Tôi chia bản thân thành một @List gồm các @Text, sử dụng @Text đã cho làm dấu phân cách, và loại bỏ các dấu phân cách. Ví dụ:",
+                        "\\'táo, cam, nho' ÷ ', '\\",
+                        "Nếu dấu phân cách là một @Text rỗng, tôi sẽ tự chia mình thành các ký tự:",
+                        "\\'🖌️🏠🥸' ÷ ''\\"
+                    ],
+                    "names": ["$~phânđoạn"],
+                    "inputs": [
+                        {
+                            "doc": "$~@property @Text được sử dụng làm dấu phân cách.",
+                            "names": "$~dấuphâncách"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Đôi khi sẽ hữu ích khi gộp hai @Text thành một. Đưa cho tôi một @Text khác và tôi sẽ tạo ra một văn bản mới nối chúng tôi lại với nhau:",
+                        "\\'xin chào ' + 'câu thơ'\\"
+                    ],
+                    "names": ["$~kếthợp"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text cần thêm vào.",
+                            "names": "$~chữ"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ nếu toàn bộ văn bản khớp với mẫu đã cho.",
+                        "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
+                    ],
+                    "names": ["$~cáctrậnđấu"],
+                    "inputs": [
+                        {
+                            "doc": "$~Mẫu cần so sánh.",
+                            "names": "$~mẫu"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Tìm tất cả các vị trí mà mẫu đã cho khớp với tôi, dưới dạng danh sách @Result .",
+                        "\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~tìmkiếm"],
+                    "inputs": [
+                        {
+                            "doc": "$~Mẫu hình cần tìm kiếm.",
+                            "names": "$~mẫu"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Tôi tạo ra một @Text mới là chính tôi, với mọi chữ cái đều viết hoa:",
+                        "\\'xin chào'.chữHoa()\\",
+                        "Chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, nên văn bản thuộc hệ chữ viết không có sự phân biệt này, như tiếng Nhật hay tiếng Ả Rập, sẽ không thay đổi.",
+                        "Thẻ @language của tôi quyết định dùng quy tắc của ngôn ngữ nào. Tiếng Thổ Nhĩ Kỳ có chữ i có chấm và i không chấm, và chỉ văn bản được gắn thẻ là tiếng Thổ Nhĩ Kỳ mới viết hoa chúng theo cách của tiếng Thổ Nhĩ Kỳ:",
+                        "\\'iyi'/tr.chữHoa()\\",
+                        "\\'iyi'.chữHoa()\\"
+                    ],
+                    "names": ["$~chữHoa"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Tôi tạo ra một @Text mới là chính tôi, với mọi chữ cái đều viết thường:",
+                        "\\'XIN CHÀO'.chữThường()\\",
+                        "Hãy chuyển hai đoạn văn bản thành chữ thường để so sánh chúng mà không quan tâm đến việc viết hoa. Cách này giữ lại mọi từ bắt đầu bằng chữ a, dù nó có được viết hoa hay không:",
+                        "\\['Táo' 'mơ' 'Chuối'].lọc(\n\tƒ(từ2•'') từ2.chữThường().bắtđầu('a')\n)\\",
+                        "Giống như @Text/uppercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ @language của tôi quyết định dùng quy tắc của ngôn ngữ nào."
+                    ],
+                    "names": ["$~chữThường"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Tôi tạo một @Text mới từ một phần của tôi. Đếm bắt đầu từ 1, và cả hai đầu đều được tính:",
+                        "\\'xin chào'.chuỗiCon(2 4)\\",
+                        "Bỏ đầu cuối ra và tôi sẽ đi hết đến ký hiệu cuối cùng của mình:",
+                        "\\'xin chào'.chuỗiCon(3)\\",
+                        "Tôi đếm ký hiệu theo cách bạn nhìn thấy chúng, nên một biểu tượng cảm xúc gồm nhiều phần vẫn là một ký hiệu và không bao giờ bị cắt làm đôi:",
+                        "\\'🐈📚!'.chuỗiCon(1 2)\\",
+                        "Nếu bạn hỏi nhiều hơn số tôi có, tôi sẽ đưa cho bạn tất cả những gì tôi có."
+                    ],
+                    "names": ["$~chuỗiCon"],
+                    "inputs": [
+                        {
+                            "doc": "$~Nơi bắt đầu, đếm từ 1.",
+                            "names": "$~bắtĐầu"
+                        },
+                        {
+                            "doc": "$~Nơi dừng lại, đếm từ 1. Bỏ trống để đi đến hết.",
+                            "names": "$~kếtThúc"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Tôi cho bạn biết @Text đã cho xuất hiện đầu tiên ở đâu trong tôi, đếm từ 1:",
+                        "\\'xin chào'.chỉMục('ll')\\",
+                        "Nếu nó không hề có trong tôi, tôi sẽ đưa @None thay vào đó:",
+                        "\\'xin chào'.chỉMục('z')\\",
+                        "Cùng với @Text/subsequence, tôi có thể lấy mọi thứ cho đến một điểm nào đó — ở đây, là từ đầu tiên:",
+                        "\\câu: 'xin chào thế giới'\ncâu.chuỗiCon(1 (câu.chỉMục(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~chỉMục"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text cần tìm trong tôi.",
+                            "names": "$~vănBản"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Tôi tạo một @Text mới với mọi lần xuất hiện của một @Text được đổi thành cái khác:",
+                        "\\'2026-08-21'.thayThế('-' '/')\\",
+                        "Mọi lần xuất hiện đều thay đổi, không chỉ lần đầu tiên:",
+                        "\\'ha ha ha'.thayThế('ha' 'ho')\\",
+                        "Nếu bạn yêu cầu tôi thay thế một @Text trống, tôi sẽ trả lại chính mình mà không đổi gì."
+                    ],
+                    "names": ["$~thayThế"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text cần tìm trong tôi.",
+                            "names": "$~của"
+                        },
+                        {
+                            "doc": "$~@Text để đặt vào chỗ đó.",
+                            "names": "$~cáiThayThế"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Tôi tạo một @Text mới với khoảng trắng được bỏ đi ở cả hai đầu của tôi. Khoảng trắng ở giữa vẫn giữ nguyên:",
+                        "\\'  xin chào  '.cắtBớt()\\",
+                        "Điều này rất hữu ích cho văn bản do ai đó gõ vào, thường có thêm khoảng trắng mà bạn không hề muốn."
+                    ],
+                    "names": ["$~cắtBớt"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Tôi tạo một @Text mới với các ký hiệu của tôi theo thứ tự ngược lại:",
+                        "\\'xin chào'.đãĐảoNgược()\\",
+                        "Tôi đảo ngược thứ tự các ký hiệu của mình theo cách bạn nhìn thấy chúng, nên biểu tượng cảm xúc vẫn nguyên vẹn và các chữ cái vẫn giữ dấu của chúng:",
+                        "\\'🐈📚'.đãĐảoNgược()\\"
+                    ],
+                    "names": ["$~đãĐảoNgược", "$~đảoNgược"],
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "list": "$~Chia văn bản thành một danh sách các ký tự riêng lẻ.",
+                "number": [
+                    "$~Chuyển văn bản thành @Number, và nếu nó không phải là một số, thì thành một giá trị không phải là số, hiển thị là \\!#\\:",
+                    "\\'chào' → #\\"
+                ],
+                "formatted": "$~Chuyển đổi văn bản thành văn bản được định dạng, bao gồm cả việc diễn giải mọi định dạng đánh dấu có trong đó."
+            }
+        },
+        "Number": {
+            "doc": [
+                "$~Tôi tạo ra @Number, với bất kỳ đơn vị nào bạn có thể tưởng tượng!",
+                "Đây là top 5 của tôi:",
+                "\\0\\",
+                "\\1story\\",
+                "\\πpie\\",
+                "\\∞rock\\",
+                "\\1000000hugs\\",
+                "Đó về cơ bản là một số lượng số vô hạn.",
+                "Và một số lượng đơn vị vô hạn!",
+                "Và một số lượng cặp số/đơn vị vô hạn…",
+                "Tôi có thể là số nguyên, số thực, số âm, số dương, phân số, số thập phân, thậm chí không phải là một số.",
+                "Và bạn có thể viết tôi bằng nhiều hệ đếm khác nhau, bao gồm Ả Rập \\123\\, La Mã \\ⅩⅩⅩⅠⅩ\\, Nhật Bản \\二十\\, và nhiều hơn nữa:",
+                "\\1 + Ⅰ + 一\\",
+                "Bạn cũng có thể viết tôi ở các cơ số từ 2 đến 16 bằng cách đặt một số cơ số như thế này:",
+                "\\2;11111111\\",
+                "\\10;255\\",
+                "\\16;FF\\",
+                "Có một con số đặc biệt gọi là NaN có thể xuất hiện khi bạn viết thứ gì đó không phải là một số:",
+                "\\2;22\\",
+                "Không có chữ số '2' trong hệ cơ số 2, nên nó không phải là một số hợp lệ. NaN cũng sẽ xuất hiện nếu bạn cố chuyển văn bản không phải số thành số",
+                "\\'chào' → #\\"
+            ],
+            "name": ["$~Consố"],
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Tôi thêm một @Number có cùng @Unit vào chính mình, tạo ra một @Number mới có cùng @Unit.",
+                        "Ví dụ:",
+                        "\\1 + 1\\",
+                        "\\3cat + 5cat\\",
+                        "Nếu các đơn vị không khớp, tôi sẽ dừng chương trình.",
+                        "\\3 con mèo + 5 con chó\\🪲"
+                    ],
+                    "names": ["$~thêmvào"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number để cộng.",
+                            "names": "$~consố"
+                        }
+                    ]
+                },
+                "subtract": {
+                    "doc": [
+                        "$~Tôi trừ đi @Number mà bạn cung cấp cho tôi, tạo ra một @Number mới có cùng @Unit.",
+                        "Ví dụ:",
+                        "\\1 - 1\\",
+                        "\\3cat - 5cat\\",
+                        "Nếu các đơn vị không khớp, tôi sẽ dừng chương trình.",
+                        "\\3 mèo - 5 chó\\🪲"
+                    ],
+                    "names": ["$~trừ"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number để trừ khỏi mình.",
+                            "names": "$~consố"
+                        }
+                    ]
+                },
+                "multiply": {
+                    "doc": [
+                        "$~Tôi nhân chính mình với @Number đã cho, tạo ra một tích của @Unit của tôi và @Unit của số đã cho:",
+                        "\\5 × 5\\",
+                        "\\5m × 5m\\",
+                        "\\5m × 1/s\\"
+                    ],
+                    "names": ["$~nhân"],
+                    "inputs": [
+                        {
+                            "doc": "$~Số cần nhân.",
+                            "names": "$~consố"
+                        }
+                    ]
+                },
+                "divide": {
+                    "doc": [
+                        "$~Tôi chia chính mình cho @Number đã cho, tạo ra một thương của @Unit của tôi và @Unit của số đã cho:",
+                        "\\5 ÷ 5\\",
+                        "\\5m ÷ 5m\\",
+                        "\\5m ÷ 5s\\"
+                    ],
+                    "names": ["$~chia"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number để chia tôi.",
+                            "names": "$~consố"
+                        }
+                    ]
+                },
+                "remainder": {
+                    "doc": [
+                        "$~Tôi chia chính mình cho @Number đã cho, nhưng cho ra phần dư:",
+                        "\\10 % 2\\",
+                        "\\10m % 2\\",
+                        "\\10m/s % 3\\"
+                    ],
+                    "names": ["$~phầncònlại"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number để chia tôi.",
+                            "names": "$~consố"
+                        }
+                    ]
+                },
+                "positive": {
+                    "doc": [
+                        "$~Tôi tạo ra một @Number mới làm tôi thành số dương, nếu tôi là số âm.",
+                        "\\-200.tíchcực()\\"
+                    ],
+                    "names": ["$~tíchcực"],
+                    "inputs": []
+                },
+                "round": {
+                    "doc": [
+                        "$~Tôi tạo một @variable @Number mới để làm tròn số đến số nguyên gần nhất.",
+                        "\\9.4.round()\\",
+                        "\\9.5.round()\\",
+                        "\\9.6.round()\\"
+                    ],
+                    "names": ["$~tròn"],
+                    "inputs": []
+                },
+                "roundDown": {
+                    "doc": [
+                        "$~Tôi tạo một @variable @Number mới làm tròn đến số nguyên nhỏ nhất nhỏ hơn tôi.",
+                        "\\10.5.roundDown()\\",
+                        "\\10.1.roundDown()\\",
+                        "\\10.01.roundDown()\\"
+                    ],
+                    "names": ["$~làmtrònxuống"],
+                    "inputs": []
+                },
+                "roundUp": {
+                    "doc": [
+                        "$~Tôi tạo ra một @Number mới được làm tròn lên số nguyên nhỏ nhất lớn hơn tôi.",
+                        "\\10.5.tổnghợp()\\",
+                        "\\10.9.tổnghợp()\\",
+                        "\\10.99.tổnghợp()\\"
+                    ],
+                    "names": ["$~tổnghợp"],
+                    "inputs": []
+                },
+                "power": {
+                    "doc": [
+                        "$~Tôi nâng bản thân lên lũy thừa của @Number đã cho. Lũy thừa phân số cũng được chấp nhận!",
+                        "\\2 ^ 8\\",
+                        "\\10 ^ -2\\",
+                        "\\5 ^ -.5\\"
+                    ],
+                    "names": ["$~quyềnlực"],
+                    "inputs": [
+                        {
+                            "doc": "$~Số mũ cần nâng lên để nâng tôi lên.",
+                            "names": "$~consố"
+                        }
+                    ]
+                },
+                "root": {
+                    "doc": [
+                        "$~Tôi tạo ra gốc rễ của chính mình bằng cách sử dụng gốc rễ đã cho.",
+                        "\\4 √ 2\\",
+                        "\\1000 √ 3\\"
+                    ],
+                    "names": ["$~gốc"],
+                    "inputs": [
+                        {
+                            "doc": "$~Căn bậc hai cần tính toán.",
+                            "names": "$~consố"
+                        }
+                    ]
+                },
+                "lessThan": {
+                    "doc": [
+                        "$~\\⊤\\ nếu tôi nhỏ hơn @Number đã cho:",
+                        "\\1 < 2\\",
+                        "\\2 < 1\\"
+                    ],
+                    "names": ["$~íthơn"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number điện thoại để so sánh tôi với.",
+                            "names": "$~consố"
+                        }
+                    ]
+                },
+                "lessOrEqual": {
+                    "doc": [
+                        "$~\\⊤\\ nếu tôi nhỏ hơn hoặc bằng @Number đã cho:",
+                        "\\1 ≤ 2\\",
+                        "\\2 ≤ 1\\",
+                        "\\2 ≤ 2\\"
+                    ],
+                    "names": ["$~nhỏhơnbằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number điện thoại để so sánh tôi với.",
+                            "names": "$~consố"
+                        }
+                    ]
+                },
+                "greaterThan": {
+                    "doc": [
+                        "$~\\⊤\\ nếu tôi lớn hơn @Number đã cho:",
+                        "\\1 > 2\\",
+                        "\\2 > 1\\"
+                    ],
+                    "names": ["$~lớnhơn"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number điện thoại để so sánh tôi với.",
+                            "names": "$~consố"
+                        }
+                    ]
+                },
+                "greaterOrEqual": {
+                    "doc": [
+                        "$~\\⊤\\ nếu tôi lớn hơn hoặc bằng @Number đã cho:",
+                        "\\1 ≥ 2\\",
+                        "\\2 ≥ 1\\",
+                        "\\2 ≥ 2\\"
+                    ],
+                    "names": ["$~lớnhơnhoặcbằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number điện thoại để so sánh tôi với.",
+                            "names": "$~consố"
+                        }
+                    ]
+                },
+                "equal": {
+                    "doc": [
+                        "$~\\⊤\\ nếu tôi bằng với @Number đã cho:",
+                        "\\1 = 2\\",
+                        "\\2 = 2\\"
+                    ],
+                    "names": ["$~bìnhđẳng"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number điện thoại để so sánh tôi với.",
+                            "names": "$~consố"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": [
+                        "$~\\⊤\\ nếu tôi không bằng @Number đã cho:",
+                        "\\1 ≠ 2\\",
+                        "\\2 ≠ 2\\"
+                    ],
+                    "names": ["$~khôngbằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number điện thoại để so sánh tôi với.",
+                            "names": "$~consố"
+                        }
+                    ]
+                },
+                "cos": {
+                    "doc": ["$~Tính cosin của tôi.", "\\π.cos()\\"],
+                    "names": ["$~côsin"],
+                    "inputs": []
+                },
+                "sin": {
+                    "doc": ["$~Tính sin của tôi.", "\\π.cos()\\"],
+                    "names": ["$~tộilỗi"],
+                    "inputs": []
+                },
+                "min": {
+                    "doc": [
+                        "$~Tìm số nhỏ nhất trong số tôi và những người khác.",
+                        "\\1.min(2 3 -1)\\"
+                    ],
+                    "names": "$~phút",
+                    "inputs": [
+                        {
+                            "doc": "$~Bạn có thể cung cấp cho tôi bao nhiêu số tùy thích!",
+                            "names": "$~số"
+                        }
+                    ]
+                },
+                "max": {
+                    "doc": [
+                        "$~Tìm số lượng lớn nhất của tôi và những người khác.",
+                        "\\1.max(2 3 4)\\"
+                    ],
+                    "names": "$~tốiđa",
+                    "inputs": [
+                        {
+                            "doc": "$~Bạn có thể cung cấp cho tôi bao nhiêu số tùy thích!",
+                            "names": "$~số"
+                        }
+                    ]
+                },
+                "tan": {
+                    "doc": ["$~Tính tang của tôi.", "\\π.tan()\\"],
+                    "names": ["$~tang"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Tính arcsin (sin nghịch đảo) của tôi.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Tính arccos (cos nghịch đảo) của tôi.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Tính arctang (tang nghịch đảo) của tôi.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~Nâng số _e_ lên lũy thừa của tôi.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Tính logarit của tôi theo cơ số cho trước, hoặc logarit tự nhiên của tôi nếu không cho cơ số.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Cơ số của logarit. Bỏ trống nếu muốn logarit tự nhiên (cơ số _e_).",
+                            "names": "$~cơSố"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Một @Range từ tôi đến @Number đã cho, gồm cả hai đầu. Hãy trải nó thành một danh sách bằng @Spread, hỏi xem nó có chứa một số hay không, hoặc dùng nó làm chìa khóa @Match:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Tôi đếm lùi khi điểm cuối của tôi nhỏ hơn điểm đầu:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~đến"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number mà khoảng của tôi kết thúc ở đó. Nó phải có cùng đơn vị với tôi.",
+                            "names": "$~số"
+                        }
+                    ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Giữ tôi ở giữa một số thấp và một số cao: nếu tôi thấp hơn số thấp, bạn sẽ nhận được số thấp đó, và nếu tôi cao hơn số cao, bạn sẽ nhận được số cao đó thay thế.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~giớiHạn",
+                    "inputs": [
+                        {
+                            "doc": "$~@value thấp nhất mà tôi được phép có.",
+                            "names": "$~thấp"
+                        },
+                        {
+                            "doc": "$~@value cao nhất mà tôi được phép có.",
+                            "names": "$~cao"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Di chuyển một phần quãng đường từ tôi đến một số khác. Ở 0% bạn nhận được tôi, ở 100% bạn nhận được số kia, và ở giữa sẽ cho ra số nằm chính giữa.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~hướngTới",
+                    "inputs": [
+                        {
+                            "doc": "$~Số cần di chuyển tới.",
+                            "names": "$~khác"
+                        },
+                        {
+                            "doc": "$~Cần đi bao xa, với 100% là đến nơi.",
+                            "names": "$~lượng"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Tìm xem tôi nằm ở đâu giữa một cặp số, rồi trả về số nằm ở vị trí tương tự giữa một cặp số khác. Hữu ích khi @variable một thứ bạn đã đo được thành thứ bạn có thể hiển thị.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~đổiTỉLệ",
+                    "inputs": [
+                        {
+                            "doc": "$~Đầu thấp của @scope tôi đang ở trong đó.",
+                            "names": "$~từThấp"
+                        },
+                        {
+                            "doc": "$~Đầu cao của @scope tôi đang ở trong đó.",
+                            "names": "$~từCao"
+                        },
+                        {
+                            "doc": "$~Đầu thấp của @scope bạn muốn.",
+                            "names": "$~tớiThấp"
+                        },
+                        {
+                            "doc": "$~Đầu cao của @scope bạn muốn.",
+                            "names": "$~tớiCao"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Đây là cách biểu diễn chữ số của tôi bằng ký tự @Text tiếng Ả Rập.",
+                "list": [
+                    "$~Tôi chuyển đổi một số thành một danh sách các số từ \\1\\ đến bất kỳ số nào được cung cấp. Ví dụ:",
+                    "\\10→[]\\"
+                ],
+                "unit": "$from → $to"
+            },
+            "unit": {
+                "ns": "$~na-nô giây",
+                "us": "$~mi-crô giây",
+                "ms": "$~mi-li giây",
+                "s": "$~giây",
+                "min": "$~phút",
+                "h": "$~giờ",
+                "day": "$~ngày",
+                "wk": "$~tuần",
+                "yr": "$~năm",
+                "pm": "$~pi-cô mét",
+                "nm": "$~na-nô mét",
+                "um": "$~mi-crô mét",
+                "mm": "$~mi-li mét",
+                "cm": "$~xăng-ti-mét",
+                "dm": "$~đề-xi-mét",
+                "m": "$~mét",
+                "hm": "$~héc-tô-mét",
+                "km": "$~ki-lô-mét",
+                "Mm": "$~mê-ga-mét",
+                "Gm": "$~gi-ga-mét",
+                "Tm": "$~tê-ra-mét",
+                "in": "$~inch",
+                "ft": "$~foot",
+                "yd": "$~yard",
+                "mi": "$~dặm",
+                "nmi": "$~hải lý",
+                "au": "$~đơn vị thiên văn",
+                "ly": "$~năm ánh sáng",
+                "ug": "$~microgam",
+                "mg": "$~miligam",
+                "g": "$~gam",
+                "kg": "$~kilôgam",
+                "t": "$~tấn mét",
+                "oz": "$~ounce",
+                "lb": "$~pound",
+                "st": "$~stone",
+                "uston": "$~tấn ngắn Mỹ",
+                "ukton": "$~tấn dài Anh",
+                "degC": "$~độ C",
+                "degF": "$~độ F",
+                "K": "$~kelvin",
+                "deg": "$~độ góc",
+                "rad": "$~radian",
+                "mm2": "$~milimét vuông",
+                "cm2": "$~xentimét vuông",
+                "m2": "$~mét vuông",
+                "km2": "$~kilômét vuông",
+                "in2": "$~inch vuông",
+                "ft2": "$~foot vuông",
+                "yd2": "$~yard vuông",
+                "mi2": "$~dặm vuông",
+                "ha": "$~héc-ta",
+                "acre": "$~mẫu Anh",
+                "mL": "$~mililít",
+                "cL": "$~xentilít",
+                "dL": "đêxilít",
+                "L": "$~lít",
+                "kL": "$~kilôlít",
+                "cm3": "$~xentimét khối",
+                "m3": "$~mét khối",
+                "tsp": "$~thìa cà phê",
+                "tbsp": "$~thìa canh",
+                "cup": "$~cốc",
+                "usfloz": "$~ao-xơ chất lỏng Mỹ",
+                "uspt": "$~panh Mỹ",
+                "usqt": "$~quart Mỹ",
+                "usgal": "$~galông Mỹ",
+                "ukfloz": "$~ao-xơ chất lỏng Anh",
+                "ukpt": "$~panh Anh",
+                "ukqt": "$~quart Anh",
+                "ukgal": "$~galông Anh",
+                "mps": "$~mét trên giây",
+                "kmph": "$~kilômét trên giờ",
+                "miph": "$~dặm trên giờ",
+                "ftps": "$~feet trên giây",
+                "kn": "$~hải lý trên giờ",
+                "Pa": "$~pascal",
+                "hPa": "$~héctôpascal",
+                "kPa": "$~kilôpascal",
+                "bar": "$~bar",
+                "atm": "$~khí quyển tiêu chuẩn",
+                "psi": "$~pound trên inch vuông",
+                "mmHg": "$~milimét thủy ngân",
+                "J": "$~jun",
+                "kJ": "$~kilôjun",
+                "cal": "$~calo",
+                "kcal": "$~kilôcalo",
+                "Wh": "$~oát giờ",
+                "kWh": "$~kilôoát giờ",
+                "BTU": "$~đơn vị nhiệt Anh",
+                "eV": "$~electron vôn",
+                "mW": "$~milioát",
+                "W": "$~oát",
+                "kW": "$~kilôoát",
+                "MW": "$~mêgaoát",
+                "GW": "$~gigaoát",
+                "hp": "$~mã lực",
+                "uA": "$~micro-ampe",
+                "mA": "$~mili-ampe",
+                "A": "$~ampe",
+                "kA": "$~kilo-ampe",
+                "mV": "$~mili-vôn",
+                "V": "$~vôn",
+                "kV": "$~kilô-vôn",
+                "mohm": "$~mili-ôm",
+                "ohm": "$~ôm",
+                "kohm": "$~kilô-ôm",
+                "Mohm": "$~mêga-ôm",
+                "Hz": "$~héc",
+                "kHz": "$~kilô-héc",
+                "MHz": "$~mêga-héc",
+                "GHz": "$~giga-héc",
+                "bpm": "$~nhịp mỗi phút",
+                "bit": "$~bit",
+                "B": "$~byte",
+                "kB": "$~kilôbyte",
+                "MB": "$~mêgabyte",
+                "GB": "$~gigabyte",
+                "TB": "$~têrabyte",
+                "KiB": "$~kibibyte",
+                "MiB": "$~mêbibyte",
+                "GiB": "$~gibibyte",
+                "TiB": "$~tebibyte",
+                "lux": "$~lux",
+                "fc": "$~foot-candle"
+            },
+            "category": {
+                "time": "$~Thời gian",
+                "length": "$~Chiều dài",
+                "weight": "$~Cân nặng",
+                "temperature": "$~Nhiệt độ",
+                "angle": "$~Góc",
+                "area": "$~Diện tích",
+                "volume": "$~Thể tích",
+                "speed": "$~Tốc độ",
+                "pressure": "$~Áp suất",
+                "energy": "$~Năng lượng",
+                "power": "$~Công suất",
+                "electricity": "$~Điện",
+                "frequency": "$~Tần số",
+                "data": "$~Dữ liệu",
+                "brightness": "$~Độ sáng",
+                "other": "$~Khác"
+            }
+        },
+        "List": {
+            "doc": [
+                "$~Tôi là một dãy các giá trị, thuộc bất kỳ loại nào!",
+                "Bạn có thể đặt bất cứ thứ gì vào trong tôi: @Boolean, @Number, @Text, @None, thậm chí cả @List, @Set, @Map khác, hoặc bất kỳ @expression nào. Đây là một ví dụ đơn giản:",
+                "\\['táo' 'chuối' 'xoài']\\",
+                "Điều làm tôi đặc biệt là tôi giữ mọi thứ theo thứ tự và tôi đánh số mọi thứ từ 1 đến số @element có trong tôi.",
+                "Các phần tử của tôi được đánh số, bắt đầu từ 1. Bạn có thể lấy các giá trị mà tôi đang lưu bằng @ListAccess, dùng số của chúng:",
+                "Ví dụ, @value thứ hai trong danh sách này là \\['chuối']\\",
+                "\\['táo' 'chuối' 'xoài'][2]\\",
+                "Tôi có thể chứa bất cứ thứ gì trong tôi. Hãy xem danh sách này, với @Text, @Number, và @Time!",
+                "\\['quả táo' 10 + 10 Thờigian()]\\",
+                "Khi bạn cho tôi một danh sách gồm nhiều thứ, tôi sẽ khái quát hóa chúng nếu chúng có chung một @type. Nhưng đôi khi bạn muốn nói đúng những thứ cụ thể đó. Nếu vậy, chỉ cần đặt một dấu ! sau tôi, và tôi sẽ đảm bảo rằng tôi đại diện cho một danh sách chỉ gồm đúng những giá trị đó.",
+                "\\['táo' 'chuối' 'xoài']!\\",
+                "Đại khái là vậy. Nhưng tôi có thể làm đủ mọi điều thú vị với @FunctionDefinition của tôi!"
+            ],
+            "name": ["$~Danhsách"],
+            "kind": "$~Loại",
+            "out": "$~KếtQuả",
+            "outofbounds": "$~ngoàiGiớiHạn",
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Tôi tạo một @List mới với mục được chỉ định ở cuối.",
+                        "\\['táo' 'chuối' 'xoài'].với('dưa hấu')\\"
+                    ],
+                    "names": ["$~với", "$~thêmvào"],
+                    "inputs": [
+                        {
+                            "doc": "$~Tôi là @value mà bạn muốn thêm vào.",
+                            "names": "$~mục"
+                        }
+                    ]
+                },
+                "append": {
+                    "doc": [
+                        "$~Tôi tạo một @List mới với các @value của mình, sau đó thêm tất cả các giá trị của @List đã cho sau tôi.",
+                        "\\['apple' 'banana' 'mango'].withList(['watermelon' 'starfruit'])\\",
+                        "Sử dụng @Spread sẽ dễ hơn một chút, như thế này:",
+                        "\\['táo' 'chuối' 'xoài' :['dưa hấu' 'quả khế']]\\"
+                    ],
+                    "names": ["$~thêm"],
+                    "inputs": [
+                        {
+                            "doc": "$~Danh sách các @value cần thêm vào.",
+                            "names": "$~danhsách"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Tôi tạo ra một danh sách mới thay thế @value tại @index đã cho bằng giá trị đã cho.",
+                        "\\['táo' 'chuối' 'xoài'].thaythế(1 'kiwi')\\"
+                    ],
+                    "names": ["$~thaythế"],
+                    "inputs": [
+                        {
+                            "doc": "$~@index của @value cần thay thế",
+                            "names": "$~chỉmục"
+                        },
+                        {
+                            "doc": "$~@value thay thế",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "length": {
+                    "doc": "$~@Number các @element trong mình.",
+                    "names": ["$~chiềudài"],
+                    "inputs": []
+                },
+                "random": {
+                    "doc": [
+                        "$~Một mục được chọn ngẫu nhiên từ danh sách của tôi, hoặc @None nếu danh sách trống.",
+                        "\\['apple' 'banana' 'mango'].random()\\"
+                    ],
+                    "names": "$~ngẫunhiên",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": [
+                        "$~Tạo một danh sách mới với các @element trong danh sách được sắp xếp ngẫu nhiên.",
+                        "\\['táo' 'chuối' 'xoài'].xáotrộn()\\"
+                    ],
+                    "names": "$~xáotrộn",
+                    "inputs": []
+                },
+                "first": {
+                    "doc": [
+                        "$~Mục đầu tiên trong tôi, hoặc @None nếu tôi trống.",
+                        "\\['apple' 'banana' 'mango'].first()\\"
+                    ],
+                    "names": "$~Đầutiên",
+                    "inputs": []
+                },
+                "last": {
+                    "doc": [
+                        "$~@element cuối cùng trong tôi, hoặc @None nếu tôi trống rỗng.",
+                        "\\['quả táo' 'quả chuối' 'quả xoài'].cuốicùng()\\"
+                    ],
+                    "names": "$~cuốicùng",
+                    "inputs": []
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ nếu tôi có một vật phẩm tương đương với vật phẩm đã cho trong tôi.",
+                        "\\['apple' 'banana' 'mango'].has('banana')\\"
+                    ],
+                    "names": "$~có",
+                    "inputs": [
+                        {
+                            "doc": "$~@value cần tìm kiếm.",
+                            "names": "$~mục"
+                        }
+                    ]
+                },
+                "join": {
+                    "doc": [
+                        "$~Tôi kết hợp các mục trong danh sách của mình thành @Text, được phân tách bằng dấu phân cách @Text đã cho.",
+                        "\\['apple' 'banana' 'mango'].join(', ')\\"
+                    ],
+                    "names": "$~thamgia",
+                    "inputs": [
+                        {
+                            "doc": "$~Văn bản dùng để phân tách các mục, có thể để trống.",
+                            "names": "$~bộphântách"
+                        }
+                    ]
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Tôi lấy một danh sách bên trong danh sách này, bắt đầu tại @index mà bạn cung cấp, và kết thúc ở @element cuối cùng, hoặc nếu bạn cung cấp một phần tử, thì kết thúc ở một phần tử cụ thể.",
+                        "\\['táo' 'chuối' 'xoài'].chuỗicon(2)\\",
+                        "\\['táo' 'chuối' 'xoài'].chuỗicon(1 2)\\",
+                        "Và hãy xem này! Nếu bạn cung cấp các số không theo thứ tự, tôi sẽ cho bạn kết quả đảo ngược",
+                        "\\['táo' 'chuối' 'xoài'].chuỗicon(3 1)\\",
+                        "Nếu bạn đưa cho tôi một chỉ mục nhỏ hơn 1, tôi sẽ hiểu là bạn muốn nói 1.",
+                        "\\['quả táo' 'quả chuối' 'quả xoài'].chuỗicon(-1003243 2)\\",
+                        "Và nếu bạn đưa cho tôi một số lớn hơn chỉ mục lớn nhất, tôi sẽ hiểu là bạn muốn nói phần cuối.",
+                        "\\['táo' 'chuối' 'xoài'].chuỗicon(3 2304032432)\\"
+                    ],
+                    "names": "$~chuỗicon",
+                    "inputs": [
+                        {
+                            "doc": "$~@index của @element đầu tiên trong chuỗi con mà bạn muốn.",
+                            "names": "$~bắtđầu"
+                        },
+                        {
+                            "doc": "$~@index tùy chọn của @element cuối cùng trong chuỗi con mà bạn muốn. Nếu bạn không đưa ra, danh sách của bạn sẽ kết thúc bằng phần tử cuối cùng trong danh sách.",
+                            "names": "$~kếtthúc"
+                        }
+                    ]
+                },
+                "sansFirst": {
+                    "doc": [
+                        "$~Tôi tạo một danh sách mà không có mục đầu tiên.",
+                        "\\['apple' 'banana' 'mango'].sansFirst()\\"
+                    ],
+                    "names": ["$~khôngcóFirst"],
+                    "inputs": []
+                },
+                "sansLast": {
+                    "doc": [
+                        "$~Tôi tạo một danh sách mà không có mục cuối cùng.",
+                        "\\['apple' 'banana' 'mango'].sansLast()\\"
+                    ],
+                    "names": ["$~khôngcócuốicùng"],
+                    "inputs": []
+                },
+                "sansAll": {
+                    "doc": [
+                        "$~Là tôi, nhưng không có @value đã cho. Mọi bản sao đều bị bỏ đi, không chỉ bản đầu tiên, dù bạn dùng tên nào của tôi.\\['táo' 'chuối' 'xoài' 'táo'].khôngcó('táo')\\"
+                    ],
+                    "names": ["$~khôngcó", "$~không", "$~khôngcótấtcả"],
+                    "inputs": [
+                        {
+                            "doc": "$~@value cần xóa tất cả các lần xuất hiện khỏi danh sách.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Tôi, nhưng theo chiều ngược lại!",
+                        "\\['apple' 'banana' 'mango'].reverse()\\"
+                    ],
+                    "names": ["$~đảongược"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ nếu các mặt hàng và đơn đặt hàng của tôi hoàn toàn giống với @List đã cho.",
+                        "\\['apple' 'banana' 'mango'] = ['apple' 'mango' 'banana']\\"
+                    ],
+                    "names": ["$~bằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~@List để so sánh tôi với.",
+                            "names": "$~danhsách"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ nếu các mặt hàng và đơn đặt hàng của tôi /không/ hoàn toàn giống với @List đã cho.",
+                        "\\['táo' 'chuối' 'xoài'] ≠ ['táo' 'xoài' 'chuối']\\"
+                    ],
+                    "names": ["$~khôngbằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~@List để so sánh tôi với.",
+                            "names": "$~danhsách"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Hãy đưa cho mình một @FunctionDefinition nhận vào một @value và một @index tùy chọn rồi tạo ra một giá trị, và mình sẽ chạy nó trên từng @element của mình, @variable các giá trị của mình thành các giá trị mới.",
+                        "Ví dụ, hãy tưởng tượng mình là một danh sách @Number và bạn muốn nhân đôi tất cả chúng:",
+                        "\\[2 4 6 8].dịch(ƒ(số•#) số × 2)\\"
+                    ],
+                    "names": "$~dịch",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition sẽ dịch từng mục.",
+                            "names": "$~ngườidịch"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Mục đang được dịch.",
+                            "names": "$~mục"
+                        },
+                        {
+                            "doc": "$~@index của @element đang được dịch.",
+                            "names": "$~chỉmục"
+                        },
+                        {
+                            "doc": "$~Danh sách đang được dịch.",
+                            "names": "$~danhsách"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Hãy đưa cho tôi một @FunctionDefinition nhận một @value và @index tùy chọn làm đầu vào và tạo ra một @Boolean, tôi sẽ tạo một danh sách mới chỉ gồm các @element cho kết quả \\⊤\\.",
+                        "Ví dụ, hãy tưởng tượng tôi là một danh sách @Number và bạn chỉ muốn những số dương:",
+                        "\\[2 -4 8 -16].lọc(ƒ(số•#) số ≥ 0)\\"
+                    ],
+                    "names": "$~lọc",
+                    "inputs": [
+                        {
+                            "doc": "$~Một @FunctionDefinition kiểm tra từng mục, tạo ra \\⊤\\ nếu nên giữ lại mục đó.",
+                            "names": "$~ngườikiểmtra"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Vật phẩm đang được kiểm tra.",
+                            "names": "$~mục"
+                        },
+                        {
+                            "doc": "$~@index của @element đang được kiểm tra.",
+                            "names": "$~chỉmục"
+                        },
+                        {
+                            "doc": "$~Danh sách đang được lọc.",
+                            "names": "$~danhsách"
+                        }
+                    ]
+                },
+                "all": {
+                    "doc": [
+                        "$~Hãy cho tôi một @FunctionDefinition nhận một @value làm đầu vào và tạo ra một @Boolean nếu nó khớp với một @condition nào đó. Tôi sẽ tạo ra \\⊤\\ nếu tất cả các mục đều khớp với điều kiện.",
+                        "Ví dụ, hãy tưởng tượng tôi là một danh sách @Number và bạn muốn biết liệu mọi thứ có dương hay không:",
+                        "\\[2 -4 8 -16].tấtcả(ƒ(số•#) số ≥ 0)\\"
+                    ],
+                    "names": "$~tấtcả",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition tạo ra \\⊤\\ nếu một @element thỏa mãn @condition của bạn.",
+                            "names": "$~ngườikiểmtra"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Vật phẩm đang được kiểm tra.",
+                            "names": "$~mục"
+                        },
+                        {
+                            "doc": "$~@index của @element đang được kiểm tra.",
+                            "names": "$~chỉmục"
+                        },
+                        {
+                            "doc": "$~Danh sách đang được kiểm tra.",
+                            "names": "$~danhsách"
+                        }
+                    ]
+                },
+                "until": {
+                    "doc": [
+                        "$~Hãy cho tôi một @FunctionDefinition nhận một @value làm đầu vào và tạo ra một @Boolean nếu nó khớp với một @condition nào đó. Tôi sẽ tạo ra một @List mới chứa tất cả các mục cho đến khi điều kiện không còn được đáp ứng.",
+                        "Ví dụ, hãy tưởng tượng tôi là một danh sách các con vật @Text và bạn muốn mọi thứ cho đến khi \\'chuột'\\ được tìm thấy:",
+                        "\\[\n\t'mèo'\n\t'chó'\n\t'chuột cống'\n\t'chuột nhắt'\n\t'ngựa con'\n].chođếnkhi(ƒ(độngVật•'') độngVật = 'chuột cống')\\🪲"
+                    ],
+                    "names": "$~chođếnkhi",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition tạo ra \\⊤\\ nếu tôi nên ngừng bao gồm các mục.",
+                            "names": "$~ngườikiểmtra"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Vật phẩm đang được kiểm tra.",
+                            "names": "$~mục"
+                        },
+                        {
+                            "doc": "$~@index của @element đang được kiểm tra.",
+                            "names": "$~chỉmục"
+                        },
+                        {
+                            "doc": "$~Danh sách đang được lập @index con.",
+                            "names": "$~danhsách"
+                        }
+                    ]
+                },
+                "find": {
+                    "doc": [
+                        "$~Đưa cho tôi một @FunctionDefinition nhận một @value làm đầu vào và tạo ra một @Boolean nếu nó khớp với một tiêu chí nào đó, và tôi sẽ đánh giá thành mục khớp.",
+                        "Ví dụ, hãy tưởng tượng bạn muốn tìm con vật đầu tiên có nguyên âm \\'e'\\:",
+                        "\\[\n\t'mèo'\n\t'chó'\n\t'chuột cống'\n\t'chuột nhắt'\n\t'ngựa con'\n].tìmthấy(ƒ(độngVật•'') độngVật.⊆('e'))\\🪲"
+                    ],
+                    "names": "$~tìmthấy",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition tạo ra ký hiệu \\⊤\\ nếu nó khớp với tiêu chí tìm kiếm của bạn.",
+                            "names": "$~ngườikiểmtra"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Vật phẩm đang được kiểm tra.",
+                            "names": "$~mục"
+                        },
+                        {
+                            "doc": "$~@index của @element đang được kiểm tra.",
+                            "names": "$~chỉmục"
+                        },
+                        {
+                            "doc": "$~Danh sách đang được tìm kiếm.",
+                            "names": "$~danhsách"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Hãy đưa cho tôi một @FunctionDefinition nhận tổ hợp gần nhất và @value tiếp theo, rồi tạo ra tổ hợp tiếp theo. Tôi sẽ đi từ @element đầu tiên đến phần tử cuối cùng của tôi, tạo ra các tổ hợp liên tiếp, và cho ra kết quả là tổ hợp cuối cùng mà @FunctionDefinition của bạn tính ra.",
+                        "Điều này rất hữu ích để gộp tất cả các phần tử trong tôi thành một giá trị duy nhất. Ví dụ, hãy tưởng tượng bạn muốn cộng một danh sách các số:",
+                        "\\[3 9 2 8 1 4].kếthợp(0 ƒ(tổng•# số•#) tổng + số)\\"
+                    ],
+                    "names": ["$~kếthợp"],
+                    "inputs": [
+                        {
+                            "doc": "$~Sự kết hợp ban đầu.",
+                            "names": "$~banđầu"
+                        },
+                        {
+                            "doc": "$~@FunctionDefinition nhận tổ hợp mới nhất và @value tiếp theo rồi tạo ra tổ hợp tiếp theo.",
+                            "names": "$~bộkếthợp"
+                        }
+                    ],
+                    "combiner": [
+                        {
+                            "doc": "$~Sự kết hợp hiện tại",
+                            "names": "$~sựkếthợp"
+                        },
+                        {
+                            "doc": "$~Mục tiếp theo cần kết hợp.",
+                            "names": "$~Kếtiếp"
+                        },
+                        {
+                            "doc": "$~@index của @element tiếp theo",
+                            "names": "$~chỉmục"
+                        },
+                        {
+                            "doc": "$~Danh sách đang được kết hợp.",
+                            "names": "$~danhsách"
+                        }
+                    ]
+                },
+                "sorted": {
+                    "doc": [
+                        "$~Tôi có thể nhận một danh sách, và tạo ra một danh sách mới với các @value đã được sắp xếp. Như thế này:",
+                        "\\[1 5 8 0 2].đãsắpxếp()\\",
+                        "Tôi cũng có thể làm điều đó với các giá trị @Text, theo thứ tự bảng chữ cái. Một chữ cái viết hoa được sắp xếp ngay cạnh chữ cái viết thường của nó, nên một từ không bị đẩy xuống cuối chỉ vì bắt đầu bằng chữ hoa:",
+                        "\\['Cam' 'kiwi' 'Chuối' 'táo'].đãsắpxếp()\\",
+                        "Và nếu bạn có một danh sách các giá trị không phải @Number hay @Text, bạn có thể đưa cho tôi một @FunctionDefinition @variable mỗi @element thành một @Number hoặc một @Text để tôi có thể sắp xếp nó. Ví dụ, đây là một danh sách các danh sách có độ dài khác nhau; nếu bạn đưa cho tôi một hàm biến mỗi danh sách thành độ dài của nó, tôi có thể sắp xếp theo độ dài của chúng.",
+                        "\\[[1] [2 3] [4 8 12] [8]].đãsắpxếp(\n\tƒ(danhSách2) danhSách2.chiềudài()\n)\\",
+                        "Một hàm tạo ra @Text là cách bạn sắp xếp theo một từ mà bạn tính toán, thay vì theo chính giá trị đó. Ở đây tôi sắp xếp tên theo họ:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].đãsắpxếp(\n\tƒ(tên2•'') (tên2 ÷ ' ').cuốicùng()\n)\\"
+                    ],
+                    "names": "$~đãsắpxếp",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition tùy chọn dùng để sắp xếp một danh sách @value. Nó nên @variable giá trị thành một @Number hoặc một @Text có thể dùng để sắp xếp danh sách.",
+                            "names": "$~bộđiềukhiểntrìnhtự"
+                        }
+                    ],
+                    "sequencer": [
+                        {
+                            "doc": "$~@value cần @variable thành một @Number hoặc một @Text.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Cộng tất cả các số của tôi lại với nhau. Nếu tôi rỗng, kết quả là 0, và nếu các số của tôi không cùng đơn vị đo, tôi sẽ báo cho bạn biết thay vì đoán bừa.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~tổng",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Cộng tất cả các số của tôi lại với nhau rồi chia cho số lượng của chúng. Nếu tôi rỗng thì không có gì để tính trung bình, nên bạn sẽ nhận được @None.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~trungBình",
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "text": "$~Chuyển đổi danh sách thành định dạng @Text.",
+                "set": "$~Thêm vào @Set, hữu ích để loại bỏ các phần tử trùng lặp."
+            }
+        },
+        "Set": {
+            "doc": [
+                "$~Mình là một tập hợp các giá trị! Nghĩa là mình có thể chứa bất kỳ số lượng giá trị nào, kể cả không có giá trị nào. Bạn có thể tạo ra mình như thế này:",
+                "\\{1 2 3}\\",
+                "Mình rất hữu ích nếu bạn muốn giữ một bộ sưu tập các thứ mà không có @element trùng lặp.",
+                "Nghĩa là nếu bạn đưa cho mình những giá trị mình đã có, mình sẽ bỏ qua những cái thừa.",
+                "Ví dụ, tập hợp này có nhiều phần tử trùng lặp:",
+                "\\{1 1 2 2 3 3}\\",
+                "Mình tính nó ra chỉ còn \\{1 2 3}\\.",
+                "Nếu bạn muốn xem mình có chứa một @value nào đó không, @SetOrMapAccess có thể giúp:",
+                "\\{'lọ' 'chai' 'ly thủy tinh'}{'cốc'}\\",
+                "Thường thì, nếu bạn đưa cho mình một loạt giá trị có chung một @type, mình sẽ cho rằng chúng là một danh sách thuộc kiểu đó. Như tập hợp này là \\{''}\\, vì tất cả đều là @Text.",
+                "\\{'này' 'chào' 'xin chào'}\\",
+                "Nhưng bạn có thể muốn báo rằng mình là một tập hợp /chỉ/ gồm những giá trị đó thôi, để mình có thể báo cho bạn khi bạn cố dùng một giá trị không được phép. Nếu vậy, chỉ cần thêm dấu ! vào cuối mình.",
+                "\\{'này' 'chào' 'xin chào'}!{'ê'}\\🪲",
+                "Bạn còn muốn làm điều gì khác với mình không? Hãy xem tất cả những @FunctionDefinition hay ho mà mình có!"
+            ],
+            "name": ["$~Bộ"],
+            "kind": "$~Loại",
+            "out": "$~KếtQuả",
+            "function": {
+                "size": {
+                    "doc": "$~Tôi sẽ cho bạn biết tôi có bao nhiêu @value.",
+                    "names": "$~kíchcỡ",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~Tôi là \\⊤\\ nếu @Set đã cho và tôi có cùng các @value chính xác:",
+                        "\\{1 2 3} = {2 3 4}\\"
+                    ],
+                    "names": ["$~bằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Bộ @Set dùng để so sánh.",
+                            "names": "$~bộ"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~Tôi \\⊤\\ nếu @Set đã cho và tôi không có các @value hoàn toàn giống nhau:",
+                        "\\{1 2 3} ≠ {2 3 4}\\"
+                    ],
+                    "names": ["$~khôngbằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Bộ @Set dùng để so sánh.",
+                            "names": "$~bộ"
+                        }
+                    ]
+                },
+                "add": {
+                    "doc": [
+                        "$~Hãy cho tôi một mục để thêm vào và tôi sẽ tạo một @Set mới với các mục của tôi và mục được cung cấp.",
+                        "\\{1 2 3} + 4\\"
+                    ],
+                    "names": ["$~với", "$~thêmvào"],
+                    "inputs": [
+                        {
+                            "doc": "$~Mục cần thêm",
+                            "names": "$~mục"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~Hãy cho tôi biết mục bạn muốn xóa và tôi sẽ tạo một @Set mới mà không có mục đó.",
+                        "\\{1 2 3} - 2\\",
+                        "Nếu tôi không có món đồ đó, tôi sẽ tự đánh giá."
+                    ],
+                    "names": ["$~didời"],
+                    "inputs": [
+                        {
+                            "doc": "$~Vật cần loại bỏ.",
+                            "names": "$~mục"
+                        }
+                    ]
+                },
+                "union": {
+                    "doc": [
+                        "$~Hãy đưa cho tôi @Set và tôi sẽ tạo một @Set mới chứa các mục của tôi và các mục của bộ đó.",
+                        "\\{1 2 3} ∪ {3 4 5}\\"
+                    ],
+                    "names": ["$~côngđoàn"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Set sẽ kết hợp với tôi.",
+                            "names": "$~bộ"
+                        }
+                    ]
+                },
+                "intersection": {
+                    "doc": [
+                        "$~Hãy đưa cho tôi @Set và tôi sẽ tạo một @Set mới chỉ chứa những mục mà chúng ta có chung.",
+                        "\\{1 2 3} ∩ {3 4 5}\\"
+                    ],
+                    "names": ["$~giaolộ"],
+                    "inputs": [
+                        {
+                            "doc": "$~Bộ này dùng để so sánh với tôi.",
+                            "names": "$~bộ"
+                        }
+                    ]
+                },
+                "difference": {
+                    "doc": [
+                        "$~Hãy đưa cho tôi @Set và tôi sẽ tạo một @Set mới chỉ chứa các mục mà chúng ta có chung.",
+                        "\\{1 2 3}.difference({3 4 5})\\"
+                    ],
+                    "names": "$~sựkhácbiệt",
+                    "inputs": [
+                        {
+                            "doc": "$~Bộ sản phẩm gồm những món đồ cần được gỡ bỏ khỏi tôi.",
+                            "names": "$~bộ"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Hãy cung cấp cho tôi một @FunctionDefinition nhận vào một mục và trả về \\⊤\\ nếu mục đó nên được giữ lại, và tôi sẽ tạo một @Set chỉ chứa các mục đáp ứng tiêu chí của bạn.",
+                        "Ví dụ, hãy tìm những số lẻ trong tôi:",
+                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
+                    ],
+                    "names": "$~lọc",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition kiểm tra một mục để xem nó có nên được giữ lại hay không.",
+                            "names": "$~ngườikiểmtra"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Vật phẩm đang được kiểm tra.",
+                            "names": "$~giátrị"
+                        },
+                        {
+                            "doc": "$~Tập hợp đang được lọc",
+                            "names": "$~bộ"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Hãy cung cấp cho tôi một @FunctionDefinition nhận vào một mục và tạo ra một mục mới dựa trên mục đó, sau đó tôi sẽ chuyển đổi tất cả các mục trong đó thành một @Set mới (loại bỏ bất kỳ mục trùng lặp nào).",
+                        "Ví dụ, hãy chuyển tất cả các @Number của tôi thành @Text:",
+                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
+                    ],
+                    "names": "$~dịch",
+                    "inputs": [
+                        {
+                            "doc": "$~Đây là chú thích @FunctionDefinition dùng để chuyển đổi một trong các mục của tôi thành mục mới mà bạn muốn.",
+                            "names": "$~bộ"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Mục đang được dịch.",
+                            "names": "$~giátrị"
+                        },
+                        {
+                            "doc": "$~Bộ @documentation đang được dịch",
+                            "names": "$~bộ"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Một biểu diễn @Text của một @Set",
+                "list": "$~Một biểu diễn dạng @List của các phần tử trong tập hợp."
+            }
+        },
+        "Map": {
+            "doc": [
+                "$~Mình gom các giá trị lại với nhau, ánh xạ *chìa khóa* tới *giá trị*. Ví dụ:",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}\\",
+                "Chìa khóa của mình có thể là bất kỳ kiểu @value nào, và giá trị của mình có thể là bất kỳ loại giá trị nào.",
+                "Một số người thích nghĩ về mình như một @index, hay một cuốn từ điển, nơi bạn đưa cho mình một thứ, và mình đưa lại cho bạn thứ mà nó được ánh xạ tới.",
+                "Nếu bạn muốn kiểm tra một thứ được ánh xạ tới cái gì, bạn có thể đưa @SetOrMapAccess, một @key và chúng sẽ đưa cho bạn giá trị:",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}{'amy'}\\",
+                "Nếu không có chìa khóa nào khớp, mình sẽ đưa cho bạn @None.",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}{'jen'}\\",
+                "Bạn cũng có thể tạo một map trống như thế này:",
+                "\\{:}\\",
+                "Thường thì, mình sẽ xem những kiểu chìa khóa và giá trị mà bạn đưa cho mình rồi tự nghĩ ra một @type để đại diện cho tất cả chúng. Như đây là một map từ số sang số:",
+                "\\{1:1 2:2 3:3}\\",
+                "Nhưng giả sử bạn muốn đảm bảo nó chỉ gồm đúng những giá trị đó; chỉ cần thêm dấu ! vào cuối mình, và mình sẽ không khái quát hóa nữa. Điều đó giúp bạn biết khi bạn đang cố lấy một giá trị mà bạn không định lấy.",
+                "\\{1:1 2:2 3:3}!{4}\\🪲",
+                "Mình biết cách làm nhiều điều tuyệt vời với các cặp ghép của mình."
+            ],
+            "name": ["$~Bảnđồ"],
+            "key": "$~ChìaKhóa",
+            "value": "$~GiáTrị",
+            "result": "$~KếtQuả",
+            "function": {
+                "size": {
+                    "doc": "$~Tôi sẽ cho bạn biết tôi có bao nhiêu @value.",
+                    "names": "$~kíchcỡ",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~\\{⊤}\\ nếu các cặp ghép của tôi hoàn toàn giống với các cặp ghép của @Map đã cho.",
+                        "\\{1:1 2:2} = {1:1 2:3}\\"
+                    ],
+                    "names": ["$~bằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Map là cái tên mà người ta dùng để so sánh tôi.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\{⊤}\\ nếu các cặp ghép của tôi /không/ hoàn toàn giống với các cặp ghép của @Map đã cho.",
+                        "\\{1:1 2:2} ≠ {1:1 2:3}\\"
+                    ],
+                    "names": ["$~khôngbằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Map là cái tên mà người ta dùng để so sánh tôi.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "set": {
+                    "doc": [
+                        "$~Mình sẽ tạo một @Map mới với tất cả các cặp ghép giống hệt, nhưng thêm cặp ghép mới mà bạn đưa cho mình. Nếu mình đã có @key đó rồi, mình sẽ ghép nó với @value mới.",
+                        "\\{'amy': 6points 'tony': 3points}.đôi('jen' 0points)\\"
+                    ],
+                    "names": "$~đôi",
+                    "inputs": [
+                        {
+                            "doc": "$~@key để ghép với một @value.",
+                            "names": "$~chìakhóa"
+                        },
+                        {
+                            "doc": "$~@value để ghép với @key",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "unset": {
+                    "doc": [
+                        "$~Mình sẽ tạo một @Map mới không có @key mà bạn đưa cho mình, xóa đi cặp ghép của nó.",
+                        "\\{'amy': 6points 'tony': 3points}.khôngghépđôi('amy')\\"
+                    ],
+                    "names": "$~khôngghépđôi",
+                    "inputs": [
+                        {
+                            "doc": "$~@key cần quên.",
+                            "names": "$~chìakhóa"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~Mình sẽ tạo một @Map mới không có chìa khóa nào chứa @value đó.",
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.didời(\n\t0points\n)\\"
+                    ],
+                    "names": "$~didời",
+                    "inputs": [
+                        {
+                            "doc": "$~@value cần xóa khỏi tôi, cùng với mọi chìa khóa đã ghép với nó.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Hãy cho tôi một @FunctionDefinition nhận một @key và @value và tính ra \\⊤\\ nếu một cặp nên được giữ lại. Tôi sẽ tạo ra một @Map mới đáp ứng tiêu chí của bạn.",
+                        "Ví dụ, ở đây chúng ta muốn giữ lại bất kỳ cặp nào là Amy hoặc có nhiều hơn không điểm.",
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.lọc(ƒ(chìaKhóa•'' giáTrị•#points) (chìaKhóa = 'amy') | (giáTrị > 0points))\\"
+                    ],
+                    "names": "$~lọc",
+                    "inputs": [
+                        {
+                            "doc": "$~@parameter @FunctionDefinition quyết định có giữ lại cặp ghép nối hay không.",
+                            "names": "$~ngườikiểmtra"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~@key đang được kiểm tra.",
+                            "names": "$~chìakhóa"
+                        },
+                        {
+                            "doc": "$~@value đang được kiểm tra.",
+                            "names": "$~giátrị"
+                        },
+                        {
+                            "doc": "$~Bản đồ đang được lọc.",
+                            "names": "$~bảnđồ"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Hãy đưa cho mình một @FunctionDefinition nhận vào một @key và @value rồi tính giá trị đó thành một giá trị mới. Mình sẽ tạo một @Map mới với các chìa khóa giống nhau nhưng các giá trị được cập nhật.",
+                        "Ví dụ, hãy cho mỗi người thêm một điểm vì họ đã rất tử tế.",
+                        "\\{'amy': 5points 'jen': 3points 'tony': 0points}.dịch(\n\tƒ(chìaKhóa•'' giáTrị•#points) giáTrị + 1points\n)\\🪲"
+                    ],
+                    "names": "$~dịch",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition để dịch mỗi @value.",
+                            "names": "$~ngườidịch"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~@key của @value đang được dịch.",
+                            "names": "$~chìakhóa"
+                        },
+                        {
+                            "doc": "$~@value đang được dịch.",
+                            "names": "$~giátrị"
+                        },
+                        {
+                            "doc": "$~Bản đồ đang được dịch.",
+                            "names": "$~bảnđồ"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Một biểu diễn @Text của ánh xạ.",
+                "set": "$~Các khóa của @Map",
+                "list": "$~Danh sách các giá trị trong @Map"
+            }
+        },
+        "Table": {
+            "doc": [
+                "$~Tôi là một tập hợp các hàng của bảng! Tôi có thể giúp bạn theo dõi những bộ sưu tập lớn gồm các @value có cùng cấu trúc.",
+                "Ví dụ, hãy tưởng tượng bạn muốn theo dõi một loạt viên đá:",
+                "\\⎡tên•'' màuSắc•''⎦\n⎡'đá vỏ chai' 'đen'⎦\n⎡'đá bọt' 'xám'⎦\n⎡'thạch anh vàng' 'vàng'⎦\\",
+                "@Bind có thể giúp bạn đặt tên cho nó! Và sau đó bạn có thể làm những việc như tạo một bảng đã chỉnh sửa với một hàng mới @Insert:",
+                "\\đá: ⎡tên•'' màuSắc•''⎦\n\t⎡'đá vỏ chai' 'đen'⎦\n\t⎡'đá bọt' 'xám'⎦\n\t⎡'thạch anh vàng' 'vàng'⎦\nđá ⎡+'thạch anh' 'trắng'⎦\\",
+                "Hoặc nếu bạn muốn tìm những hàng khớp, bạn có thể @Select những hàng khớp với một @condition:",
+                "\\đá: ⎡tên•'' màuSắc•''⎦\n\t⎡'đá vỏ chai' 'đen'⎦\n\t⎡'đá bọt' 'xám'⎦\n\t⎡'đá thạch anh vàng' 'vàng'⎦\nđá ⎡?⎦ màuSắc = 'xám'\\",
+                "Hoặc có thể bạn muốn tạo một bảng đã chỉnh sửa có các giá trị khác nhau cho những hàng khớp với một điều kiện:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
+                "Hoặc có thể bạn muốn xóa những hàng khớp với một điều kiện:",
+                "\\đá: ⎡tên•'' màuSắc•''⎦\n\t⎡'đá vỏ chai' 'đen'⎦\n\t⎡'đá bọt' 'xám'⎦\n\t⎡'đá thạch anh vàng' 'vàng'⎦\nđá ⎡- tên.có('i')\\",
+                "Và nếu bạn muốn lấy các giá trị cụ thể từ tôi, bạn có thể chuyển bất kỳ bảng nào thành một danh sách và truy cập từng hàng riêng lẻ với @PropertyReference",
+                "\\đá: ⎡tên•'' màuSắc•''⎦\n\t⎡'đá vỏ chai' 'đen'⎦\n\t⎡'đá bọt' 'xám'⎦\n\t⎡'thạch anh vàng' 'vàng'⎦\n(đá → [])[1].tên\\"
+            ],
+            "name": ["$~Bàn"],
+            "row": "$~HàngNgang",
+            "function": {
+                "equals": {
+                    "doc": "$~Tôi kiểm tra xem mình có các ô giống hệt nhau và được sắp xếp theo cùng một thứ tự như trong một bảng @Table khác hay không.",
+                    "names": ["$~bằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Cần kiểm tra bảng còn lại.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~Tôi kiểm tra xem có ô nào trong bảng của tôi khác biệt hoặc có thứ tự khác biệt so với bảng @Table khác hay không.",
+                    "names": ["$~khôngbằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Cần kiểm tra bảng còn lại.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": "$~Tôi chuyển đổi một @Table thành một danh sách các hàng, trong đó mỗi hàng là một @Structure với tên cột được sử dụng làm thuộc tính.",
+                "text": "$~Tôi chỉ chuyển đổi một @Table thành văn bản."
+            }
+        },
+        "Structure": {
+            "doc": "$~Tôi là một @value có cấu trúc, với các trường có tên và có kiểu, được tạo từ một @StructureDefinition. Xem @StructureDefinition.",
+            "name": ["$~Kếtcấu"],
+            "function": {
+                "equals": {
+                    "doc": "$~Tôi kiểm tra xem các @property của mình có cùng tên và @value với các thuộc tính của một cấu trúc khác hay không.",
+                    "names": ["$~bằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Cấu trúc khác cần kiểm tra.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~Tôi kiểm tra xem các @property của mình có khác biệt gì về tên và @value so với các cấu trúc khác hay không.",
+                    "names": ["$~khôngbằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Cấu trúc khác cần kiểm tra.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Tôi chuyển sang dùng @Text."
+            }
+        },
+        "Formatted": {
+            "doc": [
+                "$~Tôi là văn bản được định dạng: các từ có kiểu dáng, như in đậm, in nghiêng và liên kết. Hãy đặt tôi giữa dấu ngoặc kép ngược:",
+                "\\`I am **bold** and /italic/`\\",
+                "Tôi hoạt động khá giống với @Text , nhưng tôi có thể mang theo định dạng. Bạn có thể kết hợp tôi, lặp lại tôi, kiểm tra nội dung của tôi và chuyển đổi tôi thành @Text thuần túy."
+            ],
+            "name": ["$~Đãđịnhdạng"],
+            "function": {
+                "length": {
+                    "doc": "$~Tôi đánh giá dựa trên số lượng ký tự dễ đọc trong văn bản của mình, bỏ qua định dạng và ngắt đoạn.",
+                    "names": ["$~chiềudài"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ nếu tôi là cùng một văn bản đã định dạng như @value đã cho.",
+                    "names": ["$~bằng"],
+                    "inputs": [
+                        {
+                            "doc": "$~Văn bản được định dạng để so sánh.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ nếu tôi /không/ phải cùng một văn bản đã định dạng như @value đã cho.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~Văn bản được định dạng để so sánh.",
+                            "names": "$~giátrị"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "$~\\⊤\\ nếu văn bản thuần túy của tôi chứa @Text đã cho. Tôi sẽ bỏ qua định dạng và ngắt đoạn khi xem.",
+                    "names": ["$~có"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Text cần tìm trong văn bản của tôi.",
+                            "names": "$~chữ"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "$~\\⊤\\ nếu văn bản thuần túy của tôi bắt đầu bằng @Text đã cho. Tôi bỏ qua định dạng và ngắt đoạn khi kiểm tra.",
+                    "names": ["$~bắtđầu"],
+                    "inputs": [
+                        {
+                            "doc": "$~Đoạn mã @Text cần kiểm tra ở đầu văn bản.",
+                            "names": "$~chữ"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "$~\\⊤\\ nếu văn bản thuần túy của tôi kết thúc bằng @Text đã cho. Tôi bỏ qua định dạng và ngắt đoạn khi kiểm tra.",
+                    "names": ["$~kếtthúc"],
+                    "inputs": [
+                        {
+                            "doc": "$~Thuộc @Text cần kiểm tra ở cuối văn bản của tôi.",
+                            "names": "$~chữ"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": "$~Tôi tạo ra một đoạn văn bản mới được định dạng theo đúng định dạng của tôi, được lặp lại số lần đã cho. Nếu tôi có nhiều hơn một đoạn văn, các dấu ngắt câu sẽ được giữ nguyên giữa các bản sao.",
+                    "names": ["$~lặplại"],
+                    "inputs": [
+                        {
+                            "doc": "$~Số lần phải lặp lại lời nói.",
+                            "names": "$~đếm"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "$~Hãy đưa cho tôi một đoạn văn bản khác đã được định dạng và tôi sẽ ghép chúng lại thành một. Nếu một trong hai bên có nhiều hơn một đoạn văn, các dấu ngắt đoạn sẽ được giữ nguyên.",
+                    "names": ["$~kếthợp"],
+                    "inputs": [
+                        {
+                            "doc": "$~Văn bản được định dạng để thêm vào.",
+                            "names": "$~đãđịnhdạng"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Tôi tạo ra một đoạn văn bản đã định dạng mới là chính tôi, với mọi chữ cái đều viết hoa. Chỉ có các từ của tôi thay đổi; định dạng, đường liên kết và ví dụ của tôi vẫn giữ nguyên:",
+                        "\\`*chào* bạn`.chữHoa()\\",
+                        "Giống như @Text/uppercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ @language của tôi quyết định dùng quy tắc của ngôn ngữ nào."
+                    ],
+                    "names": ["$~chữHoa"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Tôi tạo ra một đoạn văn bản đã định dạng mới là chính tôi, với mọi chữ cái đều viết thường. Chỉ có các từ của tôi thay đổi; định dạng, đường liên kết và ví dụ của tôi vẫn giữ nguyên:",
+                        "\\`*CHÀO* BẠN`.chữThường()\\",
+                        "Giống như @Text/lowercase, chỉ một số hệ chữ viết mới có chữ hoa và chữ thường, và thẻ @language của tôi quyết định dùng quy tắc của ngôn ngữ nào."
+                    ],
+                    "names": ["$~chữThường"],
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "text": "$~Chuyển đổi văn bản có định dạng thành văn bản thuần @Text , loại bỏ tất cả định dạng.",
+                "list": "$~Chuyển văn bản đã định dạng thành một @List gồm @Text, mỗi phần tử ứng với một ký hiệu trong các từ của tôi. Định dạng không thể giữ nguyên khi bị cắt thành từng ký hiệu riêng lẻ, nên nó sẽ bị bỏ đi.",
+                "number": [
+                    "$~Chuyển các từ của tôi thành @Number, và nếu chúng không phải là một số, thì thành một giá trị không phải là số, hiển thị là \\!#\\:",
+                    "\\`chào` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Tôi là một khoảng số! Tôi có điểm đầu và điểm cuối, tôi gồm cả hai điểm đó, và mọi số nằm giữa chúng. Bạn tạo ra tôi bằng \\‥\\ giữa hai số:",
+                "\\1‥10\\",
+                "Hãy hỏi tôi xem tôi có chứa một số hay không:",
+                "\\(1‥10) ∋ 7\\",
+                "Hãy trải tôi thành một danh sách để lấy mọi số mà tôi chứa:",
+                "\\[:1‥10]\\",
+                "Dùng tôi làm chìa khóa @Match và tôi sẽ khớp với bất kỳ số nào tôi chứa:",
+                "\\7 ???\n\t1 ‥ 9: 'nhỏ'\n\t'lớn'\\",
+                "Điểm đầu và điểm cuối của tôi phải có cùng đơn vị, giống như các phép so sánh @Number vậy."
+            ],
+            "name": ["$~Khoảng"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ nếu @Range đã cho có cùng điểm đầu và điểm cuối với tôi:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range để so sánh với tôi.",
+                            "names": "$~khoảng"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ nếu @Range đã cho có điểm đầu hoặc điểm cuối khác với tôi:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Range để so sánh với tôi.",
+                            "names": "$~khoảng"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ nếu @Number đã cho nằm giữa điểm đầu và điểm cuối của tôi, hoặc trùng với một trong hai điểm đó:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Không quan trọng tôi được viết theo chiều nào:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~có"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Number cần tìm trong tôi.",
+                            "names": "$~số"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Tôi chuyển một khoảng thành một danh sách gồm mọi số trong đó, đếm từng số một. Ví dụ:",
+                    "\\(1‥5)→[]\\"
+                ]
+            }
+        }
+    }
+}

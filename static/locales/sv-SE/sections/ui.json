@@ -1,0 +1,2768 @@
+{
+    "$schema": "../../../static/schemas/sections/ui.json",
+    "ui": {
+        "font": {
+            "app": "$~Noto Sans",
+            "code": "$~Noto Sans Mono",
+            "missing": "$~inga",
+            "form": {
+                "sans": "$~ett typsnitt utan klackar",
+                "serif": "$~ett typsnitt med klackar",
+                "slab": "$~ett typsnitt med kraftiga klackar",
+                "typewriter": "$~ett skrivmaskinstypsnitt",
+                "handwriting": "$~handstil",
+                "brush": "$~ett penseltypsnitt",
+                "script": "$~ett kursivt typsnitt",
+                "poster": "$~ett postertypsnitt",
+                "pixel": "$~ett pixeltypsnitt",
+                "outline": "$~ett ihåligt typsnitt",
+                "textured": "$~ett typsnitt med struktur",
+                "emoji": "$~bilder, inte bokstäver"
+            },
+            "impression": {
+                "calm": "$~lugnt",
+                "oldFashioned": "$~gammaldags",
+                "strong": "$~starkt",
+                "quirky": "$~udda",
+                "playful": "$~lekfullt",
+                "excited": "$~upprymt",
+                "childlike": "$~barnsligt",
+                "artistic": "$~konstnärligt",
+                "futuristic": "$~futuristiskt",
+                "energetic": "$~energiskt",
+                "cute": "$~gulligt",
+                "cheerful": "$~glatt",
+                "fancy": "$~flott"
+            },
+            "mechanic": {
+                "sameWidth": "$~varje bokstav lika bred",
+                "tallLowercase": "$~små bokstäver lika höga som versaler",
+                "shortLowercase": "$~små bokstäver mycket kortare än versaler"
+            },
+            "description": {
+                "and": "$~$first och $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
+        },
+        "phrases": {
+            "welcome": "$~Hej"
+        },
+        "widget": {
+            "confirm": {
+                "cancel": "$~avboka"
+            },
+            "dialog": {
+                "close": "$~nära"
+            },
+            "loading": {
+                "message": "$~Laddar, tack för att du väntar!"
+            },
+            "home": "$~gå till startsidan",
+            "table": {
+                "cell": {
+                    "description": "$~redigera den här cellen",
+                    "placeholder": "$~värde"
+                },
+                "addcolumn": "$~lägg till en kolumn före denna kolumn",
+                "removecolumn": "$~ta bort den här kolumnen"
+            },
+            "formatted": {
+                "edit": "$~redigera formaterad text",
+                "preview": "$~förhandsgranska formaterad text",
+                "highlight": "$~exempel på framhävning",
+                "bullet": "$~punkt",
+                "attention": "$~markera det här uttrycket",
+                "defect": "$~markera exempel som ett förväntat fel"
+            },
+            "backtotop": "$~tillbaka till toppen",
+            "overflow": {
+                "button": {
+                    "on": "$~dölj extra kontroller",
+                    "off": "$~visa extra kontroller"
+                },
+                "popup": "$~Ytterligare kontroller"
+            },
+            "color": {
+                "field": "$~färgfält",
+                "instructions": "$~Använd vänster- och högerpiltangenterna för att ändra nyans, upp- och nedpiltangenterna för att ändra kroma, och page up- och page down-tangenterna för att ändra ljushet. Håll ner shift för mindre steg. Med en skärmläsare, interagera med den här kontrollen först, eller använd reglagen för ljushet, kroma och nyans nedanför.",
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~ange en färg i valfritt webbformat",
+                    "placeholder": "$~#f00, rgb(), hsl(), röd",
+                    "invalid": "$~inte en igenkänd färg",
+                    "format": "$~upptäckt format"
+                },
+                "pick": {
+                    "tip": "$~välj en färg från din skärm"
+                }
+            },
+            "logo": {
+                "description": "$~En pratbubbla med en bokstav från ditt skriftsystem inuti"
+            },
+            "synced": {
+                "saved": "$~Sparas mellan enheter",
+                "signedOut": "$~Sparas mellan enheter när du är inloggad"
+            }
+        },
+        "tile": {
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~avsluta helskärm",
+                    "off": "$~expandera fönsterruta till helskärm"
+                },
+                "show": {
+                    "on": "$~göm $name",
+                    "off": "$~visa $name"
+                },
+                "showSource": {
+                    "on": "$~dölj källa $name",
+                    "off": "$~visa källa $name"
+                }
+            },
+            "label": {
+                "output": "$~etapp",
+                "palette": "$~palett",
+                "docs": "$~guide",
+                "source": "$~källa",
+                "collaborate": "$~samarbeta"
+            },
+            "button": {
+                "collapse": "$~kollapsa fönstret"
+            }
+        },
+        "project": {
+            "error": {
+                "unknown": "$~Det här projektet finns inte eller så har du inte tillgång till det.",
+                "translate": "$~Det uppstod ett problem med att översätta ditt projekt.",
+                "tile": "$~Hoppsan, det uppstod ett fel",
+                "reset": "$~Försök att återställa...",
+                "translateBroken": "$~Att översätta skulle ha orsakat fel i ditt projekt, så inget ändrades. Prova ett annat språk, eller översätt igen."
+            },
+            "button": {
+                "share": {
+                    "tip": "$~visa alternativ för projektdelning",
+                    "label": "$~dela"
+                },
+                "removeCollaborator": "$~ta bort medarbetare",
+                "copy": {
+                    "tip": "$~kopiera projekt till urklipp som text",
+                    "label": "$~kopiera som text"
+                },
+                "addSource": "$~skapa en ny @Source, så att du kan hålla data eller delad kod i en egen fil",
+                "revert": "$~återgå till originalkoden",
+                "focusOutput": "$~fokus tangentbordet på scenen",
+                "focusSource": "$~fokusera på nästa källa",
+                "focusDocs": "$~fokusera på dokumentationen",
+                "focusPalette": "$~fokusera på paletten",
+                "focusCycle": "$~fokusera på nästa bricka",
+                "unsaved": "$~visa spara fel",
+                "translate": {
+                    "tip": "$~översätt detta projekt till ett nytt språk och gör det flerspråkigt",
+                    "label": "$~översätta"
+                },
+                "primary": "$~det språk som skriven text har om texten inte är märkt med ett språk",
+                "savedLocally": "$~projekt sparas lokalt, men inte online",
+                "savedOnline": "$~projekten sparas online",
+                "destination": "$~översätt till detta språk",
+                "remix": {
+                    "tip": "$~gör din egen kopia av det här projektet för att ändra det",
+                    "label": "$~remixa"
+                },
+                "languages": "$~visa språken som detta projekt är skrivet på",
+                "addLanguage": "$~skriv detta projekt även på detta språk",
+                "removeLanguage": "$~sluta skriva detta projekt på detta språk",
+                "firstLanguage": "$~gör detta till projektets första språk",
+                "removeUnusedLanguages": {
+                    "tip": "$~ta bort de språk som projektets kod inte använder",
+                    "label": "$~ta bort oanvända"
+                },
+                "tinker": {
+                    "label": "$~testa den…",
+                    "tip": "$~öppna en kopia av det här exemplet i ett nytt fönster, så du kan ändra det och se vad som händer"
+                }
+            },
+            "field": {
+                "name": {
+                    "description": "$~redigera projektnamn",
+                    "placeholder": "$~namn",
+                    "invalid": "$~Ofullständig översättning — kontrollera dina citattecken och språktaggar, som \"hej\"/en\"hola\"/es."
+                }
+            },
+            "help": "$~visa kortkommandon",
+            "collapsed": "$~Alla dina fönster är kollapsade! Du hittar dem i verktygsfältet nedan",
+            "save": {
+                "projectsNotLoadingOnline": "$~Det går inte att ladda onlineprojekt.",
+                "settingsUnsaved": "$~Det går inte att spara inställningar online.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Din webbläsare kunde inte spara dessa projekt på den här enheten.",
+                    "indexedDBUnsupported": "$~Din webbläsare tillåter inte @wordplay att spara projekt på den här enheten.",
+                    "firestoreBatchFailed": "$~Vi kunde inte skicka dessa till molnet. De är fortfarande säkra på den här enheten.",
+                    "projectContainsPII": "$~Dessa projekt ser ut att innehålla personlig information, så vi har inte sparat dem online. Öppna vart och ett för att kontrollera vad som ser personligt ut.",
+                    "localProjectStorageFailed": "$~Den här enheten har slut på utrymme att spara, och dessa projekt finns inte i molnet än, så de är i riskzonen.<Sign in@/login> , vilket sparar dem online istället för bara på den här enheten.",
+                    "projectTooLarge": "$~Dessa projekt är för stora för att sparas online. De är fortfarande säkra på den här enheten. Försök att göra dem mindre.",
+                    "noCloudTarget": "$~Dessa projekt finns bara på den här enheten, eftersom @wordplay inte hade någonstans att spara dem online. <Logga inlogin> för att spara dem.",
+                    "cloudWriteRefused": "$~Molnet godtog inte dessa ändringar, så vi använde kopian som finns online istället. Om du tycker att du borde kunna ändra dessa, fråga den som delade dem med dig."
+                },
+                "projectsNotSavingOnline": "$~Vissa projekt finns bara på den här enheten, inte online än."
+            },
+            "dialog": {
+                "languages": {
+                    "header": "$~Språk",
+                    "explanation": [
+                        "$~Detta är språken som ditt projekt är skrivet på.",
+                        "Du kan lägga till ett språk att skriva på, ta bort ett du inte använder, eller översätta hela projektet till ett nytt språk."
+                    ],
+                    "count": "$~$#count[$count språk|$count språk]",
+                    "meaning": [
+                        "$~Ett projekts språk avgör vilka namn och ord dess kod kan använda. Om ditt projekt är skrivet på spanska behöver det spanska här, annars betyder namn som \\Frase\\ ingenting.",
+                        "Alla som öppnar ditt projekt laddar dessa språk, och det första avgör hur din utdata placeras ut. Engelska namn fungerar alltid, i varje projekt."
+                    ],
+                    "unused": "$~inte använt",
+                    "unloaded": "$~kunde inte ladda",
+                    "checking": "$~Letar efter språk som din kod använder…",
+                    "complete": "$~Din kod använder inget språk som ditt projekt saknar.",
+                    "search": {
+                        "description": "$~Filtrera språk efter namn eller region",
+                        "placeholder": "$~språk eller region"
+                    },
+                    "tab": {
+                        "label": "$~språkinställningar",
+                        "labels": ["$~Skrivet på", "$~Översätt"],
+                        "tips": [
+                            "$~se och ändra språken som detta projekt är skrivet på",
+                            "$~översätt detta projekts namn, text och dokumentation till ett annat språk"
+                        ]
+                    },
+                    "prompt": "$~översätt",
+                    "mode": {
+                        "label": "$~vad översättning gör",
+                        "labels": ["$~lägg till", "$~skriv om"],
+                        "tips": [
+                            "$~lägg till det nya språket i ditt projekt, och behåll allt du skrev",
+                            "$~skriv om ditt projekt på det nya språket, och ersätt det du skrev"
+                        ]
+                    },
+                    "source": "$~Text och namn som är märkta med ett språk, som \\'hola'/es\\, översätts från det språket. Välj språket för allt som inte är märkt."
+                }
+            },
+            "subheader": {
+                "source": "$~Källa",
+                "destination": "$~Destination",
+                "missing": "$~Kanske saknas"
+            },
+            "defaults": {
+                "starterCode": "¶Välkommen till ditt tomma projekt! Detta är en kommentar.\nDu kan använda den för att beskriva ditt projekt, anteckna och\nförklara vad du vill att folk ska veta om ditt arbete.\nDen stöder *fet*, /kursiv/, <links@https://wordplay.dev> och mer.¶\nFrase('hej')"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~avsluta webbläsarens helskärm",
+                    "off": "$~öppna webbläsarens helskärm"
+                },
+                "editName": {
+                    "on": "$~visa namnet på ditt språk",
+                    "off": "$~ändra namnet på alla språk"
+                }
+            },
+            "label": "$~projektkontroller",
+            "tour": {
+                "launch": "$~ta en rundtur i projektkontrollerna",
+                "controls": "$~Dessa /controls/ längst ner gäller för *projektet som helhet*, oavsett vilken panel du arbetar i.",
+                "name": "$~Fältet /name/ är ditt projekts namn. Namn visas i vyerna för *projekt* och *galleri*.",
+                "sourceToggle": "$~Denna /toggle/ visar eller döljer *källfilen*. De *andra växlarna* på den här raden gör detsamma för de andra panelerna.",
+                "addSource": "$~Vissa projekt drar nytta av *flera* källfiler, där data lagras i en och importeras till *huvud*källan. Knappen /lägg till källa/ skapar en ny.",
+                "share": "$~I dialogrutan /share/ kan du dela ditt projekt med *gallerier*, med *allmänheten*, eller kopiera det som *text* för att dela det någon annanstans.",
+                "checkpoints": "$~Panelen /revisions/ låter dig gå *tillbaka* till tidigare versioner av ditt projekt och *ögonblicksbilder* av versioner som du vill komma ihåg.",
+                "languages": "$~Knappen /languages/ visar vilka språk ditt projekt är skrivet på, låter dig lägga till eller ta bort ett, och kan *översätta* ditt projekts *namn*, *text* och *dokumentation* till ett nytt språk."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~auto — för närvarande $layout"
+                }
+            },
+            "link": {
+                "remixOf": "$~gå till projektet som detta remixades från",
+                "backTo": "$~tillbaka till $place"
+            },
+            "scratch": "$~Det här är en tillfällig kopia av ett exempel. Remixa den för att behålla den.",
+            "untitled": "$~Namnlöst projekt"
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$~nu",
+                "history": "$~versioner",
+                "restore": "$~Detta är en tidigare version av detta projekt.",
+                "ago": "$~$amount $unit sedan"
+            },
+            "button": {
+                "clear": "$~radera historik",
+                "select": "$~se den här versionen",
+                "checkpoint": "$~spara den här versionen av projektet",
+                "back": "$~gå tillbaka till föregående version",
+                "forward": "$~gå tillbaka till nästa version",
+                "restore": "$~återställa den här versionen",
+                "now": "$~återgå till den aktuella versionen"
+            }
+        },
+        "gallery": {
+            "untitled": "$~Ofrälse",
+            "undescribed": "$~Ingen beskrivning",
+            "subheader": {
+                "classes": {
+                    "header": "$~Klasser",
+                    "explanation": "$~Klasser associerade med detta galleri."
+                },
+                "curators": {
+                    "header": "$~Kuratorer",
+                    "explanation": [
+                        "$~Kuratorer kan ändra projekt och galleriinställningar, och chatta i alla projekt.",
+                        "/Kuratorer granskar det som rapporteras i deras galleri — projekt, hur man-guider och chatten som hör till dem — från <modereringssidan@://moderate>. En kurators beslut gäller bara för deras eget galleri. Det är aldrig en av Wordplays <varningar@://rights>./"
+                    ]
+                },
+                "creators": {
+                    "header": "$~Skapare",
+                    "explanation": "$~Skapare kan se alla projekt i galleriet och lägga till nya projekt."
+                },
+                "delete": {
+                    "header": "$~Radera",
+                    "explanation": "$~Att radera detta galleri raderar inte dess projekt. Det raderar dess hur man-guider. Galleriet raderas för alltid."
+                },
+                "characters": {
+                    "header": "$~Tecken",
+                    "explanation": "$~Tecken som delas här. Vem som helst i det här galleriet kan använda ett i sitt eget projekt, eller göra sin egen version av det och ändra den."
+                },
+                "projects": {
+                    "header": "$~Projekt",
+                    "explanation": "$~Projekt som delas här. Vem som helst i det här galleriet kan öppna ett, och göra sin egen version av det och ändra den."
+                }
+            },
+            "confirm": {
+                "delete": {
+                    "description": "$~radera galleri",
+                    "prompt": "$~radera"
+                },
+                "remove": {
+                    "description": "$~ta bort projekt från galleriet",
+                    "prompt": "$~ta bort"
+                },
+                "removecharacter": {
+                    "description": "$~ta bort tecken från galleriet",
+                    "prompt": "$~ta bort"
+                }
+            },
+            "error": {
+                "unknown": "$~Det här galleriet finns inte eller är inte offentligt.",
+                "unreachable": "$~Vi kunde inte ladda det här galleriet. Om du förväntar dig åtkomst, kontrollera din anslutning; ett VPN, ett webbläsartillägg eller ett nätverksfilter kan blockera det."
+            },
+            "field": {
+                "name": {
+                    "description": "$~Galleriets namn",
+                    "placeholder": "$~namn"
+                },
+                "description": {
+                    "description": "$~Galleribeskrivning",
+                    "placeholder": "$~Beskriv ditt galleri. Vad är dess tema, mål eller gemenskap?"
+                }
+            },
+            "projects": "$~$#count[$count projekt|$count projekt]",
+            "characters": "$~$#count[$count tecken|$count tecken]",
+            "button": {
+                "editcharacter": "$~Redigera det här tecknet",
+                "copyreference": "$~Kopiera en referens till det här tecknet, för att klistra in i ett projekt",
+                "copied": "$~Kopierat!"
+            },
+            "tab": {
+                "label": "$~galleriinställningar",
+                "labels": [
+                    "$~Skapare",
+                    "$~Kuratorer",
+                    "$~Synlighet",
+                    "$~Radera"
+                ],
+                "tips": [
+                    "$~välj vem som får lägga till arbete i det här galleriet",
+                    "$~välj vem som får hantera det här galleriet",
+                    "$~välj vem som får se det här galleriet",
+                    "$~radera det här galleriet"
+                ]
+            }
+        },
+        "source": {
+            "label": "$~källa",
+            "empty": [
+                "$~Nu sätter vi igång! Du kan …",
+                "• Öppna 📕 och dra 🖱️ oss till det här programmet.",
+                "• Skriv $symbol och välj oss från menyn.",
+                "• Skriv oss med ⌨️.",
+                "• Bläddra bland<galleries@://galleries> för inspiration.",
+                "Om du har fastnat,<learn more@://learn> ."
+            ],
+            "confirm": {
+                "delete": {
+                    "description": "$~ta bort denna @Source",
+                    "prompt": "$~radera"
+                }
+            },
+            "toggle": {
+                "blocks": {
+                    "on": "$~redigera som text"
+                },
+                "characters": {
+                    "on": "$~dölj väljaren för emoji och symboler",
+                    "off": "$~visa väljaren för emoji och symboler"
+                },
+                "expandSequence": {
+                    "on": "$~komprimera objekt",
+                    "off": "$~expandera objekt"
+                },
+                "search": {
+                    "on": "$~dölj sökning",
+                    "off": "$~sök efter koden"
+                }
+            },
+            "button": {
+                "selectOutput": "$~visa denna produktion på scenen",
+                "zoomIn": "$~gör koden större",
+                "zoomOut": "$~gör koden mindre",
+                "replace": "$~ersätt alla träffar",
+                "selectOutputError": "$~visa detta utdata på scenen; utvärderingen av denna källa slutade med ett fel",
+                "addView": "$~visa denna kod i en andra vy",
+                "closeView": "$~stäng denna vy"
+            },
+            "field": {
+                "name": {
+                    "description": "$~redigera källnamnet",
+                    "placeholder": "$~namn"
+                },
+                "search": "$~text",
+                "replace": "$~ersätta"
+            },
+            "menu": {
+                "label": "$~autoslutförande-menyn",
+                "show": "$~visa autoslutförandemenyn",
+                "empty": "$~Inga förslag.",
+                "item": "$~$code, $description"
+            },
+            "cursor": {
+                "priorLine": "$~flytta markören till raden innan",
+                "nextLine": "$~flytta markören till raden efter",
+                "priorInline": "$~flytta markören till positionen innan",
+                "nextInline": "$~flytta markören till position efter",
+                "lineStart": "$~flytta markören till början av raden",
+                "lineEnd": "$~flytta markören till slutet av raden",
+                "sourceStart": "$~flytta markören till början av källan",
+                "sourceEnd": "$~flytta markören till slutet av källan",
+                "priorNode": "$~välj granne innan",
+                "nextNode": "$~välj granne efter",
+                "parent": "$~välj behållare",
+                "selectAll": "$~välj program",
+                "incrementLiteral": "$~öka antal, text eller boolesk",
+                "decrementLiteral": "$~minska antal, text eller boolesk",
+                "insertTab": "$~infoga flik",
+                "insertTrue": "$~infoga sant",
+                "insertFalse": "$~infoga falskt",
+                "insertNone": "$~infoga ingen symbol",
+                "insertNotEqual": "$~infoga inte lika",
+                "insertProduct": "$~infoga multiplikationssymbol",
+                "insertDot": "$~infoga punktproduktsymbol",
+                "insertQuotient": "$~infoga kvotsymbol",
+                "insertDegree": "$~infoga gradsymbol",
+                "insertFunction": "$~infogningsfunktion",
+                "insertLessOrEqual": "$~infoga mindre än eller lika med",
+                "insertGreaterOrEqual": "$~infoga större än eller lika med",
+                "insertType": "$~infoga typsymbol",
+                "insertDocs": "$~infoga förklaringssymbol",
+                "insertStream": "$~infoga strömsymbol",
+                "insertChange": "$~infoga ändringssymbol",
+                "insertConvert": "$~infoga konvertera symbol",
+                "insertPrevious": "$~infoga föregående symbol",
+                "insertTable": "$~infoga tabell öppen symbol",
+                "insertBorrow": "$~infoga låna",
+                "insertShare": "$~infoga andel",
+                "insertLine": "$~infoga radbrytning",
+                "backspace": "$~radera val eller föregående symbol",
+                "delete": "$~radera val eller nästa symbol",
+                "cut": "$~skära urvalet",
+                "copy": "$~kopiera urval",
+                "paste": "$~klistra in innehållet på tangentbordet",
+                "parenthesize": "$~val av parentes",
+                "enumerate": "$~räkna upp urvalet",
+                "type": "$~skriv tecken",
+                "undo": "$~ångra föregående redigering",
+                "redo": "$~gör om ångrad redigering",
+                "search": "$~sök efter specialtecken att infoga",
+                "tidy": "$~snyggt mellanrum",
+                "elide": "$~växla elision",
+                "expandBeforeInline": "$~utöka urvalet innan",
+                "expandAfterInline": "$~utöka urvalet efter",
+                "expandPriorLine": "$~utöka urvalet till föregående rad",
+                "expandNextLine": "$~utöka urvalet till nästa rad",
+                "largeDelete": "$~Är du säker på att du vill ta bort det här valet? Du kan använda ångra-knappen (↺) om du ångrar dig.",
+                "ignored": {
+                    "readOnly": "$~Källan är skrivskyddad",
+                    "blockSpace": "$~Inget utrymme tillåtet här",
+                    "noDelete": "$~Kan inte radera detta",
+                    "noInsert": "$~Det går inte att infoga här",
+                    "noError": "$~Denna redigering skulle skapa en konflikt",
+                    "noEditor": "$~Ingen aktiv redigerare",
+                    "noClipboard": "$!Inget urklipp tillgängligt",
+                    "noClipboardItem": "$~Ingenting på urklippet",
+                    "noSelection": "$~Inget valt",
+                    "noMove": "$~Kan inte röra mig längre",
+                    "unhandled": "$~den tangenten gör inget här"
+                },
+                "nextMatch": "$~gå till nästa sökträff",
+                "insertTranslate": "$~infoga översättningssymbol",
+                "insertThis": "$~infoga den här symbolen",
+                "tab": "$~Tabb flyttar tangentbordsfokus. Vill du sätta in en tabb, använd knappen nedan, eller ändra vad Tabb gör i inställningarna.",
+                "matchDelimiter": "$~flytta markören till matchande avgränsare",
+                "insertPattern": "$~insatsmönster",
+                "insertSearch": "$~symbol för sökning efter mönster",
+                "insertPatternAny": "$~infoga symbol för valfritt grafemmönster",
+                "insertPatternSpace": "$~infoga mellanslagsmönstersymbol",
+                "insertPatternStart": "$~infoga mönsterstartsymbol",
+                "insertPatternEnd": "$~infoga mönsterslutssymbol",
+                "insertPatternFold": "$~infoga mönster fodral-vikningssymbol",
+                "insertPatternAhead": "$~infoga mönster framåtblickande symbol",
+                "insertPatternBehind": "$~infoga mönster titt bakom-symbol",
+                "insertPatternWord": "$~infoga mönsterordsymbol",
+                "insertPatternWordEdge": "$~infoga mönster ordkantsymbol",
+                "echo": {
+                    "space": "$~mellanslag",
+                    "newline": "$~ny rad",
+                    "tab": "$~tabb"
+                },
+                "selected": "$~markerade $#count[$count tecken|$count tecken]: $text",
+                "unknownPosition": "$~i koden",
+                "insertWholeNote": "$~sätt in en helnot, fyra slag lång",
+                "insertDottedWholeNote": "$~sätt in en punkterad helnot, sex slag lång",
+                "insertHalfNote": "$~sätt in en halvnot, två slag lång",
+                "insertDottedHalfNote": "$~sätt in en punkterad halvnot, tre slag lång",
+                "insertQuarterNote": "$~sätt in en fjärdedelsnot, ett slag lång",
+                "insertDottedQuarterNote": "$~sätt in en punkterad fjärdedelsnot, ett och ett halvt slag lång",
+                "insertEighthNote": "$~sätt in en åttondelsnot, ett halvt slag lång",
+                "insertDottedEighthNote": "$~sätt in en punkterad åttondelsnot, tre fjärdedels slag lång",
+                "insertSixteenthNote": "$~sätt in en sextondelsnot, en fjärdedels slag lång",
+                "insertDottedSixteenthNote": "$~sätt in en punkterad sextondelsnot, tre åttondels slag lång",
+                "selectedNodes": "$~$#count[$count nod vald|$count noder valda], $first till $last",
+                "insertRange": "$~infoga intervallsymbol",
+                "findText": "$~sök i koden"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$~föredraget språk för källan",
+                    "all": "$~$#count[$count språk|$count språk]",
+                    "viewing": "$~på $language"
+                }
+            },
+            "error": {
+                "invalidName": "$~Detta måste vara ett giltigt ordspelsnamn.",
+                "invalidWords": "$~Ord får inte vara tomma eller innehålla reserverade symboler."
+            },
+            "title": "$~koda",
+            "tour": {
+                "launch": "$~ta en rundtur i redaktören",
+                "editor": "$~All din /kod/ hamnar i *editorn*. Varje @wordplay-program *utvärderas till ett värde*, och det värdet är vad som visas på *scenen*.",
+                "textBlocks": "$~Denna växlingsknapp växlar mellan två sätt att redigera: /text/ och /block/. *Text* är mer flexibelt men lättare att göra misstag i. *Block* är mindre felbenägna men långsammare och mer stela.",
+                "toolbar": "$~Dessa /toolbar/-kontroller låter dig *markera alla*, *zooma in* och *ut*, *ångra*, *göra om*, *klipp ut*, *kopiera* och *klistra in*.",
+                "expand": "$~/expand/-knappen visar fler *avancerade* redigeringsverktyg.",
+                "shortcuts": "$~Knappen /genvägar/ öppnar en lista med *kortkommandon* som du kan använda för att redigera snabbare."
+            },
+            "feedback": {
+                "cantDrop": "$~Kan inte släppa dit:",
+                "cantPaste": "$~Kan inte klistra in där:"
+            },
+            "clipboard": {
+                "label": "$~urklipp"
+            },
+            "notice": {
+                "dismiss": "$~Avfärda detta meddelande"
+            },
+            "fold": {
+                "collapse": "$~komprimera $name",
+                "expand": "$~expandera $name",
+                "all": "$~vik alla",
+                "none": "$~utveckla allt",
+                "collapsed": "$~$name hopfälld",
+                "expanded": "$~$name expanderad"
+            },
+            "view": {
+                "added": "$~lade till en andra vy av $name",
+                "closed": "$~stängde den andra vyn av $name"
+            }
+        },
+        "annotations": {
+            "label": "$~konflikter och hjälp",
+            "cursor": "$~Detta är *$node*$type[ och de är en $type|].",
+            "cursorDoc": "$~De säger: ”$description”",
+            "cursorParent": "$~De finns inuti en *$node*$type[, som blir till ett $type|].[Ett]{|Inga}",
+            "learn": "$~/Läs mer/",
+            "evaluating": "$~Åh kul, låt oss utvärdera!",
+            "space": "$~Det här är utrymme! Vem visste att ingenting kunde säga så mycket?",
+            "button": {
+                "resolution": "$~Lös denna konflikt",
+                "toggle": "$~visa och dölj anteckningar",
+                "highlightMajor": "$~visa detta fels kod i editorn",
+                "highlightMinor": "$~visa denna varnings kod i editorn",
+                "highlightStep": "$~visa detta utvärderingssteg kod i editorn",
+                "elsewhere": "$~öppna där detta kan fixas"
+            },
+            "nodeDescription": "$~De $description.",
+            "severity": {
+                "major": "$~fel",
+                "minor": "$~varning"
+            },
+            "conflictLabel": "$~$severity: $conflict"
+        },
+        "output": {
+            "label": "$~scen",
+            "toggle": {
+                "grid": {
+                    "on": "$~dölj rutnätslinjer",
+                    "off": "$~visa rutnätslinjer"
+                },
+                "fit": {
+                    "on": "$~kontrollera zoomen manuellt",
+                    "off": "$~anpassa zoom till innehåll"
+                }
+            },
+            "field": {
+                "key": {
+                    "description": "$~lyssna på knapptryckningar"
+                },
+                "chat": {
+                    "description": "$~skicka ett chattmeddelande",
+                    "placeholder": "$~meddelande"
+                }
+            },
+            "button": {
+                "submit": "$~skicka detta chattmeddelande",
+                "zoomIn": "$~zooma in på scenen",
+                "zoomOut": "$~zooma ut från scenen",
+                "rotate": "$~rotera $name",
+                "resize": "$~ändra storlek på $name",
+                "resetZoom": "$~nollställ din panorering och zoom",
+                "perform": "$~utför: starta om programmet, spela det och fyll skärmen med scenen",
+                "resetZoomAt": "$~återställ din panorering och zoom, nu $percent procent av projektets egen vy"
+            },
+            "options": {
+                "locale": "$~önskat språk för utdata",
+                "default": "$~$#count[$count språk|$count språk]"
+            },
+            "tour": {
+                "launch": "$~ta en rundtur på scenen",
+                "stage": "$~`/stage/` visar ditt programs *nuvarande värde*. Det värdet kan vara ett *råvärde* som ett tal eller en lista, *visuell utdata* som du kan se, eller till och med *ljud* som du kan höra.",
+                "reset": "$~Knappen /återställ/ startar om ditt programs utvärdering från *början*, i alla lägen: i ▶️ *spela* körs det igen från toppen, i ✏️ *redigera* pausas det efter den första utvärderingen så att du kan se hur dina ändringar påverkar den första utmatningen, och i ⏸️ *felsök* pausas det vid allra första steget.",
+                "zoom": "$~Med /zoom/-knapparna kan du zooma *in* och *ut* på scenen så att du kan se dina resultat tydligare eller mer detaljerat.",
+                "grid": "$~Knappen /grid/ visar ett *rutnät* på scenen, vilket är praktiskt för att placera saker exakt medan du designar.",
+                "lock": "$~Knappen /lock/ låser scenens vy. När den är *låst* förblir scenen stilla; när den är *upplåst* kan du panorera och zooma fritt.",
+                "animationSpeed": "$~Kontrollen /animation speed/ ställer in hur snabbt animationer spelas upp. Samma kontroll finns i *inställningar*, så du kan ändra den från båda ställena."
+            },
+            "permission": {
+                "title": "$~Detta projekt behöver tillstånd",
+                "microphone": "$~mikrofon",
+                "camera": "$~kamera",
+                "note": "$~Din webbläsare kommer att fråga innan delning.",
+                "retry": "$~Försöka igen"
+            },
+            "multiselect": "$~Använd tabbtangenten, alt- och piltangenterna för att flytta mellan utdata. Tryck på mellanslag för att lägga till eller ta bort den fokuserade utdatan från ditt val. Tryck på enter för att välja endast den utdatan och öppna paletten. Tryck på escape för att rensa ditt val. Tryck på ctrl eller command och A för att välja alla utdata.",
+            "selected": "$~$name valt, $count valt",
+            "deselected": "$~$name avmarkerad, $count vald",
+            "allSelected": "$~alla utdata valda, $count vald",
+            "cleared": "$~valet rensat",
+            "moved": "$~$name rörd $direction till $place",
+            "directions": [
+                "$~upp",
+                "$~upp och höger",
+                "$~höger",
+                "$~ner och höger",
+                "$~ner",
+                "$~ner och vänster",
+                "$~vänster",
+                "$~upp och vänster"
+            ],
+            "closer": "$~närmare",
+            "farther": "$~längre bort",
+            "turned": "$~vänd",
+            "manyChanged": "$~$#count[$count utdata ändrades|$count utdata ändrades] i $container, som $example",
+            "selectedOnly": "$~$name valt, öppnar paletten",
+            "selectedSuffix": "$~vald",
+            "sensor": {
+                "microphone": {
+                    "on": "$~dölj mikrofonens vågform",
+                    "off": "$~visa mikrofonens vågform"
+                },
+                "camera": {
+                    "on": "$~dölj kameraförhandsvisning",
+                    "off": "$~visa kameraförhandsvisning"
+                }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~utvärderingsläge",
+                    "labels": ["$~redigera", "$~felsök", "$~spela"],
+                    "tips": [
+                        "$~byt till redigeringsläge: pausa programmet var det än är och ändra det; ändringar spelas upp på nytt för att visa sin effekt här",
+                        "$~byt till felsökningsläge: gå igenom programmets utvärdering steg för steg, med värden visade bredvid koden och i paletten",
+                        "$~byt till spelläge: kör programmet direkt från där det är och svara på inmatningar i realtid"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~utvärderingsläge",
+                    "labels": ["$~visa", "$~felsök", "$~spela"],
+                    "tips": [
+                        "$~byt till visningsläge: pausa programmet var det än är och läs det",
+                        "$~byt till felsökningsläge: gå igenom programmets utvärdering steg för steg, med värden visade bredvid koden och i paletten",
+                        "$~byt till spelläge: kör programmet direkt från där det är och svara på inmatningar i realtid"
+                    ]
+                },
+                "announce": "$~$mode-läge",
+                "exception": "$~Programmet fick ett fel, så det bytte till felsökningsläge så att du kan granska det.",
+                "toggle": "$~växla mellan lägena redigera och spela",
+                "resuming": "$~återupptar vid steg $position",
+                "performing": "$~framförande $number, från början"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~start",
+                    "tip": "$~visa projektet"
+                }
+            },
+            "download": {
+                "title": "$~Gör sig redo…",
+                "note": "$~Detta laddas ner en gång, sedan laddas det direkt nästa gång.",
+                "percent": "$~$percent%",
+                "hand": "$~handspårare",
+                "face": "$~ansiktsspårare",
+                "objects": "$~objektigenkännare",
+                "loading": "$~Laddar $model…"
+            },
+            "sound": {
+                "enable": "$~Tryck för ljud",
+                "explanation": "$~Detta projekt har musik, men din webbläsare väntar på att du ska agera på sidan innan den spelar ljud.",
+                "loading": "$~Gör $instruments redo…",
+                "synthesized": "$~$instruments kunde inte laddas, så de låter syntetiserade."
+            },
+            "keypad": {
+                "label": "$~Tangenter som detta projekt använder",
+                "any": "$~Tryck för att spela"
+            },
+            "announce": {
+                "zoom": "$~scenens zoom $percent procent",
+                "hidden": "$~inget syns på scenen vid $percent procent; återställ din zoom för att visa allt",
+                "shown": "$~allt är tillbaka på scenen"
+            },
+            "hidden": {
+                "message": "$~Allt är utanför scenen.",
+                "show": "$~visa allt"
+            },
+            "snap": {
+                "anchors": [
+                    "$~horisontell mitt",
+                    "$~vänsterkant",
+                    "$~högerkant",
+                    "$~vertikal mitt",
+                    "$~nederkant",
+                    "$~överkant",
+                    "$~baslinje"
+                ],
+                "withOutput": "$~$anchor med $target's $targetAnchor",
+                "withGrid": "$~$anchor på rutnätet",
+                "aligned": "$~$constraints, vid $place",
+                "none": "$~inget att rikta in med $direction"
+            },
+            "removed": "$~$#count[$#count utdata borttagen|$#count utdata borttagna]",
+            "notRemovable": "$~som inte kan tas bort på egen hand",
+            "drew": "$~$#count[ritade en bana med $#count punkt; ritning är av|ritade en bana med $#count punkter; ritning är av]",
+            "drawing": "$~$#count[$#count punkt, vid $place|$#count punkter, senaste vid $place]",
+            "point": {
+                "label": "$~punkt $number av $#count, vid $place",
+                "moved": "$~punkt $number till $place",
+                "added": "$~lade till punkt $number",
+                "removed": "$~tog bort punkt $number",
+                "last": "$~en bana behöver minst två punkter"
+            }
+        },
+        "timeline": {
+            "slider": "$~tidsreglaget",
+            "button": {
+                "play": "$~kör programmet och svara på inmatningar i realtid",
+                "backStep": "$~ett steg tillbaka",
+                "backNode": "$~steg till föregående utvärdering av markören",
+                "backInput": "$~tillbaka en ingång",
+                "out": "$~gå ur denna funktion",
+                "forwardStep": "$~steg fram en",
+                "forwardNode": "$~steg till nästa utvärdering av markören",
+                "forwardInput": "$~steg framåt till nästa streamingång",
+                "present": "$~till slutet",
+                "start": "$~till början",
+                "reset": "$~starta om prestandan"
+            },
+            "tour": {
+                "timeline": "$~Med /tidslinjen/ kan du stega *framåt* och *bakåt* genom ditt programs utvärdering, ett steg i taget. Den visas i scenens verktygsrad i lägena ✏️ *redigera* och ⏸️ *felsök*, och den är ett bra sätt att se *hur* ditt program beräknar sitt värde. Den hjälper dig också att bygga en mental modell av hur @wordplay-program utvärderas, särskilt om du inte ser det beteende du vill ha.",
+                "annotations": "$~I fönstret /annotations/ visas förklaringar av varje steg. När du går igenom programmet kan du läsa vad som just hände.",
+                "editor": "$~/Editor/ visar din kod. När du stegar kommer *värdet* för varje del av ditt program att visas bredvid den delen *efter* att den har utvärderats, så att du kan se värdena byggas upp medan programmet körs.",
+                "history": "$~/Historiken/ visar varje *inmatning* ditt program har fått, som tangenter, tidssteg och pekarhändelser. Den är *dragbar*, så du kan gå tillbaka till vilket ögonblick som helst i programmets historik bara genom att dra. Om du hellre vill *höra* dessa inmatningar än se dem, slå på /utvärderingsljud/ i inställningarna, så spelar @wordplay upp ett kort ljud för varje inmatning, med ett eget ljud för varje typ av inmatning.",
+                "stepControls": "$~Med /step-kontrollerna/ kan du gå igenom utvärderingen exakt. Du kan hoppa till *start* eller *slut*, gå *framåt* eller *bakåt* ett steg i taget, hoppa *en inmatning*, gå *ut* ur en funktion eller hoppa till den *nu valda* delen av koden.",
+                "modes": "$~Med /lägesväxlaren/ väljer du hur ditt program utvärderas. I läget ✏️ *redigera* pausas programmet där det är och du kan ändra det — dina ändringar spelas upp igen för att visa sin effekt vid den punkten. I läget ⏸️ *felsök* går koden bara att läsa, och det *aktuella värdet* för varje del av ditt program visas bredvid den i redigeraren och i paletten. I läget ▶️ *spela* körs ditt program direkt från där det är och svarar på inmatningar i realtid. Bredvid växlaren finns knappen /uppträd/ — en spela-triangel omgiven av helskärmshörn — som startar ett uppträdande från toppen och fyller skärmen med scenen, och ↻ återställer programmet i alla lägen."
+            }
+        },
+        "docs": {
+            "kits": {
+                "header": "$~Kit",
+                "prompt": "$~Ett kit är kod som någon publicerat för att andra ska kunna bygga med. Kopiera raden för ett, klistra in den överst i ditt program, så blir allt det delar ditt att använda.",
+                "empty": "$~Ingen har publicerat ett kit än. Ditt kan bli det första — dela något med ↑, publicera det sedan från ditt projekts delningsinställningar.",
+                "shares": "$~delar $names",
+                "missing": "$~Det finns inget verktygspaket med det namnet. Det kan ha bytt namn, eller aldrig blivit publicerat.",
+                "missingVersion": "$~Den versionen finns inte här. Prova en annan nedan.",
+                "nothing": "$~det här verktygspaketet delar inget",
+                "versions": "$~Varje version av det här verktygspaketet",
+                "version": {
+                    "tip": "$~se den här versionen av verktygspaketet"
+                },
+                "open": "$~läs det här verktygspaketets dokumentation",
+                "none": "$~Inget här matchar det.",
+                "kinds": {
+                    "label": "$~vad verktygspaket delar",
+                    "all": "$~något"
+                },
+                "yours": "$~Dina paket som inte är listade"
+            },
+            "label": "$~guide",
+            "link": "$~visa koncept $name i dokumentationen",
+            "nodoc": "$~Vem är jag? Vad är jag? Vad är mitt syfte?",
+            "button": {
+                "home": "$~hemkomst",
+                "back": "$~återgå till föregående",
+                "toggle": "$~expandera och fäll ihop denna begreppsgrupp"
+            },
+            "field": {
+                "search": "$~nyckelord"
+            },
+            "header": {
+                "inputs": {
+                    "header": "$~Ingångar",
+                    "explanation": "$~/Obligatoriska och valfria värden./"
+                },
+                "interfaces": {
+                    "header": "$~Gränssnitt",
+                    "explanation": "$~/Strukturer som denna struktur är baserad på./"
+                },
+                "properties": {
+                    "header": "$~Fastigheter",
+                    "explanation": "$~/Värden som detta koncept lagrar./"
+                },
+                "functions": {
+                    "header": "$~Funktioner",
+                    "explanation": "$~/Värden som detta koncept kan beräkna./"
+                },
+                "conversions": {
+                    "header": "$~Konverteringar",
+                    "explanation": "$~/Sätt att konvertera detta värde till värden av andra typer./"
+                },
+                "arrangements": {
+                    "header": "$~Arrangemang",
+                    "explanation": "$~/Sätt att ordna fraser i en grupp./"
+                },
+                "forms": {
+                    "header": "$~Formulär",
+                    "explanation": "$~/Former som kan placeras på scenen./"
+                },
+                "appearance": {
+                    "header": "$~Utseende",
+                    "explanation": "$~/Sätt att ändra hur utdata ser ut./"
+                },
+                "animation": {
+                    "header": "$~Animation",
+                    "explanation": "$~/Sätt att animera utdata på scenen./"
+                },
+                "location": {
+                    "header": "$~Plats",
+                    "explanation": "$~/Sätt att avgöra var output finns på scenen./"
+                },
+                "reactions": {
+                    "header": "$~Reaktioner",
+                    "explanation": "$~/Sätt att reagera på eller analysera en indataström./"
+                },
+                "names": {
+                    "header": "$~Namn",
+                    "explanation": "$~/Namn för detta koncept./"
+                }
+            },
+            "how": {
+                "category": {
+                    "characters": "$~skapa och kontrollera karaktärer",
+                    "styling": "$~stiltecken och text",
+                    "animation": "$~animera karaktärer och text",
+                    "layout": "$~ordna tecken och text",
+                    "randomization": "$~använd slumpmässigt",
+                    "remembering": "$~spåra förändringar och val",
+                    "stories": "$~berätta en historia",
+                    "motion": "$~använda fysik",
+                    "video": "$~använda en kamera",
+                    "gallery": "$~skapad av dina Wordplay-regissörskollegor",
+                    "music": "$~skapa musik och ljud",
+                    "organizing": "$~organisera ett större projekt"
+                },
+                "related": "$~Inte vad du letar efter?",
+                "howToGalleryButton": {
+                    "label": "$~se hur man gör i utrymmet",
+                    "tip": "$~se hur man gör i utrymmet"
+                },
+                "explain": {
+                    "header": "$~Instruktioner",
+                    "explanation": "$~/Korta exempel som visar hur man gör saker i @wordplay. Tryck på play i valfri förhandsgranskning för att se den köras, öppna den sedan för att läsa hur den fungerar./"
+                },
+                "conceptHowTos": "$~Instruktioner",
+                "bookmarked": "$~Bokmärkt",
+                "community": "$~Från skapare",
+                "galleries": "$~Från dina gallerier",
+                "wordplay": "$~Från Wordplay"
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~bläddra",
+                    "labels": [
+                        "$~koda",
+                        "$~verktygspaket",
+                        "$~hur man",
+                        "$~ordlista"
+                    ],
+                    "tips": [
+                        "$~begrepp inom programmeringsspråk",
+                        "$~koda som andra har publicerat för att du ska kunna bygga med",
+                        "$~återanvändbara mönster för att göra projekt",
+                        "$~förklaringar av viktiga termer"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~ändamål",
+                    "labels": [
+                        "$~projekt",
+                        "$~kit",
+                        "$~produktion",
+                        "$~input",
+                        "$~besluta",
+                        "$~namn",
+                        "$~text",
+                        "$~mönster",
+                        "$~tal",
+                        "$~sanning",
+                        "$~listor",
+                        "$~uppsättningar",
+                        "$~bord",
+                        "$~dokument",
+                        "$~typer",
+                        "$~etc."
+                    ],
+                    "tips": [
+                        "$~koncept på projektnivå",
+                        "$~vad verktygspaketen det här projektet lånar gör tillgängligt",
+                        "$~fraser, grupper, etapper, layouter och mer",
+                        "$~tid, knappar, tangenter, scener och mer",
+                        "$~välj värden baserat på andra värden",
+                        "$~namnge värden, funktioner och datastrukturer för senare användning",
+                        "$~vanlig och formaterad text",
+                        "$~beskriv textens form för att testa eller hitta den",
+                        "$~siffror och matematiska operationer",
+                        "$~sant, falskt och inget värde",
+                        "$~listor och listoperationer",
+                        "$~uppsättningar, kartor och operationer",
+                        "$~tabeller och tabelloperationer",
+                        "$~dokumentation och kommentarer",
+                        "$~datatyper, konverteringar och typkontroller",
+                        "$~avancerade språkbegrepp"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "$~användarskapade instruktioner",
+                    "labels": ["$~alla", "$~galleri och bokmärken"],
+                    "tips": [
+                        "$~se alla användarskapade instruktioner",
+                        "$~se endast användarskapade instruktioner från det här projektets galleri och alla bokmärken"
+                    ]
+                }
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Projekt",
+                    "explanation": "$~/Begrepp definierade i ditt projekt./"
+                },
+                "Outputs": {
+                    "header": "$~Utgångar",
+                    "explanation": "$~/Olika typer av utdata som kan placeras på scenen./"
+                },
+                "Inputs": {
+                    "header": "$~Ingångar",
+                    "explanation": "$~/Indataströmmar från världen som förändras över tid, vilket får ett program att omvärderas./"
+                },
+                "Decisions": {
+                    "header": "$~Beslut",
+                    "explanation": "$~/Sätt att välja mellan olika värden baserat på villkor./"
+                },
+                "Numbers": {
+                    "header": "$~Tal",
+                    "explanation": "$~/Tal, enheter och matematiska operationer./"
+                },
+                "Text": {
+                    "header": "$~Text",
+                    "explanation": "$~/Vanlig och formaterad text, och sätt att manipulera den./"
+                },
+                "Truth": {
+                    "header": "$~Sanning",
+                    "explanation": "$~/Sant, falskt och nollvärden och sätt att använda dem för logik./"
+                },
+                "Lists": {
+                    "header": "$~Listor",
+                    "explanation": "$~/Listor och listoperationer, bra för att lagra värden i en viss ordning./"
+                },
+                "Maps": {
+                    "header": "$~Kartor",
+                    "explanation": "$~/Mängder, kartor och deras operationer, bra för att lagra samlingar av värden, eller mappningar från ett värde till andra./"
+                },
+                "Tables": {
+                    "header": "$~Tabeller",
+                    "explanation": "$~/Tabeller och tabelloperationer, bra för att lagra strukturerad data i rader och kolumner./"
+                },
+                "Types": {
+                    "header": "$~Typer",
+                    "explanation": "$~/Sätt att deklarera att namngivna värden ska ha en viss datatyp och kontrollera att de har det./"
+                },
+                "Documentation": {
+                    "header": "$~Dokumentation",
+                    "explanation": "$~/Sätt att lägga till kommentarer och förklaringar i din kod./"
+                },
+                "Advanced": {
+                    "header": "$~Avancerad",
+                    "explanation": "$~/Avancerade språkbegrepp och funktioner som du förmodligen inte behöver./"
+                },
+                "Hidden": {
+                    "header": "$~Dold",
+                    "explanation": "$~/Begrepp som är dolda från huvuddokumentationen./"
+                },
+                "How": {
+                    "header": "$!Hur man",
+                    "explanation": "$~/Vanliga mönster för att skapa olika typer av projekt./"
+                },
+                "Definitions": {
+                    "header": "$~Definitioner",
+                    "explanation": "$~/Sätt att namnge värden, funktioner och datastrukturer för senare användning./"
+                },
+                "GalleryHow": {
+                    "header": "$~Galleri-instruktioner",
+                    "explanation": "$~/Vanliga mönster för att skapa olika typer av projekt, från dina gallerier./"
+                },
+                "Patterns": {
+                    "header": "$~Mönster",
+                    "explanation": "$~/Beskriv textens form med ett mönster, avgränsat av \\⣿\\ , testa sedan om texten passar formen ( \\≈\\ ) eller hitta varje plats där den förekommer ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Kit",
+                    "explanation": "$~Saker som verktygspaketen det här projektet lånar har delat med det."
+                }
+            },
+            "note": {
+                "empty": "$~Namn som du definierar i ditt projekt kommer att visas här.",
+                "keepTyping": "$~Fortsätt skriva för att söka…",
+                "noMatches": "$~Inga träffar"
+            },
+            "tour": {
+                "launch": "$~ta en rundtur med guiden",
+                "guide": "$~/guiden/ innehåller *dokumentation* för alla @wordplay:s begrepp och *förmågor* i *programmeringsspråket*.",
+                "mode": "$~Använd denna /toggle/ för att själv växla mellan *kod*- och *instruktioner*-avsnitten.",
+                "search": "$~Sökrutan är användbar för att *upptäcka* funktioner, eller för att snabbt hitta en *med namn*.",
+                "code": "$~Detta är /code/-avsnittet. Det innehåller dokumentation för *programmeringsspråk* — byggstenarna du kan kombinera för att skapa program.",
+                "howto": "$~Detta är avsnittet /hur-gör-det-själv/. Det innehåller *användbara mönster* för att uppnå specifika beteenden i dina projekt."
+            },
+            "breadcrumb": {
+                "label": "$~navigeringshistorik",
+                "home": "$~Hem"
+            },
+            "tutorial": "$~Handledning",
+            "glossary": {
+                "explain": {
+                    "header": "$~Ordlista",
+                    "explanation": "$~/Termer och idéer som används överallt i programmeringsspråket och plattformen @wordplay./"
+                }
+            }
+        },
+        "dialog": {
+            "share": {
+                "header": "$~Delning",
+                "explanation": "$~Dela detta projekt med gallerier eller världen.",
+                "subheader": {
+                    "gallery": {
+                        "explanation": "$~Lägg till det här projektet i ett galleri tillsammans med andra skapare, eller skapa ett galleri på din <projects@://projects>-sida. Om du lägger till ett projekt i ett offentligt galleri blir ditt projekt offentligt."
+                    },
+                    "public": {
+                        "header": "$~Offentlig/Privat",
+                        "explanation": "$~Offentliga projekt och gallerier kan ses av alla i världen. Vårt mål är att detta innehåll ska ge bekräftelse och glädje, och offentlig delning är ett sätt att göra det. Men det innebär också att man följer vissa regler. Du lovar att ditt projekt inte:"
+                    },
+                    "pii": {
+                        "explanation": "$~Att dela personligt identifierbar information (PII) offentligt kan utsätta skapare för risker, så vi upptäcker möjlig PII och varnar skapare att antingen ta bort den känsliga informationen eller markera den som okänslig.\n\nNedan finns en lista över möjliga PII i detta projekt som du har markerat som okänsliga. Du kan klicka på knappen bredvid den för att markera den som känslig igen, men att göra det betyder att ditt projekt inte sparas online längre."
+                    },
+                    "preview": {
+                        "explanation": "$~Det här är den lilla symbolen som representerar ditt projekt i listor och gallerier. Väljer automatiskt ett tecken baserat på vad ditt projekt visar; Anpassad låter dig fästa ett enskilt tecken eller en emoji."
+                    },
+                    "remix": {
+                        "explanation": "$~En /remix/ är en kopia av ett projekt som någon ändrade för att göra till sitt eget. Vi kommer ihåg var en remix kom från, så personen som gjorde originalet fortfarande får erkännande."
+                    },
+                    "research": {
+                        "header": "$~Forskning",
+                        "explanation": "$~Ibland skriver och pratar vi om Wordplay — i forskningsartiklar, i föredrag, och i det vi visar lärare och familjer. Om du slår på detta kan vi visa detta projekt som ett exempel, utan ditt namn, ditt användarnamn eller något annat som visar att kontot är ditt.\n\nDu kan stänga av detta när som helst. Om du stänger av det slutar vi använda ditt projekt i nytt material, men det tar inte bort något vi redan har publicerat eller visat."
+                    },
+                    "kit": {
+                        "explanation": "$~Ett verktygspaket är en källa du har publicerat för att andra ska kunna bygga med. Allt du markerar med ↑ blir en del av det."
+                    }
+                },
+                "field": {
+                    "emailOrUsername": {
+                        "placeholder": "$~e-post/användarnamn",
+                        "description": "$~e-post eller användarnamn för den person som du vill ge redigeringsbehörighet"
+                    },
+                    "preview": {
+                        "placeholder": "$~förhandsgranskning av tecken",
+                        "description": "$~enstaka tecken eller emoji som ska användas som förhandsgranskningssymbol för detta projekt"
+                    }
+                },
+                "mode": {
+                    "public": {
+                        "label": "$~synlighet",
+                        "labels": ["$~privat", "$~offentlig"],
+                        "tips": [
+                            "$~bara du och dina medarbetare kan se det här projektet",
+                            "$~vem som helst kan se det här projektet"
+                        ]
+                    },
+                    "preview": {
+                        "tips": [
+                            "$~låt projektet själv välja sin förhandsvisningssymbol utifrån vad det visar",
+                            "$~fäst en symbol du väljer"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~forskning",
+                        "labels": ["$~inte delat", "$~delat anonymt"],
+                        "tips": [
+                            "$~visa inte detta projekt i forskning eller kommunikation om Wordplay",
+                            "$~låt Wordplay visa detta projekt anonymt i forskning och kommunikation om Wordplay"
+                        ]
+                    }
+                },
+                "error": {
+                    "unknown": "$~Vi känner ingen skapare med den här e-postadressen.",
+                    "anonymous": "$~Du måste vara <inloggad@://login> för att dela.",
+                    "self": "$~Du kan inte lägga till dig själv.",
+                    "invalidPreview": "$~Välj exakt en karaktär eller emoji."
+                },
+                "button": {
+                    "submit": "$~Dela projektet med denna e-postadress",
+                    "sensitive": {
+                        "tip": "$~markera denna text som känslig igen",
+                        "label": "$~känslig"
+                    }
+                },
+                "options": {
+                    "gallery": "$~galleriväljare",
+                    "source": "$~källa att publicera"
+                },
+                "remix": {
+                    "source": "$~Det här projektet är en remix av:",
+                    "remixes": "$~De här projekten är remixer av det här:",
+                    "unknown": "$~Vi kunde inte hitta projektet som detta remixades från. Det kan ha tagits bort, eller så är det kanske inte offentligt.",
+                    "none": "$~Inga remixer av det här projektet har delats ännu. En remix börjar som privat, så den syns här först när personen som gjorde den väljer att göra den offentlig."
+                },
+                "tab": {
+                    "label": "$~delningsinställningar",
+                    "labels": [
+                        "$~Galleri",
+                        "$~Offentlig",
+                        "$~Förhandsvisning",
+                        "$~Integritet",
+                        "$~Remixer",
+                        "$~Verktygspaket"
+                    ],
+                    "tips": [
+                        "$~välj ett galleri där detta projekt ska visas",
+                        "$~välj vem som kan se detta projekt",
+                        "$~välj tecknet som representerar detta projekt i listor",
+                        "$~granska personlig information som finns i detta projekt",
+                        "$~se vad detta projekt remixades från, och vad som har remixat det",
+                        "$~publicera en del av det här projektet så andra kan använda den"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Ingen personlig information hittades."
+                },
+                "kit": {
+                    "nothing": "$~Inget här är delat än. Sätt ↑ framför ett namn, en funktion eller en struktur för att dela den, som \\↑ sunset/en: 🔴\\, så kan det bli ett verktygspaket.",
+                    "unpublished": "$~Du har inte publicerat den här än.",
+                    "name": {
+                        "placeholder": "$~namn",
+                        "description": "$~vad det här verktygspaketet ska kallas"
+                    },
+                    "publish": {
+                        "label": "$~publicera",
+                        "tip": "$~publicera en ny version av det här verktygspaketet"
+                    },
+                    "version": "$~version $version",
+                    "problem": {
+                        "exports": "$~inget delas här ännu",
+                        "invalid": "$~det där är inte ett namn jag kan läsa"
+                    },
+                    "undescribed": "$~denna källa har ingen dokumentation ännu",
+                    "discovery": "$~Moderatorer kan avlista en publicerad version. Allt som andra redan har lånat fungerar ändå, även om det är avlistat.",
+                    "moderation": {
+                        "unrequested": "$~inte begärt listning",
+                        "pending": "$~väntar på att en moderator ska granska den",
+                        "approved": "$~granskad och listad",
+                        "denied": "$~en moderator bad om ändringar"
+                    },
+                    "derived": "$~Ditt kits beskrivning och sökord hämtas från den första meningen i denna källas dokumentation.",
+                    "heading": {
+                        "name": "$~Namn",
+                        "exports": "$~Vad detta kit delar",
+                        "versions": "$~Versioner",
+                        "listing": "$~Vem kan hitta det"
+                    },
+                    "listing": {
+                        "label": "$~listning",
+                        "labels": ["$~avlistad", "$~listad"],
+                        "tips": [
+                            "$~ingen kan hitta detta kit i guiden, och allt som redan lånar det fortsätter att fungera",
+                            "$~vem som helst kan hitta detta kit i guiden, så snart en moderator har granskat det"
+                        ]
+                    },
+                    "remedy": "$~Ändra källan och publicera en ny version, så tittar en moderator på den igen.",
+                    "unreviewed": "$~Ingen granskar ett avlistat kit. Alla du ger lånraden till kan ändå läsa det.",
+                    "permanent": "$~Att publicera en version är permanent: andras program lånar den via nummer, så att ta tillbaka en skulle förstöra dem.",
+                    "confirm": "$~Publicera det",
+                    "withdraw": {
+                        "label": "$~dra tillbaka",
+                        "tip": "$~dra tillbaka denna version, vilket bara är möjligt medan kitet är avlistat"
+                    },
+                    "withdrawable": "$~Det här kittet har aldrig listats, så ingen kan ha hittat det ännu — du kan fortfarande dra tillbaka den senaste versionen.",
+                    "unpublishable": "$~Det här kittet kan inte publiceras än:",
+                    "failed": "$~Jag kunde inte publicera ditt paket. Kontrollera att du är uppkopplad och försök igen."
+                }
+            },
+            "settings": {
+                "header": "$~Inställningar",
+                "explanation": "$~Ändra hur Wordplay ser ut, hur du kodar och hur program använder dina enheter.",
+                "button": {
+                    "show": "$~visa inställningsdialogrutan"
+                },
+                "mode": {
+                    "layout": {
+                        "label": "$~layout",
+                        "labels": [
+                            "$~auto",
+                            "$~rad",
+                            "$~stapel",
+                            "$~två",
+                            "$~en",
+                            "$~fri"
+                        ],
+                        "tips": [
+                            "$~placera plattor automatiskt utifrån fönstrets storlek och form",
+                            "$~en vågrät skärmlayout",
+                            "$~en lodrät skärmlayout",
+                            "$~de två senaste plattorna, sida vid sida",
+                            "$~bara den senaste plattan",
+                            "$~flyttbara plattor som du kan ändra storlek på, på en duk"
+                        ]
+                    },
+                    "animate": {
+                        "label": "$~animationshastighet",
+                        "labels": [
+                            "$~av",
+                            "$~1/4",
+                            "$~1/3x",
+                            "$~1/2x",
+                            "$~1x",
+                            "$~2x",
+                            "$~5x",
+                            "$~10 gånger",
+                            "$~bil"
+                        ],
+                        "tips": [
+                            "$~animationer av",
+                            "$~kvarts hastighet",
+                            "$~tredje hastigheten",
+                            "$~halvfart",
+                            "$~normal hastighet",
+                            "$~dubbel hastighet",
+                            "$~femväxlad",
+                            "$~tioväxlad",
+                            "$~använd den aktuella enhetsinställningen"
+                        ]
+                    },
+                    "dark": {
+                        "label": "$~tema",
+                        "labels": ["$~ljus", "$~mörk", "$~bil"],
+                        "tips": [
+                            "$~ljusare färger",
+                            "$~mörkare färger",
+                            "$~använd den aktuella enhetsinställningen"
+                        ]
+                    },
+                    "space": {
+                        "label": "$~mellanrumsmarkörer",
+                        "labels": ["$~dölja", "$~visa"],
+                        "tips": [
+                            "$~visa inte mellanslags- och tabbindikatorer",
+                            "$~visa mellanslags- och tabbindikatorer explicit"
+                        ]
+                    },
+                    "lines": {
+                        "label": "$~radnummer",
+                        "labels": ["$~dölja", "$~visa"],
+                        "tips": [
+                            "$~visa inte radnummer i textläge",
+                            "$~visa radnummer i textläge"
+                        ]
+                    },
+                    "writing": {
+                        "label": "$~skrivlayout",
+                        "labels": [
+                            "$~horisontell",
+                            "$~vertikal rtl",
+                            "$~vertikal ltr",
+                            "$~automatisk"
+                        ],
+                        "tips": [
+                            "$~horisontell text, läs från vänster till höger",
+                            "$~vertikal text, läs från höger till vänster",
+                            "$~vertikal text, läs från vänster till höger",
+                            "$~följ språkets skrivstil"
+                        ]
+                    },
+                    "blocks": {
+                        "label": "$~redigeringsläge",
+                        "labels": ["$~text", "$~block"],
+                        "tips": [
+                            "$~redigera kod som text",
+                            "$~redigera kod som block"
+                        ]
+                    },
+                    "blockDensity": {
+                        "label": "$~blockavstånd",
+                        "labels": ["$~kompakt", "$~normal", "$~rymlig"],
+                        "tips": [
+                            "$~tätare block för att få plats med mer kod på skärmen",
+                            "$~standardblockavstånd",
+                            "$~lösare block för enklare val och dra"
+                        ]
+                    },
+                    "tab": {
+                        "label": "$~tabbtangent",
+                        "labels": ["$~byt fokus", "$~infogningsflik"],
+                        "tips": [
+                            "$~Tab flyttar tangentbordsfokus till nästa kontroll",
+                            "$~tabb infogar en tabb i redigeraren"
+                        ]
+                    },
+                    "wrap": {
+                        "label": "$~omslagslinjer",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~långa rader rullar horisontellt i textläge",
+                            "$~långa rader bryts till redigeringsfönstret i textläge"
+                        ]
+                    },
+                    "words": {
+                        "label": "$~nyckelord",
+                        "labels": ["$~symboler", "$~ord"],
+                        "tips": [
+                            "$~visa inbyggda nyckelord som symboler",
+                            "$~visa inbyggda nyckelord som ord på ditt språk"
+                        ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~visualisering",
+                        "labels": [
+                            "$~orkester",
+                            "$~ljusshow",
+                            "$~stämning",
+                            "$~noter",
+                            "$~av"
+                        ],
+                        "tips": [
+                            "$~Visa musik som en orkester av instrument",
+                            "$~Visa musik som skiftande ljus",
+                            "$~Visa musik som ett moln av färg och form som ändras med musikens känsla",
+                            "$~Visa tonerna som skrivna noter på ett notsystem, som rullar förbi medan de spelas",
+                            "$~Visa inte musik"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~volym",
+                        "labels": ["$~av", "$~tyst", "$~full"],
+                        "tips": [
+                            "$~Stäng av all musik",
+                            "$~Spela musik tyst",
+                            "$~Spela musik på full volym"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~medan man talar",
+                        "labels": ["$~tyst", "$~tystare", "$~ljudlös"],
+                        "tips": [
+                            "$~Sänk musiken lite medan något sägs",
+                            "$~Sänk musiken mycket medan något sägs",
+                            "$~Tysta musiken medan något sägs"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~vibration",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Vibrera inte i takt med rytmen",
+                            "$~Vibrera i takt med rytmen, där enheten stöder det"
+                        ]
+                    },
+                    "captionSize": {
+                        "label": "$~bildtextstorlek",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Visa mindre bildtexter",
+                            "$~Visa bildtexter i standardstorlek",
+                            "$~Visa bildtexter halva gången större",
+                            "$~Visa bildtexter dubbelt så stora",
+                            "$~Visa bildtexter tre gånger så stora"
+                        ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~projektfärger",
+                        "labels": ["$~behåll", "$~vänd"],
+                        "tips": [
+                            "$~visa ett projekts färger exakt som det skrev dem, även på en mörk skärm",
+                            "$~på en mörk skärm, vänd ett ljust projekts färger till mörka: varje färg behåller sin nyans, och färgerna förblir lika olika som projektet gjorde dem"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~utvärderingsljud",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Gör inget ljud när programmet utvärderas på nytt",
+                            "$~Spela upp ett kort ljud varje gång programmet utvärderas på nytt, ett för varje typ av inmatning"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~animationsljud",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Gör inget ljud när utdata animeras",
+                            "$~Spela upp ett kort ljud varje gång en animation når en pose, där ljudet följer vad posen gör"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~kollisionsljud",
+                        "labels": ["$~av", "$~på"],
+                        "tips": [
+                            "$~Gör inget ljud när utdata krockar",
+                            "$~Spela upp ett kort ljud när utdata krockar, högre ju hårdare krocken är"
+                        ]
+                    },
+                    "placement": {
+                        "label": "$~scenens placering",
+                        "labels": [
+                            "$~uppe till vänster",
+                            "$~uppe till höger",
+                            "$~nere till vänster",
+                            "$~nere till höger"
+                        ],
+                        "tips": [
+                            "$~placera scenen uppe till vänster, och de andra rutorna på matchande platser runt den",
+                            "$~placera scenen uppe till höger, och de andra rutorna på matchande platser runt den",
+                            "$~placera scenen nere till vänster, och de andra rutorna på matchande platser runt den",
+                            "$~placera scenen nere till höger, och de andra rutorna på matchande platser runt den"
+                        ]
+                    }
+                },
+                "options": {
+                    "face": "$~teckensnitt",
+                    "mic": "$~mikrofon",
+                    "camera": "$~kamera",
+                    "default": "$~standard",
+                    "voice": "$~Säg-röst"
+                },
+                "tab": {
+                    "label": "$~inställningsgrupper",
+                    "labels": [
+                        "$~Utseende",
+                        "$~Koda",
+                        "$~Kamera + Mikrofon",
+                        "$~Ljud + Musik"
+                    ],
+                    "tips": [
+                        "$~hur Wordplay själv ser ut och känns: teckensnitt, färger, rutor och animation",
+                        "$~hur koda ser ut och känns medan du skriver den",
+                        "$~vilken kamera och mikrofon som program läser från",
+                        "$~hur ett programs musik, tal och bildtexter når dig"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musik",
+                    "say": "$~Säg",
+                    "cues": "$~Ljud"
+                }
+            },
+            "locale": {
+                "header": "$~Språk",
+                "explanation": "$~Välj språk för gränssnittet, handledningen och dokumentationen. Språk märkta med 🤖 är fortfarande till stor del maskinöversatta, så en del text kan vara oläslig eller felaktig.",
+                "subheader": {
+                    "selected": "$~Vald",
+                    "supported": "$~Tillgänglig"
+                },
+                "search": {
+                    "description": "$~Filtrera språk efter namn eller område",
+                    "placeholder": "$~språk eller område"
+                },
+                "button": {
+                    "show": "$~välj språk för webbplatsen",
+                    "replace": "$~använd detta språk",
+                    "add": "$~använd detta språk och de nuvarande",
+                    "remove": "$~ta bort det här språket",
+                    "menu": "$~andra språk"
+                },
+                "localizeHelp": "$~/För att förbättra översättningarna på ditt språk, klicka på pennikonen ✎ längst ner på sidan för att aktivera lokaliseringsläget och föreslå förbättringar./",
+                "request": {
+                    "header": "$~Ser du inte ditt språk?",
+                    "explanation": "$~Välj ett språk och en region så öppnar vi ett GitHub-ärende för att diskutera hur man lägger till det.",
+                    "languageLabel": "$~språk",
+                    "regionLabel": "$~område",
+                    "submit": "$~Begäran",
+                    "submitting": "$~Skickar begäran…",
+                    "success": "$~Diskutera denna förfrågan med oss på GitHub!",
+                    "error": "$~Något gick fel. Försök igen.",
+                    "alreadySupported": "$~Det språket och den regionen stöds redan.",
+                    "requiresLogin": "$~Du måste vara inloggad för att begära ett språk.",
+                    "searchPlaceholder": "$~språk eller land",
+                    "searchDescription": "$~Filtrera menyerna för språk och land",
+                    "alreadyRequested": "$~Någon har redan begärt det här språket. Var med i diskussionen på GitHub!"
+                },
+                "choose": "$~Välj ett språk"
+            },
+            "help": {
+                "header": "$~Genvägar",
+                "explanation": "$~Använd dessa tangentbordskommandon för mer effektiv redigering.",
+                "subheader": {
+                    "moveCursor": "$~Flytta",
+                    "editCode": "$~Redigera",
+                    "insertCode": "$~Infoga",
+                    "debug": "$~Felsök",
+                    "format": "$~Format",
+                    "help": "$~Hjälp"
+                },
+                "column": {
+                    "symbol": "$~Symbol",
+                    "shortcut": "$~Genväg",
+                    "action": "$~Åtgärd",
+                    "change": "$~Ändra"
+                },
+                "via": {
+                    "toolbar": "$~verktygsfält",
+                    "chooser": "$~teckenväljare"
+                },
+                "change": {
+                    "on": "$~sluta ändra denna genväg",
+                    "off": "$~ändra denna genväg"
+                },
+                "capture": "$~tryck på de tangenter du vill använda",
+                "reset": "$~använd standardgenvägen",
+                "resetAll": "$~använd alla standardgenvägar",
+                "custom": "$~ändrad",
+                "feedback": {
+                    "bound": "$~$command är nu $shortcut",
+                    "conflict": "$~$shortcut används redan för $command",
+                    "reserved": "$~din dator reserverar $shortcut för sig själv",
+                    "unmodified": "$~en genväg behöver Control eller Alt, annars vore det bara vanlig skrivning",
+                    "reset": "$~$command har fått tillbaka sin vanliga genväg"
+                }
+            },
+            "feedback": {
+                "header": "$~Feed-back",
+                "explanation": "$~Hjälp oss att förbättra @wordplay genom att rapportera 🪲 *problem* och dela 💡 *idéer*!",
+                "button": {
+                    "show": "$~Visa feedbackformuläret.",
+                    "submit": {
+                        "tip": "$~skicka in din återkoppling",
+                        "label": "$~överlämna"
+                    },
+                    "delete": {
+                        "description": "$~Ta bort din feedback.",
+                        "prompt": "$~radera"
+                    },
+                    "like": "$~Gillar denna feedback",
+                    "close": {
+                        "label": "$~nära",
+                        "tip": "$~stäng denna återkoppling som moderator"
+                    },
+                    "comment": {
+                        "label": "$~överlämna",
+                        "tip": "$~skicka in en kommentar om denna återkoppling."
+                    }
+                },
+                "mode": {
+                    "label": "$~återkoppling",
+                    "labels": ["$~defekter", "$~idéer"],
+                    "tips": [
+                        "$~rapportera något som verkar trasigt",
+                        "$~föreslå nya funktioner eller förbättringar"
+                    ]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~rubriken på din feedback",
+                        "placeholder": "$~titel"
+                    },
+                    "defect": {
+                        "description": "$~beskrivning av ditt defekt",
+                        "placeholder": "$~Vilka steg tog du? Vad hände efter? Var så exakt som möjligt."
+                    },
+                    "idea": {
+                        "description": "$~beskrivning av ditt defekt",
+                        "placeholder": "$~Vad försöker du göra som du inte kan?"
+                    },
+                    "comment": {
+                        "description": "$~kommentar",
+                        "placeholder": "$~Lägg till en kommentar till den här feedbacken"
+                    },
+                    "github": {
+                        "description": "$~GitHub-problem",
+                        "placeholder": "$~Länk till GitHub-problem"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~defekt",
+                    "idea": "$~aning",
+                    "moderator": "$~moderator"
+                },
+                "prompt": {
+                    "defect": "$~Såg du inte problemet du har? Rapportera det här. Ju mer detaljer du ger, desto bättre!",
+                    "idea": "$~Såg du inte idén du tänkte på? Föreslå det."
+                },
+                "error": {
+                    "login": "$~Du måste vara <inloggad@://login> för att skicka feedback",
+                    "empty": "$~Det finns ingen feedback att visa.",
+                    "url": "$~Detta är inte en giltig GitHub-URL."
+                }
+            },
+            "notifications": {
+                "header": "$~Aviseringar",
+                "explanation": "$~Aviseringar från nya chattar och publicerade instruktioner",
+                "open": "$~öppna aviseringsdialogrutan",
+                "howToNotifications": {
+                    "label": "$~aviseringar om nya instruktioner",
+                    "labels": ["$~av", "$~på"],
+                    "tips": [
+                        "$~meddela mig inte om nya instruktioner",
+                        "$~meddela mig om nya instruktioner"
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~rensa alla aviseringar",
+                    "tip": "$~rensa alla aviseringar"
+                },
+                "notification": {
+                    "howToHeader": "$~Ny instruktionsguide med titeln \"$title\" har publicerats",
+                    "projectChatHeader": "$~Nytt meddelande i projektet \"$name\"",
+                    "howToChatHeader": "$~Nytt meddelande i instruktionsguiden \"$title\"",
+                    "link": "$~detaljer",
+                    "moderationHeader": "$~Meddelandet i \"$name\" kräver modereringsåtgärd",
+                    "reportedHeader": "$~Något du gjorde i \"$title\" har anmälts och granskas nu",
+                    "reportReceivedHeader": "$~Din anmälan om \"$title\" har skickats till den som ansvarar",
+                    "decisionHeader": "$~Ett beslut har tagits om något du gjorde i \"$title\"",
+                    "outcomeHeader": "$~Ett beslut har tagits om det du anmälde i \"$title\"",
+                    "because": "$~Eftersom det:",
+                    "note": "$~De sa:",
+                    "reviewPending": "$~$#count[Något väntar|$count saker väntar] på att du granskar det"
+                },
+                "delete": "$~radera den här aviseringen",
+                "popup": "$~$#count[1 avisering|$count aviseringar]",
+                "moderate": {
+                    "label": "$~granska det som väntar",
+                    "tip": "$~gå till det som väntar på att du ska granska det"
+                }
+            }
+        },
+        "collaborate": {
+            "label": "$~samarbeta",
+            "role": {
+                "owner": "$~ägare",
+                "collaborate": "$~samarbeta",
+                "comment": "$~kommentera",
+                "view": "$~visa",
+                "curate": "$~kurera"
+            },
+            "field": {
+                "message": {
+                    "description": "$~Chattmeddelandet att skicka",
+                    "placeholder": "$~Skriv ett meddelande"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~skicka",
+                    "tip": "$~skicka ett meddelande till dina medarbetare och"
+                },
+                "delete": "$~radera detta meddelande",
+                "confirmDelete": "$~bekräfta borttagning?",
+                "transfer": {
+                    "description": "$~gör denna person till ägare av projektet",
+                    "prompt": "$~Göra dem till ägare?",
+                    "consequence": "$~Du förblir medarbetare och kan fortsätta redigera, men du kan inte längre ta bort detta projekt."
+                }
+            },
+            "error": {
+                "unowned": "$~Det här projektet lagras inte online, så det kan inte ha en chatt eller samarbetspartner.",
+                "offline": "$~Det gick inte att ladda den här chatten.",
+                "empty": "$~Inga meddelanden.",
+                "deleted": "$~Detta meddelande raderades.",
+                "transferGallery": "$~Det här projektet finns i ett galleri. Att ge det till någon annan lägger inte till dem i det galleriet, så de kanske inte kan se det där."
+            },
+            "moderation": {
+                "header": "$~Rapportera det här meddelandet",
+                "explanation": "$~Om det här meddelandet inte uppfyller våra <community standards@://rights> eller den typ av feedback du begärt kan du rapportera det. När du rapporterar det här meddelandet skickas det till galleriets kuratorer och tas bort tills det kan granskas.",
+                "report": {
+                    "tip": "$~rapportera detta meddelande",
+                    "label": "$~rapportera"
+                },
+                "moderate": {
+                    "tip": "$~gå till modereringspanelen",
+                    "label": "$~måttlig"
+                },
+                "pending": "$~Det här meddelandet tas tillfälligt bort i väntan på modereringsåtgärd.",
+                "removed": "$~Det här meddelandet har tagits bort eftersom det bryter mot riktlinjer för communityn eller feedback.",
+                "inGallery": "$~Den här chatten finns i ett galleri. Den modereras av galleriets kuratorer. Du kan rapportera meddelanden som bryter mot våra <community standards@://rights> för moderering."
+            },
+            "restrictGalleryCreatorAccess": {
+                "mode": {
+                    "label": "$~begränsa åtkomst till projektet",
+                    "labels": ["$~begränsa inte", "$~begränsa"],
+                    "tips": [
+                        "$~alla som kan se det här galleriet kan se ditt projekt",
+                        "$~Endast galleriets intendenter kan se ditt projekt"
+                    ]
+                }
+            },
+            "tour": {
+                "launch": "$~ta en rundtur i samarbetet",
+                "collaborate": "$~Alla som kan nå detta projekt visas här, och du kan *chatta* med dem som får det. Bara /ägaren/, /medarbetarna/ och /kommentatorerna/ kan se chatten.",
+                "collaborators": "$~Varje person har en /rättighet/. *Samarbeta* betyder att de kan redigera projektet och chatta om det. *Kommentera* betyder att de kan chatta men inte redigera. *Visa* betyder att de kan titta men inte chatta. *Ägare* ger dem projektet. Ett galleris /kuratorer/ kan alltid nå det, så du kan inte ändra deras rättighet.",
+                "restrict": "$~När ett projekt finns i ett *galleri* kan som standard *alla* som kan se galleriet se ditt projekt. /restrict/-knappen *döljer* det för alla utom dig och galleriets kuratorer.",
+                "add": "$~Tryck på *+* i slutet av listan för att lägga till någon. Skriv deras *e-post* eller *användarnamn*, välj vad de får göra, så läggs de till i listan."
+            },
+            "translate": {
+                "label": "$~Översätt meddelanden till",
+                "off": "$~Sluta översätta",
+                "error": "$~Vi kunde inte översätta dessa meddelanden till $to. Försök igen om en liten stund.",
+                "messageError": "$~Vi kunde inte översätta detta meddelande.",
+                "direction": "$from → $to",
+                "messageErrors": "$~$#count[Vi kunde inte översätta $count meddelande.|Vi kunde inte översätta $count meddelanden.]",
+                "translating": "$~Översätter meddelanden…",
+                "translated": "$~$#count[Översatte $count meddelande till $language.|Översatte $count meddelanden till $language.]",
+                "writingIn": "$~Jag skriver på",
+                "downloading": "$~Hämtar en $language-översättare för din webbläsare…",
+                "onDevice": "$~Din webbläsare översatte dessa på din enhet, så inga meddelanden skickades till oss.",
+                "none": "$~Översätt inte",
+                "dismiss": "$~stäng"
+            },
+            "announce": {
+                "transferred": "$~$name är nu ägare av $project",
+                "privilege": "$~$name kan nu $privilege",
+                "removed": "$~$name kan inte längre nå detta projekt",
+                "thread": "$~$#count[Tråd på $name's meddelande, $count svar|Tråd på $name's meddelande, $count svar]",
+                "reacted": "$~$#count[$emoji på det här meddelandet, $count person|$emoji på det här meddelandet, $count personer]",
+                "unreacted": "$~$#count[Tog tillbaka $emoji, $count person lämnade|Tog tillbaka $emoji, $count personer lämnade]",
+                "attached": "$~Pratar om $location.",
+                "found": "$~$name sa $opening"
+            },
+            "table": {
+                "label": "$~vem som kan nå detta projekt",
+                "choose": "$~vad $name får göra",
+                "adding": "$~vad de får göra",
+                "audience": "$~vem som kan se denna chatt",
+                "add": "$~lägg till någon",
+                "cancel": "$~strunt i att lägga till någon"
+            },
+            "prompt": "$~Lägg till medarbetare, kommentatorer och tittare",
+            "thread": {
+                "reply": "$~svara",
+                "replies": "$~$#count[$count svar|$count svar]",
+                "unseen": "$~$#count[$count nytt svar|$count nya svar]",
+                "header": "$~Tråd",
+                "back": "$~tillbaka till samtalet",
+                "empty": "$~Inga svar än. Säg något!",
+                "placeholder": "$~Svara…"
+            },
+            "reaction": {
+                "add": "$~reagera",
+                "more": "$~mer…",
+                "label": "$~Välj en reaktion",
+                "full": "$~Det här meddelandet har alla reaktioner det kan ha.",
+                "close": "$~stäng reaktionerna",
+                "pick": "$~reagera med $emoji",
+                "give": "$~$#count[lägg till din $emoji — $count person har|lägg till din $emoji — $count personer har]",
+                "take": "$~$#count[ta tillbaka din $emoji — $count person har den|ta tillbaka din $emoji — $count personer har den]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~sluta prata om den här koden",
+                    "off": "$~prata om koden där min markör är"
+                },
+                "prompt": "$~Ditt meddelande handlar om $location.",
+                "line": "$~rad $line",
+                "lines": "$~rader $first–$last",
+                "label": "$~om $location: $code",
+                "invalid": "$~den här koden är borta",
+                "marker": "$~$#count[läs meddelandet om denna kod|läs de $count meddelandena om denna kod]"
+            }
+        },
+        "palette": {
+            "label": "$~palett",
+            "labels": {
+                "mixed": "$~blandad",
+                "computed": "$~beräknad",
+                "default": "$~standard",
+                "inherited": "$~ärvt",
+                "notSequence": "$~inte en sekvens",
+                "format": "$~formatera",
+                "weight": "$~vikt",
+                "light": "$~ljus",
+                "normal": "$~normal",
+                "bold": "$~djärv",
+                "extra": "$~extra",
+                "italic": "$~kursiv",
+                "underline": "$~betona"
+            },
+            "button": {
+                "revert": "$~återgå till standard",
+                "set": "$~redigera den här egenskapen",
+                "addPhrase": "$~lägg till en fras efter detta",
+                "addGroup": "$~lägg till en grupp efter detta",
+                "addShape": "$~lägg till en form efter detta",
+                "addMotion": "$~ange plats för Motion stream",
+                "addPlacement": "$~ange plats till placeringsström",
+                "remove": "$~ta bort detta innehåll",
+                "up": "$~flytta detta innehåll uppåt",
+                "down": "$~flytta detta innehåll nedåt",
+                "edit": "$~redigera detta innehåll",
+                "sequence": "$~konvertera till Sequence",
+                "editMode": "$~byt till redigeringsläge",
+                "previousTrack": "$~visa den föregående @Track",
+                "nextTrack": "$~visa nästa @Track",
+                "addTrack": "$~lägg till en @Track",
+                "removeTrack": "$~ta bort denna @Track",
+                "clearTrack": "$~ta bort varje ton från denna @Track",
+                "makeChord": "$~gör denna ton till ett ackord",
+                "unmakeChord": "$~minska detta ackord till en ton",
+                "playMusic": "$~hör denna @Music från markören",
+                "pauseMusic": "$~sluta spela",
+                "importMIDI": "$~importera en MIDI-fil som @Music",
+                "record": "$~nynna en melodi att lägga till i denna @Track",
+                "stopRecording": "$~sluta och skriv ner det du nynnade",
+                "playTrack": "$~hör denna @Track ensam, från markören",
+                "pauseTrack": "$~sluta spela denna @Track",
+                "rewind": "$~gå tillbaka till början"
+            },
+            "prompt": {
+                "editing": "$~Redigera mig!",
+                "select": "$~För att ändra något, välj det i din kod eller på @Stage. För att lägga till något nytt, använd plus-knapparna ovanför.",
+                "readonly": "$~Dessa värden är *skrivskyddade* i det här läget. Byt till ✏️ *redigeringsläge* för att ändra dem."
+            },
+            "field": {
+                "coordinate": "$~redigera koordinat",
+                "text": "$~redigera text"
+            },
+            "sequence": {
+                "button": {
+                    "add": "$~lägg till pose",
+                    "remove": "$~ta bort posen",
+                    "up": "$~flytta posera upp",
+                    "down": "$~flytta posen ner"
+                },
+                "field": {
+                    "percent": "$~redigera procent"
+                },
+                "preset": {
+                    "label": "$~fördefinierad sekvens",
+                    "custom": "$~beställnings-"
+                }
+            },
+            "error": {
+                "nan": "$~Det här är inte en siffra.",
+                "percent": "$~Måste vara en procent mellan 0 och 100.",
+                "lessThanNext": "$~Detta måste vara mindre än nästa post.",
+                "moreThanPrevious": "$~Detta måste vara mer än föregående post."
+            },
+            "tour": {
+                "launch": "$~ta en rundtur i paletten",
+                "palette": "$~Du kan använda /paletten/ för att redigera *fraser*, *grupper* och *scenen* i läget ✏️ *redigera*. I andra lägen går dess kontroller bara att läsa, och i läget ⏸️ *felsök* visar varje egenskap också sitt *aktuella värde*.",
+                "text": "$~Alla /egenskaper/ för en fras kan redigeras här. Detta är frasens *text*, men andra egenskaper har sina egna kontroller.",
+                "set": "$~När en egenskap för närvarande använder sitt /default/-värde kan du med *pennan*-knappen ange ett *explicit*-värde för den.",
+                "unset": "$~När en egenskap har ett /explicit/-värde satt, tar *X*-knappen bort det värdet och återställer egenskapen till dess *standard*.",
+                "editor": "$~Alla ändringar du gör i paletten återspeglas i /code/ som visas i *editorn*.",
+                "stage": "$~Fraser kan också /flyttas/, /ändras i storlek/ och /roteras/ direkt på *scenen*."
+            },
+            "music": {
+                "staff": "$~tonerna i detta spår",
+                "track": "$~spår $count av $total",
+                "duration": {
+                    "label": "$~hur länge en ny ton varar",
+                    "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
+                    "tips": [
+                        "$~en helnot, fyra taktslag",
+                        "$~en halvnot, två taktslag",
+                        "$~en fjärdedelsnot, ett taktslag",
+                        "$~en åttondelsnot, ett halvt taktslag",
+                        "$~en sextondelsnot, ett fjärdedels taktslag"
+                    ]
+                },
+                "computed": "$~tonerna i detta spår beräknas, så de kan inte flyttas hit",
+                "note": "$~ton $degree, taktslag $beat",
+                "rest": "$~paus, taktslag $beat",
+                "added": "$~lade till ton $degree vid taktslag $beat, nu $#count[$#count ton|$#count toner]",
+                "removed": "$~tog bort not $degree vid taktslag $beat, nu $#count[$#count not|$#count noter]",
+                "moved": "$~not $degree, taktslag $beat",
+                "chooser": "$~vilken musik som ska redigeras",
+                "unnamed": "$~musik $count",
+                "cursor": "$~dra för att välja vilket taktslag att spela från",
+                "findings": {
+                    "tracksSplit": "$~$#count[$#count spår|$#count spår] spelade mer än en not i taget, så $extra fler lades till för att hålla de extra rösterna.",
+                    "percussionDropped": "$~$#count[$#count trumljud|$#count trumljud] hade ingen match i vårt kit, så de lämnades utanför.",
+                    "tracksTruncated": "$~$#count[$#count spår lämnades|$#count spår lämnades] utanför, över gränsen på $cap.",
+                    "pitchesSnapped": "$~$#count[$#count not|$#count noter] fanns inte i skalan $scale och flyttades till den närmaste, med upp till $semitones halvtoner.",
+                    "beatsRounded": "$~$#count[$#count notlängd|$#count notlängder] avrundades, med som mest $error av ett taktslag.",
+                    "meterChanges": "$~$#count[$#count taktartsbyte|$#count taktartsbyten] lämnades utanför: @Music har inga taktarter.",
+                    "velocityRange": "$~Spår $track har $#count[$#count styrka|$#count styrkor]. Varje not behåller sin egen, men det finns inga svällningar.",
+                    "outOfRange": "$~$#count[$#count not är|$#count noter är] mer än tre oktaver från skalans första not. De kommer att spela, men inte från en riktig inspelning.",
+                    "tempoFolded": "$~$#count[$#count tempobyte veks|$#count tempobyten veks] in i notlängderna, så musiken snabbar fortfarande upp och saktar ner. En @Music har ett tempo, och det här är $using, så en @Beat kommer inte att matcha noterna."
+                },
+                "notMIDI": "$~det där ser inte ut som en MIDI-fil",
+                "badMIDI": "$~Jag kunde inte läsa den MIDI-filen",
+                "listening": "$~Lyssnar! Nynna eller sjung en melodi, sluta sedan. Jag skriver ner noterna jag hör och lägger till dem i det här spåret.",
+                "heardNothing": "$~Jag hörde inga noter. Prova att nynna lite högre, eller närmare mikrofonen.",
+                "transcribed": "$~Jag hörde $#count[$#count not|$#count noter] i $scale med ungefär $tempo taktslag i minuten.",
+                "noMicrophone": "$~Jag kan inte höra din mikrofon",
+                "imported": "$~lade till $#count[$#count spår|$#count spår] och $notes noter",
+                "importing": "$~$step… $percent%",
+                "tooBig": "$~Den filen har $#count[$#count not|$#count noter], mer än de $cap som ett projekt kan hålla. Prova ett kortare stycke, eller färre instrument.",
+                "steps": {
+                    "label": "$~vad en import gör",
+                    "labels": [
+                        "$~Läser filen",
+                        "$~Räkna ut noterna",
+                        "$~Namnge spåren",
+                        "$~Skriva in dem i ditt program",
+                        "$~Kontrollera ditt program"
+                    ],
+                    "tips": [
+                        "$~läser filen",
+                        "$~räknar ut noterna",
+                        "$~namnger spåren",
+                        "$~skriver in dem i ditt program",
+                        "$~kontrollerar ditt program"
+                    ]
+                },
+                "report": "$~Vad jag importerade",
+                "reportExplanation": "$~En @Music kan innehålla det mesta av vad en MIDI-fil beskriver, men inte allt. Här är vad som ändrades på vägen in."
+            },
+            "toolbar": {
+                "label": "$~lägg till utdata",
+                "addPhrase": "$~lägg till en fras",
+                "wrapPhrase": "$~visa detta värde som en fras",
+                "addRectangle": "$~lägg till en rektangulär form",
+                "addCircle": "$~lägg till en rund form",
+                "addPolygon": "$~lägg till en mångsidig form",
+                "wrapForm": "$~visa denna form på scenen genom att lägga in den i en form",
+                "group": "$~samla det du valde till en grupp",
+                "groupEmpty": "$~välj något resultat för att samla det till en grupp",
+                "groupScattered": "$~en grupp kan bara samla resultat som är på samma plats",
+                "groupKind": "$~en grupp kan innehålla en fras, en grupp, tal eller musik, men inte en form eller scenen",
+                "addStage": "$~lägg allt i en scen, så du kan styra ljus, färg och bildrutor",
+                "stageExists": "$~det finns redan en scen",
+                "addMusic": "$~lägg till musik, med några toner att börja leka med",
+                "addSay": "$~lägg till tal, som uttalas högt",
+                "addPath": "$~lägg till en linje du kan böja och rita med",
+                "draw": {
+                    "off": "$~rita en bana på scenen",
+                    "on": "$~sluta rita"
+                }
+            }
+        },
+        "save": {
+            "saving": "$~sparande",
+            "saved": "$~sparad",
+            "local": "$~sparad",
+            "unsaved": "$~osparade",
+            "sync": {
+                "projects": "$~Projekt",
+                "galleries": "$~Gallerier",
+                "characters": "$~Tecken",
+                "howtos": "$~Instruktioner",
+                "chats": "$~Chattar",
+                "kits": "$~Kit"
+            },
+            "status": {
+                "header": "$~Spara status",
+                "intro": "$~Ditt arbete lagras på den här enheten och i molnet.",
+                "columns": {
+                    "device": "$~på den här enheten",
+                    "cloud": "$~i molnet",
+                    "unsaved": "$~osparad"
+                },
+                "state": {
+                    "synced": "$~synkroniserad",
+                    "loading": "$~belastning",
+                    "syncing": "$~sparande",
+                    "offline": "$~off-line",
+                    "failed": "$~misslyckades"
+                },
+                "conversation": "$~en konversation",
+                "legend": "$~Osparad betyder att den är sparad här men inte online än. Den sparas när du är online igen.",
+                "errorsHeader": "$~Vissa saker kunde inte sparas online:"
+            }
+        },
+        "edit": {
+            "node": "$~$node$type[, $type|]",
+            "before": "$~före $after[$after|slut]",
+            "inside": "$~i $token, mellan $before[$before|start] och $after[$after|slut]",
+            "between": "$~mellan $before[$before|start] och $after[$after|slut]",
+            "line": "$~tom rad mellan $before[$before|start] och $after[$after|slut]",
+            "conflicts": "$~$#count[$count konflikt|$count konflikter]",
+            "assign": "$~/$name[Ivrig att gå med|Överväger att lämna]…/",
+            "append": "$~/Ivrig att sätta in.../",
+            "remove": "$~/Överväger att lämna.../",
+            "replace": "$~/Vill kliva in.../",
+            "area": "$~typkod",
+            "delimiterMatchedSameLine": "$~matchande $name på samma rad",
+            "delimiterMatchedBelow": "$~matchar $name $#lines[$lines rad nedan|$lines rader nedan]",
+            "delimiterMatchedAbove": "$~matchar $name $#lines[$lines rad ovan|$lines rader ovan]",
+            "delimiterUnmatched": "$~ingen matchande avgränsare"
+        },
+        "template": {
+            "unwritten": "$~TBD",
+            "unparsable": "$~Oparserbar mall: $template",
+            "machineTranslated": "$~Detta är maskinöversatt, så det kanske inte är läsbart eller korrekt.",
+            "locallyRevised": "$~Denna text har reviderats lokalt och skiljer sig från den officiella översättningen."
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~Instruktioner",
+                "subheader": "$~$#total[$total hur man|$total hur man], $new nya",
+                "subheaderEmpty": "$~skapa den första!",
+                "prompt": "$~Instruktioner är korta förklaringar och exempelkod för hur man gör något med @wordplay. När du har kommit fram till något du vill dela, skriv en för de andra skaparna i det här galleriet, så att de kan lära sig det!"
+            },
+            "drafts": {
+                "header": "$~📝 Instruktioner för utkast",
+                "prompt": "$~Det här är ett utrymme för dina utkast! Endast du och dina medarbetare kan se dessa utkast.",
+                "tooltip": "$~visa ditt utkast",
+                "note": "$~Detta är ett utkast till en instruktionsguide. Endast du och dina medarbetare kan se den."
+            },
+            "bookmarks": {
+                "header": "$~🔖 Bokmärken",
+                "tooltip": "$~gå till den här instruktionen",
+                "canBookmark": {
+                    "label": "$~🔖 bokmärk instruktionsguide",
+                    "tip": "$~Bokmärk den här instruktionen för att hitta den senare"
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 ta bort bokmärke",
+                    "tip": "$~ta bort den här instruktionen från dina bokmärken"
+                },
+                "empty": "$~Du kan bokmärka instruktioner som du vill använda senare.",
+                "notLoggedIn": "$~Du måste vara <inloggad@://login> för att använda bokmärken"
+            },
+            "navigationtooltip": "$~navigera till en instruktionsguide",
+            "button": {
+                "reset": {
+                    "label": "$~centrum",
+                    "tip": "$~centrera arbetsytan"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~Skapa en ny instruktionsguide",
+                    "explanation": "$~Skriv namnet och innehållet på din nya instruktionsguide."
+                },
+                "editForm": {
+                    "header": "$~Redigera instruktionsguide",
+                    "explanation": "$~Redigera namnet och innehållet i din instruktionsguide."
+                },
+                "post": {
+                    "label": "$~📣 inlägg",
+                    "tip": "$~publicera din instruktion i utrymmet"
+                },
+                "save": {
+                    "label": "$~💾 spara som utkast",
+                    "tip": "$~spara din instruktion som ett utkast"
+                },
+                "notification": {
+                    "label": "$~meddela prenumeranter",
+                    "labels": ["$~meddela", "$~meddela inte"],
+                    "tips": [
+                        "$~meddela prenumeranter när du publicerar den här instruktionen",
+                        "$~meddela inte prenumeranter när du publicerar den här instruktionen"
+                    ]
+                },
+                "title": {
+                    "description": "$~titeln på din instruktion",
+                    "placeholder": "$~Titel"
+                },
+                "untitledHowToPlaceholder": "$~Namnlös instruktion",
+                "collaboratorsToggle": {
+                    "on": "$~dölj panelen för samarbetspartners",
+                    "off": "$~expandera panelen för samarbetspartners"
+                },
+                "editor": {
+                    "placeholder": "$~Skriv din instruktion här, använd formatering och kod för att undervisa.",
+                    "description": "$~en textruta för att skriva din instruktion"
+                },
+                "collaborators": {
+                    "header": "$~👥 samarbetspartners",
+                    "explanation": "$~Samarbetare kan redigera den här instruktionen och visa den i utkast."
+                },
+                "access": {
+                    "header": "$~↗ dela",
+                    "explanation": "$~Galleriets kurator kan låta skapare och kuratorer i andra gallerier de kuraterar se den här instruktionen. Om du inte vill att de ska kunna se den kan du begränsa vem som kan se den till endast kuratorerna och skaparna i galleriet."
+                },
+                "accessToggle": {
+                    "on": "$~dölj panelen för åtkomstinställningar",
+                    "off": "$~expandera panelen för åtkomstinställningar"
+                },
+                "accessMode": {
+                    "label": "$~begränsa vem som kan se den här instruktionen",
+                    "labels": ["$~begränsad", "$~utökad"],
+                    "tips": [
+                        "$~endast skapare i det här galleriet kan se",
+                        "$~skapare och kuratorer i vilket galleri som helst som kuratorn kurerar kan se"
+                    ]
+                },
+                "localeOptionsLabel": "$~redigerarens inmatningsspråk",
+                "publicExplanation": "$~Om du vill att alla med länken ska kunna se din instruktion kan du göra den offentlig.",
+                "publicMode": {
+                    "label": "$~offentliggör denna instruktion",
+                    "labels": ["$~privat", "$~offentlig"],
+                    "tips": [
+                        "$~Endast ordspelare med direktåtkomst till den här instruktionen kan se den.",
+                        "$~alla som har länken kan se den här instruktionen"
+                    ]
+                },
+                "noGuidingQuestions": "$~Det här galleriet har inga vägledande frågor ännu, så det finns inget att skriva om. En kurator måste lägga till minst en vägledande fråga innan instruktioner kan skrivas."
+            },
+            "viewer": {
+                "edit": {
+                    "label": "$~✏️ redigera",
+                    "tip": "$~redigera den här instruktionen"
+                },
+                "delete": {
+                    "description": "$~ta bort den här instruktionen",
+                    "prompt": "$~🗑️ radera"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 skicka till guiden",
+                        "tip": "$~skicka in denna hur-man för att bli övervägd för att tas med i guiden!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ skickad till Guide",
+                        "tip": "$~denna hur-man har redan skickats in för att övervägas för att tas med i guiden."
+                    },
+                    "header": "$~Listning i guiden"
+                },
+                "usedBy": {
+                    "prompt": "$~Använde du den här handledningen i ditt projekt eller i en annan handledning? Låt andra veta det genom att lägga till ditt projekt i listan!",
+                    "empty": "$~Du har inga projekt eller andra publicerade instruktioner än. Försök att skapa ett!",
+                    "countDisplay": "$~Andra Wordplay-regissörer har använt detta i $#count[$count annat projekt eller hur man|$count andra projekt eller hur man]",
+                    "selector": "$~projekt- och instruktionsväljare",
+                    "removeButton": "$~ta bort projekt eller instruktionsguide från listan",
+                    "addButton": "$~lägg till projekt eller instruktionsguide"
+                },
+                "reactionsPrompt": "$~Gillade du den här instruktionen? Lämna en kommentar för att stödja skaparen!",
+                "chatPrompt": "$~Lämna en kommentar eller fråga till skaparen!",
+                "link": {
+                    "label": "$~🔗 kopiera instruktionslänken",
+                    "tip": "$~kopiera länken till den här instruktionen"
+                },
+                "collaborators": "$~skriven av",
+                "view": {
+                    "tip": "$~visa hur man"
+                }
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~Instruktioner för utrymmesinställningar",
+                    "explanation": "$~Konfigurera inställningarna för den här instruktionsplatsen. Klicka på spara-knappen längst ner för att spara dina inställningar."
+                },
+                "configurationButton": {
+                    "tip": "$~konfigurera detta instruktionsutrymme",
+                    "label": "$~⚙️ inställningar"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~Synlighet",
+                        "explanation": "$~Konfigurera vem som kan visa instruktioner i det här utrymmet som standard"
+                    },
+                    "mode": {
+                        "label": "$~standardsynlighet",
+                        "labels": ["$~begränsad", "$~utökad"],
+                        "tips": [
+                            "$~bara medarbetare i detta galleri kan se hur man-guider",
+                            "$~medarbetare i de gallerier du anger nedan kan se hur man-guider"
+                        ]
+                    },
+                    "expandedOptions": "$~låt kuratorerna och skaparna av det valda galleriet se galleriets instruktioner",
+                    "expandedAdd": "$~lägg till galleriet i listan",
+                    "expandedRemove": "$~ta bort galleriet från listan"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~Vägledande frågor",
+                        "explanation": "$~Konfigurera de vägledande frågor som visas när du skapar en ny instruktionsguide. Separera vägledande frågor med en radbrytning."
+                    },
+                    "descriptor": "$~en textruta för att skriva dina vägledande frågor, separerade med en radbrytning.",
+                    "default": [
+                        "$~Vad lärde du dig? Ge exempel på hur man gör det."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~Reaktioner",
+                        "explanation": "$~Konfigurera de reaktioner som tittare kan lämna på nya instruktioner"
+                    },
+                    "reactionPickerTip": "$~välj en karaktär som ska vara en reaktion",
+                    "reactionDescriptionTip": "$~beskriv vad denna reaktion betyder",
+                    "addReactionTip": "$~lägg till en ny reaktion",
+                    "removeReactionTip": "$~ta bort denna reaktion",
+                    "default": {
+                        "👍": "$~Jag gillar det här!",
+                        "💭": "$~Detta inspirerar mig!",
+                        "🙏": "$~Tack så mycket!",
+                        "🎉": "$~Firande!",
+                        "🤩": "$~Jag vill prova det här!",
+                        "😁": "$~Detta gör mig glad!"
+                    }
+                },
+                "submit": {
+                    "error": "$~vägledande frågor och reaktioner kan inte vara tomma",
+                    "label": "$~spara",
+                    "tip": "$~spara inställningar för instruktionsutrymme"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~instruktionstexten med titeln $title flyttad till $x $y",
+                "canvasPosition": "$~arbetsytan flyttad till $x, $y",
+                "moveActivated": "$~rörelse aktiverad. $target kan flyttas med musen, tangentbordet eller pekskärmen",
+                "moveDeactivated": "$~rörelsen avaktiverad."
+            },
+            "error": {
+                "unknown": "$~Det här instruktionsutrymmet finns inte eller är inte offentligt."
+            }
+        },
+        "gallerymoderation": {
+            "header": "$~Rapporter",
+            "description": "$~Det andra har bett dig granska, äldst först. Ett beslut visar vilka regler som bröts, och den som skapade det får veta vad du bestämde.",
+            "labels": {
+                "action": "$~Vad du ska göra",
+                "reason": "$~Vilka regler det bröt mot",
+                "subject": "$~Vad som rapporterades"
+            },
+            "view": {
+                "label": "$~visa det",
+                "tip": "$~öppna det som rapporterades"
+            },
+            "remove": {
+                "label": "$~ta bort",
+                "tip": "$~det här bryter mot reglerna"
+            },
+            "keep": {
+                "label": "$~hålla",
+                "tip": "$~det här bryter inte mot reglerna"
+            },
+            "empty": "$~Inget väntar på ett beslut.",
+            "error": "$~Du måste vara inloggad för att granska rapporter.",
+            "note": {
+                "description": "$~Vad du ska säga till den som gjorde det",
+                "placeholder": "$~säg något till dem (valfritt)"
+            },
+            "remaining": "$~$#count[$count rapport väntar|$count rapporter väntar]"
+        },
+        "emoji": {
+            "noCharacters": "$~Skapa en anpassad karaktär",
+            "groups": {
+                "label": "$~grupper",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~Ⅶ",
+                    "$~💰",
+                    "$~🔍"
+                ],
+                "tips": [
+                    "$~egen",
+                    "$~smileys och känslor",
+                    "$~människor och kropp",
+                    "$~djur och natur",
+                    "$~mat och dryck",
+                    "$~aktiviteter",
+                    "$~resor och platser",
+                    "$~föremål",
+                    "$~symboler",
+                    "$~flaggor",
+                    "$~gemener",
+                    "$~versaler",
+                    "$~matematiska",
+                    "$~former",
+                    "$~pilar",
+                    "$~siffror",
+                    "$~bokstavssiffror",
+                    "$~valuta",
+                    "$~sökresultat"
+                ]
+            },
+            "skinTone": "$~hudton",
+            "script": "$~manus",
+            "scriptLabel": "$~filtrera efter skript",
+            "pickFilter": "$~Välj en kategori eller ett manus",
+            "moreLanguages": "$~och $count mer",
+            "moreGlyphs": "$~Visar $count — sök för att hitta fler",
+            "presentation": {
+                "label": "$~emoji i färg",
+                "labels": ["$~färg", "$~svartvitt"],
+                "tips": ["$~infoga emoji i färg", "$~infoga emoji i svartvitt"]
+            }
+        },
+        "localize": {
+            "header": "$~Lokalisera",
+            "description": "$~Välkommen till lokaliseringsläget! Du kan föreslå förbättringar av texten i @wordplay-gränssnittet. Välj valfri text för att föreslå en redigering. Dina förslag kommer att granskas och om de godkänns kommer de att bli en del av plattformen för alla att se. Tack för att du hjälper till att göra Wordplay mer tillgängligt för alla i världen!",
+            "toggle": {
+                "mode": {
+                    "on": "$~lämna översättningsläget",
+                    "off": "$~gå in i översättningsläget för att föreslå ändringar av plattformens text på det aktuella språket."
+                }
+            },
+            "button": {
+                "edit": "$~Föreslå en redigering av den här texten",
+                "submit": "$~Skicka in föreslagen redigering",
+                "cancel": "$~Ignorera föreslagen redigering",
+                "revert": "$~Återgå till officiell text",
+                "editTip": "$~Föreslå en redigering av den här kontrollens verktygstips",
+                "prev": "$~Redigera föregående objekt",
+                "next": "$~Redigera nästa objekt"
+            },
+            "field": {
+                "plain": {
+                    "description": "$~Föreslagen ersättningstext",
+                    "placeholder": "$~Ange ersättning..."
+                },
+                "formatted": {
+                    "description": "$~Föreslagen ersättning (stöder markupformatering)",
+                    "placeholder": "$~Ange formaterad ersättning..."
+                },
+                "name": {
+                    "description": "$~Föreslaget namn (måste vara ett giltigt Wordplay-namn)",
+                    "placeholder": "$~Ange namn..."
+                },
+                "filter": {
+                    "description": "$~Filtrera översättningssträngar efter sökväg eller beskrivning",
+                    "placeholder": "$~Filtrera..."
+                }
+            },
+            "strings": "$~Översättningssträngar",
+            "emotion": "$~Välj en känsla",
+            "invalidName": "$~Inte ett giltigt Wordplay-namn",
+            "reference": "$~Engelsk referens",
+            "invalidConceptLinks": "$~Dessa konceptlänkar fungerar inte i det aktuella språket. Stavade du fel på en, eller tog du bort den med flit?",
+            "inputs": {
+                "header": "$~Inmatningar som denna mall accepterar",
+                "usedTip": "$~Klicka för att infoga en annan referens vid markören",
+                "unusedTip": "$~Klicka för att infoga den här referensen vid markören",
+                "missing": "$~Saknade inmatningar:",
+                "legacy": "$~Ersätt dessa gamla positionsreferenser med namngivna referenser:",
+                "submitBlocked": "$~Referera till varje inmatning innan du skickar in",
+                "unknown": "$~Dessa referenser matchar inte en deklarerad indata eller terminologi, så de kommer inte att ersätta:",
+                "plural": {
+                    "header": "$~Versioner som detta språk behöver",
+                    "tip": "$~En räkning: klicka för att infoga en version av meningen för var och en av detta språks $forms pluralformer",
+                    "arity": "$~$name har $found version(er), men detta språk behöver $expected.",
+                    "missing": "$~$name är en räkning, så välj en version av meningen för varje pluralform.",
+                    "example": "$~till exempel"
+                }
+            },
+            "guidance": "$~Vägledning för detta språk",
+            "guidanceEmpty": "$~Ingen vägledning än. Skriv vad någon som översätter till detta språk bör veta.",
+            "guidanceToggle": {
+                "on": "$~dölj det här språkets vägledning",
+                "off": "$~visa det här språkets vägledning"
+            },
+            "terms": {
+                "header": "$~Termlista",
+                "description": "$~Definiera termer och fraser för det här språket som du kan återanvända var som helst genom att skriva $$ och ordets nyckel, till exempel $$program. När du ändrar ett ord här ändras det överallt där det används, så dina översättningar förblir enhetliga. Det här är bara för att återanvända ord. För att förklara en term för elever, använd ordlistan i stället.",
+                "empty": "$~Inga ord ännu. Lägg till ett för att återanvända det i det här språkets text.",
+                "key": {
+                    "description": "$~nyckeln för det här ordet, som skrivs efter ett $ för att använda det",
+                    "placeholder": "$~nyckel"
+                },
+                "phrase": {
+                    "description": "$~ordet eller frasen som den här nyckeln står för",
+                    "placeholder": "$~ord"
+                },
+                "add": "$~lägg till det här ordet i listan",
+                "remove": "$~ta bort det här ordet från listan",
+                "invalidKey": "$~En nyckel måste börja med en bokstav och får bara innehålla bokstäver och siffror, på vilket språk som helst.",
+                "duplicateKey": "$~Det här språket har redan ett ord med den nyckeln.",
+                "reservedKey": "$~Den nyckeln används redan för ett mallvärde, så den kan inte vara ett ord."
+            },
+            "glossary": {
+                "header": "$~Andra skrivsätt",
+                "description": "$~Ordlistan förklarar ord som eleverna möter. Varje term har ett huvudord, och här kan du lägga till andra sätt att skriva ordet på detta språk — pluralformer, andra ändelser, eller ett annat ord som betyder samma sak. När du skriver text kan du länka till något av dem med @ och ordet, och hela ordet är då en del av länken. Varje språk skriver sin egen lista, så lägg till så många eller så få former som ditt språk behöver.",
+                "reference": "$~på engelska",
+                "empty": "$~Inga andra former ännu.",
+                "form": {
+                    "description": "$~ett annat sätt att skriva denna term",
+                    "placeholder": "$~form"
+                },
+                "add": "$~lägg till denna form till termen",
+                "remove": "$~ta bort denna form från termen",
+                "ownWord": "$~Detta är termens eget ord, som redan fungerar av sig själv.",
+                "otherWord": "$~Detta är ordet för $term, så det skulle vara otydligt vilken term du menade.",
+                "conceptName": "$~Dokumentationen definierar redan detta ord, så en länk till det skulle gå dit istället.",
+                "alreadyUsed": "$~Detta är redan en form av $term, så det skulle vara otydligt vilken term du menade.",
+                "searchOnly": "$~En länk slutar vid ett mellanslag eller en symbol, så denna form hjälper bara vid sökning."
+            }
+        },
+        "tour": {
+            "label": "$~tur",
+            "close": "$~stäng rundturen",
+            "previous": "$~föregående steg",
+            "next": "$~nästa steg",
+            "offscreen": "$~Den här delen av gränssnittet syns för närvarande inte på skärmen.",
+            "overflowed": "$~Den här kontrollen är gömd inuti den markerade menyn. Öppna menyn för att hitta kontrollen."
+        },
+        "connection": {
+            "offline": "$~Du är offline. Vissa funktioner fungerar inte förrän du är online.",
+            "unreachable": "$~Vi kan inte nå databasen, så vissa saker kommer inte att fungera. Ett VPN, ett webbläsartillägg eller ett nätverksfilter kan blockera det."
+        },
+        "presence": {
+            "peersLabel": "$~samarbetspartners som redigerar detta projekt",
+            "joined": "$~$name gick med.",
+            "left": "$~$name kvar.",
+            "waitingForSlot": "$~Väntar på en redigeringsplats – fyra medarbetare redigerar redan. När en lämnar kan du också redigera."
+        },
+        "update": {
+            "message": "$~Vi släppte en ny version.",
+            "refresh": "$~Uppdatera",
+            "updates": "$~se uppdateringarna",
+            "dismiss": "$~Avfärda"
+        },
+        "banner": {
+            "deleteFailed": "$~Vi kunde inte radera det.",
+            "saveFailed": "$~Vi kunde inte spara det",
+            "submitFailed": "$~Vi kunde inte skicka in det",
+            "loadFailed": "$~Vi kunde inte ladda detta. Försök igen om en stund.",
+            "storageFull": "$~Den här enhetens lagringsutrymme är fullt, så vi kunde inte spara en kopia här. Ditt arbete finns fortfarande i molnet.",
+            "storageNearFull": "$~Den här enheten har nästan slut på lagringsutrymme, så Wordplay kanske snart inte kan spara på den. Arbete som sparas i molnet är säkert; att frigöra utrymme på din enhet eller webbläsare låter det fortsätta spara här.",
+            "saveTooLarge": "$~Detta är för stort för att spara. Försök att ta bort lite innehåll."
+        },
+        "wellspring": {
+            "label": "$~kodpalett",
+            "recycle": "$~släpp här för att radera",
+            "empty": "$~Inga projektkoncept",
+            "field": {
+                "search": "$~sök efter kod att dra in"
+            },
+            "button": {
+                "toggle": "$~visa och dölj kodpaletten",
+                "clear": "$~rensa sökningen"
+            }
+        },
+        "feedback": {
+            "copied": "$~kopierade $text",
+            "cut": "$~klippte ut $text",
+            "pasted": "$~klistrade in $text",
+            "deleted": "$~raderade $text",
+            "undone": "$~ångrat",
+            "redone": "$~gjort om",
+            "foldedAll": "$~fällde ihop all kod",
+            "unfoldedAll": "$~fällde ut all kod",
+            "editMode": "$~$mode",
+            "zoom": "$~zooma $percent procent",
+            "fullscreenOn": "$~gick in i helskärm",
+            "fullscreenOff": "$~lämnade helskärm",
+            "restarted": "$~startade om indata",
+            "step": "$~steg $step, $node",
+            "stepAtStart": "$~vid början",
+            "stepAtEnd": "$~vid slutet",
+            "searchOpened": "$~sök i koden",
+            "searchClosed": "$~stängde sökning",
+            "searchMatch": "$~träff $index av $count",
+            "searchNoMatches": "$~inga träffar",
+            "menuOpened": "$~meny, $#count[$count förslag|$count förslag]",
+            "menuEmpty": "$~inga förslag",
+            "menuClosed": "$~stängde menyn",
+            "tidyNoop": "$~redan ordnad"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~Dölj ljuden som rösten kan sjunga",
+                "off": "$~Visa ljuden som rösten kan sjunga"
+            },
+            "groups": [
+                "$~vokaler",
+                "$~approximanter",
+                "$~l-ljud",
+                "$~nasaler",
+                "$~väsande ljud",
+                "$~rullande ljud",
+                "$~stoppade ljud",
+                "$~klickljud"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~Hör $symbol",
+            "insert": "$~Skriv $symbol"
+        },
+        "translation": {
+            "used": "$~Du har översatt $used av $#limit[$limit tecken|$limit tecken] idag",
+            "meter": "$~översättning använd idag",
+            "exhaustedHours": "$~Du har använt dagens översättningar. Försök igen om ungefär $#hours[$hours timme|$hours timmar].",
+            "exhaustedMinutes": "$~Du har använt dagens översättningar. Försök igen om ungefär $#minutes[$minutes minut|$minutes minuter].",
+            "signIn": "$~Att översätta kräver ett konto, så att alla får en rättvis del av det. <Logga in eller bli medlem@/login> för att översätta ditt projekt.",
+            "progressLabel": "$~översättningsförlopp",
+            "analyzing": "$~Läser ditt projekt…",
+            "revising": "$~Sätter in de nya orden…",
+            "started": "$~Översätter $#count[$count fras|$count fraser] till $language…",
+            "progress": "$~Översatt $done av $#total[$total fras|$total fraser]",
+            "finished": "$~Ditt projekt talar nu $language.",
+            "finishedPartial": "$~Ditt projekt talar nu $language, men $#kept[$kept fras|$kept fraser] behöll de ursprungliga orden."
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Din inloggningslänk till Wordplay",
+                "heading": "$~Logga in på Wordplay",
+                "body": "$~Välj knappen nedan för att logga in. Länken fungerar bara en gång, och bara en kort stund.",
+                "button": "$~Logga in",
+                "disclaimer": "$~Om du inte bad om att logga in kan du strunta i det här e-postmeddelandet — ingen kan komma in på ditt konto utan den här länken."
+            },
+            "notice": {
+                "open": "$~Ta en titt",
+                "manage": "$~Ändra dina aviseringsinställningar",
+                "heading": {
+                    "reported": "$~Anmäld",
+                    "decision": "$~Modereringsbeslut",
+                    "review": "$~Väntar på granskning",
+                    "warning": "$~En varning",
+                    "listing": "$~Listningsbeslut",
+                    "howto": "$~Ny hur man",
+                    "chat": "$~Nya chattar"
+                },
+                "subject": {
+                    "reported": "$~Din $kind anmäldes",
+                    "received": "$~Vi fick din anmälan",
+                    "decision": "$~Ett beslut om din $kind",
+                    "review": "$~Något väntar på din granskning",
+                    "warning": "$~En varning om det du delade",
+                    "listing": "$~Ett beslut om listning av din $kind",
+                    "howto": "$~En ny hur man i ditt galleri"
+                },
+                "body": {
+                    "reported": "$~Någon bad om en granskning av något du gjorde i \"$title\". Den som ansvarar tar en titt.",
+                    "received": "$~Din anmälan om \"$title\" nådde den som ansvarar för att granska den.",
+                    "decision": "$~Ett beslut togs om något du gjorde i \"$title\".",
+                    "review": "$~Någon bad om en granskning av \"$title\".",
+                    "warning": "$~Detta är varning $#count[1|$count] om något du delade offentligt.",
+                    "listing": "$~Ett beslut togs om huruvida \"$title\" ska listas.",
+                    "howto": "$~\"$title\" publicerades i ett galleri du är med i."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[Något väntar|$count saker väntar] på att du granskar det",
+                "heading": "$~$#count[1 sak|$count saker] att granska",
+                "open": "$~Börja granska",
+                "body": "$~Anmälningar och listningsförfrågningar väntar i modereringskön tills någon beslutar om dem."
+            },
+            "chat": {
+                "subject": "$~Du har olästa chattar",
+                "heading": "$~Nya chattar",
+                "open": "$~Läs dem",
+                "body": "$~Det finns meddelanden du inte har läst i $#count[en chatt|$count chattar]."
+            }
+        },
+        "markup": {
+            "description": "$~skriv formaterad text",
+            "placeholder": "$~skriv något",
+            "mode": {
+                "prose": "$~visa hur det kommer att se ut",
+                "source": "$~visa formateringsmärkena"
+            },
+            "command": {
+                "italic": "$~kursiv",
+                "bold": "$~fet",
+                "extra": "$~extra fet",
+                "underline": "$~understruken",
+                "light": "$~tunn",
+                "example": "$~kodexempel",
+                "link": "$~webblänk",
+                "concept": "$~länk till ett begrepp",
+                "bullet": "$~punkt",
+                "highlight": "$~markera det här exemplet",
+                "defect": "$~det här exemplet ska innehålla fel",
+                "mode": "$~växla mellan löptext och formateringsmärken",
+                "docs": "$~förklaring inuti exemplet",
+                "attention": "$~dra uppmärksamhet till den här raden",
+                "undo": "$~ångra",
+                "redo": "$~gör om"
+            },
+            "feedback": {
+                "formatOn": "$~$format på",
+                "formatOff": "$~$format av",
+                "example": "$~skapade ett kodexempel",
+                "link": "$~skapade en webblänk",
+                "concept": "$~länkade till $name",
+                "bulletOn": "$~gjorde en punktlista",
+                "bulletOff": "$~tog bort punktlistan",
+                "highlightOn": "$~detta exempel kommer att markeras",
+                "highlightOff": "$~detta exempel kommer inte att markeras",
+                "defectOn": "$~det här exemplet ska innehålla fel",
+                "defectOff": "$~detta exempel ska inte ha några fel",
+                "notInExample": "$~placera markören i ett kodexempel först",
+                "mode": "$~$mode",
+                "docs": "$~la till en förklaring",
+                "attention": "$~riktar uppmärksamheten mot denna rad",
+                "undid": "$~ångrade det",
+                "redid": "$~gjorde om det"
+            }
+        },
+        "proxy": {
+            "banner": "$~Du tittar på Wordplay som någon annan. Inget här sparas, och de kan inte se att du är här.",
+            "as": "$~som $name",
+            "remaining": "$~$#minutes[$minutes minut kvar|$minutes minuter kvar]",
+            "stop": {
+                "label": "$~Stoppa",
+                "tip": "$~Stäng den här fliken och sluta se som dem"
+            },
+            "starting": "$~Startar…",
+            "failed": "$~Vi kunde inte starta den sessionen. Är du fortfarande inloggad som administratör?",
+            "expired": "$~Den länken har redan använts, eller så har den gått ut. Börja om från <sidan för behörigheter@://admin>.",
+            "ended": "$~Den här sessionen är slut, och du är utloggad från den. Stäng den här fliken. För att se igen, börja från sidan för behörigheter."
+        }
+    }
+}

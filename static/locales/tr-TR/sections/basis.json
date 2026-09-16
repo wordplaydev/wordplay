@@ -1,0 +1,1976 @@
+{
+    "$schema": "../../../static/schemas/sections/basis.json",
+    "basis": {
+        "Boolean": {
+            "doc": [
+                "$~Biz \\⊤\\ ve \\⊥\\'yiz. \\⊤\\ doğrudur. \\⊥\\ yanlıştır. \\⊤\\ \\⊥\\ değildir; \\⊥\\ \\⊤\\ değildir. @state budur.",
+                "Bizi @how yapıyorsunuz? Sadece \\⊤\\ ve \\⊥\\, ne daha fazlası ne de daha azı.",
+                "Bazıları klavyeyi kullanır (\\⊤\\ için /ctrl+9/ ve \\⊥\\ için /ctrl+0/). Bazıları editörün altındaki karakter aramasını kullanır. Ya da bizi buradan sürükleyebilirsiniz.",
+                "Aşağıdaki @FunctionDefinition'ımıza bakın. Çok mantıklılar."
+            ],
+            "name": ["$~⊤⊥", "$~Boolean"],
+            "function": {
+                "and": {
+                    "doc": [
+                        "$~Yalnızca her iki @value de \\⊤\\ olduğunda \\⊤\\ olarak değerlendiririm. Birçok şeyin doğru olup olmadığını belirlemede faydalıdır. Yalnızca dört olası sonuç vardır",
+                        "\\⊤ & ⊤\\",
+                        "\\⊤ & ⊥\\",
+                        "\\⊥ & ⊤\\",
+                        "\\⊥ & ⊥\\"
+                    ],
+                    "names": ["$~Ve", "ve"],
+                    "inputs": [
+                        {
+                            "doc": "$~Kontrol edilecek diğer @Boolean. Eğer ilki \\⊥\\ ise, bunun ne olduğu önemli değil, fonksiyon \\⊥\\ olarak değerlendirilecektir.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "or": {
+                    "doc": [
+                        "$~Şu değere hesaplanırım: \\⊤\\ *ikisinden biri* @value şu olduğunda: \\⊤\\. Birçok şeyden birinin doğru olup olmadığını anlamak için yararlıdır. Yalnızca dört olası sonuç vardır",
+                        "\\⊤ | ⊤\\",
+                        "\\⊤ | ⊥\\",
+                        "\\⊥ | ⊤\\",
+                        "\\⊥ | ⊥\\"
+                    ],
+                    "names": ["$~veya"],
+                    "inputs": [
+                        {
+                            "doc": "$~Kontrol edilecek diğer @Boolean. Eğer ilki \\⊥\\ ise, fonksiyon yalnızca bu \\⊤\\ ise \\⊤\\ olarak değerlendirilecektir.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "not": {
+                    "doc": "$~Benim tam tersim oluyor: Eğer \\⊤\\ ise, \\⊥\\ veriyor, eğer \\⊥\\ ise, \\⊤\\ veriyor.",
+                    "names": ["$~Olumsuz", "değil"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ eğer ikisi de \\⊤\\ ise veya ikisi de \\⊥\\ ise.",
+                    "names": ["$~eşittir"],
+                    "inputs": [
+                        {
+                            "doc": "$~Kontrol edilecek diğer @value.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~\\⊤\\ eğer ikisi de birbirinin zıttı ise.",
+                    "names": ["$~noteşit"],
+                    "inputs": [
+                        {
+                            "doc": "$~Kontrol edilecek diğer @value.",
+                            "names": "$~değer"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~@Boolean'ı eşdeğer @Text değerlerine dönüştürür, \\'⊤'\\ ve \\'⊥'\\",
+                "number": "$~@Boolean değerini @Number değerine dönüştürür, \\1\\ için \\⊤\\ ve \\0\\ için \\⊥\\"
+            }
+        },
+        "None": {
+            "doc": [
+                "$~Bir @value yokluğunu temsil ederim, şöyle yazılır \\ø\\.",
+                "Ben @None'yim. Beni şöyle çağır \\ø\\."
+            ],
+            "name": ["$~O", "$~Hiçbiri"],
+            "function": {
+                "equals": {
+                    "doc": "$~Başka bir @value de hiçbir şey mi? Öyle olsa iyi olur, yoksa \\⊥\\.",
+                    "names": ["$~eşittir"],
+                    "inputs": [
+                        {
+                            "doc": "$~Diğer @value.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~Başka bir @value hiçbir şey /değil/ mi?",
+                    "names": ["$~noteşit"],
+                    "inputs": [
+                        {
+                            "doc": "$~Diğer @value.",
+                            "names": "$~değer"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~\\ø\\'yi \\'ø'\\'ye dönüştürmek ister misin? İşte sana fırsat."
+            }
+        },
+        "Text": {
+            "doc": [
+                "$~Herhangi bir @language dilinden herhangi bir metni gösterebilirim. Metni açılış ve kapanış metin sembollerinin arasına koy: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\ veya \\『』\\.",
+                "Göstermek için, şu güzel cümleleri düşün",
+                "\\'Hayatını yaşamanın yalnızca iki yolu vardır. Biri, hiçbir şey mucize değilmiş gibi yaşamaktır. Diğeri ise her şey bir mucizeymiş gibi yaşamaktır.'\\",
+                "\\'一日三秋'\\",
+                "Sadece beni açarsan kapatmayı unutma ve eşleşen sembolü kullan. Yoksa kelimelerini bitirdiğini bilemem.",
+                "\\'merhaba'/tr'hola'/es-MX\\",
+                "Beni dillerle etiketleyebilir, hatta birden fazla çeviri verebilirsin. Eşleşen bir dil varsa, o an seçili olan hangi dilse ona göre değerlendirilirim.",
+                "Beni başka değerlerle oluşturmak istersen, şunu yapabilirsin:",
+                "\\\"Here are some sums \\\n1 + 2\\, \\\n2 + 3\\, \\\n3 + 4\\\"\\",
+                "Bu toplamları ne kadar zarif bir şekilde hesaplayıp @Text içine koyduğumu gördün mü?",
+                "Son bir küçük sırrım var: hepimizin benzersiz bir numarası olduğunu biliyor muydun? Bu doğru! Bize @U/ ve numaramızı yazarak başvurabilirsin. Örneğin, @FunctionDefinition 192'dir:",
+                "\\'@U/192'\\",
+                "@U/192 ifadesinin @how @FunctionDefinition haline geldiğini gördün mü? Bu numaralara 'Unicode' dediğinizi duydum.",
+                "Bunun dışında, @FunctionDefinition kelimelerle her türlü şeyi yapmam için o kadar çok muhteşem işlev yaptı ki!"
+            ],
+            "name": ["$~Metin"],
+            "function": {
+                "length": {
+                    "doc": [
+                        "$~Metindeki okunabilir karakter sayısına göre değerlendirme yapıyorum; bir harf bir karakterdir, bir emoji bir karakterdir, vb. Örneğin:",
+                        "\\'merhaba'.length()\\",
+                        "\\'🐈📚'.uzunluk()\\"
+                    ],
+                    "names": ["$~uzunluk"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ eğer verilen @Text ile aynı karakter dizisiysem.",
+                    "names": ["$~eşittir"],
+                    "inputs": [
+                        {
+                            "doc": "$~Karşılaştırılacak @Text.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ eğer verilen @Text ile aynı karakter dizisi /değilsem/.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~Karşılaştırmak için @Text",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ eğer verilen @Text bende görünüyorsa.",
+                        "\\'aradığınızı buldunuz mu?'.has('you')\\"
+                    ],
+                    "names": ["$~sahipolmak"],
+                    "inputs": [
+                        {
+                            "doc": "$~İçimde aranacak @Text.",
+                            "names": "$~metin"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": [
+                        "$~\\⊤\\ eğer verilen @Text ile başlarsam.",
+                        "\\'merhaba mısra!'.starts('merhaba')\\",
+                        "\\'merhaba mısra!'.starts('mısra')\\"
+                    ],
+                    "names": ["$~başlar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Başlangıcımda kontrol edeceğim @Text.",
+                            "names": "$~metin"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": [
+                        "$~\\⊤\\ eğer verilen @Text ile bitirirsem.",
+                        "\\'Ben bir soru muyum?'.ends('?')\\",
+                        "\\'Ben bir soru değilim.'.ends('?')\\"
+                    ],
+                    "names": ["$~biter"],
+                    "inputs": [
+                        {
+                            "doc": "$~Sonunda kontrol edeceğimiz @Text.",
+                            "names": "$~metin"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": [
+                        "$~Benim olan yeni bir @Text oluşturuyorum, \\count\\ sayısı kadar tekrar ediyorum:",
+                        "\\'merhaba' × 5\\",
+                        "Eğer bana kesirli bir @Number verirseniz, kesri göz ardı ederim:",
+                        "\\'merhaba' × 5.5\\",
+                        "Bana negatif bir @Number veya sıfır verirseniz, boş bir @Text veririm.",
+                        "\\'merhaba ' × -5\\",
+                        "Yapabileceğim en uzun metin 65.535 karakterdir. Daha uzun bir metin yapmaya çalışırsanız, metni olabildiğince çok kez tekrarlarım."
+                    ],
+                    "names": ["$~tekrarlandı", "$~tekrarlamak"],
+                    "inputs": [
+                        {
+                            "doc": "$~Yeni metinde kendimi tekrar edeceğim sayı.",
+                            "names": "$~saymak"
+                        }
+                    ]
+                },
+                "segment": {
+                    "doc": [
+                        "$~Kendimi @Text'in @List'ine bölüyorum, verilen @Text'i ayırıcı olarak kullanıyorum ve ayırıcıları kaldırıyorum. Örneğin:",
+                        "\\'elmalar, portakallar, üzümler' ÷ ', '\\",
+                        "Ayırıcı boş bir @Text ise kendimi karakterlere bölüyorum:",
+                        "\\'🖌️🏠🥸' ÷ ''\\"
+                    ],
+                    "names": ["$~parçalı", "$~bölüm"],
+                    "inputs": [
+                        {
+                            "doc": "$~Ayırıcı olarak kullanılacak @Text.",
+                            "names": "$~ayırıcı"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Bazen iki @Text'yi bir araya getirmek faydalıdır. Bana başka bir @Text ver, ben de ikimizi birleştiren yeni bir metin yapayım:",
+                        "\\'merhaba ' + 'kıta'\\"
+                    ],
+                    "names": ["$~birleştirilmiş", "$~birleştirmek"],
+                    "inputs": [
+                        {
+                            "doc": "$~Eklenecek @Text.",
+                            "names": "$~metin"
+                        }
+                    ]
+                },
+                "matches": {
+                    "doc": [
+                        "$~\\⊤\\ metnin tamamının verilen kalıpla eşleştiği durumlarda kullanılır.",
+                        "\\'555-1234' ≈ ⣿3 # \"-\" 4 #⣿\\🪲"
+                    ],
+                    "names": ["$~maçlar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Karşılaştırılacak model.",
+                            "names": "$~model"
+                        }
+                    ]
+                },
+                "search": {
+                    "doc": [
+                        "$~Verilen kalıbın bende eşleştiği her yeri @Result listesi olarak bulun.",
+                        "\\'a1 b2' ⌕ ⣿_ #⣿\\"
+                    ],
+                    "names": ["$~aramak"],
+                    "inputs": [
+                        {
+                            "doc": "$~Aranacak desen.",
+                            "names": "$~model"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Ben olan, her harfi büyük harfe çevrilmiş yeni bir @Text oluştururum:",
+                        "\\'merhaba'.büyükHarf()\\",
+                        "Harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Bu yüzden Japonca veya Arapça gibi böyle bir ayrımı olmayan yazı sistemlerindeki metin değişmeden kalır.",
+                        "@language etiketim, hangi kuralların kullanılacağına karar verir. Türkçede noktalı ve noktasız i harfi vardır. Sadece Türkçe olarak etiketlenmiş metin, bu harfleri Türkçe kurallarına göre büyük harfe çevirir:",
+                        "\\'iyi'/tr.büyükHarf()\\",
+                        "\\'iyi'.büyükHarf()\\"
+                    ],
+                    "names": ["$~büyükHarf"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Ben olan, her harfi küçük harfe çevrilmiş yeni bir @Text oluştururum:",
+                        "\\'MERHABA'.küçükHarf()\\",
+                        "Büyük küçük harf farkını önemsemeden iki metni karşılaştırmak için ikisini de küçük harfe çevir. Bu şekilde, büyük harfle başlasın ya da başlamasın, a ile başlayan her kelime korunur:",
+                        "\\['Elma' 'kayısı' 'Muz'].filtre(\n\tƒ(kelime•'') kelime.küçükHarf().başlar('a')\n)\\",
+                        "@Text/uppercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve @language etiketim, hangi kuralların kullanılacağına karar verir."
+                    ],
+                    "names": ["$~küçükHarf"],
+                    "inputs": []
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Kendimin bir parçasından yeni bir @Text oluştururum. Sayma 1'den başlar ve her iki uç da dahildir:",
+                        "\\'merhaba'.altdizi(2 4)\\",
+                        "Sonu belirtmezsen, son sembolüme kadar giderim:",
+                        "\\'merhaba'.altdizi(3)\\",
+                        "Sembolleri senin gördüğün gibi sayarım, bu yüzden birkaç parçadan oluşan bir emoji yine de tek bir sembol sayılır ve asla ortadan kesilmez:",
+                        "\\'🐈📚!'.altdizi(1 2)\\",
+                        "Sahip olduğumdan fazlasını istersen, sahip olduğum kadarını sana veririm."
+                    ],
+                    "names": ["$~altdizi"],
+                    "inputs": [
+                        {
+                            "doc": "$~Başlanacak yer, 1'den sayılır.",
+                            "names": "$~başlangıç"
+                        },
+                        {
+                            "doc": "$~Durulacak yer, 1'den sayılır. Sona kadar gitmek için boş bırak.",
+                            "names": "$~son"
+                        }
+                    ]
+                },
+                "index": {
+                    "doc": [
+                        "$~Verilen @Text'in içimde ilk nerede göründüğünü sana söylerim, 1'den sayarak:",
+                        "\\'merhaba'.dizin('ll')\\",
+                        "Eğer içimde hiç yoksa, sana bunun yerine @None veririm:",
+                        "\\'merhaba'.dizin('z')\\",
+                        "@Text/subsequence ile birlikte bir şeye kadar olan her şeyi alabilirim — burada, ilk kelimeye kadar:",
+                        "\\tümce: 'merhaba dünya'\ntümce.altdizi(1 (tümce.dizin(' ') ?? 1) - 1)\\"
+                    ],
+                    "names": ["$~dizin"],
+                    "inputs": [
+                        {
+                            "doc": "$~İçimde aranacak @Text.",
+                            "names": "$~metin"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Her @Text örneğinin başka biriyle değiştirildiği yeni bir @Text yaparım:",
+                        "\\'2026-08-21'.değiştir('-' '/')\\",
+                        "Sadece ilk örnek değil, her örnek değişir:",
+                        "\\'ha ha ha'.değiştir('ha' 'ho')\\",
+                        "Benden boş bir @Text değiştirmemi istersen, kendimi değişmeden geri veririm."
+                    ],
+                    "names": ["$~değiştir"],
+                    "inputs": [
+                        {
+                            "doc": "$~İçimde aranacak @Text.",
+                            "names": "$~nin"
+                        },
+                        {
+                            "doc": "$~Onun yerine konacak @Text.",
+                            "names": "$~değişim"
+                        }
+                    ]
+                },
+                "trim": {
+                    "doc": [
+                        "$~Her iki ucumdaki boş alan kaldırılmış yeni bir @Text oluştururum. Ortadaki boşluk kalır:",
+                        "\\'  merhaba  '.kırp()\\",
+                        "Bu, birinin yazdığı ve genellikle istemediğiniz fazladan boşluklar içeren metinler için kullanışlıdır."
+                    ],
+                    "names": ["$~kırp"],
+                    "inputs": []
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Sembollerim ters sırada olan yeni bir @Text oluştururum:",
+                        "\\'merhaba'.tersineÇevrilmiş()\\",
+                        "Sembollerimin sırasını senin gördüğün gibi tersine çeviririm, böylece emoji bütün kalır ve harfler aksanlarını korur:",
+                        "\\'🐈📚'.tersineÇevrilmiş()\\"
+                    ],
+                    "names": ["$~tersineÇevrilmiş", "$~tersineÇevir"],
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "list": "$~Metni ayrı karakterlerden oluşan bir listeye böler.",
+                "number": [
+                    "$~Metni bir @Number'e çevirir, eğer bu bir sayı değilse, sayı olmayan bir değer verir, bu da şöyle görünür: \\!#\\:",
+                    "\\'selam' → #\\"
+                ],
+                "formatted": "$~Metni, içerdiği biçimlendirme kurallarını yorumlayarak biçimlendirilmiş metne dönüştürür."
+            }
+        },
+        "Number": {
+            "doc": [
+                "$~Aklınıza gelebilecek her sayıda birimle @Number'ı oluşturuyorum!",
+                "İşte benim en iyi 5'im:",
+                "\\0\\",
+                "\\1hikaye\\",
+                "\\πturta\\",
+                "\\∞kaya\\",
+                "\\1000000sarılmalar\\",
+                "Bu aslında sonsuz sayıda sayı demektir.",
+                "Ve sonsuz sayıda birim!",
+                "Ve sonsuz sayıda sayı/birim çifti…",
+                "Tam sayı, reel sayı, negatif, pozitif, kesirli, ondalık sayı, hatta sayı bile olmayabilirim.",
+                "Ve beni Arapça \\123\\, Roman \\ⅩⅩⅩⅠⅩ\\, Japonca \\二十\\ ve daha fazlası dahil olmak üzere birçok farklı sayı sistemiyle yazabilirsiniz:",
+                "\\1 + Ⅰ + 一\\",
+                "Ayrıca beni 2'den 16'ya kadar olan taban sayılarını şu şekilde yazarak da yazabilirsiniz:",
+                "\\2;11111111\\",
+                "\\10;255\\",
+                "\\16;FF\\",
+                "Sayı olmayan bir şeyi yazdığınızda mümkün olan NaN adı verilen özel bir sayı vardır:",
+                "\\2;22\\",
+                "2 tabanında '2' rakamı yoktur, bu nedenle geçerli bir sayı değildir. Sayı olmayan metni sayıya dönüştürmeye çalışırsanız NaN da görünecektir",
+                "\\'merhaba'→#\\"
+            ],
+            "name": ["$~Sayı"],
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Kendime aynı @Unit'e sahip bir @Number ekliyorum ve aynı @Unit'e sahip yeni bir @Number oluşturuyorum.",
+                        "Örneğin:",
+                        "\\1 + 1\\",
+                        "\\3kedi + 5kedi\\",
+                        "Eğer birimler uyuşmazsa gösteriyi durduruyorum.",
+                        "\\3kedi + 5köpek\\🪲"
+                    ],
+                    "names": ["$~eklemek"],
+                    "inputs": [
+                        {
+                            "doc": "$~Eklenecek @Number.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "subtract": {
+                    "doc": [
+                        "$~Bana verdiğin @Number'ı kendimden çıkararak aynı @Unit'in yeni bir @Number'ını oluşturuyorum.",
+                        "Örneğin:",
+                        "\\1 - 1\\",
+                        "\\3kedi - 5kedi\\",
+                        "Eğer birimler uyuşmazsa gösteriyi durduruyorum.",
+                        "\\3kedi - 5köpek\\🪲"
+                    ],
+                    "names": ["$~çıkarmak"],
+                    "inputs": [
+                        {
+                            "doc": "$~Benden çıkarılacak @Number.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "multiply": {
+                    "doc": [
+                        "$~Kendimi verilen @Number ile çarpıyorum, @Unit'imin ve verilen sayının @Unit'inin bir çarpımını oluşturuyorum:",
+                        "\\5 × 5\\",
+                        "\\5m × 5m\\",
+                        "\\5m × 1/sn\\"
+                    ],
+                    "names": ["$~çarpmak"],
+                    "inputs": [
+                        {
+                            "doc": "$~Çarpılacak sayı.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "divide": {
+                    "doc": [
+                        "$~Kendimi verilen @Number'a bölüyorum, @Unit'imin ve verilen sayının @Unit'inin bir bölümünü oluşturuyorum:",
+                        "\\5 ÷ 5\\",
+                        "\\5m ÷ 5m\\",
+                        "\\5d ÷ 5sn\\"
+                    ],
+                    "names": ["$~bölmek"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beni bölecek @Number.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "remainder": {
+                    "doc": [
+                        "$~Kendimi verilen @Number'a bölüyorum, ancak kalanı veriyorum:",
+                        "\\10 % 2\\",
+                        "\\10m % 2\\",
+                        "\\10m/sn % 3\\"
+                    ],
+                    "names": ["$~kalan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beni bölecek @Number.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "positive": {
+                    "doc": [
+                        "$~Negatifse pozitif, negatifse pozitif yapan yeni bir @Number oluşturuyorum.",
+                        "\\-200.positive()\\"
+                    ],
+                    "names": ["$~olumlu"],
+                    "inputs": []
+                },
+                "round": {
+                    "doc": [
+                        "$~Beni en yakın tam sayıya yuvarlayan yeni bir @Number oluşturuyorum.",
+                        "\\9.4.round()\\",
+                        "\\9.5.yuvarlak()\\",
+                        "\\9.6.yuvarlak()\\"
+                    ],
+                    "names": ["$~yuvarlak"],
+                    "inputs": []
+                },
+                "roundDown": {
+                    "doc": [
+                        "$~Benden küçük en küçük tam sayıya yuvarlayan yeni bir @Number oluşturuyorum.",
+                        "\\10.5.roundDown()\\",
+                        "\\10.1.roundDown()\\",
+                        "\\10.01.roundDown()\\"
+                    ],
+                    "names": ["$~Aşağıyuvarla"],
+                    "inputs": []
+                },
+                "roundUp": {
+                    "doc": [
+                        "$~Benden büyük olan en küçük tam sayıya yuvarlanan yeni bir @Number oluşturuyorum.",
+                        "\\10.5.roundUp()\\",
+                        "\\10.9.roundUp()\\",
+                        "\\10.99.roundUp()\\"
+                    ],
+                    "names": ["$~hesabıyuvarlamak"],
+                    "inputs": []
+                },
+                "power": {
+                    "doc": [
+                        "$~Kendimi verilen @Number'nın kuvvetine yükseltiyorum. Kesirli üsler sorun değil!",
+                        "\\2 ^ 8\\",
+                        "\\10 ^ -2\\",
+                        "\\5 ^ -.5\\"
+                    ],
+                    "names": ["$~güç"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beni yükseltecek üs.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "root": {
+                    "doc": [
+                        "$~Verilen kökü kullanarak kendimin kökünü oluşturuyorum.",
+                        "\\4 √ 2\\",
+                        "\\1000 √ 3\\"
+                    ],
+                    "names": ["$~kök"],
+                    "inputs": [
+                        {
+                            "doc": "$~Hesaplanacak kök.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "lessThan": {
+                    "doc": [
+                        "$~\\⊤\\ eğer verilen @Number'dan küçüksem:",
+                        "\\1 < 2\\",
+                        "\\2 < 1\\"
+                    ],
+                    "names": ["$~dahaaz"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beni karşılaştıracağınız @Number.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "lessOrEqual": {
+                    "doc": [
+                        "$~\\⊤\\ eğer I, verilen @Number'dan küçük veya ona eşitse:",
+                        "\\1 ≤ 2\\",
+                        "\\2 ≤ 1\\",
+                        "\\2 ≤ 2\\"
+                    ],
+                    "names": ["$~dahaazeşit"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beni karşılaştıracağınız @Number.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "greaterThan": {
+                    "doc": [
+                        "$~\\⊤\\ eğer I, verilen @Number'dan büyükse:",
+                        "\\1 > 2\\",
+                        "\\2 > 1\\"
+                    ],
+                    "names": ["$~dahabüyük"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beni karşılaştıracağınız @Number.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "greaterOrEqual": {
+                    "doc": [
+                        "$~\\⊤\\ eğer I, verilen @Number'dan büyük veya ona eşitse:",
+                        "\\1 ≥ 2\\",
+                        "\\2 ≥ 1\\",
+                        "\\2 ≥ 2\\"
+                    ],
+                    "names": ["$~dahabüyükeşit"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beni karşılaştıracağınız @Number.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "equal": {
+                    "doc": [
+                        "$~\\⊤\\ eğer verilen @Number'a eşitsem:",
+                        "\\1 = 2\\",
+                        "\\2 = 2\\"
+                    ],
+                    "names": ["$~eşit"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beni karşılaştıracağınız @Number.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": [
+                        "$~\\⊤\\ eğer verilen @Number'ye eşit değilsem:",
+                        "\\1 ≠ 2\\",
+                        "\\2 ≠ 2\\"
+                    ],
+                    "names": ["$~noteşit"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beni karşılaştıracağınız @Number.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "cos": {
+                    "doc": ["$~Benim kosinüsümü hesaplayın.", "\\π.cos()\\"],
+                    "names": ["$~çünkü", "$~kosinüs"],
+                    "inputs": []
+                },
+                "sin": {
+                    "doc": ["$~Sinüsümü hesaplayın.", "\\π.cos()\\"],
+                    "names": ["$~günah", "$~sinüs"],
+                    "inputs": []
+                },
+                "min": {
+                    "doc": [
+                        "$~Ben ve diğerlerinin en küçük sayısını bulun.",
+                        "\\1.min(2 3 -1)\\"
+                    ],
+                    "names": "$~dakika",
+                    "inputs": [
+                        {
+                            "doc": "$~Bana istediğin kadar sayı ver!",
+                            "names": "$~sayılar"
+                        }
+                    ]
+                },
+                "max": {
+                    "doc": [
+                        "$~Ben ve diğerlerinin en büyük sayısını bulun.",
+                        "\\1.maksimum(2 3 4)\\"
+                    ],
+                    "names": "$~maksimum",
+                    "inputs": [
+                        {
+                            "doc": "$~Bana istediğin kadar sayı ver!",
+                            "names": "$~sayılar"
+                        }
+                    ]
+                },
+                "tan": {
+                    "doc": ["$~Benim tanjantımı hesapla.", "\\π.tan()\\"],
+                    "names": ["$~tanjant"],
+                    "inputs": []
+                },
+                "arcsin": {
+                    "doc": [
+                        "$~Benim arksinüsümü (ters sinüs) hesapla.",
+                        "\\1.arcsin()\\"
+                    ],
+                    "names": ["$~arcsin"],
+                    "inputs": []
+                },
+                "arccos": {
+                    "doc": [
+                        "$~Benim arkkosinüsümü (ters kosinüs) hesapla.",
+                        "\\1.arccos()\\"
+                    ],
+                    "names": ["$~arccos"],
+                    "inputs": []
+                },
+                "arctan": {
+                    "doc": [
+                        "$~Benim arktanjantımı (ters tanjant) hesapla.",
+                        "\\1.arctan()\\"
+                    ],
+                    "names": ["$~arctan"],
+                    "inputs": []
+                },
+                "exp": {
+                    "doc": [
+                        "$~_e_ sayısını benim üssümle kuvvetlendir.",
+                        "\\1.exp()\\"
+                    ],
+                    "names": ["$~exp"],
+                    "inputs": []
+                },
+                "log": {
+                    "doc": [
+                        "$~Verilen tabanda benim logaritmamı hesapla, taban verilmezse doğal logaritmamı hesapla.",
+                        "\\8.log(2)\\",
+                        "\\100.log(10)\\",
+                        "\\1.log()\\"
+                    ],
+                    "names": ["$~log"],
+                    "inputs": [
+                        {
+                            "doc": "$~Logaritmanın tabanı. Doğal logaritma (taban _e_) için boş bırak.",
+                            "names": "$~taban"
+                        }
+                    ]
+                },
+                "range": {
+                    "doc": [
+                        "$~Benden verilen @Number'e kadar, ikisi de dahil olmak üzere bir @Range. Onu @Spread ile bir listeye yay, bir sayı tutup tutmadığını sor, ya da onu bir @Match anahtarı olarak kullan:",
+                        "\\[:1‥5]\\",
+                        "\\(1‥10) ∋ 7\\",
+                        "Sonum başlangıcımdan küçükse geriye doğru sayarım:",
+                        "\\[:3‥1]\\"
+                    ],
+                    "names": ["$~kadar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Aralığımın bittiği @Number. Benimkiyle aynı birime sahip olmalı.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                },
+                "limit": {
+                    "doc": [
+                        "$~Beni düşük ve yüksek bir sayı arasında tut: eğer düşük olandan küçüksem, sonucun o olur, eğer yüksek olandan büyüksem, sonucun bu olur.",
+                        "\\12.limit(0 10)\\"
+                    ],
+                    "names": "$~sınır",
+                    "inputs": [
+                        {
+                            "doc": "$~Olabileceğim en düşük @value.",
+                            "names": "$~düşük"
+                        },
+                        {
+                            "doc": "$~Olabileceğim en yüksek @value.",
+                            "names": "$~yüksek"
+                        }
+                    ]
+                },
+                "toward": {
+                    "doc": [
+                        "$~Benden başka bir sayıya doğru yolun bir kısmını git. %0'da beni alırsın, %100'de diğerini alırsın, tam ortada ise ikisinin arasındaki sayıyı alırsın.",
+                        "\\0m.toward(10m 30%)\\"
+                    ],
+                    "names": "$~doğru",
+                    "inputs": [
+                        {
+                            "doc": "$~Doğru gidilecek sayı.",
+                            "names": "$~diğer"
+                        },
+                        {
+                            "doc": "$~Ne kadar gidileceği, yüzde 100'de varılan yer.",
+                            "names": "$~miktar"
+                        }
+                    ]
+                },
+                "rescale": {
+                    "doc": [
+                        "$~Bir sayı çiftinin arasında nerede durduğumu bul, sonra başka bir çiftin arasında aynı şekilde duran sayıyı geri ver. Ölçtüğün bir şeyi gösterebileceğin bir şeye çevirmek için işe yarar.",
+                        "\\300hz.rescale(80hz 400hz -4m 5m)\\"
+                    ],
+                    "names": "$~yenidenÖlçekle",
+                    "inputs": [
+                        {
+                            "doc": "$~İçinde bulunduğum aralığın alt sınırı.",
+                            "names": "$~düşükten"
+                        },
+                        {
+                            "doc": "$~İçinde bulunduğum aralığın üst sınırı.",
+                            "names": "$~yüksekten"
+                        },
+                        {
+                            "doc": "$~İstediğin aralığın alt sınırı.",
+                            "names": "$~düşüğe"
+                        },
+                        {
+                            "doc": "$~İstediğin aralığın üst sınırı.",
+                            "names": "$~yükseğe"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Rakamlarımın Arapça @Text gösterimi.",
+                "list": [
+                    "$~Bir sayıyı \\1\\'den verilen herhangi bir sayıya kadar olan bir sayı listesine dönüştürüyorum. Örneğin:",
+                    "\\10→[]\\"
+                ],
+                "unit": "$from → $to"
+            },
+            "unit": {
+                "ns": "$~nanosaniye",
+                "us": "$~mikrosaniye",
+                "ms": "$~milisaniye",
+                "s": "$~saniye",
+                "min": "$~dakika",
+                "h": "$~saat",
+                "day": "$~gün",
+                "wk": "$~hafta",
+                "yr": "$~yıl",
+                "pm": "$~pikometre",
+                "nm": "$~nanometre",
+                "um": "$~mikrometre",
+                "mm": "$~milimetre",
+                "cm": "$~santimetre",
+                "dm": "$~desimetre",
+                "m": "$~metre",
+                "hm": "$~hektometre",
+                "km": "$~kilometre",
+                "Mm": "$~megametre",
+                "Gm": "$~gigametre",
+                "Tm": "$~terametre",
+                "in": "$~inç",
+                "ft": "$~fit",
+                "yd": "$~yarda",
+                "mi": "$~mil",
+                "nmi": "$~deniz mili",
+                "au": "$~astronomik birim",
+                "ly": "$~ışık yılı",
+                "ug": "$~mikrogram",
+                "mg": "$~miligram",
+                "g": "$~gram",
+                "kg": "$~kilogram",
+                "t": "$~metrik ton",
+                "oz": "$~ons",
+                "lb": "$~pound",
+                "st": "$~stone",
+                "uston": "$~ABD kısa tonu",
+                "ukton": "$~İngiliz uzun tonu",
+                "degC": "$~santigrat derece",
+                "degF": "$~fahrenhayt derece",
+                "K": "$~kelvin",
+                "deg": "$~açı derecesi",
+                "rad": "$~radyan",
+                "mm2": "$~milimetrekare",
+                "cm2": "$~santimetrekare",
+                "m2": "$~metrekare",
+                "km2": "$~kilometrekare",
+                "in2": "$~inçkare",
+                "ft2": "$~ayakkare",
+                "yd2": "$~yardakare",
+                "mi2": "$~milkare",
+                "ha": "$~hektar",
+                "acre": "akre",
+                "mL": "$~mililitre",
+                "cL": "$~santilitre",
+                "dL": "$~desilitre",
+                "L": "$~litre",
+                "kL": "$~kilolitre",
+                "cm3": "$~santimetreküp",
+                "m3": "$~metreküp",
+                "tsp": "$~çay kaşığı",
+                "tbsp": "$~yemek kaşığı",
+                "cup": "$~bardak",
+                "usfloz": "$~ABD sıvı onsu",
+                "uspt": "$~ABD pintı",
+                "usqt": "$~ABD kuartı",
+                "usgal": "$~ABD galonu",
+                "ukfloz": "$~İngiliz sıvı onsu",
+                "ukpt": "$~İngiliz pintı",
+                "ukqt": "$~İngiliz kuartı",
+                "ukgal": "$~İngiliz galonu",
+                "mps": "$~saniyede metre",
+                "kmph": "$~saatte kilometre",
+                "miph": "$~saatte mil",
+                "ftps": "$~saniyede fit",
+                "kn": "knot",
+                "Pa": "$~paskal",
+                "hPa": "$~hektopaskal",
+                "kPa": "$~kilopaskal",
+                "bar": "$~bar",
+                "atm": "$~standart atmosferler",
+                "psi": "$~inç kare başına pound",
+                "mmHg": "$~milimetre cıva",
+                "J": "$~jul",
+                "kJ": "$~kilojul",
+                "cal": "$~kalori",
+                "kcal": "$~kilokalori",
+                "Wh": "$~vat saat",
+                "kWh": "$~kilovat saat",
+                "BTU": "$~İngiliz termal birimi",
+                "eV": "$~elektronvolt",
+                "mW": "$~miliwatt",
+                "W": "$~vat",
+                "kW": "$~kilovat",
+                "MW": "$~megavat",
+                "GW": "$~gigavat",
+                "hp": "$~beygir gücü",
+                "uA": "$~mikroamper",
+                "mA": "$~miliamper",
+                "A": "$~amper",
+                "kA": "$~kiloamper",
+                "mV": "$~milivolt",
+                "V": "$~volt",
+                "kV": "$~kilovolt",
+                "mohm": "$~miliohm",
+                "ohm": "$~ohm",
+                "kohm": "$~kiloohm",
+                "Mohm": "$~megaohm",
+                "Hz": "$~hertz",
+                "kHz": "$~kilohertz",
+                "MHz": "$~megahertz",
+                "GHz": "$~gigahertz",
+                "bpm": "$~dakikadaki vuruş sayısı",
+                "bit": "$~bit",
+                "B": "$~bayt",
+                "kB": "$~kilobayt",
+                "MB": "$~megabayt",
+                "GB": "$~gigabayt",
+                "TB": "$~terabayt",
+                "KiB": "$~kibibayt",
+                "MiB": "$~mebibayt",
+                "GiB": "$~gibibayt",
+                "TiB": "$~tebibayt",
+                "lux": "$~lüks",
+                "fc": "$~foot-candle"
+            },
+            "category": {
+                "time": "$~Zaman",
+                "length": "$~Uzunluk",
+                "weight": "$~Ağırlık",
+                "temperature": "$~Sıcaklık",
+                "angle": "$~Açı",
+                "area": "$~Alan",
+                "volume": "$~Hacim",
+                "speed": "$~Hız",
+                "pressure": "$~Basınç",
+                "energy": "$~Enerji",
+                "power": "$~Güç",
+                "electricity": "$~Elektrik",
+                "frequency": "$~Frekans",
+                "data": "$~Veri",
+                "brightness": "$~Parlaklık",
+                "other": "$~Diğer"
+            }
+        },
+        "List": {
+            "doc": [
+                "$~Ben her türden değerlerin bir dizisiyim!",
+                "İçime her şeyi koyabilirsin: @Boolean, @Number, @Text, @None, hatta başka @List, @Set, @Map ya da herhangi bir @expression. İşte basit bir tane:",
+                "\\['elma' 'muz' 'mango']\\",
+                "Beni özel yapan şey, şeyleri sırayla tutmam ve içimdeki tüm öğeleri 1'den başlayarak numaralandırmamdır.",
+                "Öğelerim numaralıdır, 1'den başlar. Sakladığım değerleri @ListAccess kullanarak, numaralarıyla alabilirsin:",
+                "Örneğin, bu listedeki ikinci @value şudur \\['muz']\\",
+                "\\['elma' 'muz' 'mango'][2]\\",
+                "İçimde her şey olabilir. Şu listeye bak: @Text, @Number ve @Time var!",
+                "\\['elma' 10 + 10 Zaman()]\\",
+                "Bana çok sayıda şeyden oluşan bir liste verdiğinde, ortak bir @type varsa onları genelleştiririm. Ama bazen tam olarak o belirli şeyleri kastediyor olabilirsin. Eğer öyleyse, arkama bir ! koy, ben de yalnızca o belirli değerlerden oluşan bir listeyi temsil ettiğimden emin olurum.",
+                "\\['elma' 'muz' 'mango']!\\",
+                "Aslında olay bu kadar. Ama @FunctionDefinition ile her türlü heyecan verici şeyi yapabilirim!"
+            ],
+            "name": ["$~Liste"],
+            "kind": "$~Tür",
+            "out": "$~Sonuç",
+            "outofbounds": "$~sınırDışı",
+            "function": {
+                "add": {
+                    "doc": [
+                        "$~Sonuna belirtilen öğeyi koyarak yeni bir @List oluşturuyorum.",
+                        "\\['elma' 'muz' 'mango'].with('karpuz')\\"
+                    ],
+                    "names": "$~ile",
+                    "inputs": [
+                        {
+                            "doc": "$~Ben eklemek istediğin @value değerim.",
+                            "names": "$~öğe"
+                        }
+                    ]
+                },
+                "append": {
+                    "doc": [
+                        "$~Değerlerimle yeni bir @List oluşturuyorum, ardından verilen @List'in tüm değerlerini benden sonra oluşturuyorum.",
+                        "\\['elma' 'muz' 'mango'].withList(['karpuz' 'karabuğday'])\\",
+                        "@Spread'i kullanmak biraz daha kolay, şöyle:",
+                        "\\['elma' 'muz' 'mango' :['karpuz' 'karabuğday']]\\"
+                    ],
+                    "names": "$~Listeile",
+                    "inputs": [
+                        {
+                            "doc": "$~Eklenecek değerlerin listesi.",
+                            "names": "$~liste"
+                        }
+                    ]
+                },
+                "replace": {
+                    "doc": [
+                        "$~Verilen @index konumundaki @value öğesini verilen değerle değiştiren yeni bir liste oluştururum.",
+                        "\\['elma' 'muz' 'mango'].yerdeğiştirmek(1 'kivi')\\"
+                    ],
+                    "names": ["$~yerdeğiştirmek"],
+                    "inputs": [
+                        {
+                            "doc": "$~Değiştirilecek @value öğesinin @index dizini",
+                            "names": "$~dizin"
+                        },
+                        {
+                            "doc": "$~Yerine geçecek @value",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "length": {
+                    "doc": "$~İçimdeki @Number Sayısı.",
+                    "names": ["$~uzunluk"],
+                    "inputs": []
+                },
+                "random": {
+                    "doc": [
+                        "$~Öğelerimden rastgele seçilmiş biri veya boşsam @None.",
+                        "\\['elma' 'muz' 'mango'].rastgele()\\"
+                    ],
+                    "names": "$~rastgele",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": [
+                        "$~Listedeki öğelerin rastgele sıralandığı yeni bir liste oluştur.",
+                        "\\['elma' 'muz' 'mango'].karıştırılmış()\\"
+                    ],
+                    "names": "$~karıştırılmış",
+                    "inputs": []
+                },
+                "first": {
+                    "doc": [
+                        "$~İçimdeki ilk madde, ya da boşsam @None.",
+                        "\\['elma' 'muz' 'mango'].first()\\"
+                    ],
+                    "names": "$~Birinci",
+                    "inputs": []
+                },
+                "last": {
+                    "doc": [
+                        "$~İçimdeki son @element, ya da boşsam @None.",
+                        "\\['elma' 'muz' 'mango'].son()\\"
+                    ],
+                    "names": "$~son",
+                    "inputs": []
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ eğer içimde verilen öğeye eşit bir @element varsa.",
+                        "\\['elma' 'muz' 'mango'].has('muz')\\"
+                    ],
+                    "names": "$~sahipolmak",
+                    "inputs": [
+                        {
+                            "doc": "$~Aranacak @value.",
+                            "names": "$~öğe"
+                        }
+                    ]
+                },
+                "join": {
+                    "doc": [
+                        "$~Listemdeki öğeleri @Text ayırıcısı ile ayırarak @Text'te birleştiriyorum.",
+                        "\\['elma' 'muz' 'mango'].join(', ')\\"
+                    ],
+                    "names": "$~katılmak",
+                    "inputs": [
+                        {
+                            "doc": "$~Öğeleri ayırmak için kullanılacak metin, isteğe bağlı olarak boş bırakılabilir.",
+                            "names": "$~ayırıcı"
+                        }
+                    ]
+                },
+                "subsequence": {
+                    "doc": [
+                        "$~Bu listenin içinden bir liste alırım. Verdiğin @index konumundan başlar ve son öğeyle biter, ya da sen birini verirsen belirli bir öğeyle biter.",
+                        "\\['elma' 'muz' 'mango'].altdizi(2)\\",
+                        "\\['elma' 'muz' 'mango'].altdizi(1 2)\\",
+                        "Ve bak! Sayıları ters sırada verirsen, sana tersini veririm",
+                        "\\['elma' 'muz' 'mango'].altdizi(3 1)\\",
+                        "Bir dizin için 1'den küçük bir şey verirsen, 1'i kastettiğini varsayarım.",
+                        "\\['elma' 'muz' 'mango'].altdizi(-1003243 2)\\",
+                        "Ve en büyük dizinden daha büyük bir şey verirsen, sonu kastettiğini varsayarım.",
+                        "\\['elma' 'muz' 'mango'].altdizi(3 2304032432)\\"
+                    ],
+                    "names": "$~altdizi",
+                    "inputs": [
+                        {
+                            "doc": "$~İstediğin alt dizinin ilk öğesinin @index dizini.",
+                            "names": "$~başlangıç"
+                        },
+                        {
+                            "doc": "$~İstediğin alt dizinin son öğesinin isteğe bağlı @index dizini. Birini vermezsen, listen listedeki son öğeyle biter.",
+                            "names": "$~son"
+                        }
+                    ]
+                },
+                "sansFirst": {
+                    "doc": [
+                        "$~İlk maddemi yazmadan bir liste oluşturuyorum.",
+                        "\\['elma' 'muz' 'mango'].sansFirst()\\"
+                    ],
+                    "names": ["$~İlkolmadan", "$~sansİlk"],
+                    "inputs": []
+                },
+                "sansLast": {
+                    "doc": [
+                        "$~Son maddemi yazmadan bir liste oluşturuyorum.",
+                        "\\['elma' 'muz' 'mango'].sansLast()\\"
+                    ],
+                    "names": ["$~Sonolmadan", "$~sansSon"],
+                    "inputs": []
+                },
+                "sansAll": {
+                    "doc": [
+                        "$~Ben, ama verilen @value olmadan. Hangi ismimi kullanırsan kullan, her kopya gider, sadece ilki değil:",
+                        "\\['elma' 'muz' 'mango' 'elma'].olmadan('elma')\\"
+                    ],
+                    "names": ["$~olmadan", "$~hepsiolmadan"],
+                    "inputs": [
+                        {
+                            "doc": "$~Listeden geçtiği tüm yerleri kaldırılacak @value.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "reverse": {
+                    "doc": [
+                        "$~Ben, ama tam tersi!",
+                        "\\['apple' 'banana' 'mango'].reverse()\\"
+                    ],
+                    "names": ["$~tersineçevrilmiş", "$~tersi"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ eğer ürünlerim ve siparişim verilen @List ile birebir aynıysa.",
+                        "\\['elma' 'muz' 'mango'] = ['elma' 'mango' 'muz']\\"
+                    ],
+                    "names": ["$~eşittir"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beni karşılaştıracağınız @List.",
+                            "names": "$~liste"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ eğer ürünlerim ve siparişim verilen @List ile aynı değilse.",
+                        "\\['elma' 'muz' 'mango'] ≠ ['elma' 'mango' 'muz']\\"
+                    ],
+                    "names": ["$~noteşit"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beni karşılaştıracağınız @List.",
+                            "names": "$~liste"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Bana girdi olarak bir @value ve isteğe bağlı bir @index alıp bir değer üreten bir @FunctionDefinition ver, ben de onu her öğemde çalıştırıp değerlerimi yeni değerlere çeviririm.",
+                        "Örneğin, bir @Number listesi olduğumu ve hepsini iki katına çıkarmak istediğini düşün:",
+                        "\\[2 4 6 8].tercümeetmek(ƒ(num•#) num × 2)\\"
+                    ],
+                    "names": "$~tercümeetmek",
+                    "inputs": [
+                        {
+                            "doc": "$~Her bir öğeyi çevirecek olan @FunctionDefinition.",
+                            "names": "$~tercüman"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Çevrilen @element.",
+                            "names": "$~öğe"
+                        },
+                        {
+                            "doc": "$~Çevrilen öğenin @index dizini.",
+                            "names": "$~dizin"
+                        },
+                        {
+                            "doc": "$~Çevrilen liste.",
+                            "names": "$~liste"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Bana girdi olarak bir @value ve isteğe bağlı bir @index alıp bir @Boolean üreten bir @FunctionDefinition ver, ben de yalnızca sonuç veren öğeleri içeren yeni bir liste oluşturayım \\⊤\\.",
+                        "Örneğin, benim bir @Number listesi olduğumu ve senin yalnızca pozitif olanları istediğini düşün:",
+                        "\\[2 -4 8 -16].filtre(ƒ(num•#) num ≥ 0)\\"
+                    ],
+                    "names": "$~filtre",
+                    "inputs": [
+                        {
+                            "doc": "$~Her bir öğeyi kontrol eden ve tutulması gerekiyorsa \\⊤\\ üreten bir @FunctionDefinition.",
+                            "names": "$~denetleyici"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Kontrol edilen madde.",
+                            "names": "$~öğe"
+                        },
+                        {
+                            "doc": "$~Kontrol edilen öğenin @index dizini.",
+                            "names": "$~dizin"
+                        },
+                        {
+                            "doc": "$~Liste filtreleniyor.",
+                            "names": "$~liste"
+                        }
+                    ]
+                },
+                "all": {
+                    "doc": [
+                        "$~Bana girdi olarak bir @value alıp bir @condition ile eşleşirse bir @Boolean üreten bir @FunctionDefinition ver. Şunu oluşturacağım \\⊤\\ eğer tüm öğeler koşulla eşleşirse.",
+                        "Örneğin, bir @Number listesi olduğumu ve her şeyin pozitif olup olmadığını bilmek istediğini düşün:",
+                        "\\[2 -4 8 -16].Tümü(ƒ(sayı•#) sayı ≥ 0)\\"
+                    ],
+                    "names": "$~Tümü",
+                    "inputs": [
+                        {
+                            "doc": "$~Üreten @FunctionDefinition \\⊤\\ bir @element @condition karşılıyorsa.",
+                            "names": "$~denetleyici"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Kontrol edilen madde.",
+                            "names": "$~öğe"
+                        },
+                        {
+                            "doc": "$~Kontrol edilen öğenin @index.",
+                            "names": "$~dizin"
+                        },
+                        {
+                            "doc": "$~Liste kontrol ediliyor.",
+                            "names": "$~liste"
+                        }
+                    ]
+                },
+                "until": {
+                    "doc": [
+                        "$~Bana girdi olarak bir @value alıp bir @condition ile eşleşirse bir @Boolean üreten bir @FunctionDefinition ver. Koşul sağlanmayana kadar tüm öğeleri içeren yeni bir @List oluşturacağım.",
+                        "Örneğin, bir @Text hayvan listesi olduğumu ve şuna kadar olan her şeyi istediğini düşün \\'sıçan'\\ bulundu:",
+                        "\\['kedi' 'köpek' 'sıçan' 'fare' 'midilli'].değin(\n\tƒ(hayvan•'') hayvan = 'sıçan'\n)\\🪲"
+                    ],
+                    "names": "$~değin",
+                    "inputs": [
+                        {
+                            "doc": "$~Öğeleri eklemeyi bırakmam gerekirse \\⊤\\ üreten @FunctionDefinition.",
+                            "names": "$~denetleyici"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Kontrol edilen madde.",
+                            "names": "$~öğe"
+                        },
+                        {
+                            "doc": "$~Kontrol edilen öğenin @index.",
+                            "names": "$~dizin"
+                        },
+                        {
+                            "doc": "$~Liste ardışık hale getiriliyor.",
+                            "names": "$~liste"
+                        }
+                    ]
+                },
+                "find": {
+                    "doc": [
+                        "$~Bana girdi olarak bir @value alıp bazı ölçütlerle eşleşirse bir @Boolean üreten bir @FunctionDefinition ver, ben de eşleşen öğeyi değer olarak vereyim.",
+                        "Örneğin, şu sesli harfi içeren ilk hayvanı bulmak istediğini düşün \\'e'\\:",
+                        "\\['kedi' 'köpek' 'sıçan' 'fare' 'midilli'].bulmak(\n\tƒ(hayvan•'') hayvan.sahipolmak('e')\n)\\🪲"
+                    ],
+                    "names": "$~bulmak",
+                    "inputs": [
+                        {
+                            "doc": "$~Arama kriterlerinizle eşleşirse \\⊤\\ üreten @FunctionDefinition.",
+                            "names": "$~denetleyici"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Kontrol edilen madde.",
+                            "names": "$~öğe"
+                        },
+                        {
+                            "doc": "$~Kontrol edilen öğenin @index.",
+                            "names": "$~dizin"
+                        },
+                        {
+                            "doc": "$~Aranan liste.",
+                            "names": "$~liste"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": [
+                        "$~Bana en son birleşimi ve bir sonraki @value alan ve bir sonraki birleşimi oluşturan bir @FunctionDefinition ver. Ben de öğelerimin ilkinden sonuncusuna ilerleyerek ardışık birleşimler oluştururum ve @FunctionDefinition değerinin verdiği son birleşime göre değerlendiririm.",
+                        "Bu, içimdeki tüm öğeleri tek bir değerde birleştirmek için gerçekten yararlıdır. Örneğin, bir sayı listesini toplamak istediğinizi düşünün:",
+                        "\\[3 9 2 8 1 4].birleştirilmiş(\n\t0\n\tƒ(toplam•# sayı•#) toplam + sayı\n)\\"
+                    ],
+                    "names": ["$~birleştirilmiş", "$~birleştirmek"],
+                    "inputs": [
+                        {
+                            "doc": "$~Başlangıç kombinasyonu.",
+                            "names": "$~ilk"
+                        },
+                        {
+                            "doc": "$~En son birleşimi ve bir sonraki @value alan ve bir sonraki birleşimi üreten @FunctionDefinition.",
+                            "names": "$~birleştirici"
+                        }
+                    ],
+                    "combiner": [
+                        {
+                            "doc": "$~Mevcut kombinasyon",
+                            "names": "$~kombinasyon"
+                        },
+                        {
+                            "doc": "$~Birleştirilecek bir sonraki madde.",
+                            "names": "$~Sonraki"
+                        },
+                        {
+                            "doc": "$~Bir sonraki öğenin @index",
+                            "names": "$~dizin"
+                        },
+                        {
+                            "doc": "$~Liste birleştiriliyor.",
+                            "names": "$~liste"
+                        }
+                    ]
+                },
+                "sorted": {
+                    "doc": [
+                        "$~Bir liste alabilirim ve değerleri sıralanmış yeni bir liste oluşturabilirim. Şöyle:",
+                        "\\[1 5 8 0 2].sıralanmış()\\",
+                        "Bunu @Text değerleri için de alfabetik sırayla yapabilirim. Büyük harf, küçük harfiyle yan yana sıralanır, böylece bir kelime sırf büyük harfle başladığı için sona atılmaz:",
+                        "\\['Portakal' 'kivi' 'Muz' 'elma'].sıralanmış()\\",
+                        "Ve eğer elinde @Number ya da @Text olmayan bir @value listesi varsa, bana her öğeyi bir @Number ya da bir @Text değerine çeviren bir @FunctionDefinition verebilirsin, böylece sıralayabilirim. Örneğin, burada farklı uzunluklarda listelerden oluşan bir liste var; bana her listeyi kendi uzunluğuna çeviren bir fonksiyon verirsen, uzunluklarına göre sıralayabilirim.",
+                        "\\[[1] [2 3] [4 8 12] [8]].sıralanmış(\n\tƒ(liste2) liste2.uzunluk()\n)\\",
+                        "@Text üreten bir fonksiyon, değerin kendisine göre değil, hesapladığın bir kelimeye göre sıralamanı sağlar. Burada isimleri soyadına göre sıralıyorum:",
+                        "\\['Ada Lovelace' 'Grace Hopper' 'Alan Turing'].sıralanmış(\n\tƒ(isim2•'') (isim2 ÷ ' ').son()\n)\\"
+                    ],
+                    "names": "$~sıralanmış",
+                    "inputs": [
+                        {
+                            "doc": "$~Bir listeyi @value sıralamak için kullanılacak isteğe bağlı @FunctionDefinition. Değeri, listeyi sıralamak için kullanılabilecek bir @Number ya da bir @Text değerine dönüştürmelidir.",
+                            "names": "$~sıralayıcı"
+                        }
+                    ],
+                    "sequencer": [
+                        {
+                            "doc": "$~Bir @Number ya da bir @Text değerine dönüştürülecek @value.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "sum": {
+                    "doc": [
+                        "$~Tüm sayılarımı topla. Eğer boşsam, sonuç 0 olur, ve eğer sayılarımın hepsi aynı şeyde ölçülmemişse, tahmin etmek yerine bunu söylerim.",
+                        "\\[1m 2m 3m].sum()\\"
+                    ],
+                    "names": "$~toplam",
+                    "inputs": []
+                },
+                "average": {
+                    "doc": [
+                        "$~Tüm sayılarımı topla ve kaç tane olduklarına böl. Eğer boşsam ortalama alınacak bir şey yok demektir, bu yüzden @None alırsın.",
+                        "\\[1m 2m 3m].average()\\"
+                    ],
+                    "names": "$~ortalama",
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "text": "$~Listenin @Text gösterimine.",
+                "set": "$~@Set'e, yinelenenleri kaldırmak için yararlıdır."
+            }
+        },
+        "Set": {
+            "doc": [
+                "$~Ben bir değerler kümesiyim! Yani hiç değer içermemek dahil, herhangi bir sayıda değer içerebilirim. Beni şöyle oluşturabilirsin:",
+                "\\{1 2 3}\\",
+                "Hiç yinelenen olmadan bir şeyler koleksiyonu tutmak istersen çok iyiyimdir.",
+                "Yani bana zaten sahip olduğum değerleri verirsen, fazlalıkları görmezden gelirim.",
+                "Örneğin, bu kümede birçok yinelenen var:",
+                "\\{1 1 2 2 3 3}\\",
+                "Bunu sadece şu değerine getiririm \\{1 2 3}\\.",
+                "İçimde bir @value olup olmadığını görmek istersen, @SetOrMapAccess yardımcı olabilir:",
+                "\\{'kavanoz' 'şişe' 'bardak'}{'fincan'}\\",
+                "Genellikle, bana ortak bir @type tipine ait bir grup değer verirsen, onların o tipin bir listesi olduğunu varsayarım. Bu küme gibi \\{''}\\, çünkü hepsi @Text.",
+                "\\{'selam' 'merhaba' 'merhaba'}\\",
+                "Ama benim /sadece/ o değerlerden oluşan bir küme olduğumu belirtmek isteyebilirsin, böylece izin verilmeyen birini kullanmaya çalıştığında sana söyleyebilirim. Eğer öyleyse, sonuma bir ! ekle.",
+                "\\{'hey' 'selam' 'merhaba'}!{'hey'}\\🪲",
+                "Benimle yapmak istediğin başka bir şey var mı? Sahip olduğum tüm o güzel @FunctionDefinition'e göz at!"
+            ],
+            "name": ["$~Ayarlamak"],
+            "kind": "$~Tür",
+            "out": "$~Sonuç",
+            "function": {
+                "size": {
+                    "doc": "$~İçimde kaç tane @value olduğunu sana söyleyeyim.",
+                    "names": "$~boyut",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~Verilen @Set ve ben aynı değerlere sahipsek \\⊤\\ olurum:",
+                        "\\{1 2 3} = {2 3 4}\\"
+                    ],
+                    "names": ["$~eşittir"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Set'i karşılaştırın.",
+                            "names": "$~ayarlamak"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~Verilen @Set ve I tam olarak aynı değerlere sahip değilse \\⊤\\ olurum:",
+                        "\\{1 2 3} ≠ {2 3 4}\\"
+                    ],
+                    "names": ["$~noteşit"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Set'i karşılaştırın.",
+                            "names": "$~ayarlamak"
+                        }
+                    ]
+                },
+                "add": {
+                    "doc": [
+                        "$~Bana ekleyeceğim bir @element verin, öğelerim ve verilen öğeyle yeni bir @Set oluşturacağım.",
+                        "\\{1 2 3} + 4\\"
+                    ],
+                    "names": ["$~ile", "$~eklemek"],
+                    "inputs": [
+                        {
+                            "doc": "$~Eklenecek @element",
+                            "names": "$~öğe"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~Kaldırılacak bir @element verin, öğe olmadan yeni bir @Set oluşturacağım.",
+                        "\\{1 2 3} - 2\\",
+                        "Eğer elimde yoksa, kendi kendime değerlendiririm."
+                    ],
+                    "names": ["$~kaldırmak"],
+                    "inputs": [
+                        {
+                            "doc": "$~Kaldırılacak @element.",
+                            "names": "$~öğe"
+                        }
+                    ]
+                },
+                "union": {
+                    "doc": [
+                        "$~Bana @Set'i verin, ben de benim eşyalarımı ve setin eşyalarını içeren yeni bir @Set oluşturayım.",
+                        "\\{1 2 3} ∪ {3 4 5}\\"
+                    ],
+                    "names": ["$~birlik"],
+                    "inputs": [
+                        {
+                            "doc": "$~@Set benimle birleşecek.",
+                            "names": "$~ayarlamak"
+                        }
+                    ]
+                },
+                "intersection": {
+                    "doc": [
+                        "$~Bana @Set'i verin, sadece ortak noktalarımız olan öğelerden oluşan yeni bir @Set oluşturayım.",
+                        "\\{1 2 3} ∩ {3 4 5}\\"
+                    ],
+                    "names": ["$~kavşak"],
+                    "inputs": [
+                        {
+                            "doc": "$~Benimle karşılaştırılacak set.",
+                            "names": "$~ayarlamak"
+                        }
+                    ]
+                },
+                "difference": {
+                    "doc": [
+                        "$~Bana @Set'i verin, sadece ortak öğelerimizin bulunduğu yeni bir @Set oluşturayım.",
+                        "\\{1 2 3}.fark({3 4 5})\\"
+                    ],
+                    "names": "$~fark",
+                    "inputs": [
+                        {
+                            "doc": "$~Benden çıkarılması gereken eşyaların bulunduğu set.",
+                            "names": "$~ayarlamak"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Bana bir öğeyi alıp tutulması gerekiyorsa \\⊤\\ üreten bir @FunctionDefinition verin, ben de yalnızca kriterlerinizi karşılayan öğeleri içeren bir @Set oluşturayım.",
+                        "Mesela bendeki tek sayıları bulalım:",
+                        "\\{1 2 3 4 5 6 7 8 9}.filter(ƒ(num•#) (num % 2) = 1)\\"
+                    ],
+                    "names": "$~filtre",
+                    "inputs": [
+                        {
+                            "doc": "$~Bir öğenin tutulup tutulmayacağını kontrol eden @FunctionDefinition.",
+                            "names": "$~denetleyici"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Kontrol edilen madde.",
+                            "names": "$~değer"
+                        },
+                        {
+                            "doc": "$~Filtrelenen küme",
+                            "names": "$~ayarlamak"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Bana bir öğeyi alıp ona dayalı yeni bir @element üreten @FunctionDefinition verin, sonra bendeki tüm öğeleri yeni bir @Set'e çevireceğim (tekrarlananları kaldırarak).",
+                        "Örneğin, tüm @Number'larımı @Text'e dönüştürelim:",
+                        "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(num•#) num→'')\\"
+                    ],
+                    "names": "$~tercümeetmek",
+                    "inputs": [
+                        {
+                            "doc": "$~@FunctionDefinition, öğelerimden birini istediğiniz yeni öğeye dönüştüren fonksiyondur.",
+                            "names": "$~ayarlamak"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Çevrilen @element.",
+                            "names": "$~değer"
+                        },
+                        {
+                            "doc": "$~Çevrilen set",
+                            "names": "$~ayarlamak"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~@Set'in @Text gösterimi",
+                "list": "$~Kümedeki öğelerin @List gösterimi."
+            }
+        },
+        "Map": {
+            "doc": [
+                "$~Değerleri bir araya getiririm, *anahtarları* *değerlere* eşlerim. Örneğin:",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}\\",
+                "Anahtarlarım herhangi bir @value türünde olabilir, değerlerim de herhangi bir tür değer olabilir.",
+                "Bazı insanlar beni bir @index ya da bir sözlük gibi düşünmeyi sever; bana bir şey verirsin, ben de sana onun eşlendiği şeyi veririm.",
+                "Bir şeyin neye eşlendiğini kontrol etmek istersen, bir @key olan @SetOrMapAccess verebilirsin, o da sana değeri verir:",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}{'amy'}\\",
+                "Eşleşen bir anahtar yoksa, sana @None veririm.",
+                "\\{'amy': 6points 'tony': 3points 'shiela': 8points}{'jen'}\\",
+                "Boş bir eşleme de şöyle oluşturabilirsin:",
+                "\\{:}\\",
+                "Genellikle, bana verdiğin anahtar ve değer tiplerini görürüm ve hepsini temsil edecek bir @type oluştururum. Örneğin bu, sayılardan sayılara bir haritadır:",
+                "\\{1:1 2:2 3:3}\\",
+                "Ama diyelim ki sadece o değerler olmasını istiyorsun; sonuma bir ! ekle, ben de genelleme yapmam. Bu, amaçlamadığın bir değeri almaya çalışıp çalışmadığını anlamana yardımcı olur.",
+                "\\{1:1 2:2 3:3}!{4}\\🪲",
+                "Eşleşmelerimle @how birçok harika şey yapacağımı biliyorum."
+            ],
+            "name": ["$~Harita"],
+            "key": "$~Anahtar",
+            "value": "$~Değer",
+            "result": "$~Sonuç",
+            "function": {
+                "size": {
+                    "doc": "$~İçimde kaç tane @value olduğunu sana söyleyeyim.",
+                    "names": "$~boyut",
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": [
+                        "$~\\{⊤}\\ eğer eşleştirmelerim verilen @Map'inkilerle aynıysa.",
+                        "\\{1:1 2:2} = {1:1 2:3}\\"
+                    ],
+                    "names": ["$~eşittir"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beni karşılaştıracağınız @Map.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\{⊤}\\ eğer eşleştirmelerim verilen @Map aynı değilse.",
+                        "\\{1:1 2:2} ≠ {1:1 2:3}\\"
+                    ],
+                    "names": ["$~noteşit"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beni karşılaştıracağınız @Map.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "set": {
+                    "doc": [
+                        "$~Aynı eşleştirmelere sahip, ama bana verdiğiniz yeni eşleştirmeyi de içeren yeni bir @Map yapacağım. Eğer @key zaten bende varsa, onu yeni @value ile eşleştireceğim.",
+                        "\\{'amy': 6points 'tony': 3points}.çift('jen' 0points)\\"
+                    ],
+                    "names": "$~çift",
+                    "inputs": [
+                        {
+                            "doc": "$~Bir @value ile eşleştirilecek @key.",
+                            "names": "$~anahtar"
+                        },
+                        {
+                            "doc": "$~@key ile eşleştirilecek @value",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "unset": {
+                    "doc": [
+                        "$~Bana verdiğiniz @key olmadan, onun eşleştirmesini kaldırarak yeni bir @Map yapacağım.",
+                        "\\{'amy': 6points 'tony': 3points}.eşleştirmeyikaldırmak(\n\t'amy'\n)\\"
+                    ],
+                    "names": "$~eşleştirmeyikaldırmak",
+                    "inputs": [
+                        {
+                            "doc": "$~Unutulacak @key.",
+                            "names": "$~anahtar"
+                        }
+                    ]
+                },
+                "remove": {
+                    "doc": [
+                        "$~@value değerine sahip hiçbir anahtar olmadan yeni bir @Map oluşturacağım.",
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.kaldırmak(\n\t0points\n)\\"
+                    ],
+                    "names": "$~kaldırmak",
+                    "inputs": [
+                        {
+                            "doc": "$~Benden kaldırılacak @value ve onunla eşleştirilmiş tüm anahtarlar.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "filter": {
+                    "doc": [
+                        "$~Bana bir @FunctionDefinition ver; bu bir @key ve @value alsın ve şu değere hesaplansın: \\⊤\\ eğer bir eşleşme tutulmalıysa. Ölçütlerine uyan yeni bir @Map oluşturacağım.",
+                        "Örneğin, burada Amy olan ya da sıfırdan fazla puanı olan tüm eşleşmeleri tutmak istiyoruz.",
+                        "\\{'amy': 0points 'jen': 0points 'tony': 3points}.filtre(\n\tƒ(anahtar•'' değer•#points) (anahtar = 'amy') | (değer > 0points)\n)\\"
+                    ],
+                    "names": "$~filtre",
+                    "inputs": [
+                        {
+                            "doc": "$~Bir eşleştirmenin tutulup tutulmayacağına karar veren @FunctionDefinition.",
+                            "names": "$~denetleyici"
+                        }
+                    ],
+                    "checker": [
+                        {
+                            "doc": "$~Kontrol edilen @key.",
+                            "names": "$~anahtar"
+                        },
+                        {
+                            "doc": "$~Kontrol edilen @value.",
+                            "names": "$~değer"
+                        },
+                        {
+                            "doc": "$~Harita filtreleniyor.",
+                            "names": "$~harita"
+                        }
+                    ]
+                },
+                "translate": {
+                    "doc": [
+                        "$~Bana bir @key ve @value alıp değeri yeni bir değere hesaplayan bir @FunctionDefinition ver. Aynı anahtarlara ama güncellenmiş değerlere sahip yeni bir @Map oluştururum.",
+                        "Örneğin, herkes çok kibar olduğu için hepsine birer puan verelim.",
+                        "\\{'amy': 5points 'jen': 3points 'tony': 0points}.tercümeetmek(\n\tƒ(anahtar•'' değer•#points) değer + 1points\n)\\🪲"
+                    ],
+                    "names": "$~tercümeetmek",
+                    "inputs": [
+                        {
+                            "doc": "$~Her @value öğesini çeviren @FunctionDefinition.",
+                            "names": "$~tercüman"
+                        }
+                    ],
+                    "translator": [
+                        {
+                            "doc": "$~Çevrilen @value öğesinin @key.",
+                            "names": "$~anahtar"
+                        },
+                        {
+                            "doc": "$~Çevrilen @value.",
+                            "names": "$~değer"
+                        },
+                        {
+                            "doc": "$~Çevirisi yapılan harita.",
+                            "names": "$~harita"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Eşlemenin @Text gösterimi.",
+                "set": "$~@Map'in anahtarları",
+                "list": "$~@Map'teki değerlerin listesi"
+            }
+        },
+        "Table": {
+            "doc": [
+                "$~Ben bir tablo satırları kümesiyim! Aynı yapıya sahip büyük @value koleksiyonlarını takip etmene yardım edebilirim.",
+                "Örneğin, bir sürü taşı takip etmek istediğini düşün:",
+                "\\⎡isim•'' renk•''⎦\n⎡'obsidyen' 'siyah'⎦\n⎡'sünger taşı' 'gri'⎦\n⎡'sitrin' 'sarı'⎦\\",
+                "@Bind ona isim vermene yardım edebilir! Sonra da @Insert ile yeni bir satır ekleyerek güncellenmiş bir tablo yapabilirsin:",
+                "\\kayalar: ⎡isim•'' renk•''⎦\n\t⎡'obsidyen' 'siyah'⎦\n\t⎡'süngertaşı' 'gri'⎦\n\t⎡'sitrin' 'sarı'⎦\nkayalar ⎡+'kuvars' 'beyaz'⎦\\",
+                "Ya da eşleşen satırları bulmak istiyorsan, bir @condition ile eşleşen satırları @Select edebilirsin:",
+                "\\kayalar: ⎡isim•'' renk•''⎦\n\t⎡'obsidyen' 'siyah'⎦\n\t⎡'ponza' 'gri'⎦\n\t⎡'sitrin' 'sarı'⎦\nkayalar ⎡?⎦ renk = 'gri'\\",
+                "Ya da bir koşulla eşleşen satırlar için farklı değerleri olan güncellenmiş bir tablo yapmak isteyebilirsin:",
+                "\\rocks: ⎡name•'' color•''⎦\n⎡'obsidian' 'black'⎦\n⎡'pumice' 'grey'⎦\n⎡'citrine' 'yellow'⎦\nrocks ⎡: color: 'black' ⎦ name = 'pumice'\\",
+                "Ya da bir koşulla eşleşen satırları silmek isteyebilirsin:",
+                "\\kayalar: ⎡isim•'' renk•''⎦\n\t⎡'obsidyen' 'siyah'⎦\n\t⎡'ponza' 'gri'⎦\n\t⎡'sitrin' 'sarı'⎦\nkayalar ⎡- isim.sahipolmak('i')\\",
+                "Benden belirli değerler almak istersen, herhangi bir tabloyu bir listeye dönüştürebilir ve @PropertyReference ile tek tek satırlara erişebilirsin",
+                "\\kayalar: ⎡isim•'' renk•''⎦\n\t⎡'obsidiyen' 'siyah'⎦\n\t⎡'pomza' 'gri'⎦\n\t⎡'sitrin' 'sarı'⎦\n(kayalar → [])[1].isim\\"
+            ],
+            "name": ["$~Masa"],
+            "row": "$~Sıra",
+            "function": {
+                "equals": {
+                    "doc": "$~Başka bir @Table ile aynı hücrelere sahip olup olmadığımı kontrol ediyorum.",
+                    "names": ["$~eşittir"],
+                    "inputs": [
+                        {
+                            "doc": "$~Kontrol edilecek diğer tablo.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~Hücrelerimden herhangi birinin başka bir @Table'dan farklı veya farklı sırada olup olmadığını kontrol ediyorum.",
+                    "names": ["$~eşitdeğil"],
+                    "inputs": [
+                        {
+                            "doc": "$~Kontrol edilecek diğer tablo.",
+                            "names": "$~değer"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": "$~@Table'ı her satırı @Structure olan ve sütun adları da özellik olan bir satır listesine dönüştürüyorum.",
+                "text": "$~@Table'ı metne dönüştürüyorum."
+            }
+        },
+        "Structure": {
+            "doc": "$~Ben bir @StructureDefinition ile oluşturulmuş, isimli ve tipli alanları olan yapılandırılmış bir @value'yım. @StructureDefinition bak.",
+            "name": ["$~Yapı"],
+            "function": {
+                "equals": {
+                    "doc": "$~Benim property'lerimin başka bir yapının property'leri ile aynı isim ve değerlere sahip olup olmadığını kontrol ederim.",
+                    "names": ["$~eşittir"],
+                    "inputs": [
+                        {
+                            "doc": "$~Kontrol edilecek diğer yapı.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "notequal": {
+                    "doc": "$~Benim özelliklerimin başka bir yapının isminden ve değerlerinden herhangi bir şekilde farklı olup olmadığını kontrol ederim.",
+                    "names": ["$~eşitdeğil"],
+                    "inputs": [
+                        {
+                            "doc": "$~Kontrol edilecek diğer yapı.",
+                            "names": "$~değer"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "text": "$~Kendimi @Text'e dönüştürüyorum."
+            }
+        },
+        "Formatted": {
+            "doc": [
+                "$~Ben biçimlendirilmiş metnim: kalın, italik ve bağlantılar gibi stil verilmiş kelimeler. Beni ters tırnak işaretleri arasına koyun:",
+                "\\`I am **bold** and /italic/`\\",
+                "Ben de @Text gibi çalışıyorum, ancak biçimlendirme de taşıyabiliyorum. Beni birleştirebilir, tekrarlayabilir, içeriğimi kontrol edebilir ve düz @Text dönüştürebilirsiniz."
+            ],
+            "name": ["$~Biçimlendirilmiş"],
+            "function": {
+                "length": {
+                    "doc": "$~Metnimdeki okunabilir karakter sayısını, biçimlendirme ve paragraf sonlarını dikkate almadan değerlendiriyorum.",
+                    "names": ["$~uzunluk"],
+                    "inputs": []
+                },
+                "equals": {
+                    "doc": "$~\\⊤\\ eğer verilen @value ile aynı biçimlendirilmiş metinsem.",
+                    "names": ["$~eşittir"],
+                    "inputs": [
+                        {
+                            "doc": "$~Karşılaştırılacak biçimlendirilmiş metin.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": "$~\\⊤\\ eğer verilen @value ile aynı biçimlendirilmiş metin /değilsem/.",
+                    "names": "$~≠",
+                    "inputs": [
+                        {
+                            "doc": "$~Karşılaştırılacak biçimlendirilmiş metin.",
+                            "names": "$~değer"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": "$~\\⊤\\ düz metnim verilen @Text içeriyorsa, biçimlendirmeyi ve paragraf sonlarını dikkate almıyorum.",
+                    "names": ["$~sahipolmak"],
+                    "inputs": [
+                        {
+                            "doc": "$~Metnimde aranacak @Text ifadesi.",
+                            "names": "$~metin"
+                        }
+                    ]
+                },
+                "starts": {
+                    "doc": "$~\\⊤\\ Eğer düz metnim verilen @Text ile başlıyorsa. Kontrol ederken biçimlendirmeyi ve paragraf sonlarını dikkate almıyorum.",
+                    "names": ["$~başlar"],
+                    "inputs": [
+                        {
+                            "doc": "$~Metnimin başında kontrol edilecek @Text ifadesi.",
+                            "names": "$~metin"
+                        }
+                    ]
+                },
+                "ends": {
+                    "doc": "$~Düz metnim verilen @Text ile bitiyorsa \\⊤\\ kullanıyorum. Kontrol ederken biçimlendirmeyi ve paragraf sonlarını dikkate almıyorum.",
+                    "names": ["$~son"],
+                    "inputs": [
+                        {
+                            "doc": "$~Metnimin sonunda kontrol edilecek @Text ifadesi.",
+                            "names": "$~metin"
+                        }
+                    ]
+                },
+                "repeat": {
+                    "doc": "$~Kendim olan yeni, biçimlendirilmiş bir metni, belirtilen sayıda tekrarlıyorum. Birden fazla paragrafım varsa, kopyalar arasındaki satır sonları korunuyor.",
+                    "names": ["$~tekrarlandı", "$~tekrarlamak"],
+                    "inputs": [
+                        {
+                            "doc": "$~Kendimi tekrar etme sayısı.",
+                            "names": "$~saymak"
+                        }
+                    ]
+                },
+                "combine": {
+                    "doc": "$~Bana biçimlendirilmiş başka bir metin verin, ikisini birleştireyim. İkimizden birinin birden fazla paragrafı varsa, paragraf araları korunur.",
+                    "names": ["$~birleşik", "$~birleştirmek"],
+                    "inputs": [
+                        {
+                            "doc": "$~Eklenecek biçimlendirilmiş metin.",
+                            "names": "$~biçimlendirilmiş"
+                        }
+                    ]
+                },
+                "uppercase": {
+                    "doc": [
+                        "$~Ben olan, her harfi büyük harfe çevrilmiş yeni biçimlendirilmiş metin oluştururum. Sadece kelimelerim değişir; biçimlendirmem, bağlantılarım ve örneklerim olduğu gibi kalır:",
+                        "\\`*selam* orada`.büyükHarf()\\",
+                        "@Text/uppercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve @language etiketim, hangi kuralların kullanılacağına karar verir."
+                    ],
+                    "names": ["$~büyükHarf"],
+                    "inputs": []
+                },
+                "lowercase": {
+                    "doc": [
+                        "$~Ben olan, her harfi küçük harfe çevrilmiş yeni biçimlendirilmiş metin oluştururum. Sadece kelimelerim değişir; biçimlendirmem, bağlantılarım ve örneklerim olduğu gibi kalır:",
+                        "\\`*SELAM* ORADA`.küçükHarf()\\",
+                        "@Text/lowercase gibi, harflerin büyük küçük hâli sadece bazı yazı sistemlerinde vardır. Ve @language etiketim, hangi kuralların kullanılacağına karar verir."
+                    ],
+                    "names": ["$~küçükHarf"],
+                    "inputs": []
+                }
+            },
+            "conversion": {
+                "text": "$~Biçimlendirilmiş metni, tüm biçimlendirmeyi kaldırarak düz @Text Text'e dönüştürür.",
+                "list": "$~Biçimlendirilmiş metni, kelimelerimin her sembolü için bir tane olmak üzere bir @Text @List'ine çevirir. Biçimlendirme tek tek sembollere kesilince korunamaz, bu yüzden kaybolur.",
+                "number": [
+                    "$~Kelimelerimi bir @Number'e çevirir, eğer bunlar bir sayı değilse, sayı olmayan bir değer verir, bu da şöyle görünür: \\!#\\:",
+                    "\\`selam` → #\\"
+                ]
+            }
+        },
+        "Range": {
+            "doc": [
+                "$~Ben bir sayı aralığıyım! Bir başlangıcım ve bir sonum var, ikisini de ve aralarındaki her sayıyı da içeririm. Beni \\‥\\ ile iki sayı arasında oluşturursun:",
+                "\\1‥10\\",
+                "Bana bir sayı tutup tutmadığımı sor:",
+                "\\(1‥10) ∋ 7\\",
+                "Beni bir listeye yayarak tuttuğum her sayıyı elde et:",
+                "\\[:1‥10]\\",
+                "Beni bir @Match anahtarı olarak kullan, tuttuğum her sayıyla eşleşirim:",
+                "\\7 ???\n\t1 ‥ 9: 'küçük'\n\t'büyük'\\",
+                "Başlangıcım ve sonum, tıpkı @Number karşılaştırmalarında olduğu gibi, aynı birime sahip olmalı."
+            ],
+            "name": ["$~Aralık"],
+            "function": {
+                "equals": {
+                    "doc": [
+                        "$~\\⊤\\ eğer verilen @Range benimle aynı başlangıç ve sona sahipse:",
+                        "\\(1‥3) = (1‥3)\\"
+                    ],
+                    "names": ["$~="],
+                    "inputs": [
+                        {
+                            "doc": "$~Beninle karşılaştırılacak @Range.",
+                            "names": "$~aralık"
+                        }
+                    ]
+                },
+                "notequals": {
+                    "doc": [
+                        "$~\\⊤\\ eğer verilen @Range'ın başlangıcı veya sonu benimkinden farklıysa:",
+                        "\\(1‥3) ≠ (1‥4)\\"
+                    ],
+                    "names": ["$~≠"],
+                    "inputs": [
+                        {
+                            "doc": "$~Beninle karşılaştırılacak @Range.",
+                            "names": "$~aralık"
+                        }
+                    ]
+                },
+                "has": {
+                    "doc": [
+                        "$~\\⊤\\ eğer verilen @Number başlangıcım ile sonum arasındaysa, ya da onlardan biriyse:",
+                        "\\(1‥10) ∋ 7\\",
+                        "\\(1‥10) ∋ 70\\",
+                        "Hangi yönde yazıldığımın önemi yok:",
+                        "\\(10‥1) ∋ 7\\"
+                    ],
+                    "names": ["$~içerir"],
+                    "inputs": [
+                        {
+                            "doc": "$~İçimde aranacak @Number.",
+                            "names": "$~sayı"
+                        }
+                    ]
+                }
+            },
+            "conversion": {
+                "list": [
+                    "$~Bir aralığı, içindeki her sayının birer birer sayıldığı bir listeye çeviririm. Örneğin:",
+                    "\\(1‥5)→[]\\"
+                ]
+            }
+        }
+    }
+}

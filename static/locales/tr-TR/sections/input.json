@@ -1,0 +1,938 @@
+{
+    "$schema": "../../../static/schemas/sections/input.json",
+    "input": {
+        "Random": {
+            "doc": [
+                "$~Her değerlendirdiğinde farklı bir sayı oluşturur.",
+                "17!",
+                "Bu, tahmin edilemezlikle gelen harika bir kaos yaratır.",
+                "Varsayılan olarak, şu aralıkta @Number değerler verir: \\0\\ ile \\1\\:",
+                "\\Rastgele()\\",
+                "Ama ona bir @value verebilirsin, o zaman şu aralıkta değerler üretir: \\0\\ ile değer arasında:",
+                "\\Rastgele(10)\\",
+                "Eğer iki değer verirsen, iki değer dahil olmak üzere aralarındaki değerleri üretir:",
+                "\\Rastgele(-10 10)\\",
+                "Eğer aralıklarının birimleri varsa, bunlar korunur (ve eğer eşleşmezlerse, en küçüğün birimi kullanılır):",
+                "\\Rastgele(-10m 10m)\\",
+                "Ve eğer ondalık noktadan sonra belirli sayıda anlamlı basamağı olan sayılar verirsen, o hassasiyet korunur.",
+                "\\Rastgele(1.00 10.00)\\"
+            ],
+            "names": ["$~Rastgele"],
+            "inputs": [
+                {
+                    "names": "$~dakika",
+                    "doc": "$~Oluşturulacak en küçük @value, ya da 0'dan büyükse en büyük değer. Eğer @None verilirse, en küçük değer şudur: \\0\\."
+                },
+                {
+                    "names": "$~maksimum",
+                    "doc": "$~Oluşturulacak en büyük @value, ya da verilen en küçük değerden küçükse en küçük değer. Eğer @None verilirse, en büyük değer şudur: \\1\\."
+                }
+            ]
+        },
+        "Choice": {
+            "doc": [
+                "$~Bu, izleyicilerinizin @Phrase adlı bir ifadeye tıklayarak, dokunarak veya Enter tuşuna basarak seçtiği isimlerin bir akışıdır.",
+                "/tıkır tıkır!/",
+                "Dolayısıyla bunu kullanmanın en iyi yolu, adlandırılmış seçilebilir ifadeler içeren bir performans @Phrase ) oluşturmak ve ardından bu ad seçildiğinde ne yapılacağına karar vermek için bir @Reaction kullanmaktır.",
+                "İşte en basit örnek:",
+                "\\Group(\nStack() \n[\nPhrase('one' seçilebilir:⊤ isim:'1') \nPhrase('two' seçilebilir:⊤ isim:'2') \nPhrase(Choice())\n]\n)\\",
+                "Bunu düzenleyiciye kopyalayın ve ardından iki @Phrase birini seçin. Üçüncü @Phrase seçilen adı gösterdiğini göreceksiniz."
+            ],
+            "names": ["$~Seçenek"]
+        },
+        "Button": {
+            "doc": [
+                "$~Farenin veya izleme dörtgeninin ana düğmesine basılıp basılmadığını, bir @Boolean akışı olarak söyler.",
+                "/tık tık tık/",
+                "Elbette fare veya izleme dörtgeni bir izleyici kitlesini dinlemek için ideal bir seçim değildir, çünkü herkes birini kullanamaz. Daha erişilebilir seçim @Choice'dir.",
+                "Ama bir fare düğmesini /gerçekten/ dinlemen gerekiyorsa, bunu yapmanın yolu budur. Ana düğmenin yukarıda mı olduğunu gösteren bir @Boolean akışı sağlar \\⊥\\ ya da aşağıda mı \\⊤\\.",
+                "İşte basit bir örnek:",
+                "\\İfadeetmek(Düğme() → '')\\",
+                "Bu sadece, akışın @value değerini metin olarak gösteren bir @Phrase yapar. Bunu düzenleyiciye kopyalayıp tıklarsan, iki @state arasında gidip geldiğini görürsün: \\⊥\\ ve \\⊤\\."
+            ],
+            "names": ["$~Düğme"],
+            "down": {
+                "names": "$~aşağı",
+                "doc": "$~@None ise, @stream hem yukarı hem aşağı değerlerini sağlar. Eğer bir \\⊤\\, yalnızca düğmeye basıldığında değişir. Eğer bir \\⊥\\, yalnızca düğme bırakıldığında değişir."
+            }
+        },
+        "Pointer": {
+            "doc": [
+                "$~Bu, @Stage Stage'de izleyicilerinizin nereye işaret ettiğini takip eder.",
+                "/whrrrrrr/",
+                "Elbette, bu herkes için erişilebilir bir seçenek değil: herkes göremez veya kolayca işaret edemez, bu nedenle bu akışı kullanarak birinin katılımını engellemediğinizden emin olun.",
+                "Eğer kimsenin dışlanmadığından eminseniz, @Pointer kullanmak bir @stream oluşturmak kadar basittir:",
+                "\\Pointer()\\",
+                "Sağladığı @Place , işaretçinin @Stage üzerinde nereye işaret ettiğine karşılık gelir."
+            ],
+            "names": ["$~İşaretçi"]
+        },
+        "Key": {
+            "doc": [
+                "$~Sana izleyicinin hangi klavye @key tuşuna bastığını ve bıraktığını söyler.",
+                "/tık tık/",
+                "Bunu dene",
+                "\\Anahtar()\\",
+                "Bir tuşa bastığında, tuşun @Stage üzerinde @how belirdiğini görüyor musun? Bir tuşa her basıldığında, akışa basılan tuşu anlatan yeni bir @Text eklenir.",
+                "Bir karakteri temsil eden bir tuş için, @value o karakter olarak @Text biçiminde olur.",
+                "Özel tuşlar için, örneğin /Escape/ tuşu için, o tuşu anlatan bir @Text olur. Bunun için <önceden tanımlı bir isim@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values> kullanılır. Ne yazık ki bu isim yalnızca İngilizce mevcuttur.",
+                "Sadece belirli bir tuşu öğrenmek istiyorsan, onu verebilirsin:",
+                "\\Anahtar('a')\\",
+                "Ve sadece bir @Key tuşunun basılmasını değil, bırakılmasını öğrenmek istiyorsan, bir @Boolean verebilirsin:",
+                "\\Anahtar('a' ⊥)\\"
+            ],
+            "names": ["$~Anahtar"],
+            "key": {
+                "names": "$~anahtar",
+                "doc": "$~@None ise, tüm anahtarlar sağlanır. Belirli bir @Text ise, yalnızca o anahtar sağlanır."
+            },
+            "down": {
+                "names": "$~aşağı",
+                "doc": "$~EĞER @None ise, hem @key hem de aşağı girdiler üretir. Eğer \\⊤\\ ise, yalnızca aşağı girdiler verilir, ve eğer \\⊥\\ ise, yalnızca bırakma girdileri verilir."
+            },
+            "keys": {
+                "Shift": ["$~Vardiya"],
+                "Control": ["$~Kontrol", "$~Ctrl"],
+                "Alt": ["$~Alternatif", "$~Seçenek"],
+                "Meta": ["$~Meta", "$~Emretmek", "$~Windows"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~Büyük harf kilidi"],
+                "NumLock": ["$~NumLock", "$~Num Lock"],
+                "ScrollLock": ["$~ScrollLock", "$~Kaydırma Kilidi"],
+                "Enter": ["$~Girmek", "$~Geri dönmek"],
+                "Tab": ["$~Sekme"],
+                " ": ["$~Uzay", "$~Boşluk tuşu", "$~"],
+                "ArrowUp": ["$~Yukarı Ok", "$~Yukarı"],
+                "ArrowDown": ["$~Aşağı Ok", "$~Aşağı"],
+                "ArrowLeft": ["$~Sol Ok", "$~Sol"],
+                "ArrowRight": ["$~Sağ Ok", "$~Sağ"],
+                "Home": ["$~Ev"],
+                "End": ["$~Son"],
+                "PageUp": ["$~Sayfa Yukarı"],
+                "PageDown": ["$~Sayfa Aşağı"],
+                "Backspace": ["$~Geri tuşu"],
+                "Delete": ["$~Silmek", "$~Del"],
+                "Insert": ["$~Sokmak", "$~Sigorta"],
+                "Clear": ["$~Temizlemek"],
+                "Cut": ["$~Kesmek"],
+                "Copy": ["$~Kopyala"],
+                "Paste": ["$~Yapıştır"],
+                "Undo": ["$~Geri al"],
+                "Redo": ["$~Tekrarla"],
+                "Escape": ["$~Kaçmak", "$~Esc"],
+                "Pause": ["$~Duraklat"],
+                "ContextMenu": ["$~Bağlam Menüsü", "$~Menü"],
+                "Help": ["$~Yardım"],
+                "Convert": ["$~Dönüştürmek"],
+                "NonConvert": ["$~Dönüştürülmeyen"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~HangulMode"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
+            }
+        },
+        "Time": {
+            "doc": [
+                "$~Senin seçtiğin bir sıklıkta ilerler.",
+                "/tık tık tık/",
+                "Her ilerlediğinde, @Program yeni zaman @value değeriyle yeniden değerlendirilir.",
+                "Örneğin:",
+                "\\Zaman()\\",
+                "Zamana bir @Time.frequency verirsen, o hızda ilerler. Örneğin:",
+                "\\Zaman(1000ms)\\",
+                "Ancak bunun ne kadar küçük olabileceğinin sınırları vardır, çünkü @Program bir sonraki adıma yanıt vermeden önce değerlendirilmek için zamana ihtiyaç duyar.",
+                "En küçüğü muhtemelen şu civarındadır: \\20ms\\."
+            ],
+            "names": ["$~Zaman"],
+            "frequency": {
+                "names": ["$~sıklık"],
+                "doc": "$~Bu, zamanın akması gereken frekanstır. Varsayılanı \\33ms\\'dir, bu da saniyede yaklaşık 30 kezdir."
+            },
+            "relative": {
+                "names": ["$~akraba"],
+                "doc": "$~Eğer \\⊤\\ ise, zaman 0'dan başlar, program ilk değerlendirildiğinde. Aksi takdirde, bugünün başlangıcından bu yana geçen milisaniye sayısından başlar, UTC (Eşgüdümlü Evrensel Zaman), böylece günün saatini takip edebilirsiniz."
+            }
+        },
+        "Volume": {
+            "doc": [
+                "$~Bu, mikrofonun ses yüksekliğinin 0 ile 1 arasında değişen bir akışıdır.",
+                "/bzzzzzzz/",
+                "İstediğiniz frekansta örnekleme yapılır. Varsayılan olarak frekans \\30hz\\ , yani saniyede 30 defadır, ancak bunu daha düşük bir frekansa değiştirebilirsiniz.",
+                "\\Volume()\\",
+                "Bu, dinleyicilerin ne kadar yüksek sesle konuştuğunu duymak için harika!"
+            ],
+            "names": ["$~Hacim"],
+            "frequency": {
+                "names": ["$~sıklık"],
+                "doc": "$~Örneklemeler arasındaki zaman."
+            }
+        },
+        "Pitch": {
+            "doc": [
+                "$~Bu, mikrofonun frekansını hertz cinsinden gösteren bir veri akışıdır.",
+                "/hımmm/",
+                "Örnekleme, sizin seçtiğiniz frekansta yapılır. İnsan sesi 20 Hz ile 5000 Hz arasındadır, bu nedenle bu aralıkta sayılar bekleyebilirsiniz.",
+                "\\Pitch()\\",
+                "Bu, birinin konuşma veya şarkı söyleme tonunu duymak için harika."
+            ],
+            "names": ["$~Saha"],
+            "frequency": {
+                "names": ["$~sıklık"],
+                "doc": "$~Örneklemeler arasındaki zaman."
+            }
+        },
+        "Camera": {
+            "doc": [
+                "$~Bu, size kameranızdan her kare için bir renk olmak üzere @Color bir @List verir.",
+                "/bzzzzzzz/",
+                "@List etiketi aslında bir görseli temsil ediyor, ancak onunla ne yapacağınıza siz karar veriyorsunuz.",
+                "Görseli bir sürü @Phrase kullanarak temsil etmeyi deneyebilirsiniz, oldukça havalı görünebilir! Bunu kopyalamayı deneyin...",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' yer: Place((x - 1) × 0.5m y × -0.5m) renk: color süre: 0s\n)\n)\n)\n)\n)\\",
+                "Ancak renkleri analiz ederek bir ışığın açık mı kapalı mı olduğuna veya belirli bir rengin sık kullanılıp kullanılmadığına karar verebilir, böylece izleyicilerin gösterdikleri renklerle performansı etkilemelerini sağlayabilirsiniz."
+            ],
+            "names": ["$~Kamera"],
+            "width": {
+                "names": ["$~Genişlik"],
+                "doc": "$~Bir satırda örneklenecek @Color sayısı."
+            },
+            "height": {
+                "names": ["$~yükseklik"],
+                "doc": "$~Bir @column içinde örneklenecek @Color sayısı."
+            },
+            "frequency": {
+                "names": ["$~sıklık"],
+                "doc": "$~@Color örnekleri arasındaki süre."
+            }
+        },
+        "Scene": {
+            "doc": [
+                "$~@List tane @Phrase, @Group veya @Shape'ü sırayla, birer birer gösterir ve sonuncusunda durur.",
+                "/Bip bip bip/",
+                "Zamanlamayı kontrol etmek için her çıktıya @Phrase.duration ayarlayabilirsin. Böylece sonrakine geçmeden önce o kadar süre gösterilir ve varsa ayarladığın @Phrase.entering veya @Phrase.exiting geçişlerini kullanır. Eğer bunları bir @Sequence'e ayarlarsan, onun süresini kullanır.",
+                "Tüm bunlar, şu üç ifadeyi sırayla gösteren şu küçük @Scene gibi şeyler yapmanı sağlar:",
+                "\\Gösteri(\n\t[\n\t\tİfadeetmek('Merhaba' süre: 1s)\n\t\tİfadeetmek(\n\t\t\t'Nasılsın?'\n\t\t\tsüre: 2s\n\t\t\trotasyon: 5°\n\t\t\tgiriş: Poz(rotasyon: 0°)\n\t\t)\n\t\tİfadeetmek('İyiyim')\n\t]\n)\\",
+                "İlk çıktının bir saniye, sonrakinin iki saniye gösterildiğini fakat beş derecelik bir dönüşle canlandırıldığını, ardından da sonuncusunun gösterildiğini gördün mü?",
+                "@Scene ile çok ayrıntılı çıktı ve animasyon dizileri oluşturabilir, hatta bunların bir kısmını başka bir @Phrase veya @Group'de olduğu gibi dinamik ya da etkileşimli hale getirebilirsin.",
+                "Eğer iç içe geçmiş animasyonlu bir çıktın varsa (içinde animasyonlu @Phrase bulunan bir @Group), @Scene, @Group içindeki tüm animasyonlu içeriğin bitmesini bekler.",
+                "Ah, ve son küçük bir sır daha! Listeye @Boolean de koyabilirsin, eğer bunlar \\⊥\\ ise, @Scene duraklar ve doğru olmasını bekler.",
+                "Örneğin, bir dizi @Phrase oluşturmak istesen ve yalnızca @Button değiştiğinde ilerlesen, şunu yapabilirsin:",
+                "\\tıkla: ∆ Düğme()\nGösteri(\n\t[\n\t\tİfadeetmek('Merhaba')\n\t\ttıkla\n\t\tİfadeetmek(\n\t\t\t'Nasılsın?'\n\t\t\tsüre: 0.25s\n\t\t\trotasyon: 5°\n\t\t\tgiriş: Poz(rotasyon: 0°)\n\t\t)\n\t\ttıkla\n\t\tİfadeetmek('İyiyim')\n\t]\n)\\",
+                "Her @Phrase'dan sonra durakladığını ve ilerlemeden önce @Button'in değişmesini beklediğini gördün mü?",
+                "Varsayılan olarak son çıktımda dururum. Bana @Scene/loop ver, o zaman tekrar ilk çıktıma dönerim; bu, her turdan sonra başka bir soru soran bir oyunun isteyeceği şeydir.",
+                "Programın her değiştiğinde @Scene/loop'ü kontrol ederim, böylece bir döngü hem başlayabilir hem de bitebilir. İşte burada, doğru cevabı bulana kadar sormaya devam ederim, sonra dururum:",
+                "\\tahminEt: Sohbet()\ndoğru2: tahminEt = 'cat'\nGösteri(\n\t[\n\t\tİfadeetmek('Hayvanı tahmin et!' süre: 2s)\n\t\t∆ tahminEt\n\t\tİfadeetmek(doğru2 ? 'Evet!' 'Yanlış!' süre: 2s)\n\t]\n\tdöngü: ~doğru2\n)\\",
+                "@Scene/replay beni baştan başlatır, @Scene/pause beni olduğum yerde tutar ve @Scene/go beni doğrudan çıktılarımdan birine gönderir. @Scene/pause'ü şuna ayarla: \\⊤\\ o zaman kendiliğimden asla ilerlemem, böylece @Scene/go beni ilerleten tek şey olur — hem ileri /hem de/ geri giden bir slayt gösterisi böyle yapılır.",
+                "Ve eğer /10'da 3/ göstermek ya da bir hikayenin farklı bölümlerinde farklı müzik çalmak için nerede olduğumu bilmek istersen, işte @Spotlight bunun içindir."
+            ],
+            "names": ["Gösteri"],
+            "outputs": {
+                "names": "$~çıktılar",
+                "doc": "$~Sırayla gösterilecek çıktıların listesi."
+            },
+            "loop": {
+                "names": "$~döngü",
+                "doc": "$~Son çıktım bittiğinde tekrar ilk çıktıma dönüp dönmeyeceğim. Bu \\⊤\\ olmadıkça son çıktımda dururum. Her değerlendirmede bunu kontrol ederim, böylece bir döngüyü hem bitirebilir hem de başlatabilirsin."
+            },
+            "replay": {
+                "names": "$~yenidenOynat",
+                "doc": [
+                    "$~Bu bir değerlendirmede \\⊤\\ olduğunda, nerede kalmış olursam olayım ilk çıktımdan yeniden başlarım ve @Slate/lap'ım tekrar 0'a döner.",
+                    "Bana /anlık/ bir @condition ver, yani yalnızca olayın gerçekleştiği değerlendirmede doğru olan bir koşul, şunun gibi: \\∆ Düğme()\\. Kalıcı bir koşul, örneğin \\score > 10\\🪲, bir kez doğru olduğunda doğru kalır, bu yüzden o andan itibaren her değerlendirmede beni yeniden başlatır."
+                ]
+            },
+            "pause": {
+                "names": "$~duraklat",
+                "doc": [
+                    "$~Bu şu haldeyken \\⊤\\ olduğu sürece kımıldamadan dururum ve tekrar \\⊥\\ durumuna döndüğünde devam ederim. Geri saymakta olduğum bir çıktı, kalan süresini korur, yani uzun bir @Phrase'ın ortasında duraklamak onu baştan başlatmaz.",
+                    "@Scene/replay'den farklı olarak, beni beklemeni istediğin sürece doğru kalan /kalıcı/ bir @condition isterim. Beni sonsuza kadar duraklatılmış bırakırsan, kendiliğimden asla ilerlemem; bu tam olarak bir slayt gösterisinin istediği şeydir: o zaman beni ilerleten tek şey @Scene/go olur."
+                ]
+            },
+            "go": {
+                "names": "$~git",
+                "doc": [
+                    "$~Sonra nereye gideceğim. Bana bir sayı ver, o çıktıyı gösteririm, 1'den başlayarak sayarım; bana bir isim ver, o @Phrase/name'ı verdiğin çıktıyı gösteririm.",
+                    "Sadece çıktıları sayarım, arada kalan @Boolean'i asla saymam. Yani beni 2'ye göndermek, önümde kaç koşul olursa olsun, ikinci @Phrase'ımı göstereceğim anlamına gelir.",
+                    "@Scene/replay gibi, bu da /anlık/ bir @condition ister — yani şu olan bir şey: \\ø\\, tabii benim ilerlemeni istediğin değerlendirme dışında. Sabit kalan bir sayı beni orada sonsuza kadar sabitler.",
+                    "Beni herhangi bir uçtan öteye gönderirsen orada dururum, tabii @Scene/loop \\⊤\\ değilse; bu durumda tekrar başa dönerim. Bu, hiçbir zaman kontrol etmen gerekmediği anlamına gelir. İşte burada ok tuşları bir slayt gösterisinde her iki yönde de gezinir:",
+                    "/üçüncü sayı/ yerine /bir ileri/ demeyi tercih edersen, işte bu @Scene/step'dır.",
+                    "\\slaytlar: [\n\t\tİfadeetmek('bir')\n\t\tİfadeetmek('iki')\n\t\tİfadeetmek('üç')\n\t]\nanahtar2: Anahtar()\niçinde: Spotlight()\nGösteri(\n\tslaytlar\n\tduraklat: ⊤\n\tgit: ∆ anahtar2 ? ((anahtar2 = 'Sol Ok') ? içinde.index - 1 (anahtar2 = 'Sağ Ok') ? içinde.index + 1 ø) ø\n)\\"
+                ]
+            },
+            "name": {
+                "names": "$~isim",
+                "doc": "$~Benim ismim. @Spotlight, aynı anda oynayan başka bir @Scene'den beni ayırt etmek için bunu kullanır; tek bir sahnen varsa, bunu olduğu gibi bırakabilirsin."
+            },
+            "until": {
+                "names": "$~kadar",
+                "doc": [
+                    "$~Her çıktımdan sonra, @Phrase/duration'i tamamlandığında ya da animasyonu bittiğinde beklenecek bir @condition.",
+                    "Bu, listemdeki her çıktının arasına o @Boolean'i yazmakla aynı şeydir; bu da çıktılarımdan birinin beklemesini sağlamak için yapacağın şeydir. Bu ise onu bir kez söyler:",
+                    "\\Gösteri(\n\t[İfadeetmek('bir') İfadeetmek('iki') İfadeetmek('üç')]\n\tkadar: ∆ Düğme()\n)\\",
+                    "Listeye yazılan bir @Boolean yine de çalışır ve ikisi ayrı bekleme olur. Böylece belirli bir yerde daha uzun bekleyebilirsin."
+                ]
+            },
+            "step": {
+                "names": "$~adım",
+                "doc": [
+                    "$~Bulunduğum yerden sayarak, kaç çıktının hareket edeceği: \\1\\ bir ileri, \\-1\\ bir geridir. Bu, @Scene/go'in bir yer olarak değil, bir uzaklık olarak söylenmiş hâlidir.",
+                    "@Scene/go gibi ben de uçlarımda dururum, tabi @Scene/loop şu değilse: \\⊤\\, bu yüzden hiç kontrol etmek zorunda kalmazsın. Ben senin beni hareket ettirmek istediğin değerlendirme dışında hep aynı kalan, /anlık/ bir @condition isterim — yani \\ø\\ olan bir şey.",
+                    "\\slaytlar: [\n\t\tİfadeetmek('bir')\n\t\tİfadeetmek('iki')\n\t\tİfadeetmek('üç')\n\t]\nanahtar2: Anahtar()\nGösteri(\n\tslaytlar\n\tduraklat: ⊤\n\tadım: ∆ anahtar2 ? ((anahtar2 = 'Sol Ok') ? -1 (anahtar2 = 'Sağ Ok') ? 1 ø) ø\n)\\",
+                    "Burada hiçbir şeyin hangi @Phrase'in gösterildiğini bilmesi gerekmez; işte @Scene/go'den farkı budur. Bunu sahnede söylemek istersen @Spotlight'e sor."
+                ]
+            }
+        },
+        "Motion": {
+            "doc": [
+                "$~Başlangıçtaki bir @Phrase yerçekimi ve fizik kullanarak hareket ettirir.",
+                "/boing boing boing/",
+                "Ona başlangıçta bir @Phrase veriyorsunuz ve ardından yerçekimine bağlı olarak yeni bir konum ve dönüşle onu iyileştiriyor.",
+                "Bu sayede zıplayan emoji oluşturmak gibi gerçekten basit şeyler yapabilirsiniz:",
+                "\\Motion(Phrase('o') startplace: Place(0m 10m))\\🪲",
+                "\"O\" harfinin @how zıpladığını görüyor musunuz? İlk değerlendirmede, ona @Stage üzerinde yüksek bir yer veriyorsunuz, ancak daha sonra @None alıyorsunuz; bu da @Motion onu yerçekiminin yerleştireceği herhangi bir konuma değiştirmesine olanak tanıyor.",
+                "Aşağıda, yapılandırmanın diğer birçok yoluna göz atabilirsiniz."
+            ],
+            "names": ["$~Hareket"],
+            "place": {
+                "doc": "$~Başlangıç yeri.",
+                "names": "$~yer"
+            },
+            "velocity": {
+                "doc": "$~Başlangıç hızı",
+                "names": "$~hız"
+            },
+            "nextplace": {
+                "doc": "$~Bir sonraki yer, fiziğin üstesinden gelmek.",
+                "names": "$~sonrakiyer"
+            },
+            "nextvelocity": {
+                "doc": "$~Bir sonraki yer, aşırı hız.",
+                "names": "$~sonrakihız"
+            }
+        },
+        "Chat": {
+            "doc": [
+                "$~Bu, hedef kitlenizin yazdığı @Text mesajlarının bir akışıdır.",
+                "Örneğin, bu basit program mesajın 'hello' olup olmadığını kontrol eder ve eğer öyleyse, program 'hi' olarak değerlendirilir. Aksi takdirde, 'huh?' olarak değerlendirilir.",
+                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "İşte bu kadar! Bununla sohbet botları, metin tabanlı macera oyunları veya diğer performans türleri için metin tabanlı kontrol şemaları gibi her türlü performansı oluşturabilirsiniz."
+            ],
+            "names": ["$~Sohbet"]
+        },
+        "Placement": {
+            "doc": [
+                "$~İzleyicinin @Output öğesini @Stage üzerindeki bir @Place konumuna sürüklemesine olanak tanır.",
+                "@Stage üzerine @Output yerleştirmenin birçok yolu vardır: onlara açık bir @Place ver, @Motion kullan ve yer çekiminin işini yapmasına izin ver, ya da düzenlenmeleri için onları bir @Group içine koy.",
+                "Ama bazen @Output öğesinin @Stage üzerinde nereye gideceğini /izleyicinin/ kontrol etmesini istersin.",
+                "İşte @how çalıştığı: bir @Placement oluştur ve onu bir @Output öğesinin @Place değerine ver:",
+                "\\İfadeetmek('merhaba' yer: Atama())\\",
+                "Sonra, izleyici bir ok @key tuşunu kullandığında ya da sahnede tıkladığında veya dokunduğunda, @Placement istenen yönde hareket eden yeni bir @Place oluşturur.",
+                "Bunu programına kopyalamayı ve @Output öğesini işaretçi ya da klavyeyle hareket ettirmeyi dene.",
+                "@Placement öğesini özelleştirebilirsin; belirli boyutlarda hareketi açıp kapatabilir, bir @Place öğesinin ne kadar uzağa hareket edeceğini ve akışın başladığı ilk @Place değerini değiştirebilirsin."
+            ],
+            "names": ["$~Atama"],
+            "inputs": [
+                {
+                    "doc": "$~Başlamak için ilk yer.",
+                    "names": "$~başlangıç"
+                },
+                {
+                    "doc": "$~Seyirci yer değiştirme talebinde bulunduğunda mekanın kaç metre hareket etmesi gerekiyor?",
+                    "names": "$~mesafe"
+                },
+                {
+                    "doc": "$~Doğruysa, yatay eksende hareket etmeye izin verir. Varsayılan olarak açıktır.",
+                    "names": "$~yatay"
+                },
+                {
+                    "doc": "$~Doğruysa, dikey eksende harekete izin verir. Varsayılan olarak açıktır.",
+                    "names": "$~dikey"
+                },
+                {
+                    "doc": "$~Doğru ise + ve - tuşlarıyla z ekseninde hareket ettirilmesine izin verir.",
+                    "names": "$~derinlik"
+                }
+            ]
+        },
+        "Webpage": {
+            "doc": [
+                "$~Verdiğin bir web adresindeki metni getirir.",
+                "İnternet büyüleyicidir — birbirine bağlı bilgisayarlardan oluşan, belgeleri paylaşan koca bir dünya.",
+                "Bu @stream ona bağlanır — ona şöyle bir URL ver:",
+                "\\Websayfası('https://wordplay.dev')\\",
+                "Ve görünüşe göre <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS> diye bir şey var; bu, bir web sayfasındaki şeyleri @query yapmana olanak tanıyor. Ona bir CSS seçme sorgusu ver, o da yalnızca o sorguyla eşleşen metni getirir. Örneğin bu örnek, birinci seviye başlıkları getirir.",
+                "\\Websayfası('https://wordplay.dev' 'h1')\\",
+                "Bunda birçok şey ters gidebilir. İnternet bağlantını kaybedersen, ya da URL hiçbir şeye çözümlenmezse, ya da URL herkese açık değilse, ya da URL bir HTML sayfası değilse… Bunların hepsi bir istisnaya yol açabilir. Çalışan bir sayfa bulursan, önce yüzde kaçının tamamlandığını gösteren bazı @Number değerleri alırsın, sonra da sayfadaki kelimelerin bir @List değerini alırsın."
+            ],
+            "names": ["$~Websayfası"],
+            "url": {
+                "doc": "$~Alınacak HTML web sayfası URL'si.",
+                "names": "$~url"
+            },
+            "query": {
+                "doc": "$~HTML üzerinde değerlendirilecek CSS @query",
+                "names": "$~sorgu"
+            },
+            "frequency": {
+                "doc": "$~Sayfanın tekrar getirilmesi için geçmesi gereken dakika sayısı.",
+                "names": "$~sıklık"
+            },
+            "error": {
+                "invalid": "$~bu geçerli bir URL değil",
+                "unvailable": "$~bu URL'ye erişilemiyor",
+                "notHTML": "$~cevap HTML değildi",
+                "noConnection": "$~Wordplay ile hiçbir bağlantısı yok",
+                "limit": "$~bu alana çok fazla istek var"
+            }
+        },
+        "Collision": {
+            "names": "$~Çarpışma",
+            "doc": [
+                "$~Adı olan @Output birbirine çarptığında oluşan @Rebound değerlerinden bir akıştır.",
+                "İki @Output'nin birbirini fark etmesini istersen, ikisine de isim ver, sonra bana ikisinin de ismini söyle. Birbirlerine değdiklerinde yeni bir @Rebound oluştururum. Bunun için @Matter'ye ihtiyaçları yok — bir şeyi izlemem için tek gereken bir isim.",
+                "Bana sadece bir isim ver, o @Output fiziksel dünyadaki başka herhangi bir şeye her değdiğinde sana söylerim. Bir @Output, eğer @Matter'ye sahipse, bir @Motion tarafından yerleştirildiyse, @Stage üzerinde doğrudan duran bir @Shape ise ya da ismini de izliyorsam, fiziksel dünyadadır.",
+                "Fark etmek, sekmekle aynı şey değildir. @Output, ancak @Matter'ye ve onu hareket ettiren bir @Motion'ye sahipse başka @Output'yi iter. Programının yerleştirdiği @Output tam olarak koyduğun yere gider, bu yüzden değdiği her şeyin içinden geçer — yine de dokunmayı sana bildiririm.",
+                "Bir @Rebound, dokunan isimleri ve dokundukları yönü içerir. Bir tanesini oluşturduktan hemen sonra bir tane daha oluştururum \\ø\\, çünkü bir çarpışma gerçekleştiği anda biter.",
+                "Sadece doğrudan @Stage üzerine yerleştirilmiş @Output'yi izleyebilirim. Bir @Group içindeki her şey o grubun kendi uzayında hareket eder, bu yüzden onu göremem — bunun yerine @Group'e bir isim ver ve onu izle."
+            ],
+            "subject": {
+                "names": "$~ders",
+                "doc": "$~İzlemem gereken @Output'nin ismi. Onu izlemek, onu fiziksel dünyaya koymak için yeterlidir, bu yüzden @Matter'ye ihtiyacı yoktur."
+            },
+            "object": {
+                "names": "$~diğer",
+                "doc": "$~İzlemem gereken diğer @Output'nin ismi. Bu da verildiğinde, sadece bu ikisinin birbirine değmesini bildiririm; bunu boş bırakırsan, ilkinin fiziksel dünyadaki herhangi bir şeye değmesini bildiririm."
+            }
+        },
+        "Rebound": {
+            "names": "$~Geritepme",
+            "doc": "$~@Collision'dan geliyorum ve kiminle çarpışıldığını ve çarpışmanın hangi yönde gerçekleştiğini temsil ediyorum. Normal fizik dışında, bir çarpışmaya özel bir şekilde tepki verip vermemeye karar vermek için beni kullanın.",
+            "direction": {
+                "names": "$~yön",
+                "doc": "$~Çarpışmanın yönü ve büyüklüğü, çarpışmanın konusuna göre"
+            },
+            "subject": {
+                "names": "$~ders",
+                "doc": "$~Konunun isabet ettiği çıktının adı."
+            },
+            "object": {
+                "names": "$~nesne",
+                "doc": "$~Konuya isabet eden çıktının adı"
+            }
+        },
+        "Direction": {
+            "names": "$~Yön",
+            "doc": "$~Ben x ve y eksenleri boyunca bir yönüm ve büyüklüğüm.",
+            "x": {
+                "names": "$~X",
+                "doc": "$~X ekseni boyunca yönün yönü ve büyüklüğü."
+            },
+            "y": {
+                "names": "$~ve",
+                "doc": "$~Y ekseni boyunca yönün yönü ve büyüklüğü."
+            }
+        },
+        "Speech": {
+            "doc": [
+                "$~Konuşmayı tanır ve onu @Text değerine dönüştürür.",
+                "/merhaba oradaki!/",
+                "Söylediklerini dinlemek ve onları kelimelere dönüştürmek için tarayıcının konuşma tanıma özelliğini kullanır (bu çok havalı değil mi?!).",
+                "\\Konuşma()\\",
+                "Bu, bir @language dili konuşabilen ama hâlâ onu okumayı ya da yazmayı öğrenen kişiler için mükemmeldir (ve daha fazlası)...",
+                "Konuşmayı belirli bir dilde tanımak için bir dil kodu belirtebilirsin:",
+                "\\Konuşma(dil: 'es-MX')\\",
+                "Hiçbir dil belirtilmezse, varsayılan olarak tercih ettiğin dili kullanır.",
+                "Konuşma tanıma, mikrofon erişimi ve İnternet bağlantısı gerektirir (lütfen erişim ver!). Ayrıca kullanım sınırları olabilir, bu yüzden onu çok uzun süre açık bırakma (hayııır)!"
+            ],
+            "names": ["$~Konuşma", "$~Ses"],
+            "reset": {
+                "names": ["$~sıfırlamak", "$~temizlemek"],
+                "doc": "$~Bu @value değiştiğinde, biriken konuşmayı temizle ve yeniden başla."
+            },
+            "language": {
+                "names": ["$~dil"],
+                "doc": "$~Bir BCP 47 @language kodu (örneğin, 'en-US'). Tarayıcının konuşma tanıması bunu desteklemiyorsa bir hata alırsın. Öntanımlı olarak tercih ettiğin dil kullanılır."
+            },
+            "limit": {
+                "names": ["$~kelimeler"],
+                "doc": "$~Birikmiş konuşmada tutulacak maksimum kelime sayısı (kayan pencere). Ayarlandığında, yalnızca en son kelimeler tutulur ve daha eski kelimeler atılır. Belirtilmezse, tüm kelimeler süresiz olarak saklanır."
+            },
+            "error": {
+                "browserNotSupported": "$~Bu tarayıcıda hizmet desteklenmiyor.",
+                "noConnection": "$~internet bağlantısı yok",
+                "serviceNotAllowed": "$~Hizmet mevcut değil.",
+                "micNotAllowed": "$~Mikrofona erişime izin verilmiyor.",
+                "noMicrophone": "$~Mikrofon bulunamadı.",
+                "languageNotSupported": "$~Dil desteklenmiyor.",
+                "limit": "$~birden fazla denemeden sonra başarısız oldu."
+            }
+        },
+        "Hand": {
+            "doc": [
+                "$~Kameranız tarafından görülen bir eli takip eder; elin nerede olduğunu, hangi parmakların yukarıda olduğunu ve hangi yöne baktığını izler.",
+                "/kıvrılıp kıpırdama/",
+                "Elinizi kaldırın, sallayın, parmaklarınızla sayın — @Hand sizi takip ediyor.",
+                "@Hand , perde arkasında bir makine öğrenme modeli kullanıyor. Programda ilk kez kullandığınızda modelin indirilmesi birkaç saniye sürüyor ve yükleme sırasında sahnenin sağ üst köşesinde küçük, dönen bir el beliriyor. Bundan sonra önbellekte kalıyor ve anında çalışmaya başlıyor.",
+                "Her karede, @Hand size bir @Gesture sunar; tüm girdilerin listesi ve anlamları için oraya bakın.",
+                "Şunu deneyin — gerçek elinizin olduğu yere karşılık gelen bir emoji gösterir:",
+                "\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+            ],
+            "names": ["$~El"],
+            "frequency": {
+                "names": ["$~sıklık"],
+                "doc": "$~Örnekler arasındaki süre."
+            },
+            "resolution": {
+                "names": ["$~çözünürlük"],
+                "doc": "$~El modelini çalıştırmadan önce kameranın örnekleme yapacağı piksel cinsinden genişlik. Daha yüksek değerler biraz daha doğru referans noktaları sağlayabilir, ancak kare başına daha fazla zaman kaybına neden olur."
+            }
+        },
+        "Contour": {
+            "doc": [
+                "$~Her harfin sembolünün ana hatlarını @List of @Place şeklinde izler.",
+                "Ona biraz metin ve bir yazı tipi verin, o da her bir karakterin ana hatlarını nokta nokta takip edecektir.",
+                "\\Contour('a' \"Noto Sans\")\\",
+                "@Place değerlerini bir @Phrase @List besleyerek ana hatların noktalar halinde çizildiğini görebilirsiniz:",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' yer: point)))\\",
+                "Anahatı @Number metre ile ölçeklendirebilir, başlangıç noktasını @Place ile taşıyabilir, yazı tipi kalınlığı seçebilir, italik yazı tipini açabilir ve noktalar arasındaki `aralığı` metre cinsinden mesafe olarak ayarlayabilirsiniz. Daha küçük bir `aralık`, anahatı daha yakından takip eder ve hem çizgiler hem de eğriler boyunca eşit aralıklı noktalar oluşturur.",
+                "Renk emojileri gibi bazı karakterlerin kenar çizgisi yoktur, bu nedenle puan eklemezler. Yazı tipini getirirken size boş bir @List verecek, hazır olduğunda ise dolduracaktır."
+            ],
+            "names": ["$~Kontur"],
+            "inputs": [
+                {
+                    "doc": "$~Harflerinin ana hatlarını çizmem gereken metin.",
+                    "names": "$~glifler"
+                },
+                {
+                    "doc": "$~Harfleri çizmek için kullanılacak yazı tipi.",
+                    "names": "$~yüz"
+                },
+                {
+                    "doc": "$~Sembolün yüksekliği metre cinsinden, ana hatlara göre ölçeklendirilmiştir.",
+                    "names": "$~boyut"
+                },
+                {
+                    "doc": "$~Her noktanın ötelenmesi için isteğe bağlı bir başlangıç noktası @Place .",
+                    "names": "$~yer"
+                },
+                {
+                    "doc": "$~Kullanılacak yazı tipi kalınlığı, yüzey desteklerine en yakın şekilde hizalanmış olarak.",
+                    "names": "$~ağırlık"
+                },
+                {
+                    "doc": "$~Eğer varsa, yüzün italik versiyonunu kullanıp kullanmamak.",
+                    "names": "$~italik"
+                },
+                {
+                    "doc": "$~Örneklenen noktalar arasındaki mesafe, çizgi ve eğriler boyunca tutarlı kalacak şekilde, metre cinsinden @expression edilmiştir. Daha küçük değerler, 0,01 metreye kadar daha hassas izleme sağlar.",
+                    "names": "$~aralık"
+                },
+                {
+                    "doc": "$~Puanların sırası: 'ileri' veya 'geri'.",
+                    "names": "$~yön"
+                }
+            ],
+            "error": {
+                "connection": "$~İnternete bağlanamadığım için yazı tipini indiremedim, bu yüzden harflerini çizemiyorum.",
+                "unavailable": "$~O yazı tipinin dosyasını bulamadım, bu yüzden harflerini çizemiyorum.",
+                "unreadable": "$~Yazı tipini indirdim ama okuyamadım, bu yüzden harflerini takip edemiyorum.",
+                "outline": "$~Yazı tipini yükledim ama bu harflerin şeklini elde edemedim."
+            }
+        },
+        "Now": {
+            "doc": [
+                "$~Seçtiğin hızda yeni bir @Moment tıklarım, böylece bir program her zaman bugünün tarihini ve şu anki saati bilir.",
+                "Bu, yerelleştirilmiş bir saati tek satırlık koda dönüştürür:",
+                "\\💬(⏰() → '')\\",
+                "Varsayılan olarak her saniye tıklarım. Hızı değiştirmek için bana saniye, dakika veya saat cinsinden bir @Now.frequency ver:",
+                "\\⏰(1min)\\",
+                "@Now.timezone ve @Now.calendar özelliklerim @Moment'in girdilerini yansıtır ve oluşturduğum anları yapılandırır. Örneğin, Japon takvimine göre Tokyo'daki şu anki saati gösteren bir saat burada:",
+                "\\Now(1s 'Asia/Tokyo' 'japanese')\\",
+                "Bu girdiler değişirse — diyelim ki bir tepki bana farklı bir saat dilimi verir — yeni ayarlarla anlar oluşturmaya başlarım.",
+                "@Time'dan @how farklıyım? @Time bir program başladığından beri geçen milisaniyeleri sayar, bu animasyon için iyidir. Ben sana bir takvim ve saat diliminde duvar saati tarihini ve saatini söylerim, bu saatler ve takvimler için iyidir."
+            ],
+            "names": ["$~Şimdi"],
+            "frequency": {
+                "names": ["$~sıklık"],
+                "doc": "$~Yeni bir @Moment'i ne sıklıkta yaptığım, saniye, dakika veya saat cinsinden. Eğer \\ø\\, her \\1s\\ ilerlerim."
+            },
+            "timezone": {
+                "names": ["$~zamanDilimi"],
+                "doc": "$~Oluşturduğum anlar için bir @region ve bir şehirden oluşan standart bir saat dilimi ismi, örneğin \\'America/New_York'\\ veya \\'Asya/Tokyo'\\. İsmi bilmiyor musun? Bildiğin bir şehir yaz, ben sana en yakın saat dilimini önereyim. Eğer \\ø\\, programın çalıştığı cihazın saat dilimini kullanırım."
+            },
+            "calendar": {
+                "names": ["$~takvim"],
+                "doc": "$~Yaptığım Momentler için bir Unicode takvim ismi, örneğin \\'gregory'\\, \\'İbranice'\\, \\'çince'\\ veya \\'japonca'\\. Eğer \\ø\\, okuyucunun yerel ayarının takvimini kullanırım."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "$~Ben zaman içindeki tek bir andım: takvimdeki bir tarih, günün bir saati ve bunların @expression edildiği saat dilimi ile takvim.",
+                "Bütün özelliklerim isteğe bağlıdır. Bir tarihi anlatmam için bana tarih parçaları ver:",
+                "\\📅(2026 7 1) → ''\\",
+                "Ya da günün saati için sadece zaman parçaları:",
+                "\\📅(saat: 15 dakika: 30) → ''\\",
+                "Bana hiç parça vermezsen, programın çalıştığı yerdeki şu anki tarih ve saate göre dönüştürürüm. Bazı parçaları atlarsan, verdiğin en büyük parçadan daha büyük olan parçalar şu anki tarih ve saatten alınır, daha küçük parçalar ise başlangıçlarından başlar: yani \\📅(ay: 12) → ''\\ bu yılın 1 Aralık'ı, gece yarısıdır. Beni dönüştürmek sadece verdiğin türdeki parçaları gösterir: tarih parçaları bir tarih yapar, zaman parçaları bir zaman yapar, ikisi birden ikisini de yapar:",
+                "\\📅() → ''\\",
+                "@Moment.timezone standart bir IANA saat dilimi ismi alır, örneğin \\'America/Los_Angeles'\\ ya da \\'Asya/Tokyo'\\; bunu \\ø\\ bırakırsan, programın çalıştığı cihazın saat dilimini kullanırım. @Moment.calendar bir Unicode takvim ismi alır, örneğin \\'gregory'\\, \\'İbranice'\\, ya da \\'japonca'\\; bunu \\ø\\ bırakırsan, okuyucunun yerel ayarının takvimini kullanırım. @Moment.year, @Moment.month ve @Moment.day o takvime göredir:",
+                "\\📅(5786 10 4 takvim: 'hebrew') → ''\\",
+                "Beni @Text tipine dönüştürmek, okuyucunun yerel ayarına göre biçimlendirir: aynı Moment İngilizce, 中文 ya da हिन्दी dillerinde farklı görünür ve okuyucunun yerel ayarı değiştiğinde değişir.",
+                "@Moment.era, @Moment.week ve @Moment.weekday bilgi amaçlıdır: @Now, Moment yaparken bunları doldurur, ama biçimlendirirken göz ardı edilir.",
+                "Zaman geçtikçe güncellenen bir Moment akışı — bir saat — istersen, @Now'a bak. Programın başladığından beri geçen milisaniyeleri istersen — canlandırma için — @Time'a bak."
+            ],
+            "names": ["$~An"],
+            "year": {
+                "names": ["$~yıl"],
+                "doc": "$~Yıl, benim takvimimde. Örneğin, Miladi yıl \\2026\\, İbrani yılı \\5786\\."
+            },
+            "month": {
+                "names": ["$~ay"],
+                "doc": "$~Yılın ayı, benim takvimimde, \\1\\ ile başlayarak."
+            },
+            "day": {
+                "names": ["$~gün"],
+                "doc": "$~Ayın günü."
+            },
+            "hour": {
+                "names": ["$~saat"],
+                "doc": "$~Günün saati, \\0\\ ile \\23\\ arası."
+            },
+            "minute": {
+                "names": ["$~dakika"],
+                "doc": "$~Saatin dakikası."
+            },
+            "second": {
+                "names": ["$~saniye"],
+                "doc": "$~Dakikanın saniyesi."
+            },
+            "millisecond": {
+                "names": ["$~milisaniye"],
+                "doc": "$~Saniyenin milisaniyesi."
+            },
+            "timezone": {
+                "names": ["$~zamanDilimi"],
+                "doc": "$~Bir @region ve bir şehirden oluşan standart bir saat dilimi ismi, örneğin \\'America/New_York'\\, \\'Europe/Paris'\\ veya \\'Asya/Tokyo'\\. İsmi bilmiyor musun? Bildiğin bir şehir yaz, ben sana en yakın saat dilimini önereyim. Eğer \\ø\\, programın çalıştığı cihazın saat dilimini kullanırım."
+            },
+            "calendar": {
+                "names": ["$~takvim"],
+                "doc": "$~Bir Unicode takvim ismi, örneğin \\'gregory'\\, \\'İbranice'\\, \\'çince'\\ veya \\'japonca'\\. Eğer \\ø\\, okuyucunun yerel ayarının takvimi."
+            },
+            "era": {
+                "names": ["$~çağ"],
+                "doc": "$~Yılımın içinde olduğu çağ, örneğin \\'ce'\\ veya \\'reiwa'\\. Bilgilendirici: @Now bunu ayarlar ve biçimlendirme bunu göz ardı eder."
+            },
+            "week": {
+                "names": ["$~hafta"],
+                "doc": "$~Yılın haftası, \\1\\ ile başlayarak. Bilgilendirici: @Now bunu ayarlar ve biçimlendirme bunu göz ardı eder."
+            },
+            "weekday": {
+                "names": ["$~haftanınGünü"],
+                "doc": "$~Haftanın günü, \\1\\ (Pazartesi) ile \\7\\ (Pazar) arası. Bilgilendirici: @Now bunu ayarlar ve biçimlendirme bunu göz ardı eder."
+            },
+            "conversion": {
+                "text": "$~Benim bir @Text sürümüm, okuyucunun yerel ayarına göre, benim takvimim ve zaman dilimimde biçimlendirilmiş. Belirli bir yerel ayara göre biçimlendirmek için @Text tipinden sonra bir dil ekle, örneğin \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "$~bu geçerli bir zaman dilimi ismi değil",
+                "calendar": "$~bu desteklenen bir takvim ismi değil"
+            }
+        },
+        "Face": {
+            "doc": [
+                "$~Kameranın gördüğü bir yüzü izler — yüzün nerede olduğunu ve ne yaptığını: açık ya da kapalı gözler, açık bir ağız, bir gülümseme, bir kaş çatma, kalkık kaşlar ve başın hangi yöne döndüğü.",
+                "/gülümse/",
+                "Kameraya bak, gülümse, göz kırp, ağzını iyice aç — @Face hepsini takip eder.",
+                "Arka planda @Face bir makine öğrenmesi modeli kullanır. Bir programda ilk kez kullandığında modelin inmesi birkaç saniye sürer. Model yüklenirken sahnenin sağ üst köşesinde küçük, dönen bir yüz görünür. Bundan sonra model önbellekte kalır ve anında başlar.",
+                "Her karede @Face sana bir @Expression verir. Girişlerin tam listesi ve anlamları için oraya bak.",
+                "Bu örnek, gerçek yüzün nerede olursa olsun yüzüne uyan bir emoji gösterir:",
+                "\\yüz: 🙂()\n💬((yüz.gülümseme ? '😀' yüz.ağızAçık ? '😮' '😐') yer: yüz.yer)\\"
+            ],
+            "names": ["$~Yüz"],
+            "frequency": {
+                "names": ["$~frekans"],
+                "doc": "$~Örnekler arasındaki süre."
+            },
+            "resolution": {
+                "names": ["$~çözünürlük"],
+                "doc": "$~Yüz modelini çalıştırmadan önce kameranın örnekleneceği piksel cinsinden genişlik. Daha yüksek değerler biraz daha doğru işaret noktaları verebilir ama kare başına daha fazla zaman alır."
+            }
+        },
+        "Objects": {
+            "doc": [
+                "$~Kameranın gördüğü şeyleri sana söyler — bir kedi, bir bardak, bir kitap — ve nerede olduklarını.",
+                "/o da ne/",
+                "Kameraya bir şey tut, @Objects onu isimlendirmeye çalışacak.",
+                "Perde arkasında @Objects, 80 çeşit günlük eşyayı bilen bir makine öğrenmesi modeli kullanır.",
+                "Her karede @Objects sana bir @List of @Thing verir. Bu liste, modelin ne kadar emin olduğuna göre sıralanır ve en emin olduğu ilk sırada olur. Her birinin sana ne söylediğini görmek için @Thing kısmına bak.",
+                "Model sadece tahmin yürütür, bu yüzden bazen yanılır ya da hiçbir şey görmez. Sadece en emin olduğu tahminleri duymak için daha yüksek bir `confidence` iste.",
+                "İşte kameranın gördüğü her şeyi etiketleyen bir örnek:",
+                "\\🎭(📦() ↦ 💬(⬚.isim yer: ⬚.yer))\\",
+                "Ayrıca sadece tek bir çeşit şeyi arayıp geri kalanını yok sayabilirsin:",
+                "\\şeyler: 📦(kategori: 'cat')\n💬(şeyler.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~Nesneler"],
+            "inputs": [
+                {
+                    "doc": "$~Örnekler arasındaki süre.",
+                    "names": "$~sıklık"
+                },
+                {
+                    "doc": "$~Şeyleri aramadan önce kameranın örnekleneceği piksel cinsinden genişlik. Model 320 piksellik bir kareye bakar, bu yüzden daha büyük değerler çoğunlukla zaman harcar.",
+                    "names": "$~çözünürlük"
+                },
+                {
+                    "doc": "$~Aranacak isteğe bağlı bir çeşit şey; diğer her şey yok sayılır.",
+                    "names": "$~kategori"
+                },
+                {
+                    "doc": "$~Bir şeyden bahsetmeden önce modelin ne kadar emin olması gerektiği, 0 ile 1 arasında. Daha yüksek, daha az ama daha iyi tahmin demektir.",
+                    "names": "$~güven"
+                },
+                {
+                    "doc": "$~Aynı anda bahsedilecek en fazla şey sayısı.",
+                    "names": "$~sayı"
+                }
+            ],
+            "categories": {
+                "person": ["$~kişi", "$~insanlar", "$~insan", "$~biri"],
+                "bicycle": ["$~bisiklet"],
+                "car": ["$~araba", "$~otomobil"],
+                "motorcycle": ["$~motosiklet", "$~motor"],
+                "airplane": ["$~uçak"],
+                "bus": ["$~otobüs"],
+                "train": ["$~tren"],
+                "truck": ["$~kamyon"],
+                "boat": ["$~tekne", "$~gemi"],
+                "traffic light": ["$~trafik ışığı", "$~trafik lambası"],
+                "fire hydrant": ["$~yangın musluğu", "$~musluk"],
+                "stop sign": ["$~dur işareti"],
+                "parking meter": ["$~park saati"],
+                "bench": ["$~bank"],
+                "bird": ["$~kuş"],
+                "cat": ["$~kedi", "$~kedicik"],
+                "dog": ["$~köpek", "$~köpek yavrusu"],
+                "horse": ["$~at"],
+                "sheep": ["$~koyun"],
+                "cow": ["$~inek"],
+                "elephant": ["$~fil"],
+                "bear": ["$~ayı"],
+                "zebra": ["$~zebra"],
+                "giraffe": ["$~zürafa"],
+                "backpack": ["$~sırt çantası"],
+                "umbrella": ["$~şemsiye"],
+                "handbag": ["$~el çantası", "$~cüzdan"],
+                "tie": ["$~kravat"],
+                "suitcase": ["$~bavul", "$~valiz"],
+                "frisbee": ["$~frizbi"],
+                "skis": ["$~kayak"],
+                "snowboard": ["$~kar kayağı"],
+                "sports ball": ["$~top", "$~spor topu"],
+                "kite": ["$~uçurtma"],
+                "baseball bat": ["$~beyzbol sopası", "$~sopa"],
+                "baseball glove": ["$~beyzbol eldiveni", "$~eldiven"],
+                "skateboard": ["$~kaykay"],
+                "surfboard": ["$~sörf tahtası"],
+                "tennis racket": ["$~tenis raketi", "$~raket"],
+                "bottle": ["$~şişe"],
+                "wine glass": ["$~şarap kadehi"],
+                "cup": ["$~bardak", "$~kupa"],
+                "fork": ["$~çatal"],
+                "knife": ["$~bıçak"],
+                "spoon": ["$~kaşık"],
+                "bowl": ["$~kase"],
+                "banana": ["$~muz"],
+                "apple": ["$~elma"],
+                "sandwich": ["$~sandviç"],
+                "orange": ["$~portakal"],
+                "broccoli": ["$~brokoli"],
+                "carrot": ["$~havuç"],
+                "hot dog": ["$~sosisli"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~donut"],
+                "cake": ["$~pasta"],
+                "chair": ["$~sandalye"],
+                "couch": ["$~kanepe", "$~koltuk"],
+                "potted plant": ["$~saksı bitkisi", "$~ev bitkisi", "$~bitki"],
+                "bed": ["$~yatak"],
+                "dining table": ["$~masa", "$~yemek masası"],
+                "toilet": ["$~tuvalet"],
+                "tv": ["$~televizyon", "$~tv"],
+                "laptop": ["$~dizüstü bilgisayar", "$~bilgisayar"],
+                "mouse": ["$~fare"],
+                "remote": ["$~kumanda", "$~uzaktan kumanda"],
+                "keyboard": ["$~klavye"],
+                "cell phone": [
+                    "$~telefon",
+                    "$~cep telefonu",
+                    "$~mobil telefon"
+                ],
+                "microwave": ["$~mikrodalga"],
+                "oven": ["$~fırın"],
+                "toaster": ["$~ekmek kızartma makinesi"],
+                "sink": ["$~lavabo"],
+                "refrigerator": ["$~buzdolabı", "$~dolap"],
+                "book": ["$~kitap"],
+                "clock": ["$~saat"],
+                "vase": ["$~vazo"],
+                "scissors": ["$~makas"],
+                "teddy bear": ["$~oyuncak ayı", "$~peluş oyuncak"],
+                "hair drier": ["$~saç kurutma makinesi", "$~saç kurutucu"],
+                "toothbrush": ["$~diş fırçası"]
+            }
+        },
+        "Beat": {
+            "names": "$~Vuruş",
+            "doc": [
+                "$~@Music çalarken her vuruşa ulaştığında yeni bir @value veririm, böylece müzikle birlikte hareket eden görseller yapabilirsin. Senin için her zaman bir @Downbeat vardır, yani onu hemen okuyabilirsin: müzik çalmadan önce sıfır vuruşunda otururum, hiçbir ses çıkmaz ve benim \\tempo\\ değerim başlayana kadar sıfır kalır.",
+                "Burada üç parça sırayla çalar, bu yüzden her vuruşta farklı sayıda çalgı ses çıkarır — ve elmas, kaç tane çalıyorsa o kadar büyür:",
+                "\\vuruş: Vuruş()\n🎭([\n\t\t💬('◆' ((vuruş.enstrümanlar.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] çalgı: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] çalgı: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] çalgı: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Bana bir @Music ismi ver, sadece o müziği duyayım. Aşağıda iki vuruş dinliyor, aynı iki müziği: üstteki her şeyi duyar, bu yüzden her müzik bir vuruşa ulaştığında iki isim arasında yanıp söner; alttaki ise yalnızca davulu duyar ve başka hiçbir şey söylemez. İşte o fark, filtredir.",
+                "\\herŞey: Vuruş()\nsadeceDavul: Vuruş('tik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(dolgu: 0.5m)\n\t\t\t[\n\t\t\t\t💬(herŞey.isim 1.4m)\n\t\t\t\t💬(sadeceDavul.isim 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] çalgı: 🔈.🥁) tempo: 120beats/min isim: 'tik')\n\t\t🎼(🎶([5 5 5] çalgı: 🔈.🔔) tempo: 90beats/min isim: 'çınlama')\n\t])\\",
+                "Yönlendirdiğim her şey, izleyicinin seçtiği görüntülemenin / üzerine eklenir/; sen ona ekleme yaparsın, asla yerine geçmezsin."
+            ],
+            "name": {
+                "doc": "$~Duyulacak @Music isminin adı, onun @Music/name özelliğiyle eşleşir. Şununla \\ø\\, çalan her müziği duyarım — ve farklı müziklerden gelen vuruşlar iç içe gelir, bu yüzden onları ayırt etmek için @Downbeat/name özelliğini oku.",
+                "names": "$~isim"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Ben bir @Beat'in sana verdiği şeyim: bir vuruş duyulduğu anda çalıcının bildiği her şey, böylece bir görselleştirme gerçekten çalanı gösterebilir.",
+                "Her @Music kendi vuruşlarını sayar, bu yüzden bir @Beat birden fazla vuruş duyduğunda, @Downbeat/count özelliğim bu vuruşun geldiği müziğe aittir — hangisi olduğunu bilmek için @Downbeat/name özelliğimi kontrol et."
+            ],
+            "names": "$~Ölçübaşı",
+            "count": {
+                "doc": "$~Bu müziğin kaç vuruş çaldığı, şuradan başlar: \\0\\.\n\nSayma, müzik /başladığında/ başlar ve yeniden başladığında baştan başlar — bir @Music/replay ya da sahneden ayrılıp geri gelme. Müziği çalarken düzenlemek beni /sıfırlamaz/, @Music/pause de sıfırlamaz — durdurulan bir müzik saymayı bırakır ve kaldığı yerden devam eder. Değişiklik araya eklenir ve sayma devam eder, bu da bir düzenlemenin yeniden başlatma gibi ses çıkarmasını önler.",
+                "names": "$~say"
+            },
+            "instruments": {
+                "doc": "$~Bu vuruşta çalan @Instrument, her biri bir kez listelenir. Yaygın @state için bir kısayol; @Downbeat/parts ayrıntıya sahiptir.",
+                "names": "$~enstrümanlar"
+            },
+            "words": {
+                "doc": "$~Bu vuruşta söylenen heceler, parça sırasına göre, ya da hiçbir şey söylenmiyorsa boş bir liste. Yaygın @state için bir kısayol, @Downbeat/instruments gibi; @Downbeat/parts ayrıntıyı verir.",
+                "names": "$~kelimeler"
+            },
+            "name": {
+                "doc": "$~Bu vuruşun geldiği @Music isminin adı, @Beat/name özelliğinin üzerinde filtre yaptığı şey.",
+                "names": "$~isim"
+            },
+            "tempo": {
+                "doc": "$~Müziğin temposu, dakika başına vuruş olarak.",
+                "names": "$~tempo"
+            },
+            "volume": {
+                "doc": "$~Müziğin genel ses düzeyi, şundan \\0%\\ şuna \\100%\\. Her @Part kendininkini taşır.",
+                "names": "$~sesSeviyesi"
+            },
+            "key": {
+                "doc": "$~Müziğin kendi @Music/key özelliği. Bir parça bunu geçersiz kılabilir, bu yüzden o parçanın gerçekte ne çaldığını görmek için bir @Part'ın anahtarını oku.",
+                "names": "$~anahtar"
+            },
+            "scale": {
+                "doc": "$~Müziğin kendi @Music/scale özelliği. Bir parça bunu geçersiz kılabilir, bu yüzden o parçanın gerçekte ne kullandığını görmek için bir @Part'ın gamını oku.",
+                "names": "$~gam"
+            },
+            "parts": {
+                "doc": "$~Her @Track için bir @Part, yazıldıkları sırada, çalıp çalmadığına bakılmaksızın. Bu, bu vuruştaki müziğin tüm durumudur.",
+                "names": "$~parçalar"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~Ben bir vuruştaki bir @Track'in durumuyum: ne çaldığı, ne kadar yüksek sesle ve hangi gamda. Bir @Downbeat her parça için benden bir tane taşır, böylece bir görselleştirme karışımı değil her sesi ayrı ayrı çizebilir.",
+                "Değerlerim, her varsayılan ve geçersiz kılma uygulandıktan sonra çalıcının gerçekten kullandığı değerlerdir — bu yüzden parça kendi gamını ayarladığında gamım ve anahtarım müziğin değil, o parçanındır."
+            ],
+            "names": "$~Bölüm",
+            "instrument": {
+                "doc": "$~Beni çalan @Instrument.",
+                "names": "$~çalgı"
+            },
+            "sounding": {
+                "doc": "$~Bu vuruşta bir notanın duyulup duyulmadığı. Tutulan bir nota hâlâ sayılır, bu yüzden sürdüğü vuruşlar boyunca yalnızca başladığı vuruşta değil, \\⊤\\ olarak kalırım.",
+                "names": "$~çalıyor"
+            },
+            "degrees": {
+                "doc": "$~Bu vuruşu kaplayan notalar, yazıldıkları gibi. Bir susta boştur ve bir akor için birden fazla olur.",
+                "names": "$~dereceler"
+            },
+            "pitch": {
+                "doc": "$~@Part/degrees özelliğim, gamıma ve anahtarıma göre çözümlenmiş, ilk notadan itibaren yarım seslerle. Bir notayı yüksekliğine göre yerleştirmek için bunu kullan; ne yazıldığını göstermek için @Part/degrees özelliğini kullan.",
+                "names": "$~perde"
+            },
+            "volume": {
+                "doc": "$~Bu vuruşta ne kadar yüksek sesliyim — notamın ses düzeyi çarpı parçamın ses düzeyi — şundan \\0%\\ şuna \\100%\\ ve \\0%\\ susarken. Çizdiğin şeyin boyutunu ayarlamak için iyidir.",
+                "names": "$~sesSeviyesi"
+            },
+            "pan": {
+                "doc": "$~Hoparlörler arasında nerede oturduğum: \\-1\\ tamamen soldur, \\0\\ ortadır ve \\1\\ tamamen sağdır. Çizdiğin şeyi yerleştirmek için iyidir.",
+                "names": "$~denge"
+            },
+            "scale": {
+                "doc": "$~Herhangi bir @Track/scale geçersiz kılmasından sonra derecelerimin çözümlendiği gam.",
+                "names": "$~gam"
+            },
+            "key": {
+                "doc": "$~Herhangi bir @Track/key geçersiz kılmasından sonra bana uygulanan yarım ses kayması.",
+                "names": "$~anahtar"
+            },
+            "loop": {
+                "doc": "$~Parçamın sonuna ulaştığında tekrarlanıp tekrarlanmadığı.",
+                "names": "$~döngü"
+            },
+            "words": {
+                "doc": "$~Bu parçanın bu vuruşta söylediği hece, ya da \\ø\\ hiçbir şey söylemediği zaman — bir es, ya da @Track/words olmayan bir iz.",
+                "names": "$~kelimeler"
+            }
+        },
+        "Spotlight": {
+            "doc": [
+                "$~Bir @Scene'in şu an ne durumda olduğunu söylerim: hangi çıktıyı gösterdiğini, kaç tane çıktısı olduğunu ve birini bekleyip beklemediğini.",
+                "Bir @Scene şeyler gösterir; ben ise programın geri kalanının onun ne gösterdiğini öğrenme yoluyum. Bu sayede bir slayt gösterisinin altına sayaç koyabilir, bir hikâyenin farklı bölümlerinde farklı müzik çalabilir ya da sahne gerçekten beklerken /herhangi bir tuşa bas/ ipucunu yalnızca o sırada gösterebilirsin.",
+                "\\slaytlar: [\n\t\tİfadeetmek('bir')\n\t\tİfadeetmek('iki')\n\t\tİfadeetmek('üç')\n\t]\niçinde: Spotlight()\nSahne(\n\t[\n\t\tGösteri(slaytlar döngü: ⊤)\n\t\tİfadeetmek(\n\t\t\t`\\içinde.index\\ / \\içinde.total\\`\n\t\t\tboyut: 0.3m\n\t\t\tyer: Yer(0m -2m)\n\t\t)\n\t]\n)\\",
+                "Her zaman bir @Slate'im vardır, henüz hiçbir şey olmadan bile. Bu yüzden beni hiç \\ø\\ için kontrol etmek zorunda kalmazsın."
+            ],
+            "names": "$~Işık",
+            "name": {
+                "names": "$~isim",
+                "doc": "$~Takip edilecek sahnenin @Scene/name'i. Bunu \\ø\\ olarak bırakırsan, her sahneyi takip ederim."
+            }
+        },
+        "Slate": {
+            "doc": "$~Bir @Scene'in nerede olduğu: ne gösterdiği, ne kadar ilerlediği ve bekleyip beklemediği.",
+            "names": "$~Levha",
+            "scene": {
+                "names": "$~sahne",
+                "doc": "$~Geldiğim sahnenin @Scene/name'i, ya da hiç sahnesi yoksa \\''\\."
+            },
+            "index": {
+                "names": "$~dizin",
+                "doc": "$~@Scene'in hangi çıktıyı gösterdiği, 1'den başlayarak sayılır. Yalnızca çıktıları sayarım, aradaki @Boolean'leri hiç saymam."
+            },
+            "total": {
+                "names": "$~toplam",
+                "doc": "$~@Scene'in kaç çıktısı olduğu, aradaki @Boolean'ler sayılmadan."
+            },
+            "lap": {
+                "names": "$~tur",
+                "doc": "$~@Scene'in ilk çıktısına kaç kez geri döndüğü. İlk geçişte bu @value 0'dır."
+            },
+            "waiting": {
+                "names": "$~bekliyor",
+                "doc": "$~@Scene'in durup durmadığı: bir @Boolean'in doğru olmasını bekliyor mu, yoksa @Scene/pause tarafından tutuluyor mu. Bir /herhangi bir tuşa bas/ ipucunun izlemesi gereken şey budur."
+            }
+        }
+    }
+}

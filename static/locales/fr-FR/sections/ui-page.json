@@ -1,0 +1,1437 @@
+{
+    "$schema": "../../../static/schemas/sections/ui-page.json",
+    "ui": {
+        "page": {
+            "unknown": {
+                "header": "$~Ouais !",
+                "message": "$~Où est cet endroit ? On peut rentrer à la maison ?"
+            },
+            "landing": {
+                "value": "$~Crée des histoires interactives avec des mots, des symboles, des emojis et du code avec nous ! Commence dans",
+                "chooseLocales": "$~ou choisissez",
+                "beta": [
+                    "$~@wordplay est en version bêta, il est donc possible qu'il ne fonctionne pas comme prévu ou qu'il ne soit pas complet. Signalez les bugs et partagez vos idées sur <GitHub@https://github.com/wordplaydev/wordplay/issues>, consultez nos <plans 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> et <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
+                ],
+                "link": {
+                    "about": "$~Pourquoi cet endroit existe-t-il ?",
+                    "learn": "$~Apprenez la langue avec un casting de personnages dramatiques",
+                    "guide": "$~Rechercher et parcourir la référence linguistique",
+                    "projects": "$~Crée et partage des performances",
+                    "galleries": "$~Vivez les performances des autres",
+                    "rights": "$~Responsabilités, les nôtres et les vôtres",
+                    "community": {
+                        "label": "$~Communauté",
+                        "subtitle": "$~Discute avec nous sur Discord"
+                    },
+                    "contribute": {
+                        "label": "$~Contribuer",
+                        "subtitle": "$~Aide-nous à faire Wordplay"
+                    },
+                    "teach": "$~Gérer les classes d'étudiants et leurs projets",
+                    "characters": "$~Créez des émojis et des symboles personnalisés",
+                    "updates": "$~Découvrez les nouveautés de Wordplay",
+                    "design": "$~Référence du système de conception pour les contributeurs",
+                    "thanks": "$~Qui a contribué à sa réalisation ?",
+                    "localize": "$~Aide à traduire Wordplay dans ta langue",
+                    "moderate": "$~revoir ce que les gens nous ont demandé de regarder",
+                    "admin": "$~voir qui peut faire quoi, et le changer"
+                },
+                "tagline": "$~un codage créatif, accessible et multilingue",
+                "tour": {
+                    "button": "$~montre-moi",
+                    "loading": "$~Chargement…",
+                    "failed": "$~Les exemples n'ont pas pu être chargés. Vérifie ta connexion et réessaie.",
+                    "restart": "$~recommencer cet exemple",
+                    "examples": {
+                        "label": "$~Exemples de programmes",
+                        "tips": [
+                            "$~Le texte peut briller et s'animer",
+                            "$~La musique, c'est des données, du son et de l'image",
+                            "$~Le temps s'écoule et les mots sont multilingues",
+                            "$~Le texte peut réagir au pointeur, aux clics, aux touches et aux appuis",
+                            "$~Le public peut faire des choix",
+                            "$~Le public peut discuter avec les programmes et les mots sont des formes",
+                            "$~La physique et la gravité peuvent faire tomber et rebondir le texte",
+                            "$~Les programmes peuvent écouter ta voix",
+                            "$~Les programmes peuvent observer ton visage, tes mains et des objets"
+                        ]
+                    },
+                    "example": {
+                        "phrase": "$~\\¶@Phrase apparaît sur la scène, avec la couleur, la lueur et le mouvement que tu veux.¶\nPhrase(\n\t'salut !'\n\t6m\n\tcouleur: Couleur(60% 90 200°)\n\taura: Aura(Couleur(80% 80 200°) 0.3m)\n\taurepos: Séquence.balancement(8°)\n)\\",
+                        "music": "$~\\¶La musique, ce sont des notes jouées sur de vrais instruments, à un tempo, dans une tonalité. La scène dessine ce qu'elle entend.¶\nMusique(\n\tPiste([1 3 5 8 5 3] instrument: Instrument.piano)\n\ttempo: 120beats/min\n)\\",
+                        "hello": "$~\\¶Le code peut réagir à une entrée comme @Time, et le texte peut être multilingue et parlé.¶\nbonjours: ['bonjour'/fr 'hola'/es 'こんにちは'/ja 'habari'/sw 'नमस्ते'/hi]\nbonjour: bonjours.aléatoire() … ∆ Temps(1000ms) … bonjours.aléatoire(\n\t\t)\nPhrase(bonjour 4m)\nDire(bonjour)\\",
+                        "keys": "$~\\¶Le code peut réagir aux pointeurs, aux touches, aux clics et aux tapotements.¶\nclé2: Clé()\nclic: Bouton()\nvisages: ['🙂' '😮' '😎' '🤩']\nlequel: 1 … ∆ clé2 | ∆ clic … (lequel % 4) + 1\nScène(\n\t[Phrase(visages[lequel] 5m lieu: Aiguille() bulle: 'salut')]\n\tlieu: Lieu(0m 0m -12m)\n)\\",
+                        "choose": "$~\\¶Mets en page du texte et rends-le sélectionnable.¶\nfruit: ƒ(e•'') Phrase(e 3m nom: e sélectionnable: ⊤)\nchoisi: Choix()\nmontré: '?' … ∆ choisi … choisi\nGroupe(\n\tEmpiler(rembourrage: 1m)\n\t[\n\t\tPhrase(montré 4m)\n\t\tGroupe(\n\t\t\tRangée(rembourrage: 1m)\n\t\t\t[fruit('🍎') fruit('🍐') fruit('🍒')]\n\t\t)\n\t]\n)\\",
+                        "letters": "$~\\¶Discute avec des programmes et utilise la forme des polices et des symboles.¶\nmessage: Chat()\nmot2: 'salut' … ∆ message … message\nligne: Contour(mot2 'Noto Sans' 8m)\ntics: 0 … ∆ Temps(30ms) … tics + 1\nmontré: ((ligne.longueur() × tics) ÷ 66).arrondirverslebas(\n\t) + 1\npoints: ligne.sousséquence(1 montré).traduire(\n\t\tƒ(p) Phrase('•' lieu: p)\n\t)\nScène(points.avec(Phrase(mot2 8m opacité: 15%)))\\",
+                        "pile": "$~\\¶Le texte peut avoir de la physique.¶\nlancer: ƒ(émoji•'' x2•#m y2•#m vx•#m/s)\n\t\tPhrase(\n\t\t\témoji\n\t\t\t2m\n\t\t\tlieu: Mouvement(Lieu(x2 y2) Vitesse(vx 0m/s))\n\t\t\tmatière: Matière(1kg 0.55 0.06 0.5)\n\t\t)\nScène(\n\t[\n\t\tlancer('🍎' -2m 5m 2.2m/s)\n\t\tlancer('🍊' 2m 7m -2.6m/s)\n\t\tlancer('🍋' -1m 9m 1.4m/s)\n\t\tlancer('🍇' 1.5m 11m -1.9m/s)\n\t\tlancer('🫐' 0.5m 15m -1.2m/s)\n\t\tForme(Rectangle(-4m -3m 4m -3.6m))\n\t\tForme(Rectangle(-4.6m 4m -4m -3m))\n\t\tForme(Rectangle(4m 4m 4.6m -3m))\n\t]\n)\\",
+                        "listen": "$~\\¶Le code peut réagir au @Volume et au @Pitch de ton micro.¶\nPhrase(\n\t'📣'\n\t1m + (Volume() × 8m)\n\trotation: (Pas() ÷ 1hz) × 0.1°\n)\\",
+                        "smile": "$~\\¶Le code peut réagir à ton @Face, et à d'autres choses sur @Camera.¶\nPhrase(\n\tVisage().souriant ? '😄 merci !' '🙂 souris à la caméra'\n\t2m\n)\\"
+                    }
+                },
+                "features": {
+                    "language": {
+                        "title": "$~Wordplay est un langage de programmation",
+                        "bullets": [
+                            "$~• Chaque programme est une expression qui devient une valeur. \\1 + 1\\ est un programme, tout comme \\Phrase('salut')\\.",
+                            "• Les nombres portent des unités, donc \\1m + 1m\\ représente des mètres, et \\1cat + 1dog\\🪲 est une erreur que @wordplay repère avant l'exécution.",
+                            "• Les fonctions sont des valeurs qu'on peut nommer, transmettre et appeler : \\ƒ double(n3•#) n3 × 2\\.",
+                            "• Quand une entrée change, @wordplay réévalue ton programme et montre sa nouvelle valeur. Pas besoin de répondre à des événements.",
+                            "• @wordplay trouve les erreurs avant l'exécution du programme, et explique chaque problème."
+                        ]
+                    },
+                    "multilingual": {
+                        "title": "$~Wordplay est multilingue",
+                        "bullets": [
+                            "$~• Chaque fonctionnalité du langage de programmation a un nom dans chaque langue, donc le code se lit avec des mots que tu connais déjà.",
+                            "• Tes propres noms peuvent aussi être multilingues :\n\\chat2/fr, gato/es: '🐈'\nPhrase(chat2)\\",
+                            "• Le texte porte une langue, et montre la langue que ton public lit : \\'bonjour'/fr'hola'/es\\.",
+                            "• Le site est proposé en 29 langues et tu peux en choisir plusieurs à la fois ; le texte apparaît dans chacune.",
+                            "• Tu peux aider à traduire @wordplay toi-même, directement dans l'application sur <localize//localize>."
+                        ]
+                    },
+                    "accessible": {
+                        "title": "$~Wordplay est accessible",
+                        "bullets": [
+                            "$~• Tout ce que tu peux faire avec une souris, tu peux le faire avec un clavier.",
+                            "• Les lecteurs d'écran décrivent la scène qui change, et des sons facultatifs indiquent ce qui se recalcule, ce qui s'anime et ce qui se heurte.",
+                            "• Tu peux lire et écrire ton code sous forme de blocs au lieu de texte, et changer quand tu veux.",
+                            "• Le mouvement peut être ralenti, ou complètement arrêté.",
+                            "• Les paroles peuvent être sous-titrées sur la scène pour ceux qui ne peuvent pas les entendre."
+                        ]
+                    },
+                    "senses": {
+                        "title": "$~Wordplay perçoit le monde",
+                        "bullets": [
+                            "$~• Le temps qui passe : \\Temps(1000ms)\\ avance seconde par seconde, et \\Maintenant()\\ connaît la date d'aujourd'hui selon ton calendrier et ton fuseau horaire.",
+                            "• L'endroit où pointe ton public, ce qu'il touche, et quelles touches il appuie.",
+                            "• Les programmes peuvent réagir à ton micro : le volume avec @Volume, la hauteur du son avec @Pitch, et les mots prononcés avec @Speech.",
+                            "• Ton public peut taper du texte avec @Chat, et choisir du contenu sur la scène avec @Choice.",
+                            "• Les programmes peuvent réagir au rythme de la musique qu'ils jouent, avec @Beat."
+                        ]
+                    },
+                    "performs": {
+                        "title": "$~Wordplay joue",
+                        "bullets": [
+                            "$~• @Phrase place des mots et des emojis sur la scène.",
+                            "• @Group les organise en lignes, en piles, en grilles, ou où tu le souhaites.",
+                            "• @Pose et @Sequence font tourner, disparaître, changer de taille, et déplacer les choses.",
+                            "• @Say dit le texte à voix haute au lieu de l'afficher.",
+                            "• @Music joue des pistes de notes avec de vrais instruments, à un tempo donné, dans une tonalité donnée :\n\\Musique(\n\tPiste([1 3 5] instrument: Instrument.cloche)\n\ttempo: 90beats/min\n)\\"
+                        ]
+                    },
+                    "typography": {
+                        "title": "$~Wordplay est typographie",
+                        "bullets": [
+                            "$~• Des centaines de polices, couvrant les systèmes d'écriture du monde entier.",
+                            "• Tu peux dessiner tes <caractères personnalisés//characters> et les utiliser partout où un emoji peut aller.",
+                            "• Le contour de chaque lettre est une donnée que tu peux lire et animer, avec @Contour : \\Contour('a' 'Noto Sans')\\.",
+                            "• Le texte revient à la ligne selon les règles de la langue dans laquelle il est écrit.",
+                            "• L'écriture de droite à gauche et l'écriture verticale sont disposées comme il se doit."
+                        ]
+                    },
+                    "docs": {
+                        "title": "$~Wordplay s'explique lui-même",
+                        "bullets": [
+                            "$~• La documentation fait partie de la langue grâce à @Doc, et non un commentaire à côté.",
+                            "• Un <guide//guide> consultable explique chaque fonctionnalité intégrée, avec des exemples.",
+                            "• Chaque erreur est expliquée à l'endroit où elle s'est produite, dans ta langue.",
+                            "• Tu peux parcourir un programme en avant /et/ en arrière pour comprendre ce qui s'est passé.",
+                            "• Pendant que tu avances pas à pas, chaque valeur est affichée directement dans le code qui l'a créée."
+                        ]
+                    },
+                    "sharing": {
+                        "title": "$~Wordplay est fait pour partager",
+                        "bullets": [
+                            "$~• Tes projets t'appartiennent, et c'est toi qui décides qui peut les voir.",
+                            "• Tu peux inviter d'autres personnes à construire un projet avec toi.",
+                            "• Les <galeries@://galleries> rassemblent des projets autour d'un thème.",
+                            "• Les enseignants peuvent créer des classes et suivre le travail de leurs élèves : <teach@://teach>.",
+                            "• Tu peux remixer le projet public de n'importe qui et te l'approprier."
+                        ]
+                    },
+                    "free": {
+                        "title": "$~Wordplay est gratuit et ouvert",
+                        "bullets": [
+                            "$~• @wordplay est gratuit et le restera toujours.",
+                            "• C'est un logiciel libre : tu peux lire comment il fonctionne et tu peux nous aider à le modifier.",
+                            "• Il vient de l'école d'information de l'<Université de Washington@https://ischool.uw.edu/>.",
+                            "• Il existe une communauté de créateurs, d'enseignants et de contributeurs.",
+                            "• Les <dons//donate> financent les coûts de fonctionnement."
+                        ]
+                    }
+                }
+            },
+            "learn": {
+                "header": "$~Apprendre",
+                "error": "$~Nous n'avons pas pu trouver de tutoriel pour cette langue.",
+                "button": {
+                    "next": "$~prochaine pause dans le dialogue",
+                    "previous": "$~pause précédente dans le dialogue"
+                },
+                "options": {
+                    "lesson": "$~leçon actuelle"
+                },
+                "search": {
+                    "placeholder": "$~recherche",
+                    "noResults": "$~Aucun résultat trouvé"
+                },
+                "choice": {
+                    "prompt": "$~Comment souhaitez-vous apprendre ?",
+                    "quick": {
+                        "title": "$~Rapide",
+                        "description": "$~Pour les créateurs connaissant d'autres langages de programmation et souhaitant comprendre en quoi Wordplay est différent"
+                    },
+                    "complete": {
+                        "title": "$~Complet",
+                        "description": "$~Pour les créateurs débutants en programmation qui souhaitent une introduction détaillée"
+                    }
+                },
+                "mode": {
+                    "label": "$~tutoriel",
+                    "labels": ["$~rapide", "$~complet"],
+                    "tips": [
+                        "$~une brève visite guidée pour les créateurs qui connaissent un autre langage de programmation",
+                        "$~l'introduction complète et spectaculaire pour les créateurs débutants en programmation"
+                    ]
+                },
+                "contrast": "$~comparer avec",
+                "dialogue": "$~dialogue de la leçon",
+                "says": "$~$character dit",
+                "tour": {
+                    "skip": "$~passer la visite guidée et continuer",
+                    "wait": "$~Fais d'abord la visite guidée, ou passe-la, puis nous continuerons."
+                }
+            },
+            "guide": {
+                "header": "$~Guide",
+                "description": "$~Il s'agit d'une référence pour chaque partie du langage de programmation @wordplay. Recherchez un concept ou parcourez la liste pour en savoir plus."
+            },
+            "projects": {
+                "header": "$~Projets",
+                "projectprompt": "$~Vous êtes prêt à dire quelque chose ? Créez un projet ou travaillez sur un projet. Si vous êtes bloqué, continuez à <learning@://learn>.",
+                "archiveprompt": "$~Il s'agit des projets que vous avez archivés. Seuls les propriétaires peuvent les supprimer ou les désarchiver définitivement. Les projets archivés seront définitivement supprimés 30 jours après leur dernière modification.",
+                "button": {
+                    "newproject": "$~nouveau projet",
+                    "editproject": "$~modifier ce projet",
+                    "unarchive": "$~désarchiver ce projet",
+                    "viewproject": "$~voir le code de ce projet",
+                    "import": {
+                        "tip": "$~ouvrir un fichier de projet que tu as enregistré",
+                        "label": "$~ouvrir un fichier de projet…"
+                    }
+                },
+                "confirm": {
+                    "archive": {
+                        "description": "$~archiver cette performance",
+                        "prompt": "$~archive"
+                    },
+                    "delete": {
+                        "description": "$~supprimer définitivement cette performance",
+                        "prompt": "$~supprimer pour toujours"
+                    }
+                },
+                "error": {
+                    "noaccess": "$~Nous n'avons pas pu accéder à Internet.",
+                    "newgallery": "$~Nous n'avons pas pu créer une nouvelle galerie.",
+                    "nodeletes": "$~Vous devez être <connecté@://login> pour supprimer les projets archivés.",
+                    "delete": "$~Oups, nous n'avons pas pu supprimer le projet!",
+                    "importEmpty": "$~Ce fichier est vide.",
+                    "importTooLarge": "$~Ce projet est trop grand pour que Wordplay puisse l'enregistrer. Essaie avec un projet plus petit.",
+                    "importUnreadable": "$~Wordplay n'a pas pu lire ce fichier. Les fichiers de projet se terminent par .wp."
+                },
+                "subheader": {
+                    "shared": "$~Commun",
+                    "archived": "$~Archivé"
+                },
+                "search": {
+                    "description": "$~Rechercher des projets et des fichiers sources",
+                    "noResults": "$~Aucun résultat trouvé."
+                },
+                "installedprompt": "$~Tu utilises Wordplay comme une application installée. Elle garde ses propres projets, à part de ceux dans ton navigateur web. Tous les projets que tu as créés dans ton navigateur sont encore là. <Connecte-toi@://login> pour voir tous tes projets aux deux endroits.",
+                "sort": {
+                    "label": "$~ordre",
+                    "labels": ["$~nom", "$~modifié récemment"],
+                    "tips": [
+                        "$~trier les projets par nom",
+                        "$~trier les projets par date de dernière modification"
+                    ]
+                },
+                "folder": {
+                    "name": {
+                        "description": "$~comment s'appelle ce dossier",
+                        "placeholder": "$~dossier"
+                    },
+                    "none": "$~aucun dossier",
+                    "button": {
+                        "create": "$~créer un nouveau dossier",
+                        "expand": "$~montrer ce qu'il y a dans ce dossier",
+                        "collapse": "$~cacher ce qu'il y a dans ce dossier"
+                    },
+                    "confirm": {
+                        "delete": {
+                            "description": "$~supprimer ce dossier et archiver les projets qu'il contient",
+                            "prompt": "$~Supprimer le dossier et archiver ses projets"
+                        }
+                    },
+                    "announce": {
+                        "destination": "$~déplacer $project vers $folder",
+                        "moved": "$~$project déplacé vers $folder",
+                        "movedOut": "$~$project sorti de son dossier",
+                        "expanded": "$~$folder déplié, $#count[1 projet|$#count millions de projets|$count projets]",
+                        "collapsed": "$~$folder replié, $#count[1 projet|$#count millions de projets|$count projets]",
+                        "selected": "$~$folder sélectionné, $#count[1 projet|$#count millions de projets|$count projets]",
+                        "created": "$~$folder créé",
+                        "deleted": "$~$folder supprimé, $#count[1 projet archivé|$#count millions de projets archivés|$count projets archivés]",
+                        "renamed": "$~dossier renommé en $folder",
+                        "projectSelected": "$~$project choisi",
+                        "cleared": "$~rien n'est choisi"
+                    },
+                    "instructions": {
+                        "none": "$~Clique sur un projet ou un dossier pour le choisir.",
+                        "project": "$~Déplace ce projet avec les touches fléchées *haut* et *bas*, ou fais-le glisser sur un dossier. Appuie sur *échap* quand tu as terminé.",
+                        "folder": "$~Écris le nom pour renommer ce dossier. Si tu le supprimes, tout ce qu'il contient part dans ton archive."
+                    }
+                },
+                "import": {
+                    "done": "$~$name ouvert.",
+                    "drop": "$~Dépose un fichier de projet ici pour l'ouvrir.",
+                    "replaced": "$~Ce projet a été remplacé par $name.",
+                    "replace": {
+                        "header": "$~Remplacer ce projet ?",
+                        "explanation": "$~Le code de ce projet va être remplacé. Wordplay enregistre ce qui s'y trouve maintenant, pour que tu puisses le retrouver dans l'historique du projet.",
+                        "prompt": "$~Ouvrir $name ici à la place de ce que ce projet contient maintenant ?",
+                        "confirm": {
+                            "tip": "$~remplacer ce projet par le fichier que tu as déposé",
+                            "label": "$~remplacer"
+                        }
+                    }
+                }
+            },
+            "galleries": {
+                "header": "$~Galeries",
+                "prompt": "$~Les galeries sont des collections de projets, souvent centrés sur un thème, et sélectionnés par vous ou d'autres créateurs.",
+                "button": {
+                    "newgallery": "$~nouvelle galerie"
+                },
+                "section": {
+                    "tabs": {
+                        "label": "$~type de galerie",
+                        "labels": ["$~Le vôtre", "$~Exemples", "$~Publique"],
+                        "tips": [
+                            "$~galeries que tu gères ou auxquelles tu contribues",
+                            "$~galeries choisies par les développeurs de Wordplay",
+                            "$~galeries que les créateurs ont rendues publiques"
+                        ]
+                    },
+                    "own": [
+                        "$~Contribue à une galerie où tu es invité, ou crée ta propre galerie avec un thème particulier, et invite d'autres personnes.",
+                        "/Les curateurs examinent ce qui est signalé dans leur galerie, depuis la <page de modération@://moderate>./"
+                    ],
+                    "examples": "$~Ce sont des galeries sélectionnées par les développeurs de @wordplay. Elles constituent d'excellents points de départ pour apprendre et trouver l'inspiration.",
+                    "public": "$~Voici des galeries que des créateurs @wordplay ont rendues publiques. Tout le monde peut demander à ce que sa galerie soit affichée ici. Un modérateur la lit d'abord pour vérifier qu'elle est terminée et qu'elle respecte les règles. Une galerie peut être retirée de cette liste à tout moment, pour n'importe quelle raison. Elles sont montrées dans un ordre différent à chaque visite, pour que chaque galerie ait sa chance en haut de la liste."
+                },
+                "error": {
+                    "nogalleryedits": "$~Vous devez être <connecté@://login> pour créer et modifier des galeries.",
+                    "nopublic": "$~Aucune galerie n'a encore été approuvée pour cette liste. Reviens bientôt !"
+                },
+                "search": {
+                    "description": "$~Rechercher des exemples et des galeries publiques",
+                    "noResults": "$~Aucun résultat trouvé.",
+                    "galleries": "$~Galeries",
+                    "examples": "$~Projets exemples",
+                    "projects": "$~Projets dans des galeries publiques"
+                }
+            },
+            "about": {
+                "header": "$~À propos",
+                "content": [
+                    "$~As-tu déjà eu l'impression que le code était réservé aux Occidentaux non handicapés, parlant couramment l'anglais, qui ont grandi avec des ordinateurs ?",
+                    "Oui, nous aussi.",
+                    "Ce n'est pas un hasard. Depuis les débuts de l'informatique, les langages de programmation ont été conçus et créés surtout par le même groupe de personnes : surtout des hommes blancs, cisgenres, anglophones, dans les universités et l'industrie aux États-Unis et en Europe, ainsi que quelques mathématiciennes incroyables. Elles ont travaillé à une époque de pouvoir post-colonial, où le gagnant remportait tout, et les langages de programmation étaient un outil clé pour garder ce pouvoir.",
+                    "Cette histoire a mené à une vision de l'informatique centrée surtout sur la vitesse, la logique, le profit et la domination.",
+                    "C'est une injustice. Car l'informatique, pour le meilleur et pour le pire, soutient aujourd'hui la vie quotidienne de manières visibles et invisibles, et les personnes qui peuvent créer avec elle ressemblent le plus à ses créateurs. Le reste de l'humanité reste soumis à ce pouvoir, car imaginer autre chose demande de savoir lire et écrire, bloqué par des barrières de langue, des barrières d'accessibilité, des barrières économiques et des inégalités dans l'éducation publique.",
+                    "*Wordplay* espère aider à changer cela. C'est une plateforme de programmation conçue pour être mondiale, qui soutient /toutes/ les langues du monde, mais aussi qui parle /des/ langues du monde. Une plateforme sur laquelle tout le monde peut créer, avec les capacités qu'il possède, pour partager du contenu interactif que chacun peut vivre. Pour les jeunes et les jeunes adultes qui veulent s'exprimer à travers des mots interactifs, des emojis et de la typographie, avec jeu et avec art. Non pas dans le but d'obtenir du pouvoir pour eux-mêmes, mais pour créer un monde informatique qui reconnaît la force incroyable et le besoin de nos belles différences.",
+                    "Nous sommes une communauté de designers, d'enseignants et de développeurs qui essaient de donner vie à cette vision. Nous sommes des personnes de couleur, nous sommes trans, nous sommes queers, nous sommes handicapés, nous sommes immigrants, nous sommes réfugiés. Nous sommes basés à la <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> à Seattle, dans l'État de Washington, aux États-Unis, un lieu qui aspire à accueillir tout le monde et à défaire les ravages capacitistes et racistes du colonialisme qui continuent aujourd'hui. Créer ce langage de programmation et cette plateforme est une petite partie de cette mission, offrant un aperçu d'un futur de l'informatique où /chacun/ a sa place.",
+                    "Nous aimerions ton aide. Apprends <comment contribuer@https://github.com/wordplaydev/wordplay/wiki/contribute>, <fais un don@://donate>, ou suis nos <progrès@https://github.com/amyjko/wordplay/milestones>. Écris à notre organisatrice de communauté <Amy@https://amyjko.phd> si tu as des questions."
+                ],
+                "districts": {
+                    "header": "$~Pour les écoles et les académies",
+                    "content": [
+                        "$~Vous vous demandez si *Wordplay* peut être utilisé dans votre école ou votre académie ? Voici ce que nous pouvons promettre, et ce que nous ne pouvons pas promettre.",
+                        "Nous ne sommes pas une entreprise. Nous sommes un projet de recherche communautaire hébergé par une université à but non lucratif, et nous n'avons aucun revenu. Cela veut dire qu'il y a des accords que nous ne pouvons pas signer, même si nous aimerions beaucoup vous aider. Nous ne pouvons pas promettre de payer les frais juridiques d'une académie si elle est poursuivie en justice. Nous ne pouvons pas promettre de résoudre un problème selon un calendrier fixe. Signer une promesse que nous ne pouvons pas tenir n'aiderait personne, et surtout pas vous.",
+                        "Voici ce que nous pouvons promettre. Nous respectons les règles d'accessibilité /WCAG 2.2 niveau AA/ pour la plateforme, nous les vérifions automatiquement à chaque changement, et nous corrigeons ce que nous trouvons aussi vite que le permet une communauté de bénévoles. Nous recueillons le moins d'informations possible sur les personnes qui l'utilisent, et nous ne les utilisons que pour faire fonctionner la plateforme. Notre page <rights//rights> explique exactement ce que nous conservons, et notre <source@https://github.com/wordplaydev/wordplay> est publique, donc vous pouvez vérifier tout cela vous-même.",
+                        "Cette plateforme change tout le temps, et les règles que vous devez suivre changent aussi. S'il y a quelque chose dont vous avez besoin et que nous ne faisons pas encore, écrivez-nous à hi@wordplay.dev et parlez-nous-en. Les responsables du projet la liront, et nous vous répondrons."
+                    ],
+                    "link": "$~Écrivez-nous à propos d'une exigence",
+                    "subject": "$~Demande d'école pour Wordplay",
+                    "body": [
+                        "$~Nom de l'école ou de l'académie :",
+                        "$~Votre nom :",
+                        "$~Votre rôle :",
+                        "$~Y a-t-il une exigence ou une règle que nous devons respecter et que nous ne respectons pas encore ?",
+                        "$~Y en a-t-il une que nous ne pouvons pas respecter telle que nous sommes ?",
+                        "$~Y a-t-il autre chose que vous aimeriez nous dire ?"
+                    ]
+                }
+            },
+            "login": {
+                "header": "$~Se connecter",
+                "anonymous": "$~se connecter",
+                "prompt": {
+                    "forgot": "$~*Mot de passe oublié ?* Malheureusement, nous ne pouvons pas récupérer votre compte car nous ne collectons pas d'informations de contact.",
+                    "email": "$~Avez-vous un compte de messagerie uniquement ? Connectez-vous en soumettant votre adresse e-mail et, si un compte y est associé, nous vous enverrons un e-mail avec un lien de connexion. Les nouveaux comptes de messagerie uniquement ne sont pas pris en charge, afin de préserver la confidentialité.",
+                    "enter": "$~Il semble que votre lien de connexion provienne d'un autre navigateur ou appareil. Pouvez-vous saisir à nouveau votre adresse e-mail, juste pour être sûr qu'il s'agit bien de vous ?",
+                    "passwordrule": "$~Les mots de passe doivent comporter au moins 6 caractères; si vous n'utilisez pas de gestionnaire de mots de passe, choisissez trois longs mots dont vous vous souviendrez.",
+                    "play": "$~Vous êtes connecté, nous pouvons enregistrer vos projets en ligne maintenant ! Vous voulez créer quelque chose ?",
+                    "changeEmail": "$~Vous souhaitez modifier votre adresse e-mail ? Soumettez-en une nouvelle et nous vous enverrons une confirmation à l'ancienne.",
+                    "changePassword": "$~Vous souhaitez modifier votre mot de passe ? Soumettez-en un nouveau et répétez-le.",
+                    "logout": "$~Vous utilisez un appareil partagé et souhaitez garder vos projets privés? Déconnectez-vous et nous *supprimerons vos projets* de cet appareil, mais ils seront enregistrés en ligne.",
+                    "sent": "$~Si cet e-mail est associé à un compte, vous recevrez un e-mail avec un lien de connexion. Il peut prendre quelques minutes pour apparaître. Si aucun compte n'est associé à cet e-mail, vous ne recevrez rien.",
+                    "success": "$~Compte créé !",
+                    "confirm": "$~Vérifie ton ancienne adresse e-mail pour confirmer ta nouvelle adresse.",
+                    "delete": "$~Vous voulez que nous oubliions tout ce que vous avez fait ici ? C'est irréversible.",
+                    "reallyDelete": "$~Êtes-vous sûr ? Votre compte et vos paramètres seront immédiatement supprimés et vos projets seront programmés pour suppression. Les collaborateurs de vos projets perdront immédiatement l'accès à ces derniers. Saisissez votre adresse e-mail ou votre nom d'utilisateur pour confirmer que c'est bien ce que vous souhaitez.",
+                    "name": "$~Choisis un emoji ou un caractère personnalisé pour te représenter auprès des autres.",
+                    "login": "$~Connectez-vous pour sauvegarder vos projets, collaborer et partager:",
+                    "join": "$~Ou, <créez un compte@://join> pour commencer.",
+                    "paste": "$~Le lien s'est-il ouvert ailleurs ? Les applications installées ouvrent parfois les liens des e-mails dans un navigateur web. Copie le lien depuis ton e-mail et colle-le ici pour finir de te connecter."
+                },
+                "error": {
+                    "expired": "$~Ce lien a expiré.",
+                    "invalid": "$~Ce lien n'est pas valide.",
+                    "email": "$~Cet email n'était pas valide.",
+                    "offline": "$~Nous n'avons pas pu atteindre le nuage ☁️.",
+                    "failure": "$~Impossible de se connecter :(",
+                    "unverified": "$~Nous n'avons pas pu vérifier qu'il s'agit d'un vrai navigateur, alors nous nous sommes arrêtés ici. Cela peut arriver sur les réseaux d'une école ou d'un travail. Réessayer ne changera rien, mais un autre réseau ou navigateur pourrait aider. Si tu es à l'école, préviens un enseignant.",
+                    "wrongPassword": "$~Nom d'utilisateur et mot de passe non valides. Soit votre mot de passe est erroné, soit quelqu'un d'autre possède ce nom d'utilisateur.",
+                    "tooMany": "$~Vous avez essayé de vous connecter à plusieurs reprises sans succès. Vous devrez attendre avant de réessayer.",
+                    "invalidUsername": "$~Les noms d'utilisateur doivent avoir au moins 5 lettres, sans espaces.",
+                    "invalidPassword": "$~Les mots de passe doivent comporter au moins 6 caractères.",
+                    "mismatched": "$~Les mots de passe ne correspondent pas.",
+                    "usernameTaken": "$~Ce nom d'utilisateur est déjà pris.",
+                    "unsaved": "$~Tu as des changements qui ne sont pas encore enregistrés en ligne. Si tu te déconnectes maintenant, ils seront perdus sur cet appareil.",
+                    "deletePartial": "$~Nous avons supprimé les données de votre compte, mais la suppression n'a pas pu être finalisée. Veuillez réessayer ou nous contacter si le problème persiste."
+                },
+                "feedback": {
+                    "changing": "$~Envoi d'un nouvel e-mail...",
+                    "deleting": "$~Ok, suppression de vos projets et paramètres...",
+                    "updatedPassword": "$~Votre mot de passe est mis à jour.",
+                    "match": "$~Cela doit correspondre au nom d'utilisateur de votre compte."
+                },
+                "field": {
+                    "email": {
+                        "description": "$~modifier l'e-mail de connexion",
+                        "placeholder": "$~e-mail"
+                    },
+                    "username": {
+                        "description": "$~nom d'utilisateur de connexion, n'utilisez pas d'informations personnelles identifiables",
+                        "placeholder": "$~nom d'utilisateur"
+                    },
+                    "password": {
+                        "description": "$~mot de passe de connexion, au moins 6 caractères",
+                        "placeholder": "$~mot de passe"
+                    },
+                    "currentPassword": {
+                        "description": "$~votre mot de passe de connexion actuel",
+                        "placeholder": "$~mot de passe actuel"
+                    },
+                    "newPassword": {
+                        "description": "$~votre nouveau mot de passe",
+                        "placeholder": "$~nouveau mot de passe"
+                    },
+                    "link": {
+                        "description": "$~colle le lien de connexion",
+                        "placeholder": "$~lien"
+                    }
+                },
+                "button": {
+                    "logout": {
+                        "tip": "$~déconnectez-vous de votre compte",
+                        "label": "$~déconnexion"
+                    },
+                    "login": "$~crée un compte avec ce nom d'utilisateur et ce mot de passe",
+                    "updateEmail": "$~change ton email",
+                    "updatePassword": "$~soumettre un nouveau mot de passe",
+                    "delete": {
+                        "tip": "$~supprimer votre compte",
+                        "label": "$~supprimer mes données…"
+                    },
+                    "reallyDelete": {
+                        "tip": "$~supprimer votre compte pour toujours",
+                        "label": "$~supprime le !!!"
+                    }
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "$~Afficher le mot de passe",
+                        "off": "$~Masquer le mot de passe"
+                    }
+                },
+                "subtitle": "$~Enregistrez, collaborez et partagez",
+                "signin": {
+                    "usesPassword": "$~Tu te connectes avec un nom d'utilisateur et un mot de passe. Si tu préfères ne pas avoir de mot de passe à retenir, tu peux choisir de te connecter avec un lien qu'on t'envoie par courriel — ton nom d'utilisateur reste le même.",
+                    "usesEmail": "$~Tu te connectes avec ton adresse e-mail. Si tu préfères avoir un nom d'utilisateur et un mot de passe à la place, tu peux changer — ton nom d'utilisateur reste le même.",
+                    "notYet": "$~Tu te connectes avec un nom d'utilisateur et un mot de passe. Là où tu habites, tu n'as pas encore l'âge requis pour utiliser une adresse courriel ici — à partir du $date, tu pourras passer à une connexion avec un lien envoyé par courriel.",
+                    "switched": "$~C'est fait. La prochaine fois, connecte-toi avec ton nom d'utilisateur et ton nouveau mot de passe.",
+                    "toPassword": {
+                        "label": "$~Utiliser un mot de passe à la place",
+                        "tip": "$~Passer à une connexion avec ton nom d'utilisateur et un mot de passe"
+                    }
+                },
+                "username": {
+                    "change": "$~Ton nom d'utilisateur, c'est comment les autres te voient, et il commence le nom de chaque personnage que tu crées. Tu peux le changer quand tu veux. Ton ancien nom continue de fonctionner, donc tout ce qui pointe déjà vers tes personnages les retrouve quand même.",
+                    "missing": "$~Tu n'as pas encore de nom d'utilisateur, donc les autres te voient comme *—* et tu ne peux pas créer de personnages. Choisis-en un, et il sera fixé.",
+                    "changed": "$~Terminé. C'est ton nom maintenant.",
+                    "claimed": "$~Terminé. C'est ton nom.",
+                    "field": {
+                        "description": "$~Le nom d'utilisateur que tu veux",
+                        "placeholder": "$~nom d'utilisateur"
+                    },
+                    "save": {
+                        "label": "$~Enregistrer",
+                        "tip": "$~Utiliser ce nom d'utilisateur à partir de maintenant"
+                    }
+                },
+                "notifications": {
+                    "header": "$~M'envoyer un courriel pour…",
+                    "noAddress": "$~Ajoute une adresse courriel ci-dessus pour choisir les courriels que Wordplay t'envoie.",
+                    "decisions": {
+                        "label": "$~la modération de choses que j'ai créées ou signalées",
+                        "labels": ["$~désactivé", "$~activé"],
+                        "tips": [
+                            "$~Ne pas m'envoyer de courriel pour la modération de choses que j'ai créées ou signalées",
+                            "$~M'envoyer un courriel pour la modération de choses que j'ai créées ou signalées"
+                        ]
+                    },
+                    "reviews": {
+                        "label": "$~la modération qui attend mon examen",
+                        "labels": ["$~désactivé", "$~activé"],
+                        "tips": [
+                            "$~Ne pas m'envoyer de courriel pour la modération qui attend mon examen",
+                            "$~M'envoyer un courriel pour la modération qui attend mon examen"
+                        ]
+                    },
+                    "activity": {
+                        "label": "$~les nouvelles discussions et les nouveaux comment faire",
+                        "labels": ["$~désactivé", "$~activé"],
+                        "tips": [
+                            "$~Ne pas m'envoyer de courriel pour les nouvelles discussions et les nouveaux comment faire",
+                            "$~M'envoyer un courriel pour les nouvelles discussions et les nouveaux comment faire"
+                        ]
+                    },
+                    "notYet": "$~Quand tu pourras utiliser une adresse courriel, tu pourras choisir les courriels que Wordplay t'envoie."
+                },
+                "subheader": {
+                    "work": "$~Ton travail",
+                    "character": "$~Ton personnage",
+                    "username": "$~Ton nom d'utilisateur",
+                    "password": "$~Ton mot de passe",
+                    "email": "$~Courriel",
+                    "logout": "$~Se déconnecter",
+                    "delete": "$~Supprimer ton compte",
+                    "export": "$~Ton archive"
+                },
+                "profile": "$~Profil",
+                "export": {
+                    "prompt": "$~Télécharge une copie de tout ce que tu as créé. Elle contient tes projets, personnages, galeries, comment faire, kits, conversations, classes et réglages. Chaque projet est un fichier que tu peux rouvrir dans Wordplay. Certaines choses ne t'appartiennent pas entièrement : les conversations contiennent ce que tout le monde a dit, et les listes de classe contiennent les noms d'autres personnes. Toute personne à qui tu donnes ce fichier peut tout lire, alors garde-le dans un endroit privé.",
+                    "proxy": "$~Tu regardes le compte de quelqu'un d'autre, donc tu ne peux pas en télécharger une copie.",
+                    "button": {
+                        "tip": "$~télécharger une copie de tout ce que contient ton compte",
+                        "label": "$~télécharger mon archive…"
+                    },
+                    "progress": "$~$kind rassemblé : $#count[$#count chose pour l'instant|$count chose pour l'instant|$count choses pour l'instant]",
+                    "started": "$~Création de ton archive en cours.",
+                    "finished": "$~Ton archive $name est prête, avec $#count[$#count chose dedans|$count chose dedans|$count choses dedans].",
+                    "finishedPartial": "$~Ton archive $name est prête, avec $#count[$#count chose dedans|$count chose dedans|$count choses dedans], mais $#missing[$#missing type n'a pas pu être lu|$missing type n'a pas pu être lu|$missing types n'ont pas pu être lus].",
+                    "failed": "$~Ton archive n'a pas pu être créée. Réessaie dans un instant.",
+                    "tooLarge": "$~Tu as créé plus qu'une seule archive ne peut contenir. Dis-le-nous et on t'aidera à la récupérer.",
+                    "offline": "$~Wordplay ne peut pas se connecter à internet, donc il ne peut pas créer ton archive.",
+                    "kind": {
+                        "account": "$~votre compte",
+                        "projects": "$~vos projets",
+                        "galleries": "$~vos galeries",
+                        "characters": "$~vos personnages",
+                        "howtos": "$~vos comment faire",
+                        "chats": "$~vos conversations",
+                        "kits": "$~vos kits",
+                        "classes": "$~vos classes",
+                        "feedback": "$~vos idées et signalements de bogues",
+                        "device": "$~les réglages de cet appareil",
+                        "archive": "$~les archives",
+                        "saving": "$~le fichier"
+                    },
+                    "readme": {
+                        "title": "$~Vos archives Wordplay",
+                        "intro": "$~Ceci est une copie de tout ce qui se trouve dans le compte Wordplay $name. Elle a été faite le $date. Wordplay l'a faite pour vous. Personne d'autre n'en a une copie.",
+                        "contents": "$~Chaque dossier contient un seul genre de chose. Il y a des dossiers pour vos projets, vos personnages, vos galeries, vos comment faire, vos kits, vos conversations et vos classes.",
+                        "relationships": "$~Dans chaque dossier, les éléments sont classés selon votre lien avec eux. Un dossier nommé owner contient ce que vous avez créé. creator contient ce que vous avez écrit ou pouvez ajouter. curator contient ce dont vous prenez soin. teacher et learner contiennent des classes. collaborator, commenter et viewer contiennent des travaux qui appartiennent à quelqu'un d'autre.",
+                        "device": "$~Le dossier device contient les choses qui se trouvent uniquement sur l'ordinateur où vous avez fait cette archive. Il contient des réglages qui ne sont pas enregistrés en ligne, des traductions que vous avez commencées, et des travaux dont l'enregistrement n'était pas terminé. Faire une archive sur un autre ordinateur ne les inclurait pas.",
+                        "formats": "$~Pour rouvrir un projet, allez sur votre page de projets dans Wordplay et choisissez « ouvrir un fichier de projet ». Vous pouvez aussi glisser le fichier .wp sur cette page. Pour remplacer un projet que vous avez déjà, glissez le fichier dessus, et Wordplay vous demandera d'abord confirmation.",
+                        "excluded": "$~Certaines choses ne sont pas ici. Wordplay laisse de côté l'historique détaillé de vos modifications, car le projet contient déjà ce que ces modifications ont produit. Il laisse de côté l'historique de qui a regardé un projet. Il laisse aussi de côté les signalements de règles enfreintes, car ceux-ci sont écrits pour les personnes qui les examinent.",
+                        "privacy": "$~Une partie de ce contenu ne vous appartient pas qu'à vous. Une conversation contient ce que tout le monde y a dit. Une classe contient les noms de tous ses membres. Toute personne à qui vous donnez ce fichier peut tout lire. Gardez-le dans un endroit privé, et réfléchissez à qui d'autre s'y trouve avant de le partager.",
+                        "missing": "$~Wordplay n'a pas pu lire certaines choses en faisant cette archive. Elles ne sont pas ici :",
+                        "manifest": "$~manifest.json contient les mêmes informations, sous une forme qu'un programme peut lire. Il indique quand cette archive a été faite, combien il y a de chaque chose, et ce qui n'a pas pu être inclus.",
+                        "contentsFiles": "$~Chaque élément a un fichier .json. C'est exactement ce que Wordplay enregistre. Chaque projet a aussi un fichier .wp. C'est le projet écrit en clair, pour que vous puissiez le lire et le rouvrir.",
+                        "contentsAccount": "$~account.json indique qui vous êtes, quand vous avez rejoint Wordplay, et ce que vous êtes autorisé à faire. Le dossier self contient ce que Wordplay garde à votre sujet : votre nom d'utilisateur, la quantité de traduction que vous avez faite, les avertissements que vous avez reçus, et vos notifications.",
+                        "relationshipsWords": "$~Le même mot peut avoir deux sens. Le creator d'une galerie peut y ajouter des projets. Le creator d'un comment faire l'a écrit. Chaque dossier a aussi un index.json. Il liste tous les liens que vous avez avec chaque élément, car plusieurs peuvent être vrais en même temps."
+                    },
+                    "incomplete": "$~Ton archive est prête, mais ces éléments n'ont pas pu être lus, donc ils n'y sont pas : $kinds"
+                }
+            },
+            "join": {
+                "header": "$~Rejoindre",
+                "prompt": {
+                    "create": "$~Créez un compte pour enregistrer vos projets, collaborer avec d'autres et partager votre travail.",
+                    "username": "$~Les noms d'utilisateur doivent avoir au moins /5 caractères/, ne peuvent pas être un e-mail, et ne devraient pas contenir ton nom ou d'autres informations qui t'identifient.",
+                    "password": "$~Les mots de passe doivent comporter au moins /6 caractères/. Tapez-les deux fois et notez-les dans un endroit sûr, comme un gestionnaire de mots de passe. *Il n'y a aucun moyen de récupérer votre compte* si vous le perdez, car nous ne collectons pas d'informations de contact.",
+                    "region": "$~On te demande où tu habites pour suivre les règles de ton pays sur les comptes des jeunes. On ne garde pas ta réponse.",
+                    "birthday": "$~On te demande ta date de naissance pour la même raison. On ne la garde pas non plus — seulement si tu as l'âge requis pour utiliser une adresse courriel, et quand tu l'auras.",
+                    "choose": "$~Il y a deux façons de se connecter. Choisis celle qui te convient.",
+                    "withPassword": "$~*Un nom d'utilisateur et un mot de passe.* On ne saura rien sur toi — mais *il n'y a aucun moyen de récupérer ton compte si tu oublies ton mot de passe*, puisqu'on n'aurait aucun moyen de te contacter.",
+                    "withEmail": "$~*Une adresse courriel.* On t'envoie un lien par courriel à chaque connexion, donc il n'y a pas de mot de passe à oublier. On garde ton adresse seulement pour envoyer ces liens.",
+                    "tooYoung": "$~Là où tu habites, tu dois avoir au moins $#age[$#age an|$age ans|$age ans] pour utiliser une adresse courriel ici. En attendant, ce sera un nom d'utilisateur et un mot de passe — tu pourras changer plus tard.",
+                    "sent": "$~Si cette adresse peut servir à se connecter, un lien est en route. Vérifie ton courriel."
+                },
+                "field": {
+                    "region": {
+                        "description": "$~Le pays ou la région où tu habites",
+                        "placeholder": "$~pays"
+                    },
+                    "year": {
+                        "description": "$~L'année de ta naissance",
+                        "placeholder": "$~année"
+                    },
+                    "month": {
+                        "description": "$~Le mois de ta naissance",
+                        "placeholder": "$~mois"
+                    },
+                    "day": {
+                        "description": "$~Le jour de ta naissance",
+                        "placeholder": "$~jour"
+                    },
+                    "email": {
+                        "description": "$~L'adresse courriel avec laquelle tu veux te connecter",
+                        "placeholder": "$~courriel"
+                    }
+                },
+                "button": {
+                    "next": {
+                        "label": "$~suivant",
+                        "tip": "$~Passer à l'étape suivante"
+                    },
+                    "back": {
+                        "label": "$~retour",
+                        "tip": "$~Retourner à l'étape précédente"
+                    },
+                    "usePassword": {
+                        "label": "$~Utiliser un mot de passe",
+                        "tip": "$~Créer un compte avec un nom d'utilisateur et un mot de passe"
+                    },
+                    "useEmail": {
+                        "label": "$~Utiliser une adresse courriel",
+                        "tip": "$~Créer un compte auquel on se connecte avec un lien envoyé par courriel"
+                    }
+                },
+                "error": {
+                    "birthday": "$~Ce n'est pas une vraie date. Vérifie le jour et le mois.",
+                    "taken": "$~Quelqu'un vient de prendre ce nom d'utilisateur à l'instant. Essaie-en un autre.",
+                    "throttled": "$~C'est beaucoup trop de liens de connexion. Attends un peu et réessaie.",
+                    "failed": "$~Nous n'avons pas pu créer le compte. Réessaie dans un instant."
+                }
+            },
+            "rights": {
+                "header": "$~Droits",
+                "content": [
+                    "$~Salut !",
+                    "Parlons de tes droits et des nôtres (aussi selon des lois, comme le <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> et le <RGPD@https://gdpr.eu/compliance-checklist-us-companies/>).",
+                    "La première chose à savoir, c'est que nous ne sommes pas une entreprise commerciale. Nous sommes un projet de recherche communautaire hébergé par une université à but non lucratif. Notre but est de créer une plateforme qui te procure de la joie, et qui nous aide à faire des découvertes pour un monde de l'informatique plus juste et plus équitable. Nous n'avons aucun intérêt à gagner de l'argent avec cette plateforme. L'argent que nous recevons (souvent grâce à des fonds publics) sert seulement à faire vivre la plateforme, pas à enrichir qui que ce soit qui y travaille ou qui y contribue.",
+                    "Comme nous ne cherchons pas le profit, nous ne pouvons pas promettre que cette plateforme sera toujours fiable, disponible, ou qu'elle durera longtemps. Cela dit, <Amy@https://amyjko.phd> s'engage à la faire durer sur le long terme. En tant que professeure titulaire, elle a une situation plutôt stable.",
+                    "Cela nous amène aux *données*. Voici ce que nous recueillons et gardons dans le nuage :",
+                    "• Tes *projets*. Nous gardons tous les projets auxquels tu contribues et tes modifications, sauf si ces projets semblent contenir des informations qui pourraient t'identifier, comme un numéro de téléphone, une adresse courriel, un nom d'utilisateur, un numéro fiscal, ou une adresse postale.",
+                    "• Tes *réglages*. Cela comprend les langues que tu choisis, tes préférences d'animation, et ta progression dans le tutoriel. Tout le reste est gardé seulement sur ton appareil.",
+                    "• L'*activité* globale. Nous suivons les connexions et les pages que tu visites, mais pas d'une façon qui pourrait t'identifier, te suivre sur le site, ou te suivre sur d'autres sites. Nous utilisons Google Analytics en mode « consentement refusé », qui ne recueille que très peu d'informations non identifiables sur les pages vues, sans garder de cookies, et sans envoyer d'adresse IP à Google. Nous utilisons ces informations globales pour aider à obtenir des fonds, en montrant à quel point la plateforme est utilisée.",
+                    "• Tes *traductions de discussions*. Si tu demandes à lire une discussion dans une autre langue, nous traduisons les messages des autres, mais jamais les tiens. Certains navigateurs peuvent faire cette traduction directement sur ton appareil. Dans ce cas, rien ne nous est envoyé. Sinon, les messages sont envoyés à un service de traduction par intelligence artificielle (en ce moment, c'est Claude, fait par Anthropic), et la traduction est gardée avec la discussion, pour que personne d'autre n'ait à traduire les mêmes mots une deuxième fois. Seules les personnes de cette discussion peuvent la lire.",
+                    "Nous ne gardons rien d'autre. Notre <code source@https://github.com/amyjko/wordplay/tree/main/src> est public, donc tout le monde peut le vérifier, et signaler tout suivi non voulu.",
+                    "C'est *toi* qui possèdes tes données, pas nous. Cela veut dire :",
+                    "• Tu décides qui peut accéder à tes projets. Ils sont privés par défaut, mais tu peux les partager avec des personnes, des groupes, ou les rendre entièrement publics.",
+                    "• Tu peux supprimer complètement n'importe quel projet, ou ton propre compte, à tout moment.",
+                    "• Tu peux obtenir une copie de n'importe quel projet, ou de tout ton compte, à tout moment.",
+                    "Voici comment nous utiliserons, et n'utiliserons pas, tes données :",
+                    "• Nous ne partagerons jamais tes données avec personne, sauf si la loi l'exige clairement. Il est toujours possible que tes données soient prises sans permission (une « fuite de données »). Si nous découvrons que cela s'est produit, nous te le dirons en utilisant l'adresse courriel que tu nous as donnée.",
+                    "• Nous ne te contacterons pas par courriel, sauf si 1) tu fais un changement de compte qui nous y oblige, 2) tu nous donnes clairement ta permission de te contacter, ou 3) en cas de fuite de données, comme dit plus haut.",
+                    "• Nous pouvons analyser les projets, les galeries, et les guides « comment faire » de la plateforme, pour comprendre ce que tout le monde crée et comment. Nous pouvons partager ces observations, regroupées et rendues anonymes, dans des publications universitaires. Nous ne le ferons que sous la supervision d'un comité d'éthique de la recherche, comme l'exige la loi fédérale des États-Unis.",
+                    "Enfin, un mot sur la parole. Les projets sont privés par défaut, et partager un projet avec des personnes précises le garde privé. Voici exactement qui regarde ce que tu partages, selon qui peut le voir.",
+                    "Mais rendre un projet *public*, ou l'ajouter à une galerie publique, est un privilège. Cette plateforme est faite pour l'amour, l'encouragement, le respect et la dignité. C'est pourquoi nous attendons qu'aucun de tes contenus *publics* ne :"
+                ],
+                "consequences": [
+                    "$~Si nous trouvons un projet ou une galerie qui ne respecte pas ces règles, nous avertirons les créateurs avant qu'ils puissent le voir, ou nous empêcherons qu'il soit vu. Si tu ne respectes pas ces règles de façon répétée, tu perdras le privilège de publier du contenu public."
+                ],
+                "license": [
+                    "$~Encore une chose au sujet de rendre un projet *public*. Les projets publics sont partagés sous la <licence Creative Commons Attribution-Partage dans les mêmes conditions@https://creativecommons.org/licenses/by-sa/4.0/>. Cela veut dire que tout le monde peut /remixer/ ton projet public — en faire sa propre copie et la modifier — et que tu peux remixer celui de n'importe qui d'autre.",
+                    "Trois choses viennent avec cette licence. Les personnes qui remixent doivent créditer celui ou celle qui a créé l'original. Elles doivent partager leur remix sous cette même licence, pour qu'il reste ouvert à la personne suivante. Et elles ne peuvent pas rendre privé un projet public pour le garder pour elles.",
+                    "Nous aidons pour la partie du mérite : quand quelqu'un remixe un projet, nous nous souvenons d'où il vient et nous montrons un lien qui y ramène. Rendre un projet public, c'est ta façon de dire oui à tout cela. Donc, si tu préfères que personne ne remixe un projet, garde-le privé."
+                ],
+                "research": [
+                    "$~Un dernier choix, et il n'appartient qu'à toi. Nous parlons et écrivons parfois à propos de Wordplay — dans des articles de recherche, dans des conférences, et dans ce que nous montrons aux enseignants et aux familles. Nous aimerions montrer ce que les gens créent vraiment avec Wordplay, mais nous ne montrerons pas ton projet sans ton accord.",
+                    "Chaque projet a un réglage *Recherche* dans ses options de partage, et il est désactivé au départ. L'activer nous permet de montrer ce projet comme exemple, sans ton nom, ton nom d'utilisateur, ni rien d'autre qui montre que le compte est le tien. Ce réglage est propre à chaque projet, donc dire oui pour l'un ne veut rien dire pour les autres.",
+                    "Tu peux le désactiver à tout moment. Le désactiver signifie que nous arrêtons d'utiliser ton projet dans quoi que ce soit de nouveau, mais cela ne peut pas annuler ce que nous avons déjà publié ou présenté."
+                ],
+                "warnings": [
+                    "$~Voici exactement ce qui se passe si un contenu public de toi enfreint ces règles. Un modérateur l'examine, il n'est plus public, et tu reçois un avertissement dans tes notifications indiquant lequel c'est. Toute personne connectée peut demander à un modérateur d'examiner un contenu public grâce au bouton de signalement présent dessus.",
+                    "Après trois avertissements, tu peux encore créer des projets, encore les partager avec les personnes de ton choix, et encore utiliser tout le reste ici. Ce que tu perds, c'est la possibilité de rendre quoi que ce soit public.",
+                    "Si tu penses qu'un avertissement était une erreur, ou qu'il date de longtemps et que tu aimerais à nouveau partager publiquement, écris à hi@wordplay.dev et indique-nous ton nom d'utilisateur et la raison. Une personne le lira."
+                ],
+                "responsibility": [
+                    "$~Les personnes qui vérifient ce que tu partages dépendent de qui peut le voir.",
+                    "• *Partagé avec personne, ou seulement avec des personnes que tu as nommées.* Personne ne le vérifie. Ni nous, ni personne d'autre.",
+                    "• *Dans une galerie avec d'autres personnes.* Les conservateurs de cette galerie le vérifient, ainsi que les discussions qui l'accompagnent. C'est vrai que la galerie soit publique ou non : les personnes qui en font partie peuvent voir ton travail, donc quelqu'un là-bas en est responsable.",
+                    "• *Dans une galerie publique.* Ses conservateurs le vérifient, et nous aussi, parce que n'importe qui peut le trouver.",
+                    "• *Public, mais pas dans une galerie.* Nous le vérifions.",
+                    "Toute personne qui peut voir quelque chose peut demander qu'on le vérifie, en utilisant le bouton de signalement. Nous ne disons jamais à la personne qui a créé le contenu qui l'a signalé.",
+                    "Signaler un message de discussion le cache pendant que quelqu'un l'examine. Cela n'arrive qu'une seule fois par message : si le message est conservé et que quelqu'un le signale à nouveau, il reste visible pendant ce deuxième examen. Tu peux toujours voir tes propres mots.",
+                    "Une décision indique quelles règles, parmi celles ci-dessus, ont été enfreintes, et peut inclure une note de la personne qui a décidé. Tu recevras les deux dans tes notifications.",
+                    "La décision d'un conservateur de galerie s'applique à sa galerie. Ce n'est pas l'un des avertissements ci-dessous, et cela ne peut jamais te faire perdre la possibilité de partager publiquement."
+                ]
+            },
+            "donate": {
+                "header": "$~Faire un don",
+                "prompt": "$~Aide-nous à financer le développement de @wordplay",
+                "content": [
+                    "$~@wordplay est un projet communautaire gratuit soutenu par l'<University of Washington@https://washington.edu>. Nous comptons sur les dons de personnes qui croient en notre mission de créer des langages de programmation accessibles, inclusifs et éducatifs.",
+                    "Voici nos coûts actuels :",
+                    "• Nous rémunérons les étudiants de l'Université de Washington, en particulier ceux qui sont handicapés ou dont la langue maternelle n'est pas l'anglais, pour faire évoluer et maintenir le projet. Cela représente environ 90 % de nos coûts.",
+                    "• Nous accordons des bourses aux enseignants avec lesquels nous collaborons pour développer des programmes multilingues et accessibles.",
+                    "• Nous payons Google pour la bande passante et le stockage de <Firebase@https://firebase.google.com/> et pour les services <Workspace@https://workspace.google.com/>.",
+                    "• Nous payons <Squarespace@https://www.squarespace.com/> annuellement pour le domaine.",
+                    "Nos coûts actuels, en supposant 5 étudiants de premier cycle à 20 USD/heure, 10 heures/semaine pendant l'année universitaire (36 semaines) et 2 étudiants de premier cycle pendant l'été (12 semaines), plus les services cloud, sont d'environ 60 000 USD par an.",
+                    "Si 2 400 personnes donnaient 25 $ US par an, cela couvrirait nos coûts actuels, et tout excédent servirait à rémunérer davantage d’étudiants et d’enseignants.",
+                    "Pouvez-vous faire partie de ces 2 400 personnes ? Si c'est le cas, voici notre lien vers le don à l'Université de Washington :"
+                ]
+            },
+            "teach": {
+                "header": "$~Enseigner",
+                "prompt": {
+                    "none": "$~Bienvenue professeur ! Créez une classe pour configurer et gérer les comptes étudiants et les galeries de projets.",
+                    "some": "$~Bienvenue professeur ! Gérez vos cours ou créez-en un nouveau."
+                },
+                "error": {
+                    "offline": "$~Nous ne sommes pas en mesure de vérifier votre statut d'enseignant.",
+                    "login": "$~Tu dois être <connecté@://login> pour gérer les classes.",
+                    "teacher": "$~Vous devez disposer des privilèges d'enseignant pour créer et gérer des classes. Remplissez ce formulaire et faisons connaissance !"
+                },
+                "link": {
+                    "request": "$~Demander des privilèges d'enseignant",
+                    "new": "$~Créer une classe"
+                }
+            },
+            "newclass": {
+                "header": "$~Nouvelle classe",
+                "subheader": {
+                    "class": "$~Votre classe",
+                    "students": "$~Vos étudiants",
+                    "credentials": "$~Noms d'utilisateur et mots de passe",
+                    "submit": "$~Soumettre",
+                    "usernames": "$~Noms d'utilisateur"
+                },
+                "prompt": {
+                    "start": "$~Créer une classe avec des comptes générés pour tous les élèves de votre classe et vous permettre de créer des galeries auxquelles tous vos élèves peuvent ajouter des projets. Si les élèves ont déjà des comptes, vous pouvez les ajouter ultérieurement.",
+                    "review": "$~Vérifiez les noms d'utilisateur et les mots de passe que nous avons créés. Voulez-vous les *modifier* avant de continuer ? Si vous le faites, vous ne pourrez pas modifier les informations sur les étudiants ci-dessus.",
+                    "ready": "$~Faites-nous savoir quand vous serez prêt à générer vos identifiants ci-dessus. Vous pourrez les modifier après l'avoir fait.",
+                    "pending": "$~Génération de noms d'utilisateur et de mots de passe...",
+                    "submit": "$~Prêt à soumettre votre demande ? Dès que votre demande sera acceptée, vous recevrez un téléchargement de ces informations. Les mots de passe ne sont pas récupérables, alors conservez-les dans un endroit sûr.",
+                    "submitting": "$~Demande de nouveaux comptes avec les noms d'utilisateur et mots de passe ci-dessus...",
+                    "download": "$~Votre classe est prête ! Vous devriez voir un téléchargement des données de vos élèves dans votre dossier de téléchargement. *Les mots de passe ne peuvent pas être récupérés*, alors gardez ce fichier en lieu sûr ! Les élèves qui se connectent par courriel n'ont pas de mot de passe, donc leur colonne de mot de passe est vide.",
+                    "reviewEmail": "$~Vérifie les noms d'utilisateur que nous avons créés. Veux-tu les *modifier* avant de continuer ? Si tu le fais, tu ne pourras plus modifier les informations des élèves ci-dessus. Les élèves ne choisissent rien ici — ils se connectent avec l'adresse à côté de leur nom.",
+                    "downloadEmail": "$~Ta classe est prête ! Tu devrais voir un fichier téléchargé avec les données des élèves dans ton dossier de téléchargements. Il n'y a pas de mot de passe à garder en sécurité : chaque élève va sur la page de connexion, tape son adresse, et demande un lien.",
+                    "submitEmail": "$~Prêt à valider ? Dès que ce sera réussi, tu recevras un fichier à télécharger avec ces informations. Il n'y a pas de mot de passe à garder en sécurité — chaque élève se connecte avec l'adresse à côté de son nom."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nom de la classe",
+                        "placeholder": "$~un nom court"
+                    },
+                    "description": {
+                        "description": "$~description",
+                        "placeholder": "$~une description de votre classe, pour vous et vos élèves."
+                    },
+                    "existing": {
+                        "label": "$~étudiants avec comptes",
+                        "prompt": "$~Certains de vos élèves possèdent-ils déjà un compte @wordplay ? Ajoutez-les ici."
+                    },
+                    "metadata": {
+                        "description": "$~informations pour les étudiants",
+                        "placeholder": "$~par exemple, carte d'étudiant, nom de famille, prénom",
+                        "prompt": "$~Vous voulez créer de nouveaux comptes pour vos élèves ? Donnez *n'importe quelle information* sur les élèves, une par ligne, séparées par des virgules. Cela peut être des noms de famille, des prénoms, des numéros d'élèves, ou d'autres détails qui les distinguent. Nous les utiliserons pour créer des noms d'utilisateur que vous pourrez modifier ci-dessous, afin de vous aider à associer les noms d'utilisateur aux élèves. Si l'une de vos colonnes contient des adresses courriel d'élèves, ces élèves se connecteront avec un lien que nous leur enverrons par courriel, au lieu d'un mot de passe. Laissez cette cellule vide et l'élève obtiendra un nom d'utilisateur et un mot de passe comme tout le monde."
+                    },
+                    "words": {
+                        "description": "$~mots à utiliser dans les mots de passe",
+                        "placeholder": "$~par exemple, chat, point, rat...",
+                        "prompt": "$~Fournis au moins *25 mots* pour générer au hasard des mots de passe faciles à retenir de 2 à 3 mots. Choisis des mots que tes élèves connaissent ou demande-leur d'en trouver. Plus c'est au hasard, plus c'est sûr !"
+                    },
+                    "generate": {
+                        "label": "$~générer",
+                        "tip": "$~crée des noms d'utilisateur et des mots de passe à partir des informations ci-dessus."
+                    },
+                    "edit": {
+                        "label": "$~modifier",
+                        "tip": "$~modifier les informations sur les étudiants générées"
+                    },
+                    "submit": {
+                        "label": "$~créer une classe",
+                        "tip": "$~crée une nouvelle classe avec ces informations."
+                    },
+                    "affirm": {
+                        "prompt": "$~Une de vos colonnes ressemble à des adresses courriel, donc ces élèves se connecteront avec un lien au lieu d'un mot de passe. Ne faites cela que s'ils ont l'âge requis pour avoir un compte courriel là où ils vivent. *Nous n'enverrons de courriel à personne quand vous créerez cette classe* : chaque élève se rend sur la page de connexion, tape son adresse, et demande un lien.",
+                        "label": "$~Ces élèves ont l'âge requis pour avoir un compte courriel là où ils vivent."
+                    },
+                    "signin": {
+                        "prompt": "$~Tu veux créer de nouveaux comptes pour tes élèves ? D'abord, décide comment ils vont se connecter. Une classe fonctionne *d'une seule façon à la fois*, alors choisis celle qui convient le mieux à tes élèves.",
+                        "mode": {
+                            "label": "$~comment tes élèves se connectent",
+                            "labels": [
+                                "$~un nom d'utilisateur et un mot de passe",
+                                "$~un lien envoyé par courriel"
+                            ],
+                            "tips": [
+                                "$~nous créons un nom d'utilisateur et un mot de passe pour chaque élève, et tu les distribues",
+                                "$~chaque élève se connecte avec sa propre adresse courriel, donc il n'y a pas de mot de passe à perdre"
+                            ]
+                        }
+                    },
+                    "addresses": {
+                        "description": "$~adresses courriel des élèves",
+                        "placeholder": "$~par ex., mia.chen@school.edu, 204, Chen",
+                        "prompt": "$~Liste tes élèves un par ligne, *en commençant par leur adresse courriel*. Tu peux ajouter autre chose à leur sujet après une virgule — un numéro d'élève, un nom de famille — et nous nous en servirons pour créer des noms d'utilisateur que tu pourras modifier ci-dessous."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~Il y a des entrées en double dans les informations sur les étudiants.",
+                    "columns": "$~Assurez-vous que chaque élève dispose du même nombre de colonnes.",
+                    "generate": "$~Impossible de créer des noms d'utilisateur uniques.",
+                    "taken": "$~Un ou plusieurs noms d'utilisateur ci-dessus sont déjà pris",
+                    "limit": "$~Tu ne peux pas créer une classe de plus de 50 élèves à la fois.",
+                    "words": "$~Fournissez au moins 25 mots.",
+                    "account": "$~Impossible de créer certains comptes.",
+                    "generic": "$~Nous n'avons pas pu créer la classe. Voici quelques informations pour aider les développeurs à comprendre ce qui s'est passé.",
+                    "affirmation": "$~Confirmez que ces élèves ont l'âge requis pour avoir un compte courriel, avant que nous créions leurs comptes.",
+                    "inflight": "$~Cette classe a peut-être déjà été créée. Vérifiez vos classes avant de réessayer.",
+                    "addresses": "$~Chaque ligne doit commencer par une adresse courriel."
+                }
+            },
+            "class": {
+                "header": "$~Classe",
+                "subheader": {
+                    "teachers": "$~Enseignants",
+                    "students": "$~Étudiants",
+                    "galleries": "$~Galeries"
+                },
+                "prompt": {
+                    "gallery": "$~Créez une galerie pour votre classe afin d'organiser un devoir ou un projet. Tous les enseignants du projet seront les conservateurs de la galerie et tous les élèves les créateurs de la galerie.",
+                    "delete": "$~La suppression de cette classe supprimera définitivement les informations sur la classe, mais ses projets, ses galeries ou ses comptes étudiants."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nom de la classe",
+                        "placeholder": "$~nom"
+                    },
+                    "description": {
+                        "description": "$~description de la classe",
+                        "placeholder": "$~description"
+                    },
+                    "delete": {
+                        "tip": "$~supprimer cette classe pour toujours",
+                        "label": "$~Supprimer cette classe"
+                    }
+                },
+                "error": {
+                    "notfound": "$~Nous n'avons pas pu trouver ce cours ou vous n'avez pas la permission de le consulter.",
+                    "gallery": "$~Nous n'avons pas pu créer de galerie pour cette classe."
+                }
+            },
+            "characters": {
+                "header": "$~Personnages",
+                "prompt": "$~Créez des émojis et des symboles personnalisés à utiliser dans vos projets et à partager avec d'autres.",
+                "button": {
+                    "new": "$~Créer un nouveau personnage",
+                    "copy": "$~Copiez ce caractère",
+                    "remove": {
+                        "tip": "$~supprimer ce personnage",
+                        "prompt": "$~supprimer?"
+                    }
+                },
+                "error": {
+                    "offline": "$~Nous n'avons pas pu accéder à vos personnages stockés en ligne.",
+                    "noauth": "$~Tu dois être <connecté@://login> pour voir tes personnages et en créer de nouveaux.",
+                    "create": "$~Impossible de créer un nouveau personnage."
+                },
+                "subheader": {
+                    "shared": "$~Commun"
+                },
+                "unnamed": "$~Personnage sans nom"
+            },
+            "character": {
+                "header": "$~Personnage",
+                "instructions": {
+                    "empty": "$~Choisissez un mode de dessin dans la palette pour créer des formes.",
+                    "unselected": "$~Choisis un mode de dessin, ou sélectionne et modifie des formes. Utilise *$control-a* pour tout sélectionner et *$control-z* pour annuler.",
+                    "selected": "$~Utilise les touches *flèches* pour déplacer des formes. Maintiens *shift* enfoncé pour ajouter d'autres formes à une sélection. Utilise *suppr* pour retirer la sélection. Utilise *$control-c* et *$control-v* pour copier et coller, et *$control-z* pour annuler. Quand un seul tracé est sélectionné, appuie sur *entrée* pour modifier ses points. Utilise les commandes ci-dessous pour changer les formes sélectionnées.",
+                    "pixel": "$~Pour dessiner des pixels, choisissez une couleur. Cliquez ensuite sur le canevas ou utilisez les flèches pour déplacer le curseur et la barre d'espace pour créer un pixel. Double-cliquez pour remplir.",
+                    "rect": "$~Pour dessiner des rectangles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
+                    "ellipse": "$~Pour dessiner des ellipses et des cercles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
+                    "path": "$~Les chemins peuvent être des segments de ligne, des polygones et des courbes. Cliquez pour commencer à ajouter des points ou utilisez les touches *flèche* et *espace*. Appuyez sur *échapper* pour terminer le chemin. *supprimer* supprimera le dernier point.",
+                    "eraser": "$~Pour effacer des formes, cliquez ou appuyez dessus. Faites glisser pour effacer les pixels. Utilisez les touches fléchées pour déplacer la gomme et la barre d'espace pour supprimer.",
+                    "points": "$~Passe d'un point à l'autre du tracé avec *tab*. Utilise les touches *flèches* pour déplacer le point sélectionné, *entrée* pour ajouter un point juste à côté, et *suppr* pour le retirer. Utilise *courbe* pour incurver le segment qui arrive à un point, puis déplace sa poignée ; *suppr* sur une poignée le redresse à nouveau. Appuie sur *échap* quand tu as terminé.",
+                    "symbol": "$~Choisis d’ajouter des pixels ou un contour, puis choisis une lettre, un symbole ou un émoji. Un contour peut être redimensionné et tourné sans devenir flou. Les pixels peuvent être recolorés un par un. Clique ou touche quelque chose que tu as déjà fait pour le sélectionner à la place.",
+                    "image": "$~Choisis une image, puis choisis le carré à garder. Il remplace les pixels et se place sous les formes que tu as dessinées. Clique ou touche quelque chose que tu as déjà fait pour le sélectionner à la place."
+                },
+                "shape": {
+                    "shape": "$~forme",
+                    "pixel": "$~pixel",
+                    "rect": "$~rectangle",
+                    "ellipse": "$~ellipse",
+                    "path": "$~chemin",
+                    "eraser": "$~gomme",
+                    "emoji": "$~émoji",
+                    "glyph": "$~contour",
+                    "symbol": "$~symbole",
+                    "image": "$~image"
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nom du personnage",
+                        "placeholder": "$~nom"
+                    },
+                    "description": {
+                        "description": "$~description du personnage",
+                        "placeholder": "$~description"
+                    },
+                    "mode": {
+                        "label": "$~mode",
+                        "labels": [
+                            "$~sélectionner",
+                            "$~gomme",
+                            "$~pixel",
+                            "$~rectangle",
+                            "$~ellipse",
+                            "$~chemin",
+                            "$~emoji",
+                            "$~image"
+                        ],
+                        "tips": [
+                            "$~sélectionner des formes et des pixels",
+                            "$~effacer les formes et les pixels",
+                            "$~dessiner des pixels",
+                            "$~dessiner des rectangles",
+                            "$~tracer des ellipses",
+                            "$~tracer des chemins",
+                            "$~importer un emoji en tant que pixels",
+                            "$~ajouter une image comme pixels"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~remplir",
+                        "labels": ["$~aucun", "$~hériter", "$~choisir"],
+                        "tips": [
+                            "$~pas de remplissage",
+                            "$~hériter de la couleur de remplissage du texte environnant",
+                            "$~Choisissez une couleur de remplissage"
+                        ]
+                    },
+                    "stroke": {
+                        "label": "$~accident vasculaire cérébral",
+                        "labels": ["$~aucun", "$~hériter", "$~choisir"],
+                        "tips": [
+                            "$~pas d'AVC",
+                            "$~hériter de la couleur du trait du texte environnant",
+                            "$~Choisissez une couleur de contour"
+                        ]
+                    },
+                    "none": "$~aucun",
+                    "inherit": "$~couleur du texte",
+                    "strokeWidth": {
+                        "label": "$~largeur de trait",
+                        "tip": "$~la largeur du trait rendu"
+                    },
+                    "radius": {
+                        "label": "$~rayon d'angle",
+                        "tip": "$~à quoi ressemblent les coins arrondis des rectangles"
+                    },
+                    "angle": {
+                        "label": "$~angle",
+                        "tip": "$~dans quelle mesure faire pivoter la forme autour de son centre"
+                    },
+                    "width": {
+                        "label": "$~largeur",
+                        "tip": "$~quelle est la largeur de la forme"
+                    },
+                    "height": {
+                        "label": "$~hauteur",
+                        "tip": "$~quelle est la hauteur de la forme"
+                    },
+                    "closed": "$~connecté",
+                    "brushSize": {
+                        "label": "$~taille",
+                        "tip": "$~combien de cellules couvrent la brosse et la gomme"
+                    },
+                    "insertion": {
+                        "label": "$~ajouter comme",
+                        "labels": ["$~pixels", "$~contour"],
+                        "tips": [
+                            "$~ajouter le symbole comme pixels que tu peux recolorer un par un",
+                            "$~ajouter le symbole comme contour que tu peux redimensionner et tourner sans qu’il devienne flou"
+                        ]
+                    },
+                    "face": {
+                        "label": "$~police",
+                        "tip": "$~quelle police utiliser pour la forme du symbole"
+                    },
+                    "weight": {
+                        "label": "$~épaisseur",
+                        "tip": "$~à quel point les traits du symbole sont épais"
+                    },
+                    "italic": "$~italique",
+                    "glyphSize": {
+                        "label": "$~taille du symbole",
+                        "tip": "$~combien de cellules couvre le symbole"
+                    }
+                },
+                "button": {
+                    "back": {
+                        "label": "$~dos",
+                        "tip": "$~déplacer les formes sélectionnées vers l'arrière."
+                    },
+                    "toBack": {
+                        "label": "$~à l'arrière",
+                        "tip": "$~déplacer les formes sélectionnées tout au fond."
+                    },
+                    "forward": {
+                        "label": "$~avant",
+                        "tip": "$~déplacer les formes sélectionnées vers l'avant."
+                    },
+                    "toFront": {
+                        "label": "$~à l'avant",
+                        "tip": "$~déplacer les formes sélectionnées tout devant."
+                    },
+                    "copy": {
+                        "label": "$~copie",
+                        "tip": "$~copier les formes sélectionnées dans le presse-papiers."
+                    },
+                    "paste": {
+                        "label": "$~coller",
+                        "tip": "$~coller les formes copiées depuis le presse-papiers."
+                    },
+                    "clear": {
+                        "label": "$~tous",
+                        "tip": "$~retirer toutes les formes."
+                    },
+                    "clearPixels": {
+                        "label": "$~pixels",
+                        "tip": "$~retirer tous les pixels."
+                    },
+                    "undo": {
+                        "label": "$~défaire",
+                        "tip": "$~revenir au dessin précédent"
+                    },
+                    "redo": {
+                        "label": "$~refaire",
+                        "tip": "$~passer au dessin suivant"
+                    },
+                    "all": {
+                        "label": "$~sélectionner tout",
+                        "tip": "$~sélectionner toutes les formes et tous les pixels"
+                    },
+                    "end": {
+                        "label": "$~forme finale",
+                        "tip": "$~terminer le chemin actuel"
+                    },
+                    "horizontal": {
+                        "label": "$~retourner horizontalement",
+                        "tip": "$~retourner la sélection horizontalement"
+                    },
+                    "vertical": {
+                        "label": "$~retourner verticalement",
+                        "tip": "$~retourner la sélection verticalement"
+                    },
+                    "fit": {
+                        "label": "$~ajuster",
+                        "tip": "$~adapter les formes à la toile"
+                    },
+                    "dismissError": {
+                        "label": "$~rejeter",
+                        "tip": "$~ignorer le message d'erreur"
+                    },
+                    "allColor": {
+                        "label": "$~toutes les couleurs",
+                        "tip": "$~Sélectionnez toutes les formes de la même couleur que la sélection."
+                    },
+                    "saturationUp": {
+                        "label": "$~saturation",
+                        "tip": "$~augmenter la saturation"
+                    },
+                    "saturationDown": {
+                        "label": "$~saturation",
+                        "tip": "$~diminution de la saturation"
+                    },
+                    "editPoints": {
+                        "label": "$~points",
+                        "tip": "$~modifier les points du tracé sélectionné"
+                    },
+                    "donePoints": {
+                        "label": "$~terminé",
+                        "tip": "$~arrêter de modifier les points"
+                    },
+                    "addPoint": {
+                        "label": "$~ajouter un point",
+                        "tip": "$~ajouter un point à côté du point sélectionné"
+                    },
+                    "deletePoint": {
+                        "label": "$~retirer un point",
+                        "tip": "$~retirer le point sélectionné"
+                    },
+                    "curve": {
+                        "label": "$~courbe",
+                        "tip": "$~incurver le segment qui arrive au point sélectionné"
+                    },
+                    "straighten": {
+                        "label": "$~redresser",
+                        "tip": "$~redresser le segment qui arrive au point sélectionné"
+                    }
+                },
+                "feedback": {
+                    "name": "$~Les caractères ont besoin d'un nom Wordplay valide d'au moins 1 caractère. Il ne peut pas être « UI », un nombre décimal ou hexadécimal, ni le nom d'une fonction intégrée du langage.",
+                    "description": "$~Les personnages ont besoin d'une description pour que ceux qui ne peuvent pas voir sachent ce qu'ils représentent.",
+                    "end": "$~ou appuyez sur Echap.",
+                    "loadfail": "$~Il y a eu un problème lors du chargement de ce personnage.",
+                    "notfound": "$~Ce personnage n'existe pas.",
+                    "unauthenticated": "$~Tu dois être <connecté@://login> pour modifier un caractère.",
+                    "taken": "$~Vous avez déjà un personnage avec ce nom; vous ne sauvegardez pas.",
+                    "projecteditfail": "$~Un problème est survenu lors de la mise à jour des projets utilisant ce personnage. Les projets suivants doivent être corrigés :",
+                    "untitledproject": "$~Projet sans titre",
+                    "glyphLoading": "$~Chargement de la police…",
+                    "glyphMissing": "$~Cette police n’a pas de forme pour ce symbole. Essaie une autre police.",
+                    "glyphEmpty": "$~Ce symbole n’a rien à dessiner.",
+                    "glyphUnreadable": "$~Nous n’avons pas pu lire cette police. Vérifie ta connexion, ou essaie une autre police.",
+                    "imageTooBig": "$~Cette image fait $size Mo. Choisis-en une plus petite que $limit Mo.",
+                    "imageUnreadable": "$~Nous n'avons pas pu lire ce fichier comme une image."
+                },
+                "announce": {
+                    "position": "$~à $x $y",
+                    "selection": "$~$shapes[sélectionné $shapes|rien de sélectionné]",
+                    "editing": "$~modification de $#count[un point|$#count millions de points|$count points]",
+                    "editingDone": "$~modification des points terminée",
+                    "point": "$~point $index à $x $y",
+                    "control": "$~courbe $index à $x $y",
+                    "pointAdded": "$~point $index ajouté à $x $y",
+                    "pointRemoved": "$~point $index retiré, $#count[il reste un point|il reste $#count millions de points|il reste $count points]",
+                    "curved": "$~segment $index incurvé",
+                    "straightened": "$~segment $index redressé",
+                    "moved": "$~déplacé à $x $y",
+                    "drew": "$~dessiné à $x $y",
+                    "erased": "$~effacé à $x $y",
+                    "finished": "$~$shape créé à $x $y",
+                    "deleted": "$~supprimé, $#count[il reste une forme|il reste $#count formes|il reste $count formes] restante(s)",
+                    "undone": "$~étape $step sur $total annulée",
+                    "redone": "$~étape $step sur $total rétablie",
+                    "copied": "$~$#count[une forme copiée : $shapes|$count formes copiées : $shapes|$count formes copiées : $shapes]",
+                    "pasted": "$~collé à $x $y",
+                    "arranged": "$~calque $index sur $total",
+                    "flipped": "$~retourné, maintenant à $x $y",
+                    "fitted": "$~formes agrandies pour remplir la toile",
+                    "cropped": "$~cadre de recadrage à $x $y",
+                    "cropMoving": "$~déplacement du cadre de recadrage",
+                    "cropDone": "$~cadre de recadrage placé",
+                    "imported": "$~$#count[un pixel ajouté|$#count pixels ajoutés|$count pixels ajoutés] depuis $x $y"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Partager",
+                        "explanation": "$~Choisissez qui peut voir ce personnage, qui peut aider à le créer, et à quelle galerie il appartient."
+                    },
+                    "button": {
+                        "label": "$~partager",
+                        "tip": "$~partager ce personnage"
+                    },
+                    "delete": {
+                        "label": "$~supprimer",
+                        "tip": "$~supprimer ce personnage"
+                    },
+                    "public": {
+                        "label": "$~visibilité",
+                        "labels": ["$~publique", "$~privé"],
+                        "tips": [
+                            "$~n'importe qui peut voir ce personnage",
+                            "$~Seuls vous et vos collaborateurs pouvez voir ce personnage"
+                        ]
+                    },
+                    "collaborators": "$~collaborateurs",
+                    "gallery": "$~Galerie",
+                    "galleryexplanation": "$~Mettez ce personnage dans une de vos galeries, et toute personne qui s'y trouve peut le voir, l'utiliser dans ses projets, et en faire sa propre version. Il reste à vous ; vous seul pouvez le modifier.",
+                    "collaboratorsexplanation": "$~Les collaborateurs peuvent voir ce personnage et le modifier avec vous, même quand il est privé.",
+                    "publicexplanation": "$~Public signifie que tout le monde peut voir ce personnage et l'utiliser dans ses projets. Privé signifie que seuls vous, vos collaborateurs, et toute personne dans une galerie où vous l'avez mis peuvent le voir.",
+                    "tab": {
+                        "label": "$~paramètres de partage",
+                        "labels": ["$~Public", "$~Collaborateurs", "$~Galerie"],
+                        "tips": [
+                            "$~choisis qui peut voir ce personnage",
+                            "$~choisis qui peut changer ce personnage avec toi",
+                            "$~choisis une galerie où montrer ce personnage"
+                        ]
+                    }
+                },
+                "image": {
+                    "instructions": "$~Fais glisser le carré pour le déplacer, ou utilise le curseur *taille* pour changer la portion de l'image à garder. Avec le clavier, appuie sur *entrée* pour commencer à le déplacer, puis utilise les touches *flèches*, et appuie de nouveau sur *entrée* quand tu as fini.",
+                    "button": {
+                        "label": "$~envoyer",
+                        "tip": "$~choisis un fichier image depuis cet appareil"
+                    },
+                    "add": {
+                        "label": "$~ajouter",
+                        "tip": "$~ajouter le carré choisi au caractère sous forme de pixels"
+                    },
+                    "crop": {
+                        "label": "$~cadre de recadrage",
+                        "tip": "$~le carré de l'image à garder"
+                    },
+                    "preview": "$~ce qui sera ajouté",
+                    "size": {
+                        "label": "$~taille",
+                        "tip": "$~quelle portion de l'image garder"
+                    }
+                }
+            },
+            "updates": {
+                "header": "$~Mises à jour",
+                "content": [
+                    "$~Voici les dernières nouveautés, améliorations et corrections de bugs de @wordplay. Nous publions des mises à jour chaque semaine, généralement le samedi, sauf en cas de bug urgent."
+                ],
+                "tips": {
+                    "expand": "$~Développer les mises à jour de cette date",
+                    "collapse": "$~Réduire les mises à jour de cette date"
+                },
+                "categories": {
+                    "added": "$~Ajouté",
+                    "changed": "$~Modifié",
+                    "removed": "$~Supprimé",
+                    "fixed": "$~Fixé"
+                }
+            },
+            "design": {
+                "header": "$~Conception",
+                "description": "$~Ce document décrit le système de conception visuelle de @wordplay, notamment les couleurs, les polices, les espacements et les composants réutilisables. Pour contribuer, consultez les guides <design wiki@https://github.com/wordplaydev/wordplay/wiki/design> et <develop wiki@https://github.com/wordplaydev/wordplay/wiki/develop>.",
+                "theme": "$~Thème",
+                "colors": "$~Couleurs",
+                "palette": "$~Palette",
+                "semantic": "$~Couleurs sémantiques",
+                "fonts": "$~Polices de caractères",
+                "spacing": "$~Espacement",
+                "typography": "$~Typographie",
+                "components": "$~Composants",
+                "col": {
+                    "component": "$~Composant",
+                    "preview": "$~Aperçu",
+                    "variable": "$~Variable",
+                    "color": "$~Couleur",
+                    "hex": "$~Hex",
+                    "description": "$~Description",
+                    "cssvalue": "$~valeur CSS",
+                    "computed": "$~Calculé",
+                    "primaryface": "$~Visage principal",
+                    "contrast": "$~Contraste"
+                },
+                "demo": {
+                    "button": "$~Exemple",
+                    "note": "$~Ceci est une note.",
+                    "notice": "$~Ceci est un avis.",
+                    "header": "$~En-tête",
+                    "subheader": "$~Sous-titre",
+                    "toggleon": "$~Sur",
+                    "toggleoff": "$~Désactivé",
+                    "textfieldplaceholder": "$~Saisissez du texte…",
+                    "textfielddescription": "$~Exemple de champ de texte",
+                    "optionslabel": "$~Exemple",
+                    "optiona": "$~Option A",
+                    "optionb": "$~Option B",
+                    "optionc": "$~Option C",
+                    "logoresting": "$~Au repos",
+                    "logoloading": "$~Chargement",
+                    "logoscripts": "$~À travers les systèmes d'écriture",
+                    "logodownloadsvg": "$~Télécharger le SVG",
+                    "logodownloadpng": "$~Télécharger le PNG (512px)",
+                    "logodownloadcard": "$~Télécharger l'image de partage"
+                },
+                "accessibility": "$~Accessibilité des couleurs",
+                "accessibilityRules": [
+                    "$~Tout ce qui s'affiche comme *texte* doit utiliser une des variantes de texte AA (*--color-gold-text*, *--color-grey-text*, *--color-blue-text*, *--color-orange-text*, ou une variable sémantique qui pointe vers l'une d'elles). Elles atteignent le contraste de 4,5:1 que <WCAG 2.2@https://www.w3.org/TR/WCAG22/> exige. Les teintes de marque plus vives servent seulement aux arrière-plans, aux bordures et aux surlignages, qui ont besoin de 3:1 ou de rien. Ces rapports sont contrôlés par des tests unitaires et par des analyses automatiques de chaque page, en mode clair et en mode sombre. Une exception voulue : le gris des bordures en mode clair est en dessous de 3:1, car ici les bordures sont une séparation décorative et chaque limite importante porte un autre indice.",
+                    "Ne transmets jamais un sens par la couleur seule : accompagne chaque état codé par couleur d'un second indice — une forme, un style de trait, un symbole ou un mot. Par exemple, l'éditeur dessine le surlignage du curseur et les conflits majeurs en trait *plein*, la sortie sélectionnée en trait *tireté*, et les conflits mineurs en trait *pointillé*. Ainsi la gravité et la sélection restent distinctes sans la teinte.",
+                    "Consulte le guide <wiki de conception@https://github.com/wordplaydev/wordplay/wiki/design> pour toutes les consignes destinées aux contributeurs."
+                ],
+                "logo": "$~Logo",
+                "logoDescription": [
+                    "$~Le logo de Wordplay est une bulle de dialogue qui contient une seule lettre : une petite scène sur laquelle la bulle peut tout dire — une lettre du système d'écriture du lecteur, un emoji, ou un cercle, un triangle et un carré pendant qu'une chose se charge. Dans l'application, la lettre suit le système d'écriture de ta langue principale ; sur les surfaces neutres, comme l'icône du navigateur et les images de partage, la bulle montre les trois formes, prêtes à créer une chose.",
+                    "Le dessin lui-même ne montre jamais de mouvement. Le mouvement est un comportement — la page d'accueil change ce que dit la bulle en même temps que le sélecteur de langue, et pendant le chargement les formes sautent chacune à leur tour, comme une foule qui fait la vague — et il suit toujours le réglage de vitesse d'animation. Il s'arrête tout à fait quand l'animation est désactivée.",
+                    "La marque est toujours dessinée avec la couleur du texte actuel. Ainsi, partout où le texte respecte les règles de contraste, le logo les respecte aussi."
+                ],
+                "copyvalue": "$~copier la valeur CSS complète"
+            },
+            "thanks": {
+                "header": "$~Merci",
+                "intro": "$~Merci à nos *$#count[$#count contributeur|$count contributeurs|$count contributeurs]* qui ont participé à la conception, au développement, à la traduction et au contenu de @wordplay ! Et merci aux nombreux enseignants et jeunes qui ont guidé notre conception dans des groupes de discussion, des séances de conception et des salles de classe. Nous ne les nommons pas ici pour protéger leur vie privée.\n\nCe projet a été soutenu par la National Science Foundation avec les bourses 2318257, 2031265, 2100296 et 2122950, par l'Université de Washington, et par de généreux <dons//donate> de personnes comme vous.",
+                "teachers": "$~Enseignants",
+                "contributors": "$~Contributeurs"
+            },
+            "localize": {
+                "header": "$~Localiser",
+                "description": [
+                    "$~Ici, vous pouvez consulter toutes les chaînes localisables de la plateforme et proposer des traductions ou des corrections pour les textes non écrits et les traductions automatiques. Vous pouvez soumettre vos corrections pour examen lorsque vous serez prêt.",
+                    "Lorsque vous écrivez, veillez à utiliser un langage simple, adapté à un jeune public qui ne maîtrise peut-être pas encore un vocabulaire soutenu. Soyez également cohérent et utilisez la même terminologie dans différents textes, lorsque cela est pertinent."
+                ],
+                "workspaceLink": "$~voir tout le texte + envoyer",
+                "workspaceHeader": "$~Texte à rédiger ou à réviser",
+                "submitHeader": "$~Soumettre",
+                "submitPrompt": "$~Lorsque vous serez prêt à proposer cette série de modifications, vous pourrez les soumettre ci-dessous.",
+                "bundleSummary": "$~Modifications dans ce lot",
+                "editEntry": "$~Retournez en arrière pour modifier cette chaîne.",
+                "revertEntry": "$~Supprimer cette modification du lot",
+                "prevBundleItem": "$~Consultez la modification précédente",
+                "nextBundleItem": "$~Examinez la prochaine modification",
+                "descriptionField": {
+                    "description": "$~Une brève description du lot de modifications, afin d'aider les réviseurs à comprendre les changements.",
+                    "placeholder": "$~Qu'avez-vous changé, et pourquoi ?"
+                },
+                "notSpamLabel": "$~Je vous assure que ces modifications ne sont pas du spam.",
+                "notSpamNote": "$~Wordplay est un projet à but non lucratif mené par des bénévoles.",
+                "requireLogin": "$~Vous devez être connecté pour soumettre des suggestions de localisation.",
+                "submit": {
+                    "description": "$~Soumettez ce lot de modifications",
+                    "prompt": "$~Soumettre"
+                },
+                "submitSuccess": "$~Merci ! Vos modifications ont été soumises et seront examinées prochainement.",
+                "submitError": "$~Une erreur s'est produite lors de l'envoi. Vos modifications sont toujours enregistrées sur cet appareil ; veuillez réessayer.",
+                "empty": "$~Aucune chaîne ne correspond à ce filtre.",
+                "prevEntry": "$~Modifier la chaîne précédente",
+                "nextEntry": "$~Modifier la chaîne suivante",
+                "qualityMode": {
+                    "label": "$~montrer",
+                    "labels": [
+                        "$~tous",
+                        "$~traduit automatiquement ou non écrit"
+                    ],
+                    "tips": [
+                        "$~afficher toutes les chaînes",
+                        "$~n'afficher que les chaînes traduites automatiquement ou non écrites"
+                    ]
+                },
+                "sectionMode": {
+                    "label": "$~section",
+                    "labels": [
+                        "$~tous",
+                        "$~terme",
+                        "$~jeton",
+                        "$~nœud",
+                        "$~base",
+                        "$~saisir",
+                        "$~sortir",
+                        "$~interface utilisateur",
+                        "$~galerie",
+                        "$~modération"
+                    ],
+                    "tips": [
+                        "$~afficher toutes les sections",
+                        "$~terminologie partagée",
+                        "$~descriptions des jetons",
+                        "$~constructions du langage de programmation",
+                        "$~types intégrés comme nombre, texte, liste",
+                        "$~Descriptions des flux et des sources d'entrée",
+                        "$~descriptions des types de sortie",
+                        "$~l'interface utilisateur de l'application",
+                        "$~contenu par défaut de la galerie",
+                        "$~messages de modération de contenu"
+                    ]
+                },
+                "section": {
+                    "glossary": "$~Terminologie",
+                    "token": "$~Jetons",
+                    "node": "$~constructions du langage",
+                    "basis": "$~Types intégrés",
+                    "input": "$~Entrées",
+                    "output": "$~Sorties",
+                    "ui": "$~interface utilisateur",
+                    "gallery": "$~Galerie",
+                    "moderation": "$~Modération"
+                },
+                "singletonWordsWarning": "$~Certains mots de votre brouillon n'apparaissent qu'une seule fois dans tout le texte. Êtes-vous certain(e) de leur orthographe correcte et de leur cohérence avec le reste du texte ?",
+                "viewPR": "$~Consulter la demande de fusion",
+                "oneLocaleNote": "$~Chaque contribution concerne une langue à la fois. Ce lot sera soumis sous forme de modifications à la variable $locale . Si vous souhaitez contribuer à une autre langue, veuillez d'abord la sélectionner ; les modifications enregistrées dans chaque langue sont conservées séparément.",
+                "literalTermsWarning": "$~Ton brouillon utilise des mots du glossaire comme texte simple. Touche-en un pour le transformer en lien vers le glossaire.",
+                "checkReadingLevel": "$~Vérifie le niveau de lecture de ce texte",
+                "readingLevelComplex": "$~Ceci peut être difficile à lire. Essaie des phrases plus courtes et des mots plus simples.",
+                "readingLevelOk": "$~Ceci se lit clairement pour le niveau de lecture visé.",
+                "tabs": {
+                    "label": "$~section",
+                    "labels": [
+                        "$~À propos",
+                        "$~Texte",
+                        "$~Termes",
+                        "$~Glossaire",
+                        "$~Envoyer"
+                    ],
+                    "tips": [
+                        "$~comment fonctionne la traduction, et des notes pour les personnes qui écrivent cette langue",
+                        "$~parcours et modifie le texte de la plateforme",
+                        "$~définis des phrases que tu peux réutiliser dans le texte de cette langue",
+                        "$~ajouter les pluriels et autres façons d'écrire les termes de cette langue",
+                        "$~revois tes modifications et envoie-les"
+                    ]
+                },
+                "toSubmit": "$~revois et envoie tes modifications",
+                "submitEmpty": "$~Tu n'as pas encore de modifications. Choisis l'onglet Texte pour en écrire, ou modifie le texte en contexte avec le mode d'édition.",
+                "clear": {
+                    "description": "$~supprime toutes tes modifications non envoyées pour cette langue",
+                    "prompt": "$~tout supprimer ?"
+                }
+            },
+            "breadcrumb": {
+                "label": "$~chapelure",
+                "home": "$~Maison"
+            },
+            "admin": {
+                "header": "$~Privilèges",
+                "prompt": "$~Toutes les personnes ci-dessous peuvent faire quelque chose que la plupart des gens ne peuvent pas faire. Un changement ici les touche tout de suite, même si une page déjà ouverte peut mettre jusqu'à une heure à s'en apercevoir. Super-utilisateur inclut la modération et l'enseignement, donc une personne qui l'a n'a pas besoin des deux autres.",
+                "claim": {
+                    "admin": "$~Super-utilisateur",
+                    "mod": "$~Modérateur",
+                    "teacher": "$~Enseignant",
+                    "banned": "$~Ne peut pas partager publiquement"
+                },
+                "creator": "$~Créateur",
+                "email": "$~Courriel",
+                "privileges": "$~Privilèges",
+                "button": {
+                    "revoke": "$~Retirer tous les privilèges",
+                    "lift": {
+                        "label": "$~Redonner le droit de partager",
+                        "tip": "$~Laisser ce créateur partager publiquement de nouveau, et remettre son compteur d'avertissements à zéro"
+                    }
+                },
+                "confirm": "$~Leur compteur d'avertissements revient à zéro et ils peuvent de nouveau partager publiquement. La trace de ce qui s'est passé reste, pour qu'un modérateur qui les regarde plus tard puisse encore la voir.",
+                "ownAdmin": "$~Vous ne pouvez pas retirer vos propres privilèges. Demandez à un autre administrateur.",
+                "nobody": "$~Personne n'a de privilège pour l'instant.",
+                "error": {
+                    "notadmin": "$~Ceci est un espace de superutilisateur. Il n'y a rien ici que vous puissiez changer.",
+                    "login": "$~Vous devez être <connecté@://login> pour voir cette page.",
+                    "offline": "$~Nous n'avons pas pu charger la liste des personnes ayant des privilèges. Êtes-vous en ligne ?",
+                    "save": "$~Nous n'avons pas pu enregistrer ce changement. Voulez-vous réessayer ?",
+                    "none": "$~Choisissez au moins un privilège avant d'ajouter quelqu'un."
+                },
+                "proxy": {
+                    "header": "$~Regarder en tant que quelqu'un d'autre",
+                    "prompt": "$~Ouvre Wordplay en tant qu'un autre créateur, pour voir ce qu'il voit quand quelque chose ne marche pas pour lui. C'est en lecture seule : rien de ce que tu fais n'est enregistré, et il ne verra pas que tu étais là. Cela s'ouvre dans un nouvel onglet, et fermer cet onglet met fin à la session.\n\nChaque fois que quelqu'un fait cela, c'est enregistré.",
+                    "start": {
+                        "label": "$~Regarder",
+                        "tip": "$~Ouvrir une session en lecture seule en tant que ce créateur dans un nouvel onglet"
+                    }
+                }
+            }
+        }
+    }
+}

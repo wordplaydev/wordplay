@@ -1,0 +1,118 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "ui": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "annotations": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/annotations"
+                },
+                "banner": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/banner"
+                },
+                "checkpoints": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/checkpoints"
+                },
+                "collaborate": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/collaborate"
+                },
+                "connection": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/connection"
+                },
+                "dialog": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/dialog"
+                },
+                "docs": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/docs"
+                },
+                "edit": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/edit"
+                },
+                "email": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/email"
+                },
+                "emoji": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/emoji"
+                },
+                "feedback": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/feedback"
+                },
+                "font": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/font"
+                },
+                "gallery": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/gallery"
+                },
+                "gallerymoderation": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/gallerymoderation"
+                },
+                "howto": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/howto"
+                },
+                "localize": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/localize"
+                },
+                "markup": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/markup"
+                },
+                "output": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/output"
+                },
+                "palette": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/palette"
+                },
+                "phonemes": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/phonemes"
+                },
+                "phrases": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/phrases"
+                },
+                "presence": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/presence"
+                },
+                "project": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/project"
+                },
+                "proxy": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/proxy"
+                },
+                "save": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/save"
+                },
+                "source": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/source"
+                },
+                "template": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/template"
+                },
+                "tile": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/tile"
+                },
+                "timeline": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/timeline"
+                },
+                "tour": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/tour"
+                },
+                "translation": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/translation"
+                },
+                "update": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/update"
+                },
+                "wellspring": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/wellspring"
+                },
+                "widget": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/widget"
+                }
+            }
+        }
+    }
+}

@@ -15,6 +15,11 @@ import { KeywordIds } from '@parser/Keywords';
 import ReservedSymbols from '@parser/ReservedSymbols';
 import type LocalePath from '@util/verify-locales/LocalePath';
 import {
+    LocaleSections,
+    getSectionPath,
+    writeLocale,
+} from '@util/verify-locales/localeFiles';
+import {
     DefaultLocale,
     readLocaleText,
     getLocalePath,
@@ -250,12 +255,7 @@ async function handleLocale(
             // run lost all of it; a checkpointed string carries `$~` and is skipped
             // on the next run, so what landed stays bought.
             async (partial) => {
-                if (
-                    await writeFormatted(
-                        getLocalePath(locale),
-                        JSON.stringify(partial, null, 4),
-                    )
-                )
+                if (await writeLocale(localeFileLog, locale, partial))
                     localeFileLog.good('Saved progress');
             },
         );
@@ -288,10 +288,7 @@ async function handleLocale(
         // If the locale was revised, write the results (Prettier-formatted).
         if (localeChanged || localeIsNew || localeLinked) {
             localeFileLog.good('Saved repairs');
-            await writeFormatted(
-                getLocalePath(locale),
-                JSON.stringify(linkedLocale, null, 4),
-            );
+            await writeLocale(localeFileLog, locale, linkedLocale);
         }
     }
 
@@ -742,7 +739,6 @@ if (
     translatedPaths.size > 0
 ) {
     const enUSLocale = 'en-US';
-    const enUSPath = getLocalePath(enUSLocale);
     const enUSText = must(readLocaleText(log, enUSLocale), 'the en-US locale');
     let stripped = 0;
     for (const revisedString of revisedStrings) {
@@ -767,7 +763,7 @@ if (
         }
     }
     if (stripped > 0) {
-        await writeFormatted(enUSPath, JSON.stringify(enUSText, null, 4));
+        await writeLocale(log, enUSLocale, enUSText);
         log.good(
             `Cleared "$!" Revised markers from ${stripped} en-US strings whose translations propagated to sibling locales.`,
         );
@@ -799,11 +795,14 @@ if (FocalLocales.length === 0 && steps.drift) {
 
         /** The en-US source, the locale's file, and the matching kinds map. */
         const filesFor = (locale: string) => [
-            [
-                getLocalePath(SourceLocale),
-                getLocalePath(locale),
-                localeKinds,
-            ] as const,
+            ...LocaleSections.map(
+                (section) =>
+                    [
+                        getSectionPath(SourceLocale, section),
+                        getSectionPath(locale, section),
+                        localeKinds,
+                    ] as const,
+            ),
             ...tutorials.map(
                 ({ mode, kinds }) =>
                     [

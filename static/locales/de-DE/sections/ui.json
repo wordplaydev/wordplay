@@ -1,0 +1,2773 @@
+{
+    "$schema": "../../../static/schemas/sections/ui.json",
+    "ui": {
+        "font": {
+            "app": "Noto Sans",
+            "code": "Noto Sans Mono",
+            "missing": "$~NEIN",
+            "form": {
+                "sans": "$~eine serifenlose Schrift",
+                "serif": "$~eine Serifenschrift",
+                "slab": "$~eine Serifenschrift mit breiten Serifen",
+                "typewriter": "$~eine Schreibmaschinenschrift",
+                "handwriting": "$~Handschrift",
+                "brush": "$~eine Pinselschrift",
+                "script": "$~eine Schreibschrift",
+                "poster": "$~eine Plakatschrift",
+                "pixel": "$~eine Pixelschrift",
+                "outline": "$~eine hohle Schrift",
+                "textured": "$~eine strukturierte Schrift",
+                "emoji": "$~Bilder statt Buchstaben"
+            },
+            "impression": {
+                "calm": "$~ruhig",
+                "oldFashioned": "$~altmodisch",
+                "strong": "$~kräftig",
+                "quirky": "$~schrullig",
+                "playful": "$~verspielt",
+                "excited": "$~aufgeregt",
+                "childlike": "$~kindlich",
+                "artistic": "$~künstlerisch",
+                "futuristic": "$~futuristisch",
+                "energetic": "$~energiegeladen",
+                "cute": "$~niedlich",
+                "cheerful": "$~fröhlich",
+                "fancy": "$~aufwendig"
+            },
+            "mechanic": {
+                "sameWidth": "$~jeder Buchstabe gleich breit",
+                "tallLowercase": "$~kleine Buchstaben so hoch wie die Großbuchstaben",
+                "shortLowercase": "$~kleine Buchstaben viel kleiner als die Großbuchstaben"
+            },
+            "description": {
+                "and": "$~$first und $second",
+                "full": "$~$form$impression[, $impression|]$mechanics[, $mechanics|]"
+            }
+        },
+        "phrases": {
+            "welcome": "Wilkommen"
+        },
+        "widget": {
+            "confirm": {
+                "cancel": "$~stornieren"
+            },
+            "dialog": {
+                "close": "$~schließen"
+            },
+            "loading": {
+                "message": "$~Wird geladen, danke fürs Warten!"
+            },
+            "home": "Startseite",
+            "table": {
+                "cell": {
+                    "description": "$~Diese Zelle bearbeiten",
+                    "placeholder": "$~Wert"
+                },
+                "addcolumn": "$~füge eine Spalte vor dieser Spalte hinzu",
+                "removecolumn": "$~diese Spalte entfernen"
+            },
+            "formatted": {
+                "edit": "$~formatierten Text bearbeiten",
+                "preview": "$~formatierten Text in Vorschau anzeigen",
+                "highlight": "$~Hervorhebungsbeispiel",
+                "bullet": "$~Aufzählungszeichen",
+                "attention": "$~Diesen Ausdruck hervorheben",
+                "defect": "$~Beispiel als erwarteten Fehler markieren"
+            },
+            "backtotop": "$~Zurück nach oben",
+            "overflow": {
+                "button": {
+                    "on": "$~Zusätzliche Steuerelemente ausblenden",
+                    "off": "$~Zusätzliche Steuerelemente anzeigen"
+                },
+                "popup": "$~Zusätzliche Bedienelemente"
+            },
+            "color": {
+                "field": "$~Farbfeld",
+                "instructions": "$~Benutze die Pfeiltasten links und rechts, um den Farbton zu ändern, die Pfeiltasten hoch und runter, um die Farbstärke zu ändern, und die Tasten Bild-hoch und Bild-runter, um die Helligkeit zu ändern. Halte die Umschalttaste für feinere Schritte gedrückt. Mit einem Screenreader benutze zuerst dieses Bedienelement, oder benutze die Regler für Helligkeit, Farbstärke und Farbton darunter.",
+                "value": "$~$color , LCH $l , $c , $h",
+                "input": {
+                    "description": "$~Geben Sie eine Farbe in einem beliebigen Webformat ein",
+                    "placeholder": "$~#f00, rgb(), hsl(), red",
+                    "invalid": "$~keine anerkannte Farbe",
+                    "format": "$~erkanntes Format"
+                },
+                "pick": {
+                    "tip": "$~eine Farbe von deinem Bildschirm auswählen"
+                }
+            },
+            "logo": {
+                "description": "$~Eine Sprechblase mit einem Buchstaben deines Schriftsystems darin"
+            },
+            "synced": {
+                "saved": "$~Auf allen Geräten gespeichert",
+                "signedOut": "$~Wird auf allen Geräten gespeichert, wenn du angemeldet bist"
+            }
+        },
+        "tile": {
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~Vollbild verlassen",
+                    "off": "$~Fensterkachel auf den ganzen Bildschirm vergrößern"
+                },
+                "show": {
+                    "on": "$~$name verstecken",
+                    "off": "$~$name zeigen"
+                },
+                "showSource": {
+                    "on": "$~Quelle $name verbergen",
+                    "off": "$~Quelle $name zeigen"
+                }
+            },
+            "label": {
+                "output": "$~Bühne",
+                "palette": "$~Palette",
+                "docs": "$~Führung",
+                "source": "$~Quelle",
+                "collaborate": "$~zusammenarbeiten"
+            },
+            "button": {
+                "collapse": "$~Fenster ausblenden"
+            }
+        },
+        "project": {
+            "error": {
+                "unknown": "$~Dieses Projekt gibt es nicht, oder du hast keinen Zugriff darauf.",
+                "translate": "$~Beim Übersetzen Ihres Projekts ist ein Problem aufgetreten.",
+                "tile": "$~Hoppla, da ist ein Fehler aufgetreten.",
+                "reset": "$~Versuch zum Zurücksetzen...",
+                "translateBroken": "$~Übersetzen hätte Fehler in deinem Programm verursacht. Deshalb wurde nichts geändert. Probiere eine andere Sprache oder übersetze noch einmal."
+            },
+            "button": {
+                "removeCollaborator": "$~Mitarbeiter entfernen",
+                "copy": {
+                    "tip": "$~Projekt als Text in die Zwischenablage kopieren",
+                    "label": "$~als Text kopieren"
+                },
+                "addSource": "$~eine weitere @Source erstellen, damit du Daten oder geteilten Code in einer eigenen Datei aufbewahren kannst",
+                "revert": "$~zum Originalcode zurückkehren",
+                "focusOutput": "$~Fokus Tastatur auf der Bühne",
+                "focusSource": "$~Konzentrieren Sie sich auf die nächste Quelle",
+                "focusDocs": "$~Fokus auf die Dokumentation",
+                "focusPalette": "$~Konzentrieren Sie sich auf die Palette",
+                "focusCycle": "$~Konzentriere dich auf die nächste Kachel",
+                "unsaved": "$~Speicherfehler anzeigen",
+                "translate": {
+                    "tip": "$~dieses Projekt in eine neue Sprache übersetzen und es mehrsprachig machen",
+                    "label": "$~übersetzen"
+                },
+                "primary": "$~die Sprache von Text, der nicht mit einer Sprache markiert ist",
+                "share": {
+                    "tip": "$~Optionen zur Projektfreigabe anzeigen",
+                    "label": "$~Aktie"
+                },
+                "savedLocally": "$~Projekte werden lokal, aber nicht online gespeichert",
+                "savedOnline": "$~Projekte werden online gespeichert",
+                "destination": "$~in diese Sprache übersetzen",
+                "remix": {
+                    "tip": "$~erstelle deine eigene Kopie dieses Projekts, um es zu ändern",
+                    "label": "$~remixen"
+                },
+                "languages": "$~zeige die Sprachen, in denen dieses Projekt geschrieben ist",
+                "addLanguage": "$~schreibe dieses Projekt auch in dieser Sprache",
+                "removeLanguage": "$~höre auf, dieses Projekt in dieser Sprache zu schreiben",
+                "firstLanguage": "$~mache dies zur ersten Sprache des Projekts",
+                "removeUnusedLanguages": {
+                    "tip": "$~entferne die Sprachen, die der Code dieses Projekts nicht verwendet",
+                    "label": "$~unbenutzte entfernen"
+                },
+                "tinker": {
+                    "label": "$~teste es …",
+                    "tip": "$~öffne eine Kopie dieses Beispiels in einem neuen Fenster, damit du es ändern und sehen kannst, was passiert"
+                }
+            },
+            "field": {
+                "name": {
+                    "description": "$~Projektnamen bearbeiten",
+                    "placeholder": "$~Name",
+                    "invalid": "$~Unvollständige Übersetzung – überprüfen Sie Ihre Anführungszeichen und Sprachkennzeichnungen, wie z. B. „hi“/„en“hola“/„es“."
+                }
+            },
+            "help": "$~Tastaturkürzel anzeigen",
+            "collapsed": "$~Alle Ihre Fenster sind ausgeblendet! Sie finden sie in der Symbolleiste unten",
+            "save": {
+                "projectsNotLoadingOnline": "$~Online-Projekte können nicht geladen werden.",
+                "settingsUnsaved": "$~Einstellungen können nicht online gespeichert werden.",
+                "failureReason": {
+                    "indexedDBWriteFailed": "$~Ihr Browser konnte diese Projekte auf diesem Gerät nicht speichern.",
+                    "indexedDBUnsupported": "$~Ihr Browser erlaubt @wordplay nicht, Projekte auf diesem Gerät zu speichern.",
+                    "firestoreBatchFailed": "$~Wir konnten diese nicht in die Cloud senden. Sie sind noch sicher auf diesem Gerät.",
+                    "projectContainsPII": "$~Diese Projekte scheinen persönliche Informationen zu enthalten, daher haben wir sie nicht online gespeichert. Öffnen Sie jedes Projekt, um zu prüfen, welche Informationen persönlich erscheinen.",
+                    "localProjectStorageFailed": "$~Auf diesem Gerät war kein Speicherplatz mehr verfügbar, und diese Projekte befinden sich noch nicht in der Cloud, daher sind sie gefährdet.<Sign in@/login> Dadurch werden sie online gespeichert, anstatt nur auf diesem Gerät.",
+                    "projectTooLarge": "$~Diese Projekte sind zu groß, um sie online zu speichern. Sie sind auf diesem Gerät weiterhin sicher. Versuche, sie kleiner zu machen.",
+                    "noCloudTarget": "$~Diese Projekte sind nur auf diesem Gerät, weil @wordplay keinen Ort hatte, um sie online zu speichern. <Melde dich anlogin>, um sie zu speichern.",
+                    "cloudWriteRefused": "$~Die Cloud hat diese Änderungen nicht angenommen. Deshalb haben wir die Version aus dem Internet verwendet. Wenn du glaubst, dass du diese ändern können solltest, frag die Person, die sie mit dir geteilt hat."
+                },
+                "projectsNotSavingOnline": "$~Einige Projekte sind nur auf diesem Gerät, noch nicht online."
+            },
+            "dialog": {
+                "languages": {
+                    "header": "$~Sprachen",
+                    "explanation": [
+                        "$~Dies sind die Sprachen, in denen dein Projekt geschrieben ist.",
+                        "Du kannst eine Sprache zum Schreiben hinzufügen, eine entfernen, die du nicht verwendest, oder das ganze Projekt in eine neue Sprache übersetzen."
+                    ],
+                    "count": "$~$#count[$count Sprache|$count Sprachen]",
+                    "meaning": [
+                        "$~Die Sprachen eines Projekts entscheiden, welche Namen und Wörter der Code verwenden kann. Wenn dein Projekt auf Spanisch geschrieben ist, braucht es hier Spanisch, sonst bedeuten Namen wie \\Frase\\ nichts.",
+                        "Jeder, der dein Projekt öffnet, lädt diese Sprachen, und die erste entscheidet, wie deine Ausgabe angeordnet wird. Englische Namen funktionieren immer, in jedem Projekt."
+                    ],
+                    "unused": "$~nicht verwendet",
+                    "unloaded": "$~konnte nicht geladen werden",
+                    "checking": "$~Suche nach Sprachen, die dein Code verwendet…",
+                    "complete": "$~Dein Code verwendet keine Sprache, die deinem Projekt fehlt.",
+                    "search": {
+                        "description": "$~Sprachen nach Namen oder Region filtern",
+                        "placeholder": "$~Sprache oder Region"
+                    },
+                    "tab": {
+                        "label": "$~Spracheinstellungen",
+                        "labels": ["$~Geschrieben in", "$~Übersetzen"],
+                        "tips": [
+                            "$~sieh und ändere die Sprachen, in denen dieses Projekt geschrieben ist",
+                            "$~übersetze die Namen, den Text und die Dokumentation dieses Projekts in eine andere Sprache"
+                        ]
+                    },
+                    "prompt": "$~übersetzen",
+                    "mode": {
+                        "label": "$~was das Übersetzen bewirkt",
+                        "labels": ["$~hinzufügen", "$~neu schreiben"],
+                        "tips": [
+                            "$~die neue Sprache zu deinem Projekt hinzufügen, ohne etwas von dem zu verlieren, was du geschrieben hast",
+                            "$~dein Projekt in der neuen Sprache neu schreiben und dabei das Geschriebene ersetzen"
+                        ]
+                    },
+                    "source": "$~Text und Namen, die mit einer Sprache markiert sind, wie \\'hola'/es\\, werden aus dieser Sprache übersetzt. Wähle die Sprache für alles, was nicht markiert ist."
+                }
+            },
+            "subheader": {
+                "source": "$~Quelle",
+                "destination": "$~Ziel",
+                "missing": "$~Vielleicht fehlend"
+            },
+            "defaults": {
+                "starterCode": "¶Willkommen zu deinem leeren Projekt! Dies ist ein Kommentar.\n\nDu kannst ihn verwenden, um dein Projekt zu beschreiben, Notizen zu machen und\nzu erklären, was andere über deine Arbeit wissen sollen.\nEr unterstützt *fett*, /kursiv/, <links@https://wordplay.dev> und mehr.¶\nSatzglied('hi')"
+            },
+            "toggle": {
+                "fullscreen": {
+                    "on": "$~Browser im Vollbildmodus beenden",
+                    "off": "$~Browser im Vollbildmodus anzeigen"
+                },
+                "editName": {
+                    "on": "$~zeige den Namen in deiner Sprache",
+                    "off": "$~bearbeite den Namen in jeder Sprache"
+                }
+            },
+            "label": "$~Projektsteuerung",
+            "tour": {
+                "launch": "$~Machen Sie eine Tour durch die Projektsteuerung",
+                "controls": "$~Diese /Steuerelemente/ am unteren Rand gelten für das *Projekt als Ganzes*, unabhängig davon, in welchem Bereich Sie gerade arbeiten.",
+                "name": "$~Das Feld /name/ ist der Name deines Projekts. Namen erscheinen in den Ansichten *Projekt* und *Galerie*.",
+                "sourceToggle": "$~Dieser Schalter blendet die *Quelldatei* ein oder aus. Die *anderen Schalter* in dieser Zeile bewirken dasselbe für die anderen Kacheln.",
+                "addSource": "$~Manche Projekte profitieren von *mehreren* Quelldateien, in denen die Daten in einer Datei gespeichert und in die *Hauptquelldatei* importiert werden. Mit der Schaltfläche „Quelle hinzufügen“ wird eine neue Quelldatei erstellt.",
+                "share": "$~Über den Dialog „Teilen“ können Sie Ihr Projekt mit *Galerien*, mit der *Öffentlichkeit* teilen oder es als *Text* kopieren, um es an anderer Stelle zu teilen.",
+                "checkpoints": "$~Über das Panel /revisions/ können Sie zu früheren Versionen Ihres Projekts zurückkehren und Momentaufnahmen von Versionen erstellen, die Sie sich merken möchten.",
+                "languages": "$~Die Schaltfläche /Sprachen/ zeigt, in welchen Sprachen dein Projekt geschrieben ist, lässt dich eine hinzufügen oder entfernen und kann die *Namen*, den *Text* und die *Dokumentation* deines Projekts in eine neue Sprache *übersetzen*."
+            },
+            "options": {
+                "layout": {
+                    "auto": "$~auto — aktuell $layout"
+                }
+            },
+            "link": {
+                "remixOf": "$~gehe zum Projekt, aus dem dieses remixt wurde",
+                "backTo": "$~zurück zu $place"
+            },
+            "scratch": "$~Dies ist eine vorübergehende Kopie eines Beispiels. Remixe es, um es zu behalten.",
+            "untitled": "$~Unbenanntes Projekt"
+        },
+        "gallery": {
+            "untitled": "$~Ohne Titel",
+            "undescribed": "$~Keine Beschreibung",
+            "subheader": {
+                "curators": {
+                    "header": "$~KuratorInnen",
+                    "explanation": [
+                        "$~Kuratorinnen und Kuratoren können Projekte und Galerie-Einstellungen bearbeiten und bei allen Projekten mitreden.",
+                        "/Kuratorinnen und Kuratoren prüfen auf der <Moderationsseite@://moderate>, was in ihrer Galerie gemeldet wurde — Projekte, Wie-man-Leitfäden und die zugehörigen Chats. Eine Entscheidung einer Kuratorin oder eines Kurators gilt nur für die eigene Galerie. Es ist nie eine der <Warnungen@://rights> von Wordplay./"
+                    ]
+                },
+                "creators": {
+                    "header": "$~Schöpfer",
+                    "explanation": "$~Ersteller können alle Projekte in der Galerie ansehen und neue Projekte hinzufügen."
+                },
+                "delete": {
+                    "header": "$~Löschen",
+                    "explanation": "$~Wenn du diese Galerie löschst, werden ihre Projekte nicht gelöscht. Ihre Wie-man-Anleitungen werden gelöscht. Die Galerie wird für immer gelöscht."
+                },
+                "classes": {
+                    "header": "$~Klassen",
+                    "explanation": "$~Mit dieser Galerie verbundene Klassen."
+                },
+                "characters": {
+                    "header": "$~Zeichen",
+                    "explanation": "$~Hier geteilte Zeichen. Jeder in dieser Galerie kann eines in seinem eigenen Projekt verwenden oder eine eigene Version davon erstellen, um sie zu verändern."
+                },
+                "projects": {
+                    "header": "$~Projekte",
+                    "explanation": "$~Hier geteilte Projekte. Jeder in dieser Galerie kann eines öffnen und eine eigene Version davon erstellen, um sie zu verändern."
+                }
+            },
+            "confirm": {
+                "delete": {
+                    "description": "$~Galerie löschen",
+                    "prompt": "$~löschen"
+                },
+                "remove": {
+                    "description": "$~Projekt aus der Galerie entfernen",
+                    "prompt": "$~entfernen"
+                },
+                "removecharacter": {
+                    "description": "$~Zeichen aus Galerie entfernen",
+                    "prompt": "$~entfernen"
+                }
+            },
+            "error": {
+                "unknown": "$~Diese Galerie existiert nicht oder ist nicht öffentlich.",
+                "unreachable": "$~Diese Galerie konnte nicht geladen werden. Falls Sie darauf zugreifen möchten, überprüfen Sie Ihre Internetverbindung; möglicherweise blockiert ein VPN, eine Browsererweiterung oder ein Netzwerkfilter den Zugriff."
+            },
+            "field": {
+                "name": {
+                    "description": "$~Galeriename",
+                    "placeholder": "$~Name"
+                },
+                "description": {
+                    "description": "$~Galeriebeschreibung",
+                    "placeholder": "$~Beschreiben Sie Ihre Galerie. Was ist ihr Thema, ihre Ziele oder ihre Community?"
+                }
+            },
+            "projects": "$~$#count[$count Projekt|$count Projekte]",
+            "characters": "$~$#count[$count Zeichen|$count Zeichen]",
+            "button": {
+                "editcharacter": "$~Dieses Zeichen bearbeiten",
+                "copyreference": "$~Einen Verweis auf dieses Zeichen kopieren, um ihn in ein Projekt einzufügen",
+                "copied": "$~Kopiert!"
+            },
+            "tab": {
+                "label": "$~Galerie-Einstellungen",
+                "labels": [
+                    "$~Ersteller",
+                    "$~Kuratoren",
+                    "$~Sichtbarkeit",
+                    "$~Löschen"
+                ],
+                "tips": [
+                    "$~Wähle aus, wer Arbeiten zu dieser Galerie hinzufügen darf",
+                    "$~Wähle aus, wer diese Galerie verwalten darf",
+                    "$~Wähle aus, wer diese Galerie sehen darf",
+                    "$~Diese Galerie löschen"
+                ]
+            }
+        },
+        "source": {
+            "label": "$~Quelle",
+            "empty": [
+                "$~Los geht's! Du kannst …",
+                "• Öffne 📕 und ziehe 🖱️ uns in dieses Programm.",
+                "• Geben Sie $symbol ein und wählen Sie uns aus dem Menü aus.",
+                "• Schreibe uns mit dem ⌨️-Symbol.",
+                "• Durchsuchen Sie die<galleries@://galleries> zur Inspiration.",
+                "Wenn Sie nicht weiterkommen,<learn more@://learn> Die"
+            ],
+            "confirm": {
+                "delete": {
+                    "description": "$~lösche diese @Source",
+                    "prompt": "$~löschen"
+                }
+            },
+            "toggle": {
+                "blocks": {
+                    "on": "$~als Text bearbeiten"
+                },
+                "characters": {
+                    "on": "$~die Auswahl für Emojis und Symbole verstecken",
+                    "off": "$~die Auswahl für Emojis und Symbole zeigen"
+                },
+                "expandSequence": {
+                    "on": "$~Elemente ausblenden",
+                    "off": "$~Elemente erweitern"
+                },
+                "search": {
+                    "on": "$~Suche ausblenden",
+                    "off": "$~Code durchsuchen"
+                }
+            },
+            "button": {
+                "selectOutput": "$~diese Ausgabe auf der Bühne zeigen",
+                "zoomIn": "$~Code größer machen",
+                "zoomOut": "$~Code kleiner machen",
+                "replace": "$~Alle Übereinstimmungen ersetzen",
+                "selectOutputError": "$~zeige diese Ausgabe auf der Bühne; die Auswertung dieser Quelle endete mit einem Fehler",
+                "addView": "$~diesen Code in einer zweiten Ansicht zeigen",
+                "closeView": "$~diese Ansicht schließen"
+            },
+            "field": {
+                "name": {
+                    "description": "$~Quellnamen bearbeiten",
+                    "placeholder": "$~Name"
+                },
+                "search": "$~Text",
+                "replace": "$~ersetzen"
+            },
+            "menu": {
+                "label": "$~Autovervollständigungsmenü",
+                "show": "$~Autovervollständigungsmenü anzeigen",
+                "empty": "$~Keine Vorschläge.",
+                "item": "$~$code, $description"
+            },
+            "cursor": {
+                "priorLine": "$~Bewegen Sie den Cursor zur Zeile davor.",
+                "nextLine": "$~Bewegen Sie den Cursor zur nächsten Zeile.",
+                "priorInline": "$~Bewegen Sie den Cursor zur Position davor.",
+                "nextInline": "$~Bewegen Sie den Cursor zur Position danach",
+                "lineStart": "$~Cursor an den Zeilenanfang bewegen",
+                "lineEnd": "$~Cursor ans Zeilenende bewegen",
+                "sourceStart": "$~Bewegen Sie den Cursor zum Anfang der Quelle.",
+                "sourceEnd": "$~Bewegen Sie den Cursor an das Ende der Quelle.",
+                "priorNode": "$~wähle Nachbarn vor",
+                "nextNode": "$~wähle Nachbar nach",
+                "parent": "$~Container auswählen",
+                "selectAll": "$~Programm auswählen",
+                "incrementLiteral": "$~Erhöhen Sie die Zahl, den Text oder den Boolean-Wert",
+                "decrementLiteral": "$~Verringern Sie die Zahl, den Text oder den Booleschen Wert",
+                "insertTab": "$~Registerkarte einfügen",
+                "insertTrue": "$~Füge „true“ ein",
+                "insertFalse": "$~false einfügen",
+                "insertNone": "$~kein Symbol einfügen",
+                "insertNotEqual": "$~Einfügen ungleich",
+                "insertProduct": "$~Malzeichen einfügen",
+                "insertDot": "$~Punktproduktsymbol einfügen",
+                "insertQuotient": "$~Quotientensymbol einfügen",
+                "insertDegree": "$~Gradsymbol einfügen",
+                "insertFunction": "$~Einfügefunktion",
+                "insertLessOrEqual": "$~einfügen kleiner oder gleich",
+                "insertGreaterOrEqual": "$~einfügen größer als oder gleich",
+                "insertStream": "$~Streamsymbol einfügen",
+                "insertChange": "$~Änderungssymbol einfügen",
+                "insertConvert": "$~Konvertierungssymbol einfügen",
+                "insertPrevious": "$~vorheriges Symbol einfügen",
+                "insertType": "$~Typsymbol einfügen",
+                "insertTable": "$~Symbol zum Öffnen der Tabelle einfügen",
+                "insertBorrow": "$~einfügen ausleihen",
+                "insertShare": "$~teilen",
+                "insertLine": "$~Zeilenumbruch einfügen",
+                "backspace": "$~Auswahl oder vorheriges Symbol löschen",
+                "delete": "$~Auswahl oder nächstes Symbol löschen",
+                "cut": "$~Auswahl ausschneiden",
+                "copy": "$~Auswahl kopieren",
+                "paste": "$~Einfügen von Tastaturinhalten",
+                "parenthesize": "$~Auswahl in Klammern setzen",
+                "enumerate": "$~Auswahl aufzählen",
+                "type": "$~Typzeichen",
+                "undo": "$~vorherige Bearbeitung rückgängig machen",
+                "redo": "$~Rückgängig gemachte Bearbeitung wiederholen",
+                "search": "$~Suche nach einzufügenden Sonderzeichen",
+                "tidy": "$~ordentlicher Abstand",
+                "elide": "$~Elision umschalten",
+                "insertDocs": "$~Erklärungssymbol einfügen",
+                "expandBeforeInline": "$~Auswahl erweitern vor",
+                "expandAfterInline": "$~Auswahl erweitern nach",
+                "expandPriorLine": "$~Auswahl bis zur vorherigen Zeile erweitern",
+                "expandNextLine": "$~Auswahl bis zur nächsten Zeile erweitern",
+                "largeDelete": "$~Möchten Sie diese Auswahl wirklich löschen? Sie können die Auswahl mit dem Rückgängig-Button (↺) rückgängig machen.",
+                "ignored": {
+                    "readOnly": "$~Quelle ist schreibgeschützt",
+                    "blockSpace": "$~Hier ist kein Platz erlaubt.",
+                    "noDelete": "$~Kann ich nicht löschen",
+                    "noInsert": "$~Hier kann nichts eingefügt werden.",
+                    "noError": "$~Diese Änderung würde einen Konflikt erzeugen.",
+                    "noEditor": "$~Kein Editor aktiv",
+                    "noClipboard": "$~Keine Zwischenablage verfügbar",
+                    "noClipboardItem": "$~Nichts auf dem Zwischenbrett",
+                    "noSelection": "$~Nichts ausgewählt",
+                    "noMove": "$~Ich kann mich nicht weiter bewegen.",
+                    "unhandled": "$~diese Taste macht hier nichts"
+                },
+                "nextMatch": "$~Zum nächsten Suchtreffer gehen",
+                "insertTranslate": "$~Übersetzungssymbol einfügen",
+                "insertThis": "$~Fügen Sie dieses Symbol ein",
+                "tab": "$~Die Tabulatortaste bewegt den Tastaturfokus. Um einen Tabulator einzufügen, nutze den Einfügen-Knopf unten oder ändere in den Einstellungen, was die Tabulatortaste tut.",
+                "matchDelimiter": "$~Cursor zum passenden Trennzeichen bewegen",
+                "insertPattern": "$~Einfügenmuster",
+                "insertSearch": "$~Symbol für die Mustersuche einfügen",
+                "insertPatternAny": "$~Fügen Sie ein beliebiges Graphemmustersymbol ein",
+                "insertPatternSpace": "$~Leerzeichen einfügen",
+                "insertPatternStart": "$~Einfügen Sie das Startsymbol des Musters",
+                "insertPatternEnd": "$~Einfügen Musterendesymbol",
+                "insertPatternFold": "$~Einfügemuster-Faltsymbol",
+                "insertPatternAhead": "$~Einfügen des Muster-Vorschausymbols",
+                "insertPatternBehind": "$~Einfügen Sie das Lookbehind-Symbol für das Muster.",
+                "insertPatternWord": "$~Musterwortsymbol einfügen",
+                "insertPatternWordEdge": "$~Einfügen-Musterwortrandsymbol",
+                "echo": {
+                    "space": "$~Leerzeichen",
+                    "newline": "$~neue Zeile",
+                    "tab": "$~Tab"
+                },
+                "selected": "$~$#count[$count Zeichen|$count Zeichen] ausgewählt: $text",
+                "unknownPosition": "$~im Code",
+                "insertWholeNote": "$~eine ganze Note einfügen, vier Schläge lang",
+                "insertDottedWholeNote": "$~eine punktierte ganze Note einfügen, sechs Schläge lang",
+                "insertHalfNote": "$~eine halbe Note einfügen, zwei Schläge lang",
+                "insertDottedHalfNote": "$~eine punktierte halbe Note einfügen, drei Schläge lang",
+                "insertQuarterNote": "$~eine Viertelnote einfügen, einen Schlag lang",
+                "insertDottedQuarterNote": "$~eine punktierte Viertelnote einfügen, anderthalb Schläge lang",
+                "insertEighthNote": "$~eine Achtelnote einfügen, einen halben Schlag lang",
+                "insertDottedEighthNote": "$~eine punktierte Achtelnote einfügen, drei Viertel eines Schlags lang",
+                "insertSixteenthNote": "$~eine Sechzehntelnote einfügen, ein Viertel eines Schlags lang",
+                "insertDottedSixteenthNote": "$~eine punktierte Sechzehntelnote einfügen, drei Achtel eines Schlags lang",
+                "selectedNodes": "$~$#count[$count Knoten ausgewählt|$count Knoten ausgewählt], $first bis $last",
+                "insertRange": "$~Bereichssymbol einfügen",
+                "findText": "$~den Code durchsuchen"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$~bevorzugte Sprache für die Quelle",
+                    "all": "$~$#count[$count Sprache|$count Sprachen]",
+                    "viewing": "$~auf $language"
+                }
+            },
+            "error": {
+                "invalidName": "$~Dies muss ein gültiger Wortspielname sein.",
+                "invalidWords": "$~Wörter dürfen nicht leer sein oder reservierte Symbole enthalten."
+            },
+            "title": "$~Code",
+            "tour": {
+                "launch": "$~Machen Sie eine Tour durch den Editor",
+                "editor": "$~Ihr gesamter Code gehört in den Editor. Jedes @wordplay-Programm wird zu einem Wert ausgewertet, und dieser Wert wird auf der Bühne angezeigt.",
+                "textBlocks": "$~Dieser Schalter wechselt zwischen zwei Bearbeitungsmodi: /text/ und /blocks/. *Text* ist flexibler, aber fehleranfälliger. *Blocks* sind weniger fehleranfällig, aber langsamer und unflexibler.",
+                "toolbar": "$~Mit diesen Steuerelementen in der Symbolleiste können Sie *alles auswählen*, *vergrößern* und *verkleinern*, *rückgängig machen*, *wiederherstellen*, *ausschneiden*, *kopieren* und *einfügen*.",
+                "expand": "$~Über den Schalter /expand/ werden weitere *erweiterte* Bearbeitungswerkzeuge angezeigt.",
+                "shortcuts": "$~Über die Schaltfläche „Tastenkombinationen“ wird eine Liste mit *Tastenkombinationen* geöffnet, mit denen Sie schneller bearbeiten können."
+            },
+            "feedback": {
+                "cantDrop": "$~Kann dort nicht landen:",
+                "cantPaste": "$~Kann dort nicht einfügen:"
+            },
+            "clipboard": {
+                "label": "$~Klemmbrett"
+            },
+            "notice": {
+                "dismiss": "$~Diese Benachrichtigung ausblenden"
+            },
+            "fold": {
+                "collapse": "$~Zusammenbruch $name",
+                "expand": "$~expand $name",
+                "all": "$~Alle falten",
+                "none": "$~Alles ausklappen",
+                "collapsed": "$~$name ausgeblendet",
+                "expanded": "$~$name erweitert"
+            },
+            "view": {
+                "added": "$~eine zweite Ansicht von $name hinzugefügt",
+                "closed": "$~die zweite Ansicht von $name geschlossen"
+            }
+        },
+        "annotations": {
+            "label": "$~Konflikte und Hilfe",
+            "cursor": "$~Dies ist *$node*$type[ und es ist ein $type|].",
+            "cursorDoc": "$~Sie sagen: „$description“",
+            "cursorParent": "$~Sie sind innerhalb eines *$node*$type[, das zu einem $type ausgewertet wird.|].",
+            "learn": "$~/Erfahren Sie mehr/",
+            "evaluating": "$~Oh Spaß, lass es uns auswerten!",
+            "space": "$~Das ist Weltraum! Wer hätte gedacht, dass nichts so viel aussagen kann?",
+            "button": {
+                "resolution": "$~Diesen Konflikt lösen",
+                "toggle": "$~Anmerkungen ein- und ausblenden",
+                "highlightMajor": "$~zeige den Code dieses Fehlers im Editor",
+                "highlightMinor": "$~zeige den Code dieser Warnung im Editor",
+                "highlightStep": "$~zeige den Code dieses Auswertungsschritts im Editor",
+                "elsewhere": "$~öffnen, wo das behoben werden kann"
+            },
+            "nodeDescription": "$~Sie $description.",
+            "severity": {
+                "major": "$~Fehler",
+                "minor": "$~Warnung"
+            },
+            "conflictLabel": "$~$severity: $conflict"
+        },
+        "output": {
+            "label": "$~Bühne",
+            "toggle": {
+                "grid": {
+                    "on": "$~Gitternetzlinien ausblenden",
+                    "off": "$~Gitternetzlinien anzeigen"
+                },
+                "fit": {
+                    "on": "$~Zoom manuell steuern",
+                    "off": "$~Zoom an Inhalt anpassen"
+                }
+            },
+            "field": {
+                "key": {
+                    "description": "$~Tastendrücke abhören"
+                },
+                "chat": {
+                    "description": "$~eine Chat-Nachricht senden",
+                    "placeholder": "$~Nachricht"
+                }
+            },
+            "button": {
+                "submit": "$~diese Chat-Nachricht senden",
+                "zoomIn": "$~Zoomen Sie auf die Bühne",
+                "zoomOut": "$~Zoomen Sie von der Bühne heraus.",
+                "rotate": "$~rotate $name",
+                "resize": "$~resize $name",
+                "resetZoom": "$~Verschieben und Zoomen zurücksetzen",
+                "perform": "$~aufführen: das Programm neu starten, abspielen und den Bildschirm mit der Bühne füllen",
+                "resetZoomAt": "$~Setze Verschiebung und Zoom zurück, jetzt $percent Prozent der eigenen Ansicht des Projekts"
+            },
+            "options": {
+                "locale": "$~bevorzugte Sprache für die Ausgabe",
+                "default": "$~$#count[$count Sprache|$count Sprachen]"
+            },
+            "tour": {
+                "launch": "$~Machen Sie einen Rundgang über die Bühne",
+                "stage": "$~Die Variable /stage/ zeigt den *aktuellen Wert* Ihres Programms an. Dieser Wert kann ein *Rohwert* wie eine Zahl oder Liste, eine *visuelle Ausgabe*, die Sie sehen können, oder sogar ein *Ton*, den Sie hören können, sein.",
+                "reset": "$~Die Schaltfläche /Zurücksetzen/ startet die Auswertung deines Programms wieder von *vorne*, in jedem Modus: In ▶️ *Wiedergabe* läuft es wieder von oben, in ✏️ *Bearbeiten* pausiert es nach der ersten Auswertung, damit du siehst, wie sich deine Änderungen auf die erste Ausgabe auswirken, und in ⏸️ *Fehlersuche* pausiert es beim allerersten Schritt.",
+                "zoom": "$~Mit den /zoom/-Tasten können Sie in die Bühne hinein- und herauszoomen, um Ihre Ausgabe klarer oder detaillierter zu sehen.",
+                "grid": "$~Die Schaltfläche /grid/ zeigt ein *Raster* auf der Bühne an, das beim Entwerfen hilfreich ist, um Elemente präzise zu platzieren.",
+                "lock": "$~Die Schaltfläche „Sperren“ fixiert die Bühnenansicht. Im gesperrten Zustand bleibt die Bühne still; im entsperrten Zustand können Sie frei schwenken und zoomen.",
+                "animationSpeed": "$~Mit dem Regler /animation speed/ legen Sie fest, wie schnell Animationen abgespielt werden. Derselbe Regler befindet sich auch in den *Einstellungen*, sodass Sie ihn an beiden Stellen ändern können."
+            },
+            "permission": {
+                "title": "$~Für dieses Projekt wird eine Genehmigung benötigt.",
+                "microphone": "$~Mikrofon",
+                "camera": "$~Kamera",
+                "note": "$~Ihr Browser fragt Sie vor dem Teilen.",
+                "retry": "$~Wiederholen"
+            },
+            "multiselect": "$~Verwenden Sie die Tabulatortaste, die Alt-Taste und die Pfeiltasten, um zwischen den Ausgängen zu wechseln. Drücken Sie die Leertaste, um den ausgewählten Ausgang hinzuzufügen oder zu entfernen. Drücken Sie die Eingabetaste, um nur diesen Ausgang auszuwählen und die Palette zu öffnen. Drücken Sie die Esc-Taste, um die Auswahl aufzuheben. Drücken Sie Strg oder Befehl + A, um alle Ausgänge auszuwählen.",
+            "selected": "$~$name ausgewählt, $count ausgewählt",
+            "deselected": "$~$name abgewählt, $count ausgewählt",
+            "allSelected": "$~Alle Ausgänge ausgewählt, $count ausgewählt",
+            "cleared": "$~Auswahl aufgehoben",
+            "moved": "$~$name rührte sich $direction nach $place",
+            "directions": [
+                "$~nach oben",
+                "$~nach oben und rechts",
+                "$~nach rechts",
+                "$~nach unten und rechts",
+                "$~nach unten",
+                "$~nach unten und links",
+                "$~nach links",
+                "$~nach oben und links"
+            ],
+            "closer": "$~näher",
+            "farther": "$~weiter weg",
+            "turned": "$~gedreht",
+            "manyChanged": "$~$#count[$count Ausgabe|$count Ausgaben] in $container geändert, wie $example",
+            "selectedOnly": "$~$name ausgewählt, Palette wird geöffnet",
+            "selectedSuffix": "$~ausgewählt",
+            "sensor": {
+                "microphone": {
+                    "on": "$~Wellenform des Mikrofons verbergen",
+                    "off": "$~Wellenform des Mikrofons zeigen"
+                },
+                "camera": {
+                    "on": "$~Kameravorschau verbergen",
+                    "off": "$~Kameravorschau zeigen"
+                }
+            },
+            "mode": {
+                "evaluation": {
+                    "label": "$~Auswertungsmodus",
+                    "labels": [
+                        "$~bearbeiten",
+                        "$~Fehler suchen",
+                        "$~abspielen"
+                    ],
+                    "tips": [
+                        "$~in den Bearbeitungsmodus wechseln: das Programm an seiner Stelle anhalten und ändern; Änderungen werden erneut abgespielt, um ihre Wirkung an dieser Stelle zu zeigen",
+                        "$~in den Fehlersuch-Modus wechseln: die Auswertung des Programms Schritt für Schritt durchgehen, wobei die Werte neben dem Code und in der Palette angezeigt werden",
+                        "$~in den Abspielmodus wechseln: das Programm live von seiner Stelle aus laufen lassen und in Echtzeit auf Eingaben reagieren"
+                    ]
+                },
+                "evaluationView": {
+                    "label": "$~Auswertungsmodus",
+                    "labels": ["$~ansehen", "$~Fehler suchen", "$~abspielen"],
+                    "tips": [
+                        "$~in den Ansichtsmodus wechseln: das Programm an seiner Stelle anhalten und lesen",
+                        "$~in den Fehlersuch-Modus wechseln: die Auswertung des Programms Schritt für Schritt durchgehen, wobei die Werte neben dem Code und in der Palette angezeigt werden",
+                        "$~in den Abspielmodus wechseln: das Programm live von seiner Stelle aus laufen lassen und in Echtzeit auf Eingaben reagieren"
+                    ]
+                },
+                "announce": "$~$mode-Modus",
+                "exception": "$~Das Programm hatte einen Fehler, deshalb ist es in den Fehlersuch-Modus gewechselt, damit du es untersuchen kannst.",
+                "toggle": "$~zwischen Bearbeiten- und Wiedergabe-Modus wechseln",
+                "resuming": "$~weiter bei Schritt $position",
+                "performing": "$~Aufführung $number, von Anfang an"
+            },
+            "gate": {
+                "start": {
+                    "label": "$~Anfang",
+                    "tip": "$~das Projekt zeigen"
+                }
+            },
+            "download": {
+                "title": "$~Wird vorbereitet…",
+                "note": "$~Dies wird einmal heruntergeladen und lädt beim nächsten Mal sofort.",
+                "percent": "$~$percent%",
+                "hand": "$~Hand-Verfolger",
+                "face": "$~Gesichts-Verfolger",
+                "objects": "$~Objekt-Erkenner",
+                "loading": "$~$model wird geladen…"
+            },
+            "sound": {
+                "enable": "$~Für Ton tippen",
+                "explanation": "$~Dieses Projekt hat Musik, aber dein Browser wartet darauf, dass du mit der Seite handelst, bevor er Ton abspielt.",
+                "loading": "$~$instruments werden vorbereitet…",
+                "synthesized": "$~$instruments konnten nicht geladen werden, daher klingen sie künstlich erzeugt."
+            },
+            "keypad": {
+                "label": "$~Schlüssel, die dieses Projekt verwendet",
+                "any": "$~Tippe zum Spielen"
+            },
+            "announce": {
+                "zoom": "$~Bühnenzoom $percent Prozent",
+                "hidden": "$~Bei $percent Prozent ist nichts auf der Bühne zu sehen. Setze den Zoom zurück, um alles zu zeigen",
+                "shown": "$~Alles ist wieder auf der Bühne"
+            },
+            "hidden": {
+                "message": "$~Alles ist von der Bühne verschwunden.",
+                "show": "$~Alles anzeigen"
+            },
+            "snap": {
+                "anchors": [
+                    "$~horizontale Mitte",
+                    "$~linker Rand",
+                    "$~rechter Rand",
+                    "$~vertikale Mitte",
+                    "$~unterer Rand",
+                    "$~oberer Rand",
+                    "$~Grundlinie"
+                ],
+                "withOutput": "$~$anchor mit $target's $targetAnchor",
+                "withGrid": "$~$anchor im Gitter",
+                "aligned": "$~$constraints, bei $place",
+                "none": "$~nichts zum Ausrichten mit $direction"
+            },
+            "removed": "$~$#count[$#count Ausgabe gelöscht|$#count Ausgaben gelöscht]",
+            "notRemovable": "$~das nicht allein gelöscht werden kann",
+            "drew": "$~$#count[hat einen Pfad mit $#count Punkt gezeichnet; Zeichnen ist aus|hat einen Pfad mit $#count Punkten gezeichnet; Zeichnen ist aus]",
+            "drawing": "$~$#count[$#count Punkt, bei $place|$#count Punkte, letzter bei $place]",
+            "point": {
+                "label": "$~Punkt $number von $#count, bei $place",
+                "moved": "$~Punkt $number nach $place",
+                "added": "$~Punkt $number hinzugefügt",
+                "removed": "$~Punkt $number entfernt",
+                "last": "$~ein Pfad braucht mindestens zwei Punkte"
+            }
+        },
+        "timeline": {
+            "slider": "$~Zeitschieberegler",
+            "button": {
+                "play": "$~führe das Programm aus und reagiere sofort auf Eingaben",
+                "backStep": "$~einen Schritt zurück",
+                "backNode": "$~Schritt zur vorherigen Auswertung des Cursors",
+                "backInput": "$~einen Eingang zurück",
+                "out": "$~Aus dieser Funktion aussteigen",
+                "forwardStep": "$~Schritt vorwärts einen",
+                "forwardNode": "$~Schritt zur nächsten Auswertung des Cursors",
+                "forwardInput": "$~Schritt vorwärts zum nächsten Stream-Eingang",
+                "present": "$~bis zum Ende",
+                "start": "$~zum Anfang",
+                "reset": "$~Leistung neu starten"
+            },
+            "tour": {
+                "timeline": "$~Mit der /Zeitleiste/ kannst du *vorwärts* und *rückwärts* durch die Auswertung deines Programms gehen, einen Schritt nach dem anderen. Sie erscheint in der Werkzeugleiste der Bühne im ✏️ *Bearbeiten*- und ⏸️ *Fehlersuche*-Modus. Sie ist eine gute Möglichkeit zu sehen, *wie* dein Programm seinen Wert berechnet, und um eine Vorstellung davon aufzubauen, wie @wordplay-Programme auswerten – besonders, wenn du nicht das Verhalten siehst, das du möchtest.",
+                "annotations": "$~Im Fenster „/annotations/“ werden die Erläuterungen zu jedem einzelnen Schritt angezeigt. Während Sie Ihr Programm schrittweise ausführen, können Sie hier nachlesen, was gerade passiert ist.",
+                "editor": "$~Der Editor zeigt Ihren Code an. Beim schrittweisen Ausführen wird der *Wert* jedes Programmteils neben diesem Teil angezeigt, *nachdem* er ausgewertet wurde. So können Sie beobachten, wie sich die Werte während der Programmausführung ansammeln.",
+                "history": "$~Der /Verlauf/ zeigt jedes *Eingabe*-Ereignis, das dein Programm erhalten hat, wie Tasten, Zeitschritte und Zeigerereignisse. Er ist *ziehbar*, du kannst also zu jedem Moment im Ablauf des Programms zurückkehren, einfach indem du ziehst. Wenn du diese Eingaben lieber *hören* statt sehen möchtest, schalte /Auswertungssignale/ in den Einstellungen ein. Dann spielt @wordplay für jede Eingabe einen kurzen Ton ab, mit einem eigenen Ton für jede Art von Eingabe.",
+                "stepControls": "$~Die Schrittsteuerung ermöglicht eine präzise Navigation durch die Auswertung. Sie können zum *Anfang* oder *Ende* springen, schrittweise *vorwärts* oder *rückwärts* gehen, um *eine Eingabe* springen, eine Funktion *verlassen* oder zum *aktuell ausgewählten* Teil des Codes springen.",
+                "modes": "$~Der /Modus-Umschalter/ wählt aus, wie dein Programm auswertet. Im ✏️ *Bearbeiten*-Modus pausiert das Programm dort, wo es gerade ist, und du kannst es ändern – deine Änderungen laufen erneut, um ihre Wirkung an dieser Stelle zu zeigen. Im ⏸️ *Fehlersuche*-Modus ist der Code nur lesbar, und der *aktuelle Wert* jedes Teils deines Programms erscheint daneben im Editor und in der Palette. Im ▶️ *Wiedergabe*-Modus läuft dein Programm live von dort, wo es ist, und reagiert in Echtzeit auf Eingaben. Neben dem Umschalter beginnt die Schaltfläche /Vorführen/ – ein Wiedergabe-Dreieck, umgeben von Vollbild-Ecken – eine Vorführung von oben und füllt den Bildschirm mit der Bühne, und ↻ setzt das Programm in jedem Modus zurück."
+            }
+        },
+        "docs": {
+            "kits": {
+                "header": "$~Kits",
+                "prompt": "$~Ein Kit ist Code, den jemand veröffentlicht hat, damit andere Menschen damit bauen können. Kopiere die Zeile dafür, füge sie oben in dein Programm ein, und alles, was es teilt, kannst du nutzen.",
+                "empty": "$~Noch hat niemand ein Kit veröffentlicht. Deins könnte das erste sein — teile etwas mit ↑ und veröffentliche es dann über die Freigabe-Einstellungen deines Projekts.",
+                "shares": "$~teilt $names",
+                "missing": "$~Es gibt kein Kit mit diesem Namen. Es wurde vielleicht umbenannt oder nie veröffentlicht.",
+                "missingVersion": "$~Diese Version gibt es hier nicht. Probiere eine andere unten.",
+                "nothing": "$~dieses Kit teilt nichts",
+                "versions": "$~Jede Version dieses Kits",
+                "version": {
+                    "tip": "$~diese Version des Kits ansehen"
+                },
+                "open": "$~die Dokumentation dieses Kits lesen",
+                "none": "$~Hier passt nichts dazu.",
+                "kinds": {
+                    "label": "$~was Kits teilen",
+                    "all": "$~etwas"
+                },
+                "yours": "$~Deine Kits, die nicht gelistet sind"
+            },
+            "label": "$~Leitfaden",
+            "link": "$~Konzept $name in der Dokumentation anzeigen",
+            "nodoc": "$~Wer bin ich? Was bin ich? Was ist mein Ziel?",
+            "button": {
+                "home": "$~nach Hause zurückkehren",
+                "back": "$~Zurück zur vorherigen",
+                "toggle": "$~diese Konzeptgruppe aufklappen und zuklappen"
+            },
+            "field": {
+                "search": "$~Schlüsselwörter"
+            },
+            "header": {
+                "inputs": {
+                    "header": "$~Eingaben",
+                    "explanation": "$~/Erforderliche und optionale Werte./"
+                },
+                "interfaces": {
+                    "header": "$~Schnittstellen",
+                    "explanation": "$~/Strukturen, auf denen diese Struktur basiert./"
+                },
+                "properties": {
+                    "header": "$~Eigenschaften",
+                    "explanation": "$~/Die Werte, die dieses Konzept verkörpert./"
+                },
+                "functions": {
+                    "header": "$~Funktionen",
+                    "explanation": "$~/Werte, die dieses Konzept berechnen kann./"
+                },
+                "conversions": {
+                    "header": "$~Umrechnungen",
+                    "explanation": "$~Möglichkeiten, diesen Wert in Werte anderer Typen umzuwandeln./"
+                },
+                "arrangements": {
+                    "header": "$~Arrangements",
+                    "explanation": "$~/Möglichkeiten, Phrasen in einer Gruppe anzuordnen./"
+                },
+                "forms": {
+                    "header": "$~Formulare",
+                    "explanation": "$~/Formen, die auf der Bühne platziert werden können./"
+                },
+                "appearance": {
+                    "header": "$~Aussehen",
+                    "explanation": "$~/Möglichkeiten zur Änderung des Ausgabeformats./"
+                },
+                "animation": {
+                    "header": "$~Animation",
+                    "explanation": "$~Möglichkeiten zur Animation von Ausgaben auf der Bühne./"
+                },
+                "location": {
+                    "header": "$~Standort",
+                    "explanation": "$~Methoden zur Bestimmung der Ausgabeposition auf der Bühne./"
+                },
+                "reactions": {
+                    "header": "$~Reaktionen",
+                    "explanation": "$~Möglichkeiten, auf einen Eingabestrom zu reagieren oder ihn zu analysieren./"
+                },
+                "names": {
+                    "header": "$~Namen",
+                    "explanation": "$~/Namen für dieses Konzept./"
+                }
+            },
+            "how": {
+                "category": {
+                    "characters": "$~Charaktere erstellen und steuern",
+                    "styling": "$~Zeichen und Text formatieren",
+                    "animation": "$~Charaktere und Text animieren",
+                    "layout": "$~Zeichen und Text anordnen",
+                    "randomization": "$~zufällig verwenden",
+                    "remembering": "$~Änderungen und Auswahlmöglichkeiten verfolgen",
+                    "stories": "$~eine Geschichte erzählen",
+                    "motion": "$~Physik anwenden",
+                    "video": "$~eine Kamera benutzen",
+                    "gallery": "$~erstellt von euren Wordplay-Regisseurkollegen",
+                    "music": "$~Musik und Klang machen",
+                    "organizing": "$~ein größeres Projekt organisieren"
+                },
+                "related": "$~Nicht das, wonach Sie suchen?",
+                "howToGalleryButton": {
+                    "label": "$~Die Anleitung dazu finden Sie im entsprechenden Abschnitt.",
+                    "tip": "$~Die Anleitung dazu finden Sie im entsprechenden Abschnitt."
+                },
+                "explain": {
+                    "header": "$~Anleitungen",
+                    "explanation": "$~Kurze Beispiele, die zeigen, wie man Dinge in @wordplay macht. Klicken Sie auf eine beliebige Vorschau, um sie auszuführen, und öffnen Sie sie anschließend, um die Funktionsweise zu lesen."
+                },
+                "conceptHowTos": "$~Anleitung",
+                "bookmarked": "$~Gemerkt",
+                "community": "$~Von Erstellern",
+                "galleries": "$~Aus deinen Galerien",
+                "wordplay": "$~Von Wordplay"
+            },
+            "mode": {
+                "browse": {
+                    "label": "$~durchsuchen",
+                    "labels": ["$~Code", "$~Kits", "$~Wie man", "$~Glossar"],
+                    "tips": [
+                        "$~Konzepte der Programmiersprache",
+                        "$~Code, den andere Leute veröffentlicht haben, damit du damit bauen kannst",
+                        "$~wiederverwendbare Muster zum Erstellen von Projekten",
+                        "$~Definitionen wichtiger Begriffe"
+                    ]
+                },
+                "purpose": {
+                    "label": "$~Zweck",
+                    "labels": [
+                        "$~Projekt",
+                        "$~Kit",
+                        "$~Ausgabe",
+                        "$~Eingang",
+                        "$~entscheiden",
+                        "$~Name",
+                        "$~Text",
+                        "$~Muster",
+                        "$~Zahlen",
+                        "$~Wahrheit",
+                        "$~Listen",
+                        "$~Sets",
+                        "$~Tabellen",
+                        "$~Dokumente",
+                        "$~Typen",
+                        "$~usw."
+                    ],
+                    "tips": [
+                        "$~Konzepte auf Projektebene",
+                        "$~was die Kits, die dieses Projekt ausleiht, verfügbar machen",
+                        "$~Phrasen, Gruppen, Phasen, Layouts und mehr",
+                        "$~Zeit, Schaltflächen, Tasten, Szenen und mehr",
+                        "$~Werte basierend auf anderen Werten auswählen",
+                        "$~Benennen Sie Werte, Funktionen und Datenstrukturen zur späteren Verwendung.",
+                        "$~reiner und formatierter Text",
+                        "$~Beschreibe die Form des Textes, um ihn zu testen oder zu finden.",
+                        "$~Zahlen und mathematische Operationen",
+                        "$~Werte: wahr, falsch und keine",
+                        "$~Listen und Listenoperationen",
+                        "$~Mengen, Karten und Operationen",
+                        "$~Tabellen und Tabellenoperationen",
+                        "$~Dokumentation und Kommentare",
+                        "$~Datentypen, Konvertierungen und Typüberprüfungen",
+                        "$~fortgeschrittene Sprachkonzepte"
+                    ]
+                },
+                "howToFilter": {
+                    "label": "$~von Nutzern erstellte Anleitungen",
+                    "labels": ["$~alle", "$~Galerie & Lesezeichen"],
+                    "tips": [
+                        "$~Alle von Benutzern erstellten Anleitungen anzeigen",
+                        "$~Es werden nur die von Nutzern erstellten Anleitungen aus der Galerie dieses Projekts und alle Lesezeichen angezeigt."
+                    ]
+                }
+            },
+            "purposes": {
+                "Project": {
+                    "header": "$~Projekt",
+                    "explanation": "$~/Konzepte, die in Ihrem Projekt definiert sind./"
+                },
+                "Outputs": {
+                    "header": "$~Ausgaben",
+                    "explanation": "$~Verschiedene Arten von Ausgabegeräten, die auf der Bühne platziert werden können."
+                },
+                "Inputs": {
+                    "header": "$~Eingaben",
+                    "explanation": "$~/Eingabeströme aus der Welt, die sich im Laufe der Zeit verändern und ein Programm zu einer Neubewertung veranlassen./"
+                },
+                "Decisions": {
+                    "header": "$~Entscheidungen",
+                    "explanation": "$~/Möglichkeiten zur Auswahl zwischen verschiedenen Werten basierend auf Bedingungen./"
+                },
+                "Numbers": {
+                    "header": "$~Zahlen",
+                    "explanation": "$~Zahlen, Einheiten und mathematische Operationen."
+                },
+                "Text": {
+                    "header": "$~Text",
+                    "explanation": "$~Klarer und formatierter Text sowie Möglichkeiten, ihn zu bearbeiten."
+                },
+                "Truth": {
+                    "header": "$~Wahrheit",
+                    "explanation": "$~Die Werte „True“, „False“ und „None“ sowie Möglichkeiten ihrer logischen Verwendung."
+                },
+                "Lists": {
+                    "header": "$~Listen",
+                    "explanation": "$~Listen und Listenoperationen eignen sich gut zum Speichern von Werten in einer bestimmten Reihenfolge."
+                },
+                "Maps": {
+                    "header": "$~Karten",
+                    "explanation": "$~Mengen, Abbildungen und ihre Operationen eignen sich gut zum Speichern von Sammlungen von Werten oder Abbildungen von einem Wert auf andere."
+                },
+                "Tables": {
+                    "header": "$~Tabellen",
+                    "explanation": "$~Tabellen und Tabellenoperationen eignen sich gut zum Speichern strukturierter Daten in Zeilen und Spalten."
+                },
+                "Types": {
+                    "header": "$~Typen",
+                    "explanation": "$~Möglichkeiten, um festzulegen, dass benannte Werte einen bestimmten Datentyp haben sollen, und um zu überprüfen, ob dies auch der Fall ist."
+                },
+                "Documentation": {
+                    "header": "$~Dokumentation",
+                    "explanation": "$~Möglichkeiten, Kommentare und Erklärungen zu Ihrem Code hinzuzufügen./"
+                },
+                "Advanced": {
+                    "header": "$~Fortschrittlich",
+                    "explanation": "$~Fortgeschrittene Sprachkonzepte und -funktionen, die Sie wahrscheinlich nicht benötigen werden."
+                },
+                "Hidden": {
+                    "header": "$~Versteckt",
+                    "explanation": "$~/Konzepte, die in der Hauptdokumentation nicht enthalten sind./"
+                },
+                "How": {
+                    "header": "$!Wie man",
+                    "explanation": "$~Gängige Muster für die Erstellung verschiedener Projekttypen."
+                },
+                "Definitions": {
+                    "header": "$~Definitionen",
+                    "explanation": "$~/Möglichkeiten zur Benennung von Werten, Funktionen und Datenstrukturen für die spätere Verwendung./"
+                },
+                "GalleryHow": {
+                    "header": "$~Anleitung zur Galerie",
+                    "explanation": "$~Gängige Muster für die Erstellung verschiedener Projekttypen aus Ihren Galerien."
+                },
+                "Patterns": {
+                    "header": "$~Muster",
+                    "explanation": "$~Beschreibe die Form eines Textes mit einem Muster, begrenzt durch \\⣿\\ , und prüfe dann, ob der Text in die Form passt ( \\≈\\ ) oder finde alle Stellen, an denen er vorkommt ( \\⌕\\ )./"
+                },
+                "Kit": {
+                    "header": "$~Kits",
+                    "explanation": "$~Dinge, die die Kits, die dieses Projekt ausleiht, mit ihm geteilt haben."
+                }
+            },
+            "note": {
+                "empty": "$~Die in Ihrem Projekt definierten Namen werden hier angezeigt.",
+                "keepTyping": "$~Tippen Sie weiter, um zu suchen…",
+                "noMatches": "$~Keine Übereinstimmungen"
+            },
+            "tour": {
+                "launch": "$~Nehmen Sie an einer Führung teil",
+                "guide": "$~Der Leitfaden enthält die Dokumentation zu allen Konzepten und Funktionen der Programmiersprache @wordplay.",
+                "mode": "$~Verwenden Sie diesen Schalter, um selbst zwischen den Abschnitten *Code* und *Anleitung* umzuschalten.",
+                "search": "$~Das Suchfeld ist hilfreich, um Funktionen zu *entdecken* oder eine Funktion schnell *anhand ihres Namens* zu finden.",
+                "code": "$~Dies ist der Abschnitt /code/. Er enthält die Dokumentation der *Programmiersprache* – die Bausteine, die Sie zu Programmen kombinieren können.",
+                "howto": "$~Dies ist der Abschnitt „Anleitung“. Er enthält *nützliche Muster*, um bestimmte Verhaltensweisen in Ihren Projekten zu erzielen."
+            },
+            "breadcrumb": {
+                "label": "$~Navigationsverlauf",
+                "home": "$~Heim"
+            },
+            "tutorial": "$~Tutorial",
+            "glossary": {
+                "explain": {
+                    "header": "$~Glossar",
+                    "explanation": "$~/Begriffe und Ideen, die in der Programmiersprache und Plattform @wordplay verwendet werden./"
+                }
+            }
+        },
+        "dialog": {
+            "share": {
+                "header": "$~Weitergabe",
+                "explanation": "$~Teile dieses Projekt mit Galerien oder mit der ganzen Welt.",
+                "subheader": {
+                    "gallery": {
+                        "explanation": "$~Fügen Sie dieses Projekt einer Galerie neben anderen Erstellern hinzu oder erstellen Sie eine Galerie auf Ihrer Seite <projects@://projects>. Wenn Sie ein Projekt einer öffentlichen Galerie hinzufügen, wird Ihr Projekt öffentlich."
+                    },
+                    "public": {
+                        "header": "$~Öffentlich/Privat",
+                        "explanation": "$~Öffentliche Projekte und Galerien können von jedem auf der Welt gesehen werden. Unser Ziel ist es, dass diese Inhalte Bestätigung und Freude bringen, und das öffentliche Teilen ist eine Möglichkeit, dies zu erreichen. Aber es bedeutet auch, einige Regeln einzuhalten. Sie versprechen, dass Ihr Projekt Folgendes nicht tut:"
+                    },
+                    "pii": {
+                        "explanation": "$~Das öffentliche Teilen personenbezogener Daten (PII) kann die Urheber gefährden. Daher erkennen wir mögliche PII und warnen die Urheber, die sensiblen Daten entweder zu entfernen oder als nicht sensibel zu kennzeichnen.\n\nNachfolgend finden Sie eine Liste möglicher PII in diesem Projekt, das Sie als nicht sensibel gekennzeichnet haben. Sie können auf die Schaltfläche daneben klicken, um es wieder als sensibel zu kennzeichnen. Dies bedeutet jedoch, dass Ihr Projekt nicht mehr online gespeichert wird."
+                    },
+                    "preview": {
+                        "explanation": "$~Dies ist das kleine Symbol, das Ihr Projekt in Listen und Galerien repräsentiert. Die automatische Auswahl basiert auf den Projektdaten; mit der benutzerdefinierten Option können Sie ein einzelnes Zeichen oder Emoji festlegen."
+                    },
+                    "remix": {
+                        "explanation": "$~Ein /Remix/ ist eine Kopie eines Projekts, die jemand geändert hat, um sein eigenes daraus zu machen. Wir merken uns, woher ein Remix kommt, damit die Person, die das Original gemacht hat, weiterhin anerkannt wird."
+                    },
+                    "research": {
+                        "header": "$~Forschung",
+                        "explanation": "$~Manchmal schreiben und sprechen wir über Wordplay — in Forschungsarbeiten, in Vorträgen und wenn wir es Lehrkräften und Familien zeigen. Wenn du das einschaltest, dürfen wir dieses Projekt als Beispiel zeigen, ohne deinen Namen, deinen Benutzernamen oder irgendetwas, das zeigt, dass es dein Konto ist.\n\nDu kannst das jederzeit wieder ausschalten. Wenn du es ausschaltest, nutzen wir dein Projekt in nichts Neuem mehr. Aber wir können nicht zurücknehmen, was wir schon veröffentlicht oder gezeigt haben."
+                    },
+                    "kit": {
+                        "explanation": "$~Ein Kit ist eine Quelle, die du veröffentlicht hast, damit andere Leute damit bauen können. Alles, was du mit ↑ markierst, wird ein Teil davon."
+                    }
+                },
+                "field": {
+                    "emailOrUsername": {
+                        "placeholder": "$~E-Mail/Benutzername",
+                        "description": "$~E-Mail oder Benutzername der Person, der Sie Bearbeitungszugriff gewähren möchten"
+                    },
+                    "preview": {
+                        "placeholder": "$~Vorschau-Glyphe",
+                        "description": "$~Einzelnes Zeichen oder Emoji, das als Vorschau-Glyphe für dieses Projekt verwendet werden soll."
+                    }
+                },
+                "mode": {
+                    "public": {
+                        "label": "$~Sichtweite",
+                        "labels": ["$~Privat", "$~öffentlich"],
+                        "tips": [
+                            "$~Nur Sie und Ihre Mitarbeiter können dieses Projekt sehen.",
+                            "$~Jeder kann dieses Projekt sehen."
+                        ]
+                    },
+                    "preview": {
+                        "tips": [
+                            "$~das Projekt sein eigenes Vorschau-Symbol wählen lassen, je nachdem, was es zeigt",
+                            "$~ein von dir gewähltes Symbol anheften"
+                        ]
+                    },
+                    "research": {
+                        "label": "$~Forschung",
+                        "labels": ["$~nicht geteilt", "$~anonym geteilt"],
+                        "tips": [
+                            "$~dieses Projekt nicht in Forschung oder Mitteilungen über Wordplay zeigen",
+                            "$~Wordplay erlauben, dieses Projekt anonym in Forschung und Mitteilungen über Wordplay zu zeigen"
+                        ]
+                    }
+                },
+                "error": {
+                    "unknown": "$~Wir kennen keinen Ersteller mit dieser E-Mail.",
+                    "anonymous": "$~Du musst <angemeldet@://login> sein, um zu teilen.",
+                    "self": "$~Sie können sich nicht selbst hinzufügen.",
+                    "invalidPreview": "$~Wähle genau ein Zeichen oder Emoji aus."
+                },
+                "button": {
+                    "submit": "$~Teilen Sie das Projekt mit dieser E-Mail-Adresse",
+                    "sensitive": {
+                        "tip": "$~diesen Text wieder als sensibel markieren",
+                        "label": "$~empfindlich"
+                    }
+                },
+                "options": {
+                    "gallery": "$~Galerieauswahl",
+                    "source": "$~Quelle zum Veröffentlichen"
+                },
+                "remix": {
+                    "source": "$~Dieses Projekt ist ein Remix von:",
+                    "remixes": "$~Diese Projekte sind Remixe von diesem:",
+                    "unknown": "$~Wir konnten das Projekt, aus dem dieses remixt wurde, nicht finden. Es könnte gelöscht worden sein, oder es ist vielleicht nicht öffentlich.",
+                    "none": "$~Es wurden noch keine Remixe dieses Projekts geteilt. Ein Remix ist am Anfang privat. Er erscheint hier erst, wenn die Person, die ihn erstellt hat, ihn öffentlich macht."
+                },
+                "tab": {
+                    "label": "$~Einstellungen zum Teilen",
+                    "labels": [
+                        "$~Galerie",
+                        "$~Öffentlich",
+                        "$~Vorschau",
+                        "$~Privatsphäre",
+                        "$~Remixe",
+                        "$~Kit"
+                    ],
+                    "tips": [
+                        "$~wähle eine Galerie, in der dieses Projekt gezeigt wird",
+                        "$~wähle, wer dieses Projekt sehen kann",
+                        "$~wähle das Zeichen, das dieses Projekt in Listen darstellt",
+                        "$~prüfe die persönlichen Daten in diesem Projekt",
+                        "$~sieh, woraus dieses Projekt remixt wurde und was es remixt hat",
+                        "$~einen Teil dieses Projekts veröffentlichen, damit andere ihn nutzen können"
+                    ]
+                },
+                "pii": {
+                    "none": "$~Keine persönlichen Informationen gefunden."
+                },
+                "kit": {
+                    "nothing": "$~Hier ist noch nichts geteilt. Setze ↑ vor einen Namen, eine Funktion oder eine Struktur, um sie zu teilen, wie \\↑ sunset/en: 🔴\\, und es kann ein Kit werden.",
+                    "unpublished": "$~Du hast dieses noch nicht veröffentlicht.",
+                    "name": {
+                        "placeholder": "$~Name",
+                        "description": "$~wie dieses Kit heißen soll"
+                    },
+                    "publish": {
+                        "label": "$~veröffentlichen",
+                        "tip": "$~eine neue Version dieses Kits veröffentlichen"
+                    },
+                    "version": "$~Version $version",
+                    "problem": {
+                        "exports": "$~hier ist noch nichts geteilt",
+                        "invalid": "$~das ist kein Name, den ich lesen kann"
+                    },
+                    "undescribed": "$~diese Quelle hat noch keine Dokumentation",
+                    "discovery": "$~Moderatoren können eine veröffentlichte Version aus der Liste nehmen. Alles, was andere sich bereits geliehen haben, funktioniert trotzdem weiter, auch wenn es nicht mehr gelistet ist.",
+                    "moderation": {
+                        "unrequested": "$~nicht zur Auflistung angemeldet",
+                        "pending": "$~wartet darauf, dass ein Moderator es prüft",
+                        "approved": "$~geprüft und gelistet",
+                        "denied": "$~ein Moderator hat um Änderungen gebeten"
+                    },
+                    "derived": "$~Die Beschreibung und die Suchbegriffe deines Kits stammen aus dem ersten Satz der Dokumentation dieser Quelle.",
+                    "heading": {
+                        "name": "$~Name",
+                        "exports": "$~Was dieses Kit teilt",
+                        "versions": "$~Versionen",
+                        "listing": "$~Wer es finden kann"
+                    },
+                    "listing": {
+                        "label": "$~Auflistung",
+                        "labels": ["$~nicht gelistet", "$~gelistet"],
+                        "tips": [
+                            "$~niemand kann dieses Kit im Leitfaden finden, aber alles, was es sich bereits geliehen hat, funktioniert weiter",
+                            "$~jeder kann dieses Kit im Leitfaden finden, sobald ein Moderator es geprüft hat"
+                        ]
+                    },
+                    "remedy": "$~Ändere die Quelle und veröffentliche eine neue Version, dann prüft ein Moderator sie erneut.",
+                    "unreviewed": "$~Ein nicht gelistetes Kit wird von niemandem geprüft. Jeder, dem du die Leihzeile gibst, kann es trotzdem lesen.",
+                    "permanent": "$~Eine Version zu veröffentlichen ist dauerhaft: Programme anderer Leute leihen sie sich über die Nummer, deshalb würde eine Rücknahme sie kaputt machen.",
+                    "confirm": "$~Veröffentlichen",
+                    "withdraw": {
+                        "label": "$~zurückziehen",
+                        "tip": "$~diese Version zurückziehen, was nur möglich ist, solange das Kit nicht gelistet ist"
+                    },
+                    "withdrawable": "$~Dieses Kit wurde noch nie gelistet, also konnte es noch niemand finden — du kannst die neueste Version noch zurückziehen.",
+                    "unpublishable": "$~Dieses Kit kann noch nicht veröffentlicht werden:",
+                    "failed": "$~Ich konnte dein Kit nicht veröffentlichen. Überprüfe, ob du online bist, und versuche es erneut."
+                }
+            },
+            "settings": {
+                "header": "$~Einstellungen",
+                "explanation": "$~Ändere, wie Wordplay aussieht, wie du Code schreibst und wie Programme deine Geräte nutzen.",
+                "button": {
+                    "show": "$~Einstellungsdialog anzeigen"
+                },
+                "mode": {
+                    "layout": {
+                        "label": "$~Layout",
+                        "labels": [
+                            "$~automatisch",
+                            "$~Zeile",
+                            "$~Stapel",
+                            "$~zwei",
+                            "$~eins",
+                            "$~frei"
+                        ],
+                        "tips": [
+                            "$~Kacheln automatisch nach Größe und Form des Fensters anordnen",
+                            "$~ein waagerechtes Bildschirmlayout",
+                            "$~ein senkrechtes Bildschirmlayout",
+                            "$~die zwei neuesten Kacheln, nebeneinander",
+                            "$~nur die neueste Kachel",
+                            "$~bewegliche und größenveränderbare Kacheln auf einer Leinwand"
+                        ]
+                    },
+                    "animate": {
+                        "label": "$~Animationsgeschwindigkeit",
+                        "labels": [
+                            "$~aus",
+                            "$~1/4",
+                            "$~1/3x",
+                            "$~1/2x",
+                            "$~1x",
+                            "$~2x",
+                            "$~5x",
+                            "$~10x",
+                            "$~Auto"
+                        ],
+                        "tips": [
+                            "$~Animationen deaktiviert",
+                            "$~Viertelgeschwindigkeit",
+                            "$~dritter Gang",
+                            "$~halbe Geschwindigkeit",
+                            "$~normale Geschwindigkeit",
+                            "$~doppelte Geschwindigkeit",
+                            "$~Fünfgang",
+                            "$~zehn Geschwindigkeiten",
+                            "$~Die aktuelle Geräteeinstellung verwenden"
+                        ]
+                    },
+                    "dark": {
+                        "label": "$~Thema",
+                        "labels": ["$~Licht", "$~dunkel", "$~Auto"],
+                        "tips": [
+                            "$~hellere Farben",
+                            "$~dunklere Farben",
+                            "$~Die aktuelle Geräteeinstellung verwenden"
+                        ]
+                    },
+                    "space": {
+                        "label": "$~Abstandsmarker",
+                        "labels": ["$~verstecken", "$~zeigen"],
+                        "tips": [
+                            "$~Leerzeichen- und Tabulator-Indikatoren nicht anzeigen",
+                            "$~Leerzeichen- und Tabulatoranzeigen explizit anzeigen"
+                        ]
+                    },
+                    "writing": {
+                        "label": "$~Schreiblayout",
+                        "labels": [
+                            "$~horizontal",
+                            "$~vertikalen RTL",
+                            "$~vertikaler Liter",
+                            "$~automatisch"
+                        ],
+                        "tips": [
+                            "$~horizontaler Text, von links nach rechts lesen",
+                            "$~vertikaler Text, von rechts nach links lesen",
+                            "$~vertikaler Text, von links nach rechts lesen",
+                            "$~Folgen Sie dem Schriftlayout der Sprache."
+                        ]
+                    },
+                    "lines": {
+                        "label": "$~Zeilennummern",
+                        "labels": ["$~verstecken", "$~zeigen"],
+                        "tips": [
+                            "$~Zeilennummern im Textmodus nicht anzeigen",
+                            "$~Zeilennummern im Textmodus anzeigen"
+                        ]
+                    },
+                    "blocks": {
+                        "label": "$~Bearbeitungsmodus",
+                        "labels": ["$~Text", "$~Blöcke"],
+                        "tips": [
+                            "$~Code als Text bearbeiten",
+                            "$~Code als Blöcke bearbeiten"
+                        ]
+                    },
+                    "blockDensity": {
+                        "label": "$~Blockabstand",
+                        "labels": ["$~kompakt", "$~Normal", "$~geräumig"],
+                        "tips": [
+                            "$~engere Blöcke, um mehr Code auf dem Bildschirm anzuzeigen",
+                            "$~Standard-Blockabstand",
+                            "$~Lose Blöcke für einfachere Auswahl und Verschiebung"
+                        ]
+                    },
+                    "tab": {
+                        "label": "$~Tabulatortaste",
+                        "labels": [
+                            "$~Fokus wechseln",
+                            "$~Registerkarte einfügen"
+                        ],
+                        "tips": [
+                            "$~Die Tabulatortaste verschiebt den Tastaturfokus zum nächsten Steuerelement.",
+                            "$~Mit dem Befehl „tab“ wird ein Tabulator im Editor eingefügt."
+                        ]
+                    },
+                    "wrap": {
+                        "label": "$~Wickellinien",
+                        "labels": ["$~aus", "$~An"],
+                        "tips": [
+                            "$~Lange Zeilen scrollen im Textmodus horizontal.",
+                            "$~Im Textmodus werden lange Zeilen in das Editorfenster umgebrochen."
+                        ]
+                    },
+                    "words": {
+                        "label": "$~Schlüsselwörter",
+                        "labels": ["$~Symbole", "$~Wörter"],
+                        "tips": [
+                            "$~Eingebaute Schlüsselwörter als Symbole anzeigen",
+                            "$~Integrierte Schlüsselwörter als Wörter in Ihrer Sprache anzeigen"
+                        ]
+                    },
+                    "musicVisualization": {
+                        "label": "$~Darstellung",
+                        "labels": [
+                            "$~Orchester",
+                            "$~Lichtshow",
+                            "$~Stimmung",
+                            "$~Notenblatt",
+                            "$~aus"
+                        ],
+                        "tips": [
+                            "$~Zeige Musik als ein Orchester aus Instrumenten",
+                            "$~Zeige Musik als wechselndes Licht",
+                            "$~Zeige Musik als eine Wolke aus Farbe und Form, die sich mit dem Gefühl der Musik verändert",
+                            "$~Zeige die Noten als geschriebene Musik auf einem Notensystem, das vorbeirollt, während sie spielen",
+                            "$~Zeige keine Musik"
+                        ]
+                    },
+                    "musicVolume": {
+                        "label": "$~Lautstärke",
+                        "labels": ["$~aus", "$~leise", "$~voll"],
+                        "tips": [
+                            "$~Alle Musik stummschalten",
+                            "$~Musik leise abspielen",
+                            "$~Musik in voller Lautstärke abspielen"
+                        ]
+                    },
+                    "musicDucking": {
+                        "label": "$~beim Sprechen",
+                        "labels": ["$~leise", "$~leiser", "$~still"],
+                        "tips": [
+                            "$~Musik ein wenig leiser machen, während etwas gesprochen wird",
+                            "$~Musik deutlich leiser machen, während etwas gesprochen wird",
+                            "$~Musik stummschalten, während etwas gesprochen wird"
+                        ]
+                    },
+                    "haptics": {
+                        "label": "$~Vibration",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Nicht im Takt vibrieren",
+                            "$~Im Takt vibrieren, wenn das Gerät es unterstützt"
+                        ]
+                    },
+                    "captionSize": {
+                        "label": "$~Untertitelgröße",
+                        "labels": ["$~¾", "$~1x", "$~1½", "$~2x", "$~3x"],
+                        "tips": [
+                            "$~Kleinere Untertitel anzeigen",
+                            "$~Untertitel in der Standardgröße anzeigen",
+                            "$~Untertitel eineinhalbmal so groß anzeigen",
+                            "$~Untertitel doppelt so groß anzeigen",
+                            "$~Untertitel dreimal so groß anzeigen"
+                        ]
+                    },
+                    "adaptOutput": {
+                        "label": "$~Projektfarben",
+                        "labels": ["$~beibehalten", "$~umkehren"],
+                        "tips": [
+                            "$~zeigt die Farben eines Projekts genau so, wie es sie geschrieben hat, auch auf einem dunklen Bildschirm",
+                            "$~auf einem dunklen Bildschirm werden die Farben eines hellen Projekts dunkel umgekehrt: Jede Farbe behält ihren Farbton, und die Farben bleiben so weit voneinander entfernt, wie das Projekt es festgelegt hat"
+                        ]
+                    },
+                    "cues": {
+                        "label": "$~Auswertungssignale",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Keinen Ton abspielen, wenn das Programm erneut ausgewertet wird",
+                            "$~Bei jeder erneuten Auswertung des Programms einen kurzen Ton abspielen, einen für jede Art von Eingabe"
+                        ]
+                    },
+                    "animationCues": {
+                        "label": "$~Animationssignale",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Keinen Ton abspielen, wenn Ausgabe animiert wird",
+                            "$~Bei jeder Animation, die eine Pose erreicht, einen kurzen Ton abspielen, passend zu dem, was die Pose macht"
+                        ]
+                    },
+                    "contactCues": {
+                        "label": "$~Kollisionssignale",
+                        "labels": ["$~aus", "$~an"],
+                        "tips": [
+                            "$~Keinen Ton abspielen, wenn Ausgabe zusammenstößt",
+                            "$~Bei einem Zusammenstoß von Ausgabe einen kurzen Ton abspielen, lauter bei einem härteren Stoß"
+                        ]
+                    },
+                    "placement": {
+                        "label": "$~Bühnenplatzierung",
+                        "labels": [
+                            "$~oben links",
+                            "$~oben rechts",
+                            "$~unten links",
+                            "$~unten rechts"
+                        ],
+                        "tips": [
+                            "$~Platziere die Bühne oben links und die anderen Kacheln passend darum herum",
+                            "$~Platziere die Bühne oben rechts und die anderen Kacheln passend darum herum",
+                            "$~Platziere die Bühne unten links und die anderen Kacheln passend darum herum",
+                            "$~Platziere die Bühne unten rechts und die anderen Kacheln passend darum herum"
+                        ]
+                    }
+                },
+                "options": {
+                    "mic": "$~Mikrofon",
+                    "camera": "$~Kamera",
+                    "face": "$~Schriftart",
+                    "default": "$~Standard",
+                    "voice": "$~Sprich mit Stimme"
+                },
+                "tab": {
+                    "label": "$~Einstellungsgruppen",
+                    "labels": [
+                        "$~Aussehen",
+                        "$~Code",
+                        "$~Kamera + Mikrofon",
+                        "$~Ton + Musik"
+                    ],
+                    "tips": [
+                        "$~wie Wordplay selbst aussieht und wirkt: Schrift, Farben, Kacheln und Animation",
+                        "$~wie Code aussieht und wirkt, während du ihn schreibst",
+                        "$~von welcher Kamera und welchem Mikrofon Programme lesen",
+                        "$~wie die Musik, die Sprache und die Untertitel eines Programms zu dir gelangen"
+                    ]
+                },
+                "subheader": {
+                    "music": "$~Musik",
+                    "say": "$~Sprich",
+                    "cues": "$~Signale"
+                }
+            },
+            "locale": {
+                "header": "$~Sprache",
+                "explanation": "$~Wähle Sprachen für die Oberfläche, die Anleitung und die Dokumentation. Sprachen mit 🤖 sind noch größtenteils maschinell übersetzt, daher können manche Texte unleserlich oder falsch sein.",
+                "subheader": {
+                    "selected": "$~Ausgewählt",
+                    "supported": "$~Verfügbar"
+                },
+                "search": {
+                    "description": "$~Sprachen nach Name oder Region filtern",
+                    "placeholder": "$~Sprache oder Region"
+                },
+                "button": {
+                    "show": "$~Sprache(n) für die Website auswählen",
+                    "add": "$~diese Sprache und die aktuellen verwenden",
+                    "remove": "$~Diese Sprache entfernen",
+                    "replace": "$~diese Sprache verwenden",
+                    "menu": "$~andere Sprachen"
+                },
+                "localizeHelp": "$~Um die Übersetzungen in Ihrer Sprache zu verbessern, klicken Sie auf das Stiftsymbol ✎ unten auf der Seite, um den Lokalisierungsmodus zu aktivieren und Verbesserungsvorschläge einzureichen.",
+                "request": {
+                    "header": "$~Ihre Sprache ist nicht dabei?",
+                    "explanation": "$~Wählen Sie eine Sprache und eine Region aus, und wir werden ein GitHub-Issue eröffnen, um die Hinzufügung zu besprechen.",
+                    "languageLabel": "$~Sprache",
+                    "regionLabel": "$~Region",
+                    "submit": "$~Anfrage",
+                    "submitting": "$~Anfrage wird gesendet…",
+                    "success": "$~Besprechen Sie diese Anfrage mit uns auf GitHub!",
+                    "error": "$~Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+                    "alreadySupported": "$~Diese Sprache und Region werden bereits unterstützt.",
+                    "requiresLogin": "$~Sie müssen angemeldet sein, um eine Sprache anzufordern.",
+                    "searchPlaceholder": "$~Sprache oder Land",
+                    "searchDescription": "$~Die Menüs für Sprache und Land filtern",
+                    "alreadyRequested": "$~Jemand hat diese Sprache schon gewünscht. Mach bei der Diskussion auf GitHub mit!"
+                },
+                "choose": "$~Wähle eine Sprache"
+            },
+            "help": {
+                "header": "$~Verknüpfungen",
+                "explanation": "$~Verwenden Sie diese Tastaturbefehle für eine effizientere Bearbeitung.",
+                "subheader": {
+                    "moveCursor": "$~Bewegen",
+                    "editCode": "$~Bearbeiten",
+                    "insertCode": "$~Einfügen",
+                    "debug": "$~Debuggen",
+                    "format": "$~Format",
+                    "help": "$~Hilfe"
+                },
+                "column": {
+                    "symbol": "$~Symbol",
+                    "shortcut": "$~Tastenkombination",
+                    "action": "$~Aktion",
+                    "change": "$~Ändern"
+                },
+                "via": {
+                    "toolbar": "$~Werkzeugleiste",
+                    "chooser": "$~Zeichenauswahl"
+                },
+                "change": {
+                    "on": "$~Diese Tastenkombination nicht mehr ändern",
+                    "off": "$~Diese Tastenkombination ändern"
+                },
+                "capture": "$~drücke die Tasten, die du möchtest",
+                "reset": "$~die Standard-Tastenkombination verwenden",
+                "resetAll": "$~alle Standard-Tastenkombinationen verwenden",
+                "custom": "$~geändert",
+                "feedback": {
+                    "bound": "$~$command ist jetzt $shortcut",
+                    "conflict": "$~$shortcut wird schon für $command verwendet",
+                    "reserved": "$~dein Computer behält $shortcut für sich selbst",
+                    "unmodified": "$~eine Tastenkombination braucht Strg oder Alt, sonst wäre es nur Tippen",
+                    "reset": "$~$command hat wieder seine übliche Tastenkombination"
+                }
+            },
+            "feedback": {
+                "header": "$~Rückmeldung",
+                "explanation": "$~Helfen Sie uns, @wordplay zu verbessern, indem Sie 🪲 *Probleme* melden und 💡 *Ideen* teilen!",
+                "button": {
+                    "show": "$~Zeigen Sie das Feedback-Formular an.",
+                    "submit": {
+                        "tip": "$~schicke deine Rückmeldung ab",
+                        "label": "$~einreichen"
+                    },
+                    "delete": {
+                        "description": "$~Löschen Sie Ihr Feedback.",
+                        "prompt": "$~löschen"
+                    },
+                    "like": "$~Gefällt mir dieses Feedback",
+                    "close": {
+                        "label": "$~schließen",
+                        "tip": "$~schließe diese Rückmeldung als Moderator"
+                    },
+                    "comment": {
+                        "label": "$~einreichen",
+                        "tip": "$~schicke einen Kommentar zu dieser Rückmeldung ab."
+                    }
+                },
+                "mode": {
+                    "label": "$!Rückmeldung",
+                    "labels": ["$~Mängel", "$~Ideen"],
+                    "tips": [
+                        "$~Melden Sie etwas, das defekt zu sein scheint.",
+                        "$~neue Funktionen oder Verbesserungen vorschlagen"
+                    ]
+                },
+                "field": {
+                    "title": {
+                        "description": "$~Titel Ihres Feedbacks",
+                        "placeholder": "$~Titel"
+                    },
+                    "defect": {
+                        "description": "$~Beschreibung Ihres Defekts",
+                        "placeholder": "$~Welche Schritte haben Sie unternommen? Was geschah danach? Seien Sie so präzise wie möglich."
+                    },
+                    "idea": {
+                        "description": "$~Beschreibung Ihres Defekts",
+                        "placeholder": "$~Was versuchen Sie zu tun, was Sie nicht können?"
+                    },
+                    "comment": {
+                        "description": "$~Kommentar",
+                        "placeholder": "$~Fügen Sie diesem Feedback einen Kommentar hinzu"
+                    },
+                    "github": {
+                        "description": "$~GitHub-Problem",
+                        "placeholder": "$~Link zum GitHub-Problem"
+                    }
+                },
+                "subheader": {
+                    "defect": "$~Defekt",
+                    "idea": "$~Idee",
+                    "moderator": "$~Moderator"
+                },
+                "prompt": {
+                    "defect": "$~Hast du das Problem, das du hast, nicht gesehen? Melde es hier. Je mehr Details du angibst, desto besser!",
+                    "idea": "$~Sie haben die Idee, die Sie sich vorstellen, nicht gefunden? Schlagen Sie sie vor."
+                },
+                "error": {
+                    "login": "$~Du musst <angemeldet@://login> sein, um eine Rückmeldung abzuschicken",
+                    "empty": "$~Es ist kein Feedback vorhanden.",
+                    "url": "$~Dies ist keine gültige GitHub-URL."
+                }
+            },
+            "notifications": {
+                "header": "$~Benachrichtigungen",
+                "explanation": "$~Benachrichtigungen über neue Chats und veröffentlichte Anleitungen",
+                "open": "$~Benachrichtigungsdialog öffnen",
+                "howToNotifications": {
+                    "label": "$~Benachrichtigungen für neue Anleitungen",
+                    "labels": ["$~aus", "$~An"],
+                    "tips": [
+                        "$~Benachrichtige mich nicht über neue Anleitungen",
+                        "$~Benachrichtige mich über neue Anleitungen"
+                    ]
+                },
+                "clearAll": {
+                    "label": "$~Alle Benachrichtigungen löschen",
+                    "tip": "$~Alle Benachrichtigungen löschen"
+                },
+                "notification": {
+                    "howToHeader": "$~Eine neue Anleitung mit dem Titel „$title wurde veröffentlicht.",
+                    "projectChatHeader": "$~Neue Nachricht im Projekt \"$name\"",
+                    "howToChatHeader": "$~Neue Nachricht in der Anleitung „$title",
+                    "link": "$~Details",
+                    "moderationHeader": "$~Nachricht im Format \"$name\" erfordert Moderationsmaßnahmen",
+                    "reportedHeader": "$~Etwas, das du in „$title“ gemacht hast, wurde gemeldet und wird gerade geprüft",
+                    "reportReceivedHeader": "$~Deine Meldung über „$title“ wurde an die zuständige Person geschickt",
+                    "decisionHeader": "$~Es wurde eine Entscheidung über etwas getroffen, das du in „$title“ gemacht hast",
+                    "outcomeHeader": "$~Es wurde eine Entscheidung über deine Meldung in „$title“ getroffen",
+                    "because": "$~Weil es:",
+                    "note": "$~Sie haben gesagt:",
+                    "reviewPending": "$~$#count[Etwas wartet|$count Dinge warten] darauf, dass du sie prüfst"
+                },
+                "delete": "$~Diese Benachrichtigung löschen",
+                "popup": "$~$#count[1 Benachrichtigung|$count Benachrichtigungen]",
+                "moderate": {
+                    "label": "$~prüfen, was wartet",
+                    "tip": "$~zu den Dingen gehen, die auf deine Prüfung warten"
+                }
+            }
+        },
+        "palette": {
+            "label": "$~Palette",
+            "labels": {
+                "mixed": "$~gemischt",
+                "computed": "$~berechnet",
+                "default": "$~Standard",
+                "inherited": "$~vererbt",
+                "notSequence": "$~keine Sequenz",
+                "format": "$~Format",
+                "weight": "$~Gewicht",
+                "light": "$~Licht",
+                "normal": "$~normal",
+                "bold": "$~deutlich",
+                "extra": "$~extra",
+                "italic": "$~kursiv",
+                "underline": "$~unterstreichen"
+            },
+            "button": {
+                "revert": "$~auf Standard zurücksetzen",
+                "set": "$~diese Eigenschaft bearbeiten",
+                "addPhrase": "$~füge danach eine Phrase hinzu",
+                "addGroup": "$~füge danach eine Gruppe hinzu",
+                "addShape": "$~füge danach eine Form hinzu",
+                "addMotion": "$~Ort für Motion Stream festlegen",
+                "addPlacement": "$~Ort auf Platzierungsstream setzen",
+                "remove": "$~diesen Inhalt entfernen",
+                "up": "$~diesen Inhalt nach oben verschieben",
+                "down": "$~diesen Inhalt nach unten verschieben",
+                "edit": "$~diesen Inhalt bearbeiten",
+                "sequence": "$~in Sequenz umwandeln",
+                "editMode": "$~in den Bearbeitungsmodus wechseln",
+                "previousTrack": "$~das vorherige @Track zeigen",
+                "nextTrack": "$~das nächste @Track zeigen",
+                "addTrack": "$~ein @Track hinzufügen",
+                "removeTrack": "$~dieses @Track entfernen",
+                "clearTrack": "$~jede Note aus diesem @Track entfernen",
+                "makeChord": "$~aus dieser Note einen Akkord machen",
+                "unmakeChord": "$~diesen Akkord auf eine Note verringern",
+                "playMusic": "$~dieses @Music ab dem Cursor hören",
+                "pauseMusic": "$~Wiedergabe stoppen",
+                "importMIDI": "$~eine MIDI-Datei als @Music importieren",
+                "record": "$~eine Melodie summen, um sie zu diesem @Track hinzuzufügen",
+                "stopRecording": "$~stoppen und aufschreiben, was du gesummt hast",
+                "playTrack": "$~dieses @Track allein hören, ab dem Cursor",
+                "pauseTrack": "$~die Wiedergabe dieses @Track stoppen",
+                "rewind": "$~zurück zum Anfang gehen"
+            },
+            "prompt": {
+                "editing": "$~Bearbeite mich!",
+                "select": "$~Um etwas zu bearbeiten, wähle es in deinem Code oder auf der @Stage aus. Um etwas Neues hinzuzufügen, nutze die +-Schaltflächen oben.",
+                "readonly": "$~Diese Werte sind in diesem Modus *nur lesbar*. Wechsle in den ✏️ *Bearbeitungsmodus*, um sie zu ändern."
+            },
+            "field": {
+                "coordinate": "$~Koordinate bearbeiten",
+                "text": "$~Text bearbeiten"
+            },
+            "sequence": {
+                "button": {
+                    "add": "$~Pose hinzufügen",
+                    "remove": "$~Pose entfernen",
+                    "up": "$~Pose nach oben bewegen",
+                    "down": "$~Pose nach unten verschieben"
+                },
+                "field": {
+                    "percent": "$~Prozent bearbeiten"
+                },
+                "preset": {
+                    "label": "$~vordefinierte Sequenz",
+                    "custom": "$~Brauch"
+                }
+            },
+            "error": {
+                "nan": "$~Dies ist keine Zahl.",
+                "percent": "$~Muss ein Prozentsatz zwischen 0 und 100 sein.",
+                "lessThanNext": "$~Dieser muss kleiner sein als der nächste Eintrag.",
+                "moreThanPrevious": "$~Dies muss mehr sein als der vorherige Eintrag."
+            },
+            "tour": {
+                "launch": "$~Machen Sie einen Rundgang durch die Farbpalette",
+                "palette": "$~Du kannst die /Palette/ verwenden, um *Phrasen*, *Gruppen* und die *Bühne* im ✏️ *Bearbeiten*-Modus zu bearbeiten. In anderen Modi sind ihre Steuerungen nur lesbar, und im ⏸️ *Fehlersuche*-Modus zeigt jede Eigenschaft auch ihren *aktuellen Wert*.",
+                "text": "$~Alle Eigenschaften eines Satzes können hier bearbeitet werden. Dies ist der *Text* des Satzes, aber andere Eigenschaften haben ihre eigenen Steuerelemente.",
+                "set": "$~Wenn eine Eigenschaft aktuell ihren Standardwert verwendet, können Sie mit der *Stift*-Schaltfläche einen *expliziten* Wert dafür festlegen.",
+                "unset": "$~Wenn für eine Eigenschaft ein /expliziter/ Wert festgelegt ist, entfernt die Schaltfläche *X* diesen Wert und stellt die Eigenschaft auf ihren *Standardwert* zurück.",
+                "editor": "$~Alle Änderungen, die Sie in der Farbpalette vornehmen, werden im Code widergespiegelt, der im Editor angezeigt wird.",
+                "stage": "$~Phrasen können auch direkt auf der *Bühne* verschoben, in ihrer Größe verändert und gedreht werden."
+            },
+            "music": {
+                "staff": "$~die Noten dieser Spur",
+                "track": "$~Spur $count von $total",
+                "duration": {
+                    "label": "$~wie lange eine neue Note dauert",
+                    "labels": ["$~𝅝", "$~𝅗𝅥", "$~𝅘𝅥", "$~𝅘𝅥𝅮", "$~𝅘𝅥𝅯"],
+                    "tips": [
+                        "$~eine ganze Note, vier Schläge",
+                        "$~eine halbe Note, zwei Schläge",
+                        "$~eine Viertelnote, ein Schlag",
+                        "$~eine Achtelnote, ein halber Schlag",
+                        "$~eine Sechzehntelnote, ein Viertel Schlag"
+                    ]
+                },
+                "computed": "$~die Noten dieser Spur werden berechnet, deshalb kann man sie hier nicht bewegen",
+                "note": "$~Note $degree, Schlag $beat",
+                "rest": "$~Pause, Schlag $beat",
+                "added": "$~Note $degree bei Schlag $beat hinzugefügt, jetzt $#count[$#count Note|$#count Noten]",
+                "removed": "$~Note $degree bei Schlag $beat entfernt, jetzt $#count[$#count Note|$#count Noten]",
+                "moved": "$~Note $degree, Schlag $beat",
+                "chooser": "$~welche Musik bearbeitet werden soll",
+                "unnamed": "$~Musik $count",
+                "cursor": "$~ziehe, um zu wählen, ab welchem Schlag gespielt wird",
+                "findings": {
+                    "tracksSplit": "$~$#count[$#count Spur|$#count Spuren] spielten mehr als eine Note gleichzeitig, daher wurden $extra weitere hinzugefügt, um die zusätzlichen Stimmen zu halten.",
+                    "percussionDropped": "$~$#count[$#count Trommelklang|$#count Trommelklänge] hatte keine Entsprechung in unserem Set, daher wurde er weggelassen.",
+                    "tracksTruncated": "$~$#count[$#count Spur wurde|$#count Spuren wurden] weggelassen, über der Grenze von $cap.",
+                    "pitchesSnapped": "$~$#count[$#count Note war|$#count Noten waren] nicht in der Tonleiter $scale und wurde zur nächsten gerührt, um bis zu $semitones Halbtöne.",
+                    "beatsRounded": "$~$#count[$#count Notenlänge wurde|$#count Notenlängen wurden] gerundet, um höchstens $error eines Schlags.",
+                    "meterChanges": "$~$#count[$#count Taktartwechsel wurde|$#count Taktartwechsel wurden] weggelassen: @Music hat keine Taktarten.",
+                    "velocityRange": "$~Spur $track hat $#count[$#count Lautstärke|$#count Lautstärken]. Jede Note behält ihre eigene, aber es gibt keine Anschwellungen.",
+                    "outOfRange": "$~$#count[$#count Note ist|$#count Noten sind] mehr als drei Oktaven von der ersten Note der Tonleiter entfernt. Sie spielen, aber nicht aus einer echten Aufnahme.",
+                    "tempoFolded": "$~$#count[$#count Tempowechsel wurde|$#count Tempowechsel wurden] in die Notenlängen eingefaltet, damit die Musik weiterhin schneller und langsamer wird. Ein @Music hat ein Tempo, und dieses ist $using, daher passt ein @Beat nicht zu den Noten."
+                },
+                "notMIDI": "$~das sieht nicht wie eine MIDI-Datei aus",
+                "badMIDI": "$~Ich konnte diese MIDI-Datei nicht lesen",
+                "listening": "$~Ich höre zu! Summe oder singe eine Melodie und höre dann auf. Ich schreibe die Noten auf, die ich höre, und füge sie zu dieser Spur hinzu.",
+                "heardNothing": "$~Ich habe keine Noten gehört. Versuche etwas lauter zu summen oder näher am Mikrofon.",
+                "transcribed": "$~Ich habe $#count[$#count Note|$#count Noten] in $scale bei etwa $tempo Schlägen pro Minute gehört.",
+                "noMicrophone": "$~Ich kann dein Mikrofon nicht hören",
+                "imported": "$~$#count[$#count Spur|$#count Spuren] und $notes Noten hinzugefügt",
+                "importing": "$~$step… $percent%",
+                "tooBig": "$~Diese Datei hat $#count[$#count Note|$#count Noten], mehr als die $cap, die ein Projekt fassen kann. Versuche ein kürzeres Stück oder weniger Instrumente.",
+                "steps": {
+                    "label": "$~was ein Import gerade macht",
+                    "labels": [
+                        "$~Die Datei wird gelesen",
+                        "$~Die Noten herausfinden",
+                        "$~Die Spuren benennen",
+                        "$~Sie in dein Programm schreiben",
+                        "$~Dein Programm prüfen"
+                    ],
+                    "tips": [
+                        "$~die Datei lesen",
+                        "$~die Noten herausfinden",
+                        "$~die Spuren benennen",
+                        "$~sie in dein Programm schreiben",
+                        "$~dein Programm prüfen"
+                    ]
+                },
+                "report": "$~Was ich importiert habe",
+                "reportExplanation": "$~Ein @Music kann das meiste von dem festhalten, was eine MIDI-Datei beschreibt, aber nicht alles. Hier ist, was sich beim Einlesen geändert hat."
+            },
+            "toolbar": {
+                "label": "$~Ausgabe hinzufügen",
+                "addPhrase": "$~eine Phrase hinzufügen",
+                "wrapPhrase": "$~diesen Wert als Phrase anzeigen",
+                "addRectangle": "$~eine rechteckige Form hinzufügen",
+                "addCircle": "$~Füge eine runde Form hinzu",
+                "addPolygon": "$~Füge eine vieleckige Form hinzu",
+                "wrapForm": "$~Zeige diese Form auf der Bühne, indem du sie in eine Form einpackst",
+                "group": "$~Sammle deine Auswahl in einer Gruppe",
+                "groupEmpty": "$~Wähle etwas Output aus, um ihn in einer Gruppe zu sammeln",
+                "groupScattered": "$~Eine Gruppe kann nur Output sammeln, der am gleichen Ort ist",
+                "groupKind": "$~Eine Gruppe kann eine Phrase, eine Gruppe, Sprache oder Musik enthalten, aber keine Form und keine Bühne",
+                "addStage": "$~Packe alles in eine Bühne ein, damit du Beleuchtung, Farbe und Einzelbilder steuern kannst",
+                "stageExists": "$~Es gibt bereits eine Bühne",
+                "addMusic": "$~Füge Musik hinzu, beginnend mit ein paar Noten zum Ausprobieren",
+                "addSay": "$~Füge Sprache hinzu, die laut ausgesprochen wird",
+                "addPath": "$~eine Linie hinzufügen, die du biegen und mit der du zeichnen kannst",
+                "draw": {
+                    "off": "$~einen Pfad auf der Bühne zeichnen",
+                    "on": "$~Zeichnen stoppen"
+                }
+            }
+        },
+        "save": {
+            "saving": "Speichern",
+            "saved": "$~gespeichert",
+            "local": "$~gespeichert",
+            "unsaved": "Ungespeichert",
+            "sync": {
+                "projects": "$~Projekte",
+                "galleries": "$~Galerien",
+                "characters": "$~Charaktere",
+                "howtos": "$~Anleitungen",
+                "chats": "$~Chats",
+                "kits": "$~Kits"
+            },
+            "status": {
+                "header": "$~Status speichern",
+                "intro": "$~Ihre Arbeit wird auf diesem Gerät gespeichert und in der Cloud gesichert.",
+                "columns": {
+                    "device": "$~auf diesem Gerät",
+                    "cloud": "$~in der Wolke",
+                    "unsaved": "$~nicht gespeichert"
+                },
+                "state": {
+                    "synced": "$~synchronisiert",
+                    "loading": "$~Laden",
+                    "syncing": "$~sparen",
+                    "offline": "$~offline",
+                    "failed": "$~fehlgeschlagen"
+                },
+                "conversation": "$~ein Gespräch",
+                "legend": "$~„Nicht gespeichert“ bedeutet, dass die Daten hier gespeichert sind, Sie aber noch nicht online sind. Die Daten werden gespeichert, sobald Sie wieder online sind.",
+                "errorsHeader": "$~Manche Dinge konnten nicht online gespeichert werden:"
+            }
+        },
+        "edit": {
+            "node": "$~$node$type[, $type|]",
+            "before": "$~vor $after[$after|Ende]",
+            "inside": "$~in $token, zwischen $before[$before|Start] und $after[$after|Ende]",
+            "between": "$~zwischen $before[$before|Start] und $after[$after|Ende]",
+            "line": "$~leere Zeile zwischen $before[$before|Start] und $after[$after|Ende]",
+            "conflicts": "$~$#count[$count Konflikt|$count Konflikte]",
+            "assign": "$~/$name[Möchte gern mitmachen|Erwägt, auszusteigen]…/",
+            "append": "$~/Begierig, einzufügen…/",
+            "remove": "$~/Erwägt, zu gehen…/",
+            "replace": "$~/Will eingreifen…/",
+            "area": "$~Typenschlüssel",
+            "delimiterMatchedSameLine": "$~Übereinstimmung von $name in derselben Zeile",
+            "delimiterMatchedBelow": "$~passend zu $name $#lines[$lines Zeile darunter|$lines Zeilen darunter]",
+            "delimiterMatchedAbove": "$~passend zu $name $#lines[$lines Zeile darüber|$lines Zeilen darüber]",
+            "delimiterUnmatched": "$~Kein passendes Trennzeichen"
+        },
+        "template": {
+            "unwritten": "$~Wird noch bekannt gegeben",
+            "unparsable": "$~Nicht analysierbare Vorlage: $template",
+            "machineTranslated": "$~Dies wurde maschinell übersetzt, daher ist der Text möglicherweise nicht lesbar oder korrekt.",
+            "locallyRevised": "$~Dieser Text wurde lokal überarbeitet und weicht von der offiziellen Übersetzung ab."
+        },
+        "collaborate": {
+            "label": "$~zusammenarbeiten",
+            "role": {
+                "owner": "$~Eigentümer",
+                "collaborate": "$~bearbeiten",
+                "comment": "$~kommentieren",
+                "view": "$~ansehen",
+                "curate": "$~kuratieren"
+            },
+            "field": {
+                "message": {
+                    "description": "$~Die zu übermittelnde Chat-Nachricht",
+                    "placeholder": "$~Geben Sie eine Nachricht ein"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~senden",
+                    "tip": "$~sende eine Nachricht an deine Mitwirkenden und"
+                },
+                "delete": "$~diese Nachricht löschen",
+                "confirmDelete": "$~Löschen bestätigen?",
+                "transfer": {
+                    "description": "$~diese Person zur Eigentümerin oder zum Eigentümer des Projekts machen",
+                    "prompt": "$~Soll diese Person Eigentümer werden?",
+                    "consequence": "$~Du bleibst Mitarbeiter und kannst weiter bearbeiten, aber du kannst dieses Projekt nicht mehr löschen."
+                }
+            },
+            "error": {
+                "unowned": "$~Dieses Projekt hat keinen Eigentümer, daher ist kein Chat möglich.",
+                "offline": "$~Dieser Chat konnte nicht geladen werden.",
+                "empty": "$~Keine Nachrichten.",
+                "deleted": "$~Diese Nachricht wurde gelöscht.",
+                "transferGallery": "$~Dieses Projekt ist in einer Galerie. Wenn du es einer anderen Person gibst, wird sie nicht automatisch zu dieser Galerie hinzugefügt. Sie kann das Projekt dort dann vielleicht nicht sehen."
+            },
+            "moderation": {
+                "header": "$~Diese Nachricht melden",
+                "explanation": "$~Sollte diese Nachricht nicht unseren <Community-Standards@://rights> oder dem von Ihnen gewünschten Feedback entsprechen, können Sie sie melden. Nach Ihrer Meldung wird die Nachricht an die Kuratoren der Galerie weitergeleitet und bis zur Überprüfung entfernt.",
+                "report": {
+                    "tip": "$~Diese Nachricht melden",
+                    "label": "$~Bericht"
+                },
+                "moderate": {
+                    "tip": "$~Zum Moderations-Dashboard wechseln",
+                    "label": "$~mäßig"
+                },
+                "pending": "$~Diese Nachricht wurde vorübergehend entfernt, bis eine Moderation erfolgt.",
+                "removed": "$~Diese Nachricht wurde wegen Verstoßes gegen die Community- oder Feedback-Richtlinien entfernt.",
+                "inGallery": "$~Dieser Chat befindet sich in einer Galerie und wird von den Kuratoren moderiert. Sie können Beiträge, die gegen unsere <Community-Standards@://rights> verstoßen, zur Moderation melden."
+            },
+            "restrictGalleryCreatorAccess": {
+                "mode": {
+                    "label": "$~Projektzugriff einschränken",
+                    "labels": ["$~nicht einschränken", "$~beschränken"],
+                    "tips": [
+                        "$~Jeder, der diese Galerie sehen kann, kann auch Ihr Projekt sehen.",
+                        "$~Nur die Kuratoren der Galerie können Ihr Projekt sehen."
+                    ]
+                }
+            },
+            "tour": {
+                "launch": "$~Machen Sie eine Tour durch die Zusammenarbeit",
+                "collaborate": "$~Hier stehen alle, die dieses Projekt erreichen können. Du kannst mit den Personen *chatten*, die das dürfen. Nur der /Eigentümer/, die /Mitarbeiter/ und die /Kommentierenden/ können den Chat sehen.",
+                "collaborators": "$~Jede Person hat ein /Recht/. *Bearbeiten* bedeutet, sie kann das Projekt ändern und darüber chatten. *Kommentieren* bedeutet, sie kann chatten, aber nicht bearbeiten. *Ansehen* bedeutet, sie kann nur schauen, aber nicht chatten. *Eigentümer* gibt ihr das Projekt. Die /Kuratoren/ einer Galerie können sie immer erreichen, das kannst du nicht ändern.",
+                "restrict": "$~Wenn sich ein Projekt in einer Galerie befindet, kann standardmäßig jeder, der die Galerie sehen kann, auch Ihr Projekt sehen. Mit dem Schalter /restrict/ wird es für alle außer Ihnen und den Kuratoren der Galerie ausgeblendet.",
+                "add": "$~Drücke das *+* am Ende der Liste, um jemanden hinzuzufügen. Gib die *E-Mail-Adresse* oder den *Benutzernamen* der Person ein, wähle aus, was sie tun darf, und sie wird der Liste hinzugefügt."
+            },
+            "translate": {
+                "label": "$~Nachrichten übersetzen in",
+                "off": "$~Übersetzen stoppen",
+                "error": "$~Wir konnten diese Nachrichten nicht in $to übersetzen. Versuche es später noch einmal.",
+                "messageError": "$~Wir konnten diese Nachricht nicht übersetzen.",
+                "direction": "$from → $to",
+                "messageErrors": "$~$#count[Wir konnten $count Nachricht nicht übersetzen.|Wir konnten $count Nachrichten nicht übersetzen.]",
+                "translating": "$~Nachrichten werden übersetzt …",
+                "translated": "$~$#count[$count Nachricht in $language übersetzt.|$count Nachrichten in $language übersetzt.]",
+                "writingIn": "$~Ich schreibe auf",
+                "downloading": "$~Ein $language-Übersetzer für deinen Browser wird geladen …",
+                "onDevice": "$~Dein Browser hat dies auf deinem Gerät übersetzt. Es wurden also keine Nachrichten an uns gesendet.",
+                "none": "$~Nicht übersetzen",
+                "dismiss": "$~Schließen"
+            },
+            "announce": {
+                "transferred": "$~$name ist jetzt Eigentümerin oder Eigentümer von $project",
+                "privilege": "$~$name darf jetzt $privilege",
+                "removed": "$~$name kann dieses Projekt nicht mehr erreichen",
+                "thread": "$~$#count[Thread zu $name's Nachricht, $count Antwort|Thread zu $name's Nachricht, $count Antworten]",
+                "reacted": "$~$#count[$emoji bei dieser Nachricht, $count Person|$emoji bei dieser Nachricht, $count Personen]",
+                "unreacted": "$~$#count[$emoji zurückgenommen, $count Person übrig|$emoji zurückgenommen, $count Personen übrig]",
+                "attached": "$~Es geht um $location.",
+                "found": "$~$name sagte $opening"
+            },
+            "table": {
+                "label": "$~wer dieses Projekt erreichen kann",
+                "choose": "$~was $name tun darf",
+                "adding": "$~was sie tun dürfen",
+                "audience": "$~wer diesen Chat sehen kann",
+                "add": "$~jemanden hinzufügen",
+                "cancel": "$~das Hinzufügen abbrechen"
+            },
+            "prompt": "$~Mitarbeiter, Kommentierende und Betrachter hinzufügen",
+            "thread": {
+                "reply": "$~antworten",
+                "replies": "$~$#count[$count Antwort|$count Antworten]",
+                "unseen": "$~$#count[$count neue Antwort|$count neue Antworten]",
+                "header": "$~Thread",
+                "back": "$~zurück zum Gespräch",
+                "empty": "$~Noch keine Antworten. Sag etwas!",
+                "placeholder": "$~Antworten…"
+            },
+            "reaction": {
+                "add": "$~reagieren",
+                "more": "$~mehr…",
+                "label": "$~Wähle eine Reaktion",
+                "full": "$~Diese Nachricht hat schon alle möglichen Reaktionen.",
+                "close": "$~Reaktionen schließen",
+                "pick": "$~mit $emoji reagieren",
+                "give": "$~$#count[füge dein $emoji hinzu — $count Person hat es|füge dein $emoji hinzu — $count Personen haben es]",
+                "take": "$~$#count[nimm dein $emoji zurück — $count Person hat es|nimm dein $emoji zurück — $count Personen haben es]"
+            },
+            "reference": {
+                "mode": {
+                    "on": "$~nicht mehr über diesen Code sprechen",
+                    "off": "$~über den Code sprechen, wo mein Cursor steht"
+                },
+                "prompt": "$~Deine Nachricht handelt von $location.",
+                "line": "$~Zeile $line",
+                "lines": "$~Zeilen $first–$last",
+                "label": "$~über $location: $code",
+                "invalid": "$~dieser Code ist verschwunden",
+                "marker": "$~$#count[Lies die Nachricht über diesen Code|Lies die $count Nachrichten über diesen Code]"
+            }
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$~Jetzt",
+                "history": "$~Versionen",
+                "restore": "$~Dies ist eine frühere Version dieses Projekts.",
+                "ago": "$~$amount $unit vor"
+            },
+            "button": {
+                "clear": "$~Verlauf löschen",
+                "select": "$~diese Version anzeigen",
+                "checkpoint": "$~Diese Version des Projekts speichern",
+                "back": "$~zurück zur vorherigen Version",
+                "forward": "$~Zurück zur nächsten Version",
+                "restore": "$~diese Version wiederherstellen",
+                "now": "$~Zurück zur aktuellen Version"
+            }
+        },
+        "howto": {
+            "galleryView": {
+                "header": "$~Anleitungen",
+                "subheader": "$~$#total[$total Wie man|$total Wie man], $new neu",
+                "subheaderEmpty": "$~Erschaffe den ersten!",
+                "prompt": "$~Anleitungen sind kurze Erklärungen und Beispielcodes, die zeigen, wie man etwas mit @wordplay macht. Wenn du herausgefunden hast, wie etwas funktioniert, das du teilen möchtest, schreibe eine Anleitung für die anderen Entwickler in dieser Galerie, damit auch sie es lernen können!"
+            },
+            "drafts": {
+                "header": "$~📝 Anleitungen zum Entwerfen",
+                "prompt": "$~Dies ist der Bereich für Ihre Entwürfe! Nur Sie und Ihre Mitarbeiter können diese Entwürfe sehen.",
+                "tooltip": "$~Entwurf ansehen",
+                "note": "$~Dies ist ein Entwurf einer Anleitung. Nur Sie und Ihre Mitarbeiter können ihn einsehen."
+            },
+            "bookmarks": {
+                "header": "$~🔖 Lesezeichen",
+                "tooltip": "$~Folgen Sie dieser Anleitung.",
+                "canBookmark": {
+                    "label": "$~🔖 Anleitung als Lesezeichen speichern",
+                    "tip": "$~Speichern Sie diese Anleitung, um sie später wiederzufinden."
+                },
+                "alreadyBookmarked": {
+                    "label": "$~🔖 Lesezeichen entfernen",
+                    "tip": "$~Diese Anleitung aus Ihren Lesezeichen entfernen."
+                },
+                "empty": "$~Sie können Anleitungen, auf die Sie später zurückgreifen möchten, als Lesezeichen speichern.",
+                "notLoggedIn": "$~Du musst <angemeldet@://login> sein, um Lesezeichen zu nutzen"
+            },
+            "navigationtooltip": "$~Navigieren Sie zu einer Anleitung.",
+            "button": {
+                "reset": {
+                    "label": "$~Center",
+                    "tip": "$~Zentriere die Leinwand"
+                }
+            },
+            "editor": {
+                "newForm": {
+                    "header": "$~Erstelle eine neue Anleitung",
+                    "explanation": "$~Geben Sie den Namen und den Inhalt Ihrer neuen Anleitung an."
+                },
+                "editForm": {
+                    "header": "$~Bearbeitungsanleitung",
+                    "explanation": "$~Bearbeiten Sie den Namen und den Inhalt Ihrer Anleitung."
+                },
+                "post": {
+                    "label": "$~📣 Beitrag",
+                    "tip": "$~Veröffentliche deine Anleitung im entsprechenden Bereich."
+                },
+                "save": {
+                    "label": "$~💾 Als Entwurf speichern",
+                    "tip": "$~Speichere deine Anleitung als Entwurf"
+                },
+                "notification": {
+                    "label": "$~Abonnenten benachrichtigen",
+                    "labels": ["$~benachrichtigen", "$~nicht benachrichtigen"],
+                    "tips": [
+                        "$~Benachrichtige deine Abonnenten, wenn du diese Anleitung veröffentlichst.",
+                        "$~Benachrichtigen Sie Ihre Abonnenten nicht, wenn Sie diese Anleitung veröffentlichen."
+                    ]
+                },
+                "title": {
+                    "description": "$~der Titel Ihrer Anleitung",
+                    "placeholder": "$~Titel"
+                },
+                "untitledHowToPlaceholder": "$~Unbetitelte Anleitung",
+                "collaboratorsToggle": {
+                    "on": "$~das Mitarbeitergremium zusammenbrechen lassen",
+                    "off": "$~Erweiterung des Mitarbeiterpanels"
+                },
+                "editor": {
+                    "placeholder": "$~Schreiben Sie hier Ihre Anleitung und verwenden Sie Formatierung und Code, um das Thema zu vermitteln.",
+                    "description": "$~ein Textfeld, in dem Sie Ihre Anleitung schreiben können"
+                },
+                "collaborators": {
+                    "header": "$~👥 Mitarbeiter",
+                    "explanation": "$~Mitarbeiter können diese Anleitung bearbeiten und als Entwürfe ansehen."
+                },
+                "access": {
+                    "header": "$~↗ teilen",
+                    "explanation": "$~Der Kurator dieser Galerie kann anderen von ihm betreuten Galerien und Kreativen diese Anleitung zugänglich machen. Falls Sie dies nicht wünschen, können Sie den Zugriff auf diese Anleitung auf die Kuratoren und Kreativen dieser Galerie beschränken."
+                },
+                "accessToggle": {
+                    "on": "$~Zugriffseinstellungen-Panel ausblenden",
+                    "off": "$~Erweitern Sie das Bedienfeld für die Zugriffseinstellungen."
+                },
+                "accessMode": {
+                    "label": "$~Beschränken Sie, wer diese Anleitung sehen kann.",
+                    "labels": ["$~eingeschränkt", "$~erweitert"],
+                    "tips": [
+                        "$~Nur die Urheber dieser Galerie können sie ansehen",
+                        "$~Kreative und Kuratoren in jeder Galerie, die der Kurator betreut, können Folgendes einsehen:"
+                    ]
+                },
+                "localeOptionsLabel": "$~Eingabesprache des Editors",
+                "publicExplanation": "$~Wenn Sie möchten, dass jeder, der den Link hat, Ihre Anleitung sehen kann, können Sie Ihre Anleitung öffentlich machen.",
+                "publicMode": {
+                    "label": "$~Diese Anleitung öffentlich machen",
+                    "labels": ["$~Privat", "$~öffentlich"],
+                    "tips": [
+                        "$~Nur Wordplayer mit direktem Zugriff auf diese Anleitung können sie sehen.",
+                        "$~Jeder, der den Link hat, kann diese Anleitung sehen."
+                    ]
+                },
+                "noGuidingQuestions": "$~Diese Galerie hat noch keine Leitfragen, daher gibt es nichts zu schreiben. Ein Kurator muss mindestens eine Leitfrage hinzufügen, bevor Anleitungen verfasst werden können."
+            },
+            "viewer": {
+                "edit": {
+                    "label": "$~✏️ Bearbeiten",
+                    "tip": "$~Bearbeiten Sie diese Anleitung."
+                },
+                "delete": {
+                    "description": "$~Diese Anleitung löschen",
+                    "prompt": "$~🗑️ löschen"
+                },
+                "submitToGuide": {
+                    "submit": {
+                        "label": "$~📨 zum Leitfaden einreichen",
+                        "tip": "$~reiche dieses Wie-man ein, damit es für den Leitfaden geprüft wird!"
+                    },
+                    "alreadySubmitted": {
+                        "label": "$~✅ An Guide übermittelt",
+                        "tip": "$~dieses Wie-man wurde bereits eingereicht, damit es für den Leitfaden geprüft wird."
+                    },
+                    "header": "$~Eintrag im Leitfaden"
+                },
+                "usedBy": {
+                    "prompt": "$~Hast du diese oder eine andere Anleitung in deinem Projekt verwendet? Teile es anderen mit, indem du dein Projekt zur Liste hinzufügst!",
+                    "empty": "$~Du hast noch keine Projekte oder andere veröffentlichte Anleitungen. Erstelle doch einfach eins!",
+                    "countDisplay": "$~Andere Wordplay-Leitende haben dies in $#count[$count anderem Projekt oder Wie man|$count anderen Projekten oder Wie man] verwendet",
+                    "selector": "$~Projekt- und Anleitungsauswahl",
+                    "removeButton": "$~Projekt oder Anleitung aus der Liste entfernen",
+                    "addButton": "$~Projekt oder Anleitung hinzufügen"
+                },
+                "reactionsPrompt": "$~Hat dir diese Anleitung gefallen? Hinterlasse einen Kommentar, um den Ersteller zu unterstützen!",
+                "chatPrompt": "$~Hinterlasse einen Kommentar oder eine Frage an den Ersteller!",
+                "link": {
+                    "label": "$~🔗 Link zur Anleitung kopieren",
+                    "tip": "$~Link zu dieser Anleitung kopieren"
+                },
+                "collaborators": "$~geschrieben von",
+                "view": {
+                    "tip": "$~Wie-man-Leitfaden ansehen"
+                }
+            },
+            "configuration": {
+                "configurationDialog": {
+                    "header": "$~Anleitung zum Einstellen von Räumen",
+                    "explanation": "$~Konfigurieren Sie die Einstellungen für diesen Anleitungsbereich. Klicken Sie unten auf die Schaltfläche „Speichern“, um Ihre Einstellungen zu speichern."
+                },
+                "configurationButton": {
+                    "tip": "$~Konfigurieren Sie diesen Anleitungsbereich",
+                    "label": "$~⚙️ Einstellungen"
+                },
+                "visibility": {
+                    "subheader": {
+                        "header": "$~Sichtweite",
+                        "explanation": "$~Konfigurieren Sie, wer standardmäßig Anleitungen in diesem Bereich sehen kann."
+                    },
+                    "mode": {
+                        "label": "$~Standardmäßige Sichtbarkeit",
+                        "labels": ["$~beschränkt", "$~erweitert"],
+                        "tips": [
+                            "$~nur Mitwirkende dieser Galerie können die Wie-man-Anleitungen ansehen",
+                            "$~Mitwirkende der Galerien, die du unten angibst, können die Wie-man-Anleitungen ansehen"
+                        ]
+                    },
+                    "expandedOptions": "$~Lassen Sie die Kuratoren und Gestalter der ausgewählten Galerie die Anleitungen dieser Galerie einsehen.",
+                    "expandedAdd": "$~Galerie zur Liste hinzufügen",
+                    "expandedRemove": "$~Galerie aus der Liste entfernen"
+                },
+                "guidingQuestions": {
+                    "subheader": {
+                        "header": "$~Leitfragen",
+                        "explanation": "$~Konfigurieren Sie die Leitfragen, die beim Erstellen einer neuen Anleitung angezeigt werden. Trennen Sie die Leitfragen durch einen Zeilenumbruch."
+                    },
+                    "descriptor": "$~Ein Textfeld zum Eintragen Ihrer Leitfragen, getrennt durch einen Zeilenumbruch.",
+                    "default": [
+                        "$~Was hast du gelernt? Gib Beispiele, wie man es macht."
+                    ]
+                },
+                "reactions": {
+                    "subheader": {
+                        "header": "$~Reaktionen",
+                        "explanation": "$~Konfigurieren Sie die Reaktionen, die Zuschauer bei neuen Anleitungen hinterlassen können."
+                    },
+                    "reactionPickerTip": "$~Wähle eine Figur als Reaktion aus.",
+                    "reactionDescriptionTip": "$~Beschreiben Sie, was diese Reaktion bedeutet.",
+                    "addReactionTip": "$~Füge eine neue Reaktion hinzu",
+                    "removeReactionTip": "$~Diese Reaktion entfernen",
+                    "default": {
+                        "👍": "$~Ich mag das!",
+                        "💭": "$~Das inspiriert mich!",
+                        "🙏": "$~Danke schön!",
+                        "🎉": "$~Feier!",
+                        "🤩": "$~Ich möchte das ausprobieren!",
+                        "😁": "$~Das freut mich!"
+                    }
+                },
+                "submit": {
+                    "error": "$~Leitfragen und Reaktionen dürfen nicht leer sein",
+                    "label": "$~speichern",
+                    "tip": "$~Speichereinstellungen speichern"
+                }
+            },
+            "announce": {
+                "howToPosition": "$~Die Anleitung mit dem Titel „$title wurde nach „$x $y verschoben.",
+                "canvasPosition": "$~Canvas wurde zu $x, $y verschoben",
+                "moveActivated": "$~Bewegung aktiviert. $target kann mit Maus, Tastatur oder Touchscreen bewegt werden.",
+                "moveDeactivated": "$~Bewegungssteuerung deaktiviert."
+            },
+            "error": {
+                "unknown": "$~Dieser Anleitungsbereich existiert nicht oder ist nicht öffentlich."
+            }
+        },
+        "gallerymoderation": {
+            "header": "$~Meldungen",
+            "description": "$~Was andere dich gebeten haben zu prüfen, älteste zuerst. Eine Entscheidung sagt, welche Regeln verletzt wurden, und die Person, die es gemacht hat, erfährt, was du entschieden hast.",
+            "labels": {
+                "action": "$~Was zu tun ist",
+                "reason": "$~Welche Regeln verletzt wurden",
+                "subject": "$~Was gemeldet wurde"
+            },
+            "view": {
+                "label": "$~ansehen",
+                "tip": "$~das Gemeldete öffnen"
+            },
+            "remove": {
+                "label": "$~entfernen",
+                "tip": "$~das verstößt gegen die Regeln"
+            },
+            "keep": {
+                "label": "$~halten",
+                "tip": "$~das verstößt nicht gegen die Regeln"
+            },
+            "empty": "$~Nichts wartet auf eine Entscheidung.",
+            "error": "$~Du musst angemeldet sein, um Meldungen zu prüfen.",
+            "note": {
+                "description": "$~Was du der Person sagen willst, die es gemacht hat",
+                "placeholder": "$~sag ihnen etwas dazu (optional)"
+            },
+            "remaining": "$~$#count[$count Meldung wartet|$count Meldungen warten]"
+        },
+        "emoji": {
+            "noCharacters": "$~Erstelle einen benutzerdefinierten Charakter",
+            "groups": {
+                "label": "$~Gruppen",
+                "labels": [
+                    "$~🎨",
+                    "$~😀",
+                    "$~👤",
+                    "$~🐱",
+                    "$~🍔",
+                    "$~🚲",
+                    "$~⚽",
+                    "$~🏠",
+                    "$~⚡",
+                    "$~🏳️",
+                    "$~🔡",
+                    "$~🔠",
+                    "$~➗",
+                    "$~📐",
+                    "$~⬇️",
+                    "$~1️⃣",
+                    "$~Ⅶ",
+                    "$~💰",
+                    "$~🔍"
+                ],
+                "tips": [
+                    "$~eigene",
+                    "$~Smileys & Gefühle",
+                    "$~Menschen & Körper",
+                    "$~Tiere & Natur",
+                    "$~Essen & Trinken",
+                    "$~Aktivitäten",
+                    "$~Reisen & Orte",
+                    "$~Gegenstände",
+                    "$~Symbole",
+                    "$~Flaggen",
+                    "$~Kleinbuchstaben",
+                    "$~Großbuchstaben",
+                    "$~mathematisch",
+                    "$~Formen",
+                    "$~Pfeile",
+                    "$~Zahlen",
+                    "$~Buchstabenzahlen",
+                    "$~Währung",
+                    "$~Suchergebnisse"
+                ]
+            },
+            "skinTone": "$~Hautton",
+            "script": "$~Skripte",
+            "scriptLabel": "$~Nach Skript filtern",
+            "pickFilter": "$~Wählen Sie eine Kategorie oder ein Skript aus.",
+            "moreLanguages": "$~und $count mehr",
+            "moreGlyphs": "$~$count werden angezeigt — suche, um mehr zu finden",
+            "presentation": {
+                "label": "$~Emoji in Farbe",
+                "labels": ["$~Farbe", "$~schwarz-weiß"],
+                "tips": [
+                    "$~Emoji in Farbe einfügen",
+                    "$~Emoji in schwarz-weiß einfügen"
+                ]
+            }
+        },
+        "localize": {
+            "header": "$~Lokalisieren",
+            "description": "$~Willkommen im Lokalisierungsmodus! Hier können Sie Verbesserungsvorschläge für die Texte in der @wordplay-Oberfläche einreichen. Markieren Sie einfach einen beliebigen Text, um eine Änderung vorzuschlagen. Ihre Vorschläge werden geprüft und, falls sie genehmigt werden, in die Plattform integriert, sodass sie für alle sichtbar sind. Vielen Dank, dass Sie dazu beitragen, Wordplay für alle Menschen weltweit zugänglicher zu machen!",
+            "toggle": {
+                "mode": {
+                    "on": "$~Übersetzungsmodus verlassen",
+                    "off": "$~gehe in den Übersetzungsmodus, um Änderungen am Text der Plattform in der aktuellen Sprache vorzuschlagen."
+                }
+            },
+            "button": {
+                "edit": "$~Schlagen Sie eine Änderung an diesem Text vor",
+                "submit": "$~Vorschlag zur Bearbeitung einreichen",
+                "cancel": "$~Vorgeschlagene Bearbeitung verwerfen",
+                "revert": "$~Zum offiziellen Text zurückkehren",
+                "editTip": "$~Schlagen Sie eine Änderung am Tooltip dieses Steuerelements vor.",
+                "prev": "$~Bearbeiten Sie den vorherigen Eintrag",
+                "next": "$~Bearbeiten Sie den nächsten Eintrag"
+            },
+            "field": {
+                "plain": {
+                    "description": "$~Vorschlag für einen Ersatztext",
+                    "placeholder": "$~Ersatz eingeben..."
+                },
+                "formatted": {
+                    "description": "$~Empfohlener Ersatz (unterstützt Markup-Formatierung)",
+                    "placeholder": "$~Formatierten Text eingeben..."
+                },
+                "name": {
+                    "description": "$~Namensvorschlag (muss ein gültiger Wortspielname sein)",
+                    "placeholder": "$~Name eingeben..."
+                },
+                "filter": {
+                    "description": "$~Übersetzungsstrings nach Pfad oder Beschreibung filtern",
+                    "placeholder": "$~Filter..."
+                }
+            },
+            "strings": "$~Übersetzungszeichenketten",
+            "emotion": "$~Wähle ein Gefühl",
+            "invalidName": "$~Kein gültiger Wortspielname",
+            "reference": "$~Englische Referenz",
+            "invalidConceptLinks": "$~Diese Konzeptverknüpfungen funktionieren in der aktuellen Sprache nicht. Haben Sie sich bei einer vertippt oder sie absichtlich entfernt?",
+            "inputs": {
+                "header": "$~Eingaben, die diese Vorlage akzeptiert",
+                "usedTip": "$~Klicken Sie, um an der Cursorposition eine weitere Referenz einzufügen.",
+                "unusedTip": "$~Klicken Sie, um diese Referenz an der Cursorposition einzufügen.",
+                "missing": "$~Fehlende Eingaben:",
+                "legacy": "$~Ersetzen Sie diese alten Positionsreferenzen durch benannte Referenzen:",
+                "submitBlocked": "$~Überprüfen Sie alle Eingaben vor dem Absenden.",
+                "unknown": "$~Diese Referenzen stimmen weder mit einer deklarierten Eingabe noch mit einer definierten Terminologie überein, daher können sie nicht ersetzt werden:",
+                "plural": {
+                    "header": "$~Versionen, die diese Sprache braucht",
+                    "tip": "$~Ein Zähler: Klicke, um eine Version des Satzes für jede der $forms Pluralformen dieser Sprache einzufügen",
+                    "arity": "$~$name hat $found Version(en), aber diese Sprache braucht $expected.",
+                    "missing": "$~$name ist ein Zähler, also wähle eine Version des Satzes für jede Pluralform.",
+                    "example": "$~zum Beispiel"
+                }
+            },
+            "guidance": "$~Leitfaden für diese Sprache",
+            "guidanceEmpty": "$~Noch kein Leitfaden. Schreibe auf, was jemand wissen sollte, der in diese Sprache übersetzt.",
+            "guidanceToggle": {
+                "on": "$~Leitfaden für diese Sprache ausblenden",
+                "off": "$~Leitfaden für diese Sprache anzeigen"
+            },
+            "terms": {
+                "header": "$~Begriffsliste",
+                "description": "$~Lege Begriffe und Wortgruppen für diese Sprache fest, die du überall wiederverwenden kannst, indem du $$ und den Schlüssel des Wortes schreibst, zum Beispiel $$program. Wenn du hier ein Wort änderst, ändert es sich überall, wo es benutzt wird. So bleiben deine Übersetzungen einheitlich. Das dient nur zum Wiederverwenden von Wörtern. Um Lernenden einen Begriff zu erklären, benutze stattdessen den Leitfaden.",
+                "empty": "$~Noch keine Wörter. Füge eines hinzu, um es im Text dieser Sprache wiederzuverwenden.",
+                "key": {
+                    "description": "$~der Schlüssel für dieses Wort, den du nach einem $ schreibst, um es zu benutzen",
+                    "placeholder": "$~Schlüssel"
+                },
+                "phrase": {
+                    "description": "$~das Wort oder die Wortgruppe, für die dieser Schlüssel steht",
+                    "placeholder": "$~Wort"
+                },
+                "add": "$~dieses Wort zur Liste hinzufügen",
+                "remove": "$~dieses Wort aus der Liste entfernen",
+                "invalidKey": "$~Ein Schlüssel muss mit einem Buchstaben beginnen und darf nur Buchstaben und Zahlen enthalten, in jeder Sprache.",
+                "duplicateKey": "$~Diese Sprache hat schon ein Wort mit diesem Schlüssel.",
+                "reservedKey": "$~Dieser Schlüssel wird schon für einen Vorlagen-Wert benutzt, deshalb kann er kein Wort sein."
+            },
+            "glossary": {
+                "header": "$~Andere Schreibweisen",
+                "description": "$~Das Glossar erklärt Wörter, die Lernende antreffen. Jeder Begriff hat ein Hauptwort. Hier kannst du weitere Schreibweisen dieses Wortes in dieser Sprache hinzufügen: Mehrzahlformen, andere Endungen oder ein anderes Wort mit gleicher Bedeutung. Beim Schreiben von Text kannst du jede davon mit @ und dem Wort verlinken, und das ganze Wort bleibt Teil des Links. Jede Sprache schreibt ihre eigene Liste, also füge so viele oder so wenige Formen hinzu, wie deine Sprache braucht.",
+                "reference": "$~auf Englisch",
+                "empty": "$~Noch keine anderen Formen.",
+                "form": {
+                    "description": "$~eine andere Schreibweise dieses Begriffs",
+                    "placeholder": "$~Form"
+                },
+                "add": "$~Diese Form zum Begriff hinzufügen",
+                "remove": "$~Diese Form vom Begriff entfernen",
+                "ownWord": "$~Das ist das eigene Wort des Begriffs, das schon allein funktioniert.",
+                "otherWord": "$~Das ist das Wort für $term. Es wäre also unklar, welchen Begriff du gemeint hast.",
+                "conceptName": "$~Die Dokumentation erklärt dieses Wort schon. Ein Link dazu würde also dorthin führen.",
+                "alreadyUsed": "$~Das ist bereits eine Form von $term. Es wäre also unklar, welchen Begriff du gemeint hast.",
+                "searchOnly": "$~Ein Link endet an einem Leerzeichen oder einem Symbol. Diese Form hilft also nur bei der Suche."
+            }
+        },
+        "tour": {
+            "label": "$~Tour",
+            "close": "$~Tourende",
+            "previous": "$~vorheriger Schritt",
+            "next": "$~nächster Schritt",
+            "offscreen": "$~Dieser Teil der Benutzeroberfläche ist derzeit nicht auf dem Bildschirm sichtbar.",
+            "overflowed": "$~Dieses Steuerelement ist im hervorgehobenen Menü versteckt. Öffne das Menü, um das Steuerelement zu finden."
+        },
+        "connection": {
+            "offline": "$~Sie sind offline. Einige Funktionen sind erst verfügbar, wenn Sie online sind.",
+            "unreachable": "$~Wir können nicht auf die Datenbank zugreifen, daher funktionieren einige Funktionen nicht. Möglicherweise wird der Zugriff durch ein VPN, eine Browsererweiterung oder einen Netzwerkfilter blockiert."
+        },
+        "presence": {
+            "peersLabel": "$~Mitarbeiter, die dieses Projekt bearbeiten",
+            "joined": "$~$name Beitritt.",
+            "left": "$~$name übrig.",
+            "waitingForSlot": "$~Warten auf einen Bearbeitungsplatz – vier Mitarbeiter bearbeiten bereits. Sobald einer ausscheidet, können auch Sie bearbeiten."
+        },
+        "update": {
+            "message": "$~Wir haben eine neue Version veröffentlicht.",
+            "refresh": "$~Aktualisieren",
+            "updates": "$~Siehe die Aktualisierungen",
+            "dismiss": "$~Zurückweisen"
+        },
+        "banner": {
+            "deleteFailed": "$~Das konnten wir nicht löschen.",
+            "saveFailed": "$~Das konnten wir nicht retten.",
+            "submitFailed": "$~Wir konnten das nicht einreichen.",
+            "loadFailed": "$~Wir konnten das nicht laden. Versuche es gleich noch einmal.",
+            "storageFull": "$~Der Speicher dieses Geräts ist voll, daher konnten wir hier keine Kopie speichern. Ihre Arbeit befindet sich weiterhin in der Cloud.",
+            "storageNearFull": "$~Der Speicherplatz auf diesem Gerät ist fast voll, daher kann Wordplay möglicherweise bald keine Daten mehr darauf speichern. Ihre in der Cloud gespeicherten Daten sind sicher; wenn Sie Speicherplatz auf Ihrem Gerät oder Browser freigeben, können Sie weiterhin Daten hier speichern.",
+            "saveTooLarge": "$~Diese Datei ist zu groß zum Speichern. Versuchen Sie, etwas Inhalt zu entfernen."
+        },
+        "wellspring": {
+            "label": "$~Codepalette",
+            "recycle": "$~Hier einfügen zum Löschen",
+            "empty": "$~Keine Projektkonzepte",
+            "field": {
+                "search": "$~Suche nach Code zum Hineinziehen"
+            },
+            "button": {
+                "toggle": "$~Codepalette ein- und ausblenden",
+                "clear": "$~Suche löschen"
+            }
+        },
+        "feedback": {
+            "copied": "$~$text kopiert",
+            "cut": "$~$text ausgeschnitten",
+            "pasted": "$~$text eingefügt",
+            "deleted": "$~$text gelöscht",
+            "undone": "$~rückgängig gemacht",
+            "redone": "$~wiederhergestellt",
+            "foldedAll": "$~gesamten Code eingeklappt",
+            "unfoldedAll": "$~gesamten Code ausgeklappt",
+            "editMode": "$~$mode",
+            "zoom": "$~Zoom $percent Prozent",
+            "fullscreenOn": "$~Vollbild geöffnet",
+            "fullscreenOff": "$~Vollbild verlassen",
+            "restarted": "$~Eingaben neu gestartet",
+            "step": "$~Schritt $step, $node",
+            "stepAtStart": "$~am Anfang",
+            "stepAtEnd": "$~am Ende",
+            "searchOpened": "$~im Code suchen",
+            "searchClosed": "$~Suche geschlossen",
+            "searchMatch": "$~Treffer $index von $count",
+            "searchNoMatches": "$~keine Treffer",
+            "menuOpened": "$~Menü, $#count[$count Vorschlag|$count Vorschläge]",
+            "menuEmpty": "$~keine Vorschläge",
+            "menuClosed": "$~Menü geschlossen",
+            "tidyNoop": "$~bereits aufgeräumt"
+        },
+        "phonemes": {
+            "toggle": {
+                "on": "$~Die Laute verstecken, die die Stimme singen kann",
+                "off": "$~Die Laute zeigen, die die Stimme singen kann"
+            },
+            "groups": [
+                "$~Vokale",
+                "$~Approximanten",
+                "$~l-Laute",
+                "$~Nasale",
+                "$~Zischlaute",
+                "$~gerollte Laute",
+                "$~Verschlusslaute",
+                "$~Klicklaute"
+            ],
+            "examples": [
+                "$~see",
+                "French tu",
+                "Russian ты",
+                "Scottish boot",
+                "Japanese fuku",
+                "boot",
+                "bit",
+                "German hübsch",
+                "book",
+                "Spanish qué",
+                "French peu",
+                "Welsh tu",
+                "Swedish full",
+                "Vietnamese tơ",
+                "Spanish no",
+                "about",
+                "head",
+                "French neuf",
+                "British bird",
+                "Irish colour",
+                "cup",
+                "bought",
+                "cat",
+                "German bitte",
+                "father",
+                "Swedish öra",
+                "palm",
+                "British lot",
+                "butter",
+                "bird",
+                "me",
+                "comfort",
+                "no",
+                "Hindi वर्ण",
+                "Spanish señor",
+                "sing",
+                "Japanese さん",
+                "let",
+                "full",
+                "Swedish sorl",
+                "Italian figlio",
+                "Korean 달",
+                "red",
+                "Tamil தமிழ்",
+                "Spanish fuego",
+                "yes",
+                "we",
+                "French huit",
+                "Hindi वह",
+                "Japanese ふ",
+                "Spanish haber",
+                "few",
+                "view",
+                "thin",
+                "this",
+                "sea",
+                "zoo",
+                "she",
+                "measure",
+                "Mandarin shān",
+                "Mandarin rén",
+                "Mandarin xī",
+                "Polish ziemia",
+                "German ich",
+                "Spanish ayudar",
+                "Scottish loch",
+                "Greek γάλα",
+                "German Bach",
+                "French rouge",
+                "Arabic حال",
+                "Arabic عين",
+                "Welsh llan",
+                "Mongolian долоо",
+                "hat",
+                "Czech hlava",
+                "pie",
+                "buy",
+                "tie",
+                "die",
+                "Hindi टब",
+                "Hindi डर",
+                "Hungarian tyúk",
+                "Hungarian gyár",
+                "key",
+                "go",
+                "Arabic قلب",
+                "Inuktitut nanuq",
+                "uh-oh",
+                "Vietnamese bà",
+                "Vietnamese đi",
+                "Sindhi ॼ",
+                "Sindhi ॻ",
+                "Mam qʼa",
+                "a kiss",
+                "tut-tut",
+                "a cork pop",
+                "a tongue click",
+                "giddy-up",
+                "Spanish perro",
+                "French Paris",
+                "a raspberry",
+                "Spanish pero",
+                "Hindi बड़ा"
+            ],
+            "play": "$~Höre $symbol",
+            "insert": "$~Tippe $symbol"
+        },
+        "translation": {
+            "used": "$~Du hast heute $used von $#limit[$limit Zeichen|$limit Zeichen] übersetzt",
+            "meter": "$~heute genutzte Übersetzung",
+            "exhaustedHours": "$~Du hast dein Übersetzungslimit für heute erreicht. Versuche es in etwa $#hours[$hours Stunde|$hours Stunden] wieder.",
+            "exhaustedMinutes": "$~Du hast dein Übersetzungslimit für heute erreicht. Versuche es in etwa $#minutes[$minutes Minute|$minutes Minuten] wieder.",
+            "signIn": "$~Zum Übersetzen brauchst du ein Konto, damit alle einen fairen Anteil bekommen. <Melde dich an oder registriere dich@/login>, um dein Projekt zu übersetzen.",
+            "progressLabel": "$~Übersetzungsfortschritt",
+            "analyzing": "$~Dein Programm wird gelesen …",
+            "revising": "$~Die neuen Wörter werden eingefügt …",
+            "started": "$~$#count[$count Phrase|$count Phrasen] werden nach $language übersetzt …",
+            "progress": "$~$done von $#total[$total Phrase|$total Phrasen] übersetzt",
+            "finished": "$~Dein Projekt spricht jetzt $language.",
+            "finishedPartial": "$~Dein Projekt spricht jetzt $language, aber $#kept[$kept Phrase|$kept Phrasen] blieb bei den ursprünglichen Wörtern|$#kept[$kept Phrase|$kept Phrasen] blieben bei den ursprünglichen Wörtern"
+        },
+        "email": {
+            "signin": {
+                "subject": "$~Dein Anmelde-Link für Wordplay",
+                "heading": "$~Bei Wordplay anmelden",
+                "body": "$~Wähle den Knopf unten, um dich anzumelden. Der Link funktioniert nur einmal und nur für kurze Zeit.",
+                "button": "$~Anmelden",
+                "disclaimer": "$~Wenn du dich nicht anmelden wolltest, kannst du diese E-Mail ignorieren – ohne diesen Link kann niemand in dein Konto gelangen."
+            },
+            "notice": {
+                "open": "$~Schau es dir an",
+                "manage": "$~Ändere deine Benachrichtigungseinstellungen",
+                "heading": {
+                    "reported": "$~Gemeldet",
+                    "decision": "$~Moderationsentscheidung",
+                    "review": "$~Wartet auf Prüfung",
+                    "warning": "$~Eine Warnung",
+                    "listing": "$~Entscheidung zur Auflistung",
+                    "howto": "$~Neue Wie-man-Anleitung",
+                    "chat": "$~Neue Chats"
+                },
+                "subject": {
+                    "reported": "$~Dein $kind wurde gemeldet",
+                    "received": "$~Wir haben deine Meldung erhalten",
+                    "decision": "$~Eine Entscheidung über dein $kind",
+                    "review": "$~Etwas wartet auf deine Prüfung",
+                    "warning": "$~Eine Warnung zu etwas, das du geteilt hast",
+                    "listing": "$~Eine Entscheidung darüber, ob dein $kind aufgelistet wird",
+                    "howto": "$~Eine neue Wie-man-Anleitung in deiner Galerie"
+                },
+                "body": {
+                    "reported": "$~Jemand hat um eine Prüfung von etwas gebeten, das du in \"$title\" erstellt hast. Die zuständige Person wird es sich ansehen.",
+                    "received": "$~Deine Meldung über \"$title\" hat die für die Prüfung zuständige Person erreicht.",
+                    "decision": "$~Es wurde eine Entscheidung über etwas getroffen, das du in \"$title\" erstellt hast.",
+                    "review": "$~Jemand hat um eine Prüfung von \"$title\" gebeten.",
+                    "warning": "$~Dies ist Warnung $#count[1|$count] zu etwas, das du öffentlich geteilt hast.",
+                    "listing": "$~Es wurde entschieden, ob \"$title\" aufgelistet wird.",
+                    "howto": "$~\"$title\" wurde in einer Galerie veröffentlicht, zu der du gehörst."
+                }
+            },
+            "review": {
+                "subject": "$~$#count[Etwas wartet|$count Dinge warten] darauf, dass du sie prüfst",
+                "heading": "$~$#count[1 Sache|$count Sachen] zu prüfen",
+                "open": "$~Prüfung beginnen",
+                "body": "$~Meldungen und Auflistungsanfragen warten in der Moderationswarteschlange, bis jemand darüber entscheidet."
+            },
+            "chat": {
+                "subject": "$~Du hast ungelesene Chats",
+                "heading": "$~Neue Chats",
+                "open": "$~Lies sie",
+                "body": "$~Es gibt Nachrichten, die du noch nicht gelesen hast, in $#count[einem Chat|$count Chats]."
+            }
+        },
+        "markup": {
+            "description": "$~formatierten Text schreiben",
+            "placeholder": "$~etwas schreiben",
+            "mode": {
+                "prose": "$~zeigen, wie es aussehen wird",
+                "source": "$~die Formatierungszeichen anzeigen"
+            },
+            "command": {
+                "italic": "$~kursiv",
+                "bold": "$~fett",
+                "extra": "$~extra fett",
+                "underline": "$~unterstrichen",
+                "light": "$~dünn",
+                "example": "$~Code-Beispiel",
+                "link": "$~Web-Link",
+                "concept": "$~Link zu einem Begriff",
+                "bullet": "$~Aufzählungspunkt",
+                "highlight": "$~dieses Beispiel hervorheben",
+                "defect": "$~dieses Beispiel soll Fehler enthalten",
+                "mode": "$~zwischen Text und Formatierungszeichen wechseln",
+                "docs": "$~Erklärung innerhalb des Beispiels",
+                "attention": "$~die Aufmerksamkeit auf diese Zeile lenken",
+                "undo": "$~rückgängig machen",
+                "redo": "$~wiederholen"
+            },
+            "feedback": {
+                "formatOn": "$~$format an",
+                "formatOff": "$~$format aus",
+                "example": "$~hat ein Code-Beispiel erstellt",
+                "link": "$~hat einen Web-Link erstellt",
+                "concept": "$~mit $name verknüpft",
+                "bulletOn": "$~hat einen Aufzählungspunkt erstellt",
+                "bulletOff": "$~hat den Aufzählungspunkt entfernt",
+                "highlightOn": "$~dieses Beispiel wird hervorgehoben",
+                "highlightOff": "$~dieses Beispiel wird nicht hervorgehoben",
+                "defectOn": "$~dieses Beispiel soll Fehler enthalten",
+                "defectOff": "$~dieses Beispiel soll keine Fehler haben",
+                "notInExample": "$~setze deinen Cursor zuerst in ein Code-Beispiel",
+                "mode": "$~$mode",
+                "docs": "$~hat eine Erklärung hinzugefügt",
+                "attention": "$~lenkt die Aufmerksamkeit auf diese Zeile",
+                "undid": "$~hat das rückgängig gemacht",
+                "redid": "$~hat das wiederhergestellt"
+            }
+        },
+        "proxy": {
+            "banner": "$~Du siehst dir Wordplay gerade als jemand anderes an. Nichts hier wird gespeichert, und die Person kann nicht sehen, dass du da bist.",
+            "as": "$~als $name",
+            "remaining": "$~$#minutes[noch $minutes Minute übrig|noch $minutes Minuten übrig]",
+            "stop": {
+                "label": "$~Stopp",
+                "tip": "$~Schließe diesen Tab und höre auf, als diese Person anzusehen"
+            },
+            "starting": "$~Wird gestartet…",
+            "failed": "$~Wir konnten diese Sitzung nicht starten. Bist du noch als Administrator angemeldet?",
+            "expired": "$~Dieser Link wurde bereits benutzt oder ist abgelaufen. Starte erneut über die <Seite mit den Berechtigungen@://admin>.",
+            "ended": "$~Diese Sitzung ist beendet, und du bist davon abgemeldet. Schließe diesen Tab. Um erneut anzusehen, starte über die Seite mit den Berechtigungen."
+        }
+    }
+}

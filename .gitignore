@@ -37,6 +37,25 @@ src/routes/\[\[locale\]\]/updates/date.json
 # is exactly the churn the locale work is trying to reduce.
 /src/db/locales/localeAssets.generated.ts
 
+# Each locale's assembled document, rebuilt from its `sections/` by
+# `npm run locales-assemble` in postinstall/build. The sections are the source;
+# committing the assembly too would put the whole-file diff back into every
+# locale change, which is the thing splitting them was for.
+#
+# Written as ignore-everything-then-exempt because a locale code contains
+# hyphens (`ta-IN-LK-SG.json`), so no glob separates `<code>.json` from
+# `<code>-tutorial.json` by shape alone. A NEW per-locale file kind must be
+# exempted here or it will be silently ignored; localeDirectoryFiles.test.ts
+# fails if one is not.
+/src/locale/en-US.json
+/static/locales/*/*.json
+!/static/locales/*/*-datetimes.json
+!/static/locales/*/*-emojis.json
+!/static/locales/*/*-how.json
+!/static/locales/*/*-tutorial.json
+!/static/locales/*/*-tutorial-quick.json
+!/static/locales/*/*-updates.json
+
 # Python bytecode cache (emoji font tooling)
 __pycache__/
 

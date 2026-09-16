@@ -1,0 +1,938 @@
+{
+    "$schema": "../../../static/schemas/sections/input.json",
+    "input": {
+        "Random": {
+            "doc": [
+                "$~Gumagawa ito ng ibang numero sa tuwing pinapatakbo mo ito.",
+                "17!",
+                "Gumagawa ito ng magandang kaguluhan na dala ng hindi mahulaang resulta.",
+                "Bilang default, nagbibigay ito ng @Number na halaga sa pagitan ng \\0\\ at \\1\\:",
+                "\\🎲()\\",
+                "Ngunit maaari mo itong bigyan ng @value, at gagawa ito ng mga halaga sa pagitan ng \\0\\ at ang halaga:",
+                "\\🎲(10)\\",
+                "At kung bibigyan mo ito ng dalawang halaga, gagawa ito ng mga halaga sa pagitan at kasama ang dalawang halaga:",
+                "\\🎲(-10 10)\\",
+                "Kung may mga yunit ang iyong saklaw, mananatili ang mga ito (at kung hindi tumugma, ang yunit ng pinakamababa ang gagamitin):",
+                "\\🎲(-10m 10m)\\",
+                "At kung magbibigay ka ng mga numero na may partikular na dami ng mahahalagang digit pagkatapos ng tuldok na desimal, mananatili ang katumpakang iyon.",
+                "\\🎲(1.00 10.00)\\"
+            ],
+            "names": ["$~🎲", "$~Random"],
+            "inputs": [
+                {
+                    "names": "$~minuto",
+                    "doc": "$~Ang pinakamababang @value na gagawin, o kung mas malaki ito sa 0, ang pinakamataas na halaga. Kung ibinigay ang @None, ang pinakamababa ay \\0\\."
+                },
+                {
+                    "names": "$~pinakamataas",
+                    "doc": "$~Ang pinakamataas na @value na gagawin, o kung mas maliit ito sa pinakamababang ibinigay, ang pinakamababa. Kung ibinigay ang @None, ang pinakamataas ay \\1\\."
+                }
+            ]
+        },
+        "Choice": {
+            "doc": [
+                "$~Ito ay isang stream ng mga pangalang pinipili ng iyong audience sa pamamagitan ng pag-click, pagtapik, o pagpindot sa /Enter/ sa isang pinangalanang @Phrase .",
+                "/clickety tap!/",
+                "Kaya ang pinakamahusay na paraan upang gamitin ito ay ang lumikha ng isang pagtatanghal na may pinangalanang mga pariralang mapipili @Phrase , at pagkatapos ay gumamit ng @Reaction upang magpasya kung ano ang gagawin kapag ang pangalang iyon ay napili.",
+                "Narito ang pinakasimpleng halimbawa:",
+                "\\Group(\nStack() \n[\nPhrase('one' mapipili:⊤ pangalan:'1') \nPhrase('two' mapipili:⊤ pangalan:'2') \nPhrase(Choice())\n]\n)\\",
+                "Kopyahin ito sa editor at pagkatapos ay pumili ng isa sa dalawang @Phrase . Makikita mo sa pangatlong @Phrase na nagpapakita ng pangalang napili."
+            ],
+            "names": ["$~Pagpipilian"]
+        },
+        "Button": {
+            "doc": [
+                "$~Sinasabi nito sa iyo kung pinindot ang pangunahing pindutan ng mouse o trackpad, bilang isang stream ng @Boolean.",
+                "/click click click/",
+                "Siyempre, ang mouse o trackpad ay hindi ang pinakamainam na pagpipilian para makinig sa mga tao, dahil hindi lahat ay makakagamit nito. Ang mas madaling gamitin na pagpipilian ay @Choice.",
+                "Ngunit kung /talagang/ kailangan mong makinig sa isang pindutan ng mouse, ito ang paraan para gawin ito. Magbibigay ito ng isang stream ng @Boolean, na kumakatawan kung ang pangunahing pindutan ay nasa itaas \\⊥\\ o nasa ibaba \\⊤\\.",
+                "Narito ang isang simpleng halimbawa:",
+                "\\Parirala(Butones() → '')\\",
+                "Gumagawa lang ito ng @Phrase na siyang @value ng stream bilang teksto. Kung kokopyahin mo ito sa editor at magki-click ka, makikita mong nagpapalit-palit ito sa pagitan ng \\⊥\\ at \\⊤\\."
+            ],
+            "names": ["$~Butones"],
+            "down": {
+                "names": "$~pababa",
+                "doc": "$~Kung @None, ang stream ay magbibigay ng parehong pataas at pababa na mga @value. Kung ang isang \\⊤\\, magbabago lamang ito kapag pinindot ang buton. Kung bibigyan ng \\⊥\\, magbabago lamang ito kapag binitawan ang buton."
+            }
+        },
+        "Pointer": {
+            "doc": [
+                "$~Sinusubaybayan nito kung saan nakaturo ang iyong audience sa @Stage .",
+                "/whrrrrrr/",
+                "Siyempre, hindi ito isang madaling pagpipilian: hindi lahat ay makakakita o madaling makakapagturo, kaya siguraduhing hindi mo mapipigilan ang sinuman na lumahok sa pamamagitan ng paggamit ng stream na ito.",
+                "Kung sigurado kang walang sinuman ang hindi kasama, ang paggamit @Pointer ay kasing simple ng paggawa lamang ng stream:",
+                "\\Pointer()\\",
+                "Ang @Place na ibinibigay nito ay tutugma sa kung saan sa @Stage nakaturo ang pointer."
+            ],
+            "names": ["$~Panturo"]
+        },
+        "Key": {
+            "doc": [
+                "$~Sinasabi nito sa iyo kung aling @key ng keyboard ang pinipindot at binibitawan ng iyong mga tao.",
+                "/clickety/",
+                "Subukan ito",
+                "\\Susi()\\",
+                "Nakita mo ba kung paano, kapag nag-type ka ng isang susi, lumalabas ito sa @Stage? Sa tuwing pipindutin ang isang susi, may bagong @Text na idadagdag sa stream, na naglalarawan sa susi na pinindot.",
+                "Para sa isang susi na kumakatawan sa isang karakter, ang @value ay magiging ang karakter bilang @Text.",
+                "Para sa mga natatanging susi, tulad ng susi na /Escape/, ito ay magiging @Text na naglalarawan sa susi, gamit ang isang <naunang tinukoy na pangalan@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, na sa kasamaang palad ay makukuha lamang sa Ingles.",
+                "Kung gusto mo lang malaman ang tungkol sa isang partikular na susi, maaari mo itong ibigay:",
+                "\\Susi('a')\\",
+                "At kung gusto mo lang malaman kung kailan binitawan ang isang @Key sa halip na pinindot, maaari kang magbigay ng @Boolean:",
+                "\\Susi('a' ⊥)\\"
+            ],
+            "names": ["$~Susi"],
+            "key": {
+                "names": "$~susi",
+                "doc": "$~Kung @None, lahat ng key ay ibibigay. Kung isang partikular na @Text, ang key na iyon lamang ang ibibigay."
+            },
+            "down": {
+                "names": "$~pababa",
+                "doc": "$~KUNG @None, ang pagpindot sa @key ay gumagawa ng mga input. Kung \\⊤\\, ang mga input lamang sa pagpindot ang ibinibigay, at kung \\⊥\\, ang mga input lamang sa pagbitaw ang ibinibigay."
+            },
+            "keys": {
+                "Shift": ["$~Paglipat"],
+                "Control": ["$~Kontrol", "$~Ctrl"],
+                "Alt": ["$~Alt", "$~Opsyon"],
+                "Meta": ["$~Meta", "$~Utos", "$~Mga Bintana"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~CapsLock", "$~Caps Lock"],
+                "NumLock": ["$~NumLock", "$~Num Lock"],
+                "ScrollLock": ["$~ScrollLock", "$~I-scroll Lock"],
+                "Enter": ["$~Pumasok", "$~Pagbabalik"],
+                "Tab": ["$~Tab"],
+                " ": ["$~Kalawakan", "$~Spacebar", "$~"],
+                "ArrowUp": ["$~Palaso Pataas", "$~Pataas"],
+                "ArrowDown": ["$~PalasoPababa", "$~Pababa"],
+                "ArrowLeft": ["$~Palaso Kaliwa", "$~Kaliwa"],
+                "ArrowRight": ["$~PalasoKanan", "$~Kanan"],
+                "Home": ["$~Tahanan"],
+                "End": ["$~Wakas"],
+                "PageUp": ["$~PageUp", "$~Pahina Pataas"],
+                "PageDown": ["$~PahinaDown", "$~Pahina Pababa"],
+                "Backspace": ["$~Backspace"],
+                "Delete": ["$~Burahin", "$~Del"],
+                "Insert": ["$~Ipasok", "$~Ins"],
+                "Clear": ["$~I-clear"],
+                "Cut": ["$~Gupitin"],
+                "Copy": ["$~Kopyahin"],
+                "Paste": ["$~I-paste"],
+                "Undo": ["$~I-undo"],
+                "Redo": ["$~Gawing muli"],
+                "Escape": ["$~Pagtakas", "$~Esc"],
+                "Pause": ["$~Ihinto"],
+                "ContextMenu": ["$~Menu ng Konteksto", "$~Menu"],
+                "Help": ["$~Tulong"],
+                "Convert": ["$~I-convert"],
+                "NonConvert": ["$~Hindi Nagko-convert"],
+                "KanaMode": ["$~KanaMode"],
+                "HangulMode": ["$~HangulMode"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
+            }
+        },
+        "Time": {
+            "doc": [
+                "$~Nag-tik ito pasulong sa isang dalas na pinili mo.",
+                "/tik tik tik/",
+                "Sa tuwing gagawin nito, muling sinusuri ang @Program gamit ang bagong oras na @value.",
+                "Halimbawa:",
+                "\\Oras()\\",
+                "Kung bibigyan mo ang oras ng isang @Time.frequency, mag-ti-tik ito sa bilis na iyon. Halimbawa:",
+                "\\Oras(1000ms)\\",
+                "Gayunpaman, may mga hangganan kung gaano ito kaliit, dahil kailangan ng @Program ng oras para suriin bago makatugon sa susunod na tik.",
+                "Ang pinakamaliit ay marahil nasa paligid ng \\20ms\\."
+            ],
+            "names": ["$~Oras"],
+            "frequency": {
+                "names": ["$~dalas"],
+                "doc": "$~Ito ang dalas na dapat takbo ng oras. Ang default nito ay \\33ms\\, na humigit-kumulang 30 beses bawat segundo."
+            },
+            "relative": {
+                "names": ["$~kamaganak"],
+                "doc": "$~Kung ang \\⊤\\ ay totoo, ang oras ay nagsisimula sa 0, kung kailan unang sinusuri ang programa. Kung hindi, magsisimula ito sa bilang ng mga millisecond mula noong simula ng araw na ito, ang UTC (Coordinated Universal Time), na nagbibigay-daan sa iyong subaybayan ang oras ng araw."
+            }
+        },
+        "Volume": {
+            "doc": [
+                "$~Ito ay isang daloy ng lakas ng tunog ng mikropono, mula 0 hanggang 1.",
+                "/bzzzzzzz/",
+                "Ito ay kinokonsumo sa frequency na iyong napili. Bilang default, ang frequency ay \\30hz\\ , o 30 beses bawat segundo, ngunit maaari mo itong baguhin sa anumang hindi gaanong madalas.",
+                "\\Volume()\\",
+                "Ang ganda nito para mapakinggan kung gaano kalakas ang sigawan ng mga manonood!"
+            ],
+            "names": ["$~Dami"],
+            "frequency": {
+                "names": ["$~dalas"],
+                "doc": "$~Ang oras sa pagitan ng mga sampling."
+            }
+        },
+        "Pitch": {
+            "doc": [
+                "$~Ito ay isang stream ng pitch ng mikropono, sa hertz.",
+                "/hummmmm/",
+                "Kinokonsumo ito sa frequency na iyong napili. Ang boses ng tao ay nasa pagitan ng 20Hz at 5000Hz, kaya planuhin ang mga numero sa saklaw na iyon.",
+                "\\Pitch()\\",
+                "Maganda ito para sa pakikinig sa tono ng pagsasalita o pag-awit ng isang tao."
+            ],
+            "names": ["Tono"],
+            "frequency": {
+                "names": ["$~dalas"],
+                "doc": "$~Ang oras sa pagitan ng mga sampling."
+            }
+        },
+        "Speech": {
+            "doc": [
+                "$~Kinikilala nito ang pananalita at ginagawa itong @Text.",
+                "/kumusta diyan!/",
+                "Ginagamit nito ang pagkilala sa pananalita ng iyong browser para makinig sa sinasabi mo at gawin itong mga salita (hindi ba't ang galing nito?!).",
+                "\\Pagsasalita()\\",
+                "Mainam ito para sa mga nakakapagsalita ng @language ngunit natututo pa lamang bumasa o sumulat nito (at higit pa)...",
+                "Maaari kang magtakda ng language code para makilala ang pagsasalita sa isang partikular na wika:",
+                "\\Pagsasalita(wika: 'es-MX')\\",
+                "Kung walang wika na itinakda, gagamitin nito ang wika na gusto mo.",
+                "Ang pagkilala sa pagsasalita ay nangangailangan ng access sa mikropono at koneksyon sa Internet (mangyaring magbigay ng access!). Gayundin, maaaring may mga limitasyon sa paggamit, kaya huwag itong iwanang nakabukas nang matagal (huwaaag)!"
+            ],
+            "names": ["$~Pagsasalita", "$~Boses"],
+            "reset": {
+                "names": ["$~ireset", "$~malinaw"],
+                "doc": "$~Kapag nagbago ang @value na ito, burahin ang naipong pagsasalita at magsimulang muli."
+            },
+            "language": {
+                "names": ["$~wika"],
+                "doc": "$~Isang BCP 47 na @language code (halimbawa, 'en-US'). Kung hindi ito suportado ng pagkilala sa pagsasalita ng iyong browser, makakakuha ka ng error. Gagamitin nito ang wika na gusto mo bilang default."
+            },
+            "limit": {
+                "names": ["$~limitasyon", "$~mgasalita"],
+                "doc": "$~Ang pinakamataas na bilang ng mga salita na itatago sa naipon na pananalita (sliding window). Kapag nakatakda, tanging ang mga pinakabagong salita lamang ang itatago, at ang mga lumang salita ay itatapon. Kung hindi tinukoy, lahat ng salita ay itatago nang walang hanggan."
+            },
+            "error": {
+                "browserNotSupported": "$~hindi sinusuportahan ang serbisyo sa browser na ito",
+                "noConnection": "$~walang koneksyon sa internet",
+                "serviceNotAllowed": "$~hindi magagamit ang serbisyo",
+                "micNotAllowed": "$~hindi pinapayagan ang pag-access sa mikropono",
+                "noMicrophone": "$~walang nakitang mikropono",
+                "languageNotSupported": "$~hindi sinusuportahan ang wika",
+                "limit": "$~nabigo pagkatapos ng maraming pagsubok"
+            }
+        },
+        "Camera": {
+            "doc": [
+                "$~Nagbibigay ito sa iyo ng @List of @Color mula sa iyong camera, isa bawat frame.",
+                "/bzzzzzzz/",
+                "@List na iyan ay mahalagang kumakatawan sa isang imahe, ngunit nasa iyo ang desisyon kung ano ang gagawin dito.",
+                "Maaari mong subukang irepresenta ang larawan gamit ang ilang @Phrase , na maaaring magmukhang maganda! Subukan mong kopyahin ito...",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' lugar: Place((x - 1) × 0.5m y × -0.5m) kulay: color tagal: 0s\n)\n)\n)\n)\n)\\",
+                "Ngunit maaari mo ring suriin ang mga kulay upang magpasya kung ang isang ilaw ay naka-on o naka-off, o kung ang isang partikular na kulay ay karaniwan, na hinahayaan ang mga manonood na makaimpluwensya sa isang pagtatanghal gamit ang mga kulay na ipinapakita ng mga ito."
+            ],
+            "names": ["$~Kamera"],
+            "width": {
+                "names": ["$~lapad"],
+                "doc": "$~Ang bilang ng @Color na isa-sample nang sunud-sunod."
+            },
+            "height": {
+                "names": ["$~taas"],
+                "doc": "$~Ang bilang ng @Color na kukunin bilang sample sa isang @column."
+            },
+            "frequency": {
+                "names": ["$~dalas"],
+                "doc": "$~Ang oras sa pagitan ng mga sample na @Color."
+            }
+        },
+        "Scene": {
+            "doc": [
+                "$~Nagpapakita ito ng @List ng @Phrase, @Group o @Shape isa-isa, hanggang huminto sa huli.",
+                "/Boop boop boop/",
+                "Upang kontrolin ang timing, maaari mong itakda ang @Phrase.duration sa bawat output, at ipapakita ito nang gayon katagal bago lumipat sa susunod, gamit ang anumang @Phrase.entering o @Phrase.exiting na transisyon na itinakda mo. Kung itatakda mo ang mga ito sa isang @Sequence, gagamitin nito ang tagal nito.",
+                "Sa lahat ng iyan, magagawa mo ang gaya ng maliit na @Scene na ito, na nagpapakita ng tatlong pariralang ito nang sunud-sunod:",
+                "\\Eksena(\n\t[\n\t\tParirala('Kumusta' tagal: 1s)\n\t\tParirala(\n\t\t\t'Kumusta ka?'\n\t\t\ttagal: 2s\n\t\t\tpagikot: 5°\n\t\t\tpagpasok: Pose(pagikot: 0°)\n\t\t)\n\t\tParirala('Mabuti ako')\n\t]\n)\\",
+                "Napansin mo ba na ipinapakita ang unang output sa loob ng isang segundo, pagkatapos ang susunod sa loob ng dalawang segundo, ngunit may animasyon patungo sa limang degree na pag-ikot, at pagkatapos ay ipinapakita ang huli?",
+                "Maaari kang gumawa ng napakadetalyadong sunud-sunod na output at animasyon gamit ang @Scene, at maaari mo pa itong gawing dynamic o interactive ang mga bahagi nito, tulad ng anumang iba pang @Phrase o @Group.",
+                "Kung may animated na output ka na naka-loob (isang @Group na may animated na @Phrase sa loob), maghihintay ang @Scene hanggang matapos ang lahat ng animated na nilalaman sa @Group.",
+                "Ay, at isa pang maliit na sikreto! Maaari mo ring ilagay ang @Boolean sa listahan, at kung ang mga ito ay \\⊥\\, huminto muna at maghihintay ang @Scene hanggang maging totoo ito.",
+                "Halimbawa, kung gusto mong gumawa ng sunud-sunod na @Phrase at umusad lamang kapag nagbago ang @Button, maaari mong gawin ito:",
+                "\\click: ∆ Butones()\nEksena(\n\t[\n\t\tParirala('Kumusta')\n\t\tclick\n\t\tParirala(\n\t\t\t'Kumusta ka?'\n\t\t\ttagal: 0.25s\n\t\t\tpagikot: 5°\n\t\t\tpagpasok: Pose(pagikot: 0°)\n\t\t)\n\t\tclick\n\t\tParirala('Mabuti ako')\n\t]\n)\\",
+                "Napansin mo ba na humihinto ito pagkatapos ng bawat @Phrase, at naghihintay para magbago ang @Button bago umusad?",
+                "Bilang default, huminto ako sa huli kong output. Bigyan mo ako ng @Scene/loop at babalik ako sa una kong output, na siyang gusto ng isang larong nagtatanong muli pagkatapos ng bawat round.",
+                "Sinusuri ko ang @Scene/loop sa tuwing nagbabago ang iyong programa, kaya maaaring magtapos ang isang loop tulad ng pagsisimula nito. Dito, patuloy akong nagtatanong hanggang tama ang sagot nila, at saka lang huminto:",
+                "\\hulaan: Makipagchat()\ntama: hulaan = 'cat'\nEksena(\n\t[\n\t\tParirala('Hulaan ang hayop!' tagal: 2s)\n\t\t∆ hulaan\n\t\tParirala(tama ? 'Oo!' 'Hindi!' tagal: 2s)\n\t]\n\tloop: ~tama\n)\\",
+                "Sinisimulan ako ulit ng @Scene/replay, pinapanatili ako ng @Scene/pause sa kinaroroonan ko, at direktang ipinapadala ako ng @Scene/go sa isa sa mga output ko. Itakda ang @Scene/pause sa \\⊤\\ at hindi na ako kailanman gagalaw mag-isa, kaya ang @Scene/go na lamang ang siyang makakagawa sa aking umusad — ganito mo ginagawa ang isang slide show na maaaring pumunta pasulong /at/ paatras.",
+                "At kung gusto mong malaman kung nasaan ako, para ipakita ang /3 ng 10/ o magpatugtog ng ibang musika sa ibang bahagi ng kuwento, iyan ang gamit ng @Spotlight."
+            ],
+            "names": ["$~Eksena"],
+            "outputs": {
+                "names": "$~mgaoutput",
+                "doc": "$~Ang listahan ng mga output na ipapakita nang sunod-sunod."
+            },
+            "loop": {
+                "names": "$~loop",
+                "doc": "$~Kung babalik ba ako sa una kong output kapag natapos na ang huli ko. Humihinto ako sa huli maliban kung ito ay \\⊤\\. Sinusuri ko ito sa bawat ebalwasyon, kaya maaari kang magtapos ng loop tulad ng pagsisimula nito."
+            },
+            "replay": {
+                "names": "$~ulitin",
+                "doc": [
+                    "$~Kapag ito ay \\⊤\\ sa isang ebalwasyon, magsisimula ako ulit mula sa una kong output, kahit saan man ako nakarating, at babalik sa 0 ang aking @Slate/lap.",
+                    "Bigyan mo ako ng /panandaliang/ @condition, isang totoo lamang sa ebalwasyon na dulot ng pangyayari, tulad ng \\∆ Butones()\\. Ang isang kondisyong tumatagal tulad ng \\score > 10\\🪲 ay nananatiling totoo kapag naging totoo na ito, kaya isisimula nito ako ulit sa bawat ebalwasyon mula noon."
+                ]
+            },
+            "pause": {
+                "names": "$~iPause",
+                "doc": [
+                    "$~Habang ito ay \\⊤\\ nananatili akong tahimik, at kapag bumalik ito sa \\⊥\\ magpapatuloy ako. Ang isang output na binibilang ko pababa ay pananatilihin ang natitira nitong oras, kaya ang paghinto sa gitna ng mahabang @Phrase ay hindi ito sisimulan ulit mula sa simula.",
+                    "Hindi tulad ng @Scene/replay, gusto ko ng /tumatagal/ na @condition, isang nananatiling totoo hanggang sa gusto mong maghintay ako. Iwanan mo akong nakapause nang tuluyan at hindi na ako kailanman gagalaw mag-isa, na siyang eksaktong gusto ng isang slide show: pagkatapos, ang @Scene/go na lamang ang makakagawa sa aking umusad."
+                ]
+            },
+            "go": {
+                "names": "$~umandar",
+                "doc": [
+                    "$~Kung saan pupunta pagkatapos. Bigyan mo ako ng numero at ipapakita ko ang output na iyon, magbibilang mula sa 1; bigyan mo ako ng pangalan at ipapakita ko kung aling output ang binigyan mo ng @Phrase/name na iyon.",
+                    "Output lamang ang binibilang ko, hindi kailanman ang @Boolean sa pagitan, kaya ang pagpapadala sa akin sa 2 ay nangangahulugang ang aking ikalawang @Phrase, kahit gaano karaming kondisyon ang nakaharang.",
+                    "Tulad ng @Scene/replay, gusto nito ng /panandaliang/ @condition — isang bagay na \\ø\\ maliban sa ebalwasyon kung saan mo ako gustong ilipat. Ang numero na nananatili sa isang lugar ay magpapako sa akin doon magpakailanman.",
+                    "Ipadala mo ako lampas sa alinmang dulo at hihinto ako doon, maliban kung @Scene/loop ay \\⊤\\, kung saan babalik ako sa umpisa. Nangangahulugan iyon na hindi mo na kailangang mag-check. Dito, ang mga arrow key ay naglalakad sa slide show sa magkabilang direksyon:",
+                    "Kung mas gusto mong sabihing /isa pasulong/ kaysa /numero tatlo/, iyon ay @Scene/step.",
+                    "\\mgaSlide: [\n\t\tParirala('isa')\n\t\tParirala('dalawa')\n\t\tParirala('tatlo')\n\t]\nsusi2: Susi()\nsa: Spotlight()\nEksena(\n\tmgaSlide\n\tiPause: ⊤\n\tumandar: ∆ susi2 ? ((susi2 = 'Palaso Kaliwa') ? sa.index - 1 (susi2 = 'PalasoKanan') ? sa.index + 1 ø) ø\n)\\"
+                ]
+            },
+            "name": {
+                "names": "$~pangalan",
+                "doc": "$~Ang pangalan ko. Ginagamit ito ng @Spotlight upang ihiwalay ako sa anumang ibang @Scene na tumatakbo nang sabay; kung iisang eksena lamang, maaari mo na lamang itong hayaan nang hindi ginagalaw."
+            },
+            "until": {
+                "names": "$~hanggang",
+                "doc": [
+                    "$~Isang @condition na hihintayin pagkatapos ng bawat isa sa mga output ko, kapag natapos na ang @Phrase/duration nito o natapos na ang animasyon nito.",
+                    "Kapareho ito ng pagsulat ng @Boolean na iyon sa pagitan ng bawat output sa aking listahan, na siyang gagawin mo upang maghintay ang isa sa aking mga output. Dito, isang beses lamang isinusulat ito:",
+                    "\\Eksena(\n\t[Parirala('isa') Parirala('dalawa') Parirala('tatlo')]\n\thanggang: ∆ Butones()\n)\\",
+                    "Gumagana pa rin ang isang @Boolean na nakasulat sa listahan, at magkaiba ang dalawang paghihintay, kaya puwede kang tumagal nang mas matagal sa isang partikular na lugar."
+                ]
+            },
+            "step": {
+                "names": "$~hakbang",
+                "doc": [
+                    "$~Ilang output ang ililipat, bibilangin mula sa kung nasaan ako: \\1\\ ay pasulong ng isa at \\-1\\ ay pabalik ng isa. Ito ay @Scene/go na sinasabi bilang isang distansya sa halip na isang lugar.",
+                    "Tulad ng @Scene/go, huminto ako sa aking mga dulo maliban kung ang @Scene/loop ay \\⊤\\, kaya hindi mo na kailangang suriin, at gusto ko ng /panandaliang/ @condition — isang bagay na \\ø\\ maliban sa ebalwasyon kung saan mo ako gustong ilipat.",
+                    "\\mgaSlide: [\n\t\tParirala('isa')\n\t\tParirala('dalawa')\n\t\tParirala('tatlo')\n\t]\nsusi2: Susi()\nEksena(\n\tmgaSlide\n\tiPause: ⊤\n\thakbang: ∆ susi2 ? ((susi2 = 'Palaso Kaliwa') ? -1 (susi2 = 'PalasoKanan') ? 1 ø) ø\n)\\",
+                    "Walang dito ang kailangang malaman kung aling @Phrase ang ipinapakita, ito ang pagkakaiba mula sa @Scene/go. Tanungin ang @Spotlight kung gusto mong sabihin ito sa entablado."
+                ]
+            }
+        },
+        "Motion": {
+            "doc": [
+                "$~Gumagalaw ito ng panimulang @Phrase nang may grabidad at pisika.",
+                "/boing boing boing/",
+                "Bibigyan mo ito ng panimulang @Phrase , at pagkatapos ay pipinoin nito ito gamit ang isang bagong lugar at pag-ikot batay sa grabidad.",
+                "Nagbibigay-daan ito sa iyo na gawin ang mga simpleng bagay tulad ng paglikha ng tumatalbog na emoji:",
+                "\\Motion(Phrase('o') startplace: Place(0m 10m))\\🪲",
+                "Nakikita mo ba kung paano tumatalbog ang o? Sa unang pagsusuri, bibigyan mo ito ng lugar sa mataas na bahagi ng @Stage , pero pagkatapos, mapupunta ito sa @None , na magbibigay-daan sa @Motion na baguhin ito sa anumang posisyon na ilalagay ng grabidad.",
+                "Tingnan ang maraming iba pang mga paraan upang i-configure ito sa ibaba."
+            ],
+            "names": ["$~Paggalaw"],
+            "place": {
+                "doc": "$~Ang panimulang lugar.",
+                "names": "$~lugar"
+            },
+            "velocity": {
+                "doc": "$~Ang bilis ng pagsisimula",
+                "names": "$~bilis"
+            },
+            "nextplace": {
+                "doc": "$~Ang susunod na lugar, nangingibabaw na pisika.",
+                "names": "$~susunodnalugar"
+            },
+            "nextvelocity": {
+                "doc": "$~Ang susunod na lugar, ang pinakamatinding bilis.",
+                "names": "$~susunodnabilis"
+            }
+        },
+        "Chat": {
+            "doc": [
+                "$~Ito ay isang stream ng mga @Text message na tina-type ng iyong audience.",
+                "Halimbawa, sinusuri ng simpleng programang ito kung ang mensahe ay 'hello', at kung oo, ang programa ay magre-rate ng 'hi'. Kung hindi, ang re-rate nito ay 'huh'?",
+                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "Ayan na! Maaari kang gumawa ng lahat ng uri ng pagtatanghal gamit ito, tulad ng mga chat bot, text adventure, o mga text-based control scheme para sa iba pang uri ng pagtatanghal."
+            ],
+            "names": ["$~Makipagchat"]
+        },
+        "Placement": {
+            "doc": [
+                "$~Pinapayagan nito ang iyong madla na i-drag ang @Output patungo sa isang @Place sa @Stage.",
+                "Maraming paraan para ilagay ang @Output sa @Stage: bigyan sila ng tiyak na @Place, gumamit ng @Motion at hayaang gumana ang grabidad, o ilagay sila sa isang @Group para maisaayos.",
+                "Ngunit minsan gusto mong bigyan ang /madla/ ng kontrol kung saan mapupunta ang @Output sa @Stage.",
+                "Ganito ito gumagana: gumawa ng @Placement at ibigay ito sa @Place ng isang @Output:",
+                "\\Parirala('kumusta' lugar: Paglalagay())\\",
+                "Pagkatapos, sa tuwing gagamit ang madla ng arrow na @key o mag-click o mag-tap sa entablado, gagawa ang @Placement ng bagong @Place na kikilos sa nais na direksyon.",
+                "Subukang kopyahin ito sa iyong programa at ilipat ang @Output gamit ang pointer o keyboard.",
+                "Maaari mong i-customize ang @Placement, paganahin at hindi paganahin ang paggalaw sa ilang dimensyon, baguhin kung gaano kalayo gumagalaw ang isang @Place, at ang panimulang @Place kung saan magsisimula ang stream."
+            ],
+            "names": ["$~Paglalagay"],
+            "inputs": [
+                {
+                    "doc": "$~Ang unang lugar kung saan magsisimula.",
+                    "names": "$~simulan"
+                },
+                {
+                    "doc": "$~Ilang metro ang dapat gumalaw ng lugar kapag humiling ang mga manonood ng paggalaw.",
+                    "names": "$~distansya"
+                },
+                {
+                    "doc": "$~Kung totoo, pinapayagan ang paggalaw sa pahalang na aksis. Naka-on bilang default.",
+                    "names": "$~pahalang"
+                },
+                {
+                    "doc": "$~Kung totoo, pinapayagan ang paggalaw sa patayong aksis. Naka-on bilang default.",
+                    "names": "$~patayo"
+                },
+                {
+                    "doc": "$~Kung totoo, pinapayagan ang paggalaw sa z-axis, gamit ang mga + at - na key.",
+                    "names": "$~lalim"
+                }
+            ]
+        },
+        "Webpage": {
+            "doc": [
+                "$~Kinukuha nito ang teksto sa web address na ibibigay mo dito.",
+                "Kamangha-mangha ang internet — isang buong mundo ng magkakakonektang kompyuter na nagbabahagi ng mga dokumento sa isa't isa.",
+                "Kumokonekta dito ang stream na ito — bigyan ito ng URL, tulad nito:",
+                "\\Pahinangweb('https://wordplay.dev')\\",
+                "At mayroon palang bagay na tinatawag na <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, na nagpapahintulot sa iyong @query ng mga bagay sa isang web page? Bigyan ito ng CSS selection query at kukunin lamang nito ang tekstong tumutugma sa query na iyon. Tulad ng halimbawang ito, na kumukuha ng level one headers.",
+                "\\Pahinangweb('https://wordplay.dev' 'h1')\\",
+                "Maraming bagay ang maaaring magkamali dito. Kung mawala ang iyong koneksyon sa internet, o hindi tumugma ang URL sa anuman, o hindi pampubliko ang URL, o hindi HTML page ang URL… Lahat ng ito ay maaaring magdulot ng exception. Kung makakahanap ka ng page na gumagana, makakakuha ka ng ilang @Number na nagpapakita ng porsyento na natapos na at pagkatapos ay isang @List ng mga salita sa page."
+            ],
+            "names": ["$~Pahinangweb"],
+            "url": {
+                "doc": "$~Ang HTML na URL ng webpage na kukunin.",
+                "names": "$~url"
+            },
+            "query": {
+                "doc": "$~Ang CSS na @query na susuriin sa HTML",
+                "names": "$~tanong"
+            },
+            "frequency": {
+                "doc": "$~Ang bilang ng mga minuto na dapat lumipas bago makuha muli ang pahina.",
+                "names": "$~dalas"
+            },
+            "error": {
+                "invalid": "$~hindi ito isang wastong URL",
+                "unvailable": "$~hindi mapupuntahan ang URL na ito",
+                "notHTML": "$~hindi HTML ang tugon",
+                "noConnection": "$~walang koneksyon sa Wordplay",
+                "limit": "$~masyadong maraming kahilingan sa domain na ito"
+            }
+        },
+        "Collision": {
+            "names": "$~Pagbangga",
+            "doc": [
+                "$~Isa itong @stream ng @Rebound na @value para sa mga pagkakataong may pangalang @Output na nagbabanggaan.",
+                "Upang mapansin ng dalawang @Output ang isa't isa, bigyan mo silang dalawa ng pangalan, tapos ibigay mo sa akin ang dalawang pangalan. Gagawa ako ng bagong @Rebound tuwing magkadikit sila. Hindi nila kailangan ng @Matter para dito — pangalan lang ang kailangan ko para mapanood ang isang bagay.",
+                "Bigyan mo na lang ako ng isang pangalan, at sasabihin ko sa'yo kapag nadikit ang @Output na iyon sa ibang bagay sa pisikal na mundo. Nasa pisikal na mundo ang isang @Output kung mayroon itong @Matter, kung inilagay ito ng @Motion, kung ito ay isang @Shape na direktang nasa @Stage, o kung pinapanood ko rin ang pangalan nito.",
+                "Hindi pareho ang pagpansin at pagtalbog. Itinutulak lang ng @Output ang ibang @Output kung mayroon itong @Matter at @Motion na gumagalaw dito. Ang @Output na inilagay ng iyong programa ay pupunta nang eksakto sa kung saan mo ito inilagay, kaya dumadaan ito sa anumang nadidikit nito — sasabihin ko pa rin sa'yo ang tungkol sa pagkadikit.",
+                "May pangalan ang @Rebound ng mga bagay na nagdikit at ang direksyon kung saan sila nagdikit. Pagkatapos kong gumawa ng isa, gagawa ako ng \\ø\\, dahil tapos na ang isang banggaan sa sandaling mangyari ito.",
+                "Mapapanood ko lang ang @Output na direktang inilagay sa @Stage. Ang anumang bagay sa loob ng @Group ay gumagalaw sa sarili nitong espasyo sa grupong iyon, kaya hindi ko ito makita — bigyan mo na lang ng pangalan ang @Group at iyon ang panoorin."
+            ],
+            "subject": {
+                "names": "$~paksa",
+                "doc": "$~Ang pangalan ng @Output na dapat kong panoorin. Sapat na ang pagpanood dito para ilagay ito sa pisikal na mundo, kaya hindi na ito nangangailangan ng @Matter."
+            },
+            "object": {
+                "names": "$~ibapa",
+                "doc": "$~Ang pangalan ng ibang @Output na dapat kong panoorin. Kapag ibinigay mo rin ito, iyon lang dalawang nagdikit ang ipapaalam ko; kung hindi mo ito ibibigay, ipapaalam ko ang una nitong nadikit sa anumang bagay sa pisikal na mundo."
+            }
+        },
+        "Rebound": {
+            "names": "$~Tumalbog",
+            "doc": "$~Nagmula ako sa @Collision at kinakatawan ko kung sino ang nabangga at kung saang direksyon naganap ang banggaan. Gamitin mo ako upang magdesisyon kung tutugon sa isang banggaan sa anumang espesyal na paraan, maliban sa normal na pisika.",
+            "direction": {
+                "names": "$~direksyon",
+                "doc": "$~Ang direksyon at magnitude ng banggaan, kaugnay ng paksa ng banggaan"
+            },
+            "subject": {
+                "names": "$~paksa",
+                "doc": "$~Ang pangalan ng output na tinamaan ng paksa."
+            },
+            "object": {
+                "names": "$~bagay",
+                "doc": "$~Ang pangalan ng output na tumama sa paksa"
+            }
+        },
+        "Direction": {
+            "names": "$~Direksyon",
+            "doc": "$~Ang I ay isang direksyon at magnitude, kasama ang mga x at y axes.",
+            "x": {
+                "names": "$~x",
+                "doc": "$~Ang direksyon at magnitude ng direksyon sa kahabaan ng x-axis."
+            },
+            "y": {
+                "names": "$~taon",
+                "doc": "$~Ang direksyon at magnitude ng direksyon sa kahabaan ng y-axis."
+            }
+        },
+        "Hand": {
+            "doc": [
+                "$~Sinusubaybayan nito ang isang kamay na nakikita ng iyong camera — kung nasaan ito, aling mga daliri ang nakataas, at saang direksyon ito nakaharap.",
+                "/kumawag-kawag/",
+                "Itaas ang iyong kamay, iwagayway ito, bilangin gamit ang iyong mga daliri — kasunod ang @Hand .",
+                "Sa likod ng mga eksena, gumagamit @Hand ng isang machine-learning model. Sa unang pagkakataon na gagamitin mo ito sa isang programa, aabutin lamang ng ilang segundo bago ma-download ang modelo, at isang maliit na umiikot na kamay ang lilitaw sa kanang sulok sa itaas ng stage habang naglo-load ito. Pagkatapos nito, mananatili itong naka-cache at agad na magsisimula.",
+                "Sa bawat frame, @Hand ay nagbibigay sa iyo ng isang @Gesture — hanapin doon ang kumpletong listahan ng mga input at kung ano ang ibig sabihin ng mga ito.",
+                "Subukan ito — nagpapakita ito ng emoji na tumutugma sa postura ng iyong kamay kung nasaan man ang iyong totoong kamay:",
+                "\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+            ],
+            "names": ["$~Kamay"],
+            "frequency": {
+                "names": ["$~dalas"],
+                "doc": "$~Ang oras sa pagitan ng mga sample."
+            },
+            "resolution": {
+                "names": ["$~resolusyon"],
+                "doc": "$~Ang lapad sa mga pixel kung saan susuriin ang kamera bago patakbuhin ang modelo ng kamay. Ang mas mataas na mga @value ay maaaring magbigay ng bahagyang mas tumpak na mga landmark ngunit mas matagal ang oras na ginugugol sa bawat frame."
+            }
+        },
+        "Contour": {
+            "doc": [
+                "$~Sinusubaybayan nito ang balangkas ng glyph ng bawat letra bilang isang @List of @Place .",
+                "Lagyan ito ng kaunting teksto at font face, at susubaybayan nito ang outline ng bawat glyph punto por punto.",
+                "\\Contour('a' \"Noto Sans\")\\",
+                "Ipakain ang mga halagang @Place na iyon sa isang @List of @Phrase upang makita ang balangkas na iginuhit bilang mga tuldok:",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' lugar: point)))\\",
+                "Maaari mong i-scale ang outline gamit ang @Number of meters, ilipat ang pinagmulan nito gamit ang @Place , pumili ng font weight, i-on ang italics, at itakda ang `spacing` sa pagitan ng mga punto bilang distansya sa metro. Ang mas maliit na `spacing` ay mas malapit na sumusubaybay sa outline, na may pantay na pagitan ng mga punto sa parehong linya at kurba.",
+                "Ang ilang mga glyph, tulad ng color emoji, ay walang outline, kaya wala silang dinadagdag na mga point. Habang kinukuha nito ang font, bibigyan ka nito ng isang blangkong @List , pagkatapos ay pupunan ito kapag handa na ito."
+            ],
+            "names": ["$~Kontur"],
+            "inputs": [
+                {
+                    "doc": "$~Ang teksto na ang mga balangkas ng glyph ay dapat kong sundan.",
+                    "names": "$~mgaglyph"
+                },
+                {
+                    "doc": "$~Ang mukha ng font para bakasin ang mga glyph.",
+                    "names": "$~mukha"
+                },
+                {
+                    "doc": "$~Ang taas ng glyph sa metro, na sinusukat ang balangkas.",
+                    "names": "$~laki"
+                },
+                {
+                    "doc": "$~Isang opsyonal na origin @Place para ma-offset ang bawat punto.",
+                    "names": "$~lugar"
+                },
+                {
+                    "doc": "$~Ang bigat ng font na gagamitin, naka-snap sa pinakamalapit na suporta ng mukha.",
+                    "names": "$~timbang"
+                },
+                {
+                    "doc": "$~Kung gagamitin ba ang italic na bersyon ng mukha, kung mayroon man.",
+                    "names": "$~mgaitaliko"
+                },
+                {
+                    "doc": "$~Ang distansya sa metro sa pagitan ng mga na-sample na punto sa kahabaan ng balangkas, ay pinananatiling pare-pareho sa mga linya at kurba. Ang mas maliliit na @value ay mas pino ang sinusundan, hanggang sa minimum na 0.01 metro.",
+                    "names": "$~pagitan"
+                },
+                {
+                    "doc": "$~Ang pagkakasunod-sunod ng mga punto: 'pasulong' o 'paatras'.",
+                    "names": "$~direksyon"
+                }
+            ],
+            "error": {
+                "connection": "$~Hindi ko ma-access ang internet para makuha ang font, kaya hindi ko ma-trace ang mga letra nito.",
+                "unavailable": "$~Hindi ko mahanap ang file ng font na iyon, kaya hindi ko matunton ang mga letra nito.",
+                "unreadable": "$~Na-download ko na ang font, pero hindi ko mabasa, kaya hindi ko masubaybayan ang mga letra nito.",
+                "outline": "$~Ni-load ko na ang font, pero hindi ko makuha ang hugis ng mga letrang ito."
+            }
+        },
+        "Now": {
+            "doc": [
+                "$~Nagti-tik ako ng bagong @Moment sa bilis na pipiliin mo, kaya lagi nitong alam ang petsa ngayon at ang kasalukuyang oras.",
+                "Dahil dito, isang linya lang ng @code ang isang lokal na orasan:",
+                "\\💬(⏰() → '')\\",
+                "Bilang default, nagti-tik ako kada segundo. Bigyan mo ako ng @Now.frequency sa mga segundo, minuto, o oras para baguhin ang bilis:",
+                "\\⏰(1min)\\",
+                "Ang @Now.timezone at @Now.calendar ko ay sumasalamin sa mga input ng @Moment, at nagse-set ng mga Moment na ginagawa ko. Halimbawa, narito ang isang orasan na nagpapakita ng kasalukuyang oras sa Tokyo, sa kalendaryong Hapon:",
+                "\\⏰(1s 'Asia/Tokyo' 'japanese')\\",
+                "Kung magbago ang mga input na iyon — halimbawa, isang reaksyon ang nagbibigay sa akin ng ibang time zone — magsisimula akong gumawa ng mga Moment gamit ang bagong mga setting.",
+                "Paano ako naiiba sa @Time? Binibilang ng @Time ang mga milisegundo mula nang magsimula ang isang programa, na mabuti para sa animasyon. Sinasabi ko sa iyo ang petsa at oras ayon sa orasan sa dingding, sa isang kalendaryo at time zone, na mabuti para sa mga orasan at kalendaryo."
+            ],
+            "names": ["$~Ngayon"],
+            "frequency": {
+                "names": ["$~dalas"],
+                "doc": "$~Gaano kadalas ako gumawa ng bagong @Moment, sa segundo, minuto, o oras. Kung \\ø\\, nagta-tik ako kada \\1s\\."
+            },
+            "timezone": {
+                "names": ["$~timeZone"],
+                "doc": "$~Isang karaniwang pangalan ng time zone para sa mga Moment na ginagawa ko, na binubuo ng isang @region at isang lungsod, tulad ng \\'America/New_York'\\ o \\'Asia/Tokyo'\\. Hindi mo alam ang pangalan? Isulat ang isang lungsod na kilala mo at magmumungkahi ako ng pinakamalapit na time zone. Kung \\ø\\, ginagamit ko ang time zone ng device kung saan tumatakbo ang programa."
+            },
+            "calendar": {
+                "names": ["$~kalendaryo"],
+                "doc": "$~Isang pangalan ng Unicode calendar para sa mga Moment na ginagawa ko, tulad ng \\'gregory'\\, \\'hebreo'\\, \\'tsino'\\, o \\'hapon'\\. Kung \\ø\\, ginagamit ko ang kalendaryo ng locale ng mambabasa."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "$~Ako ay isang solong sandali sa panahon: isang petsa sa kalendaryo, isang oras ng araw, at ang time zone at kalendaryo kung saan ito ipinahahayag.",
+                "Ang lahat ng aking mga @property ay opsyonal. Bigyan mo ako ng mga bahagi ng petsa para ilarawan ang isang petsa:",
+                "\\📅(2026 7 1) → ''\\",
+                "O mga bahagi lamang ng oras, para sa isang oras ng araw:",
+                "\\📅(oras: 15 minuto: 30) → ''\\",
+                "Kung hindi mo ako bibigyan ng anumang bahagi, ico-convert ko bilang kasalukuyang petsa at oras, kahit saan tumatakbo ang programa. Kung mag-iiwan ka ng mga bahagi, ang anumang bahaging mas malaki kaysa sa pinakamalaking ibinigay mo ay galing sa kasalukuyang petsa at oras, at ang mas maliliit na bahagi ay magsisimula sa kanilang simula: kaya ang \\📅(buwan: 12) → ''\\ ay Disyembre 1 ng taong ito, sa hatinggabi. Ang pag-convert sa akin ay nagpapakita lamang ng mga uri ng bahaging ibinigay mo: ang mga bahagi ng petsa ay gumagawa ng petsa, ang mga bahagi ng oras ay gumagawa ng oras, at kapwa ang gumagawa ng dalawa:",
+                "\\📅() → ''\\",
+                "Ang aking @Moment.timezone ay kumukuha ng karaniwang IANA time zone name tulad ng \\'America/Los_Angeles'\\ o \\'Asia/Tokyo'\\; kung iiwan mo itong \\ø\\, ginagamit ko ang time zone ng device kung saan tumatakbo ang programa. Ang aking @Moment.calendar ay kumukuha ng Unicode calendar name tulad ng \\'gregory'\\, \\'hebreo'\\, o \\'hapon'\\; kung iiwan mo itong \\ø\\, ginagamit ko ang kalendaryo ng locale ng mambabasa. Ang aking @Moment.year, @Moment.month, at @Moment.day ay nasa kalendaryong iyon:",
+                "\\📅(5786 10 4 kalendaryo: 'hebrew') → ''\\",
+                "Ang pag-convert sa akin bilang @Text ay naga-format sa akin para sa locale ng mambabasa: ang parehong Moment ay nire-render nang iba sa English, 中文, o हिन्दी, at nagbabago kapag nagbago ang locale ng mambabasa.",
+                "Ang aking @Moment.era, @Moment.week, at @Moment.weekday ay pang-impormasyon lamang: pinupunan ito ng @Now kapag gumagawa ito ng Moments, ngunit hindi ito pinapansin kapag naga-format.",
+                "Kung gusto mo ng daloy ng Moments na nag-a-update habang lumilipas ang panahon — isang orasan — tingnan ang @Now. Kung gusto mo ang bilang ng milliseconds na lumipas mula nang magsimula ang iyong programa — para sa animation — tingnan ang @Time."
+            ],
+            "names": ["$~📅", "$~Moment"],
+            "year": {
+                "names": ["$~taon"],
+                "doc": "$~Ang taon, sa aking kalendaryo. Halimbawa, ang taong Gregorian na \\2026\\ ay ang taong Hebreo na \\5786\\."
+            },
+            "month": {
+                "names": ["$~buwan"],
+                "doc": "$~Ang buwan ng taon sa aking kalendaryo, nagsisimula sa \\1\\."
+            },
+            "day": {
+                "names": ["$~araw"],
+                "doc": "$~Ang araw ng buwan."
+            },
+            "hour": {
+                "names": ["$~oras"],
+                "doc": "$~Ang oras ng araw, mula \\0\\ hanggang \\23\\."
+            },
+            "minute": {
+                "names": ["$~minuto"],
+                "doc": "$~Ang minuto ng oras."
+            },
+            "second": {
+                "names": ["$~segundo"],
+                "doc": "$~Ang segundo ng minuto."
+            },
+            "millisecond": {
+                "names": ["$~milisegundo"],
+                "doc": "$~Ang milisegundo ng segundo."
+            },
+            "timezone": {
+                "names": ["$~timeZone"],
+                "doc": "$~Isang karaniwang pangalan ng time zone, na binubuo ng isang @region at isang lungsod, tulad ng \\'America/New_York'\\, \\'Europe/Paris'\\, o \\'Asia/Tokyo'\\. Hindi mo alam ang pangalan? Isulat ang isang lungsod na kilala mo at magmumungkahi ako ng pinakamalapit na time zone. Kung \\ø\\, ginagamit ko ang time zone ng device kung saan tumatakbo ang programa."
+            },
+            "calendar": {
+                "names": ["$~kalendaryo"],
+                "doc": "$~Isang pangalan ng Unicode calendar, tulad ng \\'gregory'\\, \\'hebreo'\\, \\'tsino'\\, o \\'hapon'\\. Kung \\ø\\, ang kalendaryo ng locale ng mambabasa."
+            },
+            "era": {
+                "names": ["$~panahon"],
+                "doc": "$~Ang panahon kung saan nasa aking taon, tulad ng \\'ce'\\ o \\'reiwa'\\. Pang-impormasyon: itinatakda ito ng @Now, at hindi ito pinapansin ng pagfo-format."
+            },
+            "week": {
+                "names": ["$~linggo"],
+                "doc": "$~Ang linggo ng taon, nagsisimula sa \\1\\. Pang-impormasyon: itinatakda ito ng @Now, at hindi ito pinapansin ng pagfo-format."
+            },
+            "weekday": {
+                "names": ["$~arawNgLinggo"],
+                "doc": "$~Ang araw ng linggo, mula \\1\\ (Lunes) hanggang \\7\\ (Linggo). Pang-impormasyon: itinatakda ito ng @Now, at hindi ito pinapansin ng pagfo-format."
+            },
+            "conversion": {
+                "text": "$~Isang @Text na bersyon ko, na naka-format para sa locale ng mambabasa, sa aking kalendaryo at time zone. Magdagdag ng wika pagkatapos ng uri na @Text para mag-format para sa isang partikular na locale, tulad ng \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "$~hindi ito wastong pangalan ng time zone",
+                "calendar": "$~hindi ito sinusuportahang pangalan ng kalendaryo"
+            }
+        },
+        "Face": {
+            "doc": [
+                "$~Sinusubaybayan nito ang mukhang nakikita ng iyong kamera — kung nasaan ito, at kung ano ang ginagawa nito: bukas o sarang mga mata, bukas na bibig, ngiti, nakasimangot, nakataas na kilay, at kung saang direksyon nakaharap ang ulo.",
+                "/ngumiti/",
+                "Tumingin sa kamera, ngumiti, kumurap, ibuka nang malaki ang bibig — sinusundan ito ng @Face.",
+                "Sa likod ng eksena, gumagamit ang @Face ng modelo ng machine learning. Sa unang beses mong gamitin ito sa isang programa, mag-download ang modelo nang ilang segundo, at may lumitaw na maliit na umiikot na mukha sa itaas na kanang sulok ng entablado habang naglo-load ito. Pagkatapos, nananatili itong naka-cache at agad na nagsisimula.",
+                "Sa bawat frame, nagbibigay ang @Face ng isang @Expression. Tumingin doon para sa buong listahan ng mga input at kung ano ang ibig sabihin ng mga ito.",
+                "Ipinapakita ng halimbawang ito ang isang emoji na tumutugma sa iyong mukha saan man naroon ang tunay mong mukha:",
+                "\\mukha: 🙂()\n💬((mukha.nakangiti ? '😀' mukha.bibigBukas ? '😮' '😐') lugar: mukha.lugar)\\"
+            ],
+            "names": ["$~Mukha"],
+            "frequency": {
+                "names": ["$~dalas"],
+                "doc": "$~Ang oras sa pagitan ng mga sample."
+            },
+            "resolution": {
+                "names": ["$~resolusyon"],
+                "doc": "$~Ang lapad sa pixels kung saan susuriin ang kamera bago patakbuhin ang modelo ng mukha. Ang mas mataas na @value ay maaaring magbigay ng bahagyang mas tumpak na mga marka, ngunit mas matagal sa bawat frame."
+            }
+        },
+        "Objects": {
+            "doc": [
+                "$~Sinasabi nito sa iyo kung anong mga bagay ang nakikita ng iyong kamera — isang pusa, isang tasa, isang libro — at kung nasaan ang mga ito.",
+                "/ano iyon/",
+                "Magtaas ng isang bagay sa harap ng kamera at susubukan ng @Objects na pangalanan ito.",
+                "Sa likod ng eksena, gumagamit ang @Objects ng isang modelong natututo ng makina na nakakaalam ng 80 uri ng pang-araw-araw na bagay.",
+                "Sa bawat frame, binibigyan ka ng @Objects ng isang @List ng @Thing, na inayos ayon sa kung gaano kasigurado ang modelo, na may pinakasigurado sa unahan. Tingnan ang @Thing para sa kung ano ang sinasabi sa iyo ng bawat isa.",
+                "Naghuhula lamang ang modelo, kaya kung minsan ay magkakamali ito, o walang makikita. Humingi ng mas mataas na `confidence` upang marinig lamang ang mga hulang pinakasigurado ito.",
+                "Narito ang isang halimbawa na nilalagyan ng label ang lahat ng nakikita ng kamera:",
+                "\\🎭(📦() ↦ 💬(⬚.pangalan lugar: ⬚.lugar))\\",
+                "Maaari ka ring maghanap ng iisang uri lamang ng bagay, at balewalain ang iba:",
+                "\\mgaBagay: 📦(kategorya: 'cat')\n💬(mgaBagay.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~MgaBagay"],
+            "inputs": [
+                {
+                    "doc": "$~Ang oras sa pagitan ng mga sample.",
+                    "names": "$~dalas"
+                },
+                {
+                    "doc": "$~Ang lapad sa pixel kung saan susuriin ang kamera bago maghanap ng mga bagay. Tumitingin ang modelo sa isang 320 pixel na parisukat, kaya ang mas malalaking @value ay kadalasang gumagastos lamang ng oras.",
+                    "names": "$~resolusyon"
+                },
+                {
+                    "doc": "$~Isang opsyonal na uri ng bagay na hahanapin, na binabalewala ang lahat ng iba pa.",
+                    "names": "$~kategorya"
+                },
+                {
+                    "doc": "$~Kung gaano dapat kasigurado ang modelo bago ko banggitin ang isang bagay, mula 0 hanggang 1. Ang mas mataas ay nangangahulugan ng mas kaunti ngunit mas magaling na mga hula.",
+                    "names": "$~tiwala"
+                },
+                {
+                    "doc": "$~Ang pinakamaraming bagay na babanggitin nang sabay-sabay.",
+                    "names": "$~bilang"
+                }
+            ],
+            "categories": {
+                "person": ["$~tao", "$~mga tao", "$~isang tao"],
+                "bicycle": ["$~bisikleta"],
+                "car": ["$~kotse", "$~awto"],
+                "motorcycle": ["$~motorsiklo", "$~motor"],
+                "airplane": ["$~eroplano"],
+                "bus": ["$~bus"],
+                "train": ["$~tren"],
+                "truck": ["$~trak"],
+                "boat": ["$~bangka", "$~barko"],
+                "traffic light": ["$~ilaw trapiko", "$~ilaw pantigil"],
+                "fire hydrant": ["$~hydrant ng sunog", "$~hydrant"],
+                "stop sign": ["$~karatula ng tigil"],
+                "parking meter": ["$~metro ng paradahan"],
+                "bench": ["$~bangko"],
+                "bird": ["$~ibon"],
+                "cat": ["$~pusa", "$~kuting"],
+                "dog": ["$~aso", "$~tuta"],
+                "horse": ["$~kabayo"],
+                "sheep": ["$~tupa"],
+                "cow": ["$~baka"],
+                "elephant": ["$~elepante"],
+                "bear": ["$~oso"],
+                "zebra": ["$~sebra"],
+                "giraffe": ["$~dyirap"],
+                "backpack": ["$~bakpak"],
+                "umbrella": ["$~payong"],
+                "handbag": ["$~bag na hawak-hawak", "$~pitaka"],
+                "tie": ["$~kurbata"],
+                "suitcase": ["$~maleta", "$~bagahe"],
+                "frisbee": ["$~frisbee"],
+                "skis": ["$~ski"],
+                "snowboard": ["$~snowboard"],
+                "sports ball": ["$~bola", "$~bola sa isport"],
+                "kite": ["$~saranggola"],
+                "baseball bat": ["$~bat ng baseball", "$~bat"],
+                "baseball glove": ["$~gwantes ng baseball", "$~gwantes"],
+                "skateboard": ["$~skateboard"],
+                "surfboard": ["$~surfboard"],
+                "tennis racket": ["$~raketa ng tennis", "$~raketa"],
+                "bottle": ["$~bote"],
+                "wine glass": ["$~basong alak"],
+                "cup": ["$~tasa", "$~mug"],
+                "fork": ["$~tinidor"],
+                "knife": ["$~kutsilyo"],
+                "spoon": ["$~kutsara"],
+                "bowl": ["$~mangkok"],
+                "banana": ["$~saging"],
+                "apple": ["$~mansanas"],
+                "sandwich": ["$~sandwich"],
+                "orange": ["$~kahel"],
+                "broccoli": ["$~brokoli"],
+                "carrot": ["$~karot"],
+                "hot dog": ["$~hot dog"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~donut"],
+                "cake": ["$~keyk"],
+                "chair": ["$~upuan"],
+                "couch": ["$~sopa"],
+                "potted plant": [
+                    "$~halamang nasa paso",
+                    "$~halamang pambahay",
+                    "$~halaman"
+                ],
+                "bed": ["$~kama"],
+                "dining table": ["$~mesa", "$~mesang kainan"],
+                "toilet": ["$~inidoro"],
+                "tv": ["$~TV", "$~tv", "$~telebisyon"],
+                "laptop": ["$~laptop", "$~kompyuter"],
+                "mouse": ["$~mouse"],
+                "remote": ["$~remote", "$~remote control"],
+                "keyboard": ["$~keyboard"],
+                "cell phone": ["$~telepono", "$~cell phone", "$~mobile phone"],
+                "microwave": ["$~microwave"],
+                "oven": ["$~pugon"],
+                "toaster": ["$~toaster"],
+                "sink": ["$~lababo"],
+                "refrigerator": ["$~reprigerator", "$~pridyider"],
+                "book": ["$~libro"],
+                "clock": ["$~orasan"],
+                "vase": ["$~plorera"],
+                "scissors": ["$~gunting"],
+                "teddy bear": ["$~teddy bear", "$~laruang hayop"],
+                "hair drier": ["$~hair dryer", "$~hair drier"],
+                "toothbrush": ["$~sipilyo"]
+            }
+        },
+        "Beat": {
+            "names": "$~Kumpas",
+            "doc": [
+                "$~Nagbibigay ako ng bagong @value sa tuwing may umaabot na beat ang tumutugtog na @Music, kaya makakagawa ka ng mga larawang gumagalaw kasabay ng musika. Lagi akong may @Downbeat para sa iyo, kaya mababasa mo ito agad: bago tumugtog ang anumang musika, nasa beat zero ako na walang tunog, at ang aking \\tempo\\ ay nananatiling zero hanggang magsimula ito.",
+                "Dito, tatlong track ang nagsasalitan, kaya iba't ibang bilang ng instrumento ang tumutunog sa bawat beat — at lumalaki ang brilyante ayon sa kung ilan ang tumutugtog:",
+                "\\tibok: Kumpas()\n🎭([\n\t\t💬('◆' ((tibok.mgaInstrumento.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrumento: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrumento: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrumento: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Bigyan mo ako ng @Music na pangalan at iyon lang na musika ang maririnig ko. Dalawang beat ang nakikinig sa ibaba, sa parehong dalawang musika: naririnig ng nasa itaas ang lahat, kaya nagpapalit-palit ito sa dalawang pangalan habang umaabot sa beat ang bawat musika, at naririnig lang ng nasa ibaba ang drum at wala nang ibang sinasabi. Ang pagkakaibang iyon ang salaan.",
+                "\\lahat: Kumpas()\nangTambolLamang: Kumpas('tiktik')\n🎭([\n\t\t🔳(\n\t\t\t⬇(padding: 0.5m)\n\t\t\t[\n\t\t\t\t💬(lahat.pangalan 1.4m)\n\t\t\t\t💬(angTambolLamang.pangalan 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrumento: 🔈.🥁) tempo: 120beats/min pangalan: 'tiktik')\n\t\t🎼(🎶([5 5 5] instrumento: 🔈.🔔) tempo: 90beats/min pangalan: 'tunog ng kampana')\n\t])\\",
+                "Anuman ang pinapatakbo ko ay /karagdagan/ sa pagpapakita na pinili ng manonood; dinaragdagan mo ito, hindi kailanman pinapalitan."
+            ],
+            "name": {
+                "doc": "$~Ang pangalan ng @Music na papakinggan, na tumutugma sa @Music/name nito. Gamit ang \\ø\\, naririnig ko ang lahat ng tumutugtog na musika — at ang mga tibok mula sa iba't ibang musika ay dumarating na pinaghahalo, kaya basahin ang @Downbeat/name para pag-ibahin ang mga ito.",
+                "names": "$~pangalan"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Ako ang ibinibigay sa iyo ng @Beat: lahat ng alam ng player sa sandaling naririnig ang isang tibok, kaya maipapakita ng isang biswalisasyon kung ano talaga ang tumutunog.",
+                "Binibilang ng bawat @Music ang sarili nitong mga tibok, kaya kapag mas marami sa isa ang naririnig ng isang @Beat, ang aking @Downbeat/count ay pag-aari ng kung saang musika galing ang tibok na ito — suriin ang aking @Downbeat/name para malaman kung alin."
+            ],
+            "names": "$~Downbeat",
+            "count": {
+                "doc": "$~Kung ilang tibok na ang natugtog ng musikang ito, simula sa \\0\\.\n\nNagsisimula ang pagbibilang kapag /nagsimula/ ang musika, at nagsisimula muli kapag nagsimula ito ulit — isang @Music/replay, o pag-alis sa entablado at pagbalik. Ang pag-edit sa musika habang tumutugtog ay /hindi/ nagre-reset sa akin, at hindi rin ang @Music/pause — ang hinintong musika ay tumitigil sa pagbilang at ipinagpapatuloy kung saan ito huminto. Ang pagbabago ay isinisingit at nagpapatuloy ang bilang, at ito ang nagpapaiba sa isang edit sa isang pagsisimula muli.",
+                "names": "$~bilangin"
+            },
+            "instruments": {
+                "doc": "$~Ang @Instrument na tumutunog sa tibok na ito, na binabanggit nang isang beses bawat isa. Isang daanang-madali para sa karaniwang sitwasyon; nasa @Downbeat/parts ang detalye.",
+                "names": "$~mgaInstrumento"
+            },
+            "words": {
+                "doc": "$~Ang mga pantig na inaawit sa beat na ito, sa pagkakasunod ng track, o isang walang laman na listahan kapag walang kumakanta. Isang shortcut para sa karaniwang kaso, gaya ng @Downbeat/instruments; ang @Downbeat/parts ang may detalye.",
+                "names": "$~mgaSalita"
+            },
+            "name": {
+                "doc": "$~Ang pangalan ng @Music kung saan galing ang tibok na ito, na siyang sinasala ng @Beat/name.",
+                "names": "$~pangalan"
+            },
+            "tempo": {
+                "doc": "$~Ang tempo ng musika, sa mga tibok bawat minuto.",
+                "names": "$~tempo"
+            },
+            "volume": {
+                "doc": "$~Ang kabuuang lakas ng tunog ng musika, mula \\0%\\ hanggang \\100%\\. May sariling lakas ng tunog ang bawat @Part.",
+                "names": "$~lakasNgTunog"
+            },
+            "key": {
+                "doc": "$~Ang sariling @Music/key ng musika. Maaaring baguhin ito ng isang track, kaya basahin ang key ng isang @Part para sa kung ano talaga ang tinutugtog ng track na iyon.",
+                "names": "$~susi"
+            },
+            "scale": {
+                "doc": "$~Ang sariling @Music/scale ng musika. Maaaring baguhin ito ng isang track, kaya basahin ang scale ng isang @Part para sa kung ano talaga ang ginagamit ng track na iyon.",
+                "names": "$~eskala"
+            },
+            "parts": {
+                "doc": "$~Isang @Part para sa bawat @Track, sa pagkakasunod-sunod na isinulat, tumutunog man ito o hindi. Ito ang buong @state ng musika sa tibok na ito.",
+                "names": "$~mgaBahagi"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~Ako ang @state ng isang @Track sa isang tibok: kung ano ang tinutugtog nito, gaano kalakas, at sa anong scale. May dala ang isang @Downbeat na isa sa akin bawat track, kaya maaaring iguhit ng isang biswalisasyon ang bawat boses nang hiwalay sa halip na ang pinaghalo.",
+                "Ang aking mga @value ay ang mga aktwal na ginagamit ng player, matapos ilapat ang bawat default at pagbabago — kaya ang aking scale at key ay para sa track na iyon, hindi sa musika, kapag ang track ay may sariling itinakda."
+            ],
+            "names": "$~Bahagi",
+            "instrument": {
+                "doc": "$~Ang @Instrument na tumutugtog sa akin.",
+                "names": "$~instrumento"
+            },
+            "sounding": {
+                "doc": "$~Kung naririnig ang isang nota sa tibok na ito. Ang isang hinawakang nota ay nabibilang pa rin, kaya nananatili akong \\⊤\\ sa mga tibok na tinatagal nito, hindi lang sa isa kung saan ito nagsimula.",
+                "names": "$~tumutunog"
+            },
+            "degrees": {
+                "doc": "$~Ang mga notang sumasaklaw sa tibok na ito, ayon sa pagkakasulat. Walang laman sa isang pahinga, at mas marami sa isa para sa isang chord.",
+                "names": "$~mgaGrado"
+            },
+            "pitch": {
+                "doc": "$~Ang aking @Part/degrees na nilutas laban sa aking scale at key, sa mga semitono mula sa unang nota. Gamitin ito para ilagay ang isang nota ayon sa taas; gamitin ang @Part/degrees para ipakita kung ano ang isinulat.",
+                "names": "$~tono"
+            },
+            "volume": {
+                "doc": "$~Gaano ako kalakas sa tibok na ito — ang lakas ng aking nota na pinarami sa aking track — mula \\0%\\ hanggang \\100%\\, at \\0%\\ kapag nagpapahinga. Mabuti para sa pagtakda ng laki ng iginuguhit mo.",
+                "names": "$~lakasNgTunog"
+            },
+            "pan": {
+                "doc": "$~Kung saan ako nakaupo sa pagitan ng mga speaker: \\-1\\ ay ganap na kaliwa, \\0\\ ay gitna, at \\1\\ ay ganap na kanan. Mabuti para sa paglalagay ng iginuguhit mo.",
+                "names": "$~pan"
+            },
+            "scale": {
+                "doc": "$~Ang scale na nilulutasan ng aking mga degree, matapos ang anumang @Track/scale na pagbabago.",
+                "names": "$~eskala"
+            },
+            "key": {
+                "doc": "$~Ang paglipat ng semitono na inilapat sa akin, matapos ang anumang @Track/key na pagbabago.",
+                "names": "$~susi"
+            },
+            "loop": {
+                "doc": "$~Kung naguulit ang aking track kapag umaabot ito sa dulo nito.",
+                "names": "$~ulitin"
+            },
+            "words": {
+                "doc": "$~Ang pantig na inaawit ng bahaging ito sa beat na ito, o \\ø\\ kapag wala itong inaawit — isang pahinga, o isang track na walang @Track/words.",
+                "names": "$~mgaSalita"
+            }
+        },
+        "Spotlight": {
+            "doc": [
+                "$~Sinasabi ko kung nasaan ang isang @Scene ngayon: kung aling output ang ipinapakita nito, ilan ang mayroon ito, at kung naghihintay ba ito ng isang tao.",
+                "Nagpapakita ng mga bagay ang isang @Scene; ako ang paraan kung paano nalalaman ng iba pang bahagi ng isang programa kung ano ang ipinapakita nito. Iyon ang nagpapahintulot sa iyong maglagay ng counter sa ilalim ng isang slide show, magpatugtog ng iba't ibang musika sa iba't ibang bahagi ng isang kuwento, o magpakita ng /press any key/ na paalala lamang habang talagang naghihintay ang eksena.",
+                "\\mgaSlide: [\n\t\tParirala('isa')\n\t\tParirala('dalawa')\n\t\tParirala('tatlo')\n\t]\nsa: Spotlight()\nEntablado(\n\t[\n\t\tEksena(mgaSlide loop: ⊤)\n\t\tParirala(\n\t\t\t`\\sa.index\\ ng \\sa.total\\`\n\t\t\tlaki: 0.3m\n\t\t\tlugar: Lugar(0m -2m)\n\t\t)\n\t]\n)\\",
+                "Lagi akong may @Slate, kahit bago pa may nangyari, kaya hindi mo na kailangang suriin ako para sa \\ø\\."
+            ],
+            "names": "$~IlawNaPantutok",
+            "name": {
+                "names": "$~pangalan",
+                "doc": "$~Ang @Scene/name ng susunod na eksena. Iwanan itong \\ø\\ at susundan ko ang bawat eksena."
+            }
+        },
+        "Slate": {
+            "doc": "$~Kung nasaan ang isang @Scene: kung ano ang ipinapakita nito, gaano na ito kalayo, at kung naghihintay ba ito.",
+            "names": "$~Pisara",
+            "scene": {
+                "names": "$~tagpo",
+                "doc": "$~Ang @Scene/name ng eksenang pinanggalingan ko, o \\''\\ kung wala itong ganoon."
+            },
+            "index": {
+                "names": "$~indeks",
+                "doc": "$~Kung aling output ang ipinapakita ng @Scene, bilang mula sa 1. Binibilang ko lamang ang mga output, hindi kailanman ang @Boolean sa pagitan."
+            },
+            "total": {
+                "names": "$~kabuuan",
+                "doc": "$~Ilang output ang mayroon ang @Scene, hindi kasama ang @Boolean sa pagitan."
+            },
+            "lap": {
+                "names": "$~ikot",
+                "doc": "$~Ilang beses nang bumalik ang @Scene sa unang output nito. Ito ay 0 sa unang pagkakataon."
+            },
+            "waiting": {
+                "names": "$~naghihintay",
+                "doc": "$~Kung ang @Scene ay tumigil: naghihintay para maging totoo ang isang @Boolean, o pinipigilan ng @Scene/pause. Ito ang dapat panoorin ng isang /press any key/ na paalala."
+            }
+        }
+    }
+}

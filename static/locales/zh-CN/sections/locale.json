@@ -1,0 +1,426 @@
+{
+    "$schema": "../../../static/schemas/sections/locale.json",
+    "language": "zh",
+    "regions": ["CN"],
+    "guidance": "$~•统一用“你”称呼学习者，只有面向教师和班级管理的页面才用“您”。\n\n•正文使用全角标点（，。？！：）和全角引号，中文与英文单词或代码之间加一个半角空格。\n\n•概念链接和节点名（如 Phrase、Key）保持英文原样，而代码示例里的字符串和已本地化的函数名要跟着译成中文，例如 苹果、向上取整。\n\n•术语一律用大陆用语：程序、代码、文本、鼠标、菜单、屏幕、用户、默认，不要用程式、字串、滑鼠这类台湾用词。\n\n•evaluate 在教程正文里统一译作“求值”，界面中残留的“评估”属于早期译法，新译文请向教程看齐。\n\n•performance 译作“表演”，project 译作“项目”，两者不要混用。\n\n•按钮标签用简短的动词或名词（复制、撤销、保存），提示文字用完整的动宾短语描述动作（将选中的形状复制到剪贴板），不要写成“点击以……”。\n\n•教程对白保持口语化的角色语气，句子短、常省略主语，并大量使用“吧”“哦”“呢”“呀”这类语气词和感叹句。",
+    "glossary": {
+        "wordplay": {
+            "word": "Wordplay",
+            "definition": "$~这个平台，以及用来在这个平台上创建项目的编程@language。"
+        },
+        "value": {
+            "word": "值",
+            "definition": "$~一条信息，比如一个 @Number、一些文字，或者一个 @List。"
+        },
+        "type": {
+            "word": "类型",
+            "definition": "$~一个 @value 的种类，比如 @Number 或 @Text。值的类型决定了你能对它做什么。"
+        },
+        "expression": {
+            "word": "$~表达式",
+            "definition": "$~一段 @code，运行时会产生一个 @value。"
+        },
+        "variable": {
+            "word": "$~变量",
+            "definition": "$~一个 @name，它的 @value 可以在 @Program 运行时改变。"
+        },
+        "parameter": {
+            "word": "$~参数",
+            "definition": "$~一个有名字的 @Input，当你调用 @FunctionDefinition 时它需要这个输入。"
+        },
+        "argument": {
+            "word": "$~实参",
+            "definition": "$~你给 @FunctionDefinition 的一个 @value，用来对应它的某个 @parameters。"
+        },
+        "operator": {
+            "word": "$~运算符",
+            "definition": "$~一个符号，比如 + 或 -，用来组合或比较值。"
+        },
+        "condition": {
+            "word": "$~条件",
+            "definition": "$~一个判断真或假的测试，用来决定 @Program 接下来做什么。"
+        },
+        "loop": {
+            "word": "$~循环",
+            "definition": "$~多次重复某个动作的@code。"
+        },
+        "iteration": {
+            "word": "$~迭代",
+            "definition": "$~一次通过 @loop 的过程。"
+        },
+        "recursion": {
+            "word": "$~递归",
+            "definition": "$~当一个 @FunctionDefinition 调用它自己，来处理问题中更小的一部分。"
+        },
+        "property": {
+            "word": "$~属性",
+            "definition": "$~一个 @value 中有名字的部分，比如一个 @Color 的亮度。"
+        },
+        "element": {
+            "word": "$~元素",
+            "definition": "$~一个 @List 或一组里的一项。"
+        },
+        "scope": {
+            "word": "$~作用域",
+            "definition": "$~一个 @Program 中可以使用某个 @name 的部分。"
+        },
+        "state": {
+            "word": "$~状态",
+            "definition": "$~一个 @Program 保存的信息，它可以随时间改变。"
+        },
+        "sideEffect": {
+            "word": "$~副作用",
+            "definition": "$~一个 @Program 除了返回一个 @value 之外所做的改变，比如显示 @Output。"
+        },
+        "abstraction": {
+            "word": "$~抽象",
+            "definition": "$~隐藏细节，让你不用知道内部如何运作就能使用某样东西。"
+        },
+        "project": {
+            "word": "项目",
+            "definition": "$~组成一个 @wordplay @Program 的全部文件。"
+        },
+        "code": {
+            "word": "代码",
+            "definition": "$~你写下的文本，用来告诉 @Program 该做什么。"
+        },
+        "act": {
+            "word": "幕",
+            "definition": "$~@tutorial 中的一大部分，就像一出戏里的一幕。"
+        },
+        "how": {
+            "word": "如何",
+            "definition": "$~一份简短的 @guide，展示怎么做一件事。"
+        },
+        "gallery": {
+            "word": "$~作品库",
+            "definition": "$~一个人们分享和探索项目的地方。"
+        },
+        "blocks": {
+            "word": "$~积木",
+            "definition": "$~一种编辑 @code 的方法，用拖动积木代替打字。"
+        },
+        "placeholder": {
+            "word": "$~占位符",
+            "definition": "$~一个空位，标出哪里缺少 @code 或一个 @value。"
+        },
+        "conflict": {
+            "word": "$~冲突",
+            "definition": "$~@code 中的一个问题，@wordplay 会把它标出来，好让你修好它。"
+        },
+        "checkpoint": {
+            "word": "$~检查点",
+            "definition": "$~你工作中保存的一个点，你可以返回到它。"
+        },
+        "guide": {
+            "word": "$~指南",
+            "definition": "$~解释 @wordplay 概念的可搜索参考资料。"
+        },
+        "tutorial": {
+            "word": "$~教程",
+            "definition": "$~教你 @wordplay 的一步一步的课程。"
+        },
+        "name": {
+            "word": "名字",
+            "definition": "$~一个词，指向一个 @value 或一个 @FunctionDefinition。"
+        },
+        "markup": {
+            "word": "标记",
+            "definition": "$~带有格式的文本，比如加粗的词或链接。"
+        },
+        "language": {
+            "word": "语言",
+            "definition": "$~书写 @name 或文本所用的人类语言。"
+        },
+        "documentation": {
+            "word": "文档",
+            "definition": "$~解释 @code 作用的文本。"
+        },
+        "region": {
+            "word": "地区",
+            "definition": "$~使用某种 @language 的地方，它会改变数字和日期的样子。"
+        },
+        "start": {
+            "word": "开始",
+            "definition": "$~@project 开始的主源文件。"
+        },
+        "query": {
+            "word": "查询",
+            "definition": "$~从 @Table 中选择行的方法。"
+        },
+        "key": {
+            "word": "键",
+            "definition": "$~用来在 @Map 中查找项目的 @value。"
+        },
+        "index": {
+            "word": "索引",
+            "definition": "$~按项目在 @List 中的位置来挑选它的 @Number。"
+        },
+        "moved": {
+            "word": "移动了",
+            "definition": "$~在舞台上改变了位置的 @Output。"
+        },
+        "entered": {
+            "word": "进入",
+            "definition": "$~第一次出现在舞台上的 @Output。"
+        },
+        "cell": {
+            "word": "单元格",
+            "definition": "$~@Table 行中的一个 @value。"
+        },
+        "column": {
+            "word": "列",
+            "definition": "$~@Table 中一个有名字的字段。"
+        },
+        "editor": {
+            "word": "$~编辑器",
+            "definition": "$~你在这个框里写@code。你在这里输入的内容，就是 @wordplay 要执行的东西。"
+        },
+        "stage": {
+            "word": "$~舞台",
+            "definition": "$~这个空间会显示你的 @code 生成的内容，由 @wordplay 展示出来。"
+        },
+        "stream": {
+            "word": "$~流",
+            "definition": "$~一个随着你的世界变化而不断变化的 @value，比如 @Time 的滴答，或者一个 @Key 被按下。每次它变化时，@Program 都会用新的 @value 重新求值。"
+        },
+        "source": {
+            "word": "$~源文件",
+            "definition": "$~这是@project中的一个@code文档。一个@project可以有多个源文件，每个源文件都可以@share其他源文件@borrow的内容。"
+        },
+        "borrow": {
+            "word": "$~借用",
+            "definition": "$~通过写 ↓ 加上那个 @source 的名字，来使用另一个 @Source 分享的东西。"
+        },
+        "share": {
+            "word": "$~分享",
+            "definition": "$~在@Source中用 ↑ 标记某样东西，这样其他@source文件就能@borrow它了。"
+        },
+        "kit": {
+            "word": "$~工具包",
+            "definition": "$~这是别人发布的@Source，好让其他人能在自己的@project里@borrow它。"
+        }
+    },
+    "terms": {},
+    "moderation": {
+        "warning": {
+            "header": "警告",
+            "explanation": "一位版主认为这个内容可能："
+        },
+        "blocked": {
+            "header": "已封锁",
+            "explanation": "一位版主认为这个内容可能："
+        },
+        "unmoderated": {
+            "header": "注意",
+            "explanation": "此内容尚未经过审核。可能："
+        },
+        "moderate": {
+            "header": "审查",
+            "explanation": "请审查此项目，判断其是否包含以下内容。如果包含，内容将受到警告或封锁。如果不确定，你可以跳过。"
+        },
+        "flags": {
+            "violence": "煽动、鼓励或庆祝对任何人的暴力、伤害或自残行为。",
+            "dehumanization": "基于种族、民族、国籍、种姓、性取向、性别、宗教、年龄、能力或外貌对个人或群体进行非人格化描述。",
+            "disclosure": "披露其他人的私人信息，如名字、联系方式或实际地址。",
+            "misinformation": "包含虚假、误导性、欺骗性或操纵性信息。"
+        },
+        "progress": "*$moderated* 已审核，*$remaining* 剩余",
+        "button": {
+            "submit": {
+                "tip": "$~保存这些审核设置",
+                "label": "保存"
+            },
+            "skip": {
+                "tip": "$~跳过这个项目",
+                "label": "跳过"
+            },
+            "property": "$~项目是否有这个属性"
+        },
+        "done": "$~没有其他需要审核的内容了！",
+        "error": {
+            "notmod": "$~这里没有需要你审核的内容。公开内容由 Wordplay 的管理员审核，作品库里的内容由该作品库的管理员审核。如果你最近才获得管理员权限，可能需要重新登录一下。",
+            "unreachable": "$~我没能读取这个队列，所以不知道有没有东西在等待。过一会儿再试试吧。",
+            "unreadable": "$~这里有些东西在等待，但我没能读取它们，所以没有显示出来。"
+        },
+        "report": {
+            "button": "$~请管理员来查看这个",
+            "confirm": "$~举报它",
+            "sent": "$~已请求管理员来查看这个",
+            "announce": "$~已请求管理员来查看 $project",
+            "flagged": "$~有人举报了这个项目，所以它排在最前面。"
+        },
+        "strike": {
+            "issue": "$~警告此创作者",
+            "consequence": "$~这将是给这位创作者的第 $#count[$count] 条警告。$banning[这条警告会取消他们公开发布任何内容的权限。|他们还能再收到 $#remaining[$remaining 条警告] 后才会失去公开发布内容的权限。]",
+            "confirm": {
+                "description": "$~记录此决定并警告该创作者",
+                "prompt": "$~警告他们"
+            },
+            "banned": "$~你已经因公开内容被警告了三次，所以你不能再公开项目或作品库了。你仍然可以创建项目，也仍然可以和你选择的人分享它们。如果你觉得这是个误会，或者这是很久以前的事了，你想重新公开分享，请写信到 hi@wordplay.dev，告诉我们你的用户名和原因。",
+            "warned": "$~你有一些公开内容违反了分享规则，所以它不再公开了。这是第 $#count[$count] 次警告。$#remaining[再有 $remaining 次，你就不能再公开任何内容了。]",
+            "notification": "$~关于你公开分享的内容的第 $#count[$count] 次警告。"
+        },
+        "queue": {
+            "label": "$~要审核什么",
+            "labels": ["$~项目", "$~作品库", "$~套件", "$~如何", "$~消息"],
+            "tips": [
+                "$~查看别人公开的项目",
+                "$~审核申请公开列出的作品库",
+                "$~查看申请列入指南的工具包",
+                "$~审核申请被收录进指南的如何",
+                "$~查看你管理的作品库里被举报的消息"
+            ]
+        },
+        "gallery": {
+            "pending": "$~管理员正在查看你的作品库，决定是否可以公开列出。在此之前，只有你分享了链接的人才能看到它。",
+            "approved": "$~你的作品库已经列在<公开作品库页面@://galleries?tab=public>上啦！它随时可能因为任何原因被从列表中移除。",
+            "denied": "$~管理员决定不公开列出你的作品库。你可以继续完善它，然后再次设为公开，重新申请一次。",
+            "explain": "$~这个作品库正在申请公开列出。看看它和它里面的项目，判断一下它是不是已经完成到可以给大家看的程度。",
+            "done": "$~没有作品库在等待审核啦。谢谢你！",
+            "approve": {
+                "label": "$~列出它",
+                "tip": "$~把这个作品库列在公开作品库页面上"
+            },
+            "deny": {
+                "label": "$~不要列出它",
+                "tip": "$~不把这个作品库放进公开作品库页面"
+            },
+            "skip": {
+                "label": "$~跳过",
+                "tip": "$~把这个作品库留给别的管理员来决定"
+            },
+            "notification": {
+                "approved": "$~$name 现在已经公开列出啦。",
+                "denied": "$~$name 没有被公开列出。"
+            }
+        },
+        "responsibility": {
+            "none": "$~这里分享的内容没有人会审核。只有你和你选择的人能看到它。",
+            "curators": "$~这个作品库的管理员会审核这里分享的内容，包括聊天记录。",
+            "both": "$~这个作品库的管理员会审核这里分享的内容，Wordplay 的管理员也会，因为所有人都能看到它。",
+            "platform": "$~Wordplay 的<moderators@://rights>会审核这个内容，因为任何人都能看到它。"
+        },
+        "kit": {
+            "header": "$~工具包",
+            "explain": "$~这个工具包正在申请列入指南。请看看它分享了什么，再决定是否让其他人也能找到它。",
+            "done": "$~没有等待处理的工具包。谢谢你！",
+            "approve": {
+                "label": "$~列入",
+                "tip": "$~把这个工具包列入指南"
+            },
+            "deny": {
+                "label": "$~不列入",
+                "tip": "$~不让这个工具包出现在指南里"
+            },
+            "skip": {
+                "label": "$~跳过",
+                "tip": "$~把这个工具包留给另一位管理员来决定"
+            },
+            "pending": "$~有一位管理员正在阅读你的工具包，来决定它能不能收录进指南里。它现在标记为“已收录”，但在管理员看完之前，别人还找不到它哦。",
+            "approved": "$~你的工具包已经收录进 <指南@://guide?section=kits> 啦！不过它随时可能因为任何原因被移出这个列表。",
+            "denied": "$~有一位管理员决定不把你的工具包收录进指南。你可以发布一个新版本，再申请一次吧。",
+            "notification": {
+                "approved": "$~$name 现在已经收录进指南啦。",
+                "denied": "$~$name 没有被收录进指南。"
+            }
+        },
+        "howto": {
+            "pending": "$~有一位管理员正在阅读你的如何，来决定它能不能被收录进指南。在那之前，只有原本能看到它的人才能看到哦。",
+            "approved": "$~你的如何已经被收录进<指南@://guide?section=howto>啦！不过它随时可能因为各种原因被移出这个列表。",
+            "denied": "$~有一位管理员决定不把你的如何收录进指南。你可以继续完善它，之后再申请一次。",
+            "unready": "$~先发布你的如何，并把它公开吧。管理员只能对大家都能读到的内容说“可以”哦。",
+            "header": "$~如何",
+            "explain": "$~这篇如何正在申请被收录进指南。读一读吧，想想正在学习 @wordplay 的其他人该不该在那里找到它。",
+            "done": "$~没有等待审核的如何啦，谢谢你！",
+            "approve": {
+                "label": "$~收录它",
+                "tip": "$~把这篇如何收录进指南"
+            },
+            "deny": {
+                "label": "$~不收录",
+                "tip": "$~不把这篇如何收录进指南"
+            },
+            "skip": {
+                "label": "$~跳过",
+                "tip": "$~把这篇如何留给其他管理员决定"
+            },
+            "notification": {
+                "approved": "$~$name 现在已经被收录进指南啦。",
+                "denied": "$~$name 没有被收录进指南。"
+            }
+        },
+        "noAddress": "$~wordplay 没有你的电子邮箱地址，所以这里的任何消息都无法通过邮件通知你。你可以在<个人资料页@/profile>上添加一个。",
+        "subject": {
+            "project": "$~项目",
+            "gallery": "$~作品库",
+            "howto": "$~如何",
+            "character": "$~角色",
+            "kit": "$~套件",
+            "chat": "$~聊天"
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "游戏",
+            "description": "交互式文字和符号游戏。"
+        },
+        "visualizations": {
+            "name": "可视化",
+            "description": "文字的可视化展示。"
+        },
+        "motion": {
+            "name": "运动",
+            "description": "运动和碰撞的示例。"
+        },
+        "av": {
+            "name": "音频/视频",
+            "description": "$~用音量、音高和视频作为输入，用语音作为输出。"
+        },
+        "tools": {
+            "name": "工具",
+            "description": "简单的实用工具和应用程序。"
+        },
+        "stories": {
+            "name": "故事",
+            "description": "互动故事和叙事。"
+        },
+        "music": {
+            "name": "$~音乐",
+            "description": "$~随节拍舞动的歌曲、乐器和字体排版。"
+        }
+    },
+    "system": {
+        "noscript": "$~Wordplay 使用 JavaScript。你的浏览器不支持它，或者它被禁用了。",
+        "unsupportedHeading": "$~不支持的浏览器",
+        "unsupportedBody": "$~你的浏览器不支持关键功能。要使用 Wordplay，你需要升级到更新的版本。",
+        "imageDescription": "$~Wordplay 标志——一个对话气泡，里面装着一个圆形、一个三角形和一个正方形——旁边写着 Wordplay 这个名字，周围环绕着一群淡淡的符号，代表 Wordplay 程序能感知和表达的一切。",
+        "appDescription": "$~人人可用、支持多语言、可编程的字体排版。"
+    },
+    "photosensitivity": {
+        "warning": {
+            "header": "$~请注意",
+            "explanation": "$~这个项目的画面可能让一些人不舒服，甚至引起癫痫发作。它可能包含："
+        },
+        "categories": {
+            "flashing": "$~快速闪烁或对比度变化",
+            "redflash": "$~快速闪烁的、非常鲜艳的红色",
+            "strobe": "$~充满整个屏幕的频闪式闪烁",
+            "pattern": "$~密集、对比强烈的几何图案",
+            "motion": "$~大小、位置或透明度的快速动画"
+        }
+    },
+    "musicsafety": {
+        "warning": {
+            "header": "$~前方有声音",
+            "explanation": "$~这个项目的音乐可能会让一些人受到惊吓，或者觉得太吵了。它可能包括："
+        },
+        "categories": {
+            "startle": "$~音量突然变大，尤其是在安静之后",
+            "loudness": "$~长时间保持最大音量，或者很多音轨叠加在一起变得很响",
+            "pulse": "$~节拍快到让画面闪烁",
+            "register": "$~音符远高于或远低于让人舒服的范围",
+            "tracks": "$~同时响起的乐器太多，让人难以跟上"
+        }
+    }
+}

@@ -1,0 +1,938 @@
+{
+    "$schema": "../../../static/schemas/sections/input.json",
+    "input": {
+        "Random": {
+            "doc": [
+                "$~Creează un număr diferit de fiecare dată când îl evaluezi.",
+                "17!",
+                "Acest lucru creează un haos minunat, care vine cu impredictibilitate.",
+                "În mod implicit, dă valori @Number între \\0\\ și \\1\\:",
+                "\\Aleatoriu()\\",
+                "Dar îi poți da un @value, și va genera valori între \\0\\ și acea valoare:",
+                "\\Aleatoriu(10)\\",
+                "Și dacă îi dai două valori, va genera valori între cele două valori, inclusiv ele:",
+                "\\Aleatoriu(-10 10)\\",
+                "Dacă intervalele tale au unități, ele vor fi păstrate (și dacă nu se potrivesc, va fi folosită unitatea minimului):",
+                "\\Aleatoriu(-10m 10m)\\",
+                "Și dacă dai numere cu anumite numere de cifre semnificative după virgulă, acea precizie va fi păstrată.",
+                "\\Aleatoriu(1.00 10.00)\\"
+            ],
+            "names": ["$~Aleatoriu"],
+            "inputs": [
+                {
+                    "names": "$~min",
+                    "doc": "$~Valoarea @value minimă care va fi creată, sau, dacă este mai mare decât 0, valoarea maximă. Dacă @None este dat, atunci minimul este \\0\\."
+                },
+                {
+                    "names": "$~maxim",
+                    "doc": "$~Valoarea @value maximă care va fi creată, sau, dacă este mai mică decât minimul dat, minimul. Dacă @None este dat, atunci maximul este \\1\\."
+                }
+            ]
+        },
+        "Choice": {
+            "doc": [
+                "$~Este un @stream cu numele pe care publicul tău le selectează făcând clic, atingând sau apăsând /Enter/ pe o @Phrase denumită.",
+                "/apăsare rapidă!/",
+                "Deci, cea mai bună modalitate de a o utiliza este să creezi o performanță cu fraze selectabile denumite @Phrase , și apoi să folosești o @Reaction pentru a decide ce să faci când este ales acel nume.",
+                "Iată cel mai simplu exemplu:",
+                "\\Group(\nStack() \n[\nPhrase('one' selectabil:⊤ nume:'1') \nPhrase('two' selectabil:⊤ nume:'2') \nPhrase(Choice())\n]\n)\\",
+                "Copiați acest @code în @editor și apoi selectați una dintre cele două @Phrase . Veți vedea că a treia @Phrase arată numele selectat."
+            ],
+            "names": ["$~Alegere"]
+        },
+        "Button": {
+            "doc": [
+                "$~Îți spune dacă butonul principal al mausului sau al trackpadului este apăsat, ca un @stream de @Boolean.",
+                "/clic clic clic/",
+                "Bineînțeles, un maus sau un trackpad nu este o alegere ideală pentru a asculta un public, deoarece nu toată lumea poate folosi unul. Alegerea mai accesibilă este @Choice.",
+                "Dar dacă chiar /trebuie/ să asculți un buton de maus, acesta este modul de a face asta. Va furniza un flux de @Boolean, reprezentând dacă butonul principal este ridicat \\⊥\\ sau apăsat \\⊤\\.",
+                "Iată un exemplu simplu:",
+                "\\Fraza(Buton() → '')\\",
+                "Acesta creează pur și simplu un @Phrase care este @value fluxului ca text. Dacă îl copiezi în @editor și faci clic, îl vei vedea comutând înainte și înapoi între \\⊥\\ și \\⊤\\."
+            ],
+            "names": ["$~Buton"],
+            "down": {
+                "names": "$~jos",
+                "doc": "$~Dacă este @None, fluxul va oferi atât valori ascendente, cât și descendente. Dacă este specificat un \\⊤\\, aceasta se va schimba doar la apăsarea butonului. Dacă este specificat un \\⊥\\, aceasta se va schimba doar la eliberarea butonului."
+            }
+        },
+        "Pointer": {
+            "doc": [
+                "$~Urmărește direcția în care indică publicul tău pe @Stage .",
+                "/whrrrrrr/",
+                "Desigur, aceasta nu este o alegere accesibilă: nu toată lumea poate vedea sau arăta cu ușurință, așa că asigură-te că nu excluzi pe cineva de la participare folosind acest @stream.",
+                "Dacă ești sigur că nimeni nu este exclus, atunci utilizarea @Pointer este la fel de simplă ca și crearea unui flux:",
+                "\\Pointer()\\",
+                "@Place pe care îl furnizează va corespunde locului în care indică indicatorul pe @Stage ."
+            ],
+            "names": ["$~Indicator"]
+        },
+        "Key": {
+            "doc": [
+                "$~Îți spune ce @key de la tastatură apasă și eliberează publicul tău.",
+                "/clic-clic/",
+                "Încearcă asta",
+                "\\Cheie()\\",
+                "Vezi cum, atunci când apeși o tastă, apare pe @Stage? De fiecare dată când o tastă este apăsată, un nou @Text este adăugat la @stream, care descrie tasta apăsată.",
+                "Pentru o tastă care reprezintă un caracter, @value va fi caracterul ca @Text.",
+                "Pentru taste speciale, cum ar fi tasta /Escape/, va fi @Text care descrie tasta, folosind un <nume prestabilit@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>, disponibil din păcate doar în engleză.",
+                "Dacă vrei să afli doar despre o anumită tastă, o poți furniza:",
+                "\\Cheie('a')\\",
+                "Și dacă vrei să afli doar când o @Key este eliberată în loc de apăsată, poți furniza un @Boolean:",
+                "\\Cheie('a' ⊥)\\"
+            ],
+            "names": ["$~Cheie"],
+            "key": {
+                "names": "$~cheie",
+                "doc": "$~Dacă este @None, atunci sunt furnizate toate cheile. Dacă este un @Text specific, atunci este furnizată doar acea cheie."
+            },
+            "down": {
+                "names": "$~jos",
+                "doc": "$~DACĂ @None, atunci apăsarea @key generează intrări. Dacă \\⊤\\, atunci sunt furnizate doar intrări de apăsare, și dacă \\⊥\\, atunci se oferă doar valorile la eliberare."
+            },
+            "keys": {
+                "Shift": ["$~Schimbare"],
+                "Control": ["$~Controla", "$~Ctrl"],
+                "Alt": ["$~Alt", "$~Opţiune"],
+                "Meta": ["$~Meta", "$~Comanda", "$~Ferestre"],
+                "AltGraph": ["$~AltGraph"],
+                "CapsLock": ["$~Majuscule"],
+                "NumLock": ["$~NumLock", "$~Num Lock"],
+                "ScrollLock": ["$~Blocare derulare"],
+                "Enter": ["$~Introduceți", "$~Reveni"],
+                "Tab": ["$~Tab"],
+                " ": ["$~Spaţiu", "$~Bara de spațiu", "$~"],
+                "ArrowUp": ["$~Săgeată în sus", "$~Sus"],
+                "ArrowDown": ["$~Săgeată în jos", "$~Jos"],
+                "ArrowLeft": ["$~SăgeatăStânga", "$~Stânga"],
+                "ArrowRight": ["$~SăgeatăDreapta", "$~Corect"],
+                "Home": ["$~Acasă"],
+                "End": ["$~Sfârşit"],
+                "PageUp": ["$~PageUp", "$~Pagină sus"],
+                "PageDown": ["$~Pagină în jos"],
+                "Backspace": ["$~Backspace"],
+                "Delete": ["$~Şterge", "$~Șterge"],
+                "Insert": ["$~Introduce", "$~Intrare"],
+                "Clear": ["$~Clar"],
+                "Cut": ["$~Tăiați"],
+                "Copy": ["$~Copie"],
+                "Paste": ["$~Pastă"],
+                "Undo": ["$~Anula"],
+                "Redo": ["$~Refaceți"],
+                "Escape": ["$~Evadare", "$~Esc"],
+                "Pause": ["$~Pauză"],
+                "ContextMenu": ["$~Meniu contextual", "$~Meniu"],
+                "Help": ["$~Ajutor"],
+                "Convert": ["$~Convertit"],
+                "NonConvert": ["$~NonConvert"],
+                "KanaMode": ["$~Mod Kana"],
+                "HangulMode": ["$~Mod Hangul"],
+                "Hiragana": ["$~Hiragana"],
+                "Katakana": ["$~Katakana"],
+                "Romaji": ["$~Romaji"],
+                "F1": ["$~F1"],
+                "F2": ["$~F2"],
+                "F3": ["$~F3"],
+                "F4": ["$~F4"],
+                "F5": ["$~F5"],
+                "F6": ["$~F6"],
+                "F7": ["$~F7"],
+                "F8": ["$~F8"],
+                "F9": ["$~F9"],
+                "F10": ["$~F10"],
+                "F11": ["$~F11"],
+                "F12": ["$~F12"]
+            }
+        },
+        "Time": {
+            "doc": [
+                "$~Merge înainte cu o frecvență pe care o alegi.",
+                "/tic tic tic/",
+                "De fiecare dată când face asta, @Program se reevaluează cu noul timp @value.",
+                "De exemplu:",
+                "\\Timp()\\",
+                "Dacă oferi timp un @Time.frequency, va merge cu acel ritm. De exemplu:",
+                "\\Timp(1000ms)\\",
+                "Însă există limite la cât de mic poate fi, deoarece @Program are nevoie de timp să se evalueze înainte să poată răspunde la următorul tic.",
+                "Cel mai mic este probabil în jur de \\20ms\\."
+            ],
+            "names": ["$~Timp"],
+            "frequency": {
+                "names": ["$~frecvenţă"],
+                "doc": "$~Aceasta este frecvența cu care ar trebui să se scurgă timpul. Implicit, este setată la \\33ms\\, ceea ce înseamnă aproximativ 30 de ori pe secundă."
+            },
+            "relative": {
+                "names": ["$~relativ"],
+                "doc": "$~Dacă este \\⊤\\, timpul începe de la 0, când programul este evaluat pentru prima dată. În caz contrar, începe de la numărul de milisecunde de la începutul zilei de astăzi, UTC (Timp Universal Coordonat), permițându-vă să țineți evidența orei din zi."
+            }
+        },
+        "Volume": {
+            "doc": [
+                "$~Este un @stream al intensității sonore a microfonului, de la 0 la 1.",
+                "/bzzzzzzz/",
+                "Este eșantionat la frecvența aleasă de dvs. În mod implicit, frecvența este \\30hz\\ , adică de 30 de ori pe secundă, dar o puteți schimba la orice @value mai puțin frecventă.",
+                "\\Volume()\\",
+                "Este excelent pentru a asculta cât de zgomotos este publicul!"
+            ],
+            "names": ["$~Volum"],
+            "frequency": {
+                "names": ["$~frecvenţă"],
+                "doc": "$~Timpul dintre eșantionări."
+            }
+        },
+        "Pitch": {
+            "doc": [
+                "$~Este un @stream al tonalității microfonului, în herți.",
+                "/hmmm/",
+                "Este eșantionat la frecvența aleasă de tine. Vocea umană este între 20Hz și 5000Hz, așa că planifică frecvențe în acest interval.",
+                "\\Pitch()\\",
+                "Acest lucru este excelent pentru a asculta tonul pe care cineva îl vorbește sau cântă."
+            ],
+            "names": ["$~Pas"],
+            "frequency": {
+                "names": ["$~frecvenţă"],
+                "doc": "$~Timpul dintre eșantionări."
+            }
+        },
+        "Speech": {
+            "doc": [
+                "$~Recunoaște vorbirea și o transformă în @Text.",
+                "/salut!/",
+                "Folosește recunoașterea vorbirii din browserul tău ca să asculte ce spui și să transforme în cuvinte (nu-i așa că e grozav?!).",
+                "\\Vorbire()\\",
+                "Acest lucru e perfect pentru cei care pot vorbi o @language, dar încă învață să o citească sau să o scrie (și altele)...",
+                "Poți indica un @code de limbă ca să recunoască vorbirea într-o anumită limbă:",
+                "\\Vorbire(limbă: 'es-MX')\\",
+                "Dacă nu indici nicio limbă, se folosește limba ta preferată.",
+                "Recunoașterea vorbirii are nevoie de acces la microfon și de conexiune la Internet (te rog dă acces!). De asemenea, pot exista limite de utilizare, așa că nu o lăsa pornită prea mult timp (nuuuu)!"
+            ],
+            "names": ["$~Vorbire", "$~Voce"],
+            "reset": {
+                "names": ["$~resetare", "$~clar"],
+                "doc": "$~Când această @value se schimbă, șterge vorbirea acumulată și începe de la zero."
+            },
+            "language": {
+                "names": ["$~limbă", "$~limbaj"],
+                "doc": "$~Un @code @language BCP 47 (de exemplu, 'en-US'). Dacă nu este acceptat de recunoașterea vorbirii din browserul tău, vei primi o eroare. Implicit se folosește limba ta preferată."
+            },
+            "limit": {
+                "names": ["$~limită", "$~cuvinte"],
+                "doc": "$~Numărul maxim de cuvinte de păstrat în vorbirea acumulată (fereastră glisantă). Când este setat, se păstrează doar cele mai recente cuvinte, iar cuvintele mai vechi sunt eliminate. Dacă nu este specificat, toate cuvintele sunt păstrate pe termen nelimitat."
+            },
+            "error": {
+                "browserNotSupported": "$~serviciu neacceptat în acest browser",
+                "noConnection": "$~fără conexiune la internet",
+                "serviceNotAllowed": "$~serviciu indisponibil",
+                "micNotAllowed": "$~Accesul la microfon nu este permis",
+                "noMicrophone": "$~niciun microfon găsit",
+                "languageNotSupported": "$~limba nu este acceptată",
+                "limit": "$~eșuat după mai multe încercări"
+            }
+        },
+        "Camera": {
+            "doc": [
+                "$~Îți oferă o @List de @Color de pe camera ta, câte una per cadru.",
+                "/bzzzzzzz/",
+                "Această @List reprezintă în esență o imagine, dar depinde de tine să decizi ce să faci cu ea.",
+                "Ai putea încerca să reprezinți imaginea cu o grămadă de @Phrase , ceea ce ar putea arăta destul de interesant! Încearcă să copiezi asta...",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' loc: Place((x - 1) × 0.5m y × -0.5m) culoare: color durată: 0s\n)\n)\n)\n)\n)\\",
+                "Dar ai putea analiza culorile și pentru a decide dacă o lumină era aprinsă sau stinsă sau dacă o anumită culoare era comună, permițând publicului să influențeze o reprezentație cu culorile pe care le arată."
+            ],
+            "names": ["$~Cameră"],
+            "width": {
+                "names": ["$~lăţime"],
+                "doc": "$~Numărul de @Color de eșantionat într-un rând."
+            },
+            "height": {
+                "names": ["$~înălţime"],
+                "doc": "$~Numărul de @Color care trebuie eșantionate într-un @column."
+            },
+            "frequency": {
+                "names": ["$~frecvenţă"],
+                "doc": "$~Timpul dintre mostrele @Color."
+            }
+        },
+        "Hand": {
+            "doc": [
+                "$~Urmărește o mână văzută de cameră — unde se află, ce degete sunt ridicate și în ce direcție este orientată.",
+                "/mișcă-te mișcă-te/",
+                "Ține mâna ridicată, flutură-o, numără pe degete — @Hand urmează.",
+                "În culise, @Hand folosește un model de învățare automată. Prima dată când îl folosești într-un program, descărcarea modelului durează câteva secunde, iar o mică mână care se rotește apare în colțul din dreapta sus al scenei în timp ce se încarcă. După aceea, rămâne în cache și pornește instantaneu.",
+                "În fiecare cadru, @Hand îți oferă un @Gesture — caută acolo lista completă de intrări și semnificația acestora.",
+                "Încearcă asta — îți arată un emoji care se potrivește cu poziția mâinii tale, indiferent de locul în care se află mâna ta reală:",
+                "\\hand: Hand()\nPhrase((hand.open ? '🖐️' '✊') place: hand.place)\\"
+            ],
+            "names": ["$~Mână"],
+            "frequency": {
+                "names": ["$~frecvenţă"],
+                "doc": "$~Timpul dintre eșantioane."
+            },
+            "resolution": {
+                "names": ["$~rezoluţie"],
+                "doc": "$~Lățimea în pixeli la care se va eșantiona camera înainte de a rula modelul mâinii. Valorile mai mari pot oferi repere puțin mai precise, dar costă mai mult timp per cadru."
+            }
+        },
+        "Scene": {
+            "doc": [
+                "$~Arată un @List format din @Phrase, @Group sau @Shape, câte unul pe rând, oprindu-se la ultimul.",
+                "/Bâț bâț bâț/",
+                "Ca să controlezi timpul, poți fie să setezi @Phrase.duration pe fiecare ieșire, și îl va arăta atâta timp înainte să treacă la următorul, folosind orice tranziții @Phrase.entering sau @Phrase.exiting ai setat. Dacă le setezi la un @Sequence, va folosi durata acestuia.",
+                "Toate acestea îți permit să faci lucruri precum acest mic @Scene, care arată aceste trei fraze în ordine:",
+                "\\Scenă(\n\t[\n\t\tFraza('Salut' durată: 1s)\n\t\tFraza(\n\t\t\t'Ce mai faci?'\n\t\t\tdurată: 2s\n\t\t\trotaţie: 5°\n\t\t\tintrând: Poză(rotaţie: 0°)\n\t\t)\n\t\tFraza('Sunt bine')\n\t]\n)\\",
+                "Ai văzut cum prima ieșire este arătată timp de o secundă, apoi următoarea timp de două secunde, dar animată cu o rotație de cinci grade, și apoi arată ultima?",
+                "Poți face secvențe foarte elaborate de ieșiri și animații cu @Scene, și chiar poți face părți din ele dinamice sau interactive, la fel ca orice alt @Phrase sau @Group.",
+                "Dacă ai o ieșire animată care e imbricată (un @Group cu @Phrase animate în interior), @Scene va aștepta ca tot conținutul animat din @Group să termine.",
+                "Oh, și încă un mic secret! Poți chiar pune @Boolean în listă, și dacă sunt \\⊥\\, @Scene se va opri și va aștepta să devină adevărat.",
+                "De exemplu, dacă ai vrea să faci o secvență de @Phrase și să avansezi doar când @Button se schimbă, ai putea face așa:",
+                "\\clic: ∆ Buton()\nScenă(\n\t[\n\t\tFraza('Salut')\n\t\tclic\n\t\tFraza(\n\t\t\t'Ce mai faci?'\n\t\t\tdurată: 0.25s\n\t\t\trotaţie: 5°\n\t\t\tintrând: Poză(rotaţie: 0°)\n\t\t)\n\t\tclic\n\t\tFraza('Sunt bine')\n\t]\n)\\",
+                "Ai văzut cum se oprește după fiecare @Phrase, și așteaptă ca @Button să se schimbe înainte să avanseze?",
+                "În mod implicit mă opresc la ultima mea ieșire. Dă-mi @Scene/loop și revin din nou la prima mea ieșire, ceea ce este exact ce își dorește un joc care pune o altă întrebare după fiecare rundă.",
+                "Verific @Scene/loop de fiecare dată când programul tău se schimbă, așa că o buclă poate să se termine la fel cum poate să înceapă. Aici continui să întreb până răspund corect, apoi mă opresc:",
+                "\\ghicește: Chat()\ncorect2: ghicește = 'cat'\nScenă(\n\t[\n\t\tFraza('Ghicește animalul!' durată: 2s)\n\t\t∆ ghicește\n\t\tFraza(corect2 ? 'Da!' 'Nu!' durată: 2s)\n\t]\n\tbuclă: ~corect2\n)\\",
+                "@Scene/replay mă face să reîncep, @Scene/pause mă ține unde sunt, iar @Scene/go mă trimite direct la una din ieșirile mele. Setează @Scene/pause la \\⊤\\ și nu mă mai mișc niciodată singur, așa că @Scene/go devine singurul lucru care mă avansează — așa faci o prezentare de diapozitive care merge înainte /și/ înapoi.",
+                "Iar dacă vrei să știi unde sunt, ca să arăți /3 din 10/ sau să redai muzică diferită în părți diferite ale unei povești, exact la asta servește @Spotlight."
+            ],
+            "names": ["$~Scenă"],
+            "outputs": {
+                "names": "$~ieșiri",
+                "doc": "$~Lista de ieșiri de afișat în secvență."
+            },
+            "loop": {
+                "names": "$~buclă",
+                "doc": "$~Dacă mă întorc la prima mea ieșire odată ce am terminat-o pe ultima. Mă opresc la ultima, în afară de cazul în care aceasta este \\⊤\\. O verific la fiecare evaluare, așa că poți termina o buclă la fel cum poți începe una."
+            },
+            "replay": {
+                "names": "$~reia",
+                "doc": [
+                    "$~Când aceasta este \\⊤\\ la o evaluare, reîncep de la prima mea ieșire, indiferent unde ajunsesem, iar @Slate/lap meu revine la 0.",
+                    "Dă-mi o @condition /momentană/, una care e adevărată doar la evaluarea provocată de eveniment, precum \\∆ Buton()\\. O condiție de durată precum \\score > 10\\🪲 rămâne adevărată odată ce devine adevărată, deci m-ar reporni la fiecare evaluare de atunci încolo."
+                ]
+            },
+            "pause": {
+                "names": "$~pauză",
+                "doc": [
+                    "$~Cât timp aceasta este \\⊤\\ stau nemișcat, iar când revine la \\⊥\\ continui. O ieșire pe care o număram invers păstrează timpul care i-a rămas, deci dacă mă opresc la mijlocul unei @Phrase lungi, ea nu o ia de la început.",
+                    "Spre deosebire de @Scene/replay, vreau o @condition /durabilă/, una care rămâne adevărată atât cât vrei să aștept. Lasă-mă oprit pentru totdeauna și nu mă mișc niciodată singur, exact ceea ce dorește o prezentare de diapozitive: atunci @Scene/go este singurul lucru care mă face să avansez."
+                ]
+            },
+            "go": {
+                "names": "$~pornește",
+                "doc": [
+                    "$~Unde să merg în continuare. Dă-mi un număr și arăt acea ieșire, numărând de la 1; dă-mi un nume și arăt orice ieșire căreia i-ai dat acel @Phrase/name.",
+                    "Număr doar ieșirile, niciodată @Boolean dintre ele, așa că trimițându-mă la 2 înseamnă a doua mea @Phrase, indiferent câte condiții stau în cale.",
+                    "Ca și @Scene/replay, aceasta vrea o @condition /momentană/ — ceva care este \\ø\\ cu excepția evaluării la care vrei să mă mișc. Un număr care rămâne fix m-ar ține acolo pentru totdeauna.",
+                    "Trimite-mă dincolo de oricare capăt și mă opresc acolo, cu excepția cazului în care @Scene/loop este \\⊤\\, caz în care revin de la capăt. Asta înseamnă că nu trebuie niciodată să verifici. Aici tastele săgeți parcurg o prezentare de diapozitive în ambele direcții:",
+                    "Dacă preferi să spui /un pas înainte/ decât /numărul trei/, la asta se referă @Scene/step.",
+                    "\\diapozitive: [Fraza('unu') Fraza('doi') Fraza('trei')]\ncheie2: Cheie()\nla2: Spotlight()\nScenă(\n\tdiapozitive\n\tpauză: ⊤\n\tpornește: ∆ cheie2 ? ((cheie2 = 'SăgeatăStânga') ? la2.index - 1 (cheie2 = 'SăgeatăDreapta') ? la2.index + 1 ø) ø\n)\\"
+                ]
+            },
+            "name": {
+                "names": "$~nume",
+                "doc": "$~Numele meu. @Spotlight îl folosește ca să mă deosebească de orice alt @Scene ce rulează în același timp; dacă ai o singură scenă, îl poți lăsa neschimbat."
+            },
+            "until": {
+                "names": "$~pânăLa",
+                "doc": [
+                    "$~Un @condition de așteptat după fiecare dintre ieșirile mele, odată ce și-a terminat @Phrase/duration sau animația.",
+                    "Este la fel ca și cum ai scrie acel @Boolean între fiecare ieșire din lista mea, ceea ce ar trebui să faci ca să pui o ieșire de-a mele să aștepte. Așa spui asta o singură dată în loc de multe ori:",
+                    "\\Scenă(\n\t[Fraza('unu') Fraza('doi') Fraza('trei')]\n\tpânăLa: ∆ Buton()\n)\\",
+                    "Un @Boolean scris în listă tot funcționează, iar cele două sunt așteptări separate, așa că poți sta mai mult timp într-un anumit loc."
+                ]
+            },
+            "step": {
+                "names": "$~pas",
+                "doc": [
+                    "$~Câte ieșiri să mut, numărând de unde sunt: \\1\\ este cu unul înainte și \\-1\\ este cu unul înapoi. Acesta este @Scene/go spus ca o distanță, nu ca un loc.",
+                    "Ca și @Scene/go, mă opresc la capetele mele, cu excepția cazului în care @Scene/loop este \\⊤\\, ca să nu trebuiască niciodată să verifici, și vreau un @condition /momentan/ — ceva care este \\ø\\ cu excepția evaluării la care vrei să mă mut.",
+                    "\\diapozitive: [Fraza('unu') Fraza('doi') Fraza('trei')]\ncheie2: Cheie()\nScenă(\n\tdiapozitive\n\tpauză: ⊤\n\tpas: ∆ cheie2 ? ((cheie2 = 'SăgeatăStânga') ? -1 (cheie2 = 'SăgeatăDreapta') ? 1 ø) ø\n)\\",
+                    "Nimic de aici nu trebuie să știe ce @Phrase este afișat, iar aceasta este diferența față de @Scene/go. Întreabă @Spotlight dacă vrei să spui asta pe scenă."
+                ]
+            }
+        },
+        "Motion": {
+            "doc": [
+                "$~Mișcă o @Phrase inițială cu gravitație și fizică.",
+                "/boing boing boing/",
+                "Îi dai o @Phrase de început, apoi o rafinează cu o nouă locație și o rotație bazate pe gravitație.",
+                "Acest lucru vă permite să faceți lucruri foarte simple, cum ar fi crearea de emoji-uri care sări:",
+                "\\Motion(Phrase('o') startplace: Place(0m 10m))\\🪲",
+                "Vezi cum sare literele o? La prima evaluare, îi dai o poziție sus pe @Stage , dar apoi primește @None , ceea ce permite @Motion să le schimbe în orice poziție ar plasa gravitația.",
+                "Consultați mai jos numeroasele alte modalități de configurare."
+            ],
+            "names": ["$~Mişcare"],
+            "place": {
+                "doc": "$~Locul de plecare.",
+                "names": "$~loc"
+            },
+            "velocity": {
+                "doc": "$~Viteza de pornire",
+                "names": "$~viteză"
+            },
+            "nextplace": {
+                "doc": "$~Următorul loc, ignorând fizica.",
+                "names": "$~următorulloc"
+            },
+            "nextvelocity": {
+                "doc": "$~Următorul loc, depășirea vitezei.",
+                "names": "$~următoareaviteză"
+            }
+        },
+        "Chat": {
+            "doc": [
+                "$~Este un @stream al mesajelor @Text pe care le tastează publicul tău.",
+                "De exemplu, acest program simplu verifică dacă mesajul este „salut” și, dacă este, programul se evaluează ca „salut”. În caz contrar, se evaluează ca „huh”?",
+                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "Asta e tot! Poți crea tot felul de spectacole cu asta, cum ar fi chatbot-uri, aventuri textuale sau scheme de control bazate pe text pentru alte tipuri de spectacole."
+            ],
+            "names": ["$~🗣️", "$~Chat"]
+        },
+        "Placement": {
+            "doc": [
+                "$~Le permite spectatorilor tăi să tragă @Output către un @Place pe @Stage.",
+                "Există multe moduri de a plasa @Output pe @Stage: dă-le un @Place explicit, folosește @Motion și lasă gravitația să facă treaba, sau pune-le într-un @Group pentru a fi aranjate.",
+                "Dar uneori vrei să oferi /spectatorilor/ controlul asupra locului unde merge @Output pe @Stage.",
+                "Iată cum funcționează: fă un @Placement și dă-l unui @Place al unui @Output:",
+                "\\Fraza('salut' loc: Plasament())\\",
+                "Apoi, de fiecare dată când spectatorii folosesc o @key săgeată sau apasă pe scenă, @Placement va face un nou @Place care se mișcă în direcția dorită.",
+                "Încearcă să copiezi asta în programul tău și să miști @Output cu indicatorul sau cu tastatura.",
+                "Poți personaliza @Placement, activând și dezactivând mișcarea pe anumite dimensiuni, schimbând cât de departe se mișcă un @Place și @Place inițial cu care începe fluxul."
+            ],
+            "names": ["$~Plasament"],
+            "inputs": [
+                {
+                    "doc": "$~Locul inițial de la care să începi.",
+                    "names": "$~început"
+                },
+                {
+                    "doc": "$~Câți metri ar trebui să se miște locul atunci când publicul solicită o mutare.",
+                    "names": "$~distanţă"
+                },
+                {
+                    "doc": "$~Dacă este adevărat, permite mișcarea pe axa orizontală. Activat în mod implicit.",
+                    "names": "$~orizontală"
+                },
+                {
+                    "doc": "$~Dacă este adevărat, permite mișcarea pe axa verticală. Activat în mod implicit.",
+                    "names": "$~vertical"
+                },
+                {
+                    "doc": "$~Dacă este adevărat, permite mișcarea pe axa z, cu tastele + și -.",
+                    "names": "$~adâncime"
+                }
+            ]
+        },
+        "Webpage": {
+            "doc": [
+                "$~Preia textul de la o adresă web pe care i-o dai.",
+                "Internetul este fascinant — o întreagă lume de computere conectate care își împart documente unele cu altele.",
+                "Acest @stream se conectează la el — dă-i un URL, așa:",
+                "\\Paginăweb('https://wordplay.dev')\\",
+                "Și se pare că există acest lucru numit <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, care îți permite să @query lucruri pe o pagină web? Dă-i o interogare de selecție CSS și va lua doar textul care se potrivește acelei interogări. Ca în acest exemplu, care ia titlurile de nivel unu.",
+                "\\Paginăweb('https://wordplay.dev' 'h1')\\",
+                "Multe lucruri pot merge prost cu acesta. Dacă îți pierzi conexiunea la internet, sau URL-ul nu duce nicăieri, sau URL-ul nu este public, sau URL-ul nu este o pagină HTML… Toate acestea pot duce la o excepție. Dacă găsești o pagină care funcționează, vei primi niște @Number care indică un procent completat și apoi o @List a cuvintelor de pe pagină."
+            ],
+            "names": ["$~Paginăweb"],
+            "url": {
+                "doc": "$~Adresa URL a paginii web HTML de obținut.",
+                "names": "$~URLul"
+            },
+            "query": {
+                "doc": "$~@query CSS care trebuie evaluată pe HTML",
+                "names": "$~interogare"
+            },
+            "frequency": {
+                "doc": "$~Numărul de minute care ar trebui să treacă înainte ca pagina să fie preluată din nou.",
+                "names": "$~frecvenţă"
+            },
+            "error": {
+                "invalid": "$~aceasta nu este o adresă URL validă",
+                "unvailable": "$~această adresă URL nu este accesibilă",
+                "notHTML": "$~răspunsul nu a fost HTML",
+                "noConnection": "$~nicio legătură cu Wordplay",
+                "limit": "$~prea multe solicitări către acest domeniu"
+            }
+        },
+        "Collision": {
+            "names": "$~Coliziune",
+            "doc": [
+                "$~Este un @stream de valori @Rebound pentru când @Output cu nume se ating între ele.",
+                "Ca două @Output să se observe una pe alta, dă-le amândurora nume, apoi spune-mi ambele nume. Voi crea un nou @Rebound ori de câte ori se ating. Nu au nevoie de @Matter pentru asta — un nume e tot ce-mi trebuie ca să urmăresc ceva.",
+                "Dă-mi un singur nume în schimb, și îți voi spune ori de câte ori acel @Output atinge orice altceva din lumea fizică. Un @Output este în lumea fizică dacă are @Matter, dacă un @Motion îl plasează, dacă este un @Shape direct pe @Stage, sau dacă îi urmăresc și numele.",
+                "A observa nu este același lucru cu a se lovi. @Output împinge alte @Output doar dacă are @Matter și un @Motion care îl mișcă. @Output pe care programul tău îl plasează merge exact unde l-ai pus, așa că trece prin orice atinge — dar tot îți voi spune despre atingere.",
+                "Un @Rebound are numele care s-au atins și direcția din care s-au atins. Imediat după ce creez unul, voi crea un \\ø\\, pentru că o coliziune se termină imediat ce se întâmplă.",
+                "Pot urmări doar @Output plasate direct pe @Stage. Orice se află într-un @Group se mișcă în spațiul propriu al acelui grup, așa că nu îl pot vedea — dă-i @Group un nume și urmărește-l pe acela în schimb."
+            ],
+            "subject": {
+                "names": "$~subiect",
+                "doc": "$~Numele @Output pe care ar trebui să-l urmăresc. Faptul că îl urmăresc este suficient ca să-l pun în lumea fizică, așa că nu are nevoie de @Matter."
+            },
+            "object": {
+                "names": "$~alte",
+                "doc": "$~Numele celuilalt @Output pe care ar trebui să-l urmăresc. Dacă și acesta este dat, raportez doar când acele două se ating; dacă îl omiți, raportez pe primul care atinge orice altceva din lumea fizică."
+            }
+        },
+        "Rebound": {
+            "names": "$~Recul",
+            "doc": "$~Vin de la @Collision și reprezint cu cine s-a ciocnit și în ce direcție s-a produs coliziunea. Folosește-mă pentru a decide dacă să reacționezi la o coliziune într-un mod special, altul decât fizica normală.",
+            "direction": {
+                "names": "$~direcţie",
+                "doc": "$~Direcția și magnitudinea coliziunii, în raport cu subiectul coliziunii"
+            },
+            "subject": {
+                "names": "$~subiect",
+                "doc": "$~Numele ieșirii care a fost lovită de subiect."
+            },
+            "object": {
+                "names": "$~obiect",
+                "doc": "$~Numele ieșirii care a lovit subiectul"
+            }
+        },
+        "Direction": {
+            "names": "$~Direcţie",
+            "doc": "$~Sunt o direcție și o magnitudine, de-a lungul axelor x și y.",
+            "x": {
+                "names": "$~x",
+                "doc": "$~Direcția și magnitudinea direcției de-a lungul axei x."
+            },
+            "y": {
+                "names": "$~y",
+                "doc": "$~Direcția și magnitudinea direcției de-a lungul axei y."
+            }
+        },
+        "Contour": {
+            "doc": [
+                "$~Trasează conturul glifului fiecărei litere ca o @List de @Place .",
+                "Dă-i niște text și un font, și va trasa conturul fiecărui glif punct cu punct.",
+                "\\Contour('a' \"Noto Sans\")\\",
+                "Introduceți acele valori @Place într-o @List de @Phrase pentru a vedea conturul desenat ca puncte:",
+                "\\Stage(Contour('a' \"Noto Sans\" 10m).translate(ƒ(point) Phrase('•' loc: point)))\\",
+                "Puteți scala conturul cu un @Number de metri, puteți muta originea acestuia cu un @Place , puteți alege o grosime a fontului, puteți activa italic și puteți seta `spațierea` dintre puncte ca distanță în metri. O `spațiere` mai mică trasează conturul mai îndeaproape, cu puncte distanțate uniform atât de-a lungul liniilor, cât și de-a lungul curbelor.",
+                "Unele glife, cum ar fi emoji-urile colorate, nu au contur, deci nu adaugă puncte. În timp ce preia fontul, îți va oferi o @List goală, apoi o va completa când este gata."
+            ],
+            "names": ["$~Contur"],
+            "inputs": [
+                {
+                    "doc": "$~Textul ale cărui contururi de glife ar trebui să le trasez.",
+                    "names": "$~glife"
+                },
+                {
+                    "doc": "$~Fontul în care se vor trasa glifele.",
+                    "names": "$~faţă"
+                },
+                {
+                    "doc": "$~Înălțimea glifului în metri, scalarea conturului.",
+                    "names": "$~dimensiune"
+                },
+                {
+                    "doc": "$~O origine opțională @Place pentru a decala fiecare punct.",
+                    "names": "$~loc"
+                },
+                {
+                    "doc": "$~Grosimea fontului de utilizat, fixată la cel mai apropiat punct de sprijin al feței.",
+                    "names": "$~greutate"
+                },
+                {
+                    "doc": "$~Dacă se utilizează versiunea italic a feței, dacă există una.",
+                    "names": "$~italice"
+                },
+                {
+                    "doc": "$~Distanța în metri dintre punctele eșantionate de-a lungul conturului, menținută consistentă atât de-a lungul liniilor, cât și al curbelor. Valorile mai mici sunt trasate mai fin, până la un minim de 0,01 metri.",
+                    "names": "$~spațiere"
+                },
+                {
+                    "doc": "$~Ordinea punctelor: „înainte” sau „înapoi”.",
+                    "names": "$~direcţie"
+                }
+            ],
+            "error": {
+                "connection": "$~Nu am putut accesa internetul ca să obțin fontul, așa că nu-i pot identifica literele.",
+                "unavailable": "$~Nu am găsit fișierul fontului respectiv, așa că nu-i pot identifica literele.",
+                "unreadable": "$~Am descărcat fontul, dar nu l-am putut citi, așa că nu-i pot urmări literele.",
+                "outline": "$~Am încărcat fontul, dar nu am reușit să obțin forma acestor litere."
+            }
+        },
+        "Now": {
+            "doc": [
+                "$~Eu numesc un nou @Moment în ritmul pe care îl alegi tu, așa că un program știe mereu data de azi și ora curentă.",
+                "Acest lucru face dintr-un ceas localizat o singură linie de @code:",
+                "\\💬(⏰() → '')\\",
+                "În mod implicit, eu bat în fiecare secundă. Dă-mi o @Now.frequency în secunde, minute sau ore ca să schimbi ritmul:",
+                "\\⏰(1min)\\",
+                "@Now.timezone și @Now.calendar ale mele reflectă intrările lui @Moment și configurează Momentele pe care le creez. De exemplu, iată un ceas care arată ora curentă din Tokyo, pe calendarul japonez:",
+                "\\⏰(1s 'Asia/Tokyo' 'japanese')\\",
+                "Dacă acele intrări se schimbă — să zicem, o reacție îmi dă un fus orar diferit — încep să creez Momente cu noile setări.",
+                "Cu ce sunt diferit de @Time? @Time numără milisecundele de la pornirea unui program, ceea ce este bun pentru animație. Eu îți spun data și ora de ceas într-un calendar și un fus orar, ceea ce este bun pentru ceasuri și calendare."
+            ],
+            "names": ["$~Acum"],
+            "frequency": {
+                "names": ["$~frecvență"],
+                "doc": "$~Cât de des fac un nou @Moment, în secunde, minute sau ore. Dacă \\ø\\, marchez la fiecare \\1s\\."
+            },
+            "timezone": {
+                "names": ["$~regiuneorară"],
+                "doc": "$~Un nume standard de fus orar pentru Momentele pe care le creez, format dintr-o @region și un oraș, cum ar fi \\'America/New_York'\\ sau \\'Asia/Tokyo'\\. Nu cunoști numele? Scrie un oraș pe care îl cunoști și îți voi sugera cel mai apropiat fus orar. Dacă \\ø\\, folosesc fusul orar al dispozitivului pe care rulează programul."
+            },
+            "calendar": {
+                "names": ["$~calendar"],
+                "doc": "$~Un nume Unicode de calendar pentru Momentele pe care le fac, precum \\'gregory'\\, \\'ebraică'\\, \\'chineză'\\ sau \\'japoneză'\\. Dacă \\ø\\, folosesc calendarul locației cititorului."
+            }
+        },
+        "Moment": {
+            "doc": [
+                "$~Sunt un singur moment în timp: o dată dintr-un calendar, o oră din zi și fusul orar și calendarul în care sunt exprimate.",
+                "Toate proprietățile mele sunt opționale. Dă-mi părți de dată pentru a descrie o dată:",
+                "\\📅(2026 7 1) → ''\\",
+                "Sau doar părți de oră, pentru o oră din zi:",
+                "\\📅(oră: 15 minut: 30) → ''\\",
+                "Dacă nu îmi dai nicio parte, mă transform în data și ora curentă, oriunde rulează programul. Dacă lași părți deoparte, orice parte mai mare decât cea mai mare pe care ai dat-o vine din data și ora curentă, iar părțile mai mici încep de la începutul lor: astfel \\📅(lună: 12) → ''\\ este 1 decembrie al acestui an, la miezul nopții. Transformarea mea arată doar tipurile de părți pe care le-ai dat: părțile de dată fac o dată, părțile de oră fac o oră, iar amândouă le fac pe amândouă:",
+                "\\📅() → ''\\",
+                "Proprietatea mea @Moment.timezone acceptă un nume standard de fus orar IANA, cum ar fi \\'America/Los_Angeles'\\ sau \\'Asia/Tokyo'\\; dacă îl lași \\ø\\, folosesc fusul orar al dispozitivului pe care rulează programul. Proprietatea mea @Moment.calendar acceptă un nume de calendar Unicode, cum ar fi \\'gregory'\\, \\'ebraică'\\, sau \\'japoneză'\\; dacă îl lași \\ø\\, folosesc calendarul din regiunea cititorului. Proprietățile mele @Moment.year, @Moment.month și @Moment.day sunt în acel calendar:",
+                "\\📅(5786 10 4 calendar: 'hebrew') → ''\\",
+                "Transformarea mea în @Text mă formatează pentru regiunea cititorului: același Moment se afișează diferit în engleză, 中文 sau हिन्दी, și se schimbă atunci când se schimbă regiunea cititorului.",
+                "Proprietățile mele @Moment.era, @Moment.week și @Moment.weekday sunt informative: @Now le completează atunci când creează Momente, dar sunt ignorate la formatare.",
+                "Dacă vrei un @stream de Momente care se actualizează pe măsură ce trece timpul — un ceas — vezi @Now. Dacă vrei milisecundele scurse de când a pornit programul tău — pentru animație — vezi @Time."
+            ],
+            "names": ["$~📅", "$~Moment"],
+            "year": {
+                "names": ["$~an"],
+                "doc": "$~Anul, în calendarul meu. De exemplu, anul gregorian \\2026\\ este anul evreiesc \\5786\\."
+            },
+            "month": {
+                "names": ["$~lună"],
+                "doc": "$~Luna anului în calendarul meu, începând de la \\1\\."
+            },
+            "day": {
+                "names": ["$~zi"],
+                "doc": "$~Ziua lunii."
+            },
+            "hour": {
+                "names": ["$~oră"],
+                "doc": "$~Ora zilei, de la \\0\\ la \\23\\."
+            },
+            "minute": {
+                "names": ["$~minut"],
+                "doc": "$~Minutul orei."
+            },
+            "second": {
+                "names": ["$~secundă"],
+                "doc": "$~Secunda minutului."
+            },
+            "millisecond": {
+                "names": ["$~milisecundă"],
+                "doc": "$~Milisecunda secundei."
+            },
+            "timezone": {
+                "names": ["$~regiuneorară"],
+                "doc": "$~Un nume standard de fus orar, format dintr-o @region și un oraș, cum ar fi \\'America/New_York'\\, \\'Europa/Paris'\\, sau \\'Asia/Tokyo'\\. Nu cunoști numele? Scrie un oraș pe care îl cunoști și îți voi sugera cel mai apropiat fus orar. Dacă \\ø\\, folosesc fusul orar al dispozitivului pe care rulează programul."
+            },
+            "calendar": {
+                "names": ["$~calendar"],
+                "doc": "$~Un nume Unicode de calendar, precum \\'gregory'\\, \\'ebraică'\\, \\'chineză'\\ sau \\'japoneză'\\. Dacă \\ø\\, calendarul locației cititorului."
+            },
+            "era": {
+                "names": ["$~eră"],
+                "doc": "$~Era în care se află anul meu, precum \\'ce'\\ sau \\'reiwa'\\. Informativ: @Now o setează, iar formatarea o ignoră."
+            },
+            "week": {
+                "names": ["$~săptămână"],
+                "doc": "$~Săptămâna anului, începând de la \\1\\. Informativ: @Now o setează, iar formatarea o ignoră."
+            },
+            "weekday": {
+                "names": ["$~ziuasăptămânii"],
+                "doc": "$~Ziua săptămânii, de la \\1\\ (luni) până la \\7\\ (duminică). Informativ: @Now o setează, iar formatarea o ignoră."
+            },
+            "conversion": {
+                "text": "$~O versiune @Text a mea, formatată pentru locația cititorului, în calendarul și regiunea orară a mea. Adaugă o limbă după tipul @Text ca să formatezi pentru o anumită locație, precum \\Moment(2026 7 1) → ''/es\\."
+            },
+            "error": {
+                "timezone": "$~acesta nu este un nume valid de regiune orară",
+                "calendar": "$~acesta nu este un nume de calendar acceptat"
+            }
+        },
+        "Face": {
+            "doc": [
+                "$~Urmărește o față văzută de camera ta — unde este și ce face: ochi deschiși sau închiși, o gură deschisă, un zâmbet, o încruntare, sprâncene ridicate și în ce direcție este întoarsă capul.",
+                "/spune brânză/",
+                "Uită-te la cameră, zâmbește, clipește, deschide gura larg — @Face urmărește totul.",
+                "În spatele scenei, @Face folosește un model de învățare automată. Prima dată când îl folosești într-un program, modelul are nevoie de câteva secunde pentru a se descărca și o mică față care se rotește apare în colțul din dreapta sus al scenei în timp ce se încarcă. După aceea rămâne salvat și pornește instantaneu.",
+                "La fiecare cadru, @Face îți dă o @Expression. Uită-te acolo pentru lista completă de intrări și ce înseamnă ele.",
+                "Acest exemplu arată un emoji care se potrivește cu fața ta oriunde este fața ta reală:",
+                "\\față: 🙂()\n💬((față.zâmbind ? '😀' față.gurăDeschisă ? '😮' '😐') loc: față.loc)\\"
+            ],
+            "names": ["$~Față"],
+            "frequency": {
+                "names": ["$~frecvență"],
+                "doc": "$~Timpul dintre eșantioane."
+            },
+            "resolution": {
+                "names": ["$~rezoluție"],
+                "doc": "$~Lățimea în pixeli la care se eșantionează camera înainte de a rula modelul feței. Valorile mai mari pot da repere puțin mai precise, dar costă mai mult timp pe cadru."
+            }
+        },
+        "Objects": {
+            "doc": [
+                "$~Îți spune ce lucruri vede camera ta — o pisică, o cană, o carte — și unde sunt.",
+                "/ce este acela/",
+                "Ține ceva în fața camerei și @Objects va încerca să îi dea un nume.",
+                "În spatele scenei, @Objects folosește un model de învățare automată care cunoaște 80 de feluri de lucruri de zi cu zi.",
+                "La fiecare cadru, @Objects îți dă o @List de @Thing, ordonate după cât de sigur este modelul, cu cel mai sigur primul. Uită-te la @Thing pentru ce îți spune fiecare.",
+                "Modelul doar ghicește, așa că uneori va greși sau nu va vedea nimic. Cere o @value `confidence` mai mare ca să auzi doar presupunerile de care este cel mai sigur.",
+                "Iată un exemplu care etichetează tot ce vede camera:",
+                "\\🎭(📦() ↦ 💬(⬚.nume loc: ⬚.loc))\\",
+                "Poți de asemenea să cauți doar un singur fel de lucru și să ignori restul:",
+                "\\lucruri: 📦(categorie: 'cat')\n💬(lucruri.📏() > 0 ? '🐈' '…')\\"
+            ],
+            "names": ["$~Obiecte"],
+            "inputs": [
+                {
+                    "doc": "$~Timpul dintre mostre.",
+                    "names": "$~frecvență"
+                },
+                {
+                    "doc": "$~Lățimea în pixeli la care se ia mostra din cameră înainte de a căuta lucruri. Modelul se uită la un pătrat de 320 de pixeli, așa că valorile mai mari costă mai ales timp.",
+                    "names": "$~rezoluție"
+                },
+                {
+                    "doc": "$~Un fel opțional de lucru pe care să îl cauți, ignorând tot restul.",
+                    "names": "$~categorie"
+                },
+                {
+                    "doc": "$~Cât de sigur trebuie să fie modelul înainte să menționez un lucru, de la 0 la 1. Mai mare înseamnă mai puține, dar mai bune presupuneri.",
+                    "names": "$~încredere"
+                },
+                {
+                    "doc": "$~Numărul maxim de lucruri de menționat deodată.",
+                    "names": "$~număr"
+                }
+            ],
+            "categories": {
+                "person": ["$~persoană", "$~oameni", "$~om", "$~cineva"],
+                "bicycle": ["$~bicicletă"],
+                "car": ["$~mașină", "$~automobil"],
+                "motorcycle": ["$~motocicletă", "$~motoretă"],
+                "airplane": ["$~avion", "$~aeronavă"],
+                "bus": ["$~autobuz"],
+                "train": ["$~tren"],
+                "truck": ["$~camion"],
+                "boat": ["$~barcă", "$~navă"],
+                "traffic light": ["$~semafor"],
+                "fire hydrant": ["$~hidrant"],
+                "stop sign": ["$~semn de stop"],
+                "parking meter": ["$~parcometru"],
+                "bench": ["$~bancă"],
+                "bird": ["$~pasăre"],
+                "cat": ["$~pisică", "$~pisicuță"],
+                "dog": ["$~câine", "$~cățel"],
+                "horse": ["$~cal"],
+                "sheep": ["$~oaie"],
+                "cow": ["$~vacă"],
+                "elephant": ["$~elefant"],
+                "bear": ["$~urs"],
+                "zebra": ["$~zebră"],
+                "giraffe": ["$~girafă"],
+                "backpack": ["$~ghiozdan", "$~rucsac"],
+                "umbrella": ["$~umbrelă"],
+                "handbag": ["$~geantă", "$~poșetă"],
+                "tie": ["$~cravată"],
+                "suitcase": ["$~valiză", "$~bagaj"],
+                "frisbee": ["$~frisbee"],
+                "skis": ["$~schiuri", "$~schi"],
+                "snowboard": ["$~placă de snowboard"],
+                "sports ball": ["$~minge", "$~minge de sport"],
+                "kite": ["$~zmeu"],
+                "baseball bat": ["$~bâtă de baseball", "$~bâtă"],
+                "baseball glove": ["$~mănușă de baseball", "$~mănușă"],
+                "skateboard": ["$~skateboard"],
+                "surfboard": ["$~placă de surf"],
+                "tennis racket": ["$~rachetă de tenis", "$~rachetă"],
+                "bottle": ["$~sticlă"],
+                "wine glass": ["$~pahar de vin"],
+                "cup": ["$~cană"],
+                "fork": ["$~furculiță"],
+                "knife": ["$~cuțit"],
+                "spoon": ["$~lingură"],
+                "bowl": ["$~bol"],
+                "banana": ["$~banană"],
+                "apple": ["$~măr"],
+                "sandwich": ["$~sandviș"],
+                "orange": ["$~portocală"],
+                "broccoli": ["$~broccoli"],
+                "carrot": ["$~morcov"],
+                "hot dog": ["$~hot dog"],
+                "pizza": ["$~pizza"],
+                "donut": ["$~gogoașă"],
+                "cake": ["$~tort"],
+                "chair": ["$~scaun"],
+                "couch": ["$~canapea"],
+                "potted plant": [
+                    "$~plantă în ghiveci",
+                    "$~plantă de casă",
+                    "$~plantă"
+                ],
+                "bed": ["$~pat"],
+                "dining table": ["$~masă", "$~masă de mâncat"],
+                "toilet": ["$~toaletă"],
+                "tv": ["$~televizor"],
+                "laptop": ["$~laptop", "$~calculator"],
+                "mouse": ["$~mouse"],
+                "remote": ["$~telecomandă"],
+                "keyboard": ["$~tastatură"],
+                "cell phone": ["$~telefon", "$~telefon mobil"],
+                "microwave": ["$~cuptor cu microunde"],
+                "oven": ["$~cuptor"],
+                "toaster": ["$~prăjitor de pâine"],
+                "sink": ["$~chiuvetă"],
+                "refrigerator": ["$~frigider"],
+                "book": ["$~carte"],
+                "clock": ["$~ceas"],
+                "vase": ["$~vază"],
+                "scissors": ["$~foarfece"],
+                "teddy bear": ["$~ursuleț de pluș", "$~jucărie de pluș"],
+                "hair drier": ["$~uscător de păr"],
+                "toothbrush": ["$~periuță de dinți"]
+            }
+        },
+        "Beat": {
+            "names": "$~Bătaie",
+            "doc": [
+                "$~Îți dau o @value nouă de fiecare dată când muzica din @Music ajunge la un beat, ca să poți construi imagini care se mișcă odată cu muzica. Am mereu un @Downbeat pentru tine, ca să poți citi imediat: înainte să înceapă vreo muzică, stau pe beat-ul zero, fără niciun sunet, iar \\tempo\\ rămâne zero până când începe.",
+                "Aici trei piese se schimbă pe rând, așa că un număr diferit de instrumente sună la fiecare beat — iar rombul crește cu oricâte instrumente cântă:",
+                "\\bătaie: Bătaie()\n🎭([\n\t\t💬('◆' ((bătaie.instrumente.📏() × 1.4m) + 0.6m))\n\t\t🎼(\n\t\t\t[\n\t\t\t\t🎶([1 1 1 ø] instrument: 🔈.🥁)\n\t\t\t\t🎶([3 ø 3 ø] instrument: 🔈.🎹)\n\t\t\t\t🎶([ø ø 5 5] instrument: 🔈.🔔)\n\t\t\t]\n\t\t\ttempo: 100beats/min\n\t\t)\n\t])\\",
+                "Dă-mi un nume de @Music și aud doar acea muzică. Două beat-uri ascultă mai jos, aceleași două muzici: cel de sus aude totul, așa că pâlpâie între ambele nume pe măsură ce fiecare muzică ajunge la un beat, iar cel de jos aude doar toba și nu spune niciodată altceva. Această diferență este filtrul.",
+                "\\tot: Bătaie()\ndoarToba: Bătaie('tic')\n🎭([\n\t\t🔳(\n\t\t\t⬇(umplutură: 0.5m)\n\t\t\t[\n\t\t\t\t💬(tot.nume 1.4m)\n\t\t\t\t💬(doarToba.nume 1.4m)\n\t\t\t]\n\t\t)\n\t\t🎼(🎶([1 ø] instrument: 🔈.🥁) tempo: 120beats/min nume: 'tic')\n\t\t🎼(🎶([5 5 5] instrument: 🔈.🔔) tempo: 90beats/min nume: 'clopoțel')\n\t])\\",
+                "Orice conduc eu se adaugă /pe lângă/ redarea pe care a ales-o privitorul; tu adaugi la ea, niciodată nu o înlocuiești."
+            ],
+            "name": {
+                "doc": "$~Numele @Music de ascultat, care se potrivește cu @Music/name al ei. Cu \\ø\\, aud fiecare muzică ce se aude — iar ritmurile de la muzici diferite sosesc intercalate, așa că citește @Downbeat/name ca să le deosebești.",
+                "names": "$~nume"
+            }
+        },
+        "Downbeat": {
+            "doc": [
+                "$~Eu sunt ceea ce îți dă un @Beat: tot ce știe playerul în momentul în care se aude un ritm, ca o vizualizare să poată arăta ce se aude de fapt.",
+                "Fiecare @Music își numără propriile ritmuri, așa că atunci când un @Beat aude mai mult de unul, @Downbeat/count al meu aparține muzicii din care provine acest ritm — verifică @Downbeat/name al meu ca să știi care."
+            ],
+            "names": "$~TimpAccentuat",
+            "count": {
+                "doc": "$~Câte ritmuri a cântat această muzică, începând de la \\0\\.\n\nNumărarea începe când muzica /începe/ și o ia de la capăt când începe din nou — un @Music/replay, sau părăsirea scenei și revenirea. Editarea muzicii în timp ce cântă /nu/ mă resetează, și nici @Music/pause — o muzică oprită se oprește din numărat și reia de unde a rămas. Schimbarea se îmbină și numărarea continuă, iar acest lucru face ca o editare să nu sune ca o repornire.",
+                "names": "$~număr"
+            },
+            "instruments": {
+                "doc": "$~@Instrument care se aude pe acest ritm, fiecare listat o dată. O scurtătură pentru cazul obișnuit; @Downbeat/parts are detaliile.",
+                "names": "$~instrumente"
+            },
+            "words": {
+                "doc": "$~Silabele cântate pe acest ritm, în ordinea pieselor, sau o listă goală când nimic nu cântă. O scurtătură pentru cazul obișnuit, așa cum este @Downbeat/instruments; @Downbeat/parts conține detaliile.",
+                "names": "$~cuvinte"
+            },
+            "name": {
+                "doc": "$~Numele @Music din care provine acest ritm, ceea ce filtrează @Beat/name.",
+                "names": "$~nume"
+            },
+            "tempo": {
+                "doc": "$~Tempoul muzicii, în ritmuri pe minut.",
+                "names": "$~tempo"
+            },
+            "volume": {
+                "doc": "$~Volumul general al muzicii, de la \\0%\\ la \\100%\\. Fiecare @Part are propriul volum.",
+                "names": "$~volum"
+            },
+            "key": {
+                "doc": "$~Propriul @Music/key al muzicii. O piesă îl poate suprascrie, așa că citește cheia unui @Part pentru ce cântă de fapt acea piesă.",
+                "names": "$~cheie"
+            },
+            "scale": {
+                "doc": "$~Propriul @Music/scale al muzicii. O piesă îl poate suprascrie, așa că citește scala unui @Part pentru ce folosește de fapt acea piesă.",
+                "names": "$~gamă"
+            },
+            "parts": {
+                "doc": "$~Câte un @Part pentru fiecare @Track, în ordinea în care au fost scrise, indiferent dacă se aude sau nu. Aceasta este întreaga @state a muzicii pe acest ritm.",
+                "names": "$~părți"
+            }
+        },
+        "Part": {
+            "doc": [
+                "$~Eu sunt starea unei @Track pe un ritm: ce cântă, cât de tare și în ce scală. Un @Downbeat poartă câte unul din mine pentru fiecare piesă, ca o vizualizare să poată desena fiecare voce separat, nu amestecul.",
+                "Valorile mele sunt cele pe care le folosește de fapt playerul, după ce s-au aplicat toate valorile implicite și suprascrierile — așa că scala și cheia mea sunt ale acelei piese, nu ale muzicii, atunci când piesa își setează propriile valori."
+            ],
+            "names": "$~Parte",
+            "instrument": {
+                "doc": "$~@Instrument care mă cântă.",
+                "names": "$~instrument"
+            },
+            "sounding": {
+                "doc": "$~Dacă o notă se aude pe acest ritm. O notă susținută încă se numără, așa că rămân \\⊤\\ pe toate ritmurile pe care le ține, nu doar cel pe care a început.",
+                "names": "$~sunet"
+            },
+            "degrees": {
+                "doc": "$~Notele care acoperă acest ritm, așa cum au fost scrise. Gol pe o pauză, și mai mult de una pentru un acord.",
+                "names": "$~grade"
+            },
+            "pitch": {
+                "doc": "$~@Part/degrees ale mele rezolvate față de scala și cheia mea, în semitonuri față de prima notă. Folosește acest lucru ca să plasezi o notă după înălțime; folosește @Part/degrees ca să arăți ce a fost scris.",
+                "names": "$~înălțime"
+            },
+            "volume": {
+                "doc": "$~Cât de tare sunt pe acest ritm — volumul notei mele înmulțit cu al piesei mele — de la \\0%\\ la \\100%\\, și \\0%\\ în pauză. Bun pentru a dimensiona orice desenezi.",
+                "names": "$~volum"
+            },
+            "pan": {
+                "doc": "$~Unde stau între difuzoare: \\-1\\ este complet la stânga, \\0\\ este centru, iar \\1\\ este complet la dreapta. Bun pentru a plasa orice desenezi.",
+                "names": "$~panoramare"
+            },
+            "scale": {
+                "doc": "$~Scala față de care se rezolvă gradele mele, după orice suprascriere @Track/scale.",
+                "names": "$~gamă"
+            },
+            "key": {
+                "doc": "$~Deplasarea în semitonuri aplicată mie, după orice suprascriere @Track/key.",
+                "names": "$~cheie"
+            },
+            "loop": {
+                "doc": "$~Dacă piesa mea se repetă când ajunge la sfârșit.",
+                "names": "$~buclă"
+            },
+            "words": {
+                "doc": "$~Silaba pe care o cântă această parte pe acest ritm, sau \\ø\\ când nu cântă nimic — o pauză, sau o pistă fără @Track/words.",
+                "names": "$~cuvinte"
+            }
+        },
+        "Spotlight": {
+            "doc": [
+                "$~Spun unde se află un @Scene chiar acum: ce ieșire afișează, câte are și dacă așteaptă pe cineva.",
+                "Un @Scene afișează lucruri; eu sunt modul în care restul unui program află ce afișează. Asta îți permite să pui un contor sub o prezentare de imagini, să redai muzică diferită în părți diferite ale unei povești sau să afișezi un indiciu de tipul /apasă orice tastă/ doar cât timp scena chiar așteaptă.",
+                "\\diapozitive: [Fraza('unu') Fraza('doi') Fraza('trei')]\nla2: Spotlight()\nEtapă(\n\t[\n\t\tScenă(diapozitive buclă: ⊤)\n\t\tFraza(\n\t\t\t`\\la2.index\\ din \\la2.total\\`\n\t\t\tdimensiune: 0.3m\n\t\t\tloc: Loc(0m -2m)\n\t\t)\n\t]\n)\\",
+                "Am mereu un @Slate, chiar înainte să se întâmple ceva, așa că nu trebuie niciodată să mă verifici pentru \\ø\\."
+            ],
+            "names": "$~Reflector",
+            "name": {
+                "names": "$~nume",
+                "doc": "$~@Scene/name scenei care urmează. Lasă-l \\ø\\ și urmez fiecare scenă."
+            }
+        },
+        "Slate": {
+            "doc": "$~Unde se află un @Scene: ce afișează, cât de departe a ajuns și dacă așteaptă.",
+            "names": "$~Tablă",
+            "scene": {
+                "names": "$~scenă",
+                "doc": "$~@Scene/name scenei din care am venit, sau \\''\\ dacă nu are niciunul."
+            },
+            "index": {
+                "names": "$~index",
+                "doc": "$~Ce ieșire afișează @Scene, numărând de la 1. Numeri doar ieșirile, niciodată @Boolean dintre ele."
+            },
+            "total": {
+                "names": "$~total",
+                "doc": "$~Câte ieșiri are @Scene, fără a număra @Boolean dintre ele."
+            },
+            "lap": {
+                "names": "$~tur",
+                "doc": "$~De câte ori s-a întors @Scene la prima sa ieșire. Este 0 prima dată."
+            },
+            "waiting": {
+                "names": "$~așteaptă",
+                "doc": "$~Dacă @Scene este oprit: așteaptă ca un @Boolean să devină adevărat, sau este ținut de @Scene/pause. Asta ar trebui să urmărească un indiciu de tipul /apasă orice tastă/."
+            }
+        }
+    }
+}
