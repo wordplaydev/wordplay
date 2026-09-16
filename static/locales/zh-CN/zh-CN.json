@@ -926,7 +926,7 @@
                 "看到我把小猫咪变成猫了吗？太酷啦！",
                 "你可能想知道那个 \\⬚\\ 在那里做什么。它代表正在被转换的 @value。我用它是因为这个值本来没有名字。"
             ],
-            "start": "$~太棒了，一个新的转换！",
+            "start": "$!太棒了，一个新的转换！",
             "conflict": {
                 "MisplacedConversion": {
                     "name": "错误的转换",
@@ -1131,7 +1131,7 @@
         },
         "FunctionDefinition": {
             "name": "函数",
-            "description": "$~函数 $name",
+            "description": "$!函数 $name",
             "emotion": "kind",
             "doc": [
                 "$~我接收一些输入，然后用它们计算一个 @expression，产生一个输出。又见面啦！",
@@ -1175,7 +1175,7 @@
             "finish": "我评估为 $value"
         },
         "Initial": {
-            "name": "$~开始",
+            "name": "$!开始",
             "description": "$~首次计算时为真",
             "emotion": "curious",
             "doc": [
@@ -1328,11 +1328,11 @@
             "description": "$~内置表达式",
             "emotion": "neutral",
             "doc": "$~我是一个只有最初的创建者才会用的 @expression。你是怎么找到我的？想多了解我，你得去找他们谈谈。",
-            "start": "$~秘密表达式"
+            "start": "$!秘密表达式"
         },
         "NoneLiteral": {
             "name": "非字面意义",
-            "description": "$~无",
+            "description": "$!无",
             "emotion": "neutral",
             "doc": "$~我做出 @None，那个独一无二的、什么也没有的 @value。想多了解，请看 @None。",
             "start": "… ø"
@@ -1625,11 +1625,11 @@
             "description": "$~流 $name",
             "emotion": "curious",
             "doc": "$~我定义新种类的流。我/觉得/是这样——说实话我还在搞清楚怎么做，所以现在就先用已有的流吧！",
-            "start": "$~创建这种新的流"
+            "start": "$!创建这种新的流"
         },
         "StructureDefinition": {
             "name": "结构",
-            "description": "$~结构 $name",
+            "description": "$!结构 $name",
             "emotion": "kind",
             "doc": [
                 "$~我用来定义存放值和函数的结构。你好呀，你怎么样？我吗？我很好——我喜欢一整天都做这件事。",
@@ -1806,7 +1806,7 @@
                 "你不一定要这样写,但整体上可能会更简单。",
                 "只有一条规则:你不能在名字和值之间留任何空格。否则你可能会做出 @Reference 或 @BinaryEvaluate。"
             ],
-            "start": "$~值是什么？",
+            "start": "$!值是什么？",
             "finish": "我完成了 $value",
             "label": {
                 "input": "$~输入"
@@ -1891,7 +1891,7 @@
         },
         "BooleanType": {
             "name": "$~布尔类型",
-            "description": "$~布尔类型",
+            "description": "$!布尔类型",
             "emotion": "kind",
             "doc": [
                 "$~我和 @Bind 一起工作，用来声明一个名字是一个 @Boolean @value。像这样：",
@@ -1990,7 +1990,7 @@
         },
         "NoneType": {
             "name": "$~无类型",
-            "description": "$~无类型",
+            "description": "$!无类型",
             "emotion": "neutral",
             "doc": [
                 "$~@None 是最棒的“无”,而我是它忠实的代表。",
@@ -2029,7 +2029,7 @@
         },
         "UnknownType": {
             "name": "未知",
-            "description": "$~未知",
+            "description": "$!未知",
             "connector": "，因为",
             "emotion": "curious",
             "doc": "$~我是一个还没人弄清楚的@type。嗯……你知道我代表什么吗?如果我们弄不清楚,你可能需要告诉我们。"
@@ -2058,7 +2058,7 @@
         },
         "TypePlaceholder": {
             "name": "占位",
-            "description": "$~类型占位符",
+            "description": "$!类型占位符",
             "emotion": "eager",
             "doc": "$~我希望有一天能代表一个 @type，就像我的好朋友 @ExpressionPlaceholder 代表一个 @expression 那样！你能帮我决定用哪种吗？"
         },
@@ -2084,7 +2084,7 @@
         },
         "UnparsableType": {
             "name": "无法解析",
-            "description": "$~无法解析的类型",
+            "description": "$!无法解析的类型",
             "emotion": "curious",
             "doc": "$~我代表一个未知 @expression 的 @type。当你想用那个表达式做点什么时，我就出现了。"
         },
@@ -2108,7 +2108,7 @@
         },
         "NotAType": {
             "name": "意外",
-            "description": "$~不是 $type",
+            "description": "$!不是 $type",
             "emotion": "curious",
             "doc": "$~我代表一个 @value，它的 @type 不是我们预期的那个——比如 @ListAccess 需要一个 @Number，却得到了别的东西。"
         },
@@ -3379,7 +3379,7 @@
                 "hPa": "$~百帕",
                 "kPa": "$~千帕",
                 "bar": "$~巴",
-                "atm": "$~标准大气压",
+                "atm": "$!标准大气压",
                 "psi": "$~磅每平方英寸",
                 "mmHg": "$~毫米汞柱",
                 "J": "$~焦耳",
@@ -7401,7 +7401,7 @@
         "tile": {
             "toggle": {
                 "fullscreen": {
-                    "on": "$~退出全屏",
+                    "on": "$!退出全屏",
                     "off": "$~将窗口平铺展开到全屏"
                 },
                 "show": {
@@ -7734,7 +7734,7 @@
                 "insertFalse": "插入 false",
                 "insertNone": "插入无符号",
                 "insertNotEqual": "插入不等号",
-                "insertProduct": "$~插入乘号",
+                "insertProduct": "$!插入乘号",
                 "insertDot": "$~插入点积符号",
                 "insertQuotient": "插入除号",
                 "insertDegree": "插入度符号",
@@ -8853,7 +8853,7 @@
                     }
                 },
                 "mode": {
-                    "label": "$~反馈",
+                    "label": "$!反馈",
                     "labels": ["$~缺陷", "$~想法"],
                     "tips": ["$~报告看起来出错的东西", "$~建议新功能或改进"]
                 },
@@ -10152,7 +10152,7 @@
                     },
                     "clear": {
                         "label": "全部",
-                        "tip": "$~移除所有形状。"
+                        "tip": "$!移除所有形状。"
                     },
                     "clearPixels": {
                         "label": "像素",
@@ -10172,7 +10172,7 @@
                     },
                     "end": {
                         "label": "完成形状",
-                        "tip": "$~结束当前路径"
+                        "tip": "$!结束当前路径"
                     },
                     "horizontal": {
                         "label": "水平翻转",
@@ -10600,7 +10600,7 @@
             },
             "button": {
                 "submit": {
-                    "label": "$~发送",
+                    "label": "$!发送",
                     "tip": "$~给你的协作者发送信息，并且"
                 },
                 "delete": "$~删除这条信息",

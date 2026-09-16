@@ -66,7 +66,7 @@
         },
         "state": {
             "word": "$~stan",
-            "definition": "$~Informacja, którą @Program przechowuje i może zmieniać z czasem."
+            "definition": "$!Informacja, którą @Program przechowuje i może zmieniać z czasem."
         },
         "sideEffect": {
             "word": "$~efekt uboczny",
@@ -791,7 +791,7 @@
         },
         "BooleanLiteral": {
             "name": "$~wartość logiczna",
-            "description": "$~$value[prawda|fałsz]",
+            "description": "$!$value[prawda|fałsz]",
             "emotion": "precise",
             "doc": "$~Jestem albo \\⊤\\ albo \\⊥\\. Zobacz @Boolean, aby dowiedzieć się więcej o naszej pięknej logice.",
             "start": "$~$value!"
@@ -808,7 +808,7 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~nieznany import",
-                    "explanation": "$~Nie znam źródła o tej nazwie",
+                    "explanation": "$!Nie znam źródła o tej nazwie",
                     "resolution": "$~Usuń tę pożyczkę"
                 },
                 "BorrowCycle": {
@@ -1132,7 +1132,7 @@
         },
         "FunctionDefinition": {
             "name": "$~funkcjonować",
-            "description": "$~funkcja $name",
+            "description": "$!funkcja $name",
             "emotion": "kind",
             "doc": [
                 "$~Przyjmuję pewne dane wejściowe, potem obliczam @expression, używając ich, i tworzę wynik. Cześć jeszcze raz!",
@@ -2032,7 +2032,7 @@
         },
         "UnknownType": {
             "name": "$~nieznany",
-            "description": "$~nieznany",
+            "description": "$!nieznany",
             "connector": "$~, ponieważ",
             "emotion": "curious",
             "doc": "$~Jestem @type, którego nikt jeszcze nie rozgryzł. Hmm… wiesz, co reprezentuję? Może musisz nam powiedzieć, jeśli sami nie zgadniemy."
@@ -8355,7 +8355,7 @@
                     "explanation": "$~/Pojęcia ukryte w głównej dokumentacji./"
                 },
                 "How": {
-                    "header": "$~Jak",
+                    "header": "$!Jak",
                     "explanation": "$~/Typowe wzorce tworzenia różnych rodzajów projektów./"
                 },
                 "Definitions": {
@@ -9876,7 +9876,7 @@
                     "sent": "$~Jeśli ten adres e-mail jest powiązany z kontem, otrzymasz e-mail z linkiem do logowania. Może minąć kilka minut, zanim się pojawi. Jeśli z tym adresem e-mail nie jest powiązane żadne konto, nie otrzymasz niczego.",
                     "logout": "$~Czy korzystasz ze współdzielonego urządzenia i chcesz zachować prywatność swoich projektów? Wyloguj się, a my *usuniemy Twoje projekty* z tego urządzenia, ale zostaną zapisane online.",
                     "success": "$~Konto utworzone!",
-                    "confirm": "$~Sprawdź swój stary adres e-mail, aby potwierdzić nowy adres.",
+                    "confirm": "$!Sprawdź swój stary adres e-mail, aby potwierdzić nowy adres.",
                     "delete": "$~Chcesz, żebyśmy zapomnieli o wszystkim, co tu zrobiłeś? Tego nie da się cofnąć.",
                     "reallyDelete": "$~Czy jesteś pewien? Twoje konto i ustawienia zostaną natychmiast usunięte, a Twoje projekty zostaną zaplanowane do usunięcia. Współpracownicy nad Twoimi projektami natychmiast utracą do nich dostęp. Wpisz swój adres e-mail lub nazwę użytkownika, aby potwierdzić, że tego chcesz.",
                     "name": "$~Wybierz emoji lub własny znak, który będzie cię przedstawiał innym.",

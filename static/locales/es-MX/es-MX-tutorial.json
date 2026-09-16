@@ -2743,7 +2743,7 @@
                             "FunctionDefinition",
                             "kind",
                             "Hay muchas maneras de personalizarlo. Por ejemplo, si quisieras cambiar su forma de moverse, puedes darle una distancia.",
-                            "$~¿Ves cómo le dimos \\0.5\\ para la primera entrada? Ahora se mueve un poco menos. ¡Intenta cambiarlo a un número diferente!"
+                            "$!¿Ves cómo le dimos \\0.5\\ para la primera entrada? Ahora se mueve un poco menos. ¡Intenta cambiarlo a un número diferente!"
                         ],
                         null,
                         {

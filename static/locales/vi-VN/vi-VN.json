@@ -2032,7 +2032,7 @@
         },
         "UnknownType": {
             "name": "$~khôngrõ",
-            "description": "$~không rõ",
+            "description": "$!không rõ",
             "connector": "$~, bởi vì",
             "emotion": "curious",
             "doc": "$~Tôi là một @type mà chưa ai tìm ra. Ưm… bạn có biết tôi đại diện cho điều gì không? Bạn có thể cần cho chúng tôi biết nếu chúng tôi không tìm ra được."
@@ -9117,7 +9117,7 @@
                     "show": "$~Chọn ngôn ngữ cho trang web",
                     "replace": "$~dùng ngôn ngữ này",
                     "add": "$~sử dụng ngôn ngữ này và các ngôn ngữ hiện tại",
-                    "remove": "$~xóa ngôn ngữ này",
+                    "remove": "$!xóa ngôn ngữ này",
                     "menu": "$~các ngôn ngữ khác"
                 },
                 "localizeHelp": "$~Để giúp cải thiện bản dịch sang ngôn ngữ của bạn, hãy nhấp vào biểu tượng bút chì ✎ ở *cuối trang* để bật chế độ bản địa hóa và đề xuất cải tiến.",
@@ -9597,7 +9597,7 @@
                     "learn": "$~Học ngôn ngữ với dàn nhân vật đầy kịch tính.",
                     "teach": "$~Quản lý các lớp học và dự án của sinh viên.",
                     "guide": "$~Tìm kiếm và duyệt qua tài liệu tham khảo ngôn ngữ",
-                    "projects": "$~Tạo và chia sẻ các màn trình diễn",
+                    "projects": "$!Tạo và chia sẻ các màn trình diễn",
                     "galleries": "$~Trải nghiệm các màn trình diễn của người khác",
                     "characters": "$~Tạo biểu tượng cảm xúc và ký hiệu tùy chỉnh",
                     "rights": "$~Trách nhiệm, của chúng ta và của bạn",
@@ -10493,7 +10493,7 @@
                     "expired": "$~Liên kết này đã hết hạn.",
                     "invalid": "$~Liên kết này không hợp lệ.",
                     "email": "$~Đây không phải là email hợp lệ.",
-                    "invalidUsername": "$~Tên người dùng phải có ít nhất 5 chữ cái và không có khoảng trắng.",
+                    "invalidUsername": "$!Tên người dùng phải có ít nhất 5 chữ cái và không có khoảng trắng.",
                     "usernameTaken": "$~Tên người dùng này đã được sử dụng.",
                     "failure": "$~Không thể đăng nhập :(",
                     "unverified": "$~Chúng tôi không thể xác nhận đây là một trình duyệt thật, nên đã dừng lại ở đây. Điều này có thể xảy ra khi bạn dùng mạng ở trường học hoặc nơi làm việc. Thử lại sẽ không giúp ích gì, nhưng đổi sang mạng khác hoặc trình duyệt khác có thể sẽ được. Nếu bạn đang ở trường, hãy báo cho thầy cô giáo biết.",
