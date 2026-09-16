@@ -55,7 +55,14 @@ async function localeFile(
     try {
         const response = await fetch(
             `${canonicalOrigin()}/locales/${locale}/${locale}.json`,
-            { signal: AbortSignal.timeout(FetchTimeoutMs) },
+            {
+                signal: AbortSignal.timeout(FetchTimeoutMs),
+                // See getPagePreview: `/locales/**` is `immutable` for a year,
+                // and this URL carries no content hash because `versioned()`'s
+                // table is in the app bundle. This module's own `cache` TTL is
+                // what governs freshness, so nothing else may cache for us.
+                headers: { 'Cache-Control': 'no-cache' },
+            },
         );
         if (!response.ok) return cached?.locale;
         // Hosting rewrites anything it can't find to the SPA shell — with a
