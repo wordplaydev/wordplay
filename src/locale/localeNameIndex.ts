@@ -1,4 +1,5 @@
 import type { SupportedLocale } from '@locale/SupportedLocales';
+import versioned from '@db/locales/versioned';
 
 /**
  * Which locales spell a given word, for every word a project's code can be written with.
@@ -74,7 +75,7 @@ function invert(index: LocaleNameIndex): Inverted {
 export function loadLocaleNameIndex(): Promise<boolean> {
     if (inverted !== undefined) return Promise.resolve(true);
     if (loading === undefined)
-        loading = fetch(LocaleNameIndexPath)
+        loading = fetch(versioned(LocaleNameIndexPath))
             .then((response) => (response.ok ? response.json() : undefined))
             .then((json: unknown) => {
                 if (!isNameIndex(json)) return false;

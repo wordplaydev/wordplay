@@ -442,7 +442,7 @@ export default class LocalesDatabase {
         const promise = (async () => {
             try {
                 const path = `/locales/${locale}/${locale}-emojis.json`;
-                const response = await fetch(path);
+                const response = await fetch(versioned(path));
                 if (!response.ok) return undefined;
                 const data: unknown = await response.json();
                 if (!isEmojiMap(data)) return undefined;
