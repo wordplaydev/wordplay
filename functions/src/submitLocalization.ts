@@ -38,6 +38,7 @@ import {
     isListEditPath,
     listDisplay,
     localeSectionPath,
+    mergeSections,
     parseOverrideKey,
     resolveAtPath,
     sectionFileFor,
@@ -125,20 +126,10 @@ async function fetchLocaleSections(
     const present = fetched.filter((entry) => entry !== undefined);
     if (present.length === 0) return undefined;
 
-    const json: Record<string, unknown> = {};
-    const shas: [LocaleSection, string][] = [];
-    for (const [section, file] of present) {
-        shas.push([section, file.sha]);
-        for (const key of Object.keys(file.json)) {
-            if (key === '$schema') continue;
-            const value = file.json[key];
-            // `ui` arrives in two files and has to be merged, not replaced.
-            if (key === 'ui' && isRecord(value) && isRecord(json['ui']))
-                Object.assign(json['ui'], value);
-            else json[key] = value;
-        }
-    }
-    return { json, shas };
+    return {
+        json: mergeSections(present.map(([, file]) => file)),
+        shas: present.map(([section, file]) => [section, file.sha]),
+    };
 }
 
 /** Tutorial files all live under static/locales, including en-US. */

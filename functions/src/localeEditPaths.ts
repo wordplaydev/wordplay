@@ -255,3 +255,27 @@ export function sliceForSection(
     }
     return slice;
 }
+
+/**
+ * Merge section files into one locale document.
+ *
+ * The inverse of `sliceForSection`, and the half that is easy to get wrong:
+ * `ui` arrives in two files and has to be merged rather than replaced, or an
+ * edit to `ui.dialog` would silently drop every `ui.page` string it was
+ * submitted alongside.
+ */
+export function mergeSections(
+    sections: { json: Record<string, unknown> }[],
+): Record<string, unknown> {
+    const merged: Record<string, unknown> = {};
+    for (const { json } of sections)
+        for (const key of Object.keys(json)) {
+            if (key === '$schema') continue;
+            const value = json[key];
+            const existing = merged[key];
+            if (key === 'ui' && isRecord(value) && isRecord(existing))
+                Object.assign(existing, value);
+            else merged[key] = value;
+        }
+    return merged;
+}
