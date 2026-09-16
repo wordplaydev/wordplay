@@ -247,7 +247,18 @@ export async function writeLocale(
         changed = changed || wrote;
     }
 
-    const assembled = await writeAssembled(log, locale, text, write);
+    // Assembled from the sections just written, never from `text` directly.
+    // Both are the same content, but not in the same key order — `text` carries
+    // the order it was read in, and the sections impose their own. Two paths
+    // emitting different bytes would flip the file's content hash back and
+    // forth depending on which ran last, and under `versioned()` that means
+    // every reader re-downloads their locale for a change that isn't one.
+    const assembled = await writeAssembled(
+        log,
+        locale,
+        assembleLocale(sections),
+        write,
+    );
     return changed || assembled;
 }
 

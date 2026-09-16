@@ -103,6 +103,19 @@ describe('split and assemble', () => {
             expect(LocaleSections).toContain(section);
     });
 
+    test('assembly is a fixed point, so the assembled bytes never flip', () => {
+        // The assembled file's content hash is what `versioned()` puts in its
+        // URL, so if two paths through this code emitted the same content in a
+        // different key order, the hash would flip back and forth and every
+        // reader would re-download a locale that had not changed. Assembly is
+        // canonical between sections and preserves order within one, which is
+        // exactly enough: applying it again changes nothing.
+        const once = assembleLocale(splitLocale(defaultLocale()));
+        const twice = assembleLocale(splitLocale(once));
+        expect(Object.keys(twice)).toEqual(Object.keys(once));
+        expect(JSON.stringify(twice)).toEqual(JSON.stringify(once));
+    });
+
     test('the bundled default locale round-trips', () => {
         const locale = defaultLocale();
         expect(assembleLocale(splitLocale(locale))).toEqual(locale);
