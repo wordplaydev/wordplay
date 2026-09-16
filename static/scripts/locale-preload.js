@@ -61,10 +61,22 @@
     } catch (_) {}
 
     try {
+        // Hide until the right text has loaded, so a reader does not watch
+        // English swap to their language. Two ways to know this page is not
+        // English: the URL names a locale, or the reader has chosen one before.
+        //
+        // The URL case only became reasonable once the preload above existed.
+        // Before it the locale was not requested until the JS bundle had run,
+        // so hiding meant a blank page for ~300ms; now the request goes out
+        // while the document is still parsing.
+        var path = (location.pathname.split('/')[1] || '').split('+')[0];
+        var fromPath =
+            path && path !== 'en-US' && /^[a-z]{2}(-[A-Za-z0-9]+)*$/.test(path);
         var locales = JSON.parse(
             localStorage.getItem('locales') || '["en-US"]',
         );
-        if (Array.isArray(locales) && locales[0] !== 'en-US') {
+        var fromSetting = Array.isArray(locales) && locales[0] !== 'en-US';
+        if (fromPath || fromSetting) {
             document.documentElement.classList.add('locale-loading');
             // Safety valve: always reveal after 5 seconds in case something goes wrong.
             setTimeout(function () {

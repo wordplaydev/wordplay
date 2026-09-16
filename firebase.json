@@ -99,7 +99,8 @@
                 "source": "**",
                 "destination": "/200.html"
             }
-        ]
+        ],
+        "cleanUrls": true
     },
     "emulators": {
         "auth": {

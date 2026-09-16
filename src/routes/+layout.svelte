@@ -103,9 +103,27 @@
         }
     });
 
-    /** Remove the locale-loading class added by locale-preload.js once the preferred locale is ready. */
+    /**
+     * Remove the locale-loading class added by locale-preload.js once the
+     * preferred locale is ready.
+     *
+     * `localesReady` alone is not enough when the URL names the locale. It is
+     * set once the locales the *constructor* asked for have loaded — the
+     * browser's and the stored setting's — and for a first-time reader at
+     * `/es-MX` with an English browser that is en-US, which is bundled, so it
+     * is true immediately. Revealing then would show the English the page was
+     * prerendered in and swap it a moment later, which is the flash the class
+     * exists to prevent. So wait for the locale the URL asked for to be the one
+     * actually in effect.
+     */
     $effect(() => {
-        if (browser && $localesReady)
+        if (!browser) return;
+        const asked = page.params.locale?.split('+')[0];
+        const waiting =
+            asked !== undefined &&
+            isSupportedLocale(asked) &&
+            $locales.getLocaleString() !== asked;
+        if ($localesReady && !waiting)
             document.documentElement.classList.remove('locale-loading');
     });
 
