@@ -124,6 +124,8 @@ type PageText = {
         email: string;
         /** [plain] Names the block for signing out of this device */
         logout: string;
+        /** [plain] Names the block for downloading a copy of everything you have made */
+        export: string;
         /** [plain] Names the block for deleting your account */
         delete: string;
     };
@@ -176,6 +178,93 @@ type PageText = {
          *  yet saved online (e.g. made offline); logging out discards them
          *  from this device. */
         unsaved: string;
+    };
+    /**
+     * Downloading a copy of everything a creator has made (#152).
+     *
+     * The archive itself is a document rather than interface text: its README is
+     * written in the creator's primary language, one paragraph per string here,
+     * so that a file they may open years from now still explains itself.
+     */
+    export: {
+        /** [formatted] Explains what the archive holds, including that conversations and class lists contain other people's words and names */
+        prompt: FormattedText;
+        /** [formatted] Explains why a copy can't be made while looking at someone else's account in a read-only session */
+        proxy: FormattedText;
+        /** Start making the archive and download it */
+        button: ButtonText;
+        /** [plain] How far along the archive is, naming what was just collected and how much there is so far */
+        progress: Template<['kind', '#count']>;
+        /** [plain] Announced when the archive starts being made */
+        started: string;
+        /** [plain] Announced when the archive is ready, naming the file and how many things are in it */
+        finished: Template<['name', '#count']>;
+        /** [plain] Announced when the archive is ready but some of it couldn't be read */
+        finishedPartial: Template<['name', '#count', '#missing']>;
+        /** [plain] Shown when the archive couldn't be made at all */
+        failed: string;
+        /** [formatted] Shown beside the button when the archive was made but some kinds of thing could not be read */
+        incomplete: Template<['kinds']>;
+        /** [plain] Shown when there is too much to fit in one archive */
+        tooLarge: string;
+        /** [plain] Shown when there's no connection to make an archive with */
+        offline: string;
+        /** What each kind of thing is called, in the progress message and in the archive's own explanation of what's missing */
+        kind: {
+            /** [plain] The creator's account itself: their name, when they joined, and what they may do */
+            account: string;
+            /** [plain] The creator's projects */
+            projects: string;
+            /** [plain] The creator's galleries */
+            galleries: string;
+            /** [plain] The creator's characters */
+            characters: string;
+            /** [plain] The creator's how-tos */
+            howtos: string;
+            /** [plain] The creator's conversations */
+            chats: string;
+            /** [plain] The creator's kits */
+            kits: string;
+            /** [plain] The creator's classes */
+            classes: string;
+            /** [plain] The ideas and bugs the creator has sent */
+            feedback: string;
+            /** [plain] Settings and work that live only on this device */
+            device: string;
+            /** [plain] Putting the archive together */
+            archive: string;
+            /** [plain] Handing the archive over to be saved */
+            saving: string;
+        };
+        /** The paragraphs of the explanation written into the archive itself */
+        readme: {
+            /** [plain] First line of the archive's explanation */
+            title: string;
+            /** [plain] What this archive is and when it was made */
+            intro: Template<['name', 'date']>;
+            /** [plain] What each folder in the archive holds */
+            contents: string;
+            /** [plain] What the .json and .wp files in each folder are */
+            contentsFiles: string;
+            /** [plain] What account.json and the self folder hold */
+            contentsAccount: string;
+            /** [plain] What each relationship folder is named and what it holds */
+            relationships: string;
+            /** [plain] That one relationship word can mean two things, and what index.json is for */
+            relationshipsWords: string;
+            /** [plain] That the device folder holds things that exist only on the computer the archive was made on */
+            device: string;
+            /** [plain] How to open a .wp file back up in Wordplay */
+            formats: string;
+            /** [plain] What was deliberately left out of the archive, and why */
+            excluded: string;
+            /** [plain] That conversations and class lists hold other people's words and names, and that nothing in the archive is locked */
+            privacy: string;
+            /** [plain] Introduces the list of things that couldn't be read */
+            missing: string;
+            /** [plain] Points at the manifest file for the details a program would want */
+            manifest: string;
+        };
     };
     button: {
         /** Log out of the account */

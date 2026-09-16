@@ -10051,7 +10051,11 @@
                     "newproject": "$~bagong proyekto",
                     "editproject": "$~i-edit ang proyektong ito",
                     "unarchive": "$~i-unarchive ang proyektong ito",
-                    "viewproject": "$~tingnan ang kodigo ng proyektong ito"
+                    "viewproject": "$~tingnan ang kodigo ng proyektong ito",
+                    "import": {
+                        "tip": "$~buksan ang isang project file na na-save mo",
+                        "label": "$~buksan ang isang project file…"
+                    }
                 },
                 "confirm": {
                     "archive": {
@@ -10067,7 +10071,10 @@
                     "noaccess": "$~Hindi namin ma-access ang internet.",
                     "newgallery": "$~Hindi kami makagawa ng bagong gallery.",
                     "nodeletes": "$~Dapat ay <login@://login> ka para mabura ang mga naka-archive na proyekto.",
-                    "delete": "$~Naku, hindi namin mabura ang proyekto!"
+                    "delete": "$~Naku, hindi namin mabura ang proyekto!",
+                    "importEmpty": "$~Walang laman ang file na iyon.",
+                    "importTooLarge": "$~Masyadong malaki ang proyektong iyon para ma-save ng Wordplay. Sumubok ng isa na mas maliit.",
+                    "importUnreadable": "$~Hindi mabasa ng Wordplay ang file na iyon. Ang mga project file ay nagtatapos sa .wp."
                 },
                 "installedprompt": "$~Ginagamit mo ang Wordplay bilang isang naka-install na app, at may sariling mga proyekto ito, hiwalay sa mga nasa iyong web browser. Nandiyan pa rin ang anumang proyekto na ginawa mo sa iyong browser. <Mag-log in@://login> para makita ang lahat ng iyong proyekto sa dalawang lugar.",
                 "sort": {
@@ -10112,6 +10119,20 @@
                         "none": "$~I-click ang isang proyekto o folder para piliin ito.",
                         "project": "$~Ilipat ang proyektong ito gamit ang mga pindutang *pataas* at *pababa*, o hilahin ito papunta sa isang folder. Pindutin ang *escape* kapag tapos ka na.",
                         "folder": "$~I-type ang pangalan para palitan ang pangalan ng folder na ito. Kung burahin mo ito, mailalagay ang lahat ng laman nito sa iyong archive."
+                    }
+                },
+                "import": {
+                    "done": "$~Binuksan ang $name.",
+                    "drop": "$~Ilagay dito ang isang project file para buksan ito.",
+                    "replaced": "$~Pinalitan ang proyektong ito ng $name.",
+                    "replace": {
+                        "header": "$~Palitan ang proyektong ito?",
+                        "explanation": "$~Papalitan ang kodigo sa proyektong ito. Sine-save ng Wordplay kung ano ang narito ngayon, kaya maibabalik mo ito mula sa kasaysayan ng proyekto.",
+                        "prompt": "$~Buksan ang $name dito sa halip na kung ano ang nasa proyektong ito ngayon?",
+                        "confirm": {
+                            "tip": "$~palitan ang proyektong ito ng file na inilagay mo",
+                            "label": "$~palitan"
+                        }
                     }
                 }
             },
@@ -10707,9 +10728,55 @@
                     "password": "$~Ang iyong password",
                     "email": "$~Email",
                     "logout": "$~Mag-sign out",
-                    "delete": "$~Burahin ang iyong account"
+                    "delete": "$~Burahin ang iyong account",
+                    "export": "$~Ang iyong arkibo"
                 },
-                "profile": "$~Profile"
+                "profile": "$~Profile",
+                "export": {
+                    "prompt": "$~I-download ang isang kopya ng lahat ng iyong nagawa. Kasama rito ang iyong mga proyekto, karakter, gallery, kung paano gawin, kit, pag-uusap, klase, at mga setting. Ang bawat proyekto ay dumarating bilang isang file na puwede mong buksan ulit sa Wordplay. May mga bahagi rito na hindi lamang sa iyo: ang mga pag-uusap ay may laman kung ano ang sinabi ng lahat, at ang mga listahan ng klase ay may pangalan ng ibang tao. Kahit sino na bigyan mo ng file ay makakabasa ng lahat nito, kaya itago ito sa isang lugar na pribado.",
+                    "proxy": "$~Tinitingnan mo ang account ng ibang tao, kaya hindi mo maaaring i-download ang isang kopya nito.",
+                    "button": {
+                        "tip": "$~i-download ang isang kopya ng lahat sa iyong account",
+                        "label": "$~i-download ang aking arkibo…"
+                    },
+                    "progress": "$~Nakolekta na $kind: $#count[$count bagay|$count na bagay] sa ngayon",
+                    "started": "$~Ginagawa ang iyong arkibo.",
+                    "finished": "$~Handa na ang iyong arkibong $name, na may $#count[$count bagay|$count na bagay] dito.",
+                    "finishedPartial": "$~Handa na ang iyong arkibong $name, na may $#count[$count bagay|$count na bagay] dito, ngunit hindi mabasa ang $#missing[$missing uri|$missing na uri].",
+                    "failed": "$~Hindi nagawa ang iyong arkibo. Subukan ulit sa ibang sandali.",
+                    "tooLarge": "$~Gumawa ka ng higit pa sa kaya ng isang arkibo. Sabihin sa amin at tutulungan ka naming makuha ito.",
+                    "offline": "$~Hindi maabot ng Wordplay ang internet, kaya hindi nito magawa ang iyong arkibo.",
+                    "kind": {
+                        "account": "$~ang iyong akawnt",
+                        "projects": "$~ang iyong mga proyekto",
+                        "galleries": "$~ang iyong mga galerya",
+                        "characters": "$~ang iyong mga karakter",
+                        "howtos": "$~ang iyong mga kung paano gawin",
+                        "chats": "$~ang iyong mga pag-uusap",
+                        "kits": "$~ang iyong mga kit",
+                        "classes": "$~ang iyong mga klase",
+                        "feedback": "$~ang iyong mga ideya at ulat ng bug",
+                        "device": "$~mga setting ng device na ito",
+                        "archive": "$~ang archive",
+                        "saving": "$~ang file"
+                    },
+                    "readme": {
+                        "title": "$~Ang iyong Wordplay archive",
+                        "intro": "$~Ito ay kopya ng lahat ng laman ng akawnt sa Wordplay na $name. Ginawa ito noong $date. Ginawa ito ng Wordplay para sa iyo. Walang ibang may kopya nito.",
+                        "contents": "$~Bawat folder ay naglalaman ng isang uri ng bagay. May mga folder para sa iyong mga proyekto, karakter, galerya, kung paano gawin, kit, pag-uusap, at klase.",
+                        "relationships": "$~Sa loob ng bawat folder, nakaayos ang mga bagay ayon sa kung paano ka konektado sa mga ito. Ang folder na pinangalanang owner ay naglalaman ng ginawa mo. Ang creator ay naglalaman ng isinulat mo o maaaring idagdag mo. Ang curator ay naglalaman ng inaalagaan mo. Ang teacher at learner ay naglalaman ng mga klase. Ang collaborator, commenter, at viewer ay naglalaman ng gawang pag-aari ng iba.",
+                        "device": "$~Ang device folder ay naglalaman ng mga bagay na nasa computer lamang kung saan ginawa ang archive na ito. Naririto ang mga setting na hindi naka-save online, mga pagsasalin na sinimulan mo, at mga gawaing hindi pa tapos ma-save. Kung gagawa ka ng archive sa ibang computer, hindi kasama ang mga ito.",
+                        "formats": "$~Para buksan muli ang isang proyekto, pumunta sa iyong pahina ng mga proyekto sa Wordplay at piliin ang \"buksan ang isang project file\". Puwede mo ring i-drag ang .wp file papunta sa pahinang iyon. Kung gusto mong palitan ang isang proyektong meron ka na, i-drag ang file papunta dito at tatanungin ka muna ng Wordplay.",
+                        "excluded": "$~May ilang bagay na wala rito. Hindi kasama ng Wordplay ang paisa-isang talaan ng iyong mga pagbabago, dahil naipakita na ng proyekto mismo ang resulta ng mga pagbabagong iyon. Hindi rin kasama ang talaan kung sino ang tumingin sa isang proyekto. Hindi rin kasama ang mga ulat tungkol sa nasirang mga alituntunin, dahil isinulat ang mga iyon para sa mga taong sumusuri sa mga ito.",
+                        "privacy": "$~Hindi lahat dito ay sa iyo lamang. Ang isang pag-uusap ay naglalaman ng sinabi ng lahat ng kasali rito. Ang isang klase ay naglalaman ng mga pangalan ng lahat ng kasapi rito. Sinumang bigyan mo ng file na ito ay mababasa ang lahat nito. Itago ito sa lugar na pribado, at pag-isipan kung sino pa ang kasali rito bago mo ito ibahagi.",
+                        "missing": "$~May ilang bagay na hindi nabasa ng Wordplay noong ginawa ang archive na ito. Wala ang mga ito rito:",
+                        "manifest": "$~Ang manifest.json ay naglalaman ng parehong mga impormasyon sa anyong mababasa ng isang programa. Sinasabi nito kung kailan ito ginawa, ilan ang bawat uri ng bagay, at ano ang hindi naisama.",
+                        "contentsFiles": "$~Bawat item ay may .json file. Iyan mismo ang eksaktong iniimbak ng Wordplay. Bawat proyekto rin ay may .wp file. Iyan ang proyektong nakasulat nang buo para mabasa mo ito at mabuksan muli.",
+                        "contentsAccount": "$~Sinasabi ng account.json kung sino ka, kailan ka sumali, at ano ang pinapayagang gawin mo. Ang self folder ay naglalaman ng iniingatan ng Wordplay tungkol sa iyo: ang iyong username, kung gaano karaming pagsasalin ang nagawa mo, anumang babalang natanggap mo, at ang iyong mga abiso.",
+                        "relationshipsWords": "$~Ang parehong salita ay maaaring may dalawang kahulugan. Ang creator ng isang galerya ay maaaring magdagdag ng mga proyekto rito. Ang creator ng isang kung paano gawin ay siyang sumulat nito. Bawat folder ay may index.json din. Nakalista rito ang bawat paraan kung paano ka konektado sa bawat item, dahil maaaring higit sa isa ang totoo."
+                    },
+                    "incomplete": "$~Handa na ang iyong archive, pero hindi mabasa ang mga sumusunod, kaya wala ito sa loob nito: $kinds"
+                }
             },
             "join": {
                 "header": "$~Sumali",

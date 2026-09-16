@@ -1,3 +1,5 @@
+import { serializePreamble, type Preamble } from './preamble';
+
 /**
  * The inverse of `parseSerializedProject` in `examples.ts`: renders a `.wp`
  * example file from its parsed pieces. `Project.toWordplay()` is not usable
@@ -12,15 +14,22 @@
  * Two constructs cannot round-trip and callers must avoid them: a code or doc
  * line beginning `=== ` (the parser would split there), and a glyphless file
  * whose name is a single grapheme (the parser would read it as the glyph).
+ *
+ * `preamble` is optional and defaulted so every existing caller is unchanged —
+ * which is what keeps the byte-exact round-trip over the 75 example masters
+ * true without touching one of them. Only an exported project file passes one;
+ * see preamble.ts for why nothing in the corpus ever may.
  */
 export function serializeExample(
     previewGlyph: string | undefined,
     name: string,
     sources: { names: string; code: string }[],
+    preamble: Preamble = {},
 ): string {
     return (
         (previewGlyph !== undefined ? `${previewGlyph}\n` : '') +
         `${name}\n` +
+        serializePreamble(preamble) +
         sources
             .map(
                 (source, index) =>

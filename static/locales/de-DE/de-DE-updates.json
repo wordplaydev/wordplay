@@ -986,6 +986,9 @@
         "eb770841e3ff7": "$~Die Liste der Tastenkürzel zeigt jetzt jeden Befehl, auch solche ohne Tastenkürzel, und wo du diese stattdessen findest. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
         "e951c6f0b07aa": "$~Du kannst jetzt jedes Tastenkürzel auf Tasten ändern, die deine Tastatur erreichen kann, und deine Wahl folgt dir auf jeden Computer, bei dem du dich anmeldest. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
         "efc9a05b9de4f": "$~Wir haben eine Wie-man-Anleitung und neue Wörterbuch-Einträge im <Leitfaden@https://wordplay.dev/guide> ergänzt. Sie erklären, wie ein Projekt mehr als eine Quelle haben kann und wie man zwischen ihnen teilen und leihen kann. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
-        "ee25d92cdeeaa": "$~Die Anleitung erklärt jetzt, dass ein Projekt mehr als eine Quelle haben kann. Sie bietet dir auch einen Rundgang durch die Projektsteuerung. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
+        "ee25d92cdeeaa": "$~Die Anleitung erklärt jetzt, dass ein Projekt mehr als eine Quelle haben kann. Sie bietet dir auch einen Rundgang durch die Projektsteuerung. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "e35eab7d1d833": "$~Du kannst jetzt eine Kopie von allem herunterladen, was du gemacht hast. Das sind deine Projekte, Figuren, Galerien und Einstellungen. Du findest das auf deiner Profilseite. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e794f84f1c313": "$~Du kannst jetzt eine Projektdatei auf deiner <Projekte@https://wordplay.dev/projects>-Seite öffnen. Wähle sie aus oder ziehe sie auf die Seite. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e5382816343d1": "$~Du kannst eine Projektdatei auf ein Projekt ziehen, das du schon hast, um dessen Inhalt zu ersetzen. Wir fragen dich vorher. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
     }
 }

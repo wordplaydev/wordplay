@@ -848,12 +848,35 @@ test('resolving a color needs no basis', () => {
 // following a tooltip onto the landing page. Every byte ceiling moves a
 // hundredth with the file, its rules, and the schema version that stores it.
 
+// Exporting an account (#152) is **+0 files** and a few hundred bytes on every
+// graph: the strings the profile card and the archive's own README need in
+// `en-US.json`, which every page carries because every page resolves a locale,
+// and two announcement kinds in `announcerQueue.ts`. It is the en-US.json case
+// the rule above allows, and nothing else follows it here — `src/db/export` is
+// reached only by a dynamic import inside the button's own handler, so neither
+// the query surface nor the zip writer is on any of these graphs. Four of the
+// five byte ceilings had no slack left and move; the galleries page absorbed it.
+
+// A project file that can be brought back (#152) adds **+1 file** to all five:
+// `src/examples/preamble.ts`, reached through `examples.ts`, which every page
+// carries via `ProjectsDatabase`. It is the settings-leaf case this file's rule
+// allows a file budget to move by one for — it imports nothing at all, so one
+// file is all it can ever cost, and keeping the format's metadata syntax in its
+// own module is what lets the corpus guard and the parser share one definition
+// of where a preamble lives. The import machinery itself is NOT here: the
+// picker and `importProject.ts` are reached only from the projects page, whose
+// own budget therefore moves by **+2 files** rather than one: `ImportProject.svelte`
+// and `importProject.ts`. Both are small leaves — the control imports only Button
+// and Notice, and the decider only the parser it shares with the corpus guard. Three byte ceilings with no slack left move
+// by a hundredth, which is that module plus the strings the import control and
+// its failures need in en-US.json.
+
 test.each([
-    ['src/routes/+layout.svelte', 533, 4.05],
-    ['src/components/app/Page.svelte', 557, 4.3],
-    ['src/routes/[[locale]]/+page.svelte', 572, 4.39],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 577, 4.41],
-    ['src/routes/[[locale]]/projects/+page.svelte', 584, 4.43],
+    ['src/routes/+layout.svelte', 534, 4.06],
+    ['src/components/app/Page.svelte', 558, 4.32],
+    ['src/routes/[[locale]]/+page.svelte', 573, 4.41],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 578, 4.42],
+    ['src/routes/[[locale]]/projects/+page.svelte', 587, 4.46],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

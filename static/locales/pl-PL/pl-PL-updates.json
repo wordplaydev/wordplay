@@ -986,6 +986,9 @@
         "ec2a904d11589": "$~Niektóre skróty zmieniono na klawisze, których nie zajmują dla siebie Windows, Chromebooki ani Linux. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
         "eb770841e3ff7": "$~Lista skrótów pokazuje teraz wszystkie polecenia, w tym te bez skrótu, oraz miejsce, gdzie ich szukać. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
         "efc9a05b9de4f": "$~Dodaliśmy poradnik \"jak\" oraz nowe słowa do słowniczka w <Przewodniku@https://wordplay.dev/guide>, które wyjaśniają, jak projekt może mieć więcej niż jeden plik źródłowy oraz jak udostępniać i pożyczać rzeczy między nimi. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
-        "ee25d92cdeeaa": "$~Samouczek mówi teraz, że projekt może mieć więcej niż jeden plik źródłowy, i pokazuje przegląd elementów sterujących projektem. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
+        "ee25d92cdeeaa": "$~Samouczek mówi teraz, że projekt może mieć więcej niż jeden plik źródłowy, i pokazuje przegląd elementów sterujących projektem. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "e35eab7d1d833": "$~Możesz teraz pobrać kopię wszystkiego, co stworzyłeś: swoich projektów, postaci, galerii i ustawień, ze strony swojego profilu. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e794f84f1c313": "$~Możesz teraz otworzyć plik projektu na swojej stronie <Projekty@https://wordplay.dev/projects>, wybierając go albo przeciągając na tę stronę. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e5382816343d1": "$~Możesz przeciągnąć plik projektu na projekt, który już masz, aby zastąpić jego zawartość. Zapytamy cię o to najpierw. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
     }
 }

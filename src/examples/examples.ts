@@ -12,6 +12,7 @@ import { parseNames } from '@parser/parseBind';
 import { toTokens } from '@parser/toTokens';
 import UnicodeString from '@unicode/UnicodeString';
 import { must } from '@util/nullable';
+import { parsePreamble, type Preamble } from './preamble';
 
 /** This mirrors the static path to examples, but also helps distinguish project IDs from example project names. */
 export const ExamplePrefix = 'example-';
@@ -30,6 +31,43 @@ function parsePreviewLine(line: string): string | undefined {
     return us.getLength() === 1 ? trimmed : undefined;
 }
 
+/**
+ * Everything a `.wp` file says before its first source, and the text that
+ * follows.
+ *
+ * One function so the corpus guard and the parser cannot disagree about where
+ * a preamble lives — which matters more than it looks, because a preamble read
+ * one line too late becomes a phantom source at index 0, and index 0 is the
+ * project's main source.
+ */
+export function peelHeader(project: string): {
+    previewGlyph: string | undefined;
+    name: string;
+    preamble: Preamble;
+    rest: string;
+} {
+    let lines = project.split('\n');
+
+    // Optional preview-glyph first line. If present, peel it off so the
+    // second line is the project name as in the legacy format.
+    const previewGlyph = parsePreviewLine(lines[0] ?? '');
+    if (previewGlyph !== undefined) lines = lines.slice(1);
+
+    // The first line of the (possibly peeled) body is the project name.
+    const name = must(lines[0], 'a project name line').trim();
+
+    // Then the optional metadata block (#152), which an exported project file
+    // carries and nothing in the examples corpus ever may. See preamble.ts.
+    const { preamble, end } = parsePreamble(lines.slice(1));
+
+    return {
+        previewGlyph,
+        name,
+        preamble,
+        rest: lines.slice(1 + end).join('\n'),
+    };
+}
+
 export function parseSerializedProject(
     project: string,
     id: string,
@@ -42,19 +80,7 @@ export function parseSerializedProject(
      */
     locales?: string[],
 ): SerializedProject {
-    let lines = project.split('\n');
-
-    // Optional preview-glyph first line. If present, peel it off so the
-    // second line is the project name as in the legacy format.
-    const previewGlyph = parsePreviewLine(lines[0] ?? '');
-    if (previewGlyph !== undefined) lines = lines.slice(1);
-
-    // Reconstruct the remainder for downstream `===`-splitting.
-    const body = lines.join('\n');
-    const rest = body.substring(lines.slice(0, 1).join().length + 1);
-
-    // The first line of the (possibly peeled) body is the project name.
-    const name = must(lines[0], 'a project name line').trim();
+    const { previewGlyph, name, preamble, rest } = peelHeader(project);
 
     // Split the file by "===" lines
     const files = rest.split(/(?==== .*\n)/g);
@@ -77,7 +103,7 @@ export function parseSerializedProject(
     const preview: SerializedPreview | undefined =
         previewGlyph !== undefined
             ? {
-                  mode: 'auto',
+                  mode: preamble.preview ?? 'auto',
                   text: previewGlyph,
                   foreground: null,
                   background: null,
@@ -95,9 +121,11 @@ export function parseSerializedProject(
         locales:
             locales !== undefined && locales.length > 0
                 ? locales
-                : languages.size === 0
-                  ? ['en-US']
-                  : Array.from(languages),
+                : // A file that declares its locales is more reliable than the
+                  // tags on its source names: a project may declare one whose
+                  // text failed to load, which derivation would lose.
+                  (preamble.locales ??
+                  (languages.size === 0 ? ['en-US'] : Array.from(languages))),
         owner: null,
         collaborators: [],
         public: true,

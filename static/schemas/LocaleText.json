@@ -25083,6 +25083,215 @@
                                             ],
                                             "type": "object"
                                         },
+                                        "export": {
+                                            "additionalProperties": false,
+                                            "description": "Downloading a copy of everything a creator has made (#152).\n\nThe archive itself is a document rather than interface text: its README is written in the creator's primary language, one paragraph per string here, so that a file they may open years from now still explains itself.",
+                                            "properties": {
+                                                "button": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Start making the archive and download it"
+                                                },
+                                                "failed": {
+                                                    "description": "[plain] Shown when the archive couldn't be made at all",
+                                                    "type": "string"
+                                                },
+                                                "finished": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22%23count%22%5D%3E",
+                                                    "description": "[plain] Announced when the archive is ready, naming the file and how many things are in it"
+                                                },
+                                                "finishedPartial": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22%23count%22%2C%22%23missing%22%5D%3E",
+                                                    "description": "[plain] Announced when the archive is ready but some of it couldn't be read"
+                                                },
+                                                "incomplete": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22kinds%22%5D%3E",
+                                                    "description": "[formatted] Shown beside the button when the archive was made but some kinds of thing could not be read"
+                                                },
+                                                "kind": {
+                                                    "additionalProperties": false,
+                                                    "description": "What each kind of thing is called, in the progress message and in the archive's own explanation of what's missing",
+                                                    "properties": {
+                                                        "account": {
+                                                            "description": "[plain] The creator's account itself: their name, when they joined, and what they may do",
+                                                            "type": "string"
+                                                        },
+                                                        "archive": {
+                                                            "description": "[plain] Putting the archive together",
+                                                            "type": "string"
+                                                        },
+                                                        "characters": {
+                                                            "description": "[plain] The creator's characters",
+                                                            "type": "string"
+                                                        },
+                                                        "chats": {
+                                                            "description": "[plain] The creator's conversations",
+                                                            "type": "string"
+                                                        },
+                                                        "classes": {
+                                                            "description": "[plain] The creator's classes",
+                                                            "type": "string"
+                                                        },
+                                                        "device": {
+                                                            "description": "[plain] Settings and work that live only on this device",
+                                                            "type": "string"
+                                                        },
+                                                        "feedback": {
+                                                            "description": "[plain] The ideas and bugs the creator has sent",
+                                                            "type": "string"
+                                                        },
+                                                        "galleries": {
+                                                            "description": "[plain] The creator's galleries",
+                                                            "type": "string"
+                                                        },
+                                                        "howtos": {
+                                                            "description": "[plain] The creator's how-tos",
+                                                            "type": "string"
+                                                        },
+                                                        "kits": {
+                                                            "description": "[plain] The creator's kits",
+                                                            "type": "string"
+                                                        },
+                                                        "projects": {
+                                                            "description": "[plain] The creator's projects",
+                                                            "type": "string"
+                                                        },
+                                                        "saving": {
+                                                            "description": "[plain] Handing the archive over to be saved",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "account",
+                                                        "projects",
+                                                        "galleries",
+                                                        "characters",
+                                                        "howtos",
+                                                        "chats",
+                                                        "kits",
+                                                        "classes",
+                                                        "feedback",
+                                                        "device",
+                                                        "archive",
+                                                        "saving"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "offline": {
+                                                    "description": "[plain] Shown when there's no connection to make an archive with",
+                                                    "type": "string"
+                                                },
+                                                "progress": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22kind%22%2C%22%23count%22%5D%3E",
+                                                    "description": "[plain] How far along the archive is, naming what was just collected and how much there is so far"
+                                                },
+                                                "prompt": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Explains what the archive holds, including that conversations and class lists contain other people's words and names"
+                                                },
+                                                "proxy": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Explains why a copy can't be made while looking at someone else's account in a read-only session"
+                                                },
+                                                "readme": {
+                                                    "additionalProperties": false,
+                                                    "description": "The paragraphs of the explanation written into the archive itself",
+                                                    "properties": {
+                                                        "contents": {
+                                                            "description": "[plain] What each folder in the archive holds",
+                                                            "type": "string"
+                                                        },
+                                                        "contentsAccount": {
+                                                            "description": "[plain] What account.json and the self folder hold",
+                                                            "type": "string"
+                                                        },
+                                                        "contentsFiles": {
+                                                            "description": "[plain] What the .json and .wp files in each folder are",
+                                                            "type": "string"
+                                                        },
+                                                        "device": {
+                                                            "description": "[plain] That the device folder holds things that exist only on the computer the archive was made on",
+                                                            "type": "string"
+                                                        },
+                                                        "excluded": {
+                                                            "description": "[plain] What was deliberately left out of the archive, and why",
+                                                            "type": "string"
+                                                        },
+                                                        "formats": {
+                                                            "description": "[plain] How to open a .wp file back up in Wordplay",
+                                                            "type": "string"
+                                                        },
+                                                        "intro": {
+                                                            "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22date%22%5D%3E",
+                                                            "description": "[plain] What this archive is and when it was made"
+                                                        },
+                                                        "manifest": {
+                                                            "description": "[plain] Points at the manifest file for the details a program would want",
+                                                            "type": "string"
+                                                        },
+                                                        "missing": {
+                                                            "description": "[plain] Introduces the list of things that couldn't be read",
+                                                            "type": "string"
+                                                        },
+                                                        "privacy": {
+                                                            "description": "[plain] That conversations and class lists hold other people's words and names, and that nothing in the archive is locked",
+                                                            "type": "string"
+                                                        },
+                                                        "relationships": {
+                                                            "description": "[plain] What each relationship folder is named and what it holds",
+                                                            "type": "string"
+                                                        },
+                                                        "relationshipsWords": {
+                                                            "description": "[plain] That one relationship word can mean two things, and what index.json is for",
+                                                            "type": "string"
+                                                        },
+                                                        "title": {
+                                                            "description": "[plain] First line of the archive's explanation",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "title",
+                                                        "intro",
+                                                        "contents",
+                                                        "contentsFiles",
+                                                        "contentsAccount",
+                                                        "relationships",
+                                                        "relationshipsWords",
+                                                        "device",
+                                                        "formats",
+                                                        "excluded",
+                                                        "privacy",
+                                                        "missing",
+                                                        "manifest"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "started": {
+                                                    "description": "[plain] Announced when the archive starts being made",
+                                                    "type": "string"
+                                                },
+                                                "tooLarge": {
+                                                    "description": "[plain] Shown when there is too much to fit in one archive",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "prompt",
+                                                "proxy",
+                                                "button",
+                                                "progress",
+                                                "started",
+                                                "finished",
+                                                "finishedPartial",
+                                                "failed",
+                                                "incomplete",
+                                                "tooLarge",
+                                                "offline",
+                                                "kind",
+                                                "readme"
+                                            ],
+                                            "type": "object"
+                                        },
                                         "feedback": {
                                             "additionalProperties": false,
                                             "properties": {
@@ -25339,6 +25548,10 @@
                                                     "description": "[plain] Names the block holding your email address and what Wordplay sends to it",
                                                     "type": "string"
                                                 },
+                                                "export": {
+                                                    "description": "[plain] Names the block for downloading a copy of everything you have made",
+                                                    "type": "string"
+                                                },
                                                 "logout": {
                                                     "description": "[plain] Names the block for signing out of this device",
                                                     "type": "string"
@@ -25363,6 +25576,7 @@
                                                 "password",
                                                 "email",
                                                 "logout",
+                                                "export",
                                                 "delete"
                                             ],
                                             "type": "object"
@@ -25435,6 +25649,7 @@
                                         "subheader",
                                         "notifications",
                                         "error",
+                                        "export",
                                         "button",
                                         "toggle"
                                     ],
@@ -25791,6 +26006,10 @@
                                                     "description": "[plain] Edit a project",
                                                     "type": "string"
                                                 },
+                                                "import": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "Bring a project back from a file (#152)"
+                                                },
                                                 "newproject": {
                                                     "description": "[plain] Create a new project",
                                                     "type": "string"
@@ -25808,7 +26027,8 @@
                                                 "newproject",
                                                 "editproject",
                                                 "viewproject",
-                                                "unarchive"
+                                                "unarchive",
+                                                "import"
                                             ],
                                             "type": "object"
                                         },
@@ -25834,6 +26054,18 @@
                                                     "description": "[plain] Unable to delete project",
                                                     "type": "string"
                                                 },
+                                                "importEmpty": {
+                                                    "description": "[plain] When a chosen project file has nothing in it",
+                                                    "type": "string"
+                                                },
+                                                "importTooLarge": {
+                                                    "description": "[plain] When a chosen project file is too big to ever save",
+                                                    "type": "string"
+                                                },
+                                                "importUnreadable": {
+                                                    "description": "[plain] When a chosen file is not a project Wordplay can read",
+                                                    "type": "string"
+                                                },
                                                 "newgallery": {
                                                     "description": "[plain] Unable to create a gallery",
                                                     "type": "string"
@@ -25851,7 +26083,10 @@
                                                 "noaccess",
                                                 "newgallery",
                                                 "nodeletes",
-                                                "delete"
+                                                "delete",
+                                                "importEmpty",
+                                                "importTooLarge",
+                                                "importUnreadable"
                                             ],
                                             "type": "object"
                                         },
@@ -26004,6 +26239,60 @@
                                             "description": "[plain] Header for the projects page",
                                             "type": "string"
                                         },
+                                        "import": {
+                                            "additionalProperties": false,
+                                            "description": "Bringing a project back from a file (#152)",
+                                            "properties": {
+                                                "done": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                                    "description": "[plain] Announced when a project has been brought back, naming it"
+                                                },
+                                                "drop": {
+                                                    "description": "[plain] Invitation shown while a file is held over the page",
+                                                    "type": "string"
+                                                },
+                                                "replace": {
+                                                    "additionalProperties": false,
+                                                    "description": "Asking before a dropped file replaces what an open project holds",
+                                                    "properties": {
+                                                        "confirm": {
+                                                            "$ref": "#/definitions/ButtonText",
+                                                            "description": "Go ahead and replace"
+                                                        },
+                                                        "explanation": {
+                                                            "description": "[plain] Says what replacing does, and that the old version is kept",
+                                                            "type": "string"
+                                                        },
+                                                        "header": {
+                                                            "description": "[plain] Names the question",
+                                                            "type": "string"
+                                                        },
+                                                        "prompt": {
+                                                            "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                                            "description": "[formatted] Names the project that would replace this one"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "header",
+                                                        "explanation",
+                                                        "prompt",
+                                                        "confirm"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "replaced": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                                    "description": "[plain] Announced when a dropped project replaced an open one"
+                                                }
+                                            },
+                                            "required": [
+                                                "done",
+                                                "drop",
+                                                "replaced",
+                                                "replace"
+                                            ],
+                                            "type": "object"
+                                        },
                                         "installedprompt": {
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] Explanation shown in the installed app when signed out with no projects, since an installed app's projects are stored separately from the web browser's"
@@ -26062,6 +26351,7 @@
                                         "folder",
                                         "search",
                                         "button",
+                                        "import",
                                         "confirm",
                                         "error"
                                     ],
@@ -30817,7 +31107,13 @@
         "Template<[\"keyword\"]>": {
             "type": "string"
         },
+        "Template<[\"kind\",\"#count\"]>": {
+            "type": "string"
+        },
         "Template<[\"kind\"]>": {
+            "type": "string"
+        },
+        "Template<[\"kinds\"]>": {
             "type": "string"
         },
         "Template<[\"kit\"]>": {
@@ -30883,6 +31179,9 @@
         "Template<[\"modifier\",\"color\"]>": {
             "type": "string"
         },
+        "Template<[\"name\",\"#count\",\"#missing\"]>": {
+            "type": "string"
+        },
         "Template<[\"name\",\"#count\"]>": {
             "type": "string"
         },
@@ -30890,6 +31189,9 @@
             "type": "string"
         },
         "Template<[\"name\",\"count\"]>": {
+            "type": "string"
+        },
+        "Template<[\"name\",\"date\"]>": {
             "type": "string"
         },
         "Template<[\"name\",\"direction\",\"place\"]>": {

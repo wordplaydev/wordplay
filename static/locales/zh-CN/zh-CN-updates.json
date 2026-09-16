@@ -986,6 +986,9 @@
         "ec2a904d11589": "$~一些快捷键换成了新的键，这些键不会被 Windows、Chromebook 和 Linux 系统自己占用。（<826@https://github.com/wordplaydev/wordplay/issues/826>）",
         "eb770841e3ff7": "$~快捷键列表现在会显示所有命令，包括那些没有快捷键的命令，还会告诉你去哪里找到它们。（<913@https://github.com/wordplaydev/wordplay/issues/913>）",
         "efc9a05b9de4f": "$~我们在《<指南@https://wordplay.dev/guide>》里新增了一篇如何指南和一些词汇表新词，解释了一个项目怎样可以有多个源文件，以及怎样在它们之间分享和借用东西。（<268@https://github.com/wordplaydev/wordplay/issues/268>）",
-        "ee25d92cdeeaa": "$~教程现在会告诉你，一个项目可以有多个源文件，还会带你了解项目控制项。（<268@https://github.com/wordplaydev/wordplay/issues/268>）"
+        "ee25d92cdeeaa": "$~教程现在会告诉你，一个项目可以有多个源文件，还会带你了解项目控制项。（<268@https://github.com/wordplaydev/wordplay/issues/268>）",
+        "e35eab7d1d833": "$~你现在可以从你的个人主页下载你所做的一切，包括你的项目、角色、作品库和设置。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
+        "e794f84f1c313": "$~你现在可以在你的 <Projects@https://wordplay.dev/projects> 页面打开一个项目文件，方法是选择它，或者把它拖到页面上。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
+        "e5382816343d1": "$~你可以把一个项目文件拖到你已有的项目上，用它替换里面的内容，我们会先问你一遍。（<152@https://github.com/wordplaydev/wordplay/issues/152>）"
     }
 }

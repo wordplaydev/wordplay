@@ -10366,7 +10366,25 @@
                     "newproject": "new project",
                     "editproject": "edit this project",
                     "viewproject": "view this project's code",
-                    "unarchive": "unarchive this project"
+                    "unarchive": "unarchive this project",
+                    "import": {
+                        "tip": "open a project file you saved",
+                        "label": "open a project file…"
+                    }
+                },
+                "import": {
+                    "done": "Opened $name.",
+                    "drop": "Drop a project file here to open it.",
+                    "replaced": "Replaced this project with $name.",
+                    "replace": {
+                        "header": "Replace this project?",
+                        "explanation": "The code in this project will be replaced. Wordplay saves what is here now, so you can get it back from the project history.",
+                        "prompt": "Open $name here instead of what this project has now?",
+                        "confirm": {
+                            "tip": "replace this project with the file you dropped",
+                            "label": "replace"
+                        }
+                    }
                 },
                 "confirm": {
                     "archive": {
@@ -10382,7 +10400,10 @@
                     "noaccess": "We couldn't reach the internet.",
                     "newgallery": "We couldn't create a new gallery.",
                     "nodeletes": "You must be <logged in@://login> to delete archived projects.",
-                    "delete": "Oops, we couldn't delete the project!"
+                    "delete": "Oops, we couldn't delete the project!",
+                    "importEmpty": "That file has nothing in it.",
+                    "importTooLarge": "That project is too big for Wordplay to save. Try one with less in it.",
+                    "importUnreadable": "Wordplay could not read that file. Project files end in .wp."
                 },
                 "sort": {
                     "label": "order",
@@ -10894,7 +10915,8 @@
                     "password": "Your password",
                     "email": "Email",
                     "logout": "Sign out",
-                    "delete": "Delete your account"
+                    "delete": "Delete your account",
+                    "export": "Your archive"
                 },
                 "username": {
                     "change": "Your username is how other people see you, and it begins the name of every character you make. You can change it whenever you like. Your old name keeps working, so anything already pointing at your characters still finds them.",
@@ -11018,6 +11040,51 @@
                             "Don't email me about new chats and how-tos",
                             "Email me about new chats and how-tos"
                         ]
+                    }
+                },
+                "export": {
+                    "prompt": "Download a copy of everything you have made. It holds your projects, characters, galleries, how-tos, kits, conversations, classes, and settings. Each project comes as a file you can open in Wordplay again. Some of it is not only yours: conversations hold what everyone said, and class lists hold other people’s names. Anyone you give the file to can read all of it, so keep it somewhere private.",
+                    "proxy": "You are looking at someone else's account, so you cannot download a copy of it.",
+                    "button": {
+                        "tip": "download a copy of everything in your account",
+                        "label": "download my archive…"
+                    },
+                    "progress": "Collected $kind: $#count[$count thing|$count things] so far",
+                    "started": "Making your archive.",
+                    "finished": "Your archive $name is ready, with $#count[$count thing|$count things] in it.",
+                    "finishedPartial": "Your archive $name is ready, with $#count[$count thing|$count things] in it, but $#missing[$missing kind|$missing kinds] could not be read.",
+                    "failed": "Your archive couldn't be made. Try again in a moment.",
+                    "incomplete": "Your archive is ready, but these could not be read, so they are not in it: $kinds",
+                    "tooLarge": "You have made more than one archive can hold. Tell us and we'll help you get it.",
+                    "offline": "Wordplay can't reach the internet, so it can't make your archive.",
+                    "kind": {
+                        "account": "your account",
+                        "projects": "your projects",
+                        "galleries": "your galleries",
+                        "characters": "your characters",
+                        "howtos": "your how-tos",
+                        "chats": "your conversations",
+                        "kits": "your kits",
+                        "classes": "your classes",
+                        "feedback": "your ideas and bug reports",
+                        "device": "this device's settings",
+                        "archive": "the archive",
+                        "saving": "the file"
+                    },
+                    "readme": {
+                        "title": "Your Wordplay archive",
+                        "intro": "This is a copy of everything in the Wordplay account $name. It was made on $date. Wordplay made it for you. Nobody else has a copy.",
+                        "contents": "Each folder holds one kind of thing. There are folders for your projects, characters, galleries, how-tos, kits, conversations, and classes.",
+                        "relationships": "Inside each folder, items are sorted by how you are connected to them. A folder named owner holds what you made. creator holds what you wrote or may add to. curator holds what you look after. teacher and learner hold classes. collaborator, commenter and viewer hold work that belongs to someone else.",
+                        "device": "The device folder holds things that are only on the computer you made this archive on. It has settings that are not saved online, translations you started, and work that had not finished saving. Making an archive on another computer would not include these.",
+                        "formats": "To open a project again, go to your projects page in Wordplay and choose \"open a project file\". You can also drag the .wp file onto that page. To replace a project you already have, drag the file onto it and Wordplay will ask you first.",
+                        "excluded": "A few things are not here. Wordplay leaves out the step-by-step record of your edits, because the project already holds what those edits made. It leaves out the record of who was looking at a project. It also leaves out reports about broken rules, because those are written for the people who review them.",
+                        "privacy": "Some of this is not only yours. A conversation holds what everyone in it said. A class holds the names of everyone in it. Anyone you give this file to can read all of it. Keep it somewhere private, and think about who else is in it before you share it.",
+                        "missing": "Wordplay could not read some things when it made this archive. They are not here:",
+                        "manifest": "manifest.json holds the same facts in a form a program can read. It says when this was made, how many of each thing there are, and what could not be included.",
+                        "contentsFiles": "Every item has a .json file. That is exactly what Wordplay stores. Each project also has a .wp file. That is the project written out so you can read it and open it again.",
+                        "contentsAccount": "account.json says who you are, when you joined, and what you are allowed to do. The self folder holds what Wordplay keeps about you: your username, how much translating you have done, any warnings you were given, and your notifications.",
+                        "relationshipsWords": "The same word can mean two things. A creator of a gallery may add projects to it. The creator of a how-to wrote it. Each folder also has an index.json. It lists every way you are connected to each item, because more than one can be true."
                     }
                 }
             },

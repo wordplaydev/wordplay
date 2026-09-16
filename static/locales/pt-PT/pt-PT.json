@@ -10042,7 +10042,11 @@
                     "newproject": "novo projeto",
                     "editproject": "editar este projeto",
                     "unarchive": "desarquivar este projeto",
-                    "viewproject": "$~ver o código deste projeto"
+                    "viewproject": "$~ver o código deste projeto",
+                    "import": {
+                        "tip": "$~abrir um ficheiro de projeto que guardou",
+                        "label": "$~abrir um ficheiro de projeto…"
+                    }
                 },
                 "confirm": {
                     "archive": {
@@ -10058,7 +10062,10 @@
                     "noaccess": "Não conseguimos aceder à internet.",
                     "newgallery": "Não foi possível criar uma nova galeria.",
                     "nodeletes": "Necessita de estar <logado em@://login> para eliminar projetos arquivados.",
-                    "delete": "Ups, não conseguimos apagar o projeto!"
+                    "delete": "Ups, não conseguimos apagar o projeto!",
+                    "importEmpty": "$~Esse ficheiro não tem nada dentro.",
+                    "importTooLarge": "$~Esse projeto é demasiado grande para o Wordplay guardar. Tente um com menos conteúdo.",
+                    "importUnreadable": "$~O Wordplay não conseguiu ler esse ficheiro. Os ficheiros de projeto terminam em .wp."
                 },
                 "installedprompt": "$~Está a usar o Wordplay como uma aplicação instalada, e ela mantém os seus próprios projetos, separados dos que estão no seu navegador de internet. Todos os projetos que criou no navegador continuam lá. <Inicie sessão@://login> para ver todos os seus projetos nos dois lugares.",
                 "sort": {
@@ -10103,6 +10110,20 @@
                         "none": "$~Clique num projeto ou numa pasta para o(a) escolher.",
                         "project": "$~Mova este projeto com as teclas de seta *para cima* e *para baixo*, ou arraste-o para uma pasta. Prima *escape* quando terminar.",
                         "folder": "$~Digite o nome para renomear esta pasta. Ao eliminá-la, tudo o que está dentro dela vai para o seu arquivo."
+                    }
+                },
+                "import": {
+                    "done": "$~$name aberto.",
+                    "drop": "$~Largue aqui um ficheiro de projeto para o abrir.",
+                    "replaced": "$~Este projeto foi substituído por $name.",
+                    "replace": {
+                        "header": "$~Substituir este projeto?",
+                        "explanation": "$~O código deste projeto vai ser substituído. O Wordplay guarda o que aqui está agora, para que possa recuperá-lo no histórico do projeto.",
+                        "prompt": "$~Abrir $name aqui em vez do que este projeto tem agora?",
+                        "confirm": {
+                            "tip": "$~substituir este projeto pelo ficheiro que largou",
+                            "label": "$~substituir"
+                        }
                     }
                 }
             },
@@ -10694,9 +10715,55 @@
                     "password": "$~A sua palavra-passe",
                     "email": "$~Email",
                     "logout": "$~Terminar sessão",
-                    "delete": "$~Eliminar a sua conta"
+                    "delete": "$~Eliminar a sua conta",
+                    "export": "$~O seu arquivo"
                 },
-                "profile": "$~Perfil"
+                "profile": "$~Perfil",
+                "export": {
+                    "prompt": "$~Transfira uma cópia de tudo o que criou. Contém os seus projetos, personagens, galerias, guias de como fazer, conjuntos, conversas, turmas e definições. Cada projeto vem como um ficheiro que pode voltar a abrir no Wordplay. Nem tudo é apenas seu: as conversas guardam o que todos disseram, e as listas das turmas guardam os nomes de outras pessoas. Quem receber o ficheiro pode ler tudo, por isso guarde-o num local privado.",
+                    "proxy": "$~Está a ver a conta de outra pessoa, por isso não pode transferir uma cópia dela.",
+                    "button": {
+                        "tip": "$~transferir uma cópia de tudo o que está na sua conta",
+                        "label": "$~transferir o meu arquivo…"
+                    },
+                    "progress": "$~Recolhido $kind: $#count[1 coisa|$count coisas|$count coisas] até agora",
+                    "started": "$~A criar o seu arquivo.",
+                    "finished": "$~O seu arquivo $name está pronto, com $#count[1 coisa|$count coisas|$count coisas] dentro.",
+                    "finishedPartial": "$~O seu arquivo $name está pronto, com $#count[1 coisa|$count coisas|$count coisas] dentro, mas não foi possível ler $#missing[1 tipo|$missing tipos|$missing tipos].",
+                    "failed": "$~Não foi possível criar o seu arquivo. Tente novamente daqui a pouco.",
+                    "tooLarge": "$~Criou mais conteúdo do que um arquivo pode conter. Contacte-nos e ajudamo-lo(a) a obtê-lo.",
+                    "offline": "$~O Wordplay não consegue aceder à internet, por isso não pode criar o seu arquivo.",
+                    "kind": {
+                        "account": "$~a sua conta",
+                        "projects": "$~os seus projetos",
+                        "galleries": "$~as suas galerias",
+                        "characters": "$~as suas personagens",
+                        "howtos": "$~os seus comos",
+                        "chats": "$~as suas conversas",
+                        "kits": "$~os seus conjuntos",
+                        "classes": "$~as suas turmas",
+                        "feedback": "$~as suas ideias e relatórios de erros",
+                        "device": "$~as definições deste dispositivo",
+                        "archive": "$~o arquivo",
+                        "saving": "$~o ficheiro"
+                    },
+                    "readme": {
+                        "title": "$~O seu arquivo Wordplay",
+                        "intro": "$~Esta é uma cópia de tudo na conta Wordplay $name. Foi feita em $date. O Wordplay fê-la para si. Mais ninguém tem uma cópia.",
+                        "contents": "$~Cada pasta guarda um tipo de coisa. Há pastas para os seus projetos, personagens, galerias, comos, conjuntos, conversas e turmas.",
+                        "relationships": "$~Dentro de cada pasta, os itens estão organizados conforme a sua ligação a eles. Uma pasta chamada owner guarda o que fez. creator guarda o que escreveu ou pode acrescentar. curator guarda o que trata. teacher e learner guardam turmas. collaborator, commenter e viewer guardam trabalho que pertence a outra pessoa.",
+                        "device": "$~A pasta device guarda coisas que só existem no computador onde criou este arquivo. Tem definições que não foram guardadas online, traduções que começou e trabalho que ainda não tinha acabado de guardar. Criar um arquivo noutro computador não incluiria estas coisas.",
+                        "formats": "$~Para abrir um projeto de novo, vá à sua página de projetos no Wordplay e escolha \"abrir um ficheiro de projeto\". Também pode arrastar o ficheiro .wp para essa página. Para substituir um projeto que já tem, arraste o ficheiro para cima dele e o Wordplay vai perguntar-lhe primeiro.",
+                        "excluded": "$~Algumas coisas não estão aqui. O Wordplay não inclui o registo passo a passo das suas edições, porque o projeto já guarda o resultado dessas edições. Não inclui o registo de quem esteve a ver um projeto. Também não inclui relatórios sobre regras violadas, porque esses são escritos para quem os revê.",
+                        "privacy": "$~Parte disto não é só seu. Uma conversa guarda o que todos nela disseram. Uma turma guarda os nomes de todos os seus membros. Qualquer pessoa a quem dê este ficheiro pode ler tudo. Guarde-o num local privado e pense em quem mais está nele antes de o partilhar.",
+                        "missing": "$~O Wordplay não conseguiu ler algumas coisas ao criar este arquivo. Não estão aqui:",
+                        "manifest": "$~O manifest.json guarda os mesmos factos numa forma que um programa consegue ler. Diz quando isto foi criado, quantos itens de cada tipo existem e o que não pôde ser incluído.",
+                        "contentsFiles": "$~Cada item tem um ficheiro .json. É exatamente o que o Wordplay guarda. Cada projeto também tem um ficheiro .wp. É o projeto escrito por extenso, para que o possa ler e abrir de novo.",
+                        "contentsAccount": "$~O account.json diz quem é, quando entrou e o que tem permissão para fazer. A pasta self guarda o que o Wordplay conserva sobre si: o seu nome de utilizador, quanto trabalho de tradução fez, quaisquer avisos que recebeu e as suas notificações.",
+                        "relationshipsWords": "$~A mesma palavra pode ter dois significados. O criador de uma galeria pode acrescentar-lhe projetos. O criador de um como escreveu-o. Cada pasta também tem um index.json. Lista todas as formas como está ligado a cada item, porque mais do que uma pode ser verdadeira."
+                    },
+                    "incomplete": "$~O seu arquivo está pronto, mas estes não puderam ser lidos, por isso não estão nele: $kinds"
+                }
             },
             "join": {
                 "header": "Juntar",

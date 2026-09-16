@@ -25,6 +25,7 @@
 const SweepTests = [
     'src/components/app/Showcase.locales.test.ts',
     'src/edit/markup/markupCorpus.test.ts',
+    'src/examples/corpusPreamble.test.ts',
     'src/examples/localizedExamples.test.ts',
     'src/util/verify-locales/exampleNamesSync.test.ts',
     'src/util/verify-locales/howToStructureSync.test.ts',

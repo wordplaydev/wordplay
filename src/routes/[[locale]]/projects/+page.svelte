@@ -45,6 +45,8 @@
         describeRename,
         describeSelection,
     } from './announcements';
+    import ImportProject from '@components/app/ImportProject.svelte';
+    import importProject from '@db/projects/importProject';
     import { onMount } from 'svelte';
     import type Project from '@db/projects/Project';
     import type LocaleText from '@locale/LocaleText';
@@ -461,6 +463,71 @@
             );
     }
 
+    /** Whether a file is being held over the page. Its own state rather than
+     *  `dragging`, which means a project tile is being moved to a folder. */
+    let droppingFile = $state(false);
+
+    /** Brings a project back from the text of a file, then opens it.
+     *
+     *  Shared by the picker and the drop so the two cannot mean different
+     *  things by an import. */
+    async function addImported(text: string) {
+        const projects = await DB.loadProjects();
+        const result = await importProject(text, $user?.uid ?? null, projects);
+        if (result.kind === 'failed') {
+            importer?.fail(result.problem);
+            return;
+        }
+        // Through the same copy the new-project control uses, so an imported
+        // project is tracked and saved exactly as a made one is.
+        const id = projects.copy(result.project, $user?.uid ?? null, null);
+        // Names the project, so two imports in a row are two announcements
+        // rather than one heard and one silent.
+        if (announce && $announce)
+            $announce(
+                'project-import',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize((l) => l.ui.page.projects.import.done, {
+                        name: result.project.getName(),
+                    })
+                    .toText(),
+            );
+        localeGoto(`/project/${id}`);
+    }
+
+    /** The control, so a drop can report a failure where a pick would. */
+    let importer: ReturnType<typeof ImportProject> | undefined =
+        $state(undefined);
+
+    /** A file held over the page. `preventDefault` is not optional: without it
+     *  the browser navigates away to the dropped file, losing whatever the
+     *  creator was doing. */
+    function fileIsOver(event: DragEvent): boolean {
+        return (
+            event.dataTransfer !== null &&
+            Array.from(event.dataTransfer.types).includes('Files')
+        );
+    }
+
+    function overFile(event: DragEvent) {
+        if (!fileIsOver(event)) return;
+        event.preventDefault();
+        droppingFile = true;
+    }
+
+    async function dropFile(event: DragEvent) {
+        if (!fileIsOver(event)) return;
+        event.preventDefault();
+        droppingFile = false;
+        const file = event.dataTransfer?.files[0];
+        if (file === undefined) return;
+        importer?.reset();
+        // A filter would silently ignore a dropped folder or photo; reading it
+        // and failing says something instead.
+        await addImported(await file.text());
+    }
+
     async function dropProject() {
         clearLongPress();
         const id = dragging;
@@ -511,63 +578,89 @@
     onpointercancel={dropProject}
 />
 
-<Writing wide>
-    <PageHeader
-        header={(l) => l.ui.page.projects.header}
-        description={(l) => l.ui.page.projects.projectprompt}
-    />
+<!-- A drop target for project files, wrapping the page rather than any one
+     tile: a creator dropping a file means "add this", not "add this here". The
+     picker above is the keyboard equivalent, so this adds a way in rather than
+     being the only one — a pointer-only affordance is what this page already
+     refuses for moving tiles into folders. -->
+<!-- The drag events here are an enhancement over the import button, which is a
+     real, focusable control doing the same job; giving this wrapper a widget
+     role would announce a control a keyboard cannot operate. -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div
+    class="dropzone"
+    class:dropping={droppingFile}
+    ondragover={overFile}
+    ondragenter={overFile}
+    ondragleave={() => (droppingFile = false)}
+    ondrop={dropFile}
+>
+    <Writing wide>
+        <PageHeader
+            header={(l) => l.ui.page.projects.header}
+            description={(l) => l.ui.page.projects.projectprompt}
+        />
 
-    <!-- An installed app's projects live in a container separate from the
+        <!-- An installed app's projects live in a container separate from the
          browser's, so an empty page here is otherwise indistinguishable from
          lost work. See installedStorage.ts. -->
-    {#if explainInstalledStorage}
-        <Notice
-            testid="installed-storage-message"
-            text={(l) => l.ui.page.projects.installedprompt}
-        />
-    {/if}
+        {#if explainInstalledStorage}
+            <Notice
+                testid="installed-storage-message"
+                text={(l) => l.ui.page.projects.installedprompt}
+            />
+        {/if}
 
-    <div class="controls">
-        <TextField
-            id="project-search"
-            bind:text={searchTerm}
-            placeholder="🔍"
-            description={(l) => l.ui.page.projects.search.description}
-            max="10em"
-        />
+        <div class="controls">
+            <TextField
+                id="project-search"
+                bind:text={searchTerm}
+                placeholder="🔍"
+                description={(l) => l.ui.page.projects.search.description}
+                max="10em"
+            />
 
-        <!-- Gate on `authAttempted` rather than `$user !== undefined`: when no
+            <!-- Gate on `authAttempted` rather than `$user !== undefined`: when no
              Firebase Auth is configured the user store is never set at all, and
              a `$user === undefined` gate would hide the button forever. -->
-        <ProjectGroupControls
-            sort={$projectSort}
-            setSort={(sort: ProjectSort) => Settings.setProjectSort(sort)}
-            create={createFolder}
-            remove={deleteFolder}
-            enabled={!searching}
-            selected={chosenFolder !== undefined}
-        />
-    </div>
+            <ProjectGroupControls
+                sort={$projectSort}
+                setSort={(sort: ProjectSort) => Settings.setProjectSort(sort)}
+                create={createFolder}
+                remove={deleteFolder}
+                enabled={!searching}
+                selected={chosenFolder !== undefined}
+            />
+        </div>
 
-    <!-- At the head of the list rather than in the toolbar: a control that adds
+        <!-- At the head of the list rather than in the toolbar: a control that adds
          to a list belongs with the list, not with the controls that filter and
          order it. -->
-    <div class="add">
-        <AddProject
-            ready={$authAttempted}
-            add={async (template) => {
-                const newProjectID = (await DB.loadProjects()).copy(
-                    template,
-                    $user?.uid ?? null,
-                    null,
-                );
-                localeGoto(`/project/${newProjectID}`);
-            }}
-        />
-    </div>
+        <div class="add">
+            <AddProject
+                ready={$authAttempted}
+                add={async (template) => {
+                    const newProjectID = (await DB.loadProjects()).copy(
+                        template,
+                        $user?.uid ?? null,
+                        null,
+                    );
+                    localeGoto(`/project/${newProjectID}`);
+                }}
+            />
+            <!-- Beside the new-project control for the same reason it is here: a
+             control that adds to the list belongs with the list. It is also the
+             keyboard path for the drop below, which is why the drop is an
+             enhancement rather than the only way in. -->
+            <ImportProject
+                bind:this={importer}
+                ready={$authAttempted}
+                choose={addImported}
+            />
+        </div>
 
-    {#if !browser || !($LoadedProjects?.hydrated ?? false)}
-        <!-- Show the placeholder where the project list will appear, so the
+        {#if !browser || !($LoadedProjects?.hydrated ?? false)}
+            <!-- Show the placeholder where the project list will appear, so the
              user has feedback instead of staring at an empty page during the
              gap between mount and the first IndexedDB emission.
 
@@ -577,216 +670,235 @@
              client's placeholder appears. Treating the server render as
              not-yet-hydrated makes the first paint and the client's first state
              the same thing. -->
-        <div class="loading" role="status">
-            <PreviewPlaceholder />
-            <LocalizedText path={(l) => l.ui.widget.loading.message} />
-        </div>
-    {:else if debouncedTerm.current.trim() && owned.length === 0 && shared.length === 0 && archived.length === 0}
-        <Notice
-            testid="no-results-message"
-            text={(l) => l.ui.page.projects.search.noResults}
-        />
-    {:else if searching}
-        <!-- Search flattens folders. A match hidden inside a collapsed folder
+            <div class="loading" role="status">
+                <PreviewPlaceholder />
+                <LocalizedText path={(l) => l.ui.widget.loading.message} />
+            </div>
+        {:else if debouncedTerm.current.trim() && owned.length === 0 && shared.length === 0 && archived.length === 0}
+            <Notice
+                testid="no-results-message"
+                text={(l) => l.ui.page.projects.search.noResults}
+            />
+        {:else if searching}
+            <!-- Search flattens folders. A match hidden inside a collapsed folder
              would make search lie about what's there, so while a term is
              active every result is shown at one level, each labeled with the
              folder it actually lives in. -->
-        <ProjectPreviewSet
-            set={owned}
-            sort={$projectSort}
-            searchTerm={debouncedTerm.current}
-            matchTexts={ownedMatchTexts}
-            folderName={(project) => folderNameOf(project.getFolder())}
-            edit={ownedEdit}
-            copy={ownedCopy}
-            remove={ownedRemove}
-            anonymize={false}
-            showCollaborators={true}
-        />
-    {:else}
-        <!-- Anything a pointer can do here has a key that does it too, and this
+            <ProjectPreviewSet
+                set={owned}
+                sort={$projectSort}
+                searchTerm={debouncedTerm.current}
+                matchTexts={ownedMatchTexts}
+                folderName={(project) => folderNameOf(project.getFolder())}
+                edit={ownedEdit}
+                copy={ownedCopy}
+                remove={ownedRemove}
+                anonymize={false}
+                showCollaborators={true}
+            />
+        {:else}
+            <!-- Anything a pointer can do here has a key that does it too, and this
              is where those keys are named. Pointed at by the list itself, so a
              screen reader reads it on arrival rather than only if the reader
              happens to wander into it. -->
-        <!-- `role="group"` so the description below has a host: aria-* on a
+            <!-- `role="group"` so the description below has a host: aria-* on a
              roleless div maps to `generic`, which screen readers don't expose,
              and the reference dangled whenever there was nothing to organize. -->
-        <div
-            class="organization"
-            role="group"
-            aria-describedby={organized.folders.length > 0 ||
-            organized.loose.length > 0
-                ? 'organizing'
-                : undefined}
-        >
-            {#each organized.folders as folder (folder.id)}
-                <ProjectFolder
-                    {folder}
-                    selected={choice?.kind === 'folder' &&
-                        choice.id === folder.id}
-                    candidate={dragging !== null && candidate === folder.id}
-                    sort={$projectSort}
-                    select={() => chooseFolder(folder.id)}
-                    toggle={() => toggleFolder(folder.id)}
-                    rename={(name) => renameFolder(folder.id, name)}
-                    {interaction}
-                    edit={ownedEdit}
-                    copy={ownedCopy}
-                    remove={ownedRemove}
-                />
-            {/each}
-            <!-- The top level is a drop target of its own, so a project can be
-                 dragged out of a folder as well as into one. -->
             <div
-                data-folder="none"
-                class="loose"
-                class:candidate={dragging && candidate === null}
+                class="organization"
+                role="group"
+                aria-describedby={organized.folders.length > 0 ||
+                organized.loose.length > 0
+                    ? 'organizing'
+                    : undefined}
             >
-                <ProjectPreviewSet
-                    set={organized.loose}
-                    sort={$projectSort}
-                    {interaction}
-                    edit={ownedEdit}
-                    copy={ownedCopy}
-                    remove={ownedRemove}
-                    anonymize={false}
-                    showCollaborators={true}
-                />
+                {#each organized.folders as folder (folder.id)}
+                    <ProjectFolder
+                        {folder}
+                        selected={choice?.kind === 'folder' &&
+                            choice.id === folder.id}
+                        candidate={dragging !== null && candidate === folder.id}
+                        sort={$projectSort}
+                        select={() => chooseFolder(folder.id)}
+                        toggle={() => toggleFolder(folder.id)}
+                        rename={(name) => renameFolder(folder.id, name)}
+                        {interaction}
+                        edit={ownedEdit}
+                        copy={ownedCopy}
+                        remove={ownedRemove}
+                    />
+                {/each}
+                <!-- The top level is a drop target of its own, so a project can be
+                 dragged out of a folder as well as into one. -->
+                <div
+                    data-folder="none"
+                    class="loose"
+                    class:candidate={dragging && candidate === null}
+                >
+                    <ProjectPreviewSet
+                        set={organized.loose}
+                        sort={$projectSort}
+                        {interaction}
+                        edit={ownedEdit}
+                        copy={ownedCopy}
+                        remove={ownedRemove}
+                        anonymize={false}
+                        showCollaborators={true}
+                    />
+                </div>
             </div>
-        </div>
-        {#if organized.folders.length > 0 || organized.loose.length > 0}
-            <div id="organizing" class="instructions">
-                <MarkupHTMLView
-                    markup={choice === undefined
-                        ? (l) => l.ui.page.projects.folder.instructions.none
-                        : choice.kind === 'folder'
-                          ? (l) => l.ui.page.projects.folder.instructions.folder
-                          : (l) =>
-                                l.ui.page.projects.folder.instructions.project}
-                />
-            </div>
+            {#if organized.folders.length > 0 || organized.loose.length > 0}
+                <div id="organizing" class="instructions">
+                    <MarkupHTMLView
+                        markup={choice === undefined
+                            ? (l) => l.ui.page.projects.folder.instructions.none
+                            : choice.kind === 'folder'
+                              ? (l) =>
+                                    l.ui.page.projects.folder.instructions
+                                        .folder
+                              : (l) =>
+                                    l.ui.page.projects.folder.instructions
+                                        .project}
+                    />
+                </div>
+            {/if}
         {/if}
-    {/if}
 
-    <!-- If there are any shared projects, make a shared section. -->
-    {#if ($LoadedProjects?.hydrated ?? false) && shared.length + commenterViewerProjects.length > 0}
-        <Subheader text={(l) => l.ui.page.projects.subheader.shared} />
-        <ProjectPreviewSet
-            set={shared.concat(commenterViewerProjects)}
-            searchTerm={debouncedTerm.current}
-            matchTexts={sharedMatchTexts}
-            edit={{
-                description: (l) => l.ui.page.projects.button.editproject,
-                action: (project) => localeGoto(project.getLink(false)),
-                label: EDIT_SYMBOL,
-            }}
-            copy={{
-                description: (l) => l.ui.project.button.remix.tip,
-                action: async (project) =>
-                    localeGoto(
-                        (await DB.loadProjects()).remix(project).getLink(false),
-                    ),
-                label: REMIX_SYMBOL,
-            }}
-            remove={() => false}
-            anonymize={false}
-            showCollaborators={true}
-        />
-    {/if}
-
-    <!-- If there are archived projects in search results, show them -->
-    {#if ($LoadedProjects?.hydrated ?? false) && debouncedTerm.current.trim() && archived.length > 0}
-        <Subheader text={(l) => l.ui.page.projects.subheader.archived} />
-        <ProjectPreviewSet
-            set={archived}
-            searchTerm={debouncedTerm.current}
-            matchTexts={archivedMatchTexts}
-            edit={{
-                description: (l) => l.ui.page.projects.button.unarchive,
-                action: async (project) =>
-                    (await DB.loadProjects()).archiveProject(
-                        project.getID(),
-                        false,
-                    ),
-                label: '↑🗑️',
-            }}
-            copy={false}
-            anonymize={false}
-            showCollaborators={true}
-            remove={(project) =>
-                $user && project.getOwner() === $user.uid
-                    ? {
-                          prompt: (l) =>
-                              l.ui.page.projects.confirm.delete.prompt,
-                          description: (l) =>
-                              l.ui.page.projects.confirm.delete.description,
-                          action: async () => {
-                              deleteError = false;
-                              try {
-                                  (await DB.loadProjects()).deleteProject(
-                                      project.getID(),
-                                  );
-                              } catch (error) {
-                                  deleteError = true;
-                                  console.error(error);
-                              }
-                          },
-                          label: CANCEL_SYMBOL,
-                      }
-                    : false}
-        />
-    {/if}
-
-    <!-- If there are any archived projects, make an archived section. -->
-    {#if ($LoadedProjects?.hydrated ?? false) && ($LoadedProjects?.allArchivedProjects.length ?? 0) > 0}
-        <Subheader text={(l) => l.ui.page.projects.subheader.archived} />
-        <MarkupHTMLView markup={(l) => l.ui.page.projects.archiveprompt} />
-        {#if $user === null}<Notice
-                text={(l) => l.ui.page.projects.error.nodeletes}
-            />{/if}
-        {#if deleteError}
-            <Notice text={(l) => l.ui.page.projects.error.delete} />
+        <!-- If there are any shared projects, make a shared section. -->
+        {#if ($LoadedProjects?.hydrated ?? false) && shared.length + commenterViewerProjects.length > 0}
+            <Subheader text={(l) => l.ui.page.projects.subheader.shared} />
+            <ProjectPreviewSet
+                set={shared.concat(commenterViewerProjects)}
+                searchTerm={debouncedTerm.current}
+                matchTexts={sharedMatchTexts}
+                edit={{
+                    description: (l) => l.ui.page.projects.button.editproject,
+                    action: (project) => localeGoto(project.getLink(false)),
+                    label: EDIT_SYMBOL,
+                }}
+                copy={{
+                    description: (l) => l.ui.project.button.remix.tip,
+                    action: async (project) =>
+                        localeGoto(
+                            (await DB.loadProjects())
+                                .remix(project)
+                                .getLink(false),
+                        ),
+                    label: REMIX_SYMBOL,
+                }}
+                remove={() => false}
+                anonymize={false}
+                showCollaborators={true}
+            />
         {/if}
-        <ProjectPreviewSet
-            set={$LoadedProjects?.allArchivedProjects ?? []}
-            edit={{
-                description: (l) => l.ui.page.projects.button.unarchive,
-                action: async (project) =>
-                    (await DB.loadProjects()).archiveProject(
-                        project.getID(),
-                        false,
-                    ),
-                label: '↑',
-            }}
-            copy={false}
-            anonymize={false}
-            showCollaborators={true}
-            remove={(project) =>
-                $user && project.getOwner() === $user.uid
-                    ? {
-                          prompt: (l) =>
-                              l.ui.page.projects.confirm.delete.prompt,
-                          description: (l) =>
-                              l.ui.page.projects.confirm.delete.description,
-                          action: async () => {
-                              deleteError = false;
-                              try {
-                                  (await DB.loadProjects()).deleteProject(
-                                      project.getID(),
-                                  );
-                              } catch (error) {
-                                  deleteError = true;
-                                  console.error(error);
-                              }
-                          },
-                          label: CANCEL_SYMBOL,
-                      }
-                    : false}
-        />
-    {/if}
-</Writing>
+
+        <!-- If there are archived projects in search results, show them -->
+        {#if ($LoadedProjects?.hydrated ?? false) && debouncedTerm.current.trim() && archived.length > 0}
+            <Subheader text={(l) => l.ui.page.projects.subheader.archived} />
+            <ProjectPreviewSet
+                set={archived}
+                searchTerm={debouncedTerm.current}
+                matchTexts={archivedMatchTexts}
+                edit={{
+                    description: (l) => l.ui.page.projects.button.unarchive,
+                    action: async (project) =>
+                        (await DB.loadProjects()).archiveProject(
+                            project.getID(),
+                            false,
+                        ),
+                    label: '↑🗑️',
+                }}
+                copy={false}
+                anonymize={false}
+                showCollaborators={true}
+                remove={(project) =>
+                    $user && project.getOwner() === $user.uid
+                        ? {
+                              prompt: (l) =>
+                                  l.ui.page.projects.confirm.delete.prompt,
+                              description: (l) =>
+                                  l.ui.page.projects.confirm.delete.description,
+                              action: async () => {
+                                  deleteError = false;
+                                  try {
+                                      (await DB.loadProjects()).deleteProject(
+                                          project.getID(),
+                                      );
+                                  } catch (error) {
+                                      deleteError = true;
+                                      console.error(error);
+                                  }
+                              },
+                              label: CANCEL_SYMBOL,
+                          }
+                        : false}
+            />
+        {/if}
+
+        <!-- If there are any archived projects, make an archived section. -->
+        {#if ($LoadedProjects?.hydrated ?? false) && ($LoadedProjects?.allArchivedProjects.length ?? 0) > 0}
+            <Subheader text={(l) => l.ui.page.projects.subheader.archived} />
+            <MarkupHTMLView markup={(l) => l.ui.page.projects.archiveprompt} />
+            {#if $user === null}<Notice
+                    text={(l) => l.ui.page.projects.error.nodeletes}
+                />{/if}
+            {#if deleteError}
+                <Notice text={(l) => l.ui.page.projects.error.delete} />
+            {/if}
+            <ProjectPreviewSet
+                set={$LoadedProjects?.allArchivedProjects ?? []}
+                edit={{
+                    description: (l) => l.ui.page.projects.button.unarchive,
+                    action: async (project) =>
+                        (await DB.loadProjects()).archiveProject(
+                            project.getID(),
+                            false,
+                        ),
+                    label: '↑',
+                }}
+                copy={false}
+                anonymize={false}
+                showCollaborators={true}
+                remove={(project) =>
+                    $user && project.getOwner() === $user.uid
+                        ? {
+                              prompt: (l) =>
+                                  l.ui.page.projects.confirm.delete.prompt,
+                              description: (l) =>
+                                  l.ui.page.projects.confirm.delete.description,
+                              action: async () => {
+                                  deleteError = false;
+                                  try {
+                                      (await DB.loadProjects()).deleteProject(
+                                          project.getID(),
+                                      );
+                                  } catch (error) {
+                                      deleteError = true;
+                                      console.error(error);
+                                  }
+                              },
+                              label: CANCEL_SYMBOL,
+                          }
+                        : false}
+            />
+        {/if}
+    </Writing>
+</div>
 
 <style>
+    /* Wraps the page so a file can be dropped anywhere on it. */
+    .dropzone {
+        display: contents;
+    }
+
+    /* The same highlight a folder shows while a tile is over it, so a file
+       drop and a tile drop read as one idea rather than two. */
+    .dropzone.dropping :global(.writing) {
+        outline: var(--wordplay-focus-width) dashed
+            var(--wordplay-highlight-color);
+        outline-offset: calc(-1 * var(--wordplay-spacing));
+    }
+
     .controls {
         display: flex;
         flex-direction: row;

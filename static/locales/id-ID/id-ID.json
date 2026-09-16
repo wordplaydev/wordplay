@@ -10169,7 +10169,11 @@
                     "newproject": "$~proyek baru",
                     "editproject": "$~edit proyek ini",
                     "unarchive": "$~Buka arsip proyek ini",
-                    "viewproject": "$~lihat kode proyek ini"
+                    "viewproject": "$~lihat kode proyek ini",
+                    "import": {
+                        "tip": "$~buka berkas proyek yang kamu simpan",
+                        "label": "$~buka berkas proyek…"
+                    }
                 },
                 "confirm": {
                     "archive": {
@@ -10185,7 +10189,10 @@
                     "noaccess": "$~Kami tidak bisa mengakses internet.",
                     "newgallery": "$~Kami tidak bisa membuat galeri baru.",
                     "nodeletes": "$~Anda pasti<logged in@://login> untuk menghapus proyek yang diarsipkan.",
-                    "delete": "$~Ups, kami tidak dapat menghapus proyek tersebut!"
+                    "delete": "$~Ups, kami tidak dapat menghapus proyek tersebut!",
+                    "importEmpty": "$~Berkas itu tidak berisi apa-apa.",
+                    "importTooLarge": "$~Proyek itu terlalu besar untuk disimpan oleh Wordplay. Coba proyek dengan isi yang lebih sedikit.",
+                    "importUnreadable": "$~Wordplay tidak bisa membaca berkas itu. Berkas proyek berakhiran .wp."
                 },
                 "installedprompt": "$~Kamu menggunakan Wordplay sebagai aplikasi yang terpasang, dan aplikasi ini menyimpan proyeknya sendiri, terpisah dari proyek di peramban webmu. Semua proyek yang kamu buat di peramban masih ada di sana. <Masuk@://login> untuk melihat semua proyekmu di kedua tempat.",
                 "sort": {
@@ -10230,6 +10237,20 @@
                         "none": "$~Klik sebuah proyek atau folder untuk memilihnya.",
                         "project": "$~Pindahkan proyek ini dengan tombol panah *atas* dan *bawah*, atau seret ke sebuah folder. Tekan *escape* jika sudah selesai.",
                         "folder": "$~Ketikkan nama untuk mengganti nama folder ini. Jika kamu menghapusnya, semua isinya akan masuk ke arsipmu."
+                    }
+                },
+                "import": {
+                    "done": "$~$name dibuka.",
+                    "drop": "$~Letakkan berkas proyek di sini untuk membukanya.",
+                    "replaced": "$~Proyek ini diganti dengan $name.",
+                    "replace": {
+                        "header": "$~Ganti proyek ini?",
+                        "explanation": "$~Kode dalam proyek ini akan diganti. Wordplay menyimpan apa yang ada sekarang, jadi kamu bisa mengambilnya kembali dari riwayat proyek.",
+                        "prompt": "$~Buka $name di sini menggantikan isi proyek ini sekarang?",
+                        "confirm": {
+                            "tip": "$~ganti proyek ini dengan berkas yang kamu letakkan",
+                            "label": "$~ganti"
+                        }
                     }
                 }
             },
@@ -10821,9 +10842,55 @@
                     "password": "$~Kata sandimu",
                     "email": "$~Email",
                     "logout": "$~Keluar",
-                    "delete": "$~Hapus akunmu"
+                    "delete": "$~Hapus akunmu",
+                    "export": "$~Arsipmu"
                 },
-                "profile": "$~Profil"
+                "profile": "$~Profil",
+                "export": {
+                    "prompt": "$~Unduh salinan semua yang telah kamu buat. Arsip ini berisi proyek, karakter, galeri, cara, perkakas, percakapan, kelas, dan pengaturanmu. Setiap proyek disertakan sebagai berkas yang bisa kamu buka lagi di Wordplay. Sebagian isinya bukan hanya milikmu: percakapan berisi apa yang dikatakan semua orang, dan daftar kelas berisi nama orang lain. Siapa pun yang kamu beri berkas ini bisa membaca semuanya, jadi simpan di tempat yang pribadi.",
+                    "proxy": "$~Kamu sedang melihat akun milik orang lain, jadi kamu tidak bisa mengunduh salinannya.",
+                    "button": {
+                        "tip": "$~unduh salinan semua isi akunmu",
+                        "label": "$~unduh arsipku…"
+                    },
+                    "progress": "$~Terkumpul $kind: $#count[$count hal] sejauh ini",
+                    "started": "$~Sedang membuat arsipmu.",
+                    "finished": "$~Arsipmu $name sudah siap, dengan $#count[$count hal] di dalamnya.",
+                    "finishedPartial": "$~Arsipmu $name sudah siap, dengan $#count[$count hal] di dalamnya, tetapi $#missing[$missing jenis] tidak bisa dibaca.",
+                    "failed": "$~Arsipmu tidak bisa dibuat. Coba lagi sebentar lagi.",
+                    "tooLarge": "$~Kamu telah membuat lebih banyak dari yang bisa ditampung satu arsip. Beri tahu kami dan kami akan membantumu mendapatkannya.",
+                    "offline": "$~Wordplay tidak bisa terhubung ke internet, jadi arsipmu tidak bisa dibuat.",
+                    "kind": {
+                        "account": "$~akun kamu",
+                        "projects": "$~proyek kamu",
+                        "galleries": "$~galeri kamu",
+                        "characters": "$~karakter kamu",
+                        "howtos": "$~cara-cara kamu",
+                        "chats": "$~percakapan kamu",
+                        "kits": "$~perkakas kamu",
+                        "classes": "$~kelas kamu",
+                        "feedback": "$~ide dan laporan bug kamu",
+                        "device": "$~pengaturan perangkat ini",
+                        "archive": "$~arsip",
+                        "saving": "$~berkas"
+                    },
+                    "readme": {
+                        "title": "$~Arsip Wordplay kamu",
+                        "intro": "$~Ini adalah salinan dari semua isi akun Wordplay $name. Salinan ini dibuat pada $date. Wordplay membuatnya untuk kamu. Tidak ada orang lain yang punya salinannya.",
+                        "contents": "$~Setiap folder menyimpan satu jenis hal. Ada folder untuk proyek, karakter, galeri, cara, perkakas, percakapan, dan kelas kamu.",
+                        "relationships": "$~Di dalam setiap folder, isinya diurutkan berdasarkan hubungan kamu dengan hal itu. Folder bernama owner menyimpan hal yang kamu buat. creator menyimpan hal yang kamu tulis atau bisa kamu tambahkan. curator menyimpan hal yang kamu jaga. teacher dan learner menyimpan kelas. collaborator, commenter, dan viewer menyimpan karya milik orang lain.",
+                        "device": "$~Folder device menyimpan hal yang hanya ada di komputer tempat kamu membuat arsip ini. Folder ini berisi pengaturan yang tidak disimpan secara daring, terjemahan yang sedang kamu kerjakan, dan pekerjaan yang belum selesai disimpan. Membuat arsip di komputer lain tidak akan menyertakan hal-hal ini.",
+                        "formats": "$~Untuk membuka proyek lagi, buka halaman proyek kamu di Wordplay dan pilih \"buka berkas proyek\". Kamu juga bisa menyeret berkas .wp ke halaman itu. Untuk mengganti proyek yang sudah kamu punya, seret berkasnya ke sana dan Wordplay akan bertanya dahulu.",
+                        "excluded": "$~Ada beberapa hal yang tidak ada di sini. Wordplay tidak menyertakan catatan langkah demi langkah dari perubahan yang kamu buat, karena proyeknya sudah menyimpan hasil dari perubahan itu. Wordplay juga tidak menyertakan catatan tentang siapa yang melihat suatu proyek. Wordplay juga tidak menyertakan laporan tentang pelanggaran aturan, karena laporan itu ditulis untuk orang yang memeriksanya.",
+                        "privacy": "$~Sebagian dari isi ini bukan hanya milik kamu. Sebuah percakapan menyimpan apa yang dikatakan setiap orang di dalamnya. Sebuah kelas menyimpan nama semua orang di dalamnya. Siapa pun yang kamu beri berkas ini bisa membaca semuanya. Simpan berkas ini di tempat yang pribadi, dan pikirkan siapa saja yang ada di dalamnya sebelum kamu membagikannya.",
+                        "missing": "$~Wordplay tidak bisa membaca beberapa hal saat membuat arsip ini. Hal-hal itu tidak ada di sini:",
+                        "manifest": "$~manifest.json menyimpan fakta yang sama dalam bentuk yang bisa dibaca oleh program. Berkas ini menyebutkan kapan arsip ini dibuat, berapa banyak masing-masing hal, dan apa saja yang tidak bisa disertakan.",
+                        "contentsFiles": "$~Setiap item punya berkas .json. Itu adalah persis apa yang disimpan Wordplay. Setiap proyek juga punya berkas .wp. Itu adalah proyek yang ditulis ulang agar kamu bisa membacanya dan membukanya lagi.",
+                        "contentsAccount": "$~account.json menyebutkan siapa kamu, kapan kamu bergabung, dan apa yang boleh kamu lakukan. Folder self menyimpan apa yang disimpan Wordplay tentang kamu: nama pengguna kamu, seberapa banyak terjemahan yang sudah kamu lakukan, peringatan apa pun yang pernah kamu terima, dan pemberitahuan kamu.",
+                        "relationshipsWords": "$~Kata yang sama bisa punya dua arti. Seorang creator dari sebuah galeri bisa menambahkan proyek ke dalamnya. creator dari sebuah cara adalah orang yang menulisnya. Setiap folder juga punya index.json. Berkas ini mencatat setiap cara kamu terhubung dengan setiap item, karena bisa lebih dari satu cara yang berlaku."
+                    },
+                    "incomplete": "$~Arsipmu sudah siap, tapi ini tidak bisa dibaca, jadi tidak ada di dalamnya: $kinds"
+                }
             },
             "join": {
                 "header": "$~Bergabung",

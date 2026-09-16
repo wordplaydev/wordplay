@@ -59,6 +59,19 @@ if (browser) {
     });
 }
 
+/**
+ * Every locale edit held on this device, for an account export (#152).
+ *
+ * Read from the table rather than from the `localeEdits` store, because the
+ * store is filled asynchronously on first load and an export run before that
+ * finishes would quietly report none. This work exists on exactly one device
+ * and in no cloud record, so silently exporting nothing would be the worst
+ * kind of loss.
+ */
+export async function allLocaleEdits(): Promise<LocaleEdit[]> {
+    return db ? await db.edits.toArray() : [];
+}
+
 /** Remove every edit for `locale`, or every edit across all locales if no
  *  locale is given. */
 export async function deleteAllLocaleEdits(locale?: string): Promise<void> {
