@@ -110,7 +110,10 @@ async function fetchLocaleSections(
     locale: string,
     sections: LocaleSection[],
 ): Promise<
-    | { json: Record<string, unknown>; shas: [LocaleSection, string][] }
+    | {
+          json: Record<string, unknown>;
+          files: { section: LocaleSection; sha: string; schema?: string }[];
+      }
     | undefined
 > {
     const fetched = await Promise.all(
@@ -128,7 +131,14 @@ async function fetchLocaleSections(
 
     return {
         json: mergeSections(present.map(([, file]) => file)),
-        shas: present.map(([section, file]) => [section, file.sha]),
+        files: present.map(([section, file]) => {
+            const schema = file.json['$schema'];
+            return {
+                section,
+                sha: file.sha,
+                schema: typeof schema === 'string' ? schema : undefined,
+            };
+        }),
     };
 }
 
@@ -696,11 +706,11 @@ export const submitLocalizationBundle = onCall<
         const files: { path: string; content: string; existingSha?: string }[] =
             [];
         if (targetLocaleFile)
-            for (const [section, sha] of targetLocaleFile.shas)
+            for (const { section, sha, schema } of targetLocaleFile.files)
                 files.push({
                     path: localeSectionPath(locale, section),
                     content: await formatJson(
-                        sliceForSection(targetLocaleFile.json, section),
+                        sliceForSection(targetLocaleFile.json, section, schema),
                     ),
                     existingSha: sha,
                 });
