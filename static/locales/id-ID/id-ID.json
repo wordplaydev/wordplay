@@ -162,7 +162,7 @@
         },
         "entered": {
             "word": "$~baru",
-            "definition": "$~@Output yang muncul di panggung untuk pertama kalinya."
+            "definition": "$!@Output yang muncul di panggung untuk pertama kalinya."
         },
         "cell": {
             "word": "$~sel",

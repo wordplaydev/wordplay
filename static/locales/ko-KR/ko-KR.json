@@ -775,7 +775,7 @@
                 "\\(\n\ta: 1\n\tb: 2\n\ta + b\n\ta × b\n)\\",
                 "그러면 이렇게 됩니다 \\[3 2]\\: @Bind 이(가) 아닌 두 표현식의 값만 들어 있어요."
             ],
-            "start": "$~첫 번째 표현식",
+            "start": "$!첫 번째 표현식",
             "finish": "끝났어요, $value 얻었습니다",
             "conflict": {
                 "ExpectedEndingExpression": {
@@ -1168,14 +1168,14 @@
             "description": "$~내부 반복 한 번",
             "emotion": "kind",
             "doc": "나는 @FunctionDefinition 중 특별한 종류로, 여러 가지 항목들의 목록에 작용해. 나에 대해 자세히 알 필요는 없어, 나는 @List.translate 와 같은 함수를 만들어내기 위한 거야.",
-            "start": "$~주어진 함수를 평가하는 중",
+            "start": "$!주어진 함수를 평가하는 중",
             "initialize": "항목들을 순회하기 위해 준비 중",
             "next": "다음 항목으로 이동 중",
             "check": "계속할지 결정하는 중",
             "finish": "$value 평가되었습니다"
         },
         "Initial": {
-            "name": "$~시작",
+            "name": "$!시작",
             "description": "$~첫 평가에서 참",
             "emotion": "curious",
             "doc": [
@@ -1446,7 +1446,7 @@
                 "\\•고양이(이름•'' 색깔•'' 취미•'')\n\n야옹이: 고양이('스프링클' '주황색' '핥기')\n야옹이.취미:'그르렁거리기'\\",
                 "취미만 빼고 같은 값을 가진 완전히 새로운 것을 만드는 것 \\Cat\\ 보다 훨씬 쉽죠?"
             ],
-            "start": "$~먼저 값을 가져오자",
+            "start": "$!먼저 값을 가져오자",
             "finish": "구조를 복사했지만 $property(를) $value 만들었어",
             "conflict": {
                 "InvalidProperty": {
@@ -1469,7 +1469,7 @@
                 "예를 들어 도시에 관한 구조가 있다면, 이렇게 저로 그 값들을 가져올 수 있습니다:",
                 "\\•도시(이름•'' 인구•#people)\n\n포틀랜드: 도시('포틀랜드' 800000people)\n\n포틀랜드.인구\\"
             ],
-            "start": "$~먼저 값을 가져오자",
+            "start": "$!먼저 값을 가져오자",
             "finish": "구조를 복사했지만 $property $value 사용했어",
             "label": {
                 "property": "$~재산"
@@ -1927,7 +1927,7 @@
             "doc": "나는 예외를 나타냄. 나는 @how 보든지 @Program 을 중단하기 때문에 나는 값으로 사용할 수 없어."
         },
         "FunctionType": {
-            "name": "$~함수 타입",
+            "name": "$!함수 타입",
             "description": "$~입력 $inputs 함수",
             "emotion": "curious",
             "doc": [
@@ -2000,7 +2000,7 @@
             ]
         },
         "SetType": {
-            "name": "$~집합 타입",
+            "name": "$!집합 타입",
             "description": "$~집합 타입$type[ ($type 의)|]",
             "emotion": "kind",
             "doc": [
@@ -2009,13 +2009,13 @@
             ]
         },
         "StreamDefinitionType": {
-            "name": "$~스트림 정의 타입",
+            "name": "$!스트림 정의 타입",
             "description": "$~스트림 정의 유형",
             "emotion": "angry",
             "doc": "나는 정의한 스트림을 나타내, 그게 불가능한데, 그러니까 왜 읽고 있어?"
         },
         "StreamType": {
-            "name": "$~스트림 타입",
+            "name": "$!스트림 타입",
             "description": "$~스트림 유형",
             "emotion": "curious",
             "doc": [
@@ -8084,7 +8084,7 @@
                 "forwardNode": "$~커서의 다음 평가 단계",
                 "forwardInput": "$~다음 스트림 입력으로 앞으로 이동",
                 "present": "$~끝까지",
-                "start": "$~처음으로",
+                "start": "$!처음으로",
                 "reset": "$~성능 다시 시작"
             },
             "tour": {
@@ -11526,7 +11526,7 @@
                 "label": "저장"
             },
             "skip": {
-                "tip": "$~이 프로젝트 건너뛰기",
+                "tip": "$!이 프로젝트 건너뛰기",
                 "label": "건너뛰기"
             },
             "property": "$~프로젝트에 이 속성이 있는지 여부"

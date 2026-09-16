@@ -42,7 +42,7 @@
         },
         "loop": {
             "word": "$~boucle",
-            "definition": "$~Du @code qui répète une action plusieurs fois."
+            "definition": "$!Du @code qui répète une action plusieurs fois."
         },
         "iteration": {
             "word": "$~itération",
@@ -2092,7 +2092,7 @@
         },
         "UnknownType": {
             "name": "$~inconnu",
-            "description": "$~inconnu",
+            "description": "$!inconnu",
             "connector": "$~, parce que",
             "emotion": "curious",
             "doc": "$~Je suis un @type que personne n'a encore compris. Euh… sais-tu ce que je représente ? Tu devras peut-être nous le dire si nous n'arrivons pas à le deviner."
@@ -5520,7 +5520,7 @@
                 "names": "$~style"
             },
             "gravity": {
-                "doc": "$~La gravité à appliquer à la sortie dont la place est dans @Motion.",
+                "doc": "$!La gravité à appliquer à la sortie dont la place est dans @Motion.",
                 "names": "$~pesanteur"
             },
             "defaultDescription": "$~scène $name[$name |]de $#count[$#count sortie|$count sorties|$count sorties]$frame[avec cadre $frame|] $pose $color[$color|]",

@@ -2064,7 +2064,7 @@
         },
         "UnknownType": {
             "name": "$~Unbekannt",
-            "description": "$~unbekannt",
+            "description": "$!unbekannt",
             "connector": "$~, Weil",
             "emotion": "curious",
             "doc": "$~Ich bin ein @type, den noch niemand herausgefunden hat. Ähm… weißt du, wofür ich stehe? Vielleicht musst du es uns sagen, wenn wir es nicht herausfinden können."
@@ -8342,7 +8342,7 @@
                     "explanation": "$~/Konzepte, die in der Hauptdokumentation nicht enthalten sind./"
                 },
                 "How": {
-                    "header": "$~Wie man",
+                    "header": "$!Wie man",
                     "explanation": "$~Gängige Muster für die Erstellung verschiedener Projekttypen."
                 },
                 "Definitions": {
@@ -8909,7 +8909,7 @@
                     }
                 },
                 "mode": {
-                    "label": "$~Rückmeldung",
+                    "label": "$!Rückmeldung",
                     "labels": ["$~Mängel", "$~Ideen"],
                     "tips": [
                         "$~Melden Sie etwas, das defekt zu sein scheint.",

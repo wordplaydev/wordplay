@@ -608,7 +608,7 @@
         },
         "Mention": {
             "name": "$~nämna",
-            "description": "$~nämn $name",
+            "description": "$!nämn $name",
             "emotion": "serious",
             "doc": [
                 "$~Jag är en referens till antingen en term \\¶@project¶\\ eller en dynamisk indata \\¶$name¶\\.",
@@ -1132,7 +1132,7 @@
         },
         "FunctionDefinition": {
             "name": "$~fungera",
-            "description": "$~funktion $name",
+            "description": "$!funktion $name",
             "emotion": "kind",
             "doc": [
                 "$~Jag tar några indata, sedan beräknar jag ett @expression med dem och skapar utdata. Hej igen!",
@@ -1576,7 +1576,7 @@
             "name": "$~mängdbokstav",
             "description": "$~mängd med $#count[$count värde|$count värden]",
             "emotion": "eager",
-            "doc": "$~Jag är en specifik @Set av specifika värden. Se @Set för att lära dig mer om hur du arbetar med mig.",
+            "doc": "$!Jag är en specifik @Set av specifika värden. Se @Set för att lära dig mer om hur du arbetar med mig.",
             "start": "$~Låt oss utvärdera värdena först!",
             "finish": "$~Jag gjorde ett set $value!"
         },
@@ -1630,7 +1630,7 @@
         },
         "StructureDefinition": {
             "name": "$~strukturera",
-            "description": "$~struktur $name",
+            "description": "$!struktur $name",
             "emotion": "kind",
             "doc": [
                 "$~Jag definierar strukturer som lagrar värden och funktioner. Hej, hur mår du? Jag? Jag mår jättebra — jag älskar att göra det här hela dagen.",
@@ -2032,7 +2032,7 @@
         },
         "UnknownType": {
             "name": "$~okänd",
-            "description": "$~okänd",
+            "description": "$!okänd",
             "connector": "$~, eftersom",
             "emotion": "curious",
             "doc": "$~Jag är en @type som ingen har listat ut än. Hmm… vet du vad jag representerar? Du kanske måste berätta för oss om vi inte kan lista ut det."
@@ -2111,7 +2111,7 @@
         },
         "NotAType": {
             "name": "$~oväntad",
-            "description": "$~inte en $type",
+            "description": "$!inte en $type",
             "emotion": "curious",
             "doc": "$~Jag representerar en @value vars @type inte är den vi väntade oss — som när @ListAccess behöver en @Number men får något annat."
         },
@@ -7815,7 +7815,7 @@
                     "noInsert": "$~Det går inte att infoga här",
                     "noError": "$~Denna redigering skulle skapa en konflikt",
                     "noEditor": "$~Ingen aktiv redigerare",
-                    "noClipboard": "$~Inget urklipp tillgängligt",
+                    "noClipboard": "$!Inget urklipp tillgängligt",
                     "noClipboardItem": "$~Ingenting på urklippet",
                     "noSelection": "$~Inget valt",
                     "noMove": "$~Kan inte röra mig längre",
@@ -8351,7 +8351,7 @@
                     "explanation": "$~/Begrepp som är dolda från huvuddokumentationen./"
                 },
                 "How": {
-                    "header": "$~Hur man",
+                    "header": "$!Hur man",
                     "explanation": "$~/Vanliga mönster för att skapa olika typer av projekt./"
                 },
                 "Definitions": {

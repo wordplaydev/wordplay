@@ -8920,7 +8920,7 @@
                     }
                 },
                 "mode": {
-                    "label": "$~geri bildirim",
+                    "label": "$!geri bildirim",
                     "labels": ["$~kusurlar", "$~fikirler"],
                     "tips": [
                         "$~Bozuk görünen bir şeyi bildirin.",
