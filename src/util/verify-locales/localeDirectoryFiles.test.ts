@@ -26,12 +26,33 @@ const TrackedSuffixes = [
     '-updates.json',
 ];
 
-function ignored(file: string): boolean {
+/**
+ * Which of these paths git ignores, asked in one call.
+ *
+ * `git check-ignore` takes many paths at once, and asking per file spawned a
+ * subprocess for each of ~217 — fast enough locally to look fine and slow
+ * enough on a CI runner to blow the 5s test timeout.
+ */
+function ignoredAmong(files: string[]): Set<string> {
+    if (files.length === 0) return new Set();
     try {
-        execFileSync('git', ['check-ignore', '-q', file]);
-        return true;
-    } catch {
-        return false;
+        const output = execFileSync('git', ['check-ignore', '--stdin'], {
+            input: files.join('\n'),
+            encoding: 'utf8',
+        });
+        return new Set(output.split('\n').filter((line) => line.length > 0));
+    } catch (error) {
+        // Exit status 1 means "none of them are ignored", which is an answer,
+        // not a failure — and it still carries whatever it did match on stdout.
+        const stdout: unknown =
+            typeof error === 'object' && error !== null
+                ? Reflect.get(error, 'stdout')
+                : undefined;
+        return new Set(
+            (typeof stdout === 'string' ? stdout : '')
+                .split('\n')
+                .filter((line) => line.length > 0),
+        );
     }
 }
 
@@ -60,37 +81,46 @@ test('every locale directory has its sections', () => {
 });
 
 test('only the assembled document is ignored in a locale directory', () => {
-    const wrong: string[] = [];
-    for (const locale of localeDirectories) {
-        const directory = path.join('static', 'locales', locale);
-        for (const entry of fs.readdirSync(directory, {
-            withFileTypes: true,
-        })) {
-            if (!entry.isFile() || !entry.name.endsWith('.json')) continue;
-            const file = path.join(directory, entry.name);
-            // en-US has no assembled document under static/.
-            const isAssembled =
-                locale !== 'en-US' && entry.name === `${locale}.json`;
-            const isKnown = TrackedSuffixes.some((suffix) =>
-                entry.name.endsWith(suffix),
-            );
-            if (isAssembled && !ignored(file))
-                wrong.push(`${file} is the generated assembly but is tracked`);
-            else if (isKnown && ignored(file))
-                wrong.push(`${file} is authored but is gitignored`);
-            else if (!isAssembled && !isKnown)
-                wrong.push(
-                    `${file} is a new kind of per-locale file; add its suffix to .gitignore's exemptions and to TrackedSuffixes here, or it ships missing`,
+    const candidates: string[] = [];
+    for (const locale of localeDirectories)
+        for (const entry of fs.readdirSync(
+            path.join('static', 'locales', locale),
+            { withFileTypes: true },
+        ))
+            if (entry.isFile() && entry.name.endsWith('.json'))
+                candidates.push(
+                    path.join('static', 'locales', locale, entry.name),
                 );
-        }
+
+    const ignored = ignoredAmong(candidates);
+    const wrong: string[] = [];
+
+    for (const file of candidates) {
+        const locale = path.basename(path.dirname(file));
+        const name = path.basename(file);
+        // en-US has no assembled document under static/.
+        const isAssembled = locale !== 'en-US' && name === `${locale}.json`;
+        const isKnown = TrackedSuffixes.some((suffix) => name.endsWith(suffix));
+
+        if (isAssembled && !ignored.has(file))
+            wrong.push(`${file} is the generated assembly but is tracked`);
+        else if (isKnown && ignored.has(file))
+            wrong.push(`${file} is authored but is gitignored`);
+        else if (!isAssembled && !isKnown)
+            wrong.push(
+                `${file} is a new kind of per-locale file; add its suffix to .gitignore's exemptions and to TrackedSuffixes here, or it ships missing`,
+            );
     }
+
     expect(wrong).toEqual([]);
 });
 
 test('the assembled en-US is generated, not authored', () => {
     // Everything imports it, so if it were committed it would carry the
     // whole-file diff the split exists to remove.
-    expect(ignored(path.join('src', 'locale', 'en-US.json'))).toBe(true);
+    expect(ignoredAmong([path.join('src', 'locale', 'en-US.json')]).size).toBe(
+        1,
+    );
     expect(fs.existsSync(path.join('src', 'locale', 'en-US', 'sections'))).toBe(
         true,
     );
