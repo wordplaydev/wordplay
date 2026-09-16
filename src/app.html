@@ -88,6 +88,20 @@
         />
 
         <!--
+            Preload this locale's text when the URL names it, so the fetch is
+            issued with the document rather than after the whole JS bundle has
+            loaded and LocalesDatabase's constructor has run — measured at ~330ms
+            later, behind all 66 JS requests.
+
+            hooks.server.ts puts the content hashes here and locale-preload.js
+            builds the link, because only together do they know both the locale
+            and the hash versioned() will ask for. It has to be this way round:
+            Firebase rewrites every locale-prefixed route to 200.html, so the
+            per-locale prerendered pages are not what a reader receives.
+        -->
+        %wordplay.localeassets%
+
+        <!--
             Preload the regular + bold Latin Noto Sans slices — the text faces the
             loading overlay waits on before revealing the app (see +layout.svelte,
             which gates the reveal on `document.fonts.load('… "Noto Sans"')`). URLs

@@ -42,6 +42,20 @@ function tabLabel(index: number) {
 test('workspace shows this locale s guidance, not the English one', async ({
     page,
 }) => {
+    // Riding along on this navigation rather than paying for another: it is the
+    // suite's one cold load of a non-English route, which is what the locale
+    // preload needs. `locale-preload.js` injects a `<link rel="preload">` for
+    // this file while the document is parsing, and the app fetches the same URL
+    // later — if the two disagree on credentials mode the browser fetches it
+    // twice, which is worse than not preloading at all and is invisible to
+    // every other check. Measured in Chromium: `crossorigin` on the link with a
+    // plain `fetch()` is the only pairing of the four that reuses it.
+    const localeRequests: string[] = [];
+    page.on('request', (request) => {
+        if (request.url().includes('/locales/es-MX/es-MX.json'))
+            localeRequests.push(request.url());
+    });
+
     await page.goto('/es-MX/localize');
 
     await expect(
@@ -53,6 +67,10 @@ test('workspace shows this locale s guidance, not the English one', async ({
         page.getByText('Dirígete a quien aprende de tú'),
     ).toBeVisible();
     await expect(page.getByText('Write short, plain')).toHaveCount(0);
+
+    // One request, and it carries the content hash `versioned()` builds.
+    expect(localeRequests).toHaveLength(1);
+    expect(localeRequests[0]).toMatch(/\?v=[0-9a-f]+$/);
 });
 
 test('guidance is absent from the translatable string list', async ({
