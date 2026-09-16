@@ -871,12 +871,25 @@ test('resolving a color needs no basis', () => {
 // by a hundredth, which is that module plus the strings the import control and
 // its failures need in en-US.json.
 
+// Content-hashed locale URLs add **+1 file** to all five:
+// `src/db/locales/localeAssets.generated.ts`, reached through `versioned.ts`,
+// which every page carries via `LocalesDatabase`. It is the leaf case this
+// file's rule allows a file budget to move by one for — it imports nothing at
+// all, being a generated table of content hashes, so one file is all it can
+// ever cost. It holds only data on purpose: `versioned` is reachable from
+// `UnknownName` by way of `localeNameIndex`, so the `$app/environment` import
+// it used to carry would have put a SvelteKit virtual module on the basis graph
+// and broken `npm run locales` under tsx. The ~12KB it adds buys back a
+// 130-145KB re-download of a creator's locale on every deploy that does not
+// touch one, which is about two thirds of them. Every byte ceiling moves: four
+// by a hundredth, and the layout's by two, having sat just under its old one.
+
 test.each([
-    ['src/routes/+layout.svelte', 534, 4.06],
-    ['src/components/app/Page.svelte', 558, 4.32],
-    ['src/routes/[[locale]]/+page.svelte', 573, 4.41],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 578, 4.42],
-    ['src/routes/[[locale]]/projects/+page.svelte', 587, 4.46],
+    ['src/routes/+layout.svelte', 535, 4.08],
+    ['src/components/app/Page.svelte', 559, 4.33],
+    ['src/routes/[[locale]]/+page.svelte', 574, 4.42],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.43],
+    ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.47],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(
