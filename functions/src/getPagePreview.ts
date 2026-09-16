@@ -36,6 +36,13 @@ async function fetchText(url: string): Promise<string | undefined> {
     try {
         const response = await fetch(url, {
             signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+            // `/locales/**` is served `immutable` with a year's max-age
+            // (firebase.json), which is safe only for a URL carrying a content
+            // hash — and this one cannot, because `versioned()`'s table lives in
+            // the app bundle, which `functions/` cannot import. Freshness here
+            // is `localeCache`'s TTL instead, so nothing in between may hold a
+            // copy on our behalf.
+            headers: { 'Cache-Control': 'no-cache' },
         });
         if (!response.ok) return undefined;
         return await response.text();

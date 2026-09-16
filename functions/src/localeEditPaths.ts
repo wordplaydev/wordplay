@@ -179,3 +179,79 @@ export function setAtPath(
         throw new Error(`Index ${index} out of bounds for ${path}`);
     target[index] = value;
 }
+
+/**
+ * Which section file a locale path lives in.
+ *
+ * A locale's text is authored as eight files under `sections/`, and
+ * `<code>.json` is a build artifact that is not in the repository at all — so a
+ * submission that wrote to it would open a pull request against a file that
+ * does not exist. This is a second copy of the rule in
+ * `src/util/verify-locales/localeFiles.ts`, for the same reason
+ * `parseOverrideKey` is duplicated: `functions/` compiles with its own
+ * `rootDir` and cannot import from `src/`. `localeEditPaths.test.ts` mirrors
+ * the client's cases so a drift fails a test rather than a contributor's
+ * submission.
+ */
+export const LocaleSections = [
+    'locale.json',
+    'ui.json',
+    'ui-page.json',
+    'node.json',
+    'basis.json',
+    'input.json',
+    'output.json',
+    'token-keyword.json',
+] as const;
+
+export type LocaleSection = (typeof LocaleSections)[number];
+
+const SectionByTopLevelKey: Record<string, LocaleSection> = {
+    node: 'node.json',
+    basis: 'basis.json',
+    input: 'input.json',
+    output: 'output.json',
+    token: 'token-keyword.json',
+    keyword: 'token-keyword.json',
+};
+
+export function sectionFileFor(path: string): LocaleSection {
+    const segments = path.split('.').filter((segment) => segment.length > 0);
+    const [first, second] = segments;
+    if (first === 'ui') return second === 'page' ? 'ui-page.json' : 'ui.json';
+    return (
+        (first === undefined ? undefined : SectionByTopLevelKey[first]) ??
+        'locale.json'
+    );
+}
+
+/** Where a section file lives. en-US is the exception, as it always was. */
+export function localeSectionPath(
+    locale: string,
+    section: LocaleSection,
+): string {
+    return locale === 'en-US'
+        ? `src/locale/en-US/sections/${section}`
+        : `static/locales/${locale}/sections/${section}`;
+}
+
+/** The part of an assembled locale belonging to one section, ready to write
+ *  back. Mirrors `splitLocale`: `ui` is the one key split at its second level. */
+export function sliceForSection(
+    assembled: Record<string, unknown>,
+    section: LocaleSection,
+): Record<string, unknown> {
+    const slice: Record<string, unknown> = {};
+    for (const key of Object.keys(assembled)) {
+        if (key === '$schema') continue;
+        const value = assembled[key];
+        if (key === 'ui' && isRecord(value)) {
+            const ui: Record<string, unknown> = {};
+            for (const uiKey of Object.keys(value))
+                if ((uiKey === 'page' ? 'ui-page.json' : 'ui.json') === section)
+                    ui[uiKey] = value[uiKey];
+            if (Object.keys(ui).length > 0) slice['ui'] = ui;
+        } else if (sectionFileFor(key) === section) slice[key] = value;
+    }
+    return slice;
+}

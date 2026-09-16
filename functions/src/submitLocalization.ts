@@ -37,9 +37,13 @@ import {
     englishDisplay,
     isListEditPath,
     listDisplay,
+    localeSectionPath,
     parseOverrideKey,
     resolveAtPath,
+    sectionFileFor,
     setAtPath,
+    sliceForSection,
+    type LocaleSection,
 } from './localeEditPaths.js';
 
 const REPO_OWNER = 'wordplaydev';
@@ -79,11 +83,62 @@ const LIMITS = {
 // File path resolution
 // ---------------------------------------------------------------------------
 
-/** en-US is special: its locale JSON lives in `src/locale/`. All others live
- *  in `static/locales/{locale}/{locale}.json`. */
-function localeFilePath(locale: string): string {
-    if (locale === 'en-US') return 'src/locale/en-US.json';
-    return `static/locales/${locale}/${locale}.json`;
+/**
+ * The sections a set of locale edit paths touches, plus `locale.json`.
+ *
+ * `locale.json` is always included because the quality analysis reads the
+ * locale's `glossary` whatever was edited.
+ */
+function sectionsFor(paths: string[]): LocaleSection[] {
+    const sections = new Set<LocaleSection>(['locale.json']);
+    for (const path of paths) sections.add(sectionFileFor(path));
+    return [...sections];
+}
+
+/**
+ * Fetch a locale's section files and merge them into one object.
+ *
+ * Merged, because everything downstream — `setAtPath`, `resolveAtPath`, the
+ * glossary analysis, the backtranslation table — was written against a whole
+ * locale document and is correct as it stands. Only the reading and writing
+ * ends know the text is stored in pieces, which is the same seam the rest of
+ * the project draws.
+ */
+async function fetchLocaleSections(
+    token: string,
+    locale: string,
+    sections: LocaleSection[],
+): Promise<
+    | { json: Record<string, unknown>; shas: [LocaleSection, string][] }
+    | undefined
+> {
+    const fetched = await Promise.all(
+        sections.map(async (section) => {
+            const file = await fetchJsonFile(
+                token,
+                localeSectionPath(locale, section),
+            );
+            return file === undefined ? undefined : ([section, file] as const);
+        }),
+    );
+
+    const present = fetched.filter((entry) => entry !== undefined);
+    if (present.length === 0) return undefined;
+
+    const json: Record<string, unknown> = {};
+    const shas: [LocaleSection, string][] = [];
+    for (const [section, file] of present) {
+        shas.push([section, file.sha]);
+        for (const key of Object.keys(file.json)) {
+            if (key === '$schema') continue;
+            const value = file.json[key];
+            // `ui` arrives in two files and has to be merged, not replaced.
+            if (key === 'ui' && isRecord(value) && isRecord(json['ui']))
+                Object.assign(json['ui'], value);
+            else json[key] = value;
+        }
+    }
+    return { json, shas };
 }
 
 /** Tutorial files all live under static/locales, including en-US. */
@@ -434,6 +489,10 @@ export const submitLocalizationBundle = onCall<
             else localeEdits.push({ key, value });
         }
 
+        const localeSections = sectionsFor(
+            localeEdits.map((edit) => parseOverrideKey(edit.key).path),
+        );
+
         // Pull both target-locale files (we may not touch both) and the en-US
         // sources used for the "Original English" column.
         const [
@@ -444,7 +503,7 @@ export const submitLocalizationBundle = onCall<
             sourceTutorialFile,
         ] = await Promise.all([
             localeEdits.length > 0
-                ? fetchJsonFile(token, localeFilePath(locale))
+                ? fetchLocaleSections(token, locale, localeSections)
                 : Promise.resolve(undefined),
             tutorialEdits.length > 0
                 ? fetchJsonFile(token, tutorialFilePath(locale))
@@ -452,7 +511,7 @@ export const submitLocalizationBundle = onCall<
             updatesEdits.length > 0
                 ? fetchJsonFile(token, updatesFilePath(locale))
                 : Promise.resolve(undefined),
-            fetchJsonFile(token, localeFilePath('en-US')),
+            fetchLocaleSections(token, 'en-US', localeSections),
             tutorialEdits.length > 0
                 ? fetchJsonFile(token, tutorialFilePath('en-US'))
                 : Promise.resolve(undefined),
@@ -646,11 +705,14 @@ export const submitLocalizationBundle = onCall<
         const files: { path: string; content: string; existingSha?: string }[] =
             [];
         if (targetLocaleFile)
-            files.push({
-                path: localeFilePath(locale),
-                content: await formatJson(targetLocaleFile.json),
-                existingSha: targetLocaleFile.sha,
-            });
+            for (const [section, sha] of targetLocaleFile.shas)
+                files.push({
+                    path: localeSectionPath(locale, section),
+                    content: await formatJson(
+                        sliceForSection(targetLocaleFile.json, section),
+                    ),
+                    existingSha: sha,
+                });
         if (targetTutorialFile)
             files.push({
                 path: tutorialFilePath(locale),

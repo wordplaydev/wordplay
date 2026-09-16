@@ -16,6 +16,13 @@ import { expect, test } from 'vitest';
  * a local name assigned a locale URL and then fetched. A path arriving through a
  * method call is beyond a regex, so `versioned()` still has to be applied by
  * hand there; the two shapes below are the ones that have actually gone wrong.
+ *
+ * `functions/` is covered too, and it is why this comment exists: two Cloud
+ * Functions fetch a locale over HTTP and cannot use `versioned()` at all, since
+ * its table lives in the app bundle and `functions/` compiles as its own
+ * package. They declare `Cache-Control: no-cache` on the request instead and
+ * manage freshness with their own TTL, which is the only other way to be safe
+ * under an `immutable` header. Scanning only `src/` let that go unnoticed.
  */
 const VERSIONED = 'src/db/locales/versioned.ts';
 
@@ -58,6 +65,18 @@ function fetchArguments(source: string): string[] {
     return args;
 }
 
+/**
+ * The same text with comments removed.
+ *
+ * Without this the guard reads its own explanations: a comment inside a
+ * `fetch(...)` call mentioning `versioned(` made the call look safe however it
+ * actually behaved, which is exactly what happened the first time `functions/`
+ * was brought into scope.
+ */
+function withoutComments(source: string): string {
+    return source.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/[^\n]*/g, ' ');
+}
+
 /** Names bound to a locale URL, so `fetch(name)` can be recognized as one. */
 function localeUrlNames(source: string): Set<string> {
     const names = new Set<string>();
@@ -79,7 +98,10 @@ function localeUrlNames(source: string): Set<string> {
 
 function unversionedFetches(root: string): string[] {
     const offenders: string[] = [];
-    for (const absolute of sourceFilesUnder(resolve(root, 'src'))) {
+    for (const absolute of [
+        ...sourceFilesUnder(resolve(root, 'src')),
+        ...sourceFilesUnder(resolve(root, 'functions', 'src')),
+    ]) {
         const path = relative(root, absolute);
         if (
             path === VERSIONED ||
@@ -91,11 +113,16 @@ function unversionedFetches(root: string): string[] {
         const source = readFileSync(absolute, 'utf-8');
         if (!LocaleAsset.test(source)) continue;
         const names = localeUrlNames(source);
-        for (const argument of fetchArguments(source)) {
+        for (const raw of fetchArguments(source)) {
+            const argument = withoutComments(raw);
             const fetchesLocaleAsset =
                 LocaleAsset.test(argument) ||
                 names.has(argument.trim().replace(/,$/, ''));
-            if (fetchesLocaleAsset && !argument.includes('versioned('))
+            // Either carry a content hash, or tell caches not to keep it.
+            const safe =
+                argument.includes('versioned(') ||
+                argument.includes("'Cache-Control': 'no-cache'");
+            if (fetchesLocaleAsset && !safe)
                 offenders.push(
                     `${path}: fetch(${argument.trim().slice(0, 60)})`,
                 );
@@ -107,6 +134,6 @@ function unversionedFetches(root: string): string[] {
 test('every fetch of a locale asset goes through versioned()', () => {
     expect(
         unversionedFetches(resolve(__dirname, '../../..')),
-        `Locale asset fetched without versioned(). /locales/** is served immutable for a year (firebase.json), so an unversioned URL pins stale text in every reader's cache. Wrap the URL in versioned() from ${VERSIONED}.`,
+        `Locale asset fetched without a content hash. /locales/** is served immutable for a year (firebase.json), so an unversioned URL can pin stale text. Wrap the URL in versioned() from ${VERSIONED} — or, where that module cannot be imported (functions/ is its own package), send \`headers: { 'Cache-Control': 'no-cache' }\` and manage freshness with a TTL.`,
     ).toEqual([]);
 });
