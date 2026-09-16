@@ -986,6 +986,9 @@
         "ec2a904d11589": "$~Một số phím tắt đã được đổi sang những phím mà Windows, Chromebook và Linux không giữ riêng cho mình. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
         "eb770841e3ff7": "$~Danh sách phím tắt giờ hiện mọi lệnh, kể cả những lệnh không có phím tắt, cùng nơi bạn có thể tìm cách khác để dùng chúng. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
         "efc9a05b9de4f": "$~Chúng tôi đã thêm một bài làm cách nào để và các từ mới vào <Sổ tay hướng dẫn@https://wordplay.dev/guide> để giải thích cách một dự án có thể có nhiều hơn một tệp nguồn, và cách chia sẻ và mượn giữa các tệp đó. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
-        "ee25d92cdeeaa": "$~Bài học giờ đây cho bạn biết rằng một dự án có thể có nhiều hơn một tệp nguồn, và giúp bạn tìm hiểu các công cụ điều khiển dự án. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
+        "ee25d92cdeeaa": "$~Bài học giờ đây cho bạn biết rằng một dự án có thể có nhiều hơn một tệp nguồn, và giúp bạn tìm hiểu các công cụ điều khiển dự án. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "e35eab7d1d833": "$~Bây giờ bạn có thể tải xuống một bản sao của mọi thứ bạn đã tạo, bao gồm các dự án, nhân vật, phòng trưng bày và cài đặt của bạn, từ trang hồ sơ của bạn. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e794f84f1c313": "$~Bây giờ bạn có thể mở một tệp dự án trên trang <Dự án@https://wordplay.dev/projects> của bạn, bằng cách chọn tệp đó hoặc kéo nó vào trang. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e5382816343d1": "$~Bạn có thể kéo một tệp dự án vào một dự án bạn đã có để thay thế nội dung trong đó, và chúng tôi sẽ hỏi bạn trước. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
     }
 }

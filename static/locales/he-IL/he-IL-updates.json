@@ -986,6 +986,9 @@
         "ec2a904d11589": "$~חלק מהקיצורים עברו למקשים ש-Windows, Chromebook ו-Linux לא שומרים לעצמם. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
         "eb770841e3ff7": "$~רשימת הקיצורים מציגה עכשיו כל פקודה, כולל אלה בלי קיצור, ואיפה למצוא אותן במקום זאת. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
         "efc9a05b9de4f": "$~הוספנו הוראות ומילים חדשות ל<מדריך@https://wordplay.dev/guide> שמסבירות איך פרויקט יכול לכלול יותר ממקור אחד, ואיך אפשר לשתף ולשאול בין המקורות. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
-        "ee25d92cdeeaa": "$~המדריך לימוד מסביר עכשיו שפרויקט יכול לכלול יותר ממקור אחד, ומציע לכם סיור בפקדי הפרויקט. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
+        "ee25d92cdeeaa": "$~המדריך לימוד מסביר עכשיו שפרויקט יכול לכלול יותר ממקור אחד, ומציע לכם סיור בפקדי הפרויקט. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "e35eab7d1d833": "$~עכשיו אפשר להוריד עותק של כל מה שיצרת, כולל הפרויקטים, הדמויות, הגלריות וההגדרות שלך, מדף הפרופיל שלך. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e794f84f1c313": "$~עכשיו אפשר לפתוח קובץ פרויקט בדף <הפרויקטים@https://wordplay.dev/projects> שלך, על ידי בחירתו או על ידי גרירתו אל הדף. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e5382816343d1": "$~אפשר לגרור קובץ פרויקט אל פרויקט שכבר יש לך, כדי להחליף את מה שבתוכו, ונשאל אותך קודם. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
     }
 }

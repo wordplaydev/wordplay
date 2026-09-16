@@ -9939,7 +9939,11 @@
                     "newproject": "$~dự án mới",
                     "editproject": "$~chỉnh sửa dự án này",
                     "unarchive": "$~bỏ lưu trữ dự án này",
-                    "viewproject": "$~xem mã số của dự án này"
+                    "viewproject": "$~xem mã số của dự án này",
+                    "import": {
+                        "tip": "$~mở một tệp dự án bạn đã lưu",
+                        "label": "$~mở một tệp dự án…"
+                    }
                 },
                 "confirm": {
                     "archive": {
@@ -9955,7 +9959,10 @@
                     "noaccess": "$~Chúng tôi không thể truy cập internet.",
                     "newgallery": "$~Chúng tôi không thể tạo thư viện ảnh mới.",
                     "nodeletes": "$~Bạn phải đăng nhập vào tài khoản <login@://login> để xóa các dự án đã lưu trữ.",
-                    "delete": "$~Ôi, chúng tôi không thể xóa dự án được!"
+                    "delete": "$~Ôi, chúng tôi không thể xóa dự án được!",
+                    "importEmpty": "$~Tệp đó không có gì trong đó.",
+                    "importTooLarge": "$~Dự án đó quá lớn để Wordplay lưu. Hãy thử một dự án nhỏ hơn.",
+                    "importUnreadable": "$~Wordplay không đọc được tệp đó. Tệp dự án có đuôi .wp."
                 },
                 "search": {
                     "description": "$~Tìm kiếm dự án và tệp nguồn",
@@ -10004,6 +10011,20 @@
                         "none": "$~Nhấp vào một dự án hoặc một thư mục để chọn nó.",
                         "project": "$~Di chuyển dự án này bằng phím mũi tên *lên* và *xuống*, hoặc kéo nó vào một thư mục. Nhấn *escape* khi bạn xong.",
                         "folder": "$~Gõ tên để đổi tên thư mục này. Xóa nó sẽ đưa mọi thứ bên trong vào kho lưu trữ của bạn."
+                    }
+                },
+                "import": {
+                    "done": "$~Đã mở $name.",
+                    "drop": "$~Thả một tệp dự án vào đây để mở nó.",
+                    "replaced": "$~Đã thay dự án này bằng $name.",
+                    "replace": {
+                        "header": "$~Thay dự án này?",
+                        "explanation": "$~Mã số trong dự án này sẽ bị thay thế. Wordplay lưu lại những gì đang có ở đây, nên bạn có thể lấy lại từ lịch sử dự án.",
+                        "prompt": "$~Mở $name ở đây thay cho những gì dự án này đang có?",
+                        "confirm": {
+                            "tip": "$~thay dự án này bằng tệp bạn vừa thả vào",
+                            "label": "$~thay thế"
+                        }
                     }
                 }
             },
@@ -10599,9 +10620,55 @@
                     "password": "$~Mật khẩu của bạn",
                     "email": "$~Email",
                     "logout": "$~Đăng xuất",
-                    "delete": "$~Xóa tài khoản của bạn"
+                    "delete": "$~Xóa tài khoản của bạn",
+                    "export": "$~Kho lưu trữ của bạn"
                 },
-                "profile": "$~Hồ sơ"
+                "profile": "$~Hồ sơ",
+                "export": {
+                    "prompt": "$~Tải xuống một bản sao của mọi thứ bạn đã tạo. Nó chứa các dự án, nhân vật, phòng trưng bày, làm cách nào để, bộ dụng cụ, cuộc trò chuyện, lớp học và cài đặt của bạn. Mỗi dự án được lưu thành một tệp mà bạn có thể mở lại trong Wordplay. Một số nội dung không chỉ thuộc về bạn: các cuộc trò chuyện chứa lời của mọi người, còn danh sách lớp học chứa tên của người khác. Bất kỳ ai bạn đưa tệp này cho đều có thể đọc được tất cả, vì vậy hãy giữ nó ở một nơi riêng tư.",
+                    "proxy": "$~Bạn đang xem tài khoản của người khác, nên bạn không thể tải xuống một bản sao của nó.",
+                    "button": {
+                        "tip": "$~tải xuống một bản sao của mọi thứ trong tài khoản của bạn",
+                        "label": "$~tải xuống kho lưu trữ của tôi…"
+                    },
+                    "progress": "$~Đã thu thập $kind: $#count[$count mục] cho đến nay",
+                    "started": "$~Đang tạo kho lưu trữ của bạn.",
+                    "finished": "$~Kho lưu trữ $name của bạn đã sẵn sàng, với $#count[$count mục] trong đó.",
+                    "finishedPartial": "$~Kho lưu trữ $name của bạn đã sẵn sàng, với $#count[$count mục] trong đó, nhưng $#missing[$missing loại] không đọc được.",
+                    "failed": "$~Không thể tạo kho lưu trữ của bạn. Hãy thử lại sau một lát.",
+                    "tooLarge": "$~Bạn đã tạo ra nhiều thứ hơn mức một kho lưu trữ có thể chứa. Hãy báo cho chúng tôi biết và chúng tôi sẽ giúp bạn lấy nó.",
+                    "offline": "$~Wordplay không kết nối được internet, nên không thể tạo kho lưu trữ của bạn.",
+                    "kind": {
+                        "account": "$~tài khoản của bạn",
+                        "projects": "$~dự án của bạn",
+                        "galleries": "$~phòng trưng bày của bạn",
+                        "characters": "$~nhân vật của bạn",
+                        "howtos": "$~làm cách nào để của bạn",
+                        "chats": "$~cuộc trò chuyện của bạn",
+                        "kits": "$~bộ dụng cụ của bạn",
+                        "classes": "$~lớp học của bạn",
+                        "feedback": "$~ý tưởng và báo cáo lỗi của bạn",
+                        "device": "$~cài đặt của thiết bị này",
+                        "archive": "$~kho lưu trữ",
+                        "saving": "$~tệp"
+                    },
+                    "readme": {
+                        "title": "$~Kho lưu trữ Wordplay của bạn",
+                        "intro": "$~Đây là bản sao của mọi thứ trong tài khoản Wordplay $name. Bản sao này được tạo vào ngày $date. Wordplay đã tạo nó cho bạn. Không ai khác có bản sao này.",
+                        "contents": "$~Mỗi thư mục chứa một loại thứ. Có các thư mục cho dự án, nhân vật, phòng trưng bày, làm cách nào để, bộ dụng cụ, cuộc trò chuyện và lớp học của bạn.",
+                        "relationships": "$~Bên trong mỗi thư mục, các mục được sắp xếp theo cách bạn liên quan đến chúng. Thư mục tên owner chứa những gì bạn đã tạo. creator chứa những gì bạn đã viết hoặc có thể thêm vào. curator chứa những gì bạn chăm sóc. teacher và learner chứa các lớp học. collaborator, commenter và viewer chứa công việc thuộc về người khác.",
+                        "device": "$~Thư mục device chứa những thứ chỉ có trên máy tính bạn dùng để tạo kho lưu trữ này. Nó có các cài đặt không được lưu trực tuyến, các bản dịch bạn đã bắt đầu, và công việc chưa lưu xong. Nếu tạo kho lưu trữ trên một máy tính khác, những thứ này sẽ không có trong đó.",
+                        "formats": "$~Để mở lại một dự án, hãy vào trang dự án của bạn trong Wordplay và chọn \"mở một tệp dự án\". Bạn cũng có thể kéo tệp .wp vào trang đó. Để thay thế một dự án bạn đã có, hãy kéo tệp vào dự án đó và Wordplay sẽ hỏi bạn trước.",
+                        "excluded": "$~Có vài thứ không có ở đây. Wordplay bỏ qua bản ghi từng bước các chỉnh sửa của bạn, vì dự án đã chứa kết quả của những chỉnh sửa đó. Nó cũng bỏ qua bản ghi ai đã xem một dự án. Nó cũng bỏ qua các báo cáo về việc vi phạm quy tắc, vì những báo cáo đó được viết cho những người xem xét chúng.",
+                        "privacy": "$~Một số thứ ở đây không chỉ thuộc về bạn. Một cuộc trò chuyện chứa những gì mọi người trong đó đã nói. Một lớp học chứa tên của mọi người trong đó. Bất kỳ ai bạn đưa tệp này cho đều có thể đọc được tất cả. Hãy giữ nó ở nơi riêng tư, và suy nghĩ về những ai khác có trong đó trước khi bạn chia sẻ nó.",
+                        "missing": "$~Wordplay không đọc được một số thứ khi tạo kho lưu trữ này. Chúng không có ở đây:",
+                        "manifest": "$~manifest.json chứa cùng các thông tin đó dưới dạng mà một chương trình có thể đọc được. Nó cho biết khi nào bản này được tạo, có bao nhiêu mục của mỗi loại, và những gì không thể đưa vào.",
+                        "contentsFiles": "$~Mỗi mục đều có một tệp .json. Đó chính xác là những gì Wordplay lưu trữ. Mỗi dự án cũng có một tệp .wp. Đó là dự án được viết ra để bạn có thể đọc và mở lại nó.",
+                        "contentsAccount": "$~account.json cho biết bạn là ai, khi bạn tham gia, và bạn được phép làm gì. Thư mục self chứa những gì Wordplay lưu về bạn: tên người dùng của bạn, bạn đã dịch được bao nhiêu, những cảnh báo bạn đã nhận, và các thông báo của bạn.",
+                        "relationshipsWords": "$~Cùng một từ có thể mang hai nghĩa. Một creator của một phòng trưng bày có thể thêm dự án vào đó. creator của một làm cách nào để là người đã viết nó. Mỗi thư mục cũng có một index.json. Nó liệt kê mọi cách bạn liên quan đến mỗi mục, vì có thể đúng nhiều hơn một cách cùng lúc."
+                    },
+                    "incomplete": "$~Tệp lưu trữ của bạn đã sẵn sàng, nhưng những mục sau không đọc được, nên chúng không có trong đó: $kinds"
+                }
             },
             "join": {
                 "header": "$~Tham gia",

@@ -145,6 +145,11 @@ test.describe('authed views', () => {
             await expect(page.getByTestId('username')).toBeVisible({
                 timeout: LOAD_TIMEOUT,
             });
+            // The archive card is the newest of them (#152), and the one whose
+            // control only appears when the page is not a read-only session —
+            // so assert it is here rather than trusting the scan to notice a
+            // card that rendered nothing at all.
+            await expect(page.getByTestId('export-account')).toBeVisible();
             await expectNoAxeViolationsInBothSchemes(page);
         } finally {
             await context.close();
@@ -162,6 +167,10 @@ test.describe('authed views', () => {
             await expect(page.getByTestId('preview').first()).toBeVisible({
                 timeout: LOAD_TIMEOUT,
             });
+            // The import control (#152) is the keyboard path to a drop target,
+            // so it has to be here and it has to be a real, labelled control —
+            // the drop itself can never be scanned.
+            await expect(page.getByTestId('import-project')).toBeVisible();
             await expectNoAxeViolationsInBothSchemes(page);
         } finally {
             await context.close();

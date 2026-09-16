@@ -73,6 +73,10 @@ const Lanes = {
     // Translation start, finish, and failure: discrete results a creator asked
     // for, so they are queued rather than coalesced and never dropped.
     translation: 'queued',
+    // Start, finish, partial finish, and failure of an account export (#152).
+    // The same shape as translation, and for the same reason: each is a
+    // discrete answer to a press, and none may be dropped.
+    export: 'queued',
     'project-mode': 'queued',
     'tutorial-dialog': 'queued',
     // Music that can't be heard — no audio context, or the viewer muted it —
@@ -104,6 +108,10 @@ const Lanes = {
      *  of a folder, or a folder created, expanded, collapsed, selected, or
      *  deleted. Each is a discrete result, so none may be dropped. */
     'project-folder': 'queued',
+    /** A project brought back from a file (#152). A discrete answer to a press
+     *  or a drop, so queued rather than coalesced; its text names the project,
+     *  which is what makes two imports in a row two announcements. */
+    'project-import': 'queued',
     notification: 'queued',
     update: 'queued',
     'delete-account-confirm': 'queued',
@@ -126,6 +134,13 @@ const Lanes = {
     // Text varies by construction — it names the command and the keys, or the
     // command already holding them.
     keybinding: 'queued',
+    /** How far an account export has got (#152). Only the latest step matters,
+     *  and it must never displace the start or finish line, which is why it is
+     *  coalesced while `export` is queued. Its text names both the kind just
+     *  collected and the running count, so two consecutive firings never share
+     *  text — naming only the count would go silent across two empty
+     *  collections. */
+    'export-progress': 'coalesce',
     caret: { lane: 'coalesce', immediate: true },
     value: 'coalesce',
     color: 'coalesce',

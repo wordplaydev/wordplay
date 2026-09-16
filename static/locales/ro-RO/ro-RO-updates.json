@@ -986,6 +986,9 @@
         "ec2a904d11589": "$~Unele scurtături au fost mutate pe taste pe care Windows, Chromebook-urile și Linux nu le păstrează pentru ele însele. (<826@https://github.com/wordplaydev/wordplay/issues/826>)",
         "eb770841e3ff7": "$~Lista de scurtături arată acum fiecare comandă, inclusiv cele fără scurtătură și unde le poți găsi în schimb. (<913@https://github.com/wordplaydev/wordplay/issues/913>)",
         "efc9a05b9de4f": "$~Am adăugat instrucțiuni și cuvinte noi de glosar în <Ghid@https://wordplay.dev/guide>, care explică cum un proiect poate avea mai multe fișiere sursă și cum poți partaja și împrumuta lucruri între ele. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
-        "ee25d92cdeeaa": "$~Tutorialul îți spune acum că un proiect poate avea mai multe fișiere sursă și îți oferă un tur al comenzilor proiectului. (<268@https://github.com/wordplaydev/wordplay/issues/268>)"
+        "ee25d92cdeeaa": "$~Tutorialul îți spune acum că un proiect poate avea mai multe fișiere sursă și îți oferă un tur al comenzilor proiectului. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
+        "e35eab7d1d833": "$~Acum poți descărca o copie a tot ce ai creat, inclusiv proiectele, personajele, galeriile și setările tale, din pagina ta de profil. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e794f84f1c313": "$~Acum poți deschide un fișier de proiect pe pagina ta <Proiecte@https://wordplay.dev/projects>, fie alegându-l, fie trăgându-l pe pagină. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e5382816343d1": "$~Poți trage un fișier de proiect peste un proiect pe care îl ai deja, ca să înlocuiești ce este în el, iar noi te vom întreba mai întâi. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
     }
 }

@@ -8,6 +8,9 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 ### Added
 
+- 💾 You can now download a copy of everything you've made, including your projects, characters, galleries, and settings, from your profile page. (#152)
+- 📂 You can now open a project file on your [Projects](https://wordplay.dev/projects) page, either by choosing it or by dragging it onto the page. (#152)
+- 🖱️ You can drag a project file onto a project you already have to replace what's in it, and we'll ask you first. (#152)
 - ⌨️ You can now change any keyboard shortcut to keys your keyboard can reach, and your choices follow you to any computer you sign in on. (#826)
 - 📖 We added a how-to and new glossary words to the [Guide](https://wordplay.dev/guide) that explain how a project can have more than one source file, and how to share and borrow between them. (#268)
 - 🧭 The tutorial now tells you that a project can have more than one source file, and offers you a tour of the project controls. (#268)

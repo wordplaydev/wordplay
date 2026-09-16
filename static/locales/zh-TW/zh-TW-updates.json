@@ -986,6 +986,9 @@
         "ec2a904d11589": "$~有些快速鍵改到了 Windows、Chromebook 和 Linux 不會佔用的按鍵上。（<826@https://github.com/wordplaydev/wordplay/issues/826>）",
         "eb770841e3ff7": "$~快速鍵清單現在會列出所有指令，包括沒有快速鍵的指令，並告訴你去哪裡找到它們。（<913@https://github.com/wordplaydev/wordplay/issues/913>）",
         "efc9a05b9de4f": "$~我們在<指南（Guide）@https://wordplay.dev/guide>中新增了一篇操作指南和一些詞彙表新字詞，說明一個工程如何能擁有多個程式文件，以及如何在它們之間分享與借用。（<268@https://github.com/wordplaydev/wordplay/issues/268>）",
-        "ee25d92cdeeaa": "$~教學現在會告訴你，一個工程可以擁有多個程式文件，還會帶你導覽工程的控制項。（<268@https://github.com/wordplaydev/wordplay/issues/268>）"
+        "ee25d92cdeeaa": "$~教學現在會告訴你，一個工程可以擁有多個程式文件，還會帶你導覽工程的控制項。（<268@https://github.com/wordplaydev/wordplay/issues/268>）",
+        "e35eab7d1d833": "$~你現在可以從你的個人檔案頁面，下載你做過的所有東西，包括工程、角色、作品集和設定。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
+        "e794f84f1c313": "$~你現在可以在<工程@https://wordplay.dev/projects>頁面開啟工程檔案，選取它或把它拖到頁面上都可以。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
+        "e5382816343d1": "$~你可以把工程檔案拖到你已經有的工程上，來取代裡面的內容，我們會先問你一次。（<152@https://github.com/wordplaydev/wordplay/issues/152>）"
     }
 }

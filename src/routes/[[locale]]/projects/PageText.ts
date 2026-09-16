@@ -1,5 +1,10 @@
 import type { FormattedText, Template } from '@locale/LocaleText';
-import type { ConfirmText, FieldText, ModeText } from '@locale/UITexts';
+import type {
+    ButtonText,
+    ConfirmText,
+    FieldText,
+    ModeText,
+} from '@locale/UITexts';
 
 type PageText = {
     /** [plain] Header for the projects page */
@@ -94,6 +99,28 @@ type PageText = {
         viewproject: string;
         /** [plain] The project unarchive button description */
         unarchive: string;
+        /** Bring a project back from a file (#152) */
+        import: ButtonText;
+    };
+    /** Bringing a project back from a file (#152) */
+    import: {
+        /** [plain] Announced when a project has been brought back, naming it */
+        done: Template<['name']>;
+        /** [plain] Invitation shown while a file is held over the page */
+        drop: string;
+        /** [plain] Announced when a dropped project replaced an open one */
+        replaced: Template<['name']>;
+        /** Asking before a dropped file replaces what an open project holds */
+        replace: {
+            /** [plain] Names the question */
+            header: string;
+            /** [plain] Says what replacing does, and that the old version is kept */
+            explanation: string;
+            /** [formatted] Names the project that would replace this one */
+            prompt: Template<['name']>;
+            /** Go ahead and replace */
+            confirm: ButtonText;
+        };
     };
     confirm: {
         /** The project archive button */
@@ -110,6 +137,12 @@ type PageText = {
         nodeletes: string;
         /** [plain] Unable to delete project */
         delete: string;
+        /** [plain] When a chosen project file has nothing in it */
+        importEmpty: string;
+        /** [plain] When a chosen project file is too big to ever save */
+        importTooLarge: string;
+        /** [plain] When a chosen file is not a project Wordplay can read */
+        importUnreadable: string;
     };
 };
 

@@ -21,6 +21,7 @@
     import SigninMethod from './SigninMethod.svelte';
     import Username from './Username.svelte';
     import DeleteAccount from './DeleteAccount.svelte';
+    import ExportAccount from './ExportAccount.svelte';
 
     interface Props {
         user: User;
@@ -130,6 +131,12 @@
             label={(l) => l.ui.page.login.button.logout.label}
             testid="logout"
         />
+    </Action>
+    <!-- Before deletion, deliberately: someone who has come here to delete
+         their account should meet the way to keep a copy of it first. -->
+    <Action>
+        <Subheader text={(l) => l.ui.page.login.subheader.export} />
+        <ExportAccount {user} />
     </Action>
     <Action>
         <Subheader text={(l) => l.ui.page.login.subheader.delete} />

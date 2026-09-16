@@ -9688,7 +9688,11 @@
                     "newproject": "$~nytt projekt",
                     "editproject": "$~redigera detta projekt",
                     "unarchive": "$~avarkivera detta projekt",
-                    "viewproject": "$~visa det här projektets koda"
+                    "viewproject": "$~visa det här projektets koda",
+                    "import": {
+                        "tip": "$~öppna en projektfil du har sparat",
+                        "label": "$~öppna en projektfil…"
+                    }
                 },
                 "confirm": {
                     "archive": {
@@ -9704,7 +9708,10 @@
                     "noaccess": "$~Vi kunde inte nå internet.",
                     "newgallery": "$~Vi kunde inte skapa ett nytt galleri.",
                     "nodeletes": "$~Du måste vara <inloggad@://login> för att radera arkiverade projekt.",
-                    "delete": "$~Hoppsan, vi kunde inte ta bort projektet!"
+                    "delete": "$~Hoppsan, vi kunde inte ta bort projektet!",
+                    "importEmpty": "$~Den filen är tom.",
+                    "importTooLarge": "$~Det projektet är för stort för att Wordplay ska kunna spara det. Försök med ett som har mindre i sig.",
+                    "importUnreadable": "$~Wordplay kunde inte läsa den filen. Projektfiler slutar med .wp."
                 },
                 "subheader": {
                     "shared": "$~Delad",
@@ -9757,6 +9764,20 @@
                         "none": "$~Klicka på ett projekt eller en mapp för att välja det.",
                         "project": "$~Flytta detta projekt med piltangenterna *upp* och *ned*, eller dra det till en mapp. Tryck på *escape* när du är klar.",
                         "folder": "$~Skriv namnet för att byta namn på denna mapp. Tar du bort den läggs allt i den i ditt arkiv."
+                    }
+                },
+                "import": {
+                    "done": "$~Öppnade $name.",
+                    "drop": "$~Släpp en projektfil här för att öppna den.",
+                    "replaced": "$~Ersatte detta projekt med $name.",
+                    "replace": {
+                        "header": "$~Ersätta detta projekt?",
+                        "explanation": "$~Koden i detta projekt kommer att ersättas. Wordplay sparar det som finns här nu, så du kan hämta tillbaka det från projekthistoriken.",
+                        "prompt": "$~Öppna $name här istället för det detta projekt har nu?",
+                        "confirm": {
+                            "tip": "$~ersätt detta projekt med filen du släppte",
+                            "label": "$~ersätt"
+                        }
                     }
                 }
             },
@@ -9981,9 +10002,55 @@
                     "password": "$~Ditt lösenord",
                     "email": "$~E-post",
                     "logout": "$~Logga ut",
-                    "delete": "$~Ta bort ditt konto"
+                    "delete": "$~Ta bort ditt konto",
+                    "export": "$~Ditt arkiv"
                 },
-                "profile": "$~Profil"
+                "profile": "$~Profil",
+                "export": {
+                    "prompt": "$~Ladda ner en kopia av allt du har gjort. Den innehåller dina projekt, figurer, gallerier, hur-man-guider, satser, samtal, klasser och inställningar. Varje projekt kommer som en fil du kan öppna i Wordplay igen. En del av innehållet tillhör inte bara dig: samtal innehåller det alla har sagt, och klasslistor innehåller andra personers namn. Den du ger filen till kan läsa allt i den, så förvara den någonstans privat.",
+                    "proxy": "$~Du tittar på någon annans konto, så du kan inte ladda ner en kopia av det.",
+                    "button": {
+                        "tip": "$~ladda ner en kopia av allt i ditt konto",
+                        "label": "$~ladda ner mitt arkiv…"
+                    },
+                    "progress": "$~Samlade $kind: $#count[$count sak hittills|$count saker hittills]",
+                    "started": "$~Skapar ditt arkiv.",
+                    "finished": "$~Ditt arkiv $name är klart, med $#count[$count sak i sig|$count saker i sig].",
+                    "finishedPartial": "$~Ditt arkiv $name är klart, med $#count[$count sak i sig|$count saker i sig], men $#missing[$missing typ|$missing typer] kunde inte läsas.",
+                    "failed": "$~Ditt arkiv kunde inte skapas. Försök igen om en stund.",
+                    "tooLarge": "$~Du har gjort mer än ett arkiv kan rymma. Berätta för oss så hjälper vi dig att få det.",
+                    "offline": "$~Wordplay kan inte nå internet, så det kan inte skapa ditt arkiv.",
+                    "kind": {
+                        "account": "$~ditt konto",
+                        "projects": "$~dina projekt",
+                        "galleries": "$~dina gallerier",
+                        "characters": "$~dina karaktärer",
+                        "howtos": "$~dina hur man-guider",
+                        "chats": "$~dina samtal",
+                        "kits": "$~dina satser",
+                        "classes": "$~dina klasser",
+                        "feedback": "$~dina idéer och felrapporter",
+                        "device": "$~denna enhets inställningar",
+                        "archive": "$~arkivet",
+                        "saving": "$~filen"
+                    },
+                    "readme": {
+                        "title": "$~Ditt Wordplay-arkiv",
+                        "intro": "$~Detta är en kopia av allt i Wordplay-kontot $name. Den gjordes den $date. Wordplay gjorde den åt dig. Ingen annan har en kopia.",
+                        "contents": "$~Varje mapp innehåller en sorts sak. Det finns mappar för dina projekt, karaktärer, gallerier, hur man-guider, satser, samtal och klasser.",
+                        "relationships": "$~I varje mapp sorteras sakerna efter hur du är kopplad till dem. En mapp som heter owner innehåller det du har skapat. creator innehåller det du har skrivit eller kan lägga till i. curator innehåller det du tar hand om. teacher och learner innehåller klasser. collaborator, commenter och viewer innehåller arbete som tillhör någon annan.",
+                        "device": "$~Enhetsmappen innehåller saker som bara finns på datorn du gjorde detta arkiv på. Den har inställningar som inte sparas online, översättningar du har börjat på, och arbete som inte hade sparats klart. Om du gör ett arkiv på en annan dator kommer dessa saker inte med.",
+                        "formats": "$~För att öppna ett projekt igen, gå till din projektsida i Wordplay och välj \"öppna en projektfil\". Du kan också dra .wp-filen till den sidan. Om du vill ersätta ett projekt du redan har, dra filen till det, så frågar Wordplay dig först.",
+                        "excluded": "$~Några saker finns inte med här. Wordplay utelämnar den steg-för-steg-loggen över dina ändringar, eftersom projektet redan visar vad ändringarna ledde till. Den utelämnar loggen över vem som har tittat på ett projekt. Den utelämnar också rapporter om brutna regler, eftersom de är skrivna för de personer som granskar dem.",
+                        "privacy": "$~En del av detta tillhör inte bara dig. Ett samtal innehåller det alla i det har sagt. En klass innehåller namnen på alla som är med i den. Den du ger denna fil till kan läsa allt i den. Förvara den någonstans privat, och tänk på vilka andra som finns med i den innan du delar den.",
+                        "missing": "$~Wordplay kunde inte läsa vissa saker när detta arkiv skapades. De finns inte med här:",
+                        "manifest": "$~manifest.json innehåller samma uppgifter i en form som ett program kan läsa. Den anger när arkivet skapades, hur många det finns av varje sak, och vad som inte kunde tas med.",
+                        "contentsFiles": "$~Varje sak har en .json-fil. Det är exakt vad Wordplay sparar. Varje projekt har också en .wp-fil. Det är projektet skrivet ut så att du kan läsa det och öppna det igen.",
+                        "contentsAccount": "$~account.json anger vem du är, när du gick med, och vad du får göra. self-mappen innehåller det Wordplay sparar om dig: ditt användarnamn, hur mycket du har översatt, eventuella varningar du har fått, och dina meddelanden.",
+                        "relationshipsWords": "$~Samma ord kan betyda två saker. En creator av ett galleri kan lägga till projekt i det. Den som skrev en hur man-guide är dess creator. Varje mapp har också en index.json. Den listar alla sätt du är kopplad till varje sak, eftersom mer än ett kan stämma."
+                    },
+                    "incomplete": "$~Ditt arkiv är klart, men dessa kunde inte läsas, så de finns inte med: $kinds"
+                }
             },
             "join": {
                 "header": "$~Ansluta sig till",

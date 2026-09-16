@@ -9693,7 +9693,11 @@
                     "newproject": "$~yeni proje",
                     "editproject": "$~bu projeyi düzenle",
                     "unarchive": "$~bu projeyi arşivden çıkar",
-                    "viewproject": "$~bu projenin kodunu görüntüle"
+                    "viewproject": "$~bu projenin kodunu görüntüle",
+                    "import": {
+                        "tip": "$~kaydettiğin bir proje dosyasını aç",
+                        "label": "$~bir proje dosyası aç…"
+                    }
                 },
                 "confirm": {
                     "archive": {
@@ -9709,7 +9713,10 @@
                     "noaccess": "$~İnternete ulaşamadık.",
                     "newgallery": "$~Yeni bir galeri oluşturamadık.",
                     "nodeletes": "$~Arşivlenmiş projeleri silmek için <giriş yapmalısınız@://login>.",
-                    "delete": "$~Oops, projeyi silemedik!"
+                    "delete": "$~Oops, projeyi silemedik!",
+                    "importEmpty": "$~Bu dosyanın içinde hiçbir şey yok.",
+                    "importTooLarge": "$~Bu proje, Wordplay'in kaydedemeyeceği kadar büyük. İçinde daha az şey olan bir proje dene.",
+                    "importUnreadable": "$~Wordplay bu dosyayı okuyamadı. Proje dosyaları .wp ile biter."
                 },
                 "subheader": {
                     "shared": "$~Paylaşılan",
@@ -9762,6 +9769,20 @@
                         "none": "$~Seçmek için bir projeye ya da klasöre tıkla.",
                         "project": "$~Bu projeyi *yukarı* ve *aşağı* ok tuşlarıyla taşı, ya da bir klasörün üzerine sürükle. Bitirdiğinde *escape* tuşuna bas.",
                         "folder": "$~Bu klasörün adını değiştirmek için yeni ismi yaz. Klasörü silmek, içindeki her şeyi arşivine koyar."
+                    }
+                },
+                "import": {
+                    "done": "$~$name açıldı.",
+                    "drop": "$~Açmak için bir proje dosyasını buraya bırak.",
+                    "replaced": "$~Bu proje $name ile değiştirildi.",
+                    "replace": {
+                        "header": "$~Bu proje değiştirilsin mi?",
+                        "explanation": "$~Bu projedeki kod değiştirilecek. Wordplay şu anda burada olanı kaydeder, böylece proje geçmişinden geri alabilirsin.",
+                        "prompt": "$~Bu projenin şu anki içeriği yerine $name burada açılsın mı?",
+                        "confirm": {
+                            "tip": "$~bu projeyi bıraktığın dosyayla değiştir",
+                            "label": "$~değiştir"
+                        }
                     }
                 }
             },
@@ -9986,9 +10007,55 @@
                     "password": "$~Şifren",
                     "email": "$~E-posta",
                     "logout": "$~Çıkış yap",
-                    "delete": "$~Hesabını sil"
+                    "delete": "$~Hesabını sil",
+                    "export": "$~Arşivin"
                 },
-                "profile": "$~Profil"
+                "profile": "$~Profil",
+                "export": {
+                    "prompt": "$~Yaptığın her şeyin bir kopyasını indir. Bu kopya; projelerini, karakterlerini, galerilerini, nasıllarını, setlerini, konuşmalarını, sınıflarını ve ayarlarını içerir. Her proje, tekrar Wordplay'de açabileceğin bir dosya olarak gelir. Bunların bir kısmı sadece sana ait değildir: konuşmalar herkesin söylediklerini, sınıf listeleri ise başka kişilerin isimlerini içerir. Bu dosyayı verdiğin herkes tüm içeriğini okuyabilir, bu yüzden onu güvenli bir yerde sakla.",
+                    "proxy": "$~Başka birinin hesabına bakıyorsun, bu yüzden onun bir kopyasını indiremezsin.",
+                    "button": {
+                        "tip": "$~hesabındaki her şeyin bir kopyasını indir",
+                        "label": "$~arşivimi indir…"
+                    },
+                    "progress": "$~Toplanan $kind: şimdiye kadar $#count[$count şey|$count şey]",
+                    "started": "$~Arşivin hazırlanıyor.",
+                    "finished": "$~$name arşivin hazır, içinde $#count[$count şey|$count şey] var.",
+                    "finishedPartial": "$~$name arşivin hazır, içinde $#count[$count şey|$count şey] var, ama $#missing[$missing tür|$missing tür] okunamadı.",
+                    "failed": "$~Arşivin oluşturulamadı. Birazdan tekrar dene.",
+                    "tooLarge": "$~Bir arşivin alabileceğinden daha fazlasını yaptın. Bize haber ver, sana yardımcı olalım.",
+                    "offline": "$~Wordplay internete erişemiyor, bu yüzden arşivini oluşturamıyor.",
+                    "kind": {
+                        "account": "$~hesabın",
+                        "projects": "$~projelerin",
+                        "galleries": "$~galerilerin",
+                        "characters": "$~karakterlerin",
+                        "howtos": "$~nasıl rehberlerin",
+                        "chats": "$~konuşmaların",
+                        "kits": "$~setlerin",
+                        "classes": "$~sınıfların",
+                        "feedback": "$~fikirlerin ve hata bildirimlerin",
+                        "device": "$~bu cihazın ayarları",
+                        "archive": "$~arşiv",
+                        "saving": "$~dosya"
+                    },
+                    "readme": {
+                        "title": "$~Wordplay arşivin",
+                        "intro": "$~Bu, $name adlı Wordplay hesabındaki her şeyin bir kopyasıdır. $date tarihinde oluşturuldu. Wordplay bunu senin için yaptı. Başka kimsede bir kopyası yok.",
+                        "contents": "$~Her klasör tek bir tür şeyi tutar. Projelerin, karakterlerin, galerilerin, nasıl rehberlerin, setlerin, konuşmaların ve sınıfların için klasörler vardır.",
+                        "relationships": "$~Her klasörün içinde öğeler, onlarla nasıl bağlantılı olduğuna göre sıralanır. owner adlı klasör senin yaptıklarını tutar. creator, yazdığın veya ekleyebileceğin şeyleri tutar. curator, göz kulak olduğun şeyleri tutar. teacher ve learner sınıfları tutar. collaborator, commenter ve viewer, başkasına ait olan çalışmaları tutar.",
+                        "device": "$~Cihaz klasörü, yalnızca bu arşivi oluşturduğun bilgisayarda bulunan şeyleri tutar. İçinde çevrimiçi kaydedilmemiş ayarlar, başlattığın çeviriler ve kaydedilmesi tamamlanmamış çalışmalar bulunur. Başka bir bilgisayarda oluşturulan bir arşiv bunları içermez.",
+                        "formats": "$~Bir projeyi tekrar açmak için Wordplay'de projelerin sayfasına git ve \"bir proje dosyası aç\" seçeneğini seç. .wp dosyasını da bu sayfaya sürükleyebilirsin. Zaten sahip olduğun bir projenin yerine geçmesi için dosyayı üzerine sürükle, Wordplay önce sana soracaktır.",
+                        "excluded": "$~Bazı şeyler burada yer almaz. Wordplay, yaptığın değişikliklerin adım adım kaydını dahil etmez, çünkü proje bu değişikliklerin sonucunu zaten içerir. Bir projeye kimlerin baktığının kaydını da dahil etmez. Kural ihlali bildirimlerini de dahil etmez, çünkü bunlar bu bildirimleri inceleyen kişiler için yazılır.",
+                        "privacy": "$~Bunların bir kısmı yalnızca sana ait değildir. Bir konuşma, içindeki herkesin söylediklerini tutar. Bir sınıf, içindeki herkesin ismini tutar. Bu dosyayı verdiğin kişi her şeyi okuyabilir. Bu dosyayı özel bir yerde sakla ve paylaşmadan önce içinde başka kimlerin olduğunu düşün.",
+                        "missing": "$~Wordplay bu arşivi oluştururken bazı şeyleri okuyamadı. Bunlar burada değil:",
+                        "manifest": "$~manifest.json aynı bilgileri bir programın okuyabileceği biçimde tutar. Bunun ne zaman oluşturulduğunu, her şeyden kaç tane olduğunu ve nelerin dahil edilemediğini belirtir.",
+                        "contentsFiles": "$~Her öğenin bir .json dosyası vardır. Bu, Wordplay'in tam olarak sakladığı şeydir. Her projenin ayrıca bir .wp dosyası vardır. Bu, projenin okuyup tekrar açabilmen için yazıya dökülmüş halidir.",
+                        "contentsAccount": "$~account.json kim olduğunu, ne zaman katıldığını ve neler yapmana izin verildiğini belirtir. self klasörü, Wordplay'in senin hakkında tuttuğu şeyleri içerir: kullanıcı adın, ne kadar çeviri yaptığın, sana verilen uyarılar ve bildirimlerin.",
+                        "relationshipsWords": "$~Aynı kelime iki farklı anlama gelebilir. Bir galerinin creator'ı ona projeler ekleyebilir. Bir nasıl rehberinin creator'ı onu yazan kişidir. Her klasörde ayrıca bir index.json bulunur. Bu dosya, her öğeyle bağlantılı olduğun her yolu listeler, çünkü birden fazlası aynı anda doğru olabilir."
+                    },
+                    "incomplete": "$~Arşivin hazır, ancak şunlar okunamadığı için içine eklenmedi: $kinds"
+                }
             },
             "join": {
                 "header": "$~Katılmak",

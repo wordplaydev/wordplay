@@ -9410,7 +9410,11 @@
                     "newproject": "nuevo proyecto",
                     "editproject": "editar este proyecto",
                     "unarchive": "desarchivar este proyecto",
-                    "viewproject": "$~ver el código de este proyecto"
+                    "viewproject": "$~ver el código de este proyecto",
+                    "import": {
+                        "tip": "$~abrir un archivo de proyecto que guardaste",
+                        "label": "$~abrir un archivo de proyecto…"
+                    }
                 },
                 "confirm": {
                     "archive": {
@@ -9426,7 +9430,10 @@
                     "noaccess": "No pudimos conectarnos a internet.",
                     "newgallery": "No pudimos crear una nueva galería.",
                     "nodeletes": "$~Debes <iniciar sesión@://login> para borrar proyectos archivados.",
-                    "delete": "Oops, no pudimos eliminar el proyecto."
+                    "delete": "Oops, no pudimos eliminar el proyecto.",
+                    "importEmpty": "$~Ese archivo no tiene nada dentro.",
+                    "importTooLarge": "$~Ese proyecto es demasiado grande para que Wordplay lo guarde. Intenta con uno que tenga menos cosas.",
+                    "importUnreadable": "$~Wordplay no pudo leer ese archivo. Los archivos de proyecto terminan en .wp."
                 },
                 "subheader": {
                     "shared": "$~Compartido",
@@ -9479,6 +9486,20 @@
                         "none": "$~haz clic en un proyecto o una carpeta para elegirlo.",
                         "project": "$~mueve este proyecto con las teclas de flecha *arriba* y *abajo*, o arrástralo hacia una carpeta. presiona *escape* cuando termines.",
                         "folder": "$~escribe el nombre para renombrar esta carpeta. si la eliminas, todo lo que hay dentro pasa a tu archivo."
+                    }
+                },
+                "import": {
+                    "done": "$~$name se abrió.",
+                    "drop": "$~Suelta aquí un archivo de proyecto para abrirlo.",
+                    "replaced": "$~Este proyecto se reemplazó con $name.",
+                    "replace": {
+                        "header": "$~¿Reemplazar este proyecto?",
+                        "explanation": "$~El código de este proyecto se va a reemplazar. Wordplay guarda lo que hay ahora, así que puedes recuperarlo desde el historial del proyecto.",
+                        "prompt": "$~¿Abrir $name aquí en lugar de lo que este proyecto tiene ahora?",
+                        "confirm": {
+                            "tip": "$~reemplazar este proyecto con el archivo que soltaste",
+                            "label": "$~reemplazar"
+                        }
                     }
                 }
             },
@@ -9703,9 +9724,55 @@
                     "password": "$~Tu contraseña",
                     "email": "$~Correo electrónico",
                     "logout": "$~Cerrar sesión",
-                    "delete": "$~Eliminar tu cuenta"
+                    "delete": "$~Eliminar tu cuenta",
+                    "export": "$~Tu archivo"
                 },
-                "profile": "$~Perfil"
+                "profile": "$~Perfil",
+                "export": {
+                    "prompt": "$~Descarga una copia de todo lo que has hecho. Incluye tus proyectos, personajes, galerías, guías prácticas, kits, conversaciones, clases y configuración. Cada proyecto llega como un archivo que puedes volver a abrir en Wordplay. Parte de esto no es solo tuyo: las conversaciones guardan lo que dijo cada quien, y las listas de clase guardan los nombres de otras personas. Cualquiera a quien le des el archivo puede leer todo su contenido, así que guárdalo en un lugar privado.",
+                    "proxy": "$~Estás viendo la cuenta de otra persona, así que no puedes descargar una copia de ella.",
+                    "button": {
+                        "tip": "$~descargar una copia de todo lo que hay en tu cuenta",
+                        "label": "$~descargar mi archivo…"
+                    },
+                    "progress": "$~$kind reunidas: $#count[$#count cosa hasta ahora|$count cosas hasta ahora|$count cosas hasta ahora]",
+                    "started": "$~Creando tu archivo.",
+                    "finished": "$~Tu archivo $name ya está listo, con $#count[$#count cosa dentro|$count cosas dentro|$count cosas dentro].",
+                    "finishedPartial": "$~Tu archivo $name ya está listo, con $#count[$#count cosa dentro|$count cosas dentro|$count cosas dentro], pero no se pudo leer $#missing[$#missing tipo|$missing tipos|$missing tipos].",
+                    "failed": "$~No se pudo crear tu archivo. Intenta de nuevo en un momento.",
+                    "tooLarge": "$~Has creado más cosas de las que un solo archivo puede contener. Avísanos y te ayudaremos a conseguirlo.",
+                    "offline": "$~Wordplay no puede conectarse a internet, así que no puede crear tu archivo.",
+                    "kind": {
+                        "account": "$~tu cuenta",
+                        "projects": "$~tus proyectos",
+                        "galleries": "$~tus galerías",
+                        "characters": "$~tus personajes",
+                        "howtos": "$~tus guías prácticas",
+                        "chats": "$~tus conversaciones",
+                        "kits": "$~tus kits",
+                        "classes": "$~tus clases",
+                        "feedback": "$~tus ideas y reportes de errores",
+                        "device": "$~la configuración de este dispositivo",
+                        "archive": "$~el archivo",
+                        "saving": "$~el archivo"
+                    },
+                    "readme": {
+                        "title": "$~Tu archivo de Wordplay",
+                        "intro": "$~Esta es una copia de todo lo que hay en la cuenta de Wordplay $name. Se hizo el $date. Wordplay la hizo para ti. Nadie más tiene una copia.",
+                        "contents": "$~Cada carpeta guarda un tipo de cosa. Hay carpetas para tus proyectos, personajes, galerías, guías prácticas, kits, conversaciones y clases.",
+                        "relationships": "$~Dentro de cada carpeta, los elementos están ordenados según cómo estás conectada con ellos. Una carpeta llamada owner guarda lo que hiciste. creator guarda lo que escribiste o puedes agregar. curator guarda lo que cuidas. teacher y learner guardan clases. collaborator, commenter y viewer guardan trabajo que le pertenece a alguien más.",
+                        "device": "$~La carpeta device guarda cosas que solo están en la computadora donde hiciste este archivo. Tiene configuraciones que no se guardaron en línea, traducciones que empezaste, y trabajo que no había terminado de guardarse. Si hicieras un archivo en otra computadora, estas cosas no estarían incluidas.",
+                        "formats": "$~Para abrir un proyecto de nuevo, ve a tu página de proyectos en Wordplay y elige \"abrir un archivo de proyecto\". También puedes arrastrar el archivo .wp a esa página. Para reemplazar un proyecto que ya tienes, arrastra el archivo sobre él y Wordplay te preguntará primero.",
+                        "excluded": "$~Algunas cosas no están aquí. Wordplay deja fuera el registro paso a paso de tus ediciones, porque el proyecto ya guarda lo que esas ediciones hicieron. Deja fuera el registro de quién estaba viendo un proyecto. También deja fuera los reportes sobre reglas rotas, porque esos se escriben para las personas que los revisan.",
+                        "privacy": "$~Parte de esto no es solo tuyo. Una conversación guarda lo que dijo cada persona en ella. Una clase guarda los nombres de todas las personas en ella. Cualquiera a quien le des este archivo puede leer todo. Guárdalo en un lugar privado, y piensa en quién más aparece ahí antes de compartirlo.",
+                        "missing": "$~Wordplay no pudo leer algunas cosas cuando hizo este archivo. No están aquí:",
+                        "manifest": "$~manifest.json guarda los mismos datos en una forma que un programa puede leer. Dice cuándo se hizo esto, cuántas cosas de cada tipo hay, y qué no se pudo incluir.",
+                        "contentsFiles": "$~Cada elemento tiene un archivo .json. Eso es exactamente lo que Wordplay guarda. Cada proyecto también tiene un archivo .wp. Eso es el proyecto escrito para que puedas leerlo y abrirlo de nuevo.",
+                        "contentsAccount": "$~account.json dice quién eres, cuándo te uniste, y qué tienes permitido hacer. La carpeta self guarda lo que Wordplay conserva sobre ti: tu nombre de usuario, cuánto has traducido, cualquier advertencia que hayas recibido, y tus notificaciones.",
+                        "relationshipsWords": "$~La misma palabra puede significar dos cosas. La creadora de una galería puede agregarle proyectos. La creadora de una guía práctica la escribió. Cada carpeta también tiene un index.json. Ahí se lista cada forma en que estás conectada con cada elemento, porque puede haber más de una a la vez."
+                    },
+                    "incomplete": "$~Tu archivo está listo, pero esto no se pudo leer, así que no está incluido: $kinds"
+                }
             },
             "join": {
                 "header": "Unirse",

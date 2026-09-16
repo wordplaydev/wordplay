@@ -230,6 +230,9 @@
         type ResizeDirection,
     } from '@components/project/TileView.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import Dialog from '@components/widgets/Dialog.svelte';
+    import Notice from '@components/app/Notice.svelte';
+    import importProject from '@db/projects/importProject';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import Mode from '@components/widgets/Mode.svelte';
@@ -3034,6 +3037,86 @@
             ? name
             : $locales.getPrimaryPlainText((l) => l.ui.project.untitled);
     });
+    /**
+     * A project file held over, or dropped on, this project (#152).
+     *
+     * Separate state from `dragged`, which means editor nodes are being moved:
+     * the two can never be true at once, but naming them alike would invite a
+     * later reader to collapse them.
+     */
+    let droppingFile = $state(false);
+    /** Held between the drop and the answer, because the confirmation is the
+     *  whole point — nothing is replaced until a creator says so. */
+    let droppedProject: Project | undefined = $state(undefined);
+    let dropProblem: LocaleTextAccessor | undefined = $state(undefined);
+
+    function fileIsOver(event: DragEvent): boolean {
+        return (
+            event.dataTransfer !== null &&
+            Array.from(event.dataTransfer.types).includes('Files')
+        );
+    }
+
+    /** Without `preventDefault` the browser navigates away to the dropped
+     *  file, taking the creator's open project off the screen. */
+    function overFile(event: DragEvent) {
+        if (!fileIsOver(event) || !editable) return;
+        event.preventDefault();
+        droppingFile = true;
+    }
+
+    async function dropFile(event: DragEvent) {
+        if (!fileIsOver(event) || !editable) return;
+        event.preventDefault();
+        droppingFile = false;
+        const file = event.dataTransfer?.files[0];
+        if (file === undefined) return;
+        dropProblem = undefined;
+        const result = await importProject(
+            await file.text(),
+            project.getOwner(),
+            await DB.loadProjects(),
+        );
+        if (result.kind === 'failed') {
+            dropProblem =
+                result.problem === 'too-large'
+                    ? (l) => l.ui.page.projects.error.importTooLarge
+                    : result.problem === 'empty'
+                      ? (l) => l.ui.page.projects.error.importEmpty
+                      : (l) => l.ui.page.projects.error.importUnreadable;
+            return;
+        }
+        // Held rather than applied: the dialog below is what decides.
+        droppedProject = result.project;
+    }
+
+    /**
+     * Replaces this project's sources with the dropped project's.
+     *
+     * Checkpoints the outgoing sources first, exactly as the Restore button
+     * does. Undo alone is not enough: it is trimmed, and it does not survive a
+     * reload — and this is the one action in the app that replaces everything a
+     * creator has written in one go.
+     */
+    function acceptDrop(replacement: Project) {
+        droppedProject = undefined;
+        Projects.reviseProject(
+            project
+                .withCheckpoint()
+                .withSourcesFrom(replacement)
+                .withName(replacement.getName()),
+        );
+        if (announce && $announce)
+            $announce(
+                'project-import',
+                $locales.getLanguages()[0],
+                $locales
+                    .concretize((l) => l.ui.page.projects.import.replaced, {
+                        name: replacement.getName(),
+                    })
+                    .toText(),
+            );
+    }
 </script>
 
 <svelte:head><title>Wordplay - {documentTitle}</title></svelte:head>
@@ -3063,7 +3146,22 @@
 <!-- Content warnings (moderation, photosensitivity) are shown to read-only
      viewers in the output's blocking start gate, unified with permissions. -->
 <!-- Render the current project. -->
-<main class="project" class:dragging={dragged !== undefined} bind:this={view}>
+<!-- Dropping a project file here replaces everything this project holds, so
+     unlike the projects page's drop it asks first. The import control on the
+     projects page is the keyboard path to the same outcome; this adds a way to
+     do it to a project already open.
+
+     svelte-ignore a11y_no_static_element_interactions -->
+<main
+    class="project"
+    class:dragging={dragged !== undefined}
+    class:dropping={droppingFile}
+    ondragover={overFile}
+    ondragenter={overFile}
+    ondragleave={() => (droppingFile = false)}
+    ondrop={dropFile}
+    bind:this={view}
+>
     <!-- The canvas pointer handlers implement tile drag and free-arrangement
          positioning; keyboard equivalents live on each tile's own focusable
          controls, so the container itself is deliberately not focusable and
@@ -4003,6 +4101,37 @@
             </div>
         {/if}
     {/if}
+    <!-- Deliberately no `id`: a dialog whose open state lives in the URL would
+         reopen on a refresh with no file behind it. -->
+    <Dialog
+        show={droppedProject !== undefined}
+        header={(l) => l.ui.page.projects.import.replace.header}
+        explanation={(l) => l.ui.page.projects.import.replace.explanation}
+        closeable
+    >
+        {#if droppedProject}
+            {@const replacement = droppedProject}
+            <p>
+                <MarkupHTMLView
+                    markup={[
+                        (l) => l.ui.page.projects.import.replace.prompt,
+                        { name: replacement.getName() },
+                    ]}
+                />
+            </p>
+            <p>
+                <Button
+                    background="salient"
+                    tip={(l) => l.ui.page.projects.import.replace.confirm.tip}
+                    action={() => acceptDrop(replacement)}
+                    label={(l) =>
+                        l.ui.page.projects.import.replace.confirm.label}
+                    testid="confirm-replace"
+                />
+            </p>
+        {/if}
+    </Dialog>
+    {#if dropProblem}<Notice text={dropProblem} />{/if}
 </main>
 
 {#if openTour !== undefined}
@@ -4020,6 +4149,14 @@
 {/if}
 
 <style>
+    /* While a project file is held over an open project. Distinct from
+       `.dragging`, which means editor nodes are being moved. */
+    main.project.dropping {
+        outline: var(--wordplay-focus-width) dashed
+            var(--wordplay-highlight-color);
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
+    }
+
     /* The debugger's controls when their home tile is hidden: pinned above
        the footer, in the debug band's own color so they read as the same
        instrument. */

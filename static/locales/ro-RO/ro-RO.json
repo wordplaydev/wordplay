@@ -10162,7 +10162,11 @@
                     "newproject": "$~proiect nou",
                     "editproject": "$~editează acest proiect",
                     "unarchive": "$~dearhivați acest proiect",
-                    "viewproject": "$~vezi codul acestui proiect"
+                    "viewproject": "$~vezi codul acestui proiect",
+                    "import": {
+                        "tip": "$~deschide un fișier de proiect pe care l-ai salvat",
+                        "label": "$~deschide un fișier de proiect…"
+                    }
                 },
                 "confirm": {
                     "archive": {
@@ -10178,7 +10182,10 @@
                     "noaccess": "$~Nu am putut accesa internetul.",
                     "newgallery": "$~Nu am putut crea o galerie nouă.",
                     "nodeletes": "$~Trebuie să fii<logged in@://login> pentru a șterge proiectele arhivate.",
-                    "delete": "$~Oops, nu am putut șterge proiectul!"
+                    "delete": "$~Oops, nu am putut șterge proiectul!",
+                    "importEmpty": "$~Acel fișier nu conține nimic.",
+                    "importTooLarge": "$~Acel proiect este prea mare pentru ca Wordplay să îl salveze. Încearcă unul cu mai puțin conținut.",
+                    "importUnreadable": "$~Wordplay nu a putut citi acel fișier. Fișierele de proiect se termină în .wp."
                 },
                 "installedprompt": "$~Folosești Wordplay ca aplicație instalată, iar aceasta își păstrează propriile proiecte, separate de cele din navigatorul tău web. Orice proiect făcut în navigator este încă acolo. <Autentifică-te@://login> ca să vezi toate proiectele tale din ambele locuri.",
                 "sort": {
@@ -10223,6 +10230,20 @@
                         "none": "$~Apasă pe un proiect sau pe un dosar ca să îl alegi.",
                         "project": "$~Mută acest proiect cu tastele săgeată *sus* și *jos*, sau trage-l peste un dosar. Apasă *escape* când ai terminat.",
                         "folder": "$~Scrie numele ca să redenumești acest dosar. Dacă îl ștergi, tot ce este în el ajunge în arhiva ta."
+                    }
+                },
+                "import": {
+                    "done": "$~$name a fost deschis.",
+                    "drop": "$~Trage aici un fișier de proiect pentru a-l deschide.",
+                    "replaced": "$~Acest proiect a fost înlocuit cu $name.",
+                    "replace": {
+                        "header": "$~Înlocuiești acest proiect?",
+                        "explanation": "$~Codul din acest proiect va fi înlocuit. Wordplay salvează ce este aici acum, așa că îl poți recupera din istoricul proiectului.",
+                        "prompt": "$~Deschizi $name aici, în locul a ceea ce are acum acest proiect?",
+                        "confirm": {
+                            "tip": "$~înlocuiește acest proiect cu fișierul pe care l-ai tras",
+                            "label": "$~înlocuiește"
+                        }
                     }
                 }
             },
@@ -10814,9 +10835,55 @@
                     "password": "$~Parola ta",
                     "email": "$~E-mail",
                     "logout": "$~Deconectare",
-                    "delete": "$~Șterge-ți contul"
+                    "delete": "$~Șterge-ți contul",
+                    "export": "$~Arhiva ta"
                 },
-                "profile": "$~Profil"
+                "profile": "$~Profil",
+                "export": {
+                    "prompt": "$~Descarcă o copie a tot ce ai creat. Aceasta conține proiectele tale, personajele, galeriile, instrucțiunile, trusele, conversațiile, clasele și setările tale. Fiecare proiect vine ca un fișier pe care îl poți deschide din nou în Wordplay. O parte din conținut nu îți aparține doar ție: conversațiile conțin ce au spus toți cei implicați, iar listele de clase conțin numele altor persoane. Oricine primește acest fișier de la tine poate citi tot conținutul, așa că păstrează-l într-un loc privat.",
+                    "proxy": "$~Te uiți la contul altcuiva, așa că nu poți descărca o copie a acestuia.",
+                    "button": {
+                        "tip": "$~descarcă o copie a tot ce se află în contul tău",
+                        "label": "$~descarcă arhiva mea…"
+                    },
+                    "progress": "$~$kind adunate: $#count[un lucru până acum|$count lucruri până acum|$count de lucruri până acum]",
+                    "started": "$~Se creează arhiva ta.",
+                    "finished": "$~Arhiva ta $name este gata, cu $#count[un lucru în ea|$count lucruri în ea|$count de lucruri în ea].",
+                    "finishedPartial": "$~Arhiva ta $name este gata, cu $#count[un lucru în ea|$count lucruri în ea|$count de lucruri în ea], dar $#missing[un tip nu a putut fi citit|$missing tipuri nu au putut fi citite|$missing de tipuri nu au putut fi citite].",
+                    "failed": "$~Arhiva ta nu a putut fi creată. Încearcă din nou peste puțin timp.",
+                    "tooLarge": "$~Ai creat mai mult decât poate ține o singură arhivă. Spune-ne și te vom ajuta să o obții.",
+                    "offline": "$~Wordplay nu poate ajunge la internet, așa că nu poate crea arhiva ta.",
+                    "kind": {
+                        "account": "$~contul tău",
+                        "projects": "$~proiectele tale",
+                        "galleries": "$~galeriile tale",
+                        "characters": "$~personajele tale",
+                        "howtos": "$~instrucțiunile tale",
+                        "chats": "$~conversațiile tale",
+                        "kits": "$~trusele tale",
+                        "classes": "$~clasele tale",
+                        "feedback": "$~ideile și rapoartele tale de erori",
+                        "device": "$~setările acestui dispozitiv",
+                        "archive": "$~arhiva",
+                        "saving": "$~fișierul"
+                    },
+                    "readme": {
+                        "title": "$~Arhiva ta de Wordplay",
+                        "intro": "$~Aceasta este o copie a tot ce se află în contul de Wordplay $name. A fost făcută pe $date. Wordplay a făcut-o pentru tine. Nimeni altcineva nu are o copie.",
+                        "contents": "$~Fiecare folder păstrează un singur fel de lucru. Există foldere pentru proiectele, personajele, galeriile, instrucțiunile, trusele, conversațiile și clasele tale.",
+                        "relationships": "$~În fiecare folder, elementele sunt sortate după cum ești legat de ele. Un folder numit owner păstrează ce ai făcut tu. creator păstrează ce ai scris sau la ce poți adăuga. curator păstrează ce ai grijă. teacher și learner păstrează clasele. collaborator, commenter și viewer păstrează lucrări care aparțin altcuiva.",
+                        "device": "$~Folderul device păstrează lucruri care se află doar pe calculatorul pe care ai făcut această arhivă. Conține setări care nu sunt salvate online, traduceri pe care le-ai început și lucrări care nu apucaseră să se salveze. O arhivă făcută pe alt calculator nu le-ar include.",
+                        "formats": "$~Ca să deschizi din nou un proiect, mergi la pagina ta de proiecte din Wordplay și alege „deschide un fișier de proiect”. Poți și să tragi fișierul .wp pe acea pagină. Ca să înlocuiești un proiect pe care îl ai deja, trage fișierul peste el, iar Wordplay te va întreba mai întâi.",
+                        "excluded": "$~Câteva lucruri nu se află aici. Wordplay nu include istoricul pas cu pas al modificărilor tale, pentru că proiectul păstrează deja rezultatul acelor modificări. Nu include nici cine s-a uitat la un proiect. De asemenea, nu include rapoartele despre reguli încălcate, pentru că acelea sunt scrise pentru persoanele care le verifică.",
+                        "privacy": "$~O parte din acestea nu îți aparțin doar ție. O conversație păstrează ce a spus fiecare participant. O clasă păstrează numele tuturor celor din ea. Oricine primește acest fișier de la tine poate citi tot ce conține. Păstrează-l undeva privat și gândește-te cine altcineva apare în el înainte să îl distribui.",
+                        "missing": "$~Wordplay n-a putut citi unele lucruri când a făcut această arhivă. Ele nu se află aici:",
+                        "manifest": "$~manifest.json păstrează aceleași informații într-o formă pe care un program o poate citi. Spune când a fost făcută arhiva, câte elemente sunt din fiecare fel și ce nu a putut fi inclus.",
+                        "contentsFiles": "$~Fiecare element are un fișier .json. Acesta este exact ceea ce stochează Wordplay. Fiecare proiect are și un fișier .wp. Acela este proiectul scris astfel încât să-l poți citi și deschide din nou.",
+                        "contentsAccount": "$~account.json spune cine ești, când te-ai alăturat și ce ai voie să faci. Folderul self păstrează ce ține Wordplay despre tine: numele tău de utilizator, cât ai tradus, orice avertismente pe care le-ai primit și notificările tale.",
+                        "relationshipsWords": "$~Același cuvânt poate însemna două lucruri. Creatorul unei galerii poate adăuga proiecte în ea. Creatorul unor instrucțiuni le-a scris. Fiecare folder are și un index.json. El listează fiecare fel în care ești legat de un element, pentru că mai multe pot fi adevărate în același timp."
+                    },
+                    "incomplete": "$~Arhiva ta este gata, dar acestea nu au putut fi citite, deci nu sunt în ea: $kinds"
+                }
             },
             "join": {
                 "header": "$~Alătură-te",
