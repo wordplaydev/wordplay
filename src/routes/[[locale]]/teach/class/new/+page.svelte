@@ -316,6 +316,7 @@
         ></MarkupHTMLView>
 
         <Mode
+            wrap
             modes={(l) => l.ui.page.newclass.field.signin.mode}
             choice={method === undefined
                 ? undefined

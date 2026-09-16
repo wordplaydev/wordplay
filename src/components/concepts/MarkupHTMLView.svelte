@@ -699,6 +699,11 @@
         margin-block-start: 0em;
         margin-block-end: 1em;
         line-height: 1.5;
+        /* A bare URL in prose has no break opportunity, so without this it sets
+           the width of whatever renders the markup — a notice, a doc, a lesson
+           turn — and the page scrolls sideways. `break-word` rather than
+           `anywhere` so ordinary prose still breaks at spaces first. */
+        overflow-wrap: break-word;
     }
 
     .note {

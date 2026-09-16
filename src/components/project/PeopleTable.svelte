@@ -275,6 +275,13 @@
 <style>
     .people-table {
         width: 100%;
+        /* A roster is as wide as its attribute columns, which on the privileges
+           page is five — wider than a phone whatever the labels say. So the
+           table scrolls itself rather than making the whole page scroll
+           sideways (WCAG 1.4.10), the same bargain `/design` strikes for its
+           reference tables. Safe for axe's scrollable-region-focusable rule:
+           every row carries a control. */
+        overflow-x: auto;
     }
 
     /* Shrink to fit rather than filling: stretching put a column of attributes

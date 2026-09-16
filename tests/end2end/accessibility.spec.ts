@@ -1,5 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
-import { expectNoAxeViolationsInBothSchemes } from '../helpers/checkAccessibility';
+import {
+    expectNoAxeViolationsInBothSchemes,
+    expectNoHorizontalOverflow,
+    REFLOW_VIEWPORT,
+} from '../helpers/checkAccessibility';
 
 /**
  * The axe gate for public pages: every route below must be free of
@@ -86,6 +90,12 @@ test.describe('public pages', () => {
                     timeout: 15000,
                 });
             await expectNoAxeViolationsInBothSchemes(page);
+
+            // And that it reflows to a phone's width without scrolling
+            // sideways (WCAG 1.4.10). Last, because it resizes the viewport:
+            // the axe scans above run at the configured width.
+            await page.setViewportSize(REFLOW_VIEWPORT);
+            await expectNoHorizontalOverflow(page);
         });
     }
 });

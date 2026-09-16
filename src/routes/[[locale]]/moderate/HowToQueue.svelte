@@ -54,7 +54,7 @@
     {#snippet content(howTo)}
         {@const questions = howTo.getGuidingQuestions()}
         {@const answers = howTo.getText()}
-        <Subheader wrap
+        <Subheader
             >{howTo.getTitleInLocale($locales.getLocaleString())}</Subheader
         >
         <!-- Question and answer together, because they are written as a pair and

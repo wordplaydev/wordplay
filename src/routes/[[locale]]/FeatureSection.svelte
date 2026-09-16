@@ -72,14 +72,6 @@
         box-sizing: border-box;
     }
 
-    /* These headlines are sentences, not the short labels Subheader is tuned
-       for, so they have to wrap on a narrow screen. Its own `wrap` prop would
-       do it, but that also centers the heading, which is wrong beside a
-       left-aligned column of claims. */
-    .prose :global(h2) {
-        white-space: normal;
-    }
-
     /* MarkupHTMLView lays its paragraphs out with flex, whose items refuse to
        shrink below their content by default — so without this the scroller
        below never gets the chance to scroll. */

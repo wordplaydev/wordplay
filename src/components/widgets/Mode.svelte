@@ -437,6 +437,16 @@
         row-gap: 0;
     }
 
+    /* The buttons too, not just the gaps between them: `button` above sets
+       `nowrap` so an option in a toolbar stays one line, and a group that
+       wrapped only between options still overflowed whenever a single option
+       was wider than the screen — which one is, in one locale or another. A
+       call site asking to wrap is asking the group to fit. */
+    .group.wrap button,
+    .mode.grid .group button {
+        white-space: normal;
+    }
+
     [aria-disabled='true'] {
         cursor: default;
         background: none;

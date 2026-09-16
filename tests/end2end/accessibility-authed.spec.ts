@@ -1,5 +1,9 @@
 import { expect, test } from '@playwright/test';
-import { expectNoAxeViolationsInBothSchemes } from '../helpers/checkAccessibility';
+import {
+    expectNoAxeViolationsInBothSchemes,
+    expectNoHorizontalOverflow,
+    REFLOW_VIEWPORT,
+} from '../helpers/checkAccessibility';
 import { enUS, text } from '../helpers/localize';
 import { createTestCharacter } from '../helpers/createCharacter';
 import { createTestGallery } from '../helpers/createGallery';
@@ -58,6 +62,8 @@ test.describe('authed views', () => {
                 timeout: LOAD_TIMEOUT,
             });
             await expectNoAxeViolationsInBothSchemes(page);
+            await page.setViewportSize(REFLOW_VIEWPORT);
+            await expectNoHorizontalOverflow(page);
         } finally {
             await context.close();
         }
@@ -90,6 +96,8 @@ test.describe('authed views', () => {
                 .click({ timeout: LOAD_TIMEOUT });
             await expect(page.locator('#email-affirmation')).toBeVisible();
             await expectNoAxeViolationsInBothSchemes(page);
+            await page.setViewportSize(REFLOW_VIEWPORT);
+            await expectNoHorizontalOverflow(page);
         } finally {
             await context.close();
         }
@@ -151,6 +159,8 @@ test.describe('authed views', () => {
             // card that rendered nothing at all.
             await expect(page.getByTestId('export-account')).toBeVisible();
             await expectNoAxeViolationsInBothSchemes(page);
+            await page.setViewportSize(REFLOW_VIEWPORT);
+            await expectNoHorizontalOverflow(page);
         } finally {
             await context.close();
         }
@@ -172,6 +182,8 @@ test.describe('authed views', () => {
             // the drop itself can never be scanned.
             await expect(page.getByTestId('import-project')).toBeVisible();
             await expectNoAxeViolationsInBothSchemes(page);
+            await page.setViewportSize(REFLOW_VIEWPORT);
+            await expectNoHorizontalOverflow(page);
         } finally {
             await context.close();
         }
@@ -205,6 +217,8 @@ test.describe('authed views', () => {
             await tile.click({ position: { x: 4, y: 4 } });
             await expect(tile).toHaveAttribute('aria-current', 'true');
             await expectNoAxeViolationsInBothSchemes(page);
+            await page.setViewportSize(REFLOW_VIEWPORT);
+            await expectNoHorizontalOverflow(page);
         } finally {
             await context.close();
         }
@@ -231,6 +245,8 @@ test.describe('authed views', () => {
             // state before sampling colors.
             await page.waitForTimeout(1000);
             await expectNoAxeViolationsInBothSchemes(page, { verbose: true });
+            await page.setViewportSize(REFLOW_VIEWPORT);
+            await expectNoHorizontalOverflow(page);
         } finally {
             await context.close();
         }
@@ -459,6 +475,8 @@ test.describe('authed views', () => {
                 timeout: LOAD_TIMEOUT,
             });
             await expectNoAxeViolationsInBothSchemes(page);
+            await page.setViewportSize(REFLOW_VIEWPORT);
+            await expectNoHorizontalOverflow(page);
         } finally {
             await context.close();
         }
@@ -593,5 +611,7 @@ test.describe('tutorial', () => {
             timeout: LOAD_TIMEOUT,
         });
         await expectNoAxeViolationsInBothSchemes(page, { verbose: true });
+        await page.setViewportSize(REFLOW_VIEWPORT);
+        await expectNoHorizontalOverflow(page);
     });
 });

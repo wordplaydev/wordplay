@@ -37,7 +37,7 @@
     }}
 >
     {#snippet content(gallery)}
-        <Subheader wrap>{gallery.getName($locales)}</Subheader>
+        <Subheader>{gallery.getName($locales)}</Subheader>
         <MarkupHTMLView markup={gallery.getDescription($locales)} />
         <GalleryProjects {gallery} />
     {/snippet}

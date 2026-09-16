@@ -7,18 +7,9 @@
         text?: LocaleTextAccessor;
         children?: Snippet;
         compact?: boolean;
-        /** Allow the header to wrap across lines. Off by default (headers are usually
-         *  short); on for headers that grow wide, e.g. when several chosen locales are
-         *  echoed after the primary. */
-        wrap?: boolean;
     }
 
-    let {
-        text,
-        children,
-        compact: compact = false,
-        wrap = false,
-    }: Props = $props();
+    let { text, children, compact: compact = false }: Props = $props();
 
     // Read once at construction: a section's depth is fixed by where it is rendered.
     const level = getHeadingLevel();
@@ -27,7 +18,6 @@
 <svelte:element
     this={`h${level}`}
     class:compact
-    class:wrap
     class="subheader"
     data-level={level}
     >{#if children}{@render children()}{:else if text}<LocalizedText
@@ -44,12 +34,19 @@
        section headings that says nothing true: a list of sources came out as one
        un-bold italic heading, then bold italic ones, then upright unrotated
        ones, with position in the DOM deciding which. Attribute selector so this
-       out-specifies `h3:not(:first-of-type)`. */
+       out-specifies `h3:not(:first-of-type)`.
+
+       Headings also wrap. They used to be `nowrap`, which is fine for a short
+       English label and wrong for everything else: every heading here sits over
+       localized text, and one that can't break sets a min-content floor its
+       container can't shrink below, so the whole page scrolls sideways on a
+       phone (WCAG 1.4.10). Callers opted out one at a time as someone noticed —
+       the opt-in list was just "where it was caught". Wrapping renders
+       identically wherever a heading already fits. */
     .subheader[data-level] {
         font-size: min(6vw, 16pt);
         margin-block-start: 1.5em;
         margin-block-end: var(--wordplay-spacing);
-        white-space: nowrap;
         font-style: normal;
         font-weight: bold;
         transform: rotate(-1deg);
@@ -83,13 +80,5 @@
            while other headings are selectable. */
         user-select: none;
         -webkit-user-select: none;
-    }
-
-    /* Only that it may wrap. It used to centre too, which left a gallery's name
-       and a moderation queue's subject floating in the middle of a left-aligned
-       column — every other heading on those pages starts at the inline edge. A
-       caller that wants its heading centred centres it, as Loading does. */
-    .subheader[data-level].wrap {
-        white-space: normal;
     }
 </style>

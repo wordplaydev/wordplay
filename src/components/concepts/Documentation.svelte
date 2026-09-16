@@ -1004,7 +1004,7 @@
                                 />
                                 <Nested>
                                     {#each galleryHowGroups as group (group.id)}
-                                        <Subheader wrap>
+                                        <Subheader>
                                             {#if group.gallery}
                                                 <Link
                                                     to={`/gallery/${group.id}/howto`}

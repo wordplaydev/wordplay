@@ -39,7 +39,7 @@
     }}
 >
     {#snippet content(kit)}
-        <Subheader wrap>{kit.name}</Subheader>
+        <Subheader>{kit.name}</Subheader>
         <p>{kit.description}</p>
         <KitCode {kit} />
     {/snippet}

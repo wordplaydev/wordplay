@@ -133,3 +133,84 @@ export async function expectNoAxeViolationsInBothSchemes(
         await expectNoAxeViolations(page, options);
     }
 }
+
+/**
+ * The width WCAG 2.1's 1.4.10 Reflow names: content must reflow to 320 CSS px
+ * without the reader having to scroll in two directions.
+ */
+export const REFLOW_VIEWPORT = { width: 320, height: 844 };
+
+/**
+ * Fail the test if the page scrolls sideways at `REFLOW_VIEWPORT`.
+ *
+ * This is 1.4.10 Reflow, a WCAG 2.1 AA criterion axe cannot detect — the
+ * "Beyond axe" category in CLAUDE.md. Callers resize first and assert after the
+ * axe scans, so it costs no navigation.
+ *
+ * It measures `main`, not the document: `html`, `body`, and `#wordplay-app` are
+ * `overflow: hidden` (src/app.html), so the document never scrolls and anything
+ * measuring `documentElement.scrollWidth` silently passes. `main` in Page.svelte
+ * is `overflow: auto` and is the box that actually pans.
+ *
+ * A region that scrolls sideways on purpose — `/design`'s tables, a how-to's pan
+ * canvas — contains its own overflow and so never widens `main`. No route needs
+ * an exception today; if one ever does, it belongs here with a reason rather
+ * than as a skipped route.
+ */
+export async function expectNoHorizontalOverflow(page: Page): Promise<void> {
+    const overflow = await page.evaluate(() => {
+        const main = document.querySelector('main');
+        if (main === null) return null;
+        // A fractional layout width rounds up into scrollWidth, so a pixel of
+        // slack keeps this from failing on rounding alone.
+        if (main.scrollWidth <= main.clientWidth + 1) return null;
+
+        // Name what is sticking out, so a failure identifies the element rather
+        // than just the number. Anything inside a descendant that clips or
+        // scrolls is that descendant's business, not the page's.
+        const edge = main.getBoundingClientRect().left + main.clientWidth;
+        const clipped = (element: Element) => {
+            let parent = element.parentElement;
+            while (parent !== null && parent !== main) {
+                const { overflowX } = getComputedStyle(parent);
+                if (['hidden', 'clip', 'auto', 'scroll'].includes(overflowX))
+                    return true;
+                parent = parent.parentElement;
+            }
+            return false;
+        };
+        const culprits = [];
+        for (const element of main.querySelectorAll('*')) {
+            const box = element.getBoundingClientRect();
+            if (box.width === 0 || box.height === 0) continue;
+            if (getComputedStyle(element).visibility === 'hidden') continue;
+            if (box.right <= edge + 1 || clipped(element)) continue;
+            culprits.push({
+                past: Math.round(box.right - edge),
+                // The deepest element crossing the edge is the one to fix, so
+                // prefer a leaf when several report the same overshoot.
+                children: element.children.length,
+                description: `${element.tagName.toLowerCase()}${
+                    element.className && typeof element.className === 'string'
+                        ? `.${element.className.trim().split(/\s+/).join('.')}`
+                        : ''
+                }: "${(element.textContent ?? '').trim().slice(0, 60)}"`,
+            });
+        }
+        culprits.sort((a, b) => b.past - a.past || a.children - b.children);
+        return {
+            client: main.clientWidth,
+            scroll: main.scrollWidth,
+            culprits: culprits
+                .slice(0, 5)
+                .map((c) => `+${c.past}px ${c.description}`),
+        };
+    });
+
+    expect(
+        overflow,
+        overflow === null
+            ? ''
+            : `Page scrolls sideways at ${REFLOW_VIEWPORT.width}px (WCAG 1.4.10 Reflow): main is ${overflow.client}px but scrolls to ${overflow.scroll}px.\nWidest elements past the edge:\n  ${overflow.culprits.join('\n  ')}`,
+    ).toBeNull();
+}
