@@ -50,6 +50,22 @@ function isEmojiMap(data: unknown): data is EmojiMap {
 }
 
 /** A singleton cache of loaded locales */
+/**
+ * How a locale file is requested, and why it is left alone.
+ *
+ * `locale-preload.js` injects `<link rel="preload" as="fetch" crossorigin>` for
+ * these URLs, and a preload is only reused when the real request agrees with
+ * it. The agreeing pair is *not* the one reasoning suggests: measured in
+ * Chromium over all four combinations, `crossorigin` on the link with a plain
+ * `fetch(url)` is the only one that yields a single request. Adding
+ * `credentials: 'omit'` to match the link's anonymous mode — which is what the
+ * spec reads like it wants — fetches the file twice.
+ *
+ * So this deliberately passes no options. `tests/end2end/locale-preload.spec.ts`
+ * asserts the single request, because nothing about this is checkable from the
+ * source.
+ */
+
 export default class LocalesDatabase {
     /** The concretizer */
     private readonly concretize: Concretizer;
