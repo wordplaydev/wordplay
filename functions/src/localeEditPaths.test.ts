@@ -263,6 +263,23 @@ describe('a submission round trip through sections', () => {
         });
     });
 
+    test('the section keeps its $schema, so a translator keeps validation', () => {
+        // The merged document has no $schema — each section carries its own —
+        // so a slice written without it silently drops the reference and the
+        // file still parses. The editor just stops checking anything.
+        const merged = mergeSections(fetched);
+        const written = sliceForSection(
+            merged,
+            'ui-page.json',
+            '../../../static/schemas/sections/ui-page.json',
+        );
+        expect(written['$schema']).toBe(
+            '../../../static/schemas/sections/ui-page.json',
+        );
+        // And it comes first, as it does in every locale file on disk.
+        expect(Object.keys(written)[0]).toBe('$schema');
+    });
+
     test('nothing is written for a section that was never fetched', () => {
         expect(sliceForSection(mergeSections(fetched), 'node.json')).toEqual(
             {},

@@ -240,8 +240,14 @@ export function localeSectionPath(
 export function sliceForSection(
     assembled: Record<string, unknown>,
     section: LocaleSection,
+    /** The `$schema` the section file carried when it was read. Restored rather
+     *  than recomputed, and restored at all because a section written without
+     *  it loses the editor validation the section schemas exist to give a
+     *  translator — silently, since the file still parses. */
+    schema?: string,
 ): Record<string, unknown> {
     const slice: Record<string, unknown> = {};
+    if (schema !== undefined) slice['$schema'] = schema;
     for (const key of Object.keys(assembled)) {
         if (key === '$schema') continue;
         const value = assembled[key];
