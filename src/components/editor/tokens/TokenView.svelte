@@ -419,6 +419,7 @@
         )} token-category-{category} {bracketDepthClass}"
         class:hide
         class:prose={format.prose === true}
+        class:breakable={format.wrapping === true && node.isSymbol(Sym.Words)}
         class:link={linkText}
         class:active
         class:editable
@@ -456,16 +457,25 @@
      * ExampleView), so code inside prose keeps the code font and its syntax
      * colours — which is what the read-only view shows too.
      *
-     * `display: inline` is the load-bearing one. The markup tokenizer emits one
-     * `Sym.Words` token per run between delimiters, so a paragraph is often a
-     * single token; as an `inline-block` it is an atomic inline that cannot be
-     * split across lines, so it moves to the next line whole rather than
-     * continuing after a preceding bold run. Neither rule that depends on
-     * inline-block applies here: `.removed::after` needs a positioned box, which
-     * `.token-view.removed` still sets, and `.blocks` is a different mode.
+     * The font is all this sets; the `display: inline` that lets a prose run
+     * break across lines is applied by the markup editor to every token it
+     * renders (see `.markup-editor .token-view` in MarkupEditor.svelte), and by
+     * `.breakable` below everywhere else.
      */
     .token-view.prose {
         font-family: var(--wordplay-app-font);
+    }
+
+    /**
+     * A markup run in a view that asked to wrap. The markup tokenizer emits one
+     * `Sym.Words` token per run, so a paragraph is often a single token; as an
+     * `inline-block` it is an atomic inline that cannot be split across lines, so
+     * a doc's prose moved to the next line whole rather than continuing after the
+     * `@Concept` link it follows. Scoped to `Sym.Words` because `transform` does
+     * not apply to an inline box, and the bracket-depth rules below scale theirs.
+     */
+    .token-view.breakable {
+        display: inline;
     }
 
     /* Prose is prose, not a literal: `Sym.Words` maps to the `literal` category,
