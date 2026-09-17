@@ -14,25 +14,27 @@ export function getNameLocales(
     nameText: NameText | ((locale: LocaleText) => NameText),
 ): Names {
     // Construct names from the given locales, filtering any placeholders.
-    let names = locales
-        .getLocales()
-        .reduce((names: Name[], locale) => {
-            const name =
-                nameText instanceof Function
-                    ? selectTranslation(locale, nameText)
-                    : nameText;
-            return names.concat(
-                (Array.isArray(name) ? name : [name])
-                    .map((n) => {
-                        const stripped = withoutAnnotations(n);
-                        return stripped === ''
-                            ? undefined
-                            : Name.make(stripped, localeToLanguage(locale));
-                    })
-                    .filter((n): n is Name => n !== undefined),
-            );
-        }, [])
-        .filter((name) => name.getName()?.startsWith(Unwritten) === false);
+    let names = locales.getLocales().reduce((names: Name[], locale) => {
+        const name =
+            nameText instanceof Function
+                ? selectTranslation(locale, nameText)
+                : nameText;
+        return names.concat(
+            (Array.isArray(name) ? name : [name])
+                // Before stripping, not after: an unwritten name carries the
+                // English it is waiting to replace, and `withoutAnnotations`
+                // would leave that behind as a real name — binding en-US's
+                // word in a locale that has not chosen one.
+                .filter((n) => !n.startsWith(Unwritten))
+                .map((n) => {
+                    const stripped = withoutAnnotations(n);
+                    return stripped === ''
+                        ? undefined
+                        : Name.make(stripped, localeToLanguage(locale));
+                })
+                .filter((n): n is Name => n !== undefined),
+        );
+    }, []);
     // If the given locales don't include the default locale, include the symbolic name from the default locale first.
     if (
         nameText instanceof Function &&

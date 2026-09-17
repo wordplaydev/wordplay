@@ -66,9 +66,10 @@ test('addMissingKeys pads short positional arrays but not markup or name arrays'
         input: { Key: { keys: { Alt: ['Alt'] } } },
     };
     addMissingKeys(collectingLog().log, source, target);
+    // Padded with the English of the slot it filled, not a bare marker.
     expect(target.ui.howto.editor.notification.labels).toEqual([
         'x',
-        Unwritten,
+        `${Unwritten}b`,
     ]);
     expect(target.node.Paragraph.doc).toEqual(['x']);
     expect(target.basis.Number.function.add.names).toEqual(['p']);
