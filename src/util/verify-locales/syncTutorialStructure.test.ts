@@ -14,8 +14,8 @@ import {
 import type { ThemeName } from '../../tutorial/ThemeNames';
 import { TutorialModes } from '../../tutorial/TutorialMode';
 import { getTutorialPath } from './TutorialSchema';
+import { align } from '@util/align';
 import {
-    align,
     isEmptyReport,
     lineSignature,
     sceneSignature,
