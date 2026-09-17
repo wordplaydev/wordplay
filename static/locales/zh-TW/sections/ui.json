@@ -2024,6 +2024,13 @@
                 "forward": "$~回到下一個版本",
                 "restore": "$~還原這個版本",
                 "now": "$~回到目前的版本"
+            },
+            "diff": {
+                "summary": "$~還原這個版本會找回 $#back[$back 個東西]，並失去 $#gone[$gone 個東西]。",
+                "unchanged": "$~還原這個版本不會改變任何東西。",
+                "atReturns": "$~如果你還原，這個就會回來",
+                "atLeaves": "$~如果你還原，$code 就會消失",
+                "atBoth": "$~如果你還原，這個就會取代 $code 回來"
             }
         },
         "howto": {

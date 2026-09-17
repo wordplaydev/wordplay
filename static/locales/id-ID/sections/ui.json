@@ -301,6 +301,13 @@
                 "forward": "$~kembali ke versi berikutnya",
                 "restore": "$~Pulihkan versi ini",
                 "now": "$~kembali ke versi saat ini"
+            },
+            "diff": {
+                "summary": "$~Mengembalikan versi ini akan menghadirkan kembali $#back[$back hal] dan menghapus $#gone[$gone hal].",
+                "unchanged": "$~Mengembalikan versi ini tidak akan mengubah apa pun.",
+                "atReturns": "$~kembali muncul jika kamu mengembalikan versi ini",
+                "atLeaves": "$~$code akan hilang jika kamu mengembalikan versi ini",
+                "atBoth": "$~kembali muncul jika kamu mengembalikan versi ini, menggantikan $code"
             }
         },
         "gallery": {

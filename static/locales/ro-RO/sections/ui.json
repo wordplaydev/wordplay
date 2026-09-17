@@ -301,6 +301,13 @@
                 "forward": "$~reveniți la următoarea versiune",
                 "restore": "$~restaurați această versiune",
                 "now": "$~reveniți la versiunea curentă"
+            },
+            "diff": {
+                "summary": "$~Refacerea acestei versiuni ar aduce înapoi $#back[1 lucru|$back lucruri|$back de lucruri] și ar elimina $#gone[1 lucru|$gone lucruri|$gone de lucruri].",
+                "unchanged": "$~Refacerea acestei versiuni nu ar schimba nimic.",
+                "atReturns": "$~revine dacă restaurezi",
+                "atLeaves": "$~$code dispare dacă restaurezi",
+                "atBoth": "$~revine dacă restaurezi, în locul lui $code"
             }
         },
         "gallery": {

@@ -2051,6 +2051,13 @@
                 "forward": "$~revenir à la version suivante",
                 "restore": "$~restaurer cette version",
                 "now": "$~revenir à la version actuelle"
+            },
+            "diff": {
+                "summary": "$~Restaurer cette version ramènerait $#back[1 chose|$back choses|$back choses] et retirerait $#gone[1 chose|$gone choses|$gone choses].",
+                "unchanged": "$~Restaurer cette version ne changerait rien.",
+                "atReturns": "$~revient si tu restaures",
+                "atLeaves": "$~$code disparaît si tu restaures",
+                "atBoth": "$~revient si tu restaures, à la place de $code"
             }
         },
         "howto": {

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import DiffOnlyNowView from '@components/editor/nodes/DiffOnlyNowView.svelte';
     import NodeView from '@components/editor/nodes/NodeView.svelte';
     import type Caret from '@edit/caret/Caret';
     import type { WritingLayout } from '@locale/Scripts';
@@ -12,6 +13,7 @@
     import Root from '@nodes/Root';
     import Token from '@nodes/Token';
     import Source from '@nodes/Source';
+    import type { SourceDiff } from '@edit/diff/sourceDiff';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import Spaces from '@parser/Spaces';
     import { EMOJI_SYMBOL } from '@parser/Symbols';
@@ -85,6 +87,12 @@
         alsoHidden?: Node[];
         /** Render markup as prose rather than as its source. See Format.prose. */
         prose?: boolean;
+        /**
+         * How the checkpoint being viewed differs from the project's current
+         * version. Only the editor passes it, and only while an older version
+         * is being viewed. See Format.diff.
+         */
+        diff?: SourceDiff | undefined;
     }
 
     let {
@@ -106,6 +114,7 @@
         layout = undefined,
         alsoHidden = [],
         prose = false,
+        diff = undefined,
     }: Props = $props();
 
     /** Get the root, or make one if it's not a source. */
@@ -432,8 +441,16 @@
                 values,
                 prose,
                 wrapping: wrap,
+                diff,
             }}
-        /></span
+        />{#if diff !== undefined && diff.trailing.length > 0}<!-- Current-version code
+            that follows every token of this version. Never reached for a parsed
+            source, whose program always ends with an End token to anchor to;
+            here so the model is total. --><DiffOnlyNowView
+                nodes={diff.trailing}
+                spaces={diff.afterSpaces}
+                wrapping={wrap}
+            />{/if}</span
     >
 {:else}
     <code
@@ -454,8 +471,16 @@
                 values,
                 prose,
                 wrapping: wrap,
+                diff,
             }}
-        /></code
+        />{#if diff !== undefined && diff.trailing.length > 0}<!-- Current-version code
+            that follows every token of this version. Never reached for a parsed
+            source, whose program always ends with an End token to anchor to;
+            here so the model is total. --><DiffOnlyNowView
+                nodes={diff.trailing}
+                spaces={diff.afterSpaces}
+                wrapping={wrap}
+            />{/if}</code
     >
 {/if}
 

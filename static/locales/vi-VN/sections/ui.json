@@ -301,6 +301,13 @@
                 "forward": "$~quay lại phiên bản tiếp theo",
                 "restore": "$~khôi phục phiên bản này",
                 "now": "$~quay lại phiên bản hiện tại"
+            },
+            "diff": {
+                "summary": "$~Khôi phục phiên bản này sẽ đưa lại $#back[$back thứ] và lấy đi $#gone[$gone thứ].",
+                "unchanged": "$~Khôi phục phiên bản này sẽ không thay đổi gì cả.",
+                "atReturns": "$~sẽ quay lại nếu bạn khôi phục",
+                "atLeaves": "$~$code sẽ biến mất nếu bạn khôi phục",
+                "atBoth": "$~sẽ quay lại nếu bạn khôi phục, thay cho $code"
             }
         },
         "gallery": {

@@ -17183,6 +17183,40 @@
                                     ],
                                     "type": "object"
                                 },
+                                "diff": {
+                                    "additionalProperties": false,
+                                    "description": "What restoring this version would do (#633). Phrased as the consequence of the Restore button beside it, since that is the decision being made.",
+                                    "properties": {
+                                        "atBoth": {
+                                            "$ref": "#/definitions/Template%3C%5B%22code%22%5D%3E",
+                                            "description": "[plain] Said when the caret lands on code that would come back in place of $code, which restoring would take away"
+                                        },
+                                        "atLeaves": {
+                                            "$ref": "#/definitions/Template%3C%5B%22code%22%5D%3E",
+                                            "description": "[plain] Said when the caret lands where the current version has code this one doesn't, which restoring would take away. $code is that code."
+                                        },
+                                        "atReturns": {
+                                            "description": "[plain] Said when the caret lands on code that only this version has, which restoring would bring back",
+                                            "type": "string"
+                                        },
+                                        "summary": {
+                                            "$ref": "#/definitions/Template%3C%5B%22%23back%22%2C%22%23gone%22%5D%3E",
+                                            "description": "[plain] On the banner: what restoring would do. $back counts code that would come back; $gone counts code it would take away."
+                                        },
+                                        "unchanged": {
+                                            "description": "[plain] On the banner, when restoring this version would change nothing. A separate string because English has no zero plural form, so the counts above can't say it.",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "required": [
+                                        "summary",
+                                        "unchanged",
+                                        "atReturns",
+                                        "atLeaves",
+                                        "atBoth"
+                                    ],
+                                    "type": "object"
+                                },
                                 "label": {
                                     "additionalProperties": false,
                                     "description": "[plain] Labels in the checkpoints/revisions panel",
@@ -17209,7 +17243,7 @@
                                     "type": "object"
                                 }
                             },
-                            "required": ["label", "button"],
+                            "required": ["label", "button", "diff"],
                             "type": "object"
                         },
                         "collaborate": {
@@ -30862,6 +30896,9 @@
             "type": ["string"]
         },
         "Template<[\"#age\"]>": {
+            "type": "string"
+        },
+        "Template<[\"#back\",\"#gone\"]>": {
             "type": "string"
         },
         "Template<[\"#count\",\"#remaining\",\"banning\"]>": {

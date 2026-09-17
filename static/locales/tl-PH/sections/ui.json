@@ -301,6 +301,13 @@
                 "forward": "$~bumalik sa susunod na bersyon",
                 "restore": "$~ibalik ang bersyong ito",
                 "now": "$~bumalik sa kasalukuyang bersyon"
+            },
+            "diff": {
+                "summary": "$~Kung ibabalik ang bersyong ito, ibabalik nito ang $#back[1 bagay|$back na bagay] at aalisin ang $#gone[1 bagay|$gone na bagay].",
+                "unchanged": "$~Walang mababago kung ibabalik ang bersyong ito.",
+                "atReturns": "$~babalik kung ibabalik mo",
+                "atLeaves": "$~maaalis ang $code kung ibabalik mo",
+                "atBoth": "$~babalik kung ibabalik mo, kapalit ng $code"
             }
         },
         "gallery": {
