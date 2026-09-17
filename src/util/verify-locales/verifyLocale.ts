@@ -13,6 +13,7 @@ import {
     toLocaleString,
 } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
+import markUnwritten from '@util/verify-locales/markUnwritten';
 import ConceptLink from '@nodes/ConceptLink';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
@@ -76,19 +77,9 @@ export function createUnwrittenLocale(): LocaleText {
     // Find the translatable pairs
     const pairs = getCheckableLocalePairs(locale);
 
-    // Mark all strings as unwritten. A markup array is one document with a
-    // single write-status, on the first element only.
+    // Mark all strings as unwritten, keeping the English after the marker.
     for (const pair of pairs)
-        pair.repair(
-            locale,
-            Array.isArray(pair.value)
-                ? classifyPair(pair) === 'markup'
-                    ? pair.value.map((s, index) =>
-                          index === 0 ? Unwritten + s : s,
-                      )
-                    : pair.value.map((s) => Unwritten + s)
-                : Unwritten + pair.value,
-        );
+        pair.repair(locale, markUnwritten(pair.value, classifyPair(pair)));
 
     // Return the unwritten locale
     return locale;
@@ -1177,8 +1168,11 @@ export function addMissingKeys(
                     ]);
                 else if (
                     typeof targetValue === 'string' &&
-                    (targetValue.startsWith(MachineTranslated) ||
-                        targetValue === Unwritten)
+                    // A placeholder may carry the English it is waiting to
+                    // replace, so this asks whether the string is a placeholder,
+                    // not whether it is a bare marker.
+                    (isMachineTranslated(targetValue) ||
+                        isUnwritten(targetValue))
                 ) {
                     const replacement: Record<string, unknown> = {};
                     target[key] = replacement;
@@ -1240,7 +1234,7 @@ export function addMissingKeys(
                         index < sourceValue.length;
                         index++
                     ) {
-                        targetValue[index] = Unwritten;
+                        targetValue[index] = Unwritten + sourceValue[index];
                     }
                 } else {
                     log.bad(
@@ -1265,9 +1259,11 @@ function placehold(
     segments: (string | number)[] = [],
 ): unknown {
     if (isEmotionPath(segments)) return value;
-    if (typeof value === 'string') return Unwritten;
-    else if (Array.isArray(value) && value.every((s) => typeof s === 'string'))
-        return [Unwritten];
+    if (
+        typeof value === 'string' ||
+        (Array.isArray(value) && value.every((s) => typeof s === 'string'))
+    )
+        return markUnwritten(value, classifyLocalePath(segments));
     else if (Array.isArray(value))
         return value.map((item, index) =>
             placehold(item, [...segments, index]),

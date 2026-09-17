@@ -1,4 +1,4 @@
-import { parseLocaleDoc } from '@locale/LocaleText';
+import { parseLocaleDoc, isUnwritten } from '@locale/LocaleText';
 import type Doc from '@nodes/Doc';
 import Docs from '@nodes/Docs';
 import Name from '@nodes/Name';
@@ -60,13 +60,20 @@ export function getInputLocales(
 }
 
 export function getLocaleNames(nameAndDoc: NameAndDoc, locale: LocaleText) {
+    const names = Array.isArray(nameAndDoc.names)
+        ? nameAndDoc.names
+        : [nameAndDoc.names];
     return (
-        Array.isArray(nameAndDoc.names) ? nameAndDoc.names : [nameAndDoc.names]
-    )
-        .map((name) => {
-            const stripped = withoutAnnotations(name);
-            if (stripped === '') return undefined;
-            return Name.make(stripped, localeToLanguage(locale));
-        })
-        .filter((name): name is Name => name !== undefined);
+        names
+            // Before stripping, as in getNameLocales: an unwritten name carries
+            // the English it is waiting to replace, which must not be bound as a
+            // name this locale chose.
+            .filter((name) => !isUnwritten(name))
+            .map((name) => {
+                const stripped = withoutAnnotations(name);
+                if (stripped === '') return undefined;
+                return Name.make(stripped, localeToLanguage(locale));
+            })
+            .filter((name): name is Name => name !== undefined)
+    );
 }

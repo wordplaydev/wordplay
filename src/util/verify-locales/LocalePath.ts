@@ -1,4 +1,3 @@
-import { Unwritten } from '@locale/Annotations';
 import { last, must } from '@util/nullable';
 
 /** Whether a value is something a locale path can descend into: an object or
@@ -66,8 +65,12 @@ export default class LocalePath {
         return text;
     }
 
-    /** Given an object and a new value, set the key in the object to the value, if the path exists. */
-    repair(object: object, value: string | string[] = Unwritten) {
+    /** Given an object and a new value, set the key in the object to the value, if the path exists.
+     *  An undefined value is no repair at all rather than a bare `$?`: callers reach it only
+     *  through an array index the type system cannot prove is populated, and writing a marker
+     *  with no words after it is the one thing an unwritten string must never be. */
+    repair(object: object, value: string | string[] | undefined) {
+        if (value === undefined) return;
         const record = this.retrieve(object);
         if (record) Reflect.set(record, this.key, value);
     }

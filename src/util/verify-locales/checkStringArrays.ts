@@ -74,9 +74,12 @@ export default function checkStringArrays(
                             ? value.slice(0, sourceValue.length)
                             : [
                                   ...value,
-                                  ...new Array<string>(
-                                      sourceValue.length - value.length,
-                                  ).fill(Unwritten),
+                                  // Carry the English each added slot is
+                                  // waiting for, so the locale holds the words
+                                  // rather than only a marker.
+                                  ...sourceValue
+                                      .slice(value.length)
+                                      .map((s) => Unwritten + s),
                               ],
                     );
             }

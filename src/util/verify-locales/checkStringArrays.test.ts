@@ -142,7 +142,12 @@ test('positional arrays are padded or truncated to the en-US length on fix', () 
         short,
         true,
     );
-    expect(LabelsPath.resolve(padded)).toEqual(['x', Unwritten]);
+    // The added slot carries the English it is waiting for, not a bare marker:
+    // a locale should hold the words, not a pointer back at en-US.
+    expect(LabelsPath.resolve(padded)).toEqual([
+        'x',
+        `${Unwritten}do not notify`,
+    ]);
 
     const long = copyLocale();
     LabelsPath.repair(long, ['x', 'y', 'z']);

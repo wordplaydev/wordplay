@@ -18,7 +18,7 @@
 
 import { getLanguageDirection } from '@locale/LanguageCode';
 import type LocaleText from '@locale/LocaleText';
-import { toLocaleString } from '@locale/LocaleText';
+import { toLocaleString, isUnwritten } from '@locale/LocaleText';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { getManifestPath } from '@locale/SupportedLocales';
 import type Log from '@util/verify-locales/Log';
@@ -66,10 +66,14 @@ export type ManifestSource = Pick<LocaleText, 'language' | 'regions'> & {
     system?: { appDescription?: string | undefined };
 };
 
-/** A string with its annotations stripped, or undefined if nothing is left —
- *  an unwritten string is a bare `$?`, which strips to nothing at all. */
+/** A string with its annotations stripped, or undefined if this locale hasn't
+ *  written one. An unwritten string carries the English it is waiting to
+ *  replace, so it is recognized by its marker rather than by stripping to
+ *  nothing — otherwise the manifest would install under the copy of en-US this
+ *  locale happens to hold rather than en-US as it reads today. */
 function written(text: string | undefined): string | undefined {
-    const stripped = withoutAnnotations(text ?? '').trim();
+    if (text === undefined || isUnwritten(text)) return undefined;
+    const stripped = withoutAnnotations(text).trim();
     return stripped.length === 0 ? undefined : stripped;
 }
 
