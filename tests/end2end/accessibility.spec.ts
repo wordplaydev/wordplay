@@ -56,6 +56,10 @@ const PUBLIC_ROUTES = [
     // markers, section labels, and web links — so it is a different shape from
     // every other static page here.
     '/updates',
+    // The credits, which had never been scanned — which is how it went this
+    // long with no Title at all. Two long tables of names built from committed
+    // JSON, so it is the one static page here whose content is a listing.
+    '/thanks',
 ];
 
 /**

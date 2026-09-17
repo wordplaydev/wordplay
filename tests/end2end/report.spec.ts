@@ -49,6 +49,11 @@ test('someone else’s public project can be reported, and the report jumps the 
         await expect(mod.page.getByText(/reported this project/i)).toBeVisible({
             timeout: 30000,
         });
+
+        // Exactly one title, here of all places: reviewing mounts ProjectView,
+        // which names the tab itself, so the page withholds its own. Two would
+        // race to name the tab, with no failure to say which won.
+        await expect(mod.page.locator('head title')).toHaveCount(1);
     } finally {
         await mod.context.close();
     }

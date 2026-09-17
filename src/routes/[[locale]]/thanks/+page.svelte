@@ -1,5 +1,6 @@
 <script lang="ts">
     import Header from '@components/app/Header.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import Link from '@components/app/Link.svelte';
     import Page from '@components/app/Page.svelte';
     import Subheader from '@components/app/Subheader.svelte';
@@ -19,6 +20,8 @@
     });
     const teachers: Teacher[] = teachersData.teachers;
 </script>
+
+<Title text={(l) => l.ui.page.thanks.header} />
 
 <Page>
     <div class="content">

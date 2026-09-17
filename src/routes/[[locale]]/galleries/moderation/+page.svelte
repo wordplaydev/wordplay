@@ -9,6 +9,7 @@
      history. -->
 <script lang="ts">
     import Loading from '@components/app/Loading.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import { localeGoto } from '@util/localeGoto';
     import { onMount } from 'svelte';
 
@@ -16,5 +17,9 @@
         localeGoto('/moderate');
     });
 </script>
+
+<!-- Named for where the reader is going, since that is what this route is:
+     the moderation queue at its old address. -->
+<Title text={(l) => l.moderation.moderate.header} />
 
 <Loading />
