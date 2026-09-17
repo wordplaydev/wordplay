@@ -5,15 +5,16 @@
      * struck through (#633).
      *
      * It deliberately does NOT render through `NodeView`. Those views read the
-     * *before* source's root, spaces, hidden set, highlights and folds from
-     * context, none of which know these nodes; and `TokenView` emits
-     * `data-id={node.id}` and `id="node-{id}"`, where ids come from a global
-     * counter — so an after-tree token rendered that way would collide with the
-     * live source mounted in another tile, and `Editor.getNodeView` would
-     * resolve a caret to the wrong element.
+     * viewed source's root, spaces, hidden set, highlights and folds from
+     * context, none of which know these nodes; and `TokenView` stamps every
+     * token with its node id, as both an attribute and an element id, where
+     * ids come from a global counter — so a current-version token rendered
+     * that way would collide with the live source mounted in another tile, and
+     * `Editor.getNodeView` would resolve a caret to the wrong element.
      *
-     * For the same reason it matches none of the editor's own selectors: see
-     * `diffGhostConvention.test.ts`, which lists each one and what reads it.
+     * For the same reason it matches none of the editor's own selectors, and
+     * names none of them even in passing: `diffMarksConvention.test.ts` reads
+     * this file for them, and lists each one and what reads it.
      *
      * Tokens are all one dimmed color rather than syntax-colored. Dimming a
      * category color means compositing it, which voids the AA contrast the
