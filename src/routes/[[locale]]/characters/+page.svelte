@@ -36,9 +36,7 @@
     );
 </script>
 
-<svelte:head>
-    <Title text={(l) => l.ui.page.characters.header} />
-</svelte:head>
+<Title text={(l) => l.ui.page.characters.header} />
 
 {#snippet preview(character: Character)}
     <CharacterPreview {character} link="/character/{character.id}">

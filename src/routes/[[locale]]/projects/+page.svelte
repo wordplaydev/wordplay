@@ -568,9 +568,7 @@
     onMount(() => void DB.startProjectWork());
 </script>
 
-<svelte:head>
-    <Title text={(l) => l.ui.page.projects.header} />
-</svelte:head>
+<Title text={(l) => l.ui.page.projects.header} />
 
 <svelte:window
     onpointermove={dragMove}

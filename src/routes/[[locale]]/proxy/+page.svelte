@@ -52,9 +52,7 @@
     });
 </script>
 
-<svelte:head>
-    <Title text={(l) => l.ui.proxy.starting} />
-</svelte:head>
+<Title text={(l) => l.ui.proxy.starting} />
 
 <Writing>
     {#if failure === undefined}

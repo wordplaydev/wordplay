@@ -80,7 +80,9 @@ test.describe('public pages', () => {
         test(`${route} has no WCAG 2.2 AA violations`, async ({ page }) => {
             await page.goto(`/en-US${route}`);
             // Hydration marker: every page renders a heading once the
-            // client has taken over (and Title's $effect has run).
+            // client has taken over. The title no longer needs waiting for —
+            // Title renders it into <svelte:head>, so it is in the prerendered
+            // document — but the scan is of the hydrated page either way.
             await expect(page.getByRole('heading').first()).toBeVisible({
                 timeout: 15000,
             });

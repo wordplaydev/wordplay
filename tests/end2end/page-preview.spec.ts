@@ -117,11 +117,15 @@ test('a built-in example gallery serves locale-JSON names', async ({
     expect(spanish).toContain(`<title>${expected}</title>`);
 });
 
-test('non-preview routes still serve the untouched static shell', async ({
+test('a non-preview route is not rewritten to the preview function', async ({
     request,
 }) => {
+    // /guide serves its own prerendered page: its own title, and the site-wide
+    // og:title from app.html rather than a per-document one. Asserting the
+    // title is *absent* was the old test, and stopped meaning anything once
+    // cleanUrls made /guide serve guide.html instead of the shell (#1410).
     const html = await (await request.get('/guide')).text();
-    expect(html).not.toContain('<title>');
+    expect(html).toContain('<title>Guide</title>');
     expect(html).toContain(
         'content="Wordplay: Accessible, Multilingual, Programmable Typography"',
     );
