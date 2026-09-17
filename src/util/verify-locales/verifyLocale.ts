@@ -42,6 +42,7 @@ import classifyLocalePath, {
     isEmotionPath,
     isGlossaryFormsPath,
     isNameTextPath,
+    isTermPhrasePath,
 } from '@util/verify-locales/classifyLocalePath';
 import LocalePath, {
     getKeyTemplatePairs,
@@ -1084,6 +1085,10 @@ export function removeExtraKeys(
         // A locale may have forms for a term that en-US has none for, since each
         // locale decides which of its words need inflected forms.
         if (isGlossaryFormsPath([...segments, key])) continue;
+        // Likewise a locale's own `terms`: en-US ships an empty list, so every
+        // key any locale writes is "extra" by this measure, and deleting them
+        // silently destroys words no other locale can supply.
+        if (isTermPhrasePath([...segments, key])) continue;
         // Key not in the source? Delete it from the target.
         if (typeof source === 'object' && !(key in source)) {
             log.bad(`Removing extra key ${key}`);

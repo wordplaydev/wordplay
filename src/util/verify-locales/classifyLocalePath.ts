@@ -67,6 +67,19 @@ export function isGlossaryFormsPath(segments: (string | number)[]): boolean {
     return segments[0] === 'glossary' && segments[2] === 'forms';
 }
 
+/**
+ * Whether a path names one of a locale's own `terms` — its private word list,
+ * substituted wherever `$key` appears.
+ *
+ * The keys are the locale's to choose and en-US ships none at all, so a key
+ * here being absent from en-US is the normal case rather than an extra. This
+ * is the same standing glossary `forms` have, and for the same reason: content
+ * a locale writes for itself is not measured against a translation source.
+ */
+export function isTermPhrasePath(segments: (string | number)[]): boolean {
+    return segments[0] === 'terms' && segments.length === 2;
+}
+
 /** Whether a path is declared as `NameText` — a Wordplay identifier (or list
  *  of identifiers) fed to `Name.make` via `getNameLocales`. This is the scope
  *  for name repair (`toValidName`) and single-token validation: it covers

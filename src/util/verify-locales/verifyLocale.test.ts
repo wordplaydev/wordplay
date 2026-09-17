@@ -39,6 +39,33 @@ test('removeExtraKeys keeps longer markup and name arrays', () => {
     expect(target.input.Key.keys.Alt).toEqual(['Alt', 'Option']);
 });
 
+test("removeExtraKeys keeps a locale's own terms, which en-US has none of", () => {
+    // hi-IN is the only locale that writes `terms`, and en-US ships `{}`, so
+    // every key it has looks "extra" by the en-US measure. Pruning them broke
+    // every Hindi template referencing $projectTerm, $errorTerm, $functionTerm
+    // and $inputTerm — a whole locale's terminology deleted by a repair.
+    const source = { terms: {} };
+    const target = {
+        terms: { projectTerm: 'कार्यक्रम', errorTerm: 'त्रुटि' },
+    };
+    removeExtraKeys(collectingLog().log, source, target);
+    expect(target.terms).toEqual({
+        projectTerm: 'कार्यक्रम',
+        errorTerm: 'त्रुटि',
+    });
+});
+
+test('removeExtraKeys still removes a key that is genuinely extra', () => {
+    // The exemption is for `terms` alone; everything else still conforms to
+    // en-US, or the check would stop catching renamed and deleted keys.
+    const source = { ui: { project: { label: 'a' } } };
+    const target = {
+        ui: { project: { label: 'b', stale: 'gone' } },
+    };
+    removeExtraKeys(collectingLog().log, source, target);
+    expect(target.ui.project).toEqual({ label: 'b' });
+});
+
 test('removeExtraKeys truncates longer positional arrays', () => {
     const source = {
         ui: { howto: { editor: { notification: { labels: ['a', 'b'] } } } },
