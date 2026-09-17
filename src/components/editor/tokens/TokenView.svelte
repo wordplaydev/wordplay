@@ -151,6 +151,16 @@
     // Structural bracket pairs that should "pop" in blocks mode. Excludes
     // separators, language tags, and markup tags — they share the delimiter
     // category but aren't structural brackets.
+    /**
+     * Whether this token is in the version being viewed and not in the current
+     * one — code that restoring would bring back (#633). Read off `format` here
+     * rather than handed down by NodeView, because in blocks mode the token
+     * renders inside a wrapper and styling that wrapper does not always reach
+     * the text. One `Map.get` per token, and one falsy property read when no
+     * older version is being viewed.
+     */
+    let returns = $derived(format.diff?.tokens.get(node)?.onlyHere === true);
+
     let isBracket = $derived(
         node.isSymbol(Sym.EvalOpen) ||
             node.isSymbol(Sym.EvalClose) ||
@@ -428,6 +438,7 @@
         class:bracket={isBracket}
         class:synthesized={proxy}
         class:removed
+        class:diff-returns={returns}
         class:highlighted={highlight !== undefined}
         data-id={node.id}
         data-synthetic={synthetic ? '' : null}
@@ -515,6 +526,35 @@
         top: 50%;
         left: 0;
         background: var(--wordplay-error);
+    }
+
+    /* Code only this version has — what restoring would bring back (#633).
+       Drawn as a chip, the same device `.synthesized` above uses, because it
+       says the same kind of thing: what you are reading is not what your
+       project currently holds. It is dashed rather than solid so the two can
+       be told apart when a localized keyword inside restored code is itself a
+       chip.
+
+       The token KEEPS its own syntax color: this is real code in the version
+       being read, and dimming it would make the thing the reader came to see
+       the least legible thing on the line. The dashes carry the meaning
+       without relying on hue (WCAG 1.4.1).
+
+       The outline is an `outline`, not a `border`: an outline takes no space,
+       so a chip cannot shift the caret geometry measured from token rects. */
+    .token-view.diff-returns {
+        background: var(--wordplay-alternating-color);
+        border-radius: var(--wordplay-border-radius);
+        outline: var(--wordplay-border-width) dashed
+            var(--wordplay-inactive-color);
+        outline-offset: calc(-1 * var(--wordplay-border-width));
+    }
+
+    /* Only text mode needs the chip's own spacing, for the reason `.synthesized`
+       gives above: blocks mode already separates tokens with a flex gap. */
+    .token-view.text.diff-returns {
+        padding: 0 0.2em;
+        margin: 0 0.05em;
     }
 
     .elided {

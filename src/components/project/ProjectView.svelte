@@ -110,6 +110,7 @@
         resolveReference,
         type ResolvedReference,
     } from '@db/chats/codeReference';
+    import diffSources from '@edit/diff/sourceDiff';
     import Source from '@nodes/Source';
     import {
         getCheckpoint,
@@ -418,6 +419,42 @@
         checkpointed
             ? checkpointed.sources.map((s) => new Source(s.names, s.code))
             : project.getSources(),
+    );
+
+    /**
+     * How each viewed checkpoint source differs from the project's *current*
+     * source at the same index, or undefined when viewing now (#633). Paired by
+     * index, matching `getCheckpointProject`; a checkpoint source with no
+     * counterpart gets no diff, since marking a whole file deleted is noise.
+     *
+     * Reads `checkpointed` first and returns before touching `project`, so
+     * while editing this depends on nothing that changes per keystroke and
+     * never runs.
+     *
+     * Deliberately not memoized: the marks are keyed by token identity, and
+     * `sources` builds a fresh `Source` — a fresh parse, fresh tokens — every
+     * time it re-runs, so a cached diff's keys would miss every lookup and the
+     * editor would silently render no marks at all. Recomputing costs one walk
+     * of a tree that was just reparsed anyway.
+     */
+    const diffs = $derived.by(() => {
+        if (checkpointed === undefined) return undefined;
+        const current = project.getSources();
+        return sources.map((before, index) => {
+            const after = current[index];
+            return after === undefined ? undefined : diffSources(before, after);
+        });
+    });
+
+    /** What restoring would do across every source, for the banner's summary. */
+    const diffTotals = $derived(
+        (diffs ?? []).reduce(
+            (total, diff) => ({
+                back: total.back + (diff?.onlyHereTokens ?? 0),
+                gone: total.gone + (diff?.onlyNowTokens ?? 0),
+            }),
+            { back: 0, gone: 0 },
+        ),
     );
 
     /** The selected source is based on the index.*/
@@ -3772,6 +3809,9 @@
                                                     tile.id,
                                                 )}
                                                 editable={editableNow}
+                                                diff={diffs?.[
+                                                    getSourceIndexByID(tile.id)
+                                                ]}
                                                 requestEditable={editableAndCurrent
                                                     ? () => {
                                                           setUIMode('edit');
@@ -3927,6 +3967,28 @@
                                                         l.ui.checkpoints.label
                                                             .restore}
                                                 />
+                                                <!-- How much this version differs from
+                                                     the current one (#633). Ordinary
+                                                     visible text in a notice that appears
+                                                     on arrival, so it needs no live
+                                                     region of its own. -->
+                                                {#if diffTotals.back === 0 && diffTotals.gone === 0}<LocalizedText
+                                                        path={(l) =>
+                                                            l.ui.checkpoints
+                                                                .diff.unchanged}
+                                                    />{:else}<MarkupHTMLView
+                                                        inline
+                                                        markup={[
+                                                            (l) =>
+                                                                l.ui.checkpoints
+                                                                    .diff
+                                                                    .summary,
+                                                            {
+                                                                back: diffTotals.back,
+                                                                gone: diffTotals.gone,
+                                                            },
+                                                        ]}
+                                                    />{/if}
                                                 <Button
                                                     background
                                                     tip={(l) =>

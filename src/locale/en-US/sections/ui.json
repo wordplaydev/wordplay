@@ -353,6 +353,13 @@
                 "forward": "return to the next version",
                 "restore": "restore this version",
                 "now": "return to the current version"
+            },
+            "diff": {
+                "summary": "Restoring this version would bring back $#back[1 thing|$back things] and take away $#gone[1 thing|$gone things].",
+                "unchanged": "Restoring this version would change nothing.",
+                "atReturns": "comes back if you restore",
+                "atLeaves": "$code goes away if you restore",
+                "atBoth": "comes back if you restore, in place of $code"
             }
         },
         "gallery": {

@@ -301,6 +301,13 @@
                 "forward": "$~powrót do następnej wersji",
                 "restore": "$~przywróć tę wersję",
                 "now": "$~powrót do aktualnej wersji"
+            },
+            "diff": {
+                "summary": "$~Przywrócenie tej wersji przywróci $#back[1 rzecz|$back rzeczy|$back rzeczy|$back rzeczy] i usunie $#gone[1 rzecz|$gone rzeczy|$gone rzeczy|$gone rzeczy].",
+                "unchanged": "$~Przywrócenie tej wersji nic by nie zmieniło.",
+                "atReturns": "$~wraca, jeśli przywrócisz",
+                "atLeaves": "$~$code znika, jeśli przywrócisz",
+                "atBoth": "$~wraca, jeśli przywrócisz, w miejsce $code"
             }
         },
         "gallery": {

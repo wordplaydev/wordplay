@@ -1,5 +1,6 @@
 <script lang="ts" module>
     import type Spaces from '@parser/Spaces';
+    import type { SourceDiff } from '@edit/diff/sourceDiff';
 
     export type Format = {
         block: boolean;
@@ -29,6 +30,18 @@
          * keystroke over 306 tokens, about 5% of the editor's typing cost.
          */
         wrapping?: boolean;
+        /**
+         * How the checkpoint being viewed differs from the project's current
+         * version, or undefined when viewing the current version — which is
+         * every keystroke anyone ever types (#633).
+         *
+         * On `Format` rather than in a context for the same reason as
+         * `wrapping`: every token already depends on `format`, so this costs
+         * one property read per token. As a `SvelteSet` in the root context
+         * (how `removed` and `elided` work) each token's `.has()` would be a
+         * fine-grained subscription instead.
+         */
+        diff?: SourceDiff | undefined;
     };
 </script>
 
@@ -38,6 +51,7 @@
     import MenuTrigger from '@components/editor/menu/MenuTrigger.svelte';
     import getNodeView from '@components/editor/nodes/nodeToView';
     import ReferenceMarker from '@components/editor/nodes/ReferenceMarker.svelte';
+    import DiffOnlyNowView from '@components/editor/nodes/DiffOnlyNowView.svelte';
     import Space from '@components/editor/nodes/Space.svelte';
     import TokenView from '@components/editor/tokens/TokenView.svelte';
     import FoldToggle from '@components/editor/util/FoldToggle.svelte';
@@ -245,6 +259,58 @@
         renderNode && rootContext ? rootContext.removed.has(renderNode) : false,
     );
 
+    /**
+     * This node's entry in the checkpoint diff, if a checkpoint is being viewed
+     * (#633). One `Map.get` per token, and when no diff is being shown, one
+     * falsy property read — see Format.diff for why it isn't a context.
+     */
+    let diffed = $derived(
+        format.diff !== undefined && renderNode instanceof Token
+            ? format.diff.tokens.get(renderNode)
+            : undefined,
+    );
+
+    /**
+     * Current-version code drawn before this token — what restoring would take
+     * away. Rendered under the same guard the space is
+     * (`spaceRoot === renderNode`), so exactly one NodeView draws each run even
+     * though several ancestors share a first token.
+     */
+    let onlyNowBefore = $derived.by(() => {
+        const diff = format.diff;
+        if (
+            diff === undefined ||
+            spaceRoot !== renderNode ||
+            hide ||
+            firstToken === undefined
+        )
+            return undefined;
+        // Keyed on the FIRST LEAF, not on this node: the view that renders a
+        // token's space is whichever ancestor is its space root, which is
+        // almost never the token's own view. Keying this on `renderNode` meant
+        // the guard passed only for a token that began nothing, so a mark
+        // rendered essentially never.
+        const nodes = diff.tokens.get(firstToken)?.onlyNowBefore;
+        return nodes === undefined
+            ? undefined
+            : { nodes, spaces: diff.afterSpaces };
+    });
+
+    /**
+     * Current-version code drawn just *after* this token — a replacement, which
+     * belongs beside the code that would come back in its place. Keyed on the
+     * token itself rather than on the space root, since this renders after the
+     * token's own view.
+     */
+    let onlyNowAfter = $derived.by(() => {
+        const diff = format.diff;
+        if (diff === undefined || hide) return undefined;
+        const nodes = diffed?.onlyNowAfter;
+        return nodes === undefined
+            ? undefined
+            : { nodes, spaces: diff.afterSpaces };
+    });
+
     // Determine if the node should be elided ("…" instead of full subtree).
     let elided = $derived(
         renderNode && rootContext ? rootContext.elided.has(renderNode) : false,
@@ -418,7 +484,15 @@
 {#if node !== undefined && renderNode !== undefined}
     {#if ComponentView !== undefined}
         <!-- In text mode, render space before the node view. -->
-        {#if !format.block}{@render textSpace()}{:else}{@render blockSpace()}{/if}{#if foldToggleFor !== undefined}<FoldToggle
+        {#if !format.block}{@render textSpace()}{:else}{@render blockSpace()}{/if}{#if onlyNowBefore !== undefined}<!-- Current-version code this
+            version doesn't have, drawn between the space and the token it
+            belongs in front of. OUTSIDE the .space span on purpose:
+            getSpacePosition and the outline tracer index that span's children
+            by data-line. --><DiffOnlyNowView
+                nodes={onlyNowBefore.nodes}
+                spaces={onlyNowBefore.spaces}
+                wrapping={format.wrapping === true}
+            />{/if}{#if foldToggleFor !== undefined}<FoldToggle
                 node={foldToggleFor}
                 lineStart={!format.block && space.includes('\n')}
             />{/if}{#if renderNode instanceof Token && !format.block}<!-- MERGED: a
@@ -479,7 +553,13 @@
                                 interactive
                             /></div
                         >{/if}{/if}
-            </div>{/if}
+            </div>{/if}{#if onlyNowAfter !== undefined}<!-- Current-version code standing
+            where this token would come back, drawn immediately after it so the
+            two readings of one place sit together on one line. --><DiffOnlyNowView
+                nodes={onlyNowAfter.nodes}
+                spaces={onlyNowAfter.spaces}
+                wrapping={format.wrapping === true}
+            />{/if}
     {:else}
         !
     {/if}{#if replaceable && format.block && format.editable}<MenuTrigger

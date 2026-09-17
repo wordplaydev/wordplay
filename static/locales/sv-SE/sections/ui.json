@@ -301,6 +301,13 @@
                 "forward": "$~gå tillbaka till nästa version",
                 "restore": "$~återställa den här versionen",
                 "now": "$~återgå till den aktuella versionen"
+            },
+            "diff": {
+                "summary": "$~Att återställa denna version skulle ge tillbaka $#back[1 sak|$back saker] och ta bort $#gone[1 sak|$gone saker].",
+                "unchanged": "$~Att återställa denna version skulle inte ändra något.",
+                "atReturns": "$~kommer tillbaka om du återställer",
+                "atLeaves": "$~$code försvinner om du återställer",
+                "atBoth": "$~kommer tillbaka om du återställer, i stället för $code"
             }
         },
         "gallery": {

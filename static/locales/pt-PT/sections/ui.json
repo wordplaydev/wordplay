@@ -301,6 +301,13 @@
                 "forward": "voltar para a próxima versão",
                 "restore": "restaurar esta versão",
                 "now": "voltar à versão atual"
+            },
+            "diff": {
+                "summary": "$~Restaurar esta versão traria de volta $#back[1 coisa|$back coisas|$back coisas] e removeria $#gone[1 coisa|$gone coisas|$gone coisas].",
+                "unchanged": "$~Restaurar esta versão não mudaria nada.",
+                "atReturns": "$~volta se restaurar",
+                "atLeaves": "$~$code desaparece se restaurar",
+                "atBoth": "$~volta se restaurar, em vez de $code"
             }
         },
         "gallery": {

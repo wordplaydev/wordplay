@@ -301,6 +301,13 @@
                 "forward": "$~bir sonraki versiyona geri dön",
                 "restore": "$~bu sürümü geri yükle",
                 "now": "$~geçerli sürüme geri dön"
+            },
+            "diff": {
+                "summary": "$~Bu sürümü geri yüklemek $#back[1 şeyi|$back şeyi] geri getirir ve $#gone[1 şeyi|$gone şeyi] kaldırır.",
+                "unchanged": "$~Bu sürümü geri yüklemek hiçbir şeyi değiştirmez.",
+                "atReturns": "$~geri yüklersen geri gelir",
+                "atLeaves": "$~geri yüklersen $code kaybolur",
+                "atBoth": "$~geri yüklersen, $code yerine geri gelir"
             }
         },
         "gallery": {

@@ -2011,6 +2011,13 @@
                 "forward": "$~返回到下一个版本",
                 "restore": "$~恢复此版本",
                 "now": "$~返回当前版本"
+            },
+            "diff": {
+                "summary": "$~恢复这个版本会找回 $#back[$back 项内容] 个内容，并去掉 $#gone[$gone 项内容] 个内容。",
+                "unchanged": "$~恢复这个版本不会改变任何东西。",
+                "atReturns": "$~如果你恢复，它会回来",
+                "atLeaves": "$~如果你恢复，$code 会消失",
+                "atBoth": "$~如果你恢复，它会回来，取代 $code"
             }
         },
         "howto": {

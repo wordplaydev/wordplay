@@ -170,6 +170,8 @@
     import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import Node, { type FieldPosition, isFieldPosition } from '@nodes/Node';
     import Program from '@nodes/Program';
+    import describeDiffAtCaret from '@edit/diff/describeDiff';
+    import type { SourceDiff } from '@edit/diff/sourceDiff';
     import Source from '@nodes/Source';
     import { Sym } from '@nodes/Sym';
     import Token from '@nodes/Token';
@@ -198,6 +200,13 @@
         autofocus?: boolean;
         /** Whether the editor is editable */
         editable: boolean;
+        /**
+         * How the checkpoint being shown differs from the project's current
+         * version, or undefined when the source being shown is the current one.
+         * Only ProjectView passes it, and only while an older version is being
+         * viewed, so an ordinary edit session never computes or reads it (#633).
+         */
+        diff?: SourceDiff | undefined;
         /** Called when an edit is attempted while the editor is read-only. May make
          *  the editor editable (e.g., by switching the project to edit mode) and
          *  return true to let the attempted edit proceed. Undefined when read-only
@@ -252,6 +261,7 @@
         selected = false,
         autofocus = true,
         editable,
+        diff = undefined,
         requestEditable = undefined,
         values = false,
         dragSource = false,
@@ -3515,11 +3525,21 @@
                 $announce(
                     'caret',
                     $caret.getLanguage(),
-                    $caret.getDescription(
-                        caretExpressionType,
-                        conflictsOfInterest,
-                        context,
-                    ),
+                    // The diff clause is appended to the position description
+                    // rather than announced on its own, because a bare "removed
+                    // since" never changes and a live region that doesn't
+                    // change is heard once and then sounds broken. The position
+                    // description varies, so the whole message does.
+                    [
+                        $caret.getDescription(
+                            caretExpressionType,
+                            conflictsOfInterest,
+                            context,
+                        ),
+                        describeDiffAtCaret($caret, diff, $locales),
+                    ]
+                        .filter((part) => part !== undefined)
+                        .join(', '),
                 );
             });
         }
@@ -4235,6 +4255,7 @@
             inline={false}
             layout={writingLayout}
             wrap={$wrap && !$blocks}
+            {diff}
         />
         {#snippet failed(error, reset)}
             <!-- Usually visible for a single tick before the automatic retry, but a
