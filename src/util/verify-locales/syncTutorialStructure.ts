@@ -65,6 +65,7 @@ import {
     type Performance,
     type Scene,
 } from '../../tutorial/Tutorial';
+import { align } from '@util/align';
 import { must } from '@util/nullable';
 
 export type SyncChange = {
@@ -166,82 +167,6 @@ export function sceneSignature(scene: Scene): string {
  */
 export function actSignature(act: Act): string {
     return `act:${performanceSignature(act.performance)}`;
-}
-
-// ── Alignment ────────────────────────────────────────────────────────────────
-
-type Alignment<T> =
-    | { kind: 'keep'; source: T; target: T }
-    | { kind: 'insert'; source: T }
-    | { kind: 'remove'; target: T };
-
-/**
- * A longest-common-subsequence merge of two arrays by signature. The arrays
- * here are tiny — at most 8 acts, 12 scenes, and a couple hundred lines — so a
- * plain O(n·m) table is the right amount of machinery.
- */
-export function align<T>(
-    source: readonly T[],
-    target: readonly T[],
-    signature: (item: T) => string,
-): Alignment<T>[] {
-    // Signature and item travel together: `T` may itself be `null` (a tutorial
-    // pause), so an item is never asked whether it is present — only its slot is.
-    const a = source.map((item) => ({ signature: signature(item), item }));
-    const b = target.map((item) => ({ signature: signature(item), item }));
-
-    // One row per source item plus a sentinel, one column per target item plus
-    // a sentinel, so every index the walk below reads is inside the table.
-    const table: number[][] = Array.from({ length: a.length + 1 }, () =>
-        new Array<number>(b.length + 1).fill(0),
-    );
-    const at = (row: number, column: number) =>
-        must(must(table[row], 'a table row')[column], 'a table cell');
-    for (let i = a.length - 1; i >= 0; i--) {
-        const row = must(table[i], 'a table row');
-        const sourceSignature = must(a[i], 'a source entry').signature;
-        for (let j = b.length - 1; j >= 0; j--)
-            row[j] =
-                sourceSignature === must(b[j], 'a target entry').signature
-                    ? at(i + 1, j + 1) + 1
-                    : Math.max(at(i + 1, j), at(i, j + 1));
-    }
-
-    const result: Alignment<T>[] = [];
-    let i = 0;
-    let j = 0;
-    while (i < a.length && j < b.length) {
-        const sourceEntry = must(a[i], 'a source entry');
-        const targetEntry = must(b[j], 'a target entry');
-        if (sourceEntry.signature === targetEntry.signature) {
-            result.push({
-                kind: 'keep',
-                source: sourceEntry.item,
-                target: targetEntry.item,
-            });
-            i++;
-            j++;
-        } else if (at(i + 1, j) >= at(i, j + 1)) {
-            // Present in en-US and not here: insert it.
-            result.push({ kind: 'insert', source: sourceEntry.item });
-            i++;
-        } else {
-            // Present here and not in en-US: keep it and say so.
-            result.push({ kind: 'remove', target: targetEntry.item });
-            j++;
-        }
-    }
-    for (; i < a.length; i++)
-        result.push({
-            kind: 'insert',
-            source: must(a[i], 'a source entry').item,
-        });
-    for (; j < b.length; j++)
-        result.push({
-            kind: 'remove',
-            target: must(b[j], 'a target entry').item,
-        });
-    return result;
 }
 
 /**
