@@ -12,21 +12,15 @@ import { expect, test } from 'vitest';
  * pointer hit-testing or outline tracing and quietly shift the caret. A
  * one-millisecond file read closes the whole class; a browser test would catch
  * at most the one case it exercised.
+ *
+ * The whole file is searched, comments included, so the component may not name
+ * these even while explaining why it avoids them. That is deliberate: stripping
+ * comments first meant a regex over `<!--…-->`, which cannot be written in one
+ * pass without leaving a delimiter behind (CodeQL's
+ * `js/incomplete-multi-character-sanitization`), and a check that needs a
+ * parser to decide what it is checking is a check that can be wrong.
  */
 const Marks = 'src/components/editor/nodes/DiffOnlyNowView.svelte';
-
-/**
- * The file with its comments taken out. The component's own documentation
- * names several of these selectors in order to explain why it avoids them, and
- * a check that can't tell an explanation from a use is a check nobody can
- * write a comment around.
- */
-function code(): string {
-    return readFileSync(Marks, 'utf8')
-        .replace(/<!--[\s\S]*?-->/g, '')
-        .replace(/\/\*[\s\S]*?\*\//g, '')
-        .replace(/\/\/.*$/gm, '');
-}
 
 /** Each selector, and what reads it. */
 const Forbidden: [string, string][] = [
@@ -48,7 +42,7 @@ const Forbidden: [string, string][] = [
 test.each(Forbidden)(
     'the marks do not use %s, which is read by %s',
     (selector) => {
-        expect(code()).not.toContain(selector);
+        expect(readFileSync(Marks, 'utf8')).not.toContain(selector);
     },
 );
 
