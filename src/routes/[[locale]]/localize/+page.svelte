@@ -26,6 +26,7 @@
     import Tabbed from '@components/widgets/Tabbed.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import { locales } from '@db/Database';
     import { getFunctionsInstance } from '@db/firebase';
     import {
@@ -895,6 +896,8 @@
         Emotion,
     ).map((e) => ({ value: e, label: e }));
 </script>
+
+<Title text={(l) => l.ui.page.localize.header} />
 
 <Writing>
     <PageHeader header={(l) => l.ui.page.localize.header} />

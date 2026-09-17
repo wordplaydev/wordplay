@@ -1,6 +1,7 @@
 <script lang="ts">
     import Header from '@components/app/Header.svelte';
     import Page from '@components/app/Page.svelte';
+    import Title from '@components/widgets/Title.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import ProjectView from '@components/project/ProjectView.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
@@ -141,6 +142,16 @@
     /** Whether there's nothing left to review. */
     let done = $state(false);
     let project: Project | undefined = $state(undefined);
+
+    /** Whether the project queue has a project up, which is the one state where
+     *  ProjectView is mounted — and it titles the document itself, so this page
+     *  must not also, or two <title> elements race to name the tab. */
+    const reviewingProject = $derived(
+        moderator === true &&
+            queue === 'projects' &&
+            lastBatch !== undefined &&
+            project !== undefined,
+    );
 
     let newFlags: ModerationState | undefined = $state();
 
@@ -435,6 +446,10 @@
         nextBatch();
     }
 </script>
+
+{#if !reviewingProject}
+    <Title text={(l) => l.moderation.moderate.header} />
+{/if}
 
 <Page>
     {#if moderator !== undefined && !allowed}
