@@ -2835,9 +2835,7 @@
     onMount(() => void DB.startProjectWork());
 </script>
 
-<svelte:head>
-    <Title text={(l) => l.ui.page.character.header} subtitle={name} />
-</svelte:head>
+<Title text={(l) => l.ui.page.character.header} subtitle={name} />
 
 <!-- Fill and stroke choosers -->
 {#snippet colorChooser(

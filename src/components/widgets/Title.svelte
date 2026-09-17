@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { browser } from '$app/environment';
     import { locales } from '@db/Database';
     import type { LocaleTextAccessor } from '@locale/Locales';
 
@@ -10,16 +9,17 @@
 
     let { text, subtitle }: Props = $props();
 
-    // Set document.title imperatively rather than emitting <title> inside
-    // <svelte:head>. Svelte 5 inserts hydration anchor comments (<!--[…]-->)
-    // alongside reactive text, but the HTML spec parses <title> content as
-    // RCDATA — those comments survive as literal text, so the actual title
-    // ends up like "Galleries<!--[-1--><!--]-->", which never matches what
-    // Svelte's client-side render expects. Bypassing <title> altogether
-    // avoids the mismatch entirely.
-    $effect(() => {
-        if (!browser) return;
+    // Compose the whole title as one expression. A block inside <title> is what
+    // corrupted it before — an {#if} emits hydration anchor comments, and <title>
+    // is RCDATA, so they survived as literal text. Inside <svelte:head> the
+    // compiler takes a dedicated path that renders the title on the server and
+    // assigns document.title on the client, never hydrating the element.
+    let title = $derived.by(() => {
         const base = $locales.getPlainText(text);
-        document.title = subtitle ? `${base} - ${subtitle}` : base;
+        return subtitle ? `${base} - ${subtitle}` : base;
     });
 </script>
+
+<svelte:head>
+    <title>{title}</title>
+</svelte:head>

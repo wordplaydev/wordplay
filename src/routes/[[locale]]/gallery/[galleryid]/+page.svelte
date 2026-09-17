@@ -272,12 +272,10 @@
      document-title rule fails a page that has none, and this route had none in
      any state. Named for the section plus this gallery, the way the character
      editor titles itself. -->
-<svelte:head>
-    <Title
-        text={(l) => l.ui.page.galleries.header}
-        subtitle={gallery ? gallery.getName($locales) : undefined}
-    />
-</svelte:head>
+<Title
+    text={(l) => l.ui.page.galleries.header}
+    subtitle={gallery ? gallery.getName($locales) : undefined}
+/>
 
 {#snippet addProject()}
     <AddProject

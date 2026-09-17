@@ -14,9 +14,7 @@
     let classes = $derived(teach.getClasses());
 </script>
 
-<svelte:head>
-    <Title text={(l) => l.ui.page.teach.header} />
-</svelte:head>
+<Title text={(l) => l.ui.page.teach.header} />
 
 {#snippet classDetails(group: Class)}
     <Link to="/teach/class/{group.id}"><Subheader>{group.name}</Subheader></Link

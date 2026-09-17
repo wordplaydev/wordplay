@@ -510,9 +510,7 @@
      any state (#1354) — it is also the one route a signed-out visitor can reach
      that no scan covered. Named for the section plus this gallery, the way the
      gallery page titles itself. -->
-<svelte:head>
-    <Title text={(l) => l.ui.howto.galleryView.header} subtitle={galleryName} />
-</svelte:head>
+<Title text={(l) => l.ui.howto.galleryView.header} subtitle={galleryName} />
 
 {#if gallery === null || (gallery === undefined && urlID !== null && urlLoaded === null)}
     <Loading />

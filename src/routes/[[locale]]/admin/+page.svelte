@@ -175,9 +175,7 @@
     }
 </script>
 
-<svelte:head>
-    <Title text={(l) => l.ui.page.admin.header} />
-</svelte:head>
+<Title text={(l) => l.ui.page.admin.header} />
 
 <Writing wide>
     <!-- The header alone, never the description: it explains a table, and

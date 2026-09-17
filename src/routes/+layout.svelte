@@ -407,8 +407,8 @@
              and so must the client during hydration — otherwise gating on
              $localesReady would skip the page's <svelte:head> on the client
              for non-en-US users while the server already emitted a <title>,
-             producing a hydration mismatch (see Title.svelte for the matching
-             locale-pinning during initial render).
+             producing a hydration mismatch. Title.svelte renders its <title>
+             unconditionally for the same reason.
 
              While fonts/locale are still loading (and after a brief lag), the
              Loading overlay covers the content area so the partially-rendered,

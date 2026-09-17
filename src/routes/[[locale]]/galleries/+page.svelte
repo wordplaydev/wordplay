@@ -375,9 +375,7 @@
     let loadingResults = $derived(loadingExamples || loadingPublic);
 </script>
 
-<svelte:head>
-    <Title text={(l) => l.ui.page.galleries.header} />
-</svelte:head>
+<Title text={(l) => l.ui.page.galleries.header} />
 
 <Writing wide>
     <PageHeader
