@@ -58,7 +58,6 @@ export async function galleryPathAvailable(
  *  except 'failed', which is the one that means "try again". */
 export type ClaimGalleryPathResult =
     | 'claimed'
-    | 'cleared'
     | 'taken'
     | 'invalid'
     | 'missing'
@@ -66,10 +65,10 @@ export type ClaimGalleryPathResult =
     | 'not-curator'
     | 'failed';
 
-/** Give this gallery a vanity path, change it, or clear it with a null path. */
+/** Give this gallery a vanity path, or change the one it has. */
 export async function claimGalleryPath(
     gallery: string,
-    path: string | null,
+    path: string,
 ): Promise<ClaimGalleryPathResult> {
     const functions = await getFunctionsInstance();
     if (functions === undefined) return 'failed';
@@ -82,7 +81,6 @@ export async function claimGalleryPath(
         const { data } = await claim({ gallery, path });
         firebaseReachable.set(true);
         if (data.claimed === true) return 'claimed';
-        if (data.cleared === true) return 'cleared';
         // 'unauthenticated' is not worth its own message: the affordance only
         // renders for a signed-in curator, so seeing it means something else
         // went wrong.

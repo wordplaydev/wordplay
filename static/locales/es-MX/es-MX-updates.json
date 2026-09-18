@@ -989,6 +989,7 @@
         "ee25d92cdeeaa": "$~El tutorial ahora te dice que un proyecto puede tener más de una fuente, y te ofrece un recorrido por los controles del proyecto. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
         "e35eab7d1d833": "$~Ahora puedes descargar una copia de todo lo que has creado, incluyendo tus proyectos, personajes, galerías y configuración, desde tu página de perfil. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Ahora puedes abrir un archivo de proyecto en tu página de <Proyectos@https://wordplay.dev/projects>, ya sea eligiéndolo o arrastrándolo a la página. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e5382816343d1": "$~Puedes arrastrar un archivo de proyecto sobre un proyecto que ya tengas para reemplazar lo que contiene, y te preguntaremos antes de hacerlo. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
+        "e5382816343d1": "$~Puedes arrastrar un archivo de proyecto sobre un proyecto que ya tengas para reemplazar lo que contiene, y te preguntaremos antes de hacerlo. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e33984a013993": "$~Una galería pública y aprobada ahora puede tener un nombre corto en su enlace, como club-de-arte, para que sea más fácil compartirla y decirla en voz alta. Los enlaces viejos siguen funcionando, pero puedes dejarlos de usar. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
     }
 }

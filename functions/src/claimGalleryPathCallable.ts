@@ -6,7 +6,8 @@ import type {
 import { galleryCurators, setGalleryPath } from './galleryPaths.js';
 
 /**
- * Give a gallery a vanity path, change it, or clear it (#180).
+ * Give a gallery a vanity path or change it (#180). Giving one up is
+ * releaseGalleryPath.
  *
  * A callable rather than a client write because uniqueness cannot be expressed
  * as a security rule: the reservation in `gallerypaths/{folded}` has to be taken
@@ -27,7 +28,8 @@ export default async function claimGalleryPath(
     const path = request.data?.path;
     if (typeof gallery !== 'string' || gallery.length === 0)
         return { error: 'missing' };
-    if (path !== null && typeof path !== 'string') return { error: 'invalid' };
+    if (typeof path !== 'string' || path.length === 0)
+        return { error: 'invalid' };
 
     try {
         const curators = await galleryCurators(gallery);
@@ -35,9 +37,7 @@ export default async function claimGalleryPath(
         if (!curators.includes(uid)) return { error: 'not-curator' };
 
         const result = await setGalleryPath(gallery, path);
-        if (result === 'claimed') return { claimed: true };
-        if (result === 'cleared') return { cleared: true };
-        return { error: result };
+        return result === 'claimed' ? { claimed: true } : { error: result };
     } catch (error) {
         console.error('Could not set a gallery path', error);
         return { error: 'failed' };
