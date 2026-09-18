@@ -989,9 +989,6 @@
         "ee25d92cdeeaa": "$~Le tutoriel explique maintenant qu'un projet peut avoir plusieurs fichiers source, et propose une visite des contrôles du projet. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
         "e35eab7d1d833": "$~Tu peux maintenant télécharger une copie de tout ce que tu as créé, y compris tes projets, personnages, galeries et réglages, depuis ta page de profil. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Tu peux maintenant ouvrir un fichier de projet sur ta page <Projets@https://wordplay.dev/projects>, soit en le choisissant, soit en le faisant glisser sur la page. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e5382816343d1": "$~Tu peux faire glisser un fichier de projet sur un projet que tu as déjà pour remplacer son contenu, et nous te le demanderons d'abord. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e79e532740f2d": "$~Une galerie publique et approuvée peut maintenant avoir un nom court dans son lien, comme art-club, pour qu'il soit plus facile à partager et à dire à voix haute. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
-        "ee35c2f36a6bf": "$~Quand tu changes le nom d'une galerie, les liens avec l'ancien nom continuent de fonctionner et amènent les gens vers le nouveau. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
-        "ea66300a90b1a": "$~Tu peux abandonner un nom de galerie que tu ne veux plus, ce qui permet à quelqu'un d'autre de l'utiliser. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
+        "e5382816343d1": "$~Tu peux faire glisser un fichier de projet sur un projet que tu as déjà pour remplacer son contenu, et nous te le demanderons d'abord. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
     }
 }

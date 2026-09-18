@@ -989,9 +989,6 @@
         "ee25d92cdeeaa": "$~教學現在會告訴你，一個工程可以擁有多個程式文件，還會帶你導覽工程的控制項。（<268@https://github.com/wordplaydev/wordplay/issues/268>）",
         "e35eab7d1d833": "$~你現在可以從你的個人檔案頁面，下載你做過的所有東西，包括工程、角色、作品集和設定。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
         "e794f84f1c313": "$~你現在可以在<工程@https://wordplay.dev/projects>頁面開啟工程檔案，選取它或把它拖到頁面上都可以。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
-        "e5382816343d1": "$~你可以把工程檔案拖到你已經有的工程上，來取代裡面的內容，我們會先問你一次。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
-        "e79e532740f2d": "$~公開並通過審核的作品集（Gallery），現在可以在連結中使用簡短的名稱，例如 art-club，這樣分享和唸出來都更方便。（<180@https://github.com/wordplaydev/wordplay/issues/180>）",
-        "ee35c2f36a6bf": "$~當你更改作品集的名稱時，使用舊名稱的連結仍然有效，會帶人到新的名稱。（<180@https://github.com/wordplaydev/wordplay/issues/180>）",
-        "ea66300a90b1a": "$~你可以放棄一個不再需要的作品集名稱，讓其他人可以使用它。（<180@https://github.com/wordplaydev/wordplay/issues/180>）"
+        "e5382816343d1": "$~你可以把工程檔案拖到你已經有的工程上，來取代裡面的內容，我們會先問你一次。（<152@https://github.com/wordplaydev/wordplay/issues/152>）"
     }
 }

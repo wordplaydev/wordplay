@@ -989,9 +989,6 @@
         "ee25d92cdeeaa": "$~Tutorialul îți spune acum că un proiect poate avea mai multe fișiere sursă și îți oferă un tur al comenzilor proiectului. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
         "e35eab7d1d833": "$~Acum poți descărca o copie a tot ce ai creat, inclusiv proiectele, personajele, galeriile și setările tale, din pagina ta de profil. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Acum poți deschide un fișier de proiect pe pagina ta <Proiecte@https://wordplay.dev/projects>, fie alegându-l, fie trăgându-l pe pagină. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e5382816343d1": "$~Poți trage un fișier de proiect peste un proiect pe care îl ai deja, ca să înlocuiești ce este în el, iar noi te vom întreba mai întâi. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e79e532740f2d": "$~O galerie care este publică și aprobată poate avea acum un nume scurt în legătura ei, cum ar fi art-club, ca să fie mai ușor de partajat și de spus cu voce tare. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
-        "ee35c2f36a6bf": "$~Când schimbi numele unei galerii, legăturile cu numele vechi continuă să funcționeze și duc oamenii la cea nouă. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
-        "ea66300a90b1a": "$~Poți renunța la un nume de galerie pe care nu îl mai vrei, iar astfel altcineva îl poate folosi. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
+        "e5382816343d1": "$~Poți trage un fișier de proiect peste un proiect pe care îl ai deja, ca să înlocuiești ce este în el, iar noi te vom întreba mai întâi. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
     }
 }
