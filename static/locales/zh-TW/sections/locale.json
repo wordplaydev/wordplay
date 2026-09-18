@@ -126,7 +126,7 @@
         },
         "markup": {
             "word": "$~標記",
-            "definition": "$!帶有格式的文字，例如粗體字或連結。"
+            "definition": "$~帶有格式的文字，例如粗體字或連結。"
         },
         "language": {
             "word": "$~語言",
@@ -228,7 +228,7 @@
         "progress": "$~已審核 *$moderated* 個，剩下 *$remaining* 個",
         "button": {
             "submit": {
-                "tip": "$!儲存這些審查設定",
+                "tip": "$~儲存這些管理設定",
                 "label": "儲存"
             },
             "skip": {

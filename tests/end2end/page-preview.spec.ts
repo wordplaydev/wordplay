@@ -15,6 +15,9 @@ const PUBLIC_ID = 'e2epreviewpublic00000000000001';
 const PRIVATE_ID = 'e2epreviewprivate0000000000001';
 const HOSTILE_ID = 'e2epreviewhostile0000000000001';
 const GALLERY_ID = 'e2epreviewgallery0000000000001';
+const GALLERY_PATH = 'e2e-preview-gallery';
+/** A name the gallery has been renamed away from, which must still resolve. */
+const GALLERY_ALIAS = 'e2e-old-name';
 const PRIVATE_NAME = 'Extremely Secret Preview Project';
 
 test.beforeAll(async () => {
@@ -42,6 +45,8 @@ test.beforeAll(async () => {
         .doc(GALLERY_ID)
         .set({
             public: true,
+            path: GALLERY_PATH,
+            pathAliases: [GALLERY_ALIAS],
             name: { 'en-US': 'E2E Preview Gallery', 'es-MX': 'Galería E2E' },
             description: { 'en-US': 'A gallery for preview tests.' },
         });
@@ -131,6 +136,22 @@ test('a non-preview route is not rewritten to the preview function', async ({
     );
 });
 
+test('a gallery vanity URL unfurls, by its name and by an older one', async ({
+    request,
+}) => {
+    // The most visible way this feature could fail is a shared link that
+    // unfurls blank, so the preview follows the same ladder the app does.
+    for (const segment of [GALLERY_PATH, GALLERY_ALIAS]) {
+        const response = await request.get(`/gallery/${segment}`);
+        expect(response.status(), segment).toBe(200);
+        const html = await response.text();
+        expect(html, segment).toContain('<title>E2E Preview Gallery</title>');
+        // And reports the current name as canonical whichever was asked for,
+        // so every share of this gallery names one URL.
+        expect(html, segment).toContain(`/gallery/${GALLERY_PATH}`);
+    }
+});
+
 test('the sitemap lists public content and omits private content', async ({
     request,
 }) => {
@@ -139,7 +160,11 @@ test('the sitemap lists public content and omits private content', async ({
     expect(response.headers()['content-type']).toContain('application/xml');
     const xml = await response.text();
     expect(xml).toContain(`/project/${PUBLIC_ID}`);
-    expect(xml).toContain(`/gallery/${GALLERY_ID}`);
+    // A gallery with a vanity path is listed at that URL *instead of* its ID
+    // one (#180): two URLs for one page is a canonicalization problem, and the
+    // sitemap is the strongest canonical signal we emit.
+    expect(xml).toContain(`/gallery/${GALLERY_PATH}`);
+    expect(xml).not.toContain(`/gallery/${GALLERY_ID}`);
     expect(xml).toContain('/gallery/Games');
     expect(xml).toContain('/project/example-HeartAttack');
     expect(xml).toContain('/guide');

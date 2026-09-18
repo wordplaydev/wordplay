@@ -344,6 +344,10 @@
                 "description": {
                     "description": "畫廊描述",
                     "placeholder": "描述您的畫廊。它的主題、目標或社區是什麼？"
+                },
+                "path": {
+                    "description": "$~作品集連結名稱",
+                    "placeholder": "$~姓名"
                 }
             },
             "projects": "$~$#count[$count 個工程]",
@@ -362,6 +366,36 @@
                     "$~選擇誰可以看到這個作品集",
                     "$~刪除這個作品集"
                 ]
+            },
+            "path": {
+                "subheader": {
+                    "header": "$~連結",
+                    "explanation": "$~幫這個作品集的連結取個簡短的名字，這樣比較容易分享，也比較容易唸出來。可以用字母、數字和連字號。你的作品集在原本的連結也還是可以用喔。"
+                },
+                "unavailable": "$~等這個作品集公開，而且管理員也核准之後，你就可以幫這個連結取名字了。",
+                "save": {
+                    "label": "$~儲存",
+                    "tip": "$~給這個作品集這個連結"
+                },
+                "copy": {
+                    "tip": "$~複製這個作品集的連結"
+                },
+                "copied": "$~已複製！",
+                "claimed": "$~已儲存。這個作品集現在有一個更短的連結了。",
+                "error": {
+                    "taken": "$~已經有其他作品集在用這個名字了。",
+                    "invalid": "$~作品集連結不能取這個名字。",
+                    "unlisted": "$~這個作品集要先公開並通過核准，才能取名字。",
+                    "failure": "$~我們沒辦法儲存這個名字。要不要再試一次？",
+                    "notYours": "$~這個名字不是這個作品集的，沒辦法放棄。"
+                },
+                "release": {
+                    "description": "$~永久放棄這個名字，讓任何人都可以拿去用",
+                    "prompt": "$~要放棄嗎？"
+                },
+                "released": "$~這個名字現在誰都可以拿去用了。",
+                "names": "$~名字：",
+                "currentName": "$~目前使用中"
             }
         },
         "source": {
@@ -440,7 +474,7 @@
                 "insertFalse": "插入false",
                 "insertNone": "插入無符號",
                 "insertNotEqual": "插入不等號",
-                "insertProduct": "$!插入乘號",
+                "insertProduct": "$~插入乘號",
                 "insertDot": "$~插入點積符號",
                 "insertQuotient": "插入除號",
                 "insertDegree": "插入度符號",

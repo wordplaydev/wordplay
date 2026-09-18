@@ -1231,7 +1231,7 @@
                 "names": "$~стил"
             },
             "gravity": {
-                "doc": "$!Гравитација која се примењује на излаз чије је место у @Motion.",
+                "doc": "$~Гравитација која се примењује на излаз чије је место у @Motion.",
                 "names": "$~гравитације"
             },
             "defaultDescription": "$~сцена $name[$name |]од $#count[$#count излаза|$count излаза|$count излаза]$frame[са оквиром $frame|] $pose $color[$color|]",

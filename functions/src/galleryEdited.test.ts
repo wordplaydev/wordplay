@@ -80,6 +80,31 @@ describe('galleryContentChanged', () => {
         characters: ['c1'],
     };
 
+    it('does not see a vanity path being chosen, changed, or cleared', () => {
+        // The whole two-gates design rests on this (#180). A curator may only
+        // choose a path while the gallery is approved, so if a path write
+        // counted as content the gallery would go back to 'pending' and the
+        // affordance would vanish in the same write that used it — and the link
+        // just created would stop resolving if resolution were gated the same
+        // way. Changing this without changing that design breaks both.
+        const withPath = { ...base, path: 'kim-p4', pathAliases: [] };
+        expect(galleryContentChanged(base, withPath)).toBe(false);
+        expect(
+            galleryContentChanged(withPath, {
+                ...base,
+                path: 'kim-period-4',
+                pathAliases: ['kim-p4'],
+            }),
+        ).toBe(false);
+        expect(
+            galleryContentChanged(withPath, {
+                ...base,
+                path: null,
+                pathAliases: ['kim-p4'],
+            }),
+        ).toBe(false);
+    });
+
     it('sees a rename', () => {
         expect(
             galleryContentChanged(base, { ...base, name: { 'en-US': 'Toys' } }),

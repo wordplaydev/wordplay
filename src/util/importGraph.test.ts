@@ -884,12 +884,24 @@ test('resolving a color needs no basis', () => {
 // touch one, which is about two thirds of them. Every byte ceiling moves: four
 // by a hundredth, and the layout's by two, having sat just under its old one.
 
+// Gallery vanity paths (#180) move **no file count**, and that is deliberate
+// rather than lucky. The fold, the resolution ladder and the callable wrappers
+// are reached only from the two gallery routes: `findGalleryByPath.ts` exists
+// precisely so `GalleryDatabase` — which every page carries — does not import
+// them. Putting the ladder on the database instead cost all five graphs two
+// files, which is the door this file exists to keep shut.
+//
+// What does land in chrome is the schema's v5 and the path accessors on
+// `Gallery.ts`, plus the field's strings in en-US.json — the same two shapes as
+// #774's character path curves and #1175's zoom feedback. Every byte budget
+// moves by a hundredth.
+
 test.each([
-    ['src/routes/+layout.svelte', 535, 4.08],
-    ['src/components/app/Page.svelte', 559, 4.33],
-    ['src/routes/[[locale]]/+page.svelte', 574, 4.42],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.43],
-    ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.47],
+    ['src/routes/+layout.svelte', 535, 4.09],
+    ['src/components/app/Page.svelte', 559, 4.34],
+    ['src/routes/[[locale]]/+page.svelte', 574, 4.43],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.44],
+    ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.48],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

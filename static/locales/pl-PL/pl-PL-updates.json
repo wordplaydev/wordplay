@@ -989,6 +989,9 @@
         "ee25d92cdeeaa": "$~Samouczek mówi teraz, że projekt może mieć więcej niż jeden plik źródłowy, i pokazuje przegląd elementów sterujących projektem. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
         "e35eab7d1d833": "$~Możesz teraz pobrać kopię wszystkiego, co stworzyłeś: swoich projektów, postaci, galerii i ustawień, ze strony swojego profilu. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Możesz teraz otworzyć plik projektu na swojej stronie <Projekty@https://wordplay.dev/projects>, wybierając go albo przeciągając na tę stronę. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e5382816343d1": "$~Możesz przeciągnąć plik projektu na projekt, który już masz, aby zastąpić jego zawartość. Zapytamy cię o to najpierw. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
+        "e5382816343d1": "$~Możesz przeciągnąć plik projektu na projekt, który już masz, aby zastąpić jego zawartość. Zapytamy cię o to najpierw. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e79e532740f2d": "$~Galeria, która jest publiczna i zatwierdzona, może teraz mieć krótką nazwę w swoim linku, na przykład klub-sztuki, dzięki czemu łatwiej ją udostępnić i wymówić na głos. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ee35c2f36a6bf": "$~Gdy zmienisz nazwę galerii, linki ze starą nazwą nadal działają i przenoszą ludzi do nowej nazwy. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ea66300a90b1a": "$~Możesz zrezygnować z nazwy galerii, której już nie chcesz, dzięki czemu ktoś inny będzie mógł jej użyć. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
     }
 }

@@ -368,6 +368,10 @@
                 "description": {
                     "description": "$~Opis galerii",
                     "placeholder": "$~Opisz swoją galerię. Jaki jest jej temat, cele lub społeczność?"
+                },
+                "path": {
+                    "description": "$~Nazwa odnośnika galerii",
+                    "placeholder": "$~nazwa"
                 }
             },
             "projects": "$~$#count[$count projekt|$count projekty|$count projektów|$count projektu]",
@@ -386,6 +390,36 @@
                     "$~wybierz, kto może widzieć tę galerię",
                     "$~usuń tę galerię"
                 ]
+            },
+            "path": {
+                "subheader": {
+                    "header": "$~Odnośnik",
+                    "explanation": "$~Wybierz krótką nazwę dla odnośnika tej galerii, żeby łatwiej było go udostępniać i wymawiać. Litery, cyfry i myślniki. Twoja galeria nadal będzie działać pod starym odnośnikiem."
+                },
+                "unavailable": "$~Możesz wybrać nazwę dla tego odnośnika dopiero, gdy ta galeria będzie publiczna i zatwierdzona przez moderatora.",
+                "save": {
+                    "label": "$~Zapisz",
+                    "tip": "$~nadaj tej galerii ten odnośnik"
+                },
+                "copy": {
+                    "tip": "$~skopiuj odnośnik tej galerii"
+                },
+                "copied": "$~Skopiowano!",
+                "claimed": "$~Zapisano. Ta galeria ma teraz krótszy odnośnik.",
+                "error": {
+                    "taken": "$~Ta nazwa jest już używana przez inną galerię.",
+                    "invalid": "$~Odnośnik galerii nie może mieć takiej nazwy.",
+                    "unlisted": "$~Ta galeria musi być publiczna i zatwierdzona, żeby mieć nazwę.",
+                    "failure": "$~Nie udało się zapisać tej nazwy. Spróbować ponownie?",
+                    "notYours": "$~Ta nazwa nie należy do tej galerii, więc nie możesz z niej zrezygnować."
+                },
+                "release": {
+                    "description": "$~zrezygnuj z tej nazwy na zawsze, żeby ktoś inny mógł ją zająć",
+                    "prompt": "$~Zrezygnować?"
+                },
+                "released": "$~Ta nazwa jest teraz wolna, każdy może jej użyć.",
+                "names": "$~Nazwy:",
+                "currentName": "$~obecnie w użyciu"
             }
         },
         "source": {
@@ -1037,7 +1071,7 @@
                     "explanation": "$~/Pojęcia ukryte w głównej dokumentacji./"
                 },
                 "How": {
-                    "header": "$!Jak",
+                    "header": "$~Jak zrobić",
                     "explanation": "$~/Typowe wzorce tworzenia różnych rodzajów projektów./"
                 },
                 "Definitions": {

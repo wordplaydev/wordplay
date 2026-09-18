@@ -1,16 +1,16 @@
+import { equals, runQuery } from './preview/firestoreRest.js';
 import type express from 'express';
-import { isRecord } from './shared/guards.js';
 import type { Request } from 'firebase-functions/v2/https';
 import { canonicalOrigin } from './origin.js';
 import {
     buildSitemapXml,
     documentIdFromName,
+    getStringField,
     ExampleGalleries,
     ExamplePrefix,
     getBooleanField,
     StaticSitemapPaths,
     type FirestoreRestDocument,
-    isFirestoreRestDocument,
 } from './preview/shared.js';
 
 /**
@@ -23,60 +23,19 @@ import {
  * with `listed`/`archived` narrowed in code afterward.
  */
 
-const FETCH_TIMEOUT_MS = 10_000;
 const QUERY_LIMIT = 5000;
 
+/** Public documents of a collection, with only the fields we need. Undefined on
+ *  failure, which keeps the static half of the sitemap shippable. */
 async function queryPublicDocs(
     collection: 'projects' | 'galleries',
     fields: string[],
 ): Promise<FirestoreRestDocument[] | undefined> {
-    const project = process.env.GCLOUD_PROJECT ?? 'demo-wordplay';
-    const emulator = process.env.FIRESTORE_EMULATOR_HOST;
-    const base = emulator
-        ? `http://${emulator}`
-        : 'https://firestore.googleapis.com';
-    try {
-        const response = await fetch(
-            `${base}/v1/projects/${project}/databases/(default)/documents:runQuery`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
-                body: JSON.stringify({
-                    structuredQuery: {
-                        from: [{ collectionId: collection }],
-                        where: {
-                            fieldFilter: {
-                                field: { fieldPath: 'public' },
-                                op: 'EQUAL',
-                                value: { booleanValue: true },
-                            },
-                        },
-                        select: {
-                            fields: fields.map((fieldPath) => ({ fieldPath })),
-                        },
-                        limit: QUERY_LIMIT,
-                    },
-                }),
-            },
-        );
-        if (!response.ok) {
-            console.error(
-                `${collection} query failed: ${response.status} ${await response.text()}`,
-            );
-            return undefined;
-        }
-        const results: unknown = await response.json();
-        if (!Array.isArray(results)) return undefined;
-        return results
-            .map((result: unknown) =>
-                isRecord(result) ? result.document : undefined,
-            )
-            .filter(isFirestoreRestDocument);
-    } catch (error) {
-        console.error(`${collection} query failed`, error);
-        return undefined;
-    }
+    return runQuery(collection, {
+        filters: [equals('public', true)],
+        select: fields,
+        limit: QUERY_LIMIT,
+    });
 }
 
 export default async function getSitemap(
@@ -106,12 +65,20 @@ export default async function getSitemap(
             );
         }
 
-    const galleries = await queryPublicDocs('galleries', ['public']);
+    const galleries = await queryPublicDocs('galleries', ['public', 'path']);
     if (galleries !== undefined)
-        for (const doc of galleries)
+        for (const doc of galleries) {
+            // A gallery with a vanity path is listed at that URL *instead of*
+            // its ID one, never both (#180). Two URLs for one page is a
+            // canonicalization problem, and a sitemap is the strongest
+            // canonical signal we emit.
+            const path = getStringField(doc, 'path');
             urls.push(
-                `${origin}/gallery/${encodeURIComponent(documentIdFromName(doc.name ?? ''))}`,
+                `${origin}/gallery/${encodeURIComponent(
+                    path ?? documentIdFromName(doc.name ?? ''),
+                )}`,
             );
+        }
 
     response.set('Content-Type', 'application/xml; charset=utf-8');
     response.set('Cache-Control', 'public, max-age=3600, s-maxage=86400');

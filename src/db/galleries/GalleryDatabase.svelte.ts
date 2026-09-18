@@ -8,11 +8,13 @@ import {
     doc,
     getDoc,
     getDocs,
+    limit,
     onSnapshot,
     query,
     setDoc,
     where,
     writeBatch,
+    type QueryFieldFilterConstraint,
     type Unsubscribe,
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
@@ -550,7 +552,11 @@ export default class GalleryDatabase {
         const gallery: SerializedGallery = {
             v: GallerySchemaLatestVersion,
             id,
+            // Pathless until a curator claims one, which they may only do once
+            // the gallery is public and approved. Both fields are server-owned;
+            // firestore.rules refuses a create that arrives carrying either.
             path: null,
+            pathAliases: [],
             name,
             description,
             words: [],
@@ -639,6 +645,69 @@ export default class GalleryDatabase {
 
         // Read succeeded and the document isn't there.
         return { kind: 'missing' };
+    }
+
+    /** Whatever we already hold that answers to this folded path, by its current
+     *  name or a superseded one. No network, and the only step that can answer
+     *  for a curator's own private gallery — see {@link findPublicWhere}.
+     *
+     *  Takes an already-folded path so this file needn't import the fold, which
+     *  would put the vanity-path modules on every page's import graph. The
+     *  ladder that uses this lives in findGalleryByPath.ts, which only the
+     *  gallery routes import. */
+    getKnownByPath(folded: string): Gallery | undefined {
+        for (const galleries of [
+            this.accessibleGalleries,
+            this.expandedScopeGalleries,
+            this.publicGalleries,
+        ])
+            for (const gallery of galleries.values())
+                if (
+                    gallery.getPath() === folded ||
+                    gallery.getPathAliases().includes(folded)
+                )
+                    return gallery;
+        return undefined;
+    }
+
+    /**
+     * The first public gallery matching a field clause.
+     *
+     * The `public == true` clause is not an optimization. Firestore evaluates a
+     * query against its *potential* result set, so a query's own constraints
+     * must imply the read rule — and the gallery read rule grants on
+     * `resource.data.public`. Without it this is denied for everyone, a curator
+     * included, which is why their own private gallery is answered by the local
+     * scan instead.
+     *
+     * `limit(1)` and no `orderBy`, so Firestore serves both callers by merging
+     * single-field indexes and firestore.indexes.json needs no composite.
+     */
+    async findPublicWhere(
+        clause: QueryFieldFilterConstraint,
+    ): Promise<GalleryResult> {
+        if (firestore === undefined) return { kind: 'unreachable' };
+        try {
+            const results = await this.database.read(
+                getDocs(
+                    query(
+                        collection(firestore, GalleriesCollection),
+                        and(clause, where('public', '==', true)),
+                        limit(1),
+                    ),
+                ),
+            );
+            const first = results.docs[0];
+            if (first === undefined) return { kind: 'missing' };
+            const gallery = deserializeGallery(first.data());
+            this.publicGalleries.set(gallery.getID(), gallery);
+            return { kind: 'found', gallery };
+        } catch (err) {
+            console.error("Couldn't resolve a gallery path:", err);
+            return this.database.isConnectivityError(err)
+                ? { kind: 'unreachable' }
+                : { kind: 'missing' };
+        }
     }
 
     /** Whatever we already hold for this ID, from any of the three maps. No

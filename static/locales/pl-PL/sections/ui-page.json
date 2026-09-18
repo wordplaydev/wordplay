@@ -531,7 +531,7 @@
                     "sent": "$~Jeśli ten adres e-mail jest powiązany z kontem, otrzymasz e-mail z linkiem do logowania. Może minąć kilka minut, zanim się pojawi. Jeśli z tym adresem e-mail nie jest powiązane żadne konto, nie otrzymasz niczego.",
                     "logout": "$~Czy korzystasz ze współdzielonego urządzenia i chcesz zachować prywatność swoich projektów? Wyloguj się, a my *usuniemy Twoje projekty* z tego urządzenia, ale zostaną zapisane online.",
                     "success": "$~Konto utworzone!",
-                    "confirm": "$!Sprawdź swój stary adres e-mail, aby potwierdzić nowy adres.",
+                    "confirm": "$~Sprawdź swój stary adres e-mail, żeby potwierdzić nowy adres.",
                     "delete": "$~Chcesz, żebyśmy zapomnieli o wszystkim, co tu zrobiłeś? Tego nie da się cofnąć.",
                     "reallyDelete": "$~Czy jesteś pewien? Twoje konto i ustawienia zostaną natychmiast usunięte, a Twoje projekty zostaną zaplanowane do usunięcia. Współpracownicy nad Twoimi projektami natychmiast utracą do nich dostęp. Wpisz swój adres e-mail lub nazwę użytkownika, aby potwierdzić, że tego chcesz.",
                     "name": "$~Wybierz emoji lub własny znak, który będzie cię przedstawiał innym.",

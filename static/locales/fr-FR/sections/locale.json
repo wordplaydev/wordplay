@@ -42,7 +42,7 @@
         },
         "loop": {
             "word": "$~boucle",
-            "definition": "$!Du @code qui répète une action plusieurs fois."
+            "definition": "$~@code qui répète une action plusieurs fois."
         },
         "iteration": {
             "word": "$~itération",

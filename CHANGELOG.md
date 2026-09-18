@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.37.2 - 2026-09-17
+
+### Added
+
+- 🔗 A gallery that's public and approved can now have a short name in its link, like art-club, so it's easier to share and say out loud. Old links keep working, but you can give them up. (#180)
+
 ## 0.37.1 - 2026-09-14
 
 ### Added

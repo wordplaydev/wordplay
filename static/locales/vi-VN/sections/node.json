@@ -1717,7 +1717,7 @@
         },
         "UnknownType": {
             "name": "$~khôngrõ",
-            "description": "$!không rõ",
+            "description": "$~không rõ",
             "connector": "$~, bởi vì",
             "emotion": "curious",
             "doc": "$~Tôi là một @type mà chưa ai tìm ra. Ưm… bạn có biết tôi đại diện cho điều gì không? Bạn có thể cần cho chúng tôi biết nếu chúng tôi không tìm ra được."

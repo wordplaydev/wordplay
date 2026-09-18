@@ -162,7 +162,7 @@
         },
         "entered": {
             "word": "ingresó",
-            "definition": "$!@Output que apareció en el escenario por primera vez."
+            "definition": "$~@Output que ingresó al escenario por primera vez."
         },
         "cell": {
             "word": "$~celda",

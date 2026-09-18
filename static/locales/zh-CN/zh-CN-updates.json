@@ -989,6 +989,9 @@
         "ee25d92cdeeaa": "$~教程现在会告诉你，一个项目可以有多个源文件，还会带你了解项目控制项。（<268@https://github.com/wordplaydev/wordplay/issues/268>）",
         "e35eab7d1d833": "$~你现在可以从你的个人主页下载你所做的一切，包括你的项目、角色、作品库和设置。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
         "e794f84f1c313": "$~你现在可以在你的 <Projects@https://wordplay.dev/projects> 页面打开一个项目文件，方法是选择它，或者把它拖到页面上。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
-        "e5382816343d1": "$~你可以把一个项目文件拖到你已有的项目上，用它替换里面的内容，我们会先问你一遍。（<152@https://github.com/wordplaydev/wordplay/issues/152>）"
+        "e5382816343d1": "$~你可以把一个项目文件拖到你已有的项目上，用它替换里面的内容，我们会先问你一遍。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
+        "e79e532740f2d": "$~公开并通过审核的作品库，现在可以拥有一个简短的链接名字，比如 art-club，这样分享和读出来都更方便。（<180@https://github.com/wordplaydev/wordplay/issues/180>）",
+        "ee35c2f36a6bf": "$~当你修改作品库的名字后，使用旧名字的链接依然有效，会把大家带到新的名字那里。（<180@https://github.com/wordplaydev/wordplay/issues/180>）",
+        "ea66300a90b1a": "$~你可以放弃一个不想再用的作品库名字，让别人可以使用它。（<180@https://github.com/wordplaydev/wordplay/issues/180>）"
     }
 }

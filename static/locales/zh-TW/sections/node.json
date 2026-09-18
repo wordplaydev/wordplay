@@ -861,7 +861,7 @@
             "finish": "我評估為 $value"
         },
         "Initial": {
-            "name": "$!開始",
+            "name": "$~開始",
             "description": "$~第一次執行時為真",
             "emotion": "curious",
             "doc": [
@@ -1315,7 +1315,7 @@
         },
         "StructureDefinition": {
             "name": "結構",
-            "description": "$!結構 $name",
+            "description": "$~結構 $name",
             "emotion": "kind",
             "doc": [
                 "$~我定義用來存放值和函式的結構。你好呀，你好嗎？我嗎？我很好 —— 我很喜歡整天做這件事。",
@@ -1432,7 +1432,7 @@
         },
         "FormattedLiteral": {
             "name": "格式文字",
-            "description": "$!格式化文字 $text",
+            "description": "$~格式化文字 $text",
             "emotion": "serious",
             "doc": "我代表許多不同的格式化文本的 @FormattedTranslation。當我進行評估時，我會根據受眾選擇的語言選擇最佳匹配。",
             "start": "$~讓我們用目前的語言來做出文字"
@@ -1715,7 +1715,7 @@
         },
         "UnknownType": {
             "name": "未知",
-            "description": "$!未知",
+            "description": "$~未知",
             "connector": "，因為",
             "emotion": "curious",
             "doc": "$~我是一個還沒有人搞懂的 @type。嗯……你知道我代表什麼嗎？如果我們搞不清楚，可能就需要你來告訴我們。"
@@ -1788,7 +1788,7 @@
         },
         "NotAType": {
             "name": "意外",
-            "description": "$!不是 $type",
+            "description": "$~不是 $type",
             "emotion": "curious",
             "doc": "$~我代表一個 @value，它的 @type 不是我們預期的那種——就像 @ListAccess 需要一個 @Number，卻拿到別的東西時那樣。"
         },

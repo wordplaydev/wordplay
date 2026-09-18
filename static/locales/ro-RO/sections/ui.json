@@ -368,6 +368,10 @@
                 "description": {
                     "description": "$~Descrierea galeriei",
                     "placeholder": "$~Descrie galeria ta. Care este tema, obiectivele sau comunitatea sa?"
+                },
+                "path": {
+                    "description": "$~Numele legăturii galeriei",
+                    "placeholder": "$~nume"
                 }
             },
             "projects": "$~$#count[$#count proiect|$count proiecte|$count de proiecte]",
@@ -391,6 +395,36 @@
                     "$~alege cine poate vedea această galerie",
                     "$~șterge această galerie"
                 ]
+            },
+            "path": {
+                "subheader": {
+                    "header": "$~Legătură",
+                    "explanation": "$~Alege un nume scurt pentru legătura acestei galerii, ca să fie mai ușor de partajat și de spus cu voce tare. Litere, cifre și cratime. Galeria ta va funcționa în continuare și la legătura veche."
+                },
+                "unavailable": "$~Poți alege un nume pentru această legătură după ce galeria devine publică și un moderator o aprobă.",
+                "save": {
+                    "label": "$~Salvează",
+                    "tip": "$~dă acestei galerii această legătură"
+                },
+                "copy": {
+                    "tip": "$~copiază legătura acestei galerii"
+                },
+                "copied": "$~Copiat!",
+                "claimed": "$~Salvat. Această galerie are acum o legătură mai scurtă.",
+                "error": {
+                    "taken": "$~O altă galerie folosește deja acest nume.",
+                    "invalid": "$~Acesta nu este un nume pe care îl poate avea o legătură de galerie.",
+                    "unlisted": "$~Această galerie trebuie să fie publică și aprobată pentru a avea un nume.",
+                    "failure": "$~Nu am putut salva acest nume. Încerci din nou?",
+                    "notYours": "$~Acel nume nu aparține acestei galerii, ca să îl poată renunța."
+                },
+                "release": {
+                    "description": "$~renunță definitiv la acest nume, ca oricine să îl poată lua",
+                    "prompt": "$~Renunți la el?"
+                },
+                "released": "$~Acel nume este acum liber pentru oricine să îl folosească.",
+                "names": "$~Nume:",
+                "currentName": "$~folosit acum"
             }
         },
         "gallerymoderation": {

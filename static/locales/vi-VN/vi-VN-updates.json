@@ -989,6 +989,9 @@
         "ee25d92cdeeaa": "$~Bài học giờ đây cho bạn biết rằng một dự án có thể có nhiều hơn một tệp nguồn, và giúp bạn tìm hiểu các công cụ điều khiển dự án. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
         "e35eab7d1d833": "$~Bây giờ bạn có thể tải xuống một bản sao của mọi thứ bạn đã tạo, bao gồm các dự án, nhân vật, phòng trưng bày và cài đặt của bạn, từ trang hồ sơ của bạn. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Bây giờ bạn có thể mở một tệp dự án trên trang <Dự án@https://wordplay.dev/projects> của bạn, bằng cách chọn tệp đó hoặc kéo nó vào trang. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e5382816343d1": "$~Bạn có thể kéo một tệp dự án vào một dự án bạn đã có để thay thế nội dung trong đó, và chúng tôi sẽ hỏi bạn trước. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
+        "e5382816343d1": "$~Bạn có thể kéo một tệp dự án vào một dự án bạn đã có để thay thế nội dung trong đó, và chúng tôi sẽ hỏi bạn trước. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e79e532740f2d": "$~Một phòng trưng bày công khai và đã được duyệt giờ có thể có một tên ngắn trong đường liên kết của nó, như art-club, để dễ chia sẻ và dễ đọc thành lời. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ee35c2f36a6bf": "$~Khi bạn đổi tên một phòng trưng bày, các đường liên kết dùng tên cũ vẫn hoạt động và sẽ đưa mọi người đến tên mới. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ea66300a90b1a": "$~Bạn có thể từ bỏ một tên phòng trưng bày mà bạn không muốn dùng nữa, để người khác có thể dùng tên đó. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
     }
 }

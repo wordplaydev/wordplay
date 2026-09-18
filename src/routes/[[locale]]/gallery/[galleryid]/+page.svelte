@@ -39,10 +39,12 @@
     } from '@db/Database';
     import { MAX_DESCRIPTION_LENGTH, MAX_NAME_LENGTH } from '@db/limits';
     import type Gallery from '@db/galleries/Gallery';
-    import type {
-        GalleryFailure,
-        GalleryResult,
-    } from '@db/galleries/GalleryDatabase.svelte';
+    import type { GalleryFailure } from '@db/galleries/GalleryDatabase.svelte';
+    import type { GalleryPathResult } from '@db/galleries/resolveGalleryPath';
+    import findGalleryByPath, {
+        foldGalleryPath,
+    } from '@db/galleries/findGalleryByPath';
+    import GalleryPath from './GalleryPath.svelte';
     import {
         getClasses,
         type Class,
@@ -72,13 +74,15 @@
     /** Why there's no gallery, when there isn't one, so the notice below says
      *  what actually happened instead of inferring it from connection state. */
     let failure = $state<GalleryFailure | undefined>(undefined);
-    const galleryID: string | undefined = page.params.galleryid
+    /** What the URL asked for: an ID, a vanity path, or a name this gallery
+     *  used to answer to (#180). Which one it is, findByPath decides. */
+    const gallerySegment: string | undefined = page.params.galleryid
         ? decodeURI(page.params.galleryid)
         : undefined;
 
-    // When the page changes, get the gallery store corresponding to the requested ID.
+    // When the page changes, get the gallery corresponding to what was asked for.
     $effect(() => {
-        if (galleryID === undefined) {
+        if (gallerySegment === undefined) {
             gallery = undefined;
             return;
         }
@@ -88,26 +92,35 @@
         // from the cache (even offline) instead of flashing "not found".
         const hydrated = Galleries.hydrated;
         const authResolved = $authAttempted;
+        // By path as well as by ID, since a curator's own gallery is the one
+        // case the path queries cannot answer — they carry `public == true`.
         const known =
-            Galleries.accessibleGalleries.has(galleryID) ||
-            Galleries.expandedScopeGalleries.has(galleryID);
+            Galleries.getKnown(gallerySegment) !== undefined ||
+            Galleries.getKnownByPath(foldGalleryPath(gallerySegment)) !==
+                undefined;
 
-        if (known) {
-            // In the user's galleries — resolves from the local cache.
-            Galleries.find(galleryID).then(receive);
-        } else if (!hydrated || !authResolved) {
+        if (known || (hydrated && authResolved)) {
+            findGalleryByPath(Galleries, gallerySegment).then(receive);
+        } else {
             // Still hydrating the cache or resolving auth — stay loading.
             gallery = null;
-        } else {
-            // Not one of the user's galleries; it may be a public gallery, which
-            // requires a network read.
-            Galleries.find(galleryID).then(receive);
         }
     });
 
-    function receive(result: GalleryResult) {
-        gallery = result.kind === 'found' ? result.gallery : undefined;
-        failure = result.kind === 'found' ? undefined : result.kind;
+    function receive(result: GalleryPathResult) {
+        gallery =
+            result.kind === 'found' || result.kind === 'redirect'
+                ? result.gallery
+                : undefined;
+        failure =
+            result.kind === 'found' || result.kind === 'redirect'
+                ? undefined
+                : result.kind;
+        // An older name still resolves, and then hands the reader the current
+        // one. replaceState so the name they arrived on doesn't sit in history
+        // and send them back here when they press back.
+        if (result.kind === 'redirect')
+            localeGoto(result.to, { replaceState: true });
     }
 
     let classes = $state<Class[] | undefined>(undefined);
@@ -122,13 +135,13 @@
 
     // let galleryUnsubscribe: Unsubscriber | undefined = undefined;
     // let pageUnsubscribe = page.subscribe((context) => {
-    //     const galleryID = context
+    //     const gallerySegment = context
     //         ? decodeURI(context.params.galleryid)
     //         : undefined;
-    //     if (galleryID && !(gallery && gallery.getID() === galleryID)) {
+    //     if (gallerySegment && !(gallery && gallery.getID() === gallerySegment)) {
     //         // Unsubscribe from the previous gallery store.
     //         if (galleryUnsubscribe) galleryUnsubscribe();
-    //         Galleries.getStore(galleryID).then((store) => {
+    //         Galleries.getStore(gallerySegment).then((store) => {
     //             // Found a store? Subscribe to it, updating the gallery when it changes.
     //             if (store) {
     //                 galleryUnsubscribe = store.subscribe((gal) => {
@@ -642,6 +655,17 @@
                                  gallery stands with the moderators is the
                                  consequence of the choice made right here. -->
                                 <GalleryModerationNotice gallery={settings} />
+                                {#if settings.isListed()}
+                                    <GalleryPath gallery={settings} />
+                                {:else}
+                                    <!-- Said rather than hidden: a curator who
+                                     can't find where to name their gallery
+                                     needs to know what has to happen first. -->
+                                    <MarkupHTMLView
+                                        markup={(l) =>
+                                            l.ui.gallery.path.unavailable}
+                                    />
+                                {/if}
                             {:else}
                                 <MarkupHTMLView
                                     markup={(l) =>

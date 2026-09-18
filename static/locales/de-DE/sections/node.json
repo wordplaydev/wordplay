@@ -1749,7 +1749,7 @@
         },
         "UnknownType": {
             "name": "$~Unbekannt",
-            "description": "$!unbekannt",
+            "description": "$~unbekannt",
             "connector": "$~, Weil",
             "emotion": "curious",
             "doc": "$~Ich bin ein @type, den noch niemand herausgefunden hat. Ähm… weißt du, wofür ich stehe? Vielleicht musst du es uns sagen, wenn wir es nicht herausfinden können."

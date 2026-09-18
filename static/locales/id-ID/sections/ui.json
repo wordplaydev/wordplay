@@ -368,6 +368,10 @@
                 "description": {
                     "description": "$~Deskripsi galeri",
                     "placeholder": "$~Jelaskan galeri Anda. Apa tema, tujuan, atau komunitasnya?"
+                },
+                "path": {
+                    "description": "$~Nama tautan galeri",
+                    "placeholder": "$~nama"
                 }
             },
             "projects": "$~$#count[$count proyek]",
@@ -391,6 +395,36 @@
                     "$~pilih siapa yang boleh melihat galeri ini",
                     "$~hapus galeri ini"
                 ]
+            },
+            "path": {
+                "subheader": {
+                    "header": "$~Tautan",
+                    "explanation": "$~Pilih nama pendek untuk tautan galeri ini, agar lebih mudah dibagikan dan diucapkan. Gunakan huruf, angka, dan tanda hubung. Galeri kamu tetap bisa diakses lewat tautan lamanya juga."
+                },
+                "unavailable": "$~Kamu bisa memilih nama untuk tautan ini setelah galeri ini bersifat publik dan sudah disetujui oleh seorang moderator.",
+                "save": {
+                    "label": "$~Simpan",
+                    "tip": "$~beri galeri ini tautan ini"
+                },
+                "copy": {
+                    "tip": "$~salin tautan galeri ini"
+                },
+                "copied": "$~Tersalin!",
+                "claimed": "$~Tersimpan. Galeri ini sekarang punya tautan yang lebih pendek.",
+                "error": {
+                    "taken": "$~Galeri lain sudah memakai nama ini.",
+                    "invalid": "$~Nama itu tidak bisa dipakai untuk tautan galeri.",
+                    "unlisted": "$~Galeri ini harus bersifat publik dan disetujui dulu agar bisa memiliki nama.",
+                    "failure": "$~Kami tidak bisa menyimpan nama itu. Coba lagi?",
+                    "notYours": "$~Nama itu bukan milik galeri ini untuk dilepaskan."
+                },
+                "release": {
+                    "description": "$~lepaskan nama ini untuk selamanya, agar siapa pun bisa memakainya",
+                    "prompt": "$~Lepaskan?"
+                },
+                "released": "$~Nama itu sekarang bebas dipakai oleh siapa saja.",
+                "names": "$~Nama:",
+                "currentName": "$~sedang dipakai"
             }
         },
         "gallerymoderation": {

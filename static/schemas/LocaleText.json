@@ -20458,9 +20458,105 @@
                                         },
                                         "name": {
                                             "$ref": "#/definitions/FieldText"
+                                        },
+                                        "path": {
+                                            "$ref": "#/definitions/FieldText"
                                         }
                                     },
-                                    "required": ["name", "description"],
+                                    "required": ["name", "description", "path"],
+                                    "type": "object"
+                                },
+                                "path": {
+                                    "additionalProperties": false,
+                                    "description": "The vanity URL a public, approved gallery can choose (#180)",
+                                    "properties": {
+                                        "claimed": {
+                                            "description": "[plain] Shown after a path is successfully claimed",
+                                            "type": "string"
+                                        },
+                                        "copied": {
+                                            "description": "[plain] Shown in place of the copy tooltip just after the link is copied",
+                                            "type": "string"
+                                        },
+                                        "copy": {
+                                            "$ref": "#/definitions/IconButtonText",
+                                            "description": "The button that copies the gallery's full link"
+                                        },
+                                        "currentName": {
+                                            "description": "[plain] Marks the name in that list that the gallery's link uses now",
+                                            "type": "string"
+                                        },
+                                        "error": {
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "failure": {
+                                                    "description": "[plain] When we couldn't save the name and it's worth trying again",
+                                                    "type": "string"
+                                                },
+                                                "invalid": {
+                                                    "description": "[plain] When the name isn't one a gallery may have",
+                                                    "type": "string"
+                                                },
+                                                "notYours": {
+                                                    "description": "[plain] When a name being given up turned out not to be this gallery's to give",
+                                                    "type": "string"
+                                                },
+                                                "taken": {
+                                                    "description": "[plain] When another gallery already holds this name",
+                                                    "type": "string"
+                                                },
+                                                "unlisted": {
+                                                    "description": "[plain] When the gallery stopped being public or approved while the name was being chosen",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "taken",
+                                                "invalid",
+                                                "unlisted",
+                                                "failure",
+                                                "notYours"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "names": {
+                                            "description": "[plain] The label before the list of names this gallery answers to",
+                                            "type": "string"
+                                        },
+                                        "release": {
+                                            "$ref": "#/definitions/ConfirmText",
+                                            "description": "The button on each name that gives it up for good"
+                                        },
+                                        "released": {
+                                            "description": "[plain] Shown after a name is given up for good",
+                                            "type": "string"
+                                        },
+                                        "save": {
+                                            "$ref": "#/definitions/ButtonText",
+                                            "description": "The button that saves a chosen path"
+                                        },
+                                        "subheader": {
+                                            "$ref": "#/definitions/HeaderAndExplanationText",
+                                            "description": "The header and explanation above the vanity path field"
+                                        },
+                                        "unavailable": {
+                                            "$ref": "#/definitions/FormattedText",
+                                            "description": "[formatted] Shown in place of the field when the gallery isn't public and approved yet, saying what has to happen first"
+                                        }
+                                    },
+                                    "required": [
+                                        "subheader",
+                                        "unavailable",
+                                        "save",
+                                        "copy",
+                                        "copied",
+                                        "claimed",
+                                        "release",
+                                        "released",
+                                        "names",
+                                        "currentName",
+                                        "error"
+                                    ],
                                     "type": "object"
                                 },
                                 "projects": {
@@ -20529,6 +20625,7 @@
                                 "button",
                                 "confirm",
                                 "error",
+                                "path",
                                 "field"
                             ],
                             "type": "object"

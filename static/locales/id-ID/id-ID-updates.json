@@ -989,6 +989,9 @@
         "ee25d92cdeeaa": "$~Tutorial sekarang memberi tahu kamu bahwa sebuah proyek dapat memiliki lebih dari satu berkas sumber, dan menawarkan tur kontrol proyek. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
         "e35eab7d1d833": "$~Sekarang kamu bisa mengunduh salinan semua yang kamu buat, termasuk proyek, karakter, galeri, dan pengaturanmu, dari halaman profilmu. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Sekarang kamu bisa membuka berkas proyek di halaman <Proyek@https://wordplay.dev/projects>, dengan cara memilihnya atau menyeretnya ke halaman itu. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e5382816343d1": "$~Kamu bisa menyeret berkas proyek ke proyek yang sudah kamu miliki untuk menggantikan isinya, dan kami akan menanyakannya dulu. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
+        "e5382816343d1": "$~Kamu bisa menyeret berkas proyek ke proyek yang sudah kamu miliki untuk menggantikan isinya, dan kami akan menanyakannya dulu. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e79e532740f2d": "$~Galeri yang bersifat publik dan sudah disetujui kini bisa punya nama pendek di tautannya, seperti art-club, agar lebih mudah dibagikan dan diucapkan. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ee35c2f36a6bf": "$~Saat kamu mengubah nama galeri, tautan dengan nama lama tetap berfungsi dan membawa orang ke nama yang baru. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ea66300a90b1a": "$~Kamu bisa melepaskan nama galeri yang tidak kamu inginkan lagi, sehingga orang lain bisa memakainya. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
     }
 }

@@ -429,6 +429,36 @@
                 "unknown": "This gallery doesn't exist or isn't public.",
                 "unreachable": "We couldn't load this gallery. If you expect to have access, check your connection; a VPN, browser extension, or network filter may be blocking it."
             },
+            "path": {
+                "subheader": {
+                    "header": "Link",
+                    "explanation": "Choose a short name for this gallery's link, so it's easier to share and say out loud. Letters, numbers, and hyphens. Your gallery keeps working at its old link too."
+                },
+                "unavailable": "You can choose a name for this link once this gallery is public and a moderator has approved it.",
+                "save": {
+                    "label": "Save",
+                    "tip": "give this gallery this link"
+                },
+                "copy": {
+                    "tip": "copy this gallery's link"
+                },
+                "copied": "Copied!",
+                "claimed": "Saved. This gallery now has a shorter link.",
+                "release": {
+                    "description": "give up this name for good, so anyone can take it",
+                    "prompt": "Give it up?"
+                },
+                "released": "That name is free for anyone to use now.",
+                "names": "Names:",
+                "currentName": "in use now",
+                "error": {
+                    "taken": "Another gallery is already using this name.",
+                    "invalid": "That's not a name a gallery link can have.",
+                    "unlisted": "This gallery has to be public and approved to have a name.",
+                    "failure": "We couldn't save that name. Try again?",
+                    "notYours": "That name isn't this gallery's to give up."
+                }
+            },
             "field": {
                 "name": {
                     "description": "Gallery name",
@@ -437,6 +467,10 @@
                 "description": {
                     "description": "Gallery description",
                     "placeholder": "Describe your gallery. What is its theme, goals, or community?"
+                },
+                "path": {
+                    "description": "Gallery link name",
+                    "placeholder": "name"
                 }
             }
         },

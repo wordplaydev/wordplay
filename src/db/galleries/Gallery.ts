@@ -8,7 +8,7 @@ import {
 } from '@db/projects/Moderation';
 import z from 'zod';
 
-export const GallerySchemaLatestVersion = 4;
+export const GallerySchemaLatestVersion = 5;
 
 /** The schema for a gallery */
 const SerializedGalleryV1 = z.object({
@@ -98,15 +98,34 @@ const SerializedGalleryV4 = SerializedGalleryV3.omit({ v: true }).extend({
     characters: z.array(z.string()),
 });
 
+/**
+ * v5 adds the aliases a renamed vanity path leaves behind (#180). The
+ * reservation in `gallerypaths/{folded}` is what makes a path unique, but it is
+ * unreadable to clients on purpose — a name-keyed index enumerates every
+ * gallery — so a reader following an old link has no way to ask it anything.
+ * Carrying the superseded names here is what lets that link resolve in one
+ * query instead of a callable round trip in the first paint of a shared link.
+ *
+ * Bounded, unlike the reservation: the reservation is permanent, so nobody else
+ * may ever claim a name this gallery has held, while dropping the oldest
+ * redirect costs only a stale link.
+ */
+const SerializedGalleryV5 = SerializedGalleryV4.omit({ v: true }).extend({
+    v: z.literal(5),
+    /** Folded paths this gallery used to answer to, newest first. */
+    pathAliases: z.array(z.string()),
+});
+
 /** The latest version of a gallery */
-export const GallerySchema = SerializedGalleryV4;
-export type SerializedGallery = z.infer<typeof SerializedGalleryV4>;
+export const GallerySchema = SerializedGalleryV5;
+export type SerializedGallery = z.infer<typeof SerializedGalleryV5>;
 
 /** How a gallery stands with the moderators. */
 export type GalleryModeration = SerializedGallery['moderation'];
 
 /** Every version a stored gallery document may have. */
 const SerializedGalleryUnknownVersionSchema = z.union([
+    SerializedGalleryV5,
     SerializedGalleryV4,
     SerializedGalleryV3,
     SerializedGalleryV2,
@@ -155,6 +174,8 @@ export function upgradeGallery(
             });
         case 3:
             return upgradeGallery({ ...gallery, v: 4, characters: [] });
+        case 4:
+            return upgradeGallery({ ...gallery, v: 5, pathAliases: [] });
         case GallerySchemaLatestVersion:
             return gallery;
         default:
@@ -213,6 +234,7 @@ export default class Gallery {
         creators: string[],
         opts: {
             path?: string | null;
+            pathAliases?: string[];
             words?: string[];
             projects?: string[];
             characters?: string[];
@@ -233,6 +255,7 @@ export default class Gallery {
             v: GallerySchemaLatestVersion,
             id,
             path: opts.path ?? null,
+            pathAliases: opts.pathAliases ?? [],
             name,
             description,
             words: opts.words ?? [],
@@ -291,8 +314,43 @@ export default class Gallery {
         return !this.data.id.includes('-');
     }
 
+    /** The vanity path this gallery answers to, or null when it has none. */
+    getPath(): string | null {
+        return this.data.path;
+    }
+
+    /** Folded paths this gallery used to answer to, newest first. */
+    getPathAliases(): string[] {
+        return [...this.data.pathAliases];
+    }
+
+    /** Server-owned: the rules refuse `path` and `pathAliases` from every
+     *  client, and claimGalleryPath is the only writer. These two exist for the
+     *  server's own mirroring and for tests, never for the app to save. */
+    withPath(path: string | null) {
+        return new Gallery({ ...this.data, path });
+    }
+
+    withPathAliases(aliases: string[]) {
+        return new Gallery({ ...this.data, pathAliases: [...aliases] });
+    }
+
+    /** The one segment `/gallery/<…>` should address this gallery by: the
+     *  vanity path when it would resolve, the id otherwise. Gated on
+     *  isPublic() rather than isListed() because the read rule asks only about
+     *  `public` — gating on approval too would hand a public-but-unreviewed
+     *  gallery a link that 404s while it waits.
+     *
+     *  `resolveGalleryPath` decides what to redirect by comparing against this,
+     *  so it and `getLink` cannot disagree about which address is canonical. */
+    getCanonicalSegment(): string {
+        const path = this.data.path;
+        return path !== null && this.isPublic() ? path : this.getID();
+    }
+
+    /** Encoded because a path may be in any script; an id never needed it. */
     getLink() {
-        return `/gallery/${this.getID()}`;
+        return `/gallery/${encodeURIComponent(this.getCanonicalSegment())}`;
     }
 
     hasCurator(uid: string) {

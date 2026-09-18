@@ -448,7 +448,7 @@
         },
         "BooleanLiteral": {
             "name": "booleano específico",
-            "description": "$!$value[verdadero|falso]",
+            "description": "$~$value[verdadero|falso]",
             "emotion": "precise",
             "doc": "$~Soy \\⊤\\ o \\⊥\\. Mira @Boolean para saber más sobre nuestra hermosa lógica.",
             "start": "¡$value!"
@@ -465,7 +465,7 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~préstamo desconocido",
-                    "explanation": "$!No conozco ninguna fuente con este nombre",
+                    "explanation": "$~No conozco ninguna fuente con este nombre",
                     "resolution": "$~Quitar este préstamo"
                 },
                 "BorrowCycle": {
@@ -789,7 +789,7 @@
         },
         "FunctionDefinition": {
             "name": "función",
-            "description": "$!función $name",
+            "description": "$~función $name",
             "emotion": "kind",
             "doc": [
                 "$~Tomo algunas entradas, luego evalúo una @expression usándolas, y produzco una salida. ¡Hola de nuevo!",
@@ -986,7 +986,7 @@
             "description": "$~expresión integrada",
             "emotion": "neutral",
             "doc": "$~Soy una @expression que solo usan las creadoras originales. ¿Cómo me encontraste? Para saber más sobre mí, necesitas hablar con ellas.",
-            "start": "$!expresión secreta"
+            "start": "$~expresión secreta"
         },
         "NoneLiteral": {
             "name": "simplemente ninguna",
@@ -1287,7 +1287,7 @@
         },
         "StructureDefinition": {
             "name": "estructura",
-            "description": "$!estructura $name",
+            "description": "$~estructura $name",
             "emotion": "kind",
             "doc": [
                 "$~Yo defino estructuras que guardan valores y funciones. ¡Hola! ¿Cómo estás? ¿Yo? Estoy muy bien — me encanta hacer esto todo el día.",
@@ -1585,7 +1585,7 @@
             "doc": "$~Represento una excepción. No hay forma de decirle a bind que soy una, porque las excepciones solo detienen @Program, así que no puedes usarlas como valores."
         },
         "FunctionType": {
-            "name": "$!tipo de función",
+            "name": "$~tipo función",
             "description": "$~función con $inputs entradas",
             "emotion": "curious",
             "doc": [
@@ -1594,7 +1594,7 @@
             ]
         },
         "ListType": {
-            "name": "$!tipo de lista",
+            "name": "$~tipo lista",
             "description": "$~tipo de lista$type[ de $type|]",
             "emotion": "cheerful",
             "doc": [
@@ -1658,7 +1658,7 @@
             ]
         },
         "SetType": {
-            "name": "$!tipo de conjunto",
+            "name": "$~tipo conjunto",
             "description": "$~set type$type[ of $type|]",
             "emotion": "kind",
             "doc": [
@@ -1667,13 +1667,13 @@
             ]
         },
         "StreamDefinitionType": {
-            "name": "$!tipo de definición de flujo",
+            "name": "$~tipo definición de flujo",
             "description": "$~tipo de definición de flujo",
             "emotion": "angry",
             "doc": "Represento un @stream que has definido, lo cual no es posible, así que ¿por qué incluso estás leyendo esto?"
         },
         "StreamType": {
-            "name": "$!tipo de flujo",
+            "name": "$~tipo flujo",
             "description": "$~tipo de flujo",
             "emotion": "curious",
             "doc": [
@@ -1682,7 +1682,7 @@
             ]
         },
         "StructureType": {
-            "name": "$!tipo de estructura",
+            "name": "$~tipo estructura",
             "description": "$~tipo de estructura $name",
             "emotion": "kind",
             "doc": "$~Soy un @type interno que representa el tipo de los tipos @value predeterminados."
@@ -1695,7 +1695,7 @@
             "doc": "$~Soy un @type que nadie ha descifrado todavía. Mmm… ¿sabes qué represento? Tal vez necesites decírnoslo si no logramos descubrirlo."
         },
         "TableType": {
-            "name": "$!tipo de tabla",
+            "name": "$~tipo tabla",
             "description": "$~tabla",
             "emotion": "angry",
             "doc": "$~Represento un @Table.",
@@ -1708,7 +1708,7 @@
             }
         },
         "TextType": {
-            "name": "$!tipo de texto",
+            "name": "$~tipo texto",
             "description": "$~$text['$text'|text type]",
             "emotion": "happy",
             "doc": [

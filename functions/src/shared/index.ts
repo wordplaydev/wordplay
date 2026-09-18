@@ -701,6 +701,57 @@ export type SendSigninLinkOutput = {
     error?: 'throttled' | 'failed';
 };
 
+// FUNCTION galleryPathAvailable
+/** Whether each vanity path could be claimed by this gallery right now.
+ *  Advisory: the transaction in setGalleryPath is what decides. A path this
+ *  gallery already holds or once held is true, since it may take it back —
+ *  until it releases it, after which it is anyone's. */
+export type GalleryPathAvailableInputs = {
+    gallery: string;
+    paths: string[];
+};
+export type GalleryPathAvailableOutput = Record<string, boolean>;
+
+// FUNCTION claimGalleryPath
+/** Give a gallery a vanity path, change it, or clear it with a null path. Only
+ *  a curator of a public, approved gallery may. */
+export type ClaimGalleryPathInputs = {
+    gallery: string;
+    path: string | null;
+};
+export type ClaimGalleryPathOutput = {
+    claimed?: true;
+    cleared?: true;
+    error?:
+        | 'taken'
+        | 'invalid'
+        | 'missing'
+        | 'not-listed'
+        | 'not-curator'
+        | 'unauthenticated'
+        | 'failed';
+};
+
+// FUNCTION releaseGalleryPath
+/** Give up one of a gallery's names for good, deleting its reservation so
+ *  anyone may claim it. Only a curator may, and only for a name the gallery
+ *  actually holds. Its own verb rather than a mode of claimGalleryPath, whose
+ *  null path means "stop using this name" while keeping it reserved. */
+export type ReleaseGalleryPathInputs = {
+    gallery: string;
+    path: string;
+};
+export type ReleaseGalleryPathOutput = {
+    released?: true;
+    error?:
+        | 'taken'
+        | 'invalid'
+        | 'missing'
+        | 'not-curator'
+        | 'unauthenticated'
+        | 'failed';
+};
+
 // FUNCTION usernameAvailable
 /** Whether each name could be claimed. An invalid or retired name is false. */
 export type UsernameAvailableInputs = { usernames: string[] };
