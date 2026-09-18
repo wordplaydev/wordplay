@@ -94,10 +94,15 @@
             later, behind all 66 JS requests.
 
             hooks.server.ts puts the content hashes here and locale-preload.js
-            builds the link, because only together do they know both the locale
+            builds the URL, because only together do they know both the locale
             and the hash versioned() will ask for. It has to be this way round:
             Firebase rewrites every locale-prefixed route to 200.html, so the
             per-locale prerendered pages are not what a reader receives.
+
+            The script fetches and hands the result over rather than declaring a
+            `<link rel="preload">`, for the reason the emoji font below gives:
+            Safari does not reuse a preload, so a preload there is a second
+            download rather than a saved one.
         -->
         %wordplay.localeassets%
 

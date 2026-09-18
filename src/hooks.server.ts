@@ -111,11 +111,11 @@ function escapeHtml(value: string): string {
  * Nothing tells the browser a locale file exists until the JS bundle has loaded
  * and `LocalesDatabase`'s constructor runs — measured on production at ~330ms
  * after the first JS request, with 65 of 66 JS requests issued ahead of it.
- * `locale-preload.js` fixes that by injecting a `<link rel="preload">` while the
- * document is still parsing, but it is a static file and cannot read
- * `localeAssets.generated.ts`, and a preload without the `?v=` hash is a
- * *different URL* from the one `versioned()` will request — so it would fetch
- * the file twice rather than once.
+ * `locale-preload.js` fixes that by fetching the file while the document is
+ * still parsing and leaving it for `LocalesDatabase`, but it is a static file
+ * and cannot read `localeAssets.generated.ts` — and a fetch without the `?v=`
+ * hash is a *different URL* from the one `versioned()` will ask for, so it
+ * would be handed nothing and fetch the file a second time.
  *
  * Hence this: the hashes travel in the document, which is the only thing that
  * knows both. Each locale's main document and its date/time companion, the two

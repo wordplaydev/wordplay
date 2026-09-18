@@ -58,9 +58,7 @@ test('tapping a key drives the program', async ({ page }) => {
     await expect(stage).toContainText('2 of 10');
 });
 
-/** Long enough for the repeat delay and a couple of repeats, and long enough
- *  afterwards that a key still repeating would be unmistakable. */
-const HoldMs = 540;
+/** Long enough afterwards that a key still repeating would be unmistakable. */
 const SettleMs = 700;
 
 /** SlideShow's `n of 10` counter, as a number. */
@@ -69,6 +67,21 @@ async function slide(page: import('@playwright/test').Page): Promise<number> {
     const match = text.match(/(\d+) of 10/);
     expect(match).not.toBeNull();
     return Number(match?.[1]);
+}
+
+/**
+ * Wait, while the key is held, for repeats beyond the single press a tap sends.
+ *
+ * Polled rather than timed: a fixed hold has to outlast `RepeatDelay` (400ms)
+ * plus a repeat or two, and on the contended macOS runner the nightly uses,
+ * a 540ms hold landed on exactly one press often enough to burn both retries.
+ * Repeats keep arriving for as long as the pointer is down, so waiting for the
+ * third makes the same claim without measuring the runner.
+ */
+async function expectRepeating(page: import('@playwright/test').Page) {
+    await expect
+        .poll(() => slide(page), { timeout: 10_000 })
+        .toBeGreaterThan(2);
 }
 
 /**
@@ -97,11 +110,10 @@ test('holding a key repeats it, and releasing stops it', async ({ page }) => {
     // express a hold, and `tap()` can't.
     await pad.locator('.key').last().hover();
     await page.mouse.down();
-    await page.waitForTimeout(HoldMs);
 
     // Repeat is what makes continuous movement work, so more than the single
     // press a tap sends has to have landed.
-    expect(await slide(page)).toBeGreaterThan(2);
+    await expectRepeating(page);
 
     await page.mouse.up();
     await expectNothingHeld(page);
@@ -116,10 +128,9 @@ test('a key whose release never arrives stops repeating', async ({ page }) => {
     // leaves behind. A blurred window is the backstop that has to notice.
     await pad.locator('.key').last().hover();
     await page.mouse.down();
-    await page.waitForTimeout(HoldMs);
+    await expectRepeating(page);
     await page.evaluate(() => window.dispatchEvent(new Event('blur')));
 
-    expect(await slide(page)).toBeGreaterThan(2);
     await expectNothingHeld(page);
 
     await page.mouse.up();

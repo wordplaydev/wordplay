@@ -237,11 +237,19 @@ export class Database {
      *  so one set too low (8s was) reports a cold read that would have
      *  succeeded as a failure, and retrying re-races the same budget. */
     private static READ_TIMEOUT_MS = 20_000;
-    /** Maximum time an *awaited* one-off write (delete/teacher edit/moderation/
-     *  feedback) may take before we give up. The memory-only cache means a
-     *  write to an unreachable backend never resolves *or* rejects — it just
-     *  hangs — so {@link write} races it against this timeout to fail fast. */
-    private static WRITE_TIMEOUT_MS = 8_000;
+    /** Maximum time an *awaited* write (a project save's batch commit, or a
+     *  one-off delete/teacher edit/moderation/feedback) may take before we give
+     *  up. The memory-only cache means a write to an unreachable backend never
+     *  resolves *or* rejects — it just hangs — so {@link write} races it against
+     *  this timeout to fail fast.
+     *
+     *  Matched to {@link READ_TIMEOUT_MS} for the reason that one gives: it is a
+     *  budget, not a deadline, and at 8s it reported cold round-trips that would
+     *  have landed as failures. The commit that first saves a new project is
+     *  exactly that — the page's first write — and a project reported unsaved is
+     *  worse than one that took twelve seconds. The cost is that a one-off write
+     *  a person is watching can now take 20s to report a failure. */
+    private static WRITE_TIMEOUT_MS = 20_000;
     /** How long the top-of-page banner ({@link reportBanner}) stays up before it
      *  auto-dismisses. Long enough to read a short failure message. */
     private static BANNER_TIMEOUT_MS = 8_000;

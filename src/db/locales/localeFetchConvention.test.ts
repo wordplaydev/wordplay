@@ -23,6 +23,12 @@ import { expect, test } from 'vitest';
  * package. They declare `Cache-Control: no-cache` on the request instead and
  * manage freshness with their own TTL, which is the only other way to be safe
  * under an `immutable` header. Scanning only `src/` let that go unnoticed.
+ *
+ * `static/scripts/locale-preload.js` is in scope for the same reason. It is the
+ * *first* request for a locale on any non-English page, it cannot import
+ * `versioned()` either (a static file served as-is), and it builds the `?v=`
+ * itself from the hashes hooks.server.ts hands it — a third safe form, and one
+ * nothing else would have caught.
  */
 const VERSIONED = 'src/db/locales/versioned.ts';
 
@@ -77,9 +83,12 @@ function withoutComments(source: string): string {
     return source.replace(/\/\*[\s\S]*?\*\//g, ' ').replace(/\/\/[^\n]*/g, ' ');
 }
 
+/** The one non-TypeScript file that fetches a locale asset. */
+const PreloadScript = 'static/scripts/locale-preload.js';
+
 /** Names bound to a locale URL, so `fetch(name)` can be recognized as one. */
-function localeUrlNames(source: string): Set<string> {
-    const names = new Set<string>();
+function localeUrlNames(source: string): Map<string, string> {
+    const names = new Map<string, string>();
     const pattern =
         /\b(?:const|let|var)\s+([A-Za-z_$][\w$]*)\s*(?::[^=]+)?=\s*([^;]*)/g;
     let match = pattern.exec(source);
@@ -90,7 +99,7 @@ function localeUrlNames(source: string): Set<string> {
             value !== undefined &&
             LocaleAsset.test(value)
         )
-            names.add(name);
+            names.set(name, value);
         match = pattern.exec(source);
     }
     return names;
@@ -101,6 +110,7 @@ function unversionedFetches(root: string): string[] {
     for (const absolute of [
         ...sourceFilesUnder(resolve(root, 'src')),
         ...sourceFilesUnder(resolve(root, 'functions', 'src')),
+        resolve(root, PreloadScript),
     ]) {
         const path = relative(root, absolute);
         if (
@@ -115,13 +125,17 @@ function unversionedFetches(root: string): string[] {
         const names = localeUrlNames(source);
         for (const raw of fetchArguments(source)) {
             const argument = withoutComments(raw);
+            const name = argument.trim().replace(/,$/, '');
             const fetchesLocaleAsset =
-                LocaleAsset.test(argument) ||
-                names.has(argument.trim().replace(/,$/, ''));
-            // Either carry a content hash, or tell caches not to keep it.
+                LocaleAsset.test(argument) || names.has(name);
+            // Either carry a content hash, or tell caches not to keep it. A URL
+            // built into a name carries its hash at the binding rather than at
+            // the call, so ask the binding.
             const safe =
                 argument.includes('versioned(') ||
-                argument.includes("'Cache-Control': 'no-cache'");
+                argument.includes("'Cache-Control': 'no-cache'") ||
+                (names.get(name)?.includes('versioned(') ?? false) ||
+                (names.get(name)?.includes("'?v='") ?? false);
             if (fetchesLocaleAsset && !safe)
                 offenders.push(
                     `${path}: fetch(${argument.trim().slice(0, 60)})`,

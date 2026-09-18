@@ -18,6 +18,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import { localeToString } from '@locale/Locale';
 import Locales from '@locale/Locales';
 import type LocaleText from '@locale/LocaleText';
+import { isLocaleText } from '@locale/isLocaleText';
 import type { RegionCode } from '@locale/Regions';
 import {
     SupportedLocales,
@@ -49,22 +50,52 @@ function isEmojiMap(data: unknown): data is EmojiMap {
     );
 }
 
-/** A singleton cache of loaded locales */
 /**
- * How a locale file is requested, and why it is left alone.
+ * Take the document this locale's text was already asked for by, if it was.
  *
- * `locale-preload.js` injects `<link rel="preload" as="fetch" crossorigin>` for
- * these URLs, and a preload is only reused when the real request agrees with
- * it. The agreeing pair is *not* the one reasoning suggests: measured in
- * Chromium over all four combinations, `crossorigin` on the link with a plain
- * `fetch(url)` is the only one that yields a single request. Adding
- * `credentials: 'omit'` to match the link's anonymous mode — which is what the
- * spec reads like it wants — fetches the file twice.
+ * `locale-preload.js` fetches a reader's locale while the document is still
+ * parsing and leaves the parsed JSON here, keyed by the same versioned URL
+ * `fetchLocaleJSON` builds — which is how the request gets issued ~330ms before
+ * the bundle that needs it without being issued twice. It used to be a
+ * `<link rel="preload" as="fetch">`, but a preload is only reused when the
+ * browser matches it against the later request, and WebKit does not match an
+ * `as="fetch"` entry: Safari downloaded every locale file twice (the same
+ * reason app.html does not preload the emoji font).
  *
- * So this deliberately passes no options. `tests/end2end/locale-preload.spec.ts`
- * asserts the single request, because nothing about this is checkable from the
- * source.
+ * Taken rather than read, so a `refresh` goes back to the network.
  */
+function takePreloaded(url: string): Promise<unknown> | undefined {
+    if (typeof window === 'undefined') return undefined;
+    const stash: unknown = Reflect.get(window, '__localePreload');
+    if (!isRecord(stash)) return undefined;
+    const pending = stash[url];
+    delete stash[url];
+    return pending instanceof Promise ? pending : undefined;
+}
+
+/**
+ * A locale document, from the early fetch if it landed and from the network
+ * otherwise. `undefined` for anything that didn't arrive — a locale that can't
+ * be loaded falls back to en-US rather than failing.
+ *
+ * The early fetch is allowed to have failed: it runs before anything can know
+ * whether the reader will end up wanting this locale, so its `undefined` means
+ * "ask properly", not "give up".
+ */
+async function fetchLocaleJSON(url: string): Promise<unknown> {
+    const early = takePreloaded(url);
+    if (early !== undefined) {
+        const data = await early;
+        if (data !== undefined) return data;
+    }
+    return fetch(url)
+        .then(async (response) =>
+            response.ok ? await response.json() : undefined,
+        )
+        .catch(() => undefined);
+}
+
+/** A singleton cache of loaded locales */
 
 export default class LocalesDatabase {
     /** The concretizer */
@@ -321,24 +352,20 @@ export default class LocalesDatabase {
                     // file used by Moment's localized text conversion), so it's
                     // registered by the time the locale is active.
                     Promise.all([
-                        fetch(versioned(path))
-                            .then(async (response) =>
-                                response.ok ? await response.json() : undefined,
-                            )
-                            .catch(() => undefined),
-                        fetch(
+                        fetchLocaleJSON(versioned(path)),
+                        fetchLocaleJSON(
                             versioned(
                                 `/locales/${lang}/${lang}-datetimes.json`,
                             ),
-                        )
-                            .then(async (response) =>
-                                response.ok ? await response.json() : undefined,
-                            )
-                            .catch(() => undefined),
+                        ),
                     ]).then(([locale, datetimes]) => {
                         if (datetimes !== undefined)
                             registerDateTimeData(lang, datetimes);
-                        return locale;
+                        // Checked rather than trusted, the way getLocale reads
+                        // the same file: a hosting rewrite answering an HTML
+                        // error page with a 200 would otherwise surface as an
+                        // undefined deep inside `l.ui.…` (networkBoundaries.test.ts).
+                        return isLocaleText(locale) ? locale : undefined;
                     });
                 this.localesLoaded[lang] = promise;
                 const locale = await promise;

@@ -2,12 +2,12 @@
 //
 // Two jobs, deliberately independent:
 //
-// 1. Ask the browser for this reader's locale text now. Nothing else names
-//    that URL until the JS bundle has loaded and LocalesDatabase's constructor
-//    runs — measured on production at ~330ms after the first JS request, with
-//    65 of 66 JS requests issued ahead of it. The `?v=` hash has to match what
-//    versioned() will request or the file is fetched twice, so the hashes are
-//    handed to us by hooks.server.ts in window.__localeAssets.
+// 1. Ask for this reader's locale text now, and hand the result to
+//    LocalesDatabase. Nothing else names that URL until the JS bundle has
+//    loaded and LocalesDatabase's constructor runs — measured on production at
+//    ~330ms after the first JS request, with 65 of 66 JS requests issued ahead
+//    of it. The `?v=` hash has to match what versioned() will request, so the
+//    hashes are handed to us by hooks.server.ts in window.__localeAssets.
 //
 // 2. If the reader's *stored* preference is not en-US, hide the body until the
 //    right locale has loaded, so they do not see a flash of pre-rendered
@@ -37,25 +37,38 @@
         }
 
         if (locale) {
+            // We fetch rather than `<link rel="preload" as="fetch">`, and hand
+            // the promise over by URL, because a preload is only reused when
+            // the browser's preload cache matches it against the later
+            // request — and WebKit does not match an `as="fetch"` entry, so
+            // Safari downloaded every locale file twice (the same reason
+            // app.html does not preload the emoji font). Fetching here and
+            // awaiting it there is one request on every engine, with no
+            // matching rules to get wrong.
+            //
+            // The stored value is the *parsed JSON*, not the Response: a body
+            // can only be read once. The catch is load-bearing too — nothing
+            // awaits this until the bundle runs, so a rejection with no
+            // handler would surface as an unhandled error.
+            window.__localePreload = window.__localePreload || {};
             var entry = assets[locale];
             var files = [[entry.m, locale + '.json']];
             if (entry.d) files.push([entry.d, locale + '-datetimes.json']);
             for (var i = 0; i < files.length; i++) {
-                var link = document.createElement('link');
-                link.rel = 'preload';
-                link.as = 'fetch';
-                // Must match LocaleFetchOptions in LocalesDatabase: as="fetch"
-                // with crossorigin means no credentials, and a mismatch makes
-                // the browser fetch the file twice instead of reusing this.
-                link.crossOrigin = 'anonymous';
-                link.href =
+                var url =
                     '/locales/' +
                     locale +
                     '/' +
                     files[i][1] +
                     '?v=' +
                     encodeURIComponent(files[i][0]);
-                document.head.appendChild(link);
+                window.__localePreload[url] = fetch(url)
+                    .then(function (response) {
+                        return response.ok ? response.json() : undefined;
+                    })
+                    .catch(function () {
+                        return undefined;
+                    });
             }
         }
     } catch (_) {}
@@ -65,7 +78,7 @@
         // English swap to their language. Two ways to know this page is not
         // English: the URL names a locale, or the reader has chosen one before.
         //
-        // The URL case only became reasonable once the preload above existed.
+        // The URL case only became reasonable once the fetch above existed.
         // Before it the locale was not requested until the JS bundle had run,
         // so hiding meant a blank page for ~300ms; now the request goes out
         // while the document is still parsing.

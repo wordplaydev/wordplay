@@ -16,14 +16,27 @@ import { waitForDocumentUpdate } from '../helpers/firestore';
  * second adds a source to it, and the seed is shared with half the suite.
  */
 
+/** The precondition below can take most of a minute on a loaded runner, and the
+ *  measurements after it need their own room, so this asks for more than the
+ *  60s default — the same reason offline-replay does. */
+test.describe.configure({ timeout: 120_000 });
+
 const LOAD = 30_000;
+
+/** How long to give the new project's first cloud write. The default 15s is a
+ *  cliff here: on the contended macOS runner the nightly uses, each admin-SDK
+ *  read from the test process takes 1.4-6.5s, so 15s buys about six polls — and
+ *  a cold first commit can take most of that on its own. Waiting on the local
+ *  cache instead does not work: a project the cloud has never seen renders
+ *  "this project does not exist" after a fresh page load. */
+const SAVED = 45_000;
 
 /** Open a project of our own under the Hebrew route. */
 async function hebrewProject(page: import('@playwright/test').Page) {
     const id = await createTestProject(page);
     // Changing locale is a fresh page load, so the project has to have reached
     // the cloud first or it loads as missing.
-    await waitForDocumentUpdate(page, 'projects', id, (d) => d !== null);
+    await waitForDocumentUpdate(page, 'projects', id, (d) => d !== null, SAVED);
     await page.goto(`/he-IL/project/${id}`);
     await expect(page.locator('#project-name')).toBeVisible({ timeout: LOAD });
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');

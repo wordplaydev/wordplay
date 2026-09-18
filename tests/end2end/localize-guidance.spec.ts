@@ -43,18 +43,23 @@ test('workspace shows this locale s guidance, not the English one', async ({
     page,
 }) => {
     // Riding along on this navigation rather than paying for another: it is the
-    // suite's one cold load of a non-English route, which is what the locale
-    // preload needs. `locale-preload.js` injects a `<link rel="preload">` for
-    // this file while the document is parsing, and the app fetches the same URL
-    // later — if the two disagree on credentials mode the browser fetches it
-    // twice, which is worse than not preloading at all and is invisible to
-    // every other check. Measured in Chromium: `crossorigin` on the link with a
-    // plain `fetch()` is the only pairing of the four that reuses it.
-    const localeRequests: string[] = [];
-    page.on('request', (request) => {
-        if (request.url().includes('/locales/es-MX/es-MX.json'))
-            localeRequests.push(request.url());
-    });
+    // suite's one cold load of a non-English route, which is what the early
+    // locale fetch needs. `locale-preload.js` fetches these files while the
+    // document is parsing and leaves them for LocalesDatabase; if the handover
+    // ever stops working the app fetches each one a second time, which is worse
+    // than not fetching early at all and is invisible to every other check.
+    // (It used to be a `<link rel="preload">`, and WebKit reused none of them.)
+    // Both files are counted: the date/time companion went unwatched and was
+    // double-fetched on Safari with nothing to say so.
+    const requests = (needle: string) => {
+        const seen: string[] = [];
+        page.on('request', (request) => {
+            if (request.url().includes(needle)) seen.push(request.url());
+        });
+        return seen;
+    };
+    const localeRequests = requests('/locales/es-MX/es-MX.json');
+    const datetimeRequests = requests('/locales/es-MX/es-MX-datetimes.json');
 
     await page.goto('/es-MX/localize');
 
@@ -68,9 +73,11 @@ test('workspace shows this locale s guidance, not the English one', async ({
     ).toBeVisible();
     await expect(page.getByText('Write short, plain')).toHaveCount(0);
 
-    // One request, and it carries the content hash `versioned()` builds.
+    // One request each, and both carry the content hash `versioned()` builds.
     expect(localeRequests).toHaveLength(1);
     expect(localeRequests[0]).toMatch(/\?v=[0-9a-f]+$/);
+    expect(datetimeRequests).toHaveLength(1);
+    expect(datetimeRequests[0]).toMatch(/\?v=[0-9a-f]+$/);
 });
 
 test('guidance is absent from the translatable string list', async ({

@@ -17,6 +17,7 @@ import { GALLERY_CHUNK_SIZE } from '@db/firestoreLimits';
 import type Gallery from '@db/galleries/Gallery';
 import isQuotaError from '@db/isQuotaError';
 import { chunkWrites, serializedByteSize } from '@db/projects/chunkWrites';
+import nextSaveRetryDelay from '@db/projects/saveRetry';
 import { shouldReplayRemotePlainCode } from '@db/projects/crdtFold';
 import { EditFailure } from '@db/projects/EditFailure';
 import { withNameSuffix } from '@db/projects/getLocalizedProjectName';
@@ -258,6 +259,12 @@ export default class ProjectsDatabase {
 
     /** Debounce timer, used to clear pending requests. */
     private timer: NodeJS.Timeout | undefined = undefined;
+
+    /** How many save rounds in a row have lost work to an unreachable backend,
+     *  which is what {@link nextSaveRetryDelay} backs off on. Reset by any round
+     *  that ends without one, so a connection that comes back is not still
+     *  waiting out an old outage's interval. */
+    private saveAttempts = 0;
 
     /** A list of listeners that are notified of a project change. */
     private listeners: Map<string, Set<(project: Project) => void>> = new Map();
@@ -2175,6 +2182,11 @@ export default class ProjectsDatabase {
         // Accumulate per-project failures across both local and online phases;
         // emitted as a single grouped error at the end of the function.
         const failures: SaveFailure[] = [];
+        // Whether any of those failures could succeed later. Only connectivity
+        // ones can: a project that is too large, holds PII, or was refused will
+        // fail the same way forever, and scheduling another round for it is a
+        // spin rather than a recovery.
+        let retryable = false;
         const projectFailure = (
             project: Project,
             reason: SaveFailure['reason'],
@@ -2419,6 +2431,7 @@ export default class ProjectsDatabase {
                                     detail,
                                 ),
                             );
+                        retryable = true;
                         continue;
                     }
 
@@ -2449,6 +2462,8 @@ export default class ProjectsDatabase {
                                     firebaseErrorDetail(error),
                                 ),
                             );
+                            if (this.database.isConnectivityError(error))
+                                retryable = true;
                         }
                     }
                 }
@@ -2470,6 +2485,16 @@ export default class ProjectsDatabase {
 
         trace.failures = failures.length;
         tracePersist(trace);
+
+        // A round that lost work to an unreachable backend has to come back for
+        // it. Nothing else will: `flushUnsavedWork` waits on a browser `online`
+        // event or a reachability recovery, and neither fires for a commit that
+        // simply took longer than its budget — so before this, a first save that
+        // timed out left the project local-only until the creator edited it
+        // again. Backed off so an outage is a slow poll rather than one hanging
+        // commit per second.
+        if (retryable) this.saveLater(nextSaveRetryDelay(this.saveAttempts++));
+        else this.saveAttempts = 0;
 
         if (failures.length > 0) this.database.setSaveFailures(failures);
         // Only claim "saved" when nothing is actually left unsaved. The status
@@ -2603,11 +2628,21 @@ export default class ProjectsDatabase {
      * Should be called any time this.projects is modified.
      */
     saveSoon() {
+        this.saveLater(1000);
+    }
+
+    /**
+     * The same, at a delay of our choosing — how {@link persist} comes back for
+     * a round the cloud was unreachable for. It shares `saveSoon`'s single timer
+     * on purpose: an edit made while a backed-off retry is pending should pull
+     * the save forward to the usual second, not wait out the backoff.
+     */
+    saveLater(delay: number) {
         // Clear pending saves.
         clearTimeout(this.timer);
 
         // Initiate another.
-        this.timer = setTimeout(() => this.persist(), 1000);
+        this.timer = setTimeout(() => this.persist(), delay);
     }
 
     /** Deletes the local database (usually on logout, for privacy), and removes any projects from memory. */
