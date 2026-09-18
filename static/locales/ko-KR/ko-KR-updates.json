@@ -989,9 +989,6 @@
         "ee25d92cdeeaa": "$~이제 튜토리얼에서 프로젝트가 여러 개의 소스 파일을 가질 수 있다는 것을 알려주고, 프로젝트 제어 기능을 둘러보는 안내도 제공합니다. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
         "e35eab7d1d833": "$~이제 프로필 페이지에서 여러분이 만든 모든 것을 내려받을 수 있습니다. 프로젝트, 캐릭터, 갤러리, 설정이 모두 포함됩니다. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~이제 <프로젝트@https://wordplay.dev/projects> 페이지에서 프로젝트 파일을 열 수 있습니다. 파일을 선택하거나 페이지에 끌어다 놓으면 됩니다. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e5382816343d1": "$~이미 가지고 있는 프로젝트에 프로젝트 파일을 끌어다 놓으면 내용을 바꿀 수 있습니다. 바꾸기 전에 먼저 물어봅니다. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e79e532740f2d": "$~공개되어 승인된 갤러리는 이제 art-club처럼 짧은 이름을 링크에 쓸 수 있습니다. 그러면 공유하거나 말로 알려주기 쉬워집니다. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
-        "ee35c2f36a6bf": "$~갤러리 이름을 바꿔도 예전 이름으로 된 링크는 계속 작동하고, 사람들을 새 이름으로 데려다줍니다. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
-        "ea66300a90b1a": "$~더 이상 쓰지 않는 갤러리 이름은 포기할 수 있고, 그러면 다른 사람이 그 이름을 쓸 수 있게 됩니다. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
+        "e5382816343d1": "$~이미 가지고 있는 프로젝트에 프로젝트 파일을 끌어다 놓으면 내용을 바꿀 수 있습니다. 바꾸기 전에 먼저 물어봅니다. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
     }
 }

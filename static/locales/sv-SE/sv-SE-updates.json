@@ -989,9 +989,6 @@
         "ee25d92cdeeaa": "$~Handledningen berättar nu att ett projekt kan ha fler än en källa, och visar dig runt bland projektets kontroller. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
         "e35eab7d1d833": "$~Nu kan du ladda ner en kopia av allt du har gjort, till exempel projekt, figurer, gallerier och inställningar, från din profilsida. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Nu kan du öppna en projektfil på sidan <Projekt@https://wordplay.dev/projects>, antingen genom att välja den eller genom att dra den till sidan. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e5382816343d1": "$~Du kan dra en projektfil till ett projekt du redan har för att ersätta innehållet, och vi frågar dig först. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e79e532740f2d": "$~Ett galleri som är offentligt och godkänt kan nu ha ett kort namn i sin länk, som konst-klubb, så det blir lättare att dela och säga högt. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
-        "ee35c2f36a6bf": "$~När du ändrar namnet på ett galleri fortsätter länkar med det gamla namnet att fungera och leder folk till det nya. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
-        "ea66300a90b1a": "$~Du kan lämna ifrån dig ett galleri-namn du inte vill ha längre, så att någon annan kan använda det. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
+        "e5382816343d1": "$~Du kan dra en projektfil till ett projekt du redan har för att ersätta innehållet, och vi frågar dig först. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
     }
 }
