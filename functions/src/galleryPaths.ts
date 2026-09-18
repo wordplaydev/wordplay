@@ -72,7 +72,6 @@ export function isGalleryPathReservation(
 
 export type SetGalleryPathResult =
     | 'claimed'
-    | 'cleared'
     | 'taken'
     | 'invalid'
     | 'missing'
@@ -174,31 +173,29 @@ export async function galleryCurators(galleryID: string): Promise<string[]> {
 }
 
 /**
- * Give a gallery a vanity path, change the one it has, or take it away — one
- * verb, because all three are the same transaction over the same two documents
- * and splitting them would mean three copies of the reservation read.
+ * Give a gallery a vanity path, or change the one it has — one verb, because
+ * both are the same transaction over the same two documents.
+ *
+ * Taking a name away is releaseGalleryPath's job, not a null path here. The two
+ * are not the same write: this one leaves the reservation in place, and giving
+ * a name up has to delete it.
  *
  * Idempotent for the same pair, so a retry after a dropped response does not
  * tell a curator their own name is taken.
  */
 export async function setGalleryPath(
     galleryID: string,
-    wanted: string | null,
+    wanted: string,
 ): Promise<SetGalleryPathResult> {
-    if (wanted !== null && !isValidGalleryPath(wanted)) return 'invalid';
+    if (!isValidGalleryPath(wanted)) return 'invalid';
     const db = getFirestore();
-    const folded = wanted === null ? null : foldGalleryPath(wanted);
+    const folded = foldGalleryPath(wanted);
     const gallery = db.collection(GalleriesCollection).doc(galleryID);
-    const reservation =
-        folded === null
-            ? null
-            : db.collection(GalleryPathCollection).doc(folded);
+    const reservation = db.collection(GalleryPathCollection).doc(folded);
 
     return db.runTransaction(async (transaction) => {
         // Every read before every write, which a Firestore transaction requires.
-        const references =
-            reservation === null ? [gallery] : [gallery, reservation];
-        const snapshots = await transaction.getAll(...references);
+        const snapshots = await transaction.getAll(gallery, reservation);
         const state = galleryState(
             must(snapshots[0], 'the gallery snapshot').data(),
         );
@@ -212,23 +209,6 @@ export async function setGalleryPath(
         if (!state.isPublic || !state.approved) return 'not-listed';
 
         const retiring = state.path;
-
-        if (folded === null || reservation === null) {
-            if (retiring === null) return 'cleared';
-            transaction.set(
-                gallery,
-                {
-                    path: null,
-                    pathAliases: nextAliases(state.aliases, retiring),
-                },
-                { merge: true },
-            );
-            // The reservation stays pointed at this gallery, so the name is
-            // still unclaimable by anyone else. Clearing is not giving it up:
-            // releaseGalleryPath is the verb that does that, and it deletes the
-            // reservation rather than leaving it here.
-            return 'cleared';
-        }
 
         if (retiring === folded) return 'claimed';
 

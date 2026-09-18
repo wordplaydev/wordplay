@@ -713,15 +713,15 @@ export type GalleryPathAvailableInputs = {
 export type GalleryPathAvailableOutput = Record<string, boolean>;
 
 // FUNCTION claimGalleryPath
-/** Give a gallery a vanity path, change it, or clear it with a null path. Only
- *  a curator of a public, approved gallery may. */
+/** Give a gallery a vanity path or change the one it has. Only a curator of a
+ *  public, approved gallery may. Giving a name up is releaseGalleryPath, which
+ *  is a different write: this one leaves the reservation standing. */
 export type ClaimGalleryPathInputs = {
     gallery: string;
-    path: string | null;
+    path: string;
 };
 export type ClaimGalleryPathOutput = {
     claimed?: true;
-    cleared?: true;
     error?:
         | 'taken'
         | 'invalid'
