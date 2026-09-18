@@ -344,6 +344,10 @@
                 "description": {
                     "description": "$~Galeriebeschreibung",
                     "placeholder": "$~Beschreiben Sie Ihre Galerie. Was ist ihr Thema, ihre Ziele oder ihre Community?"
+                },
+                "path": {
+                    "description": "$~Name des Galerie-Links",
+                    "placeholder": "$~Name"
                 }
             },
             "projects": "$~$#count[$count Projekt|$count Projekte]",
@@ -367,6 +371,36 @@
                     "$~Wähle aus, wer diese Galerie sehen darf",
                     "$~Diese Galerie löschen"
                 ]
+            },
+            "path": {
+                "subheader": {
+                    "header": "$~Link",
+                    "explanation": "$~Wähle einen kurzen Namen für den Link dieser Galerie. So kannst du ihn leichter teilen und aussprechen. Erlaubt sind Buchstaben, Zahlen und Bindestriche. Deine Galerie bleibt auch über den alten Link erreichbar."
+                },
+                "unavailable": "$~Du kannst einen Namen für diesen Link wählen, sobald diese Galerie öffentlich ist und ein Moderator sie genehmigt hat.",
+                "save": {
+                    "label": "$~Speichern",
+                    "tip": "$~dieser Galerie diesen Link geben"
+                },
+                "copy": {
+                    "tip": "$~Link dieser Galerie kopieren"
+                },
+                "copied": "$~Kopiert!",
+                "claimed": "$~Gespeichert. Diese Galerie hat jetzt einen kürzeren Link.",
+                "error": {
+                    "taken": "$~Eine andere Galerie benutzt diesen Namen schon.",
+                    "invalid": "$~Diesen Namen darf ein Galerie-Link nicht haben.",
+                    "unlisted": "$~Diese Galerie muss öffentlich und genehmigt sein, um einen Namen zu bekommen.",
+                    "failure": "$~Wir konnten diesen Namen nicht speichern. Noch einmal versuchen?",
+                    "notYours": "$~Dieser Name gehört nicht dieser Galerie, um ihn aufzugeben."
+                },
+                "release": {
+                    "description": "$~diesen Namen für immer aufgeben, damit ihn jeder nehmen kann",
+                    "prompt": "$~Aufgeben?"
+                },
+                "released": "$~Dieser Name ist jetzt für alle frei.",
+                "names": "$~Namen:",
+                "currentName": "$~gerade in Benutzung"
             }
         },
         "source": {
@@ -1022,7 +1056,7 @@
                     "explanation": "$~/Konzepte, die in der Hauptdokumentation nicht enthalten sind./"
                 },
                 "How": {
-                    "header": "$!Wie man",
+                    "header": "$~Wie man",
                     "explanation": "$~Gängige Muster für die Erstellung verschiedener Projekttypen."
                 },
                 "Definitions": {
@@ -1589,7 +1623,7 @@
                     }
                 },
                 "mode": {
-                    "label": "$!Rückmeldung",
+                    "label": "$~Rückmeldung",
                     "labels": ["$~Mängel", "$~Ideen"],
                     "tips": [
                         "$~Melden Sie etwas, das defekt zu sein scheint.",

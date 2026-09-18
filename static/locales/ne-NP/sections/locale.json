@@ -42,7 +42,7 @@
         },
         "loop": {
             "word": "$~loop",
-            "definition": "$!कुनै काम धेरै पटक दोहोऱ्याउने @code।"
+            "definition": "$~@code जसले कुनै काम धेरैपटक दोहोर्याउँछ।"
         },
         "iteration": {
             "word": "$~iteration",

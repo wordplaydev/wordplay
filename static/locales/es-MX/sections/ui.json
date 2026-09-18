@@ -107,7 +107,7 @@
         "tile": {
             "toggle": {
                 "fullscreen": {
-                    "on": "$!salir de pantalla completa",
+                    "on": "$~salir de pantalla completa",
                     "off": "$~expandir la teja de la ventana a pantalla completa"
                 },
                 "show": {
@@ -344,6 +344,10 @@
                 "description": {
                     "description": "Descripción de la galería",
                     "placeholder": "Describe tu galería. ¿Cuál es su tema, objetivos o comunidad?"
+                },
+                "path": {
+                    "description": "$~nombre del enlace de la galería",
+                    "placeholder": "$~nombre"
                 }
             },
             "projects": "$~$#count[$#count proyecto|$count proyectos|$count proyectos]",
@@ -367,6 +371,36 @@
                     "$~elegir quién puede ver esta galería",
                     "$~eliminar esta galería"
                 ]
+            },
+            "path": {
+                "subheader": {
+                    "header": "$~Enlace",
+                    "explanation": "$~Elige un nombre corto para el enlace de esta galería, para que sea más fácil de compartir y decir en voz alta. Letras, números y guiones. Tu galería sigue funcionando también con su enlace anterior."
+                },
+                "unavailable": "$~Puedes elegir un nombre para este enlace una vez que esta galería sea pública y una moderadora la haya aprobado.",
+                "save": {
+                    "label": "$~Guardar",
+                    "tip": "$~dar este enlace a esta galería"
+                },
+                "copy": {
+                    "tip": "$~copiar el enlace de esta galería"
+                },
+                "copied": "$~¡Copiado!",
+                "claimed": "$~Guardado. Esta galería ahora tiene un enlace más corto.",
+                "error": {
+                    "taken": "$~Otra galería ya está usando este nombre.",
+                    "invalid": "$~Ese no es un nombre que un enlace de galería pueda tener.",
+                    "unlisted": "$~Esta galería tiene que ser pública y estar aprobada para tener un nombre.",
+                    "failure": "$~No pudimos guardar ese nombre. ¿Intentamos de nuevo?",
+                    "notYours": "$~Ese nombre no le pertenece a esta galería para renunciar a él."
+                },
+                "release": {
+                    "description": "$~renunciar a este nombre para siempre, para que cualquiera pueda tomarlo",
+                    "prompt": "$~¿Renunciar a él?"
+                },
+                "released": "$~Ese nombre ahora está libre para que cualquiera lo use.",
+                "names": "$~Nombres:",
+                "currentName": "$~en uso ahora"
             }
         },
         "source": {
@@ -445,7 +479,7 @@
                 "insertFalse": "insertar falsa",
                 "insertNone": "insertar ningún símbolo",
                 "insertNotEqual": "insertar no igual",
-                "insertProduct": "$!insertar símbolo de multiplicación",
+                "insertProduct": "$~insertar símbolo de multiplicación",
                 "insertDot": "$~insertar el símbolo de producto punto",
                 "insertQuotient": "insertar símbolo de cociente",
                 "insertDegree": "insertar símbolo de grado",

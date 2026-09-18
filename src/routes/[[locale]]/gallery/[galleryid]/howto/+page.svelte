@@ -42,10 +42,14 @@
     import HowToForm from './HowToForm.svelte';
     import HowToPreview from './HowToPreview.svelte';
     import resolveGallery from './resolveGallery';
+    import findGalleryByPath, {
+        foldGalleryPath,
+    } from '@db/galleries/findGalleryByPath';
     import retryDelay from './retryDelay';
 
     // The current gallery being viewed. Starts at null, to represent loading state.
     let gallery = $state<Gallery | null | undefined>(null);
+    /** An ID, a vanity path, or an older name (#180); findByPath decides. */
     const galleryID: string | undefined = page.params.galleryid
         ? decodeURI(page.params.galleryid)
         : undefined;
@@ -126,15 +130,23 @@
             // Read explicitly, not just through `find`: this is the map the
             // public watch keeps current, and it is what makes a visitor's
             // gallery name and introduction live rather than a one-time read.
-            Galleries.publicGalleries.has(galleryID);
+            Galleries.publicGalleries.has(galleryID) ||
+            // Or by vanity path, since the segment may be one (#180).
+            Galleries.getKnownByPath(foldGalleryPath(galleryID)) !== undefined;
 
         // Read the retry tick so a scheduled re-ask re-runs this.
         void retryTick;
 
         const generation = ++resolution;
-        resolveGallery(galleryID, cached, ready, (id) =>
-            Galleries.find(id),
-        ).then((resolved) => {
+        resolveGallery(galleryID, cached, ready, async (segment) => {
+            const result = await findGalleryByPath(Galleries, segment);
+            // A how-to space stays on whatever name the reader arrived by: an
+            // older name resolves, and moving someone mid-work would be a
+            // surprise the gallery page itself can make more safely.
+            return result.kind === 'redirect'
+                ? { kind: 'found', gallery: result.gallery }
+                : result;
+        }).then((resolved) => {
             if (generation !== resolution) return;
             gallery = resolved;
             // `null` once we were ready to ask means the read went unanswered,

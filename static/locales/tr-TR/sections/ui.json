@@ -368,6 +368,10 @@
                 "description": {
                     "description": "$~Galeri açıklaması",
                     "placeholder": "$~Galerinizi tanımlayın. Teması, hedefleri veya topluluğu nedir?"
+                },
+                "path": {
+                    "description": "$~Galeri bağlantı adı",
+                    "placeholder": "$~isim"
                 }
             },
             "projects": "$~$#count[$count proje|$count proje]",
@@ -391,6 +395,36 @@
                     "$~bu galeriyi kimlerin görebileceğini seç",
                     "$~bu galeriyi sil"
                 ]
+            },
+            "path": {
+                "subheader": {
+                    "header": "$~Bağlantı",
+                    "explanation": "$~Bu galerinin bağlantısı için kısa bir isim seç. Böylece paylaşmak ve söylemek daha kolay olur. Harfler, sayılar ve tire kullanabilirsin. Galerin eski bağlantısında da çalışmaya devam eder."
+                },
+                "unavailable": "$~Bu galeri herkese açık olduğunda ve bir denetçi onu onayladığında, bu bağlantı için bir isim seçebilirsin.",
+                "save": {
+                    "label": "$~Kaydet",
+                    "tip": "$~bu galeriye bu bağlantıyı ver"
+                },
+                "copy": {
+                    "tip": "$~bu galerinin bağlantısını kopyala"
+                },
+                "copied": "$~Kopyalandı!",
+                "claimed": "$~Kaydedildi. Bu galerinin artık daha kısa bir bağlantısı var.",
+                "error": {
+                    "taken": "$~Başka bir galeri bu ismi kullanıyor.",
+                    "invalid": "$~Bu, bir galeri bağlantısının alabileceği bir isim değil.",
+                    "unlisted": "$~Bu galerinin bir isim alabilmesi için herkese açık ve onaylanmış olması gerekir.",
+                    "failure": "$~Bu ismi kaydedemedik. Tekrar dener misin?",
+                    "notYours": "$~Bu isim bu galeriye ait değil, bu yüzden bırakılamaz."
+                },
+                "release": {
+                    "description": "$~bu ismi tamamen bırak, böylece herkes alabilir",
+                    "prompt": "$~Bırakılsın mı?"
+                },
+                "released": "$~Bu isim şimdi herkesin kullanabileceği bir isim.",
+                "names": "$~İsimler:",
+                "currentName": "$~şu anda kullanılıyor"
             }
         },
         "source": {
@@ -1609,7 +1643,7 @@
                     }
                 },
                 "mode": {
-                    "label": "$!geri bildirim",
+                    "label": "$~geri bildirim",
                     "labels": ["$~kusurlar", "$~fikirler"],
                     "tips": [
                         "$~Bozuk görünen bir şeyi bildirin.",

@@ -1,8 +1,10 @@
-import type { Template } from '@locale/LocaleText';
+import type { FormattedText, Template } from '@locale/LocaleText';
 import type {
+    ButtonText,
     ConfirmText,
     FieldText,
     HeaderAndExplanationText,
+    IconButtonText,
     ModeText,
 } from '@locale/UITexts';
 
@@ -56,7 +58,42 @@ type PageText = {
         /** [plain] When we couldn't load the gallery because the database was unreachable (vs. it not existing) */
         unreachable: string;
     };
-    field: { name: FieldText; description: FieldText };
+    /** The vanity URL a public, approved gallery can choose (#180) */
+    path: {
+        /** The header and explanation above the vanity path field */
+        subheader: HeaderAndExplanationText;
+        /** [formatted] Shown in place of the field when the gallery isn't public and approved yet, saying what has to happen first */
+        unavailable: FormattedText;
+        /** The button that saves a chosen path */
+        save: ButtonText;
+        /** The button that copies the gallery's full link */
+        copy: IconButtonText;
+        /** [plain] Shown in place of the copy tooltip just after the link is copied */
+        copied: string;
+        /** [plain] Shown after a path is successfully claimed */
+        claimed: string;
+        /** The button on each name that gives it up for good */
+        release: ConfirmText;
+        /** [plain] Shown after a name is given up for good */
+        released: string;
+        /** [plain] The label before the list of names this gallery answers to */
+        names: string;
+        /** [plain] Marks the name in that list that the gallery's link uses now */
+        currentName: string;
+        error: {
+            /** [plain] When another gallery already holds this name */
+            taken: string;
+            /** [plain] When the name isn't one a gallery may have */
+            invalid: string;
+            /** [plain] When the gallery stopped being public or approved while the name was being chosen */
+            unlisted: string;
+            /** [plain] When we couldn't save the name and it's worth trying again */
+            failure: string;
+            /** [plain] When a name being given up turned out not to be this gallery's to give */
+            notYours: string;
+        };
+    };
+    field: { name: FieldText; description: FieldText; path: FieldText };
 };
 
 export type { PageText as default };

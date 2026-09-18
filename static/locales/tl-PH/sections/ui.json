@@ -368,6 +368,10 @@
                 "description": {
                     "description": "$~Paglalarawan ng gallery",
                     "placeholder": "$~Ilarawan ang iyong gallery. Ano ang tema, mga layunin, o komunidad nito?"
+                },
+                "path": {
+                    "description": "$~Pangalan ng link ng galeriya",
+                    "placeholder": "$~pangalan"
                 }
             },
             "projects": "$~$#count[$count proyekto|$count na proyekto]",
@@ -391,6 +395,36 @@
                     "$~piliin kung sino ang maaaring makakita sa gallery na ito",
                     "$~burahin ang gallery na ito"
                 ]
+            },
+            "path": {
+                "subheader": {
+                    "header": "$~Link",
+                    "explanation": "$~Pumili ng maikling pangalan para sa link ng galeriyang ito, para mas madali itong ibahagi at sabihin nang malakas. Mga titik, numero, at gitling lamang. Gagana pa rin ang galeriya mo sa dati nitong link."
+                },
+                "unavailable": "$~Puwede kang pumili ng pangalan para sa link na ito kapag pampubliko na ang galeriyang ito at inaprubahan na ng isang moderator.",
+                "save": {
+                    "label": "$~I-save",
+                    "tip": "$~ibigay sa galeriyang ito ang link na ito"
+                },
+                "copy": {
+                    "tip": "$~kopyahin ang link ng galeriyang ito"
+                },
+                "copied": "$~Nakopya!",
+                "claimed": "$~Na-save na. Mas maikli na ngayon ang link ng galeriyang ito.",
+                "error": {
+                    "taken": "$~May ibang galeriya nang gumagamit ng pangalang ito.",
+                    "invalid": "$~Hindi puwedeng ipangalan iyan sa isang link ng galeriya.",
+                    "unlisted": "$~Kailangang pampubliko at aprubado ang galeriyang ito bago ito magkaroon ng pangalan.",
+                    "failure": "$~Hindi namin nai-save ang pangalang iyan. Subukan ulit?",
+                    "notYours": "$~Hindi pag-aari ng galeriyang ito ang pangalang iyan kaya hindi nito ito puwedeng isuko."
+                },
+                "release": {
+                    "description": "$~isuko nang tuluyan ang pangalang ito, para makuha ito ng kahit sino",
+                    "prompt": "$~Isuko ito?"
+                },
+                "released": "$~Malaya na ngayon ang pangalang iyan na gamitin ng kahit sino.",
+                "names": "$~Mga Pangalan:",
+                "currentName": "$~ginagamit ngayon"
             }
         },
         "gallerymoderation": {

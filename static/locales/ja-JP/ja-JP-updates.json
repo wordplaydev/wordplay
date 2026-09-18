@@ -989,6 +989,9 @@
         "ee25d92cdeeaa": "$~チュートリアルでは、プロジェクトが複数のソースファイルを持てることを説明するようになりました。また、プロジェクトの操作方法を案内するツアーも用意しました。(<268@https://github.com/wordplaydev/wordplay/issues/268>)",
         "e35eab7d1d833": "$~プロフィールページから、あなたが作ったすべてのもの（プロジェクト、キャラクター、ギャラリー、設定など）のコピーをダウンロードできるようになりました。(<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~<プロジェクト@https://wordplay.dev/projects>ページで、プロジェクトファイルを選ぶか、ページの上にドラッグすることで開けるようになりました。(<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e5382816343d1": "$~プロジェクトファイルを、すでに持っているプロジェクトの上にドラッグすると、その中身を置き換えられます。置き換える前に、必ず確認します。(<152@https://github.com/wordplaydev/wordplay/issues/152>)"
+        "e5382816343d1": "$~プロジェクトファイルを、すでに持っているプロジェクトの上にドラッグすると、その中身を置き換えられます。置き換える前に、必ず確認します。(<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e79e532740f2d": "$~公開されて承認された「ギャラリー」は、art-clubのような短い名前をリンクに使えるようになりました。これで共有したり読み上げたりしやすくなります。（<180@https://github.com/wordplaydev/wordplay/issues/180>）",
+        "ee35c2f36a6bf": "$~「ギャラリー」の名前を変えても、古い名前のリンクはそのまま使えて、新しい名前のページへ案内してくれます。（<180@https://github.com/wordplaydev/wordplay/issues/180>）",
+        "ea66300a90b1a": "$~もう使わない「ギャラリー」の名前は手放すことができ、ほかの人がその名前を使えるようになります。（<180@https://github.com/wordplaydev/wordplay/issues/180>）"
     }
 }

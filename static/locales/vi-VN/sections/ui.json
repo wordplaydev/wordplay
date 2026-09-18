@@ -368,6 +368,10 @@
                 "description": {
                     "description": "$~Mô tả bộ sưu tập",
                     "placeholder": "$~Hãy mô tả phòng trưng bày của bạn. Chủ đề, mục tiêu hoặc đối tượng khách hàng của phòng trưng bày là gì?"
+                },
+                "path": {
+                    "description": "$~Tên liên kết phòng trưng bày",
+                    "placeholder": "$~tên"
                 }
             },
             "projects": "$~$#count[$count dự án]",
@@ -391,6 +395,36 @@
                     "$~chọn ai có thể xem phòng trưng bày này",
                     "$~xóa phòng trưng bày này"
                 ]
+            },
+            "path": {
+                "subheader": {
+                    "header": "$~Liên kết",
+                    "explanation": "$~Chọn một tên ngắn cho liên kết của phòng trưng bày này, để dễ chia sẻ và nói ra hơn. Chỉ dùng chữ cái, số và dấu gạch ngang. Phòng trưng bày của bạn vẫn dùng được liên kết cũ."
+                },
+                "unavailable": "$~Bạn có thể chọn một tên cho liên kết này khi phòng trưng bày công khai và đã được người kiểm duyệt chấp thuận.",
+                "save": {
+                    "label": "$~Lưu",
+                    "tip": "$~đặt liên kết này cho phòng trưng bày"
+                },
+                "copy": {
+                    "tip": "$~sao chép liên kết của phòng trưng bày này"
+                },
+                "copied": "$~Đã sao chép!",
+                "claimed": "$~Đã lưu. Phòng trưng bày này giờ có liên kết ngắn hơn.",
+                "error": {
+                    "taken": "$~Một phòng trưng bày khác đã dùng tên này rồi.",
+                    "invalid": "$~Đó không phải là tên hợp lệ cho liên kết phòng trưng bày.",
+                    "unlisted": "$~Phòng trưng bày này phải công khai và được chấp thuận thì mới có tên.",
+                    "failure": "$~Chúng tôi không thể lưu tên đó. Thử lại nhé?",
+                    "notYours": "$~Tên đó không thuộc về phòng trưng bày này nên không thể từ bỏ."
+                },
+                "release": {
+                    "description": "$~từ bỏ tên này mãi mãi, để bất kỳ ai cũng có thể lấy",
+                    "prompt": "$~Từ bỏ chứ?"
+                },
+                "released": "$~Tên đó giờ ai cũng có thể dùng.",
+                "names": "$~Tên:",
+                "currentName": "$~đang được dùng"
             }
         },
         "gallerymoderation": {
@@ -1807,7 +1841,7 @@
                     "show": "$~Chọn ngôn ngữ cho trang web",
                     "replace": "$~dùng ngôn ngữ này",
                     "add": "$~sử dụng ngôn ngữ này và các ngôn ngữ hiện tại",
-                    "remove": "$!xóa ngôn ngữ này",
+                    "remove": "$~xóa ngôn ngữ này",
                     "menu": "$~các ngôn ngữ khác"
                 },
                 "localizeHelp": "$~Để giúp cải thiện bản dịch sang ngôn ngữ của bạn, hãy nhấp vào biểu tượng bút chì ✎ ở *cuối trang* để bật chế độ bản địa hóa và đề xuất cải tiến.",

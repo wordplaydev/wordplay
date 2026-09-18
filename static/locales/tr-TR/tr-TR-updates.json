@@ -989,6 +989,9 @@
         "ee25d92cdeeaa": "$~Öğretici artık bir projenin birden fazla kaynak dosyasına sahip olabileceğini anlatıyor ve proje kontrolleri hakkında bir tur sunuyor. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
         "e35eab7d1d833": "$~Artık profil sayfandan yaptığın her şeyin bir kopyasını indirebilirsin. Bu, projelerini, karakterlerini, galerilerini ve ayarlarını içerir. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Artık <Projeler@https://wordplay.dev/projects> sayfanda bir proje dosyasını açabilirsin. Bunu ya dosyayı seçerek ya da sayfaya sürükleyerek yapabilirsin. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e5382816343d1": "$~Bir proje dosyasını, zaten sahip olduğun bir projenin üzerine sürükleyerek içindekileri değiştirebilirsin. Bunu yapmadan önce sana soracağız. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
+        "e5382816343d1": "$~Bir proje dosyasını, zaten sahip olduğun bir projenin üzerine sürükleyerek içindekileri değiştirebilirsin. Bunu yapmadan önce sana soracağız. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e79e532740f2d": "$~Herkese açık ve onaylanmış bir galeri, artık bağlantısında art-club gibi kısa bir isim taşıyabilir. Böylece paylaşmak ve sesli söylemek daha kolay olur. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ee35c2f36a6bf": "$~Bir galerinin ismini değiştirdiğinde, eski isimle olan bağlantılar hâlâ çalışır ve insanları yeni isme yönlendirir. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ea66300a90b1a": "$~Artık istemediğin bir galeri ismini bırakabilirsin. Böylece başka biri o ismi kullanabilir. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
     }
 }

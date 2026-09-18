@@ -989,6 +989,9 @@
         "ee25d92cdeeaa": "$~Sinasabi na ngayon ng tutorial na ang isang proyekto ay maaaring magkaroon ng higit sa isang source file, at nag-aalok ito ng tour ng mga kontrol ng proyekto. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
         "e35eab7d1d833": "$~Maaari mo nang i-download ang kopya ng lahat ng iyong ginawa, kasama ang iyong mga proyekto, mga karakter, mga gallery, at mga setting, mula sa iyong profile page. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Maaari mo nang buksan ang isang project file sa iyong pahinang <Projects@https://wordplay.dev/projects>, sa pamamagitan ng pagpili nito o pag-drag nito papunta sa pahina. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e5382816343d1": "$~Maaari mong i-drag ang isang project file papunta sa isang proyektong mayroon ka na, para palitan ang laman nito, at tatanungin ka muna namin. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
+        "e5382816343d1": "$~Maaari mong i-drag ang isang project file papunta sa isang proyektong mayroon ka na, para palitan ang laman nito, at tatanungin ka muna namin. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e79e532740f2d": "$~Ang isang gallery na pampubliko at aprubado ay maaari na ngayong magkaroon ng maikling pangalan sa link nito, tulad ng art-club, para mas madaling ibahagi at sabihin nang malakas. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ee35c2f36a6bf": "$~Kapag binago mo ang pangalan ng isang gallery, patuloy pa ring gumagana ang mga link na may lumang pangalan at dinadala nila ang mga tao sa bagong pangalan. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ea66300a90b1a": "$~Maaari mong iwan ang isang pangalan ng gallery na hindi mo na gusto, para magamit ito ng ibang tao. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
     }
 }

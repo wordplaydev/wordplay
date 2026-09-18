@@ -1573,7 +1573,7 @@
         },
         "AnyType": {
             "name": "$~orice",
-            "description": "$!orice",
+            "description": "$~orice",
             "emotion": "curious",
             "doc": "$~Eu reprezint orice @type posibil. Uneori apar pentru că nu știu ce fel de @value este ceva, așa că ar putea fi orice."
         },
@@ -1717,7 +1717,7 @@
         },
         "UnknownType": {
             "name": "$~necunoscut",
-            "description": "$!necunoscut",
+            "description": "$~necunoscut",
             "connector": "$~, deoarece",
             "emotion": "curious",
             "doc": "$~Sunt un @type pe care nimeni nu l-a descoperit încă. Hmm… știi ce reprezint? Poate trebuie să ne spui tu, dacă noi nu ne putem da seama."

@@ -66,7 +66,7 @@
         },
         "state": {
             "word": "$~stan",
-            "definition": "$!Informacja, którą @Program przechowuje i może zmieniać z czasem."
+            "definition": "$~Informacje, które @Program przechowuje i może zmieniać z czasem."
         },
         "sideEffect": {
             "word": "$~efekt uboczny",

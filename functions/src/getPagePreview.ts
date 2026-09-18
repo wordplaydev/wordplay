@@ -1,3 +1,5 @@
+import { foldGalleryPath } from './galleryPath.js';
+import { arrayContains, equals, runQuery } from './preview/firestoreRest.js';
 import type express from 'express';
 import { isRecord } from './shared/guards.js';
 import type { Request } from 'firebase-functions/v2/https';
@@ -134,6 +136,29 @@ async function fetchFirestoreDoc(
     }
 }
 
+/**
+ * A public gallery answering to this vanity path, current name or superseded
+ * one. Unauthenticated, so the rules decide: a private gallery's path returns
+ * nothing, which is the same answer a visitor would get.
+ */
+async function fetchGalleryByPath(
+    segment: string,
+): Promise<FirestoreRestDocument | undefined> {
+    const folded = foldGalleryPath(segment);
+    for (const clause of [
+        equals('path', folded),
+        arrayContains('pathAliases', folded),
+    ]) {
+        const found = await runQuery('galleries', {
+            filters: [clause, equals('public', true)],
+            limit: 1,
+        });
+        const first = found?.[0];
+        if (first !== undefined) return first;
+    }
+    return undefined;
+}
+
 /** The preview metadata for a target, or undefined to serve the plain shell. */
 async function resolveMeta(
     target: PreviewTarget,
@@ -184,20 +209,33 @@ async function resolveMeta(
         return { title: name, description, url };
     }
 
-    const doc = await fetchFirestoreDoc('galleries', target.id);
+    // By ID first, exactly as before, then by vanity path, then by a name the
+    // gallery has since been renamed away from (#180). A shared vanity link
+    // that unfurls with no title is the most visible way this feature could
+    // fail, so the preview follows the same ladder the app does.
+    const doc =
+        (await fetchFirestoreDoc('galleries', target.id)) ??
+        (await fetchGalleryByPath(target.id));
     if (doc === undefined) return undefined;
     const title = pickLocalizedText(
         getStringMapField(doc, 'name'),
         target.locales,
     );
     if (title === undefined) return undefined;
+    // Canonical whichever name was asked for, so every share of this gallery
+    // reports one URL.
+    const path = getStringField(doc, 'path');
+    const canonical =
+        path === undefined
+            ? url
+            : `${origin}${localePrefix}/gallery/${encodeURIComponent(path)}`;
     return {
         title,
         description: pickLocalizedText(
             getStringMapField(doc, 'description'),
             target.locales,
         ),
-        url,
+        url: canonical,
     };
 }
 

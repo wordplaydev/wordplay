@@ -368,6 +368,10 @@
                 "description": {
                     "description": "$~Galleribeskrivning",
                     "placeholder": "$~Beskriv ditt galleri. Vad är dess tema, mål eller gemenskap?"
+                },
+                "path": {
+                    "description": "$~Namn på gallerilänk",
+                    "placeholder": "$~namn"
                 }
             },
             "projects": "$~$#count[$count projekt|$count projekt]",
@@ -391,6 +395,36 @@
                     "$~välj vem som får se det här galleriet",
                     "$~radera det här galleriet"
                 ]
+            },
+            "path": {
+                "subheader": {
+                    "header": "$~Länk",
+                    "explanation": "$~Välj ett kort namn för detta galleris länk, så blir det lättare att dela och säga högt. Bokstäver, siffror och bindestreck. Ditt galleri fungerar fortfarande på sin gamla länk också."
+                },
+                "unavailable": "$~Du kan välja ett namn för denna länk när galleriet är offentligt och en moderator har godkänt det.",
+                "save": {
+                    "label": "$~Spara",
+                    "tip": "$~ge detta galleri denna länk"
+                },
+                "copy": {
+                    "tip": "$~kopiera detta galleris länk"
+                },
+                "copied": "$~Kopierat!",
+                "claimed": "$~Sparat. Detta galleri har nu en kortare länk.",
+                "error": {
+                    "taken": "$~Ett annat galleri använder redan detta namn.",
+                    "invalid": "$~Det där är inte ett namn en gallerilänk kan ha.",
+                    "unlisted": "$~Detta galleri måste vara offentligt och godkänt för att kunna ha ett namn.",
+                    "failure": "$~Vi kunde inte spara det namnet. Försök igen?",
+                    "notYours": "$~Det namnet tillhör inte detta galleri att ge upp."
+                },
+                "release": {
+                    "description": "$~ge upp detta namn för gott, så vem som helst kan ta det",
+                    "prompt": "$~Ge upp det?"
+                },
+                "released": "$~Det namnet är nu fritt för vem som helst att använda.",
+                "names": "$~Namn:",
+                "currentName": "$~används nu"
             }
         },
         "source": {
@@ -511,7 +545,7 @@
                     "noInsert": "$~Det går inte att infoga här",
                     "noError": "$~Denna redigering skulle skapa en konflikt",
                     "noEditor": "$~Ingen aktiv redigerare",
-                    "noClipboard": "$!Inget urklipp tillgängligt",
+                    "noClipboard": "$~Inget urklipp tillgängligt",
                     "noClipboardItem": "$~Ingenting på urklippet",
                     "noSelection": "$~Inget valt",
                     "noMove": "$~Kan inte röra mig längre",
@@ -1047,7 +1081,7 @@
                     "explanation": "$~/Begrepp som är dolda från huvuddokumentationen./"
                 },
                 "How": {
-                    "header": "$!Hur man",
+                    "header": "$~Hur man",
                     "explanation": "$~/Vanliga mönster för att skapa olika typer av projekt./"
                 },
                 "Definitions": {

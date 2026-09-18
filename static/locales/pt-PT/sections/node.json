@@ -476,7 +476,7 @@
         },
         "BooleanLiteral": {
             "name": "literal booleano",
-            "description": "$!$value[verdadeiro|falso]",
+            "description": "$~$value[true|false]",
             "emotion": "precise",
             "doc": "$~Sou \\⊤\\ ou \\⊥\\. Consulte @Boolean para saber mais sobre a nossa bela lógica.",
             "start": "$value!"
@@ -817,7 +817,7 @@
         },
         "FunctionDefinition": {
             "name": "função",
-            "description": "$!função $name",
+            "description": "$~função $name",
             "emotion": "kind",
             "label": {
                 "inputs": "entradas",
@@ -1720,7 +1720,7 @@
             "connector": ", porque",
             "emotion": "curious",
             "doc": "$~Sou um @type que ainda ninguém descobriu. Hmm… sabe o que represento? Talvez precise de nos dizer, se não conseguirmos descobrir.",
-            "description": "$!desconhecido"
+            "description": "$~desconhecido"
         },
         "TableType": {
             "name": "$~table type",

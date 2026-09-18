@@ -491,9 +491,10 @@ describe('galleries: a decision cannot be smuggled in at creation', () => {
     /** What the client actually sends: private, unrequested, nothing derived. */
     function fresh(overrides: Record<string, unknown> = {}) {
         return {
-            v: 4,
+            v: 5,
             id: 'rulestest-mod-created',
             path: null,
+            pathAliases: [],
             name: { 'en-US': 'New' },
             description: { 'en-US': '' },
             words: [],

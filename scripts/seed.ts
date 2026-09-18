@@ -343,6 +343,24 @@ function makePublicProject(
     ).serialize();
 }
 
+/** The vanity path the first seeded public gallery answers to (#180). */
+export const SEEDED_GALLERY_PATH = 'seeded-gallery';
+
+/**
+ * Galleries a moderator has approved (#180).
+ *
+ * The vanity-path chooser only renders for a gallery that is public *and*
+ * approved, and `Gallery.make` starts every public gallery at `pending`, so
+ * without this no seeded gallery can reach that UI at all — it can only be
+ * found by editing Firestore by hand. The first already holds
+ * SEEDED_GALLERY_PATH, so it exercises a gallery that has a name; the second
+ * has none, so it exercises choosing one.
+ */
+export const SEEDED_APPROVED_GALLERY_IDS = [
+    'seed-public-gallery-00',
+    'seed-public-gallery-01',
+];
+
 function makePublicGallery(
     index: number,
     curatorUid: string,
@@ -632,6 +650,20 @@ async function seedPublicProjectsAndGalleries(): Promise<void> {
         // The first public gallery gets a published how-to, so there is a
         // public how-to space for a signed-out visitor to open.
         if (i === 0) {
+            // A vanity path (#180), so the preview and sitemap tests have a
+            // gallery that is reachable by name as well as by ID. Written with
+            // its reservation, the way claimGalleryPath writes the pair —
+            // a path with no reservation would be claimable by someone else.
+            gallery.path = SEEDED_GALLERY_PATH;
+            batch.set(
+                firestore.collection('gallerypaths').doc(SEEDED_GALLERY_PATH),
+                {
+                    v: 1,
+                    gallery: gallery.id,
+                    path: SEEDED_GALLERY_PATH,
+                    claimed: Date.now(),
+                },
+            );
             const howToId = PUBLIC_HOWTO_ID;
             gallery.howTos = [howToId];
             batch.set(
@@ -663,6 +695,35 @@ async function seedPublicProjectsAndGalleries(): Promise<void> {
     console.log(
         `[seed] Wrote ${SEED_PROJECTS.length} public projects and ${PUBLIC_GALLERY_THEMES.length} public galleries owned by "${creator.username}"`,
     );
+}
+
+/**
+ * Approve the galleries above, once their own creation has settled.
+ *
+ * This cannot be done in the batch that writes them. `galleryEdited` re-queues
+ * a gallery whose content changed, a create counts as a content change, and the
+ * trigger's write lands *after* whatever the seed wrote — so approval set at
+ * create time is silently reverted to `pending` and every seeded gallery looks
+ * unapproved. Writing it afterwards and reading it back is what makes this hold
+ * whether or not the functions emulator is running to revert it.
+ */
+async function approveSeededGalleries(): Promise<void> {
+    const firestore = getFirestore();
+    for (const id of SEEDED_APPROVED_GALLERY_IDS) {
+        const doc = firestore.collection('galleries').doc(id);
+        let approved = false;
+        for (let attempt = 0; attempt < 10 && !approved; attempt++) {
+            await doc.update({ moderation: 'approved' });
+            // Long enough for the trigger to answer, if it is going to.
+            await new Promise((resolve) => setTimeout(resolve, 500));
+            approved = (await doc.get()).data()?.moderation === 'approved';
+        }
+        console.log(
+            approved
+                ? `[seed] Approved gallery "${id}"`
+                : `[seed] Could not keep gallery "${id}" approved`,
+        );
+    }
 }
 
 /** Stable ID for an expanded-scope gallery: curated by `teacher`, with how-to
@@ -1074,6 +1135,13 @@ async function main(): Promise<void> {
     } catch (err) {
         console.error('[seed] Failed to seed chats:', err);
     }
+    // Last, so the create triggers for everything above have already run and
+    // this usually holds on the first attempt.
+    try {
+        await approveSeededGalleries();
+    } catch (err) {
+        console.error('[seed] Failed to approve galleries:', err);
+    }
     console.log('[seed] Done. Manual logins:');
     for (const user of SEEDED_USERS) {
         const claimsNote = user.claims
@@ -1086,6 +1154,9 @@ async function main(): Promise<void> {
     );
     console.log(
         `[seed] Creator how-tos: /gallery/${SEEDED_HOWTO_GALLERY_ID}/howto (sign in as creator)`,
+    );
+    console.log(
+        `[seed] Gallery links: /gallery/${SEEDED_GALLERY_PATH} (named) and /gallery/${SEEDED_APPROVED_GALLERY_IDS[1]} (name one, as creator)`,
     );
 }
 

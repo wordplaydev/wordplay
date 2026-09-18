@@ -1573,7 +1573,7 @@
         },
         "AnyType": {
             "name": "$~kahitano",
-            "description": "$!kahit ano",
+            "description": "$~kahit ano",
             "emotion": "curious",
             "doc": "$~Kinakatawan ko ang kahit anong posibleng @type. Minsan lumalabas ako dahil hindi ko alam kung anong uri ng @value ang isang bagay, kaya maaari itong kahit ano."
         },

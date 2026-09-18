@@ -70,8 +70,13 @@
             var(--wordplay-background);
     }
 
+    /* align-self because an inline notice is often a direct child of a flex
+       column — a tab panel, a form — where the default `stretch` would blow it
+       out to the container's full width and leave most of it empty. Inline
+       already means "only as wide as what it says". */
     span {
         display: inline-block;
+        align-self: start;
     }
 
     div {

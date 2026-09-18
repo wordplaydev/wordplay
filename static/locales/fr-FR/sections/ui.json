@@ -344,6 +344,10 @@
                 "description": {
                     "description": "$~Description de la galerie",
                     "placeholder": "$~Décrivez votre galerie. Quel est son thème, ses objectifs ou sa communauté ?"
+                },
+                "path": {
+                    "description": "$~Nom du lien de la galerie",
+                    "placeholder": "$~nom"
                 }
             },
             "projects": "$~$#count[$#count projet|$count projets|$count projets]",
@@ -367,6 +371,36 @@
                     "$~choisir qui peut voir cette galerie",
                     "$~supprimer cette galerie"
                 ]
+            },
+            "path": {
+                "subheader": {
+                    "header": "$~Lien",
+                    "explanation": "$~Choisis un nom court pour le lien de cette galerie, pour qu'il soit plus facile à partager et à dire à voix haute. Lettres, chiffres et traits d'union. Ta galerie continue de fonctionner avec son ancien lien aussi."
+                },
+                "unavailable": "$~Tu peux choisir un nom pour ce lien une fois que cette galerie est publique et qu'un modérateur l'a approuvée.",
+                "save": {
+                    "label": "$~Enregistrer",
+                    "tip": "$~donner ce lien à cette galerie"
+                },
+                "copy": {
+                    "tip": "$~copier le lien de cette galerie"
+                },
+                "copied": "$~Copié !",
+                "claimed": "$~Enregistré. Cette galerie a maintenant un lien plus court.",
+                "error": {
+                    "taken": "$~Une autre galerie utilise déjà ce nom.",
+                    "invalid": "$~Ce n'est pas un nom qu'un lien de galerie peut avoir.",
+                    "unlisted": "$~Cette galerie doit être publique et approuvée pour avoir un nom.",
+                    "failure": "$~Nous n'avons pas pu enregistrer ce nom. Réessayer ?",
+                    "notYours": "$~Ce nom n'appartient pas à cette galerie, elle ne peut pas y renoncer."
+                },
+                "release": {
+                    "description": "$~abandonner ce nom pour de bon, pour que n'importe qui puisse le prendre",
+                    "prompt": "$~L'abandonner ?"
+                },
+                "released": "$~Ce nom est maintenant libre pour tout le monde.",
+                "names": "$~Noms :",
+                "currentName": "$~utilisé actuellement"
             }
         },
         "source": {

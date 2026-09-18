@@ -12,8 +12,14 @@ import type {
     AnalyzeLocalizationInputs,
     ChangeUsernameInputs,
     ChangeUsernameOutput,
+    ClaimGalleryPathInputs,
+    ReleaseGalleryPathInputs,
+    ReleaseGalleryPathOutput,
+    ClaimGalleryPathOutput,
     ClaimUsernameInputs,
     ClaimUsernameOutput,
+    GalleryPathAvailableInputs,
+    GalleryPathAvailableOutput,
     FindCreatorInputs,
     FindCreatorOutput,
     JoinAccountInputs,
@@ -40,11 +46,14 @@ import type {
 
 import changeUsernameHandler from './changeUsername.js';
 import chatDeletedHandler from './chatDeleted.js';
+import claimGalleryPathHandler from './claimGalleryPathCallable.js';
+import releaseGalleryPathHandler from './releaseGalleryPathCallable.js';
 import claimUsernameHandler from './claimUsernameCallable.js';
 import findCreatorHandler from './findCreator.js';
 import joinAccountHandler from './joinAccount.js';
 import sendSigninLinkHandler from './sendSigninLink.js';
 import switchToPasswordHandler from './switchToPassword.js';
+import galleryPathAvailableHandler from './galleryPathAvailable.js';
 import usernameAvailableHandler from './usernameAvailable.js';
 import compactProjectUpdatesHandler from './compactProjectUpdates.js';
 import createClassHandler from './createClass.js';
@@ -147,6 +156,30 @@ export const claimUsername = onCall<
     ClaimUsernameInputs,
     Promise<ClaimUsernameOutput>
 >({ ...cors, ...appcheck }, noProxy(claimUsernameHandler));
+
+/** Whether gallery vanity paths could be claimed (#180). Signed in, unlike
+ *  usernameAvailable: you cannot be naming a gallery without an account, and
+ *  the reservation index it reports on is otherwise unreadable. */
+export const galleryPathAvailable = onCall<
+    GalleryPathAvailableInputs,
+    Promise<GalleryPathAvailableOutput>
+>({ ...cors, ...appcheck }, galleryPathAvailableHandler);
+
+/** Give a gallery a vanity path, change it, or clear it (#180). A callable
+ *  because uniqueness is a reservation taken in the same transaction that
+ *  writes the gallery's `path`, which no security rule could express. */
+export const claimGalleryPath = onCall<
+    ClaimGalleryPathInputs,
+    Promise<ClaimGalleryPathOutput>
+>({ ...cors, ...appcheck }, noProxy(claimGalleryPathHandler));
+
+/** Give up one of a gallery's names for good (#180), deleting its reservation
+ *  so anyone may claim it. Separate from claimGalleryPath because a null path
+ *  there means "stop using this name" while still holding it. */
+export const releaseGalleryPath = onCall<
+    ReleaseGalleryPathInputs,
+    Promise<ReleaseGalleryPathOutput>
+>({ ...cors, ...appcheck }, noProxy(releaseGalleryPathHandler));
 
 /** Move an account from an emailed link to a username and password (#628). The
  *  opposite direction stays on the client, where verifyBeforeUpdateEmail proves

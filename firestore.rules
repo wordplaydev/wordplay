@@ -350,6 +350,20 @@ service cloud.firestore {
     match /usernames/{folded} {
       allow read, write: if false;
     }
+    // The uniqueness index for gallery vanity paths (#180), keyed by the folded
+    // path, for exactly the reason usernames above is: Firestore has no unique
+    // constraint, so the only atomic "check, then claim" is a document named
+    // after the thing being claimed. The claimGalleryPath callable takes it in a
+    // transaction with the gallery's own `path`, which is why that field is
+    // server-owned.
+    //
+    // Unreadable, not merely unwritable, and for the same reason: a readable
+    // name-keyed index enumerates every gallery on the platform, private ones
+    // included. Resolution never needs it — a visitor following a vanity link
+    // queries `galleries` by `path`, where the ordinary read rule applies.
+    match /gallerypaths/{folded} {
+      allow read, write: if false;
+    }
     // Rate limits on emailed sign-in links (#628), keyed by a salted hash of the
     // address or the caller's IP and never by the value itself. This collection
     // exists so our own mail sender cannot be aimed at someone as a spam cannon;
@@ -413,7 +427,9 @@ service cloud.firestore {
           && (!("flags" in request.resource.data) || request.resource.data.flags == resource.data.flags)
           && (!("words" in request.resource.data) || request.resource.data.words == resource.data.words)
           && (!("howToViewers" in request.resource.data) || request.resource.data.howToViewers == resource.data.howToViewers)
-          && (!("howToViewersFlat" in request.resource.data) || request.resource.data.howToViewersFlat == resource.data.howToViewersFlat);
+          && (!("howToViewersFlat" in request.resource.data) || request.resource.data.howToViewersFlat == resource.data.howToViewersFlat)
+          && (!("path" in request.resource.data) || request.resource.data.path == resource.data.path)
+          && (!("pathAliases" in request.resource.data) || request.resource.data.pathAliases == resource.data.pathAliases);
       }
       // The same fields on the way in. The guard above compares against what is
       // stored, which does not exist on a create — so every rule it states could
@@ -428,7 +444,9 @@ service cloud.firestore {
           && request.resource.data.flags.values().hasOnly([null])
           && request.resource.data.words.size() == 0
           && request.resource.data.howToViewers.size() == 0
-          && request.resource.data.howToViewersFlat.size() == 0;
+          && request.resource.data.howToViewersFlat.size() == 0
+          && request.resource.data.path == null
+          && request.resource.data.pathAliases.size() == 0;
       }
       allow create: if request.auth != null && galleryMayBePublic() && galleryServerFieldsInitial()
         && notProxying();

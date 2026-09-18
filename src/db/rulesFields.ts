@@ -37,6 +37,14 @@ export const ChatWritableFields = [
  * The two how-to fields are derived, not decided: a curator asks by setting
  * `howToExpandedVisibility` and `howToExpandedGalleries`, which stay theirs, and
  * the trigger answers with the viewer lists.
+ *
+ * `path` and `pathAliases` are the vanity URL (#180), and they are here for the
+ * reason `aliases` is on kits: uniqueness cannot be expressed as a rule, so it
+ * lives in a reservation collection, and a client that could write these could
+ * point a name someone else holds at its own gallery, take back a name it had
+ * superseded, or drop a name while the reservation kept holding it. The
+ * claimGalleryPath and releaseGalleryPath callables write both, each in the
+ * transaction that takes or deletes the reservation.
  */
 export const GalleryServerOwnedFields = [
     'moderation',
@@ -45,6 +53,8 @@ export const GalleryServerOwnedFields = [
     'words',
     'howToViewers',
     'howToViewersFlat',
+    'path',
+    'pathAliases',
 ] as const;
 
 /**

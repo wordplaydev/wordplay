@@ -109,7 +109,7 @@
                 "names": "$~style"
             },
             "gravity": {
-                "doc": "$!La gravité à appliquer à la sortie dont la place est dans @Motion.",
+                "doc": "$~La gravité à appliquer à la sortie dont la place est dans @Motion.",
                 "names": "$~pesanteur"
             },
             "defaultDescription": "$~scène $name[$name |]de $#count[$#count sortie|$count sorties|$count sorties]$frame[avec cadre $frame|] $pose $color[$color|]",

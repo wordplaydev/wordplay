@@ -989,6 +989,9 @@
         "ee25d92cdeeaa": "$~O tutorial agora explica que um projeto pode ter mais do que um ficheiro fonte, e oferece uma visita guiada aos controlos do projeto. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
         "e35eab7d1d833": "$~Já pode transferir uma cópia de tudo o que criou, incluindo os seus projetos, personagens, galerias e definições, a partir da sua página de perfil. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Já pode abrir um ficheiro de projeto na sua página <Projetos@https://wordplay.dev/projects>, escolhendo-o ou arrastando-o para a página. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e5382816343d1": "$~Pode arrastar um ficheiro de projeto para um projeto que já tem, para substituir o que está lá dentro. Perguntamos-lhe sempre primeiro. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
+        "e5382816343d1": "$~Pode arrastar um ficheiro de projeto para um projeto que já tem, para substituir o que está lá dentro. Perguntamos-lhe sempre primeiro. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e79e532740f2d": "$~Uma galeria pública e aprovada já pode ter um nome curto no seu link, como art-club, para ser mais fácil de partilhar e dizer em voz alta. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ee35c2f36a6bf": "$~Quando muda o nome de uma galeria, os links com o nome antigo continuam a funcionar e levam as pessoas até ao novo. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ea66300a90b1a": "$~Pode deixar de usar um nome de galeria que já não quer, o que permite que outra pessoa o utilize. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
     }
 }

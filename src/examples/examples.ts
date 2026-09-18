@@ -1,4 +1,5 @@
 import Gallery, { GallerySchemaLatestVersion } from '@db/galleries/Gallery';
+import type { ExampleGalleryID } from './exampleGalleryIDs';
 import { moderatedFlags } from '@db/projects/Moderation';
 import {
     ProjectSchemaLatestVersion,
@@ -251,7 +252,7 @@ export async function getExample(
 }
 
 function createGallery(
-    id: string,
+    id: ExampleGalleryID,
     text: Record<string, GalleryText>,
     projects: string[],
     locales: Locales,
@@ -259,7 +260,12 @@ function createGallery(
     return new Gallery({
         v: GallerySchemaLatestVersion,
         id,
-        path: id,
+        // No vanity path, though these ids are the human-readable names a
+        // vanity path exists to provide. A second address for the same page is
+        // a canonical-URL problem in the sitemap for no gain — so the ids are
+        // reserved in galleryPath.ts instead, and nobody else can claim them.
+        path: null,
+        pathAliases: [],
         name: Object.fromEntries(
             Object.entries(text).map(([locale, t]) => [locale, t.name]),
         ),

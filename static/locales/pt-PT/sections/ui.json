@@ -368,6 +368,10 @@
                 "description": {
                     "description": "Descrição da galeria",
                     "placeholder": "Descreva a sua galeria. Qual é o seu tema, objetivos ou comunidade?"
+                },
+                "path": {
+                    "description": "$~Nome da ligação da galeria",
+                    "placeholder": "$~nome"
                 }
             },
             "projects": "$~$#count[$#count projeto|$count projetos|$count projetos]",
@@ -391,6 +395,36 @@
                     "$~escolher quem pode ver esta galeria",
                     "$~eliminar esta galeria"
                 ]
+            },
+            "path": {
+                "subheader": {
+                    "header": "$~Ligação",
+                    "explanation": "$~Escolha um nome curto para a ligação desta galeria, para ser mais fácil de partilhar e de dizer em voz alta. Letras, números e hífenes. A sua galeria continua a funcionar também na ligação antiga."
+                },
+                "unavailable": "$~Pode escolher um nome para esta ligação assim que esta galeria for pública e um moderador a aprovar.",
+                "save": {
+                    "label": "$~Guardar",
+                    "tip": "$~dar esta ligação a esta galeria"
+                },
+                "copy": {
+                    "tip": "$~copiar a ligação desta galeria"
+                },
+                "copied": "$~Copiado!",
+                "claimed": "$~Guardado. Esta galeria tem agora uma ligação mais curta.",
+                "error": {
+                    "taken": "$~Outra galeria já está a usar este nome.",
+                    "invalid": "$~Esse não é um nome que uma ligação de galeria possa ter.",
+                    "unlisted": "$~Esta galeria tem de ser pública e aprovada para ter um nome.",
+                    "failure": "$~Não conseguimos guardar esse nome. Tentar novamente?",
+                    "notYours": "$~Esse nome não pertence a esta galeria para o poder ceder."
+                },
+                "release": {
+                    "description": "$~ceder este nome para sempre, para que qualquer pessoa o possa usar",
+                    "prompt": "$~Ceder?"
+                },
+                "released": "$~Esse nome está agora livre para qualquer pessoa usar.",
+                "names": "$~Nomes:",
+                "currentName": "$~em uso agora"
             }
         },
         "gallerymoderation": {

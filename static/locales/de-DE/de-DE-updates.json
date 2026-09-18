@@ -989,6 +989,9 @@
         "ee25d92cdeeaa": "$~Die Anleitung erklärt jetzt, dass ein Projekt mehr als eine Quelle haben kann. Sie bietet dir auch einen Rundgang durch die Projektsteuerung. (<268@https://github.com/wordplaydev/wordplay/issues/268>)",
         "e35eab7d1d833": "$~Du kannst jetzt eine Kopie von allem herunterladen, was du gemacht hast. Das sind deine Projekte, Figuren, Galerien und Einstellungen. Du findest das auf deiner Profilseite. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Du kannst jetzt eine Projektdatei auf deiner <Projekte@https://wordplay.dev/projects>-Seite öffnen. Wähle sie aus oder ziehe sie auf die Seite. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e5382816343d1": "$~Du kannst eine Projektdatei auf ein Projekt ziehen, das du schon hast, um dessen Inhalt zu ersetzen. Wir fragen dich vorher. (<152@https://github.com/wordplaydev/wordplay/issues/152>)"
+        "e5382816343d1": "$~Du kannst eine Projektdatei auf ein Projekt ziehen, das du schon hast, um dessen Inhalt zu ersetzen. Wir fragen dich vorher. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
+        "e79e532740f2d": "$~Eine Galerie, die öffentlich und genehmigt ist, kann jetzt einen kurzen Namen in ihrem Link haben, wie zum Beispiel kunst-club. So lässt sie sich leichter teilen und aussprechen. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ee35c2f36a6bf": "$~Wenn du den Namen einer Galerie änderst, funktionieren Links mit dem alten Namen weiterhin und führen zur neuen Galerie. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "ea66300a90b1a": "$~Du kannst einen Galerienamen, den du nicht mehr brauchst, wieder freigeben. Dann kann jemand anderes ihn benutzen. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
     }
 }

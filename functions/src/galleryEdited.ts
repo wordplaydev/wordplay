@@ -1,3 +1,4 @@
+import { retireGalleryPaths } from './galleryPaths.js';
 import { foldWords, sameWords } from './searchWords.js';
 import { fieldOf, isRecord, isStringArray } from './shared/guards.js';
 import { nextModeration } from './moderationRequest.js';
@@ -152,6 +153,13 @@ export function galleryContentChanged(
         // Characters are gallery content too (#822), so adding one to an
         // approved public gallery puts it back in the queue — approval was of
         // what the gallery was.
+        //
+        // `path` is deliberately NOT here (#180). A vanity path is an address,
+        // not a claim about the gallery — and since a curator may only choose
+        // one while the gallery is approved, re-queuing on it would un-list the
+        // gallery and take away the affordance in the same write that used it.
+        // A path that needs a moderator's attention is reported like anything
+        // else, and an upheld report clears `public`, which stops it resolving.
         !sameIdList(before.characters, after.characters)
     );
 }
@@ -191,6 +199,18 @@ export default async function galleryEdited(
 
     // The expanded how-to viewer lists other galleries derive from this one.
     if (before && !after) {
+        // Its vanity path and every name it used to answer to become tombstones
+        // rather than going back in the pool (#180). A path is a URL that has
+        // been handed out — in a class handout, a school newsletter — and
+        // re-issuing it would point those readers at a stranger's gallery under
+        // a name they trust. Here rather than in GalleryDatabase.delete because
+        // the client cannot write the reservations at all, and because this also
+        // covers a gallery deleted by a script or the console.
+        await retireGalleryPaths(
+            typeof before.path === 'string' ? before.path : null,
+            isStringArray(before.pathAliases) ? before.pathAliases : [],
+        );
+
         // if deletion, then remove this gallery from all other galleries' lists of expanded galleries and viewers
 
         const galleriesToUpdate = await galleryStore

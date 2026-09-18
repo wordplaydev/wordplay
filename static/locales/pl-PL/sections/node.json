@@ -476,7 +476,7 @@
         },
         "BooleanLiteral": {
             "name": "$~wartość logiczna",
-            "description": "$!$value[prawda|fałsz]",
+            "description": "$~$value[prawda|fałsz]",
             "emotion": "precise",
             "doc": "$~Jestem albo \\⊤\\ albo \\⊥\\. Zobacz @Boolean, aby dowiedzieć się więcej o naszej pięknej logice.",
             "start": "$~$value!"
@@ -493,7 +493,7 @@
             "conflict": {
                 "UnknownBorrow": {
                     "name": "$~nieznany import",
-                    "explanation": "$!Nie znam źródła o tej nazwie",
+                    "explanation": "$~Nie znam źródła o tej nazwie",
                     "resolution": "$~Usuń tę pożyczkę"
                 },
                 "BorrowCycle": {
@@ -817,7 +817,7 @@
         },
         "FunctionDefinition": {
             "name": "$~funkcjonować",
-            "description": "$!funkcja $name",
+            "description": "$~funkcja $name",
             "emotion": "kind",
             "doc": [
                 "$~Przyjmuję pewne dane wejściowe, potem obliczam @expression, używając ich, i tworzę wynik. Cześć jeszcze raz!",
@@ -1717,7 +1717,7 @@
         },
         "UnknownType": {
             "name": "$~nieznany",
-            "description": "$!nieznany",
+            "description": "$~nieznane",
             "connector": "$~, ponieważ",
             "emotion": "curious",
             "doc": "$~Jestem @type, którego nikt jeszcze nie rozgryzł. Hmm… wiesz, co reprezentuję? Może musisz nam powiedzieć, jeśli sami nie zgadniemy."
