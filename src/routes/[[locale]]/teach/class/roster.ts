@@ -1,6 +1,7 @@
 import { isMailableAddress } from '@db/creators/mailableAddress';
 import { repairUsername, UsernameLength } from '@db/creators/username';
 import { must } from '@util/nullable';
+import { parseCSV } from '@values/export/csv';
 import type { ClassSigninMethod } from 'shared-types';
 
 /**
@@ -20,6 +21,20 @@ import type { ClassSigninMethod } from 'shared-types';
  * Pure, so it can be tested in milliseconds and so the form and the credential
  * generator agree about which cell is which.
  */
+
+/**
+ * The pasted roster as rows of trimmed cells.
+ *
+ * Read by the same parser that turns pasted CSV into a Wordplay table, so a
+ * spreadsheet's own quoting survives: splitting on commas by hand — which this
+ * did — puts `"O'Brien, Mary"` in two columns and silently changes which cell
+ * is the address. A row of nothing but empty cells is not a student.
+ */
+export function readRoster(text: string): string[][] {
+    return parseCSV(text)
+        .map((row) => row.map((cell) => cell.trim()))
+        .filter((row) => row.some((cell) => cell !== ''));
+}
 
 /** When a name can't be made out of anything the teacher gave us. */
 const Fallback = 'learner';

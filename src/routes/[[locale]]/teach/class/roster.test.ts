@@ -5,6 +5,7 @@ import {
     baseUsername,
     describingCells,
     everyRowHasAnAddress,
+    readRoster,
 } from './roster';
 
 /**
@@ -129,5 +130,42 @@ describe('naming a student', () => {
         const row = ['204', 'Chen'];
         baseUsername(row, undefined);
         expect(row).toEqual(['204', 'Chen']);
+    });
+});
+
+describe('reading a pasted roster', () => {
+    test('splits rows into trimmed cells', () => {
+        expect(readRoster('a, b\nc ,d')).toEqual([
+            ['a', 'b'],
+            ['c', 'd'],
+        ]);
+    });
+
+    test('a quoted cell holding the separator stays one cell', () => {
+        // What a spreadsheet writes for a name with a comma in it. Splitting on
+        // commas by hand put this in two columns, which in an email class also
+        // changes which cell is read as the address.
+        expect(readRoster('"O\'Brien, Mary",mary@school.org')).toEqual([
+            ["O'Brien, Mary", 'mary@school.org'],
+        ]);
+    });
+
+    test('a doubled quote inside a quoted cell is one quote', () => {
+        expect(readRoster('"She said ""hi""",b')).toEqual([
+            ['She said "hi"', 'b'],
+        ]);
+    });
+
+    test('blank lines are not students', () => {
+        expect(readRoster('a,b\n\n\nc,d\n')).toEqual([
+            ['a', 'b'],
+            ['c', 'd'],
+        ]);
+    });
+
+    test('non-Latin cells survive', () => {
+        expect(readRoster('さくら,sakura@school.jp')).toEqual([
+            ['さくら', 'sakura@school.jp'],
+        ]);
     });
 });

@@ -2,6 +2,7 @@ import type Locales from '@locale/Locales';
 import type Value from '@values/Value';
 import safeName from '@util/fileNames';
 import { canExport } from '@values/export/canExport';
+import { csvFileBytes } from '@values/export/csv';
 import toGrid, { gridToCSV } from '@values/export/grid';
 import toJSON, { type JSONNotes } from '@values/export/json';
 
@@ -46,17 +47,14 @@ export function serialize(
 }
 
 /**
- * The bytes to hand a reader, which are not always the text.
- *
- * A CSV gets a byte order mark: Excel on Windows reads an unmarked UTF-8 file
- * in its legacy code page, and Wordplay content is very often not Latin. The
- * clipboard deliberately gets `text` instead — a mark pasted back into the
- * editor would land inside the first header cell.
+ * The bytes to hand a reader, which are not always the text. A CSV gets a byte
+ * order mark (see `csvFileBytes`); JSON does not need one. The clipboard
+ * deliberately gets `text` instead.
  */
 export function bytesOf(exported: Export): Uint8Array {
-    const text =
-        exported.format === 'csv' ? `﻿${exported.text}` : exported.text;
-    return new TextEncoder().encode(text);
+    return exported.format === 'csv'
+        ? csvFileBytes(exported.text)
+        : new TextEncoder().encode(exported.text);
 }
 
 export function mimeTypeOf(format: ExportFormat): string {

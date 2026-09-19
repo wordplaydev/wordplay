@@ -7,6 +7,8 @@
 
 <script lang="ts">
     import Centered from '@components/app/Centered.svelte';
+    import downloadBytes from '@util/download';
+    import { csvFileBytes, writeCSVRows } from '@values/export/csv';
     import Header from '@components/app/Header.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
@@ -38,7 +40,7 @@
         createCredentials,
         type StudentWithCredentials,
     } from '../credentials';
-    import { everyRowHasAnAddress } from '../roster';
+    import { everyRowHasAnAddress, readRoster } from '../roster';
     import { localeGoto } from '@util/localeGoto';
 
     /** The state to store the name of the class. */
@@ -87,23 +89,13 @@
     /** The teacher logged in */
     let user = getUser();
 
-    // Trim all the cells for normalization and comparison.
-    let trimmed = $derived(
-        metadata
-            .split('\n')
-            .filter((l) => l.trim() !== '')
-            .map((line) =>
-                line
-                    .split(',')
-                    .map((s) => s.trim())
-                    .join(','),
-            ),
-    );
-
     /** The secret words, converted into a list */
     let secrets = $derived(words.split(/\s+/));
-    /** The 2D array of student metadata, derived from the trimmed student data */
-    let students = $derived(trimmed.map((line) => line.split(',')));
+
+    /** The roster as rows of cells. The reading lives in `roster.ts` with the
+     *  rest of what a row means, so it can be tested without a browser. */
+    let students = $derived(readRoster(metadata));
+
     /** Whether there is a probelm with the secret words. An email class never
      *  needs any. */
     let wordsProblem = $derived(method === 'password' && secrets.length < 25);
@@ -153,13 +145,13 @@
                 return 'addresses';
 
             // Must have the same number of columns in each line
-            if (
-                new Set(trimmed.map((line) => line.split(',').length)).size !==
-                1
-            )
+            if (new Set(students.map((row) => row.length)).size !== 1)
                 return 'columns';
-            // No duplicates
-            if (new Set(trimmed).size !== trimmed.length) return 'duplicates';
+            // No duplicates. Compared as rows rather than as joined text: two
+            // different rows can join to the same string once a cell may hold
+            // the separator.
+            const rows = students.map((row) => JSON.stringify(row));
+            if (new Set(rows).size !== rows.length) return 'duplicates';
 
             // No problems.
             return undefined;
@@ -234,24 +226,25 @@
                 const first = finalStudents[0];
                 const info =
                     first === undefined ? [] : first.meta.map(() => 'info');
-                const csv =
-                    `${info.join(',')},username${passwords ? ',password' : ''}\n` +
-                    finalStudents
-                        .map(
-                            (s, index) =>
-                                `${s.meta.join(',')},${placed?.[index]?.username ?? s.username}${passwords ? `,${s.password}` : ''}`,
-                        )
-                        .join('\n');
-                const blob = new Blob([csv], {
-                    type: 'text/csv;charset=utf-16',
-                });
-                const url = URL.createObjectURL(blob);
-                var link = document.createElement('a');
-                link.setAttribute('href', url);
-                link.setAttribute('download', 'students.csv');
-                document.body.appendChild(link);
-                link.click(); // This triggers the download.
-                document.body.removeChild(link);
+                // Built as rows and written by the shared CSV writer, so a
+                // name holding a comma or a quote survives the trip. Joining
+                // strings by hand here put `O'Brien, Mary` in two columns.
+                const csv = writeCSVRows([
+                    [...info, 'username', ...(passwords ? ['password'] : [])],
+                    ...finalStudents.map((s, index) => [
+                        ...s.meta,
+                        placed?.[index]?.username ?? s.username,
+                        ...(passwords ? [s.password] : []),
+                    ]),
+                ]);
+                // `downloadBytes` revokes the object URL; the copy this
+                // replaced leaked one per download. The mark is what lets Excel
+                // read a roster that isn't Latin.
+                downloadBytes(
+                    csvFileBytes(csv),
+                    'students.csv',
+                    'text/csv;charset=utf-8',
+                );
                 // Tell the UI that the download info is ready to show.
                 download = true;
             } else localeGoto(`/teach/class/${classid}`);

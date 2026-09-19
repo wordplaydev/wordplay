@@ -33,6 +33,19 @@ export function writeCSVRows(rows: readonly (readonly string[])[]): string {
     return rows.map((row) => row.map(escapeCSVField).join(',')).join('\r\n');
 }
 
+/**
+ * The bytes to save as a `.csv`, which are not simply the text.
+ *
+ * A byte order mark leads: Excel on Windows reads an unmarked UTF-8 file in its
+ * legacy code page, and Wordplay content — a creator's table, a teacher's roster
+ * — is very often not Latin. Anything put on the *clipboard* must use the text
+ * instead: a mark pasted back into the editor lands inside the first header
+ * cell.
+ */
+export function csvFileBytes(text: string): Uint8Array {
+    return new TextEncoder().encode(`\uFEFF${text}`);
+}
+
 /** Convert a CSV string into a 2D array of strings */
 export function parseCSV(
     data: string,
