@@ -73,9 +73,11 @@ const Lanes = {
     // Translation start, finish, and failure: discrete results a creator asked
     // for, so they are queued rather than coalesced and never dropped.
     translation: 'queued',
-    // Start, finish, partial finish, and failure of an account export (#152).
-    // The same shape as translation, and for the same reason: each is a
-    // discrete answer to a press, and none may be dropped.
+    // Start, finish, partial finish, and failure of an account export (#152),
+    // and saving one of a program's values as a CSV or JSON file. The same
+    // shape as translation, and for the same reason: each is a discrete answer
+    // to a press, and none may be dropped. Each names what it saved, so two in
+    // a row differ and the second is not dropped as a duplicate.
     export: 'queued',
     'project-mode': 'queued',
     'tutorial-dialog': 'queued',

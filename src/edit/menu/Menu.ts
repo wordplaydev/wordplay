@@ -14,11 +14,12 @@ import Token from '@nodes/Token';
 import type { Edit } from '@components/editor/commands/Commands';
 import Append from '@edit/revision/Append';
 import Assign from '@edit/revision/Assign';
+import MenuAction from '@edit/menu/MenuAction';
 import Revision from '@edit/revision/Revision';
 
 /** The first number is the selected revision or revision set, the second number is the optional revision in a selected revision set. */
 export type MenuSelection = [number, number | undefined];
-export type MenuOrganization = (Revision | RevisionSet)[];
+export type MenuOrganization = (Revision | RevisionSet | MenuAction)[];
 
 // A relevance ordering of purposes.
 
@@ -60,6 +61,11 @@ export default class Menu {
     /** The transforms generated from the caret */
     private readonly revisions: Revision[];
 
+    /** What the menu can *do* to the selected node, as opposed to change it
+     *  into. Kept apart from the revisions so the grouping below, which asks
+     *  every entry for a purpose and a removal, never sees one. */
+    private readonly actions: MenuAction[];
+
     /** The concept index, for organizing revisions */
     private readonly concepts: ConceptIndex;
 
@@ -87,6 +93,7 @@ export default class Menu {
         source: Source,
         anchor: CaretPosition | FieldPosition,
         revisions: Revision[],
+        actions: MenuAction[],
         organization: MenuOrganization | undefined,
         concepts: ConceptIndex,
         selection: [number, number | undefined],
@@ -96,6 +103,7 @@ export default class Menu {
         this.source = source;
         this.anchor = anchor;
         this.revisions = revisions;
+        this.actions = actions;
         this.concepts = concepts;
         this.selection = selection;
         this.action = action;
@@ -188,6 +196,11 @@ export default class Menu {
                     ? grouped
                     : grouped.flatMap((set) => set.revisions)),
                 ...removals,
+                // Last: changing the program is what this menu is for, and an
+                // action on the selected node is rarer than any of it. Last
+                // also keeps the opening selection ([0, undefined]) on the
+                // first suggestion rather than preselecting the action.
+                ...this.actions,
             ];
         }
 
@@ -215,6 +228,7 @@ export default class Menu {
             this.source,
             this.anchor,
             this.revisions,
+            this.actions,
             this.organization,
             this.concepts,
             [
@@ -232,11 +246,12 @@ export default class Menu {
     }
 
     /** Either the top level list or a sublist */
-    getRevisionList(): (Revision | RevisionSet)[] {
+    getRevisionList(): MenuOrganization {
         const [index, subindex] = this.selection;
         const submenu = this.organization[index];
         return submenu === undefined ||
             submenu instanceof Revision ||
+            submenu instanceof MenuAction ||
             subindex === undefined
             ? this.organization
             : submenu.revisions;
@@ -256,11 +271,12 @@ export default class Menu {
     }
 
     /** The current selection, if there is one. */
-    getSelection(): Revision | RevisionSet | undefined {
+    getSelection(): Revision | RevisionSet | MenuAction | undefined {
         const [index, subindex] = this.selection;
         const submenu = this.organization[index];
 
         return submenu instanceof Revision ||
+            submenu instanceof MenuAction ||
             (submenu instanceof RevisionSet && subindex === undefined)
             ? submenu
             : submenu !== undefined && subindex !== undefined
@@ -278,10 +294,16 @@ export default class Menu {
         return index + (subindex === undefined ? '' : `-${subindex}`);
     }
 
-    getSelectionFor(revision: Revision): MenuSelection | undefined {
+    getSelectionFor(
+        revision: Revision | MenuAction,
+    ): MenuSelection | undefined {
         const org = this.organization;
         const index = org.indexOf(revision);
         if (index >= 0) return [index, undefined];
+
+        // Only a revision is ever inside a set; an action is always top level,
+        // so failing to find it above is the whole answer.
+        if (!(revision instanceof Revision)) return undefined;
 
         const set = org.find(
             (item): item is RevisionSet =>
@@ -317,6 +339,7 @@ export default class Menu {
                       this.source,
                       this.anchor,
                       this.revisions,
+                      this.actions,
                       this.organization,
                       this.concepts,
                       [newIndex, undefined],
@@ -331,6 +354,7 @@ export default class Menu {
                       this.source,
                       this.anchor,
                       this.revisions,
+                      this.actions,
                       this.organization,
                       this.concepts,
                       [index, newSubindex],
@@ -348,6 +372,7 @@ export default class Menu {
                   this.source,
                   this.anchor,
                   this.revisions,
+                  this.actions,
                   this.organization,
                   this.concepts,
                   [this.selection[0], undefined],
@@ -365,6 +390,7 @@ export default class Menu {
                   this.source,
                   this.anchor,
                   this.revisions,
+                  this.actions,
                   this.organization,
                   this.concepts,
                   [this.selection[0], 0],
@@ -380,6 +406,7 @@ export default class Menu {
                   this.source,
                   this.anchor,
                   this.revisions,
+                  this.actions,
                   this.organization,
                   this.concepts,
                   [this.selection[0], undefined],
@@ -388,8 +415,17 @@ export default class Menu {
             : this;
     }
 
-    doEdit(locales: Locales, revision: Revision | RevisionSet | undefined) {
+    doEdit(
+        locales: Locales,
+        revision: Revision | RevisionSet | MenuAction | undefined,
+    ) {
         if (revision === undefined) return this.action(undefined);
+        // An action runs here rather than travelling through `action`, which
+        // exists to apply an edit and has nothing to do with this.
+        if (revision instanceof MenuAction) {
+            revision.execute();
+            return true;
+        }
         return revision
             ? this.action(
                   revision instanceof Revision

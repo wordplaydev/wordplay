@@ -252,6 +252,67 @@ test.describe('authed views', () => {
         }
     });
 
+    test(`saving a value as a file works and has no WCAG 2.2 AA violations`, async ({
+        browser,
+    }) => {
+        // One page load doing both jobs, which is what a Playwright test costs.
+        // The a11y scan is the cheap half; the download is the expensive half
+        // and the one claim that is genuinely about the browser — everything
+        // else about the exporter is a millisecond unit test.
+        const { context, page } = await loginNewContext(
+            browser,
+            'creator',
+            'password',
+        );
+        try {
+            await page.goto('/en-US/project/seed-data-project');
+            await expect(page.locator('#project-name')).toHaveValue(
+                'Pet Survey',
+                { timeout: LOAD_TIMEOUT },
+            );
+
+            // The button appears only under a value worth a file; this project
+            // evaluates to a table, so it should be there.
+            const save = page.getByTestId('export-value');
+            await expect(save).toBeVisible({ timeout: LOAD_TIMEOUT });
+            await save.click();
+
+            await expect(
+                page.getByText(text(enUS.ui.export.header)),
+            ).toBeVisible();
+            await expectNoAxeViolationsInBothSchemes(page);
+
+            // The file actually reaches the browser, with the name and the
+            // bytes the dialog promised.
+            // Switching format re-serializes and renames the file. Asserted
+            // here rather than in its own test because the expensive part of a
+            // Playwright test is the page load, and we already have one.
+            const dialog = page.getByRole('dialog');
+            await dialog.getByRole('radio', { name: 'JSON' }).click();
+            await expect(dialog.locator('pre')).toContainText('"legs": 4');
+            await expect(
+                dialog.getByLabel(text(enUS.ui.export.filename)),
+            ).toHaveValue('Pet Survey-Table.json');
+            await dialog.getByRole('radio', { name: 'Spreadsheet' }).click();
+
+            const downloading = page.waitForEvent('download');
+            // Scoped to the dialog and exact: the button that opened it is
+            // named "Save this value as a file", which a substring match on
+            // "Save" finds first — and clicking that just reopens the dialog.
+            await dialog
+                .getByRole('button', {
+                    name: text(enUS.ui.export.download),
+                    exact: true,
+                })
+                .click();
+            const download = await downloading;
+            // The value's own localized name, which en-US capitalizes.
+            expect(download.suggestedFilename()).toBe('Pet Survey-Table.csv');
+        } finally {
+            await context.close();
+        }
+    });
+
     test(`chat, with its translation controls, has no WCAG 2.2 AA violations`, async ({
         browser,
     }) => {

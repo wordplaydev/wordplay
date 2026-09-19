@@ -2803,6 +2803,31 @@
             "failed": "$~Não foi possível iniciar essa sessão. Ainda tem sessão iniciada como administrador(a)?",
             "expired": "$~Essa ligação já foi utilizada, ou já expirou. Comece de novo a partir da <página de privilégios@://admin>.",
             "ended": "$~Esta sessão terminou, e a sua sessão foi encerrada. Feche este separador. Para ver de novo, comece a partir da página de privilégios."
+        },
+        "export": {
+            "label": "$~Guardar este valor como ficheiro",
+            "header": "$~Guardar como ficheiro",
+            "explanation": "$~Retire estes dados do Wordplay. Um ficheiro /separado por vírgulas/ abre-se numa folha de cálculo, e um ficheiro /JSON/ é lido pela maioria dos outros programas. Também pode copiar o texto e colá-lo mais tarde num programa.",
+            "formats": {
+                "label": "$~Tipo de ficheiro",
+                "labels": ["$~Folha de cálculo", "$~JSON"],
+                "tips": [
+                    "$~um ficheiro separado por vírgulas, que se abre numa folha de cálculo",
+                    "$~um ficheiro JSON, que a maioria dos outros programas lê"
+                ]
+            },
+            "download": "$~Guardar",
+            "downloaded": "$~$name guardado",
+            "copy": "$~Copiar",
+            "copied": "$~copiado como $format",
+            "filename": "$~Nome do ficheiro",
+            "truncated": "$~A mostrar o início de $#count[1 linha|$count linhas|$count linhas].",
+            "unavailable": "$~Parte deste valor não são dados, por isso não pode ser guardado como ficheiro.",
+            "selectSomething": "$~Escolha primeiro algo que tenha um valor.",
+            "noValue": "$~Pause o programa para ver este valor e tente novamente.",
+            "notData": "$~Este não é o tipo de valor que justifique um ficheiro.",
+            "droppedUnits": "$~As unidades foram deixadas de fora: um número JSON não pode conter uma.",
+            "droppedNumbers": "$~Os números que não são finitos foram deixados de fora: o JSON não os consegue escrever."
         }
     }
 }

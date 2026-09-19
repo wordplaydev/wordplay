@@ -746,6 +746,16 @@ test('resolving a color needs no basis', () => {
  * a listener which starts and stops on navigation needs. About twenty kilobytes of code
  * and the comments explaining why each filter is load-bearing. Nothing new is reached:
  * these are modules every page already carried.
+ *
+ * Saving a value as a file is **+0 files** and a few hundred bytes: the sixteen
+ * strings the export dialog needs in `en-US.json`, which every page carries
+ * because every page resolves a locale. Nothing that serializes a value is in
+ * these numbers and none of it must be — `OutputView` reaches only `canExport`,
+ * an O(1) class test, and the dialog that reshapes a value into rows or JSON is
+ * loaded through a dynamic `import()` in `ValueExportButton`. A static import
+ * there put this page over its budget, which is how we know the door is real.
+ * `galleries` is the one entry with no slack left, so only its byte budget
+ * moves.
  */
 // These are ceilings, not measurements: raise one only for code that genuinely belongs on
 // the page's graph, never to quiet a leak. Bytes creeping is usually `en-US.json` growing,
@@ -900,7 +910,7 @@ test.each([
     ['src/routes/+layout.svelte', 535, 4.09],
     ['src/components/app/Page.svelte', 559, 4.34],
     ['src/routes/[[locale]]/+page.svelte', 574, 4.43],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.44],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.45],
     ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.48],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);

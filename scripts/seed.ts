@@ -118,6 +118,13 @@ const SEEDED_USERS: SeededUser[] = [
  */
 const SEEDED_COLLAB_PROJECT_ID = 'seed-collab-project';
 
+/**
+ * A project whose output is data rather than a stage, so the export affordance
+ * has something to appear under. Almost every other project renders a Phrase,
+ * and the button is deliberately absent for those.
+ */
+const SEEDED_DATA_PROJECT_ID = 'seed-data-project';
+
 /** Stable IDs for the demo class + gallery so tests can reference them directly. */
 const SEEDED_CLASS_ID = 'seeded-class-id';
 const SEEDED_CLASS_GALLERY_ID = 'seeded-class-gallery-id';
@@ -387,6 +394,37 @@ function makePublicGallery(
             howToReactions: HOWTO_REACTIONS,
         },
     ).data;
+}
+
+/** A project whose value is a table, for exercising saving a value as a file. */
+async function seedDataProject(): Promise<void> {
+    const firestore = getFirestore();
+    const creator = SEEDED_USERS.find((u) => u.username === 'creator');
+    if (!creator) throw new Error('creator missing from SEEDED_USERS');
+
+    const project = Project.make(
+        SEEDED_DATA_PROJECT_ID,
+        'Pet Survey',
+        new Source('start', "⎡name•'' legs•#⎦\n⎡'cat' 4⎦\n⎡'bird' 2⎦"),
+        [],
+        DefaultLocale,
+        creator.uid,
+        [],
+        false,
+        undefined,
+        true,
+        false,
+        true,
+        null,
+    ).serialize();
+
+    await firestore
+        .collection('projects')
+        .doc(SEEDED_DATA_PROJECT_ID)
+        .set(project);
+    console.log(
+        `[seed] Wrote data project "${SEEDED_DATA_PROJECT_ID}" (owner: ${creator.username})`,
+    );
 }
 
 /**
@@ -1107,6 +1145,7 @@ async function main(): Promise<void> {
     }
     try {
         await seedCollaborativeProject();
+        await seedDataProject();
     } catch (err) {
         console.error('[seed] Failed to seed collaborative project:', err);
     }

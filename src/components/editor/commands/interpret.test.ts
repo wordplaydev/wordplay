@@ -12,3 +12,19 @@ test('Comma-separated values are converted to a table', () => {
     expect(interpret(text)).not.toBe(text);
     expect(interpret(text).startsWith('⎡')).toBe(true);
 });
+
+test('Non-Latin comma-separated values are converted to a table', () => {
+    // The character class used to be ASCII-only, so a table in any other script
+    // pasted back as plain text rather than as the table it came from.
+    const text = '名前,色\nねこ,🐈\nいぬ,🐕';
+    expect(interpret(text).startsWith('⎡')).toBe(true);
+});
+
+test('false is read as false', () => {
+    // It used to be read as `true`, which made a round trip through CSV
+    // silently wrong rather than merely broken.
+    const text = 'a,b\ntrue,false\nfalse,true';
+    const table = interpret(text);
+    expect(table).toContain('⊥');
+    expect(table).toContain('⊤');
+});

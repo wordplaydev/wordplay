@@ -2813,6 +2813,31 @@
             "failed": "$~No pudimos iniciar esa sesión. ¿Sigues conectada como administradora?",
             "expired": "$~Ese enlace ya se usó, o ya expiró. Comienza de nuevo desde la <página de privilegios@://admin>.",
             "ended": "$~Esta sesión terminó, y se cerró tu acceso a ella. Cierra esta pestaña. Para ver de nuevo, comienza desde la página de privilegios."
+        },
+        "export": {
+            "label": "$~Guardar este valor como archivo",
+            "header": "$~Guardar como archivo",
+            "explanation": "$~Saca estos datos de Wordplay. Un archivo separado por /comas/ se abre en una hoja de cálculo, y un archivo /JSON/ es lo que leen la mayoría de los demás programas. También puedes copiar el texto y pegarlo después en un programa.",
+            "formats": {
+                "label": "$~Tipo de archivo",
+                "labels": ["$~Hoja de cálculo", "$~JSON"],
+                "tips": [
+                    "$~un archivo separado por comas, que se abre en una hoja de cálculo",
+                    "$~un archivo JSON, que leen la mayoría de los demás programas"
+                ]
+            },
+            "download": "$~Guardar",
+            "downloaded": "$~$name guardado",
+            "copy": "$~Copiar",
+            "copied": "$~copiado como $format",
+            "filename": "$~Nombre del archivo",
+            "truncated": "$~Mostrando el inicio de $#count[1 línea|$count líneas|$count líneas].",
+            "unavailable": "$~Parte de este valor no son datos, así que no se puede guardar como archivo.",
+            "selectSomething": "$~Elige primero algo que tenga un valor.",
+            "noValue": "$~Pausa el programa para ver este valor y vuelve a intentarlo.",
+            "notData": "$~Este no es el tipo de valor que merece un archivo.",
+            "droppedUnits": "$~Se dejaron fuera las unidades: un número JSON no puede llevar una.",
+            "droppedNumbers": "$~Se dejaron fuera los números que no son finitos: JSON no puede escribirlos."
         }
     }
 }

@@ -2810,6 +2810,31 @@
             "failed": "$~Hindi namin masimulan ang session na iyon. Naka-sign in ka pa ba bilang administrator?",
             "expired": "$~Nagamit na ang link na iyon, o nag-expire na ito. Magsimula ulit mula sa <privileges page@://admin>.",
             "ended": "$~Tapos na ang session na ito, at naka-sign out ka na dito. Isara ang tab na ito. Para tumingin ulit, magsimula mula sa privileges page."
+        },
+        "export": {
+            "label": "$~I-save ang halagang ito bilang isang file",
+            "header": "$~I-save bilang file",
+            "explanation": "$~Kunin ang datos na ito palabas ng Wordplay. Ang isang file na /pinaghihiwalay ng kuwit/ ay nagbubukas sa isang spreadsheet, at ang isang /JSON/ file ay kung ano ang binabasa ng karamihan sa ibang programa. Puwede mo ring kopyahin ang teksto at idikit ito pabalik sa isang programa sa ibang pagkakataon.",
+            "formats": {
+                "label": "$~Uri ng file",
+                "labels": ["$~Spreadsheet", "$~JSON"],
+                "tips": [
+                    "$~isang file na pinaghihiwalay ng kuwit, na nagbubukas sa isang spreadsheet",
+                    "$~isang JSON file, na binabasa ng karamihan sa ibang programa"
+                ]
+            },
+            "download": "$~I-save",
+            "downloaded": "$~na-save ang $name",
+            "copy": "$~Kopyahin",
+            "copied": "$~nakopya bilang $format",
+            "filename": "$~Pangalan ng file",
+            "truncated": "$~Ipinapakita ang simula ng $#count[1 linya|$count na linya].",
+            "unavailable": "$~May bahagi ng halagang ito na hindi datos, kaya hindi ito puwedeng i-save bilang file.",
+            "selectSomething": "$~Pumili muna ng bagay na may halaga.",
+            "noValue": "$~I-pause ang programa para makita ang halagang ito, pagkatapos ay subukan ulit.",
+            "notData": "$~Hindi ito uri ng halaga na sulit gawing file.",
+            "droppedUnits": "$~Naiwan ang mga yunit: hindi kayang dalhin ng isang JSON number ang mga ito.",
+            "droppedNumbers": "$~Naiwan ang mga numerong hindi may hangganan: hindi kayang isulat ng JSON ang mga ito."
         }
     }
 }

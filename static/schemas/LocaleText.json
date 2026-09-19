@@ -20041,6 +20041,95 @@
                             ],
                             "type": "object"
                         },
+                        "export": {
+                            "additionalProperties": false,
+                            "description": "Saving a program's data value as a file (CSV or JSON). Shown under a value on stage, and offered on a selected node in the editor's menu.",
+                            "properties": {
+                                "copied": {
+                                    "$ref": "#/definitions/Template%3C%5B%22format%22%5D%3E",
+                                    "description": "[plain] Announced after the text is copied. $format is the format's name."
+                                },
+                                "copy": {
+                                    "description": "[plain] The button that copies the text instead of saving it",
+                                    "type": "string"
+                                },
+                                "download": {
+                                    "description": "[plain] The button that saves the file",
+                                    "type": "string"
+                                },
+                                "downloaded": {
+                                    "$ref": "#/definitions/Template%3C%5B%22name%22%5D%3E",
+                                    "description": "[plain] Announced after the file is saved. $name is the file's name."
+                                },
+                                "droppedNumbers": {
+                                    "description": "[plain] Note shown when numbers that aren't finite became nothing",
+                                    "type": "string"
+                                },
+                                "droppedUnits": {
+                                    "description": "[plain] Note shown when units were left out of a JSON file",
+                                    "type": "string"
+                                },
+                                "explanation": {
+                                    "$ref": "#/definitions/FormattedText",
+                                    "description": "[formatted] Explanation at the top of the export dialog"
+                                },
+                                "filename": {
+                                    "description": "[plain] The label of the field holding the file's name",
+                                    "type": "string"
+                                },
+                                "formats": {
+                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                    "description": "The choice of file format"
+                                },
+                                "header": {
+                                    "description": "[plain] The header of the export dialog",
+                                    "type": "string"
+                                },
+                                "label": {
+                                    "description": "[plain] The button and menu item that opens the export dialog",
+                                    "type": "string"
+                                },
+                                "noValue": {
+                                    "description": "[plain] Why the export shortcut did nothing: the program hasn't produced a value here yet",
+                                    "type": "string"
+                                },
+                                "notData": {
+                                    "description": "[plain] Why the export shortcut did nothing: the value isn't data worth a file",
+                                    "type": "string"
+                                },
+                                "selectSomething": {
+                                    "description": "[plain] Why the export shortcut did nothing: nothing with a value is selected",
+                                    "type": "string"
+                                },
+                                "truncated": {
+                                    "$ref": "#/definitions/Template%3C%5B%22%23count%22%5D%3E",
+                                    "description": "[plain] Note under a shortened preview. $#count is how many lines the file has."
+                                },
+                                "unavailable": {
+                                    "description": "[plain] Shown when the value turns out to have parts that aren't data",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "label",
+                                "header",
+                                "explanation",
+                                "formats",
+                                "download",
+                                "downloaded",
+                                "copy",
+                                "copied",
+                                "filename",
+                                "truncated",
+                                "unavailable",
+                                "selectSomething",
+                                "noValue",
+                                "notData",
+                                "droppedUnits",
+                                "droppedNumbers"
+                            ],
+                            "type": "object"
+                        },
                         "feedback": {
                             "additionalProperties": false,
                             "description": "Spoken confirmations that a command did something, for commands whose effect a screen reader wouldn't otherwise convey (see `Command.feedback` in Commands.ts, and CLAUDE.md's Screen-reader announcements section). Past tense: these report a result, not an available action.",
@@ -29836,6 +29925,7 @@
                         "feedback",
                         "annotations",
                         "wellspring",
+                        "export",
                         "output",
                         "docs",
                         "collaborate",

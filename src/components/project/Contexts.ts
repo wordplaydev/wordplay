@@ -1,6 +1,7 @@
 import type { WritingLayout } from '@locale/Scripts';
 import type LocaleText from '@locale/LocaleText';
 import type { TourID } from '@components/project/tours';
+import type Value from '@values/Value';
 import type { ActiveHint } from '@components/widgets/Hint.svelte';
 import type { SensorPanelStack } from '@components/output/SensorPanelStack.svelte';
 import type ConceptIndex from '@concepts/ConceptIndex';
@@ -409,6 +410,15 @@ export const [getMessageRequest, setMessageRequest] =
  *  output invokes this on double-click or Enter to open the palette for the selected content. */
 export const [getRevealPalette, setRevealPalette] =
     createOptionalContext<() => void>();
+
+/** A slot that asks the project view to open the export dialog on a value.
+ *  A slot rather than a launcher function for the same reason as the tour
+ *  above: the editor's menu and the export command both need to ask, and
+ *  neither owns the dialog. Deliberately not persisted in the URL the way most
+ *  dialogs are — a restored one would have no value to save. */
+export type ExportRequest = { value: Value | undefined };
+export const [getExportRequest, setExportRequest] =
+    createOptionalContext<ExportRequest>();
 
 /** A slot a `@Tour/<id>` reference writes to, and the project view watches, to
  *  start a tour. It is a slot rather than a launcher function because the thing
