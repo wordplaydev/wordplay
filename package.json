@@ -137,14 +137,14 @@
         "vitest": "^5"
     },
     "dependencies": {
-        "@anthropic-ai/sdk": "^0.125",
+        "@anthropic-ai/sdk": "^0.127",
         "@dimforge/rapier2d-compat": "^0.20.0",
         "@mediapipe/tasks-vision": "^1",
         "@types/fontkit": "^2",
         "colorjs.io": "^0",
         "decimal.js": "^10",
         "dexie": "^4",
-        "dotenv": "^17",
+        "dotenv": "^18",
         "firebase": "^12",
         "fontkit": "^2",
         "highlight.js": "^11",
