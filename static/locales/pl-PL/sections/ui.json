@@ -2804,6 +2804,31 @@
             "failed": "$~Nie udało się uruchomić tej sesji. Czy nadal jesteś zalogowany jako administrator?",
             "expired": "$~Ten link został już użyty albo stracił ważność. Zacznij od nowa ze <strony uprawnień@://admin>.",
             "ended": "$~Ta sesja się skończyła i zostałeś z niej wylogowany. Zamknij tę kartę. Aby znowu patrzeć, zacznij od strony uprawnień."
+        },
+        "export": {
+            "label": "$~Zapisz tę wartość jako plik",
+            "header": "$~Zapisz jako plik",
+            "explanation": "$~Wyprowadź te dane z Wordplay. Plik /oddzielony przecinkami/ otwiera się w arkuszu kalkulacyjnym, a plik /JSON/ odczytuje większość innych programów. Możesz też skopiować tekst i wkleić go z powrotem do programu później.",
+            "formats": {
+                "label": "$~Rodzaj pliku",
+                "labels": ["$~Arkusz kalkulacyjny", "$~JSON"],
+                "tips": [
+                    "$~plik oddzielony przecinkami, który otwiera się w arkuszu kalkulacyjnym",
+                    "$~plik JSON, który odczytuje większość innych programów"
+                ]
+            },
+            "download": "$~Zapisz",
+            "downloaded": "$~zapisano $name",
+            "copy": "$~Kopiuj",
+            "copied": "$~skopiowano jako $format",
+            "filename": "$~Nazwa pliku",
+            "truncated": "$~Pokazuje początek: $#count[1 linia|$count linie|$count linii|$count linii].",
+            "unavailable": "$~Część tej wartości nie jest danymi, więc nie da się jej zapisać jako pliku.",
+            "selectSomething": "$~Najpierw wybierz coś, co ma wartość.",
+            "noValue": "$~Zatrzymaj program, by zobaczyć tę wartość, a potem spróbuj ponownie.",
+            "notData": "$~To nie jest rodzaj wartości, który warto zapisać w pliku.",
+            "droppedUnits": "$~Jednostki zostały pominięte: liczba w formacie JSON nie może ich zawierać.",
+            "droppedNumbers": "$~Liczby, które nie są skończone, zostały pominięte: JSON nie potrafi ich zapisać."
         }
     }
 }

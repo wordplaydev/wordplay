@@ -1179,6 +1179,42 @@ type UITexts = {
             clear: string;
         };
     };
+    /** Saving a program's data value as a file (CSV or JSON). Shown under a
+     *  value on stage, and offered on a selected node in the editor's menu. */
+    export: {
+        /** [plain] The button and menu item that opens the export dialog */
+        label: string;
+        /** [plain] The header of the export dialog */
+        header: string;
+        /** [formatted] Explanation at the top of the export dialog */
+        explanation: FormattedText;
+        /** The choice of file format */
+        formats: ModeText<[string, string]>;
+        /** [plain] The button that saves the file */
+        download: string;
+        /** [plain] Announced after the file is saved. $name is the file's name. */
+        downloaded: Template<['name']>;
+        /** [plain] The button that copies the text instead of saving it */
+        copy: string;
+        /** [plain] Announced after the text is copied. $format is the format's name. */
+        copied: Template<['format']>;
+        /** [plain] The label of the field holding the file's name */
+        filename: string;
+        /** [plain] Note under a shortened preview. $#count is how many lines the file has. */
+        truncated: Template<['#count']>;
+        /** [plain] Shown when the value turns out to have parts that aren't data */
+        unavailable: string;
+        /** [plain] Why the export shortcut did nothing: nothing with a value is selected */
+        selectSomething: string;
+        /** [plain] Why the export shortcut did nothing: the program hasn't produced a value here yet */
+        noValue: string;
+        /** [plain] Why the export shortcut did nothing: the value isn't data worth a file */
+        notData: string;
+        /** [plain] Note shown when units were left out of a JSON file */
+        droppedUnits: string;
+        /** [plain] Note shown when numbers that aren't finite became nothing */
+        droppedNumbers: string;
+    };
     output: {
         /** [plain] The ARIA label for the output section */
         label: string;

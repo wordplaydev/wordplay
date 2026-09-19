@@ -41,6 +41,29 @@ import type TypeSet from '@nodes/TypeSet';
 import UnionType from '@nodes/UnionType';
 import { isDefined } from '@util/nullable';
 
+/** The quote pairs a CSV cell may be wrapped in. Typed as tuples so
+ *  destructuring yields strings rather than `string | undefined`. */
+const CellQuotes: readonly (readonly [string, string])[] = [
+    ["'", "'"],
+    ['"', '"'],
+    ['\u201c', '\u201d'],
+];
+
+/**
+ * A cell without the quotes that wrap the whole of it.
+ *
+ * Both ends must match, and there must be something between them: a cell that
+ * merely *ends* in a quote — `and "quotes"` — is not a quoted cell, and
+ * stripping one end of it silently dropped a character.
+ */
+function unquote(cell: string): string {
+    if (cell.length < 2) return cell;
+    for (const [open, close] of CellQuotes)
+        if (cell.startsWith(open) && cell.endsWith(close))
+            return cell.substring(1, cell.length - 1);
+    return cell;
+}
+
 export default class TableLiteral extends CompositeLiteral {
     readonly type: TableType;
     readonly rows: Row[];
@@ -68,21 +91,7 @@ export default class TableLiteral extends CompositeLiteral {
             const cells: Expression[] = [];
             // Tokenize each row
             for (const cell of row) {
-                let trimmed = cell.trim();
-                if (
-                    trimmed.startsWith("'") ||
-                    trimmed.startsWith('"') ||
-                    trimmed.startsWith('“') ||
-                    trimmed.startsWith('”')
-                )
-                    trimmed = trimmed.substring(1);
-                if (
-                    trimmed.endsWith("'") ||
-                    trimmed.endsWith('"') ||
-                    trimmed.endsWith('“') ||
-                    trimmed.endsWith('”')
-                )
-                    trimmed = trimmed.substring(0, trimmed.length - 1);
+                const trimmed = unquote(cell.trim());
                 const tokens = tokenize(trimmed).getTokens();
                 // Strip the end of file
                 tokens.pop();
@@ -92,16 +101,16 @@ export default class TableLiteral extends CompositeLiteral {
                 else if (firstToken.isSymbol(Sym.Number))
                     cells.push(new NumberLiteral(firstToken));
                 else {
-                    // Combine all of the tokens
-                    const text = tokens
-                        .map((token) => token.getText())
-                        .join(' ')
-                        .trim();
-                    if (text.toLowerCase() === 'true')
+                    // Classified by its tokens, but kept as it was written:
+                    // rejoining the tokens with spaces turned any cell that
+                    // wasn't a single token into a different string, so
+                    // `likes, commas` came back as `likes , commas`.
+                    const lowered = trimmed.toLowerCase();
+                    if (lowered === 'true')
                         cells.push(BooleanLiteral.make(true));
-                    else if (text.toLowerCase() === 'false')
-                        cells.push(BooleanLiteral.make(true));
-                    else cells.push(TextLiteral.make(text));
+                    else if (lowered === 'false')
+                        cells.push(BooleanLiteral.make(false));
+                    else cells.push(TextLiteral.make(trimmed));
                 }
             }
             rows.push(Row.make(cells));

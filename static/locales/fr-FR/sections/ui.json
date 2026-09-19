@@ -2813,6 +2813,31 @@
             "failed": "$~Nous n'avons pas pu démarrer cette session. Es-tu toujours connecté en tant qu'administrateur ?",
             "expired": "$~Ce lien a déjà été utilisé, ou il a expiré. Recommence depuis la <page des privilèges@://admin>.",
             "ended": "$~Cette session est terminée, et tu en es déconnecté. Ferme cet onglet. Pour regarder à nouveau, recommence depuis la page des privilèges."
+        },
+        "export": {
+            "label": "$~Enregistrer cette valeur dans un fichier",
+            "header": "$~Enregistrer dans un fichier",
+            "explanation": "$~Sortez ces données de Wordplay. Un fichier /séparé par des virgules/ s'ouvre dans un tableur, et un fichier /JSON/ est ce que la plupart des autres programmes lisent. Vous pouvez aussi copier le texte et le recoller plus tard dans un programme.",
+            "formats": {
+                "label": "$~Type de fichier",
+                "labels": ["$~Tableur", "$~JSON"],
+                "tips": [
+                    "$~un fichier séparé par des virgules, qui s'ouvre dans un tableur",
+                    "$~un fichier JSON, que la plupart des autres programmes lisent"
+                ]
+            },
+            "download": "$~Enregistrer",
+            "downloaded": "$~$name enregistré",
+            "copy": "$~Copier",
+            "copied": "$~copié au format $format",
+            "filename": "$~Nom du fichier",
+            "truncated": "$~Affichage du début : $#count[1 ligne|$count lignes|$count lignes].",
+            "unavailable": "$~Une partie de cette valeur n'est pas une donnée, donc elle ne peut pas être enregistrée dans un fichier.",
+            "selectSomething": "$~Choisissez d'abord quelque chose qui a une valeur.",
+            "noValue": "$~Mettez le programme en pause pour voir cette valeur, puis réessayez.",
+            "notData": "$~Ce n'est pas le genre de valeur qui mérite un fichier.",
+            "droppedUnits": "$~Les unités ont été laissées de côté : un nombre JSON ne peut pas en porter une.",
+            "droppedNumbers": "$~Les nombres qui ne sont pas finis ont été laissés de côté : JSON ne peut pas les écrire."
         }
     }
 }

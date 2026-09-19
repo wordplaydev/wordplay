@@ -36,6 +36,7 @@ function menuAt(code: string, position: number) {
         source,
         position,
         revisions,
+        [],
         undefined,
         concepts,
         [0, undefined],

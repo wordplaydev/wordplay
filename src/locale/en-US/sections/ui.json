@@ -1039,6 +1039,31 @@
                 "clear": "clear search"
             }
         },
+        "export": {
+            "label": "Save this value as a file",
+            "header": "Save as a file",
+            "explanation": "Take this data out of Wordplay. A /comma separated/ file opens in a spreadsheet, and a /JSON/ file is what most other programs read. You can also copy the text and paste it back into a program later.",
+            "formats": {
+                "label": "Kind of file",
+                "labels": ["Spreadsheet", "JSON"],
+                "tips": [
+                    "a comma separated file, which opens in a spreadsheet",
+                    "a JSON file, which most other programs read"
+                ]
+            },
+            "download": "Save",
+            "downloaded": "saved $name",
+            "copy": "Copy",
+            "copied": "copied as $format",
+            "filename": "File name",
+            "truncated": "Showing the start of $#count[1 line|$count lines].",
+            "unavailable": "Some of this value isn't data, so it can't be saved as a file.",
+            "selectSomething": "Choose something that has a value first.",
+            "noValue": "Pause the program to see this value, then try again.",
+            "notData": "This isn't the kind of value worth a file.",
+            "droppedUnits": "Units were left out: a JSON number can't carry one.",
+            "droppedNumbers": "Numbers that aren't finite were left out: JSON can't write them."
+        },
         "output": {
             "label": "stage",
             "multiselect": "Use tab and the alt and arrow keys to move between outputs. Press space to add or remove the focused output from your selection. Press enter to select just that output and open the palette. Press escape to clear your selection. Press control or command and A to select all outputs.",

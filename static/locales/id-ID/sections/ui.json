@@ -2805,6 +2805,31 @@
             "failed": "$~Kami tidak bisa memulai sesi itu. Apakah kamu masih masuk sebagai administrator?",
             "expired": "$~Tautan itu sudah digunakan, atau sudah kedaluwarsa. Mulai lagi dari <halaman hak akses@://admin>.",
             "ended": "$~Sesi ini telah berakhir, dan kamu telah keluar darinya. Tutup tab ini. Untuk melihat lagi, mulai dari halaman hak akses."
+        },
+        "export": {
+            "label": "$~Simpan nilai ini sebagai berkas",
+            "header": "$~Simpan sebagai berkas",
+            "explanation": "$~Keluarkan data ini dari Wordplay. Berkas /dipisah koma/ akan terbuka di lembar kerja, dan berkas /JSON/ dapat dibaca oleh sebagian besar program lain. Kamu juga bisa menyalin teksnya dan menempelkannya kembali ke dalam program nanti.",
+            "formats": {
+                "label": "$~Jenis berkas",
+                "labels": ["$~Lembar kerja", "$~JSON"],
+                "tips": [
+                    "$~berkas yang dipisah koma, yang terbuka di lembar kerja",
+                    "$~berkas JSON, yang dapat dibaca oleh sebagian besar program lain"
+                ]
+            },
+            "download": "$~Simpan",
+            "downloaded": "$~$name disimpan",
+            "copy": "$~Salin",
+            "copied": "$~disalin sebagai $format",
+            "filename": "$~Nama berkas",
+            "truncated": "$~Menampilkan awal dari $#count[$count baris].",
+            "unavailable": "$~Sebagian dari nilai ini bukan data, jadi tidak bisa disimpan sebagai berkas.",
+            "selectSomething": "$~Pilih dulu sesuatu yang punya nilai.",
+            "noValue": "$~Jeda program untuk melihat nilai ini, lalu coba lagi.",
+            "notData": "$~Ini bukan jenis nilai yang layak disimpan sebagai berkas.",
+            "droppedUnits": "$~Satuan tidak disertakan: angka JSON tidak bisa membawa satuan.",
+            "droppedNumbers": "$~Angka yang tidak terbatas tidak disertakan: JSON tidak bisa menuliskannya."
         }
     }
 }

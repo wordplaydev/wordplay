@@ -5,6 +5,8 @@
     import Note from '@components/widgets/Note.svelte';
     import type Menu from '@edit/menu/Menu';
     import { RevisionSet } from '@edit/menu/Menu';
+    import MenuAction from '@edit/menu/MenuAction';
+    import MenuActionItem from '@components/editor/menu/MenuActionItem.svelte';
     import Revision from '@edit/revision/Revision';
     import Node, { isFieldPosition, ListOf } from '@nodes/Node';
     import { tick } from 'svelte';
@@ -82,7 +84,9 @@
     let menuLeft = $derived(placement.left);
     let menuTop = $derived(placement.top);
 
-    function handleItemClick(item: Revision | RevisionSet | undefined) {
+    function handleItemClick(
+        item: Revision | RevisionSet | MenuAction | undefined,
+    ) {
         menu.doEdit($locales, item);
     }
 
@@ -159,22 +163,24 @@
         } else if (event.key.length === 1) {
             // Find the first visible revision that has a token that starts with the letter.
             const match = menu.getRevisionList().findIndex((revision) =>
-                revision instanceof Revision
-                    ? revision
-                          .getEditedNode($locales)[0]
-                          .nodes()
-                          .some(
-                              (node) =>
-                                  node instanceof Token &&
-                                  node.getText().startsWith(event.key),
-                          )
-                    : // Through getHeader, so typing a letter finds a set named by its group
-                      // (a unit category) and not only one named by its purpose.
-                      $locales
-                          .getUnannotatedPrimaryText((l) =>
-                              revision.getHeader(l),
-                          )
-                          .startsWith(event.key),
+                revision instanceof MenuAction
+                    ? revision.label($locales.getLocale()).startsWith(event.key)
+                    : revision instanceof Revision
+                      ? revision
+                            .getEditedNode($locales)[0]
+                            .nodes()
+                            .some(
+                                (node) =>
+                                    node instanceof Token &&
+                                    node.getText().startsWith(event.key),
+                            )
+                      : // Through getHeader, so typing a letter finds a set named by its group
+                        // (a unit category) and not only one named by its purpose.
+                        $locales
+                            .getUnannotatedPrimaryText((l) =>
+                                revision.getHeader(l),
+                            )
+                            .startsWith(event.key),
             );
             // >= 0, not truthiness: findIndex returns 0 for the first item (falsy, so typing
             // its letter did nothing) and -1 for no match (truthy, selecting index -1).
@@ -213,6 +219,13 @@
         {#each revisions as entry, itemIndex}
             {#if entry instanceof Revision}
                 <MenuItem
+                    {entry}
+                    bind:menu
+                    {handleItemClick}
+                    id="menuitem-{itemIndex}"
+                />
+            {:else if entry instanceof MenuAction}
+                <MenuActionItem
                     {entry}
                     bind:menu
                     {handleItemClick}

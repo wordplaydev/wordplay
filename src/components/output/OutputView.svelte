@@ -44,6 +44,7 @@
     import type Node from '@nodes/Node';
     import { soundingNotes } from '@output/Music/sounding';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import ValueExportButton from '@components/values/ValueExportButton.svelte';
     import ValueView from '@components/values/ValueView.svelte';
     import { default as ButtonUI } from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -3097,6 +3098,9 @@
                 {:else}
                     <h2><LocalizedText path={value.getDescription()} /></h2>
                     <ValueView {value} inline={false} />
+                    <!-- Data a program produced is worth taking out of Wordplay.
+                         Never in `mini`, where there is no room and no reader. -->
+                    <ValueExportButton {value} {project} />
                 {/if}
             </div>
             <!-- Otherwise, show the Stage -->

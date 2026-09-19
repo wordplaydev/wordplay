@@ -88,6 +88,7 @@
         getEditors,
         getEmphasizedConflict,
         getEvaluation,
+        getExportRequest,
         getKeyboardEditIdle,
         getProjectCommandContext,
         getLinkedNode,
@@ -155,6 +156,7 @@
     } from '@edit/drag/Drag';
     import Menu, { RevisionSet } from '@edit/menu/Menu';
     import { getEditsAt } from '@edit/menu/PossibleEdits';
+    import getActionsAt from '@edit/menu/PossibleActions';
     import type Revision from '@edit/revision/Revision';
     import type Locale from '@locale/Locale';
     import { localeToString } from '@locale/Locale';
@@ -729,6 +731,9 @@
     // A menu of potential transformations based on the caret position.
     const selection = getSelectedOutput();
     const evaluation = getEvaluation();
+
+    /** Where a request to save a value goes; the project view owns the dialog. */
+    const exportRequest = getExportRequest();
 
     /** The surrounding project's (or example's) command context, so evaluation-mode
      * commands dispatched from the editor reach the project's mode switcher rather
@@ -2264,6 +2269,18 @@
             });
         }
 
+        // What the menu can *do* to the selection, as opposed to change it
+        // into. Computed here, on open, rather than anywhere that renders: it
+        // asks the evaluator for the selection's value and `canExport` whether
+        // it is worth a file, and neither belongs on a per-keystroke path.
+        const actions = getActionsAt(
+            $caret,
+            $evaluation?.evaluator,
+            (value) => {
+                if (exportRequest) exportRequest.value = value;
+            },
+        );
+
         // Set the menu.
         if (concepts)
             menu = new Menu(
@@ -2271,6 +2288,7 @@
                 source,
                 anchor,
                 revisions,
+                actions,
                 undefined,
                 concepts,
                 [0, undefined],

@@ -137,6 +137,7 @@ test('commands claiming external feedback are enumerated', () => {
         [
             // focus: opening the dialog moves focus, which reads its label
             '⌨', // keyboard help (bare codepoint, not the FE0F emoji)
+            '\u2913', // save a value as a file → the export dialog
             // delegated: the state layer announces, so every entry point into
             // it (command, toolbar, settings dialog) sounds identical
             '⧠', // blocks/text editing mode → the blocks setting
@@ -533,6 +534,7 @@ describe('command ids', () => {
             'expand-before-inline',
             'expand-next-line',
             'expand-prior-line',
+            'export-value',
             'focus-cycle',
             'focus-docs',
             'focus-output',

@@ -47,6 +47,7 @@
     import PerformIcon from '@components/project/PerformIcon.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Wellspring from '@components/wellspring/Wellspring.svelte';
+    import ValueExportDialog from '@components/values/ValueExportDialog.svelte';
     import { ShortcutsDialogID } from '@components/widgets/dialogIDs';
     import { setDialogInURL } from '@components/widgets/dialogURL';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -201,7 +202,9 @@
         type MessageRequest,
         setRevealPalette,
         getTourRequest,
+        setExportRequest,
         setTourRequest,
+        type ExportRequest,
         type TourRequest,
         setSelectedOutput,
         setDrawing,
@@ -1296,6 +1299,12 @@
      * with `@Tour/<id>` markup. */
     let openTour = $state<TourID | undefined>(undefined);
 
+    /** The editor's menu and the export command both ask to save a value; this
+     *  view owns the one dialog that does it. Beside the tour slot below for
+     *  the same reason: the asker is not always the view that can answer. */
+    const exportRequest: ExportRequest = $state({ value: undefined });
+    setExportRequest(exportRequest);
+
     /** The slot a `@Tour/<id>` reference writes to. Something above may already
      * provide one — the tutorial does, since its dialog is a sibling of this
      * view rather than a descendant — in which case we serve that one; otherwise
@@ -2083,6 +2092,7 @@
         // other persistable dialog. This used to toggle a state variable that
         // nothing rendered, so the command consumed its chord and opened nothing.
         help: () => setDialogInURL(ShortcutsDialogID, true),
+        exportValue: (value) => (exportRequest.value = value),
         zoom: focusedEditorState?.zoom,
         setZoom: focusedEditorState?.setZoom,
         writingLayout: focusedEditorState?.writingLayout,
@@ -4133,6 +4143,18 @@
         <!-- Render the menu on top of the annotations -->
         {#if menu && menuPosition}
             <Menu bind:menu hide={hideMenu} position={menuPosition} />
+        {/if}
+
+        <!-- Saving a value as a file, asked for by the editor's menu or the
+             export command. Not URL-persisted: a restored dialog would have no
+             value to save. -->
+        {#if exportRequest.value !== undefined}
+            <ValueExportDialog
+                value={exportRequest.value}
+                {project}
+                show={true}
+                onclose={() => (exportRequest.value = undefined)}
+            />
         {/if}
 
         <!-- Render the dragged node over the whole project -->

@@ -2802,6 +2802,31 @@
             "failed": "$~Bu oturumu başlatamadık. Hâlâ bir yönetici olarak oturum açık mı?",
             "expired": "$~Bu bağlantı zaten kullanılmış veya süresi dolmuş. <ayrıcalıklar sayfasından@://admin> tekrar başla.",
             "ended": "$~Bu oturum sona erdi ve oturumun kapatıldı. Bu sekmeyi kapat. Tekrar bakmak için, ayrıcalıklar sayfasından başla."
+        },
+        "export": {
+            "label": "$~Bu değeri bir dosya olarak kaydet",
+            "header": "$~Dosya olarak kaydet",
+            "explanation": "$~Bu veriyi Wordplay'den çıkar. /Virgülle ayrılmış/ bir dosya bir e-tabloda açılır, /JSON/ dosyasını ise çoğu başka program okur. Metni kopyalayıp daha sonra bir programa da yapıştırabilirsin.",
+            "formats": {
+                "label": "$~Dosya türü",
+                "labels": ["$~E-tablo", "$~JSON"],
+                "tips": [
+                    "$~bir e-tabloda açılan, virgülle ayrılmış bir dosya",
+                    "$~çoğu başka programın okuduğu bir JSON dosyası"
+                ]
+            },
+            "download": "$~Kaydet",
+            "downloaded": "$~$name kaydedildi",
+            "copy": "$~Kopyala",
+            "copied": "$~$format olarak kopyalandı",
+            "filename": "$~Dosya adı",
+            "truncated": "$~İlk $#count[1 satır|$count satır] gösteriliyor.",
+            "unavailable": "$~Bu değerin bir kısmı veri değil, bu yüzden dosya olarak kaydedilemez.",
+            "selectSomething": "$~Önce bir değeri olan bir şey seç.",
+            "noValue": "$~Bu değeri görmek için programı duraklat, sonra tekrar dene.",
+            "notData": "$~Bu, bir dosyaya değecek türde bir değer değil.",
+            "droppedUnits": "$~Birimler dışarıda bırakıldı: bir JSON sayısı birim taşıyamaz.",
+            "droppedNumbers": "$~Sonlu olmayan sayılar dışarıda bırakıldı: JSON bunları yazamaz."
         }
     }
 }

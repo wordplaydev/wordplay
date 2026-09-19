@@ -102,6 +102,9 @@ import { Settings, type Database } from '@db/Database';
 import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
 import type { LocaleTextAccessor } from '@locale/Locales';
+import Expression from '@nodes/Expression';
+import type Value from '@values/Value';
+import { canExport } from '@values/export/canExport';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Names from '@nodes/Names';
@@ -257,6 +260,9 @@ export type CommandContext = {
      *  editor forwards whatever the project view gave it, which is nothing when
      *  an editor is mounted outside a project (a documentation example). */
     help?: (() => void) | undefined;
+    /** Ask the project view to open the export dialog on a value. Undefined
+     *  outside a project view, where nothing owns that dialog. */
+    exportValue?: ((value: Value) => void) | undefined;
     getTokenViews?: () => HTMLElement[];
     /** Function to clear large deletion notification */
     clearLargeDeletionNotification?: () => void;
@@ -1132,6 +1138,51 @@ export const ModePlay: Command = {
             : undefined,
     execute: (context) => {
         context.setMode?.('play');
+        return true;
+    },
+};
+
+/**
+ * Save the selected node's value as a file.
+ *
+ * `Visibility.Elsewhere` rather than `Visible`: the editor toolbar is a row of
+ * things that change code, and a toolbar item that appears only when the caret
+ * is on a value would re-measure the overflow toolbar every time the caret
+ * crossed that boundary. The affordances are the menu item on a selected node
+ * and the button under a value on stage; the Shortcuts dialog lists this by
+ * category regardless, so the chord is still discoverable.
+ */
+export const ExportValue: Command = {
+    id: 'export-value',
+    // Text-only: an arrow with the Emoji property would render in colour in the
+    // shortcut table.
+    symbol: '\u2913',
+    description: (l) => l.ui.export.label,
+    feedback: 'focus',
+    visible: Visibility.Elsewhere,
+    category: Category.Evaluate,
+    shift: true,
+    alt: false,
+    control: true,
+    key: 'e',
+    active: ({ caret, evaluator }) => {
+        const node = caret?.position;
+        if (!(node instanceof Expression))
+            return (l) => l.ui.export.selectSomething;
+        const value = evaluator.getLatestExpressionValue(node);
+        if (value === undefined) return (l) => l.ui.export.noValue;
+        // `canExport` only — never the walk that reshapes a value, which would
+        // run on a keystroke.
+        if (!canExport(value)) return (l) => l.ui.export.notData;
+        return true;
+    },
+    execute: ({ caret, evaluator, exportValue }) => {
+        const node = caret?.position;
+        if (exportValue === undefined || !(node instanceof Expression))
+            return false;
+        const value = evaluator.getLatestExpressionValue(node);
+        if (value === undefined) return false;
+        exportValue(value);
         return true;
     },
 };
@@ -2943,6 +2994,7 @@ const Commands: Command[] = [
     IncrementLiteral,
     DecrementLiteral,
     ShowKeyboardHelp,
+    ExportValue,
     FocusOutput,
     FocusSource,
     FocusDocs,

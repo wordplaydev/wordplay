@@ -2807,6 +2807,31 @@
             "failed": "$~Chúng tôi không thể bắt đầu phiên đó. Bạn có còn đăng nhập với vai trò quản trị viên không?",
             "expired": "$~Liên kết đó đã được dùng rồi, hoặc đã hết hạn. Hãy bắt đầu lại từ <trang đặc quyền@://admin>.",
             "ended": "$~Phiên này đã kết thúc, và bạn đã đăng xuất khỏi nó. Hãy đóng thẻ này. Để xem lại, hãy bắt đầu từ trang đặc quyền."
+        },
+        "export": {
+            "label": "$~Lưu giá trị này thành một tệp",
+            "header": "$~Lưu thành tệp",
+            "explanation": "$~Lấy dữ liệu này ra khỏi Wordplay. Một tệp /phân cách bằng dấu phẩy/ sẽ mở trong bảng tính, còn tệp /JSON/ là kiểu mà hầu hết các chương trình khác đọc được. Bạn cũng có thể sao chép văn bản này và dán lại vào chương trình sau.",
+            "formats": {
+                "label": "$~Loại tệp",
+                "labels": ["$~Bảng tính", "$~JSON"],
+                "tips": [
+                    "$~một tệp phân cách bằng dấu phẩy, mở được trong bảng tính",
+                    "$~một tệp JSON, mà hầu hết các chương trình khác đọc được"
+                ]
+            },
+            "download": "$~Lưu",
+            "downloaded": "$~đã lưu $name",
+            "copy": "$~Sao chép",
+            "copied": "$~đã sao chép dưới dạng $format",
+            "filename": "$~Tên tệp",
+            "truncated": "$~Đang hiển thị phần đầu của $#count[$count dòng].",
+            "unavailable": "$~Một phần của giá trị này không phải là dữ liệu, nên không thể lưu thành tệp.",
+            "selectSomething": "$~Hãy chọn một thứ có giá trị trước đã.",
+            "noValue": "$~Hãy tạm dừng chương trình để xem giá trị này, rồi thử lại.",
+            "notData": "$~Đây không phải loại giá trị đáng để lưu thành tệp.",
+            "droppedUnits": "$~Đơn vị đã bị bỏ qua: một số JSON không thể mang theo đơn vị.",
+            "droppedNumbers": "$~Những số không hữu hạn đã bị bỏ qua: JSON không thể ghi được chúng."
         }
     }
 }

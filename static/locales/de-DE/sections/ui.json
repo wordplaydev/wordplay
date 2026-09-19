@@ -2809,6 +2809,31 @@
             "failed": "$~Wir konnten diese Sitzung nicht starten. Bist du noch als Administrator angemeldet?",
             "expired": "$~Dieser Link wurde bereits benutzt oder ist abgelaufen. Starte erneut über die <Seite mit den Berechtigungen@://admin>.",
             "ended": "$~Diese Sitzung ist beendet, und du bist davon abgemeldet. Schließe diesen Tab. Um erneut anzusehen, starte über die Seite mit den Berechtigungen."
+        },
+        "export": {
+            "label": "$~Diesen Wert als Datei speichern",
+            "header": "$~Als Datei speichern",
+            "explanation": "$~Hole diese Daten aus Wordplay heraus. Eine /durch Kommas getrennte/ Datei öffnet sich in einer Tabellenkalkulation, und eine /JSON/-Datei können die meisten anderen Programme lesen. Du kannst den Text auch kopieren und später wieder in ein Programm einfügen.",
+            "formats": {
+                "label": "$~Art der Datei",
+                "labels": ["$~Tabellenkalkulation", "$~JSON"],
+                "tips": [
+                    "$~eine durch Kommas getrennte Datei, die sich in einer Tabellenkalkulation öffnet",
+                    "$~eine JSON-Datei, die die meisten anderen Programme lesen können"
+                ]
+            },
+            "download": "$~Speichern",
+            "downloaded": "$~$name gespeichert",
+            "copy": "$~Kopieren",
+            "copied": "$~als $format kopiert",
+            "filename": "$~Dateiname",
+            "truncated": "$~Zeigt den Anfang von $#count[1 Zeile|$count Zeilen].",
+            "unavailable": "$~Ein Teil dieses Werts sind keine Daten, deshalb kann er nicht als Datei gespeichert werden.",
+            "selectSomething": "$~Wähle zuerst etwas mit einem Wert aus.",
+            "noValue": "$~Halte das Programm an, um diesen Wert zu sehen, und versuche es dann erneut.",
+            "notData": "$~Das ist keine Art von Wert, die eine Datei wert ist.",
+            "droppedUnits": "$~Einheiten wurden weggelassen: Eine JSON-Zahl kann keine Einheit tragen.",
+            "droppedNumbers": "$~Zahlen, die nicht endlich sind, wurden weggelassen: JSON kann sie nicht schreiben."
         }
     }
 }

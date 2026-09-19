@@ -1,8 +1,17 @@
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import TableLiteral from '@nodes/TableLiteral';
+import { parseCSV } from '@values/export/csv';
 
+/**
+ * Whether pasted text looks enough like CSV to try reading it as a table.
+ *
+ * The character class is "anything that isn't a separator or a quote" rather
+ * than a list of ASCII characters: the list refused every non-Latin cell, so a
+ * table of Japanese or emoji — which Wordplay content very often is — pasted
+ * back in as plain text rather than as the table it came from.
+ */
 export function isCSV(text: string): boolean {
-    return /^(('|“|"|”)?[a-zA-Z0-9.%&-() _]*('|"|“|”)?(,|\n|\\Z)\s*){5,}/g.test(
+    return /^(('|“|"|”)?[^,\n'"“”]*('|"|“|”)?(,|\n|\\Z)\s*){5,}/.test(
         text.trim(),
     );
 }
@@ -23,42 +32,4 @@ export default function interpret(text: string): string {
     }
 
     return text;
-}
-
-/** Convert a CSV string into a 2D array of strings */
-function parseCSV(data: string, fieldSep = ',', newLine = '\n'): string[][] {
-    const nSep = '\x1D';
-    const nSepRe = new RegExp(nSep, 'g');
-    const qSep = '\x1E';
-    const qSepRe = new RegExp(qSep, 'g');
-    const cSep = '\x1F';
-    const cSepRe = new RegExp(cSep, 'g');
-    const fieldRe = new RegExp(
-        '(^|[' +
-            fieldSep +
-            '\\n])"([^"]*(?:""[^"]*)*)"(?=($|[' +
-            fieldSep +
-            '\\n]))',
-        'g',
-    );
-    return data
-        .replace(/\r/g, '')
-        .replace(/\n+$/, '')
-        .replace(fieldRe, (match, p1, p2) => {
-            return (
-                p1 +
-                p2.replace(/\n/g, nSep).replace(/""/g, qSep).replace(/,/g, cSep)
-            );
-        })
-        .split(/\n/)
-        .map((line) => {
-            return line
-                .split(fieldSep)
-                .map((cell) =>
-                    cell
-                        .replace(nSepRe, newLine)
-                        .replace(qSepRe, '"')
-                        .replace(cSepRe, ','),
-                );
-        });
 }

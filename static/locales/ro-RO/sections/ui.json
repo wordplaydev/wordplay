@@ -2810,6 +2810,31 @@
             "failed": "$~Nu am putut porni acea sesiune. Ești încă autentificat ca administrator?",
             "expired": "$~Acel link a fost deja folosit sau a expirat. Începe din nou din <pagina privilegiilor@://admin>.",
             "ended": "$~Această sesiune s-a încheiat și ai fost deconectat din ea. Închide această filă. Ca să privești din nou, începe din pagina privilegiilor."
+        },
+        "export": {
+            "label": "$~Salvează această valoare ca fișier",
+            "header": "$~Salvează ca fișier",
+            "explanation": "$~Scoate aceste date din Wordplay. Un fișier /separat prin virgulă/ se deschide într-un program de calcul tabelar, iar un fișier /JSON/ este ceea ce citesc majoritatea celorlalte programe. Poți și să copiezi textul și să-l lipești mai târziu într-un program.",
+            "formats": {
+                "label": "$~Tipul fișierului",
+                "labels": ["$~Foaie de calcul", "$~JSON"],
+                "tips": [
+                    "$~un fișier separat prin virgulă, care se deschide într-un program de calcul tabelar",
+                    "$~un fișier JSON, pe care îl citesc majoritatea celorlalte programe"
+                ]
+            },
+            "download": "$~Salvează",
+            "downloaded": "$~$name salvat",
+            "copy": "$~Copiază",
+            "copied": "$~copiat ca $format",
+            "filename": "$~Numele fișierului",
+            "truncated": "$~Se arată începutul a $#count[1 linie|$count linii|$count de linii].",
+            "unavailable": "$~O parte din această valoare nu este alcătuită din date, deci nu poate fi salvată ca fișier.",
+            "selectSomething": "$~Alege mai întâi ceva care are o valoare.",
+            "noValue": "$~Pune programul pe pauză ca să vezi această valoare, apoi încearcă din nou.",
+            "notData": "$~Acesta nu este genul de valoare care merită un fișier.",
+            "droppedUnits": "$~Unitățile de măsură au fost omise: un număr JSON nu poate purta una.",
+            "droppedNumbers": "$~Numerele care nu sunt finite au fost omise: JSON nu le poate scrie."
         }
     }
 }

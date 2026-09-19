@@ -40,6 +40,9 @@
                 "emoji": {
                     "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/emoji"
                 },
+                "export": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/export"
+                },
                 "feedback": {
                     "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/feedback"
                 },
