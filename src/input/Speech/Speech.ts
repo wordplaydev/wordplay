@@ -23,6 +23,7 @@ import PermissionException from '@values/PermissionException';
 import { denyConsent, Permission } from '@input/permissions';
 import type { StreamKind } from '@values/StreamValue';
 import { first, must } from '@util/nullable';
+import { diagnose, diagnoseExhaustion, isOffline } from './diagnose';
 
 // Types for Web Speech API (browser compatibility handling)
 // The Web Speech API is *NOT* fully typed in TypeScript's lib.dom.d.ts
@@ -132,6 +133,11 @@ export default class Speech extends StreamValue<TextValue, string> {
     // It prevents repeated resets while the reset parameter is true
     lastResetValue: boolean | undefined = undefined;
 
+    // Whether every failure so far has been the service being unreachable
+    // while the device was online. A browser that ships no speech service
+    // fails that way every time, which is what `diagnoseExhaustion` reads.
+    serviceUnreachable = false;
+
     // Creates a Speech Stream instance
     constructor(
         evaluation: Evaluation, // The current Wordplay context
@@ -209,7 +215,12 @@ export default class Speech extends StreamValue<TextValue, string> {
         // `getLocales` always ends with the default locale.
         const localeText = must(first(this.evaluator.getLocales()), 'a locale');
         const message = SpeechErrors[errorKey](localeText);
-        this.react(message);
+        // An error is not something the creator said, so it replaces the value
+        // rather than going through `react`, which appends to their words and
+        // then applies the word limit: under `limit: 3`, "service not supported
+        // in this browser" reached the stage as "in this browser".
+        if (this.on)
+            this.add(new TextValue(this.evaluator.getMain(), message), message);
     }
 
     // Initializes and starts the Web Speech API
@@ -256,6 +267,9 @@ export default class Speech extends StreamValue<TextValue, string> {
                         // Only reset retry count after a successful result,
                         // not on start — prevents infinite retry loops on flaky connections
                         this.retryCount = 0;
+                        // A result proves the service is reachable, so a later
+                        // failure shouldn't be blamed on the browser.
+                        this.serviceUnreachable = false;
                         this.react(transcript);
                     }
                 }
@@ -332,62 +346,34 @@ export default class Speech extends StreamValue<TextValue, string> {
     // This should cover *ALL* possible errors in the API docs:
     // https://webaudio.github.io/web-speech-api/#speechreco-error
     private handleError(error: string, _message: string) {
-        switch (error) {
-            case 'network':
-                // Network error - could be no internet or service unavailable
-                this.reactError('noConnection');
-                this.attemptRetry();
-                break;
+        const offline = isOffline();
+        const diagnosis = diagnose(error, offline);
 
-            case 'service-not-allowed':
-                // Service denied - API quota/rate limit or service unavailable
-                this.reactError('serviceNotAllowed');
-                this.attemptRetry();
-                break;
+        // A browser with no speech service reports `network` while online on
+        // every attempt; anything else means we can't draw that conclusion.
+        this.serviceUnreachable = error === 'network' && !offline;
 
-            case 'not-allowed':
-                // Permission denied - user needs to grant microphone access.
-                // Surface as a PermissionException so the stage shows the standard denial UI and a Retry button.
-                denyConsent(Permission.Microphone);
-                this.evaluator.replaceMainValue(
-                    new PermissionException(
-                        this.creator,
-                        this.evaluator,
-                        Permission.Microphone,
-                    ),
-                );
-                this.evaluator.broadcast();
-                this.stop();
-                break;
+        if (diagnosis.action === 'ignore') return;
 
-            case 'audio-capture':
-                // Microphone hardware error
-                this.reactError('noMicrophone');
-                this.attemptRetry();
-                break;
-
-            case 'language-not-supported':
-                // Language not supported by the browser (unlikely but possible)
-                this.reactError('languageNotSupported');
-                // Don't retry language errors
-                this.stop();
-                break;
-
-            case 'no-speech':
-                // No speech detected - this is normal, don't show error
-                // Just continue listening
-                break;
-
-            case 'aborted':
-                // User or system aborted - don't show error
-                break;
-
-            default:
-                // Unknown error - surface as a connection error since most unexpected speech errors are network/service related
-                this.reactError('noConnection');
-                this.attemptRetry();
-                break;
+        if (diagnosis.action === 'deny') {
+            // Permission denied - user needs to grant microphone access.
+            // Surface as a PermissionException so the stage shows the standard denial UI and a Retry button.
+            denyConsent(Permission.Microphone);
+            this.evaluator.replaceMainValue(
+                new PermissionException(
+                    this.creator,
+                    this.evaluator,
+                    Permission.Microphone,
+                ),
+            );
+            this.evaluator.broadcast();
+            this.stop();
+            return;
         }
+
+        this.reactError(diagnosis.error);
+        if (diagnosis.retry) this.attemptRetry();
+        else this.stop();
     }
 
     // Retry logic
@@ -406,13 +392,15 @@ export default class Speech extends StreamValue<TextValue, string> {
                         this.recognition?.start();
                     } catch (e) {
                         // Restart failed — surface to user and give up
-                        this.reactError('limit');
+                        this.reactError(
+                            diagnoseExhaustion(this.serviceUnreachable),
+                        );
                         this.stop();
                     }
                 }
             }, delay);
         } else if (this.retryCount >= this.maxRetries) {
-            this.reactError('limit');
+            this.reactError(diagnoseExhaustion(this.serviceUnreachable));
             this.stop();
         }
     }
