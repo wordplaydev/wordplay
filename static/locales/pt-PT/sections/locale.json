@@ -235,8 +235,7 @@
             "skip": {
                 "tip": "saltar este projeto",
                 "label": "ignorar"
-            },
-            "property": "Se o projeto possuir esta propriedade"
+            }
         },
         "error": {
             "notmod": "$~Não há aqui nada para analisar. Os moderadores do Wordplay analisam conteúdo público, e os curadores de uma galeria analisam o que está na sua galeria. Se recebeu privilégios de moderador(a) recentemente, pode ser necessário iniciar sessão novamente.",

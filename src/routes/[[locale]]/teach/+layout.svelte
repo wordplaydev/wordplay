@@ -1,5 +1,4 @@
 <script lang="ts">
-    import PageHeader from '@components/app/PageHeader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import { getUser } from '@components/project/Contexts';
     import { firestore } from '@db/firebase';
@@ -75,7 +74,11 @@
     });
 </script>
 
+<!-- No PageHeader here. It rendered a trail with no heading, while each page
+     rendered its own heading somewhere else in the tree — so the two were never
+     the immediate siblings PageHeader's cap-trim depends on, and the gap between
+     them drifted with the header's font size. Each page renders the whole
+     header, because only the page knows its title. -->
 <Writing wide>
-    <PageHeader />
     {@render children()}
 </Writing>

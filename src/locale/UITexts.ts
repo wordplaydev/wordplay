@@ -13,7 +13,7 @@ import type CharactersPageText from '../routes/[[locale]]/characters/PageText';
 import type DesignPageText from '../routes/[[locale]]/design/PageText';
 import type DonatePageText from '../routes/[[locale]]/donate/PageText';
 import type GalleriesPageText from '../routes/[[locale]]/galleries/PageText';
-import type GalleryModerationPageText from '../routes/[[locale]]/galleries/moderation/PageText';
+import type ReportQueuePageText from '../routes/[[locale]]/moderate/ReportQueuePageText';
 import type GalleryPageText from '../routes/[[locale]]/gallery/[galleryid]/PageText';
 import type HowToPageText from '../routes/[[locale]]/gallery/[galleryid]/howto/PageText';
 import type { default as GuidePageText } from '../routes/[[locale]]/guide/PageText';
@@ -608,7 +608,10 @@ type UITexts = {
     /** Gallery page labels */
     gallery: GalleryPageText;
     /** Gallery moderation page labels */
-    gallerymoderation: GalleryModerationPageText;
+    /** The reported-things queue. Named `gallerymoderation` because that is
+     *  what the route was called when it was written, and the key is what
+     *  thirty locale files carry; the queue itself now lives in /moderate. */
+    gallerymoderation: ReportQueuePageText;
     /** How-to space page labels */
     howto: HowToPageText;
     /** Text shared by everything that machine translates — a project, and later
@@ -2404,6 +2407,16 @@ type UITexts = {
             resetAll: string;
             /** [plain] Marks a shortcut the creator changed */
             custom: string;
+            /** [plain] Marks a shortcut a command only answers to when the
+             *  command listed above it declines — two commands can share one,
+             *  and the second takes it in the states the first doesn't handle
+             *  (in blocks mode, or with no cursor in the code). Without this the
+             *  two rows read as the same shortcut listed twice by mistake. */
+            fallback: string;
+            /** [plain] Shown where the control for changing a shortcut would be,
+             *  for one that can't be changed — an empty cell otherwise reads as
+             *  a control that failed to appear. */
+            fixed: string;
             /** What a creator hears when they change a shortcut. Announced
              *  rather than shown alone, since the dialog is operated by keyboard
              *  and a refusal that only appears visually reads as nothing

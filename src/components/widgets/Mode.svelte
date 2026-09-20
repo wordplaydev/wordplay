@@ -303,7 +303,7 @@
        from; in flow layout each row starts wherever its own label ended, so
        there is no edge an offset could be measured against. */
     .mode.grid .group.indented {
-        margin-inline-start: calc(4 * var(--wordplay-spacing));
+        margin-inline-start: var(--wordplay-spacing-quad);
     }
 
     .label {
@@ -335,8 +335,8 @@
         cursor: pointer;
         width: fit-content;
         /* Guarantees the 24x24 minimum target size regardless of locale font metrics. */
-        min-block-size: 24px;
-        min-inline-size: 24px;
+        min-block-size: var(--wordplay-target-size);
+        min-inline-size: var(--wordplay-target-size);
         white-space: nowrap;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         color: var(--wordplay-foreground);

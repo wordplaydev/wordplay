@@ -78,7 +78,7 @@
             ? select()
             : undefined}
 >
-    <div class="header">
+    <div class="control-row header">
         <!-- The icon says which way the folder is: shut when its contents are
              hidden, open when they're showing. Monochrome like every other
              control here, and large enough to be a comfortable target. -->
@@ -160,15 +160,6 @@
         border-color: var(--wordplay-highlight-color);
         border-style: solid;
     }
-
-    .header {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: var(--wordplay-spacing);
-        flex-wrap: wrap;
-    }
-
     .peek {
         display: flex;
         flex-direction: row;

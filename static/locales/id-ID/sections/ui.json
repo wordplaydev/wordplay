@@ -1903,7 +1903,9 @@
                     "reserved": "$~komputermu memakai $shortcut untuk dirinya sendiri",
                     "unmodified": "$~pintasan harus memakai Control atau Alt, kalau tidak itu hanya mengetik biasa",
                     "reset": "$~$command kembali ke pintasan biasanya"
-                }
+                },
+                "fallback": "$~jika yang di atas tidak berlaku",
+                "fixed": "$~tidak bisa diubah"
             },
             "feedback": {
                 "header": "$~Masukan",

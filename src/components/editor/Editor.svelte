@@ -4586,7 +4586,7 @@
            the bounds of the selected text range INSIDE the field — a 1px-wide
            field wrapped the source at one character per line, so selecting the
            whole program drew a rectangle hundreds of lines tall. */
-        left: 0;
+        inset-inline-start: 0;
         top: 0;
         width: 100%;
         height: 100%;
@@ -4682,6 +4682,7 @@
         writing-mode: horizontal-tb;
         position: sticky;
         top: 0;
+        /* physical: this panel declares horizontal-tb above, so its pins must resolve against horizontal text. */
         right: 0;
         align-self: flex-end;
         height: 0;

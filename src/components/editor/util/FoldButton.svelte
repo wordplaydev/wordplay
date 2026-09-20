@@ -54,10 +54,18 @@
         return null;
     }
 
-    // Mirrors the project Button widget's in-editor handling: pointerdown
-    // prevents the editor from moving the caret; mouse activation is via click;
-    // keyboard activation (Enter/Space) is handled in keydown with preventDefault
-    // so it both stops the editor's keystroke handling and suppresses the
+    // A bare <button>, deliberately, rather than the Button widget.
+    //
+    // Button reads two contexts and derives a multilingual tooltip through
+    // $locales on every instance, and a fold toggle is rendered once per
+    // foldable block — the per-token subscription cost the editor already
+    // measured at about +5% on typing. It also does three things Button does
+    // not: pointerdown prevents the editor from moving the caret, focus moves
+    // the caret to the toggle, and a modified Enter is declined because those
+    // chords belong to other editor commands.
+    //
+    // What it shares with Button is only the activation contract: mouse via
+    // click; keyboard via Enter/Space in keydown with preventDefault, so it both
     // synthesized click (no double toggle).
     async function activate(event: Event) {
         event.preventDefault();
@@ -132,8 +140,8 @@
     onfocus={moveCaretToToggle}
     onclick={activate}
     onkeydown={(event) => {
-        // Only activate on a bare Enter/Space, matching the Button widget:
-        // Enter with modifiers is reserved for other editor shortcuts.
+        // Only a bare Enter/Space: Enter with modifiers is reserved for other
+        // editor shortcuts, which is one of the reasons this isn't Button.
         if (
             (event.key === 'Enter' || event.key === ' ') &&
             !event.shiftKey &&
@@ -186,6 +194,7 @@
         width: 1em;
         padding-inline: 0;
         text-align: center;
+        /* scale: pulls the toggle into the gutter by one of the editor's own ems, so it tracks the creator's font size. */
         margin-inline-start: -1em;
     }
 </style>

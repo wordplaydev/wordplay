@@ -62,7 +62,7 @@
     }
 </script>
 
-<div class="arrangement" {id}>
+<div class="panel-column arrangement" {id}>
     <Options
         label={() => {
             // Not empty means there is a first value to name.
@@ -97,12 +97,4 @@
     {/if}
 </div>
 
-<style>
-    .arrangement {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        align-items: start;
-        width: 100%;
-    }
-</style>
+<style></style>

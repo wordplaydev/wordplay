@@ -966,7 +966,7 @@
                                     {totalWorkCount})</span
                                 >
                             </h2>
-                            <div class="filters">
+                            <div class="stack filters">
                                 <TextField
                                     id="localize-filter"
                                     description={(l) =>
@@ -1014,7 +1014,7 @@
                                 <!-- Entry navigation lives ABOVE the dropdown so its position is
                  stable across edits (the editor below grows/shrinks freely),
                  making repeat-click navigation easier. -->
-                                <div class="entry-nav">
+                                <div class="control-row entry-nav">
                                     <Button
                                         tip={(l) =>
                                             l.ui.page.localize.prevEntry}
@@ -1090,7 +1090,7 @@
                                         </div>
                                     {/if}
                                     {#if arrayLength > 1}
-                                        <div class="tuple-nav">
+                                        <div class="control-row tuple-nav">
                                             <Button
                                                 tip={(l) =>
                                                     l.ui.localize.button.prev}
@@ -1214,7 +1214,7 @@
                                         onfix={(suggestion) =>
                                             (editedText = suggestion)}
                                     />
-                                    <div class="editor-actions">
+                                    <div class="control-row editor-actions">
                                         <Button
                                             tip={templateInputsClean
                                                 ? (l) =>
@@ -1251,7 +1251,7 @@
                                     </div>
                                 {/if}
                             {/if}
-                            <div class="to-submit">
+                            <div class="control-row to-submit">
                                 <Button
                                     tip={(l) => l.ui.page.localize.toSubmit}
                                     action={() => {
@@ -1434,7 +1434,7 @@
                                     </div>
                                 {/if}
 
-                                <div class="submit-actions">
+                                <div class="control-row submit-actions">
                                     <ConfirmButton
                                         tip={(l) =>
                                             l.ui.page.localize.submit
@@ -1483,13 +1483,13 @@
     /* Widen the tab panel's internal gap, so the space between the blocks on a
        tab (and below the tab bar) keeps this page's roomier rhythm. */
     .tabs {
-        --tabbed-panel-gap: calc(var(--wordplay-spacing) * 3);
+        --tabbed-panel-gap: var(--wordplay-spacing-triple);
     }
 
     section {
         display: flex;
         flex-direction: column;
-        gap: calc(var(--wordplay-spacing) * 2);
+        gap: var(--wordplay-spacing-double);
     }
 
     /* Anti-spam confirmation row: checkbox + its accompanying label. */
@@ -1549,31 +1549,11 @@
         font-variant-numeric: tabular-nums;
         color: var(--wordplay-inactive-color);
     }
-
-    .filters {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
     .option-item {
         display: flex;
         flex-direction: column;
         color: var(--wordplay-foreground);
     }
-
-    .entry-nav,
-    .tuple-nav,
-    .editor-actions,
-    .submit-actions,
-    .to-submit {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: var(--wordplay-spacing);
-        flex-wrap: wrap;
-    }
-
     .entry-indicator,
     .index-indicator {
         font-size: var(--wordplay-small-font-size);

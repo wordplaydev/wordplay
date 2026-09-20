@@ -790,7 +790,7 @@
                 {#if index > 0}<span class="sep" aria-hidden="true">/</span
                     >{/if}{#if index === 0}<button
                         type="button"
-                        class="crumb home"
+                        class="linklike crumb home"
                         title={$locales.getPlainText(
                             (l) => l.ui.docs.button.home,
                         )}
@@ -802,11 +802,11 @@
                         place,
                         $locales,
                     )}{#if isLast}<span
-                            class="crumb current"
+                            class="linklike inactive crumb"
                             aria-current="page">{label}</span
                         >{:else}<button
                             type="button"
-                            class="crumb"
+                            class="linklike crumb"
                             onclick={() => goTo(index)}>{label}</button
                         >{/if}{/if}
             {/each}
@@ -1190,10 +1190,10 @@
 
     .content {
         flex: 1;
-        padding: calc(2 * var(--wordplay-spacing));
+        padding: var(--wordplay-spacing-double);
         display: flex;
         flex-direction: column;
-        gap: calc(3 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-triple);
     }
 
     .content:focus {
@@ -1246,32 +1246,13 @@
         align-items: center;
     }
 
-    /* A breadcrumb crumb, styled like a plain text link. */
+    /* Only what the scrolling trail needs beyond `.linklike`: crumbs must not
+       shrink or wrap, since the row scrolls rather than reflowing. */
     .crumb {
         flex-shrink: 0;
-        font: inherit;
-        background: none;
-        border: none;
-        padding: 0;
         margin: 0;
         white-space: nowrap;
-        color: var(--wordplay-link-color);
         text-decoration: none;
-        cursor: pointer;
-    }
-
-    .crumb:focus,
-    .crumb:hover {
-        outline: none;
-        text-decoration: underline;
-        text-decoration-thickness: var(--wordplay-focus-width);
-        text-decoration-color: var(--wordplay-focus-color);
-    }
-
-    /* The current location: inactive — greyed, no underline. */
-    .crumb.current {
-        color: var(--wordplay-inactive-color);
-        cursor: default;
     }
 
     .sep {
@@ -1297,7 +1278,7 @@
     .match {
         background-color: var(--wordplay-highlight-color);
         color: var(--black-light);
-        padding: 0 calc(var(--wordplay-spacing) / 4);
+        padding: 0 var(--wordplay-spacing-quarter);
         border-radius: var(--wordplay-editor-radius);
     }
 
@@ -1319,7 +1300,7 @@
            in this pane is marked, never the directory around it. */
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
-        gap: 1em;
+        gap: var(--wordplay-spacing-double);
         align-items: start;
     }
 </style>

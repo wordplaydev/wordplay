@@ -706,6 +706,7 @@
     /* Settings follow the last content section, so they need the space above
        them that a section header gives itself. */
     .settings {
+        /* scale: the space a section header gives itself, as the comment above says — so it is the header's em, not a chrome step. */
         margin-block-start: 1.5em;
     }
 
@@ -717,8 +718,8 @@
         width: 100%;
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
-        column-gap: calc(var(--wordplay-spacing) * 2);
-        row-gap: calc(var(--wordplay-spacing) * 2);
+        column-gap: var(--wordplay-spacing-double);
+        row-gap: var(--wordplay-spacing-double);
         align-items: start;
         justify-items: start;
     }

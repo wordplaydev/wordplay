@@ -330,7 +330,7 @@
             (l) => l.ui.page.character.image.button.tip,
         )}
     />
-    <div class="body">
+    <div class="panel-column body">
         <Button
             background
             tip={(l) => l.ui.page.character.image.button.tip}
@@ -443,22 +443,12 @@
 <style>
     input[type='file'] {
         display: none;
-    }
-
-    .body {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        align-items: start;
-        width: 100%;
-    }
-
-    /* Wraps when the column is too narrow to hold the image beside its preview. */
+    } /* Wraps when the column is too narrow to hold the image beside its preview. */
     .stage {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
         align-items: start;
         width: 100%;
     }

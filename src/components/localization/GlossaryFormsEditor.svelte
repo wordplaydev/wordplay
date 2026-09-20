@@ -10,6 +10,7 @@
      array value; the server creates the key when a locale adopts its first form
      and removes it again when the last one goes. -->
 <script lang="ts">
+    import Subheader from '@components/app/Subheader.svelte';
     import GlossaryEntry from '@components/concepts/GlossaryEntry.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -152,8 +153,8 @@
     }
 </script>
 
-<section class="glossary">
-    <h2><LocalizedText path={(l) => l.ui.localize.glossary.header} /></h2>
+<section class="stack glossary">
+    <Subheader text={(l) => l.ui.localize.glossary.header} />
     <MarkupHTMLView markup={(l) => l.ui.localize.glossary.description} />
 
     <ul class="terms">
@@ -181,7 +182,7 @@
                         >
                     {:else}
                         {#each row.forms as form (form)}
-                            <span class="form">
+                            <span class="pill form">
                                 {form}<Button
                                     tip={(l) => l.ui.localize.glossary.remove}
                                     action={() => remove(row, form)}
@@ -264,19 +265,13 @@
 </section>
 
 <style>
-    .glossary {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
     .terms {
         list-style: none;
         margin: 0;
         padding: 0;
         display: flex;
         flex-direction: column;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
     }
 
     .term {
@@ -297,22 +292,7 @@
         flex-wrap: wrap;
     }
 
-    .form {
-        display: inline-flex;
-        flex-direction: row;
-        align-items: center;
-        gap: var(--wordplay-spacing-half);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        border-radius: var(--wordplay-border-radius);
-        padding: 0 var(--wordplay-spacing-half);
-    }
-
     .english {
         font-style: italic;
-    }
-
-    h2 {
-        font-size: min(4vw, 14pt);
-        margin: 0;
     }
 </style>

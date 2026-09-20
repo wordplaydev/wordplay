@@ -65,7 +65,7 @@
         flex-direction: column;
         align-items: start;
         width: 100%;
-        gap: calc(3 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-triple);
         border-top: var(--wordplay-border-color) dotted
             var(--wordplay-border-width);
         border-bottom: var(--wordplay-border-color) dotted

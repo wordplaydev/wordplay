@@ -235,8 +235,7 @@
             "skip": {
                 "tip": "$~laktawan ang proyektong ito",
                 "label": "$~laktawan"
-            },
-            "property": "$~Kung ang proyekto ay may ganitong katangian"
+            }
         },
         "error": {
             "notmod": "$~Walang dito na kailangan mong suriin. Sinusuri ng mga moderator ng Wordplay ang pampublikong nilalaman, at sinusuri ng mga curator ng isang gallery ang nasa kanilang gallery. Kung kamakailan ka lang binigyan ng karapatan bilang moderator, maaaring kailanganin mong mag-log in ulit.",

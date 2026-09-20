@@ -403,7 +403,7 @@
         border-radius: var(--wordplay-border-radius);
         min-width: 100%;
         min-height: 100%;
-        padding: calc(2 * var(--wordplay-spacing));
+        padding: var(--wordplay-spacing-double);
 
         display: flex;
         flex-direction: column;

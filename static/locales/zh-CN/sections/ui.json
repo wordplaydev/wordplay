@@ -1567,7 +1567,9 @@
                     "reserved": "$~你的计算机把 $shortcut 留给自己用了",
                     "unmodified": "$~快捷键需要包含 Control 或 Alt，不然就变成打字了",
                     "reset": "$~$command 已恢复为常用快捷键"
-                }
+                },
+                "fallback": "$~如果上面那条不适用",
+                "fixed": "$~不能被修改"
             },
             "feedback": {
                 "header": "$~反馈",

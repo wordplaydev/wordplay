@@ -50,6 +50,7 @@
         inline-size: 70%;
         max-inline-size: 40em;
         text-align: start;
+        /* scale: the reading column's measure family, set in the reading font's own em beside max-inline-size: 40em. */
         margin-block-start: 4em;
         margin-block-end: 4em;
     }
@@ -60,6 +61,7 @@
     }
 
     :global(p:not(:last-of-type)) {
+        /* scale: the reading column's measure family, set in the reading font's own em. */
         margin-block-end: 1em;
     }
 </style>

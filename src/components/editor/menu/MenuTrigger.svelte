@@ -81,8 +81,8 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-width: 24px;
-        min-height: 24px;
+        min-inline-size: var(--wordplay-target-size);
+        min-block-size: var(--wordplay-target-size);
         /* Drop the double-tap-zoom delay on this target without disabling panning. */
         touch-action: manipulation;
     }

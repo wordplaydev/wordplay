@@ -422,7 +422,7 @@
         position: absolute;
         top: 0;
         bottom: 0;
-        inset-inline-start: -8px;
+        inset-inline-start: calc(-1 * var(--wordplay-spacing));
         width: 18px;
     }
 

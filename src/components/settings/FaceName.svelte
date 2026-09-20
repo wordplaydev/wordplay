@@ -89,7 +89,7 @@
         <span aria-hidden="true"
             >{#each face.scripts as script, index}{#if index > 0},
                 {/if}{Scripts[script]?.name ?? '?'}{/each}</span
-        ><span class="reader"
+        ><span class="visually-hidden"
             >{face.scripts
                 .map((script) => Scripts[script]?.en ?? '?')
                 .join(', ')}</span
@@ -105,7 +105,7 @@
                     >{#each missing as feature}<span class="marker"
                             >{feature.symbol}</span
                         >{/each}</span
-                ><span class="reader"
+                ><span class="visually-hidden"
                     >{missing
                         .map((feature) =>
                             $locales.getPrimaryPlainText(feature.word),
@@ -130,17 +130,6 @@
 
     .words {
         color: var(--wordplay-inactive-color);
-    }
-
-    /* Read aloud, never seen: the sighted equivalent sits beside it. */
-    .reader {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip: rect(0 0 0 0);
-        clip-path: inset(50%);
-        white-space: nowrap;
     }
 
     .sample {

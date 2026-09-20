@@ -234,8 +234,7 @@
             "skip": {
                 "tip": "$~dieses Projekt überspringen",
                 "label": "$~überspringen"
-            },
-            "property": "$~Ob das Projekt diese Eigenschaft hat"
+            }
         },
         "done": "$~Sonst nichts zu moderieren!",
         "error": {

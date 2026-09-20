@@ -1908,7 +1908,9 @@
                     "reserved": "$~calculatorul tău păstrează $shortcut pentru el însuși",
                     "unmodified": "$~o scurtătură are nevoie de Control sau Alt, altfel ar fi doar scriere obișnuită",
                     "reset": "$~$command a revenit la scurtătura sa obișnuită"
-                }
+                },
+                "fallback": "$~dacă cea de mai sus nu se aplică",
+                "fixed": "$~nu poate fi schimbat"
             },
             "feedback": {
                 "header": "$~Feedback",

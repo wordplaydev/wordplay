@@ -65,11 +65,11 @@
 
 <div class="phonemes">
     {#each grouped as group (group.manner)}
-        <div class="group">
+        <div class="stack group">
             <h3>{group.heading}</h3>
             <div class="sounds">
                 {#each group.sounds as { symbol, index } (symbol)}
-                    <div class="sound">
+                    <div class="pill sound">
                         <!-- The symbol itself is the insert control, so the
                              thing you press is the thing you get. -->
                         <Button
@@ -113,13 +113,6 @@
         overflow-y: auto;
         padding: var(--wordplay-spacing);
     }
-
-    .group {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
     h3 {
         /* Only the top margin: headings app-wide carry a `rotate(-1deg)` and a
            bottom margin together, and the margin is the room the tilt leans
@@ -134,15 +127,6 @@
         display: flex;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
-    }
-
-    .sound {
-        display: flex;
-        align-items: center;
-        gap: calc(var(--wordplay-spacing) / 2);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        border-radius: var(--wordplay-border-radius);
-        padding-inline: calc(var(--wordplay-spacing) / 2);
     }
 
     .symbol {

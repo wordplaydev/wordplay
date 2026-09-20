@@ -563,11 +563,11 @@
 <style>
     /* Separate the tab bar from the page's explanation above it. */
     .tabs {
-        margin-block-start: calc(2 * var(--wordplay-spacing));
+        margin-block-start: var(--wordplay-spacing-double);
     }
 
     .search {
-        margin-block-start: calc(2 * var(--wordplay-spacing));
+        margin-block-start: var(--wordplay-spacing-double);
     }
 
     /* One column, capped at the reading measure Writing uses when it isn't wide —
@@ -576,7 +576,7 @@
         width: 100%;
         display: grid;
         grid-template-columns: minmax(0, 40em);
-        row-gap: calc(2 * var(--wordplay-spacing));
+        row-gap: var(--wordplay-spacing-double);
         align-items: start;
         justify-items: start;
     }
@@ -584,19 +584,19 @@
     .public {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: var(--wordplay-spacing-double);
     }
 
     .add {
-        margin-inline-start: calc(2 * var(--wordplay-spacing));
+        margin-inline-start: var(--wordplay-spacing-double);
     }
 
     .search-results {
         width: 100%;
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(min(100%, 28em), 1fr));
-        column-gap: calc(4 * var(--wordplay-spacing));
-        row-gap: calc(2 * var(--wordplay-spacing));
+        column-gap: var(--wordplay-spacing-quad);
+        row-gap: var(--wordplay-spacing-double);
         align-items: start;
         justify-items: start;
     }

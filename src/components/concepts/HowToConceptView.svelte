@@ -18,7 +18,6 @@
     import { onMount } from 'svelte';
     import { must } from '@util/nullable';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
-    import HowToPrompt from '../../routes/[[locale]]/gallery/[galleryid]/howto/HowToPrompt.svelte';
 
     interface Props {
         concept: GalleryHowConcept;
@@ -102,7 +101,7 @@
         {#if answers.some((a) => a.trim().length > 0)}
             {#each answers as answer, i (i)}
                 {#if answer.trim().length > 0}
-                    <HowToPrompt
+                    <Subheader
                         text={() => must(questions[i], `question ${i}`)}
                         compact
                     />

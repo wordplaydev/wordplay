@@ -307,7 +307,7 @@
     }
 </script>
 
-<div class="preset" {id}>
+<div class="panel-column preset" {id}>
     <Options
         label={(l) => l.ui.palette.sequence.preset.label}
         value={selected}
@@ -385,14 +385,6 @@
 </div>
 
 <style>
-    .preset {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        align-items: start;
-        width: 100%;
-    }
-
     .parameter {
         display: flex;
         flex-direction: row;

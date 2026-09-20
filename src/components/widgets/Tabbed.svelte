@@ -380,8 +380,8 @@
         background: none;
         padding: var(--wordplay-spacing);
         /* Guarantees the 24x24 minimum target size regardless of locale font metrics. */
-        min-block-size: 24px;
-        min-inline-size: 24px;
+        min-block-size: var(--wordplay-target-size);
+        min-inline-size: var(--wordplay-target-size);
         /* Every tab reserves the selected one's border so selecting never changes
            the bar's height; only the selected tab colors it in. */
         border: var(--wordplay-border-width) solid transparent;
@@ -466,7 +466,7 @@
            `Subheader`'s standard spacing, which the gap adds to. Removing that instead
            left the words sitting on the top border of the box they name, which reads as
            a mistake rather than as attachment. */
-        margin-block-start: calc(4 * var(--wordplay-spacing));
+        margin-block-start: var(--wordplay-spacing-quad);
     }
 
     .panel > :global(h2:first-child) {

@@ -109,6 +109,7 @@
 
     .hovering {
         position: fixed;
+        /* physical: an origin for the JS-measured highlight box, which is positioned from getBoundingClientRect. */
         left: 0;
         top: 0;
         width: 3em;

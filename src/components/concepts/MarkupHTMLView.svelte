@@ -582,7 +582,7 @@
         language/direction, dimmed and successively smaller. The wrapper keeps the
         primary and its echoes a single block (one --wordplay-spacing gap between them)
         rather than the larger inter-prose-block margin. -->
-        <div class="markup-block">
+        <div class="stack markup-block">
             <div
                 class="markup"
                 class:note
@@ -636,6 +636,7 @@
     }
 
     .markup:not(:last-child) {
+        /* scale: prose rhythm in the reading font's own em. This is a text surface, and its blocks space themselves by the text they hold. */
         margin-block-end: 1em;
     }
 
@@ -697,6 +698,7 @@
     .paragraph {
         margin-inline-start: 0;
         margin-block-start: 0em;
+        /* scale: prose rhythm in the reading font's own em. */
         margin-block-end: 1em;
         line-height: 1.5;
         /* A bare URL in prose has no break opportunity, so without this it sets
@@ -710,15 +712,8 @@
         font-size: var(--wordplay-small-font-size);
     }
 
-    /* The primary prose plus its locale echoes form one block, separated by a single
-       --wordplay-spacing gap (not the larger inter-prose-block margin). */
-    .markup-block {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
     .markup-block:not(:last-child) {
+        /* scale: prose rhythm in the reading font's own em. */
         margin-block-end: 1em;
     }
 
@@ -735,11 +730,13 @@
 
     .secondary-inline {
         opacity: 0.7;
+        /* scale: prose rhythm in the reading font's own em. */
         margin-inline-start: 0.25em;
     }
 
     ul {
         margin-block-start: 0em;
+        /* scale: prose rhythm in the reading font's own em. */
         margin-block-end: 1em;
     }
 

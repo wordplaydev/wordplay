@@ -43,7 +43,7 @@
         flex-direction: row;
         align-items: flex-start;
         gap: var(--wordplay-spacing);
-        padding-block: calc(var(--wordplay-spacing) * 1.5);
+        padding-block: var(--wordplay-spacing-double);
         /* The same measure the beta notice and the call to action keep: these
            are paragraphs, and past about 44em a line is hard to scan back from.
            The page lays several of these out per row when it has the width. */

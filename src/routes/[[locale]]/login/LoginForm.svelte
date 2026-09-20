@@ -20,6 +20,6 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
-        margin-block-start: 1em;
+        margin-block-start: var(--wordplay-spacing-double);
     }
 </style>

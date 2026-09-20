@@ -235,8 +235,7 @@
             "skip": {
                 "tip": "$~sări peste acest proiect",
                 "label": "$~sări peste"
-            },
-            "property": "$~Dacă proiectul are această proprietate"
+            }
         },
         "error": {
             "notmod": "$~Nu ai nimic de analizat aici. Moderatorii Wordplay analizează conținutul public, iar curatorii unei galerii analizează ce se află în galeria lor. Dacă ai primit recent drepturi de moderator, s-ar putea să trebuiască să te autentifici din nou.",

@@ -54,6 +54,7 @@
     /* Writing lays its children out in normal flow, and Subheader zeroes its own
        top margin as a first child, so the section sets its own separation. */
     .districts {
+        /* scale: prose section rhythm, in the reading font's own em. */
         margin-block-start: 3em;
     }
 
@@ -67,6 +68,7 @@
     /* The call to action is a block after the prose, not part of its last
        paragraph. */
     .districts :global(.biglink) {
+        /* scale: prose section rhythm, in the reading font's own em. */
         margin-block-start: 1.5em;
     }
 </style>

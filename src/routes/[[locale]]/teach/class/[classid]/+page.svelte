@@ -2,7 +2,7 @@
     import { page } from '$app/state';
     import Centered from '@components/app/Centered.svelte';
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
-    import Header from '@components/app/Header.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Notice from '@components/app/Notice.svelte';
     import PreviewPlaceholder from '@components/app/PreviewPlaceholder.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -70,21 +70,21 @@
 
 {#if classData === null}
     <Title text={(l) => l.ui.page.class.header} />
-    <Header text={(l) => l.ui.page.class.header} />
+    <PageHeader header={(l) => l.ui.page.class.header} />
     <Notice text={(l) => l.ui.page.class.error.notfound} />
 {:else if classData === undefined}
     <Spinning></Spinning>
 {:else}
-    <Header
-        >{#if editable}<TextBox
-                id="class-name"
-                text={classData.name}
-                description={(l) => l.ui.page.class.field.name.description}
-                placeholder={(l) => l.ui.page.class.field.name.placeholder}
-                dwelled={updateName}
-                done={updateName}
-            />{:else}{classData.name}{/if}</Header
-    >
+    <PageHeader name={classData.name}>
+        {#snippet title()}{#if editable}<TextBox
+                    id="class-name"
+                    text={classData.name}
+                    description={(l) => l.ui.page.class.field.name.description}
+                    placeholder={(l) => l.ui.page.class.field.name.placeholder}
+                    dwelled={updateName}
+                    done={updateName}
+                />{:else}{classData.name}{/if}{/snippet}
+    </PageHeader>
     <p
         >{#if editable}
             <TextBox
@@ -231,8 +231,8 @@
         width: 100%;
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(min(100%, 28em), 1fr));
-        column-gap: calc(4 * var(--wordplay-spacing));
-        row-gap: calc(2 * var(--wordplay-spacing));
+        column-gap: var(--wordplay-spacing-quad);
+        row-gap: var(--wordplay-spacing-double);
         align-items: start;
     }
 </style>

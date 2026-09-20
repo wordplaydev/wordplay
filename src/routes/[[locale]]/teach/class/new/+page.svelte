@@ -9,7 +9,7 @@
     import Centered from '@components/app/Centered.svelte';
     import downloadBytes from '@util/download';
     import { csvFileBytes, writeCSVRows } from '@values/export/csv';
-    import Header from '@components/app/Header.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Link from '@components/app/Link.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Subheader from '@components/app/Subheader.svelte';
@@ -254,7 +254,7 @@
 
 <TeachersOnly>
     <Title text={(l) => l.ui.page.newclass.header} />
-    <Header text={(l) => l.ui.page.newclass.header} />
+    <PageHeader header={(l) => l.ui.page.newclass.header} />
     <MarkupHTMLView markup={(l) => l.ui.page.newclass.prompt.start} />
 
     <div class="page">
@@ -682,8 +682,8 @@
     .page {
         display: flex;
         flex-direction: column;
-        gap: 1em;
-        margin-block-start: 1em;
+        gap: var(--wordplay-spacing-double);
+        margin-block-start: var(--wordplay-spacing-double);
     }
 
     table {

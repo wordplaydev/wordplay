@@ -1,4 +1,5 @@
 <script lang="ts">
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Centered from '@components/app/Centered.svelte';
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -15,6 +16,7 @@
 </script>
 
 <Title text={(l) => l.ui.page.teach.header} />
+<PageHeader header={(l) => l.ui.page.teach.header} />
 
 {#snippet classDetails(group: Class)}
     <Link to="/teach/class/{group.id}"><Subheader>{group.name}</Subheader></Link

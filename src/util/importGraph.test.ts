@@ -906,10 +906,18 @@ test('resolving a color needs no basis', () => {
 // #774's character path curves and #1175's zoom feedback. Every byte budget
 // moves by a hundredth.
 
+// The spacing-scale guard (#1419) is **+0 files** and moves two byte budgets by
+// a hundredth. Nothing new is imported: the bytes are the `/* scale: <reason> */`
+// and `/* physical: <reason> */` comments the two CSS guards require in the
+// components they exempt, plus the four new steps in app.html's scale. Comments
+// in files every page already carries are exactly what a byte budget is supposed
+// to absorb without a file count moving — and the alternative to writing the
+// reason down is an exemption nobody can review.
+
 test.each([
     ['src/routes/+layout.svelte', 535, 4.09],
-    ['src/components/app/Page.svelte', 559, 4.34],
-    ['src/routes/[[locale]]/+page.svelte', 574, 4.43],
+    ['src/components/app/Page.svelte', 559, 4.35],
+    ['src/routes/[[locale]]/+page.svelte', 574, 4.44],
     ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.45],
     ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.48],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {

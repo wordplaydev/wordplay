@@ -1616,7 +1616,9 @@
                     "reserved": "$~twój komputer zachowuje $shortcut dla siebie",
                     "unmodified": "$~skrót potrzebuje klawisza Control lub Alt, inaczej byłoby to zwykłe pisanie",
                     "reset": "$~$command wrócił do swojego zwykłego skrótu"
-                }
+                },
+                "fallback": "$~jeśli ten powyżej nie pasuje",
+                "fixed": "$~nie można zmienić"
             },
             "feedback": {
                 "header": "$~Informacja zwrotna",

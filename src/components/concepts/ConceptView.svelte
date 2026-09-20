@@ -124,7 +124,7 @@
         </div>
 
         {#if header && items > 0}
-            <aside class="links">
+            <aside class="stack links">
                 {#if tutorial}
                     <Subheader text={(l) => l.ui.docs.tutorial} />
                     <Link external to={tutorial.url}>{tutorial.title}</Link>
@@ -148,14 +148,14 @@
     .concept {
         display: flex;
         flex-direction: column;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
     }
 
     /* With few items, the links stack below the docs. */
     .body {
         display: flex;
         flex-direction: column;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
     }
 
     /* With enough items, the links become an inline-end sidebar that wraps below on narrow
@@ -175,13 +175,6 @@
         flex: 1 1 12em;
         min-inline-size: 10em;
     }
-
-    .links {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
     .howtos {
         list-style: none;
         padding-inline-start: 0;

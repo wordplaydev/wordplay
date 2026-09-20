@@ -36,7 +36,7 @@
     }
 
     .block {
-        margin-inline-start: -0.5rem;
-        margin-block-end: calc(var(--wordplay-spacing) / 3);
+        margin-inline-start: calc(-1 * var(--wordplay-spacing));
+        margin-block-end: var(--wordplay-spacing-quarter);
     }
 </style>

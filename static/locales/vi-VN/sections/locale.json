@@ -235,8 +235,7 @@
             "skip": {
                 "tip": "$~bỏ qua dự án này",
                 "label": "$~nhảy"
-            },
-            "property": "$~Liệu dự án có thuộc tính này hay không."
+            }
         },
         "error": {
             "notmod": "$~Không có gì ở đây để bạn xem xét cả. Người kiểm duyệt của Wordplay xem xét nội dung công khai, và người quản lý của một phòng trưng bày xem xét những gì trong phòng trưng bày của họ. Nếu bạn vừa mới được cấp quyền kiểm duyệt, bạn có thể cần đăng nhập lại.",

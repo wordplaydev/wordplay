@@ -254,7 +254,7 @@
     {#if transferring === uid}
         <tr>
             <td colspan={span}>
-                <div class="confirm">
+                <div class="control-row confirm">
                     <Button
                         background="salient"
                         tip={(l) =>
@@ -437,13 +437,5 @@
         max-block-size: 40cqb;
         overflow-y: auto;
         font-size: var(--wordplay-small-font-size);
-    }
-
-    .confirm {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: var(--wordplay-spacing);
     }
 </style>

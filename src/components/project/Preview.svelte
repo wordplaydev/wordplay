@@ -98,7 +98,7 @@
 </div>
 
 {#if mode === 'custom'}
-    <div class="custom">
+    <div class="stack custom">
         <TextField
             id="preview-glyph-field"
             bind:text={customDraft}
@@ -138,11 +138,5 @@
         font-size: 2.5rem;
         background: var(--wordplay-inactive-color);
         border-radius: var(--wordplay-border-radius);
-    }
-
-    .custom {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
     }
 </style>

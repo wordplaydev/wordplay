@@ -114,7 +114,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
     }
 
     /* A pill: the emoji and how many people chose it, close enough together to
@@ -122,8 +122,8 @@
     .reactions :global(button.reaction) {
         display: inline-flex;
         align-items: center;
-        gap: calc(var(--wordplay-spacing) / 4);
-        padding: 0 calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-quarter);
+        padding: 0 var(--wordplay-spacing-half);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
     }

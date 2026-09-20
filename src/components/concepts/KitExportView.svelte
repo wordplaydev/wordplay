@@ -48,7 +48,7 @@
     /* A rule and real space between exports: the boundary has to be visible before it is
        structural, since each export is itself a stack of headed sections. */
     .export {
-        padding-block-start: calc(2 * var(--wordplay-spacing));
+        padding-block-start: var(--wordplay-spacing-double);
         border-block-start: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
     }

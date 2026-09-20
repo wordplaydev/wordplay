@@ -554,8 +554,8 @@
     .landing {
         container-type: inline-size;
         width: 100%;
-        padding-inline: calc(var(--wordplay-spacing) * 2);
-        padding-block-end: calc(var(--wordplay-spacing) * 4);
+        padding-inline: var(--wordplay-spacing-double);
+        padding-block-end: var(--wordplay-spacing-quad);
         box-sizing: border-box;
     }
 
@@ -567,8 +567,8 @@
         flex-direction: column;
         /* The stage and the call to action are two things, not one: without
            room between them the examples ran straight into the speech bubble. */
-        gap: calc(var(--wordplay-spacing) * 2);
-        padding-block-end: calc(var(--wordplay-spacing) * 2);
+        gap: var(--wordplay-spacing-double);
+        padding-block-end: var(--wordplay-spacing-double);
     }
 
     /* One measure for every band of content, so their edges line up down the
@@ -587,8 +587,8 @@
     .beta {
         /* Room above it: flush against the top edge it read as a browser
            chrome bar rather than something on the page. */
-        padding-block-start: calc(var(--wordplay-spacing) * 3);
-        padding-block-end: calc(var(--wordplay-spacing) * 2);
+        padding-block-start: var(--wordplay-spacing-triple);
+        padding-block-end: var(--wordplay-spacing-double);
     }
 
     /* Leaves on the same ramp the lockup and its cast leave on, so the whole
@@ -629,7 +629,7 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
-        padding-block: calc(var(--wordplay-spacing) * 2);
+        padding-block: var(--wordplay-spacing-double);
     }
 
     /* Login is one of the route links, so it starts where they start. The grid
@@ -692,7 +692,7 @@
     }
 
     .actions.about {
-        margin-top: calc(var(--wordplay-spacing) * 2);
+        margin-top: var(--wordplay-spacing-double);
     }
 
     /* Each section keeps a readable measure of its own (44em, set on the
@@ -703,7 +703,7 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(min(100%, 26em), 1fr));
         align-items: start;
-        gap: 0 calc(var(--wordplay-spacing) * 3);
+        gap: 0 var(--wordplay-spacing-triple);
         max-width: var(--measure);
         margin-inline: auto;
     }

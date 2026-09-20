@@ -282,6 +282,7 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
+        /* scale: this is a text surface, and its padding is a measure of the prose it holds. */
         padding: 1em;
     }
 
@@ -295,6 +296,7 @@
 
     .content {
         min-block-size: 100%;
+        /* scale: this is a text surface, and its padding is a measure of the prose it holds. */
         padding: 1em;
         /* The heading already provides the leading gap. */
         padding-block-start: 0;

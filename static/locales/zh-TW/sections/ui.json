@@ -1580,7 +1580,9 @@
                     "reserved": "$~你的電腦保留了 $shortcut，無法使用",
                     "unmodified": "$~快速鍵需要搭配 Control 或 Alt，不然就只是在打字而已",
                     "reset": "$~$command 已經恢復成原本的快速鍵"
-                }
+                },
+                "fallback": "$~如果上面那個不適用的話",
+                "fixed": "$~無法被更改"
             },
             "feedback": {
                 "header": "反饋",

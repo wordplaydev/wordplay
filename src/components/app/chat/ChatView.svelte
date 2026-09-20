@@ -1231,7 +1231,7 @@
                 tip={(l) => l.ui.collaborate.moderation.moderate.tip}
                 label={(l) => l.ui.collaborate.moderation.moderate.label}
                 action={() => {
-                    localeGoto('/galleries/moderation');
+                    localeGoto('/moderate');
                 }}
             />
         {/if}
@@ -1650,7 +1650,7 @@
         flex-wrap: wrap;
         gap: var(--wordplay-spacing-half);
         flex-shrink: 0;
-        padding-block: calc(0.5 * var(--wordplay-spacing));
+        padding-block: var(--wordplay-spacing-half);
     }
 
     /* Reading is what you do with the conversation and writing is what you
@@ -1678,9 +1678,9 @@
     .translation {
         display: flex;
         flex-direction: column;
-        gap: calc(0.25 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-quarter);
         margin-inline-start: var(--wordplay-spacing);
-        margin-block-start: calc(0.25 * var(--wordplay-spacing));
+        margin-block-start: var(--wordplay-spacing-quarter);
     }
 
     .dismissable {
@@ -1706,7 +1706,7 @@
         position: sticky;
         bottom: 0;
         background: var(--wordplay-background);
-        padding-block-start: calc(0.5 * var(--wordplay-spacing));
+        padding-block-start: var(--wordplay-spacing-half);
         z-index: 1;
     }
 
@@ -1719,7 +1719,7 @@
     .send {
         align-self: end;
         justify-self: end;
-        padding: calc(0.5 * var(--wordplay-spacing));
+        padding: var(--wordplay-spacing-half);
         z-index: 2;
         display: flex;
         flex-direction: row;
@@ -1739,7 +1739,7 @@
     .chosen {
         display: inline-flex;
         align-items: center;
-        gap: calc(var(--wordplay-spacing) / 4);
+        gap: var(--wordplay-spacing-quarter);
     }
 
     .message {

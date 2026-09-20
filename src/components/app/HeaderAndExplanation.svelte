@@ -29,7 +29,7 @@
     <!-- The heading is :first-child inside this row, so its own top margin
          collapses to nothing; the row carries it instead, keeping the rhythm
          between sections the same with controls as without. -->
-    <div class="row" class:sub>
+    <div class="control-row row" class:sub>
         {@render heading()}
         {@render controls()}
     </div>
@@ -39,15 +39,8 @@
 <MarkupHTMLView markup={(l) => text(l).explanation} />
 
 <style>
-    .row {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: var(--wordplay-spacing);
-    }
-
     .row.sub {
+        /* scale: heading rhythm, relative to the heading's own size. */
         margin-block-start: 1.5em;
     }
 </style>

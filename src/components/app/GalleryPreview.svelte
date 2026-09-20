@@ -147,14 +147,13 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
-        margin-block-start: 1em;
+        margin-block-start: var(--wordplay-spacing-double);
         gap: var(--wordplay-spacing);
     }
 
-    /* The gallery name (a Subheader) is `white-space: nowrap` by default,
-       which makes long names overflow the card. Let it wrap within the card. */
+    /* Subheader wraps on its own now, so only the break-anywhere half is
+       still needed: a gallery name is user-entered and can be one long word. */
     .description > :global(h2) {
-        white-space: normal;
         overflow-wrap: anywhere;
     }
 

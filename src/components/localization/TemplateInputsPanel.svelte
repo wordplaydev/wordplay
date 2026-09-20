@@ -173,7 +173,7 @@
                 <li>
                     <button
                         type="button"
-                        class="chip"
+                        class="pill chip"
                         class:used
                         class:count
                         disabled={!interactive}
@@ -305,7 +305,7 @@
     .template-inputs.compact {
         flex-direction: row;
         align-items: center;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
         margin-block-start: 0;
     }
 
@@ -322,19 +322,10 @@
         margin: 0;
         display: flex;
         flex-wrap: wrap;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
     }
 
     .chip {
-        display: inline-flex;
-        align-items: center;
-        gap: calc(var(--wordplay-spacing) / 2);
-        padding: calc(var(--wordplay-spacing) / 4)
-            calc(var(--wordplay-spacing) / 2);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        border-radius: var(--wordplay-border-radius);
-        background: var(--wordplay-background);
-        color: var(--wordplay-foreground);
         font-family: var(--wordplay-code-font);
         font-size: var(--wordplay-small-font-size);
         cursor: pointer;
@@ -362,14 +353,14 @@
         margin: 0;
         display: flex;
         flex-direction: column;
-        gap: calc(var(--wordplay-spacing) / 4);
+        gap: var(--wordplay-spacing-quarter);
     }
 
     .forms li {
         display: flex;
         flex-wrap: wrap;
         align-items: baseline;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
     }
 
     .category {

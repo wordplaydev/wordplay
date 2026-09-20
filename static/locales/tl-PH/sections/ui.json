@@ -1900,7 +1900,9 @@
                     "reserved": "$~ang $shortcut ay ginagamit ng iyong kompyuter para sa sarili nito",
                     "unmodified": "$~kailangan ng shortcut ang Control o Alt, kundi ito ay magiging pag-type lamang",
                     "reset": "$~ang $command ay bumalik na sa karaniwan nitong shortcut"
-                }
+                },
+                "fallback": "$~kung hindi angkop ang isa sa itaas",
+                "fixed": "$~hindi mapapalitan"
             },
             "feedback": {
                 "header": "$~Feedback",

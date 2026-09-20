@@ -31,7 +31,7 @@
     );
 </script>
 
-<div class="entry">
+<div class="stack entry">
     <h3>
         <LocalizedText overrideKey={`glossary.${id}.word`} sourceText={word} />
     </h3>
@@ -42,10 +42,4 @@
     />
 </div>
 
-<style>
-    .entry {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-</style>
+<style></style>

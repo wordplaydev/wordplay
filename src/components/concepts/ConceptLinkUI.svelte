@@ -280,7 +280,7 @@
             markup={'🔖'}
         />{' '}{/if}<button
         type="button"
-        class="conceptlink"
+        class="linklike conceptlink"
         class:interactive={!isCurrent}
         class:inactive={isCurrent}
         aria-disabled={isCurrent}
@@ -348,21 +348,5 @@
         text-decoration: calc(var(--wordplay-focus-width) / 2) underline
             var(--wordplay-link-underline-color, transparent);
         cursor: pointer;
-    }
-
-    .conceptlink.interactive:focus,
-    .conceptlink.interactive:hover {
-        outline: none;
-        text-decoration: underline;
-        text-decoration-thickness: var(--wordplay-focus-width);
-        text-decoration-color: var(--wordplay-focus-color);
-    }
-
-    /* A link to the concept you're already on: greyed, no underline, to signal
-       it's inactive. */
-    .conceptlink.inactive {
-        color: var(--wordplay-inactive-color);
-        text-decoration: none;
-        cursor: default;
     }
 </style>

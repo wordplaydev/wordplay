@@ -234,8 +234,7 @@
             "skip": {
                 "tip": "$~bu projeyi atla",
                 "label": "$~atlamak"
-            },
-            "property": "$~Projenin bu özelliğe sahip olup olmadığı"
+            }
         },
         "done": "$~Başka ölçülecek bir şey yok!",
         "error": {

@@ -296,8 +296,7 @@
             "skip": {
                 "tip": "skip this project",
                 "label": "skip"
-            },
-            "property": "Whether the project has this property"
+            }
         },
         "report": {
             "button": "ask a moderator to review this",

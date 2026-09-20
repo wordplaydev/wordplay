@@ -679,7 +679,7 @@
         width: 100%;
         height: var(--wordplay-focus-width); /* Adjust line thickness */
         top: 50%; /* Center the line vertically */
-        left: 0;
+        inset-inline-start: 0;
         background: var(--wordplay-error); /* Adjust line color */
     }
 

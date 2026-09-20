@@ -322,6 +322,6 @@
         row-gap: var(--wordplay-spacing);
         align-items: baseline;
         justify-content: center;
-        margin-bottom: 1em;
+        margin-bottom: var(--wordplay-spacing-double);
     }
 </style>

@@ -64,7 +64,7 @@
 
 <p><LocalizedText path={(l) => l.ui.page.login.prompt.changePassword} /></p>
 
-<form>
+<form class="stack">
     <TextField
         id="currentpassword"
         kind={reveal ? undefined : 'password'}
@@ -123,9 +123,4 @@
 </form>
 
 <style>
-    form {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
 </style>

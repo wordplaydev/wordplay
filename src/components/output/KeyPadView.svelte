@@ -229,7 +229,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: calc(var(--wordplay-spacing) * 2);
+        gap: var(--wordplay-spacing-double);
         flex-wrap: wrap;
     }
 

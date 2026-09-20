@@ -18056,6 +18056,10 @@
                                             ],
                                             "description": "[formatted] The explanation text just below the header."
                                         },
+                                        "fallback": {
+                                            "description": "[plain] Marks a shortcut a command only answers to when the command listed above it declines — two commands can share one, and the second takes it in the states the first doesn't handle (in blocks mode, or with no cursor in the code). Without this the two rows read as the same shortcut listed twice by mistake.",
+                                            "type": "string"
+                                        },
                                         "feedback": {
                                             "additionalProperties": false,
                                             "description": "What a creator hears when they change a shortcut. Announced rather than shown alone, since the dialog is operated by keyboard and a refusal that only appears visually reads as nothing happening.",
@@ -18089,6 +18093,10 @@
                                                 "reset"
                                             ],
                                             "type": "object"
+                                        },
+                                        "fixed": {
+                                            "description": "[plain] Shown where the control for changing a shortcut would be, for one that can't be changed — an empty cell otherwise reads as a control that failed to appear.",
+                                            "type": "string"
                                         },
                                         "header": {
                                             "description": "[plain] The header to be shown at the top of the dialog",
@@ -18164,7 +18172,9 @@
                                         "column",
                                         "custom",
                                         "explanation",
+                                        "fallback",
                                         "feedback",
+                                        "fixed",
                                         "header",
                                         "reset",
                                         "resetAll",
@@ -20721,7 +20731,7 @@
                         },
                         "gallerymoderation": {
                             "additionalProperties": false,
-                            "description": "Gallery moderation page labels",
+                            "description": "The reported-things queue. Named `gallerymoderation` because that is what the route was called when it was written, and the key is what thirty locale files carry; the queue itself now lives in /moderate.",
                             "properties": {
                                 "description": {
                                     "$ref": "#/definitions/FormattedText",
@@ -30297,10 +30307,6 @@
                     "additionalProperties": false,
                     "description": "Buttons on the moderation page",
                     "properties": {
-                        "property": {
-                            "description": "[plain] Checkbox for moderation property",
-                            "type": "string"
-                        },
                         "skip": {
                             "$ref": "#/definitions/ButtonText",
                             "description": "Skip moderation button"
@@ -30310,7 +30316,7 @@
                             "description": "Submit moderation decisions button"
                         }
                     },
-                    "required": ["submit", "skip", "property"],
+                    "required": ["submit", "skip"],
                     "type": "object"
                 },
                 "done": {

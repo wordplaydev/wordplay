@@ -30,7 +30,7 @@
     let properties = $derived(getStructureProperties(project, $locales, place));
 </script>
 
-<div class="place" {id}>
+<div class="panel-column place" {id}>
     {project.shares.output.Place.names.getSymbolicName()}
     <StructureInputsEditor {project} {outputs} {properties} {editable} />
     {#if convertable}
@@ -92,12 +92,4 @@
     {/if}
 </div>
 
-<style>
-    .place {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        align-items: start;
-        width: 100%;
-    }
-</style>
+<style></style>

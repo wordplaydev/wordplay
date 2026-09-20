@@ -553,7 +553,7 @@
         visibility: hidden;
         position: absolute;
         pointer-events: none;
-        left: 0;
+        inset-inline-start: 0;
         top: 0;
         display: flex;
         flex-direction: row;

@@ -234,8 +234,7 @@
             "skip": {
                 "tip": "$~passer ce projet",
                 "label": "$~sauter"
-            },
-            "property": "$~Si le projet possède cette propriété"
+            }
         },
         "done": "$~Rien d'autre à modérer !",
         "error": {

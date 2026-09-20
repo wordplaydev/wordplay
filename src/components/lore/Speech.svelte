@@ -216,7 +216,7 @@
 
     .dialog.column.reverse {
         align-items: flex-end;
-        padding-inline-start: calc(2 * var(--wordplay-spacing));
+        padding-inline-start: var(--wordplay-spacing-double);
     }
 
     .dialog.row.reverse {
@@ -304,7 +304,7 @@
     }
 
     .baseline .message.reading:after {
-        top: calc(2 * var(--wordplay-spacing));
+        top: var(--wordplay-spacing-double);
     }
 
     .message.reading:before {
@@ -333,7 +333,7 @@
     }
 
     .baseline .message.reading:before {
-        top: calc(2 * var(--wordplay-spacing));
+        top: var(--wordplay-spacing-double);
     }
 
     .message.flip:before {
@@ -370,11 +370,11 @@
     }
 
     .baseline .message.flip:after {
-        top: calc(2 * var(--wordplay-spacing));
+        top: var(--wordplay-spacing-double);
     }
 
     .baseline .message.flip:before {
-        top: calc(2 * var(--wordplay-spacing));
+        top: var(--wordplay-spacing-double);
     }
 
     .message.below:before {

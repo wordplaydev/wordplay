@@ -547,6 +547,7 @@
 
     .preview {
         min-height: 2.25em;
+        /* scale: the editor's indent, which scales with the type being edited. */
         margin-inline-start: 1em;
     }
 </style>

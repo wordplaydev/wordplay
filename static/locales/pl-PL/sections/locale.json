@@ -234,8 +234,7 @@
             "skip": {
                 "tip": "$~pomiń ten projekt",
                 "label": "$~pominąć"
-            },
-            "property": "$~Czy projekt ma tę właściwość"
+            }
         },
         "done": "$~Nic więcej do moderowania!",
         "error": {

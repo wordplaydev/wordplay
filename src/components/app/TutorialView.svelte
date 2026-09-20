@@ -1155,7 +1155,7 @@
         justify-content: flex-end;
         font-size: small;
         opacity: 0.8;
-        margin-block-start: calc(var(--wordplay-spacing) / 2);
+        margin-block-start: var(--wordplay-spacing-half);
     }
 
     .tutorial {
@@ -1196,6 +1196,7 @@
     /* Keep the scene subtitle directly beneath its title rather than a full line
        below it (the title <p> otherwise carries a large default block-end margin). */
     .title.scene p {
+        /* scale: holds the subtitle under its title, relative to that type rather than to chrome. */
         margin-block-end: 0.25em;
     }
 
@@ -1283,8 +1284,8 @@
         overflow-clip-margin: var(--wordplay-spacing);
         display: flex;
         flex-direction: column;
-        gap: calc(2 * var(--wordplay-spacing));
-        padding-block-start: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
+        padding-block-start: var(--wordplay-spacing-double);
         width: 100%;
     }
 
@@ -1297,7 +1298,7 @@
     .lines {
         display: flex;
         flex-direction: column;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
         flex: 1;
         min-height: 0;
         width: 100%;
@@ -1338,7 +1339,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
         padding: var(--wordplay-spacing);
         background: none;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);

@@ -198,7 +198,7 @@
                 openDialog: string;
             } => r.kind === 'explain' && r.openDialog !== undefined,
         )}
-        <aside aria-label={explain($locales).toText()}>
+        <aside class="stack" aria-label={explain($locales).toText()}>
             <MarkupHTMLView markup={{ perLocale: explain }} />
             {#each elsewhere as resolution}
                 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -374,12 +374,6 @@
     .severity {
         font-size: var(--wordplay-small-font-size);
         color: var(--wordplay-inactive-color);
-    }
-
-    aside {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
     }
 
     .resolution {

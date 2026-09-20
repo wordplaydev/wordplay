@@ -14,6 +14,7 @@
      * a tempo change that can't be kept, a drum with no match — so there is
      * nothing for a creator to choose, only something to know.
      */
+    import ProgressBar from '@components/widgets/ProgressBar.svelte';
     import { Projects } from '@db/projects/Projects';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -393,7 +394,7 @@
     explanation={(l) => l.ui.palette.music.reportExplanation}
 >
     {#if step !== undefined}
-        <div class="progress">
+        <div class="stack progress">
             <MarkupHtmlView
                 inline
                 markup={[
@@ -410,24 +411,11 @@
                     },
                 ]}
             />
-            <!-- Two bars: what is done, and a sweep over it. The sweep animates
-                 `transform`, which the compositor runs — so it keeps moving
-                 while the parse holds the main thread, which is the whole point.
-                 A percentage alone stops updating and reads as a hung page. -->
-            <div
-                class="track"
-                role="progressbar"
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={StepPercents[step] ?? 0}
-                aria-label={$locales.getPrimaryPlainText(
-                    (l) => l.ui.palette.music.steps.label,
-                )}
-            >
-                <div class="done" style:width="{StepPercents[step] ?? 0}%"
-                ></div>
-                <div class="sweep"></div>
-            </div>
+            <ProgressBar
+                percent={StepPercents[step] ?? 0}
+                sweep
+                label={(l) => l.ui.palette.music.steps.label}
+            />
         </div>
     {:else if report !== null}
         <MarkupHtmlView
@@ -463,46 +451,6 @@
         opacity: 0;
         pointer-events: none;
     }
-
-    .progress {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
-    .track {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        height: var(--wordplay-focus-width);
-        background: var(--wordplay-alternating-color);
-        border-radius: var(--wordplay-border-radius);
-    }
-
-    .done {
-        height: 100%;
-        background: var(--wordplay-highlight-color);
-    }
-
-    .sweep {
-        position: absolute;
-        inset-block: 0;
-        inset-inline-start: 0;
-        width: 30%;
-        background: var(--wordplay-highlight-color);
-        opacity: 0.5;
-        animation: sweep calc(var(--animation-factor) * 1.2s) linear infinite;
-    }
-
-    @keyframes sweep {
-        from {
-            transform: translateX(-100%);
-        }
-        to {
-            transform: translateX(400%);
-        }
-    }
-
     .finding {
         margin-block-start: var(--wordplay-spacing);
         padding-inline-start: var(--wordplay-spacing);

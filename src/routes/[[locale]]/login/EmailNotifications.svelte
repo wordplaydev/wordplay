@@ -86,7 +86,7 @@
            column, so the off/on pairs line up down the block. */
         grid-template-columns: minmax(0, 1fr) max-content;
         column-gap: var(--wordplay-spacing);
-        row-gap: calc(2 * var(--wordplay-spacing-half));
+        row-gap: var(--wordplay-spacing);
         align-items: baseline;
     }
 

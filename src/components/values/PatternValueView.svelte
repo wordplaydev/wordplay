@@ -23,6 +23,7 @@
 <style>
     .pattern {
         font-family: var(--wordplay-code-font);
+        /* scale: a chip sized to the text inside it. */
         padding: 0 0.25em;
         border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-alternating-color);

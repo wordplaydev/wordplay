@@ -77,7 +77,7 @@
              same from focus, and the phrase list below never moves. -->
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <div
-            class="prompt"
+            class="stack prompt"
             onpointerenter={() => (holding = true)}
             onpointerleave={() => (holding = false)}
             onfocusin={() => (holding = true)}
@@ -107,12 +107,6 @@
 </LocaleChooser>
 
 <style>
-    .prompt {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
     /* Wrapped inline rather than stacked: thirty phrases in a column would push the
        languages themselves off the first screen, which is what the visitor is here
        to pick. */

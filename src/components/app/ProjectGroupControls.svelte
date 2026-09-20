@@ -24,7 +24,7 @@
     let { sort, setSort, create, selected, remove, enabled }: Props = $props();
 </script>
 
-<div class="controls">
+<div class="control-row controls">
     <Mode
         modes={(l) => l.ui.page.projects.sort}
         choice={sort === 'edited' ? 1 : 0}
@@ -48,12 +48,4 @@
     ></ConfirmButton>
 </div>
 
-<style>
-    .controls {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: var(--wordplay-spacing);
-    }
-</style>
+<style></style>

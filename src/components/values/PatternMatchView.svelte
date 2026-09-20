@@ -57,6 +57,7 @@
     .match {
         display: inline-flex;
         flex-wrap: wrap;
+        /* scale: a chip sized to the text inside it. */
         gap: 0.25em;
         align-items: baseline;
         font-family: var(--wordplay-code-font);
@@ -83,10 +84,12 @@
     .captures {
         display: inline-flex;
         flex-wrap: wrap;
+        /* scale: a chip sized to the text inside it. */
         gap: 0.25em;
         opacity: 0.85;
     }
     .capture {
+        /* scale: a chip sized to the text inside it. */
         padding: 0 0.25em;
         border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-alternating-color);

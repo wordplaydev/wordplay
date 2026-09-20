@@ -2904,8 +2904,8 @@
             .xline {
                 position: absolute;
                 height: var(--wordplay-border-width);
-                left: 0;
-                right: 0;
+                inset-inline-start: 0;
+                inset-inline-end: 0;
                 background: var(--wordplay-border-color);
             }
         }
@@ -3622,7 +3622,7 @@
             width: 40vw;
             display: flex;
             flex-direction: column;
-            gap: calc(2 * var(--wordplay-spacing));
+            gap: var(--wordplay-spacing-double);
         }
 
         label {
@@ -3995,7 +3995,7 @@
     .editor {
         display: flex;
         flex-direction: row;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
         align-items: start;
         justify-content: center;
     }
@@ -4061,7 +4061,7 @@
     .canvas :global(svg) {
         position: absolute;
         top: 0;
-        left: 0;
+        inset-inline-start: 0;
         width: 100%;
         height: 100%;
         color: var(--wordplay-foreground);
@@ -4082,8 +4082,8 @@
     .notes {
         position: absolute;
         top: -2em;
-        left: var(--wordplay-spacing);
-        right: var(--wordplay-spacing);
+        inset-inline-start: var(--wordplay-spacing);
+        inset-inline-end: var(--wordplay-spacing);
         z-index: 2;
     }
     /* Narrow: three columns become one, in the order they're used — draw on

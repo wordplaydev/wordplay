@@ -530,6 +530,7 @@
 
     .done {
         position: absolute;
+        /* scale: pins the badge by the field's own type size, as LocalizedText does. */
         inset-inline-end: -1em;
         /* Center vertically in the field and match the field's text size, so
            the save feedback stays visible even on large fields (e.g. an

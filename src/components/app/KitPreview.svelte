@@ -56,7 +56,9 @@
             graphic
             ariaLabel={(l) => l.ui.docs.kits.open}
         >
-            <div class="tile"><GlyphTile preview={kit.preview} /></div>
+            <div class="preview-tile tile"
+                ><GlyphTile preview={kit.preview} /></div
+            >
         </Link>
     {/if}
     <div class="words">
@@ -109,7 +111,7 @@
     .words {
         display: flex;
         flex-direction: column;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
         min-inline-size: 0;
     }
 
@@ -128,8 +130,5 @@
         inline-size: 3em;
         block-size: 3em;
         font-size: 2em;
-        overflow: hidden;
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        border-radius: var(--wordplay-border-radius);
     }
 </style>

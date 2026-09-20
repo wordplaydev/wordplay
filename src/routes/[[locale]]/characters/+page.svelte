@@ -114,8 +114,8 @@
     .characters {
         display: flex;
         flex-wrap: wrap;
-        gap: calc(var(--wordplay-spacing) * 2);
-        row-gap: calc(var(--wordplay-spacing) * 2);
+        gap: var(--wordplay-spacing-double);
+        row-gap: var(--wordplay-spacing-double);
         justify-content: start;
         /* Don't stretch each card to the row's tallest card (which a long,
            wrapping name would set) — that leaves blank space below shorter

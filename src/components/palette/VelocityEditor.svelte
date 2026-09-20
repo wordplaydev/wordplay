@@ -21,17 +21,9 @@
     );
 </script>
 
-<div class="velocity" {id}>
+<div class="panel-column velocity" {id}>
     {project.shares.output.Velocity.names.getSymbolicName()}
     <StructureInputsEditor {project} {outputs} {properties} {editable} />
 </div>
 
-<style>
-    .velocity {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        align-items: start;
-        width: 100%;
-    }
-</style>
+<style></style>

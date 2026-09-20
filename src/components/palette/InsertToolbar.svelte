@@ -309,7 +309,7 @@
         background-color: var(--wordplay-background);
         margin: calc(-2 * var(--wordplay-spacing));
         margin-bottom: 0;
-        padding: var(--wordplay-spacing) calc(2 * var(--wordplay-spacing));
+        padding: var(--wordplay-spacing) var(--wordplay-spacing-double);
         border-bottom: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
     }

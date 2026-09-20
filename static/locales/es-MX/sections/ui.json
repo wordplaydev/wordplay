@@ -1601,7 +1601,9 @@
                     "reserved": "$~tu computadora reserva $shortcut para sí misma",
                     "unmodified": "$~un atajo necesita Control o Alt, o sería solo escribir",
                     "reset": "$~$command volvió a su atajo habitual"
-                }
+                },
+                "fallback": "$~si la de arriba no aplica",
+                "fixed": "$~no se puede cambiar"
             },
             "feedback": {
                 "header": "Comentar",

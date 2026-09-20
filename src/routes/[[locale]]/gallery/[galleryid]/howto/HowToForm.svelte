@@ -61,7 +61,6 @@
     import { onDestroy, onMount, untrack, type Snippet } from 'svelte';
     import { SvelteMap, SvelteSet } from 'svelte/reactivity';
     import { findHowToPlacement } from './HowToMovement';
-    import HowToPrompt from './HowToPrompt.svelte';
     import HowToTranslationEditor from './HowToTranslationEditor.svelte';
     import { must } from '@util/nullable';
     import HowToUsedBy from './HowToUsedBy.svelte';
@@ -804,7 +803,7 @@
             <Notice text={(l) => l.ui.howto.editor.noGuidingQuestions} />
         {:else}
             {#each prompts as prompt, i (i)}
-                <HowToPrompt text={(l) => prompt} />
+                <Subheader text={(l) => prompt} />
                 <HowToTranslationEditor
                     id={i}
                     currentLocale={localeName}
@@ -1067,12 +1066,12 @@
         {/if}
         <div class="how-to-text" id="howtoview">
             {#each howTo.getText() as markup, i (i)}
-                <HowToPrompt text={() => must(prompts[i], `prompt ${i}`)} />
+                <Subheader text={() => must(prompts[i], `prompt ${i}`)} />
                 <MarkupHTMLView {markup} />
             {/each}
         </div>
         <div class="how-to-social" id="howtointeractions">
-            <HowToPrompt text={(l) => l.ui.howto.viewer.chatPrompt} />
+            <Subheader text={(l) => l.ui.howto.viewer.chatPrompt} />
             <div class="how-to-chat">
                 <ChatView
                     {chat}
@@ -1097,7 +1096,7 @@
         <hr />
 
         {#each howTo.getText() as markup, i (i)}
-            <HowToPrompt text={() => must(prompts[i], `prompt ${i}`)} />
+            <Subheader text={() => must(prompts[i], `prompt ${i}`)} />
             <MarkupHTMLView {markup} />
         {/each}
         <!-- The one thing someone outside the space can do about what they just
@@ -1154,7 +1153,7 @@
         </div>
 
         {#each howTo.getText() as markup, i (i)}
-            <HowToPrompt text={() => must(prompts[i], `prompt ${i}`)} />
+            <Subheader text={() => must(prompts[i], `prompt ${i}`)} />
             <MarkupHTMLView {markup} />
         {/each}
     {/if}
@@ -1201,7 +1200,7 @@
         flex-direction: column;
         gap: var(--wordplay-spacing);
         margin: var(--wordplay-spacing);
-        margin-block-start: calc(2 * var(--wordplay-spacing));
+        margin-block-start: var(--wordplay-spacing-double);
     }
 
     .howtometadata {
@@ -1209,7 +1208,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
-        column-gap: calc(2 * var(--wordplay-spacing));
+        column-gap: var(--wordplay-spacing-double);
         /* Baseline, not start: each of these is a `Labeled`, which baseline-aligns
            its own label against its content — and a creator chip is a padded box
            much taller than a line of text, so aligning the boxes at the top left

@@ -494,8 +494,8 @@
 </script>
 
 {#if track !== undefined}
-    <div class="music">
-        <div class="tracks">
+    <div class="panel-column music">
+        <div class="control-row tracks">
             <Button
                 tip={(l) => l.ui.palette.button.previousTrack}
                 active={editable && index > 0}
@@ -525,7 +525,7 @@
 
         <!-- What acts on the track being shown, kept off the row that chooses
              which track that is. -->
-        <div class="tracks">
+        <div class="control-row tracks">
             <Button
                 tip={(l) => l.ui.palette.button.addTrack}
                 active={editable}
@@ -584,7 +584,7 @@
         </div>
 
         {#if isEditable(track)}
-            <div class="notes">
+            <div class="control-row notes">
                 <Mode
                     modes={(l) => l.ui.palette.music.duration}
                     choice={duration}
@@ -654,31 +654,7 @@
 {/if}
 
 <style>
-    .music {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        align-items: start;
-        width: 100%;
-    }
-
-    .tracks {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: var(--wordplay-spacing);
-        flex-wrap: wrap;
-    }
-
     .count {
         white-space: nowrap;
-    }
-
-    .notes {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: var(--wordplay-spacing);
-        flex-wrap: wrap;
     }
 </style>

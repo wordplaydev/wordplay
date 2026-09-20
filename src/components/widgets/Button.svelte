@@ -332,8 +332,14 @@
            labelled buttons are unaffected since this is only a floor). The
            24px floor is WCAG 2.5.8's minimum pointer target size — at the
            small font size 1.5em alone is only ~20px. */
-        min-width: max(var(--wordplay-widget-height), 24px);
-        min-height: max(var(--wordplay-widget-height), 24px);
+        min-inline-size: max(
+            var(--wordplay-widget-height),
+            var(--wordplay-target-size)
+        );
+        min-block-size: max(
+            var(--wordplay-widget-height),
+            var(--wordplay-target-size)
+        );
         width: fit-content;
         white-space: nowrap;
         transition:
@@ -382,7 +388,10 @@
         border-radius: 50%;
         aspect-ratio: 1;
         padding: var(--wordplay-spacing-half);
-        min-width: max(var(--wordplay-widget-height), 24px);
+        min-inline-size: max(
+            var(--wordplay-widget-height),
+            var(--wordplay-target-size)
+        );
         display: inline-flex;
         align-items: center;
         justify-content: center;

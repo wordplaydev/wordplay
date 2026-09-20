@@ -197,8 +197,14 @@
         padding: var(--wordplay-spacing-half) var(--wordplay-spacing);
         /* WCAG 2.5.8's 24px minimum target, as Button, Mode, and Tabbed
            state it. */
-        min-width: max(var(--wordplay-widget-height), 24px);
-        min-height: max(var(--wordplay-widget-height), 24px);
+        min-inline-size: max(
+            var(--wordplay-widget-height),
+            var(--wordplay-target-size)
+        );
+        min-block-size: max(
+            var(--wordplay-widget-height),
+            var(--wordplay-target-size)
+        );
         background: none;
         border: var(--wordplay-border-width) solid transparent;
         border-block-start: none;
@@ -248,6 +254,7 @@
         font-family: 'Noto Emoji';
         font-size: calc(var(--wordplay-font-size) - 6pt);
         display: inline-block;
+        /* scale: an inline gap beside the link's own text. */
         margin-inline-start: 0.25em;
     }
 

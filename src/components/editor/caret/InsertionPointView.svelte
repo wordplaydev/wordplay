@@ -23,6 +23,7 @@
     .insertion-point::before {
         content: '';
         position: absolute;
+        /* physical: caret geometry, whose direction-aware offsets are handled in the JS-coordinate phase (see CaretView). */
         left: 0;
         top: 50%;
         transform: translateY(-50%);

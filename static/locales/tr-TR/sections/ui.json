@@ -1617,7 +1617,9 @@
                     "reserved": "$~bilgisayarın $shortcut kısayolunu kendine ayırıyor",
                     "unmodified": "$~bir kısayolda Control ya da Alt olmalı, yoksa yazı yazmaktan farksız olur",
                     "reset": "$~$command eski kısayoluna geri döndü"
-                }
+                },
+                "fallback": "$~eğer yukarıdaki geçerli değilse",
+                "fixed": "$~değiştirilemez"
             },
             "feedback": {
                 "header": "$~Geri bildirim",

@@ -1585,7 +1585,9 @@
                     "reserved": "$~$shortcut 은(는) 컴퓨터가 쓰고 있는 단축키입니다",
                     "unmodified": "$~단축키는 Control이나 Alt를 포함해야 합니다. 그렇지 않으면 그냥 입력이 됩니다",
                     "reset": "$~$command 이(가) 원래 단축키로 돌아왔습니다"
-                }
+                },
+                "fallback": "$~위 조건이 적용되지 않으면",
+                "fixed": "$~바꿀 수 없음"
             },
             "feedback": {
                 "header": "$~피드백",

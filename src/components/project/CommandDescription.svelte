@@ -41,6 +41,25 @@
     let overridden = $derived($keybindings[command.id] !== undefined);
     let remappable = $derived(isRemappable(command));
 
+    /**
+     * Whether an earlier command in the list answers to this same chord.
+     *
+     * Sharing one is deliberate, not a conflict: `handleKeyCommand` continues
+     * past a command whose `execute` returns false, so the second answers in
+     * exactly the states the first declines — `expand-before-inline` steps aside
+     * in blocks mode, `parent` with no caret or mid-drag. Three chords are
+     * shared this way. Listing both rows is accurate; listing them with nothing
+     * to tell them apart is what made the dialog read as broken.
+     */
+    let fallback = $derived.by(() => {
+        if (chord.key === undefined) return false;
+        const index = all.indexOf(command);
+        if (index <= 0) return false;
+        return all
+            .slice(0, index)
+            .some((other) => sameChord(chordOf(other, $keybindings), chord));
+    });
+
     /** Whether this row is listening for the creator's chosen keys. */
     let capturing = $state(false);
 
@@ -234,13 +253,17 @@
             >{:else if route}<span class="route"
                 ><LocalizedText path={route} /></span
             >{:else}<em>{toShortcut(chord, { keyLabel: localizedKey })}</em
-            >{/if}{#if overridden}{' '}<span class="custom"
+            >{/if}{#if fallback}{' '}<span class="aside"
+                ><LocalizedText path={(l) => l.ui.dialog.help.fallback} /></span
+            >{/if}{#if overridden}{' '}<span class="aside"
                 ><LocalizedText path={(l) => l.ui.dialog.help.custom} /></span
             >{/if}</td
     >
     <td class="description"><LocalizedText path={command.description} /></td>
     <td class="change"
-        >{#if remappable}<Toggle
+        >{#if !remappable}<span class="aside"
+                ><LocalizedText path={(l) => l.ui.dialog.help.fixed} /></span
+            >{:else}<Toggle
                 tips={(l) => l.ui.dialog.help.change}
                 on={capturing}
                 toggle={() => {
@@ -285,9 +308,22 @@
         margin-inline-end: var(--wordplay-spacing);
     }
 
-    .custom {
+    /* A quiet remark about the row rather than part of it: what the shortcut
+       is when the one above declines, that the creator changed it, or that it
+       cannot be changed. --wordplay-inactive-color is the palette's AA grey,
+       which paletteContrast.test.ts holds to 4.5:1 in both schemes. */
+    .aside {
         margin-inline-start: var(--wordplay-spacing);
         font-size: var(--wordplay-small-font-size);
         color: var(--wordplay-inactive-color);
+    }
+
+    /* In the change column this repeats down a run of rows — every unmodified
+       key is unbindable — so it has to stay one quiet line. Wrapped to two it
+       was louder than the empty cell it replaced, which is the opposite of
+       what saying it was for. */
+    td.change .aside {
+        margin-inline-start: 0;
+        white-space: nowrap;
     }
 </style>

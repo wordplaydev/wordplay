@@ -70,7 +70,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
         /* Sit the controls at the bottom of the header, since they relate to
            the content below it. */
         align-items: end;
