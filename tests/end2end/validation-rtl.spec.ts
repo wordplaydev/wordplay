@@ -1,6 +1,5 @@
 import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
-import { waitForDocumentUpdate } from '../helpers/firestore';
 
 /**
  * A field's validation message in Hebrew, which the routes serve right to left.
@@ -16,29 +15,23 @@ import { waitForDocumentUpdate } from '../helpers/firestore';
  * second adds a source to it, and the seed is shared with half the suite.
  */
 
-/** The precondition below can take most of a minute on a loaded runner, and the
- *  measurements after it need their own room, so this asks for more than the
- *  60s default — the same reason offline-replay does. */
-test.describe.configure({ timeout: 120_000 });
-
 const LOAD = 30_000;
 
-/** How long to give the new project's first cloud write. The default 15s is a
- *  cliff here: on the contended macOS runner the nightly uses, each admin-SDK
- *  read from the test process takes 1.4-6.5s, so 15s buys about six polls — and
- *  a cold first commit can take most of that on its own. Waiting on the local
- *  cache instead does not work: a project the cloud has never seen renders
- *  "this project does not exist" after a fresh page load. */
-const SAVED = 45_000;
-
-/** Open a project of our own under the Hebrew route. */
+/** Open a project of our own under the Hebrew route.
+ *
+ *  Made *in* Hebrew rather than made in English and reopened in Hebrew. The
+ *  projects page reaches a new project client-side (localeGoto, so goto), which
+ *  means the project is on screen without the cloud ever having seen it —
+ *  where reopening it at another locale is a fresh document load, and a fresh
+ *  load of a project the cloud has never seen renders "this project does not
+ *  exist". That precondition was a wait on the first cloud write, which on the
+ *  WebKit nightly took most of a minute and then failed outright.
+ *
+ *  It does make this a Hebrew-locale project, so its source is named and its
+ *  starter code written in Hebrew. Nothing below reads either: what is being
+ *  measured is the chrome's direction, which the URL decides. */
 async function hebrewProject(page: import('@playwright/test').Page) {
-    const id = await createTestProject(page);
-    // Changing locale is a fresh page load, so the project has to have reached
-    // the cloud first or it loads as missing.
-    await waitForDocumentUpdate(page, 'projects', id, (d) => d !== null, SAVED);
-    await page.goto(`/he-IL/project/${id}`);
-    await expect(page.locator('#project-name')).toBeVisible({ timeout: LOAD });
+    const id = await createTestProject(page, 'he-IL');
     await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
     return id;
 }
