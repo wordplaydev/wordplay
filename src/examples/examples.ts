@@ -400,6 +400,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Listen',
                 'Talk',
                 'SpokenWords',
+                'MagicWords',
                 'RainingLetters',
                 'Video',
                 'PitchNotes',

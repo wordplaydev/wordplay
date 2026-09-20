@@ -1,0 +1,36 @@
+🪄
+"MagicWords"/en
+=== start
+¶Say a color or a feeling out loud and the stage obeys your words.¶
+
+¶Only the last three words count, so each new spell replaces the last, and
+lowercasing means Red and red are the same spell. This listens in English
+because the magic words are English.¶
+spell: Speech(language: 'en-US' limit: 3).🔡()
+
+¶Whether a word was one of the last three said. Splitting on spaces first means
+saying spread doesn't count as saying red.¶
+ƒ said(word•'')•? spell.segment(' ').has(word)
+
+sky: said('red') ? Color.red
+	said('blue') ? Color.blue
+		said('green') ? Color.green
+			Color.white
+
+mood: said('happy') ? "😄"
+	said('sad') ? "😢"
+		said('sleepy') ? "😴"
+			"😐"
+
+Stage(
+	[
+		Group(
+			Stack('|' 1m)
+			[
+				Phrase(mood 8m resting: said('spin') ? Sequence.spin() ø)
+				Phrase(spell = '' ? "say red, blue, green, happy, sad, sleepy, or spin" spell 0.75m)
+			]
+		)
+	]
+	background: sky
+)

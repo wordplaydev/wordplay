@@ -113,6 +113,7 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
             'Listen',
             'Talk',
             'SpokenWords',
+            'MagicWords',
             'RainingLetters',
             'Video',
             'PitchNotes',
