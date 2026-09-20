@@ -1,0 +1,62 @@
+🪄
+MagicWords
+=== start
+¶Di un color o un sentimiento en voz alta y el escenario obedece tus palabras.¶
+
+¶Las palabras mágicas. Todo lo que sigue las lee de esta única lista, así que las palabras que el escenario escucha y las palabras que te pide nunca pueden ser diferentes.¶
+hechizos: [
+		'rojo'
+		'azul'
+		'verde'
+		'feliz'
+		'triste'
+		'con sueño'
+		'girar'
+	]
+
+¶Le damos nombres a los lugares de esa lista, para que los hechizos sean más fáciles de leer.¶
+rojo2: 1
+azul2: 2
+verde2: 3
+feliz: 4
+triste: 5
+conSueño: 6
+girar2: 7
+
+¶Solo cuentan las últimas tres palabras, así que cada hechizo nuevo reemplaza al anterior, y usar minúsculas significa que Rojo y rojo son el mismo hechizo.¶
+escuchado: Habla(límite: 3).minúsculas()
+
+¶Indica si un hechizo fue una de las últimas tres palabras dichas. Separar primero por espacios significa que decir esparcido no cuenta como decir rojo.¶
+ƒ dicho(cuál•#)•? (' ' + escuchado + ' ').tiene(' ' + hechizos[cuál] + ' ')
+
+cielo: dicho(rojo2) ? Color.rojo
+		dicho(azul2) ? Color.azul
+			dicho(verde2) ? Color.verde
+				Color.blanco
+
+ánimo: dicho(feliz) ? "😄"
+		dicho(triste) ? "😢"
+			dicho(conSueño) ? "😴"
+				"😐"
+
+Escenario(
+	[
+		Grupo(
+			Pila('|' 1m)
+			[
+				Frase(
+					ánimo
+					8m
+					inmóvil: dicho(girar2) ? Secuencia.girar() ø
+				)
+				Frase(
+					escuchado = '' ? 'decir: ' + hechizos.unirse(
+								', '
+							) escuchado
+					0.75m
+				)
+			]
+		)
+	]
+	fondo: cielo
+)

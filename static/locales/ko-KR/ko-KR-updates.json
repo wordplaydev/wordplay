@@ -990,6 +990,7 @@
         "e35eab7d1d833": "$~이제 프로필 페이지에서 여러분이 만든 모든 것을 내려받을 수 있습니다. 프로젝트, 캐릭터, 갤러리, 설정이 모두 포함됩니다. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~이제 <프로젝트@https://wordplay.dev/projects> 페이지에서 프로젝트 파일을 열 수 있습니다. 파일을 선택하거나 페이지에 끌어다 놓으면 됩니다. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e5382816343d1": "$~이미 가지고 있는 프로젝트에 프로젝트 파일을 끌어다 놓으면 내용을 바꿀 수 있습니다. 바꾸기 전에 먼저 물어봅니다. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e33984a013993": "$~공개되고 승인된 갤러리는 이제 art-club처럼 짧은 이름을 링크에 쓸 수 있어요. 그러면 공유하기와 말로 알려 주기가 더 쉬워져요. 예전 링크도 계속 쓸 수 있지만, 원한다면 포기할 수도 있어요. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
+        "e33984a013993": "$~공개되고 승인된 갤러리는 이제 art-club처럼 짧은 이름을 링크에 쓸 수 있어요. 그러면 공유하기와 말로 알려 주기가 더 쉬워져요. 예전 링크도 계속 쓸 수 있지만, 원한다면 포기할 수도 있어요. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "e125eafd6c116": "$~<갤러리@https://wordplay.dev/galleries>에 매직 워드라는 새 예제를 추가했습니다. red, happy, spin을 소리 내어 말하면 무대의 색깔, 얼굴, 움직임이 바뀝니다. (<1077@https://github.com/wordplaydev/wordplay/issues/1077>)"
     }
 }

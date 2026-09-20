@@ -1,0 +1,60 @@
+🪄
+MotsMagiques
+=== start
+¶Dis une couleur ou un sentiment à voix haute, et la scène obéit à tes mots.¶
+
+¶Les mots magiques. Tout ce qui suit les lit dans cette même liste, pour que les mots que la scène écoute et les mots qu'elle te demande ne soient jamais différents.¶
+sorts: [
+		'rouge'
+		'bleu'
+		'vert'
+		'heureux'
+		'triste'
+		'endormi'
+		'tourner'
+	]
+
+¶On donne des noms aux places de cette liste, pour que les sorts soient plus faciles à lire.¶
+rouge2: 1
+bleu2: 2
+vert2: 3
+heureux: 4
+triste: 5
+endormi: 6
+tourner2: 7
+
+¶Seuls les trois derniers mots comptent, donc chaque nouveau sort remplace le précédent, et mettre en minuscules fait que Rouge et rouge sont le même sort.¶
+entendu: Discours(limite: 3).minuscule()
+
+¶Indique si un sort faisait partie des trois derniers mots dits. Séparer d'abord selon les espaces fait que dire répandre ne compte pas comme dire rendre.¶
+ƒ dit(lequel•#)•? (' ' + entendu + ' ').a(' ' + sorts[lequel] + ' ')
+
+ciel: dit(rouge2) ? Couleur.rouge
+		dit(bleu2) ? Couleur.bleu
+			dit(vert2) ? Couleur.vert
+				Couleur.blanc
+
+humeur: dit(heureux) ? "😄"
+		dit(triste) ? "😢"
+			dit(endormi) ? "😴"
+				"😐"
+
+Scène(
+	[
+		Groupe(
+			Empiler('|' 1m)
+			[
+				Phrase(
+					humeur
+					8m
+					aurepos: dit(tourner2) ? Séquence.tournoiement() ø
+				)
+				Phrase(
+					entendu = '' ? 'dire : ' + sorts.rejoindre(', ') entendu
+					0.75m
+				)
+			]
+		)
+	]
+	arrièreplan: ciel
+)

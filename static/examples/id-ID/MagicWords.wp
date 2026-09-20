@@ -1,0 +1,63 @@
+🪄
+MagicWords
+=== start
+¶Ucapkan warna atau perasaan dengan suara keras, dan panggung akan menuruti kata-katamu.¶
+
+¶Kata-kata ajaibnya. Semua yang ada di bawah ini membaca kata-kata itu dari satu daftar yang sama, jadi kata yang didengarkan panggung dan kata yang diminta panggung darimu tidak akan pernah berbeda.¶
+mantra: [
+		'merah'
+		'biru'
+		'hijau'
+		'senang'
+		'sedih'
+		'mengantuk'
+		'berputar'
+	]
+
+¶Kami memberi nama pada tempat-tempat di daftar itu, supaya mantra-mantranya lebih mudah dibaca.¶
+merah2: 1
+biru2: 2
+hijau2: 3
+senang: 4
+sedih: 5
+mengantuk: 6
+berputar2: 7
+
+¶Hanya tiga kata terakhir yang dihitung, jadi setiap mantra baru menggantikan yang terakhir, dan karena huruf besar-kecil diabaikan, Merah dan merah adalah mantra yang sama.¶
+terdengar: Pidato(membatasi: 3).hurufKecil()
+
+¶Apakah sebuah mantra termasuk salah satu dari tiga kata terakhir yang diucapkan. Memisahkan kalimat berdasarkan spasi terlebih dahulu membuat kata menyebar tidak dihitung sebagai mengucapkan merah.¶
+ƒ berkata(yangMana•#)•? (' ' + terdengar + ' ').memiliki(' ' + mantra[yangMana] + ' ')
+
+langit: berkata(merah2) ? Warna.merah
+		berkata(biru2) ? Warna.biru
+			berkata(hijau2) ? Warna.hijau
+				Warna.putih
+
+suasanaHati: berkata(senang) ? "😄"
+		berkata(sedih) ? "😢"
+			berkata(mengantuk) ? "😴"
+				"😐"
+
+Panggung(
+	[
+		Kelompok(
+			Tumpukan('|' 1m)
+			[
+				Frasa(
+					suasanaHati
+					8m
+					beristirahat: berkata(berputar2) ? Urutan.putaran(
+						) ø
+				)
+				Frasa(
+					terdengar = '' ? 'katakan: ' + mantra.bergabung(
+								', '
+							) terdengar
+					0.75m
+				)
+			]
+		)
+	]
+	latarbelakang: langit
+)

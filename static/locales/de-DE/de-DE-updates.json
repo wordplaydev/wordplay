@@ -990,6 +990,7 @@
         "e35eab7d1d833": "$~Du kannst jetzt eine Kopie von allem herunterladen, was du gemacht hast. Das sind deine Projekte, Figuren, Galerien und Einstellungen. Du findest das auf deiner Profilseite. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Du kannst jetzt eine Projektdatei auf deiner <Projekte@https://wordplay.dev/projects>-Seite öffnen. Wähle sie aus oder ziehe sie auf die Seite. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e5382816343d1": "$~Du kannst eine Projektdatei auf ein Projekt ziehen, das du schon hast, um dessen Inhalt zu ersetzen. Wir fragen dich vorher. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e33984a013993": "$~Eine Galerie, die öffentlich und freigegeben ist, kann jetzt einen kurzen Namen in ihrem Link haben, wie zum Beispiel kunst-club. So lässt sie sich leichter teilen und laut vorlesen. Alte Links funktionieren weiter, aber man kann sie aufgeben. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
+        "e33984a013993": "$~Eine Galerie, die öffentlich und freigegeben ist, kann jetzt einen kurzen Namen in ihrem Link haben, wie zum Beispiel kunst-club. So lässt sie sich leichter teilen und laut vorlesen. Alte Links funktionieren weiter, aber man kann sie aufgeben. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "e125eafd6c116": "$~Wir haben ein neues Beispiel namens Magic Words zur <Galerie@https://wordplay.dev/galleries> hinzugefügt. Wenn man dort rot, glücklich oder drehen laut sagt, ändern sich Farbe, Gesicht und Bewegung auf der Bühne. (<1077@https://github.com/wordplaydev/wordplay/issues/1077>)"
     }
 }

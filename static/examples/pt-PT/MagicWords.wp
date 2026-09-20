@@ -1,0 +1,60 @@
+🪄
+PalavrasMágicas
+=== start
+¶Diga em voz alta uma cor ou um sentimento e o palco obedece às suas palavras.¶
+
+¶As palavras mágicas. Tudo o que se segue lê essas palavras a partir desta única lista, para que as palavras que o palco escuta e as palavras que lhe pede nunca sejam diferentes.¶
+feitiços: [
+		'vermelho'
+		'azul'
+		'verde'
+		'feliz'
+		'triste'
+		'sonolento'
+		'rodar'
+	]
+
+¶Damos nomes aos lugares dessa lista, para tornar os feitiços mais fáceis de ler.¶
+vermelho2: 1
+azul2: 2
+verde2: 3
+feliz: 4
+triste: 5
+sonolento: 6
+rodar2: 7
+
+¶Só as últimas três palavras contam, por isso cada novo feitiço substitui o anterior, e usar minúsculas significa que Vermelho e vermelho são o mesmo feitiço.¶
+ouvido: Fala(limite: 3).minúsculas()
+
+¶Indica se um feitiço foi uma das últimas três palavras ditas. Dividir primeiro pelos espaços significa que dizer espalhar não conta como dizer vermelho.¶
+ƒ dito(qual•#)•? (' ' + ouvido + ' ').tem(' ' + feitiços[qual] + ' ')
+
+céu: dito(vermelho2) ? Cor.vermelho
+		dito(azul2) ? Cor.azul
+			dito(verde2) ? Cor.verde
+				Cor.branco
+
+humor: dito(feliz) ? "😄"
+		dito(triste) ? "😢"
+			dito(sonolento) ? "😴"
+				"😐"
+
+Fase(
+	[
+		Grupo(
+			Monte('|' 1m)
+			[
+				Frase(
+					humor
+					8m
+					descansar: dito(rodar2) ? Sequência.rodar() ø
+				)
+				Frase(
+					ouvido = '' ? 'diz: ' + feitiços.juntar(', ') ouvido
+					0.75m
+				)
+			]
+		)
+	]
+	fundo: céu
+)

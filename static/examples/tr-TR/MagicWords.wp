@@ -1,0 +1,60 @@
+🪄
+SihirliKelimeler
+=== start
+¶Bir renk ya da bir duyguyu yüksek sesle söyle, sahne sözlerine uysun.¶
+
+¶Sihirli sözler. Aşağıdaki her şey onları bu tek listeden okur. Böylece sahnenin dinlediği sözlerle senden istediği sözler hiçbir zaman birbirinden farklı olmaz.¶
+büyüler: [
+		'kırmızı'
+		'mavi'
+		'yeşil'
+		'mutlu'
+		'üzgün'
+		'uykulu'
+		'dön'
+	]
+
+¶Büyüleri daha kolay okunsun diye, o listedeki yerlere isimler veriyoruz.¶
+kırmızı2: 1
+mavi2: 2
+yeşil2: 3
+mutlu: 4
+üzgün: 5
+uykulu: 6
+dön2: 7
+
+¶Yalnızca son üç söz sayılır. Bu yüzden her yeni büyü bir öncekinin yerini alır. Küçük harfe çevirme sayesinde Kırmızı ile kırmızı aynı büyü olur.¶
+duyuldu: Konuşma(kelimeler: 3).küçükHarf()
+
+¶Bir büyünün, söylenen son üç sözden biri olup olmadığını gösterir. Önce boşluklara göre ayırmak, "kırmızıyı" demenin "kırmızı" demek sayılmamasını sağlar.¶
+ƒ söylendi(hangi•#)•? (' ' + duyuldu + ' ').sahipolmak(' ' + büyüler[hangi] + ' ')
+
+gökyüzü: söylendi(kırmızı2) ? Renk.kırmızı
+		söylendi(mavi2) ? Renk.mavi
+			söylendi(yeşil2) ? Renk.yeşil
+				Renk.beyaz
+
+ruhHali: söylendi(mutlu) ? "😄"
+		söylendi(üzgün) ? "😢"
+			söylendi(uykulu) ? "😴"
+				"😐"
+
+Sahne(
+	[
+		Grup(
+			Yığın('|' 1m)
+			[
+				İfadeetmek(
+					ruhHali
+					8m
+					dinlenme: söylendi(dön2) ? Sekans.döndürmek() ø
+				)
+				İfadeetmek(
+					duyuldu = '' ? 'söyle: ' + büyüler.katılmak(', ') duyuldu
+					0.75m
+				)
+			]
+		)
+	]
+	arkaplan: gökyüzü
+)

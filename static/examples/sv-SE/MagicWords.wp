@@ -1,0 +1,62 @@
+🪄
+MagicWords
+=== start
+¶Säg en färg eller en känsla högt, och scenen lyder dina ord.¶
+
+¶De magiska orden. Allt nedan läser dem från denna enda lista, så orden scenen lyssnar efter och orden den ber dig om kan aldrig skilja sig.¶
+trollformler: [
+		'röd'
+		'blå'
+		'grön'
+		'glad'
+		'ledsen'
+		'sömnig'
+		'snurra'
+	]
+
+¶Vi ger platserna i den listan namn, för att göra trollformlerna lättare att läsa.¶
+röd2: 1
+blå2: 2
+grön2: 3
+glad: 4
+ledsen: 5
+sömnig: 6
+snurra2: 7
+
+¶Bara de tre sista orden räknas, så varje ny trollformel ersätter den förra, och att skriva med små bokstäver gör att Röd och röd är samma trollformel.¶
+hörde: Tal(begränsa: 3).gemener()
+
+¶Om en trollformel var ett av de tre sista orden som sades. Att först dela upp texten vid mellanslag gör att ordet sprida inte räknas som att säga röd.¶
+ƒ sa(vilken•#)•? (' ' + hörde + ' ').har(' ' + trollformler[vilken] + ' ')
+
+himmel: sa(röd2) ? Färg.röd
+		sa(blå2) ? Färg.blå
+			sa(grön2) ? Färg.grön
+				Färg.vit
+
+humör: sa(glad) ? "😄"
+		sa(ledsen) ? "😢"
+			sa(sömnig) ? "😴"
+				"😐"
+
+Etapp(
+	[
+		Grupp(
+			Stack('|' 1m)
+			[
+				Fras(
+					humör
+					8m
+					vilande: sa(snurra2) ? Sekvens.snurra() ø
+				)
+				Fras(
+					hörde = '' ? 'säg: ' + trollformler.anslutasigtill(
+								', '
+							) hörde
+					0.75m
+				)
+			]
+		)
+	]
+	bakgrund: himmel
+)

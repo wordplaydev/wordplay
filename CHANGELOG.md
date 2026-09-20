@@ -4,6 +4,12 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.37.3 - 2026-09-20
+
+### Added
+
+- 🎙️ We added a new example called Magic Words to the [galleries](https://wordplay.dev/galleries), where saying red, happy, or spin out loud changes the color, face, and motion on stage. (#1077)
+
 ## 0.37.2 - 2026-09-17
 
 ### Added

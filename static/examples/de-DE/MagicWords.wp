@@ -1,0 +1,62 @@
+🪄
+MagicWords
+=== start
+¶Sag eine Farbe oder ein Gefühl laut, und die Bühne folgt deinen Worten.¶
+
+¶Die Zauberwörter. Alles unten liest sie aus dieser einen Liste. So können die Wörter, auf die die Bühne hört, und die Wörter, die sie dir zeigt, nie voneinander abweichen.¶
+zaubersprüche: [
+		'rot'
+		'blau'
+		'grün'
+		'fröhlich'
+		'traurig'
+		'schläfrig'
+		'drehen'
+	]
+
+¶Wir geben den Plätzen in dieser Liste Namen, damit die Zaubersprüche leichter zu lesen sind.¶
+rot: 1
+blau: 2
+grün: 3
+fröhlich: 4
+traurig: 5
+schläfrig: 6
+drehen2: 7
+
+¶Nur die letzten drei Wörter zählen. So ersetzt jeder neue Zauberspruch den letzten. Weil Groß- und Kleinschreibung keine Rolle spielt, sind Rot und rot der gleiche Zauberspruch.¶
+gehört: Rede(Limit: 3).Kleinbuchstaben()
+
+¶Ob ein Zauberspruch eines der letzten drei gesagten Wörter war. Zuerst wird an den Leerzeichen getrennt. So zählt das Sagen von spread nicht als Sagen von rot.¶
+ƒ gesagt(welche•#)•? (' ' + gehört + ' ').hat(' ' + zaubersprüche[welche] + ' ')
+
+himmel: gesagt(rot) ? Farbe.Rot
+		gesagt(blau) ? Farbe.Blau
+			gesagt(grün) ? Farbe.Grün
+				Farbe.Weiß
+
+stimmung: gesagt(fröhlich) ? "😄"
+		gesagt(traurig) ? "😢"
+			gesagt(schläfrig) ? "😴"
+				"😐"
+
+Bühne(
+	[
+		Gruppe(
+			Stapel('|' 1m)
+			[
+				Satzglied(
+					stimmung
+					8m
+					Ruhen: gesagt(drehen2) ? Reihenfolge.drehen() ø
+				)
+				Satzglied(
+					gehört = '' ? 'sagen: ' + zaubersprüche.verbinden(
+								', '
+							) gehört
+					0.75m
+				)
+			]
+		)
+	]
+	Hintergrund: himmel
+)

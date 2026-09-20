@@ -990,6 +990,7 @@
         "e35eab7d1d833": "$~Sekarang kamu bisa mengunduh salinan semua yang kamu buat, termasuk proyek, karakter, galeri, dan pengaturanmu, dari halaman profilmu. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Sekarang kamu bisa membuka berkas proyek di halaman <Proyek@https://wordplay.dev/projects>, dengan cara memilihnya atau menyeretnya ke halaman itu. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e5382816343d1": "$~Kamu bisa menyeret berkas proyek ke proyek yang sudah kamu miliki untuk menggantikan isinya, dan kami akan menanyakannya dulu. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e33984a013993": "$~Galeri yang bersifat umum dan sudah disetujui kini bisa punya nama singkat dalam tautannya, seperti art-club. Ini membuatnya lebih mudah dibagikan dan diucapkan. Tautan lama tetap berfungsi, tapi kamu bisa melepasnya. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
+        "e33984a013993": "$~Galeri yang bersifat umum dan sudah disetujui kini bisa punya nama singkat dalam tautannya, seperti art-club. Ini membuatnya lebih mudah dibagikan dan diucapkan. Tautan lama tetap berfungsi, tapi kamu bisa melepasnya. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "e125eafd6c116": "$~Kami menambahkan contoh baru bernama Kata-Kata Ajaib di <galeri@https://wordplay.dev/galleries>. Jika kamu mengucapkan kata merah, bahagia, atau putar dengan keras, warna, wajah, dan gerakan di panggung akan berubah. (<1077@https://github.com/wordplaydev/wordplay/issues/1077>)"
     }
 }

@@ -1,0 +1,63 @@
+🪄
+MagicWords
+=== start
+¶Sabihin nang malakas ang isang kulay o isang damdamin, at susundin ito ng entablado.¶
+
+¶Ang mga salitang mahiwaga. Ang lahat sa ibaba ay kinukuha ang mga ito mula sa listahang ito, kaya ang mga salitang pinapakinggan ng entablado at ang mga salitang hinihingi nito sa iyo ay laging pareho.¶
+mgaGayuma: [
+		'pula'
+		'asul'
+		'berde'
+		'masaya'
+		'malungkot'
+		'antok'
+		'ikot'
+	]
+
+¶Binibigyan namin ng pangalan ang mga puwesto sa listahang iyon, para mas madaling basahin ang mga gayuma.¶
+pula2: 1
+asul2: 2
+berde2: 3
+masaya: 4
+malungkot: 5
+antok: 6
+ikot2: 7
+
+¶Tatlong huling salita lang ang binibilang, kaya ang bawat bagong gayuma ay pumapalit sa huli, at dahil binabago ito sa maliit na letra, iisa lang ang Pula at pula.¶
+narinig: Pagsasalita(limitasyon: 3).maliliitNaTitik()
+
+¶Kung isa ba ang gayuma sa tatlong huling salitang sinabi. Ang paghahati muna base sa mga puwang ay nangangahulugang ang pagsabi ng spread ay hindi mabibilang na pagsabi ng pula.¶
+ƒ sinabi(alin•#)•? (' ' + narinig + ' ').aymay(' ' + mgaGayuma[alin] + ' ')
+
+langit: sinabi(pula2) ? Kulay.pula
+		sinabi(asul2) ? Kulay.asul
+			sinabi(berde2) ? Kulay.berde
+				Kulay.puti
+
+damdamin: sinabi(masaya) ? "😄"
+		sinabi(malungkot) ? "😢"
+			sinabi(antok) ? "😴"
+				"😐"
+
+Entablado(
+	[
+		Grupo(
+			Patongpatong('|' 1m)
+			[
+				Parirala(
+					damdamin
+					8m
+					nagpapahinga: sinabi(ikot2) ? Pagkakasunodsunod.iikot(
+						) ø
+				)
+				Parirala(
+					narinig = '' ? 'sabihin: ' + mgaGayuma.sumali(
+								', '
+							) narinig
+					0.75m
+				)
+			]
+		)
+	]
+	background: langit
+)

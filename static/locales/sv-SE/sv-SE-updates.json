@@ -990,6 +990,7 @@
         "e35eab7d1d833": "$~Nu kan du ladda ner en kopia av allt du har gjort, till exempel projekt, figurer, gallerier och inställningar, från din profilsida. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Nu kan du öppna en projektfil på sidan <Projekt@https://wordplay.dev/projects>, antingen genom att välja den eller genom att dra den till sidan. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e5382816343d1": "$~Du kan dra en projektfil till ett projekt du redan har för att ersätta innehållet, och vi frågar dig först. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e33984a013993": "$~Ett galleri som är offentligt och godkänt kan nu ha ett kort namn i sin länk, till exempel konst-klubb. Det gör det lättare att dela och säga högt. Gamla länkar fungerar fortfarande, men du kan lämna dem. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
+        "e33984a013993": "$~Ett galleri som är offentligt och godkänt kan nu ha ett kort namn i sin länk, till exempel konst-klubb. Det gör det lättare att dela och säga högt. Gamla länkar fungerar fortfarande, men du kan lämna dem. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "e125eafd6c116": "$~Vi har lagt till ett nytt exempel som heter Magiska Ord i <gallerierna@https://wordplay.dev/galleries>. Om du säger röd, glad eller snurra högt, ändras färgen, ansiktet och rörelsen på scenen. (<1077@https://github.com/wordplaydev/wordplay/issues/1077>)"
     }
 }

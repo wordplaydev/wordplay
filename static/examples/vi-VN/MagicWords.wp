@@ -1,0 +1,60 @@
+🪄
+NgônTừDiệuKỳ
+=== start
+¶Nói to một màu sắc hay một cảm xúc, sân khấu sẽ nghe theo lời bạn.¶
+
+¶Những từ phép thuật. Mọi thứ bên dưới đều đọc chúng từ một danh sách này, nên những từ mà sân khấu lắng nghe và những từ nó hỏi bạn sẽ không bao giờ khác nhau.¶
+câuThầnChú: [
+		'đỏ'
+		'xanh dương'
+		'xanh lá'
+		'vui'
+		'buồn'
+		'buồn ngủ'
+		'xoay'
+	]
+
+¶Chúng ta đặt tên cho các vị trí trong danh sách đó, để câu thần chú dễ đọc hơn.¶
+đỏ: 1
+xanhDương: 2
+xanhLá: 3
+vui: 4
+buồn: 5
+buồnNgủ: 6
+xoay2: 7
+
+¶Chỉ ba từ cuối cùng được tính, nên mỗi câu thần chú mới sẽ thay thế câu trước đó, và việc chuyển thành chữ thường có nghĩa là Đỏ và đỏ là cùng một câu thần chú.¶
+đãNghe: Lờinói(giớihạn: 3).chữThường()
+
+¶Xem một câu thần chú có phải là một trong ba từ cuối cùng được nói hay không. Việc tách theo khoảng trắng trước tiên có nghĩa là nói lan tỏa sẽ không được tính là nói đỏ.¶
+ƒ đãNói(cáiNào•#)•? (' ' + đãNghe + ' ').có(' ' + câuThầnChú[cáiNào] + ' ')
+
+bầuTrời: đãNói(đỏ) ? Màusắc.màuđỏ
+		đãNói(xanhDương) ? Màusắc.màuxanhdatrời
+			đãNói(xanhLá) ? Màusắc.màuxanhlá
+				Màusắc.trắng
+
+tâmTrạng: đãNói(vui) ? "😄"
+		đãNói(buồn) ? "😢"
+			đãNói(buồnNgủ) ? "😴"
+				"😐"
+
+Sânkhấu(
+	[
+		Nhóm(
+			Ngănxếp('|' 1m)
+			[
+				Cụmtừ(
+					tâmTrạng
+					8m
+					nghỉngơi: đãNói(xoay2) ? Sựliêntiếp.quay() ø
+				)
+				Cụmtừ(
+					đãNghe = '' ? 'nói: ' + câuThầnChú.thamgia(', ') đãNghe
+					0.75m
+				)
+			]
+		)
+	]
+	lýlịch: bầuTrời
+)

@@ -1,0 +1,60 @@
+🪄
+CuvinteMagice
+=== start
+¶Spune cu voce tare o culoare sau o stare de spirit, și scena ascultă de vorbele tale.¶
+
+¶Cuvintele magice. Tot ce este mai jos le citește din această listă, așa că cuvintele pe care le ascultă scena și cuvintele pe care ți le cere nu pot fi niciodată diferite.¶
+vrăji: [
+		'roșu'
+		'albastru'
+		'verde'
+		'vesel'
+		'trist'
+		'somnoros'
+		'rotire'
+	]
+
+¶Dăm locurilor din acea listă niște nume, pentru ca vrăjile să fie mai ușor de citit.¶
+roșu: 1
+albastru2: 2
+verde2: 3
+vesel: 4
+trist: 5
+somnoros: 6
+rotire2: 7
+
+¶Contează doar ultimele trei cuvinte, așa că fiecare vrajă nouă înlocuiește ultima, iar folosirea literelor mici înseamnă că Roșu și roșu sunt aceeași vrajă.¶
+auzit: Vorbire(limită: 3).minuscule()
+
+¶Dacă o vrajă a fost unul dintre ultimele trei cuvinte spuse. Împărțirea după spații mai întâi face ca a spune întins să nu conteze ca a spune roșu.¶
+ƒ spus(care•#)•? (' ' + auzit + ' ').are(' ' + vrăji[care] + ' ')
+
+cer: spus(roșu) ? Culoare.roşu
+		spus(albastru2) ? Culoare.albastru
+			spus(verde2) ? Culoare.verde
+				Culoare.alb
+
+stareDeSpirit: spus(vesel) ? "😄"
+		spus(trist) ? "😢"
+			spus(somnoros) ? "😴"
+				"😐"
+
+Etapă(
+	[
+		Grup(
+			Stivă('|' 1m)
+			[
+				Fraza(
+					stareDeSpirit
+					8m
+					odihnă: spus(rotire2) ? Secvenţă.rotire() ø
+				)
+				Fraza(
+					auzit = '' ? 'spune: ' + vrăji.alăturăte(', ') auzit
+					0.75m
+				)
+			]
+		)
+	]
+	fundal: cer
+)

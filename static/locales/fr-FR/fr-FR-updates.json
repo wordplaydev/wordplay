@@ -990,6 +990,7 @@
         "e35eab7d1d833": "$~Tu peux maintenant télécharger une copie de tout ce que tu as créé, y compris tes projets, personnages, galeries et réglages, depuis ta page de profil. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Tu peux maintenant ouvrir un fichier de projet sur ta page <Projets@https://wordplay.dev/projects>, soit en le choisissant, soit en le faisant glisser sur la page. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e5382816343d1": "$~Tu peux faire glisser un fichier de projet sur un projet que tu as déjà pour remplacer son contenu, et nous te le demanderons d'abord. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e33984a013993": "$~Une galerie publique et approuvée peut maintenant avoir un nom court dans son lien, comme art-club. C'est plus facile à partager et à dire à voix haute. Les anciens liens continuent de fonctionner, mais tu peux y renoncer. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
+        "e33984a013993": "$~Une galerie publique et approuvée peut maintenant avoir un nom court dans son lien, comme art-club. C'est plus facile à partager et à dire à voix haute. Les anciens liens continuent de fonctionner, mais tu peux y renoncer. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "e125eafd6c116": "$~Nous avons ajouté un nouvel exemple appelé Mots Magiques aux <galeries@https://wordplay.dev/galleries>, où dire rouge, heureux ou tourne à voix haute change la couleur, le visage et le mouvement sur scène. (<1077@https://github.com/wordplaydev/wordplay/issues/1077>)"
     }
 }
