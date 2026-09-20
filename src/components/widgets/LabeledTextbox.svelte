@@ -23,7 +23,7 @@
     } = $props();
 </script>
 
-<Labeled {fixed} label={description}
+<Labeled {fixed} label={description} control={id}
     >{#if box}<TextBox
             {id}
             bind:text
