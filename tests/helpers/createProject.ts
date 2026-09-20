@@ -10,6 +10,15 @@ export async function createTestProject(
 ): Promise<string> {
     // Create a new project
     await page.goto(`/${locale}/projects`);
+    // The button reports being inactive with `aria-disabled` rather than
+    // `disabled` (a disabled button is invisible to screen readers), and it is
+    // inactive until auth has been attempted. Playwright's actionability checks
+    // don't read `aria-disabled`, so a press that lands before then is a silent
+    // no-op — which surfaces as the waitForURL below timing out with nothing to
+    // point at.
+    await page
+        .locator('[data-testid="addproject"][aria-disabled="false"]')
+        .waitFor();
     await page.getByTestId('addproject').click();
 
     // Wait for the page to redirect to the new project
