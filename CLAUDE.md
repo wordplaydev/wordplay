@@ -109,7 +109,19 @@ When multiple UI locales are chosen, all UI text is echoed in each (primary full
 - `aria-*` and Announcer messages are primary-locale-only via `getPrimaryPlainText`; screen readers read a joined label as every language back-to-back on every focus stop. `getPrimaryPlainText` must stay cheap (single primary resolution) and never appear in per-frame paths.
 - Anything that becomes code (identifier, name, map key, font name, seed code, comparison target) must use `getUnannotatedPrimaryText` — a joined string like `"📍 · Posición"` is not a name a creator could type (#1228). Names for basis definitions come from the definition itself (`locales.getName(def.names)`), not locale text.
 
-**A locale missing a key does not fall back — it crashes.** `Locales.get` runs the accessor against each chosen locale and only falls back to en-US when the result is `undefined`; a *missing key path* throws on the way there (`l.ui.export.label` where `l.ui.export` is undefined), and the page dies. So a locale that has not been padded with the new key is a broken app in that language, not merely an untranslated one — which is why `npm run locales` treats a missing key as a hard error and why `locales-fix` pads every locale with `$?`-marked English. **Adding a string to `UITexts.ts` is therefore a two-step change**: write en-US, then run `locales-fix` before running anything in another locale. The symptom is a page stuck on its loading screen with `Cannot read properties of undefined` — and only the non-English e2e specs catch it, since everything in en-US passes.
+**A locale missing a key does not fall back — it crashes.** `Locales.get` runs the accessor against each chosen locale and only falls back to en-US when the result is `undefined`; a *missing key path* throws on the way there (`l.ui.export.label` where `l.ui.export` is undefined), and the page dies. So a locale that has not been padded with the new key is a broken app in that language, not merely an untranslated one — which is why `npm run locales` treats a missing key as a hard error and why `locales-fix` pads every locale with `$?`-marked English. **Adding a string to `UITexts.ts` therefore takes five steps, in this order**, and skipping either of the middle two fails in a way that does not look like a failure:
+
+```bash
+# 1. declare it in src/locale/*.ts and write the en-US value in its section file
+npm run create-schemas    # 2. the schema is derived from the TypeScript
+npm run locales-assemble  # 3. rebuild the gitignored per-locale artifacts
+npm run locales-fix       # 4. pad every locale with $?-marked English
+npm run locales-translate # 5. paid; scope it with +locale:<path-prefix>
+```
+
+Without **(2)**, `locales-fix` refuses the default locale with `must NOT have additional properties` — the schema still describes the old shape. Without **(3)**, `locales-fix` **exits 0 and pads nothing**: it reads the assembled `src/locale/en-US.json`, not the section file just edited, so it compares the locales against a shape that does not yet have the key and finds nothing missing. That is the dangerous one — it reports success, and the app then crashes in the other thirty languages.
+
+The symptom is a page stuck on its loading screen with `Cannot read properties of undefined` — and only the non-English e2e specs catch it, since everything in en-US passes.
 
 **`guidance` is the one field that isn't a translation.** Each locale's top-level `guidance` records that locale's own writing conventions. `getCheckableLocalePairs` skips it; it's rendered/edited via `Localizer.svelte` and the `/localize` workspace, not in the string list. Also skipped: the top-level `terms` word list (`checkTerms`) and each glossary term's `forms` (`checkGlossaryForms`, path-guarded by `isGlossaryFormsPath`).
 
