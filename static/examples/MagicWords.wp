@@ -3,23 +3,35 @@
 === start
 ¶Say a color or a feeling out loud and the stage obeys your words.¶
 
+¶The magic words. Everything below reads them from this one list, so the words
+the stage listens for and the words it asks you for can never disagree.¶
+spells: ['red' 'blue' 'green' 'happy' 'sad' 'sleepy' 'spin']
+
+¶We give the places in that list names, to make the spells easier to read.¶
+red: 1
+blue: 2
+green: 3
+happy: 4
+sad: 5
+sleepy: 6
+spin: 7
+
 ¶Only the last three words count, so each new spell replaces the last, and
-lowercasing means Red and red are the same spell. This listens in English
-because the magic words are English.¶
-spell: Speech(language: 'en-US' limit: 3).🔡()
+lowercasing means Red and red are the same spell.¶
+heard: Speech(limit: 3).🔡()
 
-¶Whether a word was one of the last three said. Splitting on spaces first means
-saying spread doesn't count as saying red.¶
-ƒ said(word•'')•? spell.segment(' ').has(word)
+¶Whether a spell was one of the last three words said. Splitting on spaces first
+means that saying spread doesn't count as saying red.¶
+ƒ said(which•#)•? heard.segment(' ').has(spells[which])
 
-sky: said('red') ? Color.red
-	said('blue') ? Color.blue
-		said('green') ? Color.green
+sky: said(red) ? Color.red
+	said(blue) ? Color.blue
+		said(green) ? Color.green
 			Color.white
 
-mood: said('happy') ? "😄"
-	said('sad') ? "😢"
-		said('sleepy') ? "😴"
+mood: said(happy) ? "😄"
+	said(sad) ? "😢"
+		said(sleepy) ? "😴"
 			"😐"
 
 Stage(
@@ -27,8 +39,8 @@ Stage(
 		Group(
 			Stack('|' 1m)
 			[
-				Phrase(mood 8m resting: said('spin') ? Sequence.spin() ø)
-				Phrase(spell = '' ? "say red, blue, green, happy, sad, sleepy, or spin" spell 0.75m)
+				Phrase(mood 8m resting: said(spin) ? Sequence.spin() ø)
+				Phrase(heard = '' ? 'say: ' + spells.join(', ') heard 0.75m)
 			]
 		)
 	]
