@@ -20,10 +20,9 @@ import {
  * # Why we block :8080 instead of context.setOffline
  *
  * There's no service worker, so `context.setOffline(true)` would also stop the
- * app shell (127.0.0.1:5002) from loading on reload — and the whole point here
- * is to reload mid-edit. Instead we abort only requests to the Firestore
- * emulator (localhost:8080), leaving the app origin and the auth emulator
- * reachable. The test-side admin SDK (waitForDocumentUpdate) is a separate Node
+ * app shell (port 5002) from loading on reload — and the whole point here is to
+ * reload mid-edit. Instead we abort only requests to the Firestore emulator
+ * (port 8080), leaving the app origin and the auth emulator reachable. The test-side admin SDK (waitForDocumentUpdate) is a separate Node
  * process and is unaffected, so it still reads the cloud truth.
  *
  * # Why two reloads

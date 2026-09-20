@@ -18,9 +18,13 @@ export function getTestFirestore(): Firestore {
 
     firestoreInstance = getFirestore(testApp);
 
-    // Connect to the Firestore emulator
+    // Connect to the Firestore emulator, by address rather than by name: the
+    // emulator binds 127.0.0.1, and macOS resolves `localhost` to ::1 first, so
+    // the name costs a refused connection before every read. Agrees with
+    // scripts/seed.ts, which already sets FIRESTORE_EMULATOR_HOST to the
+    // address.
     firestoreInstance.settings({
-        host: 'localhost:8080',
+        host: '127.0.0.1:8080',
         ssl: false,
     });
 

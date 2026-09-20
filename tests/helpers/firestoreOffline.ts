@@ -2,13 +2,18 @@ import type { Page } from '@playwright/test';
 
 /**
  * Simulate "the cloud is unreachable" for the browser page by aborting only its
- * requests to the Firestore emulator (localhost:8080). The app shell
- * (127.0.0.1:5002) and the auth emulator stay reachable, so the page can still
- * reload mid-test (there's no service worker to serve the shell offline). The
- * test-side admin SDK is a separate Node process and is unaffected, so cloud
- * assertions still see the truth.
+ * requests to the Firestore emulator (port 8080). The app shell (port 5002) and
+ * the auth emulator stay reachable, so the page can still reload mid-test
+ * (there's no service worker to serve the shell offline). The test-side admin
+ * SDK is a separate Node process and is unaffected, so cloud assertions still
+ * see the truth.
  */
-const FIRESTORE = /localhost:8080/;
+/** Both spellings of the loopback address, because the app dials whichever host
+ *  served it (see firebase.ts): 127.0.0.1 under the hosting emulator this suite
+ *  runs against, `localhost` under `vite dev`. A pattern that knew only one
+ *  would let every request through and quietly turn this file into a test of
+ *  nothing, without failing. */
+const FIRESTORE = /(?:localhost|127\.0\.0\.1):8080/;
 const abort = (route: { abort: () => void }) => route.abort();
 
 export async function cutFirestore(page: Page): Promise<void> {

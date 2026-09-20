@@ -33,6 +33,29 @@ import type { Functions } from 'firebase/functions';
 let app: FirebaseApp | undefined = undefined;
 let emulating = false;
 
+/**
+ * The host the local emulators are reachable at, which is whatever host served
+ * this page.
+ *
+ * firebase-tools binds every emulator to 127.0.0.1 and nothing else —
+ * firebase.json declares ports only — while `localhost` is a *name* that macOS
+ * resolves to ::1 first, where nothing is listening. So a page served at
+ * 127.0.0.1:5002 paid a refused connection before every Firebase call and was
+ * naming a different origin besides. That is the shape of the WebKit nightly's
+ * Listen and Write channels finishing with status -1, and of the "Backend
+ * didn't respond within 10 seconds" that follows them.
+ *
+ * Derived rather than pinned to 127.0.0.1 so a developer under `vite dev` on
+ * localhost:5173 keeps dialing `localhost` exactly as before; only the
+ * built-and-served origin the e2e suite uses changes. Read off `window`
+ * because the lazy loaders below are declared outside this module's
+ * `typeof process` guard and can be reached before it.
+ *
+ * Only ever read on the `emulating` (PUBLIC_CONTEXT === 'local') branch.
+ */
+const EmulatorHost =
+    typeof window === 'undefined' ? '127.0.0.1' : window.location.hostname;
+
 let auth: Auth | undefined = undefined;
 let firestore: Firestore | undefined = undefined;
 let functions: Functions | undefined = undefined;
@@ -177,7 +200,7 @@ async function loadAuth(app: FirebaseApp): Promise<Auth | undefined> {
         : getAuth(app);
 
     if (emulating) {
-        connectAuthEmulator(instance, 'http://localhost:9099', {
+        connectAuthEmulator(instance, `http://${EmulatorHost}:9099`, {
             disableWarnings: true,
         });
 
@@ -232,7 +255,7 @@ async function loadFunctions(app: FirebaseApp): Promise<Functions | undefined> {
     const { getFunctions, connectFunctionsEmulator } =
         await import('firebase/functions');
     const instance = getFunctions(app);
-    if (emulating) connectFunctionsEmulator(instance, 'localhost', 5001);
+    if (emulating) connectFunctionsEmulator(instance, EmulatorHost, 5001);
     functions = instance;
     return instance;
 }
@@ -284,7 +307,7 @@ if (typeof process === 'undefined') {
         // Point Firestore at the emulator when local. Auth + Functions emulator
         // wiring lives in their lazy loaders (loadAuth/loadFunctions), so it
         // runs when those SDKs load rather than here at module eval.
-        if (emulating) connectFirestoreEmulator(firestore, 'localhost', 8080);
+        if (emulating) connectFirestoreEmulator(firestore, EmulatorHost, 8080);
 
         // Defer analytics init off the critical path (skipped when emulating).
         const initializedApp = app;
