@@ -990,6 +990,7 @@
         "e35eab7d1d833": "$~Bây giờ bạn có thể tải xuống một bản sao của mọi thứ bạn đã tạo, bao gồm các dự án, nhân vật, phòng trưng bày và cài đặt của bạn, từ trang hồ sơ của bạn. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Bây giờ bạn có thể mở một tệp dự án trên trang <Dự án@https://wordplay.dev/projects> của bạn, bằng cách chọn tệp đó hoặc kéo nó vào trang. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e5382816343d1": "$~Bạn có thể kéo một tệp dự án vào một dự án bạn đã có để thay thế nội dung trong đó, và chúng tôi sẽ hỏi bạn trước. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e33984a013993": "$~Một phòng trưng bày công khai và đã được duyệt giờ có thể có một tên ngắn trong đường liên kết, ví dụ art-club, để dễ chia sẻ và dễ đọc hơn. Các đường liên kết cũ vẫn hoạt động, nhưng bạn có thể bỏ chúng. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
+        "e33984a013993": "$~Một phòng trưng bày công khai và đã được duyệt giờ có thể có một tên ngắn trong đường liên kết, ví dụ art-club, để dễ chia sẻ và dễ đọc hơn. Các đường liên kết cũ vẫn hoạt động, nhưng bạn có thể bỏ chúng. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "e125eafd6c116": "$~Chúng tôi đã thêm một ví dụ mới có tên Từ Ngữ Diệu Kỳ vào <phòng trưng bày@https://wordplay.dev/galleries>, nơi việc nói to các từ đỏ, vui, hoặc xoay sẽ làm thay đổi màu sắc, khuôn mặt, và chuyển động trên sân khấu. (<1077@https://github.com/wordplaydev/wordplay/issues/1077>)"
     }
 }

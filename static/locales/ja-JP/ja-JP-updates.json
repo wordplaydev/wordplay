@@ -990,6 +990,7 @@
         "e35eab7d1d833": "$~プロフィールページから、あなたが作ったすべてのもの（プロジェクト、キャラクター、ギャラリー、設定など）のコピーをダウンロードできるようになりました。(<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~<プロジェクト@https://wordplay.dev/projects>ページで、プロジェクトファイルを選ぶか、ページの上にドラッグすることで開けるようになりました。(<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e5382816343d1": "$~プロジェクトファイルを、すでに持っているプロジェクトの上にドラッグすると、その中身を置き換えられます。置き換える前に、必ず確認します。(<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e33984a013993": "$~公開されて承認されたギャラリーは、リンクの中に art-club のような短い名前を持てるようになりました。だから共有したり声に出して言ったりするのが、もっと簡単になります。古いリンクもそのまま使えますが、手放すこともできます。(<180@https://github.com/wordplaydev/wordplay/issues/180>)"
+        "e33984a013993": "$~公開されて承認されたギャラリーは、リンクの中に art-club のような短い名前を持てるようになりました。だから共有したり声に出して言ったりするのが、もっと簡単になります。古いリンクもそのまま使えますが、手放すこともできます。(<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "e125eafd6c116": "$~<galleries@https://wordplay.dev/galleries>に「魔法の言葉」という新しい例を追加しました。声に出して「red」「happy」「spin」などと言うと、ステージの色や顔、動きが変わります。（<1077@https://github.com/wordplaydev/wordplay/issues/1077>）"
     }
 }

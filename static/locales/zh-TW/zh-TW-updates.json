@@ -990,6 +990,7 @@
         "e35eab7d1d833": "$~你現在可以從你的個人檔案頁面，下載你做過的所有東西，包括工程、角色、作品集和設定。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
         "e794f84f1c313": "$~你現在可以在<工程@https://wordplay.dev/projects>頁面開啟工程檔案，選取它或把它拖到頁面上都可以。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
         "e5382816343d1": "$~你可以把工程檔案拖到你已經有的工程上，來取代裡面的內容，我們會先問你一次。（<152@https://github.com/wordplaydev/wordplay/issues/152>）",
-        "e33984a013993": "$~公開且已核准的作品集現在可以有一個短名稱作為連結，像是 art-club，這樣分享或唸出來都更容易。舊的連結還能繼續用，但你也可以放棄它們。（<180@https://github.com/wordplaydev/wordplay/issues/180>）"
+        "e33984a013993": "$~公開且已核准的作品集現在可以有一個短名稱作為連結，像是 art-club，這樣分享或唸出來都更容易。舊的連結還能繼續用，但你也可以放棄它們。（<180@https://github.com/wordplaydev/wordplay/issues/180>）",
+        "e125eafd6c116": "$~我們在<作品集@https://wordplay.dev/galleries>新增了一個範例，叫做「魔法詞」（Magic Words）。只要大聲說出 red、happy 或 spin，舞台上的顏色、表情和動作就會跟著改變。（<1077@https://github.com/wordplaydev/wordplay/issues/1077>）"
     }
 }

@@ -990,6 +990,7 @@
         "e35eab7d1d833": "$~Artık profil sayfandan yaptığın her şeyin bir kopyasını indirebilirsin. Bu, projelerini, karakterlerini, galerilerini ve ayarlarını içerir. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e794f84f1c313": "$~Artık <Projeler@https://wordplay.dev/projects> sayfanda bir proje dosyasını açabilirsin. Bunu ya dosyayı seçerek ya da sayfaya sürükleyerek yapabilirsin. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e5382816343d1": "$~Bir proje dosyasını, zaten sahip olduğun bir projenin üzerine sürükleyerek içindekileri değiştirebilirsin. Bunu yapmadan önce sana soracağız. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
-        "e33984a013993": "$~Herkese açık ve onaylanmış bir galeri, bağlantısında art-club gibi kısa bir isim taşıyabilir. Böylece paylaşmak ve sesli söylemek kolaylaşır. Eski bağlantılar çalışmaya devam eder, ama onları bırakabilirsin. (<180@https://github.com/wordplaydev/wordplay/issues/180>)"
+        "e33984a013993": "$~Herkese açık ve onaylanmış bir galeri, bağlantısında art-club gibi kısa bir isim taşıyabilir. Böylece paylaşmak ve sesli söylemek kolaylaşır. Eski bağlantılar çalışmaya devam eder, ama onları bırakabilirsin. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
+        "e125eafd6c116": "$~<galeriler@https://wordplay.dev/galleries> bölümüne Sihirli Sözcükler adında yeni bir örnek ekledik. Bu örnekte kırmızı, mutlu veya dön kelimelerini yüksek sesle söylemek sahnedeki rengi, yüzü ve hareketi değiştirir. (<1077@https://github.com/wordplaydev/wordplay/issues/1077>)"
     }
 }
