@@ -20,9 +20,10 @@ spin: 7
 lowercasing means Red and red are the same spell.¶
 heard: Speech(limit: 3).🔡()
 
-¶Whether a spell was one of the last three words said. Splitting on spaces first
-means that saying spread doesn't count as saying red.¶
-ƒ said(which•#)•? heard.segment(' ').has(spells[which])
+¶Whether a spell was among the last three words said. We look for the spell with
+a space on each side, so saying spread doesn't count as saying red, and so a
+spell can be more than one word — blue is two words in Vietnamese.¶
+ƒ said(which•#)•? (' ' + heard + ' ').has(' ' + spells[which] + ' ')
 
 sky: said(red) ? Color.red
 	said(blue) ? Color.blue
