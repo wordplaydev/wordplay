@@ -29,7 +29,7 @@
     );
 </script>
 
-<div class="motion" {id}>
+<div class="stack motion" {id}>
     {project.shares.input.Motion.names.getPreferredNameString([], true)}
     {#if place instanceof Evaluate}
         <div class="field"
@@ -44,11 +44,6 @@
 </div>
 
 <style>
-    .motion {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
     .field {
         display: flex;
         flex-direction: row;

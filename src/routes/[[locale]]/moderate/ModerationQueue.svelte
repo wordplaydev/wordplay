@@ -6,20 +6,17 @@
      were 38% the same text — including the whole stylesheet. `ReportQueue` stays its own,
      because a report is answered rather than listed. -->
 <script lang="ts" generics="Subject">
+    import ModerationFlags from '@components/moderation/ModerationFlags.svelte';
     import Header from '@components/app/Header.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
-    import { DB, disconnected, locales } from '@db/Database';
+    import { DB, disconnected } from '@db/Database';
     import { firestore } from '@db/firebase';
     import moderate from '@db/moderation/moderate';
     import {
-        allFlags,
-        getFlagDescription,
         unknownFlags,
-        withFlag,
         type ModerationState,
     } from '@db/projects/Moderation';
     import type {
@@ -173,25 +170,11 @@
             {/if}
         {:else}
             <MarkupHTMLView markup={text.explain} />
-            <div class="flags">
-                {#each allFlags() as flag (flag)}
-                    <div class="flag">
-                        <Checkbox
-                            label={(l) => l.moderation.flags[flag]}
-                            on={flags[flag] === null ? undefined : flags[flag]}
-                            id={`${kind}-${flag}`}
-                            changed={(value) =>
-                                (flags = withFlag(flags, flag, value === true))}
-                        />
-                        <label for={`${kind}-${flag}`}>
-                            <MarkupHTMLView
-                                markup={getFlagDescription(flag, $locales) ??
-                                    ''}
-                            />
-                        </label>
-                    </div>
-                {/each}
-            </div>
+            <ModerationFlags
+                {flags}
+                change={(next) => (flags = next)}
+                idPrefix={`${kind}-`}
+            />
             {#if failed}
                 <Notice text={(l) => l.moderation.error.notmod} />
             {/if}
@@ -261,23 +244,6 @@
         flex: 1;
         padding: var(--wordplay-spacing);
         overflow-y: auto;
-    }
-
-    .flags {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
-    .flag {
-        display: flex;
-        flex-direction: row;
-        gap: var(--wordplay-spacing);
-        /* `start`, not `normal` (= stretch): a stretched checkbox floats in the middle
-           of a rule that wraps. `Checkbox` sets its own `align-self` too, since it is
-           the one place that knows the box's size. */
-        align-items: start;
-        font-size: medium;
     }
 
     .controls {

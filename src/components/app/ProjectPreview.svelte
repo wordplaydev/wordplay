@@ -239,7 +239,7 @@
             : undefined}
 >
     <a
-        class="preview"
+        class="preview-tile preview"
         data-testid="preview"
         data-sveltekit-preload-data="tap"
         style:width={`${size}rem`}
@@ -288,7 +288,7 @@
 
     {#if name}
         {@const localizedName = getLocalizedProjectName(project, $locales)}
-        <div class="name">
+        <div class="stack name">
             {#if action}
                 <div class="title">
                     {@render highlighted(
@@ -309,7 +309,9 @@
                     <Spinning />
                 {:else}
                     <div class="controls-and-description">
-                        <div class="controls">{@render children?.()}</div>
+                        <div class="control-row controls"
+                            >{@render children?.()}</div
+                        >
                         {#if description !== null}
                             <Note inline>
                                 <MarkupHTMLView markup={description} inline />
@@ -384,15 +386,7 @@
 
     a {
         text-decoration: none;
-    }
-
-    .name {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
-    /* Keeps the remix adornment on the same line as the name — .name itself is
+    } /* Keeps the remix adornment on the same line as the name — .name itself is
        a column, so a bare sibling would drop to its own row. */
     .title {
         display: flex;
@@ -409,37 +403,20 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 24px;
-        min-width: 24px;
+        min-block-size: var(--wordplay-target-size);
+        min-inline-size: var(--wordplay-target-size);
     }
 
     .untitled {
         color: var(--wordplay-inactive-color);
     }
 
+    /* Only what is this preview's own: it is square, it is clickable, and it
+       shows a placeholder colour until the stage renders into it. */
     .preview {
-        transition: transform ease-out;
-        transition-duration: calc(var(--animation-factor) * 200ms);
-        background: var(--wordplay-inactive-color);
-    }
-
-    .project .preview:hover,
-    .project:focus .preview {
-        transform: scale(1.05);
-    }
-
-    .preview {
-        cursor: pointer;
-        overflow: hidden;
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        border-radius: var(--wordplay-border-radius);
-        flex-shrink: 0;
         aspect-ratio: 1 / 1;
-    }
-
-    .preview:hover {
-        border-color: var(--wordplay-highlight-color);
-        border-width: var(--wordplay-focus-width);
+        cursor: pointer;
+        background: var(--wordplay-inactive-color);
     }
 
     .notification {
@@ -474,17 +451,7 @@
         align-items: flex-start;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
-    }
-
-    .controls {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-    }
-
-    /* Background and text color come from .highlight-surface, the app-wide rule
+    } /* Background and text color come from .highlight-surface, the app-wide rule
        for anything filled with --wordplay-highlight-color: the foreground has
        to be literal black rather than the mode's own, since white on this gold
        is 3.01:1 in dark mode. Only the shape is local. */

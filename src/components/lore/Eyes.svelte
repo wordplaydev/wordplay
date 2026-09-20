@@ -125,6 +125,7 @@
 <style>
     .eyes {
         position: absolute;
+        /* physical: gaze direction, which is a fact about where the eyes look. */
         left: 0;
         top: 0;
         display: flex;
@@ -177,6 +178,7 @@
     .pupil {
         border-radius: 50%;
         position: relative;
+        /* physical: gaze direction, and the transition above names this very property. */
         left: var(--gaze);
         top: var(--gaze);
         width: calc(var(--radius) / 3);

@@ -1022,8 +1022,8 @@
        than as an annotation on it. */
     .label {
         position: absolute;
-        top: -0.35em;
-        inset-inline-start: 0.62em;
+        top: var(--music-stem-tip-block);
+        inset-inline-start: var(--music-stem-tip-inline);
         font-size: 26%;
         line-height: 1;
         opacity: 0.6;

@@ -28,6 +28,7 @@
     }
 
     .row.indent {
+        /* scale: the block editor's indent, which scales with the creator's editor font size. */
         margin-inline-start: 1em;
     }
 

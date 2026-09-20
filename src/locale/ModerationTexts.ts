@@ -60,8 +60,6 @@ export type ModerationTexts = {
         submit: ButtonText;
         /** Skip moderation button */
         skip: ButtonText;
-        /** [plain] Checkbox for moderation property */
-        property: string;
     };
     /** Reporting public content for a moderator to look at (#193) */
     report: {

@@ -60,7 +60,7 @@
      gymnastics change that. Stage output therefore describes what CHANGED
      rather than repeating itself (see describeChange.ts). -->
 <div
-    class="announcements paced"
+    class="visually-hidden announcements paced"
     role="status"
     aria-atomic="true"
     data-kind={current?.kind}
@@ -77,7 +77,7 @@
      (ignored, banner), the caret, and stage key input, which has no text
      field to echo from. -->
 <div
-    class="announcements immediate"
+    class="visually-hidden announcements immediate"
     aria-live="assertive"
     aria-atomic="true"
     data-kind={immediate?.kind}
@@ -88,19 +88,4 @@
 </div>
 
 <style>
-    .announcements {
-        clip: rect(0 0 0 0);
-        clip-path: inset(50%);
-        height: 1px;
-        overflow: hidden;
-        position: absolute;
-        /* Anchor the 1px box to the top of the page. Without an anchor it sits
-           at its static position — after the full-height app — where its single
-           pixel extends the document and summons a page scrollbar. Position has
-           no effect on screen readers; the live region announces regardless. */
-        top: 0;
-        left: 0;
-        white-space: nowrap;
-        width: 1px;
-    }
 </style>

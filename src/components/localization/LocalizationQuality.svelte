@@ -121,7 +121,7 @@
             {#each literalTerms as finding (finding.id)}
                 <button
                     type="button"
-                    class="term-fix"
+                    class="pill term-fix"
                     onclick={() => onfix(finding.suggestion)}
                     >{finding.term} → ${finding.id}</button
                 >
@@ -178,11 +178,6 @@
     .term-fix {
         font-family: var(--wordplay-code-font);
         cursor: pointer;
-        border: var(--wordplay-border-width) solid var(--wordplay-foreground);
-        border-radius: var(--wordplay-border-radius);
-        background: var(--wordplay-background);
-        color: var(--wordplay-foreground);
-        padding: 0 var(--wordplay-spacing-half);
     }
 
     .term-fix:hover {

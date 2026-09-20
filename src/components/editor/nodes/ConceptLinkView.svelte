@@ -55,6 +55,6 @@
     .concept.chip {
         border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-alternating-color);
-        padding-inline: calc(var(--wordplay-spacing) / 4);
+        padding-inline: var(--wordplay-spacing-quarter);
     }
 </style>

@@ -268,7 +268,7 @@
         display: none;
         position: absolute;
         top: 0;
-        left: 100%;
+        inset-inline-start: 100%;
         margin-inline-end: auto;
         width: 15em;
         overflow-y: auto;

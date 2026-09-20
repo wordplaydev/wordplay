@@ -235,7 +235,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-items: baseline;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
         min-height: 1.5em;
     }
 

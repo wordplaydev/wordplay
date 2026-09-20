@@ -6,10 +6,19 @@
     interface Props {
         text?: LocaleTextAccessor;
         children?: Snippet;
+        /** A control label: small, and carrying no margin at all. Twelve call
+         *  sites depend on that, so it cannot grow one. */
         compact?: boolean;
+        /**
+         * A heading over the content it introduces: small like `compact`, with
+         * no space above, but keeping the space below that separates it from
+         * what follows. Without that gap the heading and its content run
+         * together and read as two siblings in an evenly spaced column.
+         */
+        spaced?: boolean;
     }
 
-    let { text, children, compact: compact = false }: Props = $props();
+    let { text, children, compact = false, spaced = false }: Props = $props();
 
     // Read once at construction: a section's depth is fixed by where it is rendered.
     const level = getHeadingLevel();
@@ -18,6 +27,7 @@
 <svelte:element
     this={`h${level}`}
     class:compact
+    class:spaced
     class="subheader"
     data-level={level}
     >{#if children}{@render children()}{:else if text}<LocalizedText
@@ -45,6 +55,7 @@
        identically wherever a heading already fits. */
     .subheader[data-level] {
         font-size: min(6vw, 16pt);
+        /* scale: relative to the heading's own size, which this file sets per level. */
         margin-block-start: 1.5em;
         margin-block-end: var(--wordplay-spacing);
         font-style: normal;
@@ -64,13 +75,20 @@
 
     .subheader[data-level='4'] {
         font-size: min(5vw, 12pt);
+        /* scale: relative to the heading's own size, which this file sets per level. */
         margin-block-start: 1em;
     }
 
     .subheader[data-level='5'],
     .subheader[data-level='6'] {
         font-size: min(4.5vw, 11pt);
+        /* scale: relative to the heading's own size, which this file sets per level. */
         margin-block-start: 1em;
+    }
+
+    .subheader[data-level].spaced {
+        font-size: min(4vw, 16pt);
+        margin-block: 0 var(--wordplay-spacing);
     }
 
     .subheader[data-level].compact {

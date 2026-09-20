@@ -24,13 +24,6 @@ test('the projects page is not mistaken for the project route', () => {
     expect(tos('/[[locale]]/projects')).toEqual(['/']);
 });
 
-test('gallery moderation links through galleries', () => {
-    expect(tos('/[[locale]]/galleries/moderation')).toEqual([
-        '/',
-        '/galleries',
-    ]);
-});
-
 test('a gallery page links through galleries', () => {
     expect(tos('/[[locale]]/gallery/[galleryid]')).toEqual(['/', '/galleries']);
 });

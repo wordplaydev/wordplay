@@ -1,4 +1,5 @@
 <script lang="ts">
+    import ProgressBar from '@components/widgets/ProgressBar.svelte';
     import Notice from '@components/app/Notice.svelte';
     import TranslationMeter from '@components/app/TranslationMeter.svelte';
     import Subheader from '@components/app/Subheader.svelte';
@@ -610,34 +611,15 @@
                             : (l) => l.ui.translation.analyzing}
                     />
                 {/if}
-                <!-- Two bars: what is done, and a sweep over it. The sweep animates
-                 `transform`, which the compositor runs, so it keeps moving
-                 while the main thread is busy rebuilding the project — a
-                 percentage that stops updating reads as a hung page. -->
-                <div
-                    class="track"
-                    role="progressbar"
-                    aria-valuemin={0}
-                    aria-valuemax={100}
-                    aria-valuenow={done !== undefined &&
+                <ProgressBar
+                    percent={done !== undefined &&
                     total !== undefined &&
                     total > 0
                         ? Math.round((done / total) * 100)
                         : 0}
-                    aria-label={$locales.getPrimaryPlainText(
-                        (l) => l.ui.translation.progressLabel,
-                    )}
-                >
-                    <div
-                        class="done"
-                        style:width="{done !== undefined &&
-                        total !== undefined &&
-                        total > 0
-                            ? Math.round((done / total) * 100)
-                            : 0}%"
-                    ></div>
-                    <div class="sweep"></div>
-                </div>
+                    sweep
+                    label={(l) => l.ui.translation.progressLabel}
+                />
             </div>
         {/if}
         {#if error}
@@ -699,7 +681,7 @@
         flex-direction: row;
         align-items: center;
         flex-wrap: wrap;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
         row-gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
     }
@@ -709,7 +691,7 @@
         flex-direction: row;
         align-items: center;
         flex-wrap: wrap;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
     }
 
     .option {
@@ -752,41 +734,6 @@
         padding: var(--wordplay-spacing);
         font-size: var(--wordplay-small-font-size);
         color: var(--wordplay-inactive-color);
-    }
-
-    .track {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        height: var(--wordplay-focus-width);
-        background: var(--wordplay-alternating-color);
-        border-radius: var(--wordplay-border-radius);
-    }
-
-    .done {
-        height: 100%;
-        background: var(--wordplay-highlight-color);
-    }
-
-    /* Keeps moving on the compositor while the main thread rebuilds the
-       project, so a busy moment doesn't look like a hung one. */
-    .sweep {
-        position: absolute;
-        inset-block: 0;
-        inset-inline-start: 0;
-        width: 30%;
-        background: var(--wordplay-highlight-color);
-        opacity: 0.5;
-        animation: sweep calc(var(--animation-factor) * 1.2s) linear infinite;
-    }
-
-    @keyframes sweep {
-        from {
-            transform: translateX(-100%);
-        }
-        to {
-            transform: translateX(400%);
-        }
     }
 
     /* The names are quoted from the creator's code, so they should read as code. */

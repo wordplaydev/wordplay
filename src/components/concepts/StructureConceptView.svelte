@@ -50,11 +50,6 @@
 </script>
 
 <ConceptView {concept} variables={concept.definition.types}>
-    <!-- {#if concept.definition.types}
-        <h2>typevariables</h2>
-        {#each concept.definition.types.variables as type}{/each}
-    {/if} -->
-
     <Names names={concept.getNames($locales, false)} />
 
     {#if concept.inter.length > 0}

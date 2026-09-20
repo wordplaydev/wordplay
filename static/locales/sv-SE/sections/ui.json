@@ -1619,7 +1619,9 @@
                     "reserved": "$~din dator reserverar $shortcut för sig själv",
                     "unmodified": "$~en genväg behöver Control eller Alt, annars vore det bara vanlig skrivning",
                     "reset": "$~$command har fått tillbaka sin vanliga genväg"
-                }
+                },
+                "fallback": "$~om den ovanför inte gäller",
+                "fixed": "$~kan inte ändras"
             },
             "feedback": {
                 "header": "$~Feed-back",

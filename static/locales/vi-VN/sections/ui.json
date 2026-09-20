@@ -1897,7 +1897,9 @@
                     "reserved": "$~máy tính của bạn giữ $shortcut cho riêng nó",
                     "unmodified": "$~một phím tắt cần có phím Control hoặc Alt, nếu không thì chỉ là gõ chữ thôi",
                     "reset": "$~$command đã quay lại phím tắt thường dùng của nó"
-                }
+                },
+                "fallback": "$~nếu điều trên không áp dụng",
+                "fixed": "$~không thể thay đổi"
             },
             "feedback": {
                 "header": "$~Nhận xét",

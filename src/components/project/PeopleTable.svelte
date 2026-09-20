@@ -322,7 +322,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
     }
 
     /* Once the field is showing, the control puts *that row* away, not the

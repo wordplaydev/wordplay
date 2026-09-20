@@ -52,10 +52,11 @@
                     >{@render crumbBody(crumb)}</Link
                 >{:else if 'action' in crumb}<button
                     type="button"
-                    class="crumb"
+                    class="linklike crumb"
                     onclick={crumb.action}>{@render crumbBody(crumb)}</button
-                >{:else}<span class="crumb current" aria-current="page"
-                    >{@render crumbBody(crumb)}</span
+                >{:else}<span
+                    class="linklike inactive crumb"
+                    aria-current="page">{@render crumbBody(crumb)}</span
                 >{/if}
         {/each}
         {#if controls}<span class="controls">{@render controls()}</span>{/if}
@@ -85,6 +86,7 @@
        approximate the cap trim with a negative top margin in `em` (relative to
        the header's own font), so the gap stays roughly constant. */
     .breadcrumbs + :global(h1) {
+        /* scale: the cap-trim fallback, which has to be em — it approximates the trim in terms of the header's own font. */
         margin-block-start: -0.25em;
     }
 
@@ -117,32 +119,5 @@
        pins the link text to the top. Center them so links and controls share a vertical center. */
     .breadcrumbs :global(.link) {
         align-self: center;
-    }
-
-    /* Clickable crumbs (the guide's concept-path jumps) are buttons, but should
-       read as links — same highlight color and hover underline as the Link
-       crumbs next to them — so they don't look like inactive text. */
-    .crumb {
-        font-family: inherit;
-        font-size: inherit;
-        color: var(--wordplay-link-color);
-        background: none;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-    }
-
-    .crumb:focus,
-    .crumb:hover {
-        outline: none;
-        text-decoration: underline;
-        text-decoration-thickness: var(--wordplay-focus-width);
-        text-decoration-color: var(--wordplay-focus-color);
-    }
-
-    .crumb.current {
-        color: var(--wordplay-inactive-color);
-        cursor: default;
-        text-decoration: none;
     }
 </style>

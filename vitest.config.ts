@@ -12,6 +12,11 @@ const Exclude = [
     ...configDefaults.exclude,
     'tests/end2end/*',
     'tests/rules/*',
+    // The contact-sheet capture is a Playwright spec run by hand from its own
+    // config (playwright.contactsheet.config.ts); it is named `.spec.ts` like
+    // the e2e specs, so vitest would otherwise collect it and fail on
+    // `test.use`.
+    'tests/contactsheet/*',
     'functions/lib/**',
 ];
 

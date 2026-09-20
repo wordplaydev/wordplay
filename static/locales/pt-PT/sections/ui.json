@@ -1893,7 +1893,9 @@
                     "reserved": "$~o seu computador reserva $shortcut para si próprio",
                     "unmodified": "$~um atalho precisa de Control ou Alt, senão seria apenas escrita normal",
                     "reset": "$~$command voltou ao seu atalho habitual"
-                }
+                },
+                "fallback": "$~se a de cima não se aplicar",
+                "fixed": "$~não pode ser alterado"
             },
             "feedback": {
                 "header": "Feedback",

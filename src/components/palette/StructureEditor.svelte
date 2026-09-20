@@ -32,7 +32,7 @@
 </script>
 
 {#if evaluate instanceof Evaluate && (definition instanceof StructureDefinition || definition instanceof StreamDefinition)}
-    <div class="structure" {id}>
+    <div class="panel-column structure" {id}>
         <!-- Always show the structure's name (preferred symbolic name, falling back to its
              text name) so it's clear which structure is being edited. Forms like Rectangle
              have no symbolic name, so getSymbolicName() alone would render nothing. -->
@@ -42,13 +42,6 @@
 {/if}
 
 <style>
-    .structure {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        align-items: start;
-        width: 100%;
-    }
     .name {
         font-style: italic;
     }

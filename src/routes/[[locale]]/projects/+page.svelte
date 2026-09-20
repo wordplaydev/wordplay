@@ -903,7 +903,7 @@
         flex-wrap: wrap;
         align-items: center;
         gap: var(--wordplay-spacing);
-        margin-block-start: calc(2 * var(--wordplay-spacing));
+        margin-block-start: var(--wordplay-spacing-double);
         margin-block-end: var(--wordplay-spacing);
     }
 
@@ -941,7 +941,7 @@
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
-        padding-block: calc(var(--wordplay-spacing) * 2);
+        padding-block: var(--wordplay-spacing-double);
         color: var(--wordplay-inactive-color);
     }
 </style>

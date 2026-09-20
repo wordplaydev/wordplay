@@ -428,7 +428,7 @@
         flex-direction: row;
         align-items: center;
         flex-wrap: wrap;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
     }
 
     /* A wrapping grid rather than a single column: the dialog is as wide as the
@@ -436,7 +436,7 @@
     .supported {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(14em, 1fr));
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
         align-items: start;
     }
 
@@ -445,7 +445,7 @@
         flex-direction: row;
         align-items: center;
         flex-wrap: wrap;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
         row-gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
     }

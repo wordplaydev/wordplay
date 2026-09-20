@@ -1601,7 +1601,9 @@
                     "reserved": "$~ton ordinateur garde $shortcut pour lui-même",
                     "unmodified": "$~un raccourci a besoin de Contrôle ou Alt, sinon ce serait juste écrire du texte",
                     "reset": "$~$command retrouve son raccourci habituel"
-                }
+                },
+                "fallback": "$~si celle du dessus ne s'applique pas",
+                "fixed": "$~ne peut pas être changé"
             },
             "feedback": {
                 "header": "$~Retour",

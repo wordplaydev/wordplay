@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Title from '@components/widgets/Title.svelte';
     import Link from '@components/app/Link.svelte';
     import Page from '@components/app/Page.svelte';
@@ -25,7 +25,7 @@
 
 <Page>
     <div class="content">
-        <Header text={(l) => l.ui.page.thanks.header} />
+        <PageHeader header={(l) => l.ui.page.thanks.header} />
         <MarkupHTMLView
             markup={[
                 (l) => l.ui.page.thanks.intro,
@@ -77,6 +77,7 @@
     .content {
         margin-inline: auto;
         width: min(90%, 80em);
+        /* scale: prose section rhythm, in the reading font's own em. */
         margin-block: 4em;
     }
 
@@ -84,6 +85,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
+        /* scale: prose section rhythm, in the reading font's own em. */
         margin-block-start: 2em;
     }
 

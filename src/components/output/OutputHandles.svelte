@@ -183,6 +183,7 @@
     .rotation-handle {
         position: absolute;
         bottom: 0;
+        /* physical: handle geometry in the output coordinate space, paired with a physical transform. */
         right: 0;
         transform: translate(50%, 50%);
         width: 1em;
@@ -224,6 +225,7 @@
     .size-handle {
         position: absolute;
         bottom: 0;
+        /* physical: handle geometry in the output coordinate space, paired with a physical transform. */
         left: 0;
         transform: translate(-50%, 50%);
         width: 1em;

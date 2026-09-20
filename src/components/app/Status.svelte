@@ -477,6 +477,7 @@
 
     .error-group ul {
         margin: 0;
+        /* scale: a list's bullet indent, which has to track the text it hangs off. */
         padding-inline-start: 1.5em;
     }
 

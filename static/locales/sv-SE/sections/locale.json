@@ -234,8 +234,7 @@
             "skip": {
                 "tip": "$~hoppa över detta projekt",
                 "label": "$~hoppa"
-            },
-            "property": "$~Om projektet har den här egenskapen"
+            }
         },
         "done": "$~Inget annat att moderera!",
         "error": {

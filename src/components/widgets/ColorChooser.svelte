@@ -352,7 +352,7 @@
                      aria-describedby target and as real subtree content so the
                      application isn't announced as "empty". -->
                 {#if editable}
-                    <span id={instructionsId} class="instructions"
+                    <span id={instructionsId} class="visually-hidden"
                         ><LocalizedText
                             path={(l) => l.ui.widget.color.instructions}
                         /></span
@@ -559,22 +559,6 @@
         touch-action: none;
     }
 
-    /* Visually hidden, but present in the accessibility tree (mirrors the
-       recipe in Announcer.svelte). */
-    .instructions {
-        clip: rect(0 0 0 0);
-        clip-path: inset(50%);
-        height: 1px;
-        width: 1px;
-        overflow: hidden;
-        position: absolute;
-        /* Anchored so the box can't sit at a static position outside its
-           scrolling pane and extend the document (see Announcer.svelte). */
-        top: 0;
-        left: 0;
-        white-space: nowrap;
-    }
-
     /* Flush rows of equal-width square swatches filling the unit width. The 1px
        gaps reveal the unit's border color as separators.
 
@@ -584,14 +568,18 @@
        every swatch tappable at any palette width, which one row can't. */
     .primary {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));
+        grid-template-columns: repeat(
+            auto-fill,
+            minmax(var(--wordplay-target-size), 1fr)
+        );
         gap: var(--wordplay-border-width);
         background: var(--wordplay-border-color);
     }
 
     /* Override the Button chrome (radius, shadow) so each swatch is a
        borderless square that fills its grid cell. Button's own
-       min-width/min-height is the 24px target floor and is deliberately kept —
+       min-inline-size/min-block-size is --wordplay-target-size and is
+       deliberately kept —
        zeroing it here is what made these swatches too small to hit. */
     .primary :global(button.swatch) {
         display: block;

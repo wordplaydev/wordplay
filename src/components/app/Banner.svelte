@@ -60,7 +60,8 @@
     transition:slide={{ duration: $animationDuration }}
 >
     <span class="message"><LocalizedText path={message} markup={false} /></span>
-    {#if actions}<span class="actions">{@render actions()}</span>{/if}
+    {#if actions}<span class="control-row actions">{@render actions()}</span
+        >{/if}
     {#if dismiss}<Button
             tip={(l) => l.ui.update.dismiss}
             action={dismiss}
@@ -123,13 +124,5 @@
         flex: 1 1 12em;
         min-width: 0;
         text-align: start;
-    }
-
-    .actions {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: var(--wordplay-spacing);
     }
 </style>

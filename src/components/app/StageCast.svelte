@@ -405,6 +405,7 @@
         position: absolute;
         /* step() translates from this origin; see there for why it doesn't
            position with left/top. */
+        /* physical: an origin for step()'s translate, not a reading-order inset (see step()). */
         left: 0;
         top: 0;
         /* Full strength. The 0.03 this inherited from the old full-page

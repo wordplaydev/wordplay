@@ -112,10 +112,10 @@
              form carries no bottom margin where a paragraph carries 1.5em — so
              a field ended up flush against the next part's first sentence. -->
         {#if !Creator.isUsername(user.email ?? '')}
-            <div class="part"><ChangeEmail {user} /></div>
+            <div class="stack part"><ChangeEmail {user} /></div>
         {/if}
-        <div class="part"><SigninMethod {user} /></div>
-        <div class="part"><EmailNotifications {user} /></div>
+        <div class="stack part"><SigninMethod {user} /></div>
+        <div class="stack part"><EmailNotifications {user} /></div>
     </Action>
     <Action>
         <Subheader text={(l) => l.ui.page.login.subheader.logout} />
@@ -155,15 +155,7 @@
            button — into mostly empty boxes beside the character picker, which
            is several hundred pixels of emoji. */
         align-items: start;
-    }
-
-    .part {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
-    /* Separation between the parts, on top of the card's own gap. */
+    } /* Separation between the parts, on top of the card's own gap. */
     .part + .part {
         margin-block-start: var(--wordplay-spacing);
     }

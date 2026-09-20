@@ -2056,6 +2056,8 @@
                 "reset": "use the default shortcut",
                 "resetAll": "use all the default shortcuts",
                 "custom": "changed",
+                "fallback": "if the one above doesn't apply",
+                "fixed": "can't be changed",
                 "feedback": {
                     "bound": "$command is now $shortcut",
                     "conflict": "$shortcut already does $command",

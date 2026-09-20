@@ -702,7 +702,7 @@
         display: grid;
         grid-template-columns: max-content minmax(0, 1fr);
         column-gap: var(--wordplay-spacing);
-        row-gap: calc(2 * var(--wordplay-spacing-half));
+        row-gap: var(--wordplay-spacing);
         align-items: baseline;
     }
 

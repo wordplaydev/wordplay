@@ -347,6 +347,7 @@
        the primary or each other. */
     .localized.secondary {
         opacity: 0.7;
+        /* scale: an inline gap beside the text it annotates. */
         margin-inline-start: 0.25em;
     }
 
@@ -401,6 +402,7 @@
         display: inline-flex;
         vertical-align: middle;
         position: absolute;
+        /* scale: pins the badge by its own type size; see above for why these are insets rather than a transform. */
         inset-block-start: -0.5em;
         inset-inline-end: -0.5em;
         z-index: 1;
@@ -408,6 +410,7 @@
 
     .localized-wrapper.tip-badge.start {
         inset-inline-end: auto;
+        /* scale: pins the badge by its own type size. */
         inset-inline-start: -0.5em;
     }
 

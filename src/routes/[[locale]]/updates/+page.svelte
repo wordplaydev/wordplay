@@ -185,6 +185,7 @@
 
 <style>
     .section {
+        /* scale: prose section rhythm, in the reading font's own em. */
         margin-top: 3em;
     }
 
@@ -218,12 +219,13 @@
     }
 
     ul {
+        /* scale: a list's bullet indent, which has to track the text it hangs off. */
         padding-inline-start: 1.5em;
         margin-inline-start: 0;
     }
 
     ul li + li {
-        margin-block-start: calc(2 * var(--wordplay-spacing));
+        margin-block-start: var(--wordplay-spacing-double);
     }
 
     /* Marked entries pull back the ul's padding so the emoji sits flush
@@ -232,12 +234,13 @@
     li.marked {
         list-style: none;
         display: flow-root;
+        /* scale: the hanging half of that same indent, so it has to match it exactly. */
         margin-inline-start: -1.5em;
     }
 
     .marker.emoji {
         float: inline-start;
-        margin-inline-end: calc(2 * var(--wordplay-spacing));
+        margin-inline-end: var(--wordplay-spacing-double);
         width: 3rem;
         height: 3rem;
         display: flex;

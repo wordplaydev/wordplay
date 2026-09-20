@@ -358,6 +358,7 @@
 <style>
     .shape {
         position: absolute;
+        /* physical: the output coordinate space's origin, which a transform then places from. */
         left: 0;
         top: 0;
         /* This disables translation around the center; we want to translate around the focus.*/

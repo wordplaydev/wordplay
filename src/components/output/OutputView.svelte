@@ -2949,7 +2949,7 @@
         selection.includes(stageValue.value.creator, project)}
 >
     {#if $evaluation?.playing === false && !drawing?.armed && selectable}
-        <span id="output-multiselect-help" class="multiselect-help"
+        <span id="output-multiselect-help" class="visually-hidden"
             ><LocalizedText path={(l) => l.ui.output.multiselect} /></span
         >
     {/if}
@@ -3186,7 +3186,7 @@
                              silence has no explanation. -->
                         {#if musicLoadingLabel !== undefined}
                             <span
-                                class="stage-control-chip hand-loading"
+                                class="pill stage-control-chip hand-loading"
                                 title={musicLoadingLabel}
                                 aria-label={musicLoadingLabel}
                                 ><Emoji text="🔈" /></span
@@ -3198,7 +3198,7 @@
                                 (l) => l.ui.output.download.hand,
                             )}
                             <span
-                                class="stage-control-chip hand-loading"
+                                class="pill stage-control-chip hand-loading"
                                 title={label}
                                 aria-label={label}><Emoji text="🖐" /></span
                             >
@@ -3208,7 +3208,7 @@
                                 (l) => l.ui.output.download.face,
                             )}
                             <span
-                                class="stage-control-chip face-loading"
+                                class="pill stage-control-chip face-loading"
                                 title={label}
                                 aria-label={label}><Emoji text="🙂" /></span
                             >
@@ -3218,7 +3218,7 @@
                                 (l) => l.ui.output.download.objects,
                             )}
                             <span
-                                class="stage-control-chip object-loading"
+                                class="pill stage-control-chip object-loading"
                                 title={label}
                                 aria-label={label}><Emoji text="📦" /></span
                             >
@@ -3290,7 +3290,7 @@
     .stage-overlays {
         position: absolute;
         bottom: var(--wordplay-spacing);
-        left: 50%;
+        inset-inline-start: 50%;
         transform: translateX(-50%);
         z-index: 2;
         display: flex;
@@ -3303,7 +3303,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
         padding: var(--wordplay-spacing);
         background: var(--wordplay-background);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
@@ -3322,21 +3322,6 @@
         height: 100%;
 
         flex-grow: 1;
-    }
-
-    /* Visually-hidden screen-reader instructions for keyboard multi-select. */
-    .multiselect-help {
-        clip: rect(0 0 0 0);
-        clip-path: inset(50%);
-        height: 1px;
-        width: 1px;
-        overflow: hidden;
-        position: absolute;
-        /* Anchored so the box can't sit at a static position outside its
-           scrolling pane and extend the document (see Announcer.svelte). */
-        top: 0;
-        left: 0;
-        white-space: nowrap;
     }
 
     /* Focus and selection feedback wrap the creator canvas only, not the
@@ -3509,7 +3494,7 @@
         align-items: center;
         margin: auto;
         overflow: auto;
-        padding-block-start: 2em;
+        padding-block-start: var(--wordplay-spacing-quad);
     }
 
     .message.mini {
@@ -3548,7 +3533,7 @@
     }
 
     .permission-retry {
-        margin-top: 0.75em;
+        margin-top: var(--wordplay-spacing-double);
         display: flex;
         justify-content: flex-start;
     }
@@ -3594,7 +3579,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
         padding: var(--wordplay-spacing);
         pointer-events: none;
     }
@@ -3640,20 +3625,12 @@
     }
 
     h2 {
-        margin-top: 1em;
+        margin-top: var(--wordplay-spacing-double);
     }
 
     .stage-control-chip {
-        display: inline-flex;
-        align-items: center;
         justify-content: center;
-        background-color: var(--wordplay-background);
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        border-radius: var(--wordplay-border-radius);
-        color: var(--wordplay-foreground);
         font-size: 1em;
-        line-height: 1;
-        padding: 4px 6px;
     }
 
     .hand-loading,

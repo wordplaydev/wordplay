@@ -74,7 +74,7 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
         /* Fill the page so align-items centers the cards across the full width, not just the
            content box. */
         width: 100%;
@@ -98,15 +98,12 @@
         gap: var(--wordplay-spacing);
         inline-size: 16em;
         max-inline-size: 90vw;
-        padding: calc(2 * var(--wordplay-spacing));
+        padding: var(--wordplay-spacing-double);
         text-align: start;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
-        /* Elevated card look matching the standard background button. */
-        box-shadow: var(--wordplay-border-width) var(--wordplay-border-width) 0
-            var(--wordplay-border-color);
         cursor: pointer;
         font-family: var(--wordplay-app-font);
         font-size: var(--wordplay-font-size);

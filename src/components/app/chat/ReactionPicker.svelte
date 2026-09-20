@@ -186,8 +186,8 @@
         flex-wrap: wrap;
         align-items: center;
         max-width: 16em;
-        gap: calc(var(--wordplay-spacing) / 4);
-        padding: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-quarter);
+        padding: var(--wordplay-spacing-half);
         background: var(--wordplay-background);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);

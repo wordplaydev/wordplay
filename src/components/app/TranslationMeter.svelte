@@ -1,7 +1,7 @@
 <script lang="ts">
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import ProgressBar from '@components/widgets/ProgressBar.svelte';
     import { getUser, isAuthenticated } from '@components/project/Contexts';
-    import { locales } from '@db/Database';
     import {
         budget,
         subscribeTranslationBudget,
@@ -71,19 +71,11 @@
                 ]}
             />
         {/if}
-        <div
-            class="track"
-            class:spent
-            role="progressbar"
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={percent}
-            aria-label={$locales.getPrimaryPlainText(
-                (l) => l.ui.translation.meter,
-            )}
-        >
-            <div class="used" style:width="{percent}%"></div>
-        </div>
+        <ProgressBar
+            {percent}
+            tone={spent ? 'spent' : 'normal'}
+            label={(l) => l.ui.translation.meter}
+        />
     </div>
 {/if}
 
@@ -99,25 +91,5 @@
 
     .meter.compact {
         min-width: 8em;
-    }
-
-    .track {
-        position: relative;
-        overflow: hidden;
-        width: 100%;
-        height: var(--wordplay-focus-width);
-        background: var(--wordplay-alternating-color);
-        border-radius: var(--wordplay-border-radius);
-    }
-
-    .used {
-        height: 100%;
-        background: var(--wordplay-highlight-color);
-    }
-
-    /* The bar reinforces the state; the sentence above already says it, so
-       nothing here depends on color alone. */
-    .track.spent .used {
-        background: var(--wordplay-error);
     }
 </style>

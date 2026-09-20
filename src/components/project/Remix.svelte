@@ -113,7 +113,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
         align-items: start;
     }
 </style>

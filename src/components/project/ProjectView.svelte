@@ -4302,7 +4302,7 @@
         min-width: 0;
         display: flex;
         flex-direction: column;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
     }
 
     .project {
@@ -4339,7 +4339,7 @@
         outline-offset: calc(-1 * var(--wordplay-focus-width));
         position: absolute;
         top: 0;
-        left: 0;
+        inset-inline-start: 0;
         pointer-events: none;
     }
 

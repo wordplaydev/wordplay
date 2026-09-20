@@ -14,6 +14,7 @@
      the chat when it was reported, so reviewing it needs no read access to the
      conversation around it. -->
 <script lang="ts">
+    import ModerationFlags from '@components/moderation/ModerationFlags.svelte';
     import Header from '@components/app/Header.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Spinning from '@components/app/Spinning.svelte';
@@ -21,7 +22,6 @@
     import CreatorView from '@components/app/CreatorView.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { CharactersDB, Creators, DB, HowTos, locales } from '@db/Database';
     import HowTo from '@db/howtos/HowToDatabase.svelte';
@@ -34,11 +34,8 @@
     import { firestore } from '@db/firebase';
     import moderate from '@db/moderation/moderate';
     import {
-        allFlags,
-        getFlagDescription,
         isFlagged,
         moderatedFlags,
-        withFlag,
         type ModerationState,
     } from '@db/projects/Moderation';
     import { localeGoto } from '@util/localeGoto';
@@ -360,25 +357,7 @@
                  `baseline` so a wrapped description doesn't drag its checkbox down with
                  it. Each checkbox is named by its own rule — one shared label left a
                  screen reader unable to tell them apart. -->
-            <div class="flags">
-                {#each allFlags() as flag (flag)}
-                    <div class="flag">
-                        <Checkbox
-                            label={(l) => l.moderation.flags[flag]}
-                            on={flags[flag] === true}
-                            id={flag}
-                            changed={(value) =>
-                                (flags = withFlag(flags, flag, value === true))}
-                        />
-                        <label for={flag}>
-                            <MarkupHTMLView
-                                markup={getFlagDescription(flag, $locales) ??
-                                    ''}
-                            />
-                        </label>
-                    </div>
-                {/each}
-            </div>
+            <ModerationFlags {flags} change={(next) => (flags = next)} />
 
             <!-- Labelled, so it doesn't read as a fifth rule sitting under the four
                  above it. -->
@@ -477,23 +456,6 @@
         flex-direction: column;
         gap: var(--wordplay-spacing);
         align-items: flex-start;
-    }
-
-    .flags {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
-    .flag {
-        display: flex;
-        flex-direction: row;
-        gap: var(--wordplay-spacing);
-        /* `start`, not `normal` (= stretch): a stretched checkbox floats in the middle
-           of a rule that wraps. `Checkbox` sets its own `align-self` too, since it is
-           the one place that knows the box's size. */
-        align-items: start;
-        font-size: medium;
     }
 
     .controls {

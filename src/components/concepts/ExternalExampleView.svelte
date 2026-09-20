@@ -48,7 +48,7 @@
         writing-mode: horizontal-tb;
         display: flex;
         flex-direction: column;
-        gap: calc(var(--wordplay-spacing) / 2);
+        gap: var(--wordplay-spacing-half);
         border-radius: var(--wordplay-border-radius);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         padding: var(--wordplay-spacing);

@@ -34,7 +34,7 @@
     );
 </script>
 
-<div class="placement" {id}>
+<div class="panel-column placement" {id}>
     {project.shares.input.Placement.names.getPreferredNameString([], true)}
     {#if place instanceof Evaluate}
         <div class="field">
@@ -45,13 +45,6 @@
 </div>
 
 <style>
-    .placement {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        align-items: start;
-        width: 100%;
-    }
     .field {
         display: flex;
         flex-direction: row;

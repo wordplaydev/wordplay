@@ -69,7 +69,6 @@ export default function getBreadcrumbTrail(
             : [HOME, GALLERIES];
     }
     if (rel === '/gallery/[galleryid]') return [HOME, GALLERIES];
-    if (rel === '/galleries/moderation') return [HOME, GALLERIES];
     if (rel === '/character/[id]') return [HOME, CHARACTERS];
     if (rel.startsWith('/teach/class')) return [HOME, TEACH];
 

@@ -553,6 +553,7 @@
         --fill: var(--bubble-fill, var(--wordplay-background));
         width: max-content;
         max-inline-size: 12em;
+        /* scale: output coordinate space, sized to the phrase's own type rather than to app chrome. */
         padding: 0.3em 0.5em;
         border: var(--edge) solid currentcolor;
         border-radius: 0.5em;

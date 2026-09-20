@@ -353,7 +353,7 @@
     .submenu {
         position: absolute;
         background: var(--wordplay-background);
-        left: 100%;
+        inset-inline-start: 100%;
         top: 0;
         display: none;
         flex-direction: column;
@@ -366,8 +366,8 @@
     }
 
     .submenu.right {
-        left: auto;
-        right: 100%;
+        inset-inline-start: auto;
+        inset-inline-end: 100%;
     }
 
     .show + .submenu {

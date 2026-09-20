@@ -18,7 +18,6 @@
         HowTosCollection,
         upgradeHowTo,
     } from '@db/howtos/HowToDatabase.svelte';
-    import HowToPrompt from '../gallery/[galleryid]/howto/HowToPrompt.svelte';
     import ModerationQueue from './ModerationQueue.svelte';
 </script>
 
@@ -63,7 +62,7 @@
              deciding about the whole document. -->
         {#each answers as answer, index (index)}
             {#if answer.trim().length > 0}
-                <HowToPrompt text={() => questions[index] ?? ''} compact />
+                <Subheader text={() => questions[index] ?? ''} spaced />
                 <MarkupHTMLView markup={answer} />
             {/if}
         {/each}

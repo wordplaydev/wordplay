@@ -20,7 +20,7 @@
     }: Props = $props();
 </script>
 
-<div class="biglink" class:smaller>
+<div class="stack biglink" class:smaller>
     <div class="link"><Link {to} {external}>{@render children?.()}</Link></div>
     {#if subtitle}<div class="subtitle"
             ><MarkupHTMLView inline markup={subtitle} /></div
@@ -28,11 +28,6 @@
 >
 
 <style>
-    .biglink {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
     .link {
         font-size: min(24pt, max(18pt, 6vw));
     }

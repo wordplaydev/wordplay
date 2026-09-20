@@ -14,6 +14,12 @@
 
 import fs from 'fs';
 import path from 'path';
+import {
+    exemptedLines,
+    markerPattern,
+    styleSource,
+    svelteFiles,
+} from './css/styleScan.ts';
 
 type Rule = { pattern: RegExp; physical: string; logical: string };
 
@@ -68,6 +74,25 @@ const INLINE_RULES: Rule[] = [
         pattern: /float\s*:\s*right\b/,
         physical: 'float: right',
         logical: 'float: inline-end',
+    },
+    // Positioning offsets. A physical inset is wrong in RTL in exactly the way
+    // margin-left is, and nothing checked these until #1419 — `output/Sheet.svelte`
+    // was using `inset-inline-start` on some lines and `right:` on others.
+    //
+    // The leading class is load-bearing twice over: it keeps this off
+    // `border-left:`/`margin-left:`/`padding-left:`, which their own rules
+    // already report (a second report on one line is noise), and off
+    // `text-align: left`, `float: left`, `background-position` and
+    // `transform-origin`, where `left` is a value rather than a property.
+    {
+        pattern: /(?:^|[;{}\s])left\s*:/,
+        physical: 'left',
+        logical: 'inset-inline-start',
+    },
+    {
+        pattern: /(?:^|[;{}\s])right\s*:/,
+        physical: 'right',
+        logical: 'inset-inline-end',
     },
 ];
 
@@ -149,59 +174,7 @@ const ALLOWLIST: Record<string, string> = {
         'Caret geometry; direction-aware offsets handled in the JS-coordinate phase.',
 };
 
-/** Recursively collect every .svelte file under a directory. */
-function svelteFiles(dir: string): string[] {
-    const found: string[] = [];
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-        const full = path.join(dir, entry.name);
-        if (entry.isDirectory()) found.push(...svelteFiles(full));
-        else if (entry.name.endsWith('.svelte')) found.push(full);
-    }
-    return found;
-}
-
-/** An escape hatch for a declaration that really is physical, written as a CSS
- *  comment on the same line or the line above:
- *
- *      /* physical: pins to the viewport's top border, not the text's *\/
- *      margin-top: ...;
- *
- *  Per line rather than per file, because a text surface is mostly text with a
- *  little chrome in it, and exempting the whole file would stop guarding the
- *  prose. The reason is required, and the lookahead is what makes that true: a
- *  bare `\/* physical: *\/` would otherwise satisfy `\S` with the `*` that
- *  closes the comment, turning the hatch into a bare marker anyone could paste. */
-const PHYSICAL_MARKER = /\/\*\s*physical:\s*(?!\*\/)\S/;
-
-/** Return the concatenated <style> block contents with CSS comments blanked out
- *  (preserving newlines so reported line numbers stay accurate). */
-function styleSource(source: string): string | null {
-    const blocks = [...source.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)];
-    if (blocks.length === 0) return null;
-    // Rebuild a line-aligned view: keep everything, but only the style regions
-    // carry content; everything else becomes blank lines.
-    const lines = source.split('\n');
-    const inStyle = new Array(lines.length).fill(false);
-    let offset = 0;
-    const lineStart: number[] = [];
-    for (const line of lines) {
-        lineStart.push(offset);
-        offset += line.length + 1;
-    }
-    for (const block of blocks) {
-        const start = block.index ?? 0;
-        const end = start + block[0].length;
-        // One offset was pushed per line, so this covers exactly `lines`.
-        lineStart.forEach((offset, i) => {
-            if (offset >= start && offset < end) inStyle[i] = true;
-        });
-    }
-    const kept = lines.map((line, i) => (inStyle[i] ? line : ''));
-    // Blank out /* ... */ comments while preserving newlines.
-    return kept
-        .join('\n')
-        .replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '));
-}
+const PHYSICAL_MARKER = markerPattern('physical');
 
 /** One physical declaration that should have been logical. */
 export type PhysicalCSS = {
@@ -232,18 +205,7 @@ export function checkStyleSource(rel: string, source: string): PhysicalCSS[] {
         : INLINE_RULES;
     // Read from the original source, since styleSource blanks comments out.
     const raw = source.split('\n');
-    // A `physical:` comment exempts the declarations it introduces, through to
-    // the end of its rule or the next blank line — the run it is plainly about.
-    const exempted = new Set<number>();
-    for (const [i, line] of raw.entries()) {
-        if (!PHYSICAL_MARKER.test(line)) continue;
-        for (let j = i; j < raw.length; j++) {
-            exempted.add(j);
-            const after = raw[j + 1];
-            if (after === undefined) break;
-            if (after.trim() === '' || after.includes('}')) break;
-        }
-    }
+    const exempted = exemptedLines(raw, PHYSICAL_MARKER);
     const found: PhysicalCSS[] = [];
     styles.split('\n').forEach((line, i) => {
         if (exempted.has(i)) return;

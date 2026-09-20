@@ -78,6 +78,7 @@
        Breadcrumbs), a large viewport-scaled header leaves a growing gap above its
        cap. Trim it here too, so a header that starts the page sits at the top. */
     .page-header > :global(h1:first-child) {
+        /* scale: the cap-trim fallback, which has to be em — it approximates the trim in terms of the header's own font. */
         margin-block-start: -0.25em;
     }
 

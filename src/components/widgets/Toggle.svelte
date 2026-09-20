@@ -197,8 +197,14 @@
         /* WCAG 2.5.8's 24px minimum target, as Button and Mode state it. The
            widget height alone is ~20px, so a narrow glyph (✎, ☰) cleared it
            only incidentally, via padding. */
-        min-width: max(var(--wordplay-widget-height), 24px);
-        min-height: max(var(--wordplay-widget-height), 24px);
+        min-inline-size: max(
+            var(--wordplay-widget-height),
+            var(--wordplay-target-size)
+        );
+        min-block-size: max(
+            var(--wordplay-widget-height),
+            var(--wordplay-target-size)
+        );
         overflow: visible;
         white-space: nowrap;
         transition:

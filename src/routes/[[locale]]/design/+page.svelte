@@ -26,6 +26,7 @@
     import { Scripts, type ScriptMetadata } from '@locale/Scripts';
     import { CONFIRM_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
     import { contrast } from '@util/colorContrast';
+    import { SpacingVariables } from './tokens';
     import { matchGroups, must } from '@util/nullable';
 
     // Demo state for interactive component examples
@@ -125,7 +126,7 @@
         fallbackFonts = resolveFontStack('--wordplay-fallback-fonts');
 
         const newSpacing: Record<string, string> = {};
-        for (const v of spacingVariables) {
+        for (const v of SpacingVariables) {
             newSpacing[v.name] = v.canCompute ? resolveLength(v.name) : '';
         }
         spacingPx = newSpacing;
@@ -270,32 +271,6 @@
             name: '--wordplay-relation-color',
             value: 'var(--wordplay-relation-color)',
             description: (l) => l.ui.page.design.col.description,
-        },
-    ];
-
-    // Only spacing variables used across multiple components
-    const spacingVariables: {
-        name: string;
-        cssValue: string;
-        canCompute: boolean;
-    }[] = [
-        { name: '--wordplay-spacing', cssValue: '0.5em', canCompute: true },
-        {
-            name: '--wordplay-spacing-half',
-            cssValue: '0.25em',
-            canCompute: true,
-        },
-        {
-            name: '--wordplay-border-radius',
-            cssValue: '8px',
-            canCompute: true,
-        },
-        { name: '--wordplay-border-width', cssValue: '1px', canCompute: true },
-        { name: '--wordplay-focus-width', cssValue: '4px', canCompute: true },
-        {
-            name: '--wordplay-widget-height',
-            cssValue: '1.5em',
-            canCompute: true,
         },
     ];
 </script>
@@ -550,7 +525,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {#each spacingVariables as v}
+                    {#each SpacingVariables as v}
                         <tr>
                             <td><code>{v.name}</code></td>
                             <td><code>{v.cssValue}</code></td>
@@ -897,7 +872,7 @@
 <style>
     .section-content {
         margin-block-start: var(--wordplay-spacing);
-        margin-block-end: calc(2 * var(--wordplay-spacing));
+        margin-block-end: var(--wordplay-spacing-double);
     }
 
     .logo-row {
@@ -905,7 +880,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
         margin-block: var(--wordplay-spacing);
     }
 
@@ -1022,7 +997,7 @@
     }
 
     h3 {
-        margin-top: calc(2 * var(--wordplay-spacing));
-        margin-bottom: 1em;
+        margin-top: var(--wordplay-spacing-double);
+        margin-bottom: var(--wordplay-spacing-double);
     }
 </style>

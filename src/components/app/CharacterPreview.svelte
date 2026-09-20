@@ -44,7 +44,7 @@
                 ? undefined
                 : (l) => l.ui.page.characters.unnamed}
         >
-            <div class="character" aria-hidden="true">
+            <div class="preview-tile character" aria-hidden="true">
                 {@html characterToSVG(character, 128)}
             </div>
             <div class="name">{hasName ? name : '—'}</div>
@@ -53,7 +53,7 @@
         <!-- Inert, so the drawing carries its own accessible name rather than
              borrowing a link's. Primary locale only, as every aria-* is. -->
         <div
-            class="character"
+            class="preview-tile character"
             role="img"
             aria-label={hasName
                 ? reference
@@ -83,9 +83,10 @@
            link's text baseline — inline-block left ~5px of descender space
            below the 64px box from the line-height strut. */
         display: block;
-        width: 128px;
-        height: 128px;
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        /* The number `characterToSVG` is called with, so it is shared with JS
+           rather than free to change here. */
+        inline-size: 128px;
+        block-size: 128px;
     }
 
     /* Names are far less important here than a project's, since the drawing

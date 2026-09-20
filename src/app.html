@@ -374,11 +374,27 @@
                 /* Spacing */
                 --wordplay-editor-indent: 3em;
                 --wordplay-editor-radius: 3px;
-                --wordplay-spacing: 0.5rem;
+                /* The spacing scale. Everything chrome spaces itself by is
+                   one of these steps: before them, the same distances were
+                   written as calc() over the base in seven different shapes
+                   (/2, /3, /4, *1.5, *2, *3, *4), which is an unbounded scale
+                   wearing a token's clothes. A distance that is not a step here
+                   does not need a new name — it needs to be one of these. */
+                --wordplay-spacing-quarter: 0.125rem;
                 --wordplay-spacing-half: 0.25rem;
+                --wordplay-spacing: 0.5rem;
+                --wordplay-spacing-double: 1rem;
+                --wordplay-spacing-triple: 1.5rem;
+                --wordplay-spacing-quad: 2rem;
                 /* The gutter column a chat reference's marker sits in, and the
                    marker's own target: WCAG 2.5.8's 24px floor. */
                 --wordplay-marker-size: 24px;
+                /* WCAG 2.5.8's minimum pointer target. --wordplay-marker-size
+                   is that same floor applied to one specific gutter; this is
+                   the floor itself, for any control that has to meet it. It
+                   was spelled four different ways across six files before it
+                   had a name. */
+                --wordplay-target-size: 24px;
                 /* Block-editor density. Defaults match 'normal'; .editor.density-{compact|spacious} overrides below. */
                 --wordplay-block-padding-block: 0.25rem;
                 --wordplay-block-padding-inline: 0.25rem;
@@ -411,6 +427,15 @@
                    height here because nothing has to clear them. */
                 --music-orchestra-height: 15%;
                 --music-sheet-height: 34%;
+                /* Where an instrument mark sits on a note: at the tip of the
+                   stem, so it costs no horizontal room and a dense piece can't
+                   crowd itself. Shared because the stage's sheet and the
+                   palette's editable one draw the same staff, and a mark that
+                   sits in two different places in the two is a mark the eye
+                   reads as two different things. Relative to the note's own
+                   size, which is why these are em rather than a spacing step. */
+                --music-stem-tip-inline: 0.62em;
+                --music-stem-tip-block: -0.35em;
 
                 --bounce-height: 0.2em;
                 --wobble-rotation: 2deg;
@@ -975,7 +1000,7 @@
             h1:not(:first-of-type),
             h2:not(:first-of-type),
             h3:not(:first-of-type) {
-                margin-top: calc(2 * var(--wordplay-spacing));
+                margin-top: var(--wordplay-spacing-double);
                 font-weight: bold;
             }
 
@@ -1074,7 +1099,7 @@
                 align-items: center;
                 justify-content: center;
                 min-height: 100vh;
-                gap: calc(var(--wordplay-spacing) / 3);
+                gap: var(--wordplay-spacing-quarter);
                 font-family: var(--wordplay-app-font);
                 color: var(--wordplay-foreground);
             }
@@ -1128,12 +1153,42 @@
                 );
             }
 
+            /* `.linklike` is for the controls that are links in every way a
+               reader can tell but are not anchors: a breadcrumb that jumps
+               within a page, a concept link that navigates the guide's own
+               history. CLAUDE.md states the rule — "a link that isn't an anchor
+               still has to look like a link" — and three components had each
+               written this focus treatment out again to keep it, byte for byte.
+               Focus visibility is an accessibility contract; three copies of one
+               is how a contract drifts.
+
+               Base, then states, so the later rules win on equal specificity —
+               which is what keeps `.inactive` from being underlined on hover. */
+            .linklike {
+                font: inherit;
+                color: var(--wordplay-link-color);
+                background: none;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+            }
+
             a:focus,
-            a:hover {
+            a:hover,
+            .linklike:focus,
+            .linklike:hover {
                 outline: none;
                 text-decoration: underline;
                 text-decoration-thickness: var(--wordplay-focus-width);
                 text-decoration-color: var(--wordplay-focus-color);
+            }
+
+            /* Where the reader already is. Greyed and unresponsive, so a trail
+               does not offer to take you where you are. */
+            .linklike.inactive {
+                color: var(--wordplay-inactive-color);
+                text-decoration: none;
+                cursor: default;
             }
 
             /* Universal design for solid highlight-yellow surfaces. Apply to any
@@ -1188,6 +1243,144 @@
                class and are unchanged.
 
                paletteContrast.test.ts lists which fills need it. */
+            /* ---- Layout primitives ----
+
+               Three shapes chrome kept re-declaring: a wrapping row of
+               controls, a column at the standard rhythm, and a panel's full-width
+               column of controls. Thirty-six rulesets, byte-identical, under
+               thirty-odd different class names — `.actions`, `.controls`,
+               `.header`, `.title`, `.confirm`, `.row`, and five names in one
+               file for one rule.
+
+               Classes rather than components, for two reasons the repo already
+               states. importGraph.test.ts budgets what each of five entries may
+               reach and allows a file count to move by one only for a leaf; three
+               components used by thirty-six others land on every graph. And a
+               component renders a div, so a `<section>` or an `<aside>` would
+               have to give up being one — changing the document outline to gain
+               nothing.
+
+               A component's own scoped rule (0-2-0) still beats these (0-1-0), so
+               a site that really differs keeps its difference in one declaration
+               where the diff can show it.
+
+               Named with a prefix on purpose: `.row` is already taken by eight
+               components and `.column` by four, including the block editor's flow
+               layout and Speech's bubble. Same lesson as `reading-surface`. */
+            .control-row {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: var(--wordplay-spacing);
+            }
+
+            .stack {
+                display: flex;
+                flex-direction: column;
+                gap: var(--wordplay-spacing);
+            }
+
+            /* A panel's body: a full-width column whose controls hang from the
+               inline start rather than stretching. Seven of its eight are the
+               palette's editors; the eighth is the character importer, which is
+               the same shape in a dialog. */
+            .panel-column {
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                gap: var(--wordplay-spacing);
+                inline-size: 100%;
+            }
+
+            /* A thumbnail of something a creator made: a project's stage, a
+               character's drawing, a kit's glyph. Three components drew one and
+               disagreed about all of it — the character's had square corners and
+               no hover at all, the kit's had corners but no hover, and only the
+               project's grew when pointed at. A reader cannot tell from that
+               which of the three they are allowed to click.
+
+               Chrome only. The three sizes stay their own: a project preview is
+               sized by a prop, a kit's glyph by its line box, and a character's
+               128px is the number `characterToSVG` is called with, so it is
+               shared with JS rather than free to change here.
+
+               Hover is an outline rather than a thicker border, because a
+               border-width change reflows the tile and everything beside it —
+               the same reason `.synthesized` in the editor is outlined. */
+            .preview-tile {
+                overflow: hidden;
+                flex-shrink: 0;
+                border: var(--wordplay-border-width) solid
+                    var(--wordplay-border-color);
+                border-radius: var(--wordplay-border-radius);
+                transition: transform ease-out;
+                transition-duration: calc(var(--animation-factor) * 200ms);
+            }
+
+            .preview-tile:hover,
+            :focus > .preview-tile {
+                outline: var(--wordplay-focus-width) solid
+                    var(--wordplay-highlight-color);
+                outline-offset: calc(-1 * var(--wordplay-focus-width));
+                transform: scale(1.05);
+            }
+
+            /* A pill: a small bordered run of content that reads as one
+               thing — a template input, a stage control, an IPA symbol, a
+               glossary form, a chat reaction.
+
+               Called `pill` rather than `chip` on purpose. The editor's token
+               stream already uses `.chip` for a concept link and `.synthesized`
+               for code that is not what is stored, and those are a different
+               device: they say something about the code being read. Keeping the
+               names apart is what keeps the two from converging by accident.
+               The pattern views stay out for the same reason — they are filled,
+               borderless and code-font, which is the value-highlight device, not
+               this one.
+
+               The border is --wordplay-inactive-color, not --wordplay-border-color:
+               the latter measures 2.65:1 against the page, under the 3:1 a
+               non-text boundary needs, and a pill is nothing but its boundary. */
+            .pill {
+                display: inline-flex;
+                align-items: center;
+                gap: var(--wordplay-spacing-half);
+                padding: var(--wordplay-spacing-quarter)
+                    var(--wordplay-spacing-half);
+                border: var(--wordplay-border-width) solid
+                    var(--wordplay-inactive-color);
+                border-radius: var(--wordplay-border-radius);
+                background: var(--wordplay-background);
+                color: var(--wordplay-foreground);
+                line-height: 1;
+            }
+
+            /* Read aloud, never seen. Five components had this same nine
+               declarations under five names, and three of their comments
+               pointed at Announcer.svelte as the canonical copy — which is the
+               argument for there being one. The copies had already diverged:
+               OptionTips was missing `clip`, and FaceName was missing the
+               anchor below.
+
+               The anchor is the load-bearing half. Unanchored, the box sits at
+               its static position deep inside a scrolled pane while being
+               positioned against an ancestor OUTSIDE it — so nothing clips it,
+               and its single pixel extends the whole document and summons a
+               page scrollbar. `clip` is kept beside `clip-path` for the same
+               reason it always was: the two cover different engines. */
+            .visually-hidden {
+                position: absolute;
+                inset-block-start: 0;
+                inset-inline-start: 0;
+                inline-size: 1px;
+                block-size: 1px;
+                overflow: hidden;
+                clip: rect(0 0 0 0);
+                clip-path: inset(50%);
+                white-space: nowrap;
+            }
+
             .saturated-surface,
             .highlight-surface {
                 --wordplay-focus-band: inset 0 0 0 3px

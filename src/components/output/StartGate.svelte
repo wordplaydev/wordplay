@@ -101,7 +101,7 @@
 </script>
 
 <div class="start-gate" data-uiid="start-gate">
-    <div class="card saturated-surface">
+    <div class="gate-card saturated-surface">
         <!-- Pinned above the scroll: in a small preview the reason for the gate
              is the one thing that must be readable without scrolling. Exactly
              one heading carries the id in every renderable state, so the body's
@@ -175,12 +175,21 @@
                             </li>
                         {/each}
                     </ul>
+                    <!-- Not the ProgressBar widget: this bar sits on the
+                         error-colored card and takes its track and fill from
+                         the card's own foreground so it reads against it, at a
+                         different height and with its own indeterminate
+                         animation. It does owe the same accessible name, which
+                         it went without until #1419. -->
                     <div
                         class="progress"
                         role="progressbar"
                         aria-valuemin={0}
                         aria-valuemax={100}
-                        aria-valuenow={percent}
+                        aria-valuenow={percent ?? 0}
+                        aria-label={$locales.getPrimaryPlainText(
+                            (l) => l.ui.output.download.title,
+                        )}
                     >
                         <div
                             class="bar"
@@ -253,10 +262,11 @@
         container-type: size;
     }
 
-    .card {
+    .gate-card {
         display: flex;
         flex-direction: column;
         align-items: center;
+        /* scale: tracks the card's clamp(0.75em, 5cqmin, 1em) font-size, so the gaps shrink with the type in a small preview. */
         gap: 1em;
         /* In font-size, `em` resolves against the parent (the app font, since
            nothing between here and the body sets one) while cqmin resolves
@@ -283,7 +293,8 @@
         color: var(--wordplay-background);
         background: var(--wordplay-error);
         /* em, so it tracks the clamp above; identical to
-           calc(2 * var(--wordplay-spacing)) at full size. */
+           var(--wordplay-spacing-double) at full size. */
+        /* scale: tracks the card's clamp(0.75em, 5cqmin, 1em) font-size, so the gaps shrink with the type in a small preview. */
         padding: 1em;
         border-radius: var(--wordplay-border-radius);
     }
@@ -298,6 +309,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        /* scale: tracks the card's clamp(0.75em, 5cqmin, 1em) font-size, so the gaps shrink with the type in a small preview. */
         gap: 1em;
         width: 100%;
         /* Column flex items default to a content-height minimum, which would
@@ -326,6 +338,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        /* scale: tracks the card's clamp(0.75em, 5cqmin, 1em) font-size, so the gaps shrink with the type in a small preview. */
         gap: 0.5em;
         /* Never yields room to the scrolling body: this is the way out. */
         flex-shrink: 0;
@@ -341,12 +354,14 @@
         margin: 0;
         display: flex;
         flex-direction: column;
+        /* scale: tracks the card's clamp(0.75em, 5cqmin, 1em) font-size, so the gaps shrink with the type in a small preview. */
         gap: 0.5em;
     }
 
     li {
         display: flex;
         align-items: center;
+        /* scale: tracks the card's clamp(0.75em, 5cqmin, 1em) font-size, so the gaps shrink with the type in a small preview. */
         gap: 0.5em;
         font-size: 1em;
         text-align: start;
@@ -372,6 +387,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        /* scale: tracks the card's clamp(0.75em, 5cqmin, 1em) font-size, so the gaps shrink with the type in a small preview. */
         gap: 1em;
         width: 100%;
     }
@@ -379,6 +395,7 @@
     .download:not(.standalone) {
         border-top: 1px solid
             color-mix(in srgb, var(--wordplay-background) 30%, transparent);
+        /* scale: tracks the card's clamp(0.75em, 5cqmin, 1em) font-size, so the gaps shrink with the type in a small preview. */
         padding-top: 1em;
     }
 

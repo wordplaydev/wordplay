@@ -193,7 +193,7 @@
     <!-- The report control on the title's line, because a report is about the kit and
          not about whatever happens to be last on the page — under the final share it
          read as being about that share. The row matches `HeaderAndExplanation`'s own. -->
-    <div class="title">
+    <div class="control-row title">
         <Subheader>{kit.name}</Subheader>
         {#if $user === null || $user === undefined || $user.uid !== kit.owner}
             <ReportButton kind="kit" subject={kit.id} name={kit.name} />
@@ -283,23 +283,12 @@
 {/if}
 
 <style>
-    /* A kit is code other people run, so whoever reads it can ask for it to be reviewed,
-       exactly as they can a project or a character — but not its own author, whose report
-       the callable refuses. Offering a control that always fails is worse than none. */
-    .title {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: var(--wordplay-spacing);
-    }
-
     /* The gap owns the spacing between exports; each draws its own rule above it, and
        the first one's is suppressed here so the list doesn't open with a stray line. */
     .exports {
         display: flex;
         flex-direction: column;
-        gap: calc(2 * var(--wordplay-spacing));
+        gap: var(--wordplay-spacing-double);
     }
 
     .exports > :global(section.export:first-child) {

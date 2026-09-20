@@ -524,7 +524,7 @@
         width: 100%;
         height: var(--wordplay-focus-width);
         top: 50%;
-        left: 0;
+        inset-inline-start: 0;
         background: var(--wordplay-error);
     }
 

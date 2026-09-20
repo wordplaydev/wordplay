@@ -292,6 +292,7 @@
         font-size: 0.5em;
         width: 1em;
         height: 1em;
+        /* scale: handle geometry in the output coordinate space, centring the handle on a point. */
         margin-left: -0.5em;
         margin-top: -0.5em;
         padding: 0;

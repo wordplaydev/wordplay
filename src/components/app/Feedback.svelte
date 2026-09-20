@@ -553,9 +553,9 @@
         border-inline-start: var(--wordplay-border-color) solid
             var(--wordplay-focus-width);
         background-color: var(--color-background);
-        padding-inline-start: 1em;
-        margin-inline-start: 1em;
-        margin-block-start: 1em;
+        padding-inline-start: var(--wordplay-spacing-double);
+        margin-inline-start: var(--wordplay-spacing-double);
+        margin-block-start: var(--wordplay-spacing-double);
         display: flex;
         flex-direction: row;
         align-items: baseline;
@@ -584,8 +584,8 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
-        margin-top: 1em;
-        margin-bottom: 1em;
+        margin-top: var(--wordplay-spacing-double);
+        margin-bottom: var(--wordplay-spacing-double);
         max-width: 40em;
     }
 </style>

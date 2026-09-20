@@ -173,41 +173,49 @@
        responsible for ensuring its parent doesn't clip via `overflow: hidden`. */
     .resize-knob.top-left {
         top: 0;
+        /* physical: the edge is named physically by the caller and paired with a physical transform and resize cursor. */
         left: 0;
         transform: translate(-50%, -50%);
     }
     .resize-knob.top-right {
         top: 0;
+        /* physical: the edge is named physically by the caller and paired with a physical transform and resize cursor. */
         right: 0;
         transform: translate(50%, -50%);
     }
     .resize-knob.bottom-left {
         bottom: 0;
+        /* physical: the edge is named physically by the caller and paired with a physical transform and resize cursor. */
         left: 0;
         transform: translate(-50%, 50%);
     }
     .resize-knob.bottom-right {
         bottom: 0;
+        /* physical: the edge is named physically by the caller and paired with a physical transform and resize cursor. */
         right: 0;
         transform: translate(50%, 50%);
     }
     .resize-knob.top {
         top: 0;
+        /* physical: the edge is named physically by the caller and paired with a physical transform and resize cursor. */
         left: 50%;
         transform: translate(-50%, -50%);
     }
     .resize-knob.bottom {
         bottom: 0;
+        /* physical: the edge is named physically by the caller and paired with a physical transform and resize cursor. */
         left: 50%;
         transform: translate(-50%, 50%);
     }
     .resize-knob.left {
         top: 50%;
+        /* physical: the edge is named physically by the caller and paired with a physical transform and resize cursor. */
         left: 0;
         transform: translate(-50%, -50%);
     }
     .resize-knob.right {
         top: 50%;
+        /* physical: the edge is named physically by the caller and paired with a physical transform and resize cursor. */
         right: 0;
         transform: translate(50%, -50%);
     }

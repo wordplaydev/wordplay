@@ -221,7 +221,13 @@
         overflow-wrap: break-word;
         pointer-events: none;
         z-index: 3;
-        animation: appear 0.25s ease-in-out;
+        /* Gated on --animation-factor like every other animation in the app.
+           Ungated it still faded in under prefers-reduced-motion, and anything
+           reading the tooltip during those 250ms — a screen reader, or axe —
+           saw text part-way blended into the background: measured at 14.5%
+           opacity, #303030 over white computes to #e1e1e1 and fails contrast at
+           1.3:1. With the factor at 0 the tip is simply there. */
+        animation: appear calc(var(--animation-factor) * 0.25s) ease-in-out;
         box-shadow: 2px 2px 5px var(--wordplay-chrome);
         opacity: 0;
     }

@@ -454,18 +454,16 @@
         /* No bottom padding, and a negative margin that cancels the .guide flex
            gap below the bar, so the only space to the title is the breadcrumb's
            own bottom margin — keeping it close as before. */
-        padding: var(--wordplay-spacing) calc(2 * var(--wordplay-spacing)) 0;
+        padding: var(--wordplay-spacing) var(--wordplay-spacing-double) 0;
         margin-bottom: calc(-1 * var(--wordplay-spacing));
     }
 
     .header {
-        padding: 0 calc(2 * var(--wordplay-spacing))
-            calc(2 * var(--wordplay-spacing));
+        padding: 0 var(--wordplay-spacing-double) var(--wordplay-spacing-double);
     }
 
     .kit {
-        padding: 0 calc(2 * var(--wordplay-spacing))
-            calc(2 * var(--wordplay-spacing));
+        padding: 0 var(--wordplay-spacing-double) var(--wordplay-spacing-double);
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);

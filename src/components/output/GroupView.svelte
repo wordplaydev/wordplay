@@ -315,6 +315,7 @@
 <style>
     .group {
         position: absolute;
+        /* physical: the output coordinate space's origin, which a transform then places from. */
         left: 0;
         top: 0;
 
@@ -324,7 +325,7 @@
 
     .group.background {
         outline-style: solid;
-        outline-width: calc(var(--wordplay-spacing) / 2);
+        outline-width: var(--wordplay-spacing-half);
     }
 
     .frame {

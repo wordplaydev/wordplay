@@ -371,6 +371,7 @@
         position: absolute;
         /* A containing block for the instrument at the stem's tip. */
         display: inline-block;
+        /* physical: a beat's position along the time axis, which runs left to right in this notation. */
         left: calc(var(--beat) * var(--per-beat));
         transform: translateY(-50%);
         white-space: nowrap;
@@ -395,6 +396,7 @@
     .words {
         position: absolute;
         bottom: 0;
+        /* physical: a beat's position along the time axis, which runs left to right in this notation. */
         left: calc(var(--beat) * var(--per-beat));
         font-size: calc(var(--note) * 0.55);
         line-height: 1;
@@ -407,8 +409,8 @@
        crowd itself. */
     .mark sup {
         position: absolute;
-        top: -0.35em;
-        inset-inline-start: 0.62em;
+        top: var(--music-stem-tip-block);
+        inset-inline-start: var(--music-stem-tip-inline);
         font-size: 26%;
         line-height: 1;
         opacity: 0.85;

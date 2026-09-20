@@ -37,10 +37,12 @@
 <style>
     .piiLabel {
         font-style: italic;
+        /* scale: the gap beside an inline italic label, which tracks the text it sits in. */
         margin-inline-end: 0.5em;
     }
 
     .piiText {
+        /* scale: relative to the label's own type. */
         margin-block-start: 0.5em;
     }
 </style>

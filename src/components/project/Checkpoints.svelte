@@ -70,7 +70,7 @@
     }
 </script>
 
-<section class="checkpoints">
+<section class="control-row checkpoints">
     {withMonoEmoji('🕐')}
     <LocalizedText path={(l) => l.ui.checkpoints.label.history} />
     <Button
@@ -157,14 +157,6 @@
 </section>
 
 <style>
-    section {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-        align-items: center;
-    }
-
     .time {
         font-size: var(--wordplay-small-font-size);
     }

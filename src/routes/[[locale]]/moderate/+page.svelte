@@ -1,5 +1,7 @@
 <script lang="ts">
+    import ModerationFlags from '@components/moderation/ModerationFlags.svelte';
     import Header from '@components/app/Header.svelte';
+    import PageHeader from '@components/app/PageHeader.svelte';
     import Page from '@components/app/Page.svelte';
     import Title from '@components/widgets/Title.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -28,17 +30,11 @@
     import Spinning from '@components/app/Spinning.svelte';
     import { getUser, setConceptPath } from '@components/project/Contexts';
     import Button from '@components/widgets/Button.svelte';
-    import { DB, disconnected, locales } from '@db/Database';
+    import { DB, disconnected } from '@db/Database';
     import { Projects } from '@db/projects/Projects';
     import { firestore } from '@db/firebase';
     import type { ModerationState } from '@db/projects/Moderation';
-    import {
-        Flags,
-        getFlagDescription,
-        isModerator,
-        unknownFlags,
-        withFlag,
-    } from '@db/projects/Moderation';
+    import { Flags, isModerator, withFlag } from '@db/projects/Moderation';
     import type Project from '@db/projects/Project';
     import { ProjectsCollection } from '@db/projects/ProjectsDatabase.svelte';
     import moderate from '@db/moderation/moderate';
@@ -454,7 +450,7 @@
 <Page>
     {#if moderator !== undefined && !allowed}
         <div class="notmod">
-            <Header text={(l) => l.moderation.moderate.header} />
+            <PageHeader header={(l) => l.moderation.moderate.header} />
             <p><LocalizedText path={(l) => l.moderation.error.notmod} /></p>
         </div>
     {:else if moderator === true}
@@ -494,6 +490,11 @@
     {:else if moderator === true}
         <div class="moderate">
             <div class="flags">
+                <!-- A bare Header, not PageHeader: this heads the decision pane
+                     inside a two-pane work surface that fills the window, the
+                     way the project route does, so there is no trail to put
+                     above it. The gate message above is the page, and carries
+                     one. -->
                 <Header text={(l) => l.moderation.moderate.header} />
                 {#if loading}
                     <Spinning />
@@ -519,29 +520,10 @@
                     <MarkupHTMLView
                         markup={(l) => l.moderation.moderate.explanation}
                     />
-                    {#each Object.entries(project.getFlags()) as [flag, state]}
-                        <div class="flag">
-                            <Checkbox
-                                label={(l) => l.moderation.button.property}
-                                on={state === null ? undefined : state}
-                                id={flag}
-                                changed={(value) =>
-                                    (newFlags = withFlag(
-                                        newFlags ?? unknownFlags(),
-                                        flag,
-                                        value === true,
-                                    ))}
-                            />
-                            <label for={flag}>
-                                <MarkupHTMLView
-                                    markup={getFlagDescription(
-                                        flag,
-                                        $locales,
-                                    ) ?? ''}
-                                /></label
-                            >
-                        </div>
-                    {/each}
+                    <ModerationFlags
+                        flags={newFlags ?? project.getFlags()}
+                        change={(next) => (newFlags = next)}
+                    />
                     {#if violates}
                         <div class="flag">
                             <Checkbox

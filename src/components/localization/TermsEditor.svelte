@@ -5,6 +5,7 @@
      persist as `terms.<key>` overrides in LocalizationDexie and submit through
      the normal bundle (setAtPath creates the key server-side). -->
 <script lang="ts">
+    import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
@@ -110,8 +111,8 @@
     }
 </script>
 
-<section class="terms">
-    <h2><LocalizedText path={(l) => l.ui.localize.terms.header} /></h2>
+<section class="stack terms">
+    <Subheader text={(l) => l.ui.localize.terms.header} />
     <MarkupHTMLView markup={(l) => l.ui.localize.terms.description} />
 
     {#if rows.length === 0}
@@ -193,12 +194,6 @@
 </section>
 
 <style>
-    .terms {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-    }
-
     .list {
         list-style: none;
         margin: 0;
@@ -221,10 +216,5 @@
     .dollar {
         font-family: var(--wordplay-code-font);
         white-space: nowrap;
-    }
-
-    h2 {
-        font-size: min(4vw, 14pt);
-        margin: 0;
     }
 </style>

@@ -235,8 +235,7 @@
             "skip": {
                 "tip": "$~Lewati proyek ini",
                 "label": "$~melewati"
-            },
-            "property": "$~Apakah proyek tersebut memiliki properti ini?"
+            }
         },
         "error": {
             "notmod": "$~Tidak ada yang perlu kamu periksa di sini. Moderator Wordplay memeriksa konten publik, dan kurator galeri memeriksa apa yang ada di galeri mereka. Jika kamu baru saja diberi hak moderator, kamu mungkin perlu masuk lagi.",

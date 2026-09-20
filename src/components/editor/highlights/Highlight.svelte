@@ -96,6 +96,7 @@
     .highlight {
         position: absolute;
         top: 0;
+        /* physical: selection geometry measured in JS from token rects, not reading order (see CaretView). */
         left: 0;
         /* Pure visual indicator. No events. Otherwise it interferes with node view events. */
         pointer-events: none;
