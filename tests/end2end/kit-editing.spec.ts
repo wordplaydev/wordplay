@@ -256,10 +256,25 @@ test("a kit's page renders its exports", async ({ page }) => {
         .locator(`a[href*="kit=${encodeURIComponent(name)}"]`)
         .first();
     await expect(tile).toBeVisible({ timeout: 30000 });
-    await tile.click();
 
     // The href is written encoded (`amy%2Fpalette`) and the address bar keeps it that way.
-    await expect(page).toHaveURL(new RegExp(`kit=${encodeURIComponent(name)}`));
+    const kitPage = new RegExp(`kit=${encodeURIComponent(name)}`);
+
+    // Follow it, and follow it again if the first press went nowhere. The registry is
+    // still assembling above this tile when it first becomes visible: the built-in kits,
+    // the creator's own unlisted ones, and the kind filter row all arrive asynchronously
+    // and all insert *above* it. Playwright's two-frame stability check can pass in a gap
+    // between two of those arrivals, and if the anchor then moves between the press and
+    // the release, the browser dispatches `click` at the two targets' common ancestor —
+    // so the router never sees a link and the navigation silently doesn't happen. A
+    // longer wait cannot fix that: nothing is in flight to wait for. Testing the URL
+    // first keeps a slow first follow from being pressed again on a page the tile has
+    // already left, and the click carries its own timeout because `actionTimeout` is
+    // unset, so an inner action would otherwise spend the whole budget on one attempt.
+    await expect(async () => {
+        if (!kitPage.test(page.url())) await tile.click({ timeout: 5000 });
+        await expect(page).toHaveURL(kitPage, { timeout: 2000 });
+    }).toPass({ timeout: 20000 });
     await expect(page.getByText('The colour of dusk.').first()).toBeVisible({
         timeout: 30000,
     });

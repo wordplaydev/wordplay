@@ -116,7 +116,13 @@ test('an inherited fill is stored as null, not dropped', async ({ page }) => {
 
     // The app parses its own document back: reload and the shape is still there.
     await page.reload();
-    await expect(page.locator('.canvas rect').first()).toBeVisible();
+    // The one cold start in this file, and the reason it gets its own budget:
+    // auth has to restore from IndexedDB before the character is even asked
+    // for, and the ask then misses memory and goes to the cloud. On the WebKit
+    // nightly that is past the 10s an assertion gets by default.
+    await expect(page.locator('.canvas rect').first()).toBeVisible({
+        timeout: 30_000,
+    });
 });
 
 test('no fill omits the key entirely', async ({ page }) => {
