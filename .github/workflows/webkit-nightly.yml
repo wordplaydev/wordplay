@@ -1,25 +1,43 @@
 name: Nightly WebKit e2e (macOS)
-# WebKit/Safari coverage runs on a macOS runner, where real WebKit passes the
-# suite quickly. It is NOT run on PRs: WebKit on the Linux runners hangs on
-# Playwright's element-stability check against the app's animated typography
-# (every click times out), so it is impractically slow and red there. Nightly
-# on macOS catches Safari-only regressions within a day; trigger manually
-# (workflow_dispatch) before a release for an on-demand check.
+# WebKit/Safari coverage, so Safari-only regressions are caught within a day.
+# Trigger manually (workflow_dispatch) before a release for an on-demand check.
+#
+# It runs on macOS rather than on PRs with the rest of the suite because WebKit
+# on the Linux runners hung on Playwright's element-stability check against the
+# app's animated typography — every click timed out. That was written
+# 2026-06-02; `contextOptions: { reducedMotion: 'reduce' }`, which turns those
+# animations off and was added for exactly that stall, landed 2026-06-03 and the
+# claim has not been retested since. The `runner` input below is how to retest
+# it: dispatch with `ubuntu-latest` and compare against a green macOS run. If
+# Linux carries the suite, this should move there — it is faster, has 4 cores to
+# macOS's 3, and is not rationed to 5 concurrent jobs, which is what currently
+# keeps WebKit off PRs. Record the answer here either way.
 on:
     schedule:
         # 08:00 UTC daily (off-peak for macOS runner availability).
         - cron: '0 8 * * *'
     workflow_dispatch:
+        inputs:
+            runner:
+                description: Runner to test on (ubuntu-latest retests the claim above)
+                type: choice
+                default: macos-latest
+                options:
+                    - macos-latest
+                    - ubuntu-latest
+            workers:
+                description: Playwright workers per shard
+                default: '1'
 
 jobs:
     webkit:
         uses: ./.github/workflows/playwright.yml
         with:
             browser: webkit
-            runner: macos-latest
+            runner: ${{ inputs.runner || 'macos-latest' }}
             # Serialize specs within each shard so the cloud-assertion tests
             # (cloud-updates, collaborative-editing, gallery-sharing, feedback)
             # don't contend on the single Firebase emulator — the leading source
             # of WebKit-nightly flakiness on the contended macOS runner.
-            workers: '1'
+            workers: ${{ inputs.workers || '1' }}
         secrets: inherit

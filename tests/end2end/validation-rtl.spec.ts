@@ -1,5 +1,7 @@
 import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
+import { fontsReady } from '../helpers/layout';
+import { recordPage } from '../helpers/pageDiagnostics';
 
 /**
  * A field's validation message in Hebrew, which the routes serve right to left.
@@ -77,25 +79,39 @@ async function measure(page: import('@playwright/test').Page, id: string) {
 test('Hebrew: the message starts at the field’s right edge', async ({
     page,
 }) => {
+    const dump = recordPage(page);
     await hebrewProject(page);
     await page.getByTestId('collaborate-toggle').click();
     const field = page.locator('#collaborator-to-add');
     await expect(field).toBeVisible({ timeout: LOAD });
     await field.fill('ab');
     await expect(page.locator('#collaborator-to-add-error')).toBeVisible();
+    await fontsReady(page);
 
-    const r = await measure(page, 'collaborator-to-add');
-    expect(r.direction).toBe('rtl');
-    // The inline start of a right-to-left field is its right edge.
-    expect(Math.abs(r.msgRight - r.fieldRight)).toBeLessThanOrEqual(1);
-    expect(r.msgTop).toBeGreaterThanOrEqual(r.fieldBottom);
-    expect(r.msgLeft).toBeGreaterThanOrEqual(0);
-    expect(r.paintedOver).toEqual([]);
+    // Re-measured rather than snapshotted once: these are single-instant reads
+    // of a layout that may still be settling, and the edge comparison below has
+    // a one-pixel tolerance, so a late reflow is the difference between pass and
+    // fail with nothing to retry it. `toPass` re-runs the whole block.
+    try {
+        await expect(async () => {
+            const r = await measure(page, 'collaborator-to-add');
+            expect(r.direction).toBe('rtl');
+            // The inline start of a right-to-left field is its right edge.
+            expect(Math.abs(r.msgRight - r.fieldRight)).toBeLessThanOrEqual(1);
+            expect(r.msgTop).toBeGreaterThanOrEqual(r.fieldBottom);
+            expect(r.msgLeft).toBeGreaterThanOrEqual(0);
+            expect(r.paintedOver).toEqual([]);
+        }).toPass({ timeout: 15_000 });
+    } catch (problem) {
+        await dump('the collaborator field never settled right to left');
+        throw problem;
+    }
 });
 
 test('Hebrew: a message placed beside its field goes on the other side', async ({
     page,
 }) => {
+    const dump = recordPage(page);
     await hebrewProject(page);
     // The source rename field — the app's only inlineValidation user — appears
     // only once a project has more than one source.
@@ -103,18 +119,30 @@ test('Hebrew: a message placed beside its field goes on the other side', async (
     const name = page.locator('input[id^="source-name-editor"]').first();
     await expect(name).toBeVisible({ timeout: LOAD });
     const id = await name.getAttribute('id');
+    // Narrowed rather than asserted: this names what went missing, where a
+    // non-null assertion would surface inside `measure` as a null lookup.
+    if (id === null)
+        throw new Error('the source name field rendered with no id');
     await name.click();
     await name.fill('not a name!');
     await expect(page.locator(`#${id}-error`)).toBeVisible();
+    await fontsReady(page);
 
-    const r = await measure(page, id!);
-    expect(r.direction).toBe('rtl');
-    // Wholly on screen, which an earlier version was not.
-    expect(r.msgLeft).toBeGreaterThanOrEqual(0);
-    expect(r.msgRight).toBeLessThanOrEqual(r.viewport);
-    // Beside it means the field's left in a right-to-left layout; below is the
-    // fallback when there isn't room.
-    if (r.msgTop < r.fieldBottom)
-        expect(r.msgRight).toBeLessThanOrEqual(r.fieldLeft);
-    expect(r.paintedOver).toEqual([]);
+    try {
+        await expect(async () => {
+            const r = await measure(page, id);
+            expect(r.direction).toBe('rtl');
+            // Wholly on screen, which an earlier version was not.
+            expect(r.msgLeft).toBeGreaterThanOrEqual(0);
+            expect(r.msgRight).toBeLessThanOrEqual(r.viewport);
+            // Beside it means the field's left in a right-to-left layout;
+            // below is the fallback when there isn't room.
+            if (r.msgTop < r.fieldBottom)
+                expect(r.msgRight).toBeLessThanOrEqual(r.fieldLeft);
+            expect(r.paintedOver).toEqual([]);
+        }).toPass({ timeout: 15_000 });
+    } catch (problem) {
+        await dump('the source name message never settled right to left');
+        throw problem;
+    }
 });

@@ -1,6 +1,8 @@
 import { expect, test } from '../../playwright/fixtures';
 import { createTestCharacter } from '../helpers/createCharacter';
 import { createTestProject } from '../helpers/createProject';
+import { stableBox } from '../helpers/layout';
+import { recordPage } from '../helpers/pageDiagnostics';
 
 /**
  * Regression coverage for #724. Zod's `optional()` inferred `T | undefined`,
@@ -63,8 +65,10 @@ async function firstShapeFields(
 
 /** Draw one rectangle by dragging across the middle of the canvas. */
 async function drawRectangle(page: import('@playwright/test').Page) {
-    const box = await page.locator('.canvas').boundingBox();
-    if (box === null) throw new Error('the canvas has no box to draw in');
+    // Waited out rather than read once: the drag below is absolute
+    // coordinates, so a canvas still settling puts the whole gesture somewhere
+    // other than where it was aimed and no shape is stored.
+    const box = await stableBox(page.locator('.canvas'));
     await page.mouse.move(box.x + box.width * 0.3, box.y + box.height * 0.3);
     await page.mouse.down();
     await page.mouse.move(box.x + box.width * 0.6, box.y + box.height * 0.6, {
@@ -92,6 +96,7 @@ async function chooseColor(
 }
 
 test('an inherited fill is stored as null, not dropped', async ({ page }) => {
+    const dump = recordPage(page);
     const id = await createTestCharacter(page);
 
     await chooseRectangleTool(page);
@@ -103,7 +108,13 @@ test('an inherited fill is stored as null, not dropped', async ({ page }) => {
         () => firstShapeFields(id),
         (shape) => shape !== undefined,
         'the drawn rectangle',
-    );
+    ).catch(async (problem: unknown) => {
+        // Dumped rather than left to the poll's own message: on the nightly
+        // this is the step that fails, and what the page was showing is the
+        // half of the answer `until` cannot report.
+        await dump('the inherited fill never reached the cloud');
+        throw problem;
+    });
     if (fields === undefined) throw new Error('unreachable');
 
     // Null means "inherit currentColor" — a value, not an absence. The old
