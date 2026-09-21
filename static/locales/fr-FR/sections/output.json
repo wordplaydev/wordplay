@@ -1219,6 +1219,10 @@
             "pull": {
                 "doc": "$~À quel point j'attire fort les autres sorties vers moi. 0 veut dire pas du tout, ce qui est normal. Des nombres plus grands attirent plus fort, et un nombre négatif repousse au lieu d'attirer. Seules les sorties placées par un @Motion peuvent être attirées.",
                 "names": "$~tirer"
+            },
+            "outline": {
+                "doc": "$~Choisis si les collisions suivent la forme de mes lettres, plutôt que le rectangle autour d'elles. ⊤ veut dire qu'un petit @Phrase peut se glisser dans le creux d'un grand. Les lettres sans forme à tracer, comme les émojis colorés, gardent leur rectangle.",
+                "names": "$~contour"
             }
         },
         "Aura": {

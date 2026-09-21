@@ -16,8 +16,8 @@
 			عبارة(
 				طبق
 				اسم: "\طبق\-\فهرس2\"
-				entering: Pose(opacity: 0 scale: 2)
-				resting: تسلسل.sway(360° duration: 4s)
+				دخول: Pose(شفافية: 0 مقياس: 2)
+				سكون: تسلسل.sway(360° duration: 4s)
 				مدة: 1s
 			)
 	)

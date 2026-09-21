@@ -16,11 +16,11 @@ Phrase('أهلاً' إزاحة: Place(offset 0m))
 إذا أردنا التحكم في الاهتزاز بدقة أكبر، فيمكننا استخدام @Sequence لإنشاء رسوم متحركة عشوائية للاهتزاز تتكرر.
 
 \
-Phrase('أهلاً' resting: Sequence({
-			0%: Pose(offset: Place(Random(-.2m .2m)))
-			15%: Pose(offset: Place(Random(-.2m .2m)))
-			60%: Pose(offset: Place(Random(-.2m .2m)))
-			75%: Pose(offset: Place(Random(-.2m .2m)))
+Phrase('أهلاً' سكون: Sequence({
+			0%: Pose(إزاحة: Place(Random(-.2m .2m)))
+			15%: Pose(إزاحة: Place(Random(-.2m .2m)))
+			60%: Pose(إزاحة: Place(Random(-.2m .2m)))
+			75%: Pose(إزاحة: Place(Random(-.2m .2m)))
 		} 0.1s))
 \
 

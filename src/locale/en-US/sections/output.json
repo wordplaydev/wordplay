@@ -1688,6 +1688,10 @@
             "pull": {
                 "doc": "How strongly I pull other output toward me. 0 means not at all, which is normal. Bigger numbers pull harder, and a negative number pushes away instead. Only output placed by a @Motion can be pulled.",
                 "names": "pull"
+            },
+            "outline": {
+                "doc": "Whether to bump by the shape of my letters instead of by the rectangle around them. ⊤ means a small @Phrase can settle into the hook of a big one. Letters that have no shape to trace, like colorful emoji, keep their rectangle.",
+                "names": "outline"
             }
         },
         "Aura": {

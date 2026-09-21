@@ -21,11 +21,11 @@ l
 						لف: 20m
 						محاذاة: '<'
 						شكل: 'Ubuntu'
-						resting: تسلسل(
+						سكون: تسلسل(
 							{
-								0%: Pose(rotation: 3°)
-								50%: Pose(rotation: -3°)
-								100%: Pose(rotation: 3°)
+								0%: Pose(دوران: 3°)
+								50%: Pose(دوران: -3°)
+								100%: Pose(دوران: 3°)
 							}
 							duration: 3s
 						)

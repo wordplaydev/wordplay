@@ -1219,6 +1219,10 @@
             "pull": {
                 "doc": "$~Wie stark ich anderes Output zu mir hinziehe. 0 bedeutet gar nicht, das ist normal. Größere Zahlen ziehen stärker, und eine negative Zahl stößt stattdessen ab. Nur Output, das von einem @Motion platziert wurde, kann gezogen werden.",
                 "names": "$~ziehen"
+            },
+            "outline": {
+                "doc": "$~Ob beim Stoßen die Form meiner Buchstaben genutzt wird statt des Rechtecks um sie herum. ⊤ bedeutet, dass sich ein kleines @Phrase in den Haken eines großen Buchstabens einfügen kann. Buchstaben ohne nachzeichenbare Form, wie bunte Emojis, behalten ihr Rechteck.",
+                "names": "$~Umriss"
             }
         },
         "Aura": {

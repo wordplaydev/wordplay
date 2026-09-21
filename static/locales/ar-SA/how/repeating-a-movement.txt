@@ -9,12 +9,12 @@
 
 \
 Stage([
-	Phrase('🏀' entering: Sequence({
-				0%: Pose(offset: Place(y: 0.25m))
-				25%: Pose(offset: Place(y: 0m))
-				50%: Pose(offset: Place(y: -0.25m))
-				75%: Pose(offset: Place(y: 0m))
-				100%: Pose(offset: Place(y: 0.25m))} count:2x duration:2s))
+	Phrase('🏀' دخول: Sequence({
+				0%: Pose(إزاحة: Place(y: 0.25m))
+				25%: Pose(إزاحة: Place(y: 0m))
+				50%: Pose(إزاحة: Place(y: -0.25m))
+				75%: Pose(إزاحة: Place(y: 0m))
+				100%: Pose(إزاحة: Place(y: 0.25m))} عدد:2x duration:2s))
 ])
 \
 

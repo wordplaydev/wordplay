@@ -75,6 +75,7 @@ export const ExampleGalleries: Record<string, ExampleGalleryInfo> = {
             'Hira',
             'Layers',
             'Chamber',
+            'GlyphPile',
             'Orbits',
             'Pounce',
             'FootBall',

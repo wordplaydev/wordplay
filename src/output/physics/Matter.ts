@@ -2,7 +2,7 @@ import { getBind } from '@locale/getBind';
 import type Value from '@values/Value';
 import toStructure from '@basis/toStructure';
 import type Locales from '@locale/Locales';
-import { TRUE_SYMBOL } from '@parser/Symbols';
+import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import StructureValue from '@values/StructureValue';
 import { toBoolean, toNumber } from '@output/Output/Stage';
 import Valued, { getOutputInputs } from '@output/Output/Valued';
@@ -25,6 +25,10 @@ export function createMatterType(locales: Locales) {
             (locale) => locale.output.Matter.shapes,
         )}•?: ${TRUE_SYMBOL}
         ${getBind(locales, (locale) => locale.output.Matter.pull)}•#: 0
+        ${getBind(
+            locales,
+            (locale) => locale.output.Matter.outline,
+        )}•?: ${FALSE_SYMBOL}
     )
 `);
 }
@@ -37,6 +41,7 @@ export default class Matter extends Valued {
     readonly text: boolean;
     readonly shapes: boolean;
     readonly pull: number;
+    readonly outline: boolean;
 
     constructor(
         value: Value,
@@ -47,6 +52,7 @@ export default class Matter extends Valued {
         text: boolean,
         shapes: boolean,
         pull: number,
+        outline: boolean,
     ) {
         super(value);
 
@@ -57,6 +63,7 @@ export default class Matter extends Valued {
         this.text = text;
         this.shapes = shapes;
         this.pull = pull;
+        this.outline = outline;
     }
 }
 
@@ -71,6 +78,7 @@ export function toMatter(value: Value | undefined): Matter | undefined {
         textVal,
         shapesVal,
         pullVal,
+        outlineVal,
     ] = getOutputInputs(value);
     const mass = toNumber(massVal);
     const bounce = toNumber(bounceVal);
@@ -79,6 +87,7 @@ export function toMatter(value: Value | undefined): Matter | undefined {
     const text = toBoolean(textVal);
     const shapes = toBoolean(shapesVal);
     const pull = toNumber(pullVal);
+    const outline = toBoolean(outlineVal);
     return mass !== undefined &&
         bounce !== undefined &&
         friction !== undefined &&
@@ -92,6 +101,7 @@ export function toMatter(value: Value | undefined): Matter | undefined {
               text ?? true,
               shapes ?? true,
               pull ?? 0,
+              outline ?? false,
           )
         : undefined;
 }

@@ -12,5 +12,5 @@ time/en,時間/zh: ((الوقت(1234ms)) ÷ 1ms) × 1°
 مسرح(
 	[word]
 	مكان: مكان(0m 0m -5m)
-	background: Color(80% 28 time)
+	خلفية: Color(80% 28 time)
 )

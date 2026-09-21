@@ -1105,6 +1105,10 @@
             "pull": {
                 "doc": "$~Diğer çıktıları bana doğru ne kadar güçlü çektiğim. 0, hiç çekmediğim anlamına gelir ve normal olan budur. Büyük sayılar daha güçlü çeker, negatif bir sayı ise çekmek yerine iter. Sadece bir @Motion tarafından yerleştirilmiş çıktı çekilebilir.",
                 "names": "$~çek"
+            },
+            "outline": {
+                "doc": "$~Yer değiştirmenin, harflerin etrafındaki dikdörtgene göre mi yoksa harflerin kendi şekline göre mi yapılacağını belirler. ⊤ demek, küçük bir @Phrase'ın büyük bir harfin kancasına yerleşebileceği anlamına gelir. Renkli emojiler gibi çizilecek bir şekli olmayan harfler, dikdörtgenlerini korur.",
+                "names": "$~anahat"
             }
         },
         "Aura": {

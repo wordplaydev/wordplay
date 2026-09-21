@@ -1,14 +1,12 @@
 import type { PathCommand } from 'fontkit';
-import { asPathOp } from '@input/pathCommands';
 import { first, must } from '@util/nullable';
+import { SupportedFontsFamiliesType } from '@basis/faces/Fonts';
 import {
-    Faces,
-    getContourFont,
-    rangeContains,
-    resolveWeight,
-    SupportedFontsFamiliesType,
-    type ContourFontError,
-} from '@basis/faces/Fonts';
+    flattenGlyphLoops,
+    shapeTextGlyphs,
+    type OutlinePoint,
+    type ShapeTextError,
+} from '@basis/faces/shapeText';
 import { createInputs } from '@locale/createInputs';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
@@ -45,12 +43,12 @@ import createStreamEvaluator from '@input/createStreamEvaluator';
 import type { StreamKind } from '@values/StreamValue';
 
 /** A single sampled outline point, in meters, in Wordplay's y-up world space. */
-export type ContourPoint = { x: number; y: number };
+export type ContourPoint = OutlinePoint;
 
 /** Why tracing failed, reported to the creator as an exception so a broken font
  * isn't a silent empty result. The first three come from font loading; `outline`
  * means the font loaded but its glyphs couldn't be turned into an outline. */
-type ContourErrorKind = ContourFontError | 'outline';
+type ContourErrorKind = ShapeTextError;
 
 /** The raw value a Contour stream emits: either the computed points or an error.
  * Carrying this (rather than the inputs) makes the stream's history replayable
@@ -74,27 +72,14 @@ const DirectionType = parseType(toTokens('"forward"|"backward"'));
 const FORWARD = 'forward';
 const BACKWARD = 'backward';
 
-/** Subdivisions used to estimate a curve's arc length before sampling it. */
-const LENGTH_ESTIMATE_STEPS = 16;
-
-/** The smallest allowed spacing between points, in meters. Spacing is clamped to
- * this floor so that zero, negative, or tiny values can't produce a runaway
- * number of points (which would freeze the tab). */
-const MINIMUM_SPACING = 0.01;
-
 /**
  * Flatten a glyph's path commands into a flat list of sampled outline points.
  *
- * The input commands are fontkit path commands in font design units, y-up
- * (baseline at 0); the output points are in meters in Wordplay's y-up world
- * space, so the y axis passes through unchanged.
- *
- * Sampling is by ARC LENGTH so spacing is consistent everywhere, independent of
- * the drawing operation: `spacing` is the target distance between points in
- * meters (world space), and each segment (line or curve) gets a sample count
- * proportional to its length. So a long straight crossbar and a short curve are
- * sampled at the same spatial density, giving a continuous trace with no
- * clustering or gaps. `scale` converts font units to meters.
+ * The trace is one continuous list rather than one array per contour, because
+ * that is what a creator traces with: the comet in `WordplayTrace` walks the
+ * whole word. `flattenGlyphLoops` does the sampling and keeps the contours
+ * separate for anything that needs them (glyph collision does); concatenating
+ * them in order is exactly this.
  *
  * Exported for unit testing.
  */
@@ -105,118 +90,7 @@ export function glyphPathToPlaces(
     offsetX: number,
     offsetY: number,
 ): ContourPoint[] {
-    // Samples per font unit of length: (meters per font unit) ÷ (meters per
-    // point). Spacing is clamped to a floor so zero/negative/tiny values can't
-    // blow up the point count and freeze the tab.
-    const samplesPerFontUnit = scale / Math.max(MINIMUM_SPACING, spacing);
-    const points: ContourPoint[] = [];
-
-    // The current pen position (font units), for segment starts.
-    let cx = 0;
-    let cy = 0;
-    // The start of the current subpath, for closePath.
-    let sx = 0;
-    let sy = 0;
-
-    const push = (fx: number, fy: number) => {
-        points.push({ x: fx * scale + offsetX, y: fy * scale + offsetY });
-        cx = fx;
-        cy = fy;
-    };
-
-    // Estimate a parametric segment's length by coarse flattening.
-    const estimateLength = (at: (t: number) => [number, number]) => {
-        let length = 0;
-        let [px, py] = at(0);
-        for (let i = 1; i <= LENGTH_ESTIMATE_STEPS; i++) {
-            const [x, y] = at(i / LENGTH_ESTIMATE_STEPS);
-            length += Math.hypot(x - px, y - py);
-            px = x;
-            py = y;
-        }
-        return length;
-    };
-
-    // Sample a parametric segment into points at the target density, based on
-    // its length (font units). Always emits at least the segment's end point.
-    const sampleSegment = (
-        length: number,
-        at: (t: number) => [number, number],
-    ) => {
-        const count = Math.max(1, Math.round(length * samplesPerFontUnit));
-        for (let i = 1; i <= count; i++) {
-            const [x, y] = at(i / count);
-            push(x, y);
-        }
-    };
-
-    for (const step of commands) {
-        // A command whose args don't match its arity isn't something fontkit
-        // produces; skip it rather than reading past the end of its args.
-        const op = asPathOp(step);
-        if (op === undefined) continue;
-        const { command, args } = op;
-        if (command === 'moveTo') {
-            const [x, y] = args;
-            sx = x;
-            sy = y;
-            push(x, y);
-        } else if (command === 'lineTo') {
-            const x0 = cx;
-            const y0 = cy;
-            const [x, y] = args;
-            const at = (t: number): [number, number] => [
-                x0 + (x - x0) * t,
-                y0 + (y - y0) * t,
-            ];
-            sampleSegment(Math.hypot(x - x0, y - y0), at);
-        } else if (command === 'quadraticCurveTo') {
-            const x0 = cx;
-            const y0 = cy;
-            const [cpx, cpy, x, y] = args;
-            const at = (t: number): [number, number] => {
-                const mt = 1 - t;
-                return [
-                    mt * mt * x0 + 2 * mt * t * cpx + t * t * x,
-                    mt * mt * y0 + 2 * mt * t * cpy + t * t * y,
-                ];
-            };
-            sampleSegment(estimateLength(at), at);
-        } else if (command === 'bezierCurveTo') {
-            const x0 = cx;
-            const y0 = cy;
-            const [c1x, c1y, c2x, c2y, x, y] = args;
-            const at = (t: number): [number, number] => {
-                const mt = 1 - t;
-                return [
-                    mt * mt * mt * x0 +
-                        3 * mt * mt * t * c1x +
-                        3 * mt * t * t * c2x +
-                        t * t * t * x,
-                    mt * mt * mt * y0 +
-                        3 * mt * mt * t * c1y +
-                        3 * mt * t * t * c2y +
-                        t * t * t * y,
-                ];
-            };
-            sampleSegment(estimateLength(at), at);
-        } else if (command === 'closePath') {
-            // Trace the closing edge back to the subpath start so the loop is
-            // continuous, then return the pen there.
-            if (cx !== sx || cy !== sy) {
-                const x0 = cx;
-                const y0 = cy;
-                const at = (t: number): [number, number] => [
-                    x0 + (sx - x0) * t,
-                    y0 + (sy - y0) * t,
-                ];
-                sampleSegment(Math.hypot(sx - x0, sy - y0), at);
-            }
-            cx = sx;
-            cy = sy;
-        }
-    }
-    return points;
+    return flattenGlyphLoops(commands, scale, spacing, offsetX, offsetY).flat();
 }
 
 /**
@@ -236,79 +110,26 @@ async function computeContour(
     spacing: number,
     backward: boolean,
 ): Promise<ContourPoint[] | ContourErrorKind> {
-    const faceData = Faces[face];
-    if (faceData === undefined) return [];
-
-    const useItalic = italics && faceData.italic;
-    const useWeight = resolveWeight(faceData, weight);
-
     const offsetX = place ? place.x : 0;
     const offsetY = place ? place.y : 0;
 
-    // Group consecutive characters by the range file that covers them, so each
-    // run can be shaped (with kerning) by a single font. Characters the face
-    // doesn't cover are skipped.
-    const runs: { range: string | undefined; text: string }[] = [];
-    for (const char of Array.from(glyphs)) {
-        const codepoint = char.codePointAt(0);
-        if (codepoint === undefined) continue;
-
-        let range: string | undefined;
-        if (Array.isArray(faceData.ranges)) {
-            const found = faceData.ranges.find((r) =>
-                rangeContains(r, codepoint),
-            );
-            if (found === undefined) continue;
-            range = found;
-        }
-
-        const last = runs.at(-1);
-        if (last !== undefined && last.range === range) last.text += char;
-        else runs.push({ range, text: char });
-    }
+    const shaped = await shapeTextGlyphs(glyphs, face, weight, italics);
+    // A load failure is reported to the creator as an exception.
+    if (typeof shaped === 'string') return shaped;
 
     const points: ContourPoint[] = [];
-    // The horizontal pen position, in meters (so glyphs from fonts with
-    // different unitsPerEm still align).
-    let penX = 0;
-
-    for (const run of runs) {
-        const font = await getContourFont(
-            face,
-            useWeight,
-            useItalic,
-            run.range,
+    for (const glyph of shaped) {
+        // Em units are what the shaper positions in, so glyphs from fonts with
+        // different unitsPerEm still align; meters per em is the size.
+        points.push(
+            ...flattenGlyphLoops(
+                glyph.commands,
+                sizeMeters / glyph.unitsPerEm,
+                spacing,
+                offsetX + glyph.xEm * sizeMeters,
+                offsetY + glyph.yEm * sizeMeters,
+            ).flat(),
         );
-        // Nothing to load (no browser / unsupported): contribute no points.
-        if (font === undefined) continue;
-        // A load failure is reported to the creator as an exception.
-        if (typeof font === 'string') return font;
-
-        const scale = sizeMeters / font.unitsPerEm;
-        try {
-            // Shape the run, applying the font's kerning and positioning.
-            // fontkit's layout and glyph path extraction can throw on unusual
-            // input; report it so the creator knows the trace failed.
-            const shaped = font.layout(run.text);
-            for (const [i, glyph] of shaped.glyphs.entries()) {
-                const position = shaped.positions[i];
-                // fontkit gives one position per glyph; without one there is
-                // nowhere to put this glyph, so skip it as before.
-                if (position === undefined) continue;
-                points.push(
-                    ...glyphPathToPlaces(
-                        glyph.path.commands,
-                        scale,
-                        spacing,
-                        offsetX + penX + position.xOffset * scale,
-                        offsetY + position.yOffset * scale,
-                    ),
-                );
-                penX += position.xAdvance * scale;
-            }
-        } catch {
-            return 'outline';
-        }
     }
 
     if (backward) points.reverse();

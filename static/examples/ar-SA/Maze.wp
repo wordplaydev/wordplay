@@ -68,40 +68,40 @@ Mazes are generated randomly.¶/en
 					'↑'
 					اسم: 'up'
 					قابلللتحديد: أعلى3
-					resting: Pose(opacity: أعلى3 ? 1 0.2)
+					سكون: Pose(شفافية: أعلى3 ? 1 0.2)
 				)
 				ø
 				عبارة(
 					'←'
 					اسم: 'left'
 					قابلللتحديد: يسار3
-					resting: Pose(opacity: يسار3 ? 1 0.2)
+					سكون: Pose(شفافية: يسار3 ? 1 0.2)
 				)
 				عبارة(
 					الحالي
-					resting: فاز ?
-						تسلسل.spin(duration: 1s style: 'straight')
+					سكون: فاز ?
+						تسلسل.spin(duration: 1s نمط: 'straight')
 						Pose()
 				)
 				عبارة(
 					'→'
 					اسم: 'right'
 					قابلللتحديد: يمين3
-					resting: Pose(opacity: يمين3 ? 1 0.2)
+					سكون: Pose(شفافية: يمين3 ? 1 0.2)
 				)
 				ø
 				عبارة(
 					'↓'
 					اسم: 'down'
 					قابلللتحديد: أسفل3
-					resting: Pose(opacity: أسفل3 ? 1 0.2)
+					سكون: Pose(شفافية: أسفل3 ? 1 0.2)
 				)
 				ø
 			]
 		)
 	]
 	مكان: مكان(0m 0m -3m)
-	face: 'Noto Emoji'
-	background: Color(0 0 0°)
-	resting: Pose(Color(100 100 0°))
+	وجه: 'Noto Emoji'
+	خلفية: Color(0 0 0°)
+	سكون: Pose(Color(100 100 0°))
 )

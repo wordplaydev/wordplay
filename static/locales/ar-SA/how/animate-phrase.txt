@@ -4,14 +4,14 @@
 
 على سبيل المثال، دعونا نجعل هذه القطة ترقص قليلاً عن طريق جعلها تدور وتتحرك:
 
-\Phrase('🐈' resting: Sequence({
-			0%: Pose(rotation: 0°)
-			15%: Pose(rotation: 15°)
-			30%: Pose(rotation: 0°)
-			45%: Pose(offset: Place(-0.25m))
-			60%: Pose(offset: Place(0.25m))
-			75%: Pose(offset: Place(-0.25m))
-			90%: Pose(offset: Place(0m))
+\Phrase('🐈' سكون: Sequence({
+			0%: Pose(دوران: 0°)
+			15%: Pose(دوران: 15°)
+			30%: Pose(دوران: 0°)
+			45%: Pose(إزاحة: Place(-0.25m))
+			60%: Pose(إزاحة: Place(0.25m))
+			75%: Pose(إزاحة: Place(-0.25m))
+			90%: Pose(إزاحة: Place(0m))
 		} 2s))\
 
 يستخدم هذا المثال أ @Sequence من مختلف @Pose .

@@ -1105,6 +1105,10 @@
             "pull": {
                 "doc": "$~To, @how mocno przyciągam inne wyjście do siebie. 0 oznacza brak przyciągania, co jest normalne. Większe liczby przyciągają mocniej, a liczba ujemna zamiast przyciągać, odpycha. Można przyciągnąć tylko wyjście umieszczone przez @Motion.",
                 "names": "$~ciągnij"
+            },
+            "outline": {
+                "doc": "$~Czy przesuwać na podstawie kształtu moich liter, a nie na podstawie prostokąta wokół nich. ⊤ znaczy, że małe @Phrase może wsunąć się w zakrzywienie dużej litery. Litery bez kształtu do naśladowania, @how kolorowe emoji, zachowują swój prostokąt.",
+                "names": "$~kontur"
             }
         },
         "Aura": {

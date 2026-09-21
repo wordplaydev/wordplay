@@ -1160,6 +1160,10 @@
             "pull": {
                 "doc": "$~Cât de puternic atrag alte ieșiri către mine. 0 înseamnă deloc, ceea ce e normal. Numere mai mari atrag mai puternic, iar un număr negativ împinge în loc să atragă. Doar ieșirile plasate de un @Motion pot fi atrase.",
                 "names": "$~trage"
+            },
+            "outline": {
+                "doc": "$~Dacă să se lipească după forma literelor mele, nu după dreptunghiul din jurul lor. ⊤ înseamnă că un @Phrase mic se poate așeza în cârligul unei litere mari. Literele care nu au o formă de urmărit, cum sunt emoji-urile colorate, își păstrează dreptunghiul.",
+                "names": "$~contur"
             }
         },
         "Aura": {

@@ -54,7 +54,7 @@ board/en,tabelro/es,طاولة/ar: عبارة(
 		2m
 	)
 
-fade/en,descolorar/es,يختفي/ar: Pose(opacity: 0)
+fade/en,descolorar/es,يختفي/ar: Pose(شفافية: 0)
 
 ¶Construct the game scene¶/en
 ¶Construye la escena del juego¶/es
@@ -68,14 +68,14 @@ screen/en,cine/es,إظهار/ar:
 					`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
 					3m
 					مكان: مكان(z: -1m)
-					entering: Pose(opacity: 0%)
-					resting: تسلسل.sway(duration: 1s)
+					دخول: Pose(شفافية: 0%)
+					سكون: تسلسل.sway(duration: 1s)
 				)
 				عبارة(
 					`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar
 				)
 			]
-			exiting: fade
+			خروج: fade
 		)
 		"lost": مجموعة(
 			كومة()
@@ -83,11 +83,11 @@ screen/en,cine/es,إظهار/ar:
 				board
 				عبارة(
 					`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
-					entering: Pose(rotation: 0°)
-					resting: Pose(rotation: -5°)
+					دخول: Pose(دوران: 0°)
+					سكون: Pose(دوران: -5°)
 				)
 			]
-			exiting: fade
+			خروج: fade
 		)
 		"won": مجموعة(
 			كومة()
@@ -97,7 +97,7 @@ screen/en,cine/es,إظهار/ar:
 					"You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
 				)
 			]
-			exiting: fade
+			خروج: fade
 		)
 		مجموعة(
 			كومة()
@@ -113,7 +113,7 @@ screen/en,cine/es,إظهار/ar:
 				)
 				عبارة(
 					"\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
-					resting: تسلسل.sway(
+					سكون: تسلسل.sway(
 						2°
 						(state.guessesRemaining ÷ 5) × 1s
 					)
@@ -243,9 +243,9 @@ screen/en,cine/es,إظهار/ar:
 مسرح(
 	[screen شريطالصوت]
 	مكان: مكان(0m 0m -12m)
-	face: "Poor Story"
-	background: Color(0% 0 0°)
-	color: Color(100% 0 0°)
+	وجه: "Poor Story"
+	خلفية: Color(0% 0 0°)
+	لون: Color(100% 0 0°)
 )
 === words
 ¶These are the secret words. Don't tell anyone!¶/en
