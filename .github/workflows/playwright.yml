@@ -62,6 +62,17 @@ jobs:
               # cost ~15s. If a future runner image drops a dependency, add
               # --with-deps back (or `npx playwright install-deps`).
               run: npx playwright install ${{ inputs.browser }}
+            - name: Install browser system dependencies
+              # The step above deliberately skips these because the Linux image
+              # already carries what Chromium needs. WebKit needs a different and
+              # much larger set — gstreamer, libhyphen, libsecret — which the
+              # image does not ship, and without them `browserType.launch` fails
+              # outright: every test in a webkit-on-Linux run failed in 2-5ms
+              # because no browser ever started. So install them for the one case
+              # that needs them, rather than paying apt on every chromium PR.
+              # Nothing to do on macOS, where the binary is self-contained.
+              if: runner.os == 'Linux' && inputs.browser != 'chromium'
+              run: npx playwright install-deps ${{ inputs.browser }}
             - run: echo "${{ secrets.ENV_DEMO }}" > .env
             - run: echo "${{ secrets.FUNCTIONS_ENV_DEMO }}" > functions/.env
             - name: Set up JDK 21 # Firebase emulator requires >=21
