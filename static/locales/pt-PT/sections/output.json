@@ -1120,6 +1120,10 @@
             "pull": {
                 "doc": "$~Com que força atraio outro resultado para mim. 0 significa nenhuma força, o que é normal. Números maiores atraem com mais força, e um número negativo afasta em vez de atrair. Só o resultado colocado por um @Motion pode ser atraído.",
                 "names": "$~puxar"
+            },
+            "outline": {
+                "doc": "$~Se a colisão deve seguir a forma das minhas letras em vez do retângulo em volta delas. ⊤ significa que um @Phrase pequeno pode encaixar no gancho de um grande. As letras que não têm forma para traçar, @how os emojis coloridos, mantêm o seu retângulo.",
+                "names": "$~contorno"
             }
         },
         "Aura": {

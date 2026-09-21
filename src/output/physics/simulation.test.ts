@@ -81,6 +81,7 @@ function drop(
         matter,
         detectable,
         undefined,
+        undefined,
     );
 }
 
@@ -404,6 +405,7 @@ function orbiter(world: RAPIER.World, xMeters: number, yMeters: number) {
         // Nothing is watching it: a pull moves a body whether or not a
         // Collision can see it.
         false,
+        undefined,
         undefined,
     );
     body.rigidBody.setLinearDamping(0);

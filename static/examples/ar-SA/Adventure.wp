@@ -198,14 +198,14 @@ Y
 				محاذاة: '|'
 				لون: هنا4.فاز ? Color(85% 50 90°) Color(45% 40 25°)
 				مدة: 1.5s
-				entering: Pose(opacity: 0% scale: 0.5)
+				دخول: Pose(شفافية: 0% مقياس: 0.5)
 			)
 			عبارة(
 				`اضغط أي مفتاح للاستيقاظ مجددًا`
 				حجم: 0.3m
 				محاذاة: '|'
 				مدة: 3s
-				entering: Pose(opacity: 0%)
+				دخول: Pose(شفافية: 0%)
 			)
 		]
 		أبواب3.translate(
@@ -216,7 +216,7 @@ Y
 					محاذاة: '|'
 					اسم: باب3.وسم
 					مدة: 1s
-					entering: Pose(opacity: 0%)
+					دخول: Pose(شفافية: 0%)
 				)
 		)
 
@@ -232,14 +232,14 @@ Y
 					محاذاة: '|'
 					اسم: هنا4.معرّف2
 					مدة: 0.5s
-					entering: Pose(offset: مكان(0m 2m))
+					دخول: Pose(إزاحة: مكان(0m 2m))
 				)
 				:تحمل
 				:أدناه
 			]
 		)
 	]
-	background: Color(0 0 0°)
-	color: Color(100% 0 0°)
-	face: "Permanent Marker"
+	خلفية: Color(0 0 0°)
+	لون: Color(100% 0 0°)
+	وجه: "Permanent Marker"
 )

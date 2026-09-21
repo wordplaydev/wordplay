@@ -20,7 +20,7 @@ Scene([
 Scene([
 		Phrase('جاك كن رشيقًا' مدة: 1s)
 		Phrase('جاك كن سريعًا' مدة: 1s)
-		Phrase('جاك اقفز فوق عود الشمعة' entering: Sequence.bounce(duration: 1s))
+		Phrase('جاك اقفز فوق عود الشمعة' دخول: Sequence.bounce(duration: 1s))
 	])
 \
 
@@ -32,7 +32,7 @@ Scene([
       Phrase('جاك كن رشيقًا')
 		  Phrase('جاك كن سريعًا')
     ] مدة: 2s)
-		Phrase('جاك اقفز فوق عود الشمعة' entering: Sequence.bounce(duration: 1s))
+		Phrase('جاك اقفز فوق عود الشمعة' دخول: Sequence.bounce(duration: 1s))
 	])
 \
 

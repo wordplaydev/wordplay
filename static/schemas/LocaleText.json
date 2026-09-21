@@ -14447,6 +14447,10 @@
                                     "$ref": "#/definitions/NameText",
                                     "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
                                 },
+                                "outline": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "whether the output collides by the shape of its letters instead of by the rectangle around them"
+                                },
                                 "pull": {
                                     "$ref": "#/definitions/NameAndDoc",
                                     "description": "how strongly the output pulls other output toward it"
@@ -14470,6 +14474,7 @@
                                 "friction",
                                 "mass",
                                 "names",
+                                "outline",
                                 "pull",
                                 "roundedness",
                                 "shapes",

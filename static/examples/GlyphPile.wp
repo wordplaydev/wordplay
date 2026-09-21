@@ -1,0 +1,69 @@
+⚽
+"Letter Pile"/en
+=== start
+¶Five big letters tumble into a pile, then soccer balls rain down and settle
+into their bowls and hooks. The letters collide by the shape of their outlines
+rather than by the rectangles around them, which is what lets a ball come to
+rest inside the bowl of the U instead of floating above it.¶
+
+¶A heavy display face, because a fat letter has a bowl wide enough to catch a
+ball. The letters are chosen for their hooks and bowls.¶
+face: "Titan One"
+letters: ['a' 'b' 'c' 'd' 'e']
+
+¶The letters drop first, from the same place but staggered heights, so each one
+lands on the last and the pile builds upward.
+
+A letter is solid only because its place is a Motion and it has Matter — output
+that a program places is a ghost that everything passes through. Their mass is
+what keeps the balls from shoving the pile apart, and asking Matter for an
+outline is what makes them collide by their letterforms.¶
+pile: letters.translate(
+	ƒ(letter•'' index•#)
+		Phrase(
+			letter
+			4m
+			face
+			name: "letter\index\"
+			place: Motion(
+				Place(((index × 0.6m) - 1.5m) ((index × 6m) + 1m))
+			)
+			color: Color(75% 80 (index × 62°))
+			matter: Matter(mass: 60kg friction: 0.9 outline: ⊤)
+		)
+)
+
+¶The balls start above everything, so they arrive after the pile has settled.
+An emoji has no outline to trace — it is a little picture, not a letterform —
+so it keeps its rectangle, and rounding that rectangle all the way is what
+makes it roll.¶
+balls: 18 → [].translate(
+	ƒ(number)
+		Phrase(
+			"⚽"
+			1.1m
+			name: "ball\number\"
+			place: Motion(
+				Place(Random(-3m 3m) ((number × 1.8m) + 34m))
+				Velocity(Random(-1m/s 1m/s) 0m/s)
+			)
+			matter: Matter(bounciness: 0.3 friction: 0.4 roundedness: 0.5)
+		)
+)
+
+Stage(
+	[
+		¶A shallow valley to settle in, and two walls. The floor is a Path
+		rather than a Rectangle because a barrier is always slippery — it keeps
+		the friction Matter.js gave it — so a flat one would let the pile slide
+		into a corner instead of gathering under the falling balls.¶
+		Shape(Path([Place(-6m -2.5m) Place(0m -5.5m) Place(6m -2.5m)]))
+		Shape(Rectangle(-7m 10m -6m -6m))
+		Shape(Rectangle(6m 10m 7m -6m))
+		:pile
+		:balls
+	]
+	gravity: 9.8m/s^2
+	place: Place(0m 1m -10m)
+	background: Color(25% 20 250°)
+)

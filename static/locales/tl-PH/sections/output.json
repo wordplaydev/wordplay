@@ -1120,6 +1120,10 @@
             "pull": {
                 "doc": "$~Kung gaano kalakas kong hilahin ang ibang output palapit sa akin. Ang 0 ay walang hila, at ito ang normal. Mas malalaking numero ay mas malakas humila, at ang negatibong numero naman ay itinutulak palayo sa halip. Ang output na inilagay lang ng @Motion ang maaaring mahila.",
                 "names": "$~hilahin"
+            },
+            "outline": {
+                "doc": "$~Kung magbubunggo ba ayon sa hugis ng aking mga letra, sa halip na ayon sa rektanggulo sa palibot nila. Ang ⊤ ay nangangahulugang ang maliit na @Phrase ay maaaring makasiksik sa kuko ng malaking letra. Ang mga letrang walang hugis na masusundan, tulad ng makukulay na emoji, ay nananatili sa kanilang rektanggulo.",
+                "names": "$~balangkas"
             }
         },
         "Aura": {

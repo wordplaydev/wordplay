@@ -31,20 +31,20 @@ Change the locale on stage to see each one!¶/en
 				عبارة(
 					'A'/en
 					شكل: 'Pacifico'
-					entering: تسلسل(
+					دخول: تسلسل(
 						{
-							0%: Pose(opacity: 0%)
-							25%: Pose(opacity: 25%)
-							50%: Pose(opacity: 50%)
-							75%: Pose(opacity: 75%)
+							0%: Pose(شفافية: 0%)
+							25%: Pose(شفافية: 25%)
+							50%: Pose(شفافية: 50%)
+							75%: Pose(شفافية: 75%)
 							100%: Pose()
 						}
 					)
-					resting: تسلسل(
+					سكون: تسلسل(
 						{
 							0%: Pose()
-							50%: Pose(rotation: 180°)
-							100%: Pose(rotation: 359°)
+							50%: Pose(دوران: 180°)
+							100%: Pose(دوران: 359°)
 						}
 						duration: 1s
 					)
@@ -53,13 +53,13 @@ Change the locale on stage to see each one!¶/en
 				عبارة(
 					'd'/en
 					شكل: 'Aclonica'
-					resting: تسلسل(
+					سكون: تسلسل(
 						{
-							0%: Pose(color: Color(0.5 100 180°) flipx)
-							50%: Pose(color: Color(27% 112 267°))
+							0%: Pose(لون: Color(0.5 100 180°) قلبأفقي)
+							50%: Pose(لون: Color(27% 112 267°))
 							75%: Pose(
-								color: Color(0.5 100 180°)
-								flipx
+								لون: Color(0.5 100 180°)
+								قلبأفقي
 							)
 						}
 						duration: 2s
@@ -70,17 +70,17 @@ Change the locale on stage to see each one!¶/en
 				)
 				عبارة(
 					'♪'
-					resting: تسلسل(
+					سكون: تسلسل(
 						{
 							0%: Pose(
-								offset: الحركة(
+								إزاحة: الحركة(
 									مكان(0m 0.5m 0m rotation: 0°)
 									سرعة(0m/s 0m/s 0°/s)
 								)
 							)
 							25%: Pose()
-							50%: Pose(offset: مكان(0m 0m 0m))
-							75%: Pose(offset: مكان(0m -0.5m 0m))
+							50%: Pose(إزاحة: مكان(0m 0m 0m))
+							75%: Pose(إزاحة: مكان(0m -0.5m 0m))
 							100%: Pose()
 						}
 					)
@@ -89,11 +89,11 @@ Change the locale on stage to see each one!¶/en
 				)
 				عبارة(
 					'♫'
-					resting: تسلسل(
+					سكون: تسلسل(
 						{
-							0%: Pose(rotation: 20°)
-							50%: Pose(rotation: -20°)
-							100%: Pose(rotation: 20°)
+							0%: Pose(دوران: 20°)
+							50%: Pose(دوران: -20°)
+							100%: Pose(دوران: 20°)
 						}
 					)
 				)
@@ -119,12 +119,12 @@ Change the locale on stage to see each one!¶/en
 				عبارة(
 					'अ'/hi
 					شكل: 'Pacifico'
-					resting: تسلسل(
+					سكون: تسلسل(
 						{
-							0%: Pose(opacity: 0%)
-							25%: Pose(opacity: 25%)
-							50%: Pose(opacity: 50%)
-							75%: Pose(opacity: 75%)
+							0%: Pose(شفافية: 0%)
+							25%: Pose(شفافية: 25%)
+							50%: Pose(شفافية: 50%)
+							75%: Pose(شفافية: 75%)
 							100%: Pose()
 						}
 						duration: 2s
@@ -132,10 +132,10 @@ Change the locale on stage to see each one!¶/en
 				)
 				عبارة(
 					'दि'/hi
-					resting: تسلسل(
+					سكون: تسلسل(
 						{
-							0%: Pose(color: Color(0% 0 0°))
-							50%: Pose(color: Color(74% 100 291°))
+							0%: Pose(لون: Color(0% 0 0°))
+							50%: Pose(لون: Color(74% 100 291°))
 							100%: Pose()
 						}
 						duration: 2s
@@ -146,13 +146,13 @@ Change the locale on stage to see each one!¶/en
 				عبارة(
 					'ती'/hi
 					شكل: 'Aclonica'
-					resting: تسلسل(
+					سكون: تسلسل(
 						{
-							0%: Pose(color: Color(0.5 100 180°) flipx)
-							50%: Pose(color: Color(27% 112 267°))
+							0%: Pose(لون: Color(0.5 100 180°) قلبأفقي)
+							50%: Pose(لون: Color(27% 112 267°))
 							75%: Pose(
-								color: Color(0.5 100 180°)
-								flipx
+								لون: Color(0.5 100 180°)
+								قلبأفقي
 							)
 						}
 						duration: 2s

@@ -5,6 +5,7 @@
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
     import { fontsLoadedGeneration, loadedFonts } from '@basis/faces/Fonts';
+    import { glyphOutlinesGeneration } from '@output/physics/glyphOutline';
     import type Project from '@db/projects/Project';
     import Animator, {
         type Moved,
@@ -815,6 +816,11 @@
 
     /** Whenever the stage, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
     $effect(() => {
+        // Depend on the glyph-outline generation so a body rebuilds with its
+        // outline once the trace arrives. Physics.sync runs on scene change,
+        // not per frame, so nothing else would ask again. Same signal shape as
+        // $fontsLoadedGeneration above.
+        $glyphOutlinesGeneration;
         if (interactive && animator) {
             const results = animator.update(
                 stage,

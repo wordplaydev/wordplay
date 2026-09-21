@@ -360,6 +360,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Hira',
                 'Layers',
                 'Chamber',
+                'GlyphPile',
                 'Orbits',
                 'Pounce',
                 'FootBall',

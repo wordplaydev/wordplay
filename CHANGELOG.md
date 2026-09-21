@@ -9,6 +9,13 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - 🎙️ We added a new example called Magic Words to the [galleries](https://wordplay.dev/galleries), where saying red, happy, or spin out loud changes the color, face, and motion on stage. (#1077)
+- 🧲 The new outline option in @Matter makes a @Phrase bump into things by the shape of its letters, so a small letter can settle into the curve of a big one. (#170)
+- ⚽ We added a new example called Letter Pile to the [galleries](https://wordplay.dev/galleries), where soccer balls rain down onto a heap of big letters and nestle into their curves. (#170)
+- 🌐 Arabic now has its own words for 120 names that were still in English, like the inputs to @Matter, @Stage, and @Phrase, and the parts of list and text functions.
+
+### Fixed
+
+- 🧲 A @Phrase that a @Motion is moving no longer stops in mid-air when its words or size change.
 
 ## 0.37.2 - 2026-09-17
 

@@ -16,8 +16,8 @@
 			عبارة(
 				حرف
 				اسم: "\حرف\-\فهرس2\"
-				entering: Pose(opacity: 0 scale: 2)
-				resting: تسلسل.sway(duration: 0.25s)
+				دخول: Pose(شفافية: 0 مقياس: 2)
+				سكون: تسلسل.sway(duration: 0.25s)
 				مدة: 0.5s
 			)
 	)

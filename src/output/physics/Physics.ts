@@ -25,6 +25,15 @@ import Group from '@output/Output/Group';
 import type Matter from '@output/physics/Matter';
 import { PX_PER_METER } from '@output/Output/outputToCSS';
 import Phrase from '@output/Output/Phrase';
+import {
+    getGlyphOutline,
+    glyphColliderDesc,
+    outlineKey,
+    type OutlineLoops,
+} from '@output/physics/glyphOutline';
+import { layoutToCSS } from '@locale/Scripts';
+import { splitCharacterRefs } from '@output/Output/splitCharacterRefs';
+import TextValue from '@values/TextValue';
 import Shape from '@output/Output/Shape/Shape';
 import Stage from '@output/Output/Stage';
 
@@ -418,10 +427,17 @@ export default class Physics {
 
                     // Doesn't exist or changed size? Make one and add it to the world
                     // for it's z value.
+                    // An outline is fetched and parsed asynchronously, so a
+                    // body is usually built with its bounding box first and
+                    // rebuilt when the outline lands. Comparing the key is what
+                    // notices that; `undefined` on both sides is every body
+                    // that never asked for one.
+                    const wantedOutline = glyphOutlineFor(info, matter)?.key;
                     if (
                         shape === undefined ||
                         shape.width !== info.width ||
-                        shape.height !== info.height
+                        shape.height !== info.height ||
+                        shape.outlineKey !== wantedOutline
                     ) {
                         // Get the world for this z depth
                         const world = this.getWorldAtZ(info.global.z);
@@ -432,6 +448,18 @@ export default class Physics {
                         // body about to be built in it, whenever the body being
                         // replaced is the only one at its depth (#1315).
                         const previous = shape;
+                        // A rebuild is a new rigid body, so whatever the old
+                        // one was doing has to be carried over: a body replaced
+                        // mid-flight would otherwise drop to a standstill, and
+                        // Motion's place and velocity are one-shot, so nothing
+                        // else would put it back.
+                        const momentum =
+                            previous === undefined
+                                ? undefined
+                                : {
+                                      linear: previous.rigidBody.linvel(),
+                                      angular: previous.rigidBody.angvel(),
+                                  };
                         shape = this.createOutputBody(
                             info,
                             matter,
@@ -439,6 +467,10 @@ export default class Physics {
                             world,
                         );
                         if (previous !== undefined) this.removeOutputBody(name);
+                        if (momentum !== undefined) {
+                            shape.rigidBody.setLinvel(momentum.linear, true);
+                            shape.rigidBody.setAngvel(momentum.angular, true);
+                        }
 
                         // Remember the body by name and its collider handle.
                         this.bodyByName.set(name, shape);
@@ -911,6 +943,10 @@ export default class Physics {
             // Group, a Rectangle Shape) uses its bounding box. width/height stay the bounding box so
             // the position/place math is form-agnostic.
             info.output instanceof Shape ? info.output.form : undefined,
+            // The glyph outline, when this phrase asked for one and it has
+            // arrived. Its key travels with the body so sync can tell that this
+            // one was built before the outline existed.
+            glyphOutlineFor(info, matter),
         );
     }
 
@@ -1031,6 +1067,70 @@ function AllCollisionTypes(rapier: typeof RAPIER) {
 const ShapeInteractionGroups =
     (ShapeCategory << 16) | (TextCategory | ShapeCategory);
 
+/** What a body needs in order to collide by its glyph outline. */
+type GlyphOutline = {
+    key: string;
+    loops: OutlineLoops;
+    /** The phrase's em size, in meters: what the outline's em units scale by. */
+    size: number;
+    /** Distance from the top of the bounding box down to the baseline, in
+     *  meters, which is what places the outline inside the box. */
+    ascent: number;
+};
+
+/** Plain text measures with no weight or slant of its own (see Phrase's
+ *  getMetrics), so the outline that matches the measured box is the upright
+ *  regular one. */
+const PlainWeight = 400;
+
+/**
+ * The glyph outline this output should collide with, or undefined when it
+ * shouldn't have one: it isn't a phrase, it didn't ask, it can't be traced, or
+ * the trace hasn't arrived yet. Physics treats all four the same way — keep the
+ * bounding box — so they share an answer.
+ */
+function glyphOutlineFor(
+    info: OutputInfo,
+    matter: Matter | undefined,
+): GlyphOutline | undefined {
+    const phrase = info.output;
+    if (
+        matter?.outline !== true ||
+        !(phrase instanceof Phrase) ||
+        // A wrapped phrase is several lines, and one shaped run is only the
+        // first of them.
+        phrase.wrap !== undefined ||
+        // Vertical text advances down a column, which the shaper doesn't do.
+        (phrase.direction
+            ? layoutToCSS(phrase.direction)
+            : info.context.layout) !== 'horizontal-tb'
+    )
+        return undefined;
+
+    const text = phrase.getLocalizedTextOrDoc();
+    // Formatted text carries bold and italic runs that one upright regular
+    // trace would misrepresent, and a custom character reference is a drawing
+    // rather than a glyph. Both measure differently than they would trace.
+    if (!(text instanceof TextValue)) return undefined;
+    if (
+        splitCharacterRefs(text.text).some(
+            (chunk) => chunk.kind === 'character',
+        )
+    )
+        return undefined;
+
+    const face = phrase.face ?? info.context.face;
+    const loops = getGlyphOutline(text.text, face, PlainWeight, false);
+    if (loops === undefined) return undefined;
+
+    return {
+        key: outlineKey(text.text, face, PlainWeight, false),
+        loops,
+        size: phrase.size ?? info.context.size,
+        ascent: phrase.getLayout(info.context).ascent,
+    };
+}
+
 /** A rounded rectangle collider matching the old Matter chamfer: the border
  *  radius is inset so the shape's total half-extents stay the bounding box.
  *  `corner` is in output units (meters). */
@@ -1126,6 +1226,9 @@ export class OutputBody {
     readonly collider: RAPIER.Collider;
     readonly width: number;
     readonly height: number;
+    /** Which glyph outline this body was built with, if any. Compared in sync
+     *  so a body built before its outline arrived is rebuilt with it. */
+    readonly outlineKey: string | undefined;
     constructor(
         world: RAPIER.World,
         name: string,
@@ -1138,6 +1241,7 @@ export class OutputBody {
         matter: Matter | undefined,
         detectable: boolean,
         form: Form | undefined,
+        outline: GlyphOutline | undefined,
     ) {
         // Constructed only from Physics.createOutputBody, past the load gate.
         const RAPIER = getRapier();
@@ -1168,7 +1272,20 @@ export class OutputBody {
                             form.radius * PX_PER_METER,
                         ),
                     ) ?? RAPIER.ColliderDesc.ball(form.radius * PX_PER_METER))
-                  : roundCuboidDesc(RAPIER, width, height, corner);
+                  : // A phrase that asked to collide by its letters, and whose
+                    // outline has arrived. A degenerate outline falls back to
+                    // the box like everything else.
+                    ((outline
+                        ? glyphColliderDesc(
+                              RAPIER,
+                              outline.loops,
+                              outline.size,
+                              width,
+                              height,
+                              outline.ascent,
+                          )
+                        : undefined) ??
+                    roundCuboidDesc(RAPIER, width, height, corner));
 
         this.collider = world.createCollider(
             desc
@@ -1196,6 +1313,7 @@ export class OutputBody {
 
         this.width = width;
         this.height = height;
+        this.outlineKey = outline?.key;
     }
 
     /** Convert a Place position into an engine position (bounding-box center). */

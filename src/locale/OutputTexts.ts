@@ -743,6 +743,8 @@ type OutputTexts = {
         shapes: NameAndDoc;
         /** how strongly the output pulls other output toward it */
         pull: NameAndDoc;
+        /** whether the output collides by the shape of its letters instead of by the rectangle around them */
+        outline: NameAndDoc;
     };
     /** The base interface for arrangement types */
     Arrangement: NameAndDoc;

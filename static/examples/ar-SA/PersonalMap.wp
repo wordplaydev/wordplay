@@ -178,11 +178,11 @@ stream to check collisions.¶/en
 			اسم: "me"/en,"मैं"/hi
 			مكان: where
 			مادة: مادة()
-			moving: تسلسل(
+			تحرك: تسلسل(
 				{
 					0%: Pose()
-					50%: Pose(offset: مكان(0m 1m 0m))
-					100%: Pose(offset: مكان(0m 0m 0m))
+					50%: Pose(إزاحة: مكان(0m 1m 0m))
+					100%: Pose(إزاحة: مكان(0m 0m 0m))
 				}
 				duration: 0.5s
 			)
@@ -195,5 +195,5 @@ stream to check collisions.¶/en
 			)
 		)
 	]
-	background: Color(18% 72 280°)
+	خلفية: Color(18% 72 280°)
 )

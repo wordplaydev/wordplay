@@ -1105,6 +1105,10 @@
             "pull": {
                 "doc": "$~Hur starkt jag drar annan utdata mot mig. 0 betyder ingen dragning alls, vilket är vanligt. Större tal drar hårdare, och ett negativt tal knuffar bort istället. Bara utdata som placerats av en @Motion kan dras.",
                 "names": "$~dra"
+            },
+            "outline": {
+                "doc": "$~Om bokstäverna ska knuffas efter formen på mina bokstäver istället för rektangeln runt dem. ⊤ betyder att en liten @Phrase kan sätta sig in i kroken på en stor bokstav. Bokstäver som saknar en form att följa, som färgglada emoji, håller kvar sin rektangel.",
+                "names": "$~kontur"
             }
         },
         "Aura": {
