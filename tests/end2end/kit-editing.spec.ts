@@ -1,6 +1,7 @@
 import { expect, test } from '../../playwright/fixtures';
 import { createTestProject } from '../helpers/createProject';
 import { getTestFirestore } from '../helpers/firestore';
+import { recordPage } from '../helpers/pageDiagnostics';
 
 /**
  * Wait until the stored kit satisfies `check`, so a test never races `kitEdited`.
@@ -159,6 +160,12 @@ test('a kit borrowed into an open project resolves', async ({ page }) => {
  * test went green against a feature that never worked.
  */
 test("a kit's page renders its exports", async ({ page }) => {
+    // This test's own waits sum to about 150s (two 20s trigger polls plus four
+    // 30s page assertions), so the 60s default budget could never cover it and
+    // it died at whichever step happened to be running. Matches the sibling
+    // above rather than trimming the waits: each one is a real cloud latency.
+    test.setTimeout(180000);
+    const dump = recordPage(page);
     const db = getTestFirestore();
     const id = '3b7c1d92-4e6a-4f18-9b52-0c8d3a6e17f4';
     const name = 'amy/palette';
@@ -271,11 +278,16 @@ test("a kit's page renders its exports", async ({ page }) => {
     // first keeps a slow first follow from being pressed again on a page the tile has
     // already left, and the click carries its own timeout because `actionTimeout` is
     // unset, so an inner action would otherwise spend the whole budget on one attempt.
-    await expect(async () => {
-        if (!kitPage.test(page.url())) await tile.click({ timeout: 5000 });
-        await expect(page).toHaveURL(kitPage, { timeout: 2000 });
-    }).toPass({ timeout: 20000 });
-    await expect(page.getByText('The colour of dusk.').first()).toBeVisible({
-        timeout: 30000,
-    });
+    try {
+        await expect(async () => {
+            if (!kitPage.test(page.url())) await tile.click({ timeout: 5000 });
+            await expect(page).toHaveURL(kitPage, { timeout: 2000 });
+        }).toPass({ timeout: 20000 });
+        await expect(page.getByText('The colour of dusk.').first()).toBeVisible(
+            { timeout: 30000 },
+        );
+    } catch (problem) {
+        await dump('following the kit tile never reached the kit page');
+        throw problem;
+    }
 });

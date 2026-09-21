@@ -21,6 +21,16 @@
             : null;
     }
 
+    // Record that this URL's early fetch came back with nothing, then answer
+    // `undefined` so the handover contract is unchanged.
+    function missed(url) {
+        try {
+            window.__localePreloadFailed.push(url);
+            console.warn('locale preload failed, refetching: ' + url);
+        } catch (_) {}
+        return undefined;
+    }
+
     try {
         var assets = window.__localeAssets || {};
 
@@ -50,7 +60,16 @@
             // can only be read once. The catch is load-bearing too — nothing
             // awaits this until the bundle runs, so a rejection with no
             // handler would surface as an unhandled error.
+            //
+            // A failure is recorded as well as swallowed. LocalesDatabase
+            // answers `undefined` by fetching properly, which is the right
+            // thing to do — but it means a failed early fetch costs the reader
+            // the whole file a second time, and nothing said so. Now the URLs
+            // that fell back are listed here, so a check can tell a broken
+            // handover (two requests, nothing recorded) from this (two
+            // requests, recorded), and so it is visible in a console.
             window.__localePreload = window.__localePreload || {};
+            window.__localePreloadFailed = window.__localePreloadFailed || [];
             var entry = assets[locale];
             var files = [[entry.m, locale + '.json']];
             if (entry.d) files.push([entry.d, locale + '-datetimes.json']);
@@ -64,10 +83,10 @@
                     encodeURIComponent(files[i][0]);
                 window.__localePreload[url] = fetch(url)
                     .then(function (response) {
-                        return response.ok ? response.json() : undefined;
+                        return response.ok ? response.json() : missed(url);
                     })
                     .catch(function () {
-                        return undefined;
+                        return missed(url);
                     });
             }
         }

@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import type LocaleText from '../../src/locale/LocaleText';
 import { expect, test } from '../../playwright/fixtures';
+import { recordPage } from '../helpers/pageDiagnostics';
 
 /**
  * Each locale's `guidance` is original content in that locale's own language,
@@ -58,6 +59,7 @@ test('workspace shows this locale s guidance, not the English one', async ({
         });
         return seen;
     };
+    const dump = recordPage(page);
     const localeRequests = requests('/locales/es-MX/es-MX.json');
     const datetimeRequests = requests('/locales/es-MX/es-MX-datetimes.json');
 
@@ -74,10 +76,46 @@ test('workspace shows this locale s guidance, not the English one', async ({
     await expect(page.getByText('Write short, plain')).toHaveCount(0);
 
     // One request each, and both carry the content hash `versioned()` builds.
-    expect(localeRequests).toHaveLength(1);
-    expect(localeRequests[0]).toMatch(/\?v=[0-9a-f]+$/);
-    expect(datetimeRequests).toHaveLength(1);
-    expect(datetimeRequests[0]).toMatch(/\?v=[0-9a-f]+$/);
+    //
+    // A second request is only allowed when the early fetch is on record as
+    // having failed. `fetchLocaleJSON` answers an early `undefined` by asking
+    // properly, which is deliberate — so a count of two means either the
+    // handover broke (the regression this test exists for) or the network did
+    // (load on the runner, which is not a defect and used to fail here anyway,
+    // losing all three retries on two nightlies). `locale-preload.js` now says
+    // which, so the two stop looking alike.
+    const fellBack: string[] = await page.evaluate(() => {
+        const recorded: unknown = Reflect.get(window, '__localePreloadFailed');
+        return Array.isArray(recorded) ? recorded.map(String) : [];
+    });
+    const once = (requests: string[], needle: string) => {
+        // A recorded fallback permits the second request but does not demand
+        // it: an early fetch that fails before it is even issued leaves one.
+        const fellBackHere = fellBack.some((url) => url.includes(needle));
+        const where = `${needle}: ${requests.length} request(s)`;
+        expect(
+            requests.length,
+            `${where}, at least 1 expected`,
+        ).toBeGreaterThan(0);
+        expect(
+            requests.length,
+            fellBackHere
+                ? `${where}, at most 2 (the early fetch is recorded as failed)`
+                : `${where}, exactly 1 expected and no fallback was recorded`,
+        ).toBeLessThanOrEqual(fellBackHere ? 2 : 1);
+        expect(requests[0]).toMatch(/\?v=[0-9a-f]+$/);
+    };
+    try {
+        once(localeRequests, '/locales/es-MX/es-MX.json');
+        once(datetimeRequests, '/locales/es-MX/es-MX-datetimes.json');
+    } catch (problem) {
+        await dump(
+            `locale fetched more than once; recorded fallbacks: ${
+                fellBack.length === 0 ? 'none' : fellBack.join(', ')
+            }`,
+        );
+        throw problem;
+    }
 });
 
 test('guidance is absent from the translatable string list', async ({

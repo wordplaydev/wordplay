@@ -1,25 +1,55 @@
-name: Nightly WebKit e2e (macOS)
-# WebKit/Safari coverage runs on a macOS runner, where real WebKit passes the
-# suite quickly. It is NOT run on PRs: WebKit on the Linux runners hangs on
-# Playwright's element-stability check against the app's animated typography
-# (every click times out), so it is impractically slow and red there. Nightly
-# on macOS catches Safari-only regressions within a day; trigger manually
-# (workflow_dispatch) before a release for an on-demand check.
+name: Nightly WebKit e2e
+# WebKit/Safari coverage, so Safari-only regressions are caught within a day.
+# Trigger manually (workflow_dispatch) before a release for an on-demand check.
+#
+# This ran on macOS for months because WebKit on the Linux runners was believed
+# to hang on Playwright's element-stability check against the app's animated
+# typography. That claim was written 2026-06-02, one day before
+# `contextOptions: { reducedMotion: 'reduce' }` turned those animations off for
+# exactly that reason, and it was never retested. Retested 2026-09-21 on one
+# commit, both runners:
+#
+#   ubuntu-latest, 2 workers   3/3 shards green, 291 passed, 4 flaky, 10-12 min
+#   macos-latest,  1 worker    shard 3 red, 291 passed, 2 failed, 18-27 min
+#
+# The real Linux blocker was never the typography: WebKit needs system
+# libraries (gstreamer, libhyphen, libsecret) the image does not ship, so the
+# browser did not launch at all and every test failed in milliseconds.
+# playwright.yml installs them for this case now. The two macOS failures
+# (proxy-as-user, unauthenticated-project) each lost all three attempts against
+# Firestore emulator timeouts — the contention a 3-core runner produces, and the
+# most likely explanation for why the failing test rotated week to week.
+#
+# So: Linux by default, and `runner` is kept as an input so the comparison can
+# be run again rather than argued about. One run each is not a large sample; if
+# Linux turns out to rotate its own failures, this is where to say so.
 on:
     schedule:
-        # 08:00 UTC daily (off-peak for macOS runner availability).
+        # 08:00 UTC daily.
         - cron: '0 8 * * *'
     workflow_dispatch:
+        inputs:
+            runner:
+                description: Runner to test on
+                type: choice
+                default: ubuntu-latest
+                options:
+                    - ubuntu-latest
+                    - macos-latest
+            workers:
+                description: Playwright workers per shard
+                default: '2'
 
 jobs:
     webkit:
         uses: ./.github/workflows/playwright.yml
         with:
             browser: webkit
-            runner: macos-latest
-            # Serialize specs within each shard so the cloud-assertion tests
-            # (cloud-updates, collaborative-editing, gallery-sharing, feedback)
-            # don't contend on the single Firebase emulator — the leading source
-            # of WebKit-nightly flakiness on the contended macOS runner.
-            workers: '1'
+            runner: ${{ inputs.runner || 'ubuntu-latest' }}
+            # Two workers per shard held on Linux. The 1 this used to pass was
+            # to keep the cloud-assertion specs (cloud-updates,
+            # collaborative-editing, gallery-sharing, feedback) off each other
+            # on the single Firebase emulator, which a 3-core macOS runner could
+            # not absorb; Linux ran them at 2 with no hard failure.
+            workers: ${{ inputs.workers || '2' }}
         secrets: inherit

@@ -100,21 +100,28 @@ export default defineConfig({
         // WebKit (Safari engine) is worth covering: the app carries a lot of
         // Safari-specific handling (emoji/font fallbacks, editor IME/key
         // handling, Hand-tracking GC tuning) and serves an iPad/education
-        // audience. It passes on real WebKit (macOS, ~4 min) but is unusable on
-        // the Linux GitHub runners — Playwright's element-stability check never
-        // settles against the app's animated typography, so every click times
-        // out. So it does NOT run on PRs; the webkit-nightly workflow runs it on
-        // a macOS runner, and developers can run it locally. Firefox was retired.
+        // audience. It does NOT run on PRs; the webkit-nightly workflow runs it,
+        // and developers can run it locally. Firefox was retired.
         // One extra CI retry beyond the global 1. The cloud-assertion specs
         // (gallery-sharing, feedback, collaborative-editing) occasionally blow
-        // their 60s budget when both workers hit the single Firebase emulator at
-        // once on the contended macOS runner — a transient that a further retry
-        // clears. Local runs (retries 0) and chromium PRs (global retries 1) are
-        // unaffected.
+        // their budget when both workers hit the single Firebase emulator at
+        // once — a transient that a further retry clears. Local runs (retries 0)
+        // and chromium PRs (global retries 1) are unaffected.
         {
             name: 'webkit',
             use: { ...devices['Desktop Safari'] },
             retries: process.env.CI ? 2 : 0,
+            /* A longer per-test budget than the 60s global, on CI only.
+             * The global was measured against Chromium, and this engine is
+             * slower for the same work: the nightly's shards run 10-12 min
+             * against chromium's 7 on the same runner kind, and ran 18-27 on
+             * the macOS runner they used to use. Spending the Chromium budget
+             * is what made unrelated specs all report "Test timeout of
+             * 60000ms exceeded" at whichever step happened to be running,
+             * which reads as one mystery rather than as several slow tests.
+             * Note `test.setTimeout` is absolute, so a spec that declares
+             * 60000 opts back down to the global. */
+            timeout: process.env.CI ? 120_000 : 60_000,
         },
     ],
 
