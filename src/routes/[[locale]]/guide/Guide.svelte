@@ -355,7 +355,16 @@
         // here would strip the very param that put us on this page.
         if (kit !== undefined) return;
         if (browser && $path && mounted) {
-            const newParams = new URLSearchParams();
+            // Carried forward rather than rebuilt from empty: this effect owns
+            // only concept/query/section/purpose, and starting from nothing
+            // deleted every other param — including the `dialog` one that is
+            // the Dialog widget's open state. Opening the language chooser and
+            // having this fire (the concept index rebuilds when the Firestore
+            // how-tos land, well after first paint) shut the dialog on the
+            // reader mid-choice. The `kit` guard above is the same bug, found
+            // once already. Each setter deletes its own key when absent, so
+            // preserving the rest is safe.
+            const newParams = new URLSearchParams(page.url.searchParams);
             setConceptInURL(concept ?? undefined, index, newParams);
             setQueryInURL(debouncedSearch.current, newParams);
             setEnumInURL(
