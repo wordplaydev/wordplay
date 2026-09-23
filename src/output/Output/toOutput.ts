@@ -21,6 +21,7 @@ import type Sequence from '@output/animation/Sequence';
 import { toSequence } from '@output/animation/Sequence';
 import { toMusic } from '@output/Music/Music';
 import { toSay } from '@output/Output/Say';
+import { toImage } from '@output/Output/Image';
 import { toShape } from '@output/Output/Shape/Shape';
 import { toStack } from '@output/Arrangement/Stack';
 import {
@@ -47,6 +48,8 @@ export function toOutput(
             return toStage(evaluator, value, namer);
         case project.shares.output.Shape:
             return toShape(project, value, namer);
+        case project.shares.output.Image:
+            return toImage(project, value, namer);
         case project.shares.output.Say:
             return toSay(project, value, namer);
         case project.shares.output.Music:
@@ -149,8 +152,16 @@ export function getStyle(
     place?: Place | undefined,
     // Phrase only: its structure has a `changing` input between exiting and duration.
     includeChanging = false,
+    /** False when the type declares its description outside this block, which `Image` does:
+     *  its description is required, and a required input may not follow an optional one. */
+    describedHere = true,
 ) {
-    const inputs = getOutputInputs(value, index);
+    const given = getOutputInputs(value, index);
+    // Put the missing slot back rather than shifting what follows, so every index below
+    // reads the same in both shapes.
+    const inputs = describedHere
+        ? given
+        : [given[0], undefined, ...given.slice(1)];
     const [
         nameVal,
         descriptionVal,

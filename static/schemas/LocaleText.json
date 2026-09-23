@@ -14299,6 +14299,165 @@
                             ],
                             "type": "object"
                         },
+                        "Image": {
+                            "additionalProperties": false,
+                            "description": "A grid of colors, drawn as a picture",
+                            "properties": {
+                                "background": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The background color behind an image"
+                                },
+                                "color": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The color an image is tinted"
+                                },
+                                "colors": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The rows of colors, top row first"
+                                },
+                                "defaultDescription": {
+                                    "$ref": "#/definitions/Template%3C%5B%22description%22%2C%22columns%22%2C%22rows%22%5D%3E",
+                                    "description": "[formatted] What an image says it is when nothing describes it"
+                                },
+                                "description": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "What the picture shows, for anyone who can't see it"
+                                },
+                                "doc": {
+                                    "$ref": "#/definitions/DocText",
+                                    "description": "[formatted] Documentation for this definition, to appear in the documentation browser."
+                                },
+                                "duration": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The duration of transitions"
+                                },
+                                "entering": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Pose or sequence for when an image enters stage"
+                                },
+                                "exiting": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Pose or sequence for when an image is leaving stage"
+                                },
+                                "face": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The font face used for an image's glyphs"
+                                },
+                                "flipx": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether an image is flipped horizontally"
+                                },
+                                "flipy": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether an image is flipped vertically"
+                                },
+                                "glyph": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "A function from a color to the text drawn in its place"
+                                },
+                                "glyphs": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The text drawn in each square, worked out from glyph"
+                                },
+                                "height": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How tall the picture is"
+                                },
+                                "moving": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Pose or sequence for when an image is moving"
+                                },
+                                "name": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The name of an image, used in Choice, Collision, and animations"
+                                },
+                                "names": {
+                                    "$ref": "#/definitions/NameText",
+                                    "description": "[name] One or more names for this definition. Be careful not to introduce duplicates."
+                                },
+                                "offset": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The offset of an image from its place"
+                                },
+                                "opacity": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The opacity of an image"
+                                },
+                                "palette": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The colors actually drawn, worked out from recolor"
+                                },
+                                "pixel": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The name the glyph and recolor functions give their one color"
+                                },
+                                "place": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The place on stage of an image"
+                                },
+                                "recolor": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "A function from a color to the color drawn in its place"
+                                },
+                                "resting": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Pose or sequence for when an image is not moving"
+                                },
+                                "rotation": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The rotation of an image"
+                                },
+                                "scale": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The scale of an image"
+                                },
+                                "selectable": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "Whether an image is selectable by Choice"
+                                },
+                                "style": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "The transition style of transitions"
+                                },
+                                "width": {
+                                    "$ref": "#/definitions/NameAndDoc",
+                                    "description": "How wide the picture is"
+                                }
+                            },
+                            "required": [
+                                "background",
+                                "color",
+                                "colors",
+                                "defaultDescription",
+                                "description",
+                                "doc",
+                                "duration",
+                                "entering",
+                                "exiting",
+                                "face",
+                                "flipx",
+                                "flipy",
+                                "glyph",
+                                "glyphs",
+                                "height",
+                                "moving",
+                                "name",
+                                "names",
+                                "offset",
+                                "opacity",
+                                "palette",
+                                "pixel",
+                                "place",
+                                "recolor",
+                                "resting",
+                                "rotation",
+                                "scale",
+                                "selectable",
+                                "style",
+                                "width"
+                            ],
+                            "type": "object"
+                        },
                         "Instrument": {
                             "additionalProperties": false,
                             "description": "An instrument from the fixed palette",
@@ -16453,6 +16612,7 @@
                         "Phrase",
                         "Stage",
                         "Shape",
+                        "Image",
                         "Say",
                         "Music",
                         "Track",
@@ -31238,6 +31398,9 @@
             "type": "string"
         },
         "Template<[\"degree\",\"beat\"]>": {
+            "type": "string"
+        },
+        "Template<[\"description\",\"columns\",\"rows\"]>": {
             "type": "string"
         },
         "Template<[\"description\"]>": {

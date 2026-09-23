@@ -680,6 +680,10 @@
                     "type": "string"
                 },
                 {
+                    "const": "Image",
+                    "type": "string"
+                },
+                {
                     "const": "Say",
                     "type": "string"
                 },
