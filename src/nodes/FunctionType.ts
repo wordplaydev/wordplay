@@ -9,6 +9,7 @@ import type { TemplateInput } from '@locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
 import EvalCloseToken from '@nodes/EvalCloseToken';
 import EvalOpenToken from '@nodes/EvalOpenToken';
 import type Expression from '@nodes/Expression';
@@ -22,6 +23,7 @@ import {
     type Grammar,
     type Replacement,
 } from '@nodes/Node';
+import type Node from '@nodes/Node';
 import { Sym } from '@nodes/Sym';
 import Token from '@nodes/Token';
 import Type from '@nodes/Type';
@@ -220,6 +222,24 @@ export default class FunctionType extends Type {
 
     getBasisTypeName(): BasisTypeName {
         return 'function';
+    }
+
+    /** Reach the universal `=`/`≠` on the `structure` basis, which `BasisType` grants
+     *  every other type. Only the additional scope, since `BasisType.getScope` answers
+     *  `undefined` for a kind the basis never registered, cutting off name resolution. */
+    getAdditionalBasisScope(context: Context): Node | undefined {
+        return context.getBasis().getStructureDefinition('structure');
+    }
+
+    /** Again for `UnionType.getDefinitions`, which intersects its arms directly rather
+     *  than walking scopes, so `ø|ƒ` would otherwise share nothing. */
+    getDefinitions(anchor: Node, context: Context): Definition[] {
+        return (
+            this.getAdditionalBasisScope(context)?.getDefinitions(
+                anchor,
+                context,
+            ) ?? []
+        );
     }
 
     computeConflicts() {

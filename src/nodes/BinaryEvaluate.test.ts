@@ -49,6 +49,24 @@ test.each([
     ['⊥ & ⊤ ? 1 2', '2'],
     ['⊤ & ~⊤', '⊥'],
     ['~(⊤ & ⊤)', '⊥'],
+    // A function value is compared like any other, through the universal `=`/`≠` on
+    // the `structure` basis. It used to reach neither, so every one of these halted
+    // with a FunctionException and reported `UnknownName` on the operator itself.
+    ['ƒ g(f•ƒ(x•#)#) f = ø\ng(ƒ(x•#) x)', '[ƒ g() ⊥]'],
+    ['ƒ g(f•ƒ(x•#)#) f ≠ ø\ng(ƒ(x•#) x)', '[ƒ g() ⊤]'],
+    ['ƒ g(f•ƒ(x•#)#) f = f\ng(ƒ(x•#) x)', '[ƒ g() ⊤]'],
+    ['f: ƒ(x•#) x\nf = ø', '⊥'],
+    ['•T(f•ƒ(x•#)#)\nt: T(ƒ(x•#) x)\nt.f = ø', '⊥'],
+    // The union a `ø|ƒ` input is declared with, which is what an optional function
+    // input looks like: the guard narrows, and the else branch still calls through.
+    [
+        'ƒ g(xs•[#] f•ø|ƒ(x•#)#: ø) f = ø ? [] xs.translate(f)\ng([1 2 3] ƒ(x•#) x · 10)',
+        '[ƒ g() [10 20 30]]',
+    ],
+    [
+        'ƒ g(xs•[#] f•ø|ƒ(x•#)#: ø) f = ø ? [] xs.translate(f)\ng([1 2 3])',
+        '[ƒ g() []]',
+    ],
 ])('Expect %s to be %s', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(value);
 });

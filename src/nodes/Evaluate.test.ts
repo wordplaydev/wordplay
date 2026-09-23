@@ -3,7 +3,7 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import MissingInput from '@conflicts/MissingInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
-import { testConflict, testTypes } from '@conflicts/TestUtilities';
+import { conflictsIn, testConflict, testTypes } from '@conflicts/TestUtilities';
 import UnexpectedInput from '@conflicts/UnexpectedInput';
 import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import UnknownInput from '@conflicts/UnknownInput';
@@ -106,7 +106,10 @@ test.each([
         IncompatibleInput,
         1,
     ],
-    // Infer bind types from function inputs
+    // Infer bind types from function inputs. Index 1 is the outer `x(...)`, where the
+    // bad program's conflict is; that the *inner* `a('')` may be called at all is
+    // asserted separately below, since it went unchecked here for as long as it was
+    // broken.
     [
         `
         ƒ x(a•ƒ(num•'') '') a('')
@@ -237,4 +240,29 @@ test.each([
     ],
 ])('%s => no conflict, %s => conflict', (good, bad, node, conflict, index) => {
     testConflict(good, bad, node, conflict, index);
+});
+
+/**
+ * A function value is called through whatever type names it. A written-down function
+ * type carries no definition (only an inferred one does, and `Bind.computeType` prefers
+ * the annotation), so `Evaluate` used to find nothing to call: it reported
+ * "expected a function, given a function" on the call and compiled a `FunctionException`
+ * in place of the call itself. A structure's member worked the whole time, because
+ * instantiating one refines its member types from the arguments given.
+ */
+test.each([
+    ['ƒ g(f•ƒ(x•#)#) f(3)\ng(ƒ(x•#) x · 10)', '[ƒ g() 30]'],
+    ['ƒ g(f•ƒ()#) f()\ng(ƒ() 7)', '[ƒ g() 7]'],
+    ['•T(f•ƒ(x•#)#) (\n\ty: f(4)\n)\nT(ƒ(x•#) x · 10).y', '40'],
+    ['ƒ g(f•ƒ(x•#)#) (h: f\n\th(3))\ng(ƒ(x•#) x · 10)', '[ƒ g() 30]'],
+    // The declared output is what the call is worth, or every type downstream is unknown.
+    ['ƒ g(f•ƒ(x•#)"") f(3).length()\ng(ƒ(x•#) "n\\x\\")', '[ƒ g() 2]'],
+    // A function may take fewer inputs than the type it satisfies, so the values the
+    // call pushed can outnumber the ones the function binds. Counting the pops off the
+    // function instead left the rest on the stack, where the next expression read them:
+    // this list came back as [2 7 99].
+    ['ƒ g(f•ƒ(x•#)#) [f(1) f(2) 99]\ng(ƒ() 7)', '[ƒ g() [7 7 99]]'],
+])('%s evaluates to %s', (code, value) => {
+    expect(conflictsIn(code)).toEqual([]);
+    expect(evaluateCode(code)?.toString()).toBe(value);
 });

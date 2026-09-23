@@ -914,12 +914,20 @@ test('resolving a color needs no basis', () => {
 // to absorb without a file count moving — and the alternative to writing the
 // reason down is an exemption nobody can review.
 
+// Calling a function value is **+0 files** and moves two byte budgets by a
+// hundredth. A function-typed input could not be called — `Evaluate` asked the
+// callee's type for a definition, and a type that was written down rather than
+// inferred has none — so the bytes are `getFunctionType`/`getExpectedInputs` in
+// `Evaluate.ts` and the pushed-value count `StartEvaluation` now carries, in two
+// files every page already reaches. Only the two entries with less than a
+// hundredth of headroom moved.
+
 test.each([
-    ['src/routes/+layout.svelte', 535, 4.09],
+    ['src/routes/+layout.svelte', 535, 4.1],
     ['src/components/app/Page.svelte', 559, 4.35],
     ['src/routes/[[locale]]/+page.svelte', 574, 4.44],
     ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.45],
-    ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.48],
+    ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.49],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

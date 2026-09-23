@@ -444,11 +444,8 @@ export default class Evaluate extends Expression {
      * conflict detection, compilation, and autocomplete.
      * */
     getInputMapping(context: Context): InputMapping | undefined {
-        const fun = this.getFunction(context);
-        if (fun === undefined) return undefined;
-
-        // Get the expected inputs, unless there are parsing errors..
-        const expectedInputs = fun.inputs;
+        const expectedInputs = this.getExpectedInputs(context);
+        if (expectedInputs === undefined) return undefined;
 
         // Get the given inputs.
         const givenInputs = this.inputs.slice();
@@ -650,7 +647,15 @@ export default class Evaluate extends Expression {
                 this.fun instanceof PropertyReference
                     ? this.fun.structure
                     : this.fun;
-            if (!context.isUnknownDownstream(functionOrTarget))
+            // A written-down function type names no definition, so there is nothing here
+            // to check the call against — but it is a function, and saying otherwise
+            // reported "expected a function, given a function" on correct code. A bad
+            // argument or a missing one still halts from `compile`, which reads the same
+            // binds this does.
+            if (
+                this.getFunctionType(context) === undefined &&
+                !context.isUnknownDownstream(functionOrTarget)
+            )
                 conflicts.push(
                     new IncompatibleInput(
                         this.fun instanceof PropertyReference
@@ -897,6 +902,23 @@ export default class Evaluate extends Expression {
                 : undefined;
     }
 
+    /** The callee's type when it names no definition, which is every function type that
+     *  was written down rather than inferred — `parseType` sets no definition, and a
+     *  declared type wins over a value's in `Bind.computeType`, so a function-typed input
+     *  has only this. Its binds carry the names, types and defaults a call needs. */
+    getFunctionType(context: Context): FunctionType | undefined {
+        const type = this.fun.getType(context);
+        return type instanceof FunctionType && type.definition === undefined
+            ? type
+            : undefined;
+    }
+
+    /** The inputs this call is mapped and compiled against, from whichever it has. */
+    getExpectedInputs(context: Context): Bind[] | undefined {
+        return (this.getFunction(context) ?? this.getFunctionType(context))
+            ?.inputs;
+    }
+
     is(def: StructureDefinition | StreamDefinition, context: Context) {
         return this.getFunction(context) === def;
     }
@@ -978,6 +1000,10 @@ export default class Evaluate extends Expression {
             // isStreamExpression), which survives the transforms a type node doesn't.
             return output;
         }
+        // A call through a written-down function type is worth what that type says it
+        // outputs. Without this the type is unknown and poisons everything downstream.
+        const type = this.getFunctionType(context);
+        if (type !== undefined) return type.output.concretize(context);
         // Otherwise, who knows.
         else return new NonFunctionType(this.fun, this.fun.getType(context));
     }
@@ -1004,7 +1030,7 @@ export default class Evaluate extends Expression {
         // To compile an evaluate, we need to compile all of the given and default values in
         // order of the function's declaration. This requires getting the function/structure definition
         // and finding an expression to compile for each input.
-        const fun = this.getFunction(context);
+        const fun = this.getFunction(context) ?? this.getFunctionType(context);
 
         // Get the mapping from expected to given.
         const mapping = this.getInputMapping(context);
@@ -1114,12 +1140,28 @@ export default class Evaluate extends Expression {
             new Start(this),
             ...inputSteps.reduce((steps: Step[], s) => [...steps, ...s], []),
             ...this.fun.compile(evaluator, context),
-            new StartEvaluation(this, isTailCall(this, context)),
+            new StartEvaluation(
+                this,
+                isTailCall(this, context),
+                // Only when there's no definition to count from; otherwise the
+                // definition and these steps were built from the same binds.
+                this.getFunction(context) === undefined
+                    ? mapping.inputs.reduce(
+                          (total, { expected, given }) =>
+                              total +
+                              (Array.isArray(given) &&
+                              expected.isVariableLength()
+                                  ? given.length
+                                  : 1),
+                          0,
+                      )
+                    : undefined,
+            ),
             new Finish(this),
         ];
     }
 
-    startEvaluation(evaluator: Evaluator, tail = false) {
+    startEvaluation(evaluator: Evaluator, tail = false, pushed?: number) {
         // Get the function off the stack and bail if it's not a function.
         const definitionValue = evaluator.popValue(this);
         if (!(
@@ -1136,11 +1178,13 @@ export default class Evaluate extends Expression {
 
         // Pop as many values as the definition allows, or the number of inputs provided if there's a variable input.
         // This accounts for variable length arguments.
-        const count = definitionValue.definition.inputs.some((input) =>
-            input.isVariableLength(),
-        )
-            ? this.inputs.length
-            : definitionValue.definition.inputs.length;
+        const count =
+            pushed ??
+            (definitionValue.definition.inputs.some((input) =>
+                input.isVariableLength(),
+            )
+                ? this.inputs.length
+                : definitionValue.definition.inputs.length);
 
         // Get all the values off the stack, getting as many as is defined.
         const values = [];

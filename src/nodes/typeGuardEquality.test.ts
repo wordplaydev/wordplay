@@ -149,3 +149,21 @@ test('a name for a literal collection has its length', () => {
         conflictsIn(`ƒ f(g•[#]: [1 2 3]) ((5 % g.length()) + 1)\nf([])`),
     ).not.toEqual([]);
 });
+
+/**
+ * Narrowing a union whose arm is a function type was never the thing that was broken —
+ * equality on a function value was (a function type reached neither the universal `=`
+ * nor `SimpleValue.resolve`). Pinned separately from that fix so a future narrowing
+ * regression is told apart from a future equality one.
+ */
+test('a function arm narrows like any other', () => {
+    expect(branchTypes(`ƒ g(f•ø|ƒ(x•#)#: ø) f = ø ? f f`)).toEqual([
+        'ø',
+        'ƒ(x•#)#',
+    ]);
+    expect(
+        conflictsIn(
+            `ƒ g(xs•[#] f•ø|ƒ(x•#)#: ø) f = ø ? [] xs.translate(f)\ng([1 2 3] ƒ(x•#) x · 10)`,
+        ),
+    ).toEqual([]);
+});
