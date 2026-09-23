@@ -52,6 +52,16 @@ export class Basis {
     readonly languages: LanguageCode[];
     readonly shares: ReturnType<typeof createDefaultShares>;
 
+    /**
+     * Dependency edges inside a basis definition's body, by definition.
+     *
+     * Cached here rather than on a project because a basis is shared by every project
+     * using its locales, and `getDependencies` over these nodes means type inference
+     * across the basis — which cost half again as much analysis time when each project
+     * paid it. See `Project.analyzeCalleeDependencies`.
+     */
+    readonly calleeDependencies = new Map<Node, [Expression, Expression][]>();
+
     readonly functionsByType = new Map<
         BasisTypeName,
         Map<string, FunctionDefinition>

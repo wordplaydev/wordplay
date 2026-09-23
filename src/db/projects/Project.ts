@@ -19,6 +19,8 @@ import type Definition from '@nodes/Definition';
 import Doc from '@nodes/Doc';
 import Evaluate from '@nodes/Evaluate';
 import Expression from '@nodes/Expression';
+import Bind from '@nodes/Bind';
+import Block from '@nodes/Block';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import Name from '@nodes/Name';
 import Node from '@nodes/Node';
@@ -289,6 +291,11 @@ export default class Project {
 
     /** A cache of constants */
     readonly constants: Map<Expression, boolean> = new Map();
+
+    /** Definitions this analysis has already considered for {@link analyzeCalleeDependencies},
+     *  including the ones it declined because they live in this project's own sources. */
+    readonly calleesAnalyzed: Set<FunctionDefinition | StructureDefinition> =
+        new Set();
 
     /** An index of each source in the project */
     readonly roots: Root[];
@@ -780,10 +787,12 @@ export default class Project {
             if (
                 fun instanceof FunctionDefinition ||
                 fun instanceof StructureDefinition
-            )
+            ) {
                 for (const input of fun.inputs)
                     for (const evaluate of evaluates)
                         analysis.dependencies.add(evaluate, input);
+                this.analyzeCalleeDependencies(fun, analysis.dependencies);
+            }
         partial.dependencies = analysis.dependencies;
 
         // Phase C: conflicts, which may read either graph above.
@@ -850,6 +859,75 @@ export default class Project {
             if (node instanceof Expression)
                 for (const dependency of node.getDependencies(context))
                     share.dependencies.add(dependency, node);
+    }
+
+    /**
+     * The edges inside a definition a project calls but does not contain.
+     *
+     * `analyzeSourceDependencies` walks `source.nodes()`, so a definition living in the
+     * basis or a borrowed kit never gets any — and the call edge above only reaches its
+     * input binds, not the body that reads them. With nothing in the body marked as
+     * depending on a stream, `Start.shouldSkip` treats every expression in it as
+     * unaffected and reuses the value it computed the first time: a basis structure's
+     * block bind was evaluated once, against the stream's opening value, and never again.
+     *
+     * Only definitions the project actually calls, and each only once per analysis, since
+     * a basis is shared by every project using its locales.
+     */
+    private analyzeCalleeDependencies(
+        fun: FunctionDefinition | StructureDefinition,
+        dependencies: DependencyGraph,
+    ) {
+        // A definition in one of this project's own sources already has these.
+        if (this.calleesAnalyzed.has(fun)) return;
+        this.calleesAnalyzed.add(fun);
+        // A definition in a source the walk above covered already has these edges. That is
+        // `getSources()` — main and its supplements — and deliberately not `getSourceOf`,
+        // which also looks in a borrowed kit's sources. Those are in `roots` but never
+        // walked, so a kit's definitions need these edges exactly as the basis's do.
+        if (this.getSources().some((source) => source.root.has(fun))) return;
+        // Cached on the basis, which is shared by every project using its locales: walking
+        // these nodes means type inference across the basis, which is far too expensive to
+        // repeat per project on every analysis. A kit's definitions aren't in the basis and
+        // so are computed per project, which is where they live anyway.
+        let edges = this.basis.calleeDependencies.get(fun);
+        if (edges === undefined) {
+            edges = [];
+            const context = this.getNodeContext(fun);
+            // Its body alone. Not `fun.nodes()`, most of which is docs, names and type
+            // annotations; and not its inputs' defaults, which in the basis are literals
+            // that `Start.shouldSkip` already answers for by being constant. A basis
+            // function's body is internal and never skipped, so it needs no edges either.
+            const body = fun.expression;
+            // Exactly what a call evaluates, which is what `getEvaluationSteps` compiles:
+            // its block's non-static statements. A static member is evaluated once when
+            // the definition is created, so it can never be stale for an instance — and
+            // skipping them is most of the saving, since `Color`'s eleven basic colors
+            // are the largest body in the basis. A basis function's body is internal and
+            // never skipped, so it needs no edges at all.
+            const roots =
+                body instanceof Block
+                    ? body.statements.filter(
+                          (statement) =>
+                              !(
+                                  (statement instanceof Bind ||
+                                      statement instanceof
+                                          FunctionDefinition) &&
+                                  statement.isStatic(context)
+                              ),
+                      )
+                    : body instanceof Expression && !body.isInternal()
+                      ? [body]
+                      : [];
+            for (const root of roots)
+                for (const node of root.nodes())
+                    if (node instanceof Expression)
+                        for (const dependency of node.getDependencies(context))
+                            edges.push([dependency, node]);
+            this.basis.calleeDependencies.set(fun, edges);
+        }
+        for (const [dependency, node] of edges)
+            dependencies.add(dependency, node);
     }
 
     /** Phase C for one source: its conflicts, and the nodes they point at. */

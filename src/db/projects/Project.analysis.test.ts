@@ -2,6 +2,8 @@ import { conflictsIn } from '@conflicts/TestUtilities';
 import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import FunctionDefinition from '@nodes/FunctionDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
+import { dependencyKey } from '@nodes/Borrow';
 import Source from '@nodes/Source';
 import { must } from '@util/nullable';
 import fs from 'fs';
@@ -225,5 +227,79 @@ describe('an analysis nobody ran is not an analysis', () => {
         expect(p.getConflictedNodes()).toBeUndefined();
         expect(p.analyze().conflicts.length).toBeGreaterThan(0);
         expect(p.getConflicts()).toBeDefined();
+    });
+});
+
+/**
+ * A definition a project calls but doesn't contain.
+ *
+ * `analyzeSourceDependencies` walks `getSources()` — main and its supplements — so
+ * nothing inside the basis, or inside a borrowed kit, ever got an edge. The call graph
+ * reaches a definition's input binds but never the body that reads them, so with nothing
+ * in the body marked as depending on a stream, `Start.shouldSkip` treated every
+ * expression in it as unaffected and reused the value it computed the first time.
+ */
+describe('a called definition outside the walked sources', () => {
+    /** A project borrowing a kit, built without touching the network. */
+    function withKit(code: string, kitCode: string) {
+        const kit = new Source('lib', kitCode);
+        return Project.make(
+            null,
+            'test',
+            new Source('main', code),
+            [],
+            DefaultLocale,
+        ).withDependencies(
+            new Map([
+                [
+                    dependencyKey({ username: 'amy', name: 'lib' }, 1),
+                    {
+                        status: 'loaded' as const,
+                        source: kit,
+                        kit: 'kit-id',
+                        version: 1,
+                    },
+                ],
+            ]),
+        );
+    }
+
+    test("a kit's body depends on its own inputs", () => {
+        const p = withKit(
+            '↓ @amy/lib 1\nK(1).twice',
+            '↑ •K(n•#) (\n\ttwice: n · 2\n)\n1',
+        );
+        p.analyze();
+        const definition = Array.from(p.getDependencySources())
+            .flatMap((source) => Array.from(source.nodes()))
+            .find(
+                (n): n is StructureDefinition =>
+                    n instanceof StructureDefinition,
+            );
+        expect(definition).toBeDefined();
+        if (definition === undefined) return;
+
+        const input = must(definition.inputs[0], "the kit structure's input");
+        const body = must(definition.expression, "the kit structure's body");
+        const inBody = new Set(body.nodes());
+        expect(
+            [...p.getExpressionsAffectedBy(input)].some((expression) =>
+                inBody.has(expression),
+            ),
+        ).toBe(true);
+    });
+
+    test("a definition in the project's own sources is left to the source walk", () => {
+        // Its edges already exist, and adding them again would be work per analysis for
+        // every function a program calls.
+        const source = new Source('main', `ƒ f(x•#) x + 1\nf(1)`);
+        const p = Project.make(null, 'test', source, [], DefaultLocale);
+        p.analyze();
+        const fun = Array.from(source.nodes()).find(
+            (n): n is FunctionDefinition => n instanceof FunctionDefinition,
+        );
+        expect(fun).toBeDefined();
+        if (fun !== undefined)
+            expect(p.basis.calleeDependencies.has(fun)).toBe(false);
     });
 });
