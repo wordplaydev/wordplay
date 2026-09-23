@@ -4,6 +4,21 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.38.0 - 2026-09-22
+
+### Added
+
+- 🖼️ We added @Image, which draws a list of colors as one picture, and can draw each color as a letter or emoji instead. (#471)
+
+### Changed
+
+- ⚡ The Video example in the [galleries](https://wordplay.dev/galleries) now draws the camera with @Image, so it keeps up instead of stalling.
+
+### Fixed
+
+- 🚦 A function given to another function can now be called and compared, instead of stopping the program with a confusing error. (#1425)
+- 🐛 A structure that gets a value from a stream, like a @Camera, now changes with the stream instead of keeping the first thing it saw. (#1427)
+
 ## 0.37.3 - 2026-09-20
 
 ### Added
