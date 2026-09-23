@@ -151,7 +151,7 @@
                     "tip": "$~ಯೋಜನೆಯನ್ನು ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ಪಠ್ಯವಾಗಿ ನಕಲಿಸಿ",
                     "label": "$~ಪಠ್ಯದಂತೆ ನಕಲಿಸಿ"
                 },
-                "addSource": "$~ಇನ್ನೊಂದು @Source ರಚಿಸಿ, ಇದರಿಂದ ದತ್ತಾಂಶ ಅಥವಾ ಹಂಚಿಕೊಂಡ ಕೋಡ್ ಅನ್ನು ಅದರದೇ ಪ್ರತ್ಯೇಕ ಕಡತದಲ್ಲಿ ಇಡಬಹುದು",
+                "addSource": "$!ಇನ್ನೊಂದು @Source ರಚಿಸಿ, ಇದರಿಂದ ದತ್ತಾಂಶ ಅಥವಾ ಹಂಚಿಕೊಂಡ ಕೋಡ್ ಅನ್ನು ಅದರದೇ ಪ್ರತ್ಯೇಕ ಕಡತದಲ್ಲಿ ಇಡಬಹುದು",
                 "revert": "$~ಮೂಲ ಕೋಡ್‌ಗೆ ಹಿಂತಿರುಗಿ",
                 "focusOutput": "$~ಕೀಬೋರ್ಡ್ ಅನ್ನು ವೇದಿಕೆಯ ಮೇಲೆ ಕೇಂದ್ರೀಕರಿಸಿ",
                 "focusSource": "$~ಮುಂದಿನ ಮೂಲದ ಮೇಲೆ ಕೇಂದ್ರೀಕರಿಸಿ",
@@ -269,7 +269,7 @@
                 "controls": "$~ನೀವು ಯಾವುದೇ ಟೈಲ್‌ನಲ್ಲಿ ಕೆಲಸ ಮಾಡುತ್ತಿದ್ದರೂ, ಕೆಳಭಾಗದಲ್ಲಿರುವ ಈ /ನಿಯಂತ್ರಣಗಳು/ *ಇಡೀ ಯೋಜನೆಗೆ* ಅನ್ವಯಿಸುತ್ತವೆ.",
                 "name": "$~/name/ ಎಂಬ ಕ್ಷೇತ್ರವು ನಿಮ್ಮ ಯೋಜನೆಯ ಹೆಸರು. ಹೆಸರುಗಳು *ಯೋಜನೆ* ಮತ್ತು *ಸಂಗ್ರಹಾಲಯ* ನೋಟಗಳಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳುತ್ತವೆ.",
                 "sourceToggle": "$~ಇದು /toggle/ *ಮೂಲ ಫೈಲ್* ಅನ್ನು ತೋರಿಸುತ್ತದೆ ಅಥವಾ ಮರೆಮಾಡುತ್ತದೆ. ಈ ಸಾಲಿನಲ್ಲಿರುವ *ಇತರ ಟಾಗಲ್‌ಗಳು* ಇತರ ಟೈಲ್‌ಗಳಿಗೂ ಅದೇ ರೀತಿ ಮಾಡುತ್ತವೆ.",
-                "addSource": "$~ಕೆಲವು ಯೋಜನೆಗಳು *ಬಹು* ಮೂಲ ಫೈಲ್‌ಗಳಿಂದ ಪ್ರಯೋಜನ ಪಡೆಯುತ್ತವೆ, ಅಲ್ಲಿ ಡೇಟಾವನ್ನು ಒಂದರಲ್ಲಿ ಸಂಗ್ರಹಿಸಲಾಗುತ್ತದೆ ಮತ್ತು *ಮುಖ್ಯ* ಮೂಲಕ್ಕೆ ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗುತ್ತದೆ. /ಮೂಲವನ್ನು ಸೇರಿಸಿ/ ಬಟನ್ ಹೊಸದನ್ನು ರಚಿಸುತ್ತದೆ.",
+                "addSource": "$!ಕೆಲವು ಯೋಜನೆಗಳು *ಬಹು* ಮೂಲ ಫೈಲ್‌ಗಳಿಂದ ಪ್ರಯೋಜನ ಪಡೆಯುತ್ತವೆ, ಅಲ್ಲಿ ಡೇಟಾವನ್ನು ಒಂದರಲ್ಲಿ ಸಂಗ್ರಹಿಸಲಾಗುತ್ತದೆ ಮತ್ತು *ಮುಖ್ಯ* ಮೂಲಕ್ಕೆ ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗುತ್ತದೆ. /ಮೂಲವನ್ನು ಸೇರಿಸಿ/ ಬಟನ್ ಹೊಸದನ್ನು ರಚಿಸುತ್ತದೆ.",
                 "share": "$~/share/ ಸಂವಾದವು ನಿಮ್ಮ ಪ್ರಾಜೆಕ್ಟ್ ಅನ್ನು *ಗ್ಯಾಲರಿಗಳೊಂದಿಗೆ*, *ಸಾರ್ವಜನಿಕರೊಂದಿಗೆ* ಹಂಚಿಕೊಳ್ಳಲು ಅಥವಾ ಬೇರೆಡೆ ಹಂಚಿಕೊಳ್ಳಲು *ಪಠ್ಯ*ವಾಗಿ ನಕಲಿಸಲು ಅನುಮತಿಸುತ್ತದೆ.",
                 "checkpoints": "$~/revisions/ ಫಲಕವು ನಿಮ್ಮ ಯೋಜನೆಯ ಹಿಂದಿನ ಆವೃತ್ತಿಗಳಿಗೆ *ಹಿಂತಿರುಗಿ* ಹೋಗಲು ಮತ್ತು ನೀವು ನೆನಪಿಟ್ಟುಕೊಳ್ಳಲು ಬಯಸುವ *ಸ್ನ್ಯಾಪ್‌ಶಾಟ್* ಆವೃತ್ತಿಗಳಿಗೆ ಹೋಗಲು ಅನುಮತಿಸುತ್ತದೆ.",
                 "languages": "$~/languages/ ಗುಂಡಿ ನಿಮ್ಮ ಯೋಜನೆ ಬರೆದಿರುವ ಭಾಷೆಗಳನ್ನು ತೋರಿಸುತ್ತದೆ, ಒಂದನ್ನು ಸೇರಿಸಲು ಅಥವಾ ತೆಗೆಯಲು ಅನುಮತಿಸುತ್ತದೆ, ಮತ್ತು ನಿಮ್ಮ ಯೋಜನೆಯ *ಹೆಸರುಗಳು*, *ಪಠ್ಯ* ಮತ್ತು *ದಸ್ತಾವೇಜೀಕರಣ*ವನ್ನು ಹೊಸ ಭಾಷೆಗೆ *ಅನುವಾದಿಸಬಹುದು*."
@@ -837,6 +837,58 @@
             "view": {
                 "added": "$~$name ನ ಎರಡನೇ ನೋಟವನ್ನು ಸೇರಿಸಲಾಗಿದೆ",
                 "closed": "$~$name ನ ಎರಡನೇ ನೋಟವನ್ನು ಮುಚ್ಚಲಾಗಿದೆ"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2220,7 +2272,8 @@
                     ]
                 },
                 "report": "$~ನಾನು ಆಮದು ಮಾಡಿಕೊಂಡದ್ದು",
-                "reportExplanation": "$~ಒಂದು MIDI ಫೈಲ್ ವಿವರಿಸುವ ಹೆಚ್ಚಿನದನ್ನು ಒಂದು @Music ಹಿಡಿದಿಟ್ಟುಕೊಳ್ಳಬಲ್ಲದು, ಆದರೆ ಎಲ್ಲವನ್ನೂ ಅಲ್ಲ. ಒಳಗೆ ಬರುವಾಗ ಏನು ಬದಲಾಯಿತು ಎಂಬುದು ಇಲ್ಲಿದೆ."
+                "reportExplanation": "$~ಒಂದು MIDI ಫೈಲ್ ವಿವರಿಸುವ ಹೆಚ್ಚಿನದನ್ನು ಒಂದು @Music ಹಿಡಿದಿಟ್ಟುಕೊಳ್ಳಬಲ್ಲದು, ಆದರೆ ಎಲ್ಲವನ್ನೂ ಅಲ್ಲ. ಒಳಗೆ ಬರುವಾಗ ಏನು ಬದಲಾಯಿತು ಎಂಬುದು ಇಲ್ಲಿದೆ.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~ಔಟ್‌ಪುಟ್ ಸೇರಿಸಿ",
@@ -2832,6 +2885,26 @@
             "notData": "$~ಇದು ಕಡತಕ್ಕೆ ಯೋಗ್ಯವಾದ ಬಗೆಯ ಮೌಲ್ಯವಲ್ಲ.",
             "droppedUnits": "$~ಘಟಕಗಳನ್ನು ಬಿಟ್ಟುಬಿಡಲಾಗಿದೆ: ಒಂದು JSON ಸಂಖ್ಯೆ ಘಟಕವನ್ನು ಹೊಂದಲಾಗುವುದಿಲ್ಲ.",
             "droppedNumbers": "$~ಅಂತ್ಯರಹಿತವಾದ ಸಂಖ್ಯೆಗಳನ್ನು ಬಿಟ್ಟುಬಿಡಲಾಗಿದೆ: JSON ಅವುಗಳನ್ನು ಬರೆಯಲಾಗುವುದಿಲ್ಲ."
+        },
+        "image": {
+            "button": {
+                "label": "$~ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+                "tip": "$~ಈ ಸಾಧನದಿಂದ ಚಿತ್ರದ ಕಡತವೊಂದನ್ನು ಆರಿಸಿ"
+            },
+            "crop": {
+                "label": "$~ಕ್ರಾಪ್ ಪೆಟ್ಟಿಗೆ",
+                "tip": "$!ಇಟ್ಟುಕೊಳ್ಳಬೇಕಾದ ಚಿತ್ರದ ಚೌಕ"
+            },
+            "preview": "$~ಏನು ಸೇರಿಸಲಾಗುವುದು",
+            "feedback": {
+                "tooBig": "$~ಆ ಚಿತ್ರ $size MB ಗಾತ್ರದ್ದಾಗಿದೆ. ದಯವಿಟ್ಟು $limit MB ಗಿಂತ ಚಿಕ್ಕದಾದ ಚಿತ್ರವನ್ನು ಆರಿಸಿ.",
+                "unreadable": "$~ಆ ಕಡತವನ್ನು ನಾವು ಚಿತ್ರವಾಗಿ ಓದಲು ಆಗಲಿಲ್ಲ."
+            },
+            "announce": {
+                "cropped": "$~ಕ್ರಾಪ್ ಪೆಟ್ಟಿಗೆ $x $y ನಲ್ಲಿ",
+                "moving": "$~ಕ್ರಾಪ್ ಪೆಟ್ಟಿಗೆಯನ್ನು ಸರಿಸುತ್ತಿದೆ",
+                "done": "$~ಕ್ರಾಪ್ ಪೆಟ್ಟಿಗೆ ಇರಿಸಲಾಗಿದೆ"
+            }
         }
     }
 }

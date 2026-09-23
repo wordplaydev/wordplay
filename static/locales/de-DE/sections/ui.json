@@ -144,7 +144,7 @@
                     "tip": "$~Projekt als Text in die Zwischenablage kopieren",
                     "label": "$~als Text kopieren"
                 },
-                "addSource": "$~eine weitere @Source erstellen, damit du Daten oder geteilten Code in einer eigenen Datei aufbewahren kannst",
+                "addSource": "$!eine weitere @Source erstellen, damit du Daten oder geteilten Code in einer eigenen Datei aufbewahren kannst",
                 "revert": "$~zum Originalcode zurückkehren",
                 "focusOutput": "$~Fokus Tastatur auf der Bühne",
                 "focusSource": "$~Konzentrieren Sie sich auf die nächste Quelle",
@@ -269,7 +269,7 @@
                 "controls": "$~Diese /Steuerelemente/ am unteren Rand gelten für das *Projekt als Ganzes*, unabhängig davon, in welchem Bereich Sie gerade arbeiten.",
                 "name": "$~Das Feld /name/ ist der Name deines Projekts. Namen erscheinen in den Ansichten *Projekt* und *Galerie*.",
                 "sourceToggle": "$~Dieser Schalter blendet die *Quelldatei* ein oder aus. Die *anderen Schalter* in dieser Zeile bewirken dasselbe für die anderen Kacheln.",
-                "addSource": "$~Manche Projekte profitieren von *mehreren* Quelldateien, in denen die Daten in einer Datei gespeichert und in die *Hauptquelldatei* importiert werden. Mit der Schaltfläche „Quelle hinzufügen“ wird eine neue Quelldatei erstellt.",
+                "addSource": "$!Manche Projekte profitieren von *mehreren* Quelldateien, in denen die Daten in einer Datei gespeichert und in die *Hauptquelldatei* importiert werden. Mit der Schaltfläche „Quelle hinzufügen“ wird eine neue Quelldatei erstellt.",
                 "share": "$~Über den Dialog „Teilen“ können Sie Ihr Projekt mit *Galerien*, mit der *Öffentlichkeit* teilen oder es als *Text* kopieren, um es an anderer Stelle zu teilen.",
                 "checkpoints": "$~Über das Panel /revisions/ können Sie zu früheren Versionen Ihres Projekts zurückkehren und Momentaufnahmen von Versionen erstellen, die Sie sich merken möchten.",
                 "languages": "$~Die Schaltfläche /Sprachen/ zeigt, in welchen Sprachen dein Projekt geschrieben ist, lässt dich eine hinzufügen oder entfernen und kann die *Namen*, den *Text* und die *Dokumentation* deines Projekts in eine neue Sprache *übersetzen*."
@@ -605,6 +605,58 @@
             "view": {
                 "added": "$~eine zweite Ansicht von $name hinzugefügt",
                 "closed": "$~die zweite Ansicht von $name geschlossen"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -1854,7 +1906,8 @@
                     ]
                 },
                 "report": "$~Was ich importiert habe",
-                "reportExplanation": "$~Ein @Music kann das meiste von dem festhalten, was eine MIDI-Datei beschreibt, aber nicht alles. Hier ist, was sich beim Einlesen geändert hat."
+                "reportExplanation": "$~Ein @Music kann das meiste von dem festhalten, was eine MIDI-Datei beschreibt, aber nicht alles. Hier ist, was sich beim Einlesen geändert hat.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~Ausgabe hinzufügen",
@@ -2836,6 +2889,26 @@
             "notData": "$~Das ist keine Art von Wert, die eine Datei wert ist.",
             "droppedUnits": "$~Einheiten wurden weggelassen: Eine JSON-Zahl kann keine Einheit tragen.",
             "droppedNumbers": "$~Zahlen, die nicht endlich sind, wurden weggelassen: JSON kann sie nicht schreiben."
+        },
+        "image": {
+            "button": {
+                "label": "$~hochladen",
+                "tip": "$~eine Bilddatei von diesem Gerät auswählen"
+            },
+            "crop": {
+                "label": "$~Zuschneiderahmen",
+                "tip": "$!das Quadrat des Bildes, das behalten werden soll"
+            },
+            "preview": "$~was hinzugefügt wird",
+            "feedback": {
+                "tooBig": "$~Dieses Bild ist $size MB groß. Bitte wähle eins, das kleiner als $limit MB ist.",
+                "unreadable": "$~Wir konnten diese Datei nicht als Bild lesen."
+            },
+            "announce": {
+                "cropped": "$~Zuschneiderahmen bei $x $y",
+                "moving": "$~Zuschneiderahmen wird bewegt",
+                "done": "$~Zuschneiderahmen platziert"
+            }
         }
     }
 }

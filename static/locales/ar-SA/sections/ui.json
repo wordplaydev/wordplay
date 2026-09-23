@@ -151,7 +151,7 @@
                     "tip": "$~نسخ المشروع إلى الحافظة كنص",
                     "label": "$~نسخ كنص"
                 },
-                "addSource": "$~أنشئ @Source آخر، حتى تحتفظ بالبيانات أو الكود المشترك في ملفه الخاص",
+                "addSource": "$!أنشئ @Source آخر، حتى تحتفظ بالبيانات أو الكود المشترك في ملفه الخاص",
                 "revert": "$~العودة إلى الكود الأصلي",
                 "focusOutput": "$~توجيه لوحة المفاتيح إلى المسرح",
                 "focusSource": "$~الانتقال إلى المصدر التالي",
@@ -269,7 +269,7 @@
                 "controls": "$~هذه /عناصر التحكم/ في الأسفل تُطبَّق على *المشروع ككل*، بغض النظر عن البلاطة التي تعمل عليها.",
                 "name": "$~حقل /name/ هو اسم مشروعك. تظهر الأسماء في عرض *المشروع* و*المعرض*.",
                 "sourceToggle": "$~هذا /المفتاح/ يُظهر أو يُخفي *ملف المصدر*. *المفاتيح الأخرى* في هذا الصف تفعل الشيء نفسه للبلاطات الأخرى.",
-                "addSource": "$~تستفيد بعض المشاريع من *عدة* ملفات مصدر، حيث تُخزَّن البيانات في ملف وتُستورد إلى المصدر *الرئيسي*. زر /إضافة مصدر/ يُنشئ ملفاً جديداً.",
+                "addSource": "$!تستفيد بعض المشاريع من *عدة* ملفات مصدر، حيث تُخزَّن البيانات في ملف وتُستورد إلى المصدر *الرئيسي*. زر /إضافة مصدر/ يُنشئ ملفاً جديداً.",
                 "share": "$~يتيح لك مربع حوار /المشاركة/ مشاركة مشروعك مع *المعارض*، أو مع *الجمهور*، أو نسخه كـ *نص* لمشاركته في مكان آخر.",
                 "checkpoints": "$~تتيح لك لوحة /المراجعات/ العودة *إلى الوراء* إلى إصدارات سابقة من مشروعك، و*حفظ لقطة* للإصدارات التي تريد تذكرها.",
                 "languages": "$~زر /اللغات/ يُظهر أي لغات كُتب بها مشروعك، ويسمح لك بإضافة لغة أو حذفها، ويمكنه *ترجمة* *أسماء* مشروعك و*نصه* و*توثيقه* إلى لغة جديدة."
@@ -837,6 +837,58 @@
             "view": {
                 "added": "$~أُضيف عرض ثانٍ لـ $name",
                 "closed": "$~أُغلق العرض الثاني لـ $name"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2209,7 +2261,8 @@
                     ]
                 },
                 "report": "$~ما الذي استوردته",
-                "reportExplanation": "$~يمكن لـ @Music أن يحمل معظم ما يصفه ملف MIDI، لكن ليس كل شيء. إليك ما تغيّر أثناء الاستيراد."
+                "reportExplanation": "$~يمكن لـ @Music أن يحمل معظم ما يصفه ملف MIDI، لكن ليس كل شيء. إليك ما تغيّر أثناء الاستيراد.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~إضافة مُخرَج",
@@ -2821,6 +2874,26 @@
             "notData": "$~هذه ليست من نوع القيم التي تستحق ملفًا.",
             "droppedUnits": "$~تم تجاهل الوحدات: فرقم JSON لا يمكنه حمل وحدة.",
             "droppedNumbers": "$~تم تجاهل الأرقام غير المنتهية: فصيغة JSON لا تستطيع كتابتها."
+        },
+        "image": {
+            "button": {
+                "label": "$~رفع",
+                "tip": "$~اختر ملف صورة من هذا الجهاز"
+            },
+            "crop": {
+                "label": "$~صندوق القص",
+                "tip": "$!مربع الصورة المراد الاحتفاظ به"
+            },
+            "preview": "$~ما الذي سيُضاف",
+            "feedback": {
+                "tooBig": "$~حجم هذه الصورة $size ميغابايت. من فضلك اختر صورة أصغر من $limit ميغابايت.",
+                "unreadable": "$~لم نستطع قراءة هذا الملف كصورة."
+            },
+            "announce": {
+                "cropped": "$~صندوق القص عند $x $y",
+                "moving": "$~تحريك صندوق القص",
+                "done": "$~تم وضع صندوق القص"
+            }
         }
     }
 }

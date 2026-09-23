@@ -934,12 +934,17 @@ test('resolving a color needs no basis', () => {
 // files every page already reaches. Only the two entries with less than a
 // hundredth of headroom moved.
 
+// The add-source dialog (#559, #560) is **+0 files** and moves one byte budget by a
+// hundredth. Nothing it imports lands on a page graph — a camera, a raster sampler and
+// an image decoder are reached only from `ProjectView`, which no audited entry carries.
+// The bytes are its strings in en-US.json, which `DefaultLocale` puts on every graph.
+
 test.each([
     ['src/routes/+layout.svelte', 535, 4.1],
     ['src/components/app/Page.svelte', 559, 4.36],
     ['src/routes/[[locale]]/+page.svelte', 574, 4.45],
     ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.46],
-    ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.49],
+    ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.5],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

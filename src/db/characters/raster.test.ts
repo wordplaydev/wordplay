@@ -8,6 +8,7 @@ import {
     clampCrop,
     MinimumAlpha,
     pixelsFromRGBA,
+    sampleSize,
     withPixelLayer,
 } from '@db/characters/raster';
 import { must } from '@util/nullable';
@@ -199,4 +200,18 @@ describe('withPixelLayer', () => {
         withPixelLayer(shapes, [pixel(7)]);
         expect(shapes).toEqual([drawnPath, pixel(0)]);
     });
+});
+
+test.each([
+    ['a wide picture keeps its shape', 400, 200, 32, 32, 16],
+    ['a tall one too', 200, 400, 32, 16, 32],
+    ['a square one is square', 300, 300, 24, 24, 24],
+    // A very wide crop would otherwise sample to no rows at all.
+    ['nothing samples to nothing', 1000, 5, 32, 32, 1],
+    // Upsampling writes copies of what is already there, at a cost the creator pays
+    // in numbers to scroll past.
+    ['a tiny picture is not blown up', 4, 4, 32, 4, 4],
+    ['and keeps its shape while not being', 8, 4, 32, 8, 4],
+])('%s', (_, w, h, resolution, columns, rows) => {
+    expect(sampleSize(w, h, resolution)).toEqual({ columns, rows });
 });

@@ -1,6 +1,6 @@
 import type { SupportedFace } from '@basis/faces/Fonts';
 import type { TileKind } from '@components/project/TileKind';
-import type { FormattedText, Template } from '@locale/LocaleText';
+import type { FormattedText, NameText, Template } from '@locale/LocaleText';
 
 import type DocumentationText from '@components/concepts/DocumentationText';
 import type CheckpointsText from '@components/project/CheckpointsText';
@@ -648,6 +648,60 @@ type UITexts = {
         label: string;
         /** [plain] The label for the code editor toolbar */
         title: string;
+        /** The dialog that makes a new source file — from nothing, or from
+         *  something a creator already has. One dialog, so there is exactly one
+         *  place in the app that turns data into code. */
+        add: {
+            /** [plain] The dialog's header */
+            header: string;
+            /** [formatted] What the dialog is for */
+            explanation: FormattedText;
+            /** The ways of making a source: empty, a picture, the camera, a song */
+            ways: ModeText<[string, string, string, string]>;
+            blank: {
+                /** [formatted] What an empty source file is for */
+                explanation: FormattedText;
+                /** The button that makes an empty source */
+                button: ButtonText;
+            };
+            /** Turning a picture into a source of colors (#559, #560) */
+            picture: {
+                /** [name] What the new source file is called. A name a creator
+                 *  could type, and deliberately not the locale's word for the
+                 *  `Color` type — a source of that name shadows the type it holds. */
+                name: NameText;
+                /** [formatted] How to choose the part of the picture to keep and how many colors it becomes */
+                instructions: FormattedText;
+                /** [plain] Labels for the slider choosing how many colors across the picture becomes */
+                size: { label: string; tip: string };
+                /** [plain] How big the source will be: $columns by $rows colors, $size kilobytes, $percent of what a project may hold */
+                budget: Template<['columns', 'rows', 'size', 'percent']>;
+                /** [plain] Shown beside a size too big for what is left of this project */
+                tooBig: string;
+                /** The button that adds the colors as a source file */
+                button: ButtonText;
+                /** [plain] The doc written at the top of the new source. $name is the picture's file name, $columns and $rows its size in colors. */
+                doc: Template<['name', 'columns', 'rows']>;
+                /** [plain] The doc written at the top of the new source when the picture came from the camera. */
+                cameraDoc: Template<['columns', 'rows']>;
+                /** [plain] Announced once the colors are a source file. $name is what the source is called. */
+                added: Template<['name', '#count']>;
+            };
+            camera: {
+                /** [formatted] What this does, and that nothing is sent anywhere */
+                instructions: FormattedText;
+                /** [plain] The ARIA label for the live camera picture */
+                feed: string;
+                /** The button that keeps the picture showing right now */
+                capture: ButtonText;
+                /** The button that goes back to the live picture */
+                retake: ButtonText;
+                /** [plain] Shown while the camera is starting up */
+                starting: string;
+                /** [plain] Shown when the camera can't be used, usually because permission was refused */
+                denied: string;
+            };
+        };
         /** [formatted] The text to show when a source file is empty */
         empty: Template<['symbol']>[];
         confirm: {
@@ -1217,6 +1271,34 @@ type UITexts = {
         droppedUnits: string;
         /** [plain] Note shown when numbers that aren't finite became nothing */
         droppedNumbers: string;
+    };
+    /** Choosing a picture from the device and reducing it to a grid. Shared by the
+     *  character editor, which makes pixels of it, and adding a source of colors,
+     *  which makes code of it: the wording here must fit both, so anything that
+     *  names what the picture becomes belongs to the caller instead. */
+    image: {
+        /** The button that opens the device's file chooser */
+        button: ButtonText;
+        /** [plain] Name of the crop region and what it is for */
+        crop: { label: string; tip: string };
+        /** [plain] Name of the preview showing what the crop reduces to */
+        preview: string;
+        feedback: {
+            /** [formatted] When a chosen image is larger than we'll read. $size and $limit are both in megabytes. */
+            tooBig: Template<['size', 'limit']>;
+            /** [plain] When the browser can't decode the chosen file as an image */
+            unreadable: string;
+        };
+        /** A live region only speaks when its text changes, so where the box is rides
+         *  along: it is the only thing that differs between two consecutive moves. */
+        announce: {
+            /** [formatted] Where the crop box is now */
+            cropped: Template<['x', 'y']>;
+            /** [plain] When the crop box enters move mode */
+            moving: string;
+            /** [plain] When the crop box leaves move mode */
+            done: string;
+        };
     };
     output: {
         /** [plain] The ARIA label for the output section */
@@ -1850,7 +1932,9 @@ type UITexts = {
             noMicrophone: FormattedText;
             /** [formatted] Summarizes what was imported */
             imported: Template<['#count', 'notes']>;
-            /** [plain] The heading of the dialog reporting what an import kept and changed */
+            /** [plain] The button that opens the device's chooser for a MIDI file */
+            choose: string;
+            /** [plain] The heading of the section reporting what an import kept and changed */
             report: string;
             /** [formatted] Explains what the import report is for */
             reportExplanation: FormattedText;

@@ -9,15 +9,18 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 ### Added
 
 - 🖼️ We added @Image, which draws a list of colors as one picture, and can draw each color as a letter or emoji instead. (#471)
+- 📷 We added a way to make a file of colors out of a picture on your device or out of what your camera sees, by dropping a picture on your project or using the + button. (#559, #560)
 
 ### Changed
 
 - ⚡ The Video example in the [galleries](https://wordplay.dev/galleries) now draws the camera with @Image, so it keeps up instead of stalling.
+- 🎵 Importing a song now happens where you add every other kind of file, with the + button, instead of in the palette. (#559)
 
 ### Fixed
 
 - 🚦 A function given to another function can now be called and compared, instead of stopping the program with a confusing error. (#1425)
 - 🐛 A structure that gets a value from a stream, like a @Camera, now changes with the stream instead of keeping the first thing it saw. (#1427)
+- 🐛 A song you import now gets its own button in the project bar right away, instead of only after you reload the page.
 
 ## 0.37.3 - 2026-09-20
 

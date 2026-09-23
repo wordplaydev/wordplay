@@ -144,7 +144,7 @@
                     "tip": "$~프로젝트를 텍스트로 클립보드에 복사",
                     "label": "$~텍스트로 복사"
                 },
-                "addSource": "$~데이터나 공유 코드를 별도의 파일에 담아둘 수 있도록 또 다른 @Source 만들기",
+                "addSource": "$!데이터나 공유 코드를 별도의 파일에 담아둘 수 있도록 또 다른 @Source 만들기",
                 "revert": "$~원래 코드로 되돌리기",
                 "focusOutput": "$~무대에 키보드 집중",
                 "focusSource": "$~다음 소스에 집중하세요",
@@ -269,7 +269,7 @@
                 "controls": "$~아래쪽의 이러한 제어 설정은 어떤 타일에서 작업하든 상관없이 *프로젝트 전체*에 적용됩니다.",
                 "name": "$~/name/ 필드는 프로젝트의 이름입니다. 이름은 *프로젝트*와 *갤러리* 화면에 나타납니다.",
                 "sourceToggle": "$~이 토글 버튼은 *원본 파일*을 표시하거나 숨깁니다. 이 행의 *다른 토글 버튼*은 다른 타일에 대해 동일한 기능을 수행합니다.",
-                "addSource": "$~일부 프로젝트에서는 데이터를 하나의 소스 파일에 저장하고 이를 메인 소스 파일로 가져오는 방식으로 여러 개의 소스 파일을 사용하는 것이 유용합니다. '소스 추가' 버튼을 클릭하면 새 소스 파일이 생성됩니다.",
+                "addSource": "$!일부 프로젝트에서는 데이터를 하나의 소스 파일에 저장하고 이를 메인 소스 파일로 가져오는 방식으로 여러 개의 소스 파일을 사용하는 것이 유용합니다. '소스 추가' 버튼을 클릭하면 새 소스 파일이 생성됩니다.",
                 "share": "$~/공유/ 대화 상자를 사용하면 프로젝트를 갤러리, 일반 사용자와 공유하거나 텍스트 파일로 복사하여 다른 곳에서 공유할 수 있습니다.",
                 "checkpoints": "$~/수정 내역/ 패널을 사용하면 프로젝트의 이전 버전으로 *되돌아갈* 수 있고, 기억해 두고 싶은 버전을 *스냅샷*으로 저장할 수 있습니다.",
                 "languages": "$~/언어/ 단추는 여러분의 프로젝트가 어떤 언어로 쓰였는지 보여주고, 언어를 추가하거나 제거하게 해주며, 프로젝트의 *이름*, *텍스트*, *선적 서류 비치*를 새로운 언어로 *번역*할 수 있습니다."
@@ -600,6 +600,58 @@
             "view": {
                 "added": "$~$name 의 두 번째 보기가 추가됨",
                 "closed": "$~$name 의 두 번째 보기가 닫힘"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -1842,7 +1894,8 @@
                     ]
                 },
                 "report": "$~내가 가져온 것",
-                "reportExplanation": "$~@Music은 MIDI 파일이 설명하는 내용의 대부분을 담을 수 있지만, 전부는 아닙니다. 가져오는 과정에서 바뀐 내용은 다음과 같습니다."
+                "reportExplanation": "$~@Music은 MIDI 파일이 설명하는 내용의 대부분을 담을 수 있지만, 전부는 아닙니다. 가져오는 과정에서 바뀐 내용은 다음과 같습니다.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~출력 추가",
@@ -2821,6 +2874,26 @@
             "notData": "$~이 값은 파일로 저장할 만한 종류가 아닙니다.",
             "droppedUnits": "$~단위는 빠졌습니다. JSON 숫자는 단위를 담을 수 없습니다.",
             "droppedNumbers": "$~유한하지 않은 숫자는 빠졌습니다. JSON은 그런 숫자를 쓸 수 없습니다."
+        },
+        "image": {
+            "button": {
+                "label": "$~업로드",
+                "tip": "$~이 기기에서 이미지 파일 선택하기"
+            },
+            "crop": {
+                "label": "$~자르기 상자",
+                "tip": "$!남길 이미지의 네모 영역"
+            },
+            "preview": "$~추가될 내용",
+            "feedback": {
+                "tooBig": "$~이 이미지는 $size MB입니다. $limit MB보다 작은 이미지를 선택해 주세요.",
+                "unreadable": "$~그 파일을 이미지로 읽을 수 없었습니다."
+            },
+            "announce": {
+                "cropped": "$~자르기 상자 위치 $x $y",
+                "moving": "$~자르기 상자 이동하기",
+                "done": "$~자르기 상자 배치됨"
+            }
         }
     }
 }

@@ -1110,9 +1110,7 @@
                     "glyphLoading": "$~Hämtar typsnittet…",
                     "glyphMissing": "$~Det här typsnittet har ingen form för den symbolen. Prova ett annat typsnitt.",
                     "glyphEmpty": "$~Den symbolen har inget att rita.",
-                    "glyphUnreadable": "$~Vi kunde inte läsa det typsnittet. Kontrollera din anslutning, eller prova ett annat typsnitt.",
-                    "imageTooBig": "$~Den bilden är $size MB. Välj en som är mindre än $limit MB.",
-                    "imageUnreadable": "$~Vi kunde inte läsa den filen som en bild."
+                    "glyphUnreadable": "$~Vi kunde inte läsa det typsnittet. Kontrollera din anslutning, eller prova ett annat typsnitt."
                 },
                 "announce": {
                     "position": "$~för $x $y",
@@ -1137,9 +1135,6 @@
                     "arranged": "$~lager $index av $total",
                     "flipped": "$~vänd, nu vid $x $y",
                     "fitted": "$~förstorade formerna så de fyller ritytan",
-                    "cropped": "$~beskärningsruta vid $x $y",
-                    "cropMoving": "$~flyttar beskärningsrutan",
-                    "cropDone": "$~beskärningsruta placerad",
                     "imported": "$~lade till $#count[en pixel|$count pixlar] från $x $y"
                 },
                 "share": {
@@ -1180,19 +1175,10 @@
                 },
                 "image": {
                     "instructions": "$~Dra i rutan för att flytta den, eller använd *storlek*-skjutreglaget för att ändra hur mycket av bilden som ska behållas. Med tangentbordet: tryck på *enter* för att börja flytta, använd sedan *piltangenterna*, och tryck på *enter* igen när du är klar.",
-                    "button": {
-                        "label": "$~ladda upp",
-                        "tip": "$~välj en bildfil från den här enheten"
-                    },
                     "add": {
                         "label": "$~lägg till",
                         "tip": "$~lägg till den valda rutan till tecknet som pixlar"
                     },
-                    "crop": {
-                        "label": "$~beskärningsruta",
-                        "tip": "$~rutan av bilden som ska behållas"
-                    },
-                    "preview": "$~vad som kommer att läggas till",
                     "size": {
                         "label": "$~storlek",
                         "tip": "$~hur mycket av bilden som ska behållas"

@@ -151,7 +151,7 @@
                     "tip": "$~αντιγραφή έργου στο πρόχειρο ως κείμενο",
                     "label": "$~αντιγραφή ως κείμενο"
                 },
-                "addSource": "$~δημιούργησε άλλη @Source, ώστε να κρατάς δεδομένα ή κοινόχρηστο κώδικα στο δικό τους αρχείο",
+                "addSource": "$!δημιούργησε άλλη @Source, ώστε να κρατάς δεδομένα ή κοινόχρηστο κώδικα στο δικό τους αρχείο",
                 "revert": "$~επαναφορά στον αρχικό κώδικα",
                 "focusOutput": "$~εστίαση πληκτρολογίου στη σκηνή",
                 "focusSource": "$~επικεντρωθείτε στην επόμενη πηγή",
@@ -269,7 +269,7 @@
                 "controls": "$~Αυτά τα /controls/ στο κάτω μέρος ισχύουν για το *έργο ως σύνολο*, ανεξάρτητα από το πλακίδιο στο οποίο εργάζεστε.",
                 "name": "$~Το πεδίο /name/ είναι το όνομα του σχεδίου σου. Τα ονόματα εμφανίζονται στις προβολές *σχεδίου* και *συλλογής*.",
                 "sourceToggle": "$~Αυτό το /toggle/ εμφανίζει ή αποκρύπτει το *αρχείο προέλευσης*. Τα *άλλα toggle* σε αυτήν τη γραμμή κάνουν το ίδιο για τα άλλα πλακίδια.",
-                "addSource": "$~Ορισμένα έργα επωφελούνται από *πολλαπλά* αρχεία πηγής, όπου τα δεδομένα αποθηκεύονται σε ένα και εισάγονται στην *κύρια* πηγή. Το κουμπί /προσθήκη πηγής/ δημιουργεί ένα νέο.",
+                "addSource": "$!Ορισμένα έργα επωφελούνται από *πολλαπλά* αρχεία πηγής, όπου τα δεδομένα αποθηκεύονται σε ένα και εισάγονται στην *κύρια* πηγή. Το κουμπί /προσθήκη πηγής/ δημιουργεί ένα νέο.",
                 "share": "$~Το παράθυρο διαλόγου /κοινή χρήση/ σάς επιτρέπει να μοιραστείτε το έργο σας με *γκαλερί*, με το *κοινό* ή να το αντιγράψετε ως *κείμενο* για να το μοιραστείτε αλλού.",
                 "checkpoints": "$~Ο πίνακας /αναθεωρήσεις/ σάς επιτρέπει να επιστρέψετε *πίσω* σε προηγούμενες εκδόσεις του έργου σας και σε εκδόσεις *στιγμιότυπων* που θέλετε να θυμάστε.",
                 "languages": "$~Το κουμπί /γλώσσες/ δείχνει σε ποιες γλώσσες είναι γραμμένο το σχέδιό σου, σου επιτρέπει να προσθέσεις ή να αφαιρέσεις μια, και μπορεί να *μεταφράσει* τα *ονόματα*, το *κείμενο* και την *απόδειξη με έγγραφα* του σχεδίου σου σε μια νέα γλώσσα."
@@ -842,6 +842,58 @@
             "view": {
                 "added": "$~προστέθηκε δεύτερη προβολή του $name",
                 "closed": "$~έκλεισε η δεύτερη προβολή του $name"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2233,7 +2285,8 @@
                     ]
                 },
                 "report": "$~Τι εισήγαγα",
-                "reportExplanation": "$~Ένα @Music μπορεί να κρατήσει τα περισσότερα από όσα περιγράφει ένα αρχείο MIDI, αλλά όχι όλα. Εδώ είναι τι άλλαξε κατά την είσοδο."
+                "reportExplanation": "$~Ένα @Music μπορεί να κρατήσει τα περισσότερα από όσα περιγράφει ένα αρχείο MIDI, αλλά όχι όλα. Εδώ είναι τι άλλαξε κατά την είσοδο.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~προσθήκη εξόδου",
@@ -2845,6 +2898,26 @@
             "notData": "$~Αυτό δεν είναι το είδος αξίας που αξίζει αρχείο.",
             "droppedUnits": "$~Οι μονάδες παραλείφθηκαν: ένας αριθμός JSON δεν μπορεί να τις κρατήσει.",
             "droppedNumbers": "$~Οι αριθμοί που δεν είναι πεπερασμένοι παραλείφθηκαν: το JSON δεν μπορεί να τους γράψει."
+        },
+        "image": {
+            "button": {
+                "label": "$~ανέβασμα",
+                "tip": "$~διάλεξε ένα αρχείο εικόνας από αυτή τη συσκευή"
+            },
+            "crop": {
+                "label": "$~κουτί περικοπής",
+                "tip": "$!το τετράγωνο της εικόνας που θα κρατηθεί"
+            },
+            "preview": "$~τι θα προστεθεί",
+            "feedback": {
+                "tooBig": "$~Αυτή η εικόνα είναι $size MB. Διάλεξε μια μικρότερη από $limit MB.",
+                "unreadable": "$~Δεν μπορέσαμε να διαβάσουμε αυτό το αρχείο ως εικόνα."
+            },
+            "announce": {
+                "cropped": "$~κουτί περικοπής στο $x $y",
+                "moving": "$~μετακίνηση του κουτιού περικοπής",
+                "done": "$~το κουτί περικοπής τοποθετήθηκε"
+            }
         }
     }
 }

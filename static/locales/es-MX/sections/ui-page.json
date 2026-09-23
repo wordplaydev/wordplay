@@ -1110,9 +1110,7 @@
                     "glyphLoading": "$~Obteniendo la fuente…",
                     "glyphMissing": "$~Esta fuente no tiene una forma para ese símbolo. Prueba con otra fuente.",
                     "glyphEmpty": "$~Ese símbolo no tiene nada que dibujar.",
-                    "glyphUnreadable": "$~No pudimos leer esa fuente. Revisa tu conexión, o prueba con otra fuente.",
-                    "imageTooBig": "$~Esa imagen pesa $size MB. Por favor elige una más pequeña que $limit MB.",
-                    "imageUnreadable": "$~No pudimos leer ese archivo como imagen."
+                    "glyphUnreadable": "$~No pudimos leer esa fuente. Revisa tu conexión, o prueba con otra fuente."
                 },
                 "announce": {
                     "position": "$~en $x $y",
@@ -1137,9 +1135,6 @@
                     "arranged": "$~capa $index de $total",
                     "flipped": "$~se volteó, ahora en $x $y",
                     "fitted": "$~agrandó las figuras para llenar el lienzo",
-                    "cropped": "$~caja de recorte en $x $y",
-                    "cropMoving": "$~moviendo la caja de recorte",
-                    "cropDone": "$~caja de recorte colocada",
                     "imported": "$~se agregó $#count[un píxel desde $x $y|$count píxeles desde $x $y|$count píxeles desde $x $y]"
                 },
                 "share": {
@@ -1180,19 +1175,10 @@
                 },
                 "image": {
                     "instructions": "$~Arrastra el cuadro para moverlo, o usa el control deslizante *tamaño* para cambiar cuánto de la imagen quieres conservar. Con el teclado, presiona *enter* para comenzar a moverlo, luego usa las teclas de *flecha*, y presiona *enter* otra vez cuando termines.",
-                    "button": {
-                        "label": "$~subir",
-                        "tip": "$~elegir un archivo de imagen de este dispositivo"
-                    },
                     "add": {
                         "label": "$~agregar",
                         "tip": "$~agregar el cuadro elegido al carácter como píxeles"
                     },
-                    "crop": {
-                        "label": "$~caja de recorte",
-                        "tip": "$~el cuadro de la imagen que se va a conservar"
-                    },
-                    "preview": "$~lo que se va a agregar",
                     "size": {
                         "label": "$~tamaño",
                         "tip": "$~cuánto de la imagen se va a conservar"

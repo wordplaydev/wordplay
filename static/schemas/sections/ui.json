@@ -58,6 +58,9 @@
                 "howto": {
                     "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/howto"
                 },
+                "image": {
+                    "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/image"
+                },
                 "localize": {
                     "$ref": "../LocaleText.json#/definitions/LocaleText/properties/ui/properties/localize"
                 },

@@ -154,7 +154,7 @@
                     "tip": "$~کپی پروژه در حافظهٔ موقت به‌صورت متن",
                     "label": "$~کپی به‌صورت متن"
                 },
-                "addSource": "$~یک @Source دیگر بسازید، تا بتوانید داده‌ها یا کد شریک‌ساخته‌شده را در فایل خودش نگه دارید",
+                "addSource": "$!یک @Source دیگر بسازید، تا بتوانید داده‌ها یا کد شریک‌ساخته‌شده را در فایل خودش نگه دارید",
                 "remix": {
                     "tip": "$~برای تغییر دادن، یک کپی از این پروژه برای خودت بساز",
                     "label": "$~بازآمیزی"
@@ -280,7 +280,7 @@
                 "controls": "$~این /کنترل‌ها/ در پایین صفحه، به *کل پروژه* مربوط‌اند، فرقی نمی‌کند در کدام بخش کار می‌کنید.",
                 "name": "$~فیلد /نام/ همان نام پروژهٔ شماست. نام‌ها در نمای *پروژه* و *نگارخانه* نشان داده می‌شوند.",
                 "sourceToggle": "$~این /کلید تعویض/ فایل منبع را نشان یا پنهان می‌کند. *کلیدهای تعویض دیگر* در همین ردیف، همین کار را برای بخش‌های دیگر انجام می‌دهند.",
-                "addSource": "$~برخی پروژه‌ها از *چند* فایل منبع سود می‌برند، جایی که داده‌ها در یکی ذخیره و به فایل *اصلی* وارد می‌شوند. دکمهٔ /افزودن منبع/ یکی نو می‌سازد.",
+                "addSource": "$!برخی پروژه‌ها از *چند* فایل منبع سود می‌برند، جایی که داده‌ها در یکی ذخیره و به فایل *اصلی* وارد می‌شوند. دکمهٔ /افزودن منبع/ یکی نو می‌سازد.",
                 "share": "$~گفتگوی /هم‌رسانی/ به شما اجازه می‌دهد پروژه‌تان را با *نگارخانه‌ها*، با *همگان* هم‌رسانی کنید، یا آن را به‌صورت *متن* برای هم‌رسانی در جای دیگر کپی کنید.",
                 "languages": "$~دکمهٔ /زبان‌ها/ نشان می‌دهد پروژهٔ شما به چه زبان‌هایی نوشته شده، به شما اجازه می‌دهد زبانی اضافه یا حذف کنید، و می‌تواند *نام‌ها*، *متن* و *مستندسازی* پروژهٔ شما را به زبانی نو *ترجمه* کند.",
                 "checkpoints": "$~پنل /نسخه‌ها/ به شما اجازه می‌دهد به نسخه‌های *پیشین* پروژه‌تان *بازگردید*، و از نسخه‌هایی که می‌خواهید به‌خاطر بسپارید *نقطهٔ ذخیره* بسازید."
@@ -884,6 +884,58 @@
             "view": {
                 "added": "$~یک نمای دوم از $name اضافه شد",
                 "closed": "$~نمای دوم $name بسته شد"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "feedback": {
@@ -2307,7 +2359,8 @@
                 "rest": "$~سکوت، ضرب $beat",
                 "added": "$~نت $degree در ضرب $beat افزوده شد، اکنون $#count[$#count نت|$#count نت]",
                 "removed": "$~نت $degree در ضرب $beat حذف شد، اکنون $#count[$#count نت|$#count نت]",
-                "moved": "$~نت $degree، ضرب $beat"
+                "moved": "$~نت $degree، ضرب $beat",
+                "choose": "$?choose a song"
             },
             "field": {
                 "coordinate": "$~ویرایش مختصات",
@@ -2834,6 +2887,26 @@
             "notData": "$~این از آن نوع ارزش‌هایی نیست که ارزش یک فایل را داشته باشد.",
             "droppedUnits": "$~واحدها کنار گذاشته شدند: یک عدد JSON نمی‌تواند واحد داشته باشد.",
             "droppedNumbers": "$~عددهایی که محدود نیستند کنار گذاشته شدند: JSON نمی‌تواند آن‌ها را بنویسد."
+        },
+        "image": {
+            "button": {
+                "label": "$~بارگذاری",
+                "tip": "$~یک فایل تصویری از این دستگاه انتخاب کنید"
+            },
+            "crop": {
+                "label": "$~جعبهٔ برش",
+                "tip": "$!مربعی از تصویر که باید نگه‌داشته شود"
+            },
+            "preview": "$~چه چیزی اضافه خواهد شد",
+            "feedback": {
+                "tooBig": "$~آن تصویر $size مگابایت است. لطفاً تصویری کوچک‌تر از $limit مگابایت انتخاب کن.",
+                "unreadable": "$~ما نتوانستیم آن فایل را به‌عنوان تصویر بخوانیم."
+            },
+            "announce": {
+                "cropped": "$~جعبهٔ برش در $x $y",
+                "moving": "$~جابه‌جا کردن جعبهٔ برش",
+                "done": "$~جعبهٔ برش قرار گرفت"
+            }
         }
     }
 }
