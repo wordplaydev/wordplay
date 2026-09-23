@@ -1,6 +1,7 @@
 import { Basis } from '@basis/Basis';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import DefaultLocales from '@locale/DefaultLocales';
+import evaluateCode from '@runtime/evaluate';
 import { expect, test } from 'vitest';
 
 const basis = Basis.getLocalizedBasis(DefaultLocales);
@@ -45,4 +46,28 @@ test('the basis is shared per locale rather than rebuilt', () => {
     // Bases is keyed by locale name, which is why a synthetic locale must never
     // claim a shipped one's name; this pins the identity the cache depends on.
     expect(Basis.getLocalizedBasis(DefaultLocales)).toBe(basis);
+});
+
+/**
+ * `=`/`≠` are defined once, on the `structure` basis over `AnyType`, and every value
+ * reaches them through `SimpleValue.resolve`. A value class that extends `Value`
+ * directly, or overrides `resolve` without falling through, silently loses every
+ * operator — which is how a function value and a stream came to raise
+ * `FunctionException` on `= ø`, with `UnknownName` reported on the operator itself.
+ */
+test.each([
+    ['number', '1 = ø'],
+    ['text', "'a' = ø"],
+    ['boolean', '⊤ = ø'],
+    ['none', 'ø ≠ ø'],
+    ['list', '[1] = ø'],
+    ['set', '{1} = ø'],
+    ['map', '{1:2} = ø'],
+    ['markup', '`hi` = ø'],
+    ['function', 'f: ƒ(x•#) x\nf = ø'],
+    ['structure', '•T(n•#)\nt: T(1)\nt = ø'],
+    ['structure definition', '•T(n•#)\nT = ø'],
+    ['stream', 'Time() = ø'],
+])('a %s value reaches the universal operators', (_, code) => {
+    expect(evaluateCode(code)?.toString()).toBe('⊥');
 });

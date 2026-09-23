@@ -4,8 +4,9 @@ import type Context from '@nodes/Context';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
 import type Evaluation from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
 import Value from '@values/Value';
-import type { BasisTypeName } from '@basis/BasisConstants';
+import { StructureTypeName, type BasisTypeName } from '@basis/BasisConstants';
 import type Locales from '@locale/Locales';
 
 // We could have just called this Function, but Javascript claims that globally.
@@ -36,8 +37,12 @@ export default class FunctionValue extends Value {
         return 'function';
     }
 
-    resolve() {
-        return undefined;
+    /** Reach the universal `=`/`≠` the way every other value does. Inlined rather than
+     *  inherited from `SimpleValue`, which imports `FunctionValue` to build the bound
+     *  function it returns — extending it here would be an import cycle. */
+    resolve(name: string, evaluator?: Evaluator): Value | undefined {
+        const fun = evaluator?.getBasis().getFunction(StructureTypeName, name);
+        return fun === undefined ? undefined : new FunctionValue(fun, this);
     }
 
     toWordplay(locales?: Locales) {
