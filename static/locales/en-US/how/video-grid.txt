@@ -3,22 +3,24 @@ Create a video from the camera
 The @Camera stream is a great way to get a grid of colors from the world. 
 What if we want to see those colors, recreating the image the @Camera sees?
 
-We can use the @Grid layout for a @Group, and @List/combine function to convert the colors into a list of @Phrase that we give to the @Grid.
+An @Image takes a grid of colors and draws it as one picture, so we can hand it the @Camera's colors directly.
 
 \
 width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
-						:phrases
-						:row ↦ Phrase("⬤" color: ⬚ duration: 0s)
-					]))
-	])
+Stage([Image(colors "what the camera sees" 12m)])
 \
 
-This example builds a list of phrases, coverting each color into a circle with the specific color.
+Every @Image needs a description, because a grid of colors has no words of its own for someone who can't see it.
 
-Be careful with @Camera streams: they produce a lot of input! You'll want to keep the width and height of the image small.
+We can draw the picture with letters instead of squares by giving it a /glyph/, a function from one color to the text that stands for it.
+
+\
+width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([Image(colors "the camera, drawn with dark and light circles" 12m glyph: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+\
 
 interactive-scene
