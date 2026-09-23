@@ -462,7 +462,7 @@
                 "names": "selectable"
             },
             "color": {
-                "doc": "A color to tint me with.",
+                "doc": "A color for my glyphs. Without one each glyph takes the color of the square it stands for; with one they all share it, which is what drawing with letters needs. I ignore it if I have no /glyph/, since then my squares are my colors.",
                 "names": "color"
             },
             "background": {
