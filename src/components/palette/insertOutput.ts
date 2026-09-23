@@ -782,6 +782,7 @@ export function groupProblem(
                 context,
                 output.Phrase,
                 output.Shape,
+                output.Image,
                 output.Group,
                 output.Say,
                 output.Music,

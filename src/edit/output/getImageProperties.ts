@@ -2,7 +2,10 @@ import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
 import NumberLiteral from '@nodes/NumberLiteral';
 import Unit from '@nodes/Unit';
-import { getOutputProperties } from '@edit/output/OutputProperties';
+import {
+    getFaceAndPlaceProperties,
+    getOutputProperties,
+} from '@edit/output/OutputProperties';
 import OutputProperty from '@edit/output/OutputProperty';
 import OutputPropertyRange from '@edit/output/OutputPropertyRange';
 import OutputPropertyText from '@edit/output/OutputPropertyText';
@@ -46,6 +49,7 @@ export default function getImageProperties(
             (expr) => expr instanceof NumberLiteral,
             () => NumberLiteral.make(16, Unit.meters()),
         ),
+        ...getFaceAndPlaceProperties(project, locales),
         ...getOutputProperties(project, locales),
     ];
 }

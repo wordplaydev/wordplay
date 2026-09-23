@@ -87,6 +87,39 @@ export function getTypeOutputProperties(
             (expr) => expr instanceof NumberLiteral,
             () => NumberLiteral.make(1, Unit.meters()),
         ),
+        ...getFaceAndPlaceProperties(project, locales),
+        new OutputProperty(
+            (l) => l.output.Phrase.matter.names,
+            'structure',
+            false,
+            false,
+            (expr, context) =>
+                expr instanceof Evaluate &&
+                expr.is(project.shares.output.Matter, context),
+            (locales) =>
+                Evaluate.make(
+                    Reference.make(
+                        locales.getName(project.shares.output.Matter.names),
+                        project.shares.output.Matter,
+                    ),
+                    [],
+                ),
+        ),
+        ...getOutputProperties(project, locales),
+    ];
+}
+
+/**
+ * The face a thing's glyphs are drawn in, and the place it sits.
+ *
+ * Shared because they are the two of the type block that aren't about text: an `Image`
+ * has both, but no `size` — its width and height are its own inputs — and no `matter`.
+ */
+export function getFaceAndPlaceProperties(
+    project: Project,
+    locales: Locales,
+): OutputProperty[] {
+    return [
         new OutputProperty(
             (l) => l.output.Phrase.face.names,
             new OutputPropertyOptions<{ face: { name: string; face: Face } }>(
@@ -133,24 +166,6 @@ export function getTypeOutputProperties(
                     ],
                 ),
         ),
-        new OutputProperty(
-            (l) => l.output.Phrase.matter.names,
-            'structure',
-            false,
-            false,
-            (expr, context) =>
-                expr instanceof Evaluate &&
-                expr.is(project.shares.output.Matter, context),
-            (locales) =>
-                Evaluate.make(
-                    Reference.make(
-                        locales.getName(project.shares.output.Matter.names),
-                        project.shares.output.Matter,
-                    ),
-                    [],
-                ),
-        ),
-        ...getOutputProperties(project, locales),
     ];
 }
 
