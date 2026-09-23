@@ -914,6 +914,11 @@ test('resolving a color needs no basis', () => {
 // to absorb without a file count moving — and the alternative to writing the
 // reason down is an exemption nobody can review.
 
+// Explaining what an image's own color means for its glyphs moves one more byte
+// budget by a hundredth: the text lives in en-US.json, which `DefaultLocale`
+// puts on every graph. Prose in a file every page already carries is what these
+// budgets are for absorbing.
+
 // The `Image` output (#471) is **+0 files over budget** and moves two byte budgets by a
 // hundredth. A new output type is reachable from anything that renders output, so its
 // definition and its view land on every graph that already carries `Phrase` and `Shape`;
@@ -931,7 +936,7 @@ test('resolving a color needs no basis', () => {
 
 test.each([
     ['src/routes/+layout.svelte', 535, 4.1],
-    ['src/components/app/Page.svelte', 559, 4.35],
+    ['src/components/app/Page.svelte', 559, 4.36],
     ['src/routes/[[locale]]/+page.svelte', 574, 4.45],
     ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.46],
     ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.49],

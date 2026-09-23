@@ -78,6 +78,17 @@
     let width = $derived(image.width * PX_PER_METER);
     let height = $derived(image.height * PX_PER_METER);
 
+    /**
+     * A color of its own means every glyph is drawn in it, rather than in the color of the
+     * square it stands for. Without one each glyph takes its square's color, which is the
+     * only reading that makes sense for a picture drawn in letters; with one, the glyphs
+     * carry shape alone, which is what shading with them needs. It says nothing about a
+     * picture with no glyphs, whose squares are its colors.
+     */
+    let uniform = $derived(
+        image.getDefaultPose()?.color?.toCSS(context.adapting),
+    );
+
     /** Every cell, flattened, for the glyph path. Short rows leave their tail unpainted. */
     let cells = $derived(
         image.glyphs === undefined
@@ -86,7 +97,7 @@
                   row.map((color, x) => ({
                       x,
                       y,
-                      color: color.toCSS(context.adapting),
+                      color: uniform ?? color.toCSS(context.adapting),
                       glyph: image.glyphs?.[y]?.[x] ?? '',
                   })),
               ),
