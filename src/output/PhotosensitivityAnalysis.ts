@@ -5,6 +5,7 @@ import Color, { isSaturatedRed, luminanceDelta } from '@output/Color/Color';
 import type Output from '@output/Output/Output';
 import type Place from '@output/Place/Place';
 import Sequence from '@output/animation/Sequence';
+import Image from '@output/Output/Image';
 import Shape from '@output/Output/Shape/Shape';
 import Stage from '@output/Output/Stage';
 import { getAnimations } from '@output/animation/Sequence';
@@ -72,11 +73,21 @@ export default function analyzeOutput(root: Output): Set<PhotosensitivityRisk> {
             analyzeSequence(sequence, fullScreen, risks);
     }
 
-    // Pattern: many shapes whose fills span a wide luminance range. Since our
-    // contrast metric is |Δlightness|, the widest pair equals max − min.
+    // Pattern: many colors spanning a wide luminance range. Since our contrast metric
+    // is |Δlightness|, the widest pair equals max − min.
+    //
+    // An image counts every square it paints. It is one output holding hundreds of
+    // colors, so counting outputs instead would let the densest pattern a program can
+    // make — a photograph, which reliably spans the whole range — past a check meant
+    // for sixteen shapes.
     const lightnesses = outputs
-        .filter((o): o is Shape => o instanceof Shape)
-        .map((shape) => fillOf(shape))
+        .flatMap((output) =>
+            output instanceof Image
+                ? output.colors.flat()
+                : output instanceof Shape
+                  ? [fillOf(output)]
+                  : [],
+        )
         .filter((color): color is Color => color !== undefined)
         .map((color) => color.lightness.toNumber());
     if (

@@ -1915,6 +1915,119 @@
                 "doc": "$~El límite en el que mis palabras pasan a otra línea.",
                 "names": "$~ajuste"
             }
+        },
+        "Image": {
+            "doc": "$?I'm a grid of colors, drawn as a picture. Give me a list of rows, each a list of @Color, and I'll paint one square for each. Give me a /glyph/ and I'll draw text in each square instead.",
+            "names": ["$?🖼", "$?Image"],
+            "colors": {
+                "doc": "$?My rows of colors, the top row first. Every row should be the same length.",
+                "names": "$?colors"
+            },
+            "description": {
+                "doc": "$?What I show, for anyone who can't see me. I ask for this because a grid of colors has no words of its own to fall back on.",
+                "names": "$?description"
+            },
+            "width": {
+                "doc": "$?How wide I should be. If you give me only a height, I take my width from my shape; if you give me both, my squares stretch to fit.",
+                "names": "$?width"
+            },
+            "height": {
+                "doc": "$?How tall I should be. If you give me only a width, I take my height from my shape.",
+                "names": "$?height"
+            },
+            "glyph": {
+                "doc": "$?A function from one of my colors to the text I should draw in its place. Without one I paint plain squares.",
+                "names": "$?glyph"
+            },
+            "recolor": {
+                "doc": "$?A function from one of my colors to the color I should draw instead. Useful for turning a picture into fewer colors.",
+                "names": "$?recolor"
+            },
+            "pixel": {
+                "doc": "$?One of my colors, which is what /glyph/ and /recolor/ are each given.",
+                "names": "$?pixel"
+            },
+            "glyphs": {
+                "doc": "$?What I draw in each square, worked out from /glyph/. Nothing, if you gave me no /glyph/.",
+                "names": "$?glyphs"
+            },
+            "palette": {
+                "doc": "$?The colors I actually draw, worked out from /recolor/. My own colors, if you gave me no /recolor/.",
+                "names": "$?palette"
+            },
+            "face": {
+                "doc": "$?The name of the font face my glyphs should be drawn in. If I don't have one, I use whatever contains me.",
+                "names": "$?face"
+            },
+            "place": {
+                "doc": "$?The place on stage where I should be.",
+                "names": "lugar"
+            },
+            "name": {
+                "doc": "$?I'm the name you can use, for animations and @Collision.",
+                "names": "$?name"
+            },
+            "selectable": {
+                "doc": "$?Whether I can be selected as part of @Choice.",
+                "names": "$?selectable"
+            },
+            "color": {
+                "doc": "$?A color to tint me with.",
+                "names": "$?color"
+            },
+            "background": {
+                "doc": "$?The color behind me.",
+                "names": "$?background"
+            },
+            "opacity": {
+                "doc": "$?How opaque I should be.",
+                "names": "$?opacity"
+            },
+            "offset": {
+                "doc": "$?How far to move me from my place, after I'm placed.",
+                "names": "$?offset"
+            },
+            "rotation": {
+                "doc": "$?How much to rotate me.",
+                "names": "$?rotation"
+            },
+            "scale": {
+                "doc": "$?How much to scale me.",
+                "names": "$?scale"
+            },
+            "flipx": {
+                "doc": "$?Whether to flip me horizontally.",
+                "names": "$?flipx"
+            },
+            "flipy": {
+                "doc": "$?Whether to flip me vertically.",
+                "names": "$?flipy"
+            },
+            "entering": {
+                "doc": "$?The @Pose or @Sequence I should do when entering @Stage.",
+                "names": "$?entering"
+            },
+            "resting": {
+                "doc": "$?The @Pose or @Sequence I should do when I'm not moving.",
+                "names": "$?resting"
+            },
+            "moving": {
+                "doc": "$?The @Pose or @Sequence I should do when I'm moving.",
+                "names": "$?moving"
+            },
+            "exiting": {
+                "doc": "$?The @Pose or @Sequence I should do when leaving @Stage.",
+                "names": "$?exiting"
+            },
+            "duration": {
+                "doc": "$?How long my animations should take if they are a single @Pose.",
+                "names": "$?duration"
+            },
+            "style": {
+                "doc": "$?The animation style I should use.",
+                "names": "$?style"
+            },
+            "defaultDescription": "$?$description, a picture $columns by $rows"
         }
     }
 }

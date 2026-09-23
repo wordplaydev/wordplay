@@ -914,6 +914,13 @@ test('resolving a color needs no basis', () => {
 // to absorb without a file count moving — and the alternative to writing the
 // reason down is an exemption nobody can review.
 
+// The `Image` output (#471) is **+0 files over budget** and moves two byte budgets by a
+// hundredth. A new output type is reachable from anything that renders output, so its
+// definition and its view land on every graph that already carries `Phrase` and `Shape`;
+// what a budget is for here is making that visible, not preventing it. The view is
+// deliberately small — a canvas and a span per cell, no measuring and no poses — which is
+// most of why this is hundredths rather than a subgraph.
+
 // Calling a function value is **+0 files** and moves two byte budgets by a
 // hundredth. A function-typed input could not be called — `Evaluate` asked the
 // callee's type for a definition, and a type that was written down rather than
@@ -925,8 +932,8 @@ test('resolving a color needs no basis', () => {
 test.each([
     ['src/routes/+layout.svelte', 535, 4.1],
     ['src/components/app/Page.svelte', 559, 4.35],
-    ['src/routes/[[locale]]/+page.svelte', 574, 4.44],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.45],
+    ['src/routes/[[locale]]/+page.svelte', 574, 4.45],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.46],
     ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.49],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
