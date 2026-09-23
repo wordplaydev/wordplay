@@ -227,3 +227,50 @@ describe('an analysis nobody ran is not an analysis', () => {
         expect(p.getConflicts()).toBeDefined();
     });
 });
+
+/**
+ * A definition a project calls but doesn't contain.
+ *
+ * `analyzeSourceDependencies` walks `source.nodes()`, so nothing inside the basis (or a
+ * borrowed kit) ever got an edge, and the call edge only reaches a definition's input
+ * binds rather than the body that reads them. With nothing in the body marked as
+ * depending on a stream, `Start.shouldSkip` treated every expression in it as unaffected
+ * and reused the value it computed the first time — so an `Image` built from a `Camera`
+ * drew the stream's opening frame forever, while the same block written as a creator's
+ * own structure tracked it correctly.
+ */
+describe('a called definition outside the sources', () => {
+    test('its body depends on its own inputs', () => {
+        const source = new Source(
+            'main',
+            'Image([[🌈(50% 0 0°)]] "a picture")',
+        );
+        const p = Project.make(null, 'test', source, [], DefaultLocale);
+        p.analyze();
+
+        const definition = p.shares.output.Image;
+        const colors = must(definition.inputs[0], "Image's colors input");
+        const body = must(definition.expression, "Image's body");
+
+        // Something in the body reads that input, and the graph has to say so.
+        const affected = p.getExpressionsAffectedBy(colors);
+        const inBody = new Set(body.nodes());
+        expect([...affected].some((expression) => inBody.has(expression))).toBe(
+            true,
+        );
+    });
+
+    test("a definition it does contain never enters the basis's cache", () => {
+        // That cache outlives every project using its locales, so a node from one
+        // project's source would be held there for the life of the session.
+        const source = new Source('main', `ƒ f(x•#) x + 1\nf(1)`);
+        const p = Project.make(null, 'test', source, [], DefaultLocale);
+        p.analyze();
+        const fun = Array.from(source.nodes()).find(
+            (n): n is FunctionDefinition => n instanceof FunctionDefinition,
+        );
+        expect(fun).toBeDefined();
+        if (fun !== undefined)
+            expect(p.basis.calleeDependencies.has(fun)).toBe(false);
+    });
+});
