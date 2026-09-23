@@ -89,19 +89,31 @@
         image.getDefaultPose()?.color?.toCSS(context.adapting),
     );
 
-    /** Every cell, flattened, for the glyph path. Short rows leave their tail unpainted. */
-    let cells = $derived(
-        image.glyphs === undefined
-            ? []
-            : image.colors.flatMap((row, y) =>
-                  row.map((color, x) => ({
-                      x,
-                      y,
-                      color: uniform ?? color.toCSS(context.adapting),
-                      glyph: image.glyphs?.[y]?.[x] ?? '',
-                  })),
-              ),
-    );
+    /**
+     * Every cell in reading order, for the glyph path.
+     *
+     * Padded to a full rectangle so the grid can place them in source order: naming each
+     * cell's row and column is three reactive style bindings per cell rather than one,
+     * and at 32 by 24 that is the difference between a picture that keeps up and one that
+     * doesn't. A short row's missing cells are drawn as nothing rather than dropped, or
+     * everything after them would shift a place.
+     */
+    let cells = $derived.by(() => {
+        if (image.glyphs === undefined) return [];
+        const list: { color: string | undefined; glyph: string }[] = [];
+        for (let y = 0; y < rows; y++)
+            for (let x = 0; x < columns; x++) {
+                const color = image.colors[y]?.[x];
+                list.push({
+                    color:
+                        color === undefined
+                            ? undefined
+                            : (uniform ?? color.toCSS(context.adapting)),
+                    glyph: image.glyphs?.[y]?.[x] ?? '',
+                });
+            }
+        return list;
+    });
 
     let canvas = $state<HTMLCanvasElement | undefined>(undefined);
 
@@ -240,13 +252,9 @@
                 style:grid-template-columns="repeat({Math.max(1, columns)}, 1fr)"
                 style:font-size="{height / Math.max(1, rows)}px"
             >
-                {#each cells as cell (`${cell.x},${cell.y}`)}
-                    <span
-                        style:grid-column={cell.x + 1}
-                        style:grid-row={cell.y + 1}
-                        style:color={cell.color}>{cell.glyph}</span
-                    >
-                {/each}
+                {#each cells as cell}<span style:color={cell.color}
+                        >{cell.glyph}</span
+                    >{/each}
             </div>
         {/if}
     </div>

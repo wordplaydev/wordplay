@@ -8,15 +8,11 @@ phrase the viewer picked, and the style keeps whatever it last heard.¶
 choice: Choice()
 style: 'letters' … ∆ choice … choice
 
-¶Emoji are big, so the emoji style samples a coarser grid. Both grids cover the same
-16 by 12 metres, so changing style never resizes the picture or moves the camera.¶
+¶Emoji are big, so the emoji style samples a coarser grid. The picture stays the same
+size either way, so changing style never resizes it or moves the camera — the squares
+it is made of just get bigger.¶
 columns: (style = 'emoji') ? 16 32
 rows: (style = 'emoji') ? 12 24
-cell: (style = 'emoji') ? 1m 0.5m
-
-¶The middle of the grid, which is where the picture is centered.¶
-middleColumn: (columns + 1) ÷ 2
-middleRow: (rows + 1) ÷ 2
 
 ¶One color per cell, straight from the camera.¶
 colors: Camera((columns × 1px) (rows × 1px) 33ms)
@@ -38,28 +34,23 @@ worth showing, so it falls back to a light or a dark square.¶
 				"\squares[(((color.hue ÷ 1°) ÷ 15).roundDown()) + 1]\")
 			"a")
 
-¶The picture: one phrase per pixel, laid out from the middle out, so the camera has the
-same picture to frame however coarse the grid is, and mirrored left to right so it reads
-the way a mirror does.¶
-picture: colors.combined(
-	[]
-	ƒ(phrases•[Phrase] row•[Color] y•#)
-		phrases.append(
-			row.translate(
-				ƒ(color•Color x•#)
-					Phrase(
-						glyph(color)
-						place: Place(
-							((middleColumn - x) × cell)
-							((middleRow - y) × cell)
-						)
-						duration: 0s
-						size: (style = 'ascii') ? 0.75m ((style = 'emoji') ? 1.15m 1m)
-						face: (style = 'ascii') ? "Noto Sans Mono"/en ø
-						color: (style = 'letters') ? color ø
-					)
-			)
-		)
+¶The picture. An @Image draws the whole grid as one output, so a frame costs one
+picture rather than a phrase per pixel — which at 32 by 24 was 768 of them, rebuilt
+thirty times a second. /flipx/ mirrors it so it reads the way a mirror does.
+
+The /letters/ style leaves each glyph the color of the square it stands for, which is
+what an @Image does with no color of its own. The other two give it one, because a
+letter only reads as shading when its color says nothing, and a colored square emoji
+already carries its own.¶
+picture: Image(
+	colors
+	"camera video drawn with \style\"
+	16m
+	glyph: glyph
+	color: (style = 'letters') ? ø Color(0% 0 0°)
+	face: (style = 'ascii') ? "Noto Sans Mono"/en ø
+	flipx: ⊤
+	duration: 0s
 )
 
 ¶One style button, bright when it's the style showing. The name is what Choice reports
@@ -88,7 +79,7 @@ buttons: Group(
 the same size and place however the picture is framed, and the picture is framed as if
 they weren't there.¶
 Stage(
-	picture
+	[picture]
 	description: "camera video drawn with \style\"
 	overlay: [buttons]
 )
