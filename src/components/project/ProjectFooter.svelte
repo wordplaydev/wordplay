@@ -173,14 +173,20 @@
 
     // Indices in `renderToggle`'s items list, which two different toolbars index
     // into (the tile row below, and the toggle group in the main row):
-    //   0..addSourceOffset-1     : add-source button (when editable)
-    //   addSourceOffset..sourcesEnd-1 : SourceTileToggle per source
+    //   0..addSourceIndex-1           : SourceTileToggle per source
+    //   addSourceIndex                : add-source button (when editable)
+    //   addSourceIndex+1..sourcesEnd-1: the rest of the source toggles
     //   sourcesEnd..nonSourcesEnd-1   : NonSourceTileToggle per visible
     //   nonSourcesEnd..nonSourcesEnd+SecondRowItemCount-1 (when narrow &
     //                                editable): second-row items appended
     //                                for single-popup mode
-    const addSourceOffset = $derived(editable ? 1 : 0);
-    const sourcesEnd = $derived(addSourceOffset + sources.length);
+    // The button sits after the source toggles rather than before them, because
+    // that is where the source it makes appears. A number rather than an offset:
+    // where it sits and how many items precede a given source stopped being the
+    // same number once it moved.
+    const addSourceItems = $derived(editable ? 1 : 0);
+    const addSourceIndex = $derived(editable ? sources.length : -1);
+    const sourcesEnd = $derived(addSourceItems + sources.length);
     const nonSourcesEnd = $derived(sourcesEnd + visibleNonSources.length);
 
     /** How many second-row items `renderToggle`'s tail renders; keep in sync with it. */
@@ -295,7 +301,7 @@
 {/snippet}
 
 {#snippet renderToggle(i: number)}
-    {#if editable && i === 0}
+    {#if i === addSourceIndex}
         <Button
             uiid="addSource"
             background
@@ -304,7 +310,8 @@
             icon="+{Characters.Program.symbols}"
         ></Button>
     {:else if i < sourcesEnd}
-        {@const sourceIndex = i - addSourceOffset}
+        {@const sourceIndex =
+            i < addSourceIndex || addSourceIndex < 0 ? i : i - 1}
         {@const source = sources[sourceIndex]}
         {@const tile = layout.getTileWithID(Layout.getSourceID(sourceIndex))}
         {#if tile && source !== undefined}
