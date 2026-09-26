@@ -841,9 +841,16 @@ export default class Project {
             if (fun === undefined) continue;
             share.calls.add(fun, node);
 
-            // Is it a higher order function? Get the function input and add the
-            // Evaluate as a caller of the function input.
-            if (fun instanceof FunctionDefinition)
+            // Is a function given to it? Then this evaluate calls that function, even
+            // though nothing here says so: whatever it was given to decides when and with
+            // what it runs. A structure counts as much as a function does — `Image` takes
+            // a function to draw each color with, and while this asked only about
+            // functions, nothing connected that function's body to the stream its colors
+            // came from, so it ran once and every pixel got the first answer forever.
+            if (
+                fun instanceof FunctionDefinition ||
+                fun instanceof StructureDefinition
+            )
                 for (const input of node.inputs) {
                     const type = input.getType(context);
                     if (type instanceof FunctionType && type.definition)
@@ -920,10 +927,23 @@ export default class Project {
                       ? [body]
                       : [];
             for (const root of roots)
-                for (const node of root.nodes())
+                for (const node of root.nodes()) {
                     if (node instanceof Expression)
                         for (const dependency of node.getDependencies(context))
                             edges.push([dependency, node]);
+                    // A function this body hands to something else — `Image` gives one
+                    // row at a time to `translate` — runs with arguments nothing here
+                    // names, so its own body hangs off nothing. `analyzeSourceCalls`
+                    // makes this connection for a creator's sources; it never walks the
+                    // basis, so it is made here for the same reason and in the same way.
+                    // Without it the *receiver* of the inner call (`row.translate`) was
+                    // judged unaffected and every row translated the first row.
+                    if (node instanceof Evaluate)
+                        for (const input of node.inputs)
+                            if (input instanceof FunctionDefinition)
+                                for (const inner of bodyExpressions(input))
+                                    edges.push([node, inner]);
+                }
             this.basis.calleeDependencies.set(fun, edges);
         }
         for (const [dependency, node] of edges)
@@ -2762,6 +2782,28 @@ export default class Project {
         // still describe them.
         return new Project(mergedData, this);
     }
+}
+
+/**
+ * The expressions a call of this function actually evaluates.
+ *
+ * Memoized on the definition's own node, which is immutable, so a project rebuilt on
+ * every edit pays for a body once. Deliberately not `fun.nodes()`, most of which is docs,
+ * names and type annotations.
+ */
+const bodies = new WeakMap<FunctionDefinition, Expression[]>();
+function bodyExpressions(fun: FunctionDefinition): Expression[] {
+    const known = bodies.get(fun);
+    if (known !== undefined) return known;
+    const body = fun.expression;
+    // An internal body is the basis's own implementation; `Start.shouldSkip` never skips
+    // one, so it needs no edges.
+    const nodes =
+        body === undefined || body.isInternal()
+            ? []
+            : body.nodes().filter((node) => node instanceof Expression);
+    bodies.set(fun, nodes);
+    return nodes;
 }
 
 /** JSON-equality check used by {@link Project.bumpStampsFrom}. Both inputs

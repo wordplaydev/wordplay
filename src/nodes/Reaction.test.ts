@@ -1,7 +1,7 @@
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
-import { expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import ExpectedCondition from '@conflicts/ExpectedCondition';
 import DefaultLocales from '@locale/DefaultLocales';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
@@ -402,4 +402,51 @@ test('repairing a missing condition selects the placeholder it inserted', () => 
     expect(newSource.getCode().toString()).toBe('1 … _•?');
     expect(newNode).toBeInstanceOf(ExpressionPlaceholder);
     expect(newSource.nodes()).toContain(newNode);
+});
+
+/**
+ * A function is often not called where it is written: it is handed to something else,
+ * which decides when and with what it runs. Nothing in the source says so, so nothing
+ * connected such a function's body to the stream its arguments came from — it ran once,
+ * and every later call answered with the first result.
+ *
+ * Giving a function to a *function* was already accounted for. Giving one to a
+ * **structure** was not, which is where this showed: an `Image` drawing a camera as
+ * letters drew one letter, frozen, for every pixel of every frame.
+ */
+describe('a function given to a structure still sees new values', () => {
+    /** A structure that maps a function over values, which is what `Image` does. */
+    const wrap = `•Wrap(f•ƒ(n•#)"" values•[#]) (
+	labels: values.translate(f)
+)
+clicks: 0 … ∆ Button() … clicks + 1`;
+
+    test('it answers per element rather than once for all of them', () => {
+        const { evaluator, source } = startReactive(
+            `${wrap}
+Wrap(ƒ(n•#) "\\n + 0\\" [clicks clicks + 1 clicks + 2]).labels`,
+        );
+        evaluator.singletonReact(Button, (stream) => stream.react(true));
+        expect(evaluator.exception).toBeUndefined();
+        expect(evaluator.getLatestSourceValue(source)?.toString()).toBe(
+            '["1" "2" "3"]',
+        );
+        evaluator.stop();
+    });
+
+    test('and answers again when the stream moves on', () => {
+        const { evaluator, source } = startReactive(
+            `${wrap}
+Wrap(ƒ(n•#) "\\n + 0\\" [clicks clicks + 1]).labels`,
+        );
+        evaluator.singletonReact(Button, (stream) => stream.react(true));
+        expect(evaluator.getLatestSourceValue(source)?.toString()).toBe(
+            '["1" "2"]',
+        );
+        evaluator.singletonReact(Button, (stream) => stream.react(true));
+        expect(evaluator.getLatestSourceValue(source)?.toString()).toBe(
+            '["2" "3"]',
+        );
+        evaluator.stop();
+    });
 });
