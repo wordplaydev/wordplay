@@ -2843,6 +2843,31 @@
         refreshLayout();
     }
 
+    /**
+     * Give a tile to any source that arrived without one.
+     *
+     * Not every source comes through `addedSource`. A program's `Source` output writes
+     * one from inside the evaluator, which knows nothing of tiles, so the file existed
+     * with no way into it until the page was reloaded. The layout follows the project
+     * instead of relying on every writer to ask. Only a *missing* tile is handled here:
+     * removing a source already syncs its own tiles, and doing it twice would fight it.
+     */
+    $effect(() => {
+        const current = project;
+        untrack(() => {
+            const missing = current
+                .getSources()
+                .some(
+                    (_, index) =>
+                        layout.getTileWithID(Layout.getSourceID(index)) ===
+                        undefined,
+                );
+            if (!missing) return;
+            layout = layout.withTiles(syncTiles(current, layout.tiles));
+            refreshLayout();
+        });
+    });
+
     function addBlankSource() {
         const newProject = project.withNewSource(
             `${$locales.getUnannotatedPrimaryText((l) => getConceptName(l, 'source'))}${

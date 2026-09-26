@@ -20,7 +20,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - 🚦 A function given to another function can now be called and compared, instead of stopping the program with a confusing error. (#1425)
 - 🐛 A structure that gets a value from a stream, like a @Camera, now changes with the stream instead of keeping the first thing it saw. (#1427)
-- 🐛 A song you import now gets its own button in the project bar right away, instead of only after you reload the page.
+- 🐛 A song you import, or a file your program saves with @Source, now gets its own button in the project bar right away, instead of only after you reload the page.
 - 🚦 A function you give to something else, like the one an @Image draws each color with, now sees new values instead of repeating its first answer forever.
 
 ## 0.37.3 - 2026-09-20
