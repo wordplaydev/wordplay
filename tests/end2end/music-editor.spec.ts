@@ -408,27 +408,23 @@ test('importing a large MIDI file finishes rather than hanging', async ({
     await grantClipboard(page);
     await createTestProject(page);
 
-    // No code loaded on purpose. The importer sits beside the "+music" offer,
-    // and the palette only makes that offer when the program has no output —
-    // importing is the other way to get music, not a way to add to some you
-    // already have.
-    await page.locator('[data-uiid="paletteExpand"]').click();
-    const palette = page.getByTestId('palette');
-    await expect(palette).toBeVisible({ timeout: 10000 });
+    // No code loaded on purpose: what is imported is all the program holds.
     const editor = page.getByTestId('editor').first();
+
+    // Importing a song is one of the ways of making a source file (#559), so it
+    // lives in the add-source dialog with the others rather than in the palette.
+    await page.locator('[data-uiid="addSource"]').click();
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible({ timeout: 10000 });
+    await dialog.getByRole('tab').nth(3).click();
 
     // 4 x 800 = 3,200 notes. Splicing this as nodes took 79 seconds; appending
     // it as text takes a fraction of a second. The assertion is the point: if
     // the quadratic path ever comes back, this fails instead of freezing a tab
     // for someone to discover by hand.
     const started = Date.now();
-    // Found page-wide by uiid rather than under the palette. The toolbar the
-    // importer sits in moves items that don't fit into a popup portaled to
-    // <body>, so whether this input is inside the palette at all depends on the
-    // window's width; and the toolbar's hidden measurement copy of every item
-    // is a second file input inside the palette, which is what made
-    // `palette.locator('input[type="file"]')` ambiguous. Only the real input
-    // keeps its uiid — the toolbar strips them from the measurement copy.
+    // By uiid rather than by role: the input is hidden behind the button that
+    // labels it, since a bare file input can't be styled to match the dialog.
     await page.locator('[data-uiid="midiPicker"]').setInputFiles({
         name: 'big.mid',
         mimeType: 'audio/midi',
@@ -453,6 +449,14 @@ test('importing a large MIDI file finishes rather than hanging', async ({
     expect(program, 'the notes belong in the other source').not.toContain(
         'Instrument',
     );
+
+    // And the notes' source has a tile to open it with. Adding a source has to
+    // reach ProjectView's `syncTiles`, which an importer revising the project on
+    // its own does not — the file existed with no way into it until a reload.
+    await expect(
+        page.getByRole('button', { name: /source song/ }),
+        'the notes need a tile of their own',
+    ).toBeVisible();
 
     const elapsed = Date.now() - started;
     expect(elapsed, `import of 3,200 notes took ${elapsed}ms`).toBeLessThan(

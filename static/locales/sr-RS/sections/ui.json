@@ -148,7 +148,7 @@
                     "tip": "$~копирајте пројекат у међуспремник као текст",
                     "label": "$~копирајте као текст"
                 },
-                "addSource": "$~направи још један @Source, да би могао да чуваш податке или подељени код у сопственом фајлу",
+                "addSource": "$!направи још један @Source, да би могао да чуваш податке или подељени код у сопственом фајлу",
                 "revert": "$~вратите оригинални код",
                 "focusOutput": "$~фокус тастатуре на сцени",
                 "focusSource": "$~фокусирати се на следећи извор",
@@ -269,7 +269,7 @@
                 "controls": "$~Ове /контроле/ на дну се примењују на *пројекат као целину*, без обзира на то на којој плочици радите.",
                 "name": "$~Поље /name/ је име твог пројекта. Имена се приказују у приказима *пројекат* и *галерија*.",
                 "sourceToggle": "$~Овај /прекидач/ приказује или скрива *изворну датотеку*. *Остали прекидачи* у овом реду раде исто за остале плочице.",
-                "addSource": "$~Неки пројекти имају користи од *више* изворних датотека, где се подаци чувају у једној и увозе у *главни* извор. Дугме /додај извор/ креира нови.",
+                "addSource": "$!Неки пројекти имају користи од *више* изворних датотека, где се подаци чувају у једној и увозе у *главни* извор. Дугме /додај извор/ креира нови.",
                 "share": "$~Дијалог /share/ вам омогућава да делите свој пројекат са *галеријама*, са *јавношћу* или да га копирате као *текст* да бисте га делили негде другде.",
                 "checkpoints": "$~Панел /revisions/ вам омогућава да се *вратите* на претходне верзије вашег пројекта и *снимке* верзија које желите да запамтите.",
                 "languages": "$~Дугме /languages/ приказује на којим је језицима твој пројекат написан, омогућава ти да додаш или уклониш неки и може да *преведе* *имена*, *текст* и *документацију* твог пројекта на нови језик."
@@ -624,6 +624,58 @@
             "view": {
                 "added": "$~додао други приказ за $name",
                 "closed": "$~затворио други приказ за $name"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2004,7 +2056,8 @@
                     ]
                 },
                 "report": "$~Шта сам увезао",
-                "reportExplanation": "$~Један @Music може да садржи већину онога што MIDI датотека описује, али не све. Ево шта се променило приликом увоза."
+                "reportExplanation": "$~Један @Music може да садржи већину онога што MIDI датотека описује, али не све. Ево шта се променило приликом увоза.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~додај излаз",
@@ -2826,6 +2879,26 @@
             "notData": "$~Ово није врста вредности вредна датотеке.",
             "droppedUnits": "$~Јединице су изостављене: JSON број не може да их носи.",
             "droppedNumbers": "$~Бројеви који нису коначни су изостављени: JSON их не може записати."
+        },
+        "image": {
+            "button": {
+                "label": "$~отпреми",
+                "tip": "$~изабери датотеку слике са овог уређаја"
+            },
+            "crop": {
+                "label": "$~оквир за исецање",
+                "tip": "$!квадрат слике који треба задржати"
+            },
+            "preview": "$~шта ће бити додато",
+            "feedback": {
+                "tooBig": "$~Та слика има $size MB. Изабери мању од $limit MB.",
+                "unreadable": "$~Нисмо успели да прочитамо ту датотеку као слику."
+            },
+            "announce": {
+                "cropped": "$~оквир за исецање на $x $y",
+                "moving": "$~померање оквира за исецање",
+                "done": "$~оквир за исецање постављен"
+            }
         }
     }
 }

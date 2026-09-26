@@ -2,6 +2,12 @@
     /**
      * Import a MIDI file as a new `Music` in the project.
      *
+     * Rendered inside the add-source dialog, which is the one place in the app
+     * that turns data into code (#559). It used to sit in the palette's insert
+     * toolbar with a dialog of its own for its report; the host dialog is what
+     * that dialog was for, so this now renders its progress and its findings
+     * where it stands.
+     *
      * The conversion itself already existed and is well tested — it takes bytes
      * and returns Wordplay source plus structured findings. What was missing
      * was any way to reach it: there is no file upload anywhere else in the
@@ -15,15 +21,14 @@
      * nothing for a creator to choose, only something to know.
      */
     import ProgressBar from '@components/widgets/ProgressBar.svelte';
-    import { Projects } from '@db/projects/Projects';
     import Button from '@components/widgets/Button.svelte';
     import LocalizedText from '@components/widgets/LocalizedText.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Dialog from '@components/widgets/Dialog.svelte';
     import Note from '@components/widgets/Note.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
     import { locales } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import Bind from '@nodes/Bind';
+    import freshSourceName from '@edit/freshSourceName';
     import { MUSIC_SYMBOL } from '@parser/Symbols';
 
     /**
@@ -46,9 +51,11 @@
     interface Props {
         project: Project;
         editable: boolean;
+        /** Put the revised project into the world, tile and all. */
+        added: (project: Project) => void;
     }
 
-    let { project, editable }: Props = $props();
+    let { project, editable, added }: Props = $props();
 
     let picker: HTMLInputElement | undefined = $state(undefined);
     /** What the last import reported, or an error, or nothing yet. */
@@ -58,8 +65,6 @@
         notes: number;
     } | null>(null);
     let problem = $state<'notMIDI' | 'badMIDI' | null>(null);
-    /** Whether the report dialog is open. */
-    let reporting = $state(false);
     /**
      * Which phase the import is in, or undefined when idle.
      *
@@ -104,7 +109,6 @@
         report = null;
         problem = null;
         tooBig = null;
-        reporting = true;
         try {
             await read(file);
         } finally {
@@ -162,7 +166,7 @@
         // notes, and it keeps the converter's own line layout, which the
         // editor virtualizes by line.
         await begin(2);
-        const names = freshNames(conversion, project);
+        const sourceName = freshSourceName(project, conversion.sourceName);
 
         await begin(3);
 
@@ -170,19 +174,19 @@
         // supplement's tile starts collapsed and an unmounted tile renders
         // nothing, so the notes cost no layout until someone opens them — and
         // the program stays two lines, which is what makes editing it fast.
-        const added = project.withNewSource(
-            names.sourceName,
+        const grown = project.withNewSource(
+            sourceName,
             `${conversion.tracks}\n`,
         );
-        const main = added.getMain();
+        const main = grown.getMain();
         const before = main.code.toString();
         // The borrow goes at the top, because a program's borrows are parsed
         // before anything else; the music goes at the end with whatever else
         // the program already produces.
         const [borrow, ...music] = conversion.main
-            .replaceAll(conversion.sourceName, names.sourceName)
+            .replaceAll(conversion.sourceName, sourceName)
             .split('\n');
-        const revised = added.withSource(
+        const revised = grown.withSource(
             main,
             main.withCode(
                 `${borrow}\n${before}${before.endsWith('\n') ? '' : '\n'}${music.join('\n')}`,
@@ -205,7 +209,7 @@
             revised,
             must(musics[musics.length - 1], 'the imported music'),
         )?.tracks[0]?.evaluate;
-        Projects.reviseProject(
+        added(
             track === undefined
                 ? revised
                 : revised.withCaret(revised.getMain(), track),
@@ -216,35 +220,6 @@
             tracks: conversion.trackCount,
             notes: conversion.noteCount,
         };
-        reporting = true;
-    }
-
-    /**
-     * A name for the imported source that nothing else is using.
-     *
-     * Source names and bind names share one space here: `Project.getShare`
-     * matches a **source** name before it looks at shares, so an imported
-     * source called `song` would shadow a bind of that name. Numbered onward
-     * from whatever is taken, so importing twice gives `song` then `song2`.
-     */
-    function freshNames(
-        conversion: { sourceName: string },
-        project: Project,
-    ): { sourceName: string } {
-        const taken = new Set<string>();
-        for (const each of project.getSources()) {
-            for (const name of each.names.getNames()) taken.add(name);
-            for (const node of each.nodes())
-                if (node instanceof Bind)
-                    for (const name of node.names.getNames()) taken.add(name);
-        }
-        const free = (wanted: string) => {
-            if (!taken.has(wanted)) return wanted;
-            let n = 2;
-            while (taken.has(`${wanted}${n}`)) n++;
-            return `${wanted}${n}`;
-        };
-        return { sourceName: free(conversion.sourceName) };
     }
 
     type Sentence = {
@@ -340,18 +315,18 @@
     );
 </script>
 
-<div class="importer">
+<div class="importer panel-column">
     <Button
+        background
         tip={(l) => l.ui.palette.button.importMIDI}
         active={editable && !importing}
         action={() => picker?.click()}
         icon={`${UPLOAD_GLYPH}${MUSIC_SYMBOL}`}
+        label={(l) => l.ui.palette.music.choose}
     ></Button>
     <!-- The real input is hidden because a bare file input can't be styled to
-         match the toolbar; the button above is its label and does the work.
-         The uiid is how a test reaches this one input: the toolbar this sits in
-         renders a hidden measurement copy of every item, and strips identifying
-         attributes from it, so only the real input keeps the uiid. -->
+         match the rest of the dialog; the button above is its label and does the
+         work. The uiid is how a test reaches it. -->
     <input
         type="file"
         accept=".mid,.midi,audio/midi"
@@ -362,37 +337,31 @@
             (l) => l.ui.palette.button.importMIDI,
         )}
     />
-</div>
 
-{#if problem !== null}
-    <Note
-        ><LocalizedText
-            path={(l) =>
-                problem === 'notMIDI'
-                    ? l.ui.palette.music.notMIDI
-                    : l.ui.palette.music.badMIDI}
-        /></Note
-    >
-{:else if tooBig !== null}
-    <Note
-        ><MarkupHtmlView
-            inline
-            markup={[
-                (l) => l.ui.palette.music.tooBig,
-                { count: tooBig.notes, cap: `${MaxNotes}` },
-            ]}
-        /></Note
-    >
-{/if}
+    {#if problem !== null}
+        <Note
+            ><LocalizedText
+                path={(l) =>
+                    problem === 'notMIDI'
+                        ? l.ui.palette.music.notMIDI
+                        : l.ui.palette.music.badMIDI}
+            /></Note
+        >
+    {:else if tooBig !== null}
+        <Note
+            ><MarkupHtmlView
+                inline
+                markup={[
+                    (l) => l.ui.palette.music.tooBig,
+                    { count: tooBig.notes, cap: `${MaxNotes}` },
+                ]}
+            /></Note
+        >
+    {/if}
 
-<!-- Opened when the import starts, not when it finishes: the work blocks the
-     page for seconds on a long song, and a progress line tucked into the offers
-     panel read as a frozen page rather than as something happening. -->
-<Dialog
-    bind:show={reporting}
-    header={(l) => l.ui.palette.music.report}
-    explanation={(l) => l.ui.palette.music.reportExplanation}
->
+    <!-- Shown while the import runs, not only when it finishes: the work blocks
+         the page for seconds on a long song, and silence reads as a frozen page
+         rather than as something happening. -->
     {#if step !== undefined}
         <div class="stack progress">
             <MarkupHtmlView
@@ -418,6 +387,8 @@
             />
         </div>
     {:else if report !== null}
+        <Subheader text={(l) => l.ui.palette.music.report} />
+        <MarkupHtmlView markup={(l) => l.ui.palette.music.reportExplanation} />
         <MarkupHtmlView
             markup={[
                 (l) => l.ui.palette.music.imported,
@@ -430,16 +401,11 @@
             </div>
         {/each}
     {/if}
-</Dialog>
+</div>
 
 <style>
-    /* A column so the button sits in the offer's row of actions while whatever
-       the import has to report stacks beneath it. */
     .importer {
-        display: flex;
-        flex-direction: column;
-        align-items: end;
-        gap: var(--wordplay-spacing);
+        align-items: start;
     }
 
     /* Off-screen rather than display:none, so it stays focusable for anyone

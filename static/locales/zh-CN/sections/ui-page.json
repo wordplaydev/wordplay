@@ -1107,9 +1107,7 @@
                     "glyphLoading": "$~正在获取字体……",
                     "glyphMissing": "$~这种字体没有该符号的形状。请试试其他字体。",
                     "glyphEmpty": "$~这个符号没有可绘制的内容。",
-                    "glyphUnreadable": "$~我们无法读取这种字体。请检查你的网络连接，或试试其他字体。",
-                    "imageTooBig": "$~这张图片是 $size MB。请选择小于 $limit MB 的图片。",
-                    "imageUnreadable": "$~我们无法把那个文件当作图片来读取。"
+                    "glyphUnreadable": "$~我们无法读取这种字体。请检查你的网络连接，或试试其他字体。"
                 },
                 "announce": {
                     "position": "位于 $x $y",
@@ -1134,9 +1132,6 @@
                     "arranged": "$~第 $index 层（共 $total 层）",
                     "flipped": "$~翻转了，现在位于 $x $y",
                     "fitted": "$~放大了形状以填满画布",
-                    "cropped": "$~裁剪框位于 $x $y",
-                    "cropMoving": "$~正在移动裁剪框",
-                    "cropDone": "$~裁剪框已放置",
                     "imported": "$~从 $x $y 添加了 $#count[$count 个像素]"
                 },
                 "share": {
@@ -1177,19 +1172,10 @@
                 },
                 "image": {
                     "instructions": "$~拖动方框来移动它，或者用 *size* 滑块来调整要保留的图片范围。用键盘操作时，按 *enter* 开始移动，再用 *arrow* 方向键调整位置，完成后再按一次 *enter*。",
-                    "button": {
-                        "label": "$~上传",
-                        "tip": "$~从这台设备选择一个图片文件"
-                    },
                     "add": {
                         "label": "$~添加",
                         "tip": "$~将选中的方框以像素形式添加到字符中"
                     },
-                    "crop": {
-                        "label": "$~裁剪框",
-                        "tip": "$~要保留的图片方框区域"
-                    },
-                    "preview": "$~将要添加的内容",
                     "size": {
                         "label": "$~大小",
                         "tip": "$~要保留多少图片内容"

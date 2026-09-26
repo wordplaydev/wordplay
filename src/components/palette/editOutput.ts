@@ -375,6 +375,7 @@ export type OutputKind =
     | 'phrase'
     | 'group'
     | 'shape'
+    | 'image'
     | 'stage'
     | 'say'
     /** Heard rather than seen, like `say` — but output all the same, so it is
@@ -413,6 +414,7 @@ function outputKindOfType(
             if (def === output.Group) return 'group';
             if (def === output.Phrase) return 'phrase';
             if (def === output.Shape) return 'shape';
+            if (def === output.Image) return 'image';
             if (def === output.Say) return 'say';
             if (def === output.Music) return 'music';
             if (
@@ -463,6 +465,7 @@ function listElementOutputKind(
     return elementKind === 'phrase' ||
         elementKind === 'group' ||
         elementKind === 'shape' ||
+        elementKind === 'image' ||
         elementKind === 'say' ||
         elementKind === 'stage'
         ? elementKind
@@ -514,6 +517,8 @@ export function classifyOutput(project: Project): {
             return { kind: 'phrase', expression: last, isList: false };
         if (last.is(output.Shape, context))
             return { kind: 'shape', expression: last, isList: false };
+        if (last.is(output.Image, context))
+            return { kind: 'image', expression: last, isList: false };
         if (last.is(output.Say, context))
             return { kind: 'say', expression: last, isList: false };
         if (last.is(output.Music, context))
@@ -592,6 +597,7 @@ export function addStage(db: Database, project: Project): Project | undefined {
         kind === 'phrase' ||
         kind === 'group' ||
         kind === 'shape' ||
+        kind === 'image' ||
         kind === 'say';
     // Only create a Stage when wrapping an eligible output or starting from nothing.
     if (!eligible && kind !== 'none') return;
@@ -637,6 +643,7 @@ export function isOutput(n: Node, project: Project, context: Context) {
             n.is(project.shares.output.Group, context) ||
             n.is(project.shares.output.Stage, context) ||
             n.is(project.shares.output.Shape, context) ||
+            n.is(project.shares.output.Image, context) ||
             n.is(project.shares.output.Say, context))
     );
 }

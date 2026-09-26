@@ -144,7 +144,7 @@
                     "tip": "$~以文字形式複製工程到剪貼簿",
                     "label": "$~複製為文字"
                 },
-                "addSource": "$~建立另一個@Source，這樣你就能把資料或分享的程式碼放在獨立的檔案裡",
+                "addSource": "$!建立另一個@Source，這樣你就能把資料或分享的程式碼放在獨立的檔案裡",
                 "revert": "恢復到原始碼",
                 "focusOutput": "聚焦舞台上的鍵盤樂器",
                 "focusSource": "聚焦到下一個來源",
@@ -269,7 +269,7 @@
                 "controls": "$~底部的這些 /控制項/ 適用於 *整個工程*，不論你在哪個磚格中工作。",
                 "name": "$~/name/ 欄位是你工程的姓名。姓名會顯示在 *工程* 和 *作品集* 檢視中。",
                 "sourceToggle": "$~這個 /切換鈕/ 顯示或隱藏 *來源檔案*。這一列上的 *其他切換鈕* 對其他磚格做同樣的事。",
-                "addSource": "$~有些工程受益於 *多個* 來源檔案，資料儲存在一個檔案中，再匯入 *主要* 來源。/新增來源/ 按鈕會建立一個新的。",
+                "addSource": "$!有些工程受益於 *多個* 來源檔案，資料儲存在一個檔案中，再匯入 *主要* 來源。/新增來源/ 按鈕會建立一個新的。",
                 "share": "$~/分享/ 對話框讓你把工程分享到 *作品集*、分享給 *大眾*，或複製成 *文字* 到別處分享。",
                 "checkpoints": "$~/修訂/ 面板讓你回到工程先前的版本，也能為想記住的版本建立 *快照*。",
                 "languages": "$~/語言/ 按鈕會顯示你的工程使用哪些語言，讓你加入或移除一個語言，還能把你工程的*名字*、*文字*和*說明文件*翻譯成新的語言。"
@@ -600,6 +600,58 @@
             "view": {
                 "added": "$~新增了 $name 的第二個視窗",
                 "closed": "$~關閉了 $name 的第二個視窗"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -1831,7 +1883,8 @@
                     ]
                 },
                 "report": "$~我匯入了什麼",
-                "reportExplanation": "$~一個 @Music 可以容納 MIDI 檔案描述的大部分內容，但無法容納全部。以下是匯入時改變的部分。"
+                "reportExplanation": "$~一個 @Music 可以容納 MIDI 檔案描述的大部分內容，但無法容納全部。以下是匯入時改變的部分。",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~新增輸出",
@@ -2808,6 +2861,26 @@
             "notData": "$~這種值不適合存成檔案。",
             "droppedUnits": "$~單位被省略了：JSON 的數字沒辦法帶單位。",
             "droppedNumbers": "$~不是有限值的數字被省略了：JSON 沒辦法寫出它們。"
+        },
+        "image": {
+            "button": {
+                "label": "$~上傳",
+                "tip": "$~從這個裝置選擇一個圖片檔"
+            },
+            "crop": {
+                "label": "$~裁切框",
+                "tip": "$!要保留的圖片方框"
+            },
+            "preview": "$~將會新增的內容",
+            "feedback": {
+                "tooBig": "$~這張圖片是 $size MB。請選擇小於 $limit MB 的圖片。",
+                "unreadable": "$~我們無法把這個檔案讀取為圖片。"
+            },
+            "announce": {
+                "cropped": "$~裁切框位於 $x $y",
+                "moving": "$~移動裁切框",
+                "done": "$~裁切框已放置"
+            }
         }
     }
 }

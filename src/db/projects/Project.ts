@@ -2319,10 +2319,21 @@ export default class Project {
         return this.isTutorial() || this.isScratch();
     }
 
+    /**
+     * How many bytes this project's code takes, against the document limit it is checked
+     * against.
+     *
+     * Real UTF-8, not string length. A JavaScript string counts UTF-16 code units, so an
+     * emoji counts two where it costs four and `°` counts one where it costs two — and a
+     * source of colors is nothing but those. Undercounting let a project pass the edit
+     * check and then fail its write, forever, which is the one failure a creator cannot
+     * act on. `importProject` has always measured it this way.
+     */
     getSourceByteSize() {
-        // Estimate rather than getting exact size.
+        const encoder = new TextEncoder();
         return this.getSources().reduce(
-            (sum, source) => sum + source.getCode().toString().length,
+            (sum, source) =>
+                sum + encoder.encode(source.getCode().toString()).length,
             0,
         );
     }

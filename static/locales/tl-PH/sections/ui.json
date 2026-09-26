@@ -151,7 +151,7 @@
                     "tip": "$~kopyahin ang proyekto sa clipboard bilang teksto",
                     "label": "$~kopyahin bilang teksto"
                 },
-                "addSource": "$~gumawa ng isa pang @Source, para makapagtago ka ng datos o ibinahaging kodigo sa sarili nitong file",
+                "addSource": "$!gumawa ng isa pang @Source, para makapagtago ka ng datos o ibinahaging kodigo sa sarili nitong file",
                 "revert": "$~bumalik sa orihinal na code",
                 "focusOutput": "$~itutok ang keyboard sa entablado",
                 "focusSource": "$~tumuon sa susunod na mapagkukunan",
@@ -269,7 +269,7 @@
                 "controls": "$~Ang mga /controls/ na ito sa ibaba ay nalalapat sa *kabuuang proyekto*, kahit anong tile ang gamitin mo.",
                 "name": "$~Ang /name/ na field ay ang pangalan ng iyong proyekto. Lumalabas ang mga pangalan sa *project* at *gallery* na mga view.",
                 "sourceToggle": "$~Ipinapakita o itinatago ng /toggle/ na ito ang *source file*. Ganito rin ang gagawin ng *iba pang mga toggle* sa row na ito para sa iba pang mga tile.",
-                "addSource": "$~Ang ilang proyekto ay nakikinabang mula sa *maraming* source file, kung saan ang data ay iniimbak sa isa at ini-import sa *pangunahing* source. Ang button na /add source/ ay lumilikha ng bago.",
+                "addSource": "$!Ang ilang proyekto ay nakikinabang mula sa *maraming* source file, kung saan ang data ay iniimbak sa isa at ini-import sa *pangunahing* source. Ang button na /add source/ ay lumilikha ng bago.",
                 "share": "$~Ang dialog na /share/ ay nagbibigay-daan sa iyong ibahagi ang iyong proyekto sa mga *gallery*, sa *publiko*, o kopyahin ito bilang *text* upang ibahagi sa ibang lugar.",
                 "checkpoints": "$~Ang panel na /revisions/ ay nagbibigay-daan sa iyong *bumalik* sa mga nakaraang bersyon ng iyong proyekto, at mga *snapshot* na bersyong gusto mong matandaan.",
                 "languages": "$~Ang pindutan ng /mga wika/ ay nagpapakita kung anong mga wika ang ginamit sa iyong proyekto, nagbibigay-daan na magdagdag o magtanggal ng isa, at maaaring *isalin* ang mga *pangalan*, *teksto*, at *dokumentasyon* ng iyong proyekto sa isang bagong wika."
@@ -870,6 +870,58 @@
             "view": {
                 "added": "$~nagdagdag ng pangalawang tanawin ng $name",
                 "closed": "$~isinara ang pangalawang tanawin ng $name"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2253,7 +2305,8 @@
                     ]
                 },
                 "report": "$~Ang aking na-import",
-                "reportExplanation": "$~Kaya ng isang @Music na hawakan ang karamihan sa inilalarawan ng isang MIDI file, ngunit hindi lahat. Narito ang nagbago habang ini-import ito."
+                "reportExplanation": "$~Kaya ng isang @Music na hawakan ang karamihan sa inilalarawan ng isang MIDI file, ngunit hindi lahat. Narito ang nagbago habang ini-import ito.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~magdagdag ng output",
@@ -2837,6 +2890,26 @@
             "notData": "$~Hindi ito uri ng halaga na sulit gawing file.",
             "droppedUnits": "$~Naiwan ang mga yunit: hindi kayang dalhin ng isang JSON number ang mga ito.",
             "droppedNumbers": "$~Naiwan ang mga numerong hindi may hangganan: hindi kayang isulat ng JSON ang mga ito."
+        },
+        "image": {
+            "button": {
+                "label": "$~i-upload",
+                "tip": "$~pumili ng file ng larawan mula sa device na ito"
+            },
+            "crop": {
+                "label": "$~kahon ng pag-crop",
+                "tip": "$!ang kuwadrado ng larawan na panatilihin"
+            },
+            "preview": "$~ang idadagdag",
+            "feedback": {
+                "tooBig": "$~Ang larawang iyon ay $size MB. Pumili ng mas maliit sa $limit MB.",
+                "unreadable": "$~Hindi namin nabasa ang file na iyon bilang larawan."
+            },
+            "announce": {
+                "cropped": "$~kahon ng pag-crop sa $x $y",
+                "moving": "$~inilipat ang kahon ng pag-crop",
+                "done": "$~inilagay ang kahon ng pag-crop"
+            }
         }
     }
 }

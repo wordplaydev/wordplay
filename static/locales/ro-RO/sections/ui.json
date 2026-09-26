@@ -152,7 +152,7 @@
                     "tip": "$~copiază proiectul în clipboard ca text",
                     "label": "$~copiază ca text"
                 },
-                "addSource": "$~creează o altă @Source, ca să poți păstra date sau cod partajat în propriul fișier",
+                "addSource": "$!creează o altă @Source, ca să poți păstra date sau cod partajat în propriul fișier",
                 "revert": "$~reveniți la codul original",
                 "focusOutput": "$~tastatură concentrată pe scenă",
                 "focusSource": "$~concentrați-vă pe următoarea sursă",
@@ -269,7 +269,7 @@
                 "controls": "$~Aceste /comenzi/ din partea de jos se aplică întregului *proiect*, indiferent de dala în care lucrați.",
                 "name": "$~Câmpul /name/ este numele proiectului tău. Numele apar în vizualizările *project* și *gallery*.",
                 "sourceToggle": "$~Această /comutare/ afișează sau ascunde *fișierul sursă*. *Celelalte comenzi* de pe acest rând fac același lucru și pentru celelalte plăci.",
-                "addSource": "$~Unele proiecte beneficiază de fișiere sursă *mai multe*, unde datele sunt stocate într-unul singur și importate în sursa *principală*. Butonul /adăugați sursă/ creează una nouă.",
+                "addSource": "$!Unele proiecte beneficiază de fișiere sursă *mai multe*, unde datele sunt stocate într-unul singur și importate în sursa *principală*. Butonul /adăugați sursă/ creează una nouă.",
                 "share": "$~Caseta de dialog /share/ vă permite să partajați proiectul cu *galerii*, cu *publicul* sau să îl copiați ca *text* pentru a-l partaja în altă parte.",
                 "checkpoints": "$~Panoul /revisions/ vă permite să *reveniți* la versiunile anterioare ale proiectului și la versiunile *snapshot* pe care doriți să le rețineți.",
                 "languages": "$~Butonul /limbi/ arată în ce limbi este scris proiectul tău, îți permite să adaugi sau să elimini una și poate *traduce* *numele*, *textul* și *documentarea* proiectului tău într-o limbă nouă."
@@ -870,6 +870,58 @@
             "view": {
                 "added": "$~a adăugat o a doua fereastră pentru $name",
                 "closed": "$~a închis a doua fereastră pentru $name"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2261,7 +2313,8 @@
                     ]
                 },
                 "report": "$~Ce am importat",
-                "reportExplanation": "$~Un @Music poate păstra cea mai mare parte din ce descrie un fișier MIDI, dar nu chiar totul. Iată ce s-a schimbat la intrare."
+                "reportExplanation": "$~Un @Music poate păstra cea mai mare parte din ce descrie un fișier MIDI, dar nu chiar totul. Iată ce s-a schimbat la intrare.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~adaugă ieșire",
@@ -2837,6 +2890,26 @@
             "notData": "$~Acesta nu este genul de valoare care merită un fișier.",
             "droppedUnits": "$~Unitățile de măsură au fost omise: un număr JSON nu poate purta una.",
             "droppedNumbers": "$~Numerele care nu sunt finite au fost omise: JSON nu le poate scrie."
+        },
+        "image": {
+            "button": {
+                "label": "$~încarcă",
+                "tip": "$~alege un fișier imagine de pe acest dispozitiv"
+            },
+            "crop": {
+                "label": "$~chenar de decupare",
+                "tip": "$!pătratul imaginii de păstrat"
+            },
+            "preview": "$~ce se va adăuga",
+            "feedback": {
+                "tooBig": "$~Acea imagine are $size MB. Te rugăm să alegi una mai mică de $limit MB.",
+                "unreadable": "$~Nu am putut citi acel fișier ca imagine."
+            },
+            "announce": {
+                "cropped": "$~chenar de decupare la $x $y",
+                "moving": "$~mutarea chenarului de decupare",
+                "done": "$~chenar de decupare plasat"
+            }
         }
     }
 }

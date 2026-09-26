@@ -148,7 +148,7 @@
                     "tip": "$~ਪ੍ਰੋਜੈਕਟ ਨੂੰ ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਟੈਕਸਟ ਦੇ ਰੂਪ ਵਿੱਚ ਕਾਪੀ ਕਰੋ",
                     "label": "$~ਟੈਕਸਟ ਦੇ ਤੌਰ 'ਤੇ ਕਾਪੀ ਕਰੋ"
                 },
-                "addSource": "$~ਇੱਕ ਹੋਰ @Source ਬਣਾਓ, ਤਾਂ ਜੋ ਤੁਸੀਂ ਡਾਟਾ ਜਾਂ ਸਾਂਝਾ ਕੀਤਾ ਕੋਡ ਇਸਦੀ ਆਪਣੀ ਫ਼ਾਈਲ ਵਿੱਚ ਰੱਖ ਸਕੋ",
+                "addSource": "$!ਇੱਕ ਹੋਰ @Source ਬਣਾਓ, ਤਾਂ ਜੋ ਤੁਸੀਂ ਡਾਟਾ ਜਾਂ ਸਾਂਝਾ ਕੀਤਾ ਕੋਡ ਇਸਦੀ ਆਪਣੀ ਫ਼ਾਈਲ ਵਿੱਚ ਰੱਖ ਸਕੋ",
                 "revert": "$~ਮੂਲ ਕੋਡ 'ਤੇ ਵਾਪਸ ਜਾਓ",
                 "focusOutput": "$~ਸਟੇਜ 'ਤੇ ਫੋਕਸ ਕੀਬੋਰਡ",
                 "focusSource": "$~ਅਗਲੇ ਸਰੋਤ 'ਤੇ ਧਿਆਨ ਕੇਂਦਰਤ ਕਰੋ",
@@ -269,7 +269,7 @@
                 "controls": "$~ਹੇਠਾਂ ਦਿੱਤੇ ਇਹ /controls/ *ਪੂਰੇ ਪ੍ਰੋਜੈਕਟ* 'ਤੇ ਲਾਗੂ ਹੁੰਦੇ ਹਨ, ਭਾਵੇਂ ਤੁਸੀਂ ਕਿਸੇ ਵੀ ਟਾਈਲ ਵਿੱਚ ਕੰਮ ਕਰ ਰਹੇ ਹੋ।",
                 "name": "$~/name/ ਖੇਤਰ ਤੁਹਾਡੇ ਪ੍ਰੋਜੈਕਟ ਦਾ ਨਾਮ ਹੈ। ਨਾਮ *ਪ੍ਰੋਜੈਕਟ* ਅਤੇ *ਗੈਲਰੀ* ਦ੍ਰਿਸ਼ਾਂ ਵਿੱਚ ਦਿਖਾਈ ਦਿੰਦੇ ਹਨ।",
                 "sourceToggle": "$~ਇਹ /ਟੌਗਲ/ *ਸਰੋਤ ਫਾਈਲ* ਨੂੰ ਦਿਖਾਉਂਦਾ ਜਾਂ ਲੁਕਾਉਂਦਾ ਹੈ। ਇਸ ਕਤਾਰ 'ਤੇ *ਹੋਰ ਟੌਗਲ* ਦੂਜੀਆਂ ਟਾਈਲਾਂ ਲਈ ਵੀ ਇਹੀ ਕਰਦੇ ਹਨ।",
-                "addSource": "$~ਕੁਝ ਪ੍ਰੋਜੈਕਟ *ਮਲਟੀਪਲ* ਸਰੋਤ ਫਾਈਲਾਂ ਤੋਂ ਲਾਭ ਪ੍ਰਾਪਤ ਕਰਦੇ ਹਨ, ਜਿੱਥੇ ਡੇਟਾ ਇੱਕ ਵਿੱਚ ਸਟੋਰ ਕੀਤਾ ਜਾਂਦਾ ਹੈ ਅਤੇ *ਮੁੱਖ* ਸਰੋਤ ਵਿੱਚ ਆਯਾਤ ਕੀਤਾ ਜਾਂਦਾ ਹੈ। /add source/ ਬਟਨ ਇੱਕ ਨਵਾਂ ਬਣਾਉਂਦਾ ਹੈ।",
+                "addSource": "$!ਕੁਝ ਪ੍ਰੋਜੈਕਟ *ਮਲਟੀਪਲ* ਸਰੋਤ ਫਾਈਲਾਂ ਤੋਂ ਲਾਭ ਪ੍ਰਾਪਤ ਕਰਦੇ ਹਨ, ਜਿੱਥੇ ਡੇਟਾ ਇੱਕ ਵਿੱਚ ਸਟੋਰ ਕੀਤਾ ਜਾਂਦਾ ਹੈ ਅਤੇ *ਮੁੱਖ* ਸਰੋਤ ਵਿੱਚ ਆਯਾਤ ਕੀਤਾ ਜਾਂਦਾ ਹੈ। /add source/ ਬਟਨ ਇੱਕ ਨਵਾਂ ਬਣਾਉਂਦਾ ਹੈ।",
                 "share": "$~/share/ ਡਾਇਲਾਗ ਤੁਹਾਨੂੰ ਆਪਣੇ ਪ੍ਰੋਜੈਕਟ ਨੂੰ *ਗੈਲਰੀਆਂ* ਨਾਲ, *ਜਨਤਾ* ਨਾਲ ਸਾਂਝਾ ਕਰਨ, ਜਾਂ ਕਿਤੇ ਹੋਰ ਸਾਂਝਾ ਕਰਨ ਲਈ *ਟੈਕਸਟ* ਦੇ ਰੂਪ ਵਿੱਚ ਕਾਪੀ ਕਰਨ ਦਿੰਦਾ ਹੈ।",
                 "checkpoints": "$~/revisions/ ਪੈਨਲ ਤੁਹਾਨੂੰ ਤੁਹਾਡੇ ਪ੍ਰੋਜੈਕਟ ਦੇ ਪਿਛਲੇ ਸੰਸਕਰਣਾਂ ਅਤੇ *ਸਨੈਪਸ਼ਾਟ* ਸੰਸਕਰਣਾਂ 'ਤੇ *ਵਾਪਸ* ਜਾਣ ਦਿੰਦਾ ਹੈ ਜੋ ਤੁਸੀਂ ਯਾਦ ਰੱਖਣਾ ਚਾਹੁੰਦੇ ਹੋ।",
                 "languages": "$~/languages/ ਬਟਨ ਦਿਖਾਉਂਦਾ ਹੈ ਕਿ ਤੁਹਾਡਾ ਪ੍ਰੋਜੈਕਟ ਕਿਹੜੀਆਂ ਭਾਸ਼ਾਵਾਂ ਵਿੱਚ ਲਿਖਿਆ ਗਿਆ ਹੈ, ਤੁਹਾਨੂੰ ਕੋਈ ਭਾਸ਼ਾ ਜੋੜਨ ਜਾਂ ਹਟਾਉਣ ਦਿੰਦਾ ਹੈ, ਅਤੇ ਤੁਹਾਡੇ ਪ੍ਰੋਜੈਕਟ ਦੇ *ਨਾਮਾਂ*, *ਟੈਕਸਟ* ਅਤੇ *ਦਸਤਾਵੇਜ਼ੀਕਰਨ* ਦਾ ਕਿਸੇ ਨਵੀਂ ਭਾਸ਼ਾ ਵਿੱਚ *ਅਨੁਵਾਦ* ਕਰ ਸਕਦਾ ਹੈ।"
@@ -629,6 +629,58 @@
             "view": {
                 "added": "$~$name ਦਾ ਦੂਜਾ ਦ੍ਰਿਸ਼ ਜੋੜਿਆ ਗਿਆ",
                 "closed": "$~$name ਦਾ ਦੂਜਾ ਦ੍ਰਿਸ਼ ਬੰਦ ਕੀਤਾ ਗਿਆ"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2007,7 +2059,8 @@
                     ]
                 },
                 "report": "$~ਮੈਂ ਕੀ ਆਯਾਤ ਕੀਤਾ",
-                "reportExplanation": "$~ਇੱਕ @Music ਉਹ ਬਹੁਤ ਕੁਝ ਰੱਖ ਸਕਦਾ ਹੈ ਜੋ ਇੱਕ MIDI ਫਾਈਲ ਦੱਸਦੀ ਹੈ, ਪਰ ਸਾਰਾ ਨਹੀਂ। ਆਉਂਦੇ ਸਮੇਂ ਜੋ ਬਦਲਿਆ, ਉਹ ਇੱਥੇ ਹੈ।"
+                "reportExplanation": "$~ਇੱਕ @Music ਉਹ ਬਹੁਤ ਕੁਝ ਰੱਖ ਸਕਦਾ ਹੈ ਜੋ ਇੱਕ MIDI ਫਾਈਲ ਦੱਸਦੀ ਹੈ, ਪਰ ਸਾਰਾ ਨਹੀਂ। ਆਉਂਦੇ ਸਮੇਂ ਜੋ ਬਦਲਿਆ, ਉਹ ਇੱਥੇ ਹੈ।",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~ਆਊਟਪੁੱਟ ਜੋੜੋ",
@@ -2832,6 +2885,26 @@
             "notData": "$~ਇਹ ਅਜਿਹੀ ਕਿਸਮ ਦਾ ਮੁੱਲ ਨਹੀਂ ਹੈ ਜਿਸ ਨੂੰ ਫ਼ਾਈਲ ਵਜੋਂ ਸਾਂਭਣ ਦੀ ਲੋੜ ਹੋਵੇ।",
             "droppedUnits": "$~ਇਕਾਈਆਂ ਛੱਡ ਦਿੱਤੀਆਂ ਗਈਆਂ: ਇੱਕ JSON ਨੰਬਰ ਕੋਈ ਇਕਾਈ ਨਹੀਂ ਰੱਖ ਸਕਦਾ।",
             "droppedNumbers": "$~ਉਹ ਨੰਬਰ ਜੋ ਸੀਮਿਤ ਨਹੀਂ ਹਨ, ਛੱਡ ਦਿੱਤੇ ਗਏ: JSON ਉਹਨਾਂ ਨੂੰ ਲਿਖ ਨਹੀਂ ਸਕਦਾ।"
+        },
+        "image": {
+            "button": {
+                "label": "$~ਅੱਪਲੋਡ ਕਰੋ",
+                "tip": "$~ਇਸ ਯੰਤਰ ਤੋਂ ਇੱਕ ਤਸਵੀਰ ਫ਼ਾਈਲ ਚੁਣੋ"
+            },
+            "crop": {
+                "label": "$~ਕੱਟਣ ਵਾਲਾ ਡੱਬਾ",
+                "tip": "$!ਤਸਵੀਰ ਦਾ ਵਰਗ ਜੋ ਰੱਖਣਾ ਹੈ"
+            },
+            "preview": "$~ਕੀ ਜੋੜਿਆ ਜਾਵੇਗਾ",
+            "feedback": {
+                "tooBig": "$~ਉਹ ਤਸਵੀਰ $size MB ਦੀ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ $limit MB ਤੋਂ ਛੋਟੀ ਕੋਈ ਤਸਵੀਰ ਚੁਣੋ।",
+                "unreadable": "$~ਅਸੀਂ ਉਸ ਫ਼ਾਈਲ ਨੂੰ ਤਸਵੀਰ ਵਜੋਂ ਨਹੀਂ ਪੜ੍ਹ ਸਕੇ।"
+            },
+            "announce": {
+                "cropped": "$~ਕੱਟਣ ਵਾਲਾ ਡੱਬਾ $x $y 'ਤੇ",
+                "moving": "$~ਕੱਟਣ ਵਾਲਾ ਡੱਬਾ ਹਿਲਾਇਆ ਜਾ ਰਿਹਾ",
+                "done": "$~ਕੱਟਣ ਵਾਲਾ ਡੱਬਾ ਰੱਖਿਆ ਗਿਆ"
+            }
         }
     }
 }

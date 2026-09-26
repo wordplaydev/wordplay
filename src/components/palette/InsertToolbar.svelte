@@ -9,7 +9,6 @@
         type InsertKind,
     } from '@components/palette/insertOutput';
     import { addStage, getStage } from '@components/palette/editOutput';
-    import MIDIImporter from '@components/palette/MIDIImporter.svelte';
     import {
         getDrawing,
         getSelectedOutput,
@@ -170,9 +169,11 @@
      *      5     collect the selection into a Group
      *      6     wrap everything in a Stage
      *      7     add Music
-     *      8     import a song as Music — beside adding one, since it is the
-     *            other way to get Music rather than a lesser one
-     *      9     add a Say
+     *      8     add a Say
+     *
+     *  Importing a song used to sit at 8. It is one of the ways of making a
+     *  source file now, so it lives with the others in the add-source dialog
+     *  (#559) rather than being the only file chooser in the app.
      */
     /** The drawing toggle's glyph: the same one the Path form is named with, since arming
      *  the mode is how a creator draws one. */
@@ -181,8 +182,7 @@
     const GroupItem = 5;
     const StageItem = 6;
     const MusicItem = 7;
-    const ImportItem = 8;
-    let itemCount = $derived(adds.length + 5);
+    let itemCount = $derived(adds.length + 4);
 </script>
 
 {#snippet renderItem(i: number)}
@@ -230,8 +230,6 @@
             action={() => insert(sounds[0].kind)}
             icon={sounds[0].glyph}
         ></Button>
-    {:else if i === ImportItem}
-        <MIDIImporter {project} {editable} />
     {:else}
         <Button
             tip={sounds[1].tip}

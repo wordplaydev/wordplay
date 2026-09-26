@@ -151,7 +151,7 @@
                     "tip": "$~ప్రాజెక్ట్‌ను క్లిప్‌బోర్డ్‌కు టెక్స్ట్‌గా కాపీ చేయండి",
                     "label": "$~టెక్స్ట్‌గా కాపీ చేయండి"
                 },
-                "addSource": "$~మరో @Sourceను సృష్టించండి, తద్వారా మీరు డేటాను లేదా పంచుకున్న కోడ్‌ను దాని సొంత ఫైల్‌లో ఉంచుకోవచ్చు",
+                "addSource": "$!మరో @Sourceను సృష్టించండి, తద్వారా మీరు డేటాను లేదా పంచుకున్న కోడ్‌ను దాని సొంత ఫైల్‌లో ఉంచుకోవచ్చు",
                 "revert": "$~అసలు కోడ్‌కు తిరిగి వెళ్ళు",
                 "focusOutput": "$~కీబోర్డ్‌ను వేదికపై కేంద్రీకరించండి",
                 "focusSource": "$~తదుపరి మూలంపై దృష్టి పెట్టండి",
@@ -269,7 +269,7 @@
                 "controls": "$~దిగువన ఉన్న ఈ /నియంత్రణలు/ మీరు ఏ టైల్‌లో పని చేస్తున్నా సరే, *ప్రాజెక్ట్ మొత్తానికి* వర్తిస్తాయి.",
                 "name": "$~/name/ ఫీల్డ్ మీ ప్రాజెక్ట్ పేరు. పేర్లు *project* మరియు *gallery* వీక్షణలలో కనిపిస్తాయి.",
                 "sourceToggle": "$~ఈ /టాగల్/ *సోర్స్ ఫైల్‌ను* చూపిస్తుంది లేదా దాచిపెడుతుంది. ఈ వరుసలోని *ఇతర టాగల్స్* కూడా మిగిలిన టైల్స్‌కు అదే పని చేస్తాయి.",
-                "addSource": "$~కొన్ని ప్రాజెక్ట్‌లకు బహుళ సోర్స్ ఫైల్స్ ప్రయోజనకరంగా ఉంటాయి, వీటిలో డేటా ఒక ఫైల్‌లో నిల్వ చేయబడి, ప్రధాన సోర్స్ ఫైల్‌లోకి ఇంపోర్ట్ చేయబడుతుంది. /add source/ బటన్ ఒక కొత్త ఫైల్‌ను సృష్టిస్తుంది.",
+                "addSource": "$!కొన్ని ప్రాజెక్ట్‌లకు బహుళ సోర్స్ ఫైల్స్ ప్రయోజనకరంగా ఉంటాయి, వీటిలో డేటా ఒక ఫైల్‌లో నిల్వ చేయబడి, ప్రధాన సోర్స్ ఫైల్‌లోకి ఇంపోర్ట్ చేయబడుతుంది. /add source/ బటన్ ఒక కొత్త ఫైల్‌ను సృష్టిస్తుంది.",
                 "share": "$~/share/ డైలాగ్ ద్వారా మీరు మీ ప్రాజెక్ట్‌ను *గ్యాలరీలతో*, *ప్రజలతో* పంచుకోవచ్చు లేదా దానిని *టెక్స్ట్‌గా* కాపీ చేసి వేరే చోట పంచుకోవచ్చు.",
                 "checkpoints": "$~/రివిజన్స్/ ప్యానెల్ మీ ప్రాజెక్ట్ యొక్క మునుపటి వెర్షన్‌లకు *తిరిగి* వెళ్లడానికి, మరియు మీరు గుర్తుంచుకోవాలనుకుంటున్న వెర్షన్‌ల *స్నాప్‌షాట్* తీసుకోవడానికి మిమ్మల్ని అనుమతిస్తుంది.",
                 "languages": "$~/languages/ బటన్ మీ ప్రాజెక్ట్ ఏ భాషలలో రాయబడిందో చూపిస్తుంది, ఒకదాన్ని జోడించడానికి లేదా తీసివేయడానికి అనుమతిస్తుంది, మరియు మీ ప్రాజెక్ట్ యొక్క *పేర్లు*, *టెక్స్ట్*, మరియు *డాక్యుమెంటేషన్*ను కొత్త భాషలోకి *అనువదించగలదు*."
@@ -842,6 +842,58 @@
             "view": {
                 "added": "$~$name యొక్క రెండో వీక్షణ చేర్చబడింది",
                 "closed": "$~$name యొక్క రెండో వీక్షణ మూసివేయబడింది"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2232,7 +2284,8 @@
                     ]
                 },
                 "report": "$~నేను దిగుమతి చేసినది",
-                "reportExplanation": "$~ఒక @Music MIDI ఫైల్ వివరించే చాలా భాగాన్ని పట్టుకోగలదు, కానీ మొత్తం కాదు. లోపలికి వచ్చే దారిలో మారినది ఇక్కడ ఉంది."
+                "reportExplanation": "$~ఒక @Music MIDI ఫైల్ వివరించే చాలా భాగాన్ని పట్టుకోగలదు, కానీ మొత్తం కాదు. లోపలికి వచ్చే దారిలో మారినది ఇక్కడ ఉంది.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~అవుట్‌పుట్ చేర్చండి",
@@ -2844,6 +2897,26 @@
             "notData": "$~ఇది ఫైల్‌గా చేయదగిన రకం విలువ కాదు.",
             "droppedUnits": "$~యూనిట్‌లను వదిలివేశారు: JSON సంఖ్య ఒక యూనిట్‌ను తీసుకువెళ్ళలేదు.",
             "droppedNumbers": "$~అనంతం కాని సంఖ్యలను వదిలివేశారు: JSON వాటిని రాయలేదు."
+        },
+        "image": {
+            "button": {
+                "label": "$~అప్‌లోడ్ చేయి",
+                "tip": "$~ఈ పరికరం నుండి ఒక చిత్ర ఫైల్‌ను ఎంచుకోండి"
+            },
+            "crop": {
+                "label": "$~క్రాప్ బాక్స్",
+                "tip": "$!ఉంచవలసిన చిత్రపు చతురస్రం"
+            },
+            "preview": "$~ఏమి చేర్చబడుతుంది",
+            "feedback": {
+                "tooBig": "$~ఆ చిత్రం $size MB పరిమాణంలో ఉంది. దయచేసి $limit MB కన్నా చిన్నదాన్ని ఎంచుకోండి.",
+                "unreadable": "$~మేము ఆ ఫైల్‌ను చిత్రంగా చదవలేకపోయాము."
+            },
+            "announce": {
+                "cropped": "$~క్రాప్ బాక్స్ $x $y వద్ద ఉంది",
+                "moving": "$~క్రాప్ బాక్స్‌ను కదిలిస్తోంది",
+                "done": "$~క్రాప్ బాక్స్ ఉంచబడింది"
+            }
         }
     }
 }

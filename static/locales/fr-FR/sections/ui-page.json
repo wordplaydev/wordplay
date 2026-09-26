@@ -1110,9 +1110,7 @@
                     "glyphLoading": "$~Chargement de la police…",
                     "glyphMissing": "$~Cette police n’a pas de forme pour ce symbole. Essaie une autre police.",
                     "glyphEmpty": "$~Ce symbole n’a rien à dessiner.",
-                    "glyphUnreadable": "$~Nous n’avons pas pu lire cette police. Vérifie ta connexion, ou essaie une autre police.",
-                    "imageTooBig": "$~Cette image fait $size Mo. Choisis-en une plus petite que $limit Mo.",
-                    "imageUnreadable": "$~Nous n'avons pas pu lire ce fichier comme une image."
+                    "glyphUnreadable": "$~Nous n’avons pas pu lire cette police. Vérifie ta connexion, ou essaie une autre police."
                 },
                 "announce": {
                     "position": "$~à $x $y",
@@ -1137,9 +1135,6 @@
                     "arranged": "$~calque $index sur $total",
                     "flipped": "$~retourné, maintenant à $x $y",
                     "fitted": "$~formes agrandies pour remplir la toile",
-                    "cropped": "$~cadre de recadrage à $x $y",
-                    "cropMoving": "$~déplacement du cadre de recadrage",
-                    "cropDone": "$~cadre de recadrage placé",
                     "imported": "$~$#count[un pixel ajouté|$#count pixels ajoutés|$count pixels ajoutés] depuis $x $y"
                 },
                 "share": {
@@ -1180,19 +1175,10 @@
                 },
                 "image": {
                     "instructions": "$~Fais glisser le carré pour le déplacer, ou utilise le curseur *taille* pour changer la portion de l'image à garder. Avec le clavier, appuie sur *entrée* pour commencer à le déplacer, puis utilise les touches *flèches*, et appuie de nouveau sur *entrée* quand tu as fini.",
-                    "button": {
-                        "label": "$~envoyer",
-                        "tip": "$~choisis un fichier image depuis cet appareil"
-                    },
                     "add": {
                         "label": "$~ajouter",
                         "tip": "$~ajouter le carré choisi au caractère sous forme de pixels"
                     },
-                    "crop": {
-                        "label": "$~cadre de recadrage",
-                        "tip": "$~le carré de l'image à garder"
-                    },
-                    "preview": "$~ce qui sera ajouté",
                     "size": {
                         "label": "$~taille",
                         "tip": "$~quelle portion de l'image garder"

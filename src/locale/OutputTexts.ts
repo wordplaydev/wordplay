@@ -177,6 +177,65 @@ type OutputTexts = {
         /** Text drawn along the shape's outline */
         glyphs: NameAndDoc;
     };
+    /** A grid of colors, drawn as a picture */
+    Image: NameAndDoc & {
+        /** The rows of colors, top row first */
+        colors: NameAndDoc;
+        /** What the picture shows, for anyone who can't see it */
+        description: NameAndDoc;
+        /** How wide the picture is */
+        width: NameAndDoc;
+        /** How tall the picture is */
+        height: NameAndDoc;
+        /** A function from a color to the text drawn in its place */
+        glyph: NameAndDoc;
+        /** A function from a color to the color drawn in its place */
+        recolor: NameAndDoc;
+        /** The name the glyph and recolor functions give their one color */
+        pixel: NameAndDoc;
+        /** The text drawn in each square, worked out from glyph */
+        glyphs: NameAndDoc;
+        /** The colors actually drawn, worked out from recolor */
+        palette: NameAndDoc;
+        /** The font face used for an image's glyphs */
+        face: NameAndDoc;
+        /** The place on stage of an image */
+        place: NameAndDoc;
+        /** The name of an image, used in Choice, Collision, and animations */
+        name: NameAndDoc;
+        /** Whether an image is selectable by Choice */
+        selectable: NameAndDoc;
+        /** The color an image is tinted */
+        color: NameAndDoc;
+        /** The background color behind an image */
+        background: NameAndDoc;
+        /** The opacity of an image */
+        opacity: NameAndDoc;
+        /** The offset of an image from its place */
+        offset: NameAndDoc;
+        /** The rotation of an image */
+        rotation: NameAndDoc;
+        /** The scale of an image */
+        scale: NameAndDoc;
+        /** Whether an image is flipped horizontally */
+        flipx: NameAndDoc;
+        /** Whether an image is flipped vertically */
+        flipy: NameAndDoc;
+        /** Pose or sequence for when an image enters stage */
+        entering: NameAndDoc;
+        /** Pose or sequence for when an image is not moving */
+        resting: NameAndDoc;
+        /** Pose or sequence for when an image is moving */
+        moving: NameAndDoc;
+        /** Pose or sequence for when an image is leaving stage */
+        exiting: NameAndDoc;
+        /** The duration of transitions */
+        duration: NameAndDoc;
+        /** The transition style of transitions */
+        style: NameAndDoc;
+        /** [formatted] What an image says it is when nothing describes it */
+        defaultDescription: Template<['description', 'columns', 'rows']>;
+    };
     /** A text-to-speech output that speaks a plain text literal */
     Say: NameAndDoc & {
         /** The text to speak */

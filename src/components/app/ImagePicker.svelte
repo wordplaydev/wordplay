@@ -1,39 +1,88 @@
 <script lang="ts">
     /**
-     * Add an image to a character by reducing it to pixels (#739).
+     * Choose a picture and reduce it to a grid of colors.
      *
      * Entirely on the device: the file is decoded, sampled, and dropped. Nothing
      * is uploaded and nothing is stored, which is why the size limit here is
      * generous — it exists so a pathological file fails with a message instead
      * of hanging the tab, not because bytes cost anything.
      *
-     * A dialog rather than a drawing mode: there is no drawing gesture, and a
-     * mode would have to hide the 32x32 canvas to show a photograph.
+     * Shared by the two things that turn a picture into something Wordplay can hold: a
+     * character's pixels (#739) and a source file of colors (#559). What they have in
+     * common is all of the hard part — the decode limits, never upscaling, a crop box
+     * that answers the pointer *and* the keyboard, and announcing a move only when the
+     * box actually moved. What differs is the shape of the crop and what happens on
+     * confirm, so the caller supplies its own controls and takes the sample.
      */
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Notice from '@components/app/Notice.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import Slider from '@components/widgets/Slider.svelte';
     import { locales } from '@db/Database';
     import {
-        CharacterSize,
-        type CharacterPixel,
-    } from '@db/characters/Character';
-    import {
-        boxSample,
-        clampCrop,
-        pixelsFromRGBA,
-        type Crop,
+        boxSampleRect,
+        clampRect,
+        sampleSize,
+        type Rect,
     } from '@db/characters/raster';
+    import type { LocaleTextAccessor } from '@locale/Locales';
+    import { untrack, type Snippet } from 'svelte';
+
+    /** The picture as it was read, at working size. */
+    export type Working = {
+        data: Uint8ClampedArray;
+        width: number;
+        height: number;
+    };
 
     interface Props {
-        /** Lay the sampled pixels over the composition, as one edit. */
-        add: (pixels: CharacterPixel[], crop: Crop) => void;
+        /** How many cells the crop is sampled into: an exact grid, which a
+         *  character's fixed size needs, or a longest edge the other side
+         *  follows from, which is what keeps a picture's shape. */
+        grid: { columns: number; rows: number } | { longEdge: number };
+        /** Hold the crop square, which a character's grid needs and a picture doesn't. */
+        square?: boolean;
+        /** How to move and size the crop box. The caller's, not shared, because the
+         *  controls it describes are the caller's too. */
+        instructions: LocaleTextAccessor;
+        /** A picture from somewhere other than this component's own chooser: a
+         *  file dropped on the project, or a frame from the camera. Replaces
+         *  whatever was chosen; `null` clears. */
+        given?: File | Working | null;
+        /** Whether to offer the device's file chooser. Off when the picture can
+         *  only come from somewhere else. */
+        choosable?: boolean;
         /** Say something in the app's live region. */
         announce: (message: string) => void;
+        /** What the chosen file was called, for a caller that names what it makes
+         *  after the picture it came from. */
+        onchoose?: (name: string) => void;
+        /** Whatever the caller offers once a picture is chosen — its own controls and its
+         *  confirm button — given the current sample and a way to start over. */
+        controls: Snippet<
+            [
+                {
+                    sampled: Uint8ClampedArray;
+                    columns: number;
+                    rows: number;
+                    rect: Rect;
+                    source: Working;
+                    setRect: (rect: Rect) => void;
+                    clear: () => void;
+                },
+            ]
+        >;
     }
 
-    let { add, announce }: Props = $props();
+    let {
+        grid,
+        square = false,
+        instructions,
+        given = null,
+        choosable = true,
+        announce,
+        onchoose,
+        controls,
+    }: Props = $props();
 
     /**
      * The most we'll read from disk.
@@ -73,20 +122,36 @@
         width: number;
         height: number;
     } | null>(null);
-    let crop = $state<Crop>({ x: 0, y: 0, size: 1 });
+    let crop = $state<Rect>({ x: 0, y: 0, width: 1, height: 1 });
     /** Whether the arrow keys move the box, rather than scrolling the dialog. */
     let moving = $state(false);
     /** Where the box was when move mode began, so escape can put it back. */
-    let movingFrom: Crop | null = null;
+    let movingFrom: Rect | null = null;
 
     let previewCanvas: HTMLCanvasElement | undefined = $state(undefined);
     let sourceCanvas: HTMLCanvasElement | undefined = $state(undefined);
 
-    /** The 32x32 the crop currently reduces to. */
+    /** How many colors across and down the crop reduces to. */
+    let size = $derived(
+        'longEdge' in grid
+            ? sampleSize(crop.width, crop.height, grid.longEdge)
+            : grid,
+    );
+    let columns = $derived(size.columns);
+    let rows = $derived(size.rows);
+
+    /** The grid the crop currently reduces to. */
     let sampled = $derived(
         source === null
             ? null
-            : boxSample(source.data, source.width, source.height, crop),
+            : boxSampleRect(
+                  source.data,
+                  source.width,
+                  source.height,
+                  crop,
+                  columns,
+                  rows,
+              ),
     );
 
     /** Paint the working copy once it's read. */
@@ -114,13 +179,9 @@
         if (canvas === undefined || rgba === null) return;
         const ctx = canvas.getContext('2d');
         if (ctx === null) return;
-        ctx.clearRect(0, 0, CharacterSize, CharacterSize);
+        ctx.clearRect(0, 0, columns, rows);
         ctx.putImageData(
-            new ImageData(
-                new Uint8ClampedArray(rgba),
-                CharacterSize,
-                CharacterSize,
-            ),
+            new ImageData(new Uint8ClampedArray(rgba), columns, rows),
             0,
             0,
         );
@@ -140,6 +201,7 @@
     }
 
     async function read(file: File) {
+        onchoose?.(file.name);
         if (file.size > MaxBytes) {
             chosenSize = file.size;
             problem = 'tooBig';
@@ -177,39 +239,55 @@
                 return;
             }
             ctx.drawImage(bitmap, 0, 0, width, height);
-            source = {
+            adopt({
                 data: ctx.getImageData(0, 0, width, height).data,
                 width,
                 height,
-            };
-            // Open on the largest centered square, so an already-square image
-            // needs no interaction at all.
-            const size = Math.min(width, height);
-            crop = clampCrop(
-                {
-                    size,
-                    x: Math.round((width - size) / 2),
-                    y: Math.round((height - size) / 2),
-                },
-                width,
-                height,
-            );
+            });
         } finally {
             bitmap.close();
         }
     }
 
-    function setCrop(next: Crop) {
+    /** Take a picture as the one being cropped, wherever it came from. */
+    function adopt(picture: Working) {
+        source = picture;
+        // Open on the whole picture, or on the largest centered square when the
+        // crop is held square — either way a picture that already fits needs no
+        // interaction at all.
+        const w = square
+            ? Math.min(picture.width, picture.height)
+            : picture.width;
+        const h = square ? w : picture.height;
+        crop = clampRect(
+            {
+                width: w,
+                height: h,
+                x: Math.round((picture.width - w) / 2),
+                y: Math.round((picture.height - h) / 2),
+            },
+            picture.width,
+            picture.height,
+        );
+    }
+
+    function setCrop(next: Rect) {
         if (source === null) return;
-        crop = clampCrop(next, source.width, source.height);
+        // A square caller asks for one number; hold both sides to it before clamping, or
+        // a crop at the edge of a non-square picture would come back lopsided.
+        const held = square
+            ? { ...next, width: next.width, height: next.width }
+            : next;
+        crop = clampRect(held, source.width, source.height);
     }
 
     /** Say where the box is. The position rides along because it is the only
-     *  thing that differs between two consecutive moves. */
+     *  thing that differs between two consecutive moves, and a live region repeating
+     *  itself is heard once and then not at all. */
     function announceCrop() {
         announce(
             $locales
-                .concretize((l) => l.ui.page.character.announce.cropped, {
+                .concretize((l) => l.ui.image.announce.cropped, {
                     x: crop.x,
                     y: crop.y,
                 })
@@ -225,8 +303,8 @@
             announce(
                 $locales.getPrimaryPlainText(
                     moving
-                        ? (l) => l.ui.page.character.announce.cropMoving
-                        : (l) => l.ui.page.character.announce.cropDone,
+                        ? (l) => l.ui.image.announce.moving
+                        : (l) => l.ui.image.announce.done,
                 ),
             );
             event.preventDefault();
@@ -311,9 +389,20 @@
         if (moved) announceCrop();
     }
 
-    function confirm() {
-        if (sampled === null) return;
-        add(pixelsFromRGBA(sampled), crop);
+    /** Take whatever the caller hands over. Untracked, because adopting a picture
+     *  writes the very state a reactive read of it would make this depend on. */
+    $effect(() => {
+        const picture = given;
+        untrack(() => {
+            problem = null;
+            if (picture === null) source = null;
+            else if (picture instanceof File) void read(picture);
+            else adopt(picture);
+        });
+    });
+
+    /** Start over, which is what a caller does once it has taken the sample. */
+    function clear() {
         source = null;
     }
 </script>
@@ -321,30 +410,34 @@
 <div class="importer">
     <!-- The real input is hidden because a file input can't be styled to match
          the palette; the button below is its label and does the work. -->
-    <input
-        type="file"
-        accept="image/*"
-        bind:this={picker}
-        onchange={choose}
-        aria-label={$locales.getPrimaryPlainText(
-            (l) => l.ui.page.character.image.button.tip,
-        )}
-    />
-    <div class="panel-column body">
-        <Button
-            background
-            tip={(l) => l.ui.page.character.image.button.tip}
-            action={() => picker?.click()}
-            icon="🖼"
-            label={(l) => l.ui.page.character.image.button.label}
+    {#if choosable}
+        <input
+            type="file"
+            accept="image/*"
+            bind:this={picker}
+            onchange={choose}
+            aria-label={$locales.getPrimaryPlainText(
+                (l) => l.ui.image.button.tip,
+            )}
         />
+    {/if}
+    <div class="panel-column body">
+        {#if choosable}
+            <Button
+                background
+                tip={(l) => l.ui.image.button.tip}
+                action={() => picker?.click()}
+                icon="🖼"
+                label={(l) => l.ui.image.button.label}
+            />
+        {/if}
 
         {#if problem === 'tooBig'}
             <Notice
                 ><MarkupHTMLView
                     inline
                     markup={[
-                        (l) => l.ui.page.character.feedback.imageTooBig,
+                        (l) => l.ui.image.feedback.tooBig,
                         {
                             size: (chosenSize / 1024 / 1024).toFixed(1),
                             limit: `${MaxBytes / 1024 / 1024}`,
@@ -353,16 +446,12 @@
                 /></Notice
             >
         {:else if problem === 'unreadable'}
-            <Notice
-                text={(l) => l.ui.page.character.feedback.imageUnreadable}
-            />
+            <Notice text={(l) => l.ui.image.feedback.unreadable} />
         {/if}
 
         {#if source !== null}
             <div id="crop-instructions">
-                <MarkupHTMLView
-                    markup={(l) => l.ui.page.character.image.instructions}
-                />
+                <MarkupHTMLView markup={instructions} />
             </div>
             <div class="stage">
                 <!-- role="application" is correct for a region that owns
@@ -374,7 +463,7 @@
                     class="image"
                     role="application"
                     aria-label={$locales.getPrimaryPlainText(
-                        (l) => l.ui.page.character.image.crop.label,
+                        (l) => l.ui.image.crop.label,
                     )}
                     aria-describedby="crop-instructions"
                     style:aspect-ratio="{source.width} / {source.height}"
@@ -393,12 +482,12 @@
                         class="crop"
                         class:moving
                         aria-pressed={moving}
-                        aria-label={`${$locales.getPrimaryPlainText((l) => l.ui.page.character.image.crop.label)} ${crop.x} ${crop.y}`}
+                        aria-label={`${$locales.getPrimaryPlainText((l) => l.ui.image.crop.label)} ${crop.x} ${crop.y}`}
                         onkeydown={handleKey}
                         style:left="{(100 * crop.x) / source.width}%"
                         style:top="{(100 * crop.y) / source.height}%"
-                        style:width="{(100 * crop.size) / source.width}%"
-                        style:height="{(100 * crop.size) / source.height}%"
+                        style:width="{(100 * crop.width) / source.width}%"
+                        style:height="{(100 * crop.height) / source.height}%"
                     ></button>
                 </div>
                 <!-- role="img" on the wrapper, not the canvas: a canvas is
@@ -407,35 +496,29 @@
                     class="preview"
                     role="img"
                     aria-label={$locales.getPrimaryPlainText(
-                        (l) => l.ui.page.character.image.preview,
+                        (l) => l.ui.image.preview,
                     )}
+                    style:aspect-ratio="{columns} / {rows}"
                 >
                     <canvas
-                        width={CharacterSize}
-                        height={CharacterSize}
+                        width={columns}
+                        height={rows}
                         bind:this={previewCanvas}
                         aria-hidden="true"
                     ></canvas>
                 </div>
             </div>
-            <Slider
-                label={(l) => l.ui.page.character.image.size.label}
-                tip={(l) => l.ui.page.character.image.size.tip}
-                min={8}
-                max={Math.min(source.width, source.height)}
-                increment={1}
-                precision={0}
-                unit={''}
-                value={crop.size}
-                change={(value) => setCrop({ ...crop, size: value.toNumber() })}
-            ></Slider>
-            <Button
-                background
-                tip={(l) => l.ui.page.character.image.add.tip}
-                action={confirm}
-                icon="✓"
-                label={(l) => l.ui.page.character.image.add.label}
-            />
+            {#if sampled !== null}
+                {@render controls({
+                    sampled,
+                    columns,
+                    rows,
+                    rect: crop,
+                    source,
+                    setRect: setCrop,
+                    clear,
+                })}
+            {/if}
         {/if}
     </div>
 </div>
@@ -458,9 +541,12 @@
     .image {
         position: relative;
         /* Shares the row with the preview and gives up width first, down to a
-           floor where the crop box is still draggable. */
+           floor where the crop box is still draggable. Capped, because a wide
+           host would otherwise blow a camera frame up to fill the window, and
+           what is being chosen is a crop rather than a picture to look at. */
         flex: 1 1 8em;
         min-width: 8em;
+        max-width: 24em;
         touch-action: none;
     }
 
@@ -488,7 +574,6 @@
 
     .preview {
         width: 6em;
-        height: 6em;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
     }
 

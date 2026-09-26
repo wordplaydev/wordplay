@@ -12,6 +12,7 @@ import type Value from '@values/Value';
 import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
 import Evaluate from '@nodes/Evaluate';
+import getImageProperties from '@edit/output/getImageProperties';
 import getShapeProperties from '@edit/output/getShapeProperties';
 import getGroupProperties from '@edit/output/GroupProperties';
 import type OutputProperty from '@edit/output/OutputProperty';
@@ -79,6 +80,7 @@ export default class OutputExpression {
                 fun === this.project.shares.output.Group ||
                 fun === this.project.shares.output.Phrase ||
                 fun === this.project.shares.output.Shape ||
+                fun === this.project.shares.output.Image ||
                 fun === this.project.shares.output.Say ||
                 fun === this.project.shares.output.Pose ||
                 fun === this.project.shares.output.Sequence ||
@@ -112,11 +114,13 @@ export default class OutputExpression {
                           ? getStageProperties(this.project, locales)
                           : type === this.project.shares.output.Shape
                             ? getShapeProperties(this.project, locales)
-                            : type === this.project.shares.output.Say
-                              ? getSayProperties(this.project, locales)
-                              : type === this.project.shares.output.Music
-                                ? getMusicProperties(this.project, locales)
-                                : []),
+                            : type === this.project.shares.output.Image
+                              ? getImageProperties(this.project, locales)
+                              : type === this.project.shares.output.Say
+                                ? getSayProperties(this.project, locales)
+                                : type === this.project.shares.output.Music
+                                  ? getMusicProperties(this.project, locales)
+                                  : []),
               ];
     }
 

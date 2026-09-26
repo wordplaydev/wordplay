@@ -151,7 +151,7 @@
                     "tip": "$~Sao chép dự án vào clipboard dưới dạng văn bản",
                     "label": "$~sao chép dưới dạng văn bản"
                 },
-                "addSource": "$~tạo thêm một @Source khác, để bạn có thể giữ dữ liệu hoặc mã số chia sẻ trong tệp riêng của nó",
+                "addSource": "$!tạo thêm một @Source khác, để bạn có thể giữ dữ liệu hoặc mã số chia sẻ trong tệp riêng của nó",
                 "revert": "$~khôi phục lại mã gốc",
                 "focusOutput": "$~tập trung bàn phím trên sân khấu",
                 "focusSource": "$~tập trung vào nguồn tiếp theo",
@@ -269,7 +269,7 @@
                 "controls": "$~Các nút điều khiển ở phía dưới này áp dụng cho *toàn bộ dự án*, bất kể bạn đang làm việc trên ô nào.",
                 "name": "$~Trường /name/ là tên của dự án của bạn. Tên hiện ra trong các chế độ xem *dự án* và *phòng trưng bày*.",
                 "sourceToggle": "$~Nút /toggle/ này hiển thị hoặc ẩn *tệp nguồn*. *Các nút toggle khác* trên hàng này thực hiện chức năng tương tự đối với các ô khác.",
-                "addSource": "$~Một số dự án sẽ hiệu quả hơn nếu sử dụng *nhiều* tập tin nguồn, trong đó dữ liệu được lưu trữ trong một tập tin và được nhập vào tập tin nguồn *chính*. Nút /thêm nguồn/ sẽ tạo một tập tin nguồn mới.",
+                "addSource": "$!Một số dự án sẽ hiệu quả hơn nếu sử dụng *nhiều* tập tin nguồn, trong đó dữ liệu được lưu trữ trong một tập tin và được nhập vào tập tin nguồn *chính*. Nút /thêm nguồn/ sẽ tạo một tập tin nguồn mới.",
                 "share": "$~Hộp thoại /share/ cho phép bạn chia sẻ dự án của mình với *các thư viện ảnh*, với *công chúng*, hoặc sao chép nó dưới dạng *văn bản* để chia sẻ ở nơi khác.",
                 "checkpoints": "$~Mục /revisions/ cho phép bạn quay lại các phiên bản trước đó của dự án và chụp ảnh màn hình các phiên bản mà bạn muốn lưu lại.",
                 "languages": "$~Nút /languages/ hiển thị dự án của bạn được viết bằng những ngôn ngữ nào, cho phép bạn thêm hoặc xóa một ngôn ngữ, và có thể *dịch* các *tên*, *văn bản* và *tài liệu* của dự án sang một ngôn ngữ mới."
@@ -870,6 +870,58 @@
             "view": {
                 "added": "$~đã thêm khung xem thứ hai của $name",
                 "closed": "$~đã đóng khung xem thứ hai của $name"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2250,7 +2302,8 @@
                     ]
                 },
                 "report": "$~Những gì tôi đã nhập vào",
-                "reportExplanation": "$~Một @Music có thể chứa hầu hết những gì mà một tệp MIDI mô tả, nhưng không phải tất cả. Đây là những gì đã thay đổi khi nhập vào."
+                "reportExplanation": "$~Một @Music có thể chứa hầu hết những gì mà một tệp MIDI mô tả, nhưng không phải tất cả. Đây là những gì đã thay đổi khi nhập vào.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~thêm đầu ra",
@@ -2834,6 +2887,26 @@
             "notData": "$~Đây không phải loại giá trị đáng để lưu thành tệp.",
             "droppedUnits": "$~Đơn vị đã bị bỏ qua: một số JSON không thể mang theo đơn vị.",
             "droppedNumbers": "$~Những số không hữu hạn đã bị bỏ qua: JSON không thể ghi được chúng."
+        },
+        "image": {
+            "button": {
+                "label": "$~tải lên",
+                "tip": "$~chọn một tệp hình ảnh từ thiết bị này"
+            },
+            "crop": {
+                "label": "$~khung cắt",
+                "tip": "$!hình vuông của ảnh cần giữ lại"
+            },
+            "preview": "$~những gì sẽ được thêm vào",
+            "feedback": {
+                "tooBig": "$~Hình ảnh đó nặng $size MB. Hãy chọn hình nhỏ hơn $limit MB.",
+                "unreadable": "$~Chúng tôi không thể đọc tệp đó như một hình ảnh."
+            },
+            "announce": {
+                "cropped": "$~khung cắt tại $x $y",
+                "moving": "$~đang di chuyển khung cắt",
+                "done": "$~đã đặt khung cắt"
+            }
         }
     }
 }

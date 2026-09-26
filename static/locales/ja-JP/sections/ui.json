@@ -148,7 +148,7 @@
                     "tip": "$~プロジェクトをテキストとしてクリップボードにコピーする",
                     "label": "$~テキストとしてコピーする"
                 },
-                "addSource": "$~もう1つ@Sourceを作って、データや共有コードを別のファイルに保つ",
+                "addSource": "$!もう1つ@Sourceを作って、データや共有コードを別のファイルに保つ",
                 "revert": "$~元のコードに戻す",
                 "focusOutput": "$~キーボードの操作をステージに合わせる",
                 "focusSource": "$~次のソースに合わせる",
@@ -269,7 +269,7 @@
                 "controls": "$~下にあるこれらの/操作/は、どのタイルで作業していても*プロジェクト全体*に効きます。",
                 "name": "$~/名前/フィールドはあなたのプロジェクトの名前です。名前は*プロジェクト*と*ギャラリー*の表示に出てきます。",
                 "sourceToggle": "$~この/切り替え/は*ソースファイル*を表示したり隠したりします。この行の*他の切り替え*は他のタイルに同じことをします。",
-                "addSource": "$~一部のプロジェクトは*複数の*ソースファイルがあると役に立ちます。そこではデータをひとつに保存し、*メイン*のソースに読み込みます。/ソース追加/ボタンで新しいものを作れます。",
+                "addSource": "$!一部のプロジェクトは*複数の*ソースファイルがあると役に立ちます。そこではデータをひとつに保存し、*メイン*のソースに読み込みます。/ソース追加/ボタンで新しいものを作れます。",
                 "share": "$~/共有/ダイアログでは、プロジェクトを*ギャラリー*や*一般の人*と共有したり、*テキスト*としてコピーして別の場所で共有したりできます。",
                 "checkpoints": "$~/履歴/パネルを使うと、プロジェクトの前のバージョンに*戻る*ことができます。また、覚えておきたいバージョンを*スナップショット*として保存できます。",
                 "languages": "$~/言語/ ボタンは、あなたのプロジェクトで使っている言語を表示し、追加や削除ができ、プロジェクトの *名前*、*テキスト*、*ドキュメント* を新しい言語に *翻訳* することもできます。"
@@ -624,6 +624,58 @@
             "view": {
                 "added": "$~$name の2つ目のビューを追加した",
                 "closed": "$~$name の2つ目のビューを閉じた"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2002,7 +2054,8 @@
                     ]
                 },
                 "report": "$~取り込んだもの",
-                "reportExplanation": "$~@Musicは、MIDIファイルが表すもののほとんどを持つことができますが、すべてではありません。取り込むときに変わったものはこちらです。"
+                "reportExplanation": "$~@Musicは、MIDIファイルが表すもののほとんどを持つことができますが、すべてではありません。取り込むときに変わったものはこちらです。",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~出力を追加",
@@ -2824,6 +2877,26 @@
             "notData": "$~これはファイルにする価値のある種類の値ではありません。",
             "droppedUnits": "$~単位は省かれました。JSONの数値には単位を含められません。",
             "droppedNumbers": "$~有限でない数値は省かれました。JSONではそれらを書き表せません。"
+        },
+        "image": {
+            "button": {
+                "label": "$~アップロード",
+                "tip": "$~この端末から画像ファイルを選ぶ"
+            },
+            "crop": {
+                "label": "$~切り取り枠",
+                "tip": "$!残す画像の四角い部分"
+            },
+            "preview": "$~追加されるもの",
+            "feedback": {
+                "tooBig": "$~その画像は$size MBです。$limit MBより小さい画像を選んでください。",
+                "unreadable": "$~そのファイルを画像として読み込めませんでした。"
+            },
+            "announce": {
+                "cropped": "$~切り取り枠の位置 $x $y",
+                "moving": "$~切り取り枠を移動している",
+                "done": "$~切り取り枠を置いた"
+            }
         }
     }
 }

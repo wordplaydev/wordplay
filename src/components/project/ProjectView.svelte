@@ -8,6 +8,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
+    import AddSource from '@components/project/AddSource.svelte';
     import Annotations from '@components/annotations/Annotations.svelte';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
@@ -2820,7 +2821,29 @@
         );
     }
 
+    /** Adding a source is a dialog now (#559): an empty file is one of four ways
+     *  to get one, beside a picture, the camera and a song. */
     function addSource() {
+        addingSource = true;
+    }
+
+    /**
+     * Take a project that has grown a source, and let the layout know.
+     *
+     * Adding a source has to reach `syncTiles`, or the new file exists in the
+     * project and has no tile to open it with until the page is reloaded — which
+     * is what importing a song did before the dialog gathered them all together.
+     * The tile is left collapsed on purpose: an unmounted tile renders nothing,
+     * and a picture's thousand colors is a thousand token views for anyone who
+     * opens it.
+     */
+    function addedSource(revised: Project) {
+        Projects.reviseProject(revised);
+        layout = layout.withTiles(syncTiles(revised, layout.tiles));
+        refreshLayout();
+    }
+
+    function addBlankSource() {
         const newProject = project.withNewSource(
             `${$locales.getUnannotatedPrimaryText((l) => getConceptName(l, 'source'))}${
                 project.getSupplements().length + 1
@@ -2828,15 +2851,11 @@
         );
 
         // Remember this new source so when we compute the new layout, we can remember to expand it initially.
+        // An empty file is the one kind worth opening on arrival: there is nothing
+        // in it to lay out, and writing in it is why it was asked for.
         newSource = newProject.getSupplements().at(-1);
 
-        // This will propogate back to a new project here, updating the UI.
-        Projects.reviseProject(newProject);
-
-        // Sync the tiles.
-        layout = layout.withTiles(syncTiles(newProject, layout.tiles));
-
-        refreshLayout();
+        addedSource(newProject);
     }
 
     function removeSource(source: Source) {
@@ -3095,6 +3114,9 @@
     /** Held between the drop and the answer, because the confirmation is the
      *  whole point — nothing is replaced until a creator says so. */
     let droppedProject: Project | undefined = $state(undefined);
+    /** Whether the add-source dialog is open, and a picture dropped to open it. */
+    let addingSource = $state(false);
+    let droppedPicture = $state<File | null>(null);
     let dropProblem: LocaleTextAccessor | undefined = $state(undefined);
 
     function fileIsOver(event: DragEvent): boolean {
@@ -3119,6 +3141,14 @@
         const file = event.dataTransfer?.files[0];
         if (file === undefined) return;
         dropProblem = undefined;
+        // A picture is not a project, and reading one as text reports it as
+        // unreadable. It is a source of colors instead (#559), offered rather than
+        // applied — the same rule a dropped project follows.
+        if (file.type.startsWith('image/')) {
+            droppedPicture = file;
+            addingSource = true;
+            return;
+        }
         const result = await importProject(
             await file.text(),
             project.getOwner(),
@@ -4185,6 +4215,20 @@
             </div>
         {/if}
     {/if}
+    <!-- The one place that turns data into a source file: an empty one, a
+         picture, the camera, or a song (#559, #560). -->
+    <AddSource
+        {project}
+        {editable}
+        bind:show={addingSource}
+        bind:picture={droppedPicture}
+        addBlank={addBlankSource}
+        added={addedSource}
+        announce={(message) => {
+            if (announce && $announce)
+                $announce('command', $locales.getLanguages()[0], message);
+        }}
+    />
     <!-- Deliberately no `id`: a dialog whose open state lives in the URL would
          reopen on a refresh with no file behind it. -->
     <Dialog

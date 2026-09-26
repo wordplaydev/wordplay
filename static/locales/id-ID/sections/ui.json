@@ -152,7 +152,7 @@
                     "tip": "$~Salin proyek ke papan klip sebagai teks.",
                     "label": "$~salin sebagai teks"
                 },
-                "addSource": "$~buat @Source lain, supaya kamu bisa menyimpan data atau kode yang dibagikan dalam file tersendiri",
+                "addSource": "$!buat @Source lain, supaya kamu bisa menyimpan data atau kode yang dibagikan dalam file tersendiri",
                 "revert": "$~kembali ke kode asli",
                 "focusOutput": "$~fokus keyboard di atas panggung",
                 "focusSource": "$~fokus pada sumber berikutnya",
@@ -269,7 +269,7 @@
                 "controls": "$~Kontrol-kontrol di bagian bawah ini berlaku untuk *proyek secara keseluruhan*, terlepas dari ubin mana yang sedang Anda kerjakan.",
                 "name": "$~Kolom /name/ adalah nama proyekmu. Nama muncul di tampilan *proyek* dan *galeri*.",
                 "sourceToggle": "$~Tombol ini menampilkan atau menyembunyikan *file sumber*. *Tombol lainnya* pada baris ini melakukan hal yang sama untuk ubin lainnya.",
-                "addSource": "$~Beberapa proyek mendapat manfaat dari *beberapa* file sumber, di mana data disimpan dalam satu file dan diimpor ke sumber *utama*. Tombol /tambah sumber/ membuat sumber baru.",
+                "addSource": "$!Beberapa proyek mendapat manfaat dari *beberapa* file sumber, di mana data disimpan dalam satu file dan diimpor ke sumber *utama*. Tombol /tambah sumber/ membuat sumber baru.",
                 "share": "$~Dialog /share/ memungkinkan Anda untuk membagikan proyek Anda dengan *galeri*, dengan *publik*, atau menyalinnya sebagai *teks* untuk dibagikan di tempat lain.",
                 "checkpoints": "$~Panel /revisi/ memungkinkan Anda untuk kembali ke versi proyek sebelumnya, dan mengambil snapshot versi yang ingin Anda simpan.",
                 "languages": "$~Tombol /bahasa/ menunjukkan bahasa mana yang dipakai untuk menulis proyekmu, membuatmu bisa menambah atau menghapus bahasa, dan bisa *menerjemahkan* *nama*, *teks*, dan *dokumentasi* proyekmu ke bahasa baru."
@@ -870,6 +870,58 @@
             "view": {
                 "added": "$~menambahkan tampilan kedua dari $name",
                 "closed": "$~menutup tampilan kedua dari $name"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2256,7 +2308,8 @@
                     ]
                 },
                 "report": "$~Apa yang kuimpor",
-                "reportExplanation": "$~Sebuah @Music dapat menyimpan sebagian besar hal yang dijelaskan berkas MIDI, tetapi tidak semuanya. Inilah yang berubah saat masuk."
+                "reportExplanation": "$~Sebuah @Music dapat menyimpan sebagian besar hal yang dijelaskan berkas MIDI, tetapi tidak semuanya. Inilah yang berubah saat masuk.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~tambah keluaran",
@@ -2832,6 +2885,26 @@
             "notData": "$~Ini bukan jenis nilai yang layak disimpan sebagai berkas.",
             "droppedUnits": "$~Satuan tidak disertakan: angka JSON tidak bisa membawa satuan.",
             "droppedNumbers": "$~Angka yang tidak terbatas tidak disertakan: JSON tidak bisa menuliskannya."
+        },
+        "image": {
+            "button": {
+                "label": "$~unggah",
+                "tip": "$~pilih berkas gambar dari perangkat ini"
+            },
+            "crop": {
+                "label": "$~kotak potong",
+                "tip": "$!kotak gambar yang akan disimpan"
+            },
+            "preview": "$~apa yang akan ditambahkan",
+            "feedback": {
+                "tooBig": "$~Gambar itu berukuran $size MB. Silakan pilih gambar yang lebih kecil dari $limit MB.",
+                "unreadable": "$~Kami tidak dapat membaca berkas itu sebagai gambar."
+            },
+            "announce": {
+                "cropped": "$~kotak potong di $x $y",
+                "moving": "$~memindahkan kotak potong",
+                "done": "$~kotak potong ditempatkan"
+            }
         }
     }
 }

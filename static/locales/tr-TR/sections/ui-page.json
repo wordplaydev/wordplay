@@ -1110,9 +1110,7 @@
                     "glyphLoading": "$~Yazı tipi alınıyor…",
                     "glyphMissing": "$~Bu yazı tipinde o sembol için bir şekil yok. Başka bir yazı tipi dene.",
                     "glyphEmpty": "$~O sembolün çizilecek bir şeyi yok.",
-                    "glyphUnreadable": "$~O yazı tipini okuyamadık. Bağlantını kontrol et ya da başka bir yazı tipi dene.",
-                    "imageTooBig": "$~O görsel $size MB büyüklüğünde. Lütfen $limit MB'den küçük bir görsel seçin.",
-                    "imageUnreadable": "$~Bu dosyayı görsel olarak okuyamadık."
+                    "glyphUnreadable": "$~O yazı tipini okuyamadık. Bağlantını kontrol et ya da başka bir yazı tipi dene."
                 },
                 "announce": {
                     "position": "$~$x $y'de",
@@ -1137,9 +1135,6 @@
                     "arranged": "$~$index katmandan $total. katman",
                     "flipped": "$~çevrildi, şimdi $x $y konumunda",
                     "fitted": "$~şekiller tuvali dolduracak şekilde büyütüldü",
-                    "cropped": "$~kırpma kutusu $x $y konumunda",
-                    "cropMoving": "$~kırpma kutusu taşınıyor",
-                    "cropDone": "$~kırpma kutusu yerleştirildi",
                     "imported": "$~$x $y konumundan $#count[1 piksel eklendi|$count piksel eklendi]"
                 },
                 "share": {
@@ -1184,19 +1179,10 @@
                 },
                 "image": {
                     "instructions": "$~Kareyi taşımak için sürükleyin, ya da görselin ne kadarının saklanacağını değiştirmek için *boyut* kaydırıcısını kullanın. Klavye ile taşımaya başlamak için *enter* tuşuna basın, sonra *ok* tuşlarını kullanın, bitirdiğinizde tekrar *enter* tuşuna basın.",
-                    "button": {
-                        "label": "$~yükle",
-                        "tip": "$~bu cihazdan bir görsel dosyası seç"
-                    },
                     "add": {
                         "label": "$~ekle",
                         "tip": "$~seçilen kareyi karaktere piksel olarak ekle"
                     },
-                    "crop": {
-                        "label": "$~kırpma kutusu",
-                        "tip": "$~saklanacak görsel karesi"
-                    },
-                    "preview": "$~eklenecek olan şey",
                     "size": {
                         "label": "$~boyut",
                         "tip": "$~görselin ne kadarının saklanacağı"

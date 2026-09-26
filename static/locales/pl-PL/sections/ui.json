@@ -148,7 +148,7 @@
                     "tip": "$~skopiuj projekt do schowka jako tekst",
                     "label": "$~skopiuj jako tekst"
                 },
-                "addSource": "$~utwórz kolejne @Source, aby móc trzymać dane lub udostępniony kod we własnym pliku",
+                "addSource": "$!utwórz kolejne @Source, aby móc trzymać dane lub udostępniony kod we własnym pliku",
                 "revert": "$~powrót do oryginalnego kodu",
                 "focusOutput": "$~skup klawiaturę na scenie",
                 "focusSource": "$~skup się na następnym źródle",
@@ -269,7 +269,7 @@
                 "controls": "$~Te /elementy sterujące/ na dole dotyczą *całego projektu*, niezależnie od tego, w którym kafelku pracujesz.",
                 "name": "$~Pole /name/ to nazwa twojego projektu. Nazwy pokazują się w widokach *projektu* i *galerii*.",
                 "sourceToggle": "$~Ten przełącznik pokazuje lub ukrywa *plik źródłowy*. *Pozostałe przełączniki* w tym wierszu działają tak samo dla pozostałych kafelków.",
-                "addSource": "$~Niektóre projekty korzystają z *wielu* plików źródłowych, gdzie dane są przechowywane w jednym i importowane do *głównego* źródła. Przycisk /dodaj źródło/ tworzy nowe źródło.",
+                "addSource": "$!Niektóre projekty korzystają z *wielu* plików źródłowych, gdzie dane są przechowywane w jednym i importowane do *głównego* źródła. Przycisk /dodaj źródło/ tworzy nowe źródło.",
                 "share": "$~Okno dialogowe /share/ umożliwia udostępnianie projektu w *galeriach*, *publicznie* lub kopiowanie go jako *tekst* w celu udostępnienia gdzie indziej.",
                 "checkpoints": "$~Panel /revisions/ umożliwia powrót do poprzednich wersji projektu oraz zapisanie *migawek* wersji, które chcesz zapamiętać.",
                 "languages": "$~Przycisk /języki/ pokazuje, w jakich językach napisany jest twój projekt, pozwala dodać lub usunąć język i może *przetłumaczyć* *nazwy*, *tekst* i *dokumentację* twojego projektu na nowy język."
@@ -624,6 +624,58 @@
             "view": {
                 "added": "$~dodano drugi widok $name",
                 "closed": "$~zamknięto drugi widok $name"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2006,7 +2058,8 @@
                     ]
                 },
                 "report": "$~Co zaimportowałem",
-                "reportExplanation": "$~@Music może pomieścić większość tego, co opisuje plik MIDI, ale nie wszystko. Oto, co zmieniło się po drodze."
+                "reportExplanation": "$~@Music może pomieścić większość tego, co opisuje plik MIDI, ale nie wszystko. Oto, co zmieniło się po drodze.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~dodaj wynik",
@@ -2831,6 +2884,26 @@
             "notData": "$~To nie jest rodzaj wartości, który warto zapisać w pliku.",
             "droppedUnits": "$~Jednostki zostały pominięte: liczba w formacie JSON nie może ich zawierać.",
             "droppedNumbers": "$~Liczby, które nie są skończone, zostały pominięte: JSON nie potrafi ich zapisać."
+        },
+        "image": {
+            "button": {
+                "label": "$~prześlij",
+                "tip": "$~wybierz plik z obrazem z tego urządzenia"
+            },
+            "crop": {
+                "label": "$~pole przycinania",
+                "tip": "$!kwadrat obrazu do zachowania"
+            },
+            "preview": "$~co zostanie dodane",
+            "feedback": {
+                "tooBig": "$~Ten obraz ma $size MB. Wybierz mniejszy niż $limit MB.",
+                "unreadable": "$~Nie udało się odczytać tego pliku jako obrazu."
+            },
+            "announce": {
+                "cropped": "$~pole przycinania na $x $y",
+                "moving": "$~przesuwanie pola przycinania",
+                "done": "$~pole przycinania umieszczone"
+            }
         }
     }
 }

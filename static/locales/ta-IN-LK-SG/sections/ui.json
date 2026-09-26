@@ -148,7 +148,7 @@
                     "tip": "$~திட்டத்தை கிளிப்போர்டுக்கு உரையாக நகலெடுக்கவும்.",
                     "label": "$~உரையாக நகலெடுக்கவும்"
                 },
-                "addSource": "$~மற்றொரு @Source உருவாக்கவும், அதனால் தரவு அல்லது பகிரப்பட்ட குறியீட்டை அதன் சொந்த கோப்பில் வைத்திருக்கலாம்",
+                "addSource": "$!மற்றொரு @Source உருவாக்கவும், அதனால் தரவு அல்லது பகிரப்பட்ட குறியீட்டை அதன் சொந்த கோப்பில் வைத்திருக்கலாம்",
                 "revert": "$~அசல் குறியீட்டிற்கு மாற்றவும்",
                 "focusOutput": "$~மேடையில் விசைப்பலகையை மையப்படுத்தவும்",
                 "focusSource": "$~அடுத்த ஆதாரத்தில் கவனம் செலுத்துங்கள்",
@@ -269,7 +269,7 @@
                 "controls": "$~கீழே உள்ள இந்தக் கட்டுப்பாடுகள், நீங்கள் எந்த டைலில் பணிபுரிந்தாலும், *திட்டம் முழுவதற்கும்* பொருந்தும்.",
                 "name": "$~/name/ புலம் உங்கள் திட்டத்தின் பெயர். பெயர்கள் *project* மற்றும் *gallery* காட்சிகளில் தோன்றும்.",
                 "sourceToggle": "$~இந்த நிலைமாற்றி, மூலக் கோப்பைக் காண்பிக்கிறது அல்லது மறைக்கிறது. இந்த வரிசையில் உள்ள மற்ற நிலைமாற்றிகள், மற்ற டைல்களுக்கும் இதே வேலையைச் செய்கின்றன.",
-                "addSource": "$~சில திட்டங்களுக்குப் பல மூலக் கோப்புகள் இருப்பது நன்மை பயக்கும்; அவற்றில் தரவுகள் ஒரு கோப்பில் சேமிக்கப்பட்டு, பிரதான மூலக் கோப்பிற்கு இறக்குமதி செய்யப்படும். /add source/ பொத்தான் ஒரு புதிய கோப்பை உருவாக்கும்.",
+                "addSource": "$!சில திட்டங்களுக்குப் பல மூலக் கோப்புகள் இருப்பது நன்மை பயக்கும்; அவற்றில் தரவுகள் ஒரு கோப்பில் சேமிக்கப்பட்டு, பிரதான மூலக் கோப்பிற்கு இறக்குமதி செய்யப்படும். /add source/ பொத்தான் ஒரு புதிய கோப்பை உருவாக்கும்.",
                 "share": "$~/share/ உரையாடல் பெட்டியானது, உங்கள் படைப்பைக் கலைக்கூடங்களில் பகிரவும், பொதுமக்களுடன் பகிரவும், அல்லது அதனை உரையாக நகலெடுத்து மற்ற இடங்களில் பகிரவும் உதவுகிறது.",
                 "checkpoints": "$~/revisions/ பேனல், உங்கள் திட்டத்தின் முந்தைய பதிப்புகளுக்குத் *திரும்பிச் செல்லவும்*, நீங்கள் நினைவில் கொள்ள விரும்பும் பதிப்புகளின் *ஸ்னாப்ஷாட்* எடுக்கவும் உங்களை அனுமதிக்கிறது.",
                 "languages": "$~/languages/ பொத்தான் உங்கள் திட்டம் எழுதப்பட்டுள்ள மொழிகளைக் காட்டுகிறது, ஒன்றைச் சேர்க்கவோ நீக்கவோ அனுமதிக்கிறது, மேலும் உங்கள் திட்டத்தின் *பெயர்கள்*, *உரை*, மற்றும் *ஆவணங்களை* புதிய மொழிக்கு *மொழிபெயர்க்க* முடியும்."
@@ -629,6 +629,58 @@
             "view": {
                 "added": "$~$name-இன் இரண்டாவது காட்சி சேர்க்கப்பட்டது",
                 "closed": "$~$name-இன் இரண்டாவது காட்சி மூடப்பட்டது"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2012,7 +2064,8 @@
                     ]
                 },
                 "report": "$~நான் இறக்குமதி செய்தது",
-                "reportExplanation": "$~ஒரு MIDI கோப்பு விவரிக்கும் பெரும்பாலானவற்றை ஒரு @Music வைத்திருக்க முடியும், ஆனால் அனைத்தையும் அல்ல. உள்ளே வரும் வழியில் மாறியது இதோ."
+                "reportExplanation": "$~ஒரு MIDI கோப்பு விவரிக்கும் பெரும்பாலானவற்றை ஒரு @Music வைத்திருக்க முடியும், ஆனால் அனைத்தையும் அல்ல. உள்ளே வரும் வழியில் மாறியது இதோ.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~வெளியீடு சேர்",
@@ -2837,6 +2890,26 @@
             "notData": "$~இது கோப்பாக சேமிக்க தகுதியான மதிப்பு அல்ல.",
             "droppedUnits": "$~அலகுகள் விடுபட்டன: ஒரு JSON எண்ணில் அலகை வைத்திருக்க முடியாது.",
             "droppedNumbers": "$~முடிவற்ற எண்கள் விடுபட்டன: JSON அவற்றை எழுத முடியாது."
+        },
+        "image": {
+            "button": {
+                "label": "$~பதிவேற்று",
+                "tip": "$~இந்த சாதனத்திலிருந்து ஒரு பட கோப்பைத் தேர்ந்தெடுக்கவும்"
+            },
+            "crop": {
+                "label": "$~வெட்டும் பெட்டி",
+                "tip": "$!படத்தில் வைத்திருக்க வேண்டிய சதுரம்"
+            },
+            "preview": "$~என்ன சேர்க்கப்படும்",
+            "feedback": {
+                "tooBig": "$~அந்த படம் $size MB அளவு உள்ளது. $limit MB-க்கு குறைவான ஒன்றைத் தேர்ந்தெடுக்கவும்.",
+                "unreadable": "$~அந்த கோப்பை படமாகப் படிக்க முடியவில்லை."
+            },
+            "announce": {
+                "cropped": "$~வெட்டும் பெட்டி $x $y இடத்தில்",
+                "moving": "$~வெட்டும் பெட்டியை நகர்த்துதல்",
+                "done": "$~வெட்டும் பெட்டி வைக்கப்பட்டது"
+            }
         }
     }
 }

@@ -151,7 +151,7 @@
                     "tip": "$~প্ৰকল্পক ক্লিপবোৰ্ডলৈ লিখনী হিচাপে কপি কৰক",
                     "label": "$~লিখনী হিচাপে কপি কৰক"
                 },
-                "addSource": "$~আন এটা @Source সৃষ্টি কৰা, যাতে তুমি ডাটা বা ভাগ কৰা ক'ড নিজৰ ফাইলত ৰাখিব পাৰা",
+                "addSource": "$!আন এটা @Source সৃষ্টি কৰা, যাতে তুমি ডাটা বা ভাগ কৰা ক'ড নিজৰ ফাইলত ৰাখিব পাৰা",
                 "revert": "$~মূল ক'ডলৈ ঘূৰি যাওক",
                 "focusOutput": "$~মঞ্চত কিবৰ্ড ফ'কাচ কৰক",
                 "focusSource": "$~পৰৱৰ্তী উৎসটোৰ ওপৰত গুৰুত্ব দিয়ক",
@@ -269,7 +269,7 @@
                 "controls": "$~তলৰ এই /নিয়ন্ত্ৰণসমূহ/ *প্ৰকল্পটোৰ বাবে সামগ্ৰিকভাৱে* প্ৰযোজ্য, আপুনি যি টাইলত কাম কৰি নাথাকক কিয়।",
                 "name": "$~/name/ ক্ষেত্ৰটো আপোনাৰ প্ৰকল্পৰ নাম। নামসমূহ *project* আৰু *gallery* দৃশ্যত দেখা যায়।",
                 "sourceToggle": "$~এই /toggle/ এ *উৎস নথিপত্ৰ* দেখুৱায় বা লুকুৱাই ৰাখে । এই শাৰীৰ *অন্য টগল* সমূহে অন্য টাইলসমূহৰ বাবে একে কাম কৰে।",
-                "addSource": "$~কিছুমান প্ৰকল্পে *একাধিক* উৎস ফাইলৰ পৰা লাভৱান হয়, য'ত তথ্য এটাত সংৰক্ষণ কৰা হয় আৰু *মূল* উৎসলৈ আমদানি কৰা হয়। /add source/ বুটামে এটা নতুন সৃষ্টি কৰে।",
+                "addSource": "$!কিছুমান প্ৰকল্পে *একাধিক* উৎস ফাইলৰ পৰা লাভৱান হয়, য'ত তথ্য এটাত সংৰক্ষণ কৰা হয় আৰু *মূল* উৎসলৈ আমদানি কৰা হয়। /add source/ বুটামে এটা নতুন সৃষ্টি কৰে।",
                 "share": "$~/share/ সংলাপে আপোনাক আপোনাৰ প্ৰকল্পক *galleries* ৰ সৈতে, *public* ৰ সৈতে, বা অন্য ঠাইত অংশীদাৰী কৰিবলে *text* হিচাপে কপি কৰিবলৈ দিয়ে।",
                 "checkpoints": "$~/revisions/ পেনেলে আপোনাক আপোনাৰ প্ৰকল্পৰ পূৰ্বৱৰ্তী সংস্কৰণসমূহলৈ *পিছলৈ* যাবলৈ দিয়ে, আৰু আপুনি মনত ৰাখিব বিচৰা *স্নেপশ্বট* সংস্কৰণসমূহলৈ।",
                 "languages": "$~/languages/ বুটামটোৱে আপোনাৰ প্ৰকল্পটো কোন কোন ভাষাত লিখা হৈছে দেখুৱায়, এটা যোগ বা আঁতৰাবলৈ দিয়ে, আৰু আপোনাৰ প্ৰকল্পৰ *নাম*, *লিখনি*, আৰু *নথিপত্ৰ* এটা নতুন ভাষালৈ *অনুবাদ* কৰিব পাৰে।"
@@ -842,6 +842,58 @@
             "view": {
                 "added": "$~$name ৰ দ্বিতীয় দৃশ্য যোগ কৰা হ'ল",
                 "closed": "$~$name ৰ দ্বিতীয় দৃশ্য বন্ধ কৰা হ'ল"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2225,7 +2277,8 @@
                     ]
                 },
                 "report": "$~মই কি আমদানি কৰিলোঁ",
-                "reportExplanation": "$~এটা @Music এ এটা MIDI ফাইলে বৰ্ণনা কৰা বেছিভাগ ধৰি ৰাখিব পাৰে, কিন্তু আটাইবোৰ নহয়। ভিতৰলৈ অহাৰ পথত কি সলনি হ'ল ইয়াত আছে।"
+                "reportExplanation": "$~এটা @Music এ এটা MIDI ফাইলে বৰ্ণনা কৰা বেছিভাগ ধৰি ৰাখিব পাৰে, কিন্তু আটাইবোৰ নহয়। ভিতৰলৈ অহাৰ পথত কি সলনি হ'ল ইয়াত আছে।",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~আউটপুট যোগ কৰক",
@@ -2834,6 +2887,26 @@
             "notData": "$~এইটো ফাইল কৰাৰ যোগ্য মানৰ প্ৰকাৰ নহয়।",
             "droppedUnits": "$~একক বাদ দিয়া হ’ল: এটা JSON সংখ্যাই একক বহন কৰিব নোৱাৰে।",
             "droppedNumbers": "$~সসীম নোহোৱা সংখ্যাবোৰ বাদ দিয়া হ’ল: JSON এ সেইবোৰ লিখিব নোৱাৰে।"
+        },
+        "image": {
+            "button": {
+                "label": "$~আপল'ড কৰক",
+                "tip": "$~এই ডিভাইচটোৰ পৰা এখন ছবি ফাইল বাছনি কৰক"
+            },
+            "crop": {
+                "label": "$~ক্ৰ'প বাকচ",
+                "tip": "$!ৰাখিবলগীয়া ছবিখনৰ বৰ্গটো"
+            },
+            "preview": "$~কি যোগ কৰা হ'ব",
+            "feedback": {
+                "tooBig": "$~সেই ছবিখন $size এম বি (MB)। অনুগ্ৰহ কৰি $limit এম বি (MB) তকৈ সৰু এখন বাছনি কৰক।",
+                "unreadable": "$~আমি সেই ফাইলটো ছবি হিচাপে পঢ়িব নোৱাৰিলোঁ।"
+            },
+            "announce": {
+                "cropped": "$~$x $y স্থানত ক্ৰ'প বাকচ",
+                "moving": "$~ক্ৰ'প বাকচ লৰচৰ কৰি থকা",
+                "done": "$~ক্ৰ'প বাকচ থোৱা হ'ল"
+            }
         }
     }
 }

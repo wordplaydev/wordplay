@@ -57,6 +57,7 @@ import { createPoseType } from '@output/animation/Pose';
 import { createReboundType } from '@output/physics/Rebound';
 import { createRowType } from '@output/Arrangement/Row';
 import { createSequenceType } from '@output/animation/Sequence';
+import { createImageType } from '@output/Output/Image';
 import { createShapeType } from '@output/Output/Shape/Shape';
 import { createSayType } from '@output/Output/Say';
 import { createResultType } from '@output/Result/Result';
@@ -114,6 +115,7 @@ export default function createDefaultShares(locales: Locales) {
         Phrase: PhraseType,
         Group: GroupType,
         Shape: ShapeType,
+        Image: createImageType(locales),
         Stage: createStageType(locales),
         Pose: createPoseType(locales),
         Sequence: createSequenceType(locales),

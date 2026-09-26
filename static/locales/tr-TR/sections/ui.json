@@ -148,7 +148,7 @@
                     "tip": "$~projeyi metin olarak panoya kopyala",
                     "label": "$~metin olarak kopyala"
                 },
-                "addSource": "$~verileri veya paylaşılan kodu kendi dosyasında tutabilmen için başka bir @Source oluştur",
+                "addSource": "$!verileri veya paylaşılan kodu kendi dosyasında tutabilmen için başka bir @Source oluştur",
                 "revert": "$~orijinal koda geri dön",
                 "focusOutput": "$~sahnede klavyeye odaklan",
                 "focusSource": "$~bir sonraki kaynağa odaklan",
@@ -269,7 +269,7 @@
                 "controls": "$~Alttaki bu kontroller, hangi kutucukta çalışıyor olursanız olun, *projenin tamamı* için geçerlidir.",
                 "name": "$~/isim/ alanı projenizin ismidir. İsimler *proje* ve *galeri* görünümlerinde görünür.",
                 "sourceToggle": "$~Bu /toggle/ düğmesi *kaynak dosyayı* gösterir veya gizler. Bu satırdaki *diğer /toggle/ düğmeleri* diğer kutucuklar için de aynı işlevi görür.",
-                "addSource": "$~Bazı projeler, verilerin birinde saklandığı ve *ana* kaynağa aktarıldığı *birden fazla* kaynak dosyasından faydalanır. \"/Kaynak ekle/\" düğmesi yeni bir dosya oluşturur.",
+                "addSource": "$!Bazı projeler, verilerin birinde saklandığı ve *ana* kaynağa aktarıldığı *birden fazla* kaynak dosyasından faydalanır. \"/Kaynak ekle/\" düğmesi yeni bir dosya oluşturur.",
                 "share": "$~/paylaş/ iletişim kutusu, projenizi *galerilerle*, *herkesle* paylaşmanıza veya başka bir yerde paylaşmak üzere *metin* olarak kopyalamanıza olanak tanır.",
                 "checkpoints": "$~/revisions/ paneli, projenizin önceki sürümlerine *geri dönmenizi* ve hatırlamak istediğiniz sürümlerin *anlık görüntüsünü* almanızı sağlar.",
                 "languages": "$~/diller/ düğmesi projenin hangi dillerde yazıldığını gösterir, bir dil eklemene veya kaldırmana izin verir ve projenin *isimlerini*, *metnini* ve *dokümantasyonunu* yeni bir dile *çevirebilir*."
@@ -629,6 +629,58 @@
             "view": {
                 "added": "$~$name için ikinci bir görünüm eklendi",
                 "closed": "$~$name için ikinci görünüm kapatıldı"
+            },
+            "add": {
+                "header": "$?add code",
+                "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture on this device",
+                        "$?the colors of what your camera sees",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add an empty file of code"
+                    }
+                },
+                "picture": {
+                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "$?colors",
+                        "tip": "$?how many colors across the picture becomes"
+                    },
+                    "budget": "$?$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "$?too many colors for what is left of this project",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these colors as a file of code"
+                    },
+                    "doc": "$?$name, $columns × $rows colors",
+                    "cameraDoc": "$?a camera picture, $columns × $rows colors",
+                    "added": "$?added $name, $#count[one color|$count colors]",
+                    "name": "$?colors"
+                },
+                "camera": {
+                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                    "feed": "$?what your camera sees",
+                    "capture": {
+                        "label": "$?keep",
+                        "tip": "$?keep the picture showing now"
+                    },
+                    "retake": {
+                        "label": "$?again",
+                        "tip": "$?go back to the live picture"
+                    },
+                    "starting": "$?Starting the camera…",
+                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                }
             }
         },
         "annotations": {
@@ -2007,7 +2059,8 @@
                     ]
                 },
                 "report": "$~Neyi içe aktardım",
-                "reportExplanation": "$~Bir @Music, bir MIDI dosyasının anlattığı şeylerin çoğunu tutabilir ama hepsini tutamaz. İşte içe aktarma sırasında değişen şeyler."
+                "reportExplanation": "$~Bir @Music, bir MIDI dosyasının anlattığı şeylerin çoğunu tutabilir ama hepsini tutamaz. İşte içe aktarma sırasında değişen şeyler.",
+                "choose": "$?choose a song"
             },
             "toolbar": {
                 "label": "$~çıktı ekle",
@@ -2829,6 +2882,26 @@
             "notData": "$~Bu, bir dosyaya değecek türde bir değer değil.",
             "droppedUnits": "$~Birimler dışarıda bırakıldı: bir JSON sayısı birim taşıyamaz.",
             "droppedNumbers": "$~Sonlu olmayan sayılar dışarıda bırakıldı: JSON bunları yazamaz."
+        },
+        "image": {
+            "button": {
+                "label": "$~yükle",
+                "tip": "$~bu cihazdan bir görsel dosyası seç"
+            },
+            "crop": {
+                "label": "$~kırpma kutusu",
+                "tip": "$!saklanacak görsel karesi"
+            },
+            "preview": "$~eklenecek olan şey",
+            "feedback": {
+                "tooBig": "$~O görsel $size MB büyüklüğünde. Lütfen $limit MB'den küçük bir görsel seçin.",
+                "unreadable": "$~Bu dosyayı görsel olarak okuyamadık."
+            },
+            "announce": {
+                "cropped": "$~kırpma kutusu $x $y konumunda",
+                "moving": "$~kırpma kutusu taşınıyor",
+                "done": "$~kırpma kutusu yerleştirildi"
+            }
         }
     }
 }

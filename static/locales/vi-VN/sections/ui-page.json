@@ -784,9 +784,7 @@
                     "glyphLoading": "$~Đang tải phông chữ…",
                     "glyphMissing": "$~Phông chữ này không có hình dạng cho ký hiệu đó. Hãy thử phông chữ khác.",
                     "glyphEmpty": "$~Ký hiệu đó không có gì để vẽ.",
-                    "glyphUnreadable": "$~Chúng tôi không đọc được phông chữ đó. Hãy kiểm tra kết nối mạng, hoặc thử phông chữ khác.",
-                    "imageTooBig": "$~Hình ảnh đó nặng $size MB. Hãy chọn hình nhỏ hơn $limit MB.",
-                    "imageUnreadable": "$~Chúng tôi không thể đọc tệp đó như một hình ảnh."
+                    "glyphUnreadable": "$~Chúng tôi không đọc được phông chữ đó. Hãy kiểm tra kết nối mạng, hoặc thử phông chữ khác."
                 },
                 "announce": {
                     "position": "$~ở mức $x $y",
@@ -811,26 +809,14 @@
                     "arranged": "$~lớp $index trong $total",
                     "flipped": "$~đã lật, giờ ở $x $y",
                     "fitted": "$~đã phóng to hình dạng để lấp đầy khung vẽ",
-                    "cropped": "$~khung cắt tại $x $y",
-                    "cropMoving": "$~đang di chuyển khung cắt",
-                    "cropDone": "$~đã đặt khung cắt",
                     "imported": "$~đã thêm $#count[$count điểm ảnh] từ $x $y"
                 },
                 "image": {
                     "instructions": "$~Kéo hình vuông để di chuyển nó, hoặc dùng thanh trượt *kích thước* để thay đổi lượng ảnh muốn giữ lại. Với bàn phím, nhấn *enter* để bắt đầu di chuyển, dùng các phím *mũi tên*, rồi nhấn *enter* lần nữa khi xong.",
-                    "button": {
-                        "label": "$~tải lên",
-                        "tip": "$~chọn một tệp hình ảnh từ thiết bị này"
-                    },
                     "add": {
                         "label": "$~thêm",
                         "tip": "$~thêm hình vuông đã chọn vào ký tự dưới dạng điểm ảnh"
                     },
-                    "crop": {
-                        "label": "$~khung cắt",
-                        "tip": "$~hình vuông của ảnh cần giữ lại"
-                    },
-                    "preview": "$~những gì sẽ được thêm vào",
                     "size": {
                         "label": "$~kích thước",
                         "tip": "$~giữ lại bao nhiêu phần của ảnh"
