@@ -16,20 +16,28 @@ export function isCSV(text: string): boolean {
     );
 }
 
+/**
+ * The table this text describes, or undefined if it doesn't describe one.
+ *
+ * Separate from `interpret` because two places ask: the editor, which wants the code to
+ * paste, and the add-source dialog, which wants to say how many rows and columns it read
+ * before a creator commits to a file of them. One decider either way.
+ */
+export function toTable(text: string): TableLiteral | undefined {
+    if (!isCSV(text)) return undefined;
+    const data = parseCSV(text.trim());
+    // Only treat this as a table if at least one line actually has commas
+    // separating two or more values. Otherwise a column of newline-separated
+    // text literals (with no commas) would be misread as CSV.
+    if (!data.some((row) => row.length >= 2)) return undefined;
+    return TableLiteral.from(data);
+}
+
 /** See if this is a kind of text we can convert into something Wordplay formatted. */
 export default function interpret(text: string): string {
     // Does it seem like CSV data? Convert it to a table.
-    if (isCSV(text)) {
-        const data = parseCSV(text.trim());
-
-        // Only treat this as a table if at least one line actually has commas
-        // separating two or more values. Otherwise a column of newline-separated
-        // text literals (with no commas) would be misread as CSV.
-        if (data.some((row) => row.length >= 2)) {
-            const table = TableLiteral.from(data);
-            if (table) return table.toWordplay(getPreferredSpaces(table));
-        }
-    }
-
-    return text;
+    const table = toTable(text);
+    return table === undefined
+        ? text
+        : table.toWordplay(getPreferredSpaces(table));
 }

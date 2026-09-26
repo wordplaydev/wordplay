@@ -656,7 +656,7 @@ type UITexts = {
             header: string;
             /** [formatted] What the dialog is for */
             explanation: FormattedText;
-            /** The ways of making a source: empty, a picture, the camera, a song */
+            /** The ways of making a source: empty, a picture, a table, a song */
             ways: ModeText<[string, string, string, string]>;
             blank: {
                 /** [formatted] What an empty source file is for */
@@ -664,12 +664,18 @@ type UITexts = {
                 /** The button that makes an empty source */
                 button: ButtonText;
             };
-            /** Turning a picture into a source of colors (#559, #560) */
-            picture: {
+            /** Turning a picture — from this device or from the camera — into a source
+             *  of colors (#559, #560). One tab rather than two, because the cropping and
+             *  the sizing are the same work whichever the picture came from. */
+            image: {
                 /** [name] What the new source file is called. A name a creator
                  *  could type, and deliberately not the locale's word for the
                  *  `Color` type — a source of that name shadows the type it holds. */
                 name: NameText;
+                /** [formatted] What the new file is: rows of colors, not a picture */
+                explanation: FormattedText;
+                /** Where the picture comes from: this device, or the camera */
+                source: ModeText<[string, string]>;
                 /** [formatted] How to choose the part of the picture to keep and how many colors it becomes */
                 instructions: FormattedText;
                 /** [plain] Labels for the slider choosing how many colors across the picture becomes */
@@ -686,20 +692,44 @@ type UITexts = {
                 cameraDoc: Template<['columns', 'rows']>;
                 /** [plain] Announced once the colors are a source file. $name is what the source is called. */
                 added: Template<['name', '#count']>;
+                camera: {
+                    /** [formatted] What this does, and that nothing is sent anywhere */
+                    instructions: FormattedText;
+                    /** [plain] The ARIA label for the live camera picture */
+                    feed: string;
+                    /** The button that keeps the picture showing right now */
+                    capture: ButtonText;
+                    /** The button that goes back to the live picture */
+                    retake: ButtonText;
+                    /** [plain] Shown while the camera is starting up */
+                    starting: string;
+                    /** [plain] Shown when the camera can't be used, usually because permission was refused */
+                    denied: string;
+                };
             };
-            camera: {
-                /** [formatted] What this does, and that nothing is sent anywhere */
-                instructions: FormattedText;
-                /** [plain] The ARIA label for the live camera picture */
-                feed: string;
-                /** The button that keeps the picture showing right now */
-                capture: ButtonText;
-                /** The button that goes back to the live picture */
-                retake: ButtonText;
-                /** [plain] Shown while the camera is starting up */
-                starting: string;
-                /** [plain] Shown when the camera can't be used, usually because permission was refused */
-                denied: string;
+            /** Turning pasted spreadsheet rows into a `Table`. Shares its reading of
+             *  what counts as CSV with the editor's own paste. */
+            table: {
+                /** [name] What the new source file is called */
+                name: NameText;
+                /** [formatted] What the new file is, and where the rows can come from */
+                explanation: FormattedText;
+                /** [plain] The label and placeholder for the box rows are pasted into */
+                paste: { label: string; placeholder: string };
+                /** [plain] What was read: $columns columns and $#rows rows */
+                summary: Template<['columns', '#rows']>;
+                /** [plain] Shown when the pasted text doesn't read as rows and columns */
+                notTable: string;
+                /** The button that adds the rows as a source file */
+                button: ButtonText;
+                /** [plain] The doc written at the top of the new source */
+                doc: Template<['columns', '#rows']>;
+                /** [plain] Announced once the rows are a source file. $name is what the source is called. */
+                added: Template<['name', '#rows']>;
+            };
+            song: {
+                /** [formatted] What kind of file this takes and what it makes of it */
+                explanation: FormattedText;
             };
         };
         /** [formatted] The text to show when a source file is empty */

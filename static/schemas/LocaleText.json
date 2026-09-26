@@ -28605,44 +28605,6 @@
                                             ],
                                             "type": "object"
                                         },
-                                        "camera": {
-                                            "additionalProperties": false,
-                                            "properties": {
-                                                "capture": {
-                                                    "$ref": "#/definitions/ButtonText",
-                                                    "description": "The button that keeps the picture showing right now"
-                                                },
-                                                "denied": {
-                                                    "description": "[plain] Shown when the camera can't be used, usually because permission was refused",
-                                                    "type": "string"
-                                                },
-                                                "feed": {
-                                                    "description": "[plain] The ARIA label for the live camera picture",
-                                                    "type": "string"
-                                                },
-                                                "instructions": {
-                                                    "$ref": "#/definitions/FormattedText",
-                                                    "description": "[formatted] What this does, and that nothing is sent anywhere"
-                                                },
-                                                "retake": {
-                                                    "$ref": "#/definitions/ButtonText",
-                                                    "description": "The button that goes back to the live picture"
-                                                },
-                                                "starting": {
-                                                    "description": "[plain] Shown while the camera is starting up",
-                                                    "type": "string"
-                                                }
-                                            },
-                                            "required": [
-                                                "instructions",
-                                                "feed",
-                                                "capture",
-                                                "retake",
-                                                "starting",
-                                                "denied"
-                                            ],
-                                            "type": "object"
-                                        },
                                         "explanation": {
                                             "$ref": "#/definitions/FormattedText",
                                             "description": "[formatted] What the dialog is for"
@@ -28651,9 +28613,9 @@
                                             "description": "[plain] The dialog's header",
                                             "type": "string"
                                         },
-                                        "picture": {
+                                        "image": {
                                             "additionalProperties": false,
-                                            "description": "Turning a picture into a source of colors (#559, #560)",
+                                            "description": "Turning a picture — from this device or from the camera — into a source of colors (#559, #560). One tab rather than two, because the cropping and the sizing are the same work whichever the picture came from.",
                                             "properties": {
                                                 "added": {
                                                     "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22%23count%22%5D%3E",
@@ -28667,6 +28629,44 @@
                                                     "$ref": "#/definitions/ButtonText",
                                                     "description": "The button that adds the colors as a source file"
                                                 },
+                                                "camera": {
+                                                    "additionalProperties": false,
+                                                    "properties": {
+                                                        "capture": {
+                                                            "$ref": "#/definitions/ButtonText",
+                                                            "description": "The button that keeps the picture showing right now"
+                                                        },
+                                                        "denied": {
+                                                            "description": "[plain] Shown when the camera can't be used, usually because permission was refused",
+                                                            "type": "string"
+                                                        },
+                                                        "feed": {
+                                                            "description": "[plain] The ARIA label for the live camera picture",
+                                                            "type": "string"
+                                                        },
+                                                        "instructions": {
+                                                            "$ref": "#/definitions/FormattedText",
+                                                            "description": "[formatted] What this does, and that nothing is sent anywhere"
+                                                        },
+                                                        "retake": {
+                                                            "$ref": "#/definitions/ButtonText",
+                                                            "description": "The button that goes back to the live picture"
+                                                        },
+                                                        "starting": {
+                                                            "description": "[plain] Shown while the camera is starting up",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "instructions",
+                                                        "feed",
+                                                        "capture",
+                                                        "retake",
+                                                        "starting",
+                                                        "denied"
+                                                    ],
+                                                    "type": "object"
+                                                },
                                                 "cameraDoc": {
                                                     "$ref": "#/definitions/Template%3C%5B%22columns%22%2C%22rows%22%5D%3E",
                                                     "description": "[plain] The doc written at the top of the new source when the picture came from the camera."
@@ -28674,6 +28674,10 @@
                                                 "doc": {
                                                     "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22columns%22%2C%22rows%22%5D%3E",
                                                     "description": "[plain] The doc written at the top of the new source. $name is the picture's file name, $columns and $rows its size in colors."
+                                                },
+                                                "explanation": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] What the new file is: rows of colors, not a picture"
                                                 },
                                                 "instructions": {
                                                     "$ref": "#/definitions/FormattedText",
@@ -28700,6 +28704,10 @@
                                                     ],
                                                     "type": "object"
                                                 },
+                                                "source": {
+                                                    "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                                                    "description": "Where the picture comes from: this device, or the camera"
+                                                },
                                                 "tooBig": {
                                                     "description": "[plain] Shown beside a size too big for what is left of this project",
                                                     "type": "string"
@@ -28707,6 +28715,8 @@
                                             },
                                             "required": [
                                                 "name",
+                                                "explanation",
+                                                "source",
                                                 "instructions",
                                                 "size",
                                                 "budget",
@@ -28714,13 +28724,87 @@
                                                 "button",
                                                 "doc",
                                                 "cameraDoc",
+                                                "added",
+                                                "camera"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "song": {
+                                            "additionalProperties": false,
+                                            "properties": {
+                                                "explanation": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] What kind of file this takes and what it makes of it"
+                                                }
+                                            },
+                                            "required": ["explanation"],
+                                            "type": "object"
+                                        },
+                                        "table": {
+                                            "additionalProperties": false,
+                                            "description": "Turning pasted spreadsheet rows into a `Table`. Shares its reading of what counts as CSV with the editor's own paste.",
+                                            "properties": {
+                                                "added": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22%23rows%22%5D%3E",
+                                                    "description": "[plain] Announced once the rows are a source file. $name is what the source is called."
+                                                },
+                                                "button": {
+                                                    "$ref": "#/definitions/ButtonText",
+                                                    "description": "The button that adds the rows as a source file"
+                                                },
+                                                "doc": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22columns%22%2C%22%23rows%22%5D%3E",
+                                                    "description": "[plain] The doc written at the top of the new source"
+                                                },
+                                                "explanation": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] What the new file is, and where the rows can come from"
+                                                },
+                                                "name": {
+                                                    "$ref": "#/definitions/NameText",
+                                                    "description": "[name] What the new source file is called"
+                                                },
+                                                "notTable": {
+                                                    "description": "[plain] Shown when the pasted text doesn't read as rows and columns",
+                                                    "type": "string"
+                                                },
+                                                "paste": {
+                                                    "additionalProperties": false,
+                                                    "description": "[plain] The label and placeholder for the box rows are pasted into",
+                                                    "properties": {
+                                                        "label": {
+                                                            "type": "string"
+                                                        },
+                                                        "placeholder": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "label",
+                                                        "placeholder"
+                                                    ],
+                                                    "type": "object"
+                                                },
+                                                "summary": {
+                                                    "$ref": "#/definitions/Template%3C%5B%22columns%22%2C%22%23rows%22%5D%3E",
+                                                    "description": "[plain] What was read: $columns columns and $#rows rows"
+                                                }
+                                            },
+                                            "required": [
+                                                "name",
+                                                "explanation",
+                                                "paste",
+                                                "summary",
+                                                "notTable",
+                                                "button",
+                                                "doc",
                                                 "added"
                                             ],
                                             "type": "object"
                                         },
                                         "ways": {
                                             "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
-                                            "description": "The ways of making a source: empty, a picture, the camera, a song"
+                                            "description": "The ways of making a source: empty, a picture, a table, a song"
                                         }
                                     },
                                     "required": [
@@ -28728,8 +28812,9 @@
                                         "explanation",
                                         "ways",
                                         "blank",
-                                        "picture",
-                                        "camera"
+                                        "image",
+                                        "table",
+                                        "song"
                                     ],
                                     "type": "object"
                                 },
@@ -31540,6 +31625,9 @@
         "Template<[\"column\"]>": {
             "type": "string"
         },
+        "Template<[\"columns\",\"#rows\"]>": {
+            "type": "string"
+        },
         "Template<[\"columns\",\"rows\",\"size\",\"percent\"]>": {
             "type": "string"
         },
@@ -31766,6 +31854,9 @@
             "type": "string"
         },
         "Template<[\"name\",\"#lines\"]>": {
+            "type": "string"
+        },
+        "Template<[\"name\",\"#rows\"]>": {
             "type": "string"
         },
         "Template<[\"name\",\"columns\",\"rows\"]>": {

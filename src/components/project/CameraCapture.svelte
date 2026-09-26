@@ -94,9 +94,9 @@
 </script>
 
 <div class="panel-column">
-    <MarkupHTMLView markup={(l) => l.ui.source.add.camera.instructions} />
+    <MarkupHTMLView markup={(l) => l.ui.source.add.image.camera.instructions} />
     {#if denied}
-        <Note text={(l) => l.ui.source.add.camera.denied} />
+        <Note text={(l) => l.ui.source.add.image.camera.denied} />
     {:else}
         <!-- svelte-ignore a11y_media_has_caption -->
         <!-- A live camera picture has nothing to caption: there is no audio track
@@ -108,19 +108,19 @@
             muted
             playsinline
             aria-label={$locales.getPrimaryPlainText(
-                (l) => l.ui.source.add.camera.feed,
+                (l) => l.ui.source.add.image.camera.feed,
             )}
         ></video>
         <Button
             background
             active={ready}
-            tip={(l) => l.ui.source.add.camera.capture.tip}
+            tip={(l) => l.ui.source.add.image.camera.capture.tip}
             action={keep}
             icon="📷"
-            label={(l) => l.ui.source.add.camera.capture.label}
+            label={(l) => l.ui.source.add.image.camera.capture.label}
         />
         {#if !ready}
-            <Note text={(l) => l.ui.source.add.camera.starting} />
+            <Note text={(l) => l.ui.source.add.image.camera.starting} />
         {/if}
     {/if}
 </div>

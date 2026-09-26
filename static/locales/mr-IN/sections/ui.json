@@ -633,16 +633,6 @@
             "add": {
                 "header": "$?add code",
                 "explanation": "$?A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture, your camera, or a song.",
-                "ways": {
-                    "label": "$?what the new code is made of",
-                    "labels": ["$?empty", "$?picture", "$?camera", "$?song"],
-                    "tips": [
-                        "$?a file with nothing in it yet",
-                        "$?the colors of a picture on this device",
-                        "$?the colors of what your camera sees",
-                        "$?the notes of a MIDI file on this device"
-                    ]
-                },
                 "blank": {
                     "explanation": "$?An empty file, for code you want to keep apart from the rest. The program can use what it names by borrowing it.",
                     "button": {
@@ -650,7 +640,7 @@
                         "tip": "$?add an empty file of code"
                     }
                 },
-                "picture": {
+                "image": {
                     "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
                     "size": {
                         "label": "$?colors",
@@ -665,21 +655,59 @@
                     "doc": "$?$name, $columns × $rows colors",
                     "cameraDoc": "$?a camera picture, $columns × $rows colors",
                     "added": "$?added $name, $#count[one color|$count colors]",
-                    "name": "$?colors"
+                    "name": "$?colors",
+                    "camera": {
+                        "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
+                        "feed": "$?what your camera sees",
+                        "capture": {
+                            "label": "$?keep",
+                            "tip": "$?keep the picture showing now"
+                        },
+                        "retake": {
+                            "label": "$?again",
+                            "tip": "$?go back to the live picture"
+                        },
+                        "starting": "$?Starting the camera…",
+                        "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                    },
+                    "explanation": "$?The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "source": {
+                        "label": "$?where the picture comes from",
+                        "labels": ["$?this device", "$?camera"],
+                        "tips": [
+                            "$?a picture file on this device",
+                            "$?what your camera sees right now"
+                        ]
+                    }
                 },
-                "camera": {
-                    "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
-                    "feed": "$?what your camera sees",
-                    "capture": {
-                        "label": "$?keep",
-                        "tip": "$?keep the picture showing now"
+                "song": {
+                    "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                },
+                "ways": {
+                    "label": "$?what the new code is made of",
+                    "labels": ["$?empty", "$?image", "$?table", "$?song"],
+                    "tips": [
+                        "$?a file with nothing in it yet",
+                        "$?the colors of a picture, or of what your camera sees",
+                        "$?rows and columns pasted from a spreadsheet",
+                        "$?the notes of a MIDI file on this device"
+                    ]
+                },
+                "table": {
+                    "name": "$?rows",
+                    "explanation": "$?Paste rows from a spreadsheet, or any text with commas between the values, and they become a @Table you can read and change. The first row names the columns.",
+                    "paste": {
+                        "label": "$?rows",
+                        "placeholder": "$?name, legs\ncat, 4\nbird, 2"
                     },
-                    "retake": {
-                        "label": "$?again",
-                        "tip": "$?go back to the live picture"
+                    "summary": "$?$#rows[one row|$rows rows] of $columns columns",
+                    "notTable": "$?that doesn’t read as rows and columns yet",
+                    "button": {
+                        "label": "$?add",
+                        "tip": "$?add these rows as a file of code"
                     },
-                    "starting": "$?Starting the camera…",
-                    "denied": "$?We can’t reach your camera. Check that this page is allowed to use it."
+                    "doc": "$?$#rows[one row|$rows rows] of $columns columns",
+                    "added": "$?added $name, $#rows[one row|$rows rows]"
                 }
             }
         },

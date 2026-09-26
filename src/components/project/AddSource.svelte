@@ -19,11 +19,18 @@
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import Slider from '@components/widgets/Slider.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import Tabbed from '@components/widgets/Tabbed.svelte';
     import { locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import { MAX_PROJECT_BYTE_SIZE } from '@db/projects/ProjectsDatabase.svelte';
+    import { toTable } from '@components/editor/commands/interpret';
+    import TextBox from '@components/widgets/TextBox.svelte';
     import freshSourceName from '@edit/freshSourceName';
+    import type LocaleText from '@locale/LocaleText';
+    import type { NameText } from '@locale/LocaleText';
+    import type TableLiteral from '@nodes/TableLiteral';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
     import {
         colorsToSource,
         DefaultResolution,
@@ -66,8 +73,14 @@
         picture = $bindable(null),
     }: Props = $props();
 
-    const Ways = { Blank: 0, Picture: 1, Camera: 2, Song: 3 } as const;
+    const Ways = { Blank: 0, Image: 1, Table: 2, Song: 3 } as const;
     let way = $state<number>(Ways.Blank);
+
+    /** Where the picture comes from. One tab rather than two, because cropping it and
+     *  choosing how many colors it becomes is the same work either way — only where the
+     *  picture arrives from differs. */
+    const Sources = { Device: 0, Camera: 1 } as const;
+    let pictureSource = $state<number>(Sources.Device);
 
     /** How many colors across the picture becomes. */
     let resolution = $state(DefaultResolution);
@@ -75,22 +88,55 @@
     let captured = $state<Working | null>(null);
     /** The name of the picture last chosen from a file, for its doc. */
     let pictureName = $state<string | null>(null);
+    /** Whatever has been pasted into the table box. */
+    let pasted = $state('');
+    /** What those rows read as, or nothing when they don't read as a table yet. The
+     *  same decider the editor's own paste uses, so the two can't disagree. */
+    let pastedTable = $derived(
+        pasted.trim().length === 0 ? undefined : toTable(pasted),
+    );
 
     /**
-     * What the source of colors is called.
+     * What a new source is called, in the locale's own word for what it holds.
      *
-     * A locale's own word, so the file reads as a name in the language the creator
-     * is writing in — and deliberately not the locale's word for `Color`, since a
-     * source of that name shadows the very type it holds.
+     * A locale's own word, so the file reads as a name in the language the creator is
+     * writing in — and deliberately not the locale's word for the *type* it holds, since
+     * a source of that name would shadow the very type it holds.
      */
-    function nameOfColors(): string {
-        const declared = $locales.getWithAnnotations(
-            (l) => l.ui.source.add.picture.name,
-        );
+    function nameFrom(accessor: (l: LocaleText) => NameText): string {
+        const declared = $locales.getWithAnnotations(accessor);
         const names = Array.isArray(declared) ? declared : [declared];
         return withoutAnnotations(
-            must(first(names), 'a name for a source of colors'),
+            must(first(names), 'a name for a new source'),
         );
+    }
+
+    /**
+     * Put a new source into the project: the file, a borrow of it at the top of main,
+     * and a word about it.
+     *
+     * Text rather than nodes: splicing a parsed list back into a source rebuilds its
+     * spacing and costs the square of what it holds, which is what made importing a song
+     * hang before it was written this way. The tile is left collapsed, because an
+     * unmounted tile renders nothing and a thousand colors is a thousand token views for
+     * anyone who opens it.
+     */
+    function commit(name: string, code: string, said: string) {
+        const grown = project.withNewSource(name, code);
+        const main = grown.getMain();
+        const before = main.code.toString();
+        // The borrow goes at the top, because a program's borrows are parsed before
+        // anything else. Without it the new source's names reach no scope at all.
+        const revised = grown.withSource(
+            main,
+            main.withCode(`↓ ${name}\n${before}`),
+        );
+        // Analyzed here rather than left to fire once the dialog has closed: on a large
+        // grid it is long enough that the silence would read as a freeze.
+        revised.analyze();
+        added(revised);
+        announce(said);
+        show = false;
     }
 
     /** What the project has room for, in bytes. */
@@ -110,49 +156,60 @@
         columns: number,
         rows: number,
     ) {
-        // Named after what it holds. A name from the locale's own basis rather
-        // than the file's, which may be a camera frame with no name at all, and
-        // which is very often not a name a creator could type.
-        const name = freshSourceName(project, nameOfColors());
+        // Named after what it holds. A name from the locale rather than the file's,
+        // which may be a camera frame with no name at all, and which is very often not
+        // a name a creator could type.
+        const name = freshSourceName(
+            project,
+            nameFrom((l) => l.ui.source.add.image.name),
+        );
         const doc = (
             pictureName === null
-                ? $locales.concretize(
-                      (l) => l.ui.source.add.picture.cameraDoc,
-                      { columns, rows },
-                  )
-                : $locales.concretize((l) => l.ui.source.add.picture.doc, {
+                ? $locales.concretize((l) => l.ui.source.add.image.cameraDoc, {
+                      columns,
+                      rows,
+                  })
+                : $locales.concretize((l) => l.ui.source.add.image.doc, {
                       name: pictureName,
                       columns,
                       rows,
                   })
         ).toText();
-
-        const grown = project.withNewSource(
+        commit(
             name,
             colorsToSource(sampled, columns, rows, doc),
-        );
-        const main = grown.getMain();
-        const before = main.code.toString();
-        // The borrow goes at the top, because a program's borrows are parsed before
-        // anything else. Without it the new source's names reach no scope at all.
-        const revised = grown.withSource(
-            main,
-            main.withCode(`↓ ${name}\n${before}`),
-        );
-        // Analyzed here rather than left to fire once the dialog has closed: on a
-        // large grid it is long enough that the silence would read as a freeze.
-        revised.analyze();
-        added(revised);
-
-        announce(
             $locales
-                .concretize((l) => l.ui.source.add.picture.added, {
+                .concretize((l) => l.ui.source.add.image.added, {
                     name,
                     count: columns * rows,
                 })
                 .toText(),
         );
-        show = false;
+    }
+
+    /**
+     * Write the pasted rows as a source file and borrow it from the program.
+     *
+     * The same shape as the colors above — text rather than nodes, a doc with the blank
+     * line under it, a borrow at the top of main, and the tile left collapsed.
+     */
+    function addTable(table: TableLiteral) {
+        const name = freshSourceName(
+            project,
+            nameFrom((l) => l.ui.source.add.table.name),
+        );
+        const columns = table.type.columns.length;
+        const rows = table.rows.length;
+        const doc = $locales
+            .concretize((l) => l.ui.source.add.table.doc, { columns, rows })
+            .toText();
+        commit(
+            name,
+            `¶${doc}¶\n\n${table.toWordplay(getPreferredSpaces(table))}\n`,
+            $locales
+                .concretize((l) => l.ui.source.add.table.added, { name, rows })
+                .toText(),
+        );
     }
 
     /** Reset whatever the last visit left behind, so opening the dialog is a fresh
@@ -162,8 +219,9 @@
         untrack(() => {
             captured = null;
             pictureName = null;
+            pasted = '';
             resolution = DefaultResolution;
-            way = picture === null ? Ways.Blank : Ways.Picture;
+            way = picture === null ? Ways.Blank : Ways.Image;
         });
     });
 </script>
@@ -177,8 +235,8 @@
     {@const bytes = estimateBytes(columns, rows)}
     {@const fits = bytes <= room}
     <Slider
-        label={(l) => l.ui.source.add.picture.size.label}
-        tip={(l) => l.ui.source.add.picture.size.tip}
+        label={(l) => l.ui.source.add.image.size.label}
+        tip={(l) => l.ui.source.add.image.size.tip}
         min={MinResolution}
         max={MaxResolution}
         increment={ResolutionStep}
@@ -193,7 +251,7 @@
         <MarkupHTMLView
             inline
             markup={[
-                (l) => l.ui.source.add.picture.budget,
+                (l) => l.ui.source.add.image.budget,
                 {
                     columns,
                     rows,
@@ -206,12 +264,12 @@
         />
     </div>
     {#if !fits}
-        <Note text={(l) => l.ui.source.add.picture.tooBig} />
+        <Note text={(l) => l.ui.source.add.image.tooBig} />
     {/if}
     <Button
         background
         active={editable && fits}
-        tip={(l) => l.ui.source.add.picture.button.tip}
+        tip={(l) => l.ui.source.add.image.button.tip}
         action={() => {
             addColors(sampled, columns, rows);
             // Both, because a dropped picture is held outside this component and
@@ -220,7 +278,7 @@
             clear();
         }}
         icon="✓"
-        label={(l) => l.ui.source.add.picture.button.label}
+        label={(l) => l.ui.source.add.image.button.label}
     />
 {/snippet}
 
@@ -257,48 +315,102 @@
                     label={(l) => l.ui.source.add.blank.button.label}
                 />
             </div>
-        {:else if way === Ways.Picture}
-            <ImagePicker
-                grid={{ longEdge: resolution }}
-                instructions={(l) => l.ui.source.add.picture.instructions}
-                given={picture}
-                {announce}
-                onchoose={(name) => (pictureName = name)}
-            >
-                {#snippet controls({ sampled, columns, rows, clear })}
-                    {@render sizing(sampled, columns, rows, clear)}
-                {/snippet}
-            </ImagePicker>
-        {:else if way === Ways.Camera}
+        {:else if way === Ways.Image}
             <div class="panel-column">
-                {#if captured === null}
+                <MarkupHTMLView
+                    markup={(l) => l.ui.source.add.image.explanation}
+                />
+                <Mode
+                    modes={(l) => l.ui.source.add.image.source}
+                    choice={pictureSource}
+                    select={(choice) => {
+                        pictureSource = choice;
+                        // Whatever was chosen belongs to the other source; keeping it
+                        // would show a device picture under a live camera.
+                        captured = null;
+                        picture = null;
+                        pictureName = null;
+                    }}
+                    icons={['🖼', '📷']}
+                />
+                {#if pictureSource === Sources.Camera && captured === null}
                     <CameraCapture capture={(frame) => (captured = frame)} />
                 {:else}
                     <ImagePicker
                         grid={{ longEdge: resolution }}
-                        instructions={(l) =>
-                            l.ui.source.add.picture.instructions}
-                        given={captured}
-                        choosable={false}
+                        instructions={(l) => l.ui.source.add.image.instructions}
+                        given={pictureSource === Sources.Camera
+                            ? captured
+                            : picture}
+                        choosable={pictureSource === Sources.Device}
                         {announce}
+                        onchoose={(name) => (pictureName = name)}
                     >
                         {#snippet controls({ sampled, columns, rows, clear })}
-                            <Button
-                                tip={(l) => l.ui.source.add.camera.retake.tip}
-                                action={() => {
-                                    captured = null;
-                                }}
-                                icon="↺"
-                                label={(l) =>
-                                    l.ui.source.add.camera.retake.label}
-                            />
+                            {#if pictureSource === Sources.Camera}
+                                <Button
+                                    tip={(l) =>
+                                        l.ui.source.add.image.camera.retake.tip}
+                                    action={() => {
+                                        captured = null;
+                                    }}
+                                    icon="↺"
+                                    label={(l) =>
+                                        l.ui.source.add.image.camera.retake
+                                            .label}
+                                />
+                            {/if}
                             {@render sizing(sampled, columns, rows, clear)}
                         {/snippet}
                     </ImagePicker>
                 {/if}
             </div>
+        {:else if way === Ways.Table}
+            <div class="panel-column">
+                <MarkupHTMLView
+                    markup={(l) => l.ui.source.add.table.explanation}
+                />
+                <TextBox
+                    id="add-source-table"
+                    bind:text={pasted}
+                    description={(l) => l.ui.source.add.table.paste.label}
+                    placeholder={(l) => l.ui.source.add.table.paste.placeholder}
+                    maxrows={8}
+                />
+                {#if pastedTable !== undefined}
+                    {@const table = pastedTable}
+                    <MarkupHTMLView
+                        inline
+                        markup={[
+                            (l) => l.ui.source.add.table.summary,
+                            {
+                                columns: table.type.columns.length,
+                                rows: table.rows.length,
+                            },
+                        ]}
+                    />
+                    <Button
+                        background="salient"
+                        active={editable}
+                        tip={(l) => l.ui.source.add.table.button.tip}
+                        action={() => {
+                            addTable(table);
+                            pasted = '';
+                        }}
+                        icon="✓"
+                        label={(l) => l.ui.source.add.table.button.label}
+                    />
+                {:else if pasted.trim().length > 0}
+                    <Note text={(l) => l.ui.source.add.table.notTable} />
+                {/if}
+            </div>
         {:else}
-            <MIDIImporter {project} {editable} {added} />
+            <div class="panel-column">
+                <MarkupHTMLView
+                    markup={(l) => l.ui.source.add.song.explanation}
+                />
+                <MIDIImporter {project} {editable} {added} />
+            </div>
         {/if}
     </Tabbed>
 </Dialog>
