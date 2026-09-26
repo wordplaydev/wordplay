@@ -3,7 +3,10 @@ import { FirebaseError } from 'firebase/app';
 import concretize from '@locale/concretize';
 import { type LocaleTextAccessor } from '@locale/Locales';
 import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
-import { type SupportedLocale } from '@locale/SupportedLocales';
+import {
+    isSupportedLocale,
+    type SupportedLocale,
+} from '@locale/SupportedLocales';
 import { resolveWritingLayout } from '@locale/Scripts';
 // Value symbols from firebase/auth are dynamically imported at use so the auth
 // SDK stays out of the eager chunk; only the erased types are imported here.
@@ -1555,7 +1558,19 @@ export const disconnected: Readable<boolean> = derived(
 );
 
 if (import.meta.hot) {
-    import.meta.hot.on('locales-update', () => {
-        DB.Locales.refreshLocales();
+    // The dev locale watcher (scripts/locales/watchLocales.ts) names the locale it
+    // rebuilt, so only that one is refetched rather than all thirty-one. en-US never
+    // arrives here — it is a bundled module import, so the watcher reloads the page.
+    import.meta.hot.on('locales-update', (data: unknown) => {
+        const named =
+            typeof data === 'object' &&
+            data !== null &&
+            'locale' in data &&
+            typeof data.locale === 'string'
+                ? data.locale
+                : undefined;
+        DB.Locales.refreshLocales(
+            named !== undefined && isSupportedLocale(named) ? named : undefined,
+        );
     });
 }

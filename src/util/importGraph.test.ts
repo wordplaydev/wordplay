@@ -939,8 +939,15 @@ test('resolving a color needs no basis', () => {
 // an image decoder are reached only from `ProjectView`, which no audited entry carries.
 // The bytes are its strings in en-US.json, which `DefaultLocale` puts on every graph.
 
+// Live locale editing in dev is **+0 files** and moves one byte budget by a hundredth.
+// Nothing it imports lands on a page graph — the watcher lives in `scripts/` and is
+// reached only from `vite.config.js`. The bytes are the `import.meta.hot` handler in
+// `Database.ts` taking the locale the watcher names, and the note in `LocalesDatabase`
+// explaining why a refresh is scoped to one locale rather than all thirty-one. Prose in
+// two files every page already carries is what these budgets are for absorbing.
+
 test.each([
-    ['src/routes/+layout.svelte', 535, 4.1],
+    ['src/routes/+layout.svelte', 535, 4.11],
     ['src/components/app/Page.svelte', 559, 4.36],
     ['src/routes/[[locale]]/+page.svelte', 574, 4.45],
     ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.46],
