@@ -115,6 +115,25 @@
         return list;
     });
 
+    /**
+     * Which way the picture is mirrored, by the same rule the output transform uses.
+     *
+     * Flipping mirrors the whole output, and for a picture drawn in glyphs that mirrors
+     * every letter too — a camera shown as a mirror read as a page of backwards "a"s.
+     * The cells should trade places and the letters should still read, so the glyphs are
+     * flipped back. On the container, as two custom properties, rather than a style
+     * binding per cell: at 32 by 24 that is 768 bindings for what is one fact.
+     */
+    let mirrored = $derived.by(() => {
+        const rest = image.getFirstRestPose();
+        const pose = image.pose;
+        if (rest === undefined || pose === undefined) return { x: 1, y: 1 };
+        return {
+            x: (rest.flipx ?? pose.flipx) === true ? -1 : 1,
+            y: (rest.flipy ?? pose.flipy) === true ? -1 : 1,
+        };
+    });
+
     let canvas = $state<HTMLCanvasElement | undefined>(undefined);
 
     /**
@@ -251,6 +270,8 @@
                 aria-hidden="true"
                 style:grid-template-columns="repeat({Math.max(1, columns)}, 1fr)"
                 style:font-size="{height / Math.max(1, rows)}px"
+                style:--glyph-x={mirrored.x}
+                style:--glyph-y={mirrored.y}
             >
                 {#each cells as cell}<span style:color={cell.color}
                         >{cell.glyph}</span
@@ -290,6 +311,8 @@
         justify-content: center;
         line-height: 1;
         overflow: hidden;
+        /* Undoes the picture's own flip for the letters alone; see `mirrored`. */
+        transform: scale(var(--glyph-x, 1), var(--glyph-y, 1));
     }
 
     .selected {
