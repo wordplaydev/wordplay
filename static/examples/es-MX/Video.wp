@@ -1,22 +1,17 @@
 📹
 Video
 ===
-¶La imagen de tu cámara, repintada en vivo: como letras de colores, como sombreado ASCII, o como cuadros de colores. Elige un estilo con los botones de abajo.¶
+¶La señal de tu cámara, repintada en vivo: como letras coloridas, como sombreado ASCII, o como cuadros de color. Elige un estilo con los botones de abajo.¶
 
-¶Cuál botón de estilo se presionó la última vez. Choice reporta el nombre de la frase seleccionable que la persona que mira eligió, y el estilo se queda con lo último que escuchó.¶
-opción: Elección()
-estilo2: 'letters' … ∆ opción … opción
+¶Cuál botón de estilo se presionó por última vez. Elección informa el nombre de la frase seleccionable que la persona escogió, y el estilo se queda con lo último que escuchó.¶
+elección: Elección()
+estilo2: 'letters' … ∆ elección … elección
 
-¶Los emoji son grandes, así que el estilo de emoji usa una cuadrícula más gruesa. Ambas cuadrículas cubren los mismos 16 por 12 metros, así que cambiar el estilo nunca cambia el tamaño de la imagen ni mueve la cámara.¶
+¶Los emojis son grandes, así que el estilo de emoji toma muestras de una cuadrícula más gruesa. La imagen conserva el mismo tamaño de todas formas, así que cambiar de estilo nunca la redimensiona ni mueve la cámara; solo los cuadros que la forman se hacen más grandes.¶
 columnas2: (estilo2 = 'emoji') ? 16 32
 filas: (estilo2 = 'emoji') ? 12 24
-celda2: (estilo2 = 'emoji') ? 1m 0.5m
 
-¶El centro de la cuadrícula, que es donde está centrada la imagen.¶
-columnaDelMedio: (columnas2 + 1) ÷ 2
-filaDelMedio: (filas + 1) ÷ 2
-
-¶Un color por celda, directo de la cámara.¶
+¶Un color por celda, tomado directo de la cámara.¶
 colores2: Cámara((columnas2 × 1px) (filas × 1px) 33ms)
 
 ¶Diez caracteres de oscuro a claro. El estilo ASCII elige uno según qué tan brillante es el píxel.¶
@@ -25,7 +20,7 @@ gradiente: "@%#*+=-:. " → []
 ¶Veinticuatro bandas de 15° alrededor del círculo de tono, así que cada píxel toma el cuadro más cercano a su color.¶
 cuadros: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
 
-¶Cómo se ve un píxel en el estilo actual. Un píxel con casi nada de color no tiene un tono que mostrar, así que usa un cuadro claro u oscuro en su lugar.¶
+¶Cómo se ve un píxel en el estilo actual. Un píxel casi sin color no tiene un tono que valga la pena mostrar, así que recae en un cuadro claro u oscuro.¶
 ƒ glifo(color2•Color)
 	(estilo2 = 'ascii') ?
 		"\gradiente[((color2.luminosidad × 9).rondear()) + 1]\"
@@ -34,31 +29,23 @@ cuadros: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦�
 						((color2.luminosidad < 50%) ? "⬛" "⬜")
 						"\cuadros[(((color2.tono ÷ 1°) ÷ 15).rondearBajo(
 							)) + 1]\")
-				'a')
+				'una')
 
-¶La imagen: una frase por píxel, colocada desde el centro hacia afuera, así que la cámara tiene la misma imagen que enmarcar sin importar qué tan gruesa sea la cuadrícula, y reflejada de izquierda a derecha para que se lea como lo hace un espejo.¶
-imagen: colores2.combinar(
-		[]
-		ƒ(frases2•[Frase] fila2•[Color] y2•#)
-			frases2.adjuntar(
-				fila2.traducir(
-					ƒ(color3•Color x2•#)
-						Frase(
-							glifo(color3)
-							lugar: Lugar(
-								((columnaDelMedio - x2) × celda2)
-								((filaDelMedio - y2) × celda2)
-							)
-							duración: 0s
-							tamaño: (estilo2 = 'ascii') ? 0.75m ((estilo2 = 'emoji') ? 1.15m 1m)
-							fuente: (estilo2 = 'ascii') ? "Noto Sans Mono"/en ø
-							color: (estilo2 = 'letters') ? color3 ø
-						)
-				)
-			)
+¶La imagen. Un @Image dibuja toda la cuadrícula como una sola salida, así que un cuadro de video cuesta una imagen en vez de una frase por píxel, lo cual a 32 por 24 eran 768 de ellas, reconstruidas treinta veces por segundo. /flipx/ la refleja para que se lea como lo haría un espejo.
+
+El estilo /letters/ deja cada glifo con el color del cuadro que representa, que es lo que hace un @Image sin tener color propio. Los otros dos le dan uno, porque una letra solo se lee como sombreado cuando su color no dice nada, y un emoji de cuadro de color ya trae el suyo propio.¶
+imagen: Image(
+		colores2
+		"camera video drawn with \estilo2\"
+		16m
+		glifo: glifo
+		color: (estilo2 = 'letters') ? ø Color(0% 0 0°)
+		cara: (estilo2 = 'ascii') ? "Noto Sans Mono"/en ø
+		voltearx: ⊤
+		duración: 0s
 	)
 
-¶Un botón de estilo, brillante cuando es el estilo que se muestra. El nombre es lo que Choice reporta cuando se presiona el botón o se elige con el teclado.¶
+¶Un botón de estilo, brillante cuando es el estilo que se muestra. El nombre es lo que Elección informa cuando se presiona el botón o se elige con el teclado.¶
 ƒ botón(id2•'')
 	Frase(
 		id2
@@ -68,7 +55,7 @@ imagen: colores2.combinar(
 		inmóvil: (estilo2 = id2) ? Pose() Pose(opacidad: 40%)
 	)
 
-¶Una fila mantiene los botones espaciados de manera uniforme y alineados sin importar qué tan largas sean sus palabras, y sin un lugar propio, la fila se queda en el medio, así que el desplazamiento es todo lo que necesita para bajarla hasta abajo de la pantalla. Lleva su propio fondo, ya que las palabras sobre un video solo se leen bien por suerte.¶
+¶Una fila mantiene los botones espaciados de manera uniforme y alineados sin importar qué tan largas sean sus palabras, y sin un lugar propio la fila queda en el medio, así que el desplazamiento es todo lo que se necesita para bajarla hasta el fondo de la pantalla. Lleva su propio fondo, ya que las palabras sobre un video solo se leen bien por suerte.¶
 botones: Grupo(
 		Fila(relleno: 0.5m)
 		[botón('letters') botón('ascii') botón('emoji')]
@@ -76,9 +63,9 @@ botones: Grupo(
 		desplazamiento: Lugar(0m -4.5m)
 	)
 
-¶Los botones van en la capa superpuesta del escenario, que está fija a la pantalla: se quedan del mismo tamaño y lugar sin importar cómo se enmarque la imagen, y la imagen se enmarca como si ellos no estuvieran ahí.¶
+¶Los botones van en la capa superpuesta del escenario, que queda fija a la pantalla: mantienen el mismo tamaño y lugar sin importar cómo se enmarque la imagen, y la imagen se enmarca como si ellos no estuvieran ahí.¶
 Escenario(
-	imagen
+	[imagen]
 	descripción: "camera video drawn with \estilo2\"
 	superponer: [botones]
 )

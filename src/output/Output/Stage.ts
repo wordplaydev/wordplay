@@ -56,7 +56,7 @@ export function createStageType(locales: Locales) {
     ${getBind(
         locales,
         (locale) => locale.output.Stage.content,
-    )}•[Phrase|Shape|Group|Say|Music]
+    )}•[Phrase|Shape|Image|Group|Say|Music]
     ${getBind(locales, (locale) => locale.output.Stage.frame)}•Form|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.size)}•${'#m: 1m'}
     ${getBind(
@@ -102,7 +102,7 @@ export function createStageType(locales: Locales) {
     ${getBind(
         locales,
         (locale) => locale.output.Stage.overlay,
-    )}•[Phrase|Shape|Group|Say|Music]|ø: ø
+    )}•[Phrase|Shape|Image|Group|Say|Music]|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.air)}•#: ${DefaultAir}
     )
 `);

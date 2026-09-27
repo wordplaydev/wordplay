@@ -1,85 +1,70 @@
 📹
 Video
 ===
-¶Hình ảnh từ camera của bạn, được vẽ lại trực tiếp: dưới dạng chữ cái có màu, dưới dạng bóng mờ ASCII, hoặc dưới dạng ô vuông có màu. Hãy chọn một kiểu dáng bằng các nút bấm ở phía dưới.¶
+¶Hình ảnh từ máy quay của bạn, được vẽ lại theo thời gian thực: bằng chữ cái có màu, bằng bóng đổ ASCII, hoặc bằng ô vuông có màu. Hãy chọn một kiểu bằng các nút ở phía dưới.¶
 
-¶Nút kiểu dáng nào được nhấn gần đây nhất. Lựa chọn cho biết tên của cụm từ có thể chọn mà người xem đã chọn, và kiểu dáng sẽ giữ nguyên theo lựa chọn đó cho tới khi có lựa chọn mới.¶
+¶Nút kiểu nào vừa được nhấn. Lựa chọn báo tên của cụm từ có thể chọn mà người xem đã chọn, và kiểu sẽ giữ nguyên điều nó nghe được lần cuối.¶
 lựaChọn: Sựlựachọn()
-kiểuDáng: 'letters' … ∆ lựaChọn … lựaChọn
+kiểu2: 'letters' … ∆ lựaChọn … lựaChọn
 
-¶Biểu tượng cảm xúc khá lớn, nên kiểu dáng biểu tượng cảm xúc dùng một lưới thô hơn. Cả hai lưới đều bao phủ cùng một vùng rộng 16 mét và cao 12 mét, nên việc đổi kiểu dáng không bao giờ làm thay đổi kích thước hình ảnh hay di chuyển camera.¶
-cột2: (kiểuDáng = 'emoji') ? 16 32
-hàng2: (kiểuDáng = 'emoji') ? 12 24
-tếBào2: (kiểuDáng = 'emoji') ? 1m 0.5m
+¶Biểu tượng cảm xúc khá lớn, nên kiểu biểu tượng cảm xúc chỉ lấy mẫu theo lưới thô hơn. Dù vậy, hình ảnh vẫn giữ nguyên kích thước, nên đổi kiểu không bao giờ làm nó thay đổi kích thước hay làm dịch chuyển máy quay — chỉ có các ô vuông tạo nên nó là to lên.¶
+cột2: (kiểu2 = 'emoji') ? 16 32
+hàng2: (kiểu2 = 'emoji') ? 12 24
 
-¶Điểm giữa của lưới, nơi hình ảnh được đặt làm tâm.¶
-cộtGiữa: (cột2 + 1) ÷ 2
-hàngGiữa: (hàng2 + 1) ÷ 2
-
-¶Mỗi tế bào có một màu, lấy trực tiếp từ camera.¶
+¶Mỗi tế bào một màu, lấy thẳng từ máy quay.¶
 màuSắc2: Máyảnh((cột2 × 1px) (hàng2 × 1px) 33ms)
 
-¶Mười ký tự từ tối đến sáng. Kiểu ASCII chọn một ký tự theo độ sáng của điểm ảnh.¶
+¶Mười ký tự từ tối đến sáng. Kiểu ASCII chọn một ký tự tùy theo độ sáng của điểm ảnh.¶
 dảiMàu: "@%#*+=-:. " → []
 
-¶Hai mươi bốn dải 15° quanh vòng màu, để mỗi điểm ảnh chọn ô vuông gần nhất với màu của nó.¶
+¶Hai mươi bốn dải 15 độ quanh vòng tròn sắc màu, để mỗi điểm ảnh chọn ô vuông gần nhất với màu của nó.¶
 ôVuông: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
 
-¶Hình dạng của một điểm ảnh trong kiểu hiện tại. Một điểm ảnh gần như không có màu sẽ không có màu-sắc-độ để hiện, nên nó sẽ chuyển về ô vuông sáng hoặc ô vuông tối.¶
-ƒ kýHiệu(màu•Màusắc)
-	(kiểuDáng = 'ascii') ?
+¶Một điểm ảnh trông như thế nào trong kiểu hiện tại. Một điểm ảnh gần như không có màu thì không có sắc màu nào đáng để hiển thị, nên nó sẽ chuyển về một ô vuông sáng hoặc tối.¶
+ƒ kýTự(màu•Màusắc)
+	(kiểu2 = 'ascii') ?
 		"\dảiMàu[((màu.ánhsáng × 9).tròn()) + 1]\"
-		((kiểuDáng = 'emoji') ?
+		((kiểu2 = 'emoji') ?
 				((màu.màusắc < 8) ?
 						((màu.ánhsáng < 50%) ? "⬛" "⬜")
 						"\ôVuông[(((màu.sắcđộ ÷ 1°) ÷ 15).làmtrònxuống()) + 1]\")
-				'a')
+				'một')
 
-¶Bức ảnh: mỗi điểm ảnh là một cụm từ, được xếp từ giữa ra ngoài, để máy quay luôn thấy cùng một bức ảnh dù lưới có thô đến đâu, và được lật từ trái sang phải để đọc giống như soi gương.¶
-hìnhẢnh: màuSắc2.kếthợp(
-		[]
-		ƒ(cụmTừ•[Cụmtừ] hàng3•[Màusắc] y2•#)
-			cụmTừ.thêm(
-				hàng3.dịch(
-					ƒ(màu2•Màusắc x2•#)
-						Cụmtừ(
-							kýHiệu(màu2)
-							vịTrí: VịTrí(
-								((cộtGiữa - x2) × tếBào2)
-								((hàngGiữa - y2) × tếBào2)
-							)
-							khoảngthờigian: 0s
-							kíchcỡ: (kiểuDáng = 'ascii') ? 0.75m ((kiểuDáng = 'emoji') ? 1.15m 1m)
-							khuônmặt: (kiểuDáng = 'ascii') ? "Noto Sans Mono"/en ø
-							màusắc: (kiểuDáng = 'letters') ? màu2 ø
-						)
-				)
-			)
+¶Hình ảnh. Một @Image vẽ toàn bộ lưới như một kết xuất duy nhất, nên một khung hình chỉ tốn một hình ảnh thay vì một cụm từ cho mỗi điểm ảnh — mà ở kích thước 32 nhân 24 thì đó là 768 cụm từ, được dựng lại ba mươi lần mỗi giây. /flipx/ lật ngược nó để nó đọc được giống như trong gương.
+
+Kiểu /letters/ để mỗi ký tự giữ màu của ô vuông mà nó đại diện, đó cũng là cách một @Image hoạt động khi không có màu riêng. Hai kiểu còn lại thì gán cho nó một màu, vì một chữ cái chỉ đọc được như bóng đổ khi màu của nó không nói lên điều gì, còn một biểu tượng cảm xúc ô vuông có màu thì đã tự mang màu riêng của nó rồi.¶
+hìnhẢnh: Image(
+		màuSắc2
+		"camera video drawn with \kiểu2\"
+		16m
+		kýTự: kýTự
+		màusắc: (kiểu2 = 'letters') ? ø Màusắc(0% 0 0°)
+		mặtChữ: (kiểu2 = 'ascii') ? "Noto Sans Mono"/en ø
+		lậtx: ⊤
+		thờiLượng: 0s
 	)
 
-¶Một nút kiểu dáng, sáng lên khi đó là kiểu đang hiển thị. Tên là điều mà Choice báo lại khi nút được bấm hoặc chọn bằng bàn phím.¶
-ƒ nútBấm(mãSốNhậnDạng•'')
+¶Một nút kiểu, sáng lên khi đó là kiểu đang hiển thị. Tên chính là điều mà Lựa chọn báo khi nút được nhấn hoặc được chọn bằng bàn phím.¶
+ƒ nút(mãSố•'')
 	Cụmtừ(
-		mãSốNhậnDạng
+		mãSố
 		0.5m
-		tên: mãSốNhậnDạng
+		tên: mãSố
 		cóthểlựachọn
-		nghỉngơi: (kiểuDáng = mãSốNhậnDạng) ? Tưthế() Tưthế(
-				độmờđục: 40%
-			)
+		nghỉngơi: (kiểu2 = mãSố) ? Tưthế() Tưthế(độmờđục: 40%)
 	)
 
-¶Một hàng giữ các nút cách đều nhau và thẳng hàng dù chữ của chúng dài bao nhiêu, và vì không có vị trí riêng, hàng nằm ở giữa, nên chỉ cần độ lệch là đủ để đưa nó xuống đáy màn hình. Nó mang theo lớp nền riêng, vì chữ đặt trên video chỉ đọc được nhờ may mắn.¶
-nútBấm2: Nhóm(
+¶Một hàng giữ cho các nút cách đều nhau và thẳng hàng dù chữ của chúng dài ngắn khác nhau, và vì không có vị trí riêng nên hàng nằm ở giữa, nên chỉ cần một độ lệch là đủ để đưa nó xuống dưới cùng màn hình. Nó mang theo nền riêng của mình, vì chữ đè lên video chỉ đọc được rõ khi may mắn.¶
+cácNút: Nhóm(
 		Hàngngang(đệm: 0.5m)
-		[nútBấm('letters') nútBấm('ascii') nútBấm('emoji')]
+		[nút('letters') nút('ascii') nút('emoji')]
 		lýlịch: Màusắc(100% 0 0°)
 		bùlại: VịTrí(0m -4.5m)
 	)
 
-¶Các nút nằm trong lớp phủ của sân khấu, được gắn cố định phẳng vào màn hình: chúng giữ nguyên kích thước và vị trí dù bức ảnh được đóng khung ra sao, và bức ảnh được đóng khung như thể chúng không tồn tại.¶
+¶Các nút nằm trong lớp phủ của sân khấu, được ghim cố định phẳng vào màn hình: chúng giữ nguyên kích thước và vị trí dù hình ảnh được đóng khung ra sao, và hình ảnh được đóng khung như thể chúng không hề tồn tại.¶
 Sânkhấu(
-	hìnhẢnh
-	Sựmiêutả: "camera video drawn with \kiểuDáng\"
-	lớpPhủ: [nútBấm2]
+	[hìnhẢnh]
+	Sựmiêutả: "camera video drawn with \kiểu2\"
+	lớpPhủ: [cácNút]
 )

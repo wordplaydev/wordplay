@@ -8,6 +8,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { page } from '$app/state';
+    import AddSource from '@components/project/AddSource.svelte';
     import Annotations from '@components/annotations/Annotations.svelte';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
@@ -131,7 +132,7 @@
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import Drawing from '@components/output/Drawing.svelte.ts';
     import type { OutputInfoSet } from '@output/animation/Animator';
-    import { writable, type Readable, type Writable } from 'svelte/store';
+    import { get, writable, type Readable, type Writable } from 'svelte/store';
     import Characters from '../../lore/BasisCharacters';
     import {
         PROJECT_PARAM_EDIT,
@@ -857,8 +858,10 @@
         // shows the same failure as the program's latest value (which is how
         // the stage and annotations already display it). Without reading the
         // value, an error made while editing would be "new" at the next play.
-        const exception = $evaluator.exception;
-        const latest = $evaluator.getLatestSourceValue($evaluator.getMain());
+        // The same reason as above: this is also called straight after the swap.
+        const current = get(evaluator);
+        const exception = current.exception;
+        const latest = current.getLatestSourceValue(current.getMain());
         const surfaced =
             exception ??
             (latest instanceof ExceptionValue ? latest : undefined);
@@ -870,12 +873,18 @@
     }
 
     function getEvaluationContext() {
+        // `get` rather than `$evaluator`: this runs straight after `evaluator.set()` in
+        // `updateEvaluator`, inside a store callback, where the `$` read still answers with
+        // the evaluator being replaced. The context then described the previous program —
+        // a new source had no value — until the new evaluator happened to broadcast, which
+        // in edit mode it may never do.
+        const current = get(evaluator);
         return {
-            evaluator: $evaluator,
-            step: $evaluator.getCurrentStep(),
-            stepIndex: $evaluator.getStepIndex(),
-            playing: $evaluator.isPlaying(),
-            streams: $evaluator.reactions,
+            evaluator: current,
+            step: current.getCurrentStep(),
+            stepIndex: current.getStepIndex(),
+            playing: current.isPlaying(),
+            streams: current.reactions,
             mode: uiMode,
             performance,
         };
@@ -2820,7 +2829,64 @@
         );
     }
 
+    /** Adding a source is a dialog now (#559): an empty file is one of four ways
+     *  to get one, beside a picture, the camera and a song. */
     function addSource() {
+        addingSource = true;
+    }
+
+    /**
+     * Take a project that has grown a source, and let the layout know.
+     *
+     * Adding a source has to reach `syncTiles`, or the new file exists in the
+     * project and has no tile to open it with until the page is reloaded — which
+     * is what importing a song did before the dialog gathered them all together.
+     * The tile is left collapsed on purpose: an unmounted tile renders nothing,
+     * and a picture's thousand colors is a thousand token views for anyone who
+     * opens it.
+     */
+    function addedSource(revised: Project, select?: Node) {
+        const main = revised.getMain();
+        Projects.reviseProject(
+            select === undefined ? revised : revised.withCaret(main, select),
+        );
+        layout = layout.withTiles(syncTiles(revised, layout.tiles));
+        refreshLayout();
+        // The project's caret is only read when an editor first mounts, or on undo, so an
+        // editor already showing main keeps its own and would ignore the one above. It is
+        // told directly, once it is showing the revised source that `select` belongs to.
+        if (select !== undefined)
+            tick().then(() =>
+                $editors.get(Layout.getSourceID(0))?.setCaretPosition(select),
+            );
+    }
+
+    /**
+     * Give a tile to any source that arrived without one.
+     *
+     * Not every source comes through `addedSource`. A program's `Source` output writes
+     * one from inside the evaluator, which knows nothing of tiles, so the file existed
+     * with no way into it until the page was reloaded. The layout follows the project
+     * instead of relying on every writer to ask. Only a *missing* tile is handled here:
+     * removing a source already syncs its own tiles, and doing it twice would fight it.
+     */
+    $effect(() => {
+        const current = project;
+        untrack(() => {
+            const missing = current
+                .getSources()
+                .some(
+                    (_, index) =>
+                        layout.getTileWithID(Layout.getSourceID(index)) ===
+                        undefined,
+                );
+            if (!missing) return;
+            layout = layout.withTiles(syncTiles(current, layout.tiles));
+            refreshLayout();
+        });
+    });
+
+    function addBlankSource() {
         const newProject = project.withNewSource(
             `${$locales.getUnannotatedPrimaryText((l) => getConceptName(l, 'source'))}${
                 project.getSupplements().length + 1
@@ -2828,15 +2894,11 @@
         );
 
         // Remember this new source so when we compute the new layout, we can remember to expand it initially.
+        // An empty file is the one kind worth opening on arrival: there is nothing
+        // in it to lay out, and writing in it is why it was asked for.
         newSource = newProject.getSupplements().at(-1);
 
-        // This will propogate back to a new project here, updating the UI.
-        Projects.reviseProject(newProject);
-
-        // Sync the tiles.
-        layout = layout.withTiles(syncTiles(newProject, layout.tiles));
-
-        refreshLayout();
+        addedSource(newProject);
     }
 
     function removeSource(source: Source) {
@@ -3095,6 +3157,9 @@
     /** Held between the drop and the answer, because the confirmation is the
      *  whole point — nothing is replaced until a creator says so. */
     let droppedProject: Project | undefined = $state(undefined);
+    /** Whether the add-source dialog is open, and a picture dropped to open it. */
+    let addingSource = $state(false);
+    let droppedPicture = $state<File | null>(null);
     let dropProblem: LocaleTextAccessor | undefined = $state(undefined);
 
     function fileIsOver(event: DragEvent): boolean {
@@ -3119,6 +3184,14 @@
         const file = event.dataTransfer?.files[0];
         if (file === undefined) return;
         dropProblem = undefined;
+        // A picture is not a project, and reading one as text reports it as
+        // unreadable. It is a source of colors instead (#559), offered rather than
+        // applied — the same rule a dropped project follows.
+        if (file.type.startsWith('image/')) {
+            droppedPicture = file;
+            addingSource = true;
+            return;
+        }
         const result = await importProject(
             await file.text(),
             project.getOwner(),
@@ -4185,6 +4258,20 @@
             </div>
         {/if}
     {/if}
+    <!-- The one place that turns data into a source file: an empty one, a
+         picture, the camera, or a song (#559, #560). -->
+    <AddSource
+        {project}
+        {editable}
+        bind:show={addingSource}
+        bind:picture={droppedPicture}
+        addBlank={addBlankSource}
+        added={addedSource}
+        announce={(message) => {
+            if (announce && $announce)
+                $announce('command', $locales.getLanguages()[0], message);
+        }}
+    />
     <!-- Deliberately no `id`: a dialog whose open state lives in the URL would
          reopen on a refresh with no file behind it. -->
     <Dialog

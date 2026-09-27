@@ -78,7 +78,7 @@
         "id": "video-grid",
         "title": "从摄像头创建一段视频",
         "category": "video",
-        "body": "这个 @Camera 流是从这个世界获取一组网格颜色的好办法。 \n如果我们想看看那些颜色，把 @Camera 看到的画面重新画出来呢？\n\n我们可以用 @Grid 布局来排列 @Group，再用 @List/combine 函数把颜色转换成一个 @Phrase 列表，交给 @Grid。\n\n\\\nwidth: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([\n\t\tGroup(Grid(height width 0m) colors.combine([] ƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row ↦ Phrase(\"⬤\" 颜色: ⬚ 持续时间: 0s)\n\t\t\t\t\t]))\n\t])\n\\\n\n 这个例子建立了一个短语列表，把每种颜色都转换成一个对应颜色的圆形。\n\n要小心使用 @Camera 流：它们会产生很多输入！你得把图像的宽度和高度设小一点。",
+        "body": "这个 @Camera 流是从这个世界获取一组网格颜色的好办法。 \n如果我们想看看那些颜色，把 @Camera 看到的画面重新画出来呢？\n\n一个 @Image 可以把一个颜色网格画成一整张图片，所以我们可以把 @Camera 的颜色直接交给它。\n\n\\\nwidth: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([Image(colors \"what the camera sees\" 12m)])\n\\\n\n 每个 @Image 都需要一段描述，因为对看不见图片的人来说，一个颜色网格本身没有任何文字说明。\n\n我们可以给它一个 /字形/（一个把颜色对应到代表它的文本的函数），用字母而不是方块来画这幅图。\n\n\\\nwidth: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([Image(colors \"the camera, drawn with dark and light circles\" 12m 字形: ƒ(color•Color) (color.lightness < 50%) ? \"⬤\" \"◯\")])\n\\",
         "related": ["interactive-scene"]
     },
     {

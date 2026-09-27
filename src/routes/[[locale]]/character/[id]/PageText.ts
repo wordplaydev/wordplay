@@ -148,17 +148,14 @@ type PageText = {
         /** Straighten the segment arriving at the selected point */
         straighten: ButtonText;
     };
-    /** Importing an image and reducing it to pixels */
+    /** Importing an image and reducing it to pixels. What the picture and its crop
+     *  box are called is shared with every other picture chooser, at `ui.image`;
+     *  what is here is only what is true of a character. */
     image: {
         /** [formatted] How to move and size the crop box */
         instructions: FormattedText;
-        button: ButtonText;
         /** The button that confirms the crop and adds the pixels */
         add: ButtonText;
-        /** [plain] Name of the crop region */
-        crop: { label: string; tip: string };
-        /** [plain] Name of the preview showing what will be added */
-        preview: string;
         /** [plain] Labels for the crop size slider */
         size: { label: string; tip: string };
     };
@@ -171,10 +168,6 @@ type PageText = {
         glyphEmpty: string;
         /** [plain] When a font file couldn't be reached, found, or read */
         glyphUnreadable: string;
-        /** [formatted] When a chosen image is larger than we'll read. $size and $limit are both in megabytes. */
-        imageTooBig: Template<['size', 'limit']>;
-        /** [plain] When the browser can't decode the chosen file as an image */
-        imageUnreadable: string;
         /** [plain] Error shown when the character's name isn't a valid Wordplay name */
         name: string;
         /** [plain] When the description is empty */
@@ -201,12 +194,6 @@ type PageText = {
      * than reading like tidy summaries: those are the parts that vary.
      */
     announce: {
-        /** [formatted] Where the crop box is now. The position rides along because it is what differs between two consecutive moves. */
-        cropped: Template<['x', 'y']>;
-        /** [plain] When the crop box enters move mode */
-        cropMoving: string;
-        /** [plain] When the crop box leaves move mode */
-        cropDone: string;
         /** [formatted] When an image is added as pixels. The crop origin rides along because the count alone repeats when the same image is imported twice. */
         imported: Template<['#count', 'x', 'y']>;
         /** [formatted] When cursor position changes $1 x, $2: y. */

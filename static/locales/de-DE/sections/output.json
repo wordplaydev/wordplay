@@ -1915,6 +1915,119 @@
                 "doc": "$~Die Grenze, an der ich meine Worte in eine neue Zeile umbreche.",
                 "names": "$~umbrechen"
             }
+        },
+        "Image": {
+            "doc": "$~Ich bin ein Raster aus Farben, gezeichnet wie ein Bild. Gib mir eine Liste von Zeilen, jede eine Liste von @Color, und ich male für jede ein Quadrat. Gib mir ein /glyph/ und ich zeichne stattdessen Text in jedes Quadrat.",
+            "names": ["$~Bild"],
+            "colors": {
+                "doc": "$~Meine Farbzeilen, die oberste Zeile zuerst. Jede Zeile sollte gleich lang sein.",
+                "names": "$~Farben"
+            },
+            "description": {
+                "doc": "$~Was ich zeige, für alle, die mich nicht sehen können. Ich frage danach, weil ein Raster aus Farben keine eigenen Worte hat, auf die es zurückgreifen kann.",
+                "names": "$~Beschreibung"
+            },
+            "width": {
+                "doc": "$~Wie breit ich sein soll. Wenn du mir nur eine Höhe gibst, nehme ich meine Breite von meiner Form; wenn du mir beides gibst, dehnen sich meine Quadrate, um zu passen.",
+                "names": "$~Breite"
+            },
+            "height": {
+                "doc": "$~Wie hoch ich sein soll. Wenn du mir nur eine Breite gibst, nehme ich meine Höhe von meiner Form.",
+                "names": "$~Höhe"
+            },
+            "glyph": {
+                "doc": "$~Eine Funktion von einer meiner Farben zu dem Text, den ich an ihrer Stelle zeichnen soll. Ohne sie male ich einfache Quadrate.",
+                "names": "$~Zeichen"
+            },
+            "recolor": {
+                "doc": "$~Eine Funktion von einer meiner Farben zu der Farbe, die ich stattdessen zeichnen soll. Nützlich, um ein Bild in weniger Farben umzuwandeln.",
+                "names": "$~neuEinfärben"
+            },
+            "pixel": {
+                "doc": "$~Eine meiner Farben, die jeweils an /glyph/ und /recolor/ übergeben wird.",
+                "names": "$~Pixel"
+            },
+            "glyphs": {
+                "doc": "$~Was ich in jedes Quadrat zeichne, ermittelt aus /glyph/. Nichts, wenn du mir kein /glyph/ gegeben hast.",
+                "names": ["$~Zeichennetz"]
+            },
+            "palette": {
+                "doc": "$~Die Farben, die ich tatsächlich zeichne, ermittelt aus /recolor/. Meine eigenen Farben, wenn du mir kein /recolor/ gegeben hast.",
+                "names": "$~Palette"
+            },
+            "face": {
+                "doc": "$~Der Name der Schriftart, in der meine Glyphen gezeichnet werden sollen. Wenn ich keine habe, nehme ich die Schriftart dessen, was mich enthält.",
+                "names": "$~Schriftart"
+            },
+            "place": {
+                "doc": "$~Der Platz auf der Bühne, an dem ich sein soll.",
+                "names": "$~ort"
+            },
+            "name": {
+                "doc": "$~Ich bin der Name, den du für Animationen und @Collision verwenden kannst.",
+                "names": "$~Name"
+            },
+            "selectable": {
+                "doc": "$~Ob ich als Teil von @Choice ausgewählt werden kann.",
+                "names": "$~auswählbar"
+            },
+            "color": {
+                "doc": "$~Eine Farbe für meine Glyphen. Ohne eine Angabe nimmt jede Glyphe die Farbe des Quadrats an, für das sie steht; mit einer Angabe teilen sie alle diese Farbe, was beim Zeichnen mit Buchstaben nötig ist. Ich ignoriere sie, wenn ich kein /glyph/ habe, denn dann sind meine Quadrate meine Farben.",
+                "names": "$~farbe"
+            },
+            "background": {
+                "doc": "$~Die Farbe hinter mir.",
+                "names": "$~Hintergrund"
+            },
+            "opacity": {
+                "doc": "$~Wie durchsichtig ich sein soll.",
+                "names": "$~Deckkraft"
+            },
+            "offset": {
+                "doc": "$~Wie weit ich von meinem Platz weg bewegt werden soll, nachdem ich platziert wurde.",
+                "names": "$~Versatz"
+            },
+            "rotation": {
+                "doc": "$~Wie sehr ich gedreht werden soll.",
+                "names": "$~Drehung"
+            },
+            "scale": {
+                "doc": "$~Wie sehr ich skaliert werden soll.",
+                "names": "$~Größe"
+            },
+            "flipx": {
+                "doc": "$~Ob ich horizontal gespiegelt werden soll.",
+                "names": "$~spiegelnX"
+            },
+            "flipy": {
+                "doc": "$~Ob ich vertikal gespiegelt werden soll.",
+                "names": "$~spiegelnY"
+            },
+            "entering": {
+                "doc": "$~Das @Pose oder @Sequence, das ich beim Betreten von @Stage ausführen soll.",
+                "names": "$~eintreten"
+            },
+            "resting": {
+                "doc": "$~Der @Pose oder @Sequence, den ich ausführen soll, wenn ich mich nicht bewege.",
+                "names": "$~ruhend"
+            },
+            "moving": {
+                "doc": "$~Der @Pose oder @Sequence, den ich ausführen soll, wenn ich mich bewege.",
+                "names": "$~bewegend"
+            },
+            "exiting": {
+                "doc": "$~Der @Pose oder @Sequence, den ich ausführen soll, wenn ich @Stage verlasse.",
+                "names": "$~verlassend"
+            },
+            "duration": {
+                "doc": "$~Wie lange meine Animationen dauern sollen, wenn sie ein einzelner @Pose sind.",
+                "names": "$~Dauer"
+            },
+            "style": {
+                "doc": "$~Der Animationsstil, den ich verwenden soll.",
+                "names": "$~Stil"
+            },
+            "defaultDescription": "$~$description, ein Bild $columns mal $rows"
         }
     }
 }

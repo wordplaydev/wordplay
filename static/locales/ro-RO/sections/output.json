@@ -1915,6 +1915,119 @@
                 "doc": "$~Limita la care îmi trec cuvintele pe o linie nouă.",
                 "names": "$~încadrare"
             }
+        },
+        "Image": {
+            "doc": "$~Sunt o grilă de culori, desenată ca o imagine. Dă-mi o listă de rânduri, fiecare o listă de @Color, și voi picta un pătrat pentru fiecare. Dă-mi un /glyph/ și voi desena text în fiecare pătrat în loc de culoare.",
+            "names": ["$~Imagine"],
+            "colors": {
+                "doc": "$~Rândurile mele de culori, cu rândul de sus primul. Fiecare rând trebuie să aibă aceeași lungime.",
+                "names": "$~culori"
+            },
+            "description": {
+                "doc": "$~Ce arăt, pentru cine nu mă poate vedea. Cer asta pentru că o grilă de culori nu are cuvinte proprii la care să se recurgă.",
+                "names": "$~descriere"
+            },
+            "width": {
+                "doc": "$~Cât de lată ar trebui să fiu. Dacă îmi dai doar o înălțime, îmi iau lățimea din forma mea; dacă îmi dai ambele, pătratele mele se întind ca să se potrivească.",
+                "names": "$~lățime"
+            },
+            "height": {
+                "doc": "$~Cât de înaltă ar trebui să fiu. Dacă îmi dai doar o lățime, îmi iau înălțimea din forma mea.",
+                "names": "$~înălțime"
+            },
+            "glyph": {
+                "doc": "$~O funcție de la una din culorile mele la textul pe care ar trebui să-l desenez în locul ei. Fără una, pictez pătrate simple.",
+                "names": "$~simbol"
+            },
+            "recolor": {
+                "doc": "$~O funcție de la una din culorile mele la culoarea pe care ar trebui să o desenez în loc. Utilă pentru a transforma o imagine în mai puține culori.",
+                "names": "$~recolorează"
+            },
+            "pixel": {
+                "doc": "$~Una din culorile mele, care este ceea ce primesc fiecare /glyph/ și /recolor/.",
+                "names": "$~pixel"
+            },
+            "glyphs": {
+                "doc": "$~Ce desenez în fiecare pătrat, calculat din /glyph/. Nimic, dacă nu mi-ai dat niciun /glyph/.",
+                "names": "$~simboluri"
+            },
+            "palette": {
+                "doc": "$~Culorile pe care le desenez de fapt, calculate din /recolor/. Culorile mele proprii, dacă nu mi-ai dat niciun /recolor/.",
+                "names": "$~paletă"
+            },
+            "face": {
+                "doc": "$~Numele fontului în care ar trebui desenate simbolurile mele. Dacă nu am unul, folosesc orice mă conține.",
+                "names": "$~chip"
+            },
+            "place": {
+                "doc": "$~Locul de pe scenă unde ar trebui să fiu.",
+                "names": "$~loc"
+            },
+            "name": {
+                "doc": "$~Sunt numele pe care îl poți folosi, pentru animații și @Collision.",
+                "names": "$~nume"
+            },
+            "selectable": {
+                "doc": "$~Dacă pot fi selectat ca parte din @Choice.",
+                "names": "$~selectabil"
+            },
+            "color": {
+                "doc": "$~O culoare pentru simbolurile mele. Fără una, fiecare simbol ia culoarea pătratului pe care îl reprezintă; cu una, toate o au în comun, ceea ce este necesar pentru a desena cu litere. O ignor dacă nu am niciun /glyph/, pentru că atunci pătratele mele sunt culorile mele.",
+                "names": "$~culoare"
+            },
+            "background": {
+                "doc": "$~Culoarea din spatele meu.",
+                "names": "$~fundal"
+            },
+            "opacity": {
+                "doc": "$~Cât de opac ar trebui să fiu.",
+                "names": "$~opacitate"
+            },
+            "offset": {
+                "doc": "$~Cât de departe să mă mut din locul meu, după ce sunt așezat.",
+                "names": "$~decalaj"
+            },
+            "rotation": {
+                "doc": "$~Cât să mă rotesc.",
+                "names": "$~rotire"
+            },
+            "scale": {
+                "doc": "$~Cât să mă scalez.",
+                "names": "$~scară"
+            },
+            "flipx": {
+                "doc": "$~Dacă să fiu întors pe orizontală.",
+                "names": "$~întoarcex"
+            },
+            "flipy": {
+                "doc": "$~Dacă să fiu întors pe verticală.",
+                "names": "$~întoarcey"
+            },
+            "entering": {
+                "doc": "$~@Pose sau @Sequence pe care ar trebui să le fac la intrarea în @Stage.",
+                "names": "$~intrare"
+            },
+            "resting": {
+                "doc": "$~@Pose sau @Sequence pe care ar trebui să îl fac când nu mă mișc.",
+                "names": "$~repaus"
+            },
+            "moving": {
+                "doc": "$~@Pose sau @Sequence pe care ar trebui să îl fac când mă mișc.",
+                "names": "$~mișcare"
+            },
+            "exiting": {
+                "doc": "$~@Pose sau @Sequence pe care ar trebui să îl fac când părăsesc @Stage.",
+                "names": "$~ieșire"
+            },
+            "duration": {
+                "doc": "$~Cât ar trebui să dureze animațiile mele dacă sunt un singur @Pose.",
+                "names": "$~durată"
+            },
+            "style": {
+                "doc": "$~Stilul de animație pe care ar trebui să îl folosesc.",
+                "names": "$~stil"
+            },
+            "defaultDescription": "$~$description, o imagine de $columns pe $rows"
         }
     }
 }

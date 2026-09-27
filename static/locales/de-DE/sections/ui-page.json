@@ -1110,9 +1110,7 @@
                     "glyphLoading": "$~Schriftart wird geladen …",
                     "glyphMissing": "$~Diese Schriftart hat keine Form für dieses Symbol. Versuche eine andere Schriftart.",
                     "glyphEmpty": "$~Für dieses Symbol gibt es nichts zu zeichnen.",
-                    "glyphUnreadable": "$~Wir konnten diese Schriftart nicht lesen. Prüfe deine Verbindung oder versuche eine andere Schriftart.",
-                    "imageTooBig": "$~Dieses Bild ist $size MB groß. Bitte wähle eins, das kleiner als $limit MB ist.",
-                    "imageUnreadable": "$~Wir konnten diese Datei nicht als Bild lesen."
+                    "glyphUnreadable": "$~Wir konnten diese Schriftart nicht lesen. Prüfe deine Verbindung oder versuche eine andere Schriftart."
                 },
                 "announce": {
                     "position": "$~bei $x $y",
@@ -1137,9 +1135,6 @@
                     "arranged": "$~Ebene $index von $total",
                     "flipped": "$~gespiegelt, jetzt bei $x $y",
                     "fitted": "$~Formen vergrößert, um die Fläche zu füllen",
-                    "cropped": "$~Zuschneiderahmen bei $x $y",
-                    "cropMoving": "$~Zuschneiderahmen wird bewegt",
-                    "cropDone": "$~Zuschneiderahmen platziert",
                     "imported": "$~$#count[1 Pixel|$count Pixel] von $x $y hinzugefügt"
                 },
                 "share": {
@@ -1184,19 +1179,10 @@
                 },
                 "image": {
                     "instructions": "$~Ziehe das Quadrat, um es zu bewegen, oder benutze den *Größe*-Schieberegler, um zu ändern, wie viel vom Bild behalten wird. Mit der Tastatur drückst du *Enter*, um das Bewegen zu starten, benutzt dann die *Pfeiltasten* und drückst am Ende noch einmal *Enter*.",
-                    "button": {
-                        "label": "$~hochladen",
-                        "tip": "$~eine Bilddatei von diesem Gerät auswählen"
-                    },
                     "add": {
                         "label": "$~hinzufügen",
                         "tip": "$~das gewählte Quadrat dem Zeichen als Pixel hinzufügen"
                     },
-                    "crop": {
-                        "label": "$~Zuschneiderahmen",
-                        "tip": "$~das Quadrat des Bildes, das behalten werden soll"
-                    },
-                    "preview": "$~was hinzugefügt wird",
                     "size": {
                         "label": "$~Größe",
                         "tip": "$~wie viel vom Bild behalten werden soll"

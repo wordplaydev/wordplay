@@ -78,7 +78,7 @@
         "id": "video-grid",
         "title": "إنشاء فيديو من الكاميرا",
         "category": "video",
-        "body": "يخبر @Camera تدفق طريقة رائعة للحصول على شبكة من الألوان من العالم من حولنا. \nماذا لو أردنا رؤية تلك الألوان، وإعادة رسم الصورة التي @Camera يراها؟\n\nيمكننا استخدام تخطيط @Grid لـ @Group، ودالة @List/combine لتحويل الألوان إلى قائمة من @Phrase نعطيها إلى @Grid.\n\n\\\nwidth: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([\n\t\tGroup(Grid(height width 0m) colors.combine([] ƒ(phrases row) [\n\t\t\t\t\t\t:phrases\n\t\t\t\t\t\t:row ↦ Phrase(\"⬤\" لون: ⬚ مدة: 0s)\n\t\t\t\t\t]))\n\t])\n\\\n\n يبني هذا المثال قائمة من العبارات، ويحوّل كل لون إلى دائرة بذلك اللون.\n\nكن حذرًا مع @Camera مصادر البيانات: فهي تنتج كمية كبيرة من الدخل! ستحتاج إلى الحفاظ على عرض وارتفاع الصورة صغيرين.",
+        "body": "يخبر @Camera تدفق طريقة رائعة للحصول على شبكة من الألوان من العالم من حولنا. \nماذا لو أردنا رؤية تلك الألوان، وإعادة رسم الصورة التي @Camera يراها؟\n\nيأخذ @Image شبكة من الألوان ويرسمها كصورة واحدة، حتى نستطيع أن نعطيه ألوان @Camera مباشرةً.\n\n\\\nwidth: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([Image(colors \"what the camera sees\" 12m)])\n\\\n\n كل @Image يحتاج إلى وصف، لأن شبكة الألوان لا تحمل كلمات خاصة بها لمن لا يستطيع رؤيتها.\n\nنستطيع أن نرسم الصورة بحروف بدلاً من مربعات، بأن نعطيه /محرف/، وهو دالة تحوّل كل لون إلى النص الذي يمثّله.\n\n\\\nwidth: 24\nheight: 24\ncolors: Camera(width × 1px height × 1px 33ms)\nStage([Image(colors \"the camera, drawn with dark and light circles\" 12m محرف: ƒ(color•Color) (color.lightness < 50%) ? \"⬤\" \"◯\")])\n\\",
         "related": ["interactive-scene"]
     },
     {

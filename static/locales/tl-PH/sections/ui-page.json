@@ -784,9 +784,7 @@
                     "glyphLoading": "$~Kinukuha ang font…",
                     "glyphMissing": "$~Walang hugis ang font na ito para sa simbolong iyon. Subukan ang ibang font.",
                     "glyphEmpty": "$~Walang maiguhit para sa simbolong iyon.",
-                    "glyphUnreadable": "$~Hindi namin nabasa ang font na iyon. Tingnan ang iyong koneksyon, o subukan ang ibang font.",
-                    "imageTooBig": "$~Ang larawang iyon ay $size MB. Pumili ng mas maliit sa $limit MB.",
-                    "imageUnreadable": "$~Hindi namin nabasa ang file na iyon bilang larawan."
+                    "glyphUnreadable": "$~Hindi namin nabasa ang font na iyon. Tingnan ang iyong koneksyon, o subukan ang ibang font."
                 },
                 "announce": {
                     "position": "$~sa halagang $x $y",
@@ -811,26 +809,14 @@
                     "arranged": "$~nakapatong na $index ng $total",
                     "flipped": "$~binaligtad, ngayon ay nasa $x $y",
                     "fitted": "$~pinalaki ang mga hugis para punuin ang canvas",
-                    "cropped": "$~kahon ng pag-crop sa $x $y",
-                    "cropMoving": "$~inilipat ang kahon ng pag-crop",
-                    "cropDone": "$~inilagay ang kahon ng pag-crop",
                     "imported": "$~nagdagdag ng $#count[isang pixel|$count na pixel] mula sa $x $y"
                 },
                 "image": {
                     "instructions": "$~I-drag ang kuwadrado para ilipat ito, o gamitin ang *size* na slider para baguhin kung gaano karami sa larawan ang panatilihin. Gamit ang keyboard, pindutin ang *enter* para simulan ang paglipat, gamitin ang mga *arrow* key, at pindutin ulit ang *enter* kapag tapos ka na.",
-                    "button": {
-                        "label": "$~i-upload",
-                        "tip": "$~pumili ng file ng larawan mula sa device na ito"
-                    },
                     "add": {
                         "label": "$~idagdag",
                         "tip": "$~idagdag ang piniling kuwadrado sa karakter bilang mga pixel"
                     },
-                    "crop": {
-                        "label": "$~kahon ng pag-crop",
-                        "tip": "$~ang kuwadrado ng larawan na panatilihin"
-                    },
-                    "preview": "$~ang idadagdag",
                     "size": {
                         "label": "$~laki",
                         "tip": "$~gaano karami sa larawan ang panatilihin"

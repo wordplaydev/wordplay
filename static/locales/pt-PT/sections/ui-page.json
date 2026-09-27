@@ -780,9 +780,7 @@
                     "glyphLoading": "$~A obter o tipo de letra…",
                     "glyphMissing": "$~Este tipo de letra não tem forma para esse símbolo. Tente outro tipo de letra.",
                     "glyphEmpty": "$~Esse símbolo não tem nada para desenhar.",
-                    "glyphUnreadable": "$~Não conseguimos ler esse tipo de letra. Verifique a sua ligação, ou tente outro tipo de letra.",
-                    "imageTooBig": "$~Essa imagem tem $size MB. Escolha uma com menos de $limit MB.",
-                    "imageUnreadable": "$~Não foi possível ler esse ficheiro como imagem."
+                    "glyphUnreadable": "$~Não conseguimos ler esse tipo de letra. Verifique a sua ligação, ou tente outro tipo de letra."
                 },
                 "announce": {
                     "position": "a $x $y",
@@ -807,26 +805,14 @@
                     "arranged": "$~camada $index de $total",
                     "flipped": "$~invertido, agora em $x $y",
                     "fitted": "$~as formas cresceram para preencher a tela",
-                    "cropped": "$~caixa de recorte em $x $y",
-                    "cropMoving": "$~a mover a caixa de recorte",
-                    "cropDone": "$~caixa de recorte colocada",
                     "imported": "$~adicionado $#count[1 pixel|$#count milhões de pixels|$count pixels] a partir de $x $y"
                 },
                 "image": {
                     "instructions": "$~Arraste o quadrado para o mover, ou use o cursor *tamanho* para mudar quanto da imagem quer manter. Com o teclado, prima *enter* para começar a mover, depois use as teclas de *seta*, e prima *enter* outra vez quando terminar.",
-                    "button": {
-                        "label": "$~carregar",
-                        "tip": "$~escolher um ficheiro de imagem deste dispositivo"
-                    },
                     "add": {
                         "label": "$~adicionar",
                         "tip": "$~adicionar o quadrado escolhido ao caráter como pixels"
                     },
-                    "crop": {
-                        "label": "$~caixa de recorte",
-                        "tip": "$~o quadrado da imagem a manter"
-                    },
-                    "preview": "$~o que será adicionado",
                     "size": {
                         "label": "$~tamanho",
                         "tip": "$~quanto da imagem manter"

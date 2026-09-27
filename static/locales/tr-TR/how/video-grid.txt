@@ -3,22 +3,24 @@ Kameradan bir video oluştur
 Bu @Camera akışı, dünyadan bir renk ızgarası elde etmenin harika bir yoludur. 
 Peki ya bu renkleri görmek isteseydik, @Camera 'in gördüğü görüntüyü yeniden oluştursaydık?
 
-Renkleri bir @Grid düzenini kullanarak bir @Group ve @List/combine işlevini kullanarak, renkleri bir @Phrase listesine dönüştürebiliriz ve bu listeyi @Grid verebiliriz.
+Bir @Image , renklerden oluşan bir ızgarayı alır ve onu tek bir resim olarak çizer. Böylece ona @Camera'ın renklerini doğrudan verebiliriz.
 
 \
 width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
-						:phrases
-						:row ↦ Phrase("⬤" renk: ⬚ süre: 0s)
-					]))
-	])
+Stage([Image(colors "what the camera sees" 12m)])
 \
 
- Bu örnek, bir ifadeler listesi oluşturur ve her rengi kendi rengine sahip bir daireye dönüştürür.
+ Her @Image , bir açıklamaya ihtiyaç duyar. Çünkü bir renk ızgarasının, onu göremeyen biri için kendi başına hiçbir sözü yoktur.
 
-Şu konuda dikkatli olun: @Camera akışları çok fazla girdi üretir! Görüntünün genişliğini ve yüksekliğini küçük tutmalısınız.
+Resmi karelerle değil harflerle çizmek için ona bir /harf/ verebiliriz. Bu, bir rengi alıp onu temsil eden yazıya dönüştüren bir işlevdir.
+
+\
+width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([Image(colors "the camera, drawn with dark and light circles" 12m harf: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+\
 
 interactive-scene

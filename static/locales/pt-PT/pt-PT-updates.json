@@ -991,6 +991,19 @@
         "e794f84f1c313": "$~Já pode abrir um ficheiro de projeto na sua página <Projetos@https://wordplay.dev/projects>, escolhendo-o ou arrastando-o para a página. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e5382816343d1": "$~Pode arrastar um ficheiro de projeto para um projeto que já tem, para substituir o que está lá dentro. Perguntamos-lhe sempre primeiro. (<152@https://github.com/wordplaydev/wordplay/issues/152>)",
         "e33984a013993": "$~Uma galeria pública e aprovada já pode ter um nome curto no seu link, como art-club, para ser mais fácil de partilhar e de dizer em voz alta. Os links antigos continuam a funcionar, mas pode deixar de os usar. (<180@https://github.com/wordplaydev/wordplay/issues/180>)",
-        "e125eafd6c116": "$~Adicionámos um novo exemplo chamado Palavras Mágicas às <galerias@https://wordplay.dev/galleries>, onde dizer em voz alta vermelho, feliz ou girar muda a cor, a cara e o movimento no palco. (<1077@https://github.com/wordplaydev/wordplay/issues/1077>)"
+        "e125eafd6c116": "$~Adicionámos um novo exemplo chamado Palavras Mágicas às <galerias@https://wordplay.dev/galleries>, onde dizer em voz alta vermelho, feliz ou girar muda a cor, a cara e o movimento no palco. (<1077@https://github.com/wordplaydev/wordplay/issues/1077>)",
+        "ec866ebdd8956": "$~Adicionámos @Image, que desenha uma lista de cores como uma só imagem, e também pode desenhar cada cor como uma letra ou um emoji. (<471@https://github.com/wordplaydev/wordplay/issues/471>)",
+        "e33f4d8fa2618": "$~Adicionámos uma forma de criar um novo ficheiro de código a partir de uma imagem, da sua câmara, ou de linhas coladas de uma folha de cálculo, usando o botão + num projeto. (<559@https://github.com/wordplaydev/wordplay/issues/559>, <560@https://github.com/wordplaydev/wordplay/issues/560>)",
+        "e85ba7ce6a911": "$~O exemplo Vídeo na <galeria@https://wordplay.dev/galleries> agora desenha a câmara com @Image, para acompanhar o ritmo em vez de ficar parado.",
+        "e5bdd3060cd77": "$~Importar uma música agora acontece onde adiciona todos os outros tipos de ficheiro, com o botão +, em vez de na paleta. (<559@https://github.com/wordplaydev/wordplay/issues/559>)",
+        "e54863a421e13": "$~Uma lista longa de listas, como as cores de uma imagem importada, agora abre-se dobrada, para que o seu ficheiro apareça logo em vez de só depois de uma longa espera.",
+        "ee1b9cdfe999b": "$~Uma função dada a outra função agora pode ser chamada e comparada, em vez de parar o programa com um erro confuso. (<1425@https://github.com/wordplaydev/wordplay/issues/1425>)",
+        "eb717e891aa82": "$~Uma estrutura que recebe um valor de um fluxo, como um @Camera, agora muda com o fluxo em vez de manter a primeira coisa que viu. (<1427@https://github.com/wordplaydev/wordplay/issues/1427>)",
+        "ef9334b339650": "$~Uma música que importa, ou um ficheiro que o seu programa guarda com @Source, agora recebe logo o seu próprio botão na barra do projeto, em vez de só aparecer depois de recarregar a página.",
+        "ec6c0cabd625c": "$~Uma função que dá a outra coisa, como aquela com que um @Image desenha cada cor, agora vê novos valores em vez de repetir a sua primeira resposta para sempre.",
+        "eda0b3c8dcd02": "$~A nova opção de contorno em @Matter faz com que um @Phrase esbarre nas coisas pela forma das suas letras, para que uma letra pequena se possa encaixar na curva de uma letra grande. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
+        "e12253979005f": "$~Adicionámos um novo exemplo chamado Monte de Letras à <galeria@https://wordplay.dev/galleries>, onde bolas de futebol caem sobre um monte de letras grandes e se encaixam nas suas curvas. (<170@https://github.com/wordplaydev/wordplay/issues/170>)",
+        "e49a3791305c4": "$~O árabe tem agora palavras próprias para 120 nomes que ainda estavam em inglês, como os parâmetros de @Matter, @Stage e @Phrase, e as partes das funções de listas e de texto.",
+        "e4c085dce5e87": "$~Um @Phrase que um @Motion está a mover já não para no ar quando as suas palavras ou o seu tamanho mudam."
     }
 }

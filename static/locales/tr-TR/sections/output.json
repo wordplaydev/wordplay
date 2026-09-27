@@ -1915,6 +1915,119 @@
                 "doc": "$~Kelimelerimi başka bir satıra sardığım sınır.",
                 "names": "$~sar"
             }
+        },
+        "Image": {
+            "doc": "$~Ben resim olarak çizilmiş bir renk ızgarasıyım. Bana satırlardan oluşan bir liste ver, her satır da @Color listesi olsun; ben de her biri için bir kare boyarım. Bana bir /glyph/ verirsen, her karenin içine kare yerine metin çizerim.",
+            "names": ["$~Görsel"],
+            "colors": {
+                "doc": "$~Renklerimden oluşan satırlarım, en üstteki satır önce gelecek şekilde. Her satır aynı uzunlukta olmalı.",
+                "names": "$~renkler"
+            },
+            "description": {
+                "doc": "$~Beni göremeyen biri için ne gösterdiğim. Bunu istiyorum çünkü bir renk ızgarasının kendine ait, geri dönebileceği bir kelimesi yok.",
+                "names": "$~açıklama"
+            },
+            "width": {
+                "doc": "$~Ne kadar geniş olmam gerektiği. Bana sadece bir yükseklik verirsen, genişliğimi şeklimden alırım; ikisini de verirsen, karelerim sığacak şekilde uzar.",
+                "names": "$~genişlik"
+            },
+            "height": {
+                "doc": "$~Ne kadar uzun olmam gerektiği. Bana sadece bir genişlik verirsen, yüksekliğimi şeklimden alırım.",
+                "names": "$~yükseklik"
+            },
+            "glyph": {
+                "doc": "$~Renklerimden birini alıp, yerine çizeceğim metni veren bir işlev. Bu olmadan düz kareler boyarım.",
+                "names": "$~harf"
+            },
+            "recolor": {
+                "doc": "$~Renklerimden birini alıp, onun yerine çizeceğim rengi veren bir işlev. Bir resmi daha az renge dönüştürmek için işe yarar.",
+                "names": "$~yenidenrenklendir"
+            },
+            "pixel": {
+                "doc": "$~Renklerimden biri; /glyph/ ve /recolor/ birer birer bunu alır.",
+                "names": "$~piksel"
+            },
+            "glyphs": {
+                "doc": "$~Her karede çizdiğim şey, /glyph/'den hesaplanır. Bana /glyph/ vermediysen hiçbir şey çizmem.",
+                "names": "$~harfler"
+            },
+            "palette": {
+                "doc": "$~Gerçekte çizdiğim renkler, /recolor/'dan hesaplanır. Bana /recolor/ vermediysen, kendi renklerimi kullanırım.",
+                "names": "$~palet"
+            },
+            "face": {
+                "doc": "$~Glyph'lerimin çizileceği yazı tipinin adı. Benim bir yazı tipim yoksa, beni içine alanın yazı tipini kullanırım.",
+                "names": "$~yüz"
+            },
+            "place": {
+                "doc": "$~Sahnede bulunmam gereken yer.",
+                "names": "$~yer"
+            },
+            "name": {
+                "doc": "$~Animasyonlar ve @Collision için kullanabileceğin isim benim.",
+                "names": "$~isim"
+            },
+            "selectable": {
+                "doc": "$~@Choice öğesinin bir parçası olarak seçilip seçilemeyeceğim.",
+                "names": "$~seçilebilir"
+            },
+            "color": {
+                "doc": "$~Glyph'lerim için bir renk. Bir renk vermezsen, her glyph temsil ettiği karenin rengini alır; bir renk verirsen, hepsi aynı rengi paylaşır, harflerle çizim yapmak için gereken de budur. Eğer /glyph/'im yoksa bunu göz ardı ederim, çünkü o zaman karelerim zaten renklerimdir.",
+                "names": "$~renk"
+            },
+            "background": {
+                "doc": "$~Arkamdaki renk.",
+                "names": "$~arkaplan"
+            },
+            "opacity": {
+                "doc": "$~Ne kadar opak olmam gerektiği.",
+                "names": "$~saydamlık"
+            },
+            "offset": {
+                "doc": "$~Yerleştirildikten sonra, yerimden ne kadar uzağa taşınacağım.",
+                "names": "$~kaydırma"
+            },
+            "rotation": {
+                "doc": "$~Ne kadar döndürüleceğim.",
+                "names": "$~döndürme"
+            },
+            "scale": {
+                "doc": "$~Ne kadar ölçeklendirileceğim.",
+                "names": "$~ölçek"
+            },
+            "flipx": {
+                "doc": "$~Yatay olarak çevrilip çevrilmeyeceğim.",
+                "names": "$~çevirx"
+            },
+            "flipy": {
+                "doc": "$~Dikey olarak çevrilip çevrilmeyeceğim.",
+                "names": "$~çeviry"
+            },
+            "entering": {
+                "doc": "$~@Stage girildiğinde yapmam gereken @Pose ya da @Sequence.",
+                "names": "$~giren"
+            },
+            "resting": {
+                "doc": "$~Hareket etmediğimde yapmam gereken @Pose veya @Sequence.",
+                "names": "$~duran"
+            },
+            "moving": {
+                "doc": "$~Hareket ederken yapmam gereken @Pose veya @Sequence.",
+                "names": "$~hareketli"
+            },
+            "exiting": {
+                "doc": "$~@Stage'den ayrılırken yapmam gereken @Pose veya @Sequence.",
+                "names": "$~çıkıyor"
+            },
+            "duration": {
+                "doc": "$~Tek bir @Pose olduklarında canlandırmalarımın ne kadar sürmesi gerektiği.",
+                "names": "$~süre"
+            },
+            "style": {
+                "doc": "$~Kullanmam gereken canlandırma stili.",
+                "names": "$~stil"
+            },
+            "defaultDescription": "$~$description, $columns kolon $rows satır boyutunda bir resim"
         }
     }
 }

@@ -1915,6 +1915,119 @@
                 "doc": "$~Ang hangganan kung saan ibinabalot ko ang aking mga salita papunta sa susunod na linya.",
                 "names": "$~balutin"
             }
+        },
+        "Image": {
+            "doc": "$~Ako ay isang grid ng mga kulay, iginuhit bilang isang larawan. Bigyan ako ng listahan ng mga hanay, bawat isa ay listahan ng @Color, at magpipinta ako ng isang parisukat para sa bawat isa. Bigyan ako ng /glyph/ at maglalagay ako ng teksto sa bawat parisukat sa halip.",
+            "names": ["$~Larawan"],
+            "colors": {
+                "doc": "$~Ang aking mga hanay ng kulay, ang pinakaitaas na hanay ang una. Dapat magkasing-haba ang bawat hanay.",
+                "names": "$~mgaKulay"
+            },
+            "description": {
+                "doc": "$~Ang ipinapakita ko, para sa sinumang hindi ako makita. Hinihingi ko ito dahil ang isang grid ng mga kulay ay walang sariling mga salita na magagamit bilang panapos.",
+                "names": "$~paglalarawan"
+            },
+            "width": {
+                "doc": "$~Kung gaano ako kalapad. Kung taas lang ang ibinigay mo, kukunin ko ang aking lapad mula sa aking hugis; kung parehong ibinigay mo, iaakma ang aking mga parisukat para umangkop.",
+                "names": "$~lapad"
+            },
+            "height": {
+                "doc": "$~Kung gaano ako kataas. Kung lapad lang ang ibinigay mo, kukunin ko ang aking taas mula sa aking hugis.",
+                "names": "$~taas"
+            },
+            "glyph": {
+                "doc": "$~Isang function mula sa isa sa aking mga kulay patungo sa tekstong dapat kong iguhit sa lugar nito. Kung wala nito, nagpipinta ako ng mga simpleng parisukat.",
+                "names": "$~guhit"
+            },
+            "recolor": {
+                "doc": "$~Isang function mula sa isa sa aking mga kulay patungo sa kulay na dapat kong iguhit sa halip. Kapaki-pakinabang para gawing mas kaunti ang kulay ng isang larawan.",
+                "names": "$~kulayangMuli"
+            },
+            "pixel": {
+                "doc": "$~Isa sa aking mga kulay, na siyang ibinibigay sa /glyph/ at /recolor/.",
+                "names": "$~piksel"
+            },
+            "glyphs": {
+                "doc": "$~Ang iginuguhit ko sa bawat parisukat, base sa /glyph/. Wala, kung hindi mo binigyan ako ng /glyph/.",
+                "names": "$~mgaGuhit"
+            },
+            "palette": {
+                "doc": "$~Ang mga kulay na talagang iginuguhit ko, base sa /recolor/. Ang sarili kong mga kulay, kung hindi mo binigyan ako ng /recolor/.",
+                "names": "$~paleta"
+            },
+            "face": {
+                "doc": "$~Ang pangalan ng font face na dapat gamitin sa pagguhit ng aking mga glyph. Kung wala ako nito, ginagamit ko ang anumang naglalaman sa akin.",
+                "names": "$~mukha"
+            },
+            "place": {
+                "doc": "$~Ang lugar sa entablado kung saan ako dapat naroroon.",
+                "names": "$~lugar"
+            },
+            "name": {
+                "doc": "$~Ako ang pangalan na maaari mong gamitin, para sa mga animation at @Collision.",
+                "names": "$~pangalan"
+            },
+            "selectable": {
+                "doc": "$~Kung maaari akong piliin bilang bahagi ng @Choice.",
+                "names": "$~mapipili"
+            },
+            "color": {
+                "doc": "$~Isang kulay para sa aking mga glyph. Kung wala nito, kinukuha ng bawat glyph ang kulay ng parisukat na kinakatawan nito; kung mayroon, lahat sila ay magbabahagi nito, na siyang kailangan sa pagguhit gamit ng mga titik. Hindi ko ito pinapansin kung wala akong /glyph/, dahil kung gayon ang aking mga parisukat na ang siyang aking mga kulay.",
+                "names": "$~kulay"
+            },
+            "background": {
+                "doc": "$~Ang kulay sa likod ko.",
+                "names": "$~likuran"
+            },
+            "opacity": {
+                "doc": "$~Kung gaano ako kaopako.",
+                "names": "$~kalabuan"
+            },
+            "offset": {
+                "doc": "$~Gaano kalayo ako dapat ilipat mula sa aking lugar, matapos akong ilagay.",
+                "names": "$~agwat"
+            },
+            "rotation": {
+                "doc": "$~Gaano ako dapat i-ikot.",
+                "names": "$~pagIkot"
+            },
+            "scale": {
+                "doc": "$~Gaano ako dapat palakihin o paliitin.",
+                "names": "$~sukat"
+            },
+            "flipx": {
+                "doc": "$~Kung dapat ba akong ibaligtad nang pahalang.",
+                "names": "$~baligtadx"
+            },
+            "flipy": {
+                "doc": "$~Kung dapat ba akong ibaligtad nang patayo.",
+                "names": "$~baligtady"
+            },
+            "entering": {
+                "doc": "$~Ang @Pose o @Sequence na dapat kong gawin kapag pumapasok sa @Stage.",
+                "names": "$~pumapasok"
+            },
+            "resting": {
+                "doc": "$~Ang @Pose o @Sequence na dapat kong gawin kapag hindi ako gumagalaw.",
+                "names": "$~nakapahinga"
+            },
+            "moving": {
+                "doc": "$~Ang @Pose o @Sequence na dapat kong gawin kapag gumagalaw ako.",
+                "names": "$~gumagalaw"
+            },
+            "exiting": {
+                "doc": "$~Ang @Pose o @Sequence na dapat kong gawin kapag umaalis sa @Stage.",
+                "names": "$~lumalabas"
+            },
+            "duration": {
+                "doc": "$~Gaano dapat tagal ang aking mga animation kung isa lang ang @Pose nito.",
+                "names": "$~tagal"
+            },
+            "style": {
+                "doc": "$~Ang estilo ng animation na dapat kong gamitin.",
+                "names": "$~estilo"
+            },
+            "defaultDescription": "$~$description, isang larawan na $columns by $rows"
         }
     }
 }

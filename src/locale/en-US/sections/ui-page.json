@@ -875,27 +875,16 @@
                 },
                 "image": {
                     "instructions": "Drag the square to move it, or use the *size* slider to change how much of the image to keep. With the keyboard, press *enter* to start moving, then use the *arrow* keys, and *enter* again when you're done.",
-                    "button": {
-                        "label": "upload",
-                        "tip": "choose an image file from this device"
-                    },
                     "add": {
                         "label": "add",
                         "tip": "add the chosen square to the character as pixels"
                     },
-                    "crop": {
-                        "label": "crop box",
-                        "tip": "the square of the image to keep"
-                    },
-                    "preview": "what will be added",
                     "size": {
                         "label": "size",
                         "tip": "how much of the image to keep"
                     }
                 },
                 "feedback": {
-                    "imageTooBig": "That image is $size MB. Please choose one smaller than $limit MB.",
-                    "imageUnreadable": "We couldn't read that file as an image.",
                     "glyphLoading": "Getting the font…",
                     "glyphMissing": "This font has no shape for that symbol. Try another font.",
                     "glyphEmpty": "That symbol has nothing to draw.",
@@ -911,9 +900,6 @@
                     "untitledproject": "Untitled Project"
                 },
                 "announce": {
-                    "cropped": "crop box at $x $y",
-                    "cropMoving": "moving the crop box",
-                    "cropDone": "crop box placed",
                     "imported": "added $#count[one pixel|$count pixels] from $x $y",
                     "position": "at $x $y",
                     "selection": "$shapes[selected $shapes|nothing selected]",

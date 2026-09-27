@@ -5,6 +5,7 @@
 
     import OutputHandles from '@components/output/OutputHandles.svelte';
     import PhraseView from '@components/output/PhraseView.svelte';
+    import ImageView from '@components/output/ImageView.svelte';
     import ShapeView from '@components/output/ShapeView.svelte';
     import moveOutputWithKey from '@components/output/keyboardMove';
     import {
@@ -31,6 +32,7 @@
     import Phrase from '@output/Output/Phrase';
     import type Place from '@output/Place/Place';
     import type RenderContext from '@output/RenderContext';
+    import Image from '@output/Output/Image';
     import Shape from '@output/Output/Shape/Shape';
     import Stage from '@output/Output/Stage';
     import { untrack } from 'svelte';
@@ -257,6 +259,20 @@
         {:else if child instanceof Shape}
             <ShapeView
                 shape={child}
+                place={childPlace}
+                focus={offsetFocus}
+                {interactive}
+                parentAscent={root ? 0 : layout.height}
+                context={localContext}
+                {editable}
+                {inspectable}
+                {editing}
+                {frame}
+                {flat}
+            />
+        {:else if child instanceof Image}
+            <ImageView
+                image={child}
                 place={childPlace}
                 focus={offsetFocus}
                 {interactive}

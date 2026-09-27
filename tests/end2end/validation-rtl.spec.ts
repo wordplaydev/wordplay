@@ -1,4 +1,5 @@
 import { expect, test } from '../../playwright/fixtures';
+import addBlankSource from '../helpers/addBlankSource';
 import { createTestProject } from '../helpers/createProject';
 import { fontsReady } from '../helpers/layout';
 import { recordPage } from '../helpers/pageDiagnostics';
@@ -115,7 +116,7 @@ test('Hebrew: a message placed beside its field goes on the other side', async (
     await hebrewProject(page);
     // The source rename field — the app's only inlineValidation user — appears
     // only once a project has more than one source.
-    await page.locator('[data-uiid="addSource"]').first().click();
+    await addBlankSource(page);
     const name = page.locator('input[id^="source-name-editor"]').first();
     await expect(name).toBeVisible({ timeout: LOAD });
     const id = await name.getAttribute('id');

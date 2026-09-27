@@ -152,7 +152,7 @@
                     "tip": "$~copiază proiectul în clipboard ca text",
                     "label": "$~copiază ca text"
                 },
-                "addSource": "$~creează o altă @Source, ca să poți păstra date sau cod partajat în propriul fișier",
+                "addSource": "$~adaugă un alt @Source: unul gol, sau unul făcut dintr-o poză sau un cântec",
                 "revert": "$~reveniți la codul original",
                 "focusOutput": "$~tastatură concentrată pe scenă",
                 "focusSource": "$~concentrați-vă pe următoarea sursă",
@@ -269,7 +269,7 @@
                 "controls": "$~Aceste /comenzi/ din partea de jos se aplică întregului *proiect*, indiferent de dala în care lucrați.",
                 "name": "$~Câmpul /name/ este numele proiectului tău. Numele apar în vizualizările *project* și *gallery*.",
                 "sourceToggle": "$~Această /comutare/ afișează sau ascunde *fișierul sursă*. *Celelalte comenzi* de pe acest rând fac același lucru și pentru celelalte plăci.",
-                "addSource": "$~Unele proiecte beneficiază de fișiere sursă *mai multe*, unde datele sunt stocate într-unul singur și importate în sursa *principală*. Butonul /adăugați sursă/ creează una nouă.",
+                "addSource": "$~Unele proiecte au nevoie de *mai multe* fișiere sursă, unde datele sunt păstrate într-unul și importate în sursa *principală*. Butonul /adaugă sursă/ oferă moduri de a face unul: un fișier gol, o poză, un cântec sau niște date.",
                 "share": "$~Caseta de dialog /share/ vă permite să partajați proiectul cu *galerii*, cu *publicul* sau să îl copiați ca *text* pentru a-l partaja în altă parte.",
                 "checkpoints": "$~Panoul /revisions/ vă permite să *reveniți* la versiunile anterioare ale proiectului și la versiunile *snapshot* pe care doriți să le rețineți.",
                 "languages": "$~Butonul /limbi/ arată în ce limbi este scris proiectul tău, îți permite să adaugi sau să elimini una și poate *traduce* *numele*, *textul* și *documentarea* proiectului tău într-o limbă nouă."
@@ -870,6 +870,95 @@
             "view": {
                 "added": "$~a adăugat o a doua fereastră pentru $name",
                 "closed": "$~a închis a doua fereastră pentru $name"
+            },
+            "add": {
+                "header": "$~adaugă cod",
+                "explanation": "$~Un proiect poate avea mai mult de un fișier de cod. Fă unul gol în care să scrii, sau fă unul dintr-o poză sau un cântec. Poți folosi valorile cu @Borrow.",
+                "blank": {
+                    "explanation": "$~Un fișier gol, pentru codul pe care vrei să îl ții separat de codul principal.",
+                    "button": {
+                        "label": "$~adaugă",
+                        "tip": "$~adaugă un fișier gol de cod"
+                    }
+                },
+                "image": {
+                    "size": {
+                        "label": "$~culori",
+                        "tip": "$~câte culori din poză devin"
+                    },
+                    "budget": "$~$columns × $rows culori, aproximativ $size KB, $percent din cât poate ține un proiect",
+                    "tooBig": "$~prea multe culori pentru spațiul rămas pentru acest proiect",
+                    "button": {
+                        "label": "$~adaugă",
+                        "tip": "$~adaugă aceste culori ca fișier de cod"
+                    },
+                    "doc": "$~$name, $columns × $rows culori",
+                    "cameraDoc": "$~o poză de la cameră, $columns × $rows culori",
+                    "added": "$~s-a adăugat $name, $#count[o culoare|$#count culori|$count culori]",
+                    "name": "$~culori",
+                    "camera": {
+                        "feed": "$~ce vede camera ta",
+                        "capture": {
+                            "label": "$~fotografiază ca sursă",
+                            "tip": "$~salvează poza afișată acum"
+                        },
+                        "retake": {
+                            "label": "$~din nou",
+                            "tip": "$~înapoi la poza live"
+                        },
+                        "starting": "$~Se pornește camera…",
+                        "denied": "$~Nu putem ajunge la camera ta. Verifică dacă această pagină are voie să o folosească."
+                    },
+                    "explanation": "$~Noul fișier este o listă de rânduri de @Color, câte unul pentru fiecare pătrat al pozei. Împrumută-l și dă-l unui @Image pentru a-l desena, sau folosește culorile pentru orice altceva.",
+                    "source": {
+                        "label": "$~de unde vine poza",
+                        "labels": ["$~acest dispozitiv", "$~camera"],
+                        "tips": [
+                            "$~un fișier cu o poză de pe acest dispozitiv",
+                            "$~ce vede camera ta chiar acum"
+                        ]
+                    },
+                    "crop": {
+                        "width": {
+                            "label": "$~lățime",
+                            "tip": "$~cât de lată să fie partea din poză pe care o păstrezi"
+                        },
+                        "height": {
+                            "label": "$~înălțime",
+                            "tip": "$~cât de înaltă să fie partea din poză pe care o păstrezi"
+                        }
+                    },
+                    "instructions": "$~Trage cutia ca s-o muți, sau trage unul din colțurile ei ca să-i schimbi mărimea. Cursoarele *lățime* și *înălțime* fac același lucru, iar cursorul *culori* alege în câte culori se transformă. Cu tastatura, apasă *enter* ca să începi să miști cutia, apoi folosește tastele *săgeți*, și apasă din nou *enter* când ai terminat."
+                },
+                "song": {
+                    "explanation": "$~Un fișier MIDI — .mid sau .midi, de până la 2 MB — devine un fișier nou care conține notele lui, iar programul tău primește un @Music care le redă. Până la 10.000 de note și 128 de piste; tot ce nu încape într-un @Music este afișat după import."
+                },
+                "ways": {
+                    "label": "$~din ce este făcut noul cod",
+                    "labels": ["$~gol", "$~imagine", "$~tabel", "$~melodie"],
+                    "tips": [
+                        "$~un fișier care nu are încă nimic în el",
+                        "$~culorile unei poze, sau ale a ceea ce vede camera ta",
+                        "$~valori separate prin virgulă (CSV) lipite dintr-o foaie de calcul",
+                        "$~notele unui fișier MIDI de pe acest dispozitiv"
+                    ]
+                },
+                "table": {
+                    "name": "$~rânduri",
+                    "explanation": "$~Lipește valori separate prin virgulă (CSV), cum ar fi rânduri copiate dintr-o foaie de calcul, și ele devin un @Table pe care îl poți citi și schimba. Primul rând denumește coloanele.",
+                    "paste": {
+                        "label": "$~valori separate prin virgulă (CSV)",
+                        "placeholder": "$~nume, picioare\npisică, 4\npasăre, 2"
+                    },
+                    "summary": "$~$#rows[un rând|$#rows rânduri|$rows de rânduri] din $columns coloane",
+                    "notTable": "$~care nu este încă valori separate prin virgulă (CSV)",
+                    "button": {
+                        "label": "$~adaugă",
+                        "tip": "$~adaugă aceste rânduri ca un fișier de cod"
+                    },
+                    "doc": "$~$#rows[un rând|$#rows rânduri|$rows de rânduri] din $columns coloane",
+                    "added": "$~a adăugat $name, $#rows[un rând|$#rows rânduri|$rows de rânduri]"
+                }
             }
         },
         "annotations": {
@@ -2261,7 +2350,8 @@
                     ]
                 },
                 "report": "$~Ce am importat",
-                "reportExplanation": "$~Un @Music poate păstra cea mai mare parte din ce descrie un fișier MIDI, dar nu chiar totul. Iată ce s-a schimbat la intrare."
+                "reportExplanation": "$~Un @Music poate păstra cea mai mare parte din ce descrie un fișier MIDI, dar nu chiar totul. Iată ce s-a schimbat la intrare.",
+                "choose": "$~alege un cântec"
             },
             "toolbar": {
                 "label": "$~adaugă ieșire",
@@ -2837,6 +2927,26 @@
             "notData": "$~Acesta nu este genul de valoare care merită un fișier.",
             "droppedUnits": "$~Unitățile de măsură au fost omise: un număr JSON nu poate purta una.",
             "droppedNumbers": "$~Numerele care nu sunt finite au fost omise: JSON nu le poate scrie."
+        },
+        "image": {
+            "button": {
+                "label": "$~încarcă",
+                "tip": "$~alege un fișier imagine de pe acest dispozitiv"
+            },
+            "crop": {
+                "label": "$~chenar de decupare",
+                "tip": "$~partea din imagine care trebuie păstrată"
+            },
+            "preview": "$~ce se va adăuga",
+            "feedback": {
+                "tooBig": "$~Acea imagine are $size MB. Te rugăm să alegi una mai mică de $limit MB.",
+                "unreadable": "$~Nu am putut citi acel fișier ca imagine."
+            },
+            "announce": {
+                "moving": "$~mutarea chenarului de decupare",
+                "done": "$~chenar de decupare plasat",
+                "cropped": "$~casetă de decupare lată de $width% și înaltă de $height%, poziționată la $x% pe orizontală și $y% pe verticală"
+            }
         }
     }
 }

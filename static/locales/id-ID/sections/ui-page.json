@@ -891,9 +891,7 @@
                     "glyphLoading": "$~Mengambil jenis huruf…",
                     "glyphMissing": "$~Jenis huruf ini tidak punya bentuk untuk simbol tersebut. Coba jenis huruf lain.",
                     "glyphEmpty": "$~Simbol itu tidak punya apa pun untuk digambar.",
-                    "glyphUnreadable": "$~Kami tidak bisa membaca jenis huruf itu. Periksa koneksimu, atau coba jenis huruf lain.",
-                    "imageTooBig": "$~Gambar itu berukuran $size MB. Silakan pilih gambar yang lebih kecil dari $limit MB.",
-                    "imageUnreadable": "$~Kami tidak dapat membaca berkas itu sebagai gambar."
+                    "glyphUnreadable": "$~Kami tidak bisa membaca jenis huruf itu. Periksa koneksimu, atau coba jenis huruf lain."
                 },
                 "announce": {
                     "position": "$~pada $x $y",
@@ -918,26 +916,14 @@
                     "arranged": "$~lapisan $index dari $total",
                     "flipped": "$~dibalik, sekarang di $x $y",
                     "fitted": "$~memperbesar bentuk hingga memenuhi kanvas",
-                    "cropped": "$~kotak potong di $x $y",
-                    "cropMoving": "$~memindahkan kotak potong",
-                    "cropDone": "$~kotak potong ditempatkan",
                     "imported": "$~menambahkan $#count[$count piksel] dari $x $y"
                 },
                 "image": {
                     "instructions": "$~Seret kotak untuk memindahkannya, atau gunakan penggeser *ukuran* untuk mengubah berapa banyak bagian gambar yang disimpan. Dengan papan ketik, tekan *enter* untuk mulai memindahkan, lalu gunakan tombol *panah*, dan tekan *enter* lagi saat selesai.",
-                    "button": {
-                        "label": "$~unggah",
-                        "tip": "$~pilih berkas gambar dari perangkat ini"
-                    },
                     "add": {
                         "label": "$~tambah",
                         "tip": "$~tambahkan kotak yang dipilih ke karakter sebagai piksel"
                     },
-                    "crop": {
-                        "label": "$~kotak potong",
-                        "tip": "$~kotak gambar yang akan disimpan"
-                    },
-                    "preview": "$~apa yang akan ditambahkan",
                     "size": {
                         "label": "$~ukuran",
                         "tip": "$~berapa banyak bagian gambar yang disimpan"

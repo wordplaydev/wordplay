@@ -84,7 +84,7 @@
     } from '@db/Database';
     import type Project from '@db/projects/Project';
     import OverflowToolbar from '@components/widgets/OverflowToolbar.svelte';
-    import ImageImporter from './ImageImporter.svelte';
+    import ImagePicker from '@components/app/ImagePicker.svelte';
     import {
         Faces,
         faceSupportsWeight,
@@ -3500,22 +3500,57 @@
             {/if}
         {/if}
         {#if mode === DrawingMode.Image}
-            <ImageImporter
-                add={(pixels, crop) => {
-                    setPixelLayer(pixels);
-                    showCanvas();
-                    announceEdit(
-                        'character-edit',
-                        $locales
-                            .concretize(
-                                (l) => l.ui.page.character.announce.imported,
-                                { count: pixels.length, x: crop.x, y: crop.y },
-                            )
-                            .toText(),
-                    );
-                }}
+            <!-- Square, at the character's own grid: a character is 32 by 32, so the
+                 crop has to be too. Everything else about choosing a picture is the
+                 same here as it is for a source of colors. -->
+            <ImagePicker
+                grid={{ columns: CharacterSize, rows: CharacterSize }}
+                square
+                instructions={(l) => l.ui.page.character.image.instructions}
                 announce={(message) => announceEdit('character-point', message)}
-            />
+            >
+                {#snippet controls({ sampled, rect, source, setRect, clear })}
+                    <Slider
+                        label={(l) => l.ui.page.character.image.size.label}
+                        tip={(l) => l.ui.page.character.image.size.tip}
+                        min={8}
+                        max={Math.min(source.width, source.height)}
+                        increment={1}
+                        precision={0}
+                        unit={''}
+                        value={rect.width}
+                        change={(value) =>
+                            setRect({ ...rect, width: value.toNumber() })}
+                    ></Slider>
+                    <Button
+                        background
+                        tip={(l) => l.ui.page.character.image.add.tip}
+                        action={() => {
+                            const pixels = pixelsFromRGBA(sampled);
+                            setPixelLayer(pixels);
+                            showCanvas();
+                            clear();
+                            announceEdit(
+                                'character-edit',
+                                $locales
+                                    .concretize(
+                                        (l) =>
+                                            l.ui.page.character.announce
+                                                .imported,
+                                        {
+                                            count: pixels.length,
+                                            x: rect.x,
+                                            y: rect.y,
+                                        },
+                                    )
+                                    .toText(),
+                            );
+                        }}
+                        icon="✓"
+                        label={(l) => l.ui.page.character.image.add.label}
+                    />
+                {/snippet}
+            </ImagePicker>
         {/if}
         {#if mode === DrawingMode.Symbol}
             <!-- One tool for letters, symbols and emoji, added either way. The

@@ -148,7 +148,7 @@
                     "tip": "$~kopiera projekt till urklipp som text",
                     "label": "$~kopiera som text"
                 },
-                "addSource": "$~skapa en ny @Source, så att du kan hålla data eller delad kod i en egen fil",
+                "addSource": "$~lägg till en till @Source: en tom en, eller en gjord från en bild eller en sång",
                 "revert": "$~återgå till originalkoden",
                 "focusOutput": "$~fokus tangentbordet på scenen",
                 "focusSource": "$~fokusera på nästa källa",
@@ -269,7 +269,7 @@
                 "controls": "$~Dessa /controls/ längst ner gäller för *projektet som helhet*, oavsett vilken panel du arbetar i.",
                 "name": "$~Fältet /name/ är ditt projekts namn. Namn visas i vyerna för *projekt* och *galleri*.",
                 "sourceToggle": "$~Denna /toggle/ visar eller döljer *källfilen*. De *andra växlarna* på den här raden gör detsamma för de andra panelerna.",
-                "addSource": "$~Vissa projekt drar nytta av *flera* källfiler, där data lagras i en och importeras till *huvud*källan. Knappen /lägg till källa/ skapar en ny.",
+                "addSource": "$~Vissa projekt mår bra av *flera* källor, där data sparas i en och hämtas in i *huvud*källan. Knappen /lägg till källa/ ger dig sätten att göra en: en tom fil, en bild, en sång, eller lite data.",
                 "share": "$~I dialogrutan /share/ kan du dela ditt projekt med *gallerier*, med *allmänheten*, eller kopiera det som *text* för att dela det någon annanstans.",
                 "checkpoints": "$~Panelen /revisions/ låter dig gå *tillbaka* till tidigare versioner av ditt projekt och *ögonblicksbilder* av versioner som du vill komma ihåg.",
                 "languages": "$~Knappen /languages/ visar vilka språk ditt projekt är skrivet på, låter dig lägga till eller ta bort ett, och kan *översätta* ditt projekts *namn*, *text* och *dokumentation* till ett nytt språk."
@@ -629,6 +629,95 @@
             "view": {
                 "added": "$~lade till en andra vy av $name",
                 "closed": "$~stängde den andra vyn av $name"
+            },
+            "add": {
+                "header": "$~lägg till kod",
+                "explanation": "$~Ett projekt kan ha mer än en fil med kod. Gör en tom fil att skriva i, eller gör en av en bild eller en sång. Du kan använda värdena med @Borrow.",
+                "blank": {
+                    "explanation": "$~En tom fil, för kod du vill hålla skild från din huvudkod.",
+                    "button": {
+                        "label": "$~lägg till",
+                        "tip": "$~lägg till en tom fil med kod"
+                    }
+                },
+                "image": {
+                    "size": {
+                        "label": "$~färger",
+                        "tip": "$~hur många färger bilden blir uppdelad i"
+                    },
+                    "budget": "$~$columns × $rows färger, ungefär $size KB, $percent av vad ett projekt kan innehålla",
+                    "tooBig": "$~för många färger för det utrymme som finns kvar i det här projektet",
+                    "button": {
+                        "label": "$~lägg till",
+                        "tip": "$~lägg till dessa färger som en fil med kod"
+                    },
+                    "doc": "$~$name, $columns × $rows färger",
+                    "cameraDoc": "$~en kamerabild, $columns × $rows färger",
+                    "added": "$~la till $name, $#count[en färg|$count färger]",
+                    "name": "$~färger",
+                    "camera": {
+                        "feed": "$~vad din kamera ser",
+                        "capture": {
+                            "label": "$~ta bild som källa",
+                            "tip": "$~spara bilden som visas nu"
+                        },
+                        "retake": {
+                            "label": "$~igen",
+                            "tip": "$~gå tillbaka till livebilden"
+                        },
+                        "starting": "$~Startar kameran…",
+                        "denied": "$~Vi kommer inte åt din kamera. Kontrollera att den här sidan får använda den."
+                    },
+                    "explanation": "$~Den nya filen är en lista med rader av @Color, en för varje ruta i bilden. Låna den och ge den till en @Image för att rita den, eller använd färgerna till vad du vill.",
+                    "source": {
+                        "label": "$~varifrån bilden kommer",
+                        "labels": ["$~den här enheten", "$~kamera"],
+                        "tips": [
+                            "$~en bildfil på den här enheten",
+                            "$~det din kamera ser just nu"
+                        ]
+                    },
+                    "crop": {
+                        "width": {
+                            "label": "$~bredd",
+                            "tip": "$~hur bred en del av bilden ska vara"
+                        },
+                        "height": {
+                            "label": "$~höjd",
+                            "tip": "$~hur hög en del av bilden ska vara"
+                        }
+                    },
+                    "instructions": "$~Dra i rutan för att flytta den, eller dra i ett av hörnen för att ändra storleken. Skjutreglagen *bredd* och *höjd* gör samma sak, och skjutreglaget *färger* väljer hur många färger den blir. Med tangentbordet trycker du på *enter* för att börja flytta rutan, använder sedan *piltangenterna*, och trycker på *enter* igen när du är klar."
+                },
+                "song": {
+                    "explanation": "$~En MIDI-fil — .mid eller .midi, upp till 2 MB — blir en ny fil med sina toner, och ditt program får en @Music som spelar dem. Upp till 10 000 toner och 128 spår; allt som en @Music inte kan innehålla listas efter importen."
+                },
+                "ways": {
+                    "label": "$~vad den nya koden består av",
+                    "labels": ["$~tom", "$~bild", "$~tabell", "$~låt"],
+                    "tips": [
+                        "$~en fil som ännu inte innehåller något",
+                        "$~färgerna i en bild, eller i det din kamera ser",
+                        "$~kommaseparerade värden (CSV) inklistrade från ett kalkylblad",
+                        "$~tonerna i en MIDI-fil på den här enheten"
+                    ]
+                },
+                "table": {
+                    "name": "$~rader",
+                    "explanation": "$~Klistra in kommaseparerade värden (CSV), till exempel rader kopierade från ett kalkylblad, och de blir en @Table du kan läsa och ändra. Den första raden namnger kolumnerna.",
+                    "paste": {
+                        "label": "$~kommaseparerade värden (CSV)",
+                        "placeholder": "$~namn, ben\nkatt, 4\nfågel, 2"
+                    },
+                    "summary": "$~$#rows[en rad|$rows rader] med $columns kolumner",
+                    "notTable": "$~som ännu inte är kommaseparerade värden (CSV)",
+                    "button": {
+                        "label": "$~lägg till",
+                        "tip": "$~lägg till dessa rader som en kodfil"
+                    },
+                    "doc": "$~$#rows[en rad|$rows rader] med $columns kolumner",
+                    "added": "$~lade till $name, $#rows[en rad|$rows rader]"
+                }
             }
         },
         "annotations": {
@@ -2009,7 +2098,8 @@
                     ]
                 },
                 "report": "$~Vad jag importerade",
-                "reportExplanation": "$~En @Music kan innehålla det mesta av vad en MIDI-fil beskriver, men inte allt. Här är vad som ändrades på vägen in."
+                "reportExplanation": "$~En @Music kan innehålla det mesta av vad en MIDI-fil beskriver, men inte allt. Här är vad som ändrades på vägen in.",
+                "choose": "$~välj en låt"
             },
             "toolbar": {
                 "label": "$~lägg till utdata",
@@ -2831,6 +2921,26 @@
             "notData": "$~Detta är inte den typen av värde som är värt en fil.",
             "droppedUnits": "$~Enheter uteslöts: ett JSON-tal kan inte ha någon.",
             "droppedNumbers": "$~Tal som inte är ändliga uteslöts: JSON kan inte skriva dem."
+        },
+        "image": {
+            "button": {
+                "label": "$~ladda upp",
+                "tip": "$~välj en bildfil från den här enheten"
+            },
+            "crop": {
+                "label": "$~beskärningsruta",
+                "tip": "$~den del av bilden som ska behållas"
+            },
+            "preview": "$~vad som kommer att läggas till",
+            "feedback": {
+                "tooBig": "$~Den bilden är $size MB. Välj en som är mindre än $limit MB.",
+                "unreadable": "$~Vi kunde inte läsa den filen som en bild."
+            },
+            "announce": {
+                "moving": "$~flyttar beskärningsrutan",
+                "done": "$~beskärningsruta placerad",
+                "cropped": "$~beskärningsruta $width% bred och $height% hög, $x% från vänster och $y% nedåt"
+            }
         }
     }
 }

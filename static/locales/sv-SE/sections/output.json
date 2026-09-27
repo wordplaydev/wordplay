@@ -1915,6 +1915,119 @@
                 "doc": "$~Gränsen där jag bryter mina ord till en ny rad.",
                 "names": "$~radbryt"
             }
+        },
+        "Image": {
+            "doc": "$~Jag är ett rutnät av färger, ritat som en bild. Ge mig en lista med rader, var och en en lista med @Color, så målar jag en ruta för varje. Ge mig en /glyph/ så ritar jag text i varje ruta istället.",
+            "names": ["$~Bild"],
+            "colors": {
+                "doc": "$~Mina rader av färger, den översta raden först. Alla rader ska ha samma längd.",
+                "names": "$~färger"
+            },
+            "description": {
+                "doc": "$~Det jag visar, för den som inte kan se mig. Jag frågar efter detta eftersom ett rutnät av färger inte har några egna ord att falla tillbaka på.",
+                "names": "$~beskrivning"
+            },
+            "width": {
+                "doc": "$~Hur bred jag ska vara. Om du bara ger mig en höjd, tar jag min bredd från min form. Om du ger mig båda, sträcks mina rutor för att passa.",
+                "names": "$~bredd"
+            },
+            "height": {
+                "doc": "$~Hur hög jag ska vara. Om du bara ger mig en bredd, tar jag min höjd från min form.",
+                "names": "$~höjd"
+            },
+            "glyph": {
+                "doc": "$~En funktion från en av mina färger till texten jag ska rita i dess ställe. Utan en sådan målar jag enkla rutor.",
+                "names": "$~tecken"
+            },
+            "recolor": {
+                "doc": "$~En funktion från en av mina färger till färgen jag ska rita istället. Användbart för att göra om en bild till färre färger.",
+                "names": "$~färgaOm"
+            },
+            "pixel": {
+                "doc": "$~En av mina färger, som är det /glyph/ och /recolor/ vardera får.",
+                "names": "$~pixel"
+            },
+            "glyphs": {
+                "doc": "$~Det jag ritar i varje ruta, beräknat från /glyph/. Inget, om du inte gav mig någon /glyph/.",
+                "names": ["$~teckenrutnät"]
+            },
+            "palette": {
+                "doc": "$~Färgerna jag faktiskt ritar, beräknade från /recolor/. Mina egna färger, om du inte gav mig någon /recolor/.",
+                "names": "$~palett"
+            },
+            "face": {
+                "doc": "$~Namnet på det typsnitt mina glyfer ska ritas med. Om jag inte har något, använder jag det som omger mig.",
+                "names": "$~typsnitt"
+            },
+            "place": {
+                "doc": "$~Platsen på scenen där jag ska vara.",
+                "names": "$~plats"
+            },
+            "name": {
+                "doc": "$~Jag är namnet du kan använda, för animationer och @Collision.",
+                "names": "$~namn"
+            },
+            "selectable": {
+                "doc": "$~Om jag kan väljas som en del av @Choice.",
+                "names": "$~valbar"
+            },
+            "color": {
+                "doc": "$~En färg för mina glyfer. Utan en tar varje glyf färgen från rutan den står för. Med en delar de alla samma färg, vilket behövs när man ritar med bokstäver. Jag ignorerar det om jag inte har någon /glyph/, eftersom mina rutor då är mina färger.",
+                "names": "$~färg"
+            },
+            "background": {
+                "doc": "$~Färgen bakom mig.",
+                "names": "$~bakgrund"
+            },
+            "opacity": {
+                "doc": "$~Hur genomskinlig jag ska vara.",
+                "names": "$~genomskinlighet"
+            },
+            "offset": {
+                "doc": "$~Hur långt jag ska flyttas från min plats, efter att jag placerats.",
+                "names": "$~förskjutning"
+            },
+            "rotation": {
+                "doc": "$~Hur mycket jag ska roteras.",
+                "names": "$~rotation"
+            },
+            "scale": {
+                "doc": "$~Hur mycket jag ska skalas.",
+                "names": "$~skala"
+            },
+            "flipx": {
+                "doc": "$~Om jag ska vändas vågrätt.",
+                "names": "$~vändx"
+            },
+            "flipy": {
+                "doc": "$~Om jag ska vändas lodrätt.",
+                "names": "$~vändy"
+            },
+            "entering": {
+                "doc": "$~Det @Pose eller @Sequence jag ska göra när jag går in i @Stage.",
+                "names": "$~kommerIn"
+            },
+            "resting": {
+                "doc": "$~@Pose eller @Sequence jag ska göra när jag inte rör mig.",
+                "names": "$~vilar"
+            },
+            "moving": {
+                "doc": "$~@Pose eller @Sequence jag ska göra när jag rör mig.",
+                "names": "$~rörSig"
+            },
+            "exiting": {
+                "doc": "$~@Pose eller @Sequence jag ska göra när jag lämnar @Stage.",
+                "names": "$~lämnar"
+            },
+            "duration": {
+                "doc": "$~Hur länge mina animationer ska ta om de är en enda @Pose.",
+                "names": "$~varaktighet"
+            },
+            "style": {
+                "doc": "$~Animationsstilen jag ska använda.",
+                "names": "$~stil"
+            },
+            "defaultDescription": "$~$description, en bild $columns gånger $rows"
         }
     }
 }

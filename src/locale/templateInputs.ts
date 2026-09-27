@@ -160,13 +160,30 @@ export type PluralBranch = { name: string; arms: number };
  * immediately after a mention, and doubling a symbol escapes it.
  */
 export function getPluralBranches(template: string): PluralBranch[] {
-    const branches: PluralBranch[] = [];
+    return getPluralBranchBodies(template).map(({ name, arms }) => ({
+        name,
+        arms,
+    }));
+}
+
+/**
+ * The same branches with the text of each arm, for asking what an arm says rather than only
+ * how many there are.
+ */
+export function getPluralBranchBodies(
+    template: string,
+): (PluralBranch & { texts: string[] })[] {
+    const branches: (PluralBranch & { texts: string[] })[] = [];
     const start = /(?<!\$)\$#([a-zA-Z0-9]+)\[/g;
     for (const match of template.matchAll(start)) {
         const [whole, name] = matchGroups(match);
+        const from = match.index + whole.length;
         let depth = 1;
         let arms = 1;
-        for (let i = match.index + whole.length; i < template.length; i++) {
+        let armStart = from;
+        const texts: string[] = [];
+        let i = from;
+        for (; i < template.length; i++) {
             const c = template[i];
             // A doubled delimiter is an escaped literal, not structure.
             if (
@@ -180,10 +197,19 @@ export function getPluralBranches(template: string): PluralBranch[] {
             else if (c === ']') {
                 depth--;
                 if (depth === 0) break;
-            } else if (c === '|' && depth === 1) arms++;
+            } else if (c === '|' && depth === 1) {
+                arms++;
+                texts.push(template.slice(armStart, i));
+                armStart = i + 1;
+            }
         }
+        texts.push(template.slice(armStart, i));
         // The pattern's only group is not optional, so a match always has one.
-        branches.push({ name: must(name, 'a plural branch name'), arms });
+        branches.push({
+            name: must(name, 'a plural branch name'),
+            arms,
+            texts,
+        });
     }
     return branches;
 }

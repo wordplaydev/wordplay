@@ -43,7 +43,10 @@ const IdentityKeys = new Set(['name', 'names']);
  * on purpose (`Kind`, `Kind`), as does every locale, because they are type variables of different
  * definitions.
  */
-function scopeOf(path: (string | number)[], key: string | number): string {
+export function scopeOf(
+    path: (string | number)[],
+    key: string | number,
+): string {
     return (IdentityKeys.has(String(key)) ? path.slice(0, -1) : path).join('.');
 }
 

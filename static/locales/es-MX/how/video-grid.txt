@@ -3,22 +3,24 @@ Crear un video desde la cámara
 El @Camera es una excelente forma de obtener una cuadrícula de colores del mundo. 
 ¿Qué tal si queremos ver esos colores, recreando la imagen que @Camera ve?
 
-Podemos usar la disposición @Grid para un @Group, y la función @List/combine para convertir los colores en una lista de @Phrase que le damos al @Grid.
+Un @Image toma una cuadrícula de colores y la dibuja como una sola imagen, así podemos entregarle los colores de @Camera directamente.
 
 \
 width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
-						:phrases
-						:row ↦ Phrase("⬤" color: ⬚ duración: 0s)
-					]))
-	])
+Stage([Image(colors "what the camera sees" 12m)])
 \
 
- Este ejemplo construye una lista de frases, convirtiendo cada color en un círculo con ese color específico.
+ Cada @Image necesita una descripción, porque una cuadrícula de colores no tiene palabras propias para alguien que no puede verla.
 
-Ten cuidado con los flujos de @Camera : ¡producen muchísima entrada! Vas a querer mantener pequeños el ancho y el alto de la imagen.
+Podemos dibujar la imagen con letras en vez de cuadros, dándole un /glifo/, una función que convierte cada color en el texto que lo representa.
+
+\
+width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([Image(colors "the camera, drawn with dark and light circles" 12m glifo: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+\
 
 interactive-scene

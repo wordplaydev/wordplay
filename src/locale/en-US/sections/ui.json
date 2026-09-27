@@ -206,7 +206,7 @@
                     "tip": "copy project to clipboard as text",
                     "label": "copy as text"
                 },
-                "addSource": "create another @Source, so you can keep data or shared code in its own file",
+                "addSource": "add another @Source: an empty one, or one made from a picture or a song",
                 "remix": {
                     "tip": "make your own copy of this project to change",
                     "label": "remix"
@@ -332,7 +332,7 @@
                 "controls": "These /controls/ at the bottom apply to the *project as a whole*, no matter which tile you're working in.",
                 "name": "The /name/ field is your project's name. Names show up in the *project* and *gallery* views.",
                 "sourceToggle": "This /toggle/ shows or hides the *source file*. The *other toggles* on this row do the same for the other tiles.",
-                "addSource": "Some projects benefit from *multiple* source files, where data is stored in one and imported into the *main* source. The /add source/ button creates a new one.",
+                "addSource": "Some projects benefit from *multiple* source files, where data is stored in one and imported into the *main* source. The /add source/ button offers the ways of making one: an empty file, a picture, a song, or some data.",
                 "share": "The /share/ dialog lets you share your project with *galleries*, with the *public*, or copy it as *text* to share elsewhere.",
                 "languages": "The /languages/ button shows which languages your project is written in, lets you add or remove one, and can *translate* your project's *names*, *text*, and *documentation* into a new language.",
                 "checkpoints": "The /revisions/ panel lets you go *back* to previous versions of your project, and *snapshot* versions you want to remember."
@@ -732,6 +732,95 @@
         "source": {
             "label": "source",
             "title": "code",
+            "add": {
+                "header": "add code",
+                "explanation": "A project can hold more than one file of code. Make an empty one to write in, or make one out of a picture or a song. You can use the values with @Borrow.",
+                "ways": {
+                    "label": "what the new code is made of",
+                    "labels": ["empty", "image", "table", "song"],
+                    "tips": [
+                        "a file with nothing in it yet",
+                        "the colors of a picture, or of what your camera sees",
+                        "comma-separated values (CSV) pasted from a spreadsheet",
+                        "the notes of a MIDI file on this device"
+                    ]
+                },
+                "blank": {
+                    "explanation": "An empty file, for code you want to keep apart from your main code.",
+                    "button": {
+                        "label": "add",
+                        "tip": "add an empty file of code"
+                    }
+                },
+                "image": {
+                    "name": "colors",
+                    "explanation": "The new file is a list of rows of @Color, one for every square of the picture. Borrow it and give it to an @Image to draw it, or use the colors for anything else.",
+                    "source": {
+                        "label": "where the picture comes from",
+                        "labels": ["this device", "camera"],
+                        "tips": [
+                            "a picture file on this device",
+                            "what your camera sees right now"
+                        ]
+                    },
+                    "instructions": "Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
+                    "size": {
+                        "label": "colors",
+                        "tip": "how many colors across the picture becomes"
+                    },
+                    "crop": {
+                        "width": {
+                            "label": "width",
+                            "tip": "how wide a part of the picture to keep"
+                        },
+                        "height": {
+                            "label": "height",
+                            "tip": "how tall a part of the picture to keep"
+                        }
+                    },
+                    "budget": "$columns × $rows colors, about $size KB, $percent of what a project can hold",
+                    "tooBig": "too many colors for what space remains for this project",
+                    "button": {
+                        "label": "add",
+                        "tip": "add these colors as a file of code"
+                    },
+                    "doc": "$name, $columns × $rows colors",
+                    "cameraDoc": "a camera picture, $columns × $rows colors",
+                    "added": "added $name, $#count[one color|$count colors]",
+                    "camera": {
+                        "feed": "what your camera sees",
+                        "capture": {
+                            "label": "snap as source",
+                            "tip": "save the picture showing now"
+                        },
+                        "retake": {
+                            "label": "again",
+                            "tip": "go back to the live picture"
+                        },
+                        "starting": "Starting the camera…",
+                        "denied": "We can’t reach your camera. Check that this page is allowed to use it."
+                    }
+                },
+                "table": {
+                    "name": "rows",
+                    "explanation": "Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
+                    "paste": {
+                        "label": "comma-separated values (CSV)",
+                        "placeholder": "name, legs\ncat, 4\nbird, 2"
+                    },
+                    "summary": "$#rows[one row|$rows rows] of $columns columns",
+                    "notTable": "that isn’t comma-separated values (CSV) yet",
+                    "button": {
+                        "label": "add",
+                        "tip": "add these rows as a file of code"
+                    },
+                    "doc": "$#rows[one row|$rows rows] of $columns columns",
+                    "added": "added $name, $#rows[one row|$rows rows]"
+                },
+                "song": {
+                    "explanation": "A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
+                }
+            },
             "empty": [
                 "Let's get started! You can …",
                 "• Open 📕 and drag 🖱️ us to this program.",
@@ -1063,6 +1152,26 @@
             "notData": "This isn't the kind of value worth a file.",
             "droppedUnits": "Units were left out: a JSON number can't carry one.",
             "droppedNumbers": "Numbers that aren't finite were left out: JSON can't write them."
+        },
+        "image": {
+            "button": {
+                "label": "upload",
+                "tip": "choose an image file from this device"
+            },
+            "crop": {
+                "label": "crop box",
+                "tip": "the part of the image to keep"
+            },
+            "preview": "what will be added",
+            "feedback": {
+                "tooBig": "That image is $size MB. Please choose one smaller than $limit MB.",
+                "unreadable": "We couldn't read that file as an image."
+            },
+            "announce": {
+                "cropped": "crop box $width% wide and $height% tall, at $x% across and $y% down",
+                "moving": "moving the crop box",
+                "done": "crop box placed"
+            }
         },
         "output": {
             "label": "stage",
@@ -2392,6 +2501,7 @@
                 "transcribed": "I heard $#count[$#count note|$#count notes] in $scale at about $tempo beats a minute.",
                 "noMicrophone": "I can't hear your microphone",
                 "imported": "added $#count[$#count track|$#count tracks] and $notes notes",
+                "choose": "choose a song",
                 "report": "What I imported",
                 "reportExplanation": "A @Music can hold most of what a MIDI file describes, but not all of it. Here is what changed on the way in.",
                 "chooser": "which music to edit",

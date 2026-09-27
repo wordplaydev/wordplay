@@ -1915,6 +1915,119 @@
                 "doc": "$~La limite à partir de laquelle mes mots passent à la ligne suivante.",
                 "names": "$~retourÀLaLigne"
             }
+        },
+        "Image": {
+            "doc": "$~Je suis une grille de couleurs, dessinée comme une image. Donne-moi une liste de rangées, chacune une liste de @Color, et je peindrai un carré pour chacune. Donne-moi un /glyph/ et je dessinerai du texte dans chaque carré à la place.",
+            "names": ["$~🖼", "$~Image"],
+            "colors": {
+                "doc": "$~Mes rangées de couleurs, la rangée du haut en premier. Chaque rangée doit avoir la même longueur.",
+                "names": "$~couleurs"
+            },
+            "description": {
+                "doc": "$~Ce que je montre, pour ceux qui ne peuvent pas me voir. Je demande cela parce qu'une grille de couleurs n'a pas de mots à elle pour s'y référer.",
+                "names": "$~description"
+            },
+            "width": {
+                "doc": "$~Ma largeur. Si tu me donnes seulement une hauteur, je prends ma largeur selon ma forme ; si tu me donnes les deux, mes carrés s'étirent pour s'ajuster.",
+                "names": "$~largeur"
+            },
+            "height": {
+                "doc": "$~Ma hauteur. Si tu me donnes seulement une largeur, je prends ma hauteur selon ma forme.",
+                "names": "$~hauteur"
+            },
+            "glyph": {
+                "doc": "$~Une fonction qui, à partir d'une de mes couleurs, donne le texte que je dois dessiner à sa place. Sans elle, je peins des carrés unis.",
+                "names": "$~glyphe"
+            },
+            "recolor": {
+                "doc": "$~Une fonction qui, à partir d'une de mes couleurs, donne la couleur que je dois dessiner à la place. Utile pour transformer une image en moins de couleurs.",
+                "names": "$~recolorer"
+            },
+            "pixel": {
+                "doc": "$~Une de mes couleurs, celle donnée à /glyph/ et à /recolor/.",
+                "names": "$~pixel"
+            },
+            "glyphs": {
+                "doc": "$~Ce que je dessine dans chaque carré, déterminé à partir de /glyph/. Rien, si tu ne m'as pas donné de /glyph/.",
+                "names": "$~glyphes"
+            },
+            "palette": {
+                "doc": "$~Les couleurs que je dessine réellement, déterminées à partir de /recolor/. Mes propres couleurs, si tu ne m'as pas donné de /recolor/.",
+                "names": "$~palette"
+            },
+            "face": {
+                "doc": "$~Le nom de la police avec laquelle mes glyphes doivent être dessinés. Si je n'en ai pas, j'utilise celle de ce qui me contient.",
+                "names": "$~police"
+            },
+            "place": {
+                "doc": "$~L'endroit sur la scène où je dois être.",
+                "names": "$~lieu"
+            },
+            "name": {
+                "doc": "$~Je suis le nom que tu peux utiliser, pour les animations et @Collision.",
+                "names": "$~nom"
+            },
+            "selectable": {
+                "doc": "$~Si je peux être sélectionné comme partie de @Choice.",
+                "names": "$~sélectionnable"
+            },
+            "color": {
+                "doc": "$~Une couleur pour mes glyphes. Sans elle, chaque glyphe prend la couleur du carré qu'il représente ; avec elle, ils la partagent tous, ce dont dessiner avec des lettres a besoin. Je l'ignore si je n'ai pas de /glyph/, car alors mes carrés sont mes couleurs.",
+                "names": "$~couleur"
+            },
+            "background": {
+                "doc": "$~La couleur derrière moi.",
+                "names": "$~arrièrePlan"
+            },
+            "opacity": {
+                "doc": "$~À quel point je dois être opaque.",
+                "names": "$~opacité"
+            },
+            "offset": {
+                "doc": "$~À quelle distance me déplacer de ma place, une fois placé.",
+                "names": "$~décalage"
+            },
+            "rotation": {
+                "doc": "$~De combien me faire pivoter.",
+                "names": "$~rotation"
+            },
+            "scale": {
+                "doc": "$~De combien me redimensionner.",
+                "names": "$~échelle"
+            },
+            "flipx": {
+                "doc": "$~Si je dois être retourné horizontalement.",
+                "names": "$~retournerx"
+            },
+            "flipy": {
+                "doc": "$~Si je dois être retourné verticalement.",
+                "names": "$~retournery"
+            },
+            "entering": {
+                "doc": "$~Le @Pose ou @Sequence que je dois faire en entrant dans @Stage.",
+                "names": "$~entrant"
+            },
+            "resting": {
+                "doc": "$~L'@Pose ou l'@Sequence que je dois faire quand je ne bouge pas.",
+                "names": "$~repos"
+            },
+            "moving": {
+                "doc": "$~L'@Pose ou l'@Sequence que je dois faire quand je bouge.",
+                "names": "$~déplacement"
+            },
+            "exiting": {
+                "doc": "$~L'@Pose ou l'@Sequence que je dois faire en quittant @Stage.",
+                "names": "$~sortie"
+            },
+            "duration": {
+                "doc": "$~Combien de temps mes animations doivent prendre si elles sont un seul @Pose.",
+                "names": "$~durée"
+            },
+            "style": {
+                "doc": "$~Le style d'animation que je dois utiliser.",
+                "names": "$~style"
+            },
+            "defaultDescription": "$~$description, une image de $columns sur $rows"
         }
     }
 }

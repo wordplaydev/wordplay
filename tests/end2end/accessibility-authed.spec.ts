@@ -29,6 +29,14 @@ import { uniqueCharacterName } from '../helpers/uniqueCharacterName';
 
 const LOAD_TIMEOUT = 30_000;
 
+/** A 4x4 PNG of four colors, written out rather than read from disk so the
+ *  fixture can't drift away from the test that uses it. */
+const PNG = Buffer.from(
+    'iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAAJ0lEQVR4nAXBMQEAAACCMIIZ' +
+        'zJNQBnQDDBaHEBMbF6Gmtq7CzOzcPKdjE0EdpVEhAAAAAElFTkSuQmCC',
+    'base64',
+);
+
 test.describe('authed views', () => {
     test(`the privileges page has no WCAG 2.2 AA violations`, async ({
         browser,
@@ -438,6 +446,45 @@ test.describe('authed views', () => {
                 .click();
             await page.getByRole('tab').nth(1).click();
             await expect(page.locator('#languages-tabs-panel')).toBeVisible();
+            await expectNoAxeViolationsInBothSchemes(page);
+        } finally {
+            await context.close();
+        }
+    });
+
+    test(`add-source dialog has no WCAG 2.2 AA violations`, async ({
+        browser,
+    }) => {
+        // The one place that turns data into a source file (#559, #560). Four
+        // tabs, and the picture one carries a crop box in a role="application"
+        // region plus a slider and a canvas preview — none of it reachable from
+        // the editor scan above, and none of it a shape any other dialog has.
+        // The camera tab is deliberately not opened: a headless browser has no
+        // camera, so what it would scan is the refusal rather than the control.
+        const { context, page } = await loginNewContext(
+            browser,
+            'creator',
+            'password',
+        );
+        try {
+            await page.goto('/en-US/project/seed-collab-project');
+            await expect(page.locator('#project-name')).toHaveValue(
+                'Shared Sketch',
+                { timeout: LOAD_TIMEOUT },
+            );
+            await page.locator('[data-uiid="addSource"]').click();
+            const dialog = page.getByRole('dialog');
+            await expect(dialog).toBeVisible();
+            await expectNoAxeViolationsInBothSchemes(page);
+            // The picture tab, with a picture chosen, so the crop box and the
+            // preview are what is scanned rather than an empty panel.
+            await dialog.getByRole('tab').nth(1).click();
+            await dialog.locator('input[type="file"]').setInputFiles({
+                name: 'swatch.png',
+                mimeType: 'image/png',
+                buffer: PNG,
+            });
+            await expect(dialog.locator('canvas').first()).toBeVisible();
             await expectNoAxeViolationsInBothSchemes(page);
         } finally {
             await context.close();

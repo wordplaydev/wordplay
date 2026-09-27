@@ -12,6 +12,7 @@
         type OutputInfoSet,
     } from '@output/animation/Animator';
     import Group from '@output/Output/Group';
+    import Image from '@output/Output/Image';
     import {
         boundZoom,
         composeZoom,
@@ -31,6 +32,7 @@
         getSizeCSS,
     } from '@output/Output/outputToCSS';
     import Phrase from '@output/Output/Phrase';
+    import Shape from '@output/Output/Shape/Shape';
     import Place, { createPlace } from '@output/Place/Place';
     import RenderContext from '@output/RenderContext';
     import type Stage from '@output/Output/Stage';
@@ -53,12 +55,14 @@
         getStageScene,
     } from '@components/project/Contexts';
     import GroupView from '@components/output/GroupView.svelte';
+    import ImageView from '@components/output/ImageView.svelte';
     import {
         describeEnteredOutput,
         describeMovedOutput,
         describedChangedOutput,
     } from '@components/output/OutputDescriptions';
     import PhraseView from '@components/output/PhraseView.svelte';
+    import ShapeView from '@components/output/ShapeView.svelte';
 
     interface Props {
         project: Project;
@@ -1190,6 +1194,32 @@
                         {editing}
                         {frame}
                     />
+                {:else if info.output instanceof Shape}
+                    <ShapeView
+                        shape={info.output}
+                        place={info.global}
+                        focus={offsetFocus}
+                        {interactive}
+                        parentAscent={0}
+                        {context}
+                        {editable}
+                        {inspectable}
+                        {editing}
+                        {frame}
+                    />
+                {:else if info.output instanceof Image}
+                    <ImageView
+                        image={info.output}
+                        place={info.global}
+                        focus={offsetFocus}
+                        {interactive}
+                        parentAscent={0}
+                        {context}
+                        {editable}
+                        {inspectable}
+                        {editing}
+                        {frame}
+                    />
                 {:else if info.output instanceof Group}
                     <GroupView
                         group={info.output}
@@ -1240,6 +1270,34 @@
                         {#if info.output instanceof Phrase}
                             <PhraseView
                                 phrase={info.output}
+                                place={info.global}
+                                focus={hudFocus}
+                                {interactive}
+                                parentAscent={0}
+                                {context}
+                                {editable}
+                                {inspectable}
+                                {editing}
+                                {frame}
+                                flat={true}
+                            />
+                        {:else if info.output instanceof Shape}
+                            <ShapeView
+                                shape={info.output}
+                                place={info.global}
+                                focus={hudFocus}
+                                {interactive}
+                                parentAscent={0}
+                                {context}
+                                {editable}
+                                {inspectable}
+                                {editing}
+                                {frame}
+                                flat={true}
+                            />
+                        {:else if info.output instanceof Image}
+                            <ImageView
+                                image={info.output}
                                 place={info.global}
                                 focus={hudFocus}
                                 {interactive}

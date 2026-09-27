@@ -151,7 +151,7 @@
                     "tip": "$~Sao chép dự án vào clipboard dưới dạng văn bản",
                     "label": "$~sao chép dưới dạng văn bản"
                 },
-                "addSource": "$~tạo thêm một @Source khác, để bạn có thể giữ dữ liệu hoặc mã số chia sẻ trong tệp riêng của nó",
+                "addSource": "$~thêm @Source khác: một cái trống, hoặc một cái tạo từ một bức ảnh hay một bài hát",
                 "revert": "$~khôi phục lại mã gốc",
                 "focusOutput": "$~tập trung bàn phím trên sân khấu",
                 "focusSource": "$~tập trung vào nguồn tiếp theo",
@@ -269,7 +269,7 @@
                 "controls": "$~Các nút điều khiển ở phía dưới này áp dụng cho *toàn bộ dự án*, bất kể bạn đang làm việc trên ô nào.",
                 "name": "$~Trường /name/ là tên của dự án của bạn. Tên hiện ra trong các chế độ xem *dự án* và *phòng trưng bày*.",
                 "sourceToggle": "$~Nút /toggle/ này hiển thị hoặc ẩn *tệp nguồn*. *Các nút toggle khác* trên hàng này thực hiện chức năng tương tự đối với các ô khác.",
-                "addSource": "$~Một số dự án sẽ hiệu quả hơn nếu sử dụng *nhiều* tập tin nguồn, trong đó dữ liệu được lưu trữ trong một tập tin và được nhập vào tập tin nguồn *chính*. Nút /thêm nguồn/ sẽ tạo một tập tin nguồn mới.",
+                "addSource": "$~Một số dự án cần *nhiều* nguồn, nơi dữ liệu được lưu trong một nguồn và được đưa vào nguồn *chính*. Nút /thêm nguồn/ đưa ra các cách để tạo một nguồn: một tệp trống, một bức ảnh, một bài hát, hoặc một dữ liệu.",
                 "share": "$~Hộp thoại /share/ cho phép bạn chia sẻ dự án của mình với *các thư viện ảnh*, với *công chúng*, hoặc sao chép nó dưới dạng *văn bản* để chia sẻ ở nơi khác.",
                 "checkpoints": "$~Mục /revisions/ cho phép bạn quay lại các phiên bản trước đó của dự án và chụp ảnh màn hình các phiên bản mà bạn muốn lưu lại.",
                 "languages": "$~Nút /languages/ hiển thị dự án của bạn được viết bằng những ngôn ngữ nào, cho phép bạn thêm hoặc xóa một ngôn ngữ, và có thể *dịch* các *tên*, *văn bản* và *tài liệu* của dự án sang một ngôn ngữ mới."
@@ -870,6 +870,95 @@
             "view": {
                 "added": "$~đã thêm khung xem thứ hai của $name",
                 "closed": "$~đã đóng khung xem thứ hai của $name"
+            },
+            "add": {
+                "header": "$~thêm mã số",
+                "explanation": "$~Một dự án có thể chứa nhiều hơn một tệp mã số. Hãy tạo một tệp trống để viết vào, hoặc tạo một tệp từ một bức ảnh hay một bài hát. Bạn có thể dùng các giá trị với @Borrow.",
+                "blank": {
+                    "explanation": "$~Một tệp trống, dành cho mã số bạn muốn tách riêng khỏi mã số chính.",
+                    "button": {
+                        "label": "$~thêm",
+                        "tip": "$~thêm một tệp mã số trống"
+                    }
+                },
+                "image": {
+                    "size": {
+                        "label": "$~màu sắc",
+                        "tip": "$~bức ảnh có bao nhiêu màu sắc"
+                    },
+                    "budget": "$~$columns × $rows màu sắc, khoảng $size KB, $percent dung lượng mà một dự án có thể chứa",
+                    "tooBig": "$~quá nhiều màu sắc so với dung lượng còn lại của dự án này",
+                    "button": {
+                        "label": "$~thêm",
+                        "tip": "$~thêm các màu sắc này thành một tệp mã số"
+                    },
+                    "doc": "$~$name, $columns × $rows màu sắc",
+                    "cameraDoc": "$~một bức ảnh từ máy ảnh, $columns × $rows màu sắc",
+                    "added": "$~đã thêm $name, $#count[$count màu sắc]",
+                    "name": "$~màuSắc",
+                    "camera": {
+                        "feed": "$~những gì máy ảnh của bạn nhìn thấy",
+                        "capture": {
+                            "label": "$~chụp làm nguồn",
+                            "tip": "$~lưu bức ảnh đang hiển thị"
+                        },
+                        "retake": {
+                            "label": "$~lại",
+                            "tip": "$~quay lại hình ảnh trực tiếp"
+                        },
+                        "starting": "$~Đang khởi động máy ảnh…",
+                        "denied": "$~Chúng tôi không thể truy cập máy ảnh của bạn. Hãy kiểm tra xem trang này có được phép sử dụng máy ảnh hay không."
+                    },
+                    "explanation": "$~Tệp mới là một danh sách các hàng gồm @Color, mỗi hàng ứng với một ô vuông của bức ảnh. Hãy mượn nó và đưa nó cho một @Image để vẽ, hoặc dùng các màu sắc đó cho việc khác.",
+                    "source": {
+                        "label": "$~bức ảnh này đến từ đâu",
+                        "labels": ["$~thiết bị này", "$~máy ảnh"],
+                        "tips": [
+                            "$~một tệp hình ảnh trên thiết bị này",
+                            "$~những gì máy ảnh của bạn thấy ngay bây giờ"
+                        ]
+                    },
+                    "crop": {
+                        "width": {
+                            "label": "$~chiều rộng",
+                            "tip": "$~một phần của bức ảnh rộng bao nhiêu để giữ lại"
+                        },
+                        "height": {
+                            "label": "$~chiều cao",
+                            "tip": "$~một phần của bức ảnh cao bao nhiêu để giữ lại"
+                        }
+                    },
+                    "instructions": "$~Kéo hộp để di chuyển nó, hoặc kéo một góc của nó để đổi kích thước. Thanh trượt *chiều rộng* và *chiều cao* làm điều tương tự, còn thanh trượt *màu sắc* chọn nó sẽ có bao nhiêu màu. Với bàn phím, nhấn *enter* để bắt đầu di chuyển hộp, sau đó dùng các phím *mũi tên*, rồi nhấn *enter* lần nữa khi xong."
+                },
+                "song": {
+                    "explanation": "$~Một tệp MIDI — .mid hoặc .midi, tối đa 2 MB — sẽ trở thành một tệp mới chứa các nốt nhạc của nó, và chương trình của bạn sẽ nhận được một @Music để phát chúng. Tối đa 10.000 nốt nhạc và 128 track; bất cứ thứ gì mà @Music không chứa được sẽ được liệt kê sau khi nhập."
+                },
+                "ways": {
+                    "label": "$~mã số mới được tạo từ gì",
+                    "labels": ["$~trống", "$~hình ảnh", "$~bảng", "$~bài hát"],
+                    "tips": [
+                        "$~một tệp chưa có gì trong đó",
+                        "$~màu sắc của một bức ảnh, hoặc của những gì máy ảnh của bạn thấy",
+                        "$~giá trị phân tách bằng dấu phẩy (CSV) được dán từ một bảng tính",
+                        "$~các nốt nhạc của một tệp MIDI trên thiết bị này"
+                    ]
+                },
+                "table": {
+                    "name": "$~hàng",
+                    "explanation": "$~Dán giá trị phân tách bằng dấu phẩy (CSV), chẳng hạn như các hàng được sao chép từ một bảng tính, và chúng sẽ trở thành một @Table mà bạn có thể đọc và thay đổi. Hàng đầu tiên đặt tên cho các cột.",
+                    "paste": {
+                        "label": "$~giá trị phân tách bằng dấu phẩy (CSV)",
+                        "placeholder": "$~tên, chân\nmèo, 4\nchim, 2"
+                    },
+                    "summary": "$~$#rows[$rows hàng] của $columns cột",
+                    "notTable": "$~cái mà chưa phải là giá trị phân tách bằng dấu phẩy (CSV)",
+                    "button": {
+                        "label": "$~thêm",
+                        "tip": "$~thêm các hàng này như một tệp mã số"
+                    },
+                    "doc": "$~$#rows[$rows hàng] của $columns cột",
+                    "added": "$~đã thêm $name, $#rows[$rows hàng]"
+                }
             }
         },
         "annotations": {
@@ -2250,7 +2339,8 @@
                     ]
                 },
                 "report": "$~Những gì tôi đã nhập vào",
-                "reportExplanation": "$~Một @Music có thể chứa hầu hết những gì mà một tệp MIDI mô tả, nhưng không phải tất cả. Đây là những gì đã thay đổi khi nhập vào."
+                "reportExplanation": "$~Một @Music có thể chứa hầu hết những gì mà một tệp MIDI mô tả, nhưng không phải tất cả. Đây là những gì đã thay đổi khi nhập vào.",
+                "choose": "$~chọn một bài hát"
             },
             "toolbar": {
                 "label": "$~thêm đầu ra",
@@ -2834,6 +2924,26 @@
             "notData": "$~Đây không phải loại giá trị đáng để lưu thành tệp.",
             "droppedUnits": "$~Đơn vị đã bị bỏ qua: một số JSON không thể mang theo đơn vị.",
             "droppedNumbers": "$~Những số không hữu hạn đã bị bỏ qua: JSON không thể ghi được chúng."
+        },
+        "image": {
+            "button": {
+                "label": "$~tải lên",
+                "tip": "$~chọn một tệp hình ảnh từ thiết bị này"
+            },
+            "crop": {
+                "label": "$~khung cắt",
+                "tip": "$~phần của hình ảnh cần giữ lại"
+            },
+            "preview": "$~những gì sẽ được thêm vào",
+            "feedback": {
+                "tooBig": "$~Hình ảnh đó nặng $size MB. Hãy chọn hình nhỏ hơn $limit MB.",
+                "unreadable": "$~Chúng tôi không thể đọc tệp đó như một hình ảnh."
+            },
+            "announce": {
+                "moving": "$~đang di chuyển khung cắt",
+                "done": "$~đã đặt khung cắt",
+                "cropped": "$~khung cắt rộng $width%, cao $height%, cách ngang $x% và cách dọc $y%"
+            }
         }
     }
 }

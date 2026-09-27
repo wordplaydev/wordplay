@@ -3,22 +3,24 @@
 এই @Camera সোঁতটো জগতৰ পৰা ৰঙৰ এটা গ্ৰিড পাবলৈ এক উত্তম উপায়। 
 যদি আমি সেই ৰঙবোৰ চাব বিচাৰো, @Camera -এ দেখা ছবিখন পুনৰ সৃষ্টি কৰি?
 
-আমি @Grid ৰ বাবে @Group বিন্যাস, আৰু @List/combine ফলন ব্যৱহাৰ কৰি ৰঙবোৰক এটা @Phrase ৰ তালিকালৈ সলনি কৰিব পাৰোঁ, যিটো আমি @Grid ক দিওঁ।
+এটা @Image এ ৰঙৰ এখন গ্ৰিড লয় আৰু ইয়াক এখন ছবি হিচাপে আঁকে, যাতে আমি @Camera ৰ ৰঙবোৰ পোনপটীয়াকৈ ইয়াক দিব পাৰোঁ।
 
 \
 width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
-						:phrases
-						:row ↦ Phrase("⬤" ৰং: ⬚ সময়কাল: 0s)
-					]))
-	])
+Stage([Image(colors "what the camera sees" 12m)])
 \
 
- এই উদাহৰণটোৱে বাক্যাংশৰ এখন তালিকা বনায়, প্ৰতিটো ৰঙক নিৰ্দিষ্ট ৰঙৰ এটা বৃত্তলৈ সলনি কৰি।
+ প্ৰতিটো @Image ৰ এটা বিৱৰণ লাগেই, কাৰণ ৰঙৰ গ্ৰিডখনৰ নিজৰ কোনো শব্দ নাই যিয়ে দেখিব নোৱাৰা কাৰোবাক বুজাব পাৰে।
 
-সাৱধান হওক @Camera সোঁতৰ সৈতে: এইবোৰে বহু ইনপুট সৃষ্টি কৰে! আপুনি ছবিখনৰ প্ৰস্থ আৰু উচ্চতা সৰু কৰি ৰাখিব লাগিব।
+আমি ইয়াক এটা /গ্লিফ/ দি বৰ্গৰ সলনি আখৰেৰে ছবিখন আঁকিব পাৰোঁ, এইটো এটা ফাংচন যিয়ে এটা ৰঙক তাক বুজোৱা পাঠলৈ ৰূপান্তৰ কৰে।
+
+\
+width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([Image(colors "the camera, drawn with dark and light circles" 12m গ্লিফ: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+\
 
 interactive-scene

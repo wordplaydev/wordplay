@@ -1915,6 +1915,119 @@
                 "doc": "$~Granica, przy której zawijam moje słowa do nowej linii.",
                 "names": "$~zawijanie"
             }
+        },
+        "Image": {
+            "doc": "$~Jestem siatką kolorów, narysowaną jako obrazek. Podaj mi listę wierszy, każdy jako listę @Color, a namaluję jeden kwadrat dla każdego. Podaj mi /glyph/, a zamiast tego narysuję tekst w każdym kwadracie.",
+            "names": ["$~Obraz"],
+            "colors": {
+                "doc": "$~Moje wiersze kolorów, zaczynając od najwyższego. Każdy wiersz powinien mieć taką samą długość.",
+                "names": "$~kolory"
+            },
+            "description": {
+                "doc": "$~To, co pokazuję każdemu, kto mnie nie widzi. Proszę o to, bo siatka kolorów nie ma własnych słów, którymi mogłaby się posłużyć zamiast obrazu.",
+                "names": "$~opis"
+            },
+            "width": {
+                "doc": "$~Jaka powinna być moja szerokość. Jeśli podasz mi tylko wysokość, biorę szerokość z mojego kształtu. Jeśli podasz obie wartości, moje kwadraty rozciągają się, by pasować.",
+                "names": "$~szerokość"
+            },
+            "height": {
+                "doc": "$~Jaka powinna być moja wysokość. Jeśli podasz mi tylko szerokość, biorę wysokość z mojego kształtu.",
+                "names": "$~wysokość"
+            },
+            "glyph": {
+                "doc": "$~Funkcja, która zamienia jeden z moich kolorów na tekst, jaki powinienem narysować w jego miejscu. Bez niej maluję zwykłe kwadraty.",
+                "names": "$~znak"
+            },
+            "recolor": {
+                "doc": "$~Funkcja, która zamienia jeden z moich kolorów na kolor, jaki powinienem narysować zamiast niego. Przydatna, gdy chcesz zmienić obrazek na mniej kolorów.",
+                "names": "$~przekoloruj"
+            },
+            "pixel": {
+                "doc": "$~Jeden z moich kolorów, który dostają zarówno /glyph/, @how i /recolor/.",
+                "names": "$~piksel"
+            },
+            "glyphs": {
+                "doc": "$~To, co rysuję w każdym kwadracie, ustalone na podstawie /glyph/. Nic, jeśli nie podałeś mi /glyph/.",
+                "names": "$~znaki"
+            },
+            "palette": {
+                "doc": "$~Kolory, które faktycznie rysuję, ustalone na podstawie /recolor/. Moje własne kolory, jeśli nie podałeś mi /recolor/.",
+                "names": "$~paleta"
+            },
+            "face": {
+                "doc": "$~Nazwa kroju czcionki, jakim powinny być rysowane moje znaki. Jeśli jej nie mam, używam czcionki tego, co mnie zawiera.",
+                "names": "$~krój"
+            },
+            "place": {
+                "doc": "$~Miejsce na scenie, w którym powinienem być.",
+                "names": "$~miejsce"
+            },
+            "name": {
+                "doc": "$~Jestem nazwą, której możesz użyć do animacji i @Collision.",
+                "names": "$~nazwa"
+            },
+            "selectable": {
+                "doc": "$~Czy mogę zostać wybrany jako część @Choice.",
+                "names": "$~wybieralny"
+            },
+            "color": {
+                "doc": "$~Kolor moich znaków. Bez niego każdy znak przyjmuje kolor kwadratu, który reprezentuje. Z nim wszystkie mają wspólny kolor, czego właśnie potrzeba przy rysowaniu literami. Ignoruję go, jeśli nie mam /glyph/, bo wtedy moje kwadraty są moimi kolorami.",
+                "names": "$~kolor"
+            },
+            "background": {
+                "doc": "$~Kolor za mną.",
+                "names": "$~tło"
+            },
+            "opacity": {
+                "doc": "$~@how bardzo powinienem być nieprzezroczysty.",
+                "names": "$~przezroczystość"
+            },
+            "offset": {
+                "doc": "$~@how daleko przesunąć mnie z mojego miejsca, po tym jak zostanę tam umieszczony.",
+                "names": "$~przesunięcie"
+            },
+            "rotation": {
+                "doc": "$~O ile mnie obrócić.",
+                "names": "$~obrót"
+            },
+            "scale": {
+                "doc": "$~O ile mnie przeskalować.",
+                "names": "$~skala"
+            },
+            "flipx": {
+                "doc": "$~Czy odbić mnie w poziomie.",
+                "names": "$~odbicieX"
+            },
+            "flipy": {
+                "doc": "$~Czy odbić mnie w pionie.",
+                "names": "$~odbicieY"
+            },
+            "entering": {
+                "doc": "$~@Pose lub @Sequence, które powinienem wykonać przy wejściu do @Stage.",
+                "names": "$~pojawianie"
+            },
+            "resting": {
+                "doc": "$~@Pose lub @Sequence, które powinienem wykonać, gdy się nie ruszam.",
+                "names": "$~spoczynek"
+            },
+            "moving": {
+                "doc": "$~@Pose lub @Sequence, które powinienem wykonać, gdy się ruszam.",
+                "names": "$~ruch"
+            },
+            "exiting": {
+                "doc": "$~@Pose lub @Sequence, które powinienem wykonać, opuszczając @Stage.",
+                "names": "$~wychodzenie"
+            },
+            "duration": {
+                "doc": "$~@how długo powinny trwać moje animacje, jeśli są pojedynczym @Pose.",
+                "names": "$~czasTrwania"
+            },
+            "style": {
+                "doc": "$~Styl animacji, którego powinienem użyć.",
+                "names": "$~styl"
+            },
+            "defaultDescription": "$~$description, obraz $columns na $rows"
         }
     }
 }

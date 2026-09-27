@@ -1915,6 +1915,119 @@
                 "doc": "$~Ranh giới mà tại đó tôi xuống dòng chữ của mình.",
                 "names": "$~gói"
             }
+        },
+        "Image": {
+            "doc": "$~Tôi là một lưới các màu sắc, được vẽ như một bức tranh. Hãy đưa cho tôi một danh sách các hàng, mỗi hàng là một danh sách @Color, và tôi sẽ tô một ô vuông cho mỗi cái. Hãy đưa cho tôi một /glyph/ và tôi sẽ vẽ chữ trong mỗi ô vuông thay vì tô màu.",
+            "names": ["$~HìnhẢnh"],
+            "colors": {
+                "doc": "$~Các hàng màu của tôi, hàng trên cùng đứng trước. Mỗi hàng nên có cùng độ dài.",
+                "names": ["$~lướiMàu"]
+            },
+            "description": {
+                "doc": "$~Điều tôi hiển thị, dành cho ai không thể nhìn thấy tôi. Tôi hỏi điều này vì một lưới màu sắc không có lời nào để thay thế cho chính nó.",
+                "names": "$~môTả"
+            },
+            "width": {
+                "doc": "$~Tôi nên rộng bao nhiêu. Nếu bạn chỉ cho tôi chiều cao, tôi sẽ lấy chiều rộng theo hình dạng của mình; nếu bạn cho cả hai, các ô vuông của tôi sẽ giãn ra cho vừa.",
+                "names": "$~chiềuRộng"
+            },
+            "height": {
+                "doc": "$~Tôi nên cao bao nhiêu. Nếu bạn chỉ cho tôi chiều rộng, tôi sẽ lấy chiều cao theo hình dạng của mình.",
+                "names": "$~chiềuCao"
+            },
+            "glyph": {
+                "doc": "$~Một hàm @variable một trong các màu của tôi thành chữ tôi nên vẽ ở vị trí đó. Nếu không có, tôi sẽ tô các ô vuông trơn.",
+                "names": "$~kýTự"
+            },
+            "recolor": {
+                "doc": "$~Một hàm @variable một trong các màu của tôi thành màu tôi nên vẽ thay thế. Hữu ích để biến một bức tranh thành ít màu hơn.",
+                "names": "$~tôLạiMàu"
+            },
+            "pixel": {
+                "doc": "$~Một trong các màu của tôi, chính là thứ được đưa cho /glyph/ và /recolor/.",
+                "names": "$~điểmẢnh"
+            },
+            "glyphs": {
+                "doc": "$~Điều tôi vẽ trong mỗi ô vuông, được tính ra từ /glyph/. Không có gì, nếu bạn không cho tôi /glyph/.",
+                "names": "$~cácKýTự"
+            },
+            "palette": {
+                "doc": "$~Các màu tôi thực sự vẽ, được tính ra từ /recolor/. Là màu gốc của tôi, nếu bạn không cho tôi /recolor/.",
+                "names": "$~bảngMàu"
+            },
+            "face": {
+                "doc": "$~Tên của kiểu chữ mà các ký tự của tôi nên được vẽ theo. Nếu tôi không có tên nào, tôi dùng bất cứ kiểu chữ nào chứa tôi.",
+                "names": "$~mặtChữ"
+            },
+            "place": {
+                "doc": "$~Vị trí trên sân khấu nơi tôi nên đứng.",
+                "names": "$~vịTrí"
+            },
+            "name": {
+                "doc": "$~Tôi là tên bạn có thể dùng, cho các hoạt ảnh và @Collision.",
+                "names": "$~tên"
+            },
+            "selectable": {
+                "doc": "$~Liệu tôi có thể được chọn như một phần của @Choice hay không.",
+                "names": "$~cóThểChọn"
+            },
+            "color": {
+                "doc": "$~Một màu cho các ký tự của tôi. Nếu không có màu này, mỗi ký tự sẽ lấy màu của ô vuông mà nó đại diện; nếu có, tất cả sẽ cùng dùng chung một màu, điều mà việc vẽ bằng chữ cái cần đến. Tôi bỏ qua điều này nếu không có /glyph/, vì khi đó các ô vuông của tôi chính là màu của tôi.",
+                "names": "$~màusắc"
+            },
+            "background": {
+                "doc": "$~Màu ở phía sau tôi.",
+                "names": "$~nền"
+            },
+            "opacity": {
+                "doc": "$~Tôi nên mờ đục đến mức nào.",
+                "names": "$~độMờ"
+            },
+            "offset": {
+                "doc": "$~Cần di chuyển tôi bao xa khỏi vị trí của mình, sau khi tôi được đặt vào.",
+                "names": "$~độDịch"
+            },
+            "rotation": {
+                "doc": "$~Cần xoay tôi bao nhiêu.",
+                "names": "$~độXoay"
+            },
+            "scale": {
+                "doc": "$~Cần phóng to hoặc thu nhỏ tôi bao nhiêu.",
+                "names": "$~tỉLệ"
+            },
+            "flipx": {
+                "doc": "$~Có nên lật tôi theo chiều ngang hay không.",
+                "names": "$~lậtx"
+            },
+            "flipy": {
+                "doc": "$~Có nên lật tôi theo chiều dọc hay không.",
+                "names": "$~lậty"
+            },
+            "entering": {
+                "doc": "$~@Pose hoặc @Sequence tôi nên thực hiện khi bước vào @Stage.",
+                "names": "$~đangVào"
+            },
+            "resting": {
+                "doc": "$~@Pose hoặc @Sequence mà tôi nên làm khi không di chuyển.",
+                "names": "$~đangNghỉ"
+            },
+            "moving": {
+                "doc": "$~@Pose hoặc @Sequence mà tôi nên làm khi đang di chuyển.",
+                "names": "$~đangDiChuyển"
+            },
+            "exiting": {
+                "doc": "$~@Pose hoặc @Sequence mà tôi nên làm khi rời khỏi @Stage.",
+                "names": "$~đangThoát"
+            },
+            "duration": {
+                "doc": "$~Hoạt ảnh của tôi nên kéo dài bao lâu nếu chỉ có một @Pose.",
+                "names": "$~thờiLượng"
+            },
+            "style": {
+                "doc": "$~Kiểu hoạt ảnh mà tôi nên dùng.",
+                "names": "$~kiểuDáng"
+            },
+            "defaultDescription": "$~$description, một bức ảnh $columns nhân $rows"
         }
     }
 }

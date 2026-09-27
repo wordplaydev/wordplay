@@ -39,7 +39,7 @@ export function createGroupType(locales: Locales) {
         ${getBind(
             locales,
             (locale) => locale.output.Group.content,
-        )}•[Phrase|Shape|Group|Say|Music|ø]
+        )}•[Phrase|Shape|Image|Group|Say|Music|ø]
         ${getBind(locales, (locale) => locale.output.Group.size)}•${'#m|ø: ø'}
     ${getBind(
         locales,

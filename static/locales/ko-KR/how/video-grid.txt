@@ -3,22 +3,24 @@
 The @Camera 스트림은 세상에서 색상 격자를 얻는 아주 좋은 방법입니다. 
 만약 그 색상들을 눈으로 보고, @Camera 이 보는 이미지를 다시 만들어 보고 싶다면 어떻게 할까요?
 
-우리는 @Grid 레이아웃을 @Group 로 이를 알아차리고, @List/combine 함수에 사용해서 색깔들을 @Phrase 목록으로 바꿀 수 있고, 이 목록을 @Grid 을 결합해 카운터를 만들 수 있습니다.
+하나의 @Image 색상 격자를 받아 하나의 그림으로 그려줘서, @Camera 의 색상을 바로 넘겨줄 수 있어.
 
 \
 width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
-						:phrases
-						:row ↦ Phrase("⬤" 색상: ⬚ 지속: 0s)
-					]))
-	])
+Stage([Image(colors "what the camera sees" 12m)])
 \
 
- 이 예제는 문구 목록을 만들어서, 각 색을 그 색을 가진 원으로 바꿉니다.
+ 모든 @Image 에는 설명이 필요해. 색상 격자는 그것을 볼 수 없는 사람에게는 아무 말도 해주지 않으니까.
 
-조심하세요 @Camera 스트림은 입력값을 아주 많이 만들어 내요! 이미지의 너비와 높이를 작게 유지하는 게 좋아요.
+네모 대신 글자로 그림을 그릴 수도 있어. 그러려면 /글리프/, 즉 색상 하나를 그 색을 나타내는 글자로 바꿔주는 함수를 주면 돼.
+
+\
+width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([Image(colors "the camera, drawn with dark and light circles" 12m 글리프: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+\
 
 interactive-scene

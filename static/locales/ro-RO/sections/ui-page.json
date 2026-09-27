@@ -888,9 +888,7 @@
                     "glyphLoading": "$~Se încarcă fontul…",
                     "glyphMissing": "$~Acest font nu are o formă pentru acel simbol. Încearcă alt font.",
                     "glyphEmpty": "$~Acel simbol nu are nimic de desenat.",
-                    "glyphUnreadable": "$~Nu am putut citi acel font. Verifică-ți conexiunea sau încearcă alt font.",
-                    "imageTooBig": "$~Acea imagine are $size MB. Te rugăm să alegi una mai mică de $limit MB.",
-                    "imageUnreadable": "$~Nu am putut citi acel fișier ca imagine."
+                    "glyphUnreadable": "$~Nu am putut citi acel font. Verifică-ți conexiunea sau încearcă alt font."
                 },
                 "announce": {
                     "position": "$~la $x $y",
@@ -915,26 +913,14 @@
                     "arranged": "$~stratul $index din $total",
                     "flipped": "$~întors, acum la $x $y",
                     "fitted": "$~formele au fost mărite pentru a umple pânza",
-                    "cropped": "$~chenar de decupare la $x $y",
-                    "cropMoving": "$~mutarea chenarului de decupare",
-                    "cropDone": "$~chenar de decupare plasat",
                     "imported": "$~s-a adăugat $#count[un pixel de la $x $y|$count pixeli de la $x $y|$count de pixeli de la $x $y]"
                 },
                 "image": {
                     "instructions": "$~Trage pătratul pentru a-l muta, sau folosește glisorul *dimensiune* pentru a schimba cât de mult din imagine păstrezi. Cu tastatura, apasă *enter* pentru a începe mutarea, apoi folosește tastele *săgeți*, și apasă *enter* din nou când ai terminat.",
-                    "button": {
-                        "label": "$~încarcă",
-                        "tip": "$~alege un fișier imagine de pe acest dispozitiv"
-                    },
                     "add": {
                         "label": "$~adaugă",
                         "tip": "$~adaugă pătratul ales la caracter ca pixeli"
                     },
-                    "crop": {
-                        "label": "$~chenar de decupare",
-                        "tip": "$~pătratul imaginii de păstrat"
-                    },
-                    "preview": "$~ce se va adăuga",
                     "size": {
                         "label": "$~mărime",
                         "tip": "$~cât de mult din imagine se păstrează"

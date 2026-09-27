@@ -4,6 +4,26 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.38.0 - 2026-09-22
+
+### Added
+
+- 🖼️ We added @Image, which draws a list of colors as one picture, and can draw each color as a letter or emoji instead. (#471)
+- 📷 We added a way to make a new file of code out of a picture, your camera, or rows pasted from a spreadsheet, using the + button in a project. (#559, #560)
+
+### Changed
+
+- ⚡ The Video example in the [galleries](https://wordplay.dev/galleries) now draws the camera with @Image, so it keeps up instead of stalling.
+- 🎵 Importing a song now happens where you add every other kind of file, with the + button, instead of in the palette. (#559)
+- 📝 A long list of lists, like the colors of an imported picture, now opens folded, so its file shows up right away instead of after a long pause.
+
+### Fixed
+
+- 🚦 A function given to another function can now be called and compared, instead of stopping the program with a confusing error. (#1425)
+- 🐛 A structure that gets a value from a stream, like a @Camera, now changes with the stream instead of keeping the first thing it saw. (#1427)
+- 🐛 A song you import, or a file your program saves with @Source, now gets its own button in the project bar right away, instead of only after you reload the page.
+- 🚦 A function you give to something else, like the one an @Image draws each color with, now sees new values instead of repeating its first answer forever.
+
 ## 0.37.3 - 2026-09-20
 
 ### Added

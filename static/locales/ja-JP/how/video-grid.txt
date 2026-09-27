@@ -3,22 +3,24 @@
 この @Camera ストリームは、世界から色のグリッドを得るのに良い方法です。 
 それらの色を見て、 @Camera が見ている画像を再現したいときはどうしますか？
 
-そこで、 @Grid のレイアウトを @Group に使い、 @List/combine 関数で色を @Phrase のリストに変換してから、 @Grid に渡します。
+「 @Image 」は色のグリッドを受け取り、それを1枚の絵として描きます。だから @Camera」の色をそのまま渡すことができます。
 
 \
 width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
-						:phrases
-						:row ↦ Phrase("⬤" 色: ⬚ 時間: 0s)
-					]))
-	])
+Stage([Image(colors "what the camera sees" 12m)])
 \
 
- この例では、それぞれの色を円に変えて、フレーズのリストを作ります。
+ どの「 @Image 」にも説明が必要です。色のグリッドには、それを見ることができない人のための言葉が何もないからです。
 
-次の点には注意してください： @Camera ストリームは、たくさんの入力を作り出します！画像の幅と高さは小さく保つようにしましょう。
+四角の代わりに文字で絵を描くこともできます。そのためには /文字/、つまり1つの色をそれを表す文字に変える関数を渡します。
+
+\
+width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([Image(colors "the camera, drawn with dark and light circles" 12m 文字: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+\
 
 interactive-scene

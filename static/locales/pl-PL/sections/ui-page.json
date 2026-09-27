@@ -1110,9 +1110,7 @@
                     "glyphLoading": "$~Pobieranie czcionki…",
                     "glyphMissing": "$~Ta czcionka nie ma kształtu dla tego symbolu. Spróbuj innej czcionki.",
                     "glyphEmpty": "$~Ten symbol nie ma nic do narysowania.",
-                    "glyphUnreadable": "$~Nie udało się odczytać tej czcionki. Sprawdź swoje połączenie lub spróbuj innej czcionki.",
-                    "imageTooBig": "$~Ten obraz ma $size MB. Wybierz mniejszy niż $limit MB.",
-                    "imageUnreadable": "$~Nie udało się odczytać tego pliku jako obrazu."
+                    "glyphUnreadable": "$~Nie udało się odczytać tej czcionki. Sprawdź swoje połączenie lub spróbuj innej czcionki."
                 },
                 "announce": {
                     "position": "$~w $x $y",
@@ -1137,9 +1135,6 @@
                     "arranged": "$~warstwa $index z $total",
                     "flipped": "$~odbito, teraz na $x $y",
                     "fitted": "$~powiększono kształty, aby wypełniły płótno",
-                    "cropped": "$~pole przycinania na $x $y",
-                    "cropMoving": "$~przesuwanie pola przycinania",
-                    "cropDone": "$~pole przycinania umieszczone",
                     "imported": "$~dodano $#count[jeden piksel|$count piksele|$count pikseli|$count piksela] z $x $y"
                 },
                 "share": {
@@ -1180,19 +1175,10 @@
                 },
                 "image": {
                     "instructions": "$~Przeciągnij kwadrat, aby go przesunąć, albo użyj suwaka *rozmiar*, aby zmienić, ile obrazu zachować. Za pomocą klawiatury naciśnij *enter*, aby zacząć przesuwanie, potem użyj klawiszy *strzałek*, a na koniec naciśnij *enter* ponownie.",
-                    "button": {
-                        "label": "$~prześlij",
-                        "tip": "$~wybierz plik z obrazem z tego urządzenia"
-                    },
                     "add": {
                         "label": "$~dodaj",
                         "tip": "$~dodaj wybrany kwadrat do znaku jako piksele"
                     },
-                    "crop": {
-                        "label": "$~pole przycinania",
-                        "tip": "$~kwadrat obrazu do zachowania"
-                    },
-                    "preview": "$~co zostanie dodane",
                     "size": {
                         "label": "$~rozmiar",
                         "tip": "$~ile obrazu zachować"

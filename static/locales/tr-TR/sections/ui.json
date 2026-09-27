@@ -148,7 +148,7 @@
                     "tip": "$~projeyi metin olarak panoya kopyala",
                     "label": "$~metin olarak kopyala"
                 },
-                "addSource": "$~verileri veya paylaşılan kodu kendi dosyasında tutabilmen için başka bir @Source oluştur",
+                "addSource": "$~başka bir @Source ekle: boş bir tane, ya da bir resimden veya bir şarkıdan yapılmış bir tane",
                 "revert": "$~orijinal koda geri dön",
                 "focusOutput": "$~sahnede klavyeye odaklan",
                 "focusSource": "$~bir sonraki kaynağa odaklan",
@@ -269,7 +269,7 @@
                 "controls": "$~Alttaki bu kontroller, hangi kutucukta çalışıyor olursanız olun, *projenin tamamı* için geçerlidir.",
                 "name": "$~/isim/ alanı projenizin ismidir. İsimler *proje* ve *galeri* görünümlerinde görünür.",
                 "sourceToggle": "$~Bu /toggle/ düğmesi *kaynak dosyayı* gösterir veya gizler. Bu satırdaki *diğer /toggle/ düğmeleri* diğer kutucuklar için de aynı işlevi görür.",
-                "addSource": "$~Bazı projeler, verilerin birinde saklandığı ve *ana* kaynağa aktarıldığı *birden fazla* kaynak dosyasından faydalanır. \"/Kaynak ekle/\" düğmesi yeni bir dosya oluşturur.",
+                "addSource": "$~Bazı projeler *birden fazla* kaynak dosyasından yararlanır. Bu dosyalardan birinde veriler saklanır ve *ana* kaynağa aktarılır. /kaynak ekle/ düğmesi, bunu yapmanın yollarını sunar: boş bir dosya, bir resim, bir şarkı ya da bazı veriler.",
                 "share": "$~/paylaş/ iletişim kutusu, projenizi *galerilerle*, *herkesle* paylaşmanıza veya başka bir yerde paylaşmak üzere *metin* olarak kopyalamanıza olanak tanır.",
                 "checkpoints": "$~/revisions/ paneli, projenizin önceki sürümlerine *geri dönmenizi* ve hatırlamak istediğiniz sürümlerin *anlık görüntüsünü* almanızı sağlar.",
                 "languages": "$~/diller/ düğmesi projenin hangi dillerde yazıldığını gösterir, bir dil eklemene veya kaldırmana izin verir ve projenin *isimlerini*, *metnini* ve *dokümantasyonunu* yeni bir dile *çevirebilir*."
@@ -629,6 +629,95 @@
             "view": {
                 "added": "$~$name için ikinci bir görünüm eklendi",
                 "closed": "$~$name için ikinci görünüm kapatıldı"
+            },
+            "add": {
+                "header": "$~kod ekle",
+                "explanation": "$~Bir proje birden fazla kod dosyası tutabilir. Yazmak için boş bir dosya oluşturabilir, ya da bir resimden veya bir şarkıdan bir dosya yapabilirsin. Değerleri @Borrow ile kullanabilirsin.",
+                "blank": {
+                    "explanation": "$~Ana kodundan ayrı tutmak istediğin kod için boş bir dosya.",
+                    "button": {
+                        "label": "$~ekle",
+                        "tip": "$~boş bir kod dosyası ekle"
+                    }
+                },
+                "image": {
+                    "size": {
+                        "label": "$~renkler",
+                        "tip": "$~resmin genelinde kaç renk olduğu"
+                    },
+                    "budget": "$~$columns × $rows renk, yaklaşık $size KB, bir projenin tutabileceğinin $percent kadarı",
+                    "tooBig": "$~bu proje için kalan alana göre çok fazla renk var",
+                    "button": {
+                        "label": "$~ekle",
+                        "tip": "$~bu renkleri bir kod dosyası olarak ekle"
+                    },
+                    "doc": "$~$name, $columns × $rows renk",
+                    "cameraDoc": "$~bir kamera resmi, $columns × $rows renk",
+                    "added": "$~$name eklendi, $#count[1 renk|$count renk]",
+                    "name": "$~renkler",
+                    "camera": {
+                        "feed": "$~kameranın gördüğü şey",
+                        "capture": {
+                            "label": "$~kaynak olarak çek",
+                            "tip": "$~şu anda görünen resmi kaydet"
+                        },
+                        "retake": {
+                            "label": "$~tekrar",
+                            "tip": "$~canlı resme geri dön"
+                        },
+                        "starting": "$~Kamera başlatılıyor…",
+                        "denied": "$~Kameranıza ulaşamıyoruz. Bu sayfanın kamerayı kullanmasına izin verildiğinden emin olun."
+                    },
+                    "explanation": "$~Yeni dosya, resmin her karesi için bir tane olmak üzere @Color satırlarından oluşan bir listedir. Onu ödünç al ve çizmesi için bir @Image'e ver, ya da renkleri başka bir şey için kullan.",
+                    "source": {
+                        "label": "$~resmin nereden geldiği",
+                        "labels": ["$~bu cihaz", "$~kamera"],
+                        "tips": [
+                            "$~bu cihazdaki bir resim dosyası",
+                            "$~kameranın şu anda gördüğü şey"
+                        ]
+                    },
+                    "crop": {
+                        "width": {
+                            "label": "$~genişlik",
+                            "tip": "$~resmin ne kadar genişlikte bir kısmının tutulacağı"
+                        },
+                        "height": {
+                            "label": "$~yükseklik",
+                            "tip": "$~resmin ne kadar yükseklikte bir kısmının tutulacağı"
+                        }
+                    },
+                    "instructions": "$~Kutuyu taşımak için sürükle, boyutunu değiştirmek için köşelerinden birini sürükle. *genişlik* ve *yükseklik* kaydırıcıları da aynı işi yapar, *renkler* kaydırıcısı ise kaç renge dönüşeceğini seçer. Klavyeyle, kutuyu taşımaya başlamak için *enter*'a bas, sonra *ok* tuşlarını kullan, bitirdiğinde tekrar *enter*'a bas."
+                },
+                "song": {
+                    "explanation": "$~Bir MIDI dosyası — .mid veya .midi, en fazla 2 MB — notalarını tutan yeni bir dosya olur ve programın bunları çalan bir @Music elde eder. En fazla 10.000 nota ve 128 parça olabilir; bir @Music öğesinin tutamadığı her şey içe aktarımdan sonra listelenir."
+                },
+                "ways": {
+                    "label": "$~yeni kodun neyden yapıldığı",
+                    "labels": ["$~boş", "$~resim", "$~tablo", "$~şarkı"],
+                    "tips": [
+                        "$~içinde henüz hiçbir şey olmayan bir dosya",
+                        "$~bir resmin ya da kameranın gördüğü şeyin renkleri",
+                        "$~bir hesap tablosundan yapıştırılmış, virgülle ayrılmış değerler (CSV)",
+                        "$~bu cihazdaki bir MIDI dosyasının notaları"
+                    ]
+                },
+                "table": {
+                    "name": "$~satırlar",
+                    "explanation": "$~Bir hesap tablosundan kopyalanan satırlar gibi, virgülle ayrılmış değerleri (CSV) yapıştır; bunlar okuyup değiştirebileceğin bir @Table olur. İlk satır kolonların isimlerini verir.",
+                    "paste": {
+                        "label": "$~virgülle ayrılmış değerler (CSV)",
+                        "placeholder": "$~isim, bacak\nkedi, 4\nkuş, 2"
+                    },
+                    "summary": "$~$columns kolonun $#rows[1 satırı|$rows satırı]",
+                    "notTable": "$~henüz virgülle ayrılmış değerler (CSV) olmayan",
+                    "button": {
+                        "label": "$~ekle",
+                        "tip": "$~bu satırları bir kod dosyası olarak ekle"
+                    },
+                    "doc": "$~$columns kolonun $#rows[1 satırı|$rows satırı]",
+                    "added": "$~$name eklendi, $#rows[1 satır|$rows satır]"
+                }
             }
         },
         "annotations": {
@@ -2007,7 +2096,8 @@
                     ]
                 },
                 "report": "$~Neyi içe aktardım",
-                "reportExplanation": "$~Bir @Music, bir MIDI dosyasının anlattığı şeylerin çoğunu tutabilir ama hepsini tutamaz. İşte içe aktarma sırasında değişen şeyler."
+                "reportExplanation": "$~Bir @Music, bir MIDI dosyasının anlattığı şeylerin çoğunu tutabilir ama hepsini tutamaz. İşte içe aktarma sırasında değişen şeyler.",
+                "choose": "$~bir şarkı seç"
             },
             "toolbar": {
                 "label": "$~çıktı ekle",
@@ -2829,6 +2919,26 @@
             "notData": "$~Bu, bir dosyaya değecek türde bir değer değil.",
             "droppedUnits": "$~Birimler dışarıda bırakıldı: bir JSON sayısı birim taşıyamaz.",
             "droppedNumbers": "$~Sonlu olmayan sayılar dışarıda bırakıldı: JSON bunları yazamaz."
+        },
+        "image": {
+            "button": {
+                "label": "$~yükle",
+                "tip": "$~bu cihazdan bir görsel dosyası seç"
+            },
+            "crop": {
+                "label": "$~kırpma kutusu",
+                "tip": "$~görüntünün korunacak bölümü"
+            },
+            "preview": "$~eklenecek olan şey",
+            "feedback": {
+                "tooBig": "$~O görsel $size MB büyüklüğünde. Lütfen $limit MB'den küçük bir görsel seçin.",
+                "unreadable": "$~Bu dosyayı görsel olarak okuyamadık."
+            },
+            "announce": {
+                "moving": "$~kırpma kutusu taşınıyor",
+                "done": "$~kırpma kutusu yerleştirildi",
+                "cropped": "$~kırpma kutusu $width% genişliğinde ve $height% yüksekliğinde, yatayda $x% ve dikeyde $y% konumunda"
+            }
         }
     }
 }

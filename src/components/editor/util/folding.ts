@@ -45,19 +45,39 @@ export const FOLD_BY_DEFAULT_ITEMS = 50;
  */
 export function defaultFolds(root: Node): Node[] {
     const folds: Node[] = [];
+    const counts = new Map<Node, number>();
     for (const node of root.nodes()) {
-        const count =
-            node instanceof TableLiteral
-                ? node.rows.length
-                : node instanceof ListLiteral ||
-                    node instanceof SetLiteral ||
-                    node instanceof MapLiteral
-                  ? node.values.length
-                  : undefined;
+        const count = itemCount(node, counts);
         if (count !== undefined && count >= FOLD_BY_DEFAULT_ITEMS)
             folds.push(node);
     }
     return folds;
+}
+
+/**
+ * How many items a container holds, counting the items of the containers inside it.
+ *
+ * Nested, because the cost this threshold exists for is what mounts. A picture
+ * imported as code is 32 rows of 32 colors: no single list reached fifty, so it opened
+ * as a thousand evaluates drawn at once and took seconds. Memoized per walk, since
+ * `root.nodes()` visits every row after its list.
+ */
+function itemCount(node: Node, counts: Map<Node, number>): number | undefined {
+    const items =
+        node instanceof TableLiteral
+            ? node.rows
+            : node instanceof ListLiteral ||
+                node instanceof SetLiteral ||
+                node instanceof MapLiteral
+              ? node.values
+              : undefined;
+    if (items === undefined) return undefined;
+    const known = counts.get(node);
+    if (known !== undefined) return known;
+    let count = items.length;
+    for (const item of items) count += itemCount(item, counts) ?? 0;
+    counts.set(node, count);
+    return count;
 }
 
 /** The right-facing chevron `›` shared by every fold control: the inline toggle

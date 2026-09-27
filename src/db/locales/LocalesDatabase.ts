@@ -185,8 +185,21 @@ export default class LocalesDatabase {
         this.loadLocales(requested).then(() => this.localesReady.set(true));
     }
 
-    async refreshLocales() {
-        this.loadLocales(SupportedLocales.slice(), true);
+    /**
+     * Reload locale data from the server, discarding what is cached.
+     *
+     * Only used in dev, by the locale watcher. Scoped to one locale when the watcher says
+     * which changed: refreshing all of them is 31 locales x 2 files, ~62 requests, on
+     * every keystroke of a locale edit — and only one of them can have changed.
+     *
+     * A tutorial, how-to or emoji bundle is cached separately and not touched here; the
+     * surfaces that show those refetch on the same event.
+     */
+    async refreshLocales(locale?: SupportedLocale) {
+        this.loadLocales(
+            locale === undefined ? SupportedLocales.slice() : [locale],
+            true,
+        );
     }
 
     async loadLocales(
@@ -248,15 +261,21 @@ export default class LocalesDatabase {
         };
 
         const getHowTos = async (locale: SupportedLocale): Promise<HowTo[]> => {
+            // In dev, read the authoring .txt files rather than the bundle, so an edit to
+            // one shows up on reload. Deliberately ahead of the bundle rather than a
+            // fallback behind it: the bundle is committed, so it always exists and a
+            // fallback never fired — and rebuilding it on every save would put diff churn
+            // in the working tree, which is why the watcher does not.
+            if (import.meta.env.DEV) {
+                const fromFiles = await this.loadHowTosFromFiles(locale);
+                if (fromFiles.length > 0) return fromFiles;
+            }
+
             // Load the whole locale's how-tos in one request, falling back to en-US.
             const howTos =
                 (await loadBundle(locale)) ??
                 (locale === 'en-US' ? undefined : await loadBundle('en-US'));
             if (howTos !== undefined) return howTos;
-
-            // In dev, the bundle may be missing (e.g. a newly added how-to not yet built);
-            // fall back to loading the individual .txt files so authoring works without a build.
-            if (import.meta.env.DEV) return this.loadHowTosFromFiles(locale);
 
             return [];
         };

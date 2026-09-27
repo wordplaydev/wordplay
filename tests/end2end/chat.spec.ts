@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 import { expect, test } from '../../playwright/fixtures';
+import addBlankSource from '../helpers/addBlankSource';
 import { createTestProject } from '../helpers/createProject';
 import { getTestDocument, waitForDocumentUpdate } from '../helpers/firestore';
 
@@ -655,7 +656,7 @@ test('the link names the file the caret was in, not the first one', async ({
     // viewport collapses the layout to one.
     await page.setViewportSize({ width: 1600, height: 1000 });
     const projectId = await createTestProject(page);
-    await page.locator('[data-uiid="addSource"]').click();
+    await addBlankSource(page);
     await expect(page.locator('[data-testid="editor"]')).toHaveCount(2);
 
     await page.getByTestId('collaborate-toggle').click();

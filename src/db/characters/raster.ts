@@ -89,6 +89,74 @@ export function withPixelLayer(
 /** A square selection over a source image, in source pixels. */
 export type Crop = { x: number; y: number; size: number };
 
+/** A selection of any shape over a source image, in source pixels. */
+export type Rect = { x: number; y: number; width: number; height: number };
+
+/** Keep a rectangle inside the image, and at least one pixel of it. */
+export function clampRect(rect: Rect, width: number, height: number): Rect {
+    const w = Math.max(1, Math.min(Math.round(rect.width), width));
+    const h = Math.max(1, Math.min(Math.round(rect.height), height));
+    return {
+        width: w,
+        height: h,
+        x: Math.max(0, Math.min(Math.round(rect.x), width - w)),
+        y: Math.max(0, Math.min(Math.round(rect.y), height - h)),
+    };
+}
+
+/** The smallest crop a person can make, in working pixels. One sample is one color, so
+ *  anything smaller is only harder to grab. Shared by the corner handles and the sliders
+ *  so the pointer and the keyboard stop at the same place. */
+export const MinimumCrop = 4;
+
+/** A corner of a crop box, which dragging resizes from while the opposite one stays put. */
+export type Corner = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+
+/**
+ * Move one corner of a rectangle by a drag, keeping the opposite corner where it was.
+ *
+ * Pure so the geometry can be tested without a pointer: a crop that can only be moved and
+ * never resized starts as the whole picture and can't be made smaller at all. Held square
+ * when asked, on the longer of the two movements, so a diagonal drag behaves the way it
+ * looks; and never smaller than `minimum`, or inverted past the fixed corner.
+ */
+export function resizeRect(
+    rect: Rect,
+    corner: Corner,
+    dx: number,
+    dy: number,
+    width: number,
+    height: number,
+    square: boolean,
+    minimum = 1,
+): Rect {
+    const left = corner === 'top-left' || corner === 'bottom-left';
+    const top = corner === 'top-left' || corner === 'top-right';
+    // The corner that stays put, and the most room there is to grow away from it.
+    const anchorX = left ? rect.x + rect.width : rect.x;
+    const anchorY = top ? rect.y + rect.height : rect.y;
+    const roomX = left ? anchorX : width - anchorX;
+    const roomY = top ? anchorY : height - anchorY;
+
+    let w = Math.max(minimum, Math.min(roomX, rect.width + (left ? -dx : dx)));
+    let h = Math.max(minimum, Math.min(roomY, rect.height + (top ? -dy : dy)));
+    if (square) {
+        const grow =
+            Math.abs(w - rect.width) >= Math.abs(h - rect.height) ? w : h;
+        w = h = Math.max(minimum, Math.min(grow, roomX, roomY));
+    }
+    return clampRect(
+        {
+            x: left ? anchorX - w : anchorX,
+            y: top ? anchorY - h : anchorY,
+            width: w,
+            height: h,
+        },
+        width,
+        height,
+    );
+}
+
 /** Keep a crop box square and inside the image. */
 export function clampCrop(crop: Crop, width: number, height: number): Crop {
     const size = Math.max(1, Math.min(crop.size, width, height));
@@ -114,21 +182,47 @@ export function boxSample(
     crop: Crop,
     grid: number = CharacterSize,
 ): Uint8ClampedArray {
-    const out = new Uint8ClampedArray(grid * grid * 4);
-    const step = crop.size / grid;
-    for (let cellY = 0; cellY < grid; cellY++)
-        for (let cellX = 0; cellX < grid; cellX++) {
-            const fromX = Math.floor(crop.x + cellX * step);
-            const fromY = Math.floor(crop.y + cellY * step);
+    return boxSampleRect(
+        source,
+        sourceWidth,
+        sourceHeight,
+        { x: crop.x, y: crop.y, width: crop.size, height: crop.size },
+        grid,
+        grid,
+    );
+}
+
+/**
+ * The same box filter over a rectangle, into a grid of any shape.
+ *
+ * A character is square and a picture is not, so this is the general form and
+ * {@link boxSample} is the square case of it. Kept as one implementation because the
+ * averaging is the part that must not drift: point sampling a photo aliases into noise.
+ */
+export function boxSampleRect(
+    source: Uint8ClampedArray,
+    sourceWidth: number,
+    sourceHeight: number,
+    rect: Rect,
+    columns: number,
+    rows: number,
+): Uint8ClampedArray {
+    const out = new Uint8ClampedArray(columns * rows * 4);
+    const stepX = rect.width / columns;
+    const stepY = rect.height / rows;
+    for (let cellY = 0; cellY < rows; cellY++)
+        for (let cellX = 0; cellX < columns; cellX++) {
+            const fromX = Math.floor(rect.x + cellX * stepX);
+            const fromY = Math.floor(rect.y + cellY * stepY);
             // At least one sample per cell, even when the crop is smaller than
             // the grid and a cell spans less than a source pixel.
             const toX = Math.max(
                 fromX + 1,
-                Math.floor(crop.x + (cellX + 1) * step),
+                Math.floor(rect.x + (cellX + 1) * stepX),
             );
             const toY = Math.max(
                 fromY + 1,
-                Math.floor(crop.y + (cellY + 1) * step),
+                Math.floor(rect.y + (cellY + 1) * stepY),
             );
 
             let red = 0;
@@ -149,7 +243,7 @@ export function boxSample(
                     samples++;
                 }
 
-            const index = (cellY * grid + cellX) * 4;
+            const index = (cellY * columns + cellX) * 4;
             if (samples === 0 || alpha === 0) {
                 out[index + 3] = 0;
                 continue;
@@ -160,4 +254,30 @@ export function boxSample(
             out[index + 3] = alpha / samples;
         }
     return out;
+}
+
+/**
+ * The size a picture is sampled to, keeping its shape.
+ *
+ * The longest side takes the resolution and the other follows, so a creator chooses one
+ * number and the picture doesn't distort. Rounded up to at least one, since a very wide
+ * or very tall crop would otherwise sample to nothing at all.
+ */
+export function sampleSize(
+    sourceWidth: number,
+    sourceHeight: number,
+    resolution: number,
+): { columns: number; rows: number } {
+    if (sourceWidth <= 0 || sourceHeight <= 0)
+        return { columns: resolution, rows: resolution };
+    // Never sample more cells than the picture has pixels. Asking a four-pixel crop
+    // for thirty-two colors writes a thousand copies of sixteen, which costs a
+    // creator a thousand numbers to scroll past and tells them nothing. Clamped on
+    // the long edge rather than per axis, so the shape is still kept.
+    const longest = Math.max(sourceWidth, sourceHeight);
+    const scale = Math.min(resolution, longest) / longest;
+    return {
+        columns: Math.max(1, Math.round(sourceWidth * scale)),
+        rows: Math.max(1, Math.round(sourceHeight * scale)),
+    };
 }

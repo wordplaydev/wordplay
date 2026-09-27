@@ -1,63 +1,50 @@
 📹
 Video
 ===
-¶Din kameraström, omritad i realtid: som färgade bokstäver, som ASCII-skuggning, eller som färgade rutor. Välj en stil med knapparna längst ner.¶
+¶Ditt kameraflöde, ommålat direkt: som färgade bokstäver, som ASCII-skuggning, eller som färgade rutor. Välj en stil med knapparna längst ner.¶
 
-¶Vilken stilknapp som klickades senast. Choice rapporterar namnet på den valbara frasen som tittaren valde, och stilen behåller det senaste den hörde.¶
+¶Vilken stilknapp som klickades senast. Choice berättar namnet på den valbara frasen som tittaren valde, och stilen behåller det den senast hörde.¶
 val: Val()
 stil2: 'letters' … ∆ val … val
 
-¶Emojier är stora, så emoji-stilen hämtar från ett grövre rutnät. Båda rutnäten täcker samma 16 gånger 12 meter, så att byta stil ändrar aldrig storleken på bilden eller flyttar kameran.¶
+¶Emoji är stora, så emoji-stilen använder ett grövre rutnät. Bilden är lika stor oavsett, så att byta stil ändrar aldrig storleken eller flyttar kameran — det är bara rutorna den byggs av som blir större.¶
 kolumner2: (stil2 = 'emoji') ? 16 32
 rader2: (stil2 = 'emoji') ? 12 24
-cell2: (stil2 = 'emoji') ? 1m 0.5m
 
-¶Mitten av rutnätet, där bilden är centrerad.¶
-mittenkolumn: (kolumner2 + 1) ÷ 2
-mittenrad: (rader2 + 1) ÷ 2
-
-¶En färg per cell, direkt från kameran.¶
+¶En färg per cell, rakt från kameran.¶
 färger: Kamera((kolumner2 × 1px) (rader2 × 1px) 33ms)
 
-¶Tio tecken från mörkt till ljust. ASCII-stilen väljer ett efter hur ljus pixeln är.¶
+¶Tio tecken från mörkt till ljust. ASCII-stilen väljer ett efter hur ljus bildpunkten är.¶
 skala2: "@%#*+=-:. " → []
 
-¶Tjugofyra band på 15° runt färgcirkeln, så varje pixel tar den ruta som ligger närmast dess färg.¶
+¶Tjugofyra 15°-band runt färgcirkeln, så varje bildpunkt tar rutan som ligger närmast dess färg.¶
 rutor: "🟥🟥🟥🟧🟧🟨🟨🟨🟩🟩🟩🟩🟩🟦🟦🟦🟦🟦🟦🟪🟪🟪🟪🟥" → []
 
-¶Hur en pixel ser ut i den aktuella stilen. En pixel med nästan ingen färg har ingen kulör värd att visa, så den faller tillbaka på en ljus eller en mörk ruta.¶
-ƒ tecken2(färg2•Färg)
+¶Hur en bildpunkt ser ut i den aktuella stilen. En bildpunkt med nästan ingen färg har ingen kulör värd att visa, så den faller tillbaka på en ljus eller mörk ruta.¶
+ƒ symbol(färg2•Färg)
 	(stil2 = 'ascii') ?
 		"\skala2[((färg2.lätthet × 9).runda()) + 1]\"
 		((stil2 = 'emoji') ?
 				((färg2.chroma < 8) ?
 						((färg2.lätthet < 50%) ? "⬛" "⬜")
 						"\rutor[(((färg2.nyans ÷ 1°) ÷ 15).rundaner()) + 1]\")
-				'en')
+				'a')
 
-¶Bilden: en fras per pixel, ordnad från mitten och utåt, så att kameran alltid har sammabild att rama in oavsett hur grovt rutnätet är, och spegelvänd så att den läses som i en spegel.¶
-bild: färger.kombinerad(
-		[]
-		ƒ(fraser•[Fras] rad•[Färg] y2•#)
-			fraser.medLista(
-				rad.översätta(
-					ƒ(färg3•Färg x2•#)
-						Fras(
-							tecken2(färg3)
-							plats: Plats(
-								((mittenkolumn - x2) × cell2)
-								((mittenrad - y2) × cell2)
-							)
-							varaktighet: 0s
-							storlek: (stil2 = 'ascii') ? 0.75m ((stil2 = 'emoji') ? 1.15m 1m)
-							ansikte: (stil2 = 'ascii') ? "Noto Sans Mono"/en ø
-							färg: (stil2 = 'letters') ? färg3 ø
-						)
-				)
-			)
+¶Bilden. En @Image ritar hela rutnätet som ett enda utdata, så en bildruta kostar en bild istället för en fras per bildpunkt — vilket vid 32 gånger 24 var 768 stycken, ombyggda trettio gånger i sekunden. /flipx/ speglar den så att den läses som en spegel gör.
+
+Stilen /letters/ låter varje tecken behålla färgen på rutan det står för, vilket är vad en @Image gör utan någon egen färg. De andra två ger den en färg, eftersom en bokstav bara läses som skuggning när dess färg inte säger något, och en färgad ruta som emoji redan har sin egen.¶
+bild: Image(
+		färger
+		"camera video drawn with \stil2\"
+		16m
+		tecken: symbol
+		färg: (stil2 = 'letters') ? ø Färg(0% 0 0°)
+		typsnitt: (stil2 = 'ascii') ? "Noto Sans Mono"/en ø
+		vändx: ⊤
+		varaktighet: 0s
 	)
 
-¶En stilknapp, ljus när den är den stil som visas. Namnet är det som Choice rapporterar när knappen klickas eller väljs med tangentbordet.¶
+¶En stilknapp, ljus när den är stilen som visas. Namnet är det Choice berättar när knappen klickas eller väljs med tangentbordet.¶
 ƒ knapp(id2•'')
 	Fras(
 		id2
@@ -67,7 +54,7 @@ bild: färger.kombinerad(
 		vilande: (stil2 = id2) ? Pose() Pose(opacitet: 40%)
 	)
 
-¶En rad håller knapparna jämnt fördelade och i linje oavsett hur långa orden är, ochutan egen plats sitter raden i mitten, så förskjutningen är allt som behövs för attflytta den till skärmens nederkant. Den har sin egen bakgrund, eftersom text över envideo bara är läsbar av tur.¶
+¶En rad håller knapparna jämnt fördelade och i linje oavsett hur långa orden är, och utan egen plats hamnar raden i mitten, så förskjutningen är allt som krävs för att flytta den till botten av skärmen. Den har sin egen bakgrund, eftersom ord ovanpå en video bara är läsbara av tur.¶
 knappar: Grupp(
 		Rad(stoppning: 0.5m)
 		[knapp('letters') knapp('ascii') knapp('emoji')]
@@ -75,9 +62,9 @@ knappar: Grupp(
 		offset: Plats(0m -4.5m)
 	)
 
-¶Knapparna ligger i scenens överlägg, som är fastsatt platt mot skärmen: de behållersamma storlek och plats oavsett hur bilden ramas in, och bilden ramas in som om deinte fanns där.¶
+¶Knapparna ligger i scenens överlägg, som är fast fäst mot skärmen: de behåller samma storlek och plats oavsett hur bilden är beskuren, och bilden beskärs som om de inte fanns där.¶
 Etapp(
-	bild
+	[bild]
 	beskrivning: "camera video drawn with \stil2\"
 	överlagring: [knappar]
 )

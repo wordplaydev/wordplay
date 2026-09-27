@@ -52,6 +52,10 @@
                         value.is(
                             project.shares.output.Shape,
                             project.getNodeContext(value),
+                        ) ||
+                        value.is(
+                            project.shares.output.Image,
+                            project.getNodeContext(value),
                         )),
             ),
     );

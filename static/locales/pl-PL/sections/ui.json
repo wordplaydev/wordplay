@@ -148,7 +148,7 @@
                     "tip": "$~skopiuj projekt do schowka jako tekst",
                     "label": "$~skopiuj jako tekst"
                 },
-                "addSource": "$~utwórz kolejne @Source, aby móc trzymać dane lub udostępniony kod we własnym pliku",
+                "addSource": "$~dodaj kolejne @Source: puste albo zrobione ze zdjęcia lub piosenki",
                 "revert": "$~powrót do oryginalnego kodu",
                 "focusOutput": "$~skup klawiaturę na scenie",
                 "focusSource": "$~skup się na następnym źródle",
@@ -269,7 +269,7 @@
                 "controls": "$~Te /elementy sterujące/ na dole dotyczą *całego projektu*, niezależnie od tego, w którym kafelku pracujesz.",
                 "name": "$~Pole /name/ to nazwa twojego projektu. Nazwy pokazują się w widokach *projektu* i *galerii*.",
                 "sourceToggle": "$~Ten przełącznik pokazuje lub ukrywa *plik źródłowy*. *Pozostałe przełączniki* w tym wierszu działają tak samo dla pozostałych kafelków.",
-                "addSource": "$~Niektóre projekty korzystają z *wielu* plików źródłowych, gdzie dane są przechowywane w jednym i importowane do *głównego* źródła. Przycisk /dodaj źródło/ tworzy nowe źródło.",
+                "addSource": "$~Niektóre projekty korzystają z *wielu* plików źródłowych, gdzie dane są przechowywane w jednym, a potem wczytywane do *głównego* źródła. Przycisk /dodaj źródło/ pokazuje sposoby, jak je zrobić: pusty plik, zdjęcie, piosenkę albo dane.",
                 "share": "$~Okno dialogowe /share/ umożliwia udostępnianie projektu w *galeriach*, *publicznie* lub kopiowanie go jako *tekst* w celu udostępnienia gdzie indziej.",
                 "checkpoints": "$~Panel /revisions/ umożliwia powrót do poprzednich wersji projektu oraz zapisanie *migawek* wersji, które chcesz zapamiętać.",
                 "languages": "$~Przycisk /języki/ pokazuje, w jakich językach napisany jest twój projekt, pozwala dodać lub usunąć język i może *przetłumaczyć* *nazwy*, *tekst* i *dokumentację* twojego projektu na nowy język."
@@ -624,6 +624,95 @@
             "view": {
                 "added": "$~dodano drugi widok $name",
                 "closed": "$~zamknięto drugi widok $name"
+            },
+            "add": {
+                "header": "$~dodaj kod",
+                "explanation": "$~Projekt może mieć więcej niż jeden plik kodu. Zrób pusty plik, żeby coś w nim napisać, albo zrób go ze zdjęcia lub piosenki. Możesz używać wartości razem z @Borrow.",
+                "blank": {
+                    "explanation": "$~Pusty plik na kod, który chcesz trzymać osobno od głównego kodu.",
+                    "button": {
+                        "label": "$~dodaj",
+                        "tip": "$~dodaj pusty plik kodu"
+                    }
+                },
+                "image": {
+                    "size": {
+                        "label": "$~kolory",
+                        "tip": "$~ile kolorów na całym zdjęciu powstanie"
+                    },
+                    "budget": "$~$columns × $rows kolorów, około $size KB, $percent tego, co może pomieścić projekt",
+                    "tooBig": "$~za dużo kolorów jak na miejsce, które zostało dla tego projektu",
+                    "button": {
+                        "label": "$~dodaj",
+                        "tip": "$~dodaj te kolory jako plik kodu"
+                    },
+                    "doc": "$~$name, $columns × $rows kolorów",
+                    "cameraDoc": "$~zdjęcie z kamery, $columns × $rows kolorów",
+                    "added": "$~dodano $name, $#count[jeden kolor|$count kolory|$count kolorów|$count koloru]",
+                    "name": "$~kolory",
+                    "camera": {
+                        "feed": "$~co widzi twoja kamera",
+                        "capture": {
+                            "label": "$~zrób zdjęcie jako źródło",
+                            "tip": "$~zapisz obraz widoczny teraz"
+                        },
+                        "retake": {
+                            "label": "$~jeszcze raz",
+                            "tip": "$~wróć do obrazu na żywo"
+                        },
+                        "starting": "$~Uruchamianie kamery…",
+                        "denied": "$~Nie możemy połączyć się z twoją kamerą. Sprawdź, czy ta strona ma pozwolenie na jej używanie."
+                    },
+                    "explanation": "$~Nowy plik to lista rzędów z @Color, po jednym dla każdego kwadratu na zdjęciu. Pożycz go i przekaż do @Image, żeby go narysować, albo użyj tych kolorów do czegoś innego.",
+                    "source": {
+                        "label": "$~skąd pochodzi obraz",
+                        "labels": ["$~to urządzenie", "$~aparat"],
+                        "tips": [
+                            "$~plik ze zdjęciem na tym urządzeniu",
+                            "$~to, co widzi teraz twój aparat"
+                        ]
+                    },
+                    "crop": {
+                        "width": {
+                            "label": "$~szerokość",
+                            "tip": "$~jak szeroki ma być zachowany fragment zdjęcia"
+                        },
+                        "height": {
+                            "label": "$~wysokość",
+                            "tip": "$~jak wysoki ma być zachowany fragment zdjęcia"
+                        }
+                    },
+                    "instructions": "$~Przeciągnij ramkę, żeby ją przesunąć, albo przeciągnij jeden z jej rogów, żeby zmienić jej rozmiar. Suwaki *szerokość* i *wysokość* robią to samo, a suwak *kolory* wybiera, ile kolorów zostanie użytych. Za pomocą klawiatury naciśnij *enter*, aby zacząć przesuwać ramkę, potem użyj klawiszy *strzałek*, a na koniec znów naciśnij *enter*."
+                },
+                "song": {
+                    "explanation": "$~Plik MIDI — .mid lub .midi, o rozmiarze do 2 MB — zamienia się w nowy plik zawierający jego nuty, a twój program otrzymuje @Music, który je odtwarza. Można zachować do 10 000 nut i 128 ścieżek; wszystko, czego nie zmieści @Music, zostanie wypisane po zaimportowaniu."
+                },
+                "ways": {
+                    "label": "$~z czego zbudowany jest nowy kod",
+                    "labels": ["$~puste", "$~obraz", "$~tabela", "$~utwór"],
+                    "tips": [
+                        "$~plik, w którym jeszcze nic nie ma",
+                        "$~kolory zdjęcia albo tego, co widzi twój aparat",
+                        "$~wartości oddzielone przecinkami (CSV) wklejone z arkusza kalkulacyjnego",
+                        "$~nuty pliku MIDI na tym urządzeniu"
+                    ]
+                },
+                "table": {
+                    "name": "$~wiersze",
+                    "explanation": "$~Wklej wartości oddzielone przecinkami (CSV), na przykład wiersze skopiowane z arkusza kalkulacyjnego, a staną się @Table, które możesz odczytać i zmienić. Pierwszy wiersz zawiera nazwy kolumn.",
+                    "paste": {
+                        "label": "$~wartości oddzielone przecinkami (CSV)",
+                        "placeholder": "$~nazwa, nogi\nkot, 4\nptak, 2"
+                    },
+                    "summary": "$~$#rows[jeden wiersz|$rows wiersze|$rows wierszy|$rows wiersza], kolumny: $columns",
+                    "notTable": "$~to, co jeszcze nie jest wartościami oddzielonymi przecinkami (CSV)",
+                    "button": {
+                        "label": "$~dodaj",
+                        "tip": "$~dodaj te wiersze jako plik z kodem"
+                    },
+                    "doc": "$~$#rows[jeden wiersz|$rows wiersze|$rows wierszy|$rows wiersza], kolumny: $columns",
+                    "added": "$~dodano $name, $#rows[jeden wiersz|$rows wiersze|$rows wierszy|$rows wiersza]"
+                }
             }
         },
         "annotations": {
@@ -2006,7 +2095,8 @@
                     ]
                 },
                 "report": "$~Co zaimportowałem",
-                "reportExplanation": "$~@Music może pomieścić większość tego, co opisuje plik MIDI, ale nie wszystko. Oto, co zmieniło się po drodze."
+                "reportExplanation": "$~@Music może pomieścić większość tego, co opisuje plik MIDI, ale nie wszystko. Oto, co zmieniło się po drodze.",
+                "choose": "$~wybierz piosenkę"
             },
             "toolbar": {
                 "label": "$~dodaj wynik",
@@ -2831,6 +2921,26 @@
             "notData": "$~To nie jest rodzaj wartości, który warto zapisać w pliku.",
             "droppedUnits": "$~Jednostki zostały pominięte: liczba w formacie JSON nie może ich zawierać.",
             "droppedNumbers": "$~Liczby, które nie są skończone, zostały pominięte: JSON nie potrafi ich zapisać."
+        },
+        "image": {
+            "button": {
+                "label": "$~prześlij",
+                "tip": "$~wybierz plik z obrazem z tego urządzenia"
+            },
+            "crop": {
+                "label": "$~pole przycinania",
+                "tip": "$~część obrazu do zachowania"
+            },
+            "preview": "$~co zostanie dodane",
+            "feedback": {
+                "tooBig": "$~Ten obraz ma $size MB. Wybierz mniejszy niż $limit MB.",
+                "unreadable": "$~Nie udało się odczytać tego pliku jako obrazu."
+            },
+            "announce": {
+                "moving": "$~przesuwanie pola przycinania",
+                "done": "$~pole przycinania umieszczone",
+                "cropped": "$~kadr o szerokości $width%, wysokości $height%, w poziomie na $x% i w pionie na $y%"
+            }
         }
     }
 }

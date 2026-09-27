@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.37.3",
+    "version": "0.38.0",
     "type": "module",
     "scripts": {
         "sync": "svelte-kit sync",
@@ -86,16 +86,6 @@
         "*": "prettier --write --ignore-unknown"
     },
     "watch": {
-        "verify-locales": {
-            "patterns": [
-                "src/locale/en-US.json",
-                "static/locales",
-                "static/schemas",
-                "verify-locales.ts"
-            ],
-            "extensions": "json,ts",
-            "quiet": true
-        },
         "create-schemas": {
             "patterns": [
                 "src/locale"

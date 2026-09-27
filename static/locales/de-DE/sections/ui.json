@@ -144,7 +144,7 @@
                     "tip": "$~Projekt als Text in die Zwischenablage kopieren",
                     "label": "$~als Text kopieren"
                 },
-                "addSource": "$~eine weitere @Source erstellen, damit du Daten oder geteilten Code in einer eigenen Datei aufbewahren kannst",
+                "addSource": "$~eine weitere @Source hinzufügen: eine leere, oder eine aus einem Bild oder einem Lied gemachte",
                 "revert": "$~zum Originalcode zurückkehren",
                 "focusOutput": "$~Fokus Tastatur auf der Bühne",
                 "focusSource": "$~Konzentrieren Sie sich auf die nächste Quelle",
@@ -269,7 +269,7 @@
                 "controls": "$~Diese /Steuerelemente/ am unteren Rand gelten für das *Projekt als Ganzes*, unabhängig davon, in welchem Bereich Sie gerade arbeiten.",
                 "name": "$~Das Feld /name/ ist der Name deines Projekts. Namen erscheinen in den Ansichten *Projekt* und *Galerie*.",
                 "sourceToggle": "$~Dieser Schalter blendet die *Quelldatei* ein oder aus. Die *anderen Schalter* in dieser Zeile bewirken dasselbe für die anderen Kacheln.",
-                "addSource": "$~Manche Projekte profitieren von *mehreren* Quelldateien, in denen die Daten in einer Datei gespeichert und in die *Hauptquelldatei* importiert werden. Mit der Schaltfläche „Quelle hinzufügen“ wird eine neue Quelldatei erstellt.",
+                "addSource": "$~Manche Projekte profitieren von *mehreren* Quelldateien, bei denen Daten in einer gespeichert und in die *Haupt*-Quelle eingebunden werden. Der Knopf /Quelle hinzufügen/ bietet mehrere Wege dafür: eine leere Datei, ein Bild, ein Lied oder Daten.",
                 "share": "$~Über den Dialog „Teilen“ können Sie Ihr Projekt mit *Galerien*, mit der *Öffentlichkeit* teilen oder es als *Text* kopieren, um es an anderer Stelle zu teilen.",
                 "checkpoints": "$~Über das Panel /revisions/ können Sie zu früheren Versionen Ihres Projekts zurückkehren und Momentaufnahmen von Versionen erstellen, die Sie sich merken möchten.",
                 "languages": "$~Die Schaltfläche /Sprachen/ zeigt, in welchen Sprachen dein Projekt geschrieben ist, lässt dich eine hinzufügen oder entfernen und kann die *Namen*, den *Text* und die *Dokumentation* deines Projekts in eine neue Sprache *übersetzen*."
@@ -605,6 +605,95 @@
             "view": {
                 "added": "$~eine zweite Ansicht von $name hinzugefügt",
                 "closed": "$~die zweite Ansicht von $name geschlossen"
+            },
+            "add": {
+                "header": "$~Code hinzufügen",
+                "explanation": "$~Ein Projekt kann mehr als eine Code-Datei enthalten. Erstelle eine leere zum Schreiben, oder erstelle eine aus einem Bild oder einem Lied. Du kannst die Werte mit @Borrow verwenden.",
+                "blank": {
+                    "explanation": "$~Eine leere Datei, für Code, den du getrennt von deinem Hauptcode halten möchtest.",
+                    "button": {
+                        "label": "$~hinzufügen",
+                        "tip": "$~eine leere Code-Datei hinzufügen"
+                    }
+                },
+                "image": {
+                    "size": {
+                        "label": "$~Farben",
+                        "tip": "$~wie viele Farben über das Bild verteilt entstehen"
+                    },
+                    "budget": "$~$columns × $rows Farben, etwa $size KB, $percent von dem, was ein Projekt fassen kann",
+                    "tooBig": "$~zu viele Farben für den verbleibenden Platz in diesem Projekt",
+                    "button": {
+                        "label": "$~hinzufügen",
+                        "tip": "$~diese Farben als Code-Datei hinzufügen"
+                    },
+                    "doc": "$~$name, $columns × $rows Farben",
+                    "cameraDoc": "$~ein Kamerabild, $columns × $rows Farben",
+                    "added": "$~$name hinzugefügt, $#count[eine Farbe|$count Farben]",
+                    "name": "$~Farben",
+                    "camera": {
+                        "feed": "$~was deine Kamera sieht",
+                        "capture": {
+                            "label": "$~als Quelle aufnehmen",
+                            "tip": "$~das gerade angezeigte Bild speichern"
+                        },
+                        "retake": {
+                            "label": "$~erneut",
+                            "tip": "$~zurück zum Live-Bild"
+                        },
+                        "starting": "$~Kamera wird gestartet …",
+                        "denied": "$~Wir können nicht auf deine Kamera zugreifen. Prüfe, ob diese Seite sie nutzen darf."
+                    },
+                    "explanation": "$~Die neue Datei ist eine Liste von Zeilen aus @Color, eine für jedes Feld des Bildes. Leihe sie aus und gib sie einem @Image, um sie zu zeichnen, oder nutze die Farben für etwas anderes.",
+                    "source": {
+                        "label": "$~woher das Bild kommt",
+                        "labels": ["$~dieses Gerät", "$~Kamera"],
+                        "tips": [
+                            "$~eine Bilddatei auf diesem Gerät",
+                            "$~was deine Kamera gerade sieht"
+                        ]
+                    },
+                    "crop": {
+                        "width": {
+                            "label": "$~Breite",
+                            "tip": "$~wie breit der Ausschnitt des Bildes sein soll, den du behältst"
+                        },
+                        "height": {
+                            "label": "$~Höhe",
+                            "tip": "$~wie hoch der Ausschnitt des Bildes sein soll, den du behältst"
+                        }
+                    },
+                    "instructions": "$~Ziehe den Kasten, um ihn zu verschieben, oder ziehe an einer seiner Ecken, um seine Größe zu ändern. Die Schieberegler *Breite* und *Höhe* machen dasselbe, und der Schieberegler *Farben* legt fest, wie viele Farben er bekommt. Drücke mit der Tastatur die *Eingabetaste*, um den Kasten zu bewegen, benutze dann die *Pfeiltasten*, und drücke die *Eingabetaste* erneut, wenn du fertig bist."
+                },
+                "song": {
+                    "explanation": "$~Eine MIDI-Datei — .mid oder .midi, bis zu 2 MB — wird zu einer neuen Datei mit ihren Noten, und dein Programm bekommt einen @Music, der sie abspielt. Bis zu 10.000 Noten und 128 Spuren; alles, was ein @Music nicht fassen kann, wird nach dem Import aufgelistet."
+                },
+                "ways": {
+                    "label": "$~woraus der neue Code besteht",
+                    "labels": ["$~leer", "$~Bild", "$~Tabelle", "$~Lied"],
+                    "tips": [
+                        "$~eine Datei, die noch nichts enthält",
+                        "$~die Farben eines Bildes oder dessen, was deine Kamera sieht",
+                        "$~kommagetrennte Werte (CSV), die aus einer Tabellenkalkulation eingefügt wurden",
+                        "$~die Noten einer MIDI-Datei auf diesem Gerät"
+                    ]
+                },
+                "table": {
+                    "name": "$~Zeilen",
+                    "explanation": "$~Füge kommagetrennte Werte (CSV) ein, etwa Zeilen, die du aus einer Tabellenkalkulation kopiert hast, und sie werden zu einer @Table, die du lesen und ändern kannst. Die erste Zeile nennt die Namen der Spalten.",
+                    "paste": {
+                        "label": "$~kommagetrennte Werte (CSV)",
+                        "placeholder": "$~Name, Beine\nKatze, 4\nVogel, 2"
+                    },
+                    "summary": "$~$#rows[eine Zeile|$rows Zeilen] mit $columns Spalten",
+                    "notTable": "$~das noch keine kommagetrennten Werte (CSV) sind",
+                    "button": {
+                        "label": "$~hinzufügen",
+                        "tip": "$~diese Zeilen als Code-Datei hinzufügen"
+                    },
+                    "doc": "$~$#rows[eine Zeile|$rows Zeilen] mit $columns Spalten",
+                    "added": "$~$name hinzugefügt, $#rows[eine Zeile|$rows Zeilen]"
+                }
             }
         },
         "annotations": {
@@ -1854,7 +1943,8 @@
                     ]
                 },
                 "report": "$~Was ich importiert habe",
-                "reportExplanation": "$~Ein @Music kann das meiste von dem festhalten, was eine MIDI-Datei beschreibt, aber nicht alles. Hier ist, was sich beim Einlesen geändert hat."
+                "reportExplanation": "$~Ein @Music kann das meiste von dem festhalten, was eine MIDI-Datei beschreibt, aber nicht alles. Hier ist, was sich beim Einlesen geändert hat.",
+                "choose": "$~wähle ein Lied aus"
             },
             "toolbar": {
                 "label": "$~Ausgabe hinzufügen",
@@ -2836,6 +2926,26 @@
             "notData": "$~Das ist keine Art von Wert, die eine Datei wert ist.",
             "droppedUnits": "$~Einheiten wurden weggelassen: Eine JSON-Zahl kann keine Einheit tragen.",
             "droppedNumbers": "$~Zahlen, die nicht endlich sind, wurden weggelassen: JSON kann sie nicht schreiben."
+        },
+        "image": {
+            "button": {
+                "label": "$~hochladen",
+                "tip": "$~eine Bilddatei von diesem Gerät auswählen"
+            },
+            "crop": {
+                "label": "$~Zuschneiderahmen",
+                "tip": "$~der Teil des Bildes, der bleiben soll"
+            },
+            "preview": "$~was hinzugefügt wird",
+            "feedback": {
+                "tooBig": "$~Dieses Bild ist $size MB groß. Bitte wähle eins, das kleiner als $limit MB ist.",
+                "unreadable": "$~Wir konnten diese Datei nicht als Bild lesen."
+            },
+            "announce": {
+                "moving": "$~Zuschneiderahmen wird bewegt",
+                "done": "$~Zuschneiderahmen platziert",
+                "cropped": "$~Zuschnittfeld $width% breit und $height% hoch, bei $x% von links und $y% von oben"
+            }
         }
     }
 }

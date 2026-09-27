@@ -3,22 +3,24 @@ Tạo một video từ máy quay
 Cái @Camera luồng là một cách tuyệt vời để lấy một lưới màu từ thế giới. 
 Nếu chúng ta muốn nhìn thấy những màu đó, tạo lại hình ảnh mà @Camera nhìn thấy thì sao?
 
-Chúng ta có thể dùng cách sắp xếp @Grid cho một @Group, và hàm @List/combine để đổi các màu sắc thành một danh sách các @Phrase mà chúng ta đưa cho @Grid.
+Một @Image nhận một lưới màu và vẽ nó thành một bức tranh, nên ta có thể đưa thẳng các màu của @Camera cho nó.
 
 \
 width: 24
 height: 24
 colors: Camera(width × 1px height × 1px 33ms)
-Stage([
-		Group(Grid(height width 0m) colors.combine([] ƒ(phrases row) [
-						:phrases
-						:row ↦ Phrase("⬤" màusắc: ⬚ khoảngthờigian: 0s)
-					]))
-	])
+Stage([Image(colors "what the camera sees" 12m)])
 \
 
- Ví dụ này tạo ra một danh sách các cụm từ, đổi mỗi màu sắc thành một hình tròn có màu sắc đó.
+ Mỗi @Image cần một lời mô tả, vì một lưới màu tự nó không có từ ngữ nào cho người không thể nhìn thấy nó.
 
-Hãy cẩn thận với luồng @Camera : chúng tạo ra rất nhiều dữ liệu đầu vào! Bạn nên giữ chiều rộng và chiều cao của hình ảnh nhỏ thôi.
+Ta có thể vẽ bức tranh bằng chữ cái thay vì ô vuông, bằng cách đưa cho nó một /kýTự/, một hàm biến một màu thành đoạn chữ đại diện cho nó.
+
+\
+width: 24
+height: 24
+colors: Camera(width × 1px height × 1px 33ms)
+Stage([Image(colors "the camera, drawn with dark and light circles" 12m kýTự: ƒ(color•Color) (color.lightness < 50%) ? "⬤" "◯")])
+\
 
 interactive-scene

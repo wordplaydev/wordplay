@@ -1915,6 +1915,119 @@
                 "doc": "$~El límite en el que mis palabras pasan a otra línea.",
                 "names": "$~ajuste"
             }
+        },
+        "Image": {
+            "doc": "$~soy una cuadrícula de colores, dibujada como una imagen. Dame una lista de filas, cada una una lista de @Color, y pintaré un cuadrado por cada una. Dame un /glyph/ y dibujaré texto en cada cuadrado en su lugar.",
+            "names": ["$~Imagen"],
+            "colors": {
+                "doc": "$~mis filas de colores, con la fila de arriba primero. Todas las filas deben tener el mismo largo.",
+                "names": "$~colores"
+            },
+            "description": {
+                "doc": "$~lo que muestro, para quien no pueda verme. Pido esto porque una cuadrícula de colores no tiene palabras propias en las que apoyarse.",
+                "names": "$~descripción"
+            },
+            "width": {
+                "doc": "$~qué tan ancha debo ser. Si me das solo una altura, tomo mi ancho de mi forma; si me das ambas, mis cuadrados se estiran para ajustarse.",
+                "names": "$~ancho"
+            },
+            "height": {
+                "doc": "$~qué tan alta debo ser. Si me das solo un ancho, tomo mi altura de mi forma.",
+                "names": "$~alto"
+            },
+            "glyph": {
+                "doc": "$~una función que va de uno de mis colores al texto que debo dibujar en su lugar. Sin ella, pinto cuadrados simples.",
+                "names": "$~glifo"
+            },
+            "recolor": {
+                "doc": "$~una función que va de uno de mis colores al color que debo dibujar en su lugar. Es útil para convertir una imagen en menos colores.",
+                "names": "$~recolorear"
+            },
+            "pixel": {
+                "doc": "$~uno de mis colores, que es lo que reciben /glyph/ y /recolor/.",
+                "names": "$~pixel"
+            },
+            "glyphs": {
+                "doc": "$~lo que dibujo en cada cuadrado, calculado a partir de /glyph/. Nada, si no me diste /glyph/.",
+                "names": "$~glifos"
+            },
+            "palette": {
+                "doc": "$~los colores que en verdad dibujo, calculados a partir de /recolor/. Mis propios colores, si no me diste /recolor/.",
+                "names": "$~paleta"
+            },
+            "face": {
+                "doc": "$~el nombre de la tipografía en la que deben dibujarse mis glifos. Si no tengo una, uso la de lo que me contiene.",
+                "names": "$~cara"
+            },
+            "place": {
+                "doc": "$~el lugar del escenario donde debo estar.",
+                "names": "lugar"
+            },
+            "name": {
+                "doc": "$~soy el nombre que puedes usar, para animaciones y @Collision.",
+                "names": "$~nombre"
+            },
+            "selectable": {
+                "doc": "$~si puedo ser seleccionada como parte de @Choice.",
+                "names": "$~seleccionable"
+            },
+            "color": {
+                "doc": "$~un color para mis glifos. Sin uno, cada glifo toma el color del cuadrado que representa; con uno, todos lo comparten, que es lo que se necesita para dibujar con letras. Lo ignoro si no tengo /glyph/, ya que entonces mis cuadrados son mis colores.",
+                "names": "$~color"
+            },
+            "background": {
+                "doc": "$~el color detrás de mí.",
+                "names": "$~fondo"
+            },
+            "opacity": {
+                "doc": "$~qué tan opaca debo ser.",
+                "names": "$~opacidad"
+            },
+            "offset": {
+                "doc": "$~qué tanto moverme desde mi lugar, después de que me colocan.",
+                "names": "$~desplazamiento"
+            },
+            "rotation": {
+                "doc": "$~cuánto rotarme.",
+                "names": "$~rotación"
+            },
+            "scale": {
+                "doc": "$~cuánto escalarme.",
+                "names": "$~escala"
+            },
+            "flipx": {
+                "doc": "$~si debo voltearme horizontalmente.",
+                "names": "$~voltearx"
+            },
+            "flipy": {
+                "doc": "$~si debo voltearme verticalmente.",
+                "names": "$~volteary"
+            },
+            "entering": {
+                "doc": "$~el @Pose o @Sequence que debo hacer al entrar a @Stage.",
+                "names": "$~entrando"
+            },
+            "resting": {
+                "doc": "$~El @Pose o @Sequence que debo hacer cuando no me estoy moviendo.",
+                "names": "$~reposando"
+            },
+            "moving": {
+                "doc": "$~El @Pose o @Sequence que debo hacer cuando me estoy moviendo.",
+                "names": "$~moviendo"
+            },
+            "exiting": {
+                "doc": "$~El @Pose o @Sequence que debo hacer al salir de @Stage.",
+                "names": "$~saliendo"
+            },
+            "duration": {
+                "doc": "$~Cuánto deben durar mis animaciones si son un solo @Pose.",
+                "names": "$~duración"
+            },
+            "style": {
+                "doc": "$~El estilo de animación que debo usar.",
+                "names": "$~estilo"
+            },
+            "defaultDescription": "$~$description, una imagen de $columns por $rows"
         }
     }
 }

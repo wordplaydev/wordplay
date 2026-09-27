@@ -263,3 +263,32 @@ test('a phrase with no place of its own settles after its first move', () => {
         ),
     ).toBe(true);
 });
+
+/**
+ * A new output type is invisible to the palette unless every one of these ladders learns
+ * it, and none of them fail loudly: an unclassified output reads as a plain `value`, so
+ * the palette offers to wrap it in a phrase; and one missing from `isOutput` makes a
+ * program that draws it look like a program that draws nothing.
+ */
+const picture = `Image([[🌈(50% 0 0°)]] "a picture")`;
+
+test('a picture is classified as output, not as a value to wrap in text', () => {
+    expect(kindOf(picture)).toBe('image');
+    // Through a name, the way a shape is: the kind follows the value, not the syntax.
+    expect(kindOf(`i: ${picture}\ni`)).toBe('image');
+});
+
+test('a list of pictures is a wrappable group', () => {
+    expect(kindOf(`[${picture} ${picture}]`)).toBe('image');
+});
+
+test('a picture alone can be given a stage', () => {
+    const staged = addStage(DB, make(picture));
+    expect(staged).toBeDefined();
+    if (staged !== undefined)
+        expect(
+            has(staged, (e, p) =>
+                e.is(p.shares.output.Stage, p.getNodeContext(e)),
+            ),
+        ).toBe(true);
+});

@@ -1915,6 +1915,119 @@
                 "doc": "$~Batas tempat kata-kataku pindah ke baris berikutnya.",
                 "names": "$~bungkus"
             }
+        },
+        "Image": {
+            "doc": "$~Aku sebuah kotak-kotak warna, digambar sebagai sebuah gambar. Beri aku daftar baris, masing-masing daftar @Color, dan aku akan mewarnai satu kotak untuk masing-masing. Beri aku sebuah /glyph/ dan aku akan menggambar teks di setiap kotak sebagai gantinya.",
+            "names": ["$~Gambar"],
+            "colors": {
+                "doc": "$~Baris-baris warnaku, baris teratas lebih dulu. Setiap baris harus punya panjang yang sama.",
+                "names": ["$~jaringanWarna"]
+            },
+            "description": {
+                "doc": "$~Apa yang kutunjukkan, untuk siapa saja yang tidak bisa melihatku. Aku meminta ini karena sebuah kotak-kotak warna tidak punya kata-katanya sendiri sebagai gantinya.",
+                "names": "$~deskripsi"
+            },
+            "width": {
+                "doc": "$~Seberapa lebar aku seharusnya. Jika kamu hanya memberiku tinggi, aku mengambil lebarku dari bentukku; jika kamu memberikan keduanya, kotak-kotakku meregang untuk menyesuaikan.",
+                "names": "$~lebar"
+            },
+            "height": {
+                "doc": "$~Seberapa tinggi aku seharusnya. Jika kamu hanya memberiku lebar, aku mengambil tinggiku dari bentukku.",
+                "names": "$~tinggi"
+            },
+            "glyph": {
+                "doc": "$~Sebuah fungsi dari salah satu warnaku ke teks yang harus kugambar sebagai gantinya. Tanpa itu aku mewarnai kotak-kotak polos.",
+                "names": "$~glyph"
+            },
+            "recolor": {
+                "doc": "$~Sebuah fungsi dari salah satu warnaku ke warna yang harus kugambar sebagai gantinya. Berguna untuk mengubah sebuah gambar menjadi lebih sedikit warna.",
+                "names": "$~warnaiUlang"
+            },
+            "pixel": {
+                "doc": "$~Salah satu warnaku, yaitu yang diberikan kepada masing-masing /glyph/ dan /recolor/.",
+                "names": "$~piksel"
+            },
+            "glyphs": {
+                "doc": "$~Apa yang kugambar di setiap kotak, ditentukan dari /glyph/. Tidak ada apa-apa, jika kamu tidak memberiku /glyph/.",
+                "names": ["$~jaringanGlyph"]
+            },
+            "palette": {
+                "doc": "$~Warna-warna yang sebenarnya kugambar, ditentukan dari /recolor/. Warna-warnaku sendiri, jika kamu tidak memberiku /recolor/.",
+                "names": "$~palet"
+            },
+            "face": {
+                "doc": "$~Nama gaya huruf yang harus digunakan untuk menggambar glyph-ku. Jika aku tidak punya satu pun, aku memakai apa pun yang memuatku.",
+                "names": "$~wajah"
+            },
+            "place": {
+                "doc": "$~Tempat di panggung tempat aku seharusnya berada.",
+                "names": "$~tempat"
+            },
+            "name": {
+                "doc": "$~Aku adalah nama yang bisa kamu pakai, untuk animasi dan @Collision.",
+                "names": "$~nama"
+            },
+            "selectable": {
+                "doc": "$~Apakah aku bisa dipilih sebagai bagian dari @Choice.",
+                "names": "$~dapatDipilih"
+            },
+            "color": {
+                "doc": "$~Sebuah warna untuk glyph-ku. Tanpa satu warna, setiap glyph mengambil warna kotak yang diwakilinya; dengan satu warna, semuanya berbagi warna itu, yang dibutuhkan untuk menggambar dengan huruf. Aku mengabaikannya jika aku tidak punya /glyph/, karena saat itu kotak-kotakku adalah warnaku.",
+                "names": "$~warna"
+            },
+            "background": {
+                "doc": "$~Warna di belakangku.",
+                "names": "$~latarBelakang"
+            },
+            "opacity": {
+                "doc": "$~Seberapa buram aku seharusnya.",
+                "names": "$~kepekatan"
+            },
+            "offset": {
+                "doc": "$~Seberapa jauh aku dipindahkan dari tempatku, setelah aku ditempatkan.",
+                "names": "$~geser"
+            },
+            "rotation": {
+                "doc": "$~Seberapa banyak aku diputar.",
+                "names": "$~putaran"
+            },
+            "scale": {
+                "doc": "$~Seberapa banyak aku diskalakan.",
+                "names": "$~skala"
+            },
+            "flipx": {
+                "doc": "$~Apakah aku dibalik secara mendatar.",
+                "names": "$~balikX"
+            },
+            "flipy": {
+                "doc": "$~Apakah aku dibalik secara tegak.",
+                "names": "$~balikY"
+            },
+            "entering": {
+                "doc": "$~@Pose atau @Sequence yang harus kulakukan saat memasuki @Stage.",
+                "names": "$~masuk"
+            },
+            "resting": {
+                "doc": "$~@Pose atau @Sequence yang harus saya lakukan saat saya tidak bergerak.",
+                "names": "$~diam"
+            },
+            "moving": {
+                "doc": "$~@Pose atau @Sequence yang harus saya lakukan saat saya bergerak.",
+                "names": "$~bergerak"
+            },
+            "exiting": {
+                "doc": "$~@Pose atau @Sequence yang harus saya lakukan saat meninggalkan @Stage.",
+                "names": "$~keluar"
+            },
+            "duration": {
+                "doc": "$~Berapa lama animasi saya harus berlangsung jika hanya satu @Pose.",
+                "names": "$~durasi"
+            },
+            "style": {
+                "doc": "$~Gaya animasi yang harus saya gunakan.",
+                "names": "$~gaya"
+            },
+            "defaultDescription": "$~$description, sebuah gambar $columns kali $rows"
         }
     }
 }
