@@ -15,6 +15,7 @@ These notes are publicly posted in [production](https://wordplay.dev/updates), s
 
 - ⚡ The Video example in the [galleries](https://wordplay.dev/galleries) now draws the camera with @Image, so it keeps up instead of stalling.
 - 🎵 Importing a song now happens where you add every other kind of file, with the + button, instead of in the palette. (#559)
+- 📝 A long list of lists, like the colors of an imported picture, now opens folded, so its file shows up right away instead of after a long pause.
 
 ### Fixed
 

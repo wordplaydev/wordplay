@@ -61,6 +61,23 @@ test('a long list arrives folded', () => {
     expect(found[0]).toBeInstanceOf(ListLiteral);
 });
 
+test('a picture of rows arrives folded, though no row is long', () => {
+    // The shape an imported picture writes: rows shorter than the threshold, which
+    // together are a thousand colors. Counting only each list's own items opened it as
+    // every one of them drawn at once.
+    const row = `[${Array.from({ length: 8 }, () => '1').join(' ')}]`;
+    const found = folds(`[${Array.from({ length: 8 }, () => row).join(' ')}]`);
+    expect(found).toHaveLength(1);
+    expect(found[0]).toBeInstanceOf(ListLiteral);
+    // Only the outer list: each row is still short enough to show once it is opened.
+    expect(found[0]?.toWordplay().startsWith('[[')).toBe(true);
+});
+
+test('a few short rows arrive open', () => {
+    // Nesting alone isn't a reason to fold; the total is.
+    expect(folds(`[[1 2 3] [4 5 6] [7 8 9]]`)).toHaveLength(0);
+});
+
 test('an imported track folds its notes but not its music', () => {
     // The shape a MIDI import writes: the note list is long, the list of track
     // names is not, so only the notes close.

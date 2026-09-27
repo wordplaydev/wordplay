@@ -442,7 +442,14 @@ test('importing a large MIDI file finishes rather than hanging', async ({
             timeout: 60000,
         })
         .toContain('Music');
-    const program = (await editor.textContent()) ?? '';
+    // The code alone, without the caret's description: the import selects the track it
+    // added, and that description ("…played by one Instrument") is inside the editor.
+    const program = await editor.evaluate((element) => {
+        const copy = element.cloneNode(true);
+        if (!(copy instanceof HTMLElement)) return '';
+        copy.querySelectorAll('.caret-description').forEach((e) => e.remove());
+        return copy.textContent ?? '';
+    });
     // ↓ is the borrow. Written literally rather than imported, so this test
     // says what the creator would see in their program.
     expect(program, 'the program should borrow the notes').toContain('↓');

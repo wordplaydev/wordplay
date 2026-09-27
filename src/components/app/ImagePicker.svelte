@@ -21,7 +21,10 @@
     import {
         boxSampleRect,
         clampRect,
+        MinimumCrop,
+        resizeRect,
         sampleSize,
+        type Corner,
         type Rect,
     } from '@db/characters/raster';
     import type { LocaleTextAccessor } from '@locale/Locales';
@@ -111,6 +114,10 @@
      * result can use.
      */
     const WorkingSize = 512;
+
+    /** The longest side of the preview, in ems. Width follows from the crop's shape, so
+     *  the preview always fits a square of this size. */
+    const PreviewSize = 6;
 
     let picker: HTMLInputElement | undefined = $state(undefined);
     let problem = $state<'tooBig' | 'unreadable' | null>(null);
@@ -341,9 +348,22 @@
         pointer: number;
         fromX: number;
         fromY: number;
-        cropX: number;
-        cropY: number;
+        /** The crop when the drag began, which every move is measured from. */
+        start: Rect;
+        /** The corner being dragged, or nothing when the whole box is. */
+        corner: Corner | undefined;
     } | null = null;
+
+    function cornerOf(target: EventTarget | null): Corner | undefined {
+        if (!(target instanceof HTMLElement)) return undefined;
+        const corner = target.dataset.corner;
+        return corner === 'top-left' ||
+            corner === 'top-right' ||
+            corner === 'bottom-left' ||
+            corner === 'bottom-right'
+            ? corner
+            : undefined;
+    }
 
     function pointerToSource(
         event: PointerEvent,
@@ -366,8 +386,10 @@
             pointer: event.pointerId,
             fromX: at.x,
             fromY: at.y,
-            cropX: crop.x,
-            cropY: crop.y,
+            start: { ...crop },
+            // A corner resizes; anywhere else moves. Without corners a crop that starts
+            // as the whole picture had nowhere to move and so could never change.
+            corner: cornerOf(event.target),
         };
     }
 
@@ -375,16 +397,37 @@
         if (dragging === null || dragging.pointer !== event.pointerId) return;
         const at = pointerToSource(event);
         if (at === null) return;
-        setCrop({
-            ...crop,
-            x: dragging.cropX + (at.x - dragging.fromX),
-            y: dragging.cropY + (at.y - dragging.fromY),
-        });
+        const dx = at.x - dragging.fromX;
+        const dy = at.y - dragging.fromY;
+        if (dragging.corner !== undefined && source !== null)
+            setCrop(
+                resizeRect(
+                    dragging.start,
+                    dragging.corner,
+                    dx,
+                    dy,
+                    source.width,
+                    source.height,
+                    square,
+                    MinimumCrop,
+                ),
+            );
+        else
+            setCrop({
+                ...dragging.start,
+                x: dragging.start.x + dx,
+                y: dragging.start.y + dy,
+            });
     }
 
     function endDrag(event: PointerEvent) {
         if (dragging === null || dragging.pointer !== event.pointerId) return;
-        const moved = crop.x !== dragging.cropX || crop.y !== dragging.cropY;
+        const { start } = dragging;
+        const moved =
+            crop.x !== start.x ||
+            crop.y !== start.y ||
+            crop.width !== start.width ||
+            crop.height !== start.height;
         dragging = null;
         if (moved) announceCrop();
     }
@@ -488,7 +531,14 @@
                         style:top="{(100 * crop.y) / source.height}%"
                         style:width="{(100 * crop.width) / source.width}%"
                         style:height="{(100 * crop.height) / source.height}%"
-                    ></button>
+                        ><!-- Pointer-only: the keyboard resizes with the caller's
+                             controls instead, so these are hidden from assistive
+                             technology rather than being four more tab stops. -->{#each ['top-left', 'top-right', 'bottom-left', 'bottom-right'] as corner (corner)}<span
+                                class="handle {corner}"
+                                data-corner={corner}
+                                aria-hidden="true"
+                            ></span>{/each}</button
+                    >
                 </div>
                 <!-- role="img" on the wrapper, not the canvas: a canvas is
                          already a graphics element and can't take the role. -->
@@ -499,6 +549,8 @@
                         (l) => l.ui.image.preview,
                     )}
                     style:aspect-ratio="{columns} / {rows}"
+                    style:width="{PreviewSize *
+                        Math.min(1, columns / Math.max(1, rows))}em"
                 >
                     <canvas
                         width={columns}
@@ -572,8 +624,48 @@
         border-style: dashed;
     }
 
+    /* A square at each corner, half outside the box so it can be grabbed even when the
+       crop is the whole picture and its edges are the picture's. */
+    .handle {
+        position: absolute;
+        width: var(--wordplay-spacing-double);
+        height: var(--wordplay-spacing-double);
+        background: var(--wordplay-highlight-color);
+        /* A ring of the page's own color, so a handle stands out from the box's border
+           and from whatever the picture is under it. */
+        border: var(--wordplay-border-width) solid var(--wordplay-background);
+        border-radius: 50%;
+    }
+
+    /* physical: the crop is measured in the picture's pixels, which don't mirror in a
+       right-to-left interface, so its corners don't either. */
+    .top-left {
+        left: calc(-1 * var(--wordplay-spacing)); /* physical: see above */
+        top: calc(-1 * var(--wordplay-spacing));
+        cursor: nwse-resize;
+    }
+
+    .top-right {
+        right: calc(-1 * var(--wordplay-spacing)); /* physical: see above */
+        top: calc(-1 * var(--wordplay-spacing));
+        cursor: nesw-resize;
+    }
+
+    .bottom-left {
+        left: calc(-1 * var(--wordplay-spacing)); /* physical: see above */
+        bottom: calc(-1 * var(--wordplay-spacing));
+        cursor: nesw-resize;
+    }
+
+    .bottom-right {
+        right: calc(-1 * var(--wordplay-spacing)); /* physical: see above */
+        bottom: calc(-1 * var(--wordplay-spacing));
+        cursor: nwse-resize;
+    }
+
+    /* Its width is set in the markup, so a tall crop fits the same box as a wide one
+       rather than growing six widths tall and pushing the controls out of sight. */
     .preview {
-        width: 6em;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
     }
 

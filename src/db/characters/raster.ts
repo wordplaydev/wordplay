@@ -104,6 +104,59 @@ export function clampRect(rect: Rect, width: number, height: number): Rect {
     };
 }
 
+/** The smallest crop a person can make, in working pixels. One sample is one color, so
+ *  anything smaller is only harder to grab. Shared by the corner handles and the sliders
+ *  so the pointer and the keyboard stop at the same place. */
+export const MinimumCrop = 4;
+
+/** A corner of a crop box, which dragging resizes from while the opposite one stays put. */
+export type Corner = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+
+/**
+ * Move one corner of a rectangle by a drag, keeping the opposite corner where it was.
+ *
+ * Pure so the geometry can be tested without a pointer: a crop that can only be moved and
+ * never resized starts as the whole picture and can't be made smaller at all. Held square
+ * when asked, on the longer of the two movements, so a diagonal drag behaves the way it
+ * looks; and never smaller than `minimum`, or inverted past the fixed corner.
+ */
+export function resizeRect(
+    rect: Rect,
+    corner: Corner,
+    dx: number,
+    dy: number,
+    width: number,
+    height: number,
+    square: boolean,
+    minimum = 1,
+): Rect {
+    const left = corner === 'top-left' || corner === 'bottom-left';
+    const top = corner === 'top-left' || corner === 'top-right';
+    // The corner that stays put, and the most room there is to grow away from it.
+    const anchorX = left ? rect.x + rect.width : rect.x;
+    const anchorY = top ? rect.y + rect.height : rect.y;
+    const roomX = left ? anchorX : width - anchorX;
+    const roomY = top ? anchorY : height - anchorY;
+
+    let w = Math.max(minimum, Math.min(roomX, rect.width + (left ? -dx : dx)));
+    let h = Math.max(minimum, Math.min(roomY, rect.height + (top ? -dy : dy)));
+    if (square) {
+        const grow =
+            Math.abs(w - rect.width) >= Math.abs(h - rect.height) ? w : h;
+        w = h = Math.max(minimum, Math.min(grow, roomX, roomY));
+    }
+    return clampRect(
+        {
+            x: left ? anchorX - w : anchorX,
+            y: top ? anchorY - h : anchorY,
+            width: w,
+            height: h,
+        },
+        width,
+        height,
+    );
+}
+
 /** Keep a crop box square and inside the image. */
 export function clampCrop(crop: Crop, width: number, height: number): Crop {
     const size = Math.max(1, Math.min(crop.size, width, height));

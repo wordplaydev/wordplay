@@ -28644,10 +28644,6 @@
                                                             "description": "[plain] The ARIA label for the live camera picture",
                                                             "type": "string"
                                                         },
-                                                        "instructions": {
-                                                            "$ref": "#/definitions/FormattedText",
-                                                            "description": "[formatted] What this does, and that nothing is sent anywhere"
-                                                        },
                                                         "retake": {
                                                             "$ref": "#/definitions/ButtonText",
                                                             "description": "The button that goes back to the live picture"
@@ -28658,7 +28654,6 @@
                                                         }
                                                     },
                                                     "required": [
-                                                        "instructions",
                                                         "feed",
                                                         "capture",
                                                         "retake",
@@ -28670,6 +28665,49 @@
                                                 "cameraDoc": {
                                                     "$ref": "#/definitions/Template%3C%5B%22columns%22%2C%22rows%22%5D%3E",
                                                     "description": "[plain] The doc written at the top of the new source when the picture came from the camera."
+                                                },
+                                                "crop": {
+                                                    "additionalProperties": false,
+                                                    "description": "[plain] Labels for the sliders choosing how wide and how tall a part of the picture to keep",
+                                                    "properties": {
+                                                        "height": {
+                                                            "additionalProperties": false,
+                                                            "properties": {
+                                                                "label": {
+                                                                    "type": "string"
+                                                                },
+                                                                "tip": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "label",
+                                                                "tip"
+                                                            ],
+                                                            "type": "object"
+                                                        },
+                                                        "width": {
+                                                            "additionalProperties": false,
+                                                            "properties": {
+                                                                "label": {
+                                                                    "type": "string"
+                                                                },
+                                                                "tip": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "required": [
+                                                                "label",
+                                                                "tip"
+                                                            ],
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "required": [
+                                                        "width",
+                                                        "height"
+                                                    ],
+                                                    "type": "object"
                                                 },
                                                 "doc": {
                                                     "$ref": "#/definitions/Template%3C%5B%22name%22%2C%22columns%22%2C%22rows%22%5D%3E",
@@ -28719,6 +28757,7 @@
                                                 "source",
                                                 "instructions",
                                                 "size",
+                                                "crop",
                                                 "budget",
                                                 "tooBig",
                                                 "button",

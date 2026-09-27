@@ -680,6 +680,11 @@ type UITexts = {
                 instructions: FormattedText;
                 /** [plain] Labels for the slider choosing how many colors across the picture becomes */
                 size: { label: string; tip: string };
+                /** [plain] Labels for the sliders choosing how wide and how tall a part of the picture to keep */
+                crop: {
+                    width: { label: string; tip: string };
+                    height: { label: string; tip: string };
+                };
                 /** [plain] How big the source will be: $columns by $rows colors, $size kilobytes, $percent of what a project may hold */
                 budget: Template<['columns', 'rows', 'size', 'percent']>;
                 /** [plain] Shown beside a size too big for what is left of this project */
@@ -693,8 +698,6 @@ type UITexts = {
                 /** [plain] Announced once the colors are a source file. $name is what the source is called. */
                 added: Template<['name', '#count']>;
                 camera: {
-                    /** [formatted] What this does, and that nothing is sent anywhere */
-                    instructions: FormattedText;
                     /** [plain] The ARIA label for the live camera picture */
                     feed: string;
                     /** The button that keeps the picture showing right now */

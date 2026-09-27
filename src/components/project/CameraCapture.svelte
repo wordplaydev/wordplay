@@ -14,7 +14,6 @@
     import Button from '@components/widgets/Button.svelte';
     import Note from '@components/app/Notice.svelte';
     import type { Working } from '@components/app/ImagePicker.svelte';
-    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { DB, locales } from '@db/Database';
     import CameraFeed from '@input/CameraFeed';
 
@@ -94,7 +93,6 @@
 </script>
 
 <div class="panel-column">
-    <MarkupHTMLView markup={(l) => l.ui.source.add.image.camera.instructions} />
     {#if denied}
         <Note text={(l) => l.ui.source.add.image.camera.denied} />
     {:else}

@@ -882,7 +882,6 @@
                     }
                 },
                 "image": {
-                    "instructions": "$?Drag the box to choose the part of the picture to keep, and the *colors* slider to choose how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done.",
                     "size": {
                         "label": "$?colors",
                         "tip": "$?how many colors across the picture becomes"
@@ -898,7 +897,6 @@
                     "added": "$?added $name, $#count[one color|$count colors]",
                     "name": "$?colors",
                     "camera": {
-                        "instructions": "$?Your camera, live. Keep a picture of what it sees and it becomes colors you can read and change. Nothing is sent anywhere — the picture never leaves this device.",
                         "feed": "$?what your camera sees",
                         "capture": {
                             "label": "$?keep",
@@ -919,7 +917,18 @@
                             "$?a picture file on this device",
                             "$?what your camera sees right now"
                         ]
-                    }
+                    },
+                    "crop": {
+                        "width": {
+                            "label": "$?width",
+                            "tip": "$?how wide a part of the picture to keep"
+                        },
+                        "height": {
+                            "label": "$?height",
+                            "tip": "$?how tall a part of the picture to keep"
+                        }
+                    },
+                    "instructions": "$?Drag the box to move it, or drag one of its corners to change its size. The *width* and *height* sliders do the same, and the *colors* slider chooses how many colors it becomes. With the keyboard, press *enter* to start moving the box, then use the *arrow* keys, and *enter* again when you’re done."
                 },
                 "song": {
                     "explanation": "$?A MIDI file — .mid or .midi, up to 2 MB — becomes a new file holding its notes, and your program gets a @Music that plays them. Up to 10,000 notes and 128 tracks; anything a @Music can’t hold is listed after the import."
@@ -930,19 +939,19 @@
                     "tips": [
                         "$?a file with nothing in it yet",
                         "$?the colors of a picture, or of what your camera sees",
-                        "$?rows and columns pasted from a spreadsheet",
+                        "$?comma-separated values (CSV) pasted from a spreadsheet",
                         "$?the notes of a MIDI file on this device"
                     ]
                 },
                 "table": {
                     "name": "$?rows",
-                    "explanation": "$?Paste rows from a spreadsheet, or any text with commas between the values, and they become a @Table you can read and change. The first row names the columns.",
+                    "explanation": "$?Paste comma-separated values (CSV), such as rows copied from a spreadsheet, and they become a @Table you can read and change. The first row names the columns.",
                     "paste": {
-                        "label": "$?rows",
+                        "label": "$?comma-separated values (CSV)",
                         "placeholder": "$?name, legs\ncat, 4\nbird, 2"
                     },
                     "summary": "$?$#rows[one row|$rows rows] of $columns columns",
-                    "notTable": "$?that doesn’t read as rows and columns yet",
+                    "notTable": "$?that isn’t comma-separated values (CSV) yet",
                     "button": {
                         "label": "$?add",
                         "tip": "$?add these rows as a file of code"

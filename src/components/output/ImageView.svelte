@@ -108,7 +108,9 @@
                     color:
                         color === undefined
                             ? undefined
-                            : (uniform ?? color.toCSS(context.adapting)),
+                            : // A cell's own color is a pixel, so it is kept as authored like
+                              // the canvas's; the image's uniform color is styling and adapts.
+                              (uniform ?? color.toCSS(false)),
                     glyph: image.glyphs?.[y]?.[x] ?? '',
                 });
             }
@@ -139,21 +141,21 @@
     /**
      * Paint one square per color at the grid's own size, then let CSS scale it up.
      *
-     * `fillStyle` takes the same `lch()` string the rest of output uses, so the adaptation
-     * a dark canvas asks for is applied exactly where every other color applies it, rather
-     * than being converted to bytes here and drifting.
+     * Never adapted to a dark canvas, unlike every other color on stage. Adapting inverts
+     * lightness, which keeps a designed palette's contrasts but turns a photograph into
+     * its negative: a picture's colors are what it is of, not a scheme to re-light. The
+     * image's own `color` and `background` are styling and still adapt.
      */
     $effect(() => {
         const element = canvas;
         const grid = image.colors;
-        const adapting = context.adapting;
         if (element === undefined || image.glyphs !== undefined) return;
         const ctx = element.getContext('2d');
         if (ctx === null) return;
         ctx.clearRect(0, 0, element.width, element.height);
         for (const [y, row] of grid.entries())
             for (const [x, color] of row.entries()) {
-                ctx.fillStyle = color.toCSS(adapting);
+                ctx.fillStyle = color.toCSS(false);
                 ctx.fillRect(x, y, 1, 1);
             }
     });

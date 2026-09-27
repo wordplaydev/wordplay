@@ -132,7 +132,12 @@
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import Drawing from '@components/output/Drawing.svelte.ts';
     import type { OutputInfoSet } from '@output/animation/Animator';
-    import { writable, type Readable, type Writable } from 'svelte/store';
+    import {
+        get,
+        writable,
+        type Readable,
+        type Writable,
+    } from 'svelte/store';
     import Characters from '../../lore/BasisCharacters';
     import {
         PROJECT_PARAM_EDIT,
@@ -858,8 +863,10 @@
         // shows the same failure as the program's latest value (which is how
         // the stage and annotations already display it). Without reading the
         // value, an error made while editing would be "new" at the next play.
-        const exception = $evaluator.exception;
-        const latest = $evaluator.getLatestSourceValue($evaluator.getMain());
+        // The same reason as above: this is also called straight after the swap.
+        const current = get(evaluator);
+        const exception = current.exception;
+        const latest = current.getLatestSourceValue(current.getMain());
         const surfaced =
             exception ??
             (latest instanceof ExceptionValue ? latest : undefined);
@@ -871,12 +878,18 @@
     }
 
     function getEvaluationContext() {
+        // `get` rather than `$evaluator`: this runs straight after `evaluator.set()` in
+        // `updateEvaluator`, inside a store callback, where the `$` read still answers with
+        // the evaluator being replaced. The context then described the previous program —
+        // a new source had no value — until the new evaluator happened to broadcast, which
+        // in edit mode it may never do.
+        const current = get(evaluator);
         return {
-            evaluator: $evaluator,
-            step: $evaluator.getCurrentStep(),
-            stepIndex: $evaluator.getStepIndex(),
-            playing: $evaluator.isPlaying(),
-            streams: $evaluator.reactions,
+            evaluator: current,
+            step: current.getCurrentStep(),
+            stepIndex: current.getStepIndex(),
+            playing: current.isPlaying(),
+            streams: current.reactions,
             mode: uiMode,
             performance,
         };
@@ -2837,10 +2850,20 @@
      * and a picture's thousand colors is a thousand token views for anyone who
      * opens it.
      */
-    function addedSource(revised: Project) {
-        Projects.reviseProject(revised);
+    function addedSource(revised: Project, select?: Node) {
+        const main = revised.getMain();
+        Projects.reviseProject(
+            select === undefined ? revised : revised.withCaret(main, select),
+        );
         layout = layout.withTiles(syncTiles(revised, layout.tiles));
         refreshLayout();
+        // The project's caret is only read when an editor first mounts, or on undo, so an
+        // editor already showing main keeps its own and would ignore the one above. It is
+        // told directly, once it is showing the revised source that `select` belongs to.
+        if (select !== undefined)
+            tick().then(() =>
+                $editors.get(Layout.getSourceID(0))?.setCaretPosition(select),
+            );
     }
 
     /**

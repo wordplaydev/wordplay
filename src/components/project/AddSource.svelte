@@ -29,6 +29,7 @@
     import freshSourceName from '@edit/freshSourceName';
     import type LocaleText from '@locale/LocaleText';
     import type { NameText } from '@locale/LocaleText';
+    import type Node from '@nodes/Node';
     import type TableLiteral from '@nodes/TableLiteral';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import {
@@ -41,6 +42,7 @@
     } from '@edit/image/imageToColors';
     import CameraCapture from '@components/project/CameraCapture.svelte';
     import type { Working } from '@components/app/ImagePicker.svelte';
+    import { MinimumCrop, type Rect } from '@db/characters/raster';
     import { untrack } from 'svelte';
     import { withoutAnnotations } from '@locale/withoutAnnotations';
     import { first, must } from '@util/nullable';
@@ -55,7 +57,7 @@
         addBlank: () => void;
         /** Put a project that has grown a source into the world. ProjectView's,
          *  because the new file needs a tile as well as a place in the project. */
-        added: (project: Project) => void;
+        added: (project: Project, select?: Node) => void;
         /** Say something in the app's live region. */
         announce: (message: string) => void;
         /** A picture dropped on the project. Opens the dialog on the picture,
@@ -134,7 +136,10 @@
         // Analyzed here rather than left to fire once the dialog has closed: on a large
         // grid it is long enough that the silence would read as a freeze.
         revised.analyze();
-        added(revised);
+        // Select the borrow, which is the one line in main that says where the new name
+        // comes from. Without it the file was made and nothing on screen said how to use
+        // it.
+        added(revised, revised.getMain().expression.borrows[0]);
         announce(said);
         show = false;
     }
@@ -231,9 +236,37 @@
     columns: number,
     rows: number,
     clear: () => void,
+    rect: Rect,
+    whole: Working,
+    setRect: (rect: Rect) => void,
 )}
     {@const bytes = estimateBytes(columns, rows)}
     {@const fits = bytes <= room}
+    <!-- The keyboard's way to crop. The box starts as the whole picture, so until it is
+         made smaller there is nowhere for the arrow keys to move it; these are what make
+         it smaller, and change its shape, without a pointer. -->
+    <Slider
+        label={(l) => l.ui.source.add.image.crop.width.label}
+        tip={(l) => l.ui.source.add.image.crop.width.tip}
+        min={Math.min(MinimumCrop, whole.width)}
+        max={whole.width}
+        increment={1}
+        precision={0}
+        unit={''}
+        value={rect.width}
+        change={(value) => setRect({ ...rect, width: value.toNumber() })}
+    ></Slider>
+    <Slider
+        label={(l) => l.ui.source.add.image.crop.height.label}
+        tip={(l) => l.ui.source.add.image.crop.height.tip}
+        min={Math.min(MinimumCrop, whole.height)}
+        max={whole.height}
+        increment={1}
+        precision={0}
+        unit={''}
+        value={rect.height}
+        change={(value) => setRect({ ...rect, height: value.toNumber() })}
+    ></Slider>
     <Slider
         label={(l) => l.ui.source.add.image.size.label}
         tip={(l) => l.ui.source.add.image.size.tip}
@@ -346,7 +379,15 @@
                         {announce}
                         onchoose={(name) => (pictureName = name)}
                     >
-                        {#snippet controls({ sampled, columns, rows, clear })}
+                        {#snippet controls({
+                            sampled,
+                            columns,
+                            rows,
+                            clear,
+                            rect,
+                            source,
+                            setRect,
+                        })}
                             {#if pictureSource === Sources.Camera}
                                 <Button
                                     tip={(l) =>
@@ -360,7 +401,15 @@
                                             .label}
                                 />
                             {/if}
-                            {@render sizing(sampled, columns, rows, clear)}
+                            {@render sizing(
+                                sampled,
+                                columns,
+                                rows,
+                                clear,
+                                rect,
+                                source,
+                                setRect,
+                            )}
                         {/snippet}
                     </ImagePicker>
                 {/if}

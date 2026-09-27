@@ -29,6 +29,7 @@
     import { locales } from '@db/Database';
     import type Project from '@db/projects/Project';
     import freshSourceName from '@edit/freshSourceName';
+    import type Node from '@nodes/Node';
     import { MUSIC_SYMBOL } from '@parser/Symbols';
 
     /**
@@ -51,8 +52,9 @@
     interface Props {
         project: Project;
         editable: boolean;
-        /** Put the revised project into the world, tile and all. */
-        added: (project: Project) => void;
+        /** Put the revised project into the world, tile and all, selecting `select` in
+         *  main if given. */
+        added: (project: Project, select?: Node) => void;
     }
 
     let { project, editable, added }: Props = $props();
@@ -209,11 +211,7 @@
             revised,
             must(musics[musics.length - 1], 'the imported music'),
         )?.tracks[0]?.evaluate;
-        added(
-            track === undefined
-                ? revised
-                : revised.withCaret(revised.getMain(), track),
-        );
+        added(revised, track);
 
         report = {
             findings: conversion.findings,

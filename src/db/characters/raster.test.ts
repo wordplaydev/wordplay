@@ -8,6 +8,7 @@ import {
     clampCrop,
     MinimumAlpha,
     pixelsFromRGBA,
+    resizeRect,
     sampleSize,
     withPixelLayer,
 } from '@db/characters/raster';
@@ -214,4 +215,67 @@ test.each([
     ['and keeps its shape while not being', 8, 4, 32, 8, 4],
 ])('%s', (_, w, h, resolution, columns, rows) => {
     expect(sampleSize(w, h, resolution)).toEqual({ columns, rows });
+});
+
+describe('resizeRect', () => {
+    const whole = { x: 0, y: 0, width: 100, height: 80 };
+
+    test('a crop that starts as the whole picture can be made smaller', () => {
+        // Moving it could never do this, which is why a crop of the whole picture
+        // couldn't be changed at all.
+        expect(
+            resizeRect(whole, 'bottom-right', -40, -30, 100, 80, false),
+        ).toEqual({ x: 0, y: 0, width: 60, height: 50 });
+    });
+
+    test('the opposite corner stays where it was', () => {
+        expect(resizeRect(whole, 'top-left', 20, 10, 100, 80, false)).toEqual({
+            x: 20,
+            y: 10,
+            width: 80,
+            height: 70,
+        });
+    });
+
+    test('it cannot grow past the picture', () => {
+        const small = { x: 10, y: 10, width: 20, height: 20 };
+        expect(
+            resizeRect(small, 'bottom-right', 500, 500, 100, 80, false),
+        ).toEqual({ x: 10, y: 10, width: 90, height: 70 });
+    });
+
+    test('it cannot shrink to nothing or turn inside out', () => {
+        expect(
+            resizeRect(whole, 'bottom-right', -500, -500, 100, 80, false, 4),
+        ).toEqual({ x: 0, y: 0, width: 4, height: 4 });
+    });
+
+    test('a square crop stays square, following the larger movement', () => {
+        const square = { x: 0, y: 0, width: 50, height: 50 };
+        const resized = resizeRect(
+            square,
+            'bottom-right',
+            -20,
+            -5,
+            100,
+            80,
+            true,
+        );
+        expect(resized.width).toBe(resized.height);
+        expect(resized.width).toBe(30);
+    });
+
+    test('a square crop stops at the nearer edge', () => {
+        const square = { x: 0, y: 0, width: 50, height: 50 };
+        const resized = resizeRect(
+            square,
+            'bottom-right',
+            90,
+            90,
+            100,
+            80,
+            true,
+        );
+        expect(resized).toEqual({ x: 0, y: 0, width: 80, height: 80 });
+    });
 });
