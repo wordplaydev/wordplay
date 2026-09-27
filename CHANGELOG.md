@@ -4,6 +4,20 @@ We'll note all notable changes in this file, including bug fixes, enhancements, 
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 These notes are publicly posted in [production](https://wordplay.dev/updates), so we write them to an audience of teachers and youth.
 
+## 0.38.1 - 2026-09-27
+
+### Added
+
+- 🤝 You can now share a how-to in another gallery you curate, and it stays one how-to, so edits, reactions, and comments show up everywhere it is shared. (#1065)
+
+### Changed
+
+- 📖 An open how-to now shows who wrote it, then the answers, then reactions and comments, then where it is shared, with each part in its own section.
+
+### Fixed
+
+- 🐛 A how-to no longer lists the person who wrote it twice.
+
 ## 0.38.0 - 2026-09-22
 
 ### Added
