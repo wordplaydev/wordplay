@@ -366,7 +366,13 @@
             if (communityIDs.has(howTo.getHowToId())) continue;
             const concept = index.getGalleryHowConcept(howTo.getHowToId());
             if (concept === undefined) continue;
-            const id = howTo.getHowToGalleryId();
+            // Grouped where the reader can open it, which for a how-to they
+            // know only through a repost is not its home (#1065).
+            const id = howTo.getGalleryIdFor(
+                (id) =>
+                    Galleries.accessibleGalleries.has(id) ||
+                    Galleries.expandedScopeGalleries.has(id),
+            );
             let group = groups.get(id);
             if (group === undefined) {
                 group = {

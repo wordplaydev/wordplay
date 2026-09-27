@@ -2,6 +2,7 @@ import { retireGalleryPaths } from './galleryPaths.js';
 import { foldWords, sameWords } from './searchWords.js';
 import { fieldOf, isRecord, isStringArray } from './shared/guards.js';
 import { nextModeration } from './moderationRequest.js';
+import { refreshRepostsInto } from './repostHowTo.js';
 import type {
     DocumentReference,
     DocumentSnapshot,
@@ -123,6 +124,26 @@ export function sameIdList(a: unknown, b: unknown): boolean {
     const right = Array.isArray(b) ? [...b].sort() : [];
     if (left.length !== right.length) return false;
     return left.every((id, index) => id === right[index]);
+}
+
+/**
+ * Whether anything a how-to reposted into this gallery derives its readers from
+ * has changed (#1065): who belongs, whether it is public, and whom it opens its
+ * how-tos to. Blind to everything else, since every gallery edit would otherwise
+ * query for reposts.
+ */
+export function repostInputsChanged(
+    before: Record<string, unknown>,
+    after: Record<string, unknown>,
+): boolean {
+    return (
+        !sameIdList(before.curators, after.curators) ||
+        !sameIdList(before.creators, after.creators) ||
+        (before.public === true) !== (after.public === true) ||
+        (before.howToExpandedVisibility === true) !==
+            (after.howToExpandedVisibility === true) ||
+        !sameIdList(before.howToViewersFlat, after.howToViewersFlat)
+    );
 }
 
 /**
@@ -412,6 +433,13 @@ export default async function galleryEdited(
         if (Object.keys(self).length > 0)
             updates.push({ ref: galleryStore.doc(galleryId), data: self });
     }
+
+    // How-tos reposted into this gallery (#1065) carry who it lets read them,
+    // so a change of who that is, or the gallery going, has to reach them.
+    if (before && (!after || repostInputsChanged(before, after)))
+        updates.push(
+            ...(await refreshRepostsInto(db, galleryId, after === undefined)),
+        );
 
     // Who may review this gallery's open reports (#938). `moderators` is
     // denormalized onto each report so the curator queue's read rule is an

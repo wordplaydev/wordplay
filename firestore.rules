@@ -792,7 +792,10 @@ service cloud.firestore {
       function howToServerFieldsUnchanged() {
         return (!("moderation" in request.resource.data) || request.resource.data.moderation == resource.data.get("moderation", "unrequested"))
           && (!("moderatedAt" in request.resource.data) || request.resource.data.moderatedAt == resource.data.get("moderatedAt", null))
-          && (!("flags" in request.resource.data) || request.resource.data.flags == resource.data.get("flags", null));
+          && (!("flags" in request.resource.data) || request.resource.data.flags == resource.data.get("flags", null))
+          && (!("reposts" in request.resource.data) || request.resource.data.reposts == resource.data.get("reposts", []))
+          && (!("repostReaders" in request.resource.data) || request.resource.data.repostReaders == resource.data.get("repostReaders", []))
+          && (!("repostedPublicly" in request.resource.data) || request.resource.data.repostedPublicly == resource.data.get("repostedPublicly", false));
       }
       // The create half of the pair above. An update guard compares against what is
       // stored, and on a create there is nothing stored — so without this, every rule
@@ -801,7 +804,44 @@ service cloud.firestore {
       function howToServerFieldsInitial() {
         return request.resource.data.get("moderation", "unrequested") == "unrequested"
           && request.resource.data.get("moderatedAt", null) == null
+          && request.resource.data.get("reposts", []).size() == 0
+          && request.resource.data.get("repostReaders", []).size() == 0
+          && request.resource.data.get("repostedPublicly", false) == false
           && request.resource.data.get("flags", {}).values().hasOnly([null]);
+      }
+
+      // Moving a repost on the canvas of the gallery it was reposted into
+      // (#1065). A rule cannot pull the one changed key out of a map, nor loop
+      // over `reposts`, so this states each repost by index — MaxHowToReposts
+      // of them, which rulesFieldsSync.test.ts holds to src/db/rulesFields.ts —
+      // and each costs a get() only if the write touches that gallery's key.
+      function placesInRepost(index) {
+        let reposts = resource.data.get("reposts", []);
+        let placements = request.resource.data.get("repostPlacements", {});
+        let galleryID = reposts.size() > index ? reposts[index] : null;
+        return galleryID != null
+          && placements.diff(resource.data.get("repostPlacements", {})).affectedKeys().hasOnly([galleryID])
+          && galleryID in placements
+          && placements[galleryID] is map
+          && placements[galleryID].size() == 2
+          && placements[galleryID].x is number
+          && placements[galleryID].y is number
+          && isRequestorCuratorCollaborator(request.auth.uid, galleryID);
+      }
+      function movesRepost() {
+        return placesInRepost(0)
+          || placesInRepost(1)
+          || placesInRepost(2)
+          || placesInRepost(3)
+          || placesInRepost(4);
+      }
+      // Where a repost sits is the arrangement of the gallery it was reposted
+      // into, so nobody else may write it — not even an editor of the how-to,
+      // whose rights are in its home. Stated above every branch, since the
+      // editors' branches admit any field.
+      function repostPlacementsGuarded() {
+        return !request.resource.data.diff(resource.data).affectedKeys().hasAny(["repostPlacements"])
+          || movesRepost();
       }
 
       allow create: if request.auth != null
@@ -821,6 +861,11 @@ service cloud.firestore {
           (request.auth != null && isRequestorOwnerCollaborator(request.auth.uid)) ||
           ("published" in resource.data && resource.data.published && (
             ('isPublic' in resource.data && resource.data.isPublic) ||
+            // Reposts (#1065), before any get(): the server keeps who a repost
+            // lets in flat on the how-to, so a query across how-tos from many
+            // home galleries is proved without reading one of them.
+            resource.data.get("repostedPublicly", false) == true ||
+            (request.auth != null && request.auth.uid in resource.data.get("repostReaders", [])) ||
             ('galleryId' in resource.data && isGalleryPublic(resource.data.galleryId)) ||
             (request.auth != null && 'galleryId' in resource.data && (
               isRequestorCuratorCollaborator(request.auth.uid, resource.data.galleryId) ||
@@ -853,6 +898,7 @@ service cloud.firestore {
           // do not apply to, so nothing legitimate is refused by this.
           howToMayBePublic() &&
           howToServerFieldsUnchanged() &&
+          repostPlacementsGuarded() &&
           (
             isMod() ||
             isRequestorOwnerCollaborator(request.auth.uid) ||
@@ -867,8 +913,13 @@ service cloud.firestore {
                   isRequestorCuratorCollaborator(request.auth.uid, resource.data.galleryId)
                 ) ||
                 (
+                  request.resource.data.diff(resource.data).affectedKeys().hasOnly(["repostPlacements"]) &&
+                  movesRepost()
+                ) ||
+                (
                   request.resource.data.diff(resource.data).affectedKeys().hasOnly(["social"]) && 
                   (
+                    request.auth.uid in resource.data.get("repostReaders", []) ||
                     isRequestorViewer(request.auth.uid, resource.data.galleryId) || 
                     isRequestorCuratorCollaborator(request.auth.uid, resource.data.galleryId)
                   )

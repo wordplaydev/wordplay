@@ -2304,17 +2304,16 @@
                         "label": "$~✅ An Guide übermittelt",
                         "tip": "$~dieses Wie-man wurde bereits eingereicht, damit es für den Leitfaden geprüft wird."
                     },
-                    "header": "$~Eintrag im Leitfaden"
+                    "label": "$~Leitfaden"
                 },
                 "usedBy": {
-                    "prompt": "$~Hast du diese oder eine andere Anleitung in deinem Projekt verwendet? Teile es anderen mit, indem du dein Projekt zur Liste hinzufügst!",
                     "empty": "$~Du hast noch keine Projekte oder andere veröffentlichte Anleitungen. Erstelle doch einfach eins!",
                     "countDisplay": "$~Andere Wordplay-Leitende haben dies in $#count[$count anderem Projekt oder Wie man|$count anderen Projekten oder Wie man] verwendet",
                     "selector": "$~Projekt- und Anleitungsauswahl",
                     "removeButton": "$~Projekt oder Anleitung aus der Liste entfernen",
-                    "addButton": "$~Projekt oder Anleitung hinzufügen"
+                    "addButton": "$~Projekt oder Anleitung hinzufügen",
+                    "label": "$~Verwendet in"
                 },
-                "reactionsPrompt": "$~Hat dir diese Anleitung gefallen? Hinterlasse einen Kommentar, um den Ersteller zu unterstützen!",
                 "chatPrompt": "$~Hinterlasse einen Kommentar oder eine Frage an den Ersteller!",
                 "link": {
                     "label": "$~🔗 Link zur Anleitung kopieren",
@@ -2323,7 +2322,20 @@
                 "collaborators": "$~geschrieben von",
                 "view": {
                     "tip": "$~Wie-man-Leitfaden ansehen"
-                }
+                },
+                "repost": {
+                    "prompt": "$~Andere Galerien",
+                    "add": "$~In einer anderen Galerie teilen",
+                    "selector": "$~Galerie, in der dieses Wie-man geteilt werden soll",
+                    "addButton": "$~dieses Wie-man in der gewählten Galerie teilen",
+                    "removeButton": "$~das Teilen dieses Wie-man in dieser Galerie beenden",
+                    "from": "$~Hauptgalerie",
+                    "same": "$~Reaktionen und Kommentare sind überall gleich, wo dieses Wie-man geteilt wird.",
+                    "failed": "$~Dieses Wie-man konnte nicht geteilt oder das Teilen nicht beendet werden. Prüfe deine Verbindung und versuche es erneut."
+                },
+                "responses": "$~Antworten",
+                "sharing": "$~Teilen",
+                "reactions": "$~Reaktionen"
             },
             "configuration": {
                 "configurationDialog": {

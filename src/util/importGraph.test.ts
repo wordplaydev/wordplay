@@ -946,12 +946,19 @@ test('resolving a color needs no basis', () => {
 // explaining why a refresh is scoped to one locale rather than all thirty-one. Prose in
 // two files every page already carries is what these budgets are for absorbing.
 
+// Reposting a how-to (#1065) is **+0 files** and moves every byte budget by a
+// hundredth. The callables are their own module (`howToReposts.ts`), reached only
+// from the how-to page, so the functions SDK stays off every graph. The bytes are
+// the schema version, the reposts listeners and `moveRepost` in
+// `HowToDatabase.svelte.ts`, the repost predicates in `howToAccess.ts`, and the
+// strings in en-US.json — all in files every page already carries.
+
 test.each([
-    ['src/routes/+layout.svelte', 535, 4.11],
-    ['src/components/app/Page.svelte', 559, 4.36],
-    ['src/routes/[[locale]]/+page.svelte', 574, 4.45],
-    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.46],
-    ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.5],
+    ['src/routes/+layout.svelte', 535, 4.12],
+    ['src/components/app/Page.svelte', 559, 4.38],
+    ['src/routes/[[locale]]/+page.svelte', 574, 4.47],
+    ['src/routes/[[locale]]/galleries/+page.svelte', 579, 4.48],
+    ['src/routes/[[locale]]/projects/+page.svelte', 588, 4.51],
 ])('%s stays within its import budget', (entry, maxFiles, maxMB) => {
     const reach = reachFrom(entry, Root);
     expect(

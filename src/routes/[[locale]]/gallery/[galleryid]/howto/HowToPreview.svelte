@@ -64,8 +64,13 @@
         howTo?.getTextInLocale($locales.getLocaleString()) ?? [],
     );
     let howToId: string = $derived(howTo?.getHowToId() ?? '');
-    let xcoord: number = $derived(howTo?.getCoordinates()[0] ?? 0);
-    let ycoord: number = $derived(howTo?.getCoordinates()[1] ?? 0);
+    /** The space this tile is in: its home, or a gallery it was reposted into,
+     *  where it has a place of its own (#1065). */
+    let spaceID: string = $derived(
+        gallery?.getID() ?? howTo?.getHowToGalleryId() ?? '',
+    );
+    let xcoord: number = $derived(howTo?.getCoordinates(spaceID)[0] ?? 0);
+    let ycoord: number = $derived(howTo?.getCoordinates(spaceID)[1] ?? 0);
     let isPublished: boolean = $derived(howTo ? howTo.isPublished() : false);
     // Preview glyph for the how-to. If the how-to text has an embedded
     // example, evaluate it (via the off-main-thread preview queue) and use
@@ -412,6 +417,11 @@
                     howToId,
                 );
             }
+        }
+
+        if (spaceID !== howTo.getHowToGalleryId()) {
+            HowTos.moveRepost(howTo, spaceID, xcoord, ycoord);
+            return;
         }
 
         howTo = howTo.withFields({ xcoord, ycoord });

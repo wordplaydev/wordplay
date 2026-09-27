@@ -2308,17 +2308,16 @@
                         "label": "$~✅ soumis au Guide",
                         "tip": "$~ce comment faire a déjà été proposé pour être ajouté au Guide."
                     },
-                    "header": "$~Inscription au Guide"
+                    "label": "$~Guide"
                 },
                 "usedBy": {
-                    "prompt": "$~Avez-vous utilisé ce tutoriel dans votre projet ou un autre tutoriel ? Faites-le savoir aux autres en ajoutant votre projet à la liste !",
                     "empty": "$~Vous n'avez encore publié aucun projet ni tutoriel. Essayez d'en créer un !",
                     "countDisplay": "$~D'autres directeurs de Wordplay ont utilisé ceci dans $#count[$#count autre projet ou comment faire|$count autres projets ou comment faire|$count autres projets ou comment faire]",
                     "selector": "$~sélecteur de projet et de procédure",
                     "removeButton": "$~supprimer le projet ou le tutoriel de la liste",
-                    "addButton": "$~ajouter un projet ou un tutoriel"
+                    "addButton": "$~ajouter un projet ou un tutoriel",
+                    "label": "$~Utilisé dans"
                 },
-                "reactionsPrompt": "$~Ce tutoriel vous a plu ? Laissez un commentaire pour soutenir son auteur !",
                 "chatPrompt": "$~Laissez un commentaire ou une question pour le créateur !",
                 "link": {
                     "label": "$~🔗 Copier le lien du tutoriel",
@@ -2327,7 +2326,20 @@
                 "collaborators": "$~écrit par",
                 "view": {
                     "tip": "$~voir le comment faire"
-                }
+                },
+                "repost": {
+                    "prompt": "$~Autres galeries",
+                    "add": "$~Partager dans une autre galerie",
+                    "selector": "$~galerie où partager ce comment faire",
+                    "addButton": "$~partager ce comment faire dans la galerie choisie",
+                    "removeButton": "$~arrêter de partager ce comment faire dans cette galerie",
+                    "from": "$~Galerie principale",
+                    "same": "$~Les réactions et les commentaires sont les mêmes partout où ce comment faire est partagé.",
+                    "failed": "$~Ce comment faire n'a pas pu être partagé ou retiré du partage. Vérifie ta connexion et réessaie."
+                },
+                "responses": "$~Réponses",
+                "sharing": "$~Partage",
+                "reactions": "$~Réactions"
             },
             "configuration": {
                 "configurationDialog": {

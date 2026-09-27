@@ -2302,17 +2302,16 @@
                         "label": "$~✅ skickad till Guide",
                         "tip": "$~denna hur-man har redan skickats in för att övervägas för att tas med i guiden."
                     },
-                    "header": "$~Listning i guiden"
+                    "label": "$~Guide"
                 },
                 "usedBy": {
-                    "prompt": "$~Använde du den här handledningen i ditt projekt eller i en annan handledning? Låt andra veta det genom att lägga till ditt projekt i listan!",
                     "empty": "$~Du har inga projekt eller andra publicerade instruktioner än. Försök att skapa ett!",
                     "countDisplay": "$~Andra Wordplay-regissörer har använt detta i $#count[$count annat projekt eller hur man|$count andra projekt eller hur man]",
                     "selector": "$~projekt- och instruktionsväljare",
                     "removeButton": "$~ta bort projekt eller instruktionsguide från listan",
-                    "addButton": "$~lägg till projekt eller instruktionsguide"
+                    "addButton": "$~lägg till projekt eller instruktionsguide",
+                    "label": "$~Används i"
                 },
-                "reactionsPrompt": "$~Gillade du den här instruktionen? Lämna en kommentar för att stödja skaparen!",
                 "chatPrompt": "$~Lämna en kommentar eller fråga till skaparen!",
                 "link": {
                     "label": "$~🔗 kopiera instruktionslänken",
@@ -2321,7 +2320,20 @@
                 "collaborators": "$~skriven av",
                 "view": {
                     "tip": "$~visa hur man"
-                }
+                },
+                "repost": {
+                    "prompt": "$~Andra gallerier",
+                    "add": "$~Dela i ett annat galleri",
+                    "selector": "$~galleri att dela denna hur man i",
+                    "addButton": "$~dela denna hur man i det valda galleriet",
+                    "removeButton": "$~sluta dela denna hur man i detta galleri",
+                    "from": "$~Huvudgalleri",
+                    "same": "$~Reaktioner och kommentarer är desamma överallt där denna hur man är delad.",
+                    "failed": "$~Denna hur man kunde inte delas eller avdelas. Kontrollera din anslutning och försök igen."
+                },
+                "responses": "$~Svar",
+                "sharing": "$~Delning",
+                "reactions": "$~Reaktioner"
             },
             "configuration": {
                 "configurationDialog": {

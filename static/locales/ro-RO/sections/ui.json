@@ -577,17 +577,16 @@
                         "label": "$~✅ trimis către Ghid",
                         "tip": "$~aceste instrucțiuni au fost deja trimise pentru a fi luate în considerare pentru includerea în Ghid."
                     },
-                    "header": "$~listă din Ghid"
+                    "label": "$~Ghid"
                 },
                 "usedBy": {
-                    "prompt": "$~Ai folosit acest ghid practic în proiectul tău sau în altul? Spune-le și altora adăugând proiectul tău la listă!",
                     "empty": "$~Nu aveți încă niciun proiect sau alte instrucțiuni publicate. Încercați să creați unul!",
                     "countDisplay": "$~Alți regizori Wordplay au folosit asta în $#count[$#count alt proiect sau altă instrucțiune|$count alte proiecte sau instrucțiuni|$count de alte proiecte sau instrucțiuni]",
                     "selector": "$~selectorul de proiecte și instrucțiuni practice",
                     "removeButton": "$~eliminați proiectul sau instrucțiunile din listă",
-                    "addButton": "$~adăugați un proiect sau un ghid practic"
+                    "addButton": "$~adăugați un proiect sau un ghid practic",
+                    "label": "$~Folosit în"
                 },
-                "reactionsPrompt": "$~Ți-a plăcut acest tutorial? Lasă un comentariu pentru a-l susține pe creator!",
                 "chatPrompt": "$~Lasă un comentariu sau o întrebare pentru creator!",
                 "link": {
                     "label": "$~🔗 copiați linkul cu instrucțiuni",
@@ -596,7 +595,20 @@
                 "collaborators": "$~scris de",
                 "view": {
                     "tip": "$~vezi instrucțiuni"
-                }
+                },
+                "repost": {
+                    "prompt": "$~Alte galerii",
+                    "add": "$~Partajează în altă galerie",
+                    "selector": "$~galeria în care să partajezi aceste instrucțiuni",
+                    "addButton": "$~partajează aceste instrucțiuni în galeria aleasă",
+                    "removeButton": "$~oprește partajarea acestor instrucțiuni în această galerie",
+                    "from": "$~Galeria principală",
+                    "same": "$~Reacțiile și comentariile sunt aceleași peste tot unde sunt partajate aceste instrucțiuni.",
+                    "failed": "$~Aceste instrucțiuni n-au putut fi partajate sau nepartajate. Verifică-ți conexiunea și încearcă din nou."
+                },
+                "responses": "$~Răspunsuri",
+                "sharing": "$~Partajare",
+                "reactions": "$~Reacții"
             },
             "configuration": {
                 "configurationDialog": {

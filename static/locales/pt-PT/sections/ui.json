@@ -577,17 +577,16 @@
                         "label": "✅ enviado para o Guia",
                         "tip": "$~este guia rápido já foi submetido para ser considerado para inclusão no Guia."
                     },
-                    "header": "$~listagem do Guia"
+                    "label": "$~Guia"
                 },
                 "usedBy": {
-                    "prompt": "Utilizou este guia ou outro tutorial no seu projeto? Partilhe a sua experiência adicionando o seu projeto à lista!",
                     "empty": "Ainda não tem nenhum projeto ou outro tutorial publicado. Tente criar um!",
                     "countDisplay": "$~Outros diretores do Wordplay usaram isto em $#count[$#count outro projeto ou como|$count outros projetos ou comos|$count outros projetos ou comos]",
                     "selector": "seletor de projetos e instruções",
                     "removeButton": "Remover projeto ou tutorial da lista",
-                    "addButton": "Adicionar projeto ou tutorial"
+                    "addButton": "Adicionar projeto ou tutorial",
+                    "label": "$~Utilizado em"
                 },
-                "reactionsPrompt": "Gostou deste tutorial? Deixe uma reação para apoiar o criador!",
                 "chatPrompt": "Deixe um comentário ou uma pergunta ao criador!",
                 "link": {
                     "label": "🔗 Copie o link com as instruções",
@@ -596,7 +595,20 @@
                 "collaborators": "escrito por",
                 "view": {
                     "tip": "$~ver como"
-                }
+                },
+                "repost": {
+                    "prompt": "$~Outras galerias",
+                    "add": "$~partilhar noutra galeria",
+                    "selector": "$~galeria onde partilhar este como",
+                    "addButton": "$~partilhar este como na galeria escolhida",
+                    "removeButton": "$~deixar de partilhar este como nesta galeria",
+                    "from": "$~Galeria principal",
+                    "same": "$~As reações e os comentários são os mesmos em todos os locais onde este como é partilhado.",
+                    "failed": "$~Não foi possível partilhar ou deixar de partilhar este como. Verifique a sua ligação e tente novamente."
+                },
+                "responses": "$~Respostas",
+                "sharing": "$~A partilhar",
+                "reactions": "$~Reações"
             },
             "configuration": {
                 "configurationDialog": {

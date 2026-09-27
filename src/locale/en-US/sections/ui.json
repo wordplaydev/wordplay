@@ -624,17 +624,29 @@
                         "label": "✅ submitted to Guide",
                         "tip": "this how-to has already been submitted to be considered for inclusion in the Guide."
                     },
-                    "header": "Guide listing"
+                    "label": "Guide"
                 },
                 "usedBy": {
-                    "prompt": "Did you use this how-to in your project or another how-to? Let others know by adding your project to the list!",
+                    "label": "Used in",
                     "empty": "You don't have any projects or other published how-tos yet. Try creating one!",
                     "countDisplay": "Other Wordplay directors have used this in $#count[$count other project or how-to|$count other projects or how-tos]",
                     "selector": "project and how-to selector",
                     "removeButton": "remove project or how-to from list",
                     "addButton": "add project or how-to"
                 },
-                "reactionsPrompt": "Did you like this how-to? Leave a reaction to support the creator!",
+                "repost": {
+                    "prompt": "Other galleries",
+                    "add": "Share in another gallery",
+                    "selector": "gallery to share this how-to in",
+                    "addButton": "share this how-to in the chosen gallery",
+                    "removeButton": "stop sharing this how-to in this gallery",
+                    "from": "Main gallery",
+                    "same": "Reactions and comments are the same everywhere this how-to is shared.",
+                    "failed": "This how-to couldn't be shared or unshared. Check your connection and try again."
+                },
+                "responses": "Responses",
+                "sharing": "Sharing",
+                "reactions": "Reactions",
                 "chatPrompt": "Leave a comment or question for the creator!",
                 "link": {
                     "label": "🔗 copy how-to link",

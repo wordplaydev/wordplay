@@ -577,17 +577,16 @@
                         "label": "$~✅ isinumite sa Gabay",
                         "tip": "$~naipasa na ang kung paano gawin na ito para isaalang-alang na isama sa Gabay."
                     },
-                    "header": "$~listahan ng Gabay"
+                    "label": "$~Gabay"
                 },
                 "usedBy": {
-                    "prompt": "$~Ginamit mo ba ang how-to na ito sa iyong proyekto o sa iba pang how-to? Ipaalam sa iba sa pamamagitan ng pagdaragdag ng iyong proyekto sa listahan!",
                     "empty": "$~Wala ka pang anumang proyekto o iba pang nailathalang mga tagubilin. Subukang gumawa ng isa!",
                     "countDisplay": "$~Ginamit ito ng ibang direktor ng Wordplay sa $#count[$count ibang proyekto o kung paano gawin|$count na ibang proyekto o kung paano gawin]",
                     "selector": "$~tagapili ng proyekto at kung paano gawin",
                     "removeButton": "$~alisin ang proyekto o mga tagubilin mula sa listahan",
-                    "addButton": "$~magdagdag ng proyekto o kung paano gawin"
+                    "addButton": "$~magdagdag ng proyekto o kung paano gawin",
+                    "label": "$~Ginamit sa"
                 },
-                "reactionsPrompt": "$~Nagustuhan mo ba ang how-to na ito? Mag-iwan ng reaksyon para suportahan ang lumikha!",
                 "chatPrompt": "$~Mag-iwan ng komento o tanong para sa lumikha!",
                 "link": {
                     "label": "$~🔗 kopyahin ang link kung paano gawin",
@@ -596,7 +595,20 @@
                 "collaborators": "$~isinulat ni",
                 "view": {
                     "tip": "$~tingnan ang kung paano gawin"
-                }
+                },
+                "repost": {
+                    "prompt": "$~Ibang mga galerya",
+                    "add": "$~Ibahagi sa ibang gallery",
+                    "selector": "$~gallery na pagbabahaginan ng kung paano gawin ito",
+                    "addButton": "$~ibahagi ang kung paano gawin ito sa napiling gallery",
+                    "removeButton": "$~itigil ang pagbabahagi ng kung paano gawin ito sa gallery na ito",
+                    "from": "$~Pangunahing galeriya",
+                    "same": "$~Pareho ang mga reaksyon at komento saanman ibinahagi ang kung paano gawin ito.",
+                    "failed": "$~Hindi maibahagi o mahinto sa pagbabahagi ang kung paano gawin ito. Suriin ang iyong koneksyon at subukan muli."
+                },
+                "responses": "$~Mga Tugon",
+                "sharing": "$~Pagbabahagi",
+                "reactions": "$~Mga Reaksyon"
             },
             "configuration": {
                 "configurationDialog": {

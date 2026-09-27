@@ -232,7 +232,13 @@
                 const howTo = await HowTos.getHowTo(itemID);
                 if (howTo) {
                     title = howTo.getTitle();
-                    galleryID = howTo.getHowToGalleryId();
+                    // A conversation reached through a repost links to where
+                    // the reader can open it (#1065).
+                    galleryID = howTo.getGalleryIdFor(
+                        (id) =>
+                            Galleries.accessibleGalleries.has(id) ||
+                            Galleries.expandedScopeGalleries.has(id),
+                    );
                 }
             }
 

@@ -29,6 +29,13 @@
         anonymize = true,
         max = 2,
     }: Props = $props();
+
+    /** Everyone but the creator. Some documents list their creator among their
+     *  collaborators too — every how-to saved before #1065 does — and a byline
+     *  that names its author twice reads as two people. */
+    let others = $derived(
+        collaborators.filter((collaborator) => collaborator !== creator),
+    );
 </script>
 
 <!-- Someone who doesn't resolve is skipped rather than drawn as `CreatorView`'s
@@ -44,14 +51,14 @@
             {#if found}<CreatorView {anonymize} creator={found} />{/if}
         {/await}
     {/if}
-    {#each collaborators.slice(0, max) as collaborator (collaborator)}
+    {#each others.slice(0, max) as collaborator (collaborator)}
         {#await Creators.getCreator(collaborator)}
             <Spinning />
         {:then found}
             {#if found}<CreatorView {anonymize} creator={found} />{/if}
         {/await}
     {/each}
-    {#if collaborators.length > max}
+    {#if others.length > max}
         <span>…</span>
     {/if}
 </div>

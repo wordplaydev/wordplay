@@ -399,6 +399,38 @@
                     "order": "DESCENDING"
                 }
             ]
+        },
+        {
+            "collectionGroup": "howtos",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "repostReaders",
+                    "arrayConfig": "CONTAINS"
+                },
+                {
+                    "fieldPath": "published",
+                    "order": "ASCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "howtos",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "reposts",
+                    "arrayConfig": "CONTAINS"
+                },
+                {
+                    "fieldPath": "repostedPublicly",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "published",
+                    "order": "ASCENDING"
+                }
+            ]
         }
     ],
     "fieldOverrides": []

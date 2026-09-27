@@ -9,7 +9,7 @@ import { Domain } from '@db/Domains';
 import SaveTracker, { type RePush } from '@db/SaveTracker.svelte';
 import { firestore } from '@db/firebase';
 import type Gallery from '@db/galleries/Gallery';
-import { expandedViewersOf } from '@db/howtos/howToAccess';
+import { howToChatParticipants } from '@db/howtos/howToAccess';
 import HowTo from '@db/howtos/HowToDatabase.svelte';
 import isQuotaError from '@db/isQuotaError';
 import { ChatWritableFields, HowToFields } from '@db/rulesFields';
@@ -1306,15 +1306,15 @@ export class ChatDatabase {
             moderation: {},
             // All gallery curators, creators, viewers can access the chat
             // As can any creators or collaborators on a how-to
-            participants: Array.from(
-                new Set([
-                    ...howTo.getCollaborators(),
-                    ...expandedViewersOf(howTo, gallery),
-                    howTo.getCreator(),
-                    ...(gallery ? gallery.getCurators() : []),
-                    ...(gallery ? gallery.getCreators() : []),
-                ]),
-            ),
+            participants: gallery
+                ? howToChatParticipants(howTo, gallery)
+                : [
+                      ...new Set([
+                          ...howTo.getCollaborators(),
+                          howTo.getCreator(),
+                          ...howTo.getRepostReaders(),
+                      ]),
+                  ],
             unread: [],
             type: 'howto',
             language,
@@ -1416,6 +1416,11 @@ export class ChatDatabase {
             return;
         }
 
+        // Someone reading a repost often cannot read its home gallery (#1065),
+        // and computing participants without it would drop the home's members
+        // from the conversation. Whoever can read it will keep it in step.
+        if (gallery === undefined) return;
+
         // Get the chat's sorted lists of participants as a string, so we can quickly check the current set.
         const currentChatParticipantsString = chat
             .getEligibleParticipants()
@@ -1423,15 +1428,7 @@ export class ChatDatabase {
             .join();
 
         // Get the chat's intended participants based on the project and gallery.
-        const intendedChatParticipants = [
-            ...new Set([
-                ...howTo.getCollaborators(),
-                ...expandedViewersOf(howTo, gallery),
-                howTo.getCreator(),
-                ...(gallery ? gallery.getCurators() : []),
-                ...(gallery ? gallery.getCreators() : []),
-            ]),
-        ].sort();
+        const intendedChatParticipants = howToChatParticipants(howTo, gallery);
 
         // If they're not updated, update them.
         if (currentChatParticipantsString !== intendedChatParticipants.join()) {

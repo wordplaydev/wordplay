@@ -8,9 +8,13 @@ import {
     HowToFields,
     HowToServerOwnedFields,
     KitServerOwnedFields,
+    MaxHowToReposts,
 } from './rulesFields';
 import { makeKit } from './kits/Kit';
 import { makeHowTo } from './howtos/howToDocument';
+// The callable's own copy of the cap: functions/ compiles with its own rootDir
+// and can't import this side, so this side holds the two together.
+import { MaxHowToReposts as ServerMaxHowToReposts } from '../../functions/src/repostCap';
 
 /**
  * The client's field lists and `firestore.rules` are two statements of one fact,
@@ -167,6 +171,28 @@ describe('the client writes exactly what firestore.rules admits', () => {
                 [...HowToServerOwnedFields].toSorted(),
             );
         }
+    });
+
+    test('a repost may be moved in each of the MaxHowToReposts galleries it can be in', () => {
+        // Rules cannot loop, so the placement rule states each repost by index;
+        // a cap raised here without another index there would leave the newest
+        // reposts immovable, and silently.
+        const b = block('howtos');
+        const start = b.indexOf('function movesRepost');
+        expect(start).toBeGreaterThan(-1);
+        const body = b.slice(start, b.indexOf('}', start));
+        const indices = Array.from(
+            body.matchAll(/placesInRepost\((\d+)\)/g),
+        ).map((match) => Number(match[1]));
+        expect(indices).toEqual(
+            Array.from({ length: MaxHowToReposts }, (_, index) => index),
+        );
+    });
+
+    test("the repostHowTo callable's cap is the client's", () => {
+        // A server that allowed more reposts than the rules state placement
+        // checks for would create reposts nobody could move.
+        expect(ServerMaxHowToReposts).toBe(MaxHowToReposts);
     });
 
     test('the class rules and ClassServerOwnedFields name the same fields', () => {

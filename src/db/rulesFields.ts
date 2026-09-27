@@ -88,11 +88,19 @@ export const KitServerOwnedFields = [
  * `submittedToGuide` is deliberately NOT here: asking to be listed is the creator's,
  * and answering is the moderator's. That split is the whole design — and it is why
  * the field had to leave `social`, whose opening every gallery member holds.
+ *
+ * `reposts`, `repostReaders` and `repostedPublicly` (#1065) are who may read a
+ * reposted how-to, which the read rule trusts without a `get()`; a client that
+ * could write them could read itself into any how-to. The repostHowTo callable
+ * and the galleryEdited trigger keep them.
  */
 export const HowToServerOwnedFields = [
     'moderation',
     'moderatedAt',
     'flags',
+    'reposts',
+    'repostReaders',
+    'repostedPublicly',
 ] as const;
 
 /**
@@ -105,7 +113,16 @@ export const HowToServerOwnedFields = [
 export const HowToFields = {
     Social: ['social'],
     Placement: ['xcoord', 'ycoord'],
+    RepostPlacement: ['repostPlacements'],
 } as const;
+
+/**
+ * How many galleries a how-to may be reposted into (#1065). Rules cannot loop,
+ * so the placement rule checks each repost by index and states this many checks;
+ * it also bounds `repostReaders`, which grows with every destination's members.
+ * functions/src/repostHowTo.ts mirrors it, since values can't cross that boundary.
+ */
+export const MaxHowToReposts = 5;
 
 export type HowToFieldSet = (typeof HowToFields)[keyof typeof HowToFields];
 

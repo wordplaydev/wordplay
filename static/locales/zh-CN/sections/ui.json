@@ -2268,17 +2268,16 @@
                         "label": "$~✅ 已提交到指南",
                         "tip": "$~这篇如何已经提交过了，正在等待被收录进指南。"
                     },
-                    "header": "$~指南收录"
+                    "label": "$~指南"
                 },
                 "usedBy": {
-                    "prompt": "$~你在你的项目或另一篇如何里用过这篇如何吗？把你的项目加进列表，让别人知道吧！",
                     "empty": "$~你还没有任何项目或其他已发布的如何。试着创建一个吧！",
                     "countDisplay": "$~其他 Wordplay 导演已在 $#count[$count 个其他项目或如何]中使用过它",
                     "selector": "$~项目或如何选择器",
                     "removeButton": "$~从列表中移除项目或如何",
-                    "addButton": "$~添加项目或如何"
+                    "addButton": "$~添加项目或如何",
+                    "label": "$~用于"
                 },
-                "reactionsPrompt": "$~你喜欢这篇如何吗？留下一个反应来支持创作者！",
                 "chatPrompt": "$~给创作者留下评论或问题！",
                 "link": {
                     "label": "$~🔗 复制如何链接",
@@ -2287,7 +2286,20 @@
                 "collaborators": "$~作者",
                 "view": {
                     "tip": "$~查看如何"
-                }
+                },
+                "repost": {
+                    "prompt": "$~其他作品库",
+                    "add": "$~分享到另一个作品库",
+                    "selector": "$~要将这篇如何分享到的作品库",
+                    "addButton": "$~将这篇如何分享到所选的作品库",
+                    "removeButton": "$~停止在此作品库分享这篇如何",
+                    "from": "$~主作品库",
+                    "same": "$~无论这篇如何被分享到哪里，反应和评论都是一样的。",
+                    "failed": "$~这篇如何无法分享或取消分享。请检查你的网络连接，然后再试一次。"
+                },
+                "responses": "$~回应",
+                "sharing": "$~分享",
+                "reactions": "$~反应"
             },
             "configuration": {
                 "configurationDialog": {

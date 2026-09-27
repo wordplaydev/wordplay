@@ -2308,17 +2308,16 @@
                         "label": "$~✅ enviada a la Guía",
                         "tip": "$~esta guía práctica ya se envió para que se considere su inclusión en la Guía."
                     },
-                    "header": "$~listado en la Guía"
+                    "label": "$~Guía"
                 },
                 "usedBy": {
-                    "prompt": "$~¿Usaste esta guía práctica en tu proyecto o en otra guía práctica? ¡Avisa a los demás agregando tu proyecto a la lista!",
                     "empty": "$~Todavía no tienes ningún proyecto ni otras guías prácticas publicadas. ¡Intenta crear una!",
                     "countDisplay": "$~Otras directoras de Wordplay han usado esto en $#count[$#count proyecto o guía práctica|$count proyectos o guías prácticas|$count proyectos o guías prácticas]",
                     "selector": "$~selector de proyecto y guía práctica",
                     "removeButton": "$~quitar proyecto o guía práctica de la lista",
-                    "addButton": "$~agregar proyecto o guía práctica"
+                    "addButton": "$~agregar proyecto o guía práctica",
+                    "label": "$~Usado en"
                 },
-                "reactionsPrompt": "$~¿Te gustó esta guía práctica? ¡Deja una reacción para apoyar a la creadora!",
                 "chatPrompt": "$~¡Deja un comentario o una pregunta para la creadora!",
                 "link": {
                     "label": "$~🔗 copiar enlace de la guía práctica",
@@ -2327,7 +2326,20 @@
                 "collaborators": "$~escrita por",
                 "view": {
                     "tip": "$~ver guía práctica"
-                }
+                },
+                "repost": {
+                    "prompt": "$~Otras galerías",
+                    "add": "$~Compartir en otra galería",
+                    "selector": "$~galería donde compartir esta guía práctica",
+                    "addButton": "$~compartir esta guía práctica en la galería elegida",
+                    "removeButton": "$~dejar de compartir esta guía práctica en esta galería",
+                    "from": "$~Galería principal",
+                    "same": "$~Las reacciones y los comentarios son los mismos en todos los lugares donde se comparte esta guía práctica.",
+                    "failed": "$~No se pudo compartir ni dejar de compartir esta guía práctica. Revisa tu conexión e intenta de nuevo."
+                },
+                "responses": "$~Respuestas",
+                "sharing": "$~Compartir",
+                "reactions": "$~Reacciones"
             },
             "configuration": {
                 "configurationDialog": {

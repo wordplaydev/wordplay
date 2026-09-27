@@ -577,17 +577,16 @@
                         "label": "$~✅ Đã gửi lên Hướng dẫn",
                         "tip": "$~bài làm cách nào để này đã được gửi để xem xét đưa vào Sổ tay hướng dẫn."
                     },
-                    "header": "$~danh sách trong Sổ tay hướng dẫn"
+                    "label": "$~Sổ tay hướng dẫn"
                 },
                 "usedBy": {
-                    "prompt": "$~Bạn đã sử dụng hướng dẫn này hay hướng dẫn khác trong dự án của mình? Hãy chia sẻ dự án của bạn với mọi người bằng cách thêm vào danh sách nhé!",
                     "empty": "$~Bạn chưa có dự án nào hoặc bài hướng dẫn nào được xuất bản cả. Hãy thử tạo một bài xem sao!",
                     "countDisplay": "$~Các đạo diễn Wordplay khác đã dùng cái này trong $#count[$count dự án hoặc làm cách nào để khác]",
                     "selector": "$~công cụ chọn dự án và hướng dẫn",
                     "removeButton": "$~xóa dự án hoặc hướng dẫn khỏi danh sách",
-                    "addButton": "$~thêm dự án hoặc hướng dẫn"
+                    "addButton": "$~thêm dự án hoặc hướng dẫn",
+                    "label": "$~Được dùng trong"
                 },
-                "reactionsPrompt": "$~Bạn thấy hướng dẫn này hay chứ? Hãy để lại bình luận để ủng hộ tác giả nhé!",
                 "chatPrompt": "$~Hãy để lại bình luận hoặc câu hỏi cho người tạo nội dung!",
                 "link": {
                     "label": "$~🔗 Sao chép liên kết hướng dẫn",
@@ -596,7 +595,20 @@
                 "collaborators": "$~được viết bởi",
                 "view": {
                     "tip": "$~xem làm cách nào để"
-                }
+                },
+                "repost": {
+                    "prompt": "$~Các phòng trưng bày khác",
+                    "add": "$~Chia sẻ trong phòng trưng bày khác",
+                    "selector": "$~phòng trưng bày để chia sẻ làm cách nào để này",
+                    "addButton": "$~chia sẻ làm cách nào để này trong phòng trưng bày đã chọn",
+                    "removeButton": "$~ngừng chia sẻ làm cách nào để này trong phòng trưng bày này",
+                    "from": "$~Phòng trưng bày chính",
+                    "same": "$~Phản ứng và bình luận giống nhau ở mọi nơi làm cách nào để này được chia sẻ.",
+                    "failed": "$~Không thể chia sẻ hoặc bỏ chia sẻ làm cách nào để này. Hãy kiểm tra kết nối rồi thử lại."
+                },
+                "responses": "$~Phản hồi",
+                "sharing": "$~Chia sẻ",
+                "reactions": "$~Phản ứng"
             },
             "configuration": {
                 "configurationDialog": {

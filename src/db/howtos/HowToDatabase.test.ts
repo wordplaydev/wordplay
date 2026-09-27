@@ -56,6 +56,22 @@ type FakeSubscription = {
     unsubscribed: boolean;
 };
 const subscriptions: FakeSubscription[] = [];
+/** Subscriptions to how-tos reposted into a gallery (#1065), kept apart so the
+ *  suites about each gallery's own query can count that query alone. */
+const repostSubscriptions: FakeSubscription[] = [];
+
+/** Whether a query selects on who a repost lets in. */
+function isRepostQuery(target: unknown): boolean {
+    const query = isRecord(target) ? target._query : undefined;
+    const constraints = isRecord(query) ? query.constraints : undefined;
+    return (Array.isArray(constraints) ? constraints : []).some(
+        (constraint: unknown) =>
+            isRecord(constraint) &&
+            isRecord(constraint._where) &&
+            (constraint._where.field === 'reposts' ||
+                constraint._where.field === 'repostReaders'),
+    );
+}
 
 /** The subscription at an index, which every caller has just asserted exists. */
 function subscription(index = 0): FakeSubscription {
@@ -110,7 +126,9 @@ vi.mock('firebase/firestore', () => ({
                 onError,
                 unsubscribed: false,
             };
-            subscriptions.push(subscription);
+            (isRepostQuery(target) ? repostSubscriptions : subscriptions).push(
+                subscription,
+            );
             return () => {
                 subscription.unsubscribed = true;
             };
@@ -146,6 +164,7 @@ import HowTo, {
     HowToSchemaLatestVersion,
     HowTosCollection,
     howToListingInitial,
+    howToRepostsInitial,
     upgradeHowTo,
 } from './HowToDatabase.svelte';
 import Gallery from '@db/galleries/Gallery';
@@ -170,6 +189,7 @@ const Latest: HowToDocument['v'] = HowToSchemaLatestVersion;
 function makeHowToDoc(overrides: Record<string, unknown> = {}) {
     return {
         ...howToListingInitial(),
+        ...howToRepostsInitial(),
         v: Latest,
         id: 'ht-1',
         galleryId: 'g-1',
@@ -238,7 +258,10 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
     let mockDatabase: DatabaseFake & {
         write: ReturnType<typeof vi.fn>;
         reportBanner: ReturnType<typeof vi.fn>;
-        Galleries: { mirrorHowToMembership: ReturnType<typeof vi.fn> };
+        Galleries: {
+            mirrorHowToMembership: ReturnType<typeof vi.fn>;
+            getKnown: ReturnType<typeof vi.fn>;
+        };
         Chats: { deleteChat: ReturnType<typeof vi.fn> };
     };
 
@@ -252,7 +275,10 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
             track: vi.fn(<T>(p: Promise<T>) => p),
             write: vi.fn(<T>(p: Promise<T>) => p),
             reportBanner: vi.fn(),
-            Galleries: { mirrorHowToMembership: vi.fn() },
+            Galleries: {
+                mirrorHowToMembership: vi.fn(),
+                getKnown: vi.fn(() => undefined),
+            },
             Chats: { deleteChat: vi.fn(async () => true) },
         };
 
@@ -444,9 +470,35 @@ describe('HowToDatabase atomic how-to + gallery updates', () => {
             expect(db['howtos'].has('ht-1')).toBe(true);
         });
 
+        it("takes a repost out of its home's list, not the list it was deleted from (#1065)", async () => {
+            // Deleting from a gallery it was reposted into still deletes the
+            // how-to, whose membership lives in its home.
+            const destination = makeGallery('elsewhere', ['ht-1']);
+            db['howtos'].set(
+                'ht-1',
+                new HowTo(
+                    makeHowToDoc({
+                        id: 'ht-1',
+                        galleryId: 'home',
+                        reposts: ['elsewhere'],
+                    }),
+                ),
+            );
+
+            await db.deleteHowTo('ht-1', destination);
+
+            const galleryUpdate = lastBatchOps.find((o) => o.kind === 'update');
+            expect(galleryUpdate?.ref).toMatchObject({
+                _ref: { collection: 'galleries', id: 'home' },
+            });
+        });
+
         it('removes the how-to from the local cache only after the cloud delete succeeds', async () => {
             const gallery = makeGallery('g1', ['ht-1']);
-            db['howtos'].set('ht-1', new HowTo(makeHowToDoc({ id: 'ht-1' })));
+            db['howtos'].set(
+                'ht-1',
+                new HowTo(makeHowToDoc({ id: 'ht-1', galleryId: 'g1' })),
+            );
 
             await db.deleteHowTo('ht-1', gallery);
 
@@ -668,13 +720,30 @@ describe('upgradeHowTo', () => {
         // to the moderator queue.
         const { submittedToGuide, moderation, moderatedAt, flags, ...rest } =
             makeHowToDoc();
+        const mislabelled: HowToUnknownVersion = { ...rest, v: 4 };
+        const upgraded = upgradeHowTo(mislabelled);
+        expect(upgraded.moderation).toBe('unrequested');
+        expect(upgraded.submittedToGuide).toBe(false);
+    });
+
+    it('a v4 body claiming the latest version gets the repost fields', () => {
+        // The same trap one version on: a v4 how-to saved by v5 code (#1065).
+        const {
+            reposts,
+            repostReaders,
+            repostedPublicly,
+            repostPlacements,
+            ...rest
+        } = makeHowToDoc();
         const mislabelled: HowToUnknownVersion = {
             ...rest,
             v: HowToSchemaLatestVersion,
         };
         const upgraded = upgradeHowTo(mislabelled);
-        expect(upgraded.moderation).toBe('unrequested');
-        expect(upgraded.submittedToGuide).toBe(false);
+        expect(upgraded.reposts).toEqual([]);
+        expect(upgraded.repostReaders).toEqual([]);
+        expect(upgraded.repostedPublicly).toBe(false);
+        expect(upgraded.repostPlacements).toEqual({});
     });
 
     it('keeps a decision a stored doc already carries', () => {
@@ -816,6 +885,7 @@ describe('watching a gallery (#1375)', () => {
     beforeEach(() => {
         vi.clearAllMocks();
         subscriptions.length = 0;
+        repostSubscriptions.length = 0;
         accessible = new Map();
         expandedScope = new Map();
         known = new Map();
@@ -840,6 +910,21 @@ describe('watching a gallery (#1375)', () => {
         ]);
     });
 
+    it('also watches what was reposted into it publicly (#1065)', () => {
+        // Its own query, since reposted how-tos live in other galleries, and
+        // filtered on `repostedPublicly` because that is what the rule admits.
+        db.watchGallery('g-1');
+
+        expect(repostSubscriptions).toHaveLength(1);
+        expect(
+            constraintsOf(must(repostSubscriptions[0], 'the reposts watch')),
+        ).toEqual([
+            { field: 'reposts', op: 'array-contains', value: 'g-1' },
+            { field: 'repostedPublicly', op: '==', value: true },
+            { field: 'published', op: '==', value: true },
+        ]);
+    });
+
     it('costs a signed-out visitor the query and nothing else', () => {
         // The whole point of choosing one path: a watch plus a read-through of
         // the gallery's list would bill every document twice on a cold load.
@@ -858,10 +943,26 @@ describe('watching a gallery (#1375)', () => {
         // never dereferenced.
         running.listen({}, uid);
         subscriptions.length = 0;
+        repostSubscriptions.length = 0;
         vi.mocked(getDoc).mockClear();
         marks.length = 0;
         return running;
     }
+
+    it('signing in listens for every repost the reader is let into (#1065)', () => {
+        const running = fakeHowToDatabase(makeDatabase('user-1'));
+        // @ts-expect-error `firebase/firestore` is mocked, so the handle is
+        // never dereferenced.
+        running.listen({}, 'user-1');
+        expect(
+            repostSubscriptions.map((subscription) =>
+                constraintsOf(subscription),
+            ),
+        ).toContainEqual([
+            { field: 'repostReaders', op: 'array-contains', value: 'user-1' },
+            { field: 'published', op: '==', value: true },
+        ]);
+    });
 
     it('does nothing at all when the uid listeners already cover the gallery', () => {
         accessible.set('g-1', known.get('g-1'));
@@ -1016,6 +1117,8 @@ describe('watching a gallery (#1375)', () => {
         await db.getHowTo('ht-deep');
 
         db.watchGallery('g-1');
+        // Collection waits for every listener, the reposts one included.
+        deliver(must(repostSubscriptions[0], 'the reposts watch'), []);
         deliver(subscription(), [
             makeHowToDoc({ id: 'ht-deep', galleryId: 'g-1', published: true }),
         ]);
@@ -1091,5 +1194,66 @@ describe('watching a gallery (#1375)', () => {
 
         expect(db.publicWatchState.get('g-1')).toBe('denied');
         expect(marks).toEqual([]);
+    });
+});
+
+describe('reposts (#1065)', () => {
+    const reposted = () =>
+        new HowTo(
+            upgradeHowTo(
+                makeHowToDoc({
+                    galleryId: 'home',
+                    published: true,
+                    xcoord: 1,
+                    ycoord: 2,
+                    reposts: ['elsewhere', 'unplaced'],
+                    repostPlacements: { elsewhere: { x: 30, y: 40 } },
+                }),
+            ),
+        );
+
+    it('sits at its own place at home and at the repost place elsewhere', () => {
+        const howTo = reposted();
+        expect(howTo.getCoordinates('home')).toEqual([1, 2]);
+        expect(howTo.getCoordinates('elsewhere')).toEqual([30, 40]);
+        expect(howTo.getCoordinates('unplaced')).toEqual([0, 0]);
+    });
+
+    it('is shown at home always, and where it was reposted only while published', () => {
+        const howTo = reposted();
+        expect(howTo.isShownIn('home')).toBe(true);
+        expect(howTo.isShownIn('elsewhere')).toBe(true);
+        expect(howTo.isShownIn('nowhere')).toBe(false);
+        const draft = howTo.withFields({ published: false });
+        expect(draft.isShownIn('home')).toBe(true);
+        expect(draft.isShownIn('elsewhere')).toBe(false);
+    });
+
+    it('opens where the reader can reach it', () => {
+        const howTo = reposted();
+        expect(howTo.getGalleryIdFor(() => true)).toBe('home');
+        expect(howTo.getGalleryIdFor((id) => id === 'unplaced')).toBe(
+            'unplaced',
+        );
+        expect(howTo.getGalleryIdFor(() => false)).toBe('home');
+    });
+
+    it('never sends the repost fields in a whole-document save', async () => {
+        // An editor's stale copy would otherwise undo a move made in another
+        // gallery, and the server-owned fields would be refused outright.
+        const db = fakeHowToDatabase({
+            getUser: vi.fn(() => ({ uid: 'user-1' })),
+            track: vi.fn(<T>(p: Promise<T>) => p),
+        });
+        await db.updateHowTo(reposted(), true);
+        const sent = vi.mocked(updateDoc).mock.calls.at(-1)?.[1];
+        expect(sent).toBeDefined();
+        for (const field of [
+            'reposts',
+            'repostReaders',
+            'repostedPublicly',
+            'repostPlacements',
+        ])
+            expect(sent).not.toHaveProperty(field);
     });
 });
