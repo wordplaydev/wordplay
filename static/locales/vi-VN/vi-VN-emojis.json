@@ -11850,6 +11850,18 @@
         "thảm họa",
         "tuyết lở"
     ],
+    "1F6D9": [
+        "hải đăng",
+        "ánh sáng",
+        "biển",
+        "đèn biển",
+        "điều hướng",
+        "giác ngộ",
+        "hàng hải",
+        "hướng dẫn",
+        "hy vọng",
+        "tín hiệu"
+    ],
     "1F6DC": [
         "không dây",
         "băng thông rộng",
@@ -17331,6 +17343,30 @@
         "nhạc cụ",
         "trượt"
     ],
+    "1FA8B": [
+        "thiên thạch",
+        "đá",
+        "không gian",
+        "ngôi sao",
+        "rơi",
+        "sao băng",
+        "tận thế",
+        "trọng lực"
+    ],
+    "1FA8C": [
+        "cục tẩy",
+        "chà xát",
+        "hoàn tác",
+        "loại bỏ",
+        "lỗi",
+        "sai sót",
+        "sửa đổi",
+        "tẩy",
+        "vẽ",
+        "viết",
+        "xoá"
+    ],
+    "1FA8D": ["vợt bắt côn trùng", "bắt", "bẫy", "lưới", "thu thập"],
     "1FA8E": [
         "rương báu",
         "bạc",
@@ -17784,6 +17820,17 @@
         "sinh vật bí ẩn",
         "yeti"
     ],
+    "1FACC": [
+        "bướm chúa",
+        "biến đổi",
+        "côn trùng",
+        "di cư",
+        "hoá bướm",
+        "hy vọng",
+        "mỏng manh",
+        "sâu bướm",
+        "thay đổi"
+    ],
     "1FACD": ["cá voi sát thủ", "biển", "cá voi", "đại dương"],
     "1FACE": [
         "nai sừng tấm Bắc Mỹ",
@@ -17848,6 +17895,16 @@
     ],
     "1FADB": ["đậu Hà Lan", "đậu", "đậu nành", "quả đậu", "rau", "vỏ"],
     "1FADC": ["rau củ", "củ cải", "củ cải đường", "rau", "rễ", "vườn"],
+    "1FADD": [
+        "dưa muối",
+        "dưa chuột",
+        "dưa chuột bao tử",
+        "gia vị",
+        "lên men",
+        "nước muối",
+        "rắc rối",
+        "tương ớt ngọt"
+    ],
     "1FADF": ["bắn tung tóe", "ngày lễ", "sơn", "tràn", "vết ố"],
     "1FAE0": ["mặt tan chảy", "biến mất", "chất lỏng", "hòa tan", "tan chảy"],
     "1FAE1": ["mặt chào", "chào", "nắng", "nhà binh", "ok", "quân đội", "vâng"],
@@ -17915,6 +17972,16 @@
         "lo lắng",
         "ngạc nhiên",
         "sốc"
+    ],
+    "1FAEB": [
+        "mặt rạn nứt",
+        "sự căng thẳng",
+        "sự che giấu",
+        "sự chuyển hoá",
+        "sự hé lộ",
+        "sự kiên cường",
+        "sự sụp đổ",
+        "sự tan vỡ"
     ],
     "1FAEF": [
         "đám mây chiến đấu",
@@ -18622,5 +18689,123 @@
         "sang phải",
         "thôi",
         "từ chối"
+    ],
+    "1FAF9": [
+        "biểu tượng ngón tay cái chỉ sang trái",
+        "cầm",
+        "chỉ",
+        "đó",
+        "này",
+        "trái",
+        "trung lập"
+    ],
+    "1FAF9 1F3FB": [
+        "biểu tượng ngón tay cái chỉ sang trái: màu da sáng",
+        "cầm",
+        "chỉ",
+        "đó",
+        "màu da sáng",
+        "này",
+        "trái",
+        "trung lập"
+    ],
+    "1FAF9 1F3FC": [
+        "biểu tượng ngón tay cái chỉ sang trái: màu da sáng trung bình",
+        "cầm",
+        "chỉ",
+        "đó",
+        "màu da sáng trung bình",
+        "này",
+        "trái",
+        "trung lập"
+    ],
+    "1FAF9 1F3FD": [
+        "biểu tượng ngón tay cái chỉ sang trái: màu da trung bình",
+        "cầm",
+        "chỉ",
+        "đó",
+        "màu da trung bình",
+        "này",
+        "trái",
+        "trung lập"
+    ],
+    "1FAF9 1F3FE": [
+        "biểu tượng ngón tay cái chỉ sang trái: màu da tối trung bình",
+        "cầm",
+        "chỉ",
+        "đó",
+        "màu da tối trung bình",
+        "này",
+        "trái",
+        "trung lập"
+    ],
+    "1FAF9 1F3FF": [
+        "biểu tượng ngón tay cái chỉ sang trái: màu da tối",
+        "cầm",
+        "chỉ",
+        "đó",
+        "màu da tối",
+        "này",
+        "trái",
+        "trung lập"
+    ],
+    "1FAFA": [
+        "biểu tượng ngón tay cái chỉ sang phải",
+        "cầm",
+        "chỉ",
+        "đó",
+        "này",
+        "phải",
+        "trung lập"
+    ],
+    "1FAFA 1F3FB": [
+        "biểu tượng ngón tay cái chỉ sang phải: màu da sáng",
+        "cầm",
+        "chỉ",
+        "đó",
+        "màu da sáng",
+        "này",
+        "phải",
+        "trung lập"
+    ],
+    "1FAFA 1F3FC": [
+        "biểu tượng ngón tay cái chỉ sang phải: màu da sáng trung bình",
+        "cầm",
+        "chỉ",
+        "đó",
+        "màu da sáng trung bình",
+        "này",
+        "phải",
+        "trung lập"
+    ],
+    "1FAFA 1F3FD": [
+        "biểu tượng ngón tay cái chỉ sang phải: màu da trung bình",
+        "cầm",
+        "chỉ",
+        "đó",
+        "màu da trung bình",
+        "này",
+        "phải",
+        "trung lập"
+    ],
+    "1FAFA 1F3FE": [
+        "biểu tượng ngón tay cái chỉ sang phải: màu da tối trung bình",
+        "cầm",
+        "chỉ",
+        "đó",
+        "màu da tối trung bình",
+        "này",
+        "phải",
+        "trung lập"
+    ],
+    "1FAFA 1F3FF": [
+        "biểu tượng ngón tay cái chỉ sang phải: màu da tối",
+        "cầm",
+        "chỉ",
+        "đó",
+        "màu da tối",
+        "này",
+        "phải",
+        "trung lập"
     ]
 }

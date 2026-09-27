@@ -15802,6 +15802,18 @@
         "terramoto",
         "terremoto"
     ],
+    "1F6D9": [
+        "↑↑↑",
+        "esperança",
+        "farol",
+        "iluminação",
+        "luz",
+        "mar",
+        "marítimo",
+        "navegação",
+        "orientação",
+        "sinal"
+    ],
     "1F6DC": [
         "sem fios",
         "computador",
@@ -22008,6 +22020,21 @@
     ],
     "1FA89": ["↑↑↑"],
     "1FA8A": ["↑↑↑"],
+    "1FA8B": ["↑↑↑"],
+    "1FA8C": [
+        "↑↑↑",
+        "apagar",
+        "correção",
+        "desenho",
+        "desfazer",
+        "eliminar",
+        "engano",
+        "erro",
+        "escrita",
+        "esfregar",
+        "remover"
+    ],
+    "1FA8D": ["↑↑↑", "apanhar", "armadilha", "malha", "recolher"],
     "1FA8E": [
         "↑↑↑",
         "dinheiro",
@@ -22496,6 +22523,7 @@
     ],
     "1FAC6": ["↑↑↑"],
     "1FAC8": ["↑↑↑"],
+    "1FACC": ["↑↑↑"],
     "1FACD": ["↑↑↑"],
     "1FACE": [
         "↑↑↑",
@@ -22587,6 +22615,16 @@
         "verde"
     ],
     "1FADC": ["↑↑↑"],
+    "1FADD": [
+        "pickle",
+        "apuros",
+        "condimento",
+        "fermentar",
+        "molho",
+        "pepino",
+        "picles",
+        "salmoura"
+    ],
     "1FADF": ["↑↑↑"],
     "1FAE0": [
         "cara a derreter",
@@ -22717,6 +22755,7 @@
         "surpreso",
         "vulnerável"
     ],
+    "1FAEB": ["rosto a despedaçar-se", "↑↑↑"],
     "1FAEF": [
         "nuvem de luta",
         "bulha",
@@ -23566,5 +23605,123 @@
         "recusar",
         "tipo de pele 6",
         "toca aqui"
+    ],
+    "1FAF9": [
+        "↑↑↑",
+        "agarrar",
+        "apontar",
+        "aquilo",
+        "esquerda",
+        "isto",
+        "neutro"
+    ],
+    "1FAF9 1F3FB": [
+        "sinal de polegar para a esquerda: tipo de pele 1–2",
+        "agarrar",
+        "apontar",
+        "aquilo",
+        "esquerda",
+        "isto",
+        "neutro",
+        "tipo de pele 1–2"
+    ],
+    "1FAF9 1F3FC": [
+        "sinal de polegar para a esquerda: tipo de pele 3",
+        "agarrar",
+        "apontar",
+        "aquilo",
+        "esquerda",
+        "isto",
+        "neutro",
+        "tipo de pele 3"
+    ],
+    "1FAF9 1F3FD": [
+        "sinal de polegar para a esquerda: tipo de pele 4",
+        "agarrar",
+        "apontar",
+        "aquilo",
+        "esquerda",
+        "isto",
+        "neutro",
+        "tipo de pele 4"
+    ],
+    "1FAF9 1F3FE": [
+        "sinal de polegar para a esquerda: tipo de pele 5",
+        "agarrar",
+        "apontar",
+        "aquilo",
+        "esquerda",
+        "isto",
+        "neutro",
+        "tipo de pele 5"
+    ],
+    "1FAF9 1F3FF": [
+        "sinal de polegar para a esquerda: tipo de pele 6",
+        "agarrar",
+        "apontar",
+        "aquilo",
+        "esquerda",
+        "isto",
+        "neutro",
+        "tipo de pele 6"
+    ],
+    "1FAFA": [
+        "↑↑↑",
+        "agarrar",
+        "apontar",
+        "aquilo",
+        "direita",
+        "isto",
+        "neutro"
+    ],
+    "1FAFA 1F3FB": [
+        "sinal de polegar para a direita: tipo de pele 1–2",
+        "agarrar",
+        "apontar",
+        "aquilo",
+        "direita",
+        "isto",
+        "neutro",
+        "tipo de pele 1–2"
+    ],
+    "1FAFA 1F3FC": [
+        "sinal de polegar para a direita: tipo de pele 3",
+        "agarrar",
+        "apontar",
+        "aquilo",
+        "direita",
+        "isto",
+        "neutro",
+        "tipo de pele 3"
+    ],
+    "1FAFA 1F3FD": [
+        "sinal de polegar para a direita: tipo de pele 4",
+        "agarrar",
+        "apontar",
+        "aquilo",
+        "direita",
+        "isto",
+        "neutro",
+        "tipo de pele 4"
+    ],
+    "1FAFA 1F3FE": [
+        "sinal de polegar para a direita: tipo de pele 5",
+        "agarrar",
+        "apontar",
+        "aquilo",
+        "direita",
+        "isto",
+        "neutro",
+        "tipo de pele 5"
+    ],
+    "1FAFA 1F3FF": [
+        "sinal de polegar para a direita: tipo de pele 6",
+        "agarrar",
+        "apontar",
+        "aquilo",
+        "direita",
+        "isto",
+        "neutro",
+        "tipo de pele 6"
     ]
 }

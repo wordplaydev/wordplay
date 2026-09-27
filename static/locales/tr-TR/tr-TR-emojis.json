@@ -15185,6 +15185,18 @@
         "tehlike",
         "toprak kayması"
     ],
+    "1F6D9": [
+        "deniz feneri",
+        "aydınlanma",
+        "deniz",
+        "denizcilik",
+        "fener",
+        "ışık",
+        "navigasyon",
+        "rehberlik",
+        "sinyal",
+        "umut"
+    ],
     "1F6DC": [
         "kablosuz",
         "ağ",
@@ -22065,6 +22077,28 @@
         "sürgü",
         "üzgün"
     ],
+    "1FA8B": [
+        "gök taşı",
+        "ateş topu",
+        "düşüş",
+        "kaya",
+        "kıyamet",
+        "uzay",
+        "yerçekimi",
+        "yıldız"
+    ],
+    "1FA8C": [
+        "silgi",
+        "çizim",
+        "düzeltme",
+        "geri al",
+        "hata",
+        "kaldırmak",
+        "silme",
+        "yanlışlık",
+        "yazma"
+    ],
+    "1FA8D": ["kelebek ağı", "ağ", "toplamak", "tuzak", "yakalamak"],
     "1FA8E": [
         "hazine sandığı",
         "altın",
@@ -22823,6 +22857,17 @@
         "tüylü",
         "yeti"
     ],
+    "1FACC": [
+        "kral kelebeği",
+        "başkalaşım",
+        "böcek",
+        "değişim",
+        "dönüşüm",
+        "göç",
+        "kırılgan",
+        "tırtıl",
+        "umut"
+    ],
     "1FACD": ["orka", "balina", "deniz", "okyanus"],
     "1FACE": [
         "sığın",
@@ -22960,6 +23005,15 @@
         "vejetaryen"
     ],
     "1FADC": ["kök sebze", "bahçe", "kök", "pancar", "sebze", "turp"],
+    "1FADD": [
+        "turşu",
+        "çeşni",
+        "fermente",
+        "kornişon",
+        "salatalık",
+        "sorun",
+        "tuzlu su"
+    ],
     "1FADF": [
         "sıçratma",
         "boya",
@@ -23100,6 +23154,16 @@
         "şaşkın",
         "savunmasız",
         "şişkin"
+    ],
+    "1FAEB": [
+        "çatlayan yüz",
+        "açığa çıkarma",
+        "dayanıklılık",
+        "dönüşüm",
+        "gerginlik",
+        "kırılma",
+        "maskeleme",
+        "parçalanma"
     ],
     "1FAEF": [
         "dövüş bulutu",
@@ -24066,5 +24130,123 @@
         "reddetme",
         "sağa",
         "sağa iten el"
+    ],
+    "1FAF9": [
+        "baş parmak solda",
+        "bu",
+        "gösterme",
+        "kavrama",
+        "nötr",
+        "sol",
+        "şu"
+    ],
+    "1FAF9 1F3FB": [
+        "baş parmak solda: açık cilt tonu",
+        "açık cilt tonu",
+        "bu",
+        "gösterme",
+        "kavrama",
+        "nötr",
+        "sol",
+        "şu"
+    ],
+    "1FAF9 1F3FC": [
+        "baş parmak solda: orta açık cilt tonu",
+        "bu",
+        "gösterme",
+        "kavrama",
+        "nötr",
+        "orta açık cilt tonu",
+        "sol",
+        "şu"
+    ],
+    "1FAF9 1F3FD": [
+        "baş parmak solda: orta cilt tonu",
+        "bu",
+        "gösterme",
+        "kavrama",
+        "nötr",
+        "orta cilt tonu",
+        "sol",
+        "şu"
+    ],
+    "1FAF9 1F3FE": [
+        "baş parmak solda: orta koyu cilt tonu",
+        "bu",
+        "gösterme",
+        "kavrama",
+        "nötr",
+        "orta koyu cilt tonu",
+        "sol",
+        "şu"
+    ],
+    "1FAF9 1F3FF": [
+        "baş parmak solda: koyu cilt tonu",
+        "bu",
+        "gösterme",
+        "kavrama",
+        "koyu cilt tonu",
+        "nötr",
+        "sol",
+        "şu"
+    ],
+    "1FAFA": [
+        "başparmak sağda",
+        "bu",
+        "gösterme",
+        "kavrama",
+        "nötr",
+        "sağ",
+        "şu"
+    ],
+    "1FAFA 1F3FB": [
+        "başparmak sağda: açık cilt tonu",
+        "açık cilt tonu",
+        "bu",
+        "gösterme",
+        "kavrama",
+        "nötr",
+        "sağ",
+        "şu"
+    ],
+    "1FAFA 1F3FC": [
+        "başparmak sağda: orta açık cilt tonu",
+        "bu",
+        "gösterme",
+        "kavrama",
+        "nötr",
+        "orta açık cilt tonu",
+        "sağ",
+        "şu"
+    ],
+    "1FAFA 1F3FD": [
+        "başparmak sağda: orta cilt tonu",
+        "bu",
+        "gösterme",
+        "kavrama",
+        "nötr",
+        "orta cilt tonu",
+        "sağ",
+        "şu"
+    ],
+    "1FAFA 1F3FE": [
+        "başparmak sağda: orta koyu cilt tonu",
+        "bu",
+        "gösterme",
+        "kavrama",
+        "nötr",
+        "orta koyu cilt tonu",
+        "sağ",
+        "şu"
+    ],
+    "1FAFA 1F3FF": [
+        "başparmak sağda: koyu cilt tonu",
+        "bu",
+        "gösterme",
+        "kavrama",
+        "koyu cilt tonu",
+        "nötr",
+        "sağ",
+        "şu"
     ]
 }

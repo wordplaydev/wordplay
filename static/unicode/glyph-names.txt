@@ -10259,7 +10259,7 @@
 3B22	sunshine; sunlight; the light of day
 3B35	the shinbone, or tibia, (same as 交) to intersect, the sun and the moon in the sky, (simplified form of 膠) glue; gum, resin; sap, anything sticky	xiáo	xiao
 3B6D	a kind of tree, a harrow; a drag, a written contract or agreement; a bond; a deed, handles of spears or lances used in ancient times	bā	ba
-3B87	(standard form of 掭) (same as 栝) a builder's frame for measuring, juniper, a poker (for stirring fire, a cylinder part on the old style of wooden doors	tiàn	tian
+3B87	(standard form of 掭) (same as 栝) a builder's frame for measuring, juniper, a poker (for stirring fire), a cylinder part on the old style of wooden doors	tiàn	tian
 3B88	(non-classical form of 奈) but; how; what, a remedy; a resource, to bear, to endure	nài	nai
 3B8D	(ancient form of 牋 箋) a memorandum tablet, slip of paper, fancy note-paper, a note, a document, comments
 3BA4	pine; fir, (same as 松 鬆) loose; lax; slack
@@ -10322,7 +10322,7 @@
 4207	(same as 罩) a cover, a shade, a basket used to catch fish	zhào	zhao
 420E	a leaf; page of a book; leaf of a door; lobe of the lungs or liver	yè	ye
 4264	(a simplified form of 籔) a bamboo ware for washing rice, a measuring unit used in ancient times; equal to 16 Chinese peck	sǒu	sou
-4293	to paste up; to attach to; to stickup; to glue	shì	shi
+4293	to paste up; to attach to; to stick up; to glue	shì	shi
 42D6	long, a gown; a long dress	yù	yu
 42DD	(abbreviated form of 纓) a throat-band; chin strap for holding the hat, tassel; a fringe
 4302	(same as 握) in ancient times, article for preparing the body for the coffin (something slip on the hand of the dead)	òu	ou
@@ -10526,7 +10526,7 @@
 4E45	long time (ago); time passage, grow late	jiǔ	jiu
 4E46	long time (ago); time passage, grow late	jiǔ	jiu
 4E47	to depend on, to entrust with	tuō	tuo
-4E48	interrogative particle; small	me
+4E48	interrogative particle; small	me	yāo	yao
 4E49	right conduct, righteousness	yì	yi
 4E4B	marks preceding phrase as modifier of following phrase; it, him her, them; go to	zhī	zhi
 4E4C	crow, rook, raven; black, dark	wū	wu
@@ -10544,7 +10544,7 @@
 4E58	ride, ascend; avail oneself of; numerary adjunct for vehicles	chéng	cheng
 4E59	second; 2nd heavenly stem	yǐ	yi
 4E5A	hidden, mysterious, secret; to conceal; small; minute	yǐn	yin
-4E5B	kwukyel	ya
+4E5B	kwukyel	yǐ	yi
 4E5C	to squint; (Cant.) what? huh?	miē	mie
 4E5D	nine	jiǔ	jiu
 4E5E	beg; request	qǐ	qi
@@ -10573,7 +10573,7 @@
 4E82	confusion, state of chaos; create chaos, revolt	luàn	luan
 4E85	hook; Kangxi radical 6	jué	jue
 4E86	to finish; particle of completed action	le
-4E87	kwukyel (old Korean hanja-based script) for “hammer”	ma
+4E87	kwukyel (old Korean hanja-based script) for “hammer”	gè	ge
 4E88	I, me; to give	yǔ	yu
 4E89	dispute, fight, contend, strive	zhēng	zheng
 4E8A	affair, matter, business; to serve; accident, incident	shì	shi
@@ -10649,7 +10649,7 @@
 4ED6	other, another; he, she, it	tā	ta
 4ED7	rely upon; protector; fight; war, weaponry	zhàng	zhang
 4ED8	give, deliver, pay, hand over; entrust	fù	fu
-4ED9	Taoist super-being, transcendent, immortal	xiān	xian
+4ED9	Taoist super-being, transcendent, immortal; cent	xiān	xian
 4EDA	to fly	xiān	xian
 4EDB	young girl; strange, different	tuō	tuo
 4EDD	together, same; surname	tóng	tong
@@ -10876,7 +10876,7 @@
 500D	times, fold, multiple times	bèi	bei
 500F	hastily, suddenly, abruptly	shū	shu
 5010	hastily; suddenly	shū	shu
-5011	adjunct pronoun indicate plural	men
+5011	adjunct pronoun indicate plural	mén	men
 5012	fall over; lie down; take turns	dào	dao
 5014	stubborn, obstinate, intransigent; firm	jué	jue
 5016	lucky, fortunate; dote on, spoil	xìng	xing
@@ -11421,7 +11421,7 @@
 5316	change, convert, reform; -ize	huà	hua
 5317	north; northern; northward	běi	bei
 5318	the brain	nǎo	nao
-5319	spoon; surname	shi
+5319	spoon; surname	chí	chi
 531A	box; Kangxi radical 22	fāng	fang
 531C	basin; container for wine	yí	yi
 531D	full circle; encircle	zā	za
@@ -11645,7 +11645,7 @@
 5429	order, command, instruct	fēn	fen
 542A	move	é	e
 542B	hold in mouth; cherish; contain	hán	han
-542C	hear; understand; obey, comply	tīng	ting
+542C	hear; understand; obey, comply; one pound	tīng	ting
 542D	throat	kēng	keng
 542E	suck with mouth, sip, lick	shǔn	shun
 542F	open; begin, commence; explain	qǐ	qi
@@ -11675,7 +11675,7 @@
 544B	(呋喃) furan (C₄H₄O)	fū	fu
 544C	to call; to summon	jiào	jiao
 544D	(Cant.) phonetic	hōng	hong
-544E	foot	chǐ	chi
+544E	foot, twelve inches	chǐ	chi
 544F	gallon; quart	shēng	sheng
 5450	raise voice, yell out loud, shout; stammer	nà	na
 5451	swallow; absorb	tūn	tun
@@ -11743,7 +11743,7 @@
 5499	throat	lóng	long
 549A	onomatopoetic, a thumping sound	dōng	dong
 549B	enjoin, instruct; charge	níng	ning
-549C	to scold	ta
+549C	to scold	tuō	tuo
 549D	hiss; call to come; syllable	sī	si
 54A0	to whisper. to blame to slander	qì	qi
 54A1	side of mouth	èr	er
@@ -11780,7 +11780,7 @@
 54C2	smile, laugh at, sneer at; (Cant.) a final particle indicating doing something to the full extent possible	shěn	shen
 54C4	coax; beguile, cheat, deceive	hōng	hong
 54C6	tremble, shiver, shudder, quiver	duō	duo
-54C7	vomit; cry of an infant	wa
+54C7	vomit; cry of an infant	wā	wa
 54C8	sound of laughter	hā	ha
 54C9	final exclamatory particle	zāi	zai
 54CB	(Cant.) plural; adverb	diè	die
@@ -11875,7 +11875,7 @@
 5547	to stalk; the stem; the foot; the base	dì	di
 5548	to speak harshly, command sharply	hēng	heng
 5549	stupid; slow	lín	lin
-554A	exclamatory particle	a
+554A	exclamatory particle	ā	a
 554B	(Cant.) an interjection used to berate someone	cǎi	cai
 554C	animal disease	xiāng	xiang
 554D	creak; (Cant.) to babble, gibberish	tūn	tun
@@ -11898,7 +11898,7 @@
 5563	hold in mouth; harbor, cherish	xián	xian
 5564	beer	pí	pi
 5565	what?	shá	sha
-5566	final particle of assertion	la
+5566	final particle of assertion	lā	la
 5567	interjection of approval or admiration	zé	ze
 5569	(Cant.) particle implying probability	guà	gua
 556A	syllable	pā	pa
@@ -12043,7 +12043,7 @@
 5616	interjection of approval or admiration	zé	ze
 5617	taste; experience, experiment	cháng	chang
 5618	exhale; blow out; deep sigh; hiss; praise	xū	xu
-561B	final exclamatory particle	ma
+561B	final exclamatory particle	ma	má	ma
 561C	mark	mà	ma
 561E	(Cant.) final particle used for polite refusal	lei
 561F	sound of horn tooting	dū	du
@@ -12115,7 +12115,7 @@
 5673	many	yǔ	yu
 5674	spurt, blow out, puff out	pēn	pen
 5676	used in transliterations	gá	ga
-5677	an exclamation	hm
+5677	an exclamation	xīn	xin
 5678	ton (metric or English)	dūn	dun
 5679	sound of bells	dāng	dang
 567A	story, talk	xīn	xin
@@ -12136,10 +12136,10 @@
 5695	verbose, talkative; mumbling	lǔ	lu
 5699	bite, gnaw	niè	nie
 569A	argumentative, talkative	yín	yin
-569C	be silent; final particle	me
+569C	be silent; final particle	me	mò	mo
 569F	(Cant.) to come, arrive	lí	li
 56A0	a clear sound	liú	liu
-56A1	(Cant.) rough; interjection	hai
+56A1	(Cant.) rough; interjection	hái	hai
 56A2	bag, purse, sack; put in bag	náng	nang
 56A3	be noisy; treat with contempt	xiāo	xiao
 56A4	(Cant.) slow; late	mó	mo
@@ -12172,7 +12172,7 @@
 56D1	order, tell, instruct, leave word	zhǔ	zhu
 56D3	gnaw	niè	nie
 56D4	muttering, indistinct speech	nāng	nang
-56D6	(Cant.) final particle for pointing out the obvious	lo
+56D6	(Cant.) final particle for pointing out the obvious	luō	luo
 56D7	erect, proud; upright; bald	wéi	wei
 56D8	return, turn around; a time	huí	hui
 56DA	prisoner, convict; confine	qiú	qiu
@@ -12317,7 +12317,7 @@
 57AB	advance money, pay for another	diàn	dian
 57AD	character used in place names	yā	ya
 57AE	be defeated, fail, collapse	kuǎ	kua
-57AF	(圪墶) a pimple; a mound	da
+57AF	(圪墶) a pimple; a mound	dá	da
 57B1	a dike used to divert water in a rice paddy or field for irrigation	dàng	dang
 57B2	high and dry place	kǎi	kai
 57B4	small, head shaped hill, used in place names	nǎo	nao
@@ -12797,7 +12797,7 @@
 5AED	beautiful woman	hù	hu
 5AF0	tender, delicate, soft	nèn	nen
 5AF1	lady	qiáng	qiang
-5AF2	(Cant.) paternal grandmother	ma
+5AF2	(Cant.) paternal grandmother	mā	ma
 5AF5	charming, enchanting	wǔ	wu
 5AFA	refined, elegant, gracious	xián	xian
 5AFB	elegant, refined; skillful	xián	xian
@@ -12968,7 +12968,7 @@
 5BFD	a handful; a pinch	lǜ	lu
 5BFE	correct, right; facing, opposed	duì	dui
 5BFF	old age, long life; lifespan	shòu	shou
-5C01	letter, envelope; feudal	fēng	feng
+5C01	letter, envelope; feudal; one pound	fēng	feng
 5C02	monopolize, take sole possession	zhuān	zhuan
 5C03	to state to, to announce	fū	fu
 5C04	shoot, eject, issue forth, emit	shè	she
@@ -13263,7 +13263,7 @@
 5DE8	large, great, enormous; chief	jù	ju
 5DE9	bind; firm, secure, strong	gǒng	gong
 5DEB	wizard, sorcerer, witch, shaman	wū	wu
-5DED	study	pu
+5DED	study	gū	gu
 5DEE	to differ; different, wrong; nearly, almost; an officer	chà	cha	chā	cha
 5DEF	an atom group	qiú	qiu
 5DF0	an atom group	qiú	qiu
@@ -13479,7 +13479,7 @@
 5F14	condole, mourn, pity; hang	diào	diao
 5F15	to pull, draw out, attract; to stretch	yǐn	yin
 5F16	phonetic for 'te' (Japanese)	hù	hu
-5F17	not, negative	fú	fu
+5F17	not, negative; dollar	fú	fu
 5F18	enlarge, expand; liberal, great	hóng	hong
 5F1B	loosen, relax, unstring a bow	chí	chi
 5F1D	the part of a bow grasped when shooting	bà	ba
@@ -13599,7 +13599,7 @@
 5FBC	frontier, border; inspect, patrol	jiào	jiao
 5FBD	a badge, insignia	huī	hui
 5FC3	heart; mind, intelligence; soul; 5th lunar mansion, determinative star α Scorpii (Antares)	xīn	xin
-5FC4	heart; radical number 61	xin
+5FC4	heart; radical number 61	xīn	xin
 5FC5	surely, most certainly; must	bì	bi
 5FC6	remember, reflect upon; memory	yì	yi
 5FC9	grieved; distressed in mind	dāo	dao
@@ -14040,7 +14040,7 @@
 6248	escort, retinue; insolent	hù	hu
 6249	door panel	fēi	fei
 624B	hand	shǒu	shou
-624C	hand; radical number 64	shou
+624C	hand; radical number 64	shǒu	shou
 624D	talent, ability; just, only	cái	cai
 624E	pull up; pierce; struggle free	zhā	zha
 6250	divine	lè	le
@@ -14303,7 +14303,7 @@
 63B4	box one's ears, slap	guāi	guai
 63B7	throw, hurl, cast, fling	zhì	zhi
 63B8	to dust; a duster	dǎn	dan
-63B9	(Cant.) to pluck, to pull	meng
+63B9	(Cant.) to pluck, to pull	mēng	meng
 63BA	mix, blend, adulterate	chān	chan
 63BB	scratch lightly	sāo	sao
 63BC	throw ground; know, be familiar	guàn	guan
@@ -14351,7 +14351,7 @@
 63F8	handful; to grasp, seize, pick up with fingers; (Cant.) to take, carry	zhā	zha
 63F9	carry things on one's back	bēi	bei
 63FA	wag, swing, wave; shake; scull	yáo	yao
-63FC	(Cant.) to delay, waste time; to throw down, beat; to hang down	beng
+63FC	(Cant.) to delay, waste time; to throw down, beat; to hang down	bèng	beng
 63FD	grasp, take hold of; monopolize	lǎn	lan
 63FE	wipe off; press down with knuckle	wèn	wen
 63FF	press	qìn	qin
@@ -15130,7 +15130,7 @@
 686D	eaves; space between two pillars	zhēn	zhen
 686E	cup, glass, tumbler	bēi	bei
 686F	table	tīng	ting
-6872	quince	po
+6872	quince	bó	bo
 6874	raft; drumstick; ridge pole	fú	fu
 6875	small thorny bushes	ruí	rui
 6876	pail, bucket, tub; cask, keg	tǒng	tong
@@ -15388,7 +15388,7 @@
 6A1F	camphor tree	zhāng	zhang
 6A20	elm; gum	mán	man
 6A21	model, standard, pattern; copy	mó	mo
-6A22	(simplified form) (same as 蔦) the convolvulus; a kind of creeping plant, partridge; francolin, in Japan, the pole out side of a building used to post the public notice	niǎo	niao
+6A22	(simplified form) (same as 蔦) the convolvulus; a kind of creeping plant, partridge; francolin, in Japan, the pole outside of a building used to post the public notice	niǎo	niao
 6A23	shape, form, pattern, style	yàng	yang
 6A28	scrambled eggs	xī	xi
 6A29	power, right, authority	quán	quan
@@ -15434,7 +15434,7 @@
 6A6B	across, horizontal, lateral	héng	heng
 6A71	cabinet, wardrobe, cupboard	chú	chu
 6A79	oar, scull; row, scull	lǔ	lu
-6A7A	(Cant.) a partition; to separate	jian
+6A7A	(Cant.) a partition; to separate	xiàn	xian
 6A7C	citrus	yuán	yuan
 6A7E	the hole in the center of a wheel accommodating the axle (archaic)	shū	shu
 6A7F	a kind of oak	jiāng	jiang
@@ -15658,10 +15658,10 @@
 6C04	down	rǒng	rong
 6C05	overcoat; down feathers	chǎng	chang
 6C06	thick, rough serge from Tibet	pǔ	pu
-6C07	thick rough serge from Tibet	lu
+6C07	thick rough serge from Tibet	lǔ	lu
 6C08	felt; rug, carpet	zhān	zhan
 6C09	restless, melancholy	sào	sao
-6C0A	felt; coarse fabrics use for rugs, carpets, wrappers etc.	zhān	zhan
+6C0A	felt; coarse fabrics used for rugs, carpets, wrappers, etc.	zhān	zhan
 6C0C	thick rough serge from Tibet	lǔ	lu
 6C0D	fine woollen cloth; a mat used by the emperor in worshipping god	qú	qu
 6C0E	fine cotton cloth	dié	die
@@ -15697,7 +15697,7 @@
 6C32	life giving influences of nature; spirit of harmony; prosperity	yūn	yun
 6C33	life giving influences of nature; spirit of harmony; prosperity	yūn	yun
 6C34	water, liquid, lotion, juice	shuǐ	shui
-6C35	water; radical number 85	shui
+6C35	water; radical number 85	shuǐ	shui
 6C36	name of a river in Shandong	zhěng	zheng
 6C37	ice, frost, icicles; cold	bīng	bing
 6C38	long, perpetual, eternal, forever	yǒng	yong
@@ -15913,7 +15913,7 @@
 6D66	bank of river, shore; surname	pǔ	pu
 6D69	great, numerous, vast, abundant	hào	hao
 6D6A	wave; wasteful, reckless	làng	lang
-6D6C	nautical mile	lǐ	li
+6D6C	nautical mile; knot, nautical mile per hour	lǐ	li
 6D6D	river in Hebei province; (Cant.) a ford; to wade	gēng	geng
 6D6E	to float, drift, waft; to exceed; superfluous	fú	fu
 6D6F	name of a river in Shandong	wú	wu
@@ -16221,7 +16221,7 @@
 6F45	pour; water; irrigate, flood	guàn	guan
 6F46	tiny stream; swirl around	yíng	ying
 6F47	sound of beating wind and rain	xiāo	xiao
-6F48	confluence of a small river with a large one; the sound of flowing water	zong
+6F48	confluence of a small river with a large one; the sound of flowing water	zōng	zong
 6F4B	waves, ripples; overflow	liàn	lian
 6F4D	county in Shandong province	wéi	wei
 6F4E	rippling; pour	pì	pi
@@ -17036,6 +17036,7 @@
 74EF	bowl, cup; small tray	ōu	ou
 74F0	a decigram, one-tenth of a gram
 74F1	milligram
+74F2	ton	túnwǎ	tunwa
 74F4	concave channels of tiling a long-necked jar	líng	ling
 74F6	jug, pitcher, vase, jar, bottle	píng	ping
 74F7	crockery, porcelain, chinaware	cí	ci
@@ -17312,7 +17313,7 @@
 7663	ringworms	xuǎn	xuan
 7664	pimple, sore, boil	jiē	jie
 7665	obstruction of bowels	zhēng	zheng
-7666	(Cant.) a mole (on the skin)	me
+7666	(Cant.) a mole (on the skin)	mèng	meng
 7667	scrofulous lumps or swellings	lì	li
 7668	quickly, suddenly; surname	huò	huo
 7669	leprosy, scabies, mange; shoddy	lài	lai
@@ -17989,7 +17990,7 @@
 7ABA	peep, watch, spy on, pry	kuī	kui
 7ABB	window	chuāng	chuang
 7ABD	empty; vacant	kuǎn	kuan
-7ABE	hole; hallow; empty	kuǎn	kuan
+7ABE	hole; hollow; empty	kuǎn	kuan
 7ABF	mine shaft; cavity, hole	lóng	long
 7AC3	furnace; kitchen range	zào	zao
 7AC4	run away; revise, edit; expel	cuàn	cuan
@@ -18001,7 +18002,7 @@
 7ACA	secretly, stealthily; steal; thief	qiè	qie
 7ACB	stand; let stand; establish, set	lì	li
 7ACD	decaliter	shí	shi
-7ACF	kiloliter	qiān	qian
+7ACF	kiloliter, cubic meter	qiān	qian
 7AD1	be vast and endless; broad	hóng	hong
 7AD2	strange, unusual, uncanny, occult	qí	qi
 7AD3	milliliter	háo	hao
@@ -18065,7 +18066,7 @@
 7B34	an arrow shaft	gǎn	gan
 7B35	a bamboo form; a model	fàn	fan
 7B38	flat basket for grain	pǒ	po
-7B39	small bamboo	tì	ti
+7B39	small bamboo	shì	shi
 7B3A	note, memo; stationery; comments	jiān	jian
 7B3C	cage; cage-like basket	lóng	long
 7B3E	bamboo container for food	biān	bian
@@ -18210,7 +18211,7 @@
 7C14	a coat raincoat	suō	suo
 7C15	(Cant.) thorn	lè	le
 7C16	bamboo trap for catching fish	duàn	duan
-7C17	a weir, fish trap, fish pond	zhù	zhu
+7C17	a weir, fish trap, fish pond	zhù	zhu	zhú	zhu
 7C1B	sieve; to sift; to strain	shāi	shai
 7C1E	small bamboo basket for holding cooked rice	dān	dan
 7C1F	bamboo mat	diàn	dian
@@ -18244,7 +18245,7 @@
 7C51	to feed, to provide for delicacies, dainties	zhuàn	zhuan
 7C53	sieve; basket	fān	fan
 7C54	bamboo basket	sǒu	sou
-7C56	tally; lot; marker	qian
+7C56	tally; lot; marker	qiān	qian
 7C58	climbing plants, vines, cane	téng	teng
 7C59	book	lù	lu
 7C5A	bamboo; the handle of the spear	lú	lu
@@ -18266,7 +18267,7 @@
 7C72	appeal; request; implore	yù	yu
 7C73	hulled or husked uncooked rice	mǐ	mi
 7C74	purchase grains; store grain	dí	di
-7C75	decimeter	fán	fan
+7C75	decameter, ten meters	fán	fan
 7C79	cake	nǚ	nu
 7C7B	class, group, kind, category	lèi	lei
 7C7C	non-glutinous long grain rice	xiān	xian
@@ -18279,6 +18280,7 @@
 7C87	chaff, bran, husks	kāng	kang
 7C89	powder, face powder; plaster	fěn	fen
 7C8B	pure; unadulterated; select	cuì	cui
+7C8C	hectometer	yǐn	yin
 7C8D	millimetre	zhé	zhe
 7C8E	meter	mǐ	mi
 7C91	bread, cake; tsamba (Tibetan barley bread)	bā	ba
@@ -18953,7 +18955,7 @@
 8030	toothless rake for drawing earth over newly sown grain	yōu	you
 8031	a kind of farm tool	mò	mo
 8033	ear; merely, only; handle; Kangxi radical 128	ěr	er
-8034	ear lobe; lobule	yì	yi
+8034	ear lobe; lobule	yì	yi	zhé	zhe
 8035	earwax	dīng	ding
 8036	used in transliteration	yé	ye
 8037	ears hanging down	dā	da
@@ -18973,7 +18975,7 @@
 804D	earwax	níng	ning
 8052	clamor, din, hubbub	guō	guo	guā	gua
 8054	connect, join; associate, ally	lián	lian
-8056	holy, sacred; sage	shèng	sheng
+8056	holy, sacred; sage, saint	shèng	sheng
 8058	engage, employ; betroth	pìn	pin
 805A	assemble, meet together, collect	jù	ju
 805E	hear; smell; make known; news	wén	wen
@@ -19108,7 +19110,7 @@
 8108	blood vessels, veins, arteries	mài	mai
 8109	blood vessels, veins, arteries	mài	mai
 810A	spine, backbone; ridge	jǐ	ji
-810C	(Cant.) female breast; milk	nin
+810C	(Cant.) female breast; milk	nín	nin
 810D	minced meat or fish	kuài	kuai
 810E	osazone	sà	sa
 810F	internal organs, viscera; dirty	zàng	zang
@@ -19128,7 +19130,7 @@
 8122	flesh	méi	mei
 8123	lips	chún	chun
 8124	raw meat for sacrifice	shèn	shen
-8126	slovenly	de
+8126	slovenly	te	tè	te
 8127	reduce, contract; exploit; reproductive organ of infant	juān	juan
 8129	dried meat (used as teachers payment in ancient times)	xiū	xiu
 812A	erysipelas; sloughing of an ulcer	xìn	xin
@@ -19352,7 +19354,7 @@
 8276	beautiful, sexy, voluptuous	yàn	yan
 8277	beautiful, sexy, voluptuous	yàn	yan
 8278	grass; Kangxi radical 140	cǎo	cao
-8279	grass; Kangxi radical 140	cao
+8279	grass; Kangxi radical 140	cǎo	cao
 827A	art; talent, ability; craft	yì	yi
 827D	a root; a lair	jiāo	jiao
 827E	artemisia, mugwort	ài	ai
@@ -19535,7 +19537,7 @@
 8375	various species of the genus Polemonium	rěn	ren
 8377	lotus, water lily; Holland	hé	he
 8378	water chestnut	bí	bi
-837B	reed, Miscanthus saccariflorus	dí	di
+837B	reed, Miscanthus sacchariflorus	dí	di
 837C	thistle, sowthistle; bitter	tú	tu
 837D	coriander	suī	sui
 8380	to farm; a farmer; agriculture	chén	chen
@@ -19675,7 +19677,7 @@
 8471	scallions, leeks, green onions	cōng	cong
 8473	luxuriant, flourishing; used for various plants	wēi	wei
 8475	sunflower; measure	kuí	kui
-8476	Draba nemerosa	tíng	ting
+8476	Draba nemorosa	tíng	ting
 8477	meat diet; strong smelling	hūn	hun
 8478	afraid, bashful	xǐ	xi
 8479	kind of chrysanthemum, xanthium	shī	shi
@@ -19748,7 +19750,7 @@
 84FB	(Cant.) classifier for hair	zí	zi	jí	ji
 84FC	smartweed, polygonum	liǎo	liao
 84FD	species of bean; Piper longum	bì	bi
-84FF	clover, lucerne	xu
+84FF	clover, lucerne	xu	sù	su
 8500	screen	bù	bu
 8502	basket, hod	léi	lei
 8503	(Cant.) roots of plants	qiáng	qiang
@@ -20055,7 +20057,7 @@
 8713	dragonfly	tíng	ting
 8714	inlaid shell-work	diàn	dian
 8715	molt	tuì	tui
-8717	a snail, Eulota callizoma	wō	wo
+8717	a snail, Euhadra callizona	wō	wo
 8718	spider	zhī	zhi
 871A	cockroach	fēi	fei
 871C	honey; sweet; nectar	mì	mi
@@ -20298,7 +20300,7 @@
 88C1	cut out; decrease	cái	cai
 88C2	split, crack, break open; rend	liè	lie
 88C3	old ceremonial garb; samurai garb	kǎ	ka
-88C4	sleeve length	xing
+88C4	sleeve length	háng	hang
 88C5	dress, clothes, attire; fill	zhuāng	zhuang
 88C6	crotch or seat of pants; pants	dāng	dang
 88C7	(Cant.) a shirt (Engl. loanword)	xū	xu
@@ -21942,7 +21944,7 @@
 923E	uranium (U)	yóu	you
 923F	hairpin; gold inlaid work, filigree	tián	tian
 9240	potassium (K)	jiǎ	jia
-9244	iron; strong, solid, firm	zhí	zhi
+9244	iron; strong, solid, firm	tiě	tie
 9245	steel, iron; great	jù	ju
 9246	tweezers	chān	chan
 9248	a short spear; thallium (element 81, Tl)	shī	shi
@@ -22008,6 +22010,7 @@
 92B9	rust, corrode	xiù	xiu
 92BB	antimony (element 51, Sb)	tí	ti
 92BC	carpenter's file, file smooth	cuò	cuo
+92C1	aluminium/aluminum (element 13, Al)	lǚ	lu
 92C2	bit cup	méi	mei
 92C3	lock	láng	lang
 92C5	zinc (element 30, Zn)	xīn	xin
@@ -22081,7 +22084,7 @@
 9336	a watch, clock	biǎo	biao
 9338	rhenium (element 75, Re)	lái	lai
 933A	metal jewelry	fāng	fang
-933B	a tin plate	wu
+933B	a tin plate	bū	bu
 933C	neptunium (element 93, Np)	nài	nai
 933E	engraving tool, chisel	zàn	zan
 9340	technetium (element 43, Tc)	dé	de
@@ -22337,6 +22340,7 @@
 94DA	a sickle	zhì	zhi
 94DB	frying pan; warming vessel	dāng	dang
 94DC	copper, brass, bronze	tóng	tong
+94DD	aluminium/aluminum (element 13, Al)	lǚ	lu
 94DE	hasp and staple	diào	diao
 94DF	indium (element 49, In)	yīn	yin
 94E0	armor, chain mail	kǎi	kai
@@ -22354,7 +22358,7 @@
 94EC	chromium (element 24, Cr)	gè	ge
 94ED	inscribe, engrave	míng	ming
 94EE	clanging sound; small gong	zhēng	zheng
-94EF	cesium	sè	se
+94EF	caesium/cesium (element 55, Cs)	sè	se
 94F0	hinge; shears, scissors	jiǎo	jiao
 94F1	iridium (element 77, Ir)	yī	yi
 94F2	spade, shovel, trowel, scoop	chǎn	chan
@@ -22384,7 +22388,7 @@
 950B	point of spear, sharp point	fēng	feng
 950C	zinc (element 30, Zn)	xīn	xin
 950D	matte, a crude mixture of sulfides formed in smelting sulfide ores	liǔ	liu
-950E	caesium/cesium (element 55, Cs)	kāi	kai
+950E	californium (element 98, Cf)	kāi	kai
 950F	kind of rapier	jiǎn	jian
 9510	sharp, keen, acute, pointed	ruì	rui
 9511	antimony (element 51, Sb)	tī	ti
@@ -22502,7 +22506,7 @@
 9592	leisure; idle; peaceful, tranquil, calm	xián	xian
 9593	interval, space; place, between	jiān	jian
 9594	mourn, grieve; urge on, incite	mǐn	min
-9596	(J) flower name; a water-gate, sluice; toponym	shui
+9596	(J) flower name; a water-gate, sluice; toponym	shuǐ	shui
 9598	sluice; flood gate, canal lock	zhá	zha
 9599	quarrel; dispute hotly	nào	nao
 959F	hide, keep secret; hideaway	bì	bi
@@ -22862,7 +22866,7 @@
 97A0	bow, bend; rear, raise, nourish	jū	ju
 97A3	tan; soften	róu	rou
 97A5	reins	ēng	eng
-97A6	leather stap; swing	qiū	qiu
+97A6	leather strap; swing	qiū	qiu
 97A8	tribe	hé	he
 97AB	interrogate, question	jū	ju
 97AC	a quiver on a horse; a store	jiān	jian
@@ -23197,7 +23201,7 @@
 9976	bountiful, abundant, plentiful	ráo	rao
 9977	rations and pay for soldiers	xiǎng	xiang
 9978	(餄餎) buckwheat noodles	hé	he
-9979	(餄餎) buckwheat noodles	le
+9979	(餄餎) buckwheat noodles	gē	ge
 997A	stuffed dumplings	jiǎo	jiao
 997C	rice-cakes, biscuits	bǐng	bing
 997D	ferrule	bō	bo
@@ -23791,7 +23795,7 @@
 9D3F	pigeon, dove; Columba species (various)	gē	ge
 9D41	the fishing cormorant	jiāo	jiao
 9D42	owl; bird of ill omen	xiū	xiu
-9D43	ancient name for a bird with black featers and a short tail	zhōu	zhou
+9D43	ancient name for a bird with black feathers and a short tail	zhōu	zhou
 9D44	(variant of 鴟) kite, horned owl; wine cups	chī	chi
 9D51	cuckoo	juān	juan
 9D52	mynah bird; Acridotheres tristis	yù	yu
@@ -23963,7 +23967,7 @@
 9E6B	condor, vulture	jiù	jiu
 9E6C	snipe, kingfisher	yù	yu
 9E6D	heron, egret; Ardea species (various)	lù	lu
-9E6E	spoonbill; ibis; family Threskiornidae	huán	huan
+9E6E	spoonbill; ibis; family Threskiornithidae	huán	huan
 9E70	falcon; Accipiter species (various)	yīng	ying
 9E73	crane, Grus japonensis; stork; Ciconia species (various)	guàn	guan
 9E75	saline soil; natural salt, rock salt; Kangxi radical 197	lǔ	lu
@@ -24015,7 +24019,7 @@
 9EBC	interrogative final particle; insignificant, small, tiny	me
 9EBD	interrogative final particle; insignificant, small, tiny	mó	mo
 9EBE	a pennant, flag, banner; to signal to	huī	hui
-9EBF	I, personal name marker	mo
+9EBF	I, personal name marker	mǒ	mo
 9EC3	yellow; surname; Kangxi radical 201	huáng	huang
 9EC4	yellow; surname	huáng	huang
 9EC8	yellow; augment, increase	tǒu	tou
@@ -24064,7 +24068,7 @@
 9F03	the edible water-frog	wā	wa
 9F07	huge sea turtle	áo	ao
 9F08	a fresh-water turtle, Trionyx sinensis	biē	bie
-9F09	Chinese allegator (Alligator sinensis)	tuó	tuo
+9F09	Chinese alligator (Alligator sinensis)	tuó	tuo
 9F0B	large turtle, sea turtle	yuán	yuan
 9F0D	large reptile, water lizard	tuó	tuo
 9F0E	large, three-legged bronze caldron; Kangxi radical 206; hexagram ䷱	dǐng	ding

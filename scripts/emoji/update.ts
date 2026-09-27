@@ -145,7 +145,7 @@ function safariChecklist(): void {
             '  There is no headless Safari and OT-SVG subset correctness must be',
             '  eyeballed. Before committing, open a project in Safari (and a',
             '  WebKit/iPad build) and confirm:',
-            '   • only the matching NotoColorEmoji.svg-N.ttf slices download (not the',
+            '   • only the matching NotoColorEmoji.svg-N.woff2 slices download (not the',
             '     whole ~3.3 MB font),',
             '   • plain ZWJ sequences (families, professions, flags), skin-tone',
             '     modifiers, and keycaps (2️⃣ #️⃣ ©️) all render with no tofu,',
@@ -198,8 +198,10 @@ async function main(): Promise<void> {
         step(
             'Fonts (3): rebuilding + re-slicing the Safari SVG font (nanoemoji, ~10 min)',
         );
+        // Build from the same release --check reported, never the moving main.
         execFileSync('bash', ['scripts/emoji/notocolor.sh'], {
             stdio: 'inherit',
+            env: { ...process.env, NOTO_TAG: upstream.notoColorEmoji },
         });
         step(
             'Fonts (4): folding the rebuilt font’s SVG-only gap codepoints into the Safari CSS',

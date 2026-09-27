@@ -5,6 +5,7 @@ import path from 'node:path';
 import { getManifestPath, isSupportedLocale } from '@locale/SupportedLocales';
 import { withoutAnnotations } from '@locale/withoutAnnotations';
 import { LocaleAssetHashes } from '@db/locales/localeAssets.generated';
+import { FontsVersion } from '@basis/faces/faces.generated';
 
 type FallbackStrings = {
     wordplay: string;
@@ -175,6 +176,7 @@ export const handle: Handle = async ({ event, resolve }) => {
                     unsupportedBody,
                 )
                 .replaceAll('%wordplay.localeassets%', localeAssetHashes())
+                .replaceAll('%wordplay.fontsversion%', FontsVersion)
                 .replaceAll('%wordplay.system.manifest%', manifest),
     });
 };

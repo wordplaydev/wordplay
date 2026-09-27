@@ -2,7 +2,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { describe, expect, test } from 'vitest';
 import { must } from '@util/nullable';
-import Fonts, { Faces, getFontFileURL } from './Fonts';
+import Fonts, { Faces, getFontFilePath } from './Fonts';
 
 describe('FontManager outside a browser', () => {
     test('constructs and reports a stable load generation without a document', () => {
@@ -35,7 +35,7 @@ describe('CJK creator faces', () => {
                 continue;
             // Every range file the URL scheme derives must exist on disk.
             for (const range of face.ranges) {
-                const url = getFontFileURL({
+                const url = getFontFilePath({
                     name,
                     weight: 400,
                     italic: false,

@@ -5,7 +5,7 @@ import { must } from '@util/nullable.ts';
 /**
  * Shared model for the font generator: how face names map to on-disk files and
  * how @font-face src URLs are parsed back to (weight, italic, slice index).
- * Mirrors getFontFileURL in src/basis/faces/Fonts.ts.
+ * Mirrors getFontFilePath in src/basis/faces/Fonts.ts.
  */
 
 export const STATIC = 'static';

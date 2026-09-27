@@ -20777,6 +20777,19 @@
         "pericol",
         "stânci"
     ],
+    "1F6D9": [
+        "far",
+        "baliză",
+        "călăuzitor",
+        "iluminare",
+        "îndrumare",
+        "lumină",
+        "mare",
+        "maritim",
+        "navigație",
+        "semnal",
+        "speranță"
+    ],
     "1F6DC": [
         "wireless",
         "bandă largă",
@@ -28141,6 +28154,38 @@
         "suflat",
         "trist"
     ],
+    "1FA8B": [
+        "meteor",
+        "apocalipsă",
+        "cădere",
+        "gravitație",
+        "meteorit",
+        "minge de foc",
+        "rocă",
+        "spațiu",
+        "stea"
+    ],
+    "1FA8C": [
+        "radieră",
+        "anula",
+        "corectare",
+        "desen",
+        "elimina",
+        "eroare",
+        "greșeală",
+        "gumă de șters",
+        "scriere",
+        "ștergere",
+        "ștersătură"
+    ],
+    "1FA8D": [
+        "plasă cu mâner",
+        "captura",
+        "colecta",
+        "minciog",
+        "plasă de prins fluturi",
+        "prinde"
+    ],
     "1FA8E": [
         "cufăr de comori",
         "argint",
@@ -28667,6 +28712,17 @@
         "sasquatch",
         "yeti"
     ],
+    "1FACC": [
+        "fluture monarh",
+        "fragilitate",
+        "insectă",
+        "metamorfoză",
+        "migrare",
+        "omidă",
+        "schimbare",
+        "speranță",
+        "transformare"
+    ],
     "1FACD": ["orca", "balenă", "marin", "ocean"],
     "1FACE": ["elan", "animal", "cerb", "cornut", "mamifer"],
     "1FACF": ["măgar", "animal", "asin", "catâr", "încăpățânat", "mamifer"],
@@ -28724,6 +28780,16 @@
         "rădăcină",
         "sfeclă",
         "țelină"
+    ],
+    "1FADD": [
+        "murătură",
+        "acritură",
+        "castravecior murat",
+        "castravete",
+        "condiment",
+        "fermentare",
+        "murături",
+        "saramură"
     ],
     "1FADF": ["împroșcare", "holi", "pată", "stropi", "vărsa", "vopsea"],
     "1FAE0": [
@@ -28844,6 +28910,16 @@
         "suprinsă",
         "vulnerabil",
         "vulnerabilă"
+    ],
+    "1FAEB": [
+        "față care se crapă",
+        "crăpare",
+        "dezvăluire",
+        "mascare",
+        "reziliență",
+        "spargere",
+        "tensiune",
+        "transformare"
     ],
     "1FAEF": [
         "nor de bătaie",
@@ -29639,6 +29715,136 @@
         "refuz",
         "spre dreapta",
         "stop",
+        "ton închis al pielii"
+    ],
+    "1FAF9": [
+        "semn cu degetul mare spre stânga",
+        "aceasta",
+        "apucare",
+        "asta",
+        "neutralitate",
+        "punct",
+        "stânga",
+        "strângere"
+    ],
+    "1FAF9 1F3FB": [
+        "semn cu degetul mare spre stânga: ton deschis al pielii",
+        "aceasta",
+        "apucare",
+        "asta",
+        "neutralitate",
+        "punct",
+        "stânga",
+        "strângere",
+        "ton deschis al pielii"
+    ],
+    "1FAF9 1F3FC": [
+        "semn cu degetul mare spre stânga: ton semi‑deschis al pielii",
+        "aceasta",
+        "apucare",
+        "asta",
+        "neutralitate",
+        "punct",
+        "stânga",
+        "strângere",
+        "ton semi‑deschis al pielii"
+    ],
+    "1FAF9 1F3FD": [
+        "semn cu degetul mare spre stânga: ton mediu al pielii",
+        "aceasta",
+        "apucare",
+        "asta",
+        "neutralitate",
+        "punct",
+        "stânga",
+        "strângere",
+        "ton mediu al pielii"
+    ],
+    "1FAF9 1F3FE": [
+        "semn cu degetul mare spre stânga: ton semi‑închis al pielii",
+        "aceasta",
+        "apucare",
+        "asta",
+        "neutralitate",
+        "punct",
+        "stânga",
+        "strângere",
+        "ton semi‑închis al pielii"
+    ],
+    "1FAF9 1F3FF": [
+        "semn cu degetul mare spre stânga: ton închis al pielii",
+        "aceasta",
+        "apucare",
+        "asta",
+        "neutralitate",
+        "punct",
+        "stânga",
+        "strângere",
+        "ton închis al pielii"
+    ],
+    "1FAFA": [
+        "semn cu degetul mare spre dreapta",
+        "aceasta",
+        "apucare",
+        "asta",
+        "dreapta",
+        "neutralitate",
+        "punct",
+        "strângere"
+    ],
+    "1FAFA 1F3FB": [
+        "semn cu degetul mare spre dreapta: ton deschis al pielii",
+        "aceasta",
+        "apucare",
+        "asta",
+        "dreapta",
+        "neutralitate",
+        "punct",
+        "strângere",
+        "ton deschis al pielii"
+    ],
+    "1FAFA 1F3FC": [
+        "semn cu degetul mare spre dreapta: ton semi‑deschis al pielii",
+        "aceasta",
+        "apucare",
+        "asta",
+        "dreapta",
+        "neutralitate",
+        "punct",
+        "strângere",
+        "ton semi‑deschis al pielii"
+    ],
+    "1FAFA 1F3FD": [
+        "semn cu degetul mare spre dreapta: ton mediu al pielii",
+        "aceasta",
+        "apucare",
+        "asta",
+        "dreapta",
+        "neutralitate",
+        "punct",
+        "strângere",
+        "ton mediu al pielii"
+    ],
+    "1FAFA 1F3FE": [
+        "semn cu degetul mare spre dreapta: ton semi‑închis al pielii",
+        "aceasta",
+        "apucare",
+        "asta",
+        "dreapta",
+        "neutralitate",
+        "punct",
+        "strângere",
+        "ton semi‑închis al pielii"
+    ],
+    "1FAFA 1F3FF": [
+        "semn cu degetul mare spre dreapta: ton închis al pielii",
+        "aceasta",
+        "apucare",
+        "asta",
+        "dreapta",
+        "neutralitate",
+        "punct",
+        "strângere",
         "ton închis al pielii"
     ]
 }

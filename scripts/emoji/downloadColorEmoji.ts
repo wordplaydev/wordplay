@@ -3,14 +3,14 @@
  * fetch Google's Noto Color Emoji partition and regenerate BOTH color-emoji
  * branches of emoji-faces.css from it — the Chromium COLRv1 branch (`@supports
  * not (-webkit-hyphens: none)`, woff2) and the Safari OT-SVG branch (`@supports
- * (-webkit-hyphens: none)`, ttf). Regenerating both from one source keeps the
+ * (-webkit-hyphens: none)`, woff2). Regenerating both from one source keeps the
  * two browsers' declared ranges from drifting apart on an update.
  *
  * Google serves the family as N `unicode-range`-sliced woff2 files (the
  * "captured partition"). We download each to NotoColorEmoji-400-<i>.woff2 and
  * emit both branches, applying the fixed KEYCAP_TRIM so the color font doesn't
  * paint plain digits/#/* as emoji (re-declared on the dedicated keycap face).
- * slice-emoji-svg.py then cuts the Safari .svg-<i>.ttf files from these ranges.
+ * slice-emoji-svg.py then cuts the Safari .svg-<i>.woff2 files from these ranges.
  *
  * The default run also re-derives the monochrome `Noto Emoji` face's range from
  * its (separately refreshed) woff2 cmap, so one step keeps every emoji font's
@@ -86,7 +86,7 @@ const KEYCAP_TRIM = new Set<number>([
 const KEYCAP_RANGE = `${toRangeString(KEYCAP_TRIM)}, U+fe0f, U+20e3`;
 
 // The two color-emoji branches carry the SAME partition — Chromium serves it as
-// COLRv1 woff2, Safari as OT-SVG ttf (Safari can't do COLRv1). We regenerate
+// COLRv1 woff2, Safari as OT-SVG woff2 (Safari can't do COLRv1). We regenerate
 // BOTH here so an update can't leave one browser's declared ranges stale while
 // the other's move (which would tofu the new emoji on the stale browser).
 const CHROMIUM_SUPPORTS = '@supports not (-webkit-hyphens: none)';
@@ -113,15 +113,18 @@ const CHROMIUM_KEYCAP_COMMENT = `        /* Dedicated face that DOES claim the k
            cascade — otherwise it shadows plain digits/text again (see
            the trimmed slice-2 range above). It lets sequences like
            2️⃣ #️⃣ ©️ shape as color emoji. */`;
-const SAFARI_INTRO = `    /* Safari's color-emoji path. The OT-SVG font is sliced into 10 files by
+const SAFARI_INTRO = `    /* Safari's color-emoji path. The OT-SVG font is sliced into files by
        the SAME unicode-range partition as the Chromium COLRv1 slices below
        (built from the same Noto sources), so Safari lazily downloads only the
        slices whose emoji render instead of the whole ~3.3 MB font. Slices are
        produced by pyftsubset in scripts/emoji/notocolor.sh; ranges mirror the
        NotoColorEmoji-400-N faces and are cmap-guarded by emojiRange.test.ts. */`;
-const SAFARI_KEYCAP_COMMENT = `    /* Keycap face — slice 2 carries the keycap glyphs + GSUB ligatures.
-       Referenced ONLY via the .emoji-keycap class (see the Chromium keycap
-       face), never in a general cascade, so it doesn't shadow plain digits. */`;
+const SAFARI_KEYCAP_COMMENT = `    /* Keycap face — its OWN dedicated file (keycap/legacy glyphs + GSUB
+       ligatures only). It must NOT reuse slice 2's file: Safari binds a file to
+       a single @font-face family, so sharing svg-2.woff2 between this face and
+       'Noto Color Emoji' slice 2 makes every other slice-2 emoji (💬 etc.) fall
+       back to the system Apple emoji. Referenced ONLY via the .emoji-keycap
+       class, never in a general cascade, so it doesn't shadow plain digits. */`;
 const SAFARI_TRAILING = `    body {
         --google-font-color-notocoloremoji: colrv1;
     }`;
@@ -140,6 +143,9 @@ type Branch = {
     intro?: string;
     trailing?: string;
     src: (fileIndex: number) => string[];
+    /** The keycap face's src when it has a file of its own rather than reusing
+     * the keycap-base slice's (see SAFARI_KEYCAP_COMMENT). */
+    keycapSrc?: string[];
     sliceTrimComment?: string;
     keycapComment: string;
     /** Chromium puts the keycap note inside the face (between src and range);
@@ -161,8 +167,12 @@ const SAFARI: Branch = {
     intro: SAFARI_INTRO,
     trailing: SAFARI_TRAILING,
     src: (i) => [
-        `        src: url(/fonts/NotoColorEmoji/NotoColorEmoji.svg-${i}.ttf)`,
-        "            format('truetype');",
+        `        src: url(/fonts/NotoColorEmoji/NotoColorEmoji.svg-${i}.woff2)`,
+        "            format('woff2');",
+    ],
+    keycapSrc: [
+        '        src: url(/fonts/NotoColorEmoji/NotoColorEmoji.svg-keycap.woff2)',
+        "            format('woff2');",
     ],
     // Safari's trimmed slice carries no per-slice comment (see committed island).
     keycapComment: SAFARI_KEYCAP_COMMENT,
@@ -270,7 +280,7 @@ function emitBranch(
         });
     const keycapRule = faceRule(
         KEYCAP_FACE,
-        branch.src(k),
+        branch.keycapSrc ?? branch.src(k),
         KEYCAP_RANGE,
         branch.keycapCommentPlacement === 'inside'
             ? branch.keycapComment

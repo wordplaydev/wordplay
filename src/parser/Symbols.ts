@@ -178,6 +178,8 @@ export const CANCEL_SYMBOL = '×';
 export const CONFIRM_SYMBOL = '✓';
 export const SELECTION_SYMBOL = '⬚';
 export const ERASE_SYMBOL = '⌫';
+/** Erasing marks from a drawing, as distinct from deleting a thing (⌫). */
+export const ERASER_SYMBOL = '🪌';
 
 // Playback glyphs use the bare codepoints (no U+FE0F presentation selector) so they
 // render as plain monochrome symbols rather than a color-emoji design.
