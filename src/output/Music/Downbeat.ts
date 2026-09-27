@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import toStructure from '@basis/toStructure';
 import { getBind } from '@locale/getBind';
 import type Locales from '@locale/Locales';
@@ -24,7 +25,7 @@ export function createDownbeatType(locales: Locales) {
         ${getBind(locales, (locale) => locale.input.Downbeat.scale)}•[#semitones]
         ${getBind(locales, (locale) => locale.input.Downbeat.instruments)}•[🔈]
         ${getBind(locales, (locale) => locale.input.Downbeat.words)}•['']
-        ${getBind(locales, (locale) => locale.input.Downbeat.parts)}•[Part]
+        ${getBind(locales, (locale) => locale.input.Downbeat.parts)}•[${getTypeName(locales, (l) => l.input.Part.names)}]
     )
 `);
 }

@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import { getBind } from '@locale/getBind';
 import type { EvaluationNode } from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
@@ -15,7 +16,7 @@ export function createReboundType(locales: Locales) {
         ${getBind(
             locales,
             (locale) => locale.input.Rebound.direction,
-        )}•Direction
+        )}•${getTypeName(locales, (l) => l.input.Direction.names)}
     )
 `);
 }

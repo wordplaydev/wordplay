@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import { pickReadableName } from '@locale/getConceptName';
 import toStructure from '@basis/toStructure';
 import { getBind } from '@locale/getBind';
@@ -12,7 +13,7 @@ import { Form } from '@output/Output/Shape/Form';
 
 export function createRectangleType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Rectangle, TYPE_SYMBOL)} Form (
+    ${getBind(locales, (locale) => locale.output.Rectangle, TYPE_SYMBOL)} ${getTypeName(locales, (l) => l.output.Form.names)} (
         ${getBind(locales, (locale) => locale.output.Rectangle.left)}•#m
         ${getBind(locales, (locale) => locale.output.Rectangle.top)}•#m
         ${getBind(locales, (locale) => locale.output.Rectangle.right)}•#m

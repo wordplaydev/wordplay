@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import {
     HorizontalLayout,
     VerticalLeftRightLayout,
@@ -47,7 +48,7 @@ import measureBubble, { type BubbleBox } from '@output/Bubble/bubbleLayout';
 
 export function createPhraseType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Phrase, TYPE_SYMBOL)} Output(
+    ${getBind(locales, (locale) => locale.output.Phrase, TYPE_SYMBOL)} ${getTypeName(locales, (l) => l.output.Output.names)}(
         ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|\`…\`
         ${getBind(locales, (locale) => locale.output.Phrase.size)}•${'#m|ø: ø'}
         ${getBind(
@@ -65,7 +66,7 @@ export function createPhraseType(locales: Locales) {
         ${getBind(
             locales,
             (locale) => locale.output.Phrase.background,
-        )}•Color${'|ø: ø'}
+        )}•${getTypeName(locales, (l) => l.output.Color.names)}${'|ø: ø'}
         ${getBind(
             locales,
             (locale) => locale.output.Phrase.opacity,
@@ -113,7 +114,7 @@ export function createPhraseType(locales: Locales) {
             locales,
             (locale) => locale.output.Phrase.direction,
         )}•'${HorizontalLayout}'|'${VerticalRightLeftLayout}'|'${VerticalLeftRightLayout}'|ø: ø
-        ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.matter)}•${getTypeName(locales, (l) => l.output.Matter.names)}|ø: ø
         ${getBind(locales, (locale) => locale.output.Phrase.aura)}•ø|🔮: ø
         ${getBind(
             locales,

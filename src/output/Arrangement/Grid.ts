@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import { getBind } from '@locale/getBind';
 import NoneValue from '@values/NoneValue';
 import NumberValue from '@values/NumberValue';
@@ -15,7 +16,7 @@ import { must } from '@util/nullable';
 
 export function createGridType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Grid, '•')} Arrangement(
+    ${getBind(locales, (locale) => locale.output.Grid, '•')} ${getTypeName(locales, (l) => l.output.Arrangement.names)}(
         ${getBind(locales, (locale) => locale.output.Grid.rows)}•#|ø:ø
         ${getBind(locales, (locale) => locale.output.Grid.columns)}•#|ø:ø
         ${getBind(locales, (locale) => locale.output.Grid.padding)}•#m:1m

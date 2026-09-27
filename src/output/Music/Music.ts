@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import toStructure from '@basis/toStructure';
 import type Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
@@ -67,7 +68,7 @@ export function createMusicType(locales: Locales) {
     // Creators who want music-driven visuals build them from @Beat, which gives
     // them every beat to drive whatever output they like.
     const definition = toStructure(`
-    ${getBind(locales, (locale) => locale.output.Music, TYPE_SYMBOL)} Output(
+    ${getBind(locales, (locale) => locale.output.Music, TYPE_SYMBOL)} ${getTypeName(locales, (l) => l.output.Output.names)}(
         ${getBind(locales, (locale) => locale.output.Music.tracks)}•[🎶]|🎶
         ${getBind(locales, (locale) => locale.output.Music.tempo)}•#beats/min: 120beats/min
         ${getBind(locales, (locale) => locale.output.Music.key)}•#semitones: 0semitones

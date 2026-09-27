@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import { getBind } from '@locale/getBind';
 import { FALSE_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
 import type Locales from '@locale/Locales';
@@ -8,9 +9,10 @@ import NumberValue from '@values/NumberValue';
 import StructureValue from '@values/StructureValue';
 
 export function createHandType(locales: Locales) {
+    const placeName = getTypeName(locales, (l) => l.output.Place.names);
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Gesture, TYPE_SYMBOL)}(
-        ${getBind(locales, (locale) => locale.output.Gesture.place)}•Place: Place()
+        ${getBind(locales, (locale) => locale.output.Gesture.place)}•${placeName}: ${placeName}()
         ${getBind(locales, (locale) => locale.output.Gesture.open)}•?: ${FALSE_SYMBOL}
         ${getBind(locales, (locale) => locale.output.Gesture.fingers)}•#: 0
         ${getBind(locales, (locale) => locale.output.Gesture.thumb)}•?: ${FALSE_SYMBOL}

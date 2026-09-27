@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import { getBind } from '@locale/getBind';
 import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
@@ -28,7 +29,7 @@ import { getOutputInput } from '@output/Output/Valued';
 
 export function createRowType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Row, '•')} Arrangement(
+    ${getBind(locales, (locale) => locale.output.Row, '•')} ${getTypeName(locales, (l) => l.output.Arrangement.names)}(
         ${getBind(
             locales,
             (locale) => locale.output.Row.alignment,

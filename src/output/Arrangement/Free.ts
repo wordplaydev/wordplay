@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import { getBind } from '@locale/getBind';
 import type Value from '@values/Value';
 import toStructure from '@basis/toStructure';
@@ -10,7 +11,7 @@ import type RenderContext from '@output/RenderContext';
 
 export function createFreeType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Free, '•')} Arrangement()
+    ${getBind(locales, (locale) => locale.output.Free, '•')} ${getTypeName(locales, (l) => l.output.Arrangement.names)}()
 `);
 }
 

@@ -6,6 +6,7 @@ import { UnknownTypeName } from '@conflicts/UnknownTypeName';
 import type { InsertContext, ReplaceContext } from '@edit/revision/EditContext';
 import Refer from '@edit/revision/Refer';
 import type LocaleText from '@locale/LocaleText';
+import type Locales from '@locale/Locales';
 import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '@basis/BasisConstants';
 import { Emotion } from '../lore/Emotion';
@@ -298,9 +299,15 @@ export default class NameType extends Type {
         return { symbols: this.name.getText(), emotion: Emotion.kind };
     }
 
-    getDescriptionInputs() {
+    getDescriptionInputs(locales: Locales, context: Context) {
+        // Describe what the name resolves to, not the text as written, so a
+        // basis type written in another language is spoken in the reader's.
+        const def = this.resolve(context);
         return {
-            name: this.name.getText(),
+            name:
+                def === undefined
+                    ? this.name.getText()
+                    : locales.getDescriptiveName(def.names),
         };
     }
 

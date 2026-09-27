@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import toStructure from '@basis/toStructure';
 import { getBind } from '@locale/getBind';
 import { reference } from '@output/animation/DefaultSequences';
@@ -20,9 +21,9 @@ const MusicName = reference((locale) => locale.output.Music);
 export function createPoseType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Pose, '•')}(
-        ${getBind(locales, (locale) => locale.output.Pose.color)}•Color|ø: ø
+        ${getBind(locales, (locale) => locale.output.Pose.color)}•${getTypeName(locales, (l) => l.output.Color.names)}|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.opacity)}•%|ø: ø
-        ${getBind(locales, (locale) => locale.output.Pose.offset)}•Place|ø: ø
+        ${getBind(locales, (locale) => locale.output.Pose.offset)}•${getTypeName(locales, (l) => l.output.Place.names)}|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.rotation)}•#°|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.scale)}•#|ø: ø
         ${getBind(locales, (locale) => locale.output.Pose.flipx)}•?|ø: ø

@@ -1,3 +1,5 @@
+import { getTypeName } from '@locale/getNameLocales';
+import { getOutputContentTypeNames } from '@output/Output/outputContentTypeNames';
 import { pickReadableName } from '@locale/getConceptName';
 import { getBind } from '@locale/getBind';
 import { describeColorLocalized } from '@output/Color/BasicColors';
@@ -51,13 +53,14 @@ export const CSSFallbackFaces = `"Noto Color Emoji", "Noto Sans", ${FallbackFont
 export const DefaultSize = 1;
 
 export function createStageType(locales: Locales) {
+    const colorName = getTypeName(locales, (l) => l.output.Color.names);
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Stage, '•')} Output(
+    ${getBind(locales, (locale) => locale.output.Stage, '•')} ${getTypeName(locales, (l) => l.output.Output.names)}(
     ${getBind(
         locales,
         (locale) => locale.output.Stage.content,
-    )}•[Phrase|Shape|Image|Group|Say|Music]
-    ${getBind(locales, (locale) => locale.output.Stage.frame)}•Form|ø: ø
+    )}•[${getOutputContentTypeNames(locales)}]
+    ${getBind(locales, (locale) => locale.output.Stage.frame)}•${getTypeName(locales, (l) => l.output.Form.names)}|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.size)}•${'#m: 1m'}
     ${getBind(
         locales,
@@ -70,11 +73,11 @@ export function createStageType(locales: Locales) {
     ${getBind(
         locales,
         (locale) => locale.output.Stage.color,
-    )}•🌈${': Color(0% 0 0°)'}
+    )}•🌈: ${colorName}${'(0% 0 0°)'}
     ${getBind(
         locales,
         (locale) => locale.output.Stage.background,
-    )}•Color${': Color(100% 0 0°)'}
+    )}•${colorName}: ${colorName}${'(100% 0 0°)'}
     ${getBind(locales, (locale) => locale.output.Stage.opacity)}•%${': 1'}
     ${getBind(locales, (locale) => locale.output.Stage.offset)}•📍|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.rotation)}•#°${': 0°'}
@@ -102,7 +105,7 @@ export function createStageType(locales: Locales) {
     ${getBind(
         locales,
         (locale) => locale.output.Stage.overlay,
-    )}•[Phrase|Shape|Image|Group|Say|Music]|ø: ø
+    )}•[${getOutputContentTypeNames(locales)}]|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.air)}•#: ${DefaultAir}
     )
 `);

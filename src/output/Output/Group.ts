@@ -1,3 +1,5 @@
+import { getTypeName } from '@locale/getNameLocales';
+import { getOutputContentTypeNames } from '@output/Output/outputContentTypeNames';
 import { pickReadableName } from '@locale/getConceptName';
 import StructureValue from '@values/StructureValue';
 import {
@@ -34,12 +36,12 @@ import { getOutputInput } from '@output/Output/Valued';
 
 export function createGroupType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Group, TYPE_SYMBOL)} Output(
-        ${getBind(locales, (locale) => locale.output.Group.layout)}•Arrangement
+    ${getBind(locales, (locale) => locale.output.Group, TYPE_SYMBOL)} ${getTypeName(locales, (l) => l.output.Output.names)}(
+        ${getBind(locales, (locale) => locale.output.Group.layout)}•${getTypeName(locales, (l) => l.output.Arrangement.names)}
         ${getBind(
             locales,
             (locale) => locale.output.Group.content,
-        )}•[Phrase|Shape|Image|Group|Say|Music|ø]
+        )}•[${getOutputContentTypeNames(locales)}|ø]
         ${getBind(locales, (locale) => locale.output.Group.size)}•${'#m|ø: ø'}
     ${getBind(
         locales,
@@ -53,7 +55,7 @@ export function createGroupType(locales: Locales) {
     ${getBind(
         locales,
         (locale) => locale.output.Group.background,
-    )}•Color${'|ø: ø'}
+    )}•${getTypeName(locales, (l) => l.output.Color.names)}${'|ø: ø'}
     ${getBind(locales, (locale) => locale.output.Group.opacity)}•%${'|ø: ø'}
     ${getBind(locales, (locale) => locale.output.Group.offset)}•📍|ø: ø
     ${getBind(locales, (locale) => locale.output.Group.rotation)}•#°${'|ø: ø'}
@@ -74,7 +76,7 @@ export function createGroupType(locales: Locales) {
         )
         .flat()
         .join('|')}: "${DefaultStyle}"
-    ${getBind(locales, (locale) => locale.output.Group.matter)}•Matter|ø: ø
+    ${getBind(locales, (locale) => locale.output.Group.matter)}•${getTypeName(locales, (l) => l.output.Matter.names)}|ø: ø
     )`);
 }
 

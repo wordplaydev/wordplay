@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import { getBind } from '@locale/getBind';
 import { FALSE_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
 import type Locales from '@locale/Locales';
@@ -9,9 +10,10 @@ import StructureValue from '@values/StructureValue';
 import Unit from '@nodes/Unit';
 
 export function createExpressionType(locales: Locales) {
+    const placeName = getTypeName(locales, (l) => l.output.Place.names);
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Expression, TYPE_SYMBOL)}(
-        ${getBind(locales, (locale) => locale.output.Expression.place)}•Place: Place()
+        ${getBind(locales, (locale) => locale.output.Expression.place)}•${placeName}: ${placeName}()
         ${getBind(locales, (locale) => locale.output.Expression.leftEyeOpen)}•?: ${FALSE_SYMBOL}
         ${getBind(locales, (locale) => locale.output.Expression.rightEyeOpen)}•?: ${FALSE_SYMBOL}
         ${getBind(locales, (locale) => locale.output.Expression.eyesOpen)}•?: ${FALSE_SYMBOL}

@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import type { SupportedFace } from '@basis/faces/Fonts';
 import toStructure from '@basis/toStructure';
 import type Project from '@db/projects/Project';
@@ -24,8 +25,8 @@ import { getStyle } from '@output/Output/toOutput';
 
 export function createShapeType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Shape, TYPE_SYMBOL)} Output(
-        ${getBind(locales, (locale) => locale.output.Shape.form)}•Form
+    ${getBind(locales, (locale) => locale.output.Shape, TYPE_SYMBOL)} ${getTypeName(locales, (l) => l.output.Output.names)}(
+        ${getBind(locales, (locale) => locale.output.Shape.form)}•${getTypeName(locales, (l) => l.output.Form.names)}
         ${getBind(locales, (locale) => locale.output.Shape.name)}•""|ø: ø
         ${getBind(locales, (locale) => locale.output.Shape.description)}•""|ø: ø
         ${getBind(locales, (locale) => locale.output.Shape.selectable)}•?: ⊥
@@ -33,7 +34,7 @@ export function createShapeType(locales: Locales) {
         ${getBind(
             locales,
             (locale) => locale.output.Shape.background,
-        )}•Color${'|ø: ø'}
+        )}•${getTypeName(locales, (l) => l.output.Color.names)}${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Shape.opacity)}•%${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Shape.offset)}•📍|ø: ø
         ${getBind(

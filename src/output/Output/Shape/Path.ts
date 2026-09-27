@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import toStructure from '@basis/toStructure';
 import { getBind } from '@locale/getBind';
 import { pickReadableName } from '@locale/getConceptName';
@@ -14,7 +15,7 @@ import type Value from '@values/Value';
 
 export function createPathType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Path, TYPE_SYMBOL)} Form (
+    ${getBind(locales, (locale) => locale.output.Path, TYPE_SYMBOL)} ${getTypeName(locales, (l) => l.output.Form.names)} (
         ${getBind(locales, (locale) => locale.output.Path.points)}•[📍]
         ${getBind(locales, (locale) => locale.output.Path.closed)}•?: ⊥
         ${getBind(locales, (locale) => locale.output.Path.smooth)}•?: ⊥

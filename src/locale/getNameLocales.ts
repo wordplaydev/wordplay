@@ -53,3 +53,16 @@ export function getNameLocales(
     }
     return new Names(names);
 }
+
+/**
+ * The single name a basis source should write to refer to another basis
+ * definition: the primary locale's first word, so a declared type or supertype
+ * reads in the project's language rather than en-US's. Drawn from the same
+ * names the definition binds, so it always resolves.
+ */
+export function getTypeName(
+    locales: Locales,
+    nameText: (locale: LocaleText) => NameText,
+): string {
+    return locales.getName(getNameLocales(locales, nameText), false);
+}

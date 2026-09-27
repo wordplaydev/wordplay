@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import toStructure from '@basis/toStructure';
 import { getBind } from '@locale/getBind';
 import type Locales from '@locale/Locales';
@@ -15,7 +16,7 @@ import Valued, { getOutputInputs } from '@output/Output/Valued';
 export function createAuraType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Aura, '•')}(
-        ${getBind(locales, (locale) => locale.output.Aura.color)}•Color|ø: ø
+        ${getBind(locales, (locale) => locale.output.Aura.color)}•${getTypeName(locales, (l) => l.output.Color.names)}|ø: ø
         ${getBind(locales, (locale) => locale.output.Aura.blur)}•#m: 0.1m
         ${getBind(locales, (locale) => locale.output.Aura.offsetX)}•#m: 0m
         ${getBind(locales, (locale) => locale.output.Aura.offsetY)}•#m: 0m

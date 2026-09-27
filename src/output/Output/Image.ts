@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import {
     SupportedFontsFamiliesType,
     type SupportedFace,
@@ -68,7 +69,7 @@ export function createImageType(locales: Locales) {
     const glyph = firstName(locales, (locale) => locale.output.Image.glyph);
     const recolor = firstName(locales, (locale) => locale.output.Image.recolor);
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Image, TYPE_SYMBOL)} Output(
+    ${getBind(locales, (locale) => locale.output.Image, TYPE_SYMBOL)} ${getTypeName(locales, (l) => l.output.Output.names)}(
         ${getBind(locales, (locale) => locale.output.Image.colors)}•[[🌈]]
         ${getBind(locales, (locale) => locale.output.Image.description)}•""
         ${getBind(locales, (locale) => locale.output.Image.width)}•#m|ø: ø
@@ -92,7 +93,7 @@ export function createImageType(locales: Locales) {
         ${getBind(
             locales,
             (locale) => locale.output.Image.background,
-        )}•Color${'|ø: ø'}
+        )}•${getTypeName(locales, (l) => l.output.Color.names)}${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Image.opacity)}•%${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Image.offset)}•📍|ø: ø
         ${getBind(

@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import toStructure from '@basis/toStructure';
 import { categoryTypeUnionCode } from '@input/Objects/ObjectCategories';
 import { getBind } from '@locale/getBind';
@@ -15,11 +16,12 @@ import Unit from '@nodes/Unit';
  * where and how big it appeared on stage.
  */
 export function createThingType(locales: Locales) {
+    const placeName = getTypeName(locales, (l) => l.output.Place.names);
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Thing, TYPE_SYMBOL)}(
         ${getBind(locales, (locale) => locale.output.Thing.name)}•${categoryTypeUnionCode(locales)}|'': ''
         ${getBind(locales, (locale) => locale.output.Thing.confidence)}•#: 0
-        ${getBind(locales, (locale) => locale.output.Thing.place)}•Place: Place()
+        ${getBind(locales, (locale) => locale.output.Thing.place)}•${placeName}: ${placeName}()
         ${getBind(locales, (locale) => locale.output.Thing.width)}•#m: 0m
         ${getBind(locales, (locale) => locale.output.Thing.height)}•#m: 0m
     )

@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import { pickReadableName } from '@locale/getConceptName';
 import toStructure from '@basis/toStructure';
 import { getBind } from '@locale/getBind';
@@ -12,7 +13,7 @@ import { Form } from '@output/Output/Shape/Form';
 
 export function createCircleType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Circle, TYPE_SYMBOL)} Form (
+    ${getBind(locales, (locale) => locale.output.Circle, TYPE_SYMBOL)} ${getTypeName(locales, (l) => l.output.Form.names)} (
         ${getBind(locales, (locale) => locale.output.Circle.radius)}•#m
         ${getBind(locales, (locale) => locale.output.Circle.x)}•#m: 0m
         ${getBind(locales, (locale) => locale.output.Circle.y)}•#m: 0m

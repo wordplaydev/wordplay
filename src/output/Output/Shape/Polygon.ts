@@ -1,3 +1,4 @@
+import { getTypeName } from '@locale/getNameLocales';
 import { pickReadableName } from '@locale/getConceptName';
 import toStructure from '@basis/toStructure';
 import { getBind } from '@locale/getBind';
@@ -12,7 +13,7 @@ import { Form } from '@output/Output/Shape/Form';
 
 export function createPolygonType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Polygon, TYPE_SYMBOL)} Form (
+    ${getBind(locales, (locale) => locale.output.Polygon, TYPE_SYMBOL)} ${getTypeName(locales, (l) => l.output.Form.names)} (
         ${getBind(locales, (locale) => locale.output.Polygon.radius)}•#m
         ${getBind(locales, (locale) => locale.output.Polygon.sides)}•#
         ${getBind(locales, (locale) => locale.output.Polygon.x)}•#m: 0m
