@@ -79,7 +79,11 @@ export function howToVisibility(
     return {
         public: howTo.isPublic(),
         gallery: howTo.getHowToGalleryId(),
-        galleryPublic: gallery?.isPublic() ?? false,
+        // Reposted into a public gallery is world-readable through it (#1065),
+        // as functions/src/subject.ts also decides.
+        galleryPublic:
+            (gallery?.isPublic() ?? false) ||
+            (howTo.isPublished() && howTo.isRepostedPublicly()),
         galleryMembers: gallery
             ? [...gallery.getCurators(), ...gallery.getCreators()]
             : [],

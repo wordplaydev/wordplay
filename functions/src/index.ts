@@ -15,6 +15,10 @@ import type {
     ClaimGalleryPathInputs,
     ReleaseGalleryPathInputs,
     ReleaseGalleryPathOutput,
+    RepostHowToInputs,
+    RepostHowToOutput,
+    UnrepostHowToInputs,
+    UnrepostHowToOutput,
     ClaimGalleryPathOutput,
     ClaimUsernameInputs,
     ClaimUsernameOutput,
@@ -48,6 +52,10 @@ import changeUsernameHandler from './changeUsername.js';
 import chatDeletedHandler from './chatDeleted.js';
 import claimGalleryPathHandler from './claimGalleryPathCallable.js';
 import releaseGalleryPathHandler from './releaseGalleryPathCallable.js';
+import {
+    repostHowTo as repostHowToHandler,
+    unrepostHowTo as unrepostHowToHandler,
+} from './repostHowTo.js';
 import claimUsernameHandler from './claimUsernameCallable.js';
 import findCreatorHandler from './findCreator.js';
 import joinAccountHandler from './joinAccount.js';
@@ -180,6 +188,20 @@ export const releaseGalleryPath = onCall<
     ReleaseGalleryPathInputs,
     Promise<ReleaseGalleryPathOutput>
 >({ ...cors, ...appcheck }, noProxy(releaseGalleryPathHandler));
+
+/** Share a published how-to into another gallery (#1065). A callable because
+ *  who may read a repost is kept flat on the how-to where the rules can test it
+ *  without looping, and only the server may write that. */
+export const repostHowTo = onCall<
+    RepostHowToInputs,
+    Promise<RepostHowToOutput>
+>({ ...cors, ...appcheck }, noProxy(repostHowToHandler));
+
+/** Take a how-to back out of a gallery it was reposted into (#1065). */
+export const unrepostHowTo = onCall<
+    UnrepostHowToInputs,
+    Promise<UnrepostHowToOutput>
+>({ ...cors, ...appcheck }, noProxy(unrepostHowToHandler));
 
 /** Move an account from an emailed link to a username and password (#628). The
  *  opposite direction stays on the client, where verifyBeforeUpdateEmail proves

@@ -3,10 +3,15 @@ import type {
     DocumentSnapshot,
     FirestoreEvent,
 } from 'firebase-functions/v2/firestore';
-import { getFirestore, type Firestore } from 'firebase-admin/firestore';
+import {
+    FieldValue,
+    getFirestore,
+    type Firestore,
+} from 'firebase-admin/firestore';
 import { isRecord } from './shared/guards.js';
 import { emailNotice } from './notices.js';
 import { nextModeration } from './moderationRequest.js';
+import { rederiveRepostReaders } from './repostHowTo.js';
 
 /**
  * Maintains the fields on a how-to no client may write (#906): `moderation`, the
@@ -114,11 +119,38 @@ export default async function howToEdited(
 ): Promise<unknown> {
     const before = event.data?.before.data();
     const after = event.data?.after.data();
-    // Deleted, or never there.
-    if (after === undefined) return;
+    const db = getFirestore();
+
+    // Deleted: the galleries it was reposted into still list it (#1065). Its
+    // home's list is the deleting client's to update, in the same batch.
+    if (after === undefined) {
+        const reposts = listOf(before?.reposts);
+        if (reposts.length === 0) return;
+        const batch = db.batch();
+        for (const gallery of reposts)
+            batch.update(db.collection('galleries').doc(gallery), {
+                howTos: FieldValue.arrayRemove(event.params.id),
+            });
+        return batch.commit().catch((error) => {
+            // A repost gallery deleted in the meantime has no list to fix.
+            console.error('Could not unlist a deleted repost', error);
+        });
+    }
 
     // Before the moderation branches below, any of which may return early.
-    await announcePublished(getFirestore(), event.params.id, before, after);
+    await announcePublished(db, event.params.id, before, after);
+
+    // Opting out of expanded access narrows who a repost lets in, just as it
+    // does at home, so the flat list the rules read has to follow (#1065).
+    if (
+        before !== undefined &&
+        before.scopeOverwrite !== after.scopeOverwrite &&
+        listOf(after.reposts).length > 0
+    ) {
+        const readers = await rederiveRepostReaders(db, after);
+        if (readers !== undefined)
+            await event.data?.after.ref.update({ ...readers });
+    }
 
     const moderation =
         typeof after.moderation === 'string' ? after.moderation : 'unrequested';

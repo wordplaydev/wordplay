@@ -5,6 +5,7 @@ import {
     flattenHowToViewers,
     galleryContentChanged,
     howToViewersChanged,
+    repostInputsChanged,
     sameIdList,
     sharesCurator,
     type HowToSource,
@@ -403,5 +404,33 @@ describe('sharesCurator and flattenHowToViewers', () => {
             'x',
             'z',
         ]);
+    });
+});
+
+describe('repostInputsChanged (#1065)', () => {
+    const base = {
+        curators: ['c'],
+        creators: ['a'],
+        public: false,
+        howToExpandedVisibility: false,
+        howToViewersFlat: [],
+        name: { 'en-US': 'Class' },
+    };
+
+    it('ignores what a repost does not derive readers from', () => {
+        // Otherwise every rename would query for reposts.
+        expect(
+            repostInputsChanged(base, { ...base, name: { 'en-US': 'New' } }),
+        ).toBe(false);
+    });
+
+    it.each([
+        ['curators', { curators: ['c', 'd'] }],
+        ['creators', { creators: [] }],
+        ['going public', { public: true }],
+        ['expanding visibility', { howToExpandedVisibility: true }],
+        ['expanded viewers', { howToViewersFlat: ['v'] }],
+    ])('notices %s', (_, change) => {
+        expect(repostInputsChanged(base, { ...base, ...change })).toBe(true);
     });
 });

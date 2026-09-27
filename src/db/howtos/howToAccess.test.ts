@@ -19,6 +19,10 @@ import {
     canInteractSocially,
     canSubmitToGuide,
     canMoveHowTo,
+    canRepostHowTo,
+    canUnrepostHowTo,
+    howToChatParticipants,
+    repostDestinations,
 } from './howToAccess';
 import {
     Actions,
@@ -31,7 +35,13 @@ import {
     type Action,
     type Actor,
     type Scenario,
+    RepostActions,
+    RepostActors,
+    RepostScenarios,
+    type RepostAction,
+    type RepostActor,
 } from './howToAccessScenarios';
+import { MaxHowToReposts } from '@db/rulesFields';
 
 /**
  * The client half of #907's permission matrix. `tests/rules/howToRules.test.ts`
@@ -69,7 +79,7 @@ function galleryFor(scenario: Scenario): Gallery {
 
 function howToFor(scenario: Scenario): HowTo {
     const data: HowToDocument = {
-        v: 4,
+        v: 5,
         id: 'howto',
         galleryId: 'gallery',
         published: scenario.howTo.published,
@@ -88,6 +98,10 @@ function howToFor(scenario: Scenario): HowTo {
         moderation: 'unrequested',
         moderatedAt: null,
         flags: unknownFlags(),
+        reposts: [],
+        repostReaders: [],
+        repostedPublicly: false,
+        repostPlacements: {},
         social: {
             v: 1,
             notifySubscribers: true,
@@ -164,5 +178,176 @@ describe('creating a how-to and configuring the space', () => {
     test('nobody at all when the gallery has not loaded', () => {
         expect(canCreateHowTo(undefined, Uid.curator)).toBe(false);
         expect(canConfigureHowToSpace(undefined, Uid.curator)).toBe(false);
+    });
+});
+
+describe('reposting (#1065)', () => {
+    const RepostUid: Record<RepostActor, string> = {
+        owner: Uid.owner,
+        curator: Uid.curator,
+        destinationCurator: 'destination-curator-uid',
+        destinationCreator: 'destination-creator-uid',
+        stranger: Uid.stranger,
+    };
+
+    function galleryOf(id: string, curators: string[], creators: string[]) {
+        return Gallery.make(
+            id,
+            { 'en-US': id },
+            { 'en-US': '' },
+            curators,
+            creators,
+        );
+    }
+
+    const home = galleryOf('gallery', [Uid.curator], [Uid.galleryCreator]);
+    const destination = galleryOf(
+        'destination',
+        [RepostUid.destinationCurator],
+        [RepostUid.destinationCreator],
+    );
+
+    function reposted(published: boolean, over: Partial<HowToDocument> = {}) {
+        const base = howToFor(must(Scenarios[0], 'the first scenario'));
+        return new HowTo({
+            ...base.getData(),
+            published,
+            reposts: ['destination'],
+            repostReaders: [
+                RepostUid.destinationCreator,
+                RepostUid.destinationCurator,
+            ].sort(),
+            ...over,
+        });
+    }
+
+    function ask(
+        action: Exclude<RepostAction, 'read'>,
+        howTo: HowTo,
+        uid: string,
+    ) {
+        switch (action) {
+            case 'edit':
+                return canEditHowTo(howTo, home, uid);
+            case 'delete':
+                return canDeleteHowTo(howTo, home, uid);
+            case 'moveHere':
+                return canMoveHowTo(howTo, destination, uid);
+            case 'social':
+                return canInteractSocially(howTo, home, uid);
+        }
+    }
+
+    const actions = RepostActions.filter(
+        (a): a is Exclude<RepostAction, 'read'> => a !== 'read',
+    );
+
+    describe.each(RepostScenarios)('$name', (scenario) => {
+        const howTo = reposted(scenario.published);
+        test.each(RepostActors)('%s', (actor) => {
+            const uid = RepostUid[actor];
+            expect(
+                actions.map(
+                    (action) => `${action}: ${ask(action, howTo, uid)}`,
+                ),
+            ).toEqual(
+                actions.map(
+                    (action) =>
+                        `${action}: ${scenario.allowed[actor].includes(action)}`,
+                ),
+            );
+        });
+    });
+
+    test('an editor who curates the destination may repost there', () => {
+        const unposted = reposted(true, { reposts: [], repostReaders: [] });
+        const curatesBoth = galleryOf('destination', [Uid.owner], []);
+        expect(canRepostHowTo(unposted, home, curatesBoth, Uid.owner)).toBe(
+            true,
+        );
+        // Not someone who merely belongs to it,
+        const createsThere = galleryOf('destination', [], [Uid.owner]);
+        expect(canRepostHowTo(unposted, home, createsThere, Uid.owner)).toBe(
+            false,
+        );
+        // nor a curator of it who cannot edit the how-to,
+        expect(
+            canRepostHowTo(
+                unposted,
+                home,
+                destination,
+                RepostUid.destinationCurator,
+            ),
+        ).toBe(false);
+        // nor into its own home, a draft, or a gallery it is already in.
+        const ownHome = galleryOf('gallery', [Uid.owner], []);
+        expect(canRepostHowTo(unposted, home, ownHome, Uid.owner)).toBe(false);
+        expect(
+            canRepostHowTo(
+                reposted(false, { reposts: [] }),
+                home,
+                curatesBoth,
+                Uid.owner,
+            ),
+        ).toBe(false);
+        expect(
+            canRepostHowTo(reposted(true), home, curatesBoth, Uid.owner),
+        ).toBe(false);
+    });
+
+    test('stops at the cap the rules can place', () => {
+        const full = reposted(true, {
+            reposts: Array.from({ length: MaxHowToReposts }, (_, i) => `g${i}`),
+        });
+        const another = galleryOf('another', [Uid.owner], []);
+        expect(canRepostHowTo(full, home, another, Uid.owner)).toBe(false);
+    });
+
+    test('offers only the galleries it could go to', () => {
+        const mine = galleryOf('mine', [Uid.owner], []);
+        const theirs = galleryOf('theirs', [Uid.stranger], []);
+        expect(
+            repostDestinations(
+                reposted(true, { reposts: [] }),
+                home,
+                [mine, theirs, home],
+                Uid.owner,
+            ).map((g) => g.getID()),
+        ).toEqual(['mine']);
+    });
+
+    test("the destination's curators and the how-to's editors may take it back", () => {
+        const howTo = reposted(true);
+        expect(
+            canUnrepostHowTo(
+                howTo,
+                home,
+                destination,
+                RepostUid.destinationCurator,
+            ),
+        ).toBe(true);
+        expect(canUnrepostHowTo(howTo, home, destination, Uid.owner)).toBe(
+            true,
+        );
+        expect(
+            canUnrepostHowTo(
+                howTo,
+                home,
+                destination,
+                RepostUid.destinationCreator,
+            ),
+        ).toBe(false);
+        expect(canUnrepostHowTo(howTo, home, home, Uid.curator)).toBe(false);
+    });
+
+    test('everyone a repost lets in joins the conversation', () => {
+        expect(howToChatParticipants(reposted(true), home)).toEqual(
+            expect.arrayContaining([
+                RepostUid.destinationCurator,
+                RepostUid.destinationCreator,
+                Uid.curator,
+                Uid.owner,
+            ]),
+        );
     });
 });

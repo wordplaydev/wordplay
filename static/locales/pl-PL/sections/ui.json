@@ -2299,17 +2299,16 @@
                         "label": "$~✅ przesłane do Przewodnika",
                         "tip": "$~ten jak został już zgłoszony do rozważenia dodania do Przewodnika."
                     },
-                    "header": "$~Wpis w Przewodniku"
+                    "label": "$~Przewodnik"
                 },
                 "usedBy": {
-                    "prompt": "$~Czy korzystałeś z tego poradnika w swoim projekcie, czy z innego? Daj znać innym, dodając swój projekt do listy!",
                     "empty": "$~Nie masz jeszcze żadnych projektów ani opublikowanych poradników. Spróbuj je stworzyć!",
                     "countDisplay": "$~Inni reżyserzy Wordplay użyli tego w $#count[$count innym projekcie lub przewodniku jak|$count innych projektach lub przewodnikach jak|$count innych projektach lub przewodnikach jak|$count innego projektu lub przewodnika jak]",
                     "selector": "$~selektor projektu i instrukcji",
                     "removeButton": "$~usuń projekt lub instrukcję z listy",
-                    "addButton": "$~dodaj projekt lub instrukcję"
+                    "addButton": "$~dodaj projekt lub instrukcję",
+                    "label": "$~Użyte w"
                 },
-                "reactionsPrompt": "$~Podobał Ci się ten poradnik? Zostaw reakcję, aby wesprzeć twórcę!",
                 "chatPrompt": "$~Zostaw komentarz lub pytanie dla twórcy!",
                 "link": {
                     "label": "$~🔗 skopiuj link z instrukcją",
@@ -2318,7 +2317,20 @@
                 "collaborators": "$~napisane przez",
                 "view": {
                     "tip": "$~zobacz jak"
-                }
+                },
+                "repost": {
+                    "prompt": "$~Inne galerie",
+                    "add": "$~Udostępnij w innej galerii",
+                    "selector": "$~galeria, w której udostępnisz ten jak",
+                    "addButton": "$~udostępnij ten jak w wybranej galerii",
+                    "removeButton": "$~przestań udostępniać ten jak w tej galerii",
+                    "from": "$~Główna galeria",
+                    "same": "$~Reakcje i komentarze są takie same wszędzie tam, gdzie udostępniono ten jak.",
+                    "failed": "$~Nie udało się udostępnić ani cofnąć udostępnienia tego jak. Sprawdź swoje połączenie i spróbuj ponownie."
+                },
+                "responses": "$~Odpowiedzi",
+                "sharing": "$~Udostępnianie",
+                "reactions": "$~Reakcje"
             },
             "configuration": {
                 "configurationDialog": {

@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import type { HowToDocument } from './HowToDatabase.svelte';
 
 export const HowToSocialSchemaLatestVersion = 1;
-export const HowToSchemaLatestVersion = 4;
+export const HowToSchemaLatestVersion = 5;
 
 /** What a how-to that has never asked to be listed in the guide carries (#906). */
 export function howToListingInitial() {
@@ -20,6 +20,25 @@ export function howToListingInitial() {
         moderation: 'unrequested' as const,
         moderatedAt: null,
         flags: unknownFlags(),
+    };
+}
+
+/**
+ * What a how-to that has never been reposted into another gallery carries
+ * (#1065). The first three are the server's; placements are written one key at
+ * a time by the members of the gallery each names.
+ */
+export function howToRepostsInitial(): {
+    reposts: string[];
+    repostReaders: string[];
+    repostedPublicly: boolean;
+    repostPlacements: Record<string, { x: number; y: number }>;
+} {
+    return {
+        reposts: [],
+        repostReaders: [],
+        repostedPublicly: false,
+        repostPlacements: {},
     };
 }
 
@@ -66,6 +85,7 @@ export function makeHowTo(fields: {
         // Never listed on arrival, and never asking to be: a how-to that could be
         // created already approved would be a creator approving themselves.
         ...howToListingInitial(),
+        ...howToRepostsInitial(),
         social: {
             v: HowToSocialSchemaLatestVersion,
             notifySubscribers: fields.notify,

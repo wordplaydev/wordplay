@@ -272,3 +272,77 @@ export const GalleryPermissions: Partial<Record<Actor, GalleryAction[]>> = {
     // questions or reaction set — that is the curator's decision.
     galleryCreator: ['create'],
 };
+
+/**
+ * Reposting (#1065): a how-to whose home is one gallery, reposted into a
+ * second. Both suites drive this table too — the rules against the emulator,
+ * the predicates against the same rows — since a repost is where the home's
+ * authority and the destination's space meet, and a disagreement between the
+ * two is exactly a button the server refuses.
+ *
+ * `curator` curates the home; the `destination*` actors belong only to the
+ * gallery it was reposted into, and reach it only through the flat reader list
+ * the server keeps. `moveHere` is moving its tile in the destination's space.
+ */
+export type RepostActor =
+    | 'owner'
+    | 'curator'
+    | 'destinationCurator'
+    | 'destinationCreator'
+    | 'stranger';
+
+export const RepostActors: RepostActor[] = [
+    'owner',
+    'curator',
+    'destinationCurator',
+    'destinationCreator',
+    'stranger',
+];
+
+export type RepostAction = 'read' | 'edit' | 'delete' | 'moveHere' | 'social';
+
+/** `delete` last, for the reason `Actions` puts it last. */
+export const RepostActions: RepostAction[] = [
+    'read',
+    'edit',
+    'moveHere',
+    'social',
+    'delete',
+];
+
+export type RepostScenario = {
+    name: string;
+    published: boolean;
+    allowed: Record<RepostActor, RepostAction[]>;
+};
+
+export const RepostScenarios: RepostScenario[] = [
+    {
+        name: 'a published how-to reposted into another gallery',
+        published: true,
+        allowed: {
+            // Its authors and its home's curator keep every right they had,
+            // and gain none in the destination's space.
+            owner: ['read', 'edit', 'social', 'delete'],
+            curator: ['read', 'edit', 'social', 'delete'],
+            // The destination may read it, take part in it, and arrange it in
+            // its own space — never rewrite or destroy it.
+            destinationCurator: ['read', 'moveHere', 'social'],
+            destinationCreator: ['read', 'moveHere', 'social'],
+            stranger: [],
+        },
+    },
+    {
+        name: 'the same how-to taken back to a draft',
+        published: false,
+        allowed: {
+            // A draft belongs to its authors; a curator of its home sees
+            // drafts only as an editor may, which the rules express as edit.
+            owner: ['read', 'edit', 'social', 'delete'],
+            curator: ['edit', 'social', 'delete'],
+            destinationCurator: [],
+            destinationCreator: [],
+            stranger: [],
+        },
+    },
+];

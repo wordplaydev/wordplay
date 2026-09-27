@@ -6,7 +6,7 @@ const buffer: number = 16;
  *  existing cluster when the camera is panned far away. */
 const maxOutside: number = 10000;
 
-type Rect = [number, number, number, number]; // [x, y, width, height]
+export type Rect = [number, number, number, number]; // [x, y, width, height]
 
 function rectsOverlap(
     ax: number,

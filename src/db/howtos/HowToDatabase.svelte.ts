@@ -23,6 +23,7 @@ import {
     HowToSchemaLatestVersion,
     HowToSocialSchemaLatestVersion,
     howToListingInitial,
+    howToRepostsInitial,
     makeHowTo,
 } from './howToDocument';
 import { SupportedLocales } from '@locale/SupportedLocales';
@@ -35,6 +36,7 @@ import {
     arrayUnion,
     collection,
     doc,
+    FieldPath,
     getDoc,
     getDocs,
     limit,
@@ -185,11 +187,46 @@ const HowToSchemaV4 = HowToSchemaV3.extend({
     flags: ModerationStateSchema.default(unknownFlags()),
 });
 
-export const HowToSchema = HowToSchemaV4;
+/** Where a repost sits on the canvas of the gallery it was reposted into. */
+const RepostPlacementSchema = z.object({ x: z.number(), y: z.number() });
+
+/**
+ * Reposting into other galleries (#1065). A repost is a reference, not a copy:
+ * one document, shown in its home gallery (`galleryId`, which still governs
+ * editing and deleting) and in each gallery in `reposts`.
+ *
+ * Rules cannot loop over `reposts` to ask whether a reader belongs to any of
+ * them, and no list query could be proved from such a rule, so the server keeps
+ * the answer flat: `repostReaders` is everyone those galleries grant, and
+ * `repostedPublicly` whether any of them is public. All three are server-owned,
+ * written by the repostHowTo callable and the galleryEdited trigger.
+ *
+ * `repostPlacements` is the one client-written field here, one key per gallery,
+ * written by `FieldPath` alone so an editor's whole-document save never puts
+ * back a stale copy of a move someone made in another gallery. It is `catch`ed
+ * so a malformed map can't stop the how-to from parsing for everyone.
+ */
+const HowToSchemaV5 = HowToSchemaV4.extend({
+    v: z.literal(5),
+    /** The galleries this how-to has been reposted into, besides its home. */
+    reposts: z.array(z.string()).default([]),
+    /** Everyone those galleries let read it. Server-written. */
+    repostReaders: z.array(z.string()).default([]),
+    /** Whether any of those galleries is public. Server-written. */
+    repostedPublicly: z.boolean().default(false),
+    /** Where it sits in each of those galleries' canvases. */
+    repostPlacements: z
+        .record(z.string(), RepostPlacementSchema)
+        .default({})
+        .catch({}),
+});
+
+export const HowToSchema = HowToSchemaV5;
 export {
     HowToSchemaLatestVersion,
     HowToSocialSchemaLatestVersion,
     howToListingInitial,
+    howToRepostsInitial,
     makeHowTo,
 };
 
@@ -204,17 +241,22 @@ export type HowToDocument = z.infer<typeof HowToSchema>;
  * what stops a reader assuming a v4 document is complete.
  */
 type HowToMislabelledV4 = Omit<z.infer<typeof HowToSchemaV3>, 'v'> & { v: 4 };
+/** A v4 body wearing a v5 label, for the same reason. */
+type HowToMislabelledV5 = Omit<z.infer<typeof HowToSchemaV4>, 'v'> & { v: 5 };
 
 export type HowToUnknownVersion =
     | z.infer<typeof HowToSchemaV1>
     | z.infer<typeof HowToSchemaV2>
     | z.infer<typeof HowToSchemaV3>
     | HowToMislabelledV4
+    | z.infer<typeof HowToSchemaV4>
+    | HowToMislabelledV5
     | HowToDocument;
 
 /** Every version a stored how-to document may have. A mislabelled v4 parses
  *  as v4, since every field v4 added has a default. */
 const HowToUnknownVersionSchema = z.union([
+    HowToSchemaV5,
     HowToSchemaV4,
     HowToSchemaV3,
     HowToSchemaV2,
@@ -237,6 +279,14 @@ export function upgradeHowTo(howTo: HowToUnknownVersion): HowToDocument {
             return upgradeHowTo({ ...howTo, v: 3 });
         case 3:
             return upgradeHowTo({ ...howTo, v: 4, ...howToListingInitial() });
+        case 4:
+            // Listing fields under it too: a mislabelled v4 is missing them.
+            return upgradeHowTo({
+                ...howToListingInitial(),
+                ...howToRepostsInitial(),
+                ...howTo,
+                v: 5,
+            });
         case HowToSchemaLatestVersion:
             // Spread *under* what is stored rather than returning it: `withFields`
             // bumps `v` to the latest on every save without adding new fields, so a
@@ -244,7 +294,11 @@ export function upgradeHowTo(howTo: HowToUnknownVersion): HowToDocument {
             // none of them — after which this arm would skip the backfill forever.
             // That is what once hid a pending kit from the moderator queue (see the
             // `.default(...)` note in src/db/kits/Kit.ts).
-            return { ...howToListingInitial(), ...howTo };
+            return {
+                ...howToListingInitial(),
+                ...howToRepostsInitial(),
+                ...howTo,
+            };
         default:
             throw new Error('Unexpected how-to version', howTo);
     }
@@ -264,8 +318,23 @@ export function upgradeHowTo(howTo: HowToUnknownVersion): HowToDocument {
  */
 function withoutServerOwned(
     data: HowToDocument,
-): Omit<HowToDocument, (typeof HowToServerOwnedFields)[number]> {
-    const { moderation, moderatedAt, flags, ...rest } = data;
+): Omit<
+    HowToDocument,
+    (typeof HowToServerOwnedFields)[number] | 'repostPlacements'
+> {
+    // `repostPlacements` is not the server's, but it is written a key at a time
+    // by other galleries' members, so a whole-document save must not carry it
+    // or an editor's stale copy would undo their moves (#1065).
+    const {
+        moderation,
+        moderatedAt,
+        flags,
+        reposts,
+        repostReaders,
+        repostedPublicly,
+        repostPlacements,
+        ...rest
+    } = data;
     return rest;
 }
 
@@ -301,6 +370,7 @@ export default class HowTo {
             // Under `this.data`, so a how-to loaded before v4 never claims the
             // version without carrying the fields that define it. See upgradeHowTo.
             ...howToListingInitial(),
+            ...howToRepostsInitial(),
             ...this.data,
             ...rest,
             v: HowToSchemaLatestVersion,
@@ -326,18 +396,80 @@ export default class HowTo {
         return this.data.publishedAt;
     }
 
-    getCoordinates() {
-        return [this.data.xcoord, this.data.ycoord];
+    /**
+     * Where this how-to sits on the given gallery's canvas: its own coordinates
+     * at home, and the repost's placement anywhere else (#1065), at the origin
+     * if a repost somehow has none.
+     */
+    getCoordinates(galleryID: string): [number, number] {
+        if (galleryID === this.data.galleryId)
+            return [this.data.xcoord, this.data.ycoord];
+        const placement = this.data.repostPlacements[galleryID];
+        return placement ? [placement.x, placement.y] : [0, 0];
     }
 
-    inCanvasArea(xmin: number, xmax: number, ymin: number, ymax: number) {
+    inCanvasArea(
+        galleryID: string,
+        xmin: number,
+        xmax: number,
+        ymin: number,
+        ymax: number,
+    ) {
         const buffer = 100; // extra buffer to load how-tos just outside the canvas
-
+        const [x, y] = this.getCoordinates(galleryID);
         return (
-            this.data.xcoord >= xmin - buffer &&
-            this.data.xcoord <= xmax + buffer &&
-            this.data.ycoord >= ymin - buffer &&
-            this.data.ycoord <= ymax + buffer
+            x >= xmin - buffer &&
+            x <= xmax + buffer &&
+            y >= ymin - buffer &&
+            y <= ymax + buffer
+        );
+    }
+
+    /** The galleries this has been reposted into, besides its home (#1065). */
+    getReposts(): readonly string[] {
+        return this.data.reposts;
+    }
+
+    /** Everyone a repost lets read this. Server-maintained. */
+    getRepostReaders(): readonly string[] {
+        return this.data.repostReaders;
+    }
+
+    isRepostedPublicly(): boolean {
+        return this.data.repostedPublicly;
+    }
+
+    /**
+     * The gallery to open this how-to in, for a reader who can reach only some
+     * galleries: its home when they can, otherwise the first gallery it was
+     * reposted into that they can (#1065), otherwise its home anyway.
+     */
+    getGalleryIdFor(reachable: (galleryID: string) => boolean): string {
+        if (reachable(this.data.galleryId)) return this.data.galleryId;
+        return (
+            (this.data.published
+                ? this.data.reposts.find((id) => reachable(id))
+                : undefined) ?? this.data.galleryId
+        );
+    }
+
+    /** Whether this is its home gallery, or a gallery it was reposted into. */
+    isInGallery(galleryID: string): boolean {
+        return (
+            this.data.galleryId === galleryID ||
+            this.data.reposts.includes(galleryID)
+        );
+    }
+
+    /**
+     * Whether the given gallery's space shows it: at home always, since a draft
+     * lives in its sidebar; as a repost only while published, since reposting
+     * shares a published how-to and unpublishing takes it back everywhere.
+     */
+    isShownIn(galleryID: string): boolean {
+        return (
+            this.data.galleryId === galleryID ||
+            (this.data.published && this.data.reposts.includes(galleryID))
         );
     }
 
@@ -897,6 +1029,42 @@ export class HowToDatabase {
         }
     }
 
+    /**
+     * Move a repost on the canvas of a gallery it was reposted into (#1065).
+     * One key of `repostPlacements`, by path, since the rules admit a member of
+     * that gallery writing exactly that and nothing else. Not tracked as an
+     * unsaved edit: that replay sends the whole document, which a member of a
+     * destination gallery may not write.
+     */
+    async moveRepost(howTo: HowTo, galleryID: string, x: number, y: number) {
+        const howToID = howTo.getHowToId();
+        const data = howTo.getData();
+        const moved = new HowTo({
+            ...data,
+            repostPlacements: {
+                ...data.repostPlacements,
+                [galleryID]: { x, y },
+            },
+        });
+        this.howtos.set(howToID, moved);
+        this.listeners.get(howToID)?.forEach((listener) => listener(moved));
+        if (firestore === undefined) return;
+        try {
+            await this.db.write(
+                updateDoc(
+                    doc(firestore, HowTosCollection, howToID),
+                    new FieldPath('repostPlacements', galleryID),
+                    { x, y },
+                ),
+            );
+        } catch (error) {
+            // Put it back where the server still has it.
+            this.howtos.set(howToID, howTo);
+            this.listeners.get(howToID)?.forEach((listener) => listener(howTo));
+            this.db.reportBanner((l) => l.ui.banner.saveFailed, error);
+        }
+    }
+
     async setAutoPreview(
         howToId: string,
         preview: HowToPreview,
@@ -920,6 +1088,15 @@ export class HowToDatabase {
      *  failed/offline delete left a stranded cloud copy with the dirty row
      *  already cleared, so nothing could retry it. write() fails fast. */
     async deleteHowTo(howToId: string, gallery: Gallery): Promise<boolean> {
+        // The gallery a how-to belongs to is its home, which is not the gallery
+        // it is being viewed in when that is a repost (#1065).
+        const homeID =
+            this.howtos.get(howToId)?.getHowToGalleryId() ?? gallery.getID();
+        const home =
+            homeID === gallery.getID()
+                ? gallery
+                : this.db.Galleries.getKnown(homeID);
+
         // The conversation about it goes first, and awaited, for the reason the
         // project delete path gives: the chat rules read the how-to to check
         // that whoever is deleting may, so deleting the how-to first leaves
@@ -939,10 +1116,9 @@ export class HowToDatabase {
                 // other.
                 const batch = writeBatch(firestore);
                 batch.delete(doc(firestore, HowTosCollection, howToId));
-                batch.update(
-                    doc(firestore, Domain.Galleries, gallery.getID()),
-                    { howTos: arrayRemove(howToId) },
-                );
+                batch.update(doc(firestore, Domain.Galleries, homeID), {
+                    howTos: arrayRemove(howToId),
+                });
                 await this.db.write(batch.commit());
             } catch (err) {
                 this.db.reportBanner((l) => l.ui.banner.deleteFailed, err);
@@ -955,7 +1131,7 @@ export class HowToDatabase {
         this.howtos.delete(howToId);
         this.saves.forget(howToId);
         // Confirmed above, so the arrayRemove has landed.
-        this.db.Galleries.mirrorHowToMembership(gallery, howToId, false);
+        if (home) this.db.Galleries.mirrorHowToMembership(home, howToId, false);
         if (this.IndexedDBSupported) void this.db.localDB.deleteHowTo(howToId);
         return true;
     }
@@ -1332,8 +1508,26 @@ export class HowToDatabase {
             );
         }
 
+        // Listener 4: published how-tos reposted into a gallery this user may
+        // read (#1065). One query whatever the number of galleries, because the
+        // server keeps who may read a repost flat on the how-to, and the read
+        // rule tests that list before any get() — so this query costs the rules
+        // nothing however many home galleries its results come from.
+        this.unsubscribes.push(
+            onSnapshot(
+                query(
+                    collection(firestore, HowTosCollection),
+                    where('repostReaders', 'array-contains', userId),
+                    where('published', '==', true),
+                ),
+                (snapshot) => this.handleSnapshot('reposts', snapshot),
+                (error) => this.logFirebaseError(error),
+            ),
+        );
+
         this.userListenersRunning = true;
         this.expectedListenerKeys.add('own');
+        this.expectedListenerKeys.add('reposts');
         for (const [index] of editorChunks.entries())
             this.expectedListenerKeys.add(`gallery:${index}`);
         for (const [index] of scopeChunks.entries())
@@ -1433,7 +1627,19 @@ export class HowToDatabase {
             where('published', '==', true),
         );
 
+        // What was reposted into this gallery lives in other galleries, so the
+        // query above cannot find it (#1065). `repostedPublicly` is what the
+        // rule admits without a get(), so it must be a filter here too.
+        const repostKey = `${key}:reposts`;
+        const repostQuery = query(
+            collection(firestore, HowTosCollection),
+            where('reposts', 'array-contains', galleryID),
+            where('repostedPublicly', '==', true),
+            where('published', '==', true),
+        );
+
         this.expectedListenerKeys.add(key);
+        this.expectedListenerKeys.add(repostKey);
         this.publicWatchState.set(galleryID, 'watching');
 
         // A listen stream can wedge after the transport is interrupted and then
@@ -1491,13 +1697,26 @@ export class HowToDatabase {
             },
         );
 
+        const unsubscribeReposts = onSnapshot(
+            repostQuery,
+            (snapshot) => this.handleSnapshot(repostKey, snapshot),
+            (error) =>
+                console.error(
+                    `Couldn't watch how-tos reposted into ${galleryID}:`,
+                    error,
+                ),
+        );
+
         return () => {
             unsubscribe();
+            unsubscribeReposts();
             stopAsking();
             // Drop the key from both, so the GC stops waiting on a listener that
             // is gone and may collect what only it held.
             this.expectedListenerKeys.delete(key);
             this.listenerDocIds.delete(key);
+            this.expectedListenerKeys.delete(repostKey);
+            this.listenerDocIds.delete(repostKey);
             this.publicWatchState.delete(galleryID);
             forgetMode();
         };
@@ -1589,11 +1808,11 @@ export class HowToDatabase {
             this.galleryWatchers.restart(galleryID);
     }
 
-    /** The how-tos cached for one gallery. What the four surfaces render, rather
-     *  than each fetching the gallery's list for itself. */
+    /** The how-tos cached for one gallery, reposts included. What the four
+     *  surfaces render, rather than each fetching the gallery's list for itself. */
     howTosInGallery(galleryID: string): HowTo[] {
-        return Array.from(this.howtos.values()).filter(
-            (howTo) => howTo.getHowToGalleryId() === galleryID,
+        return Array.from(this.howtos.values()).filter((howTo) =>
+            howTo.isShownIn(galleryID),
         );
     }
 

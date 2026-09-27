@@ -99,15 +99,12 @@ type PageText = {
         submitToGuide: {
             submit: ButtonText;
             alreadySubmitted: ButtonText;
-            /** [plain] Names the section below the controls that says where this
-             *  how-to stands with the guide. Its own string rather than the
-             *  moderator queue's header, which names a queue of other people's
-             *  how-tos rather than this creator's standing. */
-            header: string;
+            /** [plain] Label for the row in the Sharing section where the how-to can be submitted to the public guide, and where that request stands */
+            label: string;
         };
         usedBy: {
-            /** [plain] Text for asking if the user used this how-to in their project or another how-to */
-            prompt: string;
+            /** [plain] Label for the row listing the projects and how-tos that used this how-to */
+            label: string;
             /** [formatted] Text for if the user does not have any other how-tos or projects */
             empty: FormattedText;
             /** [plain] Text for how many others projects or how-tos, other than the user's own, have used this how-to */
@@ -119,8 +116,31 @@ type PageText = {
             /** [plain] Button to add a project/how-to to those using this how-to */
             addButton: string;
         };
-        /** [plain] Prompt for reaction summary */
-        reactionsPrompt: string;
+        /** Sharing a how-to into other galleries as the same how-to, not a copy (#1065) */
+        repost: {
+            /** [plain] Label for the list of the other galleries this how-to has been shared in, besides the one it belongs to. A noun phrase, since it labels a list of gallery names that follows it */
+            prompt: string;
+            /** [plain] Label before the picker for choosing another gallery to share this how-to in */
+            add: string;
+            /** [plain] Accessible name of the picker for choosing another gallery to share this how-to in */
+            selector: string;
+            /** [plain] Tooltip for the button that shares this how-to in the chosen gallery */
+            addButton: string;
+            /** [plain] Tooltip for the button that stops sharing this how-to in one gallery */
+            removeButton: string;
+            /** [plain] Label for the name of the gallery this how-to belongs to, shown when it is read in another gallery it is shared in. A noun phrase, since it labels the gallery name that follows it */
+            from: string;
+            /** [formatted] Explains, below that, that one how-to is shared rather than copied */
+            same: FormattedText;
+            /** [plain] Error shown when this how-to could not be shared in a gallery or stopped being shared there */
+            failed: string;
+        };
+        /** [plain] Header for the section of the how-to where readers respond to it: reactions, what used it, and comments */
+        responses: string;
+        /** [plain] Header for the section about where the how-to is shared: its gallery, other galleries, and the public guide */
+        sharing: string;
+        /** [plain] Label for the row of reaction buttons */
+        reactions: string;
         /** [plain] Text for prompting users to chat */
         chatPrompt: string;
         /** Button text for copying the how-to's URL */

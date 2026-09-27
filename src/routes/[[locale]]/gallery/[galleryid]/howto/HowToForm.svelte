@@ -41,6 +41,7 @@
         canInteractSocially,
         canSubmitToGuide,
         howToIsReadyForGuide,
+        repostDestinations,
     } from '@db/howtos/howToAccess';
     import { enqueuePreviewCompute } from '@db/projects/previewQueue';
     import { HowToFields } from '@db/rulesFields';
@@ -64,6 +65,7 @@
     import HowToTranslationEditor from './HowToTranslationEditor.svelte';
     import { must } from '@util/nullable';
     import HowToUsedBy from './HowToUsedBy.svelte';
+    import HowToReposts from './HowToReposts.svelte';
 
     // defining props
     interface Props {
@@ -108,6 +110,32 @@
         }
     });
 
+    /**
+     * The gallery that governs this how-to: its home. Viewed in a gallery it was
+     * reposted into (#1065), that is not the page's gallery, and every question
+     * of who may edit, delete or answer for it is the home's to decide. It may
+     * be unreadable to someone who reached it only through a repost.
+     */
+    let home = $state<Gallery | undefined>(undefined);
+    let homeID = $derived(howTo?.getHowToGalleryId());
+    $effect(() => {
+        const id = homeID;
+        if (id === undefined || id === galleryID) {
+            home = undefined;
+            return;
+        }
+        Galleries.get(id).then((g) => {
+            if (homeID === id) home = g;
+        });
+    });
+    /** Whether this is a repost, shown outside its home. */
+    let isRepostHere = $derived(
+        homeID !== undefined &&
+            gallery !== undefined &&
+            homeID !== gallery.getID(),
+    );
+    let authority = $derived(isRepostHere ? home : gallery);
+
     const user = getUser();
 
     // whether to show the preview form or not.
@@ -140,6 +168,17 @@
         } else if ($user) {
             allCollaborators = [$user.uid];
         }
+    });
+
+    /**
+     * What is stored as `collaborators`: everyone but the creator, as a project
+     * stores everyone but its owner. `allCollaborators` keeps the creator only
+     * so the editor's list can show them; storing them too credited the author
+     * twice wherever a how-to names who wrote it.
+     */
+    let savedCollaborators: string[] = $derived.by(() => {
+        const creator = howTo?.getCreator() ?? $user?.uid;
+        return allCollaborators.filter((uid) => uid !== creator);
     });
 
     let prompts: string[] = $derived(
@@ -297,7 +336,7 @@
             howTo = howTo.withFields({
                 title,
                 text: multilingualText,
-                collaborators: allCollaborators,
+                collaborators: savedCollaborators,
                 scopeOverwrite: overwriteAccess,
                 locales: [...usedLocales],
                 isPublic,
@@ -390,7 +429,7 @@
     let readyForGuide = $derived(howTo ? howToIsReadyForGuide(howTo) : false);
 
     let canSubmit = $derived(
-        howTo ? canSubmitToGuide(howTo, gallery, $user?.uid) : false,
+        howTo ? canSubmitToGuide(howTo, authority, $user?.uid) : false,
     );
 
     /** Whether the people who wrote this are named in full. Attribution follows
@@ -399,20 +438,46 @@
         howTo === undefined
             ? true
             : anonymizeContributors(
-                  howToVisibility(howTo, gallery),
-                  canEditHowTo(howTo, gallery, $user?.uid),
+                  howToVisibility(howTo, authority),
+                  canEditHowTo(howTo, authority, $user?.uid),
               ),
     );
 
     /** Whether there is anyone to ask about this how-to, and anyone to ask them.
      *  Responsibility is derived server-side from what the how-to can reach; this
      *  only offers to ask, and never of its own author. */
+    /** Whether this person may edit or delete it, which the rules decide in its
+     *  home gallery, not the one it is being read in. */
+    let canManage = $derived(
+        howTo !== undefined &&
+            (canEditHowTo(howTo, authority, $user?.uid) ||
+                canDeleteHowTo(howTo, authority, $user?.uid)),
+    );
+
+    /** Whether the Sharing section has anything to show this person: a gallery
+     *  it belongs to or is shared in, somewhere to share it, the guide, or the
+     *  author's own controls. An empty heading would read as missing content. */
+    let showSharing = $derived(
+        howTo !== undefined &&
+            (canManage ||
+                canSubmit ||
+                howTo.getReposts().length > 0 ||
+                isRepostHere ||
+                repostDestinations(
+                    howTo,
+                    authority,
+                    Galleries.accessibleGalleries.values(),
+                    $user?.uid,
+                ).length > 0),
+    );
+
     let reportable = $derived(
         howTo !== undefined &&
             $user !== null &&
             $user !== undefined &&
             howTo.getCreator() !== $user.uid &&
-            getResponsibility(howToVisibility(howTo, gallery)).kind !== 'none',
+            getResponsibility(howToVisibility(howTo, authority)).kind !==
+                'none',
     );
 
     let reactionButtons: ButtonText[] = $derived(
@@ -489,7 +554,7 @@
                 publish,
                 writeX,
                 writeY,
-                allCollaborators,
+                savedCollaborators,
                 title,
                 prompts,
                 multilingualText,
@@ -525,7 +590,7 @@
             titles,
         );
         // A how-to always records both coordinates.
-        const coordinates = howTo.getCoordinates();
+        const coordinates = howTo.getCoordinates(howTo.getHowToGalleryId());
         let writeX = must(coordinates[0], 'an x coordinate');
         let writeY = must(coordinates[1], 'a y coordinate');
         // Only reposition (and pan to) the how-to when it's transitioning
@@ -543,7 +608,7 @@
                 text: multilingualText,
                 xcoord: writeX,
                 ycoord: writeY,
-                collaborators: allCollaborators,
+                collaborators: savedCollaborators,
                 scopeOverwrite: overwriteAccess,
                 locales: [...usedLocales],
                 isPublic,
@@ -635,7 +700,9 @@
     /** Who may take part in this how-to's social pane, and so who may be added
      *  as a collaborator on it. */
     function isCreatorCollaboratorViewer(uid: string) {
-        return howTo !== undefined && canInteractSocially(howTo, gallery, uid);
+        return (
+            howTo !== undefined && canInteractSocially(howTo, authority, uid)
+        );
     }
 
     function updateCollaborators(toChangeID: string, add: boolean) {
@@ -653,7 +720,7 @@
 
         if (!howTo) return;
 
-        howTo = howTo.withFields({ collaborators: allCollaborators });
+        howTo = howTo.withFields({ collaborators: savedCollaborators });
 
         HowTos.updateHowTo(howTo, true);
 
@@ -748,6 +815,55 @@
         large={!howTo}
     ></Button>
 {/if}
+
+{#snippet byline(howTo: HowTo)}
+    <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
+        <Contributors
+            creator={howTo.getCreator()}
+            collaborators={howTo.getCollaborators()}
+            max={howTo.getCollaborators().length}
+            anonymize={creditAnonymized}
+        />
+    </Labeled>
+{/snippet}
+
+{#snippet answers(howTo: HowTo)}
+    <div class="how-to-text" id="howtoview">
+        {#each howTo.getText() as markup, i (i)}
+            <Subheader text={() => must(prompts[i], `prompt ${i}`)} />
+            <MarkupHTMLView {markup} />
+        {/each}
+    </div>
+{/snippet}
+
+{#snippet manage()}
+    <div class="control-row">
+        <Button
+            tip={(l) => l.ui.howto.viewer.edit.tip}
+            label={(l) => l.ui.howto.viewer.edit.label}
+            active={true}
+            action={() => {
+                editingMode = true;
+            }}
+        />
+        <ConfirmButton
+            tip={(l) => l.ui.howto.viewer.delete.description}
+            prompt={(l) => l.ui.howto.viewer.delete.prompt}
+            enabled={!$disconnected}
+            action={async () => {
+                // Only close the dialog once the delete actually succeeded; on
+                // failure deleteHowTo raises the banner and it stays open.
+                if (
+                    gallery &&
+                    howTo &&
+                    (await HowTos.deleteHowTo(howToId, gallery))
+                )
+                    show = false;
+            }}
+            label={(l) => l.ui.howto.viewer.delete.prompt}
+        />
+    </div>
+{/snippet}
 
 <!-- how-to form -->
 <Dialog
@@ -934,18 +1050,56 @@
             </div>
         </div>
     {:else if howTo && howTo.isPublished() && $user && isCreatorCollaboratorViewer($user.uid)}
+        <!-- Read first, then respond, then share (#1065): the answers are what
+             nearly everyone opens a how-to for, so only who wrote it and the
+             reader's own actions come before them. -->
         <Header><MarkupHTMLView markup={titleInLocale} /></Header>
-        <div class="howtometadata">
-            <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
-                <Contributors
-                    creator={howTo.getCreator()}
-                    collaborators={howTo.getCollaborators()}
-                    max={howTo.getCollaborators().length}
-                    anonymize={creditAnonymized}
+        <div class="byline">
+            {@render byline(howTo)}
+            <div class="control-row">
+                <Button
+                    tip={(l) =>
+                        userHasBookmarked
+                            ? l.ui.howto.bookmarks.alreadyBookmarked.tip
+                            : l.ui.howto.bookmarks.canBookmark.tip}
+                    label={(l) =>
+                        userHasBookmarked
+                            ? l.ui.howto.bookmarks.alreadyBookmarked.label
+                            : l.ui.howto.bookmarks.canBookmark.label}
+                    active={true}
+                    background={userHasBookmarked}
+                    action={() => {
+                        addRemoveBookmark();
+                    }}
                 />
-            </Labeled>
-            <Labeled label={(l) => l.ui.howto.viewer.reactionsPrompt} column>
-                <div class="reactions">
+                <Button
+                    tip={(l) => l.ui.howto.viewer.link.tip}
+                    label={(l) => l.ui.howto.viewer.link.label}
+                    action={async () => {
+                        await toClipboard(
+                            `${window.location.origin}/gallery/${galleryID}/howto?id=${howToId}`,
+                        );
+                    }}
+                />
+                {#if reportable}
+                    <ReportButton
+                        kind="howto"
+                        subject={howToId}
+                        name={howTo.getTitleInLocale(
+                            $locales.getLocaleString(),
+                        )}
+                    />
+                {/if}
+            </div>
+        </div>
+        {@render answers(howTo)}
+        <section class="how-to-section">
+            <Subheader text={(l) => l.ui.howto.viewer.responses} />
+            <dl class="facts">
+                <dt>
+                    <LocalizedText path={(l) => l.ui.howto.viewer.reactions} />
+                </dt>
+                <dd class="control-row">
                     {#each reactionButtons as reaction, i (i)}
                         <Button
                             tip={(l) => reaction.tip}
@@ -964,198 +1118,115 @@
                             }}
                         />
                     {/each}
-                </div>
-            </Labeled>
-            <HowToUsedBy bind:howTo compact />
-        </div>
-        <div class="toolbar">
-            {#if canEditHowTo(howTo, gallery, $user.uid) || canDeleteHowTo(howTo, gallery, $user.uid)}
-                <Button
-                    tip={(l) => l.ui.howto.viewer.edit.tip}
-                    label={(l) => l.ui.howto.viewer.edit.label}
-                    active={true}
-                    action={() => {
-                        editingMode = true;
-                    }}
-                />
-                <ConfirmButton
-                    tip={(l) => l.ui.howto.viewer.delete.description}
-                    prompt={(l) => l.ui.howto.viewer.delete.prompt}
-                    enabled={!$disconnected}
-                    action={async () => {
-                        // Only close the editor once the delete actually
-                        // succeeded; on failure deleteHowTo raises the banner
-                        // and the how-to stays open so the user can retry.
-                        if (
-                            gallery &&
-                            howTo &&
-                            (await HowTos.deleteHowTo(howToId, gallery))
-                        )
-                            show = false;
-                    }}
-                    label={(l) => l.ui.howto.viewer.delete.prompt}
-                />
-                <!-- Asking for this how-to to be listed in the guide (#906).
-                     Shown to whoever may edit it, and inactive until it is posted
-                     and public: those are the two things a moderator cannot
-                     approve around, and saying so here beats a refusal later. -->
-                {#if canSubmit}
-                    <Button
-                        tip={(l) =>
-                            isSubmitted
-                                ? l.ui.howto.viewer.submitToGuide
-                                      .alreadySubmitted.tip
-                                : readyForGuide
-                                  ? l.ui.howto.viewer.submitToGuide.submit.tip
-                                  : l.moderation.howto.unready}
-                        label={(l) =>
-                            isSubmitted
-                                ? l.ui.howto.viewer.submitToGuide
-                                      .alreadySubmitted.label
-                                : l.ui.howto.viewer.submitToGuide.submit.label}
-                        active={!isSubmitted && readyForGuide}
-                        action={() => submitToGuide()}
-                    />
-                {/if}
+                </dd>
+                <HowToUsedBy bind:howTo />
+            </dl>
+            <!-- With the reactions and comments it is about, not with the
+                 galleries: it explains why they are shared. -->
+            {#if howTo.getReposts().length > 0}
+                <MarkupHTMLView markup={(l) => l.ui.howto.viewer.repost.same} />
             {/if}
+            <div class="how-to-social" id="howtointeractions">
+                <p class="prompt">
+                    <LocalizedText path={(l) => l.ui.howto.viewer.chatPrompt} />
+                </p>
+                <div class="how-to-chat">
+                    <!-- The home gallery's id, since the conversation is the
+                         home's to govern even when read in a gallery it was
+                         reposted into. -->
+                    <ChatView
+                        {chat}
+                        creators={chatParticipants}
+                        galleryID={howTo.getHowToGalleryId()}
+                        {howTo}
+                    />
+                </div>
+            </div>
+        </section>
+        <!-- Where it is shared: its own gallery, others, and the guide, which is
+             the widest gallery of all. Editing and deleting sit here too, as the
+             section that is the author's rather than the reader's. -->
+        {#if showSharing}
+            <section class="how-to-section">
+                <div class="section-head">
+                    <Subheader text={(l) => l.ui.howto.viewer.sharing} />
+                    {#if canManage}{@render manage()}{/if}
+                </div>
+                <dl class="facts">
+                    <HowToReposts {howTo} here={gallery} home={authority} />
+                    <!-- Asking for this how-to to be listed in the guide (#906).
+                         Inactive until it is posted and public: those are the two
+                         things a moderator cannot approve around, and saying so
+                         here beats a refusal later. -->
+                    {#if canSubmit}
+                        <dt>
+                            <LocalizedText
+                                path={(l) =>
+                                    l.ui.howto.viewer.submitToGuide.label}
+                            />
+                        </dt>
+                        <dd class="stack">
+                            <div class="control-row">
+                                <Button
+                                    background
+                                    tip={(l) =>
+                                        isSubmitted
+                                            ? l.ui.howto.viewer.submitToGuide
+                                                  .alreadySubmitted.tip
+                                            : readyForGuide
+                                              ? l.ui.howto.viewer.submitToGuide
+                                                    .submit.tip
+                                              : l.moderation.howto.unready}
+                                    label={(l) =>
+                                        isSubmitted
+                                            ? l.ui.howto.viewer.submitToGuide
+                                                  .alreadySubmitted.label
+                                            : l.ui.howto.viewer.submitToGuide
+                                                  .submit.label}
+                                    active={!isSubmitted && readyForGuide}
+                                    action={() => submitToGuide()}
+                                />
+                            </div>
+                            <!-- Where it stands, once there is an answer to give:
+                                 before that the button says everything,
+                                 including why it is inactive. -->
+                            {#if isSubmitted || howTo.getModeration() !== 'unrequested'}
+                                <HowToModerationNotice {howTo} />
+                            {/if}
+                        </dd>
+                    {/if}
+                </dl>
+            </section>
+        {/if}
+    {:else if howTo && (!$user || !isCreatorCollaboratorViewer($user.uid))}
+        <Header><MarkupHTMLView markup={titleInLocale} /></Header>
+        <div class="byline">
+            {@render byline(howTo)}
+            <!-- The one thing someone outside the space can do about what they
+                 just read. A how-to has been a reportable subject since #938. -->
             {#if reportable}
                 <ReportButton
                     kind="howto"
                     subject={howToId}
-                    name={howTo?.getTitleInLocale($locales.getLocaleString()) ??
-                        ''}
+                    name={howTo.getTitleInLocale($locales.getLocaleString())}
                 />
             {/if}
-            <Button
-                tip={(l) =>
-                    userHasBookmarked
-                        ? l.ui.howto.bookmarks.alreadyBookmarked.tip
-                        : l.ui.howto.bookmarks.canBookmark.tip}
-                label={(l) =>
-                    userHasBookmarked
-                        ? l.ui.howto.bookmarks.alreadyBookmarked.label
-                        : l.ui.howto.bookmarks.canBookmark.label}
-                active={true}
-                background={userHasBookmarked}
-                action={() => {
-                    addRemoveBookmark();
-                }}
-            />
-            <Button
-                tip={(l) => l.ui.howto.viewer.link.tip}
-                label={(l) => l.ui.howto.viewer.link.label}
-                action={async () => {
-                    await toClipboard(
-                        `${window.location.origin}/gallery/${galleryID}/howto?id=${howToId}`,
-                    );
-                }}
-            />
         </div>
-        <!-- Where this how-to stands with the guide (#906), in a section of its
-             own. It was a banner in the toolbar, which pushed the controls apart
-             and moved the submit button every time the answer changed. Shown only
-             once there is an answer to give: before that the button says
-             everything, including why it is inactive. -->
-        {#if canSubmit && (isSubmitted || howTo.getModeration() !== 'unrequested')}
-            <div class="how-to-moderation">
-                <Subheader
-                    text={(l) => l.ui.howto.viewer.submitToGuide.header}
-                />
-                <HowToModerationNotice {howTo} />
-            </div>
-        {/if}
-        <div class="how-to-text" id="howtoview">
-            {#each howTo.getText() as markup, i (i)}
-                <Subheader text={() => must(prompts[i], `prompt ${i}`)} />
-                <MarkupHTMLView {markup} />
-            {/each}
-        </div>
-        <div class="how-to-social" id="howtointeractions">
-            <Subheader text={(l) => l.ui.howto.viewer.chatPrompt} />
-            <div class="how-to-chat">
-                <ChatView
-                    {chat}
-                    creators={chatParticipants}
-                    {galleryID}
-                    {howTo}
-                />
-            </div>
-        </div>
-    {:else if howTo && (!$user || !isCreatorCollaboratorViewer($user.uid))}
-        <Header><MarkupHTMLView markup={titleInLocale} /></Header>
-        <div class="creatorlist">
-            <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
-                <Contributors
-                    creator={howTo.getCreator()}
-                    collaborators={howTo.getCollaborators()}
-                    max={howTo.getCollaborators().length}
-                    anonymize={creditAnonymized}
-                />
-            </Labeled>
-        </div>
-        <hr />
-
-        {#each howTo.getText() as markup, i (i)}
-            <Subheader text={() => must(prompts[i], `prompt ${i}`)} />
-            <MarkupHTMLView {markup} />
-        {/each}
-        <!-- The one thing someone outside the space can do about what they just
-             read. A how-to has been a reportable subject since #938 and no
-             surface has ever offered it. -->
-        {#if reportable}
-            <ReportButton
-                kind="howto"
-                subject={howToId}
-                name={howTo.getTitleInLocale($locales.getLocaleString())}
-            />
-        {/if}
+        {@render answers(howTo)}
     {:else if howTo}
         <Header>
             <MarkupHTMLView markup={titleInLocale} />
         </Header>
-        <div class="creatorlist">
-            <Labeled label={(l) => l.ui.howto.viewer.collaborators}>
-                <Contributors
-                    creator={howTo.getCreator()}
-                    collaborators={howTo.getCollaborators()}
-                    max={howTo.getCollaborators().length}
-                    anonymize={creditAnonymized}
-                />
-                {#if !isPublished}
-                    <MarkupHTMLView markup={(l) => l.ui.howto.drafts.note} />
-                {/if}
-            </Labeled>
+        <div class="byline">
+            {@render byline(howTo)}
+            {@render manage()}
         </div>
-        <div class="toolbar">
-            <Button
-                tip={(l) => l.ui.howto.viewer.edit.tip}
-                label={(l) => l.ui.howto.viewer.edit.label}
-                active={true}
-                action={() => {
-                    editingMode = true;
-                }}
-            />
-            <ConfirmButton
-                tip={(l) => l.ui.howto.viewer.delete.description}
-                prompt={(l) => l.ui.howto.viewer.delete.prompt}
-                enabled={!$disconnected}
-                action={async () => {
-                    // Only close once the delete actually succeeded.
-                    if (
-                        gallery &&
-                        howTo &&
-                        (await HowTos.deleteHowTo(howToId, gallery))
-                    )
-                        show = false;
-                }}
-                label={(l) => l.ui.howto.viewer.delete.prompt}
-            />
-        </div>
-
-        {#each howTo.getText() as markup, i (i)}
-            <Subheader text={() => must(prompts[i], `prompt ${i}`)} />
-            <MarkupHTMLView {markup} />
-        {/each}
+        {#if !isPublished}
+            <div class="draft-note">
+                <MarkupHTMLView markup={(l) => l.ui.howto.drafts.note} />
+            </div>
+        {/if}
+        {@render answers(howTo)}
     {/if}
 </Dialog>
 
@@ -1172,6 +1243,9 @@
             var(--wordplay-border-color);
         justify-content: space-between;
         flex-wrap: wrap;
+        /* Baseline, not stretch: a ConfirmButton is a raised box in a wrapper,
+           and stretching let it hang below its neighbours' text. */
+        align-items: baseline;
     }
 
     .toolbar-left,
@@ -1192,38 +1266,6 @@
         font-style: normal;
     }
 
-    /* Metadata row below the header: written-by, reactions, and used-by,
-       wrapping so the row stays compact and lets the content below use the
-       full dialog width. */
-    .how-to-moderation {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
-        margin: var(--wordplay-spacing);
-        margin-block-start: var(--wordplay-spacing-double);
-    }
-
-    .howtometadata {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-        column-gap: var(--wordplay-spacing-double);
-        /* Baseline, not start: each of these is a `Labeled`, which baseline-aligns
-           its own label against its content — and a creator chip is a padded box
-           much taller than a line of text, so aligning the boxes at the top left
-           each label at a different height and the row climbed to the right. */
-        align-items: baseline;
-        margin: var(--wordplay-spacing);
-    }
-
-    .reactions {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-    }
-
     /* Full-width content so wide (especially blocks-mode) example code can
        scroll horizontally inside ExampleUI instead of being clipped by a
        narrow column. min-width: 0 lets the example's own overflow engage. */
@@ -1232,6 +1274,76 @@
         width: 100%;
         min-width: 0;
         padding: var(--wordplay-spacing);
+    }
+
+    /* Who wrote it and what the reader can do with it, on one line that wraps:
+       the byline at the start, the actions at the end. */
+    .byline {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: var(--wordplay-spacing);
+        margin-inline: var(--wordplay-spacing);
+        padding-block-end: var(--wordplay-spacing);
+        border-bottom: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+    }
+
+    /* Responses and Sharing: each a titled block with a rule above it, so the
+       dialog reads as sections rather than one run of controls. */
+    .how-to-section {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
+        border-top: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+    }
+
+    .section-head {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: var(--wordplay-spacing);
+    }
+
+    /* A label and its value on one row, the labels in one column so every row
+       starts its value at the same place. Rows come from this component and
+       from HowToUsedBy and HowToReposts, which render `dt`/`dd` pairs. */
+    .facts {
+        display: grid;
+        grid-template-columns: max-content minmax(0, 1fr);
+        column-gap: var(--wordplay-spacing-double);
+        row-gap: var(--wordplay-spacing);
+        align-items: baseline;
+        margin: 0;
+    }
+
+    .facts :global(dt) {
+        font-style: italic;
+    }
+
+    .facts :global(dd) {
+        margin: 0;
+        min-width: 0;
+    }
+
+    /* Too narrow for two columns: each label above its value. */
+    @media (max-width: 32em) {
+        .facts {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    .draft-note {
+        padding: var(--wordplay-spacing);
+    }
+
+    .prompt {
+        margin: 0;
+        font-style: italic;
     }
 
     .how-to-chat {
@@ -1252,15 +1364,5 @@
         margin: var(--wordplay-spacing);
         max-width: 100%;
         width: 100%;
-    }
-
-    .creatorlist {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        margin-block-start: var(--wordplay-spacing);
-        gap: var(--wordplay-spacing);
-        row-gap: var(--wordplay-spacing);
-        margin: var(--wordplay-spacing);
     }
 </style>

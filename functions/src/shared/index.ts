@@ -752,6 +752,49 @@ export type ReleaseGalleryPathOutput = {
         | 'failed';
 };
 
+// FUNCTION repostHowTo
+/** Share a published how-to into another gallery as a reference, not a copy
+ *  (#1065). The caller must be able to edit it in its home gallery and must
+ *  curate the destination. `x` and `y` are where it first sits there. */
+export type RepostHowToInputs = {
+    howTo: string;
+    gallery: string;
+    x?: number;
+    y?: number;
+};
+export type RepostHowToRefusal =
+    | 'unauthenticated'
+    | 'missing'
+    | 'unpublished'
+    | 'home'
+    | 'already'
+    | 'too-many'
+    | 'not-editor'
+    | 'not-curator'
+    | 'banned'
+    | 'failed';
+export type RepostHowToOutput = {
+    reposted?: true;
+    error?: RepostHowToRefusal;
+};
+
+// FUNCTION unrepostHowTo
+/** Take a how-to back out of a gallery it was reposted into. A curator of that
+ *  gallery may, and so may anyone who may edit the how-to. */
+export type UnrepostHowToInputs = {
+    howTo: string;
+    gallery: string;
+};
+export type UnrepostHowToOutput = {
+    unreposted?: true;
+    error?:
+        | 'unauthenticated'
+        | 'missing'
+        | 'not-reposted'
+        | 'not-allowed'
+        | 'failed';
+};
+
 // FUNCTION usernameAvailable
 /** Whether each name could be claimed. An invalid or retired name is false. */
 export type UsernameAvailableInputs = { usernames: string[] };

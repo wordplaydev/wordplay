@@ -1,4 +1,5 @@
 import type Gallery from '@db/galleries/Gallery';
+import { MaxHowToReposts } from '@db/rulesFields';
 import type HowTo from './HowToDatabase.svelte';
 
 /**
@@ -99,12 +100,22 @@ export function canDeleteHowTo(
  * Moving a tile is arranging the shared space, so it is open to everyone the
  * gallery belongs to — but not to an expanded-access viewer, who is a guest
  * here, and never on a draft, which nobody outside it can see to arrange.
+ *
+ * `gallery` is the space the tile is in. In a gallery it was reposted into, the
+ * tile's place there is that gallery's to arrange and nobody else's (#1065):
+ * editing the how-to is a right in its home, not in every space showing it.
  */
 export function canMoveHowTo(
     howTo: HowTo,
     gallery: MaybeGallery,
     uid: MaybeUser,
 ): boolean {
+    if (gallery && gallery.getID() !== howTo.getHowToGalleryId())
+        return (
+            howTo.isPublished() &&
+            howTo.getReposts().includes(gallery.getID()) &&
+            belongs(gallery, uid)
+        );
     if (canEditHowTo(howTo, gallery, uid)) return true;
     return howTo.isPublished() && belongs(gallery, uid);
 }
@@ -123,7 +134,10 @@ export function canInteractSocially(
     if (canEditHowTo(howTo, gallery, uid)) return true;
     if (uid === undefined || !howTo.isPublished()) return false;
     return (
-        belongs(gallery, uid) || expandedViewersOf(howTo, gallery).includes(uid)
+        belongs(gallery, uid) ||
+        expandedViewersOf(howTo, gallery).includes(uid) ||
+        // Everyone a repost lets in (#1065), which the server keeps flat.
+        howTo.getRepostReaders().includes(uid)
     );
 }
 
@@ -152,4 +166,73 @@ export function canSubmitToGuide(
  *  reader could then reach. */
 export function howToIsReadyForGuide(howTo: HowTo): boolean {
     return howTo.isPublished() && howTo.isPublic();
+}
+
+/**
+ * Reposting shares a published how-to into another gallery (#1065). Its home
+ * keeps authority over it, so whoever reposts must be able to edit it there —
+ * and must curate the destination, so nobody can put work into a space they
+ * don't run. The server's repostHowTo callable asks the same questions.
+ */
+export function canRepostHowTo(
+    howTo: HowTo,
+    home: MaybeGallery,
+    destination: MaybeGallery,
+    uid: MaybeUser,
+): boolean {
+    if (!destination || !howTo.isPublished()) return false;
+    const id = destination.getID();
+    return (
+        id !== howTo.getHowToGalleryId() &&
+        !howTo.getReposts().includes(id) &&
+        howTo.getReposts().length < MaxHowToReposts &&
+        canEditHowTo(howTo, home, uid) &&
+        curates(destination, uid)
+    );
+}
+
+/**
+ * Taking a repost back out: the destination's curators, since it is their
+ * space, and whoever may edit the how-to, so an author can always withdraw
+ * their work from wherever it was shared.
+ */
+export function canUnrepostHowTo(
+    howTo: HowTo,
+    home: MaybeGallery,
+    destination: MaybeGallery,
+    uid: MaybeUser,
+): boolean {
+    if (!destination || !howTo.getReposts().includes(destination.getID()))
+        return false;
+    return curates(destination, uid) || canEditHowTo(howTo, home, uid);
+}
+
+/** The galleries this person could repost this how-to into right now. */
+export function repostDestinations(
+    howTo: HowTo,
+    home: MaybeGallery,
+    galleries: Iterable<Gallery>,
+    uid: MaybeUser,
+): Gallery[] {
+    return Array.from(galleries).filter((gallery) =>
+        canRepostHowTo(howTo, home, gallery, uid),
+    );
+}
+
+/**
+ * Who belongs in the conversation about a how-to: everyone who may take part in
+ * it socially. The server's repostHowTo callable states the same union, since
+ * it has to add a destination's members the moment a how-to is reposted.
+ */
+export function howToChatParticipants(howTo: HowTo, home: Gallery): string[] {
+    return [
+        ...new Set([
+            howTo.getCreator(),
+            ...howTo.getCollaborators(),
+            ...home.getCurators(),
+            ...home.getCreators(),
+            ...expandedViewersOf(howTo, home),
+            ...howTo.getRepostReaders(),
+        ]),
+    ].sort();
 }

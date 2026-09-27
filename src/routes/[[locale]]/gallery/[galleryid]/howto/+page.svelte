@@ -260,7 +260,9 @@
 
     /** Center the canvas on a how-to, which always records both coordinates. */
     function panToHowTo(howTo: HowTo) {
-        const [x, y] = howTo.getCoordinates();
+        const [x, y] = howTo.getCoordinates(
+            gallery?.getID() ?? howTo.getHowToGalleryId(),
+        );
         if (x !== undefined && y !== undefined) panTo(x, y);
     }
 
@@ -682,7 +684,7 @@
                         style:transform="translate({cameraX}px, {cameraY}px)"
                     >
                         {#each howTos as howTo, i (howTo.getHowToId())}
-                            {#if howTo.isPublished() && howTo.inCanvasArea(-cameraX - PRELOAD_MARGIN, -cameraX + canvasWidth + PRELOAD_MARGIN, -cameraY - PRELOAD_MARGIN, -cameraY + canvasHeight + PRELOAD_MARGIN)}
+                            {#if howTo.isPublished() && howTo.inCanvasArea(gallery?.getID() ?? howTo.getHowToGalleryId(), -cameraX - PRELOAD_MARGIN, -cameraX + canvasWidth + PRELOAD_MARGIN, -cameraY - PRELOAD_MARGIN, -cameraY + canvasHeight + PRELOAD_MARGIN)}
                                 <HowToPreview
                                     bind:howTo={howTos[i]}
                                     bind:this={howToComponents[i]}

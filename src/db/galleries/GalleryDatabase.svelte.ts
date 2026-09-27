@@ -1017,9 +1017,21 @@ export default class GalleryDatabase {
                 );
         }
 
-        // Delete all how-tos in the gallery.
-        for (const howToID of gallery.getHowTos())
+        // Delete the how-tos whose home is this gallery. A repost is someone
+        // else's how-to shown here (#1065): deleting it would destroy the
+        // original, which its creator may do from here too, so it is skipped
+        // and the galleryEdited trigger takes this gallery out of its reposts.
+        // Not knowing which a how-to is means not deleting the gallery yet.
+        for (const howToID of gallery.getHowTos()) {
+            const howTo = await this.database.HowTos.getHowTo(howToID);
+            if (howTo === false) {
+                this.database.reportBanner((l) => l.ui.banner.deleteFailed);
+                return undefined;
+            }
+            if (howTo && howTo.getHowToGalleryId() !== gallery.getID())
+                continue;
             await this.database.HowTos.deleteHowTo(howToID, gallery);
+        }
 
         // Remove the gallery from any classes it is in. Wrap the read so it
         // fails fast instead of hanging; if we can't read the classes, abort

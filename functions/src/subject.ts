@@ -133,7 +133,14 @@ export default async function describeSubject(
         visibility: {
             public: isPublic,
             gallery: galleryID,
-            galleryPublic: gallery?.public === true,
+            // A how-to reposted into a public gallery is world-readable
+            // through it (#1065), which makes its reports the platform's to
+            // answer as a public gallery's are. howToVisibility mirrors this.
+            galleryPublic:
+                gallery?.public === true ||
+                (kind === 'howto' &&
+                    thing.published === true &&
+                    thing.repostedPublicly === true),
             galleryMembers: members,
             owner,
         },
@@ -155,6 +162,10 @@ export default async function describeSubject(
                 thing.scopeOverwrite !== true &&
                 gallery?.howToExpandedVisibility === true &&
                 listed(gallery?.howToViewersFlat, who)) ||
+            (kind === 'howto' &&
+                thing.published === true &&
+                (thing.repostedPublicly === true ||
+                    listed(thing.repostReaders, who))) ||
             members.includes(who),
         title:
             typeof thing.title === 'string' ? thing.title : (thing.name ?? ''),

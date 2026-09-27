@@ -39,6 +39,18 @@
             ),
     );
 
+    /** Where to open it: its home, or a gallery it was reposted into that the
+     *  reader belongs to (#1065). */
+    let place = $derived(
+        Galleries.getKnown(
+            concept.howTo.getGalleryIdFor(
+                (id) =>
+                    Galleries.accessibleGalleries.has(id) ||
+                    Galleries.expandedScopeGalleries.has(id),
+            ),
+        ),
+    );
+
     onMount(() => {
         // The update rule requires an authenticated caller, so a signed-out
         // reader's view cannot be recorded at all — attempting it was a
@@ -128,10 +140,13 @@
 
 <!-- Only where it leads somewhere. A listed how-to's gallery is usually private,
      and a link to a page that will refuse the reader is worse than no link. -->
-{#if gallery}
+{#if place && (Galleries.accessibleGalleries.has(place.getID()) || Galleries.expandedScopeGalleries.has(place.getID()))}
     <Button
         label={(l) => l.ui.docs.how.howToGalleryButton.label}
         tip={(l) => l.ui.docs.how.howToGalleryButton.tip}
-        action={() => goto(concept.getPath())}
+        action={() =>
+            goto(
+                `/gallery/${place.getID()}/howto?id=${concept.howTo.getHowToId()}`,
+            )}
     />
 {/if}

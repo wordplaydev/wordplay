@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Subheader from '@components/app/Subheader.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Options, { type Option } from '@components/widgets/Options.svelte';
@@ -9,15 +8,13 @@
     import { HowToFields } from '@db/rulesFields';
     import type Project from '@db/projects/Project';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import Labeled from '@components/widgets/Labeled.svelte';
+    import LocalizedText from '@components/widgets/LocalizedText.svelte';
 
     interface Props {
         howTo: HowTo | undefined;
-        /** When true, render the prompt as a compact metadata label rather than a header. */
-        compact?: boolean;
     }
 
-    let { howTo = $bindable(undefined), compact = false }: Props = $props();
+    let { howTo = $bindable(undefined) }: Props = $props();
 
     let howToId = $derived(howTo ? howTo.getHowToId() : '');
 
@@ -171,14 +168,10 @@
     {/if}
 {/snippet}
 
-{#if compact}
-    <Labeled label={(l) => l.ui.howto.viewer.usedBy.prompt} column>
-        {@render body()}
-    </Labeled>
-{:else}
-    <Subheader text={(l) => l.ui.howto.viewer.usedBy.prompt} />
-    {@render body()}
-{/if}
+<!-- One row of the Responses grid in HowToForm, so a `dt`/`dd` pair rather
+     than a labelled box of its own. -->
+<dt><LocalizedText path={(l) => l.ui.howto.viewer.usedBy.label} /></dt>
+<dd class="stack">{@render body()}</dd>
 
 <style>
     /* Keep the dropdown and its submit button on one row even on narrow

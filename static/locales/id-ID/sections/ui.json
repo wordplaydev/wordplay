@@ -577,17 +577,16 @@
                         "label": "$~✅ dikirim ke Panduan",
                         "tip": "$~cara ini sudah dikirim untuk dipertimbangkan agar dimasukkan ke Panduan."
                     },
-                    "header": "$~daftar Panduan"
+                    "label": "$~Panduan"
                 },
                 "usedBy": {
-                    "prompt": "$~Apakah Anda menggunakan panduan ini dalam proyek Anda atau panduan lain? Beri tahu orang lain dengan menambahkan proyek Anda ke daftar!",
                     "empty": "$~Anda belum memiliki proyek atau panduan lain yang dipublikasikan. Cobalah membuat satu!",
                     "countDisplay": "$~Direktur Wordplay lain telah memakai ini di $#count[$count proyek atau cara lain]",
                     "selector": "$~pemilih proyek dan cara",
                     "removeButton": "$~hapus proyek atau panduan dari daftar",
-                    "addButton": "$~tambahkan proyek atau panduan"
+                    "addButton": "$~tambahkan proyek atau panduan",
+                    "label": "$~Digunakan di"
                 },
-                "reactionsPrompt": "$~Apakah Anda menyukai panduan ini? Berikan reaksi untuk mendukung pembuatnya!",
                 "chatPrompt": "$~Tinggalkan komentar atau pertanyaan untuk pembuatnya!",
                 "link": {
                     "label": "$~🔗 salin tautan cara",
@@ -596,7 +595,20 @@
                 "collaborators": "$~ditulis oleh",
                 "view": {
                     "tip": "$~lihat cara"
-                }
+                },
+                "repost": {
+                    "prompt": "$~Galeri lain",
+                    "add": "$~Bagikan di galeri lain",
+                    "selector": "$~galeri untuk membagikan cara ini",
+                    "addButton": "$~bagikan cara ini di galeri yang dipilih",
+                    "removeButton": "$~berhenti membagikan cara ini di galeri ini",
+                    "from": "$~Galeri utama",
+                    "same": "$~Reaksi dan komentar sama di semua tempat cara ini dibagikan.",
+                    "failed": "$~Cara ini tidak bisa dibagikan atau dibatalkan pembagiannya. Periksa sambunganmu dan coba lagi."
+                },
+                "responses": "$~Tanggapan",
+                "sharing": "$~Berbagi",
+                "reactions": "$~Reaksi"
             },
             "configuration": {
                 "configurationDialog": {

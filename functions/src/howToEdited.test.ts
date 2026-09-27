@@ -172,3 +172,29 @@ describe('the transition the trigger applies', () => {
         );
     });
 });
+
+describe('reposting is not content (#1065)', () => {
+    it('never re-queues a listing', () => {
+        // A destination curator's repost, or its members moving its tile, must
+        // not cost the author their place in the guide.
+        const before = {
+            title: 't',
+            guidingQuestions: ['q'],
+            text: ['a'],
+            locales: ['en-US'],
+            reposts: [],
+            repostReaders: [],
+            repostedPublicly: false,
+            repostPlacements: {},
+        };
+        expect(
+            howToContentChanged(before, {
+                ...before,
+                reposts: ['g'],
+                repostReaders: ['u'],
+                repostedPublicly: true,
+                repostPlacements: { g: { x: 1, y: 2 } },
+            }),
+        ).toBe(false);
+    });
+});

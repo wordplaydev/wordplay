@@ -21394,8 +21394,65 @@
                                             "$ref": "#/definitions/ButtonText",
                                             "description": "Button text for copying the how-to's URL"
                                         },
-                                        "reactionsPrompt": {
-                                            "description": "[plain] Prompt for reaction summary",
+                                        "reactions": {
+                                            "description": "[plain] Label for the row of reaction buttons",
+                                            "type": "string"
+                                        },
+                                        "repost": {
+                                            "additionalProperties": false,
+                                            "description": "Sharing a how-to into other galleries as the same how-to, not a copy (#1065)",
+                                            "properties": {
+                                                "add": {
+                                                    "description": "[plain] Label before the picker for choosing another gallery to share this how-to in",
+                                                    "type": "string"
+                                                },
+                                                "addButton": {
+                                                    "description": "[plain] Tooltip for the button that shares this how-to in the chosen gallery",
+                                                    "type": "string"
+                                                },
+                                                "failed": {
+                                                    "description": "[plain] Error shown when this how-to could not be shared in a gallery or stopped being shared there",
+                                                    "type": "string"
+                                                },
+                                                "from": {
+                                                    "description": "[plain] Label for the name of the gallery this how-to belongs to, shown when it is read in another gallery it is shared in. A noun phrase, since it labels the gallery name that follows it",
+                                                    "type": "string"
+                                                },
+                                                "prompt": {
+                                                    "description": "[plain] Label for the list of the other galleries this how-to has been shared in, besides the one it belongs to. A noun phrase, since it labels a list of gallery names that follows it",
+                                                    "type": "string"
+                                                },
+                                                "removeButton": {
+                                                    "description": "[plain] Tooltip for the button that stops sharing this how-to in one gallery",
+                                                    "type": "string"
+                                                },
+                                                "same": {
+                                                    "$ref": "#/definitions/FormattedText",
+                                                    "description": "[formatted] Explains, below that, that one how-to is shared rather than copied"
+                                                },
+                                                "selector": {
+                                                    "description": "[plain] Accessible name of the picker for choosing another gallery to share this how-to in",
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "required": [
+                                                "prompt",
+                                                "add",
+                                                "selector",
+                                                "addButton",
+                                                "removeButton",
+                                                "from",
+                                                "same",
+                                                "failed"
+                                            ],
+                                            "type": "object"
+                                        },
+                                        "responses": {
+                                            "description": "[plain] Header for the section of the how-to where readers respond to it: reactions, what used it, and comments",
+                                            "type": "string"
+                                        },
+                                        "sharing": {
+                                            "description": "[plain] Header for the section about where the how-to is shared: its gallery, other galleries, and the public guide",
                                             "type": "string"
                                         },
                                         "submitToGuide": {
@@ -21405,8 +21462,8 @@
                                                 "alreadySubmitted": {
                                                     "$ref": "#/definitions/ButtonText"
                                                 },
-                                                "header": {
-                                                    "description": "[plain] Names the section below the controls that says where this how-to stands with the guide. Its own string rather than the moderator queue's header, which names a queue of other people's how-tos rather than this creator's standing.",
+                                                "label": {
+                                                    "description": "[plain] Label for the row in the Sharing section where the how-to can be submitted to the public guide, and where that request stands",
                                                     "type": "string"
                                                 },
                                                 "submit": {
@@ -21416,7 +21473,7 @@
                                             "required": [
                                                 "submit",
                                                 "alreadySubmitted",
-                                                "header"
+                                                "label"
                                             ],
                                             "type": "object"
                                         },
@@ -21435,8 +21492,8 @@
                                                     "$ref": "#/definitions/FormattedText",
                                                     "description": "[formatted] Text for if the user does not have any other how-tos or projects"
                                                 },
-                                                "prompt": {
-                                                    "description": "[plain] Text for asking if the user used this how-to in their project or another how-to",
+                                                "label": {
+                                                    "description": "[plain] Label for the row listing the projects and how-tos that used this how-to",
                                                     "type": "string"
                                                 },
                                                 "removeButton": {
@@ -21449,7 +21506,7 @@
                                                 }
                                             },
                                             "required": [
-                                                "prompt",
+                                                "label",
                                                 "empty",
                                                 "countDisplay",
                                                 "selector",
@@ -21469,7 +21526,10 @@
                                         "delete",
                                         "submitToGuide",
                                         "usedBy",
-                                        "reactionsPrompt",
+                                        "repost",
+                                        "responses",
+                                        "sharing",
+                                        "reactions",
                                         "chatPrompt",
                                         "link",
                                         "collaborators"

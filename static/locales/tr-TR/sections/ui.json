@@ -2300,17 +2300,16 @@
                         "label": "$~✅ Rehbere gönderildi",
                         "tip": "$~bu nasıl, Rehber'e eklenmek üzere değerlendirilmesi için zaten gönderildi."
                     },
-                    "header": "$~Rehber listesi"
+                    "label": "$~Rehber"
                 },
                 "usedBy": {
-                    "prompt": "$~Bu kılavuzu projenizde veya başka bir kılavuzda kullandınız mı? Projenizi listeye ekleyerek başkalarının da haberdar olmasını sağlayın!",
                     "empty": "$~Henüz hiçbir projeniz veya yayınlanmış başka bir \"nasıl yapılır\" kılavuzunuz yok. Bir tane oluşturmayı deneyin!",
                     "countDisplay": "$~Diğer Wordplay yönetmenleri bunu $#count[$count başka proje veya nasılda|$count başka proje veya nasılda] kullandı",
                     "selector": "$~proje ve nasıl yapılır seçici",
                     "removeButton": "$~listeden projeyi veya nasıl yapılır dosyasını kaldır",
-                    "addButton": "$~proje veya nasıl yapılır ekle"
+                    "addButton": "$~proje veya nasıl yapılır ekle",
+                    "label": "$~Kullanıldığı yer"
                 },
-                "reactionsPrompt": "$~Bu nasıl yapılır videosunu beğendiniz mi? Yaratıcıyı desteklemek için bir yorum bırakın!",
                 "chatPrompt": "$~Yaratıcıya yorum veya soru bırakın!",
                 "link": {
                     "label": "$~🔗 Nasıl yapılır bağlantısını kopyala",
@@ -2319,7 +2318,20 @@
                 "collaborators": "$~tarafından yazılmıştır",
                 "view": {
                     "tip": "$~nasılı görüntüle"
-                }
+                },
+                "repost": {
+                    "prompt": "$~Diğer galeriler",
+                    "add": "$~Başka bir galeride paylaş",
+                    "selector": "$~bu nasılın paylaşılacağı galeri",
+                    "addButton": "$~bu nasılı seçilen galeride paylaş",
+                    "removeButton": "$~bu nasılı bu galeride paylaşmayı durdur",
+                    "from": "$~Ana galeri",
+                    "same": "$~Tepkiler ve yorumlar, bu nasıl paylaşılan her yerde aynıdır.",
+                    "failed": "$~Bu nasıl paylaşılamadı veya paylaşımdan kaldırılamadı. Bağlantını kontrol et ve tekrar dene."
+                },
+                "responses": "$~Yanıtlar",
+                "sharing": "$~Paylaşım",
+                "reactions": "$~Tepkiler"
             },
             "configuration": {
                 "configurationDialog": {

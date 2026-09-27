@@ -147,6 +147,62 @@ test.describe('how-to editor form', () => {
             .toBe('none');
     });
 
+    test('reposting shows the same how-to in another gallery the author curates (#1065)', async ({
+        page,
+    }) => {
+        // Through the real callable, which is the only writer of the fields the
+        // read rule trusts — so this is also the check that the listener a
+        // destination's members hold actually receives what it wrote.
+        const home = await createTestGallery(page, 'Repost Home');
+        const destination = await createTestGallery(page, 'Repost Destination');
+        await createViaForm(page, home, 'A Shared How-To', true);
+        const gallery = await waitForDocumentUpdate(
+            page,
+            'galleries',
+            home,
+            (g) => Array.isArray(g?.howTos) && g.howTos.length === 1,
+        );
+        const howTo = firstHowTo(gallery);
+
+        await page.goto(`/en-US/gallery/${home}/howto?id=${howTo}`);
+        await page
+            .getByRole('button', { name: text(enUS.ui.howto.viewer.view.tip) })
+            .first()
+            .click();
+        const selector = page.locator('#repostSelector');
+        await expect
+            .poll(
+                () =>
+                    selector.locator(`option[value="${destination}"]`).count(),
+                {
+                    timeout: 20000,
+                },
+            )
+            .toBe(1);
+        await selector.selectOption(destination);
+        await page
+            .getByRole('button', {
+                name: text(enUS.ui.howto.viewer.repost.addButton),
+            })
+            .click();
+
+        await waitForDocumentUpdate(
+            page,
+            'howtos',
+            howTo,
+            (h) =>
+                Array.isArray(h?.reposts) &&
+                h.reposts.includes(destination) &&
+                Array.isArray(h?.repostReaders) &&
+                h.repostReaders.length > 0,
+            30000,
+        );
+        await page.goto(`/en-US/gallery/${destination}/howto`);
+        await expect(page.locator(`#howto-${howTo}`)).toBeAttached({
+            timeout: 20000,
+        });
+    });
+
     test('editing a draft autosaves the new title to the cloud', async ({
         page,
     }) => {
